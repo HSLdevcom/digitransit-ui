@@ -178,7 +178,6 @@ export default configMerger(walttiConfig, {
   sendAnalyticsCustomEventGoals: true,
 
   defaultSettings: {
-    ...walttiConfig.defaultSettings,
     minTransferTime: 180,
   },
   useRealtimeTravellerCapacities: true,
