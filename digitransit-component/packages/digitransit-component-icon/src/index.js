@@ -5,7 +5,6 @@ import Check from './assets/check.svg';
 import City from './assets/city.svg';
 import Edit from './assets/edit.svg';
 import Home from './assets/home.svg';
-import Locate from './assets/locate.svg';
 import Place from './assets/place.svg';
 import School from './assets/school.svg';
 import Shopping from './assets/shopping.svg';
@@ -101,7 +100,6 @@ const iconMap = {
   citybike: CityBikeHsl,
   edit: Edit,
   home: Home,
-  locate: Locate,
   map: Map,
   place: Place,
   school: School,
@@ -191,13 +189,7 @@ const Icon = ({ color, img, height, width, rotate }) => {
     width: width ? `${width}em` : null,
     transform: rotate ? `rotate(${rotate}deg)` : null,
   };
-
-  const iconName =
-    img === 'locate' && color && color.toUpperCase() !== '#007AC9'
-      ? 'position'
-      : img;
-
-  const Component = iconMap[iconName] || BusStopDigitransit;
+  const Component = iconMap[img] || BusStopDigitransit;
 
   return <Component style={style} />;
 };
