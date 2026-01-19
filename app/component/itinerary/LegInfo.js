@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { intlShape } from 'react-intl';
 import Modal from '@hsl-fi/modal';
 import { legShape, configShape } from '../../util/shapes';
-import { legTimeStr } from '../../util/legUtils';
+import { legTimeStr, isLocalCallAgency } from '../../util/legUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import { routePagePath, PREFIX_STOPS } from '../../util/path';
 import { getCapacityForLeg } from '../../util/occupancyUtil';
@@ -61,6 +61,7 @@ export default function LegInfo(
         withBar
         fadeLong
         isTransitLeg={isTransitLeg}
+        appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
       />
     </span>
   );

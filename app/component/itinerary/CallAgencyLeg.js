@@ -7,6 +7,7 @@ import TransitLeg from './TransitLeg';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
 import RouteNumberContainer from '../RouteNumber';
 import withBreakpoint from '../../util/withBreakpoint';
+import { isLocalCallAgency } from '../../util/legUtils';
 
 const CallAgencyLeg = (
   { leg, currentLanguage, breakpoint, ...props },
@@ -32,6 +33,7 @@ const CallAgencyLeg = (
       withBar
       isTransitLeg
       text={leg.route && leg.route.shortName}
+      appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
     />
   );
   return (

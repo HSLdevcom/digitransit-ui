@@ -374,7 +374,7 @@ export function scooterEdges(edges, allowDirectScooterJourneys) {
   return filteredEdges;
 }
 /** Filters away itineraries that are not flex */
-export function filterFlex(edges) {
+export function flexEdges(edges) {
   if (!edges) {
     return [];
   }

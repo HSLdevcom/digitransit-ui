@@ -51,6 +51,7 @@ export const ItineraryFragment = graphql`
         color
         agency {
           name
+          gtfsId
         }
         alerts {
           alertSeverityLevel

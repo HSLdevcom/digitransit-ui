@@ -970,3 +970,18 @@ export function getValidatedLegName(name, intl, language, start) {
   }
   return name;
 }
+
+/** Checks if leg is a local call agency.
+ * @param {object} leg - The leg object.
+ * @param {object} config - Config data.
+ * @returns {boolean} - Returns true if leg is a local call agency.
+ */
+export function isLocalCallAgency(leg, config) {
+  if (!leg.route) {
+    return false;
+  }
+  return (
+    isCallAgencyLeg(leg) &&
+    config.flex.internalAgencies.includes(leg.route.agency.gtfsId)
+  );
+}
