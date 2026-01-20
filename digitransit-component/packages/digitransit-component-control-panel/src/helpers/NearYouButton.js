@@ -44,9 +44,6 @@ export default function NearYouButton({
     };
   }
   const buttonStyle = { '--margin': margin, '--padding': padding };
-  if (withBorder) {
-    buttonStyle['--border'] = 'solid 1px #d9d9d9';
-  }
   let iconContainerStyle = { '--iconSize': iconSize, '--iconMargin': padding };
   if (!boxed) {
     iconContainerStyle = {
@@ -57,10 +54,13 @@ export default function NearYouButton({
     };
   }
 
+  const buttonClass = withBorder
+    ? 'near-you-button-with-border'
+    : 'near-you-button';
   return (
     <>
       {srMsg && <span className={styles['sr-only']}>{srMsg}</span>}
-      <span className={styles['near-you-button']} style={buttonStyle}>
+      <span className={styles[buttonClass]} style={buttonStyle}>
         <span className={styles['icon-container']} style={iconContainerStyle}>
           <Icon {...iconProps} />
           {withAlert && (
@@ -71,7 +71,9 @@ export default function NearYouButton({
         </span>
         {title}
         {withArrow && (
-          <Icon img="arrow" color={colors.primary} width={0.9} height={0.9} />
+          <div className={styles['near-you-button-caret']}>
+            <Icon img="arrow" color={colors.primary} width={0.9} height={0.9} />
+          </div>
         )}
       </span>
     </>

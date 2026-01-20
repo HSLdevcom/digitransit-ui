@@ -29,7 +29,6 @@ const DTAutosuggestPanelWithSearchContext =
 
 class OriginDestinationBar extends React.Component {
   static propTypes = {
-    className: PropTypes.string,
     origin: locationShape.isRequired,
     destination: locationShape.isRequired,
     language: PropTypes.string,
@@ -37,7 +36,6 @@ class OriginDestinationBar extends React.Component {
     showFavourites: PropTypes.bool.isRequired,
     viaPoints: PropTypes.arrayOf(locationShape),
     locationState: locationStateShape.isRequired,
-    modeSet: PropTypes.string,
   };
 
   static contextTypes = {
@@ -50,11 +48,9 @@ class OriginDestinationBar extends React.Component {
   };
 
   static defaultProps = {
-    className: undefined,
     language: 'fi',
     isMobile: false,
     viaPoints: [],
-    modeSet: undefined,
   };
 
   constructor(props) {
@@ -136,11 +132,9 @@ class OriginDestinationBar extends React.Component {
       : undefined;
     return (
       <div
-        className={cx(
-          'origin-destination-bar',
-          props.className,
-          'flex-horizontal',
-        )}
+        className={cx('origin-destination-bar', 'flex-horizontal', {
+          'bp-large': !props.isMobile,
+        })}
       >
         <DTAutosuggestPanelWithSearchContext
           appElement="#app"
@@ -164,9 +158,8 @@ class OriginDestinationBar extends React.Component {
           disableAutoFocus={props.isMobile}
           isMobile={props.isMobile}
           itineraryParams={context.match.location.query}
-          color={config.colors.primary}
-          hoverColor={config.colors.hover}
-          modeSet={props.modeSet}
+          colors={config.colors}
+          modeSet={config.iconModeSet}
           onFocusChange={() => {}}
           showSwapControl
           showViapointControl={config.viaPointsEnabled}

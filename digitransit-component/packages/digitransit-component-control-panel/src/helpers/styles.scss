@@ -176,9 +176,9 @@
     }
   }
 
-  .near-you-button {
+  .near-you-button-with-border {
+    border: solid 1px #d9d9d9;
     border-radius: 5px;
-    border: var(--border);
     cursor: pointer;
     background-color: white;
     display: flex;
@@ -235,7 +235,8 @@
       width: 1px;
     }
 
-    .near-you-button {
+    .near-you-button,
+    .near-you-button-with-border {
       margin-bottom: var(--margin);
       margin-top: var(--margin);
       padding-bottom: var(--padding);
@@ -288,6 +289,19 @@
         white-space: nowrap;
         text-overflow: ellipsis;
       }
+    }
+
+    .near-you-button-caret {
+      align-self: center;
+    }
+
+    .near-you-button:hover .near-you-button-caret {
+      transform: translateX(4px);
+      transition: transform 0.1s;
+    }
+
+    .near-you-button-with-border {
+      border: solid 1px #d9d9d9;
 
       &:hover {
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);

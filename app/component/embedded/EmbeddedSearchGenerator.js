@@ -78,11 +78,9 @@ const EmbeddedSearchGenerator = (props, context) => {
     sources,
     targets: getLocationSearchTargets(config, false),
     isMobile: breakpoint !== 'large',
-    color: colors.primary,
-    hoverColor: colors.hover,
     fontWeights,
     modeSet: config.iconModeSet,
-    colors: config.colors,
+    colors,
     selectHandler: onSelectLocation,
     getAutoSuggestIcons: context.config.getAutoSuggestIcons,
   };

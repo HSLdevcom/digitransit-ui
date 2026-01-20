@@ -172,8 +172,6 @@ const EmbeddedSearch = (props, context) => {
     }
   }, [query]);
 
-  const color = colors.primary;
-  const hoverColor = colors.hover;
   const appElement = 'embedded-root';
   let titleText;
   if (bikeOnly) {
@@ -220,8 +218,6 @@ const EmbeddedSearch = (props, context) => {
     lang,
     sources,
     targets: getLocationSearchTargets(config, false),
-    color,
-    hoverColor,
     refPoint,
     searchPanelText: titleText,
     originPlaceHolder: 'search-origin-index',
@@ -229,7 +225,7 @@ const EmbeddedSearch = (props, context) => {
     selectHandler: onSelectLocation,
     onGeolocationStart: onSelectLocation,
     fontWeights,
-    colors: config.colors,
+    colors,
     modeSet: config.iconModeSet,
     isMobile: true,
     showScroll: true,
