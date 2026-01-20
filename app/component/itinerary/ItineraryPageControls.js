@@ -1,4 +1,3 @@
-import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape, routerShape } from 'found';
@@ -59,7 +58,6 @@ class ItineraryPageControls extends React.Component {
   }
 
   render() {
-    const className = cx({ 'bp-large': this.props.breakpoint === 'large' });
     const { params } = this.props;
     return (
       <div className="summary-navigation-container">
@@ -89,11 +87,9 @@ class ItineraryPageControls extends React.Component {
           />
         </span>
         <OriginDestinationBar
-          className={className}
           origin={parseLocation(params.from)}
           destination={parseLocation(params.to)}
           isMobile={this.props.breakpoint !== 'large'}
-          modeSet={this.context.config.iconModeSet}
         />
         <SearchSettings toggleSettings={this.props.toggleSettings} />
       </div>

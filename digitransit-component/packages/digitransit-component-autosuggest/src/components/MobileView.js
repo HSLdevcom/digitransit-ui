@@ -188,7 +188,7 @@ const MobileView = ({
             aria-label={t('cancel', { lng })}
             tabIndex={0}
           >
-            <Icon img="arrow" />
+            <Icon img="arrow" color={colors.primary} />
           </button>
           <span className={styles['right-column']}>
             <span

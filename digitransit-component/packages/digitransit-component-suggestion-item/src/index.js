@@ -24,7 +24,7 @@ const getRouteMode = (props, set) => {
 
 const iconProps = {
   bikestation: ['citybike'],
-  currentPosition: ['locate'],
+  currentPosition: ['position'],
   locality: ['city'],
   station: ['station'],
   localadmin: ['city'],
@@ -184,7 +184,7 @@ const SuggestionItem = memo(
       [iconId, colorId] = getIconProperties(item, modeSet, stopCode, modes);
       if (item.properties?.color) {
         iconColor = `#${item.properties.color}`;
-      } else if (iconId === 'locate' || isFavourite(item)) {
+      } else if (iconId === 'position' || isFavourite(item)) {
         iconColor = colors.primary;
       } else {
         iconColor = colors?.[colorId] || defaultColors[colorId] || '#888';

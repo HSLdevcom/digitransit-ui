@@ -342,34 +342,17 @@ class FavouriteEditingModal extends React.Component {
     const { isMobile } = this.props;
     const { showDeletePlaceModal, selectedFavourite } = this.state;
     return (
-      <div>
-        {isMobile && (
-          <Modal
-            appElement={this.props.appElement}
-            contentLabel={this.translate('edit-modal-on-open')}
-            closeButtonLabel={this.translate('close-modal')}
-            variant="large"
-            isOpen={this.props.isModalOpen}
-            onCrossClick={this.closeModal}
-          >
-            {this.renderDeleteFavouriteModal(selectedFavourite)}
-            {this.renderModalContent()}
-          </Modal>
-        )}
-        {!isMobile && (
-          <Modal
-            appElement={this.props.appElement}
-            contentLabel={this.translate('edit-modal-on-open')}
-            closeButtonLabel={this.translate('close-modal')}
-            variant="small"
-            isOpen={this.props.isModalOpen}
-            onCrossClick={this.closeModal}
-          >
-            {this.renderDeleteFavouriteModal(selectedFavourite)}
-            {!showDeletePlaceModal && this.renderModalContent()}
-          </Modal>
-        )}
-      </div>
+      <Modal
+        appElement={this.props.appElement}
+        contentLabel={this.translate('edit-modal-on-open')}
+        closeButtonLabel={this.translate('close-modal')}
+        variant={isMobile ? 'large' : 'small'}
+        isOpen={this.props.isModalOpen}
+        onCrossClick={this.closeModal}
+      >
+        {this.renderDeleteFavouriteModal(selectedFavourite)}
+        {!showDeletePlaceModal && this.renderModalContent()}
+      </Modal>
     );
   }
 }

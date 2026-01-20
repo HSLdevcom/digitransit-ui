@@ -113,10 +113,6 @@ export default {
   },
 
   showNearYouButtons: true,
-  nearYouButton: {
-    borderRadius: '50%',
-    color: '#000F94',
-  },
   nearYouTitle: {
     fi: 'Aikataulut ja linjat',
     sv: 'Tidtabeller och linjer',
