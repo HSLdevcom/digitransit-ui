@@ -313,7 +313,7 @@ export default configMerger(walttiConfig, {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
         season: {
-          start: '15.4',
+          start: '1.1',
           end: '31.10',
         },
         icon: 'citybike',
@@ -359,7 +359,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  nearYouModes: ['bus', 'tram', 'rail', 'citybike'],
+  nearYouModes: ['bus', 'tram', 'rail', 'citybike', 'bikepark', 'carpark'],
 
   bikeBoardingModes: {
     RAIL: { showNotification: true },
