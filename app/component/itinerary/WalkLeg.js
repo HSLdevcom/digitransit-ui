@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import Link from 'found/Link';
-import { legShape, configShape } from '../../util/shapes';
+import { legShape } from '../../util/shapes';
 import {
   legTime,
   legTimeStr,
@@ -52,14 +52,15 @@ function WalkLeg(
     nextLeg,
     useOriginAddress,
   },
-  { config, intl },
+  { intl },
 ) {
   // If there is only one indoor routing step, always show it.
   const [showIntermediateSteps, setShowIntermediateSteps] = useState(
     getIndoorStepsWithVerticalTransportation(previousLeg, leg, nextLeg)
       .length === 1,
   );
-  const { colors, emphasizeDistance } = useConfigContext();
+  const config = useConfigContext();
+  const { colors, emphasizeDistance } = config;
   const distance = displayDistance(
     parseInt(leg.mode !== 'WALK' ? 0 : leg.distance, 10),
     config,
@@ -406,7 +407,6 @@ WalkLeg.defaultProps = {
 };
 
 WalkLeg.contextTypes = {
-  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 
