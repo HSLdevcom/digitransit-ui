@@ -60,7 +60,7 @@ export default function NearYouButton({
   return (
     <>
       {srMsg && <span className={styles['sr-only']}>{srMsg}</span>}
-      <span className={styles[buttonClass]} style={buttonStyle}>
+      <button className={styles[buttonClass]} style={buttonStyle}>
         <span className={styles['icon-container']} style={iconContainerStyle}>
           <Icon {...iconProps} />
           {withAlert && (
@@ -75,7 +75,7 @@ export default function NearYouButton({
             <Icon img="arrow" color={colors.primary} width={0.9} height={0.9} />
           </div>
         )}
-      </span>
+      </button>
     </>
   );
 }

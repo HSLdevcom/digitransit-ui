@@ -31,9 +31,7 @@ export default function AllModesModal({
         <h2 className={styles['near-you-title']}>
           {t('title', { lng: language })}
         </h2>
-        {isMobile ? (
-          ''
-        ) : (
+        {!isMobile && (
           <div className={styles['modal-desc']}>
             {t('description', { lng: language })}
           </div>
