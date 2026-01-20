@@ -466,6 +466,7 @@ export default {
     directOnlyTaxiJourneys: true,
     internalAgencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
     externalAgencies: ['02Taksi:02_taksi'],
+    infoLanguage: 'fi',
   },
 
   devAnalytics: true,

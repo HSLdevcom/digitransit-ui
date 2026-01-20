@@ -106,9 +106,11 @@ function OnDemandInfo(
                 defaultMessage="On-demand service"
               />
             </div>
-            <div className="on-demand-info-content">
-              {pickupBookingInfo?.message}
-            </div>
+            {config.flex.infoLanguage === intl.locale && ( // No translations available in the data
+              <div className="on-demand-info-content">
+                {pickupBookingInfo?.message}
+              </div>
+            )}
             <div className="on-demand-info-content">
               {bookingTimeText && (
                 <div className="booking-notice">{bookingTimeText}</div>

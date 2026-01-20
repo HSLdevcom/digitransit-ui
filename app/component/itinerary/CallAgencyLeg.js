@@ -17,7 +17,9 @@ const CallAgencyLeg = (
   const { route } = leg;
   const mobile = breakpoint === 'small' || breakpoint === 'medium';
   const notification =
-    config.showRouteDescNotification && route.desc?.length
+    config.showRouteDescNotification &&
+    route.desc?.length &&
+    config.flex.infoLanguage === currentLanguage // No translations available in the data at the moment
       ? { content: route.desc, link: route.url }
       : {
           content: intl.formatMessage({ id: 'call-agency-disclaimer' }),
