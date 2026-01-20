@@ -108,9 +108,7 @@ function RouteNumber(props, context) {
             mode,
             {
               [['secondary']]:
-                mode === 'citybike' &&
-                props.icon &&
-                props.icon.includes('secondary'), // Vantaa citybike station
+                mode === 'citybike' && props.icon?.includes('secondary'), // Vantaa citybike station
             },
             props.appendClass,
           )}

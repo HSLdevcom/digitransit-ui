@@ -11,7 +11,9 @@ import * as ConfigContext from '../../app/configurations/ConfigContext';
 
 describe('<WalkLeg />', () => {
   beforeEach(() => {
-    sinon.stub(ConfigContext, 'useConfigContext').returns({ language: 'en' });
+    sinon
+      .stub(ConfigContext, 'useConfigContext')
+      .returns({ language: 'en', colors: { primary: '#007ac9' } });
   });
 
   afterEach(() => {

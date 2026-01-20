@@ -59,7 +59,7 @@ function WalkLeg(
     getIndoorStepsWithVerticalTransportation(previousLeg, leg, nextLeg)
       .length === 1,
   );
-
+  const { colors, emphasizeDistance } = useConfigContext();
   const distance = displayDistance(
     parseInt(leg.mode !== 'WALK' ? 0 : leg.distance, 10),
     config,
@@ -80,11 +80,9 @@ function WalkLeg(
   const network =
     previousLeg?.[toOrFrom]?.vehicleRentalStation?.rentalNetwork.networkId ||
     previousLeg?.[toOrFrom]?.rentalVehicle?.rentalNetwork.networkId;
-  const { language } = useConfigContext();
   const validatedLegName = getValidatedLegName(
     leg[toOrFrom].name,
     intl,
-    language,
     toOrFrom === 'to',
   );
   const networkType = getRentalNetworkConfig(
@@ -192,7 +190,7 @@ function WalkLeg(
                   <Icon
                     img="icon_arrow-collapse--right"
                     className="itinerary-arrow-icon"
-                    color={config.colors.primary}
+                    color={colors.primary}
                   />
                 )}
               </div>
@@ -232,7 +230,7 @@ function WalkLeg(
                     <Icon
                       img="icon_arrow-collapse--right"
                       className="itinerary-arrow-icon"
-                      color={config.colors.primary}
+                      color={colors.primary}
                     />
                   )}
                   <ServiceAlertIcon
@@ -274,7 +272,7 @@ function WalkLeg(
                     <Icon
                       img="icon_arrow-collapse--right"
                       className="itinerary-arrow-icon"
-                      color={config.colors.primary}
+                      color={colors.primary}
                     />
                   )}
                   <ServiceAlertIcon
@@ -325,11 +323,7 @@ function WalkLeg(
             <FormattedMessage
               id="walk-distance-duration"
               values={{
-                distance: config.emphasizeDistance ? (
-                  <b>{distance}</b>
-                ) : (
-                  distance
-                ),
+                distance: emphasizeDistance ? <b>{distance}</b> : distance,
                 duration,
               }}
               defaultMessage="Walk {distance} ({duration})"

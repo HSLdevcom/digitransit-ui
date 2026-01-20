@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage, intlShape } from 'react-intl';
-import { legShape, legTimeShape, configShape } from '../../util/shapes';
+import { legShape, legTimeShape } from '../../util/shapes';
 import Icon from '../Icon';
 import { durationToString } from '../../util/timeUtils';
 import ItineraryMapAction from './ItineraryMapAction';
@@ -15,11 +15,11 @@ import { useConfigContext } from '../../configurations/ConfigContext';
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function WaitLeg(
   { children, leg, start, waitTime, focusAction, index, icon },
-  { config, intl },
+  { intl },
 ) {
   const modeClassName = 'wait';
-  const { language } = useConfigContext();
-  const legName = getValidatedLegName(leg.to.name, intl, language, true);
+  const { colors } = useConfigContext();
+  const legName = getValidatedLegName(leg.to.name, intl, true);
 
   return (
     <div className="row itinerary-row">
@@ -65,7 +65,7 @@ function WaitLeg(
               <Icon
                 img="icon_arrow-collapse--right"
                 className="itinerary-arrow-icon"
-                color={config.colors.primary}
+                color={colors.primary}
               />
             </Link>
             <div className="stop-code-container">{children}</div>
@@ -104,7 +104,6 @@ WaitLeg.defaultProps = {
 };
 
 WaitLeg.contextTypes = {
-  config: configShape.isRequired,
   intl: intlShape.isRequired,
 };
 
