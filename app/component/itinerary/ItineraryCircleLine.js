@@ -32,9 +32,13 @@ class ItineraryCircleLine extends React.Component {
   getMarker = top => {
     const circleMarker = (
       <div
-        className={`leg-before-circle circle ${this.props.modeClassName} ${
-          top ? 'top' : ''
-        }`}
+        className={cx(
+          'leg-before-circle',
+          'circle',
+          this.props.modeClassName,
+          { top },
+          this.props.appendClass,
+        )}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -79,9 +83,13 @@ class ItineraryCircleLine extends React.Component {
     }
     return (
       <div
-        className={`leg-before-circle circle ${this.props.modeClassName} ${
-          top ? 'top' : ''
-        }`}
+        className={cx(
+          'leg-before-circle',
+          'circle',
+          this.props.modeClassName,
+          { top },
+          this.props.appendClass,
+        )}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -180,3 +180,9 @@ export const TrafficNowTransportModes = Object.freeze([
   TransportMode.Subway,
   TransportMode.Tram,
 ]);
+
+export const OtpCornerNamingPattern = Object.freeze({
+  fi: /katujen .* ja .* kulma/,
+  sv: /hörnet av .* och .*/,
+  en: /corner of .* and .*/,
+});

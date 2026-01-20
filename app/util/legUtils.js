@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import get from 'lodash/get';
 import { getRouteMode } from './modeUtils';
 import { BIKEAVL_UNKNOWN } from './vehicleRentalUtils';
-import { ExtendedRouteTypes } from '../constants';
+import { ExtendedRouteTypes, OtpCornerNamingPattern } from '../constants';
 
 /**
  * Gets a (nested) property value from an object
@@ -946,3 +946,42 @@ export const isPlatformChanged = leg => {
   const status = getPlatformChangeStatus(leg);
   return status === PLATFORM_STATUS.CHANGED;
 };
+
+/**
+ * Checks leg name for unwanted patterns and replaces the name if found.
+ *
+ * @param {string} name - Original leg name.
+ * @param {object} intl - react-intl context.
+ * @param {string} language - Current language code.
+ * @param {boolean} start - Whether this is the starting point.
+ * @returns {string} - The validated or replaced leg name.
+ */
+export function getValidatedLegName(name, intl, start) {
+  const terminusName = intl.formatMessage({
+    id: 'terminus',
+    defaultMessage: 'Terminus',
+  });
+  const originName = intl.formatMessage({
+    id: 'origin',
+    defaultMessage: 'Origin',
+  });
+  if (OtpCornerNamingPattern[intl.locale].test(name)) {
+    return start ? originName : terminusName;
+  }
+  return name;
+}
+
+/** Checks if leg is a local call agency.
+ * @param {object} leg - The leg object.
+ * @param {object} config - Config data.
+ * @returns {boolean} - Returns true if leg is a local call agency.
+ */
+export function isLocalCallAgency(leg, config) {
+  if (!leg.route) {
+    return false;
+  }
+  return (
+    isCallAgencyLeg(leg) &&
+    config.flex.internalAgencies.includes(leg.route.agency.gtfsId)
+  );
+}

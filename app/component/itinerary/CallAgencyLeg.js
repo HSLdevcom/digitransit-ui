@@ -7,6 +7,7 @@ import TransitLeg from './TransitLeg';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
 import RouteNumberContainer from '../RouteNumber';
 import withBreakpoint from '../../util/withBreakpoint';
+import { isLocalCallAgency } from '../../util/legUtils';
 
 const CallAgencyLeg = (
   { leg, currentLanguage, breakpoint, ...props },
@@ -16,7 +17,9 @@ const CallAgencyLeg = (
   const { route } = leg;
   const mobile = breakpoint === 'small' || breakpoint === 'medium';
   const notification =
-    config.showRouteDescNotification && route.desc?.length
+    config.showRouteDescNotification &&
+    route.desc?.length &&
+    config.flex.infoLanguage === currentLanguage // No translations available in the data at the moment
       ? { content: route.desc, link: route.url }
       : {
           content: intl.formatMessage({ id: 'call-agency-disclaimer' }),
@@ -32,6 +35,7 @@ const CallAgencyLeg = (
       withBar
       isTransitLeg
       text={leg.route && leg.route.shortName}
+      appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
     />
   );
   return (

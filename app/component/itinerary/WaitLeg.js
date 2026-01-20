@@ -1,22 +1,26 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
-import { FormattedMessage } from 'react-intl';
-import { legShape, legTimeShape, configShape } from '../../util/shapes';
+import { FormattedMessage, intlShape } from 'react-intl';
+import { legShape, legTimeShape } from '../../util/shapes';
 import Icon from '../Icon';
 import { durationToString } from '../../util/timeUtils';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { PREFIX_STOPS } from '../../util/path';
-import { legTimeStr } from '../../util/legUtils';
+import { legTimeStr, getValidatedLegName } from '../../util/legUtils';
 import { ViaLocationType } from '../../constants';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function WaitLeg(
   { children, leg, start, waitTime, focusAction, index, icon },
-  { config },
+  { intl },
 ) {
   const modeClassName = 'wait';
+  const { colors } = useConfigContext();
+  const legName = getValidatedLegName(leg.to.name, intl, true);
+
   return (
     <div className="row itinerary-row">
       <span className="sr-only">
@@ -40,7 +44,7 @@ function WaitLeg(
         <span className="sr-only">
           <FormattedMessage
             id="itinerary-summary.show-on-map"
-            values={{ target: leg.to.name || '' }}
+            values={{ target: legName || '' }}
           />
         </span>
         <div className="itinerary-leg-first-row wait">
@@ -51,7 +55,7 @@ function WaitLeg(
               }}
               to={`/${PREFIX_STOPS}/${leg.to.stop.gtfsId}`}
             >
-              {leg.to.name}
+              {legName}
               {leg.from.viaLocationType === ViaLocationType.PassThrough && (
                 <Icon
                   img="icon_mapMarker"
@@ -61,13 +65,13 @@ function WaitLeg(
               <Icon
                 img="icon_arrow-collapse--right"
                 className="itinerary-arrow-icon"
-                color={config.colors.primary}
+                color={colors.primary}
               />
             </Link>
             <div className="stop-code-container">{children}</div>
           </div>
           <ItineraryMapAction
-            target={leg.to.name || ''}
+            target={legName || ''}
             focusAction={focusAction}
           />
         </div>
@@ -100,7 +104,7 @@ WaitLeg.defaultProps = {
 };
 
 WaitLeg.contextTypes = {
-  config: configShape.isRequired,
+  intl: intlShape.isRequired,
 };
 
 export default WaitLeg;

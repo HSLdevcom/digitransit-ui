@@ -816,6 +816,7 @@ export default {
     internalAgencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
     externalAgencies: ['02Taksi:02_taksi'],
     allowedExternalFlexRouteTypes: [1501],
+    infoLanguage: 'fi',
   },
 
   showRouteDescNotification: IS_DEV,

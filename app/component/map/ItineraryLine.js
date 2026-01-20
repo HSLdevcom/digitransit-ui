@@ -6,7 +6,12 @@ import { withLeaflet } from 'react-leaflet';
 import polyUtil from 'polyline-encoded';
 import React from 'react';
 import { getMiddleOf } from '../../util/geo-utils';
-import { getInterliningLegs, getRouteText, LegMode } from '../../util/legUtils';
+import {
+  getInterliningLegs,
+  getRouteText,
+  LegMode,
+  isLocalCallAgency,
+} from '../../util/legUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import { configShape, legShape } from '../../util/shapes';
 import { durationToString } from '../../util/timeUtils';
@@ -180,6 +185,9 @@ class ItineraryLine extends React.Component {
           geometry={geometry}
           mode={mode}
           passive={this.props.passive}
+          appendClass={
+            isLocalCallAgency(leg, this.context.config) ? 'call-local' : ''
+          }
         />,
       );
     }
@@ -409,6 +417,10 @@ class ItineraryLine extends React.Component {
         leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
         leg.from.rentalVehicle?.rentalNetwork.networkId;
 
+      const appendClass = isLocalCallAgency(leg, this.context.config)
+        ? 'call-local'
+        : '';
+
       if (interliningLegs.length > 0) {
         // merge the geometries of legs where user can wait in the vehicle and find the middle point
         // of the new geometry
@@ -487,6 +499,7 @@ class ItineraryLine extends React.Component {
                 transfer: true,
               }}
               mode={mode}
+              appendClass={appendClass}
             />,
           );
           objs.push(
@@ -502,6 +515,7 @@ class ItineraryLine extends React.Component {
                 transfer: true,
               }}
               mode={mode}
+              appendClass={appendClass}
             />,
           );
         }

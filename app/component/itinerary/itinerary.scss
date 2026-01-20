@@ -84,6 +84,10 @@ $itinerary-tab-switch-height: 48px;
     @include getCircleSvg($call-agency-color, $fill);
   }
 
+  &.call-local {
+    @include getCircleSvg($bus-color, $fill);
+  }
+
   &.scooter {
     @include getCircleSvg($scooter-color, $fill);
   }
@@ -1062,6 +1066,10 @@ $itinerary-tab-switch-height: 48px;
 
     &.call {
       @include setModeCircles($call-agency-color);
+    }
+
+    &.call-local {
+      @include setModeCircles($bus-color);
     }
 
     &.scooter {
@@ -2679,6 +2687,8 @@ $itinerary-tab-switch-height: 48px;
 
   .itinerary-time-column {
     @include font-medium;
+
+    direction: rtl;
 
     .itinerary-time-column-time {
       font-size: 0.9375rem;
