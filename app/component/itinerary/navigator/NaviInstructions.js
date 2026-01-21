@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { displayDistance } from '../../../util/geo-utils';
 import { legShape, configShape } from '../../../util/shapes';
-import { legDestination, legTimeStr, legTime } from '../../../util/legUtils';
+import {
+  legDestination,
+  legTimeStr,
+  legTime,
+  isLocalCallAgency,
+} from '../../../util/legUtils';
 import {
   LEGTYPE,
   getLocalizedMode,
@@ -50,6 +55,7 @@ export default function NaviInstructions(
     time,
     config,
   );
+  const appendClass = isLocalCallAgency(nextLeg, config) ? 'call-local' : '';
   if (legType === LEGTYPE.MOVE) {
     return (
       <>
@@ -73,6 +79,7 @@ export default function NaviInstructions(
             mode={routeMode}
             headsign={hs}
             translationValues={values}
+            appendClass={appendClass}
             compact
           />
         )}
@@ -96,6 +103,7 @@ export default function NaviInstructions(
           mode={routeMode}
           headsign={hs}
           translationValues={values}
+          appendClass={appendClass}
         />
       </>
     );

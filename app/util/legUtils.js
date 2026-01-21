@@ -977,7 +977,7 @@ export function getValidatedLegName(name, intl, start) {
  * @returns {boolean} - Returns true if leg is a local call agency.
  */
 export function isLocalCallAgency(leg, config) {
-  if (!leg.route) {
+  if (!leg?.route) {
     return false;
   }
   return (

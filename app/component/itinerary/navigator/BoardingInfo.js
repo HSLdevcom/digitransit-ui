@@ -13,6 +13,7 @@ const BoardingInfo = ({
   translationValues,
   withExpandIcon,
   compact,
+  appendClass,
 }) => {
   return (
     <div
@@ -36,6 +37,7 @@ const BoardingInfo = ({
           vertical
           withBar
           hideText={compact}
+          appendClass={appendClass}
         />
         {!compact && <div className="headsign">{headsign}</div>}
       </div>
@@ -63,10 +65,12 @@ BoardingInfo.propTypes = {
   translationValues: PropTypes.object.isRequired,
   withExpandIcon: PropTypes.bool,
   compact: PropTypes.bool,
+  appendClass: PropTypes.string,
 };
 BoardingInfo.defaultProps = {
   withExpandIcon: false,
   compact: false,
+  appendClass: undefined,
 };
 
 export default BoardingInfo;

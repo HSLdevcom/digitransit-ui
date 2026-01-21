@@ -10,6 +10,7 @@ import {
   getHeadsignFromRouteLongName,
   legTime,
   legTimeStr,
+  isLocalCallAgency,
 } from '../../../util/legUtils';
 import ZoneIcon from '../../ZoneIcon';
 import { legShape, configShape } from '../../../util/shapes';
@@ -41,6 +42,7 @@ const NaviCardExtension = (
     leg ? leg.to : nextLeg.from;
   const { code, platformCode, zoneId, vehicleMode } = stop || {};
   const [place, address] = name?.split(/, (.+)/) || [];
+  const appendClass = isLocalCallAgency(nextLeg, config) ? 'call-local' : '';
 
   let destination = {};
   if (stop) {
@@ -74,6 +76,7 @@ const NaviCardExtension = (
             className={cx('line', mode)}
             route={route}
             mode={mode}
+            appendClass={appendClass}
             isTransitLeg
             vertical
             withBar
@@ -191,6 +194,7 @@ const NaviCardExtension = (
           mode={routeMode}
           headsign={hs}
           translationValues={values}
+          appendClass={appendClass}
           withExpandIcon
         />
       </div>
