@@ -22,6 +22,6 @@
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
     "lodash": "4.17.21",
-    "lodash-es": "4.17.21"
+    "lodash-es": "4.17.23"
   }
 }
