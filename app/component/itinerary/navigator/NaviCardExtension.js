@@ -11,6 +11,7 @@ import {
   legTime,
   legTimeStr,
   isLocalCallAgency,
+  isCallAgencyLeg,
 } from '../../../util/legUtils';
 import ZoneIcon from '../../ZoneIcon';
 import { legShape, configShape } from '../../../util/shapes';
@@ -43,9 +44,10 @@ const NaviCardExtension = (
   const { code, platformCode, zoneId, vehicleMode } = stop || {};
   const [place, address] = name?.split(/, (.+)/) || [];
   const appendClass = isLocalCallAgency(nextLeg, config) ? 'call-local' : '';
+  const callAgencyDestination = nextLeg && isCallAgencyLeg(nextLeg);
 
   let destination = {};
-  if (stop) {
+  if (stop && !callAgencyDestination) {
     destination = getDestinationProperties(
       rentalVehicle,
       vehicleParking,

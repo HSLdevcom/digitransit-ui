@@ -60,7 +60,7 @@ const BoardingInfo = ({
 BoardingInfo.propTypes = {
   route: routeShape.isRequired,
   mode: PropTypes.string.isRequired,
-  headsign: PropTypes.string.isRequired,
+  headsign: PropTypes.string,
   // eslint-disable-next-line react/forbid-prop-types
   translationValues: PropTypes.object.isRequired,
   withExpandIcon: PropTypes.bool,
@@ -71,6 +71,7 @@ BoardingInfo.defaultProps = {
   withExpandIcon: false,
   compact: false,
   appendClass: undefined,
+  headsign: '',
 };
 
 export default BoardingInfo;
