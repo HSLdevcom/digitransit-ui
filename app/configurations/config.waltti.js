@@ -155,7 +155,7 @@ export default {
   parkAndRide: {
     showParkAndRide: false,
     showParkAndRideForBikes: false,
-    parkAndRideMinZoom: 13,
+    parkAndRideMinZoom: 14,
     pageContent: {
       default: HSLParkAndRideUtils,
     },

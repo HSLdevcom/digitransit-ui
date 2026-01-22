@@ -866,4 +866,7 @@ export default {
     allowedExternalFlexRouteTypes: [1501],
     minTransferTime: 900, // seconds
   },
+  parkAndRide: {
+    parkAndRideMinZoom: 13,
+  },
 };

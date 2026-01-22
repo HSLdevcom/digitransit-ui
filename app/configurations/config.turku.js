@@ -280,6 +280,10 @@ export default configMerger(walttiConfig, {
     FUNICULAR: 0.1,
   },
 
+  parkAndRide: {
+    showParkAndRide: true,
+    showParkAndRideForBikes: true,
+  },
   realTime: undefined,
   realTimePatch: undefined,
 });

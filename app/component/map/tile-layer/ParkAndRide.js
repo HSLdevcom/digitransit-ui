@@ -7,7 +7,33 @@ import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 import { ParkTypes } from '../../../constants';
 import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
 
-const showParking = 17;
+const showParking = 15;
+const iconSizeMap = {
+  12: {
+    width: 12,
+    height: 12,
+  },
+  13: {
+    width: 12,
+    height: 12,
+  },
+  14: {
+    width: 18,
+    height: 18,
+  },
+  15: {
+    width: 24,
+    height: 24,
+  },
+  16: {
+    width: 28,
+    height: 28,
+  },
+  17: {
+    width: 30,
+    height: 30,
+  },
+};
 
 export default class ParkAndRide {
   constructor(tile, config, relayEnvironment) {
@@ -15,8 +41,11 @@ export default class ParkAndRide {
     this.config = config;
     this.relayEnvironment = relayEnvironment;
     const scaleratio = window.devicePixelRatio || 1;
-    this.width = 24 * scaleratio;
-    this.height = 24 * scaleratio;
+    const zoom = tile.coords.z;
+    // limit index between min and max values of lookup map
+    const zoomIndex = Math.min(Math.max(zoom, 12), 17);
+    this.width = iconSizeMap[zoomIndex].width * scaleratio;
+    this.height = iconSizeMap[zoomIndex].height * scaleratio;
   }
 
   fetchAndDrawParks(parkType, lang) {
