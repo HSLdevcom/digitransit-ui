@@ -214,6 +214,10 @@
             padding: var(--space-xs) var(--space-xxs);
             text-decoration: none;
 
+            &.highlight {
+              box-shadow: 0 0 10px 2px orange;
+            }
+
             &:hover {
               background-color: color-mix(in srgb, currentcolor, white 80%);
             }
