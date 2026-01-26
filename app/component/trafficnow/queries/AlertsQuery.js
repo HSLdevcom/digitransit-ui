@@ -3,6 +3,7 @@ import { graphql } from 'react-relay';
 export default graphql`
   query AlertsQuery($feedIds: [String!]) {
     alerts(feeds: $feedIds) {
+      __typename
       id
       alertHeaderText
       alertDescriptionText
@@ -27,6 +28,7 @@ export default graphql`
           id
           mode
           shortName
+          type
         }
         ... on StopOnRoute {
           route {
@@ -34,6 +36,7 @@ export default graphql`
             id
             mode
             shortName
+            type
           }
           stop {
             id

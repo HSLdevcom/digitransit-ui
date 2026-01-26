@@ -7,6 +7,7 @@ import { useFilterContext } from './FiltersContext';
 import { useBreakpoint } from '../../../util/withBreakpoint';
 import VehicleModesFilter from './VehicleModesFilter';
 import EntitySearch from './EntitySearch';
+import ToggleableFilters from './ToggleableFilters';
 
 const Separator = () => <div className="separator horizontal" />;
 
@@ -26,12 +27,20 @@ const Filters = ({ onApplyClick, onResetClick }) => {
       Component: VehicleModesFilter,
     },
     {
-      id: 'separator',
+      id: 'separator-1',
       Component: Separator,
     },
     {
       id: 'validityPeriod',
       Component: ValidityPeriodFilter,
+    },
+    {
+      id: 'separator-2',
+      Component: Separator,
+    },
+    {
+      id: 'toggles',
+      Component: ToggleableFilters,
     },
   ];
 
