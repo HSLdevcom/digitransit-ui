@@ -26,6 +26,7 @@ import {
 } from '../../util/alertUtils';
 import { AlertEntityType } from '../../constants';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
+import { isLocalCallAgency } from '../../util/legUtils';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class RoutePage extends React.Component {
@@ -77,7 +78,7 @@ class RoutePage extends React.Component {
     const filteredAlerts = selectedPattern?.alerts
       ?.filter(alert => hasEntitiesOfType(alert, AlertEntityType.Route))
       .filter(alert => isAlertValid(alert, currentTime));
-
+    const localCallAgency = isLocalCallAgency(route, config);
     return (
       <div className={cx('route-page-container')}>
         <div className="header-for-printing">
@@ -105,11 +106,15 @@ class RoutePage extends React.Component {
                 color={route.color ? `#${route.color}` : null}
                 mode={mode}
                 text=""
+                appendClass={localCallAgency ? 'call-local' : ''}
+                isCallAgency={mode === 'call'}
               />
             </div>
             <div className="route-info">
               <h1
-                className={cx('route-short-name', mode)}
+                className={cx('route-short-name', mode, {
+                  'call-local': localCallAgency,
+                })}
                 style={{ color: route.color ? `#${route.color}` : null }}
               >
                 <span className="sr-only" style={{ whiteSpace: 'pre' }}>
@@ -181,6 +186,7 @@ const containerComponent = createFragmentContainer(
         agency {
           name
           phone
+          gtfsId
         }
         patterns {
           alerts(types: [ROUTE, STOPS_ON_PATTERN]) {

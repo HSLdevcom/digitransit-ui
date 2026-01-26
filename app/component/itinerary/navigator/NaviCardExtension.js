@@ -43,8 +43,11 @@ const NaviCardExtension = (
     leg ? leg.to : nextLeg.from;
   const { code, platformCode, zoneId, vehicleMode } = stop || {};
   const [place, address] = name?.split(/, (.+)/) || [];
-  const appendClass = isLocalCallAgency(nextLeg, config) ? 'call-local' : '';
-  const callAgencyDestination = nextLeg && isCallAgencyLeg(nextLeg);
+
+  const isLocalCall = isLocalCallAgency(nextLeg?.route, config);
+  const appendClass = isLocalCall ? 'call-local' : '';
+  const callAgencyDestination =
+    nextLeg && (isLocalCall || isCallAgencyLeg(nextLeg.route));
 
   let destination = {};
   if (stop && !callAgencyDestination) {

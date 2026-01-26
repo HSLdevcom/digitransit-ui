@@ -738,6 +738,32 @@ export default {
       },
       linkLabel,
     },
+    {
+      showForRoute: route => route.type === 715,
+      id: 'trunkRouteNotification',
+      header: {
+        fi: 'Kutsuliikenne',
+        en: 'Trunk route',
+        sv: 'Stomlinje',
+      },
+      content: {
+        fi: [
+          'Linja toimii ennakkotilauksella. Varmistaaksesi matkan, tee varaus etukäteen. Tarkemmat tiedot palveluntarjoalta.',
+        ],
+        en: [
+          'This service operates by advance booking. To ensure your ride, please book ahead of time. More information is available from the service provider. ',
+        ],
+        sv: [
+          'Linjen fungerar med förhandsbokning. Boka din resa i förväg för att säkerställa resan. Mer information från tjänsteleverantören.',
+        ],
+      },
+      link: {
+        fi: 'hsl.fi/matkustaminen/lahibussit',
+        en: 'hsl.fi/en/travelling/neighborhood-buses',
+        sv: 'hsl.fi/sv/att-resa/narbussar',
+      },
+      linkLabel,
+    },
   ],
 
   replacementBusNotification: {
