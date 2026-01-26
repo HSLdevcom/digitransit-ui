@@ -27,7 +27,7 @@ export default function TimeSummary(props) {
           }}
         />{' '}
       </span>
-      <Icon img="icon-icon_clock" className="clock" />
+      <Icon img="icon_clock" className="clock" />
       <span className="duration" aria-hidden>
         {duration}
         {props.futureText !== '' && props.multiRow && (

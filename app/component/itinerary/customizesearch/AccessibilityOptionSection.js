@@ -30,7 +30,7 @@ const AccessibilityOptionSection = ({ currentSettings }, { executeAction }) => {
         <label htmlFor="settings-toggle-accessibility" className="toggle-label">
           <Icon
             className="wheelchair-icon"
-            img="icon-icon_wheelchair"
+            img="icon_wheelchair"
             height={2}
             width={2}
           />

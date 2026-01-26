@@ -3,22 +3,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import i18next from 'i18next';
+import { I18nextProvider, useTranslation } from 'react-i18next';
 import Modal from '@hsl-fi/modal';
+import { defaultColors } from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
-import translations from './helpers/translations';
-
-i18next.init({
-  lng: 'fi',
-  fallbackLng: 'fi',
-  defaultNS: 'translation',
-  interpolation: {
-    escapeValue: false, // not needed for react as it escapes by default
-  },
-});
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
-});
+import i18n from './helpers/i18n';
 
 const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
@@ -50,24 +39,24 @@ const DialogModal = ({
   appElement,
   isModalOpen,
   modalAriaLabel,
-  color,
-  hoverColor,
+  colors,
   fontWeights,
 }) => {
-  i18next.changeLanguage(lang);
+  const [t] = useTranslation();
+
   return (
     <Modal
       appElement={appElement}
       contentLabel={modalAriaLabel}
-      closeButtonLabel={i18next.t('close-modal')}
+      closeButtonLabel={t('close-modal', { lng: lang })}
       variant="confirmation"
       isOpen={isModalOpen}
       onCrossClick={handleClose}
     >
       <div
         style={{
-          '--color': `${color}`,
-          '--hover-color': `${hoverColor}`,
+          '--color': `${colors.primary}`,
+          '--hover-color': `${colors.hover}`,
           '--font-weight-medium': fontWeights.medium,
         }}
       >
@@ -133,33 +122,30 @@ DialogModal.propTypes = {
   secondaryButtonText: PropTypes.string,
   secondaryButtonOnClick: PropTypes.func,
   dialogContent: PropTypes.string,
-  lang: PropTypes.string,
+  lang: PropTypes.string.isRequired,
   modalAriaLabel: PropTypes.string,
   href: PropTypes.string,
-  color: PropTypes.string,
-  hoverColor: PropTypes.string,
+  colors: PropTypes.objectOf(PropTypes.string),
   fontWeights: PropTypes.shape({
     medium: PropTypes.number,
   }),
 };
 
 DialogModal.defaultProps = {
-  lang: 'fi',
   dialogContent: undefined,
   handleClose: () => {},
   secondaryButtonText: undefined,
   secondaryButtonOnClick: undefined,
   href: undefined,
   modalAriaLabel: '',
-  color: '#007ac9',
-  hoverColor: '#0062a1',
+  colors: defaultColors,
   fontWeights: {
     medium: 500,
   },
 };
 
-DialogModal.contextTypes = {
-  config: PropTypes.object,
-};
-
-export default DialogModal;
+export default props => (
+  <I18nextProvider i18n={i18n}>
+    <DialogModal {...props} />
+  </I18nextProvider>
+);

@@ -1,0 +1,73 @@
+.trafficnow-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.tn-centered {
+  min-width: 900px;
+  max-width: 1300px;
+}
+
+.trafficnow-header {
+  display: flex;
+  flex-direction: column;
+  height: 216px;
+
+  h2 {
+    font-size: 36px;
+    letter-spacing: -1px;
+  }
+
+  .tn-description {
+    font-weight: 325;
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -0.5px;
+  }
+
+  .tn-breadcrumb {
+    font-weight: 350;
+    font-size: 16px;
+    letter-spacing: -2%;
+  }
+
+  .crumbarrow {
+    width: 10px;
+    height: 10px;
+    rotate: -90deg;
+    color: $link-color;
+  }
+}
+
+.separator {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+}
+
+.trafficnow-bottom {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.trafficnow-filters {
+  min-width: 320px;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 48px;
+}
+
+.trafficnow-contents {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  background-color: #f2f5f7;
+  border-left: 1px solid #ddd;
+  padding-top: 48px;
+  padding-left: 48px;
+}

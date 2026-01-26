@@ -31,7 +31,7 @@ function MainMenu(props, { config, intl, executeAction }) {
             defaultMessage: 'Close the main menu',
           })}
         >
-          <Icon img="icon-icon_close" className="medium" />
+          <Icon img="icon_close" className="medium" />
         </button>
       </div>
       <section className="menu-section">

@@ -286,6 +286,7 @@ class ItineraryLine extends React.Component {
             <StopMarker
               key={`${i},${leg.mode}marker,from`}
               disableModeIcons
+              disableIconBorder
               stop={{
                 ...leg.from,
                 gtfsId: leg.from.stop.gtfsId,
@@ -300,6 +301,7 @@ class ItineraryLine extends React.Component {
             <StopMarker
               key={`${i},${leg.mode}marker,to`}
               disableModeIcons
+              disableIconBorder
               stop={{
                 ...leg.to,
                 gtfsId: leg.to.stop.gtfsId,

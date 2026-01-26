@@ -28,7 +28,7 @@ const TaxiOptionsSection = (
           <div className="mode-icon">
             <Icon
               className="taxi-icon"
-              img="icon-icon_taxi-external"
+              img="icon_taxi-external"
               viewBox="0 0 32 32"
             />
           </div>

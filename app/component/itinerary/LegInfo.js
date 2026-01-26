@@ -8,7 +8,7 @@ import { legShape, configShape } from '../../util/shapes';
 import { legTimeStr } from '../../util/legUtils';
 import { getTripOrRouteMode } from '../../util/modeUtils';
 import RouteNumber from '../RouteNumber';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../../util/path';
+import { routePagePath, PREFIX_STOPS } from '../../util/path';
 import { getCapacityForLeg } from '../../util/occupancyUtil';
 import Icon from '../Icon';
 import CapacityModal from '../CapacityModal';
@@ -36,7 +36,7 @@ export default function LegInfo(
     ? 'call'
     : getTripOrRouteMode(
         leg.trip,
-        { mode: leg.mode, type: leg.route.type, gtfsId: leg.route?.gtfsId },
+        { mode: leg.mode, type: leg.route.type, gtfsId: leg.route.gtfsId },
         config,
       );
   const capacity = getCapacityForLeg(config, leg);
@@ -57,12 +57,12 @@ export default function LegInfo(
         onClick={e => {
           e.stopPropagation();
         }}
-        to={
-          `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_STOPS}/${
-            leg.trip.pattern.code
-          }${shouldLinkToTrip ? `/${leg.trip.gtfsId}` : ''}`
-          // TODO: Create a helper function for generating links
-        }
+        to={routePagePath(
+          leg.route.gtfsId,
+          PREFIX_STOPS,
+          leg.trip.pattern.code,
+          shouldLinkToTrip && leg.trip.gtfsId,
+        )}
         aria-label={`${intl.formatMessage({
           id: mode,
           defaultMessage: 'Vehicle',
@@ -101,7 +101,7 @@ export default function LegInfo(
           <Icon
             width={1.75}
             height={1.75}
-            img={`icon-icon_${capacity}`}
+            img={`icon_${capacity}`}
             color={config.colors.primary}
           />
         </button>

@@ -41,23 +41,13 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['FOLI', 'FUNI', 'TurkuTest'],
 
-  searchParams: {
-    'boundary.rect.min_lat': 59.963388,
-    'boundary.rect.max_lat': 60.950777,
-    'boundary.rect.min_lon': 21.145557,
-    'boundary.rect.max_lon': 22.939795,
-  },
-
   colors: {
     primary: '#e8aa27',
     hover: '#a07415',
-    iconColors: {
-      'mode-bus': '#e8aa27',
-      'mode-rail': '#8c4799',
-      'mode-ferry': '#0064f0',
-      'mode-ferry-pier': '#666666',
-      'mode-funicular': '#ff00ff',
-    },
+    bus: '#e8aa27',
+    rail: '#8c4799',
+    ferry: '#0064f0',
+    funicular: '#ff00ff',
   },
 
   appBarLink: { name: 'Föli', href: 'http://www.foli.fi/fi' },
@@ -68,6 +58,11 @@ export default configMerger(walttiConfig, {
 
     twitter: {
       site: '@Turkukaupunki',
+    },
+    image: {
+      url: 'img/social-share-foli.png',
+      width: 339,
+      height: 78,
     },
   },
 
@@ -132,11 +127,14 @@ export default configMerger(walttiConfig, {
 
   nearYouModes: ['bus', 'ferry', 'citybike'],
 
+  useSearchPolygon: true,
+
   areaPolygon: [
-    [21.145557, 59.963388],
-    [21.145557, 60.950777],
-    [22.939795, 60.950777],
-    [22.939795, 59.963388],
+    [21.15, 59.96],
+    [22.94, 59.96],
+    [22.94, 60.78],
+    [22.32, 60.78],
+    [21.15, 60.43],
   ],
 
   menu: {
@@ -171,10 +169,6 @@ export default configMerger(walttiConfig, {
     lon: 22.267633,
   },
 
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
-
   aboutThisService: {
     fi: [
       {
@@ -204,13 +198,10 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  staticMessages: [],
   geoJson: {
     layerConfigUrl: 'https://data.foli.fi/geojson/reittiopas',
   },
 
-  showNearYouButtons: true,
-  allowLogin: false,
   constantOperationStops: {
     'FUNI:9900': CONSTANT_OPERATION_PARAGRAPHS.fori,
     'FUNI:9901': CONSTANT_OPERATION_PARAGRAPHS.fori,

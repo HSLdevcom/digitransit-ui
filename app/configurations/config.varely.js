@@ -26,6 +26,10 @@ export default configMerger(walttiConfig, {
       default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
     },
+    REALTIME_STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
+    },
   },
 
   feedIds: ['VARELY', 'FOLI', 'Rauma', 'Pori', 'Salo'],
@@ -33,11 +37,8 @@ export default configMerger(walttiConfig, {
   colors: {
     primary: colorPrimary,
     hover: '#00BF6F',
-    iconColors: {
-      'mode-bus': colorPrimary,
-      'mode-ferry': '#0064f0',
-      'mode-ferry-pier': '#666666',
-    },
+    bus: colorPrimary,
+    ferry: '#0064f0',
   },
 
   appBarLink: { name: 'Seutu+', href: 'https://seutuplus.fi/' },
@@ -45,6 +46,11 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-seutuplus.png',
+      width: 611,
+      height: 225,
+    },
   },
 
   meta: {
@@ -69,6 +75,8 @@ export default configMerger(walttiConfig, {
       color: '#0064f0',
     },
   },
+
+  nearYouModes: ['bus', 'ferry'],
 
   searchParams: {
     'boundary.rect.min_lat': minLat,
@@ -115,8 +123,6 @@ export default configMerger(walttiConfig, {
   /* Enable real-time map layer for vehicle positions */
   vehicles: false,
   viaPointsEnabled: false,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
 
   aboutThisService: {
     fi: [
@@ -175,10 +181,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  staticMessages: [],
-  showCO2InItinerarySummary: true,
-  showNearYouButtons: true,
-  allowLogin: false,
   routeNotifications: [],
   analyticsScript: '',
+  GTMid: null,
 });

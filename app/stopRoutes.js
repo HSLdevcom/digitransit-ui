@@ -1,5 +1,5 @@
 import React from 'react';
-import Route from 'found/Route';
+import { Route, RedirectException } from 'found';
 import { graphql } from 'react-relay';
 
 import { DateTime } from 'luxon';
@@ -207,7 +207,13 @@ export default function getStopRoutes(isTerminal = false) {
                 query={queryMap.pageContent}
                 render={({ Component, props, error }) => {
                   if (Component && (props || error)) {
-                    return <Component {...props} error={error} />;
+                    if (!error && !(props.stop || props.station)) {
+                      throw new RedirectException(
+                        `/${isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS}`,
+                      );
+                    } else {
+                      return <Component {...props} error={error} />;
+                    }
                   }
                   return <Loading />;
                 }}

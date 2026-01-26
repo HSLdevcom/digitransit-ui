@@ -98,7 +98,7 @@ export const dateOrEmpty = (time, refTime) => {
 
 /**
  * Returns a localized date string if start time is not today
- * @param {number} itineraryStart time in milliseconds since 1970 UTC
+ * @param {string} itineraryStart ISO date time
  * @param {object} intl
  * @returns {string} localized date
  */

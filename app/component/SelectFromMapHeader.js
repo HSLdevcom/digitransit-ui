@@ -80,8 +80,8 @@ SelectFromMapHeaderComponent.propTypes = {
 
 SelectFromMapHeaderComponent.defaultProps = {
   titleId: undefined,
-  backBtnIcon: 'icon-icon_arrow-left',
-  closeBtnIcon: 'icon-icon_close',
+  backBtnIcon: 'icon_arrow-left',
+  closeBtnIcon: 'icon_close',
   onBackBtnClick: PropTypes.func,
   onCloseBtnClick: PropTypes.func,
   hideBackBtn: false,

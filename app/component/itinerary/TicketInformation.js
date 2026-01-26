@@ -68,7 +68,7 @@ export default function TicketInformation(
                 {config.showTicketPrice && (
                   <div className="ticket-description">{formatFare(fare)}</div>
                 )}
-                <Icon img="icon-icon_arrow-collapse--right" />
+                <Icon img="icon_arrow-collapse--right" />
               </a>
             )) || (
               <div className="fare-container">

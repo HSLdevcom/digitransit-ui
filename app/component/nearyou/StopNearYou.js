@@ -1,58 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { Link } from 'found';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import Modal from '@hsl-fi/modal';
 import { stopShape, configShape, relayShape } from '../../util/shapes';
 import { hasEntitiesOfType } from '../../util/alertUtils';
-import { PREFIX_STOPS, PREFIX_TERMINALS } from '../../util/path';
+import { stopPagePath } from '../../util/path';
 import { AlertEntityType } from '../../constants';
-import StopNearYouHeader from './StopNearYouHeader';
+import NearYouHeader from './NearYouHeader';
 import AlertBanner from '../AlertBanner';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 import CapacityModal from '../CapacityModal';
 
 const StopNearYou = (
-  { stop, desc, stopId, currentTime, currentMode, relay },
+  { stop, currentTime, relay, isParentTabActive },
   { config, intl },
 ) => {
   if (!stop.stoptimesWithoutPatterns) {
     return null;
   }
+  const timeRef = useRef(currentTime);
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
   const stopMode = stop.stoptimesWithoutPatterns[0]?.trip.route.mode;
-  useEffect(() => {
-    let id = stop.gtfsId;
-    if (stopId) {
-      id = stopId;
-    }
-    if (currentMode === stopMode || !currentMode) {
-      relay?.refetch(oldVariables => {
-        return { ...oldVariables, stopId: id, startTime: currentTime };
-      }, null);
-    }
-  }, [currentTime, currentMode]);
-  const description = desc || stop.desc;
-  const isStation = stop.locationType === 'STATION';
   const { gtfsId } = stop;
-  const urlEncodedGtfsId = gtfsId.replace('/', '%2F');
-  const linkAddress = isStation
-    ? `/${PREFIX_TERMINALS}/${urlEncodedGtfsId}`
-    : `/${PREFIX_STOPS}/${urlEncodedGtfsId}`;
 
+  useEffect(() => {
+    if (isParentTabActive && currentTime - timeRef.current > 30) {
+      relay.refetch(oldVariables => {
+        return { ...oldVariables, stopId: gtfsId, startTime: currentTime };
+      }, null);
+      timeRef.current = currentTime;
+    }
+  }, [currentTime, isParentTabActive]);
+
+  const isStation = stop.locationType === 'STATION';
+  const linkAddress = stopPagePath(isStation, gtfsId);
   const { constantOperationStops } = config;
   const { locale } = intl;
-  const isConstantOperation = constantOperationStops[stop.gtfsId];
+  const isConstantOperation = constantOperationStops[gtfsId];
   const filteredAlerts = stop.alerts.filter(alert =>
     hasEntitiesOfType(alert, AlertEntityType.Stop),
   );
+
   return (
     <span role="listitem">
       <div className="stop-near-you-container">
-        <StopNearYouHeader
+        <NearYouHeader
           stop={stop}
-          desc={description}
+          desc={stop.desc}
           isStation={isStation}
           linkAddress={linkAddress}
         />
@@ -63,22 +58,19 @@ const StopNearYou = (
           />
         </span>
         {filteredAlerts.length > 0 && (
-          <AlertBanner
-            alerts={filteredAlerts}
-            linkAddress={`${linkAddress}/hairiot`}
-          />
+          <AlertBanner alerts={filteredAlerts} linkAddress={linkAddress} />
         )}
         {isConstantOperation ? (
           <div className="stop-constant-operation-container bottom-margin">
             <div style={{ width: '85%' }}>
-              <span>{constantOperationStops[stop.gtfsId][locale].text}</span>
+              <span>{constantOperationStops[gtfsId][locale].text}</span>
               <span style={{ display: 'inline-block' }}>
                 <a
-                  href={constantOperationStops[stop.gtfsId][locale].link}
+                  href={constantOperationStops[gtfsId][locale].link}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {constantOperationStops[stop.gtfsId][locale].link}
+                  {constantOperationStops[gtfsId][locale].link}
                 </a>
               </span>
             </div>
@@ -90,7 +82,8 @@ const StopNearYou = (
               mode={stopMode}
               stopTimes={stop.stoptimesWithoutPatterns}
               isStation={isStation && stopMode !== 'SUBWAY'}
-              setCapacityModalOpen={() => setCapacityModalOpen(true)}
+              openCapacityModal={() => setCapacityModalOpen(true)}
+              isParentTabActive={isParentTabActive}
             />
             <Link
               className="stop-near-you-more-departures"
@@ -122,30 +115,11 @@ const StopNearYou = (
   );
 };
 
-const connectedComponent = connectToStores(
-  StopNearYou,
-  ['TimeStore'],
-  (context, props) => {
-    return {
-      ...props,
-      currentTime: context.getStore('TimeStore').getCurrentTime(),
-    };
-  },
-);
-
 StopNearYou.propTypes = {
   stop: stopShape.isRequired,
-  stopId: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
-  currentMode: PropTypes.string.isRequired,
-  desc: PropTypes.string,
-  relay: relayShape,
-};
-
-StopNearYou.defaultProps = {
-  stopId: undefined,
-  desc: undefined,
-  relay: undefined,
+  relay: relayShape.isRequired,
+  isParentTabActive: PropTypes.bool.isRequired,
 };
 
 StopNearYou.contextTypes = {
@@ -153,4 +127,4 @@ StopNearYou.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-export default connectedComponent;
+export default StopNearYou;

@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { memo } from 'react';
 import { intlShape, FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import shouldUpdate from 'recompose/shouldUpdate';
 import isEqual from 'lodash/isEqual';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
@@ -35,10 +34,8 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withBreakpoint from '../util/withBreakpoint';
 import Geomover from './Geomover';
 import scrollTop from '../util/scroll';
-import { LightenDarkenColor } from '../util/colorUtils';
 import { getRefPoint } from '../util/apiUtils';
 import { filterObject } from '../util/filterUtils';
-import { isKeyboardSelectionEvent } from '../util/browser';
 import {
   getTransportModes,
   getNearYouModes,
@@ -218,10 +215,7 @@ class IndexPage extends React.Component {
     }${this.context.config.trafficNowLink[lang]}`;
   };
 
-  clickStopNearIcon = (url, kbdEvent) => {
-    if (kbdEvent && !isKeyboardSelectionEvent(kbdEvent)) {
-      return;
-    }
+  clickStopNearIcon = url => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'nearbyStops',
@@ -234,19 +228,18 @@ class IndexPage extends React.Component {
     const { intl, config } = this.context;
     const { colors, fontWeights } = config;
     const { lang } = this.props;
-    const transportModes = getTransportModes(config);
     const nearYouModes = getNearYouModes(config);
-
-    // Styles are defined by which button type is configured (narrow/wide)
-    const narrowButtons = config.narrowNearYouButtons;
-    const modeTitles = filterObject(
-      transportModes,
-      'availableForSelection',
-      true,
-    );
     // If nearYouModes is configured, display those. Otherwise, display all configured transport modes
-    const modes =
-      nearYouModes?.length > 0 ? nearYouModes : Object.keys(modeTitles);
+    const modeArray =
+      nearYouModes.length > 0
+        ? nearYouModes
+        : Object.keys(
+            filterObject(
+              getTransportModes(config),
+              'availableForSelection',
+              true,
+            ),
+          );
 
     const alertsContext = {
       currentTime: this.props.currentTime,
@@ -254,29 +247,33 @@ class IndexPage extends React.Component {
       feedIds: config.feedIds,
     };
 
+    const directionProps = config.narrowNearYouButtons
+      ? {}
+      : { horizontal: false };
+
     return config.showNearYouButtons ? (
       <CtrlPanel.NearStopsAndRoutes
-        modeArray={modes}
+        appElement="#app"
+        modeArray={modeArray}
+        modeSet={config.iconModeSet}
         urlPrefix={`/${PREFIX_NEARYOU}`}
         language={lang}
-        showTitle
+        title={config.nearYouTitle}
         alertsContext={alertsContext}
         origin={this.props.origin}
         omitLanguageUrl
         onClick={this.clickStopNearIcon}
-        buttonStyle={narrowButtons ? undefined : config.nearYouButton}
-        title={narrowButtons ? undefined : config.nearYouTitle}
-        modes={narrowButtons ? undefined : modeTitles}
-        modeSet={config.nearbyModeSet || config.iconModeSet}
-        modeIconColors={colors.iconColors}
+        colors={colors}
         fontWeights={fontWeights}
+        {...directionProps}
+        isMobile={this.props.breakpoint !== 'large'}
       />
     ) : (
       <div className="stops-near-you-text">
         <h2>
           {intl.formatMessage({
-            id: 'stop-near-you-title',
-            defaultMessage: 'Stops and lines near you',
+            id: 'near-you-search',
+            defaultMessage: 'Search stops and routes',
           })}
         </h2>
       </div>
@@ -287,18 +284,18 @@ class IndexPage extends React.Component {
   render() {
     const { intl, config } = this.context;
     const { trafficNowLink, colors, fontWeights } = config;
-    const color = colors.primary;
-    const hoverColor = colors.hover || LightenDarkenColor(colors.primary, -20);
-    const accessiblePrimaryColor = colors.accessiblePrimary || colors.primary;
     const { breakpoint, lang } = this.props;
     const origin = this.pendingOrigin || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
+    const locationSources = ['History', 'Datasource'];
     const sources = ['Favourite', 'History', 'Datasource'];
     const stopAndRouteSearchTargets = ['Stations', 'Stops', 'Routes'];
     const targets = getLocationSearchTargets(config, breakpoint !== 'large');
 
     targets.push('FutureRoutes');
-
+    if (this.context.getStore('FavouriteStore').getLocationCount()) {
+      locationSources.push('Favourite');
+    }
     if (!config.targetsFromOTP) {
       if (useCitybikes(config.vehicleRental?.networks, config)) {
         stopAndRouteSearchTargets.push('VehicleRentalStations');
@@ -317,11 +314,8 @@ class IndexPage extends React.Component {
       origin,
       destination,
       lang,
-      sources,
+      locationSources,
       targets,
-      color,
-      hoverColor,
-      accessiblePrimaryColor,
       refPoint,
       searchPanelText: intl.formatMessage({
         id: 'where',
@@ -334,7 +328,7 @@ class IndexPage extends React.Component {
       onGeolocationStart: this.onSelectLocation,
       fromMap: this.props.fromMap,
       fontWeights,
-      modeIconColors: colors.iconColors,
+      colors,
       modeSet: config.iconModeSet,
     };
 
@@ -348,13 +342,10 @@ class IndexPage extends React.Component {
       getAutoSuggestIcons: config.getAutoSuggestIcons,
       value: '',
       lang,
-      color,
-      hoverColor,
-      accessiblePrimaryColor,
       sources,
       targets: stopAndRouteSearchTargets,
       fontWeights,
-      modeIconColors: colors.iconColors,
+      colors,
       modeSet: config.iconModeSet,
       geocodingSize: 25,
     };
@@ -380,13 +371,7 @@ class IndexPage extends React.Component {
           <h1 className="sr-only">
             <FormattedMessage id="index.title" default="Journey Planner" />
           </h1>
-          <CtrlPanel
-            instance="hsl"
-            language={lang}
-            origin={origin}
-            position="left"
-            fontWeights={fontWeights}
-          >
+          <CtrlPanel position="left" fontWeights={fontWeights}>
             <span className="sr-only">
               <FormattedMessage
                 id="search-fields.sr-instructions"
@@ -395,7 +380,11 @@ class IndexPage extends React.Component {
             </span>
             <LocationSearch {...locationSearchProps} />
             <div className="datetimepicker-container">
-              <DatetimepickerContainer realtime color={color} />
+              <DatetimepickerContainer
+                realtime
+                color={colors.primary}
+                lang={lang}
+              />
             </div>
             {!config.hideFavourites && (
               <>
@@ -438,19 +427,18 @@ class IndexPage extends React.Component {
             backgroundColor: '#ffffff',
           }}
         >
-          <CtrlPanel
-            instance="hsl"
-            language={lang}
-            position="bottom"
-            fontWeights={fontWeights}
-          >
+          <CtrlPanel position="bottom" fontWeights={fontWeights}>
             <LocationSearch
               disableAutoFocus
               isMobile
               {...locationSearchProps}
             />
             <div className="datetimepicker-container">
-              <DatetimepickerContainer realtime color={color} />
+              <DatetimepickerContainer
+                realtime
+                color={colors.primary}
+                lang={lang}
+              />
             </div>
             <FavouritesContainer
               onClickFavourite={this.clickFavourite}
@@ -478,19 +466,17 @@ class IndexPage extends React.Component {
   }
 }
 
-const Index = shouldUpdate(
-  // update only when origin/destination/breakpoint, favourite store status or language changes
-  (props, nextProps) => {
-    return !(
-      isEqual(nextProps.origin, props.origin) &&
-      isEqual(nextProps.destination, props.destination) &&
-      isEqual(nextProps.breakpoint, props.breakpoint) &&
-      isEqual(nextProps.lang, props.lang) &&
-      isEqual(nextProps.query, props.query) &&
-      isEqual(nextProps.locationState, props.locationState)
-    );
-  },
-)(IndexPage);
+// update only when origin/destination/breakpoint, favourite store status or language changes
+const Index = memo(
+  IndexPage,
+  (props, nextProps) =>
+    isEqual(nextProps.origin, props.origin) &&
+    isEqual(nextProps.destination, props.destination) &&
+    isEqual(nextProps.breakpoint, props.breakpoint) &&
+    isEqual(nextProps.lang, props.lang) &&
+    isEqual(nextProps.query, props.query) &&
+    isEqual(nextProps.locationState, props.locationState),
+);
 
 const IndexPageWithBreakpoint = withBreakpoint(Index);
 

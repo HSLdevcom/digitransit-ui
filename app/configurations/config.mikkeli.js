@@ -20,19 +20,12 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#167CAC',
-    iconColors: {
-      'mode-bus': '#167CAC',
-    },
+    bus: '#167CAC',
   },
   transportModes: {
     bus: {
       availableForSelection: true,
       defaultValue: true,
-      nearYouLabel: {
-        fi: 'Lähipysäkit kartalla',
-        sv: 'Hållplatser på kartan',
-        en: 'Nearby stops on map',
-      },
     },
   },
   socialMedia: {
@@ -127,8 +120,4 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
-
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
 });

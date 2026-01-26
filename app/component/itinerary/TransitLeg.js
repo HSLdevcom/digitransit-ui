@@ -24,8 +24,8 @@ import {
 } from '../../util/alertUtils';
 import {
   PREFIX_DISRUPTION,
-  PREFIX_ROUTES,
-  PREFIX_STOPS,
+  routePagePath,
+  stopPagePath,
 } from '../../util/path';
 import { durationToString } from '../../util/timeUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
@@ -37,6 +37,7 @@ import {
   showCarBoardingNote,
   legTimeStr,
   legTime,
+  isPlatformChanged,
 } from '../../util/legUtils';
 import { shouldShowFareInfo } from '../../util/fareUtils';
 import { AlertEntityType, AlertSeverityLevelType } from '../../constants';
@@ -47,6 +48,11 @@ import InterlineInfo from './InterlineInfo';
 import AlternativeLegsInfo from './AlternativeLegsInfo';
 import LegInfo from './LegInfo';
 import ExternalLink from '../ExternalLink';
+import {
+  getBoardingInformationText,
+  getPlatformChangeLabel,
+} from './BoardingInformation';
+import { modeUsesTrack } from '../../util/modeUtils';
 
 const stopCode = code => code && <StopCode code={code} />;
 
@@ -254,32 +260,28 @@ class TransitLeg extends React.Component {
         }}
       />
     );
+    const platformChanged = isPlatformChanged(leg);
     const textVersionAfterLink = (
-      <FormattedMessage
-        id="itinerary-details.transit-leg-part-2"
-        values={{
-          startStop: leg.from.name,
-          startZoneInfo: intl.formatMessage(
-            { id: 'zone-info' },
-            { zone: leg.from.stop.zoneId },
-          ),
-          endZoneInfo: intl.formatMessage(
-            { id: 'zone-info' },
-            { zone: leg.to.stop.zoneId },
-          ),
-          endStop: leg.to.name,
-          duration: durationToString(leg.duration * 1000),
-          trackInfo: (
-            <PlatformNumber
-              number={leg.from.stop.platformCode}
-              short={false}
-              isRailOrSubway={
-                modeClassName === 'rail' || modeClassName === 'subway'
-              }
-            />
-          ),
-        }}
-      />
+      <>
+        <FormattedMessage
+          id="itinerary-details.transit-leg-part-2"
+          values={{
+            startStop: leg.from.name,
+            startZoneInfo: intl.formatMessage(
+              { id: 'zone-info' },
+              { zone: leg.from.stop.zoneId },
+            ),
+            endZoneInfo: intl.formatMessage(
+              { id: 'zone-info' },
+              { zone: leg.to.stop.zoneId },
+            ),
+            endStop: leg.to.name,
+            duration: durationToString(leg.duration * 1000),
+            trackInfo: getBoardingInformationText(leg, intl, false),
+          }}
+        />
+        {platformChanged && getPlatformChangeLabel(modeUsesTrack(mode), intl)}
+      </>
     );
 
     const alerts = getActiveLegAlerts(leg, startMs / 1000);
@@ -369,7 +371,7 @@ class TransitLeg extends React.Component {
         >
           {createNotification(notification)}
           <Icon
-            img="icon-icon_arrow-collapse--right"
+            img="icon_arrow-collapse--right"
             className="disruption-link-arrow"
             color={config.colors.primary}
           />
@@ -477,17 +479,17 @@ class TransitLeg extends React.Component {
                     name: mode,
                   });
                 }}
-                to={`/${PREFIX_STOPS}/${leg.from.stop.gtfsId}`}
+                to={stopPagePath(false, leg.from.stop.gtfsId)}
               >
                 {leg.from.name}
                 {leg.isViaPoint && (
                   <Icon
-                    img="icon-icon_mapMarker"
+                    img="icon_mapMarker"
                     className="itinerary-mapmarker-icon"
                   />
                 )}
                 <Icon
-                  img="icon-icon_arrow-collapse--right"
+                  img="icon_arrow-collapse--right"
                   className="itinerary-arrow-icon"
                   color={config.colors.primary}
                 />
@@ -507,6 +509,7 @@ class TransitLeg extends React.Component {
                   isRailOrSubway={
                     modeClassName === 'rail' || modeClassName === 'subway'
                   }
+                  updated={platformChanged}
                 />
               </div>
             </div>
@@ -564,9 +567,17 @@ class TransitLeg extends React.Component {
                 <Link
                   to={
                     (hasEntitiesOfType(alert, AlertEntityType.Route) &&
-                      `/${PREFIX_ROUTES}/${leg.route.gtfsId}/${PREFIX_DISRUPTION}/${leg.trip.pattern.code}`) ||
+                      routePagePath(
+                        leg.route.gtfsId,
+                        PREFIX_DISRUPTION,
+                        leg.trip.pattern.code,
+                      )) ||
                     (hasEntitiesOfType(alert, AlertEntityType.Stop) &&
-                      `/${PREFIX_STOPS}/${alert.entities[0].gtfsId}/${PREFIX_DISRUPTION}/`)
+                      stopPagePath(
+                        false,
+                        alert.entities[0].gtfsId,
+                        PREFIX_DISRUPTION,
+                      ))
                   }
                   className="disruption-link"
                 >
@@ -582,7 +593,7 @@ class TransitLeg extends React.Component {
                       : alert.alertDescriptionText}
                   </div>
                   <Icon
-                    img="icon-icon_arrow-collapse--right"
+                    img="icon_arrow-collapse--right"
                     className="disruption-link-arrow"
                     color={config.colors.primary}
                   />
@@ -624,6 +635,7 @@ class TransitLeg extends React.Component {
             </div>
           )}
           {leg.fare?.isUnknown &&
+            !config.hideUnknownFares &&
             shouldShowFareInfo(config) &&
             (config.modeDisclaimers?.[mode]?.[lang] ? (
               <div className="disclaimer-container unknown-fare-disclaimer__leg">

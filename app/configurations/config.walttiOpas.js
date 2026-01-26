@@ -13,25 +13,23 @@ export default configMerger(walttiConfig, {
   colors: {
     primary: '#5959a8',
     topBarColor: '#17083b',
-    iconColors: {
-      'mode-bus': '#5959a8',
-    },
+    bus: '#5959a8',
   },
   transportModes: {
     bus: {
       availableForSelection: true,
       defaultValue: true,
-      nearYouLabel: {
-        fi: 'Bussit ja lähipysäkit kartalla',
-        sv: 'Bussar och hållplatser på kartan',
-        en: 'Buses and nearby stops on map',
-      },
     },
   },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-waltti.png',
+      width: 1795,
+      height: 1313,
+    },
   },
 
   title: APP_TITLE,
@@ -97,8 +95,6 @@ export default configMerger(walttiConfig, {
   },
 
   viaPointsEnabled: false,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
 
   sourceForAlertsAndDisruptions: {
     Kajaani: {

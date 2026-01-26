@@ -9,13 +9,13 @@ The source code of the platform is dual-licensed under the EUPL v1.2 and AGPLv3 
 
 ## Issues
 
-Our main issue tracking is handled in [https://digitransit.atlassian.net](https://digitransit.atlassian.net)
-However, we also monitor this repository's issues and import them to Jira. You can create issues in GitHub.
+Our main issue tracking is handled in [https://dev.azure.com/digitransit/digitransit](https://dev.azure.com/digitransit/digitransit)
+However, we also monitor this repository's issues and import them to Azure Boards. You can create issues in GitHub.
 
 ## Demos
 
 - [https://reittiopas.hsl.fi - Helsinki city area demo](https://reittiopas.hsl.fi/)
-- [https://opas.matka.fi/ - National demo](https://opas.matka.fi/)
+- [https://matka.fintraffic.fi - National demo](https://matka.fintraffic.fi/)
 
 ## Testing
 

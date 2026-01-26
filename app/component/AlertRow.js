@@ -10,7 +10,7 @@ import ExternalLink from './ExternalLink';
 import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../util/path';
+import { routePagePath, stopPagePath, PREFIX_STOPS } from '../util/path';
 import {
   entityCompare,
   getEntitiesOfType,
@@ -139,7 +139,7 @@ export default function AlertRow(
               onClickLink?.();
             }}
             key={`${gtfsIdList[i]}-${index}`}
-            to={`/${PREFIX_ROUTES}/${gtfsIdList[i]}/${PREFIX_STOPS}`}
+            to={routePagePath(gtfsIdList[i], PREFIX_STOPS)}
             className={cx('alert-row-link', routeMode)}
             style={{ color: routeColor }}
             aria-label={`${intl.formatMessage({
@@ -160,7 +160,7 @@ export default function AlertRow(
               onClickLink?.();
             }}
             key={`${gtfsIdList[i]}-${index}`}
-            to={`/${PREFIX_STOPS}/${gtfsIdList[i]}`}
+            to={stopPagePath(false, gtfsIdList[i])}
             className={cx('alert-row-link', routeMode)}
             aria-label={`${intl.formatMessage({
               id: 'stop',
@@ -186,12 +186,9 @@ export default function AlertRow(
         (entityType === AlertEntityType.Stop && (
           <div className="route-number">
             {severityLevel === 'INFO' ? (
-              <Icon img="icon-icon_info" className="stop-disruption info" />
+              <Icon img="icon_info" className="stop-disruption info" />
             ) : (
-              <Icon
-                img="icon-icon_caution"
-                className="stop-disruption warning"
-              />
+              <Icon img="icon_caution" className="stop-disruption warning" />
             )}
           </div>
         )) || (

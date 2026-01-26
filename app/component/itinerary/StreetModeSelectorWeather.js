@@ -25,7 +25,7 @@ export default function StreetModeSelectorWeather({ weatherData }) {
               <FormattedMessage id={`weather-icon-${iconMsgId}`} />
               {tempLabel}
             </span>
-            <Icon img={`icon-icon_weather_${iconId}`} />
+            <Icon img={`icon_weather_${iconId}`} />
             <div
               className="street-mode-selector-panel-weather-text"
               aria-hidden="true"

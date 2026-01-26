@@ -1,4 +1,3 @@
-/* eslint-disable prefer-template */
 import safeJsonParse from '../util/safeJsonParser';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 import realtime from './realtimeUtils';
@@ -13,7 +12,6 @@ const POI_MAP_PREFIX = `${MAP_URL}/map/v3/finland`;
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/finland/`;
 const HSL_TIMETABLES_URL =
   process.env.HSL_TIMETABLES_URL || 'https://dev.kartat.hsl.fi';
-const APP_PATH = process.env.APP_CONTEXT || '';
 const API_SUBSCRIPTION_QUERY_PARAMETER_NAME =
   process.env.API_SUBSCRIPTION_QUERY_PARAMETER_NAME ||
   'digitransit-subscription-key';
@@ -54,6 +52,10 @@ export default {
     STOP_MAP: {
       default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
+    REALTIME_STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
     },
     RENTAL_STATION_MAP: {
       default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
@@ -117,7 +119,6 @@ export default {
   hasAPISubscriptionHeader:
     API_SUBSCRIPTION_HEADER_NAME && API_SUBSCRIPTION_TOKEN,
 
-  APP_PATH: `${APP_PATH}`,
   indexPath: '',
   title: 'Reittihaku',
 
@@ -162,15 +163,15 @@ export default {
     minimalRegexp: /.{2,}/,
   },
 
-  nearbyRoutes: {
+  nearYouRoutes: {
     radius: 10000,
     bucketSize: 1000,
   },
 
   omitNonPickups: true,
-  maxNearbyStopAmount: 5,
-  maxNearbyStopRefetches: 5,
-  maxNearbyStopDistance: {
+  maxNearYouCount: 5,
+  maxNearYouRefetches: 5,
+  maxNearYouDistance: {
     favorite: 20000,
     bus: 50000,
     tram: 20000,
@@ -179,6 +180,8 @@ export default {
     ferry: 50000,
     citybike: 20000,
     airplane: 100000,
+    bikepark: 10000,
+    carpark: 50000,
   },
 
   defaultSettings: {
@@ -343,7 +346,7 @@ export default {
       sv: 'Köp ett abonnemang för en dag, en vecka eller för en hel säsong',
       en: 'Buy a daily, weekly or season pass',
     },
-    maxNearbyRentalVehicleAmount: 5,
+    maxNearYouRentalVehicleAmount: 5,
     maxDistanceToRentalVehiclesInMeters: 100,
     maxMinutesToRentalJourneyStart: 60,
     maxMinutesToRentalJourneyEnd: 720,
@@ -370,19 +373,22 @@ export default {
 
   colors: {
     primary: '#000F94',
+    caution: '#dc0451',
     backgroundInfo: '#ebf6fd',
-    iconColors: {
-      'mode-airplane': '#0046ad',
-      'mode-bus': '#0088ce',
-      'mode-tram': '#6a8925',
-      'mode-metro': '#ed8c00',
-      'mode-rail': '#af8dbc',
-      'mode-ferry': '#247C7B',
-      'mode-citybike': '#f2b62d',
-      'mode-scooter': '#C5CAD2',
-      'mode-taxi': '#647693',
-      'mode-replacement-bus': '#DC0451',
-    },
+    airplane: '#0046ad',
+    bus: '#007ac9',
+    'replacement-bus': '#dc0451',
+    tram: '#008151',
+    subway: '#ca4000',
+    rail: '#8c4799',
+    ferry: '#007a97',
+    'ferry-external': '#666666',
+    citybike: '#f2b62d',
+    'citybike-secondary': '#333333',
+    scooter: '#c5cad2',
+    taxi: '#647693',
+    bikepark: '#f2b62d',
+    carpark: '#007ac9',
   },
   iconModeSet: 'digitransit',
   fontWeights: {
@@ -405,7 +411,7 @@ export default {
     locale: 'en_US',
 
     image: {
-      url: '/img/default-social-share.png',
+      url: 'img/default-social-share.png',
       width: 2400,
       height: 1260,
     },
@@ -745,11 +751,10 @@ export default {
 
   vehicles: false,
   showVehiclesOnStopPage: false,
+  showVehiclesOnItineraryPage: false,
   trafficNowLink: '',
 
   timetables: {},
-
-  showVehiclesOnItineraryPage: false,
 
   showWeatherInformation: true,
   showBikeAndParkItineraries: false,
@@ -757,8 +762,6 @@ export default {
   includeBikeSuggestions: true,
   includeCarSuggestions: false,
   includeParkAndRideSuggestions: false,
-  // Park and ride and car suggestions separated
-  separatedParkAndRideSwitch: false,
 
   showNearYouButtons: false,
   nearYouModes: [],
@@ -853,4 +856,5 @@ export default {
   allowDirectFlexJourneys: false,
   allowedFlexRouteTypes: [1501],
   showRouteDescNotification: false,
+  showStopStatusMarkers: false,
 };

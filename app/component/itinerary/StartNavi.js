@@ -7,16 +7,13 @@ import Icon from '../Icon';
 const StartNavi = ({ startNavigation }, context) => {
   const { config, intl } = context;
 
-  const color =
-    config.colors?.accessiblePrimary || config.colors?.primary || 'black';
-
   return (
     <div className="navi-start-container">
       <button type="button" onClick={startNavigation}>
         <Icon
           className="navigation-icon"
-          img="icon-icon_navigation"
-          color={color}
+          img="icon_navigation"
+          color={config.colors.accessiblePrimary}
           omitViewBox
         />
         <div className="content">
@@ -24,9 +21,9 @@ const StartNavi = ({ startNavigation }, context) => {
           <FormattedMessage tagName="h3" id="navigation-description" />
         </div>
         <Icon
-          img="icon-icon_arrow-collapse--right"
+          img="icon_arrow-collapse--right"
           title={intl.formatMessage({ id: 'continue' })}
-          color={color}
+          color={config.colors.accessiblePrimary}
           height={1}
           width={1}
         />

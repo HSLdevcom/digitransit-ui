@@ -12,8 +12,7 @@ const NavigatorIntro = (
 ) => {
   const { config, intl } = context;
 
-  const primaryColor =
-    config.colors?.accessiblePrimary || config.colors?.primary || 'black';
+  const primaryColor = config.colors.accessiblePrimary;
 
   return (
     <>
@@ -24,14 +23,14 @@ const NavigatorIntro = (
         </FormattedMessage>
         <div className="content">
           <NavigatorIntroFeature
-            icon="icon-icon_future-route"
+            icon="icon_future-route"
             iconColor={primaryColor}
             iconBackgroundColor={config.colors?.backgroundInfo}
             header="navi-support"
             body="navigation-intro-help-body"
           />
           <NavigatorIntroFeature
-            icon="icon-icon_comment"
+            icon="icon_comment"
             iconColor={primaryColor}
             iconBackgroundColor={config.colors?.backgroundInfo}
             header="navi-change-info"
@@ -40,7 +39,7 @@ const NavigatorIntro = (
         </div>
       </div>
       <div className="navi-geolocation-purpose">
-        <Icon img="icon-icon_info" color={primaryColor} />
+        <Icon img="icon_info" color={primaryColor} />
         <div className="info-content">
           <FormattedMessage tagName="p" id="navi-geolocation-purpose" />
           <button

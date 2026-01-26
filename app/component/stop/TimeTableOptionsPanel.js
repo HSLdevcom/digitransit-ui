@@ -104,10 +104,7 @@ class TimeTableOptionsPanel extends React.Component {
           </button>
         </span>
         <div className={`showroutes-icon ${stopVehicle}`}>
-          <Icon
-            img={`icon-icon_${stopVehicle}`}
-            className="showroutes-icon-svg"
-          />
+          <Icon img={`icon_${stopVehicle}`} className="showroutes-icon-svg" />
         </div>
       </label>
     );

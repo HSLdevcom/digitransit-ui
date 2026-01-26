@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import { isAnyLegPropertyIdentical, isRental } from '../../../util/legUtils';
-import { getTripOrRouteMode } from '../../../util/modeUtils';
+import { getTripOrRouteMode, transitIconName } from '../../../util/modeUtils';
 import { configShape, legShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 import NaviCardExtension from './NaviCardExtension';
@@ -10,26 +10,26 @@ import { LEGTYPE } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
 
 const iconMap = {
-  BICYCLE: 'icon-icon_cyclist',
-  CAR: 'icon-icon_car-withoutBox',
-  SCOOTER: 'icon-icon_scooter_rider',
-  WALK: 'icon-icon_walk',
-  WAIT: 'icon-icon_navigation_wait',
-  BUS: 'icon-icon_bus',
-  RAIL: 'icon-icon_rail',
-  SUBWAY: 'icon-icon_subway',
-  TRAM: 'icon-icon_tram',
-  FERRY: 'icon-icon_ferry',
-  'FERRY-EXTERNAL': 'icon-icon_ferry-external',
-  CALL: 'icon-icon_call',
-  'BUS-EXPRESS': 'icon-icon_bus-express',
-  'BUS-LOCAL': 'icon-icon_bus-local',
-  SPEEDTRAM: 'icon-icon_speedtram',
-  WAIT_IN_VEHICLE: 'icon-icon_wait',
+  BICYCLE: 'icon_cyclist',
+  CAR: 'icon_car',
+  SCOOTER: 'icon_scooter_rider',
+  WALK: 'icon_walk',
+  WAIT: 'icon_navigation_wait',
+  CALL: 'icon_call',
+  WAIT_IN_VEHICLE: 'icon_wait',
 };
 
 export default function NaviCard(
-  { leg, nextLeg, legType, time, position, tailLength, cardAnimation },
+  {
+    leg,
+    nextLeg,
+    legType,
+    time,
+    position,
+    tailLength,
+    cardAnimation,
+    platformUpdated,
+  },
   { config },
 ) {
   const [cardExpanded, setCardExpanded] = useState(false);
@@ -60,9 +60,8 @@ export default function NaviCard(
 
   if (legType === LEGTYPE.TRANSIT) {
     const m = getTripOrRouteMode(leg.trip, leg.route, config);
-    iconColor = config.colors.iconColors[`mode-${m}`] || leg.route.color;
-    iconName = iconMap[m.toUpperCase()];
-
+    iconColor = config.colors[m] || leg.route.color;
+    iconName = transitIconName(m, false);
     instructions = `navileg-in-transit`;
   } else if (
     legType !== LEGTYPE.WAIT &&
@@ -112,7 +111,7 @@ export default function NaviCard(
           </div>
           <div type="button" className="navi-top-card-arrow">
             <Icon
-              img="icon-icon_arrow-collapse"
+              img="icon_arrow-collapse"
               className={`cursor-pointer ${cardExpanded ? 'inverted' : ''}`}
             />
           </div>
@@ -131,6 +130,7 @@ export default function NaviCard(
             leg={leg}
             nextLeg={nextLeg}
             time={time}
+            platformUpdated={platformUpdated}
           />
         </div>
       </div>
@@ -149,11 +149,13 @@ NaviCard.propTypes = {
   }),
   tailLength: PropTypes.number.isRequired,
   cardAnimation: PropTypes.string.isRequired,
+  platformUpdated: PropTypes.bool,
 };
 NaviCard.defaultProps = {
   leg: undefined,
   nextLeg: undefined,
   position: undefined,
+  platformUpdated: false,
 };
 
 NaviCard.contextTypes = {

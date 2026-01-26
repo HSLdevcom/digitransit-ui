@@ -7,7 +7,7 @@ import { legTimeStr } from '../../util/legUtils';
 import Icon from '../Icon';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryMapAction from './ItineraryMapAction';
-import { PREFIX_STOPS } from '../../util/path';
+import { stopPagePath } from '../../util/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function AirportCollectLuggageLeg(props, { config }) {
@@ -32,11 +32,11 @@ function AirportCollectLuggageLeg(props, { config }) {
               onClick={e => {
                 e.stopPropagation();
               }}
-              to={`/${PREFIX_STOPS}/${props.leg.to.stop.gtfsId}`}
+              to={stopPagePath(false, props.leg.to.stop.gtfsId)}
             >
               {name}
               <Icon
-                img="icon-icon_arrow-collapse--right"
+                img="icon_arrow-collapse--right"
                 className="itinerary-arrow-icon"
                 color={config.colors.primary}
               />
@@ -47,7 +47,7 @@ function AirportCollectLuggageLeg(props, { config }) {
         </div>
 
         <div className="info-message">
-          <Icon img="icon-icon_info" />
+          <Icon img="icon_info" />
           <FormattedMessage
             id="airport-collect-luggage"
             defaultMessage="Collect your luggage"

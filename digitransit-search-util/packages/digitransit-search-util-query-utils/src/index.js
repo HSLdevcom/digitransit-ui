@@ -94,6 +94,7 @@ const searchRoutesQuery = graphql`
         type
         shortName
         mode
+        color
         longName
         patterns {
           code

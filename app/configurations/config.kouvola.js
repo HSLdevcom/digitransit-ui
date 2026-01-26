@@ -21,25 +21,19 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#000000',
-    iconColors: {
-      'mode-bus': '#000000',
-      'mode-citybike': '#f2b62d',
-    },
+    bus: '#000000',
   },
   transportModes: {
     bus: {
       availableForSelection: true,
       defaultValue: true,
-      nearYouLabel: {
-        fi: 'Lähipysäkit kartalla',
-        sv: 'Hållplatser på kartan',
-        en: 'Nearby stops on map',
-      },
     },
     citybike: {
       availableForSelection: true,
     },
   },
+
+  nearYouModes: ['bus', 'citybike'],
 
   vehicleRental: {
     networks: {
@@ -77,6 +71,11 @@ export default configMerger(walttiConfig, {
     twitter: {
       site: '@kouvolakaupunki',
     },
+    image: {
+      url: 'img/social-share-kouvola.png',
+      width: 134,
+      height: 134,
+    },
   },
 
   title: APP_TITLE,
@@ -108,10 +107,6 @@ export default configMerger(walttiConfig, {
     lat: 60.86625189966643,
     lon: 26.705328946745546,
   },
-
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
 
   menu: {
     copyright: { label: `© Kouvola ${walttiConfig.YEAR}` },

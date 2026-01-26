@@ -115,8 +115,8 @@ const emptyState = {
   earlierEdges: [],
   laterEdges: [],
   plan: {},
-  separatorPosition: undefined,
-  routingFeedbackPosition: undefined,
+  separator2: undefined,
+  separator1: undefined,
   error: undefined,
   topNote: undefined,
   bottomNote: undefined,
@@ -595,13 +595,12 @@ export default function ItineraryPage(props, context) {
     // set a separator line there and clicks below the list move feedback button down
     if (arriveBy) {
       // user clicked button above itinerary list
-      const separators = state.routingFeedbackPosition
+      const separators = state.separator1
         ? {
-            separatorPosition: edges.length,
-            routingFeedbackPosition:
-              state.routingFeedbackPosition + edges.length,
+            separator2: edges.length,
+            separator1: state.separator1 + edges.length,
           }
-        : { routingFeedbackPosition: edges.length };
+        : { separator1: edges.length };
       setState({
         ...newState,
         ...separators,
@@ -611,7 +610,7 @@ export default function ItineraryPage(props, context) {
       // user clicked button below itinerary list
       setState({
         ...newState,
-        routingFeedbackPosition:
+        separator1:
           origPlan.edges.length +
           state.earlierEdges.length +
           state.laterEdges.length,
@@ -681,7 +680,7 @@ export default function ItineraryPage(props, context) {
       // user clicked button below itinerary list
       setState({
         ...newState,
-        routingFeedbackPosition:
+        separator1:
           origPlan.edges.length +
           state.earlierEdges.length +
           state.laterEdges.length,
@@ -689,13 +688,12 @@ export default function ItineraryPage(props, context) {
       });
     } else {
       // user clicked button above itinerary list
-      const separators = state.routingFeedbackPosition
+      const separators = state.separator1
         ? {
-            separatorPosition: edges.length,
-            routingFeedbackPosition:
-              state.routingFeedbackPosition + edges.length,
+            separator2: edges.length,
+            separator1: state.separator1 + edges.length,
           }
-        : { routingFeedbackPosition: edges.length };
+        : { separator1: edges.length };
       setState({
         ...newState,
         ...separators,
@@ -1486,16 +1484,14 @@ export default function ItineraryPage(props, context) {
         carDirectItineraryCount={carPublicPlan.carDirectItineraryCount}
         showRelaxedPlanNotifier={showRelaxedPlanNotifier}
         rentalVehicleNotifierId={rentalVehicleNotifierId}
-        separatorPosition={hash ? undefined : state.separatorPosition}
+        separator2={hash ? undefined : state.separator2}
         onLater={onLater}
         onEarlier={onEarlier}
         focusToHeader={focusToHeader}
         loading={loading}
         loadingMore={state.loadingMore}
         settingsNotification={settingsNotification}
-        routingFeedbackPosition={
-          hash ? undefined : state.routingFeedbackPosition
-        }
+        separator1={hash ? undefined : state.separator1}
         topNote={state.topNote}
         bottomNote={state.bottomNote}
         searchTime={searchTime}

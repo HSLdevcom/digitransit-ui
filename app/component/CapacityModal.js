@@ -32,11 +32,7 @@ const CapacityModal = ({ config }) => {
       <section>
         <div className="capacity-info-row">
           <div className="icon" style={{ color: config.colors.primary }}>
-            <Icon
-              img="icon-icon_MANY_SEATS_AVAILABLE"
-              width={1.5}
-              height={1.5}
-            />
+            <Icon img="icon_MANY_SEATS_AVAILABLE" width={1.5} height={1.5} />
           </div>
           <h4 className="info-heading">
             <FormattedMessage
@@ -56,7 +52,7 @@ const CapacityModal = ({ config }) => {
         <div className="capacity-info-row">
           <div className="icon">
             <Icon
-              img="icon-icon_FEW_SEATS_AVAILABLE"
+              img="icon_FEW_SEATS_AVAILABLE"
               width={1.5}
               height={1.5}
               color={config.colors.primary}
@@ -80,7 +76,7 @@ const CapacityModal = ({ config }) => {
         <div className="capacity-info-row">
           <div className="icon">
             <Icon
-              img="icon-icon_STANDING_ROOM_ONLY"
+              img="icon_STANDING_ROOM_ONLY"
               width={1.5}
               height={1.5}
               color={config.colors.primary}
@@ -104,7 +100,7 @@ const CapacityModal = ({ config }) => {
         <div className="capacity-info-row">
           <div className="icon">
             <Icon
-              img="icon-icon_CRUSHED_STANDING_ROOM_ONLY"
+              img="icon_CRUSHED_STANDING_ROOM_ONLY"
               width={1.5}
               height={1.5}
               color={config.colors.primary}
@@ -128,7 +124,7 @@ const CapacityModal = ({ config }) => {
         <div className="capacity-info-row">
           <div className="icon">
             <Icon
-              img="icon-icon_FULL"
+              img="icon_FULL"
               width={1.5}
               height={1.5}
               color={config.colors.primary}

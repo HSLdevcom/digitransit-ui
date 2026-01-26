@@ -145,7 +145,7 @@ export default function NaviInstructions(
           <FormattedMessage
             id={instructions}
             defaultMessage="{mode}trip"
-            values={{ mode: getLocalizedMode(leg.mode, intl) }}
+            values={{ mode: getLocalizedMode(leg.mode, intl, config) }}
           />
         </div>
         <div className="vehicle-leg">

@@ -38,6 +38,9 @@ const props = {
             realtimeState: 'CANCELED',
             scheduledDeparture: 32460,
             serviceDay: 1547071200,
+            stop: {
+              gtfsId: `HSL:${stopIdNumber}`,
+            },
           },
         ],
       },

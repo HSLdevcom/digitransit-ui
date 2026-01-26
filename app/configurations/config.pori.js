@@ -17,14 +17,17 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#1f1f66',
-    iconColors: {
-      'mode-bus': '#1f1f66',
-    },
+    bus: '#1f1f66',
   },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-pori.png',
+      width: 400,
+      height: 116,
+    },
   },
 
   title: APP_TITLE,
@@ -86,10 +89,6 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
-
   aboutThisService: {
     fi: [
       {
@@ -141,11 +140,17 @@ export default configMerger(walttiConfig, {
   showTicketPrice: true,
   ticketLinkOperatorCode: 50231,
   externalFareRouteIds: [
+    '70',
+    '71',
+    '72',
     '301',
     '302',
     '303',
     '320',
     '321',
+    '701',
+    '702',
+    '703',
     '1001',
     '1011',
     '1021',

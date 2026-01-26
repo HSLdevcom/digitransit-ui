@@ -24,6 +24,7 @@ import {
   isCallAgencyLeg,
   legContainsBikePark,
   legContainsRentalBike,
+  legTimeStr,
 } from '../../util/legUtils';
 import { streetHash } from '../../util/path';
 import { configShape, itineraryShape, relayShape } from '../../util/shapes';
@@ -82,6 +83,7 @@ function ItineraryDetails(
     focusToPoint,
     focusToLeg,
     isMobile,
+    tabIndex,
     hideTitle,
     carEmissions,
     currentLanguage,
@@ -234,18 +236,25 @@ function ItineraryDetails(
           config.showRouteDescNotification &&
           route.desc?.length
             ? { content: route.desc, link: route.url }
-            : config.replacementBusNotification;
-        const notificationText =
-          notification.content?.[currentLanguage]?.join(' ');
+            : {
+                content:
+                  config.replacementBusNotification?.content?.[
+                    currentLanguage
+                  ]?.join(' '),
+                link: config.replacementBusNotification?.link?.[
+                  currentLanguage
+                ],
+              };
+
         const key = `replacementBusNotification-${
           route.gtfsId || trip?.gtfsId
         }`;
-        if (!disclaimers.some(d => d.props?.text === notificationText)) {
+        if (!disclaimers.some(d => d.props?.text === notification.content)) {
           disclaimers.push(
             <RouteDisclaimer
               key={key}
-              text={notificationText}
-              href={notification.link?.[currentLanguage]}
+              text={notification.content}
+              href={notification.link}
               linkText={intl.formatMessage({ id: 'extra-info' })}
               header={intl.formatMessage({ id: 'replacement-bus' })}
             />,
@@ -257,13 +266,20 @@ function ItineraryDetails(
 
   return (
     <div className="itinerary-tab">
-      <h2 className="sr-only" key="srlabel">
+      <h2 className="sr-only">
         <FormattedMessage
           id="summary-page.row-label"
           values={{
             number: itineraryIndex,
           }}
         />
+        <FormattedMessage id="leaves">
+          {msg => (
+            <span id={`tab-${tabIndex}-context`}>{`, ${msg} ${legTimeStr(
+              itinerary.legs[0].start,
+            )}.`}</span>
+          )}
+        </FormattedMessage>
       </h2>
       <BreakpointConsumer>
         {breakpoint => [
@@ -277,7 +293,7 @@ function ItineraryDetails(
                       defaultMessage="Itinerary suggestions"
                     />
                   }
-                  icon="icon-icon_arrow-collapse--left"
+                  icon="icon_arrow-collapse--left"
                   iconClassName="arrow-icon"
                   fallback="pop"
                 />
@@ -304,7 +320,7 @@ function ItineraryDetails(
               config={config}
             />
           ),
-          shouldShowFareInfo(config, itinerary.legs) &&
+          shouldShowFareInfo(config, itinerary.legs, fares) &&
             (shouldShowFarePurchaseInfo(config, breakpoint, fares) ? (
               <MobileTicketPurchaseInformation
                 key="mobileticketpurchaseinformation"
@@ -351,7 +367,7 @@ function ItineraryDetails(
                 focusToPoint={focusToPoint}
                 focusToLeg={focusToLeg}
                 changeHash={changeHash}
-                tabIndex={itineraryIndex - 1}
+                tabIndex={tabIndex}
                 openSettings={openSettings}
                 showBikeBoardingInformation={showBikeBoardingInformation}
                 showCarBoardingInformation={showCarBoardingInformation}
@@ -389,6 +405,7 @@ ItineraryDetails.propTypes = {
   focusToPoint: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,
   isMobile: PropTypes.bool.isRequired,
+  tabIndex: PropTypes.number.isRequired,
   hideTitle: PropTypes.bool,
   carEmissions: PropTypes.number,
   currentLanguage: PropTypes.string,

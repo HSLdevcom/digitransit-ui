@@ -13,15 +13,18 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#0ab1c8',
-    iconColors: {
-      'mode-bus': '#724f9f',
-      'mode-rail': '#0E7F3C',
-    },
+    bus: '#724f9f',
+    rail: '#0E7F3C',
   },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-kuopio.png',
+      width: 760,
+      height: 224,
+    },
   },
 
   title: APP_TITLE,
@@ -30,7 +33,7 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'kuopio/logo.png',
-  secondaryLogo: 'kuopio/secondary-logo.png',
+  secondaryLogo: 'kuopio/kuopio-secondary-logo.png',
 
   feedIds: ['Kuopio', 'digitraffic'],
 
@@ -39,7 +42,6 @@ export default configMerger(walttiConfig, {
   showTicketInformation: true,
   primaryAgencyName: 'Kuopion seudun joukkoliikenne',
 
-  showTicketLinkOnlyWhenTesting: true,
   ticketLink: {
     fi: 'https://vilkku.kuopio.fi/lipputyypit-hinnat/lippujen-hinnat',
     sv: 'https://vilkku.kuopio.fi/en/ticket-and-fares/ticket-prices',
@@ -66,10 +68,6 @@ export default configMerger(walttiConfig, {
     lat: 62.892511,
     lon: 27.678136,
   },
-
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
 
   vehicleRental: {
     networks: {
@@ -105,6 +103,8 @@ export default configMerger(walttiConfig, {
       defaultValue: true,
     },
   },
+
+  nearYouModes: ['bus', 'rail', 'citybike'],
 
   menu: {
     copyright: { label: `© Kuopio ${walttiConfig.YEAR}` },

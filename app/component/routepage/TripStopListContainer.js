@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import cx from 'classnames';
-import isEmpty from 'lodash/isEmpty';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
@@ -74,15 +73,19 @@ class TripStopListContainer extends React.PureComponent {
     // selected vehicle
     const vehicle =
       matchingVehicles.length > 0 ? matchingVehicles[0] : undefined;
-    const nextStop = vehicle && vehicle.next_stop;
+    const nextStop = vehicle?.next_stop;
     let stopPassed = true;
+
+    const nextStopExistsOnRoute =
+      nextStop &&
+      trip.stoptimesForDate.some(stoptime => stoptime.stop.gtfsId === nextStop);
 
     return trip.stoptimesForDate.map((stoptime, index) => {
       if (nextStop === stoptime.stop.gtfsId) {
         stopPassed = false;
       } else if (
         stoptime.realtimeDeparture + stoptime.serviceDay > currentTime &&
-        (isEmpty(vehicle) || (vehicle && vehicle.next_stop === undefined))
+        (!vehicle || !vehicle.next_stop || !nextStopExistsOnRoute)
       ) {
         stopPassed = false;
       }

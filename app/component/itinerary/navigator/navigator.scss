@@ -9,7 +9,7 @@
     align-items: center;
     background-color: $navigation-background-color;
     margin: 4px 0 0 0;
-    padding: var(--space-m);
+    padding: var(--space-s) var(--space-m) var(--space-s) var(--space-s);
     gap: var(--space-s);
     font-weight: normal;
     border-radius: $border-radius-bigger;
@@ -20,7 +20,7 @@
       flex-direction: column;
       align-items: flex-start;
       justify-content: center;
-      gap: var(--space-s);
+      gap: var(--space-xs);
     }
 
     span.icon-container {
@@ -484,7 +484,7 @@
 
             .platform-number-wrapper {
               padding: 0 var(--space-xxs);
-              height: 16px;
+              min-height: 16px;
               display: inline-flex;
               justify-content: center;
               align-items: center;
@@ -771,77 +771,5 @@
       color: white;
       text-decoration: none;
     }
-  }
-}
-
-@keyframes slideDownFromTop {
-  from {
-    transform: translateY(-100%);
-    margin-top: -65px;
-  }
-
-  to {
-    transform: translateY(0);
-  }
-}
-
-@keyframes hideTopCard {
-  from {
-    transform: translateY(0);
-  }
-
-  to {
-    transform: translateY(-100%);
-    margin-top: -65px;
-  }
-}
-
-@keyframes slideUpFromBottom {
-  from {
-    transform: translateY(100%);
-  }
-
-  to {
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideUpToTop {
-  from {
-    transform: translateY(0);
-  }
-
-  to {
-    transform: translateY(calc(-100vh - 100%));
-  }
-}
-
-@keyframes slideLeft {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
   }
 }

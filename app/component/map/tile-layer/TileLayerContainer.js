@@ -21,9 +21,8 @@ import PreferencesStore from '../../../store/PreferencesStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { getClientBreakpoint } from '../../../util/withBreakpoint';
 import {
+  stopPagePath,
   PREFIX_BIKESTATIONS,
-  PREFIX_STOPS,
-  PREFIX_TERMINALS,
   PREFIX_CARPARK,
   PREFIX_BIKEPARK,
   PREFIX_RENTALVEHICLES,
@@ -61,7 +60,7 @@ class TileLayerContainer extends GridLayer {
       }).isRequired,
     }).isRequired,
     relayEnvironment: relayShape.isRequired,
-    hilightedStops: PropTypes.arrayOf(PropTypes.string),
+    highlightedStops: PropTypes.arrayOf(PropTypes.string),
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     vehicles: PropTypes.objectOf(vehicleShape),
@@ -73,7 +72,7 @@ class TileLayerContainer extends GridLayer {
     locationPopup: undefined,
     allowViaPoint: false,
     objectsToHide: { vehicleRentalStations: [] },
-    hilightedStops: undefined,
+    highlightedStops: undefined,
     stopsToShow: undefined,
     vehicles: undefined,
     mergeStops: false,
@@ -126,7 +125,7 @@ class TileLayerContainer extends GridLayer {
     if (!isEqual(prevProps.mapLayers, this.props.mapLayers)) {
       this.leafletElement.redraw();
     }
-    if (!isEqual(prevProps.hilightedStops, this.props.hilightedStops)) {
+    if (!isEqual(prevProps.highlightedStops, this.props.highlightedStops)) {
       this.leafletElement.redraw();
     }
   }
@@ -183,7 +182,7 @@ class TileLayerContainer extends GridLayer {
       this.context.config,
       this.props.mergeStops,
       this.props.relayEnvironment,
-      this.props.hilightedStops,
+      this.props.highlightedStops,
       this.props.vehicles,
       this.props.stopsToShow,
       this.props.objectsToHide,
@@ -240,13 +239,11 @@ class TileLayerContainer extends GridLayer {
         selectableTargets.length === 1 &&
         selectableTargets[0].layer === 'stop'
       ) {
-        const prefix = selectableTargets[0].feature.properties.stops
-          ? PREFIX_TERMINALS
-          : PREFIX_STOPS;
         this.context.router.push(
-          `/${prefix}/${encodeURIComponent(
+          stopPagePath(
+            selectableTargets[0].feature.properties.stops,
             selectableTargets[0].feature.properties.gtfsId,
-          )}`,
+          ),
         );
         return;
       }
@@ -378,7 +375,6 @@ class TileLayerContainer extends GridLayer {
             <MarkerSelectPopup
               selectRow={this.selectRow}
               options={this.state.selectableTargets}
-              colors={this.context.config.colors}
             />
           );
         } else if (
@@ -428,7 +424,6 @@ class TileLayerContainer extends GridLayer {
             <MarkerSelectPopup
               selectRow={this.selectRow}
               options={this.state.selectableTargets}
-              colors={this.context.config.colors}
               zoom={this.state.zoom}
             />
           </Popup>

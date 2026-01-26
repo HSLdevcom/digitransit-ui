@@ -52,7 +52,7 @@ export default function TaxiLinkContainer({
             href={url}
             onClick={onClick}
           >
-            <Icon img="icon-icon_external-link-box" height={1} width={1} />
+            <Icon img="icon_external-link-box" height={1} width={1} />
           </ExternalLink>
         </div>
       </div>

@@ -25,6 +25,7 @@ export default createFragmentContainer(
         stops {
           name
           desc
+          zoneId
         }
       }
     `,

@@ -2,28 +2,21 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import i18next from 'i18next';
+import {
+  I18nextProvider,
+  useTranslation,
+  withTranslation,
+} from 'react-i18next';
 import isEmpty from 'lodash/isEmpty';
 import isNumber from 'lodash/isNumber';
 import Modal from '@hsl-fi/modal';
-import Icon from '@digitransit-component/digitransit-component-icon';
+import Icon, {
+  defaultColors,
+} from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
-import translations from './helpers/translations';
+import i18n from './helpers/i18n';
 import DesktopModal from './helpers/DesktopModal';
 import MobileModal from './helpers/MobileModal';
-
-i18next.init({
-  lng: 'fi',
-  fallbackLng: 'fi',
-  defaultNS: 'translation',
-  interpolation: {
-    escapeValue: false, // not needed for react as it escapes by default
-  },
-});
-
-Object.keys(translations).forEach(lang => {
-  i18next.addResourceBundle(lang, 'translation', translations[lang]);
-});
 
 const FavouriteIconIdToNameMap = {
   'icon-icon_place': 'place',
@@ -39,7 +32,9 @@ const FavouriteIconTableButton = ({
   selectedIconId,
   handleClick,
   color,
+  lang,
 }) => {
+  const [t] = useTranslation();
   const [isHovered, setHover] = useState(false);
   const [isFocused, setFocus] = useState(false);
   const iconColor =
@@ -58,7 +53,7 @@ const FavouriteIconTableButton = ({
       onFocus={() => setFocus(true)}
       onBlur={() => setFocus(false)}
       onClick={() => handleClick(value)}
-      aria-label={i18next.t(value)}
+      aria-label={t(value, { lng: lang })}
     >
       <Icon img={value} color={iconColor} />
     </button>
@@ -68,23 +63,21 @@ const FavouriteIconTableButton = ({
 FavouriteIconTableButton.propTypes = {
   handleClick: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  selectedIconId: PropTypes.string.isRequired,
+  selectedIconId: PropTypes.string,
   color: PropTypes.string.isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
-const FavouriteIconTable = ({
-  favouriteIconIds,
-  selectedIconId,
-  handleClick,
-  color,
-}) => {
+FavouriteIconTableButton.defaultProps = {
+  selectedIconId: '',
+};
+
+const FavouriteIconTable = ({ favouriteIconIds, ...rest }) => {
   const columns = favouriteIconIds.map(value => (
     <FavouriteIconTableButton
       key={`favourite-icon-table-${value}`}
       value={value}
-      selectedIconId={selectedIconId}
-      handleClick={handleClick}
-      color={color}
+      {...rest}
     />
   ));
 
@@ -96,14 +89,7 @@ const FavouriteIconTable = ({
 };
 
 FavouriteIconTable.propTypes = {
-  handleClick: PropTypes.func.isRequired,
   favouriteIconIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  selectedIconId: PropTypes.string,
-  color: PropTypes.string.isRequired,
-};
-
-FavouriteIconTable.defaultProps = {
-  selectedIconId: '',
 };
 
 /**
@@ -180,11 +166,12 @@ class FavouriteModal extends React.Component {
     /** Optional. Language, fi, en or sv.
      * @type {string} */
     lang: PropTypes.string,
+    /** Translation function */
+    t: PropTypes.func.isRequired,
     /** Optional. */
     isMobile: PropTypes.bool,
     appElement: PropTypes.string.isRequired,
-    color: PropTypes.string,
-    hoverColor: PropTypes.string,
+    colors: PropTypes.objectOf(PropTypes.string),
     /** Optional. */
     fontWeights: PropTypes.shape({
       /** Default value is 500. */
@@ -199,8 +186,7 @@ class FavouriteModal extends React.Component {
     favourite: null,
     autosuggestComponent: undefined,
     addAnalyticsEvent: undefined,
-    color: '#007ac9',
-    hoverColor: '#0062a1',
+    colors: defaultColors,
     fontWeights: {
       medium: 500,
     },
@@ -217,13 +203,9 @@ class FavouriteModal extends React.Component {
 
   constructor(props) {
     super(props);
-    i18next.changeLanguage(props.lang);
     this.state = {
       favourite: null,
     };
-    Object.keys(translations).forEach(lang => {
-      i18next.addResourceBundle(lang, 'translation', translations[lang]);
-    });
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -263,12 +245,6 @@ class FavouriteModal extends React.Component {
       };
     }
     return null;
-  }
-
-  componentDidUpdate() {
-    if (i18next.language !== this.props.lang) {
-      i18next.changeLanguage(this.props.lang);
-    }
   }
 
   componentWillUnmount() {
@@ -342,21 +318,21 @@ class FavouriteModal extends React.Component {
 
   render() {
     const { favourite } = this.state;
-    const { color, hoverColor, fontWeights } = this.props;
+    const { fontWeights, lang, t } = this.props;
+    const { primary, hover } = this.props.colors;
+
     const headerText = this.isEdit()
-      ? i18next.t('edit-place')
-      : i18next.t('save-place');
+      ? t('edit-place', { lng: lang })
+      : t('save-place', { lng: lang });
     const modalProps = {
       headerText,
       autosuggestComponent: {
         ...this.props.autosuggestComponent,
-        color,
-        hoverColor,
       },
-      inputPlaceholder: i18next.t('input-placeholder'),
+      inputPlaceholder: t('input-placeholder', { lng: lang }),
       specifyName: this.specifyName,
       name: (favourite && favourite.name) || '',
-      chooseIconText: i18next.t('choose-icon'),
+      chooseIconText: t('choose-icon', { lng: lang }),
       favouriteIconTable: (
         <FavouriteIconTable
           selectedIconId={(() => {
@@ -367,20 +343,21 @@ class FavouriteModal extends React.Component {
           })()}
           favouriteIconIds={FavouriteModal.favouriteIconIds}
           handleClick={this.selectIcon}
-          color={color}
+          color={primary}
+          lang={lang}
         />
       ),
       saveFavourite: this.save,
-      saveText: i18next.t('save'),
+      saveText: t('save', { lng: lang }),
       canSave: this.canSave,
       isEdit: this.isEdit(),
-      cancelText: i18next.t('cancel'),
+      cancelText: t('cancel', { lng: lang }),
       cancelSelected: () => this.cancelSelected(),
-      color,
-      hoverColor,
-      savePlaceText: i18next.t('save-place'),
-      cantSaveText: i18next.t('cannot-save-place'),
-      requiredText: i18next.t('required-text'),
+      color: primary,
+      hoverColor: hover,
+      savePlaceText: t('save-place', { lng: lang }),
+      cantSaveText: t('cannot-save-place', { lng: lang }),
+      requiredText: t('required-text', { lng: lang }),
       fontWeights,
     };
     return (
@@ -388,10 +365,10 @@ class FavouriteModal extends React.Component {
         appElement={this.props.appElement}
         contentLabel={
           this.isEdit()
-            ? i18next.t('favourite-modal-on-edit', favourite)
-            : i18next.t('favourite-modal-on-add-new')
+            ? t('favourite-modal-on-edit', { lng: lang, favourite })
+            : t('favourite-modal-on-add-new', { lng: lang })
         }
-        closeButtonLabel={i18next.t('close-favourite-modal')}
+        closeButtonLabel={t('close-favourite-modal', { lng: lang })}
         variant={!this.props.isMobile ? 'small' : 'large'}
         isOpen={this.props.isModalOpen}
         onCrossClick={() => this.closeModal()}
@@ -403,4 +380,10 @@ class FavouriteModal extends React.Component {
   }
 }
 
-export default FavouriteModal;
+const FavouriteModalWithTranslation = withTranslation()(FavouriteModal);
+
+export default props => (
+  <I18nextProvider i18n={i18n}>
+    <FavouriteModalWithTranslation {...props} />
+  </I18nextProvider>
+);

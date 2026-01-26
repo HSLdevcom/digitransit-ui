@@ -23,10 +23,7 @@ import {
   useScooters,
 } from '../../util/modeUtils';
 import ScrollableWrapper from '../ScrollableWrapper';
-import {
-  getDefaultSettings,
-  hasCustomizedSettings,
-} from '../../util/planParamUtil';
+import { getDefaultSettings } from '../../util/planParamUtil';
 import {
   getCitybikeNetworks,
   getScooterNetworks,
@@ -84,11 +81,10 @@ class CustomizeSearch extends React.Component {
       });
     }
     const backIcon = mobile ? (
-      <Icon className="close-icon" img="icon-icon_arrow-collapse--left" />
+      <Icon className="close-icon" img="icon_arrow-collapse--left" />
     ) : (
-      <Icon className="close-icon" img="icon-icon_close" />
+      <Icon className="close-icon" img="icon_close" />
     );
-    const userHasCustomizedSettings = hasCustomizedSettings(config);
     return (
       <form className="customize-search">
         <button
@@ -114,15 +110,10 @@ class CustomizeSearch extends React.Component {
         </button>
         <div className="settings-option-container">
           <h2>
-            {intl.formatMessage(
-              {
-                id: 'settings',
-                defaultMessage: 'Settings',
-              },
-              {
-                changedSettingsIndicator: userHasCustomizedSettings ? '' : '', // Indicator coming later
-              },
-            )}
+            {intl.formatMessage({
+              id: 'settings',
+              defaultMessage: 'Settings',
+            })}
           </h2>
         </div>
         <ScrollableWrapper>
@@ -199,7 +190,7 @@ class CustomizeSearch extends React.Component {
               />
             </div>
           )}
-          {useScooters(config.vehicleRental?.networks) && (
+          {useScooters(config) && (
             <div className="settings-section">
               <div className="settings-option-container">
                 <fieldset>
@@ -235,7 +226,7 @@ class CustomizeSearch extends React.Component {
                             onClick={this.handleEScooterDisclaimerClose}
                             role="button"
                           >
-                            <Icon color="#333" img="icon-icon_close" />
+                            <Icon color="#333" img="icon_close" />
                           </div>
                         </div>
                         <div className="disclaimer-content">
@@ -262,7 +253,7 @@ class CustomizeSearch extends React.Component {
                             rel="noreferrer"
                           >
                             <FormattedMessage id="read-more" />
-                            <Icon img="icon-icon_external-link-box" />
+                            <Icon img="icon_external-link-box" />
                           </a>
                         )}
                       </div>
@@ -288,7 +279,7 @@ class CustomizeSearch extends React.Component {
               </div>
             )}
           <div className="settings-section background">
-            <div className="settings-option-container">
+            <div className="settings-option-container restore-settings-container">
               <RestoreDefaultSettingSection config={config} />
             </div>
           </div>

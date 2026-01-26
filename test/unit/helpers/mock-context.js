@@ -13,7 +13,11 @@ const noop = () => {};
  * their propType requirements.
  */
 export const mockContext = {
-  config: { CONFIG: 'default', timeZone: 'Europe/Helsinki' },
+  config: {
+    CONFIG: 'default',
+    timeZone: 'Europe/Helsinki',
+    colors: { primary: '#3fa', accessiblePrimary: '#333' },
+  },
   executeAction: noop,
   getStore: () => ({
     on: noop,

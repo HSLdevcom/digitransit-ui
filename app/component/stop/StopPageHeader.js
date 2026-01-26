@@ -1,26 +1,33 @@
-import PropTypes from 'prop-types';
-import mapProps from 'recompose/mapProps';
-import getContext from 'recompose/getContext';
-import compose from 'recompose/compose';
-
+import React from 'react';
+import { PropTypes } from 'prop-types';
 import StopCardHeaderContainer from './StopCardHeaderContainer';
 import withBreakpoint from '../../util/withBreakpoint';
+import { stopShape, stationShape } from '../../util/shapes';
 
-const StopPageHeader = compose(
-  withBreakpoint,
-  getContext({
-    executeAction: PropTypes.func.isRequired,
-  }),
-  mapProps(props => ({
-    stop: props.stop || props.station,
+function StopPageHeader({ stop, station, breakpoint, isTerminal }) {
+  const props = {
+    stop: stop || station,
     className: 'stop-page header',
     headingStyle: 'h3',
     icons: [],
-    breakpoint: props.breakpoint,
-    isTerminal: props.isTerminal,
-  })),
-)(StopCardHeaderContainer);
+    breakpoint,
+    isTerminal,
+  };
+  return <StopCardHeaderContainer {...props} />;
+}
 
-StopPageHeader.displayName = 'StopPageHeader';
+StopPageHeader.propTypes = {
+  stop: stopShape,
+  station: stationShape,
+  breakpoint: PropTypes.string,
+  isTerminal: PropTypes.bool,
+};
 
-export default StopPageHeader;
+StopPageHeader.defaultProps = {
+  stop: undefined,
+  station: undefined,
+  breakpoint: undefined,
+  isTerminal: false,
+};
+
+export default withBreakpoint(StopPageHeader);

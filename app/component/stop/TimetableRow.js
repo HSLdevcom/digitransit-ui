@@ -33,7 +33,7 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }, { intl }) => (
             className={cx('timetablerow-linetime', {
               canceled: time.isCanceled,
             })}
-            key={`${time.id}-${time.name}-${time.scheduledDeparture}`}
+            key={`${time.id}-${time.name}-${time.scheduledDeparture}-${time.gtfsId}`}
           >
             <div className="sr-only">
               {time.isCanceled ? intl.formatMessage({ id: 'canceled' }) : ''}
@@ -70,6 +70,7 @@ TimetableRow.propTypes = {
       name: PropTypes.string.isRequired,
       serviceDay: PropTypes.number.isRequired,
       scheduledDeparture: PropTypes.number.isRequired,
+      gtfsId: PropTypes.string,
     }),
   ).isRequired,
   showRoutes: PropTypes.arrayOf(PropTypes.string),

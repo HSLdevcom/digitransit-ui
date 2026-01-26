@@ -42,7 +42,7 @@ export default function Profile({ itinerary, small }, { config, intl }) {
           ariaLabel="print"
           buttonName="print"
           buttonClickAction={printItinerary}
-          buttonIcon="icon-icon_print"
+          buttonIcon="icon_print"
           smallSize
         />
       )}

@@ -53,20 +53,14 @@ class ItineraryCircleLineWithIcon extends React.Component {
     if (this.props.isVia === true) {
       return (
         <div className="itinerary-icon-container">
-          <Icon
-            img="icon-icon_mapMarker"
-            className="itinerary-icon via via-it"
-          />
+          <Icon img="icon_mapMarker" className="itinerary-icon via via-it" />
         </div>
       );
     }
     if (this.isFirstChild()) {
       return (
         <div className="itinerary-icon-container start">
-          <Icon
-            img="icon-icon_mapMarker"
-            className="itinerary-icon from from-it"
-          />
+          <Icon img="icon_mapMarker" className="itinerary-icon from from-it" />
         </div>
       );
     }
@@ -80,7 +74,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
     if (this.props.carPark) {
       return (
         <div className="itinerary-icon-container car-park">
-          <Icon img="icon-icon_car-park" />
+          <Icon img="icon_car-park" />
         </div>
       );
     }
@@ -100,7 +94,7 @@ class ItineraryCircleLineWithIcon extends React.Component {
           xmlns="http://www.w3.org/2000/svg"
           width={28}
           height={28}
-          style={{ fill: this.props.color, stroke: this.props.color }}
+          style={{ fill: '#fff', stroke: this.props.color }}
         >
           <circle strokeWidth="4" width={28} cx={11} cy={10} r={6} />
         </svg>

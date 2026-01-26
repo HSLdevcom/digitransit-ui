@@ -29,7 +29,7 @@ export default function Emissions({
           <div className={cx('divider-top')} />
           <div className="co2-container">
             <div className="co2-description-container">
-              <Icon img="icon-icon_co2_leaf" className="co2-leaf" />
+              <Icon img="icon_co2_leaf" className="co2-leaf" />
               <span
                 className={cx('itinerary-co2-description', {
                   simple: useCo2SimpleDesc,

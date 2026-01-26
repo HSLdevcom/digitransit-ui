@@ -3,7 +3,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { PREFIX_ROUTES } from '../../util/path';
+import { routePagePath } from '../../util/path';
 import { routeShape } from '../../util/shapes';
 import withBreakpoint from '../../util/withBreakpoint';
 
@@ -13,7 +13,7 @@ const RouteTitle = ({ route, breakpoint }) =>
   breakpoint === 'large' || !route || !route.mode ? (
     <FormattedMessage id="route-page.title-short" defaultMessage="Route" />
   ) : (
-    <Link to={`/${PREFIX_ROUTES}/${route.gtfsId}`}>
+    <Link to={routePagePath(route.gtfsId)}>
       <RouteNumberContainer
         className="route-number-title"
         color={route.color}

@@ -25,21 +25,17 @@ function NaviMessage(
   let iconId;
   let color;
   switch (severity) {
-    case 'INFO':
-      iconId = 'notification-bell';
-      color = '#0074BF';
-      break;
     case 'WARNING':
-      iconId = 'icon-icon_attention';
+      iconId = 'icon_attention';
       color = '#FED100';
       break;
     case 'ALERT':
-      iconId = 'icon-icon_caution_white_exclamation';
-      color = '#DC0451';
+      iconId = 'icon_caution_white_exclamation';
+      color = config.colors.caution;
       break;
     default:
       iconId = 'notification-bell';
-      color = '#0074BF';
+      color = config.colors.primary;
   }
   return (
     <div

@@ -9,6 +9,7 @@ import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import PlatformNumber from '../PlatformNumber';
+import SubwayEntranceInfo from './SubwayEntranceInfo';
 import ServiceAlertIcon from '../ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../../util/alertUtils';
 import { PREFIX_STOPS } from '../../util/path';
@@ -16,6 +17,7 @@ import {
   RentalNetworkType,
   getRentalNetworkConfig,
 } from '../../util/vehicleRentalUtils';
+import { subwayTransferUsesSameStation } from '../../util/indoorUtils';
 import { displayDistance } from '../../util/geo-utils';
 import { durationToString } from '../../util/timeUtils';
 import { splitStringToAddressAndPlace } from '../../util/otpStrings';
@@ -98,6 +100,12 @@ function WalkLeg(
       step?.feature?.wheelchairAccessible,
   )?.feature?.wheelchairAccessible;
 
+  // do not render subway exit/entrance if transfer happens within a station
+  const hideSubwayEntrances = subwayTransferUsesSameStation(
+    previousLeg,
+    nextLeg,
+  );
+
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
@@ -142,7 +150,7 @@ function WalkLeg(
                 {address}
                 {leg[toOrFrom].stop && (
                   <Icon
-                    img="icon-icon_arrow-collapse--right"
+                    img="icon_arrow-collapse--right"
                     className="itinerary-arrow-icon"
                     color={config.colors.primary}
                   />
@@ -176,13 +184,13 @@ function WalkLeg(
                   {returnNotice || leg[toOrFrom].name}
                   {leg.isViaPoint && (
                     <Icon
-                      img="icon-icon_mapMarker"
+                      img="icon_mapMarker"
                       className="itinerary-mapmarker-icon"
                     />
                   )}
                   {leg[toOrFrom].stop && (
                     <Icon
-                      img="icon-icon_arrow-collapse--right"
+                      img="icon_arrow-collapse--right"
                       className="itinerary-arrow-icon"
                       color={config.colors.primary}
                     />
@@ -222,7 +230,7 @@ function WalkLeg(
                   {!returnNotice && !alightNotice && leg[toOrFrom].name}
                   {leg[toOrFrom].stop && !alightNotice && (
                     <Icon
-                      img="icon-icon_arrow-collapse--right"
+                      img="icon_arrow-collapse--right"
                       className="itinerary-arrow-icon"
                       color={config.colors.primary}
                     />
@@ -260,43 +268,12 @@ function WalkLeg(
           </div>
         )}
         <div className="itinerary-leg-action">
-          {previousLeg?.mode === 'SUBWAY' && (
-            <div
-              className="subway-entrance-info-container"
-              aria-labelledby="subway-entrance-label"
-            >
-              <span id="subway-entrance-label" className="sr-only">
-                <FormattedMessage
-                  id={
-                    entranceAccessible === 'POSSIBLE'
-                      ? 'subway-exit.sr-description.accessible'
-                      : 'subway-exit.sr-description'
-                  }
-                  defaultMessage="Exit {entranceName}"
-                  values={{ entranceName: entranceName || '' }}
-                />
-              </span>
-
-              <div className="subway-entrance-info-text" aria-hidden="true">
-                <FormattedMessage id="station-exit" defaultMessage="Exit" />
-              </div>
-              <Icon
-                img="icon-icon_subway_entrance"
-                className="subway-entrance-info-icon"
-              />
-              {entranceName && (
-                <Icon
-                  className="subway-entrance-info-icon"
-                  img={`icon-icon_subway_entrance_${entranceName.toLowerCase()}`}
-                />
-              )}
-              {entranceAccessible === 'POSSIBLE' && (
-                <Icon
-                  className="subway-entrance-info-icon"
-                  img="icon-icon_wheelchair_filled"
-                />
-              )}
-            </div>
+          {previousLeg?.mode === 'SUBWAY' && !hideSubwayEntrances && (
+            <SubwayEntranceInfo
+              type="exit"
+              entranceName={entranceName}
+              entranceAccessible={entranceAccessible}
+            />
           )}
           <div className=" itinerary-leg-action-content">
             <FormattedMessage
@@ -317,45 +294,12 @@ function WalkLeg(
               focusAction={focusToLeg}
             />
           </div>
-          {nextLeg?.mode === 'SUBWAY' && (
-            <div
-              className="subway-entrance-info-container"
-              aria-labelledby="subway-entrance-label"
-            >
-              <span id="subway-entrance-label" className="sr-only">
-                <FormattedMessage
-                  id={
-                    entranceAccessible === 'POSSIBLE'
-                      ? 'subway-entrance.sr-description.accessible'
-                      : 'subway-entrance.sr-description'
-                  }
-                  defaultMessage="Exit {entranceName}"
-                  values={{ entranceName: entranceName || '' }}
-                />
-              </span>
-              <div className="subway-entrance-info-text" aria-hidden="true">
-                <FormattedMessage
-                  id="station-entrance"
-                  defaultMessage="Entrance"
-                />
-              </div>
-              <Icon
-                img="icon-icon_subway_entrance"
-                className="subway-entrance-info-icon"
-              />
-              {entranceName && (
-                <Icon
-                  className="subway-entrance-info-icon"
-                  img={`icon-icon_subway_entrance_${entranceName.toLowerCase()}`}
-                />
-              )}
-              {entranceAccessible === 'POSSIBLE' && (
-                <Icon
-                  className="subway-entrance-info-icon"
-                  img="icon-icon_wheelchair_filled"
-                />
-              )}
-            </div>
+          {nextLeg?.mode === 'SUBWAY' && !hideSubwayEntrances && (
+            <SubwayEntranceInfo
+              type="entrance"
+              entranceName={entranceName}
+              entranceAccessible={entranceAccessible}
+            />
           )}
         </div>
       </div>

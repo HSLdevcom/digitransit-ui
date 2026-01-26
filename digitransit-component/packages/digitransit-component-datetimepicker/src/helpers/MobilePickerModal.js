@@ -1,20 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { DateTime, Settings } from 'luxon';
+import { useTranslation } from 'react-i18next';
 import uniqueId from 'lodash/uniqueId';
-import i18next from 'i18next';
 import Modal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import MobileDatepicker from './MobileDatepicker';
 import MobileTimepicker from './MobileTimepicker';
-import translations from './translations';
 import styles from './styles.scss';
 
 Settings.defaultLocale = 'en';
-i18next.init({ lng: 'en', resources: {} });
-Object.keys(translations).forEach(lang =>
-  i18next.addResourceBundle(lang, 'translation', translations[lang]),
-);
 
 /**
  * @param {object} props
@@ -45,8 +40,10 @@ function MobilePickerModal({
   dateSelectItemCount,
   getDateDisplay,
   fontWeights,
+  onAfterClose,
 }) {
   Settings.defaultZone = timeZone;
+  const [t] = useTranslation();
   const translationSettings = { lng: lang };
 
   const [displayTimestamp, changeTimestamp] = useState(timestamp);
@@ -78,8 +75,10 @@ function MobilePickerModal({
       isOpen
       className={styles['mobile-modal-content']}
       overlayClassName={styles['mobile-modal-overlay']}
+      onAfterClose={onAfterClose}
     >
       <div
+        id="digitransit-mobile-datetime"
         style={{
           '--color': `${color}`,
           '--font-weight-medium': fontWeights.medium,
@@ -87,14 +86,14 @@ function MobilePickerModal({
       >
         <div className={styles['top-row']}>
           <h3 className={styles['modal-title']}>
-            {i18next.t('choose-time', translationSettings)}
+            {t('choose-time', translationSettings)}
           </h3>
           <button
             type="button"
             className={styles['departure-now-button']}
             onClick={onNowClick}
           >
-            {i18next.t('departure-now', translationSettings)}
+            {t('departure-now', translationSettings)}
           </button>
         </div>
         <div className={styles['tab-row']}>
@@ -109,7 +108,7 @@ function MobilePickerModal({
                   ]
                 }`}
           >
-            {i18next.t('departure', translationSettings)}
+            {t('departure', translationSettings)}
             <input
               id={`${htmlId}-modal-departure`}
               name="departureOrArrival"
@@ -133,7 +132,7 @@ function MobilePickerModal({
                   ]
                 }`}
           >
-            {i18next.t('arrival', translationSettings)}
+            {t('arrival', translationSettings)}
             <input
               id={`${htmlId}-modal-arrival`}
               name="departureOrArrival"
@@ -155,7 +154,7 @@ function MobilePickerModal({
             itemCount={dateSelectItemCount}
             startTime={dateSelectStartTime}
             id={`${htmlId}-date`}
-            label={i18next.t('date', translationSettings)}
+            label={t('date', translationSettings)}
             icon={
               <span
                 className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
@@ -170,7 +169,7 @@ function MobilePickerModal({
             getDisplay={getTimeDisplay}
             onChange={changeTimestamp}
             id={`${htmlId}-time`}
-            label={i18next.t('time', translationSettings)}
+            label={t('time', translationSettings)}
             icon={
               <span
                 className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
@@ -189,14 +188,14 @@ function MobilePickerModal({
               onSubmit(displayTimestamp, departureOrArrivalCurrent)
             }
           >
-            {i18next.t('ready', translationSettings)}
+            {t('ready', translationSettings)}
           </button>
           <button
             type="button"
             className={styles['cancel-button']}
             onClick={onCancel}
           >
-            {i18next.t('cancel', translationSettings)}
+            {t('cancel', translationSettings)}
           </button>
         </div>
       </div>
@@ -212,6 +211,7 @@ MobilePickerModal.propTypes = {
   color: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  onAfterClose: PropTypes.func.isRequired,
   timestamp: PropTypes.number.isRequired,
   getTimeDisplay: PropTypes.func.isRequired,
   dateSelectItemCount: PropTypes.number.isRequired,

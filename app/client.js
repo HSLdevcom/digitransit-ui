@@ -17,10 +17,11 @@ import {
 import OfflinePlugin from 'offline-plugin/runtime';
 import { Helmet } from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
-import { ReactRelayContext } from 'react-relay';
+import { RelayEnvironmentProvider } from 'react-relay';
 import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { Settings } from 'luxon';
 import { configShape } from './util/shapes';
+import i18n from './i18n';
 import { historyMiddlewares, render } from './routes';
 import StoreListeningIntlProvider from './util/StoreListeningIntlProvider';
 import appCreator from './app';
@@ -42,6 +43,8 @@ import {
   fetchFavourites,
   fetchFavouritesComplete,
 } from './action/FavouriteActions';
+import { ConfigProvider } from './configurations/ConfigContext';
+import { FavouriteProvider } from './hooks/FavouriteContext';
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
@@ -121,6 +124,8 @@ async function init() {
     .getComponentContext()
     .getStore('PreferencesStore')
     .getLanguage();
+
+  i18n.changeLanguage(language);
 
   const network = new RelayNetworkLayer([
     cacheMiddleware({
@@ -217,28 +222,32 @@ async function init() {
   });
 
   const content = (
-    <ClientBreakpointProvider>
-      <ContextProvider
-        translations={translations}
-        context={context.getComponentContext()}
-      >
-        <ReactRelayContext.Provider value={{ environment }}>
-          <ErrorBoundary>
-            <React.Fragment>
-              <Helmet
-                {...meta(
-                  context.getStore('PreferencesStore').getLanguage(),
-                  window.location.host,
-                  window.location.href,
-                  config,
-                )}
-              />
-              <Router resolver={resolver} />
-            </React.Fragment>
-          </ErrorBoundary>
-        </ReactRelayContext.Provider>
-      </ContextProvider>
-    </ClientBreakpointProvider>
+    <ConfigProvider value={config}>
+      <ClientBreakpointProvider>
+        <ContextProvider
+          translations={translations}
+          context={context.getComponentContext()}
+        >
+          <RelayEnvironmentProvider environment={environment}>
+            <FavouriteProvider context={context.getComponentContext()}>
+              <ErrorBoundary>
+                <React.Fragment>
+                  <Helmet
+                    {...meta(
+                      context.getStore('PreferencesStore').getLanguage(),
+                      window.location.host,
+                      window.location.href,
+                      config,
+                    )}
+                  />
+                  <Router resolver={resolver} />
+                </React.Fragment>
+              </ErrorBoundary>
+            </FavouriteProvider>
+          </RelayEnvironmentProvider>
+        </ContextProvider>
+      </ClientBreakpointProvider>
+    </ConfigProvider>
   );
 
   const rootNode = document.getElementById('app');

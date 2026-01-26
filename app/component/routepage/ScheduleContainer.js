@@ -24,7 +24,7 @@ import hashCode from '../../util/hashUtil';
 import { getFormattedTimeDate } from '../../util/timeUtils';
 import ScheduleDropdown from './ScheduleDropdown';
 import RouteControlPanel from './RouteControlPanel';
-import { PREFIX_ROUTES, PREFIX_TIMETABLE } from '../../util/path';
+import { routePagePath, PREFIX_TIMETABLE } from '../../util/path';
 import ScrollableWrapper from '../ScrollableWrapper';
 import getTestData from './ScheduleDebugData';
 
@@ -114,7 +114,7 @@ const isEmptyWeek = departures => {
  * Returns the date of first departure
  * @param {*} departures
  * @param {DateTime} dateIn
- * @returns {DateTime}
+ * @returns {DateTime|undefined}
  */
 const getFirstDepartureDate = (departures, dateIn) => {
   if (departures.length > 0) {
@@ -436,7 +436,13 @@ class ScheduleContainer extends PureComponent {
     const trips = ScheduleContainer.sortTrips(currentPattern.trips);
 
     if (trips.length === 0 && newServiceDay) {
-      return `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}/${currentPattern.code}${queryParams}`;
+      return routePagePath(
+        this.props.match.params.routeId,
+        PREFIX_TIMETABLE,
+        currentPattern.code,
+        null,
+        queryParams,
+      );
     }
 
     if (trips !== null && !this.state.hasLoaded) {
@@ -451,21 +457,21 @@ class ScheduleContainer extends PureComponent {
     }
 
     if (trips.length === 0) {
+      const day = this.context.match.location.query?.serviceDay
+        ? DateTime.fromFormat(
+            this.context.match.location.query.serviceDay,
+            DATE_FORMAT,
+          ).toFormat(DATE_FORMAT_SCHEDULE)
+        : '';
       return (
         <div className="text-center">
           {this.context.intl.formatMessage(
             {
               id: 'no-trips-found',
-              defaultMessage: `No journeys found for the selected date ${DateTime.fromFormat(
-                this.context.match.location.query.serviceDay,
-                DATE_FORMAT,
-              ).toFormat(DATE_FORMAT_SCHEDULE)}`,
+              defaultMessage: `No journeys found for the selected date ${day}`,
             },
             {
-              selectedDate: DateTime.fromFormat(
-                this.context.match.location.query.serviceDay,
-                DATE_FORMAT,
-              ).toFormat(DATE_FORMAT_SCHEDULE),
+              selectedDate: day,
             },
           )}
         </div>
@@ -720,12 +726,10 @@ class ScheduleContainer extends PureComponent {
     this.testNoDataDay = ''; // set to next week's Thursday
 
     if (!this.props.pattern) {
-      if (this.props.match.params.routeId) {
+      if (routeId) {
         // Redirect back to routes default pattern
         // eslint-disable-next-line react/prop-types
-        this.props.router.replace(
-          `/${PREFIX_ROUTES}/${this.props.match.params.routeId}/${PREFIX_TIMETABLE}`,
-        );
+        this.props.router.replace(routePagePath(routeId, PREFIX_TIMETABLE));
       }
       return false;
     }
@@ -814,11 +818,18 @@ class ScheduleContainer extends PureComponent {
     if ((!this.testNum || this.testNum !== 0) && isBeforeFirstDataDate) {
       this.redirectWithServiceDay(firstDataDate);
     } else if ((isBeforeNextWeek && firstWeekEmpty) || firstDepartureDate) {
-      if (
-        !DateTime.now().hasSame(firstDepartureDate, 'day') &&
-        !isSameOrAfterNextWeek
-      ) {
-        this.redirectWithServiceDay(firstDepartureDate || nextMonday);
+      if (wantedDay && !isSameOrAfterNextWeek) {
+        if (
+          firstDepartureDate &&
+          !DateTime.now().hasSame(firstDepartureDate, 'day')
+        ) {
+          this.redirectWithServiceDay(firstDepartureDate);
+        } else if (
+          !firstDepartureDate ||
+          !DateTime.now().hasSame(firstDepartureDate, 'week')
+        ) {
+          this.redirectWithServiceDay(nextMonday);
+        }
       }
     }
 
@@ -850,7 +861,7 @@ class ScheduleContainer extends PureComponent {
       }
     }
 
-    const routeIdSplitted = this.props.match.params.routeId.split(':');
+    const routeIdSplitted = routeId.split(':');
     const routeTimetableHandler = routeIdSplitted
       ? this.context.config.timetables &&
         this.context.config.timetables[routeIdSplitted[0]]
@@ -963,7 +974,7 @@ class ScheduleContainer extends PureComponent {
                     name: null,
                   });
                 }}
-                buttonIcon="icon-icon_print"
+                buttonIcon="icon_print"
                 smallSize
               />
             )}
@@ -978,7 +989,7 @@ class ScheduleContainer extends PureComponent {
                   name: null,
                 });
               }}
-              buttonIcon="icon-icon_print"
+              buttonIcon="icon_print"
               smallSize
             />
           </div>
@@ -1020,7 +1031,7 @@ const containerComponent = createFragmentContainer(
         mode
         type
         ...RouteAgencyInfo_route
-        ...RoutePatternSelect_route @arguments(date: $date)
+        ...RoutePatternSelectContainer_route @arguments(date: $date)
         agency {
           name
           phone

@@ -46,7 +46,7 @@ function ItinerarySummary({
       {driving?.distance > 0 && (
         <StreetSummary
           className="distance--itinerary-summary driving-summary"
-          icon="icon_car-withoutBox"
+          icon="icon_car"
           distance={driving.distance}
           duration={driving.duration}
           mode="car"

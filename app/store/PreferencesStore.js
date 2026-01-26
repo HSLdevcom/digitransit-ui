@@ -39,8 +39,8 @@ class PreferencesStore extends Store {
     }
 
     this.cookies.set('lang', language, {
-      // Good up to one year
-      maxAge: 365 * 24 * 60 * 60,
+      // Good up to 10 years
+      maxAge: 10 * 365 * 24 * 60 * 60,
       path: '/',
       Secure: true,
       SameSite: 'Strict',

@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-favourite-bar",
-  "version": "2.0.8",
+  "version": "5.0.0",
   "description": "digitransit-component favourite-bar module",
   "main": "index.js",
   "files": [
@@ -32,8 +32,8 @@
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "^2.1.0"
   },
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-icon": "^1.0.2",
-    "@digitransit-component/digitransit-component-suggestion-item": "^2.0.7",
+    "@digitransit-component/digitransit-component-icon": "^2.0.0",
+    "@digitransit-component/digitransit-component-suggestion-item": "^3.0.0",
     "@hsl-fi/sass": "^0.2.0",
     "@hsl-fi/shimmer": "0.1.2",
     "classnames": "2.5.1",
@@ -41,6 +41,7 @@
     "lodash": "4.17.21",
     "lodash-es": "4.17.21",
     "prop-types": "^15.8.1",
-    "react": "^16.13.0"
+    "react": "^16.13.0",
+    "react-i18next": "^12.3.1"
   }
 }

@@ -240,7 +240,7 @@ describe('<VehicleMarkerContainer />', () => {
         const icon = getVehicleIcon(null, 180, '32', undefined, false);
         const wrapper = mountWithIntl(icon.element);
         expect(wrapper.find('use').prop('xlinkHref')).to.equal(
-          '#icon-icon_all-vehicles-small',
+          '#icon_all-vehicles-small',
         );
         expect(icon.className).to.contain('bus');
       });
@@ -249,7 +249,7 @@ describe('<VehicleMarkerContainer />', () => {
         const icon = getVehicleIcon('bus', 180, '32', undefined, true);
         const wrapper = mountWithIntl(icon.element);
         expect(wrapper.find('use').prop('xlinkHref')).to.equal(
-          '#icon-icon_vehicle-live-marker',
+          '#icon_vehicle-live-marker',
         );
         expect(icon.className).to.contain('bus');
       });

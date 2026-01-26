@@ -1,6 +1,10 @@
 .option-checkbox-container {
   display: flex;
 
+  .icon {
+    color: $primary-color;
+  }
+
   &.large {
     max-height: 55px;
 
@@ -26,7 +30,7 @@
         position: relative;
 
         &.checked {
-          border: #007ac9 1px solid;
+          border: $primary-color 1px solid;
 
           &.disabled {
             color: $gray;
@@ -51,7 +55,8 @@
       }
 
       &.checked {
-        border: #007ac9 1px solid;
+        border: $primary-color 1px solid;
+        color: $primary-color;
 
         &::before {
           color: $primary-color;

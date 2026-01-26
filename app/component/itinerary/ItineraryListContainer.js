@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useFragment, ReactRelayContext } from 'react-relay';
+import { useFragment } from 'react-relay';
 import { matchShape, routerShape } from 'found';
-import getContext from 'recompose/getContext';
 import { intlShape, FormattedMessage } from 'react-intl';
-import { configShape, planEdgeShape } from '../../util/shapes';
+import { planEdgeShape } from '../../util/shapes';
 import Icon from '../Icon';
 import ItineraryList from './ItineraryList';
 import { getItineraryPagePath, streetHash } from '../../util/path';
@@ -113,7 +112,7 @@ function ItineraryListContainer(
         onClick={() => onLater()}
       >
         <Icon
-          img="icon-icon_arrow-collapse"
+          img="icon_arrow-collapse"
           className={`cursor-pointer back ${reversed ? 'arrow-up' : ''}`}
         />
         <FormattedMessage
@@ -139,7 +138,7 @@ function ItineraryListContainer(
         onClick={() => onEarlier()}
       >
         <Icon
-          img="icon-icon_arrow-collapse"
+          img="icon_arrow-collapse"
           className={`cursor-pointer ${reversed ? '' : 'arrow-up'}`}
         />
         <FormattedMessage
@@ -183,7 +182,7 @@ function ItineraryListContainer(
         <ItineraryNotification
           headerId="settings-missing-itineraries-header"
           bodyId="settings-missing-itineraries-body"
-          iconId="icon-icon_settings"
+          iconId="icon_settings"
         />
       )}
       {bottomNote && <ItineraryNotification bodyId={bottomNote} />}
@@ -221,14 +220,4 @@ ItineraryListContainer.contextTypes = {
   intl: intlShape.isRequired,
 };
 
-const withConfig = getContext({
-  config: configShape.isRequired,
-})(props => (
-  <ReactRelayContext.Consumer>
-    {({ environment }) => (
-      <ItineraryListContainer {...props} relayEnvironment={environment} />
-    )}
-  </ReactRelayContext.Consumer>
-));
-
-export { withConfig as default, ItineraryListContainer as Component };
+export default ItineraryListContainer;

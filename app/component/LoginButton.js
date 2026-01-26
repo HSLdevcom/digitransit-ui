@@ -11,7 +11,7 @@ const LoginButton = ({ loginUrl }) => {
   return (
     <div className="login-button-container">
       <button className="noborder" type="button" onClick={loginClick}>
-        <Icon img="icon-icon_user" className="icon" />
+        <Icon img="icon_user" className="icon" />
       </button>
     </div>
   );

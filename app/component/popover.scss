@@ -1,0 +1,149 @@
+.mobile {
+  .popover {
+    right: 0;
+
+    &::before {
+      right: 64px;
+    }
+  }
+}
+
+.popover {
+  display: flex;
+  position: absolute;
+  top: 160%;
+  right: -50px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 4px 0 var(--color-shadow-weak, rgba(0, 52, 86, 0.25));
+  padding: var(--space-s, 16px) !important;
+  gap: 10px;
+  align-items: flex-start;
+  min-width: 220px;
+  z-index: 2000;
+  animation: fadeInSlidePopover 1s forwards;
+
+  // Popover arrow
+  &::before {
+    content: '';
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    right: 113px;
+    top: -13px;
+    transform: translateX(-50%) rotate(45deg);
+    z-index: 2500;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    border-right: none;
+    background: #fff;
+    pointer-events: none;
+  }
+
+  .icon {
+    &.checkmark {
+      color: $attention-color;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+  }
+
+  .popover-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    align-self: stretch;
+
+    .popover-message-content {
+      display: inline-flex;
+      align-items: center;
+      align-self: stretch;
+
+      span {
+        display: inline-flex;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 325;
+        line-height: 18px;
+        letter-spacing: -0.5px;
+        color: #000;
+        font-family: $font-family;
+        width: max-content;
+      }
+
+      .popover-close-button {
+        width: 24px;
+        height: 24px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-radius: 999px;
+        margin-left: 20px;
+
+        .icon {
+          width: 16px;
+          height: 16px;
+          color: $primary-color;
+        }
+      }
+    }
+
+    .popover-acknowledge-button {
+      display: flex;
+      height: 28px;
+      min-width: 60px;
+      padding: 0 var(--space-m, 24px);
+      justify-content: center;
+      align-items: center;
+      border-radius: 999px;
+      border: 1px solid #888;
+      background: #fff;
+    }
+  }
+
+  .icon-container {
+    align-items: center;
+    display: flex;
+    height: 24px;
+
+    .icon {
+      &.checkmark {
+        color: $attention-color;
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  &.fade-away {
+    animation: fadeAwayPopover 1s forwards;
+  }
+}
+
+@keyframes fadeInSlidePopover {
+  from {
+    opacity: 0;
+    transform: translateY(-20%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeAwayPopover {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-20%);
+  }
+}

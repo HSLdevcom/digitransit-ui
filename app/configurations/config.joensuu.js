@@ -28,15 +28,18 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#5c4696',
-    iconColors: {
-      'mode-bus': '#009fe3',
-      'mode-rail': '#64be14',
-    },
+    bus: '#009fe3',
+    rail: '#64be14',
   },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-joensuu.png',
+      width: 346,
+      height: 80,
+    },
   },
 
   areaPolygon: [
@@ -83,10 +86,6 @@ export default configMerger(walttiConfig, {
     lon: 29.7569847,
   },
 
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
-
   aboutThisService: {
     fi: [
       {
@@ -126,7 +125,6 @@ export default configMerger(walttiConfig, {
     itinerary: true,
   },
 
-  showTicketLinkOnlyWhenTesting: true,
   showTicketInformation: true,
   useTicketIcons: true,
   ticketLink: {

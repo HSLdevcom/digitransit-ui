@@ -1,0 +1,242 @@
+$font-weight-medium: 500;
+$search-result-text-highlight-background-color: #f2f5f7;
+$zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
+  context-panel, search-panel, search-overlay, stop-route-station-input,
+  destination-input, viapoint-input-5, viapoint-input-4, viapoint-input-3,
+  viapoint-input-2, viapoint-input-1, origin-input, search-input-focus,
+  search-input-icon, rectangle, autosuggest-suggestion-container, front;
+
+input[type='text'] {
+  margin: 0;
+  padding: 0;
+}
+
+.fullscreen-root {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #fff;
+  z-index: 1000;
+}
+
+.combobox-container {
+  margin: 15px 10px 0;
+  border: solid #888 1px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  height: 60px;
+  justify-content: space-between;
+
+  .right-column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding-top: 9px;
+  }
+}
+
+.combobox-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 52px;
+  border: 0;
+  background: none;
+
+  svg {
+    width: 14px;
+    height: 21px;
+    transform: rotate(-180deg);
+  }
+}
+
+.combobox-label {
+  position: relative;
+  top: -2px;
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.2px;
+  color: #333;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  .input {
+    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Roboto, Arial, Georgia,
+      serif;
+    width: 100%;
+    position: relative;
+    padding-bottom: 7px;
+    top: 2px;
+    border: none;
+    height: 26px;
+    font-weight: normal;
+    box-shadow: none;
+    font-size: 16px;
+    letter-spacing: -0.5px;
+    color: #666;
+    appearance: none;
+
+    &:focus {
+      outline: none;
+      border: none;
+      box-shadow: none;
+      background: #fff;
+    }
+  }
+}
+
+button.clear-input {
+  display: flex;
+  align-items: center;
+  right: 0;
+  padding: 0 15px 7px 0;
+  height: 26px;
+  color: var(--color);
+  border: 0;
+  margin: 0;
+  justify-content: center;
+  text-align: left;
+  background: none;
+  border-style: none;
+  border-width: 0;
+  cursor: pointer;
+  font-family: inherit;
+  background-color: transparent;
+  transition: none;
+
+  svg {
+    fill: var(--color);
+    width: 16px;
+    height: 16px;
+  }
+
+  &:focus {
+    background-color: transparent;
+    color: inherit;
+  }
+
+  &:active {
+    background-color: transparent;
+    color: inherit;
+  }
+
+  &:hover {
+    background-color: transparent;
+    color: inherit;
+  }
+}
+
+.hasValue {
+  color: #333;
+}
+
+.suggestion {
+  font-size: 15px;
+  min-height: 50px;
+  letter-spacing: -0.6px;
+  color: #333;
+  font-weight: $font-weight-medium;
+  background: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+.suggestionHighlighted {
+  background-color: $search-result-text-highlight-background-color;
+}
+
+.suggestionsContainerOpen {
+  display: flex;
+  position: absolute;
+  margin-bottom: auto;
+  z-index: index($zindex, 'autosuggest-suggestion-container');
+  width: 100vw;
+  max-height: calc(100% - 75px);
+  height: 100%;
+  top: 75px;
+  left: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  .suggestionsList {
+    width: 100vw;
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    background: #f2f5f7;
+  }
+}
+
+.clear-search-history {
+  display: flex;
+  font-family: 'Gotham Rounded A', 'Gotham Rounded B', Roboto, Arial, Georgia,
+    serif;
+  margin-top: auto;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 62px;
+  background: #f2f5f7;
+  color: var(--accessible-primary-color);
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: -0.42px;
+  border: none;
+  border-top: 1px solid #ddd;
+
+  .suggestionHighlighted & {
+    background-color: transparent;
+    color: inherit;
+  }
+}
+
+.mobile-modal-overlay {
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  right: unset;
+  bottom: unset;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  position: fixed;
+}
+
+.mobile-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  &:global(.ReactModal__Content--after-open > div) {
+    transform: translateY(0);
+  }
+
+  &:global(.ReactModal__Content--before-close > div) {
+    transform: translateY(10%);
+  }
+}
+
+.mobile-modal-content {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  background-color: #fff;
+  transition: transform 0.25s;
+  transform: translateY(10%);
+}

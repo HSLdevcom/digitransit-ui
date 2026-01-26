@@ -3,7 +3,7 @@
  *
  * @param {Set} favouriteRentalStationsIds stationIds of favourite bike rental stations.
  */
-export const sortNearbyRentalStations = favouriteRentalStationsIds => {
+export const sortNearYouRentalStations = favouriteRentalStationsIds => {
   return (first, second) => {
     const firstIsClose = first.node.distance < 1500;
     const secondIsClose = second.node.distance < 1500;
@@ -29,7 +29,7 @@ export const sortNearbyRentalStations = favouriteRentalStationsIds => {
  * @param {Set} favouriteStopIds gtfsIds of favourite stops and stations.
  * @param distanceThreshold maximum distance with which the stops are priorized
  */
-export const sortNearbyStops = (favouriteStopIds, distanceThreshold) => {
+export const sortNearYouStops = (favouriteStopIds, distanceThreshold) => {
   return (first, second) => {
     const firstStopOrStationId = first.node.place.gtfsId;
     const firstStopOrStationIsClose = first.node.distance < distanceThreshold;

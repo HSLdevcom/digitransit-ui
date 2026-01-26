@@ -28,6 +28,9 @@ const containerComponent = createRefetchContainer(
         zoneId
         platformCode
         locationType
+        stops {
+          zoneId
+        }
         stoptimesWithoutPatterns(
           startTime: $startTime
           omitNonPickups: $omitNonPickups
@@ -55,6 +58,8 @@ const containerComponent = createRefetchContainer(
             route {
               alerts {
                 alertSeverityLevel
+                effectiveStartDate
+                effectiveEndDate
               }
               type
               shortName

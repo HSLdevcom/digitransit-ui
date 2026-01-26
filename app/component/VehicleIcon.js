@@ -44,8 +44,8 @@ const getSvgContent = (rotate, useLargeIcon) => {
       <use
         xlinkHref={
           useLargeIcon
-            ? '#icon-icon_vehicle-live-marker'
-            : '#icon-icon_all-vehicles-small'
+            ? '#icon_vehicle-live-marker'
+            : '#icon_all-vehicles-small'
         }
         transform={transform}
       />
@@ -54,8 +54,8 @@ const getSvgContent = (rotate, useLargeIcon) => {
     <use
       xlinkHref={
         useLargeIcon
-          ? '#icon-icon_vehicle-live-marker-without-direction'
-          : '#icon-icon_all-vehicles-small-without-direction'
+          ? '#icon_vehicle-live-marker-without-direction'
+          : '#icon_all-vehicles-small-without-direction'
       }
       transform={transform}
     />

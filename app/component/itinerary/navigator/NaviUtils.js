@@ -2,18 +2,18 @@ import distance from '@digitransit-search-util/digitransit-search-util-distance'
 import cx from 'classnames';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ExtendedRouteTypes } from '../../../constants';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { GeodeticToEnu } from '../../../util/geo-utils';
-import { legTime, legTimeAcc } from '../../../util/legUtils';
-import { getTripOrRouteMode } from '../../../util/modeUtils';
+import { legTime, legTimeAcc, PLATFORM_STATUS } from '../../../util/legUtils';
+import {
+  getTripOrRouteMode,
+  getStopMode,
+  transitIconName,
+  modeUsesTrack,
+} from '../../../util/modeUtils';
 import { locationToUri } from '../../../util/otpStrings';
 import { getItineraryPagePath } from '../../../util/path';
 import { durationToString, epochToIso, timeStr } from '../../../util/timeUtils';
-import {
-  getFeedWithoutId,
-  isExternalFeed,
-} from '../../../util/feedScopedIdUtils';
 import Icon from '../../Icon';
 import { getModeIconColor } from '../../../util/colorUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
@@ -268,7 +268,14 @@ function findTransferProblems(legs, time, position, tailLength, slack) {
   return transfers;
 }
 
-export const getLocalizedMode = (mode, intl) => {
+export const getLocalizedMode = (mode, intl, config) => {
+  if (config.useAlternativeNameForModes?.includes(mode)) {
+    return intl.formatMessage({
+      id: 'settings-alternative-name-rail',
+      defaultMessage: `${mode}`,
+    });
+  }
+
   return intl.formatMessage({
     id: `${mode.toLowerCase()}`,
     defaultMessage: `${mode}`,
@@ -323,7 +330,14 @@ export const getAdditionalMessages = (
   return msgs;
 };
 
-export const getTransitLegState = (leg, intl, messages, time, settings) => {
+export const getTransitLegState = (
+  leg,
+  intl,
+  messages,
+  time,
+  settings,
+  config,
+) => {
   const { start, realtimeState, from, mode, legId, route } = leg;
   const { scheduledTime, estimated } = start;
   if (messages.get(legId)?.closed) {
@@ -331,7 +345,7 @@ export const getTransitLegState = (leg, intl, messages, time, settings) => {
   }
   const slack = settings.minTransferTime * 1000;
   const notInSchedule = estimated?.delay > slack || estimated?.delay < -slack;
-  const localizedMode = getLocalizedMode(mode, intl);
+  const localizedMode = getLocalizedMode(mode, intl, config);
   let content;
   let title;
   let body = '';
@@ -340,7 +354,7 @@ export const getTransitLegState = (leg, intl, messages, time, settings) => {
   const shortName = route.shortName || '';
 
   if (notInSchedule) {
-    const lMode = getLocalizedMode(mode, intl);
+    const lMode = getLocalizedMode(mode, intl, config);
     const routeName = `${lMode} ${shortName}`;
     const { delay } = estimated;
 
@@ -471,7 +485,7 @@ function Transfer(leg1, leg2, config) {
         />
         &nbsp;
         <div className="arrow-center">
-          <Icon img="icon-icon_arrow-right" omitViewBox />
+          <Icon img="icon_arrow-right" omitViewBox />
         </div>
         &nbsp;
         <RouteNumberContainer
@@ -491,10 +505,12 @@ function TransferText(leg1, leg2, config, intl) {
   const from = `${getLocalizedMode(
     getTripOrRouteMode(leg1.trip, leg1.route, config),
     intl,
+    config,
   )} ${leg1.route.shortName || ''}`;
   const to = `${getLocalizedMode(
     getTripOrRouteMode(leg2.trip, leg2.route, config),
     intl,
+    config,
   )} ${leg2.route.shortName || ''}`;
   return `${from} -> ${to}`;
 }
@@ -509,6 +525,8 @@ export const getItineraryAlerts = (
   itinerarySearchCallback,
   config,
   settings,
+  nextLeg,
+  platformStatus,
 ) => {
   const alerts = [];
   const slack = settings.minTransferTime * 1000;
@@ -546,7 +564,7 @@ export const getItineraryAlerts = (
       const { legId, mode, route } = leg;
       const id = `canceled-${legId}`;
       if (!messages.get(id)) {
-        const lMode = getLocalizedMode(mode, intl);
+        const lMode = getLocalizedMode(mode, intl, config);
         const routeName = `${lMode} ${route.shortName}`;
         const title = intl.formatMessage(
           { id: 'navigation-mode-canceled' },
@@ -684,6 +702,40 @@ export const getItineraryAlerts = (
       });
     }
   }
+
+  // Platform change alert for the next leg of the journey.
+  if (
+    platformStatus !== PLATFORM_STATUS.NORMAL &&
+    nextLeg?.transitLeg &&
+    legTime(nextLeg.start) > time
+  ) {
+    const id = `platform-${nextLeg.legId}`;
+    if (!messages.get(id)?.closed) {
+      const boardingType = modeUsesTrack(nextLeg.mode) ? 'track' : 'platform';
+      const translationKey =
+        platformStatus === PLATFORM_STATUS.RESTORED
+          ? `navigation-${boardingType}-restored`
+          : `navigation-${boardingType}-change`;
+      const title = intl.formatMessage({ id: translationKey });
+      const lMode = getLocalizedMode(nextLeg.mode, intl, config);
+      const routeName = `${lMode} ${nextLeg.route?.shortName}`;
+      const body = intl.formatMessage(
+        { id: `navigation-${boardingType}-change-details` },
+        {
+          number: nextLeg.from.stop.platformCode || '',
+          name: routeName || '',
+        },
+      );
+      alerts.push({
+        severity: 'WARNING',
+        id,
+        expiresOn: legTime(nextLeg.start),
+        title,
+        body,
+      });
+    }
+  }
+
   return alerts;
 };
 
@@ -691,6 +743,7 @@ export const getItineraryAlerts = (
  * Get the properties of the destination based on the leg.
  *
  */
+
 export const getDestinationProperties = (
   rentalVehicle,
   vehicleParking,
@@ -698,22 +751,9 @@ export const getDestinationProperties = (
   stop,
   config,
 ) => {
-  const { routes, vehicleMode } = stop;
+  const { routes, vehicleMode, code } = stop;
   let destination = {};
-  let mode = vehicleMode;
-  if (routes && vehicleMode === 'BUS' && config.useExtendedRouteTypes) {
-    if (routes.some(p => p.type === ExtendedRouteTypes.BusExpress)) {
-      mode = 'bus-express';
-    }
-  } else if (routes && vehicleMode === 'TRAM' && config.useExtendedRouteTypes) {
-    if (routes.some(p => p.type === ExtendedRouteTypes.SpeedTram)) {
-      mode = 'speedtram';
-    }
-  } else if (routes && vehicleMode === 'FERRY') {
-    if (routes.some(p => isExternalFeed(getFeedWithoutId(p.gtfsId), config))) {
-      mode = 'ferry-external';
-    }
-  }
+  const mode = getStopMode(vehicleMode, routes, code, config);
   // todo: scooter and citybike icons etc.
   if (rentalVehicle) {
     destination.name = rentalVehicle.rentalNetwork.networkId;
@@ -722,58 +762,9 @@ export const getDestinationProperties = (
   } else if (vehicleRentalStation) {
     destination.name = vehicleRentalStation.name;
   } else {
-    let iconProps = {};
-    switch (mode) {
-      case 'TRAM,BUS':
-        iconProps = {
-          iconId: 'icon-icon_bustram-stop-lollipop',
-          className: 'tram-stop',
-        };
-        break;
-      case 'SUBWAY':
-        iconProps = {
-          iconId: 'icon-icon_subway',
-          className: 'subway-stop',
-        };
-        break;
-      case 'RAIL':
-        iconProps = {
-          iconId: 'icon-icon_rail-stop-lollipop',
-          className: 'rail-stop',
-        };
-
-        break;
-      case 'FERRY':
-        iconProps = {
-          iconId: 'icon-icon_ferry',
-          className: 'ferry-stop',
-        };
-        break;
-      case 'ferry-external':
-        iconProps = {
-          iconId: 'icon-icon_ferry-external',
-          className: 'ferry-external-stop',
-        };
-        break;
-      case 'bus-express':
-        iconProps = {
-          iconId: 'icon-icon_bus-stop-express-lollipop',
-          className: 'bus-stop',
-        };
-        break;
-      case 'speedtram':
-        iconProps = {
-          iconId: 'icon-icon_speedtram-stop-lollipop',
-          className: 'speedtram-stop',
-        };
-        break;
-      default:
-        iconProps = {
-          iconId: `icon-icon_${mode.toLowerCase()}-stop-lollipop`,
-        };
-    }
     destination = {
-      ...iconProps,
+      className: mode,
+      iconId: transitIconName(mode, mode !== 'ferry'),
       iconColor: getModeIconColor(config, mode),
       name: stop.name,
     };

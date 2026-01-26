@@ -25,9 +25,7 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#e10669',
-    iconColors: {
-      'mode-bus': '#e10669',
-    },
+    bus: '#e10669',
   },
 
   socialMedia: {
@@ -35,6 +33,11 @@ export default configMerger(walttiConfig, {
     description: APP_DESCRIPTION,
     twitter: {
       site: '@oulunkaupunki',
+    },
+    image: {
+      url: 'img/social-share-oulu.png',
+      width: 1181,
+      height: 472,
     },
   },
 
@@ -46,24 +49,26 @@ export default configMerger(walttiConfig, {
   logo: 'oulu/oulu-logo.png',
   secondaryLogo: 'oulu/secondary-oulu-logo.png',
 
-  searchParams: {
-    'boundary.rect.min_lat': 64.71,
-    'boundary.rect.max_lat': 65.38,
-    'boundary.rect.min_lon': 24.37,
-    'boundary.rect.max_lon': 26.61,
-  },
-
   transportModes: {
     citybike: {
       availableForSelection: false,
     },
   },
 
+  useSearchPolygon: true,
+
   areaPolygon: [
-    [24.37, 64.71],
-    [24.37, 65.38],
-    [26.61, 65.38],
-    [26.61, 64.71],
+    [24.362, 64.682],
+    [24.934, 64.67],
+    [25.912, 64.443],
+    [26.409, 64.453],
+    [26.836, 64.879],
+    [26.836, 65.089],
+    [26.603, 65.324],
+    [26.414, 65.395],
+    [26.189, 65.833],
+    [25.022, 65.671],
+    [24.362, 65.246],
   ],
 
   defaultEndpoint: {
@@ -110,10 +115,6 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
 
   aboutThisService: {
     fi: [
@@ -171,7 +172,6 @@ export default configMerger(walttiConfig, {
     en: 'https://www.osl.fi/en/tickets-and-fares/osl-app/',
   },
   showTicketPrice: true,
-  showTicketLinkOnlyWhenTesting: true,
   ticketLinkOperatorCode: 50229,
   appName: 'oslapp',
 });

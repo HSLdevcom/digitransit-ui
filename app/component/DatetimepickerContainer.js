@@ -117,14 +117,13 @@ DatetimepickerContainer.propTypes = {
   realtime: PropTypes.bool.isRequired,
   embedWhenClosed: PropTypes.node,
   embedWhenOpen: PropTypes.node,
-  lang: PropTypes.string,
+  lang: PropTypes.string.isRequired,
   color: PropTypes.string,
 };
 
 DatetimepickerContainer.defaultProps = {
   embedWhenClosed: null,
   embedWhenOpen: null,
-  lang: 'en',
   color: '#007ac9',
 };
 

@@ -104,16 +104,16 @@ export default class ParkAndRide {
               if (hasSpaces(parkType, feature)) {
                 [[feature.geom]] = feature.loadGeometry();
                 this.features.push(feature);
-                const isHilighted =
-                  this.tile.hilightedStops &&
-                  this.tile.hilightedStops.includes(feature.properties.id);
+                const isHighlighted =
+                  this.tile.highlightedStops &&
+                  this.tile.highlightedStops.includes(feature.properties.id);
                 drawParkAndRideIcon(
                   parkType,
                   this.tile,
                   feature.geom,
                   this.width,
                   this.height,
-                  isHilighted,
+                  isHighlighted,
                 );
               }
             }

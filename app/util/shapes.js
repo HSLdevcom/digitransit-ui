@@ -74,7 +74,6 @@ export const popupColorShape = PropTypes.shape({
   accessiblePrimary: PropTypes.string,
   hover: PropTypes.string,
   primary: PropTypes.string,
-  iconColors: PropTypes.objectOf(PropTypes.string),
 });
 
 export const parkShape = PropTypes.shape({
@@ -170,6 +169,10 @@ export const stopTimeShape = PropTypes.shape({
   trip: tripShape,
   dropoffType: PropTypes.string,
   pickupType: PropTypes.string,
+  stop: PropTypes.shape({
+    platformCode: PropTypes.string,
+    gtfsId: PropTypes.string,
+  }),
 });
 
 export const stopShape = PropTypes.shape({

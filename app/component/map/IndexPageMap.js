@@ -53,11 +53,23 @@ function IndexPageMap(
   const leafletObjs = [];
 
   if (origin.lat) {
-    leafletObjs.push(<LocationMarker position={origin} type="from" />);
+    leafletObjs.push(
+      <LocationMarker
+        key={`${origin.lat},${origin.lon}`}
+        position={origin}
+        type="from"
+      />,
+    );
   }
 
   if (destination.lat) {
-    leafletObjs.push(<LocationMarker position={destination} type="to" />);
+    leafletObjs.push(
+      <LocationMarker
+        key={`${destination.lat},${destination.lon}`}
+        position={destination}
+        type="to"
+      />,
+    );
   }
 
   const selectLocation = (item, id) => {

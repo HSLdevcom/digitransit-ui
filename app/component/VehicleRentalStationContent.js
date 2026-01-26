@@ -102,7 +102,7 @@ const VehicleRentalStationContent = (
                 rel="noreferrer"
               >
                 <FormattedMessage id="citybike-purchase-link" />
-                <Icon img="icon-icon_external-link-box" />
+                <Icon img="icon_external-link-box" />
               </a>
             )}
           </div>

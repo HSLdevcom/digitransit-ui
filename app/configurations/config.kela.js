@@ -20,6 +20,10 @@ export default {
       default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
     },
+    REALTIME_STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
+    },
   },
 
   favicon: './app/configurations/images/default/default-favicon.png',
@@ -45,7 +49,9 @@ export default {
       },
     ],
   },
-
+  carBoardingModes: {
+    FERRY: { showNotification: false },
+  },
   transportModes: {
     citybike: {
       availableForSelection: false,
@@ -143,14 +149,9 @@ export default {
       },
     ],
   },
-  staticMessagesUrl: process.env.STATIC_MESSAGE_URL,
 
-  showNearYouButtons: false,
-  showVehiclesOnStopPage: false,
-  showVehiclesOnItineraryPage: false,
   includeCarSuggestions: true,
-  // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
-  showCO2InItinerarySummary: false,
   useAssembledGeoJsonZones: 'isOnByDefault',
   locationSearchTargetsFromOTP: [], // remove stop/station location search
+  viaPointsEnabled: false,
 };

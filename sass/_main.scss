@@ -68,6 +68,9 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/itinerary/navigator/navigatorintro/navigator-intro';
 @import '../app/component/itinerary/navigator/navigatoroutro/navigator-outro';
 @import '../app/component/itinerary/navigator/navigatorgeolocation/navigator-geolocation';
+@import '../app/component/trafficnow/trafficnow';
+@import '../app/component/popover';
+@import '../app/component/animations';
 
 /* Modal */
 @import '~foundation-apps/scss/helpers/breakpoints';

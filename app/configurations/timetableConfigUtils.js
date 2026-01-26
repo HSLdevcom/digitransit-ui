@@ -1,6 +1,4 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable prefer-template */
-
 export default {
   HSL: {
     routeTimetableUrlResolver: function routeTimetableUrlResolver(

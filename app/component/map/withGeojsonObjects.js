@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import getContext from 'recompose/getContext';
 import GeoJsonStore from '../../store/GeoJsonStore';
 
 /**
@@ -10,13 +9,10 @@ import GeoJsonStore from '../../store/GeoJsonStore';
  * @param {*} Component The component to extend
  */
 function withGeojsonObjects(Component) {
-  function GeojsonWrapper({
-    getGeoJsonConfig,
-    getGeoJsonData,
-    leafletObjs,
-    config,
-    ...props
-  }) {
+  function GeojsonWrapper(
+    { getGeoJsonConfig, getGeoJsonData, leafletObjs, ...props },
+    { config },
+  ) {
     const [geoJson, updateGeoJson] = useState(null);
 
     useEffect(() => {
@@ -76,7 +72,6 @@ function withGeojsonObjects(Component) {
     getGeoJsonConfig: PropTypes.func.isRequired,
     getGeoJsonData: PropTypes.func.isRequired,
     leafletObjs: PropTypes.arrayOf(PropTypes.node),
-    config: configShape.isRequired,
     locationPopup: PropTypes.string,
     onSelectLocation: PropTypes.func,
   };
@@ -87,11 +82,11 @@ function withGeojsonObjects(Component) {
     onSelectLocation: undefined,
   };
 
-  const WithContext = getContext({
-    config: configShape,
-  })(GeojsonWrapper);
+  GeojsonWrapper.contextTypes = {
+    config: configShape.isRequired,
+  };
 
-  return connectToStores(WithContext, [GeoJsonStore], ({ getStore }) => {
+  return connectToStores(GeojsonWrapper, [GeoJsonStore], ({ getStore }) => {
     const { getGeoJsonConfig, getGeoJsonData } = getStore(GeoJsonStore);
     return { getGeoJsonConfig, getGeoJsonData };
   });

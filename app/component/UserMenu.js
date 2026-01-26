@@ -49,7 +49,7 @@ const UserMenu = ({ menuItems, user }, { intl }) => {
         aria-expanded={menuOpen}
       >
         <div className="usermenu-header">
-          <Icon img="icon-icon_user" width={2} height={2} color="#fff" />
+          <Icon img="icon_user" width={2} height={2} color="#fff" />
           <div className="usermenu-title-text">{initials}</div>
         </div>
       </button>

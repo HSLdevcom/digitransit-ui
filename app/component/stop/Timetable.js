@@ -38,6 +38,7 @@ const mapStopTimes = stoptimesObject =>
           longName: stoptime.pattern.route.longName,
           isCanceled: st.realtimeState === RealtimeStateType.Canceled,
           mode: stoptime.pattern.route.mode,
+          gtfsId: st.stop.gtfsId,
         })),
     )
     .reduce((acc, val) => acc.concat(val), []);
@@ -84,7 +85,7 @@ const dateForPrinting = date => {
   return (
     <div className="printable-date-container">
       <div className="printable-date-icon">
-        <Icon className="large-icon" img="icon-icon_schedule" />
+        <Icon className="large-icon" img="icon_schedule" />
       </div>
       <div className="printable-date-right">
         <div className="printable-date-header">
@@ -135,8 +136,7 @@ function Timetable(
 ) {
   const stop = useFragment(TimetableFragment, stopRef);
   if (!stop) {
-    const path = `/${PREFIX_STOPS}`;
-    router.replace(path);
+    router.replace(`/${PREFIX_STOPS}`);
   }
   const [showRoutes, setShowRoutes] = useState([]);
   const [showFilterModal, setShowFilterModal] = useState(false);
@@ -332,7 +332,7 @@ function Timetable(
                 >
                   <Icon
                     className={cx('no-timetable-icon', 'caution')}
-                    img="icon-icon_info"
+                    img="icon_info"
                     color="#0074be"
                   />
                   {timeDifferenceDays > 30 ? (
@@ -403,7 +403,7 @@ function Timetable(
                 name: null,
               });
             }}
-            buttonIcon="icon-icon_print"
+            buttonIcon="icon_print"
             smallSize
           />
           {stopPDFURL && (
@@ -418,7 +418,7 @@ function Timetable(
                   name: null,
                 });
               }}
-              buttonIcon="icon-icon_print"
+              buttonIcon="icon_print"
               smallSize
             />
           )}
@@ -460,6 +460,9 @@ Timetable.propTypes = {
             realtimeState: PropTypes.string.isRequired,
             scheduledDeparture: PropTypes.number.isRequired,
             serviceDay: PropTypes.number.isRequired,
+            stop: PropTypes.shape({
+              gtfsId: PropTypes.string.isRequired,
+            }).isRequired,
           }),
         ).isRequired,
       }),

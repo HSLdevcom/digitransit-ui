@@ -21,14 +21,17 @@ export default configMerger(walttiConfig, {
 
   colors: {
     primary: '#5B7B32',
-    iconColors: {
-      'mode-bus': '#5B7B32',
-    },
+    bus: '#5B7B32',
   },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-raasepori.png',
+      width: 1528,
+      height: 650,
+    },
   },
 
   title: APP_TITLE,
@@ -90,11 +93,6 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-
-  vehicles: true,
-  showVehiclesOnStopPage: true,
-  showVehiclesOnItineraryPage: true,
-
   aboutThisService: {
     fi: [
       {

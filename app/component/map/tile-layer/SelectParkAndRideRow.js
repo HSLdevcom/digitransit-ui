@@ -7,7 +7,7 @@ import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../util/path';
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectParkAndRideRow({ name, bikeParkId, carParkId }) {
   const id = bikeParkId || carParkId;
-  const img = carParkId ? 'icon-icon_car-park' : 'icon-icon_bike-park';
+  const img = carParkId ? 'icon_car-park' : 'icon_bike-park';
   const PREFIX = carParkId ? PREFIX_CARPARK : PREFIX_BIKEPARK;
   return (
     <Link
@@ -21,7 +21,7 @@ function SelectParkAndRideRow({ name, bikeParkId, carParkId }) {
         <h5 className="choose-row-header">{name}</h5>
       </span>
       <span className="choose-row-right-column">
-        <Icon img="icon-icon_arrow-collapse--right" />
+        <Icon img="icon_arrow-collapse--right" />
       </span>
     </Link>
   );

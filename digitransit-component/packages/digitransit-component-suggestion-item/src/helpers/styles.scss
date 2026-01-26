@@ -67,11 +67,6 @@ li:last-child > div.suggestion-item-container.mobile {
         line-height: 1;
       }
 
-      &.favouriteCustom {
-        color: #0074be;
-        font-size: 15px;
-      }
-
       &.futureroute {
         line-height: 1.33;
         position: relative;
@@ -145,7 +140,6 @@ li:last-child > div.suggestion-item-container.mobile {
     right: 0;
 
     svg {
-      fill: var(--accessible-primary-color) !important;
       width: 17px;
       height: 17px;
     }

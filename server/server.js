@@ -85,7 +85,7 @@ function setUpStaticFolders() {
       .replace(/ASSET_URL/g, process.env.ASSET_URL);
     const swTextInjected = swPreText + swInjectionText + swPostText;
 
-    app.get(`${config.APP_PATH}/sw.js`, (req, res) => {
+    app.get('/sw.js', (req, res) => {
       res.setHeader('Cache-Control', 'public, max-age=0');
       res.setHeader('Content-type', 'application/javascript; charset=UTF-8');
       res.send(swTextInjected);
@@ -96,7 +96,7 @@ function setUpStaticFolders() {
   // Sert cache for 1 week
   const oneDay = 86400000;
   app.use(
-    config.APP_PATH,
+    '',
     expressStaticGzip(staticFolder, {
       enableBrotli: true,
       index: false,
@@ -223,8 +223,8 @@ function setUpAvailableTickets() {
 
 function getZoneUrl(json) {
   const zoneLayer =
-    !json.noZoneSharing &&
-    json.layers.find(
+    !json?.noZoneSharing &&
+    json?.layers.find(
       layer => layer.name.fi === 'Vyöhykkeet' || layer.name.en === 'Zones',
     );
   if (zoneLayer && !allZones) {
@@ -235,8 +235,13 @@ function getZoneUrl(json) {
 }
 
 async function fetchGeoJsonConfig(url) {
-  const response = await getJson(url);
-  return response.geoJson || response.geojson;
+  try {
+    const response = await getJson(url);
+    return response.geoJson || response.geojson;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 function collectGeoJsonZones() {

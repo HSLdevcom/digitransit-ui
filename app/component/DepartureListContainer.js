@@ -12,7 +12,10 @@ import {
   startRealTimeClient,
   changeRealTimeClientTopics,
 } from '../action/realTimeClientAction';
-import { getHeadsignFromRouteLongName } from '../util/legUtils';
+import {
+  getHeadsignFromRouteLongName,
+  isPlatformChanged,
+} from '../util/legUtils';
 
 const getDropoffMessage = (hasOnlyDropoff, hasNoStop) => {
   if (hasNoStop) {
@@ -324,7 +327,7 @@ class DepartureListContainer extends Component {
         );
       }
 
-      const id = `${departure.pattern.code}:${departure.time}:${departure.trip.gtfsId}`;
+      const id = `${departure.pattern.code}:${departure.time}:${departure.trip.gtfsId}:${departure.stop.gtfsId}`;
       const dropoffMessage = getDropoffMessage(
         departure.hasOnlyDropoff,
         departure.hasNoStop,
@@ -336,10 +339,7 @@ class DepartureListContainer extends Component {
         realtime: departure.realtime,
         bottomRow: dropoffMessage ? (
           <div className="drop-off-container">
-            <Icon
-              img="icon-icon_info"
-              color={this.context.config.colors.primary}
-            />
+            <Icon img="icon_info" color={this.context.config.colors.primary} />
             <FormattedMessage
               id={dropoffMessage}
               defaultMessage="Drop-off only"
@@ -365,6 +365,7 @@ class DepartureListContainer extends Component {
               ? 'no-border'
               : ''
           }
+          platformUpdated={isPlatformChanged(departure)}
         />
       );
 
@@ -436,6 +437,7 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
       dropoffType
       headsign
       stop {
+        gtfsId
         id
         code
         platformCode
@@ -468,6 +470,21 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
           stops {
             gtfsId
             code
+          }
+        }
+        stoptimes {
+          scheduledDeparture
+          stop {
+            gtfsId
+            platformCode
+          }
+        }
+        stoptimesForDate {
+          serviceDay
+          scheduledDeparture
+          stop {
+            gtfsId
+            platformCode
           }
         }
       }

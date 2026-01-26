@@ -29,6 +29,9 @@ export const TimetableFragment = graphql`
         serviceDay
         headsign
         pickupType
+        stop {
+          gtfsId
+        }
       }
     }
   }

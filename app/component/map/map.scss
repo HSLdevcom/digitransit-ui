@@ -257,6 +257,10 @@ div.leaflet-marker-icon.parking {
   }
 }
 
+div.leaflet-marker-icon.map-subway-entrance-info-icon-metro {
+  color: #0074bf;
+}
+
 div.leaflet-marker-icon.via {
   color: $black;
 }
@@ -1453,6 +1457,10 @@ div.leaflet-control-scale-line {
   position: absolute;
   border-radius: 50%;
   border: solid 1px $white;
+}
+
+.leaflet-marker-icon.disable-icon-border > svg {
+  border: 0;
 }
 
 .z-1,

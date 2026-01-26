@@ -42,7 +42,7 @@ export default function StreetModeSelectorButton(
       break;
     case streetHash.carAndVehicle:
       distance = displayDistance(
-        getTotalDrivingDistance(itinerary),
+        getTotalDrivingDistance(itinerary, config),
         config,
         intl.formatNumber,
       );
@@ -81,7 +81,7 @@ export default function StreetModeSelectorButton(
           config,
         )) ||
       'rail';
-    secondaryIcon = `icon-icon_${mode}`;
+    secondaryIcon = `icon_${mode}`;
     secondaryColor = getModeIconColor(config, mode);
   }
   return (

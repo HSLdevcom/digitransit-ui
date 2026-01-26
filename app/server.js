@@ -4,7 +4,7 @@ import polyfillLibrary from 'polyfill-library';
 import fs from 'fs';
 import path from 'path';
 import LRU from 'lru-cache';
-
+import meta from './meta';
 // configuration
 import { getConfiguration } from './config';
 import { getAnalyticsInitCode } from './util/analyticsUtils';
@@ -95,8 +95,19 @@ function getPolyfills(userAgent, config) {
   return polyfill;
 }
 
+function isAssetRequest(req) {
+  // Path starts with /js/, /css/ or /assets/
+  return /^\/(js|css|assets)\//.test(req.path);
+}
+
 export default async function serve(req, res, next) {
   try {
+    // There might a better way to throw 404 if the asset is not found before this code
+    // is run.
+    if (isAssetRequest(req)) {
+      res.status(404);
+    }
+
     const config = getConfiguration(req);
     const agent = req.headers['user-agent'];
 
@@ -104,9 +115,18 @@ export default async function serve(req, res, next) {
     // 1. use locale from cookie (user selected) or default
     let locale = req.cookies.lang || config.defaultLanguage;
 
+    const metadata = meta(
+      locale,
+      req.hostname,
+      `https://${req.hostname}${req.originalUrl}`,
+      config,
+    ).meta.filter(a => a !== '');
+
     if (config.availableLanguages.indexOf(locale) === -1) {
       locale = config.defaultLanguage;
     }
+
+    config.language = locale;
 
     if (req.cookies.lang === undefined || req.cookies.lang !== locale) {
       res.cookie('lang', locale);
@@ -116,12 +136,18 @@ export default async function serve(req, res, next) {
 
     const spriteName = config.sprites;
 
-    const ASSET_URL = process.env.ASSET_URL || config.APP_PATH;
+    const ASSET_URL = process.env.ASSET_URL || '';
 
     res.setHeader('content-type', 'text/html; charset=utf-8');
     res.write('<!doctype html>\n');
     res.write(`<html lang="${locale}">\n`);
     res.write('<head>\n');
+    metadata.forEach(m => {
+      const entries = Object.entries(m);
+      res.write(
+        `<meta ${entries[0][0]}="${entries[0][1]}" ${entries[1][0]}="${entries[1][1]}" data-react-helmet="true" />\n`,
+      );
+    });
 
     // Write preload hints before doing anything else
     if (process.env.NODE_ENV !== 'development') {
