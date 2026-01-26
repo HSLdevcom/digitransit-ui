@@ -60,7 +60,7 @@ export default function NearYouButton({
   return (
     <>
       {srMsg && <span className={styles['sr-only']}>{srMsg}</span>}
-      <button className={styles[buttonClass]} style={buttonStyle}>
+      <button type="button" className={styles[buttonClass]} style={buttonStyle}>
         <span className={styles['icon-container']} style={iconContainerStyle}>
           <Icon {...iconProps} />
           {withAlert && (
