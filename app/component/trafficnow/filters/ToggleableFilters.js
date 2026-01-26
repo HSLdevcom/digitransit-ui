@@ -1,5 +1,4 @@
 import React from 'react';
-import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Toggle from '../../Toggle';
 import { useFilterContext } from './FiltersContext';
@@ -7,11 +6,15 @@ import { useFavourites } from '../../../hooks/FavouriteContext';
 
 const TOGGLEABLE_FILTERS = [
   {
+    id: 'cancellations',
+    label: 'traffic-now_filters_toggles--cancellations-only',
+    fn: () => true,
+  },
+  {
     id: 'favourites',
-    label: 'Vain suosikit',
+    label: 'traffic-now_filters_toggles--favourites-only',
     fn: favourites => new Set(favourites.map(f => f.gtfsId)),
   },
-  { id: 'cancellations', label: 'Vain peruutukset', fn: () => true },
 ];
 
 const ToggleableFilters = () => {
@@ -27,14 +30,11 @@ const ToggleableFilters = () => {
   };
 
   return (
-    <fieldset>
+    <fieldset className="traffic-now__content__filters__toggle--container">
       {TOGGLEABLE_FILTERS.map(f => (
         <div
           key={f.id}
-          className={cx(
-            'traffic-now_filters-toggle--container',
-            `traffic-now_filters-toggle--${f.id}`,
-          )}
+          className={`traffic-now__content__filters__toggle--${f.id}`}
         >
           <label htmlFor={f.id}>
             <Toggle
@@ -42,7 +42,7 @@ const ToggleableFilters = () => {
               toggled={!!selectedFilters[f.id]}
               onToggle={() => handleToggle(f)}
             />
-            <FormattedMessage id={f.id} defaultMessage={f.label} />
+            <FormattedMessage tagName="h3" id={f.label} />
           </label>
         </div>
       ))}
