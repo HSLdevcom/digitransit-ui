@@ -27,12 +27,21 @@ const IconBackground = ({ shape, color }) => {
           rx="2"
         />
       )}
+      {shape === 'square' && (
+        <rect
+          className="icon-square"
+          width="40"
+          height="40"
+          fill={color}
+          rx="8"
+        />
+      )}
     </>
   );
 };
 
 IconBackground.propTypes = {
-  shape: PropTypes.oneOf(['circle', 'stopsign']),
+  shape: PropTypes.oneOf(['circle', 'stopsign', 'square']),
   color: PropTypes.string,
 };
 

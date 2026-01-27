@@ -11,6 +11,7 @@ import RouteControlPanel from './RouteControlPanel';
 import { routePagePath } from '../../util/path';
 import Error404 from '../404';
 import ScrollableWrapper from '../ScrollableWrapper';
+import { ExtendedRouteTypes } from '../../constants';
 
 class PatternStopsContainer extends React.PureComponent {
   static propTypes = {
@@ -71,12 +72,14 @@ class PatternStopsContainer extends React.PureComponent {
             </div>
           </div>
         )}
-        <RouteStopListContainer
-          key="list"
-          pattern={this.props.pattern}
-          patternId={this.props.pattern.code}
-          hideDepartures={!!constantOperationRoutes[routeId]}
-        />
+        {this.props.route.type !== ExtendedRouteTypes.CallAgency && (
+          <RouteStopListContainer
+            key="list"
+            pattern={this.props.pattern}
+            patternId={this.props.pattern.code}
+            hideDepartures={!!constantOperationRoutes[routeId]}
+          />
+        )}
       </ScrollableWrapper>
     );
   }

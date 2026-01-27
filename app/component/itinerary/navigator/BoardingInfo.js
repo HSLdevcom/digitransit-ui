@@ -13,6 +13,7 @@ const BoardingInfo = ({
   translationValues,
   withExpandIcon,
   compact,
+  appendClass,
 }) => {
   return (
     <div
@@ -36,6 +37,7 @@ const BoardingInfo = ({
           vertical
           withBar
           hideText={compact}
+          appendClass={appendClass}
         />
         {!compact && <div className="headsign">{headsign}</div>}
       </div>
@@ -58,15 +60,18 @@ const BoardingInfo = ({
 BoardingInfo.propTypes = {
   route: routeShape.isRequired,
   mode: PropTypes.string.isRequired,
-  headsign: PropTypes.string.isRequired,
+  headsign: PropTypes.string,
   // eslint-disable-next-line react/forbid-prop-types
   translationValues: PropTypes.object.isRequired,
   withExpandIcon: PropTypes.bool,
   compact: PropTypes.bool,
+  appendClass: PropTypes.string,
 };
 BoardingInfo.defaultProps = {
   withExpandIcon: false,
   compact: false,
+  appendClass: undefined,
+  headsign: '',
 };
 
 export default BoardingInfo;

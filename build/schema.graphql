@@ -1305,6 +1305,8 @@ type QueryType {
     and should be used together with the `last` parameter.
     """
     before: String,
+    "Can be used to filter the results. When paging, the filter should not be changed between pages."
+    filters: CanceledTripsFilterInput,
     """
     Limits how many trips are returned. This parameter is part of the
     [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm) and can be used together with
@@ -1774,15 +1776,6 @@ type QueryType {
     """
     before: String,
     """
-    The date and time for the latest time the user is expected to book the journey.
-    Normally this is when the search is performed (now), plus a small grace period to
-    complete the booking. Services which must be booked before this time is excluded. The
-    `latestBookingTime` and `minimumBookingPeriod` in `BookingArrangement` (flexible
-    services only) is used to enforce this. If this parameter is _not set_, no booking-time
-    restrictions are applied - all journeys are listed.
-    """
-    bookingTime: OffsetDateTime,
-    """
     Datetime of the search. It's possible to either define the earliest departure time
     or the latest arrival time. By default, earliest departure time is set as now.
     """
@@ -1797,6 +1790,8 @@ type QueryType {
     in the first search).
     """
     first: Int,
+    "Parameters that affect flexible transport routing per request."
+    flex: FlexRequest,
     """
     Settings that control the behavior of itinerary filtering. These are advanced settings and
     should not be set by a user through user preferences.
@@ -2708,6 +2703,13 @@ type TripOnServiceDateConnection {
   Part of the [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm).
   """
   pageInfo: PageInfo!
+  """
+  The total number of trips on service dates in this connection at the time of query execution (including the current and previous
+  pages).
+  Note, this number might not stay the same throughout the paging as trips might be added or
+  removed.
+  """
+  totalCount: Int!
 }
 
 """
@@ -3231,9 +3233,9 @@ enum FilterPlaceType {
   "Old value for VEHICLE_RENT"
   BICYCLE_RENT @deprecated(reason : "Use VEHICLE_RENT instead as it's clearer that it also returns rental scooters, cars...")
   "Parking lots (not rental stations) that contain spaces for bicycles"
-  BIKE_PARK @deprecated(reason : "Not supported.")
+  BIKE_PARK
   "Parking lots that contain spaces for cars"
-  CAR_PARK @deprecated(reason : "Not supported.")
+  CAR_PARK
   "Departure rows"
   DEPARTURE_ROW
   """
@@ -3741,7 +3743,6 @@ enum RelativeDirection {
   More information about the entrance is in the `step.feature` field.
   """
   ENTER_STATION
-  ESCALATOR
   """
   Exiting a public transport station. If it's not known if the passenger is entering or exiting
   then `CONTINUE` is used.
@@ -3757,7 +3758,6 @@ enum RelativeDirection {
   RIGHT
   SLIGHTLY_LEFT
   SLIGHTLY_RIGHT
-  STAIRS
   UTURN_LEFT
   UTURN_RIGHT
 }
@@ -3909,6 +3909,8 @@ enum TransitMode {
   MONORAIL
   "This includes long or short distance trains."
   RAIL
+  "Used for off-road snow and ice vehicles"
+  SNOW_AND_ICE
   "Subway or metro, depending on the local terminology."
   SUBWAY
   "A taxi, possibly operated by a public transport agency."
@@ -4178,6 +4180,34 @@ input BoardPreferencesInput {
   waitReluctance: Reluctance
 }
 
+"""
+A collection of selectors for including or excluding trips from canceled trips search. Currently,
+you can only use either include or exclude filter (as filtering is only supported with transit modes).
+"""
+input CanceledTripsFilterInput @oneOf {
+  """
+  A list of selectors for excluding canceled trips.
+    
+  An empty list or a list containing `null` is forbidden.
+  """
+  exclude: [CanceledTripsFilterSelectInput!]
+  """
+  A list of selectors for including canceled trips.
+    
+  An empty list or a list containing `null` is forbidden.
+  """
+  include: [CanceledTripsFilterSelectInput!]
+}
+
+"""
+A list of selectors for including or excluding trips from canceled trips search. Null
+means everything is allowed to be returned and empty lists are not allowed.
+"""
+input CanceledTripsFilterSelectInput {
+  "Canceled trips from these transit modes should be included/excluded."
+  modes: [TransitMode!]
+}
+
 "Preferences for car parking facilities used during the routing."
 input CarParkingPreferencesInput {
   """
@@ -4219,6 +4249,18 @@ input CarRentalPreferencesInput {
   allowedNetworks: [String!]
   "Rental networks which cannot be used as part of an itinerary."
   bannedNetworks: [String!]
+  """
+  The assumed duration of a car rental trip, used to ensure vehicle availability during the
+  rental period.
+    
+  The rental time is calculated relative to the request search time:
+  - Depart-after search: `request time + rental duration`
+  - Arrive-by search: `request time - rental duration`
+    
+  Note: Rental duration only applies to  free-floating vehicles in direct street searches.
+  This is not supported in access/egress in transit searches.
+  """
+  rentalDuration: Duration
 }
 
 "What criteria should be used when optimizing a cycling route."
@@ -4257,6 +4299,19 @@ input DestinationScooterPolicyInput {
   scooter.
   """
   keepingCost: Cost
+}
+
+"Parameters that affect flexible transport routing per request."
+input FlexRequest {
+  """
+  The date and time for the latest time the user is expected to book the journey.
+  Normally this is when the search is performed (now), plus a small grace period to
+  complete the booking. Services which must be booked before this time are excluded. The
+  `latestBookingTime` and `minimumBookingPeriod` in `BookingArrangement` (flexible
+  services only) are used to enforce this. If this parameter is _not set_, no booking-time
+  restrictions are applied - all journeys are listed.
+  """
+  bookingTime: OffsetDateTime
 }
 
 input InputBanned {
@@ -4339,16 +4394,12 @@ input InputModeWeight {
 }
 
 input InputPreferred {
-  "A comma-separated list of ids of the agencies preferred by the user."
-  agencies: String @deprecated(reason : "Not implemented")
-  """
-  Penalty added for using every route that is not preferred if user set any
-  route as preferred. We return number of seconds that we are willing to wait
-  for preferred route.
-  """
-  otherThanPreferredRoutesPenalty: Int @deprecated(reason : "Not implemented")
-  "A comma-separated list of ids of the routes preferred by the user."
-  routes: String @deprecated(reason : "Not implemented")
+  "Not implemented"
+  agencies: String
+  "Not implemented"
+  otherThanPreferredRoutesPenalty: Int
+  "Not implemented"
+  routes: String
 }
 
 """

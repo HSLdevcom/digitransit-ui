@@ -37,7 +37,6 @@ import {
   showCarBoardingNote,
   legTimeStr,
   legTime,
-  isCallAgencyLeg,
   isPlatformChanged,
   getValidatedLegName,
   isLocalCallAgency,
@@ -439,6 +438,7 @@ class TransitLeg extends React.Component {
       );
     };
     const routeNotifications = [];
+    const isCallAgency = mode === 'call';
     if (
       config.NODE_ENV !== 'test' &&
       config.routeNotifications &&
@@ -453,7 +453,7 @@ class TransitLeg extends React.Component {
           (showCarBoardingInformation &&
             notification.showForCarWithPublic &&
             showCarBoardingNote(leg, config)) ||
-          notification.showForRoute?.(leg.route)
+          (notification.showForRoute?.(leg.route) && !isCallAgency)
         ) {
           routeNotifications.push(
             <div
@@ -488,7 +488,7 @@ class TransitLeg extends React.Component {
           </span>
           <span aria-hidden="true">
             <div className="itinerary-time-column-time">
-              {isCallAgencyLeg(leg) && <FormattedMessage id="estimate" />}{' '}
+              {isCallAgency && <FormattedMessage id="estimate" />}{' '}
               <span className={cx({ realtime: leg.realTime })}>
                 <span className={cx({ canceled: legHasCancelation(leg) })}>
                   {time}
@@ -509,7 +509,7 @@ class TransitLeg extends React.Component {
           }
           viaType={leg.from.viaLocationType}
           isStop={!!leg.from.stop}
-          appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
+          appendClass={isLocalCallAgency(leg.route, config) ? 'call-local' : ''}
         />
         <div
           style={{
@@ -591,7 +591,7 @@ class TransitLeg extends React.Component {
             displayTime={this.displayAlternativeLegs()}
             changeHash={this.props.changeHash}
             tabIndex={this.props.tabIndex}
-            isCallAgency={mode === 'call'}
+            isCallAgency={isCallAgency}
             mobile={this.props.mobile}
             isTransitLeg
           />
@@ -610,7 +610,7 @@ class TransitLeg extends React.Component {
                   l.start / 1000,
                 )}
                 displayTime
-                isCallAgency={mode === 'call'}
+                isCallAgency={isCallAgency}
                 mobile={this.props.mobile}
                 isTransitLeg
               />

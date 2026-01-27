@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { configShape, patternShape, errorShape } from '../../util/shapes';
@@ -64,6 +64,20 @@ function RoutePageMap(
     }
   };
 
+  const routeId = rest.match.params.routeId.split(':')[0];
+  const flexAgencies = useMemo(
+    () =>
+      [...config.flex.internalAgencies, ...config.flex.externalAgencies].map(
+        agency => agency.split(':')[0],
+      ),
+    [config.flex.internalAgencies, config.flex.externalAgencies],
+  );
+  const isFlexRoute = flexAgencies.includes(routeId);
+
+  const mapLayers = isFlexRoute
+    ? { ...rest.mapLayers, areaStop: { routeGtfsId: routeId } }
+    : rest.mapLayers;
+
   const mwtProps = {};
   if (tripId && lat && lon) {
     // already getting vehicle pos
@@ -83,6 +97,8 @@ function RoutePageMap(
     }
     mwtProps.zoom = 16;
   } else {
+    const maxZoomForBounds = isFlexRoute ? 12 : 18;
+
     if (code.current !== pattern.code || !bounds.current) {
       let filteredPoints;
       if (pattern.geometry) {
@@ -92,6 +108,7 @@ function RoutePageMap(
       }
       bounds.current = boundWithMinimumArea(
         (filteredPoints || pattern.stops).map(p => [p.lat, p.lon]),
+        maxZoomForBounds,
       );
       code.current = pattern.code;
     }
@@ -131,6 +148,7 @@ function RoutePageMap(
       onMapTracking={stopTracking}
       setMWTRef={setMWTRef}
       {...rest}
+      mapLayers={mapLayers}
     >
       {breakpoint !== 'large' && (
         <BackButton
