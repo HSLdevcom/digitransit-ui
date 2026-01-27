@@ -5,11 +5,6 @@ const CONFIG = 'mikkeli';
 const APP_TITLE = 'Mikkelin Reittiopas';
 const APP_DESCRIPTION = 'Mikkelin julkisen liikenteen reittiopas';
 
-const minLat = 61.65922;
-const maxLat = 61.717372;
-const minLon = 27.155849;
-const maxLon = 27.384367;
-
 export default configMerger(walttiConfig, {
   CONFIG,
 
@@ -43,18 +38,25 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['Mikkeli'],
 
-  searchParams: {
-    'boundary.rect.min_lat': minLat,
-    'boundary.rect.max_lat': maxLat,
-    'boundary.rect.min_lon': minLon,
-    'boundary.rect.max_lon': maxLon,
-  },
+  useSearchPolygon: true,
 
   areaPolygon: [
-    [minLon, minLat],
-    [minLon, maxLat],
-    [maxLon, maxLat],
-    [maxLon, minLat],
+    [26.94, 61.5],
+    [27.02, 61.41],
+    [26.93, 61.34],
+    [27.18, 61.3],
+    [27.36, 61.19],
+    [27.77, 61.32],
+    [28.24, 61.54],
+    [28.12, 61.77],
+    [27.86, 61.92],
+    [27.48, 61.95],
+    [27.38, 62.04],
+    [27.15, 62.21],
+    [26.99, 62.19],
+    [26.84, 62.13],
+    [26.63, 62.01],
+    [26.43, 61.76],
   ],
 
   defaultEndpoint: {

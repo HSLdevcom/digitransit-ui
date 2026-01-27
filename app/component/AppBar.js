@@ -5,7 +5,6 @@ import { matchShape } from 'found';
 import { userShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
-import DisruptionInfo from './DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
 import MessageBar from './MessageBar';
 import LogoSmall from './LogoSmall';
@@ -17,7 +16,6 @@ export default function AppBar(
   { config, intl, match, getStore },
 ) {
   const { location } = match;
-  const [disruptionInfoOpen, setDisruptionInfoOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(
     window.sessionStorage.menuOpen === 'true',
   );
@@ -35,14 +33,8 @@ export default function AppBar(
     setMenuOpen(newState);
   };
 
-  const toggleDisruptionInfo = newState => {
-    setDisruptionInfoOpen(newState);
-    setMenuOpen(false);
-  };
-
   return (
     <>
-      {disruptionInfoOpen && <DisruptionInfo setOpen={toggleDisruptionInfo} />}
       {config.NODE_ENV !== 'test' && <MessageBar breakpoint={breakpoint} />}
       <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
         <section className="title">
@@ -86,12 +78,11 @@ export default function AppBar(
                 isMobile
               />
             ))}
-          {!disruptionInfoOpen && menuOpen && (
+          {menuOpen && (
             <MainMenuContainer
               homeUrl={homeUrl}
               closeMenu={() => setMenuOpenWithAnalytics(false)}
               breakpoint={breakpoint}
-              setDisruptionInfoOpen={setDisruptionInfoOpen}
             />
           )}
           {config.mainMenu.show ? (

@@ -10,8 +10,8 @@ import {
   errorShape,
 } from '../util/shapes';
 import VehicleRentalStation from './VehicleRentalStation';
+import Disclaimer from './Disclaimer';
 import ParkOrStationHeader from './ParkOrStationHeader';
-import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 import { getRentalNetworkConfig } from '../util/vehicleRentalUtils';
 import { PREFIX_BIKESTATIONS } from '../util/path';
@@ -38,17 +38,13 @@ const VehicleRentalStationContent = (
     vehicleRentalStation.rentalNetwork.networkId,
     config,
   );
-  const cityBikeNetworkUrl = networkConfig?.url?.[language];
-  let returnInstructionsUrl;
-  if (networkConfig.returnInstructions) {
-    returnInstructionsUrl = networkConfig.returnInstructions[language];
-  }
   const { vehicleRental } = config;
-  const cityBikeBuyUrl = vehicleRental.buyUrl?.[language];
-  const buyInstructions = cityBikeBuyUrl
-    ? vehicleRental.buyInstructions?.[language]
-    : undefined;
-
+  const returnInstructionsUrl = networkConfig.returnInstructions?.[language];
+  const href =
+    vehicleRental.buyUrl?.[language] || networkConfig?.url?.[language];
+  const linkLabelId = vehicleRental.buyUrl?.[language]
+    ? 'citybike-purchase-link'
+    : 'citybike-start-using-info';
   return (
     <div className="bike-station-page-container">
       <ParkOrStationHeader
@@ -73,40 +69,17 @@ const VehicleRentalStationContent = (
           </a>
         </div>
       )}
-      {networkConfig.type === TransportMode.Citybike.toLowerCase() &&
-        (cityBikeBuyUrl || cityBikeNetworkUrl) && (
-          <div className="citybike-use-disclaimer">
-            <h2 className="disclaimer-header">
-              <FormattedMessage id="citybike-start-using" />
-            </h2>
-            <div className="disclaimer-content">
-              {buyInstructions || (
-                <a
-                  className="external-link-citybike"
-                  href={cityBikeNetworkUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <FormattedMessage id="citybike-start-using-info" />
-                </a>
-              )}
-            </div>
-            {cityBikeBuyUrl && (
-              <a
-                onClick={e => {
-                  e.stopPropagation();
-                }}
-                className="external-link"
-                href={cityBikeBuyUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FormattedMessage id="citybike-purchase-link" />
-                <Icon img="icon_external-link-box" />
-              </a>
-            )}
-          </div>
-        )}
+      {networkConfig.type === TransportMode.Citybike.toLowerCase() && href && (
+        <>
+          <br />
+          <Disclaimer
+            header={<FormattedMessage id="citybike-start-using" />}
+            text={vehicleRental.buyInstructions?.[language]}
+            href={href}
+            linkLabel={<FormattedMessage id={linkLabelId} />}
+          />
+        </>
+      )}
     </div>
   );
 };

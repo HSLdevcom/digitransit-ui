@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Marker from 'react-leaflet/es/Marker';
 import { default as L } from 'leaflet';
+import cx from 'classnames';
 import Icon from '../../Icon';
 import { legShape, configShape } from '../../../util/shapes';
 import { renderAsString } from '../../../util/mapIconUtils';
@@ -14,6 +15,7 @@ class LegMarker extends React.Component {
     zIndexOffset: PropTypes.number,
     wide: PropTypes.bool,
     style: PropTypes.string,
+    appendClass: PropTypes.string,
   };
 
   static defaultProps = {
@@ -21,6 +23,7 @@ class LegMarker extends React.Component {
     zIndexOffset: undefined,
     wide: false,
     style: undefined,
+    appendClass: undefined,
   };
 
   static contextTypes = {
@@ -63,9 +66,12 @@ class LegMarker extends React.Component {
             )}
               ${routeNumber}
             </div>`,
-          className: `${
-            this.props.style ? `arrow-${this.props.style}` : 'legmarker'
-          } ${this.props.mode} ${displayRouteNumber ? '' : 'only-icon'}`,
+          className: cx(
+            this.props.style ? `arrow-${this.props.style}` : 'legmarker',
+            this.props.mode,
+            { 'only-icon': !displayRouteNumber },
+            this.props.appendClass,
+          ),
           iconSize: null,
         })}
         zIndexOffset={this.props.zIndexOffset}

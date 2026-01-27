@@ -43,6 +43,7 @@ const getLegType = (leg, firstLeg, time, interlineWithPreviousLeg) => {
 function NaviCardContainer(
   {
     focusToLeg,
+    focusToPoint,
     time,
     legs,
     position,
@@ -225,6 +226,8 @@ function NaviCardContainer(
       aria-hidden={legChanging ? 'true' : 'false'}
     >
       <NaviCard
+        focusToPoint={focusToPoint}
+        previousLeg={previousLeg}
         leg={l}
         nextLeg={nl}
         legType={legType}
@@ -250,6 +253,7 @@ function NaviCardContainer(
 
 NaviCardContainer.propTypes = {
   focusToLeg: PropTypes.func,
+  focusToPoint: PropTypes.func.isRequired,
   time: PropTypes.number.isRequired,
   legs: PropTypes.arrayOf(legShape).isRequired,
   position: PropTypes.shape({

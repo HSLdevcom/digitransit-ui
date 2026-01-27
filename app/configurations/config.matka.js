@@ -23,11 +23,18 @@ const virtualMonitorBaseUrl = IS_DEV
   ? 'https://dev-matkamonitori.digitransit.fi'
   : 'https://matkamonitori.digitransit.fi';
 
+const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3/finland`;
+
 export default {
   CONFIG,
   OTPTimeout: process.env.OTP_TIMEOUT || 30000,
   URL: {
     FONT: 'https://cdn.digitransit.fi/matka-fonts/publicsans/publicsans+robotomono.css',
+    AREA_STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/areaStops/`,
+      sv: `${POI_MAP_PREFIX}/sv/areaStops/`,
+    },
   },
 
   mainMenu: {
@@ -172,6 +179,8 @@ export default {
 
   suggestBikeMaxDistance: 2000000,
 
+  trafficNowLink: true,
+
   vehicleRental: {
     useAllSeasons: true,
     networks: {
@@ -283,7 +292,6 @@ export default {
   parkAndRide: {
     showParkAndRide: true,
     showParkAndRideForBikes: true,
-    parkAndRideMinZoom: 13,
     pageContent: {
       default: HSLParkAndRideUtils,
     },
@@ -449,9 +457,13 @@ export default {
   ],
   navigation: true,
 
-  experimental: {
-    allowFlexJourneys: true,
-    allowDirectFlexJourneys: true,
+  flex: {
+    internalFlexEnabled: IS_DEV,
+    allowTaxiJourneys: true,
+    directOnlyTaxiJourneys: true,
+    internalAgencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
+    externalAgencies: ['02Taksi:02_taksi'],
+    infoLanguage: 'fi',
   },
 
   devAnalytics: true,
@@ -466,4 +478,5 @@ export default {
   },
 
   showStopStatusMarkers: true,
+  showRouteDescNotification: IS_DEV,
 };

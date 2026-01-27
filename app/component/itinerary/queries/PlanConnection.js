@@ -20,6 +20,7 @@ export const planConnection = graphql`
     $before: String
     $last: Int
     $via: [PlanViaLocationInput!]
+    $filters: [TransitFilterInput!]
   ) {
     plan: planConnection(
       dateTime: $datetime
@@ -48,6 +49,7 @@ export const planConnection = graphql`
         }
         transit: {
           transfer: { cost: $transferPenalty, slack: $minTransferTime }
+          filters: $filters
         }
       }
     ) {
@@ -125,6 +127,39 @@ export const planConnection = graphql`
                   publicCode
                   wheelchairAccessible
                 }
+                ... on ElevatorUse {
+                  from {
+                    level
+                    name
+                  }
+                  verticalDirection
+                  to {
+                    level
+                    name
+                  }
+                }
+                ... on EscalatorUse {
+                  from {
+                    level
+                    name
+                  }
+                  verticalDirection
+                  to {
+                    level
+                    name
+                  }
+                }
+                ... on StairsUse {
+                  from {
+                    level
+                    name
+                  }
+                  verticalDirection
+                  to {
+                    level
+                    name
+                  }
+                }
               }
               lat
               lon
@@ -138,6 +173,7 @@ export const planConnection = graphql`
               mode
               agency {
                 name
+                gtfsId
               }
             }
             trip {
@@ -200,6 +236,7 @@ export const planConnection = graphql`
                   networkId
                 }
               }
+              viaLocationType
             }
             to {
               lat
@@ -242,6 +279,7 @@ export const planConnection = graphql`
                   url
                 }
               }
+              viaLocationType
             }
             fareProducts {
               product {

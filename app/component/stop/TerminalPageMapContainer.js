@@ -39,6 +39,7 @@ const containerComponent = createFragmentContainer(TerminalPageMapContainer, {
       desc
       vehicleMode
       locationType
+      gtfsId
     }
   `,
 });

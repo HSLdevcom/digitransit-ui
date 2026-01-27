@@ -5,7 +5,7 @@ import { FormattedMessage, intlShape } from 'react-intl';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { configShape } from '../../../util/shapes';
 import Icon from '../../Icon';
-import { useLogo } from './hooks/useLogo';
+import { useLogo } from '../../../hooks/useLogo';
 
 const NaviStarter = (
   { time, startItinerary, containerTopPosition, isPastStart },
@@ -60,7 +60,7 @@ const NaviStarter = (
         ) : (
           <Icon
             aria-hidden="true"
-            img="icon_navigation_wait"
+            img="icon_wait_standing"
             className="mode"
             height={2}
             width={2}

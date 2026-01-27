@@ -184,7 +184,7 @@ function NearYouContainer(
         (noStopsFound && !prioritizedStops.length)) && (
         <>
           {withSeparator && <div className="separator" />}
-          <div className="stops-near-you-no-stops">
+          <div className="near-you-no-stops">
             <Icon img="icon_info" color={config.colors.primary} />
             <FormattedMessage id="nearest-no-stops" />
           </div>
@@ -194,15 +194,15 @@ function NearYouContainer(
         <FormattedMessage id={ariaRef.current} />
       </div>
       {loading === 1 && (
-        <div key="loading1" className="stops-near-you-spinner-container">
+        <div key="loading1" className="near-you-spinner-container">
           <Loading />
         </div>
       )}
-      <div key="items" role="list" className="stops-near-you-container">
+      <div key="items" role="list" className="near-you-container">
         {items}
       </div>
       {loading === 2 && (
-        <div key="loading2" className="stops-near-you-spinner-container">
+        <div key="loading2" className="near-you-spinner-container">
           <Loading />
         </div>
       )}
