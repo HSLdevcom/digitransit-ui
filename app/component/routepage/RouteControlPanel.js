@@ -166,7 +166,7 @@ class RouteControlPanel extends React.Component {
       sorted => sorted.code === match.params.patternId,
     );
 
-    if (match.params.type === PREFIX_TIMETABLE && !location.query?.serviceDay) {
+    if (match.params.type === PREFIX_TIMETABLE) {
       const enrichedPattern = enrichPatterns(
         [selectedPattern],
         false,

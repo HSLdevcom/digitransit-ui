@@ -1,5 +1,4 @@
 import cloneDeep from 'lodash/cloneDeep';
-import get from 'lodash/get';
 import { getTripOrRouteMode } from './modeUtils';
 import { BIKEAVL_UNKNOWN } from './vehicleRentalUtils';
 import { ExtendedRouteTypes, OtpCornerNamingPattern } from '../constants';
@@ -158,22 +157,8 @@ function continueWithBicycle(leg1, leg2) {
   return isBicycle1 && isBicycle2 && !leg1.to.vehicleParking;
 }
 
-export function getRouteText(route, config, interliningWithRoute) {
-  const showAgency = get(config, 'agency.show', false);
-  if (interliningWithRoute && interliningWithRoute !== route.shortName) {
-    return `${route.shortName} / ${interliningWithRoute}`;
-  }
-  if (route.shortName) {
-    return route.shortName;
-  }
-  if (showAgency && route.agency) {
-    return route.agency.name;
-  }
-  return '';
-}
-
 export function getTripOrRouteText(trip, route, config, interliningWithRoute) {
-  const showAgency = get(config, 'agency.show', false);
+  const showAgency = config.agency.show;
   const shortName = route.shortName || trip?.tripShortName;
   if (interliningWithRoute && interliningWithRoute !== shortName) {
     return `${shortName} / ${interliningWithRoute}`;

@@ -112,7 +112,7 @@ export default function LegInfo(
             id: mode,
             defaultMessage: 'Vehicle',
           })} ${(
-            leg.route?.shortName || leg.trip?.tripShortName
+            leg.route.shortName || leg.trip?.tripShortName
           )?.toLowerCase()}`}
         >
           {routeNumber}
