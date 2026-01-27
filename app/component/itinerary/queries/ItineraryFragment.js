@@ -61,7 +61,7 @@ export const ItineraryFragment = graphql`
       }
       trip {
         gtfsId
-        replacementMode
+        isReplacement
         tripShortName
         stoptimes {
           stop {

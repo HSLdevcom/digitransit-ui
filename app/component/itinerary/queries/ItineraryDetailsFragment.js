@@ -93,7 +93,7 @@ export const ItineraryDetailsFragment = graphql`
           occupancy {
             occupancyStatus
           }
-          replacementMode
+          isReplacement
           tripShortName
           gtfsId
         }
@@ -282,7 +282,7 @@ export const ItineraryDetailsFragment = graphql`
       trip {
         gtfsId
         tripHeadsign
-        replacementMode
+        isReplacement
         tripShortName
         pattern {
           code

@@ -181,7 +181,7 @@ const connectedComponent = createFragmentContainer(
           serviceDay
           realtimeState
         }
-        replacementMode
+        isReplacement
         gtfsId
       }
     `,
