@@ -2247,7 +2247,7 @@ __metadata:
     "@digitransit-search-util/digitransit-search-util-get-geocoding-results": 0.0.8
     "@digitransit-search-util/digitransit-search-util-get-json": 0.0.7
     "@digitransit-search-util/digitransit-search-util-helpers": 2.3.2
-    lodash: 4.17.21
+    lodash: 4.17.23
   languageName: unknown
   linkType: soft
 
@@ -2255,7 +2255,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-filter-matching-to-input@workspace:digitransit-search-util/packages/digitransit-search-util-filter-matching-to-input"
   dependencies:
-    lodash: 4.17.21
+    lodash: 4.17.23
   languageName: unknown
   linkType: soft
 
@@ -2289,7 +2289,7 @@ __metadata:
   resolution: "@digitransit-search-util/digitransit-search-util-helpers@workspace:digitransit-search-util/packages/digitransit-search-util-helpers"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-is-duplicate": 2.1.0
-    lodash: 4.17.21
+    lodash: 4.17.23
   languageName: unknown
   linkType: soft
 
@@ -2347,7 +2347,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-uniq-by-label@workspace:digitransit-search-util/packages/digitransit-search-util-uniq-by-label"
   dependencies:
-    lodash: 4.17.21
+    lodash: 4.17.23
     lodash-es: 4.17.21
   languageName: unknown
   linkType: soft
@@ -11250,7 +11250,7 @@ __metadata:
     leaflet: 1.6.0
     lerna: 9.0.0
     lint-staged: 10.3.0
-    lodash: 4.17.21
+    lodash: 4.17.23
     lru-cache: 6.0.0
     luxon: ^3.6.1
     mini-css-extract-plugin: 0.11.3
@@ -18489,7 +18489,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:4.17.21, lodash@npm:^4.17.10, lodash@npm:^4.17.11, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.4, lodash@npm:^4.17.5":
+"lodash@npm:4.17.23":
+  version: 4.17.23
+  resolution: "lodash@npm:4.17.23"
+  checksum: 7daad39758a72872e94651630fbb54ba76868f904211089721a64516ce865506a759d9ad3d8ff22a2a49a50a09db5d27c36f22762d21766e47e3ba918d6d7bab
+  languageName: node
+  linkType: hard
+
+"lodash@npm:^4.17.10, lodash@npm:^4.17.11, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:^4.17.21, lodash@npm:^4.17.4, lodash@npm:^4.17.5":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
