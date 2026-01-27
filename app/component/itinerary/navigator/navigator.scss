@@ -260,6 +260,15 @@
     width: inherit;
     margin: var(--space-m) var(--space-m);
 
+    &.default-card-type {
+      animation: fadeInDefaultCard $slide-up-down-fade;
+    }
+
+    &.indoor-card-type {
+      margin-bottom: 0;
+      animation: fadeInIndoorCard $slide-up-down-fade;
+    }
+
     .content {
       display: flex;
       flex-direction: row;
@@ -316,9 +325,14 @@
         .extension-divider {
           height: 1px;
           background: #ddd;
-          width: 95%;
+          width: 100%;
           margin-top: var(--space-s);
           margin-bottom: var(--space-s);
+
+          &.no-vertical-margin {
+            margin-top: 0;
+            margin-bottom: 0;
+          }
         }
 
         .stop-count {
@@ -482,7 +496,7 @@
             display: flex;
             color: $primary-color;
             font-weight: $font-weight-medium;
-            line-height: 1.2;
+            line-height: 1;
             flex: 1;
           }
 
@@ -533,15 +547,25 @@
 
               .icon-container {
                 margin-top: 0;
+                padding-right: 5px;
               }
             }
           }
         }
 
         .extension-indoor-container {
-          max-height: 130px;
+          max-height: 170px;
           overflow-y: auto;
           overflow-x: hidden;
+          margin-bottom: 0;
+          margin-top: 0;
+          padding-top: 8px;
+          padding-bottom: 16px;
+          mask-image: linear-gradient(
+            to bottom,
+            rgba(51, 51, 51, 1) 90%,
+            rgba(0, 0, 0, 0) 95%
+          );
 
           .navi-indoor-step-container {
             display: flex;
@@ -552,6 +576,7 @@
               .navi-indoor-step-info {
                 display: flex;
                 font-size: 0.9375rem;
+                max-height: 36px;
 
                 .navi-indoor-step-icon {
                   width: 24px;
@@ -565,6 +590,10 @@
                   align-items: center;
                   display: flex;
                   flex: 1;
+                }
+
+                .itinerary-map-action .icon-container {
+                  padding-right: 5px;
                 }
               }
             }
@@ -593,7 +622,7 @@
                 .navi-indoor-step-line-circle {
                   position: relative;
                   z-index: 9;
-                  min-height: 37px;
+                  min-height: 36px;
 
                   > svg > circle.indoor-step-marker {
                     fill: #fff;

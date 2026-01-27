@@ -704,6 +704,10 @@ div.leaflet-marker-icon.vehicle-icon {
             min-width: 0;
             margin: 11px;
 
+            &.selected {
+              filter: drop-shadow(0 1px 1px rgba(51, 51, 51, 1));
+            }
+
             > svg > circle.indoor-step-marker {
               fill: #fff;
               stroke: #666;
@@ -711,7 +715,6 @@ div.leaflet-marker-icon.vehicle-icon {
               &.selected {
                 fill: #666;
                 stroke: #fff;
-                filter: drop-shadow(0 1px 1px rgba(51, 51, 51, 1));
                 r: 8;
               }
             }

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
+import cx from 'classnames';
 import { isAnyLegPropertyIdentical, isRental } from '../../../util/legUtils';
 import { getRouteMode, transitIconName } from '../../../util/modeUtils';
 import { configShape, legShape } from '../../../util/shapes';
@@ -8,7 +9,8 @@ import NaviCardExtension from './NaviCardExtension';
 import NaviInstructions from './NaviInstructions';
 import { LEGTYPE } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
-import { NaviCardType } from '../../../constants';
+import { IndoorLegType, NaviCardType } from '../../../constants';
+import { getIndoorLegType } from '../../../util/indoorUtils';
 
 const iconMap = {
   BICYCLE: 'icon_cyclist',
@@ -113,7 +115,9 @@ export default function NaviCard(
       aria-expanded={cardExpanded}
       aria-controls={`navi-card-content-${leg?.legId}`}
     >
-      <div className="main-card">
+      <div
+        className={cx('main-card', `${currentCard.toLowerCase()}-card-type`)}
+      >
         <div className="content">
           <Icon img={iconName} className="mode" color={iconColor} omitViewBox />
           <div className={`instructions ${cardExpanded ? 'expanded' : ''}`}>
@@ -125,7 +129,12 @@ export default function NaviCard(
               time={time}
               position={position}
               tailLength={tailLength}
-              showDestinationInfo={currentCard === NaviCardType.Default}
+              showDestinationInfo={
+                currentCard === NaviCardType.Default ||
+                (currentCard === NaviCardType.Indoor &&
+                  getIndoorLegType(previousLeg, leg, nextLeg) ===
+                    IndoorLegType.StepsBeforeEntranceInside)
+              }
             />
           </div>
           <div type="button" className="navi-top-card-arrow">

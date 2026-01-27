@@ -21,7 +21,8 @@ import { getModeIconColor } from '../../../util/colorUtils';
 import Duration from '../Duration';
 import NaviIndoorButtonContainer from './indoor/NaviIndoorButtonContainer';
 import NaviIndoorCard from './indoor/NaviIndoorCard';
-import { NaviCardType } from '../../../constants';
+import { IndoorLegType, NaviCardType } from '../../../constants';
+import { getIndoorLegType } from '../../../util/indoorUtils';
 
 const NaviCardExtension = (
   {
@@ -55,6 +56,18 @@ const NaviCardExtension = (
     destination.iconId = 'icon_mapMarker';
     destination.className = 'place';
     destination.name = place;
+  }
+
+  if (currentCard === NaviCardType.Indoor) {
+    return (
+      <NaviIndoorCard
+        setCurrentCard={setCurrentCard}
+        previousLeg={previousLeg}
+        leg={leg}
+        nextLeg={nextLeg}
+        focusToPoint={focusToPoint}
+      />
+    );
   }
 
   if (legType === LEGTYPE.TRANSIT) {
@@ -92,7 +105,8 @@ const NaviCardExtension = (
       </div>
     );
   }
-  const stopInformation = (expandIcon = false, showIndoorButton = false) => {
+
+  const stopInformation = (expandIcon = false) => {
     return (
       <div className="extension-walk">
         <div className="destination-container">
@@ -124,16 +138,6 @@ const NaviCardExtension = (
             </div>
           </div>
         </div>
-        {showIndoorButton && (
-          <NaviIndoorButtonContainer
-            currentCard={currentCard}
-            setCurrentCard={setCurrentCard}
-            previousLeg={previousLeg}
-            leg={leg}
-            nextLeg={nextLeg}
-            focusToPoint={focusToPoint}
-          />
-        )}
       </div>
     );
   };
@@ -160,18 +164,8 @@ const NaviCardExtension = (
       </div>
     );
   }
+
   if (legType === LEGTYPE.MOVE && nextLeg?.transitLeg) {
-    if (currentCard === NaviCardType.Indoor) {
-      return (
-        <NaviIndoorCard
-          setCurrentCard={setCurrentCard}
-          previousLeg={previousLeg}
-          leg={leg}
-          nextLeg={nextLeg}
-          focusToPoint={focusToPoint}
-        />
-      );
-    }
     const { headsign, route, start } = nextLeg;
     const hs = headsign || nextLeg.trip?.tripHeadsign;
     const remainingDuration = <Duration duration={legTime(start) - time} />;
@@ -184,7 +178,15 @@ const NaviCardExtension = (
     return (
       <div className={cx('extension', 'no-vertical-margin')}>
         <div className="extension-divider" />
-        {stopInformation(false, true)}
+        {stopInformation(false)}
+        <NaviIndoorButtonContainer
+          currentCard={currentCard}
+          setCurrentCard={setCurrentCard}
+          previousLeg={previousLeg}
+          leg={leg}
+          nextLeg={nextLeg}
+          focusToPoint={focusToPoint}
+        />
         <div className="extension-divider" />
         <BoardingInfo
           route={route}
@@ -199,6 +201,20 @@ const NaviCardExtension = (
 
   return (
     <div className="extension">
+      {getIndoorLegType(previousLeg, leg, nextLeg) ===
+        IndoorLegType.StepsBeforeEntranceInside && (
+        <>
+          <div className="extension-divider" />
+          <NaviIndoorButtonContainer
+            currentCard={currentCard}
+            setCurrentCard={setCurrentCard}
+            previousLeg={previousLeg}
+            leg={leg}
+            nextLeg={nextLeg}
+            focusToPoint={focusToPoint}
+          />
+        </>
+      )}
       <div className="extension-divider" />
       {stopInformation(true)}
     </div>
