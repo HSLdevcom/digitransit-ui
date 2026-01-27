@@ -1287,7 +1287,7 @@ export default function ItineraryPage(props, context) {
       : props.mapLayerOptions;
 
     const flexLeg = planEdges?.[activeIndex]?.node.legs.find(leg =>
-      isCallAgencyLeg(leg),
+      isCallAgencyLeg(leg.route),
     );
     const updatedMapLayers = { ...props.mapLayers };
     const flexRouteGtfsId = flexLeg?.route?.gtfsId.split(':')[0];

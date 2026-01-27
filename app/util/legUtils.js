@@ -140,8 +140,8 @@ export function getLegMode(legOrMode) {
   }
 }
 
-export function isCallAgencyLeg(leg) {
-  return leg.route?.type === ExtendedRouteTypes.CallAgency;
+export function isCallAgencyLeg(route) {
+  return route?.type === ExtendedRouteTypes.CallAgency;
 }
 
 /**
@@ -992,12 +992,12 @@ export function getValidatedLegName(name, intl, start) {
  * @param {object} config - Config data.
  * @returns {boolean} - Returns true if leg is a local call agency.
  */
-export function isLocalCallAgency(leg, config) {
-  if (!leg.route) {
+export function isLocalCallAgency(route, config) {
+  if (!route) {
     return false;
   }
   return (
-    isCallAgencyLeg(leg) &&
-    config.flex.internalAgencies.includes(leg.route.agency.gtfsId)
+    isCallAgencyLeg(route) &&
+    config.flex.internalAgencies.includes(route.agency.gtfsId)
   );
 }

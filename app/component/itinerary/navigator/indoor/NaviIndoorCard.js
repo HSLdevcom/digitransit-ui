@@ -28,7 +28,7 @@ function NaviIndoorCard({
           setCurrentCard={setCurrentCard}
         />
       </div>
-      <div className="extension-divider" />
+      <div className="extension-divider no-vertical-margin" />
       <div className="extension-indoor-container">
         <NaviIndoorContainer
           focusToPoint={focusToPoint}

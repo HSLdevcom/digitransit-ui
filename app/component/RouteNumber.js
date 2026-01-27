@@ -64,16 +64,6 @@ function RouteNumber(props, context) {
     badgeTextFill,
   ) => {
     const iconName = icon || transitIconName(mode, false);
-    if (isCallAgency) {
-      return (
-        <IconWithIcon
-          color={color}
-          className={`${mode} call`}
-          img={iconName}
-          subIcon="icon_call"
-        />
-      );
-    }
 
     if (hasDisruption || !!alertSeverityLevel) {
       return (
@@ -115,7 +105,8 @@ function RouteNumber(props, context) {
           img={iconName}
           subIcon=""
           mode={mode}
-          omitViewBox
+          omitViewBox={!isCallAgency}
+          backgroundShape={isCallAgency ? 'square' : undefined}
         />
         {withBicycle && (
           <Icon

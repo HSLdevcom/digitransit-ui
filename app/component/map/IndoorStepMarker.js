@@ -87,7 +87,11 @@ export default function IndoorStepMarker(
                 <React.Fragment
                   key={`indoorstepmarker_lat_${position.lat}_lon_${position.lon}_index_${i}`}
                 >
-                  <div className="indoor-step-popup-line-circle">
+                  <div
+                    className={cx('indoor-step-popup-line-circle', {
+                      selected: index === i,
+                    })}
+                  >
                     <svg width={28} height={28}>
                       <circle
                         className={cx('indoor-step-marker', {

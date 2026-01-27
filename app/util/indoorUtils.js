@@ -113,7 +113,7 @@ export function getIndoorLegType(previousLeg, leg, nextLeg) {
 
 export function getIndoorSteps(previousLeg, leg, nextLeg) {
   const entranceIndex = getEntranceStepIndex(previousLeg, leg);
-  if (!entranceIndex) {
+  if (entranceIndex === undefined) {
     return [];
   }
   const indoorLegType = getIndoorLegType(previousLeg, leg, nextLeg);
