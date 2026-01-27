@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import cx from 'classnames';
 import { isAnyLegPropertyIdentical, isRental } from '../../../util/legUtils';
-import { getRouteMode, transitIconName } from '../../../util/modeUtils';
+import { getTripOrRouteMode, transitIconName } from '../../../util/modeUtils';
 import { configShape, legShape } from '../../../util/shapes';
 import Icon from '../../Icon';
 import NaviCardExtension from './NaviCardExtension';
@@ -67,7 +67,7 @@ export default function NaviCard(
   let instructions = '';
 
   if (legType === LEGTYPE.TRANSIT) {
-    const m = getRouteMode(leg.route, config);
+    const m = getTripOrRouteMode(leg.trip, leg.route, config);
     iconColor = config.colors[m] || leg.route.color;
     iconName = transitIconName(m, false);
     instructions = `navileg-in-transit`;

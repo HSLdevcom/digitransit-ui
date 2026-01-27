@@ -1,6 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep';
-import get from 'lodash/get';
-import { getRouteMode } from './modeUtils';
+import { getTripOrRouteMode } from './modeUtils';
 import { BIKEAVL_UNKNOWN } from './vehicleRentalUtils';
 import { ExtendedRouteTypes, OtpCornerNamingPattern } from '../constants';
 
@@ -158,13 +157,14 @@ function continueWithBicycle(leg1, leg2) {
   return isBicycle1 && isBicycle2 && !leg1.to.vehicleParking;
 }
 
-export function getRouteText(route, config, interliningWithRoute) {
-  const showAgency = get(config, 'agency.show', false);
-  if (interliningWithRoute && interliningWithRoute !== route.shortName) {
-    return `${route.shortName} / ${interliningWithRoute}`;
+export function getTripOrRouteText(trip, route, config, interliningWithRoute) {
+  const showAgency = config.agency?.show;
+  const shortName = route.shortName || trip?.tripShortName;
+  if (interliningWithRoute && interliningWithRoute !== shortName) {
+    return `${shortName} / ${interliningWithRoute}`;
   }
-  if (route.shortName) {
-    return route.shortName;
+  if (shortName) {
+    return shortName;
   }
   if (showAgency && route.agency) {
     return route.agency.name;
@@ -779,7 +779,8 @@ export function getTotalDrivingDuration(itinerary) {
 
 export function getExtendedMode(leg, config) {
   return config.useExtendedRouteTypes
-    ? (leg.route && getRouteMode(leg.route)) || leg.mode?.toLowerCase()
+    ? (leg.route && getTripOrRouteMode(leg.trip, leg.route)) ||
+        leg.mode?.toLowerCase()
     : leg.mode?.toLowerCase();
 }
 

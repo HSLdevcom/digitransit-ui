@@ -134,6 +134,8 @@ export const ItineraryDetailsFragment = graphql`
           occupancy {
             occupancyStatus
           }
+          isReplacement
+          tripShortName
           gtfsId
         }
         realTime
@@ -322,6 +324,8 @@ export const ItineraryDetailsFragment = graphql`
       trip {
         gtfsId
         tripHeadsign
+        isReplacement
+        tripShortName
         pattern {
           code
         }

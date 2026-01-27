@@ -16,7 +16,7 @@ import {
   getToLocalizedMode,
   withRealTime,
 } from './NaviUtils';
-import { getRouteMode } from '../../../util/modeUtils';
+import { getTripOrRouteMode } from '../../../util/modeUtils';
 import BoardingInfo from './BoardingInfo';
 import Duration from '../Duration';
 
@@ -24,7 +24,7 @@ function getBoardingParams(leg, time, config) {
   if (!leg?.transitLeg) {
     return {};
   }
-  const { headsign, route, start } = leg;
+  const { headsign, trip, route, start } = leg;
   const hs = headsign || leg.trip?.tripHeadsign;
 
   const remainingDuration = <Duration duration={legTime(start) - time} />;
@@ -33,7 +33,7 @@ function getBoardingParams(leg, time, config) {
     duration: withRealTime(rt, remainingDuration),
     legTime: withRealTime(rt, legTimeStr(start)),
   };
-  const routeMode = getRouteMode(route, config);
+  const routeMode = getTripOrRouteMode(trip, route, config);
   return { routeMode, route, hs, values };
 }
 

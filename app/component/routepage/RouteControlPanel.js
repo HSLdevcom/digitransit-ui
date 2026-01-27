@@ -79,7 +79,7 @@ class RouteControlPanel extends React.Component {
       longName: PropTypes.string,
       shortName: PropTypes.string,
       patterns: PropTypes.arrayOf(PropTypes.shape({})),
-      type: PropTypes.number.isRequired,
+      type: PropTypes.number,
       agency: PropTypes.shape({
         name: PropTypes.string.isRequired,
       }).isRequired,
