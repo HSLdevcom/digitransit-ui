@@ -153,4 +153,5 @@ export default {
   includeCarSuggestions: true,
   useAssembledGeoJsonZones: 'isOnByDefault',
   locationSearchTargetsFromOTP: [], // remove stop/station location search
+  viaPointsEnabled: false,
 };
