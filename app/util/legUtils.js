@@ -158,7 +158,7 @@ function continueWithBicycle(leg1, leg2) {
 }
 
 export function getTripOrRouteText(trip, route, config, interliningWithRoute) {
-  const showAgency = config.agency.show;
+  const showAgency = config.agency?.show;
   const shortName = route.shortName || trip?.tripShortName;
   if (interliningWithRoute && interliningWithRoute !== shortName) {
     return `${shortName} / ${interliningWithRoute}`;
