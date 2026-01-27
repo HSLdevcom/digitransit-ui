@@ -853,11 +853,11 @@ export default {
     },
     {
       showForRoute: route => route.type === 715,
-      id: 'trunkRouteNotification',
+      id: 'flexBusNotification',
       header: {
         fi: 'Kutsuliikenne',
-        en: 'Trunk route',
-        sv: 'Stomlinje',
+        en: 'On-demand service',
+        sv: 'Anropsbusstrafiken',
       },
       content: {
         fi: [
