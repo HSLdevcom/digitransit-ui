@@ -41,7 +41,7 @@ const VehicleModesFilter = ({ filterId }) => {
       <FormattedMessage
         tagName="legend"
         id="traffic-now_filters_vehicle-mode"
-        defaultMessage="Näytä liikennevälineen mukaan"
+        defaultMessage="Filter by vehicle mode"
       />
       {availableModes.map(option => (
         <label key={option} htmlFor={`vehicleModes-${option}`}>

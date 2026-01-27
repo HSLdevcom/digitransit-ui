@@ -70,6 +70,7 @@ const expected = {
       ids: new Set(['BUS_1']),
       entities: [
         {
+          gtfsId: 'MATKA:2',
           id: 'BUS_1',
           name: '1',
           url: routePagePath('MATKA:2'),
@@ -86,6 +87,7 @@ const expected = {
       ids: new Set(['TRAM_9']),
       entities: [
         {
+          gtfsId: 'MATKA:1',
           id: 'TRAM_9',
           name: '9',
           url: routePagePath('MATKA:1'),
@@ -104,6 +106,7 @@ const expected = {
       ids: new Set(['BUS_STOP_1']),
       entities: [
         {
+          gtfsId: 'MATKA:4',
           id: 'BUS_STOP_1',
           name: 'Bussipysäkki',
           url: stopPagePath(false, 'MATKA:4'),
@@ -120,6 +123,7 @@ const expected = {
       ids: new Set(['TRAM_STOP_1']),
       entities: [
         {
+          gtfsId: 'MATKA:3',
           id: 'TRAM_STOP_1',
           name: 'Raitsikkapysäkki',
           url: stopPagePath(false, 'MATKA:3'),
@@ -136,6 +140,7 @@ const expected = {
       ids: new Set(['RAIL_STOP_1']),
       entities: [
         {
+          gtfsId: 'MATKA:6',
           id: 'RAIL_STOP_1',
           name: 'Laituri 1',
           url: stopPagePath(false, 'MATKA:6'),
@@ -173,6 +178,7 @@ describe('trafficNowUtil', () => {
     expect(grouped).to.have.property('tram_stop');
     expect(grouped).to.have.property('tram_route');
     expect(grouped.tram_stop.entities).to.deep.include({
+      gtfsId: 'MATKA:3',
       id: 'TRAM_STOP_1',
       name: 'Raitsikkapysäkki',
       url: stopPagePath(false, 'MATKA:3'),
@@ -180,6 +186,7 @@ describe('trafficNowUtil', () => {
       isStation: false,
     });
     expect(grouped.tram_route.entities).to.deep.include({
+      gtfsId: 'MATKA:1',
       id: 'TRAM_9',
       name: '9',
       url: routePagePath('MATKA:1'),
@@ -194,6 +201,7 @@ describe('trafficNowUtil', () => {
       useExtendedRouteTypes: false,
     });
     expect(grouped.bus_route.entities).to.deep.include({
+      gtfsId: 'MATKA:2',
       id: 'BUS_1',
       name: '1',
       url: routePagePath('MATKA:2'),

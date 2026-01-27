@@ -58,8 +58,23 @@ const vehicleModesFilter = ({ entities }, { vehicleModes }) => {
 const entityFilter = ({ entities }, { entity }) =>
   !entity || entities.some(e => e.gtfsId === entity.gtfsId);
 
+const favouriteFilter = ({ entities }, { favourites }) =>
+  !favourites || entities.some(e => favourites.has(e.gtfsId));
+
+/**
+ * If this filter is present, only cancelledTrips should be shown
+ */
+const cancellationsFilter = ({ __typename }, { cancellations }) =>
+  !cancellations || __typename !== 'Alert';
+
 export function filterAndSortAlerts(alerts, selectedFilters) {
-  const filterFns = [validityPeriodFilter, vehicleModesFilter, entityFilter];
+  const filterFns = [
+    validityPeriodFilter,
+    vehicleModesFilter,
+    entityFilter,
+    favouriteFilter,
+    cancellationsFilter,
+  ];
 
   return alerts
     .filter(alert => filterFns.every(fn => fn(alert, selectedFilters)))

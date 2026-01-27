@@ -54,6 +54,7 @@ const addToModeGroup = (
       id,
       name: shortName || name,
       url,
+      gtfsId,
       isStop,
       isStation,
     });

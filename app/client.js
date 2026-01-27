@@ -44,6 +44,7 @@ import {
   fetchFavouritesComplete,
 } from './action/FavouriteActions';
 import { ConfigProvider } from './configurations/ConfigContext';
+import { FavouriteProvider } from './hooks/FavouriteContext';
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
@@ -228,19 +229,21 @@ async function init() {
           context={context.getComponentContext()}
         >
           <RelayEnvironmentProvider environment={environment}>
-            <ErrorBoundary>
-              <React.Fragment>
-                <Helmet
-                  {...meta(
-                    context.getStore('PreferencesStore').getLanguage(),
-                    window.location.host,
-                    window.location.href,
-                    config,
-                  )}
-                />
-                <Router resolver={resolver} />
-              </React.Fragment>
-            </ErrorBoundary>
+            <FavouriteProvider context={context.getComponentContext()}>
+              <ErrorBoundary>
+                <React.Fragment>
+                  <Helmet
+                    {...meta(
+                      context.getStore('PreferencesStore').getLanguage(),
+                      window.location.host,
+                      window.location.href,
+                      config,
+                    )}
+                  />
+                  <Router resolver={resolver} />
+                </React.Fragment>
+              </ErrorBoundary>
+            </FavouriteProvider>
           </RelayEnvironmentProvider>
         </ContextProvider>
       </ClientBreakpointProvider>

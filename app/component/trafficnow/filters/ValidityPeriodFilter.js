@@ -17,7 +17,7 @@ const ValidityPeriodFilter = ({ filterId }) => {
       <FormattedMessage
         tagName="legend"
         id="traffic-now_filters_validity-period"
-        defaultMessage="Näytä voimassaolon mukaan"
+        defaultMessage="Filter by validity period"
       />
       {FILTER_OPTIONS.map(option => (
         <label key={option.value} htmlFor={`period-${option}`}>

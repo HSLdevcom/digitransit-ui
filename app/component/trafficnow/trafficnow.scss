@@ -94,11 +94,32 @@
         border-right: 1px solid $light-gray;
       }
 
+      &__toggle {
+        &--container {
+          gap: var(--space-s);
+
+          .toggle {
+            height: 24px;
+
+            .slider {
+              width: 45px;
+
+              &::before {
+                height: 22px;
+                width: 22px;
+              }
+            }
+          }
+        }
+      }
+
       fieldset {
+        display: flex;
+        flex-direction: column;
         padding-inline: 0;
         border: 0;
         margin: 0;
-        padding-block: var(--space-xs);
+        padding-block: 0;
 
         label {
           display: flex;
@@ -214,6 +235,10 @@
             padding: var(--space-xs) var(--space-xxs);
             text-decoration: none;
 
+            &.highlight {
+              box-shadow: 0 0 10px 2px orange;
+            }
+
             &:hover {
               background-color: color-mix(in srgb, currentcolor, white 80%);
             }
@@ -281,6 +306,16 @@
       justify-content: space-between;
       padding: var(--space-m);
       border: 1px solid $light-gray;
+    }
+
+    .separator {
+      &.horizontal {
+        border-top: 1px solid $light-gray;
+      }
+
+      &.vertical {
+        border-right: 1px solid $light-gray;
+      }
     }
   }
 

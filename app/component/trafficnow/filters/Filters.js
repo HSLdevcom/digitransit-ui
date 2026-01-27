@@ -7,12 +7,15 @@ import { useFilterContext } from './FiltersContext';
 import { useBreakpoint } from '../../../util/withBreakpoint';
 import VehicleModesFilter from './VehicleModesFilter';
 import EntitySearch from './EntitySearch';
+import ToggleableFilters from './ToggleableFilters';
+import { useTranslationsContext } from '../../../util/useTranslationsContext';
 
 const Separator = () => <div className="separator horizontal" />;
 
 const Filters = ({ onApplyClick, onResetClick }) => {
   const { selectedFilters, resetFilters, DEFAULT_FILTERS } = useFilterContext();
   const breakpoint = useBreakpoint();
+  const intl = useTranslationsContext();
 
   const mobile = breakpoint !== 'large';
 
@@ -26,12 +29,20 @@ const Filters = ({ onApplyClick, onResetClick }) => {
       Component: VehicleModesFilter,
     },
     {
-      id: 'separator',
+      id: 'separator-1',
       Component: Separator,
     },
     {
       id: 'validityPeriod',
       Component: ValidityPeriodFilter,
+    },
+    {
+      id: 'separator-2',
+      Component: Separator,
+    },
+    {
+      id: 'toggles',
+      Component: ToggleableFilters,
     },
   ];
 
@@ -57,7 +68,7 @@ const Filters = ({ onApplyClick, onResetClick }) => {
           size="medium"
           fullWidth
           variant="blue"
-          value="Näytä tulokset"
+          value={intl.formatMessage({ id: 'traffic-now_filters_view-results' })}
           onClick={onApplyClick}
         />
       )}
@@ -69,7 +80,7 @@ const Filters = ({ onApplyClick, onResetClick }) => {
         }
         fullWidth={mobile}
         variant="white"
-        value="Tyhjennä valinnat"
+        value={intl.formatMessage({ id: 'clear-button-label' })}
         onClick={handleResetClick}
       />
     </form>
