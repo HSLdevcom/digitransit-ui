@@ -57,7 +57,7 @@ export default function LegInfo(
         mode={mode}
         alertSeverityLevel={alertSeverityLevel}
         color={leg.route.color ? `#${leg.route.color}` : 'currentColor'}
-        text={leg.route && leg.route.shortName}
+        text={leg.route.shortName || leg.trip?.tripShortName}
         realtime={false}
         withBar
         fadeLong
