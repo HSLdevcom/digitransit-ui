@@ -2003,7 +2003,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest-panel@^8.1.1, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
+"@digitransit-component/digitransit-component-autosuggest-panel@^8.1.2, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
@@ -2204,7 +2204,7 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component@workspace:digitransit-component/packages/digitransit-component"
   dependencies:
     "@digitransit-component/digitransit-component-autosuggest": ^7.1.0
-    "@digitransit-component/digitransit-component-autosuggest-panel": ^8.1.1
+    "@digitransit-component/digitransit-component-autosuggest-panel": ^8.1.2
     "@digitransit-component/digitransit-component-control-panel": ^7.0.0
     "@digitransit-component/digitransit-component-favourite-bar": ^5.0.0
     "@digitransit-component/digitransit-component-favourite-editing-modal": ^5.0.0
