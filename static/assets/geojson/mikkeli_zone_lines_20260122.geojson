@@ -5,7 +5,21 @@
   "features": [
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {
+        "zone": "G"
+      },
+      "styles": [
+        {
+          "color": "#666",
+          "weight": 2,
+          "opacity": 1
+        },
+        {
+          "color": "#333",
+          "weight": 12,
+          "opacity": 0.2
+        }
+      ],
       "geometry": {
         "type": "MultiLineString",
         "coordinates": [
@@ -20,7 +34,21 @@
     },
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {
+        "zone": "A"
+      },
+      "styles": [
+        {
+          "color": "#666",
+          "weight": 2,
+          "opacity": 1
+        },
+        {
+          "color": "#333",
+          "weight": 12,
+          "opacity": 0.2
+        }
+      ],
       "geometry": {
         "type": "MultiLineString",
         "coordinates": [
@@ -52,7 +80,21 @@
     },
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {
+        "zone": "B"
+      },
+      "styles": [
+        {
+          "color": "#666",
+          "weight": 2,
+          "opacity": 1
+        },
+        {
+          "color": "#333",
+          "weight": 12,
+          "opacity": 0.2
+        }
+      ],
       "geometry": {
         "type": "MultiLineString",
         "coordinates": [
@@ -86,7 +128,21 @@
     },
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {
+        "zone": "D"
+      },
+      "styles": [
+        {
+          "color": "#666",
+          "weight": 2,
+          "opacity": 1
+        },
+        {
+          "color": "#333",
+          "weight": 12,
+          "opacity": 0.2
+        }
+      ],
       "geometry": {
         "type": "MultiLineString",
         "coordinates": [
@@ -120,7 +176,21 @@
     },
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {
+        "zone": "C"
+      },
+      "styles": [
+        {
+          "color": "#666",
+          "weight": 2,
+          "opacity": 1
+        },
+        {
+          "color": "#333",
+          "weight": 12,
+          "opacity": 0.2
+        }
+      ],
       "geometry": {
         "type": "MultiLineString",
         "coordinates": [
@@ -158,7 +228,21 @@
     },
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {
+        "zone": "E"
+      },
+      "styles": [
+        {
+          "color": "#666",
+          "weight": 2,
+          "opacity": 1
+        },
+        {
+          "color": "#333",
+          "weight": 12,
+          "opacity": 0.2
+        }
+      ],
       "geometry": {
         "type": "MultiLineString",
         "coordinates": [
@@ -205,7 +289,21 @@
     },
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {
+        "zone": "F"
+      },
+      "styles": [
+        {
+          "color": "#666",
+          "weight": 2,
+          "opacity": 1
+        },
+        {
+          "color": "#333",
+          "weight": 12,
+          "opacity": 0.2
+        }
+      ],
       "geometry": {
         "type": "MultiLineString",
         "coordinates": [
