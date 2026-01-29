@@ -83,6 +83,19 @@ export default configMerger(walttiConfig, {
     ],
   },
 
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/mikkeli_zone_lines_20260122.geojson',
+      },
+    ],
+  },
+
   aboutThisService: {
     fi: [
       {
