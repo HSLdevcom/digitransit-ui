@@ -2,10 +2,10 @@ import { DateTime } from 'luxon';
 
 import { DATE_FORMAT } from '../constants';
 
-export const prepareServiceDay = (params, ctx) => {
+export const prepareServiceDay = params => {
   return {
     ...params,
-    date: ctx.location.query.serviceDay || DateTime.now().toFormat(DATE_FORMAT),
+    date: DateTime.now().toFormat(DATE_FORMAT),
   };
 };
 
