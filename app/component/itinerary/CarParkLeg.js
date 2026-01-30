@@ -50,12 +50,14 @@ function CarParkLeg(props, { config, intl }) {
           index={props.index}
           modeClassName="car-park-walk"
           carPark
+          viaType={props.leg.from.viaLocationType}
         />
       ) : (
         <ItineraryCircleLineWithIcon
           index={props.index}
           modeClassName="walk"
           carPark
+          viaType={props.leg.from.viaLocationType}
         />
       )}
 

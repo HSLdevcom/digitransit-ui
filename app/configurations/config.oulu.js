@@ -4,6 +4,7 @@ import walttiConfig from './config.waltti';
 const CONFIG = 'oulu';
 const APP_DESCRIPTION = 'Oulun seudun reittiopas';
 const APP_TITLE = 'Reittiopas';
+const CDN_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
 
 const IS_DEV =
   process.env.RUN_ENV === 'development' ||
@@ -113,6 +114,14 @@ export default configMerger(walttiConfig, {
         },
         url: '/assets/geojson/oulu_zone_lines_20241011.geojson',
       },
+      {
+        name: {
+          fi: 'Myyntipisteet',
+          sv: 'Servicekontorer',
+          en: 'Service points',
+        },
+        url: `${CDN_URL}/oulu-assets/v1/lipunmyyntipisteet`,
+      },
     ],
   },
 
@@ -174,4 +183,9 @@ export default configMerger(walttiConfig, {
   showTicketPrice: true,
   ticketLinkOperatorCode: 50229,
   appName: 'oslapp',
+
+  parkAndRide: {
+    showParkAndRide: true,
+    showParkAndRideForBikes: true,
+  },
 });

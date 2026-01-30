@@ -65,6 +65,17 @@ function StopPageMap(
       if (locationState.hasLocation) {
         if (distance(locationState, stop) < maxShowRouteDistance) {
           const settings = getSettings(config);
+          let location = {
+            coordinate: {
+              latitude: targetStop.lat,
+              longitude: targetStop.lon,
+            },
+          };
+          if (targetStop.gtfsId) {
+            location = {
+              stopLocation: { stopLocationId: targetStop.gtfsId },
+            };
+          }
           const variables = {
             origin: {
               location: {
@@ -75,12 +86,7 @@ function StopPageMap(
               },
             },
             destination: {
-              location: {
-                coordinate: {
-                  latitude: targetStop.lat,
-                  longitude: targetStop.lon,
-                },
-              },
+              location,
             },
             walkSpeed: settings.walkSpeed,
             wheelchair: !!settings.accessibilityOption,

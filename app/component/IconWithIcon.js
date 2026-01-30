@@ -18,8 +18,8 @@ const IconWithIcon = (
     subIcon,
     subIconClassName,
     subIconShape,
-    mode,
     omitViewBox,
+    backgroundShape,
   },
   { intl },
 ) => (
@@ -28,14 +28,21 @@ const IconWithIcon = (
       <Icon
         color={color}
         img={img}
-        viewBox={mode === 'call' ? '0 0 60 60' : undefined}
-        omitViewBox={omitViewBox}
+        omitViewBox={backgroundShape ? undefined : omitViewBox}
         foreground={
           (badgeFill || badgeText) && (
             <IconBadge
               badgeFill={badgeFill}
               badgeText={badgeText}
               badgeTextFill={badgeTextFill}
+            />
+          )
+        }
+        background={
+          backgroundShape && (
+            <IconBackground
+              shape={backgroundShape}
+              color={color || 'currentColor'}
             />
           )
         }
@@ -69,8 +76,8 @@ IconWithIcon.propTypes = {
   subIcon: PropTypes.string,
   subIconClassName: PropTypes.string,
   subIconShape: PropTypes.string,
-  mode: PropTypes.string,
   omitViewBox: PropTypes.bool,
+  backgroundShape: PropTypes.string,
 };
 
 IconWithIcon.contextTypes = {
@@ -86,9 +93,9 @@ IconWithIcon.defaultProps = {
   subIcon: '',
   subIconClassName: '',
   subIconShape: undefined,
-  mode: undefined,
   color: undefined,
   omitViewBox: false,
+  backgroundShape: undefined,
 };
 
 export default IconWithIcon;
