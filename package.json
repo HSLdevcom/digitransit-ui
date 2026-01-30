@@ -137,7 +137,7 @@
     "@hsl-fi/container-spinner": "0.3.2",
     "@hsl-fi/hooks": "1.2.4",
     "@hsl-fi/modal": " ^0.3.2",
-    "@hsl-fi/sass": " ^0.2.0",
+    "@hsl-fi/sass": " 1.0.0",
     "@hsl-fi/shimmer": "0.1.2",
     "@hsl-fi/site-header": "4.5.2",
     "@mapbox/sphericalmercator": "1.1.0",
@@ -161,7 +161,7 @@
     "fluxible-addons-react": "0.2.17",
     "found": "0.5.9",
     "found-relay": "1.0.2",
-    "foundation-apps": "1.2.0",
+    "foundation-sites": "6.9.0",
     "helmet": "4.1.0",
     "hoist-non-react-statics": "2.5.5",
     "i18next": "22.5.1",
@@ -277,7 +277,6 @@
     "mocha": "11.2.2",
     "mock-local-storage": "1.1.24",
     "mockdate": "3.0.5",
-    "node-sass": "^9.0.0",
     "nodemon": "1.18.10",
     "optimize-css-assets-webpack-plugin": "5.0.8",
     "playwright": "1.16.2",
@@ -292,6 +291,7 @@
     "rollup-plugin-peer-deps-external": "2.2.4",
     "rollup-plugin-postcss": "4.0.2",
     "rollup-plugin-terser": "7.0.2",
+    "sass": "^1.97.2",
     "sass-loader": "^10.5.2",
     "selenium-webdriver": "4.0.0-alpha.1",
     "sinon": "19.0.5",
@@ -309,6 +309,7 @@
   },
   "resolutions": {
     "html-webpack-plugin": "4.5.2",
-    "sharp": "0.33"
+    "sharp": "0.33",
+    "cheerio": "1.0.0-rc.10"
   }
 }

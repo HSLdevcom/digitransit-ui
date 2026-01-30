@@ -1,3 +1,5 @@
+@import 'foundation-sites/scss/util/util';
+
 /* Set Foundation base font to theme font
    (without this Foundation overrides body */
 $body-font-family: $font-family;
@@ -73,10 +75,3 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/popover';
 @import '../app/component/animations';
 @import '../app/component/disclaimer';
-
-/* Modal */
-@import '~foundation-apps/scss/helpers/breakpoints';
-@import '~foundation-apps/scss/components/modal';
-
-// And these application specific styles use Foundation variables,
-// so they have to be loaded afterwards
