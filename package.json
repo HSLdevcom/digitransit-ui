@@ -309,6 +309,7 @@
   },
   "resolutions": {
     "html-webpack-plugin": "4.5.2",
-    "sharp": "0.33"
+    "sharp": "0.33",
+    "cheerio": "1.0.0-rc.10"
   }
 }
