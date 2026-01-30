@@ -277,6 +277,7 @@
     "mocha": "11.2.2",
     "mock-local-storage": "1.1.24",
     "mockdate": "3.0.5",
+    "node-gyp": "12.1.0",
     "nodemon": "1.18.10",
     "optimize-css-assets-webpack-plugin": "5.0.8",
     "playwright": "1.16.2",

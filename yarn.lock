@@ -11400,6 +11400,7 @@ __metadata:
     morgan: 1.10.0
     mqtt: 4.3.8
     node-fetch: 2.6.7
+    node-gyp: 12.1.0
     nodemon: 1.18.10
     offline-plugin: 5.0.7
     openid-client: 5.6.4
@@ -20034,6 +20035,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"node-gyp@npm:12.1.0, node-gyp@npm:^12.1.0, node-gyp@npm:latest":
+  version: 12.1.0
+  resolution: "node-gyp@npm:12.1.0"
+  dependencies:
+    env-paths: ^2.2.0
+    exponential-backoff: ^3.1.1
+    graceful-fs: ^4.2.6
+    make-fetch-happen: ^15.0.0
+    nopt: ^9.0.0
+    proc-log: ^6.0.0
+    semver: ^7.3.5
+    tar: ^7.5.2
+    tinyglobby: ^0.2.12
+    which: ^6.0.0
+  bin:
+    node-gyp: bin/node-gyp.js
+  checksum: 198d91c535fe9940bcdc0db4e578f94cf9872e0d068e88ef2f4656924248bb67245b270b48eded6634c7513841c0cd42f3da3ac9d77c8e16437fcd90703b9ef3
+  languageName: node
+  linkType: hard
+
 "node-gyp@npm:^11.0.0":
   version: 11.5.0
   resolution: "node-gyp@npm:11.5.0"
@@ -20051,26 +20072,6 @@ __metadata:
   bin:
     node-gyp: bin/node-gyp.js
   checksum: 6cc29b9d454d9a684c8fe299668db618875bb4282e37717ca5b79689cc5ce99cd553c70944bb367979f2eba40ad6a50afaf7b12a6b214172edc7377384efa051
-  languageName: node
-  linkType: hard
-
-"node-gyp@npm:^12.1.0, node-gyp@npm:latest":
-  version: 12.1.0
-  resolution: "node-gyp@npm:12.1.0"
-  dependencies:
-    env-paths: ^2.2.0
-    exponential-backoff: ^3.1.1
-    graceful-fs: ^4.2.6
-    make-fetch-happen: ^15.0.0
-    nopt: ^9.0.0
-    proc-log: ^6.0.0
-    semver: ^7.3.5
-    tar: ^7.5.2
-    tinyglobby: ^0.2.12
-    which: ^6.0.0
-  bin:
-    node-gyp: bin/node-gyp.js
-  checksum: 198d91c535fe9940bcdc0db4e578f94cf9872e0d068e88ef2f4656924248bb67245b270b48eded6634c7513841c0cd42f3da3ac9d77c8e16437fcd90703b9ef3
   languageName: node
   linkType: hard
 
