@@ -10,7 +10,11 @@ import { useConfigContext } from '../../configurations/ConfigContext';
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 const searchSources = ['Favourite', 'History', 'Datasource'];
 
-function StopRouteSearch({ mode, ...rest }, { router }) {
+function parkFilter(parks, mode) {
+  return parks.filter(p => p.properties?.layer === mode.toLowerCase());
+}
+
+function StopRouteSearch({ mode, router, ...rest }) {
   const transportMode = `route-${mode}`;
   const {
     getAutoSuggestIcons,
@@ -20,7 +24,7 @@ function StopRouteSearch({ mode, ...rest }, { router }) {
     stopSearchFilter,
   } = useConfigContext();
 
-  const filter = stopSearchFilter
+  let filter = stopSearchFilter
     ? (results, transportmode, type) =>
         filterSearchResultsByMode(results, transportmode, type).filter(
           stopSearchFilter,
@@ -29,6 +33,7 @@ function StopRouteSearch({ mode, ...rest }, { router }) {
   const selectHandler = item => {
     router.push(getStopRoutePath(item));
   };
+
   let targets;
   switch (mode) {
     case 'CITYBIKE':
@@ -37,6 +42,7 @@ function StopRouteSearch({ mode, ...rest }, { router }) {
     case 'BIKEPARK':
     case 'CARPARK':
       targets = ['ParkingAreas'];
+      filter = parkFilter;
       break;
     default:
       targets = ['Stops', 'Stations', 'Routes'];
@@ -66,7 +72,9 @@ function StopRouteSearch({ mode, ...rest }, { router }) {
   );
 }
 
-StopRouteSearch.propTypes = { mode: PropTypes.string.isRequired };
-StopRouteSearch.contextTypes = { router: routerShape.isRequired };
+StopRouteSearch.propTypes = {
+  mode: PropTypes.string.isRequired,
+  router: routerShape.isRequired,
+};
 
 export default memo(StopRouteSearch);

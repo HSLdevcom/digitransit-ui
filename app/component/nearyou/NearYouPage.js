@@ -1,12 +1,12 @@
 /* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { graphql, ReactRelayContext, QueryRenderer } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { relayShape, configShape, locationShape } from '../../util/shapes';
+import { configShape, relayShape, locationShape } from '../../util/shapes';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../../util/withBreakpoint';
@@ -38,6 +38,7 @@ import {
   useCitybikes,
 } from '../../util/modeUtils';
 import FavouriteStore from '../../store/FavouriteStore';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 // component initialization phases
 const PH_START = 'start';
@@ -74,9 +75,11 @@ function NearYouPage(
     mapLayers,
     favouritesFetched,
     currentTime,
+    router,
   },
-  { config, executeAction, router },
+  { executeAction },
 ) {
+  const config = useConfigContext();
   const MWTRef = useRef();
   const modes = useRef(getModes(config));
   const centerOfMap = useRef({});
@@ -391,6 +394,7 @@ function NearYouPage(
                       mode={tabMode}
                       isMobile={breakpoint !== 'large'}
                       refPoint={searchPosition}
+                      router={router}
                     />
                   )}
                   {tabMode === 'CITYBIKE' && <CityBikeInfo />}
@@ -591,11 +595,7 @@ function NearYouPage(
 }
 
 NearYouPage.contextTypes = {
-  config: configShape.isRequired,
   executeAction: PropTypes.func.isRequired,
-  getStore: PropTypes.func,
-  intl: intlShape.isRequired,
-  router: routerShape.isRequired,
 };
 
 NearYouPage.propTypes = {
@@ -609,6 +609,7 @@ NearYouPage.propTypes = {
   mapLayers: mapLayerShape.isRequired,
   favouritesFetched: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
+  router: routerShape.isRequired,
 };
 
 NearYouPage.defaultProps = {

@@ -57,7 +57,7 @@ export default function Disclaimer({
       <Icon className="info" img="icon_info" />
       <div className="disclaimer">
         <div className="disclaimer-header">
-          {hdr && <h3 className="disclaimer-header-text">{hdr}</h3>}
+          {hdr && <h3>{hdr}</h3>}
           {closable && (
             <button
               className="disclaimer-close"

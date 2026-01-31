@@ -1,13 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import DTIcon from '@digitransit-component/digitransit-component-icon';
 import Modal from '@hsl-fi/modal';
+import { useTranslationsContext } from '../../util/useTranslationsContext';
 
-export default function LocationModal(
-  { handleClose, startGeolocation, showGeolocationButton, showInfo, children },
-  { intl },
-) {
+export default function LocationModal({
+  handleClose,
+  startGeolocation,
+  showGeolocationButton,
+  showInfo,
+  children,
+}) {
+  const intl = useTranslationsContext();
   return (
     <Modal
       appElement="#app"
@@ -66,7 +71,3 @@ LocationModal.propTypes = {
 };
 
 LocationModal.defaultProps = { children: null };
-
-LocationModal.contextTypes = {
-  intl: intlShape.isRequired,
-};

@@ -3,11 +3,12 @@ import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { Info } from 'luxon';
+import { routerShape } from 'found';
 import { parkShape, errorShape } from '../util/shapes';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import Disclaimer from './Disclaimer';
-import { PREFIX_BIKEPARK } from '../util/path';
+import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../util/path';
 import { useConfigContext } from '../configurations/ConfigContext';
 import { useBreakpoint } from '../util/withBreakpoint';
 
@@ -21,11 +22,23 @@ function parkLabel(id) {
 
 const osmDays = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'];
 
-function translateOpeningHours(s) {
+function renderOpeningHours(s, dotted) {
   let translated = s;
   osmDays.forEach((d, i) => {
     translated = translated.replaceAll(d, Info.weekdays('short')[i]);
   });
+  if (dotted) {
+    const parts = translated.split(' ');
+    if (parts.length === 2) {
+      return (
+        <span className="formatted-hour">
+          <span>{parts[0]} </span>
+          <span className="dot-line" />
+          <span> {parts[1]}</span>
+        </span>
+      );
+    }
+  }
   return translated;
 }
 
@@ -36,6 +49,7 @@ function ParkAndRideContent({
   showInfo,
   showDetails,
   backButton,
+  router,
 }) {
   // throw error when relay query fails
   if (error) {
@@ -48,6 +62,8 @@ function ParkAndRideContent({
     ? mode === 'BIKEPARK'
     : window.location.href.includes(PREFIX_BIKEPARK);
   if (!vehicleParking) {
+    const path = bikePark ? PREFIX_BIKEPARK : PREFIX_CARPARK;
+    router?.replace(`/${path}`);
     return null;
   }
   const prePostFix = bikePark ? 'bike-park' : 'car-park';
@@ -81,6 +97,7 @@ function ParkAndRideContent({
     Number.isInteger(available) &&
     Number.isInteger(capacity);
 
+  const dotted = showDetails && openingHours.length > 1;
   const detailClass = showDetails ? 'park-details' : 'park-details-row';
   const separator = showDetails ? 'separator' : 'low-separator';
   return (
@@ -111,7 +128,7 @@ function ParkAndRideContent({
               {openingHours.map(text => (
                 // eslint-disable-next-line react/no-array-index-key
                 <span key={`opening-hour-${text}`}>
-                  {translateOpeningHours(text)}
+                  {renderOpeningHours(text, dotted)}
                 </span>
               ))}
             </div>
@@ -201,6 +218,7 @@ ParkAndRideContent.propTypes = {
   showInfo: PropTypes.bool,
   showDetails: PropTypes.bool,
   backButton: PropTypes.bool,
+  router: routerShape,
 };
 
 ParkAndRideContent.defaultProps = {
@@ -210,6 +228,7 @@ ParkAndRideContent.defaultProps = {
   showInfo: true,
   showDetails: true,
   backButton: true,
+  router: undefined,
 };
 
 export default ParkAndRideContent;

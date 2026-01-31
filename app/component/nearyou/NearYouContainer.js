@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { createPaginationContainer, graphql } from 'react-relay';
-import { intlShape, FormattedMessage } from 'react-intl';
-import { configShape, relayShape } from '../../util/shapes';
+import { FormattedMessage } from 'react-intl';
+import { relayShape } from '../../util/shapes';
 import StopNearYouContainer from './StopNearYouContainer';
 import withBreakpoint from '../../util/withBreakpoint';
 import {
@@ -15,22 +15,23 @@ import Loading from '../Loading';
 import Icon from '../Icon';
 import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
 import DisruptionBanner from '../DisruptionBanner';
+import { useTranslationsContext } from '../../util/useTranslationsContext';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
-function NearYouContainer(
-  {
-    places,
-    loadingDone,
-    currentTime,
-    relay,
-    position,
-    withSeparator,
-    prioritizedStops,
-    mode,
-    isParentTabActive,
-    favouriteIds,
-  },
-  { config, intl },
-) {
+function NearYouContainer({
+  places,
+  loadingDone,
+  currentTime,
+  relay,
+  position,
+  withSeparator,
+  prioritizedStops,
+  mode,
+  isParentTabActive,
+  favouriteIds,
+}) {
+  const config = useConfigContext();
+  const intl = useTranslationsContext();
   const ariaRef = useRef('stop-near-you');
   const searchPos = useRef(position); // position used for fetching nearest places
   const refetches = useRef(0);
@@ -245,13 +246,6 @@ NearYouContainer.defaultProps = {
   places: undefined,
   withSeparator: false,
   isParentTabActive: false,
-};
-
-NearYouContainer.contextTypes = {
-  config: configShape,
-  intl: intlShape.isRequired,
-  executeAction: PropTypes.func.isRequired,
-  getStore: PropTypes.func,
 };
 
 const NearYouContainerWithBreakpoint = withBreakpoint(NearYouContainer);
