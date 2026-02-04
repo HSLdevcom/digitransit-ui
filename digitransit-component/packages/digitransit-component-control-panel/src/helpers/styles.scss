@@ -164,16 +164,6 @@
         height: 50px;
       }
     }
-
-    .sr-only:not(:focus, :active) {
-      clip: rect(0 0 0 0);
-      clip-path: inset(50%);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px;
-    }
   }
 
   .near-you-button-with-border {
@@ -225,16 +215,6 @@
   }
 
   .near-you-buttons-container-wide {
-    .sr-only:not(:focus, :active) {
-      clip: rect(0 0 0 0);
-      clip-path: inset(50%);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px;
-    }
-
     .near-you-button,
     .near-you-button-with-border {
       margin-bottom: var(--margin);

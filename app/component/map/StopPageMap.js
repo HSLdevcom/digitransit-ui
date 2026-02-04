@@ -25,7 +25,7 @@ import { getMapLayerOptions } from '../../util/mapLayerUtils';
 import MapRoutingButton from '../MapRoutingButton';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../util/path';
-import { walkQuery } from './WalkQuery';
+import { streetQuery } from './StreetQuery';
 
 const getModeFromProps = props => {
   if (props.citybike) {
@@ -77,6 +77,7 @@ function StopPageMap(
             };
           }
           const variables = {
+            mode: 'WALK',
             origin: {
               location: {
                 coordinate: {
@@ -91,7 +92,7 @@ function StopPageMap(
             walkSpeed: settings.walkSpeed,
             wheelchair: !!settings.accessibilityOption,
           };
-          fetchQuery(environment, walkQuery, variables)
+          fetchQuery(environment, streetQuery, variables)
             .toPromise()
             .then(result => {
               setWalk(

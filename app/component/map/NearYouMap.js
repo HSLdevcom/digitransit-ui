@@ -31,7 +31,7 @@ import Loading from '../Loading';
 import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
-import { walkQuery } from './WalkQuery';
+import { streetQuery } from './StreetQuery';
 import LocationMarker from './LocationMarker';
 
 function getId(edge) {
@@ -160,7 +160,14 @@ function NearYouMap(
           stopLocation: { stopLocationId: node.place.gtfsId },
         };
       }
+      let routingMode = 'WALK';
+      if (mode === 'CARPARK') {
+        routingMode = 'CAR';
+      } else if (mode === 'BIKEPARK') {
+        routingMode = 'BICYCLE';
+      }
       const variables = {
+        mode: routingMode,
         origin: {
           location: {
             coordinate: { latitude: position.lat, longitude: position.lon },
@@ -172,7 +179,7 @@ function NearYouMap(
         walkSpeed: settings.walkSpeed,
         wheelchair: !!settings.accessibilityOption,
       };
-      fetchQuery(environment, walkQuery, variables)
+      fetchQuery(environment, streetQuery, variables)
         .toPromise()
         .then(result => {
           setWalk({

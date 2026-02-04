@@ -201,7 +201,7 @@ class TransitLeg extends React.Component {
             arrival={place.arrival}
             realTime={leg.realTime}
             stopCode={place.stop.code}
-            focusFunction={this.context.focusFunction({
+            focusFunction={this.props.focusFunction({
               lat: place.stop.lat,
               lon: place.stop.lon,
             })}
@@ -724,6 +724,7 @@ TransitLeg.propTypes = {
   interliningLegs: PropTypes.arrayOf(legShape),
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
+  focusFunction: PropTypes.func.isRequired,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node,
   lang: PropTypes.string.isRequired,
@@ -745,7 +746,6 @@ TransitLeg.defaultProps = {
 };
 
 TransitLeg.contextTypes = {
-  focusFunction: PropTypes.func.isRequired,
   config: configShape.isRequired,
   intl: intlShape.isRequired,
 };

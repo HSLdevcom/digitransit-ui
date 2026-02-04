@@ -52,9 +52,9 @@ const PH_USEMAPCENTER = 'usemapcenter';
 const PH_SHOWSEARCH = [PH_SEARCH, PH_SEARCH_GEOLOCATION]; // show modal
 const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION, PH_USEMAPCENTER]; // render the actual page
 
-function getModes(config) {
+function getModes(config, favourites) {
   const transportModes = getTransportModes(config);
-  const nearYouModes = getNearYouModes(config);
+  const nearYouModes = getNearYouModes(config, favourites);
   const modes = nearYouModes.length
     ? nearYouModes
     : Object.keys(transportModes).filter(
@@ -69,6 +69,7 @@ function NearYouPage(
     relayEnvironment,
     position,
     match,
+    favourites,
     favouriteStopIds,
     favouriteStationIds,
     favouriteVehicleStationIds,
@@ -81,7 +82,8 @@ function NearYouPage(
 ) {
   const config = useConfigContext();
   const MWTRef = useRef();
-  const modes = useRef(getModes(config));
+  const timeRef = useRef(currentTime);
+  const modes = useRef(getModes(config, favourites));
   const centerOfMap = useRef({});
   const [phase, setPhase] = useState(PH_START);
   const [centerOfMapChanged, setCenterOfMapChanged] = useState(false);
@@ -92,6 +94,7 @@ function NearYouPage(
 
   const { mode } = match.params;
   const allModes = modes.current;
+  const time = Math.max(currentTime, timeRef.current);
 
   const updateMapLayerOptions = () => {
     if (config.map.showLayerSelector) {
@@ -171,6 +174,7 @@ function NearYouPage(
     // this fixes a bug where swipeable tabs were not keeping focusable elements up to date after receving stop data
     // and keyboard focus could be lost to hidden elements.
     // eslint-disable-next-line react/no-unused-state
+    timeRef.current += 1;
     setResultsLoaded(true);
   };
 
@@ -322,7 +326,7 @@ function NearYouPage(
                 searchPosition={searchPosition}
                 noFavourites={noFavs}
                 isParentTabActive={isActive}
-                currentTime={currentTime}
+                currentTime={time}
               />
             ) : (
               <Loading />
@@ -436,7 +440,7 @@ function NearYouPage(
                           <StopNearYouContainer
                             stop={stop}
                             key={stop.gtfsId}
-                            currentTime={currentTime}
+                            currentTime={time}
                             isParentTabActive={isActive}
                           />
                         ))
@@ -454,7 +458,7 @@ function NearYouPage(
                       withSeparator={!renderStopRouteSearch}
                       mode={tabMode}
                       isParentTabActive={isActive}
-                      currentTime={currentTime}
+                      currentTime={time}
                       favouriteIds={favIds}
                     />
                   ) : (
@@ -546,50 +550,48 @@ function NearYouPage(
       </LocationModal>
     );
   }
+
+  const desktop = () => (
+    <DesktopView
+      title={
+        mode === 'FAVORITE' ? (
+          <FormattedMessage id="nearest-favourites" />
+        ) : (
+          <FormattedMessage
+            id="nearest"
+            defaultMessage="Stops near you"
+            values={{
+              mode: (
+                <FormattedMessage id={`nearest-stops-${mode.toLowerCase()}`} />
+              ),
+            }}
+          />
+        )
+      }
+      bckBtnFallback="back"
+      content={renderContent()}
+      scrollable={allModes.length === 1}
+      map={
+        <>
+          {mapSearch()}
+          {renderMap()}
+        </>
+      }
+    />
+  );
+
+  const mobile = () => (
+    <MobileView
+      content={renderContent()}
+      map={renderMap()}
+      searchBox={mapSearch()}
+      mapRef={MWTRef.current}
+      match={match}
+    />
+  );
+
   if (PH_READY.includes(phase)) {
-    return (
-      <DesktopOrMobile
-        desktop={() => (
-          <DesktopView
-            title={
-              mode === 'FAVORITE' ? (
-                <FormattedMessage id="nearest-favourites" />
-              ) : (
-                <FormattedMessage
-                  id="nearest"
-                  defaultMessage="Stops near you"
-                  values={{
-                    mode: (
-                      <FormattedMessage
-                        id={`nearest-stops-${mode.toLowerCase()}`}
-                      />
-                    ),
-                  }}
-                />
-              )
-            }
-            bckBtnFallback="back"
-            content={renderContent()}
-            scrollable={allModes.length === 1}
-            map={
-              <>
-                {mapSearch()}
-                {renderMap()}
-              </>
-            }
-          />
-        )}
-        mobile={() => (
-          <MobileView
-            content={renderContent()}
-            map={renderMap()}
-            searchBox={mapSearch()}
-            mapRef={MWTRef.current}
-            match={match}
-          />
-        )}
-      />
-    );
+    return <DesktopOrMobile desktop={desktop} mobile={mobile} />;
   }
   return <Loading />;
 }
@@ -606,6 +608,7 @@ NearYouPage.propTypes = {
   favouriteStopIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteVehicleStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  favourites: PropTypes.array, // eslint-disable-line
   mapLayers: mapLayerShape.isRequired,
   favouritesFetched: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
@@ -654,6 +657,7 @@ const PositioningWrapper = connectToStores(
       favouriteStopIds,
       favouriteVehicleStationIds,
       favouriteStationIds,
+      favourites: favStore.getFavourites(),
       favouritesFetched:
         favStore.getStatus() !== FavouriteStore.STATUS_FETCHING_OR_UPDATING,
     };

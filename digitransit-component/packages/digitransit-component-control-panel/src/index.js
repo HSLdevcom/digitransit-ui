@@ -178,9 +178,8 @@ function NearStopsAndRoutes({
             {t(key, { lng: language })}
           </span>
         );
-      } else {
-        buttonProps.srMsg = t(mode, { lng: language });
       }
+
       if (!forModal) {
         buttonProps.withBorder = true;
       } else {
@@ -209,7 +208,12 @@ function NearStopsAndRoutes({
             };
 
       const button = (
-        <div key={mode} {...clickProps} {...linkedButtonProps}>
+        <div
+          aria-label={t(mode, { lng: language })}
+          key={mode}
+          {...clickProps}
+          {...linkedButtonProps}
+        >
           <NearYouButton {...buttonProps} />
         </div>
       );
