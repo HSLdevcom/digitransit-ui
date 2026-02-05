@@ -27,7 +27,7 @@ import StopRouteSearch from './StopRouteSearch';
 import { getGeolocationState } from '../../store/localStorage';
 import { PREFIX_NEARYOU } from '../../util/path';
 import NearYouContainer from './NearYouContainer';
-import SwipeableTabs from '../SwipeableTabs';
+import SwipeableTabs, { setFocusables } from '../SwipeableTabs';
 import NearYouFavourites from './NearYouFavourites';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
@@ -63,6 +63,12 @@ function getModes(config, favourites) {
   return modes.map(nearYouMode => nearYouMode.toUpperCase());
 }
 
+function tabHandler(e) {
+  if (e.key === 'Tab') {
+    setFocusables();
+  }
+}
+
 function NearYouPage(
   {
     breakpoint,
@@ -82,7 +88,6 @@ function NearYouPage(
 ) {
   const config = useConfigContext();
   const MWTRef = useRef();
-  const timeRef = useRef(currentTime);
   const modes = useRef(getModes(config, favourites));
   const centerOfMap = useRef({});
   const [phase, setPhase] = useState(PH_START);
@@ -90,11 +95,10 @@ function NearYouPage(
   const [searchPosition, setSearchPosition] = useState({});
   const [mapLayerOptions, setMapLayerOptions] = useState({});
   // eslint-disable-next-line
-  const [resultsLoaded, setResultsLoaded] = useState(false);
+  const [resultsLoaded, setResultsLoaded] = useState(0);
 
   const { mode } = match.params;
   const allModes = modes.current;
-  const time = Math.max(currentTime, timeRef.current);
 
   const updateMapLayerOptions = () => {
     if (config.map.showLayerSelector) {
@@ -155,6 +159,11 @@ function NearYouPage(
   }, []);
 
   useEffect(() => {
+    window.addEventListener('keydown', tabHandler);
+    return () => window.removeEventListener('keydown', tabHandler);
+  }, []);
+
+  useEffect(() => {
     updateMapLayerOptions();
   }, [mode]);
 
@@ -168,15 +177,6 @@ function NearYouPage(
       }
     }
   }, [phase, position.locationingFailed, position.hasLocation]);
-
-  const loadingDone = () => {
-    // trigger a state update in this component to force a rerender when stop data is received for the first time.
-    // this fixes a bug where swipeable tabs were not keeping focusable elements up to date after receving stop data
-    // and keyboard focus could be lost to hidden elements.
-    // eslint-disable-next-line react/no-unused-state
-    timeRef.current += 1;
-    setResultsLoaded(true);
-  };
 
   const getQueryVariables = queryMode => {
     if (queryMode === 'FAVORITE') {
@@ -326,7 +326,7 @@ function NearYouPage(
                 searchPosition={searchPosition}
                 noFavourites={noFavs}
                 isParentTabActive={isActive}
-                currentTime={time}
+                currentTime={currentTime}
               />
             ) : (
               <Loading />
@@ -440,7 +440,7 @@ function NearYouPage(
                           <StopNearYouContainer
                             stop={stop}
                             key={stop.gtfsId}
-                            currentTime={time}
+                            currentTime={currentTime}
                             isParentTabActive={isActive}
                           />
                         ))
@@ -453,12 +453,11 @@ function NearYouPage(
                       // eslint-disable-next-line
                       places={props.places}
                       prioritizedStops={prioritizedStops}
-                      loadingDone={loadingDone}
                       position={searchPosition}
                       withSeparator={!renderStopRouteSearch}
                       mode={tabMode}
                       isParentTabActive={isActive}
-                      currentTime={time}
+                      currentTime={currentTime}
                       favouriteIds={favIds}
                     />
                   ) : (

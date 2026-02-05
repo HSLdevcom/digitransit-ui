@@ -144,7 +144,6 @@ export default class Legs extends React.Component {
       const legProps = {
         leg,
         index: j,
-        focusFunction: this.focus,
         focusAction: this.focus(leg.from),
         focusToLeg: this.focusToLeg(leg),
       };

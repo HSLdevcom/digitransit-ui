@@ -20,7 +20,6 @@ import { useConfigContext } from '../../configurations/ConfigContext';
 
 function NearYouContainer({
   places,
-  loadingDone,
   currentTime,
   relay,
   position,
@@ -91,10 +90,6 @@ function NearYouContainer({
       updatePosition();
     }
   }, [position.lat, position.lon]);
-
-  useEffect(() => {
-    loadingDone();
-  }, []);
 
   const createNearYouPlaces = () => {
     if (!places?.nearest) {
@@ -227,7 +222,6 @@ function NearYouContainer({
 NearYouContainer.propTypes = {
   // eslint-disable-next-line
   places: PropTypes.object,
-  loadingDone: PropTypes.func.isRequired,
   currentTime: PropTypes.number.isRequired,
   relay: relayShape.isRequired,
   position: PropTypes.shape({
