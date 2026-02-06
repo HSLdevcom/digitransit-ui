@@ -499,7 +499,7 @@ function NearYouPage(
       position={searchPosition}
       match={match}
       setCenterOfMap={setCenterOfMap}
-      showWalkRoute={phase === PH_USEGEOLOCATION || phase === PH_USEDEFAULTPOS}
+      showWalkRoute={PH_READY.includes(phase)}
       mapLayers={mapLayers}
       mapLayerOptions={mapLayerOptions}
       breakpoint={breakpoint}
