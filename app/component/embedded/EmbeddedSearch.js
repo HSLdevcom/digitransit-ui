@@ -14,6 +14,7 @@ import {
 import {
   buildQueryString,
   buildURL,
+  getIndexPath,
   getPathWithEndpointObjects,
   PREFIX_ITINERARY_SUMMARY,
 } from '../../util/path';
@@ -21,6 +22,7 @@ import Icon from '../Icon';
 import Loading from '../Loading';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import useUTMCampaignParams from './hooks/useUTMCampaignParams';
+import { locationToOTP } from '../../util/otpStrings';
 
 const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
 
@@ -243,14 +245,28 @@ const EmbeddedSearch = (props, context) => {
   const executeSearch = () => {
     const urlEnd = bikeOnly ? '/bike' : walkOnly ? '/walk' : '';
 
-    const targetUrl = buildURL([
-      lang,
-      getPathWithEndpointObjects(origin, destination, PREFIX_ITINERARY_SUMMARY),
-      urlEnd,
-    ]);
+    // if origin or destination is missing, redirect to index page instead
+    const isComplete = origin.lat && destination.lat;
+    const targetUrl = isComplete
+      ? buildURL([
+          lang,
+          getPathWithEndpointObjects(
+            origin,
+            destination,
+            PREFIX_ITINERARY_SUMMARY,
+          ),
+          urlEnd,
+        ])
+      : buildURL([
+          lang,
+          getIndexPath(
+            locationToOTP(origin),
+            locationToOTP(destination),
+            config.indexPath || '',
+          ),
+        ]);
 
     targetUrl.search += buildQueryString(utmCampaignParams);
-
     addAnalyticsEvent({
       category: 'EmbeddedSearch',
       action: 'executeSearch',

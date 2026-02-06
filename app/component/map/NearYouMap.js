@@ -28,7 +28,6 @@ import {
   stopShape,
 } from '../../util/shapes';
 import Loading from '../Loading';
-import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { streetQuery } from './StreetQuery';
@@ -285,15 +284,7 @@ function NearYouMap(
     let sortedEdges;
     if (stops.nearest?.edges) {
       if (mode === 'CITYBIKE') {
-        const withNetworks = stops.nearest.edges.filter(edge => {
-          return !!edge.node.place?.rentalNetwork?.networkId;
-        });
-        const filteredCityBikeEdges = withNetworks.filter(pattern => {
-          return getDefaultNetworks(config).includes(
-            pattern.node.place?.rentalNetwork.networkId,
-          );
-        });
-        sortedEdges = filteredCityBikeEdges
+        sortedEdges = stops.nearest.edges
           .slice()
           .sort(sortNearYouRentalStations(favouriteIds));
       } else if (isTransitMode) {

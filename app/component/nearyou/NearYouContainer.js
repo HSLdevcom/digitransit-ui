@@ -13,7 +13,6 @@ import VehicleRentalStationNearYou from './VehicleRentalStationNearYou';
 import ParkNearYou from './ParkNearYou';
 import Loading from '../Loading';
 import Icon from '../Icon';
-import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
 import DisruptionBanner from '../DisruptionBanner';
 import { useTranslationsContext } from '../../util/useTranslationsContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
@@ -100,25 +99,13 @@ function NearYouContainer({
     const { edges } = places.nearest;
     let sorted;
     if (mode === 'CITYBIKE') {
-      const withNetworks = edges.filter(edge => {
-        return !!edge.node.place.rentalNetwork?.networkId;
-      });
-      const filteredCityBikeStopEdges = withNetworks.filter(edge => {
-        return getDefaultNetworks(config).includes(
-          edge.node.place.rentalNetwork?.networkId,
-        );
-      });
-      sorted = filteredCityBikeStopEdges
-        .slice(0, 5)
-        .sort(sortNearYouRentalStations(favouriteIds));
-      sorted.push(...filteredCityBikeStopEdges.slice(5));
+      sorted = edges.slice().sort(sortNearYouRentalStations(favouriteIds));
     } else if (mode === 'BIKEPARK' || mode === 'CARPARK') {
       sorted = edges;
     } else {
       sorted = edges
-        .slice(0, 5)
+        .slice()
         .sort(sortNearYouStops(favouriteIds, walkRoutingThreshold));
-      sorted.push(...edges.slice(5));
     }
 
     const stops = sorted.map(({ node }) => {
