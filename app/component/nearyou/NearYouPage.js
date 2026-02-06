@@ -27,7 +27,7 @@ import StopRouteSearch from './StopRouteSearch';
 import { getGeolocationState } from '../../store/localStorage';
 import { PREFIX_NEARYOU } from '../../util/path';
 import NearYouContainer from './NearYouContainer';
-import SwipeableTabs from '../SwipeableTabs';
+import SwipeableTabs, { setFocusables } from '../SwipeableTabs';
 import NearYouFavourites from './NearYouFavourites';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
@@ -60,6 +60,12 @@ function getModes(config) {
         mode => transportModes[mode].availableForSelection,
       );
   return modes.map(nearYouMode => nearYouMode.toUpperCase());
+}
+
+function tabHandler(e) {
+  if (e.key === 'Tab') {
+    setFocusables();
+  }
 }
 
 function NearYouPage(
@@ -147,6 +153,14 @@ function NearYouPage(
       setSearchPosition(newSearchPosition);
       setPhase(newPhase);
     });
+  }, []);
+
+  useEffect(() => {
+    // rendering of hidden sub components of inactive tabs
+    // sets tabIndex=0 to hidden elements
+    // we must fix this when user shifts focus with the tab key
+    window.addEventListener('keydown', tabHandler);
+    return () => window.removeEventListener('keydown', tabHandler);
   }, []);
 
   useEffect(() => {
