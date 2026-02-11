@@ -548,10 +548,10 @@ export default {
     'tram',
     'subway',
     'rail',
-    'ferry',
-    'citybike',
-    'bikepark',
     'carpark',
+    'citybike',
+    'ferry',
+    'bikepark',
   ],
   narrowNearYouButtons: true,
   nearYouRoutes: {
