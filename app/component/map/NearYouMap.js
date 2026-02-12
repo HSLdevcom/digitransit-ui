@@ -28,10 +28,9 @@ import {
   stopShape,
 } from '../../util/shapes';
 import Loading from '../Loading';
-import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
-import { walkQuery } from './WalkQuery';
+import { streetQuery } from './StreetQuery';
 import LocationMarker from './LocationMarker';
 
 function getId(edge) {
@@ -159,7 +158,14 @@ function NearYouMap(
           stopLocation: { stopLocationId: node.place.gtfsId },
         };
       }
+      let routingMode = 'WALK';
+      if (mode === 'CARPARK') {
+        routingMode = 'CAR';
+      } else if (mode === 'BIKEPARK') {
+        routingMode = 'BICYCLE';
+      }
       const variables = {
+        mode: routingMode,
         origin: {
           location: {
             coordinate: { latitude: position.lat, longitude: position.lon },
@@ -171,7 +177,7 @@ function NearYouMap(
         walkSpeed: settings.walkSpeed,
         wheelchair: !!settings.accessibilityOption,
       };
-      fetchQuery(environment, walkQuery, variables)
+      fetchQuery(environment, streetQuery, variables)
         .toPromise()
         .then(result => {
           setWalk({
@@ -273,15 +279,7 @@ function NearYouMap(
     let sortedEdges;
     if (stops.nearest?.edges) {
       if (mode === 'CITYBIKE') {
-        const withNetworks = stops.nearest.edges.filter(edge => {
-          return !!edge.node.place?.rentalNetwork?.networkId;
-        });
-        const filteredCityBikeEdges = withNetworks.filter(pattern => {
-          return getDefaultNetworks(config).includes(
-            pattern.node.place?.rentalNetwork.networkId,
-          );
-        });
-        sortedEdges = filteredCityBikeEdges
+        sortedEdges = stops.nearest.edges
           .slice()
           .sort(sortNearYouRentalStations(favouriteIds));
       } else if (isTransitMode) {

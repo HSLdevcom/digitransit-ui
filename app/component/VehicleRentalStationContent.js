@@ -1,14 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 import { routerShape } from 'found';
-import {
-  configShape,
-  vehicleRentalStationShape,
-  errorShape,
-} from '../util/shapes';
+import { vehicleRentalStationShape, errorShape } from '../util/shapes';
 import VehicleRentalStation from './VehicleRentalStation';
 import Disclaimer from './Disclaimer';
 import ParkOrStationHeader from './ParkOrStationHeader';
@@ -16,11 +11,15 @@ import withBreakpoint from '../util/withBreakpoint';
 import { getRentalNetworkConfig } from '../util/vehicleRentalUtils';
 import { PREFIX_BIKESTATIONS } from '../util/path';
 import { TransportMode } from '../constants';
+import { useConfigContext } from '../configurations/ConfigContext';
 
-const VehicleRentalStationContent = (
-  { vehicleRentalStation, breakpoint, language, router, error },
-  { config },
-) => {
+const VehicleRentalStationContent = ({
+  vehicleRentalStation,
+  breakpoint,
+  router,
+  error,
+}) => {
+  const config = useConfigContext();
   // throw error when relay query fails
   if (error && !vehicleRentalStation) {
     throw error.message;
@@ -38,7 +37,7 @@ const VehicleRentalStationContent = (
     vehicleRentalStation.rentalNetwork.networkId,
     config,
   );
-  const { vehicleRental } = config;
+  const { vehicleRental, language } = config;
   const returnInstructionsUrl = networkConfig.returnInstructions?.[language];
   const href =
     vehicleRental.buyUrl?.[language] || networkConfig?.url?.[language];
@@ -46,11 +45,13 @@ const VehicleRentalStationContent = (
     ? 'citybike-purchase-link'
     : 'citybike-start-using-info';
   return (
-    <div className="bike-station-page-container">
-      <ParkOrStationHeader
-        parkOrStation={vehicleRentalStation}
-        breakpoint={breakpoint}
-      />
+    <div className="station-page-container">
+      <div className="large-header">
+        <ParkOrStationHeader
+          parkOrStation={vehicleRentalStation}
+          breakpoint={breakpoint}
+        />
+      </div>
       <VehicleRentalStation vehicleRentalStation={vehicleRentalStation} />
       {vehicleRental.showFullInfo && isFull && (
         <div className="citybike-full-station-guide">
@@ -87,7 +88,6 @@ const VehicleRentalStationContent = (
 VehicleRentalStationContent.propTypes = {
   vehicleRentalStation: vehicleRentalStationShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
-  language: PropTypes.string.isRequired,
   router: routerShape.isRequired,
   error: errorShape,
 };
@@ -96,23 +96,9 @@ VehicleRentalStationContent.defaultProps = {
   error: undefined,
 };
 
-VehicleRentalStationContent.contextTypes = {
-  config: configShape.isRequired,
-};
+const VRCWithBreakpoint = withBreakpoint(VehicleRentalStationContent);
 
-const VehicleRentalStationContentWithBreakpoint = withBreakpoint(
-  VehicleRentalStationContent,
-);
-
-const connectedComponent = connectToStores(
-  VehicleRentalStationContentWithBreakpoint,
-  ['PreferencesStore'],
-  context => ({
-    language: context.getStore('PreferencesStore').getLanguage(),
-  }),
-);
-
-const containerComponent = createFragmentContainer(connectedComponent, {
+const containerComponent = createFragmentContainer(VRCWithBreakpoint, {
   vehicleRentalStation: graphql`
     fragment VehicleRentalStationContent_vehicleRentalStation on VehicleRentalStation {
       lat
@@ -134,7 +120,4 @@ const containerComponent = createFragmentContainer(connectedComponent, {
   `,
 });
 
-export {
-  containerComponent as default,
-  VehicleRentalStationContentWithBreakpoint as Component,
-};
+export { containerComponent as default, VRCWithBreakpoint as Component };

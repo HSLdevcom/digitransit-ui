@@ -366,8 +366,6 @@ export default configMerger(walttiConfig, {
     TRAM: { showNotification: true },
   },
 
-  showTenWeeksOnRouteSchedule: true,
-
   parkAndRide: {
     showParkAndRide: true,
     showParkAndRideForBikes: true,

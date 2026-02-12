@@ -1,5 +1,4 @@
 /* eslint sort-keys: "error" */
-
 const translations = {
   da: {
     'about-this-service': 'Om tjenesten',
@@ -820,6 +819,7 @@ const translations = {
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
     'accessibility-statement': 'Accessibility statement',
+    'accessible-car-places': 'Wheelchair accessible',
     acknowledged: 'OK',
     'add-favourite-bikeStation-failed-heading':
       'Saving the citybike station failed',
@@ -1147,7 +1147,7 @@ const translations = {
     'indoor-step-message-stairs-up': 'Stairs up',
     inquiry: 'How did you find the new Journey Planner? Please tell us!',
     instructions: 'Instructions',
-    'is-open': 'Open:',
+    'is-open': 'Open',
     'itinerary-co2.description':
       '{co2value} g of CO₂ emissions will be generated on this journey. A car would generate {carCo2Value} g of CO₂ on the same journey.',
     'itinerary-co2.description-simple':
@@ -1460,7 +1460,7 @@ const translations = {
       '{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minutes} one {1 minute} other {{number} minutes}}',
-    'number-of-spaces': 'Number of spaces:',
+    'number-of-spaces': 'Number of spaces',
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
     'on-demand-service': 'On-demand service',
@@ -1494,7 +1494,7 @@ const translations = {
     'page-not-found': 'The page cannot be found.',
     paid: 'Paid',
     'park-and-ride': 'Park and Ride',
-    'park-and-ride-availability': 'Spaces available:',
+    'park-and-ride-availability': 'Spaces available',
     'park-disclaimer-link': 'Read more about Park & Ride',
     'pay-attention': 'N.B.',
     'payment-info-e-scooter':
@@ -1533,6 +1533,7 @@ const translations = {
     'prefer-walking': 'Prefer walking',
     preview: 'Preview',
     previous: 'Previous',
+    price: 'Price',
     print: 'Print',
     'print-timetable': 'Weekly timetable',
     'privacy-statement': 'Privacy statement',
@@ -1660,6 +1661,7 @@ const translations = {
       'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
     'separate-ticket-required-for-call-agency-disclaimer':
       'The journey includes demand responsive transport service. Please check the payment methods and practices on ',
+    'services-and-features': 'Services and features',
     'set-specific-settings': 'Set more specific settings',
     'set-stop-as-routes': "Set the stop as route's",
     settings: 'Settings',
@@ -2210,6 +2212,7 @@ const translations = {
     'accessibility-limited': 'Pyörätuoli',
     'accessibility-nolimit': 'Ei rajoitusta',
     'accessibility-statement': 'Saavutettavuusseloste',
+    'accessible-car-places': 'Pyörätuolilla saavutettava',
     acknowledged: 'Selvä',
     'add-favourite-bikeStation-failed-heading':
       'Kaupunkipyöräaseman tallentaminen ei onnistunut',
@@ -2538,7 +2541,7 @@ const translations = {
     'indoor-step-message-stairs-up': 'Portaat ylöspäin',
     inquiry: 'Mitä pidät uudesta Reittioppaasta? Kerro se meille! ',
     instructions: 'Ohjeet',
-    'is-open': 'Avoinna:',
+    'is-open': 'Avoinna',
     'itinerary-co2.description':
       'Tämän matkan CO₂-päästöt ovat {co2value} g. Autolla kuljettuna ne olisivat olleet {carCo2Value} g.',
     'itinerary-co2.description-simple':
@@ -2846,7 +2849,7 @@ const translations = {
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minuuttia} one {1 minuutti} other {{number} minuuttia}}',
-    'number-of-spaces': 'Paikkojen määrä:',
+    'number-of-spaces': 'Paikkoja',
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
     'on-demand-service': 'Kutsuliikenne',
@@ -2881,7 +2884,7 @@ const translations = {
     'page-not-found': 'Etsimääsi sivua ei löytynyt.',
     paid: 'Maksullinen',
     'park-and-ride': 'Liityntäpysäköinti',
-    'park-and-ride-availability': 'Paikkoja vapaana:',
+    'park-and-ride-availability': 'Paikkoja vapaana',
     'park-disclaimer-link': 'Lue lisää liityntäpysäköinnistä',
     'pay-attention': 'Huom!',
     'payment-info-e-scooter':
@@ -2919,6 +2922,7 @@ const translations = {
     'prefer-walking': 'Suosi kävelyä',
     preview: 'Esikatselu',
     previous: 'Edelliset',
+    price: 'Hinta',
     print: 'Tulosta',
     'print-timetable': 'Viikkoaikataulu',
     'privacy-statement': 'Tietosuojaseloste',
@@ -3045,6 +3049,7 @@ const translations = {
       'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä {agencyName} ei vastaa.',
     'separate-ticket-required-for-call-agency-disclaimer':
       'Matka sisältää kutsuliikennettä. Voit tarkistaa maksutavat ja käytännöt ',
+    'services-and-features': 'Palvelut ja varustelut',
     'set-specific-settings': 'Aseta tarkemmat asetukset',
     'set-stop-as-routes': 'Aseta pysäkki reitin',
     settings: 'Asetukset',
@@ -4163,7 +4168,7 @@ const translations = {
     'index.title': 'Journey Planner',
     inquiry: 'How did you find the new Journey Planner? Please tell us!',
     instructions: 'Instrukcje',
-    'is-open': 'Otwarte:',
+    'is-open': 'Otwarte',
     'itinerary-co2.description':
       'W trakcie tej podróży zostanie wyemitowane {co2value} g CO₂. Dla tej samej podróży, samochód wyemitowałby {carCo2Value} g CO₂.',
     'itinerary-co2.description-simple':
@@ -4386,7 +4391,7 @@ const translations = {
       '{number, plural, =0 {Brak przystanków} one {1 przystanek} few {{number} przystanki} other {{number} przystanków} }',
     'number-of-minutes':
       '{number, plural, one {1 minuta} few {{number} minuty} other {{number} minut}}',
-    'number-of-spaces': 'Number of spaces:',
+    'number-of-spaces': 'Number of spaces',
     'off-canvas-info':
       'Zaloguj się do usługi, aby zapisać ulubione i korzystać z nich na innym urządzeniu',
     'one-way-journey': 'Długość podróży w jedną stronę',
@@ -4408,7 +4413,7 @@ const translations = {
     'page-not-found': 'Nie można odnaleźć strony.',
     paid: 'Paid',
     'park-and-ride': 'Parkuj i Jedź',
-    'park-and-ride-availability': 'Dostępne miejsca:',
+    'park-and-ride-availability': 'Dostępne miejsca',
     'park-disclaimer-link': 'Dowiedz się więcej o „Parkuj i Jedź”',
     'pay-attention': 'N.B.',
     payment_at_gate: 'Payment at the gate ',
@@ -5231,6 +5236,7 @@ const translations = {
     'accessibility-limited': 'Med rullstolen',
     'accessibility-nolimit': 'Ingen begränsning',
     'accessibility-statement': 'Tillgänglighetsförklaring',
+    'accessible-car-places': 'Rullstolsanpassat',
     acknowledged: 'Klart',
     'add-favourite-bikeStation-failed-heading':
       'Kunde inte spara stadscykelstationen',
@@ -5552,7 +5558,7 @@ const translations = {
     'indoor-step-message-stairs-up': 'Trappa uppåt',
     inquiry: 'Vad tycker du om den nya Reseplaneraren. Berätta för oss!',
     instructions: 'Anvisningar',
-    'is-open': 'Öppet:',
+    'is-open': 'Öppet',
     'itinerary-co2.description':
       'CO₂-utsläppen för denna resa är {co2value} g. En bil skulle generera {carCo2Value} g CO₂ på samma resa.',
     'itinerary-co2.description-simple':
@@ -5861,7 +5867,7 @@ const translations = {
       '{number, plural, =0 {Inga hållplatser} one {1 hållplats} other {{number} hållplatser} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minuter} one {1 minut} other {{number} minuter}}',
-    'number-of-spaces': 'Antalet platser:',
+    'number-of-spaces': 'Antalet platser',
     'off-canvas-info':
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
     'on-demand-service': 'Anropsbusstrafiken',
@@ -5896,7 +5902,7 @@ const translations = {
     'page-not-found': 'Sidan kunde inte hittas.',
     paid: 'Avgiftsbelagd',
     'park-and-ride': 'Infartsparkering',
-    'park-and-ride-availability': 'Lediga platser:',
+    'park-and-ride-availability': 'Lediga platser',
     'park-disclaimer-link': 'Läs mer om anslutningsparkeringen',
     'pay-attention': 'Obs!',
     'payment-info-e-scooter':
@@ -5934,6 +5940,7 @@ const translations = {
     'prefer-walking': 'Främja gång',
     preview: 'Förhandsgranskning',
     previous: 'Senaste',
+    price: 'Pris',
     print: 'Skriv ut',
     'print-timetable': 'Veckans tidtabell',
     'privacy-statement': 'Dataskyddsbeskrivning',
@@ -6066,6 +6073,7 @@ const translations = {
       'Resan består av en eller flera etapper vilka kräver biljetter som inte säljs av {agencyName}.',
     'separate-ticket-required-for-call-agency-disclaimer':
       'I resan ingår anropsbusstrafiken. Bekanta dig med betalningsmetoder och praxis på ',
+    'services-and-features': 'Tjänster och funktioner',
     'set-specific-settings': 'Ställa avancerade inställningar',
     'set-stop-as-routes': 'Ställa hållplats som rutter',
     settings: 'Anpassa',

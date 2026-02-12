@@ -9,7 +9,6 @@ export default function NearYouButton({
   colors,
   getIconName,
   title,
-  srMsg,
   withAlert,
   boxed,
   withBorder,
@@ -58,25 +57,22 @@ export default function NearYouButton({
     ? 'near-you-button-with-border'
     : 'near-you-button';
   return (
-    <>
-      {srMsg && <span className={styles['sr-only']}>{srMsg}</span>}
-      <button type="button" className={styles[buttonClass]} style={buttonStyle}>
-        <span className={styles['icon-container']} style={iconContainerStyle}>
-          <Icon {...iconProps} />
-          {withAlert && (
-            <span className={styles['transport-mode-alert-icon']}>
-              <Icon img="caution" color={colors.caution} />
-            </span>
-          )}
-        </span>
-        {title}
-        {withArrow && (
-          <div className={styles['near-you-button-caret']}>
-            <Icon img="arrow" color={colors.primary} width={0.9} height={0.9} />
-          </div>
+    <div aria-hidden="true" className={styles[buttonClass]} style={buttonStyle}>
+      <span className={styles['icon-container']} style={iconContainerStyle}>
+        <Icon {...iconProps} />
+        {withAlert && (
+          <span className={styles['transport-mode-alert-icon']}>
+            <Icon img="caution" color={colors.caution} />
+          </span>
         )}
-      </button>
-    </>
+      </span>
+      {title}
+      {withArrow && (
+        <div className={styles['near-you-button-caret']}>
+          <Icon img="arrow" color={colors.primary} width={0.9} height={0.9} />
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -86,7 +82,6 @@ NearYouButton.propTypes = {
   colors: PropTypes.objectOf(PropTypes.string).isRequired,
   getIconName: PropTypes.func.isRequired,
   title: PropTypes.node,
-  srMsg: PropTypes.string,
   withAlert: PropTypes.bool,
   boxed: PropTypes.bool,
   withBorder: PropTypes.bool,
@@ -98,7 +93,6 @@ NearYouButton.propTypes = {
 
 NearYouButton.defaultProps = {
   title: '',
-  srMsg: undefined,
   withAlert: false,
   boxed: false,
   withBorder: false,

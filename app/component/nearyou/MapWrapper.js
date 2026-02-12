@@ -2,32 +2,27 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import { matchShape } from 'found';
-import {
-  relayShape,
-  configShape,
-  mapLayerOptionsShape,
-} from '../../util/shapes';
+import { relayShape, mapLayerOptionsShape } from '../../util/shapes';
 import NearYouMapContainer from './NearYouMapContainer';
 import NearYouFavouritesMapContainer from './NearYouFavouritesMapContainer';
 import { mapLayerShape } from '../../store/MapLayerStore';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 const TransitStopModes = ['BUS', 'FERRY', 'RAIL', 'SUBWAY', 'TRAM'];
 
-export default function MapWrapper(
-  {
-    match,
-    relayEnvironment,
-    favouriteStopIds,
-    favouriteStationIds,
-    favouriteVehicleStationIds,
-    setCenterOfMap,
-    mapLayers,
-    mapLayerOptions,
-    variables,
-    ...rest
-  },
-  { config },
-) {
+export default function MapWrapper({
+  match,
+  relayEnvironment,
+  favouriteStopIds,
+  favouriteStationIds,
+  favouriteVehicleStationIds,
+  setCenterOfMap,
+  mapLayers,
+  mapLayerOptions,
+  variables,
+  ...rest
+}) {
+  const { map } = useConfigContext();
   const commonProps = {
     match,
     onEndNavigation: setCenterOfMap,
@@ -92,7 +87,7 @@ export default function MapWrapper(
     citybike: mode === 'CITYBIKE',
     citybikeOverrideMinZoom: mode === 'CITYBIKE',
   };
-  if (!config.map.showLayerSelector) {
+  if (!map.showLayerSelector) {
     filteredMapLayers.stop = {};
     if (TransitStopModes.includes(mode)) {
       filteredMapLayers.stop[mode.toLowerCase()] = true;
@@ -175,5 +170,3 @@ MapWrapper.propTypes = {
   // eslint-disable-next-line
   variables: PropTypes.object.isRequired,
 };
-
-MapWrapper.contextTypes = { config: configShape.isRequired };

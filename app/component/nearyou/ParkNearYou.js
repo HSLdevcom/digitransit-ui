@@ -47,6 +47,7 @@ const ParkNearYou = ({ park, relay, currentTime, isParentTabActive, mode }) => {
                 mode={mode}
                 showInfo={false}
                 backButton={false}
+                showDetails={false}
               />
             </Link>
           </div>
@@ -80,11 +81,14 @@ const containerComponent = createRefetchContainer(
         lat
         lon
         availability {
-          bicycleSpaces
           carSpaces
         }
         parkCapacity: capacity {
+          bicycleSpaces
           carSpaces
+        }
+        openingHours {
+          osm
         }
         tags
         realtime

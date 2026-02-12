@@ -16,7 +16,6 @@ function IntermediateLeg(
     name,
     arrival,
     realTime,
-    focusFunction,
     gtfsId,
     showCurrentZoneDelimiter,
     showZoneLimits,
@@ -29,6 +28,7 @@ function IntermediateLeg(
   },
   { config },
 ) {
+  const { feedIds, colors } = config;
   const modeClassName = mode.toLowerCase();
   const isDualZone = currentZoneId && (previousZoneId || nextZoneId);
   const isTripleZone = currentZoneId && previousZoneId && nextZoneId;
@@ -72,13 +72,12 @@ function IntermediateLeg(
           'zone-previous': currentZoneId && previousZoneId,
         },
       )}
-      onClick={e => focusFunction(e)}
     >
       <div className="small-2 columns itinerary-time-column">
         {showZoneLimits &&
           currentZoneId &&
           gtfsId &&
-          config.feedIds.includes(gtfsId.split(':')[0]) && (
+          feedIds.includes(gtfsId.split(':')[0]) && (
             <div className="time-column-zone-icons-container intermediate-leg">
               {previousZoneId && <ZoneIcon zoneId={previousZoneId} />}
               <ZoneIcon
@@ -158,7 +157,7 @@ function IntermediateLeg(
             <Icon
               img="icon_arrow-collapse--right"
               className="itinerary-arrow-icon"
-              color={config.colors.primary}
+              color={colors.primary}
             />
           </div>
         </Link>
@@ -169,7 +168,6 @@ function IntermediateLeg(
 
 IntermediateLeg.propTypes = {
   placesCount: PropTypes.number,
-  focusFunction: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   arrival: legTimeShape.isRequired,
   realTime: PropTypes.bool,
