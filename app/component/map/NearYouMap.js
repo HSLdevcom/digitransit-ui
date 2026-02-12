@@ -126,7 +126,6 @@ function NearYouMap(
     position,
     showWalkRoute,
     prioritizedStops,
-    setMWTRef,
     ...rest
   },
   context,
@@ -209,12 +208,8 @@ function NearYouMap(
   };
 
   // get ref to MapWithTracking.js
-  const setMWTRefNearYou = ref => {
+  const setMWTRef = ref => {
     mwtRef.current = ref;
-    if (setMWTRef) {
-      // forward to parent component
-      setMWTRef(ref);
-    }
   };
 
   useEffect(() => {
@@ -360,7 +355,7 @@ function NearYouMap(
     bounds,
     leafletObjs,
     breakpoint,
-    setMWTRef: setMWTRefNearYou,
+    setMWTRef,
     ...rest,
   };
 
@@ -404,14 +399,12 @@ NearYouMap.propTypes = {
   relay: relayShape.isRequired,
   loading: PropTypes.bool,
   showWalkRoute: PropTypes.bool,
-  setMWTRef: PropTypes.func,
 };
 
 NearYouMap.defaultProps = {
   stops: [],
   showWalkRoute: false,
   loading: false,
-  setMWTRef: undefined,
   prioritizedStops: [],
 };
 

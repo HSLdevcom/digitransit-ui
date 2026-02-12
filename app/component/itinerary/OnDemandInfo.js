@@ -62,6 +62,11 @@ function OnDemandInfo(
     );
 
   const bookingTimeText = latestBookingTimeText || bookingNoticeInMinutesText;
+  const dataLanguageMatch = config.flex.infoLanguage === intl.locale;
+  const routeDescription =
+    config.showRouteDescNotification && route.desc && dataLanguageMatch
+      ? route.desc
+      : intl.formatMessage({ id: 'call-agency-disclaimer' });
 
   return (
     <>
@@ -106,7 +111,7 @@ function OnDemandInfo(
                 defaultMessage="On-demand service"
               />
             </div>
-            {config.flex.infoLanguage === intl.locale && ( // No translations available in the data
+            {dataLanguageMatch && (
               <div className="on-demand-info-content">
                 {pickupBookingInfo.message}
               </div>
@@ -164,9 +169,9 @@ function OnDemandInfo(
                 />
               </div>
               <div className="on-demand-info-content">
-                {route.longName && (
+                {routeDescription && (
                   <div className="service-type-description">
-                    {route.longName}
+                    {routeDescription}
                   </div>
                 )}
               </div>

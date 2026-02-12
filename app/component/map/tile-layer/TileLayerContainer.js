@@ -17,7 +17,6 @@ import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
-import PreferencesStore from '../../../store/PreferencesStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { getClientBreakpoint } from '../../../util/withBreakpoint';
 import {
@@ -63,7 +62,6 @@ class TileLayerContainer extends GridLayer {
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     vehicles: PropTypes.objectOf(vehicleShape),
-    lang: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -73,7 +71,7 @@ class TileLayerContainer extends GridLayer {
     highlightedStops: undefined,
     stopsToShow: undefined,
     vehicles: undefined,
-    mergeStops: false,
+    mergeStops: true,
   };
 
   static contextTypes = {
@@ -148,7 +146,7 @@ class TileLayerContainer extends GridLayer {
           tile.el.layers &&
           tile.el.layers.forEach(layer => {
             if (layer.onTimeChange) {
-              layer.onTimeChange(this.props.lang);
+              layer.onTimeChange(this.context.config.language);
             }
           }),
       );
@@ -184,7 +182,7 @@ class TileLayerContainer extends GridLayer {
       this.props.vehicles,
       this.props.stopsToShow,
       this.props.objectsToHide,
-      this.props.lang,
+      this.context.config.language,
     );
     tile.onSelectableTargetClicked = (
       selectableTargets,
@@ -464,10 +462,9 @@ const connectedComponent = withLeaflet(
         )}
       </ReactRelayContext.Consumer>
     ),
-    [RealTimeInformationStore, PreferencesStore],
+    [RealTimeInformationStore],
     context => ({
       vehicles: context.getStore(RealTimeInformationStore).vehicles,
-      lang: context.getStore(PreferencesStore).getLanguage(),
     }),
   ),
 );

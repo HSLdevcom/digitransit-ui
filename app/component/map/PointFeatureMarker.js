@@ -1,11 +1,9 @@
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Card from '../Card';
 import GenericMarker from './GenericMarker';
 import MarkerPopupBottom from './MarkerPopupBottom';
-import PreferencesStore from '../../store/PreferencesStore';
 import { isPointTypeGeometry } from '../../util/geo-utils';
 import {
   getCaseRadius,
@@ -102,8 +100,7 @@ export const getPropertyValueOrDefault = (
 ) =>
   (properties &&
     propertyName &&
-    ((language && properties[`${propertyName}_${language}`]) ||
-      properties[propertyName])) ||
+    (properties[`${propertyName}_${language}`] || properties[propertyName])) ||
   defaultValue;
 
 const PointFeatureMarker = ({
@@ -197,12 +194,4 @@ PointFeatureMarker.defaultProps = {
   size: undefined,
 };
 
-const connectedComponent = connectToStores(
-  PointFeatureMarker,
-  [PreferencesStore],
-  ({ getStore }) => ({
-    language: getStore(PreferencesStore).getLanguage(),
-  }),
-);
-
-export { connectedComponent as default, PointFeatureMarker as Component };
+export default PointFeatureMarker;
