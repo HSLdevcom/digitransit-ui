@@ -39,10 +39,6 @@ import { getIntermediatePlaces } from '../../util/otpStrings';
 const stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
 export default class Legs extends React.Component {
-  static childContextTypes = {
-    focusFunction: PropTypes.func,
-  };
-
   static propTypes = {
     itinerary: itineraryShape.isRequired,
     fares: PropTypes.arrayOf(fareShape),
@@ -71,10 +67,6 @@ export default class Legs extends React.Component {
     usingOwnCarWholeTrip: false,
     relayEnvironment: undefined,
   };
-
-  getChildContext() {
-    return { focusFunction: this.focus };
-  }
 
   focus = position => e => {
     e.stopPropagation();

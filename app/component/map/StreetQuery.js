@@ -1,20 +1,22 @@
 import { graphql } from 'react-relay';
 
-const walkQuery = graphql`
-  query WalkQuery(
+const streetQuery = graphql`
+  query StreetQuery(
+    $mode: PlanDirectMode!
     $origin: PlanLabeledLocationInput!
     $destination: PlanLabeledLocationInput!
     $walkSpeed: Speed
+    $bikeSpeed: Speed
     $wheelchair: Boolean
   ) {
     plan: planConnection(
       first: 1
       origin: $origin
       destination: $destination
-      modes: { directOnly: true, direct: [WALK] }
+      modes: { directOnly: true, direct: [$mode] }
       preferences: {
         accessibility: { wheelchair: { enabled: $wheelchair } }
-        street: { walk: { speed: $walkSpeed } }
+        street: { walk: { speed: $walkSpeed }, bicycle: { speed: $bikeSpeed } }
       }
     ) {
       edges {
@@ -160,4 +162,4 @@ const walkQuery = graphql`
   }
 `;
 
-export { walkQuery };
+export { streetQuery };

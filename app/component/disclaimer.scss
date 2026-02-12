@@ -4,10 +4,10 @@
   border-radius: 0 $border-radius-disclaimer $border-radius-disclaimer 0;
   display: flex;
   font-size: $font-size-xsmall;
-  padding: var(--space-s);
+  padding: var(--space-m);
   white-space: normal;
   margin-bottom: 5px;
-  margin-top: 9px;
+  margin-top: 5px;
   border-left: 4px solid $primary-color;
   box-shadow: 0 2px 4px 0 rgba(51, 51, 51, 0.2);
   width: 100%;
@@ -37,7 +37,7 @@
       font-size: $font-size-normal;
       font-weight: $font-weight-medium;
       line-height: 18px;
-      margin-bottom: var(--space-xs);
+      margin-bottom: var(--space-xxs);
 
       .disclaimer-close {
         margin-right: 0;

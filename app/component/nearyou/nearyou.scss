@@ -68,11 +68,6 @@
     }
   }
 
-  .separator {
-    border-top: 1px solid #ddd;
-    padding-bottom: 22px;
-  }
-
   .near-you-no-stops {
     width: 100%;
     background-color: $infobox-color-generic-blue;
@@ -172,14 +167,14 @@
     border: 1px solid #d9d9d9;
     border-radius: 10px;
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     animation: fadeIn 0.7s;
 
     .alert-container {
       margin: 0 14px 4px;
     }
 
-    .stop-near-you-header-container:has(.bike-station-page-container) {
+    .stop-near-you-header-container:has(.station-page-container) {
       padding: unset;
     }
 
@@ -203,15 +198,15 @@
           color: #333;
         }
 
-        .bike-station {
-          &-code {
-            font-size: 0.813rem;
-            font-weight: normal;
-          }
+        .bike-station-code {
+          font-size: 0.813rem;
+          font-weight: normal;
+        }
 
+        .station {
           &-page-container {
             margin: 0;
-            padding: var(--space-s) var(--space-m);
+            padding: var(--space-m) var(--space-m) var(--space-s);
           }
 
           &-header {
@@ -513,10 +508,6 @@
     div > div > .origin-stop-near-you-selector {
       height: 34px;
     }
-  }
-
-  .near-you-search-container {
-    padding: 0 5px 15px;
   }
 
   .near-you-page {

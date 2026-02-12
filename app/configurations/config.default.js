@@ -1,6 +1,7 @@
 import safeJsonParse from '../util/safeJsonParser';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 import realtime from './realtimeUtils';
+import prUtils from '../util/ParkAndRideUtils';
 
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -792,6 +793,14 @@ export default {
   constantOperationStops: {},
   constantOperationRoutes: {},
 
+  parkAndRide: {
+    showParkAndRide: false,
+    showParkAndRideForBikes: false,
+    parkAndRideMinZoom: 14,
+    resolver: prUtils.liipi,
+  },
+  parkingAreaSources: ['liipi'],
+
   embeddedSearch: {
     title: {
       fi: 'Reittihakuelementti',
@@ -885,8 +894,5 @@ export default {
     externalAgencies: [], // "FeedId:AgencyId"
     allowedExternalFlexRouteTypes: [1501],
     minTransferTime: 900, // seconds
-  },
-  parkAndRide: {
-    parkAndRideMinZoom: 13,
   },
 };

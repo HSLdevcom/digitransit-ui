@@ -201,10 +201,6 @@ class TransitLeg extends React.Component {
             arrival={place.arrival}
             realTime={leg.realTime}
             stopCode={place.stop.code}
-            focusFunction={this.context.focusFunction({
-              lat: place.stop.lat,
-              lon: place.stop.lon,
-            })}
             showZoneLimits={this.context.config.zones.itinerary}
             showCurrentZoneDelimiter={previousZoneIdDiffers}
             previousZoneId={
@@ -745,7 +741,6 @@ TransitLeg.defaultProps = {
 };
 
 TransitLeg.contextTypes = {
-  focusFunction: PropTypes.func.isRequired,
   config: configShape.isRequired,
   intl: intlShape.isRequired,
 };

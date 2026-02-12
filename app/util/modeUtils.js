@@ -90,14 +90,25 @@ export function showRentalVehiclesOfType(networks, config, type) {
   );
 }
 
-export function getNearYouModes(config) {
-  if (!config.vehicleRental?.networks) {
-    return config.nearYouModes;
+const nearYouStopTypes = ['stop', 'station'];
+
+export function getNearYouModes(config, favourites) {
+  let modes = config.nearYouModes;
+  let cityBikesActive = config.nearYouModes.includes('citybike');
+  if (cityBikesActive && !useCitybikes(config.vehicleRental.networks, config)) {
+    modes = modes.filter(mode => mode !== 'citybike');
+    cityBikesActive = false;
   }
-  if (!useCitybikes(config.vehicleRental.networks, config)) {
-    return config.nearYouModes.filter(mode => mode !== 'citybike');
+  const nearFavs = favourites.filter(f => {
+    return (
+      nearYouStopTypes.includes(f.type) ||
+      (f.type === 'bikeStation' && cityBikesActive)
+    );
+  });
+  if (!nearFavs.length) {
+    modes = modes.filter(mode => mode !== 'favorite');
   }
-  return config.nearYouModes;
+  return modes;
 }
 
 export function getTransportModes(config) {

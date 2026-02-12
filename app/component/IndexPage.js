@@ -226,9 +226,7 @@ class IndexPage extends React.Component {
     const { intl, config } = this.context;
     const { colors, fontWeights } = config;
     const { lang } = config.language;
-
     const nearYouModes = getNearYouModes(config, this.props.favourites);
-
     // If nearYouModes is configured, display those. Otherwise, display all configured transport modes
     const modeArray =
       nearYouModes.length > 0
