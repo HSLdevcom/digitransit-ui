@@ -1,26 +1,89 @@
 import { FormattedMessage } from 'react-intl';
 import React from 'react';
 import Link from 'found/Link';
+import cx from 'classnames';
 import Icon from '../Icon';
+import { useBreakpoint } from '../../util/withBreakpoint';
+import { useConfigContext } from '../../configurations/ConfigContext';
+import { useTranslationsContext } from '../../util/useTranslationsContext';
+
+const AdditionalDescription = () => {
+  const intl = useTranslationsContext();
+  const {
+    URL: { HOLIDAYS_AND_EXCEPTIONS, MAJOR_CHANGES },
+    language,
+  } = useConfigContext();
+
+  const links = [
+    {
+      key: 'link1',
+      href: HOLIDAYS_AND_EXCEPTIONS[language],
+      message: {
+        id: 'traffic-now_description_see-also--link1',
+        defaultMessage: 'holidays and exceptions',
+      },
+    },
+    ...(MAJOR_CHANGES && MAJOR_CHANGES[language]
+      ? [
+          {
+            key: 'link2',
+            href: MAJOR_CHANGES[language],
+            message: {
+              id: 'traffic-now_description_see-also--link2',
+              defaultMessage: 'major changes',
+            },
+          },
+        ]
+      : []),
+  ];
+
+  return (
+    <FormattedMessage
+      id="traffic-now_description_see-also"
+      defaultMessage="See also {link1} as well as {link2}, which you will find in detail on their own pages"
+      values={links.reduce(
+        (acc, link) => ({
+          ...acc,
+          [link.key]: (
+            <a href={link.href}>{intl.formatMessage(link.message)}</a>
+          ),
+        }),
+        { amount: links.length },
+      )}
+    />
+  );
+};
 
 export default function Header() {
+  const breakpoint = useBreakpoint();
+  const { CONFIG } = useConfigContext();
+
+  const desktop = breakpoint === 'large';
   return (
-    <div className="trafficnow-header">
-      <span className="tn-breadcrumb">
+    <div
+      className={cx('traffic-now__header', {
+        'traffic-now__header--mobile': !desktop,
+      })}
+    >
+      <span className="traffic-now__header-breadcrumb">
         <Link to="/">
-          <FormattedMessage id="trafficnow-bread" />
+          <FormattedMessage id="traffic-now_bread" />
         </Link>
         &nbsp;
-        <Icon img="icon_arrow-dropdown" className="crumbarrow" />
+        <Icon
+          img="icon_arrow-dropdown"
+          className="traffic-now__header-crumbarrow"
+        />
         &nbsp;
-        <FormattedMessage id="trafficnow" />
+        <FormattedMessage id="traffic-now" />
       </span>
       <h2>
-        <FormattedMessage id="trafficnow" />
+        <FormattedMessage id="traffic-now" />
       </h2>
-      <span className="tn-description">
-        <FormattedMessage id="trafficnow-description" />
-      </span>
+      <p className="traffic-now__header-description">
+        <FormattedMessage id="traffic-now_description" />
+        {CONFIG === 'hsl' && <AdditionalDescription />}
+      </p>
     </div>
   );
 }

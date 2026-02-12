@@ -1,3 +1,5 @@
+@import 'foundation-sites/scss/util/util';
+
 /* Set Foundation base font to theme font
    (without this Foundation overrides body */
 $body-font-family: $font-family;
@@ -28,7 +30,7 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/routepage/route';
 @import '../app/component/checkbox';
 @import '../app/component/toggle';
-@import '../app/component/nearyou/stops-near-you';
+@import '../app/component/nearyou/nearyou';
 @import '../app/component/disruption';
 @import '../app/component/departure';
 @import '../app/component/stop/stop';
@@ -68,13 +70,8 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/itinerary/navigator/navigatorintro/navigator-intro';
 @import '../app/component/itinerary/navigator/navigatoroutro/navigator-outro';
 @import '../app/component/itinerary/navigator/navigatorgeolocation/navigator-geolocation';
+@import '../app/component/itinerary/on-demand-info';
 @import '../app/component/trafficnow/trafficnow';
 @import '../app/component/popover';
 @import '../app/component/animations';
-
-/* Modal */
-@import '~foundation-apps/scss/helpers/breakpoints';
-@import '~foundation-apps/scss/components/modal';
-
-// And these application specific styles use Foundation variables,
-// so they have to be loaded afterwards
+@import '../app/component/disclaimer';

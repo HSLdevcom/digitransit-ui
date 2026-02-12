@@ -36,7 +36,7 @@ function StopRouteSearch({ mode, ...rest }, { router, config }) {
       break;
   }
   return (
-    <div className="stops-near-you-search-container">
+    <div className="near-you-search-container">
       <DTAutoSuggestWithSearchContext
         icon="search"
         id="stop-route-station"

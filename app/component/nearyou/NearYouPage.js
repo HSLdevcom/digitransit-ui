@@ -17,6 +17,7 @@ import UpdateLocationButton from './UpdateLocationButton';
 import MapWrapper from './MapWrapper';
 import LocationModal from './LocationModal';
 import CityBikeInfo from './CityBikeInfo';
+import ParkInfo from './ParkInfo';
 import {
   checkPositioningPermission,
   startLocationWatch,
@@ -313,9 +314,7 @@ function NearYouPage(
         return (
           <div
             key={tabMode}
-            className={`stops-near-you-page swipeable-tab ${
-              !isActive && 'inactive'
-            }`}
+            className={`near-you-page swipeable-tab ${!isActive && 'inactive'}`}
             aria-hidden={!isActive}
           >
             {centerOfMapChanged && !noFavs && (
@@ -395,7 +394,7 @@ function NearYouPage(
                   break;
               }
               return (
-                <div className="stops-near-you-page">
+                <div className="near-you-page">
                   {renderStopRouteSearch && (
                     <StopRouteSearch
                       mode={tabMode}
@@ -405,6 +404,9 @@ function NearYouPage(
                     />
                   )}
                   {tabMode === 'CITYBIKE' && <CityBikeInfo lang={lang} />}
+                  {(tabMode === 'CARPARK' || tabMode === 'BIKEPARK') && (
+                    <ParkInfo mode={tabMode} />
+                  )}
                   {centerOfMapChanged && (
                     <UpdateLocationButton
                       mode={tabMode}
@@ -462,7 +464,7 @@ function NearYouPage(
                       favouriteIds={favIds}
                     />
                   ) : (
-                    <div className="stops-near-you-spinner-container">
+                    <div className="near-you-spinner-container">
                       <Loading />
                     </div>
                   )}
@@ -535,7 +537,7 @@ function NearYouPage(
   );
 
   const mapSearch = () => {
-    return <div className="stops-near-you-location-search">{search(true)}</div>;
+    return <div className="near-you-location-search">{search(true)}</div>;
   };
 
   if (PH_SHOWSEARCH.includes(phase)) {

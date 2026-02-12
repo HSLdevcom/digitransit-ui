@@ -6,7 +6,7 @@ import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { GeodeticToEnu } from '../../../util/geo-utils';
 import { legTime, legTimeAcc, PLATFORM_STATUS } from '../../../util/legUtils';
 import {
-  getRouteMode,
+  getTripOrRouteMode,
   getStopMode,
   transitIconName,
   modeUsesTrack,
@@ -468,16 +468,16 @@ function withNewSearchBtn(children, searchCallback, alertType) {
   );
 }
 
-function Transfer(route1, route2, config) {
-  const mode1 = getRouteMode(route1, config);
-  const mode2 = getRouteMode(route2, config);
+function Transfer(leg1, leg2, config) {
+  const mode1 = getTripOrRouteMode(leg1.trip, leg1.route, config);
+  const mode2 = getTripOrRouteMode(leg2.trip, leg2.route, config);
 
   return (
     <span className="navi-transfer-container">
       <div className="navi-transfer">
         <RouteNumberContainer
           className={cx('line', mode1)}
-          route={route1}
+          route={leg1.route}
           mode={mode1}
           isTransitLeg
           vertical
@@ -490,7 +490,7 @@ function Transfer(route1, route2, config) {
         &nbsp;
         <RouteNumberContainer
           className={cx('line', mode2)}
-          route={route2}
+          route={leg2.route}
           mode={mode2}
           isTransitLeg
           vertical
@@ -501,15 +501,17 @@ function Transfer(route1, route2, config) {
   );
 }
 
-function TransferText(route1, route2, config, intl) {
+function TransferText(leg1, leg2, config, intl) {
   const from = `${getLocalizedMode(
-    getRouteMode(route1, config),
+    getTripOrRouteMode(leg1.trip, leg1.route, config),
     intl,
     config,
-  )} ${route1.shortName || ''}`;
-  const to = `${getLocalizedMode(getRouteMode(route2, config), intl, config)} ${
-    route2.shortName || ''
-  }`;
+  )} ${leg1.route.shortName || ''}`;
+  const to = `${getLocalizedMode(
+    getTripOrRouteMode(leg2.trip, leg2.route, config),
+    intl,
+    config,
+  )} ${leg2.route.shortName || ''}`;
   return `${from} -> ${to}`;
 }
 
@@ -606,17 +608,8 @@ export const getItineraryAlerts = (
         const id = transferId(prob);
         const alert = messages.get(id);
         if (!alert?.closed || alert?.severity !== prob.severity) {
-          const transfer = Transfer(
-            prob.fromLeg.route,
-            prob.toLeg.route,
-            config,
-          );
-          const desc = TransferText(
-            prob.fromLeg.route,
-            prob.toLeg.route,
-            config,
-            intl,
-          );
+          const transfer = Transfer(prob.fromLeg, prob.toLeg, config);
+          const desc = TransferText(prob.fromLeg, prob.toLeg, config, intl);
 
           if (prob.severity === 'ALERT') {
             title = intl.formatMessage({ id: 'navigation-transfer-problem' });
@@ -681,12 +674,7 @@ export const getItineraryAlerts = (
             body = intl.formatMessage(
               { id: 'navigation-hurry-transfer-solved-details' },
               {
-                transfer: TransferText(
-                  tr.fromLeg.route,
-                  tr.toLeg.route,
-                  config,
-                  intl,
-                ),
+                transfer: TransferText(tr.fromLeg, tr.toLeg, config, intl),
                 time: durationToString(tr.duration),
               },
             );
@@ -694,7 +682,7 @@ export const getItineraryAlerts = (
               <FormattedMessage
                 id="navigation-hurry-transfer-solved-details"
                 values={{
-                  transfer: Transfer(tr.fromLeg.route, tr.toLeg.route, config),
+                  transfer: Transfer(tr.fromLeg, tr.toLeg, config),
                   time: <Duration duration={tr.duration} />,
                 }}
               />

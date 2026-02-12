@@ -30,7 +30,7 @@ import {
   markViaPoints,
   getBoardingLeg,
 } from '../../util/legUtils';
-import { getRouteMode } from '../../util/modeUtils';
+import { getTripOrRouteMode } from '../../util/modeUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import Profile from './Profile';
 import BikeParkLeg from './BikeParkLeg';
@@ -189,14 +189,16 @@ export default class Legs extends React.Component {
               start={leg.end}
               waitTime={waitTime}
               focusAction={this.focus(leg.to)}
-              icon={usingOwnCarWholeTrip ? 'icon_wait-car' : undefined}
+              icon={
+                usingOwnCarWholeTrip ? 'icon_wait-car' : 'icon_wait_standing'
+              }
             >
               {stopCode(leg.to.stop)}
             </WaitLeg>
           );
         }
       }
-      if (leg.mode !== 'WALK' && isCallAgencyLeg(leg)) {
+      if (leg.mode !== 'WALK' && isCallAgencyLeg(leg.route)) {
         legs.push(<CallAgencyLeg {...transitLegProps} />);
       } else if (leg.intermediatePlace) {
         legs.push(<ViaLeg {...legProps} arrival={startTime} />);
@@ -208,7 +210,12 @@ export default class Legs extends React.Component {
         legs.push(<TaxiLeg {...legProps} />);
       } else if (isLegOnFoot(leg)) {
         legs.push(
-          <WalkLeg {...legProps} previousLeg={previousLeg} nextLeg={nextLeg}>
+          <WalkLeg
+            {...legProps}
+            previousLeg={previousLeg}
+            nextLeg={nextLeg}
+            focusToPoint={this.props.focusToPoint}
+          >
             {stopCode(leg.from.stop)}
           </WalkLeg>,
         );
@@ -221,7 +228,8 @@ export default class Legs extends React.Component {
           leg.mode === 'FUNICULAR') &&
         !leg.interlineWithPreviousLeg
       ) {
-        const mode = getRouteMode(
+        const mode = getTripOrRouteMode(
+          leg.trip,
           {
             mode: leg.mode,
             type: leg.route?.type,
@@ -315,6 +323,7 @@ export default class Legs extends React.Component {
           nextLeg={compressedLegs[numberOfLegs]}
           focusAction={this.focus(lastLeg.to)}
           focusToLeg={this.focusToLeg(lastLeg)}
+          focusToPoint={this.props.focusToPoint}
         >
           {stopCode(lastLeg.to.stop)}
         </WalkLeg>,
