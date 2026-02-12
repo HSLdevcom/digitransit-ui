@@ -2,8 +2,7 @@ import React from 'react';
 
 import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
 import PopupHeader from '../../../../app/component/map/PopupHeader';
-import {
-  Component as PointFeatureMarker,
+import PointFeatureMarker, {
   CUSTOM_ICON_MIN_ZOOM,
   CUSTOM_ICON_SIZE,
   getCustomIcon,

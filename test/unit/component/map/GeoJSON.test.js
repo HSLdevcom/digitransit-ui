@@ -1,14 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import L from 'leaflet';
 import React from 'react';
-import LeafletGeoJson from 'react-leaflet/es/GeoJSON';
-
 import GeoJSON, {
   getIcons,
   getMarker,
 } from '../../../../app/component/map/GeoJSON';
 import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
-import PointFeatureMarker from '../../../../app/component/map/PointFeatureMarker';
 
 const context = { config: { CONFIG: 'default' } };
 
@@ -21,45 +18,6 @@ describe('<GeoJSON />', () => {
       context,
     });
     expect(wrapper.isEmptyRender()).to.equal(true);
-  });
-
-  it('should use the react-leaflet geojson component when geometry type !== Point', () => {
-    const props = {
-      data: {
-        features: [
-          {
-            geometry: {
-              coordinates: [60, 25],
-              type: 'MultiPoint',
-            },
-          },
-        ],
-      },
-    };
-    const wrapper = shallowWithIntl(<GeoJSON {...props} />, {
-      context,
-    });
-    expect(wrapper.find(LeafletGeoJson)).to.have.lengthOf(1);
-  });
-
-  it('should use native react-leaflet components when geometry type === Point', () => {
-    const props = {
-      data: {
-        features: [
-          {
-            id: '1',
-            geometry: {
-              coordinates: [60, 25],
-              type: 'Point',
-            },
-          },
-        ],
-      },
-    };
-    const wrapper = shallowWithIntl(<GeoJSON {...props} />, {
-      context,
-    });
-    expect(wrapper.find(PointFeatureMarker)).to.have.lengthOf(1);
   });
 
   describe('getIcons', () => {

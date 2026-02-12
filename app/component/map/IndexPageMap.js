@@ -97,7 +97,6 @@ function IndexPageMap(
 
 IndexPageMap.propTypes = {
   match: matchShape.isRequired,
-  lang: PropTypes.string.isRequired,
   origin: locationShape,
   destination: locationShape,
   mapLayers: mapLayerShape.isRequired,
@@ -116,16 +115,14 @@ IndexPageMap.contextTypes = {
 
 const IndexPageMapWithStores = connectToStores(
   IndexPageMap,
-  [OriginStore, DestinationStore, 'PreferencesStore', 'MapLayerStore'],
+  [OriginStore, DestinationStore, 'MapLayerStore'],
   ({ getStore }) => {
     const origin = getStore(OriginStore).getOrigin();
     const destination = getStore(DestinationStore).getDestination();
-    const lang = getStore('PreferencesStore').getLanguage();
 
     return {
       origin,
       destination,
-      lang,
       mapLayers: getStore('MapLayerStore').getMapLayers(),
     };
   },
