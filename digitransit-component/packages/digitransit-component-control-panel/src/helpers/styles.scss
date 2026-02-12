@@ -137,7 +137,6 @@
   .near-you-buttons-container {
     display: flex;
 
-    & > a:not(:last-child),
     & > div:not(:last-child) {
       margin-right: 7px;
 
@@ -146,12 +145,10 @@
       }
     }
 
-    & > a:last-child,
     & > div:last-child {
       margin-bottom: 32px;
     }
 
-    & > a,
     & > div {
       display: flex;
       flex: 1;
