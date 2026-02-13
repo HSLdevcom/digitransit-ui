@@ -52,7 +52,6 @@ export default function NearYouButton({
       '--iconMargin': '17px',
     };
   }
-
   const buttonClass = withBorder
     ? 'near-you-button-with-border'
     : 'near-you-button';

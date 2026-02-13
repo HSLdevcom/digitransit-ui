@@ -180,8 +180,6 @@ function NearStopsAndRoutes({
             {t(key, { lng: language })}
           </span>
         );
-      } else {
-        buttonProps.srMsg = t(mode, { lng: language });
       }
       if (!forModal) {
         buttonProps.withBorder = true;
