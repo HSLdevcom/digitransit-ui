@@ -475,7 +475,8 @@ const Index = memo(
     isEqual(nextProps.destination, props.destination) &&
     isEqual(nextProps.breakpoint, props.breakpoint) &&
     isEqual(nextProps.query, props.query) &&
-    isEqual(nextProps.locationState, props.locationState),
+    isEqual(nextProps.locationState, props.locationState) &&
+    isEqual(nextProps.favouriteStatus, props.favouriteStatus),
 );
 
 const IndexPageWithBreakpoint = withBreakpoint(Index);
