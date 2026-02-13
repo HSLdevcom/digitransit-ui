@@ -165,7 +165,7 @@
   .stop-near-you-container,
   .stop-near-you-container-with-hover {
     border: 1px solid $black;
-    border-radius: 10px;
+    border-radius: 8px;
     width: 100%;
     margin-bottom: 8px;
     animation: fadeIn 0.7s;
@@ -400,7 +400,7 @@
   color: white;
   font-size: 0.9375rem;
   padding: 12px 0 5px 0;
-  border-radius: 10px;
+  border-radius: 8px;
   margin-bottom: 15px;
 
   .swipe-scroll-container {
