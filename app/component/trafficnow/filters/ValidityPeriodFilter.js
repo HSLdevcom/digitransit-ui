@@ -15,14 +15,19 @@ const ValidityPeriodFilter = ({ filterId }) => {
   return (
     <fieldset>
       <FormattedMessage
-        tagName="legend"
         id="traffic-now_filters_validity-period"
         defaultMessage="Filter by validity period"
-      />
+      >
+        {msg => <legend className="input-legend">{msg}</legend>}
+      </FormattedMessage>
       {FILTER_OPTIONS.map(option => (
-        <label key={option.value} htmlFor={`period-${option}`}>
+        <label
+          className="input-label"
+          key={option.value}
+          htmlFor={`period-${option.labelId}`}
+        >
           <input
-            id={`period-${option}`}
+            id={`period-${option.labelId}`}
             type="radio"
             name="validityPeriodRadio"
             checked={selectedFilters[filterId] === option.value}

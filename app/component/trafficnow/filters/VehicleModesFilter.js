@@ -39,12 +39,17 @@ const VehicleModesFilter = ({ filterId }) => {
   return (
     <fieldset>
       <FormattedMessage
-        tagName="legend"
         id="traffic-now_filters_vehicle-mode"
         defaultMessage="Filter by vehicle mode"
-      />
+      >
+        {msg => <legend className="input-legend">{msg}</legend>}
+      </FormattedMessage>
       {availableModes.map(option => (
-        <label key={option} htmlFor={`vehicleModes-${option}`}>
+        <label
+          key={option}
+          htmlFor={`vehicleModes-${option}`}
+          className="input-label"
+        >
           <input
             id={`vehicleModes-${option}`}
             type="checkbox"

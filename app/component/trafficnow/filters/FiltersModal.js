@@ -27,7 +27,9 @@ const FiltersModal = ({ isOpen, onClose }) => {
       className="traffic-now__modal-filters"
     >
       <header>
-        <FormattedMessage id="filter" defaultMessage="Filter" tagName="h3" />
+        <FormattedMessage id="filter" defaultMessage="Filter">
+          {msg => <h3 className="heading-xs">{msg}</h3>}
+        </FormattedMessage>
         <button type="button" onClick={onClose}>
           <Icon
             height={1.5}
