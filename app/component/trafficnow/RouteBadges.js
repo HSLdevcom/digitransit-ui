@@ -64,7 +64,9 @@ export default function RouteBadges({ entities: rawEntities }) {
                       highlight: gtfsId === selectedFilters.entity?.gtfsId,
                     })}
                   >
-                    {name}
+                    <span className="route-badges-mode-lines--text">
+                      {name}
+                    </span>
                   </a>
                 ))}
               </div>
