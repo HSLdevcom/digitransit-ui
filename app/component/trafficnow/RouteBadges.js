@@ -40,10 +40,11 @@ export default function RouteBadges({ entities: rawEntities }) {
           mode && (
             <div
               key={key}
-              className={`route-badges-mode flex-row routes-s-narrow ${mode}`}
+              className="route-badges-mode flex-row routes-s-narrow"
             >
               <Icon
                 img={`icon_${mode}`}
+                className={`${mode}`}
                 height={2}
                 width={2}
                 iconScale={isRoute ? NORMAL_ICON_SCALE : STOP_SIGN_ICON_SCALE}
@@ -59,7 +60,7 @@ export default function RouteBadges({ entities: rawEntities }) {
                     key={id}
                     onClick={handleRouteBadgeClick(url)}
                     href={url}
-                    className={cx({
+                    className={cx(mode, {
                       highlight: gtfsId === selectedFilters.entity?.gtfsId,
                     })}
                   >
