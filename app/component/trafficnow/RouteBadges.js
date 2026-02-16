@@ -38,7 +38,10 @@ export default function RouteBadges({ entities: rawEntities }) {
       {Object.entries(entitiesByMode).map(
         ([key, { mode, isRoute, entities }]) =>
           mode && (
-            <div key={key} className={`route-badges-mode flex-row ${mode}`}>
+            <div
+              key={key}
+              className={`route-badges-mode flex-row routes-s-narrow ${mode}`}
+            >
               <Icon
                 img={`icon_${mode}`}
                 height={2}

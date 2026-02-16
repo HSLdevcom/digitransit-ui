@@ -47,8 +47,9 @@ export default function Alerts() {
             id="disruptions-found-amount"
             values={{ amount: filteredAlerts.length }}
             defaultValue="No disruptions found"
-            tagName="h3"
-          />
+          >
+            {msg => <h3 className="heading-xs">{msg}</h3>}
+          </FormattedMessage>
           <div className="traffic-now__content__alerts-list">
             {filteredAlerts.map(a => (
               <DisruptionCard

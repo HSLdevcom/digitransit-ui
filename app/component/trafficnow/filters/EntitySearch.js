@@ -30,15 +30,16 @@ const EntitySearch = ({ filterId }) => {
   return (
     <fieldset>
       <FormattedMessage
-        tagName="legend"
         id="traffic-now_filters_entity-search"
         defaultMessage="Search for individual route or stop"
-      />
+      >
+        {msg => <legend className="input-legend">{msg}</legend>}
+      </FormattedMessage>
       <DTAutoSuggestWithSearchContext
         appElement="#app"
         icon="search"
-        id="traffic-now_filters_entity-search--input"
-        className="traffic-now_filters_entity-search--input"
+        id="traffic-now__content__filters__entity-search--input"
+        inputClassName="traffic-now__content__filters__entity-search--input"
         placeholder={intl.formatMessage({
           id: 'traffic-now_filters_entity-search--placeholder',
           defaultMessage: 'Route, stop or station',

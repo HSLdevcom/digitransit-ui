@@ -1,3 +1,5 @@
+@import '../../../sass/base/typography';
+
 .traffic-now {
   --white: #{$white};
   --background-color-lighter: #{$background-color-lighter};
@@ -36,12 +38,16 @@
     &-breadcrumb {
       display: inline-flex;
       align-items: center;
+      gap: 10px;
+
+      a {
+        text-decoration: none;
+      }
     }
 
     &-crumbarrow {
       width: 10px;
       height: 10px;
-      rotate: -90deg;
       color: $link-color;
     }
 
@@ -94,6 +100,12 @@
         border-right: 1px solid $light-gray;
       }
 
+      input#{&}__entity-search--input {
+        &::placeholder {
+          color: #888;
+        }
+      }
+
       &__toggle {
         &--container {
           gap: var(--space-s);
@@ -115,6 +127,7 @@
 
       fieldset {
         display: flex;
+        gap: var(--space-xs);
         flex-direction: column;
         padding-inline: 0;
         border: 0;
@@ -129,17 +142,14 @@
         }
 
         legend {
-          padding: unset;
-          margin: unset;
-          font-weight: unset;
-          margin-left: unset;
+          padding-bottom: var(--space-xs);
         }
 
         input[type='radio'],
         input[type='checkbox'] {
           accent-color: $primary-color;
-          width: 1em;
-          height: 1em;
+          width: 24px;
+          height: 24px;
           margin: 0;
         }
       }
@@ -284,6 +294,13 @@
   }
 
   &__modal-filters {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: $white;
+
     @media screen and (min-width: 620px) {
       top: 50%;
       left: 50%;
@@ -292,13 +309,6 @@
       transform: translate(-50%, -50%);
       width: 95vw;
     }
-
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: $white;
 
     header {
       display: flex;

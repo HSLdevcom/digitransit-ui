@@ -73,16 +73,16 @@ export default function DisruptionCard({ alert, isOpen, onClick }) {
           className="traffic-now__disruption-card__route-badges"
         />
       )}
-      <h2>{alertHeaderText}</h2>
+      <h2 className="cta-small">{alertHeaderText}</h2>
       <div
         className={cx('traffic-now__disruption-card__content', {
           'traffic-now__disruption-card__content--open': isOpen,
         })}
       >
-        <p>{alertDescriptionText}</p>
+        <p className="text-xs">{alertDescriptionText}</p>
       </div>
       <div className="traffic-now__disruption-card__content-row">
-        <div className="traffic-now__disruption-card__content-row-validity">
+        <div className="traffic-now__disruption-card__content-row-validity text-xs">
           <div className="traffic-now__disruption-card__content-row-validity-icon">
             {isValid ? (
               <>
@@ -110,7 +110,11 @@ export default function DisruptionCard({ alert, isOpen, onClick }) {
               size="small"
               fullWidth
               variant="white"
-              value={<FormattedMessage id="extra-info" default="Details" />}
+              value={
+                <FormattedMessage id="extra-info" default="Details">
+                  {msg => <span className="link-small">{msg}</span>}
+                </FormattedMessage>
+              }
               onClick={handleExtraInfoClick(alertUrl)}
             />
           </div>

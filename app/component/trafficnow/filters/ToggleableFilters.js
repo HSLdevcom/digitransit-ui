@@ -42,7 +42,9 @@ const ToggleableFilters = () => {
               toggled={!!selectedFilters[f.id]}
               onToggle={() => handleToggle(f)}
             />
-            <FormattedMessage tagName="h3" id={f.label} />
+            <FormattedMessage id={f.label}>
+              {msg => <span className="input-label bold">{msg}</span>}
+            </FormattedMessage>
           </label>
         </div>
       ))}
