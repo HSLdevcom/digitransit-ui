@@ -47,7 +47,7 @@ $stop-modes: (
 
 @each $mode, $color in $mode-colors {
   .#{$mode} {
-    color: $color !important;
+    color: $color;
 
     @if index($stop-modes, $mode) {
       &-stop {
