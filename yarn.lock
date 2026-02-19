@@ -11461,7 +11461,6 @@ __metadata:
     webpack-bundle-analyzer: 4.10.2
     webpack-cli: 4.10.0
     webpack-dev-server: 4.15.2
-    zurb-foundation-5: 5.4.7
   peerDependencies:
     "@octokit/core": ">=3"
     "@types/node": ^17
@@ -29588,13 +29587,6 @@ __metadata:
   version: 2.1.3
   resolution: "yoctocolors-cjs@npm:2.1.3"
   checksum: 207df586996c3b604fa85903f81cc54676f1f372613a0c7247f0d24b1ca781905685075d06955211c4d5d4f629d7d5628464f8af0a42d286b7a8ff88e9dadcb8
-  languageName: node
-  linkType: hard
-
-"zurb-foundation-5@npm:5.4.7":
-  version: 5.4.7
-  resolution: "zurb-foundation-5@npm:5.4.7"
-  checksum: 9a8d18b0ef58dcdeb6a0f4062443f9a30fc50d7dffd76ac065cdf99c60c53ea03e6c1c9b510f0cd2688f69253bcdd1ba6eafadda51141718c259856474e4c5f7
   languageName: node
   linkType: hard
 
