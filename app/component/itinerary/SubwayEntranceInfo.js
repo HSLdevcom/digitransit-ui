@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
+import { WheelchairBoarding } from '../../constants';
 
 export default function SubwayEntranceInfo({
   type, // exit / entrance
@@ -16,7 +17,7 @@ export default function SubwayEntranceInfo({
       <span id="subway-entrance-label" className="sr-only">
         <FormattedMessage
           id={
-            entranceAccessible === 'POSSIBLE'
+            entranceAccessible === WheelchairBoarding.Possible
               ? `subway-${type}.sr-description.accessible`
               : `subway-${type}.sr-description`
           }
@@ -35,7 +36,7 @@ export default function SubwayEntranceInfo({
           img={`icon_subway_entrance_${entranceName.toLowerCase()}`}
         />
       )}
-      {entranceAccessible === 'POSSIBLE' && (
+      {entranceAccessible === WheelchairBoarding.Possible && (
         <Icon
           className="subway-entrance-info-icon"
           img="icon_wheelchair_filled"
@@ -47,10 +48,10 @@ export default function SubwayEntranceInfo({
 SubwayEntranceInfo.propTypes = {
   type: PropTypes.string.isRequired,
   entranceName: PropTypes.string,
-  entranceAccessible: PropTypes.string,
+  entranceAccessible: PropTypes.oneOf(Object.values(WheelchairBoarding)),
 };
 
 SubwayEntranceInfo.defaultProps = {
   entranceName: '',
-  entranceAccessible: undefined,
+  entranceAccessible: WheelchairBoarding.NoInformation,
 };

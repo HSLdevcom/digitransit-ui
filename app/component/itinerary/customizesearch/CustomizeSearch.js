@@ -122,7 +122,7 @@ function CustomizeSearch({ onToggleClick, settings, mobile }) {
             <Scooters />
           </div>
         )}
-        {config.experimental?.allowFlexJourneys &&
+        {config.flex?.allowTaxiJourneys &&
           config.transportModes.taxi.availableForSelection && (
             <div className="settings-section">
               <TaxiOptions currentSettings={currentSettings} />

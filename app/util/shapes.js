@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { PlannerMessageType } from '../constants';
+import { VerticalDirection, PlannerMessageType } from '../constants';
 
 export const agencyShape = PropTypes.shape({
   name: PropTypes.string,
@@ -15,11 +15,8 @@ export const alertShape = PropTypes.shape({
   alertSeverityLevel: PropTypes.string,
   alertUrl: PropTypes.string,
   id: PropTypes.string,
-  entities: PropTypes.arrayOf(
-    PropTypes.shape({
-      __typename: PropTypes.string.isRequired,
-    }),
-  ),
+  // eslint-disable-next-line no-use-before-define
+  entities: PropTypes.arrayOf(() => entityShape),
 });
 
 export const childrenShape = PropTypes.oneOfType([
@@ -210,8 +207,48 @@ export const legTimeShape = PropTypes.shape({
 });
 
 export const entranceShape = PropTypes.shape({
+  __typename: PropTypes.oneOf(['Entrance']).isRequired,
   publicCode: PropTypes.string,
   wheelchairAccessible: PropTypes.string,
+});
+
+export const elevatorUseShape = PropTypes.shape({
+  __typename: PropTypes.oneOf(['ElevatorUse']).isRequired,
+  from: PropTypes.shape({
+    level: PropTypes.number,
+    name: PropTypes.string,
+  }),
+  verticalDirection: PropTypes.oneOf(Object.values(VerticalDirection)),
+  to: PropTypes.shape({
+    level: PropTypes.number,
+    name: PropTypes.string,
+  }),
+});
+
+export const escalatorUseShape = PropTypes.shape({
+  __typename: PropTypes.oneOf(['EscalatorUse']).isRequired,
+  from: PropTypes.shape({
+    level: PropTypes.number,
+    name: PropTypes.string,
+  }),
+  verticalDirection: PropTypes.oneOf(Object.values(VerticalDirection)),
+  to: PropTypes.shape({
+    level: PropTypes.number,
+    name: PropTypes.string,
+  }),
+});
+
+export const stairsUseShape = PropTypes.shape({
+  __typename: PropTypes.oneOf(['StairsUse']).isRequired,
+  from: PropTypes.shape({
+    level: PropTypes.number,
+    name: PropTypes.string,
+  }),
+  verticalDirection: PropTypes.oneOf(Object.values(VerticalDirection)),
+  to: PropTypes.shape({
+    level: PropTypes.number,
+    name: PropTypes.string,
+  }),
 });
 
 export const legShape = PropTypes.shape({
@@ -228,7 +265,12 @@ export const legShape = PropTypes.shape({
   fare: fareShape,
   steps: PropTypes.arrayOf(
     PropTypes.shape({
-      entrance: entranceShape,
+      feature: PropTypes.oneOfType([
+        entranceShape,
+        elevatorUseShape,
+        escalatorUseShape,
+        stairsUseShape,
+      ]),
       lat: PropTypes.number,
       lon: PropTypes.number,
     }),
@@ -243,7 +285,6 @@ export const legShape = PropTypes.shape({
     name: PropTypes.string,
     stop: stopShape,
     vehicleRentalStation: vehicleRentalStationShape,
-
     bikePark: parkShape,
     carPark: parkShape,
   }),
@@ -421,4 +462,50 @@ export const minTransferTimeShape = PropTypes.arrayOf(
     title: PropTypes.string,
     value: PropTypes.number,
   }),
+);
+
+export const pickupBookingInfoShape = PropTypes.shape({
+  contactInfo: PropTypes.shape({
+    bookingUrl: PropTypes.string,
+    infoUrl: PropTypes.string,
+    phoneNumber: PropTypes.string,
+    latestBookingTime: PropTypes.shape({
+      daysPrior: PropTypes.number,
+      time: PropTypes.string,
+    }),
+    minimumBookingNotice: PropTypes.shape({
+      minutes: PropTypes.number,
+    }),
+  }),
+  message: PropTypes.string,
+});
+
+export const stopOnRouteShape = PropTypes.shape({
+  route: routeShape,
+});
+
+export const entityShape = (props, propName, componentName, ...rest) => {
+  const entity = props[propName];
+  if (!entity || typeof entity !== 'object') {
+    return null;
+  }
+  /* eslint-disable no-underscore-dangle */
+  switch (entity.__typename) {
+    case 'Route':
+      return routeShape(props, propName, componentName, ...rest);
+    case 'Stop':
+      return stopShape(props, propName, componentName, ...rest);
+    case 'StopOnRoute':
+      return stopOnRouteShape(props, propName, componentName, ...rest);
+    case 'Unknown':
+      return null;
+    default:
+      return new Error(
+        `Invalid entity type '${entity.__typename}' in ${componentName}`,
+      );
+  }
+};
+
+export const stylesShape = PropTypes.objectOf(
+  PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 );

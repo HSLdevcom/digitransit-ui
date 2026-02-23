@@ -259,6 +259,26 @@ div.leaflet-marker-icon.parking {
 
 div.leaflet-marker-icon.map-subway-entrance-info-icon-metro {
   color: #0074bf;
+  cursor: grab;
+}
+
+div.leaflet-marker-icon.map-cluster-number-marker {
+  cursor: grab;
+}
+
+div.leaflet-marker-icon.map-indoor-step-marker {
+  > svg > circle.indoor-step-marker {
+    fill: #fff;
+    stroke: #666;
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+
+  > svg > circle.indoor-step-marker:hover {
+    transform: scale(1.3);
+    fill: #666;
+    stroke: #fff;
+  }
 }
 
 div.leaflet-marker-icon.via {
@@ -631,6 +651,77 @@ div.leaflet-marker-icon.vehicle-icon {
     border-radius: 5px;
     background: $white;
     border: solid 1px #ddd;
+
+    &.indoor-step-popup-container {
+      line-height: 0;
+      margin: 0;
+      padding: 10px 0 10px;
+      border: none;
+      border-top: 1px solid #ddd;
+      border-radius: 0;
+      flex-direction: column;
+
+      .indoor-step-popup-icons {
+        flex-direction: row;
+        font-size: 20px;
+
+        .icon-container {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+
+          > svg.icon.indoor-step-popup-icon {
+            width: 2em;
+          }
+
+          > svg.icon.arrow-popup-icon {
+            color: black;
+            height: 0.5em;
+            width: 0.5em;
+          }
+        }
+      }
+
+      .indoor-step-popup-line-container {
+        .indoor-step-popup-line {
+          background-size: auto 100%;
+          background-position-y: 0;
+          background-position-x: 0;
+          background-repeat: repeat no-repeat;
+          border: none;
+          border-radius: 3px;
+          margin: 10%;
+          height: 6px;
+          min-width: 50px;
+        }
+
+        .indoor-step-popup-line-circle-container {
+          position: absolute;
+          min-width: 0;
+
+          .indoor-step-popup-line-circle {
+            border: none;
+            min-width: 0;
+            margin: 11px;
+
+            &.selected {
+              filter: drop-shadow(0 1px 1px rgba(51, 51, 51, 1));
+            }
+
+            > svg > circle.indoor-step-marker {
+              fill: #fff;
+              stroke: #666;
+
+              &.selected {
+                fill: #666;
+                stroke: #fff;
+                r: 8;
+              }
+            }
+          }
+        }
+      }
+    }
 
     div,
     a,

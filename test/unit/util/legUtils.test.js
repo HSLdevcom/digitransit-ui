@@ -191,7 +191,6 @@ describe('legUtils', () => {
       endTime: 1527760041000,
       distance: 536.3270000000001,
       duration: 124,
-      intermediatePlace: false,
       route: null,
       trip: null,
       __fragments__: { '8::client': [{}] },
@@ -214,6 +213,7 @@ describe('legUtils', () => {
         name: 'Jorvas, Kirkkonummi',
         vehicleRentalStation: null,
         stop: null,
+        viaLocationType: 'VISIT',
       },
       legGeometry: {
         __dataID__: 'client:34101763480',
@@ -228,7 +228,6 @@ describe('legUtils', () => {
       endTime: 1527760089000,
       distance: 32.369,
       duration: 48,
-      intermediatePlace: false,
       route: null,
       trip: null,
       __fragments__: { '8::client': [{}] },
@@ -243,6 +242,7 @@ describe('legUtils', () => {
         name: 'Jorvas, Kirkkonummi',
         vehicleRentalStation: null,
         stop: null,
+        viaLocationType: 'VISIT',
       },
       to: {
         __dataID__: 'client:34101763485',
@@ -265,7 +265,6 @@ describe('legUtils', () => {
       endTime: 1527760121000,
       distance: 23.669999999999998,
       duration: 32,
-      intermediatePlace: true,
       route: null,
       trip: null,
       __fragments__: { '8::client': [{}] },
@@ -288,6 +287,7 @@ describe('legUtils', () => {
         name: 'Elfvinginkuja 7, Kirkkonummi',
         vehicleRentalStation: null,
         stop: null,
+        viaLocationType: 'VISIT',
       },
       legGeometry: {
         __dataID__: 'client:34101763486',
@@ -303,7 +303,6 @@ describe('legUtils', () => {
       endTime: 1527760228000,
       distance: 471.849,
       duration: 107,
-      intermediatePlace: false,
       route: null,
       trip: null,
       __fragments__: { '8::client': [{}] },
@@ -318,6 +317,7 @@ describe('legUtils', () => {
         name: 'Elfvinginkuja 7, Kirkkonummi',
         vehicleRentalStation: null,
         stop: null,
+        viaLocationType: 'VISIT',
       },
       to: {
         __dataID__: 'client:34101763491',
@@ -341,7 +341,6 @@ describe('legUtils', () => {
       endTime: 1527760367000,
       distance: 617.027,
       duration: 139,
-      intermediatePlace: true,
       route: null,
       trip: null,
       __fragments__: { '8::client': [{}] },
@@ -367,15 +366,15 @@ describe('legUtils', () => {
 
       expect(
         compressedLegs.filter(leg => leg.from.name === 'Jorvas, Kirkkonummi')[0]
-          .intermediatePlace,
+          .from.viaLocationType === 'VISIT',
       ).to.equal(true);
       expect(
         compressedLegs.filter(
           leg => leg.from.name === 'Elfvinginkuja 7, Kirkkonummi',
-        )[0].intermediatePlace,
+        )[0].from.viaLocationType === 'VISIT',
       ).to.equal(true);
       expect(
-        compressedLegs.filter(leg => leg.intermediatePlace).length,
+        compressedLegs.filter(leg => !!leg.from.viaLocationType).length,
       ).to.equal(2);
     });
   });
