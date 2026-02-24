@@ -86,9 +86,11 @@ function CustomizeSearch({ onToggleClick, settings, mobile }) {
             defaultSettings={defaultSettings}
           />
         </div>
-        <div className="settings-section">
-          <Personalisation currentSettings={currentSettings} />
-        </div>
+        {config.personalisation && (
+          <div className="settings-section">
+            <Personalisation currentSettings={currentSettings} />
+          </div>
+        )}
         <div className="settings-section">
           {showModeSettings(config) && <TransportModes />}
           {config.minTransferTimeSelection && (
