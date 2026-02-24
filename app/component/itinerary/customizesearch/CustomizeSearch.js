@@ -31,19 +31,6 @@ function CustomizeSearch({ onToggleClick, settings, mobile }) {
 
   // Merge default and customized settings
   const currentSettings = { ...defaultSettings, ...settings };
-  let ticketOptions = [];
-  if (config.showTicketSelector && config.availableTickets) {
-    Object.keys(config.availableTickets).forEach(key => {
-      if (config.feedIds.indexOf(key) > -1) {
-        ticketOptions = ticketOptions.concat(
-          Object.keys(config.availableTickets[key]),
-        );
-      }
-    });
-    ticketOptions.sort((a, b) => {
-      return a.split('').reverse() > b.split('').reverse() ? 1 : -1;
-    });
-  }
   const backIcon = mobile ? (
     <Icon className="close-icon" img="icon_arrow-collapse--left" />
   ) : (

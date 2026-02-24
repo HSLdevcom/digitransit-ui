@@ -335,8 +335,6 @@ export default {
     en: 'HSL',
   },
 
-  showTicketSelector: false,
-
   staticMessages: [
     // {
     //   id: '2',
