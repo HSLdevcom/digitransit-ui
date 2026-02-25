@@ -36,7 +36,7 @@
   },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-dialog-modal": "^3.0.1",
-    "@digitransit-component/digitransit-component-icon": "^2.0.0",
+    "@digitransit-component/digitransit-component-icon": "^2.0.1",
     "@digitransit-component/digitransit-component-suggestion-item": "^3.0.1",
     "@hsl-fi/sass": "1.0.0",
     "classnames": "2.5.1",

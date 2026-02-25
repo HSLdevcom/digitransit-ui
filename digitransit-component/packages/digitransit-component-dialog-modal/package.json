@@ -32,7 +32,7 @@
     "@hsl-fi/modal": "^0.3.2"
   },
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-icon": "^2.0.0",
+    "@digitransit-component/digitransit-component-icon": "^2.0.1",
     "@hsl-fi/sass": "1.0.0",
     "classnames": "2.5.1",
     "i18next": "^22.5.1",
