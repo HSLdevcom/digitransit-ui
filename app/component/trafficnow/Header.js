@@ -65,22 +65,20 @@ export default function Header() {
         'traffic-now__header--mobile': !desktop,
       })}
     >
-      <span className="traffic-now__header-breadcrumb">
+      <span className="traffic-now__header-breadcrumb link-small">
         <Link to="/">
           <FormattedMessage id="traffic-now_bread" />
         </Link>
-        &nbsp;
         <Icon
-          img="icon_arrow-dropdown"
+          img="icon_chevron-right"
           className="traffic-now__header-crumbarrow"
         />
-        &nbsp;
         <FormattedMessage id="traffic-now" />
       </span>
-      <h2>
+      <h2 className="heading-l">
         <FormattedMessage id="traffic-now" />
       </h2>
-      <p className="traffic-now__header-description">
+      <p className="traffic-now__header-description text-l">
         <FormattedMessage id="traffic-now_description" />
         {CONFIG === 'hsl' && <AdditionalDescription />}
       </p>

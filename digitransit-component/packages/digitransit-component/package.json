@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "a JavaScript library for Digitransit",
   "main": "digitransit-component",
   "module": "digitransit-component.mjs",
@@ -21,9 +21,9 @@
     "@digitransit-component/digitransit-component-autosuggest": "^7.1.0",
     "@digitransit-component/digitransit-component-autosuggest-panel": "^8.1.2",
     "@digitransit-component/digitransit-component-control-panel": "^7.1.0",
-    "@digitransit-component/digitransit-component-favourite-bar": "^5.0.0",
-    "@digitransit-component/digitransit-component-favourite-editing-modal": "^5.0.0",
-    "@digitransit-component/digitransit-component-favourite-modal": "^4.0.0",
+    "@digitransit-component/digitransit-component-favourite-bar": "^5.0.1",
+    "@digitransit-component/digitransit-component-favourite-editing-modal": "^5.0.1",
+    "@digitransit-component/digitransit-component-favourite-modal": "^4.0.1",
     "@digitransit-component/digitransit-component-icon": "^2.0.0",
     "@digitransit-component/digitransit-component-suggestion-item": "^3.0.0",
     "@digitransit-component/digitransit-component-with-breakpoint": "^1.0.0"

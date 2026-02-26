@@ -138,14 +138,31 @@ function NearYouMap(
   const clientOn = useRef(false);
   const mwtRef = useRef();
   const { mode } = match.params;
-  const walkRoutingThreshold =
-    mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
+  let streetRoutingLimit;
+
+  switch (mode) {
+    case 'RAIL':
+    case 'SUBWAY':
+    case 'FERRY':
+      streetRoutingLimit = 3000;
+      break;
+    case 'CARPARK':
+      streetRoutingLimit = 30000;
+      break;
+    case 'BIKEPARK':
+      streetRoutingLimit = 5000;
+      break;
+    default:
+      streetRoutingLimit = 1500;
+      break;
+  }
+
   const { environment } = relay;
   const { config } = context;
   const isTransitMode = !nonTransit.includes(mode);
 
   const fetchPlan = node => {
-    if (node.distance < walkRoutingThreshold) {
+    if (node.distance < streetRoutingLimit) {
       const settings = getSettings(config);
       let location = {
         coordinate: {
@@ -285,7 +302,7 @@ function NearYouMap(
       } else if (isTransitMode) {
         sortedEdges = stops.nearest.edges
           .slice()
-          .sort(sortNearYouStops(favouriteIds, walkRoutingThreshold));
+          .sort(sortNearYouStops(favouriteIds, streetRoutingLimit));
       } else {
         sortedEdges = stops.nearest.edges.slice();
       }

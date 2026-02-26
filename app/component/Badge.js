@@ -46,7 +46,10 @@ export default function Badge({
   ...rest
 }) {
   return (
-    <div {...rest} className={cx('badge', variant.toLowerCase(), className)}>
+    <div
+      {...rest}
+      className={cx('badge tag-bold', variant.toLowerCase(), className)}
+    >
       {showIcon && getIcon(variant)}
       <FormattedMessage
         id={`${DISRUPTION_BADGE_PREFIX}${label.toLowerCase()}`}

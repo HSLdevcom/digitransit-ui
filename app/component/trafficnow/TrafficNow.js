@@ -19,7 +19,7 @@ export default function TrafficNow() {
   const mobile = breakpoint !== 'large';
 
   return (
-    <div className={cx('traffic-now')}>
+    <div className={cx('traffic-now design-system')}>
       <Gutterer maxWidth="1440px" contentStyles={{ display: 'flex' }}>
         <Header />
       </Gutterer>

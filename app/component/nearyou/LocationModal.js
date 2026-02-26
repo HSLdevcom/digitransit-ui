@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import DTIcon from '@digitransit-component/digitransit-component-icon';
 import Modal from '@hsl-fi/modal';
 import { useTranslationsContext } from '../../util/useTranslationsContext';
 
@@ -47,7 +46,6 @@ export default function LocationModal({
               className="modal-desktop-button save"
               onClick={startGeolocation}
             >
-              <DTIcon img="locate" height={1.375} width={1.375} />
               <FormattedMessage id="use-own-position" />
             </button>
           </div>
