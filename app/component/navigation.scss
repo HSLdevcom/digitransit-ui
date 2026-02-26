@@ -1039,4 +1039,24 @@ section.content {
     font-size: $font-size-xxsmall;
     text-decoration: none;
   }
+
+  .arrow {
+    vertical-align: middle;
+    color: $link-color;
+  }
+
+  &:hover .arrow {
+    transform: translateX(4px);
+    transition: transform 0.1s;
+  }
+
+  .icon-container {
+    padding-left: 2px;
+
+    .icon {
+      width: 0.6em;
+      height: 0.6em;
+      padding-bottom: 2px;
+    }
+  }
 }
