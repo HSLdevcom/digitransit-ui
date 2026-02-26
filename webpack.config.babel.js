@@ -212,6 +212,7 @@ module.exports = {
           isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
           'css-loader',
           'postcss-loader',
+          'sass-loader',
           {
             loader: 'sass-loader',
             options: {
@@ -219,10 +220,12 @@ module.exports = {
                 includePaths: [
                   path.join(__dirname, 'node_modules/foundation-sites/scss'),
                 ],
+                quietDeps: true,
                 silenceDeprecations: [
                   'import',
                   'global-builtin',
                   'color-functions',
+                  'if-function',
                 ],
               },
             },

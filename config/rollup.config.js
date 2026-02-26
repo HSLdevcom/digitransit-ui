@@ -119,7 +119,19 @@ export default async () => {
           extract: false,
           plugins: [autoprefixer()],
           modules: true,
-          use: ['sass'],
+          use: [
+            [
+              'sass',
+              {
+                quietDeps: true,
+                silenceDeprecations: [
+                  'import',
+                  'global-builtin',
+                  'color-functions',
+                ],
+              },
+            ],
+          ],
           config: false,
         }),
         json(),
