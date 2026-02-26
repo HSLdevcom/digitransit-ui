@@ -10,6 +10,7 @@ function ScheduleHeader({
   to,
   onFromSelectChange,
   onToSelectChange,
+  isMobile,
 }) {
   const options = stops.map((stop, index) => {
     const option = {
@@ -47,7 +48,7 @@ function ScheduleHeader({
   return (
     <div className="route-schedule-header row">
       {stopHeadersForPrinting}
-      <div className="route-schedule-dropdowns">
+      <div className={`route-schedule-dropdowns ${isMobile ? 'mobile' : ''}`}>
         <ScheduleDropdown
           id="origin"
           labelId="origin"
@@ -73,6 +74,11 @@ ScheduleHeader.propTypes = {
   to: PropTypes.number.isRequired,
   onFromSelectChange: PropTypes.func.isRequired,
   onToSelectChange: PropTypes.func.isRequired,
+  isMobile: PropTypes.bool,
+};
+
+ScheduleHeader.defaultProps = {
+  isMobile: false,
 };
 
 ScheduleHeader.displayName = 'ScheduleHeader';

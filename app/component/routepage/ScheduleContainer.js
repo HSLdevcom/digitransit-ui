@@ -946,6 +946,7 @@ class ScheduleContainer extends PureComponent {
                 to={newFromTo[1]}
                 onFromSelectChange={this.onFromSelectChange}
                 onToSelectChange={this.onToSelectChange}
+                isMobile={this.props.breakpoint !== 'large'}
               />
               <div
                 className="route-schedule-list momentum-scroll"

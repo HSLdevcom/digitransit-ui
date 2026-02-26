@@ -812,11 +812,18 @@ $margin-left-right: 21.3px;
 
 .route-schedule-dropdowns {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
+  flex-direction: row;
+  gap: 16em;
 
   @media print {
     display: none;
+  }
+
+  &.mobile {
+    gap: 0;
+    display: flex;
+    flex-direction: row !important;
   }
 }
 
