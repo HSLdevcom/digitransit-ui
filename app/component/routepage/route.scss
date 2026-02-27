@@ -707,6 +707,8 @@ $margin-left-right: 21.3px;
 
   .route-schedule-header {
     padding: 9.6px 0 2px 0;
+    margin-left: 0;
+    margin-right: 0;
 
     @media print {
       margin-left: 0;
@@ -814,16 +816,9 @@ $margin-left-right: 21.3px;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  gap: 16em;
 
   @media print {
     display: none;
-  }
-
-  &.mobile {
-    gap: 0;
-    display: flex;
-    flex-direction: row !important;
   }
 }
 
