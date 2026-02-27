@@ -29,6 +29,9 @@ class PreferencesStore extends Store {
     }
   }
 
+  /**
+   * @deprecated use `const { language } = useConfigContext();` instead
+   */
   getLanguage() {
     return this.language;
   }

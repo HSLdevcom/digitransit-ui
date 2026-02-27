@@ -1,16 +1,21 @@
 import PropTypes from 'prop-types';
 import React, { memo } from 'react';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
-import { intlShape } from 'react-intl';
-import { configShape } from '../../util/shapes';
 import {
   withSearchContext,
   getLocationSearchTargets,
 } from '../WithSearchContext';
+import { countLocations } from '../../store/FavouriteStore';
+import { useTranslationsContext } from '../../util/useTranslationsContext';
+import { useFavourites } from '../../hooks/FavouriteContext';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
-function Search({ onMap, ...rest }, { config, intl, getStore }) {
+function Search({ onMap, ...rest }) {
+  const config = useConfigContext();
+  const intl = useTranslationsContext();
+  const favourites = useFavourites();
   const searchProps = {
     id: 'origin-stop-near-you',
     placeholder: 'origin',
@@ -22,9 +27,10 @@ function Search({ onMap, ...rest }, { config, intl, getStore }) {
     colors: config.colors,
     modeSet: config.iconModeSet,
     getAutoSuggestIcons: config.getAutoSuggestIcons,
+    lang: config.language,
   };
   const sources = ['History', 'Datasource'];
-  if (getStore('FavouriteStore').getLocationCount()) {
+  if (countLocations(favourites)) {
     sources.push('Favourite');
   }
   return (
@@ -40,18 +46,7 @@ function Search({ onMap, ...rest }, { config, intl, getStore }) {
   );
 }
 
-Search.propTypes = {
-  onMap: PropTypes.bool,
-};
-
-Search.defaultProps = {
-  onMap: false,
-};
-
-Search.contextTypes = {
-  config: configShape.isRequired,
-  intl: intlShape.isRequired,
-  getStore: PropTypes.func.isRequired,
-};
+Search.propTypes = { onMap: PropTypes.bool };
+Search.defaultProps = { onMap: false };
 
 export default memo(Search);

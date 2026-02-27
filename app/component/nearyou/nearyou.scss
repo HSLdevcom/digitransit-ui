@@ -1,9 +1,4 @@
-.map.flex-grow {
-  position: relative;
-  min-height: 20rem;
-}
-
-.stops-near-you-location-search {
+.near-you-location-search {
   position: fixed;
   margin: 30px 30px 0 0;
   right: 0;
@@ -26,7 +21,7 @@
   }
 }
 
-.stops-near-you-spinner-container {
+.near-you-spinner-container {
   position: relative;
   z-index: 1;
   height: 80px;
@@ -59,7 +54,7 @@
   }
 }
 
-.stops-near-you-page {
+.near-you-page {
   position: relative;
   overflow: visible;
   display: flex;
@@ -73,12 +68,7 @@
     }
   }
 
-  .separator {
-    border-top: 1px solid #ddd;
-    padding-bottom: 22px;
-  }
-
-  .stops-near-you-no-stops {
+  .near-you-no-stops {
     width: 100%;
     background-color: $infobox-color-generic-blue;
     font-weight: normal;
@@ -99,47 +89,6 @@
         width: 24px;
         height: 24px;
       }
-    }
-  }
-
-  .citybike-use-disclaimer {
-    border-radius: 8px;
-    border: solid 1px #ddd;
-    background-color: $background-color-lighter;
-    padding: 12px 18px 12px 18px;
-    width: 100%;
-    margin-bottom: 10px;
-
-    .disclaimer-header {
-      display: flex;
-      justify-content: space-between;
-      font-size: 1rem;
-    }
-
-    .disclaimer-content {
-      display: flex;
-      align-items: center;
-      font-weight: normal;
-      font-size: 0.813rem;
-    }
-
-    .disclaimer-close-button-container {
-      margin-left: 10px;
-      background-color: $primary-color;
-      width: fit-content;
-      height: fit-content;
-      color: white;
-      text-decoration: none;
-      border-radius: 25px;
-      padding: 3px 25px 3px 25px;
-    }
-
-    .disclaimer-close-button {
-      font-weight: $font-weight-medium;
-    }
-
-    .disclaimer-close {
-      cursor: pointer;
     }
   }
 
@@ -213,18 +162,19 @@
     }
   }
 
-  .stop-near-you-container {
-    border: 1px solid #d9d9d9;
-    border-radius: 10px;
+  .stop-near-you-container,
+  .stop-near-you-container-with-hover {
+    border: 1px solid $light-gray;
+    border-radius: 8px;
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     animation: fadeIn 0.7s;
 
     .alert-container {
       margin: 0 14px 4px;
     }
 
-    .stop-near-you-header-container:has(.bike-station-page-container) {
+    .stop-near-you-header-container:has(.station-page-container) {
       padding: unset;
     }
 
@@ -248,15 +198,15 @@
           color: #333;
         }
 
-        .bike-station {
-          &-code {
-            font-size: 0.813rem;
-            font-weight: normal;
-          }
+        .bike-station-code {
+          font-size: 0.813rem;
+          font-weight: normal;
+        }
 
+        .station {
           &-page-container {
             margin: 0;
-            padding: var(--space-s) var(--space-m);
+            padding: var(--space-m) var(--space-m) var(--space-s);
           }
 
           &-header {
@@ -328,10 +278,16 @@
       margin: 0 0 19px 20px;
       padding: 5px 20px 5px;
       border-radius: 25px;
-      border: solid 1px #a6a6a6;
+      border: solid 1px #888;
       font-size: 16px;
       font-weight: $font-weight-medium;
       color: $primary-color;
+    }
+  }
+
+  .stop-near-you-container-with-hover {
+    &:hover {
+      border-color: $black;
     }
   }
 
@@ -412,20 +368,8 @@
   }
 }
 
-.desktop {
-  .scrollable-content-wrapper .react-swipe-container {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-
-    > div {
-      flex: 1;
-    }
-  }
-}
-
 .scrollable-content-wrapper {
-  .stops-near-you-search-container {
+  .near-you-search-container {
     margin-bottom: 22px;
   }
 
@@ -456,7 +400,7 @@
   color: white;
   font-size: 0.9375rem;
   padding: 12px 0 5px 0;
-  border-radius: 10px;
+  border-radius: 8px;
   margin-bottom: 15px;
 
   .swipe-scroll-container {
@@ -556,7 +500,7 @@
 }
 
 .mobile {
-  .stops-near-you-location-search {
+  .near-you-location-search {
     width: 145px;
     margin: 25px 15px 0 0;
     z-index: 5;
@@ -566,17 +510,13 @@
     }
   }
 
-  .stops-near-you-search-container {
-    padding: 0 5px 15px;
-  }
-
-  .stops-near-you-page {
+  .near-you-page {
     height: calc(100% - 20rem);
     padding: 5px 0.625em 0;
     background-color: white;
     position: relative;
 
-    .stops-near-you-container {
+    .near-you-container {
       padding: 0;
     }
 

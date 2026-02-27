@@ -1,5 +1,4 @@
 /* eslint sort-keys: "error" */
-
 const translations = {
   da: {
     'about-this-service': 'Om tjenesten',
@@ -820,6 +819,7 @@ const translations = {
     'accessibility-limited': 'Wheelchair',
     'accessibility-nolimit': 'No limits',
     'accessibility-statement': 'Accessibility statement',
+    'accessible-car-places': 'Wheelchair accessible',
     acknowledged: 'OK',
     'add-favourite-bikeStation-failed-heading':
       'Saving the citybike station failed',
@@ -915,9 +915,8 @@ const translations = {
     'bike-only': 'Cycling only',
     'bike-park': 'Park & Ride for bikes',
     'bike-park-disclaimer':
-      'You can conveniently combine cycling and public transport: leave your bike at a Park & Ride and continue by train, bus, metro or tram. Bike parking is free of charge and there are no time limits.',
+      'You can park your bike near the station or stop and continue your journey conveniently by public transport',
     'bike-park-disclaimer-header': 'Park your bike',
-    'bike-park-disclaimer-link': 'Read more about Park & Ride for bikes',
     'bike-station-disabled': 'The bike station is out of service.',
     'bikes-available': '{amount} bikes at the station ',
     'biketransport-citybike': "I'm using a citybike",
@@ -925,6 +924,7 @@ const translations = {
     'biking-amount': 'Amount of biking',
     'biking-speed': 'Biking speed',
     'book-a-lift': 'Use an app to book a taxi',
+    'booking-method': 'Booking method',
     bus: 'Bus',
     'bus-express': 'Trunk bus',
     'bus-express-with-route-number': 'Trunk bus {routeNumber} {headSign}',
@@ -933,6 +933,8 @@ const translations = {
     buy: 'Buy',
     'buy-ticket': 'How to buy a ticket',
     call: 'Demand responsive transport',
+    'call-agency-disclaimer':
+      'This service operates by advance booking. To ensure your ride, please book ahead of time. More information is available from the service provider. ',
     'call-number': 'Call {number}',
     'call-with-route-number':
       'Demand responsive transport {routeNumber} {headSign}',
@@ -966,9 +968,8 @@ const translations = {
     'car-drive-to-transit-no-duration': 'Drive your car to the {transportMode}',
     'car-park': 'Park & ride',
     'car-park-disclaimer':
-      'You can conveniently combine car and public transport: leave your car at a Park & Ride and continue by train, bus, metro or tram. Car parking is free of charge and there are no time limits.',
+      'You can park your car near the station or stop and continue your journey conveniently by public transport',
     'car-park-disclaimer-header': 'Park your car',
-    'car-park-disclaimer-link': 'Read more about Park & Ride',
     cause: 'cause',
     'char-left': 'characters',
     'choose-freely': 'Optional',
@@ -1038,12 +1039,25 @@ const translations = {
     disclaimer:
       'Please note that the results are based on estimated travel times. The suggested transport connections cannot be guaranteed.',
     disruption: 'Disruption',
+    'disruption-badge-additional_service': 'Additional routes',
+    'disruption-badge-detour': 'Detour',
+    'disruption-badge-modified_service': 'Service modifications',
+    'disruption-badge-no_effect': 'No effect',
+    'disruption-badge-no_service': 'Canceled',
+    'disruption-badge-other_effect': 'Other',
+    'disruption-badge-reduced_service': 'Reduced routes',
+    'disruption-badge-significant_delays': 'Delay',
+    'disruption-badge-stop_moved': 'Stop moved',
+    'disruption-badge-unknown_effect': 'Unknown',
     'disruption-info': 'Disruption info',
     'disruption-info-no-alerts': 'No known disruptions or diversions.',
     'disruption-info-route-no-alerts':
       'No known disruptions or diversions to the route.',
     disruptions: 'Disruptions',
     'disruptions-and-diversions': 'Disruptions and diversions',
+    'disruptions-change-filters': 'Please try again with different filters',
+    'disruptions-found-amount':
+      '{amount, plural, =0 {No disruptions found} one {Found 1 disruption} other {Found {amount} disruptions} }',
     'disruptions-tab.sr-disruptions': 'One or more known disruptions',
     'disruptions-tab.sr-no-disruptions': 'No known disruptions',
     'distance-between': 'Distance {distance1} m — {distance2} m',
@@ -1069,6 +1083,7 @@ const translations = {
     'embedded-search.form-heading': 'Embedding tools',
     engine_ignition_aid: 'Engine starting aid',
     english: 'English',
+    estimate: 'Estimate',
     explanations: 'Explanations',
     'extra-info': 'More info',
     'favourite-failed-text': 'Please try again in a while.',
@@ -1078,6 +1093,8 @@ const translations = {
     'ferry-external-with-route-number': 'Ferry {routeNumber} {headSign}',
     'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
     'few-seats-available': 'Few seats available',
+    filter: 'Filter',
+    filters: 'Filters',
     finnish: 'Finnish',
     'free-of-charge': 'Free',
     'from-bus': 'bus',
@@ -1122,9 +1139,17 @@ const translations = {
     'in-addition': 'In addition',
     'include-estonia': 'Include Estonia',
     'index.title': 'Journey Planner',
+    'indoor-step-message-elevator': 'Elevator',
+    'indoor-step-message-elevator-to-floor': 'Elevator to floor {toLevelName}',
+    'indoor-step-message-escalator': 'Escalator',
+    'indoor-step-message-escalator-down': 'Escalator down',
+    'indoor-step-message-escalator-up': 'Escalator up',
+    'indoor-step-message-stairs': 'Stairs',
+    'indoor-step-message-stairs-down': 'Stairs down',
+    'indoor-step-message-stairs-up': 'Stairs up',
     inquiry: 'How did you find the new Journey Planner? Please tell us!',
     instructions: 'Instructions',
-    'is-open': 'Open:',
+    'is-open': 'Open',
     'itinerary-co2.description':
       '{co2value} g of CO₂ emissions will be generated on this journey. A car would generate {carCo2Value} g of CO₂ on the same journey.',
     'itinerary-co2.description-simple':
@@ -1159,11 +1184,13 @@ const translations = {
     'itinerary-feedback-message': "Couldn't find what you were looking for?",
     'itinerary-feedback-placeholder': 'Description (optional)',
     'itinerary-hide-alternative-legs': 'Hide alternatives',
+    'itinerary-hide-indoor-route': 'Hide the indoor route',
     'itinerary-hide-stops': 'Hide stops',
     'itinerary-in-the-past':
       'The route search falls within a period that is in the past.',
     'itinerary-in-the-past-link': 'Depart now ›',
     'itinerary-in-the-past-title': 'The route options cannot be displayed',
+    'itinerary-indoor-route': 'Indoor route',
     'itinerary-page.description': 'Itinerary',
     'itinerary-page.hide-details': 'Hide itinerary details',
     'itinerary-page.itineraries-loaded': 'Search results downloaded',
@@ -1179,6 +1206,8 @@ const translations = {
     'itinerary-summary-page.title': 'Route suggestions',
     'itinerary-summary-row.biking-distance':
       'Total biking distance {totalDistance}.',
+    'itinerary-summary-row.call-agency-description':
+      'Dial-a-ride service; see the itinerary for details.',
     'itinerary-summary-row.clickable-area-description': 'Show on map',
     'itinerary-summary-row.description':
       'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
@@ -1433,9 +1462,19 @@ const translations = {
       '{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minutes} one {1 minute} other {{number} minutes}}',
-    'number-of-spaces': 'Number of spaces:',
+    'number-of-spaces': 'Number of spaces',
     'off-canvas-info':
       'Log in to the service to save your favorites and utilize them on other devices',
+    'on-demand-service': 'On-demand service',
+    'on-demand-service-description': 'Route description',
+    'on-demand-service-prior-notice-days':
+      'Bookings must be made at least {days} days before the journey, no later than {time}.',
+    'on-demand-service-prior-notice-hours':
+      'Bookings must be made at least {hours} hours in advance.',
+    'on-demand-service-prior-notice-minutes':
+      'Bookings must be made at least {minutes} minutes in advance.',
+    'on-demand-service-route-disclaimer':
+      'The route shown on the map may differ from the actual route, which may be adjusted to accommodate other passengers’ travel plans.',
     'one-way-journey': 'The length of a one-way journey',
     'open-app': 'Open the app',
     'open-operator-app': 'Open the {operator} app',
@@ -1457,7 +1496,8 @@ const translations = {
     'page-not-found': 'The page cannot be found.',
     paid: 'Paid',
     'park-and-ride': 'Park and Ride',
-    'park-and-ride-availability': 'Spaces available:',
+    'park-and-ride-availability': 'Spaces available',
+    'park-disclaimer-link': 'Read more about Park & Ride',
     'pay-attention': 'N.B.',
     'payment-info-e-scooter':
       'Please note that you need to use the app of the operator in question in order to use and pay for the scooters.',
@@ -1466,6 +1506,7 @@ const translations = {
     'payment-info-taxi':
       'Please note that you need to use the app of the operator in question in order to use and pay for the taxis.',
     payment_at_gate: 'Payment at the gate ',
+    'phone-number': 'Phone number',
     'pick-icon': 'Select icon',
     'pick-mode': 'Transport modes',
     'pick-mode-airplane-disabled': 'Flight not selected',
@@ -1494,6 +1535,7 @@ const translations = {
     'prefer-walking': 'Prefer walking',
     preview: 'Preview',
     previous: 'Previous',
+    price: 'Price',
     print: 'Print',
     'print-timetable': 'Weekly timetable',
     'privacy-statement': 'Privacy statement',
@@ -1623,6 +1665,7 @@ const translations = {
       'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
     'separate-ticket-required-for-call-agency-disclaimer':
       'The journey includes demand responsive transport service. Please check the payment methods and practices on ',
+    'services-and-features': 'Services and features',
     'set-specific-settings': 'Set more specific settings',
     'set-stop-as-routes': "Set the stop as route's",
     settings: 'Settings',
@@ -1731,8 +1774,10 @@ const translations = {
     'terminal-page.description': 'Terminal {name}',
     'terminal-page.title': 'Terminal {name}',
     'terminal-page.title-short': 'Terminal',
+    terminus: 'End point',
     'terms-of-use': 'Terms of Use',
     'ticket-and-price-info': 'Ticket and price information',
+    'ticket-information': 'Ticket information',
     'ticket-single-adult': 'Adult',
     'ticket-type-none': 'No limits',
     tickets: 'Tickets',
@@ -1758,10 +1803,24 @@ const translations = {
     'tracking-button-off': 'tracking off',
     'tracking-button-offline': 'tracking failed',
     'tracking-button-on': 'tracking on',
-    trafficnow: 'Traffic now',
-    'trafficnow-bread': 'Travelling',
-    'trafficnow-description':
-      'Up-to-date information on disruptions and exceptions',
+    'traffic-now': 'Traffic now',
+    'traffic-now-long': 'Services now',
+    'traffic-now_bread': 'Travelling',
+    'traffic-now_description':
+      'Up-to-date information on disruptions and exceptions. ',
+    'traffic-now_description_see-also':
+      'See also {amount, plural, =1 {{link1},} other {{link1} as well as {link2},} } which you will find in detail on its own page.',
+    'traffic-now_description_see-also--link1': 'holidays and exceptions',
+    'traffic-now_description_see-also--link2': 'major changes',
+    'traffic-now_filters_entity-search': 'Search for individual route or stop',
+    'traffic-now_filters_entity-search--placeholder': 'Route, stop or station',
+    'traffic-now_filters_toggles--cancellations-only': 'Cancellations only',
+    'traffic-now_filters_toggles--favourites-only': 'Favourites only',
+    'traffic-now_filters_validity-period': 'Filter by validity period',
+    'traffic-now_filters_vehicle-mode': 'Filter by vehicle mode',
+    'traffic-now_filters_view-results': 'View results',
+    'traffic-now_link': 'Services now',
+    'traffic-now_link-description': 'See changes and disruptions',
     traficom: 'Traficom',
     tram: 'Tram',
     'tram-with-route-number': 'Tram {routeNumber} {headSign}',
@@ -1778,6 +1837,7 @@ const translations = {
     'trip-page.description': 'Route {route_short_name} - {route_long_name}',
     'trip-page.title': 'Route {route_short_name}',
     'try-again': 'Try again',
+    upcoming: 'Upcoming',
     'use-citybike': 'Start using',
     'use-national-service-postfix': '.',
     'use-national-service-prefix':
@@ -1786,6 +1846,7 @@ const translations = {
     userinfo: 'My information',
     usermenu: 'User menu',
     'using-modes': 'I want to travel by',
+    valid: 'Active',
     'very-likely': 'Very likely',
     'very-unlikely': 'Very unlikely',
     'via-leg-stop-duration': 'At via point {stayDuration}',
@@ -2156,6 +2217,7 @@ const translations = {
     'accessibility-limited': 'Pyörätuoli',
     'accessibility-nolimit': 'Ei rajoitusta',
     'accessibility-statement': 'Saavutettavuusseloste',
+    'accessible-car-places': 'Pyörätuolilla saavutettava',
     acknowledged: 'Selvä',
     'add-favourite-bikeStation-failed-heading':
       'Kaupunkipyöräaseman tallentaminen ei onnistunut',
@@ -2253,9 +2315,8 @@ const translations = {
     'bike-only': 'Vain pyöräily',
     'bike-park': 'Liityntäpysäköinti',
     'bike-park-disclaimer':
-      'Voit yhdistää kätevästi joukkoliikenteen ja pyöräilyn, kun jätät pyöräsi liityntäpysäköintiin ja jatkat matkaasi junalla, bussilla, metrolla tai ratikalla. Pyörän pysäköinti on maksutonta eikä siinä ole aikarajaa.',
+      'Voit jättää pyörän parkkiin aseman tai pysäkin tuntumaan ja jatkaa matkaasi kätevästi julkisilla',
     'bike-park-disclaimer-header': 'Jätä pyörä parkkiin',
-    'bike-park-disclaimer-link': 'Lue lisää liityntäpysäköinnistä',
     'bike-station-disabled': 'Pyöräasema ei ole käytössä.',
     'bikes-available': 'Pyöriä asemalla {amount}',
     'biketransport-citybike': 'Käytän kaupunkipyörää',
@@ -2263,6 +2324,7 @@ const translations = {
     'biking-amount': 'Pyöräilyn määrä',
     'biking-speed': 'Pyöräilynopeus',
     'book-a-lift': 'Ota taksi käyttöön sovelluksella',
+    'booking-method': 'Tilaustapa',
     bus: 'Bussi',
     'bus-express': 'Runkolinjabussi',
     'bus-express-with-route-number': 'Runkolinjabussi {routeNumber} {headSign}',
@@ -2271,6 +2333,8 @@ const translations = {
     buy: 'Osta',
     'buy-ticket': 'Näin ostat lipun',
     call: 'Kutsujoukkoliikenne',
+    'call-agency-disclaimer':
+      'Linja toimii ennakkotilauksella. Varmistaaksesi matkan, tee varaus etukäteen. Tarkemmat tiedot palveluntarjoalta.',
     'call-number': 'Soita {number}',
     'call-with-route-number': 'Kutsujoukkoliikenne {routeNumber} {headSign}',
     cancel: 'Peruuta',
@@ -2302,9 +2366,8 @@ const translations = {
     'car-drive-to-transit-no-duration': 'Aja autosi {transportMode}',
     'car-park': 'Liityntäpysäköinti',
     'car-park-disclaimer':
-      'Voit yhdistää kätevästi joukkoliikenteen ja autoilun, kun jätät autosi liityntäpysäköintiin ja jatkat matkaasi junalla, bussilla, metrolla tai ratikalla. Auton pysäköinti on useissa paikoissa maksutonta eikä siinä ole aikarajaa.',
+      'Voit jättää auton parkkiin aseman tai pysäkin tuntumaan ja jatkaa matkaasi kätevästi julkisilla',
     'car-park-disclaimer-header': 'Jätä auto parkkiin',
-    'car-park-disclaimer-link': 'Lue lisää liityntäpysäköinnistä',
     cause: 'syy',
     'char-left': 'merkkiä',
     'choose-freely': 'Vapaasti valittavat',
@@ -2377,6 +2440,16 @@ const translations = {
     disclaimer:
       'Tulokset perustuvat arvioituihin ajoaikoihin. Ehdotetun yhteyden toteutumista ei voida taata.',
     disruption: 'Häiriö',
+    'disruption-badge-additional_service': 'Lisävuoroja',
+    'disruption-badge-detour': 'Poikkeusreitti',
+    'disruption-badge-modified_service': 'Palvelutason muutos',
+    'disruption-badge-no_effect': 'Ei vaikutusta',
+    'disruption-badge-no_service': 'Peruutus',
+    'disruption-badge-other_effect': 'Muu',
+    'disruption-badge-reduced_service': 'Vähennettyä liikennettä',
+    'disruption-badge-significant_delays': 'Viivästyminen',
+    'disruption-badge-stop_moved': 'Pysäkki siirtynyt',
+    'disruption-badge-unknown_effect': 'Tuntematon',
     'disruption-info': 'Poikkeusinfo',
     'disruption-info-no-alerts':
       'Ei tiedossa olevia häiriöitä tai poikkeuksia.',
@@ -2384,6 +2457,9 @@ const translations = {
       'Linjalla ei tiedossa olevia häiriöitä tai poikkeuksia.',
     disruptions: 'Häiriöt',
     'disruptions-and-diversions': 'Häiriöt ja poikkeukset',
+    'disruptions-change-filters': 'Kokeile uudestaan muuttamalla valintoja',
+    'disruptions-found-amount':
+      '{amount, plural, =0 {Tiedotteita ei löytynyt} one {Löytyi 1 tiedote} other {Löytyi {amount} tiedotetta} }',
     'disruptions-tab.sr-disruptions': 'Yksi tai useampi häiriö tiedossa',
     'disruptions-tab.sr-no-disruptions': 'Ei tiedossa olevia häiriöitä',
     'distance-between': 'Etäisyys {distance1} m — {distance2} m',
@@ -2409,6 +2485,7 @@ const translations = {
     'embedded-search.form-heading': 'Upotusvalinnat',
     engine_ignition_aid: 'Käynnistysapu',
     english: 'Englanti',
+    estimate: 'Arvio',
     explanations: 'Selitykset',
     'extra-info': 'Lisätiedot',
     'favourite-failed-text': 'Yritä hetken päästä uudelleen.',
@@ -2418,6 +2495,8 @@ const translations = {
     'ferry-external-with-route-number': 'Lautta {routeNumber} {headSign}',
     'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
     'few-seats-available': 'Joitakin istumapaikkoja vapaana',
+    filter: 'Suodata',
+    filters: 'Suodattimet',
     finnish: 'Suomi',
     'free-of-charge': 'Maksuton',
     'from-bus': 'bussista',
@@ -2459,9 +2538,17 @@ const translations = {
     'in-addition': 'Lisäksi',
     'include-estonia': 'Sisällytä Viron liikenne',
     'index.title': 'Reittiopas',
+    'indoor-step-message-elevator': 'Hissi',
+    'indoor-step-message-elevator-to-floor': 'Hissi kerrokseen {toLevelName}',
+    'indoor-step-message-escalator': 'Liukuportaat',
+    'indoor-step-message-escalator-down': 'Liukuportaat alaspäin',
+    'indoor-step-message-escalator-up': 'Liukuportaat ylöspäin',
+    'indoor-step-message-stairs': 'Portaat',
+    'indoor-step-message-stairs-down': 'Portaat alaspäin',
+    'indoor-step-message-stairs-up': 'Portaat ylöspäin',
     inquiry: 'Mitä pidät uudesta Reittioppaasta? Kerro se meille! ',
     instructions: 'Ohjeet',
-    'is-open': 'Avoinna:',
+    'is-open': 'Avoinna',
     'itinerary-co2.description':
       'Tämän matkan CO₂-päästöt ovat {co2value} g. Autolla kuljettuna ne olisivat olleet {carCo2Value} g.',
     'itinerary-co2.description-simple':
@@ -2495,10 +2582,12 @@ const translations = {
     'itinerary-feedback-message': 'Etkö löytänyt mitä etsit?',
     'itinerary-feedback-placeholder': 'Kuvaus (valinnainen)',
     'itinerary-hide-alternative-legs': 'Piilota vaihtoehdot',
+    'itinerary-hide-indoor-route': 'Piilota kulkureitti sisällä',
     'itinerary-hide-stops': 'Piilota pysäkit',
     'itinerary-in-the-past': 'Reittihaun ajankohta on menneisyydessä.',
     'itinerary-in-the-past-link': 'Muuta lähtöajaksi nyt ›',
     'itinerary-in-the-past-title': 'Reittivaihtoehtoja ei voida näyttää',
+    'itinerary-indoor-route': 'Kulkureitti sisällä',
     'itinerary-page.description': 'Reittiohje',
     'itinerary-page.hide-details': 'Piilota reittiohje',
     'itinerary-page.itineraries-loaded': 'Hakutulokset ladattu',
@@ -2513,6 +2602,8 @@ const translations = {
     'itinerary-summary-page.description': 'Reittiehdotukset',
     'itinerary-summary-row.biking-distance':
       'Pyöräilyä yhteensä {totalDistance}.',
+    'itinerary-summary-row.call-agency-description':
+      'Kutsuliikennettä, lisätiedot reittiohjeessa.',
     'itinerary-summary-row.clickable-area-description': 'Näytä kartalla',
     'itinerary-summary-row.description':
       'Lähtö {departureDate} kello {departureTime}. Perillä {arrivalDate} kello {arrivalTime}. {firstDeparture} {transfers} Matka-aika {totalTime}',
@@ -2765,9 +2856,19 @@ const translations = {
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minuuttia} one {1 minuutti} other {{number} minuuttia}}',
-    'number-of-spaces': 'Paikkojen määrä:',
+    'number-of-spaces': 'Paikkoja',
     'off-canvas-info':
       'Kirjautumalla palveluun saat suosikit talteen ja voit hyödyntää niitä muillakin laitteillasi',
+    'on-demand-service': 'Kutsuliikenne',
+    'on-demand-service-description': 'Reitin kuvaus',
+    'on-demand-service-prior-notice-days':
+      'Tilaus tehtävä vähintään {days} päivää ennen matkaa, viimeistään kello {time}.',
+    'on-demand-service-prior-notice-hours':
+      'Tilaus tehtävä vähintään {hours} tuntia ennen matkaa.',
+    'on-demand-service-prior-notice-minutes':
+      'Tilaus tehtävä vähintään {minutes} minuuttia ennen matkaa.',
+    'on-demand-service-route-disclaimer':
+      'Kartalla näkyvä reitti ei välttämättä toteudu juuri esitellyllä tavalla vaan voi vaihdella muiden matkustajien matkasuunnitelmien mukaan.',
     'one-way-journey': 'Yhdensuuntaisen matkan pituus',
     'open-app': 'Avaa sovellus',
     'open-operator-app': 'Avaa {operator} -sovellus',
@@ -2790,7 +2891,8 @@ const translations = {
     'page-not-found': 'Etsimääsi sivua ei löytynyt.',
     paid: 'Maksullinen',
     'park-and-ride': 'Liityntäpysäköinti',
-    'park-and-ride-availability': 'Paikkoja vapaana:',
+    'park-and-ride-availability': 'Paikkoja vapaana',
+    'park-disclaimer-link': 'Lue lisää liityntäpysäköinnistä',
     'pay-attention': 'Huom!',
     'payment-info-e-scooter':
       'Huomaathan, että potkulautojen käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
@@ -2799,6 +2901,7 @@ const translations = {
     'payment-info-taxi':
       'Huomaathan, että taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     payment_at_gate: 'Maksu portilla',
+    'phone-number': 'Puhelinnumero',
     'pick-icon': 'Valitse kuvake',
     'pick-mode': 'Liikennevälineet',
     'pick-mode-airplane-disabled': 'Lentokone ei valittu',
@@ -2826,6 +2929,7 @@ const translations = {
     'prefer-walking': 'Suosi kävelyä',
     preview: 'Esikatselu',
     previous: 'Edelliset',
+    price: 'Hinta',
     print: 'Tulosta',
     'print-timetable': 'Viikkoaikataulu',
     'privacy-statement': 'Tietosuojaseloste',
@@ -2954,6 +3058,7 @@ const translations = {
       'Matka sisältää yhden tai useamman osuuden, jonka lippujen myynnistä {agencyName} ei vastaa.',
     'separate-ticket-required-for-call-agency-disclaimer':
       'Matka sisältää kutsuliikennettä. Voit tarkistaa maksutavat ja käytännöt ',
+    'services-and-features': 'Palvelut ja varustelut',
     'set-specific-settings': 'Aseta tarkemmat asetukset',
     'set-stop-as-routes': 'Aseta pysäkki reitin',
     settings: 'Asetukset',
@@ -3061,8 +3166,10 @@ const translations = {
     'terminal-page.description': 'Terminaali - {name}',
     'terminal-page.title': 'Terminaali - {name}',
     'terminal-page.title-short': 'Terminaali',
+    terminus: 'Päätepiste',
     'terms-of-use': 'Käyttöehdot',
     'ticket-and-price-info': 'Lippu- ja hintatiedot',
+    'ticket-information': 'Lipputiedot',
     'ticket-single-adult': 'Aikuinen',
     'ticket-type-none': 'Ei rajoitusta',
     tickets: 'Matkaliput',
@@ -3088,9 +3195,26 @@ const translations = {
     'tracking-button-off': 'paikannus pois päältä',
     'tracking-button-offline': 'paikannus epäonnistui',
     'tracking-button-on': 'paikannus päällä',
-    trafficnow: 'Liikenne nyt',
-    'trafficnow-bread': 'Matkustaminen',
-    'trafficnow-description': 'Ajantasaiset tiedot häiriöistä ja poikkeuksista',
+    'traffic-now': 'Liikenne nyt',
+    'traffic-now-long': 'Liikennetilanne nyt',
+    'traffic-now_bread': 'Matkustaminen',
+    'traffic-now_description':
+      'Ajantasaiset tiedot häiriöistä ja poikkeuksista. ',
+    'traffic-now_description_see-also':
+      'Katso myös {amount, plural, =1 {{link1},} other {{link1} sekä {link2},} } jotka löydät yksityiskohtaisemmin omilta sivuiltaan.',
+    'traffic-now_description_see-also--link1': 'juhlapyhät ja poikkeukset',
+    'traffic-now_description_see-also--link2': 'suuret muutokset',
+    'traffic-now_filters_entity-search': 'Hae yksittäistä linjaa tai pysäkkiä',
+    'traffic-now_filters_entity-search--placeholder':
+      'Linja, pysäkki tai asema',
+    'traffic-now_filters_toggles--cancellations-only': 'Vain peruutukset',
+    'traffic-now_filters_toggles--favourites-only':
+      'Vain omat linjat ja pysäkit',
+    'traffic-now_filters_validity-period': 'Näytä voimassaolon mukaan',
+    'traffic-now_filters_vehicle-mode': 'Näytä liikennevälineen mukaan',
+    'traffic-now_filters_view-results': 'Näytä tulokset',
+    'traffic-now_link': 'Liikennetilanne nyt',
+    'traffic-now_link-description': 'Katso häiriöt ja poikkeukset',
     traficom: 'Traficom',
     tram: 'Raitiovaunu',
     'tram-with-route-number': 'Raitiovaunu {routeNumber} {headSign}',
@@ -3107,6 +3231,7 @@ const translations = {
     'trip-page.description': 'Linja {shortName}, {longName}',
     'trip-page.title': 'Linja {shortName}',
     'try-again': 'Yritä uudelleen',
+    upcoming: 'Tuleva',
     'use-citybike': 'Ota käyttöön',
     'use-national-service-postfix': '-palvelusta.',
     'use-national-service-prefix':
@@ -3115,6 +3240,7 @@ const translations = {
     userinfo: 'Omat tiedot',
     usermenu: 'Käyttäjävalikko',
     'using-modes': 'Haluan kulkea',
+    valid: 'Voimassa',
     'very-likely': 'Erittäin todennäköistä',
     'very-unlikely': 'Erittäin epätodennäköistä',
     'via-leg-stop-duration': 'Välipisteessä {stayDuration}',
@@ -3864,10 +3990,8 @@ const translations = {
     'bike-only': 'Tylko rower',
     'bike-park': '„Parkuj i Jedź” dla rowerów',
     'bike-park-disclaimer':
-      'You can conveniently combine cycling and public transport: leave your bike at a Park & Ride and continue by train, bus, metro or tram. Bike parking is free of charge and there are no time limits.',
+      'You can park your bike near the station or stop and continue your journey conveniently by public transport',
     'bike-park-disclaimer-header': 'Zaparkuj rower',
-    'bike-park-disclaimer-link':
-      'Dowiedz się więcej o „Parkuj i Jedź” dla rowerów',
     'bike-station-disabled': 'The bike station is out of service.',
     'bikes-available': '{amount} rowery na stacji ',
     'biketransport-citybike': 'Korzystam z roweru miejskiego',
@@ -3908,9 +4032,8 @@ const translations = {
     'car-distance-no-duration': 'Jedź {distance}',
     'car-park': 'Parkuj i Jedź',
     'car-park-disclaimer':
-      'You can conveniently combine car and public transport: leave your car at a Park & Ride and continue by train, bus, metro or tram. Car parking is free of charge and there are no time limits.',
+      'You can park your car near the station or stop and continue your journey conveniently by public transport',
     'car-park-disclaimer-header': 'Zaparkuj swój samochód',
-    'car-park-disclaimer-link': 'Dowiedz się więcej o „Parkuj i Jedź”',
     cause: 'cause',
     'char-left': 'znaki',
     'choose-freely': 'Nieobowiązkowy',
@@ -4055,7 +4178,7 @@ const translations = {
     'index.title': 'Journey Planner',
     inquiry: 'How did you find the new Journey Planner? Please tell us!',
     instructions: 'Instrukcje',
-    'is-open': 'Otwarte:',
+    'is-open': 'Otwarte',
     'itinerary-co2.description':
       'W trakcie tej podróży zostanie wyemitowane {co2value} g CO₂. Dla tej samej podróży, samochód wyemitowałby {carCo2Value} g CO₂.',
     'itinerary-co2.description-simple':
@@ -4278,7 +4401,7 @@ const translations = {
       '{number, plural, =0 {Brak przystanków} one {1 przystanek} few {{number} przystanki} other {{number} przystanków} }',
     'number-of-minutes':
       '{number, plural, one {1 minuta} few {{number} minuty} other {{number} minut}}',
-    'number-of-spaces': 'Number of spaces:',
+    'number-of-spaces': 'Number of spaces',
     'off-canvas-info':
       'Zaloguj się do usługi, aby zapisać ulubione i korzystać z nich na innym urządzeniu',
     'one-way-journey': 'Długość podróży w jedną stronę',
@@ -4300,7 +4423,8 @@ const translations = {
     'page-not-found': 'Nie można odnaleźć strony.',
     paid: 'Paid',
     'park-and-ride': 'Parkuj i Jedź',
-    'park-and-ride-availability': 'Dostępne miejsca:',
+    'park-and-ride-availability': 'Dostępne miejsca',
+    'park-disclaimer-link': 'Dowiedz się więcej o „Parkuj i Jedź”',
     'pay-attention': 'N.B.',
     payment_at_gate: 'Payment at the gate ',
     'pick-icon': 'Wybierz ikonę',
@@ -5122,6 +5246,7 @@ const translations = {
     'accessibility-limited': 'Med rullstolen',
     'accessibility-nolimit': 'Ingen begränsning',
     'accessibility-statement': 'Tillgänglighetsförklaring',
+    'accessible-car-places': 'Rullstolsanpassat',
     acknowledged: 'Klart',
     'add-favourite-bikeStation-failed-heading':
       'Kunde inte spara stadscykelstationen',
@@ -5161,6 +5286,7 @@ const translations = {
     back: 'Tillbaka',
     'book-a-lift':
       'Tilaa kyyti sovelluksella ja jää odottamaan sen saapumista:',
+    'booking-method': 'Beställningssätt',
     'buy-in-app': 'Köp i appen',
     'next-week': 'Nästa vecka',
     'search-autosuggest-label': 'Plats, linje och hållplatssökning.',
@@ -5213,9 +5339,8 @@ const translations = {
     'bike-only': 'Endast cykling',
     'bike-park': 'Anslutningsparkering för cyklar',
     'bike-park-disclaimer':
-      'Du kan enkelt kombinera kollektivtrafiken med cykling, när du lämnar din cykel i anslutningsparkering och fortsätter din resa med tåg, buss, metro eller spårvagn. Cykelparkeringen är gratis och den har inte en begränsad parkeringstid.',
+      'Du kan parkera din cykel nära stationen eller hållplatsen och bekvämt fortsätta din resa med kollektivtrafik',
     'bike-park-disclaimer-header': 'Lämna din cykel i parkeringen',
-    'bike-park-disclaimer-link': 'Läs mer om anslutningsparkeringen för cyklar',
     'bike-station-disabled': 'Stadscykelstationen är ur bruk.',
     'bikes-available': '{amount} cyklar vid stationen',
     'biketransport-citybike': 'Jag använder en stadscykel',
@@ -5230,6 +5355,8 @@ const translations = {
     buy: 'Köp',
     'buy-ticket': 'Så här köper du biljetten',
     call: 'Anropsstyrd kollektivtrafik',
+    'call-agency-disclaimer':
+      'Linjen fungerar med förhandsbokning. Boka din resa i förväg för att säkerställa resan. Mer information från tjänsteleverantören.',
     'call-number': 'Ring {number}',
     'call-with-route-number':
       'Anropsstyrd kollektivtrafik {routeNumber} {headSign}',
@@ -5261,9 +5388,8 @@ const translations = {
     'car-drive-to-transit-no-duration': 'Kör din bil ombord på {transportMode}',
     'car-park': 'Infartsparkering',
     'car-park-disclaimer':
-      'Du kan enkelt kombinera kollektivtrafiken med bilkörning, när du lämnar din bil i anslutningsparkering och fortsätter din resa med tåg, buss, metro eller spårvagn. Parkeringen är gratis och den har inte en begränsad parkeringstid.',
+      'Du kan parkera din bil nära stationen eller hållplatsen och bekvämt fortsätta din resa med kollektivtrafik.',
     'car-park-disclaimer-header': 'Lämna din bil i parkeringen',
-    'car-park-disclaimer-link': 'Läs mer om anslutningsparkeringen',
     cause: 'Orsak',
     'char-left': 'tecken',
     'choose-freely': 'Valfria',
@@ -5336,12 +5462,25 @@ const translations = {
     disclaimer:
       'Resultaten baserar sig på beräknade körtider. Vi kan inte garantera att den förslagna förbindelsen kan förverkligas.',
     disruption: 'Störning',
+    'disruption-badge-additional_service': 'Ytterligare rutter',
+    'disruption-badge-detour': 'Omväg',
+    'disruption-badge-modified_service': 'Ändringar i tjänsten',
+    'disruption-badge-no_effect': 'Ingen effekt',
+    'disruption-badge-no_service': 'Inställt',
+    'disruption-badge-other_effect': 'Annat',
+    'disruption-badge-reduced_service': 'Minskat antal rutter',
+    'disruption-badge-significant_delays': 'Försening',
+    'disruption-badge-stop_moved': 'Hållplats flyttad',
+    'disruption-badge-unknown_effect': 'Okänd',
     'disruption-info': 'Undantagsinfo',
     'disruption-info-no-alerts': 'Inga kända störningar eller avvikelser.',
     'disruption-info-route-no-alerts':
       'Linjen har för tillfället inga kända störningar eller avvikelser.',
     disruptions: 'Störningar',
     'disruptions-and-diversions': 'Störningar och avvikelser',
+    'disruptions-change-filters': 'Försök igen genom att ändra dina val.',
+    'disruptions-found-amount':
+      '{amount, plural, =0 {Inga störningar hittades} one {Hittades 1 störning} other {Hittades {amount} störningar} }',
     'disruptions-tab.sr-disruptions': 'En eller flera kända störningar',
     'disruptions-tab.sr-no-disruptions': 'Inga kända störningar',
     'distance-between': 'Avstånd {distance1} m — {distance2} m',
@@ -5367,6 +5506,7 @@ const translations = {
     'embedded-search.form-heading': 'Inbäddningsverktyg',
     engine_ignition_aid: 'Starthjälp',
     english: 'Engelsk',
+    estimate: 'Uppskattning',
     explanations: 'Förklaringar',
     'extra-info': 'Mer info',
     'favourite-failed-text': 'Försök på nytt senare.',
@@ -5376,6 +5516,8 @@ const translations = {
     'ferry-external-with-route-number': 'Färja {routeNumber} {headSign}',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
     'few-seats-available': 'Några sittplatser',
+    filter: 'Filtrera',
+    filters: 'Filterer',
     finnish: 'Finska',
     'free-of-charge': 'Kostnadsfri',
     'from-bus': 'bussen',
@@ -5418,9 +5560,17 @@ const translations = {
     'in-addition': 'Även',
     'include-estonia': 'Inkludera Estland',
     'index.title': 'Reseplaneraren',
+    'indoor-step-message-elevator': 'Hiss',
+    'indoor-step-message-elevator-to-floor': 'Hiss till våning {toLevelName}',
+    'indoor-step-message-escalator': 'Rulltrappa',
+    'indoor-step-message-escalator-down': 'Rulltrappa nedåt',
+    'indoor-step-message-escalator-up': 'Rulltrappa uppåt',
+    'indoor-step-message-stairs': 'Trappa',
+    'indoor-step-message-stairs-down': 'Trappa nedåt',
+    'indoor-step-message-stairs-up': 'Trappa uppåt',
     inquiry: 'Vad tycker du om den nya Reseplaneraren. Berätta för oss!',
     instructions: 'Anvisningar',
-    'is-open': 'Öppet:',
+    'is-open': 'Öppet',
     'itinerary-co2.description':
       'CO₂-utsläppen för denna resa är {co2value} g. En bil skulle generera {carCo2Value} g CO₂ på samma resa.',
     'itinerary-co2.description-simple':
@@ -5456,10 +5606,12 @@ const translations = {
     'itinerary-feedback-message': 'Hittade du inte vad du sökte?',
     'itinerary-feedback-placeholder': 'Beskrivning (valfri)',
     'itinerary-hide-alternative-legs': 'Dölj alternativen',
+    'itinerary-hide-indoor-route': 'Dölj gångrutt inomhus',
     'itinerary-hide-stops': 'Dölj hållplatserna',
     'itinerary-in-the-past': 'Datumet kan inte vara i det förflutna.',
     'itinerary-in-the-past-link': 'Jag vill åka nu ›',
     'itinerary-in-the-past-title': 'Ruttalternativen kan inte visas',
+    'itinerary-indoor-route': 'Gångrutt inomhus',
     'itinerary-page.description': 'Ruttinformation',
     'itinerary-page.hide-details': 'Göm ruttbeskrivningen',
     'itinerary-page.itineraries-loaded': 'Ruttbeskrivningen laddade',
@@ -5475,6 +5627,8 @@ const translations = {
     'itinerary-summary-page.title': 'Ruttförslag',
     'itinerary-summary-row.biking-distance':
       'Cykling sammanlagt {totalDistance}.',
+    'itinerary-summary-row.call-agency-description':
+      'Anropsstyrd trafik, mer information i ruttbeskrivningen.',
     'itinerary-summary-row.clickable-area-description': 'Visa på kartan',
     'itinerary-summary-row.description':
       'Avgång {departureDate} klockan {departureTime}. Framme {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Restid {totalTime}.',
@@ -5725,9 +5879,19 @@ const translations = {
       '{number, plural, =0 {Inga hållplatser} one {1 hållplats} other {{number} hållplatser} }',
     'number-of-minutes':
       '{number, plural, =0 {0 minuter} one {1 minut} other {{number} minuter}}',
-    'number-of-spaces': 'Antalet platser:',
+    'number-of-spaces': 'Antalet platser',
     'off-canvas-info':
       'Genom att logga in kan du spara dina favoriter och använda dem med dina andra enheter.',
+    'on-demand-service': 'Anropsbusstrafiken',
+    'on-demand-service-description': 'Ruttbeskrivning',
+    'on-demand-service-prior-notice-days':
+      'Boka din resa minst {days} dagar före resan, senast kl. {time}.',
+    'on-demand-service-prior-notice-hours':
+      'Bokningen ska göras minst {hours} timmar i förväg.',
+    'on-demand-service-prior-notice-minutes':
+      'Bokningen ska göras minst {minutes} minuter i förväg.',
+    'on-demand-service-route-disclaimer':
+      'Linjen kör nödvändigtvis inte den rutt som visas på kartan utan den kan variera beroende på andra resenärers resplaner.',
     'one-way-journey': ' Längden på en enkel resa',
     'open-app': ' Öppna appen',
     'open-operator-app': 'Öppna appen {operator}',
@@ -5750,7 +5914,8 @@ const translations = {
     'page-not-found': 'Sidan kunde inte hittas.',
     paid: 'Avgiftsbelagd',
     'park-and-ride': 'Infartsparkering',
-    'park-and-ride-availability': 'Lediga platser:',
+    'park-and-ride-availability': 'Lediga platser',
+    'park-disclaimer-link': 'Läs mer om anslutningsparkeringen',
     'pay-attention': 'Obs!',
     'payment-info-e-scooter':
       'Vänligen observera att användning och betalning av elsparkcyklar görs via operatörernas egna appar.',
@@ -5759,6 +5924,7 @@ const translations = {
     'payment-info-taxi':
       'Vänligen observera att användning och betalning av taxi görs via operatörernas egna appar.',
     payment_at_gate: 'Betalning vid porten',
+    'phone-number': 'Telefonnummer',
     'pick-icon': 'Välj en ikon',
     'pick-mode': 'Trafikslag',
     'pick-mode-airplane-disabled': 'Flyg inte vald',
@@ -5786,6 +5952,7 @@ const translations = {
     'prefer-walking': 'Främja gång',
     preview: 'Förhandsgranskning',
     previous: 'Senaste',
+    price: 'Pris',
     print: 'Skriv ut',
     'print-timetable': 'Veckans tidtabell',
     'privacy-statement': 'Dataskyddsbeskrivning',
@@ -5920,6 +6087,7 @@ const translations = {
       'Resan består av en eller flera etapper vilka kräver biljetter som inte säljs av {agencyName}.',
     'separate-ticket-required-for-call-agency-disclaimer':
       'I resan ingår anropsbusstrafiken. Bekanta dig med betalningsmetoder och praxis på ',
+    'services-and-features': 'Tjänster och funktioner',
     'set-specific-settings': 'Ställa avancerade inställningar',
     'set-stop-as-routes': 'Ställa hållplats som rutter',
     settings: 'Anpassa',
@@ -6030,8 +6198,10 @@ const translations = {
     'terminal-page.description': 'Terminal {name}',
     'terminal-page.title': 'Terminal {name}',
     'terminal-page.title-short': 'Terminal',
+    terminus: 'Slutpunkt',
     'terms-of-use': 'Användarvillkor',
     'ticket-and-price-info': 'Biljett- och prisinformation',
+    'ticket-information': 'Biljettinformation',
     'ticket-single-adult': 'Vuxen',
     'ticket-type-none': 'Ingen begränsning',
     tickets: 'Biljetter',
@@ -6057,9 +6227,25 @@ const translations = {
     'tracking-button-off': 'lokalisering av',
     'tracking-button-offline': 'lokalisering misslyckades',
     'tracking-button-on': 'lokalisering på',
-    trafficnow: 'Trafikläget nu',
-    'trafficnow-bread': 'Att resa med oss',
-    'trafficnow-description': 'Aktuell information om störningar och undantag',
+    'traffic-now': 'Trafikläget nu',
+    'traffic-now-long': 'Trafikläget nu',
+    'traffic-now_bread': 'Att resa med oss',
+    'traffic-now_description':
+      'Aktuell information om störningar och undantag. ',
+    'traffic-now_description_see-also':
+      'Se även {amount, plural, =1 {{link1},} other {{link1} samt {link2},} } som du hittar mer information om på deras respektive sidor.',
+    'traffic-now_description_see-also--link1': 'helgdagar och undantag',
+    'traffic-now_description_see-also--link2': 'större förändringar',
+    'traffic-now_filters_entity-search': 'Sök linje eller hållplats',
+    'traffic-now_filters_entity-search--placeholder':
+      'Linje, hållplats eller station',
+    'traffic-now_filters_toggles--cancellations-only': 'Endast inställts',
+    'traffic-now_filters_toggles--favourites-only': 'Endast favoritter',
+    'traffic-now_filters_validity-period': 'Filtrera efter giltighetstid',
+    'traffic-now_filters_vehicle-mode': 'Filtrera efter fordonsläge',
+    'traffic-now_filters_view-results': 'Visa resultat',
+    'traffic-now_link': 'Trafikläget nu',
+    'traffic-now_link-description': 'Se störningar och förändringar',
     traficom: 'Traficom',
     tram: 'Spårvagn',
     'tram-with-route-number': 'Spårvagn {routeNumber} {headSign}',
@@ -6076,6 +6262,7 @@ const translations = {
     'trip-page.description': 'Linje {shortName} - {longName}',
     'trip-page.title': 'Linje {shortName}',
     'try-again': 'Försök igen',
+    upcoming: 'Kommande',
     'use-citybike': 'Ta i bruk',
     'use-national-service': 'Du kan också använda national tjänsten:',
     'use-national-service-postfix': '.',
@@ -6085,6 +6272,7 @@ const translations = {
     userinfo: 'Mina uppgifter',
     usermenu: 'Användarmeny',
     'using-modes': 'Jag vill åka',
+    valid: 'Aktiv',
     'very-likely': 'Väldigt sannolikt',
     'very-unlikely': 'Väldigt osannolikt',
     'via-leg-stop-duration': 'Mellanstopp {stayDuration}',

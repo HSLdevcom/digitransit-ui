@@ -7,7 +7,6 @@ import isEqual from 'lodash/isEqual';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
-import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import inside from 'point-in-polygon';
@@ -29,6 +28,7 @@ import {
   definesItinerarySearch,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
+  TRAFFICNOW,
 } from '../util/path';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import withBreakpoint from '../util/withBreakpoint';
@@ -45,6 +45,9 @@ import {
   checkPositioningPermission,
   startLocationWatch,
 } from '../action/PositionActions';
+
+import FavouriteStore from '../store/FavouriteStore';
+import TrafficNowLink from './trafficnow/TrafficNowLink';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
@@ -63,25 +66,21 @@ class IndexPage extends React.Component {
     breakpoint: PropTypes.string.isRequired,
     origin: locationShape.isRequired,
     destination: locationShape.isRequired,
-    lang: PropTypes.string,
     currentTime: PropTypes.number.isRequired,
     // eslint-disable-next-line
     query: PropTypes.object.isRequired,
     favouriteModalAction: PropTypes.string,
     fromMap: PropTypes.string,
     locationState: locationShape.isRequired,
+    favouriteStatus: PropTypes.string.isRequired,
+    // eslint-disable-next-line
+    favourites: PropTypes.array.isRequired,
   };
 
   static defaultProps = {
-    lang: 'fi',
     favouriteModalAction: '',
     fromMap: undefined,
   };
-
-  constructor(props, context) {
-    super(props, context);
-    this.state = {};
-  }
 
   componentDidMount() {
     const { from, to } = this.context.match.params;
@@ -209,12 +208,6 @@ class IndexPage extends React.Component {
     this.context.executeAction(storeDestination, favourite);
   };
 
-  trafficNowHandler = (e, lang) => {
-    window.location = `${this.context.config.URL.ROOTLINK}/${
-      lang === 'fi' ? '' : `${lang}/`
-    }${this.context.config.trafficNowLink[lang]}`;
-  };
-
   clickStopNearIcon = url => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -224,11 +217,16 @@ class IndexPage extends React.Component {
     this.context.router.push(url);
   };
 
+  trafficNowHandler = e => {
+    e.preventDefault();
+    this.context.router.push(`/${TRAFFICNOW}`);
+  };
+
   NearStops() {
     const { intl, config } = this.context;
     const { colors, fontWeights } = config;
-    const { lang } = this.props;
-    const nearYouModes = getNearYouModes(config);
+    const { lang } = config.language;
+    const nearYouModes = getNearYouModes(config, this.props.favourites);
     // If nearYouModes is configured, display those. Otherwise, display all configured transport modes
     const modeArray =
       nearYouModes.length > 0
@@ -255,6 +253,10 @@ class IndexPage extends React.Component {
       <CtrlPanel.NearStopsAndRoutes
         appElement="#app"
         modeArray={modeArray}
+        loading={
+          this.props.favouriteStatus ===
+          FavouriteStore.STATUS_FETCHING_OR_UPDATING
+        }
         modeSet={config.iconModeSet}
         urlPrefix={`/${PREFIX_NEARYOU}`}
         language={lang}
@@ -284,7 +286,7 @@ class IndexPage extends React.Component {
   render() {
     const { intl, config } = this.context;
     const { trafficNowLink, colors, fontWeights } = config;
-    const { breakpoint, lang } = this.props;
+    const { breakpoint } = this.props;
     const origin = this.pendingOrigin || this.props.origin;
     const destination = this.pendingDestination || this.props.destination;
     const locationSources = ['History', 'Datasource'];
@@ -313,7 +315,7 @@ class IndexPage extends React.Component {
       appElement: '#app',
       origin,
       destination,
-      lang,
+      lang: config.language,
       locationSources,
       targets,
       refPoint,
@@ -341,7 +343,7 @@ class IndexPage extends React.Component {
       selectHandler: this.onSelectStopRoute,
       getAutoSuggestIcons: config.getAutoSuggestIcons,
       value: '',
-      lang,
+      lang: config.language,
       sources,
       targets: stopAndRouteSearchTargets,
       fontWeights,
@@ -383,7 +385,7 @@ class IndexPage extends React.Component {
               <DatetimepickerContainer
                 realtime
                 color={colors.primary}
-                lang={lang}
+                lang={config.language}
               />
             </div>
             {!config.hideFavourites && (
@@ -391,7 +393,7 @@ class IndexPage extends React.Component {
                 <FavouritesContainer
                   favouriteModalAction={this.props.favouriteModalAction}
                   onClickFavourite={this.clickFavourite}
-                  lang={lang}
+                  lang={config.language}
                 />
                 <CtrlPanel.SeparatorLine usePaddingBottom20 />
               </>
@@ -404,10 +406,10 @@ class IndexPage extends React.Component {
                 <CtrlPanel.SeparatorLine />
               </>
             )}
-            {trafficNowLink?.[lang] && (
+            {trafficNowLink && (
               <TrafficNowLink
-                lang={lang}
                 handleClick={this.trafficNowHandler}
+                href={`/${TRAFFICNOW}`}
               />
             )}
           </CtrlPanel>
@@ -437,12 +439,12 @@ class IndexPage extends React.Component {
               <DatetimepickerContainer
                 realtime
                 color={colors.primary}
-                lang={lang}
+                lang={config.language}
               />
             </div>
             <FavouritesContainer
               onClickFavourite={this.clickFavourite}
-              lang={lang}
+              lang={config.language}
               isMobile
             />
             <CtrlPanel.SeparatorLine />
@@ -452,11 +454,10 @@ class IndexPage extends React.Component {
             </div>
             <CtrlPanel.SeparatorLine usePaddingBottom20 />
             {!trafficNowLink ||
-              (trafficNowLink[lang] !== '' && (
+              (trafficNowLink !== '' && (
                 <TrafficNowLink
-                  lang={lang}
                   handleClick={this.trafficNowHandler}
-                  fontWeights={fontWeights}
+                  href={`/${TRAFFICNOW}`}
                 />
               ))}
           </CtrlPanel>
@@ -473,9 +474,9 @@ const Index = memo(
     isEqual(nextProps.origin, props.origin) &&
     isEqual(nextProps.destination, props.destination) &&
     isEqual(nextProps.breakpoint, props.breakpoint) &&
-    isEqual(nextProps.lang, props.lang) &&
     isEqual(nextProps.query, props.query) &&
-    isEqual(nextProps.locationState, props.locationState),
+    isEqual(nextProps.locationState, props.locationState) &&
+    isEqual(nextProps.favouriteStatus, props.favouriteStatus),
 );
 
 const IndexPageWithBreakpoint = withBreakpoint(Index);
@@ -486,8 +487,8 @@ const IndexPageWithStores = connectToStores(
     'OriginStore',
     'DestinationStore',
     'TimeStore',
-    'PreferencesStore',
     'PositionStore',
+    'FavouriteStore',
   ],
   (context, props) => {
     const origin = context.getStore('OriginStore').getOrigin();
@@ -507,9 +508,10 @@ const IndexPageWithStores = connectToStores(
     }
     newProps.origin = origin;
     newProps.destination = destination;
-    newProps.lang = context.getStore('PreferencesStore').getLanguage();
     newProps.currentTime = context.getStore('TimeStore').getCurrentTime();
     newProps.query = query; // defines itinerary search time & arriveBy
+    newProps.favouriteStatus = context.getStore('FavouriteStore').getStatus();
+    newProps.favourites = context.getStore('FavouriteStore').getFavourites();
 
     return newProps;
   },

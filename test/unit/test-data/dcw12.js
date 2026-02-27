@@ -9,6 +9,7 @@ export default {
         vertexType: 'NORMAL',
         vehicleRentalStation: null,
         stop: null,
+        viaLocationType: 'VISIT',
       },
       to: {
         lat: 60.1603512,
@@ -31,7 +32,6 @@ export default {
       end: new Date(1534234930000).toISOString(),
       distance: 5651.585000000007,
       duration: 2222,
-      intermediatePlace: true,
       route: null,
       trip: null,
     },
@@ -156,7 +156,6 @@ export default {
           distance: 1847.7440000000006,
           duration: 1722,
           rentedBike: false,
-          intermediatePlace: false,
           route: null,
           trip: null,
           from: {
@@ -167,6 +166,7 @@ export default {
           },
           to: {
             stop: null,
+            viaLocationType: 'VISIT',
           },
         },
         {
@@ -178,7 +178,6 @@ export default {
           distance: 5263.962000000001,
           duration: 4683,
           rentedBike: false,
-          intermediatePlace: true,
           route: null,
           trip: null,
           from: {
@@ -186,6 +185,7 @@ export default {
             lat: 60.156843,
             lon: 24.956721,
             stop: null,
+            viaLocationType: 'VISIT',
           },
           to: {
             stop: null,
@@ -283,7 +283,6 @@ export default {
           distance: 356.498,
           duration: 399,
           rentedBike: false,
-          intermediatePlace: true,
           route: null,
           trip: null,
           from: {
@@ -291,6 +290,7 @@ export default {
             lat: 60.178882,
             lon: 24.960086,
             stop: null,
+            viaLocationType: 'VISIT',
           },
           to: { stop: null },
         },
@@ -386,7 +386,6 @@ export default {
           distance: 218.619,
           duration: 251,
           rentedBike: false,
-          intermediatePlace: true,
           route: null,
           trip: null,
           from: {
@@ -394,6 +393,7 @@ export default {
             lat: 60.161875,
             lon: 24.939654,
             stop: null,
+            viaLocationType: 'VISIT',
           },
           to: { stop: null },
         },
@@ -538,7 +538,6 @@ export default {
           distance: 2999.7169999999983,
           duration: 772,
           rentedBike: false,
-          intermediatePlace: true,
           route: null,
           trip: null,
           from: {
@@ -546,6 +545,7 @@ export default {
             lat: 60.178882,
             lon: 24.960086,
             stop: null,
+            viaLocationType: 'VISIT',
           },
           to: { stop: null },
         },
@@ -618,7 +618,6 @@ export default {
           distance: 3.719,
           duration: 4,
           rentedBike: false,
-          intermediatePlace: true,
           route: null,
           trip: null,
           from: {
@@ -626,6 +625,7 @@ export default {
             lat: 60.161875,
             lon: 24.939654,
             stop: null,
+            viaLocationType: 'VISIT',
           },
           to: { stop: null },
         },
@@ -879,7 +879,6 @@ export default {
           distance: 410.70599999999996,
           duration: 368,
           rentedBike: false,
-          intermediatePlace: true,
           route: null,
           trip: null,
           from: {
@@ -887,6 +886,7 @@ export default {
             lat: 60.217879,
             lon: 24.781975,
             stop: null,
+            viaLocationType: 'VISIT',
           },
           to: {
             stop: {
@@ -1039,7 +1039,6 @@ export default {
           distance: 101.31899999999999,
           duration: 95,
           rentedBike: false,
-          intermediatePlace: true,
           route: null,
           trip: null,
           from: {
@@ -1049,6 +1048,7 @@ export default {
             stop: {
               gtfsId: 'HSL:1172142',
             },
+            viaLocationType: 'VISIT',
           },
           to: { stop: null },
         },
@@ -1061,7 +1061,6 @@ export default {
           distance: 101.319,
           duration: 95,
           rentedBike: false,
-          intermediatePlace: true,
           route: null,
           trip: null,
           from: {
@@ -1069,6 +1068,7 @@ export default {
             lat: 60.209802,
             lon: 24.919357,
             stop: null,
+            viaLocationType: 'VISIT',
           },
           to: {
             stop: {
@@ -1295,7 +1295,6 @@ export default {
           distance: 124.16699999999999,
           duration: 118,
           rentedBike: false,
-          intermediatePlace: true,
           route: null,
           trip: null,
           from: {
@@ -1303,6 +1302,7 @@ export default {
             lat: 60.19948,
             lon: 24.939067,
             stop: null,
+            viaLocationType: 'VISIT',
           },
           to: { stop: null },
         },
@@ -1353,7 +1353,6 @@ export default {
           distance: 491.9020000000001,
           duration: 464,
           rentedBike: false,
-          intermediatePlace: true,
           route: null,
           trip: null,
           from: {
@@ -1361,6 +1360,7 @@ export default {
             lat: 60.19948,
             lon: 24.939067,
             stop: null,
+            viaLocationType: 'VISIT',
           },
           to: {
             stop: {
@@ -1527,6 +1527,7 @@ export default {
             stop: {
               gtfsId: 'HSL:1172142',
             },
+            viaLocationType: 'PASS_THROUGH',
           },
           to: {
             stop: {
@@ -1608,7 +1609,6 @@ export default {
           distance: 284.95300000000003,
           duration: 274,
           rentedBike: false,
-          intermediatePlace: true,
           route: null,
           trip: null,
           from: {
@@ -1616,6 +1616,7 @@ export default {
             lat: 60.199093,
             lon: 24.940536,
             stop: null,
+            viaLocationType: 'VISIT',
           },
           to: {
             stop: {
@@ -1688,7 +1689,6 @@ export default {
           distance: 16.376,
           duration: 19,
           rentedBike: false,
-          intermediatePlace: true,
           route: null,
           trip: null,
           from: {
@@ -1696,6 +1696,7 @@ export default {
             lat: 60.207595,
             lon: 24.921465,
             stop: null,
+            viaLocationType: 'VISIT',
           },
           to: {
             stop: {
@@ -1768,7 +1769,6 @@ export default {
           distance: 187.10399999999998,
           duration: 179,
           rentedBike: false,
-          intermediatePlace: true,
           route: null,
           trip: null,
           from: {
@@ -1776,6 +1776,7 @@ export default {
             lat: 60.198971,
             lon: 24.939272,
             stop: null,
+            viaLocationType: 'VISIT',
           },
           to: { stop: null },
         },

@@ -7,7 +7,6 @@ const tampereTimetables = ttConfig.tampere;
 const CONFIG = 'tampere';
 const APP_TITLE = 'Nyssen reittiopas';
 const APP_DESCRIPTION = 'Nyssen reittiopas';
-const CDN_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
 
 const IS_DEV =
   process.env.RUN_ENV === 'development' ||
@@ -17,8 +16,38 @@ const virtualMonitorBaseUrl = IS_DEV
   ? 'https://dev-tremonitori.digitransit.fi'
   : 'https://tremonitori.digitransit.fi';
 
+const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/waltti-alt/`;
+const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
+const CDN_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3/waltti-alt`;
+
 export default configMerger(walttiConfig, {
   CONFIG,
+
+  URL: {
+    OTP: OTP_URL,
+    STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
+    RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
+    },
+    REALTIME_RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
+    },
+    PARK_AND_RIDE_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParking/`,
+    },
+    PARK_AND_RIDE_GROUP_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParkingGroups/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParkingGroups/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParkingGroups/`,
+    },
+  },
 
   appBarLink: { name: 'Nysse', href: 'https://www.nysse.fi/' },
 
@@ -284,7 +313,7 @@ export default configMerger(walttiConfig, {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
         season: {
-          start: '15.4',
+          start: '1.1',
           end: '31.10',
         },
         icon: 'citybike',
@@ -330,17 +359,20 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  nearYouModes: ['bus', 'tram', 'rail', 'citybike'],
+  nearYouModes: ['bus', 'tram', 'rail', 'citybike', 'bikepark', 'carpark'],
 
   bikeBoardingModes: {
     RAIL: { showNotification: true },
     TRAM: { showNotification: true },
   },
 
-  showTenWeeksOnRouteSchedule: true,
-
   parkAndRide: {
     showParkAndRide: true,
     showParkAndRideForBikes: true,
+  },
+
+  defaultSettings: {
+    ...walttiConfig.defaultSettings,
+    minTransferTime: 180,
   },
 });

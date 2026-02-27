@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import Modal from '@hsl-fi/modal';
-import { stopShape, configShape, relayShape } from '../../util/shapes';
+import { stopShape, relayShape } from '../../util/shapes';
 import { hasEntitiesOfType } from '../../util/alertUtils';
 import { stopPagePath } from '../../util/path';
 import { AlertEntityType } from '../../constants';
@@ -11,11 +11,12 @@ import NearYouHeader from './NearYouHeader';
 import AlertBanner from '../AlertBanner';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 import CapacityModal from '../CapacityModal';
+import { useTranslationsContext } from '../../util/useTranslationsContext';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
-const StopNearYou = (
-  { stop, currentTime, relay, isParentTabActive },
-  { config, intl },
-) => {
+const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
+  const config = useConfigContext();
+  const intl = useTranslationsContext();
   if (!stop.stoptimesWithoutPatterns) {
     return null;
   }
@@ -120,11 +121,6 @@ StopNearYou.propTypes = {
   currentTime: PropTypes.number.isRequired,
   relay: relayShape.isRequired,
   isParentTabActive: PropTypes.bool.isRequired,
-};
-
-StopNearYou.contextTypes = {
-  config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default StopNearYou;

@@ -64,16 +64,6 @@ function RouteNumber(props, context) {
     badgeTextFill,
   ) => {
     const iconName = icon || transitIconName(mode, false);
-    if (isCallAgency) {
-      return (
-        <IconWithIcon
-          color={color}
-          className={`${mode} call`}
-          img={iconName}
-          subIcon="icon_call"
-        />
-      );
-    }
 
     if (hasDisruption || !!alertSeverityLevel) {
       return (
@@ -104,16 +94,19 @@ function RouteNumber(props, context) {
           badgeText={badgeText}
           badgeTextFill={badgeTextFill}
           color={color}
-          className={cx(mode, {
-            [['secondary']]:
-              mode === 'citybike' &&
-              props.icon &&
-              props.icon.includes('secondary'), // Vantaa citybike station
-          })}
+          className={cx(
+            mode,
+            {
+              [['secondary']]:
+                mode === 'citybike' && props.icon?.includes('secondary'), // Vantaa citybike station
+            },
+            props.appendClass,
+          )}
           img={iconName}
           subIcon=""
           mode={mode}
-          omitViewBox
+          omitViewBox={!isCallAgency}
+          backgroundShape={isCallAgency ? 'square' : undefined}
         />
         {withBicycle && (
           <Icon
@@ -219,7 +212,10 @@ function RouteNumber(props, context) {
 
   return props.withBar ? (
     <div className={cx('bar-container', { long: hasNoShortName })}>
-      <div className={cx('bar', mode)} style={{ backgroundColor: getColor() }}>
+      <div
+        className={cx('bar', mode, props.appendClass)}
+        style={{ backgroundColor: getColor() }}
+      >
         {rNumber}
       </div>
     </div>

@@ -1,16 +1,19 @@
 /* Set Foundation base font to theme font
    (without this Foundation overrides body */
+$font-weight-bold: 700;
+$font-weight-normal: $font-weight-medium;
 $body-font-family: $font-family;
 $body-font-weight: $font-weight-medium;
 
-/* Base styles */
+@import 'foundation-setup';
 @import 'base/zindex';
 @import 'base/helper-mixins';
 @import 'base/base';
 @import 'base/form';
 @import 'base/helper-classes';
 @import 'base/elements';
-@import '~zurb-foundation-5/scss/foundation/components/grid';
+@import 'grid/grid';
+@import 'util/util';
 @import 'base/helper-classes-after-foundations';
 @import 'base/spacing';
 @import 'base/radius';
@@ -23,12 +26,12 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/map/popups/marker-popup';
 @import '../app/component/front-page';
 @import '../app/component/navigation';
-@import '../app/component/bike-park-rental-station';
+@import '../app/component/park-rental-station';
 @import '../app/component/rental-vehicle-content';
 @import '../app/component/routepage/route';
 @import '../app/component/checkbox';
 @import '../app/component/toggle';
-@import '../app/component/nearyou/stops-near-you';
+@import '../app/component/nearyou/nearyou';
 @import '../app/component/disruption';
 @import '../app/component/departure';
 @import '../app/component/stop/stop';
@@ -40,7 +43,6 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/visual/index';
 @import '../app/component/bubble-dialog';
 @import '../app/component/select-maplayers-dialog';
-@import '~zurb-foundation-5/scss/foundation/components/forms';
 @import '../app/component/zone-icon';
 @import '../app/component/date-select';
 @import '../app/component/date-select-grouped';
@@ -69,13 +71,8 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/itinerary/navigator/navigatorintro/navigator-intro';
 @import '../app/component/itinerary/navigator/navigatoroutro/navigator-outro';
 @import '../app/component/itinerary/navigator/navigatorgeolocation/navigator-geolocation';
+@import '../app/component/itinerary/on-demand-info';
 @import '../app/component/trafficnow/trafficnow';
 @import '../app/component/popover';
 @import '../app/component/animations';
-
-/* Modal */
-@import '~foundation-apps/scss/helpers/breakpoints';
-@import '~foundation-apps/scss/components/modal';
-
-// And these application specific styles use Foundation variables,
-// so they have to be loaded afterwards
+@import '../app/component/disclaimer';

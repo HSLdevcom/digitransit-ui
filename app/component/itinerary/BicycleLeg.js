@@ -52,7 +52,8 @@ export default function BicycleLeg(
   let legDescription = <span>{leg.from ? leg.from.name : ''}</span>;
   const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
-  const [address, place] = splitStringToAddressAndPlace(leg.from.name);
+  const [name, place] = splitStringToAddressAndPlace(leg.from.name);
+  const address = (leg.from.viaLocationType && leg.viaAddress) || name;
   const rentalVehicleNetwork =
     leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
     leg.from.rentalVehicle?.rentalNetwork.networkId;
@@ -136,6 +137,8 @@ export default function BicycleLeg(
         icon="icon_scooter_rider"
         appendClass={!scooterSettingsOn ? 'settings' : 'scooter'}
         style={style}
+        viaType={leg.from.viaLocationType}
+        isStop={!!leg.from.stop}
       />
     );
   } else if (bicycleWalkLeg) {
@@ -144,6 +147,8 @@ export default function BicycleLeg(
         index={index}
         modeClassName={modeClassName}
         boardingLeg={bicycleWalkLeg}
+        viaType={leg.from.viaLocationType}
+        isStop={!!leg.from.stop}
       />
     );
   } else if (mode === 'BICYCLE') {
@@ -151,15 +156,25 @@ export default function BicycleLeg(
       <ItineraryCircleLineWithIcon
         index={index}
         modeClassName={modeClassName}
+        viaType={leg.from.viaLocationType}
+        isStop={!!leg.from.stop}
       />
     );
   } else {
     circleLine = (
-      <ItineraryCircleLine index={index} modeClassName={modeClassName} />
+      <ItineraryCircleLine
+        index={index}
+        modeClassName={modeClassName}
+        viaType={leg.from.viaLocationType}
+        isStop={!!leg.from.stop}
+      />
     );
   }
   const fromStop = leg?.from.stop || bicycleWalkLeg?.from.stop;
-  const origin = bicycleWalkLeg?.from.stop ? bicycleWalkLeg.from.name : address;
+  const origin =
+    bicycleWalkLeg?.from.stop && !bicycleWalkLeg?.from.viaLocationType
+      ? bicycleWalkLeg.from.name
+      : address;
   const destination = bicycleWalkLeg?.to.stop
     ? bicycleWalkLeg?.to.name
     : leg.to.name;
@@ -264,51 +279,56 @@ export default function BicycleLeg(
             }}
           />
         </span>
-        {isFirstLeg(index) || bicycleWalkLeg?.from.stop ? (
-          <div className={cx('itinerary-leg-first-row', 'bicycle', 'first')}>
-            <div className="address-container">
-              <div className="address">
-                {fromStop ? (
-                  <Link
-                    onClick={e => {
-                      e.stopPropagation();
-                    }}
-                    to={stopPagePath(false, fromStop.gtfsId)}
-                  >
-                    {origin}
-                    {leg.isViaPoint && (
+        {isFirstLeg(index) ||
+        bicycleWalkLeg?.from.stop ||
+        leg.from.viaLocationType ? (
+          <>
+            {leg.from.viaLocationType ? <div className="divider" /> : null}
+            <div className={cx('itinerary-leg-first-row', 'bicycle', 'first')}>
+              <div className="address-container">
+                <div className="address">
+                  {fromStop ? (
+                    <Link
+                      onClick={e => {
+                        e.stopPropagation();
+                      }}
+                      to={stopPagePath(false, fromStop.gtfsId)}
+                    >
+                      {origin}
+                      {leg.isViaPoint && (
+                        <Icon
+                          img="icon_mapMarker"
+                          className="itinerary-mapmarker-icon"
+                        />
+                      )}
                       <Icon
-                        img="icon_mapMarker"
-                        className="itinerary-mapmarker-icon"
+                        img="icon_arrow-collapse--right"
+                        className="itinerary-arrow-icon"
+                        color={config.colors.primary}
                       />
-                    )}
-                    <Icon
-                      img="icon_arrow-collapse--right"
-                      className="itinerary-arrow-icon"
-                      color={config.colors.primary}
+                    </Link>
+                  ) : (
+                    address
+                  )}
+                </div>
+                {bicycleWalkLeg?.from.stop?.code && (
+                  <>
+                    <StopCode code={bicycleWalkLeg.from.stop.code} />
+                    <PlatformNumber
+                      number={bicycleWalkLeg.from.stop.platformCode}
+                      short
+                      isRailOrSubway
                     />
-                  </Link>
-                ) : (
-                  address
+                  </>
                 )}
+                <div className="place">{place}</div>
               </div>
-              {bicycleWalkLeg?.from.stop?.code && (
-                <>
-                  <StopCode code={bicycleWalkLeg.from.stop.code} />
-                  <PlatformNumber
-                    number={bicycleWalkLeg.from.stop.platformCode}
-                    short
-                    isRailOrSubway
-                  />
-                </>
-              )}
-              <div className="place">{place}</div>
+              <ItineraryMapAction
+                target={leg.from.name || ''}
+                focusAction={focusAction}
+              />
             </div>
-            <ItineraryMapAction
-              target={leg.from.name || ''}
-              focusAction={focusAction}
-            />
-          </div>
+          </>
         ) : (
           <div>
             <div className="divider" />

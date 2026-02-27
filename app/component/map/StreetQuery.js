@@ -1,20 +1,22 @@
 import { graphql } from 'react-relay';
 
-const walkQuery = graphql`
-  query WalkQuery(
+const streetQuery = graphql`
+  query StreetQuery(
+    $mode: PlanDirectMode!
     $origin: PlanLabeledLocationInput!
     $destination: PlanLabeledLocationInput!
     $walkSpeed: Speed
+    $bikeSpeed: Speed
     $wheelchair: Boolean
   ) {
     plan: planConnection(
       first: 1
       origin: $origin
       destination: $destination
-      modes: { directOnly: true, direct: [WALK] }
+      modes: { directOnly: true, direct: [$mode] }
       preferences: {
         accessibility: { wheelchair: { enabled: $wheelchair } }
-        street: { walk: { speed: $walkSpeed } }
+        street: { walk: { speed: $walkSpeed }, bicycle: { speed: $bikeSpeed } }
       }
     ) {
       edges {
@@ -45,6 +47,39 @@ const walkQuery = graphql`
                 ... on Entrance {
                   publicCode
                   wheelchairAccessible
+                }
+                ... on ElevatorUse {
+                  from {
+                    level
+                    name
+                  }
+                  verticalDirection
+                  to {
+                    level
+                    name
+                  }
+                }
+                ... on EscalatorUse {
+                  from {
+                    level
+                    name
+                  }
+                  verticalDirection
+                  to {
+                    level
+                    name
+                  }
+                }
+                ... on StairsUse {
+                  from {
+                    level
+                    name
+                  }
+                  verticalDirection
+                  to {
+                    level
+                    name
+                  }
                 }
               }
               lat
@@ -86,6 +121,7 @@ const walkQuery = graphql`
                 gtfsId
                 code
                 platformCode
+                vehicleMode
               }
             }
             to {
@@ -107,6 +143,7 @@ const walkQuery = graphql`
                 gtfsId
                 code
                 platformCode
+                vehicleMode
               }
             }
             intermediatePlaces {
@@ -125,4 +162,4 @@ const walkQuery = graphql`
   }
 `;
 
-export { walkQuery };
+export { streetQuery };
