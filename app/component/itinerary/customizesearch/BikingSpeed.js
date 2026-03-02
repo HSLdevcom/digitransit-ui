@@ -1,29 +1,31 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
-import SearchSettingsDropdown, {
-  getFiveStepOptionsNumerical,
-  valueShape,
-} from './SearchSettingsDropdown';
+import SearchSettingsDropdown, { valueShape } from './SearchSettingsDropdown';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { findNearestOption } from '../../../util/planParamUtil';
-import { settingsShape } from '../../../util/shapes';
+import { useConfigContext } from '../../../configurations/ConfigContext';
 
-export default function BikingSpeed(
-  { bikeSpeed, bikeSpeedOptions, defaultSettings },
-  { executeAction },
-) {
-  const options = getFiveStepOptionsNumerical(bikeSpeedOptions);
+export default function BikingSpeed({ bikeSpeed }, { executeAction }) {
+  const config = useConfigContext();
+
+  const options = config.defaultOptions.bikeSpeed.map(item => ({
+    title: `${Math.round(item * 3.6)} km/h`,
+    value: item,
+  }));
+
   const currentSelection =
     options.find(option => option.value === bikeSpeed) ||
     options.find(
-      option => option.value === findNearestOption(bikeSpeed, bikeSpeedOptions),
+      option =>
+        option.value ===
+        findNearestOption(bikeSpeed, config.defaultOptions.bikeSpeed),
     );
+
   return (
     <SearchSettingsDropdown
       name="bike-speed-selector"
       currentSelection={currentSelection}
-      defaultValue={defaultSettings.bikeSpeed}
       onOptionSelected={value => {
         executeAction(saveRoutingSettings, {
           bikeSpeed: value,
@@ -35,19 +37,11 @@ export default function BikingSpeed(
         });
       }}
       options={options}
-      formatOptions
       labelId="biking-speed"
       translateLabels={false}
     />
   );
 }
 
-BikingSpeed.propTypes = {
-  bikeSpeed: valueShape.isRequired,
-  bikeSpeedOptions: PropTypes.arrayOf(PropTypes.number).isRequired,
-  defaultSettings: settingsShape.isRequired,
-};
-
-BikingSpeed.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-};
+BikingSpeed.propTypes = { bikeSpeed: valueShape.isRequired };
+BikingSpeed.contextTypes = { executeAction: PropTypes.func.isRequired };

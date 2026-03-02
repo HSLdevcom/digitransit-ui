@@ -38,7 +38,7 @@ const SHORT_TRIP_METERS = 2000;
 export function findNearestOption(value, options) {
   let currNearest = options[0];
   let diff = Math.abs(value - currNearest);
-  for (let i = 0; i < options.length; i++) {
+  for (let i = 1; i < options.length; i++) {
     const newdiff = Math.abs(value - options[i]);
     if (newdiff < diff) {
       diff = newdiff;

@@ -5932,7 +5932,7 @@ const translations = {
     'pick-mode-bus-disabled': 'Buss inte vald',
     'pick-mode-bus-enabled': 'Buss valt',
     'pick-mode-citybike-disabled': 'Stadscykel inte vald',
-    'pick-mode-citybike-enabled': 'StadOBscykel valt',
+    'pick-mode-citybike-enabled': 'Stadscykel valt',
     'pick-mode-ferry-disabled': 'Färja inte vald',
     'pick-mode-ferry-enabled': 'Färja valt',
     'pick-mode-rail-disabled': 'Tåg inte vald',

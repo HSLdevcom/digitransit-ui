@@ -214,6 +214,13 @@
         flex-direction: row;
         width: 3em;
         align-items: center;
+
+        .icon {
+          &.taxi-icon {
+            color: $external-feed-color;
+            fill: white;
+          }
+        }
       }
     }
   }
