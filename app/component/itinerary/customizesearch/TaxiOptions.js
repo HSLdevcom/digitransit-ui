@@ -6,10 +6,8 @@ import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { settingsShape } from '../../../util/shapes';
 import Icon from '../../Icon';
-import { useConfigContext } from '../../../configurations/ConfigContext';
 
-const TaxiOptions = ({ currentSettings }, { executeAction }) => {
-  const { colors } = useConfigContext();
+export default function TaxiOptions({ currentSettings }, { executeAction }) {
   const taxiRoutingState = currentSettings.includeTaxiSuggestions
     ? 'Disable'
     : 'Enable';
@@ -32,10 +30,11 @@ const TaxiOptions = ({ currentSettings }, { executeAction }) => {
       <SettingsToggle
         id="settings-toggle-taxi"
         labelId="taxis-and-ride-hailing"
+        labelStyle="mode-label"
         leftElement={
           <Icon
+            className="taxi-icon"
             img="icon_taxi-external"
-            color={colors.taxi}
             height={2}
             width={2}
           />
@@ -45,14 +44,7 @@ const TaxiOptions = ({ currentSettings }, { executeAction }) => {
       />
     </>
   );
-};
+}
 
-TaxiOptions.propTypes = {
-  currentSettings: settingsShape.isRequired,
-};
-
-TaxiOptions.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-};
-
-export default TaxiOptions;
+TaxiOptions.propTypes = { currentSettings: settingsShape.isRequired };
+TaxiOptions.contextTypes = { executeAction: PropTypes.func.isRequired };

@@ -209,6 +209,13 @@ class DepartureListContainer extends Component {
   };
 
   getHeadsign = departure => {
+    if (departure.canceled && departure.isLastStop) {
+      return this.context.intl.formatMessage({
+        id: 'route-destination-endpoint',
+        defaultMessage: 'Arrives / Terminus',
+      });
+    }
+
     if (departure.isArrival) {
       if (departure.isLastStop) {
         return this.context.intl.formatMessage({

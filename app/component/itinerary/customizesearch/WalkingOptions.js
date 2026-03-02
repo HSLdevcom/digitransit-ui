@@ -2,21 +2,36 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import SearchSettingsDropdown, {
-  getFiveStepOptions,
-} from './SearchSettingsDropdown';
+import SearchSettingsDropdown from './SearchSettingsDropdown';
 import SettingsToggle from './SettingsToggle';
 import { findNearestOption } from '../../../util/planParamUtil';
 import { settingsShape } from '../../../util/shapes';
 import { useConfigContext } from '../../../configurations/ConfigContext';
+import { useTranslationsContext } from '../../../util/useTranslationsContext';
 
-export default function WalkingOptions(
-  { currentSettings, defaultSettings },
-  { executeAction },
-) {
-  const { defaultOptions } = useConfigContext();
-  const reluctanceOptions = defaultOptions.walkReluctance;
-  const options = getFiveStepOptions(defaultOptions.walkSpeed);
+const roundToOneDecimal = number => {
+  const rounded = Math.round(number * 10) / 10;
+  return rounded.toFixed(1).replace('.', ',');
+};
+
+const title = [
+  'option-least',
+  'option-less',
+  'option-default',
+  'option-more',
+  'option-most',
+];
+
+export default function WalkingOptions({ currentSettings }, { executeAction }) {
+  const { defaultOptions, defaultSettings } = useConfigContext();
+  const intl = useTranslationsContext();
+
+  const options = defaultOptions.walkSpeed.map((s, i) => ({
+    title: intl.formatMessage({ id: title[i] }),
+    value: s,
+    kmhValue: `${roundToOneDecimal(s * 3.6)} km/h`,
+  }));
+
   const currentWalkSelection =
     options.find(option => option.value === currentSettings.walkSpeed) ||
     options.find(
@@ -25,16 +40,16 @@ export default function WalkingOptions(
         findNearestOption(currentSettings.walkSpeed, defaultOptions.walkSpeed),
     );
   const onToggle = () => {
-    const avoid = currentSettings.walkReluctance !== reluctanceOptions.least;
-    executeAction(saveRoutingSettings, {
-      walkReluctance: avoid
-        ? reluctanceOptions.least
-        : defaultSettings.walkReluctance,
-    });
+    const newValue =
+      currentSettings.walkReluctance !== defaultOptions.highWalkReluctance
+        ? defaultOptions.highWalkReluctance
+        : defaultSettings.walkReluctance;
+    executeAction(saveRoutingSettings, { walkReluctance: newValue });
     addAnalyticsEvent({
       category: 'ItinerarySettings',
       action: 'ChangeAmountOfWalking',
-      name: avoid ? 'avoid' : 'default',
+      name:
+        newValue === defaultOptions.highWalkReluctance ? 'avoid' : 'default',
     });
   };
 
@@ -42,7 +57,6 @@ export default function WalkingOptions(
     <>
       <SearchSettingsDropdown
         currentSelection={currentWalkSelection}
-        defaultValue={defaultSettings.walkSpeed}
         onOptionSelected={value => {
           executeAction(saveRoutingSettings, {
             walkSpeed: value,
@@ -55,14 +69,14 @@ export default function WalkingOptions(
         }}
         options={options}
         labelId="walking-speed"
-        highlightDefaulValue
-        formatOptions
         name="walkspeed"
       />
       <SettingsToggle
         id="settings-toggle-avoid-walking"
         labelId="avoid-walking"
-        toggled={currentSettings.walkReluctance === reluctanceOptions.least}
+        toggled={
+          currentSettings.walkReluctance === defaultOptions.highWalkReluctance
+        }
         onToggle={onToggle}
         borderStyle="top-border"
       />
@@ -71,7 +85,6 @@ export default function WalkingOptions(
 }
 
 WalkingOptions.propTypes = {
-  defaultSettings: settingsShape.isRequired,
   currentSettings: settingsShape.isRequired,
 };
 

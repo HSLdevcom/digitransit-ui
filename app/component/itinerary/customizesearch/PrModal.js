@@ -14,7 +14,7 @@ export default function PrModal({ closeModal }) {
   return (
     <Modal
       appElement="#app"
-      contentLabel="personlaisation_info_modal"
+      contentLabel="personalisation_info_modal"
       closeButtonLabel={intl.formatMessage({ id: 'close' })}
       variant="medium"
       isOpen

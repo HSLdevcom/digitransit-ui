@@ -7,10 +7,11 @@ import { settingsShape } from '../../../util/shapes';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 
 export default function TransferOptions(
-  { defaultSettings, currentSettings },
+  { currentSettings },
   { executeAction },
 ) {
-  const { transferPenaltyHigh, minTransferTimeSelection } = useConfigContext();
+  const { transferPenaltyHigh, minTransferTimeSelection, defaultSettings } =
+    useConfigContext();
   const avoidTransfers =
     currentSettings.transferPenalty !== defaultSettings.transferPenalty;
 
@@ -39,7 +40,6 @@ export default function TransferOptions(
 }
 
 TransferOptions.propTypes = {
-  defaultSettings: settingsShape.isRequired,
   currentSettings: settingsShape.isRequired,
 };
 

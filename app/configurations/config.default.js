@@ -208,13 +208,8 @@ export default {
    * If not, the selection may not make any sense.
    */
   defaultOptions: {
-    walkReluctance: {
-      least: 5,
-      less: 3,
-      more: 1,
-      most: 0.2,
-    },
-    walkSpeed: [0.69, 0.97, 1.28, 1.67, 2.22],
+    highWalkReluctance: 5,
+    walkSpeed: [0.69, 0.97, 1.2, 1.67, 2.22],
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 

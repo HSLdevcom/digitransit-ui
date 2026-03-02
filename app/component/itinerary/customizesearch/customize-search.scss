@@ -218,6 +218,13 @@
         flex-direction: row;
         width: 3em;
         align-items: center;
+
+        .icon {
+          &.taxi-icon {
+            color: $external-feed-color;
+            fill: white;
+          }
+        }
       }
     }
   }
@@ -248,8 +255,9 @@
     flex-direction: column;
     margin-left: 3em;
     margin-top: -18px;
+    margin-bottom: 14px;
+    padding-right: 2em;
     width: 80%;
-    padding-bottom: 8px;
 
     button {
       margin-top: 4px;
@@ -423,7 +431,7 @@
     padding: 16px 32px 16px 24px;
     background-color: $infobox-color-generic-blue;
     border: solid 1px #d9eaf5;
-    border-radius: $border-radius-bigger;
+    border-radius: 12px;
 
     .icon-area {
       background-color: #bee4f9;
@@ -457,7 +465,7 @@
 
     button {
       height: 28px;
-      width: 50%;
+      width: 140px;
       border-radius: 14px;
       flex-direction: row;
       justify-content: center;
