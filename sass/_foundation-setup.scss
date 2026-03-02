@@ -1,0 +1,22 @@
+/* stylelint-disable no-invalid-position-at-import-rule */
+$global-flexbox: false; // Use float grid like Foundation 5
+$xy-grid: false; // Disable XY grid
+
+@import 'foundation';
+@include foundation-global-styles;
+@include foundation-grid;
+@include foundation-typography;
+@include foundation-forms;
+@include foundation-visibility-classes;
+@include foundation-float-classes;
+
+$small-up: 'only screen' !global;
+$medium-up: 'only screen and (min-width: #{-zf-bp-to-em(map-get($breakpoints, "medium"))})' !global;
+$large-up: 'only screen and (min-width: #{-zf-bp-to-em(map-get($breakpoints, "large"))})' !global;
+$xlarge-up: 'only screen and (min-width: #{-zf-bp-to-em(map-get($breakpoints, "xlarge"))})' !global;
+$xxlarge-up: 'only screen and (min-width: #{-zf-bp-to-em(map-get($breakpoints, "xxlarge"))})' !global;
+
+// For -only queries, we need the next breakpoint minus 1/16em (0.0625em)
+$small-only: 'only screen and (max-width: #{-zf-bp-to-em(map-get($breakpoints, "medium")) - 0.0625em})' !global;
+$medium-only: 'only screen and (min-width: #{-zf-bp-to-em(map-get($breakpoints, "medium"))}) and (max-width: #{-zf-bp-to-em(map-get($breakpoints, "large")) - 0.0625em})' !global;
+$large-only: 'only screen and (min-width: #{-zf-bp-to-em(map-get($breakpoints, "large"))}) and (max-width: #{-zf-bp-to-em(map-get($breakpoints, "xlarge")) - 0.0625em})' !global;
