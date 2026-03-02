@@ -1504,6 +1504,10 @@ const translations = {
     'payment-info-taxi':
       'Please note that you need to use the app of the operator in question in order to use and pay for the taxis.',
     payment_at_gate: 'Payment at the gate ',
+    'personal-itineraries': 'Personal itineraries',
+    personalisation: 'Personalisation',
+    'personalisation-info':
+      'Find your favorite routes and travel according to your habits',
     'phone-number': 'Phone number',
     'pick-icon': 'Select icon',
     'pick-mode': 'Transport modes',
@@ -2894,6 +2898,10 @@ const translations = {
     'payment-info-taxi':
       'Huomaathan, että taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     payment_at_gate: 'Maksu portilla',
+    'personal-itineraries': 'Yksilölliset reittiehdotukset',
+    personalisation: 'Personointi',
+    'personalisation-info':
+      'Löydä mieleiset reitit ja matkusta tottumustesi mukaan.',
     'phone-number': 'Puhelinnumero',
     'pick-icon': 'Valitse kuvake',
     'pick-mode': 'Liikennevälineet',
@@ -5912,6 +5920,10 @@ const translations = {
     'payment-info-taxi':
       'Vänligen observera att användning och betalning av taxi görs via operatörernas egna appar.',
     payment_at_gate: 'Betalning vid porten',
+    'personal-itineraries': 'Individuella ruttförslag',
+    personalisation: 'Personalisering',
+    'personalisation-info':
+      'Hitta dina favoritrutter och res utifrån dina vanor.',
     'phone-number': 'Telefonnummer',
     'pick-icon': 'Välj en ikon',
     'pick-mode': 'Trafikslag',

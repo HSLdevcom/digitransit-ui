@@ -45,7 +45,6 @@ import {
   checkPositioningPermission,
   startLocationWatch,
 } from '../action/PositionActions';
-
 import FavouriteStore from '../store/FavouriteStore';
 import TrafficNowLink from './trafficnow/TrafficNowLink';
 

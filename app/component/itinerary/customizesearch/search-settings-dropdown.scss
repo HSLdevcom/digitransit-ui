@@ -65,30 +65,17 @@
   }
 
   .settings-dropdown-label {
-    min-height: 48px;
+    min-height: 3.5em;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
-    padding: 0 0 0 16px;
-    margin: 0;
-    background: unset;
-    border: none;
     width: 100%;
-    font-size: unset;
-    letter-spacing: inherit;
-    line-height: 16px;
+    font-size: $font-size-normal;
 
     .settings-dropdown-text-container {
       display: flex;
-    }
-
-    .settings-dropdown-label-text {
-      font-size: $font-size-normal;
-      color: $gray;
-      float: left;
-      text-align: start;
-      margin: 16px 0;
     }
 
     .settings-dropdown-label-value {

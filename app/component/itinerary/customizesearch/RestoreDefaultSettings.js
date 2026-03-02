@@ -1,19 +1,22 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
 import cx from 'classnames';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { isKeyboardSelectionEvent } from '../../../util/browser';
 import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import {
   getDefaultSettings,
   hasCustomizedSettings,
 } from '../../../util/planParamUtil';
-import { configShape } from '../../../util/shapes';
 import { getCustomizedSettings } from '../../../store/localStorage';
 import Icon from '../../Icon';
+import { useConfigContext } from '../../../configurations/ConfigContext';
+import { useTranslationsContext } from '../../../util/useTranslationsContext';
 
-const RestoreDefaultSettingSection = ({ config }, { executeAction, intl }) => {
+// eslint-disable-next-line
+const RestoreDefaultSettings = ({}, { executeAction }) => {
+  const config = useConfigContext();
+  const intl = useTranslationsContext();
   const [showSnackbar, setShowSnackbar] = useState(null);
   const [slideOutRestoreSettingsButton, setSlideOutRestoreSettingsButton] =
     useState(null);
@@ -97,7 +100,7 @@ const RestoreDefaultSettingSection = ({ config }, { executeAction, intl }) => {
   );
 
   return (
-    <>
+    <div className="restore-settings-container">
       <div
         className={cx('restore-settings-success-snackbar', {
           hide: showSnackbar === null,
@@ -106,7 +109,7 @@ const RestoreDefaultSettingSection = ({ config }, { executeAction, intl }) => {
         })}
         aria-hidden="true"
       >
-        <Icon img="icon_checkmark-circled" omitViewBox />
+        <Icon img="icon_checkmark-circled" />
         <span className="snackbar-text">
           <FormattedMessage
             id="restore-default-settings-success"
@@ -123,7 +126,11 @@ const RestoreDefaultSettingSection = ({ config }, { executeAction, intl }) => {
           onClick={() => setShowSnackbar(false)}
           tabIndex="-1"
         >
-          <Icon id="close-icon" img="notification-close" omitViewBox />
+          <Icon
+            id="close-icon"
+            img="notification-close"
+            color={config.colors.primary}
+          />
         </button>
       </div>
       <div
@@ -144,7 +151,7 @@ const RestoreDefaultSettingSection = ({ config }, { executeAction, intl }) => {
       </div>
       {userHasCustomizedSettings || slideOutRestoreSettingsButton ? (
         <div
-          className={cx('restore-settings-section', {
+          className={cx('restore-settings', {
             hide:
               userHasCustomizedSettings === false &&
               !slideOutRestoreSettingsButton,
@@ -152,7 +159,7 @@ const RestoreDefaultSettingSection = ({ config }, { executeAction, intl }) => {
             'slide-out': slideOutRestoreSettingsButton,
           })}
         >
-          <Icon img="icon_checkmark" omitViewBox />
+          <Icon img="icon_checkmark" />
           <FormattedMessage
             id="settings-changed-by-you"
             defaultMessage="Settings changed"
@@ -179,17 +186,12 @@ const RestoreDefaultSettingSection = ({ config }, { executeAction, intl }) => {
       ) : (
         noChangesSRContainer
       )}
-    </>
+    </div>
   );
 };
 
-RestoreDefaultSettingSection.propTypes = {
-  config: configShape.isRequired,
-};
-
-RestoreDefaultSettingSection.contextTypes = {
+RestoreDefaultSettings.contextTypes = {
   executeAction: PropTypes.func.isRequired,
-  intl: intlShape.isRequired,
 };
 
-export default RestoreDefaultSettingSection;
+export default RestoreDefaultSettings;
