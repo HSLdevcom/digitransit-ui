@@ -192,7 +192,7 @@ export default {
     ticketTypes: 'none',
     walkBoardCost: 120,
     walkReluctance: 1.8,
-    walkSpeed: 1.28,
+    walkSpeed: 1.2,
     transferPenalty: 0,
     minTransferTime: 90,
     includeBikeSuggestions: true,

@@ -1,18 +1,19 @@
-@import 'foundation-sites/scss/util/util';
-
 /* Set Foundation base font to theme font
    (without this Foundation overrides body */
+$font-weight-bold: 700;
+$font-weight-normal: $font-weight-medium;
 $body-font-family: $font-family;
 $body-font-weight: $font-weight-medium;
 
-/* Base styles */
+@import 'foundation-setup';
 @import 'base/zindex';
 @import 'base/helper-mixins';
 @import 'base/base';
 @import 'base/form';
 @import 'base/helper-classes';
 @import 'base/elements';
-@import '~zurb-foundation-5/scss/foundation/components/grid';
+@import 'grid/grid';
+@import 'util/util';
 @import 'base/helper-classes-after-foundations';
 @import 'base/spacing';
 @import 'base/radius';
@@ -40,7 +41,6 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/visual/index';
 @import '../app/component/bubble-dialog';
 @import '../app/component/select-maplayers-dialog';
-@import '~zurb-foundation-5/scss/foundation/components/forms';
 @import '../app/component/zone-icon';
 @import '../app/component/date-select';
 @import '../app/component/routepage/route-schedule-dropdown';

@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 @function navbar-icon-color($color) {
   @if $nav-content-color {
     // if defined in theme, return nav-content-color
@@ -5,12 +7,12 @@
   }
 
   $background-color-brightness: (red($color) * 299) + (green($color) * 587) +
-    (blue($color) * 114) / 1000;
+    math.div(blue($color) * 114, 1000);
   $light-color-lightness: round(
-    (red(#fff) * 299) + (green(#fff) * 587) + (blue(#fff) * 114) / 1000
+    (red(#fff) * 299) + (green(#fff) * 587) + math.div(blue(#fff) * 114, 1000)
   );
 
-  @if abs($background-color-brightness) < ($light-color-lightness / 3) {
+  @if abs($background-color-brightness) < math.div($light-color-lightness, 3) {
     @return #ffffff;
   } @else {
     @return #333333;

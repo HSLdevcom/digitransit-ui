@@ -707,6 +707,8 @@ $margin-left-right: 21.3px;
 
   .route-schedule-header {
     padding: 9.6px 0 2px 0;
+    margin-left: 0;
+    margin-right: 0;
 
     @media print {
       margin-left: 0;
@@ -812,8 +814,8 @@ $margin-left-right: 21.3px;
 
 .route-schedule-dropdowns {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
+  flex-direction: row;
 
   @media print {
     display: none;
