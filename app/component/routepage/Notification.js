@@ -7,18 +7,14 @@ import { getDialogState, setDialogState } from '../../store/localStorage';
 import Icon from '../Icon';
 
 const RouteNotification = ({ notification, lang }, context) => {
-  const [hideNote, setHideNote] = useState(true);
-
   const id = { notification };
+  const [hideNote, setHideNote] = useState(() => getDialogState(id) || false);
+
   const header = notification.header[lang];
   const content = notification.content[lang];
   const link = notification.link?.[lang];
   const linkLabel = notification.linkLabel?.[lang] || link;
   const closeButtonLabel = notification.closeButtonLabel?.[lang];
-
-  useEffect(() => {
-    setHideNote(getDialogState(id) || false);
-  }, []);
 
   useEffect(() => {
     setDialogState(id, hideNote);
