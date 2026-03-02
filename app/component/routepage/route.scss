@@ -1138,19 +1138,20 @@ $margin-left-right: 21.3px;
 // Tabs
 .route-tabs {
   height: 2.5em;
-  min-height: 2.5em;
+  min-height: 44px;
   display: flex;
   background-color: $light-gray;
   border: 2px solid $light-gray;
-  border-radius: 8px;
+  border-radius: var(--radius-radius-pill, 999px);
   margin: 0;
+  padding: var(--space-xxs);
 
   button {
     width: calc(100% / var(--totalCount));
     font-size: $font-size-small;
     text-align: center;
     letter-spacing: -0.42px;
-    border-radius: 6px;
+    border-radius: var(--radius-radius-pill, 999px);
     color: #333;
     font-weight: normal;
 
