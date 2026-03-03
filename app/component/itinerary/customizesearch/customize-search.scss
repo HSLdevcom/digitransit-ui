@@ -109,6 +109,10 @@
         text-align: center;
       }
 
+      .settings-header {
+        height: 80px;
+      }
+
       .close-offcanvas {
         left: 20px;
         border: solid 1px $light-gray;
@@ -148,6 +152,15 @@
     height: 100%;
     padding-left: 4px;
     box-shadow: inset 4px 0 4px 0 $background-color-lighter;
+
+    h1 {
+      font-size: $font-size-xlarge;
+      padding-top: 16px;
+    }
+
+    .settings-header {
+      height: 88px;
+    }
 
     .scrollable-content-wrapper {
       overflow-y: auto;

@@ -34,7 +34,7 @@ function CustomizeSearch({ onToggleClick, settings, mobile }) {
   const backIcon = mobile ? (
     <Icon img="icon_arrow-collapse--left" />
   ) : (
-    <Icon img="icon_close" />
+    <Icon className="close-icon" img="icon_close" />
   );
   return (
     <div className="customize-search">
