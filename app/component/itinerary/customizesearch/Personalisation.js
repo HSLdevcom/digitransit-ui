@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import SettingsToggle from './SettingsToggle';
+import PrModal from './PrModal';
 import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import Icon from '../../Icon';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
@@ -11,6 +12,8 @@ export default function Personalisation(
   { currentSettings },
   { executeAction },
 ) {
+  const [modalOpen, setModalOpen] = useState(false);
+
   const onToggle = () => {
     addAnalyticsEvent({
       category: 'ItinerarySettings',
@@ -33,13 +36,31 @@ export default function Personalisation(
         id="settings-toggle-personalisation"
         labelId="personal-itineraries"
         labelStyle="mode-label-upper"
-        leftElement={<Icon img="icon_star-with-circle" height={2} width={2} />}
+        leftElement={
+          <Icon
+            img="icon_star-with-circle"
+            className="selected-fav"
+            height={2}
+            width={2}
+          />
+        }
         toggled={!!currentSettings.personalisation}
         onToggle={onToggle}
       />
       <div className="toggle-info">
         <FormattedMessage id="personalisation-info" />
+        <button
+          type="button"
+          onClick={e => {
+            e.stopPropagation();
+            setModalOpen(true);
+          }}
+        >
+          <FormattedMessage id="personalisation-open-info" />
+          <Icon className="arrow" img="icon_arrow-collapse--right" />
+        </button>
       </div>
+      {modalOpen && <PrModal closeModal={() => setModalOpen(false)} />}
     </>
   );
 }

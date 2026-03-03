@@ -806,6 +806,12 @@ export default {
     },
   },
 
+  favouriteLink: {
+    fi: 'https://tili.hsl.fi/omat-pysakit-paikat-ja-linjat',
+    en: 'https://tili.hsl.fi/en/my-stops-places-and-routes',
+    sv: 'https://tili.hsl.fi/mina-hallplatser-platser-och-linjer',
+  },
+
   startSearchFromUserLocation: true,
 
   navigationLogo: 'hsl/navigator-logo.svg',
@@ -823,7 +829,6 @@ export default {
   },
 
   showStopStatusMarkers: true,
-  personalisation: true,
   flex: {
     internalFlexEnabled: IS_DEV,
     allowTaxiJourneys: IS_DEV,
@@ -835,4 +840,5 @@ export default {
   },
 
   showRouteDescNotification: IS_DEV,
+  personalisation: IS_DEV,
 };

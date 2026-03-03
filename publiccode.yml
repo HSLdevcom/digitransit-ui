@@ -1,0 +1,83 @@
+publiccodeYmlVersion: 0.5.0
+name: Digitransit Journey Planner
+url: https://github.com/HSLdevcom/digitransit-ui/
+softwareVersion: 11.2.2026
+releaseDate: 2026-02-11
+platforms:
+  - web
+categories:
+  - other
+organisation:
+  uri: https://www.hsl.fi/en
+fundedBy:
+  - name: Fintraffic
+    uri: https://www.fintraffic.fi/en
+  - name: Helsinki Region Transport (HSL)
+    uri: https://www.hsl.fi/en
+  - name: Waltti Solutions
+    uri: https://waltti.fi/en/
+usedBy:
+  - Finland, Fintraffic (nationwide)
+  - Finland, Helsinki Region Transport (HSL)
+  - Finland, Waltti cities
+  - Estonia, Ministry of Regional Affairs and Agriculture
+  - Germany, Herrenberg
+  - Germany, Ludwigsburg
+  - Germany, Aachen
+  - Germany, Verkehrsverbund Pforzheim-Enzkreis Transport Agency 
+  - Germany, Schleswig-Holstein
+  - See https://digitransit.fi/en/ for more
+roadmap: https://digitransit.fi/roadmap/
+developmentStatus: stable
+softwareType: standalone/web
+description:
+  en:
+    localisedName: Digitransit Journey Planner
+    shortDescription: The Digitransit Journey Planner is a web-based interface
+      focused on public transport routing intended for use by passengers.
+    longDescription:
+      The Digitransit Journey Planner is a user‑friendly, map‑centric
+      interface that helps travelers find optimal routes across public
+      transport, walking, cycling, and driving. The interface provides real‑time
+      departure information, dynamic route suggestions and clear visualizations
+      of stops, lines, and modal options, enabling passengers to plan
+      door‑to‑door trips effortlessly. It delivers reliable routing, intuitive
+      interactions, and personalized features such as saved locations and
+      tailored service alerts, while remaining consistent across web and mobile
+      channels.
+    documentation: https://digitransit.fi/en/
+    apiDocumentation: https://digitransit.fi/en/developers/apis/
+    features:
+      - Map‑centric interface that surfaces stops, routes, and nearby transport
+        options immediately, supporting intuitive trip exploration.
+      - Real‑time departures and service alerts, enabling passengers to react to
+        delays and disruptions as they happen.
+      - Multimodal routing that supports public transport, walking, cycling,
+        ferries, on‑demand services, and combined travel chains.
+      - Multiple route alternatives (fastest, fewest transfers, accessible
+        routes), tailored to different user needs.
+      - Mobile‑first design, with consistent behaviour across browsers, mobile
+        devices, and embedded views inside city or operator apps.
+      - Clear visualisation of accessibility information such as elevators,
+        ramps, accessible interchanges, and barrier-free paths.
+      - Support for dynamic data-driven UI adjustments, e.g. assigned platform
+        changes, temporary stop relocations, or rail/metro track updates.
+      - Configurable interface for different cities (branding, service area,
+        transport modes), enabling reuse across multiple regions.
+      - Personalisation features, including saved places, preferred lines, and
+        targeted service alerts.
+      - Embedded components (e.g. route search elements) that can be integrated
+        into third-party sites and applications.
+legal:
+  license: "EUPL-1.2 OR AGPL-3.0-only"
+maintenance:
+  type: internal
+  contacts:
+    - name: Digitransit
+      email: digitransit@hsl.fi
+localisation:
+  localisationReady: true
+  availableLanguages:
+    - fi
+    - sv
+    - en
