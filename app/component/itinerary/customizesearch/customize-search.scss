@@ -105,20 +105,27 @@
 
     .settings-header {
       h1 {
+        padding-top: 6px;
         text-align: center;
       }
 
       .close-offcanvas {
-        left: 16px;
+        left: 20px;
         border: solid 1px $light-gray;
-        height: 2.4em;
-        width: 2.4em;
+        height: 40px;
+        width: 40px;
         border-radius: 50%;
-        top: 25px;
+        top: 24px;
 
-        .close-icon {
-          width: 1.3em;
-          height: 1.3em;
+        .icon-container {
+          position: absolute;
+          top: 9px;
+          left: 7px;
+
+          .icon {
+            width: 21px;
+            height: 21px;
+          }
         }
       }
     }
