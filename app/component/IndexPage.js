@@ -223,8 +223,7 @@ class IndexPage extends React.Component {
 
   NearStops() {
     const { intl, config } = this.context;
-    const { colors, fontWeights } = config;
-    const { lang } = config.language;
+    const { colors, fontWeights, language } = config;
     const nearYouModes = getNearYouModes(config, this.props.favourites);
     // If nearYouModes is configured, display those. Otherwise, display all configured transport modes
     const modeArray =
@@ -258,7 +257,7 @@ class IndexPage extends React.Component {
         }
         modeSet={config.iconModeSet}
         urlPrefix={`/${PREFIX_NEARYOU}`}
-        language={lang}
+        language={language}
         title={config.nearYouTitle}
         alertsContext={alertsContext}
         origin={this.props.origin}

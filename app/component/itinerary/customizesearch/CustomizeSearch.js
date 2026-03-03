@@ -32,7 +32,7 @@ function CustomizeSearch({ onToggleClick, settings, mobile }) {
   // Merge default and customized settings
   const currentSettings = { ...defaultSettings, ...settings };
   const backIcon = mobile ? (
-    <Icon className="close-icon" img="icon_arrow-collapse--left" />
+    <Icon img="icon_arrow-collapse--left" />
   ) : (
     <Icon className="close-icon" img="icon_close" />
   );

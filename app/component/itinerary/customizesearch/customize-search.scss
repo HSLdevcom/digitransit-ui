@@ -105,20 +105,31 @@
 
     .settings-header {
       h1 {
+        padding-top: 6px;
         text-align: center;
       }
 
-      .close-offcanvas {
-        left: 16px;
-        border: solid 1px $light-gray;
-        height: 2.4em;
-        width: 2.4em;
-        border-radius: 50%;
-        top: 25px;
+      .settings-header {
+        height: 80px;
+      }
 
-        .close-icon {
-          width: 1.3em;
-          height: 1.3em;
+      .close-offcanvas {
+        left: 20px;
+        border: solid 1px $light-gray;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        top: 24px;
+
+        .icon-container {
+          position: absolute;
+          top: 9px;
+          left: 7px;
+
+          .icon {
+            width: 21px;
+            height: 21px;
+          }
         }
       }
     }
@@ -141,6 +152,15 @@
     height: 100%;
     padding-left: 4px;
     box-shadow: inset 4px 0 4px 0 $background-color-lighter;
+
+    h1 {
+      font-size: $font-size-xlarge;
+      padding-top: 16px;
+    }
+
+    .settings-header {
+      height: 88px;
+    }
 
     .scrollable-content-wrapper {
       overflow-y: auto;
