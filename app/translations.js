@@ -891,7 +891,7 @@ const translations = {
     'bike-only': 'Cycling only',
     'bike-park': 'Park & Ride for bikes',
     'bike-park-disclaimer':
-      'You can park your bike near the station or stop and continue your journey conveniently by public transport',
+      'You can park your bike near the station or stop and continue your journey by public transport',
     'bike-park-disclaimer-header': 'Park your bike',
     'bike-station-disabled': 'The bike station is out of service.',
     'bikes-available': '{amount} bikes at the station ',
@@ -944,7 +944,7 @@ const translations = {
     'car-drive-to-transit-no-duration': 'Drive your car to the {transportMode}',
     'car-park': 'Park & ride',
     'car-park-disclaimer':
-      'You can park your car near the station or stop and continue your journey conveniently by public transport',
+      'You can park your car near a station or stop and continue your journey by public transport',
     'car-park-disclaimer-header': 'Park your car',
     cause: 'cause',
     'char-left': 'characters',
@@ -1646,7 +1646,7 @@ const translations = {
       'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
     'separate-ticket-required-for-call-agency-disclaimer':
       'The journey includes demand responsive transport service. Please check the payment methods and practices on ',
-    'services-and-features': 'Services and features',
+    'services-and-features': 'Services and facilities',
     'set-specific-settings': 'Set more specific settings',
     'set-stop-as-routes': "Set the stop as route's",
     settings: 'Settings',
@@ -5171,7 +5171,7 @@ const translations = {
     'accessibility-limited': 'Med rullstolen',
     'accessibility-nolimit': 'Ingen begränsning',
     'accessibility-statement': 'Tillgänglighetsförklaring',
-    'accessible-car-places': 'Rullstolsanpassat',
+    'accessible-car-places': 'Tillgänglig med rullstol',
     acknowledged: 'Klart',
     'add-favourite-bikeStation-failed-heading':
       'Kunde inte spara stadscykelstationen',
