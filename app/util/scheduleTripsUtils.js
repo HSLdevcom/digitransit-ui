@@ -35,26 +35,11 @@ export const sortTrips = trips => {
  * Get and process trips for display.
  * @param {Object} params.patternWithTrips - Pattern object with trips
  * @param {Object} params.intl - Internationalization object
- * @param {string|number} params.testNum - Test number for filtering trips in testing mode (optional)
  * @param {DateTime} params.wantedDay - DateTime object for no trips message formatting (optional)
  * @returns {Object} { trips: Array|null, noTripsMessage: JSX|null }
  */
-export const getTripsList = ({
-  patternWithTrips,
-  intl,
-  testNum,
-  wantedDay,
-}) => {
-  let pattern = patternWithTrips;
-
-  if (process.env.ROUTEPAGETESTING && testNum && pattern) {
-    pattern = {
-      ...pattern,
-      trips: pattern.trips?.filter((s, i) => i < 2),
-    };
-  }
-
-  const trips = sortTrips(pattern?.trips);
+export const getTripsList = ({ patternWithTrips, intl, wantedDay }) => {
+  const trips = sortTrips(patternWithTrips?.trips);
   if (!trips || trips.length === 0) {
     const formattedDate = wantedDay?.toFormat('d.L.yyyy');
     return {

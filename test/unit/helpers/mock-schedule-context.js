@@ -76,9 +76,6 @@ export const createScheduleTestContext = (overrides = {}) => {
     getTripsList: sandbox
       .stub(scheduleTripsUtils, 'getTripsList')
       .returns(mocks.tripsResult),
-    selectScheduleData: sandbox
-      .stub(scheduleDataUtils, 'selectScheduleData')
-      .returns(mocks.scheduleData),
     useRouterRedirect: sandbox
       .stub(scheduleRedirectHook, 'useRouterRedirect')
       .returns(undefined),

@@ -9,7 +9,6 @@ import { DATE_FORMAT } from '../../../app/constants';
 describe('scheduleValidation', () => {
   describe('calculateRedirectDecision', () => {
     const fixedNow = DateTime.fromISO('2024-01-15T10:00:00');
-    const originalTestingEnv = process.env.ROUTEPAGETESTING;
 
     beforeEach(() => {
       Settings.now = () => fixedNow.toMillis();
@@ -17,25 +16,10 @@ describe('scheduleValidation', () => {
 
     afterEach(() => {
       Settings.now = () => Date.now();
-      process.env.ROUTEPAGETESTING = originalTestingEnv;
-    });
-
-    it('should skip redirect in test mode when testNum is 0', () => {
-      process.env.ROUTEPAGETESTING = 'true';
-      const decision = calculateRedirectDecision({
-        testNum: '0',
-        wantedDay: DateTime.now().minus({ days: 1 }),
-        routeId: 'HSL:1001',
-      });
-
-      expect(decision.shouldRedirect).to.equal(false);
-      expect(decision.query).to.deep.equal({});
-      expect(decision.redirectPath).to.equal(null);
     });
 
     it('should redirect past dates to today', () => {
       const decision = calculateRedirectDecision({
-        testNum: undefined,
         wantedDay: DateTime.now().minus({ days: 2 }),
         routeId: 'HSL:1001',
       });
@@ -49,7 +33,6 @@ describe('scheduleValidation', () => {
 
     it('should redirect invalid dates to today', () => {
       const decision = calculateRedirectDecision({
-        testNum: undefined,
         wantedDay: DateTime.fromISO('invalid-date-string'),
         routeId: 'HSL:1001',
       });
@@ -64,7 +47,6 @@ describe('scheduleValidation', () => {
     it('should redirect to route timetable when pattern code is missing', () => {
       const routeId = 'HSL:1001';
       const decision = calculateRedirectDecision({
-        testNum: undefined,
         wantedDay: undefined,
         routeId,
       });
@@ -78,7 +60,6 @@ describe('scheduleValidation', () => {
 
     it('should not redirect when conditions are valid', () => {
       const decision = calculateRedirectDecision({
-        testNum: undefined,
         wantedDay: DateTime.now().plus({ days: 2 }),
         patternCode: 'HSL:1001:0:01',
         routeId: 'HSL:1001',
@@ -87,21 +68,6 @@ describe('scheduleValidation', () => {
       expect(decision.shouldRedirect).to.equal(false);
       expect(decision.query).to.deep.equal({});
       expect(decision.redirectPath).to.equal(null);
-    });
-
-    it('should include test param in query when in test mode', () => {
-      process.env.ROUTEPAGETESTING = 'true';
-      const decision = calculateRedirectDecision({
-        testNum: '1',
-        wantedDay: DateTime.now().minus({ days: 1 }),
-        routeId: 'HSL:1001',
-      });
-
-      expect(decision.shouldRedirect).to.equal(true);
-      expect(decision.query.test).to.equal('1');
-      expect(decision.query.serviceDay).to.equal(
-        fixedNow.startOf('day').toFormat(DATE_FORMAT),
-      );
     });
   });
 });

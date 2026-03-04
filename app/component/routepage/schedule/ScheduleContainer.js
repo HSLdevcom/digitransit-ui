@@ -23,10 +23,7 @@ import { getTripsList } from '../../../util/scheduleTripsUtils';
 import { routeShape, patternShape } from '../../../util/shapes';
 import { useRouterRedirect } from '../../../hooks/useRouterRedirect';
 import { calculateRedirectDecision } from '../../../util/scheduleValidation';
-import {
-  buildAvailableDates,
-  selectScheduleData,
-} from '../../../util/scheduleDataUtils';
+import { buildAvailableDates } from '../../../util/scheduleDataUtils';
 
 /**
  * Open a route timetable PDF in a new window.
@@ -62,7 +59,7 @@ const ScheduleContainer = ({
   const breakpoint = useBreakpoint();
   const pattern = useFragment(SchedulePatternFragment, patternRef);
   const route = useFragment(ScheduleRouteFragment, routeRef);
-  const firstDeparturesProp = useFragment(
+  const firstDepartures = useFragment(
     ScheduleFirstDeparturesFragment,
     firstDeparturesRef,
   );
@@ -73,8 +70,6 @@ const ScheduleContainer = ({
 
   const [from, setFrom] = useState(0);
   const [to, setTo] = useState(Math.max((pattern?.stops?.length || 1) - 1, 0));
-
-  const firstDepartures = selectScheduleData(firstDeparturesProp, match);
 
   const { query } = match.location;
   const serviceDayString = query?.serviceDay;
@@ -93,17 +88,15 @@ const ScheduleContainer = ({
 
   const patternCode = pattern?.code;
   const patternWithTrips = route?.patterns?.find(p => p.code === patternCode);
-  const testNum = query?.test;
 
   const tripsResult = useMemo(
     () =>
       getTripsList({
         patternWithTrips,
         intl,
-        testNum,
         wantedDay,
       }),
-    [patternWithTrips, intl, testNum, wantedDay],
+    [patternWithTrips, intl, wantedDay],
   );
 
   const routeId = route?.gtfsId;
@@ -118,12 +111,11 @@ const ScheduleContainer = ({
   const redirectDecision = useMemo(
     () =>
       calculateRedirectDecision({
-        testNum,
         wantedDay,
         patternCode,
         routeId,
       }),
-    [testNum, wantedDay, patternCode, routeId],
+    [wantedDay, patternCode, routeId],
   );
 
   useRouterRedirect({
