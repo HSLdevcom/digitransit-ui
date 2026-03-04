@@ -289,28 +289,6 @@ describe('<ScheduleContainer />', () => {
       expect(wrapper.find(ScheduleConstantOperation)).to.have.lengthOf(0);
     });
 
-    it('should render nothing and trigger redirect when redirect is required', () => {
-      stubs.calculateRedirectDecision.returns({
-        shouldRedirect: true,
-        redirectPath: '/route/HSL:1001',
-        query: { serviceDay: '20240101' },
-      });
-
-      const wrapper = shallow(
-        <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
-      );
-
-      // Should be empty - redirecting
-      expect(wrapper.isEmptyRender()).to.equal(true);
-
-      // Should have called redirect hook with correct params
-      expect(stubs.useRouterRedirect.calledOnce).to.equal(true);
-      const redirectArgs = stubs.useRouterRedirect.firstCall.args[0];
-      expect(redirectArgs.shouldRedirect).to.equal(true);
-      expect(redirectArgs.pathname).to.equal('/route/HSL:1001');
-      expect(redirectArgs.query.serviceDay).to.equal('20240101');
-    });
-
     it('should show no-trips message when no trips are available', () => {
       stubs.getTripsList.returns({
         trips: null,

@@ -21,8 +21,7 @@ import { useConfigContext } from '../../../configurations/ConfigContext';
 import { useTranslationsContext } from '../../../util/useTranslationsContext';
 import { getTripsList } from '../../../util/scheduleTripsUtils';
 import { routeShape, patternShape } from '../../../util/shapes';
-import { useRouterRedirect } from '../../../hooks/useRouterRedirect';
-import { calculateRedirectDecision } from '../../../util/scheduleValidation';
+import { calculateRedirectDecision } from '../../../util/scheduleParamUtils';
 import { buildAvailableDates } from '../../../util/scheduleDataUtils';
 
 /**
@@ -108,23 +107,23 @@ const ScheduleContainer = ({
       ? constantOperationRoutes[routeId][locale]
       : null;
 
-  const redirectDecision = useMemo(
-    () =>
-      calculateRedirectDecision({
-        wantedDay,
-        patternCode,
-        routeId,
-      }),
-    [wantedDay, patternCode, routeId],
-  );
+  useEffect(() => {
+    const redirectDecision = calculateRedirectDecision({
+      wantedDay,
+      patternCode,
+      routeId,
+    });
+    if (redirectDecision.shouldRedirect) {
+      const basePath = redirectDecision.redirectPath
+        ? { ...match.location, pathname: redirectDecision.redirectPath }
+        : match.location;
 
-  useRouterRedirect({
-    match,
-    router,
-    shouldRedirect: redirectDecision.shouldRedirect,
-    pathname: redirectDecision.redirectPath,
-    query: redirectDecision.query,
-  });
+      router.replace({
+        ...basePath,
+        query: { ...basePath.query, ...redirectDecision.query },
+      });
+    }
+  }, [wantedDay, patternCode, routeId, router, match.location]);
 
   useEffect(() => {
     if (patternCode) {
@@ -226,10 +225,6 @@ const ScheduleContainer = ({
       name: null,
     });
   }, []);
-
-  if (redirectDecision.shouldRedirect) {
-    return null;
-  }
 
   if (constantOperationInfo) {
     return (

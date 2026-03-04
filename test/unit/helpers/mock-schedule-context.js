@@ -2,10 +2,9 @@ import sinon from 'sinon';
 import * as ReactRelay from 'react-relay';
 import * as useTranslationsContext from '../../../app/util/useTranslationsContext';
 import * as ConfigContext from '../../../app/configurations/ConfigContext';
-import * as scheduleValidation from '../../../app/util/scheduleValidation';
+import * as scheduleParamUtils from '../../../app/util/scheduleParamUtils';
 import * as scheduleDataUtils from '../../../app/util/scheduleDataUtils';
 import * as scheduleTripsUtils from '../../../app/util/scheduleTripsUtils';
-import * as scheduleRedirectHook from '../../../app/hooks/useRouterRedirect';
 import { mockContext } from './mock-context';
 
 /**
@@ -68,7 +67,7 @@ export const createScheduleTestContext = (overrides = {}) => {
       .stub(ConfigContext, 'useConfigContext')
       .returns(mocks.config),
     calculateRedirectDecision: sandbox
-      .stub(scheduleValidation, 'calculateRedirectDecision')
+      .stub(scheduleParamUtils, 'calculateRedirectDecision')
       .returns(mocks.redirectDecision),
     buildAvailableDates: sandbox
       .stub(scheduleDataUtils, 'buildAvailableDates')
@@ -76,9 +75,6 @@ export const createScheduleTestContext = (overrides = {}) => {
     getTripsList: sandbox
       .stub(scheduleTripsUtils, 'getTripsList')
       .returns(mocks.tripsResult),
-    useRouterRedirect: sandbox
-      .stub(scheduleRedirectHook, 'useRouterRedirect')
-      .returns(undefined),
   };
 
   return { sandbox, mocks, stubs };
