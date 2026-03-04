@@ -8,6 +8,7 @@ import Icon from '../Icon';
 import { useTranslationsContext } from '../../util/useTranslationsContext';
 import {
   extractSelectedValue,
+  formatDateLabel,
   prepareDates,
   processDates,
   groupDatesByWeek,
@@ -64,10 +65,25 @@ function DateSelectGrouped({
 
   const selectedOption = useMemo(() => {
     const selectedValue = extractSelectedValue(selectedDay, dateFormat);
-    return (
-      processedDates.find(o => o.value === selectedValue) || processedDates[0]
-    );
-  }, [processedDates, selectedDay, dateFormat]);
+    const found = processedDates.find(o => o.value === selectedValue);
+    if (found) {
+      return found;
+    }
+    // Synthesise an option for the selected day when it is not in the
+    // available-dates list (e.g. today when service only starts in the future).
+    if (selectedDay?.isValid) {
+      const refToday = DateTime.local().startOf('day');
+      const refTomorrow = refToday.plus({ days: 1 });
+      return {
+        dateObj: selectedDay,
+        value: selectedDay.toFormat(dateFormat),
+        textLabel: formatDateLabel(selectedDay, refToday, refTomorrow, intl),
+        ariaLabel: selectedDay.toFormat('EEEE d.L.'),
+        weekNumber: selectedDay.weekNumber,
+      };
+    }
+    return processedDates[0];
+  }, [processedDates, selectedDay, dateFormat, intl]);
 
   const handleChange = useCallback(
     option => {

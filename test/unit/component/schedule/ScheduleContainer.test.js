@@ -229,6 +229,27 @@ describe('<ScheduleContainer />', () => {
       expect(callArgs.query.test).to.equal('1');
       expect(callArgs.query.someOtherParam).to.equal('value');
     });
+
+    it('should pass today as selectedDay when service only starts in the future', () => {
+      // Service does not operate today — first available date is next Monday
+      const nextMonday = DateTime.local().startOf('week').plus({ weeks: 1 });
+      const nextTuesday = nextMonday.plus({ days: 1 });
+
+      stubs.buildAvailableDates.returns([nextMonday, nextTuesday]);
+
+      // No serviceDay in URL — wantedDay should default to today
+      const wrapper = shallow(
+        <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
+      );
+
+      const dateSelect = wrapper.find(DateSelectGrouped);
+      // The data is fetched for today; the picker must show today so the
+      // selected value matches what is actually being displayed.
+      const today = DateTime.local();
+      expect(dateSelect.prop('selectedDay').toISODate()).to.equal(
+        today.toISODate(),
+      );
+    });
   });
 
   describe('Conditional rendering based on data and config', () => {
