@@ -721,6 +721,7 @@ export default {
     matka: '(matka|^dev.digitransit)',
     vaasa: 'vaasa',
     walttiOpas: 'waltti',
+    walttiTest: 'waltti-test',
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
     tampere: 'tampere',
@@ -748,7 +749,7 @@ export default {
   vehicles: false,
   showVehiclesOnStopPage: false,
   showVehiclesOnItineraryPage: false,
-  trafficNowLink: '',
+  trafficNowLink: false,
 
   timetables: {},
 
@@ -775,6 +776,7 @@ export default {
   },
 
   viaPointsEnabled: true,
+  viaPointsMax: 1,
 
   // Toggling this off shows the alert bodytext instead of the header
   showAlertHeader: true,
@@ -789,7 +791,7 @@ export default {
   parkAndRide: {
     showParkAndRide: false,
     showParkAndRideForBikes: false,
-    parkAndRideMinZoom: 13,
+    parkAndRideMinZoom: 14,
     resolver: prUtils.liipi,
   },
   parkingAreaSources: ['liipi'],
@@ -852,14 +854,40 @@ export default {
         ],
       },
     },
+    {
+      showForRoute: route => route.type === 715,
+      id: 'flexBusNotification',
+      header: {
+        fi: 'Kutsuliikenne',
+        en: 'On-demand service',
+        sv: 'Anropsbusstrafiken',
+      },
+      content: {
+        fi: [
+          'Linja toimii ennakkotilauksella. Varmistaaksesi matkan, tee varaus etukäteen. Tarkemmat tiedot palveluntarjoalta.',
+        ],
+        en: [
+          'This service operates by advance booking. To ensure your ride, please book ahead of time. More information is available from the service provider. ',
+        ],
+        sv: [
+          'Linjen fungerar med förhandsbokning. Boka din resa i förväg för att säkerställa resan. Mer information från tjänsteleverantören.',
+        ],
+      },
+    },
   ],
   navigation: false,
   sendAnalyticsCustomEventGoals: false,
   shortenLongTextThreshold: 10, // for route number in itinerary summary
-  allowFlexJourneys: false,
-  allowDirectFlexJourneys: false,
-  allowedFlexRouteTypes: [1501],
   showRouteDescNotification: false,
   showStopStatusMarkers: false,
   personalisation: false,
+  flex: {
+    internalFlexEnabled: false,
+    allowTaxiJourneys: false,
+    directOnlyTaxiJourneys: false,
+    internalAgencies: [], // "FeedId:AgencyId"
+    externalAgencies: [], // "FeedId:AgencyId"
+    allowedExternalFlexRouteTypes: [1501],
+    minTransferTime: 900, // seconds
+  },
 };

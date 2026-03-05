@@ -395,7 +395,7 @@
 .time-navigation-btn {
   height: 40px;
   width: 100%;
-  color: $primary-color;
+  color: $theme-primary-color;
   background-color: $white;
   text-align: left;
   padding-left: 81px;
@@ -453,7 +453,7 @@
 
   button {
     font-size: $font-size-xsmall;
-    color: $primary-color;
+    color: $theme-primary-color;
   }
 
   h3 {
@@ -468,7 +468,7 @@
   }
 
   .change-settings {
-    color: $primary-color;
+    color: $theme-primary-color;
 
     #change-settings-button {
       font-weight: bold;

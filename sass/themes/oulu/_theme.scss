@@ -2,18 +2,18 @@
 
 /* main theme colors */
 $ouluColor: #e10669;
-$primary-color: $ouluColor;
-$secondary-color: darken($primary-color, 20%);
+$theme-primary-color: $ouluColor;
+$theme-secondary-color: darken($theme-primary-color, 20%);
 $highlight-color: $ouluColor;
 $action-color: $ouluColor;
 $bus-color: $ouluColor;
 $viewpoint-marker-color: $ouluColor;
-$current-location-color: $primary-color;
-$standalone-btn-color: $primary-color;
-$link-color: $primary-color;
+$current-location-color: $theme-primary-color;
+$standalone-btn-color: $theme-primary-color;
+$link-color: $theme-primary-color;
 $banner-disruption-color: rgb(24, 59, 224);
 
 /* Component palette */
-$desktop-title-color: $primary-color;
-$desktop-title-arrow-icon-color: $secondary-color;
-$top-bar-color: $primary-color;
+$desktop-title-color: $theme-primary-color;
+$desktop-title-arrow-icon-color: $theme-secondary-color;
+$top-bar-color: $theme-primary-color;

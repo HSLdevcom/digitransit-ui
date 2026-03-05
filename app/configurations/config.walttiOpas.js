@@ -94,8 +94,6 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  viaPointsEnabled: false,
-
   sourceForAlertsAndDisruptions: {
     Kajaani: {
       fi: 'Kajaani',

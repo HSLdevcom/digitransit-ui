@@ -49,10 +49,14 @@ class TileContainer {
       events.on('vehiclesChanged', this.onVehiclesChange);
     }
 
+    const areaStopIsVisible = this.props.layers.some(
+      layer => layer.getName() === 'areaStop',
+    );
     let ignoreMinZoomLevel =
-      highlightedStops &&
-      highlightedStops.length > 0 &&
-      !highlightedStops.every(stop => stop === '');
+      (highlightedStops &&
+        highlightedStops.length > 0 &&
+        !highlightedStops.every(stop => stop === '')) ||
+      areaStopIsVisible;
     if (vehicles && vehicles.length > 0) {
       ignoreMinZoomLevel = vehicles.every(
         v => v.mode === 'ferry' && v.mode === 'rail' && v.mode === 'subway',
@@ -88,6 +92,12 @@ class TileContainer {
           return isEnabled;
         }
         if (
+          layerName === 'areaStop' &&
+          this.props.mapLayers.areaStop.routeGtfsId
+        ) {
+          return true;
+        }
+        if (
           (layerName === 'citybike' || layerName === 'scooter') &&
           this.coords.z >=
             getVehicleMinZoomOnStopsNearYou(
@@ -119,7 +129,6 @@ class TileContainer {
       );
 
     this.el.layers = this.layers.map(layer => omit(layer, 'tile'));
-
     Promise.all(this.layers.map(layer => layer.getPromise(lang))).then(() =>
       done(null, this.el),
     );

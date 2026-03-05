@@ -32,7 +32,7 @@ $top-navigation-title-color: navbar-icon-color($top-bar-color);
 
 /* offcanvas */
 $offcanvas-profile-icon-size: 60px;
-$offcanvas-profile-icon-color: $primary-color;
+$offcanvas-profile-icon-color: $theme-primary-color;
 $offcanvas-lead-text-color: $gray;
 $offcanvas-lead-text-font-family: $font-family;
 $offcanvas-lead-text-font-weight: $font-weight-book;
@@ -43,7 +43,7 @@ $offcanvas-login-text-font-weight: $font-weight-book;
 $offcanvas-login-text-letter-spacing: $letter-spacing;
 $offcanvas-login-text-font-size: $font-size-small;
 $offcanvas-login-arrow-icon-size: 14px;
-$offcanvas-link-color: $primary-color;
+$offcanvas-link-color: $theme-primary-color;
 $offcanvas-link-text-font-size: 15px;
 
 /* Content */
@@ -139,7 +139,7 @@ $content-background-color: $background-color;
   .lang {
     text-decoration: none;
     line-height: normal;
-    color: $primary-color;
+    color: $theme-primary-color;
 
     @include font-medium;
 
@@ -236,7 +236,7 @@ $content-background-color: $background-color;
   opacity: 0;
   position: absolute;
   min-width: 200px;
-  background-color: $primary-color;
+  background-color: $theme-primary-color;
   transition: opacity 0.1s linear;
 
   &.open {
@@ -292,14 +292,14 @@ $content-background-color: $background-color;
   }
 
   .usermenu-list-item:hover {
-    background: darken($primary-color, 5%);
+    background: darken($theme-primary-color, 5%);
   }
 }
 
 .navi-icons {
   .icon {
     font-size: 1.8em;
-    color: $primary-color;
+    color: $theme-primary-color;
     fill: $top-navigation-icon-color;
 
     &.caution-topbar {
@@ -748,7 +748,7 @@ section.content {
 }
 
 .mobile-footer .cookie-settings-button-mobile {
-  color: $primary-color;
+  color: $theme-primary-color;
   letter-spacing: -0.3px;
 }
 
@@ -821,7 +821,7 @@ section.content {
 
           .message-bar-link {
             word-break: normal;
-            color: $primary-color;
+            color: $theme-primary-color;
           }
         }
       }
@@ -848,7 +848,7 @@ section.content {
 
           .message-bar-link {
             word-break: normal;
-            color: $primary-color;
+            color: $theme-primary-color;
           }
         }
       }
@@ -978,7 +978,7 @@ section.content {
 
 .message-bar .icon.message-icon {
   float: left;
-  fill: $primary-color;
+  fill: $theme-primary-color;
   height: 24px;
   width: 24px;
   margin: 18px;
@@ -993,7 +993,7 @@ section.content {
 
 .external-top-bar {
   .external-link-icon-outer {
-    color: $primary-color;
+    color: $theme-primary-color;
   }
 
   .external-link-icon {

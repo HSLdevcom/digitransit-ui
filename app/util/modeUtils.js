@@ -155,6 +155,23 @@ export function getRouteMode(route, config) {
 }
 
 /**
+ * In NeTEx, mode and submode are properties of the trip. In GTFS, they are
+ * properties of the route. Eventually we hope we can get OTP to always report
+ * them in the more specific entity, trip, but because historically we have
+ * taken them from route, this is a fail safe way of making the change.
+ * @param trip
+ * @param route
+ * @param config
+ * @returns {string|*}
+ */
+export function getTripOrRouteMode(trip, route, config) {
+  if (trip?.isReplacement) {
+    return 'replacement-bus';
+  }
+  return getRouteMode(route, config);
+}
+
+/**
  * extract stop's transit mode. Handles routes from map API and from OTP graphql query
  */
 export function getStopMode(vehicleMode, routes, code, config, isTerminal) {

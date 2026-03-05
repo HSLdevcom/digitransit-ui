@@ -148,8 +148,6 @@ export default {
   includeParkAndRideSuggestions: true,
   showBikeAndParkItineraries: true,
 
-  parkAndRide: { parkAndRideMinZoom: 14 },
-
   hostnames: [
     // DEV hostnames
     'https://dev-hameenlinna.digitransit.fi',
@@ -260,20 +258,22 @@ export default {
   },
   analyticsClass: 'plausible-event-name=Ticket+Purchase+Link',
 
-  viaPointsEnabled: false,
+  viaPointsEnabled: true,
   hideNaviTickets: true, // TODO: temporary force switch
   navigation: true,
 
   externalFeedIds: ['02Taksi'],
 
-  // features that should not be deployed to production
-  experimental: {
-    allowFlexJourneys:
+  flex: {
+    internalFlexEnabled: false,
+    allowTaxiJourneys:
       process.env.RUN_ENV === 'development' ||
       process.env.NODE_ENV !== 'production',
-    allowDirectFlexJourneys:
+    directOnlyTaxiJourneys:
       process.env.RUN_ENV === 'development' ||
       process.env.NODE_ENV !== 'production',
+    internalAgencies: [],
+    externalAgencies: ['02Taksi:02_taksi'],
   },
 
   replacementBusNotification: {
@@ -301,4 +301,10 @@ export default {
     },
   },
   useAlternativeNameForModes: ['RAIL'],
+  showRouteDescNotification:
+    process.env.RUN_ENV === 'development' ||
+    process.env.NODE_ENV !== 'production',
+  showStopStatusMarkers: true,
+
+  trafficNowLink: true,
 };

@@ -3,13 +3,13 @@
 /* Base theme */
 @import '../default/theme';
 
-$primary-color: #000;
-$highlight-color: $primary-color;
-$action-color: $primary-color;
-$bus-color: $primary-color;
-$viewpoint-marker-color: $primary-color;
-$current-location-color: $primary-color;
-$standalone-btn-color: $primary-color;
+$theme-primary-color: #000;
+$highlight-color: $theme-primary-color;
+$action-color: $theme-primary-color;
+$bus-color: $theme-primary-color;
+$viewpoint-marker-color: $theme-primary-color;
+$current-location-color: $theme-primary-color;
+$standalone-btn-color: $theme-primary-color;
 $link-color: #0034ac;
 $link-button-color: #000;
 $top-bar-color: #000;
@@ -40,13 +40,13 @@ $background-color-darker: #cdcdd7;
 $gray-blue: $background-color;
 $info-background-color: $background-color-lighter;
 $caution-icon-color: #000;
-$secondary-color: $primary-color;
-$action-color: $primary-color;
+$theme-secondary-color: $theme-primary-color;
+$action-color: $theme-primary-color;
 $infobox-color-generic-blue: #fff;
 $infobox-border-color: #000;
 $selector-background-color: $background-color-lighter;
 $button-hover-color: $background-color-lighter;
-$info-icon-blue: $primary-color;
+$info-icon-blue: $theme-primary-color;
 
 .message-bar {
   border-bottom: 1px solid #ddd;

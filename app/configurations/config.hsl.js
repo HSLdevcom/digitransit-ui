@@ -829,7 +829,6 @@ export default {
   },
 
   showStopStatusMarkers: true,
-
   flex: {
     internalFlexEnabled: IS_DEV,
     allowTaxiJourneys: IS_DEV,

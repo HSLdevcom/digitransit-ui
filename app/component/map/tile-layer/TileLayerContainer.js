@@ -43,7 +43,6 @@ class TileLayerContainer extends GridLayer {
     tileSize: PropTypes.number.isRequired,
     zoomOffset: PropTypes.number.isRequired,
     locationPopup: PropTypes.string, // all, none, reversegeocoding, origindestination
-    allowViaPoint: PropTypes.bool, // temporary, until OTP2 handles arbitrary via points
     onSelectLocation: PropTypes.func,
     mergeStops: PropTypes.bool,
     mapLayers: mapLayerShape.isRequired,
@@ -68,7 +67,6 @@ class TileLayerContainer extends GridLayer {
   static defaultProps = {
     onSelectLocation: undefined,
     locationPopup: undefined,
-    allowViaPoint: false,
     objectsToHide: { vehicleRentalStations: [] },
     highlightedStops: undefined,
     stopsToShow: undefined,
@@ -350,10 +348,7 @@ class TileLayerContainer extends GridLayer {
     let contents;
     const breakpoint = getClientBreakpoint();
     let showPopup = true;
-    const locationPopup =
-      this.props.allowViaPoint || this.props.locationPopup !== 'all'
-        ? this.props.locationPopup
-        : 'origindestination';
+    const { locationPopup } = this.props;
 
     if (typeof this.state.selectableTargets !== 'undefined') {
       if (this.state.selectableTargets.length === 1) {

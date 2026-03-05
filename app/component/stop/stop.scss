@@ -505,7 +505,7 @@
   }
 
   .external-link-icon {
-    color: $primary-color;
+    color: $theme-primary-color;
   }
 }
 
@@ -621,7 +621,7 @@ hr.action-bar {
       position: absolute;
       top: -0.3em;
       left: 0;
-      color: $primary-color;
+      color: $theme-primary-color;
 
       & .checkbox-icon {
         width: 2.3em;

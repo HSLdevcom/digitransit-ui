@@ -16,7 +16,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      color: $primary-color;
+      color: $theme-primary-color;
       margin-bottom: 5px;
       border-radius: 5px;
       background-color: $background-color-lighter;
@@ -41,7 +41,7 @@
         background-color: #fff;
 
         .selected-checkmark {
-          color: $primary-color;
+          color: $theme-primary-color;
           margin: 9px 15px 0 0;
         }
 
@@ -81,7 +81,7 @@
     .settings-dropdown-label-value {
       font-size: $font-size-small;
       float: right;
-      color: $primary-color;
+      color: $theme-primary-color;
       width: 100%;
       padding-right: 14.72px;
       margin: 14.72px 0;
@@ -93,6 +93,6 @@
   .icon-container {
     float: right;
     margin: 0.9em 0 0 0;
-    color: $primary-color;
+    color: $theme-primary-color;
   }
 }
