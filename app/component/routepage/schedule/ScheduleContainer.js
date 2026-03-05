@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useFragment } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import { DateTime } from 'luxon';
@@ -133,98 +133,86 @@ const ScheduleContainer = ({
   }, [patternCode, pattern?.stops?.length]);
 
   // Handler for timetable origin stop selection
-  const onFromSelectChange = useCallback(
-    selectFrom => {
-      const fromValue = Number(selectFrom);
-      setFrom(fromValue);
-      setTo(prevTo => {
-        if (prevTo > fromValue) {
-          return prevTo;
-        }
-        return Math.min(fromValue + 1, pattern.stops.length - 1);
-      });
-      addAnalyticsEvent({
-        category: 'Route',
-        action: 'ChangeTimetableStartPoint',
-        name: null,
-      });
-    },
-    [pattern?.stops?.length],
-  );
+  const onFromSelectChange = selectFrom => {
+    const fromValue = Number(selectFrom);
+    setFrom(fromValue);
+    setTo(prevTo => {
+      if (prevTo > fromValue) {
+        return prevTo;
+      }
+      return Math.min(fromValue + 1, pattern.stops.length - 1);
+    });
+    addAnalyticsEvent({
+      category: 'Route',
+      action: 'ChangeTimetableStartPoint',
+      name: null,
+    });
+  };
 
   // Handler for timetable destination stop selection
-  const onToSelectChange = useCallback(selectTo => {
+  const onToSelectChange = selectTo => {
     setTo(Number(selectTo));
     addAnalyticsEvent({
       category: 'Route',
       action: 'ChangeTimetableEndPoint',
       name: null,
     });
-  }, []);
+  };
 
-  const changeDate = useCallback(
-    newServiceDay => {
-      const { location } = match;
-      addAnalyticsEvent({
-        category: 'Route',
-        action: 'ChangeTimetableDay',
-        name: null,
-      });
-      const newPath = {
-        ...location,
-        query: {
-          ...location.query,
-          serviceDay: newServiceDay,
-        },
-      };
-      router.replace(newPath);
-    },
-    [match, router],
-  );
+  const changeDate = newServiceDay => {
+    const { location } = match;
+    addAnalyticsEvent({
+      category: 'Route',
+      action: 'ChangeTimetableDay',
+      name: null,
+    });
+    const newPath = {
+      ...location,
+      query: {
+        ...location.query,
+        serviceDay: newServiceDay,
+      },
+    };
+    router.replace(newPath);
+  };
 
   const formattedServiceDate = wantedDay && wantedDay.toFormat(DATE_FORMAT);
 
-  const routeTimetableUrl = useMemo(() => {
+  const routeTimetableUrl = (() => {
     if (!routeId || !formattedServiceDate) {
       return undefined;
     }
-
     const [agencyId] = routeId.split(':');
     const routeTimetableHandler = config.timetables?.[agencyId];
     const baseUrl = config.URL.ROUTE_TIMETABLES[agencyId];
-
     if (!routeTimetableHandler || !baseUrl) {
       return undefined;
     }
-
     return routeTimetableHandler.routeTimetableUrlResolver(
       baseUrl,
       route,
       formattedServiceDate,
       lang,
     );
-  }, [routeId, formattedServiceDate, config, route, lang]);
+  })();
 
-  const handlePrintPDF = useCallback(
-    e => {
-      openRoutePDF(e, routeTimetableUrl);
-      addAnalyticsEvent({
-        category: 'Route',
-        action: 'PrintWeeklyTimetable',
-        name: null,
-      });
-    },
-    [routeTimetableUrl],
-  );
+  const handlePrintPDF = e => {
+    openRoutePDF(e, routeTimetableUrl);
+    addAnalyticsEvent({
+      category: 'Route',
+      action: 'PrintWeeklyTimetable',
+      name: null,
+    });
+  };
 
-  const handlePrintTimetable = useCallback(e => {
+  const handlePrintTimetable = e => {
     printRouteTimetable(e);
     addAnalyticsEvent({
       category: 'Route',
       action: 'PrintTimetable',
       name: null,
     });
-  }, []);
+  };
 
   if (constantOperationInfo) {
     return (

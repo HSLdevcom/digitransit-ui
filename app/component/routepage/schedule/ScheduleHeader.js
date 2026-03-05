@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useMemo } from 'react';
+import React from 'react';
 import ScheduleDropdown from './ScheduleDropdown';
 import StopHeaderDisplay from './StopHeaderDisplay';
 import { stopShape } from '../../../util/shapes';
@@ -15,31 +15,16 @@ function ScheduleHeader({
   onFromSelectChange,
   onToSelectChange,
 }) {
-  const options = useMemo(
-    () =>
-      stops.map((stop, index) => ({
-        label: stop.name,
-        value: index,
-      })),
-    [stops],
-  );
+  const allOptions = stops.map((stop, index) => ({
+    label: stop.name,
+    value: index,
+  }));
 
-  const stopCount = options.length;
-  const safeDestinationIndex = Math.min(to, stopCount - 1);
-
-  const { fromDisplayName, toDisplayName, fromOptions, toOptions } =
-    useMemo(() => {
-      const fromOptionsSlice = options.slice(0, safeDestinationIndex);
-      const toOptionsSlice = options.slice(from + 1);
-      const fromOption = fromOptionsSlice.find(o => o.value === from);
-      const toOption = toOptionsSlice.find(o => o.value === to);
-      return {
-        fromDisplayName: fromOption?.label || '',
-        toDisplayName: toOption?.label || '',
-        fromOptions: fromOptionsSlice,
-        toOptions: toOptionsSlice,
-      };
-    }, [options, from, to, safeDestinationIndex]);
+  const safeDestinationIndex = Math.min(to, allOptions.length - 1);
+  const fromOptions = allOptions.slice(0, safeDestinationIndex);
+  const toOptions = allOptions.slice(from + 1);
+  const fromDisplayName = fromOptions.find(o => o.value === from)?.label || '';
+  const toDisplayName = toOptions.find(o => o.value === to)?.label || '';
 
   return (
     <div className="route-schedule-header row">

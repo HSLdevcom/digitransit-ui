@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo } from 'react';
 import Select from 'react-select';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import { useTranslationsContext } from '../../../util/useTranslationsContext';
@@ -34,13 +34,10 @@ function ScheduleDropdown({
   const isControlled = controlledValue !== undefined;
   const currentValue = isControlled ? controlledValue : uncontrolledValue;
 
-  const validatedValue = useMemo(() => {
-    if (currentValue == null) {
-      return null;
-    }
-    const exists = list.some(opt => opt.value === currentValue);
-    return exists ? currentValue : null;
-  }, [currentValue, list]);
+  const validatedValue =
+    currentValue != null && list.some(opt => opt.value === currentValue)
+      ? currentValue
+      : null;
 
   const onMenuOpen = () => setIsMenuOpen(true);
   const onMenuClose = () => setIsMenuOpen(false);
@@ -65,23 +62,19 @@ function ScheduleDropdown({
     }));
   }, [list]);
 
-  // Format options dynamically based on selection (more efficient than rebuilding entire list)
-  const formatOptionLabel = useCallback(
-    (option, { context }) => {
-      if (!changeTitleOnChange || context !== 'menu') {
-        return option.label;
-      }
+  const formatOptionLabel = (option, { context }) => {
+    if (!changeTitleOnChange || context !== 'menu') {
+      return option.label;
+    }
 
-      const isSelected = validatedValue === option.value;
-      return (
-        <>
-          <span>{option.label}</span>
-          {isSelected && <Icon img="check" height={1.1525} width={0.904375} />}
-        </>
-      );
-    },
-    [validatedValue, changeTitleOnChange],
-  );
+    const isSelected = validatedValue === option.value;
+    return (
+      <>
+        <span>{option.label}</span>
+        {isSelected && <Icon img="check" height={1.1525} width={0.904375} />}
+      </>
+    );
+  };
 
   const selectedOption = useMemo(() => {
     if (!validatedValue) {
@@ -94,29 +87,24 @@ function ScheduleDropdown({
 
   const classNamePrefix = getClassNamePrefix(alignRight, id);
 
-  const displayLabel = useMemo(() => {
-    if (changeTitleOnChange && selectedOption) {
-      return selectedOption.titleLabel || title;
-    }
-    return title;
-  }, [changeTitleOnChange, selectedOption, title]);
+  const displayLabel =
+    changeTitleOnChange && selectedOption
+      ? selectedOption.titleLabel || title
+      : title;
 
-  const renderDropdownContent = useCallback(
-    label => {
-      return (
-        <>
-          <span>{truncateLabel(label)}</span>
-          <Icon
-            img="arrow-dropdown"
-            height={0.625}
-            width={0.625}
-            color={config.colors.primary}
-          />
-        </>
-      );
-    },
-    [config.colors.primary],
-  );
+  const renderDropdownContent = label => {
+    return (
+      <>
+        <span>{truncateLabel(label)}</span>
+        <Icon
+          img="arrow-dropdown"
+          height={0.625}
+          width={0.625}
+          color={config.colors.primary}
+        />
+      </>
+    );
+  };
 
   return (
     <div className={cx('dd-container', { withLabel: labelId })} aria-live="off">
