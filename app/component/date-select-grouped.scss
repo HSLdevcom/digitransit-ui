@@ -5,7 +5,7 @@
 
   margin-right: 0;
   background-color: $white;
-  border: 1px solid $control-border-color;
+  border: 1px transparent $control-border-color;
   display: flex;
   align-items: center;
   border-radius: var(--space-xs);
@@ -16,12 +16,32 @@
   flex-basis: auto;
   width: 100%;
 
+  .date-select-wrapper--menu-open {
+    outline: none;
+    border-color: $primary-color;
+    background: $white;
+    border: 1px solid $primary-color;
+    box-shadow: 0 0 3px 0 $secondary-color;
+    border-radius: var(--space-xs);
+  }
+
+  .date-select-wrapper {
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      background: $white;
+      border: 1px solid $primary-color;
+      box-shadow: 0 0 3px 0 $secondary-color;
+      border-radius: var(--space-xs);
+    }
+  }
+
   .route-schedule-grouped__control {
     width: 100%;
     height: 100%;
     background: none !important;
-    border-color: transparent !important;
     padding: 13px 16px;
+    border-style: unset;
 
     .route-schedule-grouped__value-container {
       overflow: visible;
@@ -76,40 +96,14 @@
 
   .route-schedule-grouped__control--menu-is-open {
     outline: none;
-    border-color: $primary-color;
     background: $white;
-    border: 1px solid $primary-color;
     box-shadow: 0 0 3px 0 $secondary-color;
     border-radius: var(--space-xs);
   }
 
-  .route-schedule-grouped__control--is-focused:not(
-      .route-schedule-grouped__control--menu-is-open
-    ),
-  .route-schedule-grouped__control--is-focused:not(
-      .route-schedule-grouped__control--menu-is-open
-    )
-    .route-schedule-grouped__input,
-  .route-schedule-grouped__control
-    :focus:not(.route-schedule-grouped__control--menu-is-open) {
+  .route-schedule-grouped__control--is-focused {
     border-radius: var(--space-xs);
     box-shadow: 0 0 3px 0 $secondary-color;
-  }
-
-  .date-select-arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-
-    svg {
-      transition: transform 150ms ease-in-out;
-      transform-origin: center;
-    }
-
-    .inverted {
-      transform: rotate(180deg);
-    }
   }
 
   .route-schedule-grouped__dropdown-indicator {
@@ -120,11 +114,17 @@
     align-items: center;
     justify-content: center;
     margin-right: 0; // control padding provides the gap
-  }
 
-  .route-schedule-grouped__dropdown-indicator .date-select-arrow {
-    width: 16px;
-    height: 16px;
+    .dropdown-arrow {
+      color: $primary-color;
+      width: 16px;
+      height: 16px;
+      transform-origin: center;
+
+      &.inverted {
+        transform: rotate(180deg);
+      }
+    }
   }
 }
 

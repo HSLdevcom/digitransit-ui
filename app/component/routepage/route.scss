@@ -1263,6 +1263,8 @@ $margin-left-right: 21.3px;
       color: $link-button-color;
       position: absolute;
       right: 16px;
+      width: 16px;
+      height: auto;
       transform: rotate(90deg);
     }
   }
@@ -1272,6 +1274,7 @@ $margin-left-right: 21.3px;
     right: 1rem;
     top: 15px;
     width: 16px;
+    height: auto;
     pointer-events: none;
 
     @media print {
@@ -1285,11 +1288,13 @@ $margin-left-right: 21.3px;
   }
 
   .in-text-arrow {
-    position: relative;
+    position: inherit;
     float: none;
     top: 3px;
     right: 0;
-    width: 24px;
+    width: 16px;
+    height: auto;
+    margin: 0 var(--space-xxs);
   }
 
   .pattern-select-container {
@@ -1305,7 +1310,7 @@ $margin-left-right: 21.3px;
       border-color: $primary-color;
       background: #fff;
       border: solid 1px $primary-color;
-      box-shadow: 0 0 2px 1px $secondary-color;
+      box-shadow: 0 0 3px 0 $secondary-color;
     }
 
     .input-display {

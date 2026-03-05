@@ -200,7 +200,11 @@ class RoutePatternSelectContainer extends Component {
             >
               {patternTextWithIcon(currentPattern)}
               {directionSwap && (
-                <Icon className="toggle-icon" img="icon_direction-c" />
+                <Icon
+                  className="toggle-icon"
+                  img="icon_direction-c"
+                  viewBox="0 0 19 17"
+                />
               )}
             </button>
           </label>

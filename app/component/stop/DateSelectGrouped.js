@@ -104,7 +104,7 @@ function DateSelectGrouped({
         <div className="date-select-option">
           <span className="date-select-check">
             {isSelected ? (
-              <Icon img="icon_check" height={1.1525} width={0.904375} />
+              <Icon img="icon_check" viewBox="0 0 15 11" />
             ) : (
               <span className="check-placeholder" />
             )}
@@ -131,12 +131,10 @@ function DateSelectGrouped({
     const { selectProps } = indicatorProps;
     return (
       <RSComponents.DropdownIndicator {...indicatorProps}>
-        <div className="date-select-arrow">
-          <Icon
-            img="icon_arrow-dropdown"
-            className={selectProps.menuIsOpen ? 'inverted' : ''}
-          />
-        </div>
+        <Icon
+          img="icon_arrow-collapse"
+          className={selectProps.menuIsOpen ? 'inverted' : ''}
+        />
       </RSComponents.DropdownIndicator>
     );
   }, []);
