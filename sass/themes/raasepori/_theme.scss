@@ -7,14 +7,14 @@
 $raasepori-green: #5b7b32;
 
 /* Application palette */
-$primary-color: $raasepori-green;
-$current-location-color: $primary-color;
+$theme-primary-color: $raasepori-green;
+$current-location-color: $theme-primary-color;
 
 /* Component palette */
 $viewpoint-marker-color: $raasepori-green;
-$link-color: $primary-color;
-$desktop-title-color: $primary-color;
-$top-bar-color: $primary-color;
+$link-color: $theme-primary-color;
+$desktop-title-color: $theme-primary-color;
+$top-bar-color: $theme-primary-color;
 $top-navigation-icon-color: white;
 
 /* Vehicle palette */

@@ -1,22 +1,22 @@
 @import '../../base/waltti';
 
 /* main theme colors */
-$primary-color: #d4007a;
-$secondary-color: #3c974c;
-$highlight-color: $primary-color;
-$action-color: $primary-color;
-$bus-color: $primary-color;
-$viewpoint-marker-color: $primary-color;
-$current-location-color: $primary-color;
-$standalone-btn-color: $primary-color;
-$standalone-btn-hover-color: $secondary-color;
-$standalone-btn-active-color: $secondary-color;
-$link-color: $primary-color;
+$theme-primary-color: #d4007a;
+$theme-secondary-color: #3c974c;
+$highlight-color: $theme-primary-color;
+$action-color: $theme-primary-color;
+$bus-color: $theme-primary-color;
+$viewpoint-marker-color: $theme-primary-color;
+$current-location-color: $theme-primary-color;
+$standalone-btn-color: $theme-primary-color;
+$standalone-btn-hover-color: $theme-secondary-color;
+$standalone-btn-active-color: $theme-secondary-color;
+$link-color: $theme-primary-color;
 
 /* Component palette */
-$desktop-title-color: $primary-color;
-$desktop-title-arrow-icon-color: $secondary-color;
-$top-bar-color: $primary-color;
+$desktop-title-color: $theme-primary-color;
+$desktop-title-arrow-icon-color: $theme-secondary-color;
+$top-bar-color: $theme-primary-color;
 
 /* Navbar dimensions */
 $nav-logo-height: 4.5em;

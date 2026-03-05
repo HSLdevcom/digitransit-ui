@@ -26,7 +26,7 @@
     font-family: $button-font-family;
     font-weight: $font-weight-medium;
     letter-spacing: -0.5px;
-    background: $primary-color;
+    background: $theme-primary-color;
     color: #fff;
     line-height: 0;
     text-align: center;
@@ -59,7 +59,7 @@
   .panel-close {
     align-self: start;
     background-color: transparent;
-    color: $primary-color;
+    color: $theme-primary-color;
     height: 1em;
     margin: 0.25em;
     padding: 0;
