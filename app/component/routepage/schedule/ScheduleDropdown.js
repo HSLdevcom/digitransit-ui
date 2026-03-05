@@ -62,22 +62,8 @@ function ScheduleDropdown({
     }));
   }, [list]);
 
-  const formatOptionLabel = (option, { context }) => {
-    if (!changeTitleOnChange || context !== 'menu') {
-      return option.label;
-    }
-
-    const isSelected = validatedValue === option.value;
-    return (
-      <>
-        <span>{option.label}</span>
-        {isSelected && <Icon img="check" height={1.1525} width={0.904375} />}
-      </>
-    );
-  };
-
   const selectedOption = useMemo(() => {
-    if (!validatedValue) {
+    if (validatedValue == null) {
       return null;
     }
     return optionList.find(opt => opt.value === validatedValue) || null;
@@ -102,6 +88,24 @@ function ScheduleDropdown({
           width={0.625}
           color={config.colors.primary}
         />
+      </>
+    );
+  };
+
+  const formatOptionLabel = (option, { context }) => {
+    if (context === 'value') {
+      return renderDropdownContent(option.titleLabel || option.label);
+    }
+
+    if (!changeTitleOnChange || context !== 'menu') {
+      return option.label;
+    }
+
+    const isSelected = validatedValue === option.value;
+    return (
+      <>
+        <span>{option.label}</span>
+        {isSelected && <Icon img="check" height={1.1525} width={0.904375} />}
       </>
     );
   };
