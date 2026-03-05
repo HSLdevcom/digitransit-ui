@@ -6,7 +6,7 @@
   left: 0;
   top: 15px;
   height: 80px;
-  border-left: 8px solid $primary-color;
+  border-left: 8px solid $theme-primary-color;
 }
 
 .desktop .itinerary-summary-row.passive::before {
@@ -738,7 +738,7 @@
   padding: 1em;
 
   .canceled-itineraries-button {
-    color: $primary-color;
+    color: $theme-primary-color;
   }
 
   .canceled-itineraries-container {
@@ -751,7 +751,7 @@
     }
 
     .canceled-itineraries-icon-container {
-      color: $primary-color;
+      color: $theme-primary-color;
       margin-right: 1em;
 
       .icon {

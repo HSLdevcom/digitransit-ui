@@ -57,7 +57,7 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
       .bubble-dialog-close {
         align-self: start;
         background-color: transparent;
-        color: $primary-color;
+        color: $theme-primary-color;
         height: 1em;
         margin: 0.25em;
         padding: 0;
@@ -152,7 +152,7 @@ $bubble-dialog-font-size--fullscreen: 1.5rem;
     position: relative;
 
     .icon {
-      color: $primary-color;
+      color: $theme-primary-color;
       height: auto;
       width: auto;
     }

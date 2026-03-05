@@ -3,7 +3,7 @@
   flex-direction: row;
   align-items: center;
   color: #fff;
-  background-color: $primary-color;
+  background-color: $theme-primary-color;
   font-weight: $font-weight-book;
   font-size: $font-size-small;
   margin: 0 10px;
@@ -35,7 +35,7 @@
     line-height: 30px;
     padding: 0 10px;
     font-size: 16px;
-    color: $primary-color;
+    color: $theme-primary-color;
     border: 0;
     position: absolute;
     right: 24px;

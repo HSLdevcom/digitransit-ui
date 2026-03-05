@@ -98,7 +98,7 @@ $margin-left-right: 21.3px;
     margin-left: 24px;
 
     label {
-      color: $primary-color;
+      color: $theme-primary-color;
       font-weight: bold;
       margin-right: 10px;
     }
@@ -669,7 +669,7 @@ $margin-left-right: 21.3px;
     margin-top: 14px;
 
     .icon-container {
-      color: $primary-color;
+      color: $theme-primary-color;
       margin-right: 6px;
       margin-top: 2px;
       font-size: 11px;
@@ -902,7 +902,7 @@ $margin-left-right: 21.3px;
     right: 0;
     height: 10px;
     width: 10px;
-    fill: $primary-color;
+    fill: $theme-primary-color;
     pointer-events: none;
   }
 
@@ -1056,7 +1056,7 @@ $margin-left-right: 21.3px;
     margin-right: 7px;
     width: 15px;
     height: 15px;
-    color: $primary-color;
+    color: $theme-primary-color;
   }
 
   select {
@@ -1064,7 +1064,7 @@ $margin-left-right: 21.3px;
     line-height: 18px;
     height: 19px;
     background-color: $white;
-    color: $primary-color;
+    color: $theme-primary-color;
     border-bottom: none !important;
     font-weight: $font-weight-medium;
     padding: 0;
@@ -1226,10 +1226,10 @@ $margin-left-right: 21.3px;
 
     &:focus {
       outline: none;
-      border-color: $primary-color;
+      border-color: $theme-primary-color;
       background: #fff;
-      border: solid 1px $primary-color;
-      box-shadow: 0 0 2px 1px $secondary-color;
+      border: solid 1px $theme-primary-color;
+      box-shadow: 0 0 2px 1px $theme-secondary-color;
     }
 
     .toggle-icon {
@@ -1254,7 +1254,7 @@ $margin-left-right: 21.3px;
 
   .dropdown-arrow,
   .in-text-arrow {
-    color: $primary-color;
+    color: $theme-primary-color;
   }
 
   .in-text-arrow {
@@ -1275,10 +1275,10 @@ $margin-left-right: 21.3px;
 
     &:focus-within {
       outline: none;
-      border-color: $primary-color;
+      border-color: $theme-primary-color;
       background: #fff;
-      border: solid 1px $primary-color;
-      box-shadow: 0 0 2px 1px $secondary-color;
+      border: solid 1px $theme-primary-color;
+      box-shadow: 0 0 2px 1px $theme-secondary-color;
     }
 
     .input-display {
