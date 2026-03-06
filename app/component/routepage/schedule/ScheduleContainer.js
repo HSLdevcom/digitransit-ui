@@ -175,26 +175,26 @@ const ScheduleContainer = ({
   };
 
   const formattedServiceDate = wantedDay.toFormat(DATE_FORMAT);
+  const agencyId = routeId?.split(':')?.[0];
+  const hasRouteTimetableUrl = !!(
+    agencyId &&
+    formattedServiceDate &&
+    config.timetables?.[agencyId] &&
+    config.URL.ROUTE_TIMETABLES?.[agencyId]
+  );
 
-  const routeTimetableUrl = (() => {
-    if (!routeId || !formattedServiceDate) {
-      return undefined;
+  const handlePrintPDF = e => {
+    if (!hasRouteTimetableUrl) {
+      return;
     }
-    const [agencyId] = routeId.split(':');
-    const routeTimetableHandler = config.timetables?.[agencyId];
+    const routeTimetableHandler = config.timetables[agencyId];
     const baseUrl = config.URL.ROUTE_TIMETABLES[agencyId];
-    if (!routeTimetableHandler || !baseUrl) {
-      return undefined;
-    }
-    return routeTimetableHandler.routeTimetableUrlResolver(
+    const routeTimetableUrl = routeTimetableHandler.routeTimetableUrlResolver(
       baseUrl,
       route,
       formattedServiceDate,
       locale,
     );
-  })();
-
-  const handlePrintPDF = e => {
     openRoutePDF(e, routeTimetableUrl);
     addAnalyticsEvent({
       category: 'Route',
@@ -278,7 +278,7 @@ const ScheduleContainer = ({
       {breakpoint === 'large' && <div className="after-scrollable-area" />}
       <div className="route-page-action-bar">
         <div className="print-button-container">
-          {routeTimetableUrl && (
+          {hasRouteTimetableUrl && (
             <SecondaryButton
               ariaLabel="print-timetable"
               buttonName="print-timetable"
