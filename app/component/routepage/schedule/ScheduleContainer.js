@@ -66,10 +66,10 @@ const ScheduleContainer = ({
   const config = useConfigContext();
 
   const [from, setFrom] = useState(0);
-  const [to, setTo] = useState(Math.max((pattern?.stops?.length || 1) - 1, 0));
+  const [to, setTo] = useState(Math.max((pattern.stops.length || 1) - 1, 0));
 
   const { query } = match.location;
-  const serviceDayString = query?.serviceDay;
+  const serviceDayString = query.serviceDay;
   const wantedDay = useMemo(
     () =>
       serviceDayString
@@ -83,8 +83,8 @@ const ScheduleContainer = ({
     [firstDepartures],
   );
 
-  const patternCode = pattern?.code;
-  const patternWithTrips = route?.patterns?.find(p => p.code === patternCode);
+  const patternCode = pattern.code;
+  const patternWithTrips = route.patterns?.find(p => p.code === patternCode);
 
   const tripsResult = useMemo(
     () =>
@@ -96,7 +96,7 @@ const ScheduleContainer = ({
     [patternWithTrips, wantedDay],
   );
 
-  const routeId = route?.gtfsId;
+  const routeId = route.gtfsId;
   const { constantOperationRoutes } = config;
   const { locale } = intl;
 
@@ -128,7 +128,7 @@ const ScheduleContainer = ({
       setFrom(0);
       setTo(pattern.stops.length - 1);
     }
-  }, [patternCode, pattern?.stops?.length]);
+  }, [patternCode, pattern.stops.length]);
 
   // Handler for timetable origin stop selection
   const onFromSelectChange = selectFrom => {
@@ -174,7 +174,7 @@ const ScheduleContainer = ({
     match.router.replace(newPath);
   };
 
-  const formattedServiceDate = wantedDay && wantedDay.toFormat(DATE_FORMAT);
+  const formattedServiceDate = wantedDay.toFormat(DATE_FORMAT);
 
   const routeTimetableUrl = (() => {
     if (!routeId || !formattedServiceDate) {
@@ -232,7 +232,7 @@ const ScheduleContainer = ({
           mobile: breakpoint !== 'large',
         })}
       >
-        {route?.patterns && (
+        {route.patterns && (
           <RouteControlPanel
             match={match}
             route={route}

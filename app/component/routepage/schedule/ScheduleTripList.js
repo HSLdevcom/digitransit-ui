@@ -4,7 +4,6 @@ import ScheduleTripRow from './ScheduleTripRow';
 import { getFormattedTimeDate } from '../../../util/timeUtils';
 
 const isTripCanceled = trip =>
-  trip.stoptimes &&
   trip.stoptimes.length > 0 &&
   trip.stoptimes.every(st => st.realtimeState === 'CANCELED');
 
@@ -13,15 +12,12 @@ const isTripCanceled = trip =>
  * Filters out trips missing the selected from/to stoptimes.
  */
 const ScheduleTripList = ({ trips, fromIdx, toIdx }) => {
-  if (!trips || trips.length === 0) {
+  if (trips.length === 0) {
     return null;
   }
 
   return trips
-    .filter(
-      trip =>
-        trip.stoptimes && trip.stoptimes[fromIdx] && trip.stoptimes[toIdx],
-    )
+    .filter(trip => trip.stoptimes[fromIdx] && trip.stoptimes[toIdx])
     .map(trip => {
       const fromSt = trip.stoptimes[fromIdx];
       const toSt = trip.stoptimes[toIdx];
