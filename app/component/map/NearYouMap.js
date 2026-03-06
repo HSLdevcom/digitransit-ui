@@ -386,12 +386,7 @@ function NearYouMap(
   }
   return (
     <>
-      <BackButton
-        icon="icon_arrow-collapse--left"
-        iconClassName="arrow-icon"
-        color={config.colors.primary}
-        fallback="back"
-      />
+      <BackButton fallback="back" />
       <MapWithTracking {...mapProps} />
     </>
   );

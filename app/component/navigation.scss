@@ -322,6 +322,8 @@ $content-background-color: $background-color;
 }
 
 .back-button {
+  display: flex;
+
   button {
     font-size: 15px;
     position: absolute;
@@ -611,46 +613,28 @@ section.content {
     .desktop-title {
       background: #fff;
 
-      &-bordered {
-        &::after {
-          content: '';
-          display: block;
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 1px;
-          background-color: $light-gray;
-        }
-      }
-
       a {
         color: $desktop-title-arrow-icon-color;
       }
 
-      .title-container {
-        @include font-medium;
+      @include font-medium;
 
-        color: #333;
-        margin: 50px 0 16px 0;
-        line-height: 1;
+      color: #333;
+      margin: 50px 0 16px 0;
 
-        .back-button {
-          position: static;
+      .back-button {
+        position: static;
 
-          button {
-            left: 0.5em;
-            top: auto;
-          }
+        button {
+          left: 0.5em;
+          top: auto;
         }
       }
 
       h1 {
-        @include font-medium;
-
         font-family: $heading-font-family;
-        color: #333;
-        display: inline;
+        line-height: 1em;
+        letter-spacing: -0.025em;
       }
 
       .home-icon {

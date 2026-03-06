@@ -677,7 +677,7 @@
     text-align: center;
 
     &.success {
-      background-color: $success-color;
+      background-color: $theme-success-color;
       gap: var(--space-xs);
 
       button {

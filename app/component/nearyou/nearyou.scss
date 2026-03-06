@@ -123,7 +123,7 @@
     margin: 0 6.25em 20px;
     font-weight: $font-weight-medium;
     background-color: $white;
-    color: $primary-color;
+    color: $theme-primary-color;
     border: 1px solid #ddd;
     min-height: 28px;
     border-radius: 16px;
@@ -145,7 +145,7 @@
       min-height: 30px;
       padding: 0 16px;
       border-radius: 15px;
-      color: $primary-color;
+      color: $theme-primary-color;
       font-weight: $font-weight-medium;
       margin: 7px 0 20px;
       background-color: $white;
@@ -281,7 +281,7 @@
       border: solid 1px #888;
       font-size: 16px;
       font-weight: $font-weight-medium;
-      color: $primary-color;
+      color: $theme-primary-color;
     }
   }
 
@@ -608,7 +608,7 @@
         &:focus {
           background: #fff;
           outline: none;
-          border: solid 1px $primary-color;
+          border: solid 1px $theme-primary-color;
           box-shadow: none;
         }
 
@@ -665,7 +665,7 @@
       font-family: $button-font-family;
       font-weight: $font-weight-medium;
       letter-spacing: -0.5px;
-      background: $primary-color;
+      background: $theme-primary-color;
       color: #fff;
       line-height: 0;
       text-align: center;
@@ -679,7 +679,7 @@
       &.save {
         &:active,
         &:focus {
-          background: darken($primary-color, 5%);
+          background: darken($theme-primary-color, 5%);
         }
 
         &.disabled {

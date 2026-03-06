@@ -48,12 +48,7 @@ const ParkOrBikeStationHeader = (
   const cn = withSeparator ? 'station-header-with-separator' : 'station-header';
   return (
     <div className={cn}>
-      {breakpoint === 'large' && backButton && (
-        <BackButton
-          icon="icon_arrow-collapse--left"
-          iconClassName="arrow-icon"
-        />
-      )}
+      {breakpoint === 'large' && backButton && <BackButton />}
       <div className="header">
         <h3>{name}</h3>
         <div className="station-sub-header">

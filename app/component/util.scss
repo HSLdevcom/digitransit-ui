@@ -187,7 +187,7 @@ $btn-heigth: 17px;
   font-weight: $font-narrow-weight-medium;
   text-align: center;
   color: $link-button-color;
-  font-size: $font-size-normal;
+  font-size: $font-size-small;
   padding: 0.92em $padding-large;
   display: flex;
   align-items: center;
@@ -209,6 +209,7 @@ $btn-heigth: 17px;
   &.small {
     height: 28px;
     padding: 5px 15px;
+    font-size: $font-size-xxsmall;
   }
 
   @media print {

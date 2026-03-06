@@ -104,12 +104,7 @@ class RoutePage extends React.Component {
           })}
           aria-live="polite"
         >
-          {breakpoint === 'large' && (
-            <BackButton
-              icon="icon_arrow-collapse--left"
-              iconClassName="arrow-icon"
-            />
-          )}
+          {breakpoint === 'large' && <BackButton />}
           <div className="route-header">
             <div aria-hidden="true">
               <RouteNumber

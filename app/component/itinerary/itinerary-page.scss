@@ -250,11 +250,8 @@
     padding: 0.6em;
     padding-right: 0.8em;
     outline: none;
-
-    span {
-      font-weight: $font-weight-medium;
-      font-size: $font-size-xxsmall;
-    }
+    font-weight: $font-weight-medium;
+    font-size: $font-size-xxsmall;
 
     &.settings .icon {
       font-size: 1.7em;
