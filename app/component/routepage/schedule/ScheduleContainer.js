@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useFragment } from 'react-relay';
-import { matchShape, routerShape } from 'found';
+import { matchShape } from 'found';
 import { DateTime } from 'luxon';
 import cx from 'classnames';
 import { SchedulePatternFragment } from './queries/SchedulePatternFragment';
@@ -53,7 +53,6 @@ const ScheduleContainer = ({
   route: routeRef,
   firstDepartures: firstDeparturesRef,
   match,
-  router,
 }) => {
   const breakpoint = useBreakpoint();
   const pattern = useFragment(SchedulePatternFragment, patternRef);
@@ -65,7 +64,6 @@ const ScheduleContainer = ({
 
   const intl = useTranslationsContext();
   const config = useConfigContext();
-  const lang = intl.locale;
 
   const [from, setFrom] = useState(0);
   const [to, setTo] = useState(Math.max((pattern?.stops?.length || 1) - 1, 0));
@@ -95,7 +93,7 @@ const ScheduleContainer = ({
         intl,
         wantedDay,
       }),
-    [patternWithTrips, intl, wantedDay],
+    [patternWithTrips, wantedDay],
   );
 
   const routeId = route?.gtfsId;
@@ -118,12 +116,12 @@ const ScheduleContainer = ({
         ? { ...match.location, pathname: redirectDecision.redirectPath }
         : match.location;
 
-      router.replace({
+      match.router.replace({
         ...basePath,
         query: { ...basePath.query, ...redirectDecision.query },
       });
     }
-  }, [wantedDay, patternCode, routeId, router, match.location]);
+  }, [wantedDay, patternCode, routeId, match.location]);
 
   useEffect(() => {
     if (patternCode) {
@@ -173,7 +171,7 @@ const ScheduleContainer = ({
         serviceDay: newServiceDay,
       },
     };
-    router.replace(newPath);
+    match.router.replace(newPath);
   };
 
   const formattedServiceDate = wantedDay && wantedDay.toFormat(DATE_FORMAT);
@@ -192,7 +190,7 @@ const ScheduleContainer = ({
       baseUrl,
       route,
       formattedServiceDate,
-      lang,
+      locale,
     );
   })();
 
@@ -309,7 +307,6 @@ ScheduleContainer.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   firstDepartures: PropTypes.object.isRequired,
   match: matchShape.isRequired,
-  router: routerShape.isRequired,
 };
 
 ScheduleContainer.displayName = 'ScheduleContainer';

@@ -69,7 +69,7 @@ function ScheduleDropdown({
     return optionList.find(opt => opt.value === validatedValue) || null;
   }, [validatedValue, optionList]);
 
-  const ariaMessages = useMemo(() => getAriaMessages(intl), [intl]);
+  const ariaMessages = useMemo(() => getAriaMessages(intl), []);
 
   const classNamePrefix = getClassNamePrefix(alignRight, id);
 
