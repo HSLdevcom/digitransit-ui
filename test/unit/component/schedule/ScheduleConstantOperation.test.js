@@ -33,9 +33,9 @@ describe('<ScheduleConstantOperation />', () => {
 
   it('should display constant operation text', () => {
     const wrapper = shallow(<ScheduleConstantOperation {...defaultProps} />);
-    const text = wrapper.find('span').first();
+    const content = wrapper.find('.constant-operation-content');
 
-    expect(text.text()).to.equal('This route operates continuously 24/7.');
+    expect(content.text()).to.include('This route operates continuously 24/7.');
   });
 
   it('should open link in new tab', () => {

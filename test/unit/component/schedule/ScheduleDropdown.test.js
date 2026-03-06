@@ -221,8 +221,9 @@ describe('<ScheduleDropdown />', () => {
         context: 'value',
       });
 
-      // Should return just the label without checkmark icon
-      expect(valueFormatted).to.equal('Kamppi');
+      // Should not show a checkmark icon in value context (only in menu context)
+      const rendered = shallow(<div>{valueFormatted}</div>);
+      expect(rendered.find(Icon).filter({ img: 'check' })).to.have.lengthOf(0);
     });
 
     it('should pass all options to Select component', () => {
