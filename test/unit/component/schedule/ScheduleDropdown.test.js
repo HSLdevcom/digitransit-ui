@@ -30,8 +30,6 @@ describe('<ScheduleDropdown />', () => {
       ],
       onSelectChange: sandbox.spy(),
       alignRight: false,
-      changeTitleOnChange: true,
-      labelId: undefined,
     };
   });
 
@@ -47,37 +45,12 @@ describe('<ScheduleDropdown />', () => {
       expect(select.prop('placeholder')).to.not.equal(undefined);
     });
 
-    it('should keep original title displayed when changeTitleOnChange is false', () => {
-      const props = { ...defaultProps, changeTitleOnChange: false };
-      const wrapper = shallow(<ScheduleDropdown {...props} />);
-
-      // Get initial displayed text
-      let placeholder = wrapper.find(Select).prop('placeholder');
-      const initialText = placeholder.props.children[0].props.children;
-
-      // Simulate selection
-      const select = wrapper.find(Select);
-      select.prop('onChange')({
-        value: 'sornainen',
-        label: 'Sörnäinen',
-        titleLabel: 'Sörnäinen',
-      });
-
-      wrapper.update();
-
-      // Displayed text should remain unchanged
-      placeholder = wrapper.find(Select).prop('placeholder');
-      expect(placeholder.props.children[0].props.children).to.equal(
-        initialText,
-      );
-    });
-
     it('should handle selection when onSelectChange is not provided', () => {
       const props = { ...defaultProps, onSelectChange: undefined };
       const wrapper = shallow(<ScheduleDropdown {...props} />);
       const select = wrapper.find(Select);
 
-      const option = { value: 'kamppi', label: 'Kamppi', titleLabel: 'Kamppi' };
+      const option = { value: 'kamppi', label: 'Kamppi' };
       expect(() => select.prop('onChange')(option)).to.not.throw();
     });
   });
@@ -119,10 +92,9 @@ describe('<ScheduleDropdown />', () => {
   });
 
   describe('Menu behavior', () => {
-    it('should render checkmark icon next to selected option when changeTitleOnChange is true', () => {
+    it('should render checkmark icon next to selected option in menu context', () => {
       const props = {
         ...defaultProps,
-        changeTitleOnChange: true,
         value: 'kamppi',
       };
       const wrapper = shallow(<ScheduleDropdown {...props} />);
@@ -151,29 +123,9 @@ describe('<ScheduleDropdown />', () => {
       expect(unselectedWrapper.text()).to.include('Sörnäinen');
     });
 
-    it('should not render checkmark icons when changeTitleOnChange is false', () => {
-      const props = {
-        ...defaultProps,
-        changeTitleOnChange: false,
-        value: 'kamppi',
-      };
-      const wrapper = shallow(<ScheduleDropdown {...props} />);
-      const select = wrapper.find(Select);
-
-      const formatOptionLabel = select.prop('formatOptionLabel');
-      const selectedOption = { value: 'kamppi', label: 'Kamppi' };
-
-      // Format selected option (in menu context)
-      const formatted = formatOptionLabel(selectedOption, { context: 'menu' });
-
-      // Should just return the label without icon (plain string or label value)
-      expect(formatted).to.equal('Kamppi');
-    });
-
     it('should format options correctly in value context (no checkmark)', () => {
       const props = {
         ...defaultProps,
-        changeTitleOnChange: true,
         value: 'kamppi',
       };
       const wrapper = shallow(<ScheduleDropdown {...props} />);
@@ -219,9 +171,8 @@ describe('<ScheduleDropdown />', () => {
       expect(select.prop('aria-labelledby')).to.equal(labelId);
     });
 
-    it('should render visible label when labelId is provided', () => {
-      const props = { ...defaultProps, labelId: 'origin' };
-      const wrapper = shallow(<ScheduleDropdown {...props} />);
+    it('should render visible label', () => {
+      const wrapper = shallow(<ScheduleDropdown {...defaultProps} />);
 
       const visibleLabel = wrapper
         .find('label.dd-header-title')
@@ -229,41 +180,17 @@ describe('<ScheduleDropdown />', () => {
       expect(visibleLabel).to.have.lengthOf(1);
     });
 
-    it('should render screen-reader-only label when labelId is not provided', () => {
+    it('should render localized label text using id as translation key', () => {
       const wrapper = shallow(<ScheduleDropdown {...defaultProps} />);
-
-      const srOnlyLabel = wrapper.find('label.sr-only');
-      expect(srOnlyLabel).to.have.lengthOf(1);
-      expect(srOnlyLabel.text()).to.equal(defaultProps.title);
-    });
-
-    it('should render localized label text when labelId is provided', () => {
-      const props = { ...defaultProps, labelId: 'origin' };
-      const wrapper = shallow(<ScheduleDropdown {...props} />);
 
       const label = wrapper.find('label').first();
       const select = wrapper.find(Select);
 
       // Label should contain translated text from intl context (mock returns 'translated text')
       expect(label.text()).to.equal('translated text');
-      // When labelId is provided, visible label should not have sr-only class
+      // Label should not have sr-only class
       expect(label.hasClass('sr-only')).to.equal(false);
       // Select should reference this label via aria-labelledby
-      expect(select.prop('aria-labelledby')).to.equal(
-        'aria-label-test-dropdown',
-      );
-    });
-
-    it('should render title as fallback when labelId is not provided', () => {
-      const props = { ...defaultProps, title: 'Custom Stop Name' };
-      const wrapper = shallow(<ScheduleDropdown {...props} />);
-
-      const label = wrapper.find('label').first();
-      const select = wrapper.find(Select);
-
-      // Label should contain the title prop as fallback
-      expect(label.text()).to.equal('Custom Stop Name');
-      // Select should reference this label
       expect(select.prop('aria-labelledby')).to.equal(
         'aria-label-test-dropdown',
       );
@@ -286,7 +213,6 @@ describe('<ScheduleDropdown />', () => {
       select.prop('onChange')({
         value: 'rautatientori',
         label: 'Rautatientori',
-        titleLabel: 'Rautatientori',
       });
 
       expect(defaultProps.onSelectChange.calledOnce).to.equal(true);

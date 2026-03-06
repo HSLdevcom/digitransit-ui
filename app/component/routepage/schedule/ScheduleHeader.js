@@ -35,7 +35,6 @@ function ScheduleHeader({
       <div className="route-schedule-dropdowns">
         <ScheduleDropdown
           id="origin"
-          labelId="origin"
           title={fromDisplayName}
           list={fromOptions}
           value={from}
@@ -43,7 +42,6 @@ function ScheduleHeader({
         />
         <ScheduleDropdown
           id="destination"
-          labelId="destination"
           title={toDisplayName}
           list={toOptions}
           value={to}

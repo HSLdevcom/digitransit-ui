@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 
 import Select from 'react-select';
 import Icon from '@digitransit-component/digitransit-component-icon';
@@ -14,9 +14,7 @@ import { getAriaMessages, getClassNamePrefix } from './scheduleDropdownUtils';
  */
 function ScheduleDropdown({
   alignRight,
-  changeTitleOnChange,
   id,
-  labelId,
   list,
   onSelectChange,
   title,
@@ -39,29 +37,14 @@ function ScheduleDropdown({
     }
   };
 
-  const optionList = useMemo(() => {
-    return list.map(option => ({
-      value: option.value,
-      label: option.label,
-      titleLabel: truncateLabel(option.label),
-    }));
-  }, [list]);
-
-  const selectedOption = useMemo(() => {
-    if (validatedValue == null) {
-      return null;
-    }
-    return optionList.find(opt => opt.value === validatedValue) || null;
-  }, [validatedValue, optionList]);
-
-  const ariaMessages = useMemo(() => getAriaMessages(intl), []);
+  const selectedOption =
+    validatedValue != null
+      ? list.find(opt => opt.value === validatedValue) ?? null
+      : null;
 
   const classNamePrefix = getClassNamePrefix(alignRight, id);
 
-  const displayLabel =
-    changeTitleOnChange && selectedOption
-      ? selectedOption.titleLabel || title
-      : title;
+  const displayLabel = selectedOption ? selectedOption.label : title;
 
   const renderDropdownContent = label => {
     return (
@@ -79,10 +62,10 @@ function ScheduleDropdown({
 
   const formatOptionLabel = (option, { context }) => {
     if (context === 'value') {
-      return renderDropdownContent(option.titleLabel || option.label);
+      return renderDropdownContent(option.label);
     }
 
-    if (!changeTitleOnChange || context !== 'menu') {
+    if (context !== 'menu') {
       return option.label;
     }
 
@@ -96,20 +79,17 @@ function ScheduleDropdown({
   };
 
   return (
-    <div className={cx('dd-container', { withLabel: labelId })} aria-live="off">
+    <div className="dd-container withLabel" aria-live="off">
       <label
-        className={cx('dd-header-title', {
-          alignRight: labelId && alignRight,
-          'sr-only': !labelId,
-        })}
+        className={cx('dd-header-title', { alignRight })}
         id={`aria-label-${id}`}
         htmlFor={`aria-input-${id}`}
       >
-        {labelId ? intl.formatMessage({ id: labelId }) : title}
+        {intl.formatMessage({ id })}
       </label>
       <Select
         aria-labelledby={`aria-label-${id}`}
-        ariaLiveMessages={ariaMessages}
+        ariaLiveMessages={getAriaMessages(intl)}
         className="dd-select"
         classNamePrefix={classNamePrefix}
         components={{
@@ -124,8 +104,8 @@ function ScheduleDropdown({
         onChange={handleChange}
         onMenuOpen={onMenuOpen}
         onMenuClose={onMenuClose}
-        options={optionList}
-        placeholder={displayLabel ? renderDropdownContent(displayLabel) : null}
+        options={list}
+        placeholder={renderDropdownContent(displayLabel)}
         value={selectedOption}
       />
     </div>
@@ -134,9 +114,7 @@ function ScheduleDropdown({
 
 ScheduleDropdown.propTypes = {
   alignRight: PropTypes.bool,
-  changeTitleOnChange: PropTypes.bool,
   id: PropTypes.string.isRequired,
-  labelId: PropTypes.string,
   list: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
@@ -150,8 +128,6 @@ ScheduleDropdown.propTypes = {
 
 ScheduleDropdown.defaultProps = {
   alignRight: false,
-  changeTitleOnChange: true,
-  labelId: undefined,
   onSelectChange: undefined,
   title: 'No title',
   value: undefined,
