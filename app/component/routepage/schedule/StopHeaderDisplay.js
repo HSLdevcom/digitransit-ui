@@ -12,15 +12,11 @@ const StopHeaderDisplay = ({ fromDisplayName, toDisplayName }) => {
       <div className="printable-stop-header_icon-from">
         <Icon img="icon_mapMarker" />
       </div>
-      <div className="printable-stop-header_from">
-        <span>{fromDisplayName}</span>
-      </div>
+      <div className="printable-stop-header_from">{fromDisplayName}</div>
       <div className="printable-stop-header_icon-to">
         <Icon img="icon_mapMarker" />
       </div>
-      <div className="printable-stop-header_to">
-        <span>{toDisplayName}</span>
-      </div>
+      <div className="printable-stop-header_to">{toDisplayName}</div>
     </div>
   );
 };

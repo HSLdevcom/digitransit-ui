@@ -29,16 +29,15 @@ const ScheduleConstantOperation = ({
       </div>
       <div className="stop-constant-operation-container bottom-padding">
         <div className="constant-operation-content">
-          <span>{constantOperationInfo.text}</span>
-          <span className="constant-operation-link">
-            <a
-              href={constantOperationInfo.link}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {constantOperationInfo.link}
-            </a>
-          </span>
+          {constantOperationInfo.text}
+          <a
+            className="constant-operation-link"
+            href={constantOperationInfo.link}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {constantOperationInfo.link}
+          </a>
         </div>
       </div>
     </div>

@@ -243,14 +243,12 @@ const ScheduleContainer = ({
           />
         )}
         <div className="route-schedule-grouped-date-select">
-          <div className="route-schedule-grouped-date-select-wrapper">
-            <DateSelectGrouped
-              dateFormat={DATE_FORMAT}
-              selectedDay={wantedDay}
-              dates={availableDates}
-              onDateChange={changeDate}
-            />
-          </div>
+          <DateSelectGrouped
+            dateFormat={DATE_FORMAT}
+            selectedDay={wantedDay}
+            dates={availableDates}
+            onDateChange={changeDate}
+          />
         </div>
         {tripsResult.noTripsMessage}
         {pattern && (
