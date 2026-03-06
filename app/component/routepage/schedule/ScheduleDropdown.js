@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useState, useMemo } from 'react';
+
 import Select from 'react-select';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import { useTranslationsContext } from '../../../util/useTranslationsContext';
@@ -10,47 +11,31 @@ import { getAriaMessages, getClassNamePrefix } from './scheduleDropdownUtils';
 
 /**
  * Generic dropdown used on the schedule page for stop selection.
- * Supports both controlled (via `value` prop) and uncontrolled (via `defaultValue`) usage.
  */
 function ScheduleDropdown({
   alignRight,
   changeTitleOnChange,
-  defaultValue,
   id,
   labelId,
   list,
   onSelectChange,
   title,
-  value: controlledValue,
+  value,
 }) {
   const intl = useTranslationsContext();
   const config = useConfigContext();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [uncontrolledValue, setUncontrolledValue] = useState(
-    defaultValue ?? null,
-  );
-
-  const isControlled = controlledValue !== undefined;
-  const currentValue = isControlled ? controlledValue : uncontrolledValue;
 
   const validatedValue =
-    currentValue != null && list.some(opt => opt.value === currentValue)
-      ? currentValue
-      : null;
+    value != null && list.some(opt => opt.value === value) ? value : null;
 
   const onMenuOpen = () => setIsMenuOpen(true);
   const onMenuClose = () => setIsMenuOpen(false);
 
   const handleChange = selectedOption => {
-    const newValue = selectedOption.value;
-
-    if (!isControlled) {
-      setUncontrolledValue(newValue);
-    }
-
     if (onSelectChange) {
-      onSelectChange(newValue);
+      onSelectChange(selectedOption.value);
     }
   };
 
@@ -150,7 +135,6 @@ function ScheduleDropdown({
 ScheduleDropdown.propTypes = {
   alignRight: PropTypes.bool,
   changeTitleOnChange: PropTypes.bool,
-  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   id: PropTypes.string.isRequired,
   labelId: PropTypes.string,
   list: PropTypes.arrayOf(
@@ -167,7 +151,6 @@ ScheduleDropdown.propTypes = {
 ScheduleDropdown.defaultProps = {
   alignRight: false,
   changeTitleOnChange: true,
-  defaultValue: undefined,
   labelId: undefined,
   onSelectChange: undefined,
   title: 'No title',

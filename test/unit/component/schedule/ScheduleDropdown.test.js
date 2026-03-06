@@ -47,30 +47,6 @@ describe('<ScheduleDropdown />', () => {
       expect(select.prop('placeholder')).to.not.equal(undefined);
     });
 
-    it('should update displayed text when changeTitleOnChange is true and selection changes', () => {
-      const wrapper = shallow(<ScheduleDropdown {...defaultProps} />);
-
-      // Initial placeholder should render with title
-      let placeholder = wrapper.find(Select).prop('placeholder');
-      expect(placeholder.props.children[0].props.children).to.equal('Kamppi');
-
-      // Simulate selection
-      const select = wrapper.find(Select);
-      select.prop('onChange')({
-        value: 'rautatientori',
-        label: 'Rautatientori',
-        titleLabel: 'Rautatientori',
-      });
-
-      wrapper.update();
-
-      // Displayed text should update to selected option
-      placeholder = wrapper.find(Select).prop('placeholder');
-      expect(placeholder.props.children[0].props.children).to.equal(
-        'Rautatientori',
-      );
-    });
-
     it('should keep original title displayed when changeTitleOnChange is false', () => {
       const props = { ...defaultProps, changeTitleOnChange: false };
       const wrapper = shallow(<ScheduleDropdown {...props} />);
@@ -115,16 +91,6 @@ describe('<ScheduleDropdown />', () => {
       const valueProp = select.prop('value');
       expect(valueProp).to.be.an('object');
       expect(valueProp.value).to.equal('kamppi');
-    });
-
-    it('should select option matching defaultValue for initial uncontrolled state', () => {
-      const props = { ...defaultProps, defaultValue: 'sornainen' };
-      const wrapper = shallow(<ScheduleDropdown {...props} />);
-      const select = wrapper.find(Select);
-
-      const valueProp = select.prop('value');
-      expect(valueProp).to.be.an('object');
-      expect(valueProp.value).to.equal('sornainen');
     });
 
     it('should clear selection when value is not in options list', () => {
@@ -326,29 +292,6 @@ describe('<ScheduleDropdown />', () => {
       expect(defaultProps.onSelectChange.calledOnce).to.equal(true);
       expect(defaultProps.onSelectChange.firstCall.args[0]).to.equal(
         'rautatientori',
-      );
-    });
-
-    it('should work in uncontrolled mode and update display after selection', () => {
-      const wrapper = shallow(<ScheduleDropdown {...defaultProps} />);
-
-      // Initially shows title
-      let placeholder = wrapper.find(Select).prop('placeholder');
-      expect(placeholder.props.children[0].props.children).to.equal('Kamppi');
-
-      // User selects different option
-      wrapper.find(Select).prop('onChange')({
-        value: 'sornainen',
-        label: 'Sörnäinen',
-        titleLabel: 'Sörnäinen',
-      });
-
-      wrapper.update();
-
-      // Display updates to show selected option (when changeTitleOnChange=true)
-      placeholder = wrapper.find(Select).prop('placeholder');
-      expect(placeholder.props.children[0].props.children).to.equal(
-        'Sörnäinen',
       );
     });
   });
