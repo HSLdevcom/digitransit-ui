@@ -1,5 +1,5 @@
 $font-weight-medium: 500;
-$primary-color: #007ac9;
+$theme-primary-color: #007ac9;
 $suggestion-highlight-background-color: #f2f5f7;
 $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
   context-panel, search-panel, search-overlay, stop-route-station-input,
@@ -20,7 +20,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
   flex-grow: 1;
 
   &:focus-within {
-    border-color: $primary-color;
+    border-color: $theme-primary-color;
   }
 
   .left-column {

@@ -1,52 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { routerShape, matchShape } from 'found';
-import { intlShape } from 'react-intl';
-import { configShape } from '../util/shapes';
 import Icon from './Icon';
+import { useConfigContext } from '../configurations/ConfigContext';
+import { useTranslationsContext } from '../util/useTranslationsContext';
 
-export default class BackButton extends React.Component {
-  static contextTypes = {
-    intl: intlShape.isRequired,
-    router: routerShape,
-    match: matchShape,
-    config: configShape,
-  };
+export default function BackButton(props, context) {
+  const config = useConfigContext();
+  const intl = useTranslationsContext();
 
-  static propTypes = {
-    icon: PropTypes.string,
-    color: PropTypes.string,
-    iconClassName: PropTypes.string,
-    title: PropTypes.node,
-    titleClassName: PropTypes.string,
-    className: PropTypes.string,
-    onBackBtnClick: PropTypes.func,
-    fallback: PropTypes.string,
-  };
-
-  static defaultProps = {
-    icon: 'icon_arrow-left',
-    color: undefined,
-    iconClassName: '',
-    title: undefined,
-    titleClassName: undefined,
-    className: 'back-button',
-    fallback: undefined,
-    onBackBtnClick: undefined,
-  };
-
-  goBack = url => {
-    const { router, match } = this.context;
+  const goBack = url => {
+    const { router, match } = context;
     const { location } = match;
 
     if (
       location.index > 0 ||
       // eslint-disable-next-line no-restricted-globals
-      (history.length > 1 && this.props.fallback === 'back')
+      (history.length > 1 && props.fallback === 'back')
     ) {
       router.go(-1);
     } else if (
-      this.props.fallback === 'pop' &&
+      props.fallback === 'pop' &&
       location.pathname.split('/').length > 1
     ) {
       const parts = location.pathname.split('/');
@@ -63,46 +37,35 @@ export default class BackButton extends React.Component {
     }
   };
 
-  render() {
-    let url;
-    const { config, intl } = this.context;
-    // apply rootlink only in production, it is annoying locally
-    if (!this.props.onBackBtnClick && config.NODE_ENV !== 'development') {
-      if (config.passLanguageToRootLink && intl.locale !== 'fi') {
-        url = `${config.URL.ROOTLINK}/${intl.locale}`;
-      } else {
-        url = config.URL.ROOTLINK;
-      }
+  let url;
+  // apply rootlink only in production, it is annoying locally
+  if (config.NODE_ENV !== 'development') {
+    if (config.passLanguageToRootLink && intl.locale !== 'fi') {
+      url = `${config.URL.ROOTLINK}/${intl.locale}`;
+    } else {
+      url = config.URL.ROOTLINK;
     }
-    return (
-      <div className={this.props.className} style={{ display: 'flex' }}>
-        {this.props.title && !this.props.titleClassName && (
-          <h1 className="h1">{this.props.title}</h1>
-        )}
-        {this.props.title && this.props.titleClassName && (
-          <span className={this.props.titleClassName}>{this.props.title}</span>
-        )}
-        <button
-          type="button"
-          className="icon-holder noborder cursor-pointer"
-          onClick={
-            this.props.onBackBtnClick
-              ? this.props.onBackBtnClick
-              : () => this.goBack(url)
-          }
-          aria-label={this.context.intl.formatMessage({
-            id: 'back-button-title',
-            defaultMessage: 'Go back to previous page',
-          })}
-          tabIndex={0}
-        >
-          <Icon
-            img={this.props.icon}
-            color={this.props.color || this.context.config.colors.primary}
-            className={`${this.props.iconClassName} cursor-pointer`}
-          />
-        </button>
-      </div>
-    );
   }
+  return (
+    <div className="back-button">
+      {props.title && <h1>{props.title}</h1>}
+      <button
+        type="button"
+        className="icon-holder noborder cursor-pointer"
+        onClick={() => goBack(url)}
+        aria-label={intl.formatMessage({ id: 'back-button-title' })}
+        tabIndex={0}
+      >
+        <Icon
+          img="icon_arrow-collapse--left"
+          color={config.colors.primary}
+          className="arrow-icon"
+        />
+      </button>
+    </div>
+  );
 }
+
+BackButton.contextTypes = { router: routerShape, match: matchShape };
+BackButton.propTypes = { title: PropTypes.node, fallback: PropTypes.string };
+BackButton.defaultProps = { title: undefined, fallback: undefined };

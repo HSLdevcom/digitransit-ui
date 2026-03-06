@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { getReadMessageIds, setReadMessageIds } from '../../store/localStorage';
+import { getReadMessageIds, setReadMessageId } from '../../store/localStorage';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import Disclaimer from '../Disclaimer';
 
@@ -17,9 +17,7 @@ const ParkInfo = ({ mode }) => {
   }
 
   const handleClose = () => {
-    const readMessageIds = getReadMessageIds() || [];
-    readMessageIds.push(key);
-    setReadMessageIds(readMessageIds);
+    setReadMessageId(key);
     setShowParkInfo(false);
   };
 

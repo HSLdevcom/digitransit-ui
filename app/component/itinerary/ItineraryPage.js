@@ -54,7 +54,7 @@ import Loading from '../Loading';
 import MobileView from '../MobileView';
 import ItineraryPageMap from '../map/ItineraryPageMap';
 import AlternativeItineraryBar from './AlternativeItineraryBar';
-import CustomizeSearch from './CustomizeSearch';
+import CustomizeSearch from './customizesearch/CustomizeSearch';
 import { spinnerPosition } from './ItineraryList';
 import ItineraryListContainer from './ItineraryListContainer';
 import ItineraryPageControls from './ItineraryPageControls';

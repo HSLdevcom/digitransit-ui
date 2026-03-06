@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getReadMessageIds, setReadMessageIds } from '../../store/localStorage';
+import { getReadMessageIds, setReadMessageId } from '../../store/localStorage';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import {
   getRentalNetworkConfig,
@@ -15,9 +15,7 @@ const CityBikeInfo = () => {
   );
 
   const handleClose = () => {
-    const readMessageIds = getReadMessageIds() || [];
-    readMessageIds.push('citybike_teaser');
-    setReadMessageIds(readMessageIds);
+    setReadMessageId('citybike_teaser');
     setShowCityBikeTeaser(false);
   };
   // Use general information about using city bike, if one network config is available

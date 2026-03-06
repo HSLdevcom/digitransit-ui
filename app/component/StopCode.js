@@ -6,6 +6,6 @@ const StopCode = ({ code }) =>
 
 StopCode.displayName = 'StopCode';
 StopCode.propTypes = {
-  code: PropTypes.string.isRequired,
+  code: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
 };
 export default StopCode;

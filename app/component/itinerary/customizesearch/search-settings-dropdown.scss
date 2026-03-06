@@ -16,7 +16,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      color: $primary-color;
+      color: $theme-primary-color;
       margin-bottom: 5px;
       border-radius: 5px;
       background-color: $background-color-lighter;
@@ -41,7 +41,7 @@
         background-color: #fff;
 
         .selected-checkmark {
-          color: $primary-color;
+          color: $theme-primary-color;
           margin: 9px 15px 0 0;
         }
 
@@ -65,36 +65,23 @@
   }
 
   .settings-dropdown-label {
-    min-height: 48px;
+    min-height: 3.5em;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
-    padding: 0 0 0 16px;
-    margin: 0;
-    background: unset;
-    border: none;
     width: 100%;
-    font-size: unset;
-    letter-spacing: inherit;
-    line-height: 16px;
+    font-size: $font-size-normal;
 
     .settings-dropdown-text-container {
       display: flex;
     }
 
-    .settings-dropdown-label-text {
-      font-size: $font-size-normal;
-      color: $gray;
-      float: left;
-      text-align: start;
-      margin: 16px 0;
-    }
-
     .settings-dropdown-label-value {
       font-size: $font-size-small;
       float: right;
-      color: $primary-color;
+      color: $theme-primary-color;
       width: 100%;
       padding-right: 14.72px;
       margin: 14.72px 0;
@@ -106,6 +93,6 @@
   .icon-container {
     float: right;
     margin: 0.9em 0 0 0;
-    color: $primary-color;
+    color: $theme-primary-color;
   }
 }

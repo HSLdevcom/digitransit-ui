@@ -192,7 +192,7 @@ export default {
     ticketTypes: 'none',
     walkBoardCost: 120,
     walkReluctance: 1.8,
-    walkSpeed: 1.28,
+    walkSpeed: 1.2,
     transferPenalty: 0,
     minTransferTime: 90,
     includeBikeSuggestions: true,
@@ -208,13 +208,8 @@ export default {
    * If not, the selection may not make any sense.
    */
   defaultOptions: {
-    walkReluctance: {
-      least: 5,
-      less: 3,
-      more: 1,
-      most: 0.2,
-    },
-    walkSpeed: [0.69, 0.97, 1.28, 1.67, 2.22],
+    highWalkReluctance: 5,
+    walkSpeed: [0.69, 0.97, 1.2, 1.67, 2.22],
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
 
@@ -885,7 +880,7 @@ export default {
   shortenLongTextThreshold: 10, // for route number in itinerary summary
   showRouteDescNotification: false,
   showStopStatusMarkers: false,
-
+  personalisation: false,
   flex: {
     internalFlexEnabled: false,
     allowTaxiJourneys: false,

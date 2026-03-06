@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Icon from './Icon';
 
 export default function ExternalLink({
   name,
@@ -7,6 +8,7 @@ export default function ExternalLink({
   href,
   className,
   onClick,
+  withArrow,
 }) {
   return (
     (name || children !== undefined) && (
@@ -26,6 +28,9 @@ export default function ExternalLink({
           >
             {name || children}
           </a>
+          {withArrow && (
+            <Icon className="arrow" img="icon_arrow-collapse--right" />
+          )}
         </span>
       </span>
     )
@@ -38,6 +43,7 @@ ExternalLink.propTypes = {
   href: PropTypes.string,
   className: PropTypes.string,
   onClick: PropTypes.func,
+  withArrow: PropTypes.bool,
 };
 
 ExternalLink.defaultProps = {
@@ -46,6 +52,7 @@ ExternalLink.defaultProps = {
   href: undefined,
   onClick: undefined,
   className: '',
+  withArrow: false,
 };
 
 ExternalLink.displayName = 'ExternalLink';

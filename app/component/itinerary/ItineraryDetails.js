@@ -294,19 +294,15 @@ function ItineraryDetails(
         {breakpoint => [
           breakpoint === 'large' && !hideTitle && (
             <div className="desktop-title" key="header">
-              <div className="title-container h2">
-                <BackButton
-                  title={
-                    <FormattedMessage
-                      id="itinerary-page.title"
-                      defaultMessage="Itinerary suggestions"
-                    />
-                  }
-                  icon="icon_arrow-collapse--left"
-                  iconClassName="arrow-icon"
-                  fallback="pop"
-                />
-              </div>
+              <BackButton
+                title={
+                  <FormattedMessage
+                    id="itinerary-page.title"
+                    defaultMessage="Itinerary suggestions"
+                  />
+                }
+                fallback="pop"
+              />
             </div>
           ),
           <ItinerarySummary

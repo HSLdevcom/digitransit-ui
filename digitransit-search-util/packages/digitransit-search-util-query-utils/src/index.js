@@ -474,10 +474,6 @@ export function getRoutesQuery(input, feedIds, transportMode, pathOpts) {
   if (typeof input !== 'string' || input.trim().length === 0) {
     return Promise.resolve([]);
   }
-  const number = input.match(/^\d+$/);
-  if (number && number[0].length > 3) {
-    return Promise.resolve([]);
-  }
   let modes;
   if (transportMode) {
     [, modes] = transportMode.split('-');

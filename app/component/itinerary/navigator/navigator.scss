@@ -494,7 +494,7 @@
 
           .indoor-text {
             display: flex;
-            color: $primary-color;
+            color: $theme-primary-color;
             font-weight: $font-weight-medium;
             line-height: 1;
             flex: 1;
@@ -508,7 +508,7 @@
               align-items: center;
 
               svg {
-                color: $primary-color;
+                color: $theme-primary-color;
 
                 &.open {
                   transform: rotate(180deg);
@@ -677,7 +677,7 @@
     text-align: center;
 
     &.success {
-      background-color: $success-color;
+      background-color: $theme-success-color;
       gap: var(--space-xs);
 
       button {
@@ -895,7 +895,7 @@
     height: 40px;
     text-align: center;
     margin-left: 16px;
-    background-color: $primary-color;
+    background-color: $theme-primary-color;
     color: white;
 
     a {

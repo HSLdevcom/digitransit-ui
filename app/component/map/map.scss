@@ -19,7 +19,7 @@ div.map {
   }
 
   .leaflet-container .leaflet-popup-close-button {
-    color: $primary-color;
+    color: $theme-primary-color;
     font-size: 25px;
     font-weight: 100;
     width: 32px;
@@ -203,7 +203,7 @@ div.leaflet-bottom.leaflet-right div.leaflet-control-zoom {
     height: 36px;
     line-height: 18px;
     font-size: 18px;
-    color: $primary-color;
+    color: $theme-primary-color;
   }
 }
 
@@ -341,7 +341,7 @@ div.leaflet-marker-icon.vehicle-icon {
     position: absolute;
     bottom: 20px;
     left: 15px;
-    background: $primary-color;
+    background: $theme-primary-color;
     border-radius: 50px;
     font-weight: 325;
     display: flex;
@@ -364,24 +364,24 @@ div.leaflet-marker-icon.vehicle-icon {
   top: 25px;
   z-index: 3;
   background: #fff;
-  color: $primary-color;
+  color: $theme-primary-color;
   font-weight: $font-weight-medium;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
 
   &:hover {
-    color: $primary-color;
+    color: $theme-primary-color;
     background: darken($color: #fff, $amount: 10);
   }
 
   &:focus {
     background: #fff;
     outline: 1px solid black;
-    color: $primary-color;
+    color: $theme-primary-color;
   }
 
   .map-routing-button-icon {
-    color: $primary-color;
+    color: $theme-primary-color;
     margin: 3px 5px 0 0;
   }
 }
@@ -433,7 +433,7 @@ div.leaflet-marker-icon.vehicle-icon {
       height: 50px;
       background: #fff;
       font-weight: $font-weight-medium;
-      color: $primary-color;
+      color: $theme-primary-color;
       padding-left: 20px;
       text-align: left;
     }
@@ -1497,7 +1497,7 @@ div.leaflet-control-scale-line {
 
   // interactive: false;
   font-size: 50px;
-  color: $primary-color;
+  color: $theme-primary-color;
 }
 
 .leaflet-popup.geoJsonPopup {

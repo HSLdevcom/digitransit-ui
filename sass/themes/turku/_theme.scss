@@ -19,24 +19,23 @@ $turku-ferry-color: #0064f0;
 $turku-funicular-color: #f0f;
 
 /* Application palette */
-$primary-color: $turku-light-yellow;
-$secondary-color: $turku-dark-yellow;
-$favourite-color: $turku-light-yellow;
+$theme-primary-color: $turku-light-yellow;
+$theme-secondary-color: $turku-dark-yellow;
 $highlight-color: $turku-dark;
 $action-color: $turku-dark-yellow;
-$current-location-color: $primary-color;
+$current-location-color: $theme-primary-color;
 
 /* Component palette */
 $standalone-btn-color: $turku-dark-yellow;
 $standalone-btn-hover-color: $turku-light-gray;
 $standalone-btn-active-color: $turku-light-gray;
 $viewpoint-marker-color: $turku-light-yellow;
-$link-color: $primary-color;
+$link-color: $theme-primary-color;
 $slider-warning-color: $turku-red;
 $slider-ok-color: $turku-blue;
-$desktop-title-color: $primary-color;
-$desktop-title-arrow-icon-color: $secondary-color;
-$top-bar-color: $primary-color;
+$desktop-title-color: $theme-primary-color;
+$desktop-title-arrow-icon-color: $theme-secondary-color;
+$top-bar-color: $theme-primary-color;
 
 /* Vehicle palette */
 $bus-color: $turku-light-yellow;

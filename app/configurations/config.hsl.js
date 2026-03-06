@@ -141,8 +141,6 @@ export default {
   omitNonPickups: true,
 
   parkAndRide: {
-    showParkAndRide: true,
-    showParkAndRideForBikes: true,
     url: {
       fi: 'https://www.hsl.fi/matkustaminen/liityntapysakointi',
       sv: 'https://www.hsl.fi/sv/att-resa/anslutningsparkering',
@@ -337,8 +335,6 @@ export default {
     en: 'HSL',
   },
 
-  showTicketSelector: false,
-
   staticMessages: [
     // {
     //   id: '2',
@@ -451,7 +447,7 @@ export default {
         enabled: true,
         season: {
           preSeasonStart: '18.3',
-          start: '1.1',
+          start: '1.4',
           end: '31.10',
         },
         capacity: BIKEAVL_WITHMAX,
@@ -810,6 +806,12 @@ export default {
     },
   },
 
+  favouriteLink: {
+    fi: 'https://tili.hsl.fi/omat-pysakit-paikat-ja-linjat',
+    en: 'https://tili.hsl.fi/en/my-stops-places-and-routes',
+    sv: 'https://tili.hsl.fi/mina-hallplatser-platser-och-linjer',
+  },
+
   startSearchFromUserLocation: true,
 
   navigationLogo: 'hsl/navigator-logo.svg',
@@ -827,7 +829,6 @@ export default {
   },
 
   showStopStatusMarkers: true,
-
   flex: {
     internalFlexEnabled: IS_DEV,
     allowTaxiJourneys: IS_DEV,
@@ -839,4 +840,5 @@ export default {
   },
 
   showRouteDescNotification: IS_DEV,
+  personalisation: IS_DEV,
 };
