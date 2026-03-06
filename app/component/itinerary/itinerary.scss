@@ -1641,6 +1641,7 @@ $itinerary-tab-switch-height: 48px;
   }
 
   .itinerary-time-column {
+    position: relative;
     font-size: 1em;
     text-align: center;
     color: $black;
