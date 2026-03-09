@@ -182,8 +182,6 @@
     "polyline-encoded": "0.0.9",
     "prop-types": "15.8.1",
     "react": "^16.13.0",
-    "react-autosuggest": "^10.0.0",
-    "react-autowhatever": "10.2.1",
     "react-click-outside": "3.0.1",
     "react-dom": "16.13.0",
     "react-helmet": "6.1.0",

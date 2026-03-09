@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import Autosuggest from 'react-autosuggest';
+import cx from 'classnames';
+import React from 'react';
+import { useSelect } from 'downshift';
 import styles from './select.scss';
 
 const Select = ({
   value,
-  getDisplay,
   options,
   onSlackTimeSelected,
   viaPointIndex,
@@ -13,92 +13,67 @@ const Select = ({
   label,
   icon,
 }) => {
-  const [displayValue, changeDisplayValue] = useState(getDisplay(value));
-  const [open, changeOpen] = useState(false);
-  useEffect(() => changeDisplayValue(getDisplay(value)), [value]);
-  const scrollRef = useRef(null);
-  const scrollIndex = Math.floor(value / 600);
-  const elementHeight = 50;
-  useLayoutEffect(() => {
-    if (open && scrollRef.current) {
-      scrollRef.current.scrollTop = elementHeight * scrollIndex;
-    }
-  }, [value, open]);
-
-  const inputId = `${id}-input`;
   const labelId = `${id}-label`;
+  const selectedItem = options.find(option => option.value === value);
 
-  const onInputChange = (_, { newValue, method }) => {
-    switch (method) {
-      case 'enter':
-      case 'click':
-        onSlackTimeSelected(newValue, viaPointIndex);
-        break;
-      case 'escape':
-        changeDisplayValue(value);
-        break;
-      case 'up':
-      case 'down':
-      default:
-        break;
-    }
-  };
+  const {
+    isOpen,
+    getToggleButtonProps,
+    getMenuProps,
+    getItemProps,
+    getLabelProps,
+    highlightedIndex,
+  } = useSelect({
+    selectedItem,
+    items: options,
+    labelId,
+    id,
+    itemToString: item => item.displayName,
+    onSelectedItemChange: ({ selectedItem: newItem }) => {
+      onSlackTimeSelected(newItem.value, viaPointIndex);
+    },
+  });
+
   return (
-    <label className={styles['combobox-container']} htmlFor={inputId}>
-      <span className={styles['left-column']}>
-        <span className={styles['combobox-label']} id={labelId}>
-          {label}
-        </span>
-        <Autosuggest
-          id={id}
-          suggestions={options}
-          getSuggestionValue={s => s.value}
-          renderSuggestion={s => s.displayName}
-          onSuggestionsFetchRequested={() => null}
-          shouldRenderSuggestions={() => true}
-          focusInputOnSuggestionClick={false}
-          onSuggestionsClearRequested={() => null}
-          inputProps={{
-            value: displayValue,
-            onChange: onInputChange,
-            onFocus: () => {
-              changeOpen(true);
-            },
-            onBlur: () => {
-              changeOpen(false);
-            },
-            id: inputId,
-            'aria-labelledby': labelId,
-            'aria-autocomplete': 'none',
-            readOnly: true,
-          }}
-          renderSuggestionsContainer={({ containerProps, children }) => {
-            // set refs for autosuggest library and scrollbar positioning
-            const { ref, ...otherRefs } = containerProps;
-            const containerRef = elem => {
-              if (elem) {
-                scrollRef.current = elem;
-                ref(elem);
-              }
-            };
-            return (
-              <div tabIndex="-1" {...otherRefs} ref={containerRef}>
-                {children}
-              </div>
-            );
-          }}
-          theme={styles}
-        />
-      </span>
-      {icon}
-    </label>
+    <div className={styles['combobox-container']}>
+      <div className={styles.container}>
+        <div {...getToggleButtonProps()}>
+          <span className={styles['left-column']}>
+            <label {...getLabelProps()} className={styles['combobox-label']}>
+              {label}
+            </label>
+            <div className={styles.input}>
+              <span>{selectedItem.displayName}</span>
+            </div>
+          </span>
+          {icon}
+        </div>
+        <ul
+          className={cx([styles.suggestionsContainerOpen, !isOpen && 'hidden'])}
+          {...getMenuProps()}
+        >
+          {isOpen &&
+            options.map((option, index) => (
+              <li
+                key={option.value}
+                className={cx([
+                  styles.suggestion,
+                  index === highlightedIndex && styles.suggestionHighlighted,
+                ])}
+                {...getItemProps({ index })}
+              >
+                <span>{option.displayName}</span>
+              </li>
+            ))}
+        </ul>
+      </div>
+    </div>
   );
 };
 
 Select.propTypes = {
   value: PropTypes.number.isRequired,
   onSlackTimeSelected: PropTypes.func.isRequired,
-  getDisplay: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       displayName: PropTypes.string.isRequired,
