@@ -2,9 +2,9 @@ import sinon from 'sinon';
 import * as ReactRelay from 'react-relay';
 import * as useTranslationsContext from '../../../app/util/useTranslationsContext';
 import * as ConfigContext from '../../../app/configurations/ConfigContext';
-import * as scheduleParamUtils from '../../../app/util/scheduleParamUtils';
-import * as scheduleDataUtils from '../../../app/util/scheduleDataUtils';
-import * as scheduleTripsUtils from '../../../app/util/scheduleTripsUtils';
+import * as scheduleParamUtils from '../../../app/component/routepage/schedule/scheduleParamUtils';
+import * as scheduleDataUtils from '../../../app/component/routepage/schedule/scheduleDataUtils';
+import * as scheduleTripsUtils from '../../../app/component/routepage/schedule/scheduleTripsUtils';
 import { mockContext } from './mock-context';
 
 /**

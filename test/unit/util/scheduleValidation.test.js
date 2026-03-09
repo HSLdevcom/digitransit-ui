@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { DateTime, Settings } from 'luxon';
 
-import { calculateRedirectDecision } from '../../../app/util/scheduleParamUtils';
+import { calculateRedirectDecision } from '../../../app/component/routepage/schedule/scheduleParamUtils';
 import { routePagePath, PREFIX_TIMETABLE } from '../../../app/util/path';
 import { DATE_FORMAT } from '../../../app/constants';
 

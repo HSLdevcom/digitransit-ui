@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
-import { routePagePath, PREFIX_TIMETABLE } from './path';
-import { DATE_FORMAT } from '../constants';
+import { routePagePath, PREFIX_TIMETABLE } from '../../../util/path';
+import { DATE_FORMAT } from '../../../constants';
 
 const populateData = (params, match, noOfWeeks) => {
   const { query } = match.location;

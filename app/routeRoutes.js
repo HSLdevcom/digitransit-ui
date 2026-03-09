@@ -20,7 +20,7 @@ import { prepareServiceDay } from './util/dateParamUtils';
 import {
   prepareScheduleParamsWithFiveWeeks,
   prepareScheduleParamsWithTenWeeks,
-} from './util/scheduleParamUtils';
+} from './component/routepage/schedule/scheduleParamUtils';
 
 export default function routeRoutes(config) {
   const showTenWeeks = config.showTenWeeksOnRouteSchedule || false;

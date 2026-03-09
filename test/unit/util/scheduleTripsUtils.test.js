@@ -2,7 +2,10 @@ import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { DateTime } from 'luxon';
 
-import { sortTrips, getTripsList } from '../../../app/util/scheduleTripsUtils';
+import {
+  sortTrips,
+  getTripsList,
+} from '../../../app/component/routepage/schedule/scheduleTripsUtils';
 import { DATE_FORMAT } from '../../../app/constants';
 
 describe('scheduleTripsUtils', () => {

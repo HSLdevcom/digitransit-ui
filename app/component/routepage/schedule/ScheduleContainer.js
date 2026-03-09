@@ -19,10 +19,10 @@ import RouteControlPanel from '../RouteControlPanel';
 import ScrollableWrapper from '../../ScrollableWrapper';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 import { useTranslationsContext } from '../../../util/useTranslationsContext';
-import { getTripsList } from '../../../util/scheduleTripsUtils';
+import { getTripsList } from './scheduleTripsUtils';
 import { routeShape, patternShape } from '../../../util/shapes';
-import { calculateRedirectDecision } from '../../../util/scheduleParamUtils';
-import { buildAvailableDates } from '../../../util/scheduleDataUtils';
+import { calculateRedirectDecision } from './scheduleParamUtils';
+import { buildAvailableDates } from './scheduleDataUtils';
 
 /**
  * Open a route timetable PDF in a new window.

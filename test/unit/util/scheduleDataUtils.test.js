@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { DateTime, Settings } from 'luxon';
-import { buildAvailableDates } from '../../../app/util/scheduleDataUtils';
+import { buildAvailableDates } from '../../../app/component/routepage/schedule/scheduleDataUtils';
 import { DATE_FORMAT } from '../../../app/constants';
 
 describe('scheduleDataUtils', () => {
