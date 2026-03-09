@@ -41,6 +41,11 @@ const openRoutePDF = (e, routePDFUrl) => {
 const printRouteTimetable = e => {
   e.stopPropagation();
   window.print();
+  addAnalyticsEvent({
+    category: 'Route',
+    action: 'PrintTimetable',
+    name: null,
+  });
 };
 
 /**
@@ -203,15 +208,6 @@ const ScheduleContainer = ({
     });
   };
 
-  const handlePrintTimetable = e => {
-    printRouteTimetable(e);
-    addAnalyticsEvent({
-      category: 'Route',
-      action: 'PrintTimetable',
-      name: null,
-    });
-  };
-
   if (constantOperationInfo) {
     return (
       <ScheduleConstantOperation
@@ -290,7 +286,7 @@ const ScheduleContainer = ({
           <SecondaryButton
             ariaLabel="print"
             buttonName="print"
-            buttonClickAction={handlePrintTimetable}
+            buttonClickAction={printRouteTimetable}
             buttonIcon="icon_print"
             smallSize
           />
