@@ -6,7 +6,7 @@ import sinon from 'sinon';
 
 import ScheduleHeader from '../../../../app/component/routepage/schedule/ScheduleHeader';
 import ScheduleDropdown from '../../../../app/component/routepage/schedule/ScheduleDropdown';
-import StopHeaderDisplay from '../../../../app/component/routepage/schedule/StopHeaderDisplay';
+import PrintableStopHeader from '../../../../app/component/routepage/schedule/PrintableStopHeader';
 
 describe('<ScheduleHeader />', () => {
   const defaultStops = [
@@ -27,7 +27,7 @@ describe('<ScheduleHeader />', () => {
   describe('Stop name display', () => {
     it('should display correct origin and destination names', () => {
       const wrapper = shallow(<ScheduleHeader {...defaultProps} />);
-      const stopHeaderDisplay = wrapper.find(StopHeaderDisplay);
+      const stopHeaderDisplay = wrapper.find(PrintableStopHeader);
 
       expect(stopHeaderDisplay.prop('fromDisplayName')).to.equal('First Stop');
       expect(stopHeaderDisplay.prop('toDisplayName')).to.equal('Fourth Stop');
@@ -36,7 +36,7 @@ describe('<ScheduleHeader />', () => {
     it('should update displayed names when origin changes', () => {
       const props = { ...defaultProps, from: 2 };
       const wrapper = shallow(<ScheduleHeader {...props} />);
-      const stopHeaderDisplay = wrapper.find(StopHeaderDisplay);
+      const stopHeaderDisplay = wrapper.find(PrintableStopHeader);
 
       expect(stopHeaderDisplay.prop('fromDisplayName')).to.equal('Third Stop');
     });
@@ -44,7 +44,7 @@ describe('<ScheduleHeader />', () => {
     it('should update displayed names when destination changes', () => {
       const props = { ...defaultProps, to: 1 };
       const wrapper = shallow(<ScheduleHeader {...props} />);
-      const stopHeaderDisplay = wrapper.find(StopHeaderDisplay);
+      const stopHeaderDisplay = wrapper.find(PrintableStopHeader);
 
       expect(stopHeaderDisplay.prop('toDisplayName')).to.equal('Second Stop');
     });

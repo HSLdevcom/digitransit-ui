@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import ScheduleDropdown from './ScheduleDropdown';
-import StopHeaderDisplay from './StopHeaderDisplay';
+import PrintableStopHeader from './PrintableStopHeader';
 import { stopShape } from '../../../util/shapes';
 
 /**
@@ -28,7 +28,7 @@ function ScheduleHeader({
 
   return (
     <div className="route-schedule-header row">
-      <StopHeaderDisplay
+      <PrintableStopHeader
         fromDisplayName={fromDisplayName}
         toDisplayName={toDisplayName}
       />

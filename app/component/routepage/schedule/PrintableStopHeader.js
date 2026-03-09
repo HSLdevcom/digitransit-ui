@@ -6,7 +6,7 @@ import Icon from '../../Icon';
  * Displays the selected origin and destination when printing the schedule page.
  * Hidden in the regular view, only shown in print media.
  */
-const StopHeaderDisplay = ({ fromDisplayName, toDisplayName }) => {
+const PrintableStopHeader = ({ fromDisplayName, toDisplayName }) => {
   return (
     <div className="printable-stop-header">
       <div className="printable-stop-header_icon-from">
@@ -21,11 +21,11 @@ const StopHeaderDisplay = ({ fromDisplayName, toDisplayName }) => {
   );
 };
 
-StopHeaderDisplay.propTypes = {
+PrintableStopHeader.propTypes = {
   fromDisplayName: PropTypes.string.isRequired,
   toDisplayName: PropTypes.string.isRequired,
 };
 
-StopHeaderDisplay.displayName = 'StopHeaderDisplay';
+PrintableStopHeader.displayName = 'PrintableStopHeader';
 
-export default StopHeaderDisplay;
+export default PrintableStopHeader;
