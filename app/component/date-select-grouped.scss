@@ -21,7 +21,7 @@
     border-color: $primary-color;
     background: $white;
     border: 1px solid $primary-color;
-    box-shadow: 0 0 3px 0 $secondary-color;
+    box-shadow: 0 0 3px 0 $theme-secondary-color;
     border-radius: var(--space-xs);
   }
 
@@ -31,7 +31,7 @@
       border-color: $primary-color;
       background: $white;
       border: 1px solid $primary-color;
-      box-shadow: 0 0 3px 0 $secondary-color;
+      box-shadow: 0 0 3px 0 $theme-secondary-color;
       border-radius: var(--space-xs);
     }
   }
@@ -86,7 +86,7 @@
             line-height: 1.3em;
 
             &:hover {
-              color: $secondary-color;
+              color: $theme-secondary-color;
             }
           }
         }
@@ -97,13 +97,13 @@
   .route-schedule-grouped__control--menu-is-open {
     outline: none;
     background: $white;
-    box-shadow: 0 0 3px 0 $secondary-color;
+    box-shadow: 0 0 3px 0 $theme-secondary-color;
     border-radius: var(--space-xs);
   }
 
   .route-schedule-grouped__control--is-focused {
     border-radius: var(--space-xs);
-    box-shadow: 0 0 3px 0 $secondary-color;
+    box-shadow: 0 0 3px 0 $theme-secondary-color;
   }
 
   .route-schedule-grouped__dropdown-indicator {
