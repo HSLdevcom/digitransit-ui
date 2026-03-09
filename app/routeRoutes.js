@@ -20,7 +20,7 @@ import { prepareServiceDay } from './util/dateParamUtils';
 import {
   prepareScheduleParamsWithFiveWeeks,
   prepareScheduleParamsWithTenWeeks,
-} from './util/scheduleParamUtils';
+} from './component/routepage/schedule/scheduleParamUtils';
 
 export default function routeRoutes(config) {
   const showTenWeeks = config.showTenWeeksOnRouteSchedule || false;
@@ -223,7 +223,7 @@ export default function routeRoutes(config) {
               path={`${PREFIX_TIMETABLE}/:patternId`}
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "route" */ './component/routepage/ScheduleContainer'
+                  /* webpackChunkName: "route" */ './component/routepage/schedule/ScheduleContainer'
                 ).then(getDefault)
               }
               query={graphql`
@@ -305,14 +305,14 @@ export default function routeRoutes(config) {
                   $wk10day7: String
                 ) {
                   pattern(id: $patternId) {
-                    ...ScheduleContainer_pattern
+                    ...SchedulePatternFragment
                   }
                   route(id: $routeId) {
-                    ...ScheduleContainer_route
+                    ...ScheduleRouteFragment
                       @arguments(date: $date, serviceDate: $serviceDate)
                   }
                   firstDepartures: pattern(id: $patternId) {
-                    ...ScheduleContainer_firstDepartures
+                    ...ScheduleFirstDeparturesFragment
                       @arguments(
                         showTenWeeks: $showTenWeeks
                         wk1day1: $wk1day1
