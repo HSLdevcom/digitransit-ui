@@ -5,7 +5,7 @@
 
   margin-right: 0;
   background-color: $white;
-  border: 1px transparent $control-border-color;
+  border: 1px solid $control-border-color;
   display: flex;
   align-items: center;
   border-radius: var(--space-xs);
@@ -18,20 +18,20 @@
 
   .date-select-wrapper--menu-open {
     outline: none;
-    border-color: $primary-color;
+    border-color: $theme-primary-color;
     background: $white;
-    border: 1px solid $primary-color;
-    box-shadow: 0 0 3px 0 $secondary-color;
+    border: 1px solid $theme-primary-color;
+    box-shadow: 0 0 3px 0 $theme-secondary-color;
     border-radius: var(--space-xs);
   }
 
   .date-select-wrapper {
     &:focus {
       outline: none;
-      border-color: $primary-color;
+      border-color: $theme-primary-color;
       background: $white;
-      border: 1px solid $primary-color;
-      box-shadow: 0 0 3px 0 $secondary-color;
+      border: 1px solid $theme-primary-color;
+      box-shadow: 0 0 3px 0 $theme-secondary-color;
       border-radius: var(--space-xs);
     }
   }
@@ -86,7 +86,7 @@
             line-height: 1.3em;
 
             &:hover {
-              color: $secondary-color;
+              color: $theme-secondary-color;
             }
           }
         }
@@ -97,13 +97,13 @@
   .route-schedule-grouped__control--menu-is-open {
     outline: none;
     background: $white;
-    box-shadow: 0 0 3px 0 $secondary-color;
+    box-shadow: 0 0 3px 0 $theme-secondary-color;
     border-radius: var(--space-xs);
   }
 
   .route-schedule-grouped__control--is-focused {
     border-radius: var(--space-xs);
-    box-shadow: 0 0 3px 0 $secondary-color;
+    box-shadow: 0 0 3px 0 $theme-secondary-color;
   }
 
   .route-schedule-grouped__dropdown-indicator {
@@ -116,7 +116,7 @@
     margin-right: 0; // control padding provides the gap
 
     .dropdown-arrow {
-      color: $primary-color;
+      color: $theme-primary-color;
       width: 16px;
       height: 16px;
       transform-origin: center;
@@ -137,7 +137,6 @@
   background: $white;
   border: 1px solid $light-gray;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  max-height: unquote('min(400px, 60vh)');
 }
 
 .route-schedule-grouped__menu-list {
@@ -246,7 +245,7 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    color: $primary-color;
+    color: $theme-primary-color;
 
     svg {
       width: 16px;
