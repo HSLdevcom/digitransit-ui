@@ -49,8 +49,8 @@ const ParkOrBikeStationHeader = (
   return (
     <div className={cn}>
       {breakpoint === 'large' && backButton && <BackButton />}
-      <div className="header">
-        <h3>{name}</h3>
+      <div className="header-section">
+        <h1>{name}</h1>
         <div className="station-sub-header">
           <FormattedMessage
             id={isRentalStation ? 'citybike-station-no-id' : parkHeaderId}

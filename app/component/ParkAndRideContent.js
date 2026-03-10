@@ -102,7 +102,12 @@ function ParkAndRideContent({
   const separator = showDetails ? 'separator' : 'low-separator';
   return (
     <div className="station-page-container">
-      <div className={cx('park-header', { 'large-header': showDetails })}>
+      <div
+        className={cx('park-header', {
+          'large-header': showDetails,
+          'small-header': !showDetails,
+        })}
+      >
         {!showDetails && (
           <div className="header-icon">
             <Icon img={`icon_${prePostFix}`} height={2.45} width={2.45} />
