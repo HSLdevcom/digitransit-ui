@@ -340,14 +340,20 @@ select {
 }
 
 .canceled {
-  color: $cancelation-red;
-  background: linear-gradient(
-    to bottom,
-    transparent calc(50% - 1px),
-    $cancelation-red calc(50% - 1px),
-    $cancelation-red calc(50% + 1px),
-    transparent calc(50% + 1px)
-  );
+  color: $black;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    background: $cancelation-red;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
 }
 
 .gutterer {

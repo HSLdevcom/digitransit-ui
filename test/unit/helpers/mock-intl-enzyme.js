@@ -11,6 +11,7 @@ import React from 'react';
 import { IntlProvider, intlShape } from 'react-intl';
 import { mount, shallow } from 'enzyme';
 import translations from '../../../app/translations';
+import { IntlContextProvider } from '../../../app/util/useTranslationsContext';
 
 // Create the IntlProvider to retrieve context for wrapping around.
 const getIntl = locale => {
@@ -41,6 +42,8 @@ export const shallowWithIntl = (
 ) =>
   shallow(nodeWithIntlProp(node, locale), {
     context: { ...context, intl: providers[locale] },
+    wrappingComponent: IntlContextProvider,
+    wrappingComponentProps: { intl: providers[locale] },
     ...additionalOptions,
   });
 
@@ -55,5 +58,7 @@ export const mountWithIntl = (
       intl: intlShape,
       ...childContextTypes,
     },
+    wrappingComponent: IntlContextProvider,
+    wrappingComponentProps: { intl: providers[locale] },
     ...additionalOptions,
   });

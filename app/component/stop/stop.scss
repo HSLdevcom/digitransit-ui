@@ -58,6 +58,18 @@
     min-height: 0;
     padding-bottom: 20px;
   }
+}
+
+.constant-operation-panel {
+  padding-bottom: 28px;
+}
+
+.constant-operation-content {
+  width: 95%;
+
+  .constant-operation-link {
+    display: inline-block;
+  }
 
   &.bottom-margin {
     flex: none;
