@@ -2128,13 +2128,13 @@ __metadata:
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": ^2.0.1
     classnames: 2.5.1
+    downshift: 9.0.10
     i18next: ^22.5.1
     lodash: 4.17.23
     lodash-es: 4.17.23
     luxon: ^3.6.1
     prop-types: ^15.8.1
     react: ^16.13.0
-    react-autosuggest: ^10.0.0
     react-i18next: ^12.3.1
     react-modal: ~3.11.2
     react-select: 5.8.0
@@ -2278,6 +2278,7 @@ __metadata:
     "@hsl-fi/sass": 1.0.0
     "@hsl-fi/shimmer": 0.1.2
     classnames: 2.5.1
+    downshift: 9.0.10
     hoist-non-react-statics: 2.5.4
     i18next: ^22.5.1
     lodash: 4.17.23
@@ -2285,8 +2286,6 @@ __metadata:
     luxon: ^3.6.1
     prop-types: ^15.8.1
     react: ^16.13.0
-    react-autosuggest: ^10.0.0
-    react-autowhatever: 10.2.1
     react-modal: ~3.11.2
     react-sortablejs: 2.0.11
   languageName: unknown
@@ -11429,8 +11428,6 @@ __metadata:
     prettier: 3.1.1
     prop-types: 15.8.1
     react: ^16.13.0
-    react-autosuggest: ^10.0.0
-    react-autowhatever: 10.2.1
     react-click-outside: 3.0.1
     react-dom: 16.13.0
     react-helmet: 6.1.0
@@ -12379,7 +12376,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es6-promise@npm:^4.1.1, es6-promise@npm:^4.2.8":
+"es6-promise@npm:^4.1.1":
   version: 4.2.8
   resolution: "es6-promise@npm:4.2.8"
   checksum: 95614a88873611cb9165a85d36afa7268af5c03a378b35ca7bda9508e1d4f1f6f19a788d4bc755b3fd37c8ebba40782018e02034564ff24c9d6fa37e959ad57d
@@ -20093,7 +20090,7 @@ __metadata:
     nopt: ^9.0.0
     proc-log: ^6.0.0
     semver: ^7.3.5
-    tar: ^7.5.4
+    tar: ^7.5.2
     tinyglobby: ^0.2.12
     which: ^6.0.0
   bin:
@@ -20122,7 +20119,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-gyp@npm:^12.1.0":
+"node-gyp@npm:^12.1.0, node-gyp@npm:latest":
   version: 12.2.0
   resolution: "node-gyp@npm:12.2.0"
   dependencies:
@@ -20139,26 +20136,6 @@ __metadata:
   bin:
     node-gyp: bin/node-gyp.js
   checksum: d4ce0acd08bd41004f45e10cef468f4bd15eaafb3acc388a0c567416e1746dc005cc080b8a3495e4e2ae2eed170a2123ff622c2d6614062f4a839837dcf1dd9d
-  languageName: node
-  linkType: hard
-
-"node-gyp@npm:latest":
-  version: 11.2.0
-  resolution: "node-gyp@npm:11.2.0"
-  dependencies:
-    env-paths: ^2.2.0
-    exponential-backoff: ^3.1.1
-    graceful-fs: ^4.2.6
-    make-fetch-happen: ^14.0.3
-    nopt: ^8.0.0
-    proc-log: ^5.0.0
-    semver: ^7.3.5
-    tar: ^7.4.3
-    tinyglobby: ^0.2.12
-    which: ^5.0.0
-  bin:
-    node-gyp: bin/node-gyp.js
-  checksum: 2536282ba81f8a94b29482d3622b6ab298611440619e46de4512a6f32396a68b5530357c474b859787069d84a4c537d99e0c71078cce5b9f808bf84eeb78e8fb
   languageName: node
   linkType: hard
 
@@ -20761,13 +20738,6 @@ __metadata:
   version: 0.9.0
   resolution: "oauth-sign@npm:0.9.0"
   checksum: 8f5497a127967866a3c67094c21efd295e46013a94e6e828573c62220e9af568cc1d2d04b16865ba583e430510fa168baf821ea78f355146d8ed7e350fc44c64
-  languageName: node
-  linkType: hard
-
-"object-assign@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "object-assign@npm:3.0.0"
-  checksum: 56c66a77318aea95b11bd16a65c313e98786cea1db673a7fdd3bc92aced671b35f62a9819ad9cf7846921c773818329636cda5cd1b7c4fa0ce9908440e091dac
   languageName: node
   linkType: hard
 
@@ -23600,34 +23570,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-autosuggest@npm:^10.0.0":
-  version: 10.1.0
-  resolution: "react-autosuggest@npm:10.1.0"
-  dependencies:
-    es6-promise: ^4.2.8
-    prop-types: ^15.7.2
-    react-themeable: ^1.1.0
-    section-iterator: ^2.0.0
-    shallow-equal: ^1.2.1
-  peerDependencies:
-    react: ">=16.3.0"
-  checksum: 3526b02bb1938374c2a0d108a03666eae24cddd8bef7686e7f6271bb4c25ad34f8b09e84d1cc2e9206aff577a742c1f8481964e75442a9e080326676ad71f8ae
-  languageName: node
-  linkType: hard
-
-"react-autowhatever@npm:10.2.1":
-  version: 10.2.1
-  resolution: "react-autowhatever@npm:10.2.1"
-  dependencies:
-    prop-types: ^15.5.8
-    react-themeable: ^1.1.0
-    section-iterator: ^2.0.0
-  peerDependencies:
-    react: ">=0.14.7"
-  checksum: 507a287d46984c6bc9fa3342ada2faf9002fee72568ce8151448908de553fd6daa501b32bec3406e18dee93939d403b8e8800c0d723f7b8435859b1ce36886e7
-  languageName: node
-  linkType: hard
-
 "react-click-outside@npm:3.0.1":
   version: 3.0.1
   resolution: "react-click-outside@npm:3.0.1"
@@ -23916,15 +23858,6 @@ __metadata:
   peerDependencies:
     react: ^16.14.0
   checksum: 96eb8a2566e67ebd246ef6e1b36d8c8498c68ebfdb94ca8399c19b4e3b73368caf0ffbe44767593e3499f2f58b4b5e57ba0565a47628048d2ab01b23a422724e
-  languageName: node
-  linkType: hard
-
-"react-themeable@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "react-themeable@npm:1.1.0"
-  dependencies:
-    object-assign: ^3.0.0
-  checksum: 80d8fa67d15f3136ae8054bfbecc2f1a396b7cda4f10380e13e8f344b07543a55adfb5aca0cf741071e406d8115ff3ea8e361476a086ba5ad55a1feb9cb9ae7a
   languageName: node
   linkType: hard
 
@@ -25267,13 +25200,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"section-iterator@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "section-iterator@npm:2.0.0"
-  checksum: d11ae54205baf1ccea5f847b3b5cd9394128ac1051b4ac236d145c9b386e5dd274371a63991e575e20373bacd1c287bfe6159ddf366cb21f30b123e185e6bc7d
-  languageName: node
-  linkType: hard
-
 "select-hose@npm:^2.0.0":
   version: 2.0.0
   resolution: "select-hose@npm:2.0.0"
@@ -25566,13 +25492,6 @@ __metadata:
   dependencies:
     kind-of: ^6.0.2
   checksum: 39b3dd9630a774aba288a680e7d2901f5c0eae7b8387fc5c8ea559918b29b3da144b7bdb990d7ccd9e11be05508ac9e459ce51d01fd65e583282f6ffafcba2e7
-  languageName: node
-  linkType: hard
-
-"shallow-equal@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "shallow-equal@npm:1.2.1"
-  checksum: 4f1645cc516e7754c4438db687e1da439a5f29a7dba2ba90c5f88e5708aeb17bc4355ba45cad805b0e95dc898e37d8bf6d77d854919c7512f89939986cff8cd1
   languageName: node
   linkType: hard
 
@@ -27160,7 +27079,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar@npm:^7.4.3, tar@npm:^7.5.4":
+"tar@npm:^7.4.3, tar@npm:^7.5.2, tar@npm:^7.5.4":
   version: 7.5.10
   resolution: "tar@npm:7.5.10"
   dependencies:

@@ -302,6 +302,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
       background: inherit;
       position: relative;
       margin-left: 40px;
+      margin-top: -4px;
 
       input {
         opacity: 1 !important; // TODO
@@ -488,6 +489,10 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
         &.time-input-icon > svg {
           height: 20px;
         }
+
+        &.date-input-icon > svg {
+          height: 20px;
+        }
       }
 
       :global .mobile-datetimepicker-invalid-input {
@@ -599,6 +604,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
 
         // autosuggest
         .input {
+          color: black;
           box-shadow: none;
           border: none;
           background: none;

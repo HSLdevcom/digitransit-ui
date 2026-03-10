@@ -35,6 +35,7 @@
     "@hsl-fi/sass": "1.0.0",
     "@hsl-fi/shimmer": "0.1.2",
     "classnames": "2.5.1",
+    "downshift": "9.0.10",
     "hoist-non-react-statics": "2.5.4",
     "i18next": "^22.5.1",
     "lodash": "4.17.23",
@@ -42,8 +43,6 @@
     "luxon": "^3.6.1",
     "prop-types": "^15.8.1",
     "react": "^16.13.0",
-    "react-autosuggest": "^10.0.0",
-    "react-autowhatever": "10.2.1",
     "react-modal": "~3.11.2",
     "react-sortablejs": "2.0.11"
   }

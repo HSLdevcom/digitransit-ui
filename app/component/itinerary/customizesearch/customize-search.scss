@@ -104,14 +104,13 @@
     box-shadow: none;
 
     .settings-header {
+      padding-top: 30px;
+
       h1 {
-        padding-top: 6px;
         text-align: center;
       }
 
-      .settings-header {
-        height: 80px;
-      }
+      height: 80px;
 
       .close-offcanvas {
         left: 20px;
@@ -190,7 +189,6 @@
 
   .settings-header {
     padding-top: 12px;
-    height: 80px;
   }
 
   .close-offcanvas {

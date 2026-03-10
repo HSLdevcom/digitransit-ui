@@ -19,7 +19,7 @@ const globals = {
   'prop-types': 'PropTypes',
   'react-is': 'react-is',
   i18next: 'i18next',
-  'react-autosuggest': 'Autosuggest',
+  'react-i18next': 'reactI18next',
   'react-sortablejs': 'reactSortablejs',
   'react-modal': 'ReactModal',
   '@hsl-fi/modal': 'Modal',
@@ -49,6 +49,9 @@ const globals = {
   'lodash/uniq': 'uniq',
   'lodash/compact': 'compact',
   'react-relay': 'reactRelay',
+  downshift: 'downshift',
+  luxon: 'luxon',
+  'react-select': 'Select',
 };
 
 async function getSortedPackages() {
