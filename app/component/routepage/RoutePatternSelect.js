@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelect } from 'downshift';
 import { Link, routerShape } from 'found';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import Icon from '../Icon';
 import { routePagePath } from '../../util/path';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { configShape, patternShape } from '../../util/shapes';
+import { patternShape } from '../../util/shapes';
+import { useTranslationsContext } from '../../util/useTranslationsContext';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 function patternOptionText(pattern) {
   return pattern
@@ -46,10 +48,14 @@ export function patternTextWithIcon(pattern) {
  * @param currentPattern currently selected pattern
  * @returns {JSX.Element}
  */
-function PatternOption(
-  { option, optionIndexTable, highlightedIndex, getItemProps, currentPattern },
-  { intl },
-) {
+function PatternOption({
+  option,
+  optionIndexTable,
+  highlightedIndex,
+  getItemProps,
+  currentPattern,
+}) {
+  const intl = useTranslationsContext();
   const isSelected = option.code === currentPattern.code;
   const selectedText = isSelected
     ? intl.formatMessage({ id: 'route-page.pattern-chosen' })
@@ -126,14 +132,14 @@ PatternOption.propTypes = {
   currentPattern: patternShape.isRequired,
 };
 
-PatternOption.contextTypes = {
-  intl: intlShape.isRequired,
-};
-
-export default function RoutePatternSelect(
-  { currentPattern, optionArray, onSelectChange, className },
-  { config, router },
-) {
+export default function RoutePatternSelect({
+  currentPattern,
+  optionArray,
+  onSelectChange,
+  className,
+  router,
+}) {
+  const config = useConfigContext();
   if (!currentPattern) {
     return null;
   }
@@ -269,13 +275,9 @@ RoutePatternSelect.propTypes = {
   ).isRequired,
   onSelectChange: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
+  router: routerShape.isRequired,
 };
 
 RoutePatternSelect.defaultProps = {
   currentPattern: undefined,
-};
-
-RoutePatternSelect.contextTypes = {
-  config: configShape.isRequired,
-  router: routerShape.isRequired,
 };

@@ -3,10 +3,11 @@ import { describe, it } from 'mocha';
 import React from 'react';
 import { DateTime } from 'luxon';
 
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { mockContext } from '../helpers/mock-context';
+import { mountWithProviders } from '../helpers/mock-intl-enzyme';
+import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { Component as RoutePatternSelectContainer } from '../../../app/component/routepage/RoutePatternSelectContainer';
 import RoutePatternSelect from '../../../app/component/routepage/RoutePatternSelect';
+import { routePagePath, PREFIX_STOPS } from '../../../app/util/path';
 
 const serviceDay = Math.floor(new Date().getTime() / 1000);
 const today = DateTime.now().toFormat('yyyyLLdd');
@@ -45,63 +46,68 @@ function makeTripForDate() {
   };
 }
 
-const baseContext = {
-  ...mockContext,
-  config: {
-    ...mockContext.config,
-    itinerary: { serviceTimeRange: 30 },
-    showSimilarRoutesOnRouteDropDown: false,
-  },
+const baseConfig = {
+  CONFIG: 'default',
+  timeZone: 'Europe/Helsinki',
+  colors: { primary: '#3fa', accessiblePrimary: '#333' },
+  itinerary: { serviceTimeRange: 30 },
+  showSimilarRoutesOnRouteDropDown: false,
+};
+
+const baseMatch = {
+  ...mockMatch,
+  params: { patternId: 'ROUTE:1:0:01' },
 };
 
 const baseProps = {
-  params: { patternId: 'ROUTE:1:0:01' },
+  match: baseMatch,
   className: 'bp-large',
   onSelectChange: () => {},
   gtfsId: 'ROUTE:1',
   relayEnvironment: {},
 };
 
+/** Shared route with exactly two opposite-direction patterns. */
+function makeTwoDirectionRoute() {
+  return {
+    shortName: '1',
+    mode: 'BUS',
+    gtfsId: 'ROUTE:1',
+    patterns: [
+      makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()]),
+      makePattern('ROUTE:1:1:01', 1, 'Origin', [makeTripForDate()]),
+    ],
+  };
+}
+
 describe('<RoutePatternSelectContainer />', () => {
   describe('Toggle button rendering', () => {
-    it('renders a toggle button when there are exactly two opposite-direction patterns and no special routes', () => {
-      const props = {
-        ...baseProps,
-        route: {
-          shortName: '1',
-          mode: 'BUS',
-          gtfsId: 'ROUTE:1',
-          patterns: [
-            makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()]),
-            makePattern('ROUTE:1:1:01', 1, 'Origin', [makeTripForDate()]),
-          ],
-        },
-      };
-      const wrapper = shallowWithIntl(
+    it('renders a toggle button (not a dropdown) when there are exactly two opposite-direction patterns', () => {
+      const props = { ...baseProps, route: makeTwoDirectionRoute() };
+      const wrapper = mountWithProviders(
         <RoutePatternSelectContainer {...props} />,
-        { context: baseContext },
+        { config: baseConfig, router: mockRouter },
       );
       expect(wrapper.find('button.route-pattern-toggle')).to.have.lengthOf(1);
+      expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(0);
     });
 
-    it('does not render RoutePatternSelect when only two opposite-direction patterns exist', () => {
+    it('calls onSelectChange with the other pattern code when the toggle button is clicked', () => {
+      let selectedCode;
       const props = {
         ...baseProps,
-        route: {
-          shortName: '1',
-          mode: 'BUS',
-          gtfsId: 'ROUTE:1',
-          patterns: [
-            makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()]),
-            makePattern('ROUTE:1:1:01', 1, 'Origin', [makeTripForDate()]),
-          ],
+        onSelectChange: code => {
+          selectedCode = code;
         },
+        route: makeTwoDirectionRoute(),
       };
-      const wrapper = shallowWithIntl(
+      const wrapper = mountWithProviders(
         <RoutePatternSelectContainer {...props} />,
-        { context: baseContext },
+        { config: baseConfig, router: mockRouter },
       );
-      expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(0);
+      wrapper.find('button.route-pattern-toggle').simulate('click');
+      // The active pattern is ROUTE:1:0:01; clicking swap should select the opposite direction.
+      expect(selectedCode).to.equal('ROUTE:1:1:01');
     });
   });
 
@@ -120,46 +126,47 @@ describe('<RoutePatternSelectContainer />', () => {
           ],
         },
       };
-      const wrapper = shallowWithIntl(
+      const wrapper = mountWithProviders(
         <RoutePatternSelectContainer {...props} />,
-        { context: baseContext },
+        { config: baseConfig, router: mockRouter },
       );
       expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(1);
     });
 
-    it('passes grouped optionArray to RoutePatternSelect', () => {
+    it('groups all patterns into a single unnamed main group in the optionArray', () => {
+      const patterns = [
+        makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()]),
+        makePattern('ROUTE:1:1:01', 1, 'Origin', [makeTripForDate()]),
+        makePattern('ROUTE:1:0:02', 0, 'Via Downtown', [makeTripForDate()]),
+      ];
       const props = {
         ...baseProps,
-        route: {
-          shortName: '1',
-          mode: 'BUS',
-          gtfsId: 'ROUTE:1',
-          patterns: [
-            makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()]),
-            makePattern('ROUTE:1:1:01', 1, 'Origin', [makeTripForDate()]),
-            makePattern('ROUTE:1:0:02', 0, 'Via Downtown', [makeTripForDate()]),
-          ],
-        },
+        route: { shortName: '1', mode: 'BUS', gtfsId: 'ROUTE:1', patterns },
       };
-      const wrapper = shallowWithIntl(
+      const wrapper = mountWithProviders(
         <RoutePatternSelectContainer {...props} />,
-        { context: baseContext },
+        { config: baseConfig, router: mockRouter },
       );
       const optionArray = wrapper.find(RoutePatternSelect).prop('optionArray');
-      expect(optionArray).to.be.an('array');
-      expect(optionArray.length).to.be.above(0);
-      const allOptions = optionArray.flatMap(g => g.options);
-      expect(allOptions.length).to.be.above(0);
+
+      // Main (non-special, non-future) patterns land in a group with an empty name.
+      expect(optionArray[0].name).to.equal('');
+
+      // Every supplied pattern code must appear exactly once across all groups.
+      const allCodes = optionArray.flatMap(g => g.options.map(o => o.code));
+      expect(allCodes).to.have.lengthOf(patterns.length);
+      patterns.forEach(p => expect(allCodes).to.include(p.code));
     });
   });
 
   describe('Pattern not found – redirect', () => {
-    it('calls router.replace when the current patternId does not match any available pattern', () => {
+    it('redirects to the first available pattern URL when the current patternId is not found', () => {
       let replacedUrl;
-      const contextWithSpy = {
-        ...baseContext,
+      const matchWithSpy = {
+        ...mockMatch,
+        params: { patternId: 'ROUTE:1:NONEXISTENT' },
         router: {
-          ...baseContext.router,
+          ...mockRouter,
           replace: url => {
             replacedUrl = url;
           },
@@ -167,7 +174,7 @@ describe('<RoutePatternSelectContainer />', () => {
       };
       const props = {
         ...baseProps,
-        params: { patternId: 'ROUTE:1:NONEXISTENT' },
+        match: matchWithSpy,
         route: {
           shortName: '1',
           mode: 'BUS',
@@ -178,19 +185,25 @@ describe('<RoutePatternSelectContainer />', () => {
           ],
         },
       };
-      shallowWithIntl(<RoutePatternSelectContainer {...props} />, {
-        context: contextWithSpy,
+      mountWithProviders(<RoutePatternSelectContainer {...props} />, {
+        config: baseConfig,
+        router: matchWithSpy.router,
       });
-      // The URL is encoded, so colons become %3A
-      expect(replacedUrl).to.include('ROUTE');
-      expect(replacedUrl).to.include('0');
-      expect(replacedUrl).to.include('01');
+      // The container redirects to routePagePath(gtfsId, PREFIX_STOPS, options[0].code).
+      // Colons in IDs are percent-encoded (%3A), so build the expected URL the same way.
+      const expectedUrl = routePagePath(
+        'ROUTE:1',
+        PREFIX_STOPS,
+        'ROUTE:1:0:01',
+      );
+      expect(replacedUrl).to.equal(expectedUrl);
     });
   });
 
   describe('No trips for today', () => {
-    it('falls back to showing main-direction patterns when no trips or active dates exist', () => {
-      // enrichPatterns falls back to patterns ending in ':01' when no future trips are found
+    it('shows the toggle button using fallback patterns (codes ending in :01) when no trips exist', () => {
+      // enrichPatterns falls back to patterns whose code ends in ':01' when no trips are found.
+      // With two opposite-direction fallback patterns the container should render the toggle button.
       const props = {
         ...baseProps,
         route: {
@@ -203,11 +216,11 @@ describe('<RoutePatternSelectContainer />', () => {
           ],
         },
       };
-      const wrapper = shallowWithIntl(
+      const wrapper = mountWithProviders(
         <RoutePatternSelectContainer {...props} />,
-        { context: baseContext },
+        { config: baseConfig, router: mockRouter },
       );
-      expect(wrapper.isEmptyRender()).to.equal(false);
+      expect(wrapper.find('button.route-pattern-toggle')).to.have.lengthOf(1);
     });
   });
 });
