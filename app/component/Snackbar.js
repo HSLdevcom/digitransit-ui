@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import { useTranslationsContext } from '../util/useTranslationsContext';
+import { useConfigContext } from '../configurations/ConfigContext';
 
 /**
  * A generic snackbar notification.
@@ -20,6 +21,7 @@ const Snackbar = ({
   className,
 }) => {
   const intl = useTranslationsContext();
+  const config = useConfigContext();
   return (
     <>
       <div
@@ -30,7 +32,7 @@ const Snackbar = ({
         })}
         aria-hidden="true"
       >
-        <Icon img={iconImg} omitViewBox />
+        <Icon img={iconImg} />
         <span className="snackbar-text">
           <FormattedMessage id={messageId} defaultMessage={defaultMessage} />
         </span>
@@ -44,7 +46,11 @@ const Snackbar = ({
           onClick={onClose}
           tabIndex="-1"
         >
-          <Icon id="close-icon" img="notification-close" omitViewBox />
+          <Icon
+            id="close-icon"
+            img="notification-close"
+            color={config.colors.primary}
+          />
         </button>
       </div>
       <div className="sr-only" aria-live="polite" role="status">

@@ -1,0 +1,271 @@
+.route-schedule-grouped-date-select .date-select {
+  @media print {
+    display: none;
+  }
+
+  margin-right: 0;
+  background-color: $white;
+  border: 1px solid $control-border-color;
+  display: flex;
+  align-items: center;
+  border-radius: var(--space-xs);
+  height: auto;
+  min-height: 44px;
+  justify-content: space-between;
+  max-width: none;
+  flex-basis: auto;
+  width: 100%;
+
+  .date-select-wrapper--menu-open {
+    outline: none;
+    border-color: $theme-primary-color;
+    background: $white;
+    border: 1px solid $theme-primary-color;
+    box-shadow: 0 0 3px 0 $theme-secondary-color;
+    border-radius: var(--space-xs);
+  }
+
+  .date-select-wrapper {
+    &:focus {
+      outline: none;
+      border-color: $theme-primary-color;
+      background: $white;
+      border: 1px solid $theme-primary-color;
+      box-shadow: 0 0 3px 0 $theme-secondary-color;
+      border-radius: var(--space-xs);
+    }
+  }
+
+  .route-schedule-grouped__control {
+    width: 100%;
+    height: 100%;
+    background: none !important;
+    padding: 13px 16px;
+    border-style: unset;
+
+    .route-schedule-grouped__value-container {
+      overflow: visible;
+      padding: 0;
+
+      .route-schedule-grouped__placeholder {
+        width: 100%;
+        display: flex;
+        margin: 0;
+        padding: 0 3px 0 0;
+
+        .left-column {
+          color: $black;
+          font-size: 0.92rem;
+          font-weight: $font-weight-book;
+          text-align: left;
+          overflow: visible;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          display: flex;
+          flex-direction: column;
+          border-right: 1px solid $gray;
+
+          .combobox-label {
+            font-size: $font-size-xsmall;
+            white-space: nowrap;
+            color: $gray;
+            letter-spacing: -0.48px;
+            font-weight: $font-weight-book;
+          }
+
+          .selected-value {
+            line-height: normal;
+            letter-spacing: normal;
+          }
+
+          & select {
+            cursor: pointer;
+            border-bottom: 2px none !important;
+            transition: all 0.2s ease-out;
+            height: 1.27em;
+            line-height: 1.3em;
+
+            &:hover {
+              color: $theme-secondary-color;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .route-schedule-grouped__control--menu-is-open {
+    outline: none;
+    background: $white;
+    box-shadow: 0 0 3px 0 $theme-secondary-color;
+    border-radius: var(--space-xs);
+  }
+
+  .route-schedule-grouped__control--is-focused {
+    border-radius: var(--space-xs);
+    box-shadow: 0 0 3px 0 $theme-secondary-color;
+  }
+
+  .route-schedule-grouped__dropdown-indicator {
+    padding: 0;
+    width: 16px;
+    min-width: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0; // control padding provides the gap
+
+    .dropdown-arrow {
+      color: $theme-primary-color;
+      width: 16px;
+      height: 16px;
+      transform-origin: center;
+
+      &.inverted {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.route-schedule-grouped__menu {
+  width: 100%;
+  min-width: 100%;
+  z-index: 9999;
+  border-radius: var(--space-xs);
+  overflow: hidden;
+  background: $white;
+  border: 1px solid $light-gray;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.route-schedule-grouped__menu-list {
+  margin: 0;
+  padding: 0;
+  border-radius: inherit;
+  position: relative;
+  max-height: inherit;
+  overflow-y: auto;
+}
+
+.route-schedule-grouped__group-heading {
+  color: $gray;
+  font-size: $font-size-xsmall;
+  font-weight: $font-weight-book;
+  text-transform: none !important;
+  border-bottom: 1px solid $light-gray;
+  padding: 0.5rem 1rem 0.25rem;
+  border-top: 1px solid $light-gray;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 1px;
+    background: $light-gray;
+    pointer-events: none;
+  }
+}
+
+// Remove extra spacing introduced by react-select's group wrapper
+.route-schedule-grouped__group {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+// Ensure the first group does not receive top padding from menu-list wrappers
+.route-schedule-grouped__menu-list .route-schedule-grouped__group:first-child {
+  padding-top: 0;
+
+  .route-schedule-grouped__group-heading {
+    border-top: none;
+  }
+}
+
+.route-schedule-grouped__option {
+  display: flex;
+  justify-content: space-between;
+  font-weight: $font-weight-book;
+  position: relative;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  background: $white;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 8px;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: $light-gray;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 1px;
+    background: $light-gray;
+    pointer-events: none;
+  }
+
+  svg {
+    position: relative;
+  }
+}
+
+.route-schedule-grouped__option:last-child::after {
+  display: none;
+}
+
+.route-schedule-grouped__option--is-selected {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+
+.route-schedule-grouped__option,
+.route-schedule-grouped-date-select .date-select {
+  .date-select-option {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .date-select-check {
+    width: 24px;
+    padding-left: $padding-xsmall;
+    padding-right: $padding-xsmall;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: $theme-primary-color;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+  }
+
+  .check-placeholder {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+  }
+
+  .date-select-label {
+    flex: 1 1 auto;
+    padding-left: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-weight: $font-weight-book;
+  }
+}

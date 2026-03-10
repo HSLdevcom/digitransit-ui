@@ -1,46 +1,72 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
-import { matchShape, routerShape } from 'found';
-import { intlShape } from 'react-intl';
-import { DateTime } from 'luxon';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-import { parkShape, configShape, errorShape } from '../util/shapes';
+import React from 'react';
+import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
+import { Info } from 'luxon';
+import { routerShape } from 'found';
+import { parkShape, errorShape } from '../util/shapes';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
+import Disclaimer from './Disclaimer';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../util/path';
-import { DATE_FORMAT } from '../constants';
+import { useConfigContext } from '../configurations/ConfigContext';
+import { useBreakpoint } from '../util/withBreakpoint';
 
-function ParkAndRideContent(
-  { vehicleParking, error, currentLanguage, mode, showInfo, backButton },
-  { config, intl, router, match },
-) {
+function parkLabel(id) {
+  return (
+    <div className="park-label">
+      <FormattedMessage id={id} />
+    </div>
+  );
+}
+
+const osmDays = ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'];
+
+function renderOpeningHours(s, dotted) {
+  let translated = s;
+  osmDays.forEach((d, i) => {
+    translated = translated.replaceAll(d, Info.weekdays('short')[i]);
+  });
+  if (dotted) {
+    const parts = translated.split(' ');
+    if (parts.length === 2) {
+      return (
+        <span className="formatted-hour">
+          <span>{parts[0]} </span>
+          <span className="dot-line" />
+          <span> {parts[1]}</span>
+        </span>
+      );
+    }
+  }
+  return translated;
+}
+
+function ParkAndRideContent({
+  vehicleParking,
+  error,
+  mode,
+  showInfo,
+  showDetails,
+  backButton,
+  router,
+}) {
   // throw error when relay query fails
   if (error) {
     throw error.message;
   }
+  const { parkAndRide, language } = useConfigContext();
+  const breakpoint = useBreakpoint();
+
   const bikePark = mode
     ? mode === 'BIKEPARK'
-    : match.location.pathname.includes(PREFIX_BIKEPARK);
+    : window.location.href.includes(PREFIX_BIKEPARK);
   if (!vehicleParking) {
     const path = bikePark ? PREFIX_BIKEPARK : PREFIX_CARPARK;
-    router.replace(`/${path}`);
+    router?.replace(`/${path}`);
     return null;
   }
   const prePostFix = bikePark ? 'bike-park' : 'car-park';
-  const [authenticationMethods, setAuthenticationMethods] = useState([]);
-  const [pricingMethods, setPricingMethods] = useState([]);
-  const [services, setServices] = useState([]);
-  const [openingHours, setOpeningHours] = useState(null);
-  const [lang, setLang] = useState('fi');
-
-  let spacesAvailable;
-  let maxCapacity;
-  if (bikePark) {
-    spacesAvailable = vehicleParking.availability?.bicycleSpaces;
-  } else {
-    spacesAvailable = vehicleParking.availability?.carSpaces;
-    maxCapacity = vehicleParking.parkCapacity?.carSpaces || 1;
-  }
 
   const {
     getAuthenticationMethods,
@@ -49,189 +75,142 @@ function ParkAndRideContent(
     isFree,
     isPaid,
     getOpeningHours,
-  } = config.parkAndRide.pageContent.default;
+  } = parkAndRide.resolver;
 
-  useEffect(() => {
-    setAuthenticationMethods(getAuthenticationMethods(vehicleParking));
-    setPricingMethods(getPricingMethods(vehicleParking));
-    setServices(getServices(vehicleParking));
-    setOpeningHours(getOpeningHours(vehicleParking));
-  }, []);
-
-  useEffect(() => {
-    if (lang !== currentLanguage) {
-      setLang(currentLanguage);
-    }
-  }, [currentLanguage]);
-
-  const getOpeningHoursAsText = () => {
-    const openingHoursDates = openingHours?.dates;
-    if (openingHoursDates) {
-      const filteredOpeningHours = openingHoursDates.filter(o => o.timeSpans);
-      const sameOpeningHoursEveryday = filteredOpeningHours.every(
-        openingHour =>
-          openingHour?.timeSpans.from ===
-            filteredOpeningHours[0]?.timeSpans.from &&
-          openingHour?.timeSpans.to === filteredOpeningHours[0]?.timeSpans.to,
-      );
-      if (
-        sameOpeningHoursEveryday &&
-        filteredOpeningHours.length === openingHoursDates.length &&
-        filteredOpeningHours.length
-      ) {
-        const { to, from } = filteredOpeningHours[0].timeSpans;
-        if (to - from - 60 * 60 * 24 === 0) {
-          return [`24${intl.formatMessage({ id: 'hour-short' })}`];
-        }
-        const formattedFrom = DateTime.fromSeconds(from)
-          .toUTC()
-          .toFormat('HH:mm');
-        const formattedTo = DateTime.fromSeconds(to).toUTC().toFormat('HH:mm');
-        return [`${formattedFrom} - ${formattedTo}`];
-      }
-      let i = 0;
-      const hoursAsText = [];
-      const numberOfDays = filteredOpeningHours.length;
-      while (i < numberOfDays) {
-        const { date, timeSpans } = filteredOpeningHours[i];
-        let j = i + 1;
-        while (j < numberOfDays) {
-          if (
-            filteredOpeningHours[i].timeSpans.from !==
-              filteredOpeningHours[j].timeSpans.from ||
-            filteredOpeningHours[i].timeSpans.to !==
-              filteredOpeningHours[j].timeSpans.to
-          ) {
-            break;
-          }
-          j += 1;
-        }
-        const from = DateTime.fromSeconds(timeSpans.from)
-          .toUTC()
-          .toFormat('HH:mm');
-        const to = DateTime.fromSeconds(timeSpans.to).toUTC().toFormat('HH:mm');
-        const day = DateTime.fromFormat(date, DATE_FORMAT)
-          .setLocale(currentLanguage)
-          .toFormat('ccc');
-        if (i === j - 1) {
-          hoursAsText.push(
-            `${day.charAt(0).toUpperCase() + day.slice(1)} ${from}-${to}`,
-          );
-        } else {
-          const until = openingHoursDates[j - 1].date.toLocaleString(
-            currentLanguage,
-            {
-              weekday: 'short',
-            },
-          );
-          hoursAsText.push(
-            `${day.charAt(0).toUpperCase() + day.slice(1)}-${
-              until.charAt(0).toUpperCase() + until.slice(1)
-            } ${from}-${to}`,
-          );
-        }
-        i = j;
-      }
-      return hoursAsText;
-    }
-    return [];
-  };
+  const authenticationMethods = getAuthenticationMethods(vehicleParking);
+  const services = getServices(vehicleParking);
+  const openingHours = getOpeningHours(vehicleParking);
+  const pricingMethods = getPricingMethods(vehicleParking);
   const parkIsPaid = isPaid(pricingMethods);
   const parkIsFree = isFree(pricingMethods);
-  const { realtime } = vehicleParking;
-  const showOpeningHours =
-    Array.isArray(openingHours?.dates) && openingHours.dates.length > 0;
-  const showSpacesAvailable = !realtime && spacesAvailable;
 
+  let available;
+  let capacity;
+  if (bikePark) {
+    available = vehicleParking.parkCapacity?.bicycleSpaces;
+  } else {
+    available = vehicleParking.availability?.carSpaces;
+    capacity = vehicleParking.parkCapacity?.carSpaces;
+  }
+  const realtime =
+    vehicleParking.realtime &&
+    Number.isInteger(available) &&
+    Number.isInteger(capacity);
+
+  const dotted = showDetails && openingHours.length > 1;
+  const detailClass = showDetails ? 'park-details' : 'park-details-row';
+  const separator = showDetails ? 'separator' : 'low-separator';
   return (
-    <div className="bike-station-page-container">
-      <ParkOrStationHeader
-        parkOrStation={vehicleParking}
-        parkType={bikePark ? 'bike' : 'car'}
-        backButton={backButton}
-      />
+    <div className="station-page-container">
+      <div
+        className={cx('park-header', {
+          'large-header': showDetails,
+          'small-header': !showDetails,
+        })}
+      >
+        {!showDetails && (
+          <div className="header-icon">
+            <Icon img={`icon_${prePostFix}`} height={2.45} width={2.45} />
+          </div>
+        )}
+        <ParkOrStationHeader
+          parkOrStation={vehicleParking}
+          parkType={bikePark ? 'bike' : 'car'}
+          backButton={backButton}
+          withSeparator={showDetails && breakpoint === 'large'}
+        />
+      </div>
       <div className="park-content-container">
-        <Icon img={`icon_${prePostFix}`} height={2.4} width={2.4} />
-        <div className="park-details">
-          {showOpeningHours && (
-            <div className="park-opening-hours">
-              <span>{intl.formatMessage({ id: 'is-open' })} &#160;</span>
-              <span>
-                {getOpeningHoursAsText().map((text, i) => (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <p key={`opening-hour-${text}-${i}`}>{text}</p>
+        {showDetails && (
+          <div className={cx('header-icon', 'park-details')}>
+            <Icon img={`icon_${prePostFix}`} height={2.45} width={2.45} />
+          </div>
+        )}
+        {openingHours.length > 0 && (
+          <div className={detailClass}>
+            {parkLabel('is-open')}
+            <div className={cx('opening-hours', 'park-value')}>
+              {openingHours.map(text => (
+                // eslint-disable-next-line react/no-array-index-key
+                <span key={`opening-hour-${text}`}>
+                  {renderOpeningHours(text, dotted)}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+        {(realtime || Number.isInteger(available)) && (
+          <>
+            <div className={separator} />
+            <div className={detailClass}>
+              {realtime && (
+                <>
+                  {parkLabel('park-and-ride-availability')}
+                  <span className="park-value">
+                    {available} / {capacity}
+                  </span>
+                </>
+              )}
+              {!realtime && (
+                <>
+                  {parkLabel('number-of-spaces')}
+                  <span className="park-value">{available}</span>
+                </>
+              )}
+            </div>
+          </>
+        )}
+        {showDetails && (parkIsFree || parkIsPaid) && (
+          <>
+            <div className={separator} />
+            <div className={detailClass}>
+              {parkLabel('price')}
+              <span className="park-value">
+                {parkIsFree && <FormattedMessage id="free-of-charge" />}
+                {parkIsPaid && <FormattedMessage id="paid" />}
+                {authenticationMethods.length > 0 && (
+                  <>
+                    {', '}
+                    <FormattedMessage id="access_with" />{' '}
+                  </>
+                )}
+                {authenticationMethods.map((method, i) => (
+                  <span key={`auth-${method}`}>
+                    <FormattedMessage id={method} />
+                    {i < authenticationMethods.length - 1 ? ' | ' : ''}{' '}
+                  </span>
                 ))}
               </span>
             </div>
-          )}
-          {realtime && (
-            <span>
-              {intl.formatMessage({ id: 'park-and-ride-availability' })} &#160;
-              <p>
-                {spacesAvailable} / {maxCapacity}
-              </p>
-            </span>
-          )}
-          {showSpacesAvailable && (
-            <span>
-              {intl.formatMessage({ id: 'number-of-spaces' })} &#160;
-              <p>{spacesAvailable}</p>
-            </span>
-          )}
-          {(parkIsFree || parkIsPaid) && (
-            <span>
-              {parkIsFree && intl.formatMessage({ id: 'free-of-charge' })}
-              {parkIsPaid && intl.formatMessage({ id: 'paid' })}
-              {authenticationMethods.length > 0 &&
-                `, ${intl.formatMessage({
-                  id: 'access_with',
-                })} `}
-              {authenticationMethods.map(
-                (method, i) =>
-                  `
-                ${intl.formatMessage({ id: method })}
-                ${i < authenticationMethods.length - 1 ? ' | ' : ''}
-              `,
-              )}
-            </span>
-          )}
-          {services.length > 0 && (
-            <span>
-              {services.map(
-                (service, i) =>
-                  `
-                ${intl.formatMessage({ id: service })}
-                ${i < services.length - 1 ? ' | ' : ''}
-              `,
-              )}
-            </span>
-          )}
-        </div>
+          </>
+        )}
+        {showDetails && services.length > 0 && (
+          <>
+            <div className={separator} />
+            <div className={detailClass}>
+              {parkLabel('services-and-features')}
+              <span className="park-value">
+                {services.map((service, i) => (
+                  <span key={`services-${service}`}>
+                    <FormattedMessage id={service} />
+                    {i < services.length - 1 ? ' | ' : ''}
+                  </span>
+                ))}
+              </span>
+            </div>
+          </>
+        )}
       </div>
       {showInfo && (
-        <div className="citybike-use-disclaimer">
-          <h2 className="disclaimer-header">
-            {intl.formatMessage({ id: `${prePostFix}-disclaimer-header` })}
-          </h2>
-          <div className="disclaimer-content">
-            {intl.formatMessage({ id: `${prePostFix}-disclaimer` })}
-          </div>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          {config.parkAndRide.url && (
-            <a
-              onClick={e => {
-                e.stopPropagation();
-              }}
-              className="external-link"
-              href={config.parkAndRide.url[lang]}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {intl.formatMessage({ id: `${prePostFix}-disclaimer-link` })}{' '}
-              &rsaquo;
-            </a>
-          )}
-        </div>
+        <>
+          <br />
+          <Disclaimer
+            headerId={`${prePostFix}-disclaimer-header`}
+            textId={`${prePostFix}-disclaimer`}
+            href={parkAndRide?.url?.[language]}
+            linkLabelId="park-disclaimer-link"
+          />
+        </>
       )}
     </div>
   );
@@ -240,10 +219,11 @@ function ParkAndRideContent(
 ParkAndRideContent.propTypes = {
   vehicleParking: parkShape,
   error: errorShape,
-  currentLanguage: PropTypes.string.isRequired,
   mode: PropTypes.oneOf(['CARPARK', 'BIKEPARK']),
   showInfo: PropTypes.bool,
+  showDetails: PropTypes.bool,
   backButton: PropTypes.bool,
+  router: routerShape,
 };
 
 ParkAndRideContent.defaultProps = {
@@ -251,22 +231,9 @@ ParkAndRideContent.defaultProps = {
   error: undefined,
   mode: undefined,
   showInfo: true,
+  showDetails: true,
   backButton: true,
+  router: undefined,
 };
 
-ParkAndRideContent.contextTypes = {
-  config: configShape.isRequired,
-  intl: intlShape.isRequired,
-  router: routerShape.isRequired,
-  match: matchShape.isRequired,
-};
-
-const connectedComponent = connectToStores(
-  ParkAndRideContent,
-  ['PreferencesStore'],
-  context => ({
-    currentLanguage: context.getStore('PreferencesStore').getLanguage(),
-  }),
-);
-
-export { connectedComponent as default, ParkAndRideContent as Component };
+export default ParkAndRideContent;

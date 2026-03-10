@@ -1,0 +1,207 @@
+.station-page-container {
+  font-weight: $font-weight-book;
+  font-size: $font-size-normal;
+  margin: 0 3.75em;
+
+  .large-header {
+    h1 {
+      font-size: $font-size-xlarge;
+      font-family: $heading-font-family;
+      line-height: 1.2em;
+      letter-spacing: -0.025em;
+    }
+
+    padding-bottom: 12px;
+  }
+
+  .small-header {
+    h1 {
+      font-size: $font-size-normal;
+      font-family: $heading-font-family;
+      line-height: 0.5em;
+      letter-spacing: -0.025em;
+    }
+
+    margin-bottom: 10px;
+  }
+
+  .separator,
+  .low-separator {
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 8px;
+    margin-top: 8px;
+  }
+
+  .separator {
+    margin-bottom: 8px;
+    margin-top: 8px;
+  }
+
+  .low-separator {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  .citybike-full-station-guide {
+    display: grid;
+    margin-top: 22px;
+    font-weight: $font-weight-medium;
+    font-size: 15px;
+  }
+
+  .external-link-citybike {
+    color: $link-color;
+    text-decoration: none;
+  }
+
+  .station-header,
+  .station-header-with-separator {
+    width: 100%;
+
+    .favourite-icon {
+      padding: 8px 8px 0 0;
+    }
+
+    padding-top: 3em;
+    display: flex;
+
+    .header-section {
+      flex: 1;
+    }
+  }
+
+  .station-zone-icon {
+    .zone-icon-container .circle {
+      width: 16px;
+      height: 16px;
+      font-size: 13px;
+    }
+
+    padding-top: 2px;
+    position: absolute;
+    margin-left: 8px;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  .station-sub-header {
+    font-size: 0.813rem;
+    color: #666;
+    font-weight: normal;
+
+    span.itinerary-stop-code {
+      margin-right: 8px;
+      margin-left: 8px;
+    }
+  }
+
+  .citybike-content-container {
+    height: 48px;
+    padding: 14px 10px 0 0;
+
+    .availability-container .sub-header-h4 {
+      font-size: 0.9375rem;
+    }
+
+    .icon-container {
+      .icon {
+        width: 48px;
+        height: 48px;
+      }
+    }
+  }
+
+  .park-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .header-icon {
+      margin-right: 8px;
+    }
+  }
+
+  .park-content-container {
+    display: flex;
+    flex-direction: column;
+    letter-spacing: -0.03em;
+
+    .park-details,
+    .park-details-row {
+      display: flex;
+      flex-direction: column;
+      margin: 4px 9px;
+    }
+
+    .park-details {
+      .park-label {
+        font-weight: $font-weight-medium;
+      }
+
+      .park-value {
+        font-weight: $font-weight-book;
+      }
+    }
+
+    .park-details-row {
+      flex-direction: row;
+      width: 96%;
+      white-space: nowrap;
+
+      .park-label {
+        font-weight: $font-weight-book;
+      }
+
+      .park-value {
+        margin-left: auto;
+        margin-right: 0;
+        text-align: right;
+        font-weight: $font-weight-medium;
+      }
+    }
+
+    .opening-hours {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .formatted-hour {
+      display: flex;
+      flex-direction: row;
+      white-space: nowrap;
+
+      .dot-line {
+        width: 100%;
+        margin: 14px 24px;
+        border-bottom: 0.5px dashed #888;
+      }
+    }
+  }
+}
+
+.station-header-with-separator {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 16px;
+}
+
+.mobile {
+  .station-page-container {
+    margin: 0 24px;
+
+    .large-header {
+      h1 {
+        font-size: 1.2em;
+        letter-spacing: -0.025em;
+      }
+    }
+  }
+
+  .station-header,
+  .station-header-with-separator {
+    padding-top: 1em;
+  }
+}

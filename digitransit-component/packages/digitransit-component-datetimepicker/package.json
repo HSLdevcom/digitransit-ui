@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-datetimepicker",
-  "version": "6.0.0",
+  "version": "6.0.2",
   "description": "digitransit-component datetimepicker module",
   "main": "index.js",
   "files": [
@@ -29,12 +29,12 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-icon": "^2.0.0",
+    "@digitransit-component/digitransit-component-icon": "^2.0.1",
     "classnames": "2.5.1",
     "downshift": "9.0.10",
     "i18next": "^22.5.1",
-    "lodash": "4.17.21",
-    "lodash-es": "4.17.21",
+    "lodash": "4.17.23",
+    "lodash-es": "4.17.23",
     "luxon": "^3.6.1",
     "prop-types": "^15.8.1",
     "react": "^16.13.0",

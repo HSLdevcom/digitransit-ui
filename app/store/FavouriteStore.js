@@ -39,6 +39,17 @@ function mapToStore(favourites) {
 
 const locationTypes = ['station', 'stop', 'place', 'bikeStation'];
 
+/* fav count excluding routes */
+export function countLocations(favourites) {
+  let cnt = 0;
+  favourites.forEach(favourite => {
+    if (locationTypes.includes(favourite.type)) {
+      cnt += 1;
+    }
+  });
+  return cnt;
+}
+
 export default class FavouriteStore extends Store {
   static storeName = 'FavouriteStore';
 
@@ -172,13 +183,7 @@ export default class FavouriteStore extends Store {
   }
 
   getLocationCount() {
-    let cnt = 0;
-    this.favourites.forEach(favourite => {
-      if (locationTypes.includes(favourite.type)) {
-        cnt += 1;
-      }
-    });
-    return cnt;
+    return countLocations(this.favourites);
   }
 
   /**

@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
-  "version": "4.5.6",
+  "version": "4.5.7",
   "description": "digitransit-search-util query-utils module",
   "main": "lib/index.js",
   "publishConfig": {
@@ -29,15 +29,15 @@
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
     "graphql": "16.8.1",
-    "lodash": "4.17.21",
+    "lodash": "4.17.23",
     "react-relay": "16.2.0"
   },
   "devDependencies": {
     "relay-compiler": "16.2.0"
   },
   "dependencies": {
-    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "0.0.3",
-    "@digitransit-search-util/digitransit-search-util-helpers": "2.3.2",
+    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "1.0.0",
+    "@digitransit-search-util/digitransit-search-util-helpers": "2.3.3",
     "@digitransit-search-util/digitransit-search-util-route-name-compare": "0.0.2",
     "babel-plugin-relay": "16.2.0"
   }

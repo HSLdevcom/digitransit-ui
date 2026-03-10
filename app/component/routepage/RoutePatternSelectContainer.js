@@ -151,7 +151,13 @@ class RoutePatternSelectContainer extends Component {
 
     const noSpecialRoutes = !specialRoutes.length;
     const noFutureRoutes = !futureRoutes.length;
-    const noSimilarRoutes = !this.state.similarRoutes?.length;
+
+    // If similar-route loading is enabled, avoid treating "no similar routes" as true
+    // until loading finishes. This prevents an initial button-only render that jumps
+    // to a dropdown once similar routes load.
+    const noSimilarRoutes = this.context.config.showSimilarRoutesOnRouteDropDown
+      ? !this.state.similarRoutes?.length && !this.state.loadingSimilar
+      : true;
 
     const renderButtonOnly =
       mainRoutes.length &&
@@ -170,6 +176,12 @@ class RoutePatternSelectContainer extends Component {
           className={cx('route-pattern-select', this.props.className)}
           aria-atomic="true"
         >
+          <h3 className="route-pattern-select-title">
+            <FormattedMessage
+              id="route-page.choose-direction"
+              defaultMessage="Choose direction"
+            />
+          </h3>
           <label htmlFor="route-pattern-toggle-button">
             {directionSwap && (
               <span className="sr-only">
@@ -188,7 +200,11 @@ class RoutePatternSelectContainer extends Component {
             >
               {patternTextWithIcon(currentPattern)}
               {directionSwap && (
-                <Icon className="toggle-icon" img="icon_direction-c" />
+                <Icon
+                  className="toggle-icon"
+                  img="icon_direction-c"
+                  viewBox="0 0 19 17"
+                />
               )}
             </button>
           </label>
@@ -231,12 +247,20 @@ class RoutePatternSelectContainer extends Component {
     }
 
     return (
-      <RoutePatternSelect
-        currentPattern={currentPattern}
-        optionArray={optionArray}
-        onSelectChange={this.props.onSelectChange}
-        className={this.props.className}
-      />
+      <div className={cx('route-pattern-select', this.props.className)}>
+        <h3 className="route-pattern-select-title">
+          <FormattedMessage
+            id="route-page.choose-direction"
+            defaultMessage="Choose direction"
+          />
+        </h3>
+        <RoutePatternSelect
+          currentPattern={currentPattern}
+          optionArray={optionArray}
+          onSelectChange={this.props.onSelectChange}
+          className={this.props.className}
+        />
+      </div>
     );
   }
 }

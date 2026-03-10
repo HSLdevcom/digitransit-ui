@@ -138,18 +138,6 @@
   display: flex;
   align-self: flex-start;
   margin-bottom: var(--space-xs);
-
-  .expand {
-    margin-left: var(--space-m);
-    display: flex;
-
-    .icon {
-      margin-right: var(--space-s);
-      margin-top: 5px;
-      width: 16px;
-      height: 16px;
-    }
-  }
 }
 
 .extension-routenumber,
@@ -195,8 +183,6 @@
   flex-direction: column;
 
   &.with-icon {
-    margin-left: 40px;
-
     .wait-duration {
       margin-left: var(--space-l);
     }
@@ -274,6 +260,15 @@
     width: inherit;
     margin: var(--space-m) var(--space-m);
 
+    &.default-card-type {
+      animation: fadeInDefaultCard $slide-up-down-fade;
+    }
+
+    &.indoor-card-type {
+      margin-bottom: 0;
+      animation: fadeInIndoorCard $slide-up-down-fade;
+    }
+
     .content {
       display: flex;
       flex-direction: row;
@@ -292,6 +287,7 @@
       flex-direction: column;
       width: 100%;
       margin-right: var(--space-m);
+      justify-content: center;
 
       &.expanded {
         margin-bottom: 0;
@@ -313,192 +309,327 @@
       display: flex;
     }
 
-    .extension {
+    .extension-container {
       flex-direction: column;
       transition: all 0.4s ease;
       overflow-y: hidden;
 
-      &.no-gap {
-        margin-top: 0;
-        margin-bottom: 0;
-      }
+      .extension {
+        margin-left: calc(32px + var(--space-s));
 
-      .extension-divider {
-        height: 1px;
-        background: #ddd;
-        width: 85%;
-        margin-left: 35px;
-        margin-top: var(--space-s);
-        margin-bottom: var(--space-s);
-      }
+        &.no-vertical-margin {
+          margin-top: 0;
+          margin-bottom: 0;
+        }
 
-      .stop-count {
-        display: flex;
-        margin-left: 35px;
+        .extension-divider {
+          height: 1px;
+          background: #ddd;
+          width: 100%;
+          margin-top: var(--space-s);
+          margin-bottom: var(--space-s);
 
-        .icon-container {
-          display: flex;
-          align-items: center;
-
-          .icon {
-            height: 16px;
-            width: 16px;
+          &.no-vertical-margin {
+            margin-top: 0;
+            margin-bottom: 0;
           }
         }
-      }
 
-      .extension-routenumber {
-        display: flex;
-        flex-direction: row;
-        margin-left: 40px;
-        margin-bottom: var(--space-s);
-        text-align: left;
-        margin-top: var(--space-m);
-
-        .bar {
-          border-radius: $border-radius;
-        }
-
-        .headsign {
+        .stop-count {
           display: flex;
-          flex-direction: column;
-          margin-left: var(--space-xs);
-          justify-content: center;
-          font-size: $font-size-small;
-          max-width: 85%;
-          line-height: 100%;
-        }
-      }
 
-      .extension-walk {
-        display: flex;
-        margin-left: var(--space-xl);
-        margin-bottom: var(--space-s);
-        margin-top: var(--space-xs);
-      }
-
-      .wait-in-vehicle {
-        display: flex;
-        align-items: flex-start;
-        text-align: start;
-        margin-left: var(--space-xl);
-      }
-
-      .wait-leg {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        margin-left: var(--space-m);
-
-        .icon {
-          margin-top: 2px;
-          height: 25px;
-          width: 25px;
-        }
-      }
-
-      .icon-expand {
-        margin-top: 5px;
-        width: 24px;
-        height: 24px;
-      }
-
-      .icon-expand-small {
-        margin-top: 5px;
-        width: 16px;
-        height: 16px;
-        margin-right: var(--space-s);
-      }
-
-      .destination-icon {
-        margin: 0 10px;
-
-        &.place {
-          fill: $to-color;
-        }
-
-        &.bus-stop {
-          color: $bus-color;
-        }
-
-        &.bus-express {
-          color: $bus-express-color;
-        }
-
-        &.speedtram {
-          color: $speedtram-color;
-        }
-
-        &.replacement-bus {
-          color: $replacement-bus-color;
-        }
-
-        &.tram-stop {
-          color: $tram-color;
-        }
-
-        &.subway-stop {
-          color: $metro-color;
-        }
-
-        &.rail-stop {
-          color: $rail-color;
-        }
-
-        &.ferry-stop {
-          color: $ferry-color;
-        }
-
-        &.ferry-external-stop {
-          color: $external-feed-color;
-        }
-
-        &.funicular-stop {
-          color: $funicular-color;
-        }
-
-        &.speedtram-stop {
-          color: $speedtram-color;
-        }
-      }
-
-      .destination {
-        text-align: left;
-
-        .details {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-
-          .address {
-            color: #888;
-          }
-
-          .platform-short {
-            width: unset;
-            font-family: $font-family;
-            font-size: $font-size-small;
-            letter-spacing: $letter-spacing;
-            display: inline-flex;
+          .icon-container {
+            display: flex;
             align-items: center;
 
-            .platform-number-wrapper {
-              padding: 0 var(--space-xxs);
-              min-height: 16px;
-              display: inline-flex;
-              justify-content: center;
-              align-items: center;
-              line-height: 13px;
-              font-size: 11px;
+            .icon {
+              height: 16px;
+              width: 16px;
+            }
+          }
+        }
+
+        .extension-routenumber {
+          display: flex;
+          flex-direction: row;
+          margin-bottom: var(--space-s);
+          text-align: left;
+          margin-top: var(--space-m);
+
+          .bar {
+            border-radius: $border-radius;
+          }
+
+          .headsign {
+            display: flex;
+            flex-direction: column;
+            margin-left: var(--space-xs);
+            justify-content: center;
+            font-size: $font-size-small;
+            max-width: 85%;
+            line-height: 100%;
+          }
+        }
+
+        .extension-indoor-button,
+        .extension-indoor-container,
+        .extension-walk {
+          margin-bottom: var(--space-s);
+          margin-top: var(--space-xs);
+        }
+
+        .wait-in-vehicle {
+          display: flex;
+          align-items: flex-start;
+          text-align: start;
+        }
+
+        .icon-expand {
+          margin-top: 5px;
+          width: 24px;
+          height: 24px;
+          margin-right: 10px;
+        }
+
+        .icon-expand-small {
+          margin-top: 5px;
+          width: 16px;
+          height: 16px;
+          margin-right: var(--space-s);
+        }
+
+        .destination-container {
+          display: flex;
+
+          .destination-icon {
+            margin-right: 10px;
+
+            &.place {
+              fill: $to-color;
+            }
+
+            &.bus-stop {
+              color: $bus-color;
+            }
+
+            &.bus-express {
+              color: $bus-express-color;
+            }
+
+            &.speedtram {
+              color: $speedtram-color;
+            }
+
+            &.replacement-bus {
+              color: $replacement-bus-color;
+            }
+
+            &.tram-stop {
+              color: $tram-color;
+            }
+
+            &.subway-stop {
+              color: $metro-color;
+            }
+
+            &.rail-stop {
+              color: $rail-color;
+            }
+
+            &.ferry-stop {
+              color: $ferry-color;
+            }
+
+            &.ferry-external-stop {
+              color: $external-feed-color;
+            }
+
+            &.funicular-stop {
+              color: $funicular-color;
+            }
+
+            &.speedtram-stop {
+              color: $speedtram-color;
             }
           }
 
-          .zone-icon-container {
-            .circle {
-              width: 16px;
-              height: 16px;
-              font-size: 0.9rem;
-              padding: 0 2px 0 2px;
+          .destination {
+            text-align: left;
+
+            .details {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+
+              .address {
+                color: #888;
+              }
+
+              .platform-short {
+                width: unset;
+                font-family: $font-family;
+                font-size: $font-size-small;
+                letter-spacing: $letter-spacing;
+                display: inline-flex;
+                align-items: center;
+
+                .platform-number-wrapper {
+                  padding: 0 var(--space-xxs);
+                  min-height: 16px;
+                  display: inline-flex;
+                  justify-content: center;
+                  align-items: center;
+                  line-height: 13px;
+                  font-size: 11px;
+                }
+              }
+            }
+          }
+        }
+
+        .indoor-container-clickable {
+          display: flex;
+          margin-top: 10px;
+          margin-bottom: 10px;
+
+          .indoor-text {
+            display: flex;
+            color: $theme-primary-color;
+            font-weight: $font-weight-medium;
+            line-height: 1;
+            flex: 1;
+          }
+
+          .indoor-arrow-icon {
+            margin-right: 11px;
+
+            span {
+              display: flex;
+              align-items: center;
+
+              svg {
+                color: $theme-primary-color;
+
+                &.open {
+                  transform: rotate(180deg);
+                }
+              }
+            }
+          }
+        }
+
+        .navi-indoor-one-step-info-container {
+          display: flex;
+          align-items: center;
+          margin-top: 4px;
+
+          .navi-indoor-step-info {
+            display: flex;
+            flex: 1;
+            font-size: 0.9375rem;
+
+            .navi-indoor-step-icon {
+              width: 24px;
+              height: 100%;
+              vertical-align: middle;
+              display: flex;
+              margin-right: 8px;
+            }
+
+            .navi-indoor-step-text {
+              align-items: center;
+              display: flex;
+              flex: 1;
+            }
+
+            .itinerary-map-action {
+              padding-bottom: 0;
+
+              .icon-container {
+                margin-top: 0;
+                padding-right: 5px;
+              }
+            }
+          }
+        }
+
+        .extension-indoor-container {
+          max-height: 170px;
+          overflow-y: auto;
+          overflow-x: hidden;
+          margin-bottom: 0;
+          margin-top: 0;
+          padding-top: 8px;
+          padding-bottom: 16px;
+          mask-image: linear-gradient(
+            to bottom,
+            rgba(51, 51, 51, 1) 90%,
+            rgba(0, 0, 0, 0) 95%
+          );
+
+          .navi-indoor-step-container {
+            display: flex;
+
+            .navi-indoor-step-info-container {
+              flex: 1;
+
+              .navi-indoor-step-info {
+                display: flex;
+                font-size: 0.9375rem;
+                max-height: 36px;
+
+                .navi-indoor-step-icon {
+                  width: 24px;
+                  height: 100%;
+                  vertical-align: middle;
+                  display: flex;
+                  margin-right: 8px;
+                }
+
+                .navi-indoor-step-text {
+                  align-items: center;
+                  display: flex;
+                  flex: 1;
+                }
+
+                .itinerary-map-action .icon-container {
+                  padding-right: 5px;
+                }
+              }
+            }
+
+            .navi-indoor-step-line-container {
+              min-width: 28px;
+              position: relative;
+
+              .navi-indoor-step-line {
+                position: relative;
+                background-size: 100% auto;
+                background-position-y: 0;
+                background-position-x: 0;
+                background-repeat: no-repeat repeat;
+                border: none;
+                border-radius: 3px;
+                width: 6px;
+                left: 8px;
+                height: 100%;
+                top: 0;
+              }
+
+              .navi-indoor-step-line-circle-container {
+                position: absolute;
+
+                .navi-indoor-step-line-circle {
+                  position: relative;
+                  z-index: 9;
+                  min-height: 36px;
+
+                  > svg > circle.indoor-step-marker {
+                    fill: #fff;
+                    stroke: #666;
+                  }
+                }
+              }
             }
           }
         }

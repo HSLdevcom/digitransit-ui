@@ -90,14 +90,25 @@ export function showRentalVehiclesOfType(networks, config, type) {
   );
 }
 
-export function getNearYouModes(config) {
-  if (!config.vehicleRental?.networks) {
-    return config.nearYouModes;
+const nearYouStopTypes = ['stop', 'station'];
+
+export function getNearYouModes(config, favourites) {
+  let modes = config.nearYouModes;
+  let cityBikesActive = config.nearYouModes.includes('citybike');
+  if (cityBikesActive && !useCitybikes(config.vehicleRental.networks, config)) {
+    modes = modes.filter(mode => mode !== 'citybike');
+    cityBikesActive = false;
   }
-  if (!useCitybikes(config.vehicleRental.networks, config)) {
-    return config.nearYouModes.filter(mode => mode !== 'citybike');
+  const nearFavs = favourites.filter(f => {
+    return (
+      nearYouStopTypes.includes(f.type) ||
+      (f.type === 'bikeStation' && cityBikesActive)
+    );
+  });
+  if (!nearFavs.length) {
+    modes = modes.filter(mode => mode !== 'favorite');
   }
-  return config.nearYouModes;
+  return modes;
 }
 
 export function getTransportModes(config) {
@@ -141,6 +152,23 @@ export function getRouteMode(route, config) {
         ? `${route.mode?.toLowerCase()}-external`
         : route.mode?.toLowerCase();
   }
+}
+
+/**
+ * In NeTEx, mode and submode are properties of the trip. In GTFS, they are
+ * properties of the route. Eventually we hope we can get OTP to always report
+ * them in the more specific entity, trip, but because historically we have
+ * taken them from route, this is a fail safe way of making the change.
+ * @param trip
+ * @param route
+ * @param config
+ * @returns {string|*}
+ */
+export function getTripOrRouteMode(trip, route, config) {
+  if (trip?.isReplacement) {
+    return 'replacement-bus';
+  }
+  return getRouteMode(route, config);
 }
 
 /**

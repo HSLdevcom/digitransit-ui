@@ -7,18 +7,14 @@ import { getDialogState, setDialogState } from '../../store/localStorage';
 import Icon from '../Icon';
 
 const RouteNotification = ({ notification, lang }, context) => {
-  const [hideNote, setHideNote] = useState(true);
-
   const id = { notification };
+  const [hideNote, setHideNote] = useState(() => getDialogState(id) || false);
+
   const header = notification.header[lang];
   const content = notification.content[lang];
   const link = notification.link?.[lang];
   const linkLabel = notification.linkLabel?.[lang] || link;
   const closeButtonLabel = notification.closeButtonLabel?.[lang];
-
-  useEffect(() => {
-    setHideNote(getDialogState(id) || false);
-  }, []);
 
   useEffect(() => {
     setDialogState(id, hideNote);
@@ -96,13 +92,13 @@ const RouteNotification = ({ notification, lang }, context) => {
 };
 
 RouteNotification.propTypes = {
-  notification: PropTypes.objectOf({
+  notification: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    header: PropTypes.string.isRequired,
-    content: PropTypes.arrayOf(PropTypes.string).isRequired,
-    link: PropTypes.string,
-    linkLabel: PropTypes.string,
-    closeButtonLabel: PropTypes.string,
+    header: PropTypes.objectOf(PropTypes.string).isRequired,
+    content: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+    link: PropTypes.objectOf(PropTypes.string),
+    linkLabel: PropTypes.objectOf(PropTypes.string),
+    closeButtonLabel: PropTypes.objectOf(PropTypes.string),
   }).isRequired,
   lang: PropTypes.string.isRequired,
 };

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-const ParkAndRideUtils = {
-  HSL: {
+export default {
+  liipi: {
     getAuthenticationMethods: park => {
       const { tags } = park;
       if (Array.isArray(tags)) {
@@ -37,26 +37,27 @@ const ParkAndRideUtils = {
           'liipi:SERVICE_ENGINE_IGNITION_AID',
           'liipi:SERVICE_BICYCLE_FRAME_LOCK',
         ];
-        return tags
+        const result = tags
           .filter(tag => allowedServices.includes(tag))
           .map(tag => tag.replace('liipi:SERVICE_', '').toLowerCase());
+        if (park.wheelchairAccessibleCarPlaces) {
+          result.push('accessible-car-places');
+        }
+        return result;
       }
       return [];
     },
     getOpeningHours: park => {
       const { openingHours } = park;
-      if (Array.isArray(openingHours?.dates)) {
-        const openingHoursByDay = openingHours.dates.map(openingHour => {
-          const dateString = openingHour.date;
-          const year = dateString.substring(0, 4);
-          const month = dateString.substring(4, 6);
-          const day = dateString.substring(6, 8);
-          return {
-            date: new Date(year, month - 1, day),
-            timeSpans: openingHour?.timeSpans && openingHour?.timeSpans[0],
-          };
-        });
-        return openingHoursByDay;
+      const osm = openingHours?.osm;
+      if (osm) {
+        if (osm === 'Mo-Fr 0:00-23:59; Sa 0:00-23:59; Su 0:00-23:59') {
+          return ['24 h'];
+        }
+        if (osm === '') {
+          return [];
+        }
+        return osm.split(';').map(val => val.toLowerCase().trim());
       }
       return [];
     },
@@ -82,5 +83,3 @@ const ParkAndRideUtils = {
     },
   },
 };
-
-export default ParkAndRideUtils;

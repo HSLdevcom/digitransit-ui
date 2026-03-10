@@ -203,6 +203,7 @@ describe('<Itinerary />', () => {
         legs: [
           {
             from: {},
+            to: {},
             mode: 'RAIL',
             route: {
               alerts: [
@@ -246,6 +247,7 @@ describe('<Itinerary />', () => {
         legs: [
           {
             from: {},
+            to: {},
             mode: 'RAIL',
             route: {
               alerts: [
@@ -291,6 +293,7 @@ describe('<Itinerary />', () => {
         legs: [
           {
             from: {},
+            to: {},
             mode: 'RAIL',
             route: {
               alerts: [
@@ -407,6 +410,7 @@ describe('<Itinerary />', () => {
         legs: [
           {
             from: {},
+            to: {},
             intermediatePlaces: [
               {
                 stop: {

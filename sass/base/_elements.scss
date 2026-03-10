@@ -153,6 +153,7 @@ $border-radius-rounded: 30px;
 
     &.selected {
       stroke: transparent;
+      fill: $attention-color;
     }
 
     &:hover {

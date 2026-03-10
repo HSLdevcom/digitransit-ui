@@ -30,7 +30,6 @@ $button-hover-color: #f4f4f4;
 $theme-primary-color: $livi-blue;
 $primary-font-color: $white;
 $theme-secondary-color: #008bde;
-$favourite-color: $livi-gold;
 $highlight-color: $livi-blue;
 $action-color: $theme-secondary-color;
 $cancelation-red: #dc0451;
@@ -65,12 +64,13 @@ $caution-icon-color: $white;
 $caution-icon-font-color: none;
 $top-bar-color: $theme-primary-color;
 $nav-content-color: false;
-$disclaimer-background-color: rgba(254, 209, 0, 0.1);
-$disclaimer-border-color: #fed100;
+$disclaimer-background-color: #ebf6fd;
+$disclaimer-border-color: #ebf6fd;
 $navigation-background-color: $background-color-lighter;
 $route-title-margin: 2.7em;
 $success-bar-color: #3b7f00;
 $attention-color: #c53291;
+$control-border-color: #888;
 
 /* Vehicle palette */
 $airplane-color: $livi-airplane-blue;
@@ -151,6 +151,11 @@ $nav-logo-min-height: 40px;
 $navigation-icon-size: 40px;
 $slide-up-down-animation: 0.8s cubic-bezier(0.47, 0, 0.23, 1.38) forwards;
 $slide-up-down-fade: 0.8s ease-out forwards;
+
+/* Itinerary circle lines */
+$default-dotted-line: url('../default/default-dotted-line.svg');
+$indoor-dotted-line: url('../default/indoor-dotted-line.svg');
+$indoor-dotted-line-horizontal: url('../default/indoor-dotted-line-horizontal.svg');
 
 .theme-default {
   display: block;

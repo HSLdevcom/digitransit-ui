@@ -2,14 +2,14 @@
   .circle {
     display: flex;
     justify-content: center;
-    width: 0.875rem;
-    height: 0.875rem;
+    align-items: center;
+    width: 1rem;
+    height: 1rem;
+    font-size: 0.8rem;
     border-radius: 50%;
-    font-size: 12px;
     color: #fff;
     letter-spacing: 0;
     padding: 0 2px 0 2px;
-    line-height: 1.2;
     background: $theme-primary-color;
     font-weight: $font-weight-medium;
 
