@@ -33,12 +33,10 @@ function makeTripForDate() {
   return {
     stoptimes: [
       {
-        scheduledArrival: 600,
         scheduledDeparture: 600,
         serviceDay,
       },
       {
-        scheduledArrival: 720,
         scheduledDeparture: 720,
         serviceDay,
       },
@@ -64,7 +62,6 @@ const baseProps = {
   className: 'bp-large',
   onSelectChange: () => {},
   gtfsId: 'ROUTE:1',
-  relayEnvironment: {},
 };
 
 /** Shared route with exactly two opposite-direction patterns. */
@@ -86,7 +83,7 @@ describe('<RoutePatternSelectContainer />', () => {
       const props = { ...baseProps, route: makeTwoDirectionRoute() };
       const wrapper = mountWithProviders(
         <RoutePatternSelectContainer {...props} />,
-        { config: baseConfig, router: mockRouter },
+        { config: baseConfig },
       );
       expect(wrapper.find('button.route-pattern-toggle')).to.have.lengthOf(1);
       expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(0);
@@ -103,7 +100,7 @@ describe('<RoutePatternSelectContainer />', () => {
       };
       const wrapper = mountWithProviders(
         <RoutePatternSelectContainer {...props} />,
-        { config: baseConfig, router: mockRouter },
+        { config: baseConfig },
       );
       wrapper.find('button.route-pattern-toggle').simulate('click');
       // The active pattern is ROUTE:1:0:01; clicking swap should select the opposite direction.
@@ -128,12 +125,12 @@ describe('<RoutePatternSelectContainer />', () => {
       };
       const wrapper = mountWithProviders(
         <RoutePatternSelectContainer {...props} />,
-        { config: baseConfig, router: mockRouter },
+        { config: baseConfig },
       );
       expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(1);
     });
 
-    it('groups all patterns into a single unnamed main group in the optionArray', () => {
+    it('all pattern codes appear as selectable options in the dropdown', () => {
       const patterns = [
         makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()]),
         makePattern('ROUTE:1:1:01', 1, 'Origin', [makeTripForDate()]),
@@ -145,12 +142,9 @@ describe('<RoutePatternSelectContainer />', () => {
       };
       const wrapper = mountWithProviders(
         <RoutePatternSelectContainer {...props} />,
-        { config: baseConfig, router: mockRouter },
+        { config: baseConfig },
       );
       const optionArray = wrapper.find(RoutePatternSelect).prop('optionArray');
-
-      // Main (non-special, non-future) patterns land in a group with an empty name.
-      expect(optionArray[0].name).to.equal('');
 
       // Every supplied pattern code must appear exactly once across all groups.
       const allCodes = optionArray.flatMap(g => g.options.map(o => o.code));
@@ -187,7 +181,6 @@ describe('<RoutePatternSelectContainer />', () => {
       };
       mountWithProviders(<RoutePatternSelectContainer {...props} />, {
         config: baseConfig,
-        router: matchWithSpy.router,
       });
       // The container redirects to routePagePath(gtfsId, PREFIX_STOPS, options[0].code).
       // Colons in IDs are percent-encoded (%3A), so build the expected URL the same way.
@@ -218,9 +211,131 @@ describe('<RoutePatternSelectContainer />', () => {
       };
       const wrapper = mountWithProviders(
         <RoutePatternSelectContainer {...props} />,
-        { config: baseConfig, router: mockRouter },
+        { config: baseConfig },
       );
       expect(wrapper.find('button.route-pattern-toggle')).to.have.lengthOf(1);
+    });
+  });
+
+  describe('Empty patterns', () => {
+    it('renders nothing when the route has no patterns', () => {
+      const props = {
+        ...baseProps,
+        route: { shortName: '1', mode: 'BUS', gtfsId: 'ROUTE:1', patterns: [] },
+      };
+      const wrapper = mountWithProviders(
+        <RoutePatternSelectContainer {...props} />,
+        { config: baseConfig },
+      );
+      expect(wrapper.find('.route-pattern-select')).to.have.lengthOf(0);
+      expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(0);
+    });
+  });
+
+  describe('Single-direction route', () => {
+    it('renders a non-swappable toggle button when there is only one pattern', () => {
+      const props = {
+        ...baseProps,
+        route: {
+          shortName: '1',
+          mode: 'BUS',
+          gtfsId: 'ROUTE:1',
+          patterns: [
+            makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()]),
+          ],
+        },
+      };
+      const wrapper = mountWithProviders(
+        <RoutePatternSelectContainer {...props} />,
+        { config: baseConfig },
+      );
+      // Shows a toggle button but no dropdown
+      expect(wrapper.find('button.route-pattern-toggle')).to.have.lengthOf(1);
+      expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(0);
+      // No swap icon is shown when there is no second direction
+      expect(wrapper.find('.toggle-icon')).to.have.lengthOf(0);
+    });
+
+    it('clicking the button does nothing when there is only one pattern', () => {
+      let callCount = 0;
+      const props = {
+        ...baseProps,
+        onSelectChange: () => {
+          callCount += 1;
+        },
+        route: {
+          shortName: '1',
+          mode: 'BUS',
+          gtfsId: 'ROUTE:1',
+          patterns: [
+            makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()]),
+          ],
+        },
+      };
+      const wrapper = mountWithProviders(
+        <RoutePatternSelectContainer {...props} />,
+        { config: baseConfig },
+      );
+      wrapper.find('button.route-pattern-toggle').simulate('click');
+      expect(callCount).to.equal(0);
+    });
+  });
+
+  describe('Two same-direction patterns', () => {
+    it('renders a dropdown (not a toggle button) and places the second same-direction pattern in a special group', () => {
+      // Two patterns with the same directionId: the first becomes the sole "main" route,
+      // the second is promoted to the "special routes" group, which forces dropdown rendering.
+      const props = {
+        ...baseProps,
+        route: {
+          shortName: '1',
+          mode: 'BUS',
+          gtfsId: 'ROUTE:1',
+          patterns: [
+            makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()]),
+            makePattern('ROUTE:1:0:02', 0, 'Via Downtown', [makeTripForDate()]),
+          ],
+        },
+      };
+      const wrapper = mountWithProviders(
+        <RoutePatternSelectContainer {...props} />,
+        { config: baseConfig },
+      );
+      expect(wrapper.find('button.route-pattern-toggle')).to.have.lengthOf(0);
+      expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(1);
+
+      const optionArray = wrapper.find(RoutePatternSelect).prop('optionArray');
+      // First group: unnamed main route
+      expect(optionArray[0].name).to.equal('');
+      expect(optionArray[0].options).to.have.lengthOf(1);
+      // Second group: special routes
+      expect(optionArray[1].name).to.match(/other routes/i);
+      expect(optionArray[1].options).to.have.lengthOf(1);
+    });
+  });
+
+  describe('Redirect behaviour', () => {
+    it('does not redirect when the current patternId already matches a valid option', () => {
+      let replacedUrl;
+      const matchWithSpy = {
+        ...mockMatch,
+        params: { patternId: 'ROUTE:1:0:01' }, // valid – matches a real pattern
+        router: {
+          ...mockRouter,
+          replace: url => {
+            replacedUrl = url;
+          },
+        },
+      };
+      const props = {
+        ...baseProps,
+        match: matchWithSpy,
+        route: makeTwoDirectionRoute(),
+      };
+      mountWithProviders(<RoutePatternSelectContainer {...props} />, {
+        config: baseConfig,
+      });
+      expect(replacedUrl).to.equal(undefined);
     });
   });
 });

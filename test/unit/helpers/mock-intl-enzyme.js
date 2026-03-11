@@ -10,9 +10,12 @@
 import React from 'react';
 import { IntlProvider, intlShape } from 'react-intl';
 import { mount, shallow } from 'enzyme';
+import { ReactRelayContext } from 'react-relay';
 import translations from '../../../app/translations';
 import { ConfigProvider } from '../../../app/configurations/ConfigContext';
 import { IntlContextProvider } from '../../../app/util/useTranslationsContext';
+
+const mockRelayContext = { environment: {}, variables: {} };
 
 // Create the IntlProvider to retrieve context for wrapping around.
 const getIntl = locale => {
@@ -73,7 +76,11 @@ export const mountWithProviders = (node, { config, locale = 'en' } = {}) => {
   return mount(
     <IntlProvider locale={locale} messages={translations[locale]}>
       <IntlContextProvider intl={intl}>
-        <ConfigProvider value={config}>{node}</ConfigProvider>
+        <ConfigProvider value={config}>
+          <ReactRelayContext.Provider value={mockRelayContext}>
+            {node}
+          </ReactRelayContext.Provider>
+        </ConfigProvider>
       </IntlContextProvider>
     </IntlProvider>,
   );
