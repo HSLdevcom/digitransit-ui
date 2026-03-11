@@ -1401,16 +1401,13 @@ $margin-left-right: 21.3px;
             }
           }
 
-          .similar-route-arrow-container {
+          .icon-container:last-child {
             margin-top: 5px;
+            margin-right: 0;
 
-            .icon-container {
-              margin-right: 0;
-
-              .similar-route-arrow {
-                width: 1.35em;
-                height: 1.35em;
-              }
+            .similar-route-arrow {
+              width: 1.35em;
+              height: 1.35em;
             }
           }
 

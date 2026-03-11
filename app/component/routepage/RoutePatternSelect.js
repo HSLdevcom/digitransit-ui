@@ -109,12 +109,10 @@ function PatternOption({
               <span className="similar-route-name">{option.shortName}</span>
               <span className="similar-route-longname">{option.longName}</span>
             </div>
-            <div className="similar-route-arrow-container">
-              <Icon
-                className="similar-route-arrow"
-                img="icon_arrow-collapse--right"
-              />
-            </div>
+            <Icon
+              className="similar-route-arrow"
+              img="icon_arrow-collapse--right"
+            />
           </div>
         </Link>
       </li>
@@ -193,22 +191,18 @@ export default function RoutePatternSelect({
           isOpen && 'pattern-select-container--open',
         )}
       >
-        <div>
-          <label {...getLabelProps()}>
-            <span tabIndex={-1} className="sr-only">
-              {patternOptionText(currentPattern)}
-            </span>
-            <span className="sr-only">
-              <FormattedMessage id="route-page.pattern-select-title" />
-            </span>
-          </label>
-          <div {...getToggleButtonProps()}>
-            <span>
-              <div className="input-display" aria-hidden="true">
-                {patternTextWithIcon(currentPattern)}
-                <Icon className="dropdown-arrow" img="icon_arrow-collapse" />
-              </div>
-            </span>
+        <label {...getLabelProps()}>
+          <span tabIndex={-1} className="sr-only">
+            {patternOptionText(currentPattern)}
+          </span>
+          <span className="sr-only">
+            <FormattedMessage id="route-page.pattern-select-title" />
+          </span>
+        </label>
+        <div {...getToggleButtonProps()}>
+          <div className="input-display" aria-hidden="true">
+            {patternTextWithIcon(currentPattern)}
+            <Icon className="dropdown-arrow" img="icon_arrow-collapse" />
           </div>
         </div>
 
