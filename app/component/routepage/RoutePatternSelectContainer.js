@@ -132,13 +132,12 @@ function RoutePatternSelectContainer({
 
   const currentPattern = options.find(o => o.code === params.patternId);
 
-  const possibleMainRoutes = options.slice(0, 2).filter(o => !o.inFuture);
   let mainRoutes = options.slice(0, 2).filter(o => !o.inFuture);
   if (
-    possibleMainRoutes.every(o => o.directionId === 0) ||
-    possibleMainRoutes.every(o => o.directionId === 1)
+    mainRoutes.every(o => o.directionId === 0) ||
+    mainRoutes.every(o => o.directionId === 1)
   ) {
-    mainRoutes = possibleMainRoutes.slice(0, 1);
+    mainRoutes = mainRoutes.slice(0, 1);
   }
   const specialRoutes = options
     .slice(mainRoutes.length)
@@ -147,11 +146,10 @@ function RoutePatternSelectContainer({
 
   const noSpecialRoutes = !specialRoutes.length;
   const noFutureRoutes = !futureRoutes.length;
-  const noSimilarRoutes = !similarRoutes?.length;
+  const noSimilarRoutes = !similarRoutes.length;
 
   const renderButtonOnly =
-    mainRoutes.length &&
-    mainRoutes.length <= 2 &&
+    mainRoutes.length > 0 &&
     noSpecialRoutes &&
     noFutureRoutes &&
     noSimilarRoutes;
@@ -171,8 +169,10 @@ function RoutePatternSelectContainer({
             id="route-pattern-toggle-button"
             className="route-pattern-toggle"
             type="button"
-            onClick={() =>
-              directionSwap ? onSelectChange(otherPattern.code) : null
+            onClick={
+              directionSwap
+                ? () => onSelectChange(otherPattern.code)
+                : undefined
             }
           >
             {patternTextWithIcon(currentPattern)}
@@ -209,7 +209,7 @@ function RoutePatternSelectContainer({
   if (
     config.showSimilarRoutesOnRouteDropDown &&
     !loadingSimilar &&
-    similarRoutes?.length > 0
+    similarRoutes.length > 0
   ) {
     optionArray.push({
       options: similarRoutes,
