@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   createRefetchContainer,
   fetchQuery,
@@ -13,7 +13,7 @@ import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
 import { FormattedMessage } from 'react-intl';
 import { useTranslationsContext } from '../../util/useTranslationsContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
-import { routeShape, relayShape } from '../../util/shapes';
+import { routeShape } from '../../util/shapes';
 import Icon from '../Icon';
 import { routePagePath, PREFIX_STOPS } from '../../util/path';
 import RoutePatternSelect, { patternTextWithIcon } from './RoutePatternSelect';
@@ -31,16 +31,44 @@ function filterSimilarRoutes(routes, currentRoute) {
   return sortBy(onlyRelatedRoutes, 'shortName');
 }
 
+// GraphQL query used to find routes with similar names
+const similarRoutesQuery = graphql`
+  query RoutePatternSelectContainer_similarRoutesQuery($name: String) {
+    routes(name: $name) {
+      gtfsId
+      shortName
+      longName
+      mode
+      color
+    }
+  }
+`;
+
+function getPatternOptions(patterns, serviceTimeRange) {
+  if (patterns.length === 0) {
+    return null;
+  }
+  const enriched = enrichPatterns(patterns, false, serviceTimeRange);
+  if (enriched.length === 0) {
+    return null;
+  }
+  // Sort: active-today patterns first, then by trip count descending
+  return sortBy(
+    sortBy(enriched, 'inFuture').reverse(),
+    'countTripsForDate',
+  ).reverse();
+}
+
 function RoutePatternSelectContainer({
   match,
   route,
   onSelectChange,
   gtfsId,
   className,
-  relayEnvironment,
 }) {
   const config = useConfigContext();
   const intl = useTranslationsContext();
+  const { environment: relayEnvironment } = useContext(ReactRelayContext);
 
   const { params, router } = match;
 
@@ -49,67 +77,33 @@ function RoutePatternSelectContainer({
     !!config.showSimilarRoutesOnRouteDropDown,
   );
 
-  const getOptions = () => {
-    const { patterns } = route;
-
-    if (patterns.length === 0) {
-      return null;
-    }
-
-    const futureTrips = enrichPatterns(
-      patterns,
-      false,
-      config.itinerary.serviceTimeRange,
-    );
-
-    if (futureTrips.length === 0) {
-      return null;
-    }
-
-    return sortBy(
-      sortBy(futureTrips, 'inFuture').reverse(),
-      'countTripsForDate',
-    ).reverse();
-  };
-
+  // Fetch routes with similar names (numeric routes only)
   useEffect(() => {
     if (!config.showSimilarRoutesOnRouteDropDown) {
       return;
     }
 
-    let searchSimilarTo = route.shortName;
-    const c = route.shortName.length ? route.shortName[0] : '';
-    if (c < '0' || c > '9') {
-      setLoadingSimilar(false);
-      return;
-    }
-    if (Number.isNaN(Number(route.shortName))) {
-      searchSimilarTo = route.shortName.replace(/\D/g, '');
-    }
-    if (!searchSimilarTo) {
+    const firstChar = route.shortName[0] ?? '';
+    const isNumericRoute = firstChar >= '0' && firstChar <= '9';
+    if (!isNumericRoute) {
       setLoadingSimilar(false);
       return;
     }
 
-    const query = graphql`
-      query RoutePatternSelectContainer_similarRoutesQuery($name: String) {
-        routes(name: $name) {
-          gtfsId
-          shortName
-          longName
-          mode
-          color
-        }
-      }
-    `;
+    // For alphanumeric routes like "23A", search by the numeric base "23"
+    const searchName = Number.isNaN(Number(route.shortName))
+      ? route.shortName.replace(/\D/g, '')
+      : route.shortName;
+    if (!searchName) {
+      setLoadingSimilar(false);
+      return;
+    }
 
     fetchQuery(
       relayEnvironment,
-      query,
-      { name: searchSimilarTo },
-      {
-        force: true,
-      },
+      similarRoutesQuery,
+      { name: searchName },
+      { force: true },
     )
       .toPromise()
       .then(results => {
@@ -118,49 +112,52 @@ function RoutePatternSelectContainer({
       });
   }, []);
 
+  const options = getPatternOptions(
+    route.patterns,
+    config.itinerary.serviceTimeRange,
+  );
+
+  // Redirect to first available pattern if the URL pattern is no longer valid
   useEffect(() => {
-    const options = getOptions();
     if (options && options.every(o => o.code !== params.patternId)) {
       router.replace(routePagePath(gtfsId, PREFIX_STOPS, options[0].code));
     }
   }, [params.patternId, gtfsId, route]);
 
-  const options = getOptions();
   if (!options) {
     return null;
   }
 
   const currentPattern = options.find(o => o.code === params.patternId);
 
-  let mainRoutes = options.slice(0, 2).filter(o => !o.inFuture);
-  if (
-    mainRoutes.every(o => o.directionId === 0) ||
-    mainRoutes.every(o => o.directionId === 1)
-  ) {
-    mainRoutes = mainRoutes.slice(0, 1);
-  }
-  const specialRoutes = options
-    .slice(mainRoutes.length)
-    .filter(o => !o.inFuture);
-  const futureRoutes = options.slice(mainRoutes.length).filter(o => o.inFuture);
+  const nonFutureOptions = options.filter(o => !o.inFuture);
+  const futureOptions = options.filter(o => o.inFuture);
 
-  const noSpecialRoutes = !specialRoutes.length;
-  const noFutureRoutes = !futureRoutes.length;
-  const noSimilarRoutes = !similarRoutes.length;
+  // Take up to 2 candidate main routes; collapse to 1 if both go the same direction
+  let mainRoutes = nonFutureOptions.slice(0, 2);
+  if (
+    mainRoutes.length === 2 &&
+    mainRoutes[0].directionId === mainRoutes[1].directionId
+  ) {
+    mainRoutes = [mainRoutes[0]];
+  }
+  const specialRoutes = nonFutureOptions.slice(mainRoutes.length);
 
   const renderButtonOnly =
     mainRoutes.length > 0 &&
-    noSpecialRoutes &&
-    noFutureRoutes &&
-    noSimilarRoutes;
+    specialRoutes.length === 0 &&
+    futureOptions.length === 0 &&
+    similarRoutes.length === 0;
 
-  const directionSwap = mainRoutes.length === 2;
+  const canSwapDirection = mainRoutes.length === 2;
   if (renderButtonOnly) {
-    const otherPattern = mainRoutes.find(o => o.code !== params.patternId);
+    const otherPattern = canSwapDirection
+      ? mainRoutes.find(o => o.code !== params.patternId)
+      : undefined;
     return (
       <div className={cx('route-pattern-select', className)} aria-atomic="true">
         <label htmlFor="route-pattern-toggle-button">
-          {directionSwap && (
+          {canSwapDirection && (
             <span className="sr-only">
               <FormattedMessage id="swap-order-button-label" />
             </span>
@@ -170,13 +167,13 @@ function RoutePatternSelectContainer({
             className="route-pattern-toggle"
             type="button"
             onClick={
-              directionSwap
+              canSwapDirection
                 ? () => onSelectChange(otherPattern.code)
                 : undefined
             }
           >
             {patternTextWithIcon(currentPattern)}
-            {directionSwap && (
+            {canSwapDirection && (
               <Icon className="toggle-icon" img="icon_direction-c" />
             )}
           </button>
@@ -185,39 +182,24 @@ function RoutePatternSelectContainer({
     );
   }
 
-  const optionArray = [];
-  if (mainRoutes.length > 0) {
-    optionArray.push({ options: mainRoutes, name: '' });
-  }
-  if (specialRoutes.length > 0) {
-    optionArray.push({
+  const msg = id => intl.formatMessage({ id });
+  const optionArray = [
+    mainRoutes.length > 0 && { options: mainRoutes, name: '' },
+    specialRoutes.length > 0 && {
       options: specialRoutes,
-      name: intl.formatMessage({
-        id: 'route-page.special-routes',
-      }),
-    });
-  }
-  if (futureRoutes.length > 0) {
-    optionArray.push({
-      options: futureRoutes,
-      name: intl.formatMessage({
-        id: 'route-page.future-routes',
-      }),
-    });
-  }
-
-  if (
+      name: msg('route-page.special-routes'),
+    },
+    futureOptions.length > 0 && {
+      options: futureOptions,
+      name: msg('route-page.future-routes'),
+    },
     config.showSimilarRoutesOnRouteDropDown &&
-    !loadingSimilar &&
-    similarRoutes.length > 0
-  ) {
-    optionArray.push({
-      options: similarRoutes,
-      name: intl.formatMessage({
-        id: 'route-page.similar-routes',
-      }),
-    });
-  }
+      !loadingSimilar &&
+      similarRoutes.length > 0 && {
+        options: similarRoutes,
+        name: msg('route-page.similar-routes'),
+      },
+  ].filter(Boolean);
 
   return (
     <RoutePatternSelect
@@ -236,20 +218,10 @@ RoutePatternSelectContainer.propTypes = {
   route: routeShape.isRequired,
   onSelectChange: PropTypes.func.isRequired,
   gtfsId: PropTypes.string.isRequired,
-  relayEnvironment: relayShape.isRequired,
 };
 
 const withStore = createRefetchContainer(
-  props => (
-    <ReactRelayContext.Consumer>
-      {({ environment }) => (
-        <RoutePatternSelectContainer
-          {...props}
-          relayEnvironment={environment}
-        />
-      )}
-    </ReactRelayContext.Consumer>
-  ),
+  RoutePatternSelectContainer,
   {
     route: graphql`
       fragment RoutePatternSelectContainer_route on Route

@@ -11,41 +11,42 @@ import { patternShape } from '../../util/shapes';
 import { useTranslationsContext } from '../../util/useTranslationsContext';
 
 function patternOptionText(pattern) {
-  return pattern
-    ? `${pattern.stops[0].name} ➔ ${
-        pattern.headsign || pattern.stops[pattern.stops.length - 1].name
-      }`
-    : '';
+  if (!pattern) {
+    return '';
+  }
+  const { stops, headsign } = pattern;
+  const destination = headsign || stops[stops.length - 1].name;
+  return `${stops[0].name} ➔ ${destination}`;
 }
 
 export function patternTextWithIcon(pattern) {
-  if (pattern) {
-    const text = patternOptionText(pattern);
-    const i = text.search(/➔/);
-    if (i === -1) {
-      return text;
-    }
-    return (
-      <>
-        {text.slice(0, i)}
-        <Icon className="in-text-arrow" img="icon_arrow-right-long" />
-        <span className="sr-only">➔</span>
-        {text.slice(i + 1)}
-      </>
-    );
+  if (!pattern) {
+    return null;
   }
-  return null;
+  const text = patternOptionText(pattern);
+  const arrowIndex = text.indexOf('➔');
+  if (arrowIndex === -1) {
+    return text;
+  }
+  return (
+    <>
+      {text.slice(0, arrowIndex)}
+      <Icon className="in-text-arrow" img="icon_arrow-right-long" />
+      <span className="sr-only">➔</span>
+      {text.slice(arrowIndex + 1)}
+    </>
+  );
 }
 
 /**
- * Renders a single option as a list item
+ * Renders an individual option in the pattern/route select dropdown, which can be either a route pattern or a similar route.
  * @param props
- * @param props.option option to be rendered, can be a pattern or a similar route
- * @param props.optionIndexTable lookup table from option id to index
- * @param props.highlightedIndex index of the currently highlighted option
- * @param props.getItemProps returns downshift item props
- * @param currentPattern currently selected pattern
- * @returns {JSX.Element}
+ * @param props.option The pattern or similar route option to render
+ * @param props.optionIndexTable Lookup table for option index by code/gtfsId
+ * @param props.highlightedIndex Currently highlighted index (for keyboard navigation)
+ * @param props.getItemProps Downshift function to get item props
+ * @param props.currentPattern Currently selected pattern (to indicate selection)
+ * @returns {JSX.Element} representing the option
  */
 function PatternOption({
   option,
@@ -55,20 +56,20 @@ function PatternOption({
   currentPattern,
 }) {
   const intl = useTranslationsContext();
-  const isSelected = option.code === currentPattern.code;
-  const selectedText = isSelected
-    ? intl.formatMessage({ id: 'route-page.pattern-chosen' })
-    : '';
-  return (
-    // option is a pattern
-    (option.stops && (
+
+  if (option.stops) {
+    // Option is a pattern
+    const isSelected = option.code === currentPattern.code;
+    const selectedText = isSelected
+      ? intl.formatMessage({ id: 'route-page.pattern-chosen' })
+      : '';
+    return (
       <li
         aria-label={`${patternOptionText(option)}, ${selectedText}`}
-        className={cx(
-          'suggestion',
-          optionIndexTable[option.code] === highlightedIndex &&
-            'suggestion--highlighted',
-        )}
+        className={cx('suggestion', {
+          'suggestion--highlighted':
+            optionIndexTable[option.code] === highlightedIndex,
+        })}
         {...getItemProps({
           item: option,
           index: optionIndexTable[option.code],
@@ -79,25 +80,25 @@ function PatternOption({
           <Icon aria-hidden="true" className="check" img="icon_check" />
         )}
       </li>
-    )) ||
-    // option is a similar route
-    (option.shortName && option.longName && option.mode && (
+    );
+  }
+
+  if (option.shortName && option.longName && option.mode) {
+    // Option is a similar route
+    return (
       <li
-        className={cx(
-          'suggestion',
-          optionIndexTable[option.gtfsId] === highlightedIndex &&
-            'suggestion--highlighted',
-        )}
+        className={cx('suggestion', {
+          'suggestion--highlighted':
+            optionIndexTable[option.gtfsId] === highlightedIndex,
+        })}
         {...getItemProps({
           item: option,
-          index: optionIndexTable[option.gtfsId], // similar routes don't have a code, use gtfsId instead
+          index: optionIndexTable[option.gtfsId],
         })}
       >
         <Link
           to={routePagePath(option.gtfsId)}
-          onClick={e => {
-            e.stopPropagation();
-          }}
+          onClick={e => e.stopPropagation()}
         >
           <div className="similar-route">
             <Icon
@@ -116,9 +117,10 @@ function PatternOption({
           </div>
         </Link>
       </li>
-    )) ||
-    null
-  );
+    );
+  }
+
+  return null;
 }
 
 PatternOption.propTypes = {
@@ -140,19 +142,11 @@ export default function RoutePatternSelect({
     return null;
   }
 
-  // flatten optionArray to an ungrouped 1-D array
-  const flattenedOptions = optionArray.reduce(
-    (options, group) => options.concat(group.options),
-    [],
-  );
-  // lookup table for getting the index of an option, used for highlighting
-  const optionIndexTable = flattenedOptions.reduce(
-    (map, { code, gtfsId }, index) => {
-      // eslint-disable-next-line no-param-reassign
-      map[code || gtfsId] = index;
-      return map;
-    },
-    {},
+  // Flatten option groups into a single ordered list (used by downshift for item indices)
+  const flatOptions = optionArray.flatMap(group => group.options);
+  // Lookup table: option identifier → flat index (for highlight tracking)
+  const optionIndexTable = Object.fromEntries(
+    flatOptions.map(({ code, gtfsId }, index) => [code || gtfsId, index]),
   );
 
   // refer to useSelect hook in downshift.js documentation
@@ -165,19 +159,24 @@ export default function RoutePatternSelect({
     getLabelProps,
   } = useSelect({
     selectedItem: currentPattern,
-    items: flattenedOptions,
-    onSelectedItemChange: ({ selectedItem }) =>
-      // if selected item is a similar route, redirect to route page
-      (selectedItem.gtfsId &&
-        router.push(routePagePath(selectedItem.gtfsId))) ||
-      onSelectChange(selectedItem.code),
-    onIsOpenChange: changes =>
-      changes.isOpen &&
-      addAnalyticsEvent({
-        category: 'Route',
-        action: 'OpenDirectionMenu',
-        name: null,
-      }),
+    items: flatOptions,
+    onSelectedItemChange: ({ selectedItem }) => {
+      if (selectedItem.code) {
+        onSelectChange(selectedItem.code);
+      } else {
+        // Similar route selected — navigate to its route page
+        router.push(routePagePath(selectedItem.gtfsId));
+      }
+    },
+    onIsOpenChange: changes => {
+      if (changes.isOpen) {
+        addAnalyticsEvent({
+          category: 'Route',
+          action: 'OpenDirectionMenu',
+          name: null,
+        });
+      }
+    },
     labelId: 'route-pattern-select-label',
     menuId: 'route-pattern-select-menu',
     toggleButtonId: 'route-pattern-select-toggle',
@@ -186,10 +185,9 @@ export default function RoutePatternSelect({
   return (
     <div className={cx('route-pattern-select', className)} aria-atomic="true">
       <div
-        className={cx(
-          'pattern-select-container',
-          isOpen && 'pattern-select-container--open',
-        )}
+        className={cx('pattern-select-container', {
+          'pattern-select-container--open': isOpen,
+        })}
       >
         <label {...getLabelProps()}>
           <span tabIndex={-1} className="sr-only">
@@ -207,42 +205,34 @@ export default function RoutePatternSelect({
         </div>
 
         <div
-          className={cx(
-            'suggestions-container',
-            isOpen && 'suggestions-container--open',
-          )}
+          className={cx('suggestions-container', {
+            'suggestions-container--open': isOpen,
+          })}
           hidden={!isOpen}
           {...getMenuProps({})}
         >
-          {optionArray.map((section, sectionIndex) => {
-            return (
-              <div
-                key={`section-${section.name}`}
-                className="section-container"
-              >
-                <ul aria-labelledby={`section-${sectionIndex}`} role="group">
-                  <label
-                    id={`section-${sectionIndex}`}
-                    className={cx('section-title', {
-                      'sr-only': !section.name,
-                    })}
-                  >
-                    {section.name}
-                  </label>
-                  {section.options.map(option => (
-                    <PatternOption
-                      key={option.code || option.gtfsId}
-                      option={option}
-                      optionIndexTable={optionIndexTable}
-                      highlightedIndex={highlightedIndex}
-                      getItemProps={getItemProps}
-                      currentPattern={currentPattern}
-                    />
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
+          {optionArray.map((section, sectionIndex) => (
+            <div key={`section-${section.name}`} className="section-container">
+              <ul aria-labelledby={`section-${sectionIndex}`} role="group">
+                <label
+                  id={`section-${sectionIndex}`}
+                  className={cx('section-title', { 'sr-only': !section.name })}
+                >
+                  {section.name}
+                </label>
+                {section.options.map(option => (
+                  <PatternOption
+                    key={option.code || option.gtfsId}
+                    option={option}
+                    optionIndexTable={optionIndexTable}
+                    highlightedIndex={highlightedIndex}
+                    getItemProps={getItemProps}
+                    currentPattern={currentPattern}
+                  />
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
     </div>
