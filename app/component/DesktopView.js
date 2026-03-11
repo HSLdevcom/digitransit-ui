@@ -16,7 +16,7 @@ export default function DesktopView({
 }) {
   return (
     <div className="desktop">
-      <div className="main-content" role="main">
+      <div className="main-content" role="main" id="main-content">
         {bckBtnVisible && (
           <div className="desktop-title h1">
             <BackButton title={title} fallback={bckBtnFallback} />

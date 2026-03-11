@@ -1,23 +1,28 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { routeShape, configShape } from '../util/shapes';
-import { getRouteText } from '../util/legUtils';
+import { tripShape, routeShape, configShape } from '../util/shapes';
+import { getTripOrRouteText } from '../util/legUtils';
 import RouteNumber from './RouteNumber';
 
 const RouteNumberContainer = (
-  { interliningWithRoute, route, mode, hideText, ...props },
+  { interliningWithRoute, trip, route, mode, hideText, ...props },
   { config },
 ) =>
   route && (
     <RouteNumber
       color={route.color ? `#${route.color}` : null}
       mode={mode !== undefined ? mode : route.mode}
-      text={hideText ? '' : getRouteText(route, config, interliningWithRoute)}
+      text={
+        hideText
+          ? ''
+          : getTripOrRouteText(trip, route, config, interliningWithRoute)
+      }
       {...props}
     />
   );
 
 RouteNumberContainer.propTypes = {
+  trip: tripShape,
   route: routeShape.isRequired,
   interliningWithRoute: PropTypes.string,
   mode: PropTypes.string,
@@ -25,6 +30,7 @@ RouteNumberContainer.propTypes = {
 };
 
 RouteNumberContainer.defaultProps = {
+  trip: undefined,
   interliningWithRoute: undefined,
   mode: undefined,
   hideText: false,

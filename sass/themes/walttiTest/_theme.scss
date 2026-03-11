@@ -1,0 +1,18 @@
+@import '../../base/waltti';
+
+/* main theme colors */
+$ouluColor: #e10669;
+$theme-primary-color: $ouluColor;
+$theme-secondary-color: darken($theme-primary-color, 20%);
+$hilight-color: $ouluColor;
+$action-color: $ouluColor;
+$bus-color: $ouluColor;
+$viewpoint-marker-color: $ouluColor;
+$current-location-color: $theme-primary-color;
+$standalone-btn-color: $theme-primary-color;
+$link-color: $theme-primary-color;
+
+/* Component palette */
+$desktop-title-color: $theme-primary-color;
+$desktop-title-arrow-icon-color: $theme-secondary-color;
+$top-bar-color: $theme-primary-color;

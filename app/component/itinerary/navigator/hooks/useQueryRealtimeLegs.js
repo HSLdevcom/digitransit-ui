@@ -16,7 +16,7 @@ const useQueryRealtimeLegs = relayEnvironment => {
       }
 
       const legQueries = legs
-        .filter(leg => leg.transitLeg && legTime(leg.end) > now)
+        .filter(leg => leg.transitLeg && legTime(leg.end) > now && leg.legId)
         .map(leg =>
           fetchQuery(
             relayEnvironment,

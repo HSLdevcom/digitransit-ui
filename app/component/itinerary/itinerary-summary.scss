@@ -168,8 +168,8 @@
     color: #333;
 
     .itinerary-first-leg-start-time {
+      display: flex;
       font-size: 13px;
-      overflow: auto;
       white-space: normal;
 
       .platform-or-track {
@@ -178,6 +178,20 @@
 
       .start-time {
         font-weight: $font-weight-medium;
+      }
+
+      .icon-container {
+        display: inline-block;
+        vertical-align: text-bottom;
+        margin-right: var(--space-xxs);
+        color: #fcbc19;
+        height: 16px;
+        width: 16px;
+
+        .icon {
+          height: 16px;
+          width: 16px;
+        }
       }
     }
 

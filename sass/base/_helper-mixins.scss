@@ -30,3 +30,10 @@
   font-weight: $font-narrow-weight-medium;
   letter-spacing: $narrow-letter-spacing;
 }
+
+:root {
+  --font-family: #{$font-family};
+  --font-family-narrow: #{$font-family-narrow};
+  --font-weight-book: #{$font-weight-book};
+  --font-weight-medium: #{$font-weight-medium};
+}

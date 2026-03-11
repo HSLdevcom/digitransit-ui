@@ -544,8 +544,10 @@ export default {
     'tram',
     'subway',
     'rail',
+    'carpark',
     'citybike',
     'ferry',
+    'bikepark',
   ],
   narrowNearYouButtons: true,
   nearYouRoutes: {
@@ -827,7 +829,6 @@ export default {
   },
 
   showStopStatusMarkers: true,
-
   flex: {
     internalFlexEnabled: IS_DEV,
     allowTaxiJourneys: IS_DEV,
@@ -839,5 +840,5 @@ export default {
   },
 
   showRouteDescNotification: IS_DEV,
-  personalisation: false,
+  personalisation: IS_DEV,
 };

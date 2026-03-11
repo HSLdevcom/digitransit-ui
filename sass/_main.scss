@@ -1,5 +1,3 @@
-@import 'foundation-sites/scss/util/util';
-
 /* Set Foundation base font to theme font
    (without this Foundation overrides body */
 $font-weight-bold: 700;
@@ -45,7 +43,8 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/select-maplayers-dialog';
 @import '../app/component/zone-icon';
 @import '../app/component/date-select';
-@import '../app/component/routepage/route-schedule-dropdown';
+@import '../app/component/date-select-grouped';
+@import '../app/component/routepage/schedule/route-schedule-dropdown';
 @import '../app/component/embedded/embedded-search';
 @import '../app/component/embedded/embedded-search-generator';
 @import '../app/component/from-map-modal';
@@ -71,6 +70,7 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/itinerary/navigator/navigatorintro/navigator-intro';
 @import '../app/component/itinerary/navigator/navigatoroutro/navigator-outro';
 @import '../app/component/itinerary/navigator/navigatorgeolocation/navigator-geolocation';
+@import '../app/component/itinerary/on-demand-info';
 @import '../app/component/trafficnow/trafficnow';
 @import '../app/component/popover';
 @import '../app/component/animations';
