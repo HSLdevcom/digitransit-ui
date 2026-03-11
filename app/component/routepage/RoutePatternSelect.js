@@ -9,7 +9,6 @@ import { routePagePath } from '../../util/path';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { patternShape } from '../../util/shapes';
 import { useTranslationsContext } from '../../util/useTranslationsContext';
-import { useConfigContext } from '../../configurations/ConfigContext';
 
 function patternOptionText(pattern) {
   return pattern
@@ -139,7 +138,6 @@ export default function RoutePatternSelect({
   className,
   router,
 }) {
-  const config = useConfigContext();
   if (!currentPattern) {
     return null;
   }
@@ -187,15 +185,8 @@ export default function RoutePatternSelect({
     toggleButtonId: 'route-pattern-select-toggle',
   });
 
-  const sectionTitleFontWeight = config.appBarStyle === 'hsl' ? 500 : 600;
   return (
-    <div
-      className={cx('route-pattern-select', className)}
-      aria-atomic="true"
-      style={{
-        '--sectionTitleFontWeight': `${sectionTitleFontWeight}`,
-      }}
-    >
+    <div className={cx('route-pattern-select', className)} aria-atomic="true">
       <div
         className={cx(
           'pattern-select-container',

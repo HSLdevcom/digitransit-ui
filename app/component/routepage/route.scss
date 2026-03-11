@@ -1342,7 +1342,7 @@ $margin-left-right: 21.3px;
         letter-spacing: -0.03em;
 
         .section-title {
-          font-weight: var(--sectionTitleFontWeight);
+          font-weight: $font-weight-semibold;
           border-bottom: 1px solid #ddd;
           min-height: 44px;
           padding: 13px 16px;
