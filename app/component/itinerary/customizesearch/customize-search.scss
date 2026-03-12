@@ -225,6 +225,14 @@
         font-weight: $font-weight-medium;
         color: $theme-primary-color;
       }
+
+      .breakable {
+        white-space: normal;
+      }
+
+      .nobreaks {
+        white-space: nowrap;
+      }
     }
   }
 
@@ -330,6 +338,7 @@
     display: flex;
     flex-direction: row;
     gap: 8px;
+    padding-top: 12px;
     padding-bottom: 12px;
 
     .pr-info-text-area {
@@ -412,4 +421,8 @@
       background-color: $theme-primary-color;
     }
   }
+}
+
+.pr-info-mobile {
+  padding-top: 46px;
 }

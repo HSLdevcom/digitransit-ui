@@ -7,11 +7,13 @@ import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import Icon from '../../Icon';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { settingsShape } from '../../../util/shapes';
+import { useTranslationsContext } from '../../../util/useTranslationsContext';
 
 export default function Personalisation(
   { currentSettings },
   { executeAction },
 ) {
+  const intl = useTranslationsContext();
   const [modalOpen, setModalOpen] = useState(false);
 
   const onToggle = () => {
@@ -26,6 +28,11 @@ export default function Personalisation(
       personalisation: !currentSettings.personalisation,
     });
   };
+
+  const linkText = intl.formatMessage({ id: 'personalisation-open-info' });
+  const words = linkText.split(' ');
+  const lastWord = words.pop();
+  const start = words.join(' ');
 
   return (
     <>
@@ -56,8 +63,13 @@ export default function Personalisation(
             setModalOpen(true);
           }}
         >
-          <FormattedMessage id="personalisation-open-info" />
-          <Icon className="arrow" img="icon_arrow-collapse--right" />
+          <span className="nobreaks">
+            <span className="breakable">{start} </span>
+            <span>
+              {lastWord}
+              <Icon className="arrow" img="icon_arrow-collapse--right" />
+            </span>
+          </span>
         </button>
       </div>
       {modalOpen && <PrModal closeModal={() => setModalOpen(false)} />}

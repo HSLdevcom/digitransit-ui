@@ -1,15 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import cx from 'classnames';
 import Modal from '@hsl-fi/modal';
 import Icon from '../../Icon';
 import ExternalLink from '../../ExternalLink';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 import { useTranslationsContext } from '../../../util/useTranslationsContext';
+import { useBreakpoint } from '../../../util/withBreakpoint';
 
 export default function PrModal({ closeModal }) {
   const config = useConfigContext();
   const intl = useTranslationsContext();
+  const breakpoint = useBreakpoint();
 
   return (
     <Modal
@@ -20,7 +23,11 @@ export default function PrModal({ closeModal }) {
       isOpen
       onCrossClick={closeModal}
     >
-      <div className="pr-info-modal">
+      <div
+        className={cx('pr-info-modal', {
+          'pr-info-mobile': breakpoint !== 'large',
+        })}
+      >
         <h2>
           <FormattedMessage id="personalisation-modal-header" />
         </h2>
