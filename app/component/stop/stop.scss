@@ -107,7 +107,7 @@
     font-weight: $font-weight-medium;
     font-stretch: normal;
     font-style: normal;
-    line-height: normal;
+    line-height: 27px;
     letter-spacing: -0.8px;
   }
 
@@ -182,8 +182,8 @@
 .stop-tab-container {
   display: flex;
   background-color: #ddd;
-  border-radius: 5px;
-  margin: 8px 64px 16px 64px;
+  border-radius: 30px;
+  margin: 8px 48px 16px 48px;
   position: relative;
 
   @media print {
@@ -200,16 +200,16 @@
 .stop-tab-singletab:hover {
   display: flex;
   align-items: center;
-  min-height: 3em;
+  min-height: 42px;
   flex-grow: 1;
   font-size: $font-size-xxsmall;
-  border-radius: 3px;
+  border-radius: 30px;
   cursor: pointer;
   color: #333;
   text-align: center;
   transition: 0.1s all ease-in;
   padding-top: 0;
-  margin: 2px;
+  margin: 4px;
   padding-left: 0.5em;
   padding-right: 0.5em;
   text-decoration: none;
