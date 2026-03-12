@@ -79,6 +79,9 @@ export function hasCustomizedSettings(config) {
   }
 
   return Object.keys(customizedSettings).some(key => {
+    if (key === 'personalisation') {
+      return false;
+    }
     if (key === 'allowedBikeRentalNetworks') {
       return customizedSettings.allowedBikeRentalNetworks.some(network =>
         networkIsActive(config.vehicleRental.networks[network]),
