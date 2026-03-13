@@ -124,6 +124,20 @@ export const isAlertValid = (
   );
 };
 
+export const currentAndFutureAlerts = (alerts, referenceTime) => {
+  const currentAlerts = alerts.filter(alert => {
+    const { effectiveStartDate, effectiveEndDate } = alert;
+    return (
+      effectiveStartDate < referenceTime && effectiveEndDate > referenceTime
+    );
+  });
+  const futureAlerts = alerts.filter(alert => {
+    const { effectiveStartDate } = alert;
+    return effectiveStartDate > referenceTime;
+  });
+  return { currentAlerts, futureAlerts };
+};
+
 /**
  * Checks if the given (canceled) stoptime has expired or not.
  *
