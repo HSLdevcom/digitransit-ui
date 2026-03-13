@@ -1,4 +1,3 @@
-import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 import ttConfig from './timetableConfigUtils';
 
 const HSLTimetables = ttConfig.HSL;
@@ -442,65 +441,7 @@ export default {
   vehicleRental: {
     minZoomStopsNearYou: 10,
     showFullInfo: true,
-    networks: {
-      smoove: {
-        enabled: true,
-        season: {
-          preSeasonStart: '18.3',
-          start: '1.4',
-          end: '31.10',
-        },
-        capacity: BIKEAVL_WITHMAX,
-        icon: 'citybike',
-        name: {
-          fi: 'Helsinki ja Espoo',
-          sv: 'Helsingfors och Esbo',
-          en: 'Helsinki and Espoo',
-        },
-        type: 'citybike',
-        returnInstructions: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#palauta',
-          sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#aterlamna',
-          en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#return',
-        },
-        // Shown if citybike leg duration exceeds timeBeforeSurcharge
-        durationInstructions: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#aja',
-          sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#cykla',
-          en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#ride',
-        },
-        timeBeforeSurcharge: 60 * 60,
-        showRentalStations: true,
-      },
-      vantaa: {
-        enabled: true,
-        season: {
-          preSeasonStart: '18.3',
-          start: '1.4',
-          end: '31.10',
-        },
-        capacity: BIKEAVL_WITHMAX,
-        icon: 'citybike-secondary',
-        name: {
-          fi: 'Vantaa',
-          sv: 'Vanda',
-          en: 'Vantaa',
-        },
-        type: 'citybike',
-        returnInstructions: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa/kayttoohje#palauta',
-          sv: 'https://www.hsl.fi/sv/stadscyklar/vanda/anvisningar#aterlamna',
-          en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#return',
-        },
-        durationInstructions: {
-          fi: 'https://www.hsl.fi/kaupunkipyorat/vantaa/kayttoohje#aja',
-          sv: 'https://www.hsl.fi/sv/stadscyklar/vanda/anvisningar#cykla',
-          en: 'https://www.hsl.fi/en/citybikes/vantaa/instructions#ride',
-        },
-        timeBeforeSurcharge: 120 * 60,
-        showRentalStations: true,
-      },
-    },
+    networks: {},
     buyUrl: {
       fi: 'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
       sv: 'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
@@ -549,6 +490,7 @@ export default {
     'ferry',
     'bikepark',
   ],
+
   narrowNearYouButtons: true,
   nearYouRoutes: {
     radius: 500,
