@@ -32,7 +32,21 @@
   }
 }
 
-.no-alerts-container,
+.no-alerts-container {
+  background-color: $background-color-lighter;
+  align-items: center;
+  display: flex;
+  flex: 1 0 6em;
+  flex-direction: column;
+  padding-top: 20px;
+  font-weight: 325;
+  font-size: 18px;
+
+  .icon {
+    width: auto;
+    height: auto;
+  }
+}
 .stop-constant-operation-container,
 .stop-no-departures-container {
   align-items: center;

@@ -18,6 +18,7 @@ import {
 } from '../util/alertUtils';
 import { AlertEntityType } from '../constants';
 import { getRouteMode } from '../util/modeUtils';
+import Badge from './Badge';
 
 /**
  * Returns a localized string representing a time period between startTime and endTime
@@ -98,6 +99,7 @@ const getEntitiesWithUniqueIdentifiers = entities => {
 
 export default function AlertRow(
   {
+    alertEffect,
     currentTime,
     description,
     endTime,
@@ -179,76 +181,91 @@ export default function AlertRow(
     url && (url.match(/^[a-zA-Z]+:\/\//) ? url : `http://${url}`);
 
   return (
-    <div className="alert-row" role="listitem">
-      {(entityType === AlertEntityType.Route && (
-        <RouteNumber
-          alertSeverityLevel={severityLevel}
-          color={routeColor}
-          mode={routeMode}
-        />
-      )) ||
-        (entityType === AlertEntityType.Stop && (
-          <div className="route-number">
-            {severityLevel === 'INFO' ? (
-              <Icon img="icon_info" className="stop-disruption info" />
-            ) : (
-              <Icon img="icon_caution" className="stop-disruption warning" />
-            )}
-          </div>
-        )) || (
-          <div className="route-number">
-            <ServiceAlertIcon severityLevel={severityLevel} />
-          </div>
-        )}
-      <div className="alert-contents">
-        {mapAlertSource(config, intl.locale, feed)}
-        <div className="alert-top-row">
-          {entityIdentifiers &&
-            entityIdentifiers.length > 0 &&
-            ((entityType === AlertEntityType.Route &&
-              showLinks &&
-              routeLinks.length > 0 && <>{routeLinks} </>) ||
-              (!showLinks && (
-                <div
-                  className={cx('route-alert-entityid', routeMode)}
-                  style={{ color: routeColor }}
-                >
-                  {entityIdentifiers.join(', ')}
-                </div>
-              )) ||
-              (entityType === AlertEntityType.Stop &&
-                showLinks &&
-                stopLinks.length > 0 && <>{stopLinks} </>) ||
-              (!showLinks && (
-                <div className={routeMode}>{entityIdentifiers.join(' ')}</div>
-              )))}
-          {showTime && (
-            <>
-              {getTimePeriod({
-                currentTime: DateTime.fromSeconds(currentTime),
-                startTime: DateTime.fromSeconds(startTime),
-                endTime: endTime ? DateTime.fromSeconds(endTime) : undefined,
-                intl,
-              })}
-            </>
-          )}
+    <div>
+      <div className="alert-row" role="listitem">
+        <div className="alert-row-top">
+          <Badge showIcon variant={severityLevel} label={alertEffect || ''} />
         </div>
-        {description && (
-          <div className="alert-body">
-            {description}
-            {url && (
-              <ExternalLink className="alert-url" href={checkedUrl}>
-                {intl.formatMessage({ id: 'extra-info' })}
-              </ExternalLink>
+        <div className="alert-row-content">
+          {(entityType === AlertEntityType.Route && (
+            <RouteNumber
+              alertSeverityLevel={severityLevel}
+              color={routeColor}
+              mode={routeMode}
+            />
+          )) ||
+            (entityType === AlertEntityType.Stop && (
+              <div className="route-number">
+                {severityLevel === 'INFO' ? (
+                  <Icon img="icon_info" className="stop-disruption info" />
+                ) : (
+                  <Icon
+                    img="icon_caution"
+                    className="stop-disruption warning"
+                  />
+                )}
+              </div>
+            )) || (
+              <div className="route-number">
+                <ServiceAlertIcon severityLevel={severityLevel} />
+              </div>
+            )}
+          <div className="alert-contents">
+            {mapAlertSource(config, intl.locale, feed)}
+            <div className="alert-top-row">
+              {entityIdentifiers &&
+                entityIdentifiers.length > 0 &&
+                ((entityType === AlertEntityType.Route &&
+                  showLinks &&
+                  routeLinks.length > 0 && <>{routeLinks} </>) ||
+                  (!showLinks && (
+                    <div
+                      className={cx('route-alert-entityid', routeMode)}
+                      style={{ color: routeColor }}
+                    >
+                      {entityIdentifiers.join(', ')}
+                    </div>
+                  )) ||
+                  (entityType === AlertEntityType.Stop &&
+                    showLinks &&
+                    stopLinks.length > 0 && <>{stopLinks} </>) ||
+                  (!showLinks && (
+                    <div className={routeMode}>
+                      {entityIdentifiers.join(' ')}
+                    </div>
+                  )))}
+              {showTime && (
+                <>
+                  {getTimePeriod({
+                    currentTime: DateTime.fromSeconds(currentTime),
+                    startTime: DateTime.fromSeconds(startTime),
+                    endTime: endTime
+                      ? DateTime.fromSeconds(endTime)
+                      : undefined,
+                    intl,
+                  })}
+                </>
+              )}
+            </div>
+            {description && (
+              <div className="alert-body">
+                {description}
+                {url && (
+                  <ExternalLink className="alert-url" href={checkedUrl}>
+                    {intl.formatMessage({ id: 'extra-info' })}
+                  </ExternalLink>
+                )}
+              </div>
             )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );
 }
 
 AlertRow.propTypes = {
+  alertEffect: PropTypes.string,
   currentTime: PropTypes.number,
   description: PropTypes.string,
   endTime: PropTypes.number,

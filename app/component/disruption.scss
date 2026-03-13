@@ -50,8 +50,8 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  background: $white;
-  padding: 0 20px 0 20px;
+  background: $background-color-lighter;
+  padding: 0;
 
   &.bp-large {
     padding: 0 3.5rem 0 3.5rem;
@@ -78,7 +78,8 @@
 }
 
 .alerts-list {
-  background: $white;
+  padding: 24px 48px 24px 48px;
+  background: $background-color-lighter;
   padding-bottom: 0.7em;
   flex: 1;
   flex-basis: 0;
@@ -89,10 +90,24 @@
     flex-direction: column;
   }
 
+  .alerts-list-section-header {
+    min-height: 32px;
+    font-size: 16px;
+    p {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: -0.3px;
+    }
+  }
+
   .alert-row {
-    display: flex;
+    background-color: $white;
     padding: 0.8em 0.8em 0.8em 0.8em;
     position: relative;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    box-shadow: 0px 2px 4px 0px #33333333;
 
     .icon.stop-disruption {
       width: 2em;
@@ -118,10 +133,6 @@
     .alert-row-link {
       padding-right: 4px;
       text-decoration: none;
-    }
-
-    + .alert-row {
-      border-top: 1px solid $light-gray;
     }
 
     .alert-contents {

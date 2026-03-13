@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { uniq } from 'lodash';
+import { useFragment } from 'react-relay';
 import AlertList from '../AlertList';
 import {
   getCancelationsForStop,
@@ -9,8 +10,9 @@ import {
 } from '../../util/alertUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import { epochToTime } from '../../util/timeUtils';
-import { stopShape, configShape } from '../../util/shapes';
+import { stopShape, configShape, stationShape } from '../../util/shapes';
 import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
+import { DisruptionsFragment } from './queries/DisruptionsFragment';
 
 export const isRelevantEntity = (entity, stopIds, routeIds) =>
   // eslint-disable-next-line no-underscore-dangle
@@ -99,8 +101,9 @@ export const getAlerts = stop => {
   );
 };
 
-const StopAlerts = ({ stop }, { config }) => {
-  const intl = useIntl();
+function Disruptions({ stop: stopRef, station: stationRef }, { config }) {
+  const ref = stopRef ?? stationRef;
+  const stop = useFragment(DisruptionsFragment, ref);
   const cancelations = getCancelations(stop, intl, config);
   const serviceAlerts = getAlerts(stop);
 
@@ -111,11 +114,9 @@ const StopAlerts = ({ stop }, { config }) => {
       serviceAlerts={serviceAlerts}
     />
   );
-};
+}
 
-StopAlerts.propTypes = { stop: stopShape.isRequired };
-StopAlerts.contextTypes = {
-  config: configShape,
-};
+Disruptions.propTypes = { stop: stopShape, station: stationShape };
+Disruptions.contextTypes = { config: configShape };
 
-export default StopAlerts;
+export default Disruptions;

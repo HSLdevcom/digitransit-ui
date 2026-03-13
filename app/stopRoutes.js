@@ -73,7 +73,7 @@ const queries = {
         $startTime: Long!
       ) {
         stop(id: $stopId) {
-          ...StopAlertsContainer_stop @arguments(startTime: $startTime)
+          ...DisruptionsFragment @arguments(startTime: $startTime)
         }
       }
     `,
@@ -130,7 +130,7 @@ const queries = {
         $startTime: Long!
       ) {
         station(id: $terminalId) {
-          ...TerminalAlertsContainer_station @arguments(startTime: $startTime)
+          ...DisruptionsFragment @arguments(startTime: $startTime)
         }
       }
     `,
@@ -248,12 +248,12 @@ export default function getStopRoutes(isTerminal = false) {
                 getComponent={() => {
                   return isTerminal
                     ? import(
-                        /* webpackChunkName: "stop" */ './component/stop/TerminalAlertsContainer'
+                        /* webpackChunkName: "stop" */ './component/stop/Disruptions'
                       )
                         .then(getDefault)
                         .catch(errorLoading)
                     : import(
-                        /* webpackChunkName: "stop" */ './component/stop/StopAlertsContainer'
+                        /* webpackChunkName: "stop" */ './component/stop/Disruptions'
                       )
                         .then(getDefault)
                         .catch(errorLoading);
