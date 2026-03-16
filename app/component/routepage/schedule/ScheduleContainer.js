@@ -110,23 +110,32 @@ const ScheduleContainer = ({
       ? constantOperationRoutes[routeId][locale]
       : null;
 
+  const redirectDecision = calculateRedirectDecision({
+    wantedDay,
+    patternCode,
+    routeId,
+    availableDates,
+    hasTrips: !!tripsResult.trips,
+  });
+
+  const {
+    shouldRedirect,
+    redirectPath,
+    query: redirectQuery,
+  } = redirectDecision;
+
   useEffect(() => {
-    const redirectDecision = calculateRedirectDecision({
-      wantedDay,
-      patternCode,
-      routeId,
-    });
-    if (redirectDecision.shouldRedirect) {
-      const basePath = redirectDecision.redirectPath
-        ? { ...match.location, pathname: redirectDecision.redirectPath }
+    if (shouldRedirect) {
+      const basePath = redirectPath
+        ? { ...match.location, pathname: redirectPath }
         : match.location;
 
       match.router.replace({
         ...basePath,
-        query: { ...basePath.query, ...redirectDecision.query },
+        query: { ...basePath.query, ...redirectQuery },
       });
     }
-  }, [wantedDay, patternCode, routeId, match.location]);
+  }, [shouldRedirect, redirectPath, redirectQuery?.serviceDay, match.location]);
 
   useEffect(() => {
     if (patternCode) {
@@ -244,7 +253,7 @@ const ScheduleContainer = ({
             onDateChange={changeDate}
           />
         </div>
-        {tripsResult.noTripsMessage}
+        {!shouldRedirect && tripsResult.noTripsMessage}
         {pattern && (
           <div
             className={cx('route-schedule-list-wrapper', {

@@ -9,7 +9,6 @@ import { useTranslationsContext } from '../../util/useTranslationsContext';
 import {
   extractSelectedValue,
   formatDateLabel,
-  prepareDates,
   processDates,
   groupDatesByWeek,
   generateDateRange,
@@ -54,14 +53,15 @@ function DateSelectGrouped({
     setIsMenuOpen(false);
   }, []);
 
-  // Generate grouped date options from provided dates or fallback range
+  // Generate grouped date options from the provided dates (assumed sorted, no past dates)
+  // or fallback to a generated range when no dates are provided.
   const { grouped, processedDates } = useMemo(() => {
     const today = DateTime.local().startOf('day');
     const tomorrow = today.plus({ days: 1 });
 
     let sourceDates;
     if (dates && Array.isArray(dates)) {
-      sourceDates = prepareDates(dates, today, locale);
+      sourceDates = dates.map(d => d.setLocale(locale));
     } else {
       const validStartDate = startDate?.isValid ? startDate : today;
       sourceDates = generateDateRange(validStartDate, GENERATED_DAYS, locale);

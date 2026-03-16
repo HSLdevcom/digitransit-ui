@@ -191,6 +191,37 @@ describe('<ScheduleContainer />', () => {
       expect(wrapper.find(ScheduleHeader).prop('to')).to.equal(2);
       expect(wrapper.find(ScheduleTripList).prop('toIdx')).to.equal(2);
     });
+
+    it('should auto-adjust destination when origin is moved past it', () => {
+      const patternWithMoreStops = {
+        ...mockPattern,
+        code: 'HSL:1001:0:01',
+        stops: [
+          { id: 'stop1', name: 'Stop 1' },
+          { id: 'stop2', name: 'Stop 2' },
+          { id: 'stop3', name: 'Stop 3' },
+          { id: 'stop4', name: 'Stop 4' },
+        ],
+      };
+      const props = {
+        ...defaultProps,
+        pattern: patternWithMoreStops,
+      };
+
+      const wrapper = shallow(
+        <ScheduleContainer {...props} match={mockMatchWithRouter} />,
+      );
+
+      // to starts at 3 (last stop); move origin to 3 — destination must step forward
+      wrapper.find(ScheduleHeader).prop('onFromSelectChange')(3);
+      wrapper.update();
+
+      // origin is 3, so destination auto-adjusts to min(3+1, 3) = 3
+      expect(wrapper.find(ScheduleHeader).prop('from')).to.equal(3);
+      expect(wrapper.find(ScheduleHeader).prop('to')).to.equal(3);
+      expect(wrapper.find(ScheduleTripList).prop('fromIdx')).to.equal(3);
+      expect(wrapper.find(ScheduleTripList).prop('toIdx')).to.equal(3);
+    });
   });
 
   describe('Date selection interactions', () => {
@@ -228,6 +259,23 @@ describe('<ScheduleContainer />', () => {
       expect(callArgs.query.serviceDay).to.equal('20240103');
       expect(callArgs.query.test).to.equal('1');
       expect(callArgs.query.someOtherParam).to.equal('value');
+    });
+
+    it('should parse serviceDay URL query param and pass it to DateSelectGrouped', () => {
+      const matchWithServiceDay = {
+        ...mockMatchWithRouter,
+        location: {
+          ...mockMatchWithRouter.location,
+          query: { serviceDay: '20240102' },
+        },
+      };
+
+      const wrapper = shallow(
+        <ScheduleContainer {...defaultProps} match={matchWithServiceDay} />,
+      );
+
+      const dateSelect = wrapper.find(DateSelectGrouped);
+      expect(dateSelect.prop('selectedDay').toISODate()).to.equal('2024-01-02');
     });
 
     it('should pass today as selectedDay when service only starts in the future', () => {
@@ -287,6 +335,23 @@ describe('<ScheduleContainer />', () => {
 
       // Should not render constant operation component
       expect(wrapper.find(ScheduleConstantOperation)).to.have.lengthOf(0);
+    });
+
+    it('should not show RouteControlPanel when route has no patterns', () => {
+      const routeWithoutPatterns = {
+        ...mockRoute,
+        patterns: null,
+      };
+      const props = {
+        ...defaultProps,
+        route: routeWithoutPatterns,
+      };
+
+      const wrapper = shallow(
+        <ScheduleContainer {...props} match={mockMatchWithRouter} />,
+      );
+
+      expect(wrapper.find(RouteControlPanel)).to.have.lengthOf(0);
     });
 
     it('should show no-trips message when no trips are available', () => {

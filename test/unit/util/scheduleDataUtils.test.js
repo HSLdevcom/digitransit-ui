@@ -157,5 +157,26 @@ describe('scheduleDataUtils', () => {
 
       expect(result).to.have.lengthOf(2);
     });
+
+    it('should exclude dates that are in the past', () => {
+      // fixedNow is Monday 2024-01-15; override to Wednesday for this test
+      const wednesday = DateTime.fromISO('2024-01-17T10:00:00');
+      Settings.now = () => wednesday.toMillis();
+
+      const departures = {
+        wk1mon: [{ departureStoptime: { scheduledDeparture: 28800 } }], // Mon — past
+        wk1tue: [{ departureStoptime: { scheduledDeparture: 30600 } }], // Tue — past
+        wk1wed: [{ departureStoptime: { scheduledDeparture: 32400 } }], // Wed — today
+        wk1thu: [{ departureStoptime: { scheduledDeparture: 34200 } }], // Thu — future
+      };
+
+      const result = buildAvailableDates(departures);
+
+      expect(result).to.have.lengthOf(2);
+      const today = wednesday.startOf('day');
+      result.forEach(date => {
+        expect(date >= today).to.equal(true);
+      });
+    });
   });
 });

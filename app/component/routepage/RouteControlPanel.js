@@ -282,11 +282,13 @@ class RouteControlPanel extends React.Component {
     );
     if (type === PREFIX_TIMETABLE) {
       const today = unixToYYYYMMDD(unixTime(), config);
-      if (pattern[0].minAndMaxDate && today < pattern[0].minAndMaxDate[0]) {
+      if (match.location.query?.serviceDay) {
+        newPath += `?serviceDay=${match.location.query.serviceDay}`;
+      } else if (
+        pattern[0].minAndMaxDate &&
+        today < pattern[0].minAndMaxDate[0]
+      ) {
         newPath += `?serviceDay=${pattern[0].minAndMaxDate[0]}`;
-      }
-      if (match.query && match.query.serviceDay) {
-        newPath += `?serviceDay=${match.query.serviceDay}`;
       }
     }
     router.replace(newPath);

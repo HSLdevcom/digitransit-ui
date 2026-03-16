@@ -111,26 +111,6 @@ export function generateDateRange(startDate, numberOfDays, locale) {
 }
 
 /**
- * Prepare dates for the date selector by filtering, sorting, and setting locale.
- *
- * @param {Array<DateTime>} dates - Array of Luxon DateTime objects
- * @param {DateTime} today - Today's date for filtering
- * @param {string} locale - Locale string for date formatting
- * @returns {Array<DateTime>} Filtered and sorted array of DateTime objects
- */
-export function prepareDates(dates, today, locale) {
-  if (!Array.isArray(dates)) {
-    return [];
-  }
-
-  return dates
-    .filter(d => d && d.isValid && d instanceof DateTime)
-    .map(d => d.setLocale(locale).startOf('day'))
-    .sort((a, b) => a.toMillis() - b.toMillis())
-    .filter(d => d >= today);
-}
-
-/**
  * Extract selected value from DateTime object.
  *
  * @param {DateTime} selectedDay - Selected day as a Luxon DateTime

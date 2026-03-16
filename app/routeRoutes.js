@@ -15,6 +15,7 @@ import {
   getDefault,
   getComponentOrNullRenderer,
   getComponentOrLoadingRenderer,
+  getComponentOrLoadingRendererWithRequired,
 } from './util/routerUtils';
 import { prepareServiceDay } from './util/dateParamUtils';
 import {
@@ -394,7 +395,11 @@ export default function routeRoutes(config) {
                   ? prepareScheduleParamsWithTenWeeks
                   : prepareScheduleParamsWithFiveWeeks
               }
-              render={getComponentOrLoadingRenderer}
+              render={getComponentOrLoadingRendererWithRequired([
+                'pattern',
+                'route',
+                'firstDepartures',
+              ])}
             />,
             <Route
               path={`${PREFIX_DISRUPTION}/:patternId`}

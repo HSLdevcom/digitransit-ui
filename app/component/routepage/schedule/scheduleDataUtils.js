@@ -28,6 +28,7 @@ const parseScheduleKey = key => {
  * @returns {Array<DateTime>} Array of available dates
  */
 export const buildAvailableDates = departures => {
+  const today = DateTime.now().startOf('day');
   const startOfCurrentWeek = DateTime.now().startOf('week');
   const dates = [];
 
@@ -49,8 +50,10 @@ export const buildAvailableDates = departures => {
       weeks: parsed.weekIndex - 1,
       days: parsed.dayIndex - 1,
     });
-    dates.push(date);
+    if (date >= today) {
+      dates.push(date);
+    }
   });
 
-  return dates;
+  return dates.sort((a, b) => a - b);
 };
