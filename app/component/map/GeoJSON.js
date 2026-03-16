@@ -1,7 +1,6 @@
 import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React, { useRef } from 'react';
-import uniqBy from 'lodash/uniqBy';
 import { default as Geojson } from 'react-leaflet/es/GeoJSON';
 import PointFeatureMarker from './PointFeatureMarker';
 import { geoJsonFeatureShape, configShape } from '../../util/shapes';
@@ -180,27 +179,18 @@ function GeoJSON({ bounds, data, geoJsonZoomLevel, ...rest }, { config }) {
 
   return (
     <React.Fragment>
-      {uniqBy(data.features, 'id')
-        .filter(feature => {
-          const [lon, lat] = feature.geometry.coordinates;
-          if (bounds) {
-            const latLng = L.latLng({ lat, lng: lon });
-            if (!bounds.contains(latLng)) {
-              return false;
-            }
-          }
-          return true;
-        })
-        .map(feature => (
-          <PointFeatureMarker
-            feature={feature}
-            icons={icons.current}
-            key={feature.id}
-            size={geoJsonSvgSize}
-            language={language}
-            {...rest}
-          />
-        ))}
+      {data.features.map((feature, index) => (
+        <PointFeatureMarker
+          feature={feature}
+          icons={icons.current}
+          // use index as a fall back key
+          // eslint-disable-next-line react/no-array-index-key
+          key={String(feature.id) + index}
+          size={geoJsonSvgSize}
+          language={language}
+          {...rest}
+        />
+      ))}
     </React.Fragment>
   );
 }
