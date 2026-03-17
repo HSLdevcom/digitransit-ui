@@ -47,12 +47,16 @@ export function prepareScheduleParamsWithTenWeeks(params, match) {
  * @param {DateTime} params.wantedDay - The requested service day as a DateTime object
  * @param {string|null} params.patternCode - Current pattern code
  * @param {string|null} params.routeId - Current route ID
+ * @param {Array<DateTime>} [params.availableDates] - Dates that have departures, sorted ascending, no past dates
+ * @param {boolean} [params.hasTrips] - Whether the wantedDay has trips
  * @returns {Object} { shouldRedirect: boolean, redirectPath: string|null, query: Object }
  */
 export const calculateRedirectDecision = ({
   wantedDay,
   patternCode,
   routeId,
+  availableDates,
+  hasTrips,
 }) => {
   const today = DateTime.now().startOf('day');
   if (wantedDay && (!wantedDay.isValid || wantedDay < today)) {
@@ -71,6 +75,17 @@ export const calculateRedirectDecision = ({
       redirectPath: routePagePath(routeId, PREFIX_TIMETABLE),
       query: {},
     };
+  }
+
+  if (!hasTrips && availableDates?.length > 0) {
+    const first = availableDates[0];
+    if (first && first !== wantedDay) {
+      return {
+        shouldRedirect: true,
+        redirectPath: null,
+        query: { serviceDay: first.toFormat(DATE_FORMAT) },
+      };
+    }
   }
 
   return {

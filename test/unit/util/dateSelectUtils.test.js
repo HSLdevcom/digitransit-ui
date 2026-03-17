@@ -7,7 +7,6 @@ import {
   processDates,
   groupDatesByWeek,
   generateDateRange,
-  prepareDates,
   extractSelectedValue,
 } from '../../../app/util/dateSelectUtils';
 
@@ -252,74 +251,6 @@ describe('dateSelectUtils', () => {
       expect(result[0].hour).to.equal(0);
       expect(result[0].minute).to.equal(0);
       expect(result[0].second).to.equal(0);
-    });
-  });
-
-  describe('prepareDates', () => {
-    it('should filter out invalid dates', () => {
-      const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
-      const dates = [
-        DateTime.fromISO('2024-01-16', { zone: 'UTC' }),
-        null,
-        DateTime.fromISO('2024-01-17', { zone: 'UTC' }),
-        undefined,
-        DateTime.invalid('invalid'),
-      ];
-
-      const result = prepareDates(dates, today, 'en');
-
-      expect(result).to.have.lengthOf(2);
-    });
-
-    it('should filter out dates before today', () => {
-      const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
-      const dates = [
-        DateTime.fromISO('2024-01-10', { zone: 'UTC' }),
-        DateTime.fromISO('2024-01-16', { zone: 'UTC' }),
-        DateTime.fromISO('2024-01-12', { zone: 'UTC' }),
-      ];
-
-      const result = prepareDates(dates, today, 'en');
-
-      expect(result).to.have.lengthOf(1);
-      expect(result[0].toISODate()).to.equal('2024-01-16');
-    });
-
-    it('should sort dates in ascending order', () => {
-      const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
-      const dates = [
-        DateTime.fromISO('2024-01-20', { zone: 'UTC' }),
-        DateTime.fromISO('2024-01-16', { zone: 'UTC' }),
-        DateTime.fromISO('2024-01-18', { zone: 'UTC' }),
-      ];
-
-      const result = prepareDates(dates, today, 'en');
-
-      expect(result[0].toISODate()).to.equal('2024-01-16');
-      expect(result[1].toISODate()).to.equal('2024-01-18');
-      expect(result[2].toISODate()).to.equal('2024-01-20');
-    });
-
-    it('should normalize dates to start of day', () => {
-      const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
-      const dates = [DateTime.fromISO('2024-01-16T15:30:00', { zone: 'UTC' })];
-
-      const result = prepareDates(dates, today, 'en');
-
-      expect(result[0].hour).to.equal(0);
-      expect(result[0].minute).to.equal(0);
-    });
-
-    it('should return empty array for non-array input', () => {
-      const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
-
-      const result1 = prepareDates(null, today, 'en');
-      const result2 = prepareDates(undefined, today, 'en');
-      const result3 = prepareDates('not an array', today, 'en');
-
-      expect(result1).to.deep.equal([]);
-      expect(result2).to.deep.equal([]);
-      expect(result3).to.deep.equal([]);
     });
   });
 

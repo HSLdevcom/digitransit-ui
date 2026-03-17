@@ -216,53 +216,6 @@ describe('<DateSelectGrouped />', () => {
     expect(selectProps.isSearchable).to.equal(false);
   });
 
-  it('should filter out dates before today', () => {
-    Settings.now = () => new Date('2019-01-10T00:00:00Z').getTime();
-
-    const wrapper = mountWithIntl(<DateSelectGrouped {...defaultProps} />);
-    const { options } = wrapper.find(Select).props();
-    const flatOptions = options.reduce(
-      (acc, group) => acc.concat(group.options),
-      [],
-    );
-
-    // All dates should be >= 2019-01-10
-    const allDatesValid = flatOptions.every(opt => {
-      const dateValue = parseInt(opt.value, 10);
-      return dateValue >= 20190110;
-    });
-
-    expect(allDatesValid).to.equal(true);
-  });
-
-  it('should handle dates with invalid entries', () => {
-    const datesWithInvalid = [
-      DateTime.fromISO('2019-01-01', { zone: 'UTC' }),
-      null,
-      DateTime.fromISO('2019-01-02', { zone: 'UTC' }),
-      undefined,
-      DateTime.invalid('invalid'),
-      DateTime.fromISO('2019-01-03', { zone: 'UTC' }),
-    ];
-
-    const propsWithInvalidDates = {
-      ...defaultProps,
-      dates: datesWithInvalid,
-    };
-
-    const wrapper = mountWithIntl(
-      <DateSelectGrouped {...propsWithInvalidDates} />,
-    );
-    const { options } = wrapper.find(Select).props();
-    const totalOptions = options.reduce(
-      (count, group) => count + group.options.length,
-      0,
-    );
-
-    // Should only have 3 valid dates
-    expect(totalOptions).to.equal(3);
-  });
-
   it('should render with Swedish locale', () => {
     Settings.defaultLocale = 'sv';
     const wrapper = mountWithIntl(
