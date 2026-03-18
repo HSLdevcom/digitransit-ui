@@ -2061,11 +2061,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest-panel@npm:^8.2.0, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
+"@digitransit-component/digitransit-component-autosuggest-panel@npm:^8.2.1, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^7.1.1
+    "@digitransit-component/digitransit-component-autosuggest": ^7.1.2
     "@digitransit-component/digitransit-component-icon": ^2.0.1
     "@hsl-fi/sass": 1.0.0
     classnames: 2.5.1
@@ -2080,7 +2080,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest@npm:^7.1.1, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
+"@digitransit-component/digitransit-component-autosuggest@npm:^7.1.2, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest"
   dependencies:
@@ -2262,8 +2262,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component@workspace:digitransit-component/packages/digitransit-component"
   dependencies:
-    "@digitransit-component/digitransit-component-autosuggest": "npm:^7.1.1"
-    "@digitransit-component/digitransit-component-autosuggest-panel": "npm:^8.2.0"
+    "@digitransit-component/digitransit-component-autosuggest": "npm:^7.1.2"
+    "@digitransit-component/digitransit-component-autosuggest-panel": "npm:^8.2.1"
     "@digitransit-component/digitransit-component-control-panel": "npm:^7.1.1"
     "@digitransit-component/digitransit-component-favourite-bar": "npm:^5.0.2"
     "@digitransit-component/digitransit-component-favourite-editing-modal": "npm:^5.0.2"

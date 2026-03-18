@@ -401,7 +401,7 @@ export default {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/hsl_zone_lines_20251013.geojson',
+        url: '/assets/geojson/hsl_zone_lines_20190508.geojson',
       },
     ],
   },
@@ -436,7 +436,11 @@ export default {
   },
   ticketButtonTextId: 'open-app',
 
-  trafficNowLink: true,
+  trafficNowLink: {
+    fi: 'matkustaminen/liikenne',
+    en: 'travelling/services-now',
+    sv: 'att-resa/Trafiken-just-nu',
+  },
 
   vehicleRental: {
     minZoomStopsNearYou: 10,
