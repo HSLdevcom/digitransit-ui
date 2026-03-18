@@ -104,6 +104,7 @@ export const getAlerts = stop => {
 function Disruptions({ stop: stopRef, station: stationRef }, { config }) {
   const ref = stopRef ?? stationRef;
   const stop = useFragment(DisruptionsFragment, ref);
+  const intl = useIntl();
   const cancelations = getCancelations(stop, intl, config);
   const serviceAlerts = getAlerts(stop);
 

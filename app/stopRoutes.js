@@ -19,6 +19,7 @@ import {
 } from './util/routerUtils';
 import { prepareDatesForStops } from './util/dateParamUtils';
 import { DATE_FORMAT } from './constants';
+import { withRouteContext } from './util/RouteContext';
 
 const queries = {
   stop: {
@@ -260,7 +261,7 @@ export default function getStopRoutes(isTerminal = false) {
                 }}
                 query={queryMap.pageAlerts}
                 prepareVariables={prepareDatesForStops}
-                render={getComponentOrLoadingRenderer}
+                render={withRouteContext()}
               />
             </Route>
           ),

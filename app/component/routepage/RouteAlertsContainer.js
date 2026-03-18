@@ -151,6 +151,7 @@ const containerComponent = createFragmentContainer(
           alertDescriptionText
           alertHash
           alertHeaderText
+          alertEffect
           alertSeverityLevel
           alertUrl
           effectiveEndDate

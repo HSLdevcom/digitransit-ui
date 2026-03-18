@@ -77,6 +77,54 @@
   }
 }
 
+.alert-details {
+  .alert-details-header {
+    min-height: 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: solid;
+    border-top: solid;
+    padding: 0px 64px 0px 64px;
+    border-width: 1px;
+    border-color: #dddddd;
+
+    .validity {
+      height: 24px;
+      justify-content: right;
+      align-items: center;
+      padding-left: 24px;
+      border-left: solid;
+      font-size: 15px;
+      border-width: 1px;
+      border-color: #dddddd;
+      display: flex;
+
+      .icon-container {
+        padding-right: 8px;
+      }
+    }
+  }
+
+  .alert-details-content {
+    padding: 24px 64px 24px 64px;
+  }
+
+  .alert-url {
+    color: $theme-primary-color;
+    margin-left: 5px;
+
+    .external-link-container {
+      border-radius: 999em;
+      padding: 0px 24px 0px 24px;
+    }
+
+    .external-link {
+      color: $theme-primary-color;
+    }
+  }
+}
+
 .alerts-list {
   padding: 24px 48px 24px 48px;
   background: $background-color-lighter;
@@ -103,11 +151,47 @@
 
   .alert-row {
     background-color: $white;
-    padding: 0.8em 0.8em 0.8em 0.8em;
+    padding: 24px 24px 24px 24px;
     position: relative;
     border-radius: 8px;
     margin-bottom: 16px;
     box-shadow: 0px 2px 4px 0px #33333333;
+
+    .alert-row-arrow {
+      position: absolute;
+      right: 24px;
+    }
+
+    .alert-row-top {
+      align-items: center;
+      font-size: 15px;
+      margin-bottom: 8px;
+
+      .route-alert-entityid {
+        font-family: $font-family-narrow;
+        font-size: 21px;
+        font-weight: $font-weight-medium;
+        margin-right: 15px;
+        display: inline;
+      }
+    }
+    .alert-row-badges {
+      display: flex;
+      max-height: 32px;
+      font-weight: $font-weight-medium;
+      font-size: 15px;
+      margin-bottom: 8px;
+
+      .route-badge-lines {
+        background-color: $info-background-color;
+        border-radius: 4px;
+        padding: 4px 8px 4px 8px;
+        margin-left: 4px;
+        margin-right: 4px;
+        min-width: 30px;
+        text-align: center;
+      }
+    }
 
     .icon.stop-disruption {
       width: 2em;
@@ -142,6 +226,7 @@
       .alert-top-row {
         align-items: center;
         font-size: 15px;
+        margin-bottom: 4px;
 
         .route-alert-entityid {
           font-family: $font-family-narrow;

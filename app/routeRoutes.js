@@ -22,6 +22,7 @@ import {
   prepareScheduleParamsWithFiveWeeks,
   prepareScheduleParamsWithTenWeeks,
 } from './component/routepage/schedule/scheduleParamUtils';
+import { withRouteContext } from './util/RouteContext';
 
 export default function routeRoutes(config) {
   const showTenWeeks = config.showTenWeeksOnRouteSchedule || false;
@@ -423,7 +424,7 @@ export default function routeRoutes(config) {
                 }
               `}
               prepareVariables={prepareServiceDay}
-              render={getComponentOrLoadingRenderer}
+              render={withRouteContext()}
             />,
           ],
         }}
