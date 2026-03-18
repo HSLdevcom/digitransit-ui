@@ -294,3 +294,36 @@
     }
   }
 }
+
+.mobile {
+  .alerts-list {
+    padding: 0px 16px 0px 16px;
+  }
+
+  .alert-details {
+    .alert-details-header {
+      padding: 0px 24px 0px 24px;
+    }
+    .alert-details-content {
+      padding: 24px;
+
+      .alert-url {
+        display: inline-block;
+        width: 100%;
+      }
+
+      .external-link-container {
+        display: flex;
+        text-align: center;
+        width: 100%;
+        height: 28px;
+        align-items: center;
+
+        a {
+          font-size: 15px;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
