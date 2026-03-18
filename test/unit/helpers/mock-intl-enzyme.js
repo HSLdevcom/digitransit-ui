@@ -10,8 +10,12 @@
 import React from 'react';
 import { IntlProvider, intlShape } from 'react-intl';
 import { mount, shallow } from 'enzyme';
+import { ReactRelayContext } from 'react-relay';
 import translations from '../../../app/translations';
+import { ConfigProvider } from '../../../app/configurations/ConfigContext';
 import { IntlContextProvider } from '../../../app/util/useTranslationsContext';
+
+const mockRelayContext = { environment: {}, variables: {} };
 
 // Create the IntlProvider to retrieve context for wrapping around.
 const getIntl = locale => {
@@ -62,3 +66,26 @@ export const mountWithIntl = (
     wrappingComponentProps: { intl: providers[locale] },
     ...additionalOptions,
   });
+
+/**
+ * Mounts a component wrapped with IntlContextProvider and ConfigProvider
+ *
+ * @param {React.Element} node - The component to mount
+ * @param {object} options
+ * @param {object} options.config - Config object for ConfigProvider
+ * @param {string} [options.locale='en'] - Locale for intl
+ */
+export const mountWithProviders = (node, { config, locale = 'en' } = {}) => {
+  const intl = providers[locale];
+  return mount(
+    <IntlProvider locale={locale} messages={translations[locale]}>
+      <IntlContextProvider intl={intl}>
+        <ConfigProvider value={config}>
+          <ReactRelayContext.Provider value={mockRelayContext}>
+            {node}
+          </ReactRelayContext.Provider>
+        </ConfigProvider>
+      </IntlContextProvider>
+    </IntlProvider>,
+  );
+};
