@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import AlertRow from './AlertRow';
 import {
+  alertCompare,
   currentAndFutureAlerts,
   getEntitiesOfType,
   isAlertValid,
@@ -19,6 +20,8 @@ import {
 } from '../../utils/shared/constants';
 import Icon from './Icon';
 import { useConfigContext } from '../client/ConfigContext';
+import Badge from './Badge';
+import ExternalLink from './ExternalLink';
 
 const NoAlerts = () => {
   const config = useConfigContext();
@@ -38,6 +41,49 @@ const NoAlerts = () => {
   );
 };
 
+const AlertDetails = ({
+  alertDescriptionText,
+  alertHeaderText,
+  alertEffect,
+  alertSeverityLevel,
+  alertUrl,
+}) => {
+  return (
+    <div className="alert-details">
+      <div className="alert-details-header">
+        <span className="badge-container">
+          <Badge
+            showIcon
+            variant={alertSeverityLevel}
+            label={alertEffect || ''}
+          />
+        </span>
+        <span className="validity">
+          <Icon className="clock-icon" img="icon_clock" />
+          <FormattedMessage id="valid" />
+        </span>
+      </div>
+      <div className="alert-details-content">
+        <h1>{alertHeaderText}</h1>
+        <p>{alertDescriptionText}</p>
+        {alertUrl && (
+          <ExternalLink className="alert-url" href={alertUrl}>
+            <FormattedMessage id="extra-info" />
+          </ExternalLink>
+        )}
+      </div>
+    </div>
+  );
+};
+
+AlertDetails.propTypes = {
+  alertDescriptionText: PropTypes.string,
+  alertHeaderText: PropTypes.string,
+  alertEffect: PropTypes.string,
+  alertSeverityLevel: PropTypes.string,
+  alertUrl: PropTypes.string,
+};
+
 const AlertList = ({
   cancelations = [],
   disableScrolling = false,
@@ -47,12 +93,28 @@ const AlertList = ({
   onClickLink,
 }) => {
   const currentTime = useCurrentTime();
-  const { currentAlerts, futureAlerts } = currentAndFutureAlerts(
-    serviceAlerts,
-    currentTime,
-  );
+  const [alertDetails, setAlertDetails] = useState(null);
   const validCancelations = cancelations.filter(cancelation =>
     isAlertValid(cancelation, currentTime),
+  );
+
+  if (alertDetails) {
+    return <AlertDetails {...serviceAlerts[alertDetails]} />;
+  }
+
+  // Cancelations should be between non-info alerts and info alerts
+  const alertsSorted = [
+    ...serviceAlerts
+      .filter(alert => alert.alertSeverityLevel !== AlertSeverityLevelType.Info)
+      .sort(alertCompare),
+    ...validCancelations.sort(alertCompare),
+    ...serviceAlerts
+      .filter(alert => alert.alertSeverityLevel === AlertSeverityLevelType.Info)
+      .sort(alertCompare),
+  ];
+  const { currentAlerts, futureAlerts } = currentAndFutureAlerts(
+    alertsSorted,
+    currentTime,
   );
 
   if (
@@ -62,18 +124,6 @@ const AlertList = ({
   ) {
     return <NoAlerts />;
   }
-
-  // Cancelations should be between non-info alerts and info alerts
-  // const alertsSorted = [
-  //   ...validAlerts
-  //     .filter(alert => alert.alertSeverityLevel !== AlertSeverityLevelType.Info)
-  //     .sort(alertCompare),
-  //   ...validCancelations.sort(alertCompare),
-  //   ...validAlerts
-  //     .filter(alert => alert.alertSeverityLevel === AlertSeverityLevelType.Info)
-  //     .sort(alertCompare),
-  // ];
-
   return (
     <div className="alerts-content-wrapper">
       <div
@@ -112,6 +162,7 @@ const AlertList = ({
                     : 'route';
                 return (
                   <AlertRow
+                    setAlertDetails={setAlertDetails}
                     alertEffect={alertEffect}
                     currentTime={currentTime}
                     description={alertDescriptionText}
@@ -161,6 +212,7 @@ const AlertList = ({
                     : 'route';
                 return (
                   <AlertRow
+                    setAlertDetails={setAlertDetails}
                     alertEffect={alertEffect}
                     currentTime={currentTime}
                     description={alertDescriptionText}

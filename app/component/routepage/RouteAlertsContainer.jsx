@@ -153,6 +153,7 @@ const containerComponent = createFragmentContainer(RouteAlertsContainer, {
         alertDescriptionText
         alertHash
         alertHeaderText
+        alertEffect
         alertSeverityLevel
         alertUrl
         effectiveEndDate
