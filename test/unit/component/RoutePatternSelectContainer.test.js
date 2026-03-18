@@ -151,6 +151,29 @@ describe('<RoutePatternSelectContainer />', () => {
       expect(allCodes).to.have.lengthOf(patterns.length);
       patterns.forEach(p => expect(allCodes).to.include(p.code));
     });
+
+    it('passes the pattern matching the URL patternId as currentPattern to the dropdown', () => {
+      // Component coordination: the patternId from the URL must flow to RoutePatternSelect
+      // as currentPattern so the dropdown highlights the correct selection.
+      const patterns = [
+        makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()]),
+        makePattern('ROUTE:1:1:01', 1, 'Origin', [makeTripForDate()]),
+        makePattern('ROUTE:1:0:02', 0, 'Via Downtown', [makeTripForDate()]),
+      ];
+      const props = {
+        ...baseProps,
+        match: { ...baseMatch, params: { patternId: 'ROUTE:1:1:01' } },
+        route: { shortName: '1', mode: 'BUS', gtfsId: 'ROUTE:1', patterns },
+      };
+      const wrapper = mountWithProviders(
+        <RoutePatternSelectContainer {...props} />,
+        { config: baseConfig },
+      );
+      const currentPattern = wrapper
+        .find(RoutePatternSelect)
+        .prop('currentPattern');
+      expect(currentPattern.code).to.equal('ROUTE:1:1:01');
+    });
   });
 
   describe('Pattern not found – redirect', () => {
@@ -311,6 +334,51 @@ describe('<RoutePatternSelectContainer />', () => {
       // Second group: special routes
       expect(optionArray[1].name).to.match(/other routes/i);
       expect(optionArray[1].options).to.have.lengthOf(1);
+    });
+  });
+
+  describe('Future patterns', () => {
+    it('places future-dated patterns in a "Future routes" group and forces dropdown rendering', () => {
+      // One active pattern + one future pattern: dropdown must be shown (not a toggle button)
+      // because futureOptions.length > 0 disables the renderButtonOnly path.
+      // The future pattern's activeDates must start next week to be marked inFuture by enrichPatterns.
+      const futureDate = DateTime.now().plus({ days: 8 }).toFormat('yyyyLLdd');
+      const props = {
+        ...baseProps,
+        route: {
+          shortName: '1',
+          mode: 'BUS',
+          gtfsId: 'ROUTE:1',
+          patterns: [
+            makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()]),
+            {
+              code: 'ROUTE:1:0:99',
+              directionId: 0,
+              headsign: 'Season special',
+              stops: [{ name: 'Origin' }, { name: 'Destination' }],
+              tripsForDate: [],
+              activeDates: [{ serviceId: 'future-service', day: [futureDate] }],
+            },
+          ],
+        },
+      };
+      const wrapper = mountWithProviders(
+        <RoutePatternSelectContainer {...props} />,
+        { config: baseConfig },
+      );
+      // Future option forces dropdown rendering even though there is only one active route
+      expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(1);
+      expect(wrapper.find('button.route-pattern-toggle')).to.have.lengthOf(0);
+
+      const optionArray = wrapper.find(RoutePatternSelect).prop('optionArray');
+      const futureGroup = optionArray.find(g => /future routes/i.test(g.name));
+      expect(futureGroup).to.not.equal(undefined);
+      expect(futureGroup.options).to.have.lengthOf(1);
+      expect(futureGroup.options[0].code).to.equal('ROUTE:1:0:99');
+
+      // The active pattern must still appear in its own group
+      const allCodes = optionArray.flatMap(g => g.options.map(o => o.code));
+      expect(allCodes).to.include('ROUTE:1:0:01');
     });
   });
 

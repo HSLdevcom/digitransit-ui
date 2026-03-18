@@ -7,7 +7,7 @@ import cx from 'classnames';
 import Icon from '../Icon';
 import { routePagePath } from '../../util/path';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { patternShape } from '../../util/shapes';
+import { patternShape, routeShape } from '../../util/shapes';
 import { useTranslationsContext } from '../../util/useTranslationsContext';
 
 function patternOptionText(pattern) {
@@ -124,7 +124,7 @@ function PatternOption({
 }
 
 PatternOption.propTypes = {
-  option: patternShape.isRequired,
+  option: PropTypes.oneOfType([patternShape, routeShape]).isRequired,
   optionIndexTable: PropTypes.objectOf(PropTypes.number.isRequired).isRequired,
   highlightedIndex: PropTypes.number.isRequired,
   getItemProps: PropTypes.func.isRequired,
@@ -132,7 +132,7 @@ PatternOption.propTypes = {
 };
 
 export default function RoutePatternSelect({
-  currentPattern,
+  currentPattern = undefined,
   optionArray,
   onSelectChange,
   className,
@@ -183,7 +183,7 @@ export default function RoutePatternSelect({
   });
 
   return (
-    <div className={cx('route-pattern-select', className)} aria-atomic="true">
+    <div className={`route-pattern-select ${className}`} aria-atomic="true">
       <div
         className={cx('pattern-select-container', {
           'pattern-select-container--open': isOpen,
@@ -250,8 +250,4 @@ RoutePatternSelect.propTypes = {
   onSelectChange: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
   router: routerShape.isRequired,
-};
-
-RoutePatternSelect.defaultProps = {
-  currentPattern: undefined,
 };

@@ -6,7 +6,6 @@ import {
   graphql,
   ReactRelayContext,
 } from 'react-relay';
-import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { matchShape } from 'found';
 import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
@@ -155,7 +154,7 @@ function RoutePatternSelectContainer({
       ? mainRoutes.find(o => o.code !== params.patternId)
       : undefined;
     return (
-      <div className={cx('route-pattern-select', className)} aria-atomic="true">
+      <div className={`route-pattern-select ${className}`} aria-atomic="true">
         <label htmlFor="route-pattern-toggle-button">
           {canSwapDirection && (
             <span className="sr-only">
