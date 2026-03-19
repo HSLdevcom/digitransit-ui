@@ -1228,34 +1228,39 @@ $margin-left-right: 21.3px;
 }
 
 .route-pattern-select {
+  // Component-specific typography: fixed-px values matching the design spec
+  $pattern-font-size: 15px;
+  $pattern-line-height: 18px;
+
+  // Vertical padding: (44px touch-target height - $pattern-line-height) / 2
+  $pattern-item-v-padding: 13px;
+
   margin: 0 0 1px 0;
 
   .route-pattern-select-title {
     font-weight: $font-weight-medium;
     font-size: $font-size-small;
     line-height: $line-height-normal;
-    letter-spacing: $letter-spacing;
     margin: var(--space-s) 0 var(--space-xs) 0;
   }
 
   .route-pattern-toggle {
-    border: 1px solid #888;
+    border: 1px solid $control-border-color;
     width: 100%;
     min-height: 44px;
     background: $white;
     border-radius: var(--space-xs);
     display: block;
-    font-size: 15px;
-    line-height: 18px;
-    letter-spacing: -0.03em;
-    padding: 13px 32px 13px 16px;
+    font-size: $pattern-font-size;
+    line-height: $pattern-line-height;
+    letter-spacing: $letter-spacing;
+    padding: $pattern-item-v-padding var(--space-l) $pattern-item-v-padding
+      var(--space-s);
     text-align: left;
-    color: #333;
+    color: $black;
 
     &:focus {
       outline: none;
-      border-color: $theme-primary-color;
-      background: #fff;
       border: solid 1px $theme-primary-color;
       box-shadow: 0 0 2px 1px $theme-secondary-color;
     }
@@ -1263,7 +1268,7 @@ $margin-left-right: 21.3px;
     .toggle-icon {
       color: $link-button-color;
       position: absolute;
-      right: 16px;
+      right: var(--space-s);
       width: 16px;
       height: auto;
       transform: rotate(90deg);
@@ -1273,7 +1278,7 @@ $margin-left-right: 21.3px;
   .icon {
     position: absolute;
     right: 1rem;
-    top: 15px;
+    top: 15px; // aligns icon with text in the input container
     width: 16px;
     height: auto;
     pointer-events: none;
@@ -1290,9 +1295,6 @@ $margin-left-right: 21.3px;
 
   .in-text-arrow {
     position: inherit;
-    float: none;
-    top: 3px;
-    right: 0;
     width: 16px;
     height: auto;
     margin: 0 var(--space-xxs);
@@ -1301,178 +1303,168 @@ $margin-left-right: 21.3px;
   .pattern-select-container {
     width: 100%;
     min-height: 44px;
-    background: white;
-    border: 1px solid #888;
+    background: $white;
+    border: 1px solid $control-border-color;
     border-radius: var(--space-xs);
     position: relative;
 
     &:focus-within {
       outline: none;
-      border-color: $theme-primary-color;
-      background: #fff;
       border: solid 1px $theme-primary-color;
       box-shadow: 0 0 3px 0 $theme-secondary-color;
-    }
-
-    .input-display {
-      position: relative;
-      font-weight: $font-weight-book;
-      font-size: 15px;
-      line-height: 18px;
-      letter-spacing: -0.03em;
-      padding: 13px 32px 13px 16px;
-    }
-
-    .select-route-pattern-input {
-      height: 0;
-      margin: 0;
-      padding: 0;
-      font-size: 16px;
-
-      &:focus {
-        outline: none;
-        box-shadow: none;
-      }
     }
 
     &.pattern-select-container--open .dropdown-arrow {
       transform: rotate(180deg);
     }
+  }
 
-    .suggestions-container--open {
-      border: 1px solid #ddd;
-      border-bottom: none;
-      box-shadow: 0 4px 13px rgba(0, 0, 0, 0.15);
+  .input-display {
+    position: relative;
+    font-weight: $font-weight-book;
+    font-size: $pattern-font-size;
+    line-height: $pattern-line-height;
+    padding: $pattern-item-v-padding 32px $pattern-item-v-padding 16px;
+  }
+
+  .select-route-pattern-input {
+    height: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 16px; // must be >= 16px to prevent auto-zoom on iOS
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  .suggestions-container {
+    background: $background-color-lighter;
+    z-index: index($zindex, 'autosuggest-suggestion-container');
+    position: absolute;
+    top: 52px; // Offset: container min-height (44px) + borders (2px) + visual gap (6px)
+    left: 0;
+    right: 0;
+    border-radius: var(--space-xxs);
+  }
+
+  .suggestions-container--open {
+    border: 1px solid $light-gray;
+    border-bottom: none;
+    box-shadow: 0 4px 13px rgba(0, 0, 0, 0.15);
+  }
+
+  .section-container {
+    background: $white;
+    font-weight: $font-weight-book;
+    font-size: $pattern-font-size;
+    line-height: $pattern-line-height;
+
+    &:not(:first-child) {
+      margin-top: var(--space-xxs);
+      border-top: 1px solid $light-gray;
     }
 
-    .suggestions-container {
-      background: $background-color-lighter;
-      z-index: index($zindex, 'autosuggest-suggestion-container');
+    &:first-child {
+      border-radius: var(--space-xxs) var(--space-xxs) 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 var(--space-xxs) var(--space-xxs);
+    }
+  }
+
+  .section-title {
+    font-weight: $font-weight-semibold;
+    border-bottom: 1px solid $light-gray;
+    min-height: 44px;
+    padding: $pattern-item-v-padding var(--space-s);
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  .suggestion {
+    border-bottom: 1px solid $light-gray;
+    list-style: none;
+    min-height: 44px;
+
+    // 10px right buffer before the abs-positioned check icon (right: 16px, width: 20px)
+    padding: $pattern-item-v-padding 10px $pattern-item-v-padding var(--space-s);
+    position: relative;
+
+    .icon.check {
+      height: 20px;
+      width: 20px;
       position: absolute;
-      top: 52px;
-      left: 0;
-      right: 0;
-      border-radius: 4px;
-
-      .section-container {
-        &:not(:first-child) {
-          margin-top: 4px;
-          border-top: 1px solid #ddd;
-        }
-
-        &:first-child {
-          border-radius: 4px 4px 0 0;
-        }
-
-        &:last-child {
-          border-radius: 0 0 4px 4px;
-        }
-
-        background: white;
-        font-weight: $font-weight-book;
-        font-size: 15px;
-        line-height: 18px;
-        letter-spacing: -0.03em;
-
-        .section-title {
-          font-weight: $font-weight-semibold;
-          border-bottom: 1px solid #ddd;
-          min-height: 44px;
-          padding: 13px 16px;
-        }
-
-        ul {
-          padding: 0;
-          margin: 0;
-
-          .suggestion {
-            border-bottom: 1px solid #ddd;
-            list-style: none;
-            min-height: 44px;
-            padding: 13px 10px 13px 16px;
-            position: relative;
-
-            .icon.check,
-            .icon.dropdown-arrow {
-              height: 20px;
-              width: 20px;
-              position: absolute;
-              top: 13px;
-              right: 16px;
-            }
-          }
-
-          .suggestion--highlighted {
-            background: #dfe5e8;
-          }
-        }
-
-        a {
-          text-decoration: none;
-        }
-
-        .similar-route {
-          display: flex;
-          justify-content: space-between;
-
-          .icon-container {
-            position: relative;
-            width: auto;
-            height: auto;
-            right: auto;
-            top: auto;
-            margin-top: 3px;
-            margin-right: 10px;
-            flex-shrink: 0;
-
-            .icon {
-              position: relative;
-              width: 2em;
-              height: 2em;
-              right: auto;
-              top: auto;
-            }
-          }
-
-          .icon-container:last-child {
-            margin-top: 5px;
-            margin-right: 0;
-
-            .similar-route-arrow {
-              width: 1.35em;
-              height: 1.35em;
-            }
-          }
-
-          .similar-route-text {
-            flex-grow: 1;
-            overflow: auto;
-            font-family: $font-family;
-            display: flex;
-            flex-direction: column;
-            white-space: nowrap;
-
-            .similar-route-name {
-              color: #333;
-              font-style: normal;
-              font-weight: $font-weight-medium;
-              font-size: 15px;
-              line-height: 20px;
-            }
-
-            .similar-route-longname {
-              color: #666;
-              font-size: 13px;
-              line-height: 20px;
-              text-decoration-color: white;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              letter-spacing: -0.48px;
-            }
-          }
-        }
-      }
+      top: $pattern-item-v-padding;
+      right: var(--space-s);
     }
+  }
+
+  .suggestion--highlighted {
+    background: $suggestion-highlight-color;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .similar-route {
+    display: flex;
+    justify-content: space-between;
+
+    .icon-container {
+      position: relative;
+      margin-top: 3px; // visual alignment with text baseline
+      margin-right: 10px; // gap between mode icon and route text
+      flex-shrink: 0;
+    }
+
+    .icon-container:last-child {
+      margin-top: 5px; // nav arrow sits slightly lower than the mode icon
+      margin-right: 0;
+    }
+
+    .similar-route-text {
+      flex-grow: 1;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      white-space: nowrap;
+    }
+  }
+
+  .similar-route .icon-container .icon {
+    position: relative;
+    width: 2em;
+    height: 2em;
+    right: auto;
+    top: auto;
+  }
+
+  .similar-route .icon-container:last-child .similar-route-arrow {
+    width: 1.35em;
+    height: 1.35em;
+  }
+
+  .similar-route-name {
+    color: $black;
+    font-weight: $font-weight-medium;
+    font-size: $pattern-font-size;
+    line-height: 20px; // taller than $pattern-line-height for two-line route names
+  }
+
+  .similar-route-longname {
+    color: $gray;
+    font-size: 13px; // slightly smaller than primary text for visual hierarchy
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: -0.48px; // equivalent to $letter-spacing at 16px root font size
   }
 
   @media print {
