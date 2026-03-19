@@ -150,7 +150,9 @@ function DateSelectGrouped({
       <RSComponents.DropdownIndicator {...indicatorProps}>
         <Icon
           img="icon_arrow-collapse"
-          className={selectProps.menuIsOpen ? 'inverted' : ''}
+          className={`dropdown-arrow${
+            selectProps.menuIsOpen ? ' inverted' : ''
+          }`}
         />
       </RSComponents.DropdownIndicator>
     );
