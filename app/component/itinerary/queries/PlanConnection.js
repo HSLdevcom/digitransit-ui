@@ -14,6 +14,8 @@ export const planConnection = graphql`
     $wheelchair: Boolean
     $transferPenalty: Cost
     $bikeSpeed: Speed
+    $bikeReluctance: Reluctance
+    $bikeBoardCost: Cost
     $allowedRentalNetworks: [String!]
     $after: String
     $first: Int
@@ -39,6 +41,8 @@ export const planConnection = graphql`
         street: {
           bicycle: {
             speed: $bikeSpeed
+            reluctance: $bikeReluctance
+            boardCost: $bikeBoardCost
             rental: { allowedNetworks: $allowedRentalNetworks }
           }
           scooter: { rental: { allowedNetworks: $allowedRentalNetworks } }
