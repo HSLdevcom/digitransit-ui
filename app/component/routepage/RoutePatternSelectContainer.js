@@ -181,6 +181,13 @@ function RoutePatternSelectContainer({
       },
   ].filter(Boolean);
 
+  const hasExtraPatternOptions =
+    specialRoutes.length > 0 ||
+    futureOptions.length > 0 ||
+    (config.showSimilarRoutesOnRouteDropDown &&
+      !loadingSimilar &&
+      similarRoutes.length > 0);
+
   return (
     <div className={cx('route-pattern-select', className)}>
       <RoutePatternHeader
@@ -192,7 +199,7 @@ function RoutePatternSelectContainer({
           canSwapDirection ? () => onSelectChange(otherPattern.code) : undefined
         }
       />
-      {optionArray.length > 0 && (
+      {optionArray.length > 0 && hasExtraPatternOptions && (
         <RoutePatternSelect
           currentPattern={currentPattern}
           optionArray={optionArray}

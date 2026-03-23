@@ -7,6 +7,7 @@ import { mountWithProviders } from '../helpers/mock-intl-enzyme';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { Component as RoutePatternSelectContainer } from '../../../app/component/routepage/RoutePatternSelectContainer';
 import RoutePatternSelect from '../../../app/component/routepage/RoutePatternSelect';
+import RoutePatternHeader from '../../../app/component/routepage/RoutePatternHeader';
 import { routePagePath, PREFIX_STOPS } from '../../../app/util/path';
 
 const serviceDay = Math.floor(new Date().getTime() / 1000);
@@ -78,18 +79,21 @@ function makeTwoDirectionRoute() {
 }
 
 describe('<RoutePatternSelectContainer />', () => {
-  describe('Toggle button rendering', () => {
-    it('renders a toggle button (not a dropdown) when there are exactly two opposite-direction patterns', () => {
+  describe('Swap button rendering', () => {
+    it('renders RoutePatternHeader with a swap button and no dropdown when there are exactly two opposite-direction patterns', () => {
       const props = { ...baseProps, route: makeTwoDirectionRoute() };
       const wrapper = mountWithProviders(
         <RoutePatternSelectContainer {...props} />,
         { config: baseConfig },
       );
-      expect(wrapper.find('button.route-pattern-toggle')).to.have.lengthOf(1);
+      expect(wrapper.find(RoutePatternHeader)).to.have.lengthOf(1);
+      expect(wrapper.find('button.route-pattern-swap-button')).to.have.lengthOf(
+        1,
+      );
       expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(0);
     });
 
-    it('calls onSelectChange with the other pattern code when the toggle button is clicked', () => {
+    it('calls onSelectChange with the other pattern code when the swap button is clicked', () => {
       let selectedCode;
       const props = {
         ...baseProps,
@@ -102,7 +106,7 @@ describe('<RoutePatternSelectContainer />', () => {
         <RoutePatternSelectContainer {...props} />,
         { config: baseConfig },
       );
-      wrapper.find('button.route-pattern-toggle').simulate('click');
+      wrapper.find('button.route-pattern-swap-button').simulate('click');
       // The active pattern is ROUTE:1:0:01; clicking swap should select the opposite direction.
       expect(selectedCode).to.equal('ROUTE:1:1:01');
     });
@@ -217,9 +221,9 @@ describe('<RoutePatternSelectContainer />', () => {
   });
 
   describe('No trips for today', () => {
-    it('shows the toggle button using fallback patterns (codes ending in :01) when no trips exist', () => {
+    it('shows RoutePatternHeader with swap button using fallback patterns (codes ending in :01) when no trips exist', () => {
       // enrichPatterns falls back to patterns whose code ends in ':01' when no trips are found.
-      // With two opposite-direction fallback patterns the container should render the toggle button.
+      // With two opposite-direction fallback patterns the header should show a swap button.
       const props = {
         ...baseProps,
         route: {
@@ -236,7 +240,10 @@ describe('<RoutePatternSelectContainer />', () => {
         <RoutePatternSelectContainer {...props} />,
         { config: baseConfig },
       );
-      expect(wrapper.find('button.route-pattern-toggle')).to.have.lengthOf(1);
+      expect(wrapper.find(RoutePatternHeader)).to.have.lengthOf(1);
+      expect(wrapper.find('button.route-pattern-swap-button')).to.have.lengthOf(
+        1,
+      );
     });
   });
 
@@ -256,7 +263,7 @@ describe('<RoutePatternSelectContainer />', () => {
   });
 
   describe('Single-direction route', () => {
-    it('renders a non-swappable toggle button when there is only one pattern', () => {
+    it('renders RoutePatternHeader without a swap button and no dropdown when there is only one pattern', () => {
       const props = {
         ...baseProps,
         route: {
@@ -272,14 +279,15 @@ describe('<RoutePatternSelectContainer />', () => {
         <RoutePatternSelectContainer {...props} />,
         { config: baseConfig },
       );
-      // Shows a toggle button but no dropdown
-      expect(wrapper.find('button.route-pattern-toggle')).to.have.lengthOf(1);
+      // Shows header but no swap button; dropdown is still present for the single option
+      expect(wrapper.find(RoutePatternHeader)).to.have.lengthOf(1);
+      expect(wrapper.find('button.route-pattern-swap-button')).to.have.lengthOf(
+        0,
+      );
       expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(0);
-      // No swap icon is shown when there is no second direction
-      expect(wrapper.find('.toggle-icon')).to.have.lengthOf(0);
     });
 
-    it('clicking the button does nothing when there is only one pattern', () => {
+    it('does not show a swap button and onSelectChange is never called when there is only one pattern', () => {
       let callCount = 0;
       const props = {
         ...baseProps,
@@ -299,15 +307,18 @@ describe('<RoutePatternSelectContainer />', () => {
         <RoutePatternSelectContainer {...props} />,
         { config: baseConfig },
       );
-      wrapper.find('button.route-pattern-toggle').simulate('click');
+      // No swap button rendered — direction swap is not available
+      expect(wrapper.find('button.route-pattern-swap-button')).to.have.lengthOf(
+        0,
+      );
       expect(callCount).to.equal(0);
     });
   });
 
   describe('Two same-direction patterns', () => {
-    it('renders a dropdown (not a toggle button) and places the second same-direction pattern in a special group', () => {
+    it('renders a dropdown without a swap button and places the second same-direction pattern in a special group', () => {
       // Two patterns with the same directionId: the first becomes the sole "main" route,
-      // the second is promoted to the "special routes" group, which forces dropdown rendering.
+      // the second is promoted to the "special routes" group, triggering dropdown rendering.
       const props = {
         ...baseProps,
         route: {
@@ -324,7 +335,9 @@ describe('<RoutePatternSelectContainer />', () => {
         <RoutePatternSelectContainer {...props} />,
         { config: baseConfig },
       );
-      expect(wrapper.find('button.route-pattern-toggle')).to.have.lengthOf(0);
+      expect(wrapper.find('button.route-pattern-swap-button')).to.have.lengthOf(
+        0,
+      );
       expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(1);
 
       const optionArray = wrapper.find(RoutePatternSelect).prop('optionArray');
@@ -368,7 +381,9 @@ describe('<RoutePatternSelectContainer />', () => {
       );
       // Future option forces dropdown rendering even though there is only one active route
       expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(1);
-      expect(wrapper.find('button.route-pattern-toggle')).to.have.lengthOf(0);
+      expect(wrapper.find('button.route-pattern-swap-button')).to.have.lengthOf(
+        0,
+      );
 
       const optionArray = wrapper.find(RoutePatternSelect).prop('optionArray');
       const futureGroup = optionArray.find(g => /future routes/i.test(g.name));
