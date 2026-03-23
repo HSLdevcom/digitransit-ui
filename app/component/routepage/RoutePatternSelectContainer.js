@@ -10,15 +10,14 @@ import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { matchShape } from 'found';
 import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
-import { FormattedMessage } from 'react-intl';
 import { useTranslationsContext } from '../../util/useTranslationsContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { routeShape } from '../../util/shapes';
-import Icon from '../Icon';
 import { routePagePath, PREFIX_STOPS } from '../../util/path';
-import RoutePatternSelect, { patternTextWithIcon } from './RoutePatternSelect';
+import RoutePatternSelect from './RoutePatternSelect';
 import RoutePatternHeader from './RoutePatternHeader';
 import { getModeIconColor } from '../../util/colorUtils';
+import { getRouteMode } from '../../util/modeUtils';
 
 function filterSimilarRoutes(routes, currentRoute) {
   const withoutCurrent = routes.filter(r => r.gtfsId !== currentRoute.gtfsId);
@@ -151,12 +150,6 @@ function RoutePatternSelectContainer({
   }
   const specialRoutes = nonFutureOptions.slice(mainRoutes.length);
 
-  const renderButtonOnly =
-    mainRoutes.length > 0 &&
-    specialRoutes.length === 0 &&
-    futureOptions.length === 0 &&
-    similarRoutes.length === 0;
-
   const canSwapDirection = mainRoutes.length === 2;
   const otherPattern = canSwapDirection
     ? mainRoutes.find(o => o.code !== params.patternId)
@@ -167,57 +160,7 @@ function RoutePatternSelectContainer({
     currentPattern?.headsign ||
     currentPattern?.stops[currentPattern.stops.length - 1].name ||
     '';
-  const backgroundColor = getModeIconColor(config, route.mode);
-
-  if (renderButtonOnly) {
-    return (
-      <div className={`route-pattern-select ${className}`} aria-atomic="true">
-        <RoutePatternHeader
-          origin={origin}
-          destination={destination}
-          backgroundColor={backgroundColor}
-          canSwap={canSwapDirection}
-          onSwap={
-            canSwapDirection
-              ? () => onSelectChange(otherPattern.code)
-              : undefined
-          }
-        />
-        <h3 className="route-pattern-select-title">
-          <FormattedMessage
-            id="route-page.choose-direction"
-            defaultMessage="Choose direction"
-          />
-        </h3>
-        <label htmlFor="route-pattern-toggle-button">
-          {canSwapDirection && (
-            <span className="sr-only">
-              <FormattedMessage id="swap-order-button-label" />
-            </span>
-          )}
-          <button
-            id="route-pattern-toggle-button"
-            className="route-pattern-toggle"
-            type="button"
-            onClick={
-              canSwapDirection
-                ? () => onSelectChange(otherPattern.code)
-                : undefined
-            }
-          >
-            {patternTextWithIcon(currentPattern)}
-            {canSwapDirection && (
-              <Icon
-                className="toggle-icon"
-                img="icon_direction-c"
-                viewBox="0 0 19 17"
-              />
-            )}
-          </button>
-        </label>
-      </div>
-    );
-  }
+  const backgroundColor = getModeIconColor(config, getRouteMode(route, config));
 
   const msg = id => intl.formatMessage({ id });
   const optionArray = [
@@ -249,19 +192,16 @@ function RoutePatternSelectContainer({
           canSwapDirection ? () => onSelectChange(otherPattern.code) : undefined
         }
       />
-      <h3 className="route-pattern-select-title">
-        <FormattedMessage
-          id="route-page.choose-direction"
-          defaultMessage="Choose direction"
+      {optionArray.length > 0 && (
+        <RoutePatternSelect
+          currentPattern={currentPattern}
+          optionArray={optionArray}
+          onSelectChange={onSelectChange}
+          className={className}
+          router={router}
+          backgroundColor={backgroundColor}
         />
-      </h3>
-      <RoutePatternSelect
-        currentPattern={currentPattern}
-        optionArray={optionArray}
-        onSelectChange={onSelectChange}
-        className={className}
-        router={router}
-      />
+      )}
     </div>
   );
 }
@@ -282,6 +222,7 @@ const withStore = createRefetchContainer(
       @argumentDefinitions(date: { type: "String" }) {
         shortName
         mode
+        type
         gtfsId
         patterns {
           code

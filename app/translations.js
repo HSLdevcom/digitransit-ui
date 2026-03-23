@@ -1576,6 +1576,7 @@ const translations = {
     'route-page-vehicle-position-between':
       '{mode} {shortName} is between the {stopName} stop and the {nextStopName} stop.',
     'route-page-vehicle-selected': 'Current selection.',
+    'route-page.alternative-routes': 'Alternative routes',
     'route-page.choose-direction': 'Choose direction',
     'route-page.description': 'Route {shortName} - {longName}',
     'route-page.future-routes': 'Future routes',
@@ -2956,6 +2957,7 @@ const translations = {
     'route-page-vehicle-position-between':
       '{mode} {shortName} on pysäkin {stopName} ja pysäkin {nextStopName} välissä.',
     'route-page-vehicle-selected': 'Tämänhetkinen valinta.',
+    'route-page.alternative-routes': 'Vaihtoehtoista reittiä',
     'route-page.choose-direction': 'Valitse suunta',
     'route-page.description': 'Linja {shortName}, {longName}',
     'route-page.future-routes': 'Tulevat reitit',
@@ -5948,6 +5950,7 @@ const translations = {
     'route-page-vehicle-position-between':
       '{mode} {shortName} är mellan hållplats {stopName} och hållplats {nextStopName}.',
     'route-page-vehicle-selected': 'Nuvarande urval.',
+    'route-page.alternative-routes': 'Alternativa rutter',
     'route-page.choose-direction': 'Välj riktning',
     'route-page.description': 'Linje {shortName} - {longName}',
     'route-page.future-routes': 'Framtida rutter',

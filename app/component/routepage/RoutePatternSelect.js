@@ -146,6 +146,7 @@ export default function RoutePatternSelect({
   onSelectChange,
   className,
   router,
+  backgroundColor = null,
 }) {
   if (!currentPattern) {
     return null;
@@ -153,6 +154,7 @@ export default function RoutePatternSelect({
 
   // Flatten option groups into a single ordered list (used by downshift for item indices)
   const flatOptions = optionArray.flatMap(group => group.options);
+  const optionCount = flatOptions.length;
   // Lookup table: option identifier → flat index (for highlight tracking)
   const optionIndexTable = Object.fromEntries(
     flatOptions.map(({ code, gtfsId }, index) => [code || gtfsId, index]),
@@ -196,7 +198,16 @@ export default function RoutePatternSelect({
       <div
         className={cx('pattern-select-container', {
           'pattern-select-container--open': isOpen,
+          'pattern-select-container--colored': !!backgroundColor,
         })}
+        style={
+          backgroundColor
+            ? {
+                background: `linear-gradient(rgba(0,0,0,0.15),rgba(0,0,0,0.15)), ${backgroundColor}`,
+                '--mode-color': backgroundColor,
+              }
+            : undefined
+        }
       >
         <label {...getLabelProps()}>
           <span tabIndex={-1} className="sr-only">
@@ -208,7 +219,17 @@ export default function RoutePatternSelect({
         </label>
         <div {...getToggleButtonProps()}>
           <div className="input-display" aria-hidden="true">
-            {patternTextWithIcon(currentPattern)}
+            <span
+              className="option-count-pill"
+              style={
+                backgroundColor ? { background: backgroundColor } : undefined
+              }
+            >
+              +{optionCount}
+            </span>
+            <span className="toggle-label">
+              <FormattedMessage id="route-page.alternative-routes" />
+            </span>
             <Icon className="dropdown-arrow" img="icon_arrow-collapse" />
           </div>
         </div>
@@ -259,4 +280,5 @@ RoutePatternSelect.propTypes = {
   onSelectChange: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
   router: routerShape.isRequired,
+  backgroundColor: PropTypes.string,
 };
