@@ -79,37 +79,43 @@ function RoutePatternSelectContainer({
 
   // Fetch routes with similar names (numeric routes only)
   useEffect(() => {
-    if (!config.showSimilarRoutesOnRouteDropDown) {
-      return;
-    }
+    let cancelled = false;
 
-    const firstChar = route.shortName[0] ?? '';
-    const isNumericRoute = firstChar >= '0' && firstChar <= '9';
-    if (!isNumericRoute) {
-      setLoadingSimilar(false);
-      return;
-    }
+    if (config.showSimilarRoutesOnRouteDropDown) {
+      const firstChar = route.shortName[0] ?? '';
+      const isNumericRoute = firstChar >= '0' && firstChar <= '9';
 
-    // For alphanumeric routes like "23A", search by the numeric base "23"
-    const searchName = Number.isNaN(Number(route.shortName))
-      ? route.shortName.replace(/\D/g, '')
-      : route.shortName;
-    if (!searchName) {
-      setLoadingSimilar(false);
-      return;
-    }
-
-    fetchQuery(
-      relayEnvironment,
-      similarRoutesQuery,
-      { name: searchName },
-      { force: true },
-    )
-      .toPromise()
-      .then(results => {
-        setSimilarRoutes(filterSimilarRoutes(results.routes, route));
+      if (!isNumericRoute) {
         setLoadingSimilar(false);
-      });
+      } else {
+        // For alphanumeric routes like "23A", search by the numeric base "23"
+        const searchName = Number.isNaN(Number(route.shortName))
+          ? route.shortName.replace(/\D/g, '')
+          : route.shortName;
+
+        if (!searchName) {
+          setLoadingSimilar(false);
+        } else {
+          fetchQuery(
+            relayEnvironment,
+            similarRoutesQuery,
+            { name: searchName },
+            { force: true },
+          )
+            .toPromise()
+            .then(results => {
+              if (!cancelled) {
+                setSimilarRoutes(filterSimilarRoutes(results.routes, route));
+                setLoadingSimilar(false);
+              }
+            });
+        }
+      }
+    }
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const options = getPatternOptions(
