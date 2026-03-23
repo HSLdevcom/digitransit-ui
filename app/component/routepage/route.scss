@@ -841,6 +841,14 @@ $margin-left-right: 21.3px;
   padding-right: 56px;
   padding-left: 56px;
 
+  // Bleed header to match schedule container's 56px horizontal padding
+  .route-pattern-header {
+    margin-left: -56px;
+    margin-right: -56px;
+    padding-left: calc(56px + 48px);
+    padding-right: calc(56px + 48px);
+  }
+
   .route-page-control-panel-container {
     padding: 0;
   }
@@ -848,6 +856,13 @@ $margin-left-right: 21.3px;
   &.mobile {
     padding: 0 20px;
     margin-bottom: 0;
+
+    .route-pattern-header {
+      margin-left: -20px;
+      margin-right: -20px;
+      padding-left: calc(20px + 48px);
+      padding-right: calc(20px + 48px);
+    }
   }
 
   @media print {
@@ -1465,6 +1480,125 @@ $margin-left-right: 21.3px;
     overflow: hidden;
     text-overflow: ellipsis;
     letter-spacing: -0.48px; // equivalent to $letter-spacing at 16px root font size
+  }
+
+  .route-pattern-header {
+    display: flex;
+    padding: 8px calc(#{$margin-left-right} + 48px);
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+
+    // Bleed to the edges of the scroll container padding so the background
+    // colour band spans the full width of route-page-content (21.3px each side)
+    margin-left: -$margin-left-right;
+    margin-right: -$margin-left-right;
+    color: $white;
+
+    // Override the abs-positioned icon rule from .route-pattern-select .icon
+    .icon {
+      position: relative;
+      right: auto;
+      top: auto;
+      pointer-events: auto;
+    }
+
+    .route-pattern-endpoint {
+      display: flex;
+      align-items: center;
+      gap: var(--space-s);
+      width: 100%;
+      padding: 8px 0;
+    }
+
+    .route-pattern-header-icon {
+      display: flex;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .route-pattern-destination-icon {
+      height: 24px;
+    }
+
+    .route-pattern-location-name {
+      font-size: $font-size-small;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      letter-spacing: $letter-spacing;
+      font-weight: $font-weight-book;
+    }
+
+    .route-pattern-connector {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: var(--space-s);
+    }
+
+    .route-pattern-dots {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      width: 16px; // matches icon width to align dots under the origin icon
+      flex-shrink: 0;
+      height: 8px;
+
+      .icon-container {
+        display: flex;
+        width: 2px;
+        height: 2px;
+      }
+    }
+
+    .route-pattern-dot {
+      width: 2px;
+      height: 2px;
+    }
+
+    .route-pattern-divider {
+      flex: 1;
+      border: none;
+      border-top: 1px solid rgba(0, 0, 0, 0.15);
+      margin: 0;
+    }
+
+    .route-pattern-swap-button {
+      position: absolute;
+      right: 48px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.15);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $white;
+
+      .icon-container {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  // bp-large: route-page-content uses 56px horizontal padding
+  &.bp-large .route-pattern-header {
+    margin-left: -56px;
+    margin-right: -56px;
+    padding-right: calc(56px + 48px);
   }
 
   @media print {

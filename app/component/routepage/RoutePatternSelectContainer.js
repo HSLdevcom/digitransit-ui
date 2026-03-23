@@ -17,6 +17,8 @@ import { routeShape } from '../../util/shapes';
 import Icon from '../Icon';
 import { routePagePath, PREFIX_STOPS } from '../../util/path';
 import RoutePatternSelect, { patternTextWithIcon } from './RoutePatternSelect';
+import RoutePatternHeader from './RoutePatternHeader';
+import { getModeIconColor } from '../../util/colorUtils';
 
 function filterSimilarRoutes(routes, currentRoute) {
   const withoutCurrent = routes.filter(r => r.gtfsId !== currentRoute.gtfsId);
@@ -156,12 +158,31 @@ function RoutePatternSelectContainer({
     similarRoutes.length === 0;
 
   const canSwapDirection = mainRoutes.length === 2;
+  const otherPattern = canSwapDirection
+    ? mainRoutes.find(o => o.code !== params.patternId)
+    : undefined;
+
+  const origin = currentPattern?.stops[0].name ?? '';
+  const destination =
+    currentPattern?.headsign ||
+    currentPattern?.stops[currentPattern.stops.length - 1].name ||
+    '';
+  const backgroundColor = getModeIconColor(config, route.mode);
+
   if (renderButtonOnly) {
-    const otherPattern = canSwapDirection
-      ? mainRoutes.find(o => o.code !== params.patternId)
-      : undefined;
     return (
       <div className={`route-pattern-select ${className}`} aria-atomic="true">
+        <RoutePatternHeader
+          origin={origin}
+          destination={destination}
+          backgroundColor={backgroundColor}
+          canSwap={canSwapDirection}
+          onSwap={
+            canSwapDirection
+              ? () => onSelectChange(otherPattern.code)
+              : undefined
+          }
+        />
         <h3 className="route-pattern-select-title">
           <FormattedMessage
             id="route-page.choose-direction"
@@ -219,6 +240,15 @@ function RoutePatternSelectContainer({
 
   return (
     <div className={cx('route-pattern-select', className)}>
+      <RoutePatternHeader
+        origin={origin}
+        destination={destination}
+        backgroundColor={backgroundColor}
+        canSwap={canSwapDirection}
+        onSwap={
+          canSwapDirection ? () => onSelectChange(otherPattern.code) : undefined
+        }
+      />
       <h3 className="route-pattern-select-title">
         <FormattedMessage
           id="route-page.choose-direction"
