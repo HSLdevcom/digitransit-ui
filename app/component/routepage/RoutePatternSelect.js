@@ -79,15 +79,19 @@ function PatternOption({
           index: optionIndexTable[option.code],
         })}
       >
-        {patternTextWithIcon(option)}
-        {isSelected && (
-          <Icon
-            aria-hidden="true"
-            className="check"
-            img="icon_check"
-            viewBox="0 0 15 11"
-          />
-        )}
+        <span className="pattern-check">
+          {isSelected ? (
+            <Icon
+              aria-hidden="true"
+              className="check"
+              img="icon_check"
+              viewBox="0 0 15 11"
+            />
+          ) : (
+            <span className="check-placeholder" />
+          )}
+        </span>
+        <span className="pattern-label">{patternTextWithIcon(option)}</span>
       </li>
     );
   }
@@ -110,19 +114,23 @@ function PatternOption({
           onClick={e => e.stopPropagation()}
         >
           <div className="similar-route">
-            <Icon
-              className={option.mode.toLowerCase()}
-              img={`icon_${option.mode.toLowerCase()}`}
-              color={option.color ? `#${option.color}` : null}
-            />
+            <div className="icon-container">
+              <Icon
+                className={option.mode.toLowerCase()}
+                img={`icon_${option.mode.toLowerCase()}`}
+                color={option.color ? `#${option.color}` : null}
+              />
+            </div>
             <div className="similar-route-text">
               <span className="similar-route-name">{option.shortName}</span>
               <span className="similar-route-longname">{option.longName}</span>
             </div>
-            <Icon
-              className="similar-route-arrow"
-              img="icon_arrow-collapse--right"
-            />
+            <div className="icon-container">
+              <Icon
+                className="similar-route-arrow"
+                img="icon_arrow-collapse--right"
+              />
+            </div>
           </div>
         </Link>
       </li>

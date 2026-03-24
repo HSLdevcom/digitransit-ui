@@ -164,7 +164,10 @@ function RoutePatternSelectContainer({
 
   const msg = id => intl.formatMessage({ id });
   const optionArray = [
-    mainRoutes.length > 0 && { options: mainRoutes, name: '' },
+    mainRoutes.length > 0 && {
+      options: mainRoutes,
+      name: msg('route-page.main-routes'),
+    },
     specialRoutes.length > 0 && {
       options: specialRoutes,
       name: msg('route-page.special-routes'),

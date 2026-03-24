@@ -1299,13 +1299,21 @@ $margin-left-right: 21.3px;
     border: 1px solid $control-border-color;
     border-radius: var(--space-xs);
     position: relative;
+    transition: all 0.2s ease-out;
 
     &:focus-within {
       outline: none;
+      border-color: $theme-primary-color;
+      box-shadow: 0 0 3px 0 $theme-secondary-color;
     }
 
-    &.pattern-select-container--open .dropdown-arrow {
-      transform: rotate(180deg);
+    &.pattern-select-container--open {
+      border-color: $theme-primary-color;
+      box-shadow: 0 0 3px 0 $theme-secondary-color;
+
+      .dropdown-arrow {
+        transform: rotate(180deg);
+      }
     }
 
     &.pattern-select-container--colored {
@@ -1347,6 +1355,7 @@ $margin-left-right: 21.3px;
     line-height: $pattern-line-height;
     padding: $pattern-item-v-padding var(--space-s) $pattern-item-v-padding
       var(--space-s);
+    cursor: pointer;
 
     .dropdown-arrow {
       position: relative;
@@ -1354,6 +1363,11 @@ $margin-left-right: 21.3px;
       top: auto;
       margin-left: auto;
       pointer-events: none;
+      flex-shrink: 0;
+
+      &.inverted {
+        transform: rotate(180deg);
+      }
     }
   }
 
@@ -1392,19 +1406,21 @@ $margin-left-right: 21.3px;
   }
 
   .suggestions-container {
-    background: $background-color-lighter;
+    background: $white;
     z-index: index($zindex, 'autosuggest-suggestion-container');
     position: absolute;
     top: 52px; // Offset: container min-height (44px) + borders (2px) + visual gap (6px)
     left: 0;
     right: 0;
-    border-radius: var(--space-xxs);
-  }
+    border-radius: var(--space-xs);
+    overflow: hidden;
+    display: none;
 
-  .suggestions-container--open {
-    border: 1px solid $light-gray;
-    border-bottom: none;
-    box-shadow: 0 4px 13px rgba(0, 0, 0, 0.15);
+    &--open {
+      display: block;
+      border: 1px solid $light-gray;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
   }
 
   .section-container {
@@ -1414,24 +1430,37 @@ $margin-left-right: 21.3px;
     line-height: $pattern-line-height;
 
     &:not(:first-child) {
-      margin-top: var(--space-xxs);
       border-top: 1px solid $light-gray;
     }
 
     &:first-child {
-      border-radius: var(--space-xxs) var(--space-xxs) 0 0;
+      border-radius: var(--space-xs) var(--space-xs) 0 0;
     }
 
     &:last-child {
-      border-radius: 0 0 var(--space-xxs) var(--space-xxs);
+      border-radius: 0 0 var(--space-xs) var(--space-xs);
     }
   }
 
   .section-title {
-    font-weight: $font-weight-semibold;
+    font-weight: $font-weight-book;
     border-bottom: 1px solid $light-gray;
     min-height: 44px;
     padding: $pattern-item-v-padding var(--space-s);
+    color: $gray;
+    font-size: $font-size-xsmall;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 1px;
+      background: $light-gray;
+      pointer-events: none;
+    }
   }
 
   ul {
@@ -1440,25 +1469,95 @@ $margin-left-right: 21.3px;
   }
 
   .suggestion {
-    border-bottom: 1px solid $light-gray;
     list-style: none;
     min-height: 44px;
-
-    // 10px right buffer before the abs-positioned check icon (right: 16px, width: 20px)
-    padding: $pattern-item-v-padding 10px $pattern-item-v-padding var(--space-s);
+    padding: $pattern-item-v-padding var(--space-s) $pattern-item-v-padding
+      var(--space-s);
     position: relative;
+    cursor: pointer;
+    background: $white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: $font-weight-book;
+    transition: background-color 0.15s ease-out;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      bottom: 0;
+      height: 1px;
+      background: $light-gray;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 1px;
+      background: $light-gray;
+      pointer-events: none;
+    }
+
+    &:hover {
+      background: $suggestion-highlight-color;
+    }
 
     .icon.check {
-      height: 20px;
-      width: 20px;
-      position: absolute;
-      top: $pattern-item-v-padding;
-      right: var(--space-s);
+      height: 16px;
+      width: 16px;
+      position: relative;
+      right: auto;
+      top: auto;
+      color: $theme-primary-color;
+      flex-shrink: 0;
+      margin-left: auto;
+      margin-right: var(--space-s);
     }
+  }
+
+  .suggestion:last-child::after {
+    display: none;
   }
 
   .suggestion--highlighted {
     background: $suggestion-highlight-color;
+  }
+
+  .pattern-check {
+    width: 24px;
+    padding-left: $padding-xsmall;
+    padding-right: $padding-xsmall;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: $theme-primary-color;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+  }
+
+  .check-placeholder {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+  }
+
+  .pattern-label {
+    flex: 1 1 auto;
+    padding-left: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-weight: $font-weight-book;
   }
 
   a {
@@ -1468,6 +1567,7 @@ $margin-left-right: 21.3px;
   .similar-route {
     display: flex;
     justify-content: space-between;
+    width: 100%;
 
     .icon-container {
       position: relative;
@@ -1478,7 +1578,7 @@ $margin-left-right: 21.3px;
 
     .icon-container:last-child {
       margin-top: 5px; // nav arrow sits slightly lower than the mode icon
-      margin-right: 0;
+      margin-right: var(--space-s);
     }
 
     .similar-route-text {
