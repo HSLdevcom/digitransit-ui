@@ -27,6 +27,7 @@ import { displayDistance } from '../../util/geo-utils';
 import { durationToString } from '../../util/timeUtils';
 import { splitStringToAddressAndPlace } from '../../util/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
+import { useConfigContext } from '../../configurations/ConfigContext';
 import IndoorInfo from './IndoorInfo';
 import {
   subwayTransferUsesSameStation,
@@ -38,7 +39,6 @@ import {
 } from '../../util/indoorUtils';
 import IndoorStep from './IndoorStep';
 import { IndoorLegType } from '../../constants';
-import { useConfigContext } from '../../configurations/ConfigContext';
 
 function WalkLeg(
   {
@@ -54,13 +54,13 @@ function WalkLeg(
   },
   { intl },
 ) {
+  const config = useConfigContext();
+  const { colors, emphasizeDistance } = config;
   // If there is only one indoor routing step, always show it.
   const [showIntermediateSteps, setShowIntermediateSteps] = useState(
     getIndoorStepsWithVerticalTransportation(previousLeg, leg, nextLeg)
       .length === 1,
   );
-  const config = useConfigContext();
-  const { colors, emphasizeDistance } = config;
   const distance = displayDistance(
     parseInt(leg.mode !== 'WALK' ? 0 : leg.distance, 10),
     config,

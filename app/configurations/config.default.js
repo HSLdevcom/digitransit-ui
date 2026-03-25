@@ -881,7 +881,6 @@ export default {
   shortenLongTextThreshold: 10, // for route number in itinerary summary
   showRouteDescNotification: false,
   showStopStatusMarkers: false,
-  personalisation: false,
   flex: {
     internalFlexEnabled: false,
     allowTaxiJourneys: false,
@@ -891,4 +890,5 @@ export default {
     allowedExternalFlexRouteTypes: [1501],
     minTransferTime: 900, // seconds
   },
+  personalisation: false,
 };
