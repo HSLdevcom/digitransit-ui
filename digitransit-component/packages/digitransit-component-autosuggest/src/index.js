@@ -281,7 +281,8 @@ function DTAutosuggest({
   };
   const [state, dispatch] = useReducer(searchReducer, initialState);
   // Reset the state when value or sources change, this also triggers a new search
-  useEffect(() => dispatch({ type: 'RESET', initialState }), [value, sources]);
+  useEffect(() => dispatch({ type: 'RESET', initialState }), [value]);
+  useEffect(() => dispatch({ type: 'RESET_SOURCES', sources }), [sources]);
   // create and store input ref in the parent if storeRef is provided
   const inputRef = useRef(id);
   useEffect(() => {

@@ -69,6 +69,15 @@ function tabHandler(e) {
   }
 }
 
+// temp solution to force fav near you tab for hsl.fi
+// entering the tab should not be  possible if favourites do not exist
+function extendModes(modes, currentMode) {
+  if (currentMode === 'FAVORITE' && modes[0] !== 'FAVORITE') {
+    modes.unshift('FAVORITE');
+  }
+  return modes;
+}
+
 function NearYouPage(
   {
     breakpoint,
@@ -86,18 +95,18 @@ function NearYouPage(
   },
   { executeAction },
 ) {
+  const { mode } = match.params;
   const config = useConfigContext();
-  const modes = useRef(getModes(config, favourites));
   const centerOfMap = useRef({});
+  const [modes, setModes] = useState(
+    extendModes(getModes(config, favourites), mode),
+  );
   const [phase, setPhase] = useState(PH_START);
   const [centerOfMapChanged, setCenterOfMapChanged] = useState(false);
   const [searchPosition, setSearchPosition] = useState({});
   const [mapLayerOptions, setMapLayerOptions] = useState({});
   // eslint-disable-next-line
   const [resultsLoaded, setResultsLoaded] = useState(0);
-
-  const { mode } = match.params;
-  const allModes = modes.current;
 
   const updateMapLayerOptions = () => {
     if (config.map.showLayerSelector) {
@@ -164,6 +173,11 @@ function NearYouPage(
     window.addEventListener('keydown', tabHandler);
     return () => window.removeEventListener('keydown', tabHandler);
   }, []);
+
+  useEffect(() => {
+    // update tab list when favourites have been fetched
+    setModes(extendModes(getModes(config, favourites), mode));
+  }, [favouritesFetched]);
 
   useEffect(() => {
     updateMapLayerOptions();
@@ -282,7 +296,7 @@ function NearYouPage(
   };
 
   const onSwipe = e => {
-    const newMode = allModes[e];
+    const newMode = modes[e];
     const paramArray = match.location.pathname.split(mode);
     const pathParams = paramArray.length > 1 ? paramArray[1] : '/POS';
     const path = `/${PREFIX_NEARYOU}/${newMode}${pathParams}`;
@@ -299,13 +313,15 @@ function NearYouPage(
     !favouriteVehicleStationIds.length;
 
   const renderContent = () => {
-    const index = allModes.indexOf(mode);
-    const tabs = allModes.map(tabMode => {
+    const index = modes.indexOf(mode);
+    const tabs = modes.map(tabMode => {
       const renderStopRouteSearch =
         tabMode !== 'FERRY' && tabMode !== 'FAVORITE';
       const isActive = tabMode === mode;
+
       if (tabMode === 'FAVORITE') {
         const noFavs = noFavourites();
+
         return (
           <div
             key={tabMode}
@@ -565,7 +581,7 @@ function NearYouPage(
       }
       bckBtnFallback="back"
       content={renderContent()}
-      scrollable={allModes.length === 1}
+      scrollable={modes.length === 1}
       map={
         <>
           {mapSearch()}
