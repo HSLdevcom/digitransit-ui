@@ -663,6 +663,42 @@ $margin-left-right: 21.3px;
     margin-left: auto;
   }
 
+  .route-header-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+
+    .favourite-icon {
+      margin-left: 0;
+    }
+  }
+
+  .route-header-divider {
+    width: 1px;
+    height: 24px;
+    background-color: $light-gray;
+    flex-shrink: 0;
+  }
+
+  .route-notification-trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xxs);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-size: $font-size-small;
+    line-height: 1;
+    color: $black;
+    white-space: nowrap;
+
+    &:hover span {
+      text-decoration: underline;
+    }
+  }
+
   .trip-destination {
     display: flex;
     margin-left: 10px;

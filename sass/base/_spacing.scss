@@ -8,6 +8,16 @@ $fixed-space-xxl: 64px;
 $fixed-space-xxxl: 80px;
 
 :root {
+  // space-fixed values are used by design system components and defined here
+  // to avoid importing conflicting variables.
+  --space-fixed-xxs: #{$fixed-space-xxs};
+  --space-fixed-xs: #{$fixed-space-xs};
+  --space-fixed-s: #{$fixed-space-s};
+  --space-fixed-m: #{$fixed-space-m};
+  --space-fixed-l: #{$fixed-space-l};
+  --space-fixed-xl: #{$fixed-space-xl};
+  --space-fixed-xxl: #{$fixed-space-xxl};
+  --space-fixed-xxxl: #{$fixed-space-xxxl};
   --space-xxs: #{$fixed-space-xxs};
   --space-xs: #{$fixed-space-xs};
   --space-s: #{$fixed-space-s};
