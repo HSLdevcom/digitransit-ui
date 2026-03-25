@@ -97,7 +97,7 @@ union CallStopLocation = Location | LocationGroup | Stop
 union RentalPlace = RentalVehicle | VehicleRentalStation
 
 "A feature for a step"
-union StepFeature = Entrance
+union StepFeature = ElevatorUse | Entrance | EscalatorUse | StairsUse
 
 union StopPosition = PositionAtStop | PositionBetweenStops
 
@@ -525,6 +525,15 @@ type DependentFareProduct implements FareProduct {
   riderCategory: RiderCategory
 }
 
+"A single use of an elevator."
+type ElevatorUse {
+  "The level the use begins at."
+  from: Level
+  "The level the use ends at."
+  to: Level
+  verticalDirection: VerticalDirection!
+}
+
 type Emissions {
   "CO₂ emissions in grams."
   co2: Grams
@@ -540,6 +549,15 @@ type Entrance {
   publicCode: String
   "Whether the entrance or exit is accessible by wheelchair"
   wheelchairAccessible: WheelchairBoarding
+}
+
+"A single use of an escalator."
+type EscalatorUse {
+  "The level the use begins at."
+  from: Level
+  "The level the use ends at."
+  to: Level
+  verticalDirection: VerticalDirection!
 }
 
 "Real-time estimates for an arrival or departure at a certain place."
@@ -784,6 +802,9 @@ type Leg {
   Re-fetching fails when the underlying transit data no longer exists.
   **Note:** when both id and fare products are queried with [Relay](https://relay.dev/), id should be queried using a suitable GraphQL alias
   such as `legId: id`. Relay does not accept different fare product ids in otherwise identical legs.
+    
+  The identifier is valid for a maximum of 2 years, but sometimes it will fail after a few hours.
+  We do not recommend storing IDs for a long time.
   """
   id: String
   """
@@ -793,7 +814,7 @@ type Leg {
   """
   interlineWithPreviousLeg: Boolean
   "Whether the destination of this leg (field `to`) is one of the intermediate places specified in the query."
-  intermediatePlace: Boolean @deprecated(reason : "Not implemented")
+  intermediatePlace: Boolean @deprecated(reason : "Not implemented. Use `viaLocationType` from from/to fields instead.")
   """
   For transit legs, intermediate stops between the Place where the leg
   originates and the Place where the leg ends. For non-transit legs, null.
@@ -899,6 +920,14 @@ type LegTime {
   scheduledTime: OffsetDateTime!
 }
 
+"A level with a name and comparable number. Levels can sometimes contain half levels, e.g. '1.5'."
+type Level {
+  "0-based comparable number where 0 is the ground level."
+  level: Float!
+  "Name of the level, e.g. 'M', 'P1', or '1'. Can be equal or different to the numerical representation."
+  name: String!
+}
+
 "A span of time."
 type LocalTimeSpan {
   "The start of the time timespan as seconds from midnight."
@@ -930,7 +959,7 @@ type Location {
 }
 
 """
-A group of fixed stops that is visited in an arbitrary order.
+A group of fixed stops that are visited in an arbitrary order.
 
 This is mostly used by demand-responsive services.
 """
@@ -1101,6 +1130,11 @@ type Place {
   used for better localization of bike sharing and P+R station names
   """
   vertexType: VertexType @deprecated(reason : "Unmaintained. Use `stop`, `rentalVehicle`, `vehicleParking` or `vehicleRentalStation` to tell which type it is.") @timingData
+  """
+  This defines if the place is a requested via location, and what kind it is. If the value is
+  `null`, this place is not a via location.
+  """
+  viaLocationType: ViaLocationType
 }
 
 type Plan {
@@ -1116,12 +1150,7 @@ type Plan {
   messageEnums: [String]!
   "A list of possible error messages in cleartext"
   messageStrings: [String]!
-  """
-  This is the suggested search time for the "next page" or time window. Insert it together
-  with the searchWindowUsed in the request to get a new set of trips following in the
-  search-window AFTER the current search. No duplicate trips should be returned, unless a trip
-  is delayed and new real-time data is available.
-  """
+  "This will not be available after Match 2026."
   nextDateTime: Long @deprecated(reason : "Use nextPageCursor instead") @timingData
   """
   Use the cursor to go to the next "page" of itineraries. Copy the cursor from the last response
@@ -1131,12 +1160,7 @@ type Plan {
   This is only usable when public transportation mode(s) are included in the query.
   """
   nextPageCursor: String
-  """
-  This is the suggested search time for the "previous page" or time window. Insert it together
-  with the searchWindowUsed in the request to get a new set of trips preceding in the
-  search-window BEFORE the current search. No duplicate trips should be returned, unless a trip
-  is delayed and new real-time data is available.
-  """
+  "This will not be available after Match 2026."
   prevDateTime: Long @deprecated(reason : "Use previousPageCursor instead") @timingData
   """
   Use the cursor to go to the previous "page" of itineraries. Copy the cursor from the last
@@ -1155,7 +1179,7 @@ type Plan {
     
   The unit is seconds.
   """
-  searchWindowUsed: Long
+  searchWindowUsed: Long @deprecated(reason : "This is not needed for debugging, and is misleading if the window is cropped.")
   "The destination"
   to: Place!
 }
@@ -1281,6 +1305,8 @@ type QueryType {
     and should be used together with the `last` parameter.
     """
     before: String,
+    "Can be used to filter the results. When paging, the filter should not be changed between pages."
+    filters: CanceledTripsFilterInput,
     """
     Limits how many trips are returned. This parameter is part of the
     [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm) and can be used together with
@@ -2021,6 +2047,24 @@ type RentalVehicleTypeCount {
   vehicleType: RentalVehicleType!
 }
 
+"""
+Relation for indicating the TripOnServiceDate which is replacing an older one. Exists as a
+place to put additional information on the replacement when we get SIRI 2.1 support.
+"""
+type ReplacedByRelation {
+  "The replacing TripOnServiceDate."
+  tripOnServiceDate: TripOnServiceDate
+}
+
+"""
+Relation for indicating the TripOnServiceDate which is being replaced by a newer one. Exists
+as a place to put additional information on the replacement when we get SIRI 2.1 support.
+"""
+type ReplacementForRelation {
+  "The TripOnServiceDate being replaced."
+  tripOnServiceDate: TripOnServiceDate
+}
+
 "An estimate for a ride on a hailed vehicle, like an Uber car."
 type RideHailingEstimate {
   "The estimated time it takes for the vehicle to arrive."
@@ -2044,6 +2088,13 @@ type RideHailingProvider {
 type RiderCategory {
   "ID of the category"
   id: String!
+  """
+  If this category is considered the "default" one. In most places this means "Adult" or
+  "Regular".
+  Frontends can use this property to display this category more prominently or pre-select this
+  in a UI.
+  """
+  isDefault: Boolean!
   "Human readable name of the category."
   name: String
 }
@@ -2082,6 +2133,14 @@ type Route implements Node {
   gtfsId: String!
   "Global object ID provided by Relay. This value can be used to refetch this object using **node** query."
   id: ID!
+  """
+  Is this a replacement route.
+  Only true for GTFS-sourced data if set by the extended GTFS route type, because GTFS does not implement
+  replacement links, so replacement trips in GTFS cannot mechanically state their original trip.
+  In NeTEx/SIRI-sourced data this can be set by either a replacement submode, or a replacement
+  link in a DatedServiceJourney.
+  """
+  isReplacement: Boolean!
   "Long name of the route, e.g. Helsinki-Leppävaara"
   longName(
     """
@@ -2103,6 +2162,12 @@ type Route implements Node {
     """
     serviceDates: LocalDateRangeInput
   ): [Pattern]
+  """
+  Do any trips of this route have any linked replacements.
+  Only ever true with NeTEx or SIRI, because GTFS does not implement replacement
+  links, so replacement trips in GTFS cannot mechanically state their original trip.
+  """
+  replacementsExist: Boolean!
   "Short name of the route, usually a line number, e.g. 550"
   shortName: String
   """
@@ -2167,6 +2232,15 @@ type RoutingError {
   description: String!
   "An enum describing the field which should be changed, in order for the search to succeed"
   inputField: InputField
+}
+
+"A single use of a set of stairs."
+type StairsUse {
+  "The level the use begins at."
+  from: Level
+  "The level the use ends at."
+  to: Level
+  verticalDirection: VerticalDirection!
 }
 
 """
@@ -2574,12 +2648,26 @@ type Trip implements Node {
   "Global object ID provided by Relay. This value can be used to refetch this object using **node** query."
   id: ID!
   """
+  Is this a replacement trip.
+  Only true for GTFS-sourced data if set by the extended GTFS route type, because GTFS does not implement
+  replacement links, so replacement trips in GTFS cannot mechanically state their original trip.
+  In NeTEx/SIRI-sourced data this can be set by either a replacement submode, or a replacement
+  link in a DatedServiceJourney.
+  """
+  isReplacement: Boolean!
+  """
   The latest real-time occupancy information for the latest occurance of this
   trip.
   """
   occupancy: TripOccupancy
   "The pattern the trip is running on"
   pattern: Pattern
+  """
+  Does this trip have any linked replacements.
+  Only ever true with NeTEx or SIRI, because GTFS does not implement replacement
+  links, so replacement trips in GTFS cannot mechanically state their original trip.
+  """
+  replacementsExist: Boolean!
   "The route the trip is running on"
   route: Route!
   "Short name of the route this trip is running. See field `shortName` of Route."
@@ -2630,6 +2718,12 @@ type TripOccupancy {
 type TripOnServiceDate {
   "Information related to trip's scheduled arrival to the final stop location. Can contain real-time information."
   end: StopCall!
+  "Is this TripOnServiceDate a replacement? For GTFS-sourced data this might be all we know."
+  isReplacement: Boolean
+  "Replaced by these TripOnServiceDates."
+  replacedByRelation: [ReplacedByRelation!]!
+  "Replacement for these TripOnServiceDates."
+  replacementForRelation: [ReplacementForRelation!]!
   """
   The service date when the trip occurs.
     
@@ -2661,6 +2755,13 @@ type TripOnServiceDateConnection {
   Part of the [GraphQL Cursor Connections Specification](https://relay.dev/graphql/connections.htm).
   """
   pageInfo: PageInfo!
+  """
+  The total number of trips on service dates in this connection at the time of query execution (including the current and previous
+  pages).
+  Note, this number might not stay the same throughout the paging as trips might be added or
+  removed.
+  """
+  totalCount: Int!
 }
 
 """
@@ -2975,7 +3076,7 @@ type step {
   elevationProfile: [elevationProfileComponent]
   "When exiting a highway or traffic circle, the exit name/number."
   exit: String
-  "Information about an feature associated with a step e.g. an station entrance or exit"
+  "Information about a feature associated with a step e.g. a station entrance or exit."
   feature: StepFeature
   "The latitude of the start of the step."
   lat: Float
@@ -3226,6 +3327,7 @@ enum InputField {
   DATE_TIME
   FROM
   TO
+  VIA
 }
 
 """
@@ -3859,6 +3961,8 @@ enum TransitMode {
   MONORAIL
   "This includes long or short distance trains."
   RAIL
+  "Used for off-road snow and ice vehicles"
+  SNOW_AND_ICE
   "Subway or metro, depending on the local terminology."
   SUBWAY
   "A taxi, possibly operated by a public transport agency."
@@ -3921,6 +4025,28 @@ enum VertexType {
   PARKANDRIDE
   "TRANSIT"
   TRANSIT
+}
+
+"The vertical direction e.g. for a set of stairs."
+enum VerticalDirection {
+  DOWN
+  UNKNOWN
+  UP
+}
+
+"Categorization for via locations."
+enum ViaLocationType {
+  """
+  The via stop location must be visited as part of a transit trip as at the boarding stop, the
+  intermediate stop, or the alighting stop.
+  """
+  PASS_THROUGH
+  """
+  The location is visited physically by boarding or alighting a transit trip at a given stop, or by
+  traveling via requested coordinate location as part of a access, transfer, egress or direct
+  segment. Intermediate stops visited on-board do not count.
+  """
+  VISIT
 }
 
 enum WheelchairBoarding {
@@ -4106,6 +4232,34 @@ input BoardPreferencesInput {
   waitReluctance: Reluctance
 }
 
+"""
+A collection of selectors for including or excluding trips from canceled trips search. Currently,
+you can only use either include or exclude filter (as filtering is only supported with transit modes).
+"""
+input CanceledTripsFilterInput @oneOf {
+  """
+  A list of selectors for excluding canceled trips.
+    
+  An empty list or a list containing `null` is forbidden.
+  """
+  exclude: [CanceledTripsFilterSelectInput!]
+  """
+  A list of selectors for including canceled trips.
+    
+  An empty list or a list containing `null` is forbidden.
+  """
+  include: [CanceledTripsFilterSelectInput!]
+}
+
+"""
+A list of selectors for including or excluding trips from canceled trips search. Null
+means everything is allowed to be returned and empty lists are not allowed.
+"""
+input CanceledTripsFilterSelectInput {
+  "Canceled trips from these transit modes should be included/excluded."
+  modes: [TransitMode!]
+}
+
 "Preferences for car parking facilities used during the routing."
 input CarParkingPreferencesInput {
   """
@@ -4147,6 +4301,18 @@ input CarRentalPreferencesInput {
   allowedNetworks: [String!]
   "Rental networks which cannot be used as part of an itinerary."
   bannedNetworks: [String!]
+  """
+  The assumed duration of a car rental trip, used to ensure vehicle availability during the
+  rental period.
+    
+  The rental time is calculated relative to the request search time:
+  - Depart-after search: `request time + rental duration`
+  - Arrive-by search: `request time - rental duration`
+    
+  Note: Rental duration only applies to  free-floating vehicles in direct street searches.
+  This is not supported in access/egress in transit searches.
+  """
+  rentalDuration: Duration
 }
 
 "What criteria should be used when optimizing a cycling route."
@@ -4280,16 +4446,12 @@ input InputModeWeight {
 }
 
 input InputPreferred {
-  "A comma-separated list of ids of the agencies preferred by the user."
-  agencies: String @deprecated(reason : "Not implemented")
-  """
-  Penalty added for using every route that is not preferred if user set any
-  route as preferred. We return number of seconds that we are willing to wait
-  for preferred route.
-  """
-  otherThanPreferredRoutesPenalty: Int @deprecated(reason : "Not implemented")
-  "A comma-separated list of ids of the routes preferred by the user."
-  routes: String @deprecated(reason : "Not implemented")
+  "Not implemented"
+  agencies: String
+  "Not implemented"
+  otherThanPreferredRoutesPenalty: Int
+  "Not implemented"
+  routes: String
 }
 
 """

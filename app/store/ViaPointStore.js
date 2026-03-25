@@ -19,9 +19,17 @@ class ViaPointStore extends Store {
     return this.viaPoints;
   }
 
+  deleteViaPoint(val) {
+    this.viaPoints = this.viaPoints.filter(
+      p => p.lat !== val.lat || p.lon !== val.lon,
+    );
+    this.emitChange();
+  }
+
   static handlers = {
     addViaPoint: 'addViaPoint',
     setViaPoints: 'setViaPoints',
+    deleteViaPoint: 'deleteViaPoint',
   };
 }
 

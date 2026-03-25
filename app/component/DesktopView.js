@@ -18,15 +18,8 @@ export default function DesktopView({
     <div className="desktop">
       <div className="main-content" role="main" id="main-content">
         {bckBtnVisible && (
-          <div className="desktop-title">
-            <div className="title-container h2">
-              <BackButton
-                title={title}
-                icon="icon_arrow-collapse--left"
-                iconClassName="arrow-icon"
-                fallback={bckBtnFallback}
-              />
-            </div>
+          <div className="desktop-title h1">
+            <BackButton title={title} fallback={bckBtnFallback} />
           </div>
         )}
         <ScrollableWrapper scrollable={scrollable}>

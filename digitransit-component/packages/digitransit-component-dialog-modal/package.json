@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-dialog-modal",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "digitransit-component dialog-modal module",
   "main": "index.js",
   "files": [
@@ -32,8 +32,8 @@
     "@hsl-fi/modal": "^0.3.2"
   },
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-icon": "^2.0.0",
-    "@hsl-fi/sass": "^0.2.0",
+    "@digitransit-component/digitransit-component-icon": "^2.0.1",
+    "@hsl-fi/sass": "1.0.0",
     "classnames": "2.5.1",
     "i18next": "^22.5.1",
     "prop-types": "^15.8.1",

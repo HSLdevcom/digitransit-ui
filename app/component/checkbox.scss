@@ -2,7 +2,7 @@
   display: flex;
 
   .icon {
-    color: $primary-color;
+    color: $theme-primary-color;
   }
 
   &.large {
@@ -30,7 +30,7 @@
         position: relative;
 
         &.checked {
-          border: $primary-color 1px solid;
+          border: $theme-primary-color 1px solid;
 
           &.disabled {
             color: $gray;
@@ -51,15 +51,15 @@
       left: 0;
 
       &:hover {
-        border: 1px solid $primary-color;
+        border: 1px solid $theme-primary-color;
       }
 
       &.checked {
-        border: $primary-color 1px solid;
-        color: $primary-color;
+        border: $theme-primary-color 1px solid;
+        color: $theme-primary-color;
 
         &::before {
-          color: $primary-color;
+          color: $theme-primary-color;
           font-family: $font-family;
           font-size: 1.25em;
           font-weight: $font-weight-medium;
@@ -75,7 +75,7 @@
       }
 
       span > svg {
-        color: $primary-color;
+        color: $theme-primary-color;
       }
 
       &.disabled {

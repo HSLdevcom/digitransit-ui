@@ -1,6 +1,7 @@
 import safeJsonParse from '../util/safeJsonParser';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 import realtime from './realtimeUtils';
+import prUtils from '../util/ParkAndRideUtils';
 
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
@@ -187,12 +188,14 @@ export default {
   defaultSettings: {
     accessibilityOption: false,
     optimize: 'GREENWAYS',
+    bikeBoardCost: 120,
+    bikeReluctance: 1.2,
     bikeSpeed: 5.55,
     ticketTypes: 'none',
     walkBoardCost: 120,
-    walkReluctance: 1.8,
+    walkReluctance: 1.2,
     walkSpeed: 1.2,
-    transferPenalty: 0,
+    transferPenalty: 180,
     minTransferTime: 90,
     includeBikeSuggestions: true,
     includeParkAndRideSuggestions: false,
@@ -207,12 +210,7 @@ export default {
    * If not, the selection may not make any sense.
    */
   defaultOptions: {
-    walkReluctance: {
-      least: 5,
-      less: 3,
-      more: 1,
-      most: 0.2,
-    },
+    highWalkReluctance: 5,
     walkSpeed: [0.69, 0.97, 1.2, 1.67, 2.22],
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
   },
@@ -725,6 +723,7 @@ export default {
     matka: '(matka|^dev.digitransit)',
     vaasa: 'vaasa',
     walttiOpas: 'waltti',
+    walttiTest: 'waltti-test',
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
     tampere: 'tampere',
@@ -752,7 +751,6 @@ export default {
   vehicles: false,
   showVehiclesOnStopPage: false,
   showVehiclesOnItineraryPage: false,
-  trafficNowLink: '',
 
   timetables: {},
 
@@ -779,6 +777,7 @@ export default {
   },
 
   viaPointsEnabled: true,
+  viaPointsMax: 1,
 
   // Toggling this off shows the alert bodytext instead of the header
   showAlertHeader: true,
@@ -789,6 +788,14 @@ export default {
 
   constantOperationStops: {},
   constantOperationRoutes: {},
+
+  parkAndRide: {
+    showParkAndRide: false,
+    showParkAndRideForBikes: false,
+    parkAndRideMinZoom: 14,
+    resolver: prUtils.liipi,
+  },
+  parkingAreaSources: ['liipi'],
 
   embeddedSearch: {
     title: {
@@ -874,7 +881,7 @@ export default {
   shortenLongTextThreshold: 10, // for route number in itinerary summary
   showRouteDescNotification: false,
   showStopStatusMarkers: false,
-
+  personalisation: false,
   flex: {
     internalFlexEnabled: false,
     allowTaxiJourneys: false,

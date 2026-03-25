@@ -1,12 +1,12 @@
 /* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { graphql, ReactRelayContext, QueryRenderer } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { relayShape, configShape, locationShape } from '../../util/shapes';
+import { configShape, relayShape, locationShape } from '../../util/shapes';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../../util/withBreakpoint';
@@ -17,6 +17,7 @@ import UpdateLocationButton from './UpdateLocationButton';
 import MapWrapper from './MapWrapper';
 import LocationModal from './LocationModal';
 import CityBikeInfo from './CityBikeInfo';
+import ParkInfo from './ParkInfo';
 import {
   checkPositioningPermission,
   startLocationWatch,
@@ -26,7 +27,7 @@ import StopRouteSearch from './StopRouteSearch';
 import { getGeolocationState } from '../../store/localStorage';
 import { PREFIX_NEARYOU } from '../../util/path';
 import NearYouContainer from './NearYouContainer';
-import SwipeableTabs from '../SwipeableTabs';
+import SwipeableTabs, { setFocusables } from '../SwipeableTabs';
 import NearYouFavourites from './NearYouFavourites';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
@@ -37,6 +38,7 @@ import {
   useCitybikes,
 } from '../../util/modeUtils';
 import FavouriteStore from '../../store/FavouriteStore';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 // component initialization phases
 const PH_START = 'start';
@@ -50,9 +52,9 @@ const PH_USEMAPCENTER = 'usemapcenter';
 const PH_SHOWSEARCH = [PH_SEARCH, PH_SEARCH_GEOLOCATION]; // show modal
 const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION, PH_USEMAPCENTER]; // render the actual page
 
-function getModes(config) {
+function getModes(config, favourites) {
   const transportModes = getTransportModes(config);
-  const nearYouModes = getNearYouModes(config);
+  const nearYouModes = getNearYouModes(config, favourites);
   const modes = nearYouModes.length
     ? nearYouModes
     : Object.keys(transportModes).filter(
@@ -61,34 +63,50 @@ function getModes(config) {
   return modes.map(nearYouMode => nearYouMode.toUpperCase());
 }
 
+function tabHandler(e) {
+  if (e.key === 'Tab') {
+    setFocusables();
+  }
+}
+
+// temp solution to force fav near you tab for hsl.fi
+// entering the tab should not be  possible if favourites do not exist
+function extendModes(modes, currentMode) {
+  if (currentMode === 'FAVORITE' && modes[0] !== 'FAVORITE') {
+    modes.unshift('FAVORITE');
+  }
+  return modes;
+}
+
 function NearYouPage(
   {
     breakpoint,
     relayEnvironment,
     position,
-    lang,
     match,
+    favourites,
     favouriteStopIds,
     favouriteStationIds,
     favouriteVehicleStationIds,
     mapLayers,
     favouritesFetched,
     currentTime,
+    router,
   },
-  { config, executeAction, router },
+  { executeAction },
 ) {
-  const MWTRef = useRef();
-  const modes = useRef(getModes(config));
+  const { mode } = match.params;
+  const config = useConfigContext();
   const centerOfMap = useRef({});
+  const [modes, setModes] = useState(
+    extendModes(getModes(config, favourites), mode),
+  );
   const [phase, setPhase] = useState(PH_START);
   const [centerOfMapChanged, setCenterOfMapChanged] = useState(false);
   const [searchPosition, setSearchPosition] = useState({});
   const [mapLayerOptions, setMapLayerOptions] = useState({});
   // eslint-disable-next-line
-  const [resultsLoaded, setResultsLoaded] = useState(false);
-
-  const { mode } = match.params;
-  const allModes = modes.current;
+  const [resultsLoaded, setResultsLoaded] = useState(0);
 
   const updateMapLayerOptions = () => {
     if (config.map.showLayerSelector) {
@@ -149,6 +167,19 @@ function NearYouPage(
   }, []);
 
   useEffect(() => {
+    // rendering of hidden sub components of inactive tabs
+    // sets tabIndex=0 to hidden elements
+    // we must fix this when user shifts focus with the tab key
+    window.addEventListener('keydown', tabHandler);
+    return () => window.removeEventListener('keydown', tabHandler);
+  }, []);
+
+  useEffect(() => {
+    // update tab list when favourites have been fetched
+    setModes(extendModes(getModes(config, favourites), mode));
+  }, [favouritesFetched]);
+
+  useEffect(() => {
     updateMapLayerOptions();
   }, [mode]);
 
@@ -162,14 +193,6 @@ function NearYouPage(
       }
     }
   }, [phase, position.locationingFailed, position.hasLocation]);
-
-  const loadingDone = () => {
-    // trigger a state update in this component to force a rerender when stop data is received for the first time.
-    // this fixes a bug where swipeable tabs were not keeping focusable elements up to date after receving stop data
-    // and keyboard focus could be lost to hidden elements.
-    // eslint-disable-next-line react/no-unused-state
-    setResultsLoaded(true);
-  };
 
   const getQueryVariables = queryMode => {
     if (queryMode === 'FAVORITE') {
@@ -244,11 +267,6 @@ function NearYouPage(
     }
   };
 
-  // store ref to map
-  const setMWTRef = ref => {
-    MWTRef.current = ref;
-  };
-
   const updateLocation = () => {
     const center = centerOfMap.current;
     if (center?.lat && center?.lon) {
@@ -278,7 +296,7 @@ function NearYouPage(
   };
 
   const onSwipe = e => {
-    const newMode = allModes[e];
+    const newMode = modes[e];
     const paramArray = match.location.pathname.split(mode);
     const pathParams = paramArray.length > 1 ? paramArray[1] : '/POS';
     const path = `/${PREFIX_NEARYOU}/${newMode}${pathParams}`;
@@ -295,19 +313,19 @@ function NearYouPage(
     !favouriteVehicleStationIds.length;
 
   const renderContent = () => {
-    const index = allModes.indexOf(mode);
-    const tabs = allModes.map(tabMode => {
+    const index = modes.indexOf(mode);
+    const tabs = modes.map(tabMode => {
       const renderStopRouteSearch =
         tabMode !== 'FERRY' && tabMode !== 'FAVORITE';
       const isActive = tabMode === mode;
+
       if (tabMode === 'FAVORITE') {
         const noFavs = noFavourites();
+
         return (
           <div
             key={tabMode}
-            className={`stops-near-you-page swipeable-tab ${
-              !isActive && 'inactive'
-            }`}
+            className={`near-you-page swipeable-tab ${!isActive && 'inactive'}`}
             aria-hidden={!isActive}
           >
             {centerOfMapChanged && !noFavs && (
@@ -387,16 +405,19 @@ function NearYouPage(
                   break;
               }
               return (
-                <div className="stops-near-you-page">
+                <div className="near-you-page">
                   {renderStopRouteSearch && (
                     <StopRouteSearch
                       mode={tabMode}
                       isMobile={breakpoint !== 'large'}
-                      lang={lang}
                       refPoint={searchPosition}
+                      router={router}
                     />
                   )}
-                  {tabMode === 'CITYBIKE' && <CityBikeInfo lang={lang} />}
+                  {tabMode === 'CITYBIKE' && <CityBikeInfo />}
+                  {(tabMode === 'CARPARK' || tabMode === 'BIKEPARK') && (
+                    <ParkInfo mode={tabMode} />
+                  )}
                   {centerOfMapChanged && (
                     <UpdateLocationButton
                       mode={tabMode}
@@ -445,7 +466,6 @@ function NearYouPage(
                       // eslint-disable-next-line
                       places={props.places}
                       prioritizedStops={prioritizedStops}
-                      loadingDone={loadingDone}
                       position={searchPosition}
                       withSeparator={!renderStopRouteSearch}
                       mode={tabMode}
@@ -454,7 +474,7 @@ function NearYouPage(
                       favouriteIds={favIds}
                     />
                   ) : (
-                    <div className="stops-near-you-spinner-container">
+                    <div className="near-you-spinner-container">
                       <Loading />
                     </div>
                   )}
@@ -489,11 +509,10 @@ function NearYouPage(
       position={searchPosition}
       match={match}
       setCenterOfMap={setCenterOfMap}
-      showWalkRoute={phase === PH_USEGEOLOCATION || phase === PH_USEDEFAULTPOS}
+      showWalkRoute={PH_READY.includes(phase)}
       mapLayers={mapLayers}
       mapLayerOptions={mapLayerOptions}
       breakpoint={breakpoint}
-      setMWTRef={setMWTRef}
       variables={getQueryVariables(mode)}
     />
   );
@@ -520,7 +539,6 @@ function NearYouPage(
   const search = onMap => (
     <Search
       onMap={onMap}
-      lang={lang}
       selectHandler={selectHandler}
       isMobile={breakpoint !== 'large'}
       refPoint={searchPosition}
@@ -528,7 +546,7 @@ function NearYouPage(
   );
 
   const mapSearch = () => {
-    return <div className="stops-near-you-location-search">{search(true)}</div>;
+    return <div className="near-you-location-search">{search(true)}</div>;
   };
 
   if (PH_SHOWSEARCH.includes(phase)) {
@@ -543,74 +561,68 @@ function NearYouPage(
       </LocationModal>
     );
   }
+
+  const desktop = () => (
+    <DesktopView
+      title={
+        mode === 'FAVORITE' ? (
+          <FormattedMessage id="nearest-favourites" />
+        ) : (
+          <FormattedMessage
+            id="nearest"
+            defaultMessage="Stops near you"
+            values={{
+              mode: (
+                <FormattedMessage id={`nearest-stops-${mode.toLowerCase()}`} />
+              ),
+            }}
+          />
+        )
+      }
+      bckBtnFallback="back"
+      content={renderContent()}
+      scrollable={modes.length === 1}
+      map={
+        <>
+          {mapSearch()}
+          {renderMap()}
+        </>
+      }
+    />
+  );
+
+  const mobile = () => (
+    <MobileView
+      content={renderContent()}
+      map={renderMap()}
+      searchBox={mapSearch()}
+      match={match}
+    />
+  );
+
   if (PH_READY.includes(phase)) {
-    return (
-      <DesktopOrMobile
-        desktop={() => (
-          <DesktopView
-            title={
-              mode === 'FAVORITE' ? (
-                <FormattedMessage id="nearest-favourites" />
-              ) : (
-                <FormattedMessage
-                  id="nearest"
-                  defaultMessage="Stops near you"
-                  values={{
-                    mode: (
-                      <FormattedMessage
-                        id={`nearest-stops-${mode.toLowerCase()}`}
-                      />
-                    ),
-                  }}
-                />
-              )
-            }
-            bckBtnFallback="back"
-            content={renderContent()}
-            scrollable={allModes.length === 1}
-            map={
-              <>
-                {mapSearch()}
-                {renderMap()}
-              </>
-            }
-          />
-        )}
-        mobile={() => (
-          <MobileView
-            content={renderContent()}
-            map={renderMap()}
-            searchBox={mapSearch()}
-            mapRef={MWTRef.current}
-            match={match}
-          />
-        )}
-      />
-    );
+    return <DesktopOrMobile desktop={desktop} mobile={mobile} />;
   }
   return <Loading />;
 }
 
 NearYouPage.contextTypes = {
-  config: configShape.isRequired,
   executeAction: PropTypes.func.isRequired,
-  getStore: PropTypes.func,
-  intl: intlShape.isRequired,
-  router: routerShape.isRequired,
 };
 
 NearYouPage.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   relayEnvironment: relayShape.isRequired,
   position: locationShape.isRequired,
-  lang: PropTypes.string.isRequired,
   match: matchShape.isRequired,
   favouriteStopIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteVehicleStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  favourites: PropTypes.array, // eslint-disable-line
   mapLayers: mapLayerShape.isRequired,
   favouritesFetched: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
+  router: routerShape.isRequired,
 };
 
 NearYouPage.defaultProps = {
@@ -627,13 +639,7 @@ const NearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   NearYouPageWithBreakpoint,
-  [
-    'PositionStore',
-    'PreferencesStore',
-    'FavouriteStore',
-    'MapLayerStore',
-    'TimeStore',
-  ],
+  ['PositionStore', 'FavouriteStore', 'MapLayerStore', 'TimeStore'],
   (context, props) => {
     const favStore = context.getStore('FavouriteStore');
     const favouriteStopIds = favStore
@@ -655,13 +661,13 @@ const PositioningWrapper = connectToStores(
       ...props,
       currentTime: context.getStore('TimeStore').getCurrentTime(),
       position: context.getStore('PositionStore').getLocationState(),
-      lang: context.getStore('PreferencesStore').getLanguage(),
       mapLayers: context
         .getStore('MapLayerStore')
         .getMapLayers({ notThese: ['vehicles', 'scooter'] }),
       favouriteStopIds,
       favouriteVehicleStationIds,
       favouriteStationIds,
+      favourites: favStore.getFavourites(),
       favouritesFetched:
         favStore.getStatus() !== FavouriteStore.STATUS_FETCHING_OR_UPDATING,
     };

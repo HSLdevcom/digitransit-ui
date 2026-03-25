@@ -28,10 +28,9 @@ import {
   stopShape,
 } from '../../util/shapes';
 import Loading from '../Loading';
-import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
-import { walkQuery } from './WalkQuery';
+import { streetQuery } from './StreetQuery';
 import LocationMarker from './LocationMarker';
 
 function getId(edge) {
@@ -127,7 +126,6 @@ function NearYouMap(
     position,
     showWalkRoute,
     prioritizedStops,
-    setMWTRef,
     ...rest
   },
   context,
@@ -140,14 +138,31 @@ function NearYouMap(
   const clientOn = useRef(false);
   const mwtRef = useRef();
   const { mode } = match.params;
-  const walkRoutingThreshold =
-    mode === 'RAIL' || mode === 'SUBWAY' || mode === 'FERRY' ? 3000 : 1500;
+  let streetRoutingLimit;
+
+  switch (mode) {
+    case 'RAIL':
+    case 'SUBWAY':
+    case 'FERRY':
+      streetRoutingLimit = 3000;
+      break;
+    case 'CARPARK':
+      streetRoutingLimit = 30000;
+      break;
+    case 'BIKEPARK':
+      streetRoutingLimit = 5000;
+      break;
+    default:
+      streetRoutingLimit = 1500;
+      break;
+  }
+
   const { environment } = relay;
   const { config } = context;
   const isTransitMode = !nonTransit.includes(mode);
 
   const fetchPlan = node => {
-    if (node.distance < walkRoutingThreshold) {
+    if (node.distance < streetRoutingLimit) {
       const settings = getSettings(config);
       let location = {
         coordinate: {
@@ -160,7 +175,14 @@ function NearYouMap(
           stopLocation: { stopLocationId: node.place.gtfsId },
         };
       }
+      let routingMode = 'WALK';
+      if (mode === 'CARPARK') {
+        routingMode = 'CAR';
+      } else if (mode === 'BIKEPARK') {
+        routingMode = 'BICYCLE';
+      }
       const variables = {
+        mode: routingMode,
         origin: {
           location: {
             coordinate: { latitude: position.lat, longitude: position.lon },
@@ -172,7 +194,7 @@ function NearYouMap(
         walkSpeed: settings.walkSpeed,
         wheelchair: !!settings.accessibilityOption,
       };
-      fetchQuery(environment, walkQuery, variables)
+      fetchQuery(environment, streetQuery, variables)
         .toPromise()
         .then(result => {
           setWalk({
@@ -203,12 +225,8 @@ function NearYouMap(
   };
 
   // get ref to MapWithTracking.js
-  const setMWTRefNearYou = ref => {
+  const setMWTRef = ref => {
     mwtRef.current = ref;
-    if (setMWTRef) {
-      // forward to parent component
-      setMWTRef(ref);
-    }
   };
 
   useEffect(() => {
@@ -278,21 +296,13 @@ function NearYouMap(
     let sortedEdges;
     if (stops.nearest?.edges) {
       if (mode === 'CITYBIKE') {
-        const withNetworks = stops.nearest.edges.filter(edge => {
-          return !!edge.node.place?.rentalNetwork?.networkId;
-        });
-        const filteredCityBikeEdges = withNetworks.filter(pattern => {
-          return getDefaultNetworks(config).includes(
-            pattern.node.place?.rentalNetwork.networkId,
-          );
-        });
-        sortedEdges = filteredCityBikeEdges
+        sortedEdges = stops.nearest.edges
           .slice()
           .sort(sortNearYouRentalStations(favouriteIds));
       } else if (isTransitMode) {
         sortedEdges = stops.nearest.edges
           .slice()
-          .sort(sortNearYouStops(favouriteIds, walkRoutingThreshold));
+          .sort(sortNearYouStops(favouriteIds, streetRoutingLimit));
       } else {
         sortedEdges = stops.nearest.edges.slice();
       }
@@ -362,7 +372,7 @@ function NearYouMap(
     bounds,
     leafletObjs,
     breakpoint,
-    setMWTRef: setMWTRefNearYou,
+    setMWTRef,
     ...rest,
   };
 
@@ -376,12 +386,7 @@ function NearYouMap(
   }
   return (
     <>
-      <BackButton
-        icon="icon_arrow-collapse--left"
-        iconClassName="arrow-icon"
-        color={config.colors.primary}
-        fallback="back"
-      />
+      <BackButton fallback="back" />
       <MapWithTracking {...mapProps} />
     </>
   );
@@ -406,14 +411,12 @@ NearYouMap.propTypes = {
   relay: relayShape.isRequired,
   loading: PropTypes.bool,
   showWalkRoute: PropTypes.bool,
-  setMWTRef: PropTypes.func,
 };
 
 NearYouMap.defaultProps = {
   stops: [],
   showWalkRoute: false,
   loading: false,
-  setMWTRef: undefined,
   prioritizedStops: [],
 };
 

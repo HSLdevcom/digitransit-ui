@@ -27,7 +27,11 @@ export function patternTextWithIcon(pattern) {
     return (
       <>
         {text.slice(0, i)}
-        <Icon className="in-text-arrow" img="icon_arrow-right-long" />
+        <Icon
+          className="in-text-arrow"
+          img="icon_arrow-right-long"
+          viewBox="0 0 17 10"
+        />
         <span className="sr-only">➔</span>
         {text.slice(i + 1)}
       </>
@@ -71,7 +75,12 @@ function PatternOption(
       >
         {patternTextWithIcon(option)}
         {isSelected && (
-          <Icon aria-hidden="true" className="check" img="icon_check" />
+          <Icon
+            aria-hidden="true"
+            className="check"
+            img="icon_check"
+            viewBox="0 0 15 11"
+          />
         )}
       </li>
     )) ||

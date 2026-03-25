@@ -36,12 +36,7 @@ export default function CardHeader(
   return (
     <Fragment>
       <div className={cx('card-header', className)}>
-        {showBackButton && (
-          <BackButton
-            icon="icon_arrow-collapse--left"
-            iconClassName="arrow-icon"
-          />
-        )}
+        {showBackButton && <BackButton />}
         <div className="card-header-content">
           {icon ? (
             <div

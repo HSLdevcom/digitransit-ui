@@ -99,6 +99,14 @@ export function setCustomizedSettings(data) {
       data.accessibilityOption,
       oldSettings.accessibilityOption,
     ),
+    bikeBoardCost: getNumberValueOrDefault(
+      data.bikeBoardCost,
+      oldSettings.bikeBoardCost,
+    ),
+    bikeReluctance: getNumberValueOrDefault(
+      data.bikeReluctance,
+      oldSettings.bikeReluctance,
+    ),
     bikeSpeed: getNumberValueOrDefault(data.bikeSpeed, oldSettings.bikeSpeed),
     modes: getValueOrDefault(data.modes, oldSettings.modes),
     ticketTypes: getValueOrDefault(data.ticketTypes, oldSettings.ticketTypes),
@@ -180,7 +188,7 @@ export function setReadMessageIds(data) {
 
 export function getReadMessageIds() {
   /* Migrate old data */
-  const oldMessages = getItemAsJson('messages', '[]');
+  const oldMessages = getItemAsJson('messages');
   if (oldMessages.length !== 0) {
     const readMessageIds = oldMessages
       .filter(message => message[1].read)
@@ -189,7 +197,13 @@ export function getReadMessageIds() {
     removeItem('messages');
   }
 
-  return getItemAsJson('readMessages', '[]');
+  return getItemAsJson('readMessages');
+}
+
+export function setReadMessageId(id) {
+  const m = getReadMessageIds();
+  m.push(id);
+  setReadMessageIds(m);
 }
 
 export function getFavouriteRoutesStorage() {

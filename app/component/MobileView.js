@@ -73,7 +73,6 @@ const MobileView = forwardRef(
       content,
       settingsDrawer,
       selectFromMapHeader,
-      mapRef,
       searchBox,
       match,
       enableBottomScroll,
@@ -93,7 +92,6 @@ const MobileView = forwardRef(
 
     const onScroll = e => {
       if (e.target.className === 'drawer-container') {
-        mapRef?.setBottomPadding(e.target.scrollTop);
         setBottomPadding(e.target.scrollTop);
       }
     };
@@ -101,15 +99,12 @@ const MobileView = forwardRef(
     const changeBottomPadding = (padding, slowly) => {
       if (slowly) {
         slowlyScrollTo(scrollRef.current, padding, () => {
-          mapRef?.forceRefresh();
-          mapRef?.setBottomPadding(padding);
           setBottomPadding(padding);
         });
       } else {
         if (scrollRef.current) {
           scrollRef.current.scrollTop = padding;
         }
-        mapRef?.setBottomPadding(padding);
         setBottomPadding(padding);
       }
     };
@@ -209,8 +204,6 @@ MobileView.propTypes = {
   settingsDrawer: PropTypes.node,
   selectFromMapHeader: PropTypes.node,
   searchBox: PropTypes.node,
-  // eslint-disable-next-line
-  mapRef: PropTypes.object,
   match: matchShape.isRequired,
   enableBottomScroll: PropTypes.bool,
 };
@@ -222,7 +215,6 @@ MobileView.defaultProps = {
   settingsDrawer: undefined,
   selectFromMapHeader: undefined,
   searchBox: undefined,
-  mapRef: undefined,
   enableBottomScroll: true,
 };
 

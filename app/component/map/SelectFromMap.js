@@ -182,6 +182,7 @@ class SelectFromMap extends React.Component {
 
     return (
       <ConfirmLocationFromMapButton
+        key="confirmButton"
         isEnabled={!!isEnabled}
         address={
           isEnabled
@@ -261,6 +262,7 @@ class SelectFromMap extends React.Component {
       leafletObjs.push(markLocation(this.props.type, positionSelectingFromMap));
       leafletObjs.push(
         <LocationMarkerWithPermanentTooltip
+          key="tooltip"
           position={positionSelectingFromMap}
           text={mapCenter.address}
         />,

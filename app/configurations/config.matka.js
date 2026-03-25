@@ -6,9 +6,7 @@ import KotkaConfig from './config.kotka';
 import KouvolaConfig from './config.kouvola';
 import KuopioConfig from './config.kuopio';
 import LahtiConfig from './config.lahti';
-import prUtils from '../util/ParkAndRideUtils';
 
-const HSLParkAndRideUtils = prUtils.HSL;
 const CONFIG = 'matka';
 const APP_DESCRIPTION =
   'Fintraffic Matka on reittiopaspalvelu, joka auttaa suunnittelemaan matkoja koko Suomessa yhdistämällä eri liikennemuodot helposti ovelta ovelle.';
@@ -73,7 +71,7 @@ export default {
     ferry: '#247C7B',
   },
   feedIds: IS_DEV
-    ? ['MATKA']
+    ? ['MATKA', 'flixbus', 'CAR_FERRIES']
     : [
         'MATKA',
         'HSL',
@@ -105,6 +103,7 @@ export default {
         'PahkakankaanLiikenne',
         'IngvesSvanback',
         'CAR_FERRIES',
+        'flixbus',
       ],
   externalFeedIds: ['02Taksi'],
 
@@ -178,6 +177,8 @@ export default {
   },
 
   suggestBikeMaxDistance: 2000000,
+
+  trafficNowLink: true,
 
   vehicleRental: {
     useAllSeasons: true,
@@ -275,6 +276,8 @@ export default {
     'ferry',
     'citybike',
     'airplane',
+    'carpark',
+    'bikepark',
   ],
   useAlternativeNameForModes: ['RAIL'],
 
@@ -285,15 +288,9 @@ export default {
   includeParkAndRideSuggestions: true,
   showBikeAndParkItineraries: true,
 
-  parkingAreaSources: ['liipi'],
-
   parkAndRide: {
     showParkAndRide: true,
     showParkAndRideForBikes: true,
-    parkAndRideMinZoom: 13,
-    pageContent: {
-      default: HSLParkAndRideUtils,
-    },
   },
 
   sourceForAlertsAndDisruptions: {
@@ -459,7 +456,7 @@ export default {
   flex: {
     internalFlexEnabled: IS_DEV,
     allowTaxiJourneys: true,
-    directOnlyTaxiJourneys: true,
+    directOnlyTaxiJourneys: false,
     internalAgencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
     externalAgencies: ['02Taksi:02_taksi'],
     infoLanguage: 'fi',

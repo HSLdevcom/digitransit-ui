@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useTranslation, I18nextProvider } from 'react-i18next';
 import { defaultColors } from '@digitransit-component/digitransit-component-icon';
+import Shimmer from '@hsl-fi/shimmer';
 import NearYouButton from './helpers/NearYouButton';
 import AllModesModal from './helpers/AllModesModal';
 import styles from './helpers/styles.scss';
@@ -106,6 +107,7 @@ function NearStopsAndRoutes({
   isMobile,
   urlPrefix,
   omitLanguageUrl,
+  loading,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -178,8 +180,6 @@ function NearStopsAndRoutes({
             {t(key, { lng: language })}
           </span>
         );
-      } else {
-        buttonProps.srMsg = t(mode, { lng: language });
       }
       if (!forModal) {
         buttonProps.withBorder = true;
@@ -209,8 +209,15 @@ function NearStopsAndRoutes({
             };
 
       const button = (
-        <div key={mode} {...clickProps} {...linkedButtonProps}>
-          <NearYouButton {...buttonProps} />
+        <div
+          aria-label={t(mode, { lng: language })}
+          key={mode}
+          {...clickProps}
+          {...linkedButtonProps}
+        >
+          <Shimmer active={loading}>
+            <NearYouButton {...buttonProps} />
+          </Shimmer>
         </div>
       );
 
@@ -269,6 +276,7 @@ function NearStopsAndRoutes({
 }
 
 NearStopsAndRoutes.propTypes = {
+  loading: PropTypes.bool,
   appElement: PropTypes.string.isRequired,
   modeArray: PropTypes.arrayOf(PropTypes.string).isRequired,
   title: PropTypes.objectOf(PropTypes.string),
@@ -296,6 +304,7 @@ NearStopsAndRoutes.propTypes = {
 };
 
 NearStopsAndRoutes.defaultProps = {
+  loading: true,
   horizontal: true,
   language: 'fi',
   origin: undefined,

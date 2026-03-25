@@ -13,7 +13,6 @@ import ToggleMapTracking from './ToggleMapTracking';
 import PositionStore from '../../store/PositionStore';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import BubbleDialog from '../BubbleDialog';
-import PreferencesStore from '../../store/PreferencesStore';
 import MapLayersDialogContent from '../MapLayersDialogContent';
 import MenuDrawer from '../MenuDrawer';
 import withBreakpoint from '../../util/withBreakpoint';
@@ -87,9 +86,7 @@ class MapWithTrackingStateHandler extends React.Component {
     // eslint-disable-next-line
     leafletEvents: PropTypes.object,
     breakpoint: PropTypes.string.isRequired,
-    lang: PropTypes.string.isRequired,
     topButtons: PropTypes.node,
-    bottomPadding: PropTypes.number,
   };
 
   static defaultProps = {
@@ -106,12 +103,11 @@ class MapWithTrackingStateHandler extends React.Component {
     onEndNavigation: undefined,
     onMapTracking: undefined,
     renderCustomButtons: undefined,
-    locationPopup: 'reversegeocoding',
+    locationPopup: undefined,
     onSelectLocation: () => null,
     leafletEvents: {},
     mapLayerOptions: null,
     topButtons: null,
-    bottomPadding: undefined,
   };
 
   constructor(props) {
@@ -154,10 +150,6 @@ class MapWithTrackingStateHandler extends React.Component {
         this.props.mapRef(element);
       }
     }
-  };
-
-  setMap = map => {
-    this.map = map;
   };
 
   enableMapTracking = () => {
@@ -241,16 +233,6 @@ class MapWithTrackingStateHandler extends React.Component {
         ...forcedLayers.stop,
       },
     };
-  };
-
-  // eslint-disable-next-line react/no-unused-class-component-methods
-  setBottomPadding = padding => {
-    if (!this.mounted) {
-      return;
-    }
-
-    this.map?.setBottomPadding(padding);
-    this.setState({ bottomPadding: padding });
   };
 
   render() {
@@ -353,7 +335,6 @@ class MapWithTrackingStateHandler extends React.Component {
           {...this.naviProps}
           {...rest}
           leafletMapRef={this.setMapElementRef}
-          mapRef={this.setMap}
           breakpoint={this.props.breakpoint}
           bottomButtons={
             <div className={btnClassName}>
@@ -368,7 +349,7 @@ class MapWithTrackingStateHandler extends React.Component {
                   tooltip={
                     config.mapLayers &&
                     config.mapLayers.tooltip &&
-                    config.mapLayers.tooltip[this.props.lang]
+                    config.mapLayers.tooltip[config.language]
                   }
                   setOpen={this.setSettingsOpen}
                 />
@@ -388,7 +369,6 @@ class MapWithTrackingStateHandler extends React.Component {
               />
             </div>
           }
-          bottomPadding={this.state.bottomPadding}
           topButtons={topButtons}
           mapLayers={mergedMapLayers}
         >
@@ -430,10 +410,9 @@ const MapWithTrackingStateHandlerapWithBreakpoint = withBreakpoint(
 
 const MapWithTracking = connectToStores(
   MapWithTrackingStateHandlerapWithBreakpoint,
-  [PositionStore, PreferencesStore],
+  [PositionStore],
   ({ getStore }) => ({
     position: getStore(PositionStore).getLocationState(),
-    lang: getStore(PreferencesStore).getLanguage(),
   }),
 );
 

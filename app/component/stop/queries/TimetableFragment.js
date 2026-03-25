@@ -11,6 +11,9 @@ export const TimetableFragment = graphql`
       pattern {
         headsign
         code
+        stops {
+          gtfsId
+        }
         route {
           id
           shortName

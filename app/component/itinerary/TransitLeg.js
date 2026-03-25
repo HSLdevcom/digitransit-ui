@@ -201,10 +201,6 @@ class TransitLeg extends React.Component {
             arrival={place.arrival}
             realTime={leg.realTime}
             stopCode={place.stop.code}
-            focusFunction={this.context.focusFunction({
-              lat: place.stop.lat,
-              lon: place.stop.lon,
-            })}
             showZoneLimits={this.context.config.zones.itinerary}
             showCurrentZoneDelimiter={previousZoneIdDiffers}
             previousZoneId={
@@ -507,6 +503,8 @@ class TransitLeg extends React.Component {
             !this.state.showIntermediateStops ||
             (leg.intermediatePlaces.length === 0 && interliningLegs.length < 1)
           }
+          viaType={leg.from.viaLocationType}
+          isStop={!!leg.from.stop}
           appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
         />
         <div
@@ -544,7 +542,7 @@ class TransitLeg extends React.Component {
                 to={stopPagePath(false, leg.from.stop.gtfsId)}
               >
                 {validatedFromLegName}
-                {leg.isViaPoint && (
+                {leg.from.viaLocationType && (
                   <Icon
                     img="icon_mapMarker"
                     className="itinerary-mapmarker-icon"
@@ -743,7 +741,6 @@ TransitLeg.defaultProps = {
 };
 
 TransitLeg.contextTypes = {
-  focusFunction: PropTypes.func.isRequired,
   config: configShape.isRequired,
   intl: intlShape.isRequired,
 };

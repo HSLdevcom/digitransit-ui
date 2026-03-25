@@ -98,7 +98,7 @@ $margin-left-right: 21.3px;
     margin-left: 24px;
 
     label {
-      color: $primary-color;
+      color: $theme-primary-color;
       font-weight: bold;
       margin-right: 10px;
     }
@@ -669,7 +669,7 @@ $margin-left-right: 21.3px;
     margin-top: 14px;
 
     .icon-container {
-      color: $primary-color;
+      color: $theme-primary-color;
       margin-right: 6px;
       margin-top: 2px;
       font-size: 11px;
@@ -707,6 +707,8 @@ $margin-left-right: 21.3px;
 
   .route-schedule-header {
     padding: 9.6px 0 2px 0;
+    margin-left: 0;
+    margin-right: 0;
 
     @media print {
       margin-left: 0;
@@ -715,13 +717,18 @@ $margin-left-right: 21.3px;
   }
 }
 
+.route-schedule-container .no-trips-message {
+  margin-top: 16px;
+  text-align: center;
+}
+
 .route-schedule-list {
   padding-bottom: 0.7em;
   flex: 1;
   overflow: hidden;
 
   @media print {
-    .row {
+    .trip-column {
       margin-left: 0;
     }
   }
@@ -812,8 +819,9 @@ $margin-left-right: 21.3px;
 
 .route-schedule-dropdowns {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
+  flex-direction: row;
+  gap: var(--space-m);
 
   @media print {
     display: none;
@@ -847,13 +855,26 @@ $margin-left-right: 21.3px;
   }
 }
 
-.route-schedule-ranges {
+.route-schedule-grouped-date-select {
   display: flex;
   justify-content: space-between;
-  min-height: 24px;
-  margin-bottom: 13px;
-  margin-top: 25px;
+  flex: 0 0 auto;
+  min-height: $route-schedule-date-height;
+  margin-top: var(--space-s);
   flex-wrap: wrap;
+
+  .route-schedule-grouped-date-select-heading {
+    width: 100%;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-small;
+    line-height: $line-height-normal;
+    letter-spacing: $letter-spacing;
+    margin: 0 0 var(--space-xs) 0;
+  }
+
+  .date-select-wrapper {
+    width: 100%;
+  }
 
   .current-range {
     flex: 1;
@@ -900,7 +921,7 @@ $margin-left-right: 21.3px;
     right: 0;
     height: 10px;
     width: 10px;
-    fill: $primary-color;
+    fill: $theme-primary-color;
     pointer-events: none;
   }
 
@@ -1054,7 +1075,7 @@ $margin-left-right: 21.3px;
     margin-right: 7px;
     width: 15px;
     height: 15px;
-    color: $primary-color;
+    color: $theme-primary-color;
   }
 
   select {
@@ -1062,7 +1083,7 @@ $margin-left-right: 21.3px;
     line-height: 18px;
     height: 19px;
     background-color: $white;
-    color: $primary-color;
+    color: $theme-primary-color;
     border-bottom: none !important;
     font-weight: $font-weight-medium;
     padding: 0;
@@ -1118,19 +1139,20 @@ $margin-left-right: 21.3px;
 // Tabs
 .route-tabs {
   height: 2.5em;
-  min-height: 2.5em;
+  min-height: 44px;
   display: flex;
   background-color: $light-gray;
   border: 2px solid $light-gray;
-  border-radius: 8px;
-  margin: 0;
+  border-radius: var(--radius-radius-pill, 999px);
+  margin: var(--space-s) 0 0 0;
+  padding: var(--space-xxs);
 
   button {
     width: calc(100% / var(--totalCount));
     font-size: $font-size-small;
     text-align: center;
     letter-spacing: -0.42px;
-    border-radius: 6px;
+    border-radius: var(--radius-radius-pill, 999px);
     color: #333;
     font-weight: normal;
 
@@ -1206,14 +1228,22 @@ $margin-left-right: 21.3px;
 }
 
 .route-pattern-select {
-  margin: 1px 0 18px 0;
+  margin: 0 0 1px 0;
+
+  .route-pattern-select-title {
+    font-weight: $font-weight-medium;
+    font-size: $font-size-small;
+    line-height: $line-height-normal;
+    letter-spacing: $letter-spacing;
+    margin: var(--space-s) 0 var(--space-xs) 0;
+  }
 
   .route-pattern-toggle {
     border: 1px solid #888;
     width: 100%;
     min-height: 44px;
     background: $white;
-    border-radius: 5px;
+    border-radius: var(--space-xs);
     display: block;
     font-size: 15px;
     line-height: 18px;
@@ -1224,16 +1254,18 @@ $margin-left-right: 21.3px;
 
     &:focus {
       outline: none;
-      border-color: $primary-color;
+      border-color: $theme-primary-color;
       background: #fff;
-      border: solid 1px $primary-color;
-      box-shadow: 0 0 2px 1px $secondary-color;
+      border: solid 1px $theme-primary-color;
+      box-shadow: 0 0 2px 1px $theme-secondary-color;
     }
 
     .toggle-icon {
       color: $link-button-color;
       position: absolute;
       right: 16px;
+      width: 16px;
+      height: auto;
       transform: rotate(90deg);
     }
   }
@@ -1243,6 +1275,7 @@ $margin-left-right: 21.3px;
     right: 1rem;
     top: 15px;
     width: 16px;
+    height: auto;
     pointer-events: none;
 
     @media print {
@@ -1252,15 +1285,17 @@ $margin-left-right: 21.3px;
 
   .dropdown-arrow,
   .in-text-arrow {
-    color: $primary-color;
+    color: $theme-primary-color;
   }
 
   .in-text-arrow {
-    position: relative;
+    position: inherit;
     float: none;
     top: 3px;
     right: 0;
-    width: 24px;
+    width: 16px;
+    height: auto;
+    margin: 0 var(--space-xxs);
   }
 
   .pattern-select-container {
@@ -1268,15 +1303,15 @@ $margin-left-right: 21.3px;
     min-height: 44px;
     background: white;
     border: 1px solid #888;
-    border-radius: 4px;
+    border-radius: var(--space-xs);
     position: relative;
 
     &:focus-within {
       outline: none;
-      border-color: $primary-color;
+      border-color: $theme-primary-color;
       background: #fff;
-      border: solid 1px $primary-color;
-      box-shadow: 0 0 2px 1px $secondary-color;
+      border: solid 1px $theme-primary-color;
+      box-shadow: 0 0 3px 0 $theme-secondary-color;
     }
 
     .input-display {

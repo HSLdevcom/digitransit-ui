@@ -72,14 +72,10 @@ function withGeojsonObjects(Component) {
     getGeoJsonConfig: PropTypes.func.isRequired,
     getGeoJsonData: PropTypes.func.isRequired,
     leafletObjs: PropTypes.arrayOf(PropTypes.node),
-    locationPopup: PropTypes.string,
-    onSelectLocation: PropTypes.func,
   };
 
   GeojsonWrapper.defaultProps = {
     leafletObjs: [],
-    locationPopup: undefined,
-    onSelectLocation: undefined,
   };
 
   GeojsonWrapper.contextTypes = {

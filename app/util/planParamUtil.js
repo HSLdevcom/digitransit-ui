@@ -38,7 +38,7 @@ const SHORT_TRIP_METERS = 2000;
 export function findNearestOption(value, options) {
   let currNearest = options[0];
   let diff = Math.abs(value - currNearest);
-  for (let i = 0; i < options.length; i++) {
+  for (let i = 1; i < options.length; i++) {
     const newdiff = Math.abs(value - options[i]);
     if (newdiff < diff) {
       diff = newdiff;
@@ -80,6 +80,9 @@ export function hasCustomizedSettings(config) {
   }
 
   return Object.keys(customizedSettings).some(key => {
+    if (key === 'personalisation') {
+      return false;
+    }
     if (key === 'allowedBikeRentalNetworks') {
       return customizedSettings.allowedBikeRentalNetworks.some(network =>
         networkIsActive(config.vehicleRental.networks[network]),
@@ -336,11 +339,33 @@ export function getPlanParams(
   const intermediateLocations = getIntermediatePlaces({
     intermediatePlaces,
   });
-  const via = intermediateLocations.map(loc => ({
-    passThrough: {
-      stopLocationIds: [loc.gtfsId],
-    },
-  }));
+  let via = intermediateLocations
+    .map(loc => {
+      if (loc.gtfsId) {
+        return {
+          visit: {
+            stopLocationIds: [loc.gtfsId],
+            coordinate: {
+              latitude: loc.lat,
+              longitude: loc.lon,
+            },
+          },
+        };
+      }
+      if (loc.lat && loc.lon) {
+        return {
+          visit: {
+            coordinate: {
+              latitude: loc.lat,
+              longitude: loc.lon,
+            },
+          },
+        };
+      }
+      return null;
+    })
+    .filter(Boolean);
+
   const distance = estimateItineraryDistance(
     fromLocation,
     toLocation,
@@ -417,17 +442,21 @@ export function getPlanParams(
       transitOnly = false;
       numItineraries = 6;
       carReluctance = 1.75;
-      // This is done to enable more cache hits. New cache entries are generated for different speeds otherwise.
-      settings.walkSpeed = null;
-      settings.bikeSpeed = null;
-      settings.walkReluctance = null;
-      settings.bikeReluctance = null;
       // As of writing this comment, iterating (paging) does not support filtering of bad car transit itineraries.
       maxQueryIterations = 1;
+      // Via routing for cars is too performance intensive.
+      via = null;
       break;
     case PLANTYPE.PARKANDRIDE:
       access = ['CAR_PARKING'];
       transitOnly = true;
+      // Via routing for cars is too performance intensive.
+      via = null;
+      break;
+    case PLANTYPE.CAR:
+      direct = ['CAR'];
+      // Via routing for cars is too performance intensive.
+      via = null;
       break;
     case PLANTYPE.TRANSIT:
       direct = access;
@@ -443,6 +472,7 @@ export function getPlanParams(
       direct = directFlexOnly ? ['WALK', 'FLEX'] : null;
       transitOnly = false;
       filters = excludeAgencies(config.flex?.internalAgencies);
+      via = null;
       break;
     case PLANTYPE.FLEXTRANSIT_INTERNAL:
       access = [...access, 'FLEX'];

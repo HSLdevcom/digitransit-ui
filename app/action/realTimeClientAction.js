@@ -19,9 +19,6 @@ export function stopRealTimeClient(actionContext, client, done) {
 }
 
 export function changeRealTimeClientTopics(actionContext, settings, done) {
-  // remove existing vehicles/topics
-  actionContext.dispatch('RealTimeClientReset');
-
   changeTopics(settings, actionContext);
   done();
 }

@@ -69,19 +69,19 @@ const getParams = query => {
 };
 
 async function init() {
+  const { language } = config;
+
   // Guard againist Samsung et.al. which are not properly polyfilled by polyfill-service
   if (typeof window.Intl === 'undefined') {
     const modules = [
       import(/* webpackChunkName: "intl",  webpackMode: "lazy" */ 'intl'),
     ];
 
-    config.availableLanguages.forEach(language => {
-      modules.push(
-        import(
-          /* webpackChunkName: "intl",  webpackMode: "lazy-once" */ `intl/locale-data/jsonp/${language}`
-        ),
-      );
-    });
+    modules.push(
+      import(
+        /* webpackChunkName: "intl",  webpackMode: "lazy-once" */ `intl/locale-data/jsonp/${language}`
+      ),
+    );
     await Promise.all(modules);
   }
 
@@ -119,11 +119,6 @@ async function init() {
   const queryParameters = config.hasAPISubscriptionQueryParameter
     ? `?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
     : '';
-
-  const language = context
-    .getComponentContext()
-    .getStore('PreferencesStore')
-    .getLanguage();
 
   i18n.changeLanguage(language);
 
@@ -216,7 +211,6 @@ async function init() {
   }
 
   const ContextProvider = provideContext(StoreListeningIntlProvider, {
-    /* eslint-disable-next-line */
     config: configShape,
     headers: PropTypes.objectOf(PropTypes.string),
   });
@@ -234,7 +228,7 @@ async function init() {
                 <React.Fragment>
                   <Helmet
                     {...meta(
-                      context.getStore('PreferencesStore').getLanguage(),
+                      language,
                       window.location.host,
                       window.location.href,
                       config,

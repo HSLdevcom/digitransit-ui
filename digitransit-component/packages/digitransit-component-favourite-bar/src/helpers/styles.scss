@@ -10,13 +10,13 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
 $favourite-highlight-background-color: #f2f5f7;
 
 .button-shared {
-  background-color: #fff;
+  background-color: white;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #ddd;
   cursor: pointer;
 
   &:hover {

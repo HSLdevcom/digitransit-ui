@@ -1,9 +1,83 @@
 import PropTypes from 'prop-types';
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React from 'react';
 import { DateTime, Settings } from 'luxon';
-import Autosuggest from 'react-autosuggest';
+import { useSelect } from 'downshift';
+import cx from 'classnames';
 import styles from './styles.scss';
 import { isAndroid } from './mobileDetection';
+
+const AndroidSelect = ({
+  value,
+  dateChoices,
+  id,
+  getDisplay,
+  onChange,
+  labelId,
+  inputId,
+}) => {
+  const items = dateChoices.map(date => ({
+    value: date,
+    label: getDisplay(date),
+  }));
+  const selectedItem =
+    items.find(option => option.value === value) || items[0] || null;
+  const {
+    isOpen,
+    getToggleButtonProps,
+    getMenuProps,
+    getItemProps,
+    highlightedIndex,
+  } = useSelect({
+    selectedItem,
+    items,
+    itemToString: item => item?.label ?? '',
+    onSelectedItemChange: ({ selectedItem: nextSelectedItem }) => {
+      if (nextSelectedItem) {
+        onChange(nextSelectedItem.value);
+      }
+    },
+    id,
+  });
+
+  return (
+    <div className={styles.container}>
+      <div
+        {...getToggleButtonProps({ 'aria-labelledby': labelId, id: inputId })}
+      >
+        <div className={styles.input}>{selectedItem.label}</div>
+      </div>
+      <div
+        className={cx([styles.suggestionsContainerOpen, !isOpen && 'hidden'])}
+      >
+        <ul {...getMenuProps()}>
+          {isOpen &&
+            items.map((option, index) => (
+              <li
+                key={option.value}
+                className={cx([
+                  styles.suggestion,
+                  index === highlightedIndex && styles.suggestionHighlighted,
+                ])}
+                {...getItemProps({ index })}
+              >
+                <span>{option.label}</span>
+              </li>
+            ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+AndroidSelect.propTypes = {
+  value: PropTypes.number.isRequired,
+  dateChoices: PropTypes.arrayOf(PropTypes.number).isRequired,
+  id: PropTypes.string.isRequired,
+  getDisplay: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  labelId: PropTypes.string.isRequired,
+  inputId: PropTypes.string.isRequired,
+};
 
 /**
  * Component to display a date input on mobile
@@ -20,24 +94,13 @@ function MobileDatepicker({
   timeZone,
 }) {
   Settings.defaultZone = timeZone;
-  const [open, changeOpen] = useState(false);
-  const scrollRef = useRef(null);
   const dateChoices = Array(itemCount)
     .fill()
     .map((_, i) => DateTime.fromMillis(startTime).plus({ days: i }).toMillis());
-  const minute = 1000 * 60;
-  const diffs = dateChoices.map(t => value - t);
-  const scrollIndex = diffs.findIndex(t => t < minute); // when time is now, the times might differ by less than one minute
-  const elementHeight = 50;
-  // scroll to selected time when dropdown is opened
-  useLayoutEffect(() => {
-    if (open && scrollRef.current) {
-      scrollRef.current.scrollTop = elementHeight * scrollIndex;
-    }
-  }, [value, open]);
   const nativeInput = !isAndroid();
-  const inputId = `${id}-input`;
   const labelId = `${id}-label`;
+  const inputId = `${id}-input`;
+
   return (
     <label className={styles['input-container']} htmlFor={inputId}>
       <span>{icon}</span>
@@ -46,6 +109,7 @@ function MobileDatepicker({
       </span>
       {nativeInput ? (
         <select
+          id={inputId}
           className={styles['mobile-input-display']}
           onChange={e => onChange(Number(e.target.value))}
           value={value}
@@ -59,46 +123,16 @@ function MobileDatepicker({
           })}
         </select>
       ) : (
-        <Autosuggest
-          id={id}
-          suggestions={dateChoices}
-          getSuggestionValue={s => s.toString()}
-          renderSuggestion={s => getDisplay(s)}
-          onSuggestionsFetchRequested={() => null}
-          shouldRenderSuggestions={() => true}
-          inputProps={{
-            value: getDisplay(value),
-            onChange: (_, { newValue }) => {
-              onChange(Number(newValue));
-            },
-            onFocus: () => {
-              changeOpen(true);
-            },
-            onBlur: () => {
-              changeOpen(false);
-            },
-            'aria-labelledby': labelId,
-            'aria-autocomplete': 'none',
-            readOnly: true,
+        <AndroidSelect
+          {...{
+            value,
+            dateChoices,
+            id,
+            getDisplay,
+            onChange,
+            labelId,
+            inputId,
           }}
-          focusInputOnSuggestionClick={false}
-          onSuggestionsClearRequested={() => null}
-          renderSuggestionsContainer={({ containerProps, children }) => {
-            // set refs for autosuggest library and scrollbar positioning
-            const { ref, ...otherRefs } = containerProps;
-            const containerRef = elem => {
-              if (elem) {
-                scrollRef.current = elem;
-                ref(elem);
-              }
-            };
-            return (
-              <div tabIndex="-1" {...otherRefs} ref={containerRef}>
-                {children}
-              </div>
-            );
-          }}
-          theme={styles}
         />
       )}
     </label>
@@ -113,13 +147,11 @@ MobileDatepicker.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   icon: PropTypes.node,
-  dateTimeCombined: PropTypes.bool,
   timeZone: PropTypes.string,
 };
 
 MobileDatepicker.defaultProps = {
   icon: null,
-  dateTimeCombined: false,
   timeZone: 'Europe/Helsinki',
 };
 

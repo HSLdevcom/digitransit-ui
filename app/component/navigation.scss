@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 @function navbar-icon-color($color) {
   @if $nav-content-color {
     // if defined in theme, return nav-content-color
@@ -5,12 +7,12 @@
   }
 
   $background-color-brightness: (red($color) * 299) + (green($color) * 587) +
-    (blue($color) * 114) / 1000;
+    math.div(blue($color) * 114, 1000);
   $light-color-lightness: round(
-    (red(#fff) * 299) + (green(#fff) * 587) + (blue(#fff) * 114) / 1000
+    (red(#fff) * 299) + (green(#fff) * 587) + math.div(blue(#fff) * 114, 1000)
   );
 
-  @if abs($background-color-brightness) < ($light-color-lightness / 3) {
+  @if abs($background-color-brightness) < math.div($light-color-lightness, 3) {
     @return #ffffff;
   } @else {
     @return #333333;
@@ -30,7 +32,7 @@ $top-navigation-title-color: navbar-icon-color($top-bar-color);
 
 /* offcanvas */
 $offcanvas-profile-icon-size: 60px;
-$offcanvas-profile-icon-color: $primary-color;
+$offcanvas-profile-icon-color: $theme-primary-color;
 $offcanvas-lead-text-color: $gray;
 $offcanvas-lead-text-font-family: $font-family;
 $offcanvas-lead-text-font-weight: $font-weight-book;
@@ -41,7 +43,7 @@ $offcanvas-login-text-font-weight: $font-weight-book;
 $offcanvas-login-text-letter-spacing: $letter-spacing;
 $offcanvas-login-text-font-size: $font-size-small;
 $offcanvas-login-arrow-icon-size: 14px;
-$offcanvas-link-color: $primary-color;
+$offcanvas-link-color: $theme-primary-color;
 $offcanvas-link-text-font-size: 15px;
 
 /* Content */
@@ -137,7 +139,7 @@ $content-background-color: $background-color;
   .lang {
     text-decoration: none;
     line-height: normal;
-    color: $primary-color;
+    color: $theme-primary-color;
 
     @include font-medium;
 
@@ -234,7 +236,7 @@ $content-background-color: $background-color;
   opacity: 0;
   position: absolute;
   min-width: 200px;
-  background-color: $primary-color;
+  background-color: $theme-primary-color;
   transition: opacity 0.1s linear;
 
   &.open {
@@ -290,14 +292,14 @@ $content-background-color: $background-color;
   }
 
   .usermenu-list-item:hover {
-    background: darken($primary-color, 5%);
+    background: darken($theme-primary-color, 5%);
   }
 }
 
 .navi-icons {
   .icon {
     font-size: 1.8em;
-    color: $primary-color;
+    color: $theme-primary-color;
     fill: $top-navigation-icon-color;
 
     &.caution-topbar {
@@ -320,6 +322,8 @@ $content-background-color: $background-color;
 }
 
 .back-button {
+  display: flex;
+
   button {
     font-size: 15px;
     position: absolute;
@@ -609,46 +613,28 @@ section.content {
     .desktop-title {
       background: #fff;
 
-      &-bordered {
-        &::after {
-          content: '';
-          display: block;
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          height: 1px;
-          background-color: $light-gray;
-        }
-      }
-
       a {
         color: $desktop-title-arrow-icon-color;
       }
 
-      .title-container {
-        @include font-medium;
+      @include font-medium;
 
-        color: #333;
-        margin: 50px 0 16px 0;
-        line-height: 1;
+      color: #333;
+      margin: 50px 0 16px 0;
 
-        .back-button {
-          position: static;
+      .back-button {
+        position: static;
 
-          button {
-            left: 0.5em;
-            top: auto;
-          }
+        button {
+          left: 0.5em;
+          top: auto;
         }
       }
 
       h1 {
-        @include font-medium;
-
         font-family: $heading-font-family;
-        color: #333;
-        display: inline;
+        line-height: 1em;
+        letter-spacing: -0.025em;
       }
 
       .home-icon {
@@ -762,7 +748,7 @@ section.content {
 }
 
 .mobile-footer .cookie-settings-button-mobile {
-  color: $primary-color;
+  color: $theme-primary-color;
   letter-spacing: -0.3px;
 }
 
@@ -835,7 +821,7 @@ section.content {
 
           .message-bar-link {
             word-break: normal;
-            color: $primary-color;
+            color: $theme-primary-color;
           }
         }
       }
@@ -862,7 +848,7 @@ section.content {
 
           .message-bar-link {
             word-break: normal;
-            color: $primary-color;
+            color: $theme-primary-color;
           }
         }
       }
@@ -992,7 +978,7 @@ section.content {
 
 .message-bar .icon.message-icon {
   float: left;
-  fill: $primary-color;
+  fill: $theme-primary-color;
   height: 24px;
   width: 24px;
   margin: 18px;
@@ -1007,7 +993,7 @@ section.content {
 
 .external-top-bar {
   .external-link-icon-outer {
-    color: $primary-color;
+    color: $theme-primary-color;
   }
 
   .external-link-icon {
@@ -1038,5 +1024,25 @@ section.content {
     color: $white;
     font-size: $font-size-xxsmall;
     text-decoration: none;
+  }
+
+  .arrow {
+    vertical-align: middle;
+    color: $link-color;
+  }
+
+  &:hover .arrow {
+    transform: translateX(4px);
+    transition: transform 0.1s;
+  }
+
+  .icon-container {
+    padding-left: 2px;
+
+    .icon {
+      width: 0.6em;
+      height: 0.6em;
+      padding-bottom: 2px;
+    }
   }
 }

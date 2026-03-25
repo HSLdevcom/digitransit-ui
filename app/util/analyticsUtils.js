@@ -69,13 +69,13 @@ export function getAnalyticsInitCode(config, req) {
       let id;
       switch (lang) {
         case 'sv':
-          id = '904fe02f-fde8-41b7-933b-ea215cdd5a00';
+          id = 'dd11434b-5a93-4daa-905e-3198ac502d1e';
           break;
         case 'en':
-          id = '254eb853-fa71-4b3c-8313-9eeca10129b6';
+          id = 'd2ffe981-45a8-43b9-aa1b-68e100aa1c12';
           break;
         default:
-          id = '8cb293bb-6785-481a-81c3-7f4e6f04a536';
+          id = '470215ef-c02e-4123-a9de-2792c0fcaf97';
           break;
       }
       const ce1 =

@@ -14,6 +14,8 @@ export const planConnection = graphql`
     $wheelchair: Boolean
     $transferPenalty: Cost
     $bikeSpeed: Speed
+    $bikeReluctance: Reluctance
+    $bikeBoardCost: Cost
     $allowedRentalNetworks: [String!]
     $after: String
     $first: Int
@@ -39,6 +41,8 @@ export const planConnection = graphql`
         street: {
           bicycle: {
             speed: $bikeSpeed
+            reluctance: $bikeReluctance
+            boardCost: $bikeBoardCost
             rental: { allowedNetworks: $allowedRentalNetworks }
           }
           scooter: { rental: { allowedNetworks: $allowedRentalNetworks } }
@@ -129,6 +133,39 @@ export const planConnection = graphql`
                   publicCode
                   wheelchairAccessible
                 }
+                ... on ElevatorUse {
+                  from {
+                    level
+                    name
+                  }
+                  verticalDirection
+                  to {
+                    level
+                    name
+                  }
+                }
+                ... on EscalatorUse {
+                  from {
+                    level
+                    name
+                  }
+                  verticalDirection
+                  to {
+                    level
+                    name
+                  }
+                }
+                ... on StairsUse {
+                  from {
+                    level
+                    name
+                  }
+                  verticalDirection
+                  to {
+                    level
+                    name
+                  }
+                }
               }
               lat
               lon
@@ -149,6 +186,8 @@ export const planConnection = graphql`
               gtfsId
               directionId
               tripHeadsign
+              isReplacement
+              tripShortName
               stoptimesForDate {
                 stop {
                   gtfsId
@@ -203,6 +242,7 @@ export const planConnection = graphql`
                   networkId
                 }
               }
+              viaLocationType
             }
             to {
               lat
@@ -245,6 +285,7 @@ export const planConnection = graphql`
                   url
                 }
               }
+              viaLocationType
             }
             fareProducts {
               product {

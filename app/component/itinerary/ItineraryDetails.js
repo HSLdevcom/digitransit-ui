@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { useFragment } from 'react-relay';
-import { getRouteMode } from '../../util/modeUtils';
+import { getTripOrRouteMode } from '../../util/modeUtils';
 import {
   getFaresFromLegs,
   shouldShowFareInfo,
@@ -124,6 +124,7 @@ function ItineraryDetails(
   );
   const legsWithScooter = compressedLegs.some(leg => leg.mode === 'SCOOTER');
   const legsWithAirplane = compressedLegs.some(leg => leg.mode === 'AIRPLANE');
+  const legsWithViaPoint = compressedLegs.some(leg => leg.from.viaLocationType);
   const onlyWalking = compressedLegs.every(leg => leg.mode === 'WALK');
   const onlyBiking = compressedLegs.every(leg => leg.mode === 'BICYCLE');
   const showStartNavi =
@@ -233,7 +234,7 @@ function ItineraryDetails(
     itinerary.legs.forEach(({ route, trip }) => {
       const isReplacementRoute =
         route &&
-        (getRouteMode(route, config)?.includes('replacement') ||
+        (getTripOrRouteMode(trip, route, config)?.includes('replacement') ||
           config.replacementBusRoutes?.includes(route.gtfsId));
       const isReplacementTrip =
         trip?.submode?.includes('replacement') || trip?.submode?.includes(714);
@@ -293,19 +294,15 @@ function ItineraryDetails(
         {breakpoint => [
           breakpoint === 'large' && !hideTitle && (
             <div className="desktop-title" key="header">
-              <div className="title-container h2">
-                <BackButton
-                  title={
-                    <FormattedMessage
-                      id="itinerary-page.title"
-                      defaultMessage="Itinerary suggestions"
-                    />
-                  }
-                  icon="icon_arrow-collapse--left"
-                  iconClassName="arrow-icon"
-                  fallback="pop"
-                />
-              </div>
+              <BackButton
+                title={
+                  <FormattedMessage
+                    id="itinerary-page.title"
+                    defaultMessage="Itinerary suggestions"
+                  />
+                }
+                fallback="pop"
+              />
             </div>
           ),
           <ItinerarySummary
@@ -383,15 +380,19 @@ function ItineraryDetails(
                 relayEnvironment={relayEnvironment}
               />
             </div>
-            {config.showCO2InItinerarySummary && !legsWithScooter && (
-              <Emissions
-                key="emissionsinfo"
-                config={config}
-                itinerary={itinerary}
-                carEmissions={carEmissions}
-                emissionsInfolink={config.URL.EMISSIONS_INFO?.[currentLanguage]}
-              />
-            )}
+            {config.showCO2InItinerarySummary &&
+              !legsWithScooter &&
+              !legsWithViaPoint && (
+                <Emissions
+                  key="emissionsinfo"
+                  config={config}
+                  itinerary={itinerary}
+                  carEmissions={carEmissions}
+                  emissionsInfolink={
+                    config.URL.EMISSIONS_INFO?.[currentLanguage]
+                  }
+                />
+              )}
             {shouldShowDisclaimer && (
               <div className="itinerary-disclaimer" key="disclaimer">
                 <FormattedMessage

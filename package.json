@@ -5,7 +5,7 @@
   "author": "digitransit@hsl.fi",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "private": true,
-  "packageManager": "yarn@3.4.1",
+  "packageManager": "yarn@4.13.0",
   "workspaces": [
     "digitransit-util/packages/*",
     "digitransit-search-util/packages/*",
@@ -137,12 +137,12 @@
     "@hsl-fi/container-spinner": "0.3.2",
     "@hsl-fi/hooks": "1.2.4",
     "@hsl-fi/modal": " ^0.3.2",
-    "@hsl-fi/sass": " ^0.2.0",
+    "@hsl-fi/sass": " 1.0.0",
     "@hsl-fi/shimmer": "0.1.2",
     "@hsl-fi/site-header": "4.5.2",
     "@mapbox/sphericalmercator": "1.1.0",
     "@mapbox/vector-tile": "1.3.1",
-    "axios": "1.12.0",
+    "axios": "1.13.5",
     "babel-plugin-dynamic-import-node": "2.3.3",
     "babel-plugin-relay": "16.2.0",
     "body-parser": "1.20.3",
@@ -150,7 +150,7 @@
     "connect-redis": "5.0.0",
     "cookie-parser": "1.4.7",
     "debug": "4.3.4",
-    "downshift": "^9.0.10",
+    "downshift": "9.0.10",
     "express": "4.21.2",
     "express-http-proxy": "1.6.3",
     "express-session": "1.18.1",
@@ -161,7 +161,7 @@
     "fluxible-addons-react": "0.2.17",
     "found": "0.5.9",
     "found-relay": "1.0.2",
-    "foundation-apps": "1.2.0",
+    "foundation-sites": "6.9.0",
     "helmet": "4.1.0",
     "hoist-non-react-statics": "2.5.5",
     "i18next": "22.5.1",
@@ -182,8 +182,6 @@
     "polyline-encoded": "0.0.9",
     "prop-types": "15.8.1",
     "react": "^16.13.0",
-    "react-autosuggest": "^10.0.0",
-    "react-autowhatever": "10.2.1",
     "react-click-outside": "3.0.1",
     "react-dom": "16.13.0",
     "react-helmet": "6.1.0",
@@ -202,8 +200,7 @@
     "suncalc": "1.8.0",
     "supercluster": "^7.1.5",
     "universal-cookie": "7.2.2",
-    "uuid": "8.3.2",
-    "zurb-foundation-5": "5.4.7"
+    "uuid": "8.3.2"
   },
   "peerDependencies": {
     "@octokit/core": ">=3",
@@ -277,7 +274,7 @@
     "mocha": "11.2.2",
     "mock-local-storage": "1.1.24",
     "mockdate": "3.0.5",
-    "node-sass": "^9.0.0",
+    "node-gyp": "12.1.0",
     "nodemon": "1.18.10",
     "optimize-css-assets-webpack-plugin": "5.0.8",
     "playwright": "1.16.2",
@@ -292,6 +289,7 @@
     "rollup-plugin-peer-deps-external": "2.2.4",
     "rollup-plugin-postcss": "4.0.2",
     "rollup-plugin-terser": "7.0.2",
+    "sass": "^1.97.2",
     "sass-loader": "^10.5.2",
     "selenium-webdriver": "4.0.0-alpha.1",
     "sinon": "19.0.5",
@@ -309,6 +307,7 @@
   },
   "resolutions": {
     "html-webpack-plugin": "4.5.2",
-    "sharp": "0.33"
+    "sharp": "0.33",
+    "cheerio": "1.0.0-rc.10"
   }
 }

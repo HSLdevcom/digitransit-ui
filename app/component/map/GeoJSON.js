@@ -1,10 +1,9 @@
 import L from 'leaflet';
 import PropTypes from 'prop-types';
-import React from 'react';
-import uniqBy from 'lodash/uniqBy';
+import React, { useRef } from 'react';
 import { default as Geojson } from 'react-leaflet/es/GeoJSON';
 import PointFeatureMarker from './PointFeatureMarker';
-import { configShape, geoJsonFeatureShape } from '../../util/shapes';
+import { geoJsonFeatureShape, configShape } from '../../util/shapes';
 import {
   isMultiPointTypeGeometry,
   isPointTypeGeometry,
@@ -22,7 +21,7 @@ const getIcons = features => {
 
   return features
     .filter(
-      feature => feature.properties?.icon?.id && feature.properties?.icon?.svg,
+      feature => feature.properties?.icon?.id && feature.properties.icon.svg,
     )
     .map(feature => feature.properties.icon)
     .reduce((icons, icon) => {
@@ -86,48 +85,44 @@ const addPopup = (feature, layer) => {
   }
 };
 
-class GeoJSON extends React.Component {
-  static propTypes = {
-    // eslint-disable-next-line
-    bounds: PropTypes.object,
-    data: PropTypes.shape({
-      features: PropTypes.arrayOf(geoJsonFeatureShape),
-    }).isRequired,
-    geoJsonZoomLevel: PropTypes.number,
-    locationPopup: PropTypes.string,
-    onSelectLocation: PropTypes.func,
-  };
+const lineArray = [
+  0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.55, 0.61, 0.69, 0.78, 0.89, 1.02, 1.17, 1.36,
+  1.58, 1.85, 2.17, 2.56, 3.02, 3.57, 4.24, 5.04, 6,
+];
 
-  static defaultProps = {
-    bounds: undefined,
-    geoJsonZoomLevel: undefined,
-    locationPopup: undefined,
-    onSelectLocation: undefined,
-  };
+const haloArray = [
+  2, 2, 2, 2, 2, 2, 2.74, 3.62, 4.68, 5.95, 7.48, 9.31, 11.51, 14.05, 17.31,
+  21.11, 25.67, 31.14, 37.71, 45.59, 55.04, 66.39, 80,
+];
 
-  static contextTypes = { config: configShape.isRequired };
+function GeoJSON({ bounds, data, geoJsonZoomLevel, ...rest }, { config }) {
+  const { colors, geoJsonSvgSize, language } = config;
+  // cache dynamic icons to allow references by id without data duplication
+  const icons = useRef(getIcons(data?.features));
 
   // add some custom rendering control by feature props
-  pointToLayer = (feature, latlng) => getMarker(feature, latlng, this.icons);
+  const pointToLayer = (feature, latlng) =>
+    getMarker(feature, latlng, icons.current);
 
-  styler = feature => {
-    const { config } = this.context;
+  const styler = feature => {
     const defaultLineStyle = {
       className: 'cursor-grab',
-      color: config.colors.primary,
+      color: colors.primary,
       weight: 3,
       opacity: 0.8,
     };
+
     const defaultMarkerStyle = {
-      color: config.colors.primary,
+      color: colors.primary,
       fillColor: 'white',
       radius: 6,
       opacity: 1,
       fillOpacity: 1,
       weight: 2,
     };
+
     const textMarkerStyle = {
-      color: config.colors.primary,
+      color: colors.primary,
       radius: 0,
       opacity: 0,
       fillOpacity: 0,
@@ -147,21 +142,10 @@ class GeoJSON extends React.Component {
     }
 
     if (
-      this.props.geoJsonZoomLevel &&
       feature.style &&
       (geometry.type === 'MultiLineString' || geometry.type === 'LineString')
     ) {
-      const lineArray = [
-        0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.55, 0.61, 0.69, 0.78, 0.89, 1.02, 1.17,
-        1.36, 1.58, 1.85, 2.17, 2.56, 3.02, 3.57, 4.24, 5.04, 6,
-      ];
-      const haloArray = [
-        2, 2, 2, 2, 2, 2, 2.74, 3.62, 4.68, 5.95, 7.48, 9.31, 11.51, 14.05,
-        17.31, 21.11, 25.67, 31.14, 37.71, 45.59, 55.04, 66.39, 80,
-      ];
-
-      const index =
-        this.props.geoJsonZoomLevel !== -1 ? this.props.geoJsonZoomLevel : 0;
+      const index = geoJsonZoomLevel;
       const newStyle = {
         ...feature.style,
         weight:
@@ -175,61 +159,57 @@ class GeoJSON extends React.Component {
       : defaultLineStyle;
   };
 
-  // cache dynamic icons to allow references by id without data duplication
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillMount() {
-    const {
-      data: { features },
-    } = this.props;
-    this.icons = getIcons(features);
+  if (!icons.current || !data?.features) {
+    return null;
   }
 
-  render() {
-    const { bounds, data } = this.props;
-    if (!data || !Array.isArray(data.features)) {
-      return null;
-    }
-
-    const hasOnlyPointGeometries = data.features.every(feature =>
-      isPointTypeGeometry(feature.geometry),
-    );
-    if (!hasOnlyPointGeometries) {
-      return (
-        <Geojson
-          data={data}
-          pointToLayer={this.pointToLayer}
-          style={this.styler}
-          onEachFeature={addPopup}
-        />
-      );
-    }
-
+  const hasOnlyPointGeometries = data.features.every(feature =>
+    isPointTypeGeometry(feature.geometry),
+  );
+  if (!hasOnlyPointGeometries) {
     return (
-      <React.Fragment>
-        {uniqBy(data.features, 'id')
-          .filter(feature => {
-            const [lon, lat] = feature.geometry.coordinates;
-            if (bounds) {
-              const latLng = L.latLng({ lat, lng: lon });
-              if (!bounds.contains(latLng)) {
-                return false;
-              }
-            }
-            return true;
-          })
-          .map(feature => (
-            <PointFeatureMarker
-              feature={feature}
-              icons={this.icons}
-              key={feature.id}
-              locationPopup={this.props.locationPopup}
-              onSelectLocation={this.props.onSelectLocation}
-              size={this.context.config.geoJsonSvgSize}
-            />
-          ))}
-      </React.Fragment>
+      <Geojson
+        data={data}
+        pointToLayer={pointToLayer}
+        style={styler}
+        onEachFeature={addPopup}
+      />
     );
   }
+
+  return (
+    <React.Fragment>
+      {data.features.map((feature, index) => (
+        <PointFeatureMarker
+          feature={feature}
+          icons={icons.current}
+          // use index as a fall back key
+          // eslint-disable-next-line react/no-array-index-key
+          key={String(feature.id) + index}
+          size={geoJsonSvgSize}
+          language={language}
+          {...rest}
+        />
+      ))}
+    </React.Fragment>
+  );
 }
+
+GeoJSON.propTypes = {
+  bounds: PropTypes.shape({ contains: PropTypes.func.isRequired }),
+  data: PropTypes.shape({
+    features: PropTypes.arrayOf(geoJsonFeatureShape),
+  }).isRequired,
+  geoJsonZoomLevel: PropTypes.number,
+};
+
+GeoJSON.defaultProps = {
+  bounds: undefined,
+  geoJsonZoomLevel: 0,
+};
+
+GeoJSON.contextTypes = {
+  config: configShape.isRequired,
+};
 
 export { GeoJSON as default, getIcons, getMarker };

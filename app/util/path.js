@@ -136,7 +136,7 @@ export const getStopRoutePath = searchObj => {
     case 'station':
     case 'favouriteStation':
       path = PREFIX_TERMINALS;
-      id = id.replace('GTFS:', '');
+      [id] = id.replace('GTFS:', '').split('#');
       break;
     case 'bikestation': {
       const network = searchObj.properties.source?.split('citybikes')[1];

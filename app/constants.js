@@ -27,7 +27,7 @@ export const TransportMode = Object.freeze({
   /** Taking the train */
   Rail: 'RAIL',
   /** Taking the subway */
-  Subway: 'Subway',
+  Subway: 'SUBWAY',
   /** Taking the tram */
   Tram: 'TRAM',
   /** Taking the funicular */
@@ -128,6 +128,58 @@ export const PlannerMessageType = Object.freeze({
   NoStopsInRange: 'NO_STOPS_IN_RANGE',
   SystemError: 'SYSTEM_ERROR',
 });
+
+export const VerticalDirection = Object.freeze({
+  Up: 'UP',
+  Down: 'DOWN',
+  Unknown: 'UNKNOWN',
+});
+
+export const IndoorStepType = Object.freeze({
+  Entrance: 'Entrance',
+  ElevatorUse: 'ElevatorUse',
+  EscalatorUse: 'EscalatorUse',
+  StairsUse: 'StairsUse',
+});
+
+export const IndoorLegType = Object.freeze({
+  AllStepsInside: 'ALL_STEPS_INSIDE',
+  StepsAfterEntranceInside: 'STEPS_AFTER_ENTRANCE_INSIDE',
+  StepsBeforeEntranceInside: 'STEPS_BEFORE_ENTRANCE_INSIDE',
+  NoStepsInside: 'NO_STEPS_INSIDE',
+});
+
+export const WheelchairBoarding = Object.freeze({
+  NotPossible: 'NOT_POSSIBLE',
+  NoInformation: 'NO_INFORMATION',
+  Possible: 'POSSIBLE',
+});
+
+/**
+ * OpenTripPlanner (v2) via point types.
+ */
+export const ViaLocationType = Object.freeze({
+  PassThrough: 'PASS_THROUGH',
+  Visit: 'VISIT',
+});
+
+export const LocationTypes = Object.freeze({
+  STOP: 'STOP',
+  STATION: 'STATION',
+});
+
+export const NaviCardType = Object.freeze({
+  Default: 'DEFAULT',
+  Indoor: 'INDOOR',
+});
+
+export const TrafficNowTransportModes = Object.freeze([
+  TransportMode.Bus,
+  TransportMode.Ferry,
+  TransportMode.Rail,
+  TransportMode.Subway,
+  TransportMode.Tram,
+]);
 
 export const OtpCornerNamingPattern = Object.freeze({
   fi: /katujen .* ja .* kulma/,

@@ -1,0 +1,78 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "killNodeOn8080",
+      "type": "shell",
+      "command": "fuser -k 8080/tcp || true",
+    },
+    {
+      "label": "insertSubscriptionToken",
+      "type": "shell",
+      "command": "TOKEN_FILE=\"${workspaceFolder}/.vscode/.api-subscription-token.env\"; if [ -f \"$TOKEN_FILE\" ]; then echo \"API subscription token file already exists\"; else umask 177 && printf \"API_SUBSCRIPTION_TOKEN=%s\\n\" \"${input:apiSubscriptionToken}\" > \"$TOKEN_FILE\" && echo \"API subscription token saved to $TOKEN_FILE\"; fi",
+    },
+    {
+      "label": "setupProject",
+      "type": "shell",
+      "command": "TOKEN_FILE=\"${workspaceFolder}/.vscode/.api-subscription-token.env\" && export CONFIG=${input:configName}; [ -f \"$TOKEN_FILE\" ] && . \"$TOKEN_FILE\" && yarn run dev",
+      "dependsOrder": "sequence",
+      "dependsOn": ["killNodeOn8080", "insertSubscriptionToken"],
+      "options": {
+        "env": {
+          "WEBPACK_DEVTOOL": "source-map",
+          "API_SUBSCRIPTION_QUERY_PARAMETER_NAME": "digitransit-subscription-key",
+          "API_SUBSCRIPTION_HEADER_NAME": "digitransit-subscription-key"
+        }
+      },
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "owner": "custom", // This is not needed but required by the problemMatcher Object
+          "pattern": {
+            "regexp": "^$" // This is not needed but required by the problemMatcher Object
+          },
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": ".",
+            "endsPattern": "Digitransit-ui available on port 8080"
+          }
+        }
+      ]
+    },
+    {
+      "label": "Terminate All Tasks",
+      "command": "echo ${input:terminate}",
+      "type": "shell",
+    }
+  ],
+  "inputs": [
+    {
+      "id": "terminate",
+      "type": "command",
+      "command": "workbench.action.tasks.terminate",
+      "args": "terminateAll"
+    },
+    {
+      "id": "configName",
+      "description": "Select configuration for service provider",
+      "type": "pickString",
+      "options": [
+        "hsl",
+        "tampere",
+        "waltti",
+        "matka",
+        "kela",
+        "oulu",
+        "lappeenranta",
+        "hameenlinna"
+      ],
+      "default": "hsl"
+    },
+    {
+      "id": "apiSubscriptionToken",
+      "type": "promptString",
+      "description": "Enter API_SUBSCRIPTION_TOKEN",
+      "password": true
+    }
+  ]
+}

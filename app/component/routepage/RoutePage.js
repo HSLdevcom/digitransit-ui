@@ -74,7 +74,17 @@ class RoutePage extends React.Component {
     const label = route.shortName ? route.shortName : route.longName || '';
     const selectedPattern =
       patternId && route.patterns.find(p => p.code === patternId);
-    const headsign = selectedPattern?.headsign;
+    let headsign = null;
+    if (selectedPattern) {
+      if (
+        !selectedPattern.code.startsWith('NETEX:') &&
+        selectedPattern.headsign
+      ) {
+        headsign = selectedPattern.headsign;
+      } else {
+        headsign = selectedPattern.stops[selectedPattern.stops.length - 1].name;
+      }
+    }
     const filteredAlerts = selectedPattern?.alerts
       ?.filter(alert => hasEntitiesOfType(alert, AlertEntityType.Route))
       .filter(alert => isAlertValid(alert, currentTime));
@@ -94,12 +104,7 @@ class RoutePage extends React.Component {
           })}
           aria-live="polite"
         >
-          {breakpoint === 'large' && (
-            <BackButton
-              icon="icon_arrow-collapse--left"
-              iconClassName="arrow-icon"
-            />
-          )}
+          {breakpoint === 'large' && <BackButton />}
           <div className="route-header">
             <div aria-hidden="true">
               <RouteNumber
@@ -217,6 +222,9 @@ const containerComponent = createFragmentContainer(
           }
           headsign
           code
+          stops {
+            name
+          }
           trips: tripsForDate(serviceDate: $date) {
             stoptimes: stoptimesForDate(serviceDate: $date) {
               realtimeState

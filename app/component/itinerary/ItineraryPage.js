@@ -5,7 +5,13 @@ import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
 import PropTypes from 'prop-types';
-import React, { cloneElement, useEffect, useRef, useState } from 'react';
+import React, {
+  cloneElement,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { FormattedMessage, intlShape } from 'react-intl';
 import { fetchQuery } from 'react-relay';
 import { saveFutureRoute } from '../../action/FutureRoutesActions';
@@ -48,7 +54,7 @@ import Loading from '../Loading';
 import MobileView from '../MobileView';
 import ItineraryPageMap from '../map/ItineraryPageMap';
 import AlternativeItineraryBar from './AlternativeItineraryBar';
-import CustomizeSearch from './CustomizeSearch';
+import CustomizeSearch from './customizesearch/CustomizeSearch';
 import { spinnerPosition } from './ItineraryList';
 import ItineraryListContainer from './ItineraryListContainer';
 import ItineraryPageControls from './ItineraryPageControls';
@@ -966,6 +972,18 @@ export default function ItineraryPage(props, context) {
     };
   }, []);
 
+  // A stable reference for intermediatePlaces based on content
+  const intermediatePlacesKey = useMemo(() => {
+    const { intermediatePlaces } = query;
+    if (!intermediatePlaces) {
+      return '';
+    }
+    if (Array.isArray(intermediatePlaces)) {
+      return intermediatePlaces.join('|');
+    }
+    return intermediatePlaces;
+  }, [query.intermediatePlaces]);
+
   useEffect(() => {
     setCombinedState({ ...emptyState, loading: LOADSTATE.LOADING });
     makeScooterQuery();
@@ -988,7 +1006,7 @@ export default function ItineraryPage(props, context) {
     params.to,
     query.time,
     query.arriveBy,
-    query.intermediatePlaces,
+    intermediatePlacesKey,
   ]);
 
   useEffect(() => {
@@ -1464,6 +1482,7 @@ export default function ItineraryPage(props, context) {
           ) : (
             <NaviContainer
               focusToLeg={focusToLeg}
+              focusToPoint={focusToPoint}
               relayEnvironment={props.relayEnvironment}
               setNavigation={setNavigation}
               mapRef={mwtRef.current}
@@ -1627,7 +1646,6 @@ export default function ItineraryPage(props, context) {
       content={content}
       settingsDrawer={settingsDrawer}
       map={map}
-      mapRef={mwtRef.current}
       ref={mobileRef}
       match={match}
       enableBottomScroll={!naviMode}

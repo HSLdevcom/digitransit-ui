@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "msedge",
+      "request": "launch",
+      "name": "Launch Edge against dev",
+      "url": "http://localhost:8080",
+      "runtimeArgs": ["--inprivate"],
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "setupProject",
+      "postDebugTask": "Terminate All Tasks"
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Launch Chrome against dev",
+      "url": "http://localhost:8080",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "setupProject",
+      "postDebugTask": "Terminate All Tasks"
+    }
+  ]
+}

@@ -9,7 +9,9 @@ test/credentials.json
 test/binaries
 *.swp
 .idea
-.vscode
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
 *.iml
 *~
 test_output

@@ -259,7 +259,7 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
     };
 
     renderSelectFromMapModal = id => {
-      let titleId = 'select-from-map-no-title';
+      let titleId = '';
 
       if (id === 'origin') {
         titleId = 'select-from-map-origin';

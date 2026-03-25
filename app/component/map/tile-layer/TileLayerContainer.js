@@ -17,7 +17,6 @@ import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
 import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
-import PreferencesStore from '../../../store/PreferencesStore';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { getClientBreakpoint } from '../../../util/withBreakpoint';
 import {
@@ -44,7 +43,6 @@ class TileLayerContainer extends GridLayer {
     tileSize: PropTypes.number.isRequired,
     zoomOffset: PropTypes.number.isRequired,
     locationPopup: PropTypes.string, // all, none, reversegeocoding, origindestination
-    allowViaPoint: PropTypes.bool, // temporary, until OTP2 handles arbitrary via points
     onSelectLocation: PropTypes.func,
     mergeStops: PropTypes.bool,
     mapLayers: mapLayerShape.isRequired,
@@ -64,18 +62,16 @@ class TileLayerContainer extends GridLayer {
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     vehicles: PropTypes.objectOf(vehicleShape),
-    lang: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
     onSelectLocation: undefined,
     locationPopup: undefined,
-    allowViaPoint: false,
     objectsToHide: { vehicleRentalStations: [] },
     highlightedStops: undefined,
     stopsToShow: undefined,
     vehicles: undefined,
-    mergeStops: false,
+    mergeStops: true,
   };
 
   static contextTypes = {
@@ -150,7 +146,7 @@ class TileLayerContainer extends GridLayer {
           tile.el.layers &&
           tile.el.layers.forEach(layer => {
             if (layer.onTimeChange) {
-              layer.onTimeChange(this.props.lang);
+              layer.onTimeChange(this.context.config.language);
             }
           }),
       );
@@ -186,7 +182,7 @@ class TileLayerContainer extends GridLayer {
       this.props.vehicles,
       this.props.stopsToShow,
       this.props.objectsToHide,
-      this.props.lang,
+      this.context.config.language,
     );
     tile.onSelectableTargetClicked = (
       selectableTargets,
@@ -352,10 +348,7 @@ class TileLayerContainer extends GridLayer {
     let contents;
     const breakpoint = getClientBreakpoint();
     let showPopup = true;
-    const locationPopup =
-      this.props.allowViaPoint || this.props.locationPopup !== 'all'
-        ? this.props.locationPopup
-        : 'origindestination';
+    const { locationPopup } = this.props;
 
     if (typeof this.state.selectableTargets !== 'undefined') {
       if (this.state.selectableTargets.length === 1) {
@@ -469,10 +462,9 @@ const connectedComponent = withLeaflet(
         )}
       </ReactRelayContext.Consumer>
     ),
-    [RealTimeInformationStore, PreferencesStore],
+    [RealTimeInformationStore],
     context => ({
       vehicles: context.getStore(RealTimeInformationStore).vehicles,
-      lang: context.getStore(PreferencesStore).getLanguage(),
     }),
   ),
 );

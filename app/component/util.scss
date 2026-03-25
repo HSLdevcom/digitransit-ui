@@ -187,7 +187,7 @@ $btn-heigth: 17px;
   font-weight: $font-narrow-weight-medium;
   text-align: center;
   color: $link-button-color;
-  font-size: $font-size-normal;
+  font-size: $font-size-small;
   padding: 0.92em $padding-large;
   display: flex;
   align-items: center;
@@ -209,6 +209,7 @@ $btn-heigth: 17px;
   &.small {
     height: 28px;
     padding: 5px 15px;
+    font-size: $font-size-xxsmall;
   }
 
   @media print {
@@ -339,12 +340,73 @@ select {
 }
 
 .canceled {
-  color: $cancelation-red;
-  background: linear-gradient(
-    to bottom,
-    transparent calc(50% - 1px),
-    $cancelation-red calc(50% - 1px),
-    $cancelation-red calc(50% + 1px),
-    transparent calc(50% + 1px)
-  );
+  color: $black;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    background: $cancelation-red;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+}
+
+.gutterer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+  .right-gutter,
+  .left-gutter {
+    flex: 1 1 0;
+  }
+
+  .gutterer-content {
+    flex: 0 1 auto;
+    width: 100%;
+  }
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  border-radius: var(--radius-pill);
+  min-height: 24px;
+  border: 1px solid;
+  gap: var(--space-xxs);
+
+  &.info,
+  &.unknown_severity {
+    border-color: #d3dfe6;
+    color: $black;
+    background-color: #ebf6fd;
+
+    .icon {
+      color: inherit;
+    }
+  }
+
+  &.warning,
+  &.danger,
+  &.severe {
+    border-color: #fadbe5;
+    color: $cancelation-red;
+    background-color: #fdf3f6;
+  }
+
+  &.success {
+    border-color: #dfecd3;
+    color: $realtime-color;
+    background-color: $success-color;
+  }
+
+  .icon-container {
+    display: flex;
+  }
 }

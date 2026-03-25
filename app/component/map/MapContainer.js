@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import MapBottomsheetContext from './MapBottomsheetContext';
 import withGeojsonObjects from './withGeojsonObjects';
 import Map from './Map';
@@ -25,10 +24,4 @@ MapContainer.defaultProps = {
   children: undefined,
 };
 
-export default connectToStores(
-  withGeojsonObjects(MapContainer),
-  ['PreferencesStore'],
-  context => ({
-    lang: context.getStore('PreferencesStore').getLanguage(),
-  }),
-);
+export default withGeojsonObjects(MapContainer);

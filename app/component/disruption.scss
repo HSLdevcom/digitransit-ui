@@ -176,11 +176,11 @@
       white-space: pre-wrap;
 
       .alert-url {
-        color: $primary-color;
+        color: $theme-primary-color;
         margin-left: 5px;
 
         .external-link {
-          color: $primary-color;
+          color: $theme-primary-color;
         }
       }
     }

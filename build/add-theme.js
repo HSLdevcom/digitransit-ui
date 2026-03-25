@@ -30,21 +30,21 @@ let themeContent =
 `@import '../../base/waltti';
 
 /* main theme colors */
-$primary-color: ${color};
-$secondary-color: darken($primary-color, 20%);
-$highlight-color: $primary-color;
-$action-color: $primary-color;
-$bus-color: $primary-color;
-$viewpoint-marker-color: $primary-color;
-$current-location-color: $primary-color;
+$theme-primary-color: ${color};
+$theme-secondary-color: darken($theme-primary-color, 20%);
+$highlight-color: $theme-primary-color;
+$action-color: $theme-primary-color;
+$bus-color: $theme-primary-color;
+$viewpoint-marker-color: $theme-primary-color;
+$current-location-color: $theme-primary-color;
 
-$standalone-btn-color: $primary-color;
-$link-color: $primary-color;
+$standalone-btn-color: $theme-primary-color;
+$link-color: $theme-primary-color;
 
 /* Component palette */
-$desktop-title-color: $primary-color;
-$desktop-title-arrow-icon-color: $secondary-color;
-$top-bar-color: $primary-color;
+$desktop-title-color: $theme-primary-color;
+$desktop-title-arrow-icon-color: $theme-secondary-color;
+$top-bar-color: $theme-primary-color;
 `;
 
 let textLogo;

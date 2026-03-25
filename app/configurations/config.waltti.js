@@ -1,6 +1,3 @@
-import prUtils from '../util/ParkAndRideUtils';
-
-const HSLParkAndRideUtils = prUtils.HSL;
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/waltti/`;
 const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
@@ -150,16 +147,6 @@ export default {
   includeCarSuggestions: true,
   includeParkAndRideSuggestions: true,
   showBikeAndParkItineraries: true,
-  parkingAreaSources: ['liipi'],
-
-  parkAndRide: {
-    showParkAndRide: false,
-    showParkAndRideForBikes: false,
-    parkAndRideMinZoom: 13,
-    pageContent: {
-      default: HSLParkAndRideUtils,
-    },
-  },
 
   hostnames: [
     // DEV hostnames
@@ -271,7 +258,7 @@ export default {
   },
   analyticsClass: 'plausible-event-name=Ticket+Purchase+Link',
 
-  viaPointsEnabled: false,
+  viaPointsEnabled: true,
   hideNaviTickets: true, // TODO: temporary force switch
   navigation: true,
 
@@ -313,8 +300,11 @@ export default {
       ],
     },
   },
+  useAlternativeNameForModes: ['RAIL'],
   showRouteDescNotification:
     process.env.RUN_ENV === 'development' ||
     process.env.NODE_ENV !== 'production',
-  useAlternativeNameForModes: ['RAIL'],
+  showStopStatusMarkers: true,
+
+  trafficNowLink: true,
 };

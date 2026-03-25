@@ -17,6 +17,7 @@ import LegInfo from '../../../app/component/itinerary/LegInfo';
 const defaultProps = {
   children: <div />,
   interliningLegs: [],
+  focusFunction: () => () => {},
   focusAction: () => {},
   index: 0,
   lang: 'fi',
@@ -77,7 +78,6 @@ describe('<TransitLeg />', () => {
       context: {
         ...mockContext,
         config,
-        focusFunction: () => () => {},
       },
     });
     wrapper.setState({ showIntermediateStops: true });

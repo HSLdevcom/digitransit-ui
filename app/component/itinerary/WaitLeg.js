@@ -9,6 +9,7 @@ import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { PREFIX_STOPS } from '../../util/path';
 import { legTimeStr, getValidatedLegName } from '../../util/legUtils';
+import { ViaLocationType } from '../../constants';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
@@ -37,6 +38,7 @@ function WaitLeg(
         modeClassName={modeClassName}
         index={index}
         icon={icon}
+        isNotFirstLeg
       />
       <div className="small-9 columns itinerary-instruction-column wait">
         <span className="sr-only">
@@ -54,7 +56,7 @@ function WaitLeg(
               to={`/${PREFIX_STOPS}/${leg.to.stop.gtfsId}`}
             >
               {legName}
-              {leg.isViaPoint && (
+              {leg.from.viaLocationType === ViaLocationType.PassThrough && (
                 <Icon
                   img="icon_mapMarker"
                   className="itinerary-mapmarker-icon"

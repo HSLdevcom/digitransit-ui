@@ -25,7 +25,7 @@ import { getMapLayerOptions } from '../../util/mapLayerUtils';
 import MapRoutingButton from '../MapRoutingButton';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../util/path';
-import { walkQuery } from './WalkQuery';
+import { streetQuery } from './StreetQuery';
 
 const getModeFromProps = props => {
   if (props.citybike) {
@@ -65,7 +65,19 @@ function StopPageMap(
       if (locationState.hasLocation) {
         if (distance(locationState, stop) < maxShowRouteDistance) {
           const settings = getSettings(config);
+          let location = {
+            coordinate: {
+              latitude: targetStop.lat,
+              longitude: targetStop.lon,
+            },
+          };
+          if (targetStop.gtfsId) {
+            location = {
+              stopLocation: { stopLocationId: targetStop.gtfsId },
+            };
+          }
           const variables = {
+            mode: 'WALK',
             origin: {
               location: {
                 coordinate: {
@@ -75,17 +87,12 @@ function StopPageMap(
               },
             },
             destination: {
-              location: {
-                coordinate: {
-                  latitude: targetStop.lat,
-                  longitude: targetStop.lon,
-                },
-              },
+              location,
             },
             walkSpeed: settings.walkSpeed,
             wheelchair: !!settings.accessibilityOption,
           };
-          fetchQuery(environment, walkQuery, variables)
+          fetchQuery(environment, streetQuery, variables)
             .toPromise()
             .then(result => {
               setWalk(
@@ -134,13 +141,7 @@ function StopPageMap(
       children.push(<CookieSettingsButton key="cookiesettings" />);
     }
   } else {
-    children.push(
-      <BackButton
-        icon="icon_arrow-collapse--left"
-        iconClassName="arrow-icon"
-        key="stop-page-back-button"
-      />,
-    );
+    children.push(<BackButton key="stop-page-back-button" />);
   }
 
   if (walk) {
