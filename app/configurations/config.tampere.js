@@ -104,12 +104,23 @@ export default configMerger(walttiConfig, {
       virtualMonitorBaseUrl,
     },
   },
+  // custom ticketPurchaseLink because tampere sends different fare zones from every other waltti city
+  ticketPurchaseLink: (fare, availableTickets) => {
+    const appName = 'nysseapp';
+    const operatorCode = '50245';
+    const zoneMap = { A: '1', B: '2', C: '3' };
+    const fareId = fare.fareProducts[0].product.id;
+    const feed = fareId.split(':')[0];
+    const zones = availableTickets[feed][fareId].zones.reduce((acc, zone) => {
+      return `${acc}0${zoneMap[zone]}`;
+    }, '');
+    return `https://waltti.fi/${appName}/busTicket/?operator=${operatorCode}&ticketType=single&customerGroup=adult&zones=${zones}`;
+  },
+
   zones: {
     stops: true,
     itinerary: true,
   },
-
-  appName: 'nysseapp',
 
   useTicketIcons: true,
   showTicketInformation: true,
