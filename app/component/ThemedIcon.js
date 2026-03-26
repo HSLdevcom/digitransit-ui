@@ -23,29 +23,20 @@ const ICON_NAMES = Object.keys(ICON_MAP);
  * This component is the single place responsible for @hsl-fi/icons imports.
  * Usage sites should never import from @hsl-fi/icons directly.
  */
-function ThemedIcon({ name, size, className }) {
+function ThemedIcon({ name, ...rest }) {
   const config = useConfigContext();
   const { hslFiIcon, fallbackImg } = ICON_MAP[name];
 
   if (config.iconModeSet === 'hsl') {
-    return <HslFiIconWrapper icon={hslFiIcon} size={size} />;
+    return <HslFiIconWrapper icon={hslFiIcon} {...rest} />;
   }
 
-  return <SvgIcon img={fallbackImg} className={className} />;
+  return <SvgIcon img={fallbackImg} {...rest} />;
 }
 
 ThemedIcon.propTypes = {
   /** Logical icon name — must exist in ICON_MAP */
   name: PropTypes.oneOf(ICON_NAMES).isRequired,
-  /** Size token forwarded to @hsl-fi/icons (ignored for SVG sprite icons) */
-  size: PropTypes.oneOf(['s', 'm', 'l', 'xl']),
-  /** Extra CSS class forwarded to the SVG sprite Icon (ignored for @hsl-fi/icons) */
-  className: PropTypes.string,
-};
-
-ThemedIcon.defaultProps = {
-  size: 's',
-  className: undefined,
 };
 
 export default ThemedIcon;
