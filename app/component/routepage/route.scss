@@ -1788,6 +1788,14 @@ $margin-left-right: 21.3px;
     padding-right: calc(56px + 48px);
   }
 
+  .route-pattern-header--no-swap {
+    padding-right: $margin-left-right;
+  }
+
+  &.bp-large .route-pattern-header--no-swap {
+    padding-right: 56px;
+  }
+
   &.bp-large .pattern-select-container--colored {
     margin-left: -56px;
     margin-right: -56px;

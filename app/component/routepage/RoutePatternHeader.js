@@ -14,7 +14,9 @@ function RoutePatternHeader({
 
   return (
     <div
-      className="route-pattern-header"
+      className={`route-pattern-header${
+        canSwap ? '' : ' route-pattern-header--no-swap'
+      }`}
       style={backgroundColor ? { background: backgroundColor } : undefined}
     >
       <div className="route-pattern-endpoint">
@@ -60,6 +62,7 @@ function RoutePatternHeader({
           type="button"
           onClick={onSwap}
           aria-label={intl.formatMessage({ id: 'swap-order-button-label' })}
+          title={intl.formatMessage({ id: 'route-pattern-swap-tooltip' })}
         >
           <Icon img="icon_direction-c" viewBox="0 0 19 17" />
         </button>
