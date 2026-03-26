@@ -26,7 +26,7 @@ import {
 } from '../../util/alertUtils';
 import { AlertEntityType } from '../../constants';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
-import RouteNotificationButton from './RouteNotificationButton';
+// import RouteNotificationButton from './RouteNotificationButton';
 import { isLocalCallAgency } from '../../util/legUtils';
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -90,9 +90,9 @@ class RoutePage extends React.Component {
       ?.filter(alert => hasEntitiesOfType(alert, AlertEntityType.Route))
       .filter(alert => isAlertValid(alert, currentTime));
     const localCallAgency = isLocalCallAgency(route, config);
-    const matchingNotification = config.routeNotifications?.find(n =>
-      n.showForRoute?.(route),
-    );
+    // const matchingNotification = config.routeNotifications?.find(n =>
+    //   n.showForRoute?.(route),
+    // );
     return (
       <div className={cx('route-page-container')}>
         <div className="header-for-printing">
@@ -143,14 +143,14 @@ class RoutePage extends React.Component {
             </div>
             {!tripId && (
               <div className="route-header-actions">
-                {matchingNotification && (
+                {/* {matchingNotification && (
                   <>
                     <RouteNotificationButton
                       notification={matchingNotification}
                     />
                     <span className="route-header-divider" aria-hidden="true" />
                   </>
-                )}
+                )} */}
                 <FavouriteRouteContainer
                   className="route-page-header"
                   gtfsId={route.gtfsId}
