@@ -697,6 +697,20 @@ $margin-left-right: 21.3px;
     &:hover span {
       text-decoration: underline;
     }
+
+    // Force the ThemedIcon span (both @hsl-fi/icons wrapper and SVG sprite
+    // .icon-container) to exactly 18px. Selector specificity (0,3,1) and
+    // (0,3,2) beats the @hsl-fi/icons library's (0,3,0) and (0,3,1) so no
+    // !important is needed.
+    > span:last-child {
+      width: 18px;
+      height: 18px;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
   }
 
   .trip-destination {

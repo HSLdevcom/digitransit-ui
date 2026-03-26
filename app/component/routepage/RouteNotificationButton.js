@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
-import { Icon, Question } from '@hsl-fi/icons';
 import '@hsl-fi/design-tokens/css/colors.css';
 import '@hsl-fi/design-tokens/css/shadows.css';
 import { useTranslationsContext } from '../../util/useTranslationsContext';
+import ThemedIcon from '../ThemedIcon';
 
 function RouteNotificationButton({ notification }) {
   const intl = useTranslationsContext();
@@ -59,7 +59,7 @@ function RouteNotificationButton({ notification }) {
         aria-haspopup="dialog"
       >
         <span>{closeButtonLabel}</span>
-        <Icon icon={Question} size="s" />
+        <ThemedIcon name="Question" />
       </button>
       <Modal open={open} onOpenChange={setOpen}>
         <ModalContent
