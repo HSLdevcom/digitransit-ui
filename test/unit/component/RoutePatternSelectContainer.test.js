@@ -341,8 +341,8 @@ describe('<RoutePatternSelectContainer />', () => {
       expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(1);
 
       const optionArray = wrapper.find(RoutePatternSelect).prop('optionArray');
-      // First group: unnamed main route
-      expect(optionArray[0].name).to.equal('');
+      // First group: main route (labelled 'Directions')
+      expect(optionArray[0].name).to.match(/directions/i);
       expect(optionArray[0].options).to.have.lengthOf(1);
       // Second group: special routes
       expect(optionArray[1].name).to.match(/other routes/i);
