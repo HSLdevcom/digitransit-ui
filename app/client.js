@@ -1,3 +1,5 @@
+import '@hsl-fi/design-tokens/css/colors.css';
+import '@hsl-fi/design-tokens/css/shadows.css';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';

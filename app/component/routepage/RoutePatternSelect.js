@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelect } from 'downshift';
 import { Link, routerShape } from 'found';
@@ -9,6 +9,7 @@ import { routePagePath } from '../../util/path';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { patternShape, routeShape } from '../../util/shapes';
 import { useTranslationsContext } from '../../util/useTranslationsContext';
+import { useBreakpoint } from '../../util/withBreakpoint';
 
 function patternOptionText(pattern) {
   if (!pattern) {
@@ -148,6 +149,91 @@ PatternOption.propTypes = {
   currentPattern: patternShape.isRequired,
 };
 
+/**
+ * Renders a single selectable option in the mobile bottom-sheet modal.
+ * No downshift integration — selection is handled via a plain onClick.
+ */
+function MobilePatternOption({ option, currentPattern, onSelect }) {
+  if (option.stops) {
+    const isSelected = option.code === currentPattern.code;
+    return (
+      <li
+        className="suggestion"
+        role="option"
+        aria-selected={isSelected}
+        onClick={onSelect}
+        onKeyDown={e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onSelect();
+          }
+        }}
+        tabIndex={0}
+      >
+        <span className="pattern-check">
+          {isSelected ? (
+            <Icon
+              aria-hidden="true"
+              className="check"
+              img="icon_check"
+              viewBox="0 0 15 11"
+            />
+          ) : (
+            <span className="check-placeholder" />
+          )}
+        </span>
+        <span className="pattern-label">{patternTextWithIcon(option)}</span>
+      </li>
+    );
+  }
+
+  if (option.shortName && option.longName && option.mode) {
+    return (
+      <li
+        className="suggestion"
+        role="option"
+        aria-selected={false}
+        onClick={onSelect}
+        onKeyDown={e => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onSelect();
+          }
+        }}
+        tabIndex={0}
+      >
+        <div className="similar-route">
+          <div className="icon-container">
+            <Icon
+              className={option.mode.toLowerCase()}
+              img={`icon_${option.mode.toLowerCase()}`}
+              color={option.color ? `#${option.color}` : null}
+            />
+          </div>
+          <div className="similar-route-text">
+            <span className="similar-route-name">{option.shortName}</span>
+            <span className="similar-route-longname">{option.longName}</span>
+          </div>
+          <div className="icon-container">
+            <Icon
+              className="similar-route-arrow"
+              img="icon_arrow-collapse--right"
+            />
+          </div>
+        </div>
+      </li>
+    );
+  }
+
+  return null;
+}
+
+MobilePatternOption.propTypes = {
+  option: PropTypes.oneOfType([patternShape, routeShape]).isRequired,
+  currentPattern: patternShape.isRequired,
+  onSelect: PropTypes.func.isRequired,
+};
+
 export default function RoutePatternSelect({
   currentPattern = undefined,
   optionArray,
@@ -157,6 +243,23 @@ export default function RoutePatternSelect({
   backgroundColor = null,
 }) {
   const intl = useTranslationsContext();
+  const breakpoint = useBreakpoint();
+  const isMobile = breakpoint !== 'large';
+  const [mobileModalOpen, setMobileModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (!mobileModalOpen) {
+      return undefined;
+    }
+    const handleKeyDown = e => {
+      if (e.key === 'Escape') {
+        setMobileModalOpen(false);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [mobileModalOpen]);
+
   if (!currentPattern) {
     return null;
   }
@@ -202,6 +305,24 @@ export default function RoutePatternSelect({
     toggleButtonId: 'route-pattern-select-toggle',
   });
 
+  const handleMobileOpen = () => {
+    setMobileModalOpen(true);
+    addAnalyticsEvent({
+      category: 'Route',
+      action: 'OpenDirectionMenu',
+      name: null,
+    });
+  };
+
+  const handleMobileSelect = item => {
+    if (item.code) {
+      onSelectChange(item.code);
+    } else {
+      router.push(routePagePath(item.gtfsId));
+    }
+    setMobileModalOpen(false);
+  };
+
   return (
     <div className={`route-pattern-select ${className}`} aria-atomic="true">
       <div
@@ -226,26 +347,58 @@ export default function RoutePatternSelect({
             <FormattedMessage id="route-page.pattern-select-title" />
           </span>
         </label>
-        <div
-          {...getToggleButtonProps()}
-          title={intl.formatMessage({ id: 'route-pattern-select-tooltip' })}
-        >
-          <div className="input-display" aria-hidden="true">
-            <span
-              className="option-count-pill"
-              style={
-                backgroundColor ? { background: backgroundColor } : undefined
+        {isMobile ? (
+          <div
+            role="button"
+            tabIndex={0}
+            aria-haspopup="dialog"
+            title={intl.formatMessage({ id: 'route-pattern-select-tooltip' })}
+            onClick={handleMobileOpen}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleMobileOpen();
               }
-            >
-              +{optionCount}
-            </span>
-            <span className="toggle-label">
-              <FormattedMessage id="route-page.alternative-routes" />
-            </span>
-            <Icon className="dropdown-arrow" img="icon_arrow-collapse" />
+            }}
+          >
+            <div className="input-display" aria-hidden="true">
+              <span
+                className="option-count-pill"
+                style={
+                  backgroundColor ? { background: backgroundColor } : undefined
+                }
+              >
+                +{optionCount}
+              </span>
+              <span className="toggle-label">
+                <FormattedMessage id="route-page.alternative-routes" />
+              </span>
+              <Icon className="dropdown-arrow" img="icon_arrow-collapse" />
+            </div>
           </div>
-        </div>
+        ) : (
+          <div
+            {...getToggleButtonProps()}
+            title={intl.formatMessage({ id: 'route-pattern-select-tooltip' })}
+          >
+            <div className="input-display" aria-hidden="true">
+              <span
+                className="option-count-pill"
+                style={
+                  backgroundColor ? { background: backgroundColor } : undefined
+                }
+              >
+                +{optionCount}
+              </span>
+              <span className="toggle-label">
+                <FormattedMessage id="route-page.alternative-routes" />
+              </span>
+              <Icon className="dropdown-arrow" img="icon_arrow-collapse" />
+            </div>
+          </div>
+        )}
 
+        {/* Desktop dropdown — hidden on mobile */}
         <div
           className={cx('suggestions-container', {
             'suggestions-container--open': isOpen,
@@ -277,6 +430,72 @@ export default function RoutePatternSelect({
           ))}
         </div>
       </div>
+
+      {/* Mobile bottom-sheet */}
+      {isMobile && mobileModalOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="pattern-select-sheet-backdrop"
+            aria-hidden="true"
+            onClick={() => setMobileModalOpen(false)}
+          />
+          {/* Sheet panel */}
+          <div
+            className="pattern-select-sheet"
+            role="dialog"
+            aria-modal="true"
+            aria-label={intl.formatMessage({
+              id: 'route-page.pattern-select-title',
+            })}
+            style={
+              backgroundColor ? { '--mode-color': backgroundColor } : undefined
+            }
+          >
+            <div className="pattern-select-sheet-header">
+              <button
+                type="button"
+                className="pattern-select-sheet-close"
+                aria-label={intl.formatMessage({ id: 'close' })}
+                onClick={() => setMobileModalOpen(false)}
+              >
+                <Icon img="icon_close" />
+              </button>
+            </div>
+            <div className="route-pattern-select">
+              {optionArray.map((section, sectionIndex) => (
+                <div
+                  key={`mobile-section-${section.name || sectionIndex}`}
+                  className="section-container"
+                >
+                  <ul
+                    aria-labelledby={`mobile-section-${sectionIndex}`}
+                    role="listbox"
+                  >
+                    {section.name && (
+                      <li
+                        id={`mobile-section-${sectionIndex}`}
+                        className="section-title"
+                        role="presentation"
+                      >
+                        {section.name}
+                      </li>
+                    )}
+                    {section.options.map(option => (
+                      <MobilePatternOption
+                        key={option.code || option.gtfsId}
+                        option={option}
+                        currentPattern={currentPattern}
+                        onSelect={() => handleMobileSelect(option)}
+                      />
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
