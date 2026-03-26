@@ -143,7 +143,7 @@ export default configMerger(walttiConfig, {
           sv: 'Servicekontorer',
           en: 'Service points',
         },
-        url: 'https://jakoon.jkl.fi/reittiopas/Asiakaspalvelupisteet/myyntipisteet.geojson',
+        url: 'https://jakoon.jkl.fi/reittiopas/Asiakaspalvelupisteet/myyntipisteet090226.geojson',
       },
     ],
   },

@@ -1,3 +1,4 @@
+import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 import ttConfig from './timetableConfigUtils';
 
 const HSLTimetables = ttConfig.HSL;
@@ -401,7 +402,7 @@ export default {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/hsl_zone_lines_20251013.geojson',
+        url: '/assets/geojson/hsl_zone_lines_20190508.geojson',
       },
     ],
   },
@@ -436,12 +437,46 @@ export default {
   },
   ticketButtonTextId: 'open-app',
 
-  trafficNowLink: true,
+  trafficNowLink: {
+    fi: 'matkustaminen/liikenne',
+    en: 'travelling/services-now',
+    sv: 'att-resa/Trafiken-just-nu',
+  },
 
   vehicleRental: {
     minZoomStopsNearYou: 10,
     showFullInfo: true,
-    networks: {},
+    networks: {
+      hsl: {
+        enabled: true,
+        season: {
+          preSeasonStart: '1.3',
+          start: '17.3',
+          end: '31.10',
+        },
+        capacity: BIKEAVL_WITHMAX,
+        icon: 'citybike',
+        name: {
+          fi: 'Helsinki ja Espoo',
+          sv: 'Helsingfors och Esbo',
+          en: 'Helsinki and Espoo',
+        },
+        type: 'citybike',
+        returnInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#palauta',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#aterlamna',
+          en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#return',
+        },
+        // Shown if citybike leg duration exceeds timeBeforeSurcharge
+        durationInstructions: {
+          fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#aja',
+          sv: 'https://www.hsl.fi/sv/stadscyklar/helsingfors/anvisningar#cykla',
+          en: 'https://www.hsl.fi/en/citybikes/helsinki/instructions#ride',
+        },
+        timeBeforeSurcharge: 60 * 60,
+        showRentalStations: true,
+      },
+    },
     buyUrl: {
       fi: 'https://www.hsl.fi/kaupunkipyorat?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
       sv: 'https://www.hsl.fi/sv/stadscyklar?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',

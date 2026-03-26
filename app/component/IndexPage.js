@@ -451,13 +451,13 @@ class IndexPage extends React.Component {
               <StopRouteSearch isMobile {...stopRouteSearchProps} />
             </div>
             <CtrlPanel.SeparatorLine usePaddingBottom20 />
-            {!trafficNowLink ||
-              (trafficNowLink !== '' && (
-                <TrafficNowLink
-                  handleClick={this.trafficNowHandler}
-                  href={`/${TRAFFICNOW}`}
-                />
-              ))}
+            {trafficNowLink && (
+              <TrafficNowLink
+                lang={config.language}
+                handleClick={this.trafficNowHandler}
+                fontWeights={fontWeights}
+              />
+            )}
           </CtrlPanel>
         </div>
       </div>

@@ -291,7 +291,8 @@ class ItineraryLine extends React.Component {
   };
 
   handleClusterObjects(previousLeg, leg, nextLeg, objs, clusterObjs) {
-    if (!this.props.passive) {
+    // Only display any objects at all if the zoom is above 13.
+    if (!this.props.passive && this.state.zoom > 13) {
       const index = new Supercluster({
         radius: 60, // in pixels
         maxZoom: 15,

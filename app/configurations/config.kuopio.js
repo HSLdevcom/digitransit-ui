@@ -184,6 +184,7 @@ export default configMerger(walttiConfig, {
     stops: true,
     itinerary: true,
   },
+  externalFareRouteIds: ['600_Skibus'],
 
   modeDisclaimers: {
     RAIL: {

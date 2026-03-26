@@ -25,7 +25,7 @@ function SelectVehicleRow({ trip }) {
         <Icon
           className={mode}
           img={iconId}
-          color={trip.route.color ? `#${trip.route.color}` : 'currentColor'}
+          color={trip.route.color ? `#${trip.route.color}` : null}
         />
       </span>
       <span className="choose-row-center-column">

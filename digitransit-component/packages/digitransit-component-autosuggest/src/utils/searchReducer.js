@@ -16,6 +16,11 @@ export const searchReducer = (state, action) => {
         ...state,
         suggestions: [],
       };
+    case 'RESET_SOURCES':
+      return {
+        ...state,
+        sources: action.sources,
+      };
     case 'SET_SOURCES':
       return {
         ...state,

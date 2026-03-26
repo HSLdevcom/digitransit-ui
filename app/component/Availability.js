@@ -10,11 +10,7 @@ function Availability({
   text,
   showStatusBar,
 }) {
-  let availablepct = (available / total) * 100;
-  if (availablepct > 100) {
-    // overloading is possible
-    availablepct = 100;
-  }
+  let availablepct = Math.floor((available / total) * 100);
   let availableClass;
 
   if (availablepct === 0) {
@@ -27,7 +23,7 @@ function Availability({
     availableClass = 'available-more';
   }
 
-  const totalClass = availablepct === 100 ? 'available-more' : 'available-none';
+  const totalClass = availablepct >= 100 ? 'available-more' : 'available-none';
 
   const separator = availablepct > 0 && availablepct < 100 ? 'separate' : false;
 
@@ -50,7 +46,7 @@ function Availability({
           />
           <div
             className={cx('availability-column', totalClass, separator)}
-            style={{ width: `${100 - availablepct}%` }}
+            style={{ width: `${100 - availablepct - 1}%` }}
           />
         </div>
       )}

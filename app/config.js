@@ -190,8 +190,10 @@ export function getNamedConfiguration(configName) {
       );
       seasonDefinitions.forEach(seasonDef => {
         const confCitybike = conf.vehicleRental.networks[seasonDef.networkName];
-        confCitybike.enabled = seasonDef.enabled;
-        confCitybike.season = seasonDef.season;
+        if (confCitybike) {
+          confCitybike.enabled = seasonDef.enabled;
+          confCitybike.season = seasonDef.season;
+        }
       });
     }
   }
