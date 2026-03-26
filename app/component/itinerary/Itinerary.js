@@ -127,7 +127,7 @@ export function RouteLeg(
       occupancyStatus={getOccupancyStatus()}
       duration={Math.floor(leg.duration / 60)}
       shortenLongText={shortenLabels}
-      appendClass={isLocalCallAgency(leg.route, config) ? 'call-local' : ''}
+      appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
     />
   );
   return (
@@ -195,7 +195,7 @@ export const ModeLeg = (
       vertical
       withBar
       icon={networkIcon || icon}
-      appendClass={isLocalCallAgency(leg.route, config) ? 'call-local' : ''}
+      appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
       {...getLegBadgeProps(leg, config)}
     />
   );
@@ -631,9 +631,7 @@ const Itinerary = (
   const iconLegsInPixels = (24 * onlyIconLegs) / normalLegs;
   // the leftover percentage from only showing icons added to each 'normal' leg
   const iconLegsInPercents = onlyIconLegsLength / normalLegs;
-  const hasCallAgencyLeg = itinerary.legs.some(leg =>
-    isCallAgencyLeg(leg.route),
-  );
+  const hasCallAgencyLeg = itinerary.legs.some(leg => isCallAgencyLeg(leg));
   let firstDeparture;
   if (hasCallAgencyLeg) {
     firstLegStartTime = (
@@ -820,7 +818,6 @@ const Itinerary = (
       </div>
     );
   }
-
   const co2summary = (
     <div className="sr-only">
       <FormattedMessage

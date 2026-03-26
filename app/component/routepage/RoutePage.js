@@ -88,7 +88,7 @@ class RoutePage extends React.Component {
     const filteredAlerts = selectedPattern?.alerts
       ?.filter(alert => hasEntitiesOfType(alert, AlertEntityType.Route))
       .filter(alert => isAlertValid(alert, currentTime));
-    const localCallAgency = isLocalCallAgency(route, config);
+    const localCallAgency = isLocalCallAgency({ route }, config);
     return (
       <div className={cx('route-page-container')}>
         <div className="header-for-printing">
