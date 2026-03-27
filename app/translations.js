@@ -5094,6 +5094,7 @@ const translations = {
     'biking-speed': 'Cykling hastighet',
     'book-a-lift':
       'Tilaa kyyti sovelluksella ja jää odottamaan sen saapumista:',
+    'booking-method': 'Beställningssätt',
     bus: 'Buss',
     'bus-express': 'Stombuss',
     'bus-express-with-route-number': 'Stombuss {routeNumber} {headSign}',
