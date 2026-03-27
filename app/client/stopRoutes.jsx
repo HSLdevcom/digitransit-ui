@@ -19,7 +19,6 @@ import {
 } from '../../utils/client/routerUtils';
 import { prepareDatesForStops } from '../../utils/client/dateParamUtils';
 import { DATE_FORMAT } from '../../utils/shared/constants';
-import { withRouteContext } from '../../utils/client/RouteContext';
 
 const queries = {
   stop: {
@@ -246,22 +245,16 @@ export default function getStopRoutes(isTerminal = false) {
               />
               <Route
                 path={PREFIX_DISRUPTION}
-                getComponent={() => {
-                  return isTerminal
-                    ? import(
-                        /* webpackChunkName: "stop" */ '../component/stop/Disruptions'
-                      )
-                        .then(getDefault)
-                        .catch(errorLoading)
-                    : import(
-                        /* webpackChunkName: "stop" */ '../component/stop/Disruptions'
-                      )
-                        .then(getDefault)
-                        .catch(errorLoading);
-                }}
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "stop" */ '../component/stop/Disruptions'
+                  )
+                    .then(getDefault)
+                    .catch(errorLoading)
+                }
                 query={queryMap.pageAlerts}
                 prepareVariables={prepareDatesForStops}
-                render={withRouteContext()}
+                render={getComponentOrNullRenderer}
               />
             </Route>
           ),

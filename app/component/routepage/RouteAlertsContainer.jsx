@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
-import AlertList from '../AlertList';
+import DisruptionList from '../DisruptionList';
 import { useConfigContext } from '../../client/ConfigContext';
 import {
   getAlertsForObject,
@@ -97,7 +97,7 @@ function RouteAlertsContainer({ route, pattern }) {
       role="tabpanel"
       aria-labelledby="route-disruption-tab"
     >
-      <AlertList
+      <DisruptionList
         showLinks={false}
         cancelations={cancelations}
         serviceAlerts={serviceAlerts}
