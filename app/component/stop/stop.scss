@@ -249,12 +249,27 @@
         height: 0.95em;
       }
     }
+
+    .alert-circle {
+      width: 1rem;
+      height: 1rem;
+      font-size: 0.8rem;
+      padding: 0px 4px 0px 4px;
+      margin-right: 2px;
+      border-radius: 999em;
+      color: white;
+    }
   }
 
   .active-service-alert {
     .icon-container {
       vertical-align: middle;
       margin-right: 5px;
+    }
+
+    .alert-circle {
+      background-color: red;
+      border-radius: 999em;
     }
 
     .service-alert-icon {

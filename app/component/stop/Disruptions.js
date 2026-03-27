@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { uniq } from 'lodash';
 import { useFragment } from 'react-relay';
-import AlertList from '../AlertList';
+import DisruptionList from '../DisruptionList';
 import {
   getCancelationsForStop,
   getAlertsForObject,
@@ -109,7 +109,7 @@ function Disruptions({ stop: stopRef, station: stationRef }, { config }) {
   const serviceAlerts = getAlerts(stop);
 
   return (
-    <AlertList
+    <DisruptionList
       showLinks={false}
       cancelations={cancelations}
       serviceAlerts={serviceAlerts}

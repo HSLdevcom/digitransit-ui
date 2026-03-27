@@ -148,6 +148,11 @@
       letter-spacing: -0.3px;
     }
   }
+  .alerts-list-section-no-alerts {
+    p {
+      text-align: center;
+    }
+  }
 
   .alert-row {
     background-color: $white;

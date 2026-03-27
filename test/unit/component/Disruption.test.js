@@ -2,7 +2,7 @@ import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import Icon from '../../../app/component/Icon';
-import AlertRow from '../../../app/component/AlertRow';
+import Disruption from '../../../app/component/Disruption';
 import RouteNumber from '../../../app/component/RouteNumber';
 import {
   AlertSeverityLevelType,
@@ -11,7 +11,7 @@ import {
 import { PREFIX_STOPS, routePagePath } from '../../../app/util/path';
 import { mockContext } from '../helpers/mock-context';
 
-describe('<AlertRow />', () => {
+describe('<Disruption />', () => {
   it('should not render a div for the alert if description is missing', () => {
     const props = {
       expired: false,
@@ -26,7 +26,7 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
       context: mockContext,
     });
     expect(wrapper.find('.alert-row')).to.have.lengthOf(0);
@@ -47,7 +47,7 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
       context: mockContext,
     });
     expect(wrapper.find('.alert-header')).to.have.lengthOf(0);
@@ -67,7 +67,7 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
       context: mockContext,
     });
     expect(wrapper.find('.alert-body')).to.have.lengthOf(0);
@@ -88,7 +88,7 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
       context: mockContext,
     });
     expect(wrapper.find(RouteNumber)).to.have.lengthOf(1);
@@ -106,7 +106,7 @@ describe('<AlertRow />', () => {
       description: 'Lorem ipsum',
       index: 0,
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
       context: mockContext,
     });
     expect(wrapper.find(Icon)).to.have.lengthOf(1);
@@ -128,7 +128,7 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
       context: mockContext,
     });
     expect(wrapper.find('.alert-top-row').text()).to.contain('at');
@@ -149,7 +149,7 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
       context: mockContext,
     });
     expect(wrapper.find('.bus')).to.have.lengthOf(1);
@@ -170,7 +170,7 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
       context: mockContext,
     });
     expect(wrapper.find('.alert-row-link').get(0).props.to).to.equal(
@@ -193,7 +193,7 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
       context: mockContext,
     });
     expect(wrapper.find('.alert-url')).to.have.lengthOf(1);
@@ -214,7 +214,7 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
       context: mockContext,
     });
     expect(wrapper.find(RouteNumber).prop('alertSeverityLevel')).to.equal(
@@ -236,7 +236,7 @@ describe('<AlertRow />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
       context: mockContext,
     });
     expect(wrapper.find('.alert-url').prop('href')).to.equal(

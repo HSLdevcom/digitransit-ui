@@ -37,8 +37,8 @@ const getActiveTab = pathname => {
 };
 
 function StopPageTabs({ stop }, { match }) {
-  const { router } = match;
-  if (!stop) {
+  const { router, params } = match;
+  if (!stop || params.alertId) {
     return null;
   }
   const activeTab = getActiveTab(match.location.pathname);
@@ -58,6 +58,10 @@ function StopPageTabs({ stop }, { match }) {
     currentTime,
   );
 
+  const alertsCount = (
+    isTerminal ? getServiceAlertsForStation(stop) : getAlertsForObject(stop)
+  ).length;
+
   let disruptionClassName;
   let disruptionIcon;
   if (
@@ -68,7 +72,9 @@ function StopPageTabs({ stop }, { match }) {
   ) {
     disruptionClassName = 'active-disruption-alert';
     disruptionIcon = (
-      <Icon img="icon_caution-no-excl-no-stroke" color="#DC0451" />
+      <span className="alert-circle" style={{ backgroundColor: '#DC0451' }}>
+        {alertsCount}
+      </span>
     );
   } else if (maxAlertSeverity === AlertSeverityLevelType.Info) {
     disruptionClassName = 'active-service-alert';

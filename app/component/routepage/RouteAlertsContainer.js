@@ -3,7 +3,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
-import AlertList from '../AlertList';
+import DisruptionList from '../DisruptionList';
 import {
   getAlertsForObject,
   tripHasCancelation,
@@ -82,7 +82,7 @@ function RouteAlertsContainer({ currentTime, route, pattern }, { config }) {
   );
 
   return (
-    <AlertList
+    <DisruptionList
       showLinks={false}
       cancelations={cancelations}
       serviceAlerts={serviceAlerts}

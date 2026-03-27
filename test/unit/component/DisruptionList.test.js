@@ -1,18 +1,18 @@
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { Component as AlertList } from '../../../app/component/AlertList';
-import AlertRow from '../../../app/component/AlertRow';
+import { Component as DisruptionList } from '../../../app/component/DisruptionList';
+import Disruption from '../../../app/component/Disruption';
 import { AlertEntityType } from '../../../app/constants';
 
-describe('<AlertList />', () => {
+describe('<DisruptionList />', () => {
   it('should show a "no alerts" message', () => {
     const props = {
       currentTime: 1547464412,
       cancelations: [],
       serviceAlerts: [],
     };
-    const wrapper = shallowWithIntl(<AlertList {...props} />);
+    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
     expect(wrapper.find('.no-alerts-container')).to.have.lengthOf(1);
   });
 
@@ -80,11 +80,11 @@ describe('<AlertList />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertList {...props} />);
-    expect(wrapper.find(AlertRow).at(0).prop('header')).to.equal('first');
-    expect(wrapper.find(AlertRow).at(1).prop('header')).to.equal('second');
-    expect(wrapper.find(AlertRow).at(2).prop('header')).to.equal('third');
-    expect(wrapper.find(AlertRow).at(3).prop('header')).to.equal('fourth');
+    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
+    expect(wrapper.find(Disruption).at(0).prop('header')).to.equal('first');
+    expect(wrapper.find(Disruption).at(1).prop('header')).to.equal('second');
+    expect(wrapper.find(Disruption).at(2).prop('header')).to.equal('third');
+    expect(wrapper.find(Disruption).at(3).prop('header')).to.equal('fourth');
   });
 
   it('should not display past service alerts', () => {
@@ -109,7 +109,7 @@ describe('<AlertList />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertList {...props} />);
+    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
     expect(wrapper.find('.no-alerts-container')).to.have.lengthOf(1);
   });
 
@@ -149,8 +149,8 @@ describe('<AlertList />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertList {...props} />);
-    expect(wrapper.find(AlertRow)).to.have.lengthOf(2);
+    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
+    expect(wrapper.find(Disruption)).to.have.lengthOf(2);
   });
 
   it('should not display future service alerts', () => {
@@ -174,7 +174,7 @@ describe('<AlertList />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertList {...props} />);
+    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
     expect(wrapper.find('.no-alerts-container')).to.have.lengthOf(1);
   });
 });

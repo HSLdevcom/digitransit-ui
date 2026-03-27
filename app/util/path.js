@@ -15,6 +15,7 @@ export const PREFIX_CARPARK = 'autoparkit';
 export const PREFIX_TERMINALS = 'terminaalit';
 export const PREFIX_ITINERARY_SUMMARY = 'reitti';
 export const PREFIX_DISRUPTION = 'hairiot';
+export const PREFIX_DISRUPTION_DETAILS = 'hairio';
 export const PREFIX_TIMETABLE = 'aikataulu';
 export const stopUrl = id => id;
 export const EMBEDDED_SEARCH_PATH = '/haku';

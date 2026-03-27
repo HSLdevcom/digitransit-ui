@@ -10,6 +10,7 @@ import {
   PREFIX_TERMINALS,
   PREFIX_DISRUPTION,
   PREFIX_TIMETABLE,
+  PREFIX_DISRUPTION_DETAILS,
 } from './util/path';
 import {
   getDefault,
@@ -246,22 +247,16 @@ export default function getStopRoutes(isTerminal = false) {
               />
               <Route
                 path={PREFIX_DISRUPTION}
-                getComponent={() => {
-                  return isTerminal
-                    ? import(
-                        /* webpackChunkName: "stop" */ './component/stop/Disruptions'
-                      )
-                        .then(getDefault)
-                        .catch(errorLoading)
-                    : import(
-                        /* webpackChunkName: "stop" */ './component/stop/Disruptions'
-                      )
-                        .then(getDefault)
-                        .catch(errorLoading);
-                }}
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "stop" */ './component/stop/Disruptions'
+                  )
+                    .then(getDefault)
+                    .catch(errorLoading)
+                }
                 query={queryMap.pageAlerts}
                 prepareVariables={prepareDatesForStops}
-                render={withRouteContext()}
+                render={getComponentOrNullRenderer}
               />
             </Route>
           ),

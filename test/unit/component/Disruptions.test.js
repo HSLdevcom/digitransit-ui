@@ -7,8 +7,8 @@ import {
   AlertSeverityLevelType,
   AlertEntityType,
 } from '../../../app/constants';
-import AlertList from '../../../app/component/AlertList';
-import StopAlerts from '../../../app/component/stop/StopAlerts';
+import DisruptionList from '../../../app/component/DisruptionList';
+import Disruptions from '../../../app/component/stop/Disruptions';
 
 describe('<StopAlerts />', () => {
   it("should indicate that there are no alerts if the stop's routes have no alerts and the stop has no canceled stoptimes", () => {
@@ -41,10 +41,10 @@ describe('<StopAlerts />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<StopAlerts {...props} />, {
+    const wrapper = shallowWithIntl(<Disruptions {...props} />, {
       context: { ...mockContext },
     });
-    expect(wrapper.find(AlertList).props()).to.deep.equal({
+    expect(wrapper.find(DisruptionList).props()).to.deep.equal({
       cancelations: [],
       serviceAlerts: [],
       showLinks: false,
@@ -75,10 +75,12 @@ describe('<StopAlerts />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<StopAlerts {...props} />, {
+    const wrapper = shallowWithIntl(<Disruptions {...props} />, {
       context: { ...mockContext },
     });
-    expect(wrapper.find(AlertList).prop('serviceAlerts')).to.have.lengthOf(1);
+    expect(wrapper.find(DisruptionList).prop('serviceAlerts')).to.have.lengthOf(
+      1,
+    );
   });
 
   it('should indicate that there is a canceled stoptime on a route', () => {
@@ -111,10 +113,12 @@ describe('<StopAlerts />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<StopAlerts {...props} />, {
+    const wrapper = shallowWithIntl(<Disruptions {...props} />, {
       context: { ...mockContext },
     });
-    expect(wrapper.find(AlertList).prop('cancelations')).to.have.lengthOf(1);
+    expect(wrapper.find(DisruptionList).prop('cancelations')).to.have.lengthOf(
+      1,
+    );
   });
 
   it('should indicate that the stop itself has a service alert', () => {
@@ -138,9 +142,11 @@ describe('<StopAlerts />', () => {
         stoptimes: [],
       },
     };
-    const wrapper = shallowWithIntl(<StopAlerts {...props} />, {
+    const wrapper = shallowWithIntl(<Disruptions {...props} />, {
       context: { ...mockContext },
     });
-    expect(wrapper.find(AlertList).prop('serviceAlerts')).to.have.lengthOf(1);
+    expect(wrapper.find(DisruptionList).prop('serviceAlerts')).to.have.lengthOf(
+      1,
+    );
   });
 });

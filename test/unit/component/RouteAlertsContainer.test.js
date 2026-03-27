@@ -4,7 +4,7 @@ import React from 'react';
 
 import { mockContext } from '../helpers/mock-context';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import AlertList from '../../../app/component/AlertList';
+import DisruptionList from '../../../app/component/DisruptionList';
 import { Component as RouteAlertsContainer } from '../../../app/component/routepage/RouteAlertsContainer';
 
 describe('<RouteAlertsContainer />', () => {
@@ -42,7 +42,7 @@ describe('<RouteAlertsContainer />', () => {
         match: { params: { patternId: 'HSL:1063:0:01' } },
       },
     });
-    expect(wrapper.find(AlertList).props()).to.deep.equal({
+    expect(wrapper.find(DisruptionList).props()).to.deep.equal({
       cancelations: [],
       serviceAlerts: [],
       showLinks: false,
@@ -96,7 +96,9 @@ describe('<RouteAlertsContainer />', () => {
         match: { params: { patternId: 'HSL:1063:0:01' } },
       },
     });
-    expect(wrapper.find(AlertList).prop('cancelations')).to.have.lengthOf(1);
+    expect(wrapper.find(DisruptionList).prop('cancelations')).to.have.lengthOf(
+      1,
+    );
   });
 
   it('should indicate that there are service alerts', () => {
@@ -128,7 +130,9 @@ describe('<RouteAlertsContainer />', () => {
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
       context: { ...mockContext },
     });
-    expect(wrapper.find(AlertList).prop('serviceAlerts')).to.have.lengthOf(1);
+    expect(wrapper.find(DisruptionList).prop('serviceAlerts')).to.have.lengthOf(
+      1,
+    );
   });
 
   it('should use the tripHeadsign if the stoptime does not have a headsign', () => {
@@ -168,7 +172,7 @@ describe('<RouteAlertsContainer />', () => {
       },
     });
     expect(
-      wrapper.find(AlertList).prop('cancelations')[0].alertDescriptionText,
+      wrapper.find(DisruptionList).prop('cancelations')[0].alertDescriptionText,
     ).to.include('foobar');
   });
 });
