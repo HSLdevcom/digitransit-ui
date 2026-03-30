@@ -37,8 +37,8 @@ const getActiveTab = pathname => {
 };
 
 function StopPageTabs({ stop }, { match }) {
-  const { router, params } = match;
-  if (!stop || params.alertId) {
+  const { router, location } = match;
+  if (!stop || location.query.alertId) {
     return null;
   }
   const activeTab = getActiveTab(match.location.pathname);

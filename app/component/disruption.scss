@@ -85,9 +85,9 @@
     align-items: center;
     border-bottom: solid;
     border-top: solid;
-    padding: 0px 64px 0px 64px;
+    padding: 0 64px 0 64px;
     border-width: 1px;
-    border-color: #dddddd;
+    border-color: #ddd;
 
     .validity {
       height: 24px;
@@ -97,7 +97,7 @@
       border-left: solid;
       font-size: 15px;
       border-width: 1px;
-      border-color: #dddddd;
+      border-color: #ddd;
       display: flex;
 
       .icon-container {
@@ -116,7 +116,7 @@
 
     .external-link-container {
       border-radius: 999em;
-      padding: 0px 24px 0px 24px;
+      padding: 0 24px 0 24px;
     }
 
     .external-link {
@@ -141,6 +141,7 @@
   .alerts-list-section-header {
     min-height: 32px;
     font-size: 16px;
+
     p {
       font-weight: 500;
       font-size: 16px;
@@ -148,6 +149,7 @@
       letter-spacing: -0.3px;
     }
   }
+
   .alerts-list-section-no-alerts {
     p {
       text-align: center;
@@ -160,7 +162,7 @@
     position: relative;
     border-radius: 8px;
     margin-bottom: 16px;
-    box-shadow: 0px 2px 4px 0px #33333333;
+    box-shadow: 0 2px 4px 0 #3333;
 
     .alert-row-arrow {
       position: absolute;
@@ -180,6 +182,7 @@
         display: inline;
       }
     }
+
     .alert-row-badges {
       display: flex;
       max-height: 32px;
@@ -302,13 +305,14 @@
 
 .mobile {
   .alerts-list {
-    padding: 0px 16px 0px 16px;
+    padding: 0 16px 0 16px;
   }
 
   .alert-details {
     .alert-details-header {
-      padding: 0px 24px 0px 24px;
+      padding: 0 24px 0 24px;
     }
+
     .alert-details-content {
       padding: 24px;
 

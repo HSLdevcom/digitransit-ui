@@ -10,12 +10,11 @@ import Disruption from './Disruption';
 import {
   alertCompare,
   currentAndFutureAlerts,
-  getEntitiesOfType,
   isAlertValid,
 } from '../util/alertUtils';
 import { alertShape } from '../util/shapes';
 import { useBreakpoint } from '../util/withBreakpoint';
-import { AlertEntityType, AlertSeverityLevelType } from '../constants';
+import { AlertSeverityLevelType } from '../constants';
 import Icon from './Icon';
 import { useConfigContext } from '../configurations/ConfigContext';
 import Badge from './Badge';
@@ -88,7 +87,6 @@ const DisruptionList = ({
   disableScrolling,
   serviceAlerts = [],
   showLinks,
-  onClickLink,
 }) => {
   const { match, router } = useRouter();
   const breakpoint = useBreakpoint();
@@ -101,9 +99,6 @@ const DisruptionList = ({
     return <DisruptionDetails {...activeAlert} />;
   }
 
-  const validAlerts = serviceAlerts.filter(alert =>
-    isAlertValid(alert, currentTime),
-  );
   const validCancelations = cancelations.filter(cancelation =>
     isAlertValid(cancelation, currentTime),
   );
@@ -111,7 +106,7 @@ const DisruptionList = ({
     router.push({ pathname: match.location.pathname, query: { alertId: id } });
   };
 
-  //Cancelations should be between non-info alerts and info alerts
+  // Cancelations should be between non-info alerts and info alerts
   const alertsSorted = [
     ...serviceAlerts
       .filter(alert => alert.alertSeverityLevel !== AlertSeverityLevelType.Info)
