@@ -1589,23 +1589,20 @@ $margin-left-right: 21.3px;
 
   a {
     text-decoration: none;
+    display: block;
+    width: 100%;
   }
 
   .similar-route {
     display: flex;
-    justify-content: space-between;
     width: 100%;
+    padding-right: 48px; // reserve space for the arrow (16px) + 32px gap from right edge
 
-    .icon-container {
+    > .icon-container {
       position: relative;
       margin-top: 3px; // visual alignment with text baseline
       margin-right: 10px; // gap between mode icon and route text
       flex-shrink: 0;
-    }
-
-    .icon-container:last-child {
-      margin-top: 5px; // nav arrow sits slightly lower than the mode icon
-      margin-right: var(--space-s);
     }
 
     .similar-route-text {
@@ -1614,6 +1611,15 @@ $margin-left-right: 21.3px;
       display: flex;
       flex-direction: column;
       white-space: nowrap;
+    }
+
+    > .icon-container:last-child {
+      position: absolute;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%); // vertically centered
+      margin: 0;
+      flex-shrink: 0;
     }
   }
 
@@ -1626,8 +1632,8 @@ $margin-left-right: 21.3px;
   }
 
   .similar-route .icon-container:last-child .similar-route-arrow {
-    width: 1.35em;
-    height: 1.35em;
+    width: 16px;
+    height: 16px;
     color: $link-button-color;
   }
 
