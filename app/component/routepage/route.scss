@@ -1370,6 +1370,8 @@ $margin-left-right: 21.3px;
       margin-right: -$margin-left-right;
       border-color: transparent;
       border-radius: 0;
+      background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
+        $theme-primary-color;
       color: $white;
 
       .input-display {
@@ -1383,7 +1385,7 @@ $margin-left-right: 21.3px;
         color: $black;
 
         .in-text-arrow {
-          color: var(--mode-color);
+          color: var(--mode-color, $theme-primary-color);
         }
       }
 
@@ -1430,6 +1432,7 @@ $margin-left-right: 21.3px;
     font-size: $font-size-xxsmall;
     font-weight: $font-weight-book;
     color: $white;
+    background: $theme-primary-color;
     flex-shrink: 0;
     letter-spacing: $letter-spacing;
   }
@@ -1665,6 +1668,7 @@ $margin-left-right: 21.3px;
     // colour band spans the full width of route-page-content (21.3px each side)
     margin-left: -$margin-left-right;
     margin-right: -$margin-left-right;
+    background: $theme-primary-color;
     color: $white;
 
     // Override the abs-positioned icon rule from .route-pattern-select .icon
@@ -1689,6 +1693,10 @@ $margin-left-right: 21.3px;
       width: 16px;
       height: 16px;
       flex-shrink: 0;
+    }
+
+    .route-pattern-origin-icon {
+      color: $theme-primary-color;
     }
 
     .route-pattern-destination-icon {

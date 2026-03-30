@@ -160,7 +160,10 @@ function RoutePatternSelectContainer({
     currentPattern?.headsign ||
     currentPattern?.stops[currentPattern.stops.length - 1].name ||
     '';
-  const backgroundColor = getModeIconColor(config, getRouteMode(route, config));
+  const modeColor = getModeIconColor(config, getRouteMode(route, config));
+  const headerBackgroundColor = config.interactiveElementsUseModeColor
+    ? modeColor
+    : null;
 
   const msg = id => intl.formatMessage({ id });
   const optionArray = [
@@ -196,7 +199,7 @@ function RoutePatternSelectContainer({
       <RoutePatternHeader
         origin={origin}
         destination={destination}
-        backgroundColor={backgroundColor}
+        backgroundColor={headerBackgroundColor}
         canSwap={canSwapDirection}
         onSwap={
           canSwapDirection ? () => onSelectChange(otherPattern.code) : undefined
@@ -209,7 +212,7 @@ function RoutePatternSelectContainer({
           onSelectChange={onSelectChange}
           className={className}
           router={router}
-          backgroundColor={backgroundColor}
+          backgroundColor={headerBackgroundColor}
         />
       )}
     </div>

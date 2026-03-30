@@ -21,7 +21,7 @@ function RoutePatternHeader({
     >
       <div className="route-pattern-endpoint">
         <Icon
-          className="route-pattern-header-icon"
+          className="route-pattern-header-icon route-pattern-origin-icon"
           img="icon_origin-ellipse"
           viewBox="0 0 16 16"
           color={backgroundColor}

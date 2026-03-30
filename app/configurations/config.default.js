@@ -889,4 +889,5 @@ export default {
     allowedExternalFlexRouteTypes: [1501],
     minTransferTime: 900, // seconds
   },
+  interactiveElementsUseModeColor: false,
 };

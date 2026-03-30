@@ -326,10 +326,13 @@ export default function RoutePatternSelect({
   return (
     <div className={`route-pattern-select ${className}`} aria-atomic="true">
       <div
-        className={cx('pattern-select-container', {
-          'pattern-select-container--open': isOpen,
-          'pattern-select-container--colored': !!backgroundColor,
-        })}
+        className={cx(
+          'pattern-select-container',
+          'pattern-select-container--colored',
+          {
+            'pattern-select-container--open': isOpen,
+          },
+        )}
         style={
           backgroundColor
             ? {
