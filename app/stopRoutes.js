@@ -10,7 +10,6 @@ import {
   PREFIX_TERMINALS,
   PREFIX_DISRUPTION,
   PREFIX_TIMETABLE,
-  PREFIX_DISRUPTION_DETAILS,
 } from './util/path';
 import {
   getDefault,
@@ -20,7 +19,6 @@ import {
 } from './util/routerUtils';
 import { prepareDatesForStops } from './util/dateParamUtils';
 import { DATE_FORMAT } from './constants';
-import { withRouteContext } from './util/RouteContext';
 
 const queries = {
   stop: {
