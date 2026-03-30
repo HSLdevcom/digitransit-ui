@@ -25,8 +25,8 @@ export default function Disruption({
 
   const entitiesByMode = groupEntitiesByMode(entities, config);
   return (
-    <div>
-      <div className="alert-row" role="listitem">
+    <div className="alert-row" role="listitem">
+      {toggleDetails && (
         <button
           type="button"
           onClick={() => toggleDetails(id)}
@@ -37,50 +37,50 @@ export default function Disruption({
             color={config.colors.primary}
           />
         </button>
-        <div className="alert-row-top">
-          <Badge showIcon variant={alertSeverityLevel} label={alertEffect} />
-        </div>
-        <div className="alert-row-badges">
-          {Object.entries(entitiesByMode).map(
-            ([modeKey, { mode, entities: modeEntities }]) => {
-              return (
-                <React.Fragment key={modeKey}>
-                  <Icon
-                    img={`icon_${mode === 'bus-express' ? 'bus' : mode}`}
-                    className={`${mode}`}
-                    height={2}
-                    width={2}
-                  />
-                  <span className="route-badge-lines">
-                    {modeEntities.map(({ url, id: entityId, name }) => (
-                      <a
-                        href={url}
-                        key={entityId}
-                        onClick={e => {
-                          e.preventDefault();
-                          onClickLink?.();
-                          match.router.push(url);
-                        }}
-                      >
-                        <span>{name}</span>
-                      </a>
-                    ))}
-                  </span>
-                </React.Fragment>
-              );
-            },
-          )}
-        </div>
-        <div className="alert-row-bottom">
-          <span className="alert-row-title">{alertHeaderText}</span>
-        </div>
+      )}
+      <div className="alert-row-top">
+        <Badge showIcon variant={alertSeverityLevel} label={alertEffect} />
+      </div>
+      <div className="alert-row-badges">
+        {Object.entries(entitiesByMode).map(
+          ([modeKey, { mode, entities: modeEntities }]) => {
+            return (
+              <React.Fragment key={modeKey}>
+                <Icon
+                  img={`icon_${mode === 'bus-express' ? 'bus' : mode}`}
+                  className={`${mode}`}
+                  height={2}
+                  width={2}
+                />
+                <span className="route-badge-lines">
+                  {modeEntities.map(({ url, id: entityId, name }) => (
+                    <a
+                      href={url}
+                      key={entityId}
+                      onClick={e => {
+                        e.preventDefault();
+                        onClickLink?.();
+                        match.router.push(url);
+                      }}
+                    >
+                      <span>{name}</span>
+                    </a>
+                  ))}
+                </span>
+              </React.Fragment>
+            );
+          },
+        )}
+      </div>
+      <div className="alert-row-bottom">
+        <span className="alert-row-title">{alertHeaderText}</span>
       </div>
     </div>
   );
 }
 
 Disruption.propTypes = {
-  toggleDetails: PropTypes.func.isRequired,
+  toggleDetails: PropTypes.func,
   alertDescriptionText: PropTypes.string,
   alertEffect: PropTypes.string,
   entities: PropTypes.arrayOf(
@@ -91,6 +91,6 @@ Disruption.propTypes = {
   ),
   alertSeverityLevel: PropTypes.string,
   alertHeaderText: PropTypes.string,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   onClickLink: PropTypes.func,
 };
