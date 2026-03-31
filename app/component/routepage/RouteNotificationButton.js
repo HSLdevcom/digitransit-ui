@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
-import '@hsl-fi/design-tokens/css/colors.css';
-import '@hsl-fi/design-tokens/css/shadows.css';
 import { useTranslationsContext } from '../../util/useTranslationsContext';
 import ThemedIcon from '../ThemedIcon';
 
