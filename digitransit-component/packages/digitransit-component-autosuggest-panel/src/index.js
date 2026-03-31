@@ -446,7 +446,7 @@ class DTAutosuggestPanel extends React.Component {
         <div className={styles['origin-input-container']}>
           <DTAutoSuggest
             appElement={this.props.appElement}
-            icon="mapMarker"
+            icon="originEllipse"
             id="origin"
             autoFocus={
               disableAutoFocus === true

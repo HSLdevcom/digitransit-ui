@@ -15,6 +15,7 @@ import Work from './assets/work.svg';
 import Map from './assets/map.svg';
 import Close from './assets/close.svg';
 import Mapmarker from './assets/mapmarker.svg';
+import OriginEllipse from './assets/origin-ellipse.svg';
 import Search from './assets/search.svg';
 import Plus from './assets/plus.svg';
 import Attention from './assets/attention.svg';
@@ -112,6 +113,7 @@ const iconMap = {
   bikepark: BikePark,
   carpark: CarPark,
   mapMarker: Mapmarker,
+  originEllipse: OriginEllipse,
   search: Search,
   plus: Plus,
   attention: Attention,

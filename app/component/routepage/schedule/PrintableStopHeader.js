@@ -10,7 +10,7 @@ const PrintableStopHeader = ({ fromDisplayName, toDisplayName }) => {
   return (
     <div className="printable-stop-header">
       <div className="printable-stop-header_icon-from">
-        <Icon img="icon_mapMarker" />
+        <Icon img="icon_origin-ellipse" />
       </div>
       <div className="printable-stop-header_from">{fromDisplayName}</div>
       <div className="printable-stop-header_icon-to">

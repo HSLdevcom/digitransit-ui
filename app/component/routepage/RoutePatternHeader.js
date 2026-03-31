@@ -24,7 +24,6 @@ function RoutePatternHeader({
           className="route-pattern-header-icon route-pattern-origin-icon"
           img="icon_origin-ellipse"
           viewBox="0 0 16 16"
-          color={backgroundColor}
         />
         <span className="route-pattern-location-name">{origin}</span>
       </div>

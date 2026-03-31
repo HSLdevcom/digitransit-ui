@@ -199,6 +199,11 @@
    <path fill="#fff" d="M6.5 10c0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5-3.5-1.57-3.5-3.5"/>
   </symbol>
 
+  <symbol id="icon_origin-ellipse-map" viewBox="0 0 20 20">
+   <circle cx="10" cy="10" r="10" fill="white"/>
+   <path fill="currentColor" fill-rule="evenodd" d="M10 1A9 9 0 1 0 10 19A9 9 0 0 0 10 1ZM10 6.5A3.5 3.5 0 1 0 10 13.5A3.5 3.5 0 0 0 10 6.5Z"/>
+  </symbol>
+
   <symbol id="icon_menu" viewBox="0 0 1024 1024">
    <path d="M0 204.793h1024v102.404H0zm0 256.003h1024V563.2H0zm0 256.008h1024v102.404H0z"/>
   </symbol>
@@ -1323,7 +1328,7 @@
   </symbol>
 
   <svg id="icon_origin-ellipse" viewBox="0 0 16 16">
-    <circle cx="8" cy="8" r="5.5" stroke="white" fill="currentColor" stroke-width="5"/>
+    <path fill="currentColor" fill-rule="evenodd" d="M8 0A8 8 0 1 0 8 16A8 8 0 0 0 8 0ZM8 5A3 3 0 1 0 8 11A3 3 0 0 0 8 5Z"/>
   </svg>
 
   <symbol id="icon_small-circle" viewBox="0 0 2 2">
