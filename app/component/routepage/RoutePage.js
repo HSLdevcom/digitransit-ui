@@ -26,7 +26,7 @@ import {
 } from '../../util/alertUtils';
 import { AlertEntityType } from '../../constants';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
-// import RouteNotificationButton from './RouteNotificationButton';
+import RouteNotificationButton from './RouteNotificationButton';
 import { isLocalCallAgency } from '../../util/legUtils';
 import { useTranslationsContext } from '../../util/useTranslationsContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
@@ -75,9 +75,9 @@ function RoutePage({
     ?.filter(alert => hasEntitiesOfType(alert, AlertEntityType.Route))
     .filter(alert => isAlertValid(alert, currentTime));
   const localCallAgency = isLocalCallAgency(route, config);
-  // const matchingNotification = config.routeNotifications?.find(n =>
-  //   n.showForRoute?.(route),
-  // );
+  const matchingNotification = config.routeNotifications?.find(n =>
+    n.showForRoute?.(route),
+  );
   return (
     <div className="route-page-container">
       <div className="header-for-printing">
@@ -128,14 +128,14 @@ function RoutePage({
           </div>
           {!tripId && (
             <div className="route-header-actions">
-              {/* {matchingNotification && (
+              {matchingNotification && (
                 <>
                   <RouteNotificationButton
                     notification={matchingNotification}
                   />
                   <span className="route-header-divider" aria-hidden="true" />
                 </>
-              )} */}
+              )}
               <FavouriteRouteContainer
                 className="route-page-header"
                 gtfsId={route.gtfsId}
