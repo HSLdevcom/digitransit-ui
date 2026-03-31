@@ -447,7 +447,7 @@ export default {
     minZoomStopsNearYou: 10,
     showFullInfo: true,
     networks: {
-      hsl: {
+      smoove: {
         enabled: true,
         season: {
           preSeasonStart: '1.3',
