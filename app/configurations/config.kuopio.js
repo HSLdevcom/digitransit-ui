@@ -41,6 +41,7 @@ export default configMerger(walttiConfig, {
   showTicketPrice: true,
   showTicketInformation: true,
   primaryAgencyName: 'Kuopion seudun joukkoliikenne',
+  appName: 'vilkkuapp',
 
   ticketLink: {
     fi: 'https://vilkku.kuopio.fi/lipputyypit-hinnat/lippujen-hinnat',
