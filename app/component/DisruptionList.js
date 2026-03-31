@@ -20,7 +20,7 @@ import { useConfigContext } from '../configurations/ConfigContext';
 import Badge from './Badge';
 import ExternalLink from './ExternalLink';
 
-const EmptyDisruptions = () => {
+export const EmptyDisruptions = () => {
   const config = useConfigContext();
   return (
     <div className="no-alerts-container">

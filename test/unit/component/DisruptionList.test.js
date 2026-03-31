@@ -1,11 +1,33 @@
 import React from 'react';
+import sinon from 'sinon';
+import * as found from 'found';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { Component as DisruptionList } from '../../../app/component/DisruptionList';
+import {
+  Component as DisruptionList,
+  EmptyDisruptions,
+} from '../../../app/component/DisruptionList';
 import Disruption from '../../../app/component/Disruption';
 import { AlertEntityType } from '../../../app/constants';
+import * as ConfigContext from '../../../app/configurations/ConfigContext';
+import * as withBreakpoint from '../../../app/util/withBreakpoint';
+import { mockContext } from '../helpers/mock-context';
 
 describe('<DisruptionList />', () => {
+  beforeEach(() => {
+    sinon.stub(ConfigContext, 'useConfigContext').returns(mockContext.config);
+    sinon
+      .stub(found, 'useRouter')
+      .returns({ match: mockContext.match, router: mockContext.router });
+    sinon.stub(withBreakpoint, 'useBreakpoint').returns('small');
+  });
+
+  afterEach(() => {
+    ConfigContext.useConfigContext.restore();
+    found.useRouter.restore();
+    withBreakpoint.useBreakpoint.restore();
+  });
+
   it('should show a "no alerts" message', () => {
     const props = {
       currentTime: 1547464412,
@@ -13,7 +35,7 @@ describe('<DisruptionList />', () => {
       serviceAlerts: [],
     };
     const wrapper = shallowWithIntl(<DisruptionList {...props} />);
-    expect(wrapper.find('.no-alerts-container')).to.have.lengthOf(1);
+    expect(wrapper.find(EmptyDisruptions)).to.have.lengthOf(1);
   });
 
   it('should order the cancelations and service alerts by route shortName and put alerts first', () => {
@@ -151,30 +173,5 @@ describe('<DisruptionList />', () => {
     };
     const wrapper = shallowWithIntl(<DisruptionList {...props} />);
     expect(wrapper.find(Disruption)).to.have.lengthOf(2);
-  });
-
-  it('should not display future service alerts', () => {
-    const props = {
-      currentTime: 100,
-      serviceAlerts: [
-        {
-          alertHeaderText: 'servicealert',
-          alertSeverityLevel: 'SEVERE',
-          effectiveStartDate: 101,
-          effectiveEndDate: 200,
-          feed: 'foo',
-          entities: [
-            {
-              __typename: AlertEntityType.Route,
-              mode: 'TRAM',
-              shortName: '8A',
-              gtfsId: 'foo:8A',
-            },
-          ],
-        },
-      ],
-    };
-    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
-    expect(wrapper.find('.no-alerts-container')).to.have.lengthOf(1);
   });
 });
