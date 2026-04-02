@@ -441,11 +441,6 @@ export function getPlanParams(
       transitOnly = false;
       numItineraries = 6;
       carReluctance = 1.75;
-      // This is done to enable more cache hits. New cache entries are generated for different speeds otherwise.
-      settings.walkSpeed = null;
-      settings.bikeSpeed = null;
-      settings.walkReluctance = null;
-      settings.bikeReluctance = null;
       // As of writing this comment, iterating (paging) does not support filtering of bad car transit itineraries.
       maxQueryIterations = 1;
       // Via routing for cars is too performance intensive.

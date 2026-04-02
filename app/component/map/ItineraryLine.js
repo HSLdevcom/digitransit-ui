@@ -162,7 +162,17 @@ class ItineraryLine extends React.Component {
     );
   }
 
-  handleLine(previousLeg, leg, nextLeg, mode, i, geometry, objs, clusterObjs) {
+  handleLine(
+    previousLeg,
+    leg,
+    nextLeg,
+    mode,
+    i,
+    geometry,
+    objs,
+    clusterObjs,
+    appendClass,
+  ) {
     const entranceObject = getEntranceObject(previousLeg, leg);
     const indoorLegType = getIndoorLegType(previousLeg, leg, nextLeg);
     if (indoorLegType !== IndoorLegType.NoStepsInside) {
@@ -185,11 +195,7 @@ class ItineraryLine extends React.Component {
           geometry={geometry}
           mode={mode}
           passive={this.props.passive}
-          appendClass={
-            isLocalCallAgency(leg.route, this.context.config)
-              ? 'call-local'
-              : ''
-          }
+          appendClass={appendClass}
         />,
       );
     }
@@ -421,7 +427,7 @@ class ItineraryLine extends React.Component {
         leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
         leg.from.rentalVehicle?.rentalNetwork.networkId;
 
-      const appendClass = isLocalCallAgency(leg.route, this.context.config)
+      const appendClass = isLocalCallAgency(leg, this.context.config)
         ? 'call-local'
         : '';
 
@@ -446,6 +452,7 @@ class ItineraryLine extends React.Component {
         geometry,
         objs,
         clusterObjs,
+        appendClass,
       );
       this.handleDurationBubble(leg, mode, i, objs, middle);
       this.handleIntermediateStops(leg, mode, objs);

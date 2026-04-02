@@ -453,9 +453,8 @@ class IndexPage extends React.Component {
             <CtrlPanel.SeparatorLine usePaddingBottom20 />
             {trafficNowLink && (
               <TrafficNowLink
-                lang={config.language}
                 handleClick={this.trafficNowHandler}
-                fontWeights={fontWeights}
+                href={`/${TRAFFICNOW}`}
               />
             )}
           </CtrlPanel>

@@ -139,10 +139,6 @@ export function getLegMode(legOrMode) {
   }
 }
 
-export function isCallAgencyLeg(route) {
-  return route?.type === ExtendedRouteTypes.CallAgency;
-}
-
 /**
  * Checks if both of the legs exist and are taken with mode 'BICYCLE'.
  *
@@ -460,7 +456,10 @@ function isBikingLeg(leg) {
   return [LegMode.Bicycle, LegMode.CityBike].includes(getLegMode(leg));
 }
 function isDrivingLeg(leg) {
-  return [LegMode.Car].includes(getLegMode(leg));
+  return LegMode.Car === getLegMode(leg);
+}
+export function isCallAgencyLeg(leg) {
+  return leg.route?.type === ExtendedRouteTypes.CallAgency;
 }
 
 /**
@@ -539,7 +538,6 @@ export function getTotalWalkingDistance(itinerary) {
  *
  * @param {*} itinerary the itinerary to extract the total biking distance from
  */
-
 export function getTotalBikingDistance(itinerary) {
   return sumDistances(itinerary.legs.filter(isBikingLeg));
 }
@@ -977,12 +975,12 @@ export function getValidatedLegName(name, intl, start) {
  * @param {object} config - Config data.
  * @returns {boolean} - Returns true if leg is a local call agency.
  */
-export function isLocalCallAgency(route, config) {
-  if (!route) {
+export function isLocalCallAgency(leg, config) {
+  if (!leg?.route) {
     return false;
   }
   return (
-    isCallAgencyLeg(route) &&
-    config.flex.internalAgencies.includes(route.agency.gtfsId)
+    isCallAgencyLeg(leg) &&
+    config.flex.internalAgencies.includes(leg.route.agency.gtfsId)
   );
 }

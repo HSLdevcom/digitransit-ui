@@ -136,6 +136,7 @@
     "@hsl-fi/assets": "^2.1.0",
     "@hsl-fi/button": "^1.2.4",
     "@hsl-fi/container-spinner": "0.3.2",
+    "@hsl-fi/design-system-core": "^2.7.0",
     "@hsl-fi/design-tokens": "^1.24.0",
     "@hsl-fi/dialog": "^3.1.0",
     "@hsl-fi/hooks": "1.2.4",

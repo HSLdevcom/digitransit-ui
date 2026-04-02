@@ -505,7 +505,7 @@ class TransitLeg extends React.Component {
           }
           viaType={leg.from.viaLocationType}
           isStop={!!leg.from.stop}
-          appendClass={isLocalCallAgency(leg.route, config) ? 'call-local' : ''}
+          appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
         />
         <div
           style={{

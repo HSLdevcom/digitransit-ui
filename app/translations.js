@@ -3815,6 +3815,7 @@ const translations = {
       'Walk your bike for {distance} ({duration}) and take it on the {transportMode}',
     'bicycle-walk-to-transit-no-duration':
       'Walk your bike to the {transportMode}',
+    bicycle_frame_lock: 'Frame locking',
     'bike-availability': 'Rowery nie są teraz dostępne na stacji',
     'bike-only': 'Tylko rower',
     'bike-park': '„Parkuj i Jedź” dla rowerów',

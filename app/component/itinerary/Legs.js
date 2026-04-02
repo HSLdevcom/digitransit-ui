@@ -190,7 +190,7 @@ export default class Legs extends React.Component {
           );
         }
       }
-      if (leg.mode !== 'WALK' && isCallAgencyLeg(leg.route)) {
+      if (leg.mode !== 'WALK' && isCallAgencyLeg(leg)) {
         legs.push(<CallAgencyLeg {...transitLegProps} />);
       } else if (leg.intermediatePlace) {
         legs.push(<ViaLeg {...legProps} arrival={startTime} />);

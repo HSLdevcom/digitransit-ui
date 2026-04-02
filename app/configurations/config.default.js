@@ -188,12 +188,14 @@ export default {
   defaultSettings: {
     accessibilityOption: false,
     optimize: 'GREENWAYS',
+    bikeBoardCost: 120,
+    bikeReluctance: 1.2,
     bikeSpeed: 5.55,
     ticketTypes: 'none',
     walkBoardCost: 120,
-    walkReluctance: 1.8,
+    walkReluctance: 1.2,
     walkSpeed: 1.2,
-    transferPenalty: 0,
+    transferPenalty: 180,
     minTransferTime: 90,
     includeBikeSuggestions: true,
     includeParkAndRideSuggestions: false,
@@ -879,7 +881,6 @@ export default {
   shortenLongTextThreshold: 10, // for route number in itinerary summary
   showRouteDescNotification: false,
   showStopStatusMarkers: false,
-  personalisation: false,
   flex: {
     internalFlexEnabled: false,
     allowTaxiJourneys: false,
@@ -890,4 +891,5 @@ export default {
     minTransferTime: 900, // seconds
   },
   interactiveElementsUseModeColor: false,
+  personalisation: false,
 };

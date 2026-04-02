@@ -1,0 +1,9 @@
+:root {
+  /**
+  * @tokens Accent Primary colors
+  * @presenter Color
+  */
+  --color-accent-primary-900: #496228;
+  --color-accent-primary-500: #5b7b32;
+  --color-accent-primary-100: #eff2eb;
+}

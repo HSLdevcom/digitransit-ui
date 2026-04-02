@@ -45,10 +45,10 @@ const NaviCardExtension = (
   const { code, platformCode, zoneId, vehicleMode } = stop || {};
   const [place, address] = name?.split(/, (.+)/) || [];
 
-  const isLocalCall = isLocalCallAgency(nextLeg?.route, config);
+  const isLocalCall = isLocalCallAgency(nextLeg, config);
   const appendClass = isLocalCall ? 'call-local' : '';
   const callAgencyDestination =
-    nextLeg && (isLocalCall || isCallAgencyLeg(nextLeg.route));
+    nextLeg && (isLocalCall || isCallAgencyLeg(nextLeg));
 
   let destination = {};
   if (stop && !callAgencyDestination) {

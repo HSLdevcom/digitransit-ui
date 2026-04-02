@@ -3087,6 +3087,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hsl-fi/design-system-core@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "@hsl-fi/design-system-core@npm:2.7.0"
+  dependencies:
+    "@hsl-fi/accessibility": "npm:^1.4.3"
+    "@hsl-fi/animations": "npm:^1.11.0"
+    "@hsl-fi/design-tokens": "npm:^1.24.0"
+    "@hsl-fi/fonts": "npm:^1.2.1"
+    "@hsl-fi/layout-primitives": "npm:^4.8.1"
+    "@hsl-fi/loading-indicators": "npm:^2.0.0"
+  peerDependencies:
+    react: ">=16"
+  checksum: 10/7f15da2eee7946c6111f9f2a82ff129327099e35565c98f216c13eab979929109ed178c8999ed779d5011d406fcdbff4f23c55f8c0216051741108a8b5895b20
+  languageName: node
+  linkType: hard
+
 "@hsl-fi/design-tokens@npm:^1.24.0":
   version: 1.24.0
   resolution: "@hsl-fi/design-tokens@npm:1.24.0"
@@ -3117,6 +3133,15 @@ __metadata:
     "@hsl-fi/container-spinner": "npm:^0.3.2"
     "@hsl-fi/content-delivery-api-types": "npm:^1.0.1"
   checksum: 10/95eb5ca1a775ff24110508450ec78f2c81cb32dbc77ec8b111348d0205877a221fb416c1ac75313cce3c7b6f2cd2d7ba73ffef1a70284a425975d554cfe82bad
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/fonts@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@hsl-fi/fonts@npm:1.2.1"
+  peerDependencies:
+    react: ">=16"
+  checksum: 10/7dfc7432898b164b9a9380a7b0320fa00f31eab512eb93e22a83eacf9fa0bb3910af6a86cdc713c8beb32c7e273c2ec4857c588165b86d2dd14bb913dffe1051
   languageName: node
   linkType: hard
 
@@ -11742,6 +11767,7 @@ __metadata:
     "@hsl-fi/assets": "npm:^2.1.0"
     "@hsl-fi/button": "npm:^1.2.4"
     "@hsl-fi/container-spinner": "npm:0.3.2"
+    "@hsl-fi/design-system-core": "npm:^2.7.0"
     "@hsl-fi/design-tokens": "npm:^1.24.0"
     "@hsl-fi/dialog": "npm:^3.1.0"
     "@hsl-fi/hooks": "npm:1.2.4"

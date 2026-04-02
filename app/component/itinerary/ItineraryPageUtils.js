@@ -373,6 +373,7 @@ export function scooterEdges(edges, allowDirectScooterJourneys) {
 
   return filteredEdges;
 }
+
 /** Filters away itineraries that are not flex */
 export function flexEdges(edges) {
   if (!edges) {
@@ -409,9 +410,6 @@ export function filterItineraries(edges, modes) {
   );
 }
 
-/**
- * Filters itineraries that are not the right route type
- */
 export function filterItinerariesByRouteType(
   edges,
   types,

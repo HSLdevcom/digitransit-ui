@@ -55,9 +55,7 @@ export default function NaviInstructions(
     time,
     config,
   );
-  const appendClass = isLocalCallAgency(nextLeg?.route, config)
-    ? 'call-local'
-    : '';
+  const appendClass = isLocalCallAgency(nextLeg, config) ? 'call-local' : '';
   if (legType === LEGTYPE.MOVE) {
     return (
       <>

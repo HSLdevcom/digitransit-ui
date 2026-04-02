@@ -35,7 +35,7 @@ const CallAgencyLeg = (
       withBar
       isTransitLeg
       text={leg.route && leg.route.shortName}
-      appendClass={isLocalCallAgency(leg.route, config) ? 'call-local' : ''}
+      appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
     />
   );
   return (

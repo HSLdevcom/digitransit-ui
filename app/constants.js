@@ -129,6 +129,12 @@ export const PlannerMessageType = Object.freeze({
   SystemError: 'SYSTEM_ERROR',
 });
 
+export const OtpCornerNamingPattern = Object.freeze({
+  fi: /katujen .* ja .* kulma/,
+  sv: /hörnet av .* och .*/,
+  en: /corner of .* and .*/,
+});
+
 export const VerticalDirection = Object.freeze({
   Up: 'UP',
   Down: 'DOWN',
@@ -180,9 +186,3 @@ export const TrafficNowTransportModes = Object.freeze([
   TransportMode.Subway,
   TransportMode.Tram,
 ]);
-
-export const OtpCornerNamingPattern = Object.freeze({
-  fi: /katujen .* ja .* kulma/,
-  sv: /hörnet av .* och .*/,
-  en: /corner of .* and .*/,
-});

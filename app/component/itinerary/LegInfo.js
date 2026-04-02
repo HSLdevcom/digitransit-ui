@@ -62,7 +62,7 @@ export default function LegInfo(
         withBar
         fadeLong
         isTransitLeg={isTransitLeg}
-        appendClass={isLocalCallAgency(leg.route, config) ? 'call-local' : ''}
+        appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
       />
     </span>
   );
