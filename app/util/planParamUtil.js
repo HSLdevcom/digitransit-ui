@@ -443,19 +443,10 @@ export function getPlanParams(
       carReluctance = 1.75;
       // As of writing this comment, iterating (paging) does not support filtering of bad car transit itineraries.
       maxQueryIterations = 1;
-      // Via routing for cars is too performance intensive.
-      via = null;
       break;
     case PLANTYPE.PARKANDRIDE:
       access = ['CAR_PARKING'];
       transitOnly = true;
-      // Via routing for cars is too performance intensive.
-      via = null;
-      break;
-    case PLANTYPE.CAR:
-      direct = ['CAR'];
-      // Via routing for cars is too performance intensive.
-      via = null;
       break;
     case PLANTYPE.TRANSIT:
       direct = access;
