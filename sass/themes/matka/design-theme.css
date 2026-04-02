@@ -1,0 +1,12 @@
+:root {
+  /**
+  * @tokens Accent Primary colors
+  * @presenter Color
+  */
+  --color-accent-primary-900: #000000;
+  --color-accent-primary-500: #000;
+  --color-accent-primary-100: #e6e6e6;
+
+  --font-family: "Public Sans", "Roboto Mono", arial, georgia, sans-serif;
+  --font-family-narrow: "Public Sans", "Roboto Mono", arial, georgia, sans-serif;
+}

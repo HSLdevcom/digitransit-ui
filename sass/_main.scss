@@ -5,6 +5,10 @@ $font-weight-normal: $font-weight-medium;
 $body-font-family: $font-family;
 $body-font-weight: $font-weight-medium;
 
+@import '@hsl-fi/design-system-core/css/styles.css';
+
+// Apply theme specific values over standard hsl theme
+@import 'design-theme.css';
 @import 'foundation-setup';
 @import 'base/zindex';
 @import 'base/helper-mixins';
@@ -15,8 +19,6 @@ $body-font-weight: $font-weight-medium;
 @import 'grid/grid';
 @import 'util/util';
 @import 'base/helper-classes-after-foundations';
-@import 'base/spacing';
-@import 'base/radius';
 
 // Some of these files override sass variables Foundation uses,
 // so they must be loaded before the relevant foundation modules
