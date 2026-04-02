@@ -74,7 +74,7 @@ function RoutePage({
   const filteredAlerts = selectedPattern?.alerts
     ?.filter(alert => hasEntitiesOfType(alert, AlertEntityType.Route))
     .filter(alert => isAlertValid(alert, currentTime));
-  const localCallAgency = isLocalCallAgency(route, config);
+  const localCallAgency = isLocalCallAgency({ route }, config);
   const matchingNotification = config.routeNotifications?.find(n =>
     n.showForRoute?.(route),
   );
