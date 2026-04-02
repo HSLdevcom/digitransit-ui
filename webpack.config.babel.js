@@ -242,6 +242,50 @@ module.exports = {
         },
       },
       {
+        // These node_modules packages ship untranspiled ES2018+ / ESM syntax
+        test: /\.js$/,
+        include: /node_modules\/(@hsl-fi|@radix-ui|@floating-ui)/,
+        loader: 'babel-loader',
+        options: {
+          configFile: false,
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                modules: false,
+              },
+            ],
+          ],
+          plugins: [
+            '@babel/plugin-transform-class-properties',
+            '@babel/plugin-transform-json-strings',
+          ],
+        },
+      },
+      {
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
+        use: {
+          loader: 'babel-loader',
+          options: {
+            configFile: false,
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  modules: false,
+                },
+              ],
+            ],
+            plugins: [
+              '@babel/plugin-transform-class-properties',
+              '@babel/plugin-transform-json-strings',
+            ],
+          },
+        },
+      },
+      {
         test: /\.scss$/,
         use: [
           isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
@@ -328,6 +372,7 @@ module.exports = {
   },
   cache: true,
   resolve: {
+    extensions: ['.mjs', '.js', '.json'],
     mainFields: ['browser', 'main', 'module', 'jsnext:main'],
     alias: {
       axios$: 'axios/dist/browser/axios.cjs',

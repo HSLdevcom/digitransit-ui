@@ -246,7 +246,7 @@ const EmbeddedSearch = (props, context) => {
     const urlEnd = bikeOnly ? '/bike' : walkOnly ? '/walk' : '';
 
     // if origin or destination is missing, redirect to index page instead
-    const isComplete = origin.lat && destination.lat;
+    const isComplete = origin.address && destination.address;
     const targetUrl = isComplete
       ? buildURL([
           lang,

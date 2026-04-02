@@ -108,7 +108,6 @@ export const LegMode = {
   Car: 'CAR',
   Rail: 'RAIL',
   Wait: 'WAIT',
-  Taxi: 'TAXI',
 };
 
 /**
@@ -135,8 +134,6 @@ export function getLegMode(legOrMode) {
       return LegMode.Car;
     case LegMode.Rail:
       return LegMode.Rail;
-    case LegMode.Taxi:
-      return LegMode.Taxi;
     default:
       return undefined;
   }
@@ -461,9 +458,6 @@ function isBikingLeg(leg) {
 function isDrivingLeg(leg) {
   return LegMode.Car === getLegMode(leg);
 }
-function isTaxiLeg(leg) {
-  return LegMode.Taxi === getLegMode(leg);
-}
 export function isCallAgencyLeg(leg) {
   return leg.route?.type === ExtendedRouteTypes.CallAgency;
 }
@@ -526,29 +520,6 @@ export function legContainsBikePark(leg) {
  */
 export function legContainsCarPark(leg) {
   return leg.mode === LegMode.Car && leg.to.vehicleParking;
-}
-
-/**
- * Checks how many transit legs an external flex itinerary contains.
- *
- * @param {*} itinerary - The itinerary to check.
- * @returns {number} - Count of transit legs in itinerary.
- */
-export function getTotalTransitLegsInExternalFlexTransitItinerary(itinerary) {
-  return itinerary.legs.filter(leg => !isWalkingLeg(leg) && !isTaxiLeg(leg))
-    .length;
-}
-
-/**
- * Checks how many transit legs an internal flex itinerary contains.
- *
- * @param {*} itinerary - The itinerary to check.
- * @returns {number} - Count of transit legs in itinerary.
- */
-export function getTotalTransitLegsInInternalFlexTransitItinerary(itinerary) {
-  return itinerary.legs.filter(
-    leg => !isWalkingLeg(leg) && !isCallAgencyLeg(leg),
-  ).length;
 }
 
 /**
