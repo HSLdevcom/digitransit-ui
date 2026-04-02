@@ -4,10 +4,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import { Helmet } from 'react-helmet';
-import SiteHeader from '@hsl-fi/site-header';
+import { SiteHeader, UserMenu } from '@hsl-fi/site-header';
+import { Fonts } from '@hsl-fi/design-system-core';
 import { favouriteShape, configShape } from '../util/shapes';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
+import '@hsl-fi/design-system-core/css/styles.css';
 
 const clearStorages = context => {
   clearOldSearches(context);
@@ -18,7 +20,7 @@ const clearStorages = context => {
 const notificationAPI = '/api/user/notifications';
 
 const AppBarHsl = ({ lang, user, favourites }, context) => {
-  const { config, match, intl } = context;
+  const { config, match } = context;
   const { location } = match;
 
   const notificationApiUrls = {
@@ -27,6 +29,14 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
   };
 
   const [banners, setBanners] = useState([]);
+  const [userNotifications, setUserNotifications] = useState({
+    unreadCount: 0,
+    loading: false,
+    error: null,
+    notifications: [],
+    refetch: () => {},
+    onOpen: () => {},
+  });
 
   useEffect(() => {
     if (config.URL.BANNERS && config.NODE_ENV !== 'test') {
@@ -37,6 +47,53 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
   }, [lang]);
 
   useEffect(() => {
+    if (!user.sub) {
+      return undefined;
+    }
+
+    const markAsRead = () => {
+      fetch(notificationApiUrls.post, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+      })
+        .then(() => {
+          setUserNotifications(prev => ({ ...prev, unreadCount: 0 }));
+        })
+        .catch(() => {});
+    };
+
+    const fetchNotifications = () => {
+      setUserNotifications(prev => ({ ...prev, loading: true, error: null }));
+      getJson(notificationApiUrls.get)
+        .then(data => {
+          const raw = data || {};
+          setUserNotifications({
+            unreadCount: raw.unreadCount || 0,
+            loading: false,
+            error: null,
+            notifications: (raw.notifications || []).map(n => ({
+              ...n,
+              link: n.link || {},
+            })),
+            refetch: fetchNotifications,
+            onOpen: markAsRead,
+          });
+        })
+        .catch(err => {
+          setUserNotifications(prev => ({
+            ...prev,
+            loading: false,
+            error: err,
+          }));
+        });
+    };
+
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 60000);
+    return () => clearInterval(interval);
+  }, [user.sub, lang]);
+
+  useEffect(() => {
     if (config.URL.FONTCOUNTER && config.NODE_ENV === 'production') {
       fetch(config.URL.FONTCOUNTER, {
         mode: 'no-cors',
@@ -44,70 +101,50 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
     }
   }, []);
 
-  const languages = [
-    {
-      name: 'fi',
-      url: `/fi${location.pathname}${location.search}`,
+  const languages = {
+    fi: {
+      href: `/fi${location.pathname}${location.search}`,
     },
-    {
-      name: 'sv',
-      url: `/sv${location.pathname}${location.search}`,
+    sv: {
+      href: `/sv${location.pathname}${location.search}`,
     },
-    {
-      name: 'en',
-      url: `/en${location.pathname}${location.search}`,
+    en: {
+      href: `/en${location.pathname}${location.search}`,
     },
-  ];
+  };
 
   const { given_name, family_name } = user;
 
-  const initials =
-    given_name && family_name
-      ? given_name.charAt(0) + family_name.charAt(0)
-      : ''; // Authenticated user's initials, will be shown next to Person-icon.
-
   const url = encodeURI(location.pathname);
   const params = location.search && location.search.substring(1);
+  const travelersAccountLink = config.URL.TRAVELERS_ACCOUNT
+    ? { href: config.URL.TRAVELERS_ACCOUNT }
+    : undefined;
+  const myStopsAndRoutesLink = config.favouriteLink
+    ? { href: config.favouriteLink[lang] || config.favouriteLink.fi }
+    : undefined;
   const userMenu =
-    config.allowLogin && (user.sub || user.notLogged)
-      ? {
-          userMenu: {
-            isLoading: false, // When fetching for login-information, `isLoading`-property can be set to true. Spinner will be shown.
-            isAuthenticated: !!user.sub, // If user is authenticated, set `isAuthenticated`-property to true.
-            isSelected: false,
-            loginUrl: `/login?url=${url}&${params}`, // Url that user will be redirect to when Person-icon is pressed and user is not logged in.
-            initials,
-            menuItems: [
-              {
-                name: intl.formatMessage({
-                  id: 'userinfo',
-                  defaultMessage: 'My information',
-                }),
-                url: `${config.URL.ROOTLINK}/omat-tiedot`,
-                onClick: () => {},
-              },
-              {
-                name: intl.formatMessage({
-                  id: 'logout',
-                  defaultMessage: 'Logout',
-                }),
-                url: '/logout',
-                onClick: () => clearStorages(context),
-              },
-            ],
-          },
-        }
-      : {};
+    config.allowLogin && (user.sub || user.notLogged) ? (
+      <UserMenu
+        lang={lang}
+        loading={false}
+        authenticated={!!user.sub}
+        loginLink={{ href: `/login?url=${url}&${params}` }}
+        logoutLink={{ href: '/logout', onClick: () => clearStorages(context) }}
+        name={{ givenName: given_name, familyName: family_name }}
+        userNotifications={userNotifications}
+        travelersAccountLink={travelersAccountLink}
+        myStopsAndRoutesLink={myStopsAndRoutesLink}
+      />
+    ) : null;
 
-  const siteHeaderRef = useRef(null);
   const notificationTime = useRef(0);
 
   useEffect(() => {
     const now = Date.now();
     // refresh only once per 5 seconds
     if (now - notificationTime.current > 5000) {
-      // Refetch notifications
-      siteHeaderRef.current?.fetchNotifications();
+      userNotifications.refetch();
       notificationTime.current = now;
     }
   }, [favourites]);
@@ -125,14 +162,14 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
           />
         </Helmet>
       )}
-
+      <Fonts />
       {!config.hideHeader && (
         <SiteHeader
-          ref={siteHeaderRef}
-          hslFiUrl={config.URL.ROOTLINK}
+          baseurl={config.URL.ROOTLINK}
+          staticAssetsUrl={config.URL.STATIC_ASSETS}
           lang={lang}
-          {...userMenu}
-          languageMenu={languages}
+          userMenu={userMenu}
+          langMenu={languages}
           banners={banners}
           suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
           notificationApiUrls={notificationApiUrls}

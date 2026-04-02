@@ -16,7 +16,8 @@ const BANNER_URL = process.env.CONTENT_DOMAIN
 const SUGGESTION_URL = process.env.CONTENT_DOMAIN
   ? `${process.env.CONTENT_DOMAIN}/api/v1/search/suggestions`
   : 'https://content.hsl.fi/api/v1/search/suggestions'; // old url
-
+const travelersAccountUrl = process.env.TRAVELERS_ACCOUNT_URL;
+const staticAssetsUrl = process.env.STATIC_ASSETS_URL;
 const IS_DEV =
   process.env.RUN_ENV === 'development' ||
   process.env.NODE_ENV !== 'production';
@@ -70,6 +71,8 @@ export default {
     FONT: 'https://www.hsl.fi/fonts/784131/6C5FB8083F348CFBB.css',
     FONTCOUNTER: 'https://cloud.typography.com/6364294/7432412/css/fonts.css',
     ROOTLINK: rootLink,
+    TRAVELERS_ACCOUNT: travelersAccountUrl,
+    STATIC_ASSETS: staticAssetsUrl,
     BANNERS: BANNER_URL,
     HSL_FI_SUGGESTIONS: SUGGESTION_URL,
     EMBEDDED_SEARCH_GENERATION: '/reittiopas-elementti',
