@@ -114,8 +114,7 @@ $favourite-highlight-background-color: #f2f5f7;
       flex-direction: row;
 
       .name {
-        font-family: 'Gotham Rounded A', 'Gotham Rounded B', Roboto, Arial,
-          Georgia, serif;
+        font-family: var(--font-family);
         font-size: 15px;
         margin-right: 6px;
         font-weight: var(--font-weight-medium);
@@ -135,8 +134,7 @@ $favourite-highlight-background-color: #f2f5f7;
       }
 
       .address {
-        font-family: 'Gotham Rounded A', 'Gotham Rounded B', Roboto, Arial,
-          Georgia, serif;
+        font-family: var(--font-family);
         font-size: 12px;
         margin-right: 6px;
         font-weight: normal;

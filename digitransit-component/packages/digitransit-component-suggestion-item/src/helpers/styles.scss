@@ -119,8 +119,7 @@ li:last-child > div.suggestion-item-container.mobile {
         height: 16px;
         width: 24px;
         align-self: center;
-        font-family: 'Gotham XNarrow SSm A', 'Gotham XNarrow SSm B',
-          'Roboto Condensed', Arial, Georgia, serif;
+        font-family: var(--font-family-narrow);
       }
 
       &.futureroute {

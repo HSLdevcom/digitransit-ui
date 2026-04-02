@@ -119,8 +119,7 @@
   }
 
   .near-you-title {
-    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Roboto, Arial, Georgia,
-      serif;
+    font-family: var(--font-family);
     font-weight: var(--font-weight);
     line-height: normal;
     letter-spacing: -0.67px;
