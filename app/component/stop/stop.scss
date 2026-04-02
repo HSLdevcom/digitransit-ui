@@ -195,11 +195,13 @@
 }
 
 .stop-tab-container {
+  height: 2.5em;
+  min-height: 44px;
   display: flex;
   background-color: #ddd;
-  border-radius: 30px;
-  margin: 8px 48px 16px 48px;
-  position: relative;
+  border-radius: 999em;
+  margin: var(--space-s) 48px var(--space-s) 48px;
+  padding: var(--spacke-xxs);
 
   @media print {
     display: none;
@@ -215,7 +217,6 @@
 .stop-tab-singletab:hover {
   display: flex;
   align-items: center;
-  min-height: 42px;
   flex-grow: 1;
   font-size: $font-size-xxsmall;
   border-radius: 30px;
