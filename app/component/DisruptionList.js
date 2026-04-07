@@ -24,7 +24,12 @@ export const EmptyDisruptions = () => {
         color={config.colors.primary}
         omitViewBox
       />
-      <h1>Liikenne normaalia</h1>
+      <h2>
+        <FormattedMessage
+          id="disruption-list-traffic-normal"
+          defaultMessage="Traffic normal"
+        />
+      </h2>
       <FormattedMessage
         id="disruption-info-no-alerts"
         defaultMessage="No known disruptions or diversions."
@@ -60,7 +65,7 @@ const DisruptionDetails = ({
         </span>
       </div>
       <div className="alert-details-content">
-        {alertHeaderText && <h1>{alertHeaderText}</h1>}
+        {alertHeaderText && <h2>{alertHeaderText}</h2>}
         <p>{alertDescriptionText}</p>
         {checkedUrl && (
           <ExternalLink className="alert-url" href={checkedUrl}>
@@ -139,43 +144,59 @@ const DisruptionList = ({
             'momentum-scroll': !disableScrolling,
           })}
         >
-          <div className="alerts-list-section-header">
-            <p>Voimassa</p>
-          </div>
+          <h2 className="alerts-list-section-header">
+            <FormattedMessage
+              id="disruption-list-active"
+              defaultMessage="Active"
+            />
+          </h2>
           {ca.length ? (
-            ca.map((alert, i) => (
-              <Disruption
-                toggleDetails={toggleDetails}
-                currentTime={currentTime}
-                showLinks={showLinks}
-                index={i}
-                key={alert.id}
-                {...alert}
-              />
-            ))
-          ) : (
-            <div className="alerts-list-section-no-alerts">
-              <p>Ei tiedossa voimassa olevia häiriöitä</p>
+            <div role="list">
+              {ca.map((alert, i) => (
+                <Disruption
+                  toggleDetails={toggleDetails}
+                  currentTime={currentTime}
+                  showLinks={showLinks}
+                  index={i}
+                  key={alert.id}
+                  {...alert}
+                />
+              ))}
             </div>
+          ) : (
+            <p className="alerts-list-section-no-alerts">
+              <FormattedMessage
+                id="disruption-list-no-active-alerts"
+                defaultMessage="No known active disruptions"
+              />
+            </p>
           )}
-          <div className="alerts-list-section-header">
-            <p>Tulevat</p>
-          </div>
+          <h2 className="alerts-list-section-header">
+            <FormattedMessage
+              id="disruption-list-upcoming"
+              defaultMessage="Upcoming"
+            />
+          </h2>
           {futureAlerts.length ? (
-            futureAlerts.map((alert, i) => (
-              <Disruption
-                toggleDetails={toggleDetails}
-                currentTime={currentTime}
-                showLinks={showLinks}
-                index={i}
-                key={alert.id}
-                {...alert}
-              />
-            ))
-          ) : (
-            <div className="alerts-list-section-no-alerts">
-              <p>Ei tiedossa olevia tulevia häiriöitä tai poikkeuksia</p>
+            <div role="list">
+              {futureAlerts.map((alert, i) => (
+                <Disruption
+                  toggleDetails={toggleDetails}
+                  currentTime={currentTime}
+                  showLinks={showLinks}
+                  index={i}
+                  key={alert.id}
+                  {...alert}
+                />
+              ))}
             </div>
+          ) : (
+            <p className="alerts-list-section-no-alerts">
+              <FormattedMessage
+                id="disruption-list-no-upcoming-alerts"
+                defaultMessage="No known upcoming disruptions or diversions"
+              />
+            </p>
           )}
         </div>
       </div>

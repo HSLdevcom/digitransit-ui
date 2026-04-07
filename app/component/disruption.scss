@@ -125,20 +125,14 @@
 
   .alerts-list-section-header {
     min-height: 32px;
+    font-weight: 500;
     font-size: 16px;
-
-    p {
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 24px;
-      letter-spacing: -0.3px;
-    }
+    line-height: 24px;
+    letter-spacing: -0.3px;
   }
 
   .alerts-list-section-no-alerts {
-    p {
-      text-align: center;
-    }
+    text-align: center;
   }
 
   .alert-row {
