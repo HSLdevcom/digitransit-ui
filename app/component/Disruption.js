@@ -4,7 +4,9 @@ import { useRouter } from 'found';
 import Icon from './Icon';
 import Badge from './Badge';
 import { useConfigContext } from '../configurations/ConfigContext';
-import { groupEntitiesByMode } from './trafficnow/utils';
+import { routePagePath, stopPagePath } from '../util/path';
+import IconBackground from './icon/IconBackground';
+import { getRouteMode } from '../util/modeUtils';
 
 export default function Disruption({
   toggleDetails,
@@ -21,8 +23,18 @@ export default function Disruption({
   if (!alertDescriptionText && !alertHeaderText) {
     return null;
   }
+  const e = entities.reduce((acc, entity) => {
+    // eslint-disable-next-line no-underscore-dangle
+    const mode = entity.mode
+      ? getRouteMode(entity, config)
+      : entity.vehicleMode.toLowerCase();
+    const modeEntities = acc[mode] ? [...acc[mode], entity] : [entity];
+    return {
+      ...acc,
+      [mode]: modeEntities,
+    };
+  }, {});
 
-  const entitiesByMode = groupEntitiesByMode(entities, config);
   return (
     <div className="alert-row" role="listitem">
       {toggleDetails && (
@@ -38,37 +50,68 @@ export default function Disruption({
         </button>
       )}
       <div className="alert-row-top">
-        <Badge showIcon variant={alertSeverityLevel} label={alertEffect} />
+        <Badge
+          showIcon
+          variant={alertSeverityLevel}
+          label={alertEffect ?? 'no_service'}
+        />
       </div>
       <div className="alert-row-badges">
-        {Object.entries(entitiesByMode).map(
-          ([key, { mode, entities: groupedEntities }]) => {
+        {e &&
+          Object.keys(e).map(mode => {
+            if (mode === 'Stop') {
+              return (
+                <Fragment key={mode}>
+                  <Icon
+                    img={`icon_${e[mode][0].vehicleMode.toLowerCase()}`}
+                    className={e[mode][0].vehicleMode.toLowerCase()}
+                    height={2}
+                    width={2}
+                    iconScale={0.5}
+                    background={
+                      <IconBackground shape="stopsign" color="currentcolor" />
+                    }
+                  />
+
+                  {e[mode].map(({ name, gtfsId }) => (
+                    <span key={gtfsId} className="mode-badge">
+                      <a href={stopPagePath(false, gtfsId)}>
+                        <span>{name}</span>
+                      </a>
+                    </span>
+                  ))}
+                </Fragment>
+              );
+            }
             return (
-              <Fragment key={key}>
+              <Fragment key={`${mode}_badges`}>
                 <Icon
-                  img={`icon_${mode === 'bus-express' ? 'bus' : mode}`}
-                  className={`${mode}`}
+                  img={`icon_${
+                    mode.toLowerCase() === 'bus-express'
+                      ? 'bus'
+                      : mode.toLowerCase()
+                  }`}
+                  className={`${mode.toLowerCase()}`}
                   height={2}
                   width={2}
                 />
-                <span className="route-badge-lines">
-                  {groupedEntities.map(({ url, id: entityId, name }) => (
+                {e[mode].map(({ gtfsId, id: entityId, shortName: name }) => (
+                  <span key={gtfsId} className="mode-badge">
                     <a
-                      href={url}
+                      href={routePagePath(gtfsId)}
                       key={entityId}
-                      onClick={e => {
-                        e.preventDefault();
-                        match.router.push(url);
+                      onClick={event => {
+                        event.preventDefault();
+                        match.router.push(routePagePath(gtfsId));
                       }}
                     >
                       <span>{name}</span>
                     </a>
-                  ))}
-                </span>
+                  </span>
+                ))}
               </Fragment>
             );
-          },
-        )}
+          })}
       </div>
       <div className="alert-row-bottom">
         <span className="alert-row-title">{alertHeaderText}</span>

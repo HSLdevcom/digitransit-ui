@@ -38,11 +38,13 @@ export const DisruptionsFragment = graphql`
           }
           ... on Stop {
             gtfsId
+            name
+            vehicleMode
           }
         }
       }
     }
-    alerts(types: [STOP]) {
+    alerts(types: [STOP, ROUTES]) {
       id
       alertDescriptionText
       alertHash
@@ -53,8 +55,17 @@ export const DisruptionsFragment = graphql`
       effectiveStartDate
       entities {
         __typename
+        ... on Route {
+          color
+          type
+          mode
+          shortName
+          gtfsId
+        }
         ... on Stop {
           gtfsId
+          name
+          vehicleMode
         }
       }
     }

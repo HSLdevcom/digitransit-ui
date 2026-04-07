@@ -7,6 +7,7 @@ import {
   getCancelationsForStop,
   getAlertsForObject,
   getServiceAlertsForStation,
+  getUniqueAlerts,
 } from '../../util/alertUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import { epochToTime } from '../../util/timeUtils';
@@ -44,12 +45,6 @@ export const filterAlertEntities = (stop, alerts) => {
       };
     })
     .filter(alert => alert.entities.length > 0);
-};
-
-export const getUniqueAlerts = alerts => {
-  return uniq(alerts.map(alert => JSON.stringify(alert))).map(alert =>
-    JSON.parse(alert),
-  );
 };
 
 /**

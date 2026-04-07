@@ -370,6 +370,11 @@ class RouteControlPanel extends React.Component {
     const { patternId } = match.params;
     const { config } = this.context;
 
+    // If disruption details are opened, hide controlpanel
+    if (match.location.query.alertId) {
+      return null;
+    }
+
     const routeNotifications = [];
     if (
       process.env.NODE_ENV !== 'test' &&

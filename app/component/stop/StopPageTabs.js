@@ -9,6 +9,7 @@ import {
   getAlertsForObject,
   getServiceAlertsForStation,
   getActiveAlertSeverityLevel,
+  getUniqueAlerts,
 } from '../../util/alertUtils';
 import withBreakpoint from '../../util/withBreakpoint';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
@@ -58,8 +59,8 @@ function StopPageTabs({ stop }, { match }) {
     currentTime,
   );
 
-  const alertsCount = (
-    isTerminal ? getServiceAlertsForStation(stop) : getAlertsForObject(stop)
+  const alertsCount = getUniqueAlerts(
+    isTerminal ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
   ).length;
 
   let disruptionClassName;

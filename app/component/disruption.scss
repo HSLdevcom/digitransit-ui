@@ -175,14 +175,17 @@
       font-size: 15px;
       margin-bottom: 8px;
 
-      .route-badge-lines {
+      .mode-badge {
         background-color: $info-background-color;
         border-radius: 4px;
         padding: 4px 8px 4px 8px;
         margin-left: 4px;
-        margin-right: 4px;
         min-width: 30px;
         text-align: center;
+
+        a {
+          color: black;
+        }
       }
     }
 
