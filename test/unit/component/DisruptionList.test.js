@@ -19,7 +19,7 @@ describe('<DisruptionList />', () => {
     expect(wrapper.find(EmptyDisruptions)).to.have.lengthOf(1);
   });
 
-  it('should order the cancelations and service alerts by route shortName and put alerts first', () => {
+  it('should list cancelations before service alerts', () => {
     const props = {
       cancelations: [
         {
@@ -58,6 +58,7 @@ describe('<DisruptionList />', () => {
       serviceAlerts: [
         {
           id: 'alert-2',
+          alertHash: 2,
           alertHeaderText: 'second',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1547464413,
@@ -74,6 +75,7 @@ describe('<DisruptionList />', () => {
         },
         {
           id: 'alert-1',
+          alertHash: 1,
           alertHeaderText: 'first',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1547464413,
@@ -94,16 +96,16 @@ describe('<DisruptionList />', () => {
       currentTime: 1547464414,
     });
     expect(wrapper.find(Disruption).at(0).prop('alertHeaderText')).to.equal(
-      'first',
-    );
-    expect(wrapper.find(Disruption).at(1).prop('alertHeaderText')).to.equal(
-      'second',
-    );
-    expect(wrapper.find(Disruption).at(2).prop('alertHeaderText')).to.equal(
       'third',
     );
-    expect(wrapper.find(Disruption).at(3).prop('alertHeaderText')).to.equal(
+    expect(wrapper.find(Disruption).at(1).prop('alertHeaderText')).to.equal(
       'fourth',
+    );
+    expect(wrapper.find(Disruption).at(2).prop('alertHeaderText')).to.equal(
+      'second',
+    );
+    expect(wrapper.find(Disruption).at(3).prop('alertHeaderText')).to.equal(
+      'first',
     );
   });
 

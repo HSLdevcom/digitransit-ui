@@ -381,6 +381,11 @@ function RouteControlPanel(
     disruptionIcon = <Icon className="service-alert-icon" img="icon_info" />;
   }
 
+  // If disruption details are opened, hide controlpanel
+  if (location.query?.alertId) {
+    return null;
+  }
+
   return (
     <div
       className={cx('route-page-control-panel-container', activeTab, {

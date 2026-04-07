@@ -6,15 +6,10 @@ import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
 
 import Disruption from './Disruption';
-import {
-  alertCompare,
-  currentAndFutureAlerts,
-  isAlertValid,
-} from '../../utils/client/alertUtils';
+import { currentAndFutureAlerts, isAlertValid } from '../../utils/client/alertUtils';
 import { alertShape } from '../../utils/client/shapes';
 import { useCurrentTime } from '../hooks/TimeContext';
 import { useBreakpoint } from '../../utils/client/withBreakpoint';
-import { AlertSeverityLevelType } from '../../utils/shared/constants';
 import Icon from './Icon';
 import { useConfigContext } from '../client/ConfigContext';
 import Badge from './Badge';
@@ -53,7 +48,11 @@ const DisruptionDetails = ({
     <div className="alert-details">
       <div className="alert-details-header">
         <span className="badge-container">
-          <Badge showIcon variant={alertSeverityLevel} label={alertEffect} />
+          <Badge
+            showIcon
+            variant={alertSeverityLevel}
+            label={alertEffect || 'no_service'}
+          />
         </span>
         <span className="validity">
           <Icon className="clock-icon" img="icon_clock" />
@@ -107,20 +106,18 @@ const DisruptionList = ({
     router.push({ pathname: match.location.pathname, query: { alertId: id } });
   };
 
-  // Cancelations should be between non-info alerts and info alerts
-  const alertsSorted = [
-    ...serviceAlerts
-      .filter(alert => alert.alertSeverityLevel !== AlertSeverityLevelType.Info)
-      .sort(alertCompare),
-    ...validCancelations.sort(alertCompare),
-    ...serviceAlerts
-      .filter(alert => alert.alertSeverityLevel === AlertSeverityLevelType.Info)
-      .sort(alertCompare),
-  ];
+  const uniqueByAlertHash = alerts =>
+    alerts.filter(
+      (alert, index, self) =>
+        index === self.findIndex(a => a.alertHash === alert.alertHash),
+    );
+
   const { currentAlerts, futureAlerts } = currentAndFutureAlerts(
-    alertsSorted,
+    uniqueByAlertHash(serviceAlerts),
     currentTime,
   );
+
+  const ca = [...validCancelations, ...currentAlerts];
 
   if (
     currentAlerts.length === 0 &&
@@ -146,8 +143,8 @@ const DisruptionList = ({
           <div className="alerts-list-section-header">
             <p>Voimassa</p>
           </div>
-          {currentAlerts.length ? (
-            currentAlerts.map((alert, i) => (
+          {ca.length ? (
+            ca.map((alert, i) => (
               <Disruption
                 toggleDetails={toggleDetails}
                 currentTime={currentTime}

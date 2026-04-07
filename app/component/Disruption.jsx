@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
 import Icon from './Icon';
 import Badge from './Badge';
 import { useConfigContext } from '../client/ConfigContext';
-import { groupEntitiesByMode } from './trafficnow/utils';
+import { routePagePath, stopPagePath } from '../../utils/shared/path';
+import IconBackground from './icon/IconBackground';
+import { getRouteMode } from '../../utils/client/modeUtils';
 
 export default function Disruption({
   toggleDetails,
@@ -22,8 +24,18 @@ export default function Disruption({
   if (!alertDescriptionText && !alertHeaderText) {
     return null;
   }
+  const e = entities.reduce((acc, entity) => {
+    // eslint-disable-next-line no-underscore-dangle
+    const mode = entity.mode
+      ? getRouteMode(entity, config)
+      : entity.vehicleMode.toLowerCase();
+    const modeEntities = acc[mode] ? [...acc[mode], entity] : [entity];
+    return {
+      ...acc,
+      [mode]: modeEntities,
+    };
+  }, {});
 
-  const entitiesByMode = groupEntitiesByMode(entities, config);
   return (
     <div className="alert-row" role="listitem">
       {toggleDetails && (
@@ -39,38 +51,72 @@ export default function Disruption({
         </button>
       )}
       <div className="alert-row-top">
-        <Badge showIcon variant={alertSeverityLevel} label={alertEffect} />
+        <Badge
+          showIcon
+          variant={alertSeverityLevel}
+          label={alertEffect ?? 'no_service'}
+        />
       </div>
       <div className="alert-row-badges">
-        {Object.entries(entitiesByMode).map(
-          ([modeKey, { mode, entities: modeEntities }]) => {
+        {e &&
+          Object.keys(e).map(mode => {
+            if (mode === 'Stop') {
+              return (
+                <Fragment key={mode}>
+                  <Icon
+                    img={`icon_${e[mode][0].vehicleMode.toLowerCase()}`}
+                    className={e[mode][0].vehicleMode.toLowerCase()}
+                    height={2}
+                    width={2}
+                    iconScale={0.5}
+                    background={
+                      <IconBackground shape="stopsign" color="currentcolor" />
+                    }
+                  />
+
+                  {e[mode].map(({ name, gtfsId }) => (
+                    <span key={gtfsId} className="mode-badge">
+                      <a
+                        href={stopPagePath(false, gtfsId)}
+                        onClick={() => onClickLink?.()}
+                      >
+                        <span>{name}</span>
+                      </a>
+                    </span>
+                  ))}
+                </Fragment>
+              );
+            }
             return (
-              <React.Fragment key={modeKey}>
+              <Fragment key={`${mode}_badges`}>
                 <Icon
-                  img={`icon_${mode === 'bus-express' ? 'bus' : mode}`}
-                  className={`${mode}`}
+                  img={`icon_${
+                    mode.toLowerCase() === 'bus-express'
+                      ? 'bus'
+                      : mode.toLowerCase()
+                  }`}
+                  className={`${mode.toLowerCase()}`}
                   height={2}
                   width={2}
                 />
-                <span className="route-badge-lines">
-                  {modeEntities.map(({ url, id: entityId, name }) => (
+                {e[mode].map(({ gtfsId, id: entityId, shortName: name }) => (
+                  <span key={gtfsId} className="mode-badge">
                     <a
-                      href={url}
+                      href={routePagePath(gtfsId)}
                       key={entityId}
-                      onClick={e => {
-                        e.preventDefault();
+                      onClick={event => {
+                        event.preventDefault();
                         onClickLink?.();
-                        match.router.push(url);
+                        match.router.push(routePagePath(gtfsId));
                       }}
                     >
                       <span>{name}</span>
                     </a>
-                  ))}
-                </span>
-              </React.Fragment>
+                  </span>
+                ))}
+              </Fragment>
             );
-          },
-        )}
+          })}
       </div>
       <div className="alert-row-bottom">
         <span className="alert-row-title">{alertHeaderText}</span>
