@@ -910,8 +910,12 @@ $margin-left-right: 21.3px;
     .route-pattern-header {
       margin-left: -20px;
       margin-right: -20px;
-      padding-left: calc(20px + 48px);
-      padding-right: calc(20px + 48px);
+      padding-left: 24px;
+      padding-right: 80px; // 16px gap + 48px button + 16px button right
+    }
+
+    .route-pattern-header--no-swap {
+      padding-right: 16px;
     }
 
     .pattern-select-container--colored {
@@ -919,8 +923,8 @@ $margin-left-right: 21.3px;
       margin-right: -20px;
 
       .input-display {
-        padding-left: calc(20px + 48px);
-        padding-right: calc(20px + 48px);
+        padding-left: 24px;
+        padding-right: 32px; // 16px gap, half of swap button (48px / 2), minus 8px to center the dropdown arrow
       }
 
       .suggestions-container {
@@ -1375,8 +1379,8 @@ $margin-left-right: 21.3px;
       color: $white;
 
       .input-display {
-        padding-left: 64px; // 48px for icon + 16px for gap
-        padding-right: 64px; // 48px for icon + 16px for gap
+        padding-left: 24px;
+        padding-right: 32px;
       }
 
       .suggestions-container {
@@ -1656,13 +1660,11 @@ $margin-left-right: 21.3px;
 
   .route-pattern-header {
     display: flex;
-    padding: 8px calc(#{$margin-left-right} + 48px);
+    padding: 8px 80px 8px 24px; // mobile: 24px left, 80px right (16px gap + 48px button + 16px button right)
     flex-direction: column;
     align-items: flex-start;
     align-self: stretch;
-    position: sticky;
-    top: 0;
-    z-index: 5;
+    position: relative;
 
     // Bleed to the edges of the scroll container padding so the background
     // colour band spans the full width of route-page-content (21.3px each side)
@@ -1671,12 +1673,20 @@ $margin-left-right: 21.3px;
     background: $theme-primary-color;
     color: $white;
 
-    // Override the abs-positioned icon rule from .route-pattern-select .icon
-    .icon {
-      position: relative;
-      right: auto;
-      top: auto;
-      pointer-events: auto;
+    .icon-container {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      // Override the abs-positioned icon rule from .route-pattern-select .icon
+      .icon {
+        position: relative;
+        right: auto;
+        top: auto;
+        pointer-events: auto;
+      }
     }
 
     .route-pattern-endpoint {
@@ -1685,6 +1695,7 @@ $margin-left-right: 21.3px;
       gap: var(--space-s);
       width: 100%;
       padding: 8px 0;
+      margin-left: 4px;
     }
 
     .route-pattern-header-icon {
@@ -1721,9 +1732,10 @@ $margin-left-right: 21.3px;
       align-items: center;
       justify-content: center;
       gap: 3px;
-      width: 16px; // matches icon width to align dots under the origin icon
+      width: 24px; // matches icon width to align dots under the origin icon
       flex-shrink: 0;
       height: 8px;
+      margin-left: 4px; // match the left padding of .route-pattern-endpoint for visual alignment
 
       .icon-container {
         display: flex;
@@ -1746,7 +1758,7 @@ $margin-left-right: 21.3px;
 
     .route-pattern-swap-button {
       position: absolute;
-      right: 48px;
+      right: 16px;
       top: 50%;
       transform: translateY(-50%);
       width: 48px;
@@ -1769,13 +1781,21 @@ $margin-left-right: 21.3px;
 
   // bp-large: route-page-content uses 56px horizontal padding
   &.bp-large .route-pattern-header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
     margin-left: -56px;
     margin-right: -56px;
+    padding-left: $margin-left-right-large;
     padding-right: calc(56px + 48px);
+
+    .route-pattern-swap-button {
+      right: 48px;
+    }
   }
 
   .route-pattern-header--no-swap {
-    padding-right: $margin-left-right;
+    padding-right: 16px;
   }
 
   &.bp-large .route-pattern-header--no-swap {
@@ -1785,6 +1805,11 @@ $margin-left-right: 21.3px;
   &.bp-large .pattern-select-container--colored {
     margin-left: -56px;
     margin-right: -56px;
+
+    .input-display {
+      padding-left: $margin-left-right-large;
+      padding-right: calc($margin-left-right-large + 4px);
+    }
 
     .suggestions-container {
       left: 32px;
