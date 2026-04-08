@@ -76,6 +76,8 @@ export const getCancelations = (stop, intl, config) => {
           time: epochToTime(departureTime * 1000, config),
         },
       ),
+      alertHeaderText: stoptime.headsign,
+      canceledStoptimes: [stoptime],
       entities: [entity],
       alertSeverityLevel: AlertSeverityLevelType.Warning,
     };

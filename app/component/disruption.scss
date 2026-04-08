@@ -162,6 +162,15 @@
       }
     }
 
+    .cancelation-badge {
+      border-radius: 4px;
+      margin-right: 2px;
+      padding: var(--space-xxs) var(--space-xs) var(--space-xxs) var(--space-xs);
+      border: 1px solid #ddd;
+      font-weight: 350;
+      color: #666;
+    }
+
     .alert-row-badges {
       display: flex;
       max-height: 32px;
@@ -169,11 +178,15 @@
       font-size: 15px;
       margin-bottom: 8px;
 
+      .icon {
+        margin-right: 4px;
+      }
+
       .mode-badge {
         background-color: $info-background-color;
         border-radius: 4px;
         padding: 4px 8px 4px 8px;
-        margin-left: 4px;
+        margin-right: 4px;
         min-width: 30px;
         text-align: center;
 

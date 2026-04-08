@@ -9,7 +9,7 @@ import { routePagePath } from '../../util/path';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { configShape, patternShape } from '../../util/shapes';
 
-function patternOptionText(pattern) {
+export function patternOptionText(pattern) {
   return pattern
     ? `${pattern.stops[0].name} ➔ ${
         pattern.headsign || pattern.stops[pattern.stops.length - 1].name
