@@ -7,6 +7,8 @@ import { useConfigContext } from '../client/ConfigContext';
 import { routePagePath, stopPagePath } from '../../utils/shared/path';
 import IconBackground from './icon/IconBackground';
 import { getRouteMode } from '../../utils/client/modeUtils';
+import { getStartTimeWithColon } from '../../utils/client/timeUtils';
+import { stopTimeShape } from '../../utils/client/shapes';
 
 export default function Disruption({
   toggleDetails,
@@ -17,32 +19,38 @@ export default function Disruption({
   alertSeverityLevel,
   id,
   onClickLink,
+  canceledStoptimes,
 }) {
   const config = useConfigContext();
   const { match } = useRouter();
+  const isCancelation = !!canceledStoptimes;
 
   if (!alertDescriptionText && !alertHeaderText) {
     return null;
   }
   const e = entities.reduce((acc, entity) => {
     // eslint-disable-next-line no-underscore-dangle
+    const typename = entity.__typename;
     const mode = entity.mode
       ? getRouteMode(entity, config)
       : entity.vehicleMode.toLowerCase();
-    const modeEntities = acc[mode] ? [...acc[mode], entity] : [entity];
-    return {
-      ...acc,
-      [mode]: modeEntities,
-    };
+    const key = `${typename}_${mode}`;
+    if (!acc[key]) {
+      // eslint-disable-next-line no-param-reassign
+      acc[key] = { typename, mode, items: [] };
+    }
+    acc[key].items.push(entity);
+    return acc;
   }, {});
 
   return (
     <div className="alert-row" role="listitem">
-      {toggleDetails && (
+      {!isCancelation && toggleDetails && (
         <button
           type="button"
           onClick={() => toggleDetails(id)}
           className="alert-row-arrow"
+          // TODO: button label
         >
           <Icon
             img="icon_arrow-collapse--right"
@@ -59,36 +67,10 @@ export default function Disruption({
       </div>
       <div className="alert-row-badges">
         {e &&
-          Object.keys(e).map(mode => {
-            if (mode === 'Stop') {
-              return (
-                <Fragment key={mode}>
-                  <Icon
-                    img={`icon_${e[mode][0].vehicleMode.toLowerCase()}`}
-                    className={e[mode][0].vehicleMode.toLowerCase()}
-                    height={2}
-                    width={2}
-                    iconScale={0.5}
-                    background={
-                      <IconBackground shape="stopsign" color="currentcolor" />
-                    }
-                  />
-
-                  {e[mode].map(({ name, gtfsId }) => (
-                    <span key={gtfsId} className="mode-badge">
-                      <a
-                        href={stopPagePath(false, gtfsId)}
-                        onClick={() => onClickLink?.()}
-                      >
-                        <span>{name}</span>
-                      </a>
-                    </span>
-                  ))}
-                </Fragment>
-              );
-            }
+          Object.values(e).map(({ typename, mode, items }) => {
+            const isStop = typename === 'Stop';
             return (
-              <Fragment key={`${mode}_badges`}>
+              <Fragment key={`${typename}_${mode}`}>
                 <Icon
                   img={`icon_${
                     mode.toLowerCase() === 'bus-express'
@@ -98,11 +80,22 @@ export default function Disruption({
                   className={`${mode.toLowerCase()}`}
                   height={2}
                   width={2}
+                  iconScale={isStop ? 0.5 : 1}
+                  background={
+                    isStop && (
+                      <IconBackground shape="stopsign" color="currentcolor" />
+                    )
+                  }
                 />
-                {e[mode].map(({ gtfsId, id: entityId, shortName: name }) => (
+                {items.map(({ gtfsId, id: entityId, shortName, name }) => (
                   <span key={gtfsId} className="mode-badge">
                     <a
-                      href={routePagePath(gtfsId)}
+                      // TODO: terminal route
+                      href={
+                        isStop
+                          ? stopPagePath(false, gtfsId)
+                          : routePagePath(gtfsId)
+                      }
                       key={entityId}
                       onClick={event => {
                         event.preventDefault();
@@ -110,7 +103,7 @@ export default function Disruption({
                         match.router.push(routePagePath(gtfsId));
                       }}
                     >
-                      <span>{name}</span>
+                      <span>{isStop ? name : shortName}</span>
                     </a>
                   </span>
                 ))}
@@ -120,6 +113,17 @@ export default function Disruption({
       </div>
       <div className="alert-row-bottom">
         <span className="alert-row-title">{alertHeaderText}</span>
+        {canceledStoptimes && (
+          <div className="canceled-departures">
+            {canceledStoptimes.map(st => (
+              <span key={st.scheduledDeparture} className="cancelation-badge">
+                <span className="canceled">
+                  {getStartTimeWithColon(st.scheduledDeparture)}
+                </span>
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -139,4 +143,5 @@ Disruption.propTypes = {
   alertHeaderText: PropTypes.string,
   id: PropTypes.string,
   onClickLink: PropTypes.func,
+  canceledStoptimes: PropTypes.arrayOf(stopTimeShape),
 };

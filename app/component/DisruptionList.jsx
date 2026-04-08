@@ -131,7 +131,6 @@ const DisruptionList = ({
   ) {
     return <EmptyDisruptions />;
   }
-
   return (
     <div className="alerts-content-wrapper">
       <div

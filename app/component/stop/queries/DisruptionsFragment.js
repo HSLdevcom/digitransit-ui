@@ -17,6 +17,27 @@ export const DisruptionsFragment = graphql`
       routes {
         gtfsId
       }
+      stoptimes: stoptimesWithoutPatterns(
+        startTime: $startTime
+        timeRange: $timeRange
+        numberOfDepartures: 100
+        omitCanceled: false
+      ) {
+        serviceDay
+        scheduledDeparture
+        headsign
+        realtimeState
+        trip {
+          tripHeadsign
+          route {
+            gtfsId
+            type
+            color
+            mode
+            shortName
+          }
+        }
+      }
       alerts(types: [STOP, ROUTES]) {
         id
         alertDescriptionText
@@ -48,6 +69,7 @@ export const DisruptionsFragment = graphql`
       id
       alertDescriptionText
       alertHash
+      alertEffect
       alertHeaderText
       alertSeverityLevel
       alertUrl

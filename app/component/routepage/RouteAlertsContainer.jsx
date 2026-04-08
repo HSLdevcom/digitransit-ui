@@ -17,6 +17,7 @@ import {
   AlertSeverityLevelType,
   AlertEntityType,
 } from '../../../utils/shared/constants';
+import { patternOptionText } from './RoutePatternSelect';
 
 /**
  * This returns the trips mapped as alerts for the route.
@@ -55,6 +56,10 @@ const getCancelations = (
             time: epochToTime(departureTime * 1000, config),
           },
         ),
+        alertHeaderText: patternOptionText(pattern),
+        canceledStoptimes: [
+          trip.stoptimes.filter(st => st.realtimeState === 'CANCELED')[0],
+        ],
         entities: [entity],
         alertSeverityLevel: AlertSeverityLevelType.Warning,
       };
@@ -148,6 +153,9 @@ const containerComponent = createFragmentContainer(RouteAlertsContainer, {
   pattern: graphql`
     fragment RouteAlertsContainer_pattern on Pattern
     @argumentDefinitions(date: { type: "String" }) {
+      stops {
+        name
+      }
       alerts(types: [ROUTE, STOPS_ON_PATTERN]) {
         id
         alertDescriptionText
