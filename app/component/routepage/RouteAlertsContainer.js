@@ -87,11 +87,7 @@ function RouteAlertsContainer({ currentTime, route, pattern }, { config }) {
   );
 
   return (
-    <DisruptionList
-      showLinks={false}
-      cancelations={cancelations}
-      serviceAlerts={serviceAlerts}
-    />
+    <DisruptionList cancelations={cancelations} serviceAlerts={serviceAlerts} />
   );
 }
 

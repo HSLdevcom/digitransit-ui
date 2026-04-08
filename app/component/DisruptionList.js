@@ -90,7 +90,6 @@ const DisruptionList = ({
   currentTime,
   disableScrolling,
   serviceAlerts = [],
-  showLinks,
 }) => {
   const { match, router } = useRouter();
   const breakpoint = useBreakpoint();
@@ -151,12 +150,9 @@ const DisruptionList = ({
           </h2>
           {ca.length ? (
             <div role="list">
-              {ca.map((alert, i) => (
+              {ca.map(alert => (
                 <Disruption
                   toggleDetails={toggleDetails}
-                  currentTime={currentTime}
-                  showLinks={showLinks}
-                  index={i}
                   key={alert.id}
                   {...alert}
                 />
@@ -178,12 +174,9 @@ const DisruptionList = ({
           </h2>
           {futureAlerts.length ? (
             <div role="list">
-              {futureAlerts.map((alert, i) => (
+              {futureAlerts.map(alert => (
                 <Disruption
                   toggleDetails={toggleDetails}
-                  currentTime={currentTime}
-                  showLinks={showLinks}
-                  index={i}
                   key={alert.id}
                   {...alert}
                 />
@@ -208,8 +201,6 @@ DisruptionList.propTypes = {
   currentTime: PropTypes.number.isRequired,
   disableScrolling: PropTypes.bool,
   serviceAlerts: PropTypes.arrayOf(alertShape),
-  showLinks: PropTypes.bool,
-  onClickLink: PropTypes.func,
 };
 
 const connectedComponent = connectToStores(

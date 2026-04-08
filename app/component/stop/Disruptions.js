@@ -106,11 +106,7 @@ function Disruptions({ stop: stopRef, station: stationRef }, { config }) {
   const serviceAlerts = getAlerts(stop);
 
   return (
-    <DisruptionList
-      showLinks={false}
-      cancelations={cancelations}
-      serviceAlerts={serviceAlerts}
-    />
+    <DisruptionList cancelations={cancelations} serviceAlerts={serviceAlerts} />
   );
 }
 
