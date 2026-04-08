@@ -29,7 +29,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
   const [banners, setBanners] = useState([]);
 
   useEffect(() => {
-    if (config.URL.BANNERS && config.NODE_ENV !== 'test') {
+    if (config.URL.BANNERS && process.env.NODE_ENV !== 'test') {
       getJson(`${config.URL.BANNERS}&language=${lang}`)
         .then(data => setBanners(data))
         .catch(() => setBanners([]));
@@ -37,7 +37,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
   }, [lang]);
 
   useEffect(() => {
-    if (config.URL.FONTCOUNTER && config.NODE_ENV === 'production') {
+    if (config.URL.FONTCOUNTER && process.env.NODE_ENV === 'production') {
       fetch(config.URL.FONTCOUNTER, {
         mode: 'no-cors',
       });

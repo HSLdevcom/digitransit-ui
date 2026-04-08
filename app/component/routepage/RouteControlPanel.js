@@ -298,7 +298,7 @@ class RouteControlPanel extends React.Component {
     const { config, executeAction } = this.context;
     const { match, route, tripStartTime } = this.props;
     const { realTime } = config;
-    if (config.NODE_ENV === 'test' || !realTime) {
+    if (process.env.NODE_ENV === 'test' || !realTime) {
       return;
     }
 
@@ -372,7 +372,7 @@ class RouteControlPanel extends React.Component {
 
     const routeNotifications = [];
     if (
-      config.NODE_ENV !== 'test' &&
+      process.env.NODE_ENV !== 'test' &&
       config.routeNotifications &&
       config.routeNotifications.length > 0
     ) {

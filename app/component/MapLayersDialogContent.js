@@ -220,7 +220,6 @@ class MapLayersDialogContent extends React.Component {
           )}
           {showRentalVehiclesOfType(
             config.vehicleRental?.networks,
-            config,
             TransportMode.Citybike,
           ) && (
             <Checkbox
@@ -237,7 +236,6 @@ class MapLayersDialogContent extends React.Component {
           )}
           {showRentalVehiclesOfType(
             config.vehicleRental?.networks,
-            config,
             TransportMode.Scooter,
           ) && (
             <Checkbox

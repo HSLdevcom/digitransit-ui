@@ -839,7 +839,6 @@ const translations = {
     'as-viapoint': 'Viapoint',
     back: 'Back',
     'buy-in-app': 'Buy in App',
-    'next-week': 'Next week',
     'search-current-suggestion': 'Current selection: {selection}',
     'select-date': 'Select date',
     'select-from-map-destination': 'Select destination',
@@ -852,7 +851,6 @@ const translations = {
     'set-time-now-button-label': 'Set travel time to current',
     'station-entrance': 'Entrance',
     'station-exit': 'Exit',
-    'this-week': 'This week',
     'time-navigation-buttons': 'Time navigation buttons',
     'time-selector-form': 'Edit time',
     // eslint-disable-next-line sort-keys
@@ -1404,6 +1402,7 @@ const translations = {
     neighbourhood: 'Neighbourhood ',
     'new-route': 'Is the route new to you?',
     next: 'Next',
+    'next-week': 'Next week',
     'no-bike-allowed-popup-train':
       'Bicycles are allowed on commuter trains but on long distance trains you have to pay an extra fee and it might require a reservation.',
     'no-bike-allowed-popup-tram-bus':
@@ -1761,6 +1760,7 @@ const translations = {
     'terminal-page.title-short': 'Terminal',
     terminus: 'End point',
     'terms-of-use': 'Terms of Use',
+    'this-week': 'This week',
     'ticket-and-price-info': 'Ticket and price information',
     'ticket-information': 'Ticket information',
     'ticket-single-adult': 'Adult',
@@ -2227,7 +2227,6 @@ const translations = {
     'as-origin': 'Lähtöpaikaksi',
     'as-viapoint': 'Välipisteeksi',
     'buy-in-app': 'Osta sovelluksessa',
-    'next-week': 'Ensi viikolla',
     'search-current-suggestion': 'Tämänhetkinen valinta: {selection}',
     'select-date': 'Valitse päivä',
     'select-from-map-destination': 'Valitse määränpää',
@@ -2240,7 +2239,6 @@ const translations = {
     'set-time-now-button-label': 'Aseta matkustusajankohdaksi nyt',
     'station-entrance': 'Sisäänkäynti',
     'station-exit': 'Uloskäynti',
-    'this-week': 'Tällä viikolla',
     'time-navigation-buttons': 'Matkustusajankohdan muokkausnapit',
     'time-selector-form': 'Muokkaa Matkustusajankohtaa',
     // eslint-disable-next-line sort-keys
@@ -2785,6 +2783,7 @@ const translations = {
     neighbourhood: 'Naapurusto',
     'new-route': 'Onko reitti sinulle uusi?',
     next: 'Seuraava',
+    'next-week': 'Ensi viikolla',
     'no-bike-allowed-popup-train':
       'Lähiliikenteen juniin pyörän voi ottaa mukaan ilmaiseksi, mutta pitkän matkan junissa peritään lisämaksu ja mahdollisesti vaaditaan etukäteisvaraus.',
     'no-bike-allowed-popup-tram-bus':
@@ -3140,6 +3139,7 @@ const translations = {
     'terminal-page.title-short': 'Terminaali',
     terminus: 'Päätepiste',
     'terms-of-use': 'Käyttöehdot',
+    'this-week': 'Tällä viikolla',
     'ticket-and-price-info': 'Lippu- ja hintatiedot',
     'ticket-information': 'Lipputiedot',
     'ticket-single-adult': 'Aikuinen',
@@ -5223,7 +5223,6 @@ const translations = {
       'Tilaa kyyti sovelluksella ja jää odottamaan sen saapumista:',
     'booking-method': 'Beställningssätt',
     'buy-in-app': 'Köp i appen',
-    'next-week': 'Nästa vecka',
     'search-current-suggestion': 'Nuvarande val: {selection}',
     'select-date': 'Välj datum',
     'set-time-earlier-button-label': 'Ställ in restid till tidigare',
@@ -5231,7 +5230,6 @@ const translations = {
     'set-time-now-button-label': 'Ställ in restid till nu',
     'station-entrance': 'Ingång',
     'station-exit': 'Utgång',
-    'this-week': 'Denna vecka',
     'time-navigation-buttons': 'Tidsnavigeringsknappar',
     'time-selector-form': 'Redigera tid',
     // eslint-disable-next-line sort-keys
@@ -5775,6 +5773,7 @@ const translations = {
     neighbourhood: 'Gransskap',
     'new-route': 'Är rutten ny för dig?',
     next: 'Nästa',
+    'next-week': 'Nästa vecka',
     'no-bike-allowed-popup-train':
       'Du kan ta med cykeln i närtågen avgiftsfritt, men i andra tåg är det avgiftsbelagt och kräver möjligtvis en förhandsreservation.',
     'no-bike-allowed-popup-tram-bus':
@@ -6139,6 +6138,7 @@ const translations = {
     'terminal-page.title-short': 'Terminal',
     terminus: 'Slutpunkt',
     'terms-of-use': 'Användarvillkor',
+    'this-week': 'Denna vecka',
     'ticket-and-price-info': 'Biljett- och prisinformation',
     'ticket-information': 'Biljettinformation',
     'ticket-single-adult': 'Vuxen',
