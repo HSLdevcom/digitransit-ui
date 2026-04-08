@@ -1,0 +1,640 @@
+// Styles for the RoutePatternSelect dropdown component and the mobile bottom
+// sheet variant (.pattern-select-sheet / .pattern-select-sheet-backdrop).
+
+.route-pattern-select {
+  $pattern-font-size: 15px;
+  $pattern-line-height: 18px;
+
+  // Vertical padding: (44px touch-target height - $pattern-line-height) / 2
+  $pattern-item-v-padding: 13px;
+
+  margin: 0 0 1px;
+
+  .icon {
+    position: absolute;
+    right: 1rem;
+    top: 15px; // aligns icon with text in the input container
+    width: 16px;
+    height: auto;
+    pointer-events: none;
+
+    @media print {
+      display: none;
+    }
+  }
+
+  .dropdown-arrow,
+  .in-text-arrow {
+    color: $theme-primary-color;
+  }
+
+  .in-text-arrow {
+    position: inherit;
+    width: 16px;
+    height: auto;
+    margin: 0 var(--space-xxs);
+  }
+
+  // ─── Toggle container ────────────────────────────────────────────────────
+
+  .pattern-select-container {
+    width: 100%;
+    min-height: 44px;
+    background: $white;
+    border: 1px solid $control-border-color;
+    border-radius: var(--space-xs);
+    position: relative;
+    transition: all 0.2s ease-out;
+
+    &:focus-within {
+      outline: none;
+      border-color: $theme-primary-color;
+    }
+
+    &.pattern-select-container--open {
+      border-color: $theme-primary-color;
+
+      .dropdown-arrow {
+        transform: rotate(180deg);
+      }
+    }
+
+    &.pattern-select-container--colored {
+      width: auto;
+      margin-left: -$margin-left-right;
+      margin-right: -$margin-left-right;
+      border-color: transparent;
+      border-radius: 0;
+      background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
+        $theme-primary-color;
+      color: $white;
+
+      .input-display {
+        padding-left: 24px;
+        padding-right: 32px;
+      }
+
+      .suggestions-container {
+        left: 32px;
+        right: 32px;
+        color: $black;
+
+        .in-text-arrow {
+          color: var(--mode-color, $theme-primary-color);
+        }
+      }
+
+      .dropdown-arrow {
+        color: $white;
+      }
+    }
+  }
+
+  // ─── Displayed value row ─────────────────────────────────────────────────
+
+  .input-display {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-weight: $font-weight-book;
+    font-size: $pattern-font-size;
+    line-height: $pattern-line-height;
+    padding: $pattern-item-v-padding var(--space-s);
+    cursor: pointer;
+
+    .dropdown-arrow {
+      position: relative;
+      right: auto;
+      top: auto;
+      margin-left: auto;
+      pointer-events: none;
+      flex-shrink: 0;
+
+      &.inverted {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  // ─── Option-count pill ───────────────────────────────────────────────────
+
+  .option-count-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 20px;
+    padding: 0 8px;
+    border-radius: 10px;
+    font-size: $font-size-xxsmall;
+    font-weight: $font-weight-book;
+    color: $white;
+    background: $theme-primary-color;
+    flex-shrink: 0;
+    letter-spacing: $letter-spacing;
+  }
+
+  .toggle-label {
+    flex: 1;
+    letter-spacing: $letter-spacing;
+    font-weight: $font-weight-book;
+    font-size: $font-size-xsmall;
+  }
+
+  // Hidden <input> used only to open the native keyboard — font-size must be
+  // ≥ 16px to prevent automatic zoom on iOS.
+  .select-route-pattern-input {
+    height: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  // ─── Route pattern suggestions dropdown ────────────────────────────────────────────────
+
+  .suggestions-container {
+    background: $white;
+    z-index: index($zindex, 'autosuggest-suggestion-container');
+    position: absolute;
+
+    // top: container min-height (44px) + borders (2px) + visual gap (6px)
+    top: 52px;
+    left: 0;
+    right: 0;
+    border-radius: var(--space-xs);
+    overflow: hidden;
+    display: none;
+
+    &--open {
+      display: block;
+      border: 1px solid $light-gray;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  .section-container {
+    background: $white;
+    font-weight: $font-weight-book;
+    font-size: $pattern-font-size;
+    line-height: $pattern-line-height;
+
+    &:not(:first-child) {
+      border-top: 1px solid $light-gray;
+    }
+
+    &:first-child {
+      border-radius: var(--space-xs) var(--space-xs) 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 var(--space-xs) var(--space-xs);
+    }
+  }
+
+  .section-title {
+    font-weight: $font-weight-book;
+    border-bottom: 1px solid $light-gray;
+    min-height: 44px;
+    padding: $pattern-item-v-padding var(--space-s);
+    color: $gray;
+    font-size: $font-size-xsmall;
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  // ─── Individual pattern suggestion ──────────────────────────────────────
+
+  .suggestion {
+    list-style: none;
+    min-height: 44px;
+    padding: $pattern-item-v-padding var(--space-s);
+    position: relative;
+    cursor: pointer;
+    background: $white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: $font-weight-book;
+    transition: background-color 0.15s ease-out;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      bottom: 0;
+      height: 1px;
+      background: $light-gray;
+    }
+
+    &:last-child::after {
+      display: none;
+    }
+
+    &:hover,
+    &--highlighted {
+      background: $suggestion-highlight-color;
+    }
+
+    .icon.check {
+      height: 16px;
+      width: 16px;
+      position: relative;
+      right: auto;
+      top: auto;
+      color: $theme-primary-color;
+      flex-shrink: 0;
+      margin-left: auto;
+      margin-right: var(--space-s);
+    }
+  }
+
+  // ─── Check / placeholder ─────────────────────────────────────────────────
+
+  .pattern-check {
+    width: 24px;
+    padding-left: $padding-xsmall;
+    padding-right: $padding-xsmall;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: $theme-primary-color;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+  }
+
+  .check-placeholder {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+  }
+
+  .pattern-label {
+    flex: 1 1 auto;
+    padding-left: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-weight: $font-weight-book;
+  }
+
+  a {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+  }
+
+  // ─── Similar-route row ───────────────────────────────────────────────────
+
+  .similar-route {
+    display: flex;
+    width: 100%;
+
+    // Reserve space for the arrow icon (16px) + 32px gap from right edge
+    padding-right: 48px;
+
+    > .icon-container {
+      position: relative;
+
+      // Visual alignment with text baseline
+      margin-top: 3px;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+
+    .similar-route-text {
+      flex-grow: 1;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      white-space: nowrap;
+    }
+
+    // Trailing arrow icon — positioned absolutely to the far right
+    > .icon-container:last-child {
+      position: absolute;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      margin: 0;
+      flex-shrink: 0;
+    }
+  }
+
+  .similar-route .icon-container .icon {
+    position: relative;
+    width: 2em;
+    height: 2em;
+    right: auto;
+    top: auto;
+  }
+
+  .similar-route .icon-container:last-child .similar-route-arrow {
+    width: 16px;
+    height: 16px;
+    color: $link-button-color;
+  }
+
+  .similar-route-name {
+    color: $black;
+    font-weight: $font-weight-medium;
+    font-size: $pattern-font-size;
+
+    // Taller than $pattern-line-height to accommodate two-line route names
+    line-height: 20px;
+  }
+
+  .similar-route-longname {
+    color: $gray;
+
+    // Fixed 13px: slightly smaller than primary text for visual hierarchy
+    font-size: 13px;
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    // -0.48px ≈ $letter-spacing at 16px root font size
+    letter-spacing: -0.48px;
+  }
+
+  // ─── Pattern header (origin → destination band) ──────────────────────────
+
+  .route-pattern-header {
+    display: flex;
+
+    // mobile: 24px left, 80px right (16px gap + 48px swap button + 16px button right)
+    padding: 8px 80px 8px 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    position: relative;
+
+    // Bleed to the edges of the scroll container padding so the background
+    // colour band spans the full width of route-page-content (21.3px each side)
+    margin-left: -$margin-left-right;
+    margin-right: -$margin-left-right;
+    background: $theme-primary-color;
+    color: $white;
+
+    .icon-container {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      // Override the abs-positioned icon rule from .route-pattern-select .icon
+      .icon {
+        position: relative;
+        right: auto;
+        top: auto;
+        pointer-events: auto;
+      }
+    }
+
+    .route-pattern-endpoint {
+      display: flex;
+      align-items: center;
+      gap: var(--space-s);
+      width: 100%;
+      padding: 8px 0;
+      margin-left: 4px;
+    }
+
+    .route-pattern-header-icon {
+      display: flex;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .route-pattern-destination-icon {
+      height: 24px;
+    }
+
+    .route-pattern-location-name {
+      font-size: $font-size-small;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      letter-spacing: $letter-spacing;
+      font-weight: $font-weight-semibold;
+    }
+
+    .route-pattern-connector {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: var(--space-s);
+    }
+
+    .route-pattern-dots {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+
+      // 24px: matches icon width to align dots under the origin icon
+      width: 24px;
+      flex-shrink: 0;
+      height: 8px;
+
+      // 4px: aligns with .route-pattern-endpoint left padding for visual alignment
+      margin-left: 4px;
+
+      .icon-container {
+        display: flex;
+        width: 2px;
+        height: 2px;
+      }
+    }
+
+    .route-pattern-dot {
+      width: 2px;
+      height: 2px;
+    }
+
+    .route-pattern-divider {
+      flex: 1;
+      border: none;
+      border-top: 1px solid rgba(0, 0, 0, 0.15);
+      margin: 0;
+    }
+
+    .route-pattern-swap-button {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.15);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $white;
+
+      .icon-container {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  // bp-large: route-page-content (the container) uses 56px horizontal padding
+  &.bp-large .route-pattern-header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    margin-left: -56px;
+    margin-right: -56px;
+    padding-left: $margin-left-right-large;
+    padding-right: calc(56px + 48px);
+
+    .route-pattern-swap-button {
+      right: 48px;
+    }
+  }
+
+  .route-pattern-header--no-swap {
+    padding-right: 16px;
+  }
+
+  &.bp-large .route-pattern-header--no-swap {
+    padding-right: 56px;
+  }
+
+  &.bp-large .pattern-select-container--colored {
+    margin-left: -56px;
+    margin-right: -56px;
+
+    .input-display {
+      padding-left: $margin-left-right-large;
+      padding-right: calc($margin-left-right-large + 4px);
+    }
+
+    .suggestions-container {
+      left: 32px;
+      right: 32px;
+    }
+  }
+
+  @media print {
+    display: none;
+  }
+}
+
+// ─── Mobile bottom sheet ─────────────────────────────────────────────────────
+
+.pattern-select-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: index($zindex, 'click-prevent-overlay');
+}
+
+.pattern-select-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: $white;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
+  z-index: index($zindex, 'front');
+  max-height: 75vh;
+  overflow-y: auto;
+  animation: slideUpFromBottom 0.25s ease-out;
+
+  .pattern-select-sheet-header {
+    position: sticky;
+    top: 0;
+    background: $white;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-height: 32px;
+  }
+
+  .pattern-select-sheet-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: $link-button-color;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin: 16px 16px -13px 0;
+
+    // Override the abs-positioned icon rule from .route-pattern-select .icon
+    .icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon {
+      position: relative;
+      right: auto;
+      top: auto;
+      width: 16px;
+      height: 16px;
+      pointer-events: auto;
+    }
+  }
+
+  // The inner route-pattern-select reuses all the existing option styles.
+  // Remove the toggle button and dropdown-specific container styles.
+  .route-pattern-select {
+    padding: 0 24px;
+
+    .pattern-select-container {
+      display: none;
+    }
+
+    .section-container {
+      &:first-child {
+        border-radius: 0;
+      }
+
+      &:last-child {
+        border-radius: 0;
+      }
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .in-text-arrow {
+      color: var(--mode-color, #{$theme-primary-color});
+    }
+  }
+}

@@ -1,0 +1,109 @@
+// Styles for the route page header: route number, name, favourite action,
+// notification trigger, and trip destination headsign.
+
+.route-header {
+  display: flex;
+
+  .route-number {
+    min-width: 40px;
+
+    .icon {
+      margin-top: 2px;
+      height: 30px;
+      width: 30px;
+    }
+  }
+
+  .route-info {
+    display: flex;
+    min-width: 0;
+
+    .route-short-name {
+      margin: 0;
+      font-family: $font-family-narrow;
+      font-size: 30px;
+      font-weight: $font-weight-medium;
+    }
+
+    .route-long-name {
+      @include font-book;
+
+      font-size: 13px;
+      line-height: 1.38;
+      letter-spacing: -0.43px;
+      color: $gray;
+    }
+  }
+
+  .route-header-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .route-header-divider {
+    width: 1px;
+    height: 24px;
+    background-color: $light-gray;
+    flex-shrink: 0;
+  }
+
+  .route-notification-trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xxs);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-size: $font-size-small;
+    line-height: 1;
+    color: $black;
+    white-space: nowrap;
+
+    &:hover span {
+      text-decoration: underline;
+    }
+
+    // Force the ThemedIcon span (both @hsl-fi/icons wrapper and SVG sprite .icon-container) to exactly 18px.
+    > span:last-child {
+      width: 18px;
+      height: 18px;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  .trip-destination {
+    display: flex;
+    margin-left: 10px;
+    margin-top: 14px;
+
+    .icon-container {
+      color: $theme-primary-color;
+      margin-right: 6px;
+      margin-top: 2px;
+
+      // 11px: aligns with the destination headsign text baseline
+      font-size: 11px;
+    }
+
+    .destination-headsign {
+      font-weight: $font-weight-book;
+      font-size: 15px;
+      line-height: 18px;
+      letter-spacing: -0.03em;
+      color: $black;
+    }
+  }
+}
+
+.route-page-header.favourite-icon {
+  @media print {
+    display: none;
+  }
+}

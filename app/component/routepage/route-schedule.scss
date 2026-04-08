@@ -1,0 +1,426 @@
+// Styles for the schedule view: date selectors, trip list, action bar,
+// and print-specific overrides.
+
+// ─── Schedule container (scroll root) ───────────────────────────────────────
+
+.route-schedule-container {
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  max-height: 100vh;
+  padding-bottom: 1.5em;
+  flex: 1 0;
+  padding-right: 56px;
+  padding-left: 56px;
+
+  // Bleed header to match schedule container's 56px horizontal padding
+  .route-pattern-header {
+    margin-left: -56px;
+    margin-right: -56px;
+    padding-left: calc(56px + 48px);
+    padding-right: calc(56px + 48px);
+  }
+
+  .route-page-control-panel-container {
+    padding: 0;
+  }
+
+  &.mobile {
+    padding: 0 20px;
+    margin-bottom: 0;
+
+    .route-pattern-header {
+      margin-left: -20px;
+      margin-right: -20px;
+      padding-left: 24px;
+
+      // 16px gap + 48px button + 16px button right
+      padding-right: 80px;
+    }
+
+    .route-pattern-header--no-swap {
+      padding-right: 16px;
+    }
+
+    .pattern-select-container--colored {
+      margin-left: -20px;
+      margin-right: -20px;
+
+      .input-display {
+        padding-left: 24px;
+
+        // 16px gap, half of swap button (48px / 2), minus 8px to centre dropdown arrow
+        padding-right: 32px;
+      }
+
+      .suggestions-container {
+        left: 32px;
+        right: 32px;
+      }
+    }
+  }
+
+  @media print {
+    max-height: none;
+  }
+}
+
+// ─── Schedule list wrapper ───────────────────────────────────────────────────
+
+.route-schedule-list-wrapper {
+  margin-top: 14px;
+
+  &.bp-large {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media print {
+    // Foundation collapses display:flex in print — force visibility
+    display: block !important;
+    overflow: auto !important;
+  }
+
+  .route-schedule-header {
+    padding: 10px 0 2px;
+    margin-left: 0;
+    margin-right: 0;
+
+    @media print {
+      margin-right: auto;
+    }
+  }
+}
+
+.route-schedule-container .no-trips-message {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.route-schedule-list {
+  padding-bottom: 0.7em;
+  flex: 1;
+  overflow: hidden;
+
+  @media print {
+    .trip-column {
+      margin-left: 0;
+    }
+  }
+}
+
+// ─── Grouped date select ─────────────────────────────────────────────────────
+
+.route-schedule-grouped-date-select {
+  display: flex;
+  justify-content: space-between;
+  flex: 0 0 auto;
+  min-height: $route-schedule-date-height;
+  margin-top: var(--space-s);
+  flex-wrap: wrap;
+
+  .route-schedule-grouped-date-select-heading {
+    width: 100%;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-small;
+    line-height: $line-height-normal;
+    letter-spacing: $letter-spacing;
+    margin: 0 0 var(--space-xs);
+  }
+
+  .date-select-wrapper {
+    width: 100%;
+  }
+
+  .current-range {
+    flex: 1;
+    white-space: nowrap;
+    font-weight: $font-weight-medium;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: -0.03em;
+    color: $black;
+  }
+
+  .other-ranges-dropdown {
+    flex: 1 0 6rem;
+
+    @media print {
+      display: none;
+    }
+  }
+}
+
+// ─── Stop select ─────────────────────────────────────────────────────────────
+
+.route-schedule-stop-select {
+  position: relative;
+
+  select {
+    position: relative;
+    background-color: $white;
+    font-size: 9pt;
+    color: $black;
+    height: 30px;
+    line-height: 24px;
+    font-weight: $font-weight-medium;
+    appearance: none;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+  }
+
+  svg {
+    position: absolute;
+    top: 7px;
+    right: 0;
+    height: 10px;
+    width: 10px;
+    fill: $theme-primary-color;
+    pointer-events: none;
+  }
+
+  @media print {
+    display: none;
+  }
+}
+
+// ─── Dropdowns row ───────────────────────────────────────────────────────────
+
+.route-schedule-dropdowns {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-m);
+
+  @media print {
+    display: none;
+  }
+}
+
+// ─── Date select ─────────────────────────────────────────────────────────────
+
+.route-schedule-date {
+  @include font-book;
+
+  @media print {
+    display: none;
+  }
+
+  min-height: $route-schedule-date-height;
+  margin: 0;
+
+  .icon {
+    margin-right: 7px;
+    width: 15px;
+    height: 15px;
+    color: $theme-primary-color;
+  }
+
+  select {
+    font-size: 9pt;
+    line-height: 18px;
+    height: 19px;
+    background-color: $white;
+    color: $theme-primary-color;
+
+    // !important required to override Foundation's .select border-bottom rule
+    border-bottom: none !important;
+    font-weight: $font-weight-medium;
+    padding: 0;
+    background-image: none;
+    width: 7em;
+    text-align: left;
+    appearance: none;
+
+    &:hover {
+      background: none;
+    }
+
+    option {
+      padding: 4px;
+    }
+  }
+}
+
+// ─── Trip columns / separator ────────────────────────────────────────────────
+
+.trip-column {
+  margin: 0;
+  line-height: 30px;
+  display: flex;
+
+  @media print {
+    margin-left: 28px;
+    margin-right: auto;
+    font-size: 21px;
+  }
+}
+
+.trip-separator {
+  width: 100%;
+  border-top: 2px solid $control-border-color;
+  height: 1px;
+  margin-top: 14px;
+  margin-left: 19px;
+  margin-right: 19px;
+
+  svg {
+    position: relative;
+    height: 10px;
+    width: 10px;
+    left: calc(100% - 6px);
+    top: -16px;
+  }
+}
+
+.trip-from,
+.trip-to {
+  background: $white;
+  width: 50px;
+  font-size: $font-size-small;
+  text-align: left;
+  min-width: 3em;
+
+  @media print {
+    font-size: 21px;
+    font-weight: $font-weight-book;
+  }
+}
+
+// ─── Scroll shadow ───────────────────────────────────────────────────────────
+
+.after-scrollable-area {
+  display: none;
+
+  @include min-width(tablet) {
+    display: block;
+  }
+
+  position: absolute;
+  z-index: 22;
+
+  // Fixed 520px: matches the schedule list max-width on tablet+
+  height: 16px;
+  width: 520px;
+  background-color: transparent;
+  bottom: 34px;
+  box-shadow: 0 -8px 6px -6px rgba(0, 0, 0, 0.2);
+
+  @media print {
+    display: none;
+  }
+}
+
+// ─── Action bar ──────────────────────────────────────────────────────────────
+
+.route-page-action-bar {
+  justify-content: flex-start;
+  padding-left: 60px;
+  display: flex;
+  background-color: $white;
+
+  .printable-date-container {
+    display: none;
+
+    @media print {
+      display: flex;
+    }
+
+    .printable-date-icon {
+      margin-right: 0.8em;
+
+      svg {
+        // Fixed 47.3px × 42px: calendar icon dimensions from the print design spec
+        width: 47.3px;
+        height: 42px;
+      }
+    }
+
+    .printable-date-header {
+      font-size: 14px;
+    }
+
+    .printable-date-content {
+      font-size: 20px;
+      font-weight: $font-weight-medium;
+    }
+  }
+
+  .print-button-container {
+    @media print {
+      display: none;
+    }
+  }
+
+  .secondary-button.print {
+    @media print {
+      display: none;
+    }
+  }
+
+  @media print {
+    padding-left: 0;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    background-color: $white;
+    border-top: 1px solid $light-gray;
+    border-bottom: 1px solid $light-gray;
+  }
+}
+
+.mobile .route-page-action-bar .secondary-button {
+  display: none;
+}
+
+// ─── Printable headers ───────────────────────────────────────────────────────
+
+.printable-stop-header {
+  display: none;
+
+  @media print {
+    margin-top: 1em;
+    display: flex;
+
+    // Fixed 24px: design spec heading size for printed timetable header
+    font-size: 24px;
+    font-weight: $font-weight-medium;
+
+    .printable-stop-header_from {
+      margin-right: 1em;
+      width: 8.4em;
+    }
+
+    .printable-stop-header_icon-from {
+      margin-right: 0.7em;
+
+      svg {
+        fill: $from-color;
+        color: $from-color;
+      }
+    }
+
+    .printable-stop-header_icon-to {
+      margin-right: 0.7em;
+
+      svg {
+        fill: $to-color;
+        color: $to-color;
+      }
+    }
+
+    .printable-stop-header_line {
+      background-size: 80% auto;
+      background-position-y: 0;
+      background-position-x: 7px;
+      margin-right: 1em;
+      margin-top: 0.6em;
+      height: 6px;
+      width: 6.6em;
+    }
+  }
+}

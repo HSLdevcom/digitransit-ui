@@ -1,0 +1,105 @@
+// Styles for RouteControlPanel: navigation tab strip and its container.
+
+.navigation-tabs {
+  width: 100%;
+}
+
+// ─── Tab container ───────────────────────────────────────────────────────────
+
+.route-page-control-panel-container {
+  padding-bottom: 28px;
+
+  &.hairiot {
+    margin: 0 56px;
+  }
+
+  @media print {
+    .route-tabs {
+      display: none;
+    }
+  }
+}
+
+// ─── Tab strip (pill-selector style) ────────────────────────────────────────
+
+.route-tabs {
+  height: 2.5em;
+  min-height: 44px;
+  display: flex;
+  background-color: $light-gray;
+  border: 2px solid $light-gray;
+  border-radius: var(--radius-radius-pill, 999px);
+  margin: var(--space-s) 0 0;
+  padding: var(--space-xxs);
+
+  button {
+    width: calc(100% / var(--totalCount));
+    font-size: $font-size-small;
+    text-align: center;
+    letter-spacing: -0.42px;
+    border-radius: var(--radius-radius-pill, 999px);
+    color: $black;
+    font-weight: normal;
+
+    &.is-active {
+      font-weight: $font-weight-medium;
+      background-color: $white;
+    }
+
+    &:disabled {
+      color: $black;
+      font-weight: $font-weight-medium;
+      background-color: $white;
+      cursor: default;
+
+      // Restore default appearance suppressed by Foundation / global button styles
+      opacity: 1;
+      box-shadow: none;
+
+      &:focus,
+      &:hover {
+        color: inherit;
+        background: $white;
+      }
+    }
+
+    .no-alerts > span {
+      color: $muted-gray;
+    }
+  }
+
+  .tab-route-disruption {
+    .icon-container {
+      margin-right: 5px;
+      vertical-align: middle;
+
+      .disruption-icon {
+        width: 0.85em;
+        height: 0.95em;
+      }
+
+      .service-alert-icon {
+        fill: $muted-gray;
+      }
+    }
+  }
+
+  .tab-panel {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background: $white;
+
+    > div {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  @media print {
+    button.is-active {
+      text-decoration: underline;
+    }
+  }
+}

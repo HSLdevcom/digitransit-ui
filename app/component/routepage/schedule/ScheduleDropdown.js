@@ -13,11 +13,11 @@ import { getAriaMessages, getClassNamePrefix } from './scheduleDropdownUtils';
  * Generic dropdown used on the schedule page for stop selection.
  */
 function ScheduleDropdown({
-  alignRight,
+  alignRight = false,
   id,
   list,
   onSelectChange,
-  title,
+  title = 'No title',
   value,
 }) {
   const intl = useTranslationsContext();
@@ -81,7 +81,7 @@ function ScheduleDropdown({
   return (
     <div className="dd-container withLabel" aria-live="off">
       <label
-        className={cx('dd-header-title', { alignRight })}
+        className={cx('dd-header-title', { 'align-right': alignRight })}
         id={`aria-label-${id}`}
         htmlFor={`aria-input-${id}`}
       >
@@ -124,13 +124,6 @@ ScheduleDropdown.propTypes = {
   onSelectChange: PropTypes.func,
   title: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
-
-ScheduleDropdown.defaultProps = {
-  alignRight: false,
-  onSelectChange: undefined,
-  title: 'No title',
-  value: undefined,
 };
 
 ScheduleDropdown.displayName = 'ScheduleDropdown';
