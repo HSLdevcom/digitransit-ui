@@ -33,7 +33,7 @@ export const getFaresFromLegs = (legs, config) => {
     price: leg.fareProducts[0].product.price.amount,
     ticketName:
       // E2E-testing does not work without this check
-      (config.NODE_ENV === 'test' &&
+      (process.env.NODE_ENV === 'test' &&
         leg.fareProducts[0].product.id.split(':')[1]) ||
       config.fareMapping(leg.fareProducts[0].product.id),
   }));

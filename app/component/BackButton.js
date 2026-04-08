@@ -39,7 +39,7 @@ export default function BackButton(props, context) {
 
   let url;
   // apply rootlink only in production, it is annoying locally
-  if (config.NODE_ENV !== 'development') {
+  if (process.env.NODE_ENV !== 'development') {
     if (config.passLanguageToRootLink && intl.locale !== 'fi') {
       url = `${config.URL.ROOTLINK}/${intl.locale}`;
     } else {

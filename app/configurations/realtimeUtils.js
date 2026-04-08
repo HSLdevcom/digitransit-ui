@@ -1,3 +1,5 @@
+import { IS_DEV } from '../util/envUtils';
+
 /* eslint-disable prefer-template */
 function defaultRouteSelector(routePageProps) {
   const route = routePageProps.route.gtfsId.split(':');
@@ -188,10 +190,9 @@ function hslTopicResolver(
   );
 }
 
-const mqttAddress =
-  process.env.RUN_ENV === 'development' || process.env.NODE_ENV !== 'production'
-    ? 'wss://dev-mqtt.digitransit.fi'
-    : 'wss://mqtt.digitransit.fi';
+const mqttAddress = IS_DEV()
+  ? 'wss://dev-mqtt.digitransit.fi'
+  : 'wss://mqtt.digitransit.fi';
 
 const baseMqtt = {
   mqtt: mqttAddress,
