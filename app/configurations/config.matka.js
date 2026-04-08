@@ -452,8 +452,8 @@ export default {
 
   flex: {
     internalFlexEnabled: IS_DEV(),
-    allowTaxiJourneys: IS_DEV(),
-    directOnlyTaxiJourneys: false,
+    allowTaxiJourneys: true,
+    directOnlyTaxiJourneys: !IS_DEV(),
     internalAgencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
     externalAgencies: ['02Taksi:02_taksi'],
     infoLanguage: 'fi',
