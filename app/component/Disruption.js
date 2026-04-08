@@ -9,6 +9,7 @@ import IconBackground from './icon/IconBackground';
 import { getRouteMode } from '../util/modeUtils';
 import { getStartTimeWithColon } from '../util/timeUtils';
 import { stopTimeShape } from '../util/shapes';
+import { AlertEntityType, LocationTypes } from '../constants';
 
 export default function Disruption({
   toggleDetails,
@@ -66,10 +67,10 @@ export default function Disruption({
       </div>
       <div className="alert-row-badges">
         {e &&
-          Object.values(e).map(({ typename, mode, items }) => {
-            const isStop = typename === 'Stop';
+          Object.entries(e).map(([key, { typename, mode, items }]) => {
+            const isStop = typename === AlertEntityType.Stop;
             return (
-              <Fragment key={`${typename}_${mode}`}>
+              <Fragment key={key}>
                 <Icon
                   img={`icon_${
                     mode.toLowerCase() === 'bus-express'
@@ -86,25 +87,33 @@ export default function Disruption({
                     )
                   }
                 />
-                {items.map(({ gtfsId, id: entityId, shortName, name }) => (
-                  <span key={gtfsId} className="mode-badge">
-                    <a
-                      // TODO: terminal route
-                      href={
-                        isStop
-                          ? stopPagePath(false, gtfsId)
-                          : routePagePath(gtfsId)
-                      }
-                      key={entityId}
-                      onClick={event => {
-                        event.preventDefault();
-                        match.router.push(routePagePath(gtfsId));
-                      }}
-                    >
-                      <span>{isStop ? name : shortName}</span>
-                    </a>
-                  </span>
-                ))}
+                {items.map(
+                  ({ gtfsId, id: entityId, shortName, name, locationType }) => {
+                    const isStation = locationType === LocationTypes.STATION;
+                    return (
+                      <span key={gtfsId} className="mode-badge">
+                        <a
+                          href={
+                            isStop
+                              ? stopPagePath(isStation, gtfsId)
+                              : routePagePath(gtfsId)
+                          }
+                          key={entityId}
+                          onClick={event => {
+                            event.preventDefault();
+                            match.router.push(
+                              isStop
+                                ? stopPagePath(isStation, gtfsId)
+                                : routePagePath(gtfsId),
+                            );
+                          }}
+                        >
+                          <span>{isStop ? name : shortName}</span>
+                        </a>
+                      </span>
+                    );
+                  },
+                )}
               </Fragment>
             );
           })}

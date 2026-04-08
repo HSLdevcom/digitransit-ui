@@ -176,6 +176,7 @@ const containerComponent = createFragmentContainer(
             ... on Stop {
               name
               code
+              locationType
               vehicleMode
               gtfsId
             }
