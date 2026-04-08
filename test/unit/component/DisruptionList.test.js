@@ -12,6 +12,24 @@ import { AlertEntityType } from '../../../app/constants';
 import * as ConfigContext from '../../../app/configurations/ConfigContext';
 import * as withBreakpoint from '../../../app/util/withBreakpoint';
 import { mockContext } from '../helpers/mock-context';
+import { mockMatch } from '../helpers/mock-router';
+
+const routeEntity = (overrides = {}) => ({
+  __typename: AlertEntityType.Route,
+  mode: 'BUS',
+  shortName: '63',
+  gtfsId: 'HSL:1063',
+  ...overrides,
+});
+
+const makeAlert = (overrides = {}) => ({
+  id: 'alert-1',
+  alertHeaderText: 'Test alert',
+  alertSeverityLevel: 'WARNING',
+  alertHash: Math.random(),
+  entities: [routeEntity()],
+  ...overrides,
+});
 
 describe('<DisruptionList />', () => {
   beforeEach(() => {
@@ -28,9 +46,9 @@ describe('<DisruptionList />', () => {
     withBreakpoint.useBreakpoint.restore();
   });
 
-  it('should show a "no alerts" message', () => {
+  it('should show EmptyDisruptions when there are no alerts or cancelations', () => {
     const props = {
-      currentTime: 1547464412,
+      currentTime: 1000,
       cancelations: [],
       serviceAlerts: [],
     };
@@ -38,140 +56,108 @@ describe('<DisruptionList />', () => {
     expect(wrapper.find(EmptyDisruptions)).to.have.lengthOf(1);
   });
 
-  it('should order the cancelations and service alerts by route shortName and put alerts first', () => {
+  it('should render current service alerts in the active section', () => {
     const props = {
-      currentTime: 1547464414,
-      cancelations: [
-        {
-          alertHeaderText: 'third',
-          alertSeverityLevel: 'SEVERE',
-          effectiveStartDate: 1547464413,
-          feed: 'foo',
-          entities: [
-            {
-              __typename: AlertEntityType.Route,
-              mode: 'BUS',
-              shortName: '37N',
-              gtfsId: 'foo:2037N',
-            },
-          ],
-        },
-        {
-          alertHeaderText: 'fourth',
-          alertSeverityLevel: 'SEVERE',
-          effectiveStartDate: 1547464413,
-          feed: 'foo',
-          entities: [
-            {
-              __typename: AlertEntityType.Route,
-              mode: 'RAIL',
-              shortName: 'A',
-              gtfsId: 'foo:2000A',
-            },
-          ],
-        },
-      ],
-      serviceAlerts: [
-        {
-          alertHeaderText: 'second',
-          alertSeverityLevel: 'SEVERE',
-          effectiveStartDate: 1547464413,
-          feed: 'foo',
-          entities: [
-            {
-              __typename: AlertEntityType.Route,
-              mode: 'BUS',
-              shortName: '138',
-              gtfsId: 'foo:138',
-            },
-          ],
-        },
-        {
-          alertHeaderText: 'first',
-          alertSeverityLevel: 'SEVERE',
-          effectiveStartDate: 1547464413,
-          feed: 'foo',
-          entities: [
-            {
-              __typename: AlertEntityType.Route,
-              mode: 'TRAM',
-              shortName: '8A',
-              gtfsId: 'foo:8A',
-            },
-          ],
-        },
-      ],
-    };
-    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
-    expect(wrapper.find(Disruption).at(0).prop('header')).to.equal('first');
-    expect(wrapper.find(Disruption).at(1).prop('header')).to.equal('second');
-    expect(wrapper.find(Disruption).at(2).prop('header')).to.equal('third');
-    expect(wrapper.find(Disruption).at(3).prop('header')).to.equal('fourth');
-  });
-
-  it('should not display past service alerts', () => {
-    const props = {
-      currentTime: 100,
+      currentTime: 500,
       cancelations: [],
       serviceAlerts: [
-        {
-          alertHeaderText: 'alert',
-          alertSeverityLevel: 'SEVERE',
-          effectiveStartDate: 1,
-          effectiveEndDate: 99,
-          feed: 'foo',
-          entities: [
-            {
-              __typename: AlertEntityType.Route,
-              mode: 'TRAM',
-              shortName: '8A',
-              gtfsId: 'foo:8A',
-            },
-          ],
-        },
+        makeAlert({
+          id: 'a1',
+          effectiveStartDate: 100,
+          effectiveEndDate: 900,
+        }),
       ],
     };
     const wrapper = shallowWithIntl(<DisruptionList {...props} />);
-    expect(wrapper.find('.no-alerts-container')).to.have.lengthOf(1);
+    const disruptions = wrapper.find(Disruption);
+    expect(disruptions).to.have.lengthOf(1);
+    expect(disruptions.at(0).prop('alertHeaderText')).to.equal('Test alert');
   });
 
-  it('should display current cancelations and service alerts', () => {
+  it('should render future service alerts in the upcoming section', () => {
     const props = {
-      currentTime: 100,
-      cancelations: [
-        {
-          alertHeaderText: 'cancelation',
-          alertSeverityLevel: 'SEVERE',
-          feed: 'foo',
-          entities: [
-            {
-              __typename: AlertEntityType.Route,
-              mode: 'TRAM',
-              shortName: '8A',
-              gtfsId: 'foo:8A',
-            },
-          ],
-        },
-      ],
+      currentTime: 50,
+      cancelations: [],
       serviceAlerts: [
-        {
-          alertHeaderText: 'servicealert',
-          alertSeverityLevel: 'SEVERE',
+        makeAlert({
+          id: 'a1',
           effectiveStartDate: 100,
-          effectiveEndDate: 100,
-          feed: 'foo',
-          entities: [
-            {
-              __typename: AlertEntityType.Route,
-              mode: 'TRAM',
-              shortName: '8A',
-              gtfsId: 'foo:8A',
-            },
-          ],
-        },
+          effectiveEndDate: 900,
+        }),
       ],
     };
     const wrapper = shallowWithIntl(<DisruptionList {...props} />);
-    expect(wrapper.find(Disruption)).to.have.lengthOf(2);
+    const disruptions = wrapper.find(Disruption);
+    expect(disruptions).to.have.lengthOf(1);
+    expect(disruptions.at(0).prop('alertHeaderText')).to.equal('Test alert');
+  });
+
+  it('should show valid cancelations as Disruptions', () => {
+    const props = {
+      currentTime: 500,
+      cancelations: [
+        makeAlert({
+          id: 'c1',
+          alertHeaderText: 'Cancelation',
+          effectiveStartDate: 100,
+          effectiveEndDate: 900,
+        }),
+      ],
+      serviceAlerts: [],
+    };
+    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
+    const disruptions = wrapper.find(Disruption);
+    expect(disruptions).to.have.lengthOf(1);
+    expect(disruptions.at(0).prop('alertHeaderText')).to.equal('Cancelation');
+  });
+
+  it('should render DisruptionDetails when alertId query param matches', () => {
+    const matchWithAlertId = {
+      ...mockMatch,
+      location: {
+        ...mockMatch.location,
+        query: { alertId: 'a1' },
+      },
+    };
+    found.useRouter.restore();
+    sinon
+      .stub(found, 'useRouter')
+      .returns({ match: matchWithAlertId, router: mockContext.router });
+
+    const props = {
+      currentTime: 500,
+      cancelations: [],
+      serviceAlerts: [
+        makeAlert({
+          id: 'a1',
+          alertHeaderText: 'Detail view',
+          alertDescriptionText: 'Full description',
+          alertSeverityLevel: 'WARNING',
+          effectiveStartDate: 100,
+          effectiveEndDate: 900,
+        }),
+      ],
+    };
+    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
+    expect(wrapper.find(Disruption)).to.have.lengthOf(0);
+    expect(wrapper.find(EmptyDisruptions)).to.have.lengthOf(0);
+    expect(wrapper.find('.alerts-content-wrapper')).to.have.lengthOf(0);
+  });
+
+  it('should pass toggleDetails function to Disruption children', () => {
+    const props = {
+      currentTime: 500,
+      cancelations: [],
+      serviceAlerts: [
+        makeAlert({
+          id: 'a1',
+          effectiveStartDate: 100,
+          effectiveEndDate: 900,
+        }),
+      ],
+    };
+    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
+    const disruption = wrapper.find(Disruption).at(0);
+    expect(disruption.prop('toggleDetails')).to.be.a('function');
   });
 });

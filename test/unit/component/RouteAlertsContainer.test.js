@@ -7,18 +7,22 @@ import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import DisruptionList from '../../../app/component/DisruptionList';
 import { Component as RouteAlertsContainer } from '../../../app/component/routepage/RouteAlertsContainer';
 
+const defaultRoute = {
+  gtfsId: 'HSL:1063',
+  mode: 'BUS',
+  shortName: '63',
+};
+
+const defaultStops = [{ name: 'First stop' }, { name: 'Last stop' }];
+
 describe('<RouteAlertsContainer />', () => {
-  it('should indicate that there are no alerts if the route has no alerts nor canceled stoptimes', () => {
+  it('should pass empty arrays when there are no alerts or cancelations', () => {
     const props = {
       currentTime: 1558599526,
-      route: {
-        gtfsId: 'HSL:1063',
-        mode: 'BUS',
-        shortName: '63',
-      },
+      route: defaultRoute,
       pattern: {
         alerts: [],
-        code: 'HSL:1063:0:01',
+        stops: defaultStops,
         trips: [
           {
             stoptimes: [
@@ -27,9 +31,7 @@ describe('<RouteAlertsContainer />', () => {
                 scheduledDeparture: 600,
                 headsign: 'Kamppi',
                 realtimeState: 'SCHEDULED',
-                stop: {
-                  name: 'Saramäentie',
-                },
+                stop: { name: 'Saramäentie' },
               },
             ],
           },
@@ -37,10 +39,7 @@ describe('<RouteAlertsContainer />', () => {
       },
     };
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      context: {
-        ...mockContext,
-        match: { params: { patternId: 'HSL:1063:0:01' } },
-      },
+      context: mockContext,
     });
     expect(wrapper.find(DisruptionList).props()).to.deep.equal({
       cancelations: [],
@@ -49,17 +48,13 @@ describe('<RouteAlertsContainer />', () => {
     });
   });
 
-  it('should indicate that there are cancelations if there are canceled stoptimes for the selected pattern', () => {
+  it('should pass cancelations when there are canceled stoptimes', () => {
     const props = {
       currentTime: 1558599526,
-      route: {
-        gtfsId: 'HSL:1063',
-        mode: 'BUS',
-        shortName: '63',
-      },
+      route: defaultRoute,
       pattern: {
         alerts: [],
-        code: 'HSL:1063:0:01',
+        stops: defaultStops,
         trips: [
           {
             stoptimes: [
@@ -68,9 +63,7 @@ describe('<RouteAlertsContainer />', () => {
                 serviceDay: 1533675600,
                 scheduledDeparture: 600,
                 realtimeState: 'CANCELED',
-                stop: {
-                  name: 'Saramäentie',
-                },
+                stop: { name: 'Saramäentie' },
               },
             ],
           },
@@ -81,9 +74,7 @@ describe('<RouteAlertsContainer />', () => {
                 scheduledDeparture: 600,
                 headsign: 'Kamppi',
                 realtimeState: 'SCHEDULED',
-                stop: {
-                  name: 'Saramäentie',
-                },
+                stop: { name: 'Saramäentie' },
               },
             ],
           },
@@ -91,88 +82,38 @@ describe('<RouteAlertsContainer />', () => {
       },
     };
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      context: {
-        ...mockContext,
-        match: { params: { patternId: 'HSL:1063:0:01' } },
-      },
+      context: mockContext,
     });
     expect(wrapper.find(DisruptionList).prop('cancelations')).to.have.lengthOf(
       1,
     );
   });
 
-  it('should indicate that there are service alerts', () => {
+  it('should pass service alerts from the pattern', () => {
     const props = {
       currentTime: 1558599526,
       route: {
         gtfsId: 'HSL:2335',
         color: null,
         mode: 'BUS',
-        patterns: [
-          {
-            code: 'HSL:2335:0:01',
-          },
-        ],
         shortName: '335',
       },
       pattern: {
-        code: 'HSL:2335:0:01',
+        stops: defaultStops,
         alerts: [
           {
             alertHeaderText: null,
-            alertDescriptionText:
-              'Vantaan sisäisen liikenteen linja 335 Linnaisista, klo 11:59 peruttu. Syy: tilapäinen häiriö.',
+            alertDescriptionText: 'Route 335 canceled due to disruption.',
           },
         ],
         trips: [],
       },
     };
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      context: { ...mockContext },
+      context: mockContext,
     });
     expect(wrapper.find(DisruptionList).prop('serviceAlerts')).to.have.lengthOf(
       1,
     );
-  });
-
-  it('should use the tripHeadsign if the stoptime does not have a headsign', () => {
-    const props = {
-      currentTime: 1558599526,
-      route: {
-        gtfsId: 'HSL:1063',
-        mode: 'BUS',
-        shortName: '63',
-      },
-      pattern: {
-        alerts: [],
-        code: 'HSL:1063:0:01',
-        trips: [
-          {
-            tripHeadsign: 'foobar',
-            stoptimes: [
-              {
-                headsign: null,
-                realtimeState: 'CANCELED',
-                scheduledArrival: 1,
-                scheduledDeparture: 2,
-                serviceDay: 3,
-                stop: {
-                  name: 'Saramäentie 11',
-                },
-              },
-            ],
-          },
-        ],
-      },
-    };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      context: {
-        ...mockContext,
-        match: { params: { patternId: 'HSL:1063:0:01' } },
-      },
-    });
-    expect(
-      wrapper.find(DisruptionList).prop('cancelations')[0].alertDescriptionText,
-    ).to.include('foobar');
   });
 });
