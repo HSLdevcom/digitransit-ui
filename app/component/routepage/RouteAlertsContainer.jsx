@@ -178,6 +178,7 @@ const containerComponent = createFragmentContainer(RouteAlertsContainer, {
           ... on Stop {
             name
             code
+            locationType
             vehicleMode
             gtfsId
           }

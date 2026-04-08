@@ -60,6 +60,7 @@ export const DisruptionsFragment = graphql`
           ... on Stop {
             gtfsId
             name
+            locationType
             vehicleMode
           }
         }
@@ -87,6 +88,7 @@ export const DisruptionsFragment = graphql`
         ... on Stop {
           gtfsId
           name
+          locationType
           vehicleMode
         }
       }
