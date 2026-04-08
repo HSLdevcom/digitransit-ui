@@ -39,7 +39,7 @@ export const filterAlertEntities = (stop, alerts) => {
     .map(alert => {
       return {
         ...alert,
-        entities: alert.entities.filter(entity =>
+        entities: (alert.entities || []).filter(entity =>
           isRelevantEntity(entity, stopIds, routeIds),
         ),
       };

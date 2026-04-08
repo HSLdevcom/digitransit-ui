@@ -15,7 +15,7 @@ export default function Disruption({
   toggleDetails,
   alertDescriptionText,
   alertEffect,
-  entities,
+  entities = [],
   alertHeaderText,
   alertSeverityLevel,
   id,
