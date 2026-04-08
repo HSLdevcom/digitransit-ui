@@ -1,60 +1,221 @@
 import React from 'react';
+import sinon from 'sinon';
+import * as found from 'found';
 
-import { renderWithProviders } from '../helpers/mock-providers';
+import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import Icon from '../../../app/component/Icon';
+import Badge from '../../../app/component/Badge';
 import Disruption from '../../../app/component/Disruption';
 import { AlertEntityType } from '../../../utils/shared/constants';
+import {
+  routePagePath,
+  PREFIX_STOPS,
+  PREFIX_TERMINALS,
+} from '../../../utils/shared/path';
+import { mockContext } from '../helpers/mock-context';
+import * as ConfigContext from '../../../app/client/ConfigContext';
+
+const routeEntity = (overrides = {}) => ({
+  __typename: AlertEntityType.Route,
+  mode: 'BUS',
+  shortName: '97N',
+  gtfsId: 'HSL:2097N',
+  id: 'route-1',
+  ...overrides,
+});
+
+const stopEntity = (overrides = {}) => ({
+  __typename: AlertEntityType.Stop,
+  vehicleMode: 'BUS',
+  name: 'Test Stop',
+  gtfsId: 'HSL:1234',
+  id: 'stop-1',
+  locationType: 'STOP',
+  ...overrides,
+});
 
 describe('<Disruption />', () => {
-  const routeEntity = {
-    __typename: AlertEntityType.Route,
-    id: 'route-1',
-    mode: 'BUS',
-    shortName: '1',
-    gtfsId: 'HSL:2097N',
-    color: '000000',
-  };
-
-  const baseProps = {
-    id: 'alert1',
-    index: 0,
-    toggleDetails: () => {},
-    alertDescriptionText: 'Lorem ipsum',
-    alertHeaderText: 'Service alert',
-    alertEffect: 'CANCELLATION',
-    alertSeverityLevel: 'SEVERE',
-    entities: [routeEntity],
-  };
-
-  it('should not render when description and header are missing', () => {
-    const { container } = renderWithProviders(
-      <Disruption
-        {...baseProps}
-        alertDescriptionText={undefined}
-        alertHeaderText={undefined}
-      />,
-    );
-    expect(container.querySelector('.alert-row')).to.equal(null);
+  beforeEach(() => {
+    sinon.stub(ConfigContext, 'useConfigContext').returns(mockContext.config);
+    sinon
+      .stub(found, 'useRouter')
+      .returns({ match: mockContext.match, router: mockContext.router });
   });
 
-  it('should render when a header is provided', () => {
-    const { container } = renderWithProviders(<Disruption {...baseProps} />);
-    expect(container.querySelector('.alert-row')).to.not.equal(null);
-    expect(container.querySelector('.alert-row-title').textContent).to.equal(
-      'Service alert',
+  afterEach(() => {
+    ConfigContext.useConfigContext.restore();
+    found.useRouter.restore();
+  });
+
+  it('should return null when both alertDescriptionText and alertHeaderText are missing', () => {
+    const props = {
+      entities: [routeEntity()],
+    };
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
+      context: mockContext,
+    });
+    expect(wrapper.find('.alert-row')).to.have.lengthOf(0);
+  });
+
+  it('should render alert-row when alertHeaderText is provided', () => {
+    const props = {
+      alertHeaderText: 'Service alert',
+      alertSeverityLevel: 'WARNING',
+      entities: [routeEntity()],
+    };
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
+      context: mockContext,
+    });
+    expect(wrapper.find('.alert-row')).to.have.lengthOf(1);
+  });
+
+  it('should render toggle button when toggleDetails is provided and not a cancelation', () => {
+    const toggleDetails = sinon.spy();
+    const props = {
+      alertHeaderText: 'Alert',
+      alertSeverityLevel: 'WARNING',
+      id: 'alert-1',
+      toggleDetails,
+      entities: [routeEntity()],
+    };
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
+      context: mockContext,
+    });
+    const button = wrapper.find('.alert-row-arrow');
+    expect(button).to.have.lengthOf(1);
+    button.simulate('click');
+    expect(toggleDetails.calledWith('alert-1')).to.equal(true);
+  });
+
+  it('should not render toggle button for cancelations', () => {
+    const props = {
+      alertHeaderText: 'Cancelation',
+      alertSeverityLevel: 'WARNING',
+      toggleDetails: sinon.spy(),
+      canceledStoptimes: [{ scheduledDeparture: 36000 }],
+      entities: [routeEntity()],
+    };
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
+      context: mockContext,
+    });
+    expect(wrapper.find('.alert-row-arrow')).to.have.lengthOf(0);
+  });
+
+  it('should render Badge with correct severity and effect', () => {
+    const props = {
+      alertHeaderText: 'Alert',
+      alertSeverityLevel: 'WARNING',
+      alertEffect: 'REDUCED_SERVICE',
+      entities: [routeEntity()],
+    };
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
+      context: mockContext,
+    });
+    const badge = wrapper.find(Badge);
+    expect(badge).to.have.lengthOf(1);
+    expect(badge.prop('variant')).to.equal('WARNING');
+    expect(badge.prop('label')).to.equal('REDUCED_SERVICE');
+  });
+
+  it('should render mode icon and link for route entity', () => {
+    const props = {
+      alertHeaderText: 'Alert',
+      alertSeverityLevel: 'WARNING',
+      entities: [routeEntity()],
+    };
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
+      context: mockContext,
+    });
+    expect(
+      wrapper.find(Icon).findWhere(n => n.prop('className') === 'bus'),
+    ).to.have.lengthOf(1);
+    const link = wrapper.find('.mode-badge a');
+    expect(link).to.have.lengthOf(1);
+    expect(link.prop('href')).to.equal(routePagePath('HSL:2097N'));
+    expect(link.find('span').text()).to.equal('97N');
+  });
+
+  it('should render stop link with PREFIX_STOPS for non-station stop', () => {
+    const props = {
+      alertHeaderText: 'Alert',
+      alertSeverityLevel: 'WARNING',
+      entities: [stopEntity()],
+    };
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
+      context: mockContext,
+    });
+    const link = wrapper.find('.mode-badge a');
+    expect(link).to.have.lengthOf(1);
+    expect(link.prop('href')).to.equal(
+      `/${PREFIX_STOPS}/${encodeURIComponent('HSL:1234')}`,
+    );
+    expect(link.find('span').text()).to.equal('Test Stop');
+  });
+
+  it('should render terminal link for station stop', () => {
+    const props = {
+      alertHeaderText: 'Alert',
+      alertSeverityLevel: 'WARNING',
+      entities: [stopEntity({ locationType: 'STATION', gtfsId: 'HSL:5678' })],
+    };
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
+      context: mockContext,
+    });
+    const link = wrapper.find('.mode-badge a');
+    expect(link.prop('href')).to.equal(
+      `/${PREFIX_TERMINALS}/${encodeURIComponent('HSL:5678')}`,
     );
   });
 
-  it('should call toggleDetails with the alert id when clicked', () => {
-    let clickedId;
-    const { container } = renderWithProviders(
-      <Disruption
-        {...baseProps}
-        toggleDetails={id => {
-          clickedId = id;
-        }}
-      />,
+  it('should render alertHeaderText in alert-row-bottom', () => {
+    const props = {
+      alertHeaderText: 'Detour on route 97N',
+      alertSeverityLevel: 'WARNING',
+      entities: [routeEntity()],
+    };
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
+      context: mockContext,
+    });
+    expect(wrapper.find('.alert-row-title').text()).to.equal(
+      'Detour on route 97N',
     );
-    container.querySelector('.alert-row-arrow').click();
-    expect(clickedId).to.equal('alert1');
+  });
+
+  it('should render canceled departure times', () => {
+    const props = {
+      alertHeaderText: 'Cancelation',
+      alertSeverityLevel: 'WARNING',
+      canceledStoptimes: [
+        { scheduledDeparture: 36000 },
+        { scheduledDeparture: 39600 },
+      ],
+      entities: [routeEntity()],
+    };
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
+      context: mockContext,
+    });
+    expect(wrapper.find('.canceled-departures')).to.have.lengthOf(1);
+    const badges = wrapper.find('.cancelation-badge');
+    expect(badges).to.have.lengthOf(2);
+    expect(badges.at(0).find('.canceled').text()).to.equal('10:00');
+    expect(badges.at(1).find('.canceled').text()).to.equal('11:00');
+  });
+
+  it('should group entities of same type and mode under one icon', () => {
+    const props = {
+      alertHeaderText: 'Alert',
+      alertSeverityLevel: 'WARNING',
+      entities: [
+        routeEntity({ gtfsId: 'HSL:1001', shortName: '1', id: 'r1' }),
+        routeEntity({ gtfsId: 'HSL:1002', shortName: '2', id: 'r2' }),
+      ],
+    };
+    const wrapper = shallowWithIntl(<Disruption {...props} />, {
+      context: mockContext,
+    });
+    expect(
+      wrapper.find(Icon).findWhere(n => n.prop('className') === 'bus'),
+    ).to.have.lengthOf(1);
+    expect(wrapper.find('.mode-badge')).to.have.lengthOf(2);
   });
 });
