@@ -103,7 +103,6 @@ function RouteAlertsContainer({ route, pattern }) {
       aria-labelledby="route-disruption-tab"
     >
       <DisruptionList
-        showLinks={false}
         cancelations={cancelations}
         serviceAlerts={serviceAlerts}
       />

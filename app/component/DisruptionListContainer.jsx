@@ -152,7 +152,6 @@ function DisruptionListContainer({ breakpoint, viewer, onClickLink }) {
             </div>
             <DisruptionList
               disableScrolling
-              showLinks
               serviceAlerts={routeAlertsToShow}
               onClickLink={onClickLink}
             />
@@ -165,7 +164,6 @@ function DisruptionListContainer({ breakpoint, viewer, onClickLink }) {
             </div>
             <DisruptionList
               disableScrolling
-              showLinks
               serviceAlerts={stopAlertsToShow}
               onClickLink={onClickLink}
             />

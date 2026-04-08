@@ -89,7 +89,6 @@ const DisruptionList = ({
   cancelations = [],
   disableScrolling = false,
   serviceAlerts = [],
-  showLinks = false,
   onClickLink,
 }) => {
   const { match, router } = useRouter();
@@ -152,13 +151,10 @@ const DisruptionList = ({
           </h2>
           {ca.length ? (
             <div role="list">
-              {ca.map((alert, i) => (
+              {ca.map(alert => (
                 <Disruption
                   toggleDetails={toggleDetails}
-                  currentTime={currentTime}
-                  showLinks={showLinks}
                   onClickLink={onClickLink}
-                  index={i}
                   key={alert.id}
                   {...alert}
                 />
@@ -180,13 +176,10 @@ const DisruptionList = ({
           </h2>
           {futureAlerts.length ? (
             <div role="list">
-              {futureAlerts.map((alert, i) => (
+              {futureAlerts.map(alert => (
                 <Disruption
                   toggleDetails={toggleDetails}
-                  currentTime={currentTime}
-                  showLinks={showLinks}
                   onClickLink={onClickLink}
-                  index={i}
                   key={alert.id}
                   {...alert}
                 />
@@ -210,7 +203,6 @@ DisruptionList.propTypes = {
   cancelations: PropTypes.arrayOf(alertShape),
   disableScrolling: PropTypes.bool,
   serviceAlerts: PropTypes.arrayOf(alertShape),
-  showLinks: PropTypes.bool,
   onClickLink: PropTypes.func,
 };
 
