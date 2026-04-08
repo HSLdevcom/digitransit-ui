@@ -4,33 +4,6 @@
   fill: $disruption-color;
 }
 
-.disruption-list-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-
-  .disruption-list-content {
-    flex: 1;
-    padding: 0 0.5em;
-
-    &.disruption-list-content__large {
-      padding: 0 1em;
-    }
-
-    h2 {
-      margin: $padding-medium $padding-small $padding-small $padding-small;
-    }
-
-    .alert-row + .alert-row {
-      border-top: none;
-    }
-
-    .route-number {
-      min-width: 48px;
-    }
-  }
-}
-
 .alerts-content-wrapper {
   display: flex;
   flex-direction: column;
@@ -152,14 +125,6 @@
       align-items: center;
       font-size: 15px;
       margin-bottom: 8px;
-
-      .route-alert-entityid {
-        font-family: $font-family-narrow;
-        font-size: 21px;
-        font-weight: $font-weight-medium;
-        margin-right: 15px;
-        display: inline;
-      }
     }
 
     .cancelation-badge {
@@ -193,106 +158,6 @@
         a {
           color: black;
         }
-      }
-    }
-
-    .icon.stop-disruption {
-      width: 2em;
-      color: #fff;
-
-      &.warning {
-        fill: $disruption-color;
-      }
-
-      &.info {
-        fill: $gray-blue;
-      }
-    }
-
-    .icon.info {
-      color: $dark-gray;
-
-      &.info {
-        fill: $gray-blue;
-      }
-    }
-
-    .alert-row-link {
-      padding-right: 4px;
-      text-decoration: none;
-    }
-
-    .alert-contents {
-      flex-grow: 1;
-      vertical-align: bottom;
-
-      .alert-top-row {
-        align-items: center;
-        font-size: 15px;
-        margin-bottom: 4px;
-
-        .route-alert-entityid {
-          font-family: $font-family-narrow;
-          font-size: 21px;
-          font-weight: $font-weight-medium;
-          margin-right: 15px;
-          display: inline;
-        }
-      }
-    }
-
-    .route-number {
-      padding-top: 0.2em;
-      padding-right: 0.8em;
-      flex-shrink: 0;
-
-      .icon {
-        width: 2.5em;
-        height: 2.5em;
-        position: relative;
-
-        .subicon-info,
-        .subicon-caution {
-          bottom: -5px;
-          left: -5px;
-
-          .icon {
-            height: 1.5em;
-            width: 1.5em;
-          }
-        }
-      }
-
-      .vehicle-number {
-        margin-top: -0.3em;
-        font-size: $font-size-xsmall;
-      }
-    }
-
-    .alert-body {
-      font-size: $font-size-small;
-      font-weight: $font-weight-book;
-      white-space: pre-wrap;
-
-      .alert-url {
-        color: $theme-primary-color;
-        margin-left: 5px;
-
-        .external-link {
-          color: $theme-primary-color;
-        }
-      }
-    }
-
-    &.expired {
-      filter: grayscale(1);
-
-      .route-number {
-        filter: brightness(1.5);
-      }
-
-      .caution {
-        filter: contrast(0.6) brightness(1.5);
       }
     }
   }
