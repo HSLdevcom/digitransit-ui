@@ -33,20 +33,21 @@ function RouteNotificationButton({ notification }) {
     linkHref = link.startsWith('http') ? link : `https://www.${link}`;
   }
 
-  const buttons = [
-    {
-      children: intl.formatMessage({ id: 'close' }),
-      variant: 'secondary',
-      onClick: () => setOpen(false),
-    },
-    linkHref && {
-      children: intl.formatMessage({ id: 'extra-info' }),
-      variant: 'primary',
-      href: linkHref,
-      target: '_blank',
-      rel: 'noreferrer',
-    },
-  ].filter(Boolean);
+  const descriptionNode = (
+    <>
+      {contentNode}
+      {linkHref && (
+        <a
+          href={linkHref}
+          target="_blank"
+          rel="noreferrer"
+          className="route-notification-extra-info"
+        >
+          {intl.formatMessage({ id: 'extra-info' })} ›
+        </a>
+      )}
+    </>
+  );
 
   return (
     <>
@@ -62,9 +63,8 @@ function RouteNotificationButton({ notification }) {
       <Modal open={open} onOpenChange={setOpen}>
         <ModalContent
           title={closeButtonLabel}
-          description={contentNode}
+          description={descriptionNode}
           lang={lang}
-          buttons={buttons}
         />
       </Modal>
     </>
