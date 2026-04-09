@@ -502,9 +502,6 @@
 
   // bp-large: route-page-content (the container) uses 56px horizontal padding
   &.bp-large .route-pattern-header {
-    position: sticky;
-    top: 0;
-    z-index: 5;
     margin-left: -56px;
     margin-right: -56px;
     padding-left: $margin-left-right-large;

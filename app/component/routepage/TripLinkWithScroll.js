@@ -81,10 +81,10 @@ function TripLinkWithScroll(
         },
       );
   if (selected) {
-    ariaMessage += context.intl.formatMessage({
+    ariaMessage += ` ${context.intl.formatMessage({
       id: 'route-page-vehicle-selected',
       defaultMessage: 'Current selection.',
-    });
+    })}`;
   }
   const icon = (
     <Link

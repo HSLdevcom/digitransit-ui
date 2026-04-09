@@ -8,6 +8,7 @@ import sortBy from 'lodash/sortBy';
 import { matchShape } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import { useTranslationsContext } from '../../util/useTranslationsContext';
 import RoutePatternSelectContainer from './RoutePatternSelectContainer';
 import { DATE_FORMAT, ExtendedRouteTypes } from '../../constants';
 import {
@@ -78,6 +79,7 @@ function RouteControlPanel(
   { getStore, executeAction },
 ) {
   const config = useConfigContext();
+  const intl = useTranslationsContext();
   const { location, params, router } = match;
   const { patternId } = params;
 
@@ -96,7 +98,14 @@ function RouteControlPanel(
 
   // Focus the active tab on mount for correct screen-reader cursor placement
   // after SPA tab navigation (per WCAG APG roving tabindex pattern).
+  // Skip when RoutePage has already moved focus to the page heading (initial
+  // page load): in that case activeElement is the heading, not document.body.
+  // After a tab switch the old tab button is removed from the DOM, so the
+  // browser resets focus to document.body — that is when we take over.
   useEffect(() => {
+    if (document.activeElement && document.activeElement !== document.body) {
+      return;
+    }
     const activeRef = activeTab && tabRefMap[activeTab];
     if (activeRef?.current) {
       activeRef.current.focus();
@@ -433,6 +442,13 @@ function RouteControlPanel(
                 id="route-disruption-tab"
                 ref={disruptionTabRef}
                 aria-selected={activeTab === Tab.Disruptions}
+                aria-label={`${intl.formatMessage({
+                  id: 'disruptions',
+                })}: ${intl.formatMessage({
+                  id: disruptionClassName
+                    ? 'disruptions-tab.sr-disruptions'
+                    : 'disruptions-tab.sr-no-disruptions',
+                })}`}
                 style={{ '--totalCount': `${countOfButtons}` }}
               >
                 <div
@@ -445,13 +461,6 @@ function RouteControlPanel(
                     id="disruptions"
                     defaultMessage="Disruptions"
                   />
-                  <span className="sr-only">
-                    {disruptionClassName ? (
-                      <FormattedMessage id="disruptions-tab.sr-disruptions" />
-                    ) : (
-                      <FormattedMessage id="disruptions-tab.sr-no-disruptions" />
-                    )}
-                  </span>
                 </div>
               </button>
             </div>

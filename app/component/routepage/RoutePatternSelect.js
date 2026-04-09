@@ -33,6 +33,7 @@ export function patternTextWithIcon(pattern) {
     <>
       {text.slice(0, arrowIndex)}
       <Icon
+        aria-hidden="true"
         className="in-text-arrow"
         img="icon_arrow-right-long"
         viewBox="0 0 17 10"
@@ -70,7 +71,11 @@ function PatternOption({
       : '';
     return (
       <li
-        aria-label={`${patternOptionText(option)}, ${selectedText}`}
+        aria-label={
+          selectedText
+            ? `${patternOptionText(option)}, ${selectedText}`
+            : patternOptionText(option)
+        }
         className={cx('suggestion', {
           'suggestion--highlighted':
             optionIndexTable[option.code] === highlightedIndex,
@@ -343,12 +348,10 @@ export default function RoutePatternSelect({
         }
       >
         <label {...getLabelProps()}>
-          <span tabIndex={-1} className="sr-only">
-            {patternOptionText(currentPattern)}
-          </span>
           <span className="sr-only">
             <FormattedMessage id="route-page.pattern-select-title" />
           </span>
+          <span className="sr-only">{patternOptionText(currentPattern)}</span>
         </label>
         {isMobile ? (
           <div

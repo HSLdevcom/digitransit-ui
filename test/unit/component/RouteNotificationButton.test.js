@@ -76,24 +76,30 @@ describe('<RouteNotificationButton />', () => {
       const modalContent = wrapper.find('ModalContent');
       expect(modalContent).to.have.lengthOf(1);
       const description = modalContent.prop('description');
-      expect(description.type).to.equal('p');
+      // description is a React Fragment wrapping [contentNode, optionalLink]
+      const contentNode = description.props.children[0];
+      expect(contentNode.type).to.equal('p');
     });
 
     it('wraps multiple content items in a <ul>', () => {
       const wrapper = render();
       const modalContent = wrapper.find('ModalContent');
       const description = modalContent.prop('description');
-      expect(description.type).to.equal('ul');
-      expect(description.props.children).to.have.lengthOf(2);
+      // description is a React Fragment; first child is the content node
+      const contentNode = description.props.children[0];
+      expect(contentNode.type).to.equal('ul');
+      expect(contentNode.props.children).to.have.lengthOf(2);
     });
   });
 
   describe('Link handling', () => {
-    it('omits the link button when no link is provided for the locale', () => {
+    it('omits the link when no link is provided for the locale', () => {
       const notification = { ...baseNotification, link: undefined };
       const wrapper = render(notification);
-      const buttons = wrapper.find('ModalContent').prop('buttons');
-      expect(buttons.every(b => !b.href)).to.equal(true);
+      const description = wrapper.find('ModalContent').prop('description');
+      // second child of the fragment is the conditional link anchor
+      const linkChild = description.props.children[1];
+      expect(linkChild).to.equal(null);
     });
   });
 
@@ -113,17 +119,13 @@ describe('<RouteNotificationButton />', () => {
   });
 
   describe('Close button', () => {
-    it('closes the modal when the close button is clicked', () => {
+    it('closes the modal when onOpenChange is called with false', () => {
       const wrapper = render();
       // Open first
       wrapper.find('.route-notification-trigger').simulate('click');
       expect(wrapper.find('Modal').prop('open')).to.equal(true);
-      // Click close via buttons prop
-      const closeButton = wrapper
-        .find('ModalContent')
-        .prop('buttons')
-        .find(b => b.variant === 'secondary');
-      closeButton.onClick();
+      // Close via the Modal's onOpenChange handler (wired to setOpen)
+      wrapper.find('Modal').prop('onOpenChange')(false);
       expect(wrapper.find('Modal').prop('open')).to.equal(false);
     });
   });

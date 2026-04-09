@@ -23,6 +23,10 @@
       font-family: $font-family-narrow;
       font-size: 30px;
       font-weight: $font-weight-medium;
+
+      &:focus {
+        outline: none;
+      }
     }
 
     .route-long-name {
