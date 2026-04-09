@@ -46,6 +46,10 @@
       background-color: $white;
     }
 
+    &:focus-visible {
+      outline: transparent; // No visible focus outline by design as background color change is used to indicate focus state.
+    }
+
     &:disabled {
       color: $black;
       font-weight: $font-weight-medium;

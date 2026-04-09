@@ -124,9 +124,10 @@ class TripStopListContainer extends React.PureComponent {
     return (
       <>
         <div
+          id="route-stop-panel"
           className={cx('route-stop-list', this.props.className)}
           role="tabpanel"
-          aria-labelledby="route-tab"
+          aria-labelledby="route-stop-tab"
         >
           {this.getStops()}
         </div>

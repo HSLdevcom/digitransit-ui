@@ -45,7 +45,7 @@ function RoutePatternHeader({
             viewBox="0 0 2 2"
           />
         </div>
-        <hr className="route-pattern-divider" />
+        <hr className="route-pattern-divider" role="presentation" />
       </div>
       <div className="route-pattern-endpoint">
         <Icon

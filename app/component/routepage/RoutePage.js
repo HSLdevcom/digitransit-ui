@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
@@ -51,6 +51,11 @@ function RoutePage({
 }) {
   const intl = useTranslationsContext();
   const config = useConfigContext();
+
+  const headingRef = useRef(null);
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, [match.params.patternId]);
 
   // Relay failed to fetch data — surface the error to the React error boundary
   if (error && !route) {
@@ -105,6 +110,8 @@ function RoutePage({
           </div>
           <div className="route-info">
             <h1
+              ref={headingRef}
+              tabIndex={-1}
               className={cx('route-short-name', mode, {
                 'call-local': localCallAgency,
               })}

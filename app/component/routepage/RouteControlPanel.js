@@ -395,7 +395,7 @@ function RouteControlPanel(
                 onKeyDown={handleTabKeyDown}
                 tabIndex={activeTab === Tab.Stops ? 0 : -1}
                 role="tab"
-                {...(activeTab === Tab.Stops ? { id: 'route-tab' } : {})}
+                id="route-stop-tab"
                 ref={stopTabRef}
                 aria-selected={activeTab === Tab.Stops}
                 style={{ '--totalCount': `${countOfButtons}` }}
@@ -411,6 +411,7 @@ function RouteControlPanel(
                 onKeyDown={handleTabKeyDown}
                 tabIndex={activeTab === Tab.Timetable ? 0 : -1}
                 role="tab"
+                id="route-timetable-tab"
                 ref={timetableTabRef}
                 aria-selected={activeTab === Tab.Timetable}
                 style={{ '--totalCount': `${countOfButtons}` }}
@@ -429,6 +430,7 @@ function RouteControlPanel(
                 onKeyDown={handleTabKeyDown}
                 tabIndex={activeTab === Tab.Disruptions ? 0 : -1}
                 role="tab"
+                id="route-disruption-tab"
                 ref={disruptionTabRef}
                 aria-selected={activeTab === Tab.Disruptions}
                 style={{ '--totalCount': `${countOfButtons}` }}

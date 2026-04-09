@@ -84,11 +84,17 @@ function RouteAlertsContainer(
   );
 
   return (
-    <AlertList
-      showLinks={false}
-      cancelations={cancelations}
-      serviceAlerts={serviceAlerts}
-    />
+    <div
+      id="route-disruption-panel"
+      role="tabpanel"
+      aria-labelledby="route-disruption-tab"
+    >
+      <AlertList
+        showLinks={false}
+        cancelations={cancelations}
+        serviceAlerts={serviceAlerts}
+      />
+    </div>
   );
 }
 

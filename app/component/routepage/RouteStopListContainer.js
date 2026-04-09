@@ -112,7 +112,11 @@ class RouteStopListContainer extends React.PureComponent {
 
   render() {
     return (
-      <div role="tabpanel" aria-labelledby="route-tab">
+      <div
+        id="route-stop-panel"
+        role="tabpanel"
+        aria-labelledby="route-stop-tab"
+      >
         <span className="sr-only">
           <FormattedMessage
             id="stop-list-update.sr-instructions"
