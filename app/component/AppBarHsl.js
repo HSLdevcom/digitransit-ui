@@ -5,11 +5,9 @@ import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import { Helmet } from 'react-helmet';
 import { SiteHeader, UserMenu } from '@hsl-fi/site-header';
-import { Fonts } from '@hsl-fi/design-system-core';
 import { favouriteShape, configShape } from '../util/shapes';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
-import '@hsl-fi/design-system-core/css/styles.css';
 
 const clearStorages = context => {
   clearOldSearches(context);
@@ -39,7 +37,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
   });
 
   useEffect(() => {
-    if (config.URL.BANNERS && config.NODE_ENV !== 'test') {
+    if (config.URL.BANNERS && process.env.NODE_ENV !== 'test') {
       getJson(`${config.URL.BANNERS}&language=${lang}`)
         .then(data => setBanners(data))
         .catch(() => setBanners([]));
@@ -94,7 +92,54 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
   }, [user.sub, lang]);
 
   useEffect(() => {
-    if (config.URL.FONTCOUNTER && config.NODE_ENV === 'production') {
+    if (!user.sub) {
+      return undefined;
+    }
+
+    const markAsRead = () => {
+      fetch(notificationApiUrls.post, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+      })
+        .then(() => {
+          setUserNotifications(prev => ({ ...prev, unreadCount: 0 }));
+        })
+        .catch(() => {});
+    };
+
+    const fetchNotifications = () => {
+      setUserNotifications(prev => ({ ...prev, loading: true, error: null }));
+      getJson(notificationApiUrls.get)
+        .then(data => {
+          const raw = data || {};
+          setUserNotifications({
+            unreadCount: raw.unreadCount || 0,
+            loading: false,
+            error: null,
+            notifications: (raw.notifications || []).map(n => ({
+              ...n,
+              link: n.link || {},
+            })),
+            refetch: fetchNotifications,
+            onOpen: markAsRead,
+          });
+        })
+        .catch(err => {
+          setUserNotifications(prev => ({
+            ...prev,
+            loading: false,
+            error: err,
+          }));
+        });
+    };
+
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 60000);
+    return () => clearInterval(interval);
+  }, [user.sub, lang]);
+
+  useEffect(() => {
+    if (config.URL.FONTCOUNTER && process.env.NODE_ENV === 'production') {
       fetch(config.URL.FONTCOUNTER, {
         mode: 'no-cors',
       });
@@ -162,7 +207,6 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
           />
         </Helmet>
       )}
-      <Fonts />
       {!config.hideHeader && (
         <SiteHeader
           baseurl={config.URL.ROOTLINK}

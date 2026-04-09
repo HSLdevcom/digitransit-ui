@@ -41,8 +41,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
 
   label button {
     cursor: pointer;
-    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Roboto, Arial, Georgia,
-      serif;
+    font-family: var(--font-family);
   }
 
   .hidden {
@@ -378,8 +377,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
 }
 
 .mobile-modal-content {
-  font-family: 'Gotham Rounded A', 'Gotham Rounded B', Roboto, Arial, Georgia,
-    serif;
+  font-family: var(--font-family);
   background: white;
   width: 89%;
   position: absolute;

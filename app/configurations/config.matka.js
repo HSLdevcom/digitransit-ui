@@ -6,6 +6,7 @@ import KotkaConfig from './config.kotka';
 import KouvolaConfig from './config.kouvola';
 import KuopioConfig from './config.kuopio';
 import LahtiConfig from './config.lahti';
+import { IS_DEV } from '../util/envUtils';
 
 const CONFIG = 'matka';
 const APP_DESCRIPTION =
@@ -13,11 +14,7 @@ const APP_DESCRIPTION =
 const APP_TITLE = 'Fintraffic Matka – Joukkoliikenteen reittiopas ja matkahaku';
 const YEAR = 1900 + new Date().getYear();
 
-const IS_DEV =
-  process.env.RUN_ENV === 'development' ||
-  process.env.NODE_ENV !== 'production';
-
-const virtualMonitorBaseUrl = IS_DEV
+const virtualMonitorBaseUrl = IS_DEV()
   ? 'https://dev-matkamonitori.digitransit.fi'
   : 'https://matkamonitori.digitransit.fi';
 
@@ -70,7 +67,7 @@ export default {
     rail: '#000',
     ferry: '#247C7B',
   },
-  feedIds: IS_DEV
+  feedIds: IS_DEV()
     ? ['MATKA', 'flixbus', 'CAR_FERRIES']
     : [
         'MATKA',
@@ -454,9 +451,9 @@ export default {
   navigation: true,
 
   flex: {
-    internalFlexEnabled: IS_DEV,
+    internalFlexEnabled: IS_DEV(),
     allowTaxiJourneys: true,
-    directOnlyTaxiJourneys: false,
+    directOnlyTaxiJourneys: !IS_DEV(),
     internalAgencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
     externalAgencies: ['02Taksi:02_taksi'],
     infoLanguage: 'fi',
@@ -474,5 +471,5 @@ export default {
   },
 
   showStopStatusMarkers: true,
-  showRouteDescNotification: IS_DEV,
+  showRouteDescNotification: IS_DEV(),
 };

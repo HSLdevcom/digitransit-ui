@@ -436,7 +436,7 @@ class TransitLeg extends React.Component {
     const routeNotifications = [];
     const isCallAgency = mode === 'call';
     if (
-      config.NODE_ENV !== 'test' &&
+      process.env.NODE_ENV !== 'test' &&
       config.routeNotifications &&
       config.routeNotifications.length > 0
     ) {
