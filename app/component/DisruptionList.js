@@ -7,13 +7,16 @@ import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
 
 import Disruption from './Disruption';
-import { currentAndFutureAlerts, isAlertValid } from '../util/alertUtils';
+import DisruptionDetails from './DisruptionDetails';
+import {
+  currentAndFutureAlerts,
+  isAlertValid,
+  getUniqueAlerts,
+} from '../util/alertUtils';
 import { alertShape } from '../util/shapes';
 import { useBreakpoint } from '../util/withBreakpoint';
 import Icon from './Icon';
 import { useConfigContext } from '../configurations/ConfigContext';
-import Badge from './Badge';
-import ExternalLink from './ExternalLink';
 
 export const EmptyDisruptions = () => {
   const config = useConfigContext();
@@ -36,53 +39,6 @@ export const EmptyDisruptions = () => {
       />
     </div>
   );
-};
-
-const DisruptionDetails = ({
-  alertDescriptionText,
-  alertHeaderText,
-  alertEffect,
-  alertSeverityLevel,
-  alertUrl,
-}) => {
-  const checkedUrl =
-    alertUrl &&
-    (alertUrl.match(/^[a-zA-Z]+:\/\//) ? alertUrl : `http://${alertUrl}`);
-
-  return (
-    <div className="alert-details">
-      <div className="alert-details-header">
-        <span className="badge-container">
-          <Badge
-            showIcon
-            variant={alertSeverityLevel}
-            label={alertEffect || 'no_service'}
-          />
-        </span>
-        <span className="validity">
-          <Icon className="clock-icon" img="icon_clock" />
-          <FormattedMessage id="valid" />
-        </span>
-      </div>
-      <div className="alert-details-content">
-        {alertHeaderText && <h2>{alertHeaderText}</h2>}
-        <p>{alertDescriptionText}</p>
-        {checkedUrl && (
-          <ExternalLink className="alert-url" href={checkedUrl}>
-            <FormattedMessage id="extra-info" />
-          </ExternalLink>
-        )}
-      </div>
-    </div>
-  );
-};
-
-DisruptionDetails.propTypes = {
-  alertDescriptionText: PropTypes.string.isRequired,
-  alertHeaderText: PropTypes.string,
-  alertEffect: PropTypes.string,
-  alertSeverityLevel: PropTypes.string,
-  alertUrl: PropTypes.string,
 };
 
 const DisruptionList = ({
@@ -109,18 +65,12 @@ const DisruptionList = ({
     router.push({ pathname: match.location.pathname, query: { alertId: id } });
   };
 
-  const uniqueByAlertHash = alerts =>
-    alerts.filter(
-      (alert, index, self) =>
-        index === self.findIndex(a => a.alertHash === alert.alertHash),
-    );
-
   const { currentAlerts, futureAlerts } = currentAndFutureAlerts(
-    uniqueByAlertHash(serviceAlerts),
+    getUniqueAlerts(serviceAlerts),
     currentTime,
   );
 
-  const ca = [...validCancelations, ...currentAlerts];
+  const current = [...validCancelations, ...currentAlerts];
 
   if (
     currentAlerts.length === 0 &&
@@ -148,9 +98,9 @@ const DisruptionList = ({
               defaultMessage="Active"
             />
           </h2>
-          {ca.length ? (
+          {current.length ? (
             <div role="list">
-              {ca.map(alert => (
+              {current.map(alert => (
                 <Disruption
                   toggleDetails={toggleDetails}
                   key={alert.id}

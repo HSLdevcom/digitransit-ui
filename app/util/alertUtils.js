@@ -1,6 +1,5 @@
 import isNumber from 'lodash/isNumber';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
-import { uniq } from 'lodash';
 
 import {
   RealtimeStateType,
@@ -228,9 +227,14 @@ export const getServiceAlertsForStation = station => {
 };
 
 export const getUniqueAlerts = alerts => {
-  return uniq(alerts.map(alert => JSON.stringify(alert))).map(alert =>
-    JSON.parse(alert),
-  );
+  const seen = new Set();
+  return alerts.filter(alert => {
+    if (seen.has(alert.alertHash)) {
+      return false;
+    }
+    seen.add(alert.alertHash);
+    return true;
+  });
 };
 
 const isValidArray = array => Array.isArray(array) && array.length > 0;
