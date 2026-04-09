@@ -12,7 +12,6 @@ You need [Node](https://nodejs.org/), [Yarn](https://yarnpkg.com) (or npm) and w
 You also need a C compiler:
 - Linux: GCC 4.6 or later
 - OS X: Xcode 5.0 or later
-- Windows: for example MSVC 2013 Express
 
 ### WSL
 To use Windows Subsystem for Linux in digitransit-ui development you may need to do at least the following
@@ -53,15 +52,11 @@ or in some systems to build the binaries from code following
 ## Start development version
 
 - OSX / Linux: `yarn run dev`
-- Windows: `npm run dev-win-national`
 - open: http://localhost:8080
 
 ## Start production version
 - First run: `yarn run build`, then run: `yarn run start`
 - open: http://localhost:8080
-
-Note: on Windows, add "win-" prefix to the run commands above. For example: `npm run win-build`.
-The same applies to other npm run commands below.
 
 ## Modifying sub-modules and components
 

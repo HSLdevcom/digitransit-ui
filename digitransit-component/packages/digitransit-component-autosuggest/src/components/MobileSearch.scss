@@ -72,8 +72,7 @@ input[type='text'] {
   width: 100%;
 
   .input {
-    font-family: 'Gotham Rounded A', 'Gotham Rounded B', Roboto, Arial, Georgia,
-      serif;
+    font-family: var(--font-family);
     width: 100%;
     position: relative;
     padding-bottom: 7px;
@@ -180,8 +179,7 @@ button.clear-input {
 
 .clear-search-history {
   display: flex;
-  font-family: 'Gotham Rounded A', 'Gotham Rounded B', Roboto, Arial, Georgia,
-    serif;
+  font-family: var(--font-family);
   margin-top: auto;
   align-items: center;
   justify-content: center;
