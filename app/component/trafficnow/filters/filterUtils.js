@@ -67,8 +67,18 @@ const favouriteFilter = ({ entities }, { favourites }) =>
 const cancellationsFilter = ({ __typename }, { cancellations }) =>
   !cancellations || __typename !== 'Alert';
 
+/**
+ * Filters alerts that aren't causing a disruption
+ */
+const noEffectFilter = (alert, { noEffect }) => alert.alertEffect !== noEffect;
+
+const pastFilter = ({ effectiveEndDate }, { now }) =>
+  now < effectiveEndDate * 1000;
+
 export function filterAndSortAlerts(alerts, selectedFilters) {
   const filterFns = [
+    pastFilter,
+    noEffectFilter,
     validityPeriodFilter,
     vehicleModesFilter,
     entityFilter,

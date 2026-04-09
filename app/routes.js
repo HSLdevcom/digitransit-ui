@@ -30,7 +30,6 @@ import {
 
 import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';
-import { withRouteContext } from './util/RouteContext';
 
 export const historyMiddlewares = [queryMiddleware];
 
@@ -371,14 +370,22 @@ export default config => {
         }}
       </Route>
       <Route
+        path={`/${TRAFFICNOW}/peruutukset/:mode`}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
+          ).then(getDefault)
+        }
+      />
+      <Route
         path={TRAFFICNOW}
         getComponent={() =>
           import(
             /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
           ).then(getDefault)
         }
-        render={withRouteContext()}
       />
+      <Redirect from={`/${TRAFFICNOW}/*`} to={`/${TRAFFICNOW}`} />
       <Route
         path="/tietoja-palvelusta"
         getComponent={() =>

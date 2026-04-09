@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const STOP_SIGN_POLE_WIDTH = 4;
+const STOP_SIGN_POLE_WIDTH = 3;
 const STOP_SIGN_POLE_X = 20 - STOP_SIGN_POLE_WIDTH / 2;
 
 const IconBackground = ({ shape, color }) => {
@@ -10,6 +10,16 @@ const IconBackground = ({ shape, color }) => {
   }
   return (
     <>
+      {shape === 'stopsign' && (
+        <rect
+          x={STOP_SIGN_POLE_X}
+          y="30"
+          width={STOP_SIGN_POLE_WIDTH}
+          height="10"
+          fill="#333333"
+          rx="2"
+        />
+      )}
       <circle
         className="icon-circle"
         cx="20"
@@ -17,16 +27,6 @@ const IconBackground = ({ shape, color }) => {
         fill={color}
         r={shape === 'stopsign' ? '13.33' : '20'}
       />
-      {shape === 'stopsign' && (
-        <rect
-          x={STOP_SIGN_POLE_X}
-          y="33.33"
-          width={STOP_SIGN_POLE_WIDTH}
-          height="6.67"
-          fill="#333333"
-          rx="2"
-        />
-      )}
       {shape === 'square' && (
         <rect
           className="icon-square"

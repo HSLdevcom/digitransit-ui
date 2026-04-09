@@ -54,13 +54,13 @@ const AdditionalDescription = () => {
   );
 };
 
-export default function Header() {
+export default function TrafficNowHeader() {
   const breakpoint = useBreakpoint();
   const { CONFIG } = useConfigContext();
 
   const desktop = breakpoint === 'large';
   return (
-    <div
+    <header
       className={cx('traffic-now__header', {
         'traffic-now__header--mobile': !desktop,
       })}
@@ -82,9 +82,8 @@ export default function Header() {
         <FormattedMessage id="traffic-now_description" />
         {CONFIG === 'hsl' && <AdditionalDescription />}
       </p>
-    </div>
+    </header>
   );
 }
 
-Header.propTypes = {};
-Header.defaultProps = {};
+TrafficNowHeader.propTypes = {};

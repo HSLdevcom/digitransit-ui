@@ -1,16 +1,16 @@
-import React, { useRef } from 'react';
-import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import React from 'react';
 import Button from '@hsl-fi/button';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
-import Card from '../Card';
-import { alertShape } from '../../util/shapes';
-import Icon from '../Icon';
+import { FormattedMessage } from 'react-intl';
 import { useConfigContext } from '../../configurations/ConfigContext';
-import Badge from '../Badge';
-import RouteBadges from './RouteBadges';
-import { getFormattedTimeDate } from '../../util/timeUtils';
 import { AlertSeverityLevelType } from '../../constants';
+import { alertShape } from '../../util/shapes';
+import { getFormattedTimeDate } from '../../util/timeUtils';
+import Card from '../Card';
+import DisruptionBadge from './DisruptionBadge';
+import Icon from '../Icon';
+import RouteBadges from './RouteBadges';
 
 const DATE_FORMAT = 'd.L.yyyy';
 
@@ -19,8 +19,9 @@ const handleExtraInfoClick = url => e => {
   window.location.href = url;
 };
 
-export default function DisruptionCard({ alert, isOpen, onClick }) {
+export default function DisruptionCard({ alert, isOpen, onClick = () => {} }) {
   const {
+    id,
     alertSeverityLevel,
     alertEffect,
     alertHeaderText,
@@ -31,7 +32,6 @@ export default function DisruptionCard({ alert, isOpen, onClick }) {
     alertUrl,
   } = alert;
   const { colors } = useConfigContext();
-  const cardRef = useRef(null);
 
   const now = Date.now();
   const isValid =
@@ -48,42 +48,39 @@ export default function DisruptionCard({ alert, isOpen, onClick }) {
 
   return (
     <Card
-      ref={cardRef}
-      className="traffic-now__disruption-card"
+      className="disruption-card clickable"
       onClick={() => {
-        cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        onClick(isOpen ? undefined : alert.id);
+        onClick(isOpen ? undefined : id);
       }}
     >
-      <div className="traffic-now__disruption-card__top-row">
-        <Badge showIcon variant={alertSeverityLevel} label={alertEffect} />
+      <header>
+        <DisruptionBadge
+          showIcon
+          variant={alertSeverityLevel}
+          label={alertEffect}
+        />
         <button type="button">
           <Icon
-            img="icon_arrow-dropdown"
+            img="icon_arrow-collapse--right"
             color={colors.primary}
-            className={cx('traffic-now__disruption-card__icon', {
-              'traffic-now__disruption-card__icon--inverted': isOpen,
+            className={cx('disruption-card__icon', {
+              'disruption-card__icon--inverted': isOpen,
             })}
           />
         </button>
-      </div>
-      {entities && (
-        <RouteBadges
-          entities={entities}
-          className="traffic-now__disruption-card__route-badges"
-        />
-      )}
+      </header>
+      {entities && <RouteBadges entities={entities} />}
       <h2 className="cta-small">{alertHeaderText}</h2>
       <div
-        className={cx('traffic-now__disruption-card__content', {
-          'traffic-now__disruption-card__content--open': isOpen,
+        className={cx('disruption-card__body', {
+          'disruption-card__body--open': isOpen,
         })}
       >
         <p className="text-xs">{alertDescriptionText}</p>
       </div>
-      <div className="traffic-now__disruption-card__content-row">
-        <div className="traffic-now__disruption-card__content-row-validity text-xs">
-          <div className="traffic-now__disruption-card__content-row-validity-icon">
+      <div className="disruption-card__body-row">
+        <div className="disruption-card__body-row-validity text-xs">
+          <div className="disruption-card__body-row-validity-icon">
             {isValid ? (
               <>
                 <Icon img="icon_clock" />
@@ -105,7 +102,7 @@ export default function DisruptionCard({ alert, isOpen, onClick }) {
           )}
         </div>
         {alertUrl && isOpen && (
-          <div className="traffic-now__disruption-card__content-row-info">
+          <div className="disruption-card__body-row-info">
             <Button
               size="small"
               fullWidth
@@ -129,4 +126,3 @@ DisruptionCard.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClick: PropTypes.func,
 };
-DisruptionCard.defaultProps = { onClick: () => {} };

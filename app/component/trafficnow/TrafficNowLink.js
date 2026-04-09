@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
 
-const TrafficNowLink = ({ handleClick, href }) => {
+const TrafficNowLink = ({ handleClick, href = undefined }) => {
   return (
     <a className="traffic-now__link" href={href} onClick={handleClick}>
       <div className="traffic-now__link__left-column">
@@ -36,11 +36,7 @@ const TrafficNowLink = ({ handleClick, href }) => {
 
 TrafficNowLink.propTypes = {
   handleClick: PropTypes.func.isRequired,
-  href: PropTypes.string,
-};
-
-TrafficNowLink.defaultProps = {
-  href: undefined,
+  href: PropTypes.string.isRequired,
 };
 
 export default TrafficNowLink;

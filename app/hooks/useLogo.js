@@ -2,7 +2,11 @@ import { useState, useEffect, useCallback } from 'react';
 
 const useLogo = logoPath => {
   const [logo, setLogo] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  if (!logoPath) {
+    return { logo, loading };
+  }
 
   const fetchLogo = useCallback(async () => {
     setLoading(true);
