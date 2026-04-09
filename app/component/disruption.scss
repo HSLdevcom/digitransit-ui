@@ -45,7 +45,7 @@
     border-top: solid;
     padding: 0 64px 0 64px;
     border-width: 1px;
-    border-color: #ddd;
+    border-color: $light-gray;
 
     .validity {
       height: 24px;
@@ -55,7 +55,7 @@
       border-left: solid;
       font-size: 15px;
       border-width: 1px;
-      border-color: #ddd;
+      border-color: $light-gray;
       display: flex;
 
       .icon-container {
@@ -131,9 +131,9 @@
       border-radius: 4px;
       margin-right: 2px;
       padding: var(--space-xxs) var(--space-xs) var(--space-xxs) var(--space-xs);
-      border: 1px solid #ddd;
+      border: 1px solid $light-gray;
       font-weight: 350;
-      color: #666;
+      color: $gray;
     }
 
     .alert-row-badges {

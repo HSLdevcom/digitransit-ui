@@ -68,7 +68,7 @@ const queries = {
       }
     `,
     pageAlerts: graphql`
-      query stopRoutes_StopAlertsContainer_Query(
+      query stopRoutes_StopDisruptions_Query(
         $stopId: String!
         $startTime: Long!
       ) {
@@ -125,7 +125,7 @@ const queries = {
       }
     `,
     pageAlerts: graphql`
-      query stopRoutes_TerminalAlertsContainer_Query(
+      query stopRoutes_TerminalDisruptions_Query(
         $terminalId: String!
         $startTime: Long!
       ) {
