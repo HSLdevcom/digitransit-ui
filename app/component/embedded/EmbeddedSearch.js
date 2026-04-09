@@ -245,8 +245,12 @@ const EmbeddedSearch = (props, context) => {
   const executeSearch = () => {
     const urlEnd = bikeOnly ? '/bike' : walkOnly ? '/walk' : '';
 
-    // if origin or destination is missing, redirect to index page instead
-    const isComplete = origin.address && destination.address;
+    // if origin or destination is missing and current location is not used,
+    // redirect to index page instead
+    const isComplete =
+      (origin.address && destination.address) ||
+      origin.type === 'CurrentLocation' ||
+      destination.type === 'CurrentLocation';
     const targetUrl = isComplete
       ? buildURL([
           lang,
