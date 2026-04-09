@@ -1,3 +1,5 @@
+import { IS_DEV } from '../util/envUtils';
+
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/waltti/`;
 const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
@@ -266,14 +268,11 @@ export default {
 
   flex: {
     internalFlexEnabled: false,
-    allowTaxiJourneys:
-      process.env.RUN_ENV === 'development' ||
-      process.env.NODE_ENV !== 'production',
-    directOnlyTaxiJourneys:
-      process.env.RUN_ENV === 'development' ||
-      process.env.NODE_ENV !== 'production',
+    allowTaxiJourneys: IS_DEV(),
+    directOnlyTaxiJourneys: false,
     internalAgencies: [],
     externalAgencies: ['02Taksi:02_taksi'],
+    infoLanguage: 'fi',
   },
 
   replacementBusNotification: {
@@ -301,9 +300,7 @@ export default {
     },
   },
   useAlternativeNameForModes: ['RAIL'],
-  showRouteDescNotification:
-    process.env.RUN_ENV === 'development' ||
-    process.env.NODE_ENV !== 'production',
+  showRouteDescNotification: IS_DEV(),
   showStopStatusMarkers: true,
 
   trafficNowLink: true,

@@ -3,7 +3,6 @@ You can run Digitransit-ui in docker. This is probably the easiest way to see th
 
 ## Prerequisites
 - Docker 1.9
-- On Mac and Windows use [Docker toolbox](https://www.docker.com/docker-toolbox)
 
 ## Run latest national white label version for testing
 - `docker run -p 8080:8080 hsldevcom/digitransit-ui`
@@ -19,9 +18,6 @@ On Mac:
 - run `docker-machine env default`
 - see IP of `DOCKER_HOST`
 - open `http://[DOCKER_HOST]:8080`
-
-On Windows:
-- open `http://localhost:8080`
 
 ## Running in production
 You must use following additional variables:

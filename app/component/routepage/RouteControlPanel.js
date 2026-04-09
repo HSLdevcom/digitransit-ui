@@ -166,7 +166,7 @@ function RouteControlPanel(
         }
 
         const { realTime } = config;
-        if (realTime && config.NODE_ENV !== 'test') {
+        if (realTime && process.env.NODE_ENV !== 'test') {
           const routeParts = route.gtfsId.split(':');
           const feedId = routeParts[0];
           const source = realTime[feedId];
@@ -251,7 +251,7 @@ function RouteControlPanel(
       }
     } else if (isActivePattern) {
       const { realTime } = config;
-      if (realTime && config.NODE_ENV !== 'test') {
+      if (realTime && process.env.NODE_ENV !== 'test') {
         const source = realTime[feedId];
         if (source?.active) {
           const id =

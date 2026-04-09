@@ -1,4 +1,5 @@
 import configMerger from '../util/configMerger';
+import { IS_DEV } from '../util/envUtils';
 import walttiConfig from './config.waltti';
 
 const CONFIG = 'varely';
@@ -150,6 +151,15 @@ export default configMerger(walttiConfig, {
         ],
       },
     ],
+  },
+
+  flex: {
+    internalFlexEnabled: false,
+    allowTaxiJourneys: IS_DEV(),
+    directOnlyTaxiJourneys: false,
+    internalAgencies: [],
+    externalAgencies: ['02Taksi:02_taksi'],
+    infoLanguage: 'fi',
   },
 
   sourceForAlertsAndDisruptions: {

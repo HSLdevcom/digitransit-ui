@@ -21,11 +21,6 @@ const API_SUBSCRIPTION_HEADER_NAME =
 const API_SUBSCRIPTION_TOKEN =
   process.env.API_SUBSCRIPTION_TOKEN || 'c65af0cd2d0a401a9599894970a2b29c';
 
-const {
-  // AXE,
-  NODE_ENV,
-  RUN_ENV,
-} = process.env;
 const hasAPISubscriptionQueryParameter = true;
 const PORT = process.env.PORT || 8080;
 const APP_DESCRIPTION = 'Digitransit journey planning UI';
@@ -38,7 +33,6 @@ export default {
   PORT,
   // AXE,
   CONFIG,
-  NODE_ENV,
   OTPTimeout: OTP_TIMEOUT,
   URL: {
     API_URL,
@@ -113,7 +107,6 @@ export default {
   API_SUBSCRIPTION_QUERY_PARAMETER_NAME,
   API_SUBSCRIPTION_HEADER_NAME,
   API_SUBSCRIPTION_TOKEN,
-  RUN_ENV,
 
   hasAPISubscriptionQueryParameter,
 
