@@ -6,7 +6,7 @@ import CanceledTripsForModeQuery from './queries/CanceledTripsForModeQuery';
 
 const CanceledTripsContainer = ({ mode, isMobile }) => {
   const queryData = useLazyLoadQuery(CanceledTripsForModeQuery, {
-    first: 1,
+    first: 20,
     mode: mode.toUpperCase(),
   });
 

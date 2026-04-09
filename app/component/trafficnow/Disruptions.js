@@ -14,7 +14,7 @@ import AlertsQuery from './queries/AlertsQuery';
 import CanceledTripsOverviewQuery from './queries/CanceledTripsOverviewQuery';
 import { getAvailableModes } from './utils';
 
-const CANCELED_TRIPS_OVERVIEW_QUERY_AMOUNT = 1;
+const CANCELED_TRIPS_OVERVIEW_QUERY_AMOUNT = 20;
 
 export default function Disruptions() {
   const breakpoint = useBreakpoint();

@@ -16,7 +16,7 @@ import ResultsProgressBar from './components/ResultsProgressBar';
 import DisruptionBadge from './DisruptionBadge';
 import CanceledTripsPaginationFragment from './queries/CanceledTripsPaginationFragment';
 
-const CANCELED_TRIPS_QUERY_AMOUNT = 1;
+const CANCELED_TRIPS_QUERY_AMOUNT = 20;
 
 const CanceledTrips = ({ query, isMobile = false, ...props }) => {
   const { colors } = useConfigContext();
