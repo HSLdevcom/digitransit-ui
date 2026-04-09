@@ -11827,7 +11827,7 @@ __metadata:
     express-session: "npm:1.18.1"
     express-static-gzip: "npm:2.0.8"
     farce: "npm:0.4.5"
-    fast-xml-parser: "npm:4.3.4"
+    fast-xml-parser: "npm:4.5.5"
     favicons-webpack-plugin: "npm:4.2.0"
     fetch-mock: "npm:^12.0.2"
     file-loader: "npm:5.0.2"
@@ -13748,14 +13748,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-xml-parser@npm:4.3.4":
-  version: 4.3.4
-  resolution: "fast-xml-parser@npm:4.3.4"
+"fast-xml-parser@npm:4.5.5":
+  version: 4.5.5
+  resolution: "fast-xml-parser@npm:4.5.5"
   dependencies:
     strnum: "npm:^1.0.5"
   bin:
     fxparser: src/cli/cli.js
-  checksum: 10/ef859101980cdd02b111fce09e25949a80e373654a6c424091355930f0d364abec144d8bb722d250a0c070416566518e621e198204a6b976db68f20c16d9300b
+  checksum: 10/4820da92160724be9c8cc8df6f0c7bd6c9c3bcd0396ed88cedd28eebd0bf0553bc0899cbad4ba615c6fd9f21e410a7723123c416974f52390721720cadf3c455
   languageName: node
   linkType: hard
 
