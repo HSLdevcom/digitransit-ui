@@ -174,6 +174,41 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
+        include: [path.resolve(__dirname, 'node_modules/@hsl-fi')],
+        loader: 'babel-loader',
+        options: {
+          configFile: false,
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                modules: false,
+                targets: {
+                  browsers: ['last 2 versions', 'ie 11'],
+                },
+              },
+            ],
+          ],
+        },
+      },
+      {
+        test: /\.js$/,
+        include: [path.resolve(__dirname, 'node_modules/@radix-ui')],
+        loader: 'babel-loader',
+        options: {
+          configFile: false,
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                modules: false,
+              },
+            ],
+          ],
+        },
+      },
+      {
+        test: /\.js$/,
         include: [path.resolve(__dirname, 'app')],
         loader: 'babel-loader',
         options: {
@@ -338,8 +373,9 @@ module.exports = {
   cache: true,
   resolve: {
     extensions: ['.mjs', '.js', '.json'],
-    mainFields: ['browser', 'module', 'jsnext:main', 'main'],
+    mainFields: ['browser', 'main', 'module', 'jsnext:main'],
     alias: {
+      axios$: 'axios/dist/browser/axios.cjs',
       lodash: 'lodash-es',
       'lodash.merge': 'lodash-es/merge',
       'babel-runtime/helpers/slicedToArray': path.join(
