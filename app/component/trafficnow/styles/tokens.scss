@@ -1,0 +1,68 @@
+// ============================================================================
+// TrafficNow Token Definitions
+// ============================================================================
+// Shared SCSS constants and component-level CSS custom properties.
+
+// Font weight definitions must be set before typography import in main.scss
+$font-family-narrow: 450;
+$font-weight-book: 350;
+$font-weight-medium: 500;
+
+:root {
+  --font-family-narrow: #{$font-family-narrow};
+  --font-weight-book: #{$font-weight-book};
+  --font-weight-medium: #{$font-weight-medium};
+}
+
+// Breakpoints
+$bp-tablet-small: 620px;
+$bp-tablet: 900px;
+$bp-typography-tablet: 768px;
+
+// Layout padding & sizing
+$padding-horizontal-gutter: 50px;
+$padding-mobile-small-x: 20px;
+$padding-mobile-small-y: 25px;
+
+// Icon sizes
+$icon-breadcrumb-size: 10px;
+$icon-cta-size: 16px;
+
+// Form input sizes
+$form-input-size: 24px;
+$toggle-slider-width: 45px;
+$toggle-slider-thumb-size: 22px;
+$badge-height: 32px;
+
+// Gaps & small spacings
+$gap-validity-icon: 4px;
+$gap-badge-departure: 4px;
+
+// Modal sizing
+$modal-min-height-sheet: 20vh;
+$modal-max-height: 90vh;
+$modal-width-tablet: 95vw;
+$modal-width-desktop: 600px;
+
+// Card expansion animation (max-height for smooth expand/collapse)
+$card-body-max-height-expanded: 500px;
+
+// Modal overlay
+$modal-overlay-bg: rgba(0, 0, 0, 0.2);
+$modal-overlay-z-index: 1001;
+
+// Z-indexes
+$z-index-sticky-button: 10;
+
+// Animation timing
+$transition-short: 0.1s;
+$transition-medium: 0.2s;
+$transition-easing-expansion: cubic-bezier(0.4, 0.2, 0.2, 1);
+
+// Colors
+$placeholder-color: #888;
+
+.traffic-now {
+  --white: #{$white};
+  --background-color-lighter: #{$background-color-lighter};
+}

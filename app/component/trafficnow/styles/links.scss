@@ -1,0 +1,56 @@
+// ============================================================================
+// TrafficNow Link Styles
+// ============================================================================
+// Traffic now navigation link with icon, description, and caret
+
+.traffic-now__link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  &:hover &__caret {
+    transform: translateX(4px);
+    transition: transform $transition-short;
+  }
+
+  &__left-column {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: var(--space-s);
+
+    &-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      letter-spacing: -0.5px;
+      font-style: normal;
+
+      h2 {
+        @media (min-width: $bp-typography-tablet) {
+          font-size: 1.25em;
+        }
+
+        margin: 0;
+        color: $black;
+        font-size: 1.125em;
+        font-weight: $font-weight-medium;
+        line-height: 24px;
+      }
+
+      p {
+        margin: 0;
+        color: $gray;
+        font-size: 14px;
+        font-weight: $font-weight-disclaimer;
+        line-height: 18px;
+      }
+    }
+  }
+}
