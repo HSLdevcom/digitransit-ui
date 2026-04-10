@@ -80,7 +80,7 @@ const CanceledTripsModal = ({
                 />
                 <Button
                   className="routepage-button link-bold-small"
-                  size="medium"
+                  size="small"
                   fullWidth={false}
                   variant="white"
                   value="Siirry linjasivulle"
