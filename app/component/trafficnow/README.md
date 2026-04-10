@@ -143,4 +143,7 @@ Important behavior:
 - Change CanceledTrips view to render on route basis when OTP endpoint supports such response
   - Currently the response contains cancellations on cancellation basis which results in bad UX if all cancellations don't fit in the initial 20 node quota.
 - Change `Disruptions` view to render paginated results when OTP endpoint supports pagination
-- Change DisruptionCard onClick behavior to "drill" into a new view with the card content instead of expanding the card. 
+- Change `DisruptionCard` onClick behavior to "drill" into a new view with the card content instead of expanding the card. 
+- Define whether and how to present `canceledTrips` that are in future (i.e. tomorrow and beyond)
+- Add transport mode icons to `VehicleModesFilter` 
+- `TrafficNowHeader` logo needs to be added. Can be implemented using useLogo hook
