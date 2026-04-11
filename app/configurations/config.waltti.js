@@ -40,6 +40,33 @@ export default {
     },
   },
 
+  aboutThisService: {
+    fi: [
+      {
+        header: 'Käytön seuranta ja analytiikka',
+        paragraphs: [
+          'Käytämme evästeetöntä Plausible Analytics -analytiikkatyökalua palvelun käytön seurantaan ja kehittämiseen. Kerättävä tieto on tilastollista eikä mahdollista yksittäisten käyttäjien tunnistamista.',
+        ],
+      },
+    ],
+    sv: [
+      {
+        header: 'Uppföljning och analys',
+        paragraphs: [
+          'Vi använder det cookiefria analysverktyget Plausible Analytics för att följa upp och utveckla användningen av tjänsten. Den information som samlas in är statistisk och gör det inte möjligt att identifiera enskilda användare.',
+        ],
+      },
+    ],
+    en: [
+      {
+        header: 'Tracking and analytics',
+        paragraphs: [
+          'We use the cookie-free analytics tool Plausible Analytics to monitor and develop the use of the service. The data collected is statistical in nature and does not enable the identification of individual users.',
+        ],
+      },
+    ],
+  },
+
   stopsMinZoom: 14,
 
   vehicleRental: {},
