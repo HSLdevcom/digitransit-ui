@@ -50,7 +50,11 @@ export default function Disruption({
   );
 
   return (
-    <div className="alert-row" role="listitem">
+    <div
+      className="alert-row"
+      role="listitem"
+      aria-label={alertDescriptionText}
+    >
       {!isCancelation && toggleDetails && (
         <button
           type="button"

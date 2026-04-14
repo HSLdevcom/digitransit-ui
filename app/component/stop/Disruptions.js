@@ -52,36 +52,55 @@ export const filterAlertEntities = (stop, alerts) => {
  * routes.
  */
 export const getCancelations = (stop, intl, config) => {
-  return getCancelationsForStop(stop).map(stoptime => {
-    const { color, mode, shortName, gtfsId, type } = stoptime.trip.route;
-    const entity = {
-      __typename: AlertEntityType.Route,
-      color,
-      type,
-      mode,
-      shortName,
-      gtfsId,
-    };
-    const departureTime = stoptime.serviceDay + stoptime.scheduledDeparture;
-    const translatedMode = intl.formatMessage({
-      id: getRouteMode(stoptime.trip.route),
-    });
-    return {
-      alertDescriptionText: intl.formatMessage(
-        { id: 'generic-cancelation' },
+  const seenPatterns = new Set();
+  const cancelationsAsAlerts = getCancelationsForStop(stop).reduce(
+    (acc, stoptime) => {
+      const { color, mode, shortName, gtfsId, type } = stoptime.trip.route;
+      const entity = {
+        __typename: AlertEntityType.Route,
+        color,
+        type,
+        mode,
+        shortName,
+        gtfsId,
+      };
+
+      // if same pattern has multiple cancelations, consolidate into one alert
+      if (seenPatterns.has(entity.shortName)) {
+        const prevAlert = acc.find(
+          element => element.entities[0].shortName === entity.shortName,
+        );
+        prevAlert.canceledStoptimes.push(stoptime);
+        return acc;
+      }
+
+      seenPatterns.add(entity.shortName);
+      const departureTime = stoptime.serviceDay + stoptime.scheduledDeparture;
+      const translatedMode = intl.formatMessage({
+        id: getRouteMode(stoptime.trip.route),
+      });
+      return [
+        ...acc,
         {
-          mode: translatedMode,
-          route: shortName,
-          headsign: stoptime.headsign || stoptime.trip.tripHeadsign,
-          time: epochToTime(departureTime * 1000, config),
+          alertDescriptionText: intl.formatMessage(
+            { id: 'generic-cancelation' },
+            {
+              mode: translatedMode,
+              route: shortName,
+              headsign: stoptime.headsign || stoptime.trip.tripHeadsign,
+              time: epochToTime(departureTime * 1000, config),
+            },
+          ),
+          alertHeaderText: stoptime.headsign,
+          canceledStoptimes: [stoptime],
+          entities: [entity],
+          alertSeverityLevel: AlertSeverityLevelType.Warning,
         },
-      ),
-      alertHeaderText: stoptime.headsign,
-      canceledStoptimes: [stoptime],
-      entities: [entity],
-      alertSeverityLevel: AlertSeverityLevelType.Warning,
-    };
-  });
+      ];
+    },
+    [],
+  );
+  return cancelationsAsAlerts;
 };
 
 /**
