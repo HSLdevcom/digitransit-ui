@@ -127,6 +127,13 @@
       margin-bottom: 8px;
     }
 
+    .canceled-departures {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
     .cancelation-badge {
       border-radius: 4px;
       margin-right: 2px;

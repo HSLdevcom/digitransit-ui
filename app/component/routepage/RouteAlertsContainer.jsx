@@ -9,9 +9,8 @@ import {
   tripHasCancelation,
   setEntityForAlert,
 } from '../../../utils/client/alertUtils';
-import { getRouteMode } from '../../../utils/client/modeUtils';
 import { alertShape } from '../../../utils/client/shapes';
-import { epochToTime } from '../../../utils/client/timeUtils';
+import { getStartTimeWithColon } from '../../../utils/client/timeUtils';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import {
   AlertSeverityLevelType,
@@ -19,9 +18,6 @@ import {
 } from '../../../utils/shared/constants';
 import { patternOptionText } from './RoutePatternSelect';
 
-/**
- * This returns the trips mapped as alerts for the route.
- */
 const getCancelations = (
   route,
   entity,
@@ -29,9 +25,8 @@ const getCancelations = (
   intl,
   currentTime,
   validityPeriod,
-  config,
-) =>
-  pattern.trips
+) => {
+  const canceledStoptimes = pattern.trips
     .filter(trip => tripHasCancelation(trip, currentTime, validityPeriod))
     .reduce((a, b) => a.concat(b), [])
     .sort(
@@ -40,30 +35,30 @@ const getCancelations = (
         a.stoptimes[0].scheduledDeparture -
         (b.stoptimes[0].serviceDay + b.stoptimes[0].scheduledDeparture),
     )
-    .map(trip => {
-      const first = trip.stoptimes[0];
-      const departureTime = first.serviceDay + first.scheduledDeparture;
-      const mode = intl.formatMessage({
-        id: getRouteMode(route),
-      });
-      return {
-        alertDescriptionText: intl.formatMessage(
-          { id: 'generic-cancelation' },
-          {
-            mode,
-            route: route.shortName,
-            headsign: first.headsign || trip.tripHeadsign,
-            time: epochToTime(departureTime * 1000, config),
-          },
-        ),
-        alertHeaderText: patternOptionText(pattern),
-        canceledStoptimes: [
-          trip.stoptimes.filter(st => st.realtimeState === 'CANCELED')[0],
-        ],
-        entities: [entity],
-        alertSeverityLevel: AlertSeverityLevelType.Warning,
-      };
-    });
+    .map(trip => trip.stoptimes[0]);
+
+  return canceledStoptimes.length
+    ? [
+        {
+          alertDescriptionText: intl.formatMessage(
+            { id: 'generic-cancelation' },
+            {
+              mode: route.mode,
+              route: route.shortName,
+              headsign: canceledStoptimes[0].headsign,
+              time: getStartTimeWithColon(
+                canceledStoptimes[0].scheduledDeparture,
+              ),
+            },
+          ),
+          alertHeaderText: patternOptionText(pattern),
+          canceledStoptimes,
+          entities: [entity],
+          alertSeverityLevel: AlertSeverityLevelType.Warning,
+        },
+      ]
+    : [];
+};
 
 function RouteAlertsContainer({ route, pattern }) {
   const intl = useIntl();
