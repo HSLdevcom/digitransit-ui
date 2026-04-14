@@ -98,7 +98,7 @@
 
   .alerts-list-section-header {
     min-height: 32px;
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     font-size: 16px;
     line-height: 24px;
     letter-spacing: -0.3px;
@@ -139,7 +139,7 @@
       margin-right: 2px;
       padding: var(--space-xxs) var(--space-xs) var(--space-xxs) var(--space-xs);
       border: 1px solid $light-gray;
-      font-weight: 350;
+      font-weight: $font-weight-book;
       color: $gray;
     }
 
