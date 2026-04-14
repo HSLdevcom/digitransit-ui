@@ -472,4 +472,5 @@ export default {
 
   showStopStatusMarkers: true,
   showRouteDescNotification: IS_DEV(),
+  viaPointsEnabled: true,
 };

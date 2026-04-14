@@ -20,14 +20,7 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
   }, [currentTime, relay]);
 
   const { stoptimes } = station;
-  // eslint-disable-next-line prefer-destructuring
-  const stopsWithPatterns = station.stops.filter(
-    stop => stop.patterns.length > 0,
-  );
-  const mode =
-    stopsWithPatterns.length > 0
-      ? stopsWithPatterns[0].patterns[0].route.mode
-      : 'BUS';
+  const mode = station.vehicleMode || 'BUS';
   if (!stoptimes || stoptimes.length === 0) {
     return (
       <div className="stop-no-departures-container">
@@ -36,8 +29,17 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
       </div>
     );
   }
-  const isStreetTrafficTerminal = () =>
-    stopsWithPatterns.some(stop => stop.patterns[0].route.mode === 'BUS');
+
+  const getTrackOrPierOrPlatformHeader = () => {
+    if (mode === 'RAIL') {
+      return <FormattedMessage id="track" defaultMessage="Track" />;
+    }
+    if (mode === 'FERRY') {
+      return <FormattedMessage id="pier" defaultMessage="Pier" />;
+    }
+    return <FormattedMessage id="platform" defaultMessage="Platform" />;
+  };
+
   return (
     <ScrollableWrapper>
       <div className="stop-page-departure-wrapper stop-scroll-container">
@@ -55,18 +57,7 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
             <FormattedMessage id="leaving-at" defaultMessage="Leaves" />
           </span>
           <span className="track-header">
-            <FormattedMessage
-              id={
-                mode === 'BUS' || isStreetTrafficTerminal()
-                  ? 'platform'
-                  : 'track'
-              }
-              defaultMessage={
-                mode === 'BUS' || isStreetTrafficTerminal()
-                  ? 'Platform'
-                  : 'Track'
-              }
-            />
+            {getTrackOrPierOrPlatformHeader()}
           </span>
         </div>
         <DepartureListContainer
@@ -108,6 +99,7 @@ const connectedComponent = createRefetchContainer(
         timeRange: { type: "Int!", defaultValue: 43200 }
         numberOfDepartures: { type: "Int!", defaultValue: 100 }
       ) {
+        vehicleMode
         url
         stops {
           patterns {

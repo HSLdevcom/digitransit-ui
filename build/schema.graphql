@@ -3795,6 +3795,7 @@ enum RelativeDirection {
   More information about the entrance is in the `step.feature` field.
   """
   ENTER_STATION
+  ESCALATOR
   """
   Exiting a public transport station. If it's not known if the passenger is entering or exiting
   then `CONTINUE` is used.
@@ -4027,13 +4028,6 @@ enum VertexType {
   TRANSIT
 }
 
-"The vertical direction e.g. for a set of stairs."
-enum VerticalDirection {
-  DOWN
-  UNKNOWN
-  UP
-}
-
 "Categorization for via locations."
 enum ViaLocationType {
   """
@@ -4047,6 +4041,13 @@ enum ViaLocationType {
   segment. Intermediate stops visited on-board do not count.
   """
   VISIT
+}
+
+"The vertical direction e.g. for a set of stairs."
+enum VerticalDirection {
+  DOWN
+  UNKNOWN
+  UP
 }
 
 enum WheelchairBoarding {

@@ -2068,11 +2068,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest-panel@npm:^8.2.3, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
+"@digitransit-component/digitransit-component-autosuggest-panel@npm:^8.3.0, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^7.1.4
+    "@digitransit-component/digitransit-component-autosuggest": ^7.1.5
     "@digitransit-component/digitransit-component-icon": ^2.0.1
     "@hsl-fi/sass": 1.0.0
     classnames: 2.5.1
@@ -2087,11 +2087,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest@npm:^7.1.4, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
+"@digitransit-component/digitransit-component-autosuggest@npm:^7.1.5, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest"
   dependencies:
-    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "npm:^3.3.3"
+    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "npm:^3.3.4"
     "@digitransit-search-util/digitransit-search-util-get-label": "npm:^1.0.2"
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "npm:^2.1.1"
     "@hsl-fi/hooks": "npm:^1.2.4"
@@ -2269,8 +2269,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component@workspace:digitransit-component/packages/digitransit-component"
   dependencies:
-    "@digitransit-component/digitransit-component-autosuggest": "npm:^7.1.4"
-    "@digitransit-component/digitransit-component-autosuggest-panel": "npm:^8.2.3"
+    "@digitransit-component/digitransit-component-autosuggest": "npm:^7.1.5"
+    "@digitransit-component/digitransit-component-autosuggest-panel": "npm:^8.3.0"
     "@digitransit-component/digitransit-component-control-panel": "npm:^7.1.2"
     "@digitransit-component/digitransit-component-favourite-bar": "npm:^5.0.3"
     "@digitransit-component/digitransit-component-favourite-editing-modal": "npm:^5.0.3"
@@ -2304,13 +2304,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@npm:^3.3.3, @digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate":
+"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@npm:^3.3.4, @digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "npm:1.0.0"
-    "@digitransit-search-util/digitransit-search-util-get-geocoding-results": "npm:1.0.0"
-    "@digitransit-search-util/digitransit-search-util-get-json": "npm:1.0.0"
+    "@digitransit-search-util/digitransit-search-util-get-geocoding-results": "npm:1.0.1"
+    "@digitransit-search-util/digitransit-search-util-get-json": "npm:1.0.1"
     "@digitransit-search-util/digitransit-search-util-helpers": "npm:2.3.3"
     lodash: "npm:4.17.23"
   languageName: unknown
@@ -2324,15 +2324,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-get-geocoding-results@npm:1.0.0, @digitransit-search-util/digitransit-search-util-get-geocoding-results@workspace:digitransit-search-util/packages/digitransit-search-util-get-geocoding-results":
+"@digitransit-search-util/digitransit-search-util-get-geocoding-results@npm:1.0.1, @digitransit-search-util/digitransit-search-util-get-geocoding-results@workspace:digitransit-search-util/packages/digitransit-search-util-get-geocoding-results":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-get-geocoding-results@workspace:digitransit-search-util/packages/digitransit-search-util-get-geocoding-results"
   dependencies:
-    "@digitransit-search-util/digitransit-search-util-get-json": "npm:1.0.0"
+    "@digitransit-search-util/digitransit-search-util-get-json": "npm:1.0.1"
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-get-json@npm:1.0.0, @digitransit-search-util/digitransit-search-util-get-json@workspace:digitransit-search-util/packages/digitransit-search-util-get-json":
+"@digitransit-search-util/digitransit-search-util-get-json@npm:1.0.1, @digitransit-search-util/digitransit-search-util-get-json@workspace:digitransit-search-util/packages/digitransit-search-util-get-json":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-get-json@workspace:digitransit-search-util/packages/digitransit-search-util-get-json"
   dependencies:

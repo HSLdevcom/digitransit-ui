@@ -19,14 +19,14 @@ class ItineraryCircleLineWithIcon extends React.Component {
     icon: PropTypes.string,
     style: PropTypes.shape({}),
     isNotFirstLeg: PropTypes.bool,
-    indoorStepsLength: PropTypes.number,
     isStop: PropTypes.bool,
+    indoorStepsLength: PropTypes.number,
   };
 
   static defaultProps = {
+    viaType: null,
     indoorLegType: IndoorLegType.NoStepsInside,
     showIntermediateSteps: false,
-    viaType: null,
     color: null,
     bikePark: false,
     carPark: false,
@@ -34,8 +34,8 @@ class ItineraryCircleLineWithIcon extends React.Component {
     icon: undefined,
     style: {},
     isNotFirstLeg: undefined,
-    indoorStepsLength: 0,
     isStop: false,
+    indoorStepsLength: 0,
   };
 
   isFirstChild = () => {
