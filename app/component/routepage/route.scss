@@ -79,7 +79,7 @@ $margin-left-right: 21.3px;
   max-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 24px $margin-left-right 24px;
+  padding: 11px $margin-left-right 24px;
   display: flex;
   position: relative;
   flex-direction: column;
@@ -91,7 +91,7 @@ $margin-left-right: 21.3px;
 
   &.bp-large {
     top: 0;
-    padding-top: 0;
+    padding-top: 11px;
     padding-left: 56px;
     padding-right: 56px;
   }
@@ -134,7 +134,7 @@ $margin-left-right: 21.3px;
 }
 
 .mobile .route-page-content {
-  padding-top: 0;
+  padding-top: 11px;
   overflow-y: visible;
   flex-basis: auto;
 }

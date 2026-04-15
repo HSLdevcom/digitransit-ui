@@ -97,8 +97,8 @@ function RoutePage({
           'bp-large': breakpoint === 'large',
         })}
       >
-        {breakpoint === 'large' && <BackButton />}
         <div className="route-header">
+          {breakpoint === 'large' && <BackButton />}
           <div aria-hidden="true">
             <RouteNumber
               color={route.color ? `#${route.color}` : null}
