@@ -13,9 +13,12 @@ export default configMerger(walttiConfig, {
 
   appBarLink: {
     name: 'Bosse',
-    href: 'https://raasepori.fi/bosse',
-    alternativeHref: {
-      sv: 'https://raseborg.fi/bosse',
+    href: 'https://www.raseborg.fi/fi/liikenne-kadut-ja-yleiset-alueet/joukkoliikenne/',
+    altLink: {
+      sv: {
+        name: 'Bosse',
+        href: 'https://www.raseborg.fi/trafik-gator-och-allmanna-omraden/kollektivtrafik/',
+      },
     },
   },
 

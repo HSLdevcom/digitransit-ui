@@ -12,7 +12,17 @@ export default configMerger(walttiConfig, {
 
   appBarLink: {
     name: 'Kotkan seudun joukkoliikenne',
-    href: 'http://www.kotka.fi/asukkaalle/kartat_ja_liikenne/joukkoliikenne',
+    href: 'https://jonnejaminne.fi/',
+    altLink: {
+      sv: {
+        name: 'Kotka regiontrafik',
+        href: 'https://jonnejaminne.fi/sv/',
+      },
+      en: {
+        name: 'Kotka region traffic',
+        href: 'https://jonnejaminne.fi/en/',
+      },
+    },
   },
 
   colors: {

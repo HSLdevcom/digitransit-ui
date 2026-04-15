@@ -12,7 +12,17 @@ export default configMerger(walttiConfig, {
 
   appBarLink: {
     name: 'Porin joukkoliikenne',
-    href: 'http://www.pori.fi/pjl',
+    href: 'https://pjl.pori.fi/',
+    altLink: {
+      sv: {
+        name: 'Björneborgs kollektiv trafik',
+        href: 'https://pjl.pori.fi/en/',
+      },
+      en: {
+        name: 'Pori public transport',
+        href: 'https://pjl.pori.fi/en/',
+      },
+    },
   },
 
   colors: {

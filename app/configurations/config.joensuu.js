@@ -10,7 +10,20 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['Joensuu'],
 
-  appBarLink: { name: 'Joensuun kaupunki', href: 'http://www.joensuu.fi/' },
+  appBarLink: {
+    name: 'JOJO',
+    href: 'https://jojo.joensuu.fi/',
+    altLink: {
+      sv: {
+        name: 'JOJO',
+        href: 'https://jojo.joensuu.fi/en/',
+      },
+      en: {
+        name: 'JOJO',
+        href: 'https://jojo.joensuu.fi/en/',
+      },
+    },
+  },
 
   title: APP_TITLE,
 

@@ -13,7 +13,20 @@ const maxLon = 27.373531;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'Rovaniemi', href: 'http://www.rovaniemi.fi/' },
+  appBarLink: {
+    name: 'Linkkari',
+    href: 'http://linkkari.fi/',
+    altLink: {
+      sv: {
+        name: 'Linkkari',
+        href: 'http://linkkari.fi/in-English',
+      },
+      en: {
+        name: 'Linkkari',
+        href: 'http://linkkari.fi/in-English',
+      },
+    },
+  },
 
   colors: {
     primary: '#34B233',
