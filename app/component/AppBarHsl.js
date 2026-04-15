@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import '@hsl-fi/design-system-core/css/styles.css';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
 import { intlShape } from 'react-intl';
