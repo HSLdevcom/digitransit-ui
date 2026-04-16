@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import { Helmet } from 'react-helmet';
-import { SiteHeader, UserMenu } from '@hsl-fi/site-header';
+import { SiteHeader, UserMenu, QuickSearch } from '@hsl-fi/site-header';
 import { favouriteShape, configShape } from '../util/shapes';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
@@ -26,7 +26,11 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
     post: `${notificationAPI}?language=${lang}`,
   };
 
-  const [banners, setBanners] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchError, setSearchError] = useState(false);
+  const [searchHits, setSearchHits] = useState([]);
+  const [searchHitsCount, setSearchHitsCount] = useState(0);
   const [userNotifications, setUserNotifications] = useState({
     unreadCount: 0,
     loading: false,
@@ -37,14 +41,6 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
   });
 
   useEffect(() => {
-    if (config.URL.BANNERS && process.env.NODE_ENV !== 'test') {
-      getJson(`${config.URL.BANNERS}&language=${lang}`)
-        .then(data => setBanners(data))
-        .catch(() => setBanners([]));
-    }
-  }, [lang]);
-
-  useEffect(() => {
     if (!user.sub) {
       return undefined;
     }
@@ -64,12 +60,11 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
       setUserNotifications(prev => ({ ...prev, loading: true, error: null }));
       getJson(notificationApiUrls.get)
         .then(data => {
-          const raw = data || {};
           setUserNotifications({
-            unreadCount: raw.unreadCount || 0,
+            unreadCount: data?.unreadCount || 0,
             loading: false,
             error: null,
-            notifications: (raw.notifications || []).map(n => ({
+            notifications: (data?.notifications || []).map(n => ({
               ...n,
               link: n.link || {},
             })),
@@ -92,51 +87,41 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
   }, [user.sub, lang]);
 
   useEffect(() => {
-    if (!user.sub) {
+    if (!searchQuery || !config.URL.HSL_FI_SUGGESTIONS) {
+      setSearchHits([]);
+      setSearchHitsCount(0);
       return undefined;
     }
 
-    const markAsRead = () => {
-      fetch(notificationApiUrls.post, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-      })
-        .then(() => {
-          setUserNotifications(prev => ({ ...prev, unreadCount: 0 }));
-        })
-        .catch(() => {});
-    };
-
-    const fetchNotifications = () => {
-      setUserNotifications(prev => ({ ...prev, loading: true, error: null }));
-      getJson(notificationApiUrls.get)
+    const timer = setTimeout(() => {
+      setSearchLoading(true);
+      setSearchError(false);
+      getJson(
+        `${
+          config.URL.HSL_FI_SUGGESTIONS
+        }?language=${lang}&take=5&query=${encodeURIComponent(searchQuery)}`,
+      )
         .then(data => {
-          const raw = data || {};
-          setUserNotifications({
-            unreadCount: raw.unreadCount || 0,
-            loading: false,
-            error: null,
-            notifications: (raw.notifications || []).map(n => ({
-              ...n,
-              link: n.link || {},
-            })),
-            refetch: fetchNotifications,
-            onOpen: markAsRead,
-          });
-        })
-        .catch(err => {
-          setUserNotifications(prev => ({
-            ...prev,
-            loading: false,
-            error: err,
+          const hits = (data?.hits || []).map(h => ({
+            id: h.id,
+            title: h.title,
+            type: h.type,
+            link: { href: h.url },
           }));
+          setSearchHits(hits);
+          setSearchHitsCount(
+            data?.totalHits != null ? data.totalHits : hits.length,
+          );
+          setSearchLoading(false);
+        })
+        .catch(() => {
+          setSearchError(true);
+          setSearchLoading(false);
         });
-    };
+    }, 300);
 
-    fetchNotifications();
-    const interval = setInterval(fetchNotifications, 60000);
-    return () => clearInterval(interval);
-  }, [user.sub, lang]);
+    return () => clearTimeout(timer);
+  }, [searchQuery, lang]);
 
   useEffect(() => {
     if (config.URL.FONTCOUNTER && process.env.NODE_ENV === 'production') {
@@ -183,6 +168,19 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
       />
     ) : null;
 
+  const search = config.URL.HSL_FI_SUGGESTIONS ? (
+    <QuickSearch
+      searchPageLink={{ href: `${config.URL.ROOTLINK}/${lang}/haku` }}
+      loading={searchLoading}
+      error={searchError}
+      query={searchQuery}
+      onQueryChange={e => setSearchQuery(e.target.value)}
+      hitsCount={searchHitsCount}
+      hits={searchHits}
+      lang={lang}
+    />
+  ) : null;
+
   const notificationTime = useRef(0);
 
   useEffect(() => {
@@ -209,14 +207,12 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
       )}
       {!config.hideHeader && (
         <SiteHeader
-          baseurl={config.URL.ROOTLINK}
-          staticAssetsUrl={config.URL.STATIC_ASSETS}
+          baseUrl={config.URL.ROOTLINK}
+          staticAssetsUrl="/static-assets"
           lang={lang}
           userMenu={userMenu}
           langMenu={languages}
-          banners={banners}
-          suggestionsApiUrl={config.URL.HSL_FI_SUGGESTIONS}
-          notificationApiUrls={notificationApiUrls}
+          search={search}
         />
       )}
     </>
