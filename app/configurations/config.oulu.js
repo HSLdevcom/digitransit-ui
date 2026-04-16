@@ -7,7 +7,7 @@ const APP_DESCRIPTION = 'Oulun seudun reittiopas';
 const APP_TITLE = 'Reittiopas';
 const CDN_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
 
-const virtualMonitorBaseUrl = IS_DEV()
+const virtualMonitorBaseUrl = IS_DEV
   ? 'https://dev-oulumonitori.digitransit.fi'
   : 'https://pysakkinaytto.osl.fi';
 

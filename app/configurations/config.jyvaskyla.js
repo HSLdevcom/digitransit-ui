@@ -6,7 +6,7 @@ const CONFIG = 'jyvaskyla';
 const APP_TITLE = 'Reittiopas Jyväskylä';
 const APP_DESCRIPTION = 'Jyväskylän uusi reittiopas';
 
-const virtualMonitorBaseUrl = IS_DEV()
+const virtualMonitorBaseUrl = IS_DEV
   ? 'https://dev-jyvaskylamonitori.digitransit.fi'
   : 'https://pysakit.jyvaskyla.fi';
 

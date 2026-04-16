@@ -43,10 +43,16 @@ const { window } = jsdom;
 // set up test environment globals
 global.window = window;
 global.document = window.document;
-global.navigator = {
-  platform: process.platform || '',
-  userAgent: 'node.js',
-};
+
+Object.defineProperty(global, 'navigator', {
+  value: {
+    platform: process.platform || '',
+    userAgent: 'node.js',
+  },
+  configurable: true,
+  writable: true,
+});
+
 copyProps(window, global);
 
 const config = {
