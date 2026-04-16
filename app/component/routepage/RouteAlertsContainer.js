@@ -42,9 +42,9 @@ const getCancelations = (
               mode: route.mode,
               route: route.shortName,
               headsign: canceledStoptimes[0].headsign,
-              time: getStartTimeWithColon(
-                canceledStoptimes[0].scheduledDeparture,
-              ),
+              times: canceledStoptimes
+                .map(st => getStartTimeWithColon(st.scheduledDeparture))
+                .join(', '),
             },
           ),
           alertHeaderText: patternTextWithIcon(pattern),
