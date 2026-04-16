@@ -16,7 +16,7 @@ import {
   AlertSeverityLevelType,
   AlertEntityType,
 } from '../../../utils/shared/constants';
-import { patternOptionText } from './RoutePatternSelect';
+import { patternTextWithIcon } from './RoutePatternSelect';
 
 const getCancelations = (
   route,
@@ -51,7 +51,7 @@ const getCancelations = (
               ),
             },
           ),
-          alertHeaderText: patternOptionText(pattern),
+          alertHeaderText: patternTextWithIcon(pattern),
           canceledStoptimes,
           entities: [entity],
           alertSeverityLevel: AlertSeverityLevelType.Warning,
@@ -82,7 +82,6 @@ function RouteAlertsContainer({ route, pattern }) {
     intl,
     currentTime,
     config.routeCancelationAlertValidity,
-    config,
   );
 
   const serviceAlerts = getAlertsForObject(pattern).map(alert =>

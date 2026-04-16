@@ -35,7 +35,6 @@ import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { isIOS } from '../../../utils/shared/browser';
 import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
 import { saveSearch } from '../../action/SearchActions';
-import Icon from '../Icon';
 import Notification from './Notification';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 
@@ -347,21 +346,27 @@ function RouteControlPanel(
 
   const currentTime = unixTime();
   const selectedPattern = route?.patterns?.find(p => p.code === patternId);
+  const cancelations = getCancelationsForRoute(
+    route,
+    patternId,
+    currentTime,
+    config.routeCancelationAlertValidity,
+  );
+  const alerts = getAlertsForObject(selectedPattern);
+
   const hasActiveAlert = checkActiveDisruptions(
     currentTime,
-    getCancelationsForRoute(
-      route,
-      patternId,
-      currentTime,
-      config.routeCancelationAlertValidity,
-    ),
-    getAlertsForObject(selectedPattern),
+    cancelations,
+    alerts,
   );
 
   const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
-    getAlertsForObject(selectedPattern),
+    alerts,
     currentTime,
   );
+
+  // if the pattern has cancelations, add one to alert count
+  const alertsCount = alerts.length + (cancelations.length > 0 ? 1 : 0);
 
   const disruptionClassName =
     (hasActiveAlert && 'active-disruption-alert') ||
@@ -370,15 +375,10 @@ function RouteControlPanel(
   const countOfButtons = 3;
 
   let disruptionIcon;
-  if (hasActiveAlert) {
-    disruptionIcon = (
-      <Icon
-        img="icon_caution-no-excl-no-stroke"
-        color={config.colors.caution}
-      />
-    );
-  } else if (hasActiveServiceAlerts) {
-    disruptionIcon = <Icon className="service-alert-icon" img="icon_info" />;
+  if (disruptionClassName === 'active-disruption-alert') {
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
+  } else if (disruptionClassName === 'active-service-alert') {
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
   }
 
   // If disruption details are opened, hide controlpanel
