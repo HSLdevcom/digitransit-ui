@@ -14,9 +14,7 @@ const BANNER_URL = process.env.CONTENT_DOMAIN
   ? `${process.env.CONTENT_DOMAIN}/api/v1/banners?site=JourneyPlanner`
   : process.env.BANNER_URL ||
     'https://cms-test.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
-const SUGGESTION_URL = process.env.CONTENT_DOMAIN
-  ? `${process.env.CONTENT_DOMAIN}/api/v1/search/suggestions`
-  : 'https://content.hsl.fi/api/v1/search/suggestions'; // old url
+const SUGGESTION_URL = `${process.env.CONTENT_DOMAIN}/api/v1/search/suggestions`;
 const travelersAccountUrl = process.env.TRAVELERS_ACCOUNT_URL;
 const staticAssetsUrl = process.env.STATIC_ASSETS_URL;
 const virtualMonitorBaseUrl = IS_DEV()
