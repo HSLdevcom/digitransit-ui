@@ -34,7 +34,6 @@ import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { isIOS } from '../../util/browser';
 import { unixTime, unixToYYYYMMDD } from '../../util/timeUtils';
 import { saveSearch } from '../../action/SearchActions';
-import Icon from '../Icon';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
@@ -396,40 +395,40 @@ class RouteControlPanel extends React.Component {
     const selectedPattern = route?.patterns?.find(
       pattern => pattern.code === patternId,
     );
+    const useCurrentTime = activeTab === Tab.Stops;
+    const countOfButtons = 3;
+
+    const cancelations = getCancelationsForRoute(
+      route,
+      patternId,
+      currentTime,
+      config.routeCancelationAlertValidity,
+    );
+    const alerts = getAlertsForObject(selectedPattern);
+
     const hasActiveAlert = checkActiveDisruptions(
       currentTime,
-      getCancelationsForRoute(
-        route,
-        patternId,
-        currentTime,
-        config.routeCancelationAlertValidity,
-      ),
-      getAlertsForObject(selectedPattern),
+      cancelations,
+      alerts,
     );
 
     const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
-      getAlertsForObject(selectedPattern),
+      alerts,
       currentTime,
     );
+
+    // if the pattern has cancelations, add one to alert count
+    const alertsCount = alerts.length + (cancelations.length > 0 ? 1 : 0);
 
     const disruptionClassName =
       (hasActiveAlert && 'active-disruption-alert') ||
       (hasActiveServiceAlerts && 'active-service-alert');
 
-    const useCurrentTime = activeTab === Tab.Stops;
-
-    const countOfButtons = 3;
-
     let disruptionIcon;
     if (disruptionClassName === 'active-disruption-alert') {
-      disruptionIcon = (
-        <Icon
-          img="icon_caution-no-excl-no-stroke"
-          color={config.colors.caution}
-        />
-      );
+      disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
     } else if (disruptionClassName === 'active-service-alert') {
-      disruptionIcon = <Icon className="service-alert-icon" img="icon_info" />;
+      disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
     }
 
     return (

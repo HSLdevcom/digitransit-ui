@@ -127,6 +127,17 @@
       margin-bottom: 8px;
     }
 
+    .in-text-arrow {
+      color: $theme-primary-color;
+      position: inherit;
+      float: none;
+      top: 3px;
+      right: 0;
+      width: 16px;
+      height: auto;
+      margin: 0 var(--space-xxs);
+    }
+
     .canceled-departures {
       margin-top: 8px;
       display: flex;
@@ -145,20 +156,23 @@
 
     .alert-row-badges {
       display: flex;
-      max-height: 32px;
+      flex-wrap: wrap;
+      gap: 4px;
       font-weight: $font-weight-medium;
       font-size: 15px;
       margin-bottom: 8px;
 
-      .icon {
-        margin-right: 4px;
+      .icon-container {
+        max-height: 32px;
+        align-items: center;
+        vertical-align: baseline;
       }
 
       .mode-badge {
+        max-height: 32px;
         background-color: $info-background-color;
         border-radius: 4px;
         padding: 4px 8px 4px 8px;
-        margin-right: 4px;
         min-width: 30px;
         text-align: center;
 

@@ -4,6 +4,28 @@
   }
 }
 
+.alert-circle {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  font-size: 0.8rem;
+  margin-right: 3px;
+  border-radius: 999em;
+  color: white;
+}
+
+.active-disruption-alert {
+  .alert-circle {
+    background-color: $disruption-color;
+  }
+}
+
+.active-service-alert {
+  .alert-circle {
+    background-color: rgba(136, 136, 136, 1);
+  }
+}
+
 .stop-page-content-wrapper {
   min-height: 0;
   display: flex;
@@ -239,45 +261,6 @@
   &.active:hover {
     background-color: $white;
     font-weight: $font-weight-medium;
-  }
-
-  .active-disruption-alert {
-    .icon-container {
-      vertical-align: middle;
-      margin-right: 5px;
-
-      .icon {
-        width: 0.85em;
-        height: 0.95em;
-      }
-    }
-
-    .alert-circle {
-      display: inline-block;
-      width: 1rem;
-      height: 1rem;
-      font-size: 0.8rem;
-      margin-right: 3px;
-      border-radius: 999em;
-      color: white;
-      background-color: $disruption-color;
-    }
-  }
-
-  .active-service-alert {
-    .icon-container {
-      vertical-align: middle;
-      margin-right: 5px;
-    }
-
-    .alert-circle {
-      background-color: red;
-      border-radius: 999em;
-    }
-
-    .service-alert-icon {
-      fill: rgba(136, 136, 136, 1);
-    }
   }
 
   .no-alerts span {

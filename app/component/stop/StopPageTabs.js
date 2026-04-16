@@ -19,7 +19,6 @@ import {
   PREFIX_TIMETABLE,
   stopPagePath,
 } from '../../util/path';
-import Icon from '../Icon';
 
 const Tab = {
   RightNow: 1,
@@ -59,9 +58,10 @@ function StopPageTabs({ stop }, { match }) {
     currentTime,
   );
 
-  const alertsCount = getUniqueAlerts(
-    isTerminal ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
-  ).length;
+  const alertsCount =
+    getUniqueAlerts(
+      isTerminal ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
+    ).length + (cancelations.length > 0 ? 1 : 0);
 
   let disruptionClassName;
   let disruptionIcon;
@@ -75,7 +75,7 @@ function StopPageTabs({ stop }, { match }) {
     disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
   } else if (maxAlertSeverity === AlertSeverityLevelType.Info) {
     disruptionClassName = 'active-service-alert';
-    disruptionIcon = <Icon className="service-alert-icon" img="icon_info" />;
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
   } else {
     disruptionClassName = 'no-alerts';
   }
