@@ -9,7 +9,20 @@ const APP_DESCRIPTION = 'Reittiopas Kuopio';
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'Vilkku', href: 'https://vilkku.kuopio.fi/' },
+  appBarLink: {
+    name: 'VILKKU',
+    href: 'https://vilkku.kuopio.fi/',
+    altLink: {
+      sv: {
+        name: 'VILKKU',
+        href: 'https://vilkku.kuopio.fi/en',
+      },
+      en: {
+        name: 'VILKKU',
+        href: 'https://vilkku.kuopio.fi/en',
+      },
+    },
+  },
 
   colors: {
     primary: '#0ab1c8',

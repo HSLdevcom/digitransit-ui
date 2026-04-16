@@ -34,7 +34,17 @@ export default configMerger(walttiConfig, {
 
   appBarLink: {
     name: 'Jyväskylän seudun joukkoliikenne',
-    href: 'http://linkki.jyvaskyla.fi/',
+    href: 'https://linkki.jyvaskyla.fi/',
+    altLink: {
+      sv: {
+        name: 'Kollektivtrafiken i Jyväskyläregionen',
+        href: 'https://linkki.jyvaskyla.fi/en',
+      },
+      en: {
+        name: 'Public transportation in the Jyväskylä region',
+        href: 'https://linkki.jyvaskyla.fi/en',
+      },
+    },
   },
 
   colors: {

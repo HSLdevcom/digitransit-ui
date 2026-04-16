@@ -10,7 +10,17 @@ export default configMerger(walttiConfig, {
 
   appBarLink: {
     name: 'Hämeenlinnan joukkoliikenne',
-    href: 'http://hameenlinnanjoukkoliikenne.fi/',
+    href: 'https://hameenlinnanjoukkoliikenne.fi/',
+    altLink: {
+      sv: {
+        name: 'Tavastehus kollektivtrafik',
+        href: 'https://hameenlinnanjoukkoliikenne.fi/en/',
+      },
+      en: {
+        name: 'Hämeenlinna public transport',
+        href: 'https://hameenlinnanjoukkoliikenne.fi/en/',
+      },
+    },
   },
 
   colors: {

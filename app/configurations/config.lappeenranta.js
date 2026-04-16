@@ -9,7 +9,20 @@ const APP_DESCRIPTION = '';
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'Lappeenranta', href: 'http://www.lappeenranta.fi/' },
+  appBarLink: {
+    name: 'Lappeenrannan seudun joukkoliikenne',
+    href: 'https://www.lappeenranta.fi/fi/liikenne-ja-kaupunkiymparisto/joukkoliikenne-ja-muut-liikkumispalvelut/lappeenrannan-seudun-joukkoliikenne',
+    altLink: {
+      sv: {
+        name: 'Kollektivtrafiken i Villmanstrandregionen',
+        href: 'https://lappeenranta.fi/en/public-transport',
+      },
+      en: {
+        name: 'Lappeenranta region public transport',
+        href: 'https://lappeenranta.fi/en/public-transport',
+      },
+    },
+  },
 
   colors: {
     primary: '#d4007a',
