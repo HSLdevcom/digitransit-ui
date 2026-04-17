@@ -99,19 +99,14 @@ $replacement-bus-color: #dc0451;
 
 /* Fonts */
 $font-family: 'Roboto', arial, georgia, serif;
-$heading-font-family: $font-family;
-$button-font-family: $font-family;
 $font-weight-book: 400;
+$font-weight-medium: 600;
 $font-weight-semibold: 600;
-$font-weight-medium: 700;
-$font-weight-map-container: $font-weight-book;
-$font-weight-disclaimer: $font-weight-medium;
+$font-weight-bold: 700;
 $letter-spacing: 0;
 $letter-spacing-front-page: -0.67px;
 $font-family-narrow: 'Roboto Condensed', 'Arial Condensed', arial, georgia,
   serif;
-$font-narrow-weight-book: 400;
-$font-narrow-weight-medium: 700;
 $narrow-letter-spacing: 0;
 $line-height-normal: 1.2;
 $font-size-xxxxsmall: 0.62rem;
@@ -124,11 +119,9 @@ $font-size-medium-large: 1.15rem;
 $font-size-large: 1.25rem;
 $font-size-xlarge: 1.5rem;
 $disruption-message-font-weight: 200;
-$itinerary-co2-font-weight: 325;
-$itinerary-co2-badge-font-weight: 500;
 $id-font-family: $font-family;
 $id-font-size: $font-size-normal;
-$id-font-weight: normal;
+$id-font-weight: $font-weight-book;
 
 /* Paddings */
 $padding-xxsmall: 0.125em;

@@ -71,7 +71,7 @@
   .near-you-no-stops {
     width: 100%;
     background-color: $infobox-color-generic-blue;
-    font-weight: normal;
+    font-weight: $font-weight-book;
     font-size: 0.9375rem;
     line-height: 1.2;
     display: flex;
@@ -109,7 +109,7 @@
       font-size: 0.9375em;
       padding: 0 2em;
       line-height: 1.4;
-      font-weight: normal;
+      font-weight: $font-weight-book;
     }
 
     .instruction-image {
@@ -135,7 +135,7 @@
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    font-weight: normal;
+    font-weight: $font-weight-book;
     font-size: 0.9375rem;
     text-align: center;
     color: #666;
@@ -200,7 +200,7 @@
 
         .bike-station-code {
           font-size: 0.813rem;
-          font-weight: normal;
+          font-weight: $font-weight-book;
         }
 
         .station {
@@ -236,7 +236,7 @@
         .platform-short {
           @include font-medium;
 
-          font-weight: normal;
+          font-weight: $font-weight-book;
           white-space: nowrap;
           font-size: 0.813rem;
           margin-right: 5px;
@@ -244,7 +244,7 @@
         }
 
         .stop-near-you-desc {
-          font-weight: normal;
+          font-weight: $font-weight-book;
           font-size: 0.8125rem;
           padding-right: 5px;
         }
@@ -394,7 +394,7 @@
   @include font-medium;
 
   text-decoration: none;
-  font-weight: 100;
+  font-weight: $font-weight-book;
   white-space: pre-wrap;
   background-color: $disruption-color;
   color: white;
@@ -479,8 +479,8 @@
       font-weight: $font-weight-medium;
     }
 
-    .disruption-message-font-weight {
-      font-weight: $disruption-message-font-weight;
+    .disruption-message-font {
+      font-weight: $font-weight-book;
     }
   }
 
@@ -547,7 +547,6 @@
 }
 
 .modal-desktop-container {
-  font-family: $font-family;
   display: flex;
   flex-direction: column;
 
@@ -589,7 +588,6 @@
         top: 3px;
         width: 100%;
         height: 44px;
-        font-family: $font-family;
         border-radius: 5px;
         border: solid 1px #888;
         background-color: #fff;
@@ -621,7 +619,7 @@
     position: relative;
     top: 8px;
     font-size: 15px;
-    font-weight: normal;
+    font-weight: $font-weight-book;
     font-stretch: normal;
     font-style: normal;
     line-height: 1.33;
@@ -662,7 +660,6 @@
       width: 100%;
       height: 40px;
       font-size: 15px;
-      font-family: $button-font-family;
       font-weight: $font-weight-medium;
       letter-spacing: -0.5px;
       background: $theme-primary-color;

@@ -124,7 +124,6 @@
     @include font-book;
 
     text-align: left;
-    font-family: $font-family !important;
     display: flex !important;
     border: 1px solid #ddd;
 
@@ -378,7 +377,6 @@
       }
 
       h1 {
-        font-family: $heading-font-family;
         width: 100%;
         text-align: center;
         margin: 1.7em 0 25px 0;
@@ -439,9 +437,8 @@
   border-radius: 5px;
   margin: 15px 60px 15px 60px;
   padding: 15px;
-  font-family: $font-family;
   font-style: normal;
-  font-weight: normal;
+  font-weight: $font-weight-book;
   line-height: 21px;
   letter-spacing: -0.03em;
   color: #000;
@@ -457,7 +454,7 @@
   }
 
   h3 {
-    font-weight: bold;
+    font-weight: $font-weight-bold;
     font-size: $font-size-xsmall;
   }
 
@@ -471,7 +468,7 @@
     color: $theme-primary-color;
 
     #change-settings-button {
-      font-weight: bold;
+      font-weight: $font-weight-bold;
     }
   }
 }

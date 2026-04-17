@@ -42,7 +42,7 @@ const DisruptionBannerAlert = (
               <div className="disruption-source-label">
                 {mapAlertSource(config, language, alert.feed)}
               </div>
-              <div className="disruption-message-font-weight">
+              <div className="disruption-message-font">
                 <TruncatedMessage
                   className="disruption-show-more"
                   lines={3}
@@ -60,7 +60,7 @@ const DisruptionBannerAlert = (
                 <div className="disruption-source-label">
                   {mapAlertSource(config, language, alert.feed)}
                 </div>
-                <div className="disruption-message-font-weight">
+                <div className="disruption-message-font">
                   <TruncatedMessage
                     className="disruption-show-more"
                     lines={3}

@@ -99,7 +99,7 @@ $margin-left-right: 21.3px;
 
     label {
       color: $theme-primary-color;
-      font-weight: bold;
+      font-weight: $font-weight-bold;
       margin-right: 10px;
     }
 
@@ -120,7 +120,7 @@ $margin-left-right: 21.3px;
   h3 {
     margin-top: 1px;
     font-size: $font-size-xsmall;
-    font-weight: bold;
+    font-weight: $font-weight-bold;
   }
 
   ul {
@@ -187,7 +187,7 @@ $margin-left-right: 21.3px;
 
 // stop list
 .route-stop-list {
-  @include font-narrow-medium;
+  @include font-medium;
 
   background-color: $white;
   margin: 0 0 0 2px;
@@ -249,7 +249,6 @@ $margin-left-right: 21.3px;
   min-width: calc(100% - 13% - 15px);
   margin-bottom: 3px;
   flex-direction: row;
-  font-family: $font-family;
 }
 
 .drop-off-container {
@@ -260,7 +259,6 @@ $margin-left-right: 21.3px;
   border-radius: 5px;
   color: $black;
   font-size: 0.8125em;
-  font-family: $font-family;
   font-weight: $font-weight-book;
 
   span {
@@ -489,7 +487,6 @@ $margin-left-right: 21.3px;
 
         .route-stop-address {
           font-size: $font-size-xsmall;
-          font-family: $font-family;
           font-weight: $font-weight-book;
           line-height: 1.25rem;
           letter-spacing: -0.03em;
@@ -502,7 +499,6 @@ $margin-left-right: 21.3px;
 
         .itinerary-zone-icon {
           flex: 1;
-          font-family: $font-family;
         }
       }
 
@@ -560,7 +556,6 @@ $margin-left-right: 21.3px;
 
   .route-stop-address-row {
     font-size: $font-size-xsmall;
-    font-family: $font-family;
     font-weight: $font-weight-book;
     line-height: 1.25rem;
     letter-spacing: -0.03em;
@@ -652,7 +647,7 @@ $margin-left-right: 21.3px;
       @include font-book;
 
       font-size: 13px;
-      font-weight: normal;
+      font-weight: $font-weight-book;
       line-height: 1.38;
       letter-spacing: -0.43px;
       color: #666;
@@ -743,7 +738,6 @@ $margin-left-right: 21.3px;
     h1 {
       font-size: 26px;
       font-weight: $font-weight-medium;
-      font-family: $heading-font-family;
     }
   }
 }
@@ -800,7 +794,7 @@ $margin-left-right: 21.3px;
   .stop-select-label {
     position: relative;
     font-style: normal;
-    font-weight: normal;
+    font-weight: $font-weight-book;
     font-size: 13px;
     line-height: 16px;
     letter-spacing: -0.03em;
@@ -1154,7 +1148,7 @@ $margin-left-right: 21.3px;
     letter-spacing: -0.42px;
     border-radius: var(--radius-radius-pill, 999px);
     color: #333;
-    font-weight: normal;
+    font-weight: $font-weight-book;
 
     &.is-active {
       font-weight: $font-weight-medium;
@@ -1450,7 +1444,6 @@ $margin-left-right: 21.3px;
           .similar-route-text {
             flex-grow: 1;
             overflow: auto;
-            font-family: $font-family;
             display: flex;
             flex-direction: column;
             white-space: nowrap;

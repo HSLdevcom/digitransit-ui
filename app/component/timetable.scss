@@ -64,7 +64,7 @@
         }
 
         &:nth-child(2) {
-          font-weight: $font-weight-normal;
+          font-weight: $font-weight-medium;
         }
       }
     }
@@ -147,7 +147,7 @@
 
     .line-name {
       white-space: nowrap;
-      font-weight: $font-weight-normal;
+      font-weight: $font-weight-medium;
     }
 
     .timetable-rowcontainer {
@@ -244,7 +244,7 @@
   max-width: 400px;
   border-radius: 5px;
   padding: 18px 32px 18px 16px;
-  font-weight: normal;
+  font-weight: $font-weight-book;
   font-size: 14px;
 
   &.info {
