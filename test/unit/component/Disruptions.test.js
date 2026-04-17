@@ -10,7 +10,7 @@ import {
 import DisruptionList from '../../../app/component/DisruptionList';
 import Disruptions from '../../../app/component/stop/Disruptions';
 
-describe('<StopAlerts />', () => {
+describe('<Disruptions />', () => {
   it("should indicate that there are no alerts if the stop's routes have no alerts and the stop has no canceled stoptimes", () => {
     const props = {
       stop: {
@@ -94,6 +94,7 @@ describe('<StopAlerts />', () => {
           {
             headsign: 'Kamppi',
             realtimeState: 'CANCELED',
+            scheduledDeparture: 3600,
             trip: {
               tripHeadsign: 'Kamppi',
               route: {

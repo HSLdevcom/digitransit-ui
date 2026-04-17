@@ -233,7 +233,7 @@ export default {
     'from-tram': 'tram',
     frontpage: 'Frontpage',
     funicular: 'Funicular',
-    'generic-cancelation': '{mode} {route} {headsign} at {time} is cancelled.',
+    'generic-cancelation': '{mode} {route} {headsign} is cancelled at {times}',
     'generic-error': 'There was an error',
     'geolocation-denied-heading': 'Geolocation denied',
     'geolocation-denied-text':

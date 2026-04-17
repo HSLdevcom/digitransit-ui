@@ -228,7 +228,8 @@ export default {
     'from-tram': 'raitiovaunusta',
     frontpage: 'Etusivu',
     funicular: 'Funikulaari',
-    'generic-cancelation': '{mode} {route} {headsign} kello {time} on peruttu.',
+    'generic-cancelation':
+      '{mode} {route} {headsign} on peruttu kello {times}.',
     'generic-error': 'Tapahtui virhe',
     'geolocation-denied-heading': 'Paikannus on estetty',
     'geolocation-denied-text':

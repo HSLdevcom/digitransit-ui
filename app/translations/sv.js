@@ -231,7 +231,8 @@ export default {
     'from-tram': 'spårvagnen',
     frontpage: 'Framsidan',
     funicular: 'Bergbanan',
-    'generic-cancelation': '{mode} {route} {headsign} kl. {time} ställs in.',
+    'generic-cancelation':
+      '{mode} {route} {headsign} har ställs in kl. {times}',
     'generic-error': 'Det hände ett fel',
     'geolocation-denied-heading': 'Delning av platsinformation är förbjudet',
     'geolocation-denied-text':
