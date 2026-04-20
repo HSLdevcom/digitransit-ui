@@ -55,7 +55,7 @@ const DisruptionList = ({
     match.location.query.alertId &&
     serviceAlerts.find(alert => alert.id === match.location.query.alertId);
   if (activeAlert) {
-    return <DisruptionDetails {...activeAlert} />;
+    return <DisruptionDetails currentTime={currentTime} {...activeAlert} />;
   }
 
   const validCancelations = cancelations.filter(cancelation =>
