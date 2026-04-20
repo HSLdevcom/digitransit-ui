@@ -12,6 +12,7 @@ import {
   currentAndFutureAlerts,
   isAlertValid,
   getUniqueAlerts,
+  alertSeverityCompare,
 } from '../util/alertUtils';
 import { alertShape } from '../util/shapes';
 import { useBreakpoint } from '../util/withBreakpoint';
@@ -76,7 +77,7 @@ const DisruptionList = ({
   };
 
   const { currentAlerts, futureAlerts } = currentAndFutureAlerts(
-    getUniqueAlerts(serviceAlerts),
+    getUniqueAlerts(serviceAlerts).sort((a, b) => alertSeverityCompare(a, b)),
     currentTime,
   );
 
