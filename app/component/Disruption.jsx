@@ -103,40 +103,31 @@ export default function Disruption({
                       )
                     }
                   />
-                  {items.map(
-                    ({
-                      gtfsId,
-                      id: entityId,
-                      shortName,
-                      name,
-                      locationType,
-                    }) => {
-                      const isStation = locationType === LocationTypes.STATION;
-                      return (
-                        <span key={gtfsId} className="mode-badge">
-                          <a
-                            href={
+                  {items.map(({ gtfsId, shortName, name, locationType }) => {
+                    const isStation = locationType === LocationTypes.STATION;
+                    return (
+                      <span key={gtfsId} className="mode-badge">
+                        <a
+                          href={
+                            isStop
+                              ? stopPagePath(isStation, gtfsId)
+                              : routePagePath(gtfsId)
+                          }
+                          onClick={e => {
+                            e.preventDefault();
+                            onClickLink?.();
+                            match.router.push(
                               isStop
                                 ? stopPagePath(isStation, gtfsId)
-                                : routePagePath(gtfsId)
-                            }
-                            key={entityId}
-                            onClick={e => {
-                              e.preventDefault();
-                              onClickLink?.();
-                              match.router.push(
-                                isStop
-                                  ? stopPagePath(isStation, gtfsId)
-                                  : routePagePath(gtfsId),
-                              );
-                            }}
-                          >
-                            <span>{isStop ? name : shortName}</span>
-                          </a>
-                        </span>
-                      );
-                    },
-                  )}
+                                : routePagePath(gtfsId),
+                            );
+                          }}
+                        >
+                          <span>{isStop ? name : shortName}</span>
+                        </a>
+                      </span>
+                    );
+                  })}
                 </Fragment>
               );
             },
