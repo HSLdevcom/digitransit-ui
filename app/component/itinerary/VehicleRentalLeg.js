@@ -1,4 +1,4 @@
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -40,8 +40,9 @@ function VehicleRentalLeg(
     nextLegMode,
     nearestScooters,
   },
-  { config, intl },
+  { config },
 ) {
+  const intl = useIntl();
   if (!vehicleRentalStation && !isScooter) {
     return null;
   }
@@ -199,7 +200,6 @@ VehicleRentalLeg.defaultProps = {
 
 VehicleRentalLeg.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };
 const VehicleRentalLegWithBreakpoint = withBreakpoint(VehicleRentalLeg);
 

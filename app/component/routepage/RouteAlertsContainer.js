@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { intlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 import AlertList from '../AlertList';
 import {
   getAlertsForObject,
@@ -56,10 +56,8 @@ const getCancelations = (
       };
     });
 
-function RouteAlertsContainer(
-  { currentTime, route, pattern },
-  { intl, config },
-) {
+function RouteAlertsContainer({ currentTime, route, pattern }, { config }) {
+  const intl = useIntl();
   const entity = {
     __typename: AlertEntityType.Route,
     color: route.color,
@@ -123,7 +121,6 @@ RouteAlertsContainer.propTypes = {
 };
 
 RouteAlertsContainer.contextTypes = {
-  intl: intlShape,
   config: PropTypes.shape({
     routeCancelationAlertValidity: PropTypes.shape({
       before: PropTypes.number,

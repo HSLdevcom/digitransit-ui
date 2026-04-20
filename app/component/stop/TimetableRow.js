@@ -2,66 +2,71 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
-import { intlShape } from 'react-intl';
 
-const TimetableRow = ({ title, stoptimes, showRoutes, timerows }, { intl }) => (
-  <div
-    className="timetable-row"
-    style={{
-      display:
-        timerows.filter(o => o === title).length === 0 && showRoutes.length > 0
-          ? 'none'
-          : undefined,
-    }}
-  >
-    <h3 className="title">{title}:</h3>
-    <div className="timetable-printable-title">{title}</div>
-    <div className="timetable-rowcontainer">
-      {stoptimes
-        .filter(
-          time =>
-            (showRoutes.filter(o => o === time.id).length > 0 &&
-              showRoutes.length > 0) ||
-            showRoutes.length === 0,
-        )
-        .sort(
-          (time1, time2) => time1.scheduledDeparture - time2.scheduledDeparture,
-        )
-        .map(time => (
-          <div
-            className={cx('timetablerow-linetime', {
-              canceled: time.isCanceled,
-            })}
-            key={`${time.id}-${time.name}-${time.scheduledDeparture}-${time.gtfsId}`}
-          >
-            <div className="sr-only">
-              {time.isCanceled ? intl.formatMessage({ id: 'canceled' }) : ''}
-              {`${DateTime.fromSeconds(
-                time.serviceDay + time.scheduledDeparture,
-              ).toFormat('HH:mm')}, ${intl.formatMessage({
-                id: time.mode.toLowerCase(),
-              })} ${time.name}
+const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => {
+  const intl = useIntl();
+  return (
+    <div
+      className="timetable-row"
+      style={{
+        display:
+          timerows.filter(o => o === title).length === 0 &&
+          showRoutes.length > 0
+            ? 'none'
+            : undefined,
+      }}
+    >
+      <h3 className="title">{title}:</h3>
+      <div className="timetable-printable-title">{title}</div>
+      <div className="timetable-rowcontainer">
+        {stoptimes
+          .filter(
+            time =>
+              (showRoutes.filter(o => o === time.id).length > 0 &&
+                showRoutes.length > 0) ||
+              showRoutes.length === 0,
+          )
+          .sort(
+            (time1, time2) =>
+              time1.scheduledDeparture - time2.scheduledDeparture,
+          )
+          .map(time => (
+            <div
+              className={cx('timetablerow-linetime', {
+                canceled: time.isCanceled,
+              })}
+              key={`${time.id}-${time.name}-${time.scheduledDeparture}-${time.gtfsId}`}
+            >
+              <div className="sr-only">
+                {time.isCanceled ? intl.formatMessage({ id: 'canceled' }) : ''}
+                {`${DateTime.fromSeconds(
+                  time.serviceDay + time.scheduledDeparture,
+                ).toFormat('HH:mm')}, ${intl.formatMessage({
+                  id: time.mode.toLowerCase(),
+                })} ${time.name}
               `}
-            </div>
-            <span aria-hidden>
-              <div>
-                <span>
-                  {DateTime.fromSeconds(
-                    time.serviceDay + time.scheduledDeparture,
-                  ).toFormat('mm')}
-                </span>
-                <span className="line-name" title={time.name}>
-                  /{time.name}
-                  {time.duplicate}
-                </span>
               </div>
-            </span>
-          </div>
-        ))}
+              <span aria-hidden>
+                <div>
+                  <span>
+                    {DateTime.fromSeconds(
+                      time.serviceDay + time.scheduledDeparture,
+                    ).toFormat('mm')}
+                  </span>
+                  <span className="line-name" title={time.name}>
+                    /{time.name}
+                    {time.duplicate}
+                  </span>
+                </div>
+              </span>
+            </div>
+          ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 TimetableRow.propTypes = {
   title: PropTypes.string.isRequired,
@@ -75,10 +80,6 @@ TimetableRow.propTypes = {
   ).isRequired,
   showRoutes: PropTypes.arrayOf(PropTypes.string),
   timerows: PropTypes.arrayOf(PropTypes.string),
-};
-
-TimetableRow.contextTypes = {
-  intl: intlShape.isRequired,
 };
 
 TimetableRow.defaultProps = {

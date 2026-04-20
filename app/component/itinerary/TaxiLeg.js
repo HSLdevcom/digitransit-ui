@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { legShape, configShape } from '../../util/shapes';
 import Icon from '../Icon';
@@ -13,7 +13,8 @@ import TaxiLinkContainer from './TaxiLinkContainer';
 import { splitStringToAddressAndPlace } from '../../util/otpStrings';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
-export default function TaxiLeg(props, { config, intl }) {
+export default function TaxiLeg(props, { config }) {
+  const intl = useIntl();
   const { leg, index } = props;
   const isFirstLeg = i => i === 0;
   const alternativeOperators = [
@@ -183,5 +184,4 @@ TaxiLeg.propTypes = {
 
 TaxiLeg.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };

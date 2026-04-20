@@ -3,7 +3,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useFragment } from 'react-relay';
 import { getTripOrRouteMode } from '../../util/modeUtils';
 import {
@@ -94,9 +94,10 @@ function ItineraryDetails(
     carPublicItineraryCount,
     relayEnvironment,
   },
-  { config, match, intl },
+  { config, match },
 ) {
   const itinerary = useFragment(ItineraryDetailsFragment, itineraryRef);
+  const intl = useIntl();
 
   const shouldShowDisclaimer =
     config.showDisclaimer &&
@@ -436,7 +437,6 @@ ItineraryDetails.contextTypes = {
   config: configShape.isRequired,
   router: routerShape.isRequired,
   match: matchShape.isRequired,
-  intl: intlShape.isRequired,
   getStore: PropTypes.func.isRequired,
 };
 

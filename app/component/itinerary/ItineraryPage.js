@@ -12,7 +12,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { fetchQuery } from 'react-relay';
 import { saveFutureRoute } from '../../action/FutureRoutesActions';
 import { startLocationWatch } from '../../action/PositionActions';
@@ -1659,7 +1659,6 @@ ItineraryPage.contextTypes = {
   getStore: PropTypes.func,
   router: routerShape.isRequired,
   match: matchShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 ItineraryPage.propTypes = {

@@ -3,7 +3,6 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { intlShape } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
 import { configShape, relayShape } from '../util/shapes';
 import SwipeableTabs from './SwipeableTabs';
@@ -80,10 +79,41 @@ const toMessage = (alert, intl, config, lang) => {
   };
 };
 
+// Resolve a message's content array for rendering.
+// New shape: content is a flat array of { type, content: translationKey }
+// Old shape: content is an object keyed by locale { fi: [...], en: [...] }
+const resolveContent = (msg, lang, intl) => {
+  if (Array.isArray(msg.content)) {
+    return msg.content
+      .filter(
+        item => !item.content || intl.messages[item.content] !== undefined,
+      )
+      .map(item => ({
+        ...item,
+        content: intl.formatMessage({ id: item.content }),
+      }));
+  }
+  return msg.content[lang] || msg.content.fi;
+};
+
+/**
+ * Returns true if a message element has renderable content for the given
+ * language. Content may be a plain array (already resolved) or a map keyed
+ * by locale; in the latter case the requested language is tried first,
+ * falling back to Finnish. A message is considered valid when the resolved
+ * value is a non-empty array whose first item carries actual content text.
+ */
+const hasContent = (el, lang) => {
+  const resolved = Array.isArray(el.content)
+    ? el.content
+    : el.content[lang] || el.content.fi;
+  return Array.isArray(resolved) && resolved.length > 0 && resolved[0].content;
+};
+
 class MessageBar extends Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
+    intl: PropTypes.object.isRequired,
     executeAction: PropTypes.func.isRequired,
     config: configShape.isRequired,
   };
@@ -154,21 +184,23 @@ class MessageBar extends Component {
     }
   }
 
-  getTabContent = (textColor, slideIndex) =>
-    this.validMessages().map((el, index) => (
+  getTabContent = (textColor, slideIndex) => {
+    const { intl } = this.context;
+    return this.validMessages().map((el, index) => (
       <div
         key={el.id}
         className={`swipeable-tab ${slideIndex !== index && 'inactive'}`}
       >
         <MessageBarMessage
           key={el.id}
-          content={el.content[this.props.lang] || el.content.fi}
+          content={resolveContent(el, this.props.lang, intl)}
           textColor={textColor}
           truncate={!this.state.allAlertsOpen}
           onShowMore={this.openAllAlerts}
         />
       </div>
     ));
+  };
 
   validMessages = () => {
     const { serviceAlerts } = this.state;
@@ -184,16 +216,7 @@ class MessageBar extends Component {
         toMessage(alert, intl, config, lang),
       ),
       ...messages,
-    ].filter(el => {
-      if (
-        Array.isArray(el.content[lang]) &&
-        el.content[lang].length > 0 &&
-        el.content[lang][0].content
-      ) {
-        return true;
-      }
-      return false;
-    });
+    ].filter(el => hasContent(el, lang));
   };
 
   handleClose = () => {
@@ -239,7 +262,10 @@ class MessageBar extends Component {
       <>
         <span className="sr-only" role="alert">
           {messages.map(el =>
-            ariaContent(el.content[this.props.lang] || el.content.fi, el.id),
+            ariaContent(
+              resolveContent(el, this.props.lang, this.context.intl),
+              el.id,
+            ),
           )}
         </span>
         <section

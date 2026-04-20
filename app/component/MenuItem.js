@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { routerShape } from 'found';
 
 const mapToLink = (href, children, onClick) => (
@@ -28,8 +28,9 @@ const mapToRoute = (router, route, children, onClick) => (
 
 export default function MenuItem(
   { name, href, label, route, onClick },
-  { router, intl },
+  { router },
 ) {
+  const intl = useIntl();
   const displayLabel = label || (
     <FormattedMessage id={name} defaultMessage={name} />
   );
@@ -69,7 +70,6 @@ MenuItem.defaultProps = {
 
 MenuItem.contextTypes = {
   router: routerShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 MenuItem.displayName = 'MenuItem';

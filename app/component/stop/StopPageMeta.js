@@ -1,11 +1,11 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { intlShape } from 'react-intl';
 import { useFragment, graphql } from 'react-relay';
+import { useIntl } from 'react-intl';
 import { configShape, stopShape } from '../../util/shapes';
 import { generateMetaData } from '../../util/metaUtils';
 
-function StopPageMeta({ stop: stopRef }, { config, intl }) {
+function StopPageMeta({ stop: stopRef }, { config }) {
   const stop = useFragment(
     graphql`
       fragment StopPageMeta_stop on Stop {
@@ -16,6 +16,7 @@ function StopPageMeta({ stop: stopRef }, { config, intl }) {
     `,
     stopRef,
   );
+  const intl = useIntl();
 
   if (!stop) {
     return false;
@@ -50,7 +51,6 @@ StopPageMeta.propTypes = {
 
 StopPageMeta.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default StopPageMeta;

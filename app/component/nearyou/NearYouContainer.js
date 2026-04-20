@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { createPaginationContainer, graphql } from 'react-relay';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { relayShape } from '../../util/shapes';
 import StopNearYouContainer from './StopNearYouContainer';
 import withBreakpoint from '../../util/withBreakpoint';
@@ -14,7 +14,6 @@ import ParkNearYou from './ParkNearYou';
 import Loading from '../Loading';
 import Icon from '../Icon';
 import DisruptionBanner from '../DisruptionBanner';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
 function NearYouContainer({
@@ -29,7 +28,7 @@ function NearYouContainer({
   favouriteIds,
 }) {
   const config = useConfigContext();
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const ariaRef = useRef('stop-near-you');
   const searchPos = useRef(position); // position used for fetching nearest places
   const refetches = useRef(0);

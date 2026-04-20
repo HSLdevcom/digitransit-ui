@@ -10,7 +10,7 @@ import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { routerShape } from 'found';
 import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { routeShape, relayShape, configShape } from '../../util/shapes';
 import Icon from '../Icon';
 import { routePagePath, PREFIX_STOPS } from '../../util/path';
@@ -56,7 +56,7 @@ class RoutePatternSelectContainer extends Component {
     router: routerShape.isRequired,
     config: configShape,
     getStore: PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
+    intl: PropTypes.object.isRequired,
   };
 
   fetchSimilarRoutes = route => {

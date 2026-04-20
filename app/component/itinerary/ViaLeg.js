@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { legShape, legTimeShape, configShape } from '../../util/shapes';
 import { displayDistance } from '../../util/geo-utils';
 import { durationToString } from '../../util/timeUtils';
@@ -39,7 +39,8 @@ const getDescription = (mode, distance, duration) => {
   );
 };
 
-function ViaLeg(props, { config, intl }) {
+function ViaLeg(props, { config }) {
+  const intl = useIntl();
   const distance = displayDistance(
     parseInt(props.leg.distance, 10),
     config,
@@ -158,7 +159,6 @@ ViaLeg.defaultProps = {
 
 ViaLeg.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default ViaLeg;

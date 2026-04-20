@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { legShape, configShape } from '../../util/shapes';
 import Icon from '../Icon';
@@ -12,7 +12,8 @@ import { legTimeStr, legDestination } from '../../util/legUtils';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
 import { splitStringToAddressAndPlace } from '../../util/otpStrings';
 
-export default function CarLeg(props, { config, intl }) {
+export default function CarLeg(props, { config }) {
+  const intl = useIntl();
   const distance = displayDistance(
     parseInt(props.leg.distance, 10),
     config,
@@ -176,5 +177,4 @@ CarLeg.defaultProps = { children: undefined, carBoardingLeg: undefined };
 
 CarLeg.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };

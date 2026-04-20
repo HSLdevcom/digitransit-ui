@@ -20,16 +20,6 @@ function getAllConfigs() {
     });
 }
 
-function getAllPossibleLanguages() {
-  return getAllConfigs()
-    .map(config => config.availableLanguages)
-    .reduce((languages, languages2) => languages.concat(languages2)) // TODO use Set
-    .filter(
-      (language, position, languages) =>
-        languages.indexOf(language) === position,
-    );
-}
-
 function getEntries(theme, sprites = null) {
   let themeCss = `./sass/themes/${theme}/main.scss`;
   if (!fs.existsSync(themeCss)) {
@@ -111,7 +101,6 @@ function getAllFaviconPlugins() {
 }
 
 module.exports = {
-  languages: getAllPossibleLanguages(),
   themeEntries: getAllThemeEntries(),
   faviconPlugins: getAllFaviconPlugins(),
 };

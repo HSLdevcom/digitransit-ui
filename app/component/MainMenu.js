@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
 import { connectToStores } from 'fluxible-addons-react';
 import { configShape } from '../util/shapes';
@@ -16,8 +16,9 @@ import intializeSearchContext from '../util/DTSearchContextInitializer';
 
 function MainMenu(
   { homeUrl, closeMenu, currentLanguage, ...props },
-  { config, intl, executeAction },
+  { config, executeAction },
 ) {
+  const intl = useIntl();
   const [countries, setCountries] = useState(props.countries);
   const appBarLink =
     config.appBarLink?.altLink?.[currentLanguage] || config.appBarLink;
@@ -171,7 +172,6 @@ MainMenu.defaultProps = {
 MainMenu.contextTypes = {
   getStore: PropTypes.func.isRequired,
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
   executeAction: PropTypes.func.isRequired,
 };
 

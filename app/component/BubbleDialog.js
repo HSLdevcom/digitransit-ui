@@ -2,7 +2,6 @@ import isFunction from 'lodash/isFunction';
 import PropTypes from 'prop-types';
 import React from 'react';
 import withOutsideClick from 'react-click-outside';
-import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 
 import Icon from './Icon';
@@ -162,7 +161,7 @@ BubbleDialog.defaultProps = {
 };
 
 BubbleDialog.contextTypes = {
-  intl: intlShape.isRequired,
+  intl: PropTypes.object.isRequired, // eslint-disable-line
   router: routerShape.isRequired,
   match: matchShape.isRequired,
 };

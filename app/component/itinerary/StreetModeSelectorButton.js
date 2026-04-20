@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
 import cx from 'classnames';
+import { useIntl } from 'react-intl';
 import { configShape, planShape } from '../../util/shapes';
 import Icon from '../Icon';
 import { displayDistance } from '../../util/geo-utils';
@@ -17,8 +17,9 @@ import { getModeIconColor } from '../../util/colorUtils';
 
 export default function StreetModeSelectorButton(
   { icon, name, plan, onClick },
-  { config, intl },
+  { config },
 ) {
+  const intl = useIntl();
   const itinerary = plan?.edges?.[0]?.node;
   if (!itinerary) {
     return null;
@@ -153,6 +154,5 @@ StreetModeSelectorButton.propTypes = {
 };
 
 StreetModeSelectorButton.contextTypes = {
-  intl: intlShape.isRequired,
   config: configShape.isRequired,
 };

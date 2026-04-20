@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import intersection from 'lodash/intersection';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import Modal from '@hsl-fi/modal';
 import Icon from '../Icon';
@@ -21,7 +21,7 @@ class FilterTimeTableModal extends React.Component {
   };
 
   static contextTypes = {
-    intl: intlShape.isRequired,
+    intl: PropTypes.object.isRequired,
   };
 
   constructor(props) {

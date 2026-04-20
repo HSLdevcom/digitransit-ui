@@ -1,10 +1,10 @@
 import cx from 'classnames';
+import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 import Select from 'react-select';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import { useTranslationsContext } from '../../../util/useTranslationsContext';
 import { truncateLabel } from '../../../util/stringUtils';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 import { getAriaMessages, getClassNamePrefix } from './scheduleDropdownUtils';
@@ -20,7 +20,7 @@ function ScheduleDropdown({
   title,
   value,
 }) {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const config = useConfigContext();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);

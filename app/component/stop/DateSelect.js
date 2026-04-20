@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
-import { intlShape } from 'react-intl';
 
 import Select from 'react-select';
 import Icon from '../Icon';
 
-function DateSelect(props, context) {
+function DateSelect(props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const intl = useIntl();
 
   const onMenuOpen = () => setIsMenuOpen(true);
   const onMenuClose = () => setIsMenuOpen(false);
@@ -16,12 +17,12 @@ function DateSelect(props, context) {
   const date = DateTime.fromFormat(props.startDate, props.dateFormat);
 
   dates.push({
-    label: context.intl.formatMessage({ id: 'today', defaultMessage: 'Today' }),
+    label: intl.formatMessage({ id: 'today', defaultMessage: 'Today' }),
     value: date.toFormat(props.dateFormat),
   });
 
   dates.push({
-    label: context.intl.formatMessage({
+    label: intl.formatMessage({
       id: 'tomorrow',
       defaultMessage: 'Tomorrow',
     }),
@@ -59,7 +60,7 @@ function DateSelect(props, context) {
       ariaLiveMessages={{
         guidance: () => '.', // this can't be empty for some reason
         onChange: ({ value }) =>
-          `${context.intl.formatMessage({
+          `${intl.formatMessage({
             id: 'route-page.pattern-chosen',
           })} ${value.textLabel}`,
         onFilter: () => '',
@@ -78,11 +79,11 @@ function DateSelect(props, context) {
       }}
       inputId={`aria-input-${id}`}
       aria-label={`
-            ${context.intl.formatMessage({
+            ${intl.formatMessage({
               id: 'select-date',
               defaultMessage: 'Select date',
             })}.
-            ${context.intl.formatMessage({
+            ${intl.formatMessage({
               id: 'route-page.pattern-chosen',
             })} ${selectedDate.textLabel}`}
       isSearchable={false}
@@ -100,7 +101,7 @@ function DateSelect(props, context) {
         <>
           <span className="left-column">
             <span className="combobox-label">
-              {context.intl.formatMessage({ id: 'day', defaultMessage: 'day' })}
+              {intl.formatMessage({ id: 'day', defaultMessage: 'day' })}
             </span>
             <span className="selected-value">{selectedDate.textLabel}</span>
           </span>
@@ -118,9 +119,6 @@ DateSelect.propTypes = {
   selectedDate: PropTypes.string.isRequired,
   dateFormat: PropTypes.string.isRequired,
   onDateChange: PropTypes.func.isRequired,
-};
-DateSelect.contextTypes = {
-  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
 };
 DateSelect.displayName = 'DateSelect';
 

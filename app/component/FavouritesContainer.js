@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape } from 'found';
 import AutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
@@ -38,7 +37,7 @@ const favouriteShape = PropTypes.shape({
 
 class FavouritesContainer extends React.Component {
   static contextTypes = {
-    intl: intlShape.isRequired,
+    intl: PropTypes.object.isRequired,
     executeAction: PropTypes.func.isRequired,
     router: routerShape.isRequired,
     config: configShape.isRequired,

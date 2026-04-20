@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import { intlShape } from 'react-intl';
 import TruncateMarkup from 'react-truncate-markup';
 
-const TruncatedMessage = (
-  { lines, message, className, truncate, onShowMore, onTruncate = () => {} },
-  { intl },
-) => {
+const TruncatedMessage = ({
+  lines,
+  message,
+  className,
+  truncate,
+  onShowMore,
+  onTruncate = () => {},
+}) => {
+  const intl = useIntl();
   const [isTruncated, setTruncated] = useState(true);
 
   useEffect(() => {
@@ -48,7 +53,6 @@ const TruncatedMessage = (
 
 TruncatedMessage.propTypes = {
   lines: PropTypes.number.isRequired,
-  // eslint-disable-next-line
   message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   className: PropTypes.string,
   truncate: PropTypes.bool,
@@ -60,10 +64,6 @@ TruncatedMessage.defaultProps = {
   className: PropTypes.string.isRequired,
   truncate: false,
   onTruncate: () => {},
-};
-
-TruncatedMessage.contextTypes = {
-  intl: intlShape.isRequired,
 };
 
 export default TruncatedMessage;

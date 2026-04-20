@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { Link } from 'found';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 import {
   alertSeverityCompare,
   getAlertsForObject,
@@ -36,8 +36,9 @@ export default function DepartureRow(
     platformUpdated,
     ...props
   },
-  { config, intl },
+  { config },
 ) {
+  const intl = useIntl();
   const { trip, trip: { route } = {} } = departure;
   const mode = getRouteMode(route, config);
   const departureTimeMs = departureTime * 1000;
@@ -166,7 +167,7 @@ export default function DepartureRow(
         className={cx('route-number-container', {
           long: shortName && shortName.length <= 6 && shortName.length >= 5,
         })}
-        style={{ backgroundColor: `#${route.color}` }}
+        style={{ backgroundColor: route.color ? `#${route.color}` : undefined }}
       >
         <div aria-hidden="true" className="route-number">
           {nameOrIcon}
@@ -292,5 +293,4 @@ DepartureRow.defaultProps = {
 
 DepartureRow.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };

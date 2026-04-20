@@ -2,7 +2,7 @@
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { matchShape, routerShape } from 'found';
@@ -67,7 +67,7 @@ class RouteControlPanel extends React.Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
+    intl: PropTypes.object.isRequired,
     router: routerShape.isRequired,
     config: configShape.isRequired,
   };

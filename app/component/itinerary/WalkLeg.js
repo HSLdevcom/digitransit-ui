@@ -1,10 +1,9 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
 import { legShape } from '../../util/shapes';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import {
   legTime,
@@ -52,7 +51,7 @@ function WalkLeg({
   nextLeg,
   useOriginAddress,
 }) {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const config = useConfigContext();
   const { colors, emphasizeDistance } = config;
 

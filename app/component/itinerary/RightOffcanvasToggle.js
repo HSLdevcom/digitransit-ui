@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useCallback } from 'react';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { configShape } from '../../util/shapes';
 import Icon from '../Icon';
 import { isKeyboardSelectionEvent } from '../../util/browser';
@@ -10,8 +10,9 @@ import { getDialogState, setDialogState } from '../../store/localStorage';
 
 export default function RightOffcanvasToggle(
   { onToggleClick, defaultMessage, translationId },
-  { intl: { formatMessage }, config },
+  { config },
 ) {
+  const { formatMessage } = useIntl();
   const userHasCustomizedSettings = hasCustomizedSettings(config);
   const [isSettingChangeInfoDismissed, setSettingChangeInfoDismissed] =
     useState(getDialogState('setting-change-acknowledged', config));
@@ -91,7 +92,6 @@ RightOffcanvasToggle.defaultProps = {
 };
 
 RightOffcanvasToggle.contextTypes = {
-  intl: intlShape.isRequired,
   config: configShape,
 };
 

@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { stopTimeShape, configShape } from '../util/shapes';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
@@ -95,7 +95,7 @@ class DepartureListContainer extends Component {
   };
 
   static contextTypes = {
-    intl: intlShape.isRequired,
+    intl: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -427,7 +427,7 @@ DepartureListContainer.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   getStore: PropTypes.func.isRequired,
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
+  intl: PropTypes.object.isRequired, // eslint-disable-line
 };
 
 const containerComponent = createFragmentContainer(DepartureListContainer, {

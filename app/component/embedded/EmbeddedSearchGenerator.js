@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useRef } from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggest from '@digitransit-component/digitransit-component-autosuggest';
 import { configShape } from '../../util/shapes';
@@ -26,7 +26,8 @@ const languages = [
 
 const EmbeddedSearchGenerator = (props, context) => {
   const { breakpoint, lang } = props;
-  const { config, intl } = context;
+  const intl = useIntl();
+  const { config } = context;
   const { colors, fontWeights } = config;
   const MIN_WIDTH = 360;
   const MAX_WIDTH = 640;
@@ -473,7 +474,6 @@ EmbeddedSearchGenerator.defaultProps = { breakpoint: undefined };
 
 EmbeddedSearchGenerator.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default connectToStores(

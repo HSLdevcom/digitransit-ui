@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
+import { useIntl } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { configShape } from '../util/shapes';
 
@@ -25,7 +25,8 @@ const language = (lang, highlight, match, intl) => {
   );
 };
 
-const LangSelect = ({ currentLanguage }, { config, match, intl }) => {
+const LangSelect = ({ currentLanguage }, { config, match }) => {
+  const intl = useIntl();
   return (
     <div key="lang-select" id="lang-select">
       {config.availableLanguages.map(lang =>
@@ -46,7 +47,6 @@ LangSelect.contextTypes = {
   config: configShape.isRequired,
   router: routerShape.isRequired,
   match: matchShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 const connected = connectToStores(

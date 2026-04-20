@@ -1,5 +1,5 @@
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { uniq } from 'lodash';
 import AlertList from '../AlertList';
 import {
@@ -99,7 +99,8 @@ export const getAlerts = stop => {
   );
 };
 
-const StopAlerts = ({ stop }, { intl, config }) => {
+const StopAlerts = ({ stop }, { config }) => {
+  const intl = useIntl();
   const cancelations = getCancelations(stop, intl, config);
   const serviceAlerts = getAlerts(stop);
 
@@ -113,6 +114,8 @@ const StopAlerts = ({ stop }, { intl, config }) => {
 };
 
 StopAlerts.propTypes = { stop: stopShape.isRequired };
-StopAlerts.contextTypes = { intl: intlShape, config: configShape };
+StopAlerts.contextTypes = {
+  config: configShape,
+};
 
 export default StopAlerts;

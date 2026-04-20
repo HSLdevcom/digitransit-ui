@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import { intlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { configShape } from '../../util/shapes';
 import { getDialogState, setDialogState } from '../../store/localStorage';
 
 import Icon from '../Icon';
 
 const RouteNotification = ({ notification, lang }, context) => {
+  const intl = useIntl();
   const id = { notification };
   const [hideNote, setHideNote] = useState(() => getDialogState(id) || false);
 
@@ -68,11 +69,11 @@ const RouteNotification = ({ notification, lang }, context) => {
           }}
           aria-label={
             hideNote
-              ? context.intl.formatMessage({
+              ? intl.formatMessage({
                   id: 'notification-open',
                   defaultMessage: 'Open message',
                 })
-              : context.intl.formatMessage({
+              : intl.formatMessage({
                   id: 'notification-minimize',
                   defaultMessage: 'Close message',
                 })
@@ -105,7 +106,6 @@ RouteNotification.propTypes = {
 
 RouteNotification.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default RouteNotification;

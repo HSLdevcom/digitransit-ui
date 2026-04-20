@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import cx from 'classnames';
 import Link from 'found/Link';
 import PropTypes from 'prop-types';
-import { intlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Modal from '@hsl-fi/modal';
 import { legShape, configShape } from '../../util/shapes';
 import { legTimeStr, isLocalCallAgency } from '../../util/legUtils';
@@ -29,8 +29,9 @@ export default function LegInfo(
     mobile,
     isTransitLeg,
   },
-  { config, intl },
+  { config },
 ) {
+  const intl = useIntl();
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
   const { constantOperationRoutes } = config;
   const shouldLinkToTrip =
@@ -56,7 +57,7 @@ export default function LegInfo(
         className={`line ${mode}`}
         mode={mode}
         alertSeverityLevel={alertSeverityLevel}
-        color={leg.route.color ? `#${leg.route.color}` : 'currentColor'}
+        color={leg.route?.color ? `#${leg.route.color}` : 'currentColor'}
         text={leg.route.shortName || leg.trip?.tripShortName}
         realtime={false}
         withBar
@@ -202,7 +203,4 @@ LegInfo.defaultProps = {
   mobile: undefined,
 };
 
-LegInfo.contextTypes = {
-  intl: intlShape.isRequired,
-  config: configShape.isRequired,
-};
+LegInfo.contextTypes = { config: configShape.isRequired };

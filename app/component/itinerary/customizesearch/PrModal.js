@@ -1,17 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import Icon from '../../Icon';
 import ExternalLink from '../../ExternalLink';
 import { useConfigContext } from '../../../configurations/ConfigContext';
-import { useTranslationsContext } from '../../../util/useTranslationsContext';
 import { useBreakpoint } from '../../../util/withBreakpoint';
 
 export default function PrModal({ closeModal }) {
   const config = useConfigContext();
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const breakpoint = useBreakpoint();
 
   return (

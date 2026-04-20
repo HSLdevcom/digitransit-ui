@@ -782,7 +782,7 @@ hr.action-bar {
   width: 100%;
   bottom: 0;
   right: 0;
-  background-color: none;
+  background-color: transparent;
   z-index: 1000; // Needed to cover up the navbar
 }
 
@@ -816,7 +816,7 @@ hr.action-bar {
     width: 100%;
     bottom: 0;
     right: 0;
-    background-color: none;
+    background-color: transparent;
     z-index: 1000; // Needs to be higher than the navbar
   }
 

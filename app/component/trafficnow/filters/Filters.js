@@ -1,4 +1,5 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import Button from '@hsl-fi/button';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
@@ -8,14 +9,13 @@ import { useBreakpoint } from '../../../util/withBreakpoint';
 import VehicleModesFilter from './VehicleModesFilter';
 import EntitySearch from './EntitySearch';
 import ToggleableFilters from './ToggleableFilters';
-import { useTranslationsContext } from '../../../util/useTranslationsContext';
 
 const Separator = () => <div className="separator horizontal" />;
 
 const Filters = ({ onApplyClick, onResetClick }) => {
   const { selectedFilters, resetFilters, DEFAULT_FILTERS } = useFilterContext();
   const breakpoint = useBreakpoint();
-  const intl = useTranslationsContext();
+  const intl = useIntl();
 
   const mobile = breakpoint !== 'large';
 

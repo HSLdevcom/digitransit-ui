@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { configShape } from '../../util/shapes';
 import Icon from '../Icon';
 import { durationToString } from '../../util/timeUtils';
 import { displayDistance } from '../../util/geo-utils';
 
-export default function StreetSummary(props, { config, intl }) {
+export default function StreetSummary(props, { config }) {
+  const intl = useIntl();
   const distance = displayDistance(props.distance, config, intl.formatNumber);
   const icon = props.icon || 'icon_walk';
   const duration = durationToString(props.duration * 1000);
@@ -46,5 +47,4 @@ StreetSummary.defaultProps = { className: '', icon: undefined };
 
 StreetSummary.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };

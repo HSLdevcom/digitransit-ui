@@ -271,37 +271,6 @@ $btn-heigth: 17px;
       color: rgb(0, 122, 201);
     }
   }
-
-  &.no-bike-allowed-popup {
-    .popup-icon,
-    .popup-text {
-      text-align: center;
-    }
-
-    .popup-icon {
-      margin-bottom: 1em;
-    }
-
-    .popup-text {
-      margin-bottom: 1.5em;
-      font-size: $font-size-large;
-      user-select: none;
-    }
-
-    .close-popup {
-      display: flex;
-      flex-direction: row-reverse;
-    }
-
-    .icon {
-      &.caution {
-        width: 3.5em;
-        height: 3.5em;
-        fill: rgb(220, 4, 81);
-        color: #fff;
-      }
-    }
-  }
 }
 
 .mode-filter {

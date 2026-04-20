@@ -1,11 +1,10 @@
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
 
 export default function UpdateLocationButton({ mode, onClick }) {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   return (
     <div className="nearest-stops-update-container">
       <FormattedMessage id="nearest-stops-updated-location" />

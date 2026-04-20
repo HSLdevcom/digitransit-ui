@@ -1,12 +1,13 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
+import { useIntl } from 'react-intl';
 import { configShape } from '../../util/shapes';
 import { otpToLocation } from '../../util/otpStrings';
 import { generateMetaData } from '../../util/metaUtils';
 
-function ItineraryPageMeta({ match }, { config, intl }) {
+function ItineraryPageMeta({ match }, { config }) {
+  const intl = useIntl();
   const { to, from } = match.params;
   const params = {
     from: otpToLocation(from).address,
@@ -45,7 +46,6 @@ ItineraryPageMeta.propTypes = {
 
 ItineraryPageMeta.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default ItineraryPageMeta;

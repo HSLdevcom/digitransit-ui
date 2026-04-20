@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import { Link } from 'found';
 import PropTypes from 'prop-types';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { displayDistance } from '../../util/geo-utils';
 import { legDestination, legTimeStr } from '../../util/legUtils';
 import { PREFIX_BIKEPARK } from '../../util/path';
@@ -12,10 +12,8 @@ import Icon from '../Icon';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import ItineraryMapAction from './ItineraryMapAction';
 
-const BikeParkLeg = (
-  { leg, index, focusAction, bikePark },
-  { intl, config },
-) => {
+const BikeParkLeg = ({ leg, index, focusAction, bikePark }, { config }) => {
+  const intl = useIntl();
   const distance = displayDistance(
     parseInt(leg.distance, 10),
     config,
@@ -104,7 +102,6 @@ const BikeParkLeg = (
 };
 BikeParkLeg.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 BikeParkLeg.propTypes = {

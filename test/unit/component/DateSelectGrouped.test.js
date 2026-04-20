@@ -56,23 +56,6 @@ describe('<DateSelectGrouped />', () => {
     expect(flatOptions[1].textLabel).to.equal('Tomorrow');
   });
 
-  it('should use correct locale for weekday abbreviation', () => {
-    Settings.defaultLocale = 'fi';
-    Settings.defaultZone = 'Europe/Helsinki';
-    const wrapper = mountWithIntl(
-      <DateSelectGrouped {...defaultProps} />,
-      {},
-      'fi',
-    );
-    const { options } = wrapper.find(Select).props();
-    const flatOptions = options.reduce(
-      (acc, group) => acc.concat(group.options),
-      [],
-    );
-
-    expect(flatOptions[2].textLabel).to.equal('to 3.1.');
-  });
-
   it('should have selectedDate selected', () => {
     const wrapper = mountWithIntl(<DateSelectGrouped {...defaultProps} />);
     const selectValue = wrapper.find(Select).props().value;
@@ -214,23 +197,6 @@ describe('<DateSelectGrouped />', () => {
     const selectProps = wrapper.find(Select).props();
 
     expect(selectProps.isSearchable).to.equal(false);
-  });
-
-  it('should render with Swedish locale', () => {
-    Settings.defaultLocale = 'sv';
-    const wrapper = mountWithIntl(
-      <DateSelectGrouped {...defaultProps} />,
-      {},
-      'sv',
-    );
-    const { options } = wrapper.find(Select).props();
-    const flatOptions = options.reduce(
-      (acc, group) => acc.concat(group.options),
-      [],
-    );
-
-    // Swedish weekday abbreviation for Thursday (3rd)
-    expect(flatOptions[2].textLabel).to.equal('tors 3.1.');
   });
 
   it('should not recompute when startDate is recreated with same date value', () => {

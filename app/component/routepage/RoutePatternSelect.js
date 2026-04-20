@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelect } from 'downshift';
 import { Link, routerShape } from 'found';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import Icon from '../Icon';
 import { routePagePath } from '../../util/path';
@@ -50,10 +50,14 @@ export function patternTextWithIcon(pattern) {
  * @param currentPattern currently selected pattern
  * @returns {JSX.Element}
  */
-function PatternOption(
-  { option, optionIndexTable, highlightedIndex, getItemProps, currentPattern },
-  { intl },
-) {
+function PatternOption({
+  option,
+  optionIndexTable,
+  highlightedIndex,
+  getItemProps,
+  currentPattern,
+}) {
+  const intl = useIntl();
   const isSelected = option.code === currentPattern.code;
   const selectedText = isSelected
     ? intl.formatMessage({ id: 'route-page.pattern-chosen' })
@@ -133,10 +137,6 @@ PatternOption.propTypes = {
   highlightedIndex: PropTypes.number.isRequired,
   getItemProps: PropTypes.func.isRequired,
   currentPattern: patternShape.isRequired,
-};
-
-PatternOption.contextTypes = {
-  intl: intlShape.isRequired,
 };
 
 export default function RoutePatternSelect(

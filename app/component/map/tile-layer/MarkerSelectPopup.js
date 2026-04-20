@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import SelectStopRow from './SelectStopRow';
 import SelectVehicleRentalRow from './SelectVehicleRentalRow';
 import SelectVehicleRentalClusterRow from './SelectRentalVehicleClusterRow';
@@ -8,7 +8,8 @@ import SelectParkAndRideRow from './SelectParkAndRideRow';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import { PREFIX_BIKESTATIONS, PREFIX_RENTALVEHICLES } from '../../../util/path';
 
-function MarkerSelectPopup(props, { intl }) {
+function MarkerSelectPopup(props) {
+  const intl = useIntl();
   const hasStop = () =>
     props.options.find(option => option.layer !== 'realTimeVehicle');
 
@@ -133,8 +134,6 @@ function MarkerSelectPopup(props, { intl }) {
   );
 }
 
-MarkerSelectPopup.displayName = 'MarkerSelectPopup';
-
 MarkerSelectPopup.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -147,10 +146,6 @@ MarkerSelectPopup.propTypes = {
 
 MarkerSelectPopup.defaultProps = {
   zoom: undefined,
-};
-
-MarkerSelectPopup.contextTypes = {
-  intl: intlShape.isRequired,
 };
 
 export default MarkerSelectPopup;

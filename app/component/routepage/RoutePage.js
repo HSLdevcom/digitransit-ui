@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { matchShape, routerShape } from 'found';
 import { routeShape, configShape, errorShape } from '../../util/shapes';
@@ -33,7 +33,7 @@ class RoutePage extends React.Component {
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
     executeAction: PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
+    intl: PropTypes.object.isRequired,
     config: configShape.isRequired,
   };
 

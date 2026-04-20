@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import {
   getDefaultSettings,
@@ -11,12 +11,11 @@ import { getCustomizedSettings } from '../../../store/localStorage';
 import Icon from '../../Icon';
 import Snackbar from '../../Snackbar';
 import { useConfigContext } from '../../../configurations/ConfigContext';
-import { useTranslationsContext } from '../../../util/useTranslationsContext';
 
 // eslint-disable-next-line
 const RestoreDefaultSettings = ({}, { executeAction }) => {
   const config = useConfigContext();
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const [showSnackbar, setShowSnackbar] = useState(null);
   const [slideOutRestoreSettingsButton, setSlideOutRestoreSettingsButton] =
     useState(null);

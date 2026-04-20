@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useFragment } from 'react-relay';
 import { matchShape, routerShape } from 'found';
-import { intlShape, FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { planEdgeShape } from '../../util/shapes';
 import Icon from '../Icon';
 import ItineraryList from './ItineraryList';
@@ -26,9 +26,10 @@ function ItineraryListContainer(
     bottomNote,
     ...rest
   },
-  { router, match, intl },
+  { router, match },
 ) {
   const planEdges = useFragment(ItineraryListContainerPlanEdges, planEdgesRef);
+  const intl = useIntl();
 
   function getSubPath(fallback) {
     const modesWithSubpath = [
@@ -217,7 +218,6 @@ ItineraryListContainer.defaultProps = {
 ItineraryListContainer.contextTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default ItineraryListContainer;

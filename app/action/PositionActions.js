@@ -1,6 +1,6 @@
 import debounce from 'lodash/debounce';
 import { getJson } from '../util/xhrPromise';
-import geolocationMessages from '../util/geolocationMessages';
+import { geolocationMessages } from '../util/geolocationMessages';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
 const MOCKPOS = false;

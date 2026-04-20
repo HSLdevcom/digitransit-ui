@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import { intlShape } from 'react-intl';
 import { configShape } from '../util/shapes';
 import { transitIconName } from '../util/modeUtils';
 import IconWithBigCaution from './IconWithBigCaution';
@@ -12,6 +12,7 @@ import { TransportMode } from '../constants';
 const LONG_ROUTE_NUMBER_LENGTH = 6;
 
 function RouteNumber(props, context) {
+  const intl = useIntl();
   const mode = props.mode.toLowerCase();
   const { alertSeverityLevel, color, withBicycle, withCar } = props;
   const isScooter = mode === TransportMode.Scooter.toLowerCase();
@@ -127,7 +128,7 @@ function RouteNumber(props, context) {
     >
       <span
         className={cx('vcenter-children', props.className)}
-        aria-label={context.intl.formatMessage({
+        aria-label={intl.formatMessage({
           id: mode,
           defaultMessage: 'Vehicle',
         })}
@@ -176,7 +177,7 @@ function RouteNumber(props, context) {
                 mode,
                 { long: longText },
               )}
-              style={{ color: !props.withBar && getColor() }}
+              style={{ color: !props.withBar ? getColor() : null }}
             >
               {filteredText}
             </span>
@@ -274,7 +275,6 @@ RouteNumber.defaultProps = {
 };
 
 RouteNumber.contextTypes = {
-  intl: intlShape.isRequired,
   config: configShape.isRequired,
 };
 
