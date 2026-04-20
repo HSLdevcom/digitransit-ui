@@ -13,10 +13,14 @@ const DisruptionDetails = ({
   alertEffect,
   alertSeverityLevel,
   alertUrl,
+  effectiveStartDate,
+  currentTime,
 }) => {
   const checkedUrl =
     alertUrl &&
     (alertUrl.match(/^[a-zA-Z]+:\/\//) ? alertUrl : `http://${alertUrl}`);
+  const validityLabelId =
+    effectiveStartDate > currentTime ? 'upcoming' : 'valid';
 
   return (
     <div className="alert-details">
@@ -30,7 +34,7 @@ const DisruptionDetails = ({
         </span>
         <span className="validity">
           <Icon className="clock-icon" img="icon_clock" />
-          <FormattedMessage id="valid" />
+          <FormattedMessage id={validityLabelId} />
         </span>
       </div>
       <div className="alert-details-content">
@@ -52,6 +56,8 @@ DisruptionDetails.propTypes = {
   alertEffect: PropTypes.string,
   alertSeverityLevel: PropTypes.string,
   alertUrl: PropTypes.string,
+  effectiveStartDate: PropTypes.number,
+  currentTime: PropTypes.number,
 };
 
 export default DisruptionDetails;
