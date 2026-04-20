@@ -44,7 +44,7 @@ export const EmptyDisruptions = () => {
 const DisruptionList = ({
   cancelations = [],
   currentTime,
-  disableScrolling,
+  disableScrolling = false,
   serviceAlerts = [],
 }) => {
   const { match, router } = useRouter();

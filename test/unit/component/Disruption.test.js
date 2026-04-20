@@ -49,6 +49,7 @@ describe('<Disruption />', () => {
 
   it('should return null when both alertDescriptionText and alertHeaderText are missing', () => {
     const props = {
+      id: 'alert-null',
       entities: [routeEntity()],
     };
     const wrapper = shallowWithIntl(<Disruption {...props} />, {
@@ -59,6 +60,7 @@ describe('<Disruption />', () => {
 
   it('should render alert-row when alertHeaderText is provided', () => {
     const props = {
+      id: 'alert-row',
       alertHeaderText: 'Service alert',
       alertSeverityLevel: 'WARNING',
       entities: [routeEntity()],
@@ -89,10 +91,11 @@ describe('<Disruption />', () => {
 
   it('should not render toggle button for cancelations', () => {
     const props = {
+      id: 'cancelation-1',
       alertHeaderText: 'Cancelation',
       alertSeverityLevel: 'WARNING',
       toggleDetails: sinon.spy(),
-      canceledStoptimes: [{ scheduledDeparture: 36000 }],
+      canceledDepartures: [{ scheduledDeparture: 36000 }],
       entities: [routeEntity()],
     };
     const wrapper = shallowWithIntl(<Disruption {...props} />, {
@@ -103,6 +106,7 @@ describe('<Disruption />', () => {
 
   it('should render Badge with correct severity and effect', () => {
     const props = {
+      id: 'badge-1',
       alertHeaderText: 'Alert',
       alertSeverityLevel: 'WARNING',
       alertEffect: 'REDUCED_SERVICE',
@@ -119,6 +123,7 @@ describe('<Disruption />', () => {
 
   it('should render mode icon and link for route entity', () => {
     const props = {
+      id: 'route-link-1',
       alertHeaderText: 'Alert',
       alertSeverityLevel: 'WARNING',
       entities: [routeEntity()],
@@ -137,6 +142,7 @@ describe('<Disruption />', () => {
 
   it('should render stop link with PREFIX_STOPS for non-station stop', () => {
     const props = {
+      id: 'stop-link-1',
       alertHeaderText: 'Alert',
       alertSeverityLevel: 'WARNING',
       entities: [stopEntity()],
@@ -154,6 +160,7 @@ describe('<Disruption />', () => {
 
   it('should render terminal link for station stop', () => {
     const props = {
+      id: 'terminal-link-1',
       alertHeaderText: 'Alert',
       alertSeverityLevel: 'WARNING',
       entities: [stopEntity({ locationType: 'STATION', gtfsId: 'HSL:5678' })],
@@ -169,6 +176,7 @@ describe('<Disruption />', () => {
 
   it('should render alertHeaderText in alert-row-bottom', () => {
     const props = {
+      id: 'header-text-1',
       alertHeaderText: 'Detour on route 97N',
       alertSeverityLevel: 'WARNING',
       entities: [routeEntity()],
@@ -183,9 +191,10 @@ describe('<Disruption />', () => {
 
   it('should render canceled departure times', () => {
     const props = {
+      id: 'cancelation-times-1',
       alertHeaderText: 'Cancelation',
       alertSeverityLevel: 'WARNING',
-      canceledStoptimes: [
+      canceledDepartures: [
         { scheduledDeparture: 36000 },
         { scheduledDeparture: 39600 },
       ],
@@ -203,6 +212,7 @@ describe('<Disruption />', () => {
 
   it('should group entities of same type and mode under one icon', () => {
     const props = {
+      id: 'grouped-entities-1',
       alertHeaderText: 'Alert',
       alertSeverityLevel: 'WARNING',
       entities: [

@@ -8,22 +8,26 @@ import { routePagePath, stopPagePath } from '../util/path';
 import IconBackground from './icon/IconBackground';
 import { getRouteMode } from '../util/modeUtils';
 import { getStartTimeWithColon } from '../util/timeUtils';
-import { stopTimeShape } from '../util/shapes';
-import { AlertEntityType, LocationTypes } from '../constants';
+import { entityShape, stopTimeShape } from '../util/shapes';
+import {
+  AlertEntityType,
+  AlertSeverityLevelType,
+  LocationTypes,
+} from '../constants';
 
 export default function Disruption({
   toggleDetails,
   alertDescriptionText,
-  alertEffect,
+  alertEffect = '',
   entities = [],
   alertHeaderText,
-  alertSeverityLevel,
+  alertSeverityLevel = AlertSeverityLevelType.Unknown,
   id,
-  canceledStoptimes,
+  canceledDepartures = [],
 }) {
   const config = useConfigContext();
   const { match } = useRouter();
-  const isCancelation = !!canceledStoptimes;
+  const hasCancelations = canceledDepartures.length > 0;
 
   if (!alertDescriptionText && !alertHeaderText) {
     return null;
@@ -55,7 +59,7 @@ export default function Disruption({
       role="listitem"
       aria-label={alertDescriptionText}
     >
-      {!isCancelation && toggleDetails && (
+      {!hasCancelations && toggleDetails && (
         <button
           type="button"
           onClick={() => toggleDetails(id)}
@@ -138,9 +142,9 @@ export default function Disruption({
       </div>
       <div className="alert-row-bottom">
         <span className="alert-row-title">{alertHeaderText}</span>
-        {canceledStoptimes && (
+        {canceledDepartures.length > 0 && (
           <div className="canceled-departures">
-            {canceledStoptimes.map(st => (
+            {canceledDepartures.map(st => (
               <span key={st.scheduledDeparture} className="cancelation-badge">
                 <span className="canceled">
                   {getStartTimeWithColon(st.scheduledDeparture)}
@@ -158,14 +162,9 @@ Disruption.propTypes = {
   toggleDetails: PropTypes.func,
   alertDescriptionText: PropTypes.string,
   alertEffect: PropTypes.string,
-  entities: PropTypes.arrayOf(
-    PropTypes.shape({
-      __typename: PropTypes.string.isRequired,
-      gtfsId: PropTypes.string.isRequired,
-    }),
-  ),
+  entities: PropTypes.arrayOf(entityShape),
   alertSeverityLevel: PropTypes.string,
-  alertHeaderText: PropTypes.string,
-  id: PropTypes.string,
-  canceledStoptimes: PropTypes.arrayOf(stopTimeShape),
+  alertHeaderText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  id: PropTypes.string.isRequired,
+  canceledDepartures: PropTypes.arrayOf(stopTimeShape),
 };

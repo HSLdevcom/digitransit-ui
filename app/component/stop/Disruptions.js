@@ -69,7 +69,7 @@ export const getCancelations = (stop, intl) => {
       const prevAlert = acc.find(
         element => element.entity.shortName === entity.shortName,
       );
-      prevAlert.canceledStoptimes.push(stoptime);
+      prevAlert.canceledDepartures.push(stoptime);
       return acc;
     }
 
@@ -81,7 +81,7 @@ export const getCancelations = (stop, intl) => {
       ...acc,
       {
         headsign: stoptime.headsign || stoptime.trip.tripHeadsign,
-        canceledStoptimes: [stoptime],
+        canceledDepartures: [stoptime],
         entity,
         mode: translatedMode,
         route: shortName,
@@ -95,13 +95,14 @@ export const getCancelations = (stop, intl) => {
         mode: c.mode,
         route: c.route,
         headsign: c.headsign,
-        times: c.canceledStoptimes
+        times: c.canceledDepartures
           .map(st => getStartTimeWithColon(st.scheduledDeparture))
           .join(', '),
       },
     ),
+    id: `cancelations_${c.route}`,
     alertHeaderText: c.headsign,
-    canceledStoptimes: c.canceledStoptimes,
+    canceledDepartures: c.canceledDepartures,
     entities: [c.entity],
     alertSeverityLevel: AlertSeverityLevelType.Warning,
   }));
