@@ -388,6 +388,9 @@ export function getPlanParams(
   let otpModes = transitModes.map(mode => {
     return { mode };
   });
+  if (transitModes.includes('RAIL') && !transitModes.includes('BUS')) {
+    otpModes.push({ mode: 'BUS', replacement: { requirement: 'REQUIRED' } });
+  }
   if (config.customWeights) {
     otpModes.forEach(m => {
       if (config.customWeights[m.mode]) {
