@@ -123,11 +123,11 @@ export const getAlerts = stop => {
   );
 };
 
-function Disruptions({ stop: stopRef, station: stationRef }, { config }) {
+function Disruptions({ stop: stopRef, station: stationRef }) {
   const ref = stopRef ?? stationRef;
   const stop = useFragment(DisruptionsFragment, ref);
   const intl = useIntl();
-  const cancelations = getCancelations(stop, intl, config);
+  const cancelations = getCancelations(stop, intl);
   const serviceAlerts = getAlerts(stop);
 
   return (

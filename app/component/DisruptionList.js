@@ -55,7 +55,17 @@ const DisruptionList = ({
     match.location.query.alertId &&
     serviceAlerts.find(alert => alert.id === match.location.query.alertId);
   if (activeAlert) {
-    return <DisruptionDetails currentTime={currentTime} {...activeAlert} />;
+    return (
+      <DisruptionDetails
+        currentTime={currentTime}
+        alertDescriptionText={activeAlert.alertDescriptionText || ''}
+        alertHeaderText={activeAlert.alertHeaderText}
+        alertEffect={activeAlert.alertEffect}
+        alertSeverityLevel={activeAlert.alertSeverityLevel}
+        alertUrl={activeAlert.alertUrl}
+        effectiveStartDate={activeAlert.effectiveStartDate}
+      />
+    );
   }
 
   const validCancelations = cancelations.filter(cancelation =>
