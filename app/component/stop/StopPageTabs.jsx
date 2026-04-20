@@ -58,10 +58,11 @@ function StopPageTabs({ stop }, { match }) {
     currentTime,
   );
 
+  const alerts = isTerminal
+    ? getServiceAlertsForStation(stop)
+    : getAlertsForObject(stop);
   const alertsCount =
-    getUniqueAlerts(
-      isTerminal ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
-    ).length + (cancelations.length > 0 ? 1 : 0);
+    getUniqueAlerts(alerts).length + (cancelations.length > 0 ? 1 : 0);
 
   let disruptionClassName;
   let disruptionIcon;

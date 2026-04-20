@@ -56,6 +56,7 @@ const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
           alertSeverityLevel
           effectiveEndDate
           effectiveStartDate
+          alertHash
         }
       }
       alerts(types: [STOP]) {
@@ -63,6 +64,7 @@ const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
         alertSeverityLevel
         effectiveEndDate
         effectiveStartDate
+        alertHash
       }
       stoptimes: stoptimesWithoutPatterns(
         startTime: $startTime
