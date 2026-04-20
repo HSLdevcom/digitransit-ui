@@ -26,7 +26,7 @@ const getCancelations = (
   currentTime,
   validityPeriod,
 ) => {
-  const canceledStoptimes = pattern.trips
+  const canceledDepartures = pattern.trips
     .filter(trip => tripHasCancelation(trip, currentTime, validityPeriod))
     .reduce((a, b) => a.concat(b), [])
     .sort(
@@ -37,7 +37,7 @@ const getCancelations = (
     )
     .map(trip => trip.stoptimes[0]);
 
-  return canceledStoptimes.length
+  return canceledDepartures.length
     ? [
         {
           alertDescriptionText: intl.formatMessage(
@@ -45,14 +45,15 @@ const getCancelations = (
             {
               mode: route.mode,
               route: route.shortName,
-              headsign: canceledStoptimes[0].headsign,
-              times: canceledStoptimes
+              headsign: canceledDepartures[0].headsign,
+              times: canceledDepartures
                 .map(st => getStartTimeWithColon(st.scheduledDeparture))
                 .join(', '),
             },
           ),
+          id: `cancelations_${pattern.gtfsId}`,
           alertHeaderText: patternTextWithIcon(pattern),
-          canceledStoptimes,
+          canceledDepartures,
           entities: [entity],
           alertSeverityLevel: AlertSeverityLevelType.Warning,
         },
