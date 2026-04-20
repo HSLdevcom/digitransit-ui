@@ -11,6 +11,7 @@ import {
   currentAndFutureAlerts,
   isAlertValid,
   getUniqueAlerts,
+  alertSeverityCompare,
 } from '../../utils/client/alertUtils';
 import { alertShape } from '../../utils/client/shapes';
 import { useCurrentTime } from '../hooks/TimeContext';
@@ -77,7 +78,7 @@ const DisruptionList = ({
   };
 
   const { currentAlerts, futureAlerts } = currentAndFutureAlerts(
-    getUniqueAlerts(serviceAlerts),
+    getUniqueAlerts(serviceAlerts).sort((a, b) => alertSeverityCompare(a, b)),
     currentTime,
   );
 
