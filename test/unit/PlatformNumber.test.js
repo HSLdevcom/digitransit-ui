@@ -1,50 +1,69 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import PlatformNumber from '../../app/component/PlatformNumber';
+import { TransportMode } from '../../app/constants';
 
 describe('<PlatformNumber />', () => {
-  it('should be empty if number is undefined', () => {
+  it('should render nothing if number is undefined', () => {
     const props = {
       short: false,
-      isRailOrSubway: false,
+      mode: TransportMode.Bus,
     };
     const wrapper = shallowWithIntl(<PlatformNumber {...props} />);
-    // eslint-disable-next-line no-unused-expressions
-    expect(wrapper).to.be.empty;
+    expect(wrapper.isEmptyRender()).to.equal(true);
   });
 
-  it('should render message when isRailOrSubway is false', () => {
-    const props = {
-      number: '12',
-      short: false,
-      isRailOrSubway: false,
-    };
-    const wrapper = shallowWithIntl(<PlatformNumber {...props} />);
-    expect(wrapper.find(FormattedMessage).props().id).to.equal('platform');
-  });
-
-  it('should render when isRailOrSubway is true', () => {
+  it('should render platform text when mode is not RAIL or FERRY', () => {
     const props = {
       number: '12',
       short: false,
-      isRailOrSubway: true,
+      mode: TransportMode.Bus,
     };
     const wrapper = shallowWithIntl(<PlatformNumber {...props} />);
-    expect(wrapper.find(FormattedMessage).props().id).to.equal('track');
+    expect(wrapper.text()).to.include('Platform');
   });
 
-  it('should render shorter message when short is true', () => {
+  it('should render pier text when mode is FERRY', () => {
+    const props = {
+      number: '12',
+      short: false,
+      mode: TransportMode.Ferry,
+    };
+    const wrapper = shallowWithIntl(<PlatformNumber {...props} />);
+    expect(wrapper.text()).to.include('Pier');
+  });
+
+  it('should render track text when mode is RAIL', () => {
+    const props = {
+      number: '12',
+      short: false,
+      mode: TransportMode.Rail,
+    };
+    const wrapper = shallowWithIntl(<PlatformNumber {...props} />);
+    expect(wrapper.text()).to.include('Track');
+  });
+
+  it('should render short platform text when short is true', () => {
     const props = {
       number: '12',
       short: true,
-      isRailOrSubway: false,
+      mode: TransportMode.Bus,
     };
     const wrapper = shallowWithIntl(<PlatformNumber {...props} />);
-    expect(wrapper.find('FormattedMessage').props().id).to.equal(
-      'platform-short-no-num',
-    );
+    expect(wrapper.text()).to.include('Plat.');
+  });
+
+  it('should use plain class on outer span when plain is true', () => {
+    const props = {
+      number: '12',
+      short: false,
+      mode: TransportMode.Bus,
+      plain: true,
+    };
+    const wrapper = shallowWithIntl(<PlatformNumber {...props} />);
+    expect(wrapper.hasClass('platform-number-plain')).to.equal(true);
+    expect(wrapper.hasClass('platform-number')).to.equal(false);
   });
 });

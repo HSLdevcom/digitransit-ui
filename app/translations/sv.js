@@ -429,6 +429,9 @@ export default {
     'navigation-mode-late': '{name} har försenats',
     'navigation-outro-dismiss': 'Stäng guidning',
     'navigation-outro-header': 'Du är framme!',
+    'navigation-pier-change': 'Kajändring',
+    'navigation-pier-change-details': '{name} avgår från kaj {number}',
+    'navigation-pier-restored': 'Avgår från sin ursprungliga kaj',
     'navigation-platform-change': 'Plattformsändring',
     'navigation-platform-change-details':
       '{name} avgår från plattform {number}',
@@ -547,6 +550,7 @@ export default {
       'Vänligen observera att användning och betalning av elsparkcyklar och taxi görs via operatörernas egna appar.',
     'payment-info-taxi':
       'Vänligen observera att användning och betalning av taxi görs via operatörernas egna appar.',
+    'personal-itineraries': 'Individuella ruttförslag',
     personalisation: 'Personalisering',
     'personalisation-beta':
       'Personaliseringen är fortfarande i testfasen, vilket innebär att vi testar tjänsten. Vi vill gärna höra om din upplevelse. Undersökningen öppnas i en ny flik.',
@@ -566,6 +570,8 @@ export default {
     'pick-mode': 'Trafikslag',
     'pick-street-mode': 'Egna färdmedel',
     pier: 'Kaj',
+    'pier-num': 'Kaj {platformCode}',
+    'pier-short-no-num': 'Kaj',
     platform: 'Plattform',
     'platform-num': 'Plattform {platformCode}',
     'platform-short-no-num': 'Plattf.',

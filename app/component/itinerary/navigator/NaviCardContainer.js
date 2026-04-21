@@ -1,6 +1,7 @@
 import { matchShape, routerShape } from 'found';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import {
   isAnyLegPropertyIdentical,
@@ -68,7 +69,8 @@ function NaviCardContainer(
   );
   const focusRef = useRef(false);
 
-  const { intl, config, match, router } = context;
+  const intl = useIntl();
+  const { config, match, router } = context;
   const platformRef = useRef();
 
   if (legChanged) {

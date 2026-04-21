@@ -83,9 +83,6 @@ export default {
     description: APP_DESCRIPTION,
   },
 
-  availableLanguages: ['fi', 'sv', 'en'],
-  defaultLanguage: 'fi',
-
   vehicles: true,
   showVehiclesOnStopPage: true,
   showVehiclesOnItineraryPage: true,

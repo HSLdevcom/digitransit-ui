@@ -2,11 +2,12 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import DepartureListContainer from '../DepartureListContainer';
 import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { stationShape, errorShape, relayShape } from '../../util/shapes';
+import { getTrackOrPierOrPlatformText } from '../../util/modeUtils';
 
 function TerminalPageContent({ station, relay, currentTime, error }) {
   if (!station && error) {
@@ -19,6 +20,7 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
     });
   }, [currentTime, relay]);
 
+  const intl = useIntl();
   const { stoptimes } = station;
   const mode = station.vehicleMode || 'BUS';
   if (!stoptimes || stoptimes.length === 0) {
@@ -29,16 +31,6 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
       </div>
     );
   }
-
-  const getTrackOrPierOrPlatformHeader = () => {
-    if (mode === 'RAIL') {
-      return <FormattedMessage id="track" defaultMessage="Track" />;
-    }
-    if (mode === 'FERRY') {
-      return <FormattedMessage id="pier" defaultMessage="Pier" />;
-    }
-    return <FormattedMessage id="platform" defaultMessage="Platform" />;
-  };
 
   return (
     <ScrollableWrapper>
@@ -57,7 +49,7 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
             <FormattedMessage id="leaving-at" defaultMessage="Leaves" />
           </span>
           <span className="track-header">
-            {getTrackOrPierOrPlatformHeader()}
+            {getTrackOrPierOrPlatformText(intl, mode)}
           </span>
         </div>
         <DepartureListContainer

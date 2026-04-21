@@ -240,7 +240,7 @@ export default function DepartureRow(
             <PlatformNumber
               number={departure.stop?.platformCode}
               short
-              isRailOrSubway={mode === 'RAIL' || mode === 'SUBWAY'}
+              mode={mode}
               withText={false}
               updated={platformUpdated}
             />

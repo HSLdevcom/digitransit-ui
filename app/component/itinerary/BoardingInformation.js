@@ -1,8 +1,10 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import PlatformNumber from '../PlatformNumber';
-import { modeUsesTrack } from '../../util/modeUtils';
+import {
+  getTrackOrPierOrPlatformChangeText,
+  getTrackOrPierOrPlatformWithNumText,
+} from '../../util/modeUtils';
 import { isPlatformChanged } from '../../util/legUtils';
 import { legShape } from '../../util/shapes';
 
@@ -25,24 +27,14 @@ function BoardingInformation({ leg }) {
         })}
       >
         {comma}
-        {platformChanged ? (
-          <>
-            <FormattedMessage
-              id={modeUsesTrack(leg.mode) ? 'track' : 'platform'}
-            />
-            <PlatformNumber
-              number={platformCode}
-              updated={platformChanged}
-              isRailOrSubway={modeUsesTrack(leg.mode)}
-              withText={false}
-            />
-          </>
-        ) : (
-          <FormattedMessage
-            id={modeUsesTrack(leg.mode) ? 'track-num' : 'platform-num'}
-            values={{ platformCode }}
-          />
-        )}
+        <PlatformNumber
+          number={platformCode}
+          short={false}
+          updated={platformChanged}
+          mode={leg.mode}
+          withText
+          plain
+        />
       </span>
     );
   }
@@ -52,19 +44,6 @@ function BoardingInformation({ leg }) {
 BoardingInformation.propTypes = {
   leg: legShape.isRequired,
 };
-
-/**
- * Returns a message indicating a platform or track change.
- * @param {boolean} isTrack - True if the mode uses track, false for platform.
- * @param {Object} intl - The intl object for formatting messages.
- * @return {string} The platform change label.
- */
-function getPlatformChangeLabel(isTrack, intl) {
-  return intl.formatMessage({
-    id: isTrack ? 'navigation-track-change' : 'navigation-platform-change',
-    defaultMessage: isTrack ? 'Track change' : 'Platform change',
-  });
-}
 
 /**
  * Returns a string with platform/track information for a transit leg, for screen reader use.
@@ -78,21 +57,20 @@ function getBoardingInformationText(leg, intl, showPlatformChangeLabel = true) {
   }
   const platformCode = leg?.from?.stop?.platformCode;
   if (platformCode) {
-    const isTrack = modeUsesTrack(leg.mode);
     const platformChangeLabelText =
       showPlatformChangeLabel && isPlatformChanged(leg)
-        ? `${getPlatformChangeLabel(isTrack, intl)}:`
+        ? `${getTrackOrPierOrPlatformChangeText(intl, leg.mode)}:`
         : '';
-    const platformLabel = intl.formatMessage(
-      {
-        id: isTrack ? 'track-num' : 'platform-num',
-      },
-      { platformCode },
+    const platformLabel = getTrackOrPierOrPlatformWithNumText(
+      intl,
+      leg.mode,
+      platformCode,
     );
+
     return `${platformChangeLabelText} ${platformLabel}`;
   }
   return '';
 }
 
-export { getBoardingInformationText, getPlatformChangeLabel };
+export { getBoardingInformationText };
 export default BoardingInformation;

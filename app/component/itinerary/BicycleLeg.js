@@ -318,7 +318,7 @@ export default function BicycleLeg(
                     <PlatformNumber
                       number={bicycleWalkLeg.from.stop.platformCode}
                       short
-                      isRailOrSubway
+                      mode={bicycleWalkLeg.from.stop.vehicleMode}
                     />
                   </>
                 )}
