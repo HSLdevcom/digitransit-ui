@@ -268,7 +268,7 @@ export default {
 
   flex: {
     internalFlexEnabled: false,
-    allowTaxiJourneys: IS_DEV(),
+    allowTaxiJourneys: IS_DEV,
     directOnlyTaxiJourneys: false,
     internalAgencies: [],
     externalAgencies: ['02Taksi:02_taksi'],
@@ -300,7 +300,7 @@ export default {
     },
   },
   useAlternativeNameForModes: ['RAIL'],
-  showRouteDescNotification: IS_DEV(),
+  showRouteDescNotification: IS_DEV,
   showStopStatusMarkers: true,
 
   trafficNowLink: true,

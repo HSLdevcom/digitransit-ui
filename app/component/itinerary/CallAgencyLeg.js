@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { intlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { legShape, configShape } from '../../util/shapes';
+import { legShape } from '../../util/shapes';
+import { useConfigContext } from '../../configurations/ConfigContext';
 import TransitLeg from './TransitLeg';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
 import RouteNumberContainer from '../RouteNumber';
 import withBreakpoint from '../../util/withBreakpoint';
 import { isLocalCallAgency } from '../../util/legUtils';
 
-const CallAgencyLeg = (
-  { leg, currentLanguage, breakpoint, ...props },
-  { intl, config },
-) => {
+const CallAgencyLeg = ({ leg, currentLanguage, breakpoint, ...props }) => {
+  const intl = useIntl();
+  const config = useConfigContext();
   const modeClassName = 'call';
   const { route } = leg;
   const mobile = breakpoint === 'small' || breakpoint === 'medium';
@@ -73,11 +73,6 @@ CallAgencyLeg.propTypes = {
 CallAgencyLeg.defaultProps = {
   showRouteDescNotification: false,
   breakpoint: undefined,
-};
-
-CallAgencyLeg.contextTypes = {
-  config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 const CallAgencyLegWithBreakpoint = withBreakpoint(CallAgencyLeg);

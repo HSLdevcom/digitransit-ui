@@ -74,7 +74,9 @@ describe('<RoutePage />', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     sandbox.stub(ReactIntl, 'useIntl').returns(baseIntl);
-    sandbox.stub(ConfigContextModule, 'useConfigContext').returns(baseConfig);
+    configStub = sandbox
+      .stub(ConfigContextModule, 'useConfigContext')
+      .returns(baseConfig);
   });
 
   afterEach(() => {

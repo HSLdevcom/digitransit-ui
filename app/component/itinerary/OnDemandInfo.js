@@ -1,22 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { DateTime, Duration } from 'luxon';
-import {
-  configShape,
-  pickupBookingInfoShape,
-  routeShape,
-} from '../../util/shapes';
+import { pickupBookingInfoShape, routeShape } from '../../util/shapes';
+import { useConfigContext } from '../../configurations/ConfigContext';
 import Icon from '../Icon';
 import FavouriteRouteContainer from '../routepage/FavouriteRouteContainer';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
 import { useDeepLink } from '../../util/vehicleRentalUtils';
 
-function OnDemandInfo(
-  { routeNumber, route, pickupBookingInfo, mobile, onClose },
-  { config, intl },
-) {
+function OnDemandInfo({
+  routeNumber,
+  route,
+  pickupBookingInfo,
+  mobile,
+  onClose,
+}) {
+  const intl = useIntl();
+  const config = useConfigContext();
   const container = mobile
     ? document.getElementById('content-container')
     : document.getElementById('main-content');
@@ -200,11 +202,6 @@ OnDemandInfo.propTypes = {
   onClose: PropTypes.func.isRequired,
   route: routeShape.isRequired,
   mobile: PropTypes.bool.isRequired,
-};
-
-OnDemandInfo.contextTypes = {
-  config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default OnDemandInfo;

@@ -807,8 +807,8 @@ export default {
     infoLanguage: 'fi',
   },
 
-  showRouteDescNotification: IS_DEV(),
-  personalisation: IS_DEV(),
+  showRouteDescNotification: IS_DEV,
+  personalisation: IS_DEV,
   interactiveElementsUseModeColor: true,
   viaPointsEnabled: true,
 };
