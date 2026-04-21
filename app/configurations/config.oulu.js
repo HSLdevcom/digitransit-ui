@@ -19,6 +19,16 @@ export default configMerger(walttiConfig, {
   appBarLink: {
     name: 'Oulun seudun liikenne',
     href: 'https://www.osl.fi/',
+    altLink: {
+      sv: {
+        name: 'Uleåborgsregionens Trafik',
+        href: 'https://www.osl.fi/en/',
+      },
+      en: {
+        name: 'Oulu Regional Transport',
+        href: 'https://www.osl.fi/en/',
+      },
+    },
   },
 
   colors: {

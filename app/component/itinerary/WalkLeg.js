@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
 import { legShape } from '../../util/shapes';
+import { useConfigContext } from '../../configurations/ConfigContext';
 import {
   legTime,
   legTimeStr,
@@ -11,7 +12,6 @@ import {
   isCallAgencyLeg,
   getValidatedLegName,
 } from '../../util/legUtils';
-import { useConfigContext } from '../../configurations/ConfigContext';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';

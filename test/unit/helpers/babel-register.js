@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 require('@babel/register')({
   // This will override `node_modules` ignoring - you can alternatively pass
   // an array of strings to be explicitly matched or a regex / glob
@@ -5,6 +6,9 @@ require('@babel/register')({
     /node_modules\/(?!react-leaflet|@babel\/runtime\/helpers\/esm|lodash-es|@digitransit-util|@digitransit-component)/,
   ],
 });
+
+// Prevent Node.js from trying to parse CSS files as JavaScript
+require.extensions['.css'] = () => {};
 
 // @hsl-fi/* packages are ESM-only ("type": "module") and cannot be require()'d
 // in the CommonJS test environment. Node throws ERR_REQUIRE_ESM before Babel can
@@ -42,6 +46,27 @@ Module._load = function interceptEsmPackages(request, ...args) {
           // Return a named stub function so Enzyme can match it by .name
           const stub = { [name]: () => null }[name];
           return stub;
+        },
+      },
+    );
+  }
+  if (request.startsWith('@hsl-fi/')) {
+    // Generic catch-all for other @hsl-fi/* packages
+    return new Proxy(
+      function StubComponent() {
+        return null;
+      },
+      {
+        get(target, prop) {
+          if (prop === '__esModule') {
+            return true;
+          }
+          if (prop === 'default') {
+            return target;
+          }
+          return function StubComponent() {
+            return null;
+          };
         },
       },
     );

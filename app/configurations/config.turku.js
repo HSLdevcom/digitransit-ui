@@ -79,7 +79,20 @@ export default configMerger(walttiConfig, {
     funicular: '#ff00ff',
   },
 
-  appBarLink: { name: 'Föli', href: 'http://www.foli.fi/fi' },
+  appBarLink: {
+    name: 'Föli',
+    href: 'http://www.foli.fi/fi',
+    altLink: {
+      sv: {
+        name: 'Föli',
+        href: 'https://www.foli.fi/sv',
+      },
+      en: {
+        name: 'Föli',
+        href: 'https://www.foli.fi/en',
+      },
+    },
+  },
 
   socialMedia: {
     title: APP_TITLE,

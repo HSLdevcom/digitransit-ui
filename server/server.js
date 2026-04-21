@@ -123,6 +123,17 @@ function setUpMiddleware() {
     // proxy for dev-bundle
     app.use('/proxy/', proxy(`http://localhost:${hotloadPort}/`));
   }
+  // Proxy static assets to avoid CORS issues when fetching from the browser
+  // TODO this is a hacky solution, contact site-header admins to update site-header cors settings.
+  const staticAssetsBaseUrl = process.env.STATIC_ASSETS_URL;
+  if (staticAssetsBaseUrl) {
+    app.use(
+      '/static-assets',
+      proxy(staticAssetsBaseUrl, {
+        proxyReqPathResolver: req => req.url,
+      }),
+    );
+  }
 }
 
 function onError(err, req, res) {

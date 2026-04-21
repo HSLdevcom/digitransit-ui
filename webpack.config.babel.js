@@ -271,6 +271,17 @@ module.exports = {
       },
       {
         test: /\.css$/,
+        include: /node_modules\/@hsl-fi/,
+        sideEffects: true,
+        use: [
+          isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+          'postcss-loader',
+        ],
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules\/@hsl-fi/,
         use: [
           isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
           'css-loader',

@@ -3,15 +3,15 @@ import React from 'react';
 import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
-import { ViaLocationType, IndoorLegType } from '../../constants';
+import { IndoorLegType, ViaLocationType } from '../../constants';
 
 class ItineraryCircleLineWithIcon extends React.Component {
   static propTypes = {
     index: PropTypes.number.isRequired,
     modeClassName: PropTypes.string.isRequired,
-    viaType: PropTypes.string,
     indoorLegType: PropTypes.oneOf(Object.values(IndoorLegType)),
     showIntermediateSteps: PropTypes.bool,
+    viaType: PropTypes.string,
     bikePark: PropTypes.bool,
     carPark: PropTypes.bool,
     color: PropTypes.string,

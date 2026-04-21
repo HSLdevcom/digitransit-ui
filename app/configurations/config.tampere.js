@@ -46,7 +46,20 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  appBarLink: { name: 'Nysse', href: 'https://www.nysse.fi/' },
+  appBarLink: {
+    name: 'Nysse',
+    href: 'https://www.nysse.fi/',
+    altLink: {
+      sv: {
+        name: 'Nysse.fi',
+        href: 'https://www.nysse.fi/en/front-page.html',
+      },
+      en: {
+        name: 'Nysse.fi',
+        href: 'https://www.nysse.fi/en/front-page.html',
+      },
+    },
+  },
 
   colors: {
     primary: '#1c57cf',

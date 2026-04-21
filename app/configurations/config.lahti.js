@@ -14,7 +14,14 @@ const maxLon = 26.5902;
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'LSL.fi', href: 'http://www.lsl.fi/' },
+  appBarLink: {
+    name: 'lsl.fi',
+    href: 'https://www.lsl.fi/',
+    altLink: {
+      sv: { name: 'lsl.fi/en', href: 'https://www.lsl.fi/in-english/' },
+      en: { name: 'lsl.fi/en', href: 'https://www.lsl.fi/in-english/' },
+    },
+  },
   colors: {
     primary: '#0066B3',
     bus: '#0066B3',
@@ -153,7 +160,7 @@ export default configMerger(walttiConfig, {
       freebike_lahti: {
         enabled: true,
         season: {
-          start: '24.4',
+          start: '14.4',
           end: '17.11',
         },
         capacity: BIKEAVL_BIKES,

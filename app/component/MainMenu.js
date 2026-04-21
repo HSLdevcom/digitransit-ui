@@ -20,9 +20,8 @@ function MainMenu(
 ) {
   const intl = useIntl();
   const [countries, setCountries] = useState(props.countries);
-  const appBarLinkHref =
-    config.appBarLink?.alternativeHref?.[currentLanguage] ||
-    config.appBarLink?.href;
+  const appBarLink =
+    config.appBarLink?.altLink?.[currentLanguage] || config.appBarLink;
   return (
     <div className="main-menu no-select" tabIndex={-1}>
       <div className="main-menu-top-section">
@@ -123,11 +122,11 @@ function MainMenu(
             </div>
           </div>
         ))}
-        {config.appBarLink?.name && appBarLinkHref && (
+        {appBarLink?.name && appBarLink?.href && (
           <div className="offcanvas-section">
             <a
               id="appBarLink"
-              href={appBarLinkHref}
+              href={appBarLink.href}
               target="_blank"
               onClick={() => {
                 addAnalyticsEvent({
@@ -138,7 +137,7 @@ function MainMenu(
               }}
               rel="noreferrer"
             >
-              {config.appBarLink.name}
+              {appBarLink.name}
             </a>
           </div>
         )}

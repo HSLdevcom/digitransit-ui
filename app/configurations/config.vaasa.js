@@ -18,7 +18,20 @@ const virtualMonitorBaseUrl = IS_DEV
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'Vaasa', href: 'https://www.vaasa.fi/' },
+  appBarLink: {
+    name: 'Lifti – Vaasan seudun joukkoliikenne',
+    href: 'https://www.vaasa.fi/asu-ja-ela/liikenne-ja-kadut/joukkoliikenne/',
+    altLink: {
+      sv: {
+        name: 'Lifti – Vasaregionens kollektivtrafik',
+        href: 'https://www.vaasa.fi/sv/bo-och-lev/trafik-och-gator/kollektivtrafik/',
+      },
+      en: {
+        name: 'Lifti – Public transport for the Vaasa region',
+        href: 'https://www.vaasa.fi/en/living/traffic-and-streets/public-transport/',
+      },
+    },
+  },
 
   colors: {
     primary: '#000a8c',

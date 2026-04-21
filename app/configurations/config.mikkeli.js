@@ -10,7 +10,17 @@ export default configMerger(walttiConfig, {
 
   appBarLink: {
     name: 'Mikkelin joukkoliikenne',
-    href: 'https://mikkeli.kunta-api.fi/sisalto/palvelut/joukkoliikenne-2',
+    href: 'https://mikkeli.fi/asuminen-ja-ymparisto/liikenne-ja-kadut/joukkoliikenne-2-2/',
+    altLink: {
+      sv: {
+        name: 'S:t Michels Kollektivtrafik',
+        href: 'https://mikkeli.fi/sv/',
+      },
+      en: {
+        name: 'Mikkeli Public Transport',
+        href: 'https://mikkeli.fi/en/',
+      },
+    },
   },
 
   colors: {

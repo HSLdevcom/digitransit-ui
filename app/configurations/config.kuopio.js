@@ -9,7 +9,20 @@ const APP_DESCRIPTION = 'Reittiopas Kuopio';
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'Vilkku', href: 'https://vilkku.kuopio.fi/' },
+  appBarLink: {
+    name: 'VILKKU',
+    href: 'https://vilkku.kuopio.fi/',
+    altLink: {
+      sv: {
+        name: 'VILKKU',
+        href: 'https://vilkku.kuopio.fi/en',
+      },
+      en: {
+        name: 'VILKKU',
+        href: 'https://vilkku.kuopio.fi/en',
+      },
+    },
+  },
 
   colors: {
     primary: '#0ab1c8',
@@ -72,10 +85,10 @@ export default configMerger(walttiConfig, {
 
   vehicleRental: {
     networks: {
-      freebike_kuopio: {
+      breeze_kuopio: {
         enabled: true,
         season: {
-          start: '29.4',
+          start: '14.4',
           end: '31.10',
         },
         capacity: BIKEAVL_BIKES,

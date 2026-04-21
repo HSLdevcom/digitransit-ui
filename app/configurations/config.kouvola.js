@@ -16,7 +16,17 @@ export default configMerger(walttiConfig, {
 
   appBarLink: {
     name: 'Kouvolan joukkoliikenne',
-    href: 'http://www.kouvolanbussit.fi',
+    href: 'https://www.kouvola.fi/asuminen-ja-ymparisto/kadut-ja-liikenne/joukkoliikenne/',
+    altLink: {
+      sv: {
+        name: 'Kouvolas kollektivtrafik',
+        href: 'https://www.kouvola.fi/asuminen-ja-ymparisto/kadut-ja-liikenne/joukkoliikenne/',
+      },
+      en: {
+        name: 'Kouvola public transport',
+        href: 'https://www.kouvola.fi/asuminen-ja-ymparisto/kadut-ja-liikenne/joukkoliikenne/',
+      },
+    },
   },
 
   colors: {
