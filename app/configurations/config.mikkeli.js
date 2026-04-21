@@ -18,7 +18,7 @@ export default configMerger(walttiConfig, {
       },
       en: {
         name: 'Mikkeli Public Transport',
-        href: 'https://mikkeli.fi/sv/',
+        href: 'https://mikkeli.fi/en/',
       },
     },
   },
