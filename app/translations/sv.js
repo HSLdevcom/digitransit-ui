@@ -84,6 +84,7 @@ export default {
     'biking-speed': 'Cykling hastighet',
     'book-a-lift':
       'Tilaa kyyti sovelluksella ja jää odottamaan sen saapumista:',
+    'booking-method': 'Beställningssätt',
     bus: 'Buss',
     'bus-express': 'Stombuss',
     'bus-express-with-route-number': 'Stombuss {routeNumber} {headSign}',
@@ -91,6 +92,8 @@ export default {
     'bus-with-route-number': 'Buss {routeNumber} {headSign}',
     'buy-in-app': 'Köp i appen',
     call: 'Anropsstyrd kollektivtrafik',
+    'call-agency-disclaimer':
+      'Linjen fungerar med förhandsbokning. Boka din resa i förväg för att säkerställa resan. Mer information från tjänsteleverantören.',
     'call-number': 'Ring {number}',
     'call-with-route-number':
       'Anropsstyrd kollektivtrafik {routeNumber} {headSign}',
@@ -177,12 +180,25 @@ export default {
     disclaimer:
       'Resultaten baserar sig på beräknade körtider. Vi kan inte garantera att den förslagna förbindelsen kan förverkligas.',
     disruption: 'Störning',
+    'disruption-badge-additional_service': 'Ytterligare rutter',
+    'disruption-badge-detour': 'Omväg',
+    'disruption-badge-modified_service': 'Ändringar i tjänsten',
+    'disruption-badge-no_effect': 'Ingen effekt',
+    'disruption-badge-no_service': 'Inställt',
+    'disruption-badge-other_effect': 'Annat',
+    'disruption-badge-reduced_service': 'Minskat antal rutter',
+    'disruption-badge-significant_delays': 'Försening',
+    'disruption-badge-stop_moved': 'Hållplats flyttad',
+    'disruption-badge-unknown_effect': 'Okänd',
     'disruption-info': 'Undantagsinfo',
     'disruption-info-no-alerts': 'Inga kända störningar eller avvikelser.',
     'disruption-info-route-no-alerts':
       'Linjen har för tillfället inga kända störningar eller avvikelser.',
     disruptions: 'Störningar',
     'disruptions-and-diversions': 'Störningar och avvikelser',
+    'disruptions-change-filters': 'Försök igen genom att ändra dina val.',
+    'disruptions-found-amount':
+      '{amount, plural, =0 {Inga störningar hittades} one {Hittades 1 störning} other {Hittades {amount} störningar} }',
     'disruptions-tab.sr-disruptions': 'En eller flera kända störningar',
     'disruptions-tab.sr-no-disruptions': 'Inga kända störningar',
     'distance-total': 'Resans längd',
@@ -199,6 +215,7 @@ export default {
     'embedded-search.form-heading': 'Inbäddningsverktyg',
     engine_ignition_aid: 'Starthjälp',
     english: 'Engelsk',
+    estimate: 'Uppskattning',
     explanations: 'Förklaringar',
     'extra-info': 'Mer info',
     'favourite-failed-text': 'Försök på nytt senare.',
@@ -206,6 +223,8 @@ export default {
     'ferry-external': 'Färja',
     'ferry-external-with-route-number': 'Färja {routeNumber} {headSign}',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
+    filter: 'Filtrera',
+    filters: 'Filterer',
     finnish: 'Finska',
     'free-of-charge': 'Kostnadsfri',
     'from-bus': 'bussen',
@@ -288,6 +307,8 @@ export default {
     'itinerary-page.show-details-label': 'Visa ruttbeskrivningen {number}',
     'itinerary-page.title': 'Ruttinformation',
     'itinerary-summary-page.description': 'Ruttförslag',
+    'itinerary-summary-row.call-agency-description':
+      'Anropsstyrd trafik, mer information i ruttbeskrivningen.',
     'itinerary-summary-row.clickable-area-description': 'Visa på kartan',
     'itinerary-summary-row.description':
       'Avgång {departureDate} klockan {departureTime}. Framme {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Restid {totalTime}.',
@@ -487,6 +508,16 @@ export default {
     'number-of-intermediate-stops':
       '{number, plural, =0 {Inga hållplatser} one {1 hållplats} other {{number} hållplatser} }',
     'number-of-spaces': 'Antalet platser',
+    'on-demand-service': 'Anropsbusstrafiken',
+    'on-demand-service-description': 'Ruttbeskrivning',
+    'on-demand-service-prior-notice-days':
+      'Boka din resa minst {days} dagar före resan, senast kl. {time}.',
+    'on-demand-service-prior-notice-hours':
+      'Bokningen ska göras minst {hours} timmar i förväg.',
+    'on-demand-service-prior-notice-minutes':
+      'Bokningen ska göras minst {minutes} minuter i förväg.',
+    'on-demand-service-route-disclaimer':
+      'Linjen kör nödvändigtvis inte den rutt som visas på kartan utan den kan variera beroende på andra resenärers resplaner.',
     'one-way-journey': ' Längden på en enkel resa',
     'open-app': ' Öppna appen',
     'open-operator-app': 'Öppna appen {operator}',
@@ -531,6 +562,7 @@ export default {
       'Vi betonar dina favoritlinjer i personaliseringen. Så lägg till de linjer du använder som favoriter.',
     'personalisation-modal-link': 'Lägg till eller redigera dina favoriter',
     'personalisation-open-info': 'Läs hur rekommendationer fungerar',
+    'phone-number': 'Telefonnummer',
     'pick-mode': 'Trafikslag',
     'pick-street-mode': 'Egna färdmedel',
     pier: 'Kaj',
@@ -731,6 +763,7 @@ export default {
     'terminal-page.description': 'Terminal {name}',
     'terminal-page.title': 'Terminal {name}',
     'terminal-page.title-short': 'Terminal',
+    terminus: 'Slutpunkt',
     'this-week': 'Denna vecka',
     timetable: 'Tidtabell',
     'to-bicycle': 'stadscykeln',
@@ -749,9 +782,25 @@ export default {
     'tracking-button-off': 'lokalisering av',
     'tracking-button-offline': 'lokalisering misslyckades',
     'tracking-button-on': 'lokalisering på',
-    trafficnow: 'Trafikläget nu',
-    'trafficnow-bread': 'Att resa med oss',
-    'trafficnow-description': 'Aktuell information om störningar och undantag',
+    'traffic-now': 'Trafikläget nu',
+    'traffic-now-long': 'Trafikläget nu',
+    'traffic-now_bread': 'Att resa med oss',
+    'traffic-now_description':
+      'Aktuell information om störningar och undantag. ',
+    'traffic-now_description_see-also':
+      'Se även {amount, plural, =1 {{link1},} other {{link1} samt {link2},} } som du hittar mer information om på deras respektive sidor.',
+    'traffic-now_description_see-also--link1': 'helgdagar och undantag',
+    'traffic-now_description_see-also--link2': 'större förändringar',
+    'traffic-now_filters_entity-search': 'Sök linje eller hållplats',
+    'traffic-now_filters_entity-search--placeholder':
+      'Linje, hållplats eller station',
+    'traffic-now_filters_toggles--cancellations-only': 'Endast inställts',
+    'traffic-now_filters_toggles--favourites-only': 'Endast favoritter',
+    'traffic-now_filters_validity-period': 'Filtrera efter giltighetstid',
+    'traffic-now_filters_vehicle-mode': 'Filtrera efter fordonsläge',
+    'traffic-now_filters_view-results': 'Visa resultat',
+    'traffic-now_link': 'Trafikläget nu',
+    'traffic-now_link-description': 'Se störningar och förändringar',
     tram: 'Spårvagn',
     'tram-with-route-number': 'Spårvagn {routeNumber} {headSign}',
     transfer: 'Byte',
@@ -760,6 +809,7 @@ export default {
     'travel-time-with-hours': '{h} h {min} min',
     'trip-information': 'Visa avgång',
     'try-again': 'Försök igen',
+    upcoming: 'Kommande',
     'use-national-service-postfix': '.',
     'use-national-service-prefix':
       'Vi rekommenderar att du använder ruttsökning i tjänsten ',
