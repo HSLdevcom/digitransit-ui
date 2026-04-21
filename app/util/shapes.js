@@ -192,6 +192,7 @@ export const stationShape = PropTypes.shape({
   alerts: PropTypes.arrayOf(alertShape),
   stops: PropTypes.arrayOf(stopShape),
   stoptimes: PropTypes.arrayOf(stopTimeShape),
+  vehicleMode: PropTypes.string,
 });
 
 export const departureShape = PropTypes.shape({

@@ -1,11 +1,10 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import PropTypes from 'prop-types';
 import { withSearchContext } from '../../WithSearchContext';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 import { useFilterContext } from './FiltersContext';
-import { useTranslationsContext } from '../../../util/useTranslationsContext';
 
 const searchSources = ['Favourite', 'History', 'Datasource'];
 
@@ -16,7 +15,7 @@ const EntitySearch = ({ filterId }) => {
     iconModeSet,
   } = useConfigContext();
   const { selectedFilters, setFilter, removeFilter } = useFilterContext();
-  const intl = useTranslationsContext();
+  const intl = useIntl();
 
   const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 

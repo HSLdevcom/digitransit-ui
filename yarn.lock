@@ -2068,7 +2068,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest-panel@npm:^8.2.3, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
+"@digitransit-component/digitransit-component-autosuggest-panel@npm:^8.3.0, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
@@ -2091,7 +2091,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest"
   dependencies:
-    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "npm:^3.3.3"
+    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "npm:^3.3.4"
     "@digitransit-search-util/digitransit-search-util-get-label": "npm:^1.0.2"
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "npm:^2.1.1"
     "@hsl-fi/hooks": "npm:^1.2.4"
@@ -2164,7 +2164,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-bar@npm:^5.0.3, @digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar":
+"@digitransit-component/digitransit-component-favourite-bar@npm:^5.0.4, @digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar"
   dependencies:
@@ -2184,7 +2184,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-editing-modal@npm:^5.0.2, @digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
+"@digitransit-component/digitransit-component-favourite-editing-modal@npm:^5.0.3, @digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal"
   dependencies:
@@ -2270,10 +2270,10 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component@workspace:digitransit-component/packages/digitransit-component"
   dependencies:
     "@digitransit-component/digitransit-component-autosuggest": "npm:^7.1.5"
-    "@digitransit-component/digitransit-component-autosuggest-panel": "npm:^8.2.3"
+    "@digitransit-component/digitransit-component-autosuggest-panel": "npm:^8.3.0"
     "@digitransit-component/digitransit-component-control-panel": "npm:^7.1.2"
-    "@digitransit-component/digitransit-component-favourite-bar": "npm:^5.0.3"
-    "@digitransit-component/digitransit-component-favourite-editing-modal": "npm:^5.0.2"
+    "@digitransit-component/digitransit-component-favourite-bar": "npm:^5.0.4"
+    "@digitransit-component/digitransit-component-favourite-editing-modal": "npm:^5.0.3"
     "@digitransit-component/digitransit-component-favourite-modal": "npm:^4.0.3"
     "@digitransit-component/digitransit-component-icon": "npm:^2.0.2"
     "@digitransit-component/digitransit-component-suggestion-item": "npm:^3.0.2"
@@ -2304,13 +2304,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@npm:^3.3.3, @digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate":
+"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@npm:^3.3.4, @digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "npm:1.0.0"
-    "@digitransit-search-util/digitransit-search-util-get-geocoding-results": "npm:1.0.0"
-    "@digitransit-search-util/digitransit-search-util-get-json": "npm:1.0.0"
+    "@digitransit-search-util/digitransit-search-util-get-geocoding-results": "npm:1.0.1"
+    "@digitransit-search-util/digitransit-search-util-get-json": "npm:1.0.1"
     "@digitransit-search-util/digitransit-search-util-helpers": "npm:2.3.3"
     lodash: "npm:4.17.23"
   languageName: unknown
@@ -2324,15 +2324,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-get-geocoding-results@npm:1.0.0, @digitransit-search-util/digitransit-search-util-get-geocoding-results@workspace:digitransit-search-util/packages/digitransit-search-util-get-geocoding-results":
+"@digitransit-search-util/digitransit-search-util-get-geocoding-results@npm:1.0.1, @digitransit-search-util/digitransit-search-util-get-geocoding-results@workspace:digitransit-search-util/packages/digitransit-search-util-get-geocoding-results":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-get-geocoding-results@workspace:digitransit-search-util/packages/digitransit-search-util-get-geocoding-results"
   dependencies:
-    "@digitransit-search-util/digitransit-search-util-get-json": "npm:1.0.0"
+    "@digitransit-search-util/digitransit-search-util-get-json": "npm:1.0.1"
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-get-json@npm:1.0.0, @digitransit-search-util/digitransit-search-util-get-json@workspace:digitransit-search-util/packages/digitransit-search-util-get-json":
+"@digitransit-search-util/digitransit-search-util-get-json@npm:1.0.1, @digitransit-search-util/digitransit-search-util-get-json@workspace:digitransit-search-util/packages/digitransit-search-util-get-json":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-get-json@workspace:digitransit-search-util/packages/digitransit-search-util-get-json"
   dependencies:
@@ -2687,6 +2687,49 @@ __metadata:
   version: 1.6.3
   resolution: "@financial-times/useragent_parser@npm:1.6.3"
   checksum: 10/922d5e36fec6854a47e55c2300797a8f977599d61fa42a40e69e0834c68ae7f6c65da0a886cfaa71433806576722ce211d519bdb4bc0d5feefeda5b0db122710
+  languageName: node
+  linkType: hard
+
+"@formatjs/intl-displaynames@npm:^1.2.0":
+  version: 1.2.10
+  resolution: "@formatjs/intl-displaynames@npm:1.2.10"
+  dependencies:
+    "@formatjs/intl-utils": "npm:^2.3.0"
+  checksum: 10/c4a417e5530a8d6854502cd85219d40a28f32db9e8df92db58f4d63fb99f36c74cf639175843985ac3ddb2397bafe00c3078b428e43b8afeba250f5ba19e312a
+  languageName: node
+  linkType: hard
+
+"@formatjs/intl-listformat@npm:^1.4.1":
+  version: 1.4.8
+  resolution: "@formatjs/intl-listformat@npm:1.4.8"
+  dependencies:
+    "@formatjs/intl-utils": "npm:^2.3.0"
+  checksum: 10/edcf42361451c8abe1e71a6956af43470a181a0e989843c352c14318f71e4ba0aef1e64e4fb57a529a1c3bfc5930bce121ec950abd7e8dbdca1443b3b02fba77
+  languageName: node
+  linkType: hard
+
+"@formatjs/intl-relativetimeformat@npm:^4.5.9":
+  version: 4.5.16
+  resolution: "@formatjs/intl-relativetimeformat@npm:4.5.16"
+  dependencies:
+    "@formatjs/intl-utils": "npm:^2.3.0"
+  checksum: 10/07623e8940e24b1f087d8f81e9ab37c35d7afe6ee3f5952bb05942738973d88b7e47f2a0f3fac2f23ea5212a6e4cbe6d827cb9234ae0209578eb5bdb87e93400
+  languageName: node
+  linkType: hard
+
+"@formatjs/intl-unified-numberformat@npm:^3.2.0":
+  version: 3.3.7
+  resolution: "@formatjs/intl-unified-numberformat@npm:3.3.7"
+  dependencies:
+    "@formatjs/intl-utils": "npm:^2.3.0"
+  checksum: 10/d722ca3e021727aeb55cd72fd6f44b9f949a21c0ade53ca1f90d8f1783f7c315d0c52ed25a949802383dc2ccca0c6940a28339fb35e65fe146a3ff37d0da9443
+  languageName: node
+  linkType: hard
+
+"@formatjs/intl-utils@npm:^2.2.0, @formatjs/intl-utils@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "@formatjs/intl-utils@npm:2.3.0"
+  checksum: 10/206542dd2f0ac8a648a0a7ff09503ae1ed40b160057a837b509498b14f49cd989570a8ee7f9caf12fe57e2ace8effdc5004ffb98a45b9c7978786a78b1e1ec83
   languageName: node
   linkType: hard
 
@@ -6515,7 +6558,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/hoist-non-react-statics@npm:^3.3.0":
+"@types/hoist-non-react-statics@npm:^3.3.0, @types/hoist-non-react-statics@npm:^3.3.1":
   version: 3.3.7
   resolution: "@types/hoist-non-react-statics@npm:3.3.7"
   dependencies:
@@ -6546,6 +6589,13 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 10/893e46e12be576baa471cf2fc13a4f0e413eaf30a5850de8fdbea3040e138ad4171234c59b986cf7137ff20a1582b254bf0c44cfd715d5ed772e1ab94dd75cd1
+  languageName: node
+  linkType: hard
+
+"@types/invariant@npm:^2.2.31":
+  version: 2.2.37
+  resolution: "@types/invariant@npm:2.2.37"
+  checksum: 10/dd6ee07af8516d21c868f95fd96c601c50a231e69c2df69360cb491b5858c76cf9b5a646df166cb4197b5078ca824da3dd90d6142d01a3cefc1176c57278b129
   languageName: node
   linkType: hard
 
@@ -8135,20 +8185,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:9.8.6":
-  version: 9.8.6
-  resolution: "autoprefixer@npm:9.8.6"
+"autoprefixer@npm:^10.4.21":
+  version: 10.4.27
+  resolution: "autoprefixer@npm:10.4.27"
   dependencies:
-    browserslist: "npm:^4.12.0"
-    caniuse-lite: "npm:^1.0.30001109"
-    colorette: "npm:^1.2.1"
-    normalize-range: "npm:^0.1.2"
-    num2fraction: "npm:^1.2.2"
-    postcss: "npm:^7.0.32"
-    postcss-value-parser: "npm:^4.1.0"
+    browserslist: "npm:^4.28.1"
+    caniuse-lite: "npm:^1.0.30001774"
+    fraction.js: "npm:^5.3.4"
+    picocolors: "npm:^1.1.1"
+    postcss-value-parser: "npm:^4.2.0"
+  peerDependencies:
+    postcss: ^8.1.0
   bin:
     autoprefixer: bin/autoprefixer
-  checksum: 10/b97171e4a16469fd43777a7ac0c5dc78dcb422eda9598e35c566bb5b1257b7b9b56be0f04bbe5fa3deac977fec54c075f4d6bc49e76cf1e7e310951914d2b51a
+  checksum: 10/5dd9ec57cc1c2af556e10d6c76d082f66d23275671b8b125f6c1d33ba7d9a984d80d3fb4fab7b5e092ac1a34f3aa5a131a392f131f5924029c3cb82faea15b0c
   languageName: node
   linkType: hard
 
@@ -8882,7 +8932,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:^4.0.0, browserslist@npm:^4.12.0, browserslist@npm:^4.21.10, browserslist@npm:^4.21.4, browserslist@npm:^4.24.0, browserslist@npm:^4.28.1":
+"browserslist@npm:^4.0.0, browserslist@npm:^4.21.10, browserslist@npm:^4.21.4, browserslist@npm:^4.24.0, browserslist@npm:^4.28.1":
   version: 4.28.1
   resolution: "browserslist@npm:4.28.1"
   dependencies:
@@ -9331,10 +9381,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001524, caniuse-lite@npm:^1.0.30001759":
+"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001524, caniuse-lite@npm:^1.0.30001759":
   version: 1.0.30001776
   resolution: "caniuse-lite@npm:1.0.30001776"
   checksum: 10/7a140cfcb5b56597139e700ac624df342995ec670e43e17b0b636b4b215ce6f05d3932c16a4b8c740b5fe57bc94ef5cac157f5b0e3ccb049d80c57f409c576a8
+  languageName: node
+  linkType: hard
+
+"caniuse-lite@npm:^1.0.30001774":
+  version: 1.0.30001787
+  resolution: "caniuse-lite@npm:1.0.30001787"
+  checksum: 10/2b3a2400b21d89123f13b7a8a7ad58dbdeb9971b62e33f43712d7209b69656f8bfd8ab67ab760c12e5fa7967b18c108ca67d7f20b7c7ccf039621f7db56baecf
   languageName: node
   linkType: hard
 
@@ -9923,13 +9980,6 @@ __metadata:
   version: 2.9.3
   resolution: "colord@npm:2.9.3"
   checksum: 10/907a4506d7307e2f580b471b581e992181ed75ab0c6925ece9ca46d88161d2fc50ed15891cd0556d0d9321237ca75afc9d462e4c050b939ef88428517f047f30
-  languageName: node
-  linkType: hard
-
-"colorette@npm:^1.2.1":
-  version: 1.4.0
-  resolution: "colorette@npm:1.4.0"
-  checksum: 10/c8d6c8c3ef5a99acfc3dd9a68f48019f1479ec347551387e4a1762e40f69e98ce19d4dc321ffb4919d1f28a7bdc90c39d4e9a901f4c474fd2124ad93a00c0454
   languageName: node
   linkType: hard
 
@@ -11788,7 +11838,7 @@ __metadata:
     "@rollup/plugin-node-resolve": "npm:^16.0.3"
     "@testing-library/react-hooks": "npm:^8.0.1"
     async: "npm:^3.2.6"
-    autoprefixer: "npm:9.8.6"
+    autoprefixer: "npm:^10.4.21"
     axe-core: "npm:^4.10.3"
     axios: "npm:1.13.5"
     babel-loader: "npm:8.2.5"
@@ -11842,7 +11892,6 @@ __metadata:
     hoist-non-react-statics: "npm:2.5.5"
     husky: "npm:4.3.8"
     i18next: "npm:22.5.1"
-    intl: "npm:1.2.5"
     iso-morphic-style-loader: "npm:2.0.1"
     jest: "npm:29.7.0"
     jest-circus: "npm:29.7.0"
@@ -11875,7 +11924,7 @@ __metadata:
     point-in-polygon: "npm:1.0.1"
     polyfill-library: "npm:4.8.0"
     polyline-encoded: "npm:0.0.9"
-    postcss: "npm:8.4.33"
+    postcss: "npm:^8.4.49"
     postcss-flexbugs-fixes: "npm:5.0.2"
     postcss-loader: "npm:^4"
     prettier: "npm:3.1.1"
@@ -11885,7 +11934,7 @@ __metadata:
     react-dom: "npm:16.13.0"
     react-helmet: "npm:6.1.0"
     react-i18next: "npm:^12.3.1"
-    react-intl: "npm:2.8.0"
+    react-intl: "npm:3.12.1"
     react-leaflet: "npm:2.7.0"
     react-relay: "npm:16.2.0"
     react-relay-network-modern: "npm:6.2.2"
@@ -14390,6 +14439,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fraction.js@npm:^5.3.4":
+  version: 5.3.4
+  resolution: "fraction.js@npm:5.3.4"
+  checksum: 10/ef2c4bc81b2484065f8f7e4c2498f3fdfe6d233b8e7c7f75e3683ed10698536129b2c2dbd6c3f788ca4a020ec07116dd909a91036a364c98dc802b5003bfc613
+  languageName: node
+  linkType: hard
+
 "fragment-cache@npm:^0.2.1":
   version: 0.2.1
   resolution: "fragment-cache@npm:0.2.1"
@@ -15638,7 +15694,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hoist-non-react-statics@npm:2.5.5, hoist-non-react-statics@npm:^2.1.1, hoist-non-react-statics@npm:^2.5.5":
+"hoist-non-react-statics@npm:2.5.5, hoist-non-react-statics@npm:^2.1.1":
   version: 2.5.5
   resolution: "hoist-non-react-statics@npm:2.5.5"
   checksum: 10/5cd8f04dc3adec5e19fa4dd05a03216b0237e98d870064f4232e6339e9bbe1bd07b41cca2bb6e999c328b409271c1eefde299a69ca75aff510acdd4e7b3d340e
@@ -16354,46 +16410,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"intl-format-cache@npm:^2.0.5":
-  version: 2.2.9
-  resolution: "intl-format-cache@npm:2.2.9"
-  checksum: 10/3529716adcbce8c9d966a8268858965f781d3e3f9064c80bbdeafdb1425c118bee70149e4ede93b45f786180d70ece105dda71899d8ee17bea01ceb801afd7ed
+"intl-format-cache@npm:^4.2.21":
+  version: 4.3.1
+  resolution: "intl-format-cache@npm:4.3.1"
+  checksum: 10/d55581edaba0d083a3ff26a46e2ed953c434420918e61991db78140e3e0a7db14f924f195fcd0c01cf3de65cb18dda0c549d35f683e01dd8f062d27fe0524fae
   languageName: node
   linkType: hard
 
-"intl-messageformat-parser@npm:1.4.0":
-  version: 1.4.0
-  resolution: "intl-messageformat-parser@npm:1.4.0"
-  checksum: 10/ba6adae35df1796dfe6dbf155f63e25d91e615d6622faf0dc5071148229b8c7e878d720188e94663b44627a8d8e20e1a234d0a10eada11742b3cf890080de136
-  languageName: node
-  linkType: hard
-
-"intl-messageformat@npm:^2.0.0, intl-messageformat@npm:^2.1.0":
-  version: 2.2.0
-  resolution: "intl-messageformat@npm:2.2.0"
+"intl-messageformat-parser@npm:^3.6.4":
+  version: 3.6.4
+  resolution: "intl-messageformat-parser@npm:3.6.4"
   dependencies:
-    intl-messageformat-parser: "npm:1.4.0"
-  checksum: 10/8bb076d8850d300d869d94fc46b186a272cca200c283f729171e605557bc72773a542f87a662b3c89c46aa026dcbf934e705372632f0cf7fc4372c8b1efe7cfb
+    "@formatjs/intl-unified-numberformat": "npm:^3.2.0"
+  checksum: 10/0dcc21da19dd98ebf31e2689824de9d3f0281f19ac05833f3ad8525d43224852dc030f5e9a4ac5b5c422d1ef6cfef468269275b790b0105c6b5a64acc7da3448
   languageName: node
   linkType: hard
 
-"intl-relativeformat@npm:^2.1.0":
-  version: 2.2.0
-  resolution: "intl-relativeformat@npm:2.2.0"
+"intl-messageformat@npm:^7.8.4":
+  version: 7.8.4
+  resolution: "intl-messageformat@npm:7.8.4"
   dependencies:
-    intl-messageformat: "npm:^2.0.0"
-  checksum: 10/1a24a47ae00dda0c7fd7d093410b3b0cc579c73f30241977e1e887700a59a77af3fa2f2d9a345f4232eae9f9a6086c1ed1f02196f5ab3baadd629776e909b00c
+    intl-format-cache: "npm:^4.2.21"
+    intl-messageformat-parser: "npm:^3.6.4"
+  checksum: 10/7037f9eb980b9b722f381c4d75762c0bcd96ee7269011dd48ad58467b708be6f416a45301ec702bf6083596e509f769533736e5e44621ed4a0f7242c6bce2cbc
   languageName: node
   linkType: hard
 
-"intl@npm:1.2.5":
-  version: 1.2.5
-  resolution: "intl@npm:1.2.5"
-  checksum: 10/4dc351bbf75d256134fa896d6ff2b245329109dd543ec5775e78e7c719d5d8683315d87a05671e39f96542155b5c5a81afcbc462cda860cb500268d101292412
-  languageName: node
-  linkType: hard
-
-"invariant@npm:^2.1.1, invariant@npm:^2.2.4":
+"invariant@npm:^2.2.4":
   version: 2.2.4
   resolution: "invariant@npm:2.2.4"
   dependencies:
@@ -20371,7 +20414,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.3.11, nanoid@npm:^3.3.7":
+"nanoid@npm:^3.3.11":
   version: 3.3.11
   resolution: "nanoid@npm:3.3.11"
   bin:
@@ -20755,13 +20798,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"normalize-range@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "normalize-range@npm:0.1.2"
-  checksum: 10/9b2f14f093593f367a7a0834267c24f3cb3e887a2d9809c77d8a7e5fd08738bcd15af46f0ab01cc3a3d660386f015816b5c922cea8bf2ee79777f40874063184
-  languageName: node
-  linkType: hard
-
 "normalize-url@npm:1.9.1":
   version: 1.9.1
   resolution: "normalize-url@npm:1.9.1"
@@ -21038,13 +21074,6 @@ __metadata:
   version: 1.1.1
   resolution: "nullthrows@npm:1.1.1"
   checksum: 10/c7cf377a095535dc301d81cf7959d3784d090a609a2a4faa40b6121a0c1d7f70d3a3aa534a34ab852e8553b66848ec503c28f2c19efd617ed564dc07dfbb6d33
-  languageName: node
-  linkType: hard
-
-"num2fraction@npm:^1.2.2":
-  version: 1.2.2
-  resolution: "num2fraction@npm:1.2.2"
-  checksum: 10/dea4b3a2d881d9f74c918aaf2f3ea99945694b546fc5766bbe353c1751903bb0c773be16ab1c608dc81d7dd379da9b8e231b813e5cc568b8ebc9e1e817bc58c7
   languageName: node
   linkType: hard
 
@@ -23370,18 +23399,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:8.4.33":
-  version: 8.4.33
-  resolution: "postcss@npm:8.4.33"
-  dependencies:
-    nanoid: "npm:^3.3.7"
-    picocolors: "npm:^1.0.0"
-    source-map-js: "npm:^1.0.2"
-  checksum: 10/e22a4594c255f26117f38419fb494d7ecab0f596cd409f7aadc8a6173abf180ed7ea970cd13fd366ab12b5840be901d2a09b25197700c2ebcb5a8077326bf519
-  languageName: node
-  linkType: hard
-
-"postcss@npm:^7.0.0, postcss@npm:^7.0.1, postcss@npm:^7.0.27, postcss@npm:^7.0.32":
+"postcss@npm:^7.0.0, postcss@npm:^7.0.1, postcss@npm:^7.0.27":
   version: 7.0.39
   resolution: "postcss@npm:7.0.39"
   dependencies:
@@ -23399,6 +23417,17 @@ __metadata:
     picocolors: "npm:^1.1.1"
     source-map-js: "npm:^1.2.1"
   checksum: 10/cbacbfd7f767e2c820d4bf09a3a744834dd7d14f69ff08d1f57b1a7defce9ae5efcf31981890d9697a972a64e9965de677932ef28e4c8ba23a87aad45b82c459
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^8.4.49":
+  version: 8.5.9
+  resolution: "postcss@npm:8.5.9"
+  dependencies:
+    nanoid: "npm:^3.3.11"
+    picocolors: "npm:^1.1.1"
+    source-map-js: "npm:^1.2.1"
+  checksum: 10/b34661c6efca87f7bf747c6c943435e4bfef7617a238c3719103e607c605d16720682fb121b7ebd4f7f748228dfdf8711b82f7ffed80a5c4a9249c070ed5fd87
   languageName: node
   linkType: hard
 
@@ -24124,19 +24153,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-intl@npm:2.8.0":
-  version: 2.8.0
-  resolution: "react-intl@npm:2.8.0"
+"react-intl@npm:3.12.1":
+  version: 3.12.1
+  resolution: "react-intl@npm:3.12.1"
   dependencies:
-    hoist-non-react-statics: "npm:^2.5.5"
-    intl-format-cache: "npm:^2.0.5"
-    intl-messageformat: "npm:^2.1.0"
-    intl-relativeformat: "npm:^2.1.0"
-    invariant: "npm:^2.1.1"
+    "@formatjs/intl-displaynames": "npm:^1.2.0"
+    "@formatjs/intl-listformat": "npm:^1.4.1"
+    "@formatjs/intl-relativetimeformat": "npm:^4.5.9"
+    "@formatjs/intl-unified-numberformat": "npm:^3.2.0"
+    "@formatjs/intl-utils": "npm:^2.2.0"
+    "@types/hoist-non-react-statics": "npm:^3.3.1"
+    "@types/invariant": "npm:^2.2.31"
+    hoist-non-react-statics: "npm:^3.3.2"
+    intl-format-cache: "npm:^4.2.21"
+    intl-messageformat: "npm:^7.8.4"
+    intl-messageformat-parser: "npm:^3.6.4"
+    shallow-equal: "npm:^1.2.1"
   peerDependencies:
-    prop-types: ^15.5.4
-    react: ^0.14.9 || ^15.0.0 || ^16.0.0
-  checksum: 10/82d11707219b094bda4bd07a94ceba8c5ef2631a1f73fdc355a44a126aa0900376da65f6b0f8ddb0a046e2cbfb2450bbd7b054d5439f8fa8640fd2e1103a1e8e
+    react: ^16.3.0
+  checksum: 10/af27ed9feeaf78bc9cc0e0952cf6fc415d87fbdbe2339cf75ace28297df82245cf397340609aa5fca2e26b89add7fe0dc41b54102da940ea19e40e7c5268b8c5
   languageName: node
   linkType: hard
 
@@ -26016,6 +26051,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"shallow-equal@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "shallow-equal@npm:1.2.1"
+  checksum: 10/4f1645cc516e7754c4438db687e1da439a5f29a7dba2ba90c5f88e5708aeb17bc4355ba45cad805b0e95dc898e37d8bf6d77d854919c7512f89939986cff8cd1
+  languageName: node
+  linkType: hard
+
 "sharp@npm:0.33":
   version: 0.33.5
   resolution: "sharp@npm:0.33.5"
@@ -26423,7 +26465,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map-js@npm:>=0.6.2 <2.0.0, source-map-js@npm:^1.0.1, source-map-js@npm:^1.0.2, source-map-js@npm:^1.2.1":
+"source-map-js@npm:>=0.6.2 <2.0.0, source-map-js@npm:^1.0.1, source-map-js@npm:^1.2.1":
   version: 1.2.1
   resolution: "source-map-js@npm:1.2.1"
   checksum: 10/ff9d8c8bf096d534a5b7707e0382ef827b4dd360a577d3f34d2b9f48e12c9d230b5747974ee7c607f0df65113732711bb701fe9ece3c7edbd43cb2294d707df3

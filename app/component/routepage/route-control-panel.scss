@@ -39,7 +39,7 @@
     letter-spacing: -0.42px;
     border-radius: var(--radius-radius-pill, 999px);
     color: $black;
-    font-weight: normal;
+    font-weight: $font-weight-book;
 
     &.is-active {
       font-weight: $font-weight-medium;

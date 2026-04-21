@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
 import { configShape } from '../../../../util/shapes';
 import { useLogo } from '../../../../hooks/useLogo';
 import NavigatorModal from '../NavigatorModal';
@@ -26,7 +25,6 @@ NavigatorOutroModal.propTypes = {
 };
 
 NavigatorOutroModal.contextTypes = {
-  intl: intlShape.isRequired,
   config: configShape.isRequired,
 };
 

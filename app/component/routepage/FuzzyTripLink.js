@@ -1,18 +1,19 @@
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
+import { useIntl } from 'react-intl';
 import { QueryRenderer, graphql } from 'react-relay';
 import Link from 'found/Link';
 import cx from 'classnames';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
-import { intlShape } from 'react-intl';
 import VehicleIcon from '../VehicleIcon';
 import TripLinkWithScroll from './TripLinkWithScroll';
 import { routePagePath, PREFIX_STOPS } from '../../util/path';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { vehicleShape, tripShape } from '../../util/shapes';
 
-function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }, context) {
+function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }) {
   const { environment } = useContext(ReactRelayContext);
+  const intl = useIntl();
   const icon = (
     <VehicleIcon
       className={cx(rest.mode, 'tail-icon')}
@@ -78,12 +79,12 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }, context) {
         const trip = props.trip.gtfsId;
         const { mode } = vehicle;
         const { shortName } = vehicle;
-        const localizedMode = context.intl.formatMessage({
+        const localizedMode = intl.formatMessage({
           id: `${mode}`,
           defaultMessage: `${mode}`,
         });
         const ariaMessage = !(rest.vehicleState === 'arrived')
-          ? context.intl.formatMessage(
+          ? intl.formatMessage(
               {
                 id: 'route-page-vehicle-position-between',
                 defaultMessage:
@@ -96,7 +97,7 @@ function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }, context) {
                 shortName: shortName?.toLowerCase(),
               },
             )
-          : context.intl.formatMessage(
+          : intl.formatMessage(
               {
                 id: 'route-page-vehicle-position',
                 defaultMessage: '{mode} {shortName} is at {stopName}',
@@ -139,10 +140,6 @@ FuzzyTripLink.propTypes = {
 FuzzyTripLink.defaultProps = {
   trip: undefined,
   nextStopName: undefined,
-};
-
-FuzzyTripLink.contextTypes = {
-  intl: intlShape.isRequired,
 };
 
 export default FuzzyTripLink;

@@ -1,7 +1,6 @@
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
 import { ReactRelayContext } from 'react-relay';
 import GridLayer from 'react-leaflet/es/GridLayer';
 import SphericalMercator from '@mapbox/sphericalmercator';
@@ -76,7 +75,6 @@ class TileLayerContainer extends GridLayer {
 
   static contextTypes = {
     getStore: PropTypes.func.isRequired,
-    intl: intlShape.isRequired,
     config: configShape.isRequired,
     match: matchShape.isRequired,
     router: routerShape.isRequired,

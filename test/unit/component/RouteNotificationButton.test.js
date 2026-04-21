@@ -4,7 +4,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import * as useTranslationsContextModule from '../../../app/util/useTranslationsContext';
+import * as ReactIntl from 'react-intl';
 import RouteNotificationButton from '../../../app/component/routepage/RouteNotificationButton';
 
 const baseIntl = {
@@ -27,9 +27,7 @@ describe('<RouteNotificationButton />', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sandbox
-      .stub(useTranslationsContextModule, 'useTranslationsContext')
-      .returns(baseIntl);
+    sandbox.stub(ReactIntl, 'useIntl').returns(baseIntl);
   });
 
   afterEach(() => {

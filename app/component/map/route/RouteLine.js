@@ -7,7 +7,7 @@ import LocationMarker from '../LocationMarker';
 import Line from '../Line';
 import { getClosestPoint } from '../../../util/geo-utils';
 import { getTripOrRouteMode } from '../../../util/modeUtils';
-import { patternShape, tripShape, configShape } from '../../../util/shapes';
+import { patternShape, configShape, tripShape } from '../../../util/shapes';
 
 /**
  * Split the array points in two at the given position. Return index to split at

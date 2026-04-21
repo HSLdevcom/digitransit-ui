@@ -1,3 +1,4 @@
+import axios from 'axios';
 import serialize from '@digitransit-search-util/digitransit-search-util-serialize';
 /**
  *  Return Promise for a url json get request
@@ -10,7 +11,6 @@ import serialize from '@digitransit-search-util/digitransit-search-util-serializ
  * digitransit-search-util.getJson(param1, param2);
  * //=response
  */
-const axios = require('axios').default;
 
 export default function getJson(url, params) {
   return axios

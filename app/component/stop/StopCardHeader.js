@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
 import { matchShape } from 'found';
 import { stopShape, stationShape } from '../../util/shapes';
 import CardHeader from '../CardHeader';
@@ -141,7 +140,7 @@ StopCardHeader.contextTypes = {
       }).isRequired,
     }).isRequired,
   }).isRequired,
-  intl: intlShape.isRequired,
+  intl: PropTypes.object.isRequired, // eslint-disable-line
   executeAction: PropTypes.func.isRequired,
   match: matchShape.isRequired,
 };

@@ -117,7 +117,10 @@ const TripRouteStop = (props, { config }) => {
           viewBox="0 0 16 16"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          style={{ fill: !stopPassed && color, stroke: !stopPassed && color }}
+          style={{
+            fill: !stopPassed ? color : null,
+            stroke: !stopPassed ? color : null,
+          }}
         >
           <circle
             cx="8"
@@ -130,7 +133,7 @@ const TripRouteStop = (props, { config }) => {
         </svg>
         <div
           className={cx('route-stop-now_line', mode)}
-          style={{ backgroundColor: !stopPassed && color }}
+          style={{ backgroundColor: !stopPassed ? color : null }}
         />
       </div>
       <div className="route-stop-row_content-container">

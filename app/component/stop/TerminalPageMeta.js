@@ -1,12 +1,12 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { intlShape } from 'react-intl';
 import { useFragment, graphql } from 'react-relay';
+import { useIntl } from 'react-intl';
 import { configShape, stationShape } from '../../util/shapes';
 
 import { generateMetaData } from '../../util/metaUtils';
 
-function TerminalPageMeta({ station: stationRef }, { config, intl }) {
+function TerminalPageMeta({ station: stationRef }, { config }) {
   const station = useFragment(
     graphql`
       fragment TerminalPageMeta_station on Stop {
@@ -17,6 +17,7 @@ function TerminalPageMeta({ station: stationRef }, { config, intl }) {
     `,
     stationRef,
   );
+  const intl = useIntl();
   if (!station) {
     return false;
   }
@@ -51,7 +52,6 @@ TerminalPageMeta.propTypes = {
 
 TerminalPageMeta.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default TerminalPageMeta;

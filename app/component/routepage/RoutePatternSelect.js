@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelect } from 'downshift';
 import { Link, routerShape } from 'found';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import Icon from '../Icon';
 import { routePagePath } from '../../util/path';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { patternShape, routeShape } from '../../util/shapes';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
 import { useBreakpoint } from '../../util/withBreakpoint';
 
 function patternOptionText(pattern) {
@@ -61,7 +60,7 @@ function PatternOption({
   getItemProps,
   currentPattern,
 }) {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
 
   if (option.stops) {
     // Option is a pattern
@@ -247,7 +246,7 @@ export default function RoutePatternSelect({
   router,
   backgroundColor = null,
 }) {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const breakpoint = useBreakpoint();
   const isMobile = breakpoint !== 'large';
   const [mobileModalOpen, setMobileModalOpen] = useState(false);

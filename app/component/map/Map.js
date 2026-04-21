@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
+import { useIntl } from 'react-intl';
 import LeafletMap from 'react-leaflet/es/Map';
 import TileLayer from 'react-leaflet/es/TileLayer';
 import AttributionControl from 'react-leaflet/es/AttributionControl';
 import ScaleControl from 'react-leaflet/es/ScaleControl';
 import ZoomControl from 'react-leaflet/es/ZoomControl';
-import { intlShape } from 'react-intl';
 import L from 'leaflet';
 import get from 'lodash/get';
 import isString from 'lodash/isString';
@@ -75,7 +75,8 @@ export default function Map(
   },
   context,
 ) {
-  const { config, intl } = context;
+  const { config } = context;
+  const intl = useIntl();
 
   const [ownZoom, setOwnZoom] = useState(14);
   const boundsOptions = useRef();
@@ -345,5 +346,4 @@ Map.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   getStore: PropTypes.func,
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };

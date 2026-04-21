@@ -59,6 +59,7 @@ export default function CardHeader(
                   desc={description}
                   code={code}
                   isTerminal={isTerminal}
+                  vehicleMode={stop.vehicleMode}
                 />
               </div>
               {config.zones?.stops &&

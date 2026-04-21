@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from '../../Icon';
-import { useTranslationsContext } from '../../../util/useTranslationsContext';
 
 /**
  * Represents the types of acceptable values.
@@ -21,7 +20,7 @@ export default function SearchSettingsDropdown({
   onOptionSelected,
   name,
 }) {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const [showDropdown, setShowDropdown] = useState(false);
   const labelRef = useRef(null);
 

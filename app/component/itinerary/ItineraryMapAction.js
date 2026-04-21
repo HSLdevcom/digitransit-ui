@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { isKeyboardSelectionEvent } from '../../util/browser';
 import Icon from '../Icon';
 
-function ItineraryMapAction({ target, focusAction, ariaLabelId }, { intl }) {
+function ItineraryMapAction({ target, focusAction, ariaLabelId }) {
+  const intl = useIntl();
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div
@@ -28,10 +29,6 @@ ItineraryMapAction.propTypes = {
 
 ItineraryMapAction.defaultProps = {
   ariaLabelId: 'itinerary-summary.show-on-map',
-};
-
-ItineraryMapAction.contextTypes = {
-  intl: intlShape.isRequired,
 };
 
 export default ItineraryMapAction;

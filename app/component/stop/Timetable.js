@@ -5,7 +5,7 @@ import uniqBy from 'lodash/uniqBy';
 import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import { useFragment } from 'react-relay';
 import { connectToStores } from 'fluxible-addons-react';
@@ -137,9 +137,10 @@ const createTimeTableRows = (timetableMap, showRoutes) =>
 
 function Timetable(
   { stop: stopRef, startDate, onDateChange, date, language },
-  { router, match, config, intl },
+  { router, match, config },
 ) {
   const stop = useFragment(TimetableFragment, stopRef);
+  const intl = useIntl();
   if (!stop) {
     router.replace(`/${PREFIX_STOPS}`);
   }
@@ -483,7 +484,6 @@ Timetable.contextTypes = {
   router: routerShape.isRequired,
   match: matchShape.isRequired,
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 Timetable.displayName = 'Timetable';

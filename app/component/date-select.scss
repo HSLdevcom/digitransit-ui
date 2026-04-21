@@ -56,7 +56,6 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      background-color: none;
 
       & span {
         transition: all 0.2s ease-out;
@@ -69,14 +68,14 @@
 
     & select {
       cursor: pointer;
-      border-bottom: 2px none !important;
+      border-bottom: none !important;
       transition: all 0.2s ease-out;
       height: 1.27em;
       line-height: 1.3em;
 
       &:hover {
         color: $theme-secondary-color;
-        border-bottom: 2px none !important;
+        border-bottom: none !important;
       }
     }
 
@@ -126,8 +125,8 @@
     height: 100%;
     background: none;
     border: none;
-    margin: none;
-    padding: none;
+    margin: 0;
+    padding: 0;
 
     .route-schedule__value-container {
       overflow: visible;
@@ -141,12 +140,11 @@
         .left-column {
           color: #333;
           font-size: 0.92rem;
-          font-weight: 500;
+          font-weight: $font-weight-medium;
           text-align: left;
           overflow: visible;
           text-overflow: ellipsis;
           white-space: nowrap;
-          background-color: none;
           width: calc(100% - 46px);
           padding-left: 4px;
           padding-right: 4px;
@@ -169,14 +167,14 @@
 
           & select {
             cursor: pointer;
-            border-bottom: 2px none !important;
+            border-bottom: none !important;
             transition: all 0.2s ease-out;
             height: 1.27em;
             line-height: 1.3em;
 
             &:hover {
               color: $theme-secondary-color;
-              border-bottom: 2px none !important;
+              border-bottom: none !important;
             }
           }
 

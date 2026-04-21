@@ -104,7 +104,7 @@ export default async () => {
         peerDepsExternal({
           packageJsonPath: path.join(__dirname, basePath, 'package.json'),
         }),
-        nodeResolve(),
+        nodeResolve({ browser: true }),
         babel({
           runtimeHelpers: true,
           configFile: './config/babel.config.js',

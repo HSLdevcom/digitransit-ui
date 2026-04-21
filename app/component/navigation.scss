@@ -21,30 +21,11 @@
 
 /* foundation override */
 $menu-slide: 'transform 200ms ease';
-$offcanvas-background: #333;
-$offcanvas-background-hover: scale-color($gray, $lightness: -30%);
-$offcanvas-background-active: scale-color($gray, $lightness: -30%);
 
 /* top bar */
 $topbar-height: 40px;
 $top-navigation-icon-color: navbar-icon-color($top-bar-color) !default;
 $top-navigation-title-color: navbar-icon-color($top-bar-color);
-
-/* offcanvas */
-$offcanvas-profile-icon-size: 60px;
-$offcanvas-profile-icon-color: $theme-primary-color;
-$offcanvas-lead-text-color: $gray;
-$offcanvas-lead-text-font-family: $font-family;
-$offcanvas-lead-text-font-weight: $font-weight-book;
-$offcanvas-lead-text-letter-spacing: $letter-spacing;
-$offcanvas-lead-text-font-size: 15px;
-$offcanvas-login-text-font-family: $font-family;
-$offcanvas-login-text-font-weight: $font-weight-book;
-$offcanvas-login-text-letter-spacing: $letter-spacing;
-$offcanvas-login-text-font-size: $font-size-small;
-$offcanvas-login-arrow-icon-size: 14px;
-$offcanvas-link-color: $theme-primary-color;
-$offcanvas-link-text-font-size: 15px;
 
 /* Content */
 $content-background-color: $background-color;
@@ -340,7 +321,6 @@ $content-background-color: $background-color;
     font-size: 1.2em;
     margin: 0 0 0 2.5em;
     font-weight: $font-weight-medium;
-    font-family: $heading-font-family;
 
     &::first-letter {
       text-transform: capitalize;
@@ -385,7 +365,7 @@ $content-background-color: $background-color;
   padding-left: 20px;
   padding-right: 20px;
   background: $white;
-  color: $offcanvas-link-color;
+  color: $theme-primary-color;
   height: 100%;
   overflow-y: auto;
   text-align: left;
@@ -393,17 +373,17 @@ $content-background-color: $background-color;
   @include font-medium;
 
   i.icon-profile {
-    font-size: $offcanvas-profile-icon-size;
-    color: $offcanvas-profile-icon-color;
+    font-size: 60px;
+    color: $theme-primary-color;
   }
 
   a {
-    color: $offcanvas-link-color;
+    color: $theme-primary-color;
     text-decoration: none;
   }
 
   label {
-    color: $offcanvas-link-color;
+    color: $theme-primary-color;
     text-decoration: none;
     font-weight: inherit;
     font-size: inherit;
@@ -419,12 +399,12 @@ $content-background-color: $background-color;
 
   span {
     cursor: pointer;
-    color: $offcanvas-link-color;
+    color: $theme-primary-color;
     text-decoration: none;
   }
 
   .icon {
-    fill: $offcanvas-link-color;
+    fill: $theme-primary-color;
 
     &.small {
       width: 10px;
@@ -445,8 +425,6 @@ $content-background-color: $background-color;
 
   button.noborder {
     @include font-medium;
-
-    font-family: $button-font-family;
   }
 
   .menu-section {
@@ -456,8 +434,6 @@ $content-background-color: $background-color;
 
     &.main-links {
       .offcanvas-section {
-        font-family: $heading-font-family;
-
         button {
           font-weight: $font-weight-medium;
         }
@@ -478,7 +454,6 @@ $content-background-color: $background-color;
   }
 
   .copyright {
-    font-family: $heading-font-family;
     font-weight: $font-weight-book;
     color: black;
     margin-top: 30px;
@@ -556,10 +531,8 @@ $content-background-color: $background-color;
     margin: 0;
     display: inline-block;
     font-size: $font-size-normal;
-    font-family: $heading-font-family;
 
     button {
-      font-family: $button-font-family;
       font-size: $font-size-normal;
     }
 
@@ -573,7 +546,6 @@ $content-background-color: $background-color;
     align-items: center;
 
     .icon.disruption-info {
-      font-family: $heading-font-family;
       padding-left: 0;
       margin-left: 10px;
       width: 24px;
@@ -632,7 +604,6 @@ section.content {
       }
 
       h1 {
-        font-family: $heading-font-family;
         line-height: 1em;
         letter-spacing: -0.025em;
       }
@@ -816,7 +787,6 @@ section.content {
           button {
             text-decoration: underline;
             font-weight: $font-weight-bold;
-            font-family: $font-family;
           }
 
           .message-bar-link {

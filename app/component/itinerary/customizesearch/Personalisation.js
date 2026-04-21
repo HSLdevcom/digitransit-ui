@@ -1,19 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import SettingsToggle from './SettingsToggle';
 import PrModal from './PrModal';
 import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import Icon from '../../Icon';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { settingsShape } from '../../../util/shapes';
-import { useTranslationsContext } from '../../../util/useTranslationsContext';
 
 export default function Personalisation(
   { currentSettings },
   { executeAction },
 ) {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const [modalOpen, setModalOpen] = useState(false);
 
   const onToggle = () => {

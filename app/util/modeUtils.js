@@ -45,7 +45,7 @@ export function showCitybikeNetwork(networkConfig) {
     networkConfig.type === 'citybike' &&
     (isCitybikeSeasonActive(networkConfig?.season) ||
       isCitybikePreSeasonActive(networkConfig?.season) ||
-      IS_DEV())
+      IS_DEV)
   );
 }
 

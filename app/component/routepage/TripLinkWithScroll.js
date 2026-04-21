@@ -1,27 +1,24 @@
 import PropTypes from 'prop-types';
 import React, { useRef, useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import Link from 'found/Link';
-import { intlShape } from 'react-intl';
 import VehicleIcon from '../VehicleIcon';
 import { routePagePath, PREFIX_STOPS } from '../../util/path';
 
-function TripLinkWithScroll(
-  {
-    mode,
-    pattern,
-    route,
-    vehicleNumber,
-    selected = false,
-    setHumanScrolling,
-    color,
-    keepTracking,
-    stopName,
-    nextStopName,
-    tripId,
-    vehicleState,
-  },
-  context,
-) {
+function TripLinkWithScroll({
+  mode,
+  pattern,
+  route,
+  vehicleNumber,
+  selected = false,
+  setHumanScrolling,
+  color,
+  keepTracking,
+  stopName,
+  nextStopName,
+  tripId,
+  vehicleState,
+}) {
   const trackedVehicleRef = useRef();
   const shouldUpdate = useRef(true);
   useEffect(() => {
@@ -51,12 +48,13 @@ function TripLinkWithScroll(
       }, 4000);
     }
   });
-  const localizedMode = context.intl.formatMessage({
+  const intl = useIntl();
+  const localizedMode = intl.formatMessage({
     id: `${mode}`,
     defaultMessage: `${mode}`,
   });
   let ariaMessage = !(vehicleState === 'arrived')
-    ? context.intl.formatMessage(
+    ? intl.formatMessage(
         {
           id: 'route-page-vehicle-position-between',
           defaultMessage:
@@ -69,7 +67,7 @@ function TripLinkWithScroll(
           shortName: vehicleNumber?.toLowerCase(),
         },
       )
-    : context.intl.formatMessage(
+    : intl.formatMessage(
         {
           id: 'route-page-vehicle-position',
           defaultMessage: '{mode} {shortName} is at {stopName}',
@@ -81,10 +79,10 @@ function TripLinkWithScroll(
         },
       );
   if (selected) {
-    ariaMessage += ` ${context.intl.formatMessage({
+    ariaMessage += intl.formatMessage({
       id: 'route-page-vehicle-selected',
       defaultMessage: 'Current selection.',
-    })}`;
+    });
   }
   const icon = (
     <Link
@@ -135,10 +133,6 @@ TripLinkWithScroll.defaultProps = {
   vehicleNumber: '',
   nextStopName: '',
   stopName: '',
-};
-
-TripLinkWithScroll.contextTypes = {
-  intl: intlShape.isRequired,
 };
 
 export default TripLinkWithScroll;

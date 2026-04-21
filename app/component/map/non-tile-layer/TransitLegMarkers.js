@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { withLeaflet } from 'react-leaflet/es/context';
 import polyUtil from 'polyline-encoded';
-import { intlShape } from 'react-intl';
 import { configShape, legShape } from '../../../util/shapes';
 import { isLocalCallAgency, legTime } from '../../../util/legUtils';
 import { getMiddleOf } from '../../../util/geo-utils';
@@ -133,7 +132,7 @@ class TransitLegMarkers extends React.Component {
 
   static contextTypes = {
     config: configShape.isRequired,
-    intl: intlShape.isRequired,
+    intl: PropTypes.object.isRequired,
   };
 
   getLegMarkerPixelPosition(leg) {

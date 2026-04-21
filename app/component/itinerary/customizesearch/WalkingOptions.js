@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import React from 'react';
 import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
@@ -7,7 +8,6 @@ import SettingsToggle from './SettingsToggle';
 import { findNearestOption } from '../../../util/planParamUtil';
 import { settingsShape } from '../../../util/shapes';
 import { useConfigContext } from '../../../configurations/ConfigContext';
-import { useTranslationsContext } from '../../../util/useTranslationsContext';
 
 const roundToOneDecimal = number => {
   const rounded = Math.round(number * 10) / 10;
@@ -24,7 +24,7 @@ const title = [
 
 export default function WalkingOptions({ currentSettings }, { executeAction }) {
   const { defaultOptions, defaultSettings } = useConfigContext();
-  const intl = useTranslationsContext();
+  const intl = useIntl();
 
   const options = defaultOptions.walkSpeed.map((s, i) => ({
     title: intl.formatMessage({ id: title[i] }),

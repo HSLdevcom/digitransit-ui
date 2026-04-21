@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useFragment } from 'react-relay';
 import { matchShape } from 'found';
@@ -18,7 +19,6 @@ import DateSelectGrouped from '../../stop/DateSelectGrouped';
 import RouteControlPanel from '../RouteControlPanel';
 import ScrollableWrapper from '../../ScrollableWrapper';
 import { useConfigContext } from '../../../configurations/ConfigContext';
-import { useTranslationsContext } from '../../../util/useTranslationsContext';
 import { getTripsList } from './scheduleTripsUtils';
 import { routeShape, patternShape } from '../../../util/shapes';
 import { calculateRedirectDecision } from './scheduleParamUtils';
@@ -67,7 +67,7 @@ const ScheduleContainer = ({
     firstDeparturesRef,
   );
 
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const config = useConfigContext();
 
   const [from, setFrom] = useState(0);

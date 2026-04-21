@@ -1,4 +1,5 @@
 import React, { Suspense, useState } from 'react';
+import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import Button from '@hsl-fi/button';
 import Header from './Header';
@@ -9,10 +10,9 @@ import { useBreakpoint } from '../../util/withBreakpoint';
 import Gutterer from '../Gutterer';
 import Loading from '../Loading';
 import { FilterContextProvider } from './filters/FiltersContext';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
 
 export default function TrafficNow() {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const breakpoint = useBreakpoint();
   const [showFiltersModal, setShowFiltersModal] = useState(false);
 

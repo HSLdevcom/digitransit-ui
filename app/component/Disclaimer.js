@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import Icon from './Icon';
 import { useDeepLink } from '../util/vehicleRentalUtils';
 import { useConfigContext } from '../configurations/ConfigContext';
-import { useTranslationsContext } from '../util/useTranslationsContext';
 
 export default function Disclaimer({
   header,
@@ -20,7 +19,7 @@ export default function Disclaimer({
   onClose, // hook e.g. for remembering closing
 }) {
   const { colors } = useConfigContext();
-  const intl = useTranslationsContext();
+  const intl = useIntl();
 
   const [showCard, setShowCard] = useState(true);
 

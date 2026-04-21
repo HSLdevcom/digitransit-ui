@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import Icon from './Icon';
 
@@ -18,7 +18,7 @@ function PlatformNumber({ number, short, isRailOrSubway, updated, withText }) {
       <span className="platform-short">
         {withText && (
           <FormattedMessage
-            id={isRailOrSubway ? 'track-short-no-num' : 'platform-short-no-num'}
+            id={isRailOrSubway ? 'track' : 'platform-short-no-num'}
             defaultMessage={isRailOrSubway ? 'Track ' : 'Plat. '}
           />
         )}
@@ -68,10 +68,6 @@ PlatformNumber.defaultProps = {
   isRailOrSubway: false,
   updated: false,
   withText: true,
-};
-
-PlatformNumber.contextTypes = {
-  intl: intlShape.isRequired,
 };
 
 PlatformNumber.displayName = 'PlatformNumber';

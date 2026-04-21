@@ -18,7 +18,7 @@ const SUGGESTION_URL = process.env.CONTENT_DOMAIN
   ? `${process.env.CONTENT_DOMAIN}/api/v1/search/suggestions`
   : 'https://content.hsl.fi/api/v1/search/suggestions'; // old url
 
-const virtualMonitorBaseUrl = IS_DEV()
+const virtualMonitorBaseUrl = IS_DEV
   ? 'https://dev-hslmonitori.digitransit.fi'
   : 'https://omatnaytot.hsl.fi';
 
@@ -798,8 +798,8 @@ export default {
 
   showStopStatusMarkers: true,
   flex: {
-    internalFlexEnabled: IS_DEV(),
-    allowTaxiJourneys: IS_DEV(),
+    internalFlexEnabled: IS_DEV,
+    allowTaxiJourneys: IS_DEV,
     directOnlyTaxiJourneys: false,
     internalAgencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
     externalAgencies: ['02Taksi:02_taksi'],
@@ -810,4 +810,5 @@ export default {
   showRouteDescNotification: IS_DEV(),
   personalisation: IS_DEV(),
   interactiveElementsUseModeColor: true,
+  viaPointsEnabled: true,
 };

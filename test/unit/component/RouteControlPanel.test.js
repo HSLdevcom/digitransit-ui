@@ -5,13 +5,13 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
 import { DateTime } from 'luxon';
+import * as ReactIntl from 'react-intl';
 import { mockContext } from '../helpers/mock-context';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { Component as RouteControlPanel } from '../../../app/component/routepage/RouteControlPanel';
 import { AlertSeverityLevelType } from '../../../app/constants';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../app/util/path';
 import * as ConfigContextModule from '../../../app/configurations/ConfigContext';
-import * as useTranslationsContextModule from '../../../app/util/useTranslationsContext';
 
 const baseConfig = {
   CONFIG: 'default',
@@ -26,7 +26,7 @@ describe('<RouteControlPanel />', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     sandbox
-      .stub(useTranslationsContextModule, 'useTranslationsContext')
+      .stub(ReactIntl, 'useIntl')
       .returns({ formatMessage: ({ id }) => id, locale: 'en' });
     configStub = sandbox
       .stub(ConfigContextModule, 'useConfigContext')

@@ -298,7 +298,7 @@
     padding: 0 16px 0 16px;
     background: white;
     font-size: $font-size-normal;
-    font-weight: normal;
+    font-weight: $font-weight-book;
     color: $gray;
 
     .section-header {
@@ -328,8 +328,6 @@
 }
 
 .pr-info-modal {
-  padding: 24px;
-
   h2 {
     font-size: $font-size-large;
   }
@@ -412,6 +410,7 @@
     button {
       height: 28px;
       width: 140px;
+      margin-top: 4px;
       border-radius: 14px;
       flex-direction: row;
       justify-content: center;
@@ -420,9 +419,14 @@
       color: $white;
       background-color: $theme-primary-color;
     }
-  }
-}
 
-.pr-info-mobile {
-  padding-top: 46px;
+    .beta-desc-mobile {
+      max-width: 100%;
+      width: 100%;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
 }

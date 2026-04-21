@@ -3,7 +3,6 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import cx from 'classnames';
-import { intlShape } from 'react-intl';
 import { routeShape, configShape } from '../../util/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../../util/withBreakpoint';
@@ -26,7 +25,7 @@ class PatternStopsContainer extends React.PureComponent {
 
   static contextTypes = {
     config: configShape.isRequired,
-    intl: intlShape.isRequired,
+    intl: PropTypes.object.isRequired,
   };
 
   render() {

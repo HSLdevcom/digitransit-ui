@@ -118,9 +118,8 @@
       .itinerary-co2-value {
         min-width: auto;
         height: 16px;
-        font-family: $font-family;
         font-style: normal;
-        font-weight: $itinerary-co2-badge-font-weight;
+        font-weight: $font-weight-medium;
         font-size: 13px;
         line-height: 16px;
         color: #3b7f00;
@@ -145,7 +144,7 @@
     padding: 6px 10px 2px 4px;
     background: $infobox-color-generic-blue;
     border-radius: 5px;
-    font-weight: normal;
+    font-weight: $font-weight-book;
     font-size: 13px;
     color: #333;
     line-height: 16px;

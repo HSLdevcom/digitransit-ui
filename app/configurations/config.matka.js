@@ -14,7 +14,7 @@ const APP_DESCRIPTION =
 const APP_TITLE = 'Fintraffic Matka – Joukkoliikenteen reittiopas ja matkahaku';
 const YEAR = 1900 + new Date().getYear();
 
-const virtualMonitorBaseUrl = IS_DEV()
+const virtualMonitorBaseUrl = IS_DEV
   ? 'https://dev-matkamonitori.digitransit.fi'
   : 'https://matkamonitori.digitransit.fi';
 
@@ -67,7 +67,7 @@ export default {
     rail: '#000',
     ferry: '#247C7B',
   },
-  feedIds: IS_DEV()
+  feedIds: IS_DEV
     ? ['MATKA', 'flixbus', 'CAR_FERRIES']
     : [
         'MATKA',
@@ -472,4 +472,5 @@ export default {
 
   showStopStatusMarkers: true,
   showRouteDescNotification: IS_DEV(),
+  viaPointsEnabled: true,
 };

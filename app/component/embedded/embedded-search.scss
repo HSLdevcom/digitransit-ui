@@ -31,11 +31,10 @@
 
     .search-button {
       background-color: $theme-primary-color;
-      font-family: $button-font-family;
       border: 2px solid $theme-primary-color;
       color: white;
       border-radius: 40px;
-      font-weight: 500;
+      font-weight: $font-weight-medium;
       min-width: 128px;
       height: 40px;
       padding: 5px 10px;

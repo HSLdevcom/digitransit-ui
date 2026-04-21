@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { displayDistance } from '../../../util/geo-utils';
@@ -48,8 +48,9 @@ export default function NaviInstructions(
     tailLength,
     showDestinationInfo,
   },
-  { intl, config },
+  { config },
 ) {
+  const intl = useIntl();
   const { routeMode, route, hs, values } = getBoardingParams(
     nextLeg,
     time,
@@ -202,6 +203,5 @@ NaviInstructions.defaultProps = {
   showDestinationInfo: false,
 };
 NaviInstructions.contextTypes = {
-  intl: intlShape.isRequired,
   config: configShape.isRequired,
 };

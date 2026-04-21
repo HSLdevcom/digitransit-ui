@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import Link from 'found/Link';
 import { fetchQuery } from 'react-relay';
@@ -37,8 +37,9 @@ export default function BicycleLeg(
     nextLegMode,
     relayEnvironment,
   },
-  { config, intl },
+  { config },
 ) {
+  const intl = useIntl();
   let stopsDescription;
   let circleLine;
   const distance = displayDistance(
@@ -519,5 +520,4 @@ BicycleLeg.defaultProps = {
 
 BicycleLeg.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };

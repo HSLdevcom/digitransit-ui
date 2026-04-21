@@ -3,7 +3,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useFragment } from 'react-relay';
 import { getTripOrRouteMode } from '../../util/modeUtils';
 import {
@@ -94,9 +94,10 @@ function ItineraryDetails(
     carPublicItineraryCount,
     relayEnvironment,
   },
-  { config, match, intl },
+  { config, match },
 ) {
   const itinerary = useFragment(ItineraryDetailsFragment, itineraryRef);
+  const intl = useIntl();
 
   const shouldShowDisclaimer =
     config.showDisclaimer &&
@@ -124,7 +125,6 @@ function ItineraryDetails(
   );
   const legsWithScooter = compressedLegs.some(leg => leg.mode === 'SCOOTER');
   const legsWithAirplane = compressedLegs.some(leg => leg.mode === 'AIRPLANE');
-  const legsWithViaPoint = compressedLegs.some(leg => leg.from.viaLocationType);
   const onlyWalking = compressedLegs.every(leg => leg.mode === 'WALK');
   const onlyBiking = compressedLegs.every(leg => leg.mode === 'BICYCLE');
   const showStartNavi =
@@ -380,19 +380,15 @@ function ItineraryDetails(
                 relayEnvironment={relayEnvironment}
               />
             </div>
-            {config.showCO2InItinerarySummary &&
-              !legsWithScooter &&
-              !legsWithViaPoint && (
-                <Emissions
-                  key="emissionsinfo"
-                  config={config}
-                  itinerary={itinerary}
-                  carEmissions={carEmissions}
-                  emissionsInfolink={
-                    config.URL.EMISSIONS_INFO?.[currentLanguage]
-                  }
-                />
-              )}
+            {config.showCO2InItinerarySummary && !legsWithScooter && (
+              <Emissions
+                key="emissionsinfo"
+                config={config}
+                itinerary={itinerary}
+                carEmissions={carEmissions}
+                emissionsInfolink={config.URL.EMISSIONS_INFO?.[currentLanguage]}
+              />
+            )}
             {shouldShowDisclaimer && (
               <div className="itinerary-disclaimer" key="disclaimer">
                 <FormattedMessage
@@ -441,7 +437,6 @@ ItineraryDetails.contextTypes = {
   config: configShape.isRequired,
   router: routerShape.isRequired,
   match: matchShape.isRequired,
-  intl: intlShape.isRequired,
   getStore: PropTypes.func.isRequired,
 };
 

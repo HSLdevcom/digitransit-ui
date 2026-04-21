@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connectToStores } from 'fluxible-addons-react';
 import { matchShape } from 'found';
-import { intlShape } from 'react-intl';
 import MapWithTracking from './MapWithTracking';
 import { sameLocations } from '../../util/path';
 import OriginStore from '../../store/OriginStore';
@@ -110,7 +109,6 @@ IndexPageMap.defaultProps = {
 IndexPageMap.contextTypes = {
   config: configShape.isRequired,
   executeAction: PropTypes.func.isRequired,
-  intl: intlShape.isRequired,
 };
 
 const IndexPageMapWithStores = connectToStores(

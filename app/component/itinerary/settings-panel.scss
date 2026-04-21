@@ -10,7 +10,6 @@
   .map-layer-header {
     font-size: 18px;
     font-weight: $font-weight-bold;
-    font-family: $heading-font-family;
     line-height: 88px;
   }
 
@@ -23,7 +22,6 @@
     height: 50px;
     min-height: 50px;
     font-size: 18px;
-    font-family: $button-font-family;
     font-weight: $font-weight-medium;
     letter-spacing: -0.5px;
     background: $theme-primary-color;

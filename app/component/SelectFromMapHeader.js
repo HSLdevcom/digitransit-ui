@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from './Icon';
 import { useConfigContext } from '../configurations/ConfigContext';
-import { useTranslationsContext } from '../util/useTranslationsContext';
 
 export default function SelectFromMapHeader(props) {
   const { colors } = useConfigContext();
-  const intl = useTranslationsContext();
+  const intl = useIntl();
 
   return (
     <div className="select-from-map-nav-container">

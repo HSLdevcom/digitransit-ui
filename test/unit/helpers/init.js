@@ -9,6 +9,7 @@ import { after, afterEach, before } from 'mocha';
 import { stub } from 'sinon';
 import { Settings } from 'luxon';
 import { initAnalyticsClientSide } from '../../../app/util/analyticsUtils';
+import { restoreOwnedIntlStub } from './mock-intl-enzyme';
 
 /**
  * Helper function to copy the properties of the source object to the
@@ -43,10 +44,16 @@ const { window } = jsdom;
 // set up test environment globals
 global.window = window;
 global.document = window.document;
-global.navigator = {
-  platform: process.platform || '',
-  userAgent: 'node.js',
-};
+
+Object.defineProperty(global, 'navigator', {
+  value: {
+    platform: process.platform || '',
+    userAgent: 'node.js',
+  },
+  configurable: true,
+  writable: true,
+});
+
 copyProps(window, global);
 
 const config = {
@@ -89,6 +96,7 @@ after('resetting the environment', () => {
 
 // make sure the local and session storage stays clear for each test
 afterEach(() => {
+  restoreOwnedIntlStub();
   window.localStorage.clear();
   window.sessionStorage.clear();
 });

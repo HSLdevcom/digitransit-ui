@@ -1,13 +1,13 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { routerShape, matchShape } from 'found';
 import Icon from './Icon';
 import { useConfigContext } from '../configurations/ConfigContext';
-import { useTranslationsContext } from '../util/useTranslationsContext';
 
 export default function BackButton(props, context) {
   const config = useConfigContext();
-  const intl = useTranslationsContext();
+  const intl = useIntl();
 
   const goBack = url => {
     const { router, match } = context;

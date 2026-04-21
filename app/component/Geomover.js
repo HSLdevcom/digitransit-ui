@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import { intlShape } from 'react-intl';
 import React from 'react';
+import { useIntl } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { startLocationWatch } from '../action/PositionActions';
 import { coordsDiff } from '../util/path';
@@ -9,10 +9,10 @@ import storeDestination from '../action/destinationActions';
 
 // This container updates origin and destination store if they are set to follow current location
 export default function withGeomover(WrappedComponent) {
-  const geomover = connectToStores(
-    props => <WrappedComponent {...props} />,
+  const GeomoverConnected = connectToStores(
+    ({ intl: _intl, ...rest }) => <WrappedComponent {...rest} />,
     ['PositionStore'],
-    context => {
+    (context, { intl }) => {
       const origin = context.getStore('OriginStore').getOrigin();
       const destination = context.getStore('DestinationStore').getDestination();
       const locationState = context
@@ -61,7 +61,7 @@ export default function withGeomover(WrappedComponent) {
               target.address = newAddress;
             } else {
               // rev geocoding failed
-              target.address = context.intl.formatMessage({
+              target.address = intl.formatMessage({
                 id: 'own-position',
                 defaultMessage: 'Own Location',
               });
@@ -75,11 +75,13 @@ export default function withGeomover(WrappedComponent) {
     },
   );
 
-  geomover.contextTypes = {
-    intl: intlShape.isRequired,
+  GeomoverConnected.contextTypes = {
     executeAction: PropTypes.func.isRequired,
     getStore: PropTypes.func.isRequired,
   };
 
-  return geomover;
+  return function Geomover(props) {
+    const intl = useIntl();
+    return <GeomoverConnected {...props} intl={intl} />;
+  };
 }

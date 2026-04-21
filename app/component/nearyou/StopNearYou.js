@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'found';
 import Modal from '@hsl-fi/modal';
 import { stopShape, relayShape } from '../../util/shapes';
@@ -11,12 +11,11 @@ import NearYouHeader from './NearYouHeader';
 import AlertBanner from '../AlertBanner';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 import CapacityModal from '../CapacityModal';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
 const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
   const config = useConfigContext();
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   if (!stop.stoptimesWithoutPatterns) {
     return null;
   }

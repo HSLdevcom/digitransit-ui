@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
 import { routeShape, errorShape } from '../../util/shapes';
@@ -28,7 +28,6 @@ import { AlertEntityType } from '../../constants';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RouteNotificationButton from './RouteNotificationButton';
 import { isLocalCallAgency } from '../../util/legUtils';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
 function resolveHeadsign(pattern) {
@@ -49,7 +48,7 @@ function RoutePage({
   error = undefined,
   currentTime,
 }) {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const config = useConfigContext();
 
   const headingRef = useRef(null);
@@ -134,14 +133,15 @@ function RoutePage({
           </div>
           {!tripId && (
             <div className="route-header-actions">
-              {matchingNotification && (
-                <>
-                  <RouteNotificationButton
-                    notification={matchingNotification}
-                  />
-                  <span className="route-header-divider" aria-hidden="true" />
-                </>
-              )}
+              {matchingNotification &&
+                matchingNotification.closeButtonLabel?.[intl.locale] && (
+                  <>
+                    <RouteNotificationButton
+                      notification={matchingNotification}
+                    />
+                    <span className="route-header-divider" aria-hidden="true" />
+                  </>
+                )}
               <FavouriteRouteContainer
                 className="route-page-header"
                 gtfsId={route.gtfsId}

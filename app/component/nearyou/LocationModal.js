@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Modal from '@hsl-fi/modal';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
 
 export default function LocationModal({
   handleClose,
@@ -11,7 +10,7 @@ export default function LocationModal({
   showInfo,
   children,
 }) {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   return (
     <Modal
       appElement="#app"

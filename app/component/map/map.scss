@@ -33,7 +33,7 @@ div.map {
     height: 11px;
     font-family: $font-family;
     font-size: 11px;
-    font-weight: normal;
+    font-weight: $font-weight-book;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
@@ -410,7 +410,6 @@ div.leaflet-marker-icon.vehicle-icon {
   padding: 35px 20px 20px 20px;
 
   .map-routing-modal-header {
-    font-family: $heading-font-family;
     font-size: $font-size-large;
     font-weight: $font-weight-medium;
     margin: 0 0 20px;
@@ -1516,7 +1515,6 @@ div.leaflet-control-scale-line {
   border-radius: 25px;
   bottom: 15%;
   background-color: var(--color);
-  font-family: $button-font-family;
   font-size: 18px;
   font-weight: $font-weight-medium;
   font-stretch: normal;

@@ -1,14 +1,13 @@
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
 import Icon from '../Icon';
 import { useBreakpoint } from '../../util/withBreakpoint';
 import { useConfigContext } from '../../configurations/ConfigContext';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
 
 const AdditionalDescription = () => {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const {
     URL: { HOLIDAYS_AND_EXCEPTIONS, MAJOR_CHANGES },
     language,

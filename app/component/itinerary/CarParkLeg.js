@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { Link } from 'found';
 import { legShape, parkShape, configShape } from '../../util/shapes';
@@ -13,7 +13,8 @@ import { PREFIX_CARPARK } from '../../util/path';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { legTimeStr, legDestination } from '../../util/legUtils';
 
-function CarParkLeg(props, { config, intl }) {
+function CarParkLeg(props, { config }) {
+  const intl = useIntl();
   const distance = displayDistance(
     parseInt(props.leg.distance, 10),
     config,
@@ -137,7 +138,6 @@ CarParkLeg.defaultProps = {
 
 CarParkLeg.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default CarParkLeg;

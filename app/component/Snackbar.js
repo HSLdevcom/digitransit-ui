@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from './Icon';
-import { useTranslationsContext } from '../util/useTranslationsContext';
 import { useConfigContext } from '../configurations/ConfigContext';
 
 /**
@@ -20,7 +19,7 @@ const Snackbar = ({
   iconImg,
   className,
 }) => {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const config = useConfigContext();
   return (
     <>

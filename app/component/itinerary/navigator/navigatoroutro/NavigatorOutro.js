@@ -1,11 +1,11 @@
 import Button from '@hsl-fi/button';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { addAnalyticsEvent } from '../../../../util/analyticsUtils';
 
-const NavigatorOutro = ({ onClose, destination, logo }, context) => {
-  const { intl } = context;
+const NavigatorOutro = ({ onClose, destination, logo }) => {
+  const intl = useIntl();
   const [place, address] = destination?.split(/, (.+)/) || [];
 
   useEffect(
@@ -59,10 +59,6 @@ NavigatorOutro.propTypes = {
 
 NavigatorOutro.defaultProps = {
   logo: undefined,
-};
-
-NavigatorOutro.contextTypes = {
-  intl: intlShape.isRequired,
 };
 
 export default NavigatorOutro;

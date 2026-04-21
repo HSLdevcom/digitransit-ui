@@ -11,7 +11,7 @@
     margin: 4px 0 0 0;
     padding: var(--space-s) var(--space-m) var(--space-s) var(--space-s);
     gap: var(--space-s);
-    font-weight: normal;
+    font-weight: $font-weight-book;
     border-radius: $border-radius-bigger;
     letter-spacing: $letter-spacing;
 
@@ -467,7 +467,6 @@
 
               .platform-short {
                 width: unset;
-                font-family: $font-family;
                 font-size: $font-size-small;
                 letter-spacing: $letter-spacing;
                 display: inline-flex;
@@ -654,7 +653,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-xxs);
-  font-weight: 325;
+  font-weight: $font-weight-book;
   font-size: 14px;
   line-height: 21px;
 

@@ -3,7 +3,7 @@ import capitalize from 'lodash/capitalize';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Link from 'found/Link';
 import { configShape } from '../util/shapes';
 import ExternalLink from './ExternalLink';
@@ -58,7 +58,10 @@ export const getTimePeriod = ({ currentTime, startTime, endTime, intl }) => {
 const getColor = entities => {
   if (Array.isArray(entities)) {
     const routeEntities = getEntitiesOfType(entities, AlertEntityType.Route);
-    return routeEntities.length > 0 && `#${routeEntities[0].color}`;
+    return (
+      routeEntities.length > 0 &&
+      (routeEntities[0].color ? `#${routeEntities[0].color}` : null)
+    );
   }
   return null;
 };
@@ -108,8 +111,9 @@ export default function AlertRow(
     index,
     onClickLink,
   },
-  { intl, config },
+  { config },
 ) {
+  const intl = useIntl();
   if (!description && !header) {
     return null;
   }
@@ -266,7 +270,6 @@ AlertRow.propTypes = {
 
 AlertRow.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 AlertRow.defaultProps = {

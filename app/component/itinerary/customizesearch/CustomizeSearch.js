@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { settingsShape } from '../../../util/shapes';
@@ -21,12 +22,11 @@ import {
 } from '../../../util/modeUtils';
 import ScrollableWrapper from '../../ScrollableWrapper';
 import { getDefaultSettings } from '../../../util/planParamUtil';
-import { useTranslationsContext } from '../../../util/useTranslationsContext';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 
 function CustomizeSearch({ onToggleClick, settings, mobile }) {
   const config = useConfigContext();
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const defaultSettings = getDefaultSettings(config);
 
   // Merge default and customized settings

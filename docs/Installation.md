@@ -5,9 +5,9 @@
 
 You need [Node](https://nodejs.org/), [Yarn](https://yarnpkg.com) (or npm) and watchman.
 
-- `node -v` should be >= 18.x, >= 20.x is recommended (version 18.20.2 and 20.13.1 is known to work)
+- `node -v` should be >= 24.14.1
   - We recommend that you use [`nvm`](https://github.com/nvm-sh/nvm) to install a specific Node.js version. Optionally, you can also set up [its automatic version switching shell integration](https://github.com/nvm-sh/nvm/tree/e6fa80cb6178ff4e9735265281b5eae811f05f11#deeper-shell-integration).
-- `yarn --version` should be >= 3 (version 3.4.1 is known to work). The project will then use yarn 3 from the included file.
+- `yarn --version` should be the in-tree `4.13.0` version. See instructions on how to use it on your OS. For example, you might need to run: `corepack enable`.
 
 You also need a C compiler:
 - Linux: GCC 4.6 or later

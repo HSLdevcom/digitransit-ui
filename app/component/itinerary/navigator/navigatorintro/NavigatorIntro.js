@@ -1,7 +1,7 @@
 import Button from '@hsl-fi/button';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { configShape } from '../../../../util/shapes';
 import NavigatorIntroFeature from './NavigatorIntroFeature';
 import Icon from '../../../Icon';
@@ -10,7 +10,8 @@ const NavigatorIntro = (
   { logo, onPrimaryClick, onClose, onOpenGeolocationInfo },
   context,
 ) => {
-  const { config, intl } = context;
+  const intl = useIntl();
+  const { config } = context;
 
   const primaryColor = config.colors.accessiblePrimary;
 
@@ -89,7 +90,6 @@ NavigatorIntro.defaultProps = {
 };
 
 NavigatorIntro.contextTypes = {
-  intl: intlShape.isRequired,
   config: configShape.isRequired,
 };
 

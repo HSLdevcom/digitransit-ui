@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import * as useTranslationsContextModule from '../../../app/util/useTranslationsContext';
+import * as ReactIntl from 'react-intl';
 import * as ConfigContextModule from '../../../app/configurations/ConfigContext';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { Component as RoutePage } from '../../../app/component/routepage/RoutePage';
@@ -73,12 +73,8 @@ describe('<RoutePage />', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sandbox
-      .stub(useTranslationsContextModule, 'useTranslationsContext')
-      .returns(baseIntl);
-    configStub = sandbox
-      .stub(ConfigContextModule, 'useConfigContext')
-      .returns(baseConfig);
+    sandbox.stub(ReactIntl, 'useIntl').returns(baseIntl);
+    sandbox.stub(ConfigContextModule, 'useConfigContext').returns(baseConfig);
   });
 
   afterEach(() => {

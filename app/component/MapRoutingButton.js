@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import Modal from '@hsl-fi/modal';
 import { stopShape, configShape } from '../util/shapes';
@@ -12,10 +12,8 @@ import {
   PREFIX_ITINERARY_SUMMARY,
 } from '../util/path';
 
-export default function MapRoutingButton(
-  { stop },
-  { intl, router, match, config },
-) {
+export default function MapRoutingButton({ stop }, { router, match, config }) {
+  const intl = useIntl();
   const [showModal, setShowModal] = useState(false);
   const [buttonText, setButtonText] = useState(null);
   useEffect(() => {
@@ -154,7 +152,6 @@ export default function MapRoutingButton(
 MapRoutingButton.propTypes = { stop: stopShape.isRequired };
 
 MapRoutingButton.contextTypes = {
-  intl: intlShape.isRequired, // eslint-disable-line react/no-typos
   config: configShape.isRequired,
   executeAction: PropTypes.func.isRequired,
   router: routerShape.isRequired,

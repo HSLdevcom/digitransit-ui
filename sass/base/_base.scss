@@ -95,7 +95,6 @@ a {
 /* HEADINGS */
 h1,
 .h1 {
-  font-family: $heading-font-family;
   font-size: $font-size-large;
   font-weight: $font-weight-medium;
   letter-spacing: $letter-spacing-front-page;
@@ -105,7 +104,6 @@ h1,
 
 h2,
 .h2 {
-  font-family: $heading-font-family;
   font-size: $font-size-large;
   font-weight: $font-weight-medium;
   letter-spacing: $letter-spacing-front-page;
@@ -116,7 +114,6 @@ h2,
 h3,
 .h3 {
   color: $black;
-  font-family: $heading-font-family;
   font-weight: $font-weight-medium;
   font-size: $font-size-normal;
   line-height: $line-height-normal;
@@ -126,7 +123,6 @@ h3,
 
 h4,
 .h4 {
-  font-family: $heading-font-family;
   font-weight: $font-weight-medium;
   font-size: $font-size-xsmall;
   text-transform: uppercase;
@@ -146,7 +142,6 @@ h1 a {
 
 /* SUB HEADERS */
 .sub-header-h4 {
-  font-family: $heading-font-family;
   font-weight: $font-weight-book;
   font-size: $font-size-small;
   margin: 0 !important;
@@ -154,7 +149,6 @@ h1 a {
 }
 
 .sub-header-h5 {
-  font-family: $heading-font-family;
   font-weight: $font-weight-book;
   font-size: $font-size-xsmall;
   margin: 0;
@@ -214,7 +208,7 @@ body select {
 */
 .code {
   font-family: monospace;
-  font-weight: 400;
+  font-weight: $font-weight-book;
   font-size: 16px;
   color: crimson;
   padding: 0 10px;

@@ -10,7 +10,7 @@ import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { matchShape } from 'found';
 import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
+import { useIntl } from 'react-intl';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { routeShape } from '../../util/shapes';
 import { routePagePath, PREFIX_STOPS } from '../../util/path';
@@ -68,7 +68,7 @@ function RoutePatternSelectContainer({
   className,
 }) {
   const config = useConfigContext();
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const { environment: relayEnvironment } = useContext(ReactRelayContext);
 
   const { params, router } = match;

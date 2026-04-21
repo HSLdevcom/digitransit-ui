@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import { intlShape } from 'react-intl';
 import { configShape, alertShape } from '../util/shapes';
 import { TRAFFICNOW } from '../util/path';
 import Icon from './Icon';
@@ -10,8 +10,9 @@ import { mapAlertSource } from '../util/alertUtils';
 
 const DisruptionBannerAlert = (
   { language, alert, openAllAlerts, truncate, onClose },
-  { intl, config },
+  { config },
 ) => {
+  const intl = useIntl();
   const [renderLink, setRenderLink] = useState(false);
 
   let header = alert.alertHeaderText;
@@ -42,7 +43,7 @@ const DisruptionBannerAlert = (
               <div className="disruption-source-label">
                 {mapAlertSource(config, language, alert.feed)}
               </div>
-              <div className="disruption-message-font-weight">
+              <div className="disruption-message-font">
                 <TruncatedMessage
                   className="disruption-show-more"
                   lines={3}
@@ -60,7 +61,7 @@ const DisruptionBannerAlert = (
                 <div className="disruption-source-label">
                   {mapAlertSource(config, language, alert.feed)}
                 </div>
-                <div className="disruption-message-font-weight">
+                <div className="disruption-message-font">
                   <TruncatedMessage
                     className="disruption-show-more"
                     lines={3}
@@ -115,7 +116,6 @@ DisruptionBannerAlert.defaultProps = {
 };
 
 DisruptionBannerAlert.contextTypes = {
-  intl: intlShape.isRequired,
   config: configShape.isRequired,
 };
 

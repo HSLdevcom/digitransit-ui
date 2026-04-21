@@ -1,7 +1,6 @@
 /* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { intlShape } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { configShape, mapLayerOptionsShape } from '../util/shapes';
@@ -322,7 +321,7 @@ class MapLayersDialogContent extends React.Component {
 }
 MapLayersDialogContent.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
+  intl: PropTypes.object.isRequired,
   router: routerShape.isRequired,
   match: matchShape.isRequired,
 };

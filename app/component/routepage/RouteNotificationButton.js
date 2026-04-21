@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
+import { useIntl } from 'react-intl';
 import ThemedIcon from '../ThemedIcon';
 
 function RouteNotificationButton({ notification }) {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const [open, setOpen] = useState(false);
 
   const lang = intl.locale;

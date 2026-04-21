@@ -5,7 +5,6 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import { intlShape } from 'react-intl';
 import { mapLayerOptionsShape, configShape } from '../../util/shapes';
 import { startLocationWatch } from '../../action/PositionActions';
 import MapContainer from './MapContainer';
@@ -55,7 +54,7 @@ class MapWithTrackingStateHandler extends React.Component {
   static contextTypes = {
     executeAction: PropTypes.func,
     getStore: PropTypes.func,
-    intl: intlShape.isRequired,
+    intl: PropTypes.object.isRequired,
     config: configShape.isRequired,
   };
 

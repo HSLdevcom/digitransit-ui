@@ -2,7 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React, { createRef, useLayoutEffect, useState } from 'react';
 import { useFragment } from 'react-relay';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import {
   legShape,
   locationShape,
@@ -259,8 +259,10 @@ const Itinerary = (
     lowestCo2value,
     ...props
   },
-  { intl, intl: { formatMessage }, config },
+  { config },
 ) => {
+  const intl = useIntl();
+  const { formatMessage } = intl;
   const itinerary = useFragment(ItineraryFragment, itineraryRef);
   const isTransitLeg = leg => leg.transitLeg;
   const isTransitOrRentalLeg = leg => leg.transitLeg || leg.rentedBike;
@@ -1060,7 +1062,6 @@ Itinerary.defaultProps = {
 };
 
 Itinerary.contextTypes = {
-  intl: intlShape.isRequired,
   config: configShape.isRequired,
 };
 

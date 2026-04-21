@@ -190,7 +190,7 @@ function hslTopicResolver(
   );
 }
 
-const mqttAddress = IS_DEV()
+const mqttAddress = IS_DEV
   ? 'wss://dev-mqtt.digitransit.fi'
   : 'wss://mqtt.digitransit.fi';
 

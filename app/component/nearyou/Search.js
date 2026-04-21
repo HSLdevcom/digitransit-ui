@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import React, { memo } from 'react';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import {
@@ -6,7 +7,6 @@ import {
   getLocationSearchTargets,
 } from '../WithSearchContext';
 import { countLocations } from '../../store/FavouriteStore';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
 import { useFavourites } from '../../hooks/FavouriteContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
@@ -14,7 +14,7 @@ const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
 function Search({ onMap, ...rest }) {
   const config = useConfigContext();
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const favourites = useFavourites();
   const searchProps = {
     id: 'origin-stop-near-you',

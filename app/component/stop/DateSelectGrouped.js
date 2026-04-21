@@ -3,9 +3,8 @@ import React, { useState, useMemo, useCallback, useRef } from 'react';
 import { DateTime } from 'luxon';
 
 import Select, { components as RSComponents } from 'react-select';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from '../Icon';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
 import {
   extractSelectedValue,
   formatDateLabel,
@@ -21,7 +20,7 @@ function DateSelectGrouped({
   dates,
   onDateChange,
 }) {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const { locale, formatMessage } = intl;
 
   const GENERATED_DAYS = 60; // Fallback range when no dates provided

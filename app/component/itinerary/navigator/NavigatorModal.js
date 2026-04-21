@@ -2,7 +2,6 @@ import Modal from '@hsl-fi/modal';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { intlShape } from 'react-intl';
 import { configShape } from '../../../util/shapes';
 
 const NavigatorModal = ({ withBackdrop, isOpen, children, slideUp }) => {
@@ -41,7 +40,6 @@ NavigatorModal.defaultProps = {
 };
 
 NavigatorModal.contextTypes = {
-  intl: intlShape.isRequired,
   config: configShape.isRequired,
 };
 

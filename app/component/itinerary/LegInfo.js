@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import cx from 'classnames';
 import Link from 'found/Link';
 import PropTypes from 'prop-types';
-import { intlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Modal from '@hsl-fi/modal';
 import { legShape, configShape } from '../../util/shapes';
 import { legTimeStr, isLocalCallAgency } from '../../util/legUtils';
 import { getTripOrRouteMode } from '../../util/modeUtils';
+import RouteNumber from '../RouteNumber';
 import { routePagePath, PREFIX_STOPS } from '../../util/path';
 import { getCapacityForLeg } from '../../util/occupancyUtil';
 import Icon from '../Icon';
@@ -29,8 +30,9 @@ export default function LegInfo(
     mobile,
     isTransitLeg,
   },
-  { config, intl },
+  { config },
 ) {
+  const intl = useIntl();
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
   const { constantOperationRoutes } = config;
   const shouldLinkToTrip =
@@ -115,7 +117,17 @@ export default function LegInfo(
             leg.route.shortName || leg.trip?.tripShortName
           )?.toLowerCase()}`}
         >
-          {routeNumber}
+          <span aria-hidden="true">
+            <RouteNumber
+              mode={mode}
+              alertSeverityLevel={alertSeverityLevel}
+              color={leg.route?.color ? `#${leg.route.color}` : 'currentColor'}
+              text={leg.route.shortName || leg.trip?.tripShortName}
+              realtime={false}
+              withBar
+              fadeLong
+            />
+          </span>
         </Link>
       )}
       <div className="headsign">{headsign}</div>
@@ -203,6 +215,5 @@ LegInfo.defaultProps = {
 };
 
 LegInfo.contextTypes = {
-  intl: intlShape.isRequired,
   config: configShape.isRequired,
 };

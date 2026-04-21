@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import Icon from '../Icon';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
 
 function RoutePatternHeader({
   origin,
@@ -10,7 +10,7 @@ function RoutePatternHeader({
   canSwap = false,
   onSwap = undefined,
 }) {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
 
   return (
     <div

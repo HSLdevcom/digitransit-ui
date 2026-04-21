@@ -3,15 +3,15 @@ import React from 'react';
 import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
-import { IndoorLegType, ViaLocationType } from '../../constants';
+import { ViaLocationType, IndoorLegType } from '../../constants';
 
 class ItineraryCircleLineWithIcon extends React.Component {
   static propTypes = {
     index: PropTypes.number.isRequired,
     modeClassName: PropTypes.string.isRequired,
+    viaType: PropTypes.string,
     indoorLegType: PropTypes.oneOf(Object.values(IndoorLegType)),
     showIntermediateSteps: PropTypes.bool,
-    viaType: PropTypes.string,
     bikePark: PropTypes.bool,
     carPark: PropTypes.bool,
     color: PropTypes.string,
@@ -19,14 +19,14 @@ class ItineraryCircleLineWithIcon extends React.Component {
     icon: PropTypes.string,
     style: PropTypes.shape({}),
     isNotFirstLeg: PropTypes.bool,
-    indoorStepsLength: PropTypes.number,
     isStop: PropTypes.bool,
+    indoorStepsLength: PropTypes.number,
   };
 
   static defaultProps = {
+    viaType: null,
     indoorLegType: IndoorLegType.NoStepsInside,
     showIntermediateSteps: false,
-    viaType: null,
     color: null,
     bikePark: false,
     carPark: false,
@@ -34,8 +34,8 @@ class ItineraryCircleLineWithIcon extends React.Component {
     icon: undefined,
     style: {},
     isNotFirstLeg: undefined,
-    indoorStepsLength: 0,
     isStop: false,
+    indoorStepsLength: 0,
   };
 
   isFirstChild = () => {

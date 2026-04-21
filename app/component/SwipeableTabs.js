@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import React, { useEffect, useState, useRef } from 'react';
 import ReactSwipe from 'react-swipe';
 import cx from 'classnames';
 import Icon from './Icon';
 import ScrollableWrapper from './ScrollableWrapper';
 import TabBalls from './TabBalls';
-import { useTranslationsContext } from '../util/useTranslationsContext';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 export function setFocusables() {
@@ -41,7 +41,7 @@ export default function SwipeableTabs({
   classname,
   ariaRole,
 }) {
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const reactSwipeEl = useRef();
   const swipeButtonNavRef = useRef(); // tracks if navigation was initiated by button.swipeButton
   const [announceTabLabel, setAnnounceTabLabel] = useState('');

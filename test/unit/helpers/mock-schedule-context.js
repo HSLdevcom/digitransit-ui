@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import * as ReactRelay from 'react-relay';
-import * as useTranslationsContext from '../../../app/util/useTranslationsContext';
+import * as ReactIntl from 'react-intl';
 import * as ConfigContext from '../../../app/configurations/ConfigContext';
 import * as scheduleParamUtils from '../../../app/component/routepage/schedule/scheduleParamUtils';
 import * as scheduleDataUtils from '../../../app/component/routepage/schedule/scheduleDataUtils';
@@ -60,9 +60,7 @@ export const createScheduleTestContext = (overrides = {}) => {
     useFragment: sandbox
       .stub(ReactRelay, 'useFragment')
       .callsFake((fragment, ref) => ref),
-    useTranslationsContext: sandbox
-      .stub(useTranslationsContext, 'useTranslationsContext')
-      .returns(mocks.intl),
+    useIntl: sandbox.stub(ReactIntl, 'useIntl').returns(mocks.intl),
     useConfigContext: sandbox
       .stub(ConfigContext, 'useConfigContext')
       .returns(mocks.config),
@@ -104,9 +102,7 @@ export const createSimpleTestContext = (overrides = {}) => {
   };
 
   const stubs = {
-    useTranslationsContext: sandbox
-      .stub(useTranslationsContext, 'useTranslationsContext')
-      .returns(mocks.intl),
+    useIntl: sandbox.stub(ReactIntl, 'useIntl').returns(mocks.intl),
     useConfigContext: sandbox
       .stub(ConfigContext, 'useConfigContext')
       .returns(mocks.config),

@@ -1,13 +1,13 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { matchShape } from 'found';
 import { generateMetaData } from '../../util/metaUtils';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
 function NearYouPageMeta({ match }) {
   const config = useConfigContext();
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const { mode, place, origin } = match.params;
   const title = intl.formatMessage({
     id: 'stops-near-you.title',

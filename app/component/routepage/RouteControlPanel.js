@@ -2,13 +2,12 @@
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { matchShape } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import { useConfigContext } from '../../configurations/ConfigContext';
-import { useTranslationsContext } from '../../util/useTranslationsContext';
 import RoutePatternSelectContainer from './RoutePatternSelectContainer';
 import { DATE_FORMAT, ExtendedRouteTypes } from '../../constants';
 import {
@@ -79,7 +78,7 @@ function RouteControlPanel(
   { getStore, executeAction },
 ) {
   const config = useConfigContext();
-  const intl = useTranslationsContext();
+  const intl = useIntl();
   const { location, params, router } = match;
   const { patternId } = params;
 
