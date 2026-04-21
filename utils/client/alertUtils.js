@@ -124,11 +124,19 @@ export const isAlertValid = (
   );
 };
 
+/**
+ * Splits alerts into currently ongoing and future alerts
+ * @param {*} alerts list of alerts containing effectiveStartDate
+ * @param {*} referenceTime reference Unix time
+ *
+ */
 export const currentAndFutureAlerts = (alerts, referenceTime) => {
   const currentAlerts = alerts.filter(alert => {
     const { effectiveStartDate, effectiveEndDate } = alert;
+    const endDate = effectiveEndDate || effectiveStartDate + DEFAULT_VALIDITY;
     return (
-      effectiveStartDate < referenceTime && effectiveEndDate > referenceTime
+      !effectiveStartDate ||
+      (effectiveStartDate <= referenceTime && endDate >= referenceTime)
     );
   });
   const futureAlerts = alerts.filter(alert => {
