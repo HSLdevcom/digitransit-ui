@@ -11,7 +11,7 @@ import {
 } from '../../util/alertUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import { getStartTimeWithColon } from '../../util/timeUtils';
-import { stopShape, configShape, stationShape } from '../../util/shapes';
+import { stopShape, stationShape } from '../../util/shapes';
 import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
 import { DisruptionsFragment } from './queries/DisruptionsFragment';
 
@@ -136,6 +136,5 @@ function Disruptions({ stop: stopRef, station: stationRef }) {
 }
 
 Disruptions.propTypes = { stop: stopShape, station: stationShape };
-Disruptions.contextTypes = { config: configShape };
 
 export default Disruptions;
