@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import { FormattedMessage, intlShape } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { DateTime, Duration } from 'luxon';
 import {
   configShape,
@@ -15,8 +15,9 @@ import { useDeepLink } from '../../util/vehicleRentalUtils';
 
 function OnDemandInfo(
   { routeNumber, route, pickupBookingInfo, mobile, onClose },
-  { config, intl },
+  { config },
 ) {
+  const intl = useIntl();
   const container = mobile
     ? document.getElementById('content-container')
     : document.getElementById('main-content');
@@ -204,7 +205,6 @@ OnDemandInfo.propTypes = {
 
 OnDemandInfo.contextTypes = {
   config: configShape.isRequired,
-  intl: intlShape.isRequired,
 };
 
 export default OnDemandInfo;
