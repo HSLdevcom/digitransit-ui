@@ -60,7 +60,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/hml_zone_lines_20230214.geojson',
+        url: '/assets/geojson/hml_zone_lines_20260417.geojson',
       },
     ],
   },
