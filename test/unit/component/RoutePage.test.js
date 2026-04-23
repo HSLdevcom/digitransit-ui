@@ -536,16 +536,19 @@ describe('<RoutePage />', () => {
   });
 
   describe('Route color', () => {
-    it('applies route color as inline style on the heading when color is set', () => {
-      const wrapper = render({ route: { ...baseRoute, color: 'FF0000' } });
+    it('applies route color as inline style on the heading when color is set and passes WCAG AA', () => {
+      // #003399 (dark blue) has contrast ~10.2 against white, passes WCAG AA
+      const wrapper = render({ route: { ...baseRoute, color: '003399' } });
       const heading = wrapper.find('h1.route-short-name');
-      expect(heading.prop('style')).to.deep.equal({ color: '#FF0000' });
+      expect(heading.prop('style')).to.deep.equal({ color: '#003399' });
     });
 
-    it('sets null color style when route has no color', () => {
+    it('falls back to #333 when route has no color (mode color fails WCAG AA)', () => {
+      // baseConfig.colors.primary (#00AFFF) has contrast ~2.3 against white,
+      // fails WCAG AA so ensureColorAccessibleOnWhite returns the #333 fallback
       const wrapper = render({ route: { ...baseRoute, color: null } });
       const heading = wrapper.find('h1.route-short-name');
-      expect(heading.prop('style')).to.deep.equal({ color: null });
+      expect(heading.prop('style')).to.deep.equal({ color: '#333' });
     });
   });
 });

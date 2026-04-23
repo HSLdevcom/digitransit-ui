@@ -15,6 +15,7 @@ import { estimateItineraryDistance } from '../../util/geo-utils';
 import ZoneIcon from '../ZoneIcon';
 import { getZoneLabel } from '../../util/legUtils';
 import getVehicleState from '../../util/vehicleStateUtils';
+import { ensureColorAccessibleOnWhite } from '../../util/colorUtils';
 
 const TripRouteStop = (props, { config }) => {
   const {
@@ -141,7 +142,10 @@ const TripRouteStop = (props, { config }) => {
           <div>
             <div className="route-details-upper-row">
               <div className={`route-details_container ${mode}`}>
-                <div className="route-stop-name">
+                <div
+                  className="route-stop-name"
+                  style={{ color: ensureColorAccessibleOnWhite(color) }}
+                >
                   <span>{stop.name}</span>
                   <ServiceAlertIcon
                     className="inline-icon"

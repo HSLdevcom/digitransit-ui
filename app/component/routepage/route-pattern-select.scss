@@ -41,6 +41,7 @@
     width: 100%;
     min-height: 44px;
     background: $white;
+    color: $black;
     border: 1px solid $control-border-color;
     border-radius: var(--space-xs);
     position: relative;
@@ -59,34 +60,32 @@
       }
     }
 
-    &.pattern-select-container--colored {
-      width: auto;
-      margin-left: -$margin-left-right;
-      margin-right: -$margin-left-right;
-      border-color: transparent;
-      border-radius: 0;
-      background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
-        $theme-primary-color;
-      color: $white;
+    .input-display {
+      padding: var(--space-s) var(--space-m);
 
-      .input-display {
-        padding-left: 24px;
-        padding-right: 32px;
+      @media screen and (max-width: 900px) {
+        padding: var(--space-m) var(--space-l);
       }
+    }
 
-      .suggestions-container {
-        left: 32px;
-        right: 32px;
-        color: $black;
-
-        .in-text-arrow {
-          color: var(--mode-color, $theme-primary-color);
-        }
+    .suggestions-container {
+      .in-text-arrow {
+        color: var(--mode-color, $theme-primary-color);
       }
+    }
 
-      .dropdown-arrow {
-        color: $white;
-      }
+    .dropdown-arrow {
+      color: $link-button-color;
+    }
+
+    .option-count-pill {
+      // eslint-disable-next-line
+      background: color-mix(
+        in srgb,
+        var(--mode-color-raw, #{$theme-primary-color}) 10%,
+        white
+      );
+      color: $black;
     }
   }
 
@@ -100,7 +99,6 @@
     font-weight: $font-weight-book;
     font-size: $pattern-font-size;
     line-height: $pattern-line-height;
-    padding: $pattern-item-v-padding var(--space-s);
     cursor: pointer;
 
     .dropdown-arrow {
@@ -129,10 +127,16 @@
     border-radius: 10px;
     font-size: $font-size-xxsmall;
     font-weight: $font-weight-book;
-    color: $white;
-    background: $theme-primary-color;
+    background: color-mix(
+      in srgb,
+      var(--mode-color-raw, #{$theme-primary-color}) 10%,
+      white
+    );
+    color: $black;
     flex-shrink: 0;
     letter-spacing: $letter-spacing;
+    overflow: hidden;
+    border: none;
   }
 
   .toggle-label {
@@ -251,7 +255,7 @@
       position: relative;
       right: auto;
       top: auto;
-      color: $theme-primary-color;
+      color: var(--mode-color, #{$theme-primary-color});
       flex-shrink: 0;
       margin-left: auto;
       margin-right: var(--space-s);
@@ -268,7 +272,7 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    color: $theme-primary-color;
+    color: var(--mode-color, #{$theme-primary-color});
 
     svg {
       width: 16px;
@@ -376,19 +380,14 @@
   .route-pattern-header {
     display: flex;
 
-    // mobile: 24px left, 80px right (16px gap + 48px swap button + 16px button right)
-    padding: 8px 80px 8px 24px;
+    // 64px = 16px gap + 48px swap button (button sits flush at the container edge)
+    padding: 8px 64px 8px 0;
     flex-direction: column;
     align-items: flex-start;
     align-self: stretch;
     position: relative;
-
-    // Bleed to the edges of the scroll container padding so the background
-    // colour band spans the full width of route-page-content (21.3px each side)
-    margin-left: -$margin-left-right;
-    margin-right: -$margin-left-right;
-    background: $theme-primary-color;
-    color: $white;
+    background: $white;
+    color: $black;
 
     .icon-container {
       width: 24px;
@@ -412,7 +411,6 @@
       gap: var(--space-s);
       width: 100%;
       padding: 8px 0;
-      margin-left: 4px;
     }
 
     .route-pattern-header-icon {
@@ -455,9 +453,6 @@
       flex-shrink: 0;
       height: 8px;
 
-      // 4px: aligns with .route-pattern-endpoint left padding for visual alignment
-      margin-left: 4px;
-
       .icon-container {
         display: flex;
         width: 2px;
@@ -479,19 +474,19 @@
 
     .route-pattern-swap-button {
       position: absolute;
-      right: 16px;
+      right: 0;
       top: 50%;
       transform: translateY(-50%);
       width: 48px;
       height: 48px;
       border-radius: 50%;
-      background: rgba(0, 0, 0, 0.15);
+      background: $background-color-lighter;
       border: none;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: $white;
+      color: $background-color-lighter;
 
       .icon-container {
         width: 16px;
@@ -500,39 +495,8 @@
     }
   }
 
-  // bp-large: route-page-content (the container) uses 56px horizontal padding
-  &.bp-large .route-pattern-header {
-    margin-left: -56px;
-    margin-right: -56px;
-    padding-left: $margin-left-right-large;
-    padding-right: calc(56px + 48px);
-
-    .route-pattern-swap-button {
-      right: 48px;
-    }
-  }
-
   .route-pattern-header--no-swap {
-    padding-right: 16px;
-  }
-
-  &.bp-large .route-pattern-header--no-swap {
-    padding-right: 56px;
-  }
-
-  &.bp-large .pattern-select-container--colored {
-    margin-left: -56px;
-    margin-right: -56px;
-
-    .input-display {
-      padding-left: $margin-left-right-large;
-      padding-right: calc($margin-left-right-large + 4px);
-    }
-
-    .suggestions-container {
-      left: 32px;
-      right: 32px;
-    }
+    padding-right: 0;
   }
 
   @media print {

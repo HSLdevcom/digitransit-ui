@@ -108,6 +108,7 @@ describe('<RouteStopListContainer />', () => {
         config: {
           CONFIG: 'default',
           nearestStopDistance: {},
+          colors: { primary: '#007AC9' },
         },
         match: mockMatch,
       },

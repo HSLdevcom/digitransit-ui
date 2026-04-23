@@ -229,6 +229,10 @@
   color: inherit !important;
 }
 
+.route-schedule-grouped__option--is-focused {
+  background-color: $suggestion-highlight-color !important;
+}
+
 .route-schedule-grouped__option,
 .route-schedule-grouped-date-select .date-select {
   .date-select-option {

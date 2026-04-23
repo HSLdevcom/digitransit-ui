@@ -244,7 +244,8 @@ export default function RoutePatternSelect({
   onSelectChange,
   className,
   router,
-  backgroundColor = null,
+  iconColor = null,
+  rawIconColor = null,
 }) {
   const intl = useIntl();
   const breakpoint = useBreakpoint();
@@ -330,21 +331,13 @@ export default function RoutePatternSelect({
   return (
     <div className={`route-pattern-select ${className}`} aria-atomic="true">
       <div
-        className={cx(
-          'pattern-select-container',
-          'pattern-select-container--colored',
-          {
-            'pattern-select-container--open': isOpen,
-          },
-        )}
-        style={
-          backgroundColor
-            ? {
-                background: `linear-gradient(rgba(0,0,0,0.15),rgba(0,0,0,0.15)), ${backgroundColor}`,
-                '--mode-color': backgroundColor,
-              }
-            : undefined
-        }
+        className={cx('pattern-select-container', {
+          'pattern-select-container--open': isOpen,
+        })}
+        style={{
+          '--mode-color': iconColor,
+          '--mode-color-raw': rawIconColor || iconColor,
+        }}
       >
         <label {...getLabelProps()}>
           <span className="sr-only">
@@ -367,14 +360,7 @@ export default function RoutePatternSelect({
             }}
           >
             <div className="input-display" aria-hidden="true">
-              <span
-                className="option-count-pill"
-                style={
-                  backgroundColor ? { background: backgroundColor } : undefined
-                }
-              >
-                +{optionCount}
-              </span>
+              <span className="option-count-pill">+{optionCount}</span>
               <span className="toggle-label">
                 <FormattedMessage id="route-page.alternative-routes" />
               </span>
@@ -387,14 +373,7 @@ export default function RoutePatternSelect({
             title={intl.formatMessage({ id: 'route-pattern-select-tooltip' })}
           >
             <div className="input-display" aria-hidden="true">
-              <span
-                className="option-count-pill"
-                style={
-                  backgroundColor ? { background: backgroundColor } : undefined
-                }
-              >
-                +{optionCount}
-              </span>
+              <span className="option-count-pill">+{optionCount}</span>
               <span className="toggle-label">
                 <FormattedMessage id="route-page.alternative-routes" />
               </span>
@@ -453,9 +432,6 @@ export default function RoutePatternSelect({
             aria-label={intl.formatMessage({
               id: 'route-page.pattern-select-title',
             })}
-            style={
-              backgroundColor ? { '--mode-color': backgroundColor } : undefined
-            }
           >
             <div className="pattern-select-sheet-header">
               <button
@@ -516,5 +492,6 @@ RoutePatternSelect.propTypes = {
   onSelectChange: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
   router: routerShape.isRequired,
-  backgroundColor: PropTypes.string,
+  iconColor: PropTypes.string,
+  rawIconColor: PropTypes.string,
 };

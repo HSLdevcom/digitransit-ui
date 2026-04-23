@@ -22,6 +22,7 @@ import { getZoneLabel } from '../../util/legUtils';
 import { estimateItineraryDistance } from '../../util/geo-utils';
 import getVehicleState from '../../util/vehicleStateUtils';
 import Icon from '../Icon';
+import { ensureColorAccessibleOnWhite } from '../../util/colorUtils';
 
 function getDepartureTime(stoptime) {
   return (
@@ -268,7 +269,10 @@ const RouteStop = (
           <div className="route-stop-container">
             <div className="route-details-upper-row">
               <div className={` route-details_container ${mode}`}>
-                <div className="route-stop-name">
+                <div
+                  className="route-stop-name"
+                  style={{ color: ensureColorAccessibleOnWhite(color) }}
+                >
                   <span>{stop.name}</span>
                   <ServiceAlertIcon
                     className="inline-icon"

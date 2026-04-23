@@ -1332,7 +1332,7 @@
   </svg>
 
   <symbol id="icon_small-circle" viewBox="0 0 2 2">
-    <circle cx="1" cy="1" r="1" fill="white"/>
+    <circle cx="1" cy="1" r="1" fill="currentColor"/>
   </symbol>
 
 </defs>

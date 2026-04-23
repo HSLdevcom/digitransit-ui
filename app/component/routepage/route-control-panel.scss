@@ -26,8 +26,8 @@
   height: 2.5em;
   min-height: 44px;
   display: flex;
-  background-color: $light-gray;
-  border: 2px solid $light-gray;
+  background-color: $background-color-lighter;
+  border: 1px solid $light-gray;
   border-radius: var(--radius-radius-pill, 999px);
   margin: var(--space-s) 0 0;
   padding: var(--space-xxs);
@@ -44,6 +44,7 @@
     &.is-active {
       font-weight: $font-weight-medium;
       background-color: $white;
+      box-shadow: 0 1px 2px 0 var(--color-shadow-strong);
     }
 
     &:focus-visible {
@@ -54,11 +55,12 @@
       color: $black;
       font-weight: $font-weight-medium;
       background-color: $white;
+      border: 1px solid $light-gray;
       cursor: default;
 
       // Restore default appearance suppressed by Foundation / global button styles
       opacity: 1;
-      box-shadow: none;
+      box-shadow: 0 1px 2px 0 var(--color-shadow-strong);
 
       &:focus,
       &:hover {

@@ -16,7 +16,10 @@ import { routeShape } from '../../util/shapes';
 import { routePagePath, PREFIX_STOPS } from '../../util/path';
 import RoutePatternSelect from './RoutePatternSelect';
 import RoutePatternHeader from './RoutePatternHeader';
-import { getModeIconColor } from '../../util/colorUtils';
+import {
+  getModeIconColor,
+  ensureColorAccessibleOnWhite,
+} from '../../util/colorUtils';
 import { getRouteMode } from '../../util/modeUtils';
 
 function filterSimilarRoutes(routes, currentRoute) {
@@ -161,10 +164,8 @@ function RoutePatternSelectContainer({
     currentPattern?.stops[currentPattern.stops.length - 1].name ||
     '';
   const modeColor = getModeIconColor(config, getRouteMode(route, config));
-  const headerBackgroundColor = config.interactiveElementsUseModeColor
-    ? modeColor
-    : null;
-
+  const rawIconColor = route.color ? `#${route.color}` : modeColor;
+  const iconColor = ensureColorAccessibleOnWhite(rawIconColor);
   const msg = id => intl.formatMessage({ id });
   const optionArray = [
     mainRoutes.length > 0 && {
@@ -199,7 +200,7 @@ function RoutePatternSelectContainer({
       <RoutePatternHeader
         origin={origin}
         destination={destination}
-        backgroundColor={headerBackgroundColor}
+        iconColor={rawIconColor}
         canSwap={canSwapDirection}
         onSwap={
           canSwapDirection ? () => onSelectChange(otherPattern.code) : undefined
@@ -212,7 +213,8 @@ function RoutePatternSelectContainer({
           onSelectChange={onSelectChange}
           className={className}
           router={router}
-          backgroundColor={headerBackgroundColor}
+          iconColor={iconColor}
+          rawIconColor={rawIconColor}
         />
       )}
     </div>
@@ -236,6 +238,7 @@ const withStore = createRefetchContainer(
         shortName
         mode
         type
+        color
         gtfsId
         patterns {
           code

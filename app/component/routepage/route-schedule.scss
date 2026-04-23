@@ -15,33 +15,16 @@
   padding-right: 56px;
   padding-left: 56px;
 
-  // Bleed header to match schedule container's 56px horizontal padding
-  .route-pattern-header {
-    margin-left: -56px;
-    margin-right: -56px;
-    padding-left: calc(56px + 48px);
-    padding-right: calc(56px + 48px);
-  }
-
   .route-page-control-panel-container {
     padding: 0;
   }
 
   &.mobile {
-    padding: 0 20px;
+    padding: 0 $margin-left-right;
     margin-bottom: 0;
 
-    .route-pattern-header {
-      margin-left: -20px;
-      margin-right: -20px;
-      padding-left: 24px;
-
-      // 16px gap + 48px button + 16px button right
-      padding-right: 80px;
-    }
-
     .route-pattern-header--no-swap {
-      padding-right: 16px;
+      padding-right: 0;
     }
 
     .pattern-select-container--colored {
@@ -56,7 +39,7 @@
       }
 
       .suggestions-container {
-        left: 32px;
+        left: 24px;
         right: 32px;
       }
     }
