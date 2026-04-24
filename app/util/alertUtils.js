@@ -125,6 +125,28 @@ export const isAlertValid = (
 };
 
 /**
+ * Splits alerts into currently ongoing and future alerts
+ * @param {*} alerts list of alerts containing effectiveStartDate
+ * @param {*} referenceTime reference Unix time
+ *
+ */
+export const currentAndFutureAlerts = (alerts, referenceTime) => {
+  const currentAlerts = alerts.filter(alert => {
+    const { effectiveStartDate, effectiveEndDate } = alert;
+    const endDate = effectiveEndDate || effectiveStartDate + DEFAULT_VALIDITY;
+    return (
+      !effectiveStartDate ||
+      (effectiveStartDate <= referenceTime && endDate >= referenceTime)
+    );
+  });
+  const futureAlerts = alerts.filter(alert => {
+    const { effectiveStartDate } = alert;
+    return effectiveStartDate > referenceTime;
+  });
+  return { currentAlerts, futureAlerts };
+};
+
+/**
  * Checks if the given (canceled) stoptime has expired or not.
  *
  * @param {*} referenceUnixTime the reference unix time stamp (in seconds).
@@ -210,6 +232,17 @@ export const getServiceAlertsForStation = station => {
     ? station.stops.flatMap(stop => getAlertsForObject(stop))
     : [];
   return [...getAlertsForObject(station), ...stopAlerts];
+};
+
+export const getUniqueAlerts = alerts => {
+  const seen = new Set();
+  return alerts.filter(alert => {
+    if (seen.has(alert.alertHash)) {
+      return false;
+    }
+    seen.add(alert.alertHash);
+    return true;
+  });
 };
 
 const isValidArray = array => Array.isArray(array) && array.length > 0;

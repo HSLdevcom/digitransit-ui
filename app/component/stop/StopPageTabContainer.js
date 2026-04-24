@@ -58,6 +58,7 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
         alertSeverityLevel
         effectiveEndDate
         effectiveStartDate
+        alertHash
       }
       stoptimes: stoptimesWithoutPatterns(
         startTime: $startTime

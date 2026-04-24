@@ -1,16 +1,19 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { uniq } from 'lodash';
-import AlertList from '../AlertList';
+import { useFragment } from 'react-relay';
+import DisruptionList from '../DisruptionList';
 import {
   getCancelationsForStop,
   getAlertsForObject,
   getServiceAlertsForStation,
+  getUniqueAlerts,
 } from '../../util/alertUtils';
 import { getRouteMode } from '../../util/modeUtils';
-import { epochToTime } from '../../util/timeUtils';
-import { stopShape, configShape } from '../../util/shapes';
+import { getStartTimeWithColon } from '../../util/timeUtils';
+import { stopShape, stationShape } from '../../util/shapes';
 import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
+import { DisruptionsFragment } from './queries/DisruptionsFragment';
 
 export const isRelevantEntity = (entity, stopIds, routeIds) =>
   // eslint-disable-next-line no-underscore-dangle
@@ -36,7 +39,7 @@ export const filterAlertEntities = (stop, alerts) => {
     .map(alert => {
       return {
         ...alert,
-        entities: alert.entities.filter(entity =>
+        entities: (alert.entities || []).filter(entity =>
           isRelevantEntity(entity, stopIds, routeIds),
         ),
       };
@@ -44,18 +47,13 @@ export const filterAlertEntities = (stop, alerts) => {
     .filter(alert => alert.entities.length > 0);
 };
 
-export const getUniqueAlerts = alerts => {
-  return uniq(alerts.map(alert => JSON.stringify(alert))).map(alert =>
-    JSON.parse(alert),
-  );
-};
-
 /**
  * This returns the canceled stoptimes mapped as alerts for the stoptimes'
  * routes.
  */
-export const getCancelations = (stop, intl, config) => {
-  return getCancelationsForStop(stop).map(stoptime => {
+export const getCancelations = (stop, intl) => {
+  const seenPatterns = new Set();
+  const cancelations = getCancelationsForStop(stop).reduce((acc, stoptime) => {
     const { color, mode, shortName, gtfsId, type } = stoptime.trip.route;
     const entity = {
       __typename: AlertEntityType.Route,
@@ -65,24 +63,50 @@ export const getCancelations = (stop, intl, config) => {
       shortName,
       gtfsId,
     };
-    const departureTime = stoptime.serviceDay + stoptime.scheduledDeparture;
+
+    // if same pattern has multiple cancelations, consolidate into one alert
+    if (seenPatterns.has(entity.shortName)) {
+      const prevAlert = acc.find(
+        element => element.entity.shortName === entity.shortName,
+      );
+      prevAlert.canceledDepartures.push(stoptime);
+      return acc;
+    }
+
+    seenPatterns.add(entity.shortName);
     const translatedMode = intl.formatMessage({
       id: getRouteMode(stoptime.trip.route),
     });
-    return {
-      alertDescriptionText: intl.formatMessage(
-        { id: 'generic-cancelation' },
-        {
-          mode: translatedMode,
-          route: shortName,
-          headsign: stoptime.headsign || stoptime.trip.tripHeadsign,
-          time: epochToTime(departureTime * 1000, config),
-        },
-      ),
-      entities: [entity],
-      alertSeverityLevel: AlertSeverityLevelType.Warning,
-    };
-  });
+    return [
+      ...acc,
+      {
+        headsign: stoptime.headsign || stoptime.trip.tripHeadsign,
+        canceledDepartures: [stoptime],
+        entity,
+        mode: translatedMode,
+        route: shortName,
+      },
+    ];
+  }, []);
+  const cancelationsAsAlerts = cancelations.map(c => ({
+    alertDescriptionText: intl.formatMessage(
+      { id: 'generic-cancelation' },
+      {
+        mode: c.mode,
+        route: c.route,
+        headsign: c.headsign,
+        times: c.canceledDepartures
+          .map(st => getStartTimeWithColon(st.scheduledDeparture))
+          .join(', '),
+      },
+    ),
+    id: `cancelations_${c.route}`,
+    alertHeaderText: c.headsign,
+    canceledDepartures: c.canceledDepartures,
+    entities: [c.entity],
+    alertSeverityLevel: AlertSeverityLevelType.Warning,
+  }));
+  return cancelationsAsAlerts;
 };
 
 /**
@@ -99,23 +123,18 @@ export const getAlerts = stop => {
   );
 };
 
-const StopAlerts = ({ stop }, { config }) => {
+function Disruptions({ stop: stopRef, station: stationRef }) {
+  const ref = stopRef ?? stationRef;
+  const stop = useFragment(DisruptionsFragment, ref);
   const intl = useIntl();
-  const cancelations = getCancelations(stop, intl, config);
+  const cancelations = getCancelations(stop, intl);
   const serviceAlerts = getAlerts(stop);
 
   return (
-    <AlertList
-      showLinks={false}
-      cancelations={cancelations}
-      serviceAlerts={serviceAlerts}
-    />
+    <DisruptionList cancelations={cancelations} serviceAlerts={serviceAlerts} />
   );
-};
+}
 
-StopAlerts.propTypes = { stop: stopShape.isRequired };
-StopAlerts.contextTypes = {
-  config: configShape,
-};
+Disruptions.propTypes = { stop: stopShape, station: stationShape };
 
-export default StopAlerts;
+export default Disruptions;

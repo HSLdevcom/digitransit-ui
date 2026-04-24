@@ -3,20 +3,17 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
-import AlertList from '../AlertList';
+import DisruptionList from '../DisruptionList';
 import {
   getAlertsForObject,
   tripHasCancelation,
   setEntityForAlert,
 } from '../../util/alertUtils';
-import { getRouteMode } from '../../util/modeUtils';
 import { alertShape } from '../../util/shapes';
-import { epochToTime } from '../../util/timeUtils';
+import { getStartTimeWithColon } from '../../util/timeUtils';
 import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
+import { patternTextWithIcon } from './RoutePatternSelect';
 
-/**
- * This returns the trips mapped as alerts for the route.
- */
 const getCancelations = (
   route,
   entity,
@@ -24,9 +21,8 @@ const getCancelations = (
   intl,
   currentTime,
   validityPeriod,
-  config,
-) =>
-  pattern.trips
+) => {
+  const canceledDepartures = pattern.trips
     .filter(trip => tripHasCancelation(trip, currentTime, validityPeriod))
     .reduce((a, b) => a.concat(b), [])
     .sort(
@@ -35,26 +31,31 @@ const getCancelations = (
         a.stoptimes[0].scheduledDeparture -
         (b.stoptimes[0].serviceDay + b.stoptimes[0].scheduledDeparture),
     )
-    .map(trip => {
-      const first = trip.stoptimes[0];
-      const departureTime = first.serviceDay + first.scheduledDeparture;
-      const mode = intl.formatMessage({
-        id: getRouteMode(route),
-      });
-      return {
-        alertDescriptionText: intl.formatMessage(
-          { id: 'generic-cancelation' },
-          {
-            mode,
-            route: route.shortName,
-            headsign: first.headsign || trip.tripHeadsign,
-            time: epochToTime(departureTime * 1000, config),
-          },
-        ),
-        entities: [entity],
-        alertSeverityLevel: AlertSeverityLevelType.Warning,
-      };
-    });
+    .map(trip => trip.stoptimes[0]);
+
+  return canceledDepartures.length
+    ? [
+        {
+          alertDescriptionText: intl.formatMessage(
+            { id: 'generic-cancelation' },
+            {
+              mode: route.mode,
+              route: route.shortName,
+              headsign: canceledDepartures[0].headsign,
+              times: canceledDepartures
+                .map(st => getStartTimeWithColon(st.scheduledDeparture))
+                .join(', '),
+            },
+          ),
+          id: `cancelations_${pattern.gtfsId}`,
+          alertHeaderText: patternTextWithIcon(pattern),
+          canceledDepartures,
+          entities: [entity],
+          alertSeverityLevel: AlertSeverityLevelType.Warning,
+        },
+      ]
+    : [];
+};
 
 function RouteAlertsContainer({ currentTime, route, pattern }, { config }) {
   const intl = useIntl();
@@ -73,7 +74,6 @@ function RouteAlertsContainer({ currentTime, route, pattern }, { config }) {
     intl,
     currentTime,
     config.routeCancelationAlertValidity,
-    config,
   );
 
   const serviceAlerts = getAlertsForObject(pattern).map(alert =>
@@ -82,11 +82,7 @@ function RouteAlertsContainer({ currentTime, route, pattern }, { config }) {
   );
 
   return (
-    <AlertList
-      showLinks={false}
-      cancelations={cancelations}
-      serviceAlerts={serviceAlerts}
-    />
+    <DisruptionList cancelations={cancelations} serviceAlerts={serviceAlerts} />
   );
 }
 
@@ -146,11 +142,15 @@ const containerComponent = createFragmentContainer(
     pattern: graphql`
       fragment RouteAlertsContainer_pattern on Pattern
       @argumentDefinitions(date: { type: "String" }) {
+        stops {
+          name
+        }
         alerts(types: [ROUTE, STOPS_ON_PATTERN]) {
           id
           alertDescriptionText
           alertHash
           alertHeaderText
+          alertEffect
           alertSeverityLevel
           alertUrl
           effectiveEndDate
@@ -167,6 +167,7 @@ const containerComponent = createFragmentContainer(
             ... on Stop {
               name
               code
+              locationType
               vehicleMode
               gtfsId
             }
