@@ -1,6 +1,5 @@
 import React from 'react';
 import sinon from 'sinon';
-import * as found from 'found';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import {
@@ -9,9 +8,7 @@ import {
 } from '../../../app/component/DisruptionList';
 import Disruption from '../../../app/component/Disruption';
 import { AlertEntityType } from '../../../app/constants';
-import * as ConfigContext from '../../../app/configurations/ConfigContext';
 import * as withBreakpoint from '../../../app/util/withBreakpoint';
-import { mockContext } from '../helpers/mock-context';
 import { mockMatch } from '../helpers/mock-router';
 
 const routeEntity = (overrides = {}) => ({
@@ -33,16 +30,10 @@ const makeAlert = (overrides = {}) => ({
 
 describe('<DisruptionList />', () => {
   beforeEach(() => {
-    sinon.stub(ConfigContext, 'useConfigContext').returns(mockContext.config);
-    sinon
-      .stub(found, 'useRouter')
-      .returns({ match: mockContext.match, router: mockContext.router });
     sinon.stub(withBreakpoint, 'useBreakpoint').returns('small');
   });
 
   afterEach(() => {
-    ConfigContext.useConfigContext.restore();
-    found.useRouter.restore();
     withBreakpoint.useBreakpoint.restore();
   });
 
@@ -119,10 +110,6 @@ describe('<DisruptionList />', () => {
         query: { alertId: 'a1' },
       },
     };
-    found.useRouter.restore();
-    sinon
-      .stub(found, 'useRouter')
-      .returns({ match: matchWithAlertId, router: mockContext.router });
 
     const props = {
       currentTime: 500,
@@ -138,7 +125,9 @@ describe('<DisruptionList />', () => {
         }),
       ],
     };
-    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
+    const wrapper = shallowWithIntl(<DisruptionList {...props} />, {
+      match: matchWithAlertId,
+    });
     expect(wrapper.find(Disruption)).to.have.lengthOf(0);
     expect(wrapper.find(EmptyDisruptions)).to.have.lengthOf(0);
     expect(wrapper.find('.alerts-content-wrapper')).to.have.lengthOf(0);

@@ -1,6 +1,5 @@
 import React from 'react';
 import sinon from 'sinon';
-import * as found from 'found';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import Icon from '../../../app/component/Icon';
@@ -13,7 +12,6 @@ import {
   PREFIX_TERMINALS,
 } from '../../../app/util/path';
 import { mockContext } from '../helpers/mock-context';
-import * as ConfigContext from '../../../app/configurations/ConfigContext';
 
 const routeEntity = (overrides = {}) => ({
   __typename: AlertEntityType.Route,
@@ -35,18 +33,6 @@ const stopEntity = (overrides = {}) => ({
 });
 
 describe('<Disruption />', () => {
-  beforeEach(() => {
-    sinon.stub(ConfigContext, 'useConfigContext').returns(mockContext.config);
-    sinon
-      .stub(found, 'useRouter')
-      .returns({ match: mockContext.match, router: mockContext.router });
-  });
-
-  afterEach(() => {
-    ConfigContext.useConfigContext.restore();
-    found.useRouter.restore();
-  });
-
   it('should return null when both alertDescriptionText and alertHeaderText are missing', () => {
     const props = {
       id: 'alert-null',
