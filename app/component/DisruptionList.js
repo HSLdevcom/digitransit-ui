@@ -166,7 +166,7 @@ DisruptionList.propTypes = {
 
 const connectedComponent = connectToStores(
   DisruptionList,
-  ['TimeStore', 'PreferencesStore'],
+  ['TimeStore'],
   context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime(),
   }),

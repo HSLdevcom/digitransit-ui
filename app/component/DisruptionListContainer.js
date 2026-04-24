@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
-import AlertList from './AlertList';
+import DisruptionList from './DisruptionList.js';
 import Icon from './Icon';
 import { AlertSeverityLevelType, AlertEntityType } from '../constants';
 import {
@@ -151,7 +151,7 @@ function DisruptionListContainer({
             <div>
               <FormattedMessage id="routes" tagName="h2" />
             </div>
-            <AlertList
+            <DisruptionList
               disableScrolling
               showLinks
               serviceAlerts={routeAlertsToShow}
@@ -164,7 +164,7 @@ function DisruptionListContainer({
             <div>
               <FormattedMessage id="stops" tagName="h2" />
             </div>
-            <AlertList
+            <DisruptionList
               disableScrolling
               showLinks
               serviceAlerts={stopAlertsToShow}
