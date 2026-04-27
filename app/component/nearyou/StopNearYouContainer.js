@@ -28,6 +28,7 @@ const containerComponent = createRefetchContainer(
         zoneId
         platformCode
         locationType
+        vehicleMode
         stops {
           zoneId
         }

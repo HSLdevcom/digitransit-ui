@@ -1,10 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import Icon from './Icon';
+import {
+  getTrackOrPierOrPlatformText,
+  getTrackOrPierOrPlatformTextShort,
+} from '../util/modeUtils';
 
-function PlatformNumber({ number, short, isRailOrSubway, updated, withText }) {
+function PlatformNumber({ number, short, mode, updated, withText, plain }) {
+  const intl = useIntl();
   if (!number) {
     return false;
   }
@@ -16,12 +21,9 @@ function PlatformNumber({ number, short, isRailOrSubway, updated, withText }) {
   if (short) {
     return (
       <span className="platform-short">
-        {withText && (
-          <FormattedMessage
-            id={isRailOrSubway ? 'track' : 'platform-short-no-num'}
-            defaultMessage={isRailOrSubway ? 'Track ' : 'Plat. '}
-          />
-        )}
+        {withText &&
+          mode &&
+          getTrackOrPierOrPlatformTextShort(intl, mode.toUpperCase())}
         <span
           className={cx('platform-number-wrapper', {
             'platform-updated': updated,
@@ -35,13 +37,10 @@ function PlatformNumber({ number, short, isRailOrSubway, updated, withText }) {
   }
 
   return (
-    <span className="platform-number">
-      {withText && (
-        <FormattedMessage
-          id={isRailOrSubway ? 'track' : 'platform'}
-          defaultMessage={isRailOrSubway ? 'Track ' : 'Platform '}
-        />
-      )}
+    <span className={plain ? 'platform-number-plain' : 'platform-number'}>
+      {withText &&
+        mode &&
+        getTrackOrPierOrPlatformText(intl, mode.toUpperCase())}
       <span
         className={cx('platform-number-wrapper', {
           'platform-updated': updated,
@@ -57,17 +56,18 @@ function PlatformNumber({ number, short, isRailOrSubway, updated, withText }) {
 PlatformNumber.propTypes = {
   number: PropTypes.string,
   short: PropTypes.bool,
-  isRailOrSubway: PropTypes.bool,
+  mode: PropTypes.string.isRequired,
   updated: PropTypes.bool,
   withText: PropTypes.bool,
+  plain: PropTypes.bool,
 };
 
 PlatformNumber.defaultProps = {
   number: undefined,
   short: true,
-  isRailOrSubway: false,
   updated: false,
   withText: true,
+  plain: false,
 };
 
 PlatformNumber.displayName = 'PlatformNumber';

@@ -40,9 +40,6 @@ export default {
     countrySelection: ['estonia'],
   },
 
-  availableLanguages: ['fi', 'sv', 'en'],
-  defaultLanguage: 'fi',
-
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,

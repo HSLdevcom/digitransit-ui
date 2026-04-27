@@ -68,12 +68,12 @@ const queries = {
       }
     `,
     pageAlerts: graphql`
-      query stopRoutes_StopAlertsContainer_Query(
+      query stopRoutes_StopDisruptions_Query(
         $stopId: String!
         $startTime: Long!
       ) {
         stop(id: $stopId) {
-          ...StopAlertsContainer_stop @arguments(startTime: $startTime)
+          ...DisruptionsFragment @arguments(startTime: $startTime)
         }
       }
     `,
@@ -125,12 +125,12 @@ const queries = {
       }
     `,
     pageAlerts: graphql`
-      query stopRoutes_TerminalAlertsContainer_Query(
+      query stopRoutes_TerminalDisruptions_Query(
         $terminalId: String!
         $startTime: Long!
       ) {
         station(id: $terminalId) {
-          ...TerminalAlertsContainer_station @arguments(startTime: $startTime)
+          ...DisruptionsFragment @arguments(startTime: $startTime)
         }
       }
     `,
@@ -245,22 +245,16 @@ export default function getStopRoutes(isTerminal = false) {
               />
               <Route
                 path={PREFIX_DISRUPTION}
-                getComponent={() => {
-                  return isTerminal
-                    ? import(
-                        /* webpackChunkName: "stop" */ './component/stop/TerminalAlertsContainer'
-                      )
-                        .then(getDefault)
-                        .catch(errorLoading)
-                    : import(
-                        /* webpackChunkName: "stop" */ './component/stop/StopAlertsContainer'
-                      )
-                        .then(getDefault)
-                        .catch(errorLoading);
-                }}
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "stop" */ './component/stop/Disruptions'
+                  )
+                    .then(getDefault)
+                    .catch(errorLoading)
+                }
                 query={queryMap.pageAlerts}
                 prepareVariables={prepareDatesForStops}
-                render={getComponentOrLoadingRenderer}
+                render={getComponentOrNullRenderer}
               />
             </Route>
           ),

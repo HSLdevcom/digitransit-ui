@@ -198,7 +198,7 @@ export default {
     'from-tram': 'tramwaj',
     frontpage: 'Strona główna',
     funicular: 'Kolej liniowa',
-    'generic-cancelation': '{mode} {route} {headsign} at {time} is cancelled.',
+    'generic-cancelation': '{mode} {route} {headsign} is cancelled at {times}.',
     'generic-error': 'Wystąpił błąd',
     'geolocation-denied-heading': 'Odmówiono dostępu do geolokalizacji',
     'geolocation-denied-text':

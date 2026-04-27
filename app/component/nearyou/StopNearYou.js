@@ -21,8 +21,7 @@ const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
   }
   const timeRef = useRef(currentTime);
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
-  const stopMode = stop.stoptimesWithoutPatterns[0]?.trip.route.mode;
-  const { gtfsId } = stop;
+  const { gtfsId, vehicleMode } = stop;
 
   useEffect(() => {
     if (isParentTabActive && currentTime - timeRef.current > 30) {
@@ -50,6 +49,7 @@ const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
           desc={stop.desc}
           isStation={isStation}
           linkAddress={linkAddress}
+          mode={vehicleMode}
         />
         <span className="sr-only">
           <FormattedMessage
@@ -79,9 +79,9 @@ const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
           <>
             <StopNearYouDepartureRowContainer
               currentTime={currentTime}
-              mode={stopMode}
+              mode={vehicleMode}
               stopTimes={stop.stoptimesWithoutPatterns}
-              isStation={isStation && stopMode !== 'SUBWAY'}
+              isStation={isStation && vehicleMode !== 'SUBWAY'}
               openCapacityModal={() => setCapacityModalOpen(true)}
               isParentTabActive={isParentTabActive}
             />

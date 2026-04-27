@@ -194,6 +194,12 @@ export default {
     'disruption-info-no-alerts': 'No known disruptions or diversions.',
     'disruption-info-route-no-alerts':
       'No known disruptions or diversions to the route.',
+    'disruption-list-active': 'Active',
+    'disruption-list-no-active-alerts': 'No known active disruptions',
+    'disruption-list-no-upcoming-alerts':
+      'No known upcoming disruptions or diversions',
+    'disruption-list-traffic-normal': 'Traffic normal',
+    'disruption-list-upcoming': 'Upcoming',
     disruptions: 'Disruptions',
     'disruptions-and-diversions': 'Disruptions and diversions',
     'disruptions-change-filters': 'Please try again with different filters',
@@ -238,7 +244,7 @@ export default {
     'from-tram': 'tram',
     frontpage: 'Frontpage',
     funicular: 'Funicular',
-    'generic-cancelation': '{mode} {route} {headsign} at {time} is cancelled.',
+    'generic-cancelation': '{mode} {route} {headsign} is cancelled at {times}',
     'generic-error': 'There was an error',
     'geolocation-denied-heading': 'Geolocation denied',
     'geolocation-denied-text':
@@ -433,6 +439,9 @@ export default {
     'navigation-mode-late': '{name} is late',
     'navigation-outro-dismiss': 'End guidance',
     'navigation-outro-header': "You've arrived!",
+    'navigation-pier-change': 'Pier changed',
+    'navigation-pier-change-details': '{name} departs from pier {number}',
+    'navigation-pier-restored': 'Departs from original pier',
     'navigation-platform-change': 'Platform changed',
     'navigation-platform-change-details':
       '{name} departs from platform {number}',
@@ -553,6 +562,7 @@ export default {
       'Please note that you need to use the app of the operator in question in order to use and pay for the taxis or scooters.',
     'payment-info-taxi':
       'Please note that you need to use the app of the operator in question in order to use and pay for the taxis.',
+    'personal-itineraries': 'Personal itineraries',
     personalisation: 'Personalisation',
     'personalisation-beta':
       'Personalization is still in the testing phase, meaning we are trying out the service. We would love to hear about your experience. The survey will open in a new tab.',
@@ -572,6 +582,8 @@ export default {
     'pick-mode': 'Transport modes',
     'pick-street-mode': 'My modes of transport',
     pier: 'Pier',
+    'pier-num': 'Pier {platformCode}',
+    'pier-short-no-num': 'Pier',
     platform: 'Platform',
     'platform-num': 'Platform {platformCode}',
     'platform-short-no-num': 'Plat.',

@@ -189,6 +189,12 @@ export default {
       'Ei tiedossa olevia häiriöitä tai poikkeuksia.',
     'disruption-info-route-no-alerts':
       'Linjalla ei tiedossa olevia häiriöitä tai poikkeuksia.',
+    'disruption-list-active': 'Voimassa',
+    'disruption-list-no-active-alerts': 'Ei tiedossa voimassa olevia häiriöitä',
+    'disruption-list-no-upcoming-alerts':
+      'Ei tiedossa olevia tulevia häiriöitä tai poikkeuksia',
+    'disruption-list-traffic-normal': 'Liikenne normaalia',
+    'disruption-list-upcoming': 'Tulevat',
     disruptions: 'Häiriöt',
     'disruptions-and-diversions': 'Häiriöt ja poikkeukset',
     'disruptions-change-filters': 'Kokeile uudestaan muuttamalla valintoja',
@@ -233,7 +239,8 @@ export default {
     'from-tram': 'raitiovaunusta',
     frontpage: 'Etusivu',
     funicular: 'Funikulaari',
-    'generic-cancelation': '{mode} {route} {headsign} kello {time} on peruttu.',
+    'generic-cancelation':
+      '{mode} {route} {headsign} on peruttu kello {times}.',
     'generic-error': 'Tapahtui virhe',
     'geolocation-denied-heading': 'Paikannus on estetty',
     'geolocation-denied-text':
@@ -422,6 +429,9 @@ export default {
     'navigation-mode-late': '{name} on myöhässä',
     'navigation-outro-dismiss': 'Poistu opastuksesta',
     'navigation-outro-header': 'Olet perillä!',
+    'navigation-pier-change': 'Laituri muuttunut',
+    'navigation-pier-change-details': '{name} lähtee laiturilta {number}',
+    'navigation-pier-restored': 'Laituri palautunut alkuperäiseen',
     'navigation-platform-change': 'Laituri muuttunut',
     'navigation-platform-change-details': '{name} lähtee laiturilta {number}',
     'navigation-platform-restored': 'Laituri palautunut alkuperäiseen',
@@ -541,6 +551,7 @@ export default {
       'Huomaathan, että potkulautojen ja taksin käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     'payment-info-taxi':
       'Huomaathan, että taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+    'personal-itineraries': 'Yksilölliset reittiehdotukset',
     personalisation: 'Personointi',
     'personalisation-beta':
       'Personointi on vielä testausvaiheessa, eli kokeilemme palvelua. Haluaisimme kuulla kokemuksestasi. Kysely avautuu uuteen välilehteen.',
@@ -560,6 +571,8 @@ export default {
     'pick-mode': 'Liikennevälineet',
     'pick-street-mode': 'Omat kulkuvälineet',
     pier: 'Laituri',
+    'pier-num': 'Laituri {platformCode}',
+    'pier-short-no-num': 'Lait.',
     platform: 'Laituri',
     'platform-num': 'Laituri {platformCode}',
     'platform-short-no-num': 'Lait.',

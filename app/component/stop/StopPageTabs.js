@@ -9,6 +9,7 @@ import {
   getAlertsForObject,
   getServiceAlertsForStation,
   getActiveAlertSeverityLevel,
+  getUniqueAlerts,
 } from '../../util/alertUtils';
 import withBreakpoint from '../../util/withBreakpoint';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
@@ -18,7 +19,6 @@ import {
   PREFIX_TIMETABLE,
   stopPagePath,
 } from '../../util/path';
-import Icon from '../Icon';
 
 const Tab = {
   RightNow: 1,
@@ -37,8 +37,8 @@ const getActiveTab = pathname => {
 };
 
 function StopPageTabs({ stop }, { match }) {
-  const { router } = match;
-  if (!stop) {
+  const { router, location } = match;
+  if (!stop || location.query.alertId) {
     return null;
   }
   const activeTab = getActiveTab(match.location.pathname);
@@ -58,6 +58,12 @@ function StopPageTabs({ stop }, { match }) {
     currentTime,
   );
 
+  const alerts = isTerminal
+    ? getServiceAlertsForStation(stop)
+    : getAlertsForObject(stop);
+  const alertsCount =
+    getUniqueAlerts(alerts).length + (cancelations.length > 0 ? 1 : 0);
+
   let disruptionClassName;
   let disruptionIcon;
   if (
@@ -67,12 +73,10 @@ function StopPageTabs({ stop }, { match }) {
     maxAlertSeverity === AlertSeverityLevelType.Unknown
   ) {
     disruptionClassName = 'active-disruption-alert';
-    disruptionIcon = (
-      <Icon img="icon_caution-no-excl-no-stroke" color="#DC0451" />
-    );
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
   } else if (maxAlertSeverity === AlertSeverityLevelType.Info) {
     disruptionClassName = 'active-service-alert';
-    disruptionIcon = <Icon className="service-alert-icon" img="icon_info" />;
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
   } else {
     disruptionClassName = 'no-alerts';
   }

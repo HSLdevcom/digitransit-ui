@@ -32,7 +32,6 @@ import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { isIOS } from '../../util/browser';
 import { unixTime, unixToYYYYMMDD } from '../../util/timeUtils';
 import { saveSearch } from '../../action/SearchActions';
-import Icon from '../Icon';
 import Notification from './Notification';
 
 const Tab = {
@@ -78,6 +77,11 @@ function RouteControlPanel(
   },
   { getStore, executeAction },
 ) {
+  // If disruption details are opened, hide controlpanel
+  if (match.location.query.alertId) {
+    return null;
+  }
+
   const config = useConfigContext();
   const intl = useIntl();
   const { location, params, router } = match;
@@ -110,7 +114,9 @@ function RouteControlPanel(
     }
   }
 
-  const activeTab = getActiveTab(location.pathname);
+  const activeTab = getActiveTab(match.location.pathname);
+
+  // const activeTab = getActiveTab(location.pathname);
 
   // Focus the active tab on mount for correct screen-reader cursor placement
   // after SPA tab navigation (per WCAG APG roving tabindex pattern).
@@ -348,7 +354,11 @@ function RouteControlPanel(
   };
 
   const currentTime = unixTime();
-  const selectedPattern = route?.patterns?.find(p => p.code === patternId);
+  const selectedPattern = route?.patterns?.find(
+    pattern => pattern.code === patternId,
+  );
+  const countOfButtons = 3;
+
   const hasActiveAlert = checkActiveDisruptions(
     currentTime,
     getCancelationsForRoute(
@@ -360,27 +370,31 @@ function RouteControlPanel(
     getAlertsForObject(selectedPattern),
   );
 
+  const cancelations = getCancelationsForRoute(
+    route,
+    patternId,
+    currentTime,
+    config.routeCancelationAlertValidity,
+  );
+  const alerts = getAlertsForObject(selectedPattern);
+
   const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
-    getAlertsForObject(selectedPattern),
+    alerts,
     currentTime,
   );
+
+  // if the pattern has cancelations, add one to alert count
+  const alertsCount = alerts.length + (cancelations.length > 0 ? 1 : 0);
 
   const disruptionClassName =
     (hasActiveAlert && 'active-disruption-alert') ||
     (hasActiveServiceAlerts && 'active-service-alert');
 
-  const countOfButtons = 3;
-
   let disruptionIcon;
-  if (hasActiveAlert) {
-    disruptionIcon = (
-      <Icon
-        img="icon_caution-no-excl-no-stroke"
-        color={config.colors.caution}
-      />
-    );
-  } else if (hasActiveServiceAlerts) {
-    disruptionIcon = <Icon className="service-alert-icon" img="icon_info" />;
+  if (disruptionClassName === 'active-disruption-alert') {
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
+  } else if (disruptionClassName === 'active-service-alert') {
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
   }
 
   return (

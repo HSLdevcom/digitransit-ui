@@ -9,7 +9,9 @@ import {
   getTripOrRouteMode,
   getStopMode,
   transitIconName,
-  modeUsesTrack,
+  getTrackOrPierOrPlatformRestoredText,
+  getTrackOrPierOrPlatformChangeText,
+  getTrackOrPierOrPlatformChangeDetailsText,
 } from '../../../util/modeUtils';
 import { locationToUri } from '../../../util/otpStrings';
 import { getItineraryPagePath } from '../../../util/path';
@@ -711,20 +713,17 @@ export const getItineraryAlerts = (
   ) {
     const id = `platform-${nextLeg.legId}`;
     if (!messages.get(id)?.closed) {
-      const boardingType = modeUsesTrack(nextLeg.mode) ? 'track' : 'platform';
-      const translationKey =
+      const title =
         platformStatus === PLATFORM_STATUS.RESTORED
-          ? `navigation-${boardingType}-restored`
-          : `navigation-${boardingType}-change`;
-      const title = intl.formatMessage({ id: translationKey });
+          ? getTrackOrPierOrPlatformRestoredText(intl, nextLeg.mode)
+          : getTrackOrPierOrPlatformChangeText(intl, nextLeg.mode);
       const lMode = getLocalizedMode(nextLeg.mode, intl, config);
       const routeName = `${lMode} ${nextLeg.route?.shortName}`;
-      const body = intl.formatMessage(
-        { id: `navigation-${boardingType}-change-details` },
-        {
-          number: nextLeg.from.stop.platformCode || '',
-          name: routeName || '',
-        },
+      const body = getTrackOrPierOrPlatformChangeDetailsText(
+        intl,
+        nextLeg.mode,
+        nextLeg.from.stop.platformCode,
+        routeName,
       );
       alerts.push({
         severity: 'WARNING',

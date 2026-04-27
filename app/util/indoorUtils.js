@@ -67,6 +67,9 @@ export function getIndoorTranslationId(type, verticalDirection, toLevelName) {
  * @return an entrance object or undefined if one can not be found
  */
 export function getEntranceObject(previousLeg, leg) {
+  if (!leg?.steps) {
+    return undefined;
+  }
   const entranceObjects = leg.steps
     .map((step, index) => ({ ...step, index }))
     .filter(
