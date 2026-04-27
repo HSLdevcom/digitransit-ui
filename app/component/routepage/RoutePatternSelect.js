@@ -273,7 +273,7 @@ export default function RoutePatternSelect({
 
   // Flatten option groups into a single ordered list (used by downshift for item indices)
   const flatOptions = optionArray.flatMap(group => group.options);
-  const optionCount = flatOptions.length;
+  const optionCount = flatOptions.length - 1; // Exclude currently selected pattern from count
   // Lookup table: option identifier → flat index (for highlight tracking)
   const optionIndexTable = Object.fromEntries(
     flatOptions.map(({ code, gtfsId }, index) => [code || gtfsId, index]),

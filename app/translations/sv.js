@@ -65,7 +65,7 @@ export default {
     back: 'Tillbaka',
     'back-button-title': 'Tillbaka till föregående sida',
     'back-to-front-page': 'Tillbaka till framsidan ›',
-    bicycle: 'cykel',
+    bicycle: 'Cykel',
     'bicycle-walk-from-transit':
       'Ta cykeln från {transportMode} och led cykeln {distance} ({duration})',
     'bicycle-walk-from-transit-no-duration': 'Led cykeln från {transportMode}',
@@ -82,9 +82,7 @@ export default {
     'bike-station-disabled': 'Stadscykelstationen är ur bruk.',
     'bikes-available': '{amount} cyklar vid stationen',
     'biking-speed': 'Cykling hastighet',
-    'book-a-lift':
-      'Tilaa kyyti sovelluksella ja jää odottamaan sen saapumista:',
-    'booking-method': 'Beställningssätt',
+    'book-a-lift': 'Beställ resa i appen',
     bus: 'Buss',
     'bus-express': 'Stombuss',
     'bus-express-with-route-number': 'Stombuss {routeNumber} {headSign}',
@@ -256,7 +254,7 @@ export default {
       'Det tar längre tid än väntat att hitta din plats.',
     'geolocation-timeout-text':
       'Har du godkänt att webbläsaren får använda din plats?',
-    'get-off-the-ride': 'Nouse pois kyydistä',
+    'get-off-the-ride': 'Stig ur',
     hour: 'Timme',
     'include-estonia': 'Inkludera Estland',
     'index.title': 'Reseplaneraren',
@@ -771,10 +769,10 @@ export default {
     taxi: 'Taxi',
     'taxi-alternative':
       'Och om du skulle åka taxi en del av din resa? {paymentInfo}',
-    'taxi-distance-duration': 'Matkusta {duration} ({distance})',
+    'taxi-distance-duration': 'Res {duration} ({distance})',
     'taxi-external': 'Taxi',
     'taxi-with-route-number': 'Taxi {routeNumber}',
-    'taxis-and-ride-hailing': 'Taksit ja kyytipalvelut',
+    'taxis-and-ride-hailing': 'Taxi och skjutstjänster',
     terminal: 'Terminal',
     'terminal-page.description': 'Terminal {name}',
     'terminal-page.title': 'Terminal {name}',

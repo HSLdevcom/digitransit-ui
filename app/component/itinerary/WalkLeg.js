@@ -89,7 +89,8 @@ function WalkLeg({
     config,
   ).type;
   const isScooter = networkType === RentalNetworkType.Scooter;
-  const alightNotice = previousLeg?.mode === 'TAXI' || leg?.mode === 'TAXI'; // Taxi leg is the current leg when the walk leg is added after a taxi leg without a walk leg from data
+  // Taxi leg is the current leg when the walk leg is added after a taxi leg without a walk leg from data
+  const alightNotice = previousLeg?.mode === 'TAXI' || leg?.mode === 'TAXI';
   const returnNotice = previousLeg?.rentedBike ? (
     <FormattedMessage
       id={
@@ -265,7 +266,7 @@ function WalkLeg({
                     <div className="itinerary-leg-action-content">
                       <FormattedMessage
                         id="get-off-the-ride"
-                        defaultMessage="Get off the taxi"
+                        defaultMessage="Get off the ride"
                       />
                     </div>
                   )}
