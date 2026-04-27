@@ -2,13 +2,16 @@
 // sheet variant (.pattern-select-sheet / .pattern-select-sheet-backdrop).
 
 .route-pattern-select {
-  $pattern-font-size: 15px;
-  $pattern-line-height: 18px;
-
-  // Vertical padding: (44px touch-target height - $pattern-line-height) / 2
-  $pattern-item-v-padding: 13px;
-
   margin: 0 0 1px;
+
+  // route-pattern-select-title is for older design only — to be removed once the new route page is fully rolled out
+  .route-pattern-select-title {
+    font-weight: $font-weight-medium;
+    font-size: $font-size-small;
+    line-height: $line-height-normal;
+    letter-spacing: $letter-spacing;
+    margin: var(--space-s) 0 var(--space-xs) 0;
+  }
 
   .icon {
     position: absolute;
@@ -97,8 +100,8 @@
     align-items: center;
     gap: var(--space-xs);
     font-weight: $font-weight-book;
-    font-size: $pattern-font-size;
-    line-height: $pattern-line-height;
+    font-size: 15px;
+    line-height: 18px;
     cursor: pointer;
 
     .dropdown-arrow {
@@ -185,8 +188,8 @@
   .section-container {
     background: $white;
     font-weight: $font-weight-book;
-    font-size: $pattern-font-size;
-    line-height: $pattern-line-height;
+    font-size: 15px;
+    line-height: 18px;
 
     &:not(:first-child) {
       border-top: 1px solid $light-gray;
@@ -205,7 +208,7 @@
     font-weight: $font-weight-book;
     border-bottom: 1px solid $light-gray;
     min-height: 44px;
-    padding: $pattern-item-v-padding var(--space-s);
+    padding: 13px var(--space-s);
     color: $gray;
     font-size: $font-size-xsmall;
   }
@@ -220,7 +223,7 @@
   .suggestion {
     list-style: none;
     min-height: 44px;
-    padding: $pattern-item-v-padding var(--space-s);
+    padding: 13px var(--space-s);
     position: relative;
     cursor: pointer;
     background: $white;
@@ -356,9 +359,9 @@
   .similar-route-name {
     color: $black;
     font-weight: $font-weight-medium;
-    font-size: $pattern-font-size;
+    font-size: 15px;
 
-    // Taller than $pattern-line-height to accommodate two-line route names
+    // Taller than 18px to accommodate two-line route names
     line-height: 20px;
   }
 
@@ -497,6 +500,205 @@
 
   .route-pattern-header--no-swap {
     padding-right: 0;
+  }
+
+  // ─── Classic route page overrides ────────────────────────────────────────
+
+  &.classic-route-page {
+    .route-pattern-toggle {
+      border: 1px solid #888;
+      width: 100%;
+      min-height: 44px;
+      background: $white;
+      border-radius: var(--space-xs);
+      display: block;
+      font-size: 15px;
+      line-height: 18px;
+      letter-spacing: -0.03em;
+      padding: 13px 32px 13px 16px;
+      text-align: left;
+      color: #333;
+
+      &:focus {
+        outline: none;
+        border-color: $theme-primary-color;
+        background: #fff;
+        border: solid 1px $theme-primary-color;
+        box-shadow: 0 0 2px 1px $theme-secondary-color;
+      }
+
+      .toggle-icon {
+        color: $link-button-color;
+        position: absolute;
+        right: 16px;
+        width: 16px;
+        height: auto;
+        transform: rotate(90deg);
+      }
+    }
+
+    .in-text-arrow {
+      float: none;
+      top: 3px;
+      right: 0;
+    }
+
+    .suggestion {
+      padding: 13px 10px 13px 16px;
+
+      &::after {
+        content: none;
+      }
+    }
+
+    .section-title {
+      font-weight: $font-weight-medium;
+      color: $black;
+    }
+
+    .pattern-check {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      color: $black;
+    }
+
+    .pattern-select-container {
+      border: 1px solid #888;
+
+      &:focus-within {
+        border: solid 1px $theme-primary-color;
+        box-shadow: 0 0 3px 0 $theme-secondary-color;
+      }
+
+      .input-display {
+        display: block;
+        font-size: 15px;
+        line-height: 18px;
+        letter-spacing: -0.03em;
+        padding: 13px 32px 13px 16px;
+
+        .dropdown-arrow {
+          position: absolute;
+          right: 1rem;
+          top: 15px;
+          margin-left: 0;
+          transform: none;
+        }
+      }
+
+      &.pattern-select-container--open .dropdown-arrow {
+        transform: rotate(180deg);
+      }
+
+      .suggestions-container--open {
+        border: 1px solid #ddd;
+        border-bottom: none;
+        box-shadow: 0 4px 13px rgba(0, 0, 0, 0.15);
+      }
+
+      .suggestions-container {
+        background: $background-color-lighter;
+        border-radius: 4px;
+
+        .section-container {
+          background: white;
+          font-size: 15px;
+          line-height: 18px;
+          letter-spacing: -0.03em;
+
+          &:not(:first-child) {
+            margin-top: 4px;
+            border-top: 1px solid #ddd;
+          }
+
+          &:first-child {
+            border-radius: 4px 4px 0 0;
+          }
+
+          &:last-child {
+            border-radius: 0 0 4px 4px;
+          }
+
+          .section-title {
+            font-weight: $font-weight-medium;
+            color: $black;
+            border-bottom: 1px solid #ddd;
+            min-height: 44px;
+            padding: 13px 16px;
+          }
+
+          ul {
+            .suggestion {
+              border-bottom: 1px solid #ddd;
+              padding: 13px 10px 13px 16px;
+
+              &::after {
+                display: none;
+              }
+
+              .icon.check {
+                height: 20px;
+                width: 20px;
+                color: $black;
+                margin-left: 0;
+                margin-right: 0;
+              }
+            }
+
+            .suggestion--highlighted {
+              background: #dfe5e8;
+            }
+          }
+
+          .similar-route {
+            justify-content: space-between;
+
+            .icon-container {
+              width: auto;
+              height: auto;
+              right: auto;
+              top: auto;
+              margin-top: 3px;
+              margin-right: 10px;
+
+              .icon {
+                width: 2em;
+                height: 2em;
+              }
+            }
+
+            .similar-route-arrow-container {
+              margin-top: 5px;
+
+              .icon-container {
+                margin-right: 0;
+
+                .similar-route-arrow {
+                  width: 1.35em;
+                  height: 1.35em;
+                }
+              }
+            }
+
+            .similar-route-text {
+              .similar-route-name {
+                color: #333;
+              }
+
+              .similar-route-longname {
+                color: #666;
+                text-decoration-color: white;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   @media print {

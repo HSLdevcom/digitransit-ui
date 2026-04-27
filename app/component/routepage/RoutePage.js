@@ -141,8 +141,8 @@ function RoutePage({
           </div>
           {!tripId && (
             <div className="route-header-actions">
-              {matchingNotification &&
-                matchingNotification.closeButtonLabel?.[intl.locale] && (
+              {config.showNewRoutePage &&
+                matchingNotification?.closeButtonLabel?.[intl.locale] && (
                   <>
                     <RouteNotificationButton
                       notification={matchingNotification}

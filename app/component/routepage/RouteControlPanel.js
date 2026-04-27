@@ -33,6 +33,7 @@ import { isIOS } from '../../util/browser';
 import { unixTime, unixToYYYYMMDD } from '../../util/timeUtils';
 import { saveSearch } from '../../action/SearchActions';
 import Icon from '../Icon';
+import Notification from './Notification';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,
@@ -92,6 +93,22 @@ function RouteControlPanel(
     [Tab.Timetable]: timetableTabRef,
     [Tab.Disruptions]: disruptionTabRef,
   };
+
+  const routeNotifications = [];
+  if (
+    config.NODE_ENV !== 'test' &&
+    config.routeNotifications &&
+    config.routeNotifications.length > 0
+  ) {
+    for (let i = 0; i < config.routeNotifications.length; i++) {
+      const n = config.routeNotifications[i];
+      if (n.showForRoute?.(route)) {
+        routeNotifications.push(
+          <Notification notification={n} lang={intl.locale} key={n.id} />,
+        );
+      }
+    }
+  }
 
   const activeTab = getActiveTab(location.pathname);
 
@@ -384,6 +401,7 @@ function RouteControlPanel(
           'bp-large': breakpoint === 'large',
         })}
       >
+        {!config.showNewRoutePage && routeNotifications}
         {showStandardControls(route) && (
           <>
             {patternId && (

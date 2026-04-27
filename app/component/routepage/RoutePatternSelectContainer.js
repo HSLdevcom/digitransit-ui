@@ -10,17 +10,18 @@ import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { matchShape } from 'found';
 import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
-import { useIntl } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { routeShape } from '../../util/shapes';
 import { routePagePath, PREFIX_STOPS } from '../../util/path';
-import RoutePatternSelect from './RoutePatternSelect';
+import RoutePatternSelect, { patternTextWithIcon } from './RoutePatternSelect';
 import RoutePatternHeader from './RoutePatternHeader';
 import {
   getModeIconColor,
   ensureColorAccessibleOnWhite,
 } from '../../util/colorUtils';
 import { getRouteMode } from '../../util/modeUtils';
+import Icon from '../Icon';
 
 function filterSimilarRoutes(routes, currentRoute) {
   const withoutCurrent = routes.filter(r => r.gtfsId !== currentRoute.gtfsId);
@@ -158,6 +159,12 @@ function RoutePatternSelectContainer({
     ? mainRoutes.find(o => o.code !== params.patternId)
     : undefined;
 
+  const renderButtonOnly =
+    mainRoutes.length > 0 &&
+    specialRoutes.length === 0 &&
+    futureOptions.length === 0 &&
+    similarRoutes.length === 0;
+
   const origin = currentPattern?.stops[0].name ?? '';
   const destination =
     currentPattern?.headsign ||
@@ -195,28 +202,95 @@ function RoutePatternSelectContainer({
       !loadingSimilar &&
       similarRoutes.length > 0);
 
-  return (
-    <div className={cx('route-pattern-select', className)}>
-      <RoutePatternHeader
-        origin={origin}
-        destination={destination}
-        iconColor={rawIconColor}
-        canSwap={canSwapDirection}
-        onSwap={
-          canSwapDirection ? () => onSelectChange(otherPattern.code) : undefined
-        }
-      />
-      {optionArray.length > 0 && hasExtraPatternOptions && (
-        <RoutePatternSelect
-          currentPattern={currentPattern}
-          optionArray={optionArray}
-          onSelectChange={onSelectChange}
-          className={className}
-          router={router}
-          iconColor={iconColor}
-          rawIconColor={rawIconColor}
+  if (config.showNewRoutePage) {
+    return (
+      <div className={cx('route-pattern-select', className)}>
+        <RoutePatternHeader
+          origin={origin}
+          destination={destination}
+          iconColor={rawIconColor}
+          canSwap={canSwapDirection}
+          onSwap={
+            canSwapDirection
+              ? () => onSelectChange(otherPattern.code)
+              : undefined
+          }
         />
-      )}
+        {optionArray.length > 0 && hasExtraPatternOptions && (
+          <RoutePatternSelect
+            currentPattern={currentPattern}
+            optionArray={optionArray}
+            onSelectChange={onSelectChange}
+            className={className}
+            router={router}
+            iconColor={iconColor}
+            rawIconColor={rawIconColor}
+          />
+        )}
+      </div>
+    );
+  }
+  if (renderButtonOnly) {
+    return (
+      <div
+        className={cx(`route-pattern-select ${className}`, {
+          'classic-route-page': !config.showNewRoutePage,
+        })}
+        aria-atomic="true"
+      >
+        <h3 className="route-pattern-select-title">
+          <FormattedMessage
+            id="route-page.choose-direction"
+            defaultMessage="Choose direction"
+          />
+        </h3>
+        <label htmlFor="route-pattern-toggle-button">
+          {canSwapDirection && (
+            <span className="sr-only">
+              <FormattedMessage id="swap-order-button-label" />
+            </span>
+          )}
+          <button
+            id="route-pattern-toggle-button"
+            className="route-pattern-toggle"
+            type="button"
+            onClick={
+              canSwapDirection
+                ? () => onSelectChange(otherPattern.code)
+                : undefined
+            }
+          >
+            {patternTextWithIcon(currentPattern)}
+            {canSwapDirection && (
+              <Icon
+                className="toggle-icon"
+                img="icon_direction-c"
+                viewBox="0 0 19 17"
+              />
+            )}
+          </button>
+        </label>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={cx('route-pattern-select', className, 'classic-route-page')}
+    >
+      <h3 className="route-pattern-select-title">
+        <FormattedMessage
+          id="route-page.choose-direction"
+          defaultMessage="Choose direction"
+        />
+      </h3>
+      <RoutePatternSelect
+        currentPattern={currentPattern}
+        optionArray={optionArray}
+        onSelectChange={onSelectChange}
+        className={className}
+        router={router}
+      />
     </div>
   );
 }

@@ -51,6 +51,7 @@ const baseConfig = {
   colors: { primary: '#3fa', accessiblePrimary: '#333' },
   itinerary: { serviceTimeRange: 30 },
   showSimilarRoutesOnRouteDropDown: false,
+  showNewRoutePage: true,
 };
 
 const baseMatch = {

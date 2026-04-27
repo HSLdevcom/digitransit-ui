@@ -9,6 +9,7 @@ import { routePagePath } from '../../util/path';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { patternShape, routeShape } from '../../util/shapes';
 import { useBreakpoint } from '../../util/withBreakpoint';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 function patternOptionText(pattern) {
   if (!pattern) {
@@ -248,6 +249,7 @@ export default function RoutePatternSelect({
   rawIconColor = null,
 }) {
   const intl = useIntl();
+  const config = useConfigContext();
   const breakpoint = useBreakpoint();
   const isMobile = breakpoint !== 'large';
   const [mobileModalOpen, setMobileModalOpen] = useState(false);
@@ -329,7 +331,12 @@ export default function RoutePatternSelect({
   };
 
   return (
-    <div className={`route-pattern-select ${className}`} aria-atomic="true">
+    <div
+      className={cx(`route-pattern-select ${className}`, {
+        'classic-route-page': !config.showNewRoutePage,
+      })}
+      aria-atomic="true"
+    >
       <div
         className={cx('pattern-select-container', {
           'pattern-select-container--open': isOpen,
@@ -360,10 +367,16 @@ export default function RoutePatternSelect({
             }}
           >
             <div className="input-display" aria-hidden="true">
-              <span className="option-count-pill">+{optionCount}</span>
-              <span className="toggle-label">
-                <FormattedMessage id="route-page.alternative-routes" />
-              </span>
+              {config.showNewRoutePage ? (
+                <>
+                  <span className="option-count-pill">+{optionCount}</span>
+                  <span className="toggle-label">
+                    <FormattedMessage id="route-page.alternative-routes" />
+                  </span>
+                </>
+              ) : (
+                patternTextWithIcon(currentPattern)
+              )}
               <Icon className="dropdown-arrow" img="icon_arrow-collapse" />
             </div>
           </div>
@@ -373,10 +386,16 @@ export default function RoutePatternSelect({
             title={intl.formatMessage({ id: 'route-pattern-select-tooltip' })}
           >
             <div className="input-display" aria-hidden="true">
-              <span className="option-count-pill">+{optionCount}</span>
-              <span className="toggle-label">
-                <FormattedMessage id="route-page.alternative-routes" />
-              </span>
+              {config.showNewRoutePage ? (
+                <>
+                  <span className="option-count-pill">+{optionCount}</span>
+                  <span className="toggle-label">
+                    <FormattedMessage id="route-page.alternative-routes" />
+                  </span>
+                </>
+              ) : (
+                patternTextWithIcon(currentPattern)
+              )}
               <Icon className="dropdown-arrow" img="icon_arrow-collapse" />
             </div>
           </div>
@@ -443,7 +462,11 @@ export default function RoutePatternSelect({
                 <Icon img="icon_close" />
               </button>
             </div>
-            <div className="route-pattern-select">
+            <div
+              className={cx('route-pattern-select', {
+                'classic-route-page': !config.showNewRoutePage,
+              })}
+            >
               {optionArray.map((section, sectionIndex) => (
                 <div
                   key={`mobile-section-${section.name || sectionIndex}`}
