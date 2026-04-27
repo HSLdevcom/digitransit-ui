@@ -466,6 +466,10 @@ export default function RoutePatternSelect({
               className={cx('route-pattern-select', {
                 'classic-route-page': !config.showNewRoutePage,
               })}
+              style={{
+                '--mode-color': iconColor,
+                '--mode-color-raw': rawIconColor || iconColor,
+              }}
             >
               {optionArray.map((section, sectionIndex) => (
                 <div

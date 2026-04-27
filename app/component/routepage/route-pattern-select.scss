@@ -53,10 +53,12 @@
     &:focus-within {
       outline: none;
       border-color: $theme-primary-color;
+      box-shadow: 0 0 3px 0 $theme-secondary-color;
     }
 
     &.pattern-select-container--open {
       border-color: $theme-primary-color;
+      box-shadow: 0 0 3px 0 $theme-secondary-color;
 
       .dropdown-arrow {
         transform: rotate(180deg);
@@ -68,6 +70,12 @@
 
       @media screen and (max-width: 900px) {
         padding: var(--space-m) var(--space-l);
+      }
+
+      .icon-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
 
