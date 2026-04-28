@@ -22,7 +22,6 @@ export default function Disruption({
   entities = [],
   alertHeaderText,
   alertSeverityLevel = AlertSeverityLevelType.Unknown,
-  id,
   onClickLink,
   canceledDepartures = [],
 }) {
@@ -54,18 +53,19 @@ export default function Disruption({
     [entities],
   );
 
+  const buttonLabel = hasCancelations ? 'View timetable' : 'View details';
   return (
     <div
       className="alert-row"
       role="listitem"
       aria-label={alertDescriptionText}
     >
-      {!hasCancelations && toggleDetails && (
+      {toggleDetails && (
         <button
           type="button"
-          onClick={() => toggleDetails(id)}
+          onClick={() => toggleDetails()}
           className="alert-row-arrow"
-          aria-label="Show alert details"
+          aria-label={buttonLabel}
         >
           <Icon
             img="icon_arrow-collapse--right"
@@ -158,7 +158,6 @@ Disruption.propTypes = {
   entities: PropTypes.arrayOf(entityShape),
   alertSeverityLevel: PropTypes.string,
   alertHeaderText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  id: PropTypes.string.isRequired,
   onClickLink: PropTypes.func,
   canceledDepartures: PropTypes.arrayOf(stopTimeShape),
 };

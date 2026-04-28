@@ -15,6 +15,10 @@ import {
 } from '../../utils/client/alertUtils';
 import { alertShape } from '../../utils/client/shapes';
 import { useCurrentTime } from '../hooks/TimeContext';
+import {
+  PREFIX_DISRUPTION,
+  PREFIX_TIMETABLE,
+} from '../../utils/shared/path';
 import { useBreakpoint } from '../../utils/client/withBreakpoint';
 import Icon from './Icon';
 import { useConfigContext } from '../client/ConfigContext';
@@ -91,6 +95,11 @@ const DisruptionList = ({
   ) {
     return <EmptyDisruptions />;
   }
+
+  const timetableUrl = match.location.pathname.replace(
+    PREFIX_DISRUPTION,
+    PREFIX_TIMETABLE,
+  );
   return (
     <div className="alerts-content-wrapper">
       <div
@@ -112,14 +121,24 @@ const DisruptionList = ({
           </h2>
           {current.length ? (
             <div role="list">
-              {current.map(alert => (
-                <Disruption
-                  toggleDetails={toggleDetails}
-                  onClickLink={onClickLink}
-                  key={alert.id}
-                  {...alert}
-                />
-              ))}
+              {current.map(disruption =>
+                // if the disruption is a cancelation, link to timetable
+                disruption.canceledDepartures ? (
+                  <Disruption
+                    toggleDetails={() => router.push(timetableUrl)}
+                    onClickLink={onClickLink}
+                    key={disruption.id}
+                    {...disruption}
+                  />
+                ) : (
+                  <Disruption
+                    toggleDetails={() => toggleDetails(disruption.id)}
+                    onClickLink={onClickLink}
+                    key={disruption.id}
+                    {...disruption}
+                  />
+                ),
+              )}
             </div>
           ) : (
             <p className="alerts-list-section-no-alerts">
@@ -137,12 +156,12 @@ const DisruptionList = ({
           </h2>
           {futureAlerts.length ? (
             <div role="list">
-              {futureAlerts.map(alert => (
+              {futureAlerts.map(disruption => (
                 <Disruption
                   toggleDetails={toggleDetails}
                   onClickLink={onClickLink}
-                  key={alert.id}
-                  {...alert}
+                  key={disruption.id}
+                  {...disruption}
                 />
               ))}
             </div>
