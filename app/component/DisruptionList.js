@@ -15,6 +15,7 @@ import {
   alertSeverityCompare,
 } from '../util/alertUtils';
 import { alertShape } from '../util/shapes';
+import { PREFIX_DISRUPTION, PREFIX_TIMETABLE } from '../util/path';
 import { useBreakpoint } from '../util/withBreakpoint';
 import Icon from './Icon';
 import { useConfigContext } from '../configurations/ConfigContext';
@@ -90,6 +91,11 @@ const DisruptionList = ({
   ) {
     return <EmptyDisruptions />;
   }
+
+  const timetableUrl = match.location.pathname.replace(
+    PREFIX_DISRUPTION,
+    PREFIX_TIMETABLE,
+  );
   return (
     <div className="alerts-content-wrapper">
       <div
@@ -111,13 +117,22 @@ const DisruptionList = ({
           </h2>
           {current.length ? (
             <div role="list">
-              {current.map(alert => (
-                <Disruption
-                  toggleDetails={toggleDetails}
-                  key={alert.id}
-                  {...alert}
-                />
-              ))}
+              {current.map(disruption =>
+                // if the disruption is a cancelation, link to timetable
+                disruption.canceledDepartures ? (
+                  <Disruption
+                    toggleDetails={() => router.push(timetableUrl)}
+                    key={disruption.id}
+                    {...disruption}
+                  />
+                ) : (
+                  <Disruption
+                    toggleDetails={() => toggleDetails(disruption.id)}
+                    key={disruption.id}
+                    {...disruption}
+                  />
+                ),
+              )}
             </div>
           ) : (
             <p className="alerts-list-section-no-alerts">
@@ -135,11 +150,11 @@ const DisruptionList = ({
           </h2>
           {futureAlerts.length ? (
             <div role="list">
-              {futureAlerts.map(alert => (
+              {futureAlerts.map(disruption => (
                 <Disruption
                   toggleDetails={toggleDetails}
-                  key={alert.id}
-                  {...alert}
+                  key={disruption.id}
+                  {...disruption}
                 />
               ))}
             </div>
