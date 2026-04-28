@@ -58,7 +58,7 @@ export default function LegInfo(
         className={`line ${mode}`}
         mode={mode}
         alertSeverityLevel={alertSeverityLevel}
-        color={leg.route?.color ? `#${leg.route.color}` : 'currentColor'}
+        color={leg.route.color ? `#${leg.route.color}` : 'currentColor'}
         text={leg.route.shortName || leg.trip?.tripShortName}
         realtime={false}
         withBar

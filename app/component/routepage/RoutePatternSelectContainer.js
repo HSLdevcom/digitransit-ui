@@ -156,7 +156,11 @@ function RoutePatternSelectContainer({
 
   const canSwapDirection = mainRoutes.length === 2;
   const otherPattern = canSwapDirection
-    ? mainRoutes.find(o => o.code !== params.patternId)
+    ? mainRoutes.find(
+        o =>
+          o.code !== params.patternId &&
+          o.directionId !== currentPattern?.directionId,
+      )
     : undefined;
 
   const renderButtonOnly =

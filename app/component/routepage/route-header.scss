@@ -122,15 +122,13 @@
 
   .trip-destination {
     display: flex;
+    align-items: baseline;
     margin-left: 10px;
-    margin-top: 14px;
+    margin-top: 10px;
 
     .icon-container {
       color: $theme-primary-color;
       margin-right: 6px;
-      margin-top: 2px;
-
-      // 11px: aligns with the destination headsign text baseline
       font-size: 11px;
     }
 
