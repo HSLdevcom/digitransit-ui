@@ -23,12 +23,18 @@ import { useConfigContext } from '../configurations/ConfigContext';
 export const EmptyDisruptions = () => {
   const config = useConfigContext();
   return (
+    // TODO: Use ThemedIcon with @hslfi icon component
     <div className="no-alerts-container">
-      <Icon
-        img="icon_no-disruptions"
-        color={config.colors.primary}
-        omitViewBox
-      />
+      {config.iconModeSet === 'hsl' ? (
+        <Icon img="icon_no-disruptions" omitViewBox />
+      ) : (
+        <Icon
+          img="icon_no-disruptions"
+          color={config.colors.primary}
+          height={3}
+          width={3}
+        />
+      )}
       <h2>
         <FormattedMessage
           id="disruption-list-traffic-normal"
