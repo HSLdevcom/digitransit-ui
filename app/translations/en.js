@@ -73,6 +73,7 @@ export default {
     'bicycle-walk-to-transit-no-duration':
       'Walk your bike to the {transportMode}',
     bicycle_frame_lock: 'Frame locking',
+    bicycle_walk: 'Walking a bike',
     'bike-availability': 'Bikes available at the station right now',
     'bike-only': 'Cycling only',
     'bike-park': 'Park & Ride for bikes',
@@ -563,11 +564,18 @@ export default {
       'Please note that you need to use the app of the operator in question in order to use and pay for the taxis.',
     'personal-itineraries': 'Personal itineraries',
     personalisation: 'Personalisation',
+    'personalisation-aria-dislike': 'I do not like this itinerary',
+    'personalisation-aria-like': 'I like this itinerary',
+    'personalisation-ask': 'Do you like this route recommendation?',
     'personalisation-beta':
       'Personalization is still in the testing phase, meaning we are trying out the service. We would love to hear about your experience. The survey will open in a new tab.',
+    'personalisation-disliked':
+      'You will receive fewer recommendations like this in the future.',
     'personalisation-feedback': 'Give feedback',
     'personalisation-info':
       'Find your favorite routes and travel according to your habits',
+    'personalisation-liked':
+      'You will receive similar recommendations in the future.',
     'personalisation-modal-feedback': 'We learn from your feedback',
     'personalisation-modal-feedback-details':
       'We use your feedback in itinerary recommendations. Tell us what you think about the recommendations and we will take your preferences into account in the future.',

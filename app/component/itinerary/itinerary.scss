@@ -103,7 +103,6 @@ $itinerary-tab-switch-height: 48px;
 
 @mixin platformUpdated {
   display: inline-flex;
-  height: 18px;
   min-width: auto;
   justify-content: center;
   align-items: center;
@@ -111,7 +110,6 @@ $itinerary-tab-switch-height: 48px;
   border-radius: var(--radius-s);
   background: #fdf3f6;
   color: $cancelation-red;
-  padding: 0 8px 0 4px;
 }
 
 .default-dotted-line {
@@ -813,6 +811,7 @@ $itinerary-tab-switch-height: 48px;
 }
 
 .itinerary-disclaimer {
+  flex-direction: column;
   margin: 17px 15px 15px 15px;
   white-space: normal;
   color: #666;
@@ -2079,14 +2078,14 @@ $itinerary-tab-switch-height: 48px;
 
       .platform-short {
         font-weight: $font-weight-book;
-        font-size: 0.813rem;
-        align-items: center;
         display: inline-flex;
+        align-items: center;
+        vertical-align: middle;
         gap: var(--space-xxs);
       }
 
       .platform-number-wrapper {
-        padding: 3px 10px;
+        padding: 2px 7px;
         border-radius: 5px;
         margin: 0 3px 0 3px;
         background-color: $background-color-lighter;
@@ -3626,14 +3625,20 @@ $font-print-decrease: 0.7;
   }
 }
 
+.platform-number-plain {
+  display: inline-flex;
+  align-items: center;
+}
+
 .platform-number-wrapper {
-  padding: 3px 10px;
   border-radius: 5px;
   margin: 0 3px 0 3px;
   background-color: $background-color-lighter;
   font-weight: $font-weight-medium;
   font-family: $id-font-family;
   display: inline;
+  letter-spacing: 0.045em;
+  font-size: $font-size-xxsmall;
 
   &.platform-updated {
     @include platformUpdated;
@@ -3645,7 +3650,6 @@ $font-print-decrease: 0.7;
       .platform-updated-icon {
         vertical-align: middle;
         color: $cancelation-red;
-        margin: 0 2px 0 2px;
       }
     }
   }

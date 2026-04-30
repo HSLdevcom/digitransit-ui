@@ -41,6 +41,7 @@ export default {
     'back-button-title': 'Zurück zur vorheringen Seite',
     'back-to-front-page': 'Zurück zur Startseite ›',
     bicycle: 'Fahrrad',
+    bicycle_walk: 'Fahrrad schieben',
     'bike-availability': 'Fahrräder verfügbar',
     'bike-station-disabled': 'Pyöräasema ei ole käytössä.',
     'bikes-available': 'Fahrräder verfügbar',

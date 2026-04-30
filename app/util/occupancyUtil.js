@@ -27,6 +27,29 @@ export function mapStatus(status) {
 }
 
 /**
+ * Maps status to translation id
+ *
+ * @param {*} status status from OTP.
+ */
+export function capacityToTranslationId(status) {
+  switch (status) {
+    case 'EMPTY':
+    case 'MANY_SEATS_AVAILABLE':
+      return 'capacity-modal.many-seats-available-heading';
+    case 'STANDING_ROOM_ONLY':
+      return 'capacity-modal.standing-room-only-heading';
+    case 'CRUSHED_STANDING_ROOM_ONLY':
+      return 'capacity-modal.crushed-standing-room-only-heading';
+    case 'NOT_ACCEPTING_PASSENGERS':
+    case 'FULL':
+      return 'capacity-modal.full-capacity-heading';
+    case 'FEW_SEATS_AVAILABLE':
+    default:
+      return 'capacity-modal.few-seats-available-heading';
+  }
+}
+
+/**
  * Checks that departure is within 10 minutes from now.
  *
  * @param {*} departureTime departure time in Unix.

@@ -73,6 +73,7 @@ export default {
       'Led cykeln {distance} ({duration}) och ta cykeln med på {transportMode}',
     'bicycle-walk-to-transit-no-duration': 'Led cykeln på {transportMode}',
     bicycle_frame_lock: 'Ramlås',
+    bicycle_walk: 'Leder en cykel',
     'bike-availability': 'Antal cyklar just nu',
     'bike-only': 'Endast cykling',
     'bike-park': 'Anslutningsparkering för cyklar',
@@ -556,11 +557,18 @@ export default {
       'Vänligen observera att användning och betalning av taxi görs via operatörernas egna appar.',
     'personal-itineraries': 'Individuella ruttförslag',
     personalisation: 'Personalisering',
+    'personalisation-aria-dislike': 'Jag gillar den här ruttrekommendationen',
+    'personalisation-aria-like': 'Jag gillar inte den här ruttrekommendationen',
+    'personalisation-ask': 'Gillar du den här ruttrekommendationen?',
     'personalisation-beta':
       'Personaliseringen är fortfarande i testfasen, vilket innebär att vi testar tjänsten. Vi vill gärna höra om din upplevelse. Undersökningen öppnas i en ny flik.',
+    'personalisation-disliked':
+      'Du kommer att få färre rekommendationer som denna i framtiden.',
     'personalisation-feedback': 'Ge feedback',
     'personalisation-info':
       'Hitta dina favoritrutter och res utifrån dina vanor.',
+    'personalisation-liked':
+      'Du kommer att få liknande rekommendationer i framtiden.',
     'personalisation-modal-feedback': 'Vi lär oss av er feedback',
     'personalisation-modal-feedback-details':
       'Vi använder din feedback i våra ruttrekommendationer. Berätta vad du tycker om rekommendationerna så tar vi hänsyn till dina preferenser i framtiden.',

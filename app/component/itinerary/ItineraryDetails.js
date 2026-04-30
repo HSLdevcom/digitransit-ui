@@ -1,6 +1,5 @@
 import cx from 'classnames';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-import { matchShape, routerShape } from 'found';
+import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -27,13 +26,14 @@ import {
   legTimeStr,
 } from '../../util/legUtils';
 import { streetHash } from '../../util/path';
-import { configShape, itineraryShape, relayShape } from '../../util/shapes';
+import { itineraryShape, relayShape } from '../../util/shapes';
 import { getFutureText } from '../../util/timeUtils';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
 import BackButton from '../BackButton';
 import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';
 import FareDisclaimer from './FareDisclaimer';
+import Feedback from './Feedback';
 import RouteDisclaimer from './RouteDisclaimer';
 import ItinerarySummary from './ItinerarySummary';
 import Legs from './Legs';
@@ -42,6 +42,7 @@ import StartNavi from './StartNavi';
 import TicketInformation from './TicketInformation';
 import VehicleRentalDurationInfo from './VehicleRentalDurationInfo';
 import { ItineraryDetailsFragment } from './queries/ItineraryDetailsFragment';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 function getExtraProps(itinerary, intl) {
   const compressedItinerary = {
@@ -77,25 +78,27 @@ function getExtraProps(itinerary, intl) {
   };
 }
 
-function ItineraryDetails(
-  {
-    itinerary: itineraryRef,
-    focusToPoint,
-    focusToLeg,
-    isMobile,
-    tabIndex,
-    hideTitle,
-    carEmissions,
-    currentLanguage,
-    changeHash,
-    openSettings,
-    startNavigation,
-    bikePublicItineraryCount,
-    carPublicItineraryCount,
-    relayEnvironment,
-  },
-  { config, match },
-) {
+function ItineraryDetails({
+  itinerary: itineraryRef,
+  focusToPoint,
+  focusToLeg,
+  isMobile,
+  tabIndex,
+  hideTitle = false,
+  carEmissions,
+  changeHash = () => {},
+  openSettings,
+  startNavigation,
+  bikePublicItineraryCount = 0,
+  carPublicItineraryCount = 0,
+  relayEnvironment,
+  recommended = false,
+  feedback,
+  giveFeedback,
+}) {
+  const { match } = useRouter();
+  const config = useConfigContext();
+  const { language } = config;
   const itinerary = useFragment(ItineraryDetailsFragment, itineraryRef);
   const intl = useIntl();
 
@@ -103,6 +106,8 @@ function ItineraryDetails(
     config.showDisclaimer &&
     match.params.hash !== streetHash.walk &&
     match.params.hash !== streetHash.bike;
+
+  const shouldShowFeedback = giveFeedback && !streetHash[match.params.hash];
 
   if (!itinerary?.legs[0]) {
     return null;
@@ -182,7 +187,7 @@ function ItineraryDetails(
     itinerary.legs.forEach(leg => {
       if (config.modeDisclaimers?.[leg.mode] && !found[leg.mode]) {
         found[leg.mode] = true;
-        const disclaimer = config.modeDisclaimers[leg.mode][currentLanguage];
+        const disclaimer = config.modeDisclaimers[leg.mode][language];
         disclaimers.push(
           <FareDisclaimer
             key={leg.mode}
@@ -195,7 +200,7 @@ function ItineraryDetails(
     });
 
     // Show call agency ticket disclaimer for external agencies
-    const callAgencyInfo = config.callAgencyInfo?.[currentLanguage];
+    const callAgencyInfo = config.callAgencyInfo?.[language];
     if (
       callAgencyInfo &&
       itinerary.legs.some(
@@ -223,7 +228,7 @@ function ItineraryDetails(
             agencyName:
               typeof config.primaryAgencyName === 'string'
                 ? config.primaryAgencyName
-                : config.primaryAgencyName?.[currentLanguage],
+                : config.primaryAgencyName?.[language],
           }}
         />,
       );
@@ -247,12 +252,10 @@ function ItineraryDetails(
             ? { content: route.desc, link: route.url }
             : {
                 content:
-                  config.replacementBusNotification?.content?.[
-                    currentLanguage
-                  ]?.join(' '),
-                link: config.replacementBusNotification?.link?.[
-                  currentLanguage
-                ],
+                  config.replacementBusNotification?.content?.[language]?.join(
+                    ' ',
+                  ),
+                link: config.replacementBusNotification?.link?.[language],
               };
 
         const key = `replacementBusNotification-${
@@ -338,7 +341,7 @@ function ItineraryDetails(
                 fares={fares}
                 zones={getZones(itinerary.legs)}
                 legs={itinerary.legs}
-                ticketLink={localizedUrl(config.ticketLink, currentLanguage)}
+                ticketLink={localizedUrl(config.ticketLink, language)}
               />
             )),
 
@@ -386,7 +389,7 @@ function ItineraryDetails(
                 config={config}
                 itinerary={itinerary}
                 carEmissions={carEmissions}
-                emissionsInfolink={config.URL.EMISSIONS_INFO?.[currentLanguage]}
+                emissionsInfolink={config.URL.EMISSIONS_INFO?.[language]}
               />
             )}
             {shouldShowDisclaimer && (
@@ -394,6 +397,17 @@ function ItineraryDetails(
                 <FormattedMessage
                   id="disclaimer"
                   defaultMessage="Results are based on estimated travel times"
+                />
+              </div>
+            )}
+            {shouldShowFeedback && (
+              <div className="itinerary-disclaimer" key="feedback">
+                <div className="separator" />
+                <div className="itinerary-empty-space" />
+                <Feedback
+                  recommended={recommended}
+                  feedback={feedback}
+                  giveFeedback={giveFeedback}
                 />
               </div>
             )}
@@ -413,39 +427,15 @@ ItineraryDetails.propTypes = {
   tabIndex: PropTypes.number.isRequired,
   hideTitle: PropTypes.bool,
   carEmissions: PropTypes.number,
-  currentLanguage: PropTypes.string,
   changeHash: PropTypes.func,
   openSettings: PropTypes.func.isRequired,
   startNavigation: PropTypes.func,
   bikePublicItineraryCount: PropTypes.number,
   carPublicItineraryCount: PropTypes.number,
   relayEnvironment: relayShape,
+  recommended: PropTypes.bool,
+  feedback: PropTypes.bool,
+  giveFeedback: PropTypes.func,
 };
 
-ItineraryDetails.defaultProps = {
-  hideTitle: false,
-  currentLanguage: 'fi',
-  changeHash: () => {},
-  bikePublicItineraryCount: 0,
-  carPublicItineraryCount: 0,
-  carEmissions: undefined,
-  relayEnvironment: undefined,
-  startNavigation: undefined,
-};
-
-ItineraryDetails.contextTypes = {
-  config: configShape.isRequired,
-  router: routerShape.isRequired,
-  match: matchShape.isRequired,
-  getStore: PropTypes.func.isRequired,
-};
-
-const connectedComponent = connectToStores(
-  ItineraryDetails,
-  ['PreferencesStore'],
-  context => ({
-    currentLanguage: context.getStore('PreferencesStore').getLanguage(),
-  }),
-);
-
-export { ItineraryDetails as Component, connectedComponent as default };
+export default ItineraryDetails;

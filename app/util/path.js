@@ -67,14 +67,21 @@ export const createReturnPath = (
   origin,
   destination,
   hash = undefined,
+  secondHash = undefined,
 ) => {
   const returnUrl = path === '' ? '' : `/${path}`;
-  return [
+  const parts = [
     returnUrl,
     encodeURIComponent(decodeURIComponent(origin)),
     encodeURIComponent(decodeURIComponent(destination)),
-    hash || '',
-  ].join('/');
+  ];
+  if (hash) {
+    parts.push(hash);
+  }
+  if (secondHash) {
+    parts.push(secondHash);
+  }
+  return parts.join('/');
 };
 
 export const getNearYouPath = (place, mode) =>

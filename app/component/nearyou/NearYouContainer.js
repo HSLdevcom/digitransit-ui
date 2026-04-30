@@ -59,11 +59,16 @@ function NearYouContainer({
     if (!automatic) {
       ariaRef.current = 'loading';
     }
-    relay.loadMore(5, () => {
+    relay.loadMore(5, error => {
       if (automatic) {
         refetches.current += 1;
       }
-      stopCount.current += 5;
+      if (error) {
+        // stop collecting more
+        refetches.current = config.maxNearYouRefetches;
+      } else {
+        stopCount.current += 5;
+      }
       ariaRef.current = 'stop-near-you-update-alert';
       setLoading(0);
     });
@@ -158,7 +163,9 @@ function NearYouContainer({
     .flatMap(route => route?.alerts || [])
     .filter(alert => alert.alertSeverityLevel === 'SEVERE');
   const noStopsFound =
-    !items.length && refetches >= config.maxNearYouRefetches && !loading;
+    !items.length &&
+    refetches.current >= config.maxNearYouRefetches &&
+    !loading;
   return (
     <>
       {alerts?.length ? <DisruptionBanner alerts={alerts} mode={mode} /> : null}

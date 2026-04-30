@@ -5,6 +5,7 @@ import cx from 'classnames';
 const Icon = ({
   className,
   color,
+  fill,
   height,
   id,
   img,
@@ -22,7 +23,7 @@ const Icon = ({
       id={id}
       style={{
         color: color || null,
-        fill: color || null,
+        fill: fill || color || null,
         height: height ? `${height}em` : null,
         width: width ? `${width}em` : null,
         outline: 0,
@@ -34,7 +35,7 @@ const Icon = ({
       {background}
       <g
         style={{
-          fill: color || null,
+          fill: fill || color || null,
           height: height ? `${height}em` : null,
           width: width ? `${width}em` : null,
           outline: 0,
@@ -56,6 +57,7 @@ const Icon = ({
 Icon.propTypes = {
   className: PropTypes.string,
   color: PropTypes.string,
+  fill: PropTypes.string,
   height: PropTypes.number,
   id: PropTypes.string,
   img: PropTypes.string.isRequired,

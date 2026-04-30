@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { ClearButton } from './ClearButton';
@@ -24,6 +24,19 @@ export function Input({
   autoFocus,
   inputOnBlur,
 }) {
+  const cursorRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const el = inputRef.current;
+    if (el && cursorRef.current !== null && el === document.activeElement) {
+      el.setSelectionRange(cursorRef.current, cursorRef.current);
+    }
+  }, [value]);
+
+  const handleChange = e => {
+    cursorRef.current = e.target.selectionStart;
+  };
+
   return (
     <div className={styles.container}>
       {renderLabel && (
@@ -55,6 +68,7 @@ export function Input({
         {...getInputProps({
           ref: inputRef,
           onBlur: inputOnBlur,
+          onChange: handleChange,
         })}
       />
       {value && (

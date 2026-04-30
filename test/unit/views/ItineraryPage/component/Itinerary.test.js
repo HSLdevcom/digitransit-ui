@@ -57,10 +57,8 @@ describe('<Itinerary />', () => {
       refTime: dcw12.cityBikeRouteWithIntermediatePlaces.refTime,
     };
     const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: {
-        ...mockContext,
-        config: { CONFIG: 'default', vehicleRental: { fewAvailableCount: 3 } },
-      },
+      context: { ...mockContext },
+      config: { CONFIG: 'default', vehicleRental: { fewAvailableCount: 3 } },
       childContextTypes: { ...mockChildContextTypes },
     });
     const legs = wrapper.find('.itinerary-legs');

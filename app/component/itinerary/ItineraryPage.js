@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 /* eslint-disable no-nested-ternary */
 import { matchShape, routerShape } from 'found';
 import isEmpty from 'lodash/isEmpty';
@@ -92,7 +91,7 @@ import NaviContainer from './navigator/NaviContainer';
 import NaviGeolocationInfoModal from './navigator/navigatorgeolocation/NaviGeolocationInfoModal';
 import NavigatorIntroModal from './navigator/navigatorintro/NavigatorIntroModal';
 import { planConnection } from './queries/PlanConnection';
-import { isCallAgencyLeg } from '../../util/legUtils';
+import { isCallAgencyLeg, hasTaxiLegs } from '../../util/legUtils';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
 
@@ -186,6 +185,8 @@ export default function ItineraryPage(props, context) {
   const [topicsState, setTopicsState] = useState(null);
   const [mapState, setMapState] = useState({});
   const [naviMode, setNaviMode] = useState(false);
+  const [recommendedItinerary, setRecommendedItinerary] = useState(-1);
+  const [feedback, setFeedback] = useState({}); // boolean map, key = itinerary index
 
   const itineraryContext = useItineraryContext();
 
@@ -408,6 +409,9 @@ export default function ItineraryPage(props, context) {
   }
 
   async function makeMainQuery() {
+    setRecommendedItinerary(-1);
+    setFeedback({});
+
     if (!planQueryNeeded(config, match, PLANTYPE.TRANSIT)) {
       setState({ plan: {}, loading: LOADSTATE.DONE });
       return;
@@ -420,6 +424,7 @@ export default function ItineraryPage(props, context) {
         planParams,
         planParams.maxQueryIterations,
       );
+      setRecommendedItinerary(Date.now() % 5); // just pick random for now
       setState({ ...emptyState, plan, loading: LOADSTATE.DONE });
       ariaRef.current = 'itinerary-page.itineraries-loaded';
     } catch (error) {
@@ -1284,6 +1289,12 @@ export default function ItineraryPage(props, context) {
     }, 500);
   };
 
+  const giveFeedback = (i, liked) => {
+    const updated = { ...feedback };
+    updated[i] = liked;
+    setFeedback(updated);
+  };
+
   function renderMap(from, to, viaPoints, planEdges, activeIndex) {
     const mwtProps = {};
     if (mapState.bounds) {
@@ -1447,10 +1458,12 @@ export default function ItineraryPage(props, context) {
     </div>
   ) : null;
 
+  const feedbackProp =
+    config.personalisation && settings.personalisation ? giveFeedback : null;
+
   // in mobile, settings drawer hides other content
   const panelHidden = !desktop && settingsDrawer !== null;
   let content; // bottom content of itinerary panel
-
   if (panelHidden) {
     content = null;
   } else if (loading) {
@@ -1502,7 +1515,10 @@ export default function ItineraryPage(props, context) {
           Date.now() + 24 * 3600 * 1000;
 
       const navigateHook =
-        !desktop && config.navigation && presentSearch
+        !desktop &&
+        config.navigation &&
+        presentSearch &&
+        !hasTaxiLegs(combinedEdges[selectedIndex]?.node)
           ? () =>
               startNavigationWithAnalytics(combinedEdges[selectedIndex]?.node)
           : undefined;
@@ -1511,6 +1527,9 @@ export default function ItineraryPage(props, context) {
         <ItineraryTabs
           isMobile={!desktop}
           tabIndex={selectedIndex}
+          recommendedIndex={recommendedItinerary}
+          feedback={feedback}
+          giveFeedback={feedbackProp}
           changeHash={changeHash}
           plan={plan}
           planEdges={combinedEdges}
@@ -1540,6 +1559,9 @@ export default function ItineraryPage(props, context) {
     content = (
       <ItineraryListContainer
         activeIndex={selectedIndex}
+        recommendedIndex={recommendedItinerary}
+        feedback={feedback}
+        giveFeedback={feedbackProp}
         planEdges={combinedEdges}
         params={params}
         bikeParkItineraryCount={bikePublicPlan.bikeParkItineraryCount}
