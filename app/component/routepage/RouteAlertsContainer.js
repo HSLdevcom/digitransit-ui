@@ -59,6 +59,9 @@ const getCancelations = (
 
 function RouteAlertsContainer({ currentTime, route, pattern }, { config }) {
   const intl = useIntl();
+  if (!route) {
+    return null;
+  }
   const entity = {
     __typename: AlertEntityType.Route,
     color: route.color,

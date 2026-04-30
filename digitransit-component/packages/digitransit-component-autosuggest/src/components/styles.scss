@@ -156,9 +156,10 @@ input[type='text'] {
 
   &.origin {
     svg {
+      color: $from-color;
       fill: $from-color;
       width: 16px;
-      height: 24px;
+      height: 16px;
     }
   }
 

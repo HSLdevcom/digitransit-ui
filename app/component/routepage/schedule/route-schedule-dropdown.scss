@@ -20,9 +20,9 @@
   font-size: 13px;
   line-height: 16px;
   letter-spacing: -0.03em;
-  color: #666;
+  color: $gray;
 
-  &.alignRight {
+  &.align-right {
     text-align: right;
     right: 0;
   }
@@ -44,7 +44,7 @@
     box-shadow: none;
 
     &:focus-within {
-      outline: 2px auto #333 !important;
+      outline: 2px auto $black !important;
     }
   }
 
@@ -112,10 +112,10 @@
     max-height: 44vh;
     border-radius: 4px;
     box-shadow: 0 4px 13px rgba(0, 0, 0, 0.15);
-    border: solid 1px #ddd;
+    border: solid 1px $light-gray;
     overflow-x: hidden;
     overflow-y: hidden;
-    background-color: white;
+    background-color: $white;
     position: absolute;
     top: 21px;
     text-align: left;
@@ -142,11 +142,11 @@
     font-size: 15px;
     line-height: 18px;
     letter-spacing: -0.03em;
-    color: #333;
+    color: $black;
     white-space: nowrap;
 
     &:not(:last-child) {
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid $light-gray;
     }
 
     &:hover,

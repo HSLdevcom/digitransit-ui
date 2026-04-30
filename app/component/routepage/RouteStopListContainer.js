@@ -16,6 +16,7 @@ import {
 import RouteStop from './RouteStop';
 import withBreakpoint from '../../util/withBreakpoint';
 import { getRouteMode } from '../../util/modeUtils';
+import { getModeIconColor } from '../../util/colorUtils';
 
 class RouteStopListContainer extends React.PureComponent {
   static propTypes = {
@@ -73,7 +74,7 @@ class RouteStopListContainer extends React.PureComponent {
           color={
             this.props.pattern.route?.color
               ? `#${this.props.pattern.route.color}`
-              : null
+              : getModeIconColor(this.context.config, mode)
           }
           key={`${stop.gtfsId}-${this.props.pattern}-${idx}`}
           stop={stop}
@@ -112,7 +113,11 @@ class RouteStopListContainer extends React.PureComponent {
 
   render() {
     return (
-      <div role="tabpanel" aria-labelledby="route-tab">
+      <div
+        id="route-stop-panel"
+        role="tabpanel"
+        aria-labelledby="route-stop-tab"
+      >
         <span className="sr-only">
           <FormattedMessage
             id="stop-list-update.sr-instructions"

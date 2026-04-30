@@ -12,12 +12,16 @@ import { mount, shallow } from 'enzyme';
 import sinon from 'sinon';
 import * as ReactIntl from 'react-intl';
 import { createIntl, createIntlCache, IntlProvider } from 'react-intl';
+import { ReactRelayContext } from 'react-relay';
 import * as found from 'found';
 import translations from '../../../app/translations/en';
 import IntlBridge from '../../../app/util/IntlBridge';
 import * as ConfigContext from '../../../app/configurations/ConfigContext';
+import { ConfigProvider } from '../../../app/configurations/ConfigContext';
 import TestProviders from './mock-providers';
 import { mockContext } from './mock-context';
+
+const mockRelayContext = { environment: {}, variables: {} };
 
 const getMessages = locale => translations[locale] || {};
 
@@ -132,5 +136,26 @@ export const mountWithIntl = (
       wrappingComponentProps: { config, match, router },
       ...additionalOptions,
     },
+  );
+};
+
+/**
+ * Mounts a component wrapped with IntlContextProvider and ConfigProvider
+ *
+ * @param {React.Element} node - The component to mount
+ * @param {object} options
+ * @param {object} options.config - Config object for ConfigProvider
+ * @param {string} [options.locale='en'] - Locale for intl
+ */
+export const mountWithProviders = (node, { config, locale = 'en' } = {}) => {
+  const messages = getMessages(locale);
+  return mount(
+    <IntlProvider locale={locale} messages={messages}>
+      <ConfigProvider value={config}>
+        <ReactRelayContext.Provider value={mockRelayContext}>
+          {node}
+        </ReactRelayContext.Provider>
+      </ConfigProvider>
+    </IntlProvider>,
   );
 };

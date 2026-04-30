@@ -38,6 +38,10 @@
   @media print {
     display: block;
   }
+
+  .route-tabs {
+    margin: var(--space-s) 48px var(--space-s) 48px;
+  }
 }
 
 .stop-page-content {
@@ -813,6 +817,12 @@ hr.action-bar {
   .stop-tab-container {
     border-bottom: none;
     margin: 0 16px 16px 16px;
+  }
+
+  .stop-page-content-wrapper {
+    .route-tabs {
+      margin: 0 16px 16px;
+    }
   }
 
   .stop-tabs-fillerline {

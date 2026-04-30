@@ -722,7 +722,25 @@ $itinerary-tab-switch-height: 48px;
   z-index: 10;
 
   &.start {
-    top: 12px;
+    top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon {
+      position: relative;
+      top: 0;
+      margin-left: 0;
+      margin-top: 0;
+      width: 16px;
+      height: 16px;
+    }
   }
 
   &.bike-park {
@@ -778,8 +796,6 @@ $itinerary-tab-switch-height: 48px;
 
   &.from-it {
     @include itineraryTableIcons;
-
-    top: -4px;
   }
 
   &.via-it {

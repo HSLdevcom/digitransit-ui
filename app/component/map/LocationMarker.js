@@ -26,17 +26,22 @@ export default function LocationMarker({
   };
   const validType = getValidType(type);
   const sideLength = isLarge ? 30 : 24;
+  const isFrom = validType === 'from';
+  const iconImg = isFrom ? 'icon_origin-ellipse-map' : 'icon_mapMarker-map';
+  const fromSize = isLarge ? 24 : 20;
+  const iconSize = isFrom ? [fromSize, fromSize] : [sideLength, sideLength];
+  const iconAnchor = isFrom
+    ? [fromSize / 2, fromSize / 2]
+    : [sideLength / 2, sideLength];
   return (
     <IconMarker
       position={position}
       className={cx(validType, className)}
       icon={{
         className: cx(validType, className),
-        element: (
-          <Icon img="icon_mapMarker-map" color={disabled ? '#bbbbbb' : null} />
-        ),
-        iconAnchor: [sideLength / 2, sideLength],
-        iconSize: [sideLength, sideLength],
+        element: <Icon img={iconImg} color={disabled ? '#bbbbbb' : null} />,
+        iconAnchor,
+        iconSize,
       }}
       zIndexOffset={12000}
     >

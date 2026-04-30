@@ -7,6 +7,7 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import { configShape, tripShape, vehicleShape } from '../../util/shapes';
 import { getTripOrRouteMode } from '../../util/modeUtils';
+import { getModeIconColor } from '../../util/colorUtils';
 import TripRouteStop from './TripRouteStop';
 import withBreakpoint from '../../util/withBreakpoint';
 
@@ -100,7 +101,11 @@ class TripStopListContainer extends React.PureComponent {
           nextStop={nextStoptimeForDate ? nextStoptimeForDate.stop : null}
           prevStop={prevStop || null}
           mode={mode}
-          color={trip.route && trip.route.color ? `#${trip.route.color}` : null}
+          color={
+            trip.route && trip.route.color
+              ? `#${trip.route.color}`
+              : getModeIconColor(this.context.config, mode)
+          }
           vehicles={vehicles[stoptime.stop.gtfsId]}
           selectedVehicle={vehicle}
           stopPassed={stopPassed}
@@ -124,9 +129,10 @@ class TripStopListContainer extends React.PureComponent {
     return (
       <>
         <div
+          id="route-stop-panel"
           className={cx('route-stop-list', this.props.className)}
           role="tabpanel"
-          aria-labelledby="route-tab"
+          aria-labelledby="route-stop-tab"
         >
           {this.getStops()}
         </div>

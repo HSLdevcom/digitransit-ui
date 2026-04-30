@@ -1,0 +1,45 @@
+name: DAST Security Scan
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 1 * * *"
+
+jobs:
+  zap-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run ZAP Scan
+        env:
+          TARGET_URL: ${{ secrets.DAST_TARGET_URL }}
+          SUBSCRIPTION_KEY: ${{ secrets.DAST_SUBSCRIPTION_KEY }}
+        run: |
+          chmod -R 777 ./
+          wget -q https://raw.githubusercontent.com/opentripplanner/OpenTripPlanner/refs/heads/dev-2.x/application/src/main/resources/org/opentripplanner/apis/gtfs/schema.graphqls
+          docker run \
+            -v "$(pwd):/zap/wrk/:rw" \
+            -e TARGET_URL="${TARGET_URL}" \
+            -e SUBSCRIPTION_KEY="${SUBSCRIPTION_KEY}" \
+            -t zaproxy/zap-stable:2.17.0@sha256:707fc6b9fd8327ba48bb7b49d0c5732c179b045dab9c99f8b95410627dff4a00 \
+            zap.sh -cmd -autorun /zap/wrk/security/zap.yml \
+            > /dev/null 2>&1
+
+      - name: Encrypt and upload ZAP Report
+        if: always()
+        env:
+          REPORT_PASSPHRASE: ${{ secrets.DAST_REPORT_PASSPHRASE }}
+        run: |
+          openssl enc -aes-256-cbc -pbkdf2 \
+            -in zap-report.html \
+            -out zap-report.html.enc \
+            -pass pass:"${REPORT_PASSPHRASE}"
+
+      - name: Upload encrypted ZAP Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-report
+          path: zap-report.html.enc

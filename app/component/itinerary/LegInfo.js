@@ -7,6 +7,7 @@ import Modal from '@hsl-fi/modal';
 import { legShape, configShape } from '../../util/shapes';
 import { legTimeStr, isLocalCallAgency } from '../../util/legUtils';
 import { getTripOrRouteMode } from '../../util/modeUtils';
+import RouteNumber from '../RouteNumber';
 import { routePagePath, PREFIX_STOPS } from '../../util/path';
 import { getCapacityForLeg } from '../../util/occupancyUtil';
 import Icon from '../Icon';
@@ -57,7 +58,7 @@ export default function LegInfo(
         className={`line ${mode}`}
         mode={mode}
         alertSeverityLevel={alertSeverityLevel}
-        color={leg.route?.color ? `#${leg.route.color}` : 'currentColor'}
+        color={leg.route.color ? `#${leg.route.color}` : 'currentColor'}
         text={leg.route.shortName || leg.trip?.tripShortName}
         realtime={false}
         withBar
@@ -116,7 +117,17 @@ export default function LegInfo(
             leg.route.shortName || leg.trip?.tripShortName
           )?.toLowerCase()}`}
         >
-          {routeNumber}
+          <span aria-hidden="true">
+            <RouteNumber
+              mode={mode}
+              alertSeverityLevel={alertSeverityLevel}
+              color={leg.route?.color ? `#${leg.route.color}` : 'currentColor'}
+              text={leg.route.shortName || leg.trip?.tripShortName}
+              realtime={false}
+              withBar
+              fadeLong
+            />
+          </span>
         </Link>
       )}
       <div className="headsign">{headsign}</div>
