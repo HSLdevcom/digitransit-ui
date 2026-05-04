@@ -1,6 +1,14 @@
 // Styles for the schedule view: date selectors, trip list, action bar,
 // and print-specific overrides.
 
+// ─── Timetable tabpanel (flex column root for the schedule view) ─────────────
+
+.route-timetable-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0;
+}
+
 // ─── Schedule container (scroll root) ───────────────────────────────────────
 
 .route-schedule-container {

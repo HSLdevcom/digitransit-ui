@@ -2791,7 +2791,10 @@ div.itinerary-container-content {
       a {
         font-weight: $font-weight-medium;
         color: $link-button-color;
+        display: block;
         max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .external-link-icon-outer {

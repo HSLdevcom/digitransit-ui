@@ -264,7 +264,10 @@ $margin-left-right: 21.3px;
       a {
         font-weight: $font-weight-medium;
         color: $black;
+        display: block;
         max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .icon.external-link-icon-outer {
