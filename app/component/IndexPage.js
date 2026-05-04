@@ -7,7 +7,6 @@ import isEqual from 'lodash/isEqual';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
-import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import inside from 'point-in-polygon';
@@ -48,6 +47,7 @@ import {
 } from '../action/PositionActions';
 import FavouriteStore from '../store/FavouriteStore';
 import { useConfigContext } from '../configurations/ConfigContext';
+import TrafficNowLink from './trafficnow/TrafficNowLink';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
