@@ -5,9 +5,8 @@ import PropTypes from 'prop-types';
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
-import * as ReactIntl from 'react-intl';
-import * as ConfigContextModule from '../../../app/configurations/ConfigContext';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
+import { createShallowHookSandbox } from '../helpers/mock-intl-enzyme';
 import { Component as RoutePage } from '../../../app/component/routepage/RoutePage';
 import BackButton from '../../../app/component/BackButton';
 import AlertBanner from '../../../app/component/AlertBanner';
@@ -23,11 +22,6 @@ const baseConfig = {
   colors: { primary: '#00AFFF', accessiblePrimary: '#000' },
   URL: {},
   flex: { internalAgencies: [] },
-};
-
-const baseIntl = {
-  formatMessage: ({ id }) => id,
-  locale: 'en',
 };
 
 const baseRoute = {
@@ -69,19 +63,13 @@ const baseProps = {
 
 describe('<RoutePage />', () => {
   let sandbox;
-  let configStub;
+  let stubs;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(ReactIntl, 'useIntl').returns(baseIntl);
-    configStub = sandbox
-      .stub(ConfigContextModule, 'useConfigContext')
-      .returns(baseConfig);
+    ({ sandbox, stubs } = createShallowHookSandbox({ config: baseConfig }));
   });
 
-  afterEach(() => {
-    sandbox.restore();
-  });
+  afterEach(() => sandbox.restore());
 
   const render = (props = {}) =>
     shallow(<RoutePage {...baseProps} {...props} />);
@@ -521,7 +509,7 @@ describe('<RoutePage />', () => {
         type: 715, // ExtendedRouteTypes.CallAgency
         agency: { ...baseRoute.agency, gtfsId: 'FOO:FOO' },
       };
-      configStub.returns({
+      stubs.useConfigContext.returns({
         ...baseConfig,
         flex: { internalAgencies: ['FOO:FOO'] },
       });

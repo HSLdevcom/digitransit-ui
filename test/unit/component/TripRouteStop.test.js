@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 import TripRouteStop from '../../../app/component/routepage/TripRouteStop';
@@ -32,7 +31,6 @@ describe('<TripRouteStop />', () => {
     };
     const wrapper = mountWithIntl(<TripRouteStop {...props} />, {
       context: { config: { CONFIG: 'default', zones: { stops: true } } },
-      childContextTypes: { config: PropTypes.object },
     });
     expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
   });

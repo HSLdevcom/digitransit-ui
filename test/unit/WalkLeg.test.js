@@ -1,24 +1,13 @@
 import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
-import { shallow } from 'enzyme';
 
-import { createSimpleTestContext } from './helpers/mock-schedule-context';
+import { shallowWithIntl } from './helpers/mock-intl-enzyme';
 import WalkLeg from '../../app/component/itinerary/WalkLeg';
 import ServiceAlertIcon from '../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../app/constants';
 
 describe('<WalkLeg />', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    ({ sandbox } = createSimpleTestContext({
-      intl: { formatNumber: () => '284 m' },
-    }));
-  });
-
-  afterEach(() => sandbox.restore());
-
   it('should show the leg starting point name', () => {
     const props = {
       focusAction: () => {},
@@ -56,7 +45,7 @@ describe('<WalkLeg />', () => {
       },
     };
 
-    const wrapper = shallow(<WalkLeg {...props} />);
+    const wrapper = shallowWithIntl(<WalkLeg {...props} />);
 
     expect(wrapper.find('.itinerary-leg-row').text()).to.contain('Veturitori');
   });
@@ -114,7 +103,7 @@ describe('<WalkLeg />', () => {
       },
     };
 
-    const wrapper = shallow(<WalkLeg {...props} />);
+    const wrapper = shallowWithIntl(<WalkLeg {...props} />);
 
     expect(wrapper.find(FormattedMessage).at(0).prop('id')).to.equal(
       'return-cycle-to',
@@ -168,7 +157,7 @@ describe('<WalkLeg />', () => {
       },
     };
 
-    const wrapper = shallow(<WalkLeg {...props} />);
+    const wrapper = shallowWithIntl(<WalkLeg {...props} />);
 
     expect(wrapper.find(ServiceAlertIcon).prop('severityLevel')).to.equal(
       AlertSeverityLevelType.Info,
@@ -218,6 +207,6 @@ describe('<WalkLeg />', () => {
       },
     };
 
-    shallow(<WalkLeg {...props} />);
+    shallowWithIntl(<WalkLeg {...props} />);
   });
 });

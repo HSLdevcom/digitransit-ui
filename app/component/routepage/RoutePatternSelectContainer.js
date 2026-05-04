@@ -226,7 +226,6 @@ function RoutePatternSelectContainer({
             optionArray={optionArray}
             onSelectChange={onSelectChange}
             className={className}
-            router={router}
             iconColor={iconColor}
             rawIconColor={rawIconColor}
           />
@@ -293,7 +292,6 @@ function RoutePatternSelectContainer({
         optionArray={optionArray}
         onSelectChange={onSelectChange}
         className={className}
-        router={router}
       />
     </div>
   );

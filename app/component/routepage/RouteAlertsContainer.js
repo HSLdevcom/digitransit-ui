@@ -4,6 +4,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
 import DisruptionList from '../DisruptionList';
+import { useConfigContext } from '../../configurations/ConfigContext';
 import {
   getAlertsForObject,
   tripHasCancelation,
@@ -57,8 +58,9 @@ const getCancelations = (
     : [];
 };
 
-function RouteAlertsContainer({ currentTime, route, pattern }, { config }) {
+function RouteAlertsContainer({ currentTime, route, pattern }) {
   const intl = useIntl();
+  const config = useConfigContext();
   if (!route) {
     return null;
   }
@@ -116,15 +118,6 @@ RouteAlertsContainer.propTypes = {
         ).isRequired,
       }),
     ).isRequired,
-  }).isRequired,
-};
-
-RouteAlertsContainer.contextTypes = {
-  config: PropTypes.shape({
-    routeCancelationAlertValidity: PropTypes.shape({
-      before: PropTypes.number,
-      after: PropTypes.number,
-    }),
   }).isRequired,
 };
 

@@ -20,8 +20,17 @@ describe('<ScheduleContainer />', () => {
   let stubs;
   let mocks;
   let defaultProps;
-  let mockMatchWithRouter;
   let routerReplaceSpy;
+
+  // A match with an empty query, reused across most tests
+  const mockMatchWithRouter = {
+    ...mockMatch,
+    router: mockRouter,
+    location: {
+      ...mockMatch.location,
+      query: {},
+    },
+  };
 
   // Mock data - defined once and reused
   const mockPattern = {
@@ -122,24 +131,10 @@ describe('<ScheduleContainer />', () => {
 
     routerReplaceSpy = sandbox.spy(mockRouter, 'replace');
 
-    // Setup default props - pass actual mock data objects
-    // useFragment will pass them through as-is in tests
     defaultProps = {
       pattern: mockPattern,
       route: mockRoute,
       firstDepartures: mockFirstDepartures,
-      breakpoint: 'large',
-      lang: 'en',
-      router: mockRouter,
-    };
-
-    mockMatchWithRouter = {
-      ...mockMatch,
-      router: mockRouter,
-      location: {
-        ...mockMatch.location,
-        query: {},
-      },
     };
   });
 

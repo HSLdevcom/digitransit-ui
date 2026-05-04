@@ -1,16 +1,9 @@
 import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { describe, it } from 'mocha';
 import React from 'react';
-import sinon from 'sinon';
-import { shallow } from 'enzyme';
 
-import * as ReactIntl from 'react-intl';
+import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import RouteNotificationButton from '../../../app/component/routepage/RouteNotificationButton';
-
-const baseIntl = {
-  formatMessage: ({ id }) => id,
-  locale: 'en',
-};
 
 const baseNotification = {
   closeButtonLabel: { en: 'Close info', fi: 'Sulje', sv: 'Stäng' },
@@ -23,19 +16,8 @@ const baseNotification = {
 };
 
 describe('<RouteNotificationButton />', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(ReactIntl, 'useIntl').returns(baseIntl);
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   const render = (notification = baseNotification) =>
-    shallow(<RouteNotificationButton notification={notification} />);
+    shallowWithIntl(<RouteNotificationButton notification={notification} />);
 
   describe('Rendering', () => {
     it('renders the trigger button with the close button label', () => {
