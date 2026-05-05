@@ -5,13 +5,12 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
 import { DateTime } from 'luxon';
-import * as ReactIntl from 'react-intl';
 import { mockContext } from '../helpers/mock-context';
-import { mockMatch, mockRouter } from '../helpers/mock-router';
+import { mockMatch } from '../helpers/mock-router';
 import { Component as RouteControlPanel } from '../../../app/component/routepage/RouteControlPanel';
 import { AlertSeverityLevelType } from '../../../app/constants';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../app/util/path';
-import * as ConfigContextModule from '../../../app/configurations/ConfigContext';
+import { createShallowHookSandbox } from '../helpers/mock-intl-enzyme';
 
 const baseConfig = {
   CONFIG: 'default',
@@ -21,16 +20,10 @@ const baseConfig = {
 
 describe('<RouteControlPanel />', () => {
   let sandbox;
-  let configStub;
+  let stubs;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox
-      .stub(ReactIntl, 'useIntl')
-      .returns({ formatMessage: ({ id }) => id, locale: 'en' });
-    configStub = sandbox
-      .stub(ConfigContextModule, 'useConfigContext')
-      .returns(baseConfig);
+    ({ sandbox, stubs } = createShallowHookSandbox({ config: baseConfig }));
   });
 
   afterEach(() => sandbox.restore());
@@ -67,7 +60,6 @@ describe('<RouteControlPanel />', () => {
           },
         ],
       },
-      router: mockRouter,
       match: {
         ...mockMatch,
         location: {
@@ -113,7 +105,6 @@ describe('<RouteControlPanel />', () => {
         agency: { name: 'mock' },
         type: 3,
       },
-      router: mockRouter,
       match: {
         ...mockMatch,
         location: {
@@ -125,7 +116,7 @@ describe('<RouteControlPanel />', () => {
         },
       },
     };
-    configStub.returns({
+    stubs.useConfigContext.returns({
       ...baseConfig,
       realTime: {
         tampere: {
@@ -151,7 +142,6 @@ describe('<RouteControlPanel />', () => {
         type: 3,
         agency: { name: 'mock' },
       },
-      router: mockRouter,
       match: {
         ...mockMatch,
         location: {
@@ -163,7 +153,7 @@ describe('<RouteControlPanel />', () => {
         },
       },
     };
-    configStub.returns({
+    stubs.useConfigContext.returns({
       ...baseConfig,
       realTime: {
         tampere: {
@@ -207,7 +197,6 @@ describe('<RouteControlPanel />', () => {
         type: 3,
         agency: { name: 'mock' },
       },
-      router: mockRouter,
       match: {
         ...mockMatch,
         location: {
@@ -241,7 +230,6 @@ describe('<RouteControlPanel />', () => {
           type: 3,
           agency: { name: 'mock' },
         },
-        router: mockRouter,
         match: {
           ...mockMatch,
           location: {
@@ -254,7 +242,7 @@ describe('<RouteControlPanel />', () => {
           },
         },
       };
-      configStub.returns({
+      stubs.useConfigContext.returns({
         ...baseConfig,
         realTime: { HSL: { active: true } },
       });
@@ -278,7 +266,6 @@ describe('<RouteControlPanel />', () => {
           type: 3,
           agency: { name: 'mock' },
         },
-        router: mockRouter,
         match: {
           ...mockMatch,
           location: {
@@ -291,7 +278,7 @@ describe('<RouteControlPanel />', () => {
           },
         },
       };
-      configStub.returns({
+      stubs.useConfigContext.returns({
         ...baseConfig,
         realTime: { HSL: { active: true, routeSelector: () => '63' } },
       });
@@ -305,131 +292,66 @@ describe('<RouteControlPanel />', () => {
     });
   });
 
-  it('should mark the disruptions tab as having an active info alert due to a route INFO level service alert', () => {
-    const props = {
-      breakpoint: 'large',
-      route: {
-        gtfsId: 'HSL:1063',
-        mode: 'BUS',
-        type: 3,
-        agency: { name: 'mock' },
-        patterns: [
-          {
-            alerts: [
-              { id: 'foobar', alertSeverityLevel: AlertSeverityLevelType.Info },
-            ],
-            code: 'HSL:1063:0:01',
-          },
-        ],
-      },
-      router: mockRouter,
-      match: {
-        ...mockMatch,
-        location: {
-          ...mockMatch.location,
-          pathname: `/${PREFIX_ROUTES}/HSL:1063/${PREFIX_STOPS}/HSL:1063:0:01`,
+  describe('Alert severity levels', () => {
+    const makeAlertRoute = alertSeverityLevel => ({
+      gtfsId: 'HSL:1063',
+      mode: 'BUS',
+      type: 3,
+      agency: { name: 'mock' },
+      patterns: [
+        {
+          alerts: [{ id: 'foobar', alertSeverityLevel }],
+          code: 'HSL:1063:0:01',
         },
-        params: {
-          routeId: 'HSL:1063',
-          patternId: 'HSL:1063:0:01',
-        },
-      },
-    };
-    const wrapper = shallow(<RouteControlPanel {...props} />, {
-      context: mockContext,
+      ],
     });
-    expect(wrapper.find('.active-service-alert')).to.have.lengthOf(1);
-  });
 
-  it('should mark the disruptions tab as having an active info alert due to a route WARNING level service alert', () => {
-    const props = {
-      breakpoint: 'large',
+    const alertMatch = {
+      ...mockMatch,
       location: {
+        ...mockMatch.location,
         pathname: `/${PREFIX_ROUTES}/HSL:1063/${PREFIX_STOPS}/HSL:1063:0:01`,
       },
       params: {
         routeId: 'HSL:1063',
         patternId: 'HSL:1063:0:01',
       },
-      route: {
-        gtfsId: 'HSL:1063',
-        mode: 'BUS',
-        type: 3,
-        agency: { name: 'mock' },
-        patterns: [
-          {
-            alerts: [
-              {
-                id: 'foobar',
-                alertSeverityLevel: AlertSeverityLevelType.Warning,
-              },
-            ],
-            code: 'HSL:1063:0:01',
-          },
-        ],
-      },
-      router: mockRouter,
-      match: {
-        ...mockMatch,
-        location: {
-          ...mockMatch.location,
-          pathname: `/${PREFIX_ROUTES}/HSL:1063/${PREFIX_STOPS}/HSL:1063:0:01`,
-        },
-        params: {
-          routeId: 'HSL:1063',
-          patternId: 'HSL:1063:0:01',
-        },
-      },
     };
-    const wrapper = shallow(<RouteControlPanel {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(1);
-  });
 
-  it('should mark the disruptions tab as having an active info alert due to a route SEVERE level service alert', () => {
-    const props = {
-      breakpoint: 'large',
-      location: {
-        pathname: `/${PREFIX_ROUTES}/HSL:1063/${PREFIX_STOPS}/HSL:1063:0:01`,
-      },
-      params: {
-        routeId: 'HSL:1063',
-        patternId: 'HSL:1063:0:01',
-      },
-      route: {
-        gtfsId: 'HSL:1063',
-        mode: 'BUS',
-        type: 3,
-        agency: { name: 'mock' },
-        patterns: [
-          {
-            alerts: [
-              {
-                id: 'foobar',
-                alertSeverityLevel: AlertSeverityLevelType.Severe,
-              },
-            ],
-            code: 'HSL:1063:0:01',
-          },
-        ],
-      },
-      router: mockRouter,
-      match: {
-        ...mockMatch,
-        location: {
-          ...mockMatch.location,
-          pathname: `/${PREFIX_ROUTES}/HSL:1063/${PREFIX_STOPS}/HSL:1063:0:01`,
-        },
-        params: {
-          routeId: 'HSL:1063',
-          patternId: 'HSL:1063:0:01',
-        },
-      },
-    };
-    const wrapper = shallow(<RouteControlPanel {...props} />, {
-      context: mockContext,
+    it('should mark the disruptions tab with .active-service-alert for INFO level', () => {
+      const wrapper = shallow(
+        <RouteControlPanel
+          breakpoint="large"
+          route={makeAlertRoute(AlertSeverityLevelType.Info)}
+          match={alertMatch}
+        />,
+        { context: mockContext },
+      );
+      expect(wrapper.find('.active-service-alert')).to.have.lengthOf(1);
     });
-    expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(1);
+
+    it('should mark the disruptions tab with .active-disruption-alert for WARNING level', () => {
+      const wrapper = shallow(
+        <RouteControlPanel
+          breakpoint="large"
+          route={makeAlertRoute(AlertSeverityLevelType.Warning)}
+          match={alertMatch}
+        />,
+        { context: mockContext },
+      );
+      expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(1);
+    });
+
+    it('should mark the disruptions tab with .active-disruption-alert for SEVERE level', () => {
+      const wrapper = shallow(
+        <RouteControlPanel
+          breakpoint="large"
+          route={makeAlertRoute(AlertSeverityLevelType.Severe)}
+          match={alertMatch}
+        />,
+        { context: mockContext },
+      );
+      expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(1);
+    });
   });
 });

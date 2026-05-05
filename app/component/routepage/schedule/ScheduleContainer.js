@@ -221,6 +221,7 @@ const ScheduleContainer = ({
     return (
       <div
         id="route-timetable-panel"
+        className="route-timetable-panel"
         role="tabpanel"
         aria-labelledby="route-timetable-tab"
       >
@@ -239,6 +240,7 @@ const ScheduleContainer = ({
   return (
     <div
       id="route-timetable-panel"
+      className="route-timetable-panel"
       role="tabpanel"
       aria-labelledby="route-timetable-tab"
     >

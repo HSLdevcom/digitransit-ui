@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { matchShape, routerShape } from 'found';
+import { matchShape } from 'found';
+import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import { routeShape, configShape } from '../../util/shapes';
+import { routeShape } from '../../util/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../../util/withBreakpoint';
 import RouteControlPanel from './RouteControlPanel';
@@ -11,78 +12,74 @@ import { routePagePath } from '../../util/path';
 import Error404 from '../404';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { ExtendedRouteTypes } from '../../constants';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
-class PatternStopsContainer extends React.PureComponent {
-  static propTypes = {
-    pattern: PropTypes.shape({
-      code: PropTypes.string.isRequired,
-    }).isRequired,
-    match: matchShape.isRequired,
-    breakpoint: PropTypes.string.isRequired,
-    router: routerShape.isRequired,
-    route: routeShape.isRequired,
-  };
+function PatternStopsContainer({ pattern, match, breakpoint, route }) {
+  const intl = useIntl();
+  const config = useConfigContext();
 
-  static contextTypes = {
-    config: configShape.isRequired,
-    intl: PropTypes.object.isRequired,
-  };
-
-  render() {
-    const routeId = this.props.route?.gtfsId;
-    if (!this.props.pattern) {
-      if (routeId) {
-        // Redirect back to routes default pattern
-        this.props.router.replace(routePagePath(routeId));
-      } else {
-        return <Error404 />;
-      }
-      return false;
+  const routeId = route?.gtfsId;
+  if (!pattern) {
+    if (routeId) {
+      match.router.replace(routePagePath(routeId));
+    } else {
+      return <Error404 />;
     }
-    const { locale } = this.context.intl;
-    const { constantOperationRoutes } = this.context.config;
-
-    return (
-      <ScrollableWrapper
-        className={cx('route-page-content', {
-          'bp-large': this.props.breakpoint === 'large',
-        })}
-      >
-        {this.props.route && this.props.route.patterns && (
-          <RouteControlPanel
-            match={this.props.match}
-            route={this.props.route}
-            breakpoint={this.props.breakpoint}
-          />
-        )}
-        {routeId && constantOperationRoutes[routeId] && (
-          <div className="stop-constant-operation-container bottom-padding">
-            <div style={{ width: '95%' }}>
-              <span>{constantOperationRoutes[routeId][locale].text}</span>
-              <span style={{ display: 'inline-block' }}>
-                <a
-                  href={constantOperationRoutes[routeId][locale].link}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {constantOperationRoutes[routeId][locale].link}
-                </a>
-              </span>
-            </div>
-          </div>
-        )}
-        {this.props.route.type !== ExtendedRouteTypes.CallAgency && (
-          <RouteStopListContainer
-            key="list"
-            pattern={this.props.pattern}
-            patternId={this.props.pattern.code}
-            hideDepartures={!!constantOperationRoutes[routeId]}
-          />
-        )}
-      </ScrollableWrapper>
-    );
+    return null;
   }
+
+  const { locale } = intl;
+  const { constantOperationRoutes } = config;
+
+  return (
+    <ScrollableWrapper
+      className={cx('route-page-content', {
+        'bp-large': breakpoint === 'large',
+      })}
+    >
+      {route && route.patterns && (
+        <RouteControlPanel
+          match={match}
+          route={route}
+          breakpoint={breakpoint}
+        />
+      )}
+      {routeId && constantOperationRoutes[routeId] && (
+        <div className="stop-constant-operation-container bottom-padding">
+          <div style={{ width: '95%' }}>
+            <span>{constantOperationRoutes[routeId][locale].text}</span>
+            <span style={{ display: 'inline-block' }}>
+              <a
+                href={constantOperationRoutes[routeId][locale].link}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {constantOperationRoutes[routeId][locale].link}
+              </a>
+            </span>
+          </div>
+        </div>
+      )}
+      {route.type !== ExtendedRouteTypes.CallAgency && (
+        <RouteStopListContainer
+          key="list"
+          pattern={pattern}
+          patternId={pattern.code}
+          hideDepartures={!!constantOperationRoutes[routeId]}
+        />
+      )}
+    </ScrollableWrapper>
+  );
 }
+
+PatternStopsContainer.propTypes = {
+  pattern: PropTypes.shape({
+    code: PropTypes.string.isRequired,
+  }),
+  match: matchShape.isRequired,
+  breakpoint: PropTypes.string.isRequired,
+  route: routeShape.isRequired,
+};
 
 export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
   pattern: graphql`

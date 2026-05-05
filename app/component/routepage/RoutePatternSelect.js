@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelect } from 'downshift';
-import { Link, routerShape } from 'found';
+import { Link, useRouter } from 'found';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import Icon from '../Icon';
@@ -244,12 +244,12 @@ export default function RoutePatternSelect({
   optionArray,
   onSelectChange,
   className,
-  router,
   iconColor = null,
   rawIconColor = null,
 }) {
   const intl = useIntl();
   const config = useConfigContext();
+  const { router } = useRouter();
   const breakpoint = useBreakpoint();
   const isMobile = breakpoint !== 'large';
   const [mobileModalOpen, setMobileModalOpen] = useState(false);
@@ -524,7 +524,6 @@ RoutePatternSelect.propTypes = {
   ).isRequired,
   onSelectChange: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
-  router: routerShape.isRequired,
   iconColor: PropTypes.string,
   rawIconColor: PropTypes.string,
 };

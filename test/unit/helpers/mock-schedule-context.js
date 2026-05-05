@@ -77,36 +77,3 @@ export const createScheduleTestContext = (overrides = {}) => {
 
   return { sandbox, mocks, stubs };
 };
-
-/**
- * Create a simple context for components that only need intl and config.
- *
- * @param {Object} overrides - Optional overrides
- * @param {Object} overrides.intl - Override intl mock
- * @param {Object} overrides.config - Override config mock
- * @returns {Object} { sandbox, mocks, stubs }
- */
-export const createSimpleTestContext = (overrides = {}) => {
-  const sandbox = sinon.createSandbox();
-
-  const mocks = {
-    intl: {
-      formatMessage: sandbox.stub().returns('translated text'),
-      locale: 'en',
-      ...overrides.intl,
-    },
-    config: {
-      ...mockContext.config,
-      ...overrides.config,
-    },
-  };
-
-  const stubs = {
-    useIntl: sandbox.stub(ReactIntl, 'useIntl').returns(mocks.intl),
-    useConfigContext: sandbox
-      .stub(ConfigContext, 'useConfigContext')
-      .returns(mocks.config),
-  };
-
-  return { sandbox, mocks, stubs };
-};

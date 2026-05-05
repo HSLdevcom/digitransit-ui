@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { mockContext } from '../helpers/mock-context';
 import IconWithBigCaution from '../../../app/component/IconWithBigCaution';
 import IconWithIcon from '../../../app/component/IconWithIcon';
 import RouteNumber from '../../../app/component/RouteNumber';
-import { mockContext } from '../helpers/mock-context';
 
 describe('<RouteNumber />', () => {
   it('should use an icon based on the mode', () => {

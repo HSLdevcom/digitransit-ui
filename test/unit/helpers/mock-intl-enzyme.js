@@ -13,6 +13,7 @@ import sinon from 'sinon';
 import * as ReactIntl from 'react-intl';
 import { createIntl, createIntlCache, IntlProvider } from 'react-intl';
 import { ReactRelayContext } from 'react-relay';
+import { RouterContext } from 'found';
 import * as found from 'found';
 import translations from '../../../app/translations/en';
 import IntlBridge from '../../../app/util/IntlBridge';
@@ -140,22 +141,72 @@ export const mountWithIntl = (
 };
 
 /**
- * Mounts a component wrapped with IntlContextProvider and ConfigProvider
+ * Mounts a component wrapped with IntlContextProvider, ConfigProvider,
+ * ReactRelayContext, and RouterContext — enough for components that use
+ * useIntl(), useConfigContext(), useContext(ReactRelayContext), and useRouter().
  *
  * @param {React.Element} node - The component to mount
  * @param {object} options
  * @param {object} options.config - Config object for ConfigProvider
  * @param {string} [options.locale='en'] - Locale for intl
+ * @param {object} [options.match] - match object for RouterContext
+ * @param {object} [options.router] - router object for RouterContext
  */
-export const mountWithProviders = (node, { config, locale = 'en' } = {}) => {
+export const mountWithProviders = (
+  node,
+  { config, locale = 'en', match, router } = {},
+) => {
   const messages = getMessages(locale);
+  const routerContextValue = {
+    match: match || mockContext.match,
+    router: router || mockContext.router,
+  };
   return mount(
     <IntlProvider locale={locale} messages={messages}>
       <ConfigProvider value={config}>
         <ReactRelayContext.Provider value={mockRelayContext}>
-          {node}
+          <RouterContext.Provider value={routerContextValue}>
+            {node}
+          </RouterContext.Provider>
         </ReactRelayContext.Provider>
       </ConfigProvider>
     </IntlProvider>,
   );
+};
+
+/**
+ * Creates a sinon sandbox pre-loaded with stubs for useIntl() and
+ * useConfigContext(). Use this instead of shallowWithIntl when individual
+ * `it` blocks need to override what the stubs return — for example to test
+ * behaviour under a different config flag or locale.
+ * When no per-test overrides are needed, prefer shallowWithIntl instead.
+ *
+ * @param {Object} [overrides] - Optional baseline overrides applied to every test in the suite
+ * @param {Object} [overrides.intl] - Partial intl mock (merged over the default stub object)
+ * @param {Object} [overrides.config] - Partial config (merged over mockContext.config)
+ * @returns {{ sandbox: sinon.SinonSandbox, mocks: { intl: object, config: object }, stubs: { useIntl: sinon.SinonStub, useConfigContext: sinon.SinonStub } }}
+ */
+export const createShallowHookSandbox = (overrides = {}) => {
+  const sandbox = sinon.createSandbox();
+
+  const mocks = {
+    intl: {
+      formatMessage: sandbox.stub().returns('translated text'),
+      locale: 'en',
+      ...overrides.intl,
+    },
+    config: {
+      ...mockContext.config,
+      ...overrides.config,
+    },
+  };
+
+  const stubs = {
+    useIntl: sandbox.stub(ReactIntl, 'useIntl').returns(mocks.intl),
+    useConfigContext: sandbox
+      .stub(ConfigContext, 'useConfigContext')
+      .returns(mocks.config),
+  };
+
+  return { sandbox, mocks, stubs };
 };

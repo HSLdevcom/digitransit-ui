@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, beforeEach } from 'mocha';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
@@ -16,13 +16,17 @@ describe('<ScheduleHeader />', () => {
     { id: 'stop4', name: 'Fourth Stop' },
   ];
 
-  const defaultProps = {
-    stops: defaultStops,
-    from: 0,
-    to: 3,
-    onFromSelectChange: sinon.spy(),
-    onToSelectChange: sinon.spy(),
-  };
+  let defaultProps;
+
+  beforeEach(() => {
+    defaultProps = {
+      stops: defaultStops,
+      from: 0,
+      to: 3,
+      onFromSelectChange: sinon.spy(),
+      onToSelectChange: sinon.spy(),
+    };
+  });
 
   describe('Stop name display', () => {
     it('should display correct origin and destination names', () => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { describe, it, beforeEach } from 'mocha';
+import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import Select from 'react-select';
 import Icon from '@digitransit-component/digitransit-component-icon';
@@ -10,16 +11,17 @@ import {
   getAriaMessages,
   getClassNamePrefix,
 } from '../../../../app/component/routepage/schedule/scheduleDropdownUtils';
-import { createSimpleTestContext } from '../../helpers/mock-schedule-context';
+import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
+import translations from '../../../../app/translations/en';
+
+const testMessages = { ...translations, 'test-dropdown': 'Test dropdown' };
+const renderDropdown = node =>
+  shallowWithIntl(node, { messages: testMessages });
 
 describe('<ScheduleDropdown />', () => {
-  let sandbox;
   let defaultProps;
 
   beforeEach(() => {
-    const testContext = createSimpleTestContext();
-    sandbox = testContext.sandbox;
-
     defaultProps = {
       id: 'test-dropdown',
       title: 'Kamppi',
@@ -28,18 +30,14 @@ describe('<ScheduleDropdown />', () => {
         { label: 'Rautatientori', value: 'rautatientori' },
         { label: 'Sörnäinen', value: 'sornainen' },
       ],
-      onSelectChange: sandbox.spy(),
+      onSelectChange: sinon.spy(),
       alignRight: false,
     };
   });
 
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('Display behavior', () => {
     it('should display the initial title in placeholder', () => {
-      const wrapper = shallow(<ScheduleDropdown {...defaultProps} />);
+      const wrapper = renderDropdown(<ScheduleDropdown {...defaultProps} />);
       const select = wrapper.find(Select);
 
       expect(select.prop('placeholder')).to.not.equal(undefined);
@@ -47,7 +45,7 @@ describe('<ScheduleDropdown />', () => {
 
     it('should handle selection when onSelectChange is not provided', () => {
       const props = { ...defaultProps, onSelectChange: undefined };
-      const wrapper = shallow(<ScheduleDropdown {...props} />);
+      const wrapper = renderDropdown(<ScheduleDropdown {...props} />);
       const select = wrapper.find(Select);
 
       const option = { value: 'kamppi', label: 'Kamppi' };
@@ -58,7 +56,7 @@ describe('<ScheduleDropdown />', () => {
   describe('State management', () => {
     it('should select option matching controlled value prop', () => {
       const props = { ...defaultProps, value: 'kamppi' };
-      const wrapper = shallow(<ScheduleDropdown {...props} />);
+      const wrapper = renderDropdown(<ScheduleDropdown {...props} />);
       const select = wrapper.find(Select);
 
       const valueProp = select.prop('value');
@@ -68,7 +66,7 @@ describe('<ScheduleDropdown />', () => {
 
     it('should clear selection when value is not in options list', () => {
       const props = { ...defaultProps, value: 'nonexistent' };
-      const wrapper = shallow(<ScheduleDropdown {...props} />);
+      const wrapper = renderDropdown(<ScheduleDropdown {...props} />);
       const select = wrapper.find(Select);
 
       const valueProp = select.prop('value');
@@ -77,7 +75,7 @@ describe('<ScheduleDropdown />', () => {
 
     it('should update selection when controlled value prop changes', () => {
       const props = { ...defaultProps, value: 'kamppi' };
-      const wrapper = shallow(<ScheduleDropdown {...props} />);
+      const wrapper = renderDropdown(<ScheduleDropdown {...props} />);
 
       let select = wrapper.find(Select);
       expect(select.prop('value').value).to.equal('kamppi');
@@ -97,7 +95,7 @@ describe('<ScheduleDropdown />', () => {
         ...defaultProps,
         value: 'kamppi',
       };
-      const wrapper = shallow(<ScheduleDropdown {...props} />);
+      const wrapper = renderDropdown(<ScheduleDropdown {...props} />);
       const select = wrapper.find(Select);
 
       const formatOptionLabel = select.prop('formatOptionLabel');
@@ -128,7 +126,7 @@ describe('<ScheduleDropdown />', () => {
         ...defaultProps,
         value: 'kamppi',
       };
-      const wrapper = shallow(<ScheduleDropdown {...props} />);
+      const wrapper = renderDropdown(<ScheduleDropdown {...props} />);
       const select = wrapper.find(Select);
 
       const formatOptionLabel = select.prop('formatOptionLabel');
@@ -145,7 +143,7 @@ describe('<ScheduleDropdown />', () => {
     });
 
     it('should pass all options to Select component', () => {
-      const wrapper = shallow(<ScheduleDropdown {...defaultProps} />);
+      const wrapper = renderDropdown(<ScheduleDropdown {...defaultProps} />);
       const select = wrapper.find(Select);
       const options = select.prop('options');
 
@@ -158,7 +156,7 @@ describe('<ScheduleDropdown />', () => {
 
   describe('Accessibility', () => {
     it('should properly associate label and input IDs for screen readers', () => {
-      const wrapper = shallow(<ScheduleDropdown {...defaultProps} />);
+      const wrapper = renderDropdown(<ScheduleDropdown {...defaultProps} />);
       const label = wrapper.find('label').first();
       const select = wrapper.find(Select);
 
@@ -172,7 +170,7 @@ describe('<ScheduleDropdown />', () => {
     });
 
     it('should render visible label', () => {
-      const wrapper = shallow(<ScheduleDropdown {...defaultProps} />);
+      const wrapper = renderDropdown(<ScheduleDropdown {...defaultProps} />);
 
       const visibleLabel = wrapper
         .find('label.dd-header-title')
@@ -181,13 +179,13 @@ describe('<ScheduleDropdown />', () => {
     });
 
     it('should render localized label text using id as translation key', () => {
-      const wrapper = shallow(<ScheduleDropdown {...defaultProps} />);
+      const wrapper = renderDropdown(<ScheduleDropdown {...defaultProps} />);
 
       const label = wrapper.find('label').first();
       const select = wrapper.find(Select);
 
-      // Label should contain translated text from intl context (mock returns 'translated text')
-      expect(label.text()).to.equal('translated text');
+      // Label text is the translation for 'test-dropdown' injected via messages
+      expect(label.text()).to.equal('Test dropdown');
       // Label should not have sr-only class
       expect(label.hasClass('sr-only')).to.equal(false);
       // Select should reference this label via aria-labelledby
@@ -197,7 +195,7 @@ describe('<ScheduleDropdown />', () => {
     });
 
     it('should not have aria-label prop that would override aria-labelledby', () => {
-      const wrapper = shallow(<ScheduleDropdown {...defaultProps} />);
+      const wrapper = renderDropdown(<ScheduleDropdown {...defaultProps} />);
       const select = wrapper.find(Select);
 
       // aria-label should not be present, allowing aria-labelledby to work
@@ -207,7 +205,7 @@ describe('<ScheduleDropdown />', () => {
 
   describe('User interaction callbacks', () => {
     it('should call onSelectChange with the selected value string', () => {
-      const wrapper = shallow(<ScheduleDropdown {...defaultProps} />);
+      const wrapper = renderDropdown(<ScheduleDropdown {...defaultProps} />);
       const select = wrapper.find(Select);
 
       select.prop('onChange')({
