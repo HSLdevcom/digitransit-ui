@@ -245,13 +245,11 @@ $margin-left-right: 21.3px;
   @include font-book;
 
   color: $gray;
-  padding: 0 0 0 10px;
 
   .agency-link-container {
     max-width: calc(100% - 1em);
     white-space: nowrap;
     padding-top: 0.7em;
-    padding-bottom: 0.8em;
 
     .agency-link {
       font-size: 10px;
