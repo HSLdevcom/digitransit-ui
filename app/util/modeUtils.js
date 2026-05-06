@@ -520,3 +520,24 @@ export function getTerminalOrStationText(intl, mode) {
     defaultMessage: 'Station',
   });
 }
+
+export function getFirstDepartureStopTypeText(intl, mode) {
+  if (mode === 'FERRY') {
+    return intl.formatMessage({
+      id: 'from-ferrypier',
+    });
+  }
+  if (mode === 'RAIL' || mode === 'SUBWAY') {
+    return intl.formatMessage({
+      id: 'from-station',
+    });
+  }
+  if (mode === 'TAXI') {
+    return intl.formatMessage({
+      id: 'from-place',
+    });
+  }
+  return intl.formatMessage({
+    id: 'from-stop',
+  });
+}

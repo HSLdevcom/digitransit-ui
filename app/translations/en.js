@@ -238,6 +238,7 @@ export default {
     'from-bus': 'bus',
     'from-ferry': 'ferry',
     'from-ferrypier': 'ferry pier',
+    'from-place': 'location',
     'from-rail': 'train',
     'from-scooter-location': 'the scooter location',
     'from-station': 'station',
@@ -296,6 +297,8 @@ export default {
     'itinerary-details.route-has-warning-alert': 'Route has disruptions.',
     'itinerary-details.scooter-leg':
       'At {time} travel by scooter {distance} from {origin} to {destination}. Estimated time {duration}',
+    'itinerary-details.taxi-leg':
+      'At {time} travel by taxi {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.transit-leg-part-1': 'At {time} {realtime} take',
     'itinerary-details.transit-leg-part-2':
       'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}. ',
@@ -404,7 +407,7 @@ export default {
     'modes.to-scooter': 'to scooter',
     'modes.to-stop': 'stop',
     'modes.to-subway': 'subway station',
-    'modes.to-taxi': 'to taxi',
+    'modes.to-taxi': 'destination',
     'modes.to-tram': 'tram stop',
     'more-departures': 'More departures',
     'move-on-map': 'Move on the map',

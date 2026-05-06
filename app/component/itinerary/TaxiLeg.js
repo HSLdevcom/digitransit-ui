@@ -101,7 +101,7 @@ export default function TaxiLeg(props, { config }) {
       <div key={props.index} className="row itinerary-row">
         <span className="sr-only">
           <FormattedMessage
-            id="itinerary-details.car-leg"
+            id="itinerary-details.taxi-leg"
             values={{
               time: legTimeStr(props.leg.start),
               distance,
