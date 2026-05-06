@@ -201,13 +201,3 @@ LegInfo.propTypes = {
   isTransitLeg: PropTypes.bool,
   mobile: PropTypes.bool,
 };
-
-LegInfo.defaultProps = {
-  changeHash: undefined,
-  tabIndex: undefined,
-  alertSeverityLevel: undefined,
-  hasNoShortName: undefined,
-  isCallAgency: false,
-  isTransitLeg: false,
-  mobile: undefined,
-};

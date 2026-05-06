@@ -233,6 +233,7 @@ export default {
     'from-bus': 'bussista',
     'from-ferry': 'lautasta',
     'from-ferrypier': 'lauttalaiturilta',
+    'from-place': 'kohteesta',
     'from-rail': 'junasta',
     'from-scooter-location': 'potkulaudan sijainti',
     'from-station': 'asemalta',
@@ -288,6 +289,8 @@ export default {
     'itinerary-details.route-has-warning-alert': 'Reitillä on häiriöitä.',
     'itinerary-details.scooter-leg':
       '{time} potkulautaile kohteesta {origin} {distance} {to} {destination}. Matka-aika {duration}',
+    'itinerary-details.taxi-leg':
+      '{time} matkusta taksilla {distance} kohteesta {origin} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.transit-leg-part-1': '{time} {realtime} ota',
     'itinerary-details.transit-leg-part-2':
       'pysäkiltä {startStop} {startZoneInfo} {trackInfo} pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}. ',
@@ -394,7 +397,7 @@ export default {
     'modes.to-scooter': 'potkulaudalle',
     'modes.to-stop': 'pysäkille',
     'modes.to-subway': 'metroasemalle',
-    'modes.to-taxi': 'taksiin',
+    'modes.to-taxi': 'kohteeseen',
     'modes.to-tram': 'raitiovaunupysäkille',
     'more-departures': 'Lisää lähtöjä',
     'move-on-map': 'Siirry kartalla',
@@ -548,9 +551,9 @@ export default {
     'park-disclaimer-link': 'Lue lisää liityntäpysäköinnistä',
     'pay-attention': 'Huom!',
     'payment-info-e-scooter':
-      'Huomaathan, että potkulautojen käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+      'Huomaathan, että sähköpotkulautojen käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     'payment-info-e-scooter-or-taxi':
-      'Huomaathan, että potkulautojen ja taksin käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+      'Huomaathan, että sähköpotkulautojen, taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     'payment-info-taxi':
       'Huomaathan, että taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     'personal-itineraries': 'Yksilölliset reittiehdotukset',
@@ -603,7 +606,7 @@ export default {
     'restore-default-settings-aria-label-done': 'Oletusasetukset käytössä.',
     'restore-default-settings-success': 'Oletusasetukset palautettu',
     'return-cycle-to': 'Palauta kaupunkipyörä:',
-    'return-e-scooter-to': 'Jätä potkulauta turvalliseen paikkaan',
+    'return-e-scooter-to': 'Jätä sähköpotkulauta turvalliseen paikkaan',
     'right-now': 'Juuri nyt',
     route: 'Linja',
     'route-add-viapoint': 'Välipiste',
@@ -663,11 +666,11 @@ export default {
       'Valittuna ajankohtana ei ole liikennöintiä.',
     'router-unable': 'Reittivaihtoehtoja ei voida näyttää',
     routes: 'Linjat',
-    scooter: 'Potkulauta',
-    'scooter-availability': 'Potkulautoja asemalla juuri nyt',
+    scooter: 'Sähköpotkulauta',
+    'scooter-availability': 'Sähköpotkulautoja asemalla juuri nyt',
     'scooter-distance-duration': 'Potkulautaile {duration} ({distance})',
     'scooterwalk-distance-duration':
-      'Taluta potkulautaa {duration} ({distance})',
+      'Taluta sähköpotkulautaa {duration} ({distance})',
     'search-current-suggestion': 'Tämänhetkinen valinta: {selection}',
     'search-fields.sr-instructions':
       'Reittihaku tehdään automaattisesti kun lähtöpaikka ja määränpää on asetettu. Haun parametrien muuttaminen laukaisee uuden reittihaun. Navigoi hakukenttiin tab-näppäimellä.',

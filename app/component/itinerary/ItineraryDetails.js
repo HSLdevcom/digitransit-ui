@@ -20,6 +20,9 @@ import {
   getTotalWalkingDistance,
   getTotalWalkingDuration,
   getZones,
+  hasAirplaneLegs,
+  hasScooterLegs,
+  hasTaxiLegs,
   isCallAgencyLeg,
   legContainsBikePark,
   legContainsRentalBike,
@@ -128,16 +131,18 @@ function ItineraryDetails({
   const legswithBikePark = compressedLegs.filter(leg =>
     legContainsBikePark(leg),
   );
-  const legsWithScooter = compressedLegs.some(leg => leg.mode === 'SCOOTER');
-  const legsWithAirplane = compressedLegs.some(leg => leg.mode === 'AIRPLANE');
+  const hasLegsWithTaxi = hasTaxiLegs({ legs: compressedLegs });
+  const hasLegsWithScooter = hasScooterLegs({ legs: compressedLegs });
+  const hasLegsWithAirplane = hasAirplaneLegs({ legs: compressedLegs });
   const onlyWalking = compressedLegs.every(leg => leg.mode === 'WALK');
   const onlyBiking = compressedLegs.every(leg => leg.mode === 'BICYCLE');
   const showStartNavi =
     startNavigation &&
     !onlyWalking &&
     !onlyBiking &&
-    !legsWithScooter &&
-    !legsWithAirplane &&
+    !hasLegsWithTaxi &&
+    !hasLegsWithScooter &&
+    !hasLegsWithAirplane &&
     legsWithRentalBike.length === 0 &&
     driving.distance === 0;
   const containsBiking = biking.duration > 0 && biking.distance > 0;
@@ -178,7 +183,7 @@ function ItineraryDetails({
     itineraryIndex += 1;
   }
   const disclaimers = [];
-  const externalOperatorJourneys = legsWithScooter;
+  const externalOperatorJourneys = hasLegsWithScooter || hasLegsWithTaxi;
   if (
     shouldShowFareInfo(config, itinerary.legs, fares) &&
     (fares.some(fare => fare.isUnknown) || externalOperatorJourneys)
@@ -348,7 +353,7 @@ function ItineraryDetails({
           showStartNavi && (
             <StartNavi key="navigation" startNavigation={startNavigation} />
           ),
-          config.showCO2InItinerarySummary && !legsWithScooter && (
+          config.showCO2InItinerarySummary && !hasLegsWithScooter && (
             <EmissionsInfo
               key="emissionsummary"
               itinerary={itinerary}
@@ -383,7 +388,7 @@ function ItineraryDetails({
                 relayEnvironment={relayEnvironment}
               />
             </div>
-            {config.showCO2InItinerarySummary && !legsWithScooter && (
+            {config.showCO2InItinerarySummary && !hasLegsWithScooter && (
               <Emissions
                 key="emissionsinfo"
                 config={config}

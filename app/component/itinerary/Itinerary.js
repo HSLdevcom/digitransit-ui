@@ -27,6 +27,8 @@ import {
   isLocalCallAgency,
   splitLegsAtViaPoints,
   hasTaxiLegs,
+  stripFlexZoneInfo,
+  isTaxiLeg,
 } from '../../util/legUtils';
 import { dateOrEmpty, isTomorrow, timeStr } from '../../util/timeUtils';
 import withBreakpoint from '../../util/withBreakpoint';
@@ -39,7 +41,10 @@ import {
   getRentalNetworkConfig,
   getVehicleCapacity,
 } from '../../util/vehicleRentalUtils';
-import { getTripOrRouteMode } from '../../util/modeUtils';
+import {
+  getFirstDepartureStopTypeText,
+  getTripOrRouteMode,
+} from '../../util/modeUtils';
 import { getCapacityForLeg } from '../../util/occupancyUtil';
 import getCo2Value from '../../util/emissions';
 import { ItineraryFragment } from './queries/ItineraryFragment';
@@ -264,9 +269,10 @@ const Itinerary = ({
 
     if (hasTaxiLegs(itinerary)) {
       addAnalyticsEvent({
+        event: 'sendMatomoEvent',
         category: 'Itinerary',
-        action: 'SelectTaxiItinerary',
-        name: props.hash,
+        action: 'OpenItineraryDetailsWithMode',
+        name: 'taxi',
       });
     }
 
@@ -648,7 +654,9 @@ const Itinerary = ({
           },
         ),
       );
-      stopNames.push(leg.from.name);
+      stopNames.push(
+        isTaxiLeg(leg) ? stripFlexZoneInfo(leg.from.name) : leg.from.name,
+      );
       if (
         leg.to.viaLocationType === ViaLocationType.PassThrough &&
         !(nextLeg.transitLeg && nextLeg.from.viaLocationType)
@@ -700,18 +708,6 @@ const Itinerary = ({
   } else if (!noTransitLegs) {
     firstDeparture = compressedLegs.find(isTransitLeg);
     if (firstDeparture) {
-      let firstDepartureStopType;
-      if (firstDeparture.mode === 'FERRY') {
-        firstDepartureStopType = 'from-ferrypier';
-      } else if (
-        firstDeparture.mode === 'RAIL' ||
-        firstDeparture.mode === 'SUBWAY'
-      ) {
-        firstDepartureStopType = 'from-station';
-      } else {
-        firstDepartureStopType = 'from-stop';
-      }
-
       firstLegStartTime = firstDeparture.rentedBike ? (
         <div
           className={cx('itinerary-first-leg-start-time', {
@@ -765,8 +761,9 @@ const Itinerary = ({
                   {legTimeStr(firstDeparture.start)}
                 </span>
               ),
-              firstDepartureStopType: (
-                <FormattedMessage id={firstDepartureStopType} />
+              firstDepartureStopType: getFirstDepartureStopTypeText(
+                intl,
+                firstDeparture.mode,
               ),
               // In case the first leg is a scooter leg, stopNames[0] is an empty string
               firstDepartureStop: stopNames[0] || stopNames[1],

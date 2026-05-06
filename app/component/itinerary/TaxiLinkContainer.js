@@ -26,6 +26,7 @@ export default function TaxiLinkContainer({
   const url = bookingUrl.startsWith('http') ? bookingUrl : infoUrl;
   const onClick = () => {
     addAnalyticsEvent({
+      event: 'sendMatomoEvent',
       category: 'Itinerary',
       action: 'ClickTaxiOperatorLink',
       name: operatorName,
