@@ -397,82 +397,95 @@ export function toggleTransportMode(transportMode, config) {
   return modes;
 }
 
+const TRACK_OR_PIER_OR_PLATFORM_TEXT_SHORT_MSGS = {
+  [TransportMode.Rail]: { id: 'track', defaultMessage: 'Track' },
+  [TransportMode.Ferry]: { id: 'pier-short-no-num', defaultMessage: 'Pier' },
+  default: { id: 'platform-short-no-num', defaultMessage: 'Plat.' },
+};
+
 export function getTrackOrPierOrPlatformTextShort(intl, mode) {
-  if (mode === TransportMode.Rail) {
-    return intl.formatMessage({
-      id: 'track',
-      defaultMessage: 'Track',
-    });
-  }
-  if (mode === TransportMode.Ferry) {
-    return intl.formatMessage({
-      id: 'pier-short-no-num',
-      defaultMessage: 'Pier',
-    });
-  }
-  return intl.formatMessage({
-    id: 'platform-short-no-num',
-    defaultMessage: 'Plat.',
-  });
+  return intl.formatMessage(
+    TRACK_OR_PIER_OR_PLATFORM_TEXT_SHORT_MSGS[mode] ??
+      TRACK_OR_PIER_OR_PLATFORM_TEXT_SHORT_MSGS.default,
+  );
 }
+
+const TRACK_OR_PIER_OR_PLATFORM_TEXT_MSGS = {
+  [TransportMode.Rail]: { id: 'track', defaultMessage: 'Track' },
+  [TransportMode.Ferry]: { id: 'pier', defaultMessage: 'Pier' },
+  default: { id: 'platform', defaultMessage: 'Platform' },
+};
 
 export function getTrackOrPierOrPlatformText(intl, mode) {
-  if (mode === TransportMode.Rail) {
-    return intl.formatMessage({ id: 'track', defaultMessage: 'Track' });
-  }
-  if (mode === TransportMode.Ferry) {
-    return intl.formatMessage({ id: 'pier', defaultMessage: 'Pier' });
-  }
-  return intl.formatMessage({ id: 'platform', defaultMessage: 'Platform' });
+  return intl.formatMessage(
+    TRACK_OR_PIER_OR_PLATFORM_TEXT_MSGS[mode] ??
+      TRACK_OR_PIER_OR_PLATFORM_TEXT_MSGS.default,
+  );
 }
+
+const TRACK_OR_PIER_OR_PLATFORM_WITH_NUM_MSGS = {
+  [TransportMode.Rail]: { id: 'track-num' },
+  [TransportMode.Ferry]: { id: 'pier-num' },
+  default: { id: 'platform-num' },
+};
 
 export function getTrackOrPierOrPlatformWithNumText(intl, mode, platformCode) {
-  if (mode === TransportMode.Rail) {
-    return intl.formatMessage({ id: 'track-num' }, { platformCode });
-  }
-  if (mode === TransportMode.Ferry) {
-    return intl.formatMessage({ id: 'pier-num' }, { platformCode });
-  }
-  return intl.formatMessage({ id: 'platform-num' }, { platformCode });
+  return intl.formatMessage(
+    TRACK_OR_PIER_OR_PLATFORM_WITH_NUM_MSGS[mode] ??
+      TRACK_OR_PIER_OR_PLATFORM_WITH_NUM_MSGS.default,
+    { platformCode },
+  );
 }
 
-export function getTrackOrPierOrPlatformChangeText(intl, mode) {
-  if (mode === TransportMode.Rail) {
-    return intl.formatMessage({
-      id: 'navigation-track-change',
-      defaultMessage: 'Track change',
-    });
-  }
-  if (mode === TransportMode.Ferry) {
-    return intl.formatMessage({
-      id: 'navigation-pier-change',
-      defaultMessage: 'Pier change',
-    });
-  }
-  return intl.formatMessage({
+const TRACK_OR_PIER_OR_PLATFORM_CHANGE_MSGS = {
+  [TransportMode.Rail]: {
+    id: 'navigation-track-change',
+    defaultMessage: 'Track change',
+  },
+  [TransportMode.Ferry]: {
+    id: 'navigation-pier-change',
+    defaultMessage: 'Pier change',
+  },
+  default: {
     id: 'navigation-platform-change',
     defaultMessage: 'Platform change',
-  });
+  },
+};
+
+export function getTrackOrPierOrPlatformChangeText(intl, mode) {
+  return intl.formatMessage(
+    TRACK_OR_PIER_OR_PLATFORM_CHANGE_MSGS[mode] ??
+      TRACK_OR_PIER_OR_PLATFORM_CHANGE_MSGS.default,
+  );
 }
 
-export function getTrackOrPierOrPlatformRestoredText(intl, mode) {
-  if (mode === TransportMode.Rail) {
-    return intl.formatMessage({
-      id: 'navigation-track-restored',
-      defaultMessage: 'Track restored',
-    });
-  }
-  if (mode === TransportMode.Ferry) {
-    return intl.formatMessage({
-      id: 'navigation-pier-restored',
-      defaultMessage: 'Pier restored',
-    });
-  }
-  return intl.formatMessage({
+const TRACK_OR_PIER_OR_PLATFORM_RESTORED_MSGS = {
+  [TransportMode.Rail]: {
+    id: 'navigation-track-restored',
+    defaultMessage: 'Track restored',
+  },
+  [TransportMode.Ferry]: {
+    id: 'navigation-pier-restored',
+    defaultMessage: 'Pier restored',
+  },
+  default: {
     id: 'navigation-platform-restored',
     defaultMessage: 'Platform restored',
-  });
+  },
+};
+
+export function getTrackOrPierOrPlatformRestoredText(intl, mode) {
+  return intl.formatMessage(
+    TRACK_OR_PIER_OR_PLATFORM_RESTORED_MSGS[mode] ??
+      TRACK_OR_PIER_OR_PLATFORM_RESTORED_MSGS.default,
+  );
 }
+
+const TRACK_OR_PIER_OR_PLATFORM_CHANGE_DETAILS_MSGS = {
+  [TransportMode.Rail]: { id: 'navigation-track-change-details' },
+  [TransportMode.Ferry]: { id: 'navigation-pier-change-details' },
+  default: { id: 'navigation-platform-change-details' },
+};
 
 export function getTrackOrPierOrPlatformChangeDetailsText(
   intl,
@@ -480,64 +493,35 @@ export function getTrackOrPierOrPlatformChangeDetailsText(
   number,
   routeName,
 ) {
-  if (mode === TransportMode.Rail) {
-    return intl.formatMessage(
-      { id: `navigation-track-change-details` },
-      {
-        number: number || '',
-
-        name: routeName || '',
-      },
-    );
-  }
-  if (mode === TransportMode.Ferry) {
-    return intl.formatMessage(
-      { id: `navigation-pier-change-details` },
-      {
-        number: number || '',
-        name: routeName || '',
-      },
-    );
-  }
   return intl.formatMessage(
-    { id: `navigation-platform-change-details` },
-    {
-      number: number || '',
-      name: routeName || '',
-    },
+    TRACK_OR_PIER_OR_PLATFORM_CHANGE_DETAILS_MSGS[mode] ??
+      TRACK_OR_PIER_OR_PLATFORM_CHANGE_DETAILS_MSGS.default,
+    { number: number || '', name: routeName || '' },
   );
 }
 
+const TERMINAL_OR_STATION_MSGS = {
+  [TransportMode.Ferry]: { id: 'terminal', defaultMessage: 'Terminal' },
+  default: { id: 'station', defaultMessage: 'Station' },
+};
+
 export function getTerminalOrStationText(intl, mode) {
-  if (mode === TransportMode.Ferry) {
-    return intl.formatMessage({
-      id: 'terminal',
-      defaultMessage: 'Terminal',
-    });
-  }
-  return intl.formatMessage({
-    id: 'station',
-    defaultMessage: 'Station',
-  });
+  return intl.formatMessage(
+    TERMINAL_OR_STATION_MSGS[mode] ?? TERMINAL_OR_STATION_MSGS.default,
+  );
 }
 
+const FIRST_DEPARTURE_STOP_TYPE_MSGS = {
+  FERRY: { id: 'from-ferrypier' },
+  RAIL: { id: 'from-station' },
+  SUBWAY: { id: 'from-station' },
+  TAXI: { id: 'from-place' },
+  default: { id: 'from-stop' },
+};
+
 export function getFirstDepartureStopTypeText(intl, mode) {
-  if (mode === 'FERRY') {
-    return intl.formatMessage({
-      id: 'from-ferrypier',
-    });
-  }
-  if (mode === 'RAIL' || mode === 'SUBWAY') {
-    return intl.formatMessage({
-      id: 'from-station',
-    });
-  }
-  if (mode === 'TAXI') {
-    return intl.formatMessage({
-      id: 'from-place',
-    });
-  }
-  return intl.formatMessage({
-    id: 'from-stop',
-  });
+  return intl.formatMessage(
+    FIRST_DEPARTURE_STOP_TYPE_MSGS[mode] ??
+      FIRST_DEPARTURE_STOP_TYPE_MSGS.default,
+  );
 }
