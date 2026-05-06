@@ -8,7 +8,7 @@ import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   getRentalVehicleLink,
-  useDeepLink,
+  openDeepLink,
 } from '../../util/vehicleRentalUtils';
 
 import withBreakpoint from '../../util/withBreakpoint';
@@ -34,7 +34,7 @@ function ScooterLinkContainer(
   const rentalVehicleLink = getRentalVehicleLink(rentalVehicle, networkConfig);
   const onClick = rentalVehicleLink.startsWith('http')
     ? () => {}
-    : () => useDeepLink(rentalVehicleLink, rentalVehicle.rentalNetwork.url);
+    : () => openDeepLink(rentalVehicleLink, rentalVehicle.rentalNetwork.url);
 
   return (
     <div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import Icon from './Icon';
-import { useDeepLink } from '../util/vehicleRentalUtils';
+import { openDeepLink } from '../util/vehicleRentalUtils';
 import { useConfigContext } from '../configurations/ConfigContext';
 
 export default function Disclaimer({
@@ -34,7 +34,7 @@ export default function Disclaimer({
     ? () => {
         window.open(href, '_blank', 'noopener,noreferrer');
       }
-    : () => useDeepLink(href, window.location.href);
+    : () => openDeepLink(href, window.location.href);
 
   if (!showCard) {
     return null;

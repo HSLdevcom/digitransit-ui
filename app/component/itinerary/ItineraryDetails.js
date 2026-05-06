@@ -180,7 +180,7 @@ function ItineraryDetails({
   const disclaimers = [];
   const externalOperatorJourneys = legsWithScooter;
   if (
-    shouldShowFareInfo(config, itinerary.legs) &&
+    shouldShowFareInfo(config, itinerary.legs, fares) &&
     (fares.some(fare => fare.isUnknown) || externalOperatorJourneys)
   ) {
     const found = {};

@@ -1,103 +1,30 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useFragment } from 'react-relay';
-import { matchShape, routerShape } from 'found';
+import { useRouter } from 'found';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { planEdgeShape } from '../../util/shapes';
 import Icon from '../Icon';
 import ItineraryList from './ItineraryList';
-import { getItineraryPagePath, streetHash } from '../../util/path';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { isIOS, isSafari } from '../../util/browser';
 import ItineraryNotification from './ItineraryNotification';
 import { transitEdges } from './ItineraryPageUtils';
 import { ItineraryListContainerPlanEdges } from './queries/ItineraryListContainerPlanEdges';
 
-function ItineraryListContainer(
-  {
-    planEdges: planEdgesRef,
-    activeIndex,
-    params,
-    focusToHeader,
-    onLater,
-    onEarlier,
-    settingsNotification,
-    topNote,
-    bottomNote,
-    ...rest
-  },
-  { router, match },
-) {
+function ItineraryListContainer({
+  planEdges: planEdgesRef,
+  activeIndex,
+  focusToHeader,
+  onLater,
+  onEarlier,
+  settingsNotification,
+  topNote,
+  bottomNote,
+  ...rest
+}) {
   const planEdges = useFragment(ItineraryListContainerPlanEdges, planEdgesRef);
   const intl = useIntl();
-
-  function getSubPath(fallback) {
-    const modesWithSubpath = [
-      streetHash.bikeAndVehicle,
-      streetHash.parkAndRide,
-      streetHash.carAndVehicle,
-    ];
-    const { hash } = params;
-    if (modesWithSubpath.includes(hash)) {
-      return `/${hash}/`;
-    }
-    return fallback;
-  }
-
-  const onSelectImmediately = index => {
-    const subpath = getSubPath('/');
-    // eslint-disable-next-line compat/compat
-    const momentumScroll =
-      document.getElementsByClassName('momentum-scroll')[0];
-    if (momentumScroll) {
-      momentumScroll.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    }
-
-    addAnalyticsEvent({
-      event: 'sendMatomoEvent',
-      category: 'Itinerary',
-      action: 'OpenItineraryDetails',
-      name: index,
-    });
-    const newLocation = {
-      ...match.location,
-      state: {
-        ...match.location.state,
-        selectedItineraryIndex: index,
-      },
-    };
-    const basePath = `${getItineraryPagePath(
-      params.from,
-      params.to,
-    )}${subpath}`;
-    const indexPath = `${basePath}${index}`;
-
-    newLocation.pathname = basePath;
-    router.replace(newLocation);
-    newLocation.pathname = indexPath;
-    router.push(newLocation);
-    focusToHeader();
-  };
-
-  const onSelectActive = index => {
-    if (activeIndex === index) {
-      onSelectImmediately(index);
-    } else {
-      router.replace({
-        ...match.location,
-        state: {
-          ...match.location.state,
-          selectedItineraryIndex: index,
-        },
-      });
-
-      addAnalyticsEvent({
-        category: 'Itinerary',
-        action: 'HighlightItinerary',
-        name: index,
-      });
-    }
-  };
+  const { match } = useRouter();
 
   function laterButton(reversed) {
     return (
@@ -175,8 +102,7 @@ function ItineraryListContainer(
       <ItineraryList
         planEdges={planEdges}
         activeIndex={activeIndex}
-        onSelect={onSelectActive}
-        onSelectImmediately={onSelectImmediately}
+        focusToHeader={focusToHeader}
         {...rest}
       />
       {settingsNotification && (
@@ -195,12 +121,6 @@ function ItineraryListContainer(
 ItineraryListContainer.propTypes = {
   planEdges: PropTypes.arrayOf(planEdgeShape).isRequired,
   activeIndex: PropTypes.number.isRequired,
-  params: PropTypes.shape({
-    from: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
-    hash: PropTypes.string,
-    secondHash: PropTypes.string,
-  }).isRequired,
   focusToHeader: PropTypes.func.isRequired,
   onLater: PropTypes.func.isRequired,
   onEarlier: PropTypes.func.isRequired,
@@ -213,11 +133,6 @@ ItineraryListContainer.defaultProps = {
   settingsNotification: false,
   topNote: undefined,
   bottomNote: undefined,
-};
-
-ItineraryListContainer.contextTypes = {
-  router: routerShape.isRequired,
-  match: matchShape.isRequired,
 };
 
 export default ItineraryListContainer;

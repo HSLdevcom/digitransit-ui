@@ -553,25 +553,7 @@ function sortAndMergePlans(
 }
 
 /**
- * Combine an external edge with the main transit edges.
- */
-export function mergeExternalTransitPlan(
-  externalPlan,
-  transitPlan,
-  arriveBy,
-  allowedExternalFlexRouteTypes,
-  includeTaxiSuggestions,
-) {
-  const externalTransitEdges = filterItinerariesByRouteType(
-    externalPlan.edges,
-    allowedExternalFlexRouteTypes,
-    includeTaxiSuggestions,
-  );
-  return sortAndMergePlans(externalTransitEdges, transitPlan, arriveBy);
-}
-
-/**
- * Combine a scooter edge with the main transit edges.
+ * Combine a scooter plan with the main transit plan.
  */
 export function mergeScooterTransitPlan(
   scooterPlan,
@@ -586,8 +568,26 @@ export function mergeScooterTransitPlan(
   return sortAndMergePlans(scooterTransitEdges, transitPlan, arriveBy);
 }
 
-/** Combine a flex edge with the main transit edges. */
-export function mergeFlexPlan(
+/**
+ * Combine an external flex plan with the main transit plan.
+ */
+export function mergeExternalFlexPlan(
+  externalPlan,
+  transitPlan,
+  arriveBy,
+  allowedExternalFlexRouteTypes,
+  includeTaxiSuggestions,
+) {
+  const externalFlexEdges = filterItinerariesByRouteType(
+    externalPlan.edges,
+    allowedExternalFlexRouteTypes,
+    includeTaxiSuggestions,
+  );
+  return sortAndMergePlans(externalFlexEdges, transitPlan, arriveBy);
+}
+
+/** Combine an internal flex plan with the main transit plan. */
+export function mergeInternalFlexPlan(
   flexPlan,
   plan,
   arriveBy,

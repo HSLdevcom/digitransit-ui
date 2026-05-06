@@ -461,17 +461,15 @@ function isBikingLeg(leg) {
 function isDrivingLeg(leg) {
   return LegMode.Car === getLegMode(leg);
 }
-
 function isTaxiLeg(leg) {
   return LegMode.Taxi === getLegMode(leg);
+}
+export function isCallAgencyLeg(leg) {
+  return leg.route?.type === ExtendedRouteTypes.CallAgency;
 }
 
 export function hasTaxiLegs(itinerary) {
   return itinerary.legs.some(isTaxiLeg);
-}
-
-export function isCallAgencyLeg(leg) {
-  return leg.route?.type === ExtendedRouteTypes.CallAgency;
 }
 
 /**

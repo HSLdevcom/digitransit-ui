@@ -2,7 +2,8 @@ import { FormattedMessage } from 'react-intl';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { useDeepLink } from '../../util/vehicleRentalUtils';
+import { openDeepLink } from '../../util/vehicleRentalUtils';
+import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import Icon from '../Icon';
 import ExternalLink from '../ExternalLink';
 
@@ -23,9 +24,16 @@ export default function TaxiLinkContainer({
   );
 
   const url = bookingUrl.startsWith('http') ? bookingUrl : infoUrl;
-  const onClick = url.startsWith('http')
-    ? () => {}
-    : () => useDeepLink(url, infoUrl);
+  const onClick = () => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      action: 'ClickTaxiOperatorLink',
+      name: operatorName,
+    });
+    if (!url.startsWith('http')) {
+      openDeepLink(url, infoUrl);
+    }
+  };
 
   return (
     <div>

@@ -23,8 +23,7 @@ import dcw12 from '../../../test-data/dcw12';
 const defaultProps = {
   breakpoint: 'large',
   hash: 1,
-  onSelect: () => {},
-  onSelectImmediately: () => {},
+  focusToHeader: () => {},
   refTime: 0,
 };
 

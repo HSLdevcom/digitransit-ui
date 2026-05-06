@@ -84,6 +84,7 @@ export default {
     'bikes-available': '{amount} cyklar vid stationen',
     'biking-speed': 'Cykling hastighet',
     'book-a-lift': 'Beställ resa i appen',
+    'booking-method': 'Beställningssätt',
     bus: 'Buss',
     'bus-express': 'Stombuss',
     'bus-express-with-route-number': 'Stombuss {routeNumber} {headSign}',
@@ -160,6 +161,7 @@ export default {
     day: 'Dagen',
     delete: 'Ta bort',
     'delete-favourite-failed-heading': 'Unable to delete save',
+    'demand-responsive-traffic': 'Efterfrågestyrd kollektivtrafik',
     'departure-list-update.sr-instructions':
       'Listan på avgångar och avgångstider uppdateras i realtid.',
     'departure-page-sr':
@@ -787,6 +789,7 @@ export default {
     'terminal-page.title-short': 'Terminal',
     terminus: 'Slutpunkt',
     'this-week': 'Denna vecka',
+    'ticket-information': 'Biljettinformation',
     timetable: 'Tidtabell',
     'to-bicycle': 'stadscykeln',
     'to-bus': 'bussen',
