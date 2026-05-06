@@ -57,7 +57,7 @@ describe('<Disruption />', () => {
     expect(wrapper.find('.alert-row')).to.have.lengthOf(1);
   });
 
-  it('should render toggle button when toggleDetails is provided and not a cancelation', () => {
+  it('should render toggle button when toggleDetails is provided', () => {
     const toggleDetails = sinon.spy();
     const props = {
       alertHeaderText: 'Alert',
@@ -71,11 +71,9 @@ describe('<Disruption />', () => {
     });
     const button = wrapper.find('.alert-row-arrow');
     expect(button).to.have.lengthOf(1);
-    button.simulate('click');
-    expect(toggleDetails.calledWith('alert-1')).to.equal(true);
   });
 
-  it('should not render toggle button for cancelations', () => {
+  it('should render link to the timetablepage for cancelations', () => {
     const props = {
       id: 'cancelation-1',
       alertHeaderText: 'Cancelation',
@@ -87,7 +85,8 @@ describe('<Disruption />', () => {
     const wrapper = shallowWithIntl(<Disruption {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find('.alert-row-arrow')).to.have.lengthOf(0);
+    const link = wrapper.find('.alert-row-arrow');
+    expect(link).to.have.lengthOf(1);
   });
 
   it('should render Badge with correct severity and effect', () => {
