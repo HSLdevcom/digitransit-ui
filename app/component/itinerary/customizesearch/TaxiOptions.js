@@ -6,8 +6,12 @@ import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { settingsShape } from '../../../util/shapes';
 import Icon from '../../Icon';
+import { useConfigContext } from '../../../configurations/ConfigContext';
 
 export default function TaxiOptions({ currentSettings }, { executeAction }) {
+  const config = useConfigContext();
+  const taxiLabelId =
+    config.taxiOptionLabelOverride || 'taxis-and-ride-hailing';
   const taxiRoutingState = currentSettings.includeTaxiSuggestions
     ? 'Disable'
     : 'Enable';
@@ -25,11 +29,11 @@ export default function TaxiOptions({ currentSettings }, { executeAction }) {
   return (
     <>
       <div className="section-header">
-        <FormattedMessage id="taxis-and-ride-hailing" />
+        <FormattedMessage id={taxiLabelId} />
       </div>
       <SettingsToggle
         id="settings-toggle-taxi"
-        labelId="taxis-and-ride-hailing"
+        labelId={taxiLabelId}
         labelStyle="mode-label"
         leftElement={
           <Icon

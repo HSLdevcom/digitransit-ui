@@ -8,7 +8,7 @@ import { useConfigContext } from '../../configurations/ConfigContext';
 import Icon from '../Icon';
 import FavouriteRouteContainer from '../routepage/FavouriteRouteContainer';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
-import { useDeepLink } from '../../util/vehicleRentalUtils';
+import { openDeepLink } from '../../util/vehicleRentalUtils';
 
 function OnDemandInfo({
   routeNumber,
@@ -28,7 +28,7 @@ function OnDemandInfo({
     ? () => {
         window.open(bookingUrl, '_blank', 'noopener,noreferrer');
       }
-    : () => useDeepLink(bookingUrl, infoUrl);
+    : () => openDeepLink(bookingUrl, infoUrl);
 
   const latestBookingTime = pickupBookingInfo.latestBookingTime?.time;
   const formattedLatestBookingTime =

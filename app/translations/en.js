@@ -84,6 +84,7 @@ export default {
     'bikes-available': '{amount} bikes at the station ',
     'biking-speed': 'Biking speed',
     'book-a-lift': 'Use an app to book a ride',
+    'booking-method': 'Booking method',
     bus: 'Bus',
     'bus-express': 'Trunk bus',
     'bus-express-with-route-number': 'Trunk bus {routeNumber} {headSign}',
@@ -162,6 +163,7 @@ export default {
     day: 'Day',
     delete: 'Delete',
     'delete-favourite-failed-heading': 'Unable to delete save',
+    'demand-responsive-traffic': 'Demand-responsive transport',
     'departure-list-update.sr-instructions':
       'The list of upcoming departures and departure times will update in real time.',
     'departure-page-sr': 'Route {shortName} {destination}, departs at {time},',
@@ -794,6 +796,7 @@ export default {
     'terminal-page.title-short': 'Terminal',
     terminus: 'End point',
     'this-week': 'This week',
+    'ticket-information': 'Ticket information',
     timetable: 'Timetable',
     'to-bicycle': 'bicycle',
     'to-bus': 'bus',

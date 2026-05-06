@@ -2699,8 +2699,6 @@ $itinerary-tab-switch-height: 48px;
   .itinerary-time-column {
     @include font-medium;
 
-    direction: rtl;
-
     .itinerary-time-column-time {
       font-size: 0.9375rem;
     }

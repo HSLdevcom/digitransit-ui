@@ -71,9 +71,9 @@ import {
   isEqualItineraries,
   isStoredItineraryRelevant,
   mergeBikeTransitPlans,
-  mergeExternalTransitPlan,
+  mergeExternalFlexPlan,
   mergeScooterTransitPlan,
-  mergeFlexPlan,
+  mergeInternalFlexPlan,
   parseCarTransitPlan,
   quitIteration,
   reportError,
@@ -150,11 +150,12 @@ export default function ItineraryPage(props, context) {
   });
   const [relaxState, setRelaxState] = useState(emptyPlan);
   const [relaxScooterState, setRelaxScooterState] = useState(emptyPlan);
-  const [relaxFlexState, setRelaxFlexState] = useState(emptyPlan);
+  const [relaxExternalFlexState, setRelaxExternalFlexState] =
+    useState(emptyPlan);
   const [combinedRelaxState, setCombinedRelaxState] = useState(emptyPlan);
   const [scooterState, setScooterState] = useState(unset);
   const [combinedState, setCombinedState] = useState(emptyPlan);
-  const [flexState, setFlexState] = useState(unset);
+  const [externalFlexState, setExternalFlexState] = useState(unset);
   const [internalFlexState, setInternalFlexState] = useState(unset);
   const [isNavigatorIntroDismissed, setNavigatorIntroDismissed] = useState(
     getDialogState('navi-intro'),
@@ -517,10 +518,10 @@ export default function ItineraryPage(props, context) {
 
   async function makeFlexQuery() {
     if (!planQueryNeeded(config, match, PLANTYPE.FLEXTRANSIT_EXTERNAL)) {
-      setFlexState({ plan: {}, loading: LOADSTATE.DONE });
+      setExternalFlexState({ plan: {}, loading: LOADSTATE.DONE });
       return;
     }
-    setFlexState({ loading: LOADSTATE.LOADING });
+    setExternalFlexState({ loading: LOADSTATE.LOADING });
     const planParams = getPlanParams(
       config,
       match,
@@ -530,19 +531,19 @@ export default function ItineraryPage(props, context) {
 
     try {
       const plan = await iterateQuery(planParams);
-      setFlexState({ plan, loading: LOADSTATE.DONE });
+      setExternalFlexState({ plan, loading: LOADSTATE.DONE });
     } catch (error) {
       reportError(error);
-      setFlexState({ plan: {}, loading: LOADSTATE.DONE });
+      setExternalFlexState({ plan: {}, loading: LOADSTATE.DONE });
     }
   }
 
   async function makeRelaxedFlexQuery() {
     if (!planQueryNeeded(config, match, PLANTYPE.FLEXTRANSIT_EXTERNAL, true)) {
-      setRelaxFlexState({ plan: {}, loading: LOADSTATE.DONE });
+      setRelaxExternalFlexState({ plan: {}, loading: LOADSTATE.DONE });
       return;
     }
-    setRelaxFlexState({ loading: LOADSTATE.LOADING });
+    setRelaxExternalFlexState({ loading: LOADSTATE.LOADING });
 
     const planParams = getPlanParams(
       config,
@@ -565,9 +566,9 @@ export default function ItineraryPage(props, context) {
           config.flex.allowedExternalFlexRouteTypes,
         ),
       };
-      setRelaxFlexState({ plan: flexPlan, loading: LOADSTATE.DONE });
+      setRelaxExternalFlexState({ plan: flexPlan, loading: LOADSTATE.DONE });
     } catch (error) {
-      setRelaxFlexState({ plan: {}, loading: LOADSTATE.DONE });
+      setRelaxExternalFlexState({ plan: {}, loading: LOADSTATE.DONE });
     }
   }
 
@@ -1110,7 +1111,7 @@ export default function ItineraryPage(props, context) {
     if (
       state.loading === LOADSTATE.DONE &&
       scooterState.loading === LOADSTATE.DONE &&
-      flexState.loading === LOADSTATE.DONE &&
+      externalFlexState.loading === LOADSTATE.DONE &&
       internalFlexState.loading === LOADSTATE.DONE
     ) {
       let plan = mergeScooterTransitPlan(
@@ -1120,9 +1121,9 @@ export default function ItineraryPage(props, context) {
         match.location.query.arriveBy === 'true',
       );
 
-      if (flexState.plan?.edges) {
-        plan = mergeExternalTransitPlan(
-          flexState.plan,
+      if (externalFlexState.plan?.edges) {
+        plan = mergeExternalFlexPlan(
+          externalFlexState.plan,
           plan,
           match.location.query.arriveBy === 'true',
           config.flex.allowedExternalFlexRouteTypes,
@@ -1130,7 +1131,7 @@ export default function ItineraryPage(props, context) {
       }
 
       if (internalFlexState.plan?.edges) {
-        plan = mergeFlexPlan(
+        plan = mergeInternalFlexPlan(
           internalFlexState.plan,
           plan,
           match.location.query.arriveBy === 'true',
@@ -1140,23 +1141,28 @@ export default function ItineraryPage(props, context) {
       setCombinedState({ plan, loading: LOADSTATE.DONE });
       resetItineraryPageSelection();
     }
-  }, [scooterState.plan, state.plan, flexState.plan, internalFlexState.plan]);
+  }, [
+    scooterState.plan,
+    state.plan,
+    externalFlexState.plan,
+    internalFlexState.plan,
+  ]);
 
   // merge the relaxed scooter plan and the relaxed flex plan into one
   useEffect(() => {
     if (
       relaxScooterState.loading === LOADSTATE.DONE &&
-      relaxFlexState.loading === LOADSTATE.DONE
+      relaxExternalFlexState.loading === LOADSTATE.DONE
     ) {
       const plan = sortAndMergeExternalPlans(
         relaxScooterState.plan,
-        relaxFlexState.plan,
+        relaxExternalFlexState.plan,
         match.location.query.arriveBy === 'true',
       );
       setCombinedRelaxState({ plan, loading: LOADSTATE.DONE });
       resetItineraryPageSelection();
     }
-  }, [relaxScooterState.plan, relaxFlexState.plan]);
+  }, [relaxScooterState.plan, relaxExternalFlexState.plan]);
 
   const setMWTRef = ref => {
     mwtRef.current = ref;
@@ -1393,9 +1399,9 @@ export default function ItineraryPage(props, context) {
   const showCombinedPlanNotifier = plan === combinedRelaxState.plan;
   let rentalVehicleNotifierId = null;
   if (showCombinedPlanNotifier) {
-    if (relaxFlexState.plan?.edges && relaxScooterState.plan?.edges) {
+    if (relaxExternalFlexState.plan?.edges && relaxScooterState.plan?.edges) {
       rentalVehicleNotifierId = 'e-scooter-or-taxi';
-    } else if (relaxFlexState.plan?.edges) {
+    } else if (relaxExternalFlexState.plan?.edges) {
       rentalVehicleNotifierId = 'taxi';
     } else if (relaxScooterState.plan?.edges) {
       rentalVehicleNotifierId = 'e-scooter';
@@ -1563,7 +1569,6 @@ export default function ItineraryPage(props, context) {
         feedback={feedback}
         giveFeedback={feedbackProp}
         planEdges={combinedEdges}
-        params={params}
         bikeParkItineraryCount={bikePublicPlan.bikeParkItineraryCount}
         carDirectItineraryCount={carPublicPlan.carDirectItineraryCount}
         showRelaxedPlanNotifier={showRelaxedPlanNotifier}

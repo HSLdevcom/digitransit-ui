@@ -473,6 +473,7 @@ export function getPlanParams(
       direct = access;
       filters = excludeAgencies(config.flex?.externalAgencies);
       minTransferTime = config.flex?.minTransferTime || minTransferTime;
+      via = null;
       break;
     default: // direct modes
       direct = [planType];

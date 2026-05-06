@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { legShape } from '../../util/shapes';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import TransitLeg from './TransitLeg';
@@ -10,7 +9,7 @@ import RouteNumberContainer from '../RouteNumber';
 import withBreakpoint from '../../util/withBreakpoint';
 import { isLocalCallAgency } from '../../util/legUtils';
 
-const CallAgencyLeg = ({ leg, currentLanguage, breakpoint, ...props }) => {
+const CallAgencyLeg = ({ leg, breakpoint, ...props }) => {
   const intl = useIntl();
   const config = useConfigContext();
   const modeClassName = 'call';
@@ -19,7 +18,7 @@ const CallAgencyLeg = ({ leg, currentLanguage, breakpoint, ...props }) => {
   const notification =
     config.showRouteDescNotification &&
     route.desc?.length &&
-    config.flex.infoLanguage === currentLanguage // No translations available in the data at the moment
+    config.flex.infoLanguage === config.language // No translations available in the data at the moment
       ? { content: route.desc, link: route.url }
       : {
           content: intl.formatMessage({ id: 'call-agency-disclaimer' }),
@@ -66,7 +65,6 @@ CallAgencyLeg.propTypes = {
   leg: legShape.isRequired,
   index: PropTypes.number.isRequired,
   showRouteDescNotification: PropTypes.bool,
-  currentLanguage: PropTypes.string.isRequired,
   breakpoint: PropTypes.string,
 };
 
@@ -75,14 +73,5 @@ CallAgencyLeg.defaultProps = {
   breakpoint: undefined,
 };
 
-const CallAgencyLegWithBreakpoint = withBreakpoint(CallAgencyLeg);
-
-const connectedComponent = connectToStores(
-  CallAgencyLegWithBreakpoint,
-  ['PreferencesStore'],
-  context => ({
-    currentLanguage: context.getStore('PreferencesStore').getLanguage(),
-  }),
-);
-
-export { CallAgencyLeg as Component, connectedComponent as default };
+export { CallAgencyLeg as Component };
+export default withBreakpoint(CallAgencyLeg);

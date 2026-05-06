@@ -323,8 +323,8 @@ export default {
       ],
     },
   },
-  useAlternativeNameForModes: ['RAIL'],
   showRouteDescNotification: IS_DEV,
+  useAlternativeNameForModes: ['RAIL'],
   showStopStatusMarkers: true,
 
   trafficNowLink: true,

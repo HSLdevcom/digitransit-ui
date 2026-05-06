@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
-import { useDeepLink } from '../../util/vehicleRentalUtils';
+import { openDeepLink } from '../../util/vehicleRentalUtils';
 
 export default function CallAgencyDisclaimer({
   textId,
@@ -16,7 +16,7 @@ export default function CallAgencyDisclaimer({
     ? () => {
         window.open(href, '_blank', 'noopener,noreferrer');
       }
-    : () => useDeepLink(href, window.location.href);
+    : () => openDeepLink(href, window.location.href);
 
   return (
     <div className="call-agency-disclaimer-container">

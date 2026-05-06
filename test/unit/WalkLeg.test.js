@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { FormattedMessage } from 'react-intl';
 
 import { shallowWithIntl } from './helpers/mock-intl-enzyme';

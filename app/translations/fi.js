@@ -79,6 +79,7 @@ export default {
     'bikes-available': 'Pyöriä asemalla {amount}',
     'biking-speed': 'Pyöräilynopeus',
     'book-a-lift': 'Tilaa kyyti sovelluksella',
+    'booking-method': 'Tilaustapa',
     bus: 'Bussi',
     'bus-express': 'Runkolinjabussi',
     'bus-express-with-route-number': 'Runkolinjabussi {routeNumber} {headSign}',
@@ -155,6 +156,7 @@ export default {
     day: 'Päivä',
     delete: 'Poista',
     'delete-favourite-failed-heading': 'Tallennuksen poistaminen ei onnistunut',
+    'demand-responsive-traffic': 'Kutsuliikenne',
     'departure-list-update.sr-instructions':
       'Tulevien lähtöjen lista ja lähtöajat päivittyvät reaaliajassa.',
     'departure-page-sr':
@@ -778,6 +780,7 @@ export default {
     'terminal-page.title-short': 'Terminaali',
     terminus: 'Päätepiste',
     'this-week': 'Tällä viikolla',
+    'ticket-information': 'Lipputiedot',
     timetable: 'Aikataulu',
     'to-bicycle': 'polkupyörään',
     'to-bus': 'bussiin',
