@@ -157,7 +157,7 @@
     "express-session": "1.18.1",
     "express-static-gzip": "2.0.8",
     "farce": "0.4.5",
-    "fast-xml-parser": "4.3.4",
+    "fast-xml-parser": "5.7.0",
     "fluxible": "1.4.2",
     "fluxible-addons-react": "0.2.17",
     "found": "0.5.9",
