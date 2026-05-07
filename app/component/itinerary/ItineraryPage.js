@@ -1465,7 +1465,7 @@ export default function ItineraryPage(props, context) {
   ) : null;
 
   const feedbackProp =
-    config.personalisation && settings.personalisation ? giveFeedback : null;
+    config.personalization && settings.personalization ? giveFeedback : null;
 
   // in mobile, settings drawer hides other content
   const panelHidden = !desktop && settingsDrawer !== null;

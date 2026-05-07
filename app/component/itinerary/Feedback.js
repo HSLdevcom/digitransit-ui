@@ -6,7 +6,7 @@ import Icon from '../Icon';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
 export default function Feedback({
-  recommended, // true if ranked as best by personalisation algo
+  recommended, // true if ranked as best by personalization algo
   feedback, // true=likes, false=dislikes, undefined=no feedback yet
   giveFeedback, // callback to submit user's feedback action
 }) {
@@ -15,24 +15,24 @@ export default function Feedback({
 
   let status;
   if (feedback === true) {
-    status = 'personalisation-liked';
+    status = 'personalization-liked';
   } else if (feedback === false) {
-    status = 'personalisation-disliked';
+    status = 'personalization-disliked';
   } else {
-    status = 'personalisation-ask';
+    status = 'personalization-ask';
   }
 
   const favIcon = recommended
     ? 'icon_star-with-circle'
     : 'icon_star-unselected';
   const iconMap = {
-    'personalisation-ask': {
+    'personalization-ask': {
       img: favIcon,
       className: cx('favourite', { selected: recommended }),
       fill: recommended ? '#c53291' : '#FFF',
     },
-    'personalisation-liked': { img: 'icon_thumb', color: colors.primary },
-    'personalisation-disliked': {
+    'personalization-liked': { img: 'icon_thumb', color: colors.primary },
+    'personalization-disliked': {
       img: 'icon_thumb-down',
       color: colors.primary,
     },
@@ -43,20 +43,20 @@ export default function Feedback({
     <div className="feedback-container">
       <div
         className={cx('feedback-section', {
-          'feedback-text-posted': status !== 'personalisation-ask',
+          'feedback-text-posted': status !== 'personalization-ask',
         })}
       >
         <Icon {...iconProps} height={1.4} width={1.4} />
         <span>&nbsp;&nbsp;&nbsp;</span>
         <FormattedMessage id={status} />
       </div>
-      {status === 'personalisation-ask' && (
+      {status === 'personalization-ask' && (
         <div className="feedback-section">
           <button
             type="button"
             className="thumb-button"
             onClick={() => giveFeedback(true)}
-            aria-label={intl.formatMessage({ id: 'personalisation-aria-like' })}
+            aria-label={intl.formatMessage({ id: 'personalization-aria-like' })}
           >
             <Icon
               img="icon_thumb"
@@ -70,7 +70,7 @@ export default function Feedback({
             className="thumb-button"
             onClick={() => giveFeedback(false)}
             aria-label={intl.formatMessage({
-              id: 'personalisation-aria-dislike',
+              id: 'personalization-aria-dislike',
             })}
           >
             <Icon

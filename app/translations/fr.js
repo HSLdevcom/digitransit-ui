@@ -116,7 +116,7 @@ export default {
     'park-and-ride': 'Parc Relais',
     'park-and-ride-availability': 'Parc Relais disponible',
     'pay-attention': 'Attention !',
-    'personalisation-feedback': 'Envoyez votre avis',
+    'personalization-feedback': 'Envoyez votre avis',
     'pick-mode': 'Sélectionner un mode de transport',
     'platform-num': 'Quai {platformCode}',
     'platform-short-no-num': 'Quai',

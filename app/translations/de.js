@@ -222,7 +222,7 @@ export default {
     'park-and-ride': 'Park-and-Ride',
     'park-and-ride-availability': 'Plätze verfügbar',
     'pay-attention': 'Achtung',
-    'personalisation-feedback': 'Feedback senden',
+    'personalization-feedback': 'Feedback senden',
     'pick-mode': 'Verkehrsmittel auswählen',
     'pick-street-mode': 'Meine Reiseoptionen',
     platform: 'Gleis',

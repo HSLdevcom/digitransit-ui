@@ -16,7 +16,7 @@ export default function PrModal({ closeModal }) {
   return (
     <Modal lang={config.language} onOpenChange={closeModal} open>
       <ModalContent
-        title={intl.formatMessage({ id: 'personalisation-modal-header' })}
+        title={intl.formatMessage({ id: 'personalization-modal-header' })}
         lang={config.language}
       >
         <div
@@ -33,15 +33,15 @@ export default function PrModal({ closeModal }) {
             />
             <div className="pr-info-text-area">
               <h3>
-                <FormattedMessage id="personalisation-modal-highlight" />
+                <FormattedMessage id="personalization-modal-highlight" />
               </h3>
-              <FormattedMessage id="personalisation-modal-highlight-details" />
+              <FormattedMessage id="personalization-modal-highlight-details" />
               {config.favouriteLink[config.language] && (
                 <ExternalLink
                   href={config.favouriteLink[config.language]}
                   withArrow
                 >
-                  <FormattedMessage id="personalisation-modal-link" />
+                  <FormattedMessage id="personalization-modal-link" />
                 </ExternalLink>
               )}
             </div>
@@ -50,9 +50,9 @@ export default function PrModal({ closeModal }) {
             <Icon img="icon_thumb" color="#666" height={2} width={2} />
             <div className="pr-info-text-area">
               <h3>
-                <FormattedMessage id="personalisation-modal-feedback" />
+                <FormattedMessage id="personalization-modal-feedback" />
               </h3>
-              <FormattedMessage id="personalisation-modal-feedback-details" />
+              <FormattedMessage id="personalization-modal-feedback-details" />
             </div>
           </div>
           <div className="pr-beta">
@@ -73,14 +73,14 @@ export default function PrModal({ closeModal }) {
             >
               <span className="beta-label">Beta</span>
               <span>
-                <FormattedMessage id="personalisation-beta" />
+                <FormattedMessage id="personalization-beta" />
               </span>
               <button
                 type="button"
                 className="beta-feedback-button"
                 onClick={() => {}}
               >
-                <FormattedMessage id="personalisation-feedback" />
+                <FormattedMessage id="personalization-feedback" />
               </button>
             </div>
           </div>

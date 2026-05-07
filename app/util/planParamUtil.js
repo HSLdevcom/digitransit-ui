@@ -80,7 +80,7 @@ export function hasCustomizedSettings(config) {
   }
 
   return Object.keys(customizedSettings).some(key => {
-    if (key === 'personalisation') {
+    if (key === 'personalization') {
       return false;
     }
     if (key === 'allowedBikeRentalNetworks') {

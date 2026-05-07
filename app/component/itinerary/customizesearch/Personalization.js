@@ -1,45 +1,69 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import SettingsToggle from './SettingsToggle';
 import PrModal from './PrModal';
+import Snackbar from '../../Snackbar';
 import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import Icon from '../../Icon';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { settingsShape } from '../../../util/shapes';
 
-export default function Personalisation(
+export default function Personalization(
   { currentSettings },
   { executeAction },
 ) {
   const intl = useIntl();
   const [modalOpen, setModalOpen] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState(null);
+  const [snackbarLiveRegionMessage, setSnackBarLiveRegionMessage] =
+    useState('');
+  const snackbarTimeout = useRef(null);
 
   const onToggle = () => {
+    const newState = !currentSettings.personalization;
     addAnalyticsEvent({
       category: 'ItinerarySettings',
-      action: `Settings${
-        currentSettings.personalisation ? 'Disable' : 'Enable'
-      }Personalisation`,
+      action: `Settings${newState ? 'Enable' : 'Disable'}Personalization`,
       name: null,
     });
-    executeAction(saveRoutingSettings, {
-      personalisation: !currentSettings.personalisation,
-    });
+    executeAction(saveRoutingSettings, { personalization: newState });
+    if (newState) {
+      setShowSnackbar(true);
+      setSnackBarLiveRegionMessage(
+        intl.formatMessage({ id: 'personalization-activated' }),
+      );
+      snackbarTimeout.current = setTimeout(() => {
+        setSnackBarLiveRegionMessage('');
+        setShowSnackbar(false);
+      }, 4000);
+    }
   };
 
-  const linkText = intl.formatMessage({ id: 'personalisation-open-info' });
+  const handleSnackbarClose = () => {
+    clearTimeout(snackbarTimeout.current);
+    setSnackBarLiveRegionMessage('');
+    setShowSnackbar(false);
+  };
+
+  const linkText = intl.formatMessage({ id: 'personalization-open-info' });
   const words = linkText.split(' ');
   const lastWord = words.pop();
   const start = words.join(' ');
 
   return (
     <>
+      <Snackbar
+        show={showSnackbar}
+        messageId="personalization-activated"
+        liveRegionMessage={snackbarLiveRegionMessage}
+        onClose={handleSnackbarClose}
+      />
       <div className="section-header">
-        <FormattedMessage id="personalisation" />
+        <FormattedMessage id="personalization" />
       </div>
       <SettingsToggle
-        id="settings-toggle-personalisation"
+        id="settings-toggle-personalization"
         labelId="personal-itineraries"
         labelStyle="mode-label-upper"
         leftElement={
@@ -50,11 +74,11 @@ export default function Personalisation(
             width={2}
           />
         }
-        toggled={!!currentSettings.personalisation}
+        toggled={!!currentSettings.personalization}
         onToggle={onToggle}
       />
       <div className="toggle-info">
-        <FormattedMessage id="personalisation-info" />
+        <FormattedMessage id="personalization-info" />
         <button
           type="button"
           onClick={e => {
@@ -76,10 +100,10 @@ export default function Personalisation(
   );
 }
 
-Personalisation.propTypes = {
+Personalization.propTypes = {
   currentSettings: settingsShape.isRequired,
 };
 
-Personalisation.contextTypes = {
+Personalization.contextTypes = {
   executeAction: PropTypes.func.isRequired,
 };

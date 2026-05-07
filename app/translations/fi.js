@@ -557,27 +557,28 @@ export default {
     'payment-info-taxi':
       'Huomaathan, että taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     'personal-itineraries': 'Yksilölliset reittiehdotukset',
-    personalisation: 'Personointi',
-    'personalisation-aria-dislike': 'En pidä tästä reittisuosituksesta',
-    'personalisation-aria-like': 'Pidän tästä reittisuosituksesta',
-    'personalisation-ask': 'Pidätkö tästä reittisuosituksesta?',
-    'personalisation-beta':
+    personalization: 'Personointi',
+    'personalization-activated': 'Personointi on otettu käyttöön',
+    'personalization-aria-dislike': 'En pidä tästä reittisuosituksesta',
+    'personalization-aria-like': 'Pidän tästä reittisuosituksesta',
+    'personalization-ask': 'Pidätkö tästä reittisuosituksesta?',
+    'personalization-beta':
       'Personointi on vielä testausvaiheessa, eli kokeilemme palvelua. Haluaisimme kuulla kokemuksestasi. Kysely avautuu uuteen välilehteen.',
-    'personalisation-disliked':
+    'personalization-disliked':
       'Saat jatkossa vähemmän tämänkaltaisia suosituksia.',
-    'personalisation-feedback': 'Anna palautetta',
-    'personalisation-info':
+    'personalization-feedback': 'Anna palautetta',
+    'personalization-info':
       'Löydä mieleiset reitit ja matkusta tottumustesi mukaan.',
-    'personalisation-liked': 'Saat jatkossa samankaltaisia suosituksia.',
-    'personalisation-modal-feedback': 'Opimme palautteestasi',
-    'personalisation-modal-feedback-details':
+    'personalization-liked': 'Saat jatkossa samankaltaisia suosituksia.',
+    'personalization-modal-feedback': 'Opimme palautteestasi',
+    'personalization-modal-feedback-details':
       'Hyödynnämme reittisuosituksissa palautettasi. Kerro mielipiteesi suosituksista, niin huomioimme mieltymyksesi jatkossa.',
-    'personalisation-modal-header': 'Näin reittisuositukset toimivat',
-    'personalisation-modal-highlight': 'Korostamme suosikkejasi',
-    'personalisation-modal-highlight-details':
+    'personalization-modal-header': 'Näin reittisuositukset toimivat',
+    'personalization-modal-highlight': 'Korostamme suosikkejasi',
+    'personalization-modal-highlight-details':
       'Painotamme personoinnissa suosikkilinjojasi. Lisää siis käyttämäsi linjat suosikeiksi.',
-    'personalisation-modal-link': 'Lisää tai muokkaa suosikkejasi',
-    'personalisation-open-info': 'Lue, miten suositukset toimivat',
+    'personalization-modal-link': 'Lisää tai muokkaa suosikkejasi',
+    'personalization-open-info': 'Lue, miten suositukset toimivat',
     'phone-number': 'Puhelinnumero',
     'pick-mode': 'Liikennevälineet',
     'pick-street-mode': 'Omat kulkuvälineet',
@@ -589,6 +590,7 @@ export default {
     'platform-short-no-num': 'Lait.',
     position: 'Sijainti',
     preview: 'Esikatselu',
+    price: 'Hinta',
     print: 'Tulosta',
     'print-timetable': 'Viikkoaikataulu',
     rail: 'Lähijuna',

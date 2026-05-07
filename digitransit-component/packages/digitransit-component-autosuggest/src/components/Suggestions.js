@@ -99,8 +99,8 @@ export function Suggestions({
             <Suggestion
               key={`${suggestion.type}-${
                 suggestion.properties.gid ||
-                suggestion.properties.name ||
-                suggestion.properties.gtfsId
+                suggestion.properties.gtfsId ||
+                JSON.stringify(suggestion.properties)
               }`}
               getItemProps={getItemProps}
               itemIndex={i}

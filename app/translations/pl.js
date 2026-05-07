@@ -397,7 +397,7 @@ export default {
     'park-and-ride-availability': 'Dostępne miejsca',
     'park-disclaimer-link': 'Dowiedz się więcej o „Parkuj i Jedź”',
     'pay-attention': 'N.B.',
-    'personalisation-feedback': 'Podziel się opinią',
+    'personalization-feedback': 'Podziel się opinią',
     'pick-mode': 'Rodzaje transportu',
     'pick-street-mode': 'Moje środki transportu',
     platform: 'Peron',

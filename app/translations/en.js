@@ -568,28 +568,29 @@ export default {
     'payment-info-taxi':
       'Please note that you need to use the app of the operator in question in order to use and pay for the taxis.',
     'personal-itineraries': 'Personal itineraries',
-    personalisation: 'Personalisation',
-    'personalisation-aria-dislike': 'I do not like this itinerary',
-    'personalisation-aria-like': 'I like this itinerary',
-    'personalisation-ask': 'Do you like this route recommendation?',
-    'personalisation-beta':
+    personalization: 'Personalization',
+    'personalization-activated': 'Personalization has been enabled',
+    'personalization-aria-dislike': 'I do not like this itinerary',
+    'personalization-aria-like': 'I like this itinerary',
+    'personalization-ask': 'Do you like this route recommendation?',
+    'personalization-beta':
       'Personalization is still in the testing phase, meaning we are trying out the service. We would love to hear about your experience. The survey will open in a new tab.',
-    'personalisation-disliked':
+    'personalization-disliked':
       'You will receive fewer recommendations like this in the future.',
-    'personalisation-feedback': 'Give feedback',
-    'personalisation-info':
+    'personalization-feedback': 'Give feedback',
+    'personalization-info':
       'Find your favorite routes and travel according to your habits',
-    'personalisation-liked':
+    'personalization-liked':
       'You will receive similar recommendations in the future.',
-    'personalisation-modal-feedback': 'We learn from your feedback',
-    'personalisation-modal-feedback-details':
+    'personalization-modal-feedback': 'We learn from your feedback',
+    'personalization-modal-feedback-details':
       'We use your feedback in itinerary recommendations. Tell us what you think about the recommendations and we will take your preferences into account in the future.',
-    'personalisation-modal-header': 'How route recommendations work',
-    'personalisation-modal-highlight': 'We highlight your favorites',
-    'personalisation-modal-highlight-details':
+    'personalization-modal-header': 'How route recommendations work',
+    'personalization-modal-highlight': 'We highlight your favorites',
+    'personalization-modal-highlight-details':
       'We emphasize your favorite routes in personalization. So add the routes you use as favorites.',
-    'personalisation-modal-link': 'Add or edit your favorites',
-    'personalisation-open-info': 'Read how recommendations work',
+    'personalization-modal-link': 'Add or edit your favorites',
+    'personalization-open-info': 'Read how recommendations work',
     'phone-number': 'Phone number',
     'pick-mode': 'Transport modes',
     'pick-street-mode': 'My modes of transport',
@@ -602,6 +603,7 @@ export default {
     polish: 'Polish',
     position: 'Position',
     preview: 'Preview',
+    price: 'Price',
     print: 'Print',
     'print-timetable': 'Weekly timetable',
     rail: 'Commuter train',

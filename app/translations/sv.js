@@ -561,28 +561,29 @@ export default {
     'payment-info-taxi':
       'Vänligen observera att användning och betalning av taxi görs via operatörernas egna appar.',
     'personal-itineraries': 'Individuella ruttförslag',
-    personalisation: 'Personalisering',
-    'personalisation-aria-dislike': 'Jag gillar den här ruttrekommendationen',
-    'personalisation-aria-like': 'Jag gillar inte den här ruttrekommendationen',
-    'personalisation-ask': 'Gillar du den här ruttrekommendationen?',
-    'personalisation-beta':
+    personalization: 'Personalisering',
+    'personalization-activated': 'Personalisering har aktiverats',
+    'personalization-aria-dislike': 'Jag gillar den här ruttrekommendationen',
+    'personalization-aria-like': 'Jag gillar inte den här ruttrekommendationen',
+    'personalization-ask': 'Gillar du den här ruttrekommendationen?',
+    'personalization-beta':
       'Personaliseringen är fortfarande i testfasen, vilket innebär att vi testar tjänsten. Vi vill gärna höra om din upplevelse. Undersökningen öppnas i en ny flik.',
-    'personalisation-disliked':
+    'personalization-disliked':
       'Du kommer att få färre rekommendationer som denna i framtiden.',
-    'personalisation-feedback': 'Ge feedback',
-    'personalisation-info':
+    'personalization-feedback': 'Ge feedback',
+    'personalization-info':
       'Hitta dina favoritrutter och res utifrån dina vanor.',
-    'personalisation-liked':
+    'personalization-liked':
       'Du kommer att få liknande rekommendationer i framtiden.',
-    'personalisation-modal-feedback': 'Vi lär oss av er feedback',
-    'personalisation-modal-feedback-details':
+    'personalization-modal-feedback': 'Vi lär oss av er feedback',
+    'personalization-modal-feedback-details':
       'Vi använder din feedback i våra ruttrekommendationer. Berätta vad du tycker om rekommendationerna så tar vi hänsyn till dina preferenser i framtiden.',
-    'personalisation-modal-header': 'Hur ruttrekommendationer fungerar',
-    'personalisation-modal-highlight': 'Vi lyfter fram dina favoriter',
-    'personalisation-modal-highlight-details':
+    'personalization-modal-header': 'Hur ruttrekommendationer fungerar',
+    'personalization-modal-highlight': 'Vi lyfter fram dina favoriter',
+    'personalization-modal-highlight-details':
       'Vi betonar dina favoritlinjer i personaliseringen. Så lägg till de linjer du använder som favoriter.',
-    'personalisation-modal-link': 'Lägg till eller redigera dina favoriter',
-    'personalisation-open-info': 'Läs hur rekommendationer fungerar',
+    'personalization-modal-link': 'Lägg till eller redigera dina favoriter',
+    'personalization-open-info': 'Läs hur rekommendationer fungerar',
     'phone-number': 'Telefonnummer',
     'pick-mode': 'Trafikslag',
     'pick-street-mode': 'Egna färdmedel',
@@ -594,6 +595,7 @@ export default {
     'platform-short-no-num': 'Plattf.',
     position: 'Position',
     preview: 'Förhandsgranskning',
+    price: 'Pris',
     print: 'Skriv ut',
     'print-timetable': 'Veckans tidtabell',
     rail: 'Närtåg',
