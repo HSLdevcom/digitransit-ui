@@ -284,7 +284,6 @@ export default {
   },
   analyticsClass: 'plausible-event-name=Ticket+Purchase+Link',
 
-  viaPointsEnabled: true,
   hideNaviTickets: true, // TODO: temporary force switch
   navigation: true,
 

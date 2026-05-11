@@ -6,11 +6,9 @@ import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import padStart from 'lodash/padStart';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { matchShape, routerShape } from 'found';
 import { useFragment } from 'react-relay';
-import { connectToStores } from 'fluxible-addons-react';
 import cx from 'classnames';
-import { configShape } from '../../util/shapes';
+import { useRouter } from 'found';
 import Icon from '../Icon';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
@@ -23,6 +21,7 @@ import ScrollableWrapper from '../ScrollableWrapper';
 import { replaceQueryParams } from '../../util/queryUtils';
 import { PREFIX_STOPS } from '../../util/path';
 import { TimetableFragment } from './queries/TimetableFragment';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 const mapStopTimes = stoptimesObject =>
   stoptimesObject
@@ -135,10 +134,14 @@ const createTimeTableRows = (timetableMap, showRoutes) =>
       />
     ));
 
-function Timetable(
-  { stop: stopRef, startDate, onDateChange, date, language },
-  { router, match, config },
-) {
+export default function Timetable({
+  stop: stopRef,
+  startDate,
+  onDateChange,
+  date,
+}) {
+  const { match, router } = useRouter();
+  const config = useConfigContext();
   const stop = useFragment(TimetableFragment, stopRef);
   const intl = useIntl();
   if (!stop) {
@@ -259,7 +262,7 @@ function Timetable(
           config.URL.STOP_TIMETABLES[stopIdSplitted[0]],
           stop,
           date,
-          language,
+          config.language,
         )
       : null;
   const virtualMonitorUrl =
@@ -477,23 +480,4 @@ Timetable.propTypes = {
   startDate: PropTypes.string.isRequired,
   onDateChange: PropTypes.func.isRequired,
   date: PropTypes.string.isRequired,
-  language: PropTypes.string.isRequired,
 };
-
-Timetable.contextTypes = {
-  router: routerShape.isRequired,
-  match: matchShape.isRequired,
-  config: configShape.isRequired,
-};
-
-Timetable.displayName = 'Timetable';
-
-const connectedComponent = connectToStores(
-  Timetable,
-  ['PreferencesStore'],
-  context => ({
-    language: context.getStore('PreferencesStore').getLanguage(),
-  }),
-);
-
-export { connectedComponent as default, Timetable as Component };

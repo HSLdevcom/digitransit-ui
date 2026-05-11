@@ -813,6 +813,4 @@ export default {
 
   showRouteDescNotification: IS_DEV,
   personalization: IS_DEV,
-
-  viaPointsEnabled: true,
 };

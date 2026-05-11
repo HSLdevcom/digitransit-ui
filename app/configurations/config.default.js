@@ -759,7 +759,7 @@ export default {
     itinerary: false,
   },
 
-  viaPointsEnabled: false,
+  viaPointsEnabled: true,
   viaPointsMax: 1,
 
   // Toggling this off shows the alert bodytext instead of the header
