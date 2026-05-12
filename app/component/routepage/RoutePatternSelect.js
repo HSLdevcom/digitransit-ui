@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { useSelect } from 'downshift';
 import { Link, useRouter } from 'found';
@@ -263,8 +264,16 @@ export default function RoutePatternSelect({
         setMobileModalOpen(false);
       }
     };
+    // Prevent background scroll while modal is open (critical on iOS where
+    // position:fixed children of overflow-y:auto containers don't cover the
+    // full viewport and the underlying content remains touchable).
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = prevOverflow;
+    };
   }, [mobileModalOpen]);
 
   if (!currentPattern) {
@@ -360,6 +369,7 @@ export default function RoutePatternSelect({
         </label>
         {isMobile ? (
           <div
+            {...getToggleButtonProps()}
             role="button"
             tabIndex={0}
             aria-haspopup="dialog"
@@ -440,76 +450,83 @@ export default function RoutePatternSelect({
         </div>
       </div>
 
-      {/* Mobile bottom-sheet */}
-      {isMobile && mobileModalOpen && (
-        <>
-          {/* Backdrop */}
-          <div
-            className="pattern-select-sheet-backdrop"
-            aria-hidden="true"
-            onClick={() => setMobileModalOpen(false)}
-          />
-          {/* Sheet panel */}
-          <div
-            className="pattern-select-sheet"
-            role="dialog"
-            aria-modal="true"
-            aria-label={intl.formatMessage({
-              id: 'route-page.pattern-select-title',
-            })}
-          >
-            <div className="pattern-select-sheet-header">
-              <button
-                type="button"
-                className="pattern-select-sheet-close"
-                aria-label={intl.formatMessage({ id: 'close' })}
-                onClick={() => setMobileModalOpen(false)}
-              >
-                <Icon img="icon_close" />
-              </button>
-            </div>
+      {/* Mobile bottom-sheet — portaled to document.body to escape the
+           overflow-y:auto scroll container, which on iOS Safari clips
+           position:fixed children to the container bounds instead of
+           the full viewport. */}
+      {isMobile &&
+        mobileModalOpen &&
+        typeof document !== 'undefined' &&
+        ReactDOM.createPortal(
+          <>
+            {/* Backdrop */}
             <div
-              className={cx('route-pattern-select', {
-                'classic-route-page': !config.showNewRoutePage,
+              className="pattern-select-sheet-backdrop"
+              aria-hidden="true"
+              onClick={() => setMobileModalOpen(false)}
+            />
+            {/* Sheet panel */}
+            <div
+              className="pattern-select-sheet"
+              role="dialog"
+              aria-modal="true"
+              aria-label={intl.formatMessage({
+                id: 'route-page.pattern-select-title',
               })}
-              style={{
-                '--mode-color': iconColor,
-                '--mode-color-raw': rawIconColor || iconColor,
-              }}
             >
-              {optionArray.map((section, sectionIndex) => (
-                <div
-                  key={`mobile-section-${section.name || sectionIndex}`}
-                  className="section-container"
+              <div className="pattern-select-sheet-header">
+                <button
+                  type="button"
+                  className="pattern-select-sheet-close"
+                  aria-label={intl.formatMessage({ id: 'close' })}
+                  onClick={() => setMobileModalOpen(false)}
                 >
-                  <ul
-                    aria-labelledby={`mobile-section-${sectionIndex}`}
-                    role="listbox"
+                  <Icon img="icon_close" />
+                </button>
+              </div>
+              <div
+                className={cx('route-pattern-select', {
+                  'classic-route-page': !config.showNewRoutePage,
+                })}
+                style={{
+                  '--mode-color': iconColor,
+                  '--mode-color-raw': rawIconColor || iconColor,
+                }}
+              >
+                {optionArray.map((section, sectionIndex) => (
+                  <div
+                    key={`mobile-section-${section.name || sectionIndex}`}
+                    className="section-container"
                   >
-                    {section.name && (
-                      <li
-                        id={`mobile-section-${sectionIndex}`}
-                        className="section-title"
-                        role="presentation"
-                      >
-                        {section.name}
-                      </li>
-                    )}
-                    {section.options.map(option => (
-                      <MobilePatternOption
-                        key={option.code || option.gtfsId}
-                        option={option}
-                        currentPattern={currentPattern}
-                        onSelect={() => handleMobileSelect(option)}
-                      />
-                    ))}
-                  </ul>
-                </div>
-              ))}
+                    <ul
+                      aria-labelledby={`mobile-section-${sectionIndex}`}
+                      role="listbox"
+                    >
+                      {section.name && (
+                        <li
+                          id={`mobile-section-${sectionIndex}`}
+                          className="section-title"
+                          role="presentation"
+                        >
+                          {section.name}
+                        </li>
+                      )}
+                      {section.options.map(option => (
+                        <MobilePatternOption
+                          key={option.code || option.gtfsId}
+                          option={option}
+                          currentPattern={currentPattern}
+                          onSelect={() => handleMobileSelect(option)}
+                        />
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        </>
-      )}
+          </>,
+          document.body,
+        )}
     </div>
   );
 }
