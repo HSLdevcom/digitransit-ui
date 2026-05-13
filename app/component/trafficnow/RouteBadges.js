@@ -2,8 +2,8 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { useRouter } from 'found';
 import { entityShape } from '../../util/shapes';
-import { useRoute } from '../../util/RouteContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { AlertEntityType } from '../../constants';
 import { groupEntitiesByMode } from './utils';
@@ -15,7 +15,7 @@ const STOP_SIGN_ICON_SCALE = 0.5;
 const NORMAL_ICON_SCALE = 1;
 
 export default function RouteBadges({ entities: rawEntities }) {
-  const { match } = useRoute();
+  const { match } = useRouter();
   const config = useConfigContext();
   const { selectedFilters } = useFilterContext();
 

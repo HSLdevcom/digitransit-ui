@@ -24,13 +24,10 @@ const getIcon = variant => {
     ): {
       return <Icon img="icon_info-circled" className="info" />;
     }
-    case variant === 'success': {
-      return <Icon img="icon_check" className="success" />;
+    case variant === AlertSeverityLevelType.Warning: {
+      return <Icon img="icon_alert-circled" className="warning" />;
     }
-    case [
-      AlertSeverityLevelType.Warning,
-      AlertSeverityLevelType.Severe,
-    ].includes(variant): {
+    case variant === AlertSeverityLevelType.Severe: {
       return <Icon img="icon_caution_white_exclamation" className="danger" />;
     }
     default:

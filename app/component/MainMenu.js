@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
 import { connectToStores } from 'fluxible-addons-react';
+import { useRouter } from 'found';
 import { configShape } from '../util/shapes';
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
 import Icon from './Icon';
@@ -13,9 +14,11 @@ import { updateCountries } from '../action/CountryActions';
 import Toggle from './Toggle';
 import searchContext from '../util/searchContext';
 import intializeSearchContext from '../util/DTSearchContextInitializer';
+import { TRAFFICNOW } from '../util/path';
 
 function MainMenu(props, { config, executeAction }) {
   const intl = useIntl();
+  const { router } = useRouter();
   const [countries, setCountries] = useState(props.countries);
   const appBarLink =
     config.appBarLink?.altLink?.[props.currentLanguage] || config.appBarLink;
@@ -61,7 +64,14 @@ function MainMenu(props, { config, executeAction }) {
         {config.mainMenu.showDisruptions && (
           <div className="offcanvas-section">
             <DisruptionInfoButtonContainer
-              setDisruptionInfoOpen={props.setDisruptionInfoOpen}
+              onClick={
+                config.trafficNowTest
+                  ? () => {
+                      router.push(`/${TRAFFICNOW}`);
+                      props.closeMenu();
+                    }
+                  : () => props.setDisruptionInfoOpen(true)
+              }
             />
           </div>
         )}

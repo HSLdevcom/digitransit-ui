@@ -500,6 +500,8 @@ export const entityShape = (props, propName, componentName, ...rest) => {
       return stopOnRouteShape(props, propName, componentName, ...rest);
     case 'Unknown':
       return null;
+    case 'Agency':
+      return agencyShape(props, propName, componentName, ...rest);
     default:
       return new Error(
         `Invalid entity type '${entity.__typename}' in ${componentName}`,

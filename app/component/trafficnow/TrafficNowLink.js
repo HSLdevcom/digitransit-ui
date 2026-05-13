@@ -1,11 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'found';
+import { TRAFFICNOW } from '../../util/path';
 import Icon from '../Icon';
 
-const TrafficNowLink = ({ handleClick, href }) => {
+const TrafficNowLink = () => {
   return (
-    <a className="traffic-now__link" href={href} onClick={handleClick}>
+    <Link className="traffic-now__link" to={`/${TRAFFICNOW}`}>
       <div className="traffic-now__link__left-column">
         <Icon
           img="icon_info-filled"
@@ -30,17 +31,8 @@ const TrafficNowLink = ({ handleClick, href }) => {
       <span className="traffic-now__link__caret">
         <Icon img="icon_arrow-collapse--right" color="#007ac9" />
       </span>
-    </a>
+    </Link>
   );
-};
-
-TrafficNowLink.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  href: PropTypes.string,
-};
-
-TrafficNowLink.defaultProps = {
-  href: undefined,
 };
 
 export default TrafficNowLink;

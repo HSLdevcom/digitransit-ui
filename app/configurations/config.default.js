@@ -29,6 +29,7 @@ const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 12000;
 const YEAR = 1900 + new Date().getYear();
 
 const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
+const TRAFFIC_NOW_TEST = process.env.TRAFFIC_NOW_TEST === 'true';
 
 export default {
   PORT,
@@ -734,6 +735,8 @@ export default {
   vehicles: false,
   showVehiclesOnStopPage: false,
   showVehiclesOnItineraryPage: false,
+  trafficNowLink: false,
+  trafficNowTest: TRAFFIC_NOW_TEST,
 
   timetables: {},
 
