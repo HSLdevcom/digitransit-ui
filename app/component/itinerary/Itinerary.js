@@ -27,8 +27,6 @@ import {
   isLocalCallAgency,
   splitLegsAtViaPoints,
   hasTaxiLegs,
-  stripFlexZoneInfo,
-  isTaxiLeg,
 } from '../../util/legUtils';
 import { dateOrEmpty, isTomorrow, timeStr } from '../../util/timeUtils';
 import withBreakpoint from '../../util/withBreakpoint';
@@ -654,9 +652,7 @@ const Itinerary = ({
           },
         ),
       );
-      stopNames.push(
-        isTaxiLeg(leg) ? stripFlexZoneInfo(leg.from.name) : leg.from.name,
-      );
+      stopNames.push(leg.from.name);
       if (
         leg.to.viaLocationType === ViaLocationType.PassThrough &&
         !(nextLeg.transitLeg && nextLeg.from.viaLocationType)
