@@ -194,6 +194,10 @@ export default {
     includeCarSuggestions: false,
     showBikeAndParkItineraries: false,
     includeTaxiSuggestions: false,
+    transitGroupRelaxFunction: {
+      constant: 300,
+      coefficient: 1.2,
+    },
   },
 
   /**
