@@ -143,6 +143,10 @@ export function setCustomizedSettings(data) {
       data.includeTaxiSuggestions,
       oldSettings.includeTaxiSuggestions,
     ),
+    transitGroupRelaxFunction: getValueOrDefault(
+      data.transitGroupRelaxFunction,
+      oldSettings.transitGroupRelaxFunction,
+    ),
   };
   if (newSettings.modes) {
     // cleanup
