@@ -1,12 +1,11 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { configShape, legShape } from '../../../util/shapes';
-import { epochToTime } from '../../../util/timeUtils';
-import Duration from '../Duration';
+import { epochToTime, durationToString } from '../../../util/timeUtils';
 import { getFaresFromLegs, shouldShowFareInfo } from '../../../util/fareUtils';
 import localizedUrl from '../../../util/urlUtils';
 
@@ -23,6 +22,7 @@ function NaviBottom(
     setNavigation(false);
   }, [setNavigation]);
   const handleTicketButtonClick = useCallback(e => e.stopPropagation(), []);
+  const intl = useIntl();
 
   const isTicketSaleActive =
     !config.hideNaviTickets &&
@@ -30,7 +30,7 @@ function NaviBottom(
     getFaresFromLegs(legs, config)?.find(f => !f.isUnknown);
 
   const remainingDuration =
-    arrival >= time ? <Duration duration={arrival - time} /> : null;
+    arrival >= time ? durationToString(intl, arrival - time) : null;
 
   const sheetClasses = cx('navi-bottom-sheet', {
     'ticket-link': isTicketSaleActive,

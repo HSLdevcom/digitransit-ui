@@ -40,6 +40,7 @@ import {
 class ItineraryLine extends React.Component {
   static contextTypes = {
     config: configShape.isRequired,
+    intl: PropTypes.object.isRequired, // eslint-disable-line
   };
 
   static propTypes = {
@@ -206,7 +207,7 @@ class ItineraryLine extends React.Component {
       this.props.showDurationBubble ||
       (this.checkStreetMode(leg) && leg.distance > 100)
     ) {
-      const duration = durationToString(leg.duration * 1000);
+      const duration = durationToString(this.context.intl, leg.duration * 1000);
       objs.push(
         <SpeechBubble
           key={`speech_${this.props.hash}_${i}_${mode}`}

@@ -7,7 +7,6 @@ import { useRouter } from 'found';
 import { legShape, locationShape, itineraryShape } from '../../util/shapes';
 import Icon from '../Icon';
 import Feedback from './Feedback';
-import Duration from './Duration';
 import RouteNumber from '../RouteNumber';
 import RouteNumberContainer from '../RouteNumberContainer';
 import { getActiveLegAlertSeverityLevel } from '../../util/alertUtils';
@@ -28,7 +27,12 @@ import {
   splitLegsAtViaPoints,
   hasTaxiLegs,
 } from '../../util/legUtils';
-import { dateOrEmpty, isTomorrow, timeStr } from '../../util/timeUtils';
+import {
+  dateOrEmpty,
+  durationToString,
+  isTomorrow,
+  timeStr,
+} from '../../util/timeUtils';
 import withBreakpoint from '../../util/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../../util/browser';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
@@ -956,7 +960,7 @@ const Itinerary = ({
                 )}
                 <div className="itinerary-duration">
                   {hasCallAgencyLeg && <FormattedMessage id="estimate" />}{' '}
-                  <Duration duration={duration} />
+                  {durationToString(intl, duration)}
                 </div>
               </div>
               <div

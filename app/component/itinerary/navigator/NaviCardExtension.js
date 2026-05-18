@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from '../../Icon';
 import StopCode from '../../StopCode';
 import PlatformNumber from '../../PlatformNumber';
@@ -17,10 +17,10 @@ import ZoneIcon from '../../ZoneIcon';
 import { legShape, configShape } from '../../../util/shapes';
 import { getDestinationProperties, LEGTYPE, withRealTime } from './NaviUtils';
 import { getTripOrRouteMode } from '../../../util/modeUtils';
+import { durationToString } from '../../../util/timeUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
 import BoardingInfo from './BoardingInfo';
 import { getModeIconColor } from '../../../util/colorUtils';
-import Duration from '../Duration';
 import NaviIndoorButtonContainer from './indoor/NaviIndoorButtonContainer';
 import NaviIndoorCard from './indoor/NaviIndoorCard';
 import { IndoorLegType, NaviCardType } from '../../../constants';
@@ -40,6 +40,7 @@ const NaviCardExtension = (
   },
   { config },
 ) => {
+  const intl = useIntl();
   const { stop, name, rentalVehicle, vehicleParking, vehicleRentalStation } =
     leg ? leg.to : nextLeg.from;
   const { code, platformCode, zoneId, vehicleMode } = stop || {};
@@ -176,7 +177,7 @@ const NaviCardExtension = (
   if (legType === LEGTYPE.MOVE && nextLeg?.transitLeg) {
     const { headsign, trip, route, start } = nextLeg;
     const hs = headsign || nextLeg.trip?.tripHeadsign;
-    const remainingDuration = <Duration duration={legTime(start) - time} />;
+    const remainingDuration = durationToString(intl, legTime(start) - time);
     const rt = nextLeg.realtimeState === 'UPDATED';
     const values = {
       duration: withRealTime(rt, remainingDuration),

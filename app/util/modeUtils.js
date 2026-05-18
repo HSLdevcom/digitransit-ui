@@ -8,7 +8,7 @@ import { addAnalyticsEvent } from './analyticsUtils';
 import { ExtendedRouteTypes, TransportMode } from '../constants';
 import { IS_DEV } from './envUtils';
 import { getFeedWithoutId, isExternalFeed } from './feedScopedIdUtils';
-import { dateOrEmpty, getDurationText } from './timeUtils';
+import { dateOrEmpty, durationToString } from './timeUtils';
 
 function seasonMs(ddmmyyyy) {
   const parts = ddmmyyyy.split('.');
@@ -614,7 +614,7 @@ export function getSummaryDescriptionText(
       arrivalTime,
       firstDeparture: firstDepartureText,
       transfers,
-      totalTime: getDurationText(duration, intl.locale),
+      totalTime: durationToString(intl, duration),
     },
   );
 }

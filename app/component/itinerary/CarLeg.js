@@ -19,7 +19,7 @@ export default function CarLeg(props, { config }) {
     config,
     intl.formatNumber,
   );
-  const duration = durationToString(props.leg.duration * 1000);
+  const duration = durationToString(intl, props.leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'first' : '';
   const modeClassName = 'car';
 

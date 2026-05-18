@@ -1,4 +1,4 @@
-import { DateTime, Duration } from 'luxon';
+import { DateTime } from 'luxon';
 
 export const TIME_PATTERN = 'HH:mm';
 export const DATE_PATTERN = 'ccc d.L.';
@@ -47,24 +47,25 @@ export function isTomorrow(startTime, refTime) {
 }
 
 /**
- * renders trip duration to string
- * @param {number} durationMs duration in ms
- * @returns {string} duration formatted in hours and minutes
+ * Returns a localized duration string using react-intl message keys.
+ * @param {object} intl react-intl intl object
+ * @param {number} durationMs duration in milliseconds
+ * @returns {string} e.g. "30 min", "1 h 30 min"
  */
-export function durationToString(durationMs) {
+export function durationToString(intl, durationMs) {
   const dur = Math.max(durationMs, 0);
   const hours = Math.floor(dur / 3600000);
   const mins = Math.floor(dur / 60000 - hours * 60);
   if (hours >= 1) {
-    if (mins > 0) {
-      return `${hours} h ${mins} min`;
-    }
-    return `${hours} h`;
+    return intl.formatMessage(
+      { id: 'travel-time-with-hours' },
+      { h: hours, min: mins },
+    );
   }
-  if (mins < 1) {
-    return '<1 min';
-  }
-  return `${mins} min`;
+  return intl.formatMessage(
+    { id: 'travel-time' },
+    { min: mins === 0 ? '<1' : mins },
+  );
 }
 
 /**
@@ -242,17 +243,4 @@ export function timeStr(dateTime) {
  */
 export function epochToIso(ms) {
   return DateTime.fromMillis(ms).toISO();
-}
-
-/**
- * Returns a localized short-form duration string using Luxon.
- * @param {number} durationMs Duration in milliseconds
- * @param {string} locale BCP 47 locale string (e.g. 'fi', 'en', 'sv')
- * @returns {string} e.g. "30 min", "1 hr, 30 min", "1 t ja 30 min"
- */
-export function getDurationText(durationMs, locale) {
-  return Duration.fromMillis(durationMs, { locale })
-    .shiftTo('hours', 'minutes')
-    .rescale()
-    .toHuman({ unitDisplay: 'short' });
 }
