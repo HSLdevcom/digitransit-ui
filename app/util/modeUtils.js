@@ -8,6 +8,7 @@ import { addAnalyticsEvent } from './analyticsUtils';
 import { ExtendedRouteTypes, TransportMode } from '../constants';
 import { IS_DEV } from './envUtils';
 import { getFeedWithoutId, isExternalFeed } from './feedScopedIdUtils';
+import { dateOrEmpty, getDurationText } from './timeUtils';
 
 function seasonMs(ddmmyyyy) {
   const parts = ddmmyyyy.split('.');
@@ -523,5 +524,97 @@ export function getFirstDepartureStopTypeText(intl, mode) {
   return intl.formatMessage(
     FIRST_DEPARTURE_STOP_TYPE_MSGS[mode] ??
       FIRST_DEPARTURE_STOP_TYPE_MSGS.default,
+  );
+}
+
+/**
+ * Builds a localized accessible text summary for an itinerary row (for screen readers).
+ *
+ * @param {Object} intl - react-intl intl object
+ * @param {Object} params
+ * @param {boolean} params.hasCallAgencyLeg - Whether the itinerary contains a call-agency leg
+ * @param {number} params.startTime - Itinerary start time in ms since epoch
+ * @param {number} params.endTime - Itinerary end time in ms since epoch
+ * @param {number} params.refTime - Reference time in ms since epoch
+ * @param {string} params.departureTime - Formatted departure time string
+ * @param {string} params.arrivalTime - Formatted arrival time string
+ * @param {string[]} params.vehicleNames - Formatted vehicle name strings for each transit leg
+ * @param {Object} params.firstDeparture - First departure leg object
+ * @param {string} params.firstDepartureLabelId - Message ID for the first departure label
+ * @param {string[]} params.stopNames - Stop names for each transit leg
+ * @param {number} params.duration - Total itinerary duration in milliseconds
+ * @param {string} params.firstDepartureTime - Pre-computed departure time string (legTimeStr result)
+ * @param {string} params.platformOrTrack - Pre-computed platform/track text (getBoardingInformationText result)
+ * @returns {string}
+ */
+export function getSummaryDescriptionText(
+  intl,
+  {
+    hasCallAgencyLeg,
+    startTime,
+    endTime,
+    refTime,
+    departureTime,
+    arrivalTime,
+    vehicleNames,
+    firstDeparture,
+    firstDepartureLabelId,
+    stopNames,
+    duration,
+    firstDepartureTime,
+    platformOrTrack,
+  },
+) {
+  if (hasCallAgencyLeg) {
+    return intl.formatMessage({
+      id: 'itinerary-summary-row.call-agency-description',
+    });
+  }
+
+  const firstDepartureText =
+    vehicleNames.length && firstDeparture
+      ? intl.formatMessage(
+          { id: firstDepartureLabelId },
+          {
+            vehicle: vehicleNames[0],
+            departureTime: firstDepartureTime,
+            firstDepartureTime,
+            stopName: stopNames[0],
+            firstDepartureStop: stopNames[0],
+            platformOrTrack,
+          },
+        )
+      : '';
+
+  const transfers = vehicleNames
+    .map((name, index) => {
+      if (index === 0) {
+        return null;
+      }
+      return intl.formatMessage(
+        {
+          id: stopNames[index]
+            ? 'itinerary-summary-row.transfers'
+            : 'itinerary-summary-row.transfers-to-rental',
+        },
+        {
+          vehicle: name,
+          stopName: stopNames[index],
+        },
+      );
+    })
+    .filter(Boolean);
+
+  return intl.formatMessage(
+    { id: 'itinerary-summary-row.description' },
+    {
+      departureDate: dateOrEmpty(startTime, refTime),
+      departureTime,
+      arrivalDate: dateOrEmpty(endTime, refTime),
+      arrivalTime,
+      firstDeparture: firstDepartureText,
+      transfers,
+      totalTime: getDurationText(duration, intl.locale),
+    },
   );
 }

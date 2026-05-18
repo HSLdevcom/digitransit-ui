@@ -42,6 +42,7 @@ import {
 import {
   getFirstDepartureStopTypeText,
   getTripOrRouteMode,
+  getSummaryDescriptionText,
 } from '../../util/modeUtils';
 import { getCapacityForLeg } from '../../util/occupancyUtil';
 import getCo2Value from '../../util/emissions';
@@ -783,81 +784,40 @@ const Itinerary = ({
     );
   }
 
-  const classes = cx([
-    'itinerary-summary-row',
-    'cursor-pointer',
-    {
-      passive,
-      'bp-large': breakpoint === 'large',
-      'no-border': hideSelectionIndicator,
-    },
-  ]);
-
   //  accessible representation for summary
+  let firstDepartureLabelId = 'itinerary-summary-row.first-departure';
   const firstDepartureWithRentals = compressedLegs.find(isTransitOrRentalLeg);
-  firstDeparture = firstDepartureWithRentals?.rentedBike
-    ? firstDepartureWithRentals
-    : firstDeparture;
-  const rentalLabelId =
-    firstDeparture?.mode.toLowerCase() === 'scooter'
-      ? 'itinerary-summary-row.first-leg-start-time-scooter'
-      : 'itinerary-summary-row.first-leg-start-time-citybike';
-  const firstDepartureLabelId = firstDepartureWithRentals?.rentedBike
-    ? rentalLabelId
-    : 'itinerary-summary-row.first-departure';
-  let textSummary = '';
-  if (hasCallAgencyLeg) {
-    textSummary = (
-      <div className="sr-only" key="screenReader">
-        <FormattedMessage id="itinerary-summary-row.call-agency-description" />
-      </div>
-    );
-  } else {
-    textSummary = (
-      <FormattedMessage
-        id="itinerary-summary-row.description"
-        values={{
-          departureDate: dateOrEmpty(startTime, refTime),
-          departureTime,
-          arrivalDate: dateOrEmpty(endTime, refTime),
-          arrivalTime,
-          firstDeparture: vehicleNames.length && firstDeparture && (
-            <FormattedMessage
-              id={firstDepartureLabelId}
-              values={{
-                vehicle: vehicleNames[0],
-                departureTime: legTimeStr(firstDeparture.start),
-                firstDepartureTime: legTimeStr(firstDeparture.start), // vehicle rental start time
-                stopName: stopNames[0],
-                firstDepartureStop: stopNames[0], // vehicle rental stop name
-                platformOrTrack: getBoardingInformationText(
-                  firstDeparture,
-                  intl,
-                ),
-              }}
-            />
-          ),
-          transfers: vehicleNames.map((name, index) => {
-            if (index === 0) {
-              return null;
-            }
-            return formatMessage(
-              {
-                id: stopNames[index]
-                  ? 'itinerary-summary-row.transfers'
-                  : 'itinerary-summary-row.transfers-to-rental',
-              },
-              {
-                vehicle: name,
-                stopName: stopNames[index],
-              },
-            );
-          }),
-          totalTime: <Duration duration={duration} />,
-        }}
-      />
-    );
+  if (firstDepartureWithRentals?.rentedBike) {
+    firstDeparture = firstDepartureWithRentals;
+    firstDepartureLabelId =
+      firstDeparture?.mode === LegMode.Scooter
+        ? 'itinerary-summary-row.first-leg-start-time-scooter'
+        : 'itinerary-summary-row.first-leg-start-time-citybike';
+  } else if (firstDeparture?.mode === LegMode.Taxi) {
+    firstDepartureLabelId = 'itinerary-summary-row.first-leg-start-time-taxi';
   }
+
+  const summaryDescription = (
+    <div className="sr-only" key="screenReader">
+      {getSummaryDescriptionText(intl, {
+        hasCallAgencyLeg,
+        startTime,
+        endTime,
+        refTime,
+        departureTime,
+        arrivalTime,
+        vehicleNames,
+        firstDeparture,
+        firstDepartureLabelId,
+        stopNames,
+        duration,
+        firstDepartureTime: firstDeparture
+          ? legTimeStr(firstDeparture.start)
+          : '',
+        platformOrTrack: getBoardingInformationText(firstDeparture, intl),
+      })}
+    </div>
+  );
   const co2summary = (
     <FormattedMessage
       id="itinerary-co2.description-simple"
@@ -912,7 +872,19 @@ const Itinerary = ({
   }, [itineraryContainerOverflowRef]);
 
   return (
-    <div role="listitem" className={classes} aria-atomic="true">
+    <div
+      role="listitem"
+      className={cx([
+        'itinerary-summary-row',
+        'cursor-pointer',
+        {
+          passive,
+          'bp-large': breakpoint === 'large',
+          'no-border': hideSelectionIndicator,
+        },
+      ])}
+      aria-atomic="true"
+    >
       <div className="sr-only">
         <FormattedMessage
           id="summary-page.row-label"
@@ -920,7 +892,7 @@ const Itinerary = ({
             number: props.hash + 1,
           }}
         />
-        {textSummary}
+        {summaryDescription}
         {showCo2Info && co2summary}
       </div>
       <div

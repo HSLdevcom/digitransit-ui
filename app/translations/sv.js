@@ -330,6 +330,8 @@ export default {
       'Avgång kl {firstDepartureTime} från {firstDepartureStop} stadscykelstation',
     'itinerary-summary-row.first-leg-start-time-scooter':
       'Avgång kl {firstDepartureTime} med en sparkcykel',
+    'itinerary-summary-row.first-leg-start-time-taxi':
+      'Avgång kl {firstDepartureTime} med taxi från {firstDepartureStop}',
     'itinerary-summary-row.no-transit-legs': 'Avgå när det passar för dig',
     'itinerary-summary-row.transfers':
       'Byte {vehicle} vid hållplats {stopName}',

@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon';
+import { DateTime, Duration } from 'luxon';
 
 export const TIME_PATTERN = 'HH:mm';
 export const DATE_PATTERN = 'ccc d.L.';
@@ -242,4 +242,17 @@ export function timeStr(dateTime) {
  */
 export function epochToIso(ms) {
   return DateTime.fromMillis(ms).toISO();
+}
+
+/**
+ * Returns a localized short-form duration string using Luxon.
+ * @param {number} durationMs Duration in milliseconds
+ * @param {string} locale BCP 47 locale string (e.g. 'fi', 'en', 'sv')
+ * @returns {string} e.g. "30 min", "1 hr, 30 min", "1 t ja 30 min"
+ */
+export function getDurationText(durationMs, locale) {
+  return Duration.fromMillis(durationMs, { locale })
+    .shiftTo('hours', 'minutes')
+    .rescale()
+    .toHuman({ unitDisplay: 'short' });
 }

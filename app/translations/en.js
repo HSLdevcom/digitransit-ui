@@ -333,6 +333,8 @@ export default {
       'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
     'itinerary-summary-row.first-leg-start-time-scooter':
       'Departure at {firstDepartureTime} by a scooter',
+    'itinerary-summary-row.first-leg-start-time-taxi':
+      'Departure at {firstDepartureTime} by taxi from {firstDepartureStop}',
     'itinerary-summary-row.no-transit-legs': 'Leave when it suits you',
     'itinerary-summary-row.transfers':
       'Transfer to {vehicle} on stop {stopName}',
