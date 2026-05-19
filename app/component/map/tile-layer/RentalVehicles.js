@@ -190,8 +190,8 @@ class RentalVehicles {
   featureWithGeom = clusterFeature => {
     // Convert the cluster's lat/lon to x/y
     const point = this.tile.latLngToPoint(
-      clusterFeature.geometry.coordinates[0],
       clusterFeature.geometry.coordinates[1],
+      clusterFeature.geometry.coordinates[0],
     );
     return {
       ...clusterFeature,
