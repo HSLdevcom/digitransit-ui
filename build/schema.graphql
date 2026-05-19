@@ -3906,6 +3906,12 @@ enum RoutingErrorCode {
   """
   LOCATION_NOT_FOUND
   """
+  No usable itineraries were found for the requested direct mode (e.g. walking, cycling, car, flex)
+  and no transit modes were included in the search. This is returned both when no route exists and
+  when routes were found but didn't pass quality filters.
+  """
+  NO_DIRECT_MODE_CONNECTION
+  """
   No stops are reachable from the start or end locations specified.
     
   You can try searching using a different access or egress mode, for example cycling instead of walking,
@@ -4553,6 +4559,18 @@ input InputUnpreferred {
   useUnpreferredRoutesPenalty: Int @deprecated(reason : "Use unpreferredCost instead")
 }
 
+"""
+A generalized linear cost function that can be applied to a cost value.
+The coefficient is used to scale the input Cost linearly and the constant is used
+to add a fixed offset. If we assume a cost c, then f(c) = coefficient * c + constant.
+"""
+input LinearCostFunctionInput {
+  "The coefficient that scales the Cost input linearly."
+  coefficient: Float!
+  "The 0th degree constant of the function as a Cost, must be a non-negative integer"
+  constant: Cost!
+}
+
 "Filters an entity by a date range."
 input LocalDateRangeInput {
   """
@@ -5077,6 +5095,23 @@ input TransitPreferencesInput {
   an AND-condition.
   """
   filters: [TransitFilterInput!]
+  """
+  Relax generalized-cost when comparing itineraries with a different set of
+  transit-group-priorities. The groups are set server side for routes and
+  can not be configured in the API.
+    
+  This relaxes the comparison inside the routing engine for each stop-arrival. If two
+  paths have a different set of transit-group-priorities, then the generalized-cost
+  comparison is relaxed. The final set of paths are filtered through the normal
+  itinerary-filters.
+    
+  A relax-cost is used to increase the limit when comparing one cost to another cost
+  using a linear function applied to the generalized cost.
+  This is used to include more results into the result. A `coefficient=2.0` means a path (itinerary)
+  with twice as high cost as another one, is accepted. A `constant=300` means a "fixed"
+  constant is added to the limit.
+  """
+  relaxTransitGroupPriority: LinearCostFunctionInput
   "Preferences related to cancellations and real-time."
   timetable: TimetablePreferencesInput
   "Preferences related to transfers between transit vehicles (typically between stops)."

@@ -514,6 +514,9 @@ export function getPlanParams(
   const transferPenalty = relaxSettings
     ? defaultSettings.transferPenalty
     : settings.transferPenalty;
+
+  const { transitGroupRelaxFunction } = defaultSettings;
+
   const timeStr = (time ? DateTime.fromSeconds(+time) : DateTime.now()).toISO({
     suppressMilliseconds: true,
   });
@@ -537,6 +540,7 @@ export function getPlanParams(
     walkReluctance,
     walkBoardCost,
     transferPenalty,
+    transitGroupRelaxFunction,
     modes,
     planType,
     noIterationsForShortTrips,
