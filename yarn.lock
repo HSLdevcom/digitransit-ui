@@ -11313,9 +11313,9 @@ __metadata:
   linkType: hard
 
 "country-flag-icons@npm:^1.6.14":
-  version: 1.6.16
-  resolution: "country-flag-icons@npm:1.6.16"
-  checksum: 10/786deb57fc5cf7f8e61b2acb2e438ebc2a89ce72839dd01b175cda6015b723b518faca0a837a9c2957ce417454f287dbef0ac0a718064165728c13885767c3fe
+  version: 1.6.17
+  resolution: "country-flag-icons@npm:1.6.17"
+  checksum: 10/47b2b31e93e2280eeb92f611368dbebea3d817eb9abbe31761ecc8435d5dd79ceb35edb2d8b1e9c222a1d2fcfa5e650fce941e3fb2fe0ac2c85eab1517c5d5ea
   languageName: node
   linkType: hard
 
@@ -19196,9 +19196,9 @@ __metadata:
   linkType: hard
 
 "libphonenumber-js@npm:^1.12.37":
-  version: 1.12.41
-  resolution: "libphonenumber-js@npm:1.12.41"
-  checksum: 10/6819b26db24063a0cedd7cb5523b67182c71b9d92b7c29205088b5b8be0303810ee2a554527ca7d084caa0f8934dca24cb435228b606368f434e83170e149973
+  version: 1.13.0
+  resolution: "libphonenumber-js@npm:1.13.0"
+  checksum: 10/7d1800f8497e1bb366b03ffed8dae70cee04d2f1ff74864226143c3c7d62fcaf86b06d3df7bdc77fe1e675338b7e7f983df676834c6a51a311eb9484d4a7e339
   languageName: node
   linkType: hard
 
@@ -24556,7 +24556,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-animate-height@npm:^3.2.2, react-animate-height@npm:^3.2.3":
+"react-animate-height@npm:^3.2.2":
+  version: 3.2.4
+  resolution: "react-animate-height@npm:3.2.4"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10/f63c9470ee53417f0a1b28e5f6cf1025d18514c3a61b6fe70abf598199b09976bb66101dd4dd79573c78fc7e77f330995bc1324a8e16e7d4da8cedce25f484c1
+  languageName: node
+  linkType: hard
+
+"react-animate-height@npm:^3.2.3":
   version: 3.2.3
   resolution: "react-animate-height@npm:3.2.3"
   peerDependencies:
@@ -29507,11 +29517,11 @@ __metadata:
   linkType: hard
 
 "uuid@npm:^13.0.0":
-  version: 13.0.0
-  resolution: "uuid@npm:13.0.0"
+  version: 13.0.2
+  resolution: "uuid@npm:13.0.2"
   bin:
     uuid: dist-node/bin/uuid
-  checksum: 10/2742b24d1e00257e60612572e4d28679423469998cafbaf1fe9f1482e3edf9c40754b31bfdb3d08d71b29239f227a304588f75210b3b48f2609f0673f1feccef
+  checksum: 10/567dddca18a8520796dd3cd1e4513f4c7c522f25602c15381615395d60c7892f330366680fc21373f19fb83c991f3da8413f57dbd85bf976069cf0818aa6c61c
   languageName: node
   linkType: hard
 

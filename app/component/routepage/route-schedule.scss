@@ -3,7 +3,8 @@
 
 // ─── Timetable tabpanel (flex column root for the schedule view) ─────────────
 
-.route-timetable-panel {
+.route-timetable-panel,
+.route-disruption-panel {
   display: flex;
   flex-direction: column;
   flex: 1 0;

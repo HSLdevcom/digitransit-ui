@@ -17,9 +17,7 @@ require.extensions['.css'] = () => {};
 // eslint-disable-next-line import/no-commonjs
 const Module = require('module');
 
-// eslint-disable-next-line no-underscore-dangle
 const originalLoad = Module._load;
-// eslint-disable-next-line no-underscore-dangle
 Module._load = function interceptEsmPackages(request, ...args) {
   if (request === '@hsl-fi/dialog') {
     // Named arrow functions so Enzyme can match by displayName / function.name
@@ -50,6 +48,7 @@ Module._load = function interceptEsmPackages(request, ...args) {
       },
     );
   }
+  // Fallback: stub any other @hsl-fi/* package generically
   if (request.startsWith('@hsl-fi/')) {
     // Generic catch-all for other @hsl-fi/* packages
     return new Proxy(

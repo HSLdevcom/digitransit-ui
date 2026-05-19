@@ -90,6 +90,7 @@ function RoutePage({
   const matchingNotification = config.routeNotifications?.find(n =>
     n.showForRoute?.(route),
   );
+
   return (
     <div className="route-page-container">
       <div className="header-for-printing">

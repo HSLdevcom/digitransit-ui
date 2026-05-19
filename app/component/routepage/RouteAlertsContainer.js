@@ -87,7 +87,17 @@ function RouteAlertsContainer({ currentTime, route, pattern }) {
   );
 
   return (
-    <DisruptionList cancelations={cancelations} serviceAlerts={serviceAlerts} />
+    <div
+      id="route-disruption-panel"
+      className="route-disruption-panel"
+      role="tabpanel"
+      aria-labelledby="route-disruption-tab"
+    >
+      <DisruptionList
+        cancelations={cancelations}
+        serviceAlerts={serviceAlerts}
+      />
+    </div>
   );
 }
 

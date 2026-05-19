@@ -97,7 +97,7 @@ function RoutePatternSelectContainer({
       } else {
         // For alphanumeric routes like "23A", search by the numeric base "23"
         const searchName = Number.isNaN(Number(route.shortName))
-          ? route.shortName.replace(/\D/g, '')
+          ? route.shortName?.replace(/\D/g, '')
           : route.shortName;
 
         if (!searchName) {
