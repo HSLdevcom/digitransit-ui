@@ -75,8 +75,8 @@ export default {
     EMBEDDED_SEARCH_GENERATION: '/reittiopas-elementti',
     EMISSIONS_INFO: {
       fi: 'https://www.hsl.fi/hsl/sahkobussit/ymparisto-lukuina',
-      sv: 'https://www.hsl.fi/sv/reseplaneraren_co2',
-      en: 'https://www.hsl.fi/en/journey_planner_co2',
+      sv: 'https://www.hsl.fi/sv/hrt/sahkobussit/ymparisto-lukuina',
+      en: 'https://www.hsl.fi/en/hsl/electric-buses/environmental-performance-in-figures',
     },
     HOLIDAYS_AND_EXCEPTIONS: {
       fi: 'https://www.hsl.fi/matkustaminen/juhlapyhat-ja-poikkeusaikataulut',

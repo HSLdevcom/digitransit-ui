@@ -100,21 +100,16 @@ export default {
     cancel: 'Cancel',
     canceled: 'Canceled',
     'capacity-modal.crushed-standing-room-only-body':
-      'Only a little standing room available',
-    'capacity-modal.crushed-standing-room-only-heading': 'Very crowded',
+      'Only limited standing room available',
     'capacity-modal.few-seats-available-body': 'Some seats available',
-    'capacity-modal.few-seats-available-heading': 'Not too crowded',
     'capacity-modal.full-capacity-body': 'No seats or standing room available',
-    'capacity-modal.full-capacity-heading': 'Full',
-    'capacity-modal.heading': 'Is there room in the vehicle?',
+    'capacity-modal.heading': 'Is there room on board?',
     'capacity-modal.legend': 'Legend for the symbols',
     'capacity-modal.many-seats-available-body': 'Plenty of seats available',
-    'capacity-modal.many-seats-available-heading': 'Not crowded',
     'capacity-modal.standing-room-only-body':
-      'Only a few seats and little standing room available',
-    'capacity-modal.standing-room-only-heading': 'Nearly full',
+      'Only a few seats and limited standing room available',
     'capacity-modal.subheading':
-      'Real-time capacity information is available for some vehicles',
+      'A real-time capacity estimate is available for some vehicles',
     car: 'Car',
     'car-distance-duration': 'Drive {duration} ({distance})',
     'car-distance-no-duration': 'Drive {distance}',
@@ -284,7 +279,7 @@ export default {
       '{co2value} g of carbondioxide emissions will be generated on this journey.',
     'itinerary-co2.description-sr':
       '{co2value} g of carbondioxide emissions will be generated on this journey. A car would generate {carCo2Value} g of carbondioxide on the same journey.',
-    'itinerary-co2.link': 'This is how we reduce emissions ›',
+    'itinerary-co2.link': 'How are emissions calculated ›',
     'itinerary-co2.title': 'CO₂ emissions of the journey',
     'itinerary-co2.title-sr': 'Carbondioxide emissions of the journey',
     'itinerary-details.biking-leg':

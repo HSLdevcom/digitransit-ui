@@ -95,20 +95,15 @@ export default {
     canceled: 'Peruttu',
     'capacity-modal.crushed-standing-room-only-body':
       'Vain vähän seisomapaikkoja',
-    'capacity-modal.crushed-standing-room-only-heading': 'Kova tungos',
-    'capacity-modal.few-seats-available-body': 'Joitain istumapaikkoja',
-    'capacity-modal.few-seats-available-heading': 'Ei liikaa tungosta',
+    'capacity-modal.few-seats-available-body': 'Joitakin istumapaikkoja',
     'capacity-modal.full-capacity-body': 'Ei vapaita paikkoja',
-    'capacity-modal.full-capacity-heading': 'Täynnä',
     'capacity-modal.heading': 'Onko kulkuneuvossa tilaa?',
     'capacity-modal.legend': 'Merkkien selitteet',
     'capacity-modal.many-seats-available-body': 'Paljon istumapaikkoja',
-    'capacity-modal.many-seats-available-heading': 'Ei tungosta',
     'capacity-modal.standing-room-only-body':
       'Vain vähän istuma- ja seisomapaikkoja',
-    'capacity-modal.standing-room-only-heading': 'Lähes täynnä',
     'capacity-modal.subheading':
-      'Osasta kulkuneuvoja on saatavilla reaaliaikainen kapasiteettitieto',
+      'Osasta kulkuneuvoja on saatavilla reaaliaikainen arvio paikkatilanteesta',
     car: 'Auto',
     'car-distance-duration': 'Autoile {duration} ({distance})',
     'car-distance-no-duration': 'Autoile {distance}',
@@ -277,7 +272,7 @@ export default {
       'Tämän matkan hiilidioksidipäästöt ovat {co2value} g.',
     'itinerary-co2.description-sr':
       'Tämän matkan hiilidioksidipäästöt ovat {co2value} g. Autolla kuljettuna ne olisivat olleet {carCo2Value} g.',
-    'itinerary-co2.link': 'Näin vähennämme päästöjä ›',
+    'itinerary-co2.link': 'Näin toteutamme päästölaskentaa ›',
     'itinerary-co2.title': 'Matkan CO₂-päästöt',
     'itinerary-co2.title-sr': 'Matkan hiilidioksidipäästöt',
     'itinerary-details.biking-leg':

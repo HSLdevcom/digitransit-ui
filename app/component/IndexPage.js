@@ -399,6 +399,7 @@ function IndexPage(props, context) {
                 }${config.trafficNowLink[lang]}`;
               }}
               href={trafficNowHref}
+              lang={language}
             />
           )}
           {trafficNowTest && <TrafficNowLinkNew />}
@@ -447,6 +448,7 @@ function IndexPage(props, context) {
                 }${config.trafficNowLink[lang]}`;
               }}
               href={trafficNowHref}
+              lang={language}
             />
           )}
           {trafficNowTest && <TrafficNowLinkNew />}

@@ -64,7 +64,7 @@ export default function Emissions({
                   >
                     <FormattedMessage
                       id="itinerary-co2.link"
-                      defaultMessage="Näin vähennämme päästöjä ›"
+                      defaultMessage="Näin toteutamme päästölaskentaa ›"
                     />
                   </a>
                 )}
