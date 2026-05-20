@@ -401,7 +401,7 @@ export default {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/hsl_zone_lines_20190508.geojson',
+        url: '/assets/geojson/hsl_zone_lines_20251013.geojson',
       },
     ],
   },
