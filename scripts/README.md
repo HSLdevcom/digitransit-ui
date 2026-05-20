@@ -15,15 +15,19 @@ source ui.sh
 ```
 ### Usage examples
 
-Using remote instance of OTP with subscription key:
+Using the UI with the development API:
 ```
-SUBSCRIPTION_KEY=<your_subscription_key> ui hsl
+DEV_SUBSCRIPTION_KEY=<your_subscription_key> uidev hsl
 ```
-Using local instance of OTP on port `9080`:
+Using the UI with the production API:
 ```
-SUBSCRIPTION_KEY=<your_subscription_key> uiotp matka
+SUBSCRIPTION_KEY=<your_subscription_key> uiprod hsl
+```
+Using the UI with a local instance of OTP on port `9080`:
+```
+DEV_SUBSCRIPTION_KEY=<your_subscription_key> uilocal matka
 ```
 In case you do not need features usable with a subscription key when running a local instance of OTP on port `9080`:
 ```
-NO_SUBSCRIPTION_KEY=true uiotp matka
+NO_SUBSCRIPTION_KEY=true uilocal matka
 ```

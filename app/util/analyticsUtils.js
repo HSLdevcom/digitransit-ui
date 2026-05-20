@@ -1,5 +1,5 @@
 import Cookies from 'universal-cookie';
-import { PREFIX_ITINERARY_SUMMARY } from './path';
+import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from './path';
 
 /**
  * This file contains functions for UI analytics.
@@ -23,6 +23,53 @@ export function addAnalyticsEvent(event) {
     }
     window.dataLayer.push(newEvent);
   }
+}
+
+/**
+ * Builds an inline CE2 survey script tag.
+ *
+ * @param {object} surveyIds - Map of language code → Crazy Egg survey UUID.
+ *   Only languages explicitly listed will trigger a survey; no fallback is applied.
+ *   e.g. `{ fi: 'uuid-fi', sv: 'uuid-sv', en: 'uuid-en' }`
+ * @param {object} [options]
+ * @param {string} [options.language] - Current user language (from the lang cookie). If the
+ *   language is not a key in surveyIds, no script is generated.
+ * @param {string} [options.pathPrefix] - Only show when pathname includes this value
+ * @param {number} [options.surveyShare] - Modulo divisor for sampling (e.g. 250 → ~0.4% of visits)
+ * @param {number} [options.delay] - Milliseconds to wait before showing the survey
+ * @param {boolean} [options.mobileChecks] - Skip survey when mobile overlays are open
+ * @return {string} - HTML script tag string, or '' if no survey ID matches the language
+ */
+export function buildCrazyEggSurveyScript(surveyIds, options = {}) {
+  const { language, pathPrefix, surveyShare, delay, mobileChecks } = options;
+
+  const surveyId = surveyIds[language];
+  if (!surveyId) {
+    return '';
+  }
+
+  const pathCheck = pathPrefix
+    ? `window.location.pathname.includes("${pathPrefix}")`
+    : null;
+  const samplingCheck = surveyShare
+    ? `(Math.floor(Date.now()/1000)%${surveyShare})===0`
+    : null;
+  const outerCondition = [pathCheck, samplingCheck].filter(Boolean).join('&&');
+
+  const mobileGuard = mobileChecks
+    ? `if(!document.getElementsByClassName('offcanvas-mobile')[0]&&!document.getElementById('digitransit-mobile-datetime')){CE2.showSurvey("${surveyId}")};`
+    : `CE2.showSurvey("${surveyId}");`;
+
+  let inner;
+  if (delay) {
+    inner = `setTimeout(()=>{${mobileGuard}},${delay});`;
+  } else {
+    inner = mobileGuard;
+  }
+
+  const body = outerCondition ? `if(${outerCondition}){${inner}}` : inner;
+
+  return `<script type="text/javascript">(window.CE_API||(window.CE_API=[])).push(function(){${body}});</script>`;
 }
 
 /**
@@ -64,28 +111,43 @@ export function getAnalyticsInitCode(config, req) {
     }
     if (config.crazyEgg) {
       const surveyShare = process.env.SURVEY_SHARE || 250;
-
+      const surveyStartupDelay = 8000;
       const lang = cookies.get('lang');
-      let id;
-      switch (lang) {
-        case 'sv':
-          id = 'dd11434b-5a93-4daa-905e-3198ac502d1e';
-          break;
-        case 'en':
-          id = 'd2ffe981-45a8-43b9-aa1b-68e100aa1c12';
-          break;
-        default:
-          id = '470215ef-c02e-4123-a9de-2792c0fcaf97';
-          break;
-      }
-      const ce1 =
+      const ceBase =
         '<script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0030/3436.js" async="async" ></script>';
-      // show survey conditions for certain share of page loads:
+      // Show survey conditions for certain share of page loads:
       // - only in itinerary page
       // - after 8 s delay
       // - not when mobile time picker or mobile settings are open
-      const ce2 = `<script type="text/javascript">(window.CE_API||(window.CE_API=[])).push(function(){if(window.location.pathname.includes("${PREFIX_ITINERARY_SUMMARY}")&&(Math.floor(Date.now()/1000)%${surveyShare})===0){setTimeout(()=>{if(!document.getElementsByClassName('offcanvas-mobile')[0]&&!document.getElementById('digitransit-mobile-datetime')){CE2.showSurvey("${id}")};},8000);}});</script>`;
-      script = `${script}${ce1}${ce2}`;
+      const ceItineraryPage = buildCrazyEggSurveyScript(
+        {
+          fi: '470215ef-c02e-4123-a9de-2792c0fcaf97',
+          sv: 'dd11434b-5a93-4daa-905e-3198ac502d1e',
+          en: 'd2ffe981-45a8-43b9-aa1b-68e100aa1c12',
+        },
+        {
+          language: lang,
+          pathPrefix: PREFIX_ITINERARY_SUMMARY,
+          surveyShare,
+          delay: surveyStartupDelay,
+          mobileChecks: true,
+        },
+      );
+      // Show survey conditions for certain share of page loads:
+      // - only in route page
+      // - after 8 s delay
+      // - not when mobile time picker or mobile settings are open
+      const ceRoutePage = buildCrazyEggSurveyScript(
+        { fi: '712691e8-45fb-47c3-8bbe-a293ce1e47fe' },
+        {
+          language: lang,
+          pathPrefix: PREFIX_ROUTES,
+          surveyShare,
+          delay: surveyStartupDelay,
+          mobileChecks: true,
+        },
+      );
+      script = `${script}${ceBase}${ceItineraryPage}${ceRoutePage}`;
     }
   }
   return script;
