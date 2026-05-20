@@ -41,12 +41,12 @@ import {
 
 function ItineraryLine({
   legs,
-  passive,
-  hash,
-  showIntermediateStops,
-  showDurationBubble,
+  passive = false,
+  hash = 0,
+  showIntermediateStops = false,
+  showDurationBubble = false,
   streetMode,
-  realtimeTransfers,
+  realtimeTransfers = false,
   leaflet,
 }) {
   const config = useConfigContext();
@@ -500,15 +500,6 @@ ItineraryLine.propTypes = {
       off: PropTypes.func.isRequired,
     }).isRequired,
   }).isRequired,
-};
-
-ItineraryLine.defaultProps = {
-  hash: 0,
-  passive: false,
-  streetMode: undefined,
-  showIntermediateStops: false,
-  showDurationBubble: false,
-  realtimeTransfers: false,
 };
 
 export default withLeaflet(ItineraryLine);

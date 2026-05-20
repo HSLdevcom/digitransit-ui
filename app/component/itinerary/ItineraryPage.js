@@ -1189,12 +1189,7 @@ export default function ItineraryPage(props, context) {
         });
       }
     }
-  }, [
-    combinedMainState,
-    relaxMainState,
-    combinedExternalRelaxState,
-    settingsState.settingsChanged,
-  ]);
+  }, [combinedMainState, relaxMainState, combinedExternalRelaxState]);
 
   const setMWTRef = ref => {
     mwtRef.current = ref;
