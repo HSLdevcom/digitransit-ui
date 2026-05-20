@@ -15,8 +15,6 @@ export const planConnection = graphql`
     $transferPenalty: Cost
     $transitGroupRelaxFunction: LinearCostFunctionInput
     $bikeSpeed: Speed
-    $bikeReluctance: Reluctance
-    $bikeBoardCost: Cost
     $allowedRentalNetworks: [String!]
     $after: String
     $first: Int
@@ -42,8 +40,6 @@ export const planConnection = graphql`
         street: {
           bicycle: {
             speed: $bikeSpeed
-            reluctance: $bikeReluctance
-            boardCost: $bikeBoardCost
             rental: { allowedNetworks: $allowedRentalNetworks }
           }
           scooter: { rental: { allowedNetworks: $allowedRentalNetworks } }
