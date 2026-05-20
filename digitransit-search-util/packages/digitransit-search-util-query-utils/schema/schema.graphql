@@ -1788,7 +1788,7 @@ type QueryType {
     If the value is set to be 0, safety is ignored. Default is 1.0.
     """
     walkSafetyFactor: Float,
-    "Max walk speed along streets, in meters per second. Default value: 1.33"
+    "Max walk speed along streets, in meters per second. Default value: 1.35"
     walkSpeed: Float,
     "Whether the itinerary must be wheelchair accessible. Default value: false"
     wheelchair: Boolean
