@@ -24,7 +24,7 @@ export default function StreetModeSelectorButton(
   if (!itinerary) {
     return null;
   }
-  const duration = durationToString(itinerary.duration * 1000);
+  const duration = durationToString(intl, itinerary.duration * 1000);
   let distance = 0;
   switch (name) {
     case streetHash.walk:

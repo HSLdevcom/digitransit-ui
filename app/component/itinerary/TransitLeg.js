@@ -328,7 +328,7 @@ class TransitLeg extends React.Component {
               { zone: leg.to.stop.zoneId },
             ),
             endStop: validatedToLegName,
-            duration: durationToString(leg.duration * 1000),
+            duration: durationToString(intl, leg.duration * 1000),
             trackInfo: getBoardingInformationText(leg, intl, false),
           }}
         />

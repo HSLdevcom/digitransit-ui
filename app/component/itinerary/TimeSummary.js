@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from '../Icon';
 import { durationToString, timeStr } from '../../util/timeUtils';
 
 export default function TimeSummary(props) {
-  const duration = durationToString(props.duration * 1000);
+  const intl = useIntl();
+  const duration = durationToString(intl, props.duration * 1000);
   const startTime = timeStr(props.startTime);
   const endTime = timeStr(props.endTime);
   const futureText = props.futureText

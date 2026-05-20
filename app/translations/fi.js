@@ -321,6 +321,8 @@ export default {
       'Lähtö klo {firstDepartureTime} kaupunkipyöräasemalta {firstDepartureStop}',
     'itinerary-summary-row.first-leg-start-time-scooter':
       'Lähtö klo {firstDepartureTime} sähköpotkulaudalla',
+    'itinerary-summary-row.first-leg-start-time-taxi':
+      'Lähtö klo {firstDepartureTime} taksilla kohteesta {firstDepartureStop}',
     'itinerary-summary-row.no-transit-legs': 'Lähde, kun sinulle sopii',
     'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
     'itinerary-summary-row.transfers-to-rental': 'Vaihto {vehicle}',

@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import Supercluster from 'supercluster';
 import { withLeaflet } from 'react-leaflet';
 import polyUtil from 'polyline-encoded';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import { getMiddleOf } from '../../util/geo-utils';
 import {
   getInterliningLegs,
@@ -13,8 +14,9 @@ import {
   isLocalCallAgency,
 } from '../../util/legUtils';
 import { getTripOrRouteMode } from '../../util/modeUtils';
-import { configShape, legShape } from '../../util/shapes';
+import { legShape } from '../../util/shapes';
 import { durationToString } from '../../util/timeUtils';
+import { useConfigContext } from '../../configurations/ConfigContext';
 import Line from './Line';
 import StopMarker from './non-tile-layer/StopMarker';
 import TransitLegMarkers from './non-tile-layer/TransitLegMarkers';
@@ -37,52 +39,38 @@ import {
   isVerticalTransportationUse,
 } from '../../util/indoorUtils';
 
-class ItineraryLine extends React.Component {
-  static contextTypes = {
-    config: configShape.isRequired,
-  };
+function ItineraryLine({
+  legs,
+  passive = false,
+  hash = 0,
+  showIntermediateStops = false,
+  showDurationBubble = false,
+  streetMode,
+  realtimeTransfers = false,
+  leaflet,
+}) {
+  const config = useConfigContext();
+  const intl = useIntl();
+  const [zoom, setZoom] = useState(() => leaflet.map.getZoom());
 
-  static propTypes = {
-    legs: PropTypes.arrayOf(legShape).isRequired,
-    passive: PropTypes.bool,
-    hash: PropTypes.number,
-    showIntermediateStops: PropTypes.bool,
-    showDurationBubble: PropTypes.bool,
-    streetMode: PropTypes.string,
-    realtimeTransfers: PropTypes.bool,
-    leaflet: PropTypes.shape({
-      map: PropTypes.shape({
-        getZoom: PropTypes.func.isRequired,
-        on: PropTypes.func.isRequired,
-        off: PropTypes.func.isRequired,
-      }).isRequired,
-    }).isRequired,
-  };
+  // TODO when we upgrade to react-leaflet v3 and react v17, this should be changed.
+  useEffect(() => {
+    const onMapZoom = () => setZoom(leaflet.map.getZoom());
+    leaflet.map.on('zoomend', onMapZoom);
+    return () => leaflet.map.off('zoomend', onMapZoom);
+  }, [leaflet.map]);
 
-  static defaultProps = {
-    hash: 0,
-    passive: false,
-    streetMode: undefined,
-    showIntermediateStops: false,
-    showDurationBubble: false,
-    realtimeTransfers: false,
-  };
-
-  state = {
-    zoom: this.props.leaflet.map.getZoom(),
-  };
-
-  checkStreetMode(leg) {
-    if (this.props.streetMode === 'walk') {
+  function checkStreetMode(leg) {
+    if (streetMode === 'walk') {
       return leg.mode === 'WALK';
     }
-    if (this.props.streetMode === 'bike') {
+    if (streetMode === 'bike') {
       return leg.mode === 'BICYCLE';
     }
     return false;
   }
 
-  handleEntrance(
+  function handleEntrance(
     leg,
     nextLeg,
     mode,
@@ -112,11 +100,7 @@ class ItineraryLine extends React.Component {
       0,
     );
 
-    if (
-      entranceCoordinates[0] &&
-      entranceCoordinates[1] &&
-      !this.props.passive
-    ) {
+    if (entranceCoordinates[0] && entranceCoordinates[1] && !passive) {
       clusterObjs.push({
         lat: entranceCoordinates[0],
         lon: entranceCoordinates[1],
@@ -137,32 +121,32 @@ class ItineraryLine extends React.Component {
     objs.push(
       <Line
         color={leg.route && leg.route.color ? `#${leg.route.color}` : null}
-        key={`${this.props.hash}_${i}_${mode}_0`}
+        key={`${hash}_${i}_${mode}_0`}
         geometry={geometry.slice(0, entranceIndex + 1)}
         mode={
           indoorLegType === IndoorLegType.StepsBeforeEntranceInside
             ? 'walk-inside'
             : 'walk'
         }
-        passive={this.props.passive}
+        passive={passive}
       />,
     );
     objs.push(
       <Line
         color={leg.route && leg.route.color ? `#${leg.route.color}` : null}
-        key={`${this.props.hash}_${i}_${mode}_1`}
+        key={`${hash}_${i}_${mode}_1`}
         geometry={geometry.slice(entranceIndex)}
         mode={
           indoorLegType === IndoorLegType.StepsAfterEntranceInside
             ? 'walk-inside'
             : 'walk'
         }
-        passive={this.props.passive}
+        passive={passive}
       />,
     );
   }
 
-  handleLine(
+  function handleLine(
     previousLeg,
     leg,
     nextLeg,
@@ -176,7 +160,7 @@ class ItineraryLine extends React.Component {
     const entranceObject = getEntranceObject(previousLeg, leg);
     const indoorLegType = getIndoorLegType(previousLeg, leg, nextLeg);
     if (indoorLegType !== IndoorLegType.NoStepsInside) {
-      this.handleEntrance(
+      handleEntrance(
         leg,
         nextLeg,
         mode,
@@ -191,25 +175,22 @@ class ItineraryLine extends React.Component {
       objs.push(
         <Line
           color={leg.route && leg.route.color ? `#${leg.route.color}` : null}
-          key={`${this.props.hash}_${i}_${mode}`}
+          key={`${hash}_${i}_${mode}`}
           geometry={geometry}
           mode={mode}
-          passive={this.props.passive}
+          passive={passive}
           appendClass={appendClass}
         />,
       );
     }
   }
 
-  handleDurationBubble(leg, mode, i, objs, middle) {
-    if (
-      this.props.showDurationBubble ||
-      (this.checkStreetMode(leg) && leg.distance > 100)
-    ) {
-      const duration = durationToString(leg.duration * 1000);
+  function handleDurationBubble(leg, mode, i, objs, middle) {
+    if (showDurationBubble || (checkStreetMode(leg) && leg.distance > 100)) {
+      const duration = durationToString(intl, leg.duration * 1000);
       objs.push(
         <SpeechBubble
-          key={`speech_${this.props.hash}_${i}_${mode}`}
+          key={`speech_${hash}_${i}_${mode}`}
           position={middle}
           text={duration}
         />,
@@ -217,12 +198,8 @@ class ItineraryLine extends React.Component {
     }
   }
 
-  handleIntermediateStops(leg, mode, objs) {
-    if (
-      !this.props.passive &&
-      this.props.showIntermediateStops &&
-      leg.intermediatePlaces != null
-    ) {
+  function handleIntermediateStops(leg, mode, objs) {
+    if (!passive && showIntermediateStops && leg.intermediatePlaces != null) {
       leg.intermediatePlaces
         .filter(place => place.stop)
         .forEach(place =>
@@ -240,23 +217,21 @@ class ItineraryLine extends React.Component {
     }
   }
 
-  /**
-   * Add dynamic transit leg and transfer stop markers.
-   */
-  handleTransitLegMarkers(transitLegs, objs) {
-    if (!this.props.passive) {
+  /** Add dynamic transit leg and transfer stop markers. */
+  function handleTransitLegMarkers(transitLegs, objs) {
+    if (!passive) {
       objs.push(
         <TransitLegMarkers
           key="transitlegmarkers"
           transitLegs={transitLegs}
-          realtimeTransfers={this.props.realtimeTransfers}
+          realtimeTransfers={realtimeTransfers}
         />,
       );
     }
   }
 
-  handleIndoorStepMarkers(previousLeg, leg, nextLeg, clusterObjs) {
-    if (!this.props.passive) {
+  function handleIndoorStepMarkers(previousLeg, leg, nextLeg, clusterObjs) {
+    if (!passive) {
       const indoorSteps = getIndoorStepsWithVerticalTransportation(
         previousLeg,
         leg,
@@ -283,22 +258,9 @@ class ItineraryLine extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.props.leaflet.map.on('zoomend', this.onMapZoom);
-  }
-
-  componentWillUnmount() {
-    this.props.leaflet.map.off('zoomend', this.onMapZoom);
-  }
-
-  onMapZoom = () => {
-    const zoom = this.props.leaflet.map.getZoom();
-    this.setState({ zoom });
-  };
-
-  handleClusterObjects(previousLeg, leg, nextLeg, objs, clusterObjs) {
+  function handleClusterObjects(previousLeg, leg, nextLeg, objs, clusterObjs) {
     // Only display any objects at all if the zoom is above 13.
-    if (!this.props.passive && this.state.zoom > 13) {
+    if (!passive && zoom > 13) {
       const index = new Supercluster({
         radius: 60, // in pixels
         maxZoom: 15,
@@ -315,30 +277,20 @@ class ItineraryLine extends React.Component {
 
       index.load(createFeatureObjects(clusterObjs));
       const bbox = [-180, -85, 180, 85]; // Bounding box covers the entire world
-      // TODO Fix to use smaller bbox, probably requires moveend event listening?
-      // The same fix should also be applied to RentalVehicles where supercluster is also used.
-      //
-      //  const bounds = this.props.leaflet.map.getBounds();
-      //  const bbox = [
-      //    bounds.getWest(),
-      //    bounds.getSouth(),
-      //    bounds.getEast(),
-      //    bounds.getNorth(),
-      //  ];
-
-      const clusters = index.getClusters(bbox, this.state.zoom);
+      const clusters = index.getClusters(bbox, zoom);
       clusters.forEach(clusterFeature => {
+        // Confusingly geojson format uses [lon, lat] instead of [lat, lon] used elsewhere in this file.
         const { coordinates } = clusterFeature.geometry;
         const { properties } = clusterFeature;
         if (properties.cluster) {
           // Handle a cluster.
           objs.push(
             <ClusterNumberMarker
-              key={`clusternumbermarker_${coordinates[0]}_${coordinates[1]}_clusterId_${properties.cluster_id}`}
+              key={`clusternumbermarker_${coordinates[1]}_${coordinates[0]}_clusterId_${properties.cluster_id}`}
               number={properties.iconCount}
               position={{
-                lat: coordinates[0],
-                lon: coordinates[1],
+                lat: coordinates[1],
+                lon: coordinates[0],
               }}
             />,
           );
@@ -348,14 +300,14 @@ class ItineraryLine extends React.Component {
           if (properties.type === IndoorStepType.Entrance) {
             objs.push(
               <EntranceMarker
-                key={`entrance_${coordinates[0]}_${coordinates[1]}`}
+                key={`entrance_${coordinates[1]}_${coordinates[0]}`}
                 entranceAccessible={getEntranceWheelchairAccessibility(
                   previousLeg,
                   leg,
                 )}
                 position={{
-                  lat: coordinates[0],
-                  lon: coordinates[1],
+                  lat: coordinates[1],
+                  lon: coordinates[0],
                 }}
                 code={properties.code}
               />,
@@ -363,10 +315,10 @@ class ItineraryLine extends React.Component {
           } else if (isVerticalTransportationUse(properties.type)) {
             objs.push(
               <IndoorStepMarker
-                key={`indoorstepmarker_${coordinates[0]}_${coordinates[1]}`}
+                key={`indoorstepmarker_${coordinates[1]}_${coordinates[0]}`}
                 position={{
-                  lat: coordinates[0],
-                  lon: coordinates[1],
+                  lat: coordinates[1],
+                  lon: coordinates[0],
                 }}
                 index={properties.index}
                 indoorSteps={getIndoorStepsWithVerticalTransportation(
@@ -382,162 +334,172 @@ class ItineraryLine extends React.Component {
     }
   }
 
-  render() {
-    const objs = [];
-    const transitLegs = [];
+  const objs = [];
+  const transitLegs = [];
 
-    this.props.legs.forEach((leg, i) => {
-      const clusterObjs = [];
+  legs.forEach((leg, i) => {
+    const clusterObjs = [];
 
-      if (!leg || leg.mode === LegMode.Wait) {
-        return;
-      }
-      const nextLeg = this.props.legs[i + 1];
-      const previousLeg = this.props.legs[i - 1];
+    if (!leg || leg.mode === LegMode.Wait) {
+      return;
+    }
+    const nextLeg = legs[i + 1];
+    const previousLeg = legs[i - 1];
 
-      let mode = getTripOrRouteMode(
-        leg.trip,
-        {
-          mode: leg.mode,
-          type: leg.route?.type,
-          gtfsId: leg.route?.gtfsId,
-        },
-        this.context.config,
-      );
+    let mode = getTripOrRouteMode(
+      leg.trip,
+      {
+        mode: leg.mode,
+        type: leg.route?.type,
+        gtfsId: leg.route?.gtfsId,
+      },
+      config,
+    );
 
-      const [interliningLines, interliningLegs] = getInterliningLegs(
-        this.props.legs,
-        i,
-      );
+    const [interliningLines, interliningLegs] = getInterliningLegs(legs, i);
 
-      const interliningWithRoute = interliningLines.join(' / ');
+    const interliningWithRoute = interliningLines.join(' / ');
 
-      if (leg.rentedBike && leg.mode !== 'WALK' && leg.mode !== 'SCOOTER') {
-        mode = 'citybike';
-      }
+    if (leg.rentedBike && leg.mode !== 'WALK' && leg.mode !== 'SCOOTER') {
+      mode = 'citybike';
+    }
 
-      const geometry = polyUtil.decode(leg.legGeometry.points);
-      let middle = getMiddleOf(geometry);
-      let { to, end } = leg;
+    const geometry = polyUtil.decode(leg.legGeometry.points);
+    let middle = getMiddleOf(geometry);
+    let { to, end } = leg;
 
-      const rentalId =
-        leg.from.vehicleRentalStation?.stationId ||
-        leg.from.rentalVehicle?.vehicleId;
-      const rentalNetwork =
-        leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
-        leg.from.rentalVehicle?.rentalNetwork.networkId;
+    const rentalId =
+      leg.from.vehicleRentalStation?.stationId ||
+      leg.from.rentalVehicle?.vehicleId;
+    const rentalNetwork =
+      leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
+      leg.from.rentalVehicle?.rentalNetwork.networkId;
 
-      const appendClass = isLocalCallAgency(leg, this.context.config)
-        ? 'call-local'
-        : '';
+    const appendClass = isLocalCallAgency(leg, config) ? 'call-local' : '';
 
-      if (interliningLegs.length > 0) {
-        // merge the geometries of legs where user can wait in the vehicle and find the middle point
-        // of the new geometry
-        const points = interliningLegs
-          .map(iLeg => polyUtil.decode(iLeg.legGeometry.points))
-          .flat();
-        const interlinedGeometry = [...geometry, ...points];
-        middle = getMiddleOf(interlinedGeometry);
-        to = interliningLegs[interliningLegs.length - 1].to;
-        end = interliningLegs[interliningLegs.length - 1].end;
-      }
+    if (interliningLegs.length > 0) {
+      // merge the geometries of legs where user can wait in the vehicle and find the middle point
+      // of the new geometry
+      const points = interliningLegs
+        .map(iLeg => polyUtil.decode(iLeg.legGeometry.points))
+        .flat();
+      const interlinedGeometry = [...geometry, ...points];
+      middle = getMiddleOf(interlinedGeometry);
+      to = interliningLegs[interliningLegs.length - 1].to;
+      end = interliningLegs[interliningLegs.length - 1].end;
+    }
 
-      this.handleLine(
-        previousLeg,
-        leg,
-        nextLeg,
-        mode,
-        i,
-        geometry,
-        objs,
-        clusterObjs,
-        appendClass,
-      );
-      this.handleDurationBubble(leg, mode, i, objs, middle);
-      this.handleIntermediateStops(leg, mode, objs);
-      this.handleIndoorStepMarkers(previousLeg, leg, nextLeg, clusterObjs);
-      this.handleClusterObjects(previousLeg, leg, nextLeg, objs, clusterObjs);
+    handleLine(
+      previousLeg,
+      leg,
+      nextLeg,
+      mode,
+      i,
+      geometry,
+      objs,
+      clusterObjs,
+      appendClass,
+    );
+    handleDurationBubble(leg, mode, i, objs, middle);
+    handleIntermediateStops(leg, mode, objs);
+    handleIndoorStepMarkers(previousLeg, leg, nextLeg, clusterObjs);
+    handleClusterObjects(previousLeg, leg, nextLeg, objs, clusterObjs);
 
-      if (!this.props.passive) {
-        if (rentalId) {
-          objs.push(
-            <VehicleMarker
-              key={`${leg.from.lat}:${leg.from.lon}`}
-              showBikeAvailability={leg.mode === 'BICYCLE'}
-              rental={{
-                id: rentalId,
-                lat: leg.from.lat,
-                lon: leg.from.lon,
-                network: rentalNetwork,
-                vehiclesAvailable:
-                  leg.from.vehicleRentalStation?.vehiclesAvailable,
-              }}
-              mode={leg.mode}
-              transit
-            />,
-          );
-        } else if (leg.transitLeg && mode !== 'taxi-external') {
-          const name = getTripOrRouteText(
-            leg.trip,
-            leg.route,
-            this.context.config,
+    if (!passive) {
+      if (rentalId) {
+        objs.push(
+          <VehicleMarker
+            key={`${leg.from.lat}:${leg.from.lon}`}
+            showBikeAvailability={leg.mode === 'BICYCLE'}
+            rental={{
+              id: rentalId,
+              lat: leg.from.lat,
+              lon: leg.from.lon,
+              network: rentalNetwork,
+              vehiclesAvailable:
+                leg.from.vehicleRentalStation?.vehiclesAvailable,
+            }}
+            mode={leg.mode}
+            transit
+          />,
+        );
+      } else if (leg.transitLeg && mode !== 'taxi-external') {
+        const name = getTripOrRouteText(
+          leg.trip,
+          leg.route,
+          config,
+          interliningWithRoute,
+        );
+
+        if (!leg?.interlineWithPreviousLeg) {
+          transitLegs.push({
+            ...leg,
+            to,
+            end,
+            nextLeg,
+            index: i,
+            mode,
+            legName: name,
+            zIndexOffset: 300,
             interliningWithRoute,
-          );
-
-          if (!leg?.interlineWithPreviousLeg) {
-            transitLegs.push({
-              ...leg,
-              to,
-              end,
-              nextLeg,
-              index: i,
-              mode,
-              legName: name,
-              zIndexOffset: 300,
-              interliningWithRoute,
-            });
-          }
-          objs.push(
-            <StopMarker
-              key={`${i},${leg.mode}marker,from`}
-              disableModeIcons
-              disableIconBorder
-              stop={{
-                ...leg.from,
-                gtfsId: leg.from.stop.gtfsId,
-                code: leg.from.stop.code,
-                platformCode: leg.from.stop.platformCode,
-                transfer: true,
-              }}
-              mode={mode}
-              appendClass={appendClass}
-            />,
-          );
-          objs.push(
-            <StopMarker
-              key={`${i},${leg.mode}marker,to`}
-              disableModeIcons
-              disableIconBorder
-              stop={{
-                ...leg.to,
-                gtfsId: leg.to.stop.gtfsId,
-                code: leg.to.stop.code,
-                platformCode: leg.to.stop.platformCode,
-                transfer: true,
-              }}
-              mode={mode}
-              appendClass={appendClass}
-            />,
-          );
+          });
         }
+        objs.push(
+          <StopMarker
+            key={`${i},${leg.mode}marker,from`}
+            disableModeIcons
+            disableIconBorder
+            stop={{
+              ...leg.from,
+              gtfsId: leg.from.stop.gtfsId,
+              code: leg.from.stop.code,
+              platformCode: leg.from.stop.platformCode,
+              transfer: true,
+            }}
+            mode={mode}
+            appendClass={appendClass}
+          />,
+        );
+        objs.push(
+          <StopMarker
+            key={`${i},${leg.mode}marker,to`}
+            disableModeIcons
+            disableIconBorder
+            stop={{
+              ...leg.to,
+              gtfsId: leg.to.stop.gtfsId,
+              code: leg.to.stop.code,
+              platformCode: leg.to.stop.platformCode,
+              transfer: true,
+            }}
+            mode={mode}
+            appendClass={appendClass}
+          />,
+        );
       }
-    });
+    }
+  });
 
-    this.handleTransitLegMarkers(transitLegs, objs);
+  handleTransitLegMarkers(transitLegs, objs);
 
-    return <div style={{ display: 'none' }}>{objs}</div>;
-  }
+  return <div style={{ display: 'none' }}>{objs}</div>;
 }
+
+ItineraryLine.propTypes = {
+  legs: PropTypes.arrayOf(legShape).isRequired,
+  passive: PropTypes.bool,
+  hash: PropTypes.number,
+  showIntermediateStops: PropTypes.bool,
+  showDurationBubble: PropTypes.bool,
+  streetMode: PropTypes.string,
+  realtimeTransfers: PropTypes.bool,
+  leaflet: PropTypes.shape({
+    map: PropTypes.shape({
+      getZoom: PropTypes.func.isRequired,
+      on: PropTypes.func.isRequired,
+      off: PropTypes.func.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
 
 export default withLeaflet(ItineraryLine);

@@ -201,6 +201,7 @@ class TransitLegMarkers extends React.Component {
 
   getSpeechBubbleText(leg, nextLeg, realtime) {
     const duration = durationToString(
+      this.context.intl,
       legTime(nextLeg.start) - legTime(leg.end),
     );
     const style = realtime ? 'color:#3b7f00' : '';

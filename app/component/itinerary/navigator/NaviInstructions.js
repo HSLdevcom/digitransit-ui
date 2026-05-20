@@ -18,16 +18,16 @@ import {
 } from './NaviUtils';
 import { getTripOrRouteMode } from '../../../util/modeUtils';
 import BoardingInfo from './BoardingInfo';
-import Duration from '../Duration';
+import { durationToString } from '../../../util/timeUtils';
 
-function getBoardingParams(leg, time, config) {
+function getBoardingParams(intl, leg, time, config) {
   if (!leg?.transitLeg) {
     return {};
   }
   const { headsign, trip, route, start } = leg;
   const hs = headsign || leg.trip?.tripHeadsign;
 
-  const remainingDuration = <Duration duration={legTime(start) - time} />;
+  const remainingDuration = durationToString(intl, legTime(start) - time);
   const rt = leg.realtimeState === 'UPDATED';
   const values = {
     duration: withRealTime(rt, remainingDuration),
@@ -52,6 +52,7 @@ export default function NaviInstructions(
 ) {
   const intl = useIntl();
   const { routeMode, route, hs, values } = getBoardingParams(
+    intl,
     nextLeg,
     time,
     config,
@@ -111,7 +112,7 @@ export default function NaviInstructions(
   }
 
   if (legType === LEGTYPE.WAIT_IN_VEHICLE) {
-    const totalWait = <Duration duration={legTime(nextLeg.start) - time} />;
+    const totalWait = durationToString(intl, legTime(nextLeg.start) - time);
     return (
       <>
         <div className="notification-header">
@@ -147,7 +148,7 @@ export default function NaviInstructions(
           : 'navileg-at-stop';
     const stopOrStation = intl.formatMessage({ id: destId });
 
-    const remainingDuration = <Duration duration={t - time} />;
+    const remainingDuration = durationToString(intl, t - time);
     const values2 = {
       stopOrStation,
       stop: leg.to.stop.name,

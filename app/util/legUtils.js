@@ -473,7 +473,7 @@ function isAirplaneLeg(leg) {
 function isDrivingLeg(leg) {
   return LegMode.Car === getLegMode(leg);
 }
-export function isTaxiLeg(leg) {
+function isTaxiLeg(leg) {
   return LegMode.Taxi === getLegMode(leg);
 }
 export function isCallAgencyLeg(leg) {
@@ -1011,12 +1011,4 @@ export function isLocalCallAgency(leg, config) {
     isCallAgencyLeg(leg) &&
     config.flex.internalAgencies.includes(leg.route.agency.gtfsId)
   );
-}
-
-/**
- * Strips trailing parenthetical zone/area info appended by OTP to taxi leg
- * location names, e.g. "sijainti (alueella Zone 5)" → "sijainti".
- */
-export function stripFlexZoneInfo(name) {
-  return name ? name.replace(/\s*\([^)]*\)\s*$/, '') : name;
 }

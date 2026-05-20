@@ -1,16 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
-import { configShape } from '../../util/shapes';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { durationToString } from '../../util/timeUtils';
 import { isKeyboardSelectionEvent } from '../../util/browser';
 import Icon from '../Icon';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
-export default function StopInfo(
-  { intermediateStopCount, toggleFunction, duration, showIntermediateStops },
-  { config },
-) {
+export default function StopInfo({
+  intermediateStopCount,
+  toggleFunction,
+  duration,
+  showIntermediateStops,
+}) {
+  const config = useConfigContext();
+  const intl = useIntl();
   const message = (showIntermediateStops && (
     <FormattedMessage id="itinerary-hide-stops" defaultMessage="Hide stops" />
   )) || (
@@ -53,7 +57,7 @@ export default function StopInfo(
           <span className="intermediate-stops-amount">{message}</span>
         )}{' '}
         <span className="intermediate-stops-duration" aria-hidden="true">
-          ({durationToString(duration)})
+          ({durationToString(intl, duration)})
         </span>
         {intermediateStopCount !== 0 && (
           <Icon
@@ -66,10 +70,6 @@ export default function StopInfo(
     </div>
   );
 }
-
-StopInfo.contextTypes = {
-  config: configShape.isRequired,
-};
 
 StopInfo.propTypes = {
   intermediateStopCount: PropTypes.number.isRequired,

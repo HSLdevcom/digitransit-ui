@@ -7,7 +7,7 @@ export function createFeatureObjects(objects) {
     properties: object.properties,
     geometry: {
       type: 'Point',
-      coordinates: [object.lat, object.lon],
+      coordinates: [object.lon, object.lat],
     },
   }));
 }

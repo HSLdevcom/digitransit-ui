@@ -19,7 +19,6 @@ import { durationToString, epochToIso, timeStr } from '../../../util/timeUtils';
 import Icon from '../../Icon';
 import { getModeIconColor } from '../../../util/colorUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
-import Duration from '../Duration';
 import {
   formatFare,
   getFaresFromLegs,
@@ -639,14 +638,18 @@ export const getItineraryAlerts = (
 
             body = intl.formatMessage(
               { id: 'navigation-hurry-transfer-value' },
-              { transfer: desc, time: durationToString(prob.duration), change },
+              {
+                transfer: desc,
+                time: durationToString(intl, prob.duration),
+                change,
+              },
             );
             jsxBody = (
               <FormattedMessage
                 id="navigation-hurry-transfer-value"
                 values={{
                   transfer,
-                  time: <Duration duration={prob.duration} />,
+                  time: durationToString(intl, prob.duration),
                   change,
                 }}
               />
@@ -677,7 +680,7 @@ export const getItineraryAlerts = (
               { id: 'navigation-hurry-transfer-solved-details' },
               {
                 transfer: TransferText(tr.fromLeg, tr.toLeg, config, intl),
-                time: durationToString(tr.duration),
+                time: durationToString(intl, tr.duration),
               },
             );
             jsxBody = (
@@ -685,7 +688,7 @@ export const getItineraryAlerts = (
                 id="navigation-hurry-transfer-solved-details"
                 values={{
                   transfer: Transfer(tr.fromLeg, tr.toLeg, config),
-                  time: <Duration duration={tr.duration} />,
+                  time: durationToString(intl, tr.duration),
                 }}
               />
             );

@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { durationToString } from '../../util/timeUtils';
 import { getHeadsignFromRouteLongName, legTime } from '../../util/legUtils';
 import Icon from '../Icon';
 import { legShape } from '../../util/shapes';
 
 const InterlineInfo = ({ legs, leg, usingOwnCarWholeTrip }) => {
+  const intl = useIntl();
   let totalWait = 0;
   const allLegs = [leg, ...legs];
   const routes = [];
@@ -39,7 +40,7 @@ const InterlineInfo = ({ legs, leg, usingOwnCarWholeTrip }) => {
               stop: leg.to.name,
               time: (
                 <span className="bold no-wrap">
-                  {durationToString(totalWait)}
+                  {durationToString(intl, totalWait)}
                 </span>
               ),
             }}
@@ -54,7 +55,7 @@ const InterlineInfo = ({ legs, leg, usingOwnCarWholeTrip }) => {
             values={{
               time: (
                 <span className="bold no-wrap">
-                  {durationToString(totalWait)}
+                  {durationToString(intl, totalWait)}
                 </span>
               ),
               shortName: (

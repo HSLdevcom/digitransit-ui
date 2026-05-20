@@ -19,7 +19,7 @@ const BikeParkLeg = ({ leg, index, focusAction, bikePark }, { config }) => {
     config,
     intl.formatNumber,
   );
-  const duration = durationToString(leg.duration * 1000);
+  const duration = durationToString(intl, leg.duration * 1000);
   const time = legTimeStr(leg.start);
   return (
     <div key={index} className="row itinerary-row">
