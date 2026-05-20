@@ -99,14 +99,6 @@ export function setCustomizedSettings(data) {
       data.accessibilityOption,
       oldSettings.accessibilityOption,
     ),
-    bikeBoardCost: getNumberValueOrDefault(
-      data.bikeBoardCost,
-      oldSettings.bikeBoardCost,
-    ),
-    bikeReluctance: getNumberValueOrDefault(
-      data.bikeReluctance,
-      oldSettings.bikeReluctance,
-    ),
     bikeSpeed: getNumberValueOrDefault(data.bikeSpeed, oldSettings.bikeSpeed),
     modes: getValueOrDefault(data.modes, oldSettings.modes),
     ticketTypes: getValueOrDefault(data.ticketTypes, oldSettings.ticketTypes),
