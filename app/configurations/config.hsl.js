@@ -727,11 +727,7 @@ export default {
   ],
 
   replacementBusNotification: {
-    header: {
-      fi: 'Korvaava bussi',
-      en: 'Replacement bus',
-      sv: 'Ersättande buss',
-    },
+    // Header is displayed via translation key 'replacement-bus'.
     content: {
       fi: [
         'Voit nousta kyytiin myös bussin keskiovista.',
