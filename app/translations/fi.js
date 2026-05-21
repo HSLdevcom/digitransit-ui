@@ -371,6 +371,7 @@ export default {
     'map-layer-park-and-ride': 'Liityntäpysäköintipaikat',
     'map-layer-park-and-ride-bike': 'Liityntäpyöräparkit',
     'map-layer-scooter': 'Potkulaudat',
+    'map-layer-stop-airplane': 'Lentokentät',
     'map-layer-stop-bus': 'Bussipysäkit',
     'map-layer-stop-ferry': 'Lautat',
     'map-layer-stop-funicular': 'Funikulaarit',
