@@ -99,10 +99,13 @@ function ItineraryDetails({
   feedback,
   giveFeedback,
 }) {
+  const itinerary = useFragment(ItineraryDetailsFragment, itineraryRef);
+  if (!itinerary?.legs[0]) {
+    return null;
+  }
   const { match } = useRouter();
   const config = useConfigContext();
   const { language } = config;
-  const itinerary = useFragment(ItineraryDetailsFragment, itineraryRef);
   const intl = useIntl();
 
   const shouldShowDisclaimer =
@@ -110,11 +113,9 @@ function ItineraryDetails({
     match.params.hash !== streetHash.walk &&
     match.params.hash !== streetHash.bike;
 
-  const shouldShowFeedback = giveFeedback && !streetHash[match.params.hash];
+  const shouldShowFeedback =
+    giveFeedback && itinerary.legs.some(l => l.transitLeg);
 
-  if (!itinerary?.legs[0]) {
-    return null;
-  }
   const fares = getFaresFromLegs(itinerary.legs, config);
   const extraProps = getExtraProps(itinerary, intl);
   const { biking, walking, driving, futureText, isMultiRow } = extraProps;

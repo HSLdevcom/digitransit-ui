@@ -66,7 +66,9 @@ function ItineraryList({
       lowestCo2value={lowestCo2value}
       recommended={i === recommendedIndex}
       feedback={feedback[i]} // single feedback entry
-      giveFeedback={giveFeedback ? like => giveFeedback(i, like) : undefined}
+      giveFeedback={
+        giveFeedback ? like => giveFeedback(i, edge.node, like) : undefined
+      }
     />
   ));
 

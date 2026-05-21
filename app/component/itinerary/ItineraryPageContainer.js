@@ -20,7 +20,7 @@ const ItineraryPageWithBreakpoint = withBreakpoint(props => (
 
 const ItineraryPageWithStores = connectToStores(
   ItineraryPageWithBreakpoint,
-  ['MapLayerStore'],
+  ['MapLayerStore', 'FavouriteStore'],
   ({ getStore }) => ({
     getStore,
     mapLayers: getStore('MapLayerStore').getMapLayers({
@@ -30,6 +30,7 @@ const ItineraryPageWithStores = connectToStores(
       lockedMapLayers: ['vehicles', 'citybike', 'stop'],
       selectedMapLayers: ['vehicles'],
     }),
+    favouriteRoutes: getStore('FavouriteStore').getRouteGtfsIds(),
   }),
 );
 

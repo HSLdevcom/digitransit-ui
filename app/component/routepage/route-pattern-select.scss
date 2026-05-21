@@ -665,17 +665,37 @@
           .similar-route {
             justify-content: space-between;
 
+            // Arrow is in flex flow here, no need to reserve space
+            padding-right: 0;
+
             .icon-container {
               width: auto;
               height: auto;
-              right: auto;
+              right: 0;
               top: auto;
               margin-top: 3px;
               margin-right: 10px;
 
               .icon {
+                position: relative;
+                right: -8px;
+                top: auto;
                 width: 2em;
                 height: 2em;
+              }
+            }
+
+            // Reset the non-classic absolute positioning for the arrow container
+            > .icon-container:last-child {
+              position: static;
+              transform: none;
+              align-self: flex-start;
+              margin-top: 3px;
+              margin-right: 0;
+
+              .similar-route-arrow {
+                width: 20px;
+                height: 20px;
               }
             }
 

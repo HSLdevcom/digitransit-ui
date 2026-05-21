@@ -1,9 +1,8 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import React, { useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import LegAgencyInfo from './LegAgencyInfo';
 import Icon from '../Icon';
 import IntermediateLeg from './IntermediateLeg';
@@ -19,7 +18,6 @@ import {
   getActiveLegAlertSeverityLevel,
   getMaximumAlertSeverityLevel,
   hasEntitiesOfType,
-  legHasCancelation,
   tripHasCancelationForStop,
 } from '../../util/alertUtils';
 import {
@@ -43,7 +41,7 @@ import {
 } from '../../util/legUtils';
 import { shouldShowFareInfo } from '../../util/fareUtils';
 import { AlertEntityType, AlertSeverityLevelType } from '../../constants';
-import { legShape, configShape } from '../../util/shapes';
+import { legShape } from '../../util/shapes';
 import ZoneIcon from '../ZoneIcon';
 import StopInfo from './StopInfo';
 import InterlineInfo from './InterlineInfo';
@@ -52,6 +50,7 @@ import LegInfo from './LegInfo';
 import ExternalLink from '../ExternalLink';
 import { getBoardingInformationText } from './BoardingInformation';
 import { getTrackOrPierOrPlatformChangeText } from '../../util/modeUtils';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 const stopCode = code => code && <StopCode code={code} />;
 
@@ -59,79 +58,86 @@ const stopCode = code => code && <StopCode code={code} />;
  * Some next legs might be for example 24h in the future which seems confusing.
  * Only show alternatives that are less than 12h in the future.
  */
-const filterNextLegs = leg => {
-  if (!leg.nextLegs) {
+const filterNextLegs = l => {
+  if (!l.nextLegs) {
     return [];
   }
-  return leg.nextLegs.filter(
-    nextLeg => legTime(nextLeg.start) - legTime(leg.start) < 12 * 3600 * 1000, // 12 hours
+  return l.nextLegs.filter(
+    nextLeg => legTime(nextLeg.start) - legTime(l.start) < 12 * 3600 * 1000,
   );
 };
 
-class TransitLeg extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showIntermediateStops:
-        props.interliningLegs.length >= 1
-          ? props.interliningLegs.reduce(
-              (sum, leg) => sum + leg.intermediatePlaces.length,
-              0,
-            ) < 2
-          : props.leg.intermediatePlaces.length < 2,
-      showAlternativeLegs: false,
-    };
-  }
+export default function TransitLeg({
+  leg,
+  interliningLegs,
+  index,
+  mode,
+  focusAction,
+  children,
+  omitDivider,
+  changeHash,
+  tabIndex,
+  usingOwnCarWholeTrip,
+  mobile,
+}) {
+  const intl = useIntl();
+  const config = useConfigContext();
+  const { language } = config;
 
-  isRouteConstantOperation = () =>
-    this.context.config.constantOperationRoutes &&
-    !!this.context.config.constantOperationRoutes[this.props.leg.route.gtfsId];
+  const [showIntermediateStops, setShowIntermediateStops] = useState(() => {
+    if (interliningLegs.length >= 1) {
+      return (
+        interliningLegs.reduce(
+          (sum, l) => sum + l.intermediatePlaces.length,
+          0,
+        ) < 2
+      );
+    }
+    return leg.intermediatePlaces.length < 2;
+  });
 
-  displayAlternativeLegs = () =>
-    !!this.context.config.showAlternativeLegs &&
-    filterNextLegs(this.props.leg).length > 0 &&
-    !this.isRouteConstantOperation();
+  const [showAlternativeLegs, setShowAlternativeLegs] = useState(false);
 
-  toggleShowIntermediateStops = () => {
+  const isRouteConstantOperation =
+    config.constantOperationRoutes?.[leg.route.gtfsId];
+
+  const displayAlternativeLegs =
+    config.showAlternativeLegs &&
+    filterNextLegs(leg).length > 0 &&
+    !isRouteConstantOperation;
+
+  const toggleShowIntermediateStops = () => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Itinerary',
-      action: this.state.showIntermediateStops
+      action: showIntermediateStops
         ? 'HideIntermediateStops'
         : 'ShowIntermediateStops',
       name: null,
     });
 
-    this.setState(prevState => ({
-      showIntermediateStops: !prevState.showIntermediateStops,
-    }));
+    setShowIntermediateStops(prevState => !prevState);
   };
 
-  getZoneChange() {
-    const { leg } = this.props;
+  const getZoneChange = () => {
     const startZone = leg.from.stop.zoneId;
-    const endZone = leg.to.stop.zoneId || leg.to.stop.zoneId;
-    const renderZoneIcons = () => {
-      return (
-        this.context.config.zones.itinerary &&
-        leg.from.stop.gtfsId &&
-        this.context.config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0])
-      );
-    };
+    const endZone = leg.to.stop.zoneId;
+
+    const renderZoneIcons =
+      config.zones.itinerary &&
+      leg.from.stop.gtfsId &&
+      config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0]);
+
     if (
       startZone !== endZone &&
-      (!this.state.showIntermediateStops ||
-        leg.intermediatePlaces.length === 0) &&
-      renderZoneIcons()
+      (!showIntermediateStops || leg.intermediatePlaces.length === 0) &&
+      renderZoneIcons
     ) {
       return (
         <div className="time-column-zone-icons-container">
+          <ZoneIcon zoneId={getZoneLabel(startZone, config)} showUnknown />
           <ZoneIcon
-            zoneId={getZoneLabel(startZone, this.context.config)}
-            showUnknown
-          />
-          <ZoneIcon
-            zoneId={getZoneLabel(endZone, this.context.config)}
+            zoneId={getZoneLabel(endZone, config)}
             className="zone-delimiter"
             showUnknown
           />
@@ -139,26 +145,24 @@ class TransitLeg extends React.Component {
       );
     }
 
-    if (startZone === endZone && renderZoneIcons()) {
+    if (startZone === endZone && renderZoneIcons) {
       return (
         <div className="time-column-zone-icons-container single">
-          <ZoneIcon
-            zoneId={getZoneLabel(startZone, this.context.config)}
-            showUnknown
-          />
+          <ZoneIcon zoneId={getZoneLabel(startZone, config)} showUnknown />
         </div>
       );
     }
-    return null;
-  }
 
-  renderIntermediate() {
-    const { leg, mode, interliningLegs } = this.props;
+    return null;
+  };
+
+  const renderIntermediate = () => {
     if (
       (leg.intermediatePlaces.length > 0 || interliningLegs.length > 0) &&
-      this.state.showIntermediateStops === true
+      showIntermediateStops === true
     ) {
       const places = leg.intermediatePlaces.slice();
+
       if (interliningLegs) {
         let previousLeg = leg;
         interliningLegs.forEach(iLeg => {
@@ -169,6 +173,7 @@ class TransitLeg extends React.Component {
           previousLeg = iLeg;
         });
       }
+
       const stopList = places.map((place, i, array) => {
         const isFirstPlace = i === 0;
         const isLastPlace = i === array.length - 1;
@@ -183,10 +188,12 @@ class TransitLeg extends React.Component {
           (isLastPlace &&
             interliningLegs[interliningLegs.length - 1]?.to.stop.zoneId) ||
           leg.to.stop.zoneId;
+
         const previousZoneIdDiffers =
           previousZoneId && previousZoneId !== currentZoneId;
         const nextZoneIdDiffers = nextZoneId && nextZoneId !== currentZoneId;
         const showCurrentZoneId = previousZoneIdDiffers || nextZoneIdDiffers;
+
         return (
           <IntermediateLeg
             placesCount={places.length}
@@ -198,23 +205,22 @@ class TransitLeg extends React.Component {
             arrival={place.arrival}
             realTime={leg.realTime}
             stopCode={place.stop.code}
-            showZoneLimits={this.context.config.zones.itinerary}
+            showZoneLimits={config.zones.itinerary}
             showCurrentZoneDelimiter={previousZoneIdDiffers}
             previousZoneId={
               (isFirstPlace &&
                 previousZoneIdDiffers &&
-                getZoneLabel(previousZoneId, this.context.config)) ||
+                getZoneLabel(previousZoneId, config)) ||
               undefined
             }
             currentZoneId={
-              (showCurrentZoneId &&
-                getZoneLabel(currentZoneId, this.context.config)) ||
+              (showCurrentZoneId && getZoneLabel(currentZoneId, config)) ||
               undefined
             }
             nextZoneId={
               (isLastPlace &&
                 nextZoneIdDiffers &&
-                getZoneLabel(nextZoneId, this.context.config)) ||
+                getZoneLabel(nextZoneId, config)) ||
               undefined
             }
             isViaPoint={place.isViaPoint}
@@ -223,28 +229,27 @@ class TransitLeg extends React.Component {
           />
         );
       });
+
       return <div className="itinerary-leg-container">{stopList}</div>;
     }
-    return null;
-  }
 
-  renderFareDisclaimer(leg, mode, lang, LegRouteName) {
-    const { config, intl } = this.context;
+    return null;
+  };
+
+  const renderFareDisclaimer = () => {
     if (
       leg.fare?.isUnknown &&
       !config.hideUnknownFares &&
       shouldShowFareInfo(config)
     ) {
-      const modeDisclaimer = config.modeDisclaimers?.[mode]?.[lang];
+      const modeDisclaimer = config.modeDisclaimers?.[mode]?.[language];
       if (modeDisclaimer) {
         return (
-          <div className="disclaimer-container unknown-fare-disclaimer__leg">
-            <div className="description-container">
-              {modeDisclaimer.disclaimer}
-              <a href={modeDisclaimer.link} target="_blank" rel="noreferrer">
-                {modeDisclaimer.text}
-              </a>
-            </div>
+          <div className="disclaimer-container unknown-fare-disclaimer__leg description-container">
+            {modeDisclaimer.disclaimer}
+            <a href={modeDisclaimer.link} target="_blank" rel="noreferrer">
+              {modeDisclaimer.text}
+            </a>
           </div>
         );
       }
@@ -254,22 +259,24 @@ class TransitLeg extends React.Component {
           <div className="disclaimer-container unknown-fare-disclaimer__leg">
             <div className="description-container">
               <span className="accent">
-                {`${intl.formatMessage({ id: 'pay-attention' })} `}
+                <FormattedMessage id="pay-attention" />
               </span>
-              {intl.formatMessage({ id: 'separate-ticket-required' })}
+              <FormattedMessage id="separate-ticket-required" />
             </div>
             <div className="ticket-info">
-              <div className="accent">{LegRouteName}</div>
+              <div className="accent">
+                {leg.from.name.concat(' - ').concat(leg.to.name)}
+              </div>
               {leg.fare.agency &&
                 !config.hideExternalOperator(leg.fare.agency) && (
                   <>
-                    <div>{leg.fare.agency.name}</div>
+                    {leg.fare.agency.name}
                     {leg.fare.agency.fareUrl && (
                       <ExternalLink
                         className="agency-link"
                         href={leg.fare.agency.fareUrl}
                       >
-                        {intl.formatMessage({ id: 'extra-info' })}
+                        <FormattedMessage id="extra-info" />
                       </ExternalLink>
                     )}
                   </>
@@ -280,229 +287,215 @@ class TransitLeg extends React.Component {
       }
     }
     return null;
-  }
+  };
 
-  renderMain = () => {
-    const {
-      children,
-      focusAction,
-      index,
-      leg,
-      mode,
-      lang,
-      omitDivider,
-      interliningLegs,
-      usingOwnCarWholeTrip,
-    } = this.props;
-    const { config, intl } = this.context;
-    const startMs = legTime(leg.start);
-    const time = legTimeStr(leg.start);
-    const modeClassName = mode.toLowerCase();
-    const validatedFromLegName = getValidatedLegName(leg.from.name, intl, true);
-    const validatedToLegName = getValidatedLegName(leg.to.name, intl, false);
+  const startMs = legTime(leg.start);
+  const time = legTimeStr(leg.start);
+  const modeClassName = mode.toLowerCase();
+  const validatedFromLegName = getValidatedLegName(leg.from.name, intl, true);
+  const validatedToLegName = getValidatedLegName(leg.to.name, intl, false);
 
-    const LegRouteName = leg.from.name.concat(' - ').concat(leg.to.name);
+  const textVersionBeforeLink = (
+    <FormattedMessage
+      id="itinerary-details.transit-leg-part-1"
+      values={{
+        time,
+        realtime: leg.realTime ? intl.formatMessage({ id: 'realtime' }) : '',
+      }}
+    />
+  );
 
-    const textVersionBeforeLink = (
+  const platformChanged = isPlatformChanged(leg);
+
+  const textVersionAfterLink = (
+    <>
       <FormattedMessage
-        id="itinerary-details.transit-leg-part-1"
+        id="itinerary-details.transit-leg-part-2"
         values={{
-          time,
-          realtime: leg.realTime ? intl.formatMessage({ id: 'realtime' }) : '',
+          startStop: validatedFromLegName,
+          startZoneInfo: intl.formatMessage(
+            { id: 'zone-info' },
+            { zone: leg.from.stop.zoneId },
+          ),
+          endZoneInfo: intl.formatMessage(
+            { id: 'zone-info' },
+            { zone: leg.to.stop.zoneId },
+          ),
+          endStop: validatedToLegName,
+          duration: durationToString(intl, leg.duration * 1000),
+          trackInfo: getBoardingInformationText(leg, intl, false),
         }}
       />
+      {platformChanged && getTrackOrPierOrPlatformChangeText(intl, mode)}
+    </>
+  );
+
+  const alerts = getActiveLegAlerts(leg, startMs / 1000);
+  const alert =
+    alerts && alerts.length > 0
+      ? alerts.sort(alertSeverityCompare)[0]
+      : undefined;
+  const alertSeverityLevel = getMaximumAlertSeverityLevel(alerts);
+
+  let alertSeverityDescription = null;
+  if (alertSeverityLevel) {
+    let id;
+    switch (alertSeverityLevel) {
+      case AlertSeverityLevelType.Info:
+        id = 'itinerary-details.route-has-info-alert';
+        break;
+      case AlertSeverityLevelType.Warning:
+        id = 'itinerary-details.route-has-warning-alert';
+        break;
+      case AlertSeverityLevelType.Severe:
+        id = 'itinerary-details.route-has-severe-alert';
+        break;
+      case AlertSeverityLevelType.Unknown:
+      default:
+        id = 'itinerary-details.route-has-unknown-alert';
+        break;
+    }
+    alertSeverityDescription = <FormattedMessage id={id} />;
+  }
+
+  const zoneIcons = getZoneChange();
+
+  const hasNoShortName =
+    leg.route.shortName &&
+    /^([^0-9]*)$/.test(leg.route.shortName) &&
+    leg.route.shortName.length > 3;
+
+  const headsign =
+    getStopHeadsignFromStoptimes(leg.from.stop, leg.trip.stoptimesForDate) ||
+    leg.trip.tripHeadsign ||
+    getHeadsignFromRouteLongName(leg.route);
+
+  let intermediateStopCount = leg.intermediatePlaces.length;
+  if (interliningLegs) {
+    intermediateStopCount = interliningLegs.reduce(
+      (prev, curr) => prev + curr.intermediatePlaces.length + 1,
+      leg.intermediatePlaces.length,
     );
-    const platformChanged = isPlatformChanged(leg);
-    const textVersionAfterLink = (
-      <>
-        <FormattedMessage
-          id="itinerary-details.transit-leg-part-2"
-          values={{
-            startStop: validatedFromLegName,
-            startZoneInfo: intl.formatMessage(
-              { id: 'zone-info' },
-              { zone: leg.from.stop.zoneId },
-            ),
-            endZoneInfo: intl.formatMessage(
-              { id: 'zone-info' },
-              { zone: leg.to.stop.zoneId },
-            ),
-            endStop: validatedToLegName,
-            duration: durationToString(intl, leg.duration * 1000),
-            trackInfo: getBoardingInformationText(leg, intl, false),
-          }}
+  }
+
+  const { showBikeBoardingInformation, showCarBoardingInformation } = leg;
+
+  const createNotification = notification => (
+    <>
+      <div className="disruption-icon notification-icon">
+        <ServiceAlertIcon
+          className="inline-icon"
+          severityLevel={AlertSeverityLevelType.Info}
         />
-        {platformChanged && getTrackOrPierOrPlatformChangeText(intl, mode)}
-      </>
-    );
-
-    const alerts = getActiveLegAlerts(leg, startMs / 1000);
-    const alert =
-      alerts && alerts.length > 0
-        ? alerts.sort(alertSeverityCompare)[0]
-        : undefined;
-    const alertSeverityLevel = getMaximumAlertSeverityLevel(alerts);
-    let alertSeverityDescription = null;
-    if (alertSeverityLevel) {
-      let id;
-      switch (alertSeverityLevel) {
-        case AlertSeverityLevelType.Info:
-          id = 'itinerary-details.route-has-info-alert';
-          break;
-        case AlertSeverityLevelType.Warning:
-          id = 'itinerary-details.route-has-warning-alert';
-          break;
-        case AlertSeverityLevelType.Severe:
-          id = 'itinerary-details.route-has-severe-alert';
-          break;
-        case AlertSeverityLevelType.Unknown:
-        default:
-          id = 'itinerary-details.route-has-unknown-alert';
-          break;
-      }
-      alertSeverityDescription = <FormattedMessage id={id} />;
-    }
-    const zoneIcons = this.getZoneChange();
-    // Checks if route only has letters without identifying numbers and
-    // length doesn't fit in the tab view
-    const hasNoShortName =
-      leg.route.shortName &&
-      /^([^0-9]*)$/.test(leg.route.shortName) &&
-      leg.route.shortName.length > 3;
-
-    const headsign =
-      getStopHeadsignFromStoptimes(leg.from.stop, leg.trip.stoptimesForDate) ||
-      leg.trip.tripHeadsign ||
-      getHeadsignFromRouteLongName(leg.route);
-
-    let intermediateStopCount = leg.intermediatePlaces.length;
-    if (interliningLegs) {
-      intermediateStopCount = interliningLegs.reduce(
-        (prev, curr) => prev + curr.intermediatePlaces.length + 1,
-        leg.intermediatePlaces.length,
-      );
-    }
-    const { showBikeBoardingInformation, showCarBoardingInformation } = leg;
-    const createNotification = notification => {
-      return (
-        <>
-          <div className="disruption-icon notification-icon">
-            <ServiceAlertIcon
-              className="inline-icon"
-              severityLevel={AlertSeverityLevelType.Info}
-            />
-          </div>
-          <div
-            className={cx('info-notification', {
-              'no-header': !notification.header,
-            })}
-          >
-            {notification.header && (
-              <h3 className="info-header">{notification.header[lang]}</h3>
-            )}
-            <div
-              className={cx('info-content', {
-                'no-header': !notification.header,
-              })}
-            >
-              {notification.content[lang].join(' ')}
-            </div>
-          </div>
-        </>
-      );
-    };
-
-    const createNotificationWithLink = notification => {
-      return (
-        <a
-          href={`https://www.${notification.link?.[lang]}`}
-          className="disruption-link"
-          target="_blank"
-          rel="noreferrer"
+      </div>
+      <div
+        className={cx('info-notification', {
+          'no-header': !notification.header,
+        })}
+      >
+        {notification.header && (
+          <h3 className="info-header">{notification.header[language]}</h3>
+        )}
+        <div
+          className={cx('info-content', { 'no-header': !notification.header })}
         >
-          {createNotification(notification)}
-          <Icon
-            img="icon_arrow-collapse--right"
-            className="disruption-link-arrow"
-            color={config.colors.primary}
-          />
-        </a>
-      );
-    };
-    const routeNotifications = [];
-    const isCallAgency = mode === 'call';
-    if (
-      process.env.NODE_ENV !== 'test' &&
-      config.routeNotifications &&
-      config.routeNotifications.length > 0
-    ) {
-      for (let i = 0; i < config.routeNotifications.length; i++) {
-        const notification = config.routeNotifications[i];
-        if (
-          (showBikeBoardingInformation &&
-            notification.showForBikeWithPublic &&
-            showBikeBoardingNote(leg, config)) ||
-          (showCarBoardingInformation &&
-            notification.showForCarWithPublic &&
-            showCarBoardingNote(leg, config)) ||
-          (notification.showForRoute?.(leg.route) && !isCallAgency)
-        ) {
-          routeNotifications.push(
-            <div
-              className={cx('disruption', {
-                'no-header': !notification.header,
-                'no-link': !notification.link,
-              })}
-              key={`note-${index}`}
-            >
-              {notification.link
-                ? createNotificationWithLink(notification)
-                : createNotification(notification)}
-            </div>,
-          );
-        }
+          {notification.content[language].join(' ')}
+        </div>
+      </div>
+    </>
+  );
+
+  const createNotificationWithLink = notification => (
+    <a
+      href={`https://www.${notification.link?.[language]}`}
+      className="disruption-link"
+      target="_blank"
+      rel="noreferrer"
+    >
+      {createNotification(notification)}
+      <Icon
+        img="icon_arrow-collapse--right"
+        className="disruption-link-arrow"
+        color={config.colors.primary}
+      />
+    </a>
+  );
+
+  const routeNotifications = [];
+  const isCallAgency = mode === 'call';
+
+  if (
+    process.env.NODE_ENV !== 'test' &&
+    config.routeNotifications &&
+    config.routeNotifications.length > 0
+  ) {
+    for (let i = 0; i < config.routeNotifications.length; i++) {
+      const notification = config.routeNotifications[i];
+      if (
+        (showBikeBoardingInformation &&
+          notification.showForBikeWithPublic &&
+          showBikeBoardingNote(leg, config)) ||
+        (showCarBoardingInformation &&
+          notification.showForCarWithPublic &&
+          showCarBoardingNote(leg, config)) ||
+        (notification.showForRoute?.(leg.route) && !isCallAgency)
+      ) {
+        routeNotifications.push(
+          <div
+            className={cx('disruption', {
+              'no-header': !notification.header,
+              'no-link': !notification.link,
+            })}
+            key={`note-${index}`}
+          >
+            {notification.link
+              ? createNotificationWithLink(notification)
+              : createNotification(notification)}
+          </div>,
+        );
       }
     }
+  }
 
-    return (
+  return (
+    <>
       <div key={index} className="row itinerary-row">
         <span className="sr-only">{textVersionBeforeLink}</span>
         <div className="small-2 columns itinerary-time-column">
           <span className="sr-only">
             <FormattedMessage
-              id={`${this.props.mode}-with-route-number`}
+              id={`${mode}-with-route-number`}
               values={{
                 routeNumber: leg.route?.shortName,
                 headSign: leg.trip?.tripHeadsign,
               }}
-              defaultMessage={`${this.props.mode} {routeNumber} {headSign}`}
+              defaultMessage={`${mode} {routeNumber} {headSign}`}
             />
           </span>
           <span aria-hidden="true">
             <div className="itinerary-time-column-time">
               {isCallAgency && <FormattedMessage id="estimate" />}{' '}
-              <span className={cx({ realtime: leg.realTime })}>
-                <span className={cx({ canceled: legHasCancelation(leg) })}>
-                  {time}
-                </span>
-              </span>
+              <span className={cx({ realtime: leg.realTime })}>{time}</span>
             </div>
             {zoneIcons}
           </span>
         </div>
+
         <span className="sr-only">{textVersionAfterLink}</span>
+
         <ItineraryCircleLine
           index={index}
           modeClassName={modeClassName}
           color={leg.route?.color ? `#${leg.route.color}` : undefined}
           renderBottomMarker={
-            !this.state.showIntermediateStops ||
+            !showIntermediateStops ||
             (leg.intermediatePlaces.length === 0 && interliningLegs.length < 1)
           }
           viaType={leg.from.viaLocationType}
           isStop={!!leg.from.stop}
           appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
         />
+
         <div
           style={{
             color: leg.route?.color ? `#${leg.route.color}` : undefined,
@@ -519,6 +512,7 @@ class TransitLeg extends React.Component {
               values={{ target: validatedFromLegName || '' }}
             />
           </span>
+
           <div
             className={cx('itinerary-leg-first-row', 'transit', {
               first: index === 0,
@@ -550,6 +544,7 @@ class TransitLeg extends React.Component {
                   color={config.colors.primary}
                 />
               </Link>
+
               <ServiceAlertIcon
                 className="inline-icon"
                 severityLevel={getActiveAlertSeverityLevel(
@@ -557,6 +552,7 @@ class TransitLeg extends React.Component {
                   startMs / 1000,
                 )}
               />
+
               <div className="stop-code-container">
                 {stopCode(leg.from.stop && leg.from.stop.code)}
                 <PlatformNumber
@@ -567,27 +563,29 @@ class TransitLeg extends React.Component {
                 />
               </div>
             </div>
+
             <ItineraryMapAction
               target={validatedFromLegName || ''}
               focusAction={focusAction}
             />
           </div>
+
           <LegInfo
             leg={leg}
             hasNoShortName={hasNoShortName}
             headsign={headsign}
             alertSeverityLevel={alertSeverityLevel}
             isAlternativeLeg={false}
-            displayTime={this.displayAlternativeLegs()}
-            changeHash={this.props.changeHash}
-            tabIndex={this.props.tabIndex}
+            displayTime={displayAlternativeLegs}
+            changeHash={changeHash}
+            tabIndex={tabIndex}
             isCallAgency={isCallAgency}
-            mobile={this.props.mobile}
+            mobile={mobile}
             isTransitLeg
           />
 
-          {this.state.showAlternativeLegs &&
-            !this.isRouteConstantOperation() &&
+          {showAlternativeLegs &&
+            !isRouteConstantOperation &&
             leg.nextLegs.map(l => (
               <LegInfo
                 key={l.route.shortName + legTime(l.start)}
@@ -601,65 +599,61 @@ class TransitLeg extends React.Component {
                 )}
                 displayTime
                 isCallAgency={isCallAgency}
-                mobile={this.props.mobile}
+                mobile={mobile}
                 isTransitLeg
               />
             ))}
-          {this.displayAlternativeLegs() && (
+
+          {displayAlternativeLegs && (
             <AlternativeLegsInfo
               legs={filterNextLegs(leg)}
-              showAlternativeLegs={this.state.showAlternativeLegs}
-              toggle={() =>
-                this.setState(prevState => ({
-                  ...prevState,
-                  showAlternativeLegs: !prevState.showAlternativeLegs,
-                }))
-              }
+              showAlternativeLegs={showAlternativeLegs}
+              toggle={() => setShowAlternativeLegs(prev => !prev)}
             />
           )}
+
           {(alertSeverityLevel === AlertSeverityLevelType.Warning ||
             alertSeverityLevel === AlertSeverityLevelType.Severe ||
             alertSeverityLevel === AlertSeverityLevelType.Unknown) && (
-            <div className="disruption">
-              <div className="disruption-link-container">
-                <Link
-                  to={
-                    (hasEntitiesOfType(alert, AlertEntityType.Route) &&
-                      routePagePath(
-                        leg.route.gtfsId,
-                        PREFIX_DISRUPTION,
-                        leg.trip.pattern.code,
-                      )) ||
-                    (hasEntitiesOfType(alert, AlertEntityType.Stop) &&
-                      stopPagePath(
-                        false,
-                        alert.entities[0].gtfsId,
-                        PREFIX_DISRUPTION,
-                      ))
-                  }
-                  className="disruption-link"
-                >
-                  <div className="disruption-icon">
-                    <ServiceAlertIcon
-                      className="inline-icon"
-                      severityLevel={alertSeverityLevel}
-                    />
-                  </div>
-                  <div className="description">
-                    {config.showAlertHeader
-                      ? alert.alertHeaderText
-                      : alert.alertDescriptionText}
-                  </div>
-                  <Icon
-                    img="icon_arrow-collapse--right"
-                    className="disruption-link-arrow"
-                    color={config.colors.primary}
+            <div className="disruption disruption-link-container">
+              <Link
+                to={
+                  (hasEntitiesOfType(alert, AlertEntityType.Route) &&
+                    routePagePath(
+                      leg.route.gtfsId,
+                      PREFIX_DISRUPTION,
+                      leg.trip.pattern.code,
+                    )) ||
+                  (hasEntitiesOfType(alert, AlertEntityType.Stop) &&
+                    stopPagePath(
+                      false,
+                      alert.entities[0].gtfsId,
+                      PREFIX_DISRUPTION,
+                    ))
+                }
+                className="disruption-link"
+              >
+                <div className="disruption-icon">
+                  <ServiceAlertIcon
+                    className="inline-icon"
+                    severityLevel={alertSeverityLevel}
                   />
-                </Link>
-              </div>
+                </div>
+                <div className="description">
+                  {config.showAlertHeader
+                    ? alert.alertHeaderText
+                    : alert.alertDescriptionText}
+                </div>
+                <Icon
+                  img="icon_arrow-collapse--right"
+                  className="disruption-link-arrow"
+                  color={config.colors.primary}
+                />
+              </Link>
             </div>
           )}
-          {interliningLegs?.length > 0 ? (
+
+          {interliningLegs.length > 0 ? (
             <InterlineInfo
               legs={interliningLegs}
               leg={leg}
@@ -670,7 +664,9 @@ class TransitLeg extends React.Component {
             routeNotifications.length === 0 &&
             intermediateStopCount > 1 && <div className="divider" />
           )}
+
           {routeNotifications}
+
           <LegAgencyInfo leg={leg} />
           {children}
           {intermediateStopCount > 1 && (
@@ -678,7 +674,7 @@ class TransitLeg extends React.Component {
               {(leg.intermediatePlaces.length >= 2 ||
                 interliningLegs.length >= 2) && (
                 <StopInfo
-                  toggleFunction={this.toggleShowIntermediateStops}
+                  toggleFunction={toggleShowIntermediateStops}
                   leg={leg}
                   intermediateStopCount={intermediateStopCount}
                   duration={
@@ -688,26 +684,20 @@ class TransitLeg extends React.Component {
                         ) - legTime(leg.start)
                       : leg.duration * 1000
                   }
-                  showIntermediateStops={this.state.showIntermediateStops}
+                  showIntermediateStops={showIntermediateStops}
                 />
               )}
             </div>
           )}
-          {this.renderFareDisclaimer(leg, mode, lang, LegRouteName)}
+          {renderFareDisclaimer()}
         </div>
+
         <span className="sr-only">{alertSeverityDescription}</span>
       </div>
-    );
-  };
 
-  render() {
-    return (
-      <React.Fragment>
-        {this.renderMain()}
-        {this.renderIntermediate()}
-      </React.Fragment>
-    );
-  }
+      {renderIntermediate()}
+    </>
+  );
 }
 
 TransitLeg.propTypes = {
@@ -717,35 +707,9 @@ TransitLeg.propTypes = {
   mode: PropTypes.string.isRequired,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node,
-  lang: PropTypes.string.isRequired,
   omitDivider: PropTypes.bool,
   changeHash: PropTypes.func,
   tabIndex: PropTypes.number,
   usingOwnCarWholeTrip: PropTypes.bool,
   mobile: PropTypes.bool,
 };
-
-TransitLeg.defaultProps = {
-  omitDivider: false,
-  interliningLegs: [],
-  changeHash: undefined,
-  tabIndex: undefined,
-  children: undefined,
-  usingOwnCarWholeTrip: false,
-  mobile: undefined,
-};
-
-TransitLeg.contextTypes = {
-  config: configShape.isRequired,
-  intl: PropTypes.object.isRequired, // eslint-disable-line
-};
-
-const connectedComponent = connectToStores(
-  TransitLeg,
-  ['PreferencesStore'],
-  context => ({
-    lang: context.getStore('PreferencesStore').getLanguage(),
-  }),
-);
-
-export { connectedComponent as default, TransitLeg as Component };

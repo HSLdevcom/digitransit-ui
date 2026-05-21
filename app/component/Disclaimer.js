@@ -12,7 +12,7 @@ export default function Disclaimer({
   textId,
   linkLabel,
   linkLabelId,
-  values,
+  values = {},
   href,
   useLinkButton,
   closable,
@@ -109,18 +109,4 @@ Disclaimer.propTypes = {
   useLinkButton: PropTypes.bool,
   closable: PropTypes.bool,
   onClose: PropTypes.func,
-};
-
-Disclaimer.defaultProps = {
-  header: null,
-  headerId: undefined,
-  text: null,
-  textId: undefined,
-  linkLabel: null,
-  linkLabelId: undefined,
-  values: {},
-  href: undefined,
-  useLinkButton: false,
-  closable: false,
-  onClose: undefined,
 };

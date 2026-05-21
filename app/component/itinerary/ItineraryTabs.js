@@ -31,7 +31,7 @@ function ItineraryTabs({
           recommended={i === recommendedIndex}
           feedback={feedback[i]}
           giveFeedback={
-            giveFeedback ? like => giveFeedback(i, like) : undefined
+            giveFeedback ? like => giveFeedback(i, edge.node, like) : undefined
           }
           {...rest}
         />

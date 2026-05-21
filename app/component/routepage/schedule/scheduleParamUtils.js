@@ -79,7 +79,7 @@ export const calculateRedirectDecision = ({
 
   if (!hasTrips && availableDates?.length > 0) {
     const first = availableDates[0];
-    if (first && first !== wantedDay) {
+    if (first && first.toISODate() !== wantedDay?.toISODate()) {
       return {
         shouldRedirect: true,
         redirectPath: null,

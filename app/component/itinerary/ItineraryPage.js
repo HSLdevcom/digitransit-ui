@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-import { matchShape, routerShape } from 'found';
 import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
@@ -13,6 +12,7 @@ import React, {
 } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { fetchQuery } from 'react-relay';
+import { useRouter } from 'found';
 import { saveFutureRoute } from '../../action/FutureRoutesActions';
 import { startLocationWatch } from '../../action/PositionActions';
 import { saveSearch } from '../../action/SearchActions';
@@ -24,6 +24,8 @@ import {
   getGeolocationState,
   getLatestNavigatorItinerary,
   setDialogState,
+  getPersonalization,
+  setPersonalization,
 } from '../../store/localStorage';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { getWeatherData } from '../../util/apiUtils';
@@ -41,11 +43,7 @@ import {
   planQueryNeeded,
   PLANTYPE,
 } from '../../util/planParamUtil';
-import {
-  configShape,
-  mapLayerOptionsShape,
-  relayShape,
-} from '../../util/shapes';
+import { mapLayerOptionsShape, relayShape } from '../../util/shapes';
 import { epochToTime } from '../../util/timeUtils';
 import { getAllNetworksOfType } from '../../util/vehicleRentalUtils';
 import DesktopView from '../DesktopView';
@@ -83,6 +81,8 @@ import {
   sortAndMergeExternalPlans,
   stopClient,
   updateClient,
+  rateItineraries,
+  applyFeedback,
 } from './ItineraryPageUtils';
 import ItineraryTabs from './ItineraryTabs';
 import { useItineraryContext } from './context/ItineraryContext';
@@ -92,6 +92,7 @@ import NaviGeolocationInfoModal from './navigator/navigatorgeolocation/NaviGeolo
 import NavigatorIntroModal from './navigator/navigatorintro/NavigatorIntroModal';
 import { planConnection } from './queries/PlanConnection';
 import { isCallAgencyLeg, hasTaxiLegs } from '../../util/legUtils';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
 
@@ -138,11 +139,15 @@ const unset = { plan: {}, loading: LOADSTATE.UNSET };
 const noFocus = { center: undefined, zoom: undefined, bounds: undefined };
 
 export default function ItineraryPage(props, context) {
+  const { match, router } = useRouter();
+  const config = useConfigContext();
   const headerRef = useRef(null);
   const mwtRef = useRef();
   const mobileRef = useRef();
   const ariaRef = useRef('summary-page.title');
   const mapLayerRef = useRef();
+  const weights = useRef(getPersonalization().weights || {});
+  const recommendedItinerary = useRef(-1);
 
   const [mainState, setMainState] = useState({
     ...emptyState,
@@ -187,17 +192,18 @@ export default function ItineraryPage(props, context) {
   const [topicsState, setTopicsState] = useState(null);
   const [mapState, setMapState] = useState({});
   const [naviMode, setNaviMode] = useState(false);
-  const [recommendedItinerary, setRecommendedItinerary] = useState(-1);
   const [feedback, setFeedback] = useState({}); // boolean map, key = itinerary index
 
   const itineraryContext = useItineraryContext();
 
-  const { config, router, executeAction } = context;
-  const { match, breakpoint } = props;
+  const { executeAction } = context;
+  const { breakpoint } = props;
   const { params, location } = match;
   const { hash, secondHash } = params;
   const { query } = location;
   const detailView = altTransitHash.includes(hash) ? secondHash : hash;
+  const settings = getSettings(config);
+  const personalization = config.personalization && settings.personalization;
 
   function altLoading() {
     return Object.values(altStates).some(
@@ -214,6 +220,16 @@ export default function ItineraryPage(props, context) {
   function stopClientAndUpdateTopics() {
     stopClient(context);
     setTopicsState(null);
+  }
+
+  function shiftFeedback(shift) {
+    /* shift existing personalization feedback */
+    const shiftedFeedback = {};
+    Object.keys(feedback).forEach(k => {
+      shiftedFeedback[parseInt(k, 10) + shift] = feedback[k];
+    });
+    setFeedback(shiftedFeedback);
+    recommendedItinerary.current += shift;
   }
 
   const selectStreetMode = newStreetMode => {
@@ -415,7 +431,7 @@ export default function ItineraryPage(props, context) {
   }
 
   async function makeMainQuery() {
-    setRecommendedItinerary(-1);
+    recommendedItinerary.current = -1;
     setFeedback({});
 
     if (!planQueryNeeded(config, match, PLANTYPE.TRANSIT)) {
@@ -430,7 +446,6 @@ export default function ItineraryPage(props, context) {
         planParams,
         planParams.maxQueryIterations,
       );
-      setRecommendedItinerary(Date.now() % 5); // just pick random for now
       setMainState({ ...emptyState, plan, loading: LOADSTATE.DONE });
       ariaRef.current = 'itinerary-page.itineraries-loaded';
     } catch (error) {
@@ -473,7 +488,7 @@ export default function ItineraryPage(props, context) {
 
     setRelaxScooterState({ loading: LOADSTATE.LOADING });
     const allScooterNetworks = getAllNetworksOfType(
-      context.config,
+      config,
       TransportMode.Scooter,
     );
 
@@ -642,6 +657,7 @@ export default function ItineraryPage(props, context) {
             separator1: mainState.separator1 + edges.length,
           }
         : { separator1: edges.length };
+      shiftFeedback(edges.length);
       setMainState({
         ...newState,
         ...separators,
@@ -735,6 +751,8 @@ export default function ItineraryPage(props, context) {
             separator1: mainState.separator1 + edges.length,
           }
         : { separator1: edges.length };
+
+      shiftFeedback(edges.length);
       setMainState({
         ...newState,
         ...separators,
@@ -1058,7 +1076,7 @@ export default function ItineraryPage(props, context) {
       const { client } = context.getStore('RealTimeInformationStore');
       // Client may not be initialized yet if there was an client before ComponentDidMount
       if (!naviMode && (!isEqual(itineraryTopics, topicsState) || !client)) {
-        updateClient(itineraryTopics, context);
+        updateClient(itineraryTopics, context, config);
       }
       if (!isEqual(itineraryTopics, topicsState) && !naviMode) {
         // eslint-disable-next-line react/no-did-update-set-state
@@ -1104,7 +1122,6 @@ export default function ItineraryPage(props, context) {
 
   // merge direct car and car transit plans into one
   useEffect(() => {
-    const settings = getSettings(config);
     if (
       altStates[PLANTYPE.CARTRANSIT][0].loading === LOADSTATE.DONE &&
       settings.includeCarSuggestions &&
@@ -1146,7 +1163,13 @@ export default function ItineraryPage(props, context) {
           match.location.query.arriveBy === 'true',
         );
       }
-
+      if (personalization) {
+        recommendedItinerary.current = rateItineraries(
+          plan.edges,
+          weights.current,
+          props.favouriteRoutes,
+        );
+      }
       setCombinedMainState({ plan, loading: LOADSTATE.DONE });
       resetItineraryPageSelection();
     }
@@ -1322,7 +1345,9 @@ export default function ItineraryPage(props, context) {
     }, 500);
   };
 
-  const giveFeedback = (i, liked) => {
+  const giveFeedback = (i, itinerary, liked) => {
+    weights.current = applyFeedback(weights.current, itinerary, liked);
+    setPersonalization({ weights: weights.current }); // save to local storage
     const updated = { ...feedback };
     updated[i] = liked;
     setFeedback(updated);
@@ -1420,8 +1445,6 @@ export default function ItineraryPage(props, context) {
   const bikePublicPlan = bikePublicState.plan;
   const carPublicPlan = carPublicState.plan;
 
-  const settings = getSettings(config);
-
   const showRelaxedPlanNotifier = plan === relaxMainState.plan;
   const showCombinedPlanNotifier = plan === combinedExternalRelaxState.plan;
   let rentalVehicleNotifierId = null;
@@ -1492,7 +1515,7 @@ export default function ItineraryPage(props, context) {
   ) : null;
 
   const feedbackProp =
-    config.personalization && settings.personalization ? giveFeedback : null;
+    personalization && !streetHashes.includes(hash) ? giveFeedback : null;
 
   // in mobile, settings drawer hides other content
   const panelHidden = !desktop && settingsDrawer !== null;
@@ -1557,7 +1580,7 @@ export default function ItineraryPage(props, context) {
         <ItineraryTabs
           isMobile={!desktop}
           tabIndex={selectedIndex}
-          recommendedIndex={recommendedItinerary}
+          recommendedIndex={recommendedItinerary.current}
           feedback={feedback}
           giveFeedback={feedbackProp}
           changeHash={changeHash}
@@ -1589,7 +1612,7 @@ export default function ItineraryPage(props, context) {
     content = (
       <ItineraryListContainer
         activeIndex={selectedIndex}
-        recommendedIndex={recommendedItinerary}
+        recommendedIndex={recommendedItinerary.current}
         feedback={feedback}
         giveFeedback={feedbackProp}
         planEdges={combinedEdges}
@@ -1705,24 +1728,16 @@ export default function ItineraryPage(props, context) {
 }
 
 ItineraryPage.contextTypes = {
-  config: configShape,
   executeAction: PropTypes.func.isRequired,
   getStore: PropTypes.func,
-  router: routerShape.isRequired,
-  match: matchShape.isRequired,
 };
 
 ItineraryPage.propTypes = {
-  match: matchShape.isRequired,
   content: PropTypes.node,
   map: PropTypes.shape({ type: PropTypes.func.isRequired }),
   breakpoint: PropTypes.string.isRequired,
   relayEnvironment: relayShape.isRequired,
   mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,
-};
-
-ItineraryPage.defaultProps = {
-  content: undefined,
-  map: undefined,
+  favouriteRoutes: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

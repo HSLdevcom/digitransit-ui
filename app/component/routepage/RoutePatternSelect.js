@@ -282,7 +282,8 @@ export default function RoutePatternSelect({
 
   // Flatten option groups into a single ordered list (used by downshift for item indices)
   const flatOptions = optionArray.flatMap(group => group.options);
-  const optionCount = flatOptions.length - 1; // Exclude currently selected pattern from count
+  const optionCount =
+    flatOptions.length > 1 ? flatOptions.length - 1 : flatOptions.length; // Exclude currently selected pattern from count but not if it's the only option
 
   // No alternatives to show — hide the selector entirely
   if (optionCount <= 0) {

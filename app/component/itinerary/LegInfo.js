@@ -26,7 +26,7 @@ export default function LegInfo({
   headsign,
   alertSeverityLevel,
   isAlternativeLeg,
-  displayTime,
+  displayTime = false,
   changeHash,
   tabIndex,
   isCallAgency = false,
@@ -57,7 +57,7 @@ export default function LegInfo({
         mode={mode}
         alertSeverityLevel={alertSeverityLevel}
         color={leg.route.color ? `#${leg.route.color}` : undefined}
-        text={leg.route.shortName || leg.trip?.tripShortName}
+        text={leg.route.shortName}
         realtime={false}
         withBar
         fadeLong
@@ -119,7 +119,7 @@ export default function LegInfo({
             <RouteNumber
               mode={mode}
               alertSeverityLevel={alertSeverityLevel}
-              color={leg.route?.color ? `#${leg.route.color}` : undefined}
+              color={leg.route.color ? `#${leg.route.color}` : undefined}
               text={leg.route.shortName || leg.trip?.tripShortName}
               realtime={false}
               withBar
@@ -194,7 +194,7 @@ LegInfo.propTypes = {
   headsign: PropTypes.string.isRequired,
   alertSeverityLevel: PropTypes.string,
   isAlternativeLeg: PropTypes.bool.isRequired,
-  displayTime: PropTypes.bool.isRequired,
+  displayTime: PropTypes.bool,
   changeHash: PropTypes.func,
   tabIndex: PropTypes.number,
   isCallAgency: PropTypes.bool,

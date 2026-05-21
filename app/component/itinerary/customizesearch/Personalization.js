@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import SettingsToggle from './SettingsToggle';
 import PrModal from './PrModal';
@@ -19,6 +19,12 @@ export default function Personalization(
   const [snackbarLiveRegionMessage, setSnackBarLiveRegionMessage] =
     useState('');
   const snackbarTimeout = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(snackbarTimeout.current);
+    };
+  }, []);
 
   const onToggle = () => {
     const newState = !currentSettings.personalization;

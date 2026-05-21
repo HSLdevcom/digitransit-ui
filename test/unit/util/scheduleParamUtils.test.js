@@ -103,6 +103,23 @@ describe('scheduleParamUtils', () => {
       expect(decision.shouldRedirect).to.equal(false);
     });
 
+    it('should not redirect when wantedDay is the same calendar date as the first available date but a different object instance', () => {
+      // This is the first-load scenario: wantedDay = DateTime.local() (with time component),
+      // availableDates[0] = startOf('day') for the same date — different instances, same date.
+      const today = DateTime.now().startOf('day');
+      const wantedDayDifferentInstance = DateTime.now(); // same calendar date, different time + instance
+
+      const decision = calculateRedirectDecision({
+        wantedDay: wantedDayDifferentInstance,
+        patternCode: 'HSL:1001:0:01',
+        routeId: 'HSL:1001',
+        availableDates: [today],
+        hasTrips: false,
+      });
+
+      expect(decision.shouldRedirect).to.equal(false);
+    });
+
     it('should not redirect when patternCode is missing and routeId is also missing', () => {
       const decision = calculateRedirectDecision({
         wantedDay: DateTime.now().plus({ days: 1 }),

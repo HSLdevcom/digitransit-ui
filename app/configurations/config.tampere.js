@@ -161,29 +161,6 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  modeDisclaimers: {
-    RAIL: {
-      fi: {
-        disclaimer:
-          'Nyssen liput käyvät Nysse-alueen junaliikenteessä rajoitetusti. Lue lisää ',
-        link: 'https://www.nysse.fi/junat',
-        text: 'nysse.fi/junat',
-      },
-      sv: {
-        disclaimer:
-          'Nysse-biljetter är giltiga på tåg i Nysse-området, med vissa begränsningar. Läs mer på ',
-        link: 'https://www.nysse.fi/en/ways-to-get-around/train',
-        text: 'Trains in the Nysse area - Nysse, Tampere regional transport',
-      },
-      en: {
-        disclaimer:
-          'Nysse tickets are valid on trains in the Nysse area with some limitations. Read more on ',
-        link: 'https://www.nysse.fi/en/ways-to-get-around/train',
-        text: 'Trains in the Nysse area - Nysse, Tampere regional transport',
-      },
-    },
-  },
-
   useSearchPolygon: true,
 
   areaPolygon: [

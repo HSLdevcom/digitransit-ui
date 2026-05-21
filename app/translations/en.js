@@ -522,6 +522,7 @@ export default {
       'No route suggestions were found with the your settings. However, we found the following route options:',
     'no-route-start': 'Please select origin',
     'no-route-start-end': 'Please select origin and destination',
+    'no-trips-found': 'No journeys found for the selected date {selectedDate}.',
     'notification-minimize': 'Close message',
     'notification-open': 'Open message',
     'number-of-intermediate-stops':

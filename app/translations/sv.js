@@ -514,6 +514,7 @@ export default {
       'Kunde inte hitta några ruttförslag med dina val. Vi hittade dock följande ruttalternativ:',
     'no-route-start': 'Välj avfärdsplats',
     'no-route-start-end': 'Välj avfärdsplats och destination',
+    'no-trips-found': 'Inga resor på den valda dagen {selectedDate}.',
     'notification-minimize': 'Stäng meddelande',
     'notification-open': 'Öppna meddelande',
     'number-of-intermediate-stops':
