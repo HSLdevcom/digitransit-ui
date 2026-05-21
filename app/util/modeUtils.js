@@ -234,7 +234,6 @@ export function transitIconName(mode, lollipop) {
     case 'replacement-bus':
       return lollipop ? 'icon_bus-lollipop' : 'icon_replacement-bus';
     case 'subway':
-    case 'airplane':
       return `icon_${mode}`; // no lollipop version
     default:
       return lollipop ? `icon_${mode}-lollipop` : `icon_${mode}`;

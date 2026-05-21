@@ -376,6 +376,7 @@ export default {
     'map-layer-park-and-ride': 'Anslutningsparkering',
     'map-layer-park-and-ride-bike': 'Anslutningsparkering för cyklar',
     'map-layer-scooter': 'Scooters',
+    'map-layer-stop-airplane': 'Flygplatser',
     'map-layer-stop-bus': 'Busshållplats',
     'map-layer-stop-ferry': 'Färja',
     'map-layer-stop-funicular': 'Bergbanor',

@@ -381,6 +381,7 @@ export default {
     'map-layer-park-and-ride': 'Park & ride sites',
     'map-layer-park-and-ride-bike': 'Park & ride bike parking',
     'map-layer-scooter': 'Scooters',
+    'map-layer-stop-airplane': 'Airports',
     'map-layer-stop-bus': 'Bus stops',
     'map-layer-stop-ferry': 'Ferries',
     'map-layer-stop-funicular': 'Funiculars',

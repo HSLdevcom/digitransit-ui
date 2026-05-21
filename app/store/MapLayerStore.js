@@ -21,6 +21,7 @@ class MapLayerStore extends Store {
       subway: true,
       tram: true,
       funicular: true,
+      airplane: true,
     },
     terminal: {
       bus: true,
@@ -28,6 +29,7 @@ class MapLayerStore extends Store {
       rail: true,
       subway: true,
       tram: true,
+      airplane: true,
     },
     vehicles: false,
     geoJson: {},
@@ -120,11 +122,15 @@ export const mapLayerShape = PropTypes.shape({
     subway: PropTypes.bool,
     tram: PropTypes.bool,
     funicular: PropTypes.bool,
+    airplane: PropTypes.bool,
   }).isRequired,
   terminal: PropTypes.shape({
     bus: PropTypes.bool,
+    ferry: PropTypes.bool,
     rail: PropTypes.bool,
     subway: PropTypes.bool,
+    tram: PropTypes.bool,
+    airplane: PropTypes.bool,
   }).isRequired,
   vehicles: PropTypes.bool,
   // eslint-disable-next-line
