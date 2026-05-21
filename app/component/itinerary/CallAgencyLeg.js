@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { legShape } from '../../util/shapes';
-import { useConfigContext } from '../../configurations/ConfigContext';
 import TransitLeg from './TransitLeg';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
 import RouteNumberContainer from '../RouteNumber';
 import withBreakpoint from '../../util/withBreakpoint';
 import { isLocalCallAgency } from '../../util/legUtils';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 const CallAgencyLeg = ({ leg, breakpoint, ...props }) => {
   const intl = useIntl();

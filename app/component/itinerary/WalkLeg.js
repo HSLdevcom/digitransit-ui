@@ -51,14 +51,15 @@ function WalkLeg({
   nextLeg,
   useOriginAddress,
 }) {
-  const config = useConfigContext();
   const intl = useIntl();
+  const config = useConfigContext();
   const { colors, emphasizeDistance } = config;
   // If there is only one indoor routing step, always show it.
   const [showIntermediateSteps, setShowIntermediateSteps] = useState(
     getIndoorStepsWithVerticalTransportation(previousLeg, leg, nextLeg)
       .length === 1,
   );
+
   const distance = displayDistance(
     parseInt(leg.mode !== 'WALK' ? 0 : leg.distance, 10),
     config,
