@@ -196,7 +196,7 @@
     "react-truncate-markup": "5.1.2",
     "redis": "2.8.0",
     "relay-runtime": "16.2.0",
-    "serialize-javascript": "6.0.2",
+    "serialize-javascript": "7.0.5",
     "suncalc": "1.8.0",
     "supercluster": "^7.1.5",
     "universal-cookie": "7.2.2",
