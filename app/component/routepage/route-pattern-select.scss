@@ -137,7 +137,7 @@
     padding: 0 8px;
     border-radius: 10px;
     font-size: $font-size-xxsmall;
-    font-weight: $font-weight-book;
+    font-weight: $font-weight-medium;
     background: color-mix(
       in srgb,
       var(--mode-color-raw, #{$theme-primary-color}) 10%,
@@ -497,11 +497,20 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: $background-color-lighter;
+      color: $swap-button-icon-color;
+
+      &:hover {
+        background: $button-hover-color;
+
+        .icon-container {
+          transform: scale(1.2);
+        }
+      }
 
       .icon-container {
         width: 16px;
         height: 16px;
+        transition: transform 0.15s ease;
       }
     }
   }

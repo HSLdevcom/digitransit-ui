@@ -138,7 +138,7 @@ export function getAnalyticsInitCode(config, req) {
       // - after 8 s delay
       // - not when mobile time picker or mobile settings are open
       const ceRoutePage = buildCrazyEggSurveyScript(
-        { fi: '712691e8-45fb-47c3-8bbe-a293ce1e47fe' },
+        { fi: '96b0b2f3-bc5a-4b40-b910-cc65bb5b6cd9' },
         {
           language: lang,
           pathPrefix: PREFIX_ROUTES,

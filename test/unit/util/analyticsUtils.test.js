@@ -171,7 +171,7 @@ describe('analytics utils', () => {
       document.cookie = 'lang=fi';
       const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
       document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-      expect(res.includes('712691e8-45fb-47c3-8bbe-a293ce1e47fe')).to.equal(
+      expect(res.includes('96b0b2f3-bc5a-4b40-b910-cc65bb5b6cd9')).to.equal(
         true,
       );
     });
@@ -179,7 +179,7 @@ describe('analytics utils', () => {
       document.cookie = 'lang=sv';
       const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
       document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-      expect(res.includes('712691e8-45fb-47c3-8bbe-a293ce1e47fe')).to.equal(
+      expect(res.includes('96b0b2f3-bc5a-4b40-b910-cc65bb5b6cd9')).to.equal(
         false,
       );
     });
@@ -187,7 +187,7 @@ describe('analytics utils', () => {
       document.cookie = 'lang=en';
       const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
       document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-      expect(res.includes('712691e8-45fb-47c3-8bbe-a293ce1e47fe')).to.equal(
+      expect(res.includes('96b0b2f3-bc5a-4b40-b910-cc65bb5b6cd9')).to.equal(
         false,
       );
     });
