@@ -8,7 +8,20 @@ const APP_DESCRIPTION = 'Uusi Reittiopas - Waltti-opas';
 export default configMerger(walttiConfig, {
   CONFIG,
 
-  appBarLink: { name: 'Waltti', href: 'https://waltti.fi/' },
+  appBarLink: {
+    name: 'Waltti',
+    href: 'https://waltti.fi/',
+    altLink: {
+      sv: {
+        name: 'Waltti',
+        href: 'https://waltti.fi/sv/',
+      },
+      en: {
+        name: 'Waltti',
+        href: 'https://waltti.fi/en/',
+      },
+    },
+  },
 
   colors: {
     primary: '#5959a8',
