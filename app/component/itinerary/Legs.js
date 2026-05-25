@@ -184,6 +184,7 @@ export default class Legs extends React.Component {
               icon={
                 usingOwnCarWholeTrip ? 'icon_wait-car' : 'icon_wait_standing'
               }
+              hasPreviousTransitLeg={leg.transitLeg}
             >
               {stopCode(leg.to.stop)}
             </WaitLeg>

@@ -13,7 +13,16 @@ import { ViaLocationType } from '../../constants';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function WaitLeg({ children, leg, start, waitTime, focusAction, index, icon }) {
+function WaitLeg({
+  children,
+  leg,
+  start,
+  waitTime,
+  focusAction,
+  index,
+  icon,
+  hasPreviousTransitLeg,
+}) {
   const intl = useIntl();
   const modeClassName = 'wait';
   const { colors } = useConfigContext();
@@ -37,6 +46,7 @@ function WaitLeg({ children, leg, start, waitTime, focusAction, index, icon }) {
         index={index}
         icon={icon}
         isNotFirstLeg
+        hasPreviousTransitLeg={hasPreviousTransitLeg}
       />
       <div className="small-9 columns itinerary-instruction-column wait">
         <span className="sr-only">
@@ -94,11 +104,13 @@ WaitLeg.propTypes = {
   waitTime: PropTypes.number.isRequired,
   leg: legShape.isRequired,
   icon: PropTypes.string,
+  hasPreviousTransitLeg: PropTypes.bool,
 };
 
 WaitLeg.defaultProps = {
   children: undefined,
   icon: undefined,
+  hasPreviousTransitLeg: false,
 };
 
 export default WaitLeg;

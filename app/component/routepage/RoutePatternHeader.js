@@ -68,7 +68,7 @@ function RoutePatternHeader({
           aria-label={intl.formatMessage({ id: 'swap-order-button-label' })}
           title={intl.formatMessage({ id: 'route-pattern-swap-tooltip' })}
         >
-          <Icon img="icon_direction-c" viewBox="0 0 19 17" color="#333" />
+          <Icon img="icon_direction-c" viewBox="0 0 19 17" />
         </button>
       )}
     </div>
