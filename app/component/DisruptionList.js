@@ -3,8 +3,9 @@ import React from 'react';
 import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
+import { SuccessAnimationView } from '@hsl-fi/notifications';
 
 import Disruption from './Disruption';
 import DisruptionDetails from './DisruptionDetails';
@@ -21,20 +22,21 @@ import Icon from './Icon';
 import { useConfigContext } from '../configurations/ConfigContext';
 
 export const EmptyDisruptions = () => {
+  const intl = useIntl();
   const config = useConfigContext();
-  return (
-    // TODO: Use ThemedIcon with @hslfi icon component
+  return config.iconModeSet === 'hsl' ? (
+    <SuccessAnimationView
+      heading={intl.formatMessage({ id: 'disruption-list-traffic-normal' })}
+      description={intl.formatMessage({ id: 'disruption-info-no-alerts' })}
+    />
+  ) : (
     <div className="no-alerts-container">
-      {config.iconModeSet === 'hsl' ? (
-        <Icon img="icon_no-disruptions" omitViewBox />
-      ) : (
-        <Icon
-          img="icon_no-disruptions"
-          color={config.colors.primary}
-          height={3}
-          width={3}
-        />
-      )}
+      <Icon
+        img="icon_no-disruptions"
+        color={config.colors.primary}
+        height={3}
+        width={3}
+      />
       <h2>
         <FormattedMessage
           id="disruption-list-traffic-normal"

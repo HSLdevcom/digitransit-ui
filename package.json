@@ -138,6 +138,7 @@
     "@hsl-fi/icons": "^2.2.4",
     "@hsl-fi/layout-primitives": "^4.8.1",
     "@hsl-fi/modal": " ^0.3.2",
+    "@hsl-fi/notifications": "^4.0.5",
     "@hsl-fi/sass": " 1.0.0",
     "@hsl-fi/shimmer": "0.1.2",
     "@hsl-fi/site-header": "6.4.0",
