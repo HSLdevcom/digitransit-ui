@@ -54,7 +54,7 @@ function ViaLeg(props, { config }) {
   const startTime = legTimeStr(props.leg.start);
   const arrivalMs = legTime(props.arrival);
   const arrivalTime = legTimeStr(props.arrival);
-  const duration = durationToString(props.leg.duration * 1000);
+  const duration = durationToString(intl, props.leg.duration * 1000);
   const stayDuration = legTime(props.leg.start) - arrivalMs;
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
@@ -123,7 +123,9 @@ function ViaLeg(props, { config }) {
               <div className="itinerary-via-leg-duration">
                 <FormattedMessage
                   id="via-leg-stop-duration"
-                  values={{ stayDuration: durationToString(stayDuration) }}
+                  values={{
+                    stayDuration: durationToString(intl, stayDuration),
+                  }}
                   defaultMessage="At via point {stayDuration}"
                 />
               </div>

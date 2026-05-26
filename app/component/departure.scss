@@ -208,6 +208,7 @@
         padding: 0 8px 0 4px;
         margin: unset;
         color: $cancelation-red;
+        vertical-align: middle;
       }
     }
   }
@@ -273,7 +274,6 @@
 .capacity-information-modal {
   .capacity-info-row {
     display: flex;
-    height: 20px;
     margin-top: 8px;
 
     h4 {

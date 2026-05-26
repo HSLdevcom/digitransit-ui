@@ -1,26 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-import { legShape, configShape } from '../../util/shapes';
+import { legShape } from '../../util/shapes';
 import TransitLeg from './TransitLeg';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
 import RouteNumberContainer from '../RouteNumber';
 import withBreakpoint from '../../util/withBreakpoint';
 import { isLocalCallAgency } from '../../util/legUtils';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
-const CallAgencyLeg = (
-  { leg, currentLanguage, breakpoint, ...props },
-  { config },
-) => {
+const CallAgencyLeg = ({ leg, breakpoint, ...props }) => {
   const intl = useIntl();
+  const config = useConfigContext();
   const modeClassName = 'call';
   const { route } = leg;
   const mobile = breakpoint === 'small' || breakpoint === 'medium';
   const notification =
     config.showRouteDescNotification &&
     route.desc?.length &&
-    config.flex.infoLanguage === currentLanguage // No translations available in the data at the moment
+    config.flex.infoLanguage === config.language // No translations available in the data at the moment
       ? { content: route.desc, link: route.url }
       : {
           content: intl.formatMessage({ id: 'call-agency-disclaimer' }),
@@ -67,7 +65,6 @@ CallAgencyLeg.propTypes = {
   leg: legShape.isRequired,
   index: PropTypes.number.isRequired,
   showRouteDescNotification: PropTypes.bool,
-  currentLanguage: PropTypes.string.isRequired,
   breakpoint: PropTypes.string,
 };
 
@@ -76,18 +73,5 @@ CallAgencyLeg.defaultProps = {
   breakpoint: undefined,
 };
 
-CallAgencyLeg.contextTypes = {
-  config: configShape.isRequired,
-};
-
-const CallAgencyLegWithBreakpoint = withBreakpoint(CallAgencyLeg);
-
-const connectedComponent = connectToStores(
-  CallAgencyLegWithBreakpoint,
-  ['PreferencesStore'],
-  context => ({
-    currentLanguage: context.getStore('PreferencesStore').getLanguage(),
-  }),
-);
-
-export { CallAgencyLeg as Component, connectedComponent as default };
+export { CallAgencyLeg as Component };
+export default withBreakpoint(CallAgencyLeg);

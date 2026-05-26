@@ -43,7 +43,7 @@ export default function PopupHeader({
           card={card}
           mode={mode}
           text={routeLine}
-          color={route.color ? `#${route.color}` : 'currentColor'}
+          color={route.color ? `#${route.color}` : undefined}
         />
         {startTimeEl}
       </h1>

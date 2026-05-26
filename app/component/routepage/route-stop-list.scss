@@ -1,0 +1,401 @@
+// Styles for the route stop list, individual stop rows, and the
+// location-details layout used for each stop item.
+
+// Shared address text style — used by .route-stop-address and .route-stop-address-row.
+%route-address-text {
+  font-size: $font-size-xsmall;
+  font-family: $font-family;
+  font-weight: $font-weight-book;
+  line-height: 1.25rem;
+  letter-spacing: -0.03em;
+  color: $gray;
+  word-break: keep-all;
+  margin-right: 5px;
+}
+
+// Stop list container
+.route-stop-list {
+  @include font-medium;
+
+  background-color: $white;
+  margin: 0 0 0 2px;
+  padding: 0;
+
+  .route-stop:last-child .route-stop-row_content-container {
+    border-bottom: none;
+  }
+
+  > li {
+    list-style: none;
+  }
+}
+
+// To hide the line element in the last itinerary leg
+.route-stop-list
+  > .route-stop:last-of-type
+  > div.route-stop-now_circleline
+  > .route-stop-now_line {
+  display: none;
+}
+
+.route-stop-container {
+  width: 100%;
+}
+
+// ─── Stop item layout ──────────────────────────────────────────────────────
+
+.location-details_container {
+  max-width: 100%;
+  display: flex;
+  flex: 1 0 3.5em;
+
+  &.passed {
+    div {
+      color: $muted-gray;
+
+      .zone-icon-container .circle {
+        color: $white;
+      }
+    }
+
+    span {
+      color: $muted-gray;
+
+      svg {
+        color: $muted-gray;
+      }
+    }
+  }
+
+  // Vehicle icon states (.arriving / .arrived / .departed) are positioned with
+  // absolute top offsets that correspond to the fixed stop-row height (≈60px).
+  // The `> a > span svg` and `div > a > span svg` selectors cover both a plain
+  // <a> and a <div><a> wrapper rendered in different contexts.
+  .route-stop-now {
+    min-width: 13%;
+    position: absolute;
+    z-index: 4;
+    left: 12px;
+
+    @include min-width(tablet) {
+      // Fixed 45px: aligns with the wider left gutter on tablet+
+      left: 45px;
+    }
+
+    &.arriving > a > span svg,
+    &.arriving div > a > span svg {
+      // -44px: vehicle halfway above the stop row at arrival
+      top: -44px;
+
+      @include min-width(tablet) {
+        // -49px: slightly higher on tablet due to taller row padding
+        top: -49px;
+      }
+    }
+
+    &.arrived > a > span svg,
+    &.arrived div > a > span svg {
+      // -17px: vehicle centred on current stop
+      top: -17px;
+    }
+
+    &.departed > a > span svg,
+    &.departed div > a > span svg {
+      // 16px: vehicle below the stop row after departure
+      top: 16px;
+
+      @include min-width(tablet) {
+        top: 12px;
+      }
+    }
+  }
+
+  .route-now-content {
+    padding-top: 10px;
+
+    svg {
+      position: absolute;
+      font-size: 5em;
+    }
+
+    .large-vehicle-icon {
+      font-size: 3.5em;
+      bottom: 0;
+
+      // calc(-2rem + 22px): keeps icon centred over the 15px-wide circle line
+      left: calc(-2rem + 22px);
+    }
+  }
+
+  .route-stop-now_circleline {
+    position: relative;
+    min-width: 15px;
+    top: 6px;
+
+    .route-stop-now_line {
+      width: 8px;
+      height: 100%;
+      background-color: currentcolor;
+      position: absolute;
+      border-radius: 4px;
+      top: 11px;
+      left: 4px;
+
+      @include min-width(tablet) {
+        left: 4.25px;
+      }
+    }
+
+    svg {
+      position: absolute;
+      top: 0.2em;
+      z-index: 3;
+    }
+  }
+
+  .route-stop-row_content-container {
+    width: calc(100% - 30px);
+    margin-left: 15px;
+    display: flex;
+    border-bottom: 1px solid $light-gray;
+
+    button {
+      width: 100%;
+      height: 100%;
+      padding: 10px 0;
+      text-decoration: none;
+
+      .route-details_container {
+        flex-grow: 1;
+        display: flex;
+        min-width: 0;
+
+        // 0.9375rem = 15px
+        font-size: 0.9375rem;
+
+        .route-stop-name {
+          font-size: 15px;
+          min-width: 0;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          letter-spacing: -0.03em;
+        }
+
+        span {
+          text-decoration: none;
+        }
+
+        .platform-number-container {
+          display: inherit;
+          align-items: center;
+
+          .platform-code {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: $background-color-lighter;
+            color: $black;
+            width: 24px;
+            height: 17px;
+            border-radius: 4px;
+            font-family: $font-family-narrow;
+            font-size: $font-size-xxsmall;
+            font-weight: $font-weight-medium;
+            margin-left: 7px;
+            line-height: 1.6;
+            white-space: nowrap;
+
+            &.empty {
+              width: 0;
+              background: none;
+            }
+          }
+        }
+      }
+
+      .route-details-bottom-row {
+        display: flex;
+        align-items: center;
+        text-align: left;
+        min-height: 1em;
+        height: auto;
+        justify-content: space-between;
+
+        .route-address-container {
+          display: flex;
+          align-items: center;
+        }
+
+        .itinerary-stop-code {
+          display: flex;
+          align-items: center;
+          margin-left: 0;
+
+          // 0.9375rem = 15px
+          height: 0.9375rem;
+          margin-right: 5px;
+        }
+
+        .route-stop-address {
+          @extend %route-address-text;
+
+          display: block;
+          height: 1.25rem;
+        }
+
+        .itinerary-zone-icon {
+          flex: 1;
+          font-family: $font-family;
+        }
+      }
+
+      .route-stop-time {
+        display: flex;
+        flex-direction: row;
+        color: $gray;
+        flex: 0 1 auto;
+        font-size: $font-size-small;
+
+        span {
+          margin: 0;
+          font-family: $font-family;
+
+          &.time {
+            display: flex;
+            flex: 1 1 auto;
+            white-space: unset;
+            text-align: right;
+            font-size: 12px;
+            height: 14px;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0;
+            margin: 0;
+            line-height: 14px;
+            min-width: 2.35rem;
+
+            &.first {
+              font-size: 15px;
+              font-family: $font-family-narrow;
+              height: 18px;
+              line-height: 18px;
+              min-width: unset;
+              width: fit-content;
+              margin-left: 9px;
+            }
+          }
+
+          &.next {
+            font-weight: $font-weight-book;
+            width: 100%;
+            letter-spacing: -0.03em;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ─── Stop address row (used outside the button in some contexts) ───────────
+
+.route-address-row-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .route-stop-address-row {
+    @extend %route-address-text;
+
+    display: flex;
+    min-height: 1.25rem;
+  }
+
+  .itinerary-stop-code {
+    padding: 0 2px;
+  }
+
+  .card-code {
+    border: 1px solid $light-gray;
+    border-radius: 3px;
+    font-size: 11px;
+    color: $gray;
+    margin-right: 3px;
+    margin-left: 4px;
+    padding: 0 5px;
+    letter-spacing: -0.37px;
+    height: 1.45em;
+  }
+}
+
+// ─── Narrow viewport override ───────────────────────────────────────────────
+
+.small
+  .route-stop-row_content-container
+  > a
+  .route-details_container
+  > div
+  > span
+  .route-stop-address {
+  max-width: 7em;
+}
+
+// ─── Nearby stop ────────────────────────────────────────────────────────────
+
+.nearest-route-stop {
+  @include font-narrow-book;
+
+  color: $gray;
+
+  .walk-distance {
+    font-size: $font-size-small;
+  }
+}
+
+.nearest-route-stop > span > svg.icon {
+  transform: translate(0, 3px);
+}
+
+// ─── Details upper row layout ────────────────────────────────────────────────
+
+.route-details-upper-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  // Fixed 1.125em: aligns with the route number icon height
+  height: 1.125em;
+  min-width: calc(100% - 13% - 15px);
+  margin-bottom: 3px;
+}
+
+// ─── Drop-off info badge ─────────────────────────────────────────────────────
+
+.drop-off-container {
+  margin-top: 7px;
+  background-color: $infobox-color-generic-blue;
+  height: 24px;
+  width: fit-content;
+  border-radius: 5px;
+  color: $black;
+  font-size: 0.8125em;
+  font-weight: $font-weight-book;
+
+  span {
+    vertical-align: middle;
+    display: inline-block;
+    padding-right: 12px;
+  }
+
+  .icon-container {
+    padding: 4px 5px 0 9px;
+  }
+}
+
+// ─── Standalone route-stop-time (used by TripRouteStop) ─────────────────────
+
+.route-stop-time {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}

@@ -46,9 +46,7 @@ describe('<TripStopListContainer />', () => {
       breakpoint: 'large',
     };
     const wrapper = shallowWithIntl(<TripStopListContainer {...props} />, {
-      context: {
-        config: { CONFIG: 'default' },
-      },
+      config: { CONFIG: 'default', colors: { primary: '#007AC9' } },
     });
     expect(wrapper.find(TripRouteStop)).to.have.lengthOf(2);
     expect(wrapper.find(TripRouteStop).at(0).prop('stopPassed')).to.equal(true);
@@ -127,9 +125,7 @@ describe('<TripStopListContainer />', () => {
       breakpoint: 'large',
     };
     const wrapper = shallowWithIntl(<TripStopListContainer {...props} />, {
-      context: {
-        config: { CONFIG: 'default' },
-      },
+      config: { CONFIG: 'default', colors: { primary: '#007AC9' } },
     });
     expect(wrapper.find(TripRouteStop).prop('selectedVehicle').id).to.equal(
       'HSL_00875',

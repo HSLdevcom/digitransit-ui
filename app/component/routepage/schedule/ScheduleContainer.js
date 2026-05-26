@@ -219,19 +219,31 @@ const ScheduleContainer = ({
 
   if (constantOperationInfo) {
     return (
-      <ScheduleConstantOperation
-        constantOperationInfo={constantOperationInfo}
-        match={match}
-        route={route}
-        breakpoint={breakpoint}
-      />
+      <div
+        id="route-timetable-panel"
+        className="route-timetable-panel"
+        role="tabpanel"
+        aria-labelledby="route-timetable-tab"
+      >
+        <ScheduleConstantOperation
+          constantOperationInfo={constantOperationInfo}
+          match={match}
+          route={route}
+          breakpoint={breakpoint}
+        />
+      </div>
     );
   }
 
   const showTrips = tripsResult.trips;
 
   return (
-    <>
+    <div
+      id="route-timetable-panel"
+      className="route-timetable-panel"
+      role="tabpanel"
+      aria-labelledby="route-timetable-tab"
+    >
       <ScrollableWrapper
         className={cx('route-schedule-container', {
           mobile: breakpoint !== 'large',
@@ -259,7 +271,6 @@ const ScheduleContainer = ({
             className={cx('route-schedule-list-wrapper', {
               'bp-large': breakpoint === 'large',
             })}
-            aria-live="polite"
           >
             <ScheduleHeader
               stops={pattern.stops}
@@ -301,7 +312,7 @@ const ScheduleContainer = ({
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

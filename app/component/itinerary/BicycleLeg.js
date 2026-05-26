@@ -47,7 +47,7 @@ export default function BicycleLeg(
     config,
     intl.formatNumber,
   );
-  const duration = durationToString(leg.duration * 1000);
+  const duration = durationToString(intl, leg.duration * 1000);
   const time = legTimeStr(leg.start); // hh:mm
   let { mode } = leg;
   let legDescription = <span>{leg.from ? leg.from.name : ''}</span>;
@@ -370,7 +370,10 @@ export default function BicycleLeg(
                       id={`from-${bicycleWalkLeg.from.stop.vehicleMode.toLowerCase()}`}
                     />
                   ),
-                  duration: durationToString(bicycleWalkLeg.duration * 1000),
+                  duration: durationToString(
+                    intl,
+                    bicycleWalkLeg.duration * 1000,
+                  ),
                   distance: displayDistance(
                     parseInt(bicycleWalkLeg.distance, 10),
                     config,
@@ -471,7 +474,10 @@ export default function BicycleLeg(
                       id={`to-${bicycleWalkLeg.to.stop.vehicleMode.toLowerCase()}`}
                     />
                   ),
-                  duration: durationToString(bicycleWalkLeg.duration * 1000),
+                  duration: durationToString(
+                    intl,
+                    bicycleWalkLeg.duration * 1000,
+                  ),
                   distance: displayDistance(
                     parseInt(bicycleWalkLeg.distance, 10),
                     config,

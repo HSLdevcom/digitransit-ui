@@ -65,7 +65,7 @@ export default {
     back: 'Tillbaka',
     'back-button-title': 'Tillbaka till föregående sida',
     'back-to-front-page': 'Tillbaka till framsidan ›',
-    bicycle: 'cykel',
+    bicycle: 'Cykel',
     'bicycle-walk-from-transit':
       'Ta cykeln från {transportMode} och led cykeln {distance} ({duration})',
     'bicycle-walk-from-transit-no-duration': 'Led cykeln från {transportMode}',
@@ -73,6 +73,7 @@ export default {
       'Led cykeln {distance} ({duration}) och ta cykeln med på {transportMode}',
     'bicycle-walk-to-transit-no-duration': 'Led cykeln på {transportMode}',
     bicycle_frame_lock: 'Ramlås',
+    bicycle_walk: 'Leder en cykel',
     'bike-availability': 'Antal cyklar just nu',
     'bike-only': 'Endast cykling',
     'bike-park': 'Anslutningsparkering för cyklar',
@@ -82,8 +83,7 @@ export default {
     'bike-station-disabled': 'Stadscykelstationen är ur bruk.',
     'bikes-available': '{amount} cyklar vid stationen',
     'biking-speed': 'Cykling hastighet',
-    'book-a-lift':
-      'Tilaa kyyti sovelluksella ja jää odottamaan sen saapumista:',
+    'book-a-lift': 'Beställ resa i appen',
     'booking-method': 'Beställningssätt',
     bus: 'Buss',
     'bus-express': 'Stombuss',
@@ -99,21 +99,15 @@ export default {
       'Anropsstyrd kollektivtrafik {routeNumber} {headSign}',
     cancel: 'Avbryt',
     canceled: 'Inställt',
-    'capacity-modal.crushed-standing-room-only-body': 'Endast några ståplatser',
-    'capacity-modal.crushed-standing-room-only-heading': 'Nästan fullt',
-    'capacity-modal.few-seats-available-body': 'Några sittplatser',
-    'capacity-modal.few-seats-available-heading': 'Ingen stor trängsel',
+    'capacity-modal.crushed-standing-room-only-body': 'Endast få ståplatser',
+    'capacity-modal.few-seats-available-body': 'Några lediga sittplatser',
     'capacity-modal.full-capacity-body': 'Inga lediga platser',
-    'capacity-modal.full-capacity-heading': 'Fullt',
-    'capacity-modal.heading': 'Finns det plats ombord?',
+    'capacity-modal.heading': 'Finns det plats i fordonet?',
     'capacity-modal.legend': 'Teckenförklaringar',
-    'capacity-modal.many-seats-available-body': 'Många sittplatser',
-    'capacity-modal.many-seats-available-heading': 'Ingen trängsel',
-    'capacity-modal.standing-room-only-body':
-      'Endast några få sitt- och ståplatser',
-    'capacity-modal.standing-room-only-heading': 'Stor trängsel',
+    'capacity-modal.many-seats-available-body': 'Många lediga sittplatser',
+    'capacity-modal.standing-room-only-body': 'Endast få sitt- och ståplatser',
     'capacity-modal.subheading':
-      'Information om kapaciteten i realtid finns att rå om vissa fordon',
+      'För vissa fordon visas en uppskattning av platssituationen i realtid',
     car: 'Bil',
     'car-distance-duration': 'Kör {duration} ({distance})',
     'car-distance-no-duration': 'Kör {distance}',
@@ -161,6 +155,7 @@ export default {
     day: 'Dagen',
     delete: 'Ta bort',
     'delete-favourite-failed-heading': 'Unable to delete save',
+    'demand-responsive-traffic': 'Efterfrågestyrd kollektivtrafik',
     'departure-list-update.sr-instructions':
       'Listan på avgångar och avgångstider uppdateras i realtid.',
     'departure-page-sr':
@@ -232,12 +227,13 @@ export default {
     'ferry-external-with-route-number': 'Färja {routeNumber} {headSign}',
     'ferry-with-route-number': 'Färja {routeNumber} {headSign}',
     filter: 'Filtrera',
-    filters: 'Filterer',
+    filters: 'Filter',
     finnish: 'Finska',
     'free-of-charge': 'Kostnadsfri',
     'from-bus': 'bussen',
     'from-ferry': 'färjan',
     'from-ferrypier': 'färjerkajen',
+    'from-place': 'plats',
     'from-rail': 'tåget',
     'from-scooter-location': 'platsen för sparkcykel',
     'from-station': 'stationen',
@@ -258,8 +254,10 @@ export default {
       'Det tar längre tid än väntat att hitta din plats.',
     'geolocation-timeout-text':
       'Har du godkänt att webbläsaren får använda din plats?',
-    'get-off-the-ride': 'Nouse pois kyydistä',
+    'get-off-the-ride': 'Stig ur',
     hour: 'Timme',
+    hsl_ticket: 'HRT-biljetten',
+    hsl_travel_card: 'HRT-kortet',
     'include-estonia': 'Inkludera Estland',
     'index.title': 'Reseplaneraren',
     'indoor-step-message-elevator': 'Hiss',
@@ -279,7 +277,7 @@ export default {
       'Koldioxidutsläppen för denna resa är {co2value} g.',
     'itinerary-co2.description-sr':
       'Koldioxidutsläppen för denna resa är {co2value} g. En bil skulle generera {carCo2Value} g koldioxid på samma resa.',
-    'itinerary-co2.link': 'Så minskar vi utsläppen ›',
+    'itinerary-co2.link': 'Utsläppsberäkningen grundar sig på detta ›',
     'itinerary-co2.title': 'Resans CO₂-utsläpp',
     'itinerary-co2.title-sr': 'Rejsens koldioxidutsläpp',
     'itinerary-details.biking-leg':
@@ -295,6 +293,8 @@ export default {
     'itinerary-details.route-has-warning-alert': 'Störningar längs rutten..',
     'itinerary-details.scooter-leg':
       '{time} åk elsparkcykel {distance} från {origin} till destinationen {destination}. Restid {duration}',
+    'itinerary-details.taxi-leg':
+      '{time} åk taxi {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-details.transit-leg-part-1': '{time} {realtime} ta',
     'itinerary-details.transit-leg-part-2':
       'från hållplats {startStop} {startZoneInfo} {trackInfo} till hållplats {endStop} {endZoneInfo}. Beräknad restid {duration}. ',
@@ -328,6 +328,8 @@ export default {
       'Avgång kl {firstDepartureTime} från {firstDepartureStop} stadscykelstation',
     'itinerary-summary-row.first-leg-start-time-scooter':
       'Avgång kl {firstDepartureTime} med en sparkcykel',
+    'itinerary-summary-row.first-leg-start-time-taxi':
+      'Avgång kl {firstDepartureTime} med taxi från {firstDepartureStop}',
     'itinerary-summary-row.no-transit-legs': 'Avgå när det passar för dig',
     'itinerary-summary-row.transfers':
       'Byte {vehicle} vid hållplats {stopName}',
@@ -376,6 +378,7 @@ export default {
     'map-layer-park-and-ride': 'Anslutningsparkering',
     'map-layer-park-and-ride-bike': 'Anslutningsparkering för cyklar',
     'map-layer-scooter': 'Scooters',
+    'map-layer-stop-airplane': 'Flygplatser',
     'map-layer-stop-bus': 'Busshållplats',
     'map-layer-stop-ferry': 'Färja',
     'map-layer-stop-funicular': 'Bergbanor',
@@ -401,7 +404,7 @@ export default {
     'modes.to-scooter': 'elsparkcykel',
     'modes.to-stop': 'hållplats',
     'modes.to-subway': 'metrostation',
-    'modes.to-taxi': 'taxi',
+    'modes.to-taxi': 'destination',
     'modes.to-tram': 'spårvagnshållplats',
     'more-departures': 'Fler avgångar',
     'move-on-map': 'Flytta på kartan',
@@ -514,6 +517,7 @@ export default {
       'Kunde inte hitta några ruttförslag med dina val. Vi hittade dock följande ruttalternativ:',
     'no-route-start': 'Välj avfärdsplats',
     'no-route-start-end': 'Välj avfärdsplats och destination',
+    'no-trips-found': 'Inga resor på den valda dagen {selectedDate}.',
     'notification-minimize': 'Stäng meddelande',
     'notification-open': 'Öppna meddelande',
     'number-of-intermediate-stops':
@@ -559,21 +563,29 @@ export default {
     'payment-info-taxi':
       'Vänligen observera att användning och betalning av taxi görs via operatörernas egna appar.',
     'personal-itineraries': 'Individuella ruttförslag',
-    personalisation: 'Personalisering',
-    'personalisation-beta':
+    personalization: 'Personalisering',
+    'personalization-activated': 'Personalisering har aktiverats',
+    'personalization-aria-dislike': 'Jag gillar den här ruttrekommendationen',
+    'personalization-aria-like': 'Jag gillar inte den här ruttrekommendationen',
+    'personalization-ask': 'Gillar du den här ruttrekommendationen?',
+    'personalization-beta':
       'Personaliseringen är fortfarande i testfasen, vilket innebär att vi testar tjänsten. Vi vill gärna höra om din upplevelse. Undersökningen öppnas i en ny flik.',
-    'personalisation-feedback': 'Ge feedback',
-    'personalisation-info':
+    'personalization-disliked':
+      'Du kommer att få färre rekommendationer som denna i framtiden.',
+    'personalization-feedback': 'Ge feedback',
+    'personalization-info':
       'Hitta dina favoritrutter och res utifrån dina vanor.',
-    'personalisation-modal-feedback': 'Vi lär oss av er feedback',
-    'personalisation-modal-feedback-details':
+    'personalization-liked':
+      'Du kommer att få liknande rekommendationer i framtiden.',
+    'personalization-modal-feedback': 'Vi lär oss av er feedback',
+    'personalization-modal-feedback-details':
       'Vi använder din feedback i våra ruttrekommendationer. Berätta vad du tycker om rekommendationerna så tar vi hänsyn till dina preferenser i framtiden.',
-    'personalisation-modal-header': 'Hur ruttrekommendationer fungerar',
-    'personalisation-modal-highlight': 'Vi lyfter fram dina favoriter',
-    'personalisation-modal-highlight-details':
+    'personalization-modal-header': 'Hur ruttrekommendationer fungerar',
+    'personalization-modal-highlight': 'Vi lyfter fram dina favoriter',
+    'personalization-modal-highlight-details':
       'Vi betonar dina favoritlinjer i personaliseringen. Så lägg till de linjer du använder som favoriter.',
-    'personalisation-modal-link': 'Lägg till eller redigera dina favoriter',
-    'personalisation-open-info': 'Läs hur rekommendationer fungerar',
+    'personalization-modal-link': 'Lägg till eller redigera dina favoriter',
+    'personalization-open-info': 'Läs hur rekommendationer fungerar',
     'phone-number': 'Telefonnummer',
     'pick-mode': 'Trafikslag',
     'pick-street-mode': 'Egna färdmedel',
@@ -585,6 +597,7 @@ export default {
     'platform-short-no-num': 'Plattf.',
     position: 'Position',
     preview: 'Förhandsgranskning',
+    price: 'Pris',
     print: 'Skriv ut',
     'print-timetable': 'Veckans tidtabell',
     rail: 'Närtåg',
@@ -619,9 +632,11 @@ export default {
     'route-page-vehicle-position-between':
       '{mode} {shortName} är mellan hållplats {stopName} och hållplats {nextStopName}.',
     'route-page-vehicle-selected': 'Nuvarande urval.',
+    'route-page.alternative-routes': 'Alternativa rutter',
     'route-page.choose-direction': 'Välj riktning och rutt',
     'route-page.description': 'Linje {shortName} - {longName}',
     'route-page.future-routes': 'Framtida rutter',
+    'route-page.main-routes': 'Körriktningar',
     'route-page.pattern-chosen': 'Vald',
     'route-page.pattern-select-title': 'Välj den rutt du vill se',
     'route-page.select-time': 'Välj tid',
@@ -629,6 +644,8 @@ export default {
     'route-page.special-routes': 'Andra rutter',
     'route-page.title': 'Linje {shortName}',
     'route-page.title-short': 'Linje',
+    'route-pattern-select-tooltip': 'Visa rutter',
+    'route-pattern-swap-tooltip': 'Byt riktning',
     'route-to-ferry': 'Rutt till piren',
     'route-to-park': 'Rutt till parken',
     'route-to-station': 'Rutt till stationen',
@@ -701,6 +718,7 @@ export default {
     'settings-missing-itineraries-body':
       'Dina val i inställningar utesluter vissa ruttalternativ.',
     'settings-missing-itineraries-header': 'Saknas det några ruttförslag?',
+    'show-departures': 'Visa avgångarna',
     'show-more': 'Visa mer',
     'show-more-stops-near-you': 'Visa flera hållplatser nära dig',
     'show-routes': 'Välj linjer',
@@ -769,16 +787,17 @@ export default {
     taxi: 'Taxi',
     'taxi-alternative':
       'Och om du skulle åka taxi en del av din resa? {paymentInfo}',
-    'taxi-distance-duration': 'Matkusta {duration} ({distance})',
+    'taxi-distance-duration': 'Res {duration} ({distance})',
     'taxi-external': 'Taxi',
     'taxi-with-route-number': 'Taxi {routeNumber}',
-    'taxis-and-ride-hailing': 'Taksit ja kyytipalvelut',
+    'taxis-and-ride-hailing': 'Taxi och skjutstjänster',
     terminal: 'Terminal',
     'terminal-page.description': 'Terminal {name}',
     'terminal-page.title': 'Terminal {name}',
     'terminal-page.title-short': 'Terminal',
     terminus: 'Slutpunkt',
     'this-week': 'Denna vecka',
+    'ticket-information': 'Biljettinformation',
     timetable: 'Tidtabell',
     'to-bicycle': 'stadscykeln',
     'to-bus': 'bussen',
@@ -799,6 +818,9 @@ export default {
     'traffic-now': 'Trafikläget nu',
     'traffic-now-long': 'Trafikläget nu',
     'traffic-now_bread': 'Att resa med oss',
+    'traffic-now_canceled-trips--amount':
+      'Visar {amount} av {totalAmount} inställda avgångar',
+    'traffic-now_canceled-trips--simple': '{amount} inställda',
     'traffic-now_description':
       'Aktuell information om störningar och undantag. ',
     'traffic-now_description_see-also':
@@ -813,8 +835,13 @@ export default {
     'traffic-now_filters_validity-period': 'Filtrera efter giltighetstid',
     'traffic-now_filters_vehicle-mode': 'Filtrera efter fordonsläge',
     'traffic-now_filters_view-results': 'Visa resultat',
+    'traffic-now_go-back': 'Gå tillbaka',
+    'traffic-now_go-to-route-page': 'Visa linje',
     'traffic-now_link': 'Trafikläget nu',
     'traffic-now_link-description': 'Se störningar och förändringar',
+    trafficnow: 'Trafikläget nu',
+    'trafficnow-bread': 'Att resa med oss',
+    'trafficnow-description': 'Aktuell information om störningar och undantag',
     tram: 'Spårvagn',
     'tram-with-route-number': 'Spårvagn {routeNumber} {headSign}',
     transfer: 'Byte',
@@ -834,6 +861,7 @@ export default {
     'via-leg-stop-duration': 'Mellanstopp {stayDuration}',
     'via-point': 'Stoppets längd',
     'view-route': 'Visa linje',
+    vr_ticket: 'VR-biljetten',
     wait: 'Vänta',
     'wait-amount-of-time': 'Vänta {duration}',
     'wait-in-vehicle': 'Vänta i fordonet',

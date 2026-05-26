@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
 
-import { mockContext } from '../helpers/mock-context';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import DisruptionList from '../../../app/component/DisruptionList';
 import { Component as RouteAlertsContainer } from '../../../app/component/routepage/RouteAlertsContainer';
@@ -38,9 +37,7 @@ describe('<RouteAlertsContainer />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      context: mockContext,
-    });
+    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />);
     expect(wrapper.find(DisruptionList).props()).to.deep.equal({
       cancelations: [],
       serviceAlerts: [],
@@ -80,9 +77,7 @@ describe('<RouteAlertsContainer />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      context: mockContext,
-    });
+    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />);
     expect(wrapper.find(DisruptionList).prop('cancelations')).to.have.lengthOf(
       1,
     );
@@ -108,9 +103,7 @@ describe('<RouteAlertsContainer />', () => {
         trips: [],
       },
     };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      context: mockContext,
-    });
+    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />);
     expect(wrapper.find(DisruptionList).prop('serviceAlerts')).to.have.lengthOf(
       1,
     );

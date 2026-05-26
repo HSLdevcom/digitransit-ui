@@ -10,15 +10,47 @@ require('@babel/register')({
 // Prevent Node.js from trying to parse CSS files as JavaScript
 require.extensions['.css'] = () => {};
 
-// Stub out @hsl-fi packages that are ESM-only — they can't be require()'d by
-// Node's CJS loader (ERR_REQUIRE_ESM). Unit tests don't need the real
-// implementations; stubs are sufficient for shallow rendering.
+// @hsl-fi/* packages are ESM-only ("type": "module") and cannot be require()'d
+// in the CommonJS test environment. Node throws ERR_REQUIRE_ESM before Babel can
+// intercept the load, so we must stub these modules at Module._load level, which
+// runs before Node's ESM check.
+// eslint-disable-next-line import/no-commonjs
 const Module = require('module');
 
 const originalLoad = Module._load;
-Module._load = function hslFiStub(...args) {
-  const [request] = args;
+Module._load = function interceptEsmPackages(request, ...args) {
+  if (request === '@hsl-fi/dialog') {
+    // Named arrow functions so Enzyme can match by displayName / function.name
+    const Modal = () => null;
+    const ModalContent = () => null;
+    const ModalTrigger = () => null;
+    const ConfirmationModalContent = () => null;
+    const ScrollableModalContent = () => null;
+    return {
+      Modal,
+      ModalContent,
+      ModalTrigger,
+      ConfirmationModalContent,
+      ScrollableModalContent,
+    };
+  }
+  if (request === '@hsl-fi/icons') {
+    // Return a Proxy so any named icon export resolves to a stub component.
+    // This avoids maintaining an explicit list of every icon exported by the lib.
+    return new Proxy(
+      {},
+      {
+        get(_, name) {
+          // Return a named stub function so Enzyme can match it by .name
+          const stub = { [name]: () => null }[name];
+          return stub;
+        },
+      },
+    );
+  }
+  // Fallback: stub any other @hsl-fi/* package generically
   if (request.startsWith('@hsl-fi/')) {
+    // Generic catch-all for other @hsl-fi/* packages
     return new Proxy(
       function StubComponent() {
         return null;
@@ -38,5 +70,5 @@ Module._load = function hslFiStub(...args) {
       },
     );
   }
-  return originalLoad.apply(this, args);
+  return originalLoad.apply(this, [request, ...args]);
 };

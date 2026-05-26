@@ -110,7 +110,7 @@ export default {
     'park-and-ride': 'Park and Ride',
     'park-and-ride-availability': 'Espacios disponibles',
     'pay-attention': 'N.B.',
-    'personalisation-feedback': 'Enviar comentarios',
+    'personalization-feedback': 'Enviar comentarios',
     'platform-num': 'Platforma {platformCode}',
     'platform-short-no-num': 'Plat.',
     print: 'Imprimir',

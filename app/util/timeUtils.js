@@ -47,24 +47,25 @@ export function isTomorrow(startTime, refTime) {
 }
 
 /**
- * renders trip duration to string
- * @param {number} durationMs duration in ms
- * @returns {string} duration formatted in hours and minutes
+ * Returns a localized duration string using react-intl message keys.
+ * @param {object} intl react-intl intl object
+ * @param {number} durationMs duration in milliseconds
+ * @returns {string} e.g. "30 min", "1 h 30 min"
  */
-export function durationToString(durationMs) {
+export function durationToString(intl, durationMs) {
   const dur = Math.max(durationMs, 0);
   const hours = Math.floor(dur / 3600000);
   const mins = Math.floor(dur / 60000 - hours * 60);
   if (hours >= 1) {
-    if (mins > 0) {
-      return `${hours} h ${mins} min`;
-    }
-    return `${hours} h`;
+    return intl.formatMessage(
+      { id: 'travel-time-with-hours' },
+      { h: hours, min: mins },
+    );
   }
-  if (mins < 1) {
-    return '<1 min';
-  }
-  return `${mins} min`;
+  return intl.formatMessage(
+    { id: 'travel-time' },
+    { min: mins === 0 ? '<1' : mins },
+  );
 }
 
 /**

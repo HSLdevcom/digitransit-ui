@@ -40,6 +40,7 @@ export default function ScrollableWrapper({
           },
         )}
         id={id}
+        tabIndex={scrollable ? -1 : undefined} // Prevents browser from making overflow containers tab stops, which causes screen readers to announce all child content at once.
         onScroll={scrollable ? handleScroll : () => {}}
       >
         {children}

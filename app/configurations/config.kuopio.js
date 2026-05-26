@@ -88,7 +88,7 @@ export default configMerger(walttiConfig, {
       breeze_kuopio: {
         enabled: true,
         season: {
-          start: '14.4',
+          start: '27.4',
           end: '31.10',
         },
         capacity: BIKEAVL_BIKES,
@@ -199,24 +199,4 @@ export default configMerger(walttiConfig, {
     itinerary: true,
   },
   externalFareRouteIds: ['600_Skibus'],
-
-  modeDisclaimers: {
-    RAIL: {
-      fi: {
-        disclaimer: 'Vilkun liput eivät käy junaliikenteessä. Junaliput: ',
-        link: 'http://vr.fi',
-        text: 'http://vr.fi',
-      },
-      sv: {
-        disclaimer: 'Vilkku biljetter är inte giltiga på tåg. Tågbiljetter: ',
-        link: 'http://vr.fi/sv',
-        text: 'http://vr.fi/sv',
-      },
-      en: {
-        disclaimer: 'Vilkku tickets are not valid on trains. Train tickets: ',
-        link: 'http://vr.fi/en',
-        text: 'http://vr.fi/en',
-      },
-    },
-  },
 });

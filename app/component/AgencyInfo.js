@@ -10,9 +10,7 @@ function AgencyInfo({ agencyName, url }) {
     return (
       <div className="agency-link-container">
         <ExternalLink className="agency-link" href={link}>
-          <div className={agencyName.length > 30 ? 'overflow-fade' : ''}>
-            {agencyName}
-          </div>
+          {agencyName}
         </ExternalLink>
       </div>
     );

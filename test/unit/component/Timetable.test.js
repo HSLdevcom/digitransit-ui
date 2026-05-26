@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
 import { mockContext } from '../helpers/mock-context';
-import { Component as Timetable } from '../../../app/component/stop/Timetable';
+import Timetable from '../../../app/component/stop/Timetable';
 import TimetableRow from '../../../app/component/stop/TimetableRow';
 import SecondaryButton from '../../../app/component/SecondaryButton';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
@@ -70,13 +70,11 @@ describe('<Timetable />', () => {
   it('should set valid stopPDFURL for StopPageActionBar', () => {
     const baseTimetableURL = 'https://timetabletest.com/stops/';
     const wrapper = shallowWithIntl(<Timetable {...props} />, {
-      context: {
-        ...mockContext,
-        config: {
-          CONFIG: 'default',
-          URL: { STOP_TIMETABLES: { HSL: baseTimetableURL } },
-          timetables: { HSL: timetables.default.HSL },
-        },
+      context: { ...mockContext },
+      config: {
+        CONFIG: 'default',
+        URL: { STOP_TIMETABLES: { HSL: baseTimetableURL } },
+        timetables: { HSL: timetables.default.HSL },
       },
     });
     expect(wrapper.find(SecondaryButton)).to.have.lengthOf(2);

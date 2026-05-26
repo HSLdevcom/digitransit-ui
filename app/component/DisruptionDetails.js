@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import Badge from './Badge';
+import DisruptionBadge from './trafficnow/DisruptionBadge';
 import Icon from './Icon';
 import ExternalLink from './ExternalLink';
 import { AlertSeverityLevelType } from '../constants';
@@ -26,7 +26,7 @@ const DisruptionDetails = ({
     <div className="alert-details">
       <div className="alert-details-header">
         <span className="badge-container">
-          <Badge
+          <DisruptionBadge
             showIcon
             variant={alertSeverityLevel || AlertSeverityLevelType.Unknown}
             label={alertEffect || 'no_service'}

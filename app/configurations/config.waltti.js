@@ -284,7 +284,6 @@ export default {
   },
   analyticsClass: 'plausible-event-name=Ticket+Purchase+Link',
 
-  viaPointsEnabled: true,
   hideNaviTickets: true, // TODO: temporary force switch
   navigation: true,
 
@@ -300,11 +299,7 @@ export default {
   },
 
   replacementBusNotification: {
-    header: {
-      fi: 'Korvaava bussi',
-      en: 'Replacement bus',
-      sv: 'Ersättande buss',
-    },
+    // Header is displayed via translation key 'replacement-bus'.
     content: {
       fi: [
         'Voit nousta kyytiin myös bussin keskiovista.',
@@ -323,8 +318,8 @@ export default {
       ],
     },
   },
-  useAlternativeNameForModes: ['RAIL'],
   showRouteDescNotification: IS_DEV,
+  useAlternativeNameForModes: ['RAIL'],
   showStopStatusMarkers: true,
 
   trafficNowLink: true,

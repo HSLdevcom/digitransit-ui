@@ -1,7 +1,8 @@
 import React from 'react';
+import { expect } from 'chai';
+
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { Component as RouteStopListContainer } from '../../../app/component/routepage/RouteStopListContainer';
-import { mockMatch } from '../helpers/mock-router';
 
 describe('<RouteStopListContainer />', () => {
   it('should render route stop list', () => {
@@ -104,12 +105,10 @@ describe('<RouteStopListContainer />', () => {
       },
     };
     const wrapper = shallowWithIntl(<RouteStopListContainer {...props} />, {
-      context: {
-        config: {
-          CONFIG: 'default',
-          nearestStopDistance: {},
-        },
-        match: mockMatch,
+      config: {
+        CONFIG: 'default',
+        nearestStopDistance: {},
+        colors: { primary: '#007AC9' },
       },
     });
     expect(wrapper.find('.route-stop-list')).to.have.lengthOf(1);

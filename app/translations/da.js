@@ -86,7 +86,7 @@ export default {
     'park-and-ride': 'Indfartsparkering',
     'park-and-ride-availability': 'Tilgjængelighed',
     'pay-attention': 'Obs!',
-    'personalisation-feedback': 'Send feedback',
+    'personalization-feedback': 'Send feedback',
     'platform-num': 'Platform {platformCode}',
     'platform-short-no-num': 'Plat.',
     print: 'Skriv ud',

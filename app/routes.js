@@ -30,7 +30,6 @@ import {
 
 import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';
-import { withRouteContext } from './util/RouteContext';
 
 export const historyMiddlewares = [queryMiddleware];
 
@@ -305,22 +304,16 @@ export default config => {
         to={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from`}
       />
       <Route
-        path={`/${PREFIX_ITINERARY_SUMMARY}/POS/:to`}
+        path={`/${PREFIX_ITINERARY_SUMMARY}/POS/:to/:hash?/:secondHash?`}
         {...itineraryPageGeolocatorProps}
       />
       <Route
-        path={`/${PREFIX_ITINERARY_SUMMARY}/POS/:to/:hash`}
+        path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS/:hash?/:secondHash?`}
         {...itineraryPageGeolocatorProps}
       />
       <Route
-        path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS`}
-        {...itineraryPageGeolocatorProps}
-      />
-      <Route
-        path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS/:hash`}
-        {...itineraryPageGeolocatorProps}
-      />
-      <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}>
+        path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to/:hash?/:secondHash?`}
+      >
         {{
           title: (
             <Route
@@ -339,24 +332,7 @@ export default config => {
                   /* webpackChunkName: "itinerary" */ './component/itinerary/ItineraryPageContainer'
                 ).then(getDefault)
               }
-              render={getComponentOrNullRenderer}
-            >
-              {{
-                content: [
-                  <Route path="" />,
-                  <Route path="/:hash/:secondHash?">
-                    <Route
-                      getComponent={() =>
-                        import(
-                          /* webpackChunkName: "itinerary" */ './component/itinerary/ItineraryDetails'
-                        ).then(getDefault)
-                      }
-                      render={getComponentOrLoadingRenderer}
-                    />
-                  </Route>,
-                ],
-              }}
-            </Route>
+            />
           ),
           meta: (
             <Route
@@ -370,15 +346,27 @@ export default config => {
           ),
         }}
       </Route>
-      <Route
-        path={TRAFFICNOW}
-        getComponent={() =>
-          import(
-            /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
-          ).then(getDefault)
-        }
-        render={withRouteContext()}
-      />
+      {config.trafficNowTest && (
+        <>
+          <Route
+            path={`/${TRAFFICNOW}/peruutukset/:mode`}
+            getComponent={() =>
+              import(
+                /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
+              ).then(getDefault)
+            }
+          />
+          <Route
+            path={TRAFFICNOW}
+            getComponent={() =>
+              import(
+                /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
+              ).then(getDefault)
+            }
+          />
+          <Redirect from={`/${TRAFFICNOW}/*`} to={`/${TRAFFICNOW}`} />
+        </>
+      )}
       <Route
         path="/tietoja-palvelusta"
         getComponent={() =>

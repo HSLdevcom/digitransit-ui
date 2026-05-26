@@ -34,19 +34,13 @@ const CapacityModal = ({ config }) => {
           <div className="icon" style={{ color: config.colors.primary }}>
             <Icon img="icon_MANY_SEATS_AVAILABLE" width={1.5} height={1.5} />
           </div>
-          <h4 className="info-heading">
+          <p className="capacity-info-explanation">
             <FormattedMessage
-              id="capacity-modal.many-seats-available-heading"
-              defaultMessage="Not crowded"
+              id="capacity-modal.many-seats-available-body"
+              defaultMessage="Plenty of seats available"
             />
-          </h4>
+          </p>
         </div>
-        <p className="capacity-info-explanation">
-          <FormattedMessage
-            id="capacity-modal.many-seats-available-body"
-            defaultMessage="Plenty of seats available"
-          />
-        </p>
       </section>
       <section>
         <div className="capacity-info-row">
@@ -58,19 +52,13 @@ const CapacityModal = ({ config }) => {
               color={config.colors.primary}
             />
           </div>
-          <h4 className="info-heading">
+          <p className="capacity-info-explanation">
             <FormattedMessage
-              id="capacity-modal.few-seats-available-heading"
-              defaultMessage="Not too crowded"
+              id="capacity-modal.few-seats-available-body"
+              defaultMessage="Some seats available"
             />
-          </h4>
+          </p>
         </div>
-        <p className="capacity-info-explanation">
-          <FormattedMessage
-            id="capacity-modal.few-seats-available-body"
-            defaultMessage="Some seats available"
-          />
-        </p>
       </section>
       <section>
         <div className="capacity-info-row">
@@ -82,19 +70,13 @@ const CapacityModal = ({ config }) => {
               color={config.colors.primary}
             />
           </div>
-          <h4 className="info-heading">
+          <p className="capacity-info-explanation">
             <FormattedMessage
-              id="capacity-modal.standing-room-only-heading"
-              defaultMessage="Nearly full"
+              id="capacity-modal.standing-room-only-body"
+              defaultMessage="Only a few seats and a little standing room available"
             />
-          </h4>
+          </p>
         </div>
-        <p className="capacity-info-explanation">
-          <FormattedMessage
-            id="capacity-modal.standing-room-only-body"
-            defaultMessage="Only a few seats and a little standing room available"
-          />
-        </p>
       </section>
       <section>
         <div className="capacity-info-row">
@@ -106,19 +88,13 @@ const CapacityModal = ({ config }) => {
               color={config.colors.primary}
             />
           </div>
-          <h4 className="info-heading">
+          <p className="capacity-info-explanation">
             <FormattedMessage
-              id="capacity-modal.crushed-standing-room-only-heading"
-              defaultMessage="Very crowded"
+              id="capacity-modal.crushed-standing-room-only-body"
+              defaultMessage="Only a little standing room available"
             />
-          </h4>
+          </p>
         </div>
-        <p className="capacity-info-explanation">
-          <FormattedMessage
-            id="capacity-modal.crushed-standing-room-only-body"
-            defaultMessage="Only a little standing room available"
-          />
-        </p>
       </section>
       {/* <section>
         <div className="capacity-info-row">

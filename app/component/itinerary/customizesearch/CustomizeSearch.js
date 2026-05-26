@@ -7,7 +7,7 @@ import Icon from '../../Icon';
 import StreetModeSelector from './StreetModeSelector';
 import TransportModes from './TransportModes';
 import WalkingOptions from './WalkingOptions';
-import Personalisation from './Personalisation';
+import Personalization from './Personalization';
 import MinTransferTime from './MinTransferTime';
 import AccessibilityOptions from './AccessibilityOptions';
 import TransferOptions from './TransferOptions';
@@ -70,9 +70,9 @@ function CustomizeSearch({ onToggleClick, settings, mobile }) {
         <div className="settings-section">
           <WalkingOptions currentSettings={currentSettings} />
         </div>
-        {config.personalisation && (
+        {config.personalization && (
           <div className="settings-section">
-            <Personalisation currentSettings={currentSettings} />
+            <Personalization currentSettings={currentSettings} />
           </div>
         )}
         <div className="settings-section">

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'found';
 import { useIntl } from 'react-intl';
 import Icon from './Icon';
-import Badge from './Badge';
+import DisruptionBadge from './trafficnow/DisruptionBadge';
 import { useConfigContext } from '../configurations/ConfigContext';
 import { routePagePath, stopPagePath } from '../util/path';
 import IconBackground from './icon/IconBackground';
@@ -83,7 +83,7 @@ export default function Disruption({
         </button>
       )}
       <div className="alert-row-top">
-        <Badge
+        <DisruptionBadge
           showIcon
           variant={alertSeverityLevel}
           label={alertEffect || 'no_service'}

@@ -165,7 +165,7 @@ export default {
     'park-and-ride': 'Parcare Park and Ride',
     'park-and-ride-availability': 'Locuri disponibile',
     'pay-attention': 'Atenție!',
-    'personalisation-feedback': 'Sugestii și reclamații',
+    'personalization-feedback': 'Sugestii și reclamații',
     'pick-mode': 'Selectați modul de transport',
     'platform-num': 'Peron {platformCode}',
     'platform-short-no-num': 'Prn.',

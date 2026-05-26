@@ -1,4 +1,4 @@
-import { matchShape, routerShape } from 'found';
+import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -9,7 +9,7 @@ import {
   getPlatformChangeStatus,
   PLATFORM_STATUS,
 } from '../../../util/legUtils';
-import { configShape, legShape } from '../../../util/shapes';
+import { legShape } from '../../../util/shapes';
 import { getTopics, updateClient } from '../ItineraryPageUtils';
 import NaviCard from './NaviCard';
 import NaviStack from './NaviStack';
@@ -21,6 +21,7 @@ import {
   LEGTYPE,
 } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
+import { useConfigContext } from '../../../configurations/ConfigContext';
 
 const HIDE_TOPCARD_DURATION = 2000; // milliseconds
 
@@ -69,8 +70,9 @@ function NaviCardContainer(
   );
   const focusRef = useRef(false);
 
+  const { match, router } = useRouter();
+  const config = useConfigContext();
   const intl = useIntl();
-  const { config, match, router } = context;
   const platformRef = useRef();
 
   if (legChanged) {
@@ -122,7 +124,7 @@ function NaviCardContainer(
       event: 'navigator',
       action: 'start_navigation',
     });
-    updateClient(getNaviTopics(), context);
+    updateClient(getNaviTopics(), context, config);
   }, []);
 
   useEffect(() => {
@@ -276,21 +278,7 @@ NaviCardContainer.propTypes = {
   settings: PropTypes.object.isRequired,
 };
 
-NaviCardContainer.defaultProps = {
-  focusToLeg: undefined,
-  position: undefined,
-  currentLeg: undefined,
-  nextLeg: undefined,
-  firstLeg: undefined,
-  lastLeg: undefined,
-  previousLeg: undefined,
-  isJourneyCompleted: false,
-};
-
 NaviCardContainer.contextTypes = {
-  config: configShape.isRequired,
-  match: matchShape.isRequired,
-  router: routerShape.isRequired,
   executeAction: PropTypes.func.isRequired,
   getStore: PropTypes.func.isRequired,
 };

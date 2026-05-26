@@ -37,8 +37,8 @@ const EntitySearch = ({ filterId }) => {
       <DTAutoSuggestWithSearchContext
         appElement="#app"
         icon="search"
-        id="traffic-now__content__filters__entity-search--input"
-        inputClassName="traffic-now__content__filters__entity-search--input"
+        id="entity-search"
+        inputClassName="traffic-now__filters-entity-search--input"
         placeholder={intl.formatMessage({
           id: 'traffic-now_filters_entity-search--placeholder',
           defaultMessage: 'Route, stop or station',

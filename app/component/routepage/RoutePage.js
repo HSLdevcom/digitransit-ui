@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
-import { matchShape, routerShape } from 'found';
-import { routeShape, configShape, errorShape } from '../../util/shapes';
+import { matchShape } from 'found';
+import { routeShape, errorShape } from '../../util/shapes';
 import Icon from '../Icon';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from '../RouteNumber';
@@ -18,6 +18,10 @@ import {
 import withBreakpoint from '../../util/withBreakpoint';
 import BackButton from '../BackButton';
 import { getRouteMode } from '../../util/modeUtils';
+import {
+  getModeIconColor,
+  ensureColorAccessibleOnWhite,
+} from '../../util/colorUtils';
 import AlertBanner from '../AlertBanner';
 import {
   hasEntitiesOfType,
@@ -26,151 +30,162 @@ import {
 } from '../../util/alertUtils';
 import { AlertEntityType } from '../../constants';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
+import RouteNotificationButton from './RouteNotificationButton';
 import { isLocalCallAgency } from '../../util/legUtils';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
-// eslint-disable-next-line react/prefer-stateless-function
-class RoutePage extends React.Component {
-  static contextTypes = {
-    getStore: PropTypes.func.isRequired,
-    executeAction: PropTypes.func.isRequired,
-    intl: PropTypes.object.isRequired,
-    config: configShape.isRequired,
-  };
+function resolveHeadsign(pattern) {
+  if (!pattern) {
+    return null;
+  }
+  const isNetex = pattern.code.startsWith('NETEX:');
+  if (!isNetex && pattern.headsign) {
+    return pattern.headsign;
+  }
+  return pattern.stops[pattern.stops.length - 1].name;
+}
 
-  static propTypes = {
-    route: routeShape.isRequired,
-    match: matchShape.isRequired,
-    router: routerShape.isRequired,
-    breakpoint: PropTypes.string.isRequired,
-    error: errorShape,
-    currentTime: PropTypes.number.isRequired,
-  };
+function RoutePage({
+  route,
+  match,
+  breakpoint,
+  error = undefined,
+  currentTime,
+}) {
+  const intl = useIntl();
+  const config = useConfigContext();
 
-  static defaultProps = {
-    error: undefined,
-  };
+  const headingRef = useRef(null);
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, [match.params.patternId]);
 
-  componentDidMount() {
-    // Throw error in client side if relay fails to fetch data
-    if (this.props.error && !this.props.route) {
-      throw this.props.error.message;
-    }
+  // Relay failed to fetch data — surface the error to the React error boundary
+  if (error && !route) {
+    throw error.message;
   }
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions, jsx-a11y/anchor-is-valid */
-  render() {
-    const { breakpoint, router, route, error, currentTime } = this.props;
-    const { config } = this.context;
-    const { tripId, patternId, routeId } = this.props.match.params;
+  const { tripId, patternId, routeId } = match.params;
 
-    if (route == null && !error) {
-      /* In this case there is little we can do
-       * There is no point continuing rendering as it can only
-       * confuse user. Therefore redirect to Routes page */
-      router.replace(`/${PREFIX_ROUTES}`);
-      return null;
-    }
-    const mode = getRouteMode(route, config);
-    const label = route.shortName ? route.shortName : route.longName || '';
-    const selectedPattern =
-      patternId && route.patterns.find(p => p.code === patternId);
-    let headsign = null;
-    if (selectedPattern) {
-      if (
-        !selectedPattern.code.startsWith('NETEX:') &&
-        selectedPattern.headsign
-      ) {
-        headsign = selectedPattern.headsign;
-      } else {
-        headsign = selectedPattern.stops[selectedPattern.stops.length - 1].name;
-      }
-    }
-    const filteredAlerts = selectedPattern?.alerts
-      ?.filter(alert => hasEntitiesOfType(alert, AlertEntityType.Route))
-      .filter(alert => isAlertValid(alert, currentTime));
-    const localCallAgency = isLocalCallAgency({ route }, config);
-    return (
-      <div className={cx('route-page-container')}>
-        <div className="header-for-printing">
-          <h1>
-            {config.title}
-            {` - `}
-            <FormattedMessage id="route-guide" defaultMessage="Route guide" />
-          </h1>
-        </div>
-        <div
-          className={cx('route-container', {
-            'bp-large': breakpoint === 'large',
-          })}
-          aria-live="polite"
-        >
+  if (route == null) {
+    /* In this case there is little we can do
+     * There is no point continuing rendering as it can only
+     * confuse user. Therefore redirect to Routes page */
+    match.router.replace(`/${PREFIX_ROUTES}`);
+    return null;
+  }
+  const mode = getRouteMode(route, config);
+  const rawRouteColor = route.color
+    ? `#${route.color}`
+    : getModeIconColor(config, mode);
+  const shortNameColor = ensureColorAccessibleOnWhite(rawRouteColor);
+  const label = route.shortName ? route.shortName : route.longName || '';
+  const selectedPattern =
+    patternId && route.patterns.find(p => p.code === patternId);
+  const headsign = resolveHeadsign(selectedPattern || null);
+  const filteredAlerts = selectedPattern?.alerts
+    ?.filter(alert => hasEntitiesOfType(alert, AlertEntityType.Route))
+    .filter(alert => isAlertValid(alert, currentTime));
+  const localCallAgency = isLocalCallAgency({ route }, config);
+  const matchingNotification = config.routeNotifications?.find(n =>
+    n.showForRoute?.(route),
+  );
+
+  return (
+    <div className="route-page-container">
+      <div className="header-for-printing">
+        <h1>
+          {config.title}
+          {` - `}
+          <FormattedMessage id="route-guide" defaultMessage="Route guide" />
+        </h1>
+      </div>
+      <div
+        className={cx('route-container', {
+          'bp-large': breakpoint === 'large',
+        })}
+      >
+        <div className="route-header">
           {breakpoint === 'large' && <BackButton />}
-          <div className="route-header">
-            <div aria-hidden="true">
-              <RouteNumber
-                color={route.color ? `#${route.color}` : null}
-                mode={mode}
-                text=""
-                appendClass={localCallAgency ? 'call-local' : ''}
-                isCallAgency={mode === 'call'}
-              />
-            </div>
-            <div className="route-info">
-              <h1
-                className={cx('route-short-name', mode, {
-                  'call-local': localCallAgency,
-                })}
-                style={{ color: route.color ? `#${route.color}` : null }}
-              >
-                <span className="sr-only" style={{ whiteSpace: 'pre' }}>
-                  {this.context.intl.formatMessage({
-                    id: mode,
-                  })}{' '}
-                  {label?.toLowerCase()}
-                </span>
-                <span aria-hidden="true">{label}</span>
-              </h1>
-              {tripId && headsign && (
-                <div className="trip-destination">
-                  <Icon className="in-text-arrow" img="icon_arrow-right" />
-                  <div className="destination-headsign">{headsign}</div>
-                </div>
-              )}
-            </div>
-            {!tripId && (
+          <div aria-hidden="true">
+            <RouteNumber
+              color={route.color ? `#${route.color}` : null}
+              mode={mode}
+              text=""
+              appendClass={localCallAgency ? 'call-local' : ''}
+              isCallAgency={mode === 'call'}
+            />
+          </div>
+          <div className="route-info">
+            <h1
+              ref={headingRef}
+              tabIndex={-1}
+              className={cx('route-short-name', mode, {
+                'call-local': localCallAgency,
+              })}
+              style={{ color: shortNameColor }}
+            >
+              <span className="sr-only" style={{ whiteSpace: 'pre' }}>
+                {intl.formatMessage({
+                  id: mode,
+                })}{' '}
+                {label?.toLowerCase()}
+              </span>
+              <span aria-hidden="true">{label}</span>
+            </h1>
+            {tripId && headsign && (
+              <div className="trip-destination">
+                <Icon className="in-text-arrow" img="icon_arrow-right" />
+                <div className="destination-headsign">{headsign}</div>
+              </div>
+            )}
+          </div>
+          {!tripId && (
+            <div className="route-header-actions">
+              {config.showNewRoutePage &&
+                matchingNotification?.closeButtonLabel?.[intl.locale] && (
+                  <>
+                    <RouteNotificationButton
+                      notification={matchingNotification}
+                    />
+                    <span className="route-header-divider" aria-hidden="true" />
+                  </>
+                )}
               <FavouriteRouteContainer
                 className="route-page-header"
                 gtfsId={route.gtfsId}
               />
-            )}
-          </div>
-          {tripId && hasMeaningfulData(filteredAlerts) && (
-            <div className="trip-page-alert-container">
-              <AlertBanner
-                alerts={filteredAlerts}
-                linkAddress={routePagePath(
-                  routeId,
-                  PREFIX_DISRUPTION,
-                  patternId,
-                )}
-              />
             </div>
           )}
-          <RouteAgencyInfo route={route} />
         </div>
-        {route &&
-          route.patterns &&
-          this.props.match.params.type === PREFIX_DISRUPTION && (
-            <RouteControlPanel
-              match={this.props.match}
-              route={route}
-              breakpoint={breakpoint}
+        {tripId && hasMeaningfulData(filteredAlerts) && (
+          <div className="trip-page-alert-container">
+            <AlertBanner
+              alerts={filteredAlerts}
+              linkAddress={routePagePath(routeId, PREFIX_DISRUPTION, patternId)}
             />
-          )}
+          </div>
+        )}
+        <RouteAgencyInfo route={route} />
       </div>
-    );
-  }
+      {route.patterns && match.params.type === PREFIX_DISRUPTION && (
+        <RouteControlPanel
+          match={match}
+          route={route}
+          breakpoint={breakpoint}
+        />
+      )}
+    </div>
+  );
 }
+
+RoutePage.propTypes = {
+  route: routeShape.isRequired,
+  match: matchShape.isRequired,
+  breakpoint: PropTypes.string.isRequired,
+  error: errorShape,
+  currentTime: PropTypes.number.isRequired,
+};
 
 const containerComponent = createFragmentContainer(
   connectToStores(withBreakpoint(RoutePage), ['TimeStore'], context => ({

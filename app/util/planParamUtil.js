@@ -80,7 +80,7 @@ export function hasCustomizedSettings(config) {
   }
 
   return Object.keys(customizedSettings).some(key => {
-    if (key === 'personalisation') {
+    if (key === 'personalization') {
       return false;
     }
     if (key === 'allowedBikeRentalNetworks') {
@@ -473,6 +473,7 @@ export function getPlanParams(
       direct = access;
       filters = excludeAgencies(config.flex?.externalAgencies);
       minTransferTime = config.flex?.minTransferTime || minTransferTime;
+      via = null;
       break;
     default: // direct modes
       direct = [planType];
@@ -513,6 +514,9 @@ export function getPlanParams(
   const transferPenalty = relaxSettings
     ? defaultSettings.transferPenalty
     : settings.transferPenalty;
+
+  const { transitGroupRelaxFunction } = defaultSettings;
+
   const timeStr = (time ? DateTime.fromSeconds(+time) : DateTime.now()).toISO({
     suppressMilliseconds: true,
   });
@@ -536,6 +540,7 @@ export function getPlanParams(
     walkReluctance,
     walkBoardCost,
     transferPenalty,
+    transitGroupRelaxFunction,
     modes,
     planType,
     noIterationsForShortTrips,

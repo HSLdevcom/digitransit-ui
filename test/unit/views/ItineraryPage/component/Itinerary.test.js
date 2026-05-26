@@ -23,8 +23,7 @@ import dcw12 from '../../../test-data/dcw12';
 const defaultProps = {
   breakpoint: 'large',
   hash: 1,
-  onSelect: () => {},
-  onSelectImmediately: () => {},
+  focusToHeader: () => {},
   refTime: 0,
 };
 
@@ -57,10 +56,8 @@ describe('<Itinerary />', () => {
       refTime: dcw12.cityBikeRouteWithIntermediatePlaces.refTime,
     };
     const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: {
-        ...mockContext,
-        config: { CONFIG: 'default', vehicleRental: { fewAvailableCount: 3 } },
-      },
+      context: { ...mockContext },
+      config: { CONFIG: 'default', vehicleRental: { fewAvailableCount: 3 } },
       childContextTypes: { ...mockChildContextTypes },
     });
     const legs = wrapper.find('.itinerary-legs');

@@ -14,9 +14,9 @@ const Snackbar = ({
   show,
   messageId,
   defaultMessage,
-  liveRegionMessage,
+  liveRegionMessage = '',
   onClose,
-  iconImg,
+  iconImg = 'icon_checkmark-circled',
   className,
 }) => {
   const intl = useIntl();
@@ -63,18 +63,11 @@ Snackbar.propTypes = {
   /** null = hidden, true = slide in, false = slide out */
   show: PropTypes.oneOf([null, true, false]),
   messageId: PropTypes.string.isRequired,
-  defaultMessage: PropTypes.string.isRequired,
+  defaultMessage: PropTypes.string,
   liveRegionMessage: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   iconImg: PropTypes.string,
   className: PropTypes.string,
-};
-
-Snackbar.defaultProps = {
-  show: null,
-  liveRegionMessage: '',
-  iconImg: 'icon_checkmark-circled',
-  className: undefined,
 };
 
 export default Snackbar;

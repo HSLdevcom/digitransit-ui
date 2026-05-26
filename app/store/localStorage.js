@@ -99,14 +99,6 @@ export function setCustomizedSettings(data) {
       data.accessibilityOption,
       oldSettings.accessibilityOption,
     ),
-    bikeBoardCost: getNumberValueOrDefault(
-      data.bikeBoardCost,
-      oldSettings.bikeBoardCost,
-    ),
-    bikeReluctance: getNumberValueOrDefault(
-      data.bikeReluctance,
-      oldSettings.bikeReluctance,
-    ),
     bikeSpeed: getNumberValueOrDefault(data.bikeSpeed, oldSettings.bikeSpeed),
     modes: getValueOrDefault(data.modes, oldSettings.modes),
     ticketTypes: getValueOrDefault(data.ticketTypes, oldSettings.ticketTypes),
@@ -151,6 +143,10 @@ export function setCustomizedSettings(data) {
       data.includeTaxiSuggestions,
       oldSettings.includeTaxiSuggestions,
     ),
+    transitGroupRelaxFunction: getValueOrDefault(
+      data.transitGroupRelaxFunction,
+      oldSettings.transitGroupRelaxFunction,
+    ),
   };
   if (newSettings.modes) {
     // cleanup
@@ -172,14 +168,6 @@ export function getFavouriteStorage() {
 export function setFavouriteStorage(data) {
   setItem('favouriteStore-updated-at', Math.round(Date.now() / 1000));
   return setItem('favouriteStore', data);
-}
-
-export function getFavouriteLocationsStorage() {
-  return getItemAsJson('favouriteLocations');
-}
-
-export function getFavouriteStopsStorage() {
-  return getItemAsJson('favouriteStops');
 }
 
 export function setReadMessageIds(data) {
@@ -204,10 +192,6 @@ export function setReadMessageId(id) {
   const m = getReadMessageIds();
   m.push(id);
   setReadMessageIds(m);
-}
-
-export function getFavouriteRoutesStorage() {
-  return getItemAsJson('favouriteRoutes');
 }
 
 const filterOld = ['SelectFromMap', 'SelectFromOwnLocations', 'back'];
@@ -241,6 +225,8 @@ export function getGeolocationState() {
   return getItemAsJson('geolocationPermission', '{ "state": "unknown" }').state;
 }
 
+export const getMapLayerSettings = () => getItemAsJson('map-layers', '{}');
+
 export const setMapLayerSettings = settings => {
   setItem('map-layers', settings);
 };
@@ -249,7 +235,13 @@ export const setCountries = countries => {
   setItem('countries', countries);
 };
 
-export const getMapLayerSettings = () => getItemAsJson('map-layers', '{}');
+export function getPersonalization() {
+  return getItemAsJson('personalization', '{}');
+}
+
+export function setPersonalization(data) {
+  setItem('personalization', data);
+}
 
 export const getCountries = () => getItemAsJson('countries', '{}');
 

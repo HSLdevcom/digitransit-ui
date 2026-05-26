@@ -3,21 +3,22 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { DateTime, Duration } from 'luxon';
-import {
-  configShape,
-  pickupBookingInfoShape,
-  routeShape,
-} from '../../util/shapes';
+import { pickupBookingInfoShape, routeShape } from '../../util/shapes';
+import { useConfigContext } from '../../configurations/ConfigContext';
 import Icon from '../Icon';
 import FavouriteRouteContainer from '../routepage/FavouriteRouteContainer';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
-import { useDeepLink } from '../../util/vehicleRentalUtils';
+import { openDeepLink } from '../../util/vehicleRentalUtils';
 
-function OnDemandInfo(
-  { routeNumber, route, pickupBookingInfo, mobile, onClose },
-  { config },
-) {
+function OnDemandInfo({
+  routeNumber,
+  route,
+  pickupBookingInfo,
+  mobile,
+  onClose,
+}) {
   const intl = useIntl();
+  const config = useConfigContext();
   const container = mobile
     ? document.getElementById('content-container')
     : document.getElementById('main-content');
@@ -27,7 +28,7 @@ function OnDemandInfo(
     ? () => {
         window.open(bookingUrl, '_blank', 'noopener,noreferrer');
       }
-    : () => useDeepLink(bookingUrl, infoUrl);
+    : () => openDeepLink(bookingUrl, infoUrl);
 
   const latestBookingTime = pickupBookingInfo.latestBookingTime?.time;
   const formattedLatestBookingTime =
@@ -201,10 +202,6 @@ OnDemandInfo.propTypes = {
   onClose: PropTypes.func.isRequired,
   route: routeShape.isRequired,
   mobile: PropTypes.bool.isRequired,
-};
-
-OnDemandInfo.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default OnDemandInfo;

@@ -13,7 +13,7 @@ const GeolocatorWithPosition = connectToStores(
   (context, props) => {
     const locationState = context.getStore('PositionStore').getLocationState();
     const { createReturnPath, path } = props;
-    const { from, to, hash } = props.match.params;
+    const { from, to, hash, secondHash } = props.match.params;
 
     const redirect = () => {
       const locationForUrl = locationToUri(locationState);
@@ -36,7 +36,13 @@ const GeolocatorWithPosition = connectToStores(
           save = '3'; // save destination only
         }
       }
-      const returnPath = createReturnPath(path, newFrom, newTo, hash);
+      const returnPath = createReturnPath(
+        path,
+        newFrom,
+        newTo,
+        hash,
+        secondHash,
+      );
 
       const newLocation = {
         ...props.match.location,

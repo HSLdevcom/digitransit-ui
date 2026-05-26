@@ -235,7 +235,7 @@ export const getRentalVehicleLink = (rentalVehicle, networkConfig) => {
   return null;
 };
 
-export const useDeepLink = (deepLink, fallBackAddress) => {
+export const openDeepLink = (deepLink, fallBackAddress) => {
   window.location.href = deepLink;
   setTimeout(() => {
     if (!document.hidden && document.hasFocus()) {

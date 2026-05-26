@@ -484,3 +484,8 @@
   position: relative;
   top: -1px;
 }
+
+.separator {
+  width: 100%;
+  border-bottom: 1px solid $light-gray;
+}

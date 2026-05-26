@@ -27,7 +27,7 @@
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
     "hoist-non-react-statics": "2.5.4",
-    "lodash": "4.17.23",
+    "lodash": "4.18.1",
     "prop-types": "^15.8.1",
     "react": "^16.13.0"
   }

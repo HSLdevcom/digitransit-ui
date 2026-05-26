@@ -13,9 +13,8 @@ export const planConnection = graphql`
     $walkSpeed: Speed
     $wheelchair: Boolean
     $transferPenalty: Cost
+    $transitGroupRelaxFunction: LinearCostFunctionInput
     $bikeSpeed: Speed
-    $bikeReluctance: Reluctance
-    $bikeBoardCost: Cost
     $allowedRentalNetworks: [String!]
     $after: String
     $first: Int
@@ -41,8 +40,6 @@ export const planConnection = graphql`
         street: {
           bicycle: {
             speed: $bikeSpeed
-            reluctance: $bikeReluctance
-            boardCost: $bikeBoardCost
             rental: { allowedNetworks: $allowedRentalNetworks }
           }
           scooter: { rental: { allowedNetworks: $allowedRentalNetworks } }
@@ -56,6 +53,7 @@ export const planConnection = graphql`
         transit: {
           transfer: { cost: $transferPenalty, slack: $minTransferTime }
           filters: $filters
+          relaxTransitGroupPriority: $transitGroupRelaxFunction
         }
       }
     ) {

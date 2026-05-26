@@ -124,23 +124,11 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  geoJson: {
-    layers: [
-      {
-        name: {
-          fi: 'Vyöhykkeet',
-          sv: 'Zoner',
-          en: 'Zones',
-        },
-        url: '/assets/geojson/lahti_zone_lines_20230105.geojson',
-      },
-    ],
-  },
   zoneIdMapping: {
-    1: 'A',
-    2: 'B',
-    3: 'C',
-    4: 'D',
+    1: 'LSL',
+    2: 'LSL',
+    3: 'LSL',
+    4: 'LSL',
   },
   zones: {
     stops: true,

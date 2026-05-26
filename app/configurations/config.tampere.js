@@ -47,7 +47,7 @@ export default configMerger(walttiConfig, {
   },
 
   appBarLink: {
-    name: 'Nysse',
+    name: 'Nysse.fi',
     href: 'https://www.nysse.fi/',
     altLink: {
       sv: {
@@ -158,29 +158,6 @@ export default configMerger(walttiConfig, {
     en: {
       callAgencyInfoLink: 'https://nysse.fi/drt',
       callAgencyInfoLinkText: 'https://nysse.fi/drt',
-    },
-  },
-
-  modeDisclaimers: {
-    RAIL: {
-      fi: {
-        disclaimer:
-          'Nyssen liput käyvät Nysse-alueen junaliikenteessä rajoitetusti. Lue lisää ',
-        link: 'https://www.nysse.fi/junat',
-        text: 'nysse.fi/junat',
-      },
-      sv: {
-        disclaimer:
-          'Nysse-biljetter är giltiga på tåg i Nysse-området, med vissa begränsningar. Läs mer på ',
-        link: 'https://www.nysse.fi/en/ways-to-get-around/train',
-        text: 'Trains in the Nysse area - Nysse, Tampere regional transport',
-      },
-      en: {
-        disclaimer:
-          'Nysse tickets are valid on trains in the Nysse area with some limitations. Read more on ',
-        link: 'https://www.nysse.fi/en/ways-to-get-around/train',
-        text: 'Trains in the Nysse area - Nysse, Tampere regional transport',
-      },
     },
   },
 
@@ -381,6 +358,7 @@ export default configMerger(walttiConfig, {
   },
 
   nearYouModes: ['bus', 'tram', 'rail', 'citybike', 'bikepark', 'carpark'],
+  narrowNearYouButtons: true,
 
   bikeBoardingModes: {
     RAIL: { showNotification: true },

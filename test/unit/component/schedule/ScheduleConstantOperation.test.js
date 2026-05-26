@@ -20,6 +20,7 @@ describe('<ScheduleConstantOperation />', () => {
       longName: 'Route 1',
       mode: 'BUS',
       type: 3,
+      agency: { name: 'HSL' },
     },
     breakpoint: 'large',
   };

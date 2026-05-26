@@ -15,15 +15,15 @@ export default configMerger(walttiConfig, {
 
   appBarLink: {
     name: 'Linkkari',
-    href: 'http://linkkari.fi/',
+    href: 'https://linkkari.fi/',
     altLink: {
       sv: {
         name: 'Linkkari',
-        href: 'http://linkkari.fi/in-English',
+        href: 'https://linkkari.fi/in-English',
       },
       en: {
         name: 'Linkkari',
-        href: 'http://linkkari.fi/in-English',
+        href: 'https://linkkari.fi/in-English',
       },
     },
   },

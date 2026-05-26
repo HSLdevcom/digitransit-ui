@@ -663,7 +663,7 @@ function DTAutosuggest({
         />
 
         <Suggestions
-          hidden={!isOpen || isMobile}
+          hidden={!isOpen || !state.suggestions.length || isMobile}
           highlightedIndex={highlightedIndex}
           getItemProps={getItemProps}
           getMenuProps={getMenuProps}

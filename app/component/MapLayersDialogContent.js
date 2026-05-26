@@ -54,6 +54,8 @@ const mapLayersconfigShape = PropTypes.shape({
     subway: transportModeconfigShape,
     tram: transportModeconfigShape,
     scooter: transportModeconfigShape,
+    funicular: transportModeconfigShape,
+    airplane: transportModeconfigShape,
   }),
   mapLayers: PropTypes.shape({
     tooltip: PropTypes.shape({
@@ -259,6 +261,19 @@ class MapLayersDialogContent extends React.Component {
               onChange={e => {
                 this.updateStopSetting({ funicular: e.target.checked });
                 sendLayerChangeAnalytic('FunicularStop', e.target.checked);
+              }}
+            />
+          )}
+          {isTransportModeEnabled(transportModes.airplane) && (
+            <Checkbox
+              large
+              checked={stop.airplane}
+              disabled={!!this.props.mapLayerOptions?.stop?.airplane?.isLocked}
+              defaultMessage="Airport"
+              labelId="map-layer-stop-airplane"
+              onChange={e => {
+                this.updateStopSetting({ airplane: e.target.checked });
+                sendLayerChangeAnalytic('AirplaneStop', e.target.checked);
               }}
             />
           )}

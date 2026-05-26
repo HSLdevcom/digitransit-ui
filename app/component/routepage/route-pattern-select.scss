@@ -1,0 +1,839 @@
+// Styles for the RoutePatternSelect dropdown component and the mobile bottom
+// sheet variant (.pattern-select-sheet / .pattern-select-sheet-backdrop).
+
+.route-pattern-select {
+  margin: 0 0 1px;
+
+  // route-pattern-select-title is for older design only — to be removed once the new route page is fully rolled out
+  .route-pattern-select-title {
+    font-weight: $font-weight-medium;
+    font-size: $font-size-small;
+    line-height: $line-height-normal;
+    letter-spacing: $letter-spacing;
+    margin: var(--space-s) 0 var(--space-xs) 0;
+  }
+
+  .icon {
+    position: absolute;
+    right: 1rem;
+    top: 15px; // aligns icon with text in the input container
+    width: 16px;
+    height: auto;
+    pointer-events: none;
+
+    @media print {
+      display: none;
+    }
+  }
+
+  .dropdown-arrow,
+  .in-text-arrow {
+    color: $theme-primary-color;
+  }
+
+  .in-text-arrow {
+    position: inherit;
+    width: 16px;
+    height: auto;
+    margin: 0 var(--space-xxs);
+  }
+
+  // ─── Toggle container ────────────────────────────────────────────────────
+
+  .pattern-select-container {
+    width: 100%;
+    min-height: 44px;
+    background: $white;
+    color: $black;
+    border: 1px solid $control-border-color;
+    border-radius: var(--space-xs);
+    position: relative;
+    transition: all 0.2s ease-out;
+
+    &:focus-within {
+      outline: none;
+      border-color: $theme-primary-color;
+      box-shadow: 0 0 3px 0 $theme-secondary-color;
+    }
+
+    &.pattern-select-container--open {
+      border-color: $theme-primary-color;
+      box-shadow: 0 0 3px 0 $theme-secondary-color;
+
+      .dropdown-arrow {
+        transform: rotate(180deg);
+      }
+    }
+
+    .input-display {
+      padding: var(--space-s) var(--space-m);
+
+      @media screen and (max-width: 900px) {
+        padding: var(--space-m) var(--space-l);
+      }
+
+      .icon-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .suggestions-container {
+      .in-text-arrow {
+        color: var(--mode-color, $theme-primary-color);
+      }
+    }
+
+    .dropdown-arrow {
+      color: $link-button-color;
+    }
+
+    .option-count-pill {
+      // eslint-disable-next-line
+      background: color-mix(
+        in srgb,
+        var(--mode-color-raw, #{$theme-primary-color}) 10%,
+        white
+      );
+      color: $black;
+    }
+  }
+
+  // ─── Displayed value row ─────────────────────────────────────────────────
+
+  .input-display {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-weight: $font-weight-book;
+    font-size: 15px;
+    line-height: 18px;
+    cursor: pointer;
+
+    .dropdown-arrow {
+      position: relative;
+      right: auto;
+      top: auto;
+      margin-left: auto;
+      pointer-events: none;
+      flex-shrink: 0;
+
+      &.inverted {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  // ─── Option-count pill ───────────────────────────────────────────────────
+
+  .option-count-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 20px;
+    padding: 0 8px;
+    border-radius: 10px;
+    font-size: $font-size-xxsmall;
+    font-weight: $font-weight-medium;
+    background: color-mix(
+      in srgb,
+      var(--mode-color-raw, #{$theme-primary-color}) 10%,
+      white
+    );
+    color: $black;
+    flex-shrink: 0;
+    letter-spacing: $letter-spacing;
+    overflow: hidden;
+    border: none;
+  }
+
+  .toggle-label {
+    flex: 1;
+    letter-spacing: $letter-spacing;
+    font-weight: $font-weight-book;
+    font-size: $font-size-xsmall;
+  }
+
+  // Hidden <input> used only to open the native keyboard — font-size must be
+  // ≥ 16px to prevent automatic zoom on iOS.
+  .select-route-pattern-input {
+    height: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  // ─── Route pattern suggestions dropdown ────────────────────────────────────────────────
+
+  .suggestions-container {
+    background: $white;
+    z-index: index($zindex, 'autosuggest-suggestion-container');
+    position: absolute;
+
+    // top: container min-height (44px) + borders (2px) + visual gap (6px)
+    top: 52px;
+    left: 0;
+    right: 0;
+    border-radius: var(--space-xs);
+    overflow: hidden;
+    display: none;
+
+    &--open {
+      display: block;
+      border: 1px solid $light-gray;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  .section-container {
+    background: $white;
+    font-weight: $font-weight-book;
+    font-size: 15px;
+    line-height: 18px;
+
+    &:not(:first-child) {
+      border-top: 1px solid $light-gray;
+    }
+
+    &:first-child {
+      border-radius: var(--space-xs) var(--space-xs) 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 var(--space-xs) var(--space-xs);
+    }
+  }
+
+  .section-title {
+    font-weight: $font-weight-book;
+    border-bottom: 1px solid $light-gray;
+    min-height: 44px;
+    padding: 13px var(--space-s);
+    color: $gray;
+    font-size: $font-size-xsmall;
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  // ─── Individual pattern suggestion ──────────────────────────────────────
+
+  .suggestion {
+    list-style: none;
+    min-height: 44px;
+    padding: 13px var(--space-s);
+    position: relative;
+    cursor: pointer;
+    background: $white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: $font-weight-book;
+    transition: background-color 0.15s ease-out;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      bottom: 0;
+      height: 1px;
+      background: $light-gray;
+    }
+
+    &:last-child::after {
+      display: none;
+    }
+
+    &:hover,
+    &--highlighted {
+      background: $suggestion-highlight-color;
+    }
+
+    .icon.check {
+      height: 16px;
+      width: 16px;
+      position: relative;
+      right: auto;
+      top: auto;
+      color: var(--mode-color, #{$theme-primary-color});
+      flex-shrink: 0;
+      margin-left: auto;
+      margin-right: var(--space-s);
+    }
+  }
+
+  // ─── Check / placeholder ─────────────────────────────────────────────────
+
+  .pattern-check {
+    width: 24px;
+    padding-left: $padding-xsmall;
+    padding-right: $padding-xsmall;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--mode-color, #{$theme-primary-color});
+
+    svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+  }
+
+  .check-placeholder {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+  }
+
+  .pattern-label {
+    flex: 1 1 auto;
+    padding-left: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-weight: $font-weight-book;
+  }
+
+  a {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+  }
+
+  // ─── Similar-route row ───────────────────────────────────────────────────
+
+  .similar-route {
+    display: flex;
+    width: 100%;
+
+    // Reserve space for the arrow icon (16px) + 32px gap from right edge
+    padding-right: 48px;
+
+    > .icon-container {
+      position: relative;
+
+      // Visual alignment with text baseline
+      margin-top: 3px;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+
+    .similar-route-text {
+      flex-grow: 1;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      white-space: nowrap;
+    }
+
+    // Trailing arrow icon — positioned absolutely to the far right
+    > .icon-container:last-child {
+      position: absolute;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      margin: 0;
+      flex-shrink: 0;
+    }
+  }
+
+  .similar-route .icon-container .icon {
+    position: relative;
+    width: 2em;
+    height: 2em;
+    right: auto;
+    top: auto;
+  }
+
+  .similar-route .icon-container:last-child .similar-route-arrow {
+    width: 16px;
+    height: 16px;
+    color: $link-button-color;
+  }
+
+  .similar-route-name {
+    color: $black;
+    font-weight: $font-weight-medium;
+    font-size: 15px;
+
+    // Taller than 18px to accommodate two-line route names
+    line-height: 20px;
+  }
+
+  .similar-route-longname {
+    color: $gray;
+
+    // Fixed 13px: slightly smaller than primary text for visual hierarchy
+    font-size: 13px;
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    // -0.48px ≈ $letter-spacing at 16px root font size
+    letter-spacing: -0.48px;
+  }
+
+  // ─── Pattern header (origin → destination band) ──────────────────────────
+
+  .route-pattern-header {
+    display: flex;
+
+    // 64px = 16px gap + 48px swap button (button sits flush at the container edge)
+    padding: 8px 64px 8px 0;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    position: relative;
+    background: $white;
+    color: $black;
+
+    .icon-container {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      // Override the abs-positioned icon rule from .route-pattern-select .icon
+      .icon {
+        position: relative;
+        right: auto;
+        top: auto;
+        pointer-events: auto;
+      }
+    }
+
+    .route-pattern-endpoint {
+      display: flex;
+      align-items: center;
+      gap: var(--space-s);
+      width: 100%;
+      padding: 8px 0;
+    }
+
+    .route-pattern-header-icon {
+      display: flex;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .route-pattern-destination-icon {
+      height: 24px;
+    }
+
+    .route-pattern-location-name {
+      font-size: $font-size-small;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      letter-spacing: $letter-spacing;
+      font-weight: $font-weight-semibold;
+    }
+
+    .route-pattern-connector {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: var(--space-s);
+    }
+
+    .route-pattern-dots {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+
+      // 24px: matches icon width to align dots under the origin icon
+      width: 24px;
+      flex-shrink: 0;
+      height: 8px;
+
+      .icon-container {
+        display: flex;
+        width: 2px;
+        height: 2px;
+      }
+    }
+
+    .route-pattern-dot {
+      width: 2px;
+      height: 2px;
+    }
+
+    .route-pattern-divider {
+      flex: 1;
+      border: none;
+      border-top: 1px solid rgba(0, 0, 0, 0.15);
+      margin: 0;
+    }
+
+    .route-pattern-swap-button {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: $background-color-lighter;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $swap-button-icon-color;
+
+      &:hover {
+        background: $button-hover-color;
+
+        .icon-container {
+          transform: scale(1.2);
+        }
+      }
+
+      .icon-container {
+        width: 16px;
+        height: 16px;
+        transition: transform 0.15s ease;
+      }
+    }
+  }
+
+  .route-pattern-header--no-swap {
+    padding-right: 0;
+  }
+
+  // ─── Classic route page overrides ────────────────────────────────────────
+
+  &.classic-route-page {
+    .route-pattern-toggle {
+      border: 1px solid #888;
+      width: 100%;
+      min-height: 44px;
+      background: $white;
+      border-radius: var(--space-xs);
+      display: block;
+      font-size: 15px;
+      line-height: 18px;
+      letter-spacing: -0.03em;
+      padding: 13px 32px 13px 16px;
+      text-align: left;
+      color: #333;
+
+      &:focus {
+        outline: none;
+        border-color: $theme-primary-color;
+        background: #fff;
+        border: solid 1px $theme-primary-color;
+        box-shadow: 0 0 2px 1px $theme-secondary-color;
+      }
+
+      .toggle-icon {
+        color: $link-button-color;
+        position: absolute;
+        right: 16px;
+        width: 16px;
+        height: auto;
+        transform: rotate(90deg);
+      }
+    }
+
+    .in-text-arrow {
+      float: none;
+      top: 3px;
+      right: 0;
+    }
+
+    .suggestion {
+      padding: 13px 10px 13px 16px;
+
+      &::after {
+        content: none;
+      }
+    }
+
+    .section-title {
+      font-weight: $font-weight-medium;
+      color: $black;
+    }
+
+    .pattern-check {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      color: $black;
+    }
+
+    .pattern-select-container {
+      border: 1px solid #888;
+
+      &:focus-within {
+        border: solid 1px $theme-primary-color;
+        box-shadow: 0 0 3px 0 $theme-secondary-color;
+      }
+
+      .input-display {
+        font-size: 15px;
+        line-height: 18px;
+        letter-spacing: -0.03em;
+        padding: 13px 32px 13px 16px;
+
+        .dropdown-arrow {
+          position: absolute;
+          right: 1rem;
+          top: 15px;
+          margin-left: 0;
+          transform: none;
+        }
+      }
+
+      &.pattern-select-container--open .dropdown-arrow {
+        transform: rotate(180deg);
+      }
+
+      .suggestions-container--open {
+        border: 1px solid #ddd;
+        border-bottom: none;
+        box-shadow: 0 4px 13px rgba(0, 0, 0, 0.15);
+      }
+
+      .suggestions-container {
+        background: $background-color-lighter;
+        border-radius: 4px;
+
+        .section-container {
+          background: white;
+          font-size: 15px;
+          line-height: 18px;
+          letter-spacing: -0.03em;
+
+          &:not(:first-child) {
+            margin-top: 4px;
+            border-top: 1px solid #ddd;
+          }
+
+          &:first-child {
+            border-radius: 4px 4px 0 0;
+          }
+
+          &:last-child {
+            border-radius: 0 0 4px 4px;
+          }
+
+          .section-title {
+            font-weight: $font-weight-medium;
+            color: $black;
+            border-bottom: 1px solid #ddd;
+            min-height: 44px;
+            padding: 13px 16px;
+          }
+
+          ul {
+            .suggestion {
+              border-bottom: 1px solid #ddd;
+              padding: 13px 10px 13px 16px;
+
+              &::after {
+                display: none;
+              }
+
+              .icon.check {
+                height: 20px;
+                width: 20px;
+                color: $black;
+                margin-left: 0;
+                margin-right: 0;
+              }
+            }
+
+            .suggestion--highlighted {
+              background: #dfe5e8;
+            }
+          }
+
+          .similar-route {
+            justify-content: space-between;
+
+            // Arrow is in flex flow here, no need to reserve space
+            padding-right: 0;
+
+            .icon-container {
+              width: auto;
+              height: auto;
+              right: 0;
+              top: auto;
+              margin-top: 3px;
+              margin-right: 10px;
+
+              .icon {
+                position: relative;
+                right: -8px;
+                top: auto;
+                width: 2em;
+                height: 2em;
+              }
+            }
+
+            // Reset the non-classic absolute positioning for the arrow container
+            > .icon-container:last-child {
+              position: static;
+              transform: none;
+              align-self: flex-start;
+              margin-top: 3px;
+              margin-right: 0;
+
+              .similar-route-arrow {
+                width: 20px;
+                height: 20px;
+              }
+            }
+
+            .similar-route-arrow-container {
+              margin-top: 5px;
+
+              .icon-container {
+                margin-right: 0;
+
+                .similar-route-arrow {
+                  width: 1.35em;
+                  height: 1.35em;
+                }
+              }
+            }
+
+            .similar-route-text {
+              .similar-route-name {
+                color: #333;
+              }
+
+              .similar-route-longname {
+                color: #666;
+                text-decoration-color: white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media print {
+    display: none;
+  }
+}
+
+// ─── Mobile bottom sheet ─────────────────────────────────────────────────────
+
+.pattern-select-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: index($zindex, 'click-prevent-overlay');
+}
+
+.pattern-select-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: $white;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
+  z-index: index($zindex, 'front');
+  max-height: 75vh;
+  overflow-y: auto;
+  animation: slideUpFromBottom 0.25s ease-out;
+
+  .pattern-select-sheet-header {
+    position: sticky;
+    top: 0;
+    background: $white;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-height: 32px;
+  }
+
+  .pattern-select-sheet-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: $link-button-color;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin: 16px 16px -13px 0;
+
+    // Override the abs-positioned icon rule from .route-pattern-select .icon
+    .icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon {
+      position: relative;
+      right: auto;
+      top: auto;
+      width: 16px;
+      height: 16px;
+      pointer-events: auto;
+    }
+  }
+
+  // The inner route-pattern-select reuses all the existing option styles.
+  // Remove the toggle button and dropdown-specific container styles.
+  .route-pattern-select {
+    padding: 0 24px;
+
+    .pattern-select-container {
+      display: none;
+    }
+
+    .section-container {
+      &:first-child {
+        border-radius: 0;
+      }
+
+      &:last-child {
+        border-radius: 0;
+      }
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .in-text-arrow {
+      color: var(--mode-color, #{$theme-primary-color});
+    }
+  }
+}

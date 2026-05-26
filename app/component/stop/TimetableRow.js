@@ -1,11 +1,10 @@
-/* eslint-disable no-return-assign */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
 
-const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => {
+const TimetableRow = ({ title, stoptimes, showRoutes = [], timerows = [] }) => {
   const intl = useIntl();
   return (
     <div
@@ -49,17 +48,11 @@ const TimetableRow = ({ title, stoptimes, showRoutes, timerows }) => {
               `}
               </div>
               <span aria-hidden>
-                <div>
-                  <span>
-                    {DateTime.fromSeconds(
-                      time.serviceDay + time.scheduledDeparture,
-                    ).toFormat('mm')}
-                  </span>
-                  <span className="line-name" title={time.name}>
-                    /{time.name}
-                    {time.duplicate}
-                  </span>
-                </div>
+                {DateTime.fromSeconds(
+                  time.serviceDay + time.scheduledDeparture,
+                ).toFormat('mm')}
+                /{time.name}
+                {time.duplicate}
               </span>
             </div>
           ))}
@@ -80,11 +73,6 @@ TimetableRow.propTypes = {
   ).isRequired,
   showRoutes: PropTypes.arrayOf(PropTypes.string),
   timerows: PropTypes.arrayOf(PropTypes.string),
-};
-
-TimetableRow.defaultProps = {
-  showRoutes: [],
-  timerows: [],
 };
 
 export default TimetableRow;

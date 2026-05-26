@@ -469,5 +469,23 @@ export default {
 
   showStopStatusMarkers: true,
   showRouteDescNotification: IS_DEV,
-  viaPointsEnabled: true,
+  showNewRoutePage: true,
+
+  replacementBusNotification: {
+    // Header is displayed via translation key 'replacement-bus'.
+    content: {
+      fi: [
+        'Juna on korvattu bussilla.',
+        'Bussin aikataulu ja pysähdyspaikat voivat poiketa junan tiedoista.',
+      ],
+      en: [
+        'The train has been replaced by a bus.',
+        'The bus timetable and stopping locations may differ from the train information.',
+      ],
+      sv: [
+        'Tåget har ersatts med buss.',
+        'Bussens tidtabell och hållplatser kan avvika från tågets uppgifter.',
+      ],
+    },
+  },
 };

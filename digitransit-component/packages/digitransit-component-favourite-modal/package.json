@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-favourite-modal",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "description": "digitransit-component favourite-modal module",
   "main": "index.js",
   "files": [
@@ -29,13 +29,13 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-icon": "^2.0.1",
+    "@digitransit-component/digitransit-component-icon": "^2.0.2",
     "@hsl-fi/modal": "^0.3.2",
     "@hsl-fi/sass": "1.0.0",
     "classnames": "2.5.1",
     "i18next": "^22.5.1",
-    "lodash": "4.17.23",
-    "lodash-es": "4.17.23",
+    "lodash": "4.18.1",
+    "lodash-es": "4.18.1",
     "prop-types": "^15.8.1",
     "react": "^16.13.0",
     "react-i18next": "^12.3.1"

@@ -1,3 +1,4 @@
+import { IS_DEV } from '../util/envUtils';
 import safeJsonParse from '../util/safeJsonParser';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 import realtime from './realtimeUtils';
@@ -28,6 +29,7 @@ const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 12000;
 const YEAR = 1900 + new Date().getYear();
 
 const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
+const TRAFFIC_NOW_TEST = process.env.TRAFFIC_NOW_TEST === 'true';
 
 export default {
   PORT,
@@ -181,20 +183,22 @@ export default {
   defaultSettings: {
     accessibilityOption: false,
     optimize: 'GREENWAYS',
-    bikeBoardCost: 120,
-    bikeReluctance: 1.2,
     bikeSpeed: 5.55,
     ticketTypes: 'none',
     walkBoardCost: 120,
-    walkReluctance: 1.2,
+    walkReluctance: 1.8,
     walkSpeed: 1.2,
-    transferPenalty: 180,
+    transferPenalty: 0,
     minTransferTime: 90,
     includeBikeSuggestions: true,
     includeParkAndRideSuggestions: false,
     includeCarSuggestions: false,
     showBikeAndParkItineraries: false,
     includeTaxiSuggestions: false,
+    transitGroupRelaxFunction: {
+      constant: 300,
+      coefficient: 1.2,
+    },
   },
 
   /**
@@ -733,6 +737,8 @@ export default {
   vehicles: false,
   showVehiclesOnStopPage: false,
   showVehiclesOnItineraryPage: false,
+  trafficNowLink: false,
+  trafficNowTest: TRAFFIC_NOW_TEST,
 
   timetables: {},
 
@@ -758,7 +764,7 @@ export default {
     itinerary: false,
   },
 
-  viaPointsEnabled: false,
+  viaPointsEnabled: true,
   viaPointsMax: 1,
 
   // Toggling this off shows the alert bodytext instead of the header
@@ -872,5 +878,6 @@ export default {
     allowedExternalFlexRouteTypes: [1501],
     minTransferTime: 900, // seconds
   },
-  personalisation: false,
+  personalization: false,
+  showNewRoutePage: IS_DEV,
 };

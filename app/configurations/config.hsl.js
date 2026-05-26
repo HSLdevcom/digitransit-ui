@@ -14,7 +14,9 @@ const BANNER_URL = process.env.CONTENT_DOMAIN
   ? `${process.env.CONTENT_DOMAIN}/api/v1/banners?site=JourneyPlanner`
   : process.env.BANNER_URL ||
     'https://cms-test.hslfi.hsldev.com/api/v1/banners?site=JourneyPlanner';
-const SUGGESTION_URL = `${process.env.CONTENT_DOMAIN}/api/v1/search/suggestions`;
+const SUGGESTION_URL = process.env.CONTENT_DOMAIN
+  ? `${process.env.CONTENT_DOMAIN}/api/v1/search/suggestions`
+  : 'https://content.hsl.fi/api/v1/search/suggestions'; // old url
 const travelersAccountUrl = process.env.TRAVELERS_ACCOUNT_URL;
 const staticAssetsUrl = process.env.STATIC_ASSETS_URL;
 const virtualMonitorBaseUrl = IS_DEV
@@ -73,8 +75,8 @@ export default {
     EMBEDDED_SEARCH_GENERATION: '/reittiopas-elementti',
     EMISSIONS_INFO: {
       fi: 'https://www.hsl.fi/hsl/sahkobussit/ymparisto-lukuina',
-      sv: 'https://www.hsl.fi/sv/reseplaneraren_co2',
-      en: 'https://www.hsl.fi/en/journey_planner_co2',
+      sv: 'https://www.hsl.fi/sv/hrt/sahkobussit/ymparisto-lukuina',
+      en: 'https://www.hsl.fi/en/hsl/electric-buses/environmental-performance-in-figures',
     },
     HOLIDAYS_AND_EXCEPTIONS: {
       fi: 'https://www.hsl.fi/matkustaminen/juhlapyhat-ja-poikkeusaikataulut',
@@ -108,7 +110,7 @@ export default {
   useRoutingFeedbackPrompt: true,
 
   feedIds: ['HSL', 'HSLlautta', 'Sipoo'],
-  externalFeedIds: ['HSLlautta', '02Taksi'],
+  externalFeedIds: ['HSLlautta', 'Uber'],
   externalFerryByStopCode: true, // no stop code means external ferry
 
   allowLogin: true,
@@ -120,6 +122,7 @@ export default {
     walkSpeed: 1.28,
     showBikeAndParkItineraries: true,
     transferPenalty: 180,
+    includeTaxiSuggestions: true,
   },
 
   /**
@@ -331,65 +334,6 @@ export default {
     en: 'HSL',
   },
 
-  staticMessages: [
-    // {
-    //   id: '2',
-    //   priority: -1,
-    //   content: {
-    //     fi: [
-    //       {
-    //         type: 'text',
-    //         content:
-    //           'Käytämme evästeitä palveluidemme kehitykseen. Käyttämällä sivustoa hyväksyt evästeiden käytön. Lue lisää: ',
-    //       },
-    //       {
-    //         type: 'a',
-    //         content: 'Käyttöehdot',
-    //         href: 'https://www.hsl.fi/kayttoehdot',
-    //       },
-    //       {
-    //         type: 'a',
-    //         content: 'Tietosuojaseloste',
-    //         href: 'https://www.hsl.fi/tietosuojaseloste',
-    //       },
-    //     ],
-    //     en: [
-    //       {
-    //         type: 'text',
-    //         content:
-    //           'We use cookies to improve our services. By using this site, you agree to its use of cookies. Read more: ',
-    //       },
-    //       {
-    //         type: 'a',
-    //         content: 'Terms of use',
-    //         href: 'https://www.hsl.fi/en/terms-of-use',
-    //       },
-    //       {
-    //         type: 'a',
-    //         content: 'Privacy Statement',
-    //         href: 'https://www.hsl.fi/en/description-of-the-file',
-    //       },
-    //     ],
-    //     sv: [
-    //       {
-    //         type: 'text',
-    //         content:
-    //           'Vi använder cookies för att utveckla våra tjänster. Genom att använda webbplatsen godkänner du att vi använder cookies. Läs mer: ',
-    //       },
-    //       {
-    //         type: 'a',
-    //         content: 'Användarvillkor',
-    //         href: 'https://www.hsl.fi/sv/anvandarvillkor',
-    //       },
-    //       {
-    //         type: 'a',
-    //         content: 'Dataskyddsbeskrivning',
-    //         href: 'https://www.hsl.fi/sv/dataskyddsbeskrivning',
-    //       },
-    //     ],
-    //   },
-    // },
-  ],
   geoJson: {
     layers: [
       {
@@ -398,7 +342,7 @@ export default {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/hsl_zone_lines_20190508.geojson',
+        url: '/assets/geojson/hsl_zone_lines_20251013.geojson',
       },
     ],
   },
@@ -724,11 +668,7 @@ export default {
   ],
 
   replacementBusNotification: {
-    header: {
-      fi: 'Korvaava bussi',
-      en: 'Replacement bus',
-      sv: 'Ersättande buss',
-    },
+    // Header is displayed via translation key 'replacement-bus'.
     content: {
       fi: [
         'Voit nousta kyytiin myös bussin keskiovista.',
@@ -792,19 +732,24 @@ export default {
   trafficLightGraphic: 'hsl/traffic-light.svg',
   naviGeolocationGraphic: 'hsl/geolocation.svg',
   notFoundGraphic: 'hsl/not-found.svg',
+  trafficNowHeaderGraphic: 'hsl/trafficnow-header.svg',
   navigation: true,
   crazyEgg: true,
+
   showStopStatusMarkers: true,
+
   flex: {
     internalFlexEnabled: IS_DEV,
     allowTaxiJourneys: IS_DEV,
     directOnlyTaxiJourneys: false,
     internalAgencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
-    externalAgencies: ['02Taksi:02_taksi'],
+    externalAgencies: ['Uber:agency-mog2skf5-1'],
     allowedExternalFlexRouteTypes: [1501],
     infoLanguage: 'fi',
+    taxiSettingLabelOverride: 'demand-responsive-traffic',
   },
+
   showRouteDescNotification: IS_DEV,
-  personalisation: IS_DEV,
-  viaPointsEnabled: true,
+  personalization: IS_DEV,
+  showNewRoutePage: true,
 };

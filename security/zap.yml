@@ -1,0 +1,98 @@
+env:
+  contexts:
+    - name: zap
+      urls:
+        - "${TARGET_URL}"
+
+  parameters:
+    failOnError: true
+    failOnWarning: false
+    progressToStdout: false
+
+jobs:
+  - type: replacer
+    name: "Inject subscription key"
+    parameters:
+      deleteAllRules: false
+    rules:
+      - description: "Set subscription key"
+        matchType: req_header
+        matchString: "digitransit-subscription-key"
+        matchRegex: false
+        replacementString: "${SUBSCRIPTION_KEY}"
+
+  - type: alertFilter
+    name: "Filter out false positives and non-issues"
+    parameters:
+      deleteGlobalAlerts: true
+    alertFilters:
+      # Not an issue with API
+      - ruleId: 10021
+        ruleName: X-Content-Type-Options Header Missing
+        newRisk: False Positive
+      # CloudFlare limitation
+      - ruleId: 10054
+        ruleName: Cookie Without SameSite Attribute
+        newRisk: False Positive
+        parameter: _cfuvid
+      # CloudFlare limitation
+      - ruleId: 90033
+        ruleName: Loosely Scoped Cookie
+        newRisk: False Positive
+      # CloudFlare limitation
+      - ruleId: 10112
+        ruleName: Session Management Response Identified
+        newRisk: False Positive
+        parameter: _cfuvid
+      # Not actual timestamps
+      - ruleId: 10096
+        ruleName: Timestamp Disclosure - Unix
+        newRisk: False Positive
+      # Non-issue
+      - ruleId: 10112
+        ruleName: Session Management Response Identified
+        newRisk: False Positive
+      # Works as intended
+      - ruleId: 50007
+        ruleName: GraphQL Circular Type Reference
+        newRisk: False Positive
+      # Works as intended
+      - ruleId: 50007
+        ruleName: GraphQL Server Implementation Identified
+        newRisk: False Positive
+
+  - type: graphql
+    name: "GraphQL Spider"
+    parameters:
+      endpoint: "${TARGET_URL}"
+      schemaFile: "/zap/wrk/schema.graphqls"
+      maxQueryDepth: 1
+      maxArgsDepth: 1
+      maxCycleDetectionAlerts: 10
+
+  - type: passiveScan-wait
+    name: "Wait for passive scan to finish"
+    parameters:
+      maxDuration: 10
+
+  - type: report
+    parameters:
+      template: "traditional-html"
+      reportDir: "/zap/wrk"
+      reportFile: "zap-report.html"
+      reportTitle: "ZAP Scan for ${TARGET_URL}"
+    risks:
+      - info
+      - low
+      - medium
+      - high
+    confidences:
+      - falsepositive
+      - low
+      - medium
+      - high
+      - confirmed
+    sections:
+      - instancecount
+      - alertdetails
+      - alertcount

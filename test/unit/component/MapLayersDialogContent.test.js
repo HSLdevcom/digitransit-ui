@@ -195,6 +195,48 @@ describe('<MapLayersDialogContent />', () => {
     expect(mapLayers.stop.ferry).to.equal(true);
   });
 
+  it('should update the airplane stop layer', () => {
+    let mapLayers = {
+      stop: {
+        airplane: false,
+      },
+      terminal: {},
+    };
+    const props = {
+      open: true,
+      setOpen: () => {},
+      lang: 'fi',
+      mapLayers,
+      updateMapLayers: layers => {
+        mapLayers = { ...layers };
+      },
+    };
+    const context = {
+      config: {
+        CONFIG: 'default',
+        transportModes: {
+          airplane: {
+            availableForSelection: true,
+          },
+        },
+      },
+    };
+    const wrapper = mountWithIntl(
+      <MapLayersDialogContent isOpen {...props} />,
+      {
+        context: { ...mockContext, ...context },
+        childContextTypes: { ...mockChildContextTypes },
+      },
+    );
+
+    wrapper
+      .find('.option-checkbox.large input')
+      .at(0)
+      .simulate('change', { target: { checked: true } });
+
+    expect(mapLayers.stop.airplane).to.equal(true);
+  });
+
   it('should update the citybike layer', () => {
     const today = new Date();
     const yesterday = new Date();

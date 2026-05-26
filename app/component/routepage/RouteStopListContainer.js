@@ -1,131 +1,117 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
-import { matchShape } from 'found';
+import { useRouter } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import {
-  configShape,
-  relayShape,
-  vehicleShape,
-  patternShape,
-} from '../../util/shapes';
+import { relayShape, vehicleShape, patternShape } from '../../util/shapes';
 import RouteStop from './RouteStop';
 import withBreakpoint from '../../util/withBreakpoint';
 import { getRouteMode } from '../../util/modeUtils';
+import { getModeIconColor } from '../../util/colorUtils';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
-class RouteStopListContainer extends React.PureComponent {
-  static propTypes = {
-    pattern: patternShape.isRequired,
-    className: PropTypes.string,
-    vehicles: PropTypes.objectOf(vehicleShape),
-    currentTime: PropTypes.number.isRequired,
-    relay: relayShape.isRequired,
-    breakpoint: PropTypes.string.isRequired,
-    hideDepartures: PropTypes.bool,
-  };
+function RouteStopListContainer({
+  pattern,
+  className = undefined,
+  vehicles = [],
+  currentTime,
+  relay,
+  breakpoint,
+  hideDepartures = false,
+}) {
+  const config = useConfigContext();
+  const { match } = useRouter();
+  const isMountRef = useRef(true);
 
-  static defaultProps = {
-    className: undefined,
-    vehicles: [],
-    hideDepartures: false,
-  };
+  useEffect(() => {
+    if (isMountRef.current) {
+      isMountRef.current = false;
+      return;
+    }
+    relay.refetch({ currentTime, patternId: match.params.patternId }, null);
+  }, [currentTime]);
 
-  static contextTypes = {
-    config: configShape.isRequired,
-    match: matchShape.isRequired,
-  };
-
-  getStops() {
-    const { stops } = this.props.pattern;
-
-    const mode = getRouteMode(this.props.pattern.route, this.context.config);
-    const vehicles = groupBy(
-      values(this.props.vehicles).filter(
-        vehicle => this.props.currentTime - vehicle.timestamp < 5 * 60,
-      ),
-      vehicle => vehicle.next_stop,
-    );
-    const rowClassName = `bp-${this.props.breakpoint}`;
-    const loop =
-      stops.length && stops[0].gtfsId === stops[stops.length - 1].gtfsId;
-    let singleLoop; // runs only once through the stop chain
-    if (loop) {
-      let i;
-      for (i = 1; i < stops.length - 1; i++) {
-        if (stops[i].stopTimesForPattern[1]) {
-          // stop is visited many times
-          break;
-        }
+  const { stops } = pattern;
+  const mode = getRouteMode(pattern.route, config);
+  const vehiclesByStop = groupBy(
+    values(vehicles).filter(
+      vehicle => currentTime - vehicle.timestamp < 5 * 60,
+    ),
+    vehicle => vehicle.next_stop,
+  );
+  const rowClassName = `bp-${breakpoint}`;
+  const loop =
+    stops.length && stops[0].gtfsId === stops[stops.length - 1].gtfsId;
+  let singleLoop; // runs only once through the stop chain
+  if (loop) {
+    let i;
+    for (i = 1; i < stops.length - 1; i++) {
+      if (stops[i].stopTimesForPattern[1]) {
+        // stop is visited many times
+        break;
       }
-      singleLoop = i === stops.length - 1; // no double time values
     }
-    return stops.map((stop, i) => {
-      const idx = i;
-      const nextStop = stops[i + 1];
-      const prevStop = stops[i - 1];
+    singleLoop = i === stops.length - 1; // no double time values
+  }
 
-      return (
-        <RouteStop
-          color={
-            this.props.pattern.route?.color
-              ? `#${this.props.pattern.route.color}`
-              : null
-          }
-          key={`${stop.gtfsId}-${this.props.pattern}-${idx}`}
-          stop={stop}
-          nextStop={nextStop}
-          prevStop={prevStop}
-          mode={mode}
-          vehicle={vehicles[stop.gtfsId]?.[0]}
-          currentTime={this.props.currentTime}
-          last={i === stops.length - 1}
-          first={i === 0}
-          className={rowClassName}
-          displayNextDeparture={this.context.config.displayNextDeparture}
-          shortName={this.props.pattern.route?.shortName}
-          hideDepartures={this.props.hideDepartures}
-          loop={loop}
-          singleLoop={singleLoop}
+  return (
+    <div id="route-stop-panel" role="tabpanel" aria-labelledby="route-stop-tab">
+      <span className="sr-only">
+        <FormattedMessage
+          id="stop-list-update.sr-instructions"
+          default="Departure times for each stop update in real time."
         />
-      );
-    });
-  }
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps({ relay, currentTime }) {
-    const curr = this.props.currentTime;
-    const next = currentTime;
-    if (curr !== next) {
-      relay.refetch(
-        {
-          currentTime: next,
-          patternId: this.context.match.params.patternId,
-        },
-        null,
-      );
-    }
-  }
-
-  render() {
-    return (
-      <div role="tabpanel" aria-labelledby="route-tab">
-        <span className="sr-only">
-          <FormattedMessage
-            id="stop-list-update.sr-instructions"
-            default="Departure times for each stop update in real time."
-          />
-        </span>
-        <ul className={cx('route-stop-list', this.props.className)}>
-          {this.getStops()}
-        </ul>
-      </div>
-    );
-  }
+      </span>
+      <ul className={cx('route-stop-list', className)}>
+        {stops.map((stop, i) => {
+          const nextStop = stops[i + 1];
+          const prevStop = stops[i - 1];
+          const occurrence = stops
+            .slice(0, i)
+            .filter(s => s.gtfsId === stop.gtfsId).length;
+          return (
+            <RouteStop
+              color={
+                pattern.route?.color
+                  ? `#${pattern.route.color}`
+                  : getModeIconColor(config, mode)
+              }
+              key={`${stop.gtfsId}-${occurrence}`}
+              stop={stop}
+              nextStop={nextStop}
+              prevStop={prevStop}
+              mode={mode}
+              vehicle={vehiclesByStop[stop.gtfsId]?.[0]}
+              currentTime={currentTime}
+              last={i === stops.length - 1}
+              first={i === 0}
+              className={rowClassName}
+              displayNextDeparture={config.displayNextDeparture}
+              shortName={pattern.route?.shortName}
+              hideDepartures={hideDepartures}
+              loop={loop}
+              singleLoop={singleLoop}
+            />
+          );
+        })}
+      </ul>
+    </div>
+  );
 }
+
+RouteStopListContainer.propTypes = {
+  pattern: patternShape.isRequired,
+  className: PropTypes.string,
+  vehicles: PropTypes.objectOf(vehicleShape),
+  currentTime: PropTypes.number.isRequired,
+  relay: relayShape.isRequired,
+  breakpoint: PropTypes.string.isRequired,
+  hideDepartures: PropTypes.bool,
+};
 
 const containerComponent = createRefetchContainer(
   connectToStores(

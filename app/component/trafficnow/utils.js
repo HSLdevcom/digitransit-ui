@@ -1,6 +1,10 @@
 /* eslint-disable no-underscore-dangle */
-import { getRouteMode } from '../../util/modeUtils';
-import { AlertEntityType, LocationTypes } from '../../constants';
+import { getTransportModes, getRouteMode } from '../../util/modeUtils';
+import {
+  AlertEntityType,
+  LocationTypes,
+  TrafficNowTransportModes,
+} from '../../constants';
 import { stopPagePath, routePagePath } from '../../util/path';
 
 const sortAlphaNumeric = (a, b) => {
@@ -100,4 +104,15 @@ const groupEntitiesByMode = (entities, config) => {
   return grouped;
 };
 
-export { groupEntitiesByMode };
+const getAvailableModes = config =>
+  Object.entries(getTransportModes(config)).reduce((acc, [k, v]) => {
+    if (
+      v.availableForSelection &&
+      TrafficNowTransportModes.includes(k.toUpperCase())
+    ) {
+      acc.push(k.toUpperCase());
+    }
+    return acc;
+  }, []);
+
+export { getAvailableModes, groupEntitiesByMode };
