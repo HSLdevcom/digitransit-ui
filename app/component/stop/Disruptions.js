@@ -105,6 +105,8 @@ export const getCancelations = (stop, intl) => {
     canceledDepartures: c.canceledDepartures,
     entities: [c.entity],
     alertSeverityLevel: AlertSeverityLevelType.Warning,
+    effectiveStartDate: c.canceledDepartures[0].serviceDay,
+    effectiveEndDate: c.canceledDepartures[0].serviceDay + 24 * 60 * 60,
   }));
   return cancelationsAsAlerts;
 };

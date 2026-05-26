@@ -2,6 +2,7 @@ import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
 import { useIntl } from 'react-intl';
+import { DateTime } from 'luxon';
 import Icon from './Icon';
 import DisruptionBadge from './trafficnow/DisruptionBadge';
 import { useConfigContext } from '../configurations/ConfigContext';
@@ -24,6 +25,7 @@ export default function Disruption({
   alertHeaderText,
   alertSeverityLevel = AlertSeverityLevelType.Unknown,
   canceledDepartures = [],
+  effectiveStartDate,
 }) {
   const config = useConfigContext();
   const { match } = useRouter();
@@ -52,6 +54,21 @@ export default function Disruption({
         return acc;
       }, {}),
     [entities],
+  );
+
+  // if startDate not defined, assume the alert is active
+  const active =
+    !effectiveStartDate || effectiveStartDate <= DateTime.now().toSeconds();
+  // show status or date of cancelations
+  const status = hasCancelations && (
+    <span className="disruption-status">
+      <Icon img={active ? 'icon_status' : 'icon_calendar'} />
+      <span className="disruption-status-date">
+        {active
+          ? intl.formatMessage({ id: 'disruption-list-active' })
+          : DateTime.fromSeconds(effectiveStartDate).toFormat('ccc d.L.')}
+      </span>
+    </span>
   );
 
   const buttonLabel = hasCancelations
@@ -88,6 +105,7 @@ export default function Disruption({
           variant={alertSeverityLevel}
           label={alertEffect || 'no_service'}
         />
+        {status}
       </div>
       <div className="alert-row-badges">
         {groupedEntities &&
@@ -167,4 +185,5 @@ Disruption.propTypes = {
   alertSeverityLevel: PropTypes.string,
   alertHeaderText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   canceledDepartures: PropTypes.arrayOf(stopTimeShape),
+  effectiveStartDate: PropTypes.number,
 };
