@@ -1,6 +1,7 @@
 import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
+import { useIntl } from 'react-intl';
 import Icon from './Icon';
 import Badge from './Badge';
 import { useConfigContext } from '../client/ConfigContext';
@@ -27,6 +28,7 @@ export default function Disruption({
 }) {
   const config = useConfigContext();
   const { match } = useRouter();
+  const intl = useIntl();
   const hasCancelations = canceledDepartures.length > 0;
 
   if (!alertDescriptionText && !alertHeaderText) {
@@ -53,7 +55,15 @@ export default function Disruption({
     [entities],
   );
 
-  const buttonLabel = hasCancelations ? 'View timetable' : 'View details';
+  const buttonLabel = hasCancelations
+    ? intl.formatMessage({
+        id: 'disruption-view-timetable',
+        defaultMessage: 'View timetable',
+      })
+    : intl.formatMessage({
+        id: 'disruption-view-details',
+        defaultMessage: 'View details',
+      });
   return (
     <div
       className="alert-row"
