@@ -200,6 +200,8 @@ export default {
       'Inga kända kommande störningar eller avvikelser',
     'disruption-list-traffic-normal': 'Trafik normal',
     'disruption-list-upcoming': 'Kommande',
+    'disruption-view-details': 'View details',
+    'disruption-view-timetable': 'View timetable',
     disruptions: 'Störningar',
     'disruptions-and-diversions': 'Störningar och avvikelser',
     'disruptions-change-filters': 'Försök igen genom att ändra dina val.',
