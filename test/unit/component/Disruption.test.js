@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import Icon from '../../../app/component/Icon';
-import Badge from '../../../app/component/Badge';
+import DisruptionBadge from '../../../app/component/trafficnow/DisruptionBadge';
 import Disruption from '../../../app/component/Disruption';
 import { AlertEntityType } from '../../../app/constants';
 import {
@@ -90,7 +90,7 @@ describe('<Disruption />', () => {
     expect(wrapper.find('.alert-row-arrow')).to.have.lengthOf(0);
   });
 
-  it('should render Badge with correct severity and effect', () => {
+  it('should render DisruptionBadge with correct severity and effect', () => {
     const props = {
       id: 'badge-1',
       alertHeaderText: 'Alert',
@@ -101,7 +101,7 @@ describe('<Disruption />', () => {
     const wrapper = shallowWithIntl(<Disruption {...props} />, {
       context: mockContext,
     });
-    const badge = wrapper.find(Badge);
+    const badge = wrapper.find(DisruptionBadge);
     expect(badge).to.have.lengthOf(1);
     expect(badge.prop('variant')).to.equal('WARNING');
     expect(badge.prop('label')).to.equal('REDUCED_SERVICE');
