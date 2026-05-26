@@ -56,6 +56,8 @@ const getCancelations = (
           canceledDepartures,
           entities: [entity],
           alertSeverityLevel: AlertSeverityLevelType.Warning,
+          effectiveStartDate: canceledDepartures[0].serviceDay,
+          effectiveEndDate: canceledDepartures[0].serviceDay + 24 * 60 * 60,
         },
       ]
     : [];
