@@ -710,6 +710,7 @@ export default {
     'settings-missing-itineraries-body':
       'Asetuksissa on päällä valintoja, jotka rajaavat pois joitain reittivaihtoehtoja.',
     'settings-missing-itineraries-header': 'Puuttuuko reittivaihtoehtoja?',
+    'show-departures': 'Näytä lähdöt',
     'show-more': 'Näytä lisää',
     'show-more-stops-near-you': 'Näytä lisää pysäkkejä lähelläsi',
     'show-routes': 'Valitse linjat',
@@ -807,11 +808,14 @@ export default {
     'traffic-now': 'Liikenne nyt',
     'traffic-now-long': 'Liikennetilanne nyt',
     'traffic-now_bread': 'Matkustaminen',
+    'traffic-now_canceled-trips--amount':
+      'Näytetään {amount} yhteensä {totalAmount} perutusta lähdöstä',
+    'traffic-now_canceled-trips--simple': '{amount} peruttua',
     'traffic-now_description':
       'Ajantasaiset tiedot häiriöistä ja poikkeuksista. ',
     'traffic-now_description_see-also':
       'Katso myös {amount, plural, =1 {{link1},} other {{link1} sekä {link2},} } jotka löydät yksityiskohtaisemmin omilta sivuiltaan.',
-    'traffic-now_description_see-also--link1': 'lomat ja poikkeukset',
+    'traffic-now_description_see-also--link1': 'juhlapyhät ja poikkeukset',
     'traffic-now_description_see-also--link2': 'suuret muutokset',
     'traffic-now_filters_entity-search': 'Hae yksittäistä linjaa tai pysäkkiä',
     'traffic-now_filters_entity-search--placeholder':
@@ -822,6 +826,8 @@ export default {
     'traffic-now_filters_validity-period': 'Näytä voimassaolon mukaan',
     'traffic-now_filters_vehicle-mode': 'Näytä liikennevälineen mukaan',
     'traffic-now_filters_view-results': 'Näytä tulokset',
+    'traffic-now_go-back': 'Palaa takaisin',
+    'traffic-now_go-to-route-page': 'Siirry linjasivulle',
     'traffic-now_link': 'Liikennetilanne nyt',
     'traffic-now_link-description': 'Katso häiriöt ja poikkeukset',
     trafficnow: 'Liikenne nyt',

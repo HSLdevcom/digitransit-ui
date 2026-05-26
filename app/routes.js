@@ -347,14 +347,25 @@ export default config => {
         }}
       </Route>
       {config.trafficNowTest && (
-        <Route
-          path={TRAFFICNOW}
-          getComponent={() =>
-            import(
-              /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
-            ).then(getDefault)
-          }
-        />
+        <>
+          <Route
+            path={`/${TRAFFICNOW}/peruutukset/:mode`}
+            getComponent={() =>
+              import(
+                /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
+              ).then(getDefault)
+            }
+          />
+          <Route
+            path={TRAFFICNOW}
+            getComponent={() =>
+              import(
+                /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
+              ).then(getDefault)
+            }
+          />
+          <Redirect from={`/${TRAFFICNOW}/*`} to={`/${TRAFFICNOW}`} />
+        </>
       )}
       <Route
         path="/tietoja-palvelusta"

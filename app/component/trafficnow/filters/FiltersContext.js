@@ -3,10 +3,12 @@ import React, { useMemo, useState, createContext, useContext } from 'react';
 
 const FilterContext = createContext();
 
-const DEFAULT_FILTERS = {
+const DEFAULT_FILTERS = Object.freeze({
+  now: Date.now(),
+  noEffect: 'NO_EFFECT',
   validityPeriod: 'ALL',
   vehicleModes: [],
-};
+});
 
 const FilterContextProvider = ({ children }) => {
   const [selectedFilters, setSelectedFilters] = useState(DEFAULT_FILTERS);

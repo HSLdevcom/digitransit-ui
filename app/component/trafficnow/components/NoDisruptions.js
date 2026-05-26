@@ -1,14 +1,14 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Icon from '../Icon';
-import { useLogo } from '../../hooks/useLogo';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import Icon from '../../Icon';
+import { useLogo } from '../../../hooks/useLogo';
+import { useConfigContext } from '../../../configurations/ConfigContext';
 
-export default function NoAlerts() {
+export default function NoDisruptions() {
   const { notFoundGraphic, colors } = useConfigContext();
   const { logo } = useLogo(notFoundGraphic);
   return (
-    <div className="traffic-now__content__alerts--empty">
+    <div className="disruptions-empty">
       {logo ? (
         <img src={logo} aria-hidden="true" alt="Not found -graphic" />
       ) : (

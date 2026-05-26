@@ -364,8 +364,11 @@ select {
   &.danger,
   &.severe {
     border-color: #fadbe5;
-    color: $cancelation-red;
     background-color: #fdf3f6;
+
+    > * {
+      color: $cancelation-red;
+    }
   }
 
   &.success {

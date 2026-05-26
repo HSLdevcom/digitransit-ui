@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import capitalize from 'lodash/capitalize';
-import Icon from './Icon';
-import { AlertSeverityLevelType } from '../constants';
+import Icon from '../Icon';
+import { AlertSeverityLevelType } from '../../constants';
 
 const DISRUPTION_BADGE_PREFIX = 'disruption-badge-';
 
@@ -35,11 +35,11 @@ const getIcon = variant => {
   }
 };
 
-export default function Badge({
-  label,
-  showIcon,
-  variant,
-  className,
+export default function DisruptionBadge({
+  label = undefined,
+  showIcon = false,
+  variant = 'info',
+  className = undefined,
   ...rest
 }) {
   return (
@@ -56,15 +56,9 @@ export default function Badge({
   );
 }
 
-Badge.propTypes = {
+DisruptionBadge.propTypes = {
   label: PropTypes.string,
   showIcon: PropTypes.bool,
   variant: variantValidator,
   className: PropTypes.string,
-};
-Badge.defaultProps = {
-  label: undefined,
-  variant: 'info',
-  showIcon: false,
-  className: undefined,
 };

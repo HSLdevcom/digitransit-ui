@@ -5,6 +5,7 @@ import cx from 'classnames';
 import Icon from '../Icon';
 import { useBreakpoint } from '../../util/withBreakpoint';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import { useLogo } from '../../hooks/useLogo';
 
 const AdditionalDescription = () => {
   const intl = useIntl();
@@ -53,13 +54,14 @@ const AdditionalDescription = () => {
   );
 };
 
-export default function Header() {
+export default function TrafficNowHeader() {
   const breakpoint = useBreakpoint();
-  const { CONFIG } = useConfigContext();
+  const { CONFIG, trafficNowHeaderGraphic } = useConfigContext();
 
+  const { logo } = useLogo(trafficNowHeaderGraphic);
   const desktop = breakpoint === 'large';
   return (
-    <div
+    <header
       className={cx('traffic-now__header', {
         'traffic-now__header--mobile': !desktop,
       })}
@@ -81,9 +83,11 @@ export default function Header() {
         <FormattedMessage id="traffic-now_description" />
         {CONFIG === 'hsl' && <AdditionalDescription />}
       </p>
-    </div>
+      {logo && desktop && (
+        <img src={logo} alt="" className="traffic-now__header-image" />
+      )}
+    </header>
   );
 }
 
-Header.propTypes = {};
-Header.defaultProps = {};
+TrafficNowHeader.propTypes = {};

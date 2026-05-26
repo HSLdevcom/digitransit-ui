@@ -30,12 +30,9 @@ const ToggleableFilters = () => {
   };
 
   return (
-    <fieldset className="traffic-now__content__filters__toggle--container">
+    <fieldset className="traffic-now__filters-toggle--container">
       {TOGGLEABLE_FILTERS.map(f => (
-        <div
-          key={f.id}
-          className={`traffic-now__content__filters__toggle--${f.id}`}
-        >
+        <div key={f.id} className={`traffic-now__filters-toggle--${f.id}`}>
           <label htmlFor={f.id}>
             <Toggle
               id={f.id}

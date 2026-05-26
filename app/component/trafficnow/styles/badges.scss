@@ -1,0 +1,71 @@
+// ============================================================================
+// TrafficNow Badges Styles
+// ============================================================================
+// Route badges, departure badges, badge groups, and badge visual variants
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xxs);
+
+  &__group {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-xs);
+  }
+
+  &__headsign-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-xxs);
+    align-items: center;
+
+    &--route {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-xxs);
+    }
+
+    a,
+    > span {
+      display: flex;
+      align-items: center;
+      background-color: color-mix(in srgb, currentcolor, white 90%);
+      border-radius: var(--radius-s);
+      padding: var(--space-xs) var(--space-xs);
+      text-decoration: none;
+      height: $badge-height;
+      min-width: $badge-height;
+      justify-content: center;
+
+      &.highlight {
+        border: 1px solid $standalone-btn-active-color;
+      }
+
+      &:hover {
+        background-color: color-mix(in srgb, currentcolor, white 80%);
+      }
+    }
+  }
+
+  &__departure-group {
+    display: flex;
+    flex-direction: row;
+    gap: $gap-badge-departure;
+  }
+
+  &__departure-time {
+    padding: var(--space-xxs) var(--space-xs);
+    color: $cancelation-red;
+    text-decoration: line-through;
+    border-radius: var(--radius-s);
+    border: 1px solid $light-gray;
+    background: $white;
+
+    > span {
+      color: $gray;
+    }
+  }
+}

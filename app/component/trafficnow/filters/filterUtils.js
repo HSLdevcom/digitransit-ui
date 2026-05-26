@@ -42,13 +42,23 @@ const favouriteFilter = ({ entities }, { favourites }) =>
   !favourites || entities.some(e => favourites.has(e.gtfsId));
 
 /**
- * If this filter is present, only cancelledTrips should be shown
+ * If this filter is present, only canceledTrips should be shown
  */
 const cancellationsFilter = ({ __typename }, { cancellations }) =>
   !cancellations || __typename !== 'Alert';
 
+/**
+ * Filters alerts that aren't causing a disruption
+ */
+const noEffectFilter = (alert, { noEffect }) => alert.alertEffect !== noEffect;
+
+const pastFilter = ({ effectiveEndDate }, { now }) =>
+  now < effectiveEndDate * 1000;
+
 export function filterAndSortAlerts(alerts, selectedFilters) {
   const filterFns = [
+    pastFilter,
+    noEffectFilter,
     validityPeriodFilter,
     vehicleModesFilter,
     entityFilter,

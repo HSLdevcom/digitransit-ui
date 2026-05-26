@@ -23,9 +23,9 @@ const FiltersModal = ({ isOpen, onClose }) => {
       })}
       onRequestClose={onClose}
       variant="large"
-      className="traffic-now__modal-filters"
+      className="traffic-now traffic-now__modal"
     >
-      <header>
+      <header className="traffic-now__modal-header bordered">
         <FormattedMessage id="filter" defaultMessage="Filter">
           {msg => <h3 className="heading-xs">{msg}</h3>}
         </FormattedMessage>

@@ -727,6 +727,7 @@ export default {
       'Some selections in the settings exclude certain route alternatives.',
     'settings-missing-itineraries-header':
       'Are some route alternatives missing?',
+    'show-departures': 'Show departures',
     'show-more': 'Show more',
     'show-more-stops-near-you': 'Show more stops near you',
     'show-routes': 'Choose routes',
@@ -823,6 +824,9 @@ export default {
     'traffic-now': 'Traffic now',
     'traffic-now-long': 'Services now',
     'traffic-now_bread': 'Travelling',
+    'traffic-now_canceled-trips--amount':
+      'Listing {amount} of {totalAmount} cancelled departures',
+    'traffic-now_canceled-trips--simple': '{amount} cancellations',
     'traffic-now_description':
       'Up-to-date information on disruptions and exceptions. ',
     'traffic-now_description_see-also':
@@ -836,6 +840,8 @@ export default {
     'traffic-now_filters_validity-period': 'Filter by validity period',
     'traffic-now_filters_vehicle-mode': 'Filter by vehicle mode',
     'traffic-now_filters_view-results': 'View results',
+    'traffic-now_go-back': 'Go back',
+    'traffic-now_go-to-route-page': 'View route',
     'traffic-now_link': 'Services now',
     'traffic-now_link-description': 'See changes and disruptions',
     trafficnow: 'Traffic now',

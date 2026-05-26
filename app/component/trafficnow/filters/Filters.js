@@ -12,7 +12,7 @@ import ToggleableFilters from './ToggleableFilters';
 
 const Separator = () => <div className="separator horizontal" />;
 
-const Filters = ({ onApplyClick, onResetClick }) => {
+const Filters = ({ onApplyClick = undefined, onResetClick = () => {} }) => {
   const { selectedFilters, resetFilters, DEFAULT_FILTERS } = useFilterContext();
   const breakpoint = useBreakpoint();
   const intl = useIntl();
@@ -55,8 +55,8 @@ const Filters = ({ onApplyClick, onResetClick }) => {
 
   return (
     <form
-      className={cx('traffic-now__content__filters', {
-        'traffic-now__content__filters-mobile': mobile,
+      className={cx('traffic-now__filters', {
+        'traffic-now__filters-mobile': mobile,
       })}
     >
       {components.map(({ id, Component }) => (
@@ -78,7 +78,7 @@ const Filters = ({ onApplyClick, onResetClick }) => {
         disabled={
           JSON.stringify(selectedFilters) === JSON.stringify(DEFAULT_FILTERS)
         }
-        fullWidth={mobile}
+        fullWidth={false}
         variant="white"
         value={intl.formatMessage({ id: 'clear-button-label' })}
         onClick={handleResetClick}
@@ -90,10 +90,6 @@ const Filters = ({ onApplyClick, onResetClick }) => {
 Filters.propTypes = {
   onApplyClick: PropTypes.func,
   onResetClick: PropTypes.func,
-};
-Filters.defaultProps = {
-  onApplyClick: undefined,
-  onResetClick: undefined,
 };
 
 export default Filters;

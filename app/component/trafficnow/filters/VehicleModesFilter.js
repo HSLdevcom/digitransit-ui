@@ -1,13 +1,15 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { useFilterContext } from './FiltersContext';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 import { getTransportModes } from '../../../util/modeUtils';
 import { TrafficNowTransportModes } from '../../../constants';
+import Icon from '../../Icon';
 
 const VehicleModesFilter = ({ filterId }) => {
   const config = useConfigContext();
+  const intl = useIntl();
   const { selectedFilters, setFilter } = useFilterContext();
 
   const handleCheck = option => {
@@ -35,21 +37,25 @@ const VehicleModesFilter = ({ filterId }) => {
     },
     [],
   );
-
   return (
     <fieldset>
-      <FormattedMessage
-        id="traffic-now_filters_vehicle-mode"
-        defaultMessage="Filter by vehicle mode"
-      >
-        {msg => <legend className="input-legend">{msg}</legend>}
-      </FormattedMessage>
+      <legend className="input-legend">
+        {intl.formatMessage({
+          id: 'traffic-now_filters_vehicle-mode',
+          defaultMessage: 'Filter by vehicle mode',
+        })}
+      </legend>
       {availableModes.map(option => (
-        <label
-          key={option}
-          htmlFor={`vehicleModes-${option}`}
-          className="input-label"
-        >
+        <div key={option} className="traffic-now__filters-mode-option">
+          <label htmlFor={`vehicleModes-${option}`} className="input-label">
+            <Icon
+              img={`icon_${option.toLowerCase()}`}
+              className={option.toLowerCase()}
+              height={1.5}
+              width={1.5}
+            />
+            {intl.formatMessage({ id: option.toLowerCase() })}
+          </label>
           <input
             id={`vehicleModes-${option}`}
             type="checkbox"
@@ -57,8 +63,7 @@ const VehicleModesFilter = ({ filterId }) => {
             value={option}
             onChange={() => handleCheck(option)}
           />
-          <FormattedMessage id={option.toLowerCase()} />
-        </label>
+        </div>
       ))}
     </fieldset>
   );

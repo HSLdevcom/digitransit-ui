@@ -793,4 +793,9 @@
       font-size: rem(11);
     }
   }
+
+  .warning,
+  .danger {
+    color: $cancelation-red;
+  }
 }

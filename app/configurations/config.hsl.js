@@ -732,6 +732,7 @@ export default {
   trafficLightGraphic: 'hsl/traffic-light.svg',
   naviGeolocationGraphic: 'hsl/geolocation.svg',
   notFoundGraphic: 'hsl/not-found.svg',
+  trafficNowHeaderGraphic: 'hsl/trafficnow-header.svg',
   navigation: true,
   crazyEgg: true,
 

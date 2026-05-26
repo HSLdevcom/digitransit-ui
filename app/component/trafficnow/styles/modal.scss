@@ -1,0 +1,107 @@
+// ============================================================================
+// TrafficNow Modal Styles
+// ============================================================================
+// Modal containers, overlays, sheets, and responsive modal layouts
+
+.traffic-now {
+  &__modal {
+    height: auto;
+    max-height: $modal-max-height;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $white;
+    overflow-y: auto;
+
+    .icon-container {
+      display: flex;
+    }
+
+    @media screen and (max-width: $bp-tablet-small) {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      transform: none;
+
+      &.sheet {
+        position: relative;
+        min-height: $modal-min-height-sheet;
+        border-top-left-radius: var(--radius-l);
+        border-top-right-radius: var(--radius-l);
+      }
+    }
+
+    @media screen and (max-width: $bp-tablet) and (min-width: $bp-tablet-small) {
+      width: $modal-width-tablet;
+    }
+
+    @media screen and (min-width: $bp-tablet) {
+      width: $modal-width-desktop;
+    }
+
+    &-overlay {
+      position: fixed;
+      z-index: $modal-overlay-z-index;
+      width: 100%;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background-color: $modal-overlay-bg;
+      display: flex;
+      flex-direction: column-reverse;
+    }
+
+    &-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: var(--space-m);
+
+      &.bordered {
+        border: 1px solid $light-gray;
+      }
+    }
+
+    &-cancellations {
+      display: flex;
+      flex-direction: column;
+      padding: 0 var(--space-l) var(--space-l) var(--space-l);
+
+      &-pattern {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xs);
+        padding: var(--space-xs) 0;
+      }
+    }
+
+    .routepage-button {
+      margin-top: var(--space-xs);
+
+      @media screen and (min-width: $bp-tablet-small) {
+        align-self: start;
+      }
+    }
+
+    .separator {
+      &.horizontal {
+        border-top: 1px solid $light-gray;
+
+        &.padded-xs {
+          margin: var(--space-xs) 0;
+        }
+      }
+
+      &.vertical {
+        border-right: 1px solid $light-gray;
+
+        &.padded-xs {
+          margin: 0 var(--space-xs);
+        }
+      }
+    }
+  }
+}
