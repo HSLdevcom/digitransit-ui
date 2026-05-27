@@ -3386,7 +3386,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/notifications@npm:^4.0.4":
+"@hsl-fi/notifications@npm:^4.0.4, @hsl-fi/notifications@npm:^4.0.5":
   version: 4.0.5
   resolution: "@hsl-fi/notifications@npm:4.0.5"
   dependencies:
@@ -12294,6 +12294,7 @@ __metadata:
     "@hsl-fi/icons": "npm:^2.2.4"
     "@hsl-fi/layout-primitives": "npm:^4.8.1"
     "@hsl-fi/modal": "npm: ^0.3.2"
+    "@hsl-fi/notifications": "npm:^4.0.5"
     "@hsl-fi/sass": "npm: 1.0.0"
     "@hsl-fi/shimmer": "npm:0.1.2"
     "@hsl-fi/site-header": "npm:6.4.0"

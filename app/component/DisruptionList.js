@@ -3,8 +3,9 @@ import React from 'react';
 import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
+import { SuccessAnimationView } from '@hsl-fi/notifications';
 
 import Disruption from './Disruption';
 import DisruptionDetails from './DisruptionDetails';
@@ -15,18 +16,26 @@ import {
   alertSeverityCompare,
 } from '../util/alertUtils';
 import { alertShape } from '../util/shapes';
+import { PREFIX_DISRUPTION, PREFIX_TIMETABLE } from '../util/path';
 import { useBreakpoint } from '../util/withBreakpoint';
 import Icon from './Icon';
 import { useConfigContext } from '../configurations/ConfigContext';
 
 export const EmptyDisruptions = () => {
+  const intl = useIntl();
   const config = useConfigContext();
-  return (
+  return config.iconModeSet === 'hsl' ? (
+    <SuccessAnimationView
+      heading={intl.formatMessage({ id: 'disruption-list-traffic-normal' })}
+      description={intl.formatMessage({ id: 'disruption-info-no-alerts' })}
+    />
+  ) : (
     <div className="no-alerts-container">
       <Icon
         img="icon_no-disruptions"
         color={config.colors.primary}
-        omitViewBox
+        height={3}
+        width={3}
       />
       <h2>
         <FormattedMessage
@@ -90,6 +99,11 @@ const DisruptionList = ({
   ) {
     return <EmptyDisruptions />;
   }
+
+  const timetableUrl = match.location.pathname.replace(
+    PREFIX_DISRUPTION,
+    PREFIX_TIMETABLE,
+  );
   return (
     <div className="alerts-content-wrapper">
       <div
@@ -111,13 +125,22 @@ const DisruptionList = ({
           </h2>
           {current.length ? (
             <div role="list">
-              {current.map(alert => (
-                <Disruption
-                  toggleDetails={toggleDetails}
-                  key={alert.id}
-                  {...alert}
-                />
-              ))}
+              {current.map(disruption =>
+                // if the disruption is a cancelation, link to timetable
+                disruption.canceledDepartures ? (
+                  <Disruption
+                    toggleDetails={() => router.push(timetableUrl)}
+                    key={disruption.id}
+                    {...disruption}
+                  />
+                ) : (
+                  <Disruption
+                    toggleDetails={() => toggleDetails(disruption.id)}
+                    key={disruption.id}
+                    {...disruption}
+                  />
+                ),
+              )}
             </div>
           ) : (
             <p className="alerts-list-section-no-alerts">
@@ -135,11 +158,11 @@ const DisruptionList = ({
           </h2>
           {futureAlerts.length ? (
             <div role="list">
-              {futureAlerts.map(alert => (
+              {futureAlerts.map(disruption => (
                 <Disruption
                   toggleDetails={toggleDetails}
-                  key={alert.id}
-                  {...alert}
+                  key={disruption.id}
+                  {...disruption}
                 />
               ))}
             </div>

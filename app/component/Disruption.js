@@ -1,6 +1,8 @@
 import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
+import { useIntl } from 'react-intl';
+import { DateTime } from 'luxon';
 import Icon from './Icon';
 import DisruptionBadge from './trafficnow/DisruptionBadge';
 import { useConfigContext } from '../configurations/ConfigContext';
@@ -22,11 +24,12 @@ export default function Disruption({
   entities = [],
   alertHeaderText,
   alertSeverityLevel = AlertSeverityLevelType.Unknown,
-  id,
   canceledDepartures = [],
+  effectiveStartDate,
 }) {
   const config = useConfigContext();
   const { match } = useRouter();
+  const intl = useIntl();
   const hasCancelations = canceledDepartures.length > 0;
 
   if (!alertDescriptionText && !alertHeaderText) {
@@ -53,18 +56,42 @@ export default function Disruption({
     [entities],
   );
 
+  // if startDate not defined, assume the alert is active
+  const active =
+    !effectiveStartDate || effectiveStartDate <= DateTime.now().toSeconds();
+  // show status or date of cancelations
+  const status = hasCancelations && (
+    <span className="disruption-status">
+      <Icon img={active ? 'icon_status' : 'icon_calendar'} />
+      <span className="disruption-status-date">
+        {active
+          ? intl.formatMessage({ id: 'disruption-list-active' })
+          : DateTime.fromSeconds(effectiveStartDate).toFormat('ccc d.L.')}
+      </span>
+    </span>
+  );
+
+  const buttonLabel = hasCancelations
+    ? intl.formatMessage({
+        id: 'disruption-view-timetable',
+        defaultMessage: 'View timetable',
+      })
+    : intl.formatMessage({
+        id: 'disruption-view-details',
+        defaultMessage: 'View details',
+      });
   return (
     <div
       className="alert-row"
       role="listitem"
       aria-label={alertDescriptionText}
     >
-      {!hasCancelations && toggleDetails && (
+      {toggleDetails && (
         <button
           type="button"
-          onClick={() => toggleDetails(id)}
+          onClick={() => toggleDetails()}
           className="alert-row-arrow"
-          aria-label="Show alert details"
+          aria-label={buttonLabel}
         >
           <Icon
             img="icon_arrow-collapse--right"
@@ -78,6 +105,7 @@ export default function Disruption({
           variant={alertSeverityLevel}
           label={alertEffect || 'no_service'}
         />
+        {status}
       </div>
       <div className="alert-row-badges">
         {groupedEntities &&
@@ -156,6 +184,6 @@ Disruption.propTypes = {
   entities: PropTypes.arrayOf(entityShape),
   alertSeverityLevel: PropTypes.string,
   alertHeaderText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  id: PropTypes.string.isRequired,
   canceledDepartures: PropTypes.arrayOf(stopTimeShape),
+  effectiveStartDate: PropTypes.number,
 };

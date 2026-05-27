@@ -197,6 +197,8 @@ export default {
       'No known upcoming disruptions or diversions',
     'disruption-list-traffic-normal': 'Traffic normal',
     'disruption-list-upcoming': 'Upcoming',
+    'disruption-view-details': 'View details',
+    'disruption-view-timetable': 'View timetable',
     disruptions: 'Disruptions',
     'disruptions-and-diversions': 'Disruptions and diversions',
     'disruptions-change-filters': 'Please try again with different filters',

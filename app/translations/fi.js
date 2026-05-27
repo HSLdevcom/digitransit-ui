@@ -192,6 +192,8 @@ export default {
       'Ei tiedossa olevia tulevia häiriöitä tai poikkeuksia',
     'disruption-list-traffic-normal': 'Liikenne normaalia',
     'disruption-list-upcoming': 'Tulevat',
+    'disruption-view-details': 'Katso lisätiedot',
+    'disruption-view-timetable': 'Katso aikataulu',
     disruptions: 'Häiriöt',
     'disruptions-and-diversions': 'Häiriöt ja poikkeukset',
     'disruptions-change-filters': 'Kokeile uudestaan muuttamalla valintoja',
