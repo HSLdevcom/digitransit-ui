@@ -4,10 +4,10 @@ import React from 'react';
 
 import {
   component as Itinerary,
-  ModeLeg,
-  RouteLeg,
   ViaLeg,
 } from '../../../../../app/component/itinerary/Itinerary';
+import StreetBar from '../../../../../app/component/itinerary/StreetBar';
+import TransitBar from '../../../../../app/component/itinerary/TransitBar';
 import RouteNumberContainer from '../../../../../app/component/RouteNumberContainer';
 import { AlertSeverityLevelType } from '../../../../../app/constants';
 import {
@@ -42,7 +42,7 @@ describe('<Itinerary />', () => {
     });
 
     expect(wrapper.find('.itinerary-legs').children()).to.have.lengthOf(3);
-    expect(wrapper.find(ModeLeg)).to.have.lengthOf(2);
+    expect(wrapper.find(StreetBar)).to.have.lengthOf(2);
     expect(wrapper.find(ViaLeg)).to.have.lengthOf(1);
   });
 
@@ -61,7 +61,7 @@ describe('<Itinerary />', () => {
       childContextTypes: { ...mockChildContextTypes },
     });
     const legs = wrapper.find('.itinerary-legs');
-    expect(legs.find(ModeLeg)).to.have.lengthOf.above(3);
+    expect(legs.find(StreetBar)).to.have.lengthOf.above(3);
     expect(wrapper.find(ViaLeg)).to.have.lengthOf(2);
   });
 
@@ -81,11 +81,11 @@ describe('<Itinerary />', () => {
 
     const legs = wrapper.find('.itinerary-legs');
     expect(legs.children()).to.have.lengthOf(5);
-    expect(legs.childAt(0).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(0).is(StreetBar)).to.equal(true);
     expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(2).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(2).is(StreetBar)).to.equal(true);
     expect(legs.childAt(3).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(4).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(4).is(StreetBar)).to.equal(true);
   });
 
   it('should show a connecting walk leg between via points for transit itinerary', () => {
@@ -104,8 +104,8 @@ describe('<Itinerary />', () => {
     });
 
     expect(wrapper.find(ViaLeg)).to.have.lengthOf(2);
-    expect(wrapper.find(RouteLeg)).to.have.lengthOf(2);
-    expect(wrapper.find(ModeLeg)).to.have.lengthOf.above(0);
+    expect(wrapper.find(TransitBar)).to.have.lengthOf(2);
+    expect(wrapper.find(StreetBar)).to.have.lengthOf.above(0);
   });
 
   it('should show a connecting walk leg between last via point and end for transit itinerary', () => {
@@ -127,8 +127,8 @@ describe('<Itinerary />', () => {
 
     const legs = wrapper.find('.itinerary-legs');
     expect(legs.children()).to.have.lengthOf(4);
-    expect(legs.childAt(0).is(RouteLeg)).to.equal(true);
-    expect(legs.childAt(legs.length).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(0).is(TransitBar)).to.equal(true);
+    expect(legs.childAt(legs.length).is(StreetBar)).to.equal(true);
   });
 
   it('should show a connecting walk leg between start and first via point for transit itinerary', () => {
@@ -150,7 +150,7 @@ describe('<Itinerary />', () => {
 
     const legs = wrapper.find('.itinerary-legs');
     expect(legs.children()).to.have.lengthOf(4);
-    expect(legs.childAt(0).is(ModeLeg)).to.equal(true);
+    expect(legs.childAt(0).is(StreetBar)).to.equal(true);
     expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
   });
 
@@ -186,8 +186,8 @@ describe('<Itinerary />', () => {
     });
 
     expect(wrapper.find(ViaLeg)).to.have.lengthOf(3);
-    expect(wrapper.find(RouteLeg)).to.have.lengthOf(2);
-    expect(wrapper.find(ModeLeg)).to.have.lengthOf.above(2);
+    expect(wrapper.find(TransitBar)).to.have.lengthOf(2);
+    expect(wrapper.find(StreetBar)).to.have.lengthOf.above(2);
   });
 
   it('should not indicate that there is a disruption if the alert is not in effect', () => {

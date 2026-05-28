@@ -1,19 +1,17 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React, { createRef, useLayoutEffect, useState } from 'react';
+import React, { createRef, useLayoutEffect, useEffect, useState } from 'react';
 import { useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
-import { legShape, locationShape, itineraryShape } from '../../util/shapes';
+import { locationShape, itineraryShape } from '../../util/shapes';
 import Icon from '../Icon';
 import Feedback from './Feedback';
-import RouteNumber from '../RouteNumber';
-import RouteNumberContainer from '../RouteNumberContainer';
-import { getActiveLegAlertSeverityLevel } from '../../util/alertUtils';
+import StreetBar from './StreetBar';
+import TransitBar from './TransitBar';
 import {
   getLegMode,
   compressLegs,
-  getLegBadgeProps,
   getInterliningLegs,
   isFirstInterliningLeg,
   getTotalDistance,
@@ -23,7 +21,6 @@ import {
   LegMode,
   getZones,
   isCallAgencyLeg,
-  isLocalCallAgency,
   splitLegsAtViaPoints,
   hasTaxiLegs,
 } from '../../util/legUtils';
@@ -45,10 +42,8 @@ import {
 } from '../../util/vehicleRentalUtils';
 import {
   getFirstDepartureStopTypeText,
-  getTripOrRouteMode,
   getSummaryDescriptionText,
 } from '../../util/modeUtils';
-import { getCapacityForLeg } from '../../util/occupancyUtil';
 import getCo2Value from '../../util/emissions';
 import { ItineraryFragment } from './queries/ItineraryFragment';
 import { getTicketString } from '../../util/fareUtils';
@@ -59,163 +54,6 @@ import BoardingInformation, {
 import { useConfigContext } from '../../configurations/ConfigContext';
 
 const NAME_LENGTH_THRESHOLD = 65; // for truncating long short names
-
-const Leg = ({
-  mode,
-  routeNumber,
-  legLength,
-  fitRouteNumber = false,
-  renderModeIcons = false,
-}) => {
-  return (
-    <div
-      className={cx(
-        'leg',
-        mode.toLowerCase(),
-        fitRouteNumber ? 'fit-route-number' : '',
-        renderModeIcons ? 'render-icon' : '',
-      )}
-      style={{ '--width': `${legLength}%` }}
-    >
-      {routeNumber}
-    </div>
-  );
-};
-
-Leg.propTypes = {
-  routeNumber: PropTypes.node.isRequired,
-  legLength: PropTypes.number.isRequired,
-  mode: PropTypes.string.isRequired,
-  fitRouteNumber: PropTypes.bool,
-  renderModeIcons: PropTypes.bool,
-};
-
-export function RouteLeg({
-  leg,
-  large,
-  legLength,
-  isTransitLeg = true,
-  interliningWithRoute,
-  fitRouteNumber,
-  withBicycle,
-  withCar,
-  hasOneTransitLeg = false,
-  shortenLabels = false,
-}) {
-  const config = useConfigContext();
-
-  const mode = getTripOrRouteMode(leg.trip, leg.route, config);
-
-  const getOccupancyStatus = () => {
-    if (hasOneTransitLeg) {
-      return getCapacityForLeg(config, leg);
-    }
-    return undefined;
-  };
-
-  const routeNumber = (
-    <RouteNumberContainer
-      alertSeverityLevel={getActiveLegAlertSeverityLevel(leg)}
-      trip={leg.trip}
-      route={leg.route}
-      className={cx('line', mode)}
-      interliningWithRoute={interliningWithRoute}
-      mode={mode}
-      vertical
-      withBar
-      isTransitLeg={isTransitLeg}
-      withBicycle={withBicycle}
-      withCar={withCar}
-      occupancyStatus={getOccupancyStatus()}
-      duration={Math.floor(leg.duration / 60)}
-      shortenLongText={shortenLabels}
-      appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
-    />
-  );
-  return (
-    <Leg
-      mode={mode}
-      routeNumber={routeNumber}
-      large={large}
-      legLength={legLength}
-      fitRouteNumber={fitRouteNumber}
-    />
-  );
-}
-
-RouteLeg.propTypes = {
-  leg: legShape.isRequired,
-  large: PropTypes.bool.isRequired,
-  legLength: PropTypes.number.isRequired,
-  fitRouteNumber: PropTypes.bool.isRequired,
-  interliningWithRoute: PropTypes.string,
-  isTransitLeg: PropTypes.bool,
-  withBicycle: PropTypes.bool.isRequired,
-  withCar: PropTypes.bool.isRequired,
-  hasOneTransitLeg: PropTypes.bool,
-  shortenLabels: PropTypes.bool,
-};
-
-export const ModeLeg = ({
-  leg,
-  mode,
-  large,
-  legLength,
-  duration,
-  renderModeIcons = false,
-  icon,
-}) => {
-  const config = useConfigContext();
-  let networkIcon;
-  if (
-    (mode === 'CITYBIKE' || mode === 'BICYCLE') &&
-    leg.from.vehicleRentalStation
-  ) {
-    networkIcon =
-      leg.from.vehicleRentalStation &&
-      getRentalNetworkIcon(
-        getRentalNetworkConfig(
-          leg.from.vehicleRentalStation.rentalNetwork.networkId,
-          config,
-        ),
-      );
-  } else if (mode === 'SCOOTER') {
-    networkIcon = 'icon_scooter_rider';
-  }
-  const routeNumber = (
-    <RouteNumber
-      mode={mode}
-      text=""
-      className={cx('line', mode.toLowerCase())}
-      duration={duration}
-      renderModeIcons={renderModeIcons}
-      vertical
-      withBar
-      icon={networkIcon || icon}
-      appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
-      {...getLegBadgeProps(leg, config)}
-    />
-  );
-  return (
-    <Leg
-      mode={mode}
-      routeNumber={routeNumber}
-      renderModeIcons={renderModeIcons}
-      large={large}
-      legLength={legLength}
-    />
-  );
-};
-
-ModeLeg.propTypes = {
-  leg: legShape.isRequired,
-  mode: PropTypes.string.isRequired,
-  large: PropTypes.bool.isRequired,
-  legLength: PropTypes.number.isRequired,
-  renderModeIcons: PropTypes.bool,
-  duration: PropTypes.number,
-  icon: PropTypes.string,
-};
 
 export const ViaLeg = () => (
   <div className="leg via">
@@ -467,15 +305,13 @@ const Itinerary = ({
         walkMode = 'bicycle_walk';
       }
       legs.push(
-        <ModeLeg
+        <StreetBar
           key={`${leg.mode}_${startMs}`}
           renderModeIcons={renderModeIcons}
-          isTransitLeg={false}
           leg={leg}
           duration={walkingTime}
           mode={walkMode}
           legLength={legLength}
-          large={breakpoint === 'large'}
         />,
       );
       if (usingOwnBicycle && leg.to.vehicleParking) {
@@ -520,15 +356,13 @@ const Itinerary = ({
         }
       }
       legs.push(
-        <ModeLeg
+        <StreetBar
           key={`${leg.mode}_${startMs}`}
-          isTransitLeg={false}
           renderModeIcons={renderModeIcons}
           leg={leg}
           duration={bikingTime}
           mode="CITYBIKE"
           legLength={legLength}
-          large={breakpoint === 'large'}
         />,
       );
       vehicleNames.push(
@@ -540,15 +374,13 @@ const Itinerary = ({
     } else if (leg.mode === 'SCOOTER' && leg.rentedBike) {
       const scooterDuration = Math.floor(leg.duration / 60);
       legs.push(
-        <ModeLeg
+        <StreetBar
           key={`${leg.mode}_${leg.start.scheduledTime}`}
-          isTransitLeg={false}
           renderModeIcons={renderModeIcons}
           leg={leg}
           duration={scooterDuration}
           mode="SCOOTER"
           legLength={legLength}
-          large={breakpoint === 'large'}
         />,
       );
       vehicleNames.push(
@@ -560,13 +392,12 @@ const Itinerary = ({
     } else if (leg.mode === 'CAR') {
       const drivingTime = Math.floor(leg.duration / 60);
       legs.push(
-        <ModeLeg
+        <StreetBar
           key={`${leg.mode}_${startMs}`}
           leg={leg}
           duration={drivingTime}
           mode="CAR"
           legLength={legLength}
-          large={breakpoint === 'large'}
           icon="icon_car"
         />,
       );
@@ -584,15 +415,13 @@ const Itinerary = ({
     } else if (leg.mode === 'BICYCLE' && renderBar) {
       const bikingTime = Math.floor(leg.duration / 60);
       legs.push(
-        <ModeLeg
+        <StreetBar
           key={`${leg.mode}_${startMs}`}
-          isTransitLeg={false}
           duration={bikingTime}
           renderModeIcons={renderModeIcons}
           leg={leg}
           mode={leg.mode}
           legLength={legLength}
-          large={breakpoint === 'large'}
         />,
       );
       if (leg.to.vehicleParking) {
@@ -631,7 +460,7 @@ const Itinerary = ({
         !longName &&
         transitLegCount < 7;
       legs.push(
-        <RouteLeg
+        <TransitBar
           key={`${leg.mode}_${startMs}`}
           leg={leg}
           fitRouteNumber={
@@ -639,7 +468,6 @@ const Itinerary = ({
           }
           interliningWithRoute={interliningWithRoute}
           legLength={legLength}
-          large={breakpoint === 'large'}
           withBicycle={withBicycle}
           withCar={withCar}
           hasOneTransitLeg={hasOneTransitLeg(itinerary)}
@@ -670,15 +498,13 @@ const Itinerary = ({
     if (waiting && !nextLeg?.interlineWithPreviousLeg) {
       const waitingTimeinMin = Math.floor(waitTime / 1000 / 60);
       legs.push(
-        <ModeLeg
+        <StreetBar
           key={`${leg.mode}_${startMs}_wait`}
           leg={leg}
           legLength={waitLength}
           renderModeIcons={renderModeIcons}
           duration={waitingTimeinMin}
-          isTransitLeg={false}
           mode={LegMode.Wait}
-          large={breakpoint === 'large'}
           icon={usingOwnCarWholeTrip ? 'icon_wait-car' : 'icon_wait_standing'}
         />,
       );
@@ -861,8 +687,19 @@ const Itinerary = ({
     co2value >= 0 &&
     !containsScooterLeg;
 
+  const gotFeedback = props.feedback !== undefined;
   const itineraryContainerOverflowRef = createRef();
   const [showOverflowIcon, setShowOverflowIcon] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(gotFeedback);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsExpanded(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   useLayoutEffect(() => {
     // If the itinerary length exceeds its boundaries an icon with dots is displayed.
     if (
@@ -1017,12 +854,22 @@ const Itinerary = ({
                 ))}
             </div>
             {props.giveFeedback && props.recommended && (
-              <div className="feedback-frame">
-                <Feedback
-                  recommended={props.recommended}
-                  feedback={props.feedback}
-                  giveFeedback={props.giveFeedback}
-                />
+              <div
+                className={
+                  gotFeedback
+                    ? ''
+                    : `feedback-animated ${isExpanded ? 'open' : ''}`
+                }
+              >
+                <div className={gotFeedback ? '' : 'feedback-motion'}>
+                  <div className="feedback-frame">
+                    <Feedback
+                      recommended={props.recommended}
+                      feedback={props.feedback}
+                      giveFeedback={props.giveFeedback}
+                    />
+                  </div>
+                </div>
               </div>
             )}
             <div className="summary-separator" />
