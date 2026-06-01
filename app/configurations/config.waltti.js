@@ -284,7 +284,6 @@ export default {
   },
   analyticsClass: 'plausible-event-name=Ticket+Purchase+Link',
 
-  hideNaviTickets: true, // TODO: temporary force switch
   navigation: true,
 
   externalFeedIds: ['02Taksi'],

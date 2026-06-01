@@ -1,0 +1,60 @@
+@import '~@hsl-fi/sass/fonts';
+@import '~@hsl-fi/sass/mixins/text';
+
+$banner-major-level-color: #dc0451;
+$banner-neutral-level-color: #333;
+
+.crisis-banners {
+  position: relative;
+
+  .crisis-banners-banner {
+    min-height: 40px;
+    padding: 5px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include text-typography(small);
+
+    font-family: $font-stack;
+    font-weight: 500;
+    color: #fff;
+    margin: 0;
+
+    a,
+    p {
+      @include text-typography(small);
+
+      font-family: $font-stack;
+      font-weight: 500;
+      color: #fff;
+      margin: 0;
+    }
+
+    &.crisis-banners-banner-primary {
+      background-color: $banner-major-level-color;
+    }
+
+    &.crisis-banners-banner-secondary {
+      background-color: $banner-neutral-level-color;
+
+      *:focus {
+        outline-color: white;
+      }
+    }
+  }
+
+  .crisis-banners-banner-primary-icon {
+    margin-top: 3px;
+    margin-right: 10px;
+
+    svg {
+      width: 19px;
+    }
+  }
+
+  .crisis-banners-banner-primary + .crisis-banners-banner-primary,
+  .crisis-banners-banner-secondary + .crisis-banners-banner-secondary {
+    border-top: 1px solid #fff;
+  }
+}

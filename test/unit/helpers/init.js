@@ -8,6 +8,7 @@ import { JSDOM } from 'jsdom';
 import { after, afterEach, before } from 'mocha';
 import { stub } from 'sinon';
 import { Settings } from 'luxon';
+import { cleanup } from '@testing-library/react';
 import { initAnalyticsClientSide } from '../../../app/util/analyticsUtils';
 import {
   restoreOwnedIntlStub,
@@ -99,6 +100,7 @@ after('resetting the environment', () => {
 
 // make sure the local and session storage stays clear for each test
 afterEach(() => {
+  cleanup();
   restoreOwnedIntlStub();
   restoreOwnedContextStubs();
   window.localStorage.clear();

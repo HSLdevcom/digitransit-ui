@@ -7,6 +7,7 @@ import withBreakpoint from '../util/withBreakpoint';
 import { favouriteShape, userShape } from '../util/shapes';
 import AppBar from './AppBar';
 import AppBarHsl from './AppBarHsl';
+import CrisisBannerHsl from './CrisisBannerHsl';
 import MessageBar from './MessageBar';
 
 const AppBarContainer = (
@@ -27,6 +28,7 @@ const AppBarContainer = (
       </a>
       {style === 'hsl' ? (
         <div className="hsl-header-container" style={{ display: 'block' }}>
+          <CrisisBannerHsl />
           <AppBarHsl user={user} lang={lang} favourites={favourites} />
           <MessageBar breakpoint={breakpoint} />
         </div>

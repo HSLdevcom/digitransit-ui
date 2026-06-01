@@ -7,8 +7,9 @@ require('@babel/register')({
   ],
 });
 
-// Prevent Node.js from trying to parse CSS files as JavaScript
+// Prevent Node.js from trying to parse CSS/SCSS files as JavaScript
 require.extensions['.css'] = () => {};
+require.extensions['.scss'] = () => {};
 
 // @hsl-fi/* packages are ESM-only ("type": "module") and cannot be require()'d
 // in the CommonJS test environment. Node throws ERR_REQUIRE_ESM before Babel can
@@ -48,9 +49,13 @@ Module._load = function interceptEsmPackages(request, ...args) {
       },
     );
   }
-  // Fallback: stub any other @hsl-fi/* package generically
-  if (request.startsWith('@hsl-fi/')) {
-    // Generic catch-all for other @hsl-fi/* packages
+  // Fallback: stub any other @hsl-fi/* package generically.
+  // Exceptions: CJS packages that can be loaded normally.
+  if (
+    request.startsWith('@hsl-fi/') &&
+    request !== '@hsl-fi/utilities' &&
+    request !== '@hsl-fi/content-delivery-api-types'
+  ) {
     return new Proxy(
       function StubComponent() {
         return null;

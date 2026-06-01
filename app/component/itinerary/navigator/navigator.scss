@@ -888,17 +888,15 @@
   }
 
   .navi-ticket-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 20px;
     width: 100px;
     height: 40px;
-    text-align: center;
     margin-left: 16px;
     background-color: $theme-primary-color;
     color: white;
-
-    a {
-      color: white;
-      text-decoration: none;
-    }
+    text-decoration: none;
   }
 }
