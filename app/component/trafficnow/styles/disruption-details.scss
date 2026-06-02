@@ -1,0 +1,90 @@
+// ============================================================================
+// TrafficNow Disruption Details
+// ============================================================================
+
+.traffic-now {
+  &__body {
+    .disruption-details {
+      &__container {
+        display: flex;
+        flex-direction: column;
+        padding: var(--space-xl);
+        flex: 1 0 0;
+        width: 100%;
+        overflow-y: auto;
+
+        .card {
+          max-width: 812px;
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          border-radius: var(--radius-m);
+        }
+      }
+
+      &--mobile {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        background-color: $white;
+      }
+
+      &__header {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        min-height: 56px;
+        padding: var(--space-m) var(--space-l);
+        border-bottom: 1px solid $light-gray;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-s);
+
+        &-validity {
+          display: flex;
+          align-items: center;
+          gap: var(--space-s);
+
+          .separator.vertical {
+            align-self: stretch;
+          }
+        }
+      }
+
+      &__content {
+        display: flex;
+        flex-direction: column;
+        padding: var(--space-l);
+        gap: var(--space-s);
+      }
+
+      &__routes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-xs);
+      }
+
+      &__title {
+        margin: 0;
+      }
+
+      &__description {
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      &__link {
+        margin-top: var(--space-s);
+        color: $link-color;
+      }
+
+      &__empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-xxl);
+        color: $placeholder-color;
+      }
+    }
+  }
+}

@@ -1,8 +1,20 @@
 // ============================================================================
-// TrafficNow Badges Styles
+// TrafficNow Shared Components
 // ============================================================================
-// Route badges, departure badges, badge groups, and badge visual variants
 
+// Validity status component
+.disruption-status {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-xxs);
+
+  .separator.vertical {
+    align-self: stretch;
+  }
+}
+
+// Route badges, departure badges, badge groups
 .badges {
   display: flex;
   flex-wrap: wrap;

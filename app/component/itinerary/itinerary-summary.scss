@@ -654,6 +654,10 @@
     border-left-width: 8px;
     padding: 0 0 0 60px;
 
+    .summary-clickable-area {
+      max-width: 385px;
+    }
+
     h3,
     h4 {
       margin-top: 10px;

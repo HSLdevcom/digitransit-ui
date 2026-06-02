@@ -8,6 +8,7 @@ import { useBreakpoint } from '../../util/withBreakpoint';
 import Gutterer from '../Gutterer';
 import Loading from '../Loading';
 import CanceledTripsContainer from './CanceledTripsContainer';
+import DisruptionDetailsContainer from './DisruptionDetailsContainer';
 import Disruptions from './Disruptions';
 import TrafficNowHeader from './TrafficNowHeader';
 import Filters from './filters/Filters';
@@ -17,7 +18,7 @@ import FiltersModal from './filters/FiltersModal';
 const TrafficNow = () => {
   const {
     match: {
-      params: { mode },
+      params: { mode, alertId },
     },
   } = useRouter();
   const intl = useIntl();
@@ -29,10 +30,11 @@ const TrafficNow = () => {
   useEffect(() => ReactModal.setAppElement(document.querySelector('#app')), []);
 
   const isMobileCanceledTripsView = !!mode && mobile;
+  const isDetailsView = !!alertId;
 
   return (
     <div className="traffic-now design-system">
-      {!isMobileCanceledTripsView && (
+      {!isMobileCanceledTripsView && !(isDetailsView && mobile) && (
         <>
           <Gutterer maxWidth="1440px" contentStyles={{ display: 'flex' }}>
             <TrafficNowHeader />
@@ -56,11 +58,20 @@ const TrafficNow = () => {
           })}
         >
           <FilterContextProvider>
-            {mode ? (
+            {alertId && (
+              <Suspense fallback={<Loading />}>
+                <DisruptionDetailsContainer
+                  alertId={alertId}
+                  isMobile={mobile}
+                />
+              </Suspense>
+            )}
+            {!alertId && mode && (
               <Suspense fallback={<Loading />}>
                 <CanceledTripsContainer mode={mode} isMobile={mobile} />
               </Suspense>
-            ) : (
+            )}
+            {!alertId && !mode && (
               <>
                 {!mobile ? (
                   <div className="traffic-now__filters-container">

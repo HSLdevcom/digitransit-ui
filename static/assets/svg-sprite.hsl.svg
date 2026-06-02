@@ -1601,8 +1601,9 @@
     <path fill-rule="evenodd" clip-rule="evenodd" d="M9.74063 8.27164L4.35154 13.7366C4.00527 14.0878 3.44387 14.0878 3.09759 13.7366C2.75131 13.3855 2.75131 12.8162 3.09759 12.465L8.48637 6.99997L3.09754 1.53494C2.77599 1.20886 2.75303 0.694692 3.02864 0.341787L3.09754 0.263368C3.44377 -0.087788 4.00522 -0.087788 4.3515 0.263368L9.73968 5.72933L9.74063 5.72841L10.9946 7.00003L9.74063 8.27164Z" fill="currentcolor"/>
   </symbol>
 
-  <symbol id="icon_chevron-left" viewBox="0 0 24 24" >
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.74063 8.27164L4.35154 13.7366C4.00527 14.0878 3.44387 14.0878 3.09759 13.7366C2.75131 13.3855 2.75131 12.8162 3.09759 12.465L8.48637 6.99997L3.09754 1.53494C2.77599 1.20886 2.75303 0.694692 3.02864 0.341787L3.09754 0.263368C3.44377 -0.087788 4.00522 -0.087788 4.3515 0.263368L9.73968 5.72933L9.74063 5.72841L10.9946 7.00003L9.74063 8.27164Z" fill="currentcolor"/>
+  <symbol id="icon_chevron-left" viewBox="0 0 16 16" >
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 6.65406L6.40371 0.250352C6.73751 -0.0834507 7.27869 -0.0834507 7.61249 0.250352C7.94629 0.584108 7.94629 1.12533 7.61249 1.45913L1.20878 7.86284L0 6.65406Z" fill="currentcolor"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 6.65406L1.20878 5.44528L7.61254 11.8491C7.94634 12.1829 7.94634 12.7241 7.61254 13.0578C7.27878 13.3916 6.73756 13.3916 6.40376 13.0578L0 6.65406Z" fill="currentcolor"/>
   </symbol>
 
   <symbol id="personalization" viewBox="0 0 103 103">
@@ -1676,13 +1677,13 @@
   </symbol>
 
   <symbol id="icon_status" viewBox="0 0 16 16">
-    <circle cx="8" cy="8" r="7" fill="#0074BF">
-      <animate attributeName="opacity" values="0.15;0.7;0.15" dur="1s" begin="0.4s" repeatCount="indefinite"/>
-      <animate attributeName="r" values="7;2;7" dur="1s" begin="0.4s" repeatCount="indefinite"/>
+    <circle cx="8" cy="8" r="7" fill="currentcolor">
+      <animate attributeName="opacity" values="0.15;0.7;0.15" dur="1s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="7;2;7" dur="1s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="8" cy="8" r="3" fill="#0074BF">
-      <animate attributeName="opacity" values="0.8;0.8;0.8" dur="1s" begin="0.4s" repeatCount="indefinite"/>
-      <animate attributeName="r" values="3;1;3" dur="1s" begin="0.4s" repeatCount="indefinite"/>
+    <circle cx="8" cy="8" r="3" fill="currentcolor">
+      <animate attributeName="opacity" values="0.8;0.8;0.8" dur="1s" repeatCount="indefinite"/>
+      <animate attributeName="r" values="3;1;3" dur="1s" repeatCount="indefinite"/>
     </circle>
   </symbol>
 

@@ -66,7 +66,7 @@ export default function TrafficNowHeader() {
         'traffic-now__header--mobile': !desktop,
       })}
     >
-      <span className="traffic-now__header-breadcrumb link-small">
+      <span className="traffic-now__header-breadcrumb">
         <Link to="/">
           <FormattedMessage id="traffic-now_bread" />
         </Link>

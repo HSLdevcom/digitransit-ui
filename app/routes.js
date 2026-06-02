@@ -349,6 +349,14 @@ export default config => {
       {config.trafficNowTest && (
         <>
           <Route
+            path={`/${TRAFFICNOW}/hairio/:alertId`}
+            getComponent={() =>
+              import(
+                /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
+              ).then(getDefault)
+            }
+          />
+          <Route
             path={`/${TRAFFICNOW}/peruutukset/:mode`}
             getComponent={() =>
               import(

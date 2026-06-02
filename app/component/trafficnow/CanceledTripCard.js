@@ -2,19 +2,18 @@ import React from 'react';
 import { useRouter } from 'found';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
-import { useIntl } from 'react-intl';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { PREFIX_TIMETABLE, TRAFFICNOW, routePagePath } from '../../util/path';
 import Card from '../Card';
 import Icon from '../Icon';
 import CanceledDepartures from './components/CanceledDepartures';
+import DisruptionStatus from './components/DisruptionStatus';
 import RouteBadgeGroup from './components/RouteBadgeGroup';
 import DisruptionBadge from './DisruptionBadge';
 
-const CanceledTripCard = ({ mode, totalCount, trips }) => {
+const CanceledTripCard = ({ mode, totalCount, trips, isMobile = false }) => {
   const { router } = useRouter();
   const { colors } = useConfigContext();
-  const intl = useIntl();
 
   const handleRouteBadgeClick = url => e => {
     e.preventDefault();
@@ -60,7 +59,20 @@ const CanceledTripCard = ({ mode, totalCount, trips }) => {
       onClick={handleRouteBadgeClick(`/${TRAFFICNOW}/peruutukset/${mode}`)}
     >
       <header>
-        <DisruptionBadge showIcon variant="WARNING" label="NO_SERVICE" />
+        <span className="disruption-card__header-left">
+          <DisruptionBadge showIcon variant="WARNING" label="NO_SERVICE" />
+          {!isMobile && (
+            <>
+              {' '}
+              <div className="separator vertical" />
+              <DisruptionStatus
+                active
+                showDates={false}
+                className="text-xs-bold"
+              />
+            </>
+          )}
+        </span>
         <button type="button">
           <Icon
             img="icon_arrow-collapse--right"
@@ -103,10 +115,9 @@ const CanceledTripCard = ({ mode, totalCount, trips }) => {
           }
         />
       </div>
-      <div className="disruption-card__body-row-validity-icon text-xs">
-        <Icon img="icon_clock" />
-        {intl.formatMessage({ id: 'valid', defaultMessage: 'Active' })}
-      </div>
+      {isMobile && (
+        <DisruptionStatus active showDates={false} className="text-xs-bold" />
+      )}
     </Card>
   );
 };
@@ -115,6 +126,7 @@ CanceledTripCard.propTypes = {
   mode: PropTypes.string.isRequired,
   totalCount: PropTypes.number.isRequired,
   trips: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  isMobile: PropTypes.bool,
 };
 
 export default CanceledTripCard;

@@ -4,7 +4,7 @@ import cx from 'classnames';
 import Link from 'found/Link';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { usePaginationFragment } from 'react-relay/hooks';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import Card from '../Card';
@@ -13,6 +13,7 @@ import CanceledTripsModal from './CanceledTripsModal';
 import CancellationContainer from './components/CancellationContainer';
 import ResultsProgressBar from './components/ResultsProgressBar';
 import DisruptionBadge from './DisruptionBadge';
+import DisruptionStatus from './components/DisruptionStatus';
 import CanceledTripsPaginationFragment from './queries/CanceledTripsPaginationFragment';
 
 const CANCELED_TRIPS_QUERY_AMOUNT = 20;
@@ -83,10 +84,7 @@ const CanceledTrips = ({ query, isMobile = false, ...props }) => {
     <>
       <header className="canceled-trips__header">
         <DisruptionBadge showIcon variant="WARNING" label="NO_SERVICE" />
-        <div className="validity-container text-s-bold">
-          <Icon img="icon_clock" />
-          {intl.formatMessage({ id: 'valid', defaultMessage: 'Active' })}
-        </div>
+        <DisruptionStatus active showDates={false} className="text-s-bold" />
       </header>
       <div className="canceled-trips__body">
         {Object.entries(trips).map(
@@ -157,8 +155,8 @@ const CanceledTrips = ({ query, isMobile = false, ...props }) => {
   return (
     <>
       <div
-        className={cx('canceled-trips__cta-container', {
-          'canceled-trips__cta-container--mobile': isMobile,
+        className={cx('detail-view__cta-container', {
+          'detail-view__cta-container--mobile': isMobile,
         })}
       >
         <Link to="/liikenne" className="cta-small">
