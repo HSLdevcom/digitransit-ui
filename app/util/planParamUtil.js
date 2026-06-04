@@ -265,14 +265,13 @@ export function planQueryNeeded(
     /* special logic: relaxed flex query is made only if taxis are not allowed */
     case PLANTYPE.FLEXTRANSIT_EXTERNAL:
       return (
-        config.flex?.allowTaxiJourneys &&
-        (transitModes.length > 0 || config.flex?.directOnlyTaxiJourneys) &&
+        config.flex.external.enabled &&
+        (transitModes.length > 0 || config.flex.external.direct) &&
         settings.includeTaxiSuggestions !== relaxSettings
       );
     case PLANTYPE.FLEXTRANSIT_INTERNAL:
       return (
-        config.flex?.internalFlexEnabled &&
-        transitModes.includes(TransportMode.Bus)
+        config.flex.internal.enabled && transitModes.includes(TransportMode.Bus)
       );
 
     case PLANTYPE.TRANSIT:
@@ -400,10 +399,6 @@ export function getPlanParams(
     });
   }
 
-  // non-direct for testing purposes on planners that only allow direct
-  const directFlexOnly =
-    config.flex?.directOnlyTaxiJourneys &&
-    !window.localStorage.getItem('favouriteStore')?.includes('Flextestaus2025');
   const directOnly = directModes.includes(planType) || otpModes.length === 0;
   let transitOnly = !!relaxSettings;
   const wheelchair = !!settings.accessibilityOption;
@@ -460,19 +455,20 @@ export function getPlanParams(
       direct = access;
       break;
     case PLANTYPE.FLEXTRANSIT_EXTERNAL:
-      access = directFlexOnly ? null : ['WALK', 'FLEX'];
+      access = config.flex.external.transit ? ['WALK', 'FLEX'] : null;
       egress = access;
-      direct = directFlexOnly ? ['WALK', 'FLEX'] : null;
+      direct = config.flex.external.direct ? ['WALK', 'FLEX'] : null;
       transitOnly = false;
-      filters = excludeAgencies(config.flex?.internalAgencies);
+      filters = excludeAgencies(config.flex.internal.agencies);
       via = null;
       break;
     case PLANTYPE.FLEXTRANSIT_INTERNAL:
-      access = [...access, 'FLEX'];
+      access = config.flex.internal.transit ? ['WALK', 'FLEX'] : null;
       egress = access;
-      direct = access;
-      filters = excludeAgencies(config.flex?.externalAgencies);
-      minTransferTime = config.flex?.minTransferTime || minTransferTime;
+      direct = config.flex.internal.direct ? ['WALK', 'FLEX'] : null;
+      transitOnly = false;
+      filters = excludeAgencies(config.flex.external.agencies);
+      minTransferTime = config.flex.internal.minTransferTime || minTransferTime;
       via = null;
       break;
     default: // direct modes

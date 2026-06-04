@@ -289,11 +289,12 @@ export default {
   externalFeedIds: ['02Taksi'],
 
   flex: {
-    internalFlexEnabled: false,
-    allowTaxiJourneys: IS_DEV,
-    directOnlyTaxiJourneys: false,
-    internalAgencies: [],
-    externalAgencies: ['02Taksi:02_taksi'],
+    external: {
+      enabled: IS_DEV,
+      transit: IS_DEV,
+      direct: false,
+      agencies: ['02Taksi:02_taksi'],
+    },
     infoLanguage: 'fi',
   },
 

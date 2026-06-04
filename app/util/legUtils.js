@@ -1009,6 +1009,6 @@ export function isLocalCallAgency(leg, config) {
   }
   return (
     isCallAgencyLeg(leg) &&
-    config.flex.internalAgencies.includes(leg.route.agency.gtfsId)
+    config.flex.internal.agencies.includes(leg.route.agency.gtfsId)
   );
 }

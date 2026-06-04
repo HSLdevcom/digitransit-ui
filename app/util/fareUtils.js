@@ -113,7 +113,7 @@ export const shouldShowFareInfo = (config, legs, fares) => {
       leg =>
         isCallAgencyLeg(leg) &&
         leg.route &&
-        config.flex.internalAgencies.includes(leg.route.agency.gtfsId),
+        config.flex.internal.agencies.includes(leg.route.agency.gtfsId),
     )
   ) {
     return false;

@@ -67,10 +67,10 @@ function RoutePageMap(
   const routeId = rest.match.params.routeId.split(':')[0];
   const flexAgencies = useMemo(
     () =>
-      [...config.flex.internalAgencies, ...config.flex.externalAgencies].map(
+      [...config.flex.internal.agencies, ...config.flex.external.agencies].map(
         agency => agency.split(':')[0],
       ),
-    [config.flex.internalAgencies, config.flex.externalAgencies],
+    [config.flex.internal.agencies, config.flex.external.agencies],
   );
   const isFlexRoute = flexAgencies.includes(routeId);
 
