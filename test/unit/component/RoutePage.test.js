@@ -21,7 +21,7 @@ const baseConfig = {
   title: 'Digitransit',
   colors: { primary: '#00AFFF', accessiblePrimary: '#000' },
   URL: {},
-  flex: { internalAgencies: [] },
+  flex: { internal: { agencies: [] } },
 };
 
 const baseRoute = {

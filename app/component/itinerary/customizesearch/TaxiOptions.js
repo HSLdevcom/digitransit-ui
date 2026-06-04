@@ -11,7 +11,7 @@ import { useConfigContext } from '../../../configurations/ConfigContext';
 export default function TaxiOptions({ currentSettings }, { executeAction }) {
   const config = useConfigContext();
   const taxiLabelId =
-    config.flex.taxiSettingLabelOverride || 'taxis-and-ride-hailing';
+    config.flex.settingLabelOverride || 'taxis-and-ride-hailing';
   const taxiRoutingState = currentSettings.includeTaxiSuggestions
     ? 'Disable'
     : 'Enable';

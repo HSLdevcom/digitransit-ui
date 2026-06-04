@@ -101,7 +101,7 @@ function CustomizeSearch({ onToggleClick, settings, mobile }) {
             <Scooters />
           </div>
         )}
-        {config.flex?.allowTaxiJourneys &&
+        {config.flex.external.enabled &&
           config.transportModes.taxi.availableForSelection && (
             <div className="settings-section">
               <TaxiOptions currentSettings={currentSettings} />

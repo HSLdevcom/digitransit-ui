@@ -448,11 +448,18 @@ export default {
   navigation: true,
 
   flex: {
-    internalFlexEnabled: IS_DEV,
-    allowTaxiJourneys: true,
-    directOnlyTaxiJourneys: !IS_DEV,
-    internalAgencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
-    externalAgencies: ['02Taksi:02_taksi'],
+    external: {
+      enabled: IS_DEV,
+      transit: IS_DEV,
+      direct: IS_DEV,
+      agencies: ['02Taksi:02_taksi'],
+    },
+    internal: {
+      enabled: IS_DEV,
+      transit: IS_DEV,
+      direct: IS_DEV,
+      agencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
+    },
     infoLanguage: 'fi',
   },
 

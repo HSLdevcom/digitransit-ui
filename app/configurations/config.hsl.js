@@ -742,14 +742,20 @@ export default {
   showStopStatusMarkers: true,
 
   flex: {
-    internalFlexEnabled: IS_DEV,
-    allowTaxiJourneys: IS_DEV,
-    directOnlyTaxiJourneys: false,
-    internalAgencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
-    externalAgencies: ['Uber:agency-mog2skf5-1'],
-    allowedExternalFlexRouteTypes: [1501],
+    external: {
+      enabled: IS_DEV,
+      transit: IS_DEV,
+      direct: false,
+      agencies: ['Uber:agency-mog2skf5-1'],
+    },
+    internal: {
+      enabled: IS_DEV,
+      transit: IS_DEV,
+      direct: IS_DEV,
+      agencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
+    },
     infoLanguage: 'fi',
-    taxiSettingLabelOverride: 'demand-responsive-traffic',
+    settingLabelOverride: 'demand-responsive-traffic',
   },
 
   showRouteDescNotification: IS_DEV,

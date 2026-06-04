@@ -870,13 +870,20 @@ export default {
   showRouteDescNotification: false,
   showStopStatusMarkers: false,
   flex: {
-    internalFlexEnabled: false,
-    allowTaxiJourneys: false,
-    directOnlyTaxiJourneys: false,
-    internalAgencies: [], // "FeedId:AgencyId"
-    externalAgencies: [], // "FeedId:AgencyId"
-    allowedExternalFlexRouteTypes: [1501],
-    minTransferTime: 900, // seconds
+    external: {
+      enabled: false,
+      transit: false,
+      direct: false,
+      agencies: [], // "FeedId:AgencyId"
+      allowedRouteTypes: [1501],
+    },
+    internal: {
+      enabled: false,
+      transit: false,
+      direct: false,
+      agencies: [], // "FeedId:AgencyId"
+      minTransferTime: 900, // seconds
+    },
   },
   personalization: false,
   showNewRoutePage: IS_DEV,
