@@ -15,8 +15,9 @@ export default class ErrorBoundary extends React.Component {
 
   componentDidCatch(error) {
     if (this.state.hasRetried) {
-      // Did retry, didn't help
-      window.location.reload();
+      // Already retried, still failing. Log it and set the state so we can show the persistent error.
+      console.error('Fatal error encountered after retry:', error);
+      this.setState({ error, hasRetried: true });
       return;
     }
     this.setState({ error });
@@ -26,6 +27,20 @@ export default class ErrorBoundary extends React.Component {
     if (this.state.error) {
       if (isRelayNetworkError(this.state.error)) {
         return <NetworkError retry={this.resetState} />;
+      }
+      // If already retried once and failed again, show a persistent error state
+      if (this.state.hasRetried) {
+        return (
+          <div className="page-not-found">
+            <Icon img="icon_error_page_not_found" />
+            <p>
+              <FormattedMessage
+                id="fatal-error"
+                defaultMessage="A fatal error occurred. Please contact support."
+              />
+            </p>
+          </div>
+        );
       }
       return (
         <div className="page-not-found">
