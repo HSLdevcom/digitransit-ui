@@ -5,11 +5,13 @@ import Button from '@hsl-fi/button';
 import { useRouter } from 'found';
 import ReactModal from 'react-modal';
 import { useBreakpoint } from '../../util/withBreakpoint';
+import scrollTop from '../../util/scroll';
 import Gutterer from '../Gutterer';
 import Loading from '../Loading';
 import CanceledTripsContainer from './CanceledTripsContainer';
 import DisruptionDetailsContainer from './DisruptionDetailsContainer';
 import Disruptions from './Disruptions';
+import TrafficNowFooter from './TrafficNowFooter';
 import TrafficNowHeader from './TrafficNowHeader';
 import Filters from './filters/Filters';
 import { FilterContextProvider } from './filters/FiltersContext';
@@ -28,6 +30,10 @@ const TrafficNow = () => {
   const mobile = breakpoint !== 'large';
 
   useEffect(() => ReactModal.setAppElement(document.querySelector('#app')), []);
+
+  useEffect(() => {
+    scrollTop();
+  }, [mode, alertId]);
 
   const isMobileCanceledTripsView = !!mode && mobile;
   const isDetailsView = !!alertId;
@@ -104,6 +110,7 @@ const TrafficNow = () => {
           </FilterContextProvider>
         </div>
       </Gutterer>
+      <TrafficNowFooter />
     </div>
   );
 };

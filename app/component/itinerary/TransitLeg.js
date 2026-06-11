@@ -51,6 +51,7 @@ import ExternalLink from '../ExternalLink';
 import { getBoardingInformationText } from './BoardingInformation';
 import { getTrackOrPierOrPlatformChangeText } from '../../util/modeUtils';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import { splitGtfsId } from '../../util/gtfs';
 
 const stopCode = code => code && <StopCode code={code} />;
 
@@ -123,10 +124,11 @@ export default function TransitLeg({
     const startZone = leg.from.stop.zoneId;
     const endZone = leg.to.stop.zoneId;
 
+    const { feedId } = splitGtfsId(leg.from.stop.gtfsId);
     const renderZoneIcons =
       config.zones.itinerary &&
       leg.from.stop.gtfsId &&
-      config.feedIds.includes(leg.from.stop.gtfsId.split(':')[0]);
+      config.feedIds.includes(feedId);
 
     if (
       startZone !== endZone &&

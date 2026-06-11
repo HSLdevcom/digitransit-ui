@@ -15,6 +15,7 @@ import { compressLegs, getTotalBikingDistance } from '../../util/legUtils';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
 import { getDefaultSettings, getSettings } from '../../util/planParamUtil';
 import { getStartTimeWithColon } from '../../util/timeUtils';
+import { splitGtfsId } from '../../util/gtfs';
 
 /**
  * Returns the index of selected itinerary. Attempts to look for
@@ -82,10 +83,10 @@ export function getTopics(legs, config) {
 
     legs.forEach(leg => {
       if (leg.transitLeg && leg.trip) {
-        const feedId = leg.trip.gtfsId.split(':')[0];
+        const { feedId, entityId: tripId } = splitGtfsId(leg.trip.gtfsId);
         if (realTime && feedIds.includes(feedId)) {
           itineraryTopics.push({
-            route: leg.route.gtfsId.split(':')[1],
+            route: splitGtfsId(leg.route.gtfsId).entityId,
             shortName: leg.route.shortName,
             type: leg.route.type,
             feedId,
@@ -94,7 +95,7 @@ export function getTopics(legs, config) {
             tripStartTime: getStartTimeWithColon(
               leg.trip.stoptimesForDate[0].scheduledDeparture,
             ),
-            tripId: leg.trip.gtfsId.split(':')[1],
+            tripId,
           });
         }
       }
@@ -174,7 +175,7 @@ export function filterItinerariesByFeedId(plan, config) {
   plan.edges.forEach(edge => {
     let skip = false;
     for (let i = 0; i < edge.node.legs.length; i++) {
-      const feedId = edge.node.legs[i].route?.gtfsId?.split(':')[0];
+      const { feedId } = splitGtfsId(edge.node.legs[i].route?.gtfsId);
 
       if (
         feedId && // if feedId is undefined, leg  is non transit -> don't drop

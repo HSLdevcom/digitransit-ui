@@ -306,14 +306,14 @@ describe('<TransitLeg />', () => {
         from: {
           name: 'Testilahti',
           stop: {
-            gtfsId: 'A',
+            gtfsId: 'A:123',
             alerts: [
               {
                 alertSeverityLevel: AlertSeverityLevelType.Warning,
                 entities: [
                   {
                     __typename: AlertEntityType.Stop,
-                    gtfsId: 'A',
+                    gtfsId: 'A:123',
                   },
                 ],
               },
@@ -323,7 +323,7 @@ describe('<TransitLeg />', () => {
         duration: 10000,
         intermediatePlaces: [],
         route: {
-          gtfsId: 'A',
+          gtfsId: 'A:2',
         },
         start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
@@ -333,7 +333,7 @@ describe('<TransitLeg />', () => {
         trip: {
           gtfsId: 'A12345',
           pattern: {
-            code: 'A',
+            code: 'A:2:01',
           },
           tripHeadsign: 'foo - bar',
         },
@@ -577,7 +577,7 @@ describe('<TransitLeg />', () => {
         from: {
           name: 'Test',
           stop: {
-            gtfsId: 'A',
+            gtfsId: 'A:123',
             alerts: [
               {
                 alertSeverityLevel: AlertSeverityLevelType.Info,
@@ -586,7 +586,7 @@ describe('<TransitLeg />', () => {
                 entities: [
                   {
                     __typename: AlertEntityType.Stop,
-                    gtfsId: 'A',
+                    gtfsId: 'A:123',
                   },
                 ],
               },
@@ -596,7 +596,7 @@ describe('<TransitLeg />', () => {
         duration: 1000,
         intermediatePlaces: [],
         route: {
-          gtfsId: 'A1234',
+          gtfsId: 'FOO:A1234',
         },
         start: { scheduledTime: new Date(startTime * 1000).toISOString() },
         to: {
@@ -604,7 +604,7 @@ describe('<TransitLeg />', () => {
           stop: {},
         },
         trip: {
-          gtfsId: 'A1234:01',
+          gtfsId: 'FOO:A1234:01',
           pattern: {
             code: 'A',
           },

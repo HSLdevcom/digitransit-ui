@@ -34,6 +34,7 @@ const { CosmosClient } = require('@azure/cosmos');
 const { getJson } = require('../app/util/xhrPromise');
 const { retryFetch } = require('../app/util/fetchUtils');
 const configTools = require('../app/config');
+const { splitGtfsId } = require('../app/util/gtfs');
 
 const config = configTools.getConfiguration();
 
@@ -123,17 +124,6 @@ function setUpMiddleware() {
     // proxy for dev-bundle
     app.use('/proxy/', proxy(`http://localhost:${hotloadPort}/`));
   }
-  // Proxy static assets to avoid CORS issues when fetching from the browser
-  // TODO this is a hacky solution, contact site-header admins to update site-header cors settings.
-  const staticAssetsBaseUrl = process.env.STATIC_ASSETS_URL;
-  if (staticAssetsBaseUrl) {
-    app.use(
-      '/static-assets',
-      proxy(staticAssetsBaseUrl, {
-        proxyReqPathResolver: req => req.url,
-      }),
-    );
-  }
 }
 
 function onError(err, req, res) {
@@ -161,7 +151,7 @@ function processTicketTypeResult(result) {
   if (config.availableTickets) {
     if (resultData && Array.isArray(resultData.ticketTypes)) {
       resultData.ticketTypes.forEach(ticket => {
-        const ticketFeed = ticket.fareId.split(':')[0];
+        const { feedId: ticketFeed } = splitGtfsId(ticket.fareId);
         if (config.availableTickets[ticketFeed] === undefined) {
           config.availableTickets[ticketFeed] = {};
         }

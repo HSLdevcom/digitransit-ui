@@ -93,7 +93,7 @@ export default function LegInfo({
         'alternative-leg-suggestion': isAlternativeLeg,
       })}
     >
-      {isCallAgency ? (
+      {isCallAgency && leg.pickupBookingInfo ? (
         <button type="button" onClick={openOnDemandInfo}>
           {routeNumber}
         </button>

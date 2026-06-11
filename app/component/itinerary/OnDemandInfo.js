@@ -22,21 +22,21 @@ function OnDemandInfo({
   const container = mobile
     ? document.getElementById('content-container')
     : document.getElementById('main-content');
-  const bookingUrl = pickupBookingInfo.contactInfo?.bookingUrl;
-  const infoUrl = pickupBookingInfo.contactInfo?.infoUrl;
+  const bookingUrl = pickupBookingInfo?.contactInfo?.bookingUrl;
+  const infoUrl = pickupBookingInfo?.contactInfo?.infoUrl;
   const onClick = bookingUrl?.startsWith('http')
     ? () => {
         window.open(bookingUrl, '_blank', 'noopener,noreferrer');
       }
     : () => openDeepLink(bookingUrl, infoUrl);
 
-  const latestBookingTime = pickupBookingInfo.latestBookingTime?.time;
+  const latestBookingTime = pickupBookingInfo?.latestBookingTime?.time;
   const formattedLatestBookingTime =
     latestBookingTime &&
     /^\d{2}:\d{2}:\d{2}$/.test(latestBookingTime) &&
     DateTime.fromFormat(latestBookingTime, 'HH:mm:ss').toFormat('HH:mm');
   const latestBookingTimeText =
-    pickupBookingInfo.latestBookingTime?.daysPrior &&
+    pickupBookingInfo?.latestBookingTime?.daysPrior &&
     intl.formatMessage(
       {
         id: 'on-demand-service-prior-notice-days',
@@ -44,14 +44,14 @@ function OnDemandInfo({
           'Order must be placed at least {days} days before the trip, by {time}.',
       },
       {
-        days: pickupBookingInfo.latestBookingTime?.daysPrior || '',
+        days: pickupBookingInfo?.latestBookingTime?.daysPrior || '',
         time: formattedLatestBookingTime || latestBookingTime || '',
       },
     );
 
   const bookingNoticeInMinutes =
-    pickupBookingInfo.minimumBookingNotice &&
-    Duration.fromISO(pickupBookingInfo.minimumBookingNotice).as('minutes');
+    pickupBookingInfo?.minimumBookingNotice &&
+    Duration.fromISO(pickupBookingInfo?.minimumBookingNotice).as('minutes');
   const bookingNoticeInMinutesText =
     bookingNoticeInMinutes &&
     intl.formatMessage(
@@ -115,7 +115,7 @@ function OnDemandInfo({
             </div>
             {dataLanguageMatch && (
               <div className="on-demand-info-content">
-                {pickupBookingInfo.message}
+                {pickupBookingInfo?.message}
               </div>
             )}
             <div className="on-demand-info-content">
@@ -153,11 +153,13 @@ function OnDemandInfo({
                 defaultMessage="Phone number"
               />
             </div>
-            {pickupBookingInfo.contactInfo?.phoneNumber && (
+            {pickupBookingInfo?.contactInfo?.phoneNumber && (
               <div className="on-demand-info-content">
                 <div className="phone-section">
-                  <a href={`tel:${pickupBookingInfo.contactInfo?.phoneNumber}`}>
-                    {pickupBookingInfo.contactInfo?.phoneNumber}
+                  <a
+                    href={`tel:${pickupBookingInfo?.contactInfo?.phoneNumber}`}
+                  >
+                    {pickupBookingInfo?.contactInfo?.phoneNumber}
                   </a>
                 </div>
               </div>

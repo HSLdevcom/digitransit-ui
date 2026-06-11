@@ -522,9 +522,15 @@ function DTAutosuggest({
     openMenu();
   };
 
-  // Fetch suggestions when isOpen, value, or fetchSuggestions dependies change
+  // Fetch suggestions when isOpen, value, or fetchSuggestions dependencies change
   useEffect(() => {
-    if (isOpen || state.renderMobile) {
+    // Don't search when the search field (state.value) contains position strings that were given as a prop (value),
+    // because they are UI labels not real search terms. Fetching suggestions with them caused a quickly flashing set of
+    // irrelevant results, e.g. 'Käytä nykyistä sijaintia' -> 'City-käytävä'.
+    if (
+      (isOpen || state.renderMobile) &&
+      !(state.value === value && positions.includes(value))
+    ) {
       fetchSuggestions(state.value);
     }
   }, [isOpen, state.renderMobile, state.value, fetchSuggestions]);

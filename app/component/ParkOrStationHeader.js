@@ -9,8 +9,8 @@ import { getJson } from '../util/xhrPromise';
 import getZoneId from '../util/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
 import { hasVehicleRentalCode } from '../util/vehicleRentalUtils';
-import { getIdWithoutFeed } from '../util/feedScopedIdUtils';
 import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
+import { splitGtfsId } from '../util/gtfs';
 
 const ParkOrBikeStationHeader = (
   { parkOrStation, breakpoint, parkType, backButton, withSeparator },
@@ -56,7 +56,7 @@ const ParkOrBikeStationHeader = (
             id={isRentalStation ? 'citybike-station-no-id' : parkHeaderId}
           />
           {isRentalStation && hasVehicleRentalCode(stationId) && (
-            <StopCode code={getIdWithoutFeed(stationId)} />
+            <StopCode code={splitGtfsId(stationId).entityId} />
           )}
           {zoneId && (
             <span className="station-zone-icon">

@@ -1,6 +1,7 @@
 import Store from 'fluxible/addons/BaseStore';
 import events from '../util/events';
 import { unixTime } from '../util/timeUtils';
+import { splitGtfsId } from '../util/gtfs';
 
 class RealTimeInformationStore extends Store {
   static storeName = 'RealTimeInformationStore';
@@ -66,7 +67,7 @@ class RealTimeInformationStore extends Store {
         message.forEach(msg => {
           if (
             !this.topicsByRoute ||
-            this.topicsByRoute[msg.route.split(':')[1]]
+            this.topicsByRoute[splitGtfsId(msg.route).entityId]
           ) {
             // Filter out old messages
             this.vehicles[msg.id] = { ...msg, receivedAt };
@@ -74,7 +75,7 @@ class RealTimeInformationStore extends Store {
         });
       } else if (
         !this.topicsByRoute ||
-        this.topicsByRoute[message.route.split(':')[1]]
+        this.topicsByRoute[splitGtfsId(message.route).entityId]
       ) {
         this.vehicles[message.id] = { ...message, receivedAt };
       }
@@ -89,15 +90,15 @@ class RealTimeInformationStore extends Store {
     if (topicsByRoute && Object.keys(topicsByRoute).length > 0) {
       this.vehicles = Object.fromEntries(
         Object.entries(this.vehicles).filter(([, vehicle]) => {
-          const routeId = vehicle.route?.split(':')[1];
+          const { entityId: routeId } = splitGtfsId(vehicle.route);
           return routeId && topicsByRoute[routeId];
         }),
       );
     } else if (Array.isArray(topics) && topics.length > 0) {
       this.vehicles = Object.fromEntries(
         Object.entries(this.vehicles).filter(([, vehicle]) => {
-          const tripId = vehicle.tripId?.split(':')[1];
-          const routeId = vehicle.route?.split(':')[1];
+          const { entityId: tripId } = splitGtfsId(vehicle.tripId);
+          const { entityId: routeId } = splitGtfsId(vehicle.route);
 
           if (tripId) {
             return topics.some(topic => topic.includes(tripId));

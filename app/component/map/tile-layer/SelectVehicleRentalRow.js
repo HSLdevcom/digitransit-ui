@@ -9,7 +9,7 @@ import {
   getRentalNetworkIcon,
   hasVehicleRentalCode,
 } from '../../../util/vehicleRentalUtils';
-import { getIdWithoutFeed } from '../../../util/feedScopedIdUtils';
+import { splitGtfsId } from '../../../util/gtfs';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectVehicleRentalRow(
@@ -42,7 +42,9 @@ function SelectVehicleRentalRow(
         <span className="choose-row-text">
           <span className="choose-row-address">{address}</span>
           {hasVehicleRentalCode(id) && (
-            <span className="choose-row-number">{getIdWithoutFeed(id)}</span>
+            <span className="choose-row-number">
+              {splitGtfsId(id).entityId}
+            </span>
           )}
         </span>
       </span>

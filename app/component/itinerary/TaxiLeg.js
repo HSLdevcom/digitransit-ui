@@ -56,7 +56,8 @@ export default function TaxiLeg(props, { config }) {
     props.leg.from.viaLocationType && props.leg.viaAddress
       ? props.leg.viaAddress
       : name;
-  const { bookingUrl, infoUrl } = props.leg.pickupBookingInfo.contactInfo;
+  const { bookingUrl, infoUrl } =
+    props.leg.pickupBookingInfo?.contactInfo ?? {};
   return (
     <>
       {isFirstLeg(index) && (

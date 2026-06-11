@@ -8,8 +8,8 @@ import FavouriteVehicleRentalStationContainer from '../FavouriteVehicleRentalSta
 import { PREFIX_BIKESTATIONS } from '../../util/path';
 import { isKeyboardSelectionEvent } from '../../util/browser';
 import { hasVehicleRentalCode } from '../../util/vehicleRentalUtils';
-import { getIdWithoutFeed } from '../../util/feedScopedIdUtils';
 import { vehicleRentalStationShape, relayShape } from '../../util/shapes';
+import { splitGtfsId } from '../../util/gtfs';
 
 const VehicleRentalStationNearYou = ({
   station,
@@ -57,7 +57,7 @@ const VehicleRentalStationNearYou = ({
                 id="citybike-station"
                 values={{
                   stationId: hasVehicleRentalCode(station.stationId)
-                    ? getIdWithoutFeed(station.stationId)
+                    ? splitGtfsId(station.stationId).entityId
                     : '',
                 }}
               />

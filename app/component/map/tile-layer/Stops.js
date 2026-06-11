@@ -15,6 +15,7 @@ import {
   getLayerBaseUrl,
 } from '../../../util/mapLayerUtils';
 import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../util/path';
+import { splitGtfsId } from '../../../util/gtfs';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 
 const stopAlertsQuery = graphql`
@@ -134,8 +135,8 @@ class Stops {
   }
 
   stopsToShowCheck(feature, isStation) {
-    const feedid = feature.properties.gtfsId.split(':')[0];
-    if (!isStation && !this.config.feedIds.includes(feedid)) {
+    const { feedId } = splitGtfsId(feature.properties.gtfsId);
+    if (!isStation && !this.config.feedIds.includes(feedId)) {
       return false;
     }
     if (this.tile.stopsToShow) {

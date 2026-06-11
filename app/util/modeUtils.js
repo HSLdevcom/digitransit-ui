@@ -7,8 +7,9 @@ import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
 import { ExtendedRouteTypes, TransportMode } from '../constants';
 import { IS_DEV } from './envUtils';
-import { getFeedWithoutId, isExternalFeed } from './feedScopedIdUtils';
+import { isExternalFeed } from './feedScopedIdUtils';
 import { dateOrEmpty, durationToString } from './timeUtils';
+import { splitGtfsId } from './gtfs';
 
 function seasonMs(ddmmyyyy) {
   const parts = ddmmyyyy.split('.');
@@ -149,7 +150,7 @@ export function getRouteMode(route, config) {
     case ExtendedRouteTypes.ReplacementBus:
       return 'replacement-bus';
     default:
-      return isExternalFeed(getFeedWithoutId(route?.gtfsId), config)
+      return isExternalFeed(splitGtfsId(route?.gtfsId).feedId, config)
         ? `${route.mode?.toLowerCase()}-external`
         : route.mode?.toLowerCase();
   }
@@ -209,7 +210,7 @@ export function getStopMode(vehicleMode, routes, code, config, isTerminal) {
           }
           const arr = typeof routes === 'string' ? JSON.parse(routes) : routes;
           if (
-            arr.some(r => isExternalFeed(getFeedWithoutId(r.gtfsId), config))
+            arr.some(r => isExternalFeed(splitGtfsId(r.gtfsId).feedId, config))
           ) {
             return 'ferry-external';
           }

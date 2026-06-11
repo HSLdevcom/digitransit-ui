@@ -3,8 +3,8 @@ import without from 'lodash/without';
 import { getCustomizedSettings } from '../store/localStorage';
 import { addAnalyticsEvent } from './analyticsUtils';
 import { networkIsActive } from './modeUtils';
-import { getIdWithoutFeed } from './feedScopedIdUtils';
 import { isAndroid, isIOS } from './browser';
+import { splitGtfsId } from './gtfs';
 
 export const BIKEAVL_UNKNOWN = 'No availability';
 export const BIKEAVL_BIKES = 'Bikes on station';
@@ -202,7 +202,7 @@ export const mapVehicleRentalToStore = vehicleRentalStation => {
   const newStation = {
     ...vehicleRentalStation,
     networks: [network],
-    stationId: getIdWithoutFeed(vehicleRentalStation.stationId),
+    stationId: splitGtfsId(vehicleRentalStation.stationId).entityId,
   };
   delete newStation.network;
   return newStation;

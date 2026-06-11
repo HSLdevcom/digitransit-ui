@@ -1378,7 +1378,10 @@ export default function ItineraryPage(props, context) {
     );
     const updatedMapLayers = { ...props.mapLayers };
     const flexRouteGtfsId = flexLeg?.route?.gtfsId.split(':')[0];
-    if (flexRouteGtfsId) {
+    const isFlexBus = config.flex.internal.agencies.find(
+      agency => agency.split(':')[0] === flexRouteGtfsId,
+    );
+    if (isFlexBus && flexRouteGtfsId) {
       updatedMapLayers.areaStop = { routeGtfsId: flexRouteGtfsId };
     }
 

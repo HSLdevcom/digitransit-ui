@@ -5,6 +5,7 @@ import { configShape } from '../../util/shapes';
 import { ExtendedRouteTypes } from '../../constants';
 import VehicleIcon from '../VehicleIcon';
 import IconMarker from './IconMarker';
+import { splitGtfsId } from '../../util/gtfs';
 
 const MODES_WITH_ICONS = [
   'bus',
@@ -47,7 +48,7 @@ function shouldShowVehicle(
   headsign,
   trip,
 ) {
-  const msgTrip = message.tripId?.split(':')[1];
+  const { entityId: tripId } = splitGtfsId(message.tripId);
   return (
     !Number.isNaN(parseFloat(message.lat)) &&
     !Number.isNaN(parseFloat(message.long)) &&
@@ -63,7 +64,7 @@ function shouldShowVehicle(
     (tripStart === undefined ||
       message.tripStartTime === undefined ||
       message.tripStartTime === tripStart) &&
-    (trip === undefined || msgTrip === undefined || msgTrip === trip)
+    (trip === undefined || tripId === undefined || tripId === trip)
   );
 }
 
@@ -71,11 +72,11 @@ function VehicleMarkerContainer(props, { config }) {
   // TODO: move vehicle filtering logic to RealtimeInformationStore
   const visibleVehicles = Object.entries(props.vehicles).filter(
     ([, message]) => {
-      const routeParts = message.route?.split(':');
-      const feed = routeParts?.[0];
-      const id = routeParts?.[1]; // route id without feed
-      const { ignoreHeadsign } = config.realTime[feed];
-      const desc = id ? props.topics?.find(t => t.route === id) : undefined;
+      const { feedId, entityId: routeId } = splitGtfsId(message.route);
+      const { ignoreHeadsign } = config.realTime[feedId];
+      const desc = routeId
+        ? props.topics?.find(t => t.route === routeId)
+        : undefined;
       return shouldShowVehicle(
         message,
         props.direction || desc?.direction,
@@ -90,9 +91,9 @@ function VehicleMarkerContainer(props, { config }) {
   props.setVisibleVehicles(visibleVehicleIds);
 
   return visibleVehicles.map(([id, message]) => {
-    const r = message.route.split(':')[1];
+    const { entityId: routeId } = splitGtfsId(message.route);
     const type = props.topics?.find(
-      t => t.shortName === message.shortName || t.route === r,
+      t => t.shortName === message.shortName || t.route === routeId,
     )?.type;
     let mode;
     if (type === ExtendedRouteTypes.BusExpress) {
@@ -107,10 +108,10 @@ function VehicleMarkerContainer(props, { config }) {
     } else {
       mode = message.mode;
     }
-    const feed = message.route?.split(':')[0];
+    const { feedId } = splitGtfsId(message.route);
     let vehicleNumber = message.shortName
-      ? config.realTime[feed].vehicleNumberParser(message.shortName)
-      : r;
+      ? config.realTime[feedId].vehicleNumberParser(message.shortName)
+      : routeId;
     // Fallback to a question mark if the vehicle number is too long to fit in the icon
     vehicleNumber = vehicleNumber.length > 5 ? '?' : vehicleNumber;
     return (

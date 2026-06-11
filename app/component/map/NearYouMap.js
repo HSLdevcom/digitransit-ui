@@ -32,6 +32,7 @@ import { getRouteMode } from '../../util/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { streetQuery } from './StreetQuery';
 import LocationMarker from './LocationMarker';
+import { splitGtfsId } from '../../util/gtfs';
 
 function getId(edge) {
   const { place } = edge.node;
@@ -251,7 +252,7 @@ function NearYouMap(
       const stopArray = place.stops || [place]; // station stops, single stop or other place
       stopArray.forEach(stop => {
         stop.patterns?.forEach(pattern => {
-          const [feedId, route] = pattern.route.gtfsId.split(':');
+          const { feedId, entityId: route } = splitGtfsId(pattern.route.gtfsId);
           realtimeTopics.push({
             feedId,
             route,
@@ -397,7 +398,7 @@ NearYouMap.propTypes = {
     PropTypes.shape({
       nearest: PropTypes.shape({
         // eslint-disable-next-line
-      edges: PropTypes.arrayOf(PropTypes.object).isRequired,
+        edges: PropTypes.arrayOf(PropTypes.object).isRequired,
       }).isRequired,
     }),
     PropTypes.arrayOf(PropTypes.object),

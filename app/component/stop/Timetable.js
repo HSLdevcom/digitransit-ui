@@ -22,6 +22,7 @@ import { replaceQueryParams } from '../../util/queryUtils';
 import { PREFIX_STOPS } from '../../util/path';
 import { TimetableFragment } from './queries/TimetableFragment';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import { splitGtfsId } from '../../util/gtfs';
 
 const mapStopTimes = stoptimesObject =>
   stoptimesObject
@@ -250,16 +251,15 @@ export default function Timetable({
   );
   const timetableMap = groupArrayByHour(routesWithDetails);
   const { locationType } = stop;
-  const stopIdSplitted = stop.gtfsId.split(':');
-  const stopTimetableHandler =
-    config.timetables && config.timetables[stopIdSplitted[0]];
+  const { feedId } = splitGtfsId(stop.gtfsId);
+  const stopTimetableHandler = config.timetables && config.timetables[feedId];
   const stopPDFURL =
     stopTimetableHandler &&
-    config.URL.STOP_TIMETABLES[stopIdSplitted[0]] &&
+    config.URL.STOP_TIMETABLES[feedId] &&
     locationType !== 'STATION' &&
     date
       ? stopTimetableHandler.stopTimetableUrlResolver(
-          config.URL.STOP_TIMETABLES[stopIdSplitted[0]],
+          config.URL.STOP_TIMETABLES[feedId],
           stop,
           date,
           config.language,

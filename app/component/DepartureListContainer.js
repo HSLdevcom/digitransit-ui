@@ -16,6 +16,7 @@ import {
   getHeadsignFromRouteLongName,
   isPlatformChanged,
 } from '../util/legUtils';
+import { splitGtfsId } from '../util/gtfs';
 
 const getDropoffMessage = (hasOnlyDropoff, hasNoStop) => {
   if (hasNoStop) {
@@ -154,7 +155,7 @@ class DepartureListContainer extends Component {
             .indexOf(departure.stop.code) >= 0,
       )
       .map(departure => ({
-        tripId: departure.trip.gtfsId.split(':')[1],
+        tripId: splitGtfsId(departure.trip.gtfsId).entityId,
       }));
 
     const { config } = this.context;

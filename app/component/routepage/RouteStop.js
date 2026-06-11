@@ -23,6 +23,7 @@ import { estimateItineraryDistance } from '../../util/geo-utils';
 import getVehicleState from '../../util/vehicleStateUtils';
 import Icon from '../Icon';
 import { ensureColorAccessibleOnWhite } from '../../util/colorUtils';
+import { splitGtfsId } from '../../util/gtfs';
 
 function getDepartureTime(stoptime) {
   return (
@@ -194,13 +195,12 @@ const RouteStop = (
         first,
         last,
       );
+      const { feedId } = splitGtfsId(vehicle.route);
       const vehicleWithParsedShortname = {
         ...vehicle,
         shortName:
           vehicle.shortName &&
-          config.realTime[vehicle.route?.split(':')[0]].vehicleNumberParser(
-            vehicle.shortName,
-          ),
+          config.realTime[feedId].vehicleNumberParser(vehicle.shortName),
       };
       vehicleTripLink = vehicle.tripId ? (
         <TripLink

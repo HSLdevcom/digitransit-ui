@@ -16,6 +16,7 @@ import ZoneIcon from '../ZoneIcon';
 import { getZoneLabel } from '../../util/legUtils';
 import getVehicleState from '../../util/vehicleStateUtils';
 import { ensureColorAccessibleOnWhite } from '../../util/colorUtils';
+import { splitGtfsId } from '../../util/gtfs';
 
 const TripRouteStop = (props, { config }) => {
   const {
@@ -55,13 +56,12 @@ const TripRouteStop = (props, { config }) => {
       first,
       last,
     );
+    const { feedId } = splitGtfsId(vehicle.route);
     const vehicleWithParsedShortname = {
       ...vehicle,
       shortName:
         vehicle.shortName &&
-        config.realTime[vehicle.route?.split(':')[0]].vehicleNumberParser(
-          vehicle.shortName,
-        ),
+        config.realTime[feedId].vehicleNumberParser(vehicle.shortName),
     };
     const linkProps = {
       stopName: vehicleState === 'arriving' ? prevStop?.name : stop.name,

@@ -2,8 +2,9 @@ import { IS_DEV } from '../util/envUtils';
 
 /* eslint-disable prefer-template */
 function defaultRouteSelector(routePageProps) {
-  const route = routePageProps.route.gtfsId.split(':');
-  return route[1];
+  const { gtfsId } = routePageProps.route;
+  const i = gtfsId.indexOf(':');
+  return gtfsId.slice(i + 1, gtfsId.length);
 }
 
 function defaulVehicleNumberParser(vehicleNumber) {
@@ -193,7 +194,6 @@ function hslTopicResolver(
 const mqttAddress = IS_DEV
   ? 'wss://dev-mqtt.digitransit.fi'
   : 'wss://mqtt.digitransit.fi';
-
 const baseMqtt = {
   mqtt: mqttAddress,
   routeSelector: defaultRouteSelector,

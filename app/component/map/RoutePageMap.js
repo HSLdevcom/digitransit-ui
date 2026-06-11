@@ -14,6 +14,7 @@ import { isActiveDate } from '../../util/patternUtils';
 import { boundWithMinimumArea } from '../../util/geo-utils';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
+import { splitGtfsId } from '../../util/gtfs';
 
 function RoutePageMap(
   { pattern, lat, lon, breakpoint, trip, error, ...rest },
@@ -64,11 +65,11 @@ function RoutePageMap(
     }
   };
 
-  const routeId = rest.match.params.routeId.split(':')[0];
+  const { entityId: routeId } = splitGtfsId(rest.match.params.routeId);
   const flexAgencies = useMemo(
     () =>
       [...config.flex.internal.agencies, ...config.flex.external.agencies].map(
-        agency => agency.split(':')[0],
+        agency => splitGtfsId(agency).feedId,
       ),
     [config.flex.internal.agencies, config.flex.external.agencies],
   );

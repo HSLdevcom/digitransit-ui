@@ -57,9 +57,9 @@ export default configMerger(walttiConfig, {
   appName: 'vilkkuapp',
 
   ticketLink: {
-    fi: 'https://vilkku.kuopio.fi/lipputyypit-hinnat/lippujen-hinnat',
-    sv: 'https://vilkku.kuopio.fi/en/ticket-and-fares/ticket-prices',
-    en: 'https://vilkku.kuopio.fi/en/ticket-and-fares/ticket-prices',
+    fi: 'https://vilkku.kuopio.fi/liput-ja-hinnat',
+    sv: 'https://vilkku.kuopio.fi/en/tickets-and-prices',
+    en: 'https://vilkku.kuopio.fi/en/tickets-and-prices',
   },
   ticketLinkOperatorCode: 50221,
 

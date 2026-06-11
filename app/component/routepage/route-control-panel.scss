@@ -23,49 +23,60 @@
 // ─── Tab strip (pill-selector style) ────────────────────────────────────────
 
 .route-tabs {
-  height: 2.5em;
-  min-height: 44px;
   display: flex;
-  background-color: $background-color-lighter;
-  border: 1px solid $light-gray;
-  border-radius: var(--radius-radius-pill, 999px);
+  background-color: var(--color-surface-disabled);
+  border: 1px solid var(--color-border-weak);
+  border-radius: var(--radius-pill);
   margin: var(--space-s) 0 0;
-  padding: var(--space-xxs);
+  padding: var(--space-fixed-xxs);
 
   button {
     width: calc(100% / var(--totalCount));
+    flex: 0 0 calc(100% / var(--totalCount));
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // HSL design system segmented-control button heights
+    height: 37px;
     font-size: $font-size-small;
+    font-family: var(--font-family);
     text-align: center;
     letter-spacing: -0.42px;
-    border-radius: var(--radius-radius-pill, 999px);
-    color: $black;
-    font-weight: $font-weight-book;
+    border-radius: var(--radius-pill, 999px);
+    color: $link-color;
+    font-weight: $font-weight-medium;
+
+    @media (min-width: 768px) {
+      height: 40px;
+    }
 
     &.is-active {
-      font-weight: $font-weight-medium;
-      background-color: $white;
-      box-shadow: 0 1px 2px 0 var(--color-shadow-strong);
+      color: $black;
+      background-color: var(--color-surface-default);
+      box-shadow: 0 2px 4px 0 var(--color-shadow-strong);
     }
 
     &:focus-visible {
-      outline: transparent; // No visible focus outline by design as background color change is used to indicate focus state.
+      outline: 2px solid var(--color-outline-default);
     }
 
     &:disabled {
       color: $black;
       font-weight: $font-weight-medium;
-      background-color: $white;
-      border: 1px solid $light-gray;
+      background-color: var(--color-surface-default);
+      border: 1px solid var(--color-border-weak);
       cursor: default;
 
       // Restore default appearance suppressed by Foundation / global button styles
       opacity: 1;
-      box-shadow: 0 1px 2px 0 var(--color-shadow-strong);
+      box-shadow: 0 2px 4px 0 var(--color-shadow-strong);
 
       &:focus,
       &:hover {
         color: inherit;
-        background: $white;
+        background: var(--color-surface-default);
       }
     }
 
@@ -75,9 +86,14 @@
   }
 
   .tab-route-disruption {
+    display: inline-flex;
+    align-items: center;
+
     .icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin-right: 5px;
-      vertical-align: middle;
 
       .disruption-icon {
         width: 0.85em;

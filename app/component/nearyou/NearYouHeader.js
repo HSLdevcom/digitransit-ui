@@ -8,6 +8,7 @@ import PlatformNumber from '../PlatformNumber';
 import FavouriteStopContainer from '../FavouriteStopContainer';
 import { getZoneLabel } from '../../util/legUtils';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import { splitGtfsId } from '../../util/gtfs';
 
 const NearYouHeader = ({ stop, desc, isStation, linkAddress, mode }) => {
   const config = useConfigContext();
@@ -38,7 +39,7 @@ const NearYouHeader = ({ stop, desc, isStation, linkAddress, mode }) => {
           <PlatformNumber number={stop.platformCode} short mode={mode} />
           {zoneId &&
             config.zones.stops &&
-            config.feedIds.includes(stop.gtfsId.split(':')[0]) && (
+            config.feedIds.includes(splitGtfsId(stop.gtfsId).feedId) && (
               <ZoneIcon
                 zoneId={getZoneLabel(zoneId, config)}
                 showUnknown={false}

@@ -7,6 +7,7 @@ import { legTimeStr } from '../../util/legUtils';
 import ZoneIcon from '../ZoneIcon';
 import { stopPagePath } from '../../util/path';
 import Icon from '../Icon';
+import { splitGtfsId } from '../../util/gtfs';
 
 function IntermediateLeg(
   {
@@ -90,7 +91,7 @@ function IntermediateLeg(
         {showZoneLimits &&
           currentZoneId &&
           gtfsId &&
-          feedIds.includes(gtfsId.split(':')[0]) && (
+          feedIds.includes(splitGtfsId(gtfsId).feedId) && (
             <div className="time-column-zone-icons-container intermediate-leg">
               {previousZoneId && <ZoneIcon zoneId={previousZoneId} />}
               <ZoneIcon

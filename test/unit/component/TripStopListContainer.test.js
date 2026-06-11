@@ -19,7 +19,7 @@ describe('<TripStopListContainer />', () => {
           directionId: 1,
         },
         route: {
-          gtfsId: 'foobar-1',
+          gtfsId: 'foobar:1',
           mode: 'BUS',
         },
         stoptimesForDate: [
@@ -28,7 +28,7 @@ describe('<TripStopListContainer />', () => {
             realtimeDeparture: 1000,
             serviceDay,
             stop: {
-              gtfsId: 'stop-1',
+              gtfsId: 'stop:1',
             },
           },
           {
@@ -36,7 +36,7 @@ describe('<TripStopListContainer />', () => {
             realtimeDeparture: 3000,
             serviceDay,
             stop: {
-              gtfsId: 'stop-2',
+              gtfsId: 'stop:2',
             },
           },
         ],

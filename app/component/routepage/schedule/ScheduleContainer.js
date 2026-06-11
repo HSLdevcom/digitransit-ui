@@ -23,6 +23,7 @@ import { getTripsList } from './scheduleTripsUtils';
 import { routeShape, patternShape } from '../../../util/shapes';
 import { calculateRedirectDecision } from './scheduleParamUtils';
 import { buildAvailableDates } from './scheduleDataUtils';
+import { splitGtfsId } from '../../../util/gtfs';
 
 /**
  * Open a route timetable PDF in a new window.
@@ -189,7 +190,7 @@ const ScheduleContainer = ({
   };
 
   const formattedServiceDate = wantedDay.toFormat(DATE_FORMAT);
-  const agencyId = routeId?.split(':')?.[0];
+  const { feedId: agencyId } = splitGtfsId(routeId);
   const hasRouteTimetableUrl = !!(
     agencyId &&
     formattedServiceDate &&

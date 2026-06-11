@@ -24,9 +24,9 @@ import {
   getVehicleAvailabilityTextColor,
   getVehicleAvailabilityIndicatorColor,
 } from '../../util/legUtils';
-import { getIdWithoutFeed } from '../../util/feedScopedIdUtils';
 import ScooterLinkContainer from './ScooterLinkContainer';
 import IconBadge from '../icon/IconBadge';
+import { splitGtfsId } from '../../util/gtfs';
 
 function VehicleRentalLeg(
   {
@@ -138,7 +138,7 @@ function VehicleRentalLeg(
                 {vehicleRentalStation &&
                   hasVehicleRentalCode(vehicleRentalStation.stationId) && (
                     <span className="itinerary-stop-code">
-                      {getIdWithoutFeed(vehicleRentalStation?.stationId)}
+                      {splitGtfsId(vehicleRentalStation?.stationId).entityId}
                     </span>
                   )}
               </span>

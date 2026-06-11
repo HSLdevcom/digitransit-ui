@@ -8,6 +8,7 @@ import ZoneIcon from './ZoneIcon';
 import SplitBars from './SplitBars';
 import BackButton from './BackButton';
 import { getZoneLabel } from '../util/legUtils';
+import { splitGtfsId } from '../util/gtfs';
 
 export default function CardHeader(
   {
@@ -65,7 +66,7 @@ export default function CardHeader(
               {config.zones?.stops &&
                 zoneId &&
                 stop.gtfsId &&
-                config.feedIds.includes(stop.gtfsId.split(':')[0]) && (
+                config.feedIds.includes(splitGtfsId(stop.gtfsId).feedId) && (
                   <ZoneIcon
                     zoneId={getZoneLabel(zoneId, config)}
                     showUnknown={false}

@@ -373,7 +373,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.6);
-  z-index: 1000;
+  z-index: 10001;
 }
 
 .mobile-modal-content {

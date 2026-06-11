@@ -218,9 +218,9 @@ export default configMerger(walttiConfig, {
   showTicketInformation: true,
   useTicketIcons: true,
   ticketLink: {
-    fi: 'https://jojo.joensuu.fi/liput-ja-hinnat',
-    sv: 'https://jojo.joensuu.fi/web/jojo-english/tickets',
-    en: 'https://jojo.joensuu.fi/web/jojo-english/tickets',
+    fi: 'https://jojo.joensuu.fi/liput/',
+    sv: 'https://jojo.joensuu.fi/en/tickets/',
+    en: 'https://jojo.joensuu.fi/en/tickets/',
   },
   showTicketPrice: false,
   ticketLinkOperatorCode: 50207,
