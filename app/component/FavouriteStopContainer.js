@@ -2,16 +2,19 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
-import { stopShape, configShape } from '../util/shapes';
+import { stopShape } from '../util/shapes';
 import Favourite from './Favourite';
 import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { addMessage } from '../action/MessageActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { failedFavouriteMessage } from '../util/messageUtils';
+import { useConfigContext } from '../configurations/ConfigContext';
 
 function FavouriteStopContainerComponent(props, context) {
   const [isFetching, setIsFetching] = useState(false);
   const { stop, isTerminal } = props;
+  const config = useConfigContext();
+
   return (
     <Favourite
       {...props}
@@ -26,7 +29,7 @@ function FavouriteStopContainerComponent(props, context) {
           gid += `#${stop.code}`;
         }
 
-        getJson(context.config.URL.PELIAS_PLACE, {
+        getJson(config.URL.PELIAS_PLACE, {
           ids: gid,
           // lang: context.getStore('PreferencesStore').getLanguage(), TODO enable this when OTP supports translations
         })
@@ -85,18 +88,17 @@ FavouriteStopContainerComponent.defaultProps = {
 FavouriteStopContainerComponent.contextTypes = {
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
-  config: configShape.isRequired,
 };
 
 const FavouriteStopContainer = connectToStores(
   FavouriteStopContainerComponent,
-  ['FavouriteStore', 'UserStore', 'PreferencesStore'],
+  ['FavouriteStore'],
   (context, { stop, isTerminal }) => ({
     favourite: context
       .getStore('FavouriteStore')
       .isFavourite(stop.gtfsId, isTerminal ? 'station' : 'stop'),
     isFetching: context.getStore('FavouriteStore').getStatus() === 'fetching',
-    deleteFavourite: () => {
+    delFavourite: () => {
       const stopToDelete = context
         .getStore('FavouriteStore')
         .getByGtfsId(stop.gtfsId, isTerminal ? 'station' : 'stop');
@@ -109,18 +111,12 @@ const FavouriteStopContainer = connectToStores(
           .isFavourite(stop.gtfsId, isTerminal ? 'station' : 'stop'),
       });
     },
-    requireLoggedIn: !context.config.allowFavouritesFromLocalstorage,
-    isLoggedIn:
-      context.config.allowLogin &&
-      context.getStore('UserStore').getUser().sub !== undefined,
-    language: context.getStore('PreferencesStore').getLanguage(),
   }),
 );
 
 FavouriteStopContainer.contextTypes = {
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
-  config: configShape.isRequired,
 };
 
 export default FavouriteStopContainer;

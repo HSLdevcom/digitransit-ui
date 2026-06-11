@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 import some from 'lodash/some';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
-import { configShape, locationShape, userShape } from '../util/shapes';
+import { configShape, locationShape } from '../util/shapes';
 import {
   getHomeUrl,
   PREFIX_STOPS,
@@ -29,7 +29,6 @@ class TopLevel extends React.Component {
     meta: PropTypes.node,
     match: matchShape.isRequired,
     origin: locationShape,
-    user: userShape,
     router: routerShape.isRequired,
     selectFromMapHeader: PropTypes.node,
   };
@@ -47,7 +46,6 @@ class TopLevel extends React.Component {
     content: undefined,
     title: undefined,
     meta: undefined,
-    user: undefined,
     selectFromMapHeader: undefined,
   };
 
@@ -80,7 +78,7 @@ class TopLevel extends React.Component {
     const oldLocation = prevProps.match.location.pathname;
     const newLocation = this.props.match.location.pathname;
     if (oldLocation && newLocation && oldLocation !== newLocation) {
-      handleUserAnalytics(this.props.user, this.context.config);
+      handleUserAnalytics(this.context.config);
       addAnalyticsEvent({
         event: 'Pageview',
         url: newLocation,
@@ -211,11 +209,6 @@ class TopLevel extends React.Component {
   }
 }
 
-export default connectToStores(
-  TopLevel,
-  ['OriginStore', 'UserStore'],
-  ({ getStore }) => ({
-    origin: getStore('OriginStore').getOrigin(),
-    user: getStore('UserStore').getUser(),
-  }),
-);
+export default connectToStores(TopLevel, ['OriginStore'], ({ getStore }) => ({
+  origin: getStore('OriginStore').getOrigin(),
+}));

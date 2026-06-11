@@ -391,6 +391,7 @@ export default {
     'map-layer-vehicles': 'Vehicles',
     'map-zoom-in-button': 'Zoom in',
     'map-zoom-out-button': 'Zoom out',
+    maplayers: 'Map layers',
     'menu-feedback': 'Submit feedback',
     'messagebar-label-close-message-bar': 'Close banner',
     'min-transfer-time': 'Interchange time',
@@ -585,6 +586,9 @@ export default {
       'Find your favorite routes and travel according to your habits',
     'personalization-liked':
       'You will receive similar recommendations in the future.',
+    'personalization-login-description':
+      'You can enable personalized route recommendations when you are logged in.',
+    'personalization-login-title': 'Sign in to get recommendations',
     'personalization-modal-feedback': 'We learn from your feedback',
     'personalization-modal-feedback-details':
       'We use your feedback in itinerary recommendations. Tell us what you think about the recommendations and we will take your preferences into account in the future.',
@@ -593,6 +597,9 @@ export default {
     'personalization-modal-highlight-details':
       'We emphasize your favorite routes in personalization. So add the routes you use as favorites.',
     'personalization-modal-link': 'Add or edit your favorites',
+    'personalization-new-feature':
+      'Discover new personalized route recommendations in settings',
+    'personalization-new-header': 'Route recommendations enabled',
     'personalization-open-info': 'Read how recommendations work',
     'phone-number': 'Phone number',
     'pick-mode': 'Transport modes',

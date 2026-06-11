@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { matchShape } from 'found';
 import { useIntl } from 'react-intl';
-import { userShape, configShape } from '../util/shapes';
+import { useRouter } from 'found';
 import Icon from './Icon';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import MainMenuContainer from './MainMenuContainer';
@@ -10,12 +9,16 @@ import MessageBar from './MessageBar';
 import LogoSmall from './LogoSmall';
 import LoginButton from './LoginButton';
 import UserMenu from './UserMenu';
+import { useConfigContext } from '../configurations/ConfigContext';
 
 export default function AppBar(
-  { showLogo, title, homeUrl, logo, user, breakpoint, titleClicked },
-  { config, match, getStore },
+  { showLogo = false, title, homeUrl, logo, breakpoint, titleClicked },
+  { getStore },
 ) {
   const intl = useIntl();
+  const config = useConfigContext();
+  const { user } = config;
+  const { match } = useRouter();
   const { location } = match;
   const [menuOpen, setMenuOpen] = useState(
     window.sessionStorage.menuOpen === 'true',
@@ -110,29 +113,15 @@ export default function AppBar(
   );
 }
 
-AppBar.displayName = 'AppBar';
-
 AppBar.propTypes = {
   showLogo: PropTypes.bool,
   title: PropTypes.node,
   homeUrl: PropTypes.string,
   logo: PropTypes.string,
-  user: userShape,
   breakpoint: PropTypes.string,
   titleClicked: PropTypes.func.isRequired,
 };
 
-AppBar.defaultProps = {
-  showLogo: false,
-  title: undefined,
-  homeUrl: undefined,
-  logo: undefined,
-  user: undefined,
-  breakpoint: undefined,
-};
-
 AppBar.contextTypes = {
   getStore: PropTypes.func.isRequired,
-  config: configShape.isRequired,
-  match: matchShape.isRequired,
 };

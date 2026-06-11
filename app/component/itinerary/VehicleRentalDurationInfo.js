@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import React from 'react';
-import connectToStores from 'fluxible-addons-react/connectToStores';
+import { FormattedMessage } from 'react-intl';
 import { configShape } from '../../util/shapes';
 import Icon from '../Icon';
 import {
@@ -10,8 +9,9 @@ import {
   getRentalNetworkId,
 } from '../../util/vehicleRentalUtils';
 
-function VehicleRentalDurationInfo(props) {
-  const { networks, lang, config } = props;
+export default function VehicleRentalDurationInfo({ networks, config }) {
+  const lang = config.language;
+
   if (networks.length === 1) {
     const vehicleRentalStationNetwork = getRentalNetworkId(networks);
     const vehicleIcon = getRentalNetworkIcon(
@@ -56,19 +56,15 @@ function VehicleRentalDurationInfo(props) {
       </div>
     );
   }
-  const citybikeicon = getRentalNetworkIcon(
+
+  const citybikeIcon = getRentalNetworkIcon(
     getRentalNetworkConfig(networks[0], config),
   );
-  const durationInfoLinks = {};
-  for (let i = 0; i < networks.length; i++) {
-    durationInfoLinks[networks[i]] =
-      config.vehicleRental.networks[networks[i]].durationInstructions[lang];
-  }
 
   return (
     <div className="citybike-duration-infobox">
       <div className="left-column">
-        <Icon img={citybikeicon} width={2.2} height={2.2} />
+        <Icon img={citybikeIcon} width={2.2} height={2.2} />
       </div>
       <div className="right-column">
         <span>
@@ -78,26 +74,24 @@ function VehicleRentalDurationInfo(props) {
           />
         </span>
         <p>
-          {networks.map(value => {
-            return (
-              <>
-                <a
-                  href={
-                    config.vehicleRental.networks[value].durationInstructions[
-                      lang
-                    ]
-                  }
-                  key={value}
-                >
-                  {config.vehicleRental.networks[value].name[lang]}
-                  {' - '}
-                  <FormattedMessage id="read-more" defaultMessage="Read more" />
-                  ›
-                </a>
-                <br />
-              </>
-            );
-          })}
+          {networks.map(value => (
+            <React.Fragment key={value}>
+              <a
+                href={
+                  config.vehicleRental.networks[value].durationInstructions[
+                    lang
+                  ]
+                }
+                target="_blank"
+                rel="noreferrer"
+              >
+                {config.vehicleRental.networks[value].name[lang]}
+                {' - '}
+                <FormattedMessage id="read-more" defaultMessage="Read more" />›
+              </a>
+              <br />
+            </React.Fragment>
+          ))}
         </p>
       </div>
     </div>
@@ -106,18 +100,8 @@ function VehicleRentalDurationInfo(props) {
 
 VehicleRentalDurationInfo.propTypes = {
   networks: PropTypes.arrayOf(
+    // eslint-disable-next-line
     PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   ).isRequired,
-  lang: PropTypes.string.isRequired,
   config: configShape.isRequired,
 };
-
-const connectedComponent = connectToStores(
-  VehicleRentalDurationInfo,
-  ['UserStore', 'PreferencesStore'],
-  context => ({
-    lang: context.getStore('PreferencesStore').getLanguage(),
-  }),
-);
-
-export default connectedComponent;

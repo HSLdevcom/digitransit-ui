@@ -1,14 +1,10 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
-import { matchShape, routerShape } from 'found';
+import React, { useEffect, useRef } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
-import {
-  configShape,
-  locationStateShape,
-  locationShape,
-} from '../../util/shapes';
+import { useRouter } from 'found';
+import { locationStateShape, locationShape } from '../../util/shapes';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import {
   withSearchContext,
@@ -22,95 +18,79 @@ import {
 import { getIntermediatePlaces, locationToOTP } from '../../util/otpStrings';
 import { setViaPoints } from '../../action/ViaPointActions';
 import { getRefPoint } from '../../util/apiUtils';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 const DTAutosuggestPanelWithSearchContext =
   withSearchContext(DTAutosuggestPanel);
 
-class OriginDestinationBar extends React.Component {
-  static propTypes = {
-    origin: locationShape.isRequired,
-    destination: locationShape.isRequired,
-    language: PropTypes.string,
-    isMobile: PropTypes.bool,
-    showFavourites: PropTypes.bool.isRequired,
-    viaPoints: PropTypes.arrayOf(locationShape),
-    locationState: locationStateShape.isRequired,
-  };
+function OriginDestinationBar(
+  {
+    origin,
+    destination,
+    isMobile = false,
+    showFavourites,
+    viaPoints = [],
+    locationState,
+  },
+  context,
+) {
+  const config = useConfigContext();
+  const { match, router } = useRouter();
+  const mountedRef = useRef(false);
 
-  static contextTypes = {
-    intl: PropTypes.object.isRequired,
-    router: routerShape.isRequired,
-    getStore: PropTypes.func.isRequired,
-    executeAction: PropTypes.func.isRequired,
-    match: matchShape.isRequired,
-    config: configShape.isRequired,
-  };
+  useEffect(() => {
+    const initialViaPoints = getIntermediatePlaces(match.location.query);
+    context.executeAction(setViaPoints, initialViaPoints);
+    mountedRef.current = true;
 
-  static defaultProps = {
-    language: 'fi',
-    isMobile: false,
-    viaPoints: [],
-  };
+    return () => {
+      mountedRef.current = false;
+    };
+  }, [match.location.query, router]);
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  componentDidMount() {
-    const viaPoints = getIntermediatePlaces(this.context.match.location.query);
-    this.context.executeAction(setViaPoints, viaPoints);
-    this.mounted = true;
-  }
-
-  updateViaPoints = newViaPoints => {
-    // fixes the bug that DTPanel starts excecuting updateViaPoints before this component is even mounted
-    if (this.mounted) {
-      const p = newViaPoints.filter(vp => vp.lat && vp.address);
-      this.context.executeAction(setViaPoints, p);
-      setIntermediatePlaces(
-        this.context.router,
-        this.context.match,
-        p.map(locationToOTP),
-      );
+  const updateViaPoints = newViaPoints => {
+    // DTPanel can call this before the component has fully mounted.
+    if (!mountedRef.current) {
+      return;
     }
+
+    const points = newViaPoints.filter(vp => vp.lat && vp.address);
+    context.executeAction(setViaPoints, points);
+    setIntermediatePlaces(router, match, points.map(locationToOTP));
   };
 
-  swapEndpoints = () => {
-    const { location } = this.context.match;
+  const swapEndpoints = () => {
+    const { location } = match;
     const intermediatePlaces = getIntermediatePlaces(location.query);
+
     if (intermediatePlaces.length > 1) {
       location.query.intermediatePlaces.reverse();
     }
+
     updateItinerarySearch(
-      this.props.destination,
-      this.props.origin,
-      this.context.router,
+      destination,
+      origin,
+      router,
       location,
-      this.context.executeAction,
+      context.executeAction,
     );
   };
 
-  onLocationSelect = (item, id) => {
+  const onLocationSelect = (item, id) => {
     let action;
+
     if (id === parseInt(id, 10)) {
       // id = via point index
-      // item == { ...gtfsId: 'HSL:1000004' }
       action = 'EditJourneyViaPoint';
-      const points = [...this.props.viaPoints];
+      const points = [...viaPoints];
       points[id] = { ...item };
-      this.updateViaPoints(points);
+      updateViaPoints(points);
     } else {
       action =
         id === 'origin' ? 'EditJourneyStartPoint' : 'EditJourneyEndPoint';
-      onLocationPopup(
-        item,
-        id,
-        this.context.router,
-        this.context.match,
-        this.context.executeAction,
-      );
+      onLocationPopup(item, id, router, match, context.executeAction);
     }
+
     addAnalyticsEvent({
       action,
       category: 'ItinerarySettings',
@@ -118,62 +98,65 @@ class OriginDestinationBar extends React.Component {
     });
   };
 
-  render() {
-    const { props, context } = this;
-    const { config } = context;
-    const refPoint = getRefPoint(
-      props.origin,
-      props.destination,
-      props.locationState,
-    );
-    const filter = config.stopSearchFilter
-      ? results => results.filter(config.stopSearchFilter)
-      : undefined;
-    return (
-      <div
-        className={cx('origin-destination-bar', 'flex-horizontal', {
-          'bp-large': !props.isMobile,
-        })}
-      >
-        <DTAutosuggestPanelWithSearchContext
-          appElement="#app"
-          origin={props.origin}
-          destination={props.destination}
-          refPoint={refPoint}
-          originPlaceHolder="search-origin-index"
-          destinationPlaceHolder="search-destination-index"
-          viaPoints={props.viaPoints}
-          updateViaPoints={this.updateViaPoints}
-          addAnalyticsEvent={addAnalyticsEvent}
-          swapOrder={this.swapEndpoints}
-          selectHandler={this.onLocationSelect}
-          sources={[
-            'History',
-            'Datasource',
-            props.showFavourites ? 'Favourite' : '',
-          ]}
-          targets={getLocationSearchTargets(config, props.isMobile)}
-          lang={props.language}
-          disableAutoFocus={props.isMobile}
-          isMobile={props.isMobile}
-          itineraryParams={context.match.location.query}
-          colors={config.colors}
-          modeSet={config.iconModeSet}
-          onFocusChange={() => {}}
-          showSwapControl
-          showViapointControl={config.viaPointsEnabled}
-          filterResults={filter}
-        />
-      </div>
-    );
-  }
+  const refPoint = getRefPoint(origin, destination, locationState);
+
+  const filter = config.stopSearchFilter
+    ? results => results.filter(config.stopSearchFilter)
+    : undefined;
+
+  return (
+    <div
+      className={cx('origin-destination-bar', 'flex-horizontal', {
+        'bp-large': !isMobile,
+      })}
+    >
+      <DTAutosuggestPanelWithSearchContext
+        appElement="#app"
+        origin={origin}
+        destination={destination}
+        refPoint={refPoint}
+        originPlaceHolder="search-origin-index"
+        destinationPlaceHolder="search-destination-index"
+        viaPoints={viaPoints}
+        updateViaPoints={updateViaPoints}
+        addAnalyticsEvent={addAnalyticsEvent}
+        swapOrder={swapEndpoints}
+        selectHandler={onLocationSelect}
+        sources={['History', 'Datasource', showFavourites ? 'Favourite' : '']}
+        targets={getLocationSearchTargets(config, isMobile)}
+        lang={config.language}
+        disableAutoFocus={isMobile}
+        isMobile={isMobile}
+        itineraryParams={match.location.query}
+        colors={config.colors}
+        modeSet={config.iconModeSet}
+        onFocusChange={() => {}}
+        showSwapControl
+        showViapointControl={config.viaPointsEnabled}
+        filterResults={filter}
+      />
+    </div>
+  );
 }
+
+OriginDestinationBar.propTypes = {
+  origin: locationShape.isRequired,
+  destination: locationShape.isRequired,
+  isMobile: PropTypes.bool,
+  showFavourites: PropTypes.bool.isRequired,
+  viaPoints: PropTypes.arrayOf(locationShape),
+  locationState: locationStateShape.isRequired,
+};
+
+OriginDestinationBar.contextTypes = {
+  executeAction: PropTypes.func.isRequired,
+  getStore: PropTypes.func,
+};
 
 const connectedComponent = connectToStores(
   OriginDestinationBar,
-  ['PreferencesStore', 'FavouriteStore', 'ViaPointStore', 'PositionStore'],
+  ['FavouriteStore', 'ViaPointStore', 'PositionStore'],
   ({ getStore }) => ({
-    language: getStore('PreferencesStore').getLanguage(),
     showFavourites: getStore('FavouriteStore').getLocationCount() > 0,
     viaPoints: getStore('ViaPointStore').getViaPoints(),
     locationState: getStore('PositionStore').getLocationState(),

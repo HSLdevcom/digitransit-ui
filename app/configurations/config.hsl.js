@@ -123,6 +123,7 @@ export default {
   defaultSettings: {
     walkSpeed: 1.28,
     showBikeAndParkItineraries: true,
+    personalization: true, // user's own option
     transferPenalty: 180,
     includeTaxiSuggestions: true,
   },

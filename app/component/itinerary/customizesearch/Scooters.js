@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import NetworkSelector from './NetworkSelector';
@@ -9,7 +10,7 @@ import {
 import { TransportMode } from '../../../constants';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 
-export default function Scooters() {
+export default function Scooters({ updateSettings }) {
   const config = useConfigContext();
   const [showEScooterDisclaimer, setShowEScooterDisclaimer] = useState(
     !getReadMessageIds().includes('e_scooter_settings_disclaimer'),
@@ -38,7 +39,12 @@ export default function Scooters() {
           onClose={handleEScooterDisclaimerClose}
         />
       )}
-      <NetworkSelector type={TransportMode.Scooter} />
+      <NetworkSelector
+        type={TransportMode.Scooter}
+        updateSettings={updateSettings}
+      />
     </>
   );
 }
+
+Scooters.propTypes = { updateSettings: PropTypes.func.isRequired };

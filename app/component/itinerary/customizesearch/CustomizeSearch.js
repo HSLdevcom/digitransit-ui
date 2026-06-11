@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import React from 'react';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-import { settingsShape } from '../../../util/shapes';
+import React, { useState } from 'react';
 import Icon from '../../Icon';
 import StreetModeSelector from './StreetModeSelector';
 import TransportModes from './TransportModes';
@@ -20,17 +18,27 @@ import {
   useCitybikes,
   useScooters,
 } from '../../../util/modeUtils';
+import { getSettings } from '../../../util/planParamUtil';
+import {
+  getCustomizedSettings,
+  setCustomizedSettings,
+} from '../../../store/localStorage';
 import ScrollableWrapper from '../../ScrollableWrapper';
-import { getDefaultSettings } from '../../../util/planParamUtil';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 
-function CustomizeSearch({ onToggleClick, settings, mobile }) {
+export default function CustomizeSearch({ onToggleClick, mobile }) {
   const config = useConfigContext();
   const intl = useIntl();
-  const defaultSettings = getDefaultSettings(config);
+  const [settings, setSettings] = useState(getSettings(config));
 
-  // Merge default and customized settings
-  const currentSettings = { ...defaultSettings, ...settings };
+  const updateSettings = modifications => {
+    const storedSettings = getCustomizedSettings();
+    // store only values user has changed, defaults not included
+    setCustomizedSettings({ ...storedSettings, ...modifications });
+    // change state to trigger render
+    setSettings(getSettings(config));
+  };
+
   const backIcon = mobile ? (
     <Icon img="icon_arrow-collapse--left" />
   ) : (
@@ -68,46 +76,64 @@ function CustomizeSearch({ onToggleClick, settings, mobile }) {
       </div>
       <ScrollableWrapper>
         <div className="settings-section">
-          <WalkingOptions currentSettings={currentSettings} />
+          <WalkingOptions settings={settings} updateSettings={updateSettings} />
         </div>
         {config.personalization && (
           <div className="settings-section">
-            <Personalization currentSettings={currentSettings} />
+            <Personalization
+              settings={settings}
+              updateSettings={updateSettings}
+            />
           </div>
         )}
         <div className="settings-section">
-          {showModeSettings(config) && <TransportModes />}
+          {showModeSettings(config) && (
+            <TransportModes updateSettings={updateSettings} />
+          )}
           {config.minTransferTimeSelection && (
             <MinTransferTime
               minTransferTimeOptions={config.minTransferTimeSelection}
-              currentSettings={currentSettings}
+              settings={settings}
+              updateSettings={updateSettings}
             />
           )}
-          <TransferOptions currentSettings={currentSettings} />
+          <TransferOptions
+            settings={settings}
+            updateSettings={updateSettings}
+          />
         </div>
         {useCitybikes(config.vehicleRental?.networks, config) && (
           <div className="settings-section">
-            <CityBikes />
+            <CityBikes updateSettings={updateSettings} />
           </div>
         )}
         <div className="settings-section">
-          <StreetModeSelector currentSettings={currentSettings} />
+          <StreetModeSelector
+            settings={settings}
+            updateSettings={updateSettings}
+          />
         </div>
         <div className="settings-section">
-          <AccessibilityOptions currentSettings={currentSettings} />
+          <AccessibilityOptions
+            settings={settings}
+            updateSettings={updateSettings}
+          />
         </div>
         {useScooters(config) && (
           <div className="settings-section">
-            <Scooters />
+            <Scooters updateSettings={updateSettings} />
           </div>
         )}
         {config.flex.external.enabled &&
           config.transportModes.taxi.availableForSelection && (
             <div className="settings-section">
-              <TaxiOptions currentSettings={currentSettings} />
+              <TaxiOptions
+                settings={settings}
+                updateSettings={updateSettings}
+              />
             </div>
           )}
-        <RestoreDefaultSettings />
+        <RestoreDefaultSettings updateSettings={updateSettings} />
       </ScrollableWrapper>
     </div>
   );
@@ -115,18 +141,7 @@ function CustomizeSearch({ onToggleClick, settings, mobile }) {
 
 CustomizeSearch.propTypes = {
   onToggleClick: PropTypes.func.isRequired,
-  settings: settingsShape.isRequired,
   mobile: PropTypes.bool,
 };
 
 CustomizeSearch.defaultProps = { mobile: false };
-
-const withStore = connectToStores(
-  CustomizeSearch,
-  ['RoutingSettingsStore'],
-  context => ({
-    settings: context.getStore('RoutingSettingsStore').getRoutingSettings(),
-  }),
-);
-
-export { withStore as default, CustomizeSearch as component };

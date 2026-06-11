@@ -2,23 +2,20 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import SettingsToggle from './SettingsToggle';
-import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import Icon from '../../Icon';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { settingsShape } from '../../../util/shapes';
 
-const AccessibilityOptions = ({ currentSettings }, { executeAction }) => {
+export default function AccessibilityOptions({ settings, updateSettings }) {
   const onToggle = () => {
     addAnalyticsEvent({
       category: 'ItinerarySettings',
       action: `Settings${
-        currentSettings.accessibilityOption ? 'Disable' : 'Enable'
+        settings.accessibilityOption ? 'Disable' : 'Enable'
       }WheelChair`,
       name: null,
     });
-    executeAction(saveRoutingSettings, {
-      accessibilityOption: !currentSettings.accessibilityOption,
-    });
+    updateSettings({ accessibilityOption: !settings.accessibilityOption });
   };
 
   return (
@@ -31,19 +28,14 @@ const AccessibilityOptions = ({ currentSettings }, { executeAction }) => {
         labelId="accessibility-limited"
         labelStyle="mode-label"
         leftElement={<Icon img="icon_wheelchair" height={2} width={2} />}
-        toggled={!!currentSettings.accessibilityOption}
+        toggled={!!settings.accessibilityOption}
         onToggle={onToggle}
       />
     </>
   );
-};
+}
 
 AccessibilityOptions.propTypes = {
-  currentSettings: settingsShape.isRequired,
+  settings: settingsShape.isRequired,
+  updateSettings: PropTypes.func.isRequired,
 };
-
-AccessibilityOptions.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-};
-
-export default AccessibilityOptions;

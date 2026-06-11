@@ -1,63 +1,64 @@
 import PropTypes from 'prop-types';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { configShape } from '../util/shapes';
 import Favourite from './Favourite';
 import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-const FavouriteVehicleRentalStationContainer = connectToStores(
+const connectedComponent = connectToStores(
   Favourite,
-  ['FavouriteStore', 'UserStore', 'PreferencesStore'],
-  (context, { vehicleRentalStation }) => ({
-    favourite: context
-      .getStore('FavouriteStore')
-      .isFavourite(vehicleRentalStation.stationId, 'bikeStation'),
-    isFetching: context.getStore('FavouriteStore').getStatus() === 'fetching',
-    addFavourite: () => {
-      context.executeAction(saveFavourite, {
-        lat: vehicleRentalStation.lat,
-        lon: vehicleRentalStation.lon,
-        network: vehicleRentalStation.rentalNetwork.networkId,
-        name: vehicleRentalStation.name,
-        stationId: vehicleRentalStation.stationId,
-        type: 'bikeStation',
-      });
-      addAnalyticsEvent({
-        category: 'BikeRentalStation',
-        action: 'MarkBikeRentalStationAsFavourite',
-        name: !context
-          .getStore('FavouriteStore')
-          .isFavourite(vehicleRentalStation.stationId, 'bikeStation'),
-      });
-    },
-    deleteFavourite: () => {
-      const vehicleRentalStationToDelete = context
-        .getStore('FavouriteStore')
-        .getByStationIdAndNetworks(
-          vehicleRentalStation.stationId,
-          vehicleRentalStation.rentalNetwork.networkId,
-        );
-      context.executeAction(deleteFavourite, vehicleRentalStationToDelete);
-      addAnalyticsEvent({
-        category: 'BikeRentalStation',
-        action: 'MarkBikeRentalStationAsFavourite',
-        name: !context
-          .getStore('FavouriteStore')
-          .isFavourite(vehicleRentalStation.stationId, 'bikeStation'),
-      });
-    },
-    requireLoggedIn: !context.config.allowFavouritesFromLocalstorage,
-    isLoggedIn:
-      context.config.allowLogin &&
-      context.getStore('UserStore').getUser().sub !== undefined,
-    language: context.getStore('PreferencesStore').getLanguage(),
-  }),
+  ['FavouriteStore'],
+  (context, { vehicleRentalStation }) => {
+    const favouriteStore = context.getStore('FavouriteStore');
+
+    return {
+      favourite: favouriteStore.isFavourite(
+        vehicleRentalStation.stationId,
+        'bikeStation',
+      ),
+      isFetching: favouriteStore.getStatus() === 'fetching',
+      addFavourite: () => {
+        context.executeAction(saveFavourite, {
+          lat: vehicleRentalStation.lat,
+          lon: vehicleRentalStation.lon,
+          network: vehicleRentalStation.rentalNetwork.networkId,
+          name: vehicleRentalStation.name,
+          stationId: vehicleRentalStation.stationId,
+          type: 'bikeStation',
+        });
+
+        addAnalyticsEvent({
+          category: 'BikeRentalStation',
+          action: 'MarkBikeRentalStationAsFavourite',
+          name: !favouriteStore.isFavourite(
+            vehicleRentalStation.stationId,
+            'bikeStation',
+          ),
+        });
+      },
+      delFavourite: () => {
+        const vehicleRentalStationToDelete =
+          favouriteStore.getByStationIdAndNetworks(
+            vehicleRentalStation.stationId,
+            vehicleRentalStation.rentalNetwork.networkId,
+          );
+        context.executeAction(deleteFavourite, vehicleRentalStationToDelete);
+
+        addAnalyticsEvent({
+          category: 'BikeRentalStation',
+          action: 'MarkBikeRentalStationAsFavourite',
+          name: !favouriteStore.isFavourite(
+            vehicleRentalStation.stationId,
+            'bikeStation',
+          ),
+        });
+      },
+    };
+  },
 );
 
-FavouriteVehicleRentalStationContainer.contextTypes = {
+connectedComponent.contextTypes = {
   getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
-  config: configShape.isRequired,
 };
 
-export default FavouriteVehicleRentalStationContainer;
+export default connectedComponent;

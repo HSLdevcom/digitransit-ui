@@ -133,7 +133,7 @@ export default class FavouriteStore extends Store {
   clearFavourites() {
     clearFavouriteStorage();
     this.favourites = [];
-    this.storeFavourites();
+    setFavouriteStorage([]);
     this.emitChange();
   }
 

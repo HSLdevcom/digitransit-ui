@@ -381,6 +381,7 @@ export default {
     'map-layer-vehicles': 'Liikennevälineet',
     'map-zoom-in-button': 'Lähennä',
     'map-zoom-out-button': 'Loitonna',
+    maplayers: 'Karttatasot',
     'menu-feedback': 'Anna palautetta',
     'messagebar-label-close-message-bar': 'Sulje banneri',
     'min-transfer-time': 'Vaihtoaika',
@@ -573,6 +574,9 @@ export default {
     'personalization-info':
       'Löydä mieleiset reitit ja matkusta tottumustesi mukaan.',
     'personalization-liked': 'Saat jatkossa samankaltaisia suosituksia.',
+    'personalization-login-description':
+      'Voit ottaa yksilölliset reittisuositukset käyttöön, kun olet kirjautunut sisään.',
+    'personalization-login-title': 'Kirjaudu saadaksesi suosituksia',
     'personalization-modal-feedback': 'Opimme palautteestasi',
     'personalization-modal-feedback-details':
       'Hyödynnämme reittisuosituksissa palautettasi. Kerro mielipiteesi suosituksista, niin huomioimme mieltymyksesi jatkossa.',
@@ -581,6 +585,9 @@ export default {
     'personalization-modal-highlight-details':
       'Painotamme personoinnissa suosikkilinjojasi. Lisää siis käyttämäsi linjat suosikeiksi.',
     'personalization-modal-link': 'Lisää tai muokkaa suosikkejasi',
+    'personalization-new-feature':
+      'Tutustu uusiin yksilöllisiin reittisuosituksiin asetuksissa',
+    'personalization-new-header': 'Reittisuositukset käytössä',
     'personalization-open-info': 'Lue, miten suositukset toimivat',
     'phone-number': 'Puhelinnumero',
     'pick-mode': 'Liikennevälineet',
@@ -602,7 +609,7 @@ export default {
     realtime: 'Reaaliaika',
     releases: 'Tiedotteet',
     'remove-favourite': 'Poista suosikkivalinta',
-    'rent-cycle-at': 'Nouda Kaupunkipyörä: ',
+    'rent-cycle-at': 'Nouda kaupunkipyörä: ',
     'rent-e-scooter-at': 'Ota sähköpotkulauta käyttöön sovelluksella',
     'replacement-bus': 'Korvaava bussi',
     'replacement-bus-with-route-number': 'Korvaava bussi {routeNumber}',

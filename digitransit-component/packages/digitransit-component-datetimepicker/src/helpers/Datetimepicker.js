@@ -398,7 +398,6 @@ function Datetimepicker({
           </div>
         </div>
         <span className={isOpen ? '' : styles.hidden}>{embedWhenOpen}</span>
-        <div className={isOpen ? 'datetimepicker-bottom-row-open' : ''} />
       </>
     );
   }

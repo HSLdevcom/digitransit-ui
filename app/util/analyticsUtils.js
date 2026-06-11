@@ -208,11 +208,11 @@ export function initAnalyticsClientSide(config, cookies = new Cookies()) {
  * @param {object} user - user object
  * @param {object} config - configuration object
  */
-export function handleUserAnalytics(user, config) {
-  if (config.loginAnalyticsEventName && user?.sub) {
+export function handleUserAnalytics(config) {
+  if (config.loginAnalyticsEventName && config.user.sub) {
     addAnalyticsEvent({
       event: config.loginAnalyticsEventName,
-      [config.loginAnalyticsKey]: user.sub,
+      [config.loginAnalyticsKey]: config.user.sub,
     });
   }
 }

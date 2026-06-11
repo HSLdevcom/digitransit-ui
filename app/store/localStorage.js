@@ -84,77 +84,8 @@ export function getCustomizedSettings() {
   return settings;
 }
 
-const getNumberValueOrDefault = (value, defaultValue) =>
-  value !== undefined && value !== null ? Number(value) : defaultValue;
-
-const getValueOrDefault = (value, defaultValue) =>
-  value !== undefined ? value : defaultValue;
-
 export function setCustomizedSettings(data) {
-  // Get old settings and test if set values have changed
-  const oldSettings = getCustomizedSettings();
-
-  const newSettings = {
-    accessibilityOption: getValueOrDefault(
-      data.accessibilityOption,
-      oldSettings.accessibilityOption,
-    ),
-    bikeSpeed: getNumberValueOrDefault(data.bikeSpeed, oldSettings.bikeSpeed),
-    modes: getValueOrDefault(data.modes, oldSettings.modes),
-    ticketTypes: getValueOrDefault(data.ticketTypes, oldSettings.ticketTypes),
-    walkBoardCost: getNumberValueOrDefault(
-      data.walkBoardCost,
-      oldSettings.walkBoardCost,
-    ),
-    transferPenalty: getNumberValueOrDefault(
-      data.transferPenalty,
-      oldSettings.transferPenalty,
-    ),
-    walkReluctance: getNumberValueOrDefault(
-      data.walkReluctance,
-      oldSettings.walkReluctance,
-    ),
-    walkSpeed: getNumberValueOrDefault(data.walkSpeed, oldSettings.walkSpeed),
-    allowedBikeRentalNetworks: getValueOrDefault(
-      data.allowedBikeRentalNetworks,
-      oldSettings.allowedBikeRentalNetworks,
-    ),
-    scooterNetworks: getValueOrDefault(
-      data.scooterNetworks,
-      oldSettings.scooterNetworks,
-    ),
-    includeBikeSuggestions: getValueOrDefault(
-      data.includeBikeSuggestions,
-      oldSettings.includeBikeSuggestions,
-    ),
-    includeCarSuggestions: getValueOrDefault(
-      data.includeCarSuggestions,
-      oldSettings.includeCarSuggestions,
-    ),
-    includeParkAndRideSuggestions: getValueOrDefault(
-      data.includeParkAndRideSuggestions,
-      oldSettings.includeParkAndRideSuggestions,
-    ),
-    showBikeAndParkItineraries: getValueOrDefault(
-      data.showBikeAndParkItineraries,
-      oldSettings.showBikeAndParkItineraries,
-    ),
-    includeTaxiSuggestions: getValueOrDefault(
-      data.includeTaxiSuggestions,
-      oldSettings.includeTaxiSuggestions,
-    ),
-    transitGroupRelaxFunction: getValueOrDefault(
-      data.transitGroupRelaxFunction,
-      oldSettings.transitGroupRelaxFunction,
-    ),
-  };
-  if (newSettings.modes) {
-    // cleanup
-    newSettings.modes = newSettings.modes.filter(
-      mode => mode !== 'CITYBIKE' && mode !== 'SCOOTER',
-    );
-  }
-  setItem('customizedSettings', newSettings);
+  setItem('customizedSettings', data);
 }
 
 export function clearFavouriteStorage() {
@@ -207,14 +138,6 @@ export function getOldSearchesStorage() {
 export function setOldSearchesStorage(data) {
   setItem('saved-searches-updated-at', Math.round(Date.now() / 1000));
   setItem('saved-searches', data);
-}
-
-export function getSearchSettingsStorage() {
-  return getItemAsJson('customizedSettings', '{}');
-}
-
-export function setSearchSettingsStorage(data) {
-  setItem('customizedSettings', data);
 }
 
 export function setGeolocationState(state) {

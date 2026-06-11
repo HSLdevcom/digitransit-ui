@@ -32,7 +32,7 @@ describe('<Legs />', () => {
       openSettings: () => {},
     };
     const wrapper = shallowWithIntl(<Legs {...props} />, {
-      context,
+      config: context.config,
     });
 
     expect(wrapper.isEmptyRender()).to.equal(true);

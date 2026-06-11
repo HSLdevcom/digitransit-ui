@@ -316,19 +316,18 @@ describe('analytics utils', () => {
 describe('handleUserAnalytics', () => {
   const config = {
     loginAnalyticsEventName: 'testLoginEvent',
+    user: { sub: '123456' },
   };
-  const user = {
-    sub: '123456',
-  };
-  it('should call addAnalyticsEvent when user is defined', () => {
+  it('should call addAnaxlyticsEvent when user is defined', () => {
     window.dataLayer = [];
-    handleUserAnalytics(user, config);
+    handleUserAnalytics(config);
     expect(window.dataLayer.length).to.equal(1);
     expect(window.dataLayer[0].event).to.equal('testLoginEvent');
   });
   it('should not call addAnalyticsEvent when user is undefined', () => {
     window.dataLayer = [];
-    handleUserAnalytics(undefined, config);
+    config.user = {};
+    handleUserAnalytics(config);
     expect(window.dataLayer.length).to.equal(0);
   });
 });

@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { routerShape } from 'found';
 import AutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import FavouriteBar from '@digitransit-component/digitransit-component-favourite-bar';
 import FavouriteModal from '@digitransit-component/digitransit-component-favourite-modal';
 import FavouriteEditModal from '@digitransit-component/digitransit-component-favourite-editing-modal';
-import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
-import { configShape } from '../util/shapes';
+import { useIntl } from 'react-intl';
+import { favouriteShape } from '../util/shapes';
+import LoginPrompt from './LoginPrompt';
 import {
   withSearchContext,
   getLocationSearchTargets,
@@ -19,417 +19,289 @@ import {
 } from '../action/FavouriteActions';
 import FavouriteStore from '../store/FavouriteStore';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { useConfigContext } from '../configurations/ConfigContext';
 
 const AutoSuggestWithSearchContext = withSearchContext(AutoSuggest);
 
-const favouriteShape = PropTypes.shape({
-  type: PropTypes.string,
-  address: PropTypes.string,
-  gtfsId: PropTypes.string,
-  gid: PropTypes.string,
-  lat: PropTypes.number,
-  lon: PropTypes.number,
-  name: PropTypes.string,
-  selectedIconId: PropTypes.string,
-  favouriteId: PropTypes.string,
-  layer: PropTypes.string,
-});
+function FavouritesContainer({
+  favourites = [],
+  onClickFavourite,
+  isMobile = false,
+  favouriteStatus = FavouriteStore.STATUS_FETCHING,
+  saveFavouriteAction,
+  deleteFavouriteAction,
+  updateFavouritesAction,
+}) {
+  const intl = useIntl();
+  const config = useConfigContext();
+  const closeModalTimeoutRef = useRef(null);
 
-class FavouritesContainer extends React.Component {
-  static contextTypes = {
-    intl: PropTypes.object.isRequired,
-    executeAction: PropTypes.func.isRequired,
-    router: routerShape.isRequired,
-    config: configShape.isRequired,
-  };
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [addModalOpen, setAddModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [favourite, setFavourite] = useState(null);
 
-  static propTypes = {
-    favourites: PropTypes.arrayOf(favouriteShape),
-    onClickFavourite: PropTypes.func.isRequired,
-    lang: PropTypes.string,
-    isMobile: PropTypes.bool,
-    favouriteStatus: PropTypes.string,
-    favouriteModalAction: PropTypes.string,
-    requireLoggedIn: PropTypes.bool,
-    isLoggedIn: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    favourites: [],
-    isMobile: false,
-    favouriteStatus: FavouriteStore.STATUS_FETCHING,
-    requireLoggedIn: false,
-    isLoggedIn: false,
-    favouriteModalAction: undefined,
-    lang: undefined,
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      loginModalOpen: false,
-      modalAction: null,
-      addModalOpen: false,
-      editModalOpen: false,
-      favourite: null,
-    };
-  }
-
-  componentDidUpdate(prevProps) {
-    if (
-      this.context.config.requireLoggedIn &&
-      this.props.isLoggedIn &&
-      !prevProps.isLoggedIn
-    ) {
-      if (this.props.favouriteModalAction) {
-        switch (this.props.favouriteModalAction) {
-          case 'AddHome':
-            this.addHome();
-            break;
-          case 'AddWork':
-            this.addWork();
-            break;
-          case 'AddPlace':
-            this.addPlace();
-            break;
-          case 'Edit':
-            this.editPlace();
-            break;
-          default:
-            break;
-        }
+  useEffect(() => {
+    return () => {
+      if (closeModalTimeoutRef.current) {
+        clearTimeout(closeModalTimeoutRef.current);
       }
-    }
-  }
+    };
+  }, []);
 
-  setLocationProperties = item => {
-    this.setState(prevState => ({
-      favourite: {
-        ...item,
-        name: (prevState.favourite && prevState.favourite.name) || '',
-        defaultName: item.name || item.address,
-      },
+  const lang = config.language;
+  const { fontWeights } = config;
+
+  const enabled =
+    config.allowFavouritesFromLocalstorage || config.user?.sub !== undefined;
+
+  const isLoading =
+    favouriteStatus === FavouriteStore.STATUS_FETCHING_OR_UPDATING;
+
+  const favouritePlaces = enabled
+    ? favourites.filter(item => item.type === 'place')
+    : [];
+
+  const clearFavouriteAfterModalAnimation = () => {
+    if (closeModalTimeoutRef.current) {
+      clearTimeout(closeModalTimeoutRef.current);
+    }
+
+    closeModalTimeoutRef.current = setTimeout(() => {
+      setFavourite(null);
+    }, 250);
+  };
+
+  const setLocationProperties = item => {
+    setFavourite(previousFavourite => ({
+      ...item,
+      name: previousFavourite?.name || '',
+      defaultName: item.name || item.address,
     }));
   };
 
-  addHome = () => {
+  const addHome = () => {
     addAnalyticsEvent({
       event: 'add_favorite_press',
       favorite_type: 'place',
     });
-    this.setState({
-      addModalOpen: true,
-      favourite: {
-        name: this.context.intl.formatMessage({
-          id: 'location-home',
-          defaultMessage: 'Home',
-        }),
-        selectedIconId: 'icon-icon_home',
-      },
+
+    setAddModalOpen(true);
+    setFavourite({
+      name: intl.formatMessage({
+        id: 'location-home',
+        defaultMessage: 'Home',
+      }),
+      selectedIconId: 'icon-icon_home',
     });
   };
 
-  addWork = () => {
+  const addWork = () => {
     addAnalyticsEvent({
       event: 'add_favorite_press',
       favorite_type: 'place',
     });
-    this.setState({
-      addModalOpen: true,
-      favourite: {
-        name: this.context.intl.formatMessage({
-          id: 'location-work',
-          defaultMessage: 'Work',
-        }),
-        selectedIconId: 'icon-icon_work',
-      },
+
+    setAddModalOpen(true);
+    setFavourite({
+      name: intl.formatMessage({
+        id: 'location-work',
+        defaultMessage: 'Work',
+      }),
+      selectedIconId: 'icon-icon_work',
     });
   };
 
-  saveFavourite = favourite => {
+  const saveSelectedFavourite = favouriteToSave => {
     addAnalyticsEvent({
       category: 'Favourite',
       action: 'SaveFavourite',
       name: null,
     });
-    this.context.executeAction(saveFavourite, favourite);
+
+    saveFavouriteAction(favouriteToSave);
   };
 
-  deleteFavourite = favourite => {
+  const deleteSelectedFavourite = favouriteToDelete => {
     addAnalyticsEvent({
       category: 'Favourite',
       action: 'DeleteFavourite',
       name: null,
     });
-    this.context.executeAction(deleteFavourite, favourite);
+
+    deleteFavouriteAction(favouriteToDelete);
   };
 
-  updateFavourites = favourites => {
+  const updateFavouriteOrder = updatedFavouritePlaces => {
     addAnalyticsEvent({
       category: 'Favourite',
       action: 'UpdateFavourite',
       name: null,
     });
-    // Backend service requires all favourites for reordering to work
+
+    // Backend service requires all favourites for reordering to work.
     const reordered = [
-      ...favourites,
-      ...this.props.favourites.filter(item => item.type !== 'place'),
+      ...updatedFavouritePlaces,
+      ...favourites.filter(item => item.type !== 'place'),
     ];
-    this.context.executeAction(updateFavourites, reordered);
+
+    updateFavouritesAction(reordered);
   };
 
-  editFavourite = currentFavourite => {
+  const editSelectedFavourite = currentFavourite => {
     addAnalyticsEvent({
       category: 'Favourite',
       action: 'EditFavourite',
       name: null,
     });
-    this.setState({
-      favourite: currentFavourite,
-      editModalOpen: false,
-      addModalOpen: true,
-    });
+
+    setFavourite(currentFavourite);
+    setEditModalOpen(false);
+    setAddModalOpen(true);
   };
 
-  renderLoginModal = () => {
-    const login = this.context.intl.formatMessage({
-      id: 'login',
-      defaultMessage: 'Log in',
-    });
-    const cancel = this.context.intl.formatMessage({
-      id: 'cancel',
-      defaultMessage: 'cancel',
-    });
-    const headerText = this.context.intl.formatMessage({
-      id: 'login-header',
-      defautlMessage: 'Log in first',
-    });
-
-    const dialogContent = this.context.intl.formatMessage({
-      id: 'login-content',
-      defautlMessage: 'Log in first',
-    });
-    const loginUrl = this.state.modalAction
-      ? `/login?favouriteModalAction=${this.state.modalAction}`
-      : '/login';
-    return (
-      <DialogModal
-        appElement="#app"
-        headerText={headerText}
-        dialogContent={dialogContent}
-        handleClose={() => this.setState({ loginModalOpen: false })}
-        lang={this.props.lang}
-        isModalOpen={this.state.loginModalOpen}
-        primaryButtonText={login}
-        href={loginUrl}
-        primaryButtonOnClick={() => {
-          addAnalyticsEvent({
-            category: 'Favourite',
-            action: 'login',
-            name: null,
-          });
-
-          this.setState({
-            loginModalOpen: false,
-          });
-        }}
-        secondaryButtonText={cancel}
-        secondaryButtonOnClick={() => {
-          addAnalyticsEvent({
-            category: 'Favourite',
-            action: 'login cancelled',
-            name: null,
-          });
-          this.setState({
-            loginModalOpen: false,
-          });
-        }}
-        colors={this.context.config.colors}
-      />
-    );
-  };
-
-  addPlace = () => {
-    addAnalyticsEvent({
-      event: 'add_favorite_press',
-      favorite_type: 'place',
-    });
-
-    this.setState({
-      addModalOpen: true,
-    });
-  };
-
-  editPlace = () => {
-    addAnalyticsEvent({
-      category: 'Favourite',
-      action: 'EditPlace',
-      name: null,
-    });
-
-    this.setState({
-      editModalOpen: true,
-    });
-  };
-
-  closeModal = isAddModal => {
+  const closeModal = isAddModal => {
     if (isAddModal) {
       addAnalyticsEvent({
         category: 'Favourite',
         action: 'CloseAddModal',
         name: null,
       });
-      this.setState({
-        addModalOpen: false,
-      });
+
+      setAddModalOpen(false);
     } else {
       addAnalyticsEvent({
         category: 'Favourite',
         action: 'CloseEditModal',
         name: null,
       });
-      this.setState({
-        editModalOpen: false,
-        favourite: null,
-      });
+
+      setEditModalOpen(false);
+      setFavourite(null);
     }
-    // Modal close animation lasts 250ms
-    setTimeout(() => {
-      this.setState({ favourite: null });
-    }, 250);
+
+    clearFavouriteAfterModalAnimation();
   };
 
-  cancelSelected = () => {
+  const cancelSelected = () => {
     addAnalyticsEvent({
       category: 'Favourite',
       action: 'CancelUpdate',
       name: null,
     });
-    this.setState({
-      addModalOpen: false,
-      editModalOpen: true,
-    });
-    // Modal close animation lasts 250ms
-    setTimeout(() => {
-      this.setState({ favourite: null });
-    }, 250);
+
+    setAddModalOpen(false);
+    setEditModalOpen(true);
+
+    clearFavouriteAfterModalAnimation();
   };
 
-  render() {
-    const isLoading =
-      this.props.favouriteStatus === FavouriteStore.STATUS_FETCHING_OR_UPDATING;
-    const { requireLoggedIn, isLoggedIn } = this.props;
-    const { config } = this.context;
-    const { fontWeights } = config;
-    const favouritePlaces = this.props.favourites.filter(
-      item => item.type === 'place',
-    );
-    return (
-      <React.Fragment>
-        <FavouriteBar
-          favourites={favouritePlaces}
-          onClickFavourite={this.props.onClickFavourite}
-          onAddPlace={() =>
-            !requireLoggedIn || isLoggedIn
-              ? this.setState({ addModalOpen: true })
-              : this.setState({ loginModalOpen: true, modalAction: 'AddPlace' })
-          }
-          onEdit={() =>
-            !requireLoggedIn || isLoggedIn
-              ? this.setState({ editModalOpen: true })
-              : this.setState({ loginModalOpen: true, modalAction: 'Edit' })
-          }
-          onAddHome={() =>
-            !requireLoggedIn || isLoggedIn
-              ? this.addHome()
-              : this.setState({ loginModalOpen: true, modalAction: 'AddHome' })
-          }
-          onAddWork={() =>
-            !requireLoggedIn || isLoggedIn
-              ? this.addWork()
-              : this.setState({ loginModalOpen: true, modalAction: 'AddWork' })
-          }
-          lang={this.props.lang}
-          isLoading={isLoading}
-          colors={config.colors}
-          fontWeights={fontWeights}
-        />
-        <FavouriteModal
-          appElement="#app"
-          isModalOpen={this.state.addModalOpen}
-          handleClose={() => this.closeModal(true)}
-          saveFavourite={this.saveFavourite}
-          cancelSelected={this.cancelSelected}
-          favourite={this.state.favourite}
-          lang={this.props.lang}
-          isMobile={this.props.isMobile}
-          fontWeights={fontWeights}
-          colors={config.colors}
-          autosuggestComponent={
-            <AutoSuggestWithSearchContext
-              appElement="#app"
-              sources={['History', 'Datasource']}
-              targets={getLocationSearchTargets(config, true)}
-              id="favourite"
-              icon="search"
-              placeholder="search-address-or-place"
-              value={
-                (this.state.favourite && this.state.favourite.address) || ''
-              }
-              selectHandler={this.setLocationProperties}
-              getAutoSuggestIcons={config.getAutoSuggestIcons}
-              lang={this.props.lang}
-              isMobile={this.props.isMobile}
-              fontWeights={fontWeights}
-              required
-              colors={config.colors}
-              modeSet={config.iconModeSet}
-              favouriteContext
-            />
-          }
-        />
-        <FavouriteEditModal
-          appElement="#app"
-          isModalOpen={this.state.editModalOpen}
-          favourites={favouritePlaces}
-          updateFavourites={this.updateFavourites}
-          handleClose={() => this.closeModal(false)}
-          saveFavourite={this.saveFavourite}
-          deleteFavourite={this.deleteFavourite}
-          onEditSelected={this.editFavourite}
-          lang={this.props.lang}
-          isMobile={this.props.isMobile}
-          isLoading={isLoading}
-          colors={config.colors}
-          fontWeights={fontWeights}
-        />
-        {this.renderLoginModal()}
-      </React.Fragment>
-    );
-  }
+  return (
+    <>
+      <FavouriteBar
+        favourites={favouritePlaces}
+        onClickFavourite={onClickFavourite}
+        onAddPlace={() =>
+          enabled ? setAddModalOpen(true) : setLoginModalOpen(true)
+        }
+        onEdit={() =>
+          enabled ? setEditModalOpen(true) : setLoginModalOpen(true)
+        }
+        onAddHome={() => (enabled ? addHome() : setLoginModalOpen(true))}
+        onAddWork={() => (enabled ? addWork() : setLoginModalOpen(true))}
+        lang={lang}
+        isLoading={isLoading}
+        colors={config.colors}
+        fontWeights={fontWeights}
+      />
+
+      <FavouriteModal
+        appElement="#app"
+        isModalOpen={addModalOpen}
+        handleClose={() => closeModal(true)}
+        saveFavourite={saveSelectedFavourite}
+        cancelSelected={cancelSelected}
+        favourite={favourite}
+        lang={lang}
+        isMobile={isMobile}
+        fontWeights={fontWeights}
+        colors={config.colors}
+        autosuggestComponent={
+          <AutoSuggestWithSearchContext
+            appElement="#app"
+            sources={['History', 'Datasource']}
+            targets={getLocationSearchTargets(config, true)}
+            id="favourite"
+            icon="search"
+            placeholder="search-address-or-place"
+            value={favourite?.address || ''}
+            selectHandler={setLocationProperties}
+            getAutoSuggestIcons={config.getAutoSuggestIcons}
+            lang={lang}
+            isMobile={isMobile}
+            fontWeights={fontWeights}
+            required
+            colors={config.colors}
+            modeSet={config.iconModeSet}
+            favouriteContext
+          />
+        }
+      />
+
+      <FavouriteEditModal
+        appElement="#app"
+        isModalOpen={editModalOpen}
+        favourites={favouritePlaces}
+        updateFavourites={updateFavouriteOrder}
+        handleClose={() => closeModal(false)}
+        saveFavourite={saveSelectedFavourite}
+        deleteFavourite={deleteSelectedFavourite}
+        onEditSelected={editSelectedFavourite}
+        lang={lang}
+        isMobile={isMobile}
+        isLoading={isLoading}
+        colors={config.colors}
+        fontWeights={fontWeights}
+      />
+
+      <LoginPrompt
+        open={loginModalOpen}
+        onClose={() => setLoginModalOpen(false)}
+      />
+    </>
+  );
 }
+
+FavouritesContainer.propTypes = {
+  favourites: PropTypes.arrayOf(favouriteShape),
+  onClickFavourite: PropTypes.func.isRequired,
+  isMobile: PropTypes.bool,
+  favouriteStatus: PropTypes.string,
+  saveFavouriteAction: PropTypes.func.isRequired,
+  deleteFavouriteAction: PropTypes.func.isRequired,
+  updateFavouritesAction: PropTypes.func.isRequired,
+};
 
 const connectedComponent = connectToStores(
   FavouritesContainer,
-  ['FavouriteStore', 'UserStore'],
-  context => ({
-    favourites:
-      !context.config.allowLogin ||
-      context.config.allowFavouritesFromLocalstorage ||
-      context.getStore('UserStore').getUser().sub !== undefined
-        ? context.getStore('FavouriteStore').getFavourites()
-        : [],
-    favouriteStatus: context.getStore('FavouriteStore').getStatus(),
-    requireLoggedIn: !context.config.allowFavouritesFromLocalstorage,
-    isLoggedIn:
-      context.config.allowLogin &&
-      context.getStore('UserStore').getUser().sub !== undefined,
-  }),
-);
+  ['FavouriteStore'],
+  context => {
+    const favouriteStore = context.getStore('FavouriteStore');
 
-connectedComponent.contextTypes = {
-  getStore: PropTypes.func.isRequired,
-  config: configShape.isRequired,
-};
+    return {
+      favourites: favouriteStore.getFavourites(),
+      favouriteStatus: favouriteStore.getStatus(),
+      saveFavouriteAction: favourite =>
+        context.executeAction(saveFavourite, favourite),
+      deleteFavouriteAction: favourite =>
+        context.executeAction(deleteFavourite, favourite),
+      updateFavouritesAction: favouritesToUpdate =>
+        context.executeAction(updateFavourites, favouritesToUpdate),
+    };
+  },
+  {
+    executeAction: PropTypes.func.isRequired,
+  },
+);
 
 export { connectedComponent as default, FavouritesContainer as Component };

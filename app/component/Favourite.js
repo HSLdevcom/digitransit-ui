@@ -2,160 +2,82 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
-import { matchShape } from 'found';
+import LoginPrompt from './LoginPrompt';
 import Icon from './Icon';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { useConfigContext } from '../configurations/ConfigContext';
 
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-export default function Favourite(
-  {
-    addFavourite,
-    deleteFavourite,
-    favourite,
-    isFetching = false,
-    className,
-    requireLoggedIn,
-    isLoggedIn,
-    language,
-  },
-  context,
-) {
+export default function Favourite({
+  addFavourite,
+  delFavourite,
+  favourite = false,
+  isFetching = false,
+}) {
+  const config = useConfigContext();
   const intl = useIntl();
   const [disable, handleDisable] = useState(false);
-  const [showLoginModal, setLoginModalVisibility] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const enabled =
+    config.allowFavouritesFromLocalstorage || config.user.sub !== undefined;
 
   useEffect(() => {
     handleDisable(isFetching);
   }, [isFetching]);
 
-  let isModalClosed = false;
-
-  const renderLoginModal = () => {
-    const { match } = context;
-    const { location } = match;
-    const url = encodeURI(`${location.pathname}${location.search}`);
-
-    return (
-      <DialogModal
-        appElement="#app"
-        headerText={intl.formatMessage({
-          id: 'login-header',
-          defautlMessage: 'Log in first',
-        })}
-        dialogContent={intl.formatMessage({
-          id: 'login-content',
-          defautlMessage: 'Log in first',
-        })}
-        handleClose={() => {
-          isModalClosed = true;
-          setLoginModalVisibility(false);
-          addAnalyticsEvent({
-            category: 'Favourite',
-            action: 'login cancelled',
-            name: null,
-          });
-        }}
-        lang={language}
-        isModalOpen={showLoginModal}
-        primaryButtonText={intl.formatMessage({
-          id: 'login',
-          defaultMessage: 'Log in',
-        })}
-        href={`/login?url=${url}`}
-        primaryButtonOnClick={() => {
-          setLoginModalVisibility(false);
-          addAnalyticsEvent({
-            category: 'Favourite',
-            action: 'login',
-            name: null,
-          });
-        }}
-        secondaryButtonText={intl.formatMessage({
-          id: 'cancel',
-          defaultMessage: 'cancel',
-        })}
-        secondaryButtonOnClick={() => {
-          isModalClosed = true;
-          setLoginModalVisibility(false);
-          addAnalyticsEvent({
-            category: 'Favourite',
-            action: 'login cancelled',
-            name: null,
-          });
-        }}
-      />
-    );
-  };
-
   const onClick = () => {
-    if (!requireLoggedIn || isLoggedIn) {
+    if (enabled) {
       if (!disable) {
         handleDisable(true);
         if (favourite) {
-          deleteFavourite();
+          delFavourite();
         } else {
           addFavourite();
         }
       }
     } else {
-      setLoginModalVisibility(!isModalClosed);
+      setLoginModalOpen(true);
     }
   };
 
   return (
-    <button
-      type="button"
-      className={cx('cursor-pointer favourite-icon', className)}
-      onClick={onClick}
-      aria-label={
-        favourite && (!requireLoggedIn || isLoggedIn)
-          ? intl.formatMessage({
-              id: 'remove-favourite',
-              defautlMessage: 'Remove favourite selection',
-            })
-          : intl.formatMessage({
-              id: 'add-to-favourites',
-              defautlMessage: 'Set favourite',
-            })
-      }
-    >
-      <Icon
-        className={cx('favourite', {
-          selected: favourite && (!requireLoggedIn || isLoggedIn),
-        })}
-        img={
-          favourite && (!requireLoggedIn || isLoggedIn)
-            ? 'icon_star-with-circle'
-            : 'icon_star-unselected'
+    <>
+      <button
+        type="button"
+        className="cursor-pointer favourite-icon"
+        onClick={onClick}
+        aria-label={
+          favourite && enabled
+            ? intl.formatMessage({
+                id: 'remove-favourite',
+                defautlMessage: 'Remove favourite selection',
+              })
+            : intl.formatMessage({
+                id: 'add-to-favourites',
+                defautlMessage: 'Set favourite',
+              })
         }
+      >
+        <Icon
+          className={cx('favourite', {
+            selected: favourite && enabled,
+          })}
+          img={
+            favourite && enabled
+              ? 'icon_star-with-circle'
+              : 'icon_star-unselected'
+          }
+        />
+      </button>
+      <LoginPrompt
+        open={loginModalOpen}
+        onClose={() => setLoginModalOpen(false)}
       />
-      {renderLoginModal()}
-    </button>
+    </>
   );
 }
 
-Favourite.contextTypes = {
-  match: matchShape.isRequired,
-};
-
 Favourite.propTypes = {
   addFavourite: PropTypes.func.isRequired,
-  deleteFavourite: PropTypes.func.isRequired,
+  delFavourite: PropTypes.func.isRequired,
   favourite: PropTypes.bool,
   isFetching: PropTypes.bool,
-  className: PropTypes.string,
-  requireLoggedIn: PropTypes.bool.isRequired,
-  isLoggedIn: PropTypes.bool,
-  language: PropTypes.string,
 };
-
-Favourite.defaultProps = {
-  favourite: false,
-  isFetching: false,
-  className: undefined,
-  isLoggedIn: false,
-  language: undefined,
-};
-
-Favourite.displayName = 'Favourite';

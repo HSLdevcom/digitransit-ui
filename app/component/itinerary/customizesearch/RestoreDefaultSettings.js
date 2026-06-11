@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import {
   getDefaultSettings,
   hasCustomizedSettings,
@@ -12,8 +11,7 @@ import Icon from '../../Icon';
 import Snackbar from '../../Snackbar';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 
-// eslint-disable-next-line
-const RestoreDefaultSettings = ({}, { executeAction }) => {
+export default function RestoreDefaultSettings({ updateSettings }) {
   const config = useConfigContext();
   const intl = useIntl();
   const [showSnackbar, setShowSnackbar] = useState(null);
@@ -70,10 +68,10 @@ const RestoreDefaultSettings = ({}, { executeAction }) => {
       }),
       {},
     );
-    if (personalization) {
-      restoredSettings.personalization = true;
-    }
-    executeAction(saveRoutingSettings, restoredSettings);
+    // keep personalization state
+    restoredSettings.personalization = personalization;
+
+    updateSettings(restoredSettings);
     setShowSnackbar(true);
     setSnackBarLiveRegionMessage(
       intl.formatMessage({
@@ -149,10 +147,8 @@ const RestoreDefaultSettings = ({}, { executeAction }) => {
       )}
     </div>
   );
-};
+}
 
-RestoreDefaultSettings.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
+RestoreDefaultSettings.propTypes = {
+  updateSettings: PropTypes.func.isRequired,
 };
-
-export default RestoreDefaultSettings;

@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import SearchSettingsDropdown, { valueShape } from './SearchSettingsDropdown';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { findNearestOption } from '../../../util/planParamUtil';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 
-export default function BikingSpeed({ bikeSpeed }, { executeAction }) {
+export default function BikingSpeed({ bikeSpeed, updateSettings }) {
   const config = useConfigContext();
 
   const options = config.defaultOptions.bikeSpeed.map(item => ({
@@ -27,7 +26,7 @@ export default function BikingSpeed({ bikeSpeed }, { executeAction }) {
       name="bike-speed-selector"
       currentSelection={currentSelection}
       onOptionSelected={value => {
-        executeAction(saveRoutingSettings, {
+        updateSettings({
           bikeSpeed: value,
         });
         addAnalyticsEvent({
@@ -43,5 +42,7 @@ export default function BikingSpeed({ bikeSpeed }, { executeAction }) {
   );
 }
 
-BikingSpeed.propTypes = { bikeSpeed: valueShape.isRequired };
-BikingSpeed.contextTypes = { executeAction: PropTypes.func.isRequired };
+BikingSpeed.propTypes = {
+  bikeSpeed: valueShape.isRequired,
+  updateSettings: PropTypes.func.isRequired,
+};

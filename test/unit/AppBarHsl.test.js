@@ -15,12 +15,13 @@ describe('<AppBarHsl />', () => {
             pathname: '/',
           },
         },
-        config: {
-          allowLogin: false,
-          URL: {
-            ROOTLINK: 'http://www.foo.com',
-          },
+      },
+      config: {
+        allowLogin: false,
+        URL: {
+          ROOTLINK: 'http://www.foo.com',
         },
+        user: {},
       },
     });
     expect(wrapper.isEmptyRender()).to.equal(false);
@@ -37,6 +38,13 @@ describe('<AppBarHsl />', () => {
             pathname: '/',
           },
         },
+      },
+      config: {
+        allowLogin: false,
+        URL: {
+          ROOTLINK: 'http://www.foo.com',
+        },
+        user: {},
       },
     });
     expect(wrapper.name()).to.equal('ForwardRef');

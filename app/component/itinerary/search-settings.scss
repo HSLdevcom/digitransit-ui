@@ -1,17 +1,7 @@
 .searchsettings-container {
   display: block;
   background-color: $white;
-  margin: 0 60px;
-
-  .datetimepicker-container {
-    margin: 9px 9px 9px 0;
-
-    .datetimepicker-top-row {
-      @media (max-width: 500px) {
-        margin: 0 0 0 7px;
-      }
-    }
-  }
+  margin: 0 68px 0 60px;
 
   .bottom-row {
     margin-top: 0.3em;
@@ -208,8 +198,18 @@
   width: 100%;
 
   .open-embed {
-    margin: 12px 0 8px auto;
+    margin: 0 0 8px auto;
   }
+}
+
+.open-advanced-settings-window-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px;
+  border-radius: 999px;
+  background: #fff;
+  position: relative;
+  z-index: 1004;
 }
 
 .right-offcanvas-toggle {
@@ -232,14 +232,6 @@
   align-items: center;
   line-height: 1;
   min-width: 110px;
-
-  > div {
-    padding: 0;
-
-    > div {
-      display: flex;
-    }
-  }
 
   .icon-holder {
     display: inline;

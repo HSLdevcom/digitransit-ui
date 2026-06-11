@@ -1,19 +1,24 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { matchShape, routerShape } from 'found';
+import { useRouter } from 'found';
 import { FormattedMessage } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import withBreakpoint from '../util/withBreakpoint';
-import { favouriteShape, userShape } from '../util/shapes';
+import { favouriteShape } from '../util/shapes';
 import AppBar from './AppBar';
 import AppBarHsl from './AppBarHsl';
 import CrisisBannerHsl from './CrisisBannerHsl';
 import MessageBar from './MessageBar';
 
-const AppBarContainer = (
-  { homeUrl, logo, user, favourites, style, lang, breakpoint, ...args },
-  { match, router },
-) => {
+const AppBarContainer = ({
+  homeUrl,
+  logo,
+  favourites,
+  style,
+  breakpoint,
+  ...args
+}) => {
+  const { match, router } = useRouter();
   return (
     <>
       <a
@@ -29,7 +34,7 @@ const AppBarContainer = (
       {style === 'hsl' ? (
         <div className="hsl-header-container" style={{ display: 'block' }}>
           <CrisisBannerHsl />
-          <AppBarHsl user={user} lang={lang} favourites={favourites} />
+          <AppBarHsl favourites={favourites} />
           <MessageBar breakpoint={breakpoint} />
         </div>
       ) : (
@@ -38,7 +43,6 @@ const AppBarContainer = (
           showLogo
           logo={logo}
           homeUrl={homeUrl}
-          user={user}
           breakpoint={breakpoint}
           titleClicked={() =>
             router.push({
@@ -59,36 +63,20 @@ const AppBarContainer = (
   );
 };
 
-AppBarContainer.contextTypes = {
-  match: matchShape.isRequired,
-  router: routerShape.isRequired,
-};
-
 AppBarContainer.propTypes = {
   homeUrl: PropTypes.string.isRequired,
   logo: PropTypes.string,
-  user: userShape,
   favourites: PropTypes.arrayOf(favouriteShape),
   style: PropTypes.string.isRequired,
-  lang: PropTypes.string,
   breakpoint: PropTypes.string.isRequired,
-};
-
-AppBarContainer.defaultProps = {
-  logo: undefined,
-  user: undefined,
-  favourites: [],
-  lang: undefined,
 };
 
 const AppBarContainerWithBreakpoint = withBreakpoint(AppBarContainer);
 
 const WithContext = connectToStores(
   AppBarContainerWithBreakpoint,
-  ['FavouriteStore', 'UserStore', 'PreferencesStore'],
+  ['FavouriteStore'],
   context => ({
-    user: context.getStore('UserStore').getUser(),
-    lang: context.getStore('PreferencesStore').getLanguage(),
     favourites: context.getStore('FavouriteStore').getFavourites(),
   }),
 );

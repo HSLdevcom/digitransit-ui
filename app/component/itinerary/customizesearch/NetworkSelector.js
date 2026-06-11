@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '../../Icon';
 import SettingsToggle from './SettingsToggle';
-import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import {
   mapDefaultNetworkProperties,
   getRentalNetworkName,
@@ -14,7 +13,7 @@ import {
 import { TransportMode } from '../../../constants';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 
-export default function NetworkSelector({ type }, { executeAction }) {
+export default function NetworkSelector({ type, updateSettings }) {
   const config = useConfigContext();
   const networks = mapDefaultNetworkProperties(config).filter(
     network => network.type === type.toLowerCase(),
@@ -58,7 +57,7 @@ export default function NetworkSelector({ type }, { executeAction }) {
               type === TransportMode.Scooter
                 ? { scooterNetworks: newNetworks }
                 : { allowedBikeRentalNetworks: newNetworks };
-            executeAction(saveRoutingSettings, newSettings);
+            updateSettings(newSettings);
           }}
           borderStyle={network === last ? '' : 'bottom-border'}
         />
@@ -69,8 +68,5 @@ export default function NetworkSelector({ type }, { executeAction }) {
 
 NetworkSelector.propTypes = {
   type: PropTypes.string.isRequired,
-};
-
-NetworkSelector.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
+  updateSettings: PropTypes.func.isRequired,
 };

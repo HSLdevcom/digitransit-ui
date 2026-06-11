@@ -12,11 +12,7 @@ import TimeStore from './store/TimeStore';
 import MapLayerStore from './store/MapLayerStore';
 import GeoJsonStore from './store/GeoJsonStore';
 import ViaPointStore from './store/ViaPointStore';
-import UserStore from './store/UserStore';
 import FavouriteStore from './store/FavouriteStore';
-import RoutingSettingsStore from './store/RoutingSettingsStore';
-import FutureRouteStore from './store/FutureRouteStore';
-import CountryStore from './store/CountryStore';
 
 export default config => {
   const app = new Fluxible({
@@ -34,11 +30,7 @@ export default config => {
   app.registerStore(MapLayerStore);
   app.registerStore(GeoJsonStore);
   app.registerStore(ViaPointStore);
-  app.registerStore(UserStore);
   app.registerStore(FavouriteStore);
-  app.registerStore(RoutingSettingsStore);
-  app.registerStore(FutureRouteStore);
-  app.registerStore(CountryStore);
 
   app.plug({
     name: 'extra-context-plugin',

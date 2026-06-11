@@ -1,39 +1,68 @@
+.popover-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  animation: fadeInOverlay 1s forwards;
+}
+
+.popover-overlay.fade-away {
+  animation: fadeAwayOverlay 1s forwards;
+}
+
+.popover-highlight {
+  position: fixed;
+  border-radius: 999px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+  pointer-events: none;
+  animation: fadeInHighlight 1s forwards;
+}
+
+.popover-highlight.fade-away {
+  animation: fadeAwayHighlight 1s forwards;
+}
+
+.popover-layer {
+  position: fixed;
+  z-index: 1002;
+  pointer-events: none;
+  overflow: visible;
+}
+
 .mobile {
   .popover {
-    right: 0;
-
-    &::before {
-      right: 64px;
+    .popover-close-button {
+      margin-left: auto;
     }
   }
 }
 
 .popover {
   display: flex;
-  position: absolute;
-  top: 160%;
-  right: -50px;
+  position: relative;
+  pointer-events: auto;
   border-radius: 16px;
   background: #fff;
-  border: 1px solid #ddd;
+  border: 1px solid $light-gray;
   box-shadow: 0 4px 4px 0 var(--color-shadow-weak, rgba(0, 52, 86, 0.25));
-  padding: var(--space-s, 16px) !important;
+  padding: 10px !important;
   gap: 10px;
   align-items: flex-start;
-  min-width: 220px;
+  max-width: 280px;
+  box-sizing: border-box;
   z-index: 2000;
   animation: fadeInSlidePopover 1s forwards;
 
-  // Popover arrow
   &::before {
     content: '';
+    position: absolute;
+    top: -13px;
+    right: 50px;
     width: 24px;
     height: 24px;
-    position: absolute;
-    right: 113px;
-    top: -13px;
-    transform: translateX(-50%) rotate(45deg);
-    z-index: 2500;
+    transform: rotate(45deg);
+    z-index: 1;
     border: 1px solid #ddd;
     border-bottom: none;
     border-right: none;
@@ -50,57 +79,72 @@
     }
   }
 
+  .icon-area {
+    min-width: 6px;
+  }
+
   .popover-content {
     display: flex;
     flex-direction: column;
-    gap: 10px;
     align-items: flex-start;
     align-self: stretch;
+    padding-top: 4px;
 
-    .popover-message-content {
-      display: inline-flex;
-      align-items: center;
-      align-self: stretch;
+    .message {
+      display: flex;
+      font-size: $font-size-small;
+      letter-spacing: -0.5px;
+      text-align: left;
 
       span {
-        display: inline-flex;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 325;
-        line-height: 18px;
-        letter-spacing: -0.5px;
-        color: #000;
-        width: max-content;
+        display: block;
+        color: $black;
+        text-align: left;
+        font-weight: $font-weight-book;
       }
 
-      .popover-close-button {
-        width: 24px;
-        height: 24px;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        border-radius: 999px;
-        margin-left: 20px;
-
-        .icon {
-          width: 16px;
-          height: 16px;
-          color: $theme-primary-color;
+      .popover-header {
+        span {
+          display: block;
+          color: $black;
+          text-align: left;
+          font-weight: $font-weight-medium;
         }
+
+        margin-bottom: 6px;
       }
     }
+  }
 
-    .popover-acknowledge-button {
-      display: flex;
-      height: 28px;
-      min-width: 60px;
-      padding: 0 var(--space-m, 24px);
-      justify-content: center;
-      align-items: center;
-      border-radius: 999px;
-      border: 1px solid #888;
-      background: #fff;
+  .popover-close-button {
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 999px;
+    flex-shrink: 0;
+
+    .icon {
+      width: 16px;
+      height: 16px;
+      color: $theme-primary-color;
     }
+  }
+
+  .popover-acknowledge-button {
+    display: flex;
+    height: 28px;
+    min-width: 80px;
+    margin-top: 12px;
+    padding: 0 12px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid $control-border-color;
+    background: #fff;
+    font-weight: $font-weight-book;
+    color: $theme-primary-color;
+    white-space: nowrap;
   }
 
   .icon-container {
@@ -113,7 +157,6 @@
         color: $attention-color;
         width: 16px;
         height: 16px;
-        flex-shrink: 0;
       }
     }
   }
@@ -144,5 +187,45 @@
   to {
     opacity: 0;
     transform: translateY(-20%);
+  }
+}
+
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeAwayOverlay {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInHighlight {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeAwayHighlight {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
   }
 }

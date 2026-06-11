@@ -105,6 +105,10 @@ class MapLayerStore extends Store {
         ...this.mapLayers.stop,
         ...mapLayers.stop,
       },
+      geoJson: {
+        ...this.mapLayers.geoJson,
+        ...mapLayers.geoJson,
+      },
     };
     setMapLayerSettings({ ...this.mapLayers });
     this.emitChange();

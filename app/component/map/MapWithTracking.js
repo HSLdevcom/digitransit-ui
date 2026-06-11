@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { memo } from 'react';
-import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
@@ -8,11 +7,10 @@ import isEmpty from 'lodash/isEmpty';
 import { mapLayerOptionsShape, configShape } from '../../util/shapes';
 import { startLocationWatch } from '../../action/PositionActions';
 import MapContainer from './MapContainer';
-import ToggleMapTracking from './ToggleMapTracking';
+import MapControlButton from './MapControlButton';
 import PositionStore from '../../store/PositionStore';
 import { mapLayerShape } from '../../store/MapLayerStore';
-import BubbleDialog from '../BubbleDialog';
-import MapLayersDialogContent from '../MapLayersDialogContent';
+import MapLayersDialogContent from './MapLayersDialogContent';
 import MenuDrawer from '../MenuDrawer';
 import withBreakpoint from '../../util/withBreakpoint';
 
@@ -201,8 +199,8 @@ class MapWithTrackingStateHandler extends React.Component {
     this.navigated = true;
   };
 
-  setSettingsOpen = value => {
-    this.setState({ settingsOpen: value });
+  setSettingsOpen = () => {
+    this.setState(prevState => ({ settingsOpen: !prevState.settingsOpen }));
   };
 
   getMapLayers = () => {
@@ -250,10 +248,7 @@ class MapWithTrackingStateHandler extends React.Component {
     } = this.props;
     const { config } = this.context;
 
-    let btnClassName = 'map-with-tracking-buttons';
-    if (config.map.showZoomControl) {
-      btnClassName = cx(btnClassName, 'roomForZoomControl');
-    }
+    const btnClassName = 'map-with-tracking-buttons';
     // eslint-disable-next-line no-underscore-dangle
     const currentZoom = this.mapElement?.leafletElement?._zoom || zoom || 16;
 
@@ -338,23 +333,17 @@ class MapWithTrackingStateHandler extends React.Component {
           bottomButtons={
             <div className={btnClassName}>
               {config.map.showLayerSelector && (
-                <BubbleDialog
-                  contentClassName="select-map-layers-dialog-content"
-                  header="select-map-layers-header"
-                  icon="map-layers"
-                  id="mapLayerSelectorV2"
-                  isFullscreenOnMobile
-                  isOpen={this.state.settingsOpen}
-                  tooltip={
-                    config.mapLayers &&
-                    config.mapLayers.tooltip &&
-                    config.mapLayers.tooltip[config.language]
-                  }
-                  setOpen={this.setSettingsOpen}
+                <MapControlButton
+                  img="icon_map-layers"
+                  handleClick={this.setSettingsOpen}
+                  color={config.colors.primary}
+                  ariaLabel={this.context.intl.formatMessage({
+                    id: 'maplayers',
+                  })}
                 />
               )}
               {renderCustomButtons && renderCustomButtons()}
-              <ToggleMapTracking
+              <MapControlButton
                 img={img}
                 color={color}
                 ariaLabel={ariaLabel}
@@ -376,12 +365,11 @@ class MapWithTrackingStateHandler extends React.Component {
         {config.map.showLayerSelector && (
           <MenuDrawer
             open={this.state.settingsOpen}
-            onRequestChange={() => this.setSettingsOpen(false)}
+            onRequestChange={this.setSettingsOpen}
             className="offcanvas-layers"
             breakpoint={this.props.breakpoint}
           >
             <MapLayersDialogContent
-              open={this.state.settingsOpen}
               setOpen={this.setSettingsOpen}
               mapLayerOptions={mapLayerOptions}
               mapLayers={mergedMapLayers}
@@ -389,7 +377,7 @@ class MapWithTrackingStateHandler extends React.Component {
             <button
               type="button"
               className="desktop-button"
-              onClick={() => this.setSettingsOpen(false)}
+              onClick={this.setSettingsOpen}
             >
               {this.context.intl.formatMessage({
                 id: 'close',

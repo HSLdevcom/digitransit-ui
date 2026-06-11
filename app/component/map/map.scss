@@ -314,22 +314,15 @@ div.leaflet-marker-icon.vehicle-icon {
   & > * {
     z-index: index($zindex, map-buttons);
   }
-
-  & > *:not(:first-child) {
-    margin-left: 0.5em;
-  }
-
-  &.roomForZoomControl {
-    margin-left: 48px;
-  }
 }
 
-.toggle-positioning-container {
+.map-control-button {
   background-color: $white;
-  padding: 6px;
+  padding: 4px 6px;
+  margin-top: 8px;
   border-radius: 5px;
-  line-height: 0.5;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  font-size: 24px;
 }
 
 .cookie-settings-button {
@@ -442,10 +435,6 @@ div.leaflet-marker-icon.vehicle-icon {
       border-bottom: 1px solid #ddd;
     }
   }
-}
-
-.icon-mapMarker-toggle-positioning {
-  font-size: 24px;
 }
 
 .vehicle-popup {

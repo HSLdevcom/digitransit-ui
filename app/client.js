@@ -35,9 +35,9 @@ import {
   addAnalyticsEvent,
   handleUserAnalytics,
 } from './util/analyticsUtils';
+import { getCountries } from './store/localStorage';
 import { configureCountry } from './util/configureCountry';
 import { getUser } from './util/apiUtils';
-import setUser from './action/userActions';
 import {
   fetchFavourites,
   fetchFavouritesComplete,
@@ -70,8 +70,7 @@ const getParams = query => {
 async function init() {
   // Get additional feedIds and searchParams from localstorage
   if (config.mainMenu.countrySelection) {
-    const selectedCountries = context.getStore('CountryStore').getCountries();
-    configureCountry(config, selectedCountries);
+    configureCountry(config, getCountries());
   }
 
   // For Google Tag Manager
@@ -183,14 +182,12 @@ async function init() {
   if (config.allowLogin) {
     getUser()
       .then(user => {
-        context.executeAction(setUser, {
-          ...user,
-        });
-        handleUserAnalytics(user, config);
+        config.user = user || {};
+        handleUserAnalytics(config);
         context.executeAction(fetchFavourites);
       })
       .catch(() => {
-        context.executeAction(setUser, { notLogged: true });
+        config.user = { notLogged: true };
         context.executeAction(fetchFavouritesComplete);
       });
   }

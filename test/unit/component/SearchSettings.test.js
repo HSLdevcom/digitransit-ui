@@ -28,9 +28,10 @@ describe('<SearchSettings />', () => {
       context: {
         router: mockRouter,
         match: mockMatch,
-        config: defaultConfig,
         getStore: mockContext.getStore,
+        config: defaultConfig,
       },
+      config: defaultConfig,
       childContextTypes: { ...mockChildContextTypes },
     });
 

@@ -26,6 +26,12 @@ describe('<AppBar />', () => {
             },
           },
         },
+        config: {
+          textLogo: false,
+          mainMenu: {
+            show: true,
+          },
+        },
       },
     );
 
@@ -51,6 +57,12 @@ describe('<AppBar />', () => {
             },
           },
         },
+        config: {
+          textLogo: true,
+          mainMenu: {
+            show: true,
+          },
+        },
       },
     );
 
@@ -62,16 +74,16 @@ describe('<AppBar />', () => {
       <AppBar titleClicked={() => {}} logo="/" homeUrl="/" />,
       {
         context: {
-          config: {
-            textLogo: false,
-            mainMenu: {
-              show: true,
-            },
-          },
           match: {
             location: {
               pathname: '/',
             },
+          },
+        },
+        config: {
+          textLogo: false,
+          mainMenu: {
+            show: true,
           },
         },
       },

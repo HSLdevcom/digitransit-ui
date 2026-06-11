@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { connectToStores } from 'fluxible-addons-react';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
-function NationalServiceLink({ currentLanguage, nationalServiceLink }) {
-  if (!nationalServiceLink) {
+export default function NationalServiceLink({ nationalServiceLink }) {
+  const config = useConfigContext();
+  const link = nationalServiceLink?.[config.language];
+
+  if (!link) {
     return null;
   }
-
-  const { href, name } = nationalServiceLink[currentLanguage];
 
   return (
     <div>
@@ -16,8 +17,13 @@ function NationalServiceLink({ currentLanguage, nationalServiceLink }) {
         id="use-national-service-prefix"
         defaultMessage="You can also try the national service available at"
       />
-      <a className="no-decoration" href={href} target="_blank" rel="noreferrer">
-        {name}
+      <a
+        className="no-decoration"
+        href={link.href}
+        target="_blank"
+        rel="noreferrer"
+      >
+        {link.name}
       </a>
       <FormattedMessage id="use-national-service-postfix" defaultMessage="" />
     </div>
@@ -25,7 +31,6 @@ function NationalServiceLink({ currentLanguage, nationalServiceLink }) {
 }
 
 NationalServiceLink.propTypes = {
-  currentLanguage: PropTypes.string.isRequired,
   nationalServiceLink: PropTypes.objectOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -33,19 +38,3 @@ NationalServiceLink.propTypes = {
     }),
   ),
 };
-
-NationalServiceLink.defaultProps = {
-  nationalServiceLink: null,
-};
-
-NationalServiceLink.displayName = 'NationalServiceLink';
-
-const connectedComponent = connectToStores(
-  NationalServiceLink,
-  ['PreferencesStore'],
-  context => ({
-    currentLanguage: context.getStore('PreferencesStore').getLanguage(),
-  }),
-);
-
-export { connectedComponent as default, NationalServiceLink as Component };

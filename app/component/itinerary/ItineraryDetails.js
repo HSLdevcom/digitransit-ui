@@ -162,7 +162,7 @@ function ItineraryDetails({
       const network = leg.from.vehicleRentalStation?.rentalNetwork.networkId;
       if (
         config.vehicleRental.networks[network]?.timeBeforeSurcharge &&
-        config.vehicleRental.networks[network]?.durationInstructions
+        config.vehicleRental.networks[network].durationInstructions
       ) {
         const rentDurationOverSurchargeLimit =
           leg.duration >

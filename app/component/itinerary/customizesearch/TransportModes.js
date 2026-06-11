@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import SettingsToggle from './SettingsToggle';
 import Icon from '../../Icon';
 import {
@@ -12,8 +11,7 @@ import {
 import { getModeIconColor } from '../../../util/colorUtils';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 
-// eslint-disable-next-line
-export default function TransportModes({}, { executeAction }) {
+export default function TransportModes({ updateSettings }) {
   const config = useConfigContext();
   const alternativeNames = config.useAlternativeNameForModes || [];
   const transitModes = getTransitModes(config);
@@ -46,9 +44,7 @@ export default function TransportModes({}, { executeAction }) {
             }
             toggled={selectedModes.includes(mode)}
             onToggle={() =>
-              executeAction(saveRoutingSettings, {
-                modes: toggleTransportMode(mode, config),
-              })
+              updateSettings({ modes: toggleTransportMode(mode, config) })
             }
             borderStyle="bottom-border"
           />
@@ -58,6 +54,6 @@ export default function TransportModes({}, { executeAction }) {
   );
 }
 
-TransportModes.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
+TransportModes.propTypes = {
+  updateSettings: PropTypes.func.isRequired,
 };

@@ -20,7 +20,6 @@ import {
 } from './storeUtils';
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
-import { saveFutureRoute } from '../action/FutureRoutesActions';
 import { useCitybikes } from './modeUtils';
 import { getDefaultNetworks } from './vehicleRentalUtils';
 
@@ -67,6 +66,5 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.saveSearch = saveSearch;
   searchContext.clearOldSearches = clearOldSearches;
   searchContext.getFutureRoutes = getFutureRoutes;
-  searchContext.saveFutureRoute = saveFutureRoute;
   searchContext.clearFutureRoutes = clearFutureRoutes;
 }

@@ -2,23 +2,23 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import GeoJsonStore from '../../store/GeoJsonStore';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 /**
- * Adds geojson map layers to the leafletObjs props of the given component. The component should be a component that renders the leaflet map.
+ * Adds geojson map layers to the props of the given component.
+ * The component should be a component that renders the leaflet map.
  *
  * @param {*} Component The component to extend
  */
-function withGeojsonObjects(Component) {
-  function GeojsonWrapper(
-    { getGeoJsonConfig, getGeoJsonData, leafletObjs, ...props },
-    { config },
-  ) {
+export default function withGeojsonObjects(Component) {
+  function GeojsonWrapper({ getGeoJsonConfig, getGeoJsonData, ...props }) {
+    const config = useConfigContext();
     const [geoJson, updateGeoJson] = useState(null);
 
     useEffect(() => {
       let isMounted = true;
 
-      async function fetch() {
+      async function fetchGeoJson() {
         if (
           !config.geoJson ||
           (!Array.isArray(config.geoJson.layers) &&
@@ -26,9 +26,11 @@ function withGeojsonObjects(Component) {
         ) {
           return;
         }
+
         const layers = config.geoJson.layerConfigUrl
           ? await getGeoJsonConfig(config.geoJson.layerConfigUrl)
           : config.geoJson.layers;
+
         if (Array.isArray(layers) && layers.length > 0) {
           const json = await Promise.all(
             layers.map(async ({ url, name, isOffByDefault, metadata }) => ({
@@ -37,49 +39,33 @@ function withGeojsonObjects(Component) {
               data: await getGeoJsonData(url, name, metadata),
             })),
           );
+
           const newGeoJson = {};
           json.forEach(({ url, data, isOffByDefault }) => {
             if (data) {
               newGeoJson[url] = { ...data, isOffByDefault };
             }
           });
+
           if (isMounted) {
             updateGeoJson(newGeoJson);
           }
         }
       }
-      fetch();
+
+      fetchGeoJson();
+
       return () => {
         isMounted = false;
       };
     }, []);
-    // adding geoJson to leafletObj moved to map
-    return <Component leafletObjs={leafletObjs} {...props} geoJson={geoJson} />;
-  }
 
-  const configShape = PropTypes.shape({
-    geoJson: PropTypes.shape({
-      layers: PropTypes.arrayOf(
-        PropTypes.shape({
-          url: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-        }),
-      ),
-      layerConfigUrl: PropTypes.string,
-    }),
-  });
+    return <Component {...props} geoJson={geoJson} />;
+  }
 
   GeojsonWrapper.propTypes = {
     getGeoJsonConfig: PropTypes.func.isRequired,
     getGeoJsonData: PropTypes.func.isRequired,
-    leafletObjs: PropTypes.arrayOf(PropTypes.node),
-  };
-
-  GeojsonWrapper.defaultProps = {
-    leafletObjs: [],
-  };
-
-  GeojsonWrapper.contextTypes = {
-    config: configShape.isRequired,
   };
 
   return connectToStores(GeojsonWrapper, [GeoJsonStore], ({ getStore }) => {
@@ -87,5 +73,3 @@ function withGeojsonObjects(Component) {
     return { getGeoJsonConfig, getGeoJsonData };
   });
 }
-
-export default withGeojsonObjects;

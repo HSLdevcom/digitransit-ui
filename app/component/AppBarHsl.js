@@ -1,28 +1,31 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
-import { matchShape } from 'found';
+import { useRouter } from 'found';
 import { Helmet } from 'react-helmet';
 import { SiteHeader, UserMenu, QuickSearch } from '@hsl-fi/site-header';
-import { favouriteShape, configShape } from '../util/shapes';
+import { favouriteShape } from '../util/shapes';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
+import { useConfigContext } from '../configurations/ConfigContext';
 
 const clearStorages = context => {
   clearOldSearches(context);
-  clearFutureRoutes(context);
+  clearFutureRoutes();
   context.getStore('FavouriteStore').clearFavourites();
 };
 
 const notificationAPI = '/api/user/notifications';
 
-const AppBarHsl = ({ lang, user, favourites }, context) => {
-  const { config, match } = context;
+const AppBarHsl = ({ favourites = [] }, context) => {
+  const config = useConfigContext();
+  const { user, language } = config;
+  const { match } = useRouter();
   const { location } = match;
 
   const notificationApiUrls = {
-    get: `${notificationAPI}?language=${lang}`,
-    post: `${notificationAPI}?language=${lang}`,
+    get: `${notificationAPI}?language=${language}`,
+    post: `${notificationAPI}?language=${language}`,
   };
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -83,7 +86,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
     fetchNotifications();
     const interval = setInterval(fetchNotifications, 60000);
     return () => clearInterval(interval);
-  }, [user.sub, lang]);
+  }, [user.sub]);
 
   useEffect(() => {
     if (!searchQuery || !config.URL.HSL_FI_SUGGESTIONS) {
@@ -98,7 +101,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
       getJson(
         `${
           config.URL.HSL_FI_SUGGESTIONS
-        }?language=${lang}&take=5&query=${encodeURIComponent(searchQuery)}`,
+        }?language=${language}&take=5&query=${encodeURIComponent(searchQuery)}`,
       )
         .then(data => {
           const hits = (data?.hits || []).map(h => ({
@@ -120,7 +123,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [searchQuery, lang]);
+  }, [searchQuery]);
 
   useEffect(() => {
     if (config.URL.FONTCOUNTER && process.env.NODE_ENV === 'production') {
@@ -150,12 +153,12 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
     ? { href: config.URL.TRAVELERS_ACCOUNT }
     : undefined;
   const myStopsAndRoutesLink = config.favouriteLink
-    ? { href: config.favouriteLink[lang] || config.favouriteLink.fi }
+    ? { href: config.favouriteLink[language] || config.favouriteLink.fi }
     : undefined;
   const userMenu =
     config.allowLogin && (user.sub || user.notLogged) ? (
       <UserMenu
-        lang={lang}
+        lang={language}
         loading={false}
         authenticated={!!user.sub}
         loginLink={{ href: `/login?url=${url}&${params}` }}
@@ -169,14 +172,14 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
 
   const search = config.URL.HSL_FI_SUGGESTIONS ? (
     <QuickSearch
-      searchPageLink={{ href: `${config.URL.ROOTLINK}/${lang}/haku` }}
+      searchPageLink={{ href: `${config.URL.ROOTLINK}/${language}/haku` }}
       loading={searchLoading}
       error={searchError}
       query={searchQuery}
       onQueryChange={e => setSearchQuery(e.target.value)}
       hitsCount={searchHitsCount}
       hits={searchHits}
-      lang={lang}
+      lang={language}
     />
   ) : null;
 
@@ -199,7 +202,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
             id="CookieConsent"
             src="https://policy.app.cookieinformation.com/uc.js"
             data-gcm-version="2.0"
-            data-culture={lang.toUpperCase()}
+            data-culture={language.toUpperCase()}
             type="text/javascript"
           />
         </Helmet>
@@ -208,7 +211,7 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
         <SiteHeader
           baseUrl={config.URL.ROOTLINK}
           staticAssetsUrl={config.URL.STATIC_ASSETS}
-          lang={lang}
+          lang={language}
           userMenu={userMenu}
           langMenu={languages}
           search={search}
@@ -219,26 +222,11 @@ const AppBarHsl = ({ lang, user, favourites }, context) => {
 };
 
 AppBarHsl.contextTypes = {
-  match: matchShape.isRequired,
-  config: configShape.isRequired,
   getStore: PropTypes.func.isRequired,
 };
 
 AppBarHsl.propTypes = {
-  lang: PropTypes.string,
-  user: PropTypes.shape({
-    given_name: PropTypes.string,
-    family_name: PropTypes.string,
-    sub: PropTypes.string,
-    notLogged: PropTypes.bool,
-  }),
   favourites: PropTypes.arrayOf(favouriteShape),
-};
-
-AppBarHsl.defaultProps = {
-  lang: 'fi',
-  user: {},
-  favourites: [],
 };
 
 export { AppBarHsl as default, AppBarHsl as Component };

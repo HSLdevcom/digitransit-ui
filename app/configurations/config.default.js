@@ -887,4 +887,5 @@ export default {
   },
   personalization: false,
   showNewRoutePage: IS_DEV,
+  user: {},
 };

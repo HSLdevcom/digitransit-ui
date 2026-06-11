@@ -5,13 +5,13 @@ import Toggle from '../../Toggle';
 
 export default function SettingsToggle({
   id,
-  label,
+  label = '',
   labelId,
-  labelStyle,
+  labelStyle = '',
   toggled,
   onToggle,
   leftElement, // e.g. icon
-  borderStyle,
+  borderStyle = '',
 }) {
   return (
     <label htmlFor={id} className={`toggle-container ${borderStyle}`}>
@@ -36,12 +36,4 @@ SettingsToggle.propTypes = {
   onToggle: PropTypes.func.isRequired,
   leftElement: PropTypes.node,
   borderStyle: PropTypes.string,
-};
-
-SettingsToggle.defaultProps = {
-  leftElement: undefined,
-  label: '',
-  labelId: undefined,
-  labelStyle: '',
-  borderStyle: '',
 };

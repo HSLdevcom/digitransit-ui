@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import React from 'react';
-import { saveRoutingSettings } from '../../../action/SearchSettingsActions';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import SearchSettingsDropdown from './SearchSettingsDropdown';
 import SettingsToggle from './SettingsToggle';
@@ -22,7 +21,7 @@ const title = [
   'option-most',
 ];
 
-export default function WalkingOptions({ currentSettings }, { executeAction }) {
+export default function WalkingOptions({ settings, updateSettings }) {
   const { defaultOptions, defaultSettings } = useConfigContext();
   const intl = useIntl();
 
@@ -33,18 +32,18 @@ export default function WalkingOptions({ currentSettings }, { executeAction }) {
   }));
 
   const currentWalkSelection =
-    options.find(option => option.value === currentSettings.walkSpeed) ||
+    options.find(option => option.value === settings.walkSpeed) ||
     options.find(
       option =>
         option.value ===
-        findNearestOption(currentSettings.walkSpeed, defaultOptions.walkSpeed),
+        findNearestOption(settings.walkSpeed, defaultOptions.walkSpeed),
     );
   const onToggle = () => {
     const newValue =
-      currentSettings.walkReluctance !== defaultOptions.highWalkReluctance
+      settings.walkReluctance !== defaultOptions.highWalkReluctance
         ? defaultOptions.highWalkReluctance
         : defaultSettings.walkReluctance;
-    executeAction(saveRoutingSettings, { walkReluctance: newValue });
+    updateSettings({ walkReluctance: newValue });
     addAnalyticsEvent({
       category: 'ItinerarySettings',
       action: 'ChangeAmountOfWalking',
@@ -58,7 +57,7 @@ export default function WalkingOptions({ currentSettings }, { executeAction }) {
       <SearchSettingsDropdown
         currentSelection={currentWalkSelection}
         onOptionSelected={value => {
-          executeAction(saveRoutingSettings, {
+          updateSettings({
             walkSpeed: value,
           });
           addAnalyticsEvent({
@@ -74,9 +73,7 @@ export default function WalkingOptions({ currentSettings }, { executeAction }) {
       <SettingsToggle
         id="settings-toggle-avoid-walking"
         labelId="avoid-walking"
-        toggled={
-          currentSettings.walkReluctance === defaultOptions.highWalkReluctance
-        }
+        toggled={settings.walkReluctance === defaultOptions.highWalkReluctance}
         onToggle={onToggle}
         borderStyle="top-border"
       />
@@ -85,9 +82,6 @@ export default function WalkingOptions({ currentSettings }, { executeAction }) {
 }
 
 WalkingOptions.propTypes = {
-  currentSettings: settingsShape.isRequired,
-};
-
-WalkingOptions.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
+  settings: settingsShape.isRequired,
+  updateSettings: PropTypes.func.isRequired,
 };

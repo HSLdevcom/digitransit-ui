@@ -1,53 +1,38 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import cx from 'classnames';
-import { configShape } from '../../util/shapes';
-
-import RightOffcanvasToggle from './RightOffcanvasToggle';
+import SettingsButton from './SettingsButton';
 import DatetimepickerContainer from '../DatetimepickerContainer';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
-class SearchSettings extends React.Component {
-  static propTypes = {
-    toggleSettings: PropTypes.func.isRequired,
-  };
-  /* eslint-enable react/no-unused-prop-types */
+export default function SearchSettings({ toggleSettings }) {
+  const config = useConfigContext();
 
-  static contextTypes = {
-    config: configShape.isRequired,
-  };
-
-  state = {};
-
-  render() {
-    const { toggleSettings } = this.props;
-
-    return (
-      <div className={cx(['searchsettings-container'])}>
-        <div className="datetimepicker-container">
-          <DatetimepickerContainer
-            realtime={false}
-            embedWhenClosed={
-              !this.context.config.hideItinerarySettings && (
-                <div className="open-advanced-settings">
-                  <RightOffcanvasToggle onToggleClick={toggleSettings} />
-                </div>
-              )
-            }
-            embedWhenOpen={
-              <div className="open-embed-container">
-                <div className="open-advanced-settings open-embed">
-                  {!this.context.config.hideItinerarySettings && (
-                    <RightOffcanvasToggle onToggleClick={toggleSettings} />
-                  )}
-                </div>
-              </div>
-            }
-            color={this.context.config.colors.primary}
-          />
-        </div>
-      </div>
-    );
-  }
+  return (
+    <div className="searchsettings-container">
+      <DatetimepickerContainer
+        realtime={false}
+        embedWhenClosed={
+          !config.hideItinerarySettings && (
+            <div className="open-advanced-settings">
+              <SettingsButton onToggleClick={toggleSettings} />
+            </div>
+          )
+        }
+        embedWhenOpen={
+          <div className="open-embed-container">
+            <div className="open-advanced-settings open-embed">
+              {!config.hideItinerarySettings && (
+                <SettingsButton onToggleClick={toggleSettings} />
+              )}
+            </div>
+          </div>
+        }
+        color={config.colors.primary}
+      />
+    </div>
+  );
 }
 
-export default SearchSettings;
+SearchSettings.propTypes = {
+  toggleSettings: PropTypes.func.isRequired,
+};
