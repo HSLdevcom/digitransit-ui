@@ -154,29 +154,29 @@ export default function Disruption({
                     {items.map(({ gtfsId, shortName, name, locationType }) => {
                       const isStation = locationType === LocationTypes.STATION;
                       return (
-                        <span
+                        <a
                           key={gtfsId}
                           className={cx('mode-badge', mode.toLowerCase())}
-                        >
-                          <a
-                            href={
+                          href={
+                            isStop
+                              ? stopPagePath(isStation, gtfsId)
+                              : routePagePath(gtfsId)
+                          }
+                          onClick={e => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onClickLink?.();
+                            match.router.push(
                               isStop
                                 ? stopPagePath(isStation, gtfsId)
-                                : routePagePath(gtfsId)
-                            }
-                            onClick={e => {
-                              e.preventDefault();
-                              onClickLink?.();
-                              match.router.push(
-                                isStop
-                                  ? stopPagePath(isStation, gtfsId)
-                                  : routePagePath(gtfsId),
-                              );
-                            }}
-                          >
+                                : routePagePath(gtfsId),
+                            );
+                          }}
+                        >
+                          <div>
                             <span>{isStop ? name : shortName}</span>
-                          </a>
-                        </span>
+                          </div>
+                        </a>
                       );
                     })}
                   </Fragment>
