@@ -13,6 +13,7 @@ export default function DisruptionCard({
   alert,
   onClick = () => {},
   isMobile = false,
+  mode = undefined,
 }) {
   const {
     id,
@@ -59,7 +60,7 @@ export default function DisruptionCard({
           />
         </button>
       </header>
-      {entities && <RouteBadges entities={entities} />}
+      {entities && <RouteBadges entities={entities} mode={mode} compact />}
       <h2 className="cta-small">{alertHeaderText}</h2>
       {isMobile && (
         <DisruptionStatus
@@ -77,4 +78,5 @@ DisruptionCard.propTypes = {
   alert: alertShape.isRequired,
   onClick: PropTypes.func,
   isMobile: PropTypes.bool,
+  mode: PropTypes.string,
 };
