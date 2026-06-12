@@ -21,8 +21,6 @@
 }
 
 .alerts-list-wrapper {
-  margin-top: 14px;
-
   &.bp-large {
     flex: 1;
     display: flex;
@@ -36,6 +34,8 @@
 }
 
 .alert-details {
+  margin-top: 16px;
+
   .alert-details-header {
     min-height: 56px;
     display: flex;
@@ -60,21 +60,27 @@
 
       .icon-container {
         padding-right: 8px;
+        display: flex;
+        align-items: center;
+        color: $theme-primary-color;
       }
     }
   }
 
   .alert-details-content {
     padding: 24px 64px 24px 64px;
+
+    h2 {
+      font-size: 18px;
+    }
   }
 
   .alert-url {
     color: $theme-primary-color;
-    margin-left: 5px;
 
     .external-link-container {
       border-radius: 999em;
-      padding: 0 24px 0 24px;
+      padding: 0 var(--space-m);
     }
 
     .external-link {
@@ -84,7 +90,7 @@
 }
 
 .alerts-list {
-  padding: 24px 48px 24px 48px;
+  padding: var(--space-m) var(--space-xl);
   background: $background-color-lighter;
   padding-bottom: 0.7em;
   flex: 1;
@@ -105,16 +111,37 @@
   }
 
   .alerts-list-section-no-alerts {
+    padding: var(--space-xs) var(--space-s);
     text-align: center;
+    border-radius: var(--radius-s);
+    border: 1px solid var(--color-border-weak);
+    background: var(--color-surface-default);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-xs);
+    font-weight: $font-weight-book;
+    font-size: 14px;
+
+    .icon-container {
+      color: $theme-primary-color;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .alert-row:hover {
+    border: 1px solid #0074bf;
+    cursor: pointer;
   }
 
   .alert-row {
     background-color: $white;
-    padding: 24px 24px 24px 24px;
+    padding: var(--space-m);
     position: relative;
     border-radius: 8px;
     margin-bottom: 16px;
-    box-shadow: 0 2px 4px 0 #3333;
+    border: 1px solid $light-gray;
 
     .alert-row-arrow {
       position: absolute;
@@ -179,7 +206,7 @@
     .cancelation-badge {
       border-radius: 4px;
       margin-right: 2px;
-      padding: var(--space-xxs) var(--space-xs) var(--space-xxs) var(--space-xs);
+      padding: var(--space-xxs) var(--space-xs);
       border: 1px solid $light-gray;
       font-weight: $font-weight-book;
       color: $gray;
@@ -201,7 +228,7 @@
 
       .mode-badge {
         max-height: 32px;
-        background-color: $info-background-color;
+        background-color: color-mix(in srgb, currentcolor, white 90%);
         border-radius: 4px;
         padding: 4px 8px 4px 8px;
         min-width: 30px;
@@ -211,13 +238,17 @@
           color: black;
         }
       }
+
+      .mode-badge:hover {
+        background-color: color-mix(in srgb, currentcolor, white 90%);
+      }
     }
   }
 }
 
 .mobile {
   .alerts-list {
-    padding: 0 16px 0 16px;
+    padding: 16px;
   }
 
   .alert-details {
