@@ -59,6 +59,7 @@ const DisruptionList = ({
 }) => {
   const { match, router } = useRouter();
   const breakpoint = useBreakpoint();
+  const intl = useIntl();
 
   // if a valid alertId is present in url query, show alert details
   const activeAlert =
@@ -167,12 +168,13 @@ const DisruptionList = ({
               ))}
             </div>
           ) : (
-            <p className="alerts-list-section-no-alerts">
-              <FormattedMessage
-                id="disruption-list-no-upcoming-alerts"
-                defaultMessage="No known upcoming disruptions or diversions"
-              />
-            </p>
+            <div className="alerts-list-section-no-alerts">
+              <Icon img="icon_info" />
+              {intl.formatMessage({
+                id: 'disruption-list-no-upcoming-alerts',
+                defaultMessage: 'No known upcoming disruptions or diversions',
+              })}
+            </div>
           )}
         </div>
       </div>

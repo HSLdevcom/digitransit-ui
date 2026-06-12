@@ -33,7 +33,7 @@ const DisruptionDetails = ({
           />
         </span>
         <span className="validity">
-          <Icon className="clock-icon" img="icon_clock" />
+          <Icon className="status-icon" img="icon_status" />
           <FormattedMessage id={validityLabelId} />
         </span>
       </div>
