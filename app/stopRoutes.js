@@ -20,6 +20,17 @@ import {
 import { prepareDatesForStops } from './util/dateParamUtils';
 import { DATE_FORMAT } from './constants';
 
+// Future window (90 days) used to detect whether the stop has any upcoming
+// departures for the schedule-status badge shown on the stop page map.
+const STOP_STATUS_TIME_RANGE = 90 * 24 * 60 * 60;
+
+const prepareStopMapVariables = params => ({
+  ...params,
+  date: DateTime.now().toFormat(DATE_FORMAT),
+  startTime: DateTime.now().toUnixInteger(),
+  timeRange: STOP_STATUS_TIME_RANGE,
+});
+
 const queries = {
   stop: {
     pageHeader: graphql`
@@ -30,9 +41,19 @@ const queries = {
       }
     `,
     pageMap: graphql`
-      query stopRoutes_StopPageMapContainer_Query($stopId: String!) {
+      query stopRoutes_StopPageMapContainer_Query(
+        $stopId: String!
+        $date: String!
+        $startTime: Long!
+        $timeRange: Int!
+      ) {
         stop(id: $stopId) {
           ...StopPageMapContainer_stop
+            @arguments(
+              date: $date
+              startTime: $startTime
+              timeRange: $timeRange
+            )
         }
       }
     `,
@@ -278,6 +299,9 @@ export default function getStopRoutes(isTerminal = false) {
                     ).then(getDefault);
               }}
               query={queryMap.pageMap}
+              prepareVariables={
+                isTerminal ? undefined : prepareStopMapVariables
+              }
               render={getComponentOrNullRenderer}
             />
           ),

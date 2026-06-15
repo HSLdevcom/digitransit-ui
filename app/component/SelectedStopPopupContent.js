@@ -1,8 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { stopShape } from '../util/shapes';
+import StopScheduleStatus from './stop/StopScheduleStatus';
 
-const SelectedStopPopupContent = ({ stop, name }) => (
+const SelectedStopPopupContent = ({
+  stop,
+  name = undefined,
+  status = undefined,
+}) => (
   <div className="origin-popup">
     <div className="origin-popup-header">
       <div className="selected-stop-header">{name || stop.name}</div>
@@ -18,16 +23,14 @@ const SelectedStopPopupContent = ({ stop, name }) => (
         <div className="shade-to-white" />
       </div>
     )}
+    <StopScheduleStatus status={status} className="selected-stop-status" />
   </div>
 );
 
 SelectedStopPopupContent.propTypes = {
   stop: stopShape.isRequired,
   name: PropTypes.node,
-};
-
-SelectedStopPopupContent.defaultProps = {
-  name: undefined,
+  status: PropTypes.string,
 };
 
 SelectedStopPopupContent.displayName = 'SelectedStopPopupContent';

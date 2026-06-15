@@ -740,6 +740,8 @@ export default {
     'stop-near-you-modal-info':
       'Användning av funktion ”hållplatserna nära dig” förutsätter information om din position.',
     'stop-near-you-update-alert': 'Närliggande hållplatser uppdaterade',
+    'stop-no-service-today': 'Inga avgångar idag',
+    'stop-out-of-service': 'Hållplats ur bruk',
     'stop-page.description': 'Hållplats {name} - {code}',
     'stop-page.right-now.loaded': 'hållplats sidan laddad',
     'stop-page.title': 'Hållplats {name} - {code}',

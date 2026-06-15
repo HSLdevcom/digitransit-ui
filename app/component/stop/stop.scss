@@ -36,6 +36,25 @@
   }
 }
 
+.stop-schedule-status {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: $border-radius;
+  font-size: 13px;
+  font-weight: $font-weight-medium;
+  letter-spacing: -0.37px;
+
+  &.out-of-service {
+    color: $cancelation-red;
+    background-color: $cancelation-background;
+  }
+
+  &.no-service-today {
+    color: $dark-gray;
+    background-color: $background-color-darker;
+  }
+}
+
 .no-alerts-container,
 .stop-constant-operation-container,
 .stop-no-departures-container {

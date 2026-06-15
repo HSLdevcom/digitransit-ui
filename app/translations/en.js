@@ -751,6 +751,8 @@ export default {
     'stop-near-you-modal-info':
       'Using the nearby stops function requires location access.',
     'stop-near-you-update-alert': 'Nearest stops updated',
+    'stop-no-service-today': 'No departures today',
+    'stop-out-of-service': 'Stop out of service',
     'stop-page.description': 'Stop {name} - {code}',
     'stop-page.right-now.loaded': 'stop page loaded',
     'stop-page.title': 'Stop {name} - {code}',

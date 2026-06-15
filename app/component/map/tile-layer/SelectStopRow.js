@@ -3,19 +3,31 @@ import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
+import StopScheduleStatus from '../../stop/StopScheduleStatus';
 import { stopPagePath } from '../../../util/path';
-import { configShape } from '../../../util/shapes';
 import { getStopMode, transitIconName } from '../../../util/modeUtils';
 import { getModeIconColor } from '../../../util/colorUtils';
+import getStopStatus from '../../../util/stopStatusUtils';
+import { useConfigContext } from '../../../configurations/ConfigContext';
 
 function isNull(val) {
   return val === 'null' || val === undefined || val === null;
 }
 
-function SelectStopRow(
-  { code, type, desc, gtfsId, name, terminal, routes, platform },
-  { config },
-) {
+function SelectStopRow({
+  code = undefined,
+  type,
+  desc = undefined,
+  gtfsId,
+  name,
+  terminal = undefined,
+  routes = undefined,
+  platform = undefined,
+  closedByServiceAlert = undefined,
+  servicesRunningInFuture = undefined,
+  servicesRunningOnServiceDate = undefined,
+}) {
+  const config = useConfigContext();
   const mode = getStopMode(type, routes, code, config, terminal);
   const iconOptions = {};
   iconOptions.iconId = transitIconName(
@@ -27,6 +39,13 @@ function SelectStopRow(
 
   const showDesc = desc && desc !== 'null';
   const showCode = code && code !== 'null';
+
+  const status = getStopStatus({
+    showStopStatusMarkers: config.showStopStatusMarkers,
+    closedByServiceAlert,
+    servicesRunningOnServiceDate,
+    servicesRunningInFuture,
+  });
 
   return (
     <Link className="stop-popup-choose-row" to={stopPagePath(terminal, gtfsId)}>
@@ -59,6 +78,7 @@ function SelectStopRow(
             </span>
           )}
         </div>
+        <StopScheduleStatus status={status} className="choose-row-status" />
       </span>
       <span className="choose-row-right-column">
         <Icon img="icon_arrow-collapse--right" />
@@ -78,16 +98,9 @@ SelectStopRow.propTypes = {
   desc: PropTypes.string,
   terminal: PropTypes.bool,
   platform: PropTypes.string,
+  closedByServiceAlert: PropTypes.bool,
+  servicesRunningInFuture: PropTypes.bool,
+  servicesRunningOnServiceDate: PropTypes.bool,
 };
-
-SelectStopRow.defaultProps = {
-  routes: undefined,
-  code: undefined,
-  desc: undefined,
-  terminal: undefined,
-  platform: undefined,
-};
-
-SelectStopRow.contextTypes = { config: configShape.isRequired };
 
 export default SelectStopRow;

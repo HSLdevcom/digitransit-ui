@@ -733,6 +733,8 @@ export default {
     'stop-near-you-modal-info':
       'Lähipysäkkien käyttö edellyttää tietoa sijainnista.',
     'stop-near-you-update-alert': 'Lähimmät pysäkit päivitetty',
+    'stop-no-service-today': 'Ei lähtöjä tänään',
+    'stop-out-of-service': 'Pysäkki poissa käytöstä',
     'stop-page.description': 'Pysäkki - {name} {code}, {desc}',
     'stop-page.right-now.loaded': 'pysäkkisivu ladattu',
     'stop-page.title': 'Pysäkki - {name} {code}',

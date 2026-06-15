@@ -828,6 +828,10 @@ div.origin-popup {
     top: 2em;
   }
 
+  .selected-stop-status {
+    margin-top: var(--space-xs);
+  }
+
   .leaflet-popup-tip-container {
     position: relative;
     left: 0;

@@ -17,6 +17,7 @@ import {
 import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../util/path';
 import { splitGtfsId } from '../../../util/gtfs';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
+import { isStopOutOfService } from '../../../util/stopStatusUtils';
 
 const stopAlertsQuery = graphql`
   query StopsQuery($stopId: String!, $date: String!) {
@@ -96,9 +97,7 @@ class Stops {
 
       const stopOutOfService =
         this.config.showStopStatusMarkers &&
-        (!!feature.properties.closedByServiceAlert ||
-          (feature.properties.servicesRunningInFuture === false &&
-            feature.properties.servicesRunningOnServiceDate === false)); // if there are services added for the current day via realtime, servicesRunningOnServiceDate will be true
+        isStopOutOfService(feature.properties);
       const noServiceOnServiceDay =
         this.config.showStopStatusMarkers &&
         feature.properties.servicesRunningOnServiceDate === false;
