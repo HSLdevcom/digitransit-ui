@@ -11,7 +11,11 @@ import {
 import { PlannerMessageType, ExtendedRouteTypes } from '../../constants';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { boundWithMinimumArea } from '../../util/geo-utils';
-import { compressLegs, getTotalBikingDistance } from '../../util/legUtils';
+import {
+  compressLegs,
+  getTotalBikingDistance,
+  isDirectFlexItinerary,
+} from '../../util/legUtils';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
 import { getDefaultSettings, getSettings } from '../../util/planParamUtil';
 import { getStartTimeWithColon } from '../../util/timeUtils';
@@ -339,7 +343,7 @@ export function transitEdges(edges) {
  * 2. only use scooters (unless allowed by allowDirectScooterJourneys)
  * 3. use scooters that are not vehicles
  */
-export function scooterEdges(edges, allowDirectScooterJourneys) {
+export function filterScooterEdges(edges, allowDirectScooterJourneys) {
   if (!edges) {
     return [];
   }
@@ -375,18 +379,6 @@ export function scooterEdges(edges, allowDirectScooterJourneys) {
   return filteredEdges;
 }
 
-/** Filters away itineraries that are not flex */
-export function flexEdges(edges) {
-  if (!edges) {
-    return [];
-  }
-  return edges.filter(edge =>
-    edge.node.legs.some(
-      leg => leg.route?.type === ExtendedRouteTypes.CallAgency,
-    ),
-  );
-}
-
 /**
  * Filters away plain walk
  */
@@ -411,21 +403,28 @@ export function filterItineraries(edges, modes) {
   );
 }
 
-export function filterItinerariesByRouteType(
-  edges,
-  types,
-  includeTaxiSuggestions,
-) {
+export function filterItinerariesByRouteType(edges, types) {
   if (!edges) {
     return [];
   }
   return edges.filter(edge =>
-    edge.node.legs.some(
-      leg =>
-        types.includes(leg.route?.type) &&
-        (includeTaxiSuggestions || leg.route?.type !== 'TAXI'),
-    ),
+    edge.node.legs.some(leg => types.includes(leg.route?.type)),
   );
+}
+
+/**
+ * Usually selects the first flex edge from a pre-filtered list.
+ * If the showBothDirectAndTransitResults flag is true and a direct flex itinerary exists,
+ * this function selects 2 edges: the direct flex itinerary and the next transit itinerary (if it exists).
+ * OTP always returns the direct flex itinerary as the first result (if one exists).
+ *
+ * @param {Array} edges - Pre-filtered flex edges (must only contain flex itineraries of the given types).
+ * @param {number[]} types - Allowed route types used to identify direct flex itineraries (e.g. ExtendedRouteTypes.CallAgency).
+ * @param {boolean} showBothDirectAndTransitResults - When true, returns both a direct and transit itinerary if both exist; otherwise returns 1.
+ */
+function selectFlexEdges(edges, types, showBothDirectAndTransitResults) {
+  const hasDirect = edges.some(e => isDirectFlexItinerary(e.node, types));
+  return edges.slice(0, hasDirect && showBothDirectAndTransitResults ? 2 : 1);
 }
 
 /**
@@ -513,33 +512,29 @@ export function getSortedEdges(edges, arriveBy) {
 }
 
 /**
- * Combine an external edge with the main transit edges.
+ * Merges a small set of additional edges (flex or scooter) with the main
+ * transit plan edges, sorts the combined result, and caps the total at 5.
+ *
+ * @param {Array} additionalEdges - Pre-selected flex or scooter edges to prepend (amount of edges should be 1 or 2).
+ * @param {Object} transitPlan - The main transit plan object with an `edges` array.
+ * @param {boolean} arriveBy - Whether the search is arrive-by (affects sort order).
  */
-function sortAndMergePlans(
-  externalTransitEdges,
-  transitPlan,
-  arriveBy,
-  maxAdditionalEdges = 1,
-) {
+function sortAndMergePlans(additionalEdges, transitPlan, arriveBy) {
   const transitPlanEdges = transitPlan.edges || [];
-  const maxTransitEdges =
-    externalTransitEdges.length > 0 ? 4 : transitPlanEdges.length;
+  const maxTransitEdges = Math.max(5 - additionalEdges.length, 0);
 
   // special case: if transitplan only has one walk itinerary, don't show external plan if it arrives later.
   if (
     transitPlanEdges.length === 1 &&
     transitPlanEdges[0].node.legs.every(leg => leg.mode === 'WALK') &&
-    transitPlanEdges[0].node.end < externalTransitEdges[0]?.node.end
+    transitPlanEdges[0].node.end < additionalEdges[0]?.node.end
   ) {
     return transitPlan;
   }
 
   return {
     edges: getSortedEdges(
-      [
-        ...externalTransitEdges.slice(0, maxAdditionalEdges),
-        ...transitPlanEdges.slice(0, maxTransitEdges),
-      ],
+      [...additionalEdges, ...transitPlanEdges.slice(0, maxTransitEdges)],
       arriveBy,
     ).map(edge => {
       return {
@@ -559,14 +554,15 @@ function sortAndMergePlans(
 export function mergeScooterTransitPlan(
   scooterPlan,
   transitPlan,
-  allowDirectScooterJourneys,
   arriveBy,
+  allowDirectScooterJourneys,
 ) {
-  const scooterTransitEdges = scooterEdges(
+  const filteredScooterEdges = filterScooterEdges(
     scooterPlan.edges,
     allowDirectScooterJourneys,
   );
-  return sortAndMergePlans(scooterTransitEdges, transitPlan, arriveBy);
+  const selectedScooterEdges = filteredScooterEdges.slice(0, 1);
+  return sortAndMergePlans(selectedScooterEdges, transitPlan, arriveBy);
 }
 
 /**
@@ -576,15 +572,19 @@ export function mergeExternalFlexPlan(
   externalPlan,
   transitPlan,
   arriveBy,
+  showBothDirectAndTransitResults,
   allowedExternalFlexRouteTypes,
-  includeTaxiSuggestions,
 ) {
-  const externalFlexEdges = filterItinerariesByRouteType(
+  const filteredExternalFlexEdges = filterItinerariesByRouteType(
     externalPlan.edges,
     allowedExternalFlexRouteTypes,
-    includeTaxiSuggestions,
   );
-  return sortAndMergePlans(externalFlexEdges, transitPlan, arriveBy);
+  const selectedExternalFlexEdges = selectFlexEdges(
+    filteredExternalFlexEdges,
+    allowedExternalFlexRouteTypes,
+    showBothDirectAndTransitResults,
+  );
+  return sortAndMergePlans(selectedExternalFlexEdges, transitPlan, arriveBy);
 }
 
 /** Combine an internal flex plan with the main transit plan. */
@@ -592,10 +592,19 @@ export function mergeInternalFlexPlan(
   flexPlan,
   plan,
   arriveBy,
-  maxAdditionalEdges = 1,
+  showBothDirectAndTransitResults,
 ) {
-  const edges = flexEdges(flexPlan.edges);
-  return sortAndMergePlans(edges, plan, arriveBy, maxAdditionalEdges);
+  const allowedInternalFlexRouteTypes = [ExtendedRouteTypes.CallAgency];
+  const filteredInternalFlexEdges = filterItinerariesByRouteType(
+    flexPlan.edges,
+    allowedInternalFlexRouteTypes,
+  );
+  const selectedInternalFlexEdges = selectFlexEdges(
+    filteredInternalFlexEdges,
+    allowedInternalFlexRouteTypes,
+    showBothDirectAndTransitResults,
+  );
+  return sortAndMergePlans(selectedInternalFlexEdges, plan, arriveBy);
 }
 
 /**

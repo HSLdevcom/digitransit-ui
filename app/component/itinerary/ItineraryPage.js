@@ -76,7 +76,7 @@ import {
   parseCarTransitPlan,
   quitIteration,
   reportError,
-  scooterEdges,
+  filterScooterEdges,
   setCurrentTimeToURL,
   settingsLimitRouting,
   sortAndMergeExternalPlans,
@@ -509,7 +509,7 @@ export default function ItineraryPage(props, context) {
         tunedParams,
         tunedParams.maxQueryIterations,
       );
-      const scooterPlan = { edges: scooterEdges(plan.edges) };
+      const scooterPlan = { edges: filterScooterEdges(plan.edges) };
       setRelaxScooterState({ plan: scooterPlan, loading: LOADSTATE.DONE });
     } catch (error) {
       setRelaxScooterState({ plan: {}, loading: LOADSTATE.DONE });
@@ -1144,8 +1144,8 @@ export default function ItineraryPage(props, context) {
       let plan = mergeScooterTransitPlan(
         scooterState.plan,
         mainState.plan,
-        config.vehicleRental.allowDirectScooterJourneys,
         match.location.query.arriveBy === 'true',
+        config.vehicleRental.allowDirectScooterJourneys,
       );
 
       if (externalFlexState.plan?.edges) {
@@ -1153,6 +1153,7 @@ export default function ItineraryPage(props, context) {
           externalFlexState.plan,
           plan,
           match.location.query.arriveBy === 'true',
+          config.flex.external.showBothDirectAndTransitResults,
           config.flex.external.allowedRouteTypes,
         );
       }
@@ -1162,6 +1163,7 @@ export default function ItineraryPage(props, context) {
           internalFlexState.plan,
           plan,
           match.location.query.arriveBy === 'true',
+          config.flex.internal.showBothDirectAndTransitResults,
         );
       }
       if (personalization) {

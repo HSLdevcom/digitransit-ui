@@ -453,6 +453,7 @@ export default {
       transit: IS_DEV,
       direct: IS_DEV,
       agencies: ['02Taksi:02_taksi'],
+      showBothDirectAndTransitResults: true,
     },
     internal: {
       enabled: IS_DEV,

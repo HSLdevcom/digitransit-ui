@@ -13,10 +13,7 @@ require('@babel/register')({
   ],
 });
 
-global.fetch = require('node-fetch');
 const proxy = require('express-http-proxy');
-
-global.self = { fetch: global.fetch };
 
 const devhost = '';
 

@@ -480,6 +480,14 @@ export function isCallAgencyLeg(leg) {
   return leg.route?.type === ExtendedRouteTypes.CallAgency;
 }
 
+export function isDirectFlexItinerary(itinerary, allowedTypes) {
+  const transitLegs = itinerary.legs.filter(leg => leg.transitLeg);
+  return (
+    transitLegs.length === 1 &&
+    allowedTypes.includes(transitLegs[0].route?.type)
+  );
+}
+
 export function hasTaxiLegs(itinerary) {
   return itinerary.legs.some(isTaxiLeg);
 }

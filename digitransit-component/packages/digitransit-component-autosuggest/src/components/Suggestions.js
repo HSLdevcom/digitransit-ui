@@ -90,7 +90,7 @@ export function Suggestions({
       className={cx([
         styles.suggestionsContainerOpen,
         styles.suggestionsContainer,
-        hidden && 'hidden',
+        hidden && styles.hidden,
       ])}
     >
       <ul className={styles.suggestionsList} {...getMenuProps()}>
