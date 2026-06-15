@@ -9,7 +9,7 @@ import DisruptionBadge from './trafficnow/DisruptionBadge';
 import { useConfigContext } from '../client/ConfigContext';
 import { routePagePath, stopPagePath } from '../../utils/shared/path';
 import IconBackground from './icon/IconBackground';
-import { getRouteMode } from '../../utils/client/modeUtils';
+import { getRouteMode, transitIconName } from '../../utils/client/modeUtils';
 import { getStartTimeWithColon } from '../../utils/client/timeUtils';
 import { entityShape, stopTimeShape } from '../../utils/client/shapes';
 import {
@@ -87,7 +87,7 @@ export default function Disruption({
       <div
         className="alert-row"
         role="button"
-        aria-label={alertDescriptionText}
+        aria-label={`${alertHeaderText} ${buttonLabel}`}
         onClick={toggleDetails}
         tabIndex={0}
         onKeyDown={e => {
@@ -100,22 +100,12 @@ export default function Disruption({
         }}
       >
         {toggleDetails && (
-          <button
-            type="button"
-            onClick={e => {
-              if (toggleDetails) {
-                toggleDetails();
-              }
-              e.stopPropagation();
-            }}
-            className="alert-row-arrow"
-            aria-label={buttonLabel}
-          >
+          <div className="alert-row-arrow">
             <Icon
               img="icon_arrow-collapse--right"
               color={config.colors.primary}
             />
-          </button>
+          </div>
         )}
         <div className="alert-row-top">
           <DisruptionBadge
@@ -133,12 +123,8 @@ export default function Disruption({
                 return (
                   <Fragment key={key}>
                     <Icon
-                      img={`icon_${
-                        mode.toLowerCase() === 'bus-express'
-                          ? 'bus'
-                          : mode.toLowerCase()
-                      }`}
-                      className={`${mode.toLowerCase()}`}
+                      img={transitIconName(mode)}
+                      className={mode.toLowerCase()}
                       height={2.15}
                       width={2.15}
                       iconScale={isStop ? 0.5 : 1}
