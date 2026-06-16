@@ -45,7 +45,7 @@ describe('<DisruptionBadge />', () => {
       expect(icon.prop('img')).to.equal('icon_info-circled');
     });
 
-    it('renders icon_alert-circled for WARNING variant when showIcon=true', () => {
+    it('renders icon_caution_white_exclamation for WARNING variant when showIcon=true', () => {
       const wrapper = shallowWithIntl(
         <DisruptionBadge
           label="delay"
@@ -55,7 +55,7 @@ describe('<DisruptionBadge />', () => {
       );
       const icon = wrapper.find(Icon);
       expect(icon).to.have.lengthOf(1);
-      expect(icon.prop('img')).to.equal('icon_alert-circled');
+      expect(icon.prop('img')).to.equal('icon_caution_white_exclamation');
     });
 
     it('renders icon_caution_white_exclamation for SEVERE variant when showIcon=true', () => {

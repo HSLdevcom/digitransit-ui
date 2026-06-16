@@ -17,6 +17,9 @@ import Filters from './filters/Filters';
 import { FilterContextProvider } from './filters/FiltersContext';
 import FiltersModal from './filters/FiltersModal';
 
+// defines the scroll position at which a drop shadow is applied to the header button on mobile
+const HEADER_HEIGHT = 320;
+
 const TrafficNow = () => {
   const {
     match: {
@@ -37,6 +40,16 @@ const TrafficNow = () => {
 
   const isMobileCanceledTripsView = !!mode && mobile;
   const isDetailsView = !!alertId;
+
+  const [top, setTop] = useState(true);
+
+  useEffect(() => {
+    const scrollHandler = () => {
+      setTop(window.scrollY <= HEADER_HEIGHT);
+    };
+    window.addEventListener('scroll', scrollHandler);
+    return () => window.removeEventListener('scroll', scrollHandler);
+  }, []);
 
   return (
     <div className="traffic-now design-system">
@@ -84,7 +97,12 @@ const TrafficNow = () => {
                     <Filters />
                   </div>
                 ) : (
-                  <div className="traffic-now__filters-button-container">
+                  <div
+                    className={cx(
+                      'traffic-now__filters-button-container',
+                      !top && 'scrolled',
+                    )}
+                  >
                     <FiltersModal
                       isOpen={showFiltersModal}
                       onClose={() => setShowFiltersModal(false)}

@@ -25,7 +25,7 @@ const getIcon = variant => {
       return <Icon img="icon_info-circled" className="info" />;
     }
     case variant === AlertSeverityLevelType.Warning: {
-      return <Icon img="icon_alert-circled" className="warning" />;
+      return <Icon img="icon_caution_white_exclamation" className="warning" />;
     }
     case variant === AlertSeverityLevelType.Severe: {
       return <Icon img="icon_caution_white_exclamation" className="danger" />;

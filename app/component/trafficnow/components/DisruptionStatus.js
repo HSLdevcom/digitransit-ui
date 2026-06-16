@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
+import { DateTime } from 'luxon';
 import Icon from '../../Icon';
 import { getFormattedTimeDate } from '../../../util/timeUtils';
 import { useConfigContext } from '../../../configurations/ConfigContext';
@@ -24,9 +25,19 @@ export default function DisruptionStatus({
       ? active
       : now > effectiveStartDate * 1000 && now < effectiveEndDate * 1000;
 
+  // We want to hide start year when both dates are the current year
+  const hideStartYear =
+    effectiveStartDate &&
+    effectiveEndDate &&
+    DateTime.now().year === DateTime.fromSeconds(effectiveStartDate).year &&
+    DateTime.now().year === DateTime.fromSeconds(effectiveEndDate).year;
+
   const startDate =
     effectiveStartDate &&
-    getFormattedTimeDate(effectiveStartDate * 1000, DATE_FORMAT);
+    getFormattedTimeDate(
+      effectiveStartDate * 1000,
+      hideStartYear ? 'd.L.' : DATE_FORMAT,
+    );
   const endDate =
     effectiveEndDate &&
     getFormattedTimeDate(effectiveEndDate * 1000, DATE_FORMAT);

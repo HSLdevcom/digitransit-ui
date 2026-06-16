@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState, useCallback, useRef } from 'react';
+import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from '../Icon';
 import { isKeyboardSelectionEvent } from '../../util/browser';
@@ -36,19 +37,22 @@ export default function SettingsButton({ onToggleClick }) {
   const dismissPopover = useCallback(() => {
     // wait 1 second before dismissing to allow user to see the popover disappearing
     const timeoutId = setTimeout(() => {
+      setDialogState(dismissTarget);
       if (dismissTarget === 'setting-change-acknowledged') {
         setSettingChangeInfoDismissed(true);
       } else {
         setPersonalizationInfoDismissed(true);
       }
-      setDialogState(dismissTarget);
     }, 1000);
     return () => clearTimeout(timeoutId);
   }, []);
 
   let personalizationPopover;
   const personalizationEnabled = isPersonalizationEnabled(config, settings);
-  if (!isPersonalizationInfoDismissed && config.personalization) {
+  if (
+    !getDialogState('personalization-acknowledged', config) &&
+    config.personalization
+  ) {
     personalizationPopover = personalizationEnabled ? (
       <div>
         <div className="popover-header">
@@ -94,7 +98,14 @@ export default function SettingsButton({ onToggleClick }) {
         onKeyPress={e => isKeyboardSelectionEvent(e) && onToggleClick()}
         aria-label={label}
         title={label}
-        className="noborder cursor-pointer open-advanced-settings-window-button"
+        className={cx(
+          'noborder',
+          'cursor-pointer',
+          'open-advanced-settings-window-button',
+          {
+            'highlight-z-index': personalizationPopover,
+          },
+        )}
       >
         <div className="icon-holder">
           <Icon img="icon_settings" />

@@ -6,7 +6,6 @@
 .traffic-now {
   &__modal {
     height: auto;
-    max-height: $modal-max-height;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -55,13 +54,23 @@
     }
 
     &-header {
+      background-color: white;
+      width: 100%;
+      z-index: 100;
+      position: sticky;
+      top: 0;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      padding: var(--space-m);
+      padding: var(--space-s) var(--space-l);
+      min-height: 48px;
 
       &.bordered {
-        border: 1px solid $light-gray;
+        border-bottom: 1px solid $light-gray;
+      }
+
+      &__label {
+        align-content: center;
       }
     }
 
@@ -88,8 +97,6 @@
 
     .separator {
       &.horizontal {
-        border-top: 1px solid $light-gray;
-
         &.padded-xs {
           margin: var(--space-xs) 0;
         }

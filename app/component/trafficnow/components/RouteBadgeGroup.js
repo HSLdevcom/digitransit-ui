@@ -32,7 +32,7 @@ const RouteBadgeGroup = ({
     <div className="badges__group">
       <Icon
         img={`icon_${mode}`}
-        className={mode}
+        className={cx(mode, isStop ? 'stop' : 'route')}
         height={2}
         width={2}
         iconScale={isStop ? STOP_SIGN_ICON_SCALE : NORMAL_ICON_SCALE}

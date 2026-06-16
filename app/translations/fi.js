@@ -205,6 +205,8 @@ export default {
     'e-scooter': 'Sähköpotkulauta',
     'e-scooter-alternative':
       'Entä jos kulkisit osan matkasta sähköpotkulaudalla? {paymentInfo}',
+    'e-scooter-or-taxi-alternative':
+      'Entä jos kulkisit osan matkasta sähköpotkulaudalla, taksilla tai kyytipalvelulla? {paymentInfo}',
     'e-scooters': 'Sähköpotkulaudat',
     'e-scooters-available':
       'Alueella sähköpotkulautoja vapaana. Ota sähköpotkulauta käyttöön sovelluksella.',
@@ -719,6 +721,9 @@ export default {
     'settings-missing-itineraries-body':
       'Asetuksissa on päällä valintoja, jotka rajaavat pois joitain reittivaihtoehtoja.',
     'settings-missing-itineraries-header': 'Puuttuuko reittivaihtoehtoja?',
+    'settings-taxi':
+      'Voit valita haluamasi taksi- ja kyytipalvelut, jolloin ne ovat osana reititystä',
+    'settings-taxi-routes': 'Taksi- ja kyytipalvelut osaksi reittejäsi!',
     'show-departures': 'Näytä lähdöt',
     'show-more': 'Näytä lisää',
     'show-more-stops-near-you': 'Näytä lisää pysäkkejä lähelläsi',

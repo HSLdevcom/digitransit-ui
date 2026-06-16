@@ -18,12 +18,16 @@
 .badges {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xxs);
+  gap: var(--space-xs);
 
   &__group {
     display: flex;
     flex-direction: row;
-    gap: var(--space-xs);
+    gap: var(--space-xxs);
+
+    .icon.stop {
+      margin: 0 calc(-1 * var(--space-xxs));
+    }
   }
 
   &__headsign-group {

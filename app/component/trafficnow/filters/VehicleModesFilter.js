@@ -1,16 +1,20 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import { useFilterContext } from './FiltersContext';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 import { getTransportModes } from '../../../util/modeUtils';
 import { TrafficNowTransportModes } from '../../../constants';
 import Icon from '../../Icon';
+import { useBreakpoint } from '../../../util/withBreakpoint';
 
 const VehicleModesFilter = ({ filterId }) => {
   const config = useConfigContext();
   const intl = useIntl();
   const { selectedFilters, setFilter } = useFilterContext();
+  const breakpoint = useBreakpoint();
+  const isMobile = breakpoint !== 'large';
 
   const handleCheck = option => {
     const checked = selectedFilters[filterId] || [];
@@ -38,7 +42,7 @@ const VehicleModesFilter = ({ filterId }) => {
     [],
   );
   return (
-    <fieldset>
+    <fieldset className={cx({ mobile: isMobile })}>
       <legend className="input-legend">
         {intl.formatMessage({
           id: 'traffic-now_filters_vehicle-mode',
@@ -46,8 +50,22 @@ const VehicleModesFilter = ({ filterId }) => {
         })}
       </legend>
       {availableModes.map(option => (
-        <div key={option} className="traffic-now__filters-mode-option">
-          <label htmlFor={`vehicleModes-${option}`} className="input-label">
+        <div
+          key={option}
+          role="checkbox"
+          aria-checked={selectedFilters[filterId]?.includes(option) || false}
+          aria-label={intl.formatMessage({ id: option.toLowerCase() })}
+          tabIndex={0}
+          className={cx([
+            'traffic-now__filters-mode-option',
+            { mobile: isMobile },
+          ])}
+          onClick={() => handleCheck(option)}
+          onKeyDown={e =>
+            (e.key === 'Enter' || e.key === ' ') && handleCheck(option)
+          }
+        >
+          <label className="tag-normal">
             <Icon
               img={`icon_${option.toLowerCase()}`}
               className={option.toLowerCase()}
@@ -56,13 +74,13 @@ const VehicleModesFilter = ({ filterId }) => {
             />
             {intl.formatMessage({ id: option.toLowerCase() })}
           </label>
-          <input
-            id={`vehicleModes-${option}`}
-            type="checkbox"
-            checked={selectedFilters[filterId]?.includes(option)}
-            value={option}
-            onChange={() => handleCheck(option)}
-          />
+          <span
+            className={`traffic-now__filters-mode-option-checkbox${
+              selectedFilters[filterId]?.includes(option) ? ' checked' : ''
+            }`}
+          >
+            <Icon img="icon_checkbox" height={1.5} width={1.5} />
+          </span>
         </div>
       ))}
     </fieldset>

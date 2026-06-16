@@ -83,7 +83,7 @@ export default {
     'bike-station-disabled': 'Stadscykelstationen är ur bruk.',
     'bikes-available': '{amount} cyklar vid stationen',
     'biking-speed': 'Cykling hastighet',
-    'book-a-lift': 'Beställ resa i appen',
+    'book-a-lift': 'Beställ skjuts med appen',
     'booking-method': 'Beställningssätt',
     bus: 'Buss',
     'bus-express': 'Stombuss',
@@ -208,6 +208,8 @@ export default {
     'e-scooter': 'Elsparkcykel',
     'e-scooter-alternative':
       'Och om du skulle åka elsparkcykel en del av din resa? {paymentInfo}',
+    'e-scooter-or-taxi-alternative':
+      'Vad sägs om att resa en del av sträckan med elsparkcykel, taxi eller skjutstjänst? {paymentInfo}',
     'e-scooters': 'Elsparkcyklar',
     'e-scooters-available':
       'Det finns lediga elsparkcyklar i området. Ta en elsparkcykel i bruk med en app.',
@@ -233,7 +235,7 @@ export default {
     'from-bus': 'bussen',
     'from-ferry': 'färjan',
     'from-ferrypier': 'färjerkajen',
-    'from-place': 'plats',
+    'from-place': ' ',
     'from-rail': 'tåget',
     'from-scooter-location': 'platsen för sparkcykel',
     'from-station': 'stationen',
@@ -254,7 +256,7 @@ export default {
       'Det tar längre tid än väntat att hitta din plats.',
     'geolocation-timeout-text':
       'Har du godkänt att webbläsaren får använda din plats?',
-    'get-off-the-ride': 'Stig ur',
+    'get-off-the-ride': 'Stig av',
     hour: 'Timme',
     hsl_ticket: 'HRT-biljetten',
     hsl_travel_card: 'HRT-kortet',
@@ -294,7 +296,7 @@ export default {
     'itinerary-details.scooter-leg':
       '{time} åk elsparkcykel {distance} från {origin} till destinationen {destination}. Restid {duration}',
     'itinerary-details.taxi-leg':
-      '{time} åk taxi {distance} från {origin} till {to} {destination}. Restid {duration}',
+      '{time} res med taxi {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-details.transit-leg-part-1': '{time} {realtime} ta',
     'itinerary-details.transit-leg-part-2':
       'från hållplats {startStop} {startZoneInfo} {trackInfo} till hållplats {endStop} {endZoneInfo}. Beräknad restid {duration}. ',
@@ -329,7 +331,7 @@ export default {
     'itinerary-summary-row.first-leg-start-time-scooter':
       'Avgång kl {firstDepartureTime} med en sparkcykel',
     'itinerary-summary-row.first-leg-start-time-taxi':
-      'Avgång kl {firstDepartureTime} med taxi från {firstDepartureStop}',
+      'Taxi avgår från {firstDepartureStop} kl. {firstDepartureTime}',
     'itinerary-summary-row.no-transit-legs': 'Avgå när det passar för dig',
     'itinerary-summary-row.transfers':
       'Byte {vehicle} vid hållplats {stopName}',
@@ -405,7 +407,7 @@ export default {
     'modes.to-scooter': 'elsparkcykel',
     'modes.to-stop': 'hållplats',
     'modes.to-subway': 'metrostation',
-    'modes.to-taxi': 'destination',
+    'modes.to-taxi': ' ',
     'modes.to-tram': 'spårvagnshållplats',
     'more-departures': 'Fler avgångar',
     'move-on-map': 'Flytta på kartan',
@@ -560,9 +562,9 @@ export default {
     'payment-info-e-scooter':
       'Vänligen observera att användning och betalning av elsparkcyklar görs via operatörernas egna appar.',
     'payment-info-e-scooter-or-taxi':
-      'Vänligen observera att användning och betalning av elsparkcyklar och taxi görs via operatörernas egna appar.',
+      'Vänligen observera att du använder och betalar för elsparkcyklar, taxi och skjutstjänster med aktörernas egna appar.',
     'payment-info-taxi':
-      'Vänligen observera att användning och betalning av taxi görs via operatörernas egna appar.',
+      'Vänligen observera att du använder och betalar för taxi och skjutstjänster med aktörernas egna appar.',
     'personal-itineraries': 'Individuella ruttförslag',
     personalization: 'Personalisering',
     'personalization-activated': 'Personalisering har aktiverats',
@@ -725,6 +727,10 @@ export default {
     'settings-missing-itineraries-body':
       'Dina val i inställningar utesluter vissa ruttalternativ.',
     'settings-missing-itineraries-header': 'Saknas det några ruttförslag?',
+    'settings-taxi':
+      'Du kan själv välja vilka taxi- och skjutstjänster som ska ingå i din rutt',
+    'settings-taxi-routes':
+      'Använd taxi- och skjutstjänster som en del av din resa!',
     'show-departures': 'Visa avgångarna',
     'show-more': 'Visa mer',
     'show-more-stops-near-you': 'Visa flera hållplatser nära dig',
@@ -793,7 +799,7 @@ export default {
       'Navigeringsknapp för att kunna bläddra ruttförslag.',
     taxi: 'Taxi',
     'taxi-alternative':
-      'Och om du skulle åka taxi en del av din resa? {paymentInfo}',
+      'Vad sägs om att resa en del av sträckan med taxi? {paymentInfo}',
     'taxi-distance-duration': 'Res {duration} ({distance})',
     'taxi-external': 'Taxi',
     'taxi-with-route-number': 'Taxi {routeNumber}',

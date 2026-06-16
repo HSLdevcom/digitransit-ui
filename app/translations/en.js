@@ -83,7 +83,7 @@ export default {
     'bike-station-disabled': 'The bike station is out of service.',
     'bikes-available': '{amount} bikes at the station ',
     'biking-speed': 'Biking speed',
-    'book-a-lift': 'Use an app to book a ride',
+    'book-a-lift': 'Use taxis via the app',
     'booking-method': 'Booking method',
     bus: 'Bus',
     'bus-express': 'Trunk bus',
@@ -210,6 +210,8 @@ export default {
     'e-scooter': 'Electric scooter',
     'e-scooter-alternative':
       'How about using an electric scooter for part of your journey? {paymentInfo}',
+    'e-scooter-or-taxi-alternative':
+      'How about traveling part of the way by an e-scooter, a taxi or a ride-hailing service? {paymentInfo}',
     'e-scooters': 'Electric scooters',
     'e-scooters-available':
       'There are electric scooters available in the area. Use an app to unlock the electric scooter.',
@@ -235,7 +237,7 @@ export default {
     'from-bus': 'bus',
     'from-ferry': 'ferry',
     'from-ferrypier': 'ferry pier',
-    'from-place': 'location',
+    'from-place': ' ',
     'from-rail': 'train',
     'from-scooter-location': 'the scooter location',
     'from-station': 'station',
@@ -410,7 +412,7 @@ export default {
     'modes.to-scooter': 'to scooter',
     'modes.to-stop': 'stop',
     'modes.to-subway': 'subway station',
-    'modes.to-taxi': 'destination',
+    'modes.to-taxi': ' ',
     'modes.to-tram': 'tram stop',
     'more-departures': 'More departures',
     'move-on-map': 'Move on the map',
@@ -568,9 +570,9 @@ export default {
     'payment-info-e-scooter':
       'Please note that you need to use the app of the operator in question in order to use and pay for the scooters.',
     'payment-info-e-scooter-or-taxi':
-      'Please note that you need to use the app of the operator in question in order to use and pay for the taxis or scooters.',
+      'Please note that you use and pay for scooters, taxis and ride-hailing services in the service providers’ own apps.',
     'payment-info-taxi':
-      'Please note that you need to use the app of the operator in question in order to use and pay for the taxis.',
+      'Please note that you use and pay for taxis and ride‑hailing services in the service providers’ own apps.',
     'personal-itineraries': 'Personal itineraries',
     personalization: 'Personalization',
     'personalization-activated': 'Personalization has been enabled',
@@ -736,6 +738,10 @@ export default {
       'Some selections in the settings exclude certain route alternatives.',
     'settings-missing-itineraries-header':
       'Are some route alternatives missing?',
+    'settings-taxi':
+      'You can choose your preferred taxi and ride‑hailing services to include them in route planning.',
+    'settings-taxi-routes':
+      'Include taxi and ride‑hailing services in your routes!',
     'show-departures': 'Show departures',
     'show-more': 'Show more',
     'show-more-stops-near-you': 'Show more stops near you',
@@ -801,8 +807,8 @@ export default {
     'swipe-summary-page-tab': 'Itinerary swipe result tabs',
     taxi: 'Taxi',
     'taxi-alternative':
-      'How about using a taxi for part of your journey? {paymentInfo}',
-    'taxi-distance-duration': 'Travel for {duration} ({distance})',
+      'How about traveling part of the way by a taxi? {paymentInfo}',
+    'taxi-distance-duration': 'Travel {duration} ({distance})',
     'taxi-external': 'Taxi',
     'taxi-with-route-number': 'Taxi {routeNumber}',
     'taxis-and-ride-hailing': 'Taxis and ride-hailing services',

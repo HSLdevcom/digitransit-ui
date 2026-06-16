@@ -70,7 +70,7 @@ const filterNextLegs = l => {
 
 export default function TransitLeg({
   leg,
-  interliningLegs,
+  interliningLegs = [],
   index,
   mode,
   focusAction,

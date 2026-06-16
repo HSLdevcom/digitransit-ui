@@ -23,17 +23,21 @@ const FiltersModal = ({ isOpen, onClose }) => {
       })}
       onRequestClose={onClose}
       variant="large"
-      className="traffic-now traffic-now__modal"
+      className="traffic-now traffic-now__modal design-system"
     >
       <header className="traffic-now__modal-header bordered">
         <FormattedMessage id="filter" defaultMessage="Filter">
-          {msg => <h3 className="heading-xs">{msg}</h3>}
+          {msg => (
+            <h3 className="heading-xs traffic-now__modal-header__label">
+              {msg}
+            </h3>
+          )}
         </FormattedMessage>
         <button type="button" onClick={onClose}>
           <Icon
-            height={1.5}
-            width={1.5}
-            iconScale={0.4}
+            height={2.1}
+            width={2.1}
+            iconScale={0.5}
             img="icon_close"
             color="#007ac9"
             background={<IconBackground shape="circle" color="#ebf6fd" />}

@@ -26,10 +26,6 @@
   }
 
   .separator {
-    &.horizontal {
-      border-top: 1px solid $light-gray;
-    }
-
     &.vertical {
       width: auto;
       border-right: 1px solid $light-gray;
@@ -107,7 +103,8 @@
       gap: var(--space-s);
 
       &--mobile {
-        padding: 0 var(--space-s);
+        margin-top: var(--space-l);
+        padding: 0 var(--space-m);
         gap: var(--space-l);
       }
 
@@ -142,24 +139,65 @@
     top: 0;
 
     &-mode-option {
-      border: solid $light-gray 1px;
+      border: solid $light-gray 0.5px;
       border-radius: var(--radius-s);
       padding: var(--space-xxs) var(--space-xs);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-direction: row;
+      cursor: pointer;
+
+      &.mobile {
+        padding: var(--space-s);
+      }
+
+      &-checkbox {
+        color: $theme-primary-color;
+
+        input[type='checkbox'] {
+          display: none;
+        }
+
+        .icon-container {
+          border: 1px solid #888;
+          border-radius: var(--radius-s);
+          height: 24px;
+          width: 24px;
+        }
+
+        .icon {
+          display: none;
+        }
+      }
+
+      &-checkbox.checked {
+        .icon-container {
+          border: none;
+        }
+
+        .icon {
+          display: inline;
+        }
+      }
     }
 
     &-mobile {
-      padding: var(--space-xl) var(--space-m);
+      padding: var(--space-xl) var(--space-l);
+      position: relative;
     }
 
     &-button-container {
-      background-color: $background-color-lighter;
-      padding: var(--space-m) var(--space-s);
+      background-color: white;
+      padding: var(--space-m);
       position: sticky;
       top: 0;
       z-index: $z-index-sticky-button;
+      border-bottom: 1px solid $light-gray;
+
+      &.scrolled {
+        box-shadow: 0 10px 10px 0 var(--color-shadow-weaker);
+      }
 
       button {
         border-radius: var(--radius-pill);
@@ -205,22 +243,23 @@
 
     fieldset {
       display: flex;
-      gap: var(--space-xs);
+      gap: var(--space-xxs);
       flex-direction: column;
       padding-inline: 0;
       border: 0;
       margin: 0;
       padding-block: 0;
 
+      &.mobile {
+        gap: var(--space-s);
+      }
+
       label {
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: var(--space-xs);
-      }
-
-      legend {
-        padding-bottom: var(--space-xs);
+        cursor: pointer;
       }
 
       input[type='radio'],
@@ -234,6 +273,19 @@
 
     button {
       border-radius: var(--radius-pill);
+    }
+
+    &-form-buttons {
+      padding: var(--space-m) var(--space-l);
+      z-index: 100;
+      background-color: white;
+      width: 100%;
+      position: sticky;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+      box-shadow: 0 -10px 10px 0 var(--color-shadow-weaker);
     }
   }
 }

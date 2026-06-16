@@ -239,6 +239,36 @@ jobs:
           name: sbom-artifact
           path: ${{ github.repository }}-${{ github.sha }}.json
 
+      - name: 'Az CLI login for central SBOM server'
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.SBOM_CLIENT_ID }}
+          tenant-id: ${{ secrets.SBOM_TENANT_ID }}
+          subscription-id: ${{ secrets.SBOM_SUBSCRIPTION_ID }}
+
+      - name: 'Send SBOM to central SBOM server'
+        if: github.ref == 'refs/heads/v3'
+        run: >-
+          az storage blob upload
+          --account-name ${{ secrets.SBOM_STORAGE_ACCOUNT_NAME }}
+          --container-name sbom-ingest
+          --file ${{ github.repository }}-${{ github.sha }}.json
+          --name ${{ secrets.SBOM_ENV_KEY_DEV_V3 }}/${{ github.sha }}.json
+          --auth-mode login
+          --overwrite true
+          
+      - name: 'Send SBOM to central SBOM server'
+        if: github.ref == 'refs/heads/next'
+        run: >-
+          az storage blob upload
+          --account-name ${{ secrets.SBOM_STORAGE_ACCOUNT_NAME }}
+          --container-name sbom-ingest
+          --file ${{ github.repository }}-${{ github.sha }}.json
+          --name ${{ secrets.SBOM_ENV_KEY_DEV_NEXT }}/${{ github.sha }}.json
+          --auth-mode login
+          --overwrite true
+          
+
   # This is only done when pushing to v3
   publish-npm:
     if: github.ref == 'refs/heads/v3'
