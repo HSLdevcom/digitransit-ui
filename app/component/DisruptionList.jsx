@@ -167,7 +167,7 @@ const DisruptionList = ({
             <div role="list">
               {futureAlerts.map(disruption => (
                 <Disruption
-                  toggleDetails={toggleDetails}
+                  toggleDetails={() => toggleDetails(disruption.id)}
                   onClickLink={onClickLink}
                   key={disruption.id}
                   {...disruption}
