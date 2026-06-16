@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'found';
 import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
+import cx from 'classnames';
 import Icon from './Icon';
 import DisruptionBadge from './trafficnow/DisruptionBadge';
 import { useConfigContext } from '../configurations/ConfigContext';
 import { routePagePath, stopPagePath } from '../util/path';
 import IconBackground from './icon/IconBackground';
-import { getRouteMode } from '../util/modeUtils';
+import { getRouteMode, transitIconName } from '../util/modeUtils';
 import { getStartTimeWithColon } from '../util/timeUtils';
 import { entityShape, stopTimeShape } from '../util/shapes';
 import {
@@ -80,61 +81,68 @@ export default function Disruption({
         id: 'disruption-view-details',
         defaultMessage: 'View details',
       });
+  const ariaLabel = hasCancelations ? alertDescriptionText : alertHeaderText;
   return (
-    <div
-      className="alert-row"
-      role="listitem"
-      aria-label={alertDescriptionText}
-    >
-      {toggleDetails && (
-        <button
-          type="button"
-          onClick={() => toggleDetails()}
-          className="alert-row-arrow"
-          aria-label={buttonLabel}
-        >
-          <Icon
-            img="icon_arrow-collapse--right"
-            color={config.colors.primary}
+    <div className="alert-row-container" role="listitem">
+      <div
+        className="alert-row"
+        role="button"
+        aria-label={`${ariaLabel} ${buttonLabel}`}
+        onClick={toggleDetails}
+        tabIndex={0}
+        onKeyDown={e => {
+          if (e.key === ' ' || e.key === 'Enter') {
+            if (toggleDetails) {
+              toggleDetails();
+            }
+            e.stopPropagation();
+          }
+        }}
+      >
+        {toggleDetails && (
+          <div className="alert-row-arrow">
+            <Icon
+              img="icon_arrow-collapse--right"
+              color={config.colors.primary}
+            />
+          </div>
+        )}
+        <div className="alert-row-top">
+          <DisruptionBadge
+            showIcon
+            variant={alertSeverityLevel}
+            label={alertEffect || 'no_service'}
           />
-        </button>
-      )}
-      <div className="alert-row-top">
-        <DisruptionBadge
-          showIcon
-          variant={alertSeverityLevel}
-          label={alertEffect || 'no_service'}
-        />
-        {status}
-      </div>
-      <div className="alert-row-badges">
-        {groupedEntities &&
-          Object.entries(groupedEntities).map(
-            ([key, { typename, mode, items }]) => {
-              const isStop = typename === AlertEntityType.Stop;
-              return (
-                <Fragment key={key}>
-                  <Icon
-                    img={`icon_${
-                      mode.toLowerCase() === 'bus-express'
-                        ? 'bus'
-                        : mode.toLowerCase()
-                    }`}
-                    className={`${mode.toLowerCase()}`}
-                    height={2}
-                    width={2}
-                    iconScale={isStop ? 0.5 : 1}
-                    background={
-                      isStop && (
-                        <IconBackground shape="stopsign" color="currentcolor" />
-                      )
-                    }
-                  />
-                  {items.map(({ gtfsId, shortName, name, locationType }) => {
-                    const isStation = locationType === LocationTypes.STATION;
-                    return (
-                      <span key={gtfsId} className="mode-badge">
+          {status}
+        </div>
+        <div className="alert-row-badges">
+          {groupedEntities &&
+            Object.entries(groupedEntities).map(
+              ([key, { typename, mode, items }]) => {
+                const isStop = typename === AlertEntityType.Stop;
+                return (
+                  <Fragment key={key}>
+                    <Icon
+                      img={transitIconName(mode)}
+                      className={mode.toLowerCase()}
+                      height={2.15}
+                      width={2.15}
+                      iconScale={isStop ? 0.5 : 1}
+                      background={
+                        isStop && (
+                          <IconBackground
+                            shape="stopsign"
+                            color="currentcolor"
+                          />
+                        )
+                      }
+                    />
+                    {items.map(({ gtfsId, shortName, name, locationType }) => {
+                      const isStation = locationType === LocationTypes.STATION;
+                      return (
                         <a
+                          key={gtfsId}
+                          className={cx('mode-badge', mode.toLowerCase())}
                           href={
                             isStop
                               ? stopPagePath(isStation, gtfsId)
@@ -142,6 +150,7 @@ export default function Disruption({
                           }
                           onClick={e => {
                             e.preventDefault();
+                            e.stopPropagation();
                             match.router.push(
                               isStop
                                 ? stopPagePath(isStation, gtfsId)
@@ -149,29 +158,31 @@ export default function Disruption({
                             );
                           }}
                         >
-                          <span>{isStop ? name : shortName}</span>
+                          <div>
+                            <span>{isStop ? name : shortName}</span>
+                          </div>
                         </a>
-                      </span>
-                    );
-                  })}
-                </Fragment>
-              );
-            },
-          )}
-      </div>
-      <div className="alert-row-bottom">
-        <span className="alert-row-title">{alertHeaderText}</span>
-        {canceledDepartures.length > 0 && (
-          <div className="canceled-departures">
-            {canceledDepartures.map(st => (
-              <span key={st.scheduledDeparture} className="cancelation-badge">
-                <span className="canceled">
-                  {getStartTimeWithColon(st.scheduledDeparture)}
+                      );
+                    })}
+                  </Fragment>
+                );
+              },
+            )}
+        </div>
+        <div className="alert-row-bottom">
+          <span className="alert-row-title">{alertHeaderText}</span>
+          {canceledDepartures.length > 0 && (
+            <div className="canceled-departures">
+              {canceledDepartures.map(st => (
+                <span key={st.scheduledDeparture} className="cancelation-badge">
+                  <span className="canceled">
+                    {getStartTimeWithColon(st.scheduledDeparture)}
+                  </span>
                 </span>
-              </span>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

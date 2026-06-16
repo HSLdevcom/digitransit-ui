@@ -189,14 +189,14 @@ export default {
     'disruption-info-no-alerts': 'Inga kända störningar eller avvikelser.',
     'disruption-info-route-no-alerts':
       'Linjen har för tillfället inga kända störningar eller avvikelser.',
-    'disruption-list-active': 'Aktiva',
-    'disruption-list-no-active-alerts': 'Inga kända aktiva störningar',
+    'disruption-list-active': 'Aktuella',
+    'disruption-list-no-active-alerts': 'Inga kända störningar',
     'disruption-list-no-upcoming-alerts':
       'Inga kända kommande störningar eller avvikelser',
-    'disruption-list-traffic-normal': 'Trafik normal',
+    'disruption-list-traffic-normal': 'Normal trafik',
     'disruption-list-upcoming': 'Kommande',
-    'disruption-view-details': 'View details',
-    'disruption-view-timetable': 'View timetable',
+    'disruption-view-details': 'Mer information',
+    'disruption-view-timetable': 'Öppna tidtabell',
     disruptions: 'Störningar',
     'disruptions-and-diversions': 'Störningar och avvikelser',
     'disruptions-change-filters': 'Försök igen genom att ändra dina val.',
@@ -244,7 +244,8 @@ export default {
     'from-tram': 'spårvagnen',
     frontpage: 'Framsidan',
     funicular: 'Bergbanan',
-    'generic-cancelation': '{mode} {route} {headsign} ställs in kl. {times} .',
+    'generic-cancelation':
+      '{mode} {route} {headsign} har ställs in kl. {times}',
     'generic-error': 'Det hände ett fel',
     'geolocation-denied-heading': 'Delning av platsinformation är förbjudet',
     'geolocation-denied-text':

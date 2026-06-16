@@ -119,7 +119,7 @@ describe('<Disruption />', () => {
     expect(
       wrapper.find(Icon).findWhere(n => n.prop('className') === 'bus'),
     ).to.have.lengthOf(1);
-    const link = wrapper.find('.mode-badge a');
+    const link = wrapper.find('.mode-badge');
     expect(link).to.have.lengthOf(1);
     expect(link.prop('href')).to.equal(routePagePath('HSL:2097N'));
     expect(link.find('span').text()).to.equal('97N');
@@ -135,7 +135,7 @@ describe('<Disruption />', () => {
     const wrapper = shallowWithIntl(<Disruption {...props} />, {
       context: mockContext,
     });
-    const link = wrapper.find('.mode-badge a');
+    const link = wrapper.find('.mode-badge');
     expect(link).to.have.lengthOf(1);
     expect(link.prop('href')).to.equal(
       `/${PREFIX_STOPS}/${encodeURIComponent('HSL:1234')}`,
@@ -153,7 +153,7 @@ describe('<Disruption />', () => {
     const wrapper = shallowWithIntl(<Disruption {...props} />, {
       context: mockContext,
     });
-    const link = wrapper.find('.mode-badge a');
+    const link = wrapper.find('.mode-badge');
     expect(link.prop('href')).to.equal(
       `/${PREFIX_TERMINALS}/${encodeURIComponent('HSL:5678')}`,
     );

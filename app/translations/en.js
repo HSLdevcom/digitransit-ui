@@ -191,11 +191,11 @@ export default {
     'disruption-info-no-alerts': 'No known disruptions or diversions.',
     'disruption-info-route-no-alerts':
       'No known disruptions or diversions to the route.',
-    'disruption-list-active': 'Active',
-    'disruption-list-no-active-alerts': 'No known active disruptions',
+    'disruption-list-active': 'Ongoing',
+    'disruption-list-no-active-alerts': 'No known ongoing disruptions',
     'disruption-list-no-upcoming-alerts':
       'No known upcoming disruptions or diversions',
-    'disruption-list-traffic-normal': 'Traffic normal',
+    'disruption-list-traffic-normal': 'Services normal',
     'disruption-list-upcoming': 'Upcoming',
     'disruption-view-details': 'View details',
     'disruption-view-timetable': 'View timetable',
