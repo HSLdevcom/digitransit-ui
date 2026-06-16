@@ -37,21 +37,32 @@
 }
 
 .stop-schedule-status {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   padding: 2px 8px;
-  border-radius: $border-radius;
-  font-size: 13px;
-  font-weight: $font-weight-medium;
-  letter-spacing: -0.37px;
+  font-size: $font-size-xxsmall;
+  font-weight: $font-weight-semibold;
+  letter-spacing: $letter-spacing;
+  border-radius: var(--radius-s);
 
   &.out-of-service {
-    color: $cancelation-red;
-    background-color: $cancelation-background;
+    color: var(--color-text-error);
+    background: var(--color-surface-error);
   }
 
   &.no-service-today {
-    color: $dark-gray;
-    background-color: $background-color-darker;
+    color: var(--color-text-weak);
+    background: var(--color-surface-background);
+  }
+
+  &.alert {
+    color: var(--color-text-error);
+    background: var(--color-surface-error);
+  }
+
+  &.info {
+    color: var(--color-text-weak);
+    background: var(--color-surface-background);
   }
 }
 

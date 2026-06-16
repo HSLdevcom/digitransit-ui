@@ -1,9 +1,29 @@
-import { isAlertValid } from './alertUtils';
+import { isAlertValid, getMaximumAlertSeverityLevel } from './alertUtils';
+import { AlertSeverityLevelType } from '../constants';
 
 export const STOP_STATUS = {
   OUT_OF_SERVICE: 'out-of-service',
   NO_SERVICE_TODAY: 'no-service-today',
+  ALERT: 'alert',
+  INFO: 'info',
 };
+
+/**
+ * Maps an alert severity level to the matching stop status. Info-level alerts
+ * map to the INFO status (gray info icon); warning, severe and unknown levels
+ * map to the ALERT status (red triangle).
+ *
+ * @param {string} alertSeverityLevel an AlertSeverityLevelType value
+ * @returns {string|null} STOP_STATUS.ALERT, STOP_STATUS.INFO or null
+ */
+export function severityToStatus(alertSeverityLevel) {
+  if (!alertSeverityLevel) {
+    return null;
+  }
+  return alertSeverityLevel === AlertSeverityLevelType.Info
+    ? STOP_STATUS.INFO
+    : STOP_STATUS.ALERT;
+}
 
 /**
  * Whether a stop should be treated as fully out of service: either it is closed
@@ -38,6 +58,7 @@ export function isStopOutOfService({
  * @param {boolean} params.closedByServiceAlert stop is closed by a service alert
  * @param {boolean} params.servicesRunningOnServiceDate services run on the current service date
  * @param {boolean} params.servicesRunningInFuture services run on a future service date
+ * @param {string} [params.alertSeverityLevel] severity of the stop's active alert
  * @returns {string|null} one of STOP_STATUS values or null when no status applies
  */
 export default function getStopStatus({
@@ -45,6 +66,7 @@ export default function getStopStatus({
   closedByServiceAlert,
   servicesRunningOnServiceDate,
   servicesRunningInFuture,
+  alertSeverityLevel,
 }) {
   if (!showStopStatusMarkers) {
     return null;
@@ -61,7 +83,30 @@ export default function getStopStatus({
   if (servicesRunningOnServiceDate === false) {
     return STOP_STATUS.NO_SERVICE_TODAY;
   }
-  return null;
+  return severityToStatus(alertSeverityLevel);
+}
+
+/**
+ * Returns the alert effect (e.g. DETOUR, SIGNIFICANT_DELAYS) of the
+ * highest-severity alert that is valid at the given time. Used to label the
+ * status pill with the same `disruption-badge-*` text shown in Traffic now.
+ *
+ * @param {Array} alerts the stop's alerts
+ * @param {number} nowUnixTime reference unix time (seconds) for alert validity
+ * @returns {string|null} the dominant active alert's effect, or null
+ */
+export function getStopAlertEffect(alerts, nowUnixTime) {
+  const activeAlerts = (alerts || []).filter(
+    alert => alert && isAlertValid(alert, nowUnixTime),
+  );
+  const level = getMaximumAlertSeverityLevel(activeAlerts);
+  if (!level) {
+    return null;
+  }
+  const dominant =
+    activeAlerts.find(alert => alert.alertSeverityLevel === level) ||
+    activeAlerts[0];
+  return (dominant && dominant.alertEffect) || null;
 }
 
 /**
@@ -83,9 +128,11 @@ export function getStopStatusFromStopData({
   if (!showStopStatusMarkers || !stop) {
     return null;
   }
-  const closedByServiceAlert = (stop.alerts || []).some(
-    alert =>
-      alert.alertEffect === 'NO_SERVICE' && isAlertValid(alert, nowUnixTime),
+  const activeAlerts = (stop.alerts || []).filter(
+    alert => alert && isAlertValid(alert, nowUnixTime),
+  );
+  const closedByServiceAlert = activeAlerts.some(
+    alert => alert.alertEffect === 'NO_SERVICE',
   );
   const servicesRunningOnServiceDate = (
     stop.stoptimesForServiceDate || []
@@ -98,5 +145,6 @@ export function getStopStatusFromStopData({
     closedByServiceAlert,
     servicesRunningOnServiceDate,
     servicesRunningInFuture,
+    alertSeverityLevel: getMaximumAlertSeverityLevel(activeAlerts),
   });
 }

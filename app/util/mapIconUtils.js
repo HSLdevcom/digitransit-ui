@@ -4,6 +4,7 @@ import ReactDOMServer from 'react-dom/server';
 import glfun from './glfun';
 import { transitIconName } from './modeUtils';
 import { getModeIconColor } from './colorUtils';
+import { severityToStatus, STOP_STATUS } from './stopStatusUtils';
 import { ParkTypes, TransportMode } from '../constants';
 
 /**
@@ -319,13 +320,22 @@ function drawStopStatusBadge(
   iconWidth,
   stopOutOfService,
   noServiceOnServiceDay,
+  alertSeverityLevel,
 ) {
   const badgeSize = iconWidth * 0.75; // badge size is 75% of the icon size
-  const badgeImageId = stopOutOfService
-    ? `icon_stop-closed-badge`
-    : `icon_stop-temporarily-closed-badge`;
+  const alertStatus = severityToStatus(alertSeverityLevel);
+  let badgeImageId;
+  if (stopOutOfService) {
+    badgeImageId = 'icon_stop-closed-badge';
+  } else if (noServiceOnServiceDay) {
+    badgeImageId = 'icon_stop-temporarily-closed-badge';
+  } else if (alertStatus === STOP_STATUS.ALERT) {
+    badgeImageId = 'icon_caution-badge';
+  } else if (alertStatus === STOP_STATUS.INFO) {
+    badgeImageId = 'icon_info-circled-badge';
+  }
 
-  if (noServiceOnServiceDay || stopOutOfService) {
+  if (badgeImageId) {
     getImageFromSpriteCache(badgeImageId, badgeSize, badgeSize).then(
       badgeImage => {
         drawTopRightCornerIconBadge(
@@ -389,6 +399,7 @@ export function drawStopIcon(
   config,
   stopOutOfService,
   noServiceOnServiceDay,
+  alertSeverityLevel,
 ) {
   const color = getModeIconColor(config, mode);
   const zoom = tile.coords.z - 1;
@@ -426,6 +437,7 @@ export function drawStopIcon(
         width,
         stopOutOfService,
         noServiceOnServiceDay,
+        alertSeverityLevel,
       );
       if (drawNumber && platformNumber) {
         x += radius;

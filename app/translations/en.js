@@ -741,6 +741,8 @@ export default {
     stop: 'Stop',
     'stop-departure-time-future': 'Departure time is in {minutes} minutes',
     'stop-departure-time-past': 'Departure time was',
+    'stop-has-alert': 'Service alert at stop',
+    'stop-has-info': 'Notice at stop',
     'stop-list-update.sr-instructions':
       'Departure times for each stop will update in real time.',
     'stop-near-you': 'Search stops and routes near you',

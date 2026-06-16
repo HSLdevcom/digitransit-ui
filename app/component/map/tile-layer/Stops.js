@@ -101,7 +101,9 @@ class Stops {
       const noServiceOnServiceDay =
         this.config.showStopStatusMarkers &&
         feature.properties.servicesRunningOnServiceDate === false;
-
+      const alertSeverityLevel = this.config.showStopStatusMarkers
+        ? feature.properties.alertSeverityLevel
+        : undefined;
       if (isHighlighted && zoom <= minZoom) {
         // Fetch stop details only when stop is highlighted and realtime layer is not used (zoom level)
         this.drawHighlighted(
@@ -110,6 +112,7 @@ class Stops {
           isHighlighted,
           noServiceOnServiceDay,
           stopOutOfService,
+          alertSeverityLevel,
         );
       } else {
         drawStopIcon(
@@ -128,6 +131,7 @@ class Stops {
           this.config,
           stopOutOfService,
           noServiceOnServiceDay,
+          alertSeverityLevel,
         );
       }
     }
@@ -352,6 +356,7 @@ class Stops {
     isHighlighted,
     noServiceOnServiceDay,
     stopOutOfService,
+    alertSeverityLevel,
   ) => {
     const date = DateTime.now();
     const callback = ({ stop: result }) => {
@@ -372,6 +377,7 @@ class Stops {
           this.config,
           stopOutOfService,
           noServiceOnServiceDay,
+          alertSeverityLevel,
         );
       }
       return this;

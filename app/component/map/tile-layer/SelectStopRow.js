@@ -26,6 +26,8 @@ function SelectStopRow({
   closedByServiceAlert = undefined,
   servicesRunningInFuture = undefined,
   servicesRunningOnServiceDate = undefined,
+  alertSeverityLevel = undefined,
+  alertEffect = undefined,
 }) {
   const config = useConfigContext();
   const mode = getStopMode(type, routes, code, config, terminal);
@@ -45,6 +47,7 @@ function SelectStopRow({
     closedByServiceAlert,
     servicesRunningOnServiceDate,
     servicesRunningInFuture,
+    alertSeverityLevel,
   });
 
   return (
@@ -78,7 +81,11 @@ function SelectStopRow({
             </span>
           )}
         </div>
-        <StopScheduleStatus status={status} className="choose-row-status" />
+        <StopScheduleStatus
+          status={status}
+          alertEffect={config.showStopStatusMarkers ? alertEffect : undefined}
+          className="choose-row-status"
+        />
       </span>
       <span className="choose-row-right-column">
         <Icon img="icon_arrow-collapse--right" />
@@ -101,6 +108,8 @@ SelectStopRow.propTypes = {
   closedByServiceAlert: PropTypes.bool,
   servicesRunningInFuture: PropTypes.bool,
   servicesRunningOnServiceDate: PropTypes.bool,
+  alertSeverityLevel: PropTypes.string,
+  alertEffect: PropTypes.string,
 };
 
 export default SelectStopRow;

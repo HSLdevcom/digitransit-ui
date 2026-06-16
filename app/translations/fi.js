@@ -723,6 +723,8 @@ export default {
     stop: 'Pysäkki',
     'stop-departure-time-future': 'Lähtöaika {minutes} min päästä',
     'stop-departure-time-past': 'Lähtöaika oli',
+    'stop-has-alert': 'Häiriö pysäkillä',
+    'stop-has-info': 'Tiedote pysäkillä',
     'stop-list-update.sr-instructions':
       'Pysäkkien lähtöajat päivittyvät reaaliajassa.',
     'stop-near-you': 'Linja, pysäkki tai asema',

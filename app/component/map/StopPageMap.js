@@ -55,6 +55,7 @@ function StopPageMap(
     mapLayerOptions,
     stopName = undefined,
     stopStatus = undefined,
+    stopAlertEffect = undefined,
   },
   { config, match },
 ) {
@@ -146,6 +147,7 @@ function StopPageMap(
           stop={stop}
           name={stopName}
           status={stopStatus}
+          alertEffect={stopAlertEffect}
         />
       </SelectedStopPopup>,
     );
@@ -212,6 +214,7 @@ StopPageMap.propTypes = {
   parkType: PropTypes.string,
   stopName: PropTypes.node,
   stopStatus: PropTypes.string,
+  stopAlertEffect: PropTypes.string,
 };
 
 const componentWithBreakpoint = withBreakpoint(StopPageMap);

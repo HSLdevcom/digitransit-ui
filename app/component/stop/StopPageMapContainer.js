@@ -4,21 +4,36 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { DateTime } from 'luxon';
 import StopPageMap from '../map/StopPageMap';
 import { useConfigContext } from '../../configurations/ConfigContext';
-import { getStopStatusFromStopData } from '../../util/stopStatusUtils';
+import {
+  STOP_STATUS,
+  getStopStatusFromStopData,
+  getStopAlertEffect,
+} from '../../util/stopStatusUtils';
 
-function StopPageMapContainer({ stop }) {
+function StopPageMapContainer({ stop = undefined }) {
   const config = useConfigContext();
   if (!stop) {
     return false;
   }
 
+  const nowUnixTime = DateTime.now().toUnixInteger();
   const stopStatus = getStopStatusFromStopData({
     stop,
-    nowUnixTime: DateTime.now().toUnixInteger(),
+    nowUnixTime,
     showStopStatusMarkers: config.showStopStatusMarkers,
   });
+  const stopAlertEffect =
+    stopStatus === STOP_STATUS.ALERT || stopStatus === STOP_STATUS.INFO
+      ? getStopAlertEffect(stop.alerts, nowUnixTime)
+      : null;
 
-  return <StopPageMap stop={stop} stopStatus={stopStatus} />;
+  return (
+    <StopPageMap
+      stop={stop}
+      stopStatus={stopStatus}
+      stopAlertEffect={stopAlertEffect}
+    />
+  );
 }
 
 StopPageMapContainer.propTypes = {
@@ -27,10 +42,6 @@ StopPageMapContainer.propTypes = {
     lon: PropTypes.number.isRequired,
     platformCode: PropTypes.string,
   }),
-};
-
-StopPageMapContainer.defaultProps = {
-  stop: undefined,
 };
 
 const containerComponent = createFragmentContainer(StopPageMapContainer, {
@@ -52,6 +63,7 @@ const containerComponent = createFragmentContainer(StopPageMapContainer, {
       gtfsId
       alerts(types: [STOP]) {
         alertEffect
+        alertSeverityLevel
         effectiveStartDate
         effectiveEndDate
       }

@@ -730,6 +730,8 @@ export default {
     stop: 'Hållplats',
     'stop-departure-time-future': 'Avgångstid är i {minutes} minuter',
     'stop-departure-time-past': 'Avgångstid var klockan',
+    'stop-has-alert': 'Störning vid hållplatsen',
+    'stop-has-info': 'Meddelande vid hållplatsen',
     'stop-list-update.sr-instructions':
       'Avgångstider uppdateras i realtid för varje hållplats.',
     'stop-near-you': 'Sök hållplatser eller linjer nära dig',

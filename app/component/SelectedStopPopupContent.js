@@ -7,6 +7,7 @@ const SelectedStopPopupContent = ({
   stop,
   name = undefined,
   status = undefined,
+  alertEffect = undefined,
 }) => (
   <div className="origin-popup">
     <div className="origin-popup-header">
@@ -23,7 +24,11 @@ const SelectedStopPopupContent = ({
         <div className="shade-to-white" />
       </div>
     )}
-    <StopScheduleStatus status={status} className="selected-stop-status" />
+    <StopScheduleStatus
+      status={status}
+      alertEffect={alertEffect}
+      className="selected-stop-status"
+    />
   </div>
 );
 
@@ -31,6 +36,7 @@ SelectedStopPopupContent.propTypes = {
   stop: stopShape.isRequired,
   name: PropTypes.node,
   status: PropTypes.string,
+  alertEffect: PropTypes.string,
 };
 
 SelectedStopPopupContent.displayName = 'SelectedStopPopupContent';
