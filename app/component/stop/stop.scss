@@ -12,18 +12,7 @@
   margin-right: 3px;
   border-radius: 999em;
   color: white;
-}
-
-.active-disruption-alert {
-  .alert-circle {
-    background-color: $disruption-color;
-  }
-}
-
-.active-service-alert {
-  .alert-circle {
-    background-color: rgba(136, 136, 136, 1);
-  }
+  background-color: $disruption-color;
 }
 
 .stop-page-content-wrapper {
