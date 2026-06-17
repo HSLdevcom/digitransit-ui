@@ -24,12 +24,15 @@ import { DATE_FORMAT } from './constants';
 // departures for the schedule-status badge shown on the stop page map.
 const STOP_STATUS_TIME_RANGE = 90 * 24 * 60 * 60;
 
-const prepareStopMapVariables = params => ({
-  ...params,
-  date: DateTime.now().toFormat(DATE_FORMAT),
-  startTime: DateTime.now().toUnixInteger(),
-  timeRange: STOP_STATUS_TIME_RANGE,
-});
+const prepareStopMapVariables = params => {
+  const now = DateTime.now();
+  return {
+    ...params,
+    date: now.toFormat(DATE_FORMAT),
+    startTime: now.toUnixInteger(),
+    timeRange: STOP_STATUS_TIME_RANGE,
+  };
+};
 
 const queries = {
   stop: {

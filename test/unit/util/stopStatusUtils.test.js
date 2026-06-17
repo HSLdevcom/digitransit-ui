@@ -6,6 +6,7 @@ import getStopStatus, {
   getStopStatusFromStopData,
   getStopAlertEffect,
   severityToStatus,
+  combineStopStatuses,
 } from '../../../app/util/stopStatusUtils';
 
 describe('stopStatusUtils', () => {
@@ -96,6 +97,32 @@ describe('stopStatusUtils', () => {
 
     it('returns null when there is no severity level', () => {
       expect(severityToStatus(undefined)).to.equal(null);
+    });
+  });
+
+  describe('combineStopStatuses', () => {
+    it('returns the shared status when both stops match', () => {
+      expect(
+        combineStopStatuses(
+          STOP_STATUS.NO_SERVICE_TODAY,
+          STOP_STATUS.NO_SERVICE_TODAY,
+        ),
+      ).to.equal(STOP_STATUS.NO_SERVICE_TODAY);
+    });
+
+    it('returns ALERT when the statuses differ but both are red-level', () => {
+      expect(
+        combineStopStatuses(STOP_STATUS.OUT_OF_SERVICE, STOP_STATUS.ALERT),
+      ).to.equal(STOP_STATUS.ALERT);
+    });
+
+    it('returns INFO when the statuses differ and are not both red-level', () => {
+      expect(
+        combineStopStatuses(
+          STOP_STATUS.OUT_OF_SERVICE,
+          STOP_STATUS.NO_SERVICE_TODAY,
+        ),
+      ).to.equal(STOP_STATUS.INFO);
     });
   });
 
@@ -250,7 +277,6 @@ describe('stopStatusUtils', () => {
             {
               alertEffect: 'SIGNIFICANT_DELAYS',
               alertSeverityLevel: 'WARNING',
-              alertHeaderText: 'Tracks under maintenance',
               effectiveStartDate: NOW - 100,
               effectiveEndDate: NOW + 100,
             },

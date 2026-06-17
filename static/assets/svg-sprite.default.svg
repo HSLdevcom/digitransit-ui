@@ -1303,11 +1303,11 @@
    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.52941 4.05651V3.94262C9.52941 3.16813 8.90789 2.66699 8.08659 2.66699C7.2653 2.66699 6.64378 3.16813 6.64378 3.94262V4.05651C6.64378 4.831 7.2653 5.35492 8.08659 5.35492C8.90789 5.35492 9.52941 4.831 9.52941 4.05651Z" fill="#fff"/>
   </symbol>
 
-  <svg id="icon_stop-info-badge" viewBox="0 0 18 18">
+  <symbol id="icon_stop-info-badge" viewBox="0 0 18 18">
    <circle cx="9" cy="9" r="8.5" fill="#888" stroke="#fff"/>
    <circle cx="9" cy="5.7" r="1" fill="#fff"/>
    <rect x="8.1" y="7.6" width="1.8" height="5" rx="0.9" fill="#fff"/>
-  </svg>
+  </symbol>
 
   <symbol id="icon_taxi-external" viewBox="0 0 24 24">
    <path fill="currentColor" d="M21.6 24H2.4A2.4 2.4 0 0 1 0 21.6V2.4A2.4 2.4 0 0 1 2.4 0h19.2A2.4 2.4 0 0 1 24 2.4v19.2a2.4 2.4 0 0 1-2.4 2.4"/>

@@ -311,6 +311,32 @@ function drawSelectionCircle(tile, x, y, zoom, radius) {
 }
 
 /**
+ * Maps a resolved stop status to the sprite id of its corner badge.
+ */
+const STOP_STATUS_BADGE_IMAGES = {
+  [STOP_STATUS.OUT_OF_SERVICE]: 'icon_stop-closed-badge',
+  [STOP_STATUS.NO_SERVICE_TODAY]: 'icon_stop-temporarily-closed-badge',
+  [STOP_STATUS.ALERT]: 'icon_caution-badge',
+  [STOP_STATUS.INFO]: 'icon_info-circled-badge',
+};
+
+/**
+ * Draw the corner badge for a resolved stop status on top of the icon.
+ */
+function drawStopStatusBadgeForStatus(tile, x, y, iconWidth, status) {
+  const badgeImageId = status && STOP_STATUS_BADGE_IMAGES[status];
+  if (!badgeImageId) {
+    return;
+  }
+  const badgeSize = iconWidth * 0.75; // badge size is 75% of the icon size
+  getImageFromSpriteCache(badgeImageId, badgeSize, badgeSize).then(
+    badgeImage => {
+      drawTopRightCornerIconBadge(badgeImage, tile, x, y, iconWidth, badgeSize);
+    },
+  );
+}
+
+/**
  * Draw a badge icon on top of the icon.
  */
 function drawStopStatusBadge(
@@ -322,33 +348,15 @@ function drawStopStatusBadge(
   noServiceOnServiceDay,
   alertSeverityLevel,
 ) {
-  const badgeSize = iconWidth * 0.75; // badge size is 75% of the icon size
-  const alertStatus = severityToStatus(alertSeverityLevel);
-  let badgeImageId;
+  let status;
   if (stopOutOfService) {
-    badgeImageId = 'icon_stop-closed-badge';
+    status = STOP_STATUS.OUT_OF_SERVICE;
   } else if (noServiceOnServiceDay) {
-    badgeImageId = 'icon_stop-temporarily-closed-badge';
-  } else if (alertStatus === STOP_STATUS.ALERT) {
-    badgeImageId = 'icon_caution-badge';
-  } else if (alertStatus === STOP_STATUS.INFO) {
-    badgeImageId = 'icon_info-circled-badge';
+    status = STOP_STATUS.NO_SERVICE_TODAY;
+  } else {
+    status = severityToStatus(alertSeverityLevel);
   }
-
-  if (badgeImageId) {
-    getImageFromSpriteCache(badgeImageId, badgeSize, badgeSize).then(
-      badgeImage => {
-        drawTopRightCornerIconBadge(
-          badgeImage,
-          tile,
-          x,
-          y,
-          iconWidth,
-          badgeSize,
-        );
-      },
-    );
-  }
+  drawStopStatusBadgeForStatus(tile, x, y, iconWidth, status);
 }
 
 /**
@@ -456,24 +464,23 @@ export function drawStopIcon(
         tile.ctx.fillText(platformNumber, x, y);
         /* eslint-enable no-param-reassign */
       }
-    });
-
-    if (isHighlighted) {
-      if (isFerryTerminal) {
-        getImageFromSpriteCache(`icon_station_highlight`, width, height).then(
-          image => {
-            tile.ctx.drawImage(
-              image,
-              x - 4 / tile.scaleratio,
-              y - 4 / tile.scaleratio,
-              width + 8 / tile.scaleratio,
-              height + 8 / tile.scaleratio,
-            );
-          },
-        );
-      } else {
+      if (isHighlighted && !isFerryTerminal) {
         drawSelectionCircle(tile, x, y, zoom, radius);
       }
+    });
+
+    if (isHighlighted && isFerryTerminal) {
+      getImageFromSpriteCache(`icon_station_highlight`, width, height).then(
+        image => {
+          tile.ctx.drawImage(
+            image,
+            x - 4 / tile.scaleratio,
+            y - 4 / tile.scaleratio,
+            width + 8 / tile.scaleratio,
+            height + 8 / tile.scaleratio,
+          );
+        },
+      );
     }
   }
 }
@@ -488,6 +495,7 @@ export function drawHybridStopIcon(
   isHighlighted,
   config,
   hasTrunkRoute = false,
+  hybridStatus = null,
 ) {
   const zoom = tile.coords.z - 1;
   const styles = getStopIconStyles('hybrid', zoom, isHighlighted);
@@ -535,6 +543,7 @@ export function drawHybridStopIcon(
       height,
     ).then(image => {
       tile.ctx.drawImage(image, x, y);
+      drawStopStatusBadgeForStatus(tile, x, y, width, hybridStatus);
       if (isHighlighted) {
         tile.ctx.beginPath();
         // eslint-disable-next-line no-param-reassign

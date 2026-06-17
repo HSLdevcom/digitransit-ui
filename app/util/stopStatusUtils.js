@@ -87,6 +87,38 @@ export default function getStopStatus({
 }
 
 /**
+ * Statuses drawn with a red icon (out of service or a warning/severe alert).
+ */
+const RED_LEVEL_STATUSES = [STOP_STATUS.OUT_OF_SERVICE, STOP_STATUS.ALERT];
+
+/**
+ * Combines the statuses of the two stops that form a hybrid (double) stop into
+ * the single status shown on the shared map icon.
+ *
+ * - When both stops share the same status, that status is used.
+ * - When the statuses differ but both are red-level (out of service or alert),
+ *   the ALERT status (red triangle) is used.
+ * - When the statuses differ otherwise, the INFO status (gray info icon) is
+ *   used to indicate that the stops differ and details are in the popover.
+ *
+ * @param {string|null} statusA the first stop's status
+ * @param {string|null} statusB the second stop's status
+ * @returns {string|null} the combined status or null when both stops have none
+ */
+export function combineStopStatuses(statusA, statusB) {
+  if (statusA === statusB) {
+    return statusA;
+  }
+  if (
+    RED_LEVEL_STATUSES.includes(statusA) &&
+    RED_LEVEL_STATUSES.includes(statusB)
+  ) {
+    return STOP_STATUS.ALERT;
+  }
+  return STOP_STATUS.INFO;
+}
+
+/**
  * Returns the alert effect (e.g. DETOUR, SIGNIFICANT_DELAYS) of the
  * highest-severity alert that is valid at the given time. Used to label the
  * status pill with the same `disruption-badge-*` text shown in Traffic now.

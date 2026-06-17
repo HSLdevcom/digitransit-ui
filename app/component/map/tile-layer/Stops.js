@@ -17,7 +17,10 @@ import {
 import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../util/path';
 import { splitGtfsId } from '../../../util/gtfs';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
-import { isStopOutOfService } from '../../../util/stopStatusUtils';
+import getStopStatus, {
+  isStopOutOfService,
+  combineStopStatuses,
+} from '../../../util/stopStatusUtils';
 
 const stopAlertsQuery = graphql`
   query StopsQuery($stopId: String!, $date: String!) {
@@ -37,6 +40,16 @@ const stopAlertsQuery = graphql`
 
 function isNull(val) {
   return val === 'null' || val === undefined || val === null;
+}
+
+function getStopStatusForProperties(properties, showStopStatusMarkers) {
+  return getStopStatus({
+    showStopStatusMarkers,
+    closedByServiceAlert: properties.closedByServiceAlert,
+    servicesRunningOnServiceDate: properties.servicesRunningOnServiceDate,
+    servicesRunningInFuture: properties.servicesRunningInFuture,
+    alertSeverityLevel: properties.alertSeverityLevel,
+  });
 }
 
 const shouldRenderTerminalIcon = (mode, path, vehicles) => {
@@ -85,12 +98,24 @@ class Stops {
       feature.properties.type === 'SUBWAY';
     if (ignoreMinZoomLevel || zoom >= minZoom) {
       if (isHybrid) {
+        const ownStatus = getStopStatusForProperties(
+          feature.properties,
+          this.config.showStopStatusMarkers,
+        );
+        const sibling = feature.properties.hybridSiblingProperties;
+        const siblingStatus = sibling
+          ? getStopStatusForProperties(
+              sibling,
+              this.config.showStopStatusMarkers,
+            )
+          : null;
         drawHybridStopIcon(
           this.tile,
           feature.geom,
           isHighlighted,
           this.config,
           mode === 'bus-express',
+          combineStopStatuses(ownStatus, siblingStatus),
         );
         return;
       }
@@ -238,6 +263,10 @@ class Stops {
                       prevFeature.properties.type === 'BUS' ? f : prevFeature;
                     hybridGtfsIdByCode[featWithBus.properties.code] =
                       featWithBus.properties.gtfsId;
+                    // remember the sibling stop's properties so the shared
+                    // hybrid icon can combine both stops' statuses
+                    featWithBus.properties.hybridSiblingProperties =
+                      featWithoutBus.properties;
                     // Also change highlighted stopId to the stop with type = BUS in hybrid stop cases
                     if (
                       this.tile.highlightedStops &&
@@ -256,9 +285,24 @@ class Stops {
                 }
               }
             }
-            // sort to draw in correct order
+            // sort to draw in correct order; draw highlighted stops last so they appear on top
             this.features
-              .sort((a, b) => a.geom.y - b.geom.y)
+              .sort((a, b) => {
+                const aHighlighted =
+                  this.tile.highlightedStops &&
+                  this.tile.highlightedStops.includes(a.properties.gtfsId)
+                    ? 1
+                    : 0;
+                const bHighlighted =
+                  this.tile.highlightedStops &&
+                  this.tile.highlightedStops.includes(b.properties.gtfsId)
+                    ? 1
+                    : 0;
+                if (aHighlighted !== bHighlighted) {
+                  return aHighlighted - bHighlighted;
+                }
+                return a.geom.y - b.geom.y;
+              })
               .forEach(f => {
                 /* Note: don't expand separate stops sharing the same code,
                  unless type is different and location actually overlaps. */

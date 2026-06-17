@@ -39,27 +39,19 @@
 .stop-schedule-status {
   display: inline-flex;
   align-items: center;
-  padding: 2px 8px;
+  padding: var(--space-xxs) var(--space-xs);
   font-size: $font-size-xxsmall;
   font-weight: $font-weight-semibold;
   letter-spacing: $letter-spacing;
   border-radius: var(--radius-s);
 
-  &.out-of-service {
-    color: var(--color-text-error);
-    background: var(--color-surface-error);
-  }
-
-  &.no-service-today {
-    color: var(--color-text-weak);
-    background: var(--color-surface-background);
-  }
-
+  &.out-of-service,
   &.alert {
     color: var(--color-text-error);
     background: var(--color-surface-error);
   }
 
+  &.no-service-today,
   &.info {
     color: var(--color-text-weak);
     background: var(--color-surface-background);
