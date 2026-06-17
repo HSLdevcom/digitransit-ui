@@ -125,14 +125,18 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
   };
 
   const refreshTokens = function (req, res, next) {
+    const now = Math.floor(new Date().getTime() / 1000);
+    const refreshSkewSeconds = 60;
+
     if (
       req.isAuthenticated() &&
-      req.user.token.refresh_token &&
-      Math.floor(new Date().getTime() / 1000) >= req.user.token.expires_at
+      req.user?.token?.refresh_token &&
+      req.user.token.expires_at &&
+      now + refreshSkewSeconds >= req.user.token.expires_at
     ) {
       return passport.authenticate('passport-openid-connect', {
         refresh: true,
-        successReturnToOrRedirect: `/${indexPath}`,
+        keepSessionInfo: true,
         failureRedirect: `/${indexPath}`,
       })(req, res, next);
     }
