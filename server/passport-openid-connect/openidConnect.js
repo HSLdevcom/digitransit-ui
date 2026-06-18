@@ -12,6 +12,26 @@ const debugLogging = process.env.DEBUGLOGGING;
 
 axios.defaults.timeout = 12000;
 
+function getFirstQueryValue(value) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
+function safeLocalReturnTo(value, fallback) {
+  const returnTo = getFirstQueryValue(value);
+
+  if (!returnTo || typeof returnTo !== 'string') {
+    return fallback;
+  }
+
+  // Only allow local application paths.
+  // Reject absolute URLs and protocol-relative URLs.
+  if (!returnTo.startsWith('/') || returnTo.startsWith('//')) {
+    return fallback;
+  }
+
+  return returnTo;
+}
+
 export default function setUpOIDC(app, port, indexPath, hostnames) {
   /* ********* Setup OpenID Connect ********* */
   const callbackPath = '/oid_callback'; // connect callback path
@@ -105,14 +125,18 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
   };
 
   const refreshTokens = function (req, res, next) {
+    const now = Math.floor(new Date().getTime() / 1000);
+    const refreshSkewSeconds = 60;
+
     if (
       req.isAuthenticated() &&
-      req.user.token.refresh_token &&
-      Math.floor(new Date().getTime() / 1000) >= req.user.token.expires_at
+      req.user?.token?.refresh_token &&
+      req.user.token.expires_at &&
+      now + refreshSkewSeconds >= req.user.token.expires_at
     ) {
       return passport.authenticate('passport-openid-connect', {
         refresh: true,
-        successReturnToOrRedirect: `/${indexPath}`,
+        keepSessionInfo: true,
         failureRedirect: `/${indexPath}`,
       })(req, res, next);
     }
@@ -149,24 +173,28 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
 
   app.use(redirectToLogin);
   app.use(refreshTokens);
+
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
-  app.get('/login', function (req, res) {
-    const { url, favouriteModalAction, ...rest } = req.query;
-    if (favouriteModalAction) {
-      req.session.returnTo = `/${indexPath}?favouriteModalAction=${favouriteModalAction}`;
+  app.get('/login', function (req, res, next) {
+    const { returnTo } = req.query;
+    const fallbackReturnTo = `/${indexPath}`;
+
+    if (returnTo) {
+      req.session.returnTo = safeLocalReturnTo(returnTo, fallbackReturnTo);
     }
-    if (url) {
-      const restParams = Object.keys(rest)
-        .map(k => `${k}=${rest[k]}`)
-        .join('&');
-      req.session.returnTo = `${url}?${restParams}`;
-    }
-    passport.authenticate('passport-openid-connect', {
-      scope: 'profile',
-      successReturnToOrRedirect: '/',
-    })(req, res);
+
+    req.session.save(err => {
+      if (err) {
+        return next(err);
+      }
+
+      return passport.authenticate('passport-openid-connect', {
+        scope: 'profile',
+        successReturnToOrRedirect: fallbackReturnTo,
+      })(req, res, next);
+    });
   });
 
   // Callback handler that will redirect back to application after successfull authentication
@@ -174,6 +202,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     callbackPath,
     passport.authenticate('passport-openid-connect', {
       callback: true,
+      keepSessionInfo: true,
       successReturnToOrRedirect: `/${indexPath}`,
       failureRedirect: '/login',
     }),
