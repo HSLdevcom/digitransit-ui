@@ -4,6 +4,7 @@ import { matchShape, routerShape } from 'found';
 
 import { mockRouter, mockMatch } from './mock-router';
 import PositionStore from '../../../app/store/PositionStore';
+import config from '../../../app/configurations/config.default';
 
 const noop = () => {};
 
@@ -13,11 +14,7 @@ const noop = () => {};
  * their propType requirements.
  */
 export const mockContext = {
-  config: {
-    CONFIG: 'default',
-    timeZone: 'Europe/Helsinki',
-    colors: { primary: '#3fa', accessiblePrimary: '#333' },
-  },
+  config,
   executeAction: noop,
   getStore: () => ({
     on: noop,

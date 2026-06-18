@@ -32,6 +32,7 @@ import { streetHash } from '../../util/path';
 import { itineraryShape, relayShape } from '../../util/shapes';
 import { getFutureText } from '../../util/timeUtils';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
+import { getSettings } from '../../util/planParamUtil';
 import BackButton from '../BackButton';
 import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';
@@ -113,8 +114,11 @@ function ItineraryDetails({
     match.params.hash !== streetHash.walk &&
     match.params.hash !== streetHash.bike;
 
+  const settings = getSettings(config);
   const shouldShowFeedback =
-    giveFeedback && itinerary.legs.some(l => l.transitLeg);
+    itinerary.legs.some(l => l.transitLeg) &&
+    config.personalization &&
+    settings.personalization; // user has not turned it off
 
   const fares = getFaresFromLegs(itinerary.legs, config);
   const extraProps = getExtraProps(itinerary, intl);

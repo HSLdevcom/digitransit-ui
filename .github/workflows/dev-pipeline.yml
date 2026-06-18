@@ -182,6 +182,7 @@ jobs:
         run: yarn run test-unit
 
   generate-sbom:
+    if: github.ref == 'refs/heads/next' || github.ref == 'refs/heads/v3'
     needs:
       - lint
       - unit-test
@@ -236,7 +237,7 @@ jobs:
       - name: Save SBOM artifact
         uses: actions/upload-artifact@v7
         with:
-          name: sbom-artifact
+          name: sbom-artifact-${{ github.ref_name }}
           path: ${{ github.repository }}-${{ github.sha }}.json
 
       - name: 'Az CLI login for central SBOM server'

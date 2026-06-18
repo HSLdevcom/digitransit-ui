@@ -62,6 +62,11 @@ export const buildURL = (pathSegments = []) => {
   return url;
 };
 
+export function getLoginPath(location) {
+  const returnTo = `${location.pathname}${location.search || ''}`;
+  return `/login?returnTo=${encodeURIComponent(returnTo)}`;
+}
+
 export const createReturnPath = (
   path,
   origin,

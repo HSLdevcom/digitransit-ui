@@ -117,10 +117,11 @@ export default {
     'car-park-disclaimer':
       'Du kan lämna bilen på parkeringen vid stationen eller hållplatsen och fortsätta din resa enkel med kollektivtrafiken',
     'car-park-disclaimer-header': 'Lämna din bil i parkeringen',
+    choose: 'Välj',
     'choose-freely': 'Valfria',
     'choose-stop': 'Välj hållplats',
-    'choose-stop-or-vehicle': 'Select vehicle or stop',
-    'choose-vehicle': 'Select vehicle',
+    'choose-stop-or-vehicle': 'Välj en linje eller hållplats',
+    'choose-vehicle': 'Välj en linje',
     citybike: 'Stadscykel',
     'citybike-duration-general-header':
       'Rutten har flera sträckor med stadscykel som inkluderar tilläggsavgifter.',
@@ -569,20 +570,28 @@ export default {
     'personal-itineraries': 'Individuella ruttförslag',
     personalization: 'Personalisering',
     'personalization-activated': 'Personalisering har aktiverats',
-    'personalization-aria-dislike': 'Jag gillar den här ruttrekommendationen',
-    'personalization-aria-like': 'Jag gillar inte den här ruttrekommendationen',
-    'personalization-ask': 'Gillar du den här ruttrekommendationen?',
+    'personalization-aria-dislike': 'Jag gillar den här ruttförslaget',
+    'personalization-aria-like': 'Jag gillar inte den här ruttförslaget',
+    'personalization-ask': 'Gillar du den här ruttförslaget?',
     'personalization-beta':
       'Personaliseringen är fortfarande i testfasen, vilket innebär att vi testar tjänsten. Vi vill gärna höra om din upplevelse. Undersökningen öppnas i en ny flik.',
+    'personalization-continue-choices':
+      'Välj om vi använder din användningshistorik för personalisering eller om vi ska börja om genom att radera din användningshistorik.',
+    'personalization-continue-query':
+      'Hur vill du fortsätta med personaliseringen?',
     'personalization-disliked':
       'Du kommer att få färre rekommendationer som denna i framtiden.',
     'personalization-feedback': 'Ge feedback',
+    'personalization-history-keep': 'Dra nytta av användningshistoriken',
+    'personalization-history-remove':
+      'Rensa användningshistoriken och börja om',
     'personalization-info':
       'Hitta dina favoritrutter och res utifrån dina vanor.',
     'personalization-liked':
       'Du kommer att få liknande rekommendationer i framtiden.',
     'personalization-login-description':
       'Du kan aktivera personliga ruttrekommendationer när du är inloggad.',
+    'personalization-login-for-voting': 'Logga in och ge feedback',
     'personalization-login-title': 'Logga in för att få rekommendationer',
     'personalization-modal-feedback': 'Vi lär oss av er feedback',
     'personalization-modal-feedback-details':

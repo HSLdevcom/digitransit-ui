@@ -6,9 +6,9 @@ export default function ExternalLink({
   name,
   children,
   href,
-  className,
+  className = '',
   onClick,
-  withArrow,
+  withArrow = false,
 }) {
   return (
     (name || children !== undefined) && (
@@ -45,14 +45,3 @@ ExternalLink.propTypes = {
   onClick: PropTypes.func,
   withArrow: PropTypes.bool,
 };
-
-ExternalLink.defaultProps = {
-  name: undefined,
-  children: undefined,
-  href: undefined,
-  onClick: undefined,
-  className: '',
-  withArrow: false,
-};
-
-ExternalLink.displayName = 'ExternalLink';

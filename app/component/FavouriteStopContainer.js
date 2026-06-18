@@ -29,10 +29,7 @@ function FavouriteStopContainerComponent(props, context) {
           gid += `#${stop.code}`;
         }
 
-        getJson(config.URL.PELIAS_PLACE, {
-          ids: gid,
-          // lang: context.getStore('PreferencesStore').getLanguage(), TODO enable this when OTP supports translations
-        })
+        getJson(config.URL.PELIAS_PLACE, { ids: gid })
           .then(res => {
             if (Array.isArray(res.features) && res.features.length > 0) {
               const stopOrStation = res.features[0];

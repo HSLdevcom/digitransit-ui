@@ -4,18 +4,23 @@ import { useIntl } from 'react-intl';
 import StopCode from './StopCode';
 import { getTerminalOrStationText } from '../util/modeUtils';
 
-const AddressRow = props => {
+export default function AddressRow({
+  desc,
+  code,
+  isTerminal = false,
+  vehicleMode,
+}) {
   const intl = useIntl();
   return (
     <div className="route-address-row-container">
-      <span className="route-stop-address-row">{props.desc}</span>
-      {props.code && <StopCode code={props.code} />}
-      {props.isTerminal && (
-        <StopCode code={getTerminalOrStationText(intl, props.vehicleMode)} />
+      <span className="route-stop-address-row">{desc}</span>
+      {code && <StopCode code={code} />}
+      {isTerminal && (
+        <StopCode code={getTerminalOrStationText(intl, vehicleMode)} />
       )}
     </div>
   );
-};
+}
 
 AddressRow.propTypes = {
   desc: PropTypes.string,
@@ -23,12 +28,3 @@ AddressRow.propTypes = {
   isTerminal: PropTypes.bool,
   vehicleMode: PropTypes.string,
 };
-
-AddressRow.defaultProps = {
-  desc: undefined,
-  code: undefined,
-  isTerminal: false,
-  vehicleMode: undefined,
-};
-
-export default AddressRow;

@@ -135,7 +135,7 @@ export default {
     copyright: { label: `© Matka.fintraffic.fi ${YEAR}` },
     content: [
       {
-        name: 'Fintraffic',
+        label: 'Fintraffic',
         href: 'https://www.fintraffic.fi',
       },
       {

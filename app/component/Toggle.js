@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
-export default function Toggle({ toggled, title, onToggle, id }) {
+const Toggle = forwardRef(function Toggle(
+  { toggled = true, title, onToggle, id },
+  ref,
+) {
   return (
     <div className="option-toggle-container" title={title}>
       <div className="toggle">
         <input
+          ref={ref}
           type="checkbox"
           id={id}
           checked={toggled}
@@ -21,7 +25,7 @@ export default function Toggle({ toggled, title, onToggle, id }) {
       </div>
     </div>
   );
-}
+});
 
 Toggle.propTypes = {
   toggled: PropTypes.bool,
@@ -30,7 +34,4 @@ Toggle.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-Toggle.defaultProps = {
-  toggled: true,
-  title: undefined,
-};
+export default Toggle;

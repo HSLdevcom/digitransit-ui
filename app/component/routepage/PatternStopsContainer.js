@@ -37,7 +37,7 @@ function PatternStopsContainer({ pattern, match, breakpoint, route }) {
         'bp-large': breakpoint === 'large',
       })}
     >
-      {route && route.patterns && (
+      {route?.patterns && (
         <RouteControlPanel
           match={match}
           route={route}
@@ -60,7 +60,7 @@ function PatternStopsContainer({ pattern, match, breakpoint, route }) {
           </div>
         </div>
       )}
-      {route.type !== ExtendedRouteTypes.CallAgency && (
+      {route?.type !== ExtendedRouteTypes.CallAgency && (
         <RouteStopListContainer
           key="list"
           pattern={pattern}

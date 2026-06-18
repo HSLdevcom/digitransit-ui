@@ -2,11 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'found';
 import TruncateMarkup from 'react-truncate-markup';
-import { alertShape, configShape } from '../util/shapes';
+import { alertShape } from '../util/shapes';
 import Icon from './Icon';
 import { alertSeverityCompare } from '../util/alertUtils';
+import { useConfigContext } from '../configurations/ConfigContext';
 
-const AlertBanner = ({ alerts, linkAddress }, { config }) => {
+export default function AlertBanner({ alerts, linkAddress }) {
+  const { colors } = useConfigContext();
   const alert = [...alerts].sort(alertSeverityCompare)[0];
   const message = alert.alertDescriptionText;
   const header = alert.alertHeaderText;
@@ -18,7 +20,7 @@ const AlertBanner = ({ alerts, linkAddress }, { config }) => {
       ? 'icon_caution_white_exclamation'
       : 'icon_info';
   const iconColor =
-    alert.alertSeverityLevel !== 'INFO' ? config.colors.caution : '#888';
+    alert.alertSeverityLevel !== 'INFO' ? colors.caution : '#888';
   return (
     <Link
       className={`alert-banner-link ${alert.alertSeverityLevel.toLowerCase()}`}
@@ -35,22 +37,14 @@ const AlertBanner = ({ alerts, linkAddress }, { config }) => {
           </TruncateMarkup>
         </div>
         <div className="arrow-icon">
-          <Icon
-            img="icon_arrow-collapse--right"
-            color={config.colors.primary}
-          />
+          <Icon img="icon_arrow-collapse--right" color={colors.primary} />
         </div>
       </div>
     </Link>
   );
-};
+}
 
 AlertBanner.propTypes = {
   alerts: PropTypes.arrayOf(alertShape).isRequired,
   linkAddress: PropTypes.string.isRequired,
 };
-
-AlertBanner.contextTypes = {
-  config: configShape.isRequired,
-};
-export default AlertBanner;

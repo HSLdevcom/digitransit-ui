@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
-import { routerShape } from 'found';
+import { useRouter } from 'found';
 import Icon from './Icon';
 import withBreakpoint from '../util/withBreakpoint';
 import {
@@ -14,16 +13,26 @@ import { PREFIX_RENTALVEHICLES } from '../util/path';
 import VehicleRentalLeg from './itinerary/VehicleRentalLeg';
 import BackButton from './BackButton';
 import { rentalVehicleShape } from '../util/shapes';
+import { useConfigContext } from '../configurations/ConfigContext';
 
-const RentalVehicleContent = (
-  { rentalVehicle, breakpoint, router, error, language, match },
-  { config },
-) => {
+function RentalVehicleContent({
+  rentalVehicle,
+  breakpoint,
+  error = undefined,
+}) {
   const [isClient, setClient] = useState(false);
+  const config = useConfigContext();
+  const { match, router } = useRouter();
 
   useEffect(() => {
     setClient(true);
-  });
+  }, []);
+
+  useEffect(() => {
+    if (!rentalVehicle && !error) {
+      router.replace(`/${PREFIX_RENTALVEHICLES}`);
+    }
+  }, [rentalVehicle, error, router]);
 
   const networks = match.params.networks?.split(',');
 
@@ -33,14 +42,15 @@ const RentalVehicleContent = (
   }
 
   if (!rentalVehicle && !error) {
-    router.replace(`/${PREFIX_RENTALVEHICLES}`);
     return null;
   }
+
   const networkConfig = getRentalNetworkConfig(
     rentalVehicle.rentalNetwork.networkId,
     config,
   );
   const vehicleIcon = getRentalNetworkIcon(networkConfig);
+  const { language } = config;
 
   if (networks) {
     return (
@@ -98,66 +108,39 @@ const RentalVehicleContent = (
       </div>
     </div>
   );
-};
+}
 
 RentalVehicleContent.propTypes = {
-  rentalVehicle: rentalVehicleShape.isRequired,
+  rentalVehicle: rentalVehicleShape,
   breakpoint: PropTypes.string.isRequired,
-  router: routerShape.isRequired,
   error: PropTypes.shape({
     message: PropTypes.string,
   }),
-  language: PropTypes.string.isRequired,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      networks: PropTypes.string,
-    }),
-  }),
-};
-
-RentalVehicleContent.defaultProps = {
-  error: undefined,
-  match: undefined,
-};
-
-RentalVehicleContent.contextTypes = {
-  config: PropTypes.shape({
-    text: PropTypes.string,
-  }).isRequired,
 };
 
 const RentalVehicleContentWithBreakpoint = withBreakpoint(RentalVehicleContent);
 
-const connectedComponent = connectToStores(
+const containerComponent = createFragmentContainer(
   RentalVehicleContentWithBreakpoint,
-  ['PreferencesStore'],
-  ({ getStore }) => {
-    const language = getStore('PreferencesStore').getLanguage();
-    return { language };
+  {
+    rentalVehicle: graphql`
+      fragment RentalVehicleContent_rentalVehicle on RentalVehicle {
+        lat
+        lon
+        name
+        vehicleId
+        rentalUris {
+          android
+          ios
+          web
+        }
+        rentalNetwork {
+          networkId
+          url
+        }
+      }
+    `,
   },
 );
 
-const containerComponent = createFragmentContainer(connectedComponent, {
-  rentalVehicle: graphql`
-    fragment RentalVehicleContent_rentalVehicle on RentalVehicle {
-      lat
-      lon
-      name
-      vehicleId
-      rentalUris {
-        android
-        ios
-        web
-      }
-      rentalNetwork {
-        networkId
-        url
-      }
-    }
-  `,
-});
-
-export {
-  containerComponent as default,
-  RentalVehicleContentWithBreakpoint as Component,
-};
+export default containerComponent;

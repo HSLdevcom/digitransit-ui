@@ -365,11 +365,7 @@ function IndexPage(props, context) {
             />
           </span>
           <LocationSearch {...locationSearchProps} />
-          <DatetimepickerContainer
-            realtime
-            color={colors.primary}
-            lang={language}
-          />
+          <DatetimepickerContainer realtime />
           {!config.hideFavourites && (
             <>
               <FavouritesContainer
@@ -420,11 +416,7 @@ function IndexPage(props, context) {
       >
         <CtrlPanel position="bottom" fontWeights={fontWeights}>
           <LocationSearch disableAutoFocus isMobile {...locationSearchProps} />
-          <DatetimepickerContainer
-            realtime
-            color={colors.primary}
-            lang={language}
-          />
+          <DatetimepickerContainer realtime />
           <FavouritesContainer
             onClickFavourite={clickFavourite}
             lang={language}

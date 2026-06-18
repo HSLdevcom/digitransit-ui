@@ -27,7 +27,6 @@ export default function SearchSettings({ toggleSettings }) {
             </div>
           </div>
         }
-        color={config.colors.primary}
       />
     </div>
   );

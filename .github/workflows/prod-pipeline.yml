@@ -26,3 +26,73 @@ jobs:
           DOCKER_AUTH: ${{ secrets.DOCKER_AUTH }}
           DOCKER_BASE_TAG: v3-prod
           DOCKER_DEV_TAG: ${{ github.event.release.target_commitish }}
+
+  generate-sbom:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [24.14.1]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: "Set time zone to Europe/Helsinki"
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: "Europe/Helsinki"
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org/'
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v5
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Cache .yarn/cache
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        uses: actions/cache@v5
+        with:
+          path: '.yarn/cache'
+          key: yarn-v3-cache-${{ github.ref_name }}
+          restore-keys: yarn-v3-cache-v3
+      - name: Install dependencies
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        run: yarn install --immutable
+
+      - name: cache shared components
+        id: cache-shared-components
+        uses: actions/cache@v5
+        with:
+          path: 'digitransit-*'
+          key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
+      - name: Build shared components
+        if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
+        run: yarn run build-workspaces
+
+      - name: Generate SBOM
+        run: yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx@2.0.0 --output-file ${{ github.repository }}-${{ github.sha }}.json
+
+      - name: Save SBOM artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: sbom-artifact-prod
+          path: ${{ github.repository }}-${{ github.sha }}.json
+
+      - name: 'Az CLI login for central SBOM server'
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.SBOM_CLIENT_ID }}
+          tenant-id: ${{ secrets.SBOM_TENANT_ID }}
+          subscription-id: ${{ secrets.SBOM_SUBSCRIPTION_ID }}
+
+      - name: 'Send SBOM to central SBOM server'
+        run: >-
+          az storage blob upload
+          --account-name ${{ secrets.SBOM_STORAGE_ACCOUNT_NAME }}
+          --container-name sbom-ingest
+          --file ${{ github.repository }}-${{ github.sha }}.json
+          --name ${{ secrets.SBOM_ENV_KEY_PROD }}/${{ github.sha }}.json
+          --auth-mode login
+          --overwrite true

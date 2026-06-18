@@ -1,16 +1,13 @@
-import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-import { configShape } from '../util/shapes';
+import { useConfigContext } from '../configurations/ConfigContext';
 
-const AboutPage = ({ currentLanguage }, { config }) => {
-  const [about, setAbout] = useState([]);
-  useEffect(() => {
-    setAbout(config.aboutThisService[currentLanguage]);
-  }, []);
+export default function AboutPage() {
+  const config = useConfigContext();
+  const about = config.aboutThisService[config.language];
+
   return (
     <div className="about-page fullscreen">
       <div className="page-frame fullscreen momentum-scroll">
@@ -50,22 +47,4 @@ const AboutPage = ({ currentLanguage }, { config }) => {
       </div>
     </div>
   );
-};
-
-AboutPage.propTypes = {
-  currentLanguage: PropTypes.string.isRequired,
-};
-
-AboutPage.contextTypes = {
-  config: configShape.isRequired,
-};
-
-const connectedComponent = connectToStores(
-  AboutPage,
-  ['PreferencesStore'],
-  context => ({
-    currentLanguage: context.getStore('PreferencesStore').getLanguage(),
-  }),
-);
-
-export { connectedComponent as default, AboutPage as Component };
+}

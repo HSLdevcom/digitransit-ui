@@ -168,8 +168,31 @@
   font-size: $font-size-xsmall;
   overflow: hidden;
 
+  .icon-container {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    align-items: center;
+  }
+
   .feedback-text-posted {
     font-weight: $font-weight-book;
+  }
+
+  .external-link-container {
+    border: 0;
+    padding: 0;
+    width: 100%;
+
+    a {
+      font-size: $font-size-small;
+      font-weight: $font-weight-medium;
+      color: $link-color;
+    }
+
+    .icon-container {
+      display: inline-block;
+    }
   }
 
   .feedback-section {
@@ -191,6 +214,10 @@
       align-items: center;
     }
 
+    .thumb-button-disabled {
+      background-color: var(--color-surface-disabled);
+    }
+
     .thumb-button svg {
       transition: transform 0.2s ease;
     }
@@ -206,13 +233,6 @@
         stroke: transparent;
         fill: $attention-color;
       }
-    }
-
-    .icon-container {
-      display: flex;
-      flex-direction: row;
-      width: auto;
-      align-items: center;
     }
   }
 }

@@ -2,14 +2,19 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useRouter } from 'found';
+import ExternalLink from '../ExternalLink';
 import Icon from '../Icon';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import { getLoginPath } from '../../util/path';
 
 const ANIMATION_MS = 1200;
 
 function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
-  const { colors } = useConfigContext();
+  const config = useConfigContext();
+  const { colors } = config;
   const intl = useIntl();
+  const { match } = useRouter();
 
   const favIcon = recommended
     ? 'icon_star-with-circle'
@@ -27,6 +32,22 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
     },
   };
   const iconProps = iconMap[status];
+  const loginNeeded = config.allowLogin && !config.user.sub;
+  const thumbColor = loginNeeded ? '#CCC' : colors.primary;
+
+  const middleTexts = loginNeeded ? (
+    <div>
+      <FormattedMessage id={status} />
+      <ExternalLink
+        onClick={() => window.location.assign(getLoginPath(match.location))}
+        withArrow
+      >
+        <FormattedMessage id="personalization-login-for-voting" />
+      </ExternalLink>
+    </div>
+  ) : (
+    <FormattedMessage id={status} />
+  );
 
   return (
     <div className={cx('feedback-layer', animationClass)}>
@@ -38,28 +59,27 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
         >
           <Icon {...iconProps} height={1.4} width={1.4} />
           <span>&nbsp;&nbsp;&nbsp;</span>
-          <FormattedMessage id={status} />
+          {middleTexts}
         </div>
         {status === 'personalization-ask' && (
           <div className="feedback-section">
             <button
               type="button"
-              className="thumb-button"
+              className={cx('thumb-button', {
+                'thumb-button-disabled': loginNeeded,
+              })}
               onClick={() => giveFeedback(true)}
               aria-label={intl.formatMessage({
                 id: 'personalization-aria-like',
               })}
             >
-              <Icon
-                img="icon_thumb"
-                color={colors.primary}
-                height={1}
-                width={1}
-              />
+              <Icon img="icon_thumb" color={thumbColor} height={1} width={1} />
             </button>
             <button
               type="button"
-              className="thumb-button"
+              className={cx('thumb-button', {
+                'thumb-button-disabled': loginNeeded,
+              })}
               onClick={() => giveFeedback(false)}
               aria-label={intl.formatMessage({
                 id: 'personalization-aria-dislike',
@@ -67,7 +87,7 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
             >
               <Icon
                 img="icon_thumb-down"
-                color={colors.primary}
+                color={thumbColor}
                 height={1}
                 width={1}
               />
@@ -104,7 +124,7 @@ export default function Feedback({
   }, []);
 
   const handleGiveFeedback = value => {
-    if (isAnimating) {
+    if (!giveFeedback || isAnimating) {
       return;
     }
 
@@ -160,5 +180,5 @@ export default function Feedback({
 Feedback.propTypes = {
   recommended: PropTypes.bool,
   feedback: PropTypes.bool,
-  giveFeedback: PropTypes.func.isRequired,
+  giveFeedback: PropTypes.func,
 };
