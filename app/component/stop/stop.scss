@@ -79,6 +79,31 @@
     font-size: 2.5em;
   }
 
+  .stop-no-departures-icon {
+    width: 60px;
+    height: auto;
+    font-size: initial;
+  }
+
+  .stop-no-departures-icon-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+
+    .stop-no-departures-icon {
+      display: block;
+    }
+
+    .stop-no-departures-badge {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      font-size: initial;
+      width: 24px;
+      height: 24px;
+    }
+  }
+
   &.bottom-padding {
     flex: none;
     min-height: 0;

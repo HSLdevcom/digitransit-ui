@@ -124,6 +124,19 @@ describe('stopStatusUtils', () => {
         ),
       ).to.equal(STOP_STATUS.INFO);
     });
+
+    it('returns the non-null status when only one stop has a status', () => {
+      expect(combineStopStatuses(STOP_STATUS.OUT_OF_SERVICE, null)).to.equal(
+        STOP_STATUS.OUT_OF_SERVICE,
+      );
+      expect(combineStopStatuses(null, STOP_STATUS.ALERT)).to.equal(
+        STOP_STATUS.ALERT,
+      );
+    });
+
+    it('returns null when both stops have no status', () => {
+      expect(combineStopStatuses(null, null)).to.equal(null);
+    });
   });
 
   describe('getStopAlertEffect', () => {

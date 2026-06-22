@@ -96,6 +96,7 @@ const RED_LEVEL_STATUSES = [STOP_STATUS.OUT_OF_SERVICE, STOP_STATUS.ALERT];
  * the single status shown on the shared map icon.
  *
  * - When both stops share the same status, that status is used.
+ * - When one stop has no status (`null`), the other stop's status is used directly.
  * - When the statuses differ but both are red-level (out of service or alert),
  *   the ALERT status (red triangle) is used.
  * - When the statuses differ otherwise, the INFO status (gray info icon) is
@@ -107,6 +108,12 @@ const RED_LEVEL_STATUSES = [STOP_STATUS.OUT_OF_SERVICE, STOP_STATUS.ALERT];
  */
 export function combineStopStatuses(statusA, statusB) {
   if (statusA === statusB) {
+    return statusA;
+  }
+  if (statusA === null) {
+    return statusB;
+  }
+  if (statusB === null) {
     return statusA;
   }
   if (
@@ -139,6 +146,79 @@ export function getStopAlertEffect(alerts, nowUnixTime) {
     activeAlerts.find(alert => alert.alertSeverityLevel === level) ||
     activeAlerts[0];
   return (dominant && dominant.alertEffect) || null;
+}
+
+/**
+ * Prefix for disruption-effect translation message IDs (e.g. 'disruption-badge-detour').
+ */
+export const DISRUPTION_BADGE_PREFIX = 'disruption-badge-';
+
+/**
+ * Maps each STOP_STATUS value to its translation message ID.
+ * Used by StopScheduleStatus and the no-departures panels.
+ */
+export const STOP_STATUS_MESSAGE_IDS = {
+  [STOP_STATUS.OUT_OF_SERVICE]: 'stop-out-of-service',
+  [STOP_STATUS.NO_SERVICE_TODAY]: 'stop-no-service-today',
+  [STOP_STATUS.ALERT]: 'stop-has-alert',
+  [STOP_STATUS.INFO]: 'stop-has-info',
+};
+
+/**
+ * Maps each STOP_STATUS value to the sprite id of its corner badge icon.
+ */
+export const STOP_STATUS_BADGE_IMGS = {
+  [STOP_STATUS.OUT_OF_SERVICE]: 'icon_stop-closed-badge',
+  [STOP_STATUS.ALERT]: 'icon_caution-badge',
+  [STOP_STATUS.INFO]: 'icon_info-circled-badge',
+  [STOP_STATUS.NO_SERVICE_TODAY]: 'icon_stop-temporarily-closed-badge',
+};
+
+/**
+ * Resolves the badge icon, stop status, and alert effect shown on the
+ * "no departures" panel of a stop or terminal page.
+ *
+ * @param {Array} alerts the stop's alerts
+ * @param {number} currentTime reference unix time (seconds) for alert validity
+ * @param {boolean} showStopStatusMarkers whether the config enables stop status markers
+ * @returns {{ stopStatus: string|null, badgeImg: string|null, alertEffect: string|null }}
+ */
+export function resolveNoDeparturesBadge(
+  alerts,
+  currentTime,
+  showStopStatusMarkers,
+) {
+  if (!showStopStatusMarkers) {
+    return { stopStatus: null, badgeImg: null, alertEffect: null };
+  }
+  const activeAlerts = (alerts || []).filter(a => isAlertValid(a, currentTime));
+  const closedByServiceAlert = activeAlerts.some(
+    a => a.alertEffect === 'NO_SERVICE',
+  );
+  if (closedByServiceAlert) {
+    return {
+      stopStatus: STOP_STATUS.OUT_OF_SERVICE,
+      badgeImg: STOP_STATUS_BADGE_IMGS[STOP_STATUS.OUT_OF_SERVICE],
+      alertEffect: null,
+    };
+  }
+  const maxSeverity = getMaximumAlertSeverityLevel(activeAlerts);
+  const alertStatus = severityToStatus(maxSeverity);
+  if (alertStatus === STOP_STATUS.ALERT || alertStatus === STOP_STATUS.INFO) {
+    const dominant =
+      activeAlerts.find(a => a.alertSeverityLevel === maxSeverity) ||
+      activeAlerts[0];
+    return {
+      stopStatus: alertStatus,
+      badgeImg: STOP_STATUS_BADGE_IMGS[alertStatus],
+      alertEffect: (dominant && dominant.alertEffect) || null,
+    };
+  }
+  return {
+    stopStatus: STOP_STATUS.NO_SERVICE_TODAY,
+    badgeImg: STOP_STATUS_BADGE_IMGS[STOP_STATUS.NO_SERVICE_TODAY],
+    alertEffect: null,
+  };
 }
 
 /**

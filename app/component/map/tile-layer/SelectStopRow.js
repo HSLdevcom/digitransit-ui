@@ -83,7 +83,7 @@ function SelectStopRow({
         </div>
         <StopScheduleStatus
           status={status}
-          alertEffect={config.showStopStatusMarkers ? alertEffect : undefined}
+          alertEffect={alertEffect}
           className="choose-row-status"
         />
       </span>

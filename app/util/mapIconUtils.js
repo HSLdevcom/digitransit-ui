@@ -4,7 +4,11 @@ import ReactDOMServer from 'react-dom/server';
 import glfun from './glfun';
 import { transitIconName } from './modeUtils';
 import { getModeIconColor } from './colorUtils';
-import { severityToStatus, STOP_STATUS } from './stopStatusUtils';
+import {
+  severityToStatus,
+  STOP_STATUS,
+  STOP_STATUS_BADGE_IMGS,
+} from './stopStatusUtils';
 import { ParkTypes, TransportMode } from '../constants';
 
 /**
@@ -311,20 +315,10 @@ function drawSelectionCircle(tile, x, y, zoom, radius) {
 }
 
 /**
- * Maps a resolved stop status to the sprite id of its corner badge.
- */
-const STOP_STATUS_BADGE_IMAGES = {
-  [STOP_STATUS.OUT_OF_SERVICE]: 'icon_stop-closed-badge',
-  [STOP_STATUS.NO_SERVICE_TODAY]: 'icon_stop-temporarily-closed-badge',
-  [STOP_STATUS.ALERT]: 'icon_caution-badge',
-  [STOP_STATUS.INFO]: 'icon_info-circled-badge',
-};
-
-/**
  * Draw the corner badge for a resolved stop status on top of the icon.
  */
 function drawStopStatusBadgeForStatus(tile, x, y, iconWidth, status) {
-  const badgeImageId = status && STOP_STATUS_BADGE_IMAGES[status];
+  const badgeImageId = status && STOP_STATUS_BADGE_IMGS[status];
   if (!badgeImageId) {
     return;
   }
@@ -447,6 +441,9 @@ export function drawStopIcon(
         noServiceOnServiceDay,
         alertSeverityLevel,
       );
+      if (isHighlighted && !isFerryTerminal) {
+        drawSelectionCircle(tile, x, y, zoom, radius);
+      }
       if (drawNumber && platformNumber) {
         x += radius;
         y += radius;
@@ -463,9 +460,6 @@ export function drawStopIcon(
         tile.ctx.textBaseline = 'middle';
         tile.ctx.fillText(platformNumber, x, y);
         /* eslint-enable no-param-reassign */
-      }
-      if (isHighlighted && !isFerryTerminal) {
-        drawSelectionCircle(tile, x, y, zoom, radius);
       }
     });
 

@@ -3,16 +3,24 @@ import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import capitalize from 'lodash/capitalize';
-import { STOP_STATUS } from '../../util/stopStatusUtils';
+import {
+  STOP_STATUS,
+  STOP_STATUS_MESSAGE_IDS,
+  DISRUPTION_BADGE_PREFIX,
+} from '../../util/stopStatusUtils';
 
-const MESSAGE_IDS = {
-  [STOP_STATUS.OUT_OF_SERVICE]: 'stop-out-of-service',
-  [STOP_STATUS.NO_SERVICE_TODAY]: 'stop-no-service-today',
-  [STOP_STATUS.ALERT]: 'stop-has-alert',
-  [STOP_STATUS.INFO]: 'stop-has-info',
-};
-
-const DISRUPTION_BADGE_PREFIX = 'disruption-badge-';
+/**
+ * Renders the status label on the "no departures" panel of a stop or terminal page.
+ *
+ * Use this component when the status may come from service-calendar data (e.g.
+ * out-of-service, no-service-today) and may or may not carry a GTFS-RT alert
+ * effect. It handles all four STOP_STATUS values and falls back to a generic
+ * stop-status message when no alert effect is present.
+ *
+ * For Traffic Now contexts where an alert effect is always known, use
+ * `DisruptionBadge` instead — it renders the full badge pill with an optional
+ * icon but cannot express the service-calendar-only statuses.
+ */
 
 export default function StopScheduleStatus({
   status = undefined,
@@ -34,7 +42,7 @@ export default function StopScheduleStatus({
           defaultMessage={capitalize(effect).replace(/_/g, ' ')}
         />
       ) : (
-        <FormattedMessage id={MESSAGE_IDS[status]} />
+        <FormattedMessage id={STOP_STATUS_MESSAGE_IDS[status]} />
       )}
     </span>
   );

@@ -7,7 +7,15 @@ import DepartureListContainer from '../DepartureListContainer';
 import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { stationShape, errorShape, relayShape } from '../../util/shapes';
-import { getTrackOrPierOrPlatformText } from '../../util/modeUtils';
+import {
+  getTrackOrPierOrPlatformText,
+  transitIconName,
+  getStopMode,
+} from '../../util/modeUtils';
+import { getModeIconColor } from '../../util/colorUtils';
+import { resolveNoDeparturesBadge } from '../../util/stopStatusUtils';
+import StopScheduleStatus from './StopScheduleStatus';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 function TerminalPageContent({ station, relay, currentTime, error }) {
   if (!station && error) {
@@ -21,13 +29,46 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
   }, [currentTime, relay]);
 
   const intl = useIntl();
+  const config = useConfigContext();
   const { stoptimes } = station;
-  const mode = station.vehicleMode || 'BUS';
+  const vehicleMode = station.vehicleMode || 'BUS';
+  const routeModes = [
+    ...new Set((station.routes || []).map(r => r.mode).filter(Boolean)),
+  ];
+  const primaryVehicleMode =
+    routeModes.length === 1 ? routeModes[0] : vehicleMode;
+  const mode = getStopMode(
+    primaryVehicleMode,
+    station.routes,
+    station.code,
+    config,
+    true,
+  );
   if (!stoptimes || stoptimes.length === 0) {
+    const modeColor = getModeIconColor(config, mode);
+    const { stopStatus, badgeImg, alertEffect } = resolveNoDeparturesBadge(
+      station.alerts,
+      currentTime,
+      config.showStopStatusMarkers,
+    );
     return (
       <div className="stop-no-departures-container">
-        <Icon img="icon_station" />
-        <FormattedMessage id="no-departures" defaultMessage="No departures" />
+        <div className="stop-no-departures-icon-wrapper">
+          <Icon
+            img={transitIconName(mode, true)}
+            className="stop-no-departures-icon"
+            color={modeColor}
+            viewBox="0 0 16 22"
+          />
+          {badgeImg && (
+            <Icon img={badgeImg} className="stop-no-departures-badge" />
+          )}
+        </div>
+        {stopStatus ? (
+          <StopScheduleStatus status={stopStatus} alertEffect={alertEffect} />
+        ) : (
+          <FormattedMessage id="no-departures" defaultMessage="No departures" />
+        )}
       </div>
     );
   }
@@ -49,12 +90,12 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
             <FormattedMessage id="leaving-at" defaultMessage="Leaves" />
           </span>
           <span className="track-header">
-            {getTrackOrPierOrPlatformText(intl, mode)}
+            {getTrackOrPierOrPlatformText(intl, vehicleMode)}
           </span>
         </div>
         <DepartureListContainer
           stoptimes={stoptimes}
-          mode={mode}
+          mode={vehicleMode}
           key="departures"
           className="stop-page"
           infiniteScroll
@@ -92,7 +133,19 @@ const connectedComponent = createRefetchContainer(
         numberOfDepartures: { type: "Int!", defaultValue: 100 }
       ) {
         vehicleMode
+        code
         url
+        routes {
+          gtfsId
+          mode
+          type
+        }
+        alerts(types: [STOP]) {
+          alertEffect
+          alertSeverityLevel
+          effectiveStartDate
+          effectiveEndDate
+        }
         stops {
           patterns {
             route {

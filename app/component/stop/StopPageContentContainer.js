@@ -13,6 +13,10 @@ import {
 import DepartureListContainer from '../DepartureListContainer';
 import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
+import { transitIconName, getStopMode } from '../../util/modeUtils';
+import { getModeIconColor } from '../../util/colorUtils';
+import { resolveNoDeparturesBadge } from '../../util/stopStatusUtils';
+import StopScheduleStatus from './StopScheduleStatus';
 
 function StopPageContent(
   { stop, relay, currentTime, error, match },
@@ -52,11 +56,37 @@ function StopPageContent(
       </div>
     );
   }
+  const routeModes = [
+    ...new Set((stop.routes || []).map(r => r.mode).filter(Boolean)),
+  ];
+  const primaryVehicleMode =
+    routeModes.length === 1 ? routeModes[0] : stop.vehicleMode || 'BUS';
+  const mode = getStopMode(primaryVehicleMode, stop.routes, stop.code, config);
   if (!stoptimes || stoptimes.length === 0) {
+    const modeColor = getModeIconColor(config, mode);
+    const { stopStatus, badgeImg, alertEffect } = resolveNoDeparturesBadge(
+      stop.alerts,
+      currentTime,
+      config.showStopStatusMarkers,
+    );
     return (
       <div className="stop-no-departures-container">
-        <Icon img="icon_station" />
-        <FormattedMessage id="no-departures" defaultMessage="No departures" />
+        <div className="stop-no-departures-icon-wrapper">
+          <Icon
+            img={transitIconName(mode, true)}
+            className="stop-no-departures-icon"
+            color={modeColor}
+            viewBox="0 0 16 22"
+          />
+          {badgeImg && (
+            <Icon img={badgeImg} className="stop-no-departures-badge" />
+          )}
+        </div>
+        {stopStatus ? (
+          <StopScheduleStatus status={stopStatus} alertEffect={alertEffect} />
+        ) : (
+          <FormattedMessage id="no-departures" defaultMessage="No departures" />
+        )}
       </div>
     );
   }
@@ -103,7 +133,20 @@ const connectedComponent = createRefetchContainer(
         timeRange: { type: "Int!", defaultValue: 864000 }
         numberOfDepartures: { type: "Int!", defaultValue: 100 }
       ) {
+        vehicleMode
+        code
         url
+        routes {
+          gtfsId
+          mode
+          type
+        }
+        alerts(types: [STOP]) {
+          alertEffect
+          alertSeverityLevel
+          effectiveStartDate
+          effectiveEndDate
+        }
         stoptimes: stoptimesWithoutPatterns(
           startTime: $startTime
           timeRange: $timeRange
