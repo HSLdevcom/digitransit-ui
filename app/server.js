@@ -102,10 +102,12 @@ function isAssetRequest(req) {
 
 export default async function serve(req, res, next) {
   try {
-    // There might a better way to throw 404 if the asset is not found before this code
-    // is run.
+    // There might a better way to throw 404 if the asset is not found
+    //  before this code is run.
     if (isAssetRequest(req)) {
-      res.status(404);
+      res.setHeader('Cache-Control', 'no-store, max-age=0');
+      res.setHeader('Cloudflare-CDN-Cache-Control', 'no-store');
+      return res.status(404).type('text/plain').send('Static asset not found');
     }
 
     const config = getConfiguration(req);
@@ -245,8 +247,8 @@ export default async function serve(req, res, next) {
     }
     res.write('</body>\n');
     res.write('</html>\n');
-    res.end();
+    return res.end();
   } catch (err) {
-    next(err);
+    return next(err);
   }
 }
