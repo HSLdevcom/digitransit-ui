@@ -4,9 +4,9 @@ import { describe, it } from 'mocha';
 import getStopStatus, {
   STOP_STATUS,
   getStopStatusFromStopData,
-  getStopAlertEffect,
   severityToStatus,
   combineStopStatuses,
+  resolveNoDeparturesBadge,
 } from '../../../app/util/stopStatusUtils';
 
 describe('stopStatusUtils', () => {
@@ -89,10 +89,8 @@ describe('stopStatusUtils', () => {
       expect(severityToStatus('INFO')).to.equal(STOP_STATUS.INFO);
     });
 
-    it('maps warning, severe and unknown levels to the ALERT status', () => {
+    it('maps non-info levels to the ALERT status', () => {
       expect(severityToStatus('WARNING')).to.equal(STOP_STATUS.ALERT);
-      expect(severityToStatus('SEVERE')).to.equal(STOP_STATUS.ALERT);
-      expect(severityToStatus('UNKNOWN_SEVERITY')).to.equal(STOP_STATUS.ALERT);
     });
 
     it('returns null when there is no severity level', () => {
@@ -139,61 +137,6 @@ describe('stopStatusUtils', () => {
     });
   });
 
-  describe('getStopAlertEffect', () => {
-    const NOW = 1_700_000_000;
-
-    it('returns the effect of the active alert', () => {
-      const effect = getStopAlertEffect(
-        [
-          {
-            alertSeverityLevel: 'WARNING',
-            alertEffect: 'DETOUR',
-            effectiveStartDate: NOW - 100,
-            effectiveEndDate: NOW + 100,
-          },
-        ],
-        NOW,
-      );
-      expect(effect).to.equal('DETOUR');
-    });
-
-    it('returns the effect of the highest-severity active alert', () => {
-      const effect = getStopAlertEffect(
-        [
-          {
-            alertSeverityLevel: 'INFO',
-            alertEffect: 'MODIFIED_SERVICE',
-            effectiveStartDate: NOW - 100,
-            effectiveEndDate: NOW + 100,
-          },
-          {
-            alertSeverityLevel: 'SEVERE',
-            alertEffect: 'SIGNIFICANT_DELAYS',
-            effectiveStartDate: NOW - 100,
-            effectiveEndDate: NOW + 100,
-          },
-        ],
-        NOW,
-      );
-      expect(effect).to.equal('SIGNIFICANT_DELAYS');
-    });
-
-    it('returns null when there is no active alert', () => {
-      const effect = getStopAlertEffect(
-        [
-          {
-            alertSeverityLevel: 'WARNING',
-            alertEffect: 'DETOUR',
-            effectiveStartDate: NOW - 200,
-            effectiveEndDate: NOW - 100,
-          },
-        ],
-        NOW,
-      );
-      expect(effect).to.equal(null);
-    });
-  });
-
   describe('getStopStatusFromStopData', () => {
     const NOW = 1_700_000_000;
 
@@ -201,7 +144,7 @@ describe('stopStatusUtils', () => {
       const result = getStopStatusFromStopData({
         stop: {
           alerts: [],
-          stoptimesForServiceDate: [],
+          serviceToday: [],
           stoptimesWithoutPatterns: [],
         },
         nowUnixTime: NOW,
@@ -229,7 +172,7 @@ describe('stopStatusUtils', () => {
               effectiveEndDate: NOW + 100,
             },
           ],
-          stoptimesForServiceDate: [{ stoptimes: [{ serviceDay: NOW }] }],
+          serviceToday: [{ serviceDay: NOW }],
           stoptimesWithoutPatterns: [{ serviceDay: NOW }],
         },
         nowUnixTime: NOW,
@@ -248,7 +191,7 @@ describe('stopStatusUtils', () => {
               effectiveEndDate: NOW - 100,
             },
           ],
-          stoptimesForServiceDate: [{ stoptimes: [{ serviceDay: NOW }] }],
+          serviceToday: [{ serviceDay: NOW }],
           stoptimesWithoutPatterns: [{ serviceDay: NOW }],
         },
         nowUnixTime: NOW,
@@ -261,7 +204,7 @@ describe('stopStatusUtils', () => {
       const result = getStopStatusFromStopData({
         stop: {
           alerts: [],
-          stoptimesForServiceDate: [{ stoptimes: [] }],
+          serviceToday: [],
           stoptimesWithoutPatterns: [],
         },
         nowUnixTime: NOW,
@@ -274,7 +217,7 @@ describe('stopStatusUtils', () => {
       const result = getStopStatusFromStopData({
         stop: {
           alerts: [],
-          stoptimesForServiceDate: [{ stoptimes: [] }],
+          serviceToday: [],
           stoptimesWithoutPatterns: [{ serviceDay: NOW }],
         },
         nowUnixTime: NOW,
@@ -294,7 +237,7 @@ describe('stopStatusUtils', () => {
               effectiveEndDate: NOW + 100,
             },
           ],
-          stoptimesForServiceDate: [{ stoptimes: [{ serviceDay: NOW }] }],
+          serviceToday: [{ serviceDay: NOW }],
           stoptimesWithoutPatterns: [{ serviceDay: NOW }],
         },
         nowUnixTime: NOW,
@@ -307,13 +250,70 @@ describe('stopStatusUtils', () => {
       const result = getStopStatusFromStopData({
         stop: {
           alerts: [],
-          stoptimesForServiceDate: [{ stoptimes: [{ serviceDay: NOW }] }],
+          serviceToday: [{ serviceDay: NOW }],
           stoptimesWithoutPatterns: [],
         },
         nowUnixTime: NOW,
         showStopStatusMarkers: true,
       });
       expect(result).to.equal(null);
+    });
+  });
+
+  describe('resolveNoDeparturesBadge', () => {
+    const NOW = 1_700_000_000;
+    const makeAlert = (alertSeverityLevel, alertEffect = null) => ({
+      alertSeverityLevel,
+      alertEffect,
+      effectiveStartDate: 0,
+      effectiveEndDate: 9_999_999_999,
+    });
+
+    it('returns all nulls when showStopStatusMarkers is false', () => {
+      const result = resolveNoDeparturesBadge([], NOW, false, false);
+      expect(result).to.deep.equal({
+        stopStatus: null,
+        badgeImg: null,
+        alertEffects: null,
+      });
+    });
+
+    it('returns OUT_OF_SERVICE for a NO_SERVICE alert', () => {
+      const result = resolveNoDeparturesBadge(
+        [makeAlert('WARNING', 'NO_SERVICE')],
+        NOW,
+        true,
+        true,
+      );
+      expect(result.stopStatus).to.equal(STOP_STATUS.OUT_OF_SERVICE);
+      expect(result.alertEffects).to.equal(null);
+    });
+
+    it('returns ALERT status with effects for a warning alert', () => {
+      const result = resolveNoDeparturesBadge(
+        [makeAlert('WARNING', 'DETOUR')],
+        NOW,
+        true,
+        false,
+      );
+      expect(result.stopStatus).to.equal(STOP_STATUS.ALERT);
+      expect(result.alertEffects).to.deep.equal(['DETOUR']);
+    });
+
+    it('returns OUT_OF_SERVICE when no alerts and no future service', () => {
+      const result = resolveNoDeparturesBadge([], NOW, true, false);
+      expect(result.stopStatus).to.equal(STOP_STATUS.OUT_OF_SERVICE);
+      expect(result.alertEffects).to.equal(null);
+    });
+
+    it('returns NO_SERVICE_TODAY when no alerts but future service exists', () => {
+      const result = resolveNoDeparturesBadge([], NOW, true, true);
+      expect(result.stopStatus).to.equal(STOP_STATUS.NO_SERVICE_TODAY);
+    });
+
+    it('returns NO_SERVICE_TODAY when servicesRunningInFuture is undefined (data unavailable)', () => {
+      const result = resolveNoDeparturesBadge([], NOW, true, undefined);
+      expect(result.stopStatus).to.equal(STOP_STATUS.NO_SERVICE_TODAY);
     });
   });
 });

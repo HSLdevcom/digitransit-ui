@@ -224,6 +224,33 @@ export function getStopMode(vehicleMode, routes, code, config, isTerminal) {
 }
 
 /**
+ * Resolves the primary vehicle mode for a stop or terminal from its routes list,
+ * falling back to the stop's own vehicleMode when routes have multiple distinct modes.
+ * Delegates to getStopMode for extended-route-type resolution (bus-express, speedtram, etc.).
+ *
+ * @param {Array} routes the stop's routes (from GraphQL, each with a `mode` field)
+ * @param {string} vehicleMode the stop's own vehicleMode field (fallback)
+ * @param {string} code the stop code (used by ferry detection)
+ * @param {object} config app config
+ * @param {boolean} [isTerminal=false] whether the stop is a terminal/station
+ * @returns {string} resolved lowercase mode string
+ */
+export function getPrimaryStopMode(
+  routes,
+  vehicleMode,
+  code,
+  config,
+  isTerminal = false,
+) {
+  const routeModes = [
+    ...new Set((routes || []).map(r => r.mode).filter(Boolean)),
+  ];
+  const primaryVehicleMode =
+    routeModes.length === 1 ? routeModes[0] : vehicleMode || 'BUS';
+  return getStopMode(primaryVehicleMode, routes, code, config, isTerminal);
+}
+
+/**
  * @returns icon name
  */
 export function transitIconName(mode, lollipop) {

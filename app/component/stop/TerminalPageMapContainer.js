@@ -1,20 +1,40 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { configShape } from '../../util/shapes';
+import { DateTime } from 'luxon';
 import StopPageMap from '../map/StopPageMap';
+import { useConfigContext } from '../../configurations/ConfigContext';
+import {
+  STOP_STATUS,
+  getStopStatusFromStopData,
+  getStopAlertEffects,
+} from '../../util/stopStatusUtils';
 
-const TerminalPageMapContainer = ({ station }) => {
+function TerminalPageMapContainer({ station = undefined }) {
+  const config = useConfigContext();
   if (!station) {
     return false;
   }
 
-  return <StopPageMap stop={station} />;
-};
+  const nowUnixTime = DateTime.now().toUnixInteger();
+  const stopStatus = getStopStatusFromStopData({
+    stop: station,
+    nowUnixTime,
+    showStopStatusMarkers: config.showStopStatusMarkers,
+  });
+  const stopAlertEffects =
+    stopStatus === STOP_STATUS.ALERT || stopStatus === STOP_STATUS.INFO
+      ? getStopAlertEffects(station.alerts, nowUnixTime)
+      : null;
 
-TerminalPageMapContainer.contextTypes = {
-  config: configShape.isRequired,
-};
+  return (
+    <StopPageMap
+      stop={station}
+      stopStatus={stopStatus}
+      stopAlertEffects={stopAlertEffects}
+    />
+  );
+}
 
 TerminalPageMapContainer.propTypes = {
   station: PropTypes.shape({
@@ -24,13 +44,14 @@ TerminalPageMapContainer.propTypes = {
   }),
 };
 
-TerminalPageMapContainer.defaultProps = {
-  station: undefined,
-};
-
 const containerComponent = createFragmentContainer(TerminalPageMapContainer, {
   station: graphql`
-    fragment TerminalPageMapContainer_station on Stop {
+    fragment TerminalPageMapContainer_station on Stop
+    @argumentDefinitions(
+      startOfDay: { type: "Long" }
+      startTime: { type: "Long" }
+      timeRange: { type: "Int", defaultValue: 7776000 } # 90 days in seconds
+    ) {
       lat
       lon
       platformCode
@@ -40,6 +61,28 @@ const containerComponent = createFragmentContainer(TerminalPageMapContainer, {
       vehicleMode
       locationType
       gtfsId
+      alerts(types: [STOP]) {
+        alertEffect
+        alertSeverityLevel
+        effectiveStartDate
+        effectiveEndDate
+      }
+      serviceToday: stoptimesWithoutPatterns(
+        startTime: $startOfDay
+        timeRange: 86400 # 1 day in seconds
+        numberOfDepartures: 1
+        omitCanceled: true
+      ) {
+        serviceDay
+      }
+      stoptimesWithoutPatterns(
+        startTime: $startTime
+        timeRange: $timeRange
+        numberOfDepartures: 1
+        omitCanceled: true
+      ) {
+        serviceDay
+      }
     }
   `,
 });

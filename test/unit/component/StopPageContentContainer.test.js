@@ -48,37 +48,6 @@ describe('<StopPageContentContainer />', () => {
     expect(wrapper.find('.stop-no-departures-container')).to.have.lengthOf(1);
   });
 
-  it('should show a lollipop icon when there are no departures', () => {
-    const wrapper = render({ routes: [{ mode: 'BUS', type: 3 }] });
-    const lollipop = wrapper.find(Icon).filter('.stop-no-departures-icon');
-    expect(lollipop).to.have.lengthOf(1);
-    expect(lollipop.prop('img')).to.equal('icon_bus-lollipop');
-  });
-
-  it('should use the mode from routes when all routes share one mode', () => {
-    const wrapper = render({
-      vehicleMode: 'BUS',
-      routes: [
-        { mode: 'TRAM', type: 0 },
-        { mode: 'TRAM', type: 0 },
-      ],
-    });
-    const lollipop = wrapper.find(Icon).filter('.stop-no-departures-icon');
-    expect(lollipop.prop('img')).to.equal('icon_tram-lollipop');
-  });
-
-  it('should fall back to vehicleMode when routes have multiple distinct modes', () => {
-    const wrapper = render({
-      vehicleMode: 'BUS',
-      routes: [
-        { mode: 'BUS', type: 3 },
-        { mode: 'TRAM', type: 0 },
-      ],
-    });
-    const lollipop = wrapper.find(Icon).filter('.stop-no-departures-icon');
-    expect(lollipop.prop('img')).to.equal('icon_bus-lollipop');
-  });
-
   it('should show no badge and "no-departures" text when showStopStatusMarkers is false', () => {
     const wrapper = render({
       alerts: [makeAlert(AlertSeverityLevelType.Warning)],
@@ -91,9 +60,9 @@ describe('<StopPageContentContainer />', () => {
     );
   });
 
-  it('should show clock badge and "stop-no-service-today" text when no active alerts', () => {
+  it('should show clock badge and "stop-no-service-today" text when no active alerts but service exists in the future', () => {
     const wrapper = render(
-      { alerts: [] },
+      { alerts: [], futureStoptimes: [{ serviceDay: 1 }] },
       { ...baseConfig, showStopStatusMarkers: true },
     );
     expect(
@@ -101,6 +70,19 @@ describe('<StopPageContentContainer />', () => {
     ).to.equal('icon_stop-temporarily-closed-badge');
     expect(wrapper.find(StopScheduleStatus).prop('status')).to.equal(
       STOP_STATUS.NO_SERVICE_TODAY,
+    );
+  });
+
+  it('should show closed badge and "stop-out-of-service" text when no alerts and no future service', () => {
+    const wrapper = render(
+      { alerts: [], futureStoptimes: [] },
+      { ...baseConfig, showStopStatusMarkers: true },
+    );
+    expect(
+      wrapper.find(Icon).filter('.stop-no-departures-badge').prop('img'),
+    ).to.equal('icon_stop-closed-badge');
+    expect(wrapper.find(StopScheduleStatus).prop('status')).to.equal(
+      STOP_STATUS.OUT_OF_SERVICE,
     );
   });
 
@@ -141,7 +123,9 @@ describe('<StopPageContentContainer />', () => {
     );
     const statusComp = wrapper.find(StopScheduleStatus);
     expect(statusComp.prop('status')).to.equal(STOP_STATUS.ALERT);
-    expect(statusComp.prop('alertEffect')).to.equal('SIGNIFICANT_DELAYS');
+    expect(statusComp.prop('alertEffects')).to.deep.equal([
+      'SIGNIFICANT_DELAYS',
+    ]);
   });
 
   it('should show info badge and "stop-has-info" text for an info-level alert', () => {
@@ -158,7 +142,9 @@ describe('<StopPageContentContainer />', () => {
   });
 
   it('should show the departure list when stoptimes are present', () => {
-    const stoptimes = [{ realtimeState: 'SCHEDULED', trip: { pattern: {} } }];
+    const stoptimes = [
+      { serviceDay: 0, realtimeState: 'SCHEDULED', trip: { pattern: {} } },
+    ];
     const wrapper = render({ stoptimes });
     expect(wrapper.find(DepartureListContainer)).to.have.lengthOf(1);
     expect(wrapper.find('.stop-no-departures-container')).to.have.lengthOf(0);

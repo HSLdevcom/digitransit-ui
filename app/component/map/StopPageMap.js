@@ -23,6 +23,7 @@ import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
 import MapRoutingButton from '../MapRoutingButton';
+import { STOP_STATUS } from '../../util/stopStatusUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../util/path';
 import { streetQuery } from './StreetQuery';
@@ -55,7 +56,7 @@ function StopPageMap(
     mapLayerOptions,
     stopName = undefined,
     stopStatus = undefined,
-    stopAlertEffect = undefined,
+    stopAlertEffects = undefined,
   },
   { config, match },
 ) {
@@ -147,7 +148,7 @@ function StopPageMap(
           stop={stop}
           name={stopName}
           status={stopStatus}
-          alertEffect={stopAlertEffect}
+          alertEffects={stopAlertEffects}
         />
       </SelectedStopPopup>,
     );
@@ -213,8 +214,8 @@ StopPageMap.propTypes = {
   mapLayerOptions: mapLayerOptionsShape.isRequired,
   parkType: PropTypes.string,
   stopName: PropTypes.node,
-  stopStatus: PropTypes.string,
-  stopAlertEffect: PropTypes.string,
+  stopStatus: PropTypes.oneOf(Object.values(STOP_STATUS)),
+  stopAlertEffects: PropTypes.arrayOf(PropTypes.string),
 };
 
 const componentWithBreakpoint = withBreakpoint(StopPageMap);

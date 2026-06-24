@@ -126,26 +126,17 @@ export function combineStopStatuses(statusA, statusB) {
 }
 
 /**
- * Returns the alert effect (e.g. DETOUR, SIGNIFICANT_DELAYS) of the
- * highest-severity alert that is valid at the given time. Used to label the
- * status pill with the same `disruption-badge-*` text shown in Traffic now.
+ * Returns all unique alert effects from alerts that are valid at the given time.
  *
  * @param {Array} alerts the stop's alerts
  * @param {number} nowUnixTime reference unix time (seconds) for alert validity
- * @returns {string|null} the dominant active alert's effect, or null
+ * @returns {string[]} list of unique active alert effects
  */
-export function getStopAlertEffect(alerts, nowUnixTime) {
+export function getStopAlertEffects(alerts, nowUnixTime) {
   const activeAlerts = (alerts || []).filter(
     alert => alert && isAlertValid(alert, nowUnixTime),
   );
-  const level = getMaximumAlertSeverityLevel(activeAlerts);
-  if (!level) {
-    return null;
-  }
-  const dominant =
-    activeAlerts.find(alert => alert.alertSeverityLevel === level) ||
-    activeAlerts[0];
-  return (dominant && dominant.alertEffect) || null;
+  return [...new Set(activeAlerts.map(a => a.alertEffect).filter(Boolean))];
 }
 
 /**
@@ -175,21 +166,33 @@ export const STOP_STATUS_BADGE_IMGS = {
 };
 
 /**
- * Resolves the badge icon, stop status, and alert effect shown on the
+ * Resolves the badge icon, stop status, and alert effects shown on the
  * "no departures" panel of a stop or terminal page.
  *
  * @param {Array} alerts the stop's alerts
  * @param {number} currentTime reference unix time (seconds) for alert validity
  * @param {boolean} showStopStatusMarkers whether the config enables stop status markers
- * @returns {{ stopStatus: string|null, badgeImg: string|null, alertEffect: string|null }}
+ * @returns {{ stopStatus: string|null, badgeImg: string|null, alertEffects: string[]|null }}
+ *
+ * Priority order (matches the map's `getStopStatus`):
+ * 1. Stop closed by a NO_SERVICE alert: `OUT_OF_SERVICE`
+ * 2. Active alert with WARNING/INFO severity: `ALERT` or `INFO`
+ * 3. No departures in the next 90 days: `OUT_OF_SERVICE`
+ * 4. Fallback: `NO_SERVICE_TODAY` (no departure today is established by the caller;
+ *    `servicesRunningInFuture` is unknown/unavailable)
+ *
+ * @param {boolean} [servicesRunningInFuture] whether any departure exists in the next 90 days.
+ *   Pass `false` to enable the service-calendar-based `OUT_OF_SERVICE` path.
+ *   When `undefined` (data unavailable), the function falls back to `NO_SERVICE_TODAY`.
  */
 export function resolveNoDeparturesBadge(
   alerts,
   currentTime,
   showStopStatusMarkers,
+  servicesRunningInFuture,
 ) {
   if (!showStopStatusMarkers) {
-    return { stopStatus: null, badgeImg: null, alertEffect: null };
+    return { stopStatus: null, badgeImg: null, alertEffects: null };
   }
   const activeAlerts = (alerts || []).filter(a => isAlertValid(a, currentTime));
   const closedByServiceAlert = activeAlerts.some(
@@ -199,25 +202,32 @@ export function resolveNoDeparturesBadge(
     return {
       stopStatus: STOP_STATUS.OUT_OF_SERVICE,
       badgeImg: STOP_STATUS_BADGE_IMGS[STOP_STATUS.OUT_OF_SERVICE],
-      alertEffect: null,
+      alertEffects: null,
     };
   }
   const maxSeverity = getMaximumAlertSeverityLevel(activeAlerts);
   const alertStatus = severityToStatus(maxSeverity);
   if (alertStatus === STOP_STATUS.ALERT || alertStatus === STOP_STATUS.INFO) {
-    const dominant =
-      activeAlerts.find(a => a.alertSeverityLevel === maxSeverity) ||
-      activeAlerts[0];
+    const effects = [
+      ...new Set(activeAlerts.map(a => a.alertEffect).filter(Boolean)),
+    ];
     return {
       stopStatus: alertStatus,
       badgeImg: STOP_STATUS_BADGE_IMGS[alertStatus],
-      alertEffect: (dominant && dominant.alertEffect) || null,
+      alertEffects: effects.length > 0 ? effects : null,
+    };
+  }
+  if (servicesRunningInFuture === false) {
+    return {
+      stopStatus: STOP_STATUS.OUT_OF_SERVICE,
+      badgeImg: STOP_STATUS_BADGE_IMGS[STOP_STATUS.OUT_OF_SERVICE],
+      alertEffects: null,
     };
   }
   return {
     stopStatus: STOP_STATUS.NO_SERVICE_TODAY,
     badgeImg: STOP_STATUS_BADGE_IMGS[STOP_STATUS.NO_SERVICE_TODAY],
-    alertEffect: null,
+    alertEffects: null,
   };
 }
 
@@ -246,9 +256,7 @@ export function getStopStatusFromStopData({
   const closedByServiceAlert = activeAlerts.some(
     alert => alert.alertEffect === 'NO_SERVICE',
   );
-  const servicesRunningOnServiceDate = (
-    stop.stoptimesForServiceDate || []
-  ).some(pattern => pattern.stoptimes && pattern.stoptimes.length > 0);
+  const servicesRunningOnServiceDate = (stop.serviceToday || []).length > 0;
   const servicesRunningInFuture =
     (stop.stoptimesWithoutPatterns || []).length > 0;
 

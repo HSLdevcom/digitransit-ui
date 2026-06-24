@@ -18,7 +18,6 @@ import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../util/path';
 import { splitGtfsId } from '../../../util/gtfs';
 import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
 import getStopStatus, {
-  isStopOutOfService,
   combineStopStatuses,
 } from '../../../util/stopStatusUtils';
 
@@ -102,7 +101,7 @@ class Stops {
           feature.properties,
           this.config.showStopStatusMarkers,
         );
-        const sibling = feature.properties.hybridSiblingProperties;
+        const sibling = feature.hybridSiblingProperties;
         const siblingStatus = sibling
           ? getStopStatusForProperties(
               sibling,
@@ -119,26 +118,13 @@ class Stops {
         );
         return;
       }
-
-      const stopOutOfService =
-        this.config.showStopStatusMarkers &&
-        isStopOutOfService(feature.properties);
-      const noServiceOnServiceDay =
-        this.config.showStopStatusMarkers &&
-        feature.properties.servicesRunningOnServiceDate === false;
-      const alertSeverityLevel = this.config.showStopStatusMarkers
-        ? feature.properties.alertSeverityLevel
-        : undefined;
+      const stopStatus = getStopStatusForProperties(
+        feature.properties,
+        this.config.showStopStatusMarkers,
+      );
       if (isHighlighted && zoom <= minZoom) {
         // Fetch stop details only when stop is highlighted and realtime layer is not used (zoom level)
-        this.drawHighlighted(
-          feature,
-          mode,
-          isHighlighted,
-          noServiceOnServiceDay,
-          stopOutOfService,
-          alertSeverityLevel,
-        );
+        this.drawHighlighted(feature, mode, isHighlighted, stopStatus);
       } else {
         drawStopIcon(
           this.tile,
@@ -154,9 +140,7 @@ class Stops {
             !isNull(feature.properties.code)
           ),
           this.config,
-          stopOutOfService,
-          noServiceOnServiceDay,
-          alertSeverityLevel,
+          stopStatus,
         );
       }
     }
@@ -265,7 +249,7 @@ class Stops {
                       featWithBus.properties.gtfsId;
                     // remember the sibling stop's properties so the shared
                     // hybrid icon can combine both stops' statuses
-                    featWithBus.properties.hybridSiblingProperties =
+                    featWithBus.hybridSiblingProperties =
                       featWithoutBus.properties;
                     // Also change highlighted stopId to the stop with type = BUS in hybrid stop cases
                     if (
@@ -394,14 +378,7 @@ class Stops {
     });
   }
 
-  drawHighlighted = (
-    feature,
-    mode,
-    isHighlighted,
-    noServiceOnServiceDay,
-    stopOutOfService,
-    alertSeverityLevel,
-  ) => {
+  drawHighlighted = (feature, mode, isHighlighted, stopStatus) => {
     const date = DateTime.now();
     const callback = ({ stop: result }) => {
       if (result) {
@@ -419,9 +396,7 @@ class Stops {
             !isNull(feature.properties.code)
           ),
           this.config,
-          stopOutOfService,
-          noServiceOnServiceDay,
-          alertSeverityLevel,
+          stopStatus,
         );
       }
       return this;

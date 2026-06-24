@@ -10,11 +10,12 @@ import { stationShape, errorShape, relayShape } from '../../util/shapes';
 import {
   getTrackOrPierOrPlatformText,
   transitIconName,
-  getStopMode,
+  getPrimaryStopMode,
 } from '../../util/modeUtils';
 import { getModeIconColor } from '../../util/colorUtils';
 import { resolveNoDeparturesBadge } from '../../util/stopStatusUtils';
 import StopScheduleStatus from './StopScheduleStatus';
+import StopServiceStatusBanner from './StopServiceStatusBanner';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
 function TerminalPageContent({ station, relay, currentTime, error }) {
@@ -32,24 +33,22 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
   const config = useConfigContext();
   const { stoptimes } = station;
   const vehicleMode = station.vehicleMode || 'BUS';
-  const routeModes = [
-    ...new Set((station.routes || []).map(r => r.mode).filter(Boolean)),
-  ];
-  const primaryVehicleMode =
-    routeModes.length === 1 ? routeModes[0] : vehicleMode;
-  const mode = getStopMode(
-    primaryVehicleMode,
+  // `mode` is the icon mode (derived from routes, may differ from vehicleMode for multi-mode stops).
+  // `vehicleMode` is used for track text and the departure list.
+  const mode = getPrimaryStopMode(
     station.routes,
+    vehicleMode,
     station.code,
     config,
     true,
   );
+  const modeColor = getModeIconColor(config, mode);
   if (!stoptimes || stoptimes.length === 0) {
-    const modeColor = getModeIconColor(config, mode);
-    const { stopStatus, badgeImg, alertEffect } = resolveNoDeparturesBadge(
+    const { stopStatus, badgeImg, alertEffects } = resolveNoDeparturesBadge(
       station.alerts,
       currentTime,
       config.showStopStatusMarkers,
+      (station.futureStoptimes || []).length > 0,
     );
     return (
       <div className="stop-no-departures-container">
@@ -65,7 +64,7 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
           )}
         </div>
         {stopStatus ? (
-          <StopScheduleStatus status={stopStatus} alertEffect={alertEffect} />
+          <StopScheduleStatus status={stopStatus} alertEffects={alertEffects} />
         ) : (
           <FormattedMessage id="no-departures" defaultMessage="No departures" />
         )}
@@ -76,6 +75,12 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
   return (
     <ScrollableWrapper>
       <div className="stop-page-departure-wrapper stop-scroll-container">
+        <StopServiceStatusBanner
+          mode={mode}
+          modeColor={modeColor}
+          stoptimes={stoptimes}
+          currentTime={currentTime}
+        />
         <div
           className="departure-list-header row padding-vertical-normal"
           aria-hidden="true"
@@ -146,6 +151,14 @@ const connectedComponent = createRefetchContainer(
           effectiveStartDate
           effectiveEndDate
         }
+        futureStoptimes: stoptimesWithoutPatterns(
+          startTime: $startTime
+          timeRange: 7776000 # 90 days in seconds
+          numberOfDepartures: 1
+          omitCanceled: true
+        ) {
+          serviceDay
+        }
         stops {
           patterns {
             route {
@@ -159,6 +172,7 @@ const connectedComponent = createRefetchContainer(
           numberOfDepartures: $numberOfDepartures
           omitCanceled: false
         ) {
+          serviceDay
           ...DepartureListContainer_stoptimes
         }
       }

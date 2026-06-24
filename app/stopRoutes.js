@@ -24,11 +24,11 @@ import { DATE_FORMAT } from './constants';
 // departures for the schedule-status badge shown on the stop page map.
 const STOP_STATUS_TIME_RANGE = 90 * 24 * 60 * 60;
 
-const prepareStopMapVariables = params => {
+const prepareMapVariables = params => {
   const now = DateTime.now();
   return {
     ...params,
-    date: now.toFormat(DATE_FORMAT),
+    startOfDay: now.startOf('day').toUnixInteger(),
     startTime: now.toUnixInteger(),
     timeRange: STOP_STATUS_TIME_RANGE,
   };
@@ -46,14 +46,14 @@ const queries = {
     pageMap: graphql`
       query stopRoutes_StopPageMapContainer_Query(
         $stopId: String!
-        $date: String!
+        $startOfDay: Long!
         $startTime: Long!
         $timeRange: Int!
       ) {
         stop(id: $stopId) {
           ...StopPageMapContainer_stop
             @arguments(
-              date: $date
+              startOfDay: $startOfDay
               startTime: $startTime
               timeRange: $timeRange
             )
@@ -111,9 +111,19 @@ const queries = {
       }
     `,
     pageMap: graphql`
-      query stopRoutes_TerminalPageMapContainer_Query($terminalId: String!) {
+      query stopRoutes_TerminalPageMapContainer_Query(
+        $terminalId: String!
+        $startOfDay: Long!
+        $startTime: Long!
+        $timeRange: Int!
+      ) {
         station(id: $terminalId) {
           ...TerminalPageMapContainer_station
+            @arguments(
+              startOfDay: $startOfDay
+              startTime: $startTime
+              timeRange: $timeRange
+            )
         }
       }
     `,
@@ -302,9 +312,7 @@ export default function getStopRoutes(isTerminal = false) {
                     ).then(getDefault);
               }}
               query={queryMap.pageMap}
-              prepareVariables={
-                isTerminal ? undefined : prepareStopMapVariables
-              }
+              prepareVariables={prepareMapVariables}
               render={getComponentOrNullRenderer}
             />
           ),

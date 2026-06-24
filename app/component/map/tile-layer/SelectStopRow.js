@@ -27,7 +27,7 @@ function SelectStopRow({
   servicesRunningInFuture = undefined,
   servicesRunningOnServiceDate = undefined,
   alertSeverityLevel = undefined,
-  alertEffect = undefined,
+  alertEffects: alertEffectsProp = undefined,
 }) {
   const config = useConfigContext();
   const mode = getStopMode(type, routes, code, config, terminal);
@@ -50,6 +50,14 @@ function SelectStopRow({
     alertSeverityLevel,
   });
 
+  // alertEffects from the tile is a comma-separated string of all active effects
+  const alertEffects =
+    alertEffectsProp && alertEffectsProp !== 'null'
+      ? alertEffectsProp
+          .split(',')
+          .map(e => e.trim())
+          .filter(Boolean)
+      : null;
   return (
     <Link className="stop-popup-choose-row" to={stopPagePath(terminal, gtfsId)}>
       <span className="choose-row-left-column" aria-hidden="true">
@@ -83,7 +91,7 @@ function SelectStopRow({
         </div>
         <StopScheduleStatus
           status={status}
-          alertEffect={alertEffect}
+          alertEffects={alertEffects}
           className="choose-row-status"
         />
       </span>
@@ -109,7 +117,7 @@ SelectStopRow.propTypes = {
   servicesRunningInFuture: PropTypes.bool,
   servicesRunningOnServiceDate: PropTypes.bool,
   alertSeverityLevel: PropTypes.string,
-  alertEffect: PropTypes.string,
+  alertEffects: PropTypes.string,
 };
 
 export default SelectStopRow;

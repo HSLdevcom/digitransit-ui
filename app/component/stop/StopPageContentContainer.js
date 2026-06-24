@@ -13,10 +13,11 @@ import {
 import DepartureListContainer from '../DepartureListContainer';
 import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
-import { transitIconName, getStopMode } from '../../util/modeUtils';
+import { transitIconName, getPrimaryStopMode } from '../../util/modeUtils';
 import { getModeIconColor } from '../../util/colorUtils';
 import { resolveNoDeparturesBadge } from '../../util/stopStatusUtils';
 import StopScheduleStatus from './StopScheduleStatus';
+import StopServiceStatusBanner from './StopServiceStatusBanner';
 
 function StopPageContent(
   { stop, relay, currentTime, error, match },
@@ -56,18 +57,19 @@ function StopPageContent(
       </div>
     );
   }
-  const routeModes = [
-    ...new Set((stop.routes || []).map(r => r.mode).filter(Boolean)),
-  ];
-  const primaryVehicleMode =
-    routeModes.length === 1 ? routeModes[0] : stop.vehicleMode || 'BUS';
-  const mode = getStopMode(primaryVehicleMode, stop.routes, stop.code, config);
+  const mode = getPrimaryStopMode(
+    stop.routes,
+    stop.vehicleMode || 'BUS',
+    stop.code,
+    config,
+  );
+  const modeColor = getModeIconColor(config, mode);
   if (!stoptimes || stoptimes.length === 0) {
-    const modeColor = getModeIconColor(config, mode);
-    const { stopStatus, badgeImg, alertEffect } = resolveNoDeparturesBadge(
+    const { stopStatus, badgeImg, alertEffects } = resolveNoDeparturesBadge(
       stop.alerts,
       currentTime,
       config.showStopStatusMarkers,
+      (stop.futureStoptimes || []).length > 0,
     );
     return (
       <div className="stop-no-departures-container">
@@ -83,7 +85,7 @@ function StopPageContent(
           )}
         </div>
         {stopStatus ? (
-          <StopScheduleStatus status={stopStatus} alertEffect={alertEffect} />
+          <StopScheduleStatus status={stopStatus} alertEffects={alertEffects} />
         ) : (
           <FormattedMessage id="no-departures" defaultMessage="No departures" />
         )}
@@ -93,6 +95,12 @@ function StopPageContent(
   return (
     <ScrollableWrapper>
       <div className="stop-page-departure-wrapper stop-scroll-container">
+        <StopServiceStatusBanner
+          mode={mode}
+          modeColor={modeColor}
+          stoptimes={stoptimes}
+          currentTime={currentTime}
+        />
         <DepartureListContainer
           stoptimes={stoptimes}
           key="departures"
@@ -147,12 +155,21 @@ const connectedComponent = createRefetchContainer(
           effectiveStartDate
           effectiveEndDate
         }
+        futureStoptimes: stoptimesWithoutPatterns(
+          startTime: $startTime
+          timeRange: 7776000 # 90 days in seconds
+          numberOfDepartures: 1
+          omitCanceled: true
+        ) {
+          serviceDay
+        }
         stoptimes: stoptimesWithoutPatterns(
           startTime: $startTime
           timeRange: $timeRange
           numberOfDepartures: $numberOfDepartures
           omitCanceled: false
         ) {
+          serviceDay
           ...DepartureListContainer_stoptimes
         }
       }

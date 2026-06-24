@@ -129,6 +129,41 @@
   }
 }
 
+.stop-service-status-banner {
+  align-items: center;
+  background-color: white;
+  color: $gray;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px 0;
+
+  .stop-no-departures-icon {
+    width: 60px;
+    height: auto;
+    font-size: initial;
+  }
+
+  .stop-no-departures-icon-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+
+    .stop-no-departures-icon {
+      display: block;
+    }
+
+    .stop-no-departures-badge {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      font-size: initial;
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
 .stop-scroll-container {
   flex-basis: 0;
   flex-grow: 1;

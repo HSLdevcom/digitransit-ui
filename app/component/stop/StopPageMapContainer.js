@@ -7,7 +7,7 @@ import { useConfigContext } from '../../configurations/ConfigContext';
 import {
   STOP_STATUS,
   getStopStatusFromStopData,
-  getStopAlertEffect,
+  getStopAlertEffects,
 } from '../../util/stopStatusUtils';
 
 function StopPageMapContainer({ stop = undefined }) {
@@ -22,16 +22,16 @@ function StopPageMapContainer({ stop = undefined }) {
     nowUnixTime,
     showStopStatusMarkers: config.showStopStatusMarkers,
   });
-  const stopAlertEffect =
+  const stopAlertEffects =
     stopStatus === STOP_STATUS.ALERT || stopStatus === STOP_STATUS.INFO
-      ? getStopAlertEffect(stop.alerts, nowUnixTime)
+      ? getStopAlertEffects(stop.alerts, nowUnixTime)
       : null;
 
   return (
     <StopPageMap
       stop={stop}
       stopStatus={stopStatus}
-      stopAlertEffect={stopAlertEffect}
+      stopAlertEffects={stopAlertEffects}
     />
   );
 }
@@ -48,7 +48,7 @@ const containerComponent = createFragmentContainer(StopPageMapContainer, {
   stop: graphql`
     fragment StopPageMapContainer_stop on Stop
     @argumentDefinitions(
-      date: { type: "String" }
+      startOfDay: { type: "Long" }
       startTime: { type: "Long" }
       timeRange: { type: "Int", defaultValue: 7776000 } # 90 days in seconds
     ) {
@@ -67,10 +67,13 @@ const containerComponent = createFragmentContainer(StopPageMapContainer, {
         effectiveStartDate
         effectiveEndDate
       }
-      stoptimesForServiceDate(date: $date, omitCanceled: true) {
-        stoptimes {
-          serviceDay
-        }
+      serviceToday: stoptimesWithoutPatterns(
+        startTime: $startOfDay
+        timeRange: 86400 # 1 day in seconds
+        numberOfDepartures: 1
+        omitCanceled: true
+      ) {
+        serviceDay
       }
       stoptimesWithoutPatterns(
         startTime: $startTime

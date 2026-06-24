@@ -13,9 +13,9 @@ import {
  * Renders the status label on the "no departures" panel of a stop or terminal page.
  *
  * Use this component when the status may come from service-calendar data (e.g.
- * out-of-service, no-service-today) and may or may not carry a GTFS-RT alert
- * effect. It handles all four STOP_STATUS values and falls back to a generic
- * stop-status message when no alert effect is present.
+ * out-of-service, no-service-today) and may or may not carry GTFS-RT alert
+ * effects. It handles all four STOP_STATUS values and falls back to a generic
+ * stop-status message when no alert effects are present.
  *
  * For Traffic Now contexts where an alert effect is always known, use
  * `DisruptionBadge` instead — it renders the full badge pill with an optional
@@ -24,7 +24,7 @@ import {
 
 export default function StopScheduleStatus({
   status = undefined,
-  alertEffect = undefined,
+  alertEffects = undefined,
   className = undefined,
 }) {
   if (!status) {
@@ -32,15 +32,22 @@ export default function StopScheduleStatus({
   }
   const isAlertStatus =
     status === STOP_STATUS.ALERT || status === STOP_STATUS.INFO;
-  const effect =
-    isAlertStatus && alertEffect ? alertEffect.toLowerCase() : null;
+  const effects =
+    isAlertStatus && alertEffects && alertEffects.length > 0
+      ? alertEffects.map(e => e.toLowerCase())
+      : null;
   return (
     <span className={cx('stop-schedule-status', status, className)}>
-      {effect ? (
-        <FormattedMessage
-          id={`${DISRUPTION_BADGE_PREFIX}${effect}`}
-          defaultMessage={capitalize(effect).replace(/_/g, ' ')}
-        />
+      {effects ? (
+        effects.map((effect, i) => (
+          <React.Fragment key={effect}>
+            {i > 0 && ', '}
+            <FormattedMessage
+              id={`${DISRUPTION_BADGE_PREFIX}${effect}`}
+              defaultMessage={capitalize(effect).replace(/_/g, ' ')}
+            />
+          </React.Fragment>
+        ))
       ) : (
         <FormattedMessage id={STOP_STATUS_MESSAGE_IDS[status]} />
       )}
@@ -55,7 +62,7 @@ StopScheduleStatus.propTypes = {
     STOP_STATUS.ALERT,
     STOP_STATUS.INFO,
   ]),
-  alertEffect: PropTypes.string,
+  alertEffects: PropTypes.arrayOf(PropTypes.string),
   className: PropTypes.string,
 };
 

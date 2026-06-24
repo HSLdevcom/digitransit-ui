@@ -4,11 +4,7 @@ import ReactDOMServer from 'react-dom/server';
 import glfun from './glfun';
 import { transitIconName } from './modeUtils';
 import { getModeIconColor } from './colorUtils';
-import {
-  severityToStatus,
-  STOP_STATUS,
-  STOP_STATUS_BADGE_IMGS,
-} from './stopStatusUtils';
+import { STOP_STATUS_BADGE_IMGS } from './stopStatusUtils';
 import { ParkTypes, TransportMode } from '../constants';
 
 /**
@@ -331,29 +327,6 @@ function drawStopStatusBadgeForStatus(tile, x, y, iconWidth, status) {
 }
 
 /**
- * Draw a badge icon on top of the icon.
- */
-function drawStopStatusBadge(
-  tile,
-  x,
-  y,
-  iconWidth,
-  stopOutOfService,
-  noServiceOnServiceDay,
-  alertSeverityLevel,
-) {
-  let status;
-  if (stopOutOfService) {
-    status = STOP_STATUS.OUT_OF_SERVICE;
-  } else if (noServiceOnServiceDay) {
-    status = STOP_STATUS.NO_SERVICE_TODAY;
-  } else {
-    status = severityToStatus(alertSeverityLevel);
-  }
-  drawStopStatusBadgeForStatus(tile, x, y, iconWidth, status);
-}
-
-/**
  * Draw a circle icon
  */
 function getCircleIcon(radius, color) {
@@ -399,9 +372,7 @@ export function drawStopIcon(
   isHighlighted,
   isFerryTerminal,
   config,
-  stopOutOfService,
-  noServiceOnServiceDay,
-  alertSeverityLevel,
+  stopStatus,
 ) {
   const color = getModeIconColor(config, mode);
   const zoom = tile.coords.z - 1;
@@ -432,15 +403,7 @@ export function drawStopIcon(
     y = geom.y / tile.ratio - height;
     getImageFromSpriteCache(iconName, width, height, color).then(image => {
       tile.ctx.drawImage(image, x, y);
-      drawStopStatusBadge(
-        tile,
-        x,
-        y,
-        width,
-        stopOutOfService,
-        noServiceOnServiceDay,
-        alertSeverityLevel,
-      );
+      drawStopStatusBadgeForStatus(tile, x, y, width, stopStatus);
       if (isHighlighted && !isFerryTerminal) {
         drawSelectionCircle(tile, x, y, zoom, radius);
       }
