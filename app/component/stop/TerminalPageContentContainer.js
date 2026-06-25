@@ -4,17 +4,13 @@ import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DepartureListContainer from '../DepartureListContainer';
-import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { stationShape, errorShape, relayShape } from '../../util/shapes';
 import {
   getTrackOrPierOrPlatformText,
-  transitIconName,
   getPrimaryStopMode,
 } from '../../util/modeUtils';
 import { getModeIconColor } from '../../util/colorUtils';
-import { resolveNoDeparturesBadge } from '../../util/stopStatusUtils';
-import StopScheduleStatus from './StopScheduleStatus';
 import StopServiceStatusBanner from './StopServiceStatusBanner';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
@@ -44,31 +40,15 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
   );
   const modeColor = getModeIconColor(config, mode);
   if (!stoptimes || stoptimes.length === 0) {
-    const { stopStatus, badgeImg, alertEffects } = resolveNoDeparturesBadge(
-      station.alerts,
-      currentTime,
-      config.showStopStatusMarkers,
-      (station.futureStoptimes || []).length > 0,
-    );
     return (
-      <div className="stop-no-departures-container">
-        <div className="stop-no-departures-icon-wrapper">
-          <Icon
-            img={transitIconName(mode, true)}
-            className="stop-no-departures-icon"
-            color={modeColor}
-            viewBox="0 0 16 22"
-          />
-          {badgeImg && (
-            <Icon img={badgeImg} className="stop-no-departures-badge" />
-          )}
-        </div>
-        {stopStatus ? (
-          <StopScheduleStatus status={stopStatus} alertEffects={alertEffects} />
-        ) : (
-          <FormattedMessage id="no-departures" defaultMessage="No departures" />
-        )}
-      </div>
+      <StopServiceStatusBanner
+        mode={mode}
+        modeColor={modeColor}
+        stoptimes={stoptimes || []}
+        currentTime={currentTime}
+        alerts={station.alerts}
+        servicesRunningInFuture={(station.futureStoptimes || []).length > 0}
+      />
     );
   }
 
@@ -80,6 +60,7 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
           modeColor={modeColor}
           stoptimes={stoptimes}
           currentTime={currentTime}
+          alerts={station.alerts}
         />
         <div
           className="departure-list-header row padding-vertical-normal"
@@ -145,7 +126,7 @@ const connectedComponent = createRefetchContainer(
           mode
           type
         }
-        alerts(types: [STOP]) {
+        alerts(types: [STOP, ROUTES]) {
           alertEffect
           alertSeverityLevel
           effectiveStartDate

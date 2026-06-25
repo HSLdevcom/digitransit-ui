@@ -34,19 +34,23 @@ export default function StopScheduleStatus({
     status === STOP_STATUS.ALERT || status === STOP_STATUS.INFO;
   const effects =
     isAlertStatus && alertEffects && alertEffects.length > 0
-      ? alertEffects.map(e => e.toLowerCase())
+      ? [...new Set(alertEffects.map(e => e.toLowerCase()))]
       : null;
   return (
-    <span className={cx('stop-schedule-status', status, className)}>
+    <span
+      className={cx('stop-schedule-status', { [status]: !effects }, className)}
+    >
       {effects ? (
-        effects.map((effect, i) => (
-          <React.Fragment key={effect}>
-            {i > 0 && ', '}
+        effects.map(effect => (
+          <span
+            key={effect}
+            className={cx('stop-schedule-status__effect', status)}
+          >
             <FormattedMessage
               id={`${DISRUPTION_BADGE_PREFIX}${effect}`}
               defaultMessage={capitalize(effect).replace(/_/g, ' ')}
             />
-          </React.Fragment>
+          </span>
         ))
       ) : (
         <FormattedMessage id={STOP_STATUS_MESSAGE_IDS[status]} />

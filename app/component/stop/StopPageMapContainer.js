@@ -61,7 +61,7 @@ const containerComponent = createFragmentContainer(StopPageMapContainer, {
       vehicleMode
       locationType
       gtfsId
-      alerts(types: [STOP]) {
+      alerts(types: [STOP, ROUTES]) {
         alertEffect
         alertSeverityLevel
         effectiveStartDate

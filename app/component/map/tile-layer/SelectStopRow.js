@@ -7,7 +7,9 @@ import StopScheduleStatus from '../../stop/StopScheduleStatus';
 import { stopPagePath } from '../../../util/path';
 import { getStopMode, transitIconName } from '../../../util/modeUtils';
 import { getModeIconColor } from '../../../util/colorUtils';
-import getStopStatus from '../../../util/stopStatusUtils';
+import getStopStatus, {
+  combineStopStatuses,
+} from '../../../util/stopStatusUtils';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 
 function isNull(val) {
@@ -28,6 +30,7 @@ function SelectStopRow({
   servicesRunningOnServiceDate = undefined,
   alertSeverityLevel = undefined,
   alertEffects: alertEffectsProp = undefined,
+  hybridSiblingProperties = undefined,
 }) {
   const config = useConfigContext();
   const mode = getStopMode(type, routes, code, config, terminal);
@@ -42,7 +45,7 @@ function SelectStopRow({
   const showDesc = desc && desc !== 'null';
   const showCode = code && code !== 'null';
 
-  const status = getStopStatus({
+  const ownStatus = getStopStatus({
     showStopStatusMarkers: config.showStopStatusMarkers,
     closedByServiceAlert,
     servicesRunningOnServiceDate,
@@ -50,14 +53,39 @@ function SelectStopRow({
     alertSeverityLevel,
   });
 
-  // alertEffects from the tile is a comma-separated string of all active effects
-  const alertEffects =
-    alertEffectsProp && alertEffectsProp !== 'null'
-      ? alertEffectsProp
+  const parseEffects = str =>
+    str && str !== 'null'
+      ? str
           .split(',')
           .map(e => e.trim())
           .filter(Boolean)
-      : null;
+      : [];
+
+  let status;
+  let alertEffects;
+
+  if (hybridSiblingProperties) {
+    const siblingStatus = getStopStatus({
+      showStopStatusMarkers: config.showStopStatusMarkers,
+      closedByServiceAlert: hybridSiblingProperties.closedByServiceAlert,
+      servicesRunningOnServiceDate:
+        hybridSiblingProperties.servicesRunningOnServiceDate,
+      servicesRunningInFuture: hybridSiblingProperties.servicesRunningInFuture,
+      alertSeverityLevel: hybridSiblingProperties.alertSeverityLevel,
+    });
+    status = combineStopStatuses(ownStatus, siblingStatus);
+    const combined = [
+      ...new Set([
+        ...parseEffects(alertEffectsProp),
+        ...parseEffects(hybridSiblingProperties.alertEffects),
+      ]),
+    ];
+    alertEffects = combined.length > 0 ? combined : null;
+  } else {
+    status = ownStatus;
+    const effects = [...new Set(parseEffects(alertEffectsProp))];
+    alertEffects = effects.length > 0 ? effects : null;
+  }
   return (
     <Link className="stop-popup-choose-row" to={stopPagePath(terminal, gtfsId)}>
       <span className="choose-row-left-column" aria-hidden="true">
@@ -118,6 +146,13 @@ SelectStopRow.propTypes = {
   servicesRunningOnServiceDate: PropTypes.bool,
   alertSeverityLevel: PropTypes.string,
   alertEffects: PropTypes.string,
+  hybridSiblingProperties: PropTypes.shape({
+    closedByServiceAlert: PropTypes.bool,
+    servicesRunningInFuture: PropTypes.bool,
+    servicesRunningOnServiceDate: PropTypes.bool,
+    alertSeverityLevel: PropTypes.string,
+    alertEffects: PropTypes.string,
+  }),
 };
 
 export default SelectStopRow;

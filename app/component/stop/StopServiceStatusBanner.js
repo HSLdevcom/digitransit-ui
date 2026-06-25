@@ -1,34 +1,47 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
 import { transitIconName } from '../../util/modeUtils';
-import {
-  STOP_STATUS,
-  STOP_STATUS_BADGE_IMGS,
-} from '../../util/stopStatusUtils';
+import { resolveNoDeparturesBadge } from '../../util/stopStatusUtils';
+import { alertShape } from '../../util/shapes';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import StopScheduleStatus from './StopScheduleStatus';
 
 export default function StopServiceStatusBanner({
   mode,
-  modeColor,
+  modeColor = undefined,
   stoptimes,
   currentTime,
+  alerts = undefined,
+  servicesRunningInFuture = true,
 }) {
   const config = useConfigContext();
+  const noDepartures = stoptimes.length === 0;
 
   if (
-    !config.showStopStatusMarkers ||
-    stoptimes.some(st => st.serviceDay < currentTime)
+    !noDepartures &&
+    (!config.showStopStatusMarkers ||
+      stoptimes.some(st => st.serviceDay < currentTime))
   ) {
     return null;
   }
 
-  const status = STOP_STATUS.NO_SERVICE_TODAY;
-  const badgeImg = STOP_STATUS_BADGE_IMGS[STOP_STATUS.NO_SERVICE_TODAY];
+  const { stopStatus, badgeImg, alertEffects } = resolveNoDeparturesBadge(
+    alerts,
+    currentTime,
+    config.showStopStatusMarkers,
+    noDepartures ? servicesRunningInFuture : true,
+  );
 
   return (
-    <div className="stop-service-status-banner">
+    <div
+      className={
+        noDepartures
+          ? 'stop-no-departures-container'
+          : 'stop-service-status-banner'
+      }
+    >
       <div className="stop-no-departures-icon-wrapper">
         <Icon
           img={transitIconName(mode, true)}
@@ -40,7 +53,13 @@ export default function StopServiceStatusBanner({
           <Icon img={badgeImg} className="stop-no-departures-badge" />
         )}
       </div>
-      <StopScheduleStatus status={status} />
+      {stopStatus ? (
+        <StopScheduleStatus status={stopStatus} alertEffects={alertEffects} />
+      ) : (
+        noDepartures && (
+          <FormattedMessage id="no-departures" defaultMessage="No departures" />
+        )
+      )}
     </div>
   );
 }
@@ -52,8 +71,6 @@ StopServiceStatusBanner.propTypes = {
     PropTypes.shape({ serviceDay: PropTypes.number.isRequired }),
   ).isRequired,
   currentTime: PropTypes.number.isRequired,
-};
-
-StopServiceStatusBanner.defaultProps = {
-  modeColor: undefined,
+  alerts: PropTypes.arrayOf(alertShape),
+  servicesRunningInFuture: PropTypes.bool,
 };

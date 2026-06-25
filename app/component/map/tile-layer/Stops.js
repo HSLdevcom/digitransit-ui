@@ -251,6 +251,8 @@ class Stops {
                     // hybrid icon can combine both stops' statuses
                     featWithBus.hybridSiblingProperties =
                       featWithoutBus.properties;
+                    featWithoutBus.hybridSiblingProperties =
+                      featWithBus.properties;
                     // Also change highlighted stopId to the stop with type = BUS in hybrid stop cases
                     if (
                       this.tile.highlightedStops &&

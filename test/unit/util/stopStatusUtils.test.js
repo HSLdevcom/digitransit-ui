@@ -7,6 +7,7 @@ import getStopStatus, {
   severityToStatus,
   combineStopStatuses,
   resolveNoDeparturesBadge,
+  getStopAlertEffects,
 } from '../../../app/util/stopStatusUtils';
 
 describe('stopStatusUtils', () => {
@@ -289,15 +290,37 @@ describe('stopStatusUtils', () => {
       expect(result.alertEffects).to.equal(null);
     });
 
-    it('returns ALERT status with effects for a warning alert', () => {
+    it('returns OUT_OF_SERVICE when a non-NO_SERVICE alert is active and no future service exists', () => {
       const result = resolveNoDeparturesBadge(
         [makeAlert('WARNING', 'DETOUR')],
         NOW,
         true,
         false,
       );
+      expect(result.stopStatus).to.equal(STOP_STATUS.OUT_OF_SERVICE);
+      expect(result.alertEffects).to.equal(null);
+    });
+
+    it('returns ALERT with severity-filtered effects when an ALERT-tier alert is active and future service exists', () => {
+      const result = resolveNoDeparturesBadge(
+        [makeAlert('WARNING', 'DETOUR')],
+        NOW,
+        true,
+        true,
+      );
       expect(result.stopStatus).to.equal(STOP_STATUS.ALERT);
       expect(result.alertEffects).to.deep.equal(['DETOUR']);
+    });
+
+    it('returns NO_SERVICE_TODAY when only an INFO alert is active and future service exists', () => {
+      const result = resolveNoDeparturesBadge(
+        [makeAlert('INFO', 'MODIFIED_SERVICE')],
+        NOW,
+        true,
+        true,
+      );
+      expect(result.stopStatus).to.equal(STOP_STATUS.NO_SERVICE_TODAY);
+      expect(result.alertEffects).to.equal(null);
     });
 
     it('returns OUT_OF_SERVICE when no alerts and no future service', () => {
@@ -314,6 +337,40 @@ describe('stopStatusUtils', () => {
     it('returns NO_SERVICE_TODAY when servicesRunningInFuture is undefined (data unavailable)', () => {
       const result = resolveNoDeparturesBadge([], NOW, true, undefined);
       expect(result.stopStatus).to.equal(STOP_STATUS.NO_SERVICE_TODAY);
+    });
+  });
+
+  describe('getStopAlertEffects', () => {
+    const NOW = 1_700_000_000;
+    const makeAlert = (alertSeverityLevel, alertEffect = null) => ({
+      alertSeverityLevel,
+      alertEffect,
+      effectiveStartDate: 0,
+      effectiveEndDate: 9_999_999_999,
+    });
+
+    it('returns effects from all alerts when only INFO alerts are present', () => {
+      const alerts = [makeAlert('INFO', 'OTHER_EFFECT')];
+      expect(getStopAlertEffects(alerts, NOW)).to.deep.equal(['OTHER_EFFECT']);
+    });
+
+    it('excludes INFO-level effects when ALERT-tier alerts are also present', () => {
+      const alerts = [
+        makeAlert('WARNING', 'DETOUR'),
+        makeAlert('INFO', 'OTHER_EFFECT'),
+      ];
+      expect(getStopAlertEffects(alerts, NOW)).to.deep.equal(['DETOUR']);
+    });
+
+    it('returns effects from all ALERT-tier alerts when no INFO alerts are present', () => {
+      const alerts = [
+        makeAlert('SEVERE', 'DETOUR'),
+        makeAlert('WARNING', 'REDUCED_SERVICE'),
+      ];
+      expect(getStopAlertEffects(alerts, NOW)).to.deep.equal([
+        'DETOUR',
+        'REDUCED_SERVICE',
+      ]);
     });
   });
 });

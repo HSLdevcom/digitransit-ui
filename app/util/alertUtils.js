@@ -233,6 +233,7 @@ export const getMaximumAlertSeverityLevel = alerts => {
       }
       return obj;
     }, {});
+
   return (
     levels[AlertSeverityLevelType.Severe] ||
     levels[AlertSeverityLevelType.Warning] ||

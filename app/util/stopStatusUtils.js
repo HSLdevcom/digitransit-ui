@@ -126,17 +126,27 @@ export function combineStopStatuses(statusA, statusB) {
 }
 
 /**
- * Returns all unique alert effects from alerts that are valid at the given time.
+ * Returns all unique alert effects from alerts that are valid at the given time,
+ * filtered to the highest severity tier present. When any ALERT-tier alert
+ * (SEVERE, WARNING, or UNKNOWN_SEVERITY) is active, INFO-level alert effects
+ * are excluded so they don't dilute the displayed labels.
  *
  * @param {Array} alerts the stop's alerts
  * @param {number} nowUnixTime reference unix time (seconds) for alert validity
- * @returns {string[]} list of unique active alert effects
+ * @returns {string[]} list of unique active alert effects at the dominant severity tier
  */
 export function getStopAlertEffects(alerts, nowUnixTime) {
   const activeAlerts = (alerts || []).filter(
     alert => alert && isAlertValid(alert, nowUnixTime),
   );
-  return [...new Set(activeAlerts.map(a => a.alertEffect).filter(Boolean))];
+  const maxSeverity = getMaximumAlertSeverityLevel(activeAlerts);
+  const isAlertTier = maxSeverity !== AlertSeverityLevelType.Info;
+  const relevantAlerts = isAlertTier
+    ? activeAlerts.filter(
+        a => a.alertSeverityLevel !== AlertSeverityLevelType.Info,
+      )
+    : activeAlerts;
+  return [...new Set(relevantAlerts.map(a => a.alertEffect).filter(Boolean))];
 }
 
 /**
@@ -169,21 +179,20 @@ export const STOP_STATUS_BADGE_IMGS = {
  * Resolves the badge icon, stop status, and alert effects shown on the
  * "no departures" panel of a stop or terminal page.
  *
+ * Priority order:
+ * 1. Stop closed by a NO_SERVICE alert: `OUT_OF_SERVICE`
+ * 2. No departures in the next 90 days: `OUT_OF_SERVICE`
+ * 3. Active ALERT-tier alert (WARNING/SEVERE): `ALERT` with severity-filtered effects
+ * 4. Fallback: `NO_SERVICE_TODAY` — INFO-level alerts do not override the service
+ *    calendar; only ALERT-tier alerts (step 3) can.
+ *
  * @param {Array} alerts the stop's alerts
  * @param {number} currentTime reference unix time (seconds) for alert validity
  * @param {boolean} showStopStatusMarkers whether the config enables stop status markers
- * @returns {{ stopStatus: string|null, badgeImg: string|null, alertEffects: string[]|null }}
- *
- * Priority order (matches the map's `getStopStatus`):
- * 1. Stop closed by a NO_SERVICE alert: `OUT_OF_SERVICE`
- * 2. Active alert with WARNING/INFO severity: `ALERT` or `INFO`
- * 3. No departures in the next 90 days: `OUT_OF_SERVICE`
- * 4. Fallback: `NO_SERVICE_TODAY` (no departure today is established by the caller;
- *    `servicesRunningInFuture` is unknown/unavailable)
- *
  * @param {boolean} [servicesRunningInFuture] whether any departure exists in the next 90 days.
- *   Pass `false` to enable the service-calendar-based `OUT_OF_SERVICE` path.
- *   When `undefined` (data unavailable), the function falls back to `NO_SERVICE_TODAY`.
+ *   Pass `false` to trigger the service-calendar-based `OUT_OF_SERVICE` path.
+ *   When `true` or `undefined`, the function returns `NO_SERVICE_TODAY` as the fallback.
+ * @returns {{ stopStatus: string|null, badgeImg: string|null, alertEffects: string[]|null }}
  */
 export function resolveNoDeparturesBadge(
   alerts,
@@ -205,23 +214,27 @@ export function resolveNoDeparturesBadge(
       alertEffects: null,
     };
   }
-  const maxSeverity = getMaximumAlertSeverityLevel(activeAlerts);
-  const alertStatus = severityToStatus(maxSeverity);
-  if (alertStatus === STOP_STATUS.ALERT || alertStatus === STOP_STATUS.INFO) {
-    const effects = [
-      ...new Set(activeAlerts.map(a => a.alertEffect).filter(Boolean)),
-    ];
-    return {
-      stopStatus: alertStatus,
-      badgeImg: STOP_STATUS_BADGE_IMGS[alertStatus],
-      alertEffects: effects.length > 0 ? effects : null,
-    };
-  }
   if (servicesRunningInFuture === false) {
     return {
       stopStatus: STOP_STATUS.OUT_OF_SERVICE,
       badgeImg: STOP_STATUS_BADGE_IMGS[STOP_STATUS.OUT_OF_SERVICE],
       alertEffects: null,
+    };
+  }
+  const maxSeverity = getMaximumAlertSeverityLevel(activeAlerts);
+  if (severityToStatus(maxSeverity) === STOP_STATUS.ALERT) {
+    const effects = [
+      ...new Set(
+        activeAlerts
+          .filter(a => a.alertSeverityLevel !== AlertSeverityLevelType.Info)
+          .map(a => a.alertEffect)
+          .filter(Boolean),
+      ),
+    ];
+    return {
+      stopStatus: STOP_STATUS.ALERT,
+      badgeImg: STOP_STATUS_BADGE_IMGS[STOP_STATUS.ALERT],
+      alertEffects: effects.length > 0 ? effects : null,
     };
   }
   return {

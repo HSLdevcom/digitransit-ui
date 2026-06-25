@@ -59,4 +59,21 @@ describe('<StopScheduleStatus />', () => {
       `${DISRUPTION_BADGE_PREFIX}modified_service`,
     );
   });
+
+  it('renders each effect as a separate label when multiple alertEffects are present', () => {
+    const wrapper = shallowWithIntl(
+      <StopScheduleStatus
+        status={STOP_STATUS.ALERT}
+        alertEffects={['DETOUR', 'SIGNIFICANT_DELAYS']}
+      />,
+    );
+    const labels = wrapper.find('.stop-schedule-status__effect');
+    expect(labels).to.have.lengthOf(2);
+    expect(labels.at(0).find('FormattedMessage').prop('id')).to.equal(
+      `${DISRUPTION_BADGE_PREFIX}detour`,
+    );
+    expect(labels.at(1).find('FormattedMessage').prop('id')).to.equal(
+      `${DISRUPTION_BADGE_PREFIX}significant_delays`,
+    );
+  });
 });
