@@ -885,6 +885,7 @@ export default {
     enabled: false,
     direct: false,
     transit: false,
+    allowedRouteTypes: [1501],
     showBothDirectAndTransitResults: false,
   },
   personalization: false,

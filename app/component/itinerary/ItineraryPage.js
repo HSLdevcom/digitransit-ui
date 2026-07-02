@@ -1198,6 +1198,7 @@ export default function ItineraryPage(props, context) {
           plan,
           match.location.query.arriveBy === 'true',
           config.carPickupZone.showBothDirectAndTransitResults,
+          config.carPickupZone.allowedRouteTypes,
         );
       }
 
