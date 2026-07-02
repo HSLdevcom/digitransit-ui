@@ -470,10 +470,10 @@ function isScooterLeg(leg) {
 function isAirplaneLeg(leg) {
   return LegMode.Airplane === getLegMode(leg);
 }
-function isDrivingLeg(leg) {
+export function isDrivingLeg(leg) {
   return LegMode.Car === getLegMode(leg);
 }
-function isTaxiLeg(leg) {
+export function isTaxiLeg(leg) {
   return LegMode.Taxi === getLegMode(leg);
 }
 export function isCallAgencyLeg(leg) {
@@ -487,6 +487,9 @@ export function isDirectFlexItinerary(itinerary, allowedTypes) {
     allowedTypes.includes(transitLegs[0].route?.type)
   );
 }
+export function isTaxiItinerary(itinerary) {
+  return itinerary.legs.length === 1 && isTaxiLeg(itinerary.legs[0]);
+}
 
 export function hasTaxiLegs(itinerary) {
   return itinerary.legs.some(isTaxiLeg);
@@ -496,24 +499,6 @@ export function hasScooterLegs(itinerary) {
 }
 export function hasAirplaneLegs(itinerary) {
   return itinerary.legs.some(isAirplaneLeg);
-}
-
-/**
- * Checks if the itinerary consists of a single biking leg.
- *
- * @param {*} itinerary the itinerary to check the legs for
- */
-export function onlyBiking(itinerary) {
-  return itinerary.legs.length === 1 && isBikingLeg(itinerary.legs[0]);
-}
-
-/**
- * Checks if any of the legs in the given itinerary contains biking.
- *
- * @param {*} itinerary the itinerary to check the legs for
- */
-export function containsBiking(itinerary) {
-  return itinerary.legs.some(isBikingLeg);
 }
 
 /**

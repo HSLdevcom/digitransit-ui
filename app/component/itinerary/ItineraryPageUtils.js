@@ -15,6 +15,7 @@ import {
   compressLegs,
   getTotalBikingDistance,
   isDirectFlexItinerary,
+  isTaxiItinerary,
 } from '../../util/legUtils';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
 import { getDefaultSettings, getSettings } from '../../util/planParamUtil';
@@ -428,6 +429,16 @@ function selectFlexEdges(edges, types, showBothDirectAndTransitResults) {
 }
 
 /**
+ * Analogous to selectFlexEdges but for car pickup zone itineraries.
+ * Returns 2 edges when showBothDirectAndTransitResults is true and a direct
+ * (taxi-only) itinerary exists in the list; otherwise returns 1.
+ */
+function selectCarPickupZoneEdges(edges, showBothDirectAndTransitResults) {
+  const hasDirect = edges.some(e => isTaxiItinerary(e.node));
+  return edges.slice(0, hasDirect && showBothDirectAndTransitResults ? 2 : 1);
+}
+
+/**
  * Pick combination of itineraries for bike and transit
  */
 export function mergeBikeTransitPlans(bikeParkPlan, bikeTransitPlan) {
@@ -605,6 +616,20 @@ export function mergeInternalFlexPlan(
     showBothDirectAndTransitResults,
   );
   return sortAndMergePlans(selectedInternalFlexEdges, plan, arriveBy);
+}
+
+/** Combine a car pickup zone taxi plan with the main transit plan. */
+export function mergeCarPickupZonePlan(
+  carPickupZonePlan,
+  transitPlan,
+  arriveBy,
+  showBothDirectAndTransitResults,
+) {
+  const selectedEdges = selectCarPickupZoneEdges(
+    carPickupZonePlan.edges || [],
+    showBothDirectAndTransitResults,
+  );
+  return sortAndMergePlans(selectedEdges, transitPlan, arriveBy);
 }
 
 /**

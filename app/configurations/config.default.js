@@ -881,6 +881,12 @@ export default {
       showBothDirectAndTransitResults: false,
     },
   },
+  carPickupZone: {
+    enabled: false,
+    direct: false,
+    transit: false,
+    showBothDirectAndTransitResults: false,
+  },
   personalization: false,
   showNewRoutePage: false,
   user: {},

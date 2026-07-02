@@ -21,6 +21,8 @@ import {
   LegMode,
   getZones,
   isCallAgencyLeg,
+  isTaxiLeg,
+  isDrivingLeg,
   splitLegsAtViaPoints,
   hasTaxiLegs,
 } from '../../util/legUtils';
@@ -167,7 +169,7 @@ const Itinerary = ({
   );
   const usingOwnBicycleWholeTrip =
     usingOwnBicycle && itinerary.legs.every(leg => !leg.to.vehicleParking);
-  const usingOwnCar = itinerary.legs.some(leg => getLegMode(leg) === 'CAR');
+  const usingOwnCar = itinerary.legs.some(isDrivingLeg);
   const usingOwnCarWholeTrip =
     usingOwnCar && itinerary.legs.every(leg => !leg.to.vehicleParking);
   const { refTime } = props;
@@ -623,7 +625,7 @@ const Itinerary = ({
       firstDeparture?.mode === LegMode.Scooter
         ? 'itinerary-summary-row.first-leg-start-time-scooter'
         : 'itinerary-summary-row.first-leg-start-time-citybike';
-  } else if (firstDeparture?.mode === LegMode.Taxi) {
+  } else if (isTaxiLeg(firstDeparture)) {
     firstDepartureLabelId = 'itinerary-summary-row.first-leg-start-time-taxi';
   }
 

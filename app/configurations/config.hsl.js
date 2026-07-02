@@ -112,7 +112,7 @@ export default {
   useRoutingFeedbackPrompt: true,
 
   feedIds: ['HSL', 'HSLlautta', 'Sipoo'],
-  externalFeedIds: ['HSLlautta', 'Uber'],
+  externalFeedIds: ['HSLlautta', 'Uber', '02Taksi'],
   externalFerryByStopCode: true, // no stop code means external ferry
 
   allowLogin: true,
@@ -760,6 +760,12 @@ export default {
     }, */
     infoLanguage: 'fi',
     settingLabelOverride: 'demand-responsive-traffic',
+  },
+
+  carPickupZone: {
+    enabled: true,
+    direct: false,
+    transit: true,
   },
 
   showRouteDescNotification: IS_DEV,

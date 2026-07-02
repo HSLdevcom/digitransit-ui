@@ -10,6 +10,7 @@ import {
   legTimeStr,
   legDestination,
   isCallAgencyLeg,
+  isTaxiLeg,
   getValidatedLegName,
 } from '../../util/legUtils';
 import Icon from '../Icon';
@@ -92,7 +93,7 @@ function WalkLeg({
   ).type;
   const isScooter = networkType === RentalNetworkType.Scooter;
   // Taxi leg is the current leg when the walk leg is added after a taxi leg without a walk leg from data
-  const alightNotice = previousLeg?.mode === 'TAXI' || leg?.mode === 'TAXI';
+  const alightNotice = isTaxiLeg(previousLeg) || isTaxiLeg(leg);
   const returnNotice = previousLeg?.rentedBike ? (
     <FormattedMessage
       id={
