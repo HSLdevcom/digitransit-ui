@@ -21,7 +21,7 @@ import {
   compressLegs,
   isCallAgencyLeg,
   isTaxiLeg,
-  isLegOnFoot,
+  isWalkLeg,
   legTime,
   markViaPoints,
   getBoardingLeg,
@@ -185,7 +185,7 @@ export default function Legs({
       legs.push(<CarParkLeg {...legProps} carPark={carPark} />);
     } else if (isTaxiLeg(leg)) {
       legs.push(<TaxiLeg {...legProps} />);
-    } else if (isLegOnFoot(leg)) {
+    } else if (isWalkLeg(leg)) {
       legs.push(
         <WalkLeg
           {...legProps}

@@ -22,11 +22,14 @@ import {
   getZones,
   isCallAgencyLeg,
   isTaxiLeg,
-  isDrivingLeg,
+  isCarLeg,
   splitLegsAtViaPoints,
   hasTaxiLegs,
   hasOneTransitLeg,
   isBikeOrScooterRentalLeg,
+  isLegWithRoute,
+  isBoardableLeg,
+  isWalkOrBicycleWalkLeg,
 } from '../../util/legUtils';
 import {
   dateOrEmpty,
@@ -165,16 +168,12 @@ const Itinerary = ({
     }
   };
 
-  const isTransitLeg = leg => leg.transitLeg;
-  const isTransitOrRentalLeg = leg =>
-    leg.transitLeg || isBikeOrScooterRentalLeg(leg);
-  const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
   const usingOwnBicycle = itinerary.legs.some(
     leg => getLegMode(leg) === 'BICYCLE' && leg.rentedBike === false,
   );
   const usingOwnBicycleWholeTrip =
     usingOwnBicycle && itinerary.legs.every(leg => !leg.to.vehicleParking);
-  const usingOwnCar = itinerary.legs.some(isDrivingLeg);
+  const usingOwnCar = itinerary.legs.some(isCarLeg);
   const usingOwnCarWholeTrip =
     usingOwnCar && itinerary.legs.every(leg => !leg.to.vehicleParking);
   const { refTime } = props;
@@ -191,12 +190,12 @@ const Itinerary = ({
     ...leg,
   }));
   let intermediateSlack = 0;
-  let transitLegCount = 0;
+  let legWithRouteCount = 0;
   let containsScooterLeg = false;
   let nameLengthSum = 0; // approximate space required for route labels
   compressedLegs.forEach((leg, i) => {
-    if (isTransitLeg(leg)) {
-      transitLegCount += 1;
+    if (isLegWithRoute(leg, config.carPickupZone.allowedRouteTypes)) {
+      legWithRouteCount += 1;
       nameLengthSum += getTripOrRouteText(leg.trip, leg.route, config).length;
     }
     nameLengthSum += 10; // every leg requires some minimum space
@@ -218,11 +217,11 @@ const Itinerary = ({
   const vehicleNames = [];
   const stopNames = [];
   let addition = 0;
-  let onlyIconLegs = 0; // keep track of legs that are too short to have a bar
+  let onlyIconLegCount = 0; // keep track of legs that are too short to have a bar
   const waitThreshold = 180000;
   const lastLeg = compressedLegs[compressedLegs.length - 1];
   const lastLegLength = relativeLength(lastLeg.duration * 1000);
-  const fitAllRouteNumbers = transitLegCount < 4; // if there are three or fewer transit legs, we will show all the route numbers.
+  const fitAllRouteNumbers = legWithRouteCount < 4; // if there are three or fewer legs with routes, we will show all the route numbers.
   const bikeParkedIndex = usingOwnBicycle
     ? getBikeParkedIndex(compressedLegs)
     : undefined;
@@ -290,7 +289,7 @@ const Itinerary = ({
 
     legLength += addition;
     addition = 0;
-    if (legLength < renderBarThreshold && isLegOnFoot(leg)) {
+    if (legLength < renderBarThreshold && isWalkOrBicycleWalkLeg(leg)) {
       // don't render short legs that are on foot at all
       renderBar = false;
       addition += legLength; // carry over the length of the leg to the next
@@ -298,10 +297,10 @@ const Itinerary = ({
     let viaPointAdded = false;
     if (leg.from.viaLocationType === ViaLocationType.Visit) {
       viaPointAdded = true;
-      onlyIconLegs += 1;
+      onlyIconLegCount += 1;
       legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
     }
-    if (isLegOnFoot(leg) && renderBar) {
+    if (isWalkOrBicycleWalkLeg(leg) && renderBar) {
       const walkingTime = Math.floor(leg.duration / 60);
       let walkMode = 'walk';
       if (usingOwnBicycle && i < bikeParkedIndex) {
@@ -318,7 +317,7 @@ const Itinerary = ({
         />,
       );
       if (usingOwnBicycle && leg.to.vehicleParking) {
-        onlyIconLegs += 1;
+        onlyIconLegCount += 1;
         legs.push(
           <div
             className="leg bike_park"
@@ -405,7 +404,7 @@ const Itinerary = ({
         />,
       );
       if (leg.to.vehicleParking) {
-        onlyIconLegs += 1;
+        onlyIconLegCount += 1;
         legs.push(
           <div
             className="leg car_park"
@@ -428,7 +427,7 @@ const Itinerary = ({
         />,
       );
       if (leg.to.vehicleParking) {
-        onlyIconLegs += 1;
+        onlyIconLegCount += 1;
         legs.push(
           <div
             className="leg bike_park"
@@ -455,13 +454,13 @@ const Itinerary = ({
         (leg.viaStopCall && !viaPointAdded)
       ) {
         viaPointAdded = true;
-        onlyIconLegs += 1;
+        onlyIconLegCount += 1;
         legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
       }
       const renderRouteNumberForALongLeg =
         legLength > renderRouteNumberThreshold &&
         !longName &&
-        transitLegCount < 7;
+        legWithRouteCount < 7;
       legs.push(
         <TransitBar
           key={`${leg.mode}_${startMs}`}
@@ -493,7 +492,7 @@ const Itinerary = ({
         leg.to.viaLocationType === ViaLocationType.PassThrough &&
         !(nextLeg.transitLeg && nextLeg.from.viaLocationType)
       ) {
-        onlyIconLegs += 1;
+        onlyIconLegCount += 1;
         legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
       }
     }
@@ -513,11 +512,13 @@ const Itinerary = ({
       );
     }
   });
-  const normalLegs = legs.length - onlyIconLegs;
+  const normalLegs = legs.length - onlyIconLegCount;
   // how many pixels to take from each 'normal' leg to give room for the icons
-  const iconLegsInPixels = (24 * onlyIconLegs) / normalLegs;
+  const iconLegsInPixels = (24 * onlyIconLegCount) / normalLegs;
   const hasCallAgencyLeg = itinerary.legs.some(leg => isCallAgencyLeg(leg));
-  const firstDeparture = compressedLegs.find(isTransitOrRentalLeg);
+  const firstDeparture = compressedLegs.find(leg =>
+    isBoardableLeg(leg, config.carPickupZone.allowedRouteTypes),
+  );
   const firstLegStartTime = (
     <FirstLegStartTime
       firstDeparture={firstDeparture}
