@@ -501,6 +501,10 @@ export function hasAirplaneLegs(itinerary) {
   return itinerary.legs.some(isAirplaneLeg);
 }
 
+export function hasOneTransitLeg(itinerary) {
+  return itinerary.legs.filter(leg => leg.transitLeg).length === 1;
+}
+
 /**
  * Checks if leg is just walking.
  *

@@ -25,6 +25,7 @@ import {
   isDrivingLeg,
   splitLegsAtViaPoints,
   hasTaxiLegs,
+  hasOneTransitLeg,
 } from '../../util/legUtils';
 import {
   dateOrEmpty,
@@ -37,23 +38,17 @@ import { isKeyboardSelectionEvent } from '../../util/browser';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { getItineraryPagePath, streetHash } from '../../util/path';
 import {
-  BIKEAVL_UNKNOWN,
   getRentalNetworkIcon,
   getRentalNetworkConfig,
-  getVehicleCapacity,
 } from '../../util/vehicleRentalUtils';
-import {
-  getFirstDepartureStopTypeText,
-  getSummaryDescriptionText,
-} from '../../util/modeUtils';
+import { getSummaryDescriptionText } from '../../util/modeUtils';
 import getCo2Value from '../../util/emissions';
 import { ItineraryFragment } from './queries/ItineraryFragment';
 import { getTicketString } from '../../util/fareUtils';
 import { ViaLocationType } from '../../constants';
-import BoardingInformation, {
-  getBoardingInformationText,
-} from './BoardingInformation';
+import { getBoardingInformationText } from './BoardingInformation';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import FirstLegStartTime from './FirstLegStartTime';
 
 const NAME_LENGTH_THRESHOLD = 65; // for truncating long short names
 
@@ -63,7 +58,7 @@ export const ViaLeg = () => (
   </div>
 );
 
-const bikeWasParked = legs => {
+const getBikeParkedIndex = legs => {
   const legsLength = legs.length;
   for (let i = 0; i < legsLength; i++) {
     if (legs[i].to && legs[i].to.vehicleParking) {
@@ -73,9 +68,17 @@ const bikeWasParked = legs => {
   return legs.length;
 };
 
-const hasOneTransitLeg = itinerary => {
-  return itinerary.legs.filter(leg => leg.transitLeg).length === 1;
-};
+function getFirstDepartureLabelId(firstDeparture, firstDepartureWithRentals) {
+  if (firstDepartureWithRentals?.rentedBike) {
+    return firstDepartureWithRentals.mode === LegMode.Scooter
+      ? 'itinerary-summary-row.first-leg-start-time-scooter'
+      : 'itinerary-summary-row.first-leg-start-time-citybike';
+  }
+  if (isTaxiLeg(firstDeparture)) {
+    return 'itinerary-summary-row.first-leg-start-time-taxi';
+  }
+  return 'itinerary-summary-row.first-departure';
+}
 
 const Itinerary = ({
   itinerary: itineraryRef,
@@ -181,7 +184,6 @@ const Itinerary = ({
   const co2value = getCo2Value(itinerary);
   const mobile = bp => !(bp === 'large');
   const legs = [];
-  let noTransitLegs = true;
   const splitLegs = splitLegsAtViaPoints(itinerary.legs, intermediatePlaces);
   const compressedLegs = compressLegs(splitLegs).map(leg => ({
     ...leg,
@@ -192,7 +194,6 @@ const Itinerary = ({
   let nameLengthSum = 0; // approximate space required for route labels
   compressedLegs.forEach((leg, i) => {
     if (isTransitLeg(leg)) {
-      noTransitLegs = false;
       transitLegCount += 1;
       nameLengthSum += getTripOrRouteText(leg.trip, leg.route, config).length;
     }
@@ -212,7 +213,6 @@ const Itinerary = ({
   if (breakpoint === 'small') {
     renderBarThreshold = 8.5;
   }
-  let firstLegStartTime = null;
   const vehicleNames = [];
   const stopNames = [];
   let addition = 0;
@@ -223,7 +223,7 @@ const Itinerary = ({
   const lastLegLength = relativeLength(lastLeg.duration * 1000);
   const fitAllRouteNumbers = transitLegCount < 4; // if there are three or fewer transit legs, we will show all the route numbers.
   const bikeParkedIndex = usingOwnBicycle
-    ? bikeWasParked(compressedLegs)
+    ? getBikeParkedIndex(compressedLegs)
     : undefined;
   const renderModeIcons = compressedLegs.length < 10;
   let bikeNetwork;
@@ -518,116 +518,25 @@ const Itinerary = ({
   // the leftover percentage from only showing icons added to each 'normal' leg
   const iconLegsInPercents = onlyIconLegsLength / normalLegs;
   const hasCallAgencyLeg = itinerary.legs.some(leg => isCallAgencyLeg(leg));
-  let firstDeparture;
-  if (hasCallAgencyLeg) {
-    firstLegStartTime = (
-      <div
-        className={cx('itinerary-first-leg-start-time', {
-          small: breakpoint !== 'large',
-        })}
-      >
-        <Icon
-          img="icon_alert-circle"
-          className="itinerary-summary-icon"
-          omitViewBox
-        />
-        <FormattedMessage id="itinerary-summary-row.call-agency-description" />
-      </div>
-    );
-  } else if (!noTransitLegs) {
-    firstDeparture = compressedLegs.find(isTransitLeg);
-    if (firstDeparture) {
-      firstLegStartTime = firstDeparture.rentedBike ? (
-        <div
-          className={cx('itinerary-first-leg-start-time', {
-            small: breakpoint !== 'large',
-          })}
-        >
-          <FormattedMessage
-            id="itinerary-summary-row.first-leg-start-time-citybike"
-            values={{
-              firstDepartureTime: (
-                <span
-                  className={cx('time', { realtime: firstDeparture.realTime })}
-                >
-                  {legTimeStr(firstDeparture.start)}
-                </span>
-              ),
-              firstDepartureStop: firstDeparture.from.name,
-            }}
-          />
-          <div>
-            {getVehicleCapacity(
-              config,
-              firstDeparture.from.vehicleRentalStation.rentalNetwork.networkId,
-            ) !== BIKEAVL_UNKNOWN && (
-              <FormattedMessage
-                id="bikes-available"
-                values={{
-                  amount:
-                    firstDeparture.from.vehicleRentalStation.availableVehicles
-                      .total,
-                }}
-              />
-            )}
-          </div>
-        </div>
-      ) : (
-        <div
-          className={cx('itinerary-first-leg-start-time', {
-            small: breakpoint !== 'large',
-          })}
-        >
-          <FormattedMessage
-            id="itinerary-summary-row.first-leg-start-time"
-            values={{
-              firstDepartureTime: (
-                <span
-                  className={cx('start-time', {
-                    realtime: firstDeparture.realTime,
-                  })}
-                >
-                  {legTimeStr(firstDeparture.start)}
-                </span>
-              ),
-              firstDepartureStopType: getFirstDepartureStopTypeText(
-                intl,
-                firstDeparture.mode,
-              ),
-              // In case the first leg is a scooter leg, stopNames[0] is an empty string
-              firstDepartureStop: stopNames[0] || stopNames[1],
-              firstDeparturePlatform: (
-                <BoardingInformation leg={firstDeparture} />
-              ),
-            }}
-          />
-        </div>
-      );
-    }
-  } else {
-    firstLegStartTime = (
-      <div
-        className={cx('itinerary-first-leg-start-time', {
-          small: breakpoint !== 'large',
-        })}
-      >
-        <FormattedMessage id="itinerary-summary-row.no-transit-legs" />
-      </div>
-    );
-  }
+  let firstDeparture = compressedLegs.find(isTransitLeg);
+  const firstLegStartTime = (
+    <FirstLegStartTime
+      firstDeparture={firstDeparture}
+      hasCallAgencyLeg={hasCallAgencyLeg}
+      breakpoint={breakpoint}
+      stopNames={stopNames}
+    />
+  );
 
   //  accessible representation for summary
-  let firstDepartureLabelId = 'itinerary-summary-row.first-departure';
   const firstDepartureWithRentals = compressedLegs.find(isTransitOrRentalLeg);
   if (firstDepartureWithRentals?.rentedBike) {
     firstDeparture = firstDepartureWithRentals;
-    firstDepartureLabelId =
-      firstDeparture?.mode === LegMode.Scooter
-        ? 'itinerary-summary-row.first-leg-start-time-scooter'
-        : 'itinerary-summary-row.first-leg-start-time-citybike';
-  } else if (isTaxiLeg(firstDeparture)) {
-    firstDepartureLabelId = 'itinerary-summary-row.first-leg-start-time-taxi';
   }
+  const firstDepartureLabelId = getFirstDepartureLabelId(
+    firstDeparture,
+    firstDepartureWithRentals,
+  );
 
   const summaryDescription = (
     <div className="sr-only" key="screenReader">
