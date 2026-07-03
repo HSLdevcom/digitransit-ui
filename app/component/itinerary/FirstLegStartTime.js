@@ -2,7 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { legTimeStr } from '../../util/legUtils';
+import { legTimeStr, isBikeOrScooterRentalLeg } from '../../util/legUtils';
 import {
   BIKEAVL_UNKNOWN,
   getVehicleCapacity,
@@ -36,7 +36,7 @@ const FirstLegStartTime = ({
     );
   }
 
-  if (firstDeparture?.rentedBike) {
+  if (isBikeOrScooterRentalLeg(firstDeparture)) {
     return (
       <div className={cx('itinerary-first-leg-start-time', { small })}>
         <FormattedMessage

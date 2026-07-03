@@ -519,12 +519,16 @@ export function isLegOnFoot(leg) {
  *
  * @param {*} leg
  */
-export function legContainsRentalBike(leg) {
+export function isBikeRentalLeg(leg) {
   return (
     (getLegMode(leg) === LegMode.CityBike ||
       getLegMode(leg) === LegMode.Bicycle) &&
     leg.rentedBike
   );
+}
+
+export function isBikeOrScooterRentalLeg(leg) {
+  return !!leg?.rentedBike;
 }
 
 /**
@@ -533,7 +537,7 @@ export function legContainsRentalBike(leg) {
  * @param {*} leg - The leg object to check.
  * @returns {boolean} - True if the leg contains a bike park, false otherwise.
  */
-export function legContainsBikePark(leg) {
+export function isBikeParkLeg(leg) {
   return leg.mode === LegMode.Bicycle && leg.to.vehicleParking;
 }
 
@@ -543,7 +547,7 @@ export function legContainsBikePark(leg) {
  * @param {*} leg - The leg object to check.
  * @returns {boolean} - True if the leg contains a car park, false otherwise.
  */
-export function legContainsCarPark(leg) {
+export function isCarParkLeg(leg) {
   return leg.mode === LegMode.Car && leg.to.vehicleParking;
 }
 

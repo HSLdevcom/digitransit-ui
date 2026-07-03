@@ -26,6 +26,7 @@ import {
   splitLegsAtViaPoints,
   hasTaxiLegs,
   hasOneTransitLeg,
+  isBikeOrScooterRentalLeg,
 } from '../../util/legUtils';
 import {
   dateOrEmpty,
@@ -68,9 +69,9 @@ const getBikeParkedIndex = legs => {
   return legs.length;
 };
 
-function getFirstDepartureLabelId(firstDeparture, firstDepartureWithRentals) {
-  if (firstDepartureWithRentals?.rentedBike) {
-    return firstDepartureWithRentals.mode === LegMode.Scooter
+function getFirstDepartureLabelId(firstDeparture) {
+  if (isBikeOrScooterRentalLeg(firstDeparture)) {
+    return firstDeparture.mode === LegMode.Scooter
       ? 'itinerary-summary-row.first-leg-start-time-scooter'
       : 'itinerary-summary-row.first-leg-start-time-citybike';
   }
@@ -165,7 +166,8 @@ const Itinerary = ({
   };
 
   const isTransitLeg = leg => leg.transitLeg;
-  const isTransitOrRentalLeg = leg => leg.transitLeg || leg.rentedBike;
+  const isTransitOrRentalLeg = leg =>
+    leg.transitLeg || isBikeOrScooterRentalLeg(leg);
   const isLegOnFoot = leg => leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
   const usingOwnBicycle = itinerary.legs.some(
     leg => getLegMode(leg) === 'BICYCLE' && leg.rentedBike === false,
@@ -515,7 +517,7 @@ const Itinerary = ({
   // how many pixels to take from each 'normal' leg to give room for the icons
   const iconLegsInPixels = (24 * onlyIconLegs) / normalLegs;
   const hasCallAgencyLeg = itinerary.legs.some(leg => isCallAgencyLeg(leg));
-  let firstDeparture = compressedLegs.find(isTransitLeg);
+  const firstDeparture = compressedLegs.find(isTransitOrRentalLeg);
   const firstLegStartTime = (
     <FirstLegStartTime
       firstDeparture={firstDeparture}
@@ -526,14 +528,7 @@ const Itinerary = ({
   );
 
   //  accessible representation for summary
-  const firstDepartureWithRentals = compressedLegs.find(isTransitOrRentalLeg);
-  if (firstDepartureWithRentals?.rentedBike) {
-    firstDeparture = firstDepartureWithRentals;
-  }
-  const firstDepartureLabelId = getFirstDepartureLabelId(
-    firstDeparture,
-    firstDepartureWithRentals,
-  );
+  const firstDepartureLabelId = getFirstDepartureLabelId(firstDeparture);
 
   const summaryDescription = (
     <div className="sr-only" key="screenReader">
