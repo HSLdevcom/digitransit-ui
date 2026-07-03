@@ -505,21 +505,21 @@ export function isDirectItineraryWithAllowedRouteTypes(
     allowedRouteTypes.includes(legsWithRoute[0].route.type)
   );
 }
-export function isCarPickupZoneLeg(leg, carPickupZoneAllowedRouteTypes) {
+export function isCarPickupZoneLeg(leg, allowedCarPickupZoneRouteTypes) {
   return (
-    !leg.transitLeg && carPickupZoneAllowedRouteTypes.includes(leg.route?.type)
+    !leg.transitLeg && allowedCarPickupZoneRouteTypes.includes(leg.route?.type)
   );
 }
-export function isLegWithRoute(leg, carPickupZoneAllowedRouteTypes) {
+export function isLegWithRoute(leg, allowedCarPickupZoneRouteTypes) {
   return (
-    leg.transitLeg || isCarPickupZoneLeg(leg, carPickupZoneAllowedRouteTypes)
+    leg.transitLeg || isCarPickupZoneLeg(leg, allowedCarPickupZoneRouteTypes)
   );
 }
-export function isBoardableLeg(leg, carPickupZoneAllowedRouteTypes) {
+export function isBoardableLeg(leg, allowedCarPickupZoneRouteTypes) {
   return (
     leg.transitLeg ||
     isBikeOrScooterRentalLeg(leg) ||
-    isCarPickupZoneLeg(leg, carPickupZoneAllowedRouteTypes)
+    isCarPickupZoneLeg(leg, allowedCarPickupZoneRouteTypes)
   );
 }
 
