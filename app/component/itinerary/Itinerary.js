@@ -217,7 +217,6 @@ const Itinerary = ({
   const stopNames = [];
   let addition = 0;
   let onlyIconLegs = 0; // keep track of legs that are too short to have a bar
-  const onlyIconLegsLength = 0;
   const waitThreshold = 180000;
   const lastLeg = compressedLegs[compressedLegs.length - 1];
   const lastLegLength = relativeLength(lastLeg.duration * 1000);
@@ -515,8 +514,6 @@ const Itinerary = ({
   const normalLegs = legs.length - onlyIconLegs;
   // how many pixels to take from each 'normal' leg to give room for the icons
   const iconLegsInPixels = (24 * onlyIconLegs) / normalLegs;
-  // the leftover percentage from only showing icons added to each 'normal' leg
-  const iconLegsInPercents = onlyIconLegsLength / normalLegs;
   const hasCallAgencyLeg = itinerary.legs.some(leg => isCallAgencyLeg(leg));
   let firstDeparture = compressedLegs.find(isTransitLeg);
   const firstLegStartTime = (
@@ -722,7 +719,6 @@ const Itinerary = ({
                     'itinerary-legs',
                     showOverflowIcon ? 'overflow-icon' : '',
                   )}
-                  style={{ '--plus': `${iconLegsInPercents}%` }}
                   ref={itineraryContainerOverflowRef}
                 >
                   {legs}
