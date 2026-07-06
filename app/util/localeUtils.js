@@ -221,7 +221,10 @@ export function getSummaryDescriptionText(
   const firstDepartureTime = firstDeparture
     ? legTimeStr(firstDeparture.start)
     : '';
-  const platformOrTrack = getBoardingInformationText(intl, firstDeparture);
+  const firstDeparturePlatform = getBoardingInformationText(
+    intl,
+    firstDeparture,
+  );
 
   const firstDepartureText =
     vehicleNames.length && firstDeparture
@@ -229,11 +232,9 @@ export function getSummaryDescriptionText(
           { id: getFirstDepartureLabelId(firstDeparture) },
           {
             vehicle: vehicleNames[0],
-            departureTime: firstDepartureTime,
             firstDepartureTime,
-            stopName: stopNames[0],
             firstDepartureStop: stopNames[0],
-            platformOrTrack,
+            firstDeparturePlatform,
           },
         )
       : '';

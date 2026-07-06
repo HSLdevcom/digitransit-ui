@@ -262,7 +262,7 @@ export default {
     'itinerary-summary-row.description':
       'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
     'itinerary-summary-row.first-departure':
-      '{vehicle} odjeżdża o {departureTime} z przystanku {stopName}.',
+      '{vehicle} odjeżdża o {firstDepartureTime} z przystanku {firstDepartureStop}.',
     'itinerary-summary-row.first-leg-start-time':
       'Odjeżdża o {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
