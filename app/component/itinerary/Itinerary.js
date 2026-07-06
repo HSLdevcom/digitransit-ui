@@ -17,7 +17,6 @@ import {
   getTotalDistance,
   getTripOrRouteText,
   legTime,
-  legTimeStr,
   LegMode,
   getZones,
   isCallAgencyLeg,
@@ -48,7 +47,6 @@ import getCo2Value from '../../util/emissions';
 import { ItineraryFragment } from './queries/ItineraryFragment';
 import { getTicketString } from '../../util/fareUtils';
 import { ViaLocationType } from '../../constants';
-import { getBoardingInformationText } from './BoardingInformation';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import FirstLegStartTime from './FirstLegStartTime';
 
@@ -528,10 +526,6 @@ const Itinerary = ({
         firstDeparture,
         stopNames,
         duration,
-        firstDepartureTime: firstDeparture
-          ? legTimeStr(firstDeparture.start)
-          : '',
-        platformOrTrack: getBoardingInformationText(firstDeparture, intl),
       })}
     </div>
   );

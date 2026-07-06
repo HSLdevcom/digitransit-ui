@@ -1,5 +1,11 @@
 import { TransportMode } from '../constants';
-import { isBikeOrScooterRentalLeg, isScooterLeg, isTaxiLeg } from './legUtils';
+import {
+  isBikeOrScooterRentalLeg,
+  isScooterLeg,
+  isTaxiLeg,
+  isPlatformChanged,
+  legTimeStr,
+} from './legUtils';
 import { dateOrEmpty, durationToString } from './timeUtils';
 
 const TRACK_OR_PIER_OR_PLATFORM_TEXT_SHORT_MSGS = {
@@ -131,6 +137,37 @@ export function getFirstDepartureStopTypeText(intl, mode) {
   );
 }
 
+/**
+ * Returns a string with platform/track information for a transit leg, for screen reader use.
+ * @param {Object} intl - The intl object for formatting messages.
+ * @param {Object} leg - The transit leg object.
+ * @param {boolean} showPlatformChangeLabel - Whether to include a platform-change prefix.
+ * @returns {string} The boarding information text.
+ */
+export function getBoardingInformationText(
+  intl,
+  leg,
+  showPlatformChangeLabel = true,
+) {
+  if (!leg) {
+    return '';
+  }
+  const platformCode = leg?.from?.stop?.platformCode;
+  if (platformCode) {
+    const platformChangeLabelText =
+      showPlatformChangeLabel && isPlatformChanged(leg)
+        ? `${getTrackOrPierOrPlatformChangeText(intl, leg.mode)}:`
+        : '';
+    const platformLabel = getTrackOrPierOrPlatformWithNumText(
+      intl,
+      leg.mode,
+      platformCode,
+    );
+    return `${platformChangeLabelText} ${platformLabel}`;
+  }
+  return '';
+}
+
 function getFirstDepartureLabelId(firstDepartureLeg) {
   if (isBikeOrScooterRentalLeg(firstDepartureLeg)) {
     return isScooterLeg(firstDepartureLeg)
@@ -158,8 +195,6 @@ function getFirstDepartureLabelId(firstDepartureLeg) {
  * @param {Object} params.firstDeparture - First departure leg object
  * @param {string[]} params.stopNames - Stop names for each transit leg
  * @param {number} params.duration - Total itinerary duration in milliseconds
- * @param {string} params.firstDepartureTime - Pre-computed departure time string (legTimeStr result)
- * @param {string} params.platformOrTrack - Pre-computed platform/track text (getBoardingInformationText result)
  * @returns {string}
  */
 export function getSummaryDescriptionText(
@@ -175,8 +210,6 @@ export function getSummaryDescriptionText(
     firstDeparture,
     stopNames,
     duration,
-    firstDepartureTime,
-    platformOrTrack,
   },
 ) {
   if (hasCallAgencyLeg) {
@@ -184,6 +217,11 @@ export function getSummaryDescriptionText(
       id: 'itinerary-summary-row.call-agency-description',
     });
   }
+
+  const firstDepartureTime = firstDeparture
+    ? legTimeStr(firstDeparture.start)
+    : '';
+  const platformOrTrack = getBoardingInformationText(intl, firstDeparture);
 
   const firstDepartureText =
     vehicleNames.length && firstDeparture
