@@ -27,6 +27,7 @@ import {
   isLegWithRoute,
   isBoardableLeg,
   isWalkOrBicycleWalkLeg,
+  isCarPickupZoneLeg,
 } from '../../util/legUtils';
 import {
   dateOrEmpty,
@@ -500,12 +501,20 @@ const Itinerary = ({
   // how many pixels to take from each 'normal' leg to give room for the icons
   const iconLegsInPixels = (24 * onlyIconLegCount) / normalLegs;
   const hasCallAgencyLeg = itinerary.legs.some(leg => isCallAgencyLeg(leg));
+
+  // TODO the below 2 variables should be combined when it has been decided what to do with
+  // legs that have isBikeOrScooterRentalLeg=true (related to <FirstLegStartTime>)
+  const firstDepartureWithoutRental = compressedLegs.find(
+    leg =>
+      leg.transitLeg ||
+      isCarPickupZoneLeg(leg, config.carPickupZone.allowedRouteTypes),
+  );
   const firstDeparture = compressedLegs.find(leg =>
     isBoardableLeg(leg, config.carPickupZone.allowedRouteTypes),
   );
   const firstLegStartTime = (
     <FirstLegStartTime
-      firstDeparture={firstDeparture}
+      firstDeparture={firstDepartureWithoutRental}
       hasCallAgencyLeg={hasCallAgencyLeg}
       breakpoint={breakpoint}
       stopNames={stopNames}
