@@ -49,7 +49,7 @@ import AlternativeLegsInfo from './AlternativeLegsInfo';
 import LegInfo from './LegInfo';
 import ExternalLink from '../ExternalLink';
 import { getBoardingInformationText } from './BoardingInformation';
-import { getTrackOrPierOrPlatformChangeText } from '../../util/modeUtils';
+import { getTrackOrPierOrPlatformChangeText } from '../../util/localeUtils';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { splitGtfsId } from '../../util/gtfs';
 

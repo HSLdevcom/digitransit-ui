@@ -9,10 +9,12 @@ import {
   getTripOrRouteMode,
   getStopMode,
   transitIconName,
+} from '../../../util/modeUtils';
+import {
   getTrackOrPierOrPlatformRestoredText,
   getTrackOrPierOrPlatformChangeText,
   getTrackOrPierOrPlatformChangeDetailsText,
-} from '../../../util/modeUtils';
+} from '../../../util/localeUtils';
 import { locationToUri } from '../../../util/otpStrings';
 import { getItineraryPagePath } from '../../../util/path';
 import { durationToString, epochToIso, timeStr } from '../../../util/timeUtils';

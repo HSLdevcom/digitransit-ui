@@ -4,7 +4,7 @@ import PlatformNumber from '../PlatformNumber';
 import {
   getTrackOrPierOrPlatformChangeText,
   getTrackOrPierOrPlatformWithNumText,
-} from '../../util/modeUtils';
+} from '../../util/localeUtils';
 import { isPlatformChanged } from '../../util/legUtils';
 import { legShape } from '../../util/shapes';
 

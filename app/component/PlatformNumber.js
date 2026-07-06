@@ -6,7 +6,7 @@ import Icon from './Icon';
 import {
   getTrackOrPierOrPlatformText,
   getTrackOrPierOrPlatformTextShort,
-} from '../util/modeUtils';
+} from '../util/localeUtils';
 
 function PlatformNumber({ number, short, mode, updated, withText, plain }) {
   const intl = useIntl();

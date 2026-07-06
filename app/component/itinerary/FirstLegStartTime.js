@@ -7,7 +7,7 @@ import {
   BIKEAVL_UNKNOWN,
   getVehicleCapacity,
 } from '../../util/vehicleRentalUtils';
-import { getFirstDepartureStopTypeText } from '../../util/modeUtils';
+import { getFirstDepartureStopTypeText } from '../../util/localeUtils';
 import Icon from '../Icon';
 import BoardingInformation from './BoardingInformation';
 import { useConfigContext } from '../../configurations/ConfigContext';

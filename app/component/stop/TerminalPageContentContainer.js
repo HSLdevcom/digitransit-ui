@@ -7,7 +7,7 @@ import DepartureListContainer from '../DepartureListContainer';
 import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { stationShape, errorShape, relayShape } from '../../util/shapes';
-import { getTrackOrPierOrPlatformText } from '../../util/modeUtils';
+import { getTrackOrPierOrPlatformText } from '../../util/localeUtils';
 
 function TerminalPageContent({ station, relay, currentTime, error }) {
   if (!station && error) {

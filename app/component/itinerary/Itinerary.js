@@ -21,12 +21,10 @@ import {
   LegMode,
   getZones,
   isCallAgencyLeg,
-  isTaxiLeg,
   isCarLeg,
   splitLegsAtViaPoints,
   hasTaxiLegs,
   hasOneTransitLeg,
-  isBikeOrScooterRentalLeg,
   isLegWithRoute,
   isBoardableLeg,
   isWalkOrBicycleWalkLeg,
@@ -45,7 +43,7 @@ import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
 } from '../../util/vehicleRentalUtils';
-import { getSummaryDescriptionText } from '../../util/modeUtils';
+import { getSummaryDescriptionText } from '../../util/localeUtils';
 import getCo2Value from '../../util/emissions';
 import { ItineraryFragment } from './queries/ItineraryFragment';
 import { getTicketString } from '../../util/fareUtils';
@@ -71,18 +69,6 @@ const getBikeParkedIndex = legs => {
   }
   return legs.length;
 };
-
-function getFirstDepartureLabelId(firstDeparture) {
-  if (isBikeOrScooterRentalLeg(firstDeparture)) {
-    return firstDeparture.mode === LegMode.Scooter
-      ? 'itinerary-summary-row.first-leg-start-time-scooter'
-      : 'itinerary-summary-row.first-leg-start-time-citybike';
-  }
-  if (isTaxiLeg(firstDeparture)) {
-    return 'itinerary-summary-row.first-leg-start-time-taxi';
-  }
-  return 'itinerary-summary-row.first-departure';
-}
 
 const Itinerary = ({
   itinerary: itineraryRef,
@@ -529,8 +515,6 @@ const Itinerary = ({
   );
 
   //  accessible representation for summary
-  const firstDepartureLabelId = getFirstDepartureLabelId(firstDeparture);
-
   const summaryDescription = (
     <div className="sr-only" key="screenReader">
       {getSummaryDescriptionText(intl, {
@@ -542,7 +526,6 @@ const Itinerary = ({
         arrivalTime,
         vehicleNames,
         firstDeparture,
-        firstDepartureLabelId,
         stopNames,
         duration,
         firstDepartureTime: firstDeparture

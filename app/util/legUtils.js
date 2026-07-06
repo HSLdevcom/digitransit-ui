@@ -464,7 +464,7 @@ export function isWalkLeg(leg) {
 export function isWalkOrBicycleWalkLeg(leg) {
   return [LegMode.BicycleWalk, LegMode.Walk].includes(getLegMode(leg));
 }
-function isBikeOrCityBikeLeg(leg) {
+export function isBikeOrCityBikeLeg(leg) {
   return [LegMode.Bicycle, LegMode.CityBike].includes(getLegMode(leg));
 }
 export function isBikeOrScooterRentalLeg(leg) {
@@ -476,10 +476,10 @@ export function isBikeRentalLeg(leg) {
 export function isBikeParkLeg(leg) {
   return LegMode.Bicycle === getLegMode(leg) && leg.to.vehicleParking;
 }
-function isScooterLeg(leg) {
+export function isScooterLeg(leg) {
   return LegMode.Scooter === getLegMode(leg);
 }
-function isAirplaneLeg(leg) {
+export function isAirplaneLeg(leg) {
   return LegMode.Airplane === getLegMode(leg);
 }
 export function isCarLeg(leg) {
