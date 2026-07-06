@@ -44,7 +44,9 @@ const FirstLegStartTime = ({
           values={{
             firstDepartureTime: (
               <span
-                className={cx('time', { realtime: firstDeparture.realTime })}
+                className={cx('start-time', {
+                  realtime: firstDeparture.realTime,
+                })}
               >
                 {legTimeStr(firstDeparture.start)}
               </span>
