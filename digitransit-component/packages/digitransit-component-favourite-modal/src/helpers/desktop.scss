@@ -32,7 +32,7 @@
         position: relative;
         width: 100%;
         height: 44px;
-        font-family: var(--font-family);
+        font-family: inherit;
         border-radius: 5px;
         border: solid 1px #888;
         background-color: #fff;
@@ -90,7 +90,7 @@
       width: 100%;
       height: 50px;
       font-size: 18px;
-      font-family: var(--font-family);
+      font-family: inherit;
       font-weight: var(--font-weight-medium);
       letter-spacing: -0.5px;
       background: var(--color);

@@ -99,7 +99,6 @@ export default {
         'CAR_FERRIES',
         'flixbus',
       ],
-  externalFeedIds: ['02Taksi'],
 
   additionalFeedIds: {
     estonia: ['Vikingline', 'Viro'],
@@ -447,14 +446,9 @@ export default {
   ],
   navigation: true,
 
+  externalFeedIds: ['02Taksi_carpickupzone'],
+
   flex: {
-    external: {
-      enabled: IS_DEV,
-      transit: IS_DEV,
-      direct: IS_DEV,
-      agencies: ['02Taksi:02_taksi'],
-      showBothDirectAndTransitResults: true,
-    },
     internal: {
       enabled: IS_DEV,
       transit: IS_DEV,
@@ -462,6 +456,13 @@ export default {
       agencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
     },
     infoLanguage: 'fi',
+  },
+
+  carPickupZone: {
+    enabled: IS_DEV,
+    transit: IS_DEV,
+    direct: IS_DEV,
+    showBothDirectAndTransitResults: true,
   },
 
   devAnalytics: true,
