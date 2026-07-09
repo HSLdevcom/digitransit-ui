@@ -16,7 +16,7 @@ import LocationMarker from './LocationMarker';
 import ParkingAreaMarker from './non-tile-layer/ParkingAreaMarker';
 import MapWithTracking from './MapWithTracking';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
-import { legContainsBikePark, legContainsCarPark } from '../../util/legUtils';
+import { isBikeParkLeg, isCarParkLeg } from '../../util/legUtils';
 
 const POINT_FOCUS_ZOOM = 17; // default
 
@@ -88,7 +88,7 @@ const ItineraryPageMap = (
           realtimeTransfers={realtimeTransfers}
         />,
       );
-      planEdges[active].node.legs.filter(legContainsBikePark).forEach(leg => {
+      planEdges[active].node.legs.filter(isBikeParkLeg).forEach(leg => {
         leafletObjs.push(
           <ParkingAreaMarker
             key={`parking-${leg.to.lat + leg.to.lon}`}
@@ -99,7 +99,7 @@ const ItineraryPageMap = (
         );
       });
 
-      planEdges[active].node.legs.filter(legContainsCarPark).forEach(leg => {
+      planEdges[active].node.legs.filter(isCarParkLeg).forEach(leg => {
         leafletObjs.push(
           <ParkingAreaMarker
             key={`parking-${leg.to.lat + leg.to.lon}`}

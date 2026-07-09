@@ -226,7 +226,7 @@
 
     .leg {
       min-width: max-content; // forces the leg block to fit all the icons
-      width: calc(var(--width) - (var(--minus)) - 2px + var(--plus));
+      width: calc(var(--width) - (var(--minus)) - 2px);
       margin: 0 2px 0 0;
       justify-content: center;
 

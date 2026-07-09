@@ -23,6 +23,7 @@ export const PLANTYPE = {
   SCOOTERTRANSIT: 'SCOOTERTRANSIT',
   FLEXTRANSIT_EXTERNAL: 'EXTERNAL_FLEXTRANSIT',
   FLEXTRANSIT_INTERNAL: 'INTERNAL_FLEXTRANSIT',
+  CARPICKUPZONE: 'CARPICKUPZONE',
 };
 
 const directModes = [PLANTYPE.WALK, PLANTYPE.BIKE, PLANTYPE.CAR];
@@ -274,6 +275,13 @@ export function planQueryNeeded(
         config.flex.internal.enabled && transitModes.includes(TransportMode.Bus)
       );
 
+    case PLANTYPE.CARPICKUPZONE:
+      return (
+        config.carPickupZone.enabled &&
+        (transitModes.length > 0 || config.carPickupZone.direct) &&
+        settings.includeTaxiSuggestions !== relaxSettings
+      );
+
     case PLANTYPE.TRANSIT:
     default:
       return true;
@@ -469,6 +477,13 @@ export function getPlanParams(
       transitOnly = false;
       filters = excludeAgencies(config.flex.external.agencies);
       minTransferTime = config.flex.internal.minTransferTime || minTransferTime;
+      via = null;
+      break;
+    case PLANTYPE.CARPICKUPZONE:
+      access = config.carPickupZone.transit ? ['WALK', 'CAR_DROP_OFF'] : null;
+      egress = config.carPickupZone.transit ? ['WALK', 'CAR_PICKUP'] : null;
+      direct = config.carPickupZone.direct ? ['CAR'] : null;
+      transitOnly = false;
       via = null;
       break;
     default: // direct modes

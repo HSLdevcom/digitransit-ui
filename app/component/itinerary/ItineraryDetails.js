@@ -24,8 +24,8 @@ import {
   hasScooterLegs,
   hasTaxiLegs,
   isCallAgencyLeg,
-  legContainsBikePark,
-  legContainsRentalBike,
+  isBikeParkLeg,
+  isBikeRentalLeg,
   legTimeStr,
 } from '../../util/legUtils';
 import { streetHash } from '../../util/path';
@@ -130,12 +130,8 @@ function ItineraryDetails({
   const usingOwnCarWholeTrip =
     walking.distance === 0 && biking.distance === 0 && driving.distance > 0;
   const compressedLegs = compressLegs(itinerary.legs);
-  const legsWithRentalBike = compressedLegs.filter(leg =>
-    legContainsRentalBike(leg),
-  );
-  const legswithBikePark = compressedLegs.filter(leg =>
-    legContainsBikePark(leg),
-  );
+  const legsWithRentalBike = compressedLegs.filter(leg => isBikeRentalLeg(leg));
+  const legswithBikePark = compressedLegs.filter(leg => isBikeParkLeg(leg));
   const hasLegsWithTaxi = hasTaxiLegs({ legs: compressedLegs });
   const hasLegsWithScooter = hasScooterLegs({ legs: compressedLegs });
   const hasLegsWithAirplane = hasAirplaneLegs({ legs: compressedLegs });
