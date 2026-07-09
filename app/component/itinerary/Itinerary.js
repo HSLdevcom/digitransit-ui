@@ -497,9 +497,9 @@ const Itinerary = ({
       );
     }
   });
-  const normalLegs = legs.length - onlyIconLegCount;
+  const normalLegCount = legs.length - onlyIconLegCount;
   // how many pixels to take from each 'normal' leg to give room for the icons
-  const iconLegsInPixels = (24 * onlyIconLegCount) / normalLegs;
+  const iconLegsInPixels = (24 * onlyIconLegCount) / normalLegCount;
   const hasCallAgencyLeg = itinerary.legs.some(leg => isCallAgencyLeg(leg));
 
   // TODO the below 2 variables should be combined when it has been decided what to do with
