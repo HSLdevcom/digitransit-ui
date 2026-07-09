@@ -3,6 +3,9 @@ on:
   release:
     types:
       - published
+permissions:
+  id-token: write # for generate-sbom
+  contents: read
 jobs:
   prod-push:
     runs-on: ubuntu-latest

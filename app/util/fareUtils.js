@@ -1,5 +1,5 @@
 import { uniqBy } from 'lodash';
-import { isCallAgencyLeg } from './legUtils';
+import { isCallAgencyLeg, isTaxiLeg } from './legUtils';
 
 // TODO: support for currency
 export function formatFare(fare) {
@@ -39,9 +39,9 @@ export const getFaresFromLegs = (legs, config) => {
   }));
 
   // Legs that have empty fares but still have a route, i.e. transit legs
-  // Never show unknown fares for TAXI legs
+  // Never show unknown fares for taxi legs
   const unknownFareLegs = filteredLegs
-    .filter(l => l.fareProducts.length === 0 && l.route && l.mode !== 'TAXI')
+    .filter(l => l.fareProducts.length === 0 && l.route && !isTaxiLeg(l))
     .map(leg => ({
       agency: {
         fareUrl: leg.route.agency.fareUrl,

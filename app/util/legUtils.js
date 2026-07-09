@@ -458,33 +458,68 @@ export function compressLegs(originalLegs, keepBicycleWalk = false) {
 function sumDistances(legs) {
   return legs.map(l => l.distance).reduce((x, y) => (x || 0) + (y || 0), 0);
 }
-function isWalkingLeg(leg) {
+export function isWalkLeg(leg) {
+  return LegMode.Walk === getLegMode(leg);
+}
+export function isWalkOrBicycleWalkLeg(leg) {
   return [LegMode.BicycleWalk, LegMode.Walk].includes(getLegMode(leg));
 }
-function isBikingLeg(leg) {
+export function isBikeOrCityBikeLeg(leg) {
   return [LegMode.Bicycle, LegMode.CityBike].includes(getLegMode(leg));
 }
-function isScooterLeg(leg) {
+export function isBikeOrScooterRentalLeg(leg) {
+  return !!leg?.rentedBike;
+}
+export function isBikeRentalLeg(leg) {
+  return isBikeOrCityBikeLeg(leg) && leg.rentedBike;
+}
+export function isBikeParkLeg(leg) {
+  return LegMode.Bicycle === getLegMode(leg) && leg.to.vehicleParking;
+}
+export function isScooterLeg(leg) {
   return LegMode.Scooter === getLegMode(leg);
 }
-function isAirplaneLeg(leg) {
+export function isAirplaneLeg(leg) {
   return LegMode.Airplane === getLegMode(leg);
 }
-function isDrivingLeg(leg) {
+export function isCarLeg(leg) {
   return LegMode.Car === getLegMode(leg);
 }
-function isTaxiLeg(leg) {
+export function isCarParkLeg(leg) {
+  return LegMode.Car === getLegMode(leg) && leg.to.vehicleParking;
+}
+export function isTaxiLeg(leg) {
   return LegMode.Taxi === getLegMode(leg);
 }
 export function isCallAgencyLeg(leg) {
   return leg.route?.type === ExtendedRouteTypes.CallAgency;
 }
 
-export function isDirectFlexItinerary(itinerary, allowedTypes) {
-  const transitLegs = itinerary.legs.filter(leg => leg.transitLeg);
+export function isDirectItineraryWithAllowedRouteTypes(
+  itinerary,
+  allowedRouteTypes,
+) {
+  const legsWithRoute = itinerary.legs.filter(leg => !!leg.route);
   return (
-    transitLegs.length === 1 &&
-    allowedTypes.includes(transitLegs[0].route?.type)
+    legsWithRoute.length === 1 &&
+    allowedRouteTypes.includes(legsWithRoute[0].route.type)
+  );
+}
+export function isCarPickupZoneLeg(leg, allowedCarPickupZoneRouteTypes) {
+  return (
+    !leg.transitLeg && allowedCarPickupZoneRouteTypes.includes(leg.route?.type)
+  );
+}
+export function isLegWithRoute(leg, allowedCarPickupZoneRouteTypes) {
+  return (
+    leg.transitLeg || isCarPickupZoneLeg(leg, allowedCarPickupZoneRouteTypes)
+  );
+}
+export function isBoardableLeg(leg, allowedCarPickupZoneRouteTypes) {
+  return (
+    leg.transitLeg ||
+    isBikeOrScooterRentalLeg(leg) ||
+    isCarPickupZoneLeg(leg, allowedCarPickupZoneRouteTypes)
   );
 }
 
@@ -498,64 +533,8 @@ export function hasAirplaneLegs(itinerary) {
   return itinerary.legs.some(isAirplaneLeg);
 }
 
-/**
- * Checks if the itinerary consists of a single biking leg.
- *
- * @param {*} itinerary the itinerary to check the legs for
- */
-export function onlyBiking(itinerary) {
-  return itinerary.legs.length === 1 && isBikingLeg(itinerary.legs[0]);
-}
-
-/**
- * Checks if any of the legs in the given itinerary contains biking.
- *
- * @param {*} itinerary the itinerary to check the legs for
- */
-export function containsBiking(itinerary) {
-  return itinerary.legs.some(isBikingLeg);
-}
-
-/**
- * Checks if leg is just walking.
- *
- * @param {*} leg a leg which has a mode
- */
-export function isLegOnFoot(leg) {
-  return leg.mode === 'WALK';
-}
-
-/**
- * Checks if any of the legs in the given itinerary contains biking with rental bike.
- *
- * @param {*} leg
- */
-export function legContainsRentalBike(leg) {
-  return (
-    (getLegMode(leg) === LegMode.CityBike ||
-      getLegMode(leg) === LegMode.Bicycle) &&
-    leg.rentedBike
-  );
-}
-
-/**
- * Checks if a leg contains a bike park.
- *
- * @param {*} leg - The leg object to check.
- * @returns {boolean} - True if the leg contains a bike park, false otherwise.
- */
-export function legContainsBikePark(leg) {
-  return leg.mode === LegMode.Bicycle && leg.to.vehicleParking;
-}
-
-/**
- * Checks if a leg contains a car park.
- *
- * @param {*} leg - The leg object to check.
- * @returns {boolean} - True if the leg contains a car park, false otherwise.
- */
-export function legContainsCarPark(leg) {
-  return leg.mode === LegMode.Car && leg.to.vehicleParking;
+export function hasOneTransitLeg(itinerary) {
+  return itinerary.legs.filter(leg => leg.transitLeg).length === 1;
 }
 
 /**
@@ -566,7 +545,7 @@ export function legContainsCarPark(leg) {
  */
 export function getTotalWalkingDistance(itinerary) {
   // TODO: could be itinerary.walkDistance, but that is invalid for CITYBIKE legs
-  return sumDistances(itinerary.legs.filter(isWalkingLeg));
+  return sumDistances(itinerary.legs.filter(isWalkOrBicycleWalkLeg));
 }
 
 /**
@@ -575,7 +554,7 @@ export function getTotalWalkingDistance(itinerary) {
  * @param {*} itinerary the itinerary to extract the total biking distance from
  */
 export function getTotalBikingDistance(itinerary) {
-  return sumDistances(itinerary.legs.filter(isBikingLeg));
+  return sumDistances(itinerary.legs.filter(isBikeOrCityBikeLeg));
 }
 
 export function getTotalDrivingDistance(itinerary, config = {}) {
@@ -583,7 +562,7 @@ export function getTotalDrivingDistance(itinerary, config = {}) {
   if (config.emphasizeOneWayJourney) {
     return sumDistances(itinerary.legs);
   }
-  return sumDistances(itinerary.legs.filter(isDrivingLeg));
+  return sumDistances(itinerary.legs.filter(isCarLeg));
 }
 
 /**
@@ -795,7 +774,7 @@ function sumDurations(legs) {
  */
 export function getTotalWalkingDuration(itinerary) {
   // TODO: could be itinerary.walkDuration, but that is invalid for CITYBIKE legs
-  return sumDurations(itinerary.legs.filter(isWalkingLeg));
+  return sumDurations(itinerary.legs.filter(isWalkOrBicycleWalkLeg));
 }
 
 /**
@@ -804,11 +783,11 @@ export function getTotalWalkingDuration(itinerary) {
  * @param {*} itinerary the itinerary to extract the total biking duration from
  */
 export function getTotalBikingDuration(itinerary) {
-  return sumDurations(itinerary.legs.filter(isBikingLeg));
+  return sumDurations(itinerary.legs.filter(isBikeOrCityBikeLeg));
 }
 
 export function getTotalDrivingDuration(itinerary) {
-  return sumDurations(itinerary.legs.filter(isDrivingLeg));
+  return sumDurations(itinerary.legs.filter(isCarLeg));
 }
 
 export function getExtendedMode(leg, config) {

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 import { useRouter } from 'found';
 import debounce from 'lodash/debounce';
 import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
@@ -16,34 +16,19 @@ export default function DatetimepickerContainer({
   const { match, router } = useRouter();
   const openPicker = !!match.location.query.setTime; // string to boolean
 
-  const setParams = useMemo(
-    () =>
-      debounce((time, arriveBy, setTime) => {
-        replaceQueryParams(router, match, {
-          time: time?.toString(),
-          arriveBy,
-          setTime,
-        });
-      }, 10),
-    [router, match],
-  );
+  const setParams = debounce((time, arriveBy, setTime) => {
+    replaceQueryParams(router, match, {
+      time: time?.toString(),
+      arriveBy,
+      setTime,
+    });
+  }, 10);
 
-  const setOpenParam = useMemo(
-    () =>
-      debounce(setTime => {
-        replaceQueryParams(router, match, {
-          setTime,
-        });
-      }, 10),
-    [router, match],
-  );
-
-  useEffect(() => {
-    return () => {
-      setParams.cancel();
-      setOpenParam.cancel();
-    };
-  }, [setParams, setOpenParam]);
+  const setOpenParam = debounce(setTime => {
+    replaceQueryParams(router, match, {
+      setTime,
+    });
+  }, 10);
 
   const onClose = () => {
     setOpenParam(undefined);

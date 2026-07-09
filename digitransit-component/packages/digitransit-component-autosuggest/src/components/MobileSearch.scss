@@ -72,7 +72,7 @@ input[type='text'] {
   width: 100%;
 
   .input {
-    font-family: var(--font-family);
+    font-family: inherit;
     width: 100%;
     position: relative;
     padding-bottom: 7px;
@@ -179,7 +179,7 @@ button.clear-input {
 
 .clear-search-history {
   display: flex;
-  font-family: var(--font-family);
+  font-family: inherit;
   margin-top: auto;
   align-items: center;
   justify-content: center;

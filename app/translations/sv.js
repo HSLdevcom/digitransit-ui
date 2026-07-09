@@ -325,7 +325,7 @@ export default {
     'itinerary-summary-row.description':
       'Avgång {departureDate} klockan {departureTime}. Framme {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Restid {totalTime}.',
     'itinerary-summary-row.first-departure':
-      '{vehicle} avgår från station {stopName} klockan {departureTime} {platformOrTrack}.',
+      '{vehicle} avgår från station {firstDepartureStop} klockan {firstDepartureTime} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time':
       'Avgår kl {firstDepartureTime} från {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
