@@ -17,15 +17,15 @@ jobs:
           TARGET_URL: ${{ secrets.DAST_TARGET_URL }}
           SUBSCRIPTION_KEY: ${{ secrets.DAST_SUBSCRIPTION_KEY }}
         run: |
-          chmod -R 777 ./
+          # Only give write permissions to the current directory needed for ZAP report
+          chmod 777 .
           wget -q https://raw.githubusercontent.com/opentripplanner/OpenTripPlanner/refs/heads/dev-2.x/application/src/main/resources/org/opentripplanner/apis/gtfs/schema.graphqls
           docker run \
             -v "$(pwd):/zap/wrk/:rw" \
             -e TARGET_URL="${TARGET_URL}" \
             -e SUBSCRIPTION_KEY="${SUBSCRIPTION_KEY}" \
             -t zaproxy/zap-stable:2.17.0@sha256:707fc6b9fd8327ba48bb7b49d0c5732c179b045dab9c99f8b95410627dff4a00 \
-            zap.sh -cmd -autorun /zap/wrk/security/zap.yml \
-            > /dev/null 2>&1
+            zap.sh -cmd -autorun /zap/wrk/security/zap.yml
 
       - name: Encrypt and upload ZAP Report
         if: always()
