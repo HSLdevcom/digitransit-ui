@@ -286,16 +286,12 @@ export default {
 
   navigation: true,
 
-  externalFeedIds: ['02Taksi'],
+  externalFeedIds: ['02Taksi_carpickupzone'],
 
-  flex: {
-    external: {
-      enabled: IS_DEV,
-      transit: IS_DEV,
-      direct: false,
-      agencies: ['02Taksi:02_taksi'],
-    },
-    infoLanguage: 'fi',
+  carPickupZone: {
+    enabled: IS_DEV,
+    transit: IS_DEV,
+    direct: false,
   },
 
   replacementBusNotification: {
