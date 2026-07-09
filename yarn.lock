@@ -8804,7 +8804,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.17.0":
+"axios@npm:1.17.0, axios@npm:^1.12.0, axios@npm:^1.6.1":
   version: 1.17.0
   resolution: "axios@npm:1.17.0"
   dependencies:
@@ -8813,17 +8813,6 @@ __metadata:
     https-proxy-agent: "npm:^5.0.1"
     proxy-from-env: "npm:^2.1.0"
   checksum: 10/bc6995122fb9ca1431836579ae53fdd94894ad3d676de229d474da6465bc323ad93e8bf0b3bdb33ec4fbd460d93485ef2b5240e97d778700c029bf053c7f75cd
-  languageName: node
-  linkType: hard
-
-"axios@npm:^1.12.0, axios@npm:^1.6.1":
-  version: 1.13.6
-  resolution: "axios@npm:1.13.6"
-  dependencies:
-    follow-redirects: "npm:^1.15.11"
-    form-data: "npm:^4.0.5"
-    proxy-from-env: "npm:^1.1.0"
-  checksum: 10/a7ed83c2af3ef21d64609df0f85e76893a915a864c5934df69241001d0578082d6521a0c730bf37518ee458821b5695957cb10db9fc705f2a8996c8686ea7a89
   languageName: node
   linkType: hard
 
@@ -12453,7 +12442,6 @@ __metadata:
     async: "npm:^3.2.6"
     autoprefixer: "npm:^10.4.21"
     axe-core: "npm:^4.10.3"
-    axios: "npm:1.17.0"
     babel-loader: "npm:8.2.5"
     babel-plugin-dynamic-import-node: "npm:2.3.3"
     babel-plugin-inline-react-svg: "npm:2.0.2"
