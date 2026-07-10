@@ -135,7 +135,9 @@ const emptyState = {
   endCursor: undefined,
 };
 
-const emptyPlan = { plan: {}, loading: LOADSTATE.DONE };
+// Factory function (not a constant) so every call produces a new object reference,
+// preventing React from bailing out on setState when the previous state was also emptyPlan.
+const emptyPlan = () => ({ plan: {}, loading: LOADSTATE.DONE });
 const unset = { plan: {}, loading: LOADSTATE.UNSET };
 
 const noFocus = { center: undefined, zoom: undefined, bounds: undefined };
