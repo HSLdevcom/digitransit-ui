@@ -1,46 +1,127 @@
 import { graphql } from 'react-relay';
-import './CanceledTripsOverviewFragment';
 
 export default graphql`
   query CanceledTripsOverviewQuery(
-    $amount: Int!
+    $serviceDateRanges: [LocalDateRangeInput!]!
     $fetchBus: Boolean!
     $fetchTram: Boolean!
     $fetchRail: Boolean!
     $fetchSubway: Boolean!
     $fetchFerry: Boolean!
   ) {
-    bus: canceledTrips(first: $amount, filters: { include: { modes: [BUS] } })
-      @include(if: $fetchBus) {
-      ...CanceledTripsOverviewFragment @relay(mask: false)
+    bus: canceledTripsSummary(
+      filters: {
+        include: { modes: [BUS], serviceDateRanges: $serviceDateRanges }
+      }
+    ) @include(if: $fetchBus) {
+      routes {
+        cancellationCount
+        route {
+          id
+          gtfsId
+          shortName
+          mode
+        }
+        patterns {
+          cancellationCount
+          pattern {
+            code
+            headsign
+          }
+        }
+      }
     }
 
-    tram: canceledTrips(
-      first: $amount
-      filters: { include: { modes: [TRAM] } }
+    tram: canceledTripsSummary(
+      filters: {
+        include: { modes: [TRAM], serviceDateRanges: $serviceDateRanges }
+      }
     ) @include(if: $fetchTram) {
-      ...CanceledTripsOverviewFragment @relay(mask: false)
+      routes {
+        cancellationCount
+        route {
+          id
+          gtfsId
+          shortName
+          mode
+        }
+        patterns {
+          cancellationCount
+          pattern {
+            code
+            headsign
+          }
+        }
+      }
     }
 
-    rail: canceledTrips(
-      first: $amount
-      filters: { include: { modes: [RAIL] } }
+    rail: canceledTripsSummary(
+      filters: {
+        include: { modes: [RAIL], serviceDateRanges: $serviceDateRanges }
+      }
     ) @include(if: $fetchRail) {
-      ...CanceledTripsOverviewFragment @relay(mask: false)
+      routes {
+        cancellationCount
+        route {
+          id
+          gtfsId
+          shortName
+          mode
+        }
+        patterns {
+          cancellationCount
+          pattern {
+            code
+            headsign
+          }
+        }
+      }
     }
 
-    subway: canceledTrips(
-      first: $amount
-      filters: { include: { modes: [SUBWAY] } }
+    subway: canceledTripsSummary(
+      filters: {
+        include: { modes: [SUBWAY], serviceDateRanges: $serviceDateRanges }
+      }
     ) @include(if: $fetchSubway) {
-      ...CanceledTripsOverviewFragment @relay(mask: false)
+      routes {
+        cancellationCount
+        route {
+          id
+          gtfsId
+          shortName
+          mode
+        }
+        patterns {
+          cancellationCount
+          pattern {
+            code
+            headsign
+          }
+        }
+      }
     }
 
-    ferry: canceledTrips(
-      first: $amount
-      filters: { include: { modes: [FERRY] } }
+    ferry: canceledTripsSummary(
+      filters: {
+        include: { modes: [FERRY], serviceDateRanges: $serviceDateRanges }
+      }
     ) @include(if: $fetchFerry) {
-      ...CanceledTripsOverviewFragment @relay(mask: false)
+      routes {
+        cancellationCount
+        route {
+          id
+          gtfsId
+          shortName
+          mode
+        }
+        patterns {
+          cancellationCount
+          pattern {
+            code
+            headsign
+          }
+        }
+      }
     }
   }
 `;

@@ -841,7 +841,7 @@ export default {
     'traffic-now-long': 'Services now',
     'traffic-now_bread': 'Travelling',
     'traffic-now_canceled-trips--amount':
-      'Listing {amount} of {totalAmount} cancelled departures',
+      'Listing {amount} of {totalAmount} routes',
     'traffic-now_canceled-trips--simple': '{amount} cancellations',
     'traffic-now_description':
       'Up-to-date information on disruptions and exceptions. ',

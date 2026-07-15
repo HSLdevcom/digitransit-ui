@@ -7,15 +7,20 @@ import { PREFIX_TIMETABLE, routePagePath } from '../../../util/path';
 import Icon from '../../Icon';
 import PatternWithCancellations from './PatternWithCancellations';
 import RouteBadgeGroup from './RouteBadgeGroup';
+import { patternShape, routeShape } from '../../../util/shapes';
 
 const CancellationContainer = ({
-  item,
+  routeSummary,
   mode,
   isMobile,
   colors,
   onShowDetailsClick,
+  separator = false,
 }) => {
-  const { routeShortName, routeGtfsId, patterns, index, total } = item;
+  const {
+    route: { shortName, gtfsId },
+    patterns,
+  } = routeSummary;
   const intl = useIntl();
 
   return (
@@ -27,23 +32,22 @@ const CancellationContainer = ({
             headsignGroupClassName={mode}
             routes={[
               {
-                id: routeShortName,
-                name: routeShortName,
-                url: routePagePath(routeGtfsId, PREFIX_TIMETABLE),
-                gtfsId: routeGtfsId,
+                id: shortName,
+                name: shortName,
+                url: routePagePath(gtfsId, PREFIX_TIMETABLE),
+                gtfsId,
               },
             ]}
           />
         </div>
-        <FavouriteRouteContainer gtfsId={routeGtfsId} />
+        <FavouriteRouteContainer gtfsId={gtfsId} />
       </div>
       <div className="cancellation-container--row">
         <div className="cancellation-container__patterns--column">
-          {Object.entries(patterns).map(([patternCode, pattern]) => (
-            <React.Fragment
-              key={`${routeShortName}-${patternCode}-${pattern.trip.tripId}`}
-            >
+          {patterns.map(({ cancellationCount, pattern }) => (
+            <React.Fragment key={`${shortName}-${pattern.code}`}>
               <PatternWithCancellations
+                cancellationCount={cancellationCount}
                 pattern={pattern}
                 withDeparturesAmount
               />
@@ -51,10 +55,7 @@ const CancellationContainer = ({
           ))}
         </div>
         {isMobile && (
-          <button
-            type="button"
-            onClick={() => onShowDetailsClick(routeShortName)}
-          >
+          <button type="button" onClick={() => onShowDetailsClick(shortName)}>
             <Icon img="icon_arrow-collapse--right" color={colors.primary} />
           </button>
         )}
@@ -67,28 +68,30 @@ const CancellationContainer = ({
           fullWidth={false}
           variant="white"
           value={intl.formatMessage({ id: 'show-departures' })}
-          onClick={() => onShowDetailsClick(routeShortName)}
+          onClick={() => onShowDetailsClick(shortName)}
         />
       )}
-      {!isMobile && index + 1 < total && (
-        <div className="separator horizontal" />
-      )}
+      {!isMobile && separator && <div className="separator horizontal" />}
     </div>
   );
 };
 
 CancellationContainer.propTypes = {
-  item: PropTypes.shape({
-    routeShortName: PropTypes.string,
-    routeGtfsId: PropTypes.string,
-    patterns: PropTypes.shape({}),
-    index: PropTypes.number,
-    total: PropTypes.number,
+  routeSummary: PropTypes.shape({
+    route: routeShape.isRequired,
+    patterns: PropTypes.arrayOf(
+      PropTypes.shape({
+        pattern: patternShape.isRequired,
+        cancellationCount: PropTypes.number.isRequired,
+      }),
+    ).isRequired,
+    cancellationCount: PropTypes.number.isRequired,
   }).isRequired,
   mode: PropTypes.string.isRequired,
   isMobile: PropTypes.bool.isRequired,
   colors: PropTypes.shape({ primary: PropTypes.string }).isRequired,
   onShowDetailsClick: PropTypes.func.isRequired,
+  separator: PropTypes.bool,
 };
 
 export default CancellationContainer;

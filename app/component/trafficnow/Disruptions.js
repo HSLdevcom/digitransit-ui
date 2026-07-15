@@ -2,6 +2,7 @@ import React, { useMemo, useRef } from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
+import { DateTime } from 'luxon';
 import { useLazyLoadQuery } from 'react-relay/hooks';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { TransportMode } from '../../constants';
@@ -15,8 +16,6 @@ import AlertsQuery from './queries/AlertsQuery';
 import CanceledTripsOverviewQuery from './queries/CanceledTripsOverviewQuery';
 import { TRAFFICNOW } from '../../util/path';
 
-const CANCELED_TRIPS_OVERVIEW_QUERY_AMOUNT = 20;
-
 export default function Disruptions() {
   const breakpoint = useBreakpoint();
   const config = useConfigContext();
@@ -24,7 +23,7 @@ export default function Disruptions() {
   const { router } = useRouter();
   const { selectedFilters } = useFilterContext();
 
-  const handleCardClick = id => {
+  const disruptionCardOnClick = id => {
     router.push(`/${TRAFFICNOW}/hairio/${id}`);
   };
 
@@ -44,7 +43,12 @@ export default function Disruptions() {
         ]
       : selectedFilters.vehicleModes.map(mode => mode.toUpperCase());
   const canceledTripsVars = {
-    amount: CANCELED_TRIPS_OVERVIEW_QUERY_AMOUNT,
+    serviceDateRanges: [
+      {
+        start: DateTime.now().toISODate(),
+        end: null,
+      },
+    ],
     fetchBus: modesToFetch.includes(TransportMode.Bus),
     fetchTram: modesToFetch.includes(TransportMode.Tram),
     fetchRail: modesToFetch.includes(TransportMode.Rail),
@@ -52,11 +56,14 @@ export default function Disruptions() {
     fetchFerry: modesToFetch.includes(TransportMode.Ferry),
   };
 
-  const { bus, tram, rail, subway, ferry } = useLazyLoadQuery(
+  const cancelationsByMode = useLazyLoadQuery(
     CanceledTripsOverviewQuery,
     canceledTripsVars,
   );
 
+  const canceledModes = Object.entries(cancelationsByMode)
+    .map(([key, value]) => value.routes.length && { key, ...value })
+    .filter(Boolean);
   const disruptions = useMemo(
     () => filterAndSortAlerts(alerts, selectedFilters),
     [alerts, selectedFilters],
@@ -64,21 +71,9 @@ export default function Disruptions() {
 
   const mobile = breakpoint !== 'large';
 
-  const canceledModes = [
-    bus && { key: 'bus', ...bus },
-    tram && { key: 'tram', ...tram },
-    rail && { key: 'rail', ...rail },
-    subway && { key: 'subway', ...subway },
-    ferry && { key: 'ferry', ...ferry },
-  ].filter(Boolean);
+  const noResults = !disruptions.length && !canceledModes.length;
 
-  const noResults =
-    !disruptions.length && !canceledModes.some(mode => mode.totalCount > 0);
-
-  const resultAmount = canceledModes.reduce(
-    (sum, mode) => (mode.totalCount > 0 ? sum + 1 : sum),
-    disruptions.length,
-  );
+  const resultAmount = canceledModes.length + disruptions.length;
 
   return (
     <div
@@ -99,23 +94,19 @@ export default function Disruptions() {
             {msg => <h3 className="heading-xs">{msg}</h3>}
           </FormattedMessage>
           <div className="disruptions-list">
-            {canceledModes.map(
-              ({ key, totalCount, edges }) =>
-                edges.length > 0 && (
-                  <CanceledTripCard
-                    isMobile={mobile}
-                    key={key}
-                    mode={key}
-                    totalCount={totalCount}
-                    trips={edges.map(({ node }) => node)}
-                  />
-                ),
-            )}
+            {canceledModes.map(({ key, routes }) => (
+              <CanceledTripCard
+                isMobile={mobile}
+                key={key}
+                mode={key}
+                routes={routes}
+              />
+            ))}
             {disruptions.map(a => (
               <DisruptionCard
                 key={a.id}
                 alert={a}
-                onClick={handleCardClick}
+                onClick={disruptionCardOnClick}
                 isMobile={mobile}
               />
             ))}

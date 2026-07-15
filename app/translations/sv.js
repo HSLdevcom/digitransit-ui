@@ -833,7 +833,7 @@ export default {
     'traffic-now-long': 'Trafikläget nu',
     'traffic-now_bread': 'Att resa med oss',
     'traffic-now_canceled-trips--amount':
-      'Visar {amount} av {totalAmount} inställda avgångar',
+      'Visar {amount} av {totalAmount} rutter',
     'traffic-now_canceled-trips--simple': '{amount} inställda',
     'traffic-now_description':
       'Aktuell information om störningar och undantag. ',

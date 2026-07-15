@@ -1,20 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { useFragment } from 'react-relay';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 import Icon from '../../Icon';
 import CanceledDepartures from './CanceledDepartures';
 
 import './PatternWithCancellations.scss';
+import CanceledTripsPatternFragment from '../queries/CanceledTripsPatternFragment';
+import { getStartTimeWithColon } from '../../../util/timeUtils';
+import { patternShape } from '../../../util/shapes';
 
 const PatternWithCancellations = ({
-  pattern,
+  pattern: patternRef,
+  cancellationCount,
   withDepartureBadges = false,
   withDeparturesAmount = false,
 }) => {
   const { colors } = useConfigContext();
-  const { start, end, trip, canceledDepartures } = pattern;
+  const pattern = useFragment(CanceledTripsPatternFragment, patternRef);
 
+  const start = pattern.stops[0].name;
+  const end = pattern.stops.at(-1).name;
   return (
     <div
       className="pattern-column"
@@ -23,23 +30,25 @@ const PatternWithCancellations = ({
       }}
     >
       <div className="pattern-stops">
-        <span>{start.stopLocation.name}</span>
+        <span>{start}</span>
         <Icon img="icon_arrow-right-long" color={colors.primary} />
-        <span>{trip.pattern.headsign || end.stopLocation.name}</span>
+        <span>{pattern.headsign || end}</span>
       </div>
       {withDeparturesAmount && (
         <div className="routes-s warning">
           <FormattedMessage
             id="traffic-now_canceled-trips--simple"
-            values={{ amount: canceledDepartures.length }}
+            values={{ amount: cancellationCount }}
           />
         </div>
       )}
       {withDepartureBadges && (
         <CanceledDepartures
-          departures={canceledDepartures.map(departureTime => ({
-            tripId: trip.tripId,
-            departureTime,
+          departures={pattern.canceledTrips.map(({ trip }) => ({
+            tripId: trip.gtfsId,
+            departureTime: getStartTimeWithColon(
+              trip.stoptimes[0].scheduledDeparture,
+            ),
           }))}
         />
       )}
@@ -48,25 +57,8 @@ const PatternWithCancellations = ({
 };
 
 PatternWithCancellations.propTypes = {
-  pattern: PropTypes.shape({
-    start: PropTypes.shape({
-      stopLocation: PropTypes.shape({
-        name: PropTypes.string,
-      }),
-    }),
-    end: PropTypes.shape({
-      stopLocation: PropTypes.shape({
-        name: PropTypes.string,
-      }),
-    }),
-    trip: PropTypes.shape({
-      tripId: PropTypes.string,
-      pattern: PropTypes.shape({
-        headsign: PropTypes.string,
-      }),
-    }),
-    canceledDepartures: PropTypes.arrayOf(PropTypes.shape({})),
-  }).isRequired,
+  pattern: patternShape.isRequired,
+  cancellationCount: PropTypes.number.isRequired,
   withDepartureBadges: PropTypes.bool,
   withDeparturesAmount: PropTypes.bool,
 };

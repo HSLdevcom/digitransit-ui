@@ -9,11 +9,12 @@ import Icon from '../Icon';
 import IconBackground from '../icon/IconBackground';
 import PatternWithCancellations from './components/PatternWithCancellations';
 import RouteBadgeGroup from './components/RouteBadgeGroup';
+import { patternShape, routeShape } from '../../util/shapes';
 
 const CanceledTripsModal = ({
   mode,
   detailsKey = undefined,
-  trips,
+  routeSummary,
   onClose,
 }) => {
   const intl = useIntl();
@@ -44,11 +45,8 @@ const CanceledTripsModal = ({
             {
               id: detailsKey,
               name: detailsKey,
-              url: routePagePath(
-                trips[detailsKey].routeGtfsId,
-                PREFIX_TIMETABLE,
-              ),
-              gtfsId: trips[detailsKey].routeGtfsId,
+              url: routePagePath(routeSummary.route.gtfsId, PREFIX_TIMETABLE),
+              gtfsId: routeSummary.route.gtfsId,
             },
           ]}
         />
@@ -64,51 +62,57 @@ const CanceledTripsModal = ({
         </button>
       </header>
       <div className="traffic-now__modal-cancellations">
-        {Object.entries(trips[detailsKey].patterns).map(
-          ([patternCode, pattern], i, arr) => (
-            <React.Fragment key={`${patternCode}-${pattern.trip.tripId}`}>
-              <div className="traffic-now__modal-cancellations-pattern">
-                <PatternWithCancellations
-                  pattern={pattern}
-                  withDepartureBadges
-                />
-                <Button
-                  className="routepage-button link-bold-small"
-                  size="small"
-                  fullWidth={false}
-                  variant="white"
-                  value={intl.formatMessage({
-                    id: 'traffic-now_go-to-route-page',
-                  })}
-                  href={routePagePath(
-                    trips[detailsKey].routeGtfsId,
+        {routeSummary.patterns.map((pattern, i) => (
+          <React.Fragment key={`${pattern.code}`}>
+            <div className="traffic-now__modal-cancellations-pattern">
+              <PatternWithCancellations
+                pattern={pattern.pattern}
+                withDepartureBadges
+              />
+              <Button
+                className="routepage-button link-bold-small"
+                size="small"
+                fullWidth={false}
+                variant="white"
+                value={intl.formatMessage({
+                  id: 'traffic-now_go-to-route-page',
+                })}
+                href={routePagePath(
+                  routeSummary.route.gtfsId,
+                  PREFIX_TIMETABLE,
+                  pattern.code,
+                )}
+                onLinkClick={handleRouteBadgeClick(
+                  routePagePath(
+                    routeSummary.route.gtfsId,
                     PREFIX_TIMETABLE,
-                    patternCode,
-                  )}
-                  onLinkClick={handleRouteBadgeClick(
-                    routePagePath(
-                      trips[detailsKey].routeGtfsId,
-                      PREFIX_TIMETABLE,
-                      patternCode,
-                    ),
-                  )}
-                />
-              </div>
-              {i + 1 < arr.length && (
-                <div className="separator horizontal padded-xs" />
-              )}
-            </React.Fragment>
-          ),
-        )}
+                    pattern.code,
+                  ),
+                )}
+              />
+            </div>
+            {i + 1 < routeSummary.patterns.length && (
+              <div className="separator horizontal padded-xs" />
+            )}
+          </React.Fragment>
+        ))}
       </div>
     </Modal>
   );
 };
 
 CanceledTripsModal.propTypes = {
+  routeSummary: PropTypes.shape({
+    route: routeShape.isRequired,
+    patterns: PropTypes.arrayOf(
+      PropTypes.shape({
+        pattern: patternShape.isRequired,
+        cancellationCount: PropTypes.number.isRequired,
+      }),
+    ).isRequired,
+  }),
   mode: PropTypes.string.isRequired,
   detailsKey: PropTypes.string,
-  trips: PropTypes.shape({}).isRequired,
   onClose: PropTypes.func.isRequired,
   appElement: PropTypes.shape({}),
 };

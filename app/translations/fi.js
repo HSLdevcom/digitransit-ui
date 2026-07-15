@@ -821,7 +821,7 @@ export default {
     'traffic-now-long': 'Liikennetilanne nyt',
     'traffic-now_bread': 'Matkustaminen',
     'traffic-now_canceled-trips--amount':
-      'Näytetään {amount} yhteensä {totalAmount} perutusta lähdöstä',
+      'Näytetään {amount} yhteensä {totalAmount} linjasta',
     'traffic-now_canceled-trips--simple': '{amount} peruttua',
     'traffic-now_description':
       'Ajantasaiset tiedot häiriöistä ja poikkeuksista. ',
