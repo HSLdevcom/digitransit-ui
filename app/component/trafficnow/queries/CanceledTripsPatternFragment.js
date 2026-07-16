@@ -1,4 +1,5 @@
 import { graphql } from 'react-relay';
+import './CanceledDeparturesFragment';
 
 export default graphql`
   fragment CanceledTripsPatternFragment on Pattern
@@ -9,21 +10,7 @@ export default graphql`
     stops {
       name
     }
-    canceledTrips(serviceDateRanges: $serviceDateRanges) {
-      trip {
-        stoptimes {
-          scheduledDeparture
-        }
-        directionId
-        pattern {
-          code
-          headsign
-        }
-        route {
-          gtfsId
-          shortName
-        }
-      }
-    }
+    ...CanceledDeparturesFragment
+      @arguments(serviceDateRanges: $serviceDateRanges)
   }
 `;

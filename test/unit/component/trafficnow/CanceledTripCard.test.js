@@ -9,6 +9,7 @@ import Card from '../../../../app/component/Card';
 import DisruptionStatus from '../../../../app/component/trafficnow/components/DisruptionStatus';
 import RouteBadgeGroup from '../../../../app/component/trafficnow/components/RouteBadgeGroup';
 import Icon from '../../../../app/component/Icon';
+import CanceledDepartures from '../../../../app/component/trafficnow/components/CanceledDepartures';
 
 const makeRouteSummary = ({
   shortName = '21B',
@@ -21,6 +22,14 @@ const makeRouteSummary = ({
       pattern: {
         code: 'pattern-21B',
         headsign: 'Kamppi',
+        canceledTrips: [
+          {
+            trip: {
+              gtfsId: 'trip-21B-1',
+              stoptimes: [{ scheduledDeparture: 28800 }],
+            },
+          },
+        ],
       },
     },
   ],
@@ -82,6 +91,80 @@ describe('<CanceledTripCard />', () => {
         '23',
         '24',
       ]);
+    });
+
+    it('renders the departure time when there is only a single route', () => {
+      const wrapper = shallowWithIntl(<CanceledTripCard {...baseProps} />);
+      const badgeGroup = wrapper.find(RouteBadgeGroup);
+      const [route] = badgeGroup.prop('routes');
+      const renderedSuffix = shallow(
+        <div>{badgeGroup.prop('renderRouteSuffix')(route)}</div>,
+      );
+
+      expect(
+        renderedSuffix
+          .find(CanceledDepartures)
+          .dive()
+          .find('.routes-s-narrow')
+          .text(),
+      ).to.equal('08:00');
+    });
+
+    it('renders cancellations from all patterns when there is only a single route', () => {
+      const wrapper = shallowWithIntl(
+        <CanceledTripCard
+          {...baseProps}
+          routes={[
+            makeRouteSummary({
+              patterns: [
+                {
+                  cancellationCount: 1,
+                  pattern: {
+                    code: 'pattern-21B-1',
+                    headsign: 'Kamppi',
+                    canceledTrips: [
+                      {
+                        trip: {
+                          gtfsId: 'trip-21B-1',
+                          stoptimes: [{ scheduledDeparture: 28800 }],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  cancellationCount: 1,
+                  pattern: {
+                    code: 'pattern-21B-2',
+                    headsign: 'Rautatientori',
+                    canceledTrips: [
+                      {
+                        trip: {
+                          gtfsId: 'trip-21B-2',
+                          stoptimes: [{ scheduledDeparture: 29100 }],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            }),
+          ]}
+        />,
+      );
+      const badgeGroup = wrapper.find(RouteBadgeGroup);
+      const [route] = badgeGroup.prop('routes');
+      const renderedSuffix = shallow(
+        <div>{badgeGroup.prop('renderRouteSuffix')(route)}</div>,
+      );
+
+      expect(
+        renderedSuffix
+          .find(CanceledDepartures)
+          .dive()
+          .find('.routes-s-narrow')
+          .map(node => node.text()),
+      ).to.deep.equal(['08:00', '08:05']);
     });
   });
 

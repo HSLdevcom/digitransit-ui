@@ -1,4 +1,5 @@
 import { graphql } from 'react-relay';
+import './CanceledDeparturesFragment';
 
 export default graphql`
   query CanceledTripsOverviewQuery(
@@ -27,6 +28,7 @@ export default graphql`
           pattern {
             code
             headsign
+            ...CanceledDeparturesFragment
           }
         }
       }
@@ -50,6 +52,7 @@ export default graphql`
           pattern {
             code
             headsign
+            ...CanceledDeparturesFragment
           }
         }
       }
@@ -73,6 +76,7 @@ export default graphql`
           pattern {
             code
             headsign
+            ...CanceledDeparturesFragment
           }
         }
       }
@@ -96,6 +100,7 @@ export default graphql`
           pattern {
             code
             headsign
+            ...CanceledDeparturesFragment
           }
         }
       }
@@ -119,6 +124,7 @@ export default graphql`
           pattern {
             code
             headsign
+            ...CanceledDeparturesFragment
           }
         }
       }

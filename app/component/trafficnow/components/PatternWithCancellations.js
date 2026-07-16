@@ -8,7 +8,6 @@ import CanceledDepartures from './CanceledDepartures';
 
 import './PatternWithCancellations.scss';
 import CanceledTripsPatternFragment from '../queries/CanceledTripsPatternFragment';
-import { getStartTimeWithColon } from '../../../util/timeUtils';
 import { patternShape } from '../../../util/shapes';
 
 const PatternWithCancellations = ({
@@ -42,16 +41,7 @@ const PatternWithCancellations = ({
           />
         </div>
       )}
-      {withDepartureBadges && (
-        <CanceledDepartures
-          departures={pattern.canceledTrips.map(({ trip }) => ({
-            tripId: trip.gtfsId,
-            departureTime: getStartTimeWithColon(
-              trip.stoptimes[0].scheduledDeparture,
-            ),
-          }))}
-        />
-      )}
+      {withDepartureBadges && <CanceledDepartures patterns={[pattern]} />}
     </div>
   );
 };

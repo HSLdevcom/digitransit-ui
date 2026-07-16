@@ -5,7 +5,7 @@ import { useConfigContext } from '../../configurations/ConfigContext';
 import { TRAFFICNOW, routePagePath } from '../../util/path';
 import Card from '../Card';
 import Icon from '../Icon';
-// import CanceledDepartures from './components/CanceledDepartures';
+import CanceledDepartures from './components/CanceledDepartures';
 import DisruptionStatus from './components/DisruptionStatus';
 import RouteBadgeGroup from './components/RouteBadgeGroup';
 import DisruptionBadge from './DisruptionBadge';
@@ -60,17 +60,17 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
             id: route.id,
             url: routePagePath(route.gtfsId),
           }))}
-          // TODO: show canceled departures on single route card
-          // renderRouteSuffix={() =>
-          //   true ? (
-          //     <CanceledDepartures
-          //       departures={routes[0].patterns.map(({ gtfsId }) => ({
-          //         tripId: gtfsId,
-          //         departureTime: '11:23',
-          //       }))}
-          //     />
-          //   ) : null
-          // }
+          renderRouteSuffix={route =>
+            routes.length === 1 ? (
+              <CanceledDepartures
+                patterns={routes
+                  .find(
+                    routeSummary => routeSummary.route.gtfsId === route.gtfsId,
+                  )
+                  .patterns.map(p => p.pattern)}
+              />
+            ) : null
+          }
           renderSuffix={
             routes.length > MAX_BADGES ? (
               <span style={{ backgroundColor: '#F2F5F7' }}>
