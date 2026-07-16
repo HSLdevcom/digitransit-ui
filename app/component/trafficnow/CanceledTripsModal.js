@@ -62,13 +62,10 @@ const CanceledTripsModal = ({
         </button>
       </header>
       <div className="traffic-now__modal-cancellations">
-        {routeSummary.patterns.map((pattern, i) => (
+        {routeSummary.patterns.map(({ pattern }, i) => (
           <React.Fragment key={`${pattern.code}`}>
             <div className="traffic-now__modal-cancellations-pattern">
-              <PatternWithCancellations
-                pattern={pattern.pattern}
-                withDepartureBadges
-              />
+              <PatternWithCancellations pattern={pattern} withDepartureBadges />
               <Button
                 className="routepage-button link-bold-small"
                 size="small"

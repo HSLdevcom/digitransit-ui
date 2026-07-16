@@ -14,7 +14,6 @@ const PatternWithCancellations = ({
   pattern: patternRef,
   cancellationCount,
   withDepartureBadges = false,
-  withDeparturesAmount = false,
 }) => {
   const { colors } = useConfigContext();
   const pattern = useFragment(CanceledTripsPatternFragment, patternRef);
@@ -33,7 +32,7 @@ const PatternWithCancellations = ({
         <Icon img="icon_arrow-right-long" color={colors.primary} />
         <span>{pattern.headsign || end}</span>
       </div>
-      {withDeparturesAmount && (
+      {cancellationCount && (
         <div className="routes-s warning">
           <FormattedMessage
             id="traffic-now_canceled-trips--simple"
@@ -48,9 +47,8 @@ const PatternWithCancellations = ({
 
 PatternWithCancellations.propTypes = {
   pattern: patternShape.isRequired,
-  cancellationCount: PropTypes.number.isRequired,
+  cancellationCount: PropTypes.number,
   withDepartureBadges: PropTypes.bool,
-  withDeparturesAmount: PropTypes.bool,
 };
 
 export default PatternWithCancellations;
