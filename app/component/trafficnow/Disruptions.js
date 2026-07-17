@@ -15,6 +15,20 @@ import { filterAndSortAlerts } from './filters/filterUtils';
 import AlertsQuery from './queries/AlertsQuery';
 import CanceledTripsOverviewQuery from './queries/CanceledTripsOverviewQuery';
 import { TRAFFICNOW } from '../../util/path';
+import { splitGtfsId } from '../../util/gtfs';
+
+// filters out routes with non relevant feedId:s and modes without any routes
+export function getCanceledModes(cancelationsByMode, feedIds) {
+  return Object.entries(cancelationsByMode)
+    .map(([key, value]) => ({
+      key,
+      ...value,
+      routes: value.routes.filter(({ route }) =>
+        feedIds.includes(splitGtfsId(route.gtfsId).feedId),
+      ),
+    }))
+    .filter(({ routes }) => routes.length);
+}
 
 export default function Disruptions() {
   const breakpoint = useBreakpoint();
@@ -61,14 +75,14 @@ export default function Disruptions() {
     canceledTripsVars,
   );
 
-  const canceledModes = Object.entries(cancelationsByMode)
-    .map(([key, value]) => value.routes.length && { key, ...value })
-    .filter(Boolean);
+  const canceledModes = useMemo(
+    () => getCanceledModes(cancelationsByMode, config.feedIds),
+    [cancelationsByMode, config.feedIds],
+  );
   const disruptions = useMemo(
     () => filterAndSortAlerts(alerts, selectedFilters),
     [alerts, selectedFilters],
   );
-
   const mobile = breakpoint !== 'large';
 
   const noResults = !disruptions.length && !canceledModes.length;
