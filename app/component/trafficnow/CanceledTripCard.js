@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRouter } from 'found';
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { TRAFFICNOW, routePagePath } from '../../util/path';
 import Card from '../Card';
@@ -13,6 +14,7 @@ import { patternShape, routeShape } from '../../util/shapes';
 
 const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
   const { router } = useRouter();
+  const intl = useIntl();
   const { colors, trafficNowMaxRoutesPerCard } = useConfigContext();
   const handleRouteBadgeClick = url => e => {
     e.preventDefault();
@@ -73,8 +75,14 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
           }
           renderSuffix={
             routes.length > trafficNowMaxRoutesPerCard ? (
-              <span style={{ backgroundColor: '#F2F5F7' }}>
-                <Icon img="icon_three-dots" width={1.3} height={1.3} />
+              <span
+                className={`routes-m-narrow ${mode} more-routes-count`}
+                aria-label={intl.formatMessage(
+                  { id: 'traffic-now_more-routes' },
+                  { count: routes.length - trafficNowMaxRoutesPerCard },
+                )}
+              >
+                {`+${routes.length - trafficNowMaxRoutesPerCard}`}
               </span>
             ) : null
           }

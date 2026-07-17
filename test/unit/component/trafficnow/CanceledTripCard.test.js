@@ -11,7 +11,6 @@ import CanceledTripCard from '../../../../app/component/trafficnow/CanceledTripC
 import Card from '../../../../app/component/Card';
 import DisruptionStatus from '../../../../app/component/trafficnow/components/DisruptionStatus';
 import RouteBadgeGroup from '../../../../app/component/trafficnow/components/RouteBadgeGroup';
-import Icon from '../../../../app/component/Icon';
 import CanceledDepartures from '../../../../app/component/trafficnow/components/CanceledDepartures';
 
 const makeRouteSummary = ({
@@ -108,6 +107,29 @@ describe('<CanceledTripCard />', () => {
       expect(routes.map(route => route.name)).to.deep.equal(['20', '21', '22']);
     });
 
+    it('renders the count of hidden routes when there are more than allowed', () => {
+      stubs.useConfigContext.returns({
+        ...baseConfig,
+        trafficNowMaxRoutesPerCard: 3,
+      });
+      const wrapper = shallowWithIntl(
+        <CanceledTripCard {...baseProps} routes={makeRoutes(6)} />,
+      );
+      const renderSuffix = wrapper.find(RouteBadgeGroup).prop('renderSuffix');
+      const rendered = shallow(<div>{renderSuffix}</div>);
+
+      expect(rendered.find('.more-routes-count')).to.have.lengthOf(1);
+      expect(rendered.find('.more-routes-count').text()).to.equal('+3');
+    });
+
+    it('does not render the three-dots icon when all routes are visible', () => {
+      const wrapper = shallowWithIntl(
+        <CanceledTripCard {...baseProps} routes={makeRoutes(5)} />,
+      );
+
+      expect(wrapper.find(RouteBadgeGroup).prop('renderSuffix')).to.equal(null);
+    });
+
     it('renders the departure time when there is only a single route', () => {
       const wrapper = shallowWithIntl(<CanceledTripCard {...baseProps} />);
       const badgeGroup = wrapper.find(RouteBadgeGroup);
@@ -201,28 +223,6 @@ describe('<CanceledTripCard />', () => {
       expect(wrapper.find('.separator.vertical')).to.have.lengthOf(0);
       expect(wrapper.find('header').find(DisruptionStatus)).to.have.lengthOf(0);
       expect(wrapper.find(DisruptionStatus)).to.have.lengthOf(1);
-    });
-  });
-
-  describe('Ellipsis (three-dots icon)', () => {
-    it('renders the three-dots icon when there are more routes than visible badges', () => {
-      const wrapper = shallowWithIntl(
-        <CanceledTripCard {...baseProps} routes={makeRoutes(6)} />,
-      );
-      const renderSuffix = wrapper.find(RouteBadgeGroup).prop('renderSuffix');
-      const rendered = shallow(<div>{renderSuffix}</div>);
-
-      expect(
-        rendered.find(Icon).findWhere(n => n.prop('img') === 'icon_three-dots'),
-      ).to.have.lengthOf(1);
-    });
-
-    it('does not render the three-dots icon when all routes are visible', () => {
-      const wrapper = shallowWithIntl(
-        <CanceledTripCard {...baseProps} routes={makeRoutes(5)} />,
-      );
-
-      expect(wrapper.find(RouteBadgeGroup).prop('renderSuffix')).to.equal(null);
     });
   });
 
