@@ -13,6 +13,7 @@ import { useFilterContext } from './filters/FiltersContext';
 import { filterAndSortAlerts } from './filters/filterUtils';
 import AlertsQuery from './queries/AlertsQuery';
 import CanceledTripsOverviewQuery from './queries/CanceledTripsOverviewQuery';
+import { getAlertModes } from './utils';
 import { TRAFFICNOW } from '../../util/path';
 
 const CANCELED_TRIPS_OVERVIEW_QUERY_AMOUNT = 20;
@@ -62,6 +63,24 @@ export default function Disruptions() {
     [alerts, selectedFilters],
   );
 
+  // Split each alert into one card per affected transport mode. Alerts with no
+  // recognised mode still produce a single card.
+  const disruptionCards = useMemo(
+    () =>
+      disruptions.flatMap(alert => {
+        const modes = getAlertModes(alert.entities, config);
+        if (modes.length === 0) {
+          return [{ key: alert.id, alert, mode: undefined }];
+        }
+        return modes.map(mode => ({
+          key: `${alert.id}-${mode}`,
+          alert,
+          mode,
+        }));
+      }),
+    [disruptions, config],
+  );
+
   const mobile = breakpoint !== 'large';
 
   const canceledModes = [
@@ -77,7 +96,7 @@ export default function Disruptions() {
 
   const resultAmount = canceledModes.reduce(
     (sum, mode) => (mode.totalCount > 0 ? sum + 1 : sum),
-    disruptions.length,
+    disruptionCards.length,
   );
 
   return (
@@ -111,10 +130,11 @@ export default function Disruptions() {
                   />
                 ),
             )}
-            {disruptions.map(a => (
+            {disruptionCards.map(({ key, alert, mode }) => (
               <DisruptionCard
-                key={a.id}
-                alert={a}
+                key={key}
+                alert={alert}
+                mode={mode}
                 onClick={handleCardClick}
                 isMobile={mobile}
               />
