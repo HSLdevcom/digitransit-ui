@@ -860,6 +860,7 @@ export default {
     'traffic-now_go-to-route-page': 'View route',
     'traffic-now_link': 'Services now',
     'traffic-now_link-description': 'See changes and disruptions',
+    'traffic-now_more-routes': '{count} more routes',
     trafficnow: 'Traffic now',
     'trafficnow-bread': 'Travelling',
     'trafficnow-description':

@@ -733,6 +733,9 @@ export default {
   showVehiclesOnItineraryPage: false,
   trafficNowLink: false,
   trafficNowTest: TRAFFIC_NOW_TEST,
+  // Maximum number of routes shown per transport mode card in the Traffic now
+  // overview; any additional routes are collapsed into a "+N" badge.
+  trafficNowMaxRoutesPerCard: 5,
 
   timetables: {},
 

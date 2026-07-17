@@ -11,11 +11,9 @@ import RouteBadgeGroup from './components/RouteBadgeGroup';
 import DisruptionBadge from './DisruptionBadge';
 import { patternShape, routeShape } from '../../util/shapes';
 
-const MAX_BADGES = 5;
-
 const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
   const { router } = useRouter();
-  const { colors } = useConfigContext();
+  const { colors, trafficNowMaxRoutesPerCard } = useConfigContext();
   const handleRouteBadgeClick = url => e => {
     e.preventDefault();
     e.stopPropagation();
@@ -54,12 +52,14 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
         <RouteBadgeGroup
           mode={mode}
           stopPropagation
-          routes={routes.slice(0, MAX_BADGES).map(({ route }) => ({
-            name: route.shortName,
-            gtfsId: route.gtfsId,
-            id: route.id,
-            url: routePagePath(route.gtfsId),
-          }))}
+          routes={routes
+            .slice(0, trafficNowMaxRoutesPerCard)
+            .map(({ route }) => ({
+              name: route.shortName,
+              gtfsId: route.gtfsId,
+              id: route.id,
+              url: routePagePath(route.gtfsId),
+            }))}
           renderRouteSuffix={route =>
             routes.length === 1 ? (
               <CanceledDepartures
@@ -72,7 +72,7 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
             ) : null
           }
           renderSuffix={
-            routes.length > MAX_BADGES ? (
+            routes.length > trafficNowMaxRoutesPerCard ? (
               <span style={{ backgroundColor: '#F2F5F7' }}>
                 <Icon img="icon_three-dots" width={1.3} height={1.3} />
               </span>

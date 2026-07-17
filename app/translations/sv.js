@@ -853,6 +853,7 @@ export default {
     'traffic-now_go-to-route-page': 'Visa linje',
     'traffic-now_link': 'Trafikläget nu',
     'traffic-now_link-description': 'Se störningar och förändringar',
+    'traffic-now_more-routes': '{count} fler linjer',
     trafficnow: 'Trafikläget nu',
     'trafficnow-bread': 'Att resa med oss',
     'trafficnow-description': 'Aktuell information om störningar och undantag',

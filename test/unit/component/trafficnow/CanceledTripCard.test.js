@@ -3,7 +3,10 @@ import { describe, it } from 'mocha';
 import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
+import {
+  shallowWithIntl,
+  createShallowHookSandbox,
+} from '../../helpers/mock-intl-enzyme';
 import CanceledTripCard from '../../../../app/component/trafficnow/CanceledTripCard';
 import Card from '../../../../app/component/Card';
 import DisruptionStatus from '../../../../app/component/trafficnow/components/DisruptionStatus';
@@ -58,7 +61,21 @@ const baseProps = {
   routes: [makeRouteSummary()],
 };
 
+const baseConfig = {
+  CONFIG: 'default',
+  colors: { primary: '#007ac9' },
+  trafficNowMaxRoutesPerCard: 5,
+};
+
 describe('<CanceledTripCard />', () => {
+  let stubs;
+  let sandbox;
+
+  beforeEach(() => {
+    ({ sandbox, stubs } = createShallowHookSandbox({ config: baseConfig }));
+  });
+  afterEach(() => sandbox.restore());
+
   describe('RouteBadgeGroup props', () => {
     it('maps canceled route summaries to route badges', () => {
       const wrapper = shallowWithIntl(<CanceledTripCard {...baseProps} />);
@@ -77,20 +94,18 @@ describe('<CanceledTripCard />', () => {
       ]);
     });
 
-    it('renders at most five route badges', () => {
+    it('limits the amount of route badges', () => {
+      stubs.useConfigContext.returns({
+        ...baseConfig,
+        trafficNowMaxRoutesPerCard: 3,
+      });
       const wrapper = shallowWithIntl(
         <CanceledTripCard {...baseProps} routes={makeRoutes(6)} />,
       );
       const routes = wrapper.find(RouteBadgeGroup).prop('routes');
 
-      expect(routes).to.have.lengthOf(5);
-      expect(routes.map(route => route.name)).to.deep.equal([
-        '20',
-        '21',
-        '22',
-        '23',
-        '24',
-      ]);
+      expect(routes).to.have.lengthOf(3);
+      expect(routes.map(route => route.name)).to.deep.equal(['20', '21', '22']);
     });
 
     it('renders the departure time when there is only a single route', () => {
