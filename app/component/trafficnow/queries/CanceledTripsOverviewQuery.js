@@ -29,6 +29,7 @@ export default graphql`
             code
             headsign
             ...CanceledDeparturesFragment
+              @arguments(serviceDateRanges: $serviceDateRanges)
           }
         }
       }
@@ -53,6 +54,7 @@ export default graphql`
             code
             headsign
             ...CanceledDeparturesFragment
+              @arguments(serviceDateRanges: $serviceDateRanges)
           }
         }
       }
@@ -77,6 +79,7 @@ export default graphql`
             code
             headsign
             ...CanceledDeparturesFragment
+              @arguments(serviceDateRanges: $serviceDateRanges)
           }
         }
       }
@@ -101,6 +104,7 @@ export default graphql`
             code
             headsign
             ...CanceledDeparturesFragment
+              @arguments(serviceDateRanges: $serviceDateRanges)
           }
         }
       }
@@ -125,6 +129,7 @@ export default graphql`
             code
             headsign
             ...CanceledDeparturesFragment
+              @arguments(serviceDateRanges: $serviceDateRanges)
           }
         }
       }
