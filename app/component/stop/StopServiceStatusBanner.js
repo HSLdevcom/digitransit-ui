@@ -1,12 +1,50 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import {
+  BusStop,
+  CitybikeStation,
+  Ferry,
+  Metro,
+  Scooter,
+  SpeedtramStop,
+  Stop,
+  TrainStop,
+  TramStop,
+} from '@hsl-fi/icons';
 import Icon from '../Icon';
-import { transitIconName } from '../../util/modeUtils';
 import { resolveNoDeparturesBadge } from '../../util/stopStatusUtils';
 import { alertShape } from '../../util/shapes';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import StopScheduleStatus from './StopScheduleStatus';
+
+function getModeStopIcon(mode) {
+  switch (mode) {
+    case 'bus':
+    case 'bus-express':
+    case 'bus-local':
+    case 'replacement-bus':
+      return BusStop;
+    case 'tram':
+      return TramStop;
+    case 'train':
+    case 'rail':
+      return TrainStop;
+    case 'subway':
+    case 'metro':
+      return Metro;
+    case 'ferry':
+      return Ferry;
+    case 'citybike':
+      return CitybikeStation;
+    case 'scooter':
+      return Scooter;
+    case 'speedtram':
+      return SpeedtramStop;
+    default:
+      return Stop;
+  }
+}
 
 export default function StopServiceStatusBanner({
   mode,
@@ -33,6 +71,7 @@ export default function StopServiceStatusBanner({
     config.showStopStatusMarkers,
     noDepartures ? servicesRunningInFuture : true,
   );
+  const ModeIcon = getModeStopIcon(mode);
 
   return (
     <div
@@ -43,11 +82,10 @@ export default function StopServiceStatusBanner({
       }
     >
       <div className="stop-no-departures-icon-wrapper">
-        <Icon
-          img={transitIconName(mode, true)}
+        <ModeIcon
           className="stop-no-departures-icon"
-          color={modeColor}
-          viewBox="0 0 16 22"
+          color={modeColor ? 'custom' : undefined}
+          style={modeColor ? { '--color-icon-custom': modeColor } : undefined}
         />
         {badgeImg && (
           <Icon img={badgeImg} className="stop-no-departures-badge" />

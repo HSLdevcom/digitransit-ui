@@ -79,7 +79,7 @@
 }
 
 .stop-no-departures-icon {
-  width: 60px;
+  width: 100px;
   height: auto;
   font-size: initial;
 }
@@ -87,7 +87,7 @@
 .stop-no-departures-icon-wrapper {
   position: relative;
   display: inline-block;
-  width: 60px;
+  width: 100px;
 
   .stop-no-departures-icon {
     display: block;
@@ -95,11 +95,11 @@
 
   .stop-no-departures-badge {
     position: absolute;
-    top: -3px;
-    right: -3px;
+    top: -11px;
+    right: 2px;
     font-size: initial;
-    width: 24px;
-    height: 24px;
+    width: 40px;
+    height: 40px;
   }
 }
 
@@ -113,7 +113,7 @@
   flex: 1 0 6em;
   flex-direction: column;
   text-align: center;
-  padding-top: 20px;
+  padding-top: 68px;
   min-height: 50vh;
 
   @media print {
@@ -146,6 +146,22 @@
     flex: none;
     min-height: 0;
     margin-bottom: 20px;
+  }
+}
+
+.stop-no-departures-container,
+.stop-service-status-banner {
+  .stop-schedule-status {
+    &.no-service-today,
+    &.out-of-service,
+    &.info {
+      padding: var(--space-s) 0 0 0;
+      border-radius: 0;
+      font-size: $font-size-normal;
+      font-weight: $font-weight-book;
+      color: $black;
+      background: none;
+    }
   }
 }
 
