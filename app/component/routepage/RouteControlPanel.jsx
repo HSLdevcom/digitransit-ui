@@ -345,20 +345,26 @@ function RouteControlPanel(
   };
 
   const currentTime = unixTime();
-  const selectedPattern = route?.patterns?.find(p => p.code === patternId);
-  const cancelations = getCancelationsForRoute(
-    route,
-    patternId,
-    currentTime,
-    config.routeCancelationAlertValidity,
+  const selectedPattern = route?.patterns?.find(
+    pattern => pattern.code === patternId,
   );
-  const alerts = getAlertsForObject(selectedPattern);
 
   const hasActiveAlert = checkActiveDisruptions(
     currentTime,
-    cancelations,
-    alerts,
+    getCancelationsForRoute(
+      route,
+      patternId,
+      currentTime,
+      config.routeCancelationAlertValidity,
+    ),
+    getAlertsForObject(selectedPattern),
   );
+
+  const canceledTripsByDate = Map.groupBy(
+    selectedPattern?.canceledTrips || [],
+    ({ serviceDate }) => serviceDate,
+  );
+  const alerts = getAlertsForObject(selectedPattern);
 
   const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
     alerts,
@@ -366,10 +372,11 @@ function RouteControlPanel(
   );
 
   // if the pattern has cancelations, add one to alert count
-  const alertsCount = alerts.length + (cancelations.length > 0 ? 1 : 0);
+  const alertsCount = alerts.length + canceledTripsByDate.size;
 
   const disruptionClassName =
-    (hasActiveAlert && 'active-disruption-alert') ||
+    ((hasActiveAlert || canceledTripsByDate.size) &&
+      'active-disruption-alert') ||
     (hasActiveServiceAlerts && 'active-service-alert');
 
   const countOfButtons = 3;

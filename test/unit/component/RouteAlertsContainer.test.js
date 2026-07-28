@@ -5,7 +5,7 @@ import React from 'react';
 import { mockContext } from '../helpers/mock-context';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import DisruptionList from '../../../app/component/DisruptionList';
-import { Component as RouteAlertsContainer } from '../../../app/component/routepage/RouteAlertsContainer';
+import RouteAlertsContainer from '../../../app/component/routepage/RouteAlertsContainer';
 
 const defaultRoute = {
   gtfsId: 'HSL:1063',
@@ -23,19 +23,7 @@ describe('<RouteAlertsContainer />', () => {
       pattern: {
         alerts: [],
         stops: defaultStops,
-        trips: [
-          {
-            stoptimes: [
-              {
-                serviceDay: 1533675600,
-                scheduledDeparture: 600,
-                headsign: 'Kamppi',
-                realtimeState: 'SCHEDULED',
-                stop: { name: 'Saramäentie' },
-              },
-            ],
-          },
-        ],
+        canceledTrips: [],
       },
     };
     const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
@@ -54,28 +42,21 @@ describe('<RouteAlertsContainer />', () => {
       pattern: {
         alerts: [],
         stops: defaultStops,
-        trips: [
+        canceledTrips: [
           {
-            stoptimes: [
-              {
-                headsign: 'Kamppi',
-                serviceDay: 1533675600,
-                scheduledDeparture: 600,
-                realtimeState: 'CANCELED',
-                stop: { name: 'Saramäentie' },
-              },
-            ],
-          },
-          {
-            stoptimes: [
-              {
-                serviceDay: 1533675600,
-                scheduledDeparture: 600,
-                headsign: 'Kamppi',
-                realtimeState: 'SCHEDULED',
-                stop: { name: 'Saramäentie' },
-              },
-            ],
+            serviceDate: '2026-07-28',
+            trip: {
+              tripHeadsign: 'FOO',
+              stoptimes: [
+                {
+                  headsign: 'Kamppi',
+                  serviceDay: 1533675600,
+                  scheduledDeparture: 600,
+                  realtimeState: 'CANCELED',
+                  stop: { name: 'Saramäentie' },
+                },
+              ],
+            },
           },
         ],
       },

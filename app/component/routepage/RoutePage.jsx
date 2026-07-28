@@ -241,6 +241,15 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
             serviceDay
           }
         }
+        canceledTrips {
+          serviceDate
+          trip {
+            pattern {
+              code
+            }
+            gtfsId
+          }
+        }
         activeDates: trips {
           serviceId
           day: activeDates
