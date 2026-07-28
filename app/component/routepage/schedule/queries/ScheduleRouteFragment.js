@@ -45,6 +45,15 @@ export const ScheduleRouteFragment = graphql`
         serviceId
         day: activeDates
       }
+      canceledTrips {
+        serviceDate
+        trip {
+          pattern {
+            code
+          }
+          gtfsId
+        }
+      }
     }
   }
 `;

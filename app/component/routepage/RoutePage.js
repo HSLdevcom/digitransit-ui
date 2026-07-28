@@ -248,6 +248,15 @@ const containerComponent = createFragmentContainer(
               serviceDay
             }
           }
+          canceledTrips {
+            serviceDate
+            trip {
+              pattern {
+                code
+              }
+              gtfsId
+            }
+          }
           activeDates: trips {
             serviceId
             day: activeDates

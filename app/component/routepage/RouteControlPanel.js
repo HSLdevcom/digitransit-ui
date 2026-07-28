@@ -369,11 +369,9 @@ function RouteControlPanel(
     getAlertsForObject(selectedPattern),
   );
 
-  const cancelations = getCancelationsForRoute(
-    route,
-    patternId,
-    currentTime,
-    config.routeCancelationAlertValidity,
+  const canceledTripsByDate = Map.groupBy(
+    selectedPattern?.canceledTrips || [],
+    ({ serviceDate }) => serviceDate,
   );
   const alerts = getAlertsForObject(selectedPattern);
 
@@ -383,10 +381,11 @@ function RouteControlPanel(
   );
 
   // if the pattern has cancelations, add one to alert count
-  const alertsCount = alerts.length + (cancelations.length > 0 ? 1 : 0);
+  const alertsCount = alerts.length + canceledTripsByDate.size;
 
   const disruptionClassName =
-    (hasActiveAlert && 'active-disruption-alert') ||
+    ((hasActiveAlert || canceledTripsByDate.size) &&
+      'active-disruption-alert') ||
     (hasActiveServiceAlerts && 'active-service-alert');
 
   let disruptionIcon;

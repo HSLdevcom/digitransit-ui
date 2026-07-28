@@ -129,6 +129,15 @@ export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
           serviceId
           day: activeDates
         }
+        canceledTrips {
+          serviceDate
+          trip {
+            pattern {
+              code
+            }
+            gtfsId
+          }
+        }
       }
     }
   `,

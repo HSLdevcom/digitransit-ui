@@ -32,7 +32,6 @@ export default function Disruption({
   const { match } = useRouter();
   const intl = useIntl();
   const hasCancelations = canceledDepartures.length > 0;
-
   if (!alertDescriptionText && !alertHeaderText) {
     return null;
   }
@@ -63,7 +62,10 @@ export default function Disruption({
   // show status or date of cancelations
   const status = hasCancelations && (
     <span className="disruption-status">
-      <Icon img={active ? 'icon_status' : 'icon_calendar'} />
+      <Icon
+        img={active ? 'icon_status' : 'icon_calendar'}
+        color={config.colors.primary}
+      />
       <span className="disruption-status-date">
         {active
           ? intl.formatMessage({ id: 'disruption-list-active' })

@@ -3,6 +3,7 @@
 import React from 'react';
 import Route from 'found/Route';
 import { graphql } from 'react-relay';
+import { DateTime } from 'luxon';
 
 import Error404 from './component/404';
 import {
@@ -413,17 +414,21 @@ export default function routeRoutes(config) {
                 query routeRoutes_RouteAlertsContainer_Query(
                   $routeId: String!
                   $patternId: String!
-                  $date: String!
+                  $date: LocalDate!
                 ) {
                   route(id: $routeId) {
-                    ...RouteAlertsContainer_route
+                    ...RouteAlertsContainerFragment_route
                   }
                   pattern(id: $patternId) {
-                    ...RouteAlertsContainer_pattern @arguments(date: $date)
+                    ...RouteAlertsContainerFragment_pattern
+                      @arguments(date: $date)
                   }
                 }
               `}
-              prepareVariables={prepareServiceDay}
+              prepareVariables={params => ({
+                ...params,
+                date: DateTime.now().toISODate(),
+              })}
               render={withRouteContext()}
             />,
           ],

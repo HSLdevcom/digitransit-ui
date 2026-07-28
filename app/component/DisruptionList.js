@@ -11,7 +11,6 @@ import Disruption from './Disruption';
 import DisruptionDetails from './DisruptionDetails';
 import {
   currentAndFutureAlerts,
-  isAlertValid,
   getUniqueAlerts,
   alertSeverityCompare,
 } from '../util/alertUtils';
@@ -20,6 +19,7 @@ import { PREFIX_DISRUPTION, PREFIX_TIMETABLE } from '../util/path';
 import { useBreakpoint } from '../util/withBreakpoint';
 import Icon from './Icon';
 import { useConfigContext } from '../configurations/ConfigContext';
+import { isToday } from '../util/timeUtils';
 
 export const EmptyDisruptions = () => {
   const intl = useIntl();
@@ -79,8 +79,10 @@ const DisruptionList = ({
     );
   }
 
-  const validCancelations = cancelations.filter(cancelation =>
-    isAlertValid(cancelation, currentTime),
+  const cancelationsByValidity = Object.groupBy(
+    cancelations,
+    ({ effectiveStartDate }) =>
+      isToday(effectiveStartDate * 1000) ? 'ongoing' : 'upcoming',
   );
   const toggleDetails = id => {
     router.push({ pathname: match.location.pathname, query: { alertId: id } });
@@ -91,13 +93,10 @@ const DisruptionList = ({
     currentTime,
   );
 
-  const current = [...validCancelations, ...currentAlerts];
+  const current = [...(cancelationsByValidity.ongoing || []), ...currentAlerts];
+  const future = [...(cancelationsByValidity.upcoming || []), ...futureAlerts];
 
-  if (
-    currentAlerts.length === 0 &&
-    futureAlerts.length === 0 &&
-    validCancelations.length === 0
-  ) {
+  if (current.length === 0 && future.length === 0) {
     return <EmptyDisruptions />;
   }
 
@@ -157,15 +156,23 @@ const DisruptionList = ({
               defaultMessage="Upcoming"
             />
           </h2>
-          {futureAlerts.length ? (
+          {future.length ? (
             <div role="list">
-              {futureAlerts.map(disruption => (
-                <Disruption
-                  toggleDetails={() => toggleDetails(disruption.id)}
-                  key={disruption.id}
-                  {...disruption}
-                />
-              ))}
+              {future.map(disruption =>
+                disruption.canceledDepartures ? (
+                  <Disruption
+                    toggleDetails={() => router.push(timetableUrl)}
+                    key={disruption.id}
+                    {...disruption}
+                  />
+                ) : (
+                  <Disruption
+                    toggleDetails={() => toggleDetails(disruption.id)}
+                    key={disruption.id}
+                    {...disruption}
+                  />
+                ),
+              )}
             </div>
           ) : (
             <div className="alerts-list-section-no-alerts">
