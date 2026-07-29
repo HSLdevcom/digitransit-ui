@@ -68,12 +68,9 @@ const queries = {
       }
     `,
     pageAlerts: graphql`
-      query stopRoutes_StopDisruptions_Query(
-        $stopId: String!
-        $startTime: Long!
-      ) {
+      query stopRoutes_StopDisruptions_Query($stopId: String!) {
         stop(id: $stopId) {
-          ...DisruptionsFragment @arguments(startTime: $startTime)
+          ...DisruptionsFragment
         }
       }
     `,
@@ -125,12 +122,9 @@ const queries = {
       }
     `,
     pageAlerts: graphql`
-      query stopRoutes_TerminalDisruptions_Query(
-        $terminalId: String!
-        $startTime: Long!
-      ) {
+      query stopRoutes_TerminalDisruptions_Query($terminalId: String!) {
         station(id: $terminalId) {
-          ...DisruptionsFragment @arguments(startTime: $startTime)
+          ...DisruptionsFragment
         }
       }
     `,
