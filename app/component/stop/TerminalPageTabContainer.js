@@ -40,11 +40,7 @@ TerminalPageTabContainer.defaultProps = {
 
 const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
   station: graphql`
-    fragment TerminalPageTabContainer_station on Stop
-    @argumentDefinitions(
-      startTime: { type: "Long" }
-      timeRange: { type: "Int", defaultValue: 3600 }
-    ) {
+    fragment TerminalPageTabContainer_station on Stop {
       id
       gtfsId
       code
@@ -66,13 +62,14 @@ const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
         effectiveStartDate
         alertHash
       }
-      stoptimes: stoptimesWithoutPatterns(
-        startTime: $startTime
-        timeRange: $timeRange
-        numberOfDepartures: 100
-        omitCanceled: false
-      ) {
-        realtimeState
+      canceledCalls {
+        stopCall {
+          stopLocation {
+            ... on Stop {
+              gtfsId
+            }
+          }
+        }
       }
     }
   `,

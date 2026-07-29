@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
+import { DateTime } from 'luxon';
 import { mockContext } from '../helpers/mock-context';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import {
@@ -90,24 +91,30 @@ describe('<Disruptions />', () => {
         code: '431',
         alerts: [],
         routes: [],
-        stoptimes: [
+        canceledCalls: [
           {
-            headsign: 'Kamppi',
-            realtimeState: 'CANCELED',
-            scheduledDeparture: 3600,
-            trip: {
-              tripHeadsign: 'Kamppi',
-              route: {
-                gtfsId: 'feed:63',
-                alerts: [],
-                mode: 'BUS',
-                shortName: '63',
-              },
-              stops: [
-                {
-                  name: 'Saramäentie',
+            stopCall: {
+              schedule: { time: { departure: DateTime.now().toISO() } },
+              stopLocation: { gtfsId: 'feed:bar' },
+            },
+            tripOnServiceDate: {
+              serviceDate: DateTime.now().toISODate(),
+              trip: {
+                tripHeadsign: 'Kamppi',
+                gtfsId: 'feed:63:01-1',
+                route: {
+                  gtfsId: 'feed:63',
+                  type: 'foo',
+                  color: undefined,
+                  mode: 'BUS',
+                  shortName: '63',
                 },
-              ],
+                pattern: {
+                  code: 'feed:63:01',
+                  headsign: 'Kamppi',
+                  stops: [{ name: 'foo', gtfsId: 'feed:bar' }],
+                },
+              },
             },
           },
         ],

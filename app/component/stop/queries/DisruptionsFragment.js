@@ -1,34 +1,25 @@
 import { graphql } from 'react-relay';
 
 export const DisruptionsFragment = graphql`
-  fragment DisruptionsFragment on Stop
-  @argumentDefinitions(
-    startTime: { type: "Long" }
-    timeRange: { type: "Int", defaultValue: 3600 }
-  ) {
+  fragment DisruptionsFragment on Stop {
     gtfsId
     locationType
     routes {
       gtfsId
     }
-    stops {
-      id
-      gtfsId
-      routes {
-        gtfsId
-      }
-      stoptimes: stoptimesWithoutPatterns(
-        startTime: $startTime
-        timeRange: $timeRange
-        numberOfDepartures: 100
-        omitCanceled: false
-      ) {
-        serviceDay
-        scheduledDeparture
-        headsign
-        realtimeState
+    canceledCalls {
+      tripOnServiceDate {
+        serviceDate
         trip {
           tripHeadsign
+          pattern {
+            code
+            stops {
+              name
+              gtfsId
+            }
+            headsign
+          }
           route {
             gtfsId
             type
@@ -37,6 +28,65 @@ export const DisruptionsFragment = graphql`
             shortName
           }
         }
+      }
+      stopCall {
+        stopLocation {
+          ... on Stop {
+            gtfsId
+          }
+        }
+        schedule {
+          time {
+            ... on ArrivalDepartureTime {
+              departure
+            }
+          }
+        }
+      }
+    }
+    stops {
+      id
+      gtfsId
+      canceledCalls {
+        tripOnServiceDate {
+          serviceDate
+          trip {
+            tripHeadsign
+            route {
+              gtfsId
+              type
+              color
+              mode
+              shortName
+            }
+            pattern {
+              code
+              stops {
+                name
+                gtfsId
+              }
+              headsign
+            }
+          }
+        }
+
+        stopCall {
+          stopLocation {
+            ... on Stop {
+              gtfsId
+            }
+          }
+          schedule {
+            time {
+              ... on ArrivalDepartureTime {
+                departure
+              }
+            }
+          }
+        }
+      }
+      routes {
+        gtfsId
       }
       alerts(types: [STOP, ROUTES]) {
         id
@@ -90,27 +140,6 @@ export const DisruptionsFragment = graphql`
           name
           locationType
           vehicleMode
-        }
-      }
-    }
-    stoptimes: stoptimesWithoutPatterns(
-      startTime: $startTime
-      timeRange: $timeRange
-      numberOfDepartures: 100
-      omitCanceled: false
-    ) {
-      serviceDay
-      scheduledDeparture
-      headsign
-      realtimeState
-      trip {
-        tripHeadsign
-        route {
-          gtfsId
-          type
-          color
-          mode
-          shortName
         }
       }
     }

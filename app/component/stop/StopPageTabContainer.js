@@ -45,11 +45,7 @@ StopPageTabContainer.defaultProps = {
 
 const containerComponent = createFragmentContainer(StopPageTabContainer, {
   stop: graphql`
-    fragment StopPageTabContainer_stop on Stop
-    @argumentDefinitions(
-      startTime: { type: "Long" }
-      timeRange: { type: "Int", defaultValue: 3600 }
-    ) {
+    fragment StopPageTabContainer_stop on Stop {
       id
       gtfsId
       code
@@ -60,13 +56,27 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
         effectiveStartDate
         alertHash
       }
-      stoptimes: stoptimesWithoutPatterns(
-        startTime: $startTime
-        timeRange: $timeRange
-        numberOfDepartures: 100
-        omitCanceled: false
-      ) {
-        realtimeState
+      stops {
+        gtfsId
+        canceledCalls {
+          stopCall {
+            stopLocation {
+              ... on Stop {
+                gtfsId
+              }
+            }
+          }
+        }
+      }
+
+      canceledCalls {
+        stopCall {
+          stopLocation {
+            ... on Stop {
+              gtfsId
+            }
+          }
+        }
       }
     }
   `,
