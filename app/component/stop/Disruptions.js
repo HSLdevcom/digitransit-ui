@@ -49,20 +49,26 @@ export const filterAlertEntities = (stop, alerts) => {
     .filter(alert => alert.entities.length > 0);
 };
 
+export const filterCanceledCalls = (canceledCalls, relevantStopIds) =>
+  canceledCalls.filter(
+    ({ stopCall, tripOnServiceDate }) =>
+      relevantStopIds.includes(stopCall.stopLocation.gtfsId) &&
+      !relevantStopIds.includes(
+        tripOnServiceDate.trip.pattern.stops.at(-1).gtfsId,
+      ),
+  );
+
 const getCancelations = (stop, intl, config) => {
   if (!stop.canceledCalls) {
     return [];
   }
+  const relevantStopIds = stop.stops
+    ? stop.stops.map(({ gtfsId }) => gtfsId)
+    : [stop.gtfsId];
   // group by pattern id to make individual disruption objects for each
   const canceledCallsByRoute = Object.groupBy(
     // filter out calls from trips that are not departing from the focused stop or its children
-    stop.canceledCalls.filter(
-      ({ stopCall }) =>
-        stopCall.stopLocation.gtfsId === stop.gtfsId ||
-        stop.stops
-          ?.map(({ gtfsId }) => gtfsId)
-          .includes(stopCall.stopLocation.gtfsId),
-    ),
+    filterCanceledCalls(stop.canceledCalls, relevantStopIds),
     ({ tripOnServiceDate }) =>
       tripOnServiceDate.trip.pattern.code + tripOnServiceDate.serviceDate,
   );

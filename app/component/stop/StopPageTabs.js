@@ -18,6 +18,7 @@ import {
   PREFIX_TIMETABLE,
   stopPagePath,
 } from '../../util/path';
+import { filterCanceledCalls } from './Disruptions';
 
 const Tab = {
   RightNow: 1,
@@ -60,12 +61,9 @@ function StopPageTabs({ stop }, { match }) {
     ? getServiceAlertsForStation(stop)
     : getAlertsForObject(stop);
 
-  const canceledCalls = stop.canceledCalls.filter(
-    ({ stopCall }) =>
-      stopCall.stopLocation.gtfsId === stop.gtfsId ||
-      stop.stops
-        ?.map(({ gtfsId }) => gtfsId)
-        .includes(stopCall.stopLocation.gtfsId),
+  const canceledCalls = filterCanceledCalls(
+    stop.canceledCalls,
+    stop.stops ? stop.stops.map(({ gtfsId }) => gtfsId) : [stop.gtfsId],
   );
   const alertsCount =
     getUniqueAlerts(alerts).length + (canceledCalls.length > 0 ? 1 : 0);
