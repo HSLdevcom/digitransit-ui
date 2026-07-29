@@ -47,44 +47,6 @@ export const DisruptionsFragment = graphql`
     stops {
       id
       gtfsId
-      canceledCalls {
-        tripOnServiceDate {
-          serviceDate
-          trip {
-            tripHeadsign
-            route {
-              gtfsId
-              type
-              color
-              mode
-              shortName
-            }
-            pattern {
-              code
-              stops {
-                name
-                gtfsId
-              }
-              headsign
-            }
-          }
-        }
-
-        stopCall {
-          stopLocation {
-            ... on Stop {
-              gtfsId
-            }
-          }
-          schedule {
-            time {
-              ... on ArrivalDepartureTime {
-                departure
-              }
-            }
-          }
-        }
-      }
       routes {
         gtfsId
       }

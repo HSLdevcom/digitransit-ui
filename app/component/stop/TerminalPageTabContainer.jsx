@@ -63,6 +63,15 @@ const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
         alertHash
       }
       canceledCalls {
+        tripOnServiceDate {
+          trip {
+            pattern {
+              stops {
+                gtfsId
+              }
+            }
+          }
+        }
         stopCall {
           stopLocation {
             ... on Stop {

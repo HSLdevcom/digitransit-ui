@@ -112,7 +112,10 @@ describe('<Disruptions />', () => {
                 pattern: {
                   code: 'feed:63:01',
                   headsign: 'Kamppi',
-                  stops: [{ name: 'foo', gtfsId: 'feed:bar' }],
+                  stops: [
+                    { name: 'foo', gtfsId: 'feed:bar' },
+                    { name: 'foo', gtfsId: 'feed:foo' },
+                  ],
                 },
               },
             },
@@ -125,6 +128,55 @@ describe('<Disruptions />', () => {
     });
     expect(wrapper.find(DisruptionList).prop('cancelations')).to.have.lengthOf(
       1,
+    );
+  });
+
+  it('should filter out a canceled call if the trip terminates on the stop', () => {
+    const props = {
+      stop: {
+        gtfsId: 'feed:bar',
+        locationType: 'STOP',
+        code: '431',
+        alerts: [],
+        routes: [],
+        canceledCalls: [
+          {
+            stopCall: {
+              schedule: { time: { departure: DateTime.now().toISO() } },
+              stopLocation: { gtfsId: 'feed:bar' },
+            },
+            tripOnServiceDate: {
+              serviceDate: DateTime.now().toISODate(),
+              trip: {
+                tripHeadsign: 'Kamppi',
+                gtfsId: 'feed:63:01-1',
+                route: {
+                  gtfsId: 'feed:63',
+                  type: 'foo',
+                  color: undefined,
+                  mode: 'BUS',
+                  shortName: '63',
+                },
+                pattern: {
+                  code: 'feed:63:01',
+                  headsign: 'Kamppi',
+                  stops: [
+                    { name: 'foo', gtfsId: 'feed:bar' },
+                    { name: 'foo', gtfsId: 'feed:foo' },
+                    { name: 'foo', gtfsId: 'feed:bar' },
+                  ],
+                },
+              },
+            },
+          },
+        ],
+      },
+    };
+    const wrapper = shallowWithIntl(<Disruptions {...props} />, {
+      context: { ...mockContext },
+    });
+    expect(wrapper.find(DisruptionList).prop('cancelations')).to.have.lengthOf(
+      0,
     );
   });
 

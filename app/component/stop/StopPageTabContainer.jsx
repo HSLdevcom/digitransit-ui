@@ -70,6 +70,15 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
       }
 
       canceledCalls {
+        tripOnServiceDate {
+          trip {
+            pattern {
+              stops {
+                gtfsId
+              }
+            }
+          }
+        }
         stopCall {
           stopLocation {
             ... on Stop {
