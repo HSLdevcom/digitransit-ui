@@ -10,6 +10,7 @@ import {
   routePagePath,
   PREFIX_STOPS,
   PREFIX_TERMINALS,
+  PREFIX_DISRUPTION,
 } from '../../../app/util/path';
 import { mockContext } from '../helpers/mock-context';
 
@@ -121,7 +122,9 @@ describe('<Disruption />', () => {
     ).to.have.lengthOf(1);
     const link = wrapper.find('.mode-badge');
     expect(link).to.have.lengthOf(1);
-    expect(link.prop('href')).to.equal(routePagePath('HSL:2097N'));
+    expect(link.prop('href')).to.equal(
+      routePagePath('HSL:2097N', PREFIX_DISRUPTION),
+    );
     expect(link.find('span').text()).to.equal('97N');
   });
 
