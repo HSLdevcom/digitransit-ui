@@ -3141,6 +3141,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hsl-fi/accessibility@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@hsl-fi/accessibility@npm:2.0.0"
+  peerDependencies:
+    "@hsl-fi/design-tokens": ^1.25.0
+    react: ">=16"
+  checksum: 10/faf7f057ee2457df83556d6febc7b6738c03e3769aeea555d8417e7f0278ff93ca7e3d9abcd9e2e31f8c51aa4efba047d6ffecf2501b5ffd63d1c798a5b24d2f
+  languageName: node
+  linkType: hard
+
 "@hsl-fi/animated-spinner@npm:^0.3.0":
   version: 0.3.0
   resolution: "@hsl-fi/animated-spinner@npm:0.3.0"
@@ -3162,6 +3172,20 @@ __metadata:
     classnames: ^2.3.2
     react: ">=16"
   checksum: 10/42d40598db7997d2a09f3288699f4eb3ccaae002b7ed72c1aa67a2fdbcd2d93ce1288cd774ff4fe797265fcd7d7830c4ba05e047ff56a94cec4044ab5a541cb9
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/animations@npm:^1.11.1":
+  version: 1.11.1
+  resolution: "@hsl-fi/animations@npm:1.11.1"
+  dependencies:
+    "@hsl-fi/accessibility": "npm:^2.0.0"
+    react-animate-height: "npm:^3.2.3"
+  peerDependencies:
+    "@hsl-fi/design-tokens": ^1.25.0
+    classnames: ^2.3.2
+    react: ">=16"
+  checksum: 10/8048ec5198dedb05ab0b12ae862cd8cd5c9134ba2de4099785f82b3f515ea1525455394e0aa26f77122e764298da8c780f5d6d62173a2b5989a152fd0e9960d7
   languageName: node
   linkType: hard
 
@@ -3405,7 +3429,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/notifications@npm:^4.0.4, @hsl-fi/notifications@npm:^4.0.5":
+"@hsl-fi/navigation@npm:^3.2.0":
+  version: 3.3.0
+  resolution: "@hsl-fi/navigation@npm:3.3.0"
+  dependencies:
+    "@hsl-fi/accessibility": "npm:^2.0.0"
+    "@hsl-fi/hooks": "npm:^1.2.4"
+    "@hsl-fi/i18n": "npm:^1.5.1"
+    "@hsl-fi/icons": "npm:^2.3.0"
+    classnames: "npm:^2.3.2"
+    uuid: "npm:^14.0.0"
+  peerDependencies:
+    "@hsl-fi/design-tokens": ^1.20.0
+    "@hsl-fi/layout-primitives": ^4.4.0
+    react: ">=16"
+  checksum: 10/2d3fc0540b47e84a2448543b0c576c25ff2b5dfb52213d01ff90ea52d2e0ae3922b314415f776770f662c86553ba8a640be0b6966d1967cbbdaa0e4d96d39a39
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/notifications@npm:^4.0.4":
   version: 4.0.5
   resolution: "@hsl-fi/notifications@npm:4.0.5"
   dependencies:
@@ -3421,6 +3463,25 @@ __metadata:
     "@hsl-fi/layout-primitives": ^4.4.0
     react: ">=16"
   checksum: 10/39e001020af76d3f9da12db57436fbc191c0ec8c73ae6f43c81f1a4bdb4f94242b42e22661512757f966207506aa1417b200c68ef8467c3d570aff17a04edc19
+  languageName: node
+  linkType: hard
+
+"@hsl-fi/notifications@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "@hsl-fi/notifications@npm:4.1.0"
+  dependencies:
+    "@hsl-fi/animations": "npm:^1.11.1"
+    "@hsl-fi/assets": "npm:^2.1.0"
+    "@hsl-fi/i18n": "npm:^1.5.1"
+    "@hsl-fi/icons": "npm:^2.3.0"
+    "@hsl-fi/navigation": "npm:^3.2.0"
+    "@radix-ui/react-accordion": "npm:^1.2.0"
+    classnames: "npm:^2.3.2"
+  peerDependencies:
+    "@hsl-fi/design-tokens": ^1.20.0
+    "@hsl-fi/layout-primitives": ^4.4.0
+    react: ">=16"
+  checksum: 10/8fe3b0c30199e3e9725562a4cfe1075e09fa4494cd459b38521a26e471fb0ab63d5c5c1539554c7872238bc17f908a6cbdff924b0ef4d8e13809636518e172ce
   languageName: node
   linkType: hard
 
@@ -12435,7 +12496,7 @@ __metadata:
     "@hsl-fi/icons": "npm:^2.2.4"
     "@hsl-fi/layout-primitives": "npm:^4.8.1"
     "@hsl-fi/modal": "npm: ^0.3.2"
-    "@hsl-fi/notifications": "npm:^4.0.5"
+    "@hsl-fi/notifications": "npm:^4.1.0"
     "@hsl-fi/sass": "npm: 1.0.0"
     "@hsl-fi/shimmer": "npm:0.1.2"
     "@hsl-fi/site-footer": "npm:^5.1.1"
@@ -29722,6 +29783,15 @@ __metadata:
   bin:
     uuid: dist-node/bin/uuid
   checksum: 10/567dddca18a8520796dd3cd1e4513f4c7c522f25602c15381615395d60c7892f330366680fc21373f19fb83c991f3da8413f57dbd85bf976069cf0818aa6c61c
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^14.0.0":
+  version: 14.0.1
+  resolution: "uuid@npm:14.0.1"
+  bin:
+    uuid: dist-node/bin/uuid
+  checksum: 10/0f978fd5b0269d7acb615342aeb131f0b8d85eeb8ec34f2915d906baa3befcc14a079a430d0f8116aec6fd20c850cbfab65d1b3d1643fa81ed373c0cf9574f18
   languageName: node
   linkType: hard
 

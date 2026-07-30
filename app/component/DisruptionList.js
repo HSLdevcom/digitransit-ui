@@ -28,6 +28,7 @@ export const EmptyDisruptions = () => {
     <SuccessAnimationView
       heading={intl.formatMessage({ id: 'disruption-list-traffic-normal' })}
       description={intl.formatMessage({ id: 'disruption-info-no-alerts' })}
+      headingLevel={3}
     />
   ) : (
     <div className="no-alerts-container">
