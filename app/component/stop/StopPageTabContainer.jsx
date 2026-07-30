@@ -45,7 +45,11 @@ StopPageTabContainer.defaultProps = {
 
 const containerComponent = createFragmentContainer(StopPageTabContainer, {
   stop: graphql`
-    fragment StopPageTabContainer_stop on Stop {
+    fragment StopPageTabContainer_stop on Stop
+    @argumentDefinitions(
+      cancelationStartDate: { type: "LocalDate!" }
+      cancelationEndDate: { type: "LocalDate!" }
+    ) {
       id
       gtfsId
       code
@@ -58,7 +62,11 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
       }
       stops {
         gtfsId
-        canceledCalls {
+        canceledCalls(
+          serviceDateRanges: [
+            { start: $cancelationStartDate, end: $cancelationEndDate }
+          ]
+        ) {
           stopCall {
             stopLocation {
               ... on Stop {
@@ -69,7 +77,11 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
         }
       }
 
-      canceledCalls {
+      canceledCalls(
+        serviceDateRanges: [
+          { start: $cancelationStartDate, end: $cancelationEndDate }
+        ]
+      ) {
         tripOnServiceDate {
           trip {
             pattern {

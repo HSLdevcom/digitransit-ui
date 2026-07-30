@@ -1,13 +1,21 @@
 import { graphql } from 'react-relay';
 
 export const DisruptionsFragment = graphql`
-  fragment DisruptionsFragment on Stop {
+  fragment DisruptionsFragment on Stop
+  @argumentDefinitions(
+    cancelationStartDate: { type: "LocalDate!" }
+    cancelationEndDate: { type: "LocalDate!" }
+  ) {
     gtfsId
     locationType
     routes {
       gtfsId
     }
-    canceledCalls {
+    canceledCalls(
+      serviceDateRanges: [
+        { start: $cancelationStartDate, end: $cancelationEndDate }
+      ]
+    ) {
       tripOnServiceDate {
         serviceDate
         trip {

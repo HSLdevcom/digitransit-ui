@@ -40,7 +40,11 @@ TerminalPageTabContainer.defaultProps = {
 
 const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
   station: graphql`
-    fragment TerminalPageTabContainer_station on Stop {
+    fragment TerminalPageTabContainer_station on Stop
+    @argumentDefinitions(
+      cancelationStartDate: { type: "LocalDate!" }
+      cancelationEndDate: { type: "LocalDate!" }
+    ) {
       id
       gtfsId
       code
@@ -62,7 +66,11 @@ const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
         effectiveStartDate
         alertHash
       }
-      canceledCalls {
+      canceledCalls(
+        serviceDateRanges: [
+          { start: $cancelationStartDate, end: $cancelationEndDate }
+        ]
+      ) {
         tripOnServiceDate {
           trip {
             pattern {
