@@ -12,7 +12,10 @@ export const RouteAlertsContainerFragment = {
   `,
   pattern: graphql`
     fragment RouteAlertsContainerFragment_pattern on Pattern
-    @argumentDefinitions(date: { type: "LocalDate" }) {
+    @argumentDefinitions(
+      cancelationStartDate: { type: "LocalDate!" }
+      cancelationEndDate: { type: "LocalDate!" }
+    ) {
       stops {
         name
       }
@@ -46,7 +49,11 @@ export const RouteAlertsContainerFragment = {
           }
         }
       }
-      canceledTrips(serviceDateRanges: [{ start: $date, end: null }]) {
+      canceledTrips(
+        serviceDateRanges: [
+          { start: $cancelationStartDate, end: $cancelationEndDate }
+        ]
+      ) {
         serviceDate
         trip {
           tripHeadsign
