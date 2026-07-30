@@ -10,6 +10,7 @@ import {
   routePagePath,
   PREFIX_STOPS,
   PREFIX_TERMINALS,
+  PREFIX_DISRUPTION,
 } from '../../../utils/shared/path';
 import { mockContext } from '../helpers/mock-context';
 
@@ -18,6 +19,7 @@ const routeEntity = (overrides = {}) => ({
   mode: 'BUS',
   shortName: '97N',
   gtfsId: 'HSL:2097N',
+  code: '2097N_20240101_1',
   id: 'route-1',
   ...overrides,
 });
@@ -121,7 +123,9 @@ describe('<Disruption />', () => {
     ).to.have.lengthOf(1);
     const link = wrapper.find('.mode-badge');
     expect(link).to.have.lengthOf(1);
-    expect(link.prop('href')).to.equal(routePagePath('HSL:2097N'));
+    expect(link.prop('href')).to.equal(
+      routePagePath('HSL:2097N', PREFIX_DISRUPTION, '2097N_20240101_1'),
+    );
     expect(link.find('span').text()).to.equal('97N');
   });
 

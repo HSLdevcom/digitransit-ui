@@ -4,9 +4,15 @@ import { useFragment } from 'react-relay';
 import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
 import DisruptionList from '../DisruptionList';
-import { getAlertsForObject, setEntityForAlert } from '../../../utils/client/alertUtils';
+import {
+  getAlertsForObject,
+  setEntityForAlert,
+} from '../../../utils/client/alertUtils';
 import { getStartTimeWithColon } from '../../../utils/client/timeUtils';
-import { AlertSeverityLevelType, AlertEntityType } from '../../../utils/shared/constants';
+import {
+  AlertSeverityLevelType,
+  AlertEntityType,
+} from '../../../utils/shared/constants';
 import { patternTextWithIcon } from './RoutePatternSelect';
 import { RouteAlertsContainerFragment } from './queries/RouteAlertsContainerFragment';
 
@@ -62,6 +68,7 @@ function RouteAlertsContainer({ route: routeRef, pattern: patternRef }) {
     mode: route.mode,
     shortName: route.shortName,
     gtfsId: route.gtfsId,
+    code: pattern.code,
   };
   const cancelations = getCancelations(route, pattern, entity, intl);
 

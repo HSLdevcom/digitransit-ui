@@ -112,6 +112,7 @@ const getCancelations = (stop, intl, config) => {
       entities: [
         {
           ...trip.route,
+          code: trip.pattern.code,
           __typename: 'Route',
         },
       ],
