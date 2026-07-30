@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { classList } from '@hsl-fi/utilities';
-import { Alert } from '@hsl-fi/icons';
+import { AlertTriangleFilled } from '@hsl-fi/icons';
 import { CrisisPriority } from '@hsl-fi/content-delivery-api-types';
 import { useConfigContext } from '../configurations/ConfigContext';
 import { getJson } from '../util/xhrPromise';
@@ -52,7 +52,7 @@ const CrisisBannerHsl = ({ initialBanners = null }) => {
         >
           {priority === CrisisPriority.Primary && (
             <div className="crisis-banners-banner-primary-icon">
-              <Alert width="19" fill="#ffffff" />
+              <AlertTriangleFilled width="19" fill="#ffffff" />
             </div>
           )}
           {/* eslint-disable-next-line react/no-danger */}
