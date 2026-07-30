@@ -15,10 +15,7 @@ import {
 } from '../../utils/client/alertUtils';
 import { alertShape } from '../../utils/client/shapes';
 import { useCurrentTime } from '../hooks/TimeContext';
-import {
-  PREFIX_DISRUPTION,
-  PREFIX_TIMETABLE,
-} from '../../utils/shared/path';
+import { PREFIX_DISRUPTION, PREFIX_TIMETABLE } from '../../utils/shared/path';
 import { useBreakpoint } from '../../utils/client/withBreakpoint';
 import Icon from './Icon';
 import { useConfigContext } from '../client/ConfigContext';
@@ -31,6 +28,7 @@ export const EmptyDisruptions = () => {
     <SuccessAnimationView
       heading={intl.formatMessage({ id: 'disruption-list-traffic-normal' })}
       description={intl.formatMessage({ id: 'disruption-info-no-alerts' })}
+      headingLevel={3}
     />
   ) : (
     <div className="no-alerts-container">
