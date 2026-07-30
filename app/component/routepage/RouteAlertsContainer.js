@@ -62,6 +62,7 @@ function RouteAlertsContainer({ route: routeRef, pattern: patternRef }) {
     mode: route.mode,
     shortName: route.shortName,
     gtfsId: route.gtfsId,
+    code: pattern.code,
   };
   const cancelations = getCancelations(route, pattern, entity, intl);
 

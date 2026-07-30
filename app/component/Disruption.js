@@ -7,7 +7,7 @@ import cx from 'classnames';
 import Icon from './Icon';
 import DisruptionBadge from './trafficnow/DisruptionBadge';
 import { useConfigContext } from '../configurations/ConfigContext';
-import { routePagePath, stopPagePath } from '../util/path';
+import { PREFIX_DISRUPTION, routePagePath, stopPagePath } from '../util/path';
 import IconBackground from './icon/IconBackground';
 import { getRouteMode, transitIconName } from '../util/modeUtils';
 import { getStartTimeWithColon } from '../util/timeUtils';
@@ -139,33 +139,40 @@ export default function Disruption({
                         )
                       }
                     />
-                    {items.map(({ gtfsId, shortName, name, locationType }) => {
-                      const isStation = locationType === LocationTypes.STATION;
-                      return (
-                        <a
-                          key={gtfsId}
-                          className={cx('mode-badge', mode.toLowerCase())}
-                          href={
-                            isStop
-                              ? stopPagePath(isStation, gtfsId)
-                              : routePagePath(gtfsId)
-                          }
-                          onClick={e => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            match.router.push(
+                    {items.map(
+                      ({ gtfsId, shortName, name, locationType, code }) => {
+                        const isStation =
+                          locationType === LocationTypes.STATION;
+                        return (
+                          <a
+                            key={gtfsId}
+                            className={cx('mode-badge', mode.toLowerCase())}
+                            href={
                               isStop
                                 ? stopPagePath(isStation, gtfsId)
-                                : routePagePath(gtfsId),
-                            );
-                          }}
-                        >
-                          <div>
-                            <span>{isStop ? name : shortName}</span>
-                          </div>
-                        </a>
-                      );
-                    })}
+                                : routePagePath(gtfsId, PREFIX_DISRUPTION, code)
+                            }
+                            onClick={e => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              match.router.push(
+                                isStop
+                                  ? stopPagePath(isStation, gtfsId)
+                                  : routePagePath(
+                                      gtfsId,
+                                      PREFIX_DISRUPTION,
+                                      code,
+                                    ),
+                              );
+                            }}
+                          >
+                            <div>
+                              <span>{isStop ? name : shortName}</span>
+                            </div>
+                          </a>
+                        );
+                      },
+                    )}
                   </Fragment>
                 );
               },
