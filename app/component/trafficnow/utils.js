@@ -140,4 +140,29 @@ const getAlertModes = (entities, config) => {
   return routeModes.length > 0 ? routeModes : stopModes;
 };
 
-export { getAvailableModes, groupEntitiesByMode, getAlertModes };
+// Splits each alert into one card per affected transport mode, optionally
+// filtered to the caller's selectedModes list. Alerts with no recognised mode
+// produce a single card with mode=undefined.
+const buildDisruptionCards = (disruptions, selectedModes, config) =>
+  disruptions.flatMap(alert => {
+    const allModes = getAlertModes(alert.entities, config);
+    if (allModes.length === 0) {
+      return [{ key: alert.id, alert, mode: undefined }];
+    }
+    const modes =
+      selectedModes.length > 0
+        ? allModes.filter(m => selectedModes.includes(m.toLowerCase()))
+        : allModes;
+    return modes.map(mode => ({
+      key: `${alert.id}-${mode}`,
+      alert,
+      mode,
+    }));
+  });
+
+export {
+  getAvailableModes,
+  groupEntitiesByMode,
+  getAlertModes,
+  buildDisruptionCards,
+};
