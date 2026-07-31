@@ -288,36 +288,102 @@ describe('TrafficNow utils', () => {
           },
         ],
       };
-      const cards = buildDisruptionCards([alert], [], {});
+      const cards = buildDisruptionCards([alert], {}, {});
       expect(cards).to.have.length(2);
       expect(cards.map(c => c.mode)).to.deep.equal(['bus', 'tram']);
       expect(cards.map(c => c.key)).to.deep.equal(['a1-bus', 'a1-tram']);
     });
 
-    it('keeps only the selected modes when a filter is active', () => {
+    it('keeps only the selected modes when vehicleModes filter is active', () => {
       const busAlert = makeAlert('a1', 'BUS');
       const tramAlert = makeAlert('a2', 'TRAM');
-      const cards = buildDisruptionCards([busAlert, tramAlert], ['bus'], {});
+      const cards = buildDisruptionCards(
+        [busAlert, tramAlert],
+        { vehicleModes: ['bus'] },
+        {},
+      );
       expect(cards).to.have.length(1);
       expect(cards[0].mode).to.equal('bus');
     });
 
+    it('limits cards to the mode containing the selected entity', () => {
+      const alert = {
+        id: 'a1',
+        entities: [
+          {
+            __typename: AlertEntityType.Route,
+            id: 'r1',
+            gtfsId: 'HSL:r1',
+            mode: 'BUS',
+            shortName: '1',
+          },
+          {
+            __typename: AlertEntityType.Route,
+            id: 'r2',
+            gtfsId: 'HSL:r2',
+            mode: 'TRAM',
+            shortName: '4',
+          },
+        ],
+      };
+      const cards = buildDisruptionCards(
+        [alert],
+        { entity: { gtfsId: 'HSL:r1' } },
+        {},
+      );
+      expect(cards).to.have.length(1);
+      expect(cards[0].mode).to.equal('bus');
+    });
+
+    it('limits cards to modes containing at least one favourite', () => {
+      const alert = {
+        id: 'a1',
+        entities: [
+          {
+            __typename: AlertEntityType.Route,
+            id: 'r1',
+            gtfsId: 'HSL:r1',
+            mode: 'BUS',
+            shortName: '1',
+          },
+          {
+            __typename: AlertEntityType.Route,
+            id: 'r2',
+            gtfsId: 'HSL:r2',
+            mode: 'TRAM',
+            shortName: '4',
+          },
+        ],
+      };
+      const cards = buildDisruptionCards(
+        [alert],
+        { favourites: new Set(['HSL:r2']) },
+        {},
+      );
+      expect(cards).to.have.length(1);
+      expect(cards[0].mode).to.equal('tram');
+    });
+
     it('produces a single card with mode=undefined for an alert with no recognised mode', () => {
       const alert = { id: 'a1', entities: [] };
-      const cards = buildDisruptionCards([alert], [], {});
+      const cards = buildDisruptionCards([alert], {}, {});
       expect(cards).to.have.length(1);
       expect(cards[0]).to.deep.include({ key: 'a1', mode: undefined, alert });
     });
 
     it('still produces a no-mode card even when a mode filter is active', () => {
       const alert = { id: 'a1', entities: [] };
-      const cards = buildDisruptionCards([alert], ['bus'], {});
+      const cards = buildDisruptionCards(
+        [alert],
+        { vehicleModes: ['bus'] },
+        {},
+      );
       expect(cards).to.have.length(1);
       expect(cards[0].mode).to.equal(undefined);
     });
 
     it('returns an empty array when disruptions is empty', () => {
-      expect(buildDisruptionCards([], [], {})).to.deep.equal([]);
+      expect(buildDisruptionCards([], {}, {})).to.deep.equal([]);
     });
   });
 });

@@ -64,8 +64,7 @@ export default function Disruptions() {
   );
 
   const disruptionCards = useMemo(
-    () =>
-      buildDisruptionCards(disruptions, selectedFilters.vehicleModes, config),
+    () => buildDisruptionCards(disruptions, selectedFilters, config),
     [disruptions, selectedFilters.vehicleModes, config],
   );
 

@@ -120,15 +120,24 @@ const getAvailableModes = config =>
 // returned (stops are shown only in the drill-down view). Stop-only modes are
 // returned only when the alert has no routes at all. Modes keep their
 // first-seen order.
-const getAlertModes = (entities, config) => {
+// selectedFilters.entity / selectedFilters.favourites narrow modes to only
+// those whose entity group contains the relevant route or stop.
+const getAlertModes = (entities, config, selectedFilters = {}) => {
   if (!entities) {
     return [];
   }
+  const { entity, favourites } = selectedFilters;
   const routeModes = [];
   const stopModes = [];
   Object.values(groupEntitiesByMode(entities, config)).forEach(
-    ({ mode, isRoute }) => {
+    ({ mode, isRoute, entities: groupEntities }) => {
       if (!mode) {
+        return;
+      }
+      if (entity && !groupEntities.some(e => e.gtfsId === entity.gtfsId)) {
+        return;
+      }
+      if (favourites && !groupEntities.some(e => favourites.has(e.gtfsId))) {
         return;
       }
       const target = isRoute ? routeModes : stopModes;
@@ -140,18 +149,19 @@ const getAlertModes = (entities, config) => {
   return routeModes.length > 0 ? routeModes : stopModes;
 };
 
-// Splits each alert into one card per affected transport mode, optionally
-// filtered to the caller's selectedModes list. Alerts with no recognised mode
-// produce a single card with mode=undefined.
-const buildDisruptionCards = (disruptions, selectedModes, config) =>
+// Splits each alert into one card per affected transport mode, respecting
+// active filters (vehicleModes, entity, favourites). Alerts with no recognised
+// mode produce a single card with mode=undefined.
+const buildDisruptionCards = (disruptions, selectedFilters, config) =>
   disruptions.flatMap(alert => {
-    const allModes = getAlertModes(alert.entities, config);
+    const allModes = getAlertModes(alert.entities, config, selectedFilters);
     if (allModes.length === 0) {
       return [{ key: alert.id, alert, mode: undefined }];
     }
+    const vehicleModes = selectedFilters.vehicleModes ?? [];
     const modes =
-      selectedModes.length > 0
-        ? allModes.filter(m => selectedModes.includes(m.toLowerCase()))
+      vehicleModes.length > 0
+        ? allModes.filter(m => vehicleModes.includes(m.toLowerCase()))
         : allModes;
     return modes.map(mode => ({
       key: `${alert.id}-${mode}`,
