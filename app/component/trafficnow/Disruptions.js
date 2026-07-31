@@ -65,21 +65,24 @@ export default function Disruptions() {
 
   // Split each alert into one card per affected transport mode. Alerts with no
   // recognised mode still produce a single card.
-  const disruptionCards = useMemo(
-    () =>
-      disruptions.flatMap(alert => {
-        const modes = getAlertModes(alert.entities, config);
-        if (modes.length === 0) {
-          return [{ key: alert.id, alert, mode: undefined }];
-        }
-        return modes.map(mode => ({
-          key: `${alert.id}-${mode}`,
-          alert,
-          mode,
-        }));
-      }),
-    [disruptions, config],
-  );
+  const disruptionCards = useMemo(() => {
+    const selectedModes = selectedFilters.vehicleModes;
+    return disruptions.flatMap(alert => {
+      const allModes = getAlertModes(alert.entities, config);
+      if (allModes.length === 0) {
+        return [{ key: alert.id, alert, mode: undefined }];
+      }
+      const modes =
+        selectedModes.length > 0
+          ? allModes.filter(m => selectedModes.includes(m.toLowerCase()))
+          : allModes;
+      return modes.map(mode => ({
+        key: `${alert.id}-${mode}`,
+        alert,
+        mode,
+      }));
+    });
+  }, [disruptions, config, selectedFilters.vehicleModes]);
 
   const mobile = breakpoint !== 'large';
 
