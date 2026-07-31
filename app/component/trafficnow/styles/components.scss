@@ -44,6 +44,17 @@
       gap: var(--space-xxs);
     }
 
+    .badge-container {
+      position: relative;
+      display: inline-flex;
+
+      .fav-icon {
+        position: absolute;
+        top: -8px;
+        right: -4px;
+      }
+    }
+
     a,
     > span {
       display: flex;

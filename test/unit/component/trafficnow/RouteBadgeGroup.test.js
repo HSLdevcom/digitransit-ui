@@ -4,7 +4,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import * as found from 'found';
-import RouteBadgeGroup from '../../../../app/component/trafficnow/components/RouteBadgeGroup';
+import { Component as RouteBadgeGroup } from '../../../../app/component/trafficnow/components/RouteBadgeGroup';
 import Icon from '../../../../app/component/Icon';
 
 const makeRoute = ({
