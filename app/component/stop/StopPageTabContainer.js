@@ -83,8 +83,10 @@ const containerComponent = createFragmentContainer(StopPageTabContainer, {
         ]
       ) {
         tripOnServiceDate {
+          serviceDate
           trip {
             pattern {
+              code
               stops {
                 gtfsId
               }
