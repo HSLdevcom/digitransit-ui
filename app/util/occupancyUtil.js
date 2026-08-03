@@ -50,15 +50,15 @@ export function capacityToTranslationId(status) {
 }
 
 /**
- * Checks that departure is within 10 minutes from now.
+ * Checks that departure is within the configured time window from now.
  *
  * @param {*} departureTime departure time in Unix.
+ * @param {number} windowMinutes size of the visibility window in minutes.
  */
-export function isDepartureWithinTenMinutes(departureTime) {
+export function isDepartureWithinWindow(departureTime, windowMinutes) {
   const now = Date.now();
   const diff = (departureTime - now) / (60 * 1000); // to minutes
-
-  return diff > 0 && diff < 10;
+  return diff > 0 && diff < windowMinutes;
 }
 
 /**
@@ -72,7 +72,10 @@ export function getCapacity(config, occupancyStatus, departureTime) {
     config.useRealtimeTravellerCapacities &&
     occupancyStatus &&
     occupancyStatus !== 'NO_DATA_AVAILABLE' &&
-    isDepartureWithinTenMinutes(departureTime)
+    isDepartureWithinWindow(
+      departureTime,
+      config.realtimeTravellerCapacityWindowMinutes,
+    )
   ) {
     return mapStatus(occupancyStatus);
   }

@@ -547,6 +547,10 @@ export default {
 
   useRealtimeTravellerCapacities: false,
 
+  // How many minutes before departure the
+  // passenger occupancy is shown.
+  realtimeTravellerCapacityWindowMinutes: 15,
+
   aboutThisService: {
     fi: [
       {
