@@ -18,6 +18,21 @@ import {
   LocationTypes,
 } from '../constants';
 
+const statusText = (effectiveStartDate, intl) => {
+  if (!effectiveStartDate) {
+    return intl.formatMessage({ id: 'disruption-list-active' });
+  }
+  const startDate = DateTime.fromSeconds(effectiveStartDate);
+  const now = DateTime.now();
+  if (startDate <= DateTime.now() || startDate.hasSame(now, 'day')) {
+    return intl.formatMessage({ id: 'disruption-list-active' });
+  }
+  if (startDate.hasSame(now.plus({ days: 1 }), 'day')) {
+    return intl.formatMessage({ id: 'tomorrow' });
+  }
+  return startDate.toFormat('ccc d.L.');
+};
+
 export default function Disruption({
   toggleDetails,
   alertDescriptionText,
@@ -59,6 +74,7 @@ export default function Disruption({
   // if startDate not defined, assume the alert is active
   const active =
     !effectiveStartDate || effectiveStartDate <= DateTime.now().toSeconds();
+
   // show status or date of cancelations
   const status = hasCancelations && (
     <span className="disruption-status">
@@ -67,9 +83,7 @@ export default function Disruption({
         color={config.colors.primary}
       />
       <span className="disruption-status-date">
-        {active
-          ? intl.formatMessage({ id: 'disruption-list-active' })
-          : DateTime.fromSeconds(effectiveStartDate).toFormat('ccc d.L.')}
+        {statusText(effectiveStartDate, intl)}
       </span>
     </span>
   );
