@@ -76,7 +76,6 @@ export default {
       'Voit jättää pyörän parkkiin aseman tai pysäkin tuntumaan ja jatkaa matkaasi kätevästi julkisilla',
     'bike-park-disclaimer-header': 'Jätä pyörä parkkiin',
     'bike-station-disabled': 'Pyöräasema ei ole käytössä.',
-    'bikes-available': 'Pyöriä asemalla {amount}',
     'biking-speed': 'Pyöräilynopeus',
     'book-a-lift': 'Tilaa kyyti sovelluksella',
     'booking-method': 'Tilaustapa',

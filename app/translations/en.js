@@ -81,7 +81,6 @@ export default {
       'You can park your bike near the station or stop and continue your journey by public transport',
     'bike-park-disclaimer-header': 'Park your bike',
     'bike-station-disabled': 'The bike station is out of service.',
-    'bikes-available': '{amount} bikes at the station ',
     'biking-speed': 'Biking speed',
     'book-a-lift': 'Use taxis via the app',
     'booking-method': 'Booking method',

@@ -44,7 +44,6 @@ export default {
     bicycle_walk: 'Fahrrad schieben',
     'bike-availability': 'Fahrräder verfügbar',
     'bike-station-disabled': 'Pyöräasema ei ole käytössä.',
-    'bikes-available': 'Fahrräder verfügbar',
     'biking-speed': 'Geschwindigkeit mit dem Fahrrad',
     bus: 'Bus',
     'bus-with-route-number': 'Bus {routeNumber} {headSign}',

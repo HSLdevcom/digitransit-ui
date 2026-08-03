@@ -75,7 +75,6 @@ export default {
       'You can park your bike near the station or stop and continue your journey conveniently by public transport',
     'bike-park-disclaimer-header': 'Zaparkuj rower',
     'bike-station-disabled': 'The bike station is out of service.',
-    'bikes-available': '{amount} rowery na stacji ',
     'biking-speed': 'Prędkość jazdy rowerem',
     bus: 'Autobus',
     'bus-express': 'Trunk bus',

@@ -81,7 +81,6 @@ export default {
       'Du kan lämna cykeln på parkeringen vid stationen eller hållplatsen och fortsätta enkelt din resa med kollektivtrafiken',
     'bike-park-disclaimer-header': 'Lämna din cykel i parkeringen',
     'bike-station-disabled': 'Stadscykelstationen är ur bruk.',
-    'bikes-available': '{amount} cyklar vid stationen',
     'biking-speed': 'Cykling hastighet',
     'book-a-lift': 'Beställ skjuts med appen',
     'booking-method': 'Beställningssätt',

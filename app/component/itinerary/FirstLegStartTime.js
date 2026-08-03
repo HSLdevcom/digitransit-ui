@@ -2,15 +2,14 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { legTimeStr, isBikeOrScooterRentalLeg } from '../../util/legUtils';
 import {
-  BIKEAVL_UNKNOWN,
-  getVehicleCapacity,
-} from '../../util/vehicleRentalUtils';
+  legTimeStr,
+  isBikeOrScooterRentalLeg,
+  isScooterLeg,
+} from '../../util/legUtils';
 import { getFirstDepartureStopTypeText } from '../../util/localeUtils';
 import Icon from '../Icon';
 import BoardingInformation from './BoardingInformation';
-import { useConfigContext } from '../../configurations/ConfigContext';
 import { legShape } from '../../util/shapes';
 
 const FirstLegStartTime = ({
@@ -20,7 +19,6 @@ const FirstLegStartTime = ({
   stopNames,
 }) => {
   const intl = useIntl();
-  const config = useConfigContext();
   const small = breakpoint !== 'large';
 
   if (hasCallAgencyLeg) {
@@ -37,38 +35,31 @@ const FirstLegStartTime = ({
   }
 
   if (isBikeOrScooterRentalLeg(firstDeparture)) {
+    const firstDepartureTime = (
+      <span
+        className={cx('start-time', {
+          realtime: firstDeparture.realTime,
+        })}
+      >
+        {legTimeStr(firstDeparture.start)}
+      </span>
+    );
     return (
       <div className={cx('itinerary-first-leg-start-time', { small })}>
-        <FormattedMessage
-          id="itinerary-summary-row.first-leg-start-time-citybike"
-          values={{
-            firstDepartureTime: (
-              <span
-                className={cx('start-time', {
-                  realtime: firstDeparture.realTime,
-                })}
-              >
-                {legTimeStr(firstDeparture.start)}
-              </span>
-            ),
-            firstDepartureStop: firstDeparture.from.name,
-          }}
-        />
-        <div>
-          {getVehicleCapacity(
-            config,
-            firstDeparture.from.vehicleRentalStation.rentalNetwork.networkId,
-          ) !== BIKEAVL_UNKNOWN && (
-            <FormattedMessage
-              id="bikes-available"
-              values={{
-                amount:
-                  firstDeparture.from.vehicleRentalStation.availableVehicles
-                    .total,
-              }}
-            />
-          )}
-        </div>
+        {isScooterLeg(firstDeparture) ? (
+          <FormattedMessage
+            id="itinerary-summary-row.first-leg-start-time-scooter"
+            values={{ firstDepartureTime }}
+          />
+        ) : (
+          <FormattedMessage
+            id="itinerary-summary-row.first-leg-start-time-citybike"
+            values={{
+              firstDepartureTime,
+              firstDepartureStop: firstDeparture.from.name,
+            }}
+          />
+        )}
       </div>
     );
   }
