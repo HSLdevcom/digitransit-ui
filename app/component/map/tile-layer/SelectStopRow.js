@@ -61,9 +61,10 @@ function SelectStopRow({
     alertSeverityLevel,
   });
 
-  let status;
-  let alertEffects;
+  const ownAlertEffects = [...new Set(parseEffects(alertEffectsProp))];
+  const alertEffects = ownAlertEffects.length > 0 ? ownAlertEffects : null;
 
+  let status;
   if (hybridSiblingProperties) {
     const siblingStatus = getStopStatus({
       showStopStatusMarkers: config.showStopStatusMarkers,
@@ -74,17 +75,8 @@ function SelectStopRow({
       alertSeverityLevel: hybridSiblingProperties.alertSeverityLevel,
     });
     status = combineStopStatuses(ownStatus, siblingStatus);
-    const combined = [
-      ...new Set([
-        ...parseEffects(alertEffectsProp),
-        ...parseEffects(hybridSiblingProperties.alertEffects),
-      ]),
-    ];
-    alertEffects = combined.length > 0 ? combined : null;
   } else {
     status = ownStatus;
-    const effects = [...new Set(parseEffects(alertEffectsProp))];
-    alertEffects = effects.length > 0 ? effects : null;
   }
   return (
     <Link className="stop-popup-choose-row" to={stopPagePath(terminal, gtfsId)}>
