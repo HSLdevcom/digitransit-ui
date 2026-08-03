@@ -21,6 +21,8 @@ function StopPageMapContainer({ stop = undefined }) {
     stop,
     nowUnixTime,
     showStopStatusMarkers: config.showStopStatusMarkers,
+    servicesRunningOnServiceDate: (stop.serviceToday || []).length > 0,
+    servicesRunningInFuture: (stop.stoptimesWithoutPatterns || []).length > 0,
   });
   const stopAlertEffects =
     stopStatus === STOP_STATUS.ALERT || stopStatus === STOP_STATUS.INFO

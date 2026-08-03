@@ -86,6 +86,11 @@ export default function getStopStatus({
   return severityToStatus(alertSeverityLevel);
 }
 
+/** Returns true when any active alert closes the stop entirely. */
+export function isClosedByServiceAlert(activeAlerts) {
+  return activeAlerts.some(a => a.alertEffect === 'NO_SERVICE');
+}
+
 /**
  * Statuses drawn with a red icon (out of service or a warning/severe alert).
  */
@@ -183,8 +188,10 @@ export const STOP_STATUS_BADGE_IMGS = {
  * 1. Stop closed by a NO_SERVICE alert: `OUT_OF_SERVICE`
  * 2. No departures in the next 90 days: `OUT_OF_SERVICE`
  * 3. Active ALERT-tier alert (WARNING/SEVERE): `ALERT` with severity-filtered effects
- * 4. Fallback: `NO_SERVICE_TODAY` — INFO-level alerts do not override the service
- *    calendar; only ALERT-tier alerts (step 3) can.
+ * 4. Fallback: `NO_SERVICE_TODAY`
+ *
+ * INFO-level alerts intentionally do not appear here; the INFO status is
+ * map-only (shown on the stop icon via `getStopStatus`).
  *
  * @param {Array} alerts the stop's alerts
  * @param {number} currentTime reference unix time (seconds) for alert validity
@@ -204,10 +211,7 @@ export function resolveNoDeparturesBadge(
     return { stopStatus: null, badgeImg: null, alertEffects: null };
   }
   const activeAlerts = (alerts || []).filter(a => isAlertValid(a, currentTime));
-  const closedByServiceAlert = activeAlerts.some(
-    a => a.alertEffect === 'NO_SERVICE',
-  );
-  if (closedByServiceAlert) {
+  if (isClosedByServiceAlert(activeAlerts)) {
     return {
       stopStatus: STOP_STATUS.OUT_OF_SERVICE,
       badgeImg: STOP_STATUS_BADGE_IMGS[STOP_STATUS.OUT_OF_SERVICE],
@@ -250,15 +254,19 @@ export function resolveNoDeparturesBadge(
  * calendar; here it is approximated by checking for any upcoming departure.
  *
  * @param {object} params
- * @param {object} params.stop the stop GraphQL data (alerts, stoptimes)
+ * @param {object} params.stop the stop GraphQL data (must include `alerts`)
  * @param {number} params.nowUnixTime reference unix time (seconds) for alert validity
  * @param {boolean} params.showStopStatusMarkers whether the config enables stop status markers
+ * @param {boolean} params.servicesRunningOnServiceDate whether any departure exists for today's service date
+ * @param {boolean} params.servicesRunningInFuture whether any departure exists in the next ~90 days
  * @returns {string|null} one of STOP_STATUS values or null when no status applies
  */
 export function getStopStatusFromStopData({
   stop,
   nowUnixTime,
   showStopStatusMarkers,
+  servicesRunningOnServiceDate,
+  servicesRunningInFuture,
 }) {
   if (!showStopStatusMarkers || !stop) {
     return null;
@@ -266,16 +274,10 @@ export function getStopStatusFromStopData({
   const activeAlerts = (stop.alerts || []).filter(
     alert => alert && isAlertValid(alert, nowUnixTime),
   );
-  const closedByServiceAlert = activeAlerts.some(
-    alert => alert.alertEffect === 'NO_SERVICE',
-  );
-  const servicesRunningOnServiceDate = (stop.serviceToday || []).length > 0;
-  const servicesRunningInFuture =
-    (stop.stoptimesWithoutPatterns || []).length > 0;
 
   return getStopStatus({
     showStopStatusMarkers,
-    closedByServiceAlert,
+    closedByServiceAlert: isClosedByServiceAlert(activeAlerts),
     servicesRunningOnServiceDate,
     servicesRunningInFuture,
     alertSeverityLevel: getMaximumAlertSeverityLevel(activeAlerts),

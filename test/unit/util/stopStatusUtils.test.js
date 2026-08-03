@@ -143,13 +143,11 @@ describe('stopStatusUtils', () => {
 
     it('returns a null status when stop status markers are disabled', () => {
       const result = getStopStatusFromStopData({
-        stop: {
-          alerts: [],
-          serviceToday: [],
-          stoptimesWithoutPatterns: [],
-        },
+        stop: { alerts: [] },
         nowUnixTime: NOW,
         showStopStatusMarkers: false,
+        servicesRunningOnServiceDate: false,
+        servicesRunningInFuture: false,
       });
       expect(result).to.equal(null);
     });
@@ -159,6 +157,8 @@ describe('stopStatusUtils', () => {
         stop: null,
         nowUnixTime: NOW,
         showStopStatusMarkers: true,
+        servicesRunningOnServiceDate: false,
+        servicesRunningInFuture: false,
       });
       expect(result).to.equal(null);
     });
@@ -173,11 +173,11 @@ describe('stopStatusUtils', () => {
               effectiveEndDate: NOW + 100,
             },
           ],
-          serviceToday: [{ serviceDay: NOW }],
-          stoptimesWithoutPatterns: [{ serviceDay: NOW }],
         },
         nowUnixTime: NOW,
         showStopStatusMarkers: true,
+        servicesRunningOnServiceDate: true,
+        servicesRunningInFuture: true,
       });
       expect(result).to.equal(STOP_STATUS.OUT_OF_SERVICE);
     });
@@ -192,37 +192,33 @@ describe('stopStatusUtils', () => {
               effectiveEndDate: NOW - 100,
             },
           ],
-          serviceToday: [{ serviceDay: NOW }],
-          stoptimesWithoutPatterns: [{ serviceDay: NOW }],
         },
         nowUnixTime: NOW,
         showStopStatusMarkers: true,
+        servicesRunningOnServiceDate: true,
+        servicesRunningInFuture: true,
       });
       expect(result).to.equal(null);
     });
 
     it('returns OUT_OF_SERVICE when there are no departures today or in the future', () => {
       const result = getStopStatusFromStopData({
-        stop: {
-          alerts: [],
-          serviceToday: [],
-          stoptimesWithoutPatterns: [],
-        },
+        stop: { alerts: [] },
         nowUnixTime: NOW,
         showStopStatusMarkers: true,
+        servicesRunningOnServiceDate: false,
+        servicesRunningInFuture: false,
       });
       expect(result).to.equal(STOP_STATUS.OUT_OF_SERVICE);
     });
 
     it('returns NO_SERVICE_TODAY when there are no departures today but some in the future', () => {
       const result = getStopStatusFromStopData({
-        stop: {
-          alerts: [],
-          serviceToday: [],
-          stoptimesWithoutPatterns: [{ serviceDay: NOW }],
-        },
+        stop: { alerts: [] },
         nowUnixTime: NOW,
         showStopStatusMarkers: true,
+        servicesRunningOnServiceDate: false,
+        servicesRunningInFuture: true,
       });
       expect(result).to.equal(STOP_STATUS.NO_SERVICE_TODAY);
     });
@@ -238,24 +234,22 @@ describe('stopStatusUtils', () => {
               effectiveEndDate: NOW + 100,
             },
           ],
-          serviceToday: [{ serviceDay: NOW }],
-          stoptimesWithoutPatterns: [{ serviceDay: NOW }],
         },
         nowUnixTime: NOW,
         showStopStatusMarkers: true,
+        servicesRunningOnServiceDate: true,
+        servicesRunningInFuture: true,
       });
       expect(result).to.equal(STOP_STATUS.ALERT);
     });
 
     it('returns a null status when departures run today even if none run in the future', () => {
       const result = getStopStatusFromStopData({
-        stop: {
-          alerts: [],
-          serviceToday: [{ serviceDay: NOW }],
-          stoptimesWithoutPatterns: [],
-        },
+        stop: { alerts: [] },
         nowUnixTime: NOW,
         showStopStatusMarkers: true,
+        servicesRunningOnServiceDate: true,
+        servicesRunningInFuture: false,
       });
       expect(result).to.equal(null);
     });

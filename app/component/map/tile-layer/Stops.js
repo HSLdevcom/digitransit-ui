@@ -79,9 +79,9 @@ class Stops {
   static getName = () => 'stop';
 
   drawStop(feature, isHybrid, zoom, minZoom) {
-    const isHighlighted =
-      this.tile.highlightedStops &&
-      this.tile.highlightedStops.includes(feature.properties.gtfsId);
+    const isHighlighted = !!this.tile.highlightedStops?.includes(
+      feature.properties.gtfsId,
+    );
 
     const routes = JSON.parse(feature.properties.routes);
     const mode = getStopMode(
@@ -108,7 +108,7 @@ class Stops {
               this.config.showStopStatusMarkers,
             )
           : null;
-        drawHybridStopIcon(
+        return drawHybridStopIcon(
           this.tile,
           feature.geom,
           isHighlighted,
@@ -116,34 +116,34 @@ class Stops {
           mode === 'bus-express',
           combineStopStatuses(ownStatus, siblingStatus),
         );
-        return;
       }
       const stopStatus = getStopStatusForProperties(
         feature.properties,
         this.config.showStopStatusMarkers,
       );
       if (isHighlighted && zoom <= minZoom) {
-        // Fetch stop details only when stop is highlighted and realtime layer is not used (zoom level)
+        // Fetch stop details only when stop is highlighted and realtime layer is not used (zoom level).
         this.drawHighlighted(feature, mode, isHighlighted, stopStatus);
-      } else {
-        drawStopIcon(
-          this.tile,
-          feature.geom,
-          mode,
-          !isNull(feature.properties.platform)
-            ? feature.properties.platform
-            : false,
-          isHighlighted,
-          !!(
-            feature.properties.type === 'FERRY' &&
-            this.config.externalFerryByStopCode &&
-            !isNull(feature.properties.code)
-          ),
-          this.config,
-          stopStatus,
-        );
+        return Promise.resolve();
       }
+      return drawStopIcon(
+        this.tile,
+        feature.geom,
+        mode,
+        !isNull(feature.properties.platform)
+          ? feature.properties.platform
+          : false,
+        isHighlighted,
+        !!(
+          feature.properties.type === 'FERRY' &&
+          this.config.externalFerryByStopCode &&
+          !isNull(feature.properties.code)
+        ),
+        this.config,
+        stopStatus,
+      );
     }
+    return Promise.resolve();
   }
 
   stopsToShowCheck(feature, isStation) {
@@ -181,12 +181,11 @@ class Stops {
           this.features = [];
 
           // draw highlighted stops on lower zoom levels
-          const hasHighlightedStops = !!(
-            this.tile.highlightedStops &&
-            this.tile.highlightedStops.length &&
-            this.tile.highlightedStops[0]
-          );
+          const hasHighlightedStops = !!this.tile.highlightedStops?.length;
           const stopLayer = vt.layers.stops || vt.layers.realtimeStops;
+          // Sequential draw chain returned so TileContainer waits for all
+          // badge draws before calling drawHighlightedOnTop().
+          let drawChain = Promise.resolve();
 
           if (
             stopLayer != null &&
@@ -214,10 +213,7 @@ class Stops {
                 if (
                   // if under zoom level limit, only draw highlighted stops on near you page
                   this.tile.coords.z < this.config.stopsMinZoom &&
-                  !(
-                    hasHighlightedStops &&
-                    this.tile.highlightedStops.includes(f.properties.gtfsId)
-                  )
+                  !this.tile.highlightedStops?.includes(f.properties.gtfsId)
                 ) {
                   continue; // eslint-disable-line no-continue
                 }
@@ -226,9 +222,9 @@ class Stops {
                   this.mergeStops &&
                   this.config.mergeStopsByCode
                 ) {
-                  /* a stop may be represented multiple times in data, once for each transport mode
-                     Latest stop erares underlying ones unless the stop marker size is adjusted accordingly.
-                     Currently we expand the first marker so that double stops are visialized nicely.
+                  /* a stop may be represented multiple times in data, once for each transport mode.
+                     The latest stop erases underlying ones unless the stop marker size is adjusted accordingly.
+                     Currently we expand the first marker so that double stops are visualized nicely.
                    */
                   const prevFeature = featureByCode[f.properties.code];
                   if (!prevFeature) {
@@ -255,8 +251,7 @@ class Stops {
                       featWithBus.properties;
                     // Also change highlighted stopId to the stop with type = BUS in hybrid stop cases
                     if (
-                      this.tile.highlightedStops &&
-                      this.tile.highlightedStops.includes(
+                      this.tile.highlightedStops?.includes(
                         featWithoutBus.properties.gtfsId,
                       )
                     ) {
@@ -271,19 +266,21 @@ class Stops {
                 }
               }
             }
-            // sort to draw in correct order; draw highlighted stops last so they appear on top
+            // Non-highlighted stops drawn sequentially (top-to-bottom) so each
+            // stop's badge completes before the next icon starts; highlighted stops
+            // are deferred to drawHighlightedOnTop() so they always paint last.
+            // Built after the feature loop because highlightedStops may be mutated (hybrid stop swap).
+            const highlightedSet = new Set(this.tile.highlightedStops || []);
+            const highlightedEntries = [];
+
             this.features
               .sort((a, b) => {
-                const aHighlighted =
-                  this.tile.highlightedStops &&
-                  this.tile.highlightedStops.includes(a.properties.gtfsId)
-                    ? 1
-                    : 0;
-                const bHighlighted =
-                  this.tile.highlightedStops &&
-                  this.tile.highlightedStops.includes(b.properties.gtfsId)
-                    ? 1
-                    : 0;
+                const aHighlighted = highlightedSet.has(a.properties.gtfsId)
+                  ? 1
+                  : 0;
+                const bHighlighted = highlightedSet.has(b.properties.gtfsId)
+                  ? 1
+                  : 0;
                 if (aHighlighted !== bHighlighted) {
                   return aHighlighted - bHighlighted;
                 }
@@ -293,16 +290,20 @@ class Stops {
                 /* Note: don't expand separate stops sharing the same code,
                  unless type is different and location actually overlaps. */
                 const hybridId = hybridGtfsIdByCode[f.properties.code];
-                const draw = !hybridId || hybridId === f.properties.gtfsId;
-                if (draw) {
-                  this.drawStop(
-                    f,
-                    !!hybridId,
-                    this.tile.coords.z,
-                    this.config.stopsMinZoom,
-                  );
+                if (!hybridId || hybridId === f.properties.gtfsId) {
+                  if (highlightedSet.has(f.properties.gtfsId)) {
+                    highlightedEntries.push({ f, hybridId });
+                  } else {
+                    const { coords } = this.tile;
+                    const { stopsMinZoom } = this.config;
+                    drawChain = drawChain.then(() =>
+                      this.drawStop(f, !!hybridId, coords.z, stopsMinZoom),
+                    );
+                  }
                 }
               });
+
+            this.highlightedEntries = highlightedEntries;
           }
           if (
             vt.layers.stations != null &&
@@ -327,11 +328,9 @@ class Stops {
                 this.stopsToShowCheck(feature, true)
               ) {
                 [[feature.geom]] = feature.loadGeometry();
-                const isHighlighted =
-                  this.tile.highlightedStops &&
-                  this.tile.highlightedStops.includes(
-                    feature.properties.gtfsId,
-                  );
+                const isHighlighted = !!this.tile.highlightedStops?.includes(
+                  feature.properties.gtfsId,
+                );
                 this.features.unshift(pick(feature, ['geom', 'properties']));
                 if (
                   isHybridStation &&
@@ -374,10 +373,29 @@ class Stops {
               }
             }
           }
+          return drawChain;
         },
         err => console.log(err), // eslint-disable-line no-console
       );
     });
+  }
+
+  drawHighlightedOnTop() {
+    if (!this.highlightedEntries?.length) {
+      return Promise.resolve();
+    }
+    return this.highlightedEntries.reduce(
+      (chain, { f, hybridId }) =>
+        chain.then(() =>
+          this.drawStop(
+            f,
+            !!hybridId,
+            this.tile.coords.z,
+            this.config.stopsMinZoom,
+          ),
+        ),
+      Promise.resolve(),
+    );
   }
 
   drawHighlighted = (feature, mode, isHighlighted, stopStatus) => {

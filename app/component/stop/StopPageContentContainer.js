@@ -4,23 +4,17 @@ import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { useIntl } from 'react-intl';
 import { matchShape } from 'found';
-import {
-  configShape,
-  errorShape,
-  relayShape,
-  stopShape,
-} from '../../util/shapes';
+import { errorShape, relayShape, stopShape } from '../../util/shapes';
 import DepartureListContainer from '../DepartureListContainer';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { getPrimaryStopMode } from '../../util/modeUtils';
 import { getModeIconColor } from '../../util/colorUtils';
 import StopServiceStatusBanner from './StopServiceStatusBanner';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
-function StopPageContent(
-  { stop, relay, currentTime, error, match },
-  { config },
-) {
+function StopPageContent({ stop, relay, currentTime, error, match }) {
   const intl = useIntl();
+  const config = useConfigContext();
   if (!stop && error) {
     throw error.message;
   }
@@ -105,10 +99,6 @@ StopPageContent.propTypes = {
 
 StopPageContent.defaultProps = {
   error: undefined,
-};
-
-StopPageContent.contextTypes = {
-  config: configShape.isRequired,
 };
 
 const connectedComponent = createRefetchContainer(

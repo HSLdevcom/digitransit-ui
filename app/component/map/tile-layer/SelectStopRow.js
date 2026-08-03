@@ -16,6 +16,14 @@ function isNull(val) {
   return val === 'null' || val === undefined || val === null;
 }
 
+const parseEffects = str =>
+  str && str !== 'null'
+    ? str
+        .split(',')
+        .map(e => e.trim())
+        .filter(Boolean)
+    : [];
+
 function SelectStopRow({
   code = undefined,
   type,
@@ -52,14 +60,6 @@ function SelectStopRow({
     servicesRunningInFuture,
     alertSeverityLevel,
   });
-
-  const parseEffects = str =>
-    str && str !== 'null'
-      ? str
-          .split(',')
-          .map(e => e.trim())
-          .filter(Boolean)
-      : [];
 
   let status;
   let alertEffects;

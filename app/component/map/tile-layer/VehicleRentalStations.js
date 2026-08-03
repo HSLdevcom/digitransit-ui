@@ -92,12 +92,16 @@ class VehicleRentalStations {
 
             if (this.features.length === 0) {
               this.canHaveStationUpdates = false;
-            } else {
-              // if zoomed out and there is a highlighted station,
-              // this value will be later reset to true
-              this.canHaveStationUpdates = zoomedIn;
-              this.features.forEach(feature => this.draw(feature, zoomedIn));
+              return undefined;
             }
+            // if zoomed out and there is a highlighted station,
+            // this value will be later reset to true
+            this.canHaveStationUpdates = zoomedIn;
+            // Await promises to ensure that the highlighted stops are always drawn on top.
+            const drawPromises = this.features.map(feature =>
+              this.draw(feature, zoomedIn),
+            );
+            return Promise.all(drawPromises.filter(Boolean));
           },
           err => console.log(err), // eslint-disable-line no-console
         );
@@ -128,13 +132,15 @@ class VehicleRentalStations {
     }
 
     if (zoomedIn) {
-      this.drawLargeIcon(feature, name, color, isHighlighted);
-    } else if (isHighlighted) {
+      return this.drawLargeIcon(feature, name, color, isHighlighted);
+    }
+    if (isHighlighted) {
       this.canHaveStationUpdates = true;
       this.drawHighlighted(feature, name, color);
     } else {
       drawSmallVehicleRentalMarker(this.tile, feature.geom, color, formFactors);
     }
+    return undefined;
   };
 
   drawLargeIcon = (
@@ -145,7 +151,7 @@ class VehicleRentalStations {
   ) => {
     const citybikeCapacity = getVehicleCapacity(this.config, network);
 
-    drawCitybikeIcon(
+    return drawCitybikeIcon(
       this.tile,
       geom,
       operative,

@@ -129,4 +129,83 @@ describe('<StopServiceStatusBanner />', () => {
       );
     });
   });
+
+  describe('with-departures mode (non-empty stoptimes)', () => {
+    const futureStoptime = { serviceDay: 2000 }; // > currentTime (1000)
+    const todayStoptime = { serviceDay: 0 }; // < currentTime (1000)
+
+    it('returns null when showStopStatusMarkers is false', () => {
+      const wrapper = render({ stoptimes: [futureStoptime] });
+      expect(wrapper.type()).to.equal(null);
+    });
+
+    it('returns null when any stoptime is from today (serviceDay < currentTime)', () => {
+      const wrapper = render(
+        { stoptimes: [todayStoptime] },
+        { ...baseConfig, showStopStatusMarkers: true },
+      );
+      expect(wrapper.type()).to.equal(null);
+    });
+
+    it('returns null when stoptimes include any today-stoptime alongside future stoptimes', () => {
+      // some() short-circuits: one today stoptime suppresses the banner even when others are future
+      const wrapper = render(
+        { stoptimes: [todayStoptime, futureStoptime], alerts: [] },
+        { ...baseConfig, showStopStatusMarkers: true },
+      );
+      expect(wrapper.type()).to.equal(null);
+    });
+
+    it('renders the status banner for future-day stoptimes with markers enabled', () => {
+      const wrapper = render(
+        { stoptimes: [futureStoptime], alerts: [] },
+        { ...baseConfig, showStopStatusMarkers: true },
+      );
+      expect(wrapper.find('.stop-service-status-banner')).to.have.lengthOf(1);
+    });
+
+    it('shows NO_SERVICE_TODAY badge when there are no active alerts', () => {
+      const wrapper = render(
+        { stoptimes: [futureStoptime], alerts: [] },
+        { ...baseConfig, showStopStatusMarkers: true },
+      );
+      expect(
+        wrapper.find(Icon).filter('.stop-no-departures-badge').prop('img'),
+      ).to.equal('icon_stop-temporarily-closed-badge');
+      expect(wrapper.find(StopScheduleStatus).prop('status')).to.equal(
+        STOP_STATUS.NO_SERVICE_TODAY,
+      );
+    });
+
+    it('shows NO_SERVICE_TODAY rather than OUT_OF_SERVICE regardless of the servicesRunningInFuture prop', () => {
+      // banner mode hardcodes servicesRunningInFuture=true because stoptimes are present
+      const wrapper = render(
+        {
+          stoptimes: [futureStoptime],
+          alerts: [],
+          servicesRunningInFuture: false,
+        },
+        { ...baseConfig, showStopStatusMarkers: true },
+      );
+      expect(wrapper.find(StopScheduleStatus).prop('status')).to.equal(
+        STOP_STATUS.NO_SERVICE_TODAY,
+      );
+    });
+
+    it('shows caution badge and ALERT when a warning alert is active with future stoptimes', () => {
+      const wrapper = render(
+        {
+          stoptimes: [futureStoptime],
+          alerts: [makeAlert(AlertSeverityLevelType.Warning, 'DETOUR')],
+        },
+        { ...baseConfig, showStopStatusMarkers: true },
+      );
+      expect(
+        wrapper.find(Icon).filter('.stop-no-departures-badge').prop('img'),
+      ).to.equal('icon_caution-badge');
+      expect(wrapper.find(StopScheduleStatus).prop('status')).to.equal(
+        STOP_STATUS.ALERT,
+      );
+    });
+  });
 });

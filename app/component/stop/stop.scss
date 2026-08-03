@@ -113,7 +113,7 @@
   flex: 1 0 6em;
   flex-direction: column;
   text-align: center;
-  padding-top: 68px;
+  padding-top: var(--space-fixed-xxl);
   min-height: 50vh;
 
   @media print {
@@ -154,6 +154,7 @@
   .stop-schedule-status {
     &.no-service-today,
     &.out-of-service,
+    &.alert,
     &.info {
       padding: var(--space-s) 0 0 0;
       border-radius: 0;
@@ -171,7 +172,7 @@
   display: flex;
   flex-direction: column;
   text-align: center;
-  padding: var(--space-xl) 0;
+  padding: var(--space-fixed-xxl);
 }
 
 .stop-scroll-container {

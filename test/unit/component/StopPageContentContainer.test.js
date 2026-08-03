@@ -28,7 +28,7 @@ const render = (stopProps, config = baseConfig) =>
       {...baseProps}
       stop={{ routes: [], ...stopProps }}
     />,
-    { context: { config } },
+    { config },
   );
 
 describe('<StopPageContentContainer />', () => {
@@ -45,13 +45,6 @@ describe('<StopPageContentContainer />', () => {
     expect(
       wrapper.find(StopServiceStatusBanner).prop('servicesRunningInFuture'),
     ).to.equal(false);
-  });
-
-  it('passes servicesRunningInFuture=true when futureStoptimes has entries', () => {
-    const wrapper = render({ futureStoptimes: [{ serviceDay: 2000 }] });
-    expect(
-      wrapper.find(StopServiceStatusBanner).prop('servicesRunningInFuture'),
-    ).to.equal(true);
   });
 
   it('shows the departure list when stoptimes are present', () => {

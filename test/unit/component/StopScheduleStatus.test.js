@@ -60,11 +60,11 @@ describe('<StopScheduleStatus />', () => {
     );
   });
 
-  it('renders each effect as a separate label when multiple alertEffects are present', () => {
+  it('deduplicates repeated effects and renders one label per unique effect', () => {
     const wrapper = shallowWithIntl(
       <StopScheduleStatus
         status={STOP_STATUS.ALERT}
-        alertEffects={['DETOUR', 'SIGNIFICANT_DELAYS']}
+        alertEffects={['DETOUR', 'DETOUR', 'SIGNIFICANT_DELAYS']}
       />,
     );
     const labels = wrapper.find('.stop-schedule-status__effect');
