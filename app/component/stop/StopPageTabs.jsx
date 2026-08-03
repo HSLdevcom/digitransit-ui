@@ -65,8 +65,15 @@ function StopPageTabs({ stop }, { match }) {
     stop.canceledCalls,
     stop.stops ? stop.stops.map(({ gtfsId }) => gtfsId) : [stop.gtfsId],
   );
+
+  const canceledCallsByPattern = Object.groupBy(
+    canceledCalls,
+    ({ tripOnServiceDate }) =>
+      tripOnServiceDate.trip.pattern.code + tripOnServiceDate.serviceDate,
+  );
+
   const alertsCount =
-    getUniqueAlerts(alerts).length + (canceledCalls.length > 0 ? 1 : 0);
+    getUniqueAlerts(alerts).length + Object.keys(canceledCallsByPattern).length;
 
   let disruptionClassName;
   let disruptionIcon;
