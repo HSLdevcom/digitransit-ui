@@ -39,13 +39,11 @@ describe('<StopScheduleStatus />', () => {
     );
   });
 
-  it('renders the status message id (not disruption-badge) when status is ALERT but alertEffects is empty', () => {
+  it('returns null when status is ALERT but alertEffects is empty', () => {
     const wrapper = shallowWithIntl(
       <StopScheduleStatus status={STOP_STATUS.ALERT} alertEffects={[]} />,
     );
-    expect(wrapper.find('FormattedMessage').prop('id')).to.equal(
-      STOP_STATUS_MESSAGE_IDS[STOP_STATUS.ALERT],
-    );
+    expect(wrapper.type()).to.equal(null);
   });
 
   it('renders disruption-badge-* message id when status is INFO and alertEffects are present', () => {

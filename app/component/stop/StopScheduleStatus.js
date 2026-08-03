@@ -36,6 +36,11 @@ export default function StopScheduleStatus({
     isAlertStatus && alertEffects && alertEffects.length > 0
       ? [...new Set(alertEffects.map(e => e.toLowerCase()))]
       : null;
+
+  if (isAlertStatus && !effects) {
+    return null;
+  }
+
   return (
     <span
       className={cx('stop-schedule-status', { [status]: !effects }, className)}
