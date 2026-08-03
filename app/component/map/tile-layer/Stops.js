@@ -179,6 +179,7 @@ class Stops {
         buf => {
           const vt = new VectorTile(new Protobuf(buf));
           this.features = [];
+          this.highlightedStationEntries = [];
 
           // draw highlighted stops on lower zoom levels
           const hasHighlightedStops = !!this.tile.highlightedStops?.length;
@@ -337,12 +338,22 @@ class Stops {
                   (isHighlighted ||
                     this.tile.coords.z >= this.config.terminalStopsMinZoom)
                 ) {
-                  drawHybridStationIcon(
-                    this.tile,
-                    feature.geom,
-                    isHighlighted,
-                    this.config,
-                  );
+                  const { geom } = feature;
+                  if (isHighlighted) {
+                    this.highlightedStationEntries.push({
+                      geom,
+                      isHybrid: true,
+                    });
+                  } else {
+                    drawChain = drawChain.then(() =>
+                      drawHybridStationIcon(
+                        this.tile,
+                        geom,
+                        false,
+                        this.config,
+                      ),
+                    );
+                  }
                 }
                 if (
                   !isHybridStation &&
@@ -362,13 +373,20 @@ class Stops {
                     this.config,
                     true,
                   );
-                  drawTerminalIcon(
-                    this.tile,
-                    feature.geom,
-                    mode,
-                    isHighlighted,
-                    this.config,
-                  );
+                  const { geom } = feature;
+                  if (isHighlighted) {
+                    this.highlightedStationEntries.push({ geom, mode });
+                  } else {
+                    drawChain = drawChain.then(() =>
+                      drawTerminalIcon(
+                        this.tile,
+                        geom,
+                        mode,
+                        false,
+                        this.config,
+                      ),
+                    );
+                  }
                 }
               }
             }
@@ -381,21 +399,31 @@ class Stops {
   }
 
   drawHighlightedOnTop() {
-    if (!this.highlightedEntries?.length) {
-      return Promise.resolve();
-    }
-    return this.highlightedEntries.reduce(
-      (chain, { f, hybridId }) =>
-        chain.then(() =>
-          this.drawStop(
-            f,
-            !!hybridId,
-            this.tile.coords.z,
-            this.config.stopsMinZoom,
-          ),
-        ),
-      Promise.resolve(),
-    );
+    const stopChain = this.highlightedEntries?.length
+      ? this.highlightedEntries.reduce(
+          (chain, { f, hybridId }) =>
+            chain.then(() =>
+              this.drawStop(
+                f,
+                !!hybridId,
+                this.tile.coords.z,
+                this.config.stopsMinZoom,
+              ),
+            ),
+          Promise.resolve(),
+        )
+      : Promise.resolve();
+    return this.highlightedStationEntries?.length
+      ? this.highlightedStationEntries.reduce(
+          (chain, { geom, mode, isHybrid }) =>
+            chain.then(() =>
+              isHybrid
+                ? drawHybridStationIcon(this.tile, geom, true, this.config)
+                : drawTerminalIcon(this.tile, geom, mode, true, this.config),
+            ),
+          stopChain,
+        )
+      : stopChain;
   }
 
   drawHighlighted = (feature, mode, isHighlighted, stopStatus) => {

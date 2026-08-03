@@ -713,21 +713,27 @@ export function drawTerminalIcon(tile, geom, mode, isHighlighted, config) {
   const zoom = tile.coords.z - 1;
   const styles = getTerminalIconStyles(zoom);
   if (!styles) {
-    return;
+    return Promise.resolve();
   }
   let { width, height } = styles;
   width *= tile.scaleratio;
   height *= tile.scaleratio;
   const color = getModeIconColor(config, mode);
   const iconName = transitIconName(mode, false);
-  getImageFromSpriteCache(iconName, width, height, color).then(image => {
-    tile.ctx.drawImage(
-      image,
-      geom.x / tile.ratio - width / 2,
-      geom.y / tile.ratio - height / 2,
-    );
-  });
-  if (isHighlighted) {
+  const drawBase = getImageFromSpriteCache(iconName, width, height, color).then(
+    image => {
+      tile.ctx.drawImage(
+        image,
+        geom.x / tile.ratio - width / 2,
+        geom.y / tile.ratio - height / 2,
+      );
+    },
+  );
+  if (!isHighlighted) {
+    return drawBase;
+  }
+  // Draw highlight ring after the icon
+  return drawBase.then(() =>
     getImageFromSpriteCache(`icon_station_highlight`, width, height).then(
       image => {
         tile.ctx.drawImage(
@@ -738,8 +744,8 @@ export function drawTerminalIcon(tile, geom, mode, isHighlighted, config) {
           height + 8 / tile.scaleratio,
         );
       },
-    );
-  }
+    ),
+  );
 }
 
 /**
@@ -749,20 +755,28 @@ export function drawHybridStationIcon(tile, geom, isHighlighted) {
   const zoom = tile.coords.z - 1;
   const styles = getTerminalIconStyles(zoom);
   if (!styles) {
-    return;
+    return Promise.resolve();
   }
   let { width, height } = styles;
   width *= tile.scaleratio * 1.5;
   height *= tile.scaleratio * 1.5;
   // only bus/tram hybrid exist
-  getImageFromSpriteCache('icon_hybrid_station', width, height).then(image => {
+  const drawBase = getImageFromSpriteCache(
+    'icon_hybrid_station',
+    width,
+    height,
+  ).then(image => {
     tile.ctx.drawImage(
       image,
       geom.x / tile.ratio - width / 2,
       geom.y / tile.ratio - height / 2,
     );
   });
-  if (isHighlighted) {
+  if (!isHighlighted) {
+    return drawBase;
+  }
+  // Draw highlight ring after the icon
+  return drawBase.then(() =>
     getImageFromSpriteCache(
       'icon_hybrid_station_highlight',
       width,
@@ -775,8 +789,8 @@ export function drawHybridStationIcon(tile, geom, isHighlighted) {
         width + 8 / tile.scaleratio,
         height + 8 / tile.scaleratio,
       );
-    });
-  }
+    }),
+  );
 }
 
 export function drawParkAndRideIcon(
