@@ -851,6 +851,7 @@ export default {
     'traffic-now_go-to-route-page': 'Siirry linjasivulle',
     'traffic-now_link': 'Liikennetilanne nyt',
     'traffic-now_link-description': 'Katso häiriöt ja poikkeukset',
+    'traffic-now_more-routes': '{count} muuta linjaa',
     trafficnow: 'Liikenne nyt',
     'trafficnow-bread': 'Matkustaminen',
     'trafficnow-description': 'Ajantasaiset tiedot häiriöistä ja poikkeuksista',
