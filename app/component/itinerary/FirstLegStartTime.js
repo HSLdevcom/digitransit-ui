@@ -77,8 +77,4 @@ FirstLegStartTime.propTypes = {
   stopNames: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-FirstLegStartTime.defaultProps = {
-  firstDeparture: null,
-};
-
 export default FirstLegStartTime;
