@@ -81,7 +81,6 @@ export default {
       'You can park your bike near the station or stop and continue your journey by public transport',
     'bike-park-disclaimer-header': 'Park your bike',
     'bike-station-disabled': 'The bike station is out of service.',
-    'bikes-available': '{amount} bikes at the station ',
     'biking-speed': 'Biking speed',
     'book-a-lift': 'Use taxis via the app',
     'booking-method': 'Booking method',
@@ -238,7 +237,6 @@ export default {
     'from-bus': 'bus',
     'from-ferry': 'ferry',
     'from-ferrypier': 'ferry pier',
-    'from-place': ' ',
     'from-rail': 'train',
     'from-scooter-location': 'the scooter location',
     'from-station': 'station',
@@ -327,14 +325,14 @@ export default {
     'itinerary-summary-row.clickable-area-description': 'Show on map',
     'itinerary-summary-row.description':
       'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
-    'itinerary-summary-row.first-departure':
-      '{vehicle} leaves at {firstDepartureTime} from stop {firstDepartureStop} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time':
       'Leaves at {firstDepartureTime} from {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
     'itinerary-summary-row.first-leg-start-time-scooter':
-      'Departure at {firstDepartureTime} by a scooter',
+      'Departure at {firstDepartureTime} with a scooter',
+    'itinerary-summary-row.first-leg-start-time-sr':
+      '{vehicle} leaves at {firstDepartureTime} from stop {firstDepartureStop} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time-taxi':
       'Departure at {firstDepartureTime} by taxi from {firstDepartureStop}',
     'itinerary-summary-row.no-transit-legs': 'Leave when it suits you',
