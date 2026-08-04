@@ -322,7 +322,7 @@ export default {
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
     'itinerary-summary-row.first-leg-start-time-scooter':
-      'Departure at {firstDepartureTime} by a scooter',
+      'Departure at {firstDepartureTime} with a scooter',
     'itinerary-summary-row.first-leg-start-time-sr':
       '{vehicle} leaves at {firstDepartureTime} from stop {firstDepartureStop} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time-taxi':
