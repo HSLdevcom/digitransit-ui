@@ -2,12 +2,11 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { legTimeStr } from '../../util/legUtils';
 import {
-  legTimeStr,
-  isBikeOrScooterRentalLeg,
-  isScooterLeg,
-} from '../../util/legUtils';
-import { getFirstDepartureStopTypeText } from '../../util/localeUtils';
+  getFirstDepartureStopTypeText,
+  getFirstDepartureMessageId,
+} from '../../util/localeUtils';
 import Icon from '../Icon';
 import BoardingInformation from './BoardingInformation';
 import { legShape } from '../../util/shapes';
@@ -34,41 +33,11 @@ const FirstLegStartTime = ({
     );
   }
 
-  if (isBikeOrScooterRentalLeg(firstDeparture)) {
-    const firstDepartureTime = (
-      <span
-        className={cx('start-time', {
-          realtime: firstDeparture.realTime,
-        })}
-      >
-        {legTimeStr(firstDeparture.start)}
-      </span>
-    );
-    return (
-      <div className={cx('itinerary-first-leg-start-time', { small })}>
-        {isScooterLeg(firstDeparture) ? (
-          <FormattedMessage
-            id="itinerary-summary-row.first-leg-start-time-scooter"
-            values={{ firstDepartureTime }}
-          />
-        ) : (
-          <FormattedMessage
-            id="itinerary-summary-row.first-leg-start-time-citybike"
-            values={{
-              firstDepartureTime,
-              firstDepartureStop: firstDeparture.from.name,
-            }}
-          />
-        )}
-      </div>
-    );
-  }
-
   if (firstDeparture) {
     return (
       <div className={cx('itinerary-first-leg-start-time', { small })}>
         <FormattedMessage
-          id="itinerary-summary-row.first-leg-start-time"
+          id={getFirstDepartureMessageId(firstDeparture, false)}
           values={{
             firstDepartureTime: (
               <span
@@ -83,7 +52,7 @@ const FirstLegStartTime = ({
               intl,
               firstDeparture.mode,
             ),
-            // In case the first leg is a scooter leg, stopNames[0] is an empty string
+            // In case the first leg is a scooter leg, stopNames[0] is an empty string.
             firstDepartureStop: stopNames[0] || stopNames[1],
             firstDeparturePlatform: (
               <BoardingInformation leg={firstDeparture} />

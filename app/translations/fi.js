@@ -224,7 +224,6 @@ export default {
     'from-bus': 'bussista',
     'from-ferry': 'lautasta',
     'from-ferrypier': 'lauttalaiturilta',
-    'from-place': 'kohteesta',
     'from-rail': 'junasta',
     'from-scooter-location': 'potkulaudan sijainti',
     'from-station': 'asemalta',
@@ -308,14 +307,14 @@ export default {
     'itinerary-summary-row.clickable-area-description': 'Näytä kartalla',
     'itinerary-summary-row.description':
       'Lähtö {departureDate} kello {departureTime}. Perillä {arrivalDate} kello {arrivalTime}. {firstDeparture} {transfers} Matka-aika {totalTime}',
-    'itinerary-summary-row.first-departure':
-      '{vehicle} lähtee asemalta {firstDepartureStop} kello {firstDepartureTime} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time':
       'Lähtee klo {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Lähtö klo {firstDepartureTime} kaupunkipyöräasemalta {firstDepartureStop}',
     'itinerary-summary-row.first-leg-start-time-scooter':
       'Lähtö klo {firstDepartureTime} sähköpotkulaudalla',
+    'itinerary-summary-row.first-leg-start-time-sr':
+      '{vehicle} lähtee asemalta {firstDepartureStop} kello {firstDepartureTime} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time-taxi':
       'Lähtö klo {firstDepartureTime} taksilla kohteesta {firstDepartureStop}',
     'itinerary-summary-row.no-transit-legs': 'Lähde, kun sinulle sopii',

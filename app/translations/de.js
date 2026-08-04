@@ -132,12 +132,12 @@ export default {
     'itinerary-summary-row.clickable-area-description': 'Auf der Karte zeigen',
     'itinerary-summary-row.description':
       'Route fährt ab {departureDate} {departureTime} mit Ankunft {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Gesamte Dauer {totalTime}.',
-    'itinerary-summary-row.first-departure':
-      '{vehicle} fährt um {firstDepartureTime} von {firstDepartureStop}.',
     'itinerary-summary-row.first-leg-start-time':
       'Fährt ab um {firstDepartureTime} von {firstDepartureStopType} {firstDepartureStop}',
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Abfahrt um {firstDepartureTime} von {firstDepartureStop} Leihrad-Station',
+    'itinerary-summary-row.first-leg-start-time-sr':
+      '{vehicle} fährt um {firstDepartureTime} von {firstDepartureStop}.',
     'itinerary-summary-row.no-transit-legs': 'Start jederzeit möglich',
     'itinerary-summary-row.transfers':
       'Umstieg auf {vehicle} an Halt {stopName}',
