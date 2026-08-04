@@ -1,5 +1,9 @@
 /* eslint-disable no-underscore-dangle */
-import { getTransportModes, getRouteMode } from '../../util/modeUtils';
+import {
+  getTransportModes,
+  getRouteMode,
+  getBaseTransportMode,
+} from '../../util/modeUtils';
 import {
   AlertEntityType,
   LocationTypes,
@@ -161,7 +165,9 @@ const buildDisruptionCards = (disruptions, selectedFilters, config) =>
     const vehicleModes = selectedFilters.vehicleModes ?? [];
     const modes =
       vehicleModes.length > 0
-        ? allModes.filter(m => vehicleModes.includes(m.toLowerCase()))
+        ? allModes.filter(m =>
+            vehicleModes.includes(getBaseTransportMode(m.toLowerCase())),
+          )
         : allModes;
     return modes.map(mode => ({
       key: `${alert.id}-${mode}`,
