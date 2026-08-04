@@ -113,6 +113,7 @@ export default {
     'car-park-disclaimer':
       'Voit jättää auton parkkiin aseman tai pysäkin tuntumaan ja jatkaa matkaasi kätevästi julkisilla',
     'car-park-disclaimer-header': 'Jätä auto parkkiin',
+    choose: 'Valitse',
     'choose-freely': 'Vapaasti valittavat',
     'choose-stop': 'Valitse pysäkki',
     'choose-stop-or-vehicle': 'Valitse linja tai pysäkki',
@@ -197,6 +198,8 @@ export default {
     'e-scooter': 'Sähköpotkulauta',
     'e-scooter-alternative':
       'Entä jos kulkisit osan matkasta sähköpotkulaudalla? {paymentInfo}',
+    'e-scooter-or-taxi-alternative':
+      'Entä jos kulkisit osan matkasta sähköpotkulaudalla, taksilla tai kyytipalvelulla? {paymentInfo}',
     'e-scooters': 'Sähköpotkulaudat',
     'e-scooters-available':
       'Alueella sähköpotkulautoja vapaana. Ota sähköpotkulauta käyttöön sovelluksella.',
@@ -307,7 +310,7 @@ export default {
     'itinerary-summary-row.description':
       'Lähtö {departureDate} kello {departureTime}. Perillä {arrivalDate} kello {arrivalTime}. {firstDeparture} {transfers} Matka-aika {totalTime}',
     'itinerary-summary-row.first-departure':
-      '{vehicle} lähtee asemalta {stopName} kello {departureTime} {platformOrTrack}.',
+      '{vehicle} lähtee asemalta {firstDepartureStop} kello {firstDepartureTime} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time':
       'Lähtee klo {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
@@ -554,19 +557,25 @@ export default {
     'personal-itineraries': 'Yksilölliset reittiehdotukset',
     personalization: 'Personointi',
     'personalization-activated': 'Personointi on otettu käyttöön',
-    'personalization-aria-dislike': 'En pidä tästä reittisuosituksesta',
-    'personalization-aria-like': 'Pidän tästä reittisuosituksesta',
-    'personalization-ask': 'Pidätkö tästä reittisuosituksesta?',
+    'personalization-aria-dislike': 'En pidä tästä reittiehdotuksesta',
+    'personalization-aria-like': 'Pidän tästä reittiehdotuksesta',
+    'personalization-ask': 'Pidätkö tästä reittiehdotuksesta?',
     'personalization-beta':
       'Personointi on vielä testausvaiheessa, eli kokeilemme palvelua. Haluaisimme kuulla kokemuksestasi. Kysely avautuu uuteen välilehteen.',
+    'personalization-continue-choices':
+      'Valitse, käytämmekö personointiin käyttöhistoriaasi vai aloitammeko alusta, jolloin käyttöhistoria poistetaan.',
+    'personalization-continue-query': 'Miten haluat jatkaa personointia?',
     'personalization-disliked':
       'Saat jatkossa vähemmän tämänkaltaisia suosituksia.',
     'personalization-feedback': 'Anna palautetta',
+    'personalization-history-keep': 'Hyödynnä käyttöhistoriaa',
+    'personalization-history-remove': 'Poista käyttöhistoria ja aloita alusta',
     'personalization-info':
       'Löydä mieleiset reitit ja matkusta tottumustesi mukaan.',
     'personalization-liked': 'Saat jatkossa samankaltaisia suosituksia.',
     'personalization-login-description':
       'Voit ottaa yksilölliset reittisuositukset käyttöön, kun olet kirjautunut sisään.',
+    'personalization-login-for-voting': 'Kirjaudu ja anna palautetta',
     'personalization-login-title': 'Kirjaudu saadaksesi suosituksia',
     'personalization-modal-feedback': 'Opimme palautteestasi',
     'personalization-modal-feedback-details':
@@ -710,6 +719,9 @@ export default {
     'settings-missing-itineraries-body':
       'Asetuksissa on päällä valintoja, jotka rajaavat pois joitain reittivaihtoehtoja.',
     'settings-missing-itineraries-header': 'Puuttuuko reittivaihtoehtoja?',
+    'settings-taxi':
+      'Voit valita haluamasi taksi- ja kyytipalvelut, jolloin ne ovat osana reititystä',
+    'settings-taxi-routes': 'Taksi- ja kyytipalvelut osaksi reittejäsi!',
     'show-departures': 'Näytä lähdöt',
     'show-more': 'Näytä lisää',
     'show-more-stops-near-you': 'Näytä lisää pysäkkejä lähelläsi',
@@ -834,6 +846,7 @@ export default {
     'traffic-now_go-to-route-page': 'Siirry linjasivulle',
     'traffic-now_link': 'Liikennetilanne nyt',
     'traffic-now_link-description': 'Katso häiriöt ja poikkeukset',
+    'traffic-now_more-routes': '{count} muuta linjaa',
     trafficnow: 'Liikenne nyt',
     'trafficnow-bread': 'Matkustaminen',
     'trafficnow-description': 'Ajantasaiset tiedot häiriöistä ja poikkeuksista',

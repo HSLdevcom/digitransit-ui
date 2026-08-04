@@ -7,6 +7,7 @@ import { AlertEntityType, LocationTypes } from '../../../../app/constants';
 import {
   getAvailableModes,
   groupEntitiesByMode,
+  getAlertModes,
 } from '../../../../app/component/trafficnow/utils';
 
 describe('TrafficNow utils', () => {
@@ -146,6 +147,95 @@ describe('TrafficNow utils', () => {
       const grouped = groupEntitiesByMode(entities, {});
       const names = grouped.bus_stop.entities.map(e => e.name);
       expect(names).to.deep.equal(['Alpha stop', 'Middle stop', 'Zebra stop']);
+    });
+  });
+
+  describe('getAlertModes', () => {
+    beforeEach(() => {
+      sandbox
+        .stub(modeUtils, 'getRouteMode')
+        .callsFake(entity => entity?.mode?.toLowerCase() || null);
+      sandbox
+        .stub(pathUtils, 'stopPagePath')
+        .callsFake((isStation, gtfsId) => `/stop/${gtfsId}`);
+      sandbox
+        .stub(pathUtils, 'routePagePath')
+        .callsFake(gtfsId => `/route/${gtfsId}`);
+    });
+
+    it('returns each route mode once, ignoring stop groups of the same mode', () => {
+      const entities = [
+        {
+          __typename: AlertEntityType.Route,
+          id: 'r1',
+          gtfsId: 'HSL:r1',
+          mode: 'BUS',
+          shortName: '1',
+        },
+        {
+          __typename: AlertEntityType.Stop,
+          id: 's1',
+          gtfsId: 'HSL:s1',
+          vehicleMode: 'BUS',
+          locationType: LocationTypes.STOP,
+          name: 'Stop A',
+        },
+        {
+          __typename: AlertEntityType.Route,
+          id: 'r2',
+          gtfsId: 'HSL:r2',
+          mode: 'TRAM',
+          shortName: '4',
+        },
+      ];
+      expect(getAlertModes(entities, {})).to.deep.equal(['bus', 'tram']);
+    });
+
+    it('omits stop-only modes when the alert has any route information', () => {
+      const entities = [
+        {
+          __typename: AlertEntityType.Route,
+          id: 'r1',
+          gtfsId: 'HSL:r1',
+          mode: 'BUS',
+          shortName: '1',
+        },
+        {
+          __typename: AlertEntityType.Stop,
+          id: 's1',
+          gtfsId: 'HSL:s1',
+          vehicleMode: 'TRAM',
+          locationType: LocationTypes.STOP,
+          name: 'Stop A',
+        },
+      ];
+      expect(getAlertModes(entities, {})).to.deep.equal(['bus']);
+    });
+
+    it('returns stop modes only when the alert has no routes at all', () => {
+      const entities = [
+        {
+          __typename: AlertEntityType.Stop,
+          id: 's1',
+          gtfsId: 'HSL:s1',
+          vehicleMode: 'BUS',
+          locationType: LocationTypes.STOP,
+          name: 'Stop A',
+        },
+        {
+          __typename: AlertEntityType.Stop,
+          id: 's2',
+          gtfsId: 'HSL:s2',
+          vehicleMode: 'TRAM',
+          locationType: LocationTypes.STOP,
+          name: 'Stop B',
+        },
+      ];
+      expect(getAlertModes(entities, {})).to.deep.equal(['bus', 'tram']);
+    });
+
+    it('returns an empty array when entities are null', () => {
+      expect(getAlertModes(null, {})).to.deep.equal([]);
     });
   });
 });

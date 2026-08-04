@@ -24,14 +24,15 @@ import {
   hasScooterLegs,
   hasTaxiLegs,
   isCallAgencyLeg,
-  legContainsBikePark,
-  legContainsRentalBike,
+  isBikeParkLeg,
+  isBikeRentalLeg,
   legTimeStr,
 } from '../../util/legUtils';
 import { streetHash } from '../../util/path';
 import { itineraryShape, relayShape } from '../../util/shapes';
 import { getFutureText } from '../../util/timeUtils';
 import { BreakpointConsumer } from '../../util/withBreakpoint';
+import { getSettings } from '../../util/planParamUtil';
 import BackButton from '../BackButton';
 import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';
@@ -113,8 +114,11 @@ function ItineraryDetails({
     match.params.hash !== streetHash.walk &&
     match.params.hash !== streetHash.bike;
 
+  const settings = getSettings(config);
   const shouldShowFeedback =
-    giveFeedback && itinerary.legs.some(l => l.transitLeg);
+    itinerary.legs.some(l => l.transitLeg) &&
+    config.personalization &&
+    settings.personalization; // user has not turned it off
 
   const fares = getFaresFromLegs(itinerary.legs, config);
   const extraProps = getExtraProps(itinerary, intl);
@@ -126,12 +130,8 @@ function ItineraryDetails({
   const usingOwnCarWholeTrip =
     walking.distance === 0 && biking.distance === 0 && driving.distance > 0;
   const compressedLegs = compressLegs(itinerary.legs);
-  const legsWithRentalBike = compressedLegs.filter(leg =>
-    legContainsRentalBike(leg),
-  );
-  const legswithBikePark = compressedLegs.filter(leg =>
-    legContainsBikePark(leg),
-  );
+  const legsWithRentalBike = compressedLegs.filter(leg => isBikeRentalLeg(leg));
+  const legswithBikePark = compressedLegs.filter(leg => isBikeParkLeg(leg));
   const hasLegsWithTaxi = hasTaxiLegs({ legs: compressedLegs });
   const hasLegsWithScooter = hasScooterLegs({ legs: compressedLegs });
   const hasLegsWithAirplane = hasAirplaneLegs({ legs: compressedLegs });

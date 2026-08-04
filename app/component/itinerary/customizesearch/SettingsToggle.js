@@ -1,18 +1,21 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Toggle from '../../Toggle';
 
-export default function SettingsToggle({
-  id,
-  label = '',
-  labelId,
-  labelStyle = '',
-  toggled,
-  onToggle,
-  leftElement, // e.g. icon
-  borderStyle = '',
-}) {
+const SettingsToggle = forwardRef(function SettingsToggle(
+  {
+    id,
+    label = '',
+    labelId,
+    labelStyle = '',
+    toggled,
+    onToggle,
+    leftElement, // e.g. icon
+    borderStyle = '',
+  },
+  ref,
+) {
   return (
     <label htmlFor={id} className={`toggle-container ${borderStyle}`}>
       <div className="toggle-left">
@@ -22,10 +25,10 @@ export default function SettingsToggle({
           {label}
         </span>
       </div>
-      <Toggle id={id} toggled={toggled} onToggle={onToggle} />
+      <Toggle ref={ref} id={id} toggled={toggled} onToggle={onToggle} />
     </label>
   );
-}
+});
 
 SettingsToggle.propTypes = {
   id: PropTypes.string.isRequired,
@@ -37,3 +40,5 @@ SettingsToggle.propTypes = {
   leftElement: PropTypes.node,
   borderStyle: PropTypes.string,
 };
+
+export default SettingsToggle;

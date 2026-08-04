@@ -12,6 +12,7 @@ import { AlertEntityType } from '../../../../app/constants';
 const baseConfig = {
   CONFIG: 'default',
   colors: { primary: '#007ac9' },
+  trafficNowMaxRoutesPerCard: 5,
 };
 
 const makeEntity = (type, gtfsId, overrides = {}) => ({
@@ -33,10 +34,11 @@ const makeBusRouteGroup = entities => ({
 
 describe('<RouteBadges />', () => {
   let sandbox;
+  let stubs;
   let filterContextStub;
 
   beforeEach(() => {
-    ({ sandbox } = createShallowHookSandbox({ config: baseConfig }));
+    ({ sandbox, stubs } = createShallowHookSandbox({ config: baseConfig }));
     filterContextStub = sandbox
       .stub(FiltersContext, 'useFilterContext')
       .returns({
@@ -193,6 +195,138 @@ describe('<RouteBadges />', () => {
       expect(wrapper.find(RouteBadgeGroup).prop('highlightedGtfsId')).to.equal(
         'HSL:1',
       );
+    });
+  });
+
+  describe('compact mode', () => {
+    const makeRoutes = amount =>
+      Array.from({ length: amount }, (_, i) => ({
+        id: `e${i}`,
+        name: `${i}`,
+        url: `/route/HSL:${i}`,
+        gtfsId: `HSL:${i}`,
+      }));
+
+    it('limits routes to 5 and passes a renderSuffix for the hidden ones', () => {
+      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+        bus_route: { mode: 'bus', isRoute: true, entities: makeRoutes(8) },
+      });
+      const wrapper = shallow(
+        <RouteBadges
+          compact
+          entities={[makeEntity(AlertEntityType.Route, 'HSL:1')]}
+        />,
+      );
+      const group = wrapper.find(RouteBadgeGroup);
+      expect(group.prop('routes')).to.have.lengthOf(5);
+      expect(group.prop('renderSuffix')).to.not.equal(null);
+    });
+
+    it('does not render a suffix when there are 5 or fewer routes', () => {
+      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+        bus_route: { mode: 'bus', isRoute: true, entities: makeRoutes(5) },
+      });
+      const wrapper = shallow(
+        <RouteBadges
+          compact
+          entities={[makeEntity(AlertEntityType.Route, 'HSL:1')]}
+        />,
+      );
+      const group = wrapper.find(RouteBadgeGroup);
+      expect(group.prop('routes')).to.have.lengthOf(5);
+      expect(group.prop('renderSuffix')).to.equal(null);
+    });
+
+    it('uses the configurable trafficNowMaxRoutesPerCard limit', () => {
+      stubs.useConfigContext.returns({
+        ...baseConfig,
+        trafficNowMaxRoutesPerCard: 2,
+      });
+      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+        bus_route: { mode: 'bus', isRoute: true, entities: makeRoutes(5) },
+      });
+      const wrapper = shallow(
+        <RouteBadges
+          compact
+          entities={[makeEntity(AlertEntityType.Route, 'HSL:1')]}
+        />,
+      );
+      const group = wrapper.find(RouteBadgeGroup);
+      expect(group.prop('routes')).to.have.lengthOf(2);
+      expect(group.prop('renderSuffix')).to.not.equal(null);
+    });
+
+    it('hides stop groups when a route group exists', () => {
+      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+        bus_route: {
+          mode: 'bus',
+          isRoute: true,
+          entities: [{ id: '1', name: '1', url: '/route/1', gtfsId: 'HSL:1' }],
+        },
+        bus_stop: {
+          mode: 'bus',
+          isRoute: false,
+          entities: [
+            { id: '2', name: 'Stop A', url: '/stop/HSL:2', gtfsId: 'HSL:2' },
+          ],
+        },
+      });
+      const wrapper = shallow(
+        <RouteBadges
+          compact
+          entities={[makeEntity(AlertEntityType.Route, 'HSL:1')]}
+        />,
+      );
+      const groups = wrapper.find(RouteBadgeGroup);
+      expect(groups).to.have.lengthOf(1);
+      expect(groups.prop('isStop')).to.equal(false);
+    });
+
+    it('still shows stop groups when there are no route groups', () => {
+      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+        bus_stop: {
+          mode: 'bus',
+          isRoute: false,
+          entities: [
+            { id: '2', name: 'Stop A', url: '/stop/HSL:2', gtfsId: 'HSL:2' },
+          ],
+        },
+      });
+      const wrapper = shallow(
+        <RouteBadges
+          compact
+          entities={[makeEntity(AlertEntityType.Stop, 'HSL:2')]}
+        />,
+      );
+      const groups = wrapper.find(RouteBadgeGroup);
+      expect(groups).to.have.lengthOf(1);
+      expect(groups.prop('isStop')).to.equal(true);
+    });
+  });
+
+  describe('mode filter', () => {
+    it('renders only the groups belonging to the given mode', () => {
+      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+        bus_route: {
+          mode: 'bus',
+          isRoute: true,
+          entities: [{ id: '1', name: '1', url: '/route/1', gtfsId: 'HSL:1' }],
+        },
+        tram_route: {
+          mode: 'tram',
+          isRoute: true,
+          entities: [{ id: '2', name: '4', url: '/route/4', gtfsId: 'HSL:4' }],
+        },
+      });
+      const wrapper = shallow(
+        <RouteBadges
+          mode="tram"
+          entities={[makeEntity(AlertEntityType.Route, 'HSL:4')]}
+        />,
+      );
+      const groups = wrapper.find(RouteBadgeGroup);
+      expect(groups).to.have.lengthOf(1);
+      expect(groups.prop('mode')).to.equal('tram');
     });
   });
 });

@@ -547,6 +547,10 @@ export default {
 
   useRealtimeTravellerCapacities: false,
 
+  // How many minutes before departure the
+  // passenger occupancy is shown.
+  realtimeTravellerCapacityWindowMinutes: 15,
+
   aboutThisService: {
     fi: [
       {
@@ -733,6 +737,9 @@ export default {
   showVehiclesOnItineraryPage: false,
   trafficNowLink: false,
   trafficNowTest: TRAFFIC_NOW_TEST,
+  // Maximum number of routes shown per transport mode card in the Traffic now
+  // overview; any additional routes are collapsed into a "+N" badge.
+  trafficNowMaxRoutesPerCard: 5,
 
   timetables: {},
 
@@ -880,6 +887,13 @@ export default {
       minTransferTime: 900, // seconds
       showBothDirectAndTransitResults: false,
     },
+  },
+  carPickupZone: {
+    enabled: false,
+    direct: false,
+    transit: false,
+    allowedRouteTypes: [1501],
+    showBothDirectAndTransitResults: false,
   },
   personalization: false,
   showNewRoutePage: false,

@@ -20,7 +20,8 @@ import TaxiLeg from './TaxiLeg';
 import {
   compressLegs,
   isCallAgencyLeg,
-  isLegOnFoot,
+  isTaxiLeg,
+  isWalkLeg,
   legTime,
   markViaPoints,
   getBoardingLeg,
@@ -182,9 +183,9 @@ export default function Legs({
       legs.push(<BikeParkLeg {...legProps} bikePark={bikePark} />);
     } else if (carPark) {
       legs.push(<CarParkLeg {...legProps} carPark={carPark} />);
-    } else if (leg.mode === 'TAXI') {
+    } else if (isTaxiLeg(leg)) {
       legs.push(<TaxiLeg {...legProps} />);
-    } else if (isLegOnFoot(leg)) {
+    } else if (isWalkLeg(leg)) {
       legs.push(
         <WalkLeg
           {...legProps}

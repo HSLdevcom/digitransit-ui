@@ -6,13 +6,11 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import DepartureListContainer from '../DepartureListContainer';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { stationShape, errorShape, relayShape } from '../../util/shapes';
-import {
-  getTrackOrPierOrPlatformText,
-  getPrimaryStopMode,
-} from '../../util/modeUtils';
+import { getPrimaryStopMode } from '../../util/modeUtils';
 import { getModeIconColor } from '../../util/colorUtils';
 import StopServiceStatusBanner from './StopServiceStatusBanner';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import { getTrackOrPierOrPlatformText } from '../../util/localeUtils';
 
 function TerminalPageContent({ station, relay, currentTime, error }) {
   if (!station && error) {

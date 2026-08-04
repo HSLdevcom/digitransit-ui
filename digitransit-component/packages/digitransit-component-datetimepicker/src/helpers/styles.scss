@@ -41,7 +41,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
 
   label button {
     cursor: pointer;
-    font-family: var(--font-family);
+    font-family: inherit;
   }
 
   .hidden {
@@ -378,7 +378,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
 }
 
 .mobile-modal-content {
-  font-family: var(--font-family);
+  font-family: inherit;
   background: white;
   width: 89%;
   position: absolute;

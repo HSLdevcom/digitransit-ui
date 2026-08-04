@@ -48,8 +48,10 @@ import InterlineInfo from './InterlineInfo';
 import AlternativeLegsInfo from './AlternativeLegsInfo';
 import LegInfo from './LegInfo';
 import ExternalLink from '../ExternalLink';
-import { getBoardingInformationText } from './BoardingInformation';
-import { getTrackOrPierOrPlatformChangeText } from '../../util/modeUtils';
+import {
+  getBoardingInformationText,
+  getTrackOrPierOrPlatformChangeText,
+} from '../../util/localeUtils';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { splitGtfsId } from '../../util/gtfs';
 
@@ -70,7 +72,7 @@ const filterNextLegs = l => {
 
 export default function TransitLeg({
   leg,
-  interliningLegs,
+  interliningLegs = [],
   index,
   mode,
   focusAction,
@@ -325,7 +327,7 @@ export default function TransitLeg({
           ),
           endStop: validatedToLegName,
           duration: durationToString(intl, leg.duration * 1000),
-          trackInfo: getBoardingInformationText(leg, intl, false),
+          trackInfo: getBoardingInformationText(intl, leg, false),
         }}
       />
       {platformChanged && getTrackOrPierOrPlatformChangeText(intl, mode)}

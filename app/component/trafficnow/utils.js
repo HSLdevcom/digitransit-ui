@@ -115,4 +115,29 @@ const getAvailableModes = config =>
     return acc;
   }, []);
 
-export { getAvailableModes, groupEntitiesByMode };
+// Returns the distinct transport modes that should get their own card for an
+// alert. If the alert has any route information, only the modes with routes are
+// returned (stops are shown only in the drill-down view). Stop-only modes are
+// returned only when the alert has no routes at all. Modes keep their
+// first-seen order.
+const getAlertModes = (entities, config) => {
+  if (!entities) {
+    return [];
+  }
+  const routeModes = [];
+  const stopModes = [];
+  Object.values(groupEntitiesByMode(entities, config)).forEach(
+    ({ mode, isRoute }) => {
+      if (!mode) {
+        return;
+      }
+      const target = isRoute ? routeModes : stopModes;
+      if (!target.includes(mode)) {
+        target.push(mode);
+      }
+    },
+  );
+  return routeModes.length > 0 ? routeModes : stopModes;
+};
+
+export { getAvailableModes, groupEntitiesByMode, getAlertModes };

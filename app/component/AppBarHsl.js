@@ -147,8 +147,7 @@ const AppBarHsl = ({ favourites = [] }, context) => {
 
   const { given_name, family_name } = user;
 
-  const url = encodeURI(location.pathname);
-  const params = location.search && location.search.substring(1);
+  const returnTo = `${location.pathname}${location.search || ''}`;
   const travelersAccountLink = config.URL.TRAVELERS_ACCOUNT
     ? { href: config.URL.TRAVELERS_ACCOUNT }
     : undefined;
@@ -161,7 +160,7 @@ const AppBarHsl = ({ favourites = [] }, context) => {
         lang={language}
         loading={false}
         authenticated={!!user.sub}
-        loginLink={{ href: `/login?url=${url}&${params}` }}
+        loginLink={{ href: `/login?returnTo=${encodeURIComponent(returnTo)}` }}
         logoutLink={{ href: '/logout', onClick: () => clearStorages(context) }}
         name={{ givenName: given_name, familyName: family_name }}
         userNotifications={userNotifications}

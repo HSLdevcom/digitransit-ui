@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { routerShape } from 'found';
+import { useRouter } from 'found';
 
 const mapToLink = (href, children, onClick) => (
   <span className="cursor-pointer">
@@ -26,11 +26,9 @@ const mapToRoute = (router, route, children, onClick) => (
   </button>
 );
 
-export default function MenuItem(
-  { name, href, label, route, onClick },
-  { router },
-) {
+export default function MenuItem({ name, href, label, route, onClick }) {
   const intl = useIntl();
+  const { router } = useRouter();
   const displayLabel = label || (
     <FormattedMessage id={name} defaultMessage={name} />
   );
@@ -59,17 +57,3 @@ MenuItem.propTypes = {
   label: PropTypes.string,
   onClick: PropTypes.func,
 };
-
-MenuItem.defaultProps = {
-  name: undefined,
-  href: undefined,
-  route: undefined,
-  label: undefined,
-  onClick: undefined,
-};
-
-MenuItem.contextTypes = {
-  router: routerShape.isRequired,
-};
-
-MenuItem.displayName = 'MenuItem';

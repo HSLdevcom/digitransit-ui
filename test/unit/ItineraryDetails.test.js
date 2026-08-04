@@ -24,7 +24,8 @@ describe('<ItineraryDetails />', () => {
       tabIndex: 0,
     };
     const wrapper = shallowWithIntl(<ItineraryDetails {...props} />, {
-      context: { ...mockContext },
+      context: mockContext,
+      config: mockContext.config,
     });
     expect(wrapper.find('.itinerary-tab').length).to.equal(1);
   });

@@ -113,7 +113,6 @@ export default configMerger(walttiConfig, {
     en: 'https://www.nysse.fi/en/tickets-and-fares.html',
   },
 
-  showTicketLinkOnlyWhenTesting: true,
   showTicketPrice: false,
   ticketLinkOperatorCode: 50245,
 

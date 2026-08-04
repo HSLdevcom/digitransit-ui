@@ -38,7 +38,7 @@ describe('<Itinerary />', () => {
       refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
     };
     const wrapper = shallowWithIntl(<Itinerary {...props} />, {
-      context: { config: { CONFIG: 'default' } },
+      context: { config: mockContext.config },
     });
 
     expect(wrapper.find('.itinerary-legs').children()).to.have.lengthOf(3);
@@ -57,7 +57,13 @@ describe('<Itinerary />', () => {
     };
     const wrapper = mountWithIntl(<Itinerary {...props} />, {
       context: { ...mockContext },
-      config: { CONFIG: 'default', vehicleRental: { fewAvailableCount: 3 } },
+      config: {
+        ...mockContext.config,
+        vehicleRental: {
+          ...mockContext.config.vehicleRental,
+          fewAvailableCount: 3,
+        },
+      },
       childContextTypes: { ...mockChildContextTypes },
     });
     const legs = wrapper.find('.itinerary-legs');

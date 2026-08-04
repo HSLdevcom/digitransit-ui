@@ -14,7 +14,7 @@ import { boundWithMinimumArea } from '../../util/geo-utils';
 import {
   compressLegs,
   getTotalBikingDistance,
-  isDirectFlexItinerary,
+  isDirectItineraryWithAllowedRouteTypes,
 } from '../../util/legUtils';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
 import { getDefaultSettings, getSettings } from '../../util/planParamUtil';
@@ -419,11 +419,17 @@ export function filterItinerariesByRouteType(edges, types) {
  * OTP always returns the direct flex itinerary as the first result (if one exists).
  *
  * @param {Array} edges - Pre-filtered flex edges (must only contain flex itineraries of the given types).
- * @param {number[]} types - Allowed route types used to identify direct flex itineraries (e.g. ExtendedRouteTypes.CallAgency).
+ * @param {number[]} allowedRouteTypes - Allowed route types used to identify direct flex itineraries (e.g. ExtendedRouteTypes.CallAgency).
  * @param {boolean} showBothDirectAndTransitResults - When true, returns both a direct and transit itinerary if both exist; otherwise returns 1.
  */
-function selectFlexEdges(edges, types, showBothDirectAndTransitResults) {
-  const hasDirect = edges.some(e => isDirectFlexItinerary(e.node, types));
+function selectEdgesWithAllowedRouteTypes(
+  edges,
+  allowedRouteTypes,
+  showBothDirectAndTransitResults,
+) {
+  const hasDirect = edges.some(e =>
+    isDirectItineraryWithAllowedRouteTypes(e.node, allowedRouteTypes),
+  );
   return edges.slice(0, hasDirect && showBothDirectAndTransitResults ? 2 : 1);
 }
 
@@ -579,7 +585,7 @@ export function mergeExternalFlexPlan(
     externalPlan.edges,
     allowedExternalFlexRouteTypes,
   );
-  const selectedExternalFlexEdges = selectFlexEdges(
+  const selectedExternalFlexEdges = selectEdgesWithAllowedRouteTypes(
     filteredExternalFlexEdges,
     allowedExternalFlexRouteTypes,
     showBothDirectAndTransitResults,
@@ -599,12 +605,32 @@ export function mergeInternalFlexPlan(
     flexPlan.edges,
     allowedInternalFlexRouteTypes,
   );
-  const selectedInternalFlexEdges = selectFlexEdges(
+  const selectedInternalFlexEdges = selectEdgesWithAllowedRouteTypes(
     filteredInternalFlexEdges,
     allowedInternalFlexRouteTypes,
     showBothDirectAndTransitResults,
   );
   return sortAndMergePlans(selectedInternalFlexEdges, plan, arriveBy);
+}
+
+/** Combine a car pickup zone taxi plan with the main transit plan. */
+export function mergeCarPickupZonePlan(
+  carPickupZonePlan,
+  transitPlan,
+  arriveBy,
+  showBothDirectAndTransitResults,
+  allowedCarPickupZoneRouteTypes,
+) {
+  const filteredEdges = filterItinerariesByRouteType(
+    carPickupZonePlan.edges,
+    allowedCarPickupZoneRouteTypes,
+  );
+  const selectedEdges = selectEdgesWithAllowedRouteTypes(
+    filteredEdges,
+    allowedCarPickupZoneRouteTypes,
+    showBothDirectAndTransitResults,
+  );
+  return sortAndMergePlans(selectedEdges, transitPlan, arriveBy);
 }
 
 /**

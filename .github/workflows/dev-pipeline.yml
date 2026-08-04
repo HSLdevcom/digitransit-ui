@@ -182,6 +182,7 @@ jobs:
         run: yarn run test-unit
 
   generate-sbom:
+    if: github.ref == 'refs/heads/next' || github.ref == 'refs/heads/v3'
     needs:
       - lint
       - unit-test
@@ -236,7 +237,7 @@ jobs:
       - name: Save SBOM artifact
         uses: actions/upload-artifact@v7
         with:
-          name: sbom-artifact
+          name: sbom-artifact-${{ github.ref_name }}
           path: ${{ github.repository }}-${{ github.sha }}.json
 
       - name: 'Az CLI login for central SBOM server'
@@ -248,27 +249,25 @@ jobs:
 
       - name: 'Send SBOM to central SBOM server'
         if: github.ref == 'refs/heads/v3'
-        run: |
-          - >
-            az storage blob upload
-            --account-name ${{ secrets.SBOM_STORAGE_ACCOUNT_NAME }}
-            --container-name sbom-ingest
-            --file ${{ github.repository }}-${{ github.sha }}.json
-            --name ${{ secrets.SBOM_ENV_KEY_DEV_V3 }}/${{ github.sha }}.json
-            --auth-mode login
-            --overwrite true
+        run: >-
+          az storage blob upload
+          --account-name ${{ secrets.SBOM_STORAGE_ACCOUNT_NAME }}
+          --container-name sbom-ingest
+          --file ${{ github.repository }}-${{ github.sha }}.json
+          --name ${{ secrets.SBOM_ENV_KEY_DEV_V3 }}/${{ github.sha }}.json
+          --auth-mode login
+          --overwrite true
           
       - name: 'Send SBOM to central SBOM server'
         if: github.ref == 'refs/heads/next'
-        run: |
-          - >
-            az storage blob upload
-            --account-name ${{ secrets.SBOM_STORAGE_ACCOUNT_NAME }}
-            --container-name sbom-ingest
-            --file ${{ github.repository }}-${{ github.sha }}.json
-            --name ${{ secrets.SBOM_ENV_KEY_DEV_NEXT }}/${{ github.sha }}.json
-            --auth-mode login
-            --overwrite true
+        run: >-
+          az storage blob upload
+          --account-name ${{ secrets.SBOM_STORAGE_ACCOUNT_NAME }}
+          --container-name sbom-ingest
+          --file ${{ github.repository }}-${{ github.sha }}.json
+          --name ${{ secrets.SBOM_ENV_KEY_DEV_NEXT }}/${{ github.sha }}.json
+          --auth-mode login
+          --overwrite true
           
 
   # This is only done when pushing to v3
@@ -337,7 +336,7 @@ jobs:
           yarn run relay
 
       - name: Update npm
-        run: npm install -g npm@latest
+        run: npm install -g npm@11.12.1
       - name: disregard changed yarn.lock
         run: git update-index --assume-unchanged yarn.lock
       - name: Publish shared components to npm

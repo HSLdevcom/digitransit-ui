@@ -1,18 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { matchShape, routerShape } from 'found';
+import { useRouter } from 'found';
 import debounce from 'lodash/debounce';
-import { connectToStores } from 'fluxible-addons-react';
 import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
-import { configShape } from '../util/shapes';
 import { replaceQueryParams } from '../util/queryUtils';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { useConfigContext } from '../configurations/ConfigContext';
 
-function DatetimepickerContainer(
-  { realtime, embedWhenClosed, embedWhenOpen, lang, color },
-  context,
-) {
-  const { router, match, config } = context;
+export default function DatetimepickerContainer({
+  realtime,
+  embedWhenClosed = null,
+  embedWhenOpen = null,
+}) {
+  const config = useConfigContext();
+  const { match, router } = useRouter();
   const openPicker = !!match.location.query.setTime; // string to boolean
 
   const setParams = debounce((time, arriveBy, setTime) => {
@@ -101,10 +102,10 @@ function DatetimepickerContainer(
       onArrivalClick={onArrivalClick}
       embedWhenClosed={embedWhenClosed}
       embedWhenOpen={embedWhenOpen}
-      lang={lang}
-      color={color}
+      lang={config.language}
+      color={config.colors.primary}
       timeZone={config.timeZone}
-      serviceTimeRange={context.config.itinerary.serviceTimeRange}
+      serviceTimeRange={config.itinerary.serviceTimeRange}
       fontWeights={config.fontWeights}
       onOpen={onOpen}
       onClose={onClose}
@@ -117,28 +118,4 @@ DatetimepickerContainer.propTypes = {
   realtime: PropTypes.bool.isRequired,
   embedWhenClosed: PropTypes.node,
   embedWhenOpen: PropTypes.node,
-  lang: PropTypes.string.isRequired,
-  color: PropTypes.string,
 };
-
-DatetimepickerContainer.defaultProps = {
-  embedWhenClosed: null,
-  embedWhenOpen: null,
-  color: '#007ac9',
-};
-
-DatetimepickerContainer.contextTypes = {
-  router: routerShape.isRequired,
-  match: matchShape.isRequired,
-  config: configShape.isRequired,
-};
-
-const withLang = connectToStores(
-  DatetimepickerContainer,
-  ['PreferencesStore'],
-  context => ({
-    lang: context.getStore('PreferencesStore').getLanguage(),
-  }),
-);
-
-export { withLang as default, DatetimepickerContainer as Component };

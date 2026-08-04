@@ -123,9 +123,22 @@ function setUpMiddleware() {
   }
 }
 
-function onError(err, req, res) {
-  res.statusCode = 500;
-  res.end(err.message + err.stack);
+function onError(err, req, res, next) {
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  res.setHeader('Cache-Control', 'no-store, max-age=0');
+  res.setHeader('Cloudflare-CDN-Cache-Control', 'no-store');
+
+  return res
+    .status(500)
+    .type('text/plain')
+    .send(
+      process.env.NODE_ENV === 'production'
+        ? 'Internal server error'
+        : `${err.message}\n${err.stack}`,
+    );
 }
 
 function setUpErrorHandling() {

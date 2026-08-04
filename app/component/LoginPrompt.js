@@ -2,8 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { useIntl } from 'react-intl';
+import { useRouter } from 'found';
 import { useConfigContext } from '../configurations/ConfigContext';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { getLoginPath } from '../util/path';
 
 export default function LoginPrompt({
   open,
@@ -13,6 +15,7 @@ export default function LoginPrompt({
 }) {
   const intl = useIntl();
   const config = useConfigContext();
+  const { match } = useRouter();
 
   const login = intl.formatMessage({
     id: 'login',
@@ -34,7 +37,7 @@ export default function LoginPrompt({
       action: 'login',
       name: null,
     });
-    window.location.assign('/login');
+    window.location.assign(getLoginPath(match.location));
   };
 
   const handleSecondaryClick = () => {

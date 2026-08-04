@@ -45,12 +45,8 @@ $banner-neutral-level-color: #333;
   }
 
   .crisis-banners-banner-primary-icon {
-    margin-top: 3px;
     margin-right: 10px;
-
-    svg {
-      width: 19px;
-    }
+    transform: translateY(3px);
   }
 
   .crisis-banners-banner-primary + .crisis-banners-banner-primary,

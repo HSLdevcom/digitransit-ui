@@ -114,7 +114,7 @@ $favourite-highlight-background-color: #f2f5f7;
       flex-direction: row;
 
       .name {
-        font-family: var(--font-family);
+        font-family: inherit;
         font-size: 15px;
         margin-right: 6px;
         font-weight: var(--font-weight-medium);
@@ -132,7 +132,7 @@ $favourite-highlight-background-color: #f2f5f7;
       }
 
       .address {
-        font-family: var(--font-family);
+        font-family: inherit;
         font-size: 12px;
         margin-right: 6px;
         font-weight: normal;

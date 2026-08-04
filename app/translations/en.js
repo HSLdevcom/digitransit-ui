@@ -83,7 +83,7 @@ export default {
     'bike-station-disabled': 'The bike station is out of service.',
     'bikes-available': '{amount} bikes at the station ',
     'biking-speed': 'Biking speed',
-    'book-a-lift': 'Use an app to book a ride',
+    'book-a-lift': 'Use taxis via the app',
     'booking-method': 'Booking method',
     bus: 'Bus',
     'bus-express': 'Trunk bus',
@@ -120,10 +120,11 @@ export default {
     'car-park-disclaimer':
       'You can park your car near a station or stop and continue your journey by public transport',
     'car-park-disclaimer-header': 'Park your car',
+    choose: 'Select',
     'choose-freely': 'Optional',
     'choose-stop': 'Select stop',
-    'choose-stop-or-vehicle': 'Select vehicle or stop',
-    'choose-vehicle': 'Select vehicle',
+    'choose-stop-or-vehicle': 'Select route or stop',
+    'choose-vehicle': 'Select route',
     citybike: 'City bike',
     'citybike-duration-general-header':
       'Extra charge applies to several sections of route to be completed by a city bike.',
@@ -202,6 +203,8 @@ export default {
     'e-scooter': 'Electric scooter',
     'e-scooter-alternative':
       'How about using an electric scooter for part of your journey? {paymentInfo}',
+    'e-scooter-or-taxi-alternative':
+      'How about traveling part of the way by an e-scooter, a taxi or a ride-hailing service? {paymentInfo}',
     'e-scooters': 'Electric scooters',
     'e-scooters-available':
       'There are electric scooters available in the area. Use an app to unlock the electric scooter.',
@@ -227,7 +230,7 @@ export default {
     'from-bus': 'bus',
     'from-ferry': 'ferry',
     'from-ferrypier': 'ferry pier',
-    'from-place': 'location',
+    'from-place': ' ',
     'from-rail': 'train',
     'from-scooter-location': 'the scooter location',
     'from-station': 'station',
@@ -317,7 +320,7 @@ export default {
     'itinerary-summary-row.description':
       'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
     'itinerary-summary-row.first-departure':
-      '{vehicle} leaves at {departureTime} from stop {stopName} {platformOrTrack}.',
+      '{vehicle} leaves at {firstDepartureTime} from stop {firstDepartureStop} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time':
       'Leaves at {firstDepartureTime} from {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
@@ -402,7 +405,7 @@ export default {
     'modes.to-scooter': 'to scooter',
     'modes.to-stop': 'stop',
     'modes.to-subway': 'subway station',
-    'modes.to-taxi': 'destination',
+    'modes.to-taxi': ' ',
     'modes.to-tram': 'tram stop',
     'more-departures': 'More departures',
     'move-on-map': 'Move on the map',
@@ -560,26 +563,34 @@ export default {
     'payment-info-e-scooter':
       'Please note that you need to use the app of the operator in question in order to use and pay for the scooters.',
     'payment-info-e-scooter-or-taxi':
-      'Please note that you need to use the app of the operator in question in order to use and pay for the taxis or scooters.',
+      'Please note that you use and pay for scooters, taxis and ride-hailing services in the service providers’ own apps.',
     'payment-info-taxi':
-      'Please note that you need to use the app of the operator in question in order to use and pay for the taxis.',
+      'Please note that you use and pay for taxis and ride‑hailing services in the service providers’ own apps.',
     'personal-itineraries': 'Personal itineraries',
     personalization: 'Personalization',
     'personalization-activated': 'Personalization has been enabled',
     'personalization-aria-dislike': 'I do not like this itinerary',
     'personalization-aria-like': 'I like this itinerary',
-    'personalization-ask': 'Do you like this route recommendation?',
+    'personalization-ask': 'Do you like this route suggestion?',
     'personalization-beta':
       'Personalization is still in the testing phase, meaning we are trying out the service. We would love to hear about your experience. The survey will open in a new tab.',
+    'personalization-continue-choices':
+      'Choose whether we use your usage history for personalization or start over by deleting your usage history.',
+    'personalization-continue-query':
+      'How do you want to continue personalization?',
     'personalization-disliked':
       'You will receive fewer recommendations like this in the future.',
     'personalization-feedback': 'Give feedback',
+    'personalization-history-keep': 'Take advantage of usage history',
+    'personalization-history-remove':
+      'Delete personalization history and start over',
     'personalization-info':
       'Find your favorite routes and travel according to your habits',
     'personalization-liked':
       'You will receive similar recommendations in the future.',
     'personalization-login-description':
       'You can enable personalized route recommendations when you are logged in.',
+    'personalization-login-for-voting': 'Log in and give feedback',
     'personalization-login-title': 'Sign in to get recommendations',
     'personalization-modal-feedback': 'We learn from your feedback',
     'personalization-modal-feedback-details':
@@ -728,6 +739,10 @@ export default {
       'Some selections in the settings exclude certain route alternatives.',
     'settings-missing-itineraries-header':
       'Are some route alternatives missing?',
+    'settings-taxi':
+      'You can choose your preferred taxi and ride‑hailing services to include them in route planning.',
+    'settings-taxi-routes':
+      'Include taxi and ride‑hailing services in your routes!',
     'show-departures': 'Show departures',
     'show-more': 'Show more',
     'show-more-stops-near-you': 'Show more stops near you',
@@ -797,8 +812,8 @@ export default {
     'swipe-summary-page-tab': 'Itinerary swipe result tabs',
     taxi: 'Taxi',
     'taxi-alternative':
-      'How about using a taxi for part of your journey? {paymentInfo}',
-    'taxi-distance-duration': 'Travel for {duration} ({distance})',
+      'How about traveling part of the way by a taxi? {paymentInfo}',
+    'taxi-distance-duration': 'Travel {duration} ({distance})',
     'taxi-external': 'Taxi',
     'taxi-with-route-number': 'Taxi {routeNumber}',
     'taxis-and-ride-hailing': 'Taxis and ride-hailing services',
@@ -849,6 +864,7 @@ export default {
     'traffic-now_go-to-route-page': 'View route',
     'traffic-now_link': 'Services now',
     'traffic-now_link-description': 'See changes and disruptions',
+    'traffic-now_more-routes': '{count} more routes',
     trafficnow: 'Traffic now',
     'trafficnow-bread': 'Travelling',
     'trafficnow-description':

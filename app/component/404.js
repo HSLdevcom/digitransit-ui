@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { FormattedMessage } from 'react-intl';
 import Link from 'found/Link';
-import { configShape } from '../util/shapes';
 import Icon from './Icon';
+import { useConfigContext } from '../configurations/ConfigContext';
 
-const Error404 = (props, { config }) => {
-  const { error } = props;
+export default function Error404({ error }) {
+  const config = useConfigContext();
 
   return (
     <div className="page-not-found">
@@ -48,11 +47,7 @@ const Error404 = (props, { config }) => {
       </p>
     </div>
   );
-};
-
-Error404.contextTypes = {
-  config: configShape.isRequired,
-};
+}
 
 Error404.propTypes = {
   error: PropTypes.shape({
@@ -61,11 +56,3 @@ Error404.propTypes = {
     values: PropTypes.object,
   }),
 };
-
-Error404.defaultProps = {
-  error: undefined,
-};
-
-Error404.displayName = 'Error404';
-
-export default Error404;
