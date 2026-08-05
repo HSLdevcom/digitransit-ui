@@ -47,7 +47,7 @@ function getStopStatusForProperties(properties, showStopStatusMarkers) {
     closedByServiceAlert: properties.closedByServiceAlert,
     servicesRunningOnServiceDate: properties.servicesRunningOnServiceDate,
     servicesRunningInFuture: properties.servicesRunningInFuture,
-    alertSeverityLevel: properties.alertSeverityLevel,
+    alertSeverityLevel: properties.mostSevereAlertSeverityLevel,
   });
 }
 

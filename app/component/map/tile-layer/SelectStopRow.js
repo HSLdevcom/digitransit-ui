@@ -36,7 +36,7 @@ function SelectStopRow({
   closedByServiceAlert = undefined,
   servicesRunningInFuture = undefined,
   servicesRunningOnServiceDate = undefined,
-  alertSeverityLevel = undefined,
+  mostSevereAlertSeverityLevel = undefined,
   alertEffects: alertEffectsProp = undefined,
   hybridSiblingProperties = undefined,
 }) {
@@ -58,7 +58,7 @@ function SelectStopRow({
     closedByServiceAlert,
     servicesRunningOnServiceDate,
     servicesRunningInFuture,
-    alertSeverityLevel,
+    alertSeverityLevel: mostSevereAlertSeverityLevel,
   });
 
   const ownAlertEffects = [...new Set(parseEffects(alertEffectsProp))];
@@ -72,7 +72,7 @@ function SelectStopRow({
       servicesRunningOnServiceDate:
         hybridSiblingProperties.servicesRunningOnServiceDate,
       servicesRunningInFuture: hybridSiblingProperties.servicesRunningInFuture,
-      alertSeverityLevel: hybridSiblingProperties.alertSeverityLevel,
+      alertSeverityLevel: hybridSiblingProperties.mostSevereAlertSeverityLevel,
     });
     status = combineStopStatuses(ownStatus, siblingStatus);
   } else {
@@ -136,13 +136,13 @@ SelectStopRow.propTypes = {
   closedByServiceAlert: PropTypes.bool,
   servicesRunningInFuture: PropTypes.bool,
   servicesRunningOnServiceDate: PropTypes.bool,
-  alertSeverityLevel: PropTypes.string,
+  mostSevereAlertSeverityLevel: PropTypes.string,
   alertEffects: PropTypes.string,
   hybridSiblingProperties: PropTypes.shape({
     closedByServiceAlert: PropTypes.bool,
     servicesRunningInFuture: PropTypes.bool,
     servicesRunningOnServiceDate: PropTypes.bool,
-    alertSeverityLevel: PropTypes.string,
+    mostSevereAlertSeverityLevel: PropTypes.string,
     alertEffects: PropTypes.string,
   }),
 };
