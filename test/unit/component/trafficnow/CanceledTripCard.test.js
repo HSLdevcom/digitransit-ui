@@ -154,7 +154,7 @@ describe('<CanceledTripCard />', () => {
           .dive()
           .find('.routes-m-narrow')
           .text(),
-      ).to.equal('08:00');
+      ).to.equal(' 08:00 ');
     });
 
     it('renders cancellations from all patterns when there is only a single route', () => {
@@ -213,7 +213,7 @@ describe('<CanceledTripCard />', () => {
           .dive()
           .find('.routes-m-narrow')
           .map(node => node.text()),
-      ).to.deep.equal(['08:00', '08:05']);
+      ).to.deep.equal([' 08:00 ', ' 08:05 ']);
     });
   });
 
