@@ -13,7 +13,7 @@ import { useFilterContext } from './filters/FiltersContext';
 import { filterAndSortAlerts } from './filters/filterUtils';
 import AlertsQuery from './queries/AlertsQuery';
 import CanceledTripsOverviewQuery from './queries/CanceledTripsOverviewQuery';
-import { getAlertModes } from './utils';
+import { buildDisruptionCards } from './utils';
 import { TRAFFICNOW } from '../../util/path';
 
 const CANCELED_TRIPS_OVERVIEW_QUERY_AMOUNT = 20;
@@ -63,22 +63,9 @@ export default function Disruptions() {
     [alerts, selectedFilters],
   );
 
-  // Split each alert into one card per affected transport mode. Alerts with no
-  // recognised mode still produce a single card.
   const disruptionCards = useMemo(
-    () =>
-      disruptions.flatMap(alert => {
-        const modes = getAlertModes(alert.entities, config);
-        if (modes.length === 0) {
-          return [{ key: alert.id, alert, mode: undefined }];
-        }
-        return modes.map(mode => ({
-          key: `${alert.id}-${mode}`,
-          alert,
-          mode,
-        }));
-      }),
-    [disruptions, config],
+    () => buildDisruptionCards(disruptions, selectedFilters, config),
+    [disruptions, selectedFilters.vehicleModes, config],
   );
 
   const mobile = breakpoint !== 'large';
