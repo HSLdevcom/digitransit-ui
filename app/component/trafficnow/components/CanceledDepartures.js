@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useFragment } from 'react-relay';
 import { DateTime } from 'luxon';
@@ -8,13 +8,17 @@ import CanceledDeparturesFragment from '../queries/CanceledDeparturesFragment';
 import Icon from '../../Icon';
 import EntityBadge from './EntityBadge';
 
+const DEPARTURE_LIMIT = 10;
+
 const CanceledDepartures = ({
   patterns: patternRefs,
   inline = false,
+  departureLimit = DEPARTURE_LIMIT,
   mode,
 }) => {
   const patterns = useFragment(CanceledDeparturesFragment, patternRefs);
   const { formatMessage } = useIntl();
+  const [expandedDates, setExpandedDates] = useState([]);
 
   const patternsWithDeparturesByDate = patterns.map(pattern => ({
     ...pattern,
@@ -50,19 +54,36 @@ const CanceledDepartures = ({
                 <EntityBadge entity={pattern} isPattern mode={mode} />
               )}
               <div className="departuretimes">
-                {canceledTrips.map(({ trip }) => (
-                  <span
-                    key={`${trip.gtfsId}-${trip.stoptimes[0]}`}
-                    className="badges__departure-time"
-                  >
-                    <span className="routes-m-narrow">
-                      {DateTime.fromISO(serviceDate)
-                        .plus(trip.stoptimes[0].scheduledDeparture * 1000)
-                        .toFormat('HH:mm')}
+                {canceledTrips
+                  .filter(
+                    (_, i) =>
+                      i < departureLimit || expandedDates.includes(serviceDate),
+                  )
+                  .map(({ trip }) => (
+                    <span
+                      key={`${trip.gtfsId}-${trip.stoptimes[0]}`}
+                      className="badges__departure-time"
+                    >
+                      <span className="routes-m-narrow">
+                        {DateTime.fromISO(serviceDate)
+                          .plus(trip.stoptimes[0].scheduledDeparture * 1000)
+                          .toFormat(' HH:mm ')}
+                      </span>
                     </span>
-                  </span>
-                ))}
+                  ))}
               </div>
+              {canceledTrips.length > departureLimit &&
+                !expandedDates.includes(serviceDate) &&
+                !inline && (
+                  <button
+                    className="show-departures-button"
+                    onClick={() =>
+                      setExpandedDates([...expandedDates, serviceDate])
+                    }
+                  >
+                    {formatMessage({ id: 'show-all' })}
+                  </button>
+                )}
             </div>
           ),
         ),
@@ -88,6 +109,7 @@ CanceledDepartures.propTypes = {
       ),
     }).isRequired,
   ).isRequired,
+  departureLimit: PropTypes.number,
   inline: PropTypes.bool,
   mode: PropTypes.string,
 };

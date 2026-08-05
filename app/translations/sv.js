@@ -732,6 +732,7 @@ export default {
       'Du kan själv välja vilka taxi- och skjutstjänster som ska ingå i din rutt',
     'settings-taxi-routes':
       'Använd taxi- och skjutstjänster som en del av din resa!',
+    'show-all': 'Visa alla',
     'show-departures': 'Visa avgångarna',
     'show-more': 'Visa mer',
     'show-more-stops-near-you': 'Visa flera hållplatser nära dig',

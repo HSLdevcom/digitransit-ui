@@ -722,6 +722,7 @@ export default {
     'settings-taxi':
       'Voit valita haluamasi taksi- ja kyytipalvelut, jolloin ne ovat osana reititystä',
     'settings-taxi-routes': 'Taksi- ja kyytipalvelut osaksi reittejäsi!',
+    'show-all': 'Näytä kaikki',
     'show-departures': 'Näytä lähdöt',
     'show-more': 'Näytä lisää',
     'show-more-stops-near-you': 'Näytä lisää pysäkkejä lähelläsi',

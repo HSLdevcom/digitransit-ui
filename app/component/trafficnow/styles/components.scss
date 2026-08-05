@@ -111,7 +111,8 @@
       .departuretimes {
         display: flex;
         flex-direction: row;
-        gap: 4px;
+        gap: var(--space-fixed-xs);
+        flex-wrap: wrap;
       }
     }
   }
@@ -125,9 +126,13 @@
     padding: var(--space-xxs) var(--space-fixed-xs);
     color: $cancelation-red;
     text-decoration: line-through;
+    text-decoration-thickness: 2px;
     border-radius: var(--radius-s);
     border: 1px solid $light-gray;
     background: $white;
+    min-width: 60px;
+    text-align: center;
+    white-space: pre;
 
     > span {
       color: $gray;
