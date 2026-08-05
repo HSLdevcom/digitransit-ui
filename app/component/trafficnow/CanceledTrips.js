@@ -25,28 +25,30 @@ const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
   const content = (
     <>
       <div className="canceled-trips__body">
-        {canceledRoutes.slice(0, showAmount).map((routeSummary, i) =>
-          isMobile ? (
-            <Card key={routeSummary.route.shortName}>
-              <CancellationContainer
-                routeSummary={routeSummary}
-                mode={mode.toLowerCase()}
-                isMobile={isMobile}
-                colors={colors}
-                separator={false}
-              />
-            </Card>
-          ) : (
+        {canceledRoutes.slice(0, showAmount).map((routeSummary, i) => {
+          const cancellationContainer = (
             <CancellationContainer
-              key={routeSummary.route.shortName}
               routeSummary={routeSummary}
               mode={mode.toLowerCase()}
               isMobile={isMobile}
               colors={colors}
-              separator={i + 1 < canceledRoutes.length}
+              separator={!isMobile && i + 1 < canceledRoutes.length}
             />
-          ),
-        )}
+          );
+
+          return isMobile ? (
+            <React.Fragment key={routeSummary.route.shortName}>
+              {cancellationContainer}
+            </React.Fragment>
+          ) : (
+            <Card
+              key={routeSummary.route.shortName}
+              className="canceled-trips__card"
+            >
+              {cancellationContainer}
+            </Card>
+          );
+        })}
       </div>
       <footer className="canceled-trips__footer paragraph-extra-small">
         <div className="canceled-trips__footer-body">

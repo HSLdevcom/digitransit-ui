@@ -61,6 +61,10 @@
         display: flex;
         flex-direction: column;
         gap: var(--space-xs);
+
+        @media screen and (max-width: $bp-tablet) {
+          gap: var(--space-s);
+        }
       }
 
       &__footer {
@@ -90,14 +94,16 @@
         flex-direction: column;
         align-items: flex-start;
         gap: var(--space-m);
-        flex: 1 0 0;
-        height: 100%;
-        width: 100%;
-        overflow-y: auto;
+        flex: 1 1 auto;
+        min-height: 0;
+        min-width: 0;
+        width: auto;
+        max-width: 100%;
 
         @media screen and (max-width: $bp-tablet) {
           padding: 0;
-          gap: var(--space-xs);
+          gap: var(--space-s);
+          width: 100%;
         }
 
         .cancellation-container {
@@ -106,16 +112,29 @@
           flex-direction: column;
           width: 100%;
           gap: var(--space-m);
-          padding: var(--space-l) var(--space-xl);
-          background-color: $white;
-          border-radius: var(--radius-l);
-          border: 1px solid $light-gray;
+
+          @media screen and (max-width: $bp-tablet) {
+            padding: var(--space-m);
+            background-color: $white;
+            border-top: 1px solid $light-gray;
+            border-bottom: 1px solid $light-gray;
+          }
+
+          &:first-child {
+            @media screen and (max-width: $bp-tablet) {
+              border-top: 0;
+            }
+          }
 
           &--row {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             align-items: center;
+
+            @media screen and (max-width: $bp-tablet) {
+              width: 100%;
+            }
           }
 
           &__patterns--column {
@@ -124,8 +143,36 @@
             gap: var(--space-m);
 
             .pattern-column {
-              gap: var(--space-s);
+              gap: var(--space-fixed-s);
               margin-bottom: var(--space-s);
+
+              @media screen and (max-width: $bp-tablet) {
+                width: 100%;
+
+                > .badge-container,
+                > .badge-container .entity-name,
+                > .badge-container .entity-name a {
+                  width: 100%;
+                }
+
+                > .badge-container {
+                  display: flex;
+                }
+
+                > .badge-container .entity-name {
+                  display: flex;
+                  flex: 1 1 auto;
+                }
+
+                > .badge-container .entity-name a {
+                  justify-content: center;
+                  text-align: center;
+                }
+              }
+            }
+
+            @media screen and (max-width: $bp-tablet) {
+              width: 100%;
             }
           }
 
@@ -135,16 +182,18 @@
           }
         }
 
-        .card {
+        .canceled-trips__card {
           width: 100%;
           display: flex;
-          padding: var(--space-xl) var(--space-xl) var(--space-m)
-            var(--space-xl);
+          padding: var(--space-l) var(--space-xl);
           flex-direction: column;
           align-items: flex-start;
-          gap: var(--space-s);
+          gap: var(--space-m);
           align-self: stretch;
           margin-bottom: 0;
+          background-color: $white;
+          border-radius: var(--radius-l);
+          border: 1px solid $light-gray;
         }
       }
     }

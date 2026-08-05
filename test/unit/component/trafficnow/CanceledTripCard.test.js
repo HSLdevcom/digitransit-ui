@@ -152,7 +152,7 @@ describe('<CanceledTripCard />', () => {
         renderedSuffix
           .find(CanceledDepartures)
           .dive()
-          .find('.routes-s-narrow')
+          .find('.routes-m-narrow')
           .text(),
       ).to.equal('08:00');
     });
@@ -211,7 +211,7 @@ describe('<CanceledTripCard />', () => {
         renderedSuffix
           .find(CanceledDepartures)
           .dive()
-          .find('.routes-s-narrow')
+          .find('.routes-m-narrow')
           .map(node => node.text()),
       ).to.deep.equal(['08:00', '08:05']);
     });

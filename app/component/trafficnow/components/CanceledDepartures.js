@@ -55,7 +55,7 @@ const CanceledDepartures = ({
                     key={`${trip.gtfsId}-${trip.stoptimes[0]}`}
                     className="badges__departure-time"
                   >
-                    <span className="routes-s-narrow">
+                    <span className="routes-m-narrow">
                       {DateTime.fromISO(serviceDate)
                         .plus(trip.stoptimes[0].scheduledDeparture * 1000)
                         .toFormat('HH:mm')}

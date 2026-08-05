@@ -51,7 +51,7 @@
 .badges {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xs);
+  gap: var(--space-fixed-xs);
 
   &__group {
     display: flex;
@@ -122,7 +122,7 @@
   }
 
   &__departure-time {
-    padding: var(--space-xxs) var(--space-xs);
+    padding: var(--space-xxs) var(--space-fixed-xs);
     color: $cancelation-red;
     text-decoration: line-through;
     border-radius: var(--radius-s);
