@@ -7,11 +7,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import Card from '../Card';
 import Icon from '../Icon';
-import CanceledTripsModal from './CanceledTripsModal';
 import CancellationContainer from './components/CancellationContainer';
 import ResultsProgressBar from './components/ResultsProgressBar';
-import DisruptionBadge from './DisruptionBadge';
-import DisruptionStatus from './components/DisruptionStatus';
 import { patternShape, routeShape } from '../../util/shapes';
 
 const DEFAULT_ROUTES_SHOWN_AMOUNT = 8;
@@ -19,7 +16,6 @@ const DEFAULT_ROUTES_SHOWN_AMOUNT = 8;
 const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
   const { colors } = useConfigContext();
   const intl = useIntl();
-  const [detailsKey, setDetailsKey] = useState(null);
   const [showAmount, setShowAmount] = useState(
     DEFAULT_ROUTES_SHOWN_AMOUNT > canceledRoutes.length
       ? canceledRoutes.length
@@ -28,10 +24,6 @@ const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
 
   const content = (
     <>
-      <header className="canceled-trips__header">
-        <DisruptionBadge showIcon variant="WARNING" label="NO_SERVICE" />
-        <DisruptionStatus active showDates={false} className="text-s-bold" />
-      </header>
       <div className="canceled-trips__body">
         {canceledRoutes.slice(0, showAmount).map((routeSummary, i) =>
           isMobile ? (
@@ -41,7 +33,6 @@ const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
                 mode={mode.toLowerCase()}
                 isMobile={isMobile}
                 colors={colors}
-                onShowDetailsClick={setDetailsKey}
                 separator={false}
               />
             </Card>
@@ -52,7 +43,6 @@ const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
               mode={mode.toLowerCase()}
               isMobile={isMobile}
               colors={colors}
-              onShowDetailsClick={setDetailsKey}
               separator={i + 1 < canceledRoutes.length}
             />
           ),
@@ -108,19 +98,7 @@ const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
         </Link>
       </div>
 
-      <div className="canceled-trips__container">
-        {isMobile ? content : <Card>{content}</Card>}
-      </div>
-      {!!detailsKey && (
-        <CanceledTripsModal
-          detailsKey={detailsKey}
-          mode={mode}
-          routeSummary={canceledRoutes.find(
-            ({ route }) => route.shortName === detailsKey,
-          )}
-          onClose={() => setDetailsKey(null)}
-        />
-      )}
+      <div className="canceled-trips__container">{content}</div>
     </>
   );
 };

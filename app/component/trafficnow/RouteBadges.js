@@ -8,6 +8,7 @@ import { AlertEntityType } from '../../constants';
 import { groupEntitiesByMode } from './utils';
 import { useFilterContext } from './filters/FiltersContext';
 import RouteBadgeGroup from './components/RouteBadgeGroup';
+import EntityBadge from './components/EntityBadge';
 
 export default function RouteBadges({
   entities: rawEntities,
@@ -55,6 +56,7 @@ export default function RouteBadges({
         return (
           <RouteBadgeGroup
             key={key}
+            stopPropagation
             mode={groupMode}
             routes={visibleEntities.map(({ id, name, url, gtfsId }) => ({
               id,
@@ -66,15 +68,14 @@ export default function RouteBadges({
             highlightedGtfsId={selectedFilters.entity?.gtfsId}
             renderSuffix={
               hiddenCount > 0 ? (
-                <span
-                  className={`routes-m-narrow ${groupMode}`}
-                  aria-label={intl.formatMessage(
+                <EntityBadge
+                  entity={{ name: `+${hiddenCount}` }}
+                  mode={groupMode}
+                  ariaLabel={intl.formatMessage(
                     { id: 'traffic-now_more-routes' },
                     { count: hiddenCount },
                   )}
-                >
-                  {`+${hiddenCount}`}
-                </span>
+                />
               ) : null
             }
           />

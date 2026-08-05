@@ -28,6 +28,9 @@ export default graphql`
           pattern {
             code
             headsign
+            stops {
+              name
+            }
             ...CanceledDeparturesFragment
               @arguments(serviceDateRanges: $serviceDateRanges)
           }
@@ -53,6 +56,9 @@ export default graphql`
           pattern {
             code
             headsign
+            stops {
+              name
+            }
             ...CanceledDeparturesFragment
               @arguments(serviceDateRanges: $serviceDateRanges)
           }
@@ -78,6 +84,9 @@ export default graphql`
           pattern {
             code
             headsign
+            stops {
+              name
+            }
             ...CanceledDeparturesFragment
               @arguments(serviceDateRanges: $serviceDateRanges)
           }
@@ -103,6 +112,9 @@ export default graphql`
           pattern {
             code
             headsign
+            stops {
+              name
+            }
             ...CanceledDeparturesFragment
               @arguments(serviceDateRanges: $serviceDateRanges)
           }
@@ -128,6 +140,9 @@ export default graphql`
           pattern {
             code
             headsign
+            stops {
+              name
+            }
             ...CanceledDeparturesFragment
               @arguments(serviceDateRanges: $serviceDateRanges)
           }

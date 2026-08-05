@@ -1,54 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { useFragment } from 'react-relay';
-import { useConfigContext } from '../../../configurations/ConfigContext';
-import Icon from '../../Icon';
+import { useRouter } from 'found';
 import CanceledDepartures from './CanceledDepartures';
-
 import './PatternWithCancellations.scss';
 import CanceledTripsPatternFragment from '../queries/CanceledTripsPatternFragment';
 import { patternShape } from '../../../util/shapes';
+import EntityBadge from './EntityBadge';
+import { PREFIX_TIMETABLE, routePagePath } from '../../../util/path';
 
-const PatternWithCancellations = ({
-  pattern: patternRef,
-  cancellationCount,
-  withDepartureBadges = false,
-}) => {
-  const { colors } = useConfigContext();
+const PatternWithCancellations = ({ routeId, pattern: patternRef, mode }) => {
   const pattern = useFragment(CanceledTripsPatternFragment, patternRef);
+  const { router } = useRouter();
+  const url = routePagePath(routeId, PREFIX_TIMETABLE, pattern.code);
 
-  const start = pattern.stops[0].name;
-  const end = pattern.stops.at(-1).name;
+  const handleClick = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(url);
+  };
+
   return (
-    <div
-      className="pattern-column"
-      style={{
-        gap: withDepartureBadges ? 'var(--space-xs)' : 'var(--space-xxs)',
-      }}
-    >
-      <div className="pattern-stops">
-        <span>{start}</span>
-        <Icon img="icon_arrow-right-long" color={colors.primary} />
-        <span>{pattern.headsign || end}</span>
-      </div>
-      {cancellationCount && (
-        <div className="routes-s warning">
-          <FormattedMessage
-            id="traffic-now_canceled-trips--simple"
-            values={{ amount: cancellationCount }}
-          />
-        </div>
-      )}
-      {withDepartureBadges && <CanceledDepartures patterns={[pattern]} />}
+    <div className="pattern-column">
+      <EntityBadge
+        mode={mode}
+        entity={{
+          __typename: 'Pattern',
+          ...pattern,
+        }}
+        handleClick={handleClick}
+        isPattern
+      />
+      <CanceledDepartures patterns={[pattern]} />
     </div>
   );
 };
 
 PatternWithCancellations.propTypes = {
+  routeId: PropTypes.string.isRequired,
   pattern: patternShape.isRequired,
-  cancellationCount: PropTypes.number,
-  withDepartureBadges: PropTypes.bool,
+  mode: PropTypes.string,
 };
 
 export default PatternWithCancellations;

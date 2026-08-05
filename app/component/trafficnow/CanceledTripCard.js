@@ -10,12 +10,15 @@ import CanceledDepartures from './components/CanceledDepartures';
 import DisruptionStatus from './components/DisruptionStatus';
 import RouteBadgeGroup from './components/RouteBadgeGroup';
 import DisruptionBadge from './DisruptionBadge';
+import EntityBadge from './components/EntityBadge';
 import { patternShape, routeShape } from '../../util/shapes';
+import { useFilterContext } from './filters/FiltersContext';
 
 const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
   const { router } = useRouter();
   const intl = useIntl();
   const { colors, trafficNowMaxRoutesPerCard } = useConfigContext();
+  const { selectedFilters } = useFilterContext();
   const handleRouteBadgeClick = url => e => {
     e.preventDefault();
     e.stopPropagation();
@@ -32,7 +35,6 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
           <DisruptionBadge showIcon variant="WARNING" label="NO_SERVICE" />
           {!isMobile && (
             <>
-              {' '}
               <div className="separator vertical" />
               <DisruptionStatus
                 active
@@ -54,6 +56,7 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
         <RouteBadgeGroup
           mode={mode}
           stopPropagation
+          highlightedGtfsId={selectedFilters.entity?.gtfsId}
           routes={routes
             .slice(0, trafficNowMaxRoutesPerCard)
             .map(({ route }) => ({
@@ -65,6 +68,8 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
           renderRouteSuffix={route =>
             routes.length === 1 ? (
               <CanceledDepartures
+                inline
+                mode={mode}
                 patterns={routes
                   .find(
                     routeSummary => routeSummary.route.gtfsId === route.gtfsId,
@@ -75,15 +80,16 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
           }
           renderSuffix={
             routes.length > trafficNowMaxRoutesPerCard ? (
-              <span
-                className={`routes-m-narrow ${mode} more-routes-count`}
-                aria-label={intl.formatMessage(
+              <EntityBadge
+                entity={{
+                  name: `+${routes.length - trafficNowMaxRoutesPerCard}`,
+                }}
+                mode={mode}
+                ariaLabel={intl.formatMessage(
                   { id: 'traffic-now_more-routes' },
                   { count: routes.length - trafficNowMaxRoutesPerCard },
                 )}
-              >
-                {`+${routes.length - trafficNowMaxRoutesPerCard}`}
-              </span>
+              />
             ) : null
           }
         />

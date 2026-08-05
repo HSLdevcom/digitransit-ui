@@ -14,6 +14,39 @@
   }
 }
 
+.badge-container {
+  position: relative;
+  display: inline-flex;
+
+  .fav-icon {
+    position: absolute;
+    top: -8px;
+    right: -4px;
+  }
+
+  a {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-xxs);
+    align-items: center;
+    background-color: color-mix(in srgb, currentcolor, white 90%);
+    border-radius: var(--radius-s);
+    padding: var(--space-xs) var(--space-xs);
+    text-decoration: none;
+    height: $badge-height;
+    min-width: $badge-height;
+    justify-content: center;
+
+    &.highlight {
+      border: 1px solid $standalone-btn-active-color;
+    }
+
+    &:hover {
+      background-color: color-mix(in srgb, currentcolor, white 80%);
+    }
+  }
+}
+
 // Route badges, departure badges, badge groups
 .badges {
   display: flex;
@@ -43,44 +76,49 @@
       align-items: center;
       gap: var(--space-xxs);
     }
-
-    .badge-container {
-      position: relative;
-      display: inline-flex;
-
-      .fav-icon {
-        position: absolute;
-        top: -8px;
-        right: -4px;
-      }
-    }
-
-    a,
-    > span {
-      display: flex;
-      align-items: center;
-      background-color: color-mix(in srgb, currentcolor, white 90%);
-      border-radius: var(--radius-s);
-      padding: var(--space-xs) var(--space-xs);
-      text-decoration: none;
-      height: $badge-height;
-      min-width: $badge-height;
-      justify-content: center;
-
-      &.highlight {
-        border: 1px solid $standalone-btn-active-color;
-      }
-
-      &:hover {
-        background-color: color-mix(in srgb, currentcolor, white 80%);
-      }
-    }
   }
 
   &__departure-group {
     display: flex;
-    flex-direction: row;
-    gap: $gap-badge-departure;
+    flex-direction: column;
+    gap: var(--space-s);
+
+    &.inline {
+      flex-direction: row;
+      gap: var(--space-xxs);
+    }
+
+    &__date-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+
+      &.inline {
+        flex-direction: row;
+        gap: var(--space-xxs);
+      }
+
+      .departures-date-badge {
+        background-color: #f2f5f7;
+        border-radius: var(--radius-s);
+        padding: var(--space-xxs) var(--space-xs);
+        display: flex;
+        flex-direction: row;
+        gap: var(--space-xxs);
+        width: fit-content;
+      }
+
+      .departuretimes {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+      }
+    }
+  }
+
+  &__departure-date {
+    padding: var(--space-xxs) var(--space-xs);
+    justify-content: center;
   }
 
   &__departure-time {
