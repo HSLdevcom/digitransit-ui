@@ -12,6 +12,8 @@ import Card from '../../../../app/component/Card';
 import DisruptionStatus from '../../../../app/component/trafficnow/components/DisruptionStatus';
 import RouteBadgeGroup from '../../../../app/component/trafficnow/components/RouteBadgeGroup';
 import CanceledDepartures from '../../../../app/component/trafficnow/components/CanceledDepartures';
+import * as FiltersContext from '../../../../app/component/trafficnow/filters/FiltersContext';
+import EntityBadge from '../../../../app/component/trafficnow/components/EntityBadge';
 
 const makeRouteSummary = ({
   shortName = '21B',
@@ -26,6 +28,7 @@ const makeRouteSummary = ({
         headsign: 'Kamppi',
         canceledTrips: [
           {
+            serviceDate: '2026-01-01',
             trip: {
               gtfsId: 'trip-21B-1',
               stoptimes: [{ scheduledDeparture: 28800 }],
@@ -69,9 +72,14 @@ const baseConfig = {
 describe('<CanceledTripCard />', () => {
   let stubs;
   let sandbox;
+  let filterContextStub;
 
   beforeEach(() => {
     ({ sandbox, stubs } = createShallowHookSandbox({ config: baseConfig }));
+    filterContextStub = sandbox.stub(FiltersContext, 'useFilterContext');
+    filterContextStub.returns({
+      selectedFilters: {},
+    });
   });
   afterEach(() => sandbox.restore());
 
@@ -117,9 +125,11 @@ describe('<CanceledTripCard />', () => {
       );
       const renderSuffix = wrapper.find(RouteBadgeGroup).prop('renderSuffix');
       const rendered = shallow(<div>{renderSuffix}</div>);
+      const moreRoutes = rendered.find(EntityBadge);
 
-      expect(rendered.find('.more-routes-count')).to.have.lengthOf(1);
-      expect(rendered.find('.more-routes-count').text()).to.equal('+3');
+      expect(moreRoutes).to.have.lengthOf(1);
+      expect(moreRoutes.prop('className')).to.equal('more-routes');
+      expect(moreRoutes.prop('entity').name).to.equal('+3');
     });
 
     it('does not render the three-dots icon when all routes are visible', () => {
@@ -161,6 +171,7 @@ describe('<CanceledTripCard />', () => {
                     headsign: 'Kamppi',
                     canceledTrips: [
                       {
+                        serviceDate: '2026-01-01',
                         trip: {
                           gtfsId: 'trip-21B-1',
                           stoptimes: [{ scheduledDeparture: 28800 }],
@@ -176,6 +187,7 @@ describe('<CanceledTripCard />', () => {
                     headsign: 'Rautatientori',
                     canceledTrips: [
                       {
+                        serviceDate: '2026-01-01',
                         trip: {
                           gtfsId: 'trip-21B-2',
                           stoptimes: [{ scheduledDeparture: 29100 }],

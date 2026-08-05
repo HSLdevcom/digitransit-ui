@@ -81,6 +81,7 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
           renderSuffix={
             routes.length > trafficNowMaxRoutesPerCard ? (
               <EntityBadge
+                className="more-routes"
                 entity={{
                   name: `+${routes.length - trafficNowMaxRoutesPerCard}`,
                 }}

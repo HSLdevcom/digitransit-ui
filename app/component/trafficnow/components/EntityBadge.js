@@ -7,6 +7,8 @@ import { entityShape } from '../../../util/shapes';
 function EntityBadge({
   entity,
   mode,
+  ariaLabel,
+  className,
   handleClick = () => {},
   isFavourite = false,
   isPattern = false,
@@ -35,7 +37,10 @@ function EntityBadge({
   );
 
   return (
-    <div className={cx(['badge-container', mode])}>
+    <div
+      aria-label={ariaLabel}
+      className={cx(['badge-container', mode, className])}
+    >
       <div className="entity-name">{link}</div>
       {isFavourite && <Icon img="icon_my-place" className="fav-icon" />}
     </div>
@@ -43,8 +48,10 @@ function EntityBadge({
 }
 
 EntityBadge.propTypes = {
-  entity: entityShape.isRequired,
+  entity: PropTypes.shape(() => entityShape).isRequired,
   mode: PropTypes.string,
+  ariaLabel: PropTypes.string,
+  className: PropTypes.string,
   handleClick: PropTypes.func,
   isFavourite: PropTypes.bool,
   isPattern: PropTypes.bool,
