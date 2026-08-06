@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ButtonLink } from '@hsl-fi/layout-primitives';
 import Link from 'found/Link';
+import { useRouter } from 'found';
 import { useLazyLoadQuery } from 'react-relay/hooks';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import Card from '../Card';
@@ -16,29 +17,21 @@ import { AlertSeverityLevelType } from '../../constants';
 const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {
   const config = useConfigContext();
   const intl = useIntl();
+  const { router } = useRouter();
   const { alerts } = useLazyLoadQuery(AlertsQuery, {
     feedIds: config.feedIds,
   });
 
   const alert = alerts?.find(a => a.id === alertId);
 
+  useEffect(() => {
+    if (!alert) {
+      router.replace('/liikenne');
+    }
+  }, [alert, router]);
+
   if (!alert) {
-    return (
-      <>
-        <div className="detail-view__cta-container">
-          <Link to="/liikenne" className="cta-small">
-            <Icon img="icon_chevron-left" />
-            <FormattedMessage id="traffic-now_go-back" />
-          </Link>
-        </div>
-        <div className="disruption-details__empty">
-          <FormattedMessage
-            id="disruption-not-found"
-            defaultMessage="Disruption not found"
-          />
-        </div>
-      </>
-    );
+    return null;
   }
 
   const {
