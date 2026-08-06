@@ -7,7 +7,7 @@ import {
   shallowWithIntl,
   createShallowHookSandbox,
 } from '../../helpers/mock-intl-enzyme';
-import CanceledTripCard from '../../../../app/component/trafficnow/CanceledTripCard';
+import { Component as CanceledTripCard } from '../../../../app/component/trafficnow/CanceledTripCard';
 import Card from '../../../../app/component/Card';
 import DisruptionStatus from '../../../../app/component/trafficnow/components/DisruptionStatus';
 import RouteBadgeGroup from '../../../../app/component/trafficnow/components/RouteBadgeGroup';

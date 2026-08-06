@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
+import { connectToStores } from 'fluxible-addons-react';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { TRAFFICNOW, routePagePath } from '../../util/path';
 import Card from '../Card';
@@ -11,10 +12,15 @@ import DisruptionStatus from './components/DisruptionStatus';
 import RouteBadgeGroup from './components/RouteBadgeGroup';
 import DisruptionBadge from './DisruptionBadge';
 import EntityBadge from './components/EntityBadge';
-import { patternShape, routeShape } from '../../util/shapes';
+import { favouriteShape, patternShape, routeShape } from '../../util/shapes';
 import { useFilterContext } from './filters/FiltersContext';
 
-const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
+const CanceledTripCard = ({
+  mode,
+  routes,
+  isMobile = false,
+  favourites = [],
+}) => {
   const { router } = useRouter();
   const intl = useIntl();
   const { colors, trafficNowMaxRoutesPerCard } = useConfigContext();
@@ -24,6 +30,7 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
     e.stopPropagation();
     router.push(url);
   };
+  const favRoutes = favourites.map(({ gtfsId }) => gtfsId);
 
   return (
     <Card
@@ -58,6 +65,12 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
           stopPropagation
           highlightedGtfsId={selectedFilters.entity?.gtfsId}
           routes={routes
+            .slice()
+            .sort(
+              (a, b) =>
+                Number(favRoutes.includes(b.route.gtfsId)) -
+                Number(favRoutes.includes(a.route.gtfsId)),
+            )
             .slice(0, trafficNowMaxRoutesPerCard)
             .map(({ route }) => ({
               name: route.shortName,
@@ -106,6 +119,7 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
 CanceledTripCard.propTypes = {
   mode: PropTypes.string.isRequired,
   isMobile: PropTypes.bool,
+  favourites: PropTypes.arrayOf(favouriteShape),
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       cancellationCount: PropTypes.number.isRequired,
@@ -120,4 +134,12 @@ CanceledTripCard.propTypes = {
   ).isRequired,
 };
 
-export default CanceledTripCard;
+const connectedComponent = connectToStores(
+  CanceledTripCard,
+  ['FavouriteStore'],
+  context => ({
+    favourites: context.getStore('FavouriteStore').getFavourites(),
+  }),
+);
+
+export { connectedComponent as default, CanceledTripCard as Component };
