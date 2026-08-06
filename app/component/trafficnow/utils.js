@@ -1,5 +1,9 @@
 /* eslint-disable no-underscore-dangle */
-import { getTransportModes, getRouteMode } from '../../util/modeUtils';
+import {
+  getTransportModes,
+  getRouteMode,
+  getBaseTransportMode,
+} from '../../util/modeUtils';
 import {
   AlertEntityType,
   LocationTypes,
@@ -120,15 +124,24 @@ const getAvailableModes = config =>
 // returned (stops are shown only in the drill-down view). Stop-only modes are
 // returned only when the alert has no routes at all. Modes keep their
 // first-seen order.
-const getAlertModes = (entities, config) => {
+// selectedFilters.entity / selectedFilters.favourites narrow modes to only
+// those whose entity group contains the relevant route or stop.
+const getAlertModes = (entities, config, selectedFilters = {}) => {
   if (!entities) {
     return [];
   }
+  const { entity, favourites } = selectedFilters;
   const routeModes = [];
   const stopModes = [];
   Object.values(groupEntitiesByMode(entities, config)).forEach(
-    ({ mode, isRoute }) => {
+    ({ mode, isRoute, entities: groupEntities }) => {
       if (!mode) {
+        return;
+      }
+      if (entity && !groupEntities.some(e => e.gtfsId === entity.gtfsId)) {
+        return;
+      }
+      if (favourites && !groupEntities.some(e => favourites.has(e.gtfsId))) {
         return;
       }
       const target = isRoute ? routeModes : stopModes;
@@ -140,4 +153,32 @@ const getAlertModes = (entities, config) => {
   return routeModes.length > 0 ? routeModes : stopModes;
 };
 
-export { getAvailableModes, groupEntitiesByMode, getAlertModes };
+// Splits each alert into one card per affected transport mode, respecting
+// active filters (vehicleModes, entity, favourites). Alerts with no recognised
+// mode produce a single card with mode=undefined.
+const buildDisruptionCards = (disruptions, selectedFilters, config) =>
+  disruptions.flatMap(alert => {
+    const allModes = getAlertModes(alert.entities, config, selectedFilters);
+    if (allModes.length === 0) {
+      return [{ key: alert.id, alert, mode: undefined }];
+    }
+    const vehicleModes = selectedFilters.vehicleModes ?? [];
+    const modes =
+      vehicleModes.length > 0
+        ? allModes.filter(m =>
+            vehicleModes.includes(getBaseTransportMode(m.toLowerCase())),
+          )
+        : allModes;
+    return modes.map(mode => ({
+      key: `${alert.id}-${mode}`,
+      alert,
+      mode,
+    }));
+  });
+
+export {
+  getAvailableModes,
+  groupEntitiesByMode,
+  getAlertModes,
+  buildDisruptionCards,
+};
