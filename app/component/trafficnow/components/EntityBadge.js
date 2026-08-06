@@ -27,7 +27,7 @@ function EntityBadge({
       <span className="routes-m-narrow">{name}</span>
     </a>
   ) : (
-    <a onClick={handleClick} href={url}>
+    <a onClick={handleClick} href={url} className={mode}>
       <span className="routes-m-narrow">{entity.stops[0].name}</span>
       <Icon img="icon_arrow-right-long" color="currentcolor" />
       <span className="routes-m-narrow">

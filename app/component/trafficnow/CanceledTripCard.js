@@ -70,6 +70,7 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
               <CanceledDepartures
                 inline
                 mode={mode}
+                departureLimit={5}
                 patterns={routes
                   .find(
                     routeSummary => routeSummary.route.gtfsId === route.gtfsId,

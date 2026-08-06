@@ -114,7 +114,7 @@
           gap: var(--space-m);
 
           @media screen and (max-width: $bp-tablet) {
-            padding: var(--space-m);
+            padding: var(--space-fixed-m);
             background-color: $white;
             border-top: 1px solid $light-gray;
             border-bottom: 1px solid $light-gray;

@@ -58,6 +58,20 @@ const makeRoutes = amount =>
     }),
   );
 
+const makeCanceledTrips = ({
+  amount,
+  serviceDate = '2026-01-01',
+  startTime = 8 * 60 * 60,
+  gtfsIdPrefix = 'trip-21B',
+}) =>
+  new Array(amount).fill(null).map((_, i) => ({
+    serviceDate,
+    trip: {
+      gtfsId: `${gtfsIdPrefix}-${i}`,
+      stoptimes: [{ scheduledDeparture: startTime + i * 60 }],
+    },
+  }));
+
 const baseProps = {
   mode: 'bus',
   routes: [makeRouteSummary()],
@@ -214,6 +228,106 @@ describe('<CanceledTripCard />', () => {
           .find('.routes-m-narrow')
           .map(node => node.text()),
       ).to.deep.equal([' 08:00 ', ' 08:05 ']);
+    });
+
+    it('limits inline departures per pattern', () => {
+      const wrapper = shallowWithIntl(
+        <CanceledTripCard
+          {...baseProps}
+          routes={[
+            makeRouteSummary({
+              patterns: [
+                {
+                  cancellationCount: 6,
+                  pattern: {
+                    code: 'pattern-21B-1',
+                    headsign: 'Kamppi',
+                    canceledTrips: makeCanceledTrips({
+                      amount: 6,
+                      gtfsIdPrefix: 'trip-21B-1',
+                    }),
+                  },
+                },
+                {
+                  cancellationCount: 6,
+                  pattern: {
+                    code: 'pattern-21B-2',
+                    headsign: 'Rautatientori',
+                    canceledTrips: makeCanceledTrips({
+                      amount: 6,
+                      startTime: 9 * 60 * 60,
+                      gtfsIdPrefix: 'trip-21B-2',
+                    }),
+                  },
+                },
+              ],
+            }),
+          ]}
+        />,
+      );
+      const badgeGroup = wrapper.find(RouteBadgeGroup);
+      const [route] = badgeGroup.prop('routes');
+      const renderedSuffix = shallow(
+        <div>{badgeGroup.prop('renderRouteSuffix')(route)}</div>,
+      );
+
+      expect(
+        renderedSuffix
+          .find(CanceledDepartures)
+          .dive()
+          .find('.badges__departure-time')
+          .not('.badges__departure-time--show-more'),
+      ).to.have.lengthOf(10);
+    });
+
+    it('renders inline hidden departure count per pattern', () => {
+      const wrapper = shallowWithIntl(
+        <CanceledTripCard
+          {...baseProps}
+          routes={[
+            makeRouteSummary({
+              patterns: [
+                {
+                  cancellationCount: 7,
+                  pattern: {
+                    code: 'pattern-21B-1',
+                    headsign: 'Kamppi',
+                    canceledTrips: makeCanceledTrips({
+                      amount: 7,
+                      gtfsIdPrefix: 'trip-21B-1',
+                    }),
+                  },
+                },
+                {
+                  cancellationCount: 8,
+                  pattern: {
+                    code: 'pattern-21B-2',
+                    headsign: 'Rautatientori',
+                    canceledTrips: makeCanceledTrips({
+                      amount: 8,
+                      startTime: 9 * 60 * 60,
+                      gtfsIdPrefix: 'trip-21B-2',
+                    }),
+                  },
+                },
+              ],
+            }),
+          ]}
+        />,
+      );
+      const badgeGroup = wrapper.find(RouteBadgeGroup);
+      const [route] = badgeGroup.prop('routes');
+      const renderedSuffix = shallow(
+        <div>{badgeGroup.prop('renderRouteSuffix')(route)}</div>,
+      );
+
+      expect(
+        renderedSuffix
+          .find(CanceledDepartures)
+          .dive()
+          .find('.badges__departure-time--show-more')
+          .map(node => node.text()),
+      ).to.deep.equal(['+2', '+3']);
     });
   });
 

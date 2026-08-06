@@ -27,7 +27,7 @@
   a {
     display: flex;
     flex-direction: row;
-    gap: var(--space-xxs);
+    gap: var(--space-xs);
     align-items: center;
     background-color: color-mix(in srgb, currentcolor, white 90%);
     border-radius: var(--radius-s);
@@ -56,7 +56,9 @@
   &__group {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: var(--space-xxs);
+    align-items: center;
 
     .icon.stop {
       margin: 0 calc(-1 * var(--space-xxs));
@@ -64,17 +66,10 @@
   }
 
   &__headsign-group {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--space-xxs);
-    align-items: center;
+    display: contents;
 
     &--route {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: var(--space-xxs);
+      display: contents;
     }
   }
 
@@ -84,8 +79,7 @@
     gap: var(--space-s);
 
     &.inline {
-      flex-direction: row;
-      gap: var(--space-xxs);
+      display: contents;
     }
 
     &__date-group {
@@ -94,8 +88,7 @@
       gap: var(--space-xs);
 
       &.inline {
-        flex-direction: row;
-        gap: var(--space-xxs);
+        display: contents;
       }
 
       .departures-date-badge {
@@ -106,6 +99,11 @@
         flex-direction: row;
         gap: var(--space-xxs);
         width: fit-content;
+        align-items: center;
+      }
+
+      &.inline .departures-date-badge {
+        align-self: stretch;
       }
 
       .departuretimes {
@@ -113,6 +111,10 @@
         flex-direction: row;
         gap: var(--space-fixed-xs);
         flex-wrap: wrap;
+      }
+
+      &.inline .departuretimes {
+        display: contents;
       }
     }
   }
@@ -136,6 +138,16 @@
 
     > span {
       color: $gray;
+    }
+
+    &--show-more {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 32px;
+      min-width: 32px;
+      width: 32px;
+      text-decoration: none;
     }
   }
 }

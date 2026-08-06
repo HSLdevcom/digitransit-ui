@@ -20,74 +20,96 @@ const CanceledDepartures = ({
   const { formatMessage } = useIntl();
   const [expandedDates, setExpandedDates] = useState([]);
 
-  const patternsWithDeparturesByDate = patterns.map(pattern => ({
-    ...pattern,
-    canceledTripsByDate: Object.groupBy(
-      pattern.canceledTrips,
-      ({ serviceDate }) => serviceDate,
-    ),
-  }));
+  const patternsWithVisibleDeparturesByDate = patterns
+    .map(pattern => {
+      const visibleCanceledTrips = inline
+        ? pattern.canceledTrips.slice(0, departureLimit)
+        : pattern.canceledTrips;
+
+      return {
+        ...pattern,
+        hiddenDepartureCount: inline
+          ? Math.max(pattern.canceledTrips.length - departureLimit, 0)
+          : 0,
+        canceledTripsByDate: Object.groupBy(
+          visibleCanceledTrips,
+          ({ serviceDate }) => serviceDate,
+        ),
+      };
+    })
+    .filter(pattern => !inline || pattern.canceledTrips.length);
 
   return (
     <div className={cx('badges__departure-group', { inline })}>
-      {patternsWithDeparturesByDate.map(pattern =>
-        Object.entries(pattern.canceledTripsByDate).map(
-          ([serviceDate, canceledTrips]) => (
-            <div
-              className={cx('badges__departure-group__date-group', {
-                inline,
-              })}
-              key={`${pattern.code}-${serviceDate}`}
-            >
-              {serviceDate !== DateTime.now().toISODate() && (
-                <div className="departures-date-badge">
-                  <Icon img="icon_calendar" />
-                  <div className="routes-s-bold">
-                    {serviceDate ===
-                    DateTime.now().plus({ days: 1 }).toISODate()
-                      ? formatMessage({ id: 'tomorrow' })
-                      : DateTime.fromISO(serviceDate).toFormat('d.L.')}
+      {patternsWithVisibleDeparturesByDate.map(pattern => (
+        <React.Fragment key={pattern.code}>
+          {patterns.length > 1 && (
+            <EntityBadge entity={pattern} isPattern mode={mode} />
+          )}
+          {Object.entries(pattern.canceledTripsByDate).map(
+            ([serviceDate, canceledTrips]) => (
+              <div
+                className={cx('badges__departure-group__date-group', {
+                  inline,
+                })}
+                key={`${pattern.code}-${serviceDate}`}
+              >
+                {serviceDate !== DateTime.now().toISODate() && (
+                  <div className="departures-date-badge">
+                    <Icon img="icon_calendar" />
+                    <div className="routes-s-bold">
+                      {serviceDate ===
+                      DateTime.now().plus({ days: 1 }).toISODate()
+                        ? formatMessage({ id: 'tomorrow' })
+                        : DateTime.fromISO(serviceDate).toFormat('d.L.')}
+                    </div>
                   </div>
-                </div>
-              )}
-              {patterns.length > 1 && (
-                <EntityBadge entity={pattern} isPattern mode={mode} />
-              )}
-              <div className="departuretimes">
-                {canceledTrips
-                  .filter(
-                    (_, i) =>
-                      i < departureLimit || expandedDates.includes(serviceDate),
-                  )
-                  .map(({ trip }) => (
-                    <span
-                      key={`${trip.gtfsId}-${trip.stoptimes[0]}`}
-                      className="badges__departure-time"
-                    >
-                      <span className="routes-m-narrow">
-                        {DateTime.fromISO(serviceDate)
-                          .plus(trip.stoptimes[0].scheduledDeparture * 1000)
-                          .toFormat(' HH:mm ')}
-                      </span>
-                    </span>
-                  ))}
-              </div>
-              {canceledTrips.length > departureLimit &&
-                !expandedDates.includes(serviceDate) &&
-                !inline && (
-                  <button
-                    className="show-departures-button"
-                    onClick={() =>
-                      setExpandedDates([...expandedDates, serviceDate])
-                    }
-                  >
-                    {formatMessage({ id: 'show-all' })}
-                  </button>
                 )}
-            </div>
-          ),
-        ),
-      )}
+                <div className="departuretimes">
+                  {canceledTrips
+                    .filter(
+                      (_, i) =>
+                        inline ||
+                        i < departureLimit ||
+                        expandedDates.includes(serviceDate),
+                    )
+                    .map(({ trip }) => (
+                      <span
+                        key={`${trip.gtfsId}-${trip.stoptimes[0]}`}
+                        className="badges__departure-time"
+                      >
+                        <span className="routes-m-narrow">
+                          {DateTime.fromISO(serviceDate)
+                            .plus(trip.stoptimes[0].scheduledDeparture * 1000)
+                            .toFormat(' HH:mm ')}
+                        </span>
+                      </span>
+                    ))}
+                </div>
+                {canceledTrips.length > departureLimit &&
+                  !expandedDates.includes(serviceDate) &&
+                  !inline && (
+                    <button
+                      className="show-departures-button"
+                      onClick={() =>
+                        setExpandedDates([...expandedDates, serviceDate])
+                      }
+                    >
+                      {formatMessage({ id: 'show-all' })}
+                    </button>
+                  )}
+              </div>
+            ),
+          )}
+          {inline && pattern.hiddenDepartureCount > 0 && (
+            <span className="badges__departure-time badges__departure-time--show-more">
+              <span className="routes-m-narrow">
+                +{pattern.hiddenDepartureCount}
+              </span>
+            </span>
+          )}
+        </React.Fragment>
+      ))}
     </div>
   );
 };
