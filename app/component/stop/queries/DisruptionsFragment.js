@@ -3,32 +3,31 @@ import { graphql } from 'react-relay';
 export const DisruptionsFragment = graphql`
   fragment DisruptionsFragment on Stop
   @argumentDefinitions(
-    startTime: { type: "Long" }
-    timeRange: { type: "Int", defaultValue: 3600 }
+    cancelationStartDate: { type: "LocalDate!" }
+    cancelationEndDate: { type: "LocalDate!" }
   ) {
     gtfsId
     locationType
     routes {
       gtfsId
     }
-    stops {
-      id
-      gtfsId
-      routes {
-        gtfsId
-      }
-      stoptimes: stoptimesWithoutPatterns(
-        startTime: $startTime
-        timeRange: $timeRange
-        numberOfDepartures: 100
-        omitCanceled: false
-      ) {
-        serviceDay
-        scheduledDeparture
-        headsign
-        realtimeState
+    canceledCalls(
+      serviceDateRanges: [
+        { start: $cancelationStartDate, end: $cancelationEndDate }
+      ]
+    ) {
+      tripOnServiceDate {
+        serviceDate
         trip {
           tripHeadsign
+          pattern {
+            code
+            stops {
+              name
+              gtfsId
+            }
+            headsign
+          }
           route {
             gtfsId
             type
@@ -37,6 +36,27 @@ export const DisruptionsFragment = graphql`
             shortName
           }
         }
+      }
+      stopCall {
+        stopLocation {
+          ... on Stop {
+            gtfsId
+          }
+        }
+        schedule {
+          time {
+            ... on ArrivalDepartureTime {
+              departure
+            }
+          }
+        }
+      }
+    }
+    stops {
+      id
+      gtfsId
+      routes {
+        gtfsId
       }
       alerts(types: [STOP, ROUTES]) {
         id
@@ -90,27 +110,6 @@ export const DisruptionsFragment = graphql`
           name
           locationType
           vehicleMode
-        }
-      }
-    }
-    stoptimes: stoptimesWithoutPatterns(
-      startTime: $startTime
-      timeRange: $timeRange
-      numberOfDepartures: 100
-      omitCanceled: false
-    ) {
-      serviceDay
-      scheduledDeparture
-      headsign
-      realtimeState
-      trip {
-        tripHeadsign
-        route {
-          gtfsId
-          type
-          color
-          mode
-          shortName
         }
       }
     }

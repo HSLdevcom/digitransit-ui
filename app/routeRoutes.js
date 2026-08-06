@@ -3,6 +3,7 @@
 import React from 'react';
 import Route from 'found/Route';
 import { graphql } from 'react-relay';
+import { DateTime } from 'luxon';
 
 import Error404 from './component/404';
 import {
@@ -99,9 +100,16 @@ export default function routeRoutes(config) {
                 query routeRoutes_RoutePage_Query(
                   $routeId: String!
                   $date: String!
+                  $cancelationStartDate: LocalDate!
+                  $cancelationEndDate: LocalDate!
                 ) {
                   route(id: $routeId) {
-                    ...RoutePage_route @arguments(date: $date)
+                    ...RoutePage_route
+                      @arguments(
+                        date: $date
+                        cancelationStartDate: $cancelationStartDate
+                        cancelationEndDate: $cancelationEndDate
+                      )
                   }
                 }
               `}
@@ -179,13 +187,20 @@ export default function routeRoutes(config) {
                     $patternId: String!
                     $routeId: String!
                     $date: String!
+                    $cancelationStartDate: LocalDate!
+                    $cancelationEndDate: LocalDate!
                   ) {
                     pattern(id: $patternId) {
                       ...PatternStopsContainer_pattern
                         @arguments(patternId: $patternId)
                     }
                     route(id: $routeId) {
-                      ...PatternStopsContainer_route @arguments(date: $date)
+                      ...PatternStopsContainer_route
+                        @arguments(
+                          date: $date
+                          cancelationStartDate: $cancelationStartDate
+                          cancelationEndDate: $cancelationEndDate
+                        )
                     }
                   }
                 `}
@@ -205,6 +220,8 @@ export default function routeRoutes(config) {
                     $tripId: String!
                     $routeId: String!
                     $date: String!
+                    $cancelationStartDate: LocalDate!
+                    $cancelationEndDate: LocalDate!
                   ) {
                     pattern(id: $patternId) {
                       ...TripStopsContainer_pattern
@@ -213,7 +230,12 @@ export default function routeRoutes(config) {
                       ...TripStopsContainer_trip
                     }
                     route(id: $routeId) {
-                      ...TripStopsContainer_route @arguments(date: $date)
+                      ...TripStopsContainer_route
+                        @arguments(
+                          date: $date
+                          cancelationStartDate: $cancelationStartDate
+                          cancelationEndDate: $cancelationEndDate
+                        )
                     }
                   }
                 `}
@@ -235,6 +257,8 @@ export default function routeRoutes(config) {
                   $patternId: String!
                   $serviceDate: String!
                   $date: String!
+                  $cancelationStartDate: LocalDate!
+                  $cancelationEndDate: LocalDate!
                   $wk1day1: String!
                   $wk1day2: String!
                   $wk1day3: String!
@@ -311,7 +335,12 @@ export default function routeRoutes(config) {
                   }
                   route(id: $routeId) {
                     ...ScheduleRouteFragment
-                      @arguments(date: $date, serviceDate: $serviceDate)
+                      @arguments(
+                        date: $date
+                        serviceDate: $serviceDate
+                        cancelationStartDate: $cancelationStartDate
+                        cancelationEndDate: $cancelationEndDate
+                      )
                   }
                   firstDepartures: pattern(id: $patternId) {
                     ...ScheduleFirstDeparturesFragment
@@ -413,17 +442,29 @@ export default function routeRoutes(config) {
                 query routeRoutes_RouteAlertsContainer_Query(
                   $routeId: String!
                   $patternId: String!
-                  $date: String!
+                  $cancelationStartDate: LocalDate!
+                  $cancelationEndDate: LocalDate!
                 ) {
                   route(id: $routeId) {
-                    ...RouteAlertsContainer_route
+                    ...RouteAlertsContainerFragment_route
                   }
                   pattern(id: $patternId) {
-                    ...RouteAlertsContainer_pattern @arguments(date: $date)
+                    ...RouteAlertsContainerFragment_pattern
+                      @arguments(
+                        cancelationStartDate: $cancelationStartDate
+                        cancelationEndDate: $cancelationEndDate
+                      )
                   }
                 }
               `}
-              prepareVariables={prepareServiceDay}
+              prepareVariables={params => {
+                const now = DateTime.now();
+                return {
+                  ...params,
+                  cancelationStartDate: now.toISODate(),
+                  cancelationEndDate: now.plus({ days: 7 }).toISODate(),
+                };
+              }}
               render={withRouteContext()}
             />,
           ],

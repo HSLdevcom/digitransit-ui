@@ -194,7 +194,11 @@ const containerComponent = createFragmentContainer(
   {
     route: graphql`
       fragment RoutePage_route on Route
-      @argumentDefinitions(date: { type: "String" }) {
+      @argumentDefinitions(
+        date: { type: "String" }
+        cancelationStartDate: { type: "LocalDate!" }
+        cancelationEndDate: { type: "LocalDate!" }
+      ) {
         gtfsId
         color
         shortName
@@ -246,6 +250,19 @@ const containerComponent = createFragmentContainer(
               scheduledArrival
               scheduledDeparture
               serviceDay
+            }
+          }
+          canceledTrips(
+            serviceDateRanges: [
+              { start: $cancelationStartDate, end: $cancelationEndDate }
+            ]
+          ) {
+            serviceDate
+            trip {
+              pattern {
+                code
+              }
+              gtfsId
             }
           }
           activeDates: trips {

@@ -5,7 +5,6 @@ import { matchShape } from 'found';
 import { stopShape } from '../../util/shapes';
 import { AlertSeverityLevelType } from '../../constants';
 import {
-  getCancelationsForStop,
   getAlertsForObject,
   getServiceAlertsForStation,
   getActiveAlertSeverityLevel,
@@ -19,6 +18,7 @@ import {
   PREFIX_TIMETABLE,
   stopPagePath,
 } from '../../util/path';
+import { filterCanceledCalls } from './Disruptions';
 
 const Tab = {
   RightNow: 1,
@@ -52,7 +52,6 @@ function StopPageTabs({ stop }, { match }) {
 
   const isTerminal = match.params.terminalId != null;
   const currentTime = unixTime();
-  const cancelations = getCancelationsForStop(stop);
   const maxAlertSeverity = getActiveAlertSeverityLevel(
     isTerminal ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
     currentTime,
@@ -61,13 +60,25 @@ function StopPageTabs({ stop }, { match }) {
   const alerts = isTerminal
     ? getServiceAlertsForStation(stop)
     : getAlertsForObject(stop);
+
+  const canceledCalls = filterCanceledCalls(
+    stop.canceledCalls,
+    stop.stops ? stop.stops.map(({ gtfsId }) => gtfsId) : [stop.gtfsId],
+  );
+
+  const canceledCallsByPattern = Object.groupBy(
+    canceledCalls,
+    ({ tripOnServiceDate }) =>
+      tripOnServiceDate.trip.pattern.code + tripOnServiceDate.serviceDate,
+  );
+
   const alertsCount =
-    getUniqueAlerts(alerts).length + (cancelations.length > 0 ? 1 : 0);
+    getUniqueAlerts(alerts).length + Object.keys(canceledCallsByPattern).length;
 
   let disruptionClassName;
   let disruptionIcon;
   if (
-    cancelations.length > 0 ||
+    canceledCalls.length > 0 ||
     maxAlertSeverity === AlertSeverityLevelType.Severe ||
     maxAlertSeverity === AlertSeverityLevelType.Warning ||
     maxAlertSeverity === AlertSeverityLevelType.Unknown

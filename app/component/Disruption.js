@@ -7,7 +7,7 @@ import cx from 'classnames';
 import Icon from './Icon';
 import DisruptionBadge from './trafficnow/DisruptionBadge';
 import { useConfigContext } from '../configurations/ConfigContext';
-import { routePagePath, stopPagePath } from '../util/path';
+import { PREFIX_DISRUPTION, routePagePath, stopPagePath } from '../util/path';
 import IconBackground from './icon/IconBackground';
 import { getRouteMode, transitIconName } from '../util/modeUtils';
 import { getStartTimeWithColon } from '../util/timeUtils';
@@ -17,6 +17,21 @@ import {
   AlertSeverityLevelType,
   LocationTypes,
 } from '../constants';
+
+const statusText = (effectiveStartDate, intl) => {
+  if (!effectiveStartDate) {
+    return intl.formatMessage({ id: 'disruption-list-active' });
+  }
+  const startDate = DateTime.fromSeconds(effectiveStartDate);
+  const now = DateTime.now();
+  if (startDate <= DateTime.now() || startDate.hasSame(now, 'day')) {
+    return intl.formatMessage({ id: 'disruption-list-active' });
+  }
+  if (startDate.hasSame(now.plus({ days: 1 }), 'day')) {
+    return intl.formatMessage({ id: 'tomorrow' });
+  }
+  return startDate.toFormat('ccc d.L.');
+};
 
 export default function Disruption({
   toggleDetails,
@@ -32,7 +47,6 @@ export default function Disruption({
   const { match } = useRouter();
   const intl = useIntl();
   const hasCancelations = canceledDepartures.length > 0;
-
   if (!alertDescriptionText && !alertHeaderText) {
     return null;
   }
@@ -60,14 +74,16 @@ export default function Disruption({
   // if startDate not defined, assume the alert is active
   const active =
     !effectiveStartDate || effectiveStartDate <= DateTime.now().toSeconds();
+
   // show status or date of cancelations
   const status = hasCancelations && (
     <span className="disruption-status">
-      <Icon img={active ? 'icon_status' : 'icon_calendar'} />
+      <Icon
+        img={active ? 'icon_status' : 'icon_calendar'}
+        color={config.colors.primary}
+      />
       <span className="disruption-status-date">
-        {active
-          ? intl.formatMessage({ id: 'disruption-list-active' })
-          : DateTime.fromSeconds(effectiveStartDate).toFormat('ccc d.L.')}
+        {statusText(effectiveStartDate, intl)}
       </span>
     </span>
   );
@@ -137,33 +153,40 @@ export default function Disruption({
                         )
                       }
                     />
-                    {items.map(({ gtfsId, shortName, name, locationType }) => {
-                      const isStation = locationType === LocationTypes.STATION;
-                      return (
-                        <a
-                          key={gtfsId}
-                          className={cx('mode-badge', mode.toLowerCase())}
-                          href={
-                            isStop
-                              ? stopPagePath(isStation, gtfsId)
-                              : routePagePath(gtfsId)
-                          }
-                          onClick={e => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            match.router.push(
+                    {items.map(
+                      ({ gtfsId, shortName, name, locationType, code }) => {
+                        const isStation =
+                          locationType === LocationTypes.STATION;
+                        return (
+                          <a
+                            key={gtfsId}
+                            className={cx('mode-badge', mode.toLowerCase())}
+                            href={
                               isStop
                                 ? stopPagePath(isStation, gtfsId)
-                                : routePagePath(gtfsId),
-                            );
-                          }}
-                        >
-                          <div>
-                            <span>{isStop ? name : shortName}</span>
-                          </div>
-                        </a>
-                      );
-                    })}
+                                : routePagePath(gtfsId, PREFIX_DISRUPTION, code)
+                            }
+                            onClick={e => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              match.router.push(
+                                isStop
+                                  ? stopPagePath(isStation, gtfsId)
+                                  : routePagePath(
+                                      gtfsId,
+                                      PREFIX_DISRUPTION,
+                                      code,
+                                    ),
+                              );
+                            }}
+                          >
+                            <div>
+                              <span>{isStop ? name : shortName}</span>
+                            </div>
+                          </a>
+                        );
+                      },
+                    )}
                   </Fragment>
                 );
               },

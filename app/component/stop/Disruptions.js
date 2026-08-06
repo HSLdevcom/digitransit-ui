@@ -2,9 +2,9 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { uniq } from 'lodash';
 import { useFragment } from 'react-relay';
+import { DateTime } from 'luxon';
 import DisruptionList from '../DisruptionList';
 import {
-  getCancelationsForStop,
   getAlertsForObject,
   getServiceAlertsForStation,
   getUniqueAlerts,
@@ -14,6 +14,8 @@ import { getStartTimeWithColon } from '../../util/timeUtils';
 import { stopShape, stationShape } from '../../util/shapes';
 import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
 import { DisruptionsFragment } from './queries/DisruptionsFragment';
+import { patternTextWithIcon } from '../routepage/RoutePatternSelect';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 export const isRelevantEntity = (entity, stopIds, routeIds) =>
   // eslint-disable-next-line no-underscore-dangle
@@ -47,68 +49,77 @@ export const filterAlertEntities = (stop, alerts) => {
     .filter(alert => alert.entities.length > 0);
 };
 
-/**
- * This returns the canceled stoptimes mapped as alerts for the stoptimes'
- * routes.
- */
-export const getCancelations = (stop, intl) => {
-  const seenPatterns = new Set();
-  const cancelations = getCancelationsForStop(stop).reduce((acc, stoptime) => {
-    const { color, mode, shortName, gtfsId, type } = stoptime.trip.route;
-    const entity = {
-      __typename: AlertEntityType.Route,
-      color,
-      type,
-      mode,
-      shortName,
-      gtfsId,
+export const filterCanceledCalls = (canceledCalls, relevantStopIds) =>
+  canceledCalls.filter(
+    ({ stopCall, tripOnServiceDate }) =>
+      relevantStopIds.includes(stopCall.stopLocation.gtfsId) &&
+      !relevantStopIds.includes(
+        tripOnServiceDate.trip.pattern.stops.at(-1).gtfsId,
+      ),
+  );
+
+const getCancelations = (stop, intl, config) => {
+  if (!stop.canceledCalls) {
+    return [];
+  }
+  const relevantStopIds = stop.stops
+    ? stop.stops.map(({ gtfsId }) => gtfsId)
+    : [stop.gtfsId];
+  // group by pattern id to make individual disruption objects for each
+  const canceledCallsByRoute = Object.groupBy(
+    // filter out calls from trips that are not departing from the focused stop or its children
+    filterCanceledCalls(stop.canceledCalls, relevantStopIds),
+    ({ tripOnServiceDate }) =>
+      tripOnServiceDate.trip.pattern.code + tripOnServiceDate.serviceDate,
+  );
+
+  return Object.entries(canceledCallsByRoute).map(([tripId, canceledCalls]) => {
+    const canceledDepartures = canceledCalls.map(
+      ({
+        stopCall: {
+          schedule: {
+            time: { departure },
+          },
+        },
+      }) => ({
+        scheduledDeparture:
+          (DateTime.fromISO(departure) -
+            DateTime.fromISO(departure).startOf('day')) /
+          1000,
+      }),
+    );
+    const { trip, serviceDate } = canceledCalls[0].tripOnServiceDate;
+    return {
+      alertDescriptionText: intl.formatMessage(
+        { id: 'generic-cancelation' },
+        {
+          mode: intl.formatMessage({ id: getRouteMode(trip.route, config) }),
+          route: trip.route.shortName,
+          headsign: trip.tripHeadsign,
+          times: canceledDepartures
+            .sort()
+            .map(st => getStartTimeWithColon(st.scheduledDeparture))
+            .join(', '),
+        },
+      ),
+
+      id: tripId,
+      alertHeaderText: patternTextWithIcon(trip.pattern),
+      canceledDepartures: canceledDepartures.sort(),
+      entities: [
+        {
+          ...trip.route,
+          code: trip.pattern.code,
+          __typename: 'Route',
+        },
+      ],
+      alertSeverityLevel: AlertSeverityLevelType.Warning,
+      effectiveStartDate: DateTime.fromISO(serviceDate).toSeconds(),
+      effectiveEndDate: DateTime.fromISO(serviceDate)
+        .plus({ days: 1 })
+        .toSeconds(),
     };
-
-    // if same pattern has multiple cancelations, consolidate into one alert
-    if (seenPatterns.has(entity.shortName)) {
-      const prevAlert = acc.find(
-        element => element.entity.shortName === entity.shortName,
-      );
-      prevAlert.canceledDepartures.push(stoptime);
-      return acc;
-    }
-
-    seenPatterns.add(entity.shortName);
-    const translatedMode = intl.formatMessage({
-      id: getRouteMode(stoptime.trip.route),
-    });
-    return [
-      ...acc,
-      {
-        headsign: stoptime.headsign || stoptime.trip.tripHeadsign,
-        canceledDepartures: [stoptime],
-        entity,
-        mode: translatedMode,
-        route: shortName,
-      },
-    ];
-  }, []);
-  const cancelationsAsAlerts = cancelations.map(c => ({
-    alertDescriptionText: intl.formatMessage(
-      { id: 'generic-cancelation' },
-      {
-        mode: c.mode,
-        route: c.route,
-        headsign: c.headsign,
-        times: c.canceledDepartures
-          .map(st => getStartTimeWithColon(st.scheduledDeparture))
-          .join(', '),
-      },
-    ),
-    id: `cancelations_${c.route}`,
-    alertHeaderText: c.headsign,
-    canceledDepartures: c.canceledDepartures,
-    entities: [c.entity],
-    alertSeverityLevel: AlertSeverityLevelType.Warning,
-    effectiveStartDate: c.canceledDepartures[0].serviceDay,
-    effectiveEndDate: c.canceledDepartures[0].serviceDay + 24 * 60 * 60,
-  }));
-  return cancelationsAsAlerts;
+  });
 };
 
 /**
@@ -127,11 +138,11 @@ export const getAlerts = stop => {
 
 function Disruptions({ stop: stopRef, station: stationRef }) {
   const ref = stopRef ?? stationRef;
+  const config = useConfigContext();
   const stop = useFragment(DisruptionsFragment, ref);
   const intl = useIntl();
-  const cancelations = getCancelations(stop, intl);
+  const cancelations = getCancelations(stop, intl, config);
   const serviceAlerts = getAlerts(stop);
-
   return (
     <DisruptionList cancelations={cancelations} serviceAlerts={serviceAlerts} />
   );

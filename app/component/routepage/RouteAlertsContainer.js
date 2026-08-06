@@ -1,68 +1,57 @@
 import PropTypes from 'prop-types';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { useFragment } from 'react-relay';
 import { useIntl } from 'react-intl';
+import { DateTime } from 'luxon';
 import DisruptionList from '../DisruptionList';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import {
-  getAlertsForObject,
-  tripHasCancelation,
-  setEntityForAlert,
-} from '../../util/alertUtils';
-import { alertShape } from '../../util/shapes';
+import { getAlertsForObject, setEntityForAlert } from '../../util/alertUtils';
 import { getStartTimeWithColon } from '../../util/timeUtils';
 import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
 import { patternTextWithIcon } from './RoutePatternSelect';
+import { RouteAlertsContainerFragment } from './queries/RouteAlertsContainerFragment';
 
-const getCancelations = (
-  route,
-  entity,
-  pattern,
-  intl,
-  currentTime,
-  validityPeriod,
-) => {
-  const canceledDepartures = pattern.trips
-    .filter(trip => tripHasCancelation(trip, currentTime, validityPeriod))
-    .reduce((a, b) => a.concat(b), [])
-    .sort(
-      (a, b) =>
-        a.stoptimes[0].serviceDay +
-        a.stoptimes[0].scheduledDeparture -
-        (b.stoptimes[0].serviceDay + b.stoptimes[0].scheduledDeparture),
-    )
-    .map(trip => trip.stoptimes[0]);
+const getCancelations = (route, pattern, entity, intl) => {
+  if (!pattern.canceledTrips) {
+    return null;
+  }
 
-  return canceledDepartures.length
-    ? [
-        {
-          alertDescriptionText: intl.formatMessage(
-            { id: 'generic-cancelation' },
-            {
-              mode: route.mode,
-              route: route.shortName,
-              headsign: canceledDepartures[0].headsign,
-              times: canceledDepartures
-                .map(st => getStartTimeWithColon(st.scheduledDeparture))
-                .join(', '),
-            },
-          ),
-          id: `cancelations_${pattern.gtfsId}`,
-          alertHeaderText: patternTextWithIcon(pattern),
-          canceledDepartures,
-          entities: [entity],
-          alertSeverityLevel: AlertSeverityLevelType.Warning,
-          effectiveStartDate: canceledDepartures[0].serviceDay,
-          effectiveEndDate: canceledDepartures[0].serviceDay + 24 * 60 * 60,
-        },
-      ]
-    : [];
+  const canceledTripsByDate = Object.groupBy(
+    pattern.canceledTrips,
+    ({ serviceDate }) => serviceDate,
+  );
+
+  return Object.entries(canceledTripsByDate).map(([date, canceledTrips]) => ({
+    alertDescriptionText: intl.formatMessage(
+      { id: 'generic-cancelation' },
+      {
+        mode: route.mode,
+        route: route.shortName,
+        headsign: canceledTrips[0].trip.tripHeadsign,
+        times: canceledTrips
+          .map(st =>
+            getStartTimeWithColon(st.trip.stoptimes[0].scheduledDeparture),
+          )
+          .join(', '),
+      },
+    ),
+    id: pattern.code + date,
+    alertHeaderText: patternTextWithIcon(pattern),
+    canceledDepartures: canceledTrips.map(({ trip }) => ({
+      scheduledDeparture: trip.stoptimes[0].scheduledDeparture,
+    })),
+    entities: [entity],
+    alertSeverityLevel: AlertSeverityLevelType.Warning,
+    effectiveStartDate: DateTime.fromISO(date).toSeconds(),
+    effectiveEndDate: DateTime.fromISO(date).plus({ days: 1 }).toSeconds(),
+  }));
 };
 
-function RouteAlertsContainer({ currentTime, route, pattern }) {
+function RouteAlertsContainer({ route: routeRef, pattern: patternRef }) {
   const intl = useIntl();
-  const config = useConfigContext();
+
+  const route = useFragment(RouteAlertsContainerFragment.route, routeRef);
+  const pattern = useFragment(RouteAlertsContainerFragment.pattern, patternRef);
+
   if (!route) {
     return null;
   }
@@ -73,15 +62,9 @@ function RouteAlertsContainer({ currentTime, route, pattern }) {
     mode: route.mode,
     shortName: route.shortName,
     gtfsId: route.gtfsId,
+    code: pattern.code,
   };
-  const cancelations = getCancelations(
-    route,
-    entity,
-    pattern,
-    intl,
-    currentTime,
-    config.routeCancelationAlertValidity,
-  );
+  const cancelations = getCancelations(route, pattern, entity, intl);
 
   const serviceAlerts = getAlertsForObject(pattern).map(alert =>
     // We display all alerts as they would be for the route in this view
@@ -104,99 +87,8 @@ function RouteAlertsContainer({ currentTime, route, pattern }) {
 }
 
 RouteAlertsContainer.propTypes = {
-  currentTime: PropTypes.number.isRequired,
-  route: PropTypes.shape({
-    color: PropTypes.string,
-    type: PropTypes.number,
-    mode: PropTypes.string.isRequired,
-    shortName: PropTypes.string.isRequired,
-    gtfsId: PropTypes.string.isRequired,
-  }).isRequired,
-  pattern: PropTypes.shape({
-    alerts: PropTypes.arrayOf(alertShape).isRequired,
-    trips: PropTypes.arrayOf(
-      PropTypes.shape({
-        tripHeadsign: PropTypes.string,
-        stoptimes: PropTypes.arrayOf(
-          PropTypes.shape({
-            headsign: PropTypes.string,
-            realtimeState: PropTypes.string,
-            scheduledDeparture: PropTypes.number.isRequired,
-            serviceDay: PropTypes.number.isRequired,
-            stop: PropTypes.shape({
-              name: PropTypes.string,
-            }).isRequired,
-          }),
-        ).isRequired,
-      }),
-    ).isRequired,
-  }).isRequired,
+  route: PropTypes.shape({}).isRequired,
+  pattern: PropTypes.shape({}).isRequired,
 };
 
-const containerComponent = createFragmentContainer(
-  connectToStores(RouteAlertsContainer, ['TimeStore'], context => ({
-    currentTime: context.getStore('TimeStore').getCurrentTime(),
-  })),
-  {
-    route: graphql`
-      fragment RouteAlertsContainer_route on Route {
-        color
-        mode
-        type
-        shortName
-        gtfsId
-      }
-    `,
-    pattern: graphql`
-      fragment RouteAlertsContainer_pattern on Pattern
-      @argumentDefinitions(date: { type: "String" }) {
-        stops {
-          name
-        }
-        alerts(types: [ROUTE, STOPS_ON_PATTERN]) {
-          id
-          alertDescriptionText
-          alertHash
-          alertHeaderText
-          alertEffect
-          alertSeverityLevel
-          alertUrl
-          effectiveEndDate
-          effectiveStartDate
-          entities {
-            __typename
-            ... on Route {
-              color
-              type
-              mode
-              shortName
-              gtfsId
-            }
-            ... on Stop {
-              name
-              code
-              locationType
-              vehicleMode
-              gtfsId
-            }
-          }
-        }
-        trips: tripsForDate(serviceDate: $date) {
-          tripHeadsign
-          stoptimes: stoptimesForDate(serviceDate: $date) {
-            headsign
-            realtimeState
-            scheduledArrival
-            scheduledDeparture
-            serviceDay
-            stop {
-              name
-            }
-          }
-        }
-      }
-    `,
-  },
-);
-
-export { containerComponent as default, RouteAlertsContainer as Component };
+export default RouteAlertsContainer;
