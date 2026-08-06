@@ -138,7 +138,11 @@ const connectedComponent = createFragmentContainer(
   ),
   {
     trip: graphql`
-      fragment TripStopListContainer_trip on Trip {
+      fragment TripStopListContainer_trip on Trip
+      @argumentDefinitions(
+        currentTime: { type: "Long!", defaultValue: 0 }
+        startOfDay: { type: "Long!", defaultValue: 0 }
+      ) {
         route {
           mode
           type
@@ -160,9 +164,26 @@ const connectedComponent = createFragmentContainer(
             lon
             zoneId
             alerts {
+              alertEffect
               alertSeverityLevel
               effectiveEndDate
               effectiveStartDate
+            }
+            serviceToday: stoptimesWithoutPatterns(
+              startTime: $startOfDay
+              timeRange: 86400
+              numberOfDepartures: 1
+              omitCanceled: true
+            ) {
+              serviceDay
+            }
+            stoptimesWithoutPatterns(
+              startTime: $currentTime
+              timeRange: 7776000
+              numberOfDepartures: 1
+              omitCanceled: true
+            ) {
+              serviceDay
             }
           }
           realtimeArrival

@@ -17,7 +17,10 @@ import {
   getComponentOrLoadingRenderer,
   getComponentOrLoadingRendererWithRequired,
 } from './util/routerUtils';
-import { prepareServiceDay } from './util/dateParamUtils';
+import {
+  prepareServiceDay,
+  preparePatternStopsVariables,
+} from './util/dateParamUtils';
 import {
   prepareScheduleParamsWithFiveWeeks,
   prepareScheduleParamsWithTenWeeks,
@@ -178,17 +181,23 @@ export default function routeRoutes(config) {
                     $patternId: String!
                     $routeId: String!
                     $date: String!
+                    $currentTime: Long!
+                    $startOfDay: Long!
                   ) {
                     pattern(id: $patternId) {
                       ...PatternStopsContainer_pattern
-                        @arguments(patternId: $patternId)
+                        @arguments(
+                          patternId: $patternId
+                          currentTime: $currentTime
+                          startOfDay: $startOfDay
+                        )
                     }
                     route(id: $routeId) {
                       ...PatternStopsContainer_route @arguments(date: $date)
                     }
                   }
                 `}
-                prepareVariables={prepareServiceDay}
+                prepareVariables={preparePatternStopsVariables}
                 render={getComponentOrLoadingRenderer}
               />
               <Route
@@ -204,19 +213,25 @@ export default function routeRoutes(config) {
                     $tripId: String!
                     $routeId: String!
                     $date: String!
+                    $currentTime: Long!
+                    $startOfDay: Long!
                   ) {
                     pattern(id: $patternId) {
                       ...TripStopsContainer_pattern
                     }
                     trip(id: $tripId) {
                       ...TripStopsContainer_trip
+                        @arguments(
+                          currentTime: $currentTime
+                          startOfDay: $startOfDay
+                        )
                     }
                     route(id: $routeId) {
                       ...TripStopsContainer_route @arguments(date: $date)
                     }
                   }
                 `}
-                prepareVariables={prepareServiceDay}
+                prepareVariables={preparePatternStopsVariables}
                 render={getComponentOrLoadingRenderer}
               />
             </Route>,

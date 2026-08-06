@@ -274,7 +274,6 @@ export function getStopStatusFromStopData({
   const activeAlerts = (stop.alerts || []).filter(
     alert => alert && isAlertValid(alert, nowUnixTime),
   );
-
   return getStopStatus({
     showStopStatusMarkers,
     closedByServiceAlert: isClosedByServiceAlert(activeAlerts),
