@@ -94,7 +94,7 @@
       .departures-date-badge {
         background-color: #f2f5f7;
         border-radius: var(--radius-s);
-        padding: var(--space-xxs) var(--space-xs);
+        padding: var(--space-xxs) var(--space-s);
         display: flex;
         flex-direction: row;
         gap: var(--space-xxs);
@@ -104,6 +104,7 @@
 
       &.inline .departures-date-badge {
         align-self: stretch;
+        padding: var(--space-xs) var(--space-xs);
       }
 
       .departuretimes {
