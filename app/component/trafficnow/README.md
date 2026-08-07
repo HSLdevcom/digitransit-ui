@@ -25,11 +25,12 @@ The feature has two user flows:
 - alert cards second (`DisruptionCard`)
 
 ### Mode-specific cancellations flow
-1. `CanceledTripsContainer.js` and `CanceledTrips.js` load paginated mode-specific data via Relay pagination fragment/query.
+1. `CanceledTripsContainer.js` and `CanceledTrips.js` load paginated mode-specific data via canceledTripsSummary query
 2. Trips are grouped for display by:
 - `routeShortName`
 - then `patternCode`
-3. Details are shown in `CanceledTripsModal` when selected.
+- canceled trips are shown under each mode, grouped per day. 
+  By default 10 departure times are shown initially with the ability to expand the list when theres more available
 
 ## Data Sources and GraphQL
 
@@ -40,7 +41,7 @@ The feature has two user flows:
 - entities (`Stop`, `Route`, `StopOnRoute`)
 
 ### Canceled trips overview
-`queries/CanceledTripsOverviewQuery.js` requests one canceledTrips connection per mode:
+`queries/CanceledTripsOverviewQuery.js` requests one canceledTripsSummary per mode:
 - BUS
 - TRAM
 - RAIL
@@ -56,13 +57,14 @@ Each mode query is conditionally included with `@include` booleans from availabl
 
 ### Canceled trips cards (`CanceledTripCard.js`)
 Rules in overview:
-1. One card per mode appears when that mode has `edges.length > 0`.
+1. One card per mode appears when that mode has more than one cancellation.
 2. A node is skipped if either is missing:
 - `trip.route.gtfsId`
 - `start.schedule.time.departure`
 3. Card-internal grouping key is `trip.route.shortName`.
 4. Departure times are formatted to `HH:mm`.
 5. If exactly one grouped route exists, canceled departure times are displayed directly in the card.
+  - Pattern and date are also then showed inline with the departures.
 6. If `totalCount > trips.length`, an ellipsis indicator is shown.
 
 ### Alert cards (`DisruptionCard.js`)
@@ -140,11 +142,5 @@ Important behavior:
 ## TODO
 - Move `CanceledTripsContainer` under `FilterContextProvider` and have the selected filters affect CanceledTrips as well
   - Added filtering based on mode selection, more filters could be added when the api supports them
-- Add a reasonable unit test suite
-- Change CanceledTrips view to render on route basis when OTP endpoint supports such response
-  - Currently the response contains cancellations on cancellation basis which results in bad UX if all cancellations don't fit in the initial 20 node quota.
 - Change `Disruptions` view to render paginated results when OTP endpoint supports pagination
   - Blocked until API updates
-- Define whether and how to present `canceledTrips` that are in future (i.e. tomorrow and beyond)
-  - Show cancelations on the current day as ongoing, future cancelations as upcoming
-  - Needs to wait until api updates
