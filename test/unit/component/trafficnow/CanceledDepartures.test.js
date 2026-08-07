@@ -14,6 +14,7 @@ const makeCanceledTrip = (serviceDate, scheduledDeparture, gtfsId) => ({
 
 const makePattern = canceledTrips => ({
   code: 'pattern-1',
+  stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
   headsign: 'Kamppi',
   canceledTrips,
 });

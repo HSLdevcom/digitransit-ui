@@ -26,6 +26,7 @@ const makeRouteSummary = ({
       pattern: {
         code: 'pattern-21B',
         headsign: 'Kamppi',
+        stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
         canceledTrips: [
           {
             serviceDate: '2026-01-01',
@@ -183,6 +184,7 @@ describe('<CanceledTripCard />', () => {
                   pattern: {
                     code: 'pattern-21B-1',
                     headsign: 'Kamppi',
+                    stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
                     canceledTrips: [
                       {
                         serviceDate: '2026-01-01',
@@ -199,6 +201,7 @@ describe('<CanceledTripCard />', () => {
                   pattern: {
                     code: 'pattern-21B-2',
                     headsign: 'Rautatientori',
+                    stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
                     canceledTrips: [
                       {
                         serviceDate: '2026-01-01',
@@ -242,6 +245,7 @@ describe('<CanceledTripCard />', () => {
                   pattern: {
                     code: 'pattern-21B-1',
                     headsign: 'Kamppi',
+                    stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
                     canceledTrips: makeCanceledTrips({
                       amount: 6,
                       gtfsIdPrefix: 'trip-21B-1',
@@ -253,6 +257,7 @@ describe('<CanceledTripCard />', () => {
                   pattern: {
                     code: 'pattern-21B-2',
                     headsign: 'Rautatientori',
+                    stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
                     canceledTrips: makeCanceledTrips({
                       amount: 6,
                       startTime: 9 * 60 * 60,
@@ -292,6 +297,7 @@ describe('<CanceledTripCard />', () => {
                   pattern: {
                     code: 'pattern-21B-1',
                     headsign: 'Kamppi',
+                    stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
                     canceledTrips: makeCanceledTrips({
                       amount: 7,
                       gtfsIdPrefix: 'trip-21B-1',
@@ -303,6 +309,7 @@ describe('<CanceledTripCard />', () => {
                   pattern: {
                     code: 'pattern-21B-2',
                     headsign: 'Rautatientori',
+                    stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
                     canceledTrips: makeCanceledTrips({
                       amount: 8,
                       startTime: 9 * 60 * 60,

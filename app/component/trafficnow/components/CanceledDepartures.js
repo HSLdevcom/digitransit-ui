@@ -7,6 +7,7 @@ import { useIntl } from 'react-intl';
 import CanceledDeparturesFragment from '../queries/CanceledDeparturesFragment';
 import Icon from '../../Icon';
 import EntityBadge from './EntityBadge';
+import { stopShape } from '../../../util/shapes';
 
 const DEPARTURE_LIMIT = 10;
 
@@ -75,7 +76,7 @@ const CanceledDepartures = ({
                     )
                     .map(({ trip }) => (
                       <span
-                        key={`${trip.gtfsId}-${trip.stoptimes[0]}`}
+                        key={`${trip.gtfsId}-${trip.stoptimes[0].scheduledDeparture}`}
                         className="badges__departure-time"
                       >
                         <span className="routes-m-narrow">
@@ -117,6 +118,8 @@ const CanceledDepartures = ({
 CanceledDepartures.propTypes = {
   patterns: PropTypes.arrayOf(
     PropTypes.shape({
+      code: PropTypes.string.isRequired,
+      stops: PropTypes.arrayOf(stopShape).isRequired,
       canceledTrips: PropTypes.arrayOf(
         PropTypes.shape({
           trip: PropTypes.shape({
