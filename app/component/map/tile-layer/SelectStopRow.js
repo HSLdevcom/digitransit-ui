@@ -37,7 +37,7 @@ function SelectStopRow({
   servicesRunningInFuture = undefined,
   servicesRunningOnServiceDate = undefined,
   mostSevereAlertSeverityLevel = undefined,
-  alertEffects: alertEffectsProp = undefined,
+  mostSevereAlertsEffects: alertEffectsProp = undefined,
   hybridSiblingProperties = undefined,
 }) {
   const config = useConfigContext();
@@ -137,13 +137,13 @@ SelectStopRow.propTypes = {
   servicesRunningInFuture: PropTypes.bool,
   servicesRunningOnServiceDate: PropTypes.bool,
   mostSevereAlertSeverityLevel: PropTypes.string,
-  alertEffects: PropTypes.string,
+  mostSevereAlertsEffects: PropTypes.string,
   hybridSiblingProperties: PropTypes.shape({
     closedByServiceAlert: PropTypes.bool,
     servicesRunningInFuture: PropTypes.bool,
     servicesRunningOnServiceDate: PropTypes.bool,
     mostSevereAlertSeverityLevel: PropTypes.string,
-    alertEffects: PropTypes.string,
+    mostSevereAlertsEffects: PropTypes.string,
   }),
 };
 
