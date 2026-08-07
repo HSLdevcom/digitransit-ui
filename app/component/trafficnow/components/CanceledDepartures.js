@@ -43,7 +43,7 @@ const CanceledDepartures = ({
     <div className={cx('badges__departure-group', { inline })}>
       {patternsWithVisibleDeparturesByDate.map(pattern => (
         <React.Fragment key={pattern.code}>
-          {patterns.length > 1 && (
+          {(patterns.length > 1 || inline) && (
             <EntityBadge entity={pattern} isPattern mode={mode} />
           )}
           {Object.entries(pattern.canceledTripsByDate).map(
