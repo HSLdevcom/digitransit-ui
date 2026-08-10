@@ -5,6 +5,7 @@ export default graphql`
   @relay(plural: true)
   @argumentDefinitions(serviceDateRanges: { type: "[LocalDateRangeInput!]" }) {
     code
+    headsign
     stops {
       name
     }

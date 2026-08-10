@@ -31,7 +31,7 @@ function EntityBadge({
       <span className="routes-m-narrow">{entity.stops[0].name}</span>
       <Icon img="icon_arrow-right-long" color="currentcolor" />
       <span className="routes-m-narrow">
-        {entity.headsign || entity.stops[0].name}
+        {entity.headsign || entity.stops?.at(-1).name}
       </span>
     </a>
   );
