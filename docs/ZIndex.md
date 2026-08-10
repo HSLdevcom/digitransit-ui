@@ -12,6 +12,7 @@ Selector | Component | Z-Index | Comment
 `N/A` | Loading Page | 40000 |
 `.spinner-loader` | RoutePage | 40000 |
 `.top-bar` | AppBar | 1008 |
+`.snackbar` | Snackbar | 9999 | Rendered via a React portal directly under `document.body` so it always escapes ancestor stacking contexts (e.g. `.desktop .map-content .offcanvas`, which has its own z-index of 900) instead of being capped by them.
 `div.leaflet-marker-icon.from, div.leaflet-marker-icon.to { > span { &::before` | From/To marker letters | 1000 | Could be removed through new icon components
 `#splash-container` | Splash screen |  802 |
 `.toggle-positioning-container` | Pan-to-your-position button | 802 |
@@ -28,6 +29,8 @@ Selector | Component | Z-Index | Comment
 `.itinerary-summary-row { .itinerary-legs { .line` | Summary result row leg lines | 1 |
 `.itinerary-summary-row { .itinerary-legs { .line { :after` | Hides the Summary result row leg lines behind the mode icon. | -1 |
 `.mobile.top-bar  | Mobile top bar | 1000 |
+`.desktop .map-content .map` | Contains map overlay stacking so buttons/attribution stay within the map | 1 |
+`.desktop .map-content .offcanvas` | Desktop settings drawer, kept above the map overlays | 900 |
 `.map-cluster-number-marker` | Cluster group marker for indoor route steps | 13000 |
 `.map-indoor-step-marker` | Indoor route step markers | 13050 |
 `.map-subway-entrance-info-icon-metro` | Entrance markers for indoor route | 13100 |

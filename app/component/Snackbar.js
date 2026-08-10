@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from './Icon';
@@ -21,7 +22,7 @@ const Snackbar = ({
 }) => {
   const intl = useIntl();
   const config = useConfigContext();
-  return (
+  const content = (
     <>
       <div
         className={cx('snackbar', className, {
@@ -57,6 +58,17 @@ const Snackbar = ({
       </div>
     </>
   );
+
+  // Snackbar is portaled directly to document.body so it always escapes
+  // ancestor stacking contexts (e.g. the desktop offcanvas settings drawer,
+  // which establishes its own stacking context via position:relative +
+  // z-index). Without the portal, Snackbar's own z-index of 9999 would only
+  // apply *within* that ancestor's stacking context, so it could still be
+  // rendered behind unrelated elements (like the header) that live in a
+  // higher outer stacking context.
+  return typeof document !== 'undefined'
+    ? ReactDOM.createPortal(content, document.body)
+    : content;
 };
 
 Snackbar.propTypes = {
