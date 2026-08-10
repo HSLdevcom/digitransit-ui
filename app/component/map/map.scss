@@ -1427,7 +1427,7 @@ div.map-click-prevent-overlay {
   top: 0;
   height: 100%;
   width: 100%;
-  z-index: 801;
+  z-index: global-z('map-click-prevent-overlay');
 }
 
 div.leaflet-control-scale.leaflet-control {
