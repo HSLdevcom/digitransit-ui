@@ -4,6 +4,7 @@ import { useFragment } from 'react-relay';
 import { DateTime } from 'luxon';
 import cx from 'classnames';
 import { useIntl } from 'react-intl';
+import groupBy from 'lodash/groupBy';
 import CanceledDeparturesFragment from '../queries/CanceledDeparturesFragment';
 import Icon from '../../Icon';
 import EntityBadge from './EntityBadge';
@@ -32,7 +33,7 @@ const CanceledDepartures = ({
         hiddenDepartureCount: inline
           ? Math.max(pattern.canceledTrips.length - departureLimit, 0)
           : 0,
-        canceledTripsByDate: Object.groupBy(
+        canceledTripsByDate: groupBy(
           visibleCanceledTrips,
           ({ serviceDate }) => serviceDate,
         ),
