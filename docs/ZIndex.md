@@ -36,6 +36,16 @@ below uses the separate `$zindex` ordered list (`index($zindex, name)` in
 `sass/base/_zindex.scss`), which is fine for that purpose since all of those
 layers live inside the same local stacking scope.
 
+`$zindex` only lists names actually referenced via `index($zindex, name)` in
+this repo (`ui`). Note that several packages under `digitransit-component/`
+declare their *own*, separately-maintained copy of a `$zindex` list (each
+compiled independently, so there's no risk of one silently overriding
+another) - but those copies have already drifted out of sync with this one
+and with each other (different members/order), so don't assume a name here
+resolves to the same number in a component package. If elements from both
+sides ever need to be compared for real cross-component stacking, use
+`$global-zindex`/`global-z()` instead, not `index($zindex, name)`.
+
 Selector | Component | Z-Index | Comment
 ---------|-----------|---------|--------
 `.fullscreen-toggle` | Map fullscreen toggle | `index($zindex, map-fullscreen-toggle)` |
