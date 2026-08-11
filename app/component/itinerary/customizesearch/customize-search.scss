@@ -335,30 +335,10 @@
     padding-bottom: 12px;
 
     .pr-info-text-area {
-      h3 {
-        color: $black;
-        font-size: $font-size-medium-large;
-        font-weight: $font-weight-medium;
-      }
-
       max-width: 400px;
-      font-size: $font-size-small;
-      font-weight: $font-weight-book;
-      color: $gray;
       display: flex;
       flex-direction: column;
       gap: 4px;
-    }
-  }
-
-  .external-link-container {
-    border: 0;
-    padding: 0;
-
-    a {
-      font-size: $font-size-small;
-      font-weight: $font-weight-medium;
-      color: $link-color;
     }
   }
 
@@ -367,28 +347,25 @@
     flex-direction: row;
     align-items: center;
     gap: 16px;
+    margin-top: 8px;
     padding: 16px 32px 16px 24px;
     background-color: $infobox-color-generic-blue;
     border: solid 1px #d9eaf5;
-    border-radius: 12px;
+    border-radius: 16px;
 
     .icon-area {
       background-color: #bee4f9;
-      width: 5em;
-      height: 5em;
       border-radius: 50%;
     }
 
     .beta-desc {
-      max-width: 280px;
-      font-size: $font-size-xxsmall;
-      font-weight: $font-weight-book;
       color: $gray;
       display: flex;
       flex-direction: column;
       gap: 4px;
 
       .beta-label {
+        font-size: $font-size-xxsmall;
         font-weight: $font-weight-medium;
         color: $black;
         flex-direction: row;
