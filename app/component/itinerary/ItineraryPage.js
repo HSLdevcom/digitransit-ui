@@ -143,7 +143,20 @@ const unset = { plan: {}, loading: LOADSTATE.UNSET };
 const noFocus = { center: undefined, zoom: undefined, bounds: undefined };
 
 export default function ItineraryPage(props, context) {
-  const { match, router } = useRouter();
+  const { match: routerMatch, router } = useRouter();
+  // found's useRouter() exposes the globally current match. While navigating
+  // away to an unrelated, paramless route (e.g. the embedded search generator
+  // from MainMenu), the router context can update to the new route's match
+  // before this component actually unmounts, so match.params/match.location
+  // can momentarily describe a completely different, non-itinerary route.
+  // Keep rendering the last known-good itinerary match in that case instead
+  // of crashing on missing from/to - this component is being torn down
+  // anyway and will unmount on the next render.
+  const lastValidMatchRef = useRef(routerMatch);
+  if (routerMatch.params.from && routerMatch.params.to) {
+    lastValidMatchRef.current = routerMatch;
+  }
+  const match = lastValidMatchRef.current;
   const config = useConfigContext();
   const headerRef = useRef(null);
   const mwtRef = useRef();
