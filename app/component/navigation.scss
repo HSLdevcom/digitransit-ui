@@ -656,19 +656,6 @@ section.content {
       display: flex;
       position: relative;
 
-      .map {
-        z-index: 1;
-      }
-
-      .offcanvas {
-        position: relative;
-        z-index: 900;
-      }
-
-      .offcanvas ~ .map .map-with-tracking-buttons {
-        max-width: none;
-      }
-
       @media print {
         page-break-before: always;
         width: 100%;
