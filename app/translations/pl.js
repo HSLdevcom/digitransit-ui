@@ -82,20 +82,15 @@ export default {
     'call-number': 'Zadzwoń {number}',
     cancel: 'Anuluj',
     canceled: 'Anulowano',
-    'capacity-modal.crushed-standing-room-only-body':
+    'capacity-modal.crushed-standing-room-only':
       'Pozostało niewiele miejsc stojących',
-    'capacity-modal.crushed-standing-room-only-heading': 'Bardzo zatłoczony',
-    'capacity-modal.few-seats-available-body': 'Niektóre miejsca są dostępne',
-    'capacity-modal.few-seats-available-heading': 'Niezbyt tłoczny',
-    'capacity-modal.full-capacity-body': 'Brak miejsc siedzących i stojących',
-    'capacity-modal.full-capacity-heading': 'Zapełniony',
+    'capacity-modal.few-seats-available': 'Niektóre miejsca są dostępne',
+    'capacity-modal.full-capacity': 'Brak miejsc siedzących i stojących',
     'capacity-modal.heading': 'Czy w pojeździe jest miejsce?',
     'capacity-modal.legend': 'Legenda',
-    'capacity-modal.many-seats-available-body': 'Wiele miejsc dostępnych',
-    'capacity-modal.many-seats-available-heading': 'Niezatłoczony',
-    'capacity-modal.standing-room-only-body':
+    'capacity-modal.many-seats-available': 'Wiele miejsc dostępnych',
+    'capacity-modal.standing-room-only':
       'Pozostało niewiele miejsc siedzących i stojących.',
-    'capacity-modal.standing-room-only-heading': 'Prawie pełny',
     'capacity-modal.subheading':
       'Informacja o pojemności w czasie rzeczywistym jest dostępna dla niektórych pojazdów',
     car: 'Samochód',

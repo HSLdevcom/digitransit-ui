@@ -89,14 +89,13 @@ export default {
     'call-number': 'Soita {number}',
     cancel: 'Peruuta',
     canceled: 'Peruttu',
-    'capacity-modal.crushed-standing-room-only-body':
-      'Vain vähän seisomapaikkoja',
-    'capacity-modal.few-seats-available-body': 'Joitakin istumapaikkoja',
-    'capacity-modal.full-capacity-body': 'Ei vapaita paikkoja',
+    'capacity-modal.crushed-standing-room-only': 'Vain vähän seisomapaikkoja',
+    'capacity-modal.few-seats-available': 'Joitakin istumapaikkoja',
+    'capacity-modal.full-capacity': 'Ei vapaita paikkoja',
     'capacity-modal.heading': 'Onko kulkuneuvossa tilaa?',
     'capacity-modal.legend': 'Merkkien selitteet',
-    'capacity-modal.many-seats-available-body': 'Paljon istumapaikkoja',
-    'capacity-modal.standing-room-only-body':
+    'capacity-modal.many-seats-available': 'Paljon istumapaikkoja',
+    'capacity-modal.standing-room-only':
       'Vain vähän istuma- ja seisomapaikkoja',
     'capacity-modal.subheading':
       'Osasta kulkuneuvoja on saatavilla reaaliaikainen arvio paikkatilanteesta',

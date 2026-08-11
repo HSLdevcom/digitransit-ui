@@ -35,17 +35,17 @@ export function capacityToTranslationId(status) {
   switch (status) {
     case 'EMPTY':
     case 'MANY_SEATS_AVAILABLE':
-      return 'capacity-modal.many-seats-available-heading';
+      return 'capacity-modal.many-seats-available';
     case 'STANDING_ROOM_ONLY':
-      return 'capacity-modal.standing-room-only-heading';
+      return 'capacity-modal.standing-room-only';
     case 'CRUSHED_STANDING_ROOM_ONLY':
-      return 'capacity-modal.crushed-standing-room-only-heading';
+      return 'capacity-modal.crushed-standing-room-only';
     case 'NOT_ACCEPTING_PASSENGERS':
     case 'FULL':
-      return 'capacity-modal.full-capacity-heading';
+      return 'capacity-modal.full-capacity';
     case 'FEW_SEATS_AVAILABLE':
     default:
-      return 'capacity-modal.few-seats-available-heading';
+      return 'capacity-modal.few-seats-available';
   }
 }
 

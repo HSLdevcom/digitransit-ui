@@ -94,14 +94,14 @@ export default {
     'call-number': 'Call {number}',
     cancel: 'Cancel',
     canceled: 'Canceled',
-    'capacity-modal.crushed-standing-room-only-body':
+    'capacity-modal.crushed-standing-room-only':
       'Only limited standing room available',
-    'capacity-modal.few-seats-available-body': 'Some seats available',
-    'capacity-modal.full-capacity-body': 'No seats or standing room available',
+    'capacity-modal.few-seats-available': 'Some seats available',
+    'capacity-modal.full-capacity': 'No seats or standing room available',
     'capacity-modal.heading': 'Is there room on board?',
     'capacity-modal.legend': 'Legend for the symbols',
-    'capacity-modal.many-seats-available-body': 'Plenty of seats available',
-    'capacity-modal.standing-room-only-body':
+    'capacity-modal.many-seats-available': 'Plenty of seats available',
+    'capacity-modal.standing-room-only':
       'Only a few seats and limited standing room available',
     'capacity-modal.subheading':
       'A real-time capacity estimate is available for some vehicles',
