@@ -396,6 +396,8 @@ if (process.env.OIDC_CLIENT_ID) {
 }
 setUpStaticFolders();
 setUpMiddleware();
+require('./stopAlertBadgeCache').setupStopAlertBadgeCache(app, config);
+
 setUpRoutes();
 setUpErrorHandling();
 Promise.all([

@@ -22,6 +22,10 @@ import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
 import { useCitybikes } from './modeUtils';
 import { getDefaultNetworks } from './vehicleRentalUtils';
+import {
+  preloadBadgeMap,
+  getStopBadgeFromCache,
+} from './stopStatusSearchUtils';
 
 export default function intializeSearchContext(context, searchContext) {
   searchContext.context = context;
@@ -67,4 +71,8 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.clearOldSearches = clearOldSearches;
   searchContext.getFutureRoutes = getFutureRoutes;
   searchContext.clearFutureRoutes = clearFutureRoutes;
+  if (config.showStopStatusMarkers) {
+    searchContext.preloadBadgeMap = preloadBadgeMap;
+    searchContext.getStopBadgeFromCache = getStopBadgeFromCache;
+  }
 }

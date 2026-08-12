@@ -197,9 +197,23 @@ const SuggestionItem = memo(
     // It fills the input field.
     const [arrowClicked, setArrowClicked] = useState(false);
 
+    const stopStatusBadge = item.properties?.stopStatusBadge;
     const icon = (
-      <span className={styles[iconId]}>
+      <span
+        className={`${styles['suggestion-icon-wrapper']} ${styles[iconId]}`}
+      >
         <Icon color={iconColor} img={iconId} />
+        {stopStatusBadge && (
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 40 40"
+            className={styles['suggestion-status-badge']}
+            aria-hidden="true"
+          >
+            <use href={`#${stopStatusBadge}`} />
+          </svg>
+        )}
       </span>
     );
     let ariaParts;
@@ -409,6 +423,7 @@ SuggestionItem.propTypes = {
       id: PropTypes.string,
       source: PropTypes.string,
       arrowClicked: PropTypes.bool,
+      stopStatusBadge: PropTypes.string,
       destination: PropTypes.shape({
         name: PropTypes.string,
         localadmin: PropTypes.string,

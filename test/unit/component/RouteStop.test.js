@@ -83,6 +83,7 @@ describe('<RouteStop />', () => {
         alerts: [
           {
             alertSeverityLevel: AlertSeverityLevelType.Warning,
+            effectiveStartDate: 1471515600,
           },
         ],
       },

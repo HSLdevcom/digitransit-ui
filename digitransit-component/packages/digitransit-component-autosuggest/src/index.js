@@ -354,10 +354,27 @@ function DTAutosuggest({
             }
             return suggestion;
           });
+
+        const applyBadges = suggestions =>
+          searchContext.getStopBadgeFromCache
+            ? suggestions.map(item => {
+                const badge = searchContext.getStopBadgeFromCache(item);
+                return badge
+                  ? {
+                      ...item,
+                      properties: {
+                        ...item.properties,
+                        stopStatusBadge: badge,
+                      },
+                    }
+                  : item;
+              })
+            : suggestions;
+
         dispatch({
           type: 'FETCH_SUGGESTIONS',
           loading: false,
-          suggestions: newSuggestions,
+          suggestions: applyBadges(newSuggestions),
         });
       },
       pathOpts,
@@ -699,6 +716,7 @@ DTAutosuggest.propTypes = {
     context: PropTypes.object,
     clearOldSearches: PropTypes.func,
     clearFutureRoutes: PropTypes.func,
+    getStopBadgeFromCache: PropTypes.func,
   }).isRequired,
   sources: PropTypes.arrayOf(PropTypes.string),
   targets: PropTypes.arrayOf(PropTypes.string),

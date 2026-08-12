@@ -111,6 +111,7 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
         intializeSearchContext(this.context, searchContext);
         this.setState({ isInitialized: true });
       }
+      searchContext.preloadBadgeMap?.();
     }
 
     componentDidUpdate(prevProps, prevState) {
