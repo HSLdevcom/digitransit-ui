@@ -47,32 +47,22 @@ export default function SettingsButton({ onToggleClick }) {
     return () => clearTimeout(timeoutId);
   }, []);
 
-  let personalizationPopover;
   const personalizationEnabled = isPersonalizationEnabled(config, settings);
-  if (
-    !getDialogState('personalization-acknowledged', config) &&
-    config.personalization
-  ) {
-    personalizationPopover = personalizationEnabled ? (
-      <div>
-        <div className="popover-header">
-          <FormattedMessage id="personalization-new-header" />
-        </div>
-        <FormattedMessage id="personalization-new-feature" />
-      </div>
-    ) : (
-      <FormattedMessage id="personalization-new-feature" />
-    );
-  }
+  const showPrPopover =
+    config.personalization && !isPersonalizationInfoDismissed;
 
   return (
     <div className="right-offcanvas-toggle">
-      {personalizationPopover && (
+      {showPrPopover && (
         <Popover
           targetRef={buttonRef}
           onClose={dismissPopover}
-          message={personalizationPopover}
-          highlight
+          header={
+            personalizationEnabled
+              ? formatMessage({ id: 'personalization-new-header' })
+              : null
+          }
+          message={formatMessage({ id: 'personalization-new-feature' })}
         />
       )}
       {userHasCustomizedSettings &&
@@ -82,12 +72,7 @@ export default function SettingsButton({ onToggleClick }) {
             targetRef={buttonRef}
             icon={<Icon img="icon_checkmark" className="checkmark" />}
             onClose={dismissPopover}
-            message={
-              <FormattedMessage
-                id="settings-changed-by-you"
-                defaultMessage="Settings changed"
-              />
-            }
+            message={formatMessage({ id: 'settings-changed-by-you' })}
           />
         )}
       <div
@@ -102,9 +87,6 @@ export default function SettingsButton({ onToggleClick }) {
           'noborder',
           'cursor-pointer',
           'open-advanced-settings-window-button',
-          {
-            'highlight-z-index': personalizationPopover,
-          },
         )}
       >
         <div className="icon-holder">
