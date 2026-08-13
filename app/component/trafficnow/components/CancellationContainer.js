@@ -57,10 +57,8 @@ CancellationContainer.propTypes = {
     patterns: PropTypes.arrayOf(
       PropTypes.shape({
         pattern: patternShape.isRequired,
-        cancellationCount: PropTypes.number.isRequired,
       }),
     ).isRequired,
-    cancellationCount: PropTypes.number.isRequired,
   }).isRequired,
   mode: PropTypes.string.isRequired,
 };

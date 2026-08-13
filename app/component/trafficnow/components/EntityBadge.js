@@ -48,7 +48,7 @@ function EntityBadge({
 }
 
 EntityBadge.propTypes = {
-  entity: PropTypes.shape(() => entityShape).isRequired,
+  entity: PropTypes.shape(entityShape).isRequired,
   mode: PropTypes.string,
   ariaLabel: PropTypes.string,
   className: PropTypes.string,
