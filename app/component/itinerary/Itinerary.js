@@ -462,7 +462,7 @@ const Itinerary = ({
         />,
       );
       vehicleNames.push(
-        `${formatMessage({ id: leg.mode.toLowerCase() })} ${routeName || ''}}`,
+        `${formatMessage({ id: leg.mode.toLowerCase() })} ${routeName || ''}`,
       );
       stopNames.push(leg.from.name);
       if (

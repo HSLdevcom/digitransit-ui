@@ -467,8 +467,9 @@ export default function TransitLeg({
         <span className="sr-only">{textVersionBeforeLink}</span>
         <div className="small-2 columns itinerary-time-column">
           <span className="sr-only">
-            `${intl.formatMessage({ id: mode })} ${leg.route?.shortName || ''} $
-            {leg.trip?.tripHeadsign || ''}`
+            {`${intl.formatMessage({ id: mode })} ${
+              leg.route?.shortName || ''
+            } ${leg.trip?.tripHeadsign || ''}`}
           </span>
           <span aria-hidden="true">
             <div className="itinerary-time-column-time">
