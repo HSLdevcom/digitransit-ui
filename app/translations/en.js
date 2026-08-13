@@ -43,6 +43,7 @@ export default {
     'alternative-legs':
       'Also {leg1} at {startTime1} and {leg2} at {startTime2}',
     'alternative-legs-single': 'Also {leg1} at {startTime1}',
+    'alternative-name-rail': 'Train',
     'aria-itinerary-summary':
       'Total journey time {duration}. Departing at {inFuture} {departureTime} and arriving at {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
@@ -716,7 +717,6 @@ export default {
     'set-time-earlier-button-label': 'Set travel time to earlier',
     'set-time-later-button-label': 'Set travel time to later',
     settings: 'Settings',
-    'settings-alternative-name-rail': 'Train',
     'settings-changed-by-you': 'You have edited your settings',
     'settings-dropdown-close-label': 'Close options',
     'settings-dropdown-open-label': 'Open options',

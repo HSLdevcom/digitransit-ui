@@ -45,6 +45,7 @@ export default {
     'alternative-legs':
       'Också {leg1} kl. {startTime1} och {leg2} kl. {startTime2}',
     'alternative-legs-single': 'Också {leg1} kl. {startTime1}',
+    'alternative-name-rail': 'Tåg',
     'aria-itinerary-summary':
       'Den totala restiden {duration}. Avgång {inFuture} klockan {departureTime}. Framme klockan {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
@@ -706,7 +707,6 @@ export default {
     'set-time-earlier-button-label': 'Ställ in restid till tidigare',
     'set-time-later-button-label': 'Ställ in restid till senare',
     settings: 'Anpassa',
-    'settings-alternative-name-rail': 'Tåg',
     'settings-changed-by-you': 'Du har ändrat inställningarna',
     'settings-dropdown-close-label': 'Stäng alternativen',
     'settings-dropdown-open-label': 'Öppna alternativen',

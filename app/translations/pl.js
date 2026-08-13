@@ -40,6 +40,7 @@ export default {
     'all-routes-disabled': 'Brak tras',
     'alternative-legs': 'Lub {leg1} o {startTime1} i {leg2} o {startTime2}',
     'alternative-legs-single': 'Lub {leg1} o {startTime1}',
+    'alternative-name-rail': 'Pociąg',
     'aria-itinerary-summary':
       'Łączny czas podróży — {duration}. Odjazd o {inFuture} {departureTime} i przyjazd o {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
@@ -487,7 +488,6 @@ export default {
     'set-time-earlier-button-label': 'Ustaw wcześniejszy czas podróży',
     'set-time-later-button-label': 'Ustaw późniejszy czas podróży',
     settings: 'Ustawienia',
-    'settings-alternative-name-rail': 'Pociąg',
     'settings-dropdown-close-label': 'Zamknij opcje',
     'settings-dropdown-open-label': 'Otwórz opcje',
     'settings-label-change': 'Zmień ustawienia',
