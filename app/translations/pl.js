@@ -86,7 +86,6 @@ export default {
     'capacity-modal.crushed-standing-room-only':
       'Pozostało niewiele miejsc stojących',
     'capacity-modal.few-seats-available': 'Niektóre miejsca są dostępne',
-    'capacity-modal.full-capacity': 'Brak miejsc siedzących i stojących',
     'capacity-modal.heading': 'Czy w pojeździe jest miejsce?',
     'capacity-modal.legend': 'Legenda',
     'capacity-modal.many-seats-available': 'Wiele miejsc dostępnych',

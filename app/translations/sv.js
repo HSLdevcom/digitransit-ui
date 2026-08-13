@@ -97,7 +97,6 @@ export default {
     canceled: 'Inställt',
     'capacity-modal.crushed-standing-room-only': 'Endast få ståplatser',
     'capacity-modal.few-seats-available': 'Några lediga sittplatser',
-    'capacity-modal.full-capacity': 'Inga lediga platser',
     'capacity-modal.heading': 'Finns det plats i fordonet?',
     'capacity-modal.legend': 'Teckenförklaringar',
     'capacity-modal.many-seats-available': 'Många lediga sittplatser',

@@ -98,7 +98,6 @@ export default {
     'capacity-modal.crushed-standing-room-only':
       'Only limited standing room available',
     'capacity-modal.few-seats-available': 'Some seats available',
-    'capacity-modal.full-capacity': 'No seats or standing room available',
     'capacity-modal.heading': 'Is there room on board?',
     'capacity-modal.legend': 'Legend for the symbols',
     'capacity-modal.many-seats-available': 'Plenty of seats available',

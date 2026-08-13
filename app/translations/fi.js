@@ -92,7 +92,6 @@ export default {
     canceled: 'Peruttu',
     'capacity-modal.crushed-standing-room-only': 'Vain vähän seisomapaikkoja',
     'capacity-modal.few-seats-available': 'Joitakin istumapaikkoja',
-    'capacity-modal.full-capacity': 'Ei vapaita paikkoja',
     'capacity-modal.heading': 'Onko kulkuneuvossa tilaa?',
     'capacity-modal.legend': 'Merkkien selitteet',
     'capacity-modal.many-seats-available': 'Paljon istumapaikkoja',
