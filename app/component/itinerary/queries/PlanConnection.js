@@ -105,6 +105,11 @@ export const planConnection = graphql`
                 name
                 code
                 platformCode
+                alerts {
+                  alertSeverityLevel
+                  effectiveEndDate
+                  effectiveStartDate
+                }
               }
             }
             start {

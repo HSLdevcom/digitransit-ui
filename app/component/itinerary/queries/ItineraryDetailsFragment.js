@@ -268,6 +268,11 @@ export const ItineraryDetailsFragment = graphql`
           code
           platformCode
           zoneId
+          alerts {
+            alertSeverityLevel
+            effectiveEndDate
+            effectiveStartDate
+          }
           parentStation {
             gtfsId
           }

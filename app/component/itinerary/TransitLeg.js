@@ -39,6 +39,10 @@ import {
   getValidatedLegName,
   isLocalCallAgency,
 } from '../../util/legUtils';
+import {
+  getStopStatusFromStopData,
+  STOP_STATUS_BADGE_IMGS,
+} from '../../util/stopStatusUtils';
 import { shouldShowFareInfo } from '../../util/fareUtils';
 import { AlertEntityType, AlertSeverityLevelType } from '../../constants';
 import { legShape } from '../../util/shapes';
@@ -182,6 +186,14 @@ export default function TransitLeg({
         const isFirstPlace = i === 0;
         const isLastPlace = i === array.length - 1;
         const isCanceled = tripHasCancelationForStop(leg.trip, place.stop);
+        const stopStatus = getStopStatusFromStopData({
+          stop: place.stop,
+          nowUnixTime: Date.now() / 1000,
+          showStopStatusMarkers: config.showStopStatusMarkers,
+          servicesRunningOnServiceDate: true,
+          servicesRunningInFuture: true,
+        });
+        const badgeImg = stopStatus && STOP_STATUS_BADGE_IMGS[stopStatus];
 
         const previousZoneId =
           (array[i - 1] && array[i - 1].stop.zoneId) ||
@@ -230,6 +242,7 @@ export default function TransitLeg({
             isViaPoint={place.isViaPoint}
             isLastPlace={isLastPlace}
             isCanceled={isCanceled}
+            badgeImg={badgeImg}
           />
         );
       });

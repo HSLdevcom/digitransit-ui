@@ -4,7 +4,7 @@ $topbar-height: 40px;
 $itinerary-tab-switch-height: 48px;
 
 @mixin getCircleSvg($stroke, $fill) {
-  svg {
+  svg:not(.intermediate-stop-status-badge) {
     stroke: $stroke;
     fill: $fill;
   }
@@ -1131,6 +1131,24 @@ $itinerary-tab-switch-height: 48px;
         fill: #fff;
         stroke: #666;
       }
+    }
+
+    .icon-container {
+      display: block;
+      width: 28px;
+      height: 28px;
+    }
+
+    .intermediate-stop-status-badge {
+      filter: drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff)
+        drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff);
+      display: block;
+      width: 18px;
+      height: 18px;
+
+      // Align badge center with the transit line (x=11, y=10).
+      margin-top: 1px;
+      margin-left: 2px;
     }
   }
 }

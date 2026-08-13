@@ -26,6 +26,7 @@ function IntermediateLeg(
     isViaPoint,
     isCanceled,
     isLastPlace,
+    badgeImg,
   },
   { config },
 ) {
@@ -119,14 +120,18 @@ function IntermediateLeg(
           style={zonesCircleStyle()}
           className={`leg-before-circle circle-fill ${modeClassName}`}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={28}
-            height={28}
-            style={{ fill: '#fff', stroke: color }}
-          >
-            <circle strokeWidth="3" width={28} cx={11} cy={10} r={4} />
-          </svg>
+          {badgeImg ? (
+            <Icon img={badgeImg} className="intermediate-stop-status-badge" />
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={28}
+              height={28}
+              style={{ fill: '#fff', stroke: color }}
+            >
+              <circle strokeWidth="3" width={28} cx={11} cy={10} r={4} />
+            </svg>
+          )}
         </div>
         <div style={{ color }} className={`leg-before-line ${modeClassName}`} />
         {isLastPlace && (
@@ -196,6 +201,7 @@ IntermediateLeg.propTypes = {
   isLastPlace: PropTypes.bool,
   gtfsId: PropTypes.string,
   isCanceled: PropTypes.bool,
+  badgeImg: PropTypes.string,
 };
 
 IntermediateLeg.defaultProps = {
