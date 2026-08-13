@@ -70,12 +70,12 @@ describe('occupancyUtil', () => {
       );
     });
 
-    it('should map NOT_ACCEPTING_PASSENGERS and FULL to full-capacity', () => {
+    it('should map NOT_ACCEPTING_PASSENGERS and FULL to crushed-standing-room', () => {
       expect(capacityToTranslationId('NOT_ACCEPTING_PASSENGERS')).to.equal(
-        'capacity-modal.full-capacity',
+        'capacity-modal.crushed-standing-room-only',
       );
       expect(capacityToTranslationId('FULL')).to.equal(
-        'capacity-modal.full-capacity',
+        'capacity-modal.crushed-standing-room-only',
       );
     });
 
