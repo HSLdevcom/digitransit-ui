@@ -11,7 +11,10 @@ import CanceledTripCard from './CanceledTripCard';
 import DisruptionCard from './DisruptionCard';
 import NoDisruptions from './components/NoDisruptions';
 import { useFilterContext } from './filters/FiltersContext';
-import { filterAndSortAlerts } from './filters/filterUtils';
+import {
+  filterAndSortAlerts,
+  filterCanceledModes,
+} from './filters/filterUtils';
 import AlertsQuery from './queries/AlertsQuery';
 import CanceledTripsOverviewQuery from './queries/CanceledTripsOverviewQuery';
 import { buildDisruptionCards } from './utils';
@@ -80,6 +83,12 @@ export default function Disruptions() {
     () => getCanceledModes(cancelationsByMode, config.feedIds),
     [cancelationsByMode, config.feedIds],
   );
+
+  const canceledModesFiltered =
+    selectedFilters.validityPeriod === 'UPCOMING'
+      ? []
+      : filterCanceledModes(canceledModes, selectedFilters);
+
   const disruptions = useMemo(
     () => filterAndSortAlerts(alerts, selectedFilters),
     [alerts, selectedFilters],
@@ -94,7 +103,7 @@ export default function Disruptions() {
 
   const noResults = !disruptions.length && !canceledModes.length;
 
-  const resultAmount = canceledModes.length + disruptionCards.length;
+  const resultAmount = canceledModesFiltered.length + disruptionCards.length;
 
   return (
     <div
@@ -115,7 +124,7 @@ export default function Disruptions() {
             {msg => <h3 className="heading-xs">{msg}</h3>}
           </FormattedMessage>
           <div className="disruptions-list">
-            {canceledModes.map(({ key, routes }) => (
+            {canceledModesFiltered.map(({ key, routes }) => (
               <CanceledTripCard
                 isMobile={mobile}
                 key={key}

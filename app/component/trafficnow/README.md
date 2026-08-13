@@ -140,7 +140,5 @@ Important behavior:
 4. If cancellation grouping logic changes, ensure overview (`CanceledTripCard.js`) and mode detail (`CanceledTrips.js`) stay conceptually aligned.
 
 ## TODO
-- Move `CanceledTripsContainer` under `FilterContextProvider` and have the selected filters affect CanceledTrips as well
-  - Added filtering based on mode selection, more filters could be added when the api supports them
 - Change `Disruptions` view to render paginated results when OTP endpoint supports pagination
   - Blocked until API updates

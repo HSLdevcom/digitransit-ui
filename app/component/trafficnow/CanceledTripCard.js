@@ -15,6 +15,22 @@ import EntityBadge from './components/EntityBadge';
 import { favouriteShape, patternShape, routeShape } from '../../util/shapes';
 import { useFilterContext } from './filters/FiltersContext';
 
+// Sort routes by shorName, favourites, search entity
+const sortRoutes = (routes, favRoutes, highlightedGtfsId) =>
+  routes
+    .slice()
+    .sort((a, b) => b.route.shortName - a.route.shortName)
+    .sort(
+      (a, b) =>
+        Number(favRoutes.includes(b.route.gtfsId)) -
+        Number(favRoutes.includes(a.route.gtfsId)),
+    )
+    .sort(
+      (a, b) =>
+        Number(b.route.gtfsId === highlightedGtfsId) -
+        Number(a.route.gtfsId === highlightedGtfsId),
+    );
+
 const CanceledTripCard = ({
   mode,
   routes,
@@ -31,6 +47,8 @@ const CanceledTripCard = ({
     router.push(url);
   };
   const favRoutes = favourites.map(({ gtfsId }) => gtfsId);
+
+  const highlightedGtfsId = selectedFilters.entity?.gtfsId;
 
   return (
     <Card
@@ -63,14 +81,8 @@ const CanceledTripCard = ({
         <RouteBadgeGroup
           mode={mode}
           stopPropagation
-          highlightedGtfsId={selectedFilters.entity?.gtfsId}
-          routes={routes
-            .slice()
-            .sort(
-              (a, b) =>
-                Number(favRoutes.includes(b.route.gtfsId)) -
-                Number(favRoutes.includes(a.route.gtfsId)),
-            )
+          highlightedGtfsId={highlightedGtfsId}
+          routes={sortRoutes(routes, favRoutes, highlightedGtfsId)
             .slice(0, trafficNowMaxRoutesPerCard)
             .map(({ route }) => ({
               name: route.shortName,
