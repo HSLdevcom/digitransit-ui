@@ -1,4 +1,7 @@
-import { groupEntitiesByMode } from '../../../app/component/trafficnow/utils';
+import {
+  groupEntitiesByMode,
+  buildDisruptionCards,
+} from '../../../app/component/trafficnow/utils';
 import { stopPagePath, routePagePath } from '../../../app/util/path';
 
 const mocks = {
@@ -241,5 +244,88 @@ describe('trafficNowUtil', () => {
       useExtendedRouteTypes: false,
     });
     expect(grouped).to.be.an('object');
+  });
+});
+
+describe('buildDisruptionCards vehicleModes filter with extended route types', () => {
+  const extendedConfig = { useExtendedRouteTypes: true };
+
+  const makeAlert = (id, routeType) => ({
+    id,
+    entities: [
+      {
+        __typename: 'Route',
+        gtfsId: `MATKA:${id}`,
+        id: `ROUTE_${id}`,
+        mode: 'BUS',
+        type: routeType,
+        shortName: id,
+        __isNode: 'Route',
+      },
+    ],
+  });
+
+  const speedTramAlert = {
+    id: 'SPEEDTRAM_ALERT',
+    entities: [
+      {
+        __typename: 'Route',
+        gtfsId: 'MATKA:900',
+        id: 'ROUTE_ST',
+        mode: 'TRAM',
+        type: 900, // ExtendedRouteTypes.SpeedTram
+        shortName: 'ST',
+        __isNode: 'Route',
+      },
+    ],
+  };
+
+  it('includes bus-local cards when bus filter is active', () => {
+    const cards = buildDisruptionCards(
+      [makeAlert('LOCAL', 704)],
+      { vehicleModes: ['bus'] },
+      extendedConfig,
+    );
+    expect(cards).to.have.lengthOf(1);
+    expect(cards[0].mode).to.equal('bus-local');
+  });
+
+  it('includes bus-express cards when bus filter is active', () => {
+    const cards = buildDisruptionCards(
+      [makeAlert('EXPRESS', 702)],
+      { vehicleModes: ['bus'] },
+      extendedConfig,
+    );
+    expect(cards).to.have.lengthOf(1);
+    expect(cards[0].mode).to.equal('bus-express');
+  });
+
+  it('includes replacement-bus cards when bus filter is active', () => {
+    const cards = buildDisruptionCards(
+      [makeAlert('REPL', 714)],
+      { vehicleModes: ['bus'] },
+      extendedConfig,
+    );
+    expect(cards).to.have.lengthOf(1);
+    expect(cards[0].mode).to.equal('replacement-bus');
+  });
+
+  it('includes speedtram cards when tram filter is active', () => {
+    const cards = buildDisruptionCards(
+      [speedTramAlert],
+      { vehicleModes: ['tram'] },
+      extendedConfig,
+    );
+    expect(cards).to.have.lengthOf(1);
+    expect(cards[0].mode).to.equal('speedtram');
+  });
+
+  it('excludes bus-local cards when only tram filter is active', () => {
+    const cards = buildDisruptionCards(
+      [makeAlert('LOCAL', 704)],
+      { vehicleModes: ['tram'] },
+      extendedConfig,
+    );
+    expect(cards).to.have.lengthOf(0);
   });
 });
