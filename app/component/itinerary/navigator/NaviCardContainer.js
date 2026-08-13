@@ -166,7 +166,7 @@ function NaviCardContainer(
     }
     let timeoutId;
     if (legChanged) {
-      updateClient(getNaviTopics(), context);
+      updateClient(getNaviTopics(), context, config);
       setLegChanging(true);
       timeoutId = setTimeout(() => {
         setLegChanging(false);
