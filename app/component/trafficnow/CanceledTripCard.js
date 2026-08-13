@@ -14,22 +14,7 @@ import DisruptionBadge from './DisruptionBadge';
 import EntityBadge from './components/EntityBadge';
 import { favouriteShape, patternShape, routeShape } from '../../util/shapes';
 import { useFilterContext } from './filters/FiltersContext';
-
-// Sort routes by shortName, favourites, search entity
-const sortRoutes = (routes, favRoutes, highlightedGtfsId) =>
-  routes
-    .slice()
-    .sort((a, b) => `${a.route.shortName}`.localeCompare(b.route.shortName))
-    .sort(
-      (a, b) =>
-        Number(favRoutes.includes(b.route.gtfsId)) -
-        Number(favRoutes.includes(a.route.gtfsId)),
-    )
-    .sort(
-      (a, b) =>
-        Number(b.route.gtfsId === highlightedGtfsId) -
-        Number(a.route.gtfsId === highlightedGtfsId),
-    );
+import { sortRoutes } from './utils';
 
 const CanceledTripCard = ({
   mode,

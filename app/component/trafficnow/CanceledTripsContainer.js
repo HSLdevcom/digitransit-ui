@@ -6,6 +6,7 @@ import { DateTime } from 'luxon';
 import CanceledTrips from './CanceledTrips';
 import CanceledTripsForModeQuery from './queries/CanceledTripsForModeQuery';
 import { favouriteShape } from '../../util/shapes';
+import { sortRoutes } from './utils';
 
 const CanceledTripsContainer = ({ mode, isMobile, favourites = [] }) => {
   const { canceledTripsSummary } = useLazyLoadQuery(CanceledTripsForModeQuery, {
@@ -16,13 +17,7 @@ const CanceledTripsContainer = ({ mode, isMobile, favourites = [] }) => {
 
   return (
     <CanceledTrips
-      canceledRoutes={canceledTripsSummary.routes
-        .slice()
-        .sort(
-          (a, b) =>
-            Number(favRoutes.includes(b.route.gtfsId)) -
-            Number(favRoutes.includes(a.route.gtfsId)),
-        )}
+      canceledRoutes={sortRoutes(canceledTripsSummary.routes, favRoutes)}
       mode={mode}
       isMobile={isMobile}
     />
