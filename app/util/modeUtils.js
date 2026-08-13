@@ -250,6 +250,23 @@ export function getPrimaryStopMode(
 }
 
 /**
+ * Maps an extended route mode string back to its base transport mode.
+ */
+export function getBaseTransportMode(mode) {
+  if (
+    mode === 'bus-local' ||
+    mode === 'bus-express' ||
+    mode === 'replacement-bus'
+  ) {
+    return 'bus';
+  }
+  if (mode === 'speedtram') {
+    return 'tram';
+  }
+  return mode;
+}
+
+/**
  * @returns icon name
  */
 export function transitIconName(mode, lollipop) {

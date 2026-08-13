@@ -75,7 +75,6 @@ export default {
       'You can park your bike near the station or stop and continue your journey conveniently by public transport',
     'bike-park-disclaimer-header': 'Zaparkuj rower',
     'bike-station-disabled': 'The bike station is out of service.',
-    'bikes-available': '{amount} rowery na stacji ',
     'biking-speed': 'Prędkość jazdy rowerem',
     bus: 'Autobus',
     'bus-express': 'Trunk bus',
@@ -261,12 +260,12 @@ export default {
     'itinerary-summary-row.clickable-area-description': 'Pokaż na mapie',
     'itinerary-summary-row.description':
       'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
-    'itinerary-summary-row.first-departure':
-      '{vehicle} odjeżdża o {firstDepartureTime} z przystanku {firstDepartureStop}.',
     'itinerary-summary-row.first-leg-start-time':
       'Odjeżdża o {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
+    'itinerary-summary-row.first-leg-start-time-sr':
+      '{vehicle} odjeżdża o {firstDepartureTime} z przystanku {firstDepartureStop}.',
     'itinerary-summary-row.no-transit-legs': 'Wyrusz, kiedy ci to pasuje',
     'itinerary-summary-row.transfers':
       'Transfer to {vehicle} on stop {stopName}',
