@@ -53,7 +53,19 @@ const Snackbar = ({
           />
         </button>
       </div>
-      <div className="sr-only" aria-live="polite" role="status">
+      {/* .sr-only relies on position: absolute with no top/left, so its
+          static-position fallback is used. Portaled directly to
+          document.body (after all in-flow app content), that fallback
+          places it right at the bottom of the document, 1px below the
+          viewport, which creates a spurious scrollbar. Pinning it with an
+          inline style (highest CSS priority, so it overrides the shared
+          .sr-only rule) keeps it fixed to the viewport instead. */}
+      <div
+        className="sr-only"
+        style={{ position: 'fixed', top: 0, left: 0 }}
+        aria-live="polite"
+        role="status"
+      >
         {liveRegionMessage}
       </div>
     </>
