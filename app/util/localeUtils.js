@@ -1,9 +1,9 @@
 import { TransportMode } from '../constants';
 import {
   isBikeOrScooterRentalLeg,
+  isPlatformChanged,
   isScooterLeg,
   isTaxiLeg,
-  isPlatformChanged,
   legTimeStr,
 } from './legUtils';
 import { dateOrEmpty, durationToString } from './timeUtils';
@@ -126,7 +126,6 @@ const FIRST_DEPARTURE_STOP_TYPE_MSGS = {
   FERRY: { id: 'from-ferrypier' },
   RAIL: { id: 'from-station' },
   SUBWAY: { id: 'from-station' },
-  TAXI: { id: 'from-place' },
   default: { id: 'from-stop' },
 };
 
@@ -168,7 +167,10 @@ export function getBoardingInformationText(
   return '';
 }
 
-function getFirstDepartureLabelId(firstDepartureLeg) {
+export function getFirstDepartureMessageId(
+  firstDepartureLeg,
+  isScreenReaderMessage,
+) {
   if (isBikeOrScooterRentalLeg(firstDepartureLeg)) {
     return isScooterLeg(firstDepartureLeg)
       ? 'itinerary-summary-row.first-leg-start-time-scooter'
@@ -177,7 +179,9 @@ function getFirstDepartureLabelId(firstDepartureLeg) {
   if (isTaxiLeg(firstDepartureLeg)) {
     return 'itinerary-summary-row.first-leg-start-time-taxi';
   }
-  return 'itinerary-summary-row.first-departure';
+  return isScreenReaderMessage
+    ? 'itinerary-summary-row.first-leg-start-time-sr'
+    : 'itinerary-summary-row.first-leg-start-time';
 }
 
 /**
@@ -229,7 +233,7 @@ export function getSummaryDescriptionText(
   const firstDepartureText =
     vehicleNames.length && firstDeparture
       ? intl.formatMessage(
-          { id: getFirstDepartureLabelId(firstDeparture) },
+          { id: getFirstDepartureMessageId(firstDeparture, true) },
           {
             vehicle: vehicleNames[0],
             firstDepartureTime,

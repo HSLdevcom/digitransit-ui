@@ -188,13 +188,11 @@ const buildFooterData = (rootLink, lang) => ({
         en: '/hsl/privacy-policy',
       }),
     },
-    cookieSettingsLink: {
-      href: href(rootLink, lang, {
-        fi: '/hsl/tietosuoja',
-        sv: '/hrt/dataskydd',
-        en: '/hsl/privacy-policy',
-      }),
-    },
+    cookieSettingsLabel: {
+      fi: 'Evästeasetukset',
+      sv: 'Cookie inställningar',
+      en: 'Cookie settings',
+    }[lang],
     termsOfUseLink: {
       href: href(rootLink, lang, {
         fi: '/kayttoehdot',

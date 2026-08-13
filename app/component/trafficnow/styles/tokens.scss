@@ -3,15 +3,6 @@
 // ============================================================================
 // Shared SCSS constants and component-level CSS custom properties.
 
-// Font weight definitions must be set before typography import in main.scss
-$font-weight-book: 350;
-$font-weight-medium: 500;
-
-:root {
-  --font-weight-book: #{$font-weight-book};
-  --font-weight-medium: #{$font-weight-medium};
-}
-
 // Breakpoints
 $bp-tablet-small: 620px;
 $bp-tablet: 900px;
