@@ -15,11 +15,11 @@ import EntityBadge from './components/EntityBadge';
 import { favouriteShape, patternShape, routeShape } from '../../util/shapes';
 import { useFilterContext } from './filters/FiltersContext';
 
-// Sort routes by shorName, favourites, search entity
+// Sort routes by shortName, favourites, search entity
 const sortRoutes = (routes, favRoutes, highlightedGtfsId) =>
   routes
     .slice()
-    .sort((a, b) => b.route.shortName - a.route.shortName)
+    .sort((a, b) => `${a.route.shortName}`.localeCompare(b.route.shortName))
     .sort(
       (a, b) =>
         Number(favRoutes.includes(b.route.gtfsId)) -

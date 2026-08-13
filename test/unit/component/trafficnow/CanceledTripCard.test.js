@@ -127,7 +127,7 @@ describe('<CanceledTripCard />', () => {
       const routes = wrapper.find(RouteBadgeGroup).prop('routes');
 
       expect(routes).to.have.lengthOf(3);
-      expect(routes.map(route => route.name)).to.deep.equal(['25', '24', '23']);
+      expect(routes.map(route => route.name)).to.deep.equal(['20', '21', '22']);
     });
 
     it('renders the count of hidden routes when there are more than allowed', () => {
