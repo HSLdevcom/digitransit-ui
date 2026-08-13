@@ -2,43 +2,66 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import { configShape } from '../util/shapes';
-import { transitIconName } from '../util/modeUtils';
+import { transitIconName, modeToTranslationId } from '../util/modeUtils';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import Icon from './Icon';
 import { TransportMode } from '../constants';
+import { useConfigContext } from '../configurations/ConfigContext';
 
 const LONG_ROUTE_NUMBER_LENGTH = 6;
 
-function RouteNumber(props, context) {
+export default function RouteNumber({
+  alertSeverityLevel,
+  badgeFill,
+  badgeText,
+  badgeTextFill,
+  appendClass,
+  className = '',
+  vertical = false,
+  card = false,
+  hasDisruption = false,
+  text = '',
+  withBar = false,
+  isCallAgency = false,
+  icon,
+  isTransitLeg = false,
+  renderModeIcons = false,
+  withBicycle = false,
+  withCar = false,
+  color,
+  duration,
+  occupancyStatus,
+  shortenLongText = false,
+  mode: originalMode,
+}) {
   const intl = useIntl();
-  const mode = props.mode.toLowerCase();
-  const { alertSeverityLevel, color, withBicycle, withCar } = props;
+  const config = useConfigContext();
+  const mode = originalMode.toLowerCase();
   const isScooter = mode === TransportMode.Scooter.toLowerCase();
   const isTaxi = mode === TransportMode.Taxi.toLowerCase();
 
   // Perform text-related processing
-  let filteredText = props.text;
+  let filteredText = text;
   if (
-    (props.shortenLongText &&
-      context.config.disabledLegTextModes?.includes(mode) &&
-      props.className.includes('line')) ||
+    (shortenLongText &&
+      config.disabledLegTextModes?.includes(mode) &&
+      className.includes('line')) ||
     isTaxi
   ) {
     filteredText = '';
   }
   const textFieldIsText = typeof filteredText === 'string'; // can be also react node
   if (
-    props.shortenLongText &&
-    context.config.shortenLongTextThreshold &&
+    shortenLongText &&
+    config.shortenLongTextThreshold &&
     filteredText &&
     textFieldIsText &&
-    filteredText.length > context.config.shortenLongTextThreshold
+    filteredText.length > config.shortenLongTextThreshold
   ) {
     filteredText = `${filteredText.substring(
       0,
-      context.config.shortenLongTextThreshold - 3,
+      config.shortenLongTextThreshold - 3,
     )}...`;
   }
 
@@ -54,16 +77,9 @@ function RouteNumber(props, context) {
     /^([^0-9]*)$/.test(filteredText) &&
     filteredText.length > 3;
 
-  const getColor = () => color || (props.isTransitLeg ? 'currentColor' : null);
+  const getColor = () => color || (isTransitLeg ? 'currentColor' : null);
 
-  const getIcon = (
-    icon,
-    isCallAgency,
-    hasDisruption,
-    badgeFill,
-    badgeText,
-    badgeTextFill,
-  ) => {
+  const getIcon = () => {
     const iconName = icon || transitIconName(mode, false);
 
     if (hasDisruption || !!alertSeverityLevel) {
@@ -99,9 +115,9 @@ function RouteNumber(props, context) {
             mode,
             {
               [['secondary']]:
-                mode === 'citybike' && props.icon?.includes('secondary'), // Vantaa citybike station
+                mode === 'citybike' && icon?.includes('secondary'), // Vantaa citybike station
             },
-            props.appendClass,
+            appendClass,
           )}
           img={iconName}
           subIcon=""
@@ -123,48 +139,29 @@ function RouteNumber(props, context) {
   const rNumber = (
     <span
       className={cx('route-number', {
-        vertical: props.vertical,
+        vertical,
       })}
     >
       <span
-        className={cx('vcenter-children', props.className)}
+        className={cx('vcenter-children', className)}
         aria-label={intl.formatMessage({
-          id: mode,
+          id: modeToTranslationId(mode, config),
           defaultMessage: 'Vehicle',
         })}
         role="img"
       >
-        {((!props.isTransitLeg && !props.renderModeIcons) ||
-          props.appendClass === 'scooter') && (
-          <div className={cx('empty', props.appendClass)} />
+        {((!isTransitLeg && !renderModeIcons) || appendClass === 'scooter') && (
+          <div className={cx('empty', appendClass)} />
         )}
-        {props.isTransitLeg === true ? (
-          <div className={`special-icon ${mode}`}>
-            {getIcon(
-              props.icon,
-              props.isCallAgency,
-              props.hasDisruption,
-              props.badgeFill,
-              props.badgeText,
-              props.badgeTextFill,
-            )}
-          </div>
+        {isTransitLeg === true ? (
+          <div className={`special-icon ${mode}`}>{getIcon()}</div>
         ) : (
-          <div className={`icon ${mode}`}>
-            {getIcon(
-              props.icon,
-              props.isCallAgency,
-              props.hasDisruption,
-              props.badgeFill,
-              props.badgeText,
-              props.badgeTextFill,
-            )}
-          </div>
+          <div className={`icon ${mode}`}>{getIcon()}</div>
         )}
         {filteredText && (
           <div
             className={cx(
-              'vehicle-number-container-v'.concat(props.card ? '-map' : ''),
+              'vehicle-number-container-v'.concat(card ? '-map' : ''),
               {
                 long: hasNoShortName,
               },
@@ -172,12 +169,10 @@ function RouteNumber(props, context) {
           >
             <span
               aria-hidden="true"
-              className={cx(
-                'vehicle-number'.concat(props.card ? '-map' : ''),
-                mode,
-                { long: longText },
-              )}
-              style={{ color: !props.withBar ? getColor() : null }}
+              className={cx('vehicle-number'.concat(card ? '-map' : ''), mode, {
+                long: longText,
+              })}
+              style={{ color: !withBar ? getColor() : null }}
             >
               {filteredText}
             </span>
@@ -186,22 +181,21 @@ function RouteNumber(props, context) {
             )}
           </div>
         )}
-        {((!context.config.hideWalkLegDurationSummary &&
-          props.isTransitLeg === false) ||
+        {((!config.hideWalkLegDurationSummary && isTransitLeg === false) ||
           isTaxi) &&
-          props.duration > 0 && (
+          duration > 0 && (
             <div className={`leg-duration-container ${mode} `}>
-              <span className="leg-duration">{props.duration}</span>
+              <span className="leg-duration">{duration}</span>
             </div>
           )}
-        {isScooter && !props.vertical && (
+        {isScooter && !vertical && (
           <Icon img="icon_smartphone" className="phone-icon" />
         )}
       </span>
-      {props.occupancyStatus && (
+      {occupancyStatus && (
         <span className="occupancy-icon-container">
           <Icon
-            img={`icon_${props.occupancyStatus}`}
+            img={`icon_${occupancyStatus}`}
             height={1.5}
             width={1.5}
             color="white"
@@ -211,10 +205,10 @@ function RouteNumber(props, context) {
     </span>
   );
 
-  return props.withBar ? (
+  return withBar ? (
     <div className={cx('bar-container', { long: hasNoShortName })}>
       <div
-        className={cx('bar', mode, props.appendClass)}
+        className={cx('bar', mode, appendClass)}
         style={{ backgroundColor: getColor() }}
       >
         {rNumber}
@@ -249,33 +243,3 @@ RouteNumber.propTypes = {
   occupancyStatus: PropTypes.string,
   shortenLongText: PropTypes.bool,
 };
-
-RouteNumber.defaultProps = {
-  alertSeverityLevel: undefined,
-  badgeFill: undefined,
-  badgeText: undefined,
-  badgeTextFill: undefined,
-  appendClass: undefined,
-  className: '',
-  vertical: false,
-  card: false,
-  hasDisruption: false,
-  text: '',
-  withBar: false,
-  isCallAgency: false,
-  icon: undefined,
-  isTransitLeg: false,
-  renderModeIcons: false,
-  withBicycle: false,
-  withCar: false,
-  color: undefined,
-  duration: undefined,
-  occupancyStatus: undefined,
-  shortenLongText: false,
-};
-
-RouteNumber.contextTypes = {
-  config: configShape.isRequired,
-};
-
-export default RouteNumber;
