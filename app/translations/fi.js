@@ -710,6 +710,7 @@ export default {
     'settings-taxi':
       'Voit valita haluamasi taksi- ja kyytipalvelut, jolloin ne ovat osana reititystä',
     'settings-taxi-routes': 'Taksi- ja kyytipalvelut osaksi reittejäsi!',
+    'show-all': 'Näytä kaikki',
     'show-departures': 'Näytä lähdöt',
     'show-more': 'Näytä lisää',
     'show-more-stops-near-you': 'Näytä lisää pysäkkejä lähelläsi',
@@ -806,7 +807,7 @@ export default {
     'traffic-now-long': 'Liikennetilanne nyt',
     'traffic-now_bread': 'Matkustaminen',
     'traffic-now_canceled-trips--amount':
-      'Näytetään {amount} yhteensä {totalAmount} perutusta lähdöstä',
+      'Näytetään {amount} yhteensä {totalAmount} linjasta',
     'traffic-now_canceled-trips--simple': '{amount} peruttua',
     'traffic-now_description':
       'Ajantasaiset tiedot häiriöistä ja poikkeuksista. ',

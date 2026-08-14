@@ -731,6 +731,7 @@ export default {
       'You can choose your preferred taxi and ride‑hailing services to include them in route planning.',
     'settings-taxi-routes':
       'Include taxi and ride‑hailing services in your routes!',
+    'show-all': 'Show all',
     'show-departures': 'Show departures',
     'show-more': 'Show more',
     'show-more-stops-near-you': 'Show more stops near you',
@@ -826,7 +827,7 @@ export default {
     'traffic-now-long': 'Services now',
     'traffic-now_bread': 'Travelling',
     'traffic-now_canceled-trips--amount':
-      'Listing {amount} of {totalAmount} cancelled departures',
+      'Listing {amount} of {totalAmount} routes',
     'traffic-now_canceled-trips--simple': '{amount} cancellations',
     'traffic-now_description':
       'Up-to-date information on disruptions and exceptions. ',

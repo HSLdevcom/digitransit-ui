@@ -720,6 +720,7 @@ export default {
       'Du kan själv välja vilka taxi- och skjutstjänster som ska ingå i din rutt',
     'settings-taxi-routes':
       'Använd taxi- och skjutstjänster som en del av din resa!',
+    'show-all': 'Visa alla',
     'show-departures': 'Visa avgångarna',
     'show-more': 'Visa mer',
     'show-more-stops-near-you': 'Visa flera hållplatser nära dig',
@@ -818,7 +819,7 @@ export default {
     'traffic-now-long': 'Trafikläget nu',
     'traffic-now_bread': 'Att resa med oss',
     'traffic-now_canceled-trips--amount':
-      'Visar {amount} av {totalAmount} inställda avgångar',
+      'Visar {amount} av {totalAmount} rutter',
     'traffic-now_canceled-trips--simple': '{amount} inställda',
     'traffic-now_description':
       'Aktuell information om störningar och undantag. ',

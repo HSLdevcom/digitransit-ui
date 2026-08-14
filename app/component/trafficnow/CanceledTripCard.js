@@ -1,57 +1,39 @@
 import React from 'react';
 import { useRouter } from 'found';
-import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
+import { connectToStores } from 'fluxible-addons-react';
 import { useConfigContext } from '../../configurations/ConfigContext';
-import { PREFIX_TIMETABLE, TRAFFICNOW, routePagePath } from '../../util/path';
+import { TRAFFICNOW, routePagePath } from '../../util/path';
 import Card from '../Card';
 import Icon from '../Icon';
 import CanceledDepartures from './components/CanceledDepartures';
 import DisruptionStatus from './components/DisruptionStatus';
 import RouteBadgeGroup from './components/RouteBadgeGroup';
 import DisruptionBadge from './DisruptionBadge';
+import EntityBadge from './components/EntityBadge';
+import { favouriteShape, patternShape, routeShape } from '../../util/shapes';
+import { useFilterContext } from './filters/FiltersContext';
+import { sortRoutes } from './utils';
 
-const CanceledTripCard = ({ mode, totalCount, trips, isMobile = false }) => {
+const CanceledTripCard = ({
+  mode,
+  routes,
+  isMobile = false,
+  favourites = [],
+}) => {
   const { router } = useRouter();
-  const { colors } = useConfigContext();
-
+  const intl = useIntl();
+  const { colors, trafficNowMaxRoutesPerCard } = useConfigContext();
+  const { selectedFilters } = useFilterContext();
   const handleRouteBadgeClick = url => e => {
     e.preventDefault();
     e.stopPropagation();
     router.push(url);
   };
+  const favRoutes = favourites.map(({ gtfsId }) => gtfsId);
 
-  /* eslint-disable no-param-reassign */
-  const groupedTrips = trips.reduce((container, { start, trip }) => {
-    if (!trip?.route?.gtfsId || !start?.schedule?.time?.departure) {
-      return container;
-    }
-
-    const shortName = trip?.route?.shortName || 'unknown';
-    if (container[shortName]) {
-      container[shortName].trips.push({
-        ...trip,
-        departureTime: DateTime.fromISO(
-          start?.schedule.time.departure,
-        ).toFormat('HH:mm'),
-      });
-    } else {
-      container[shortName] = {
-        routeGtfsId: trip.route.gtfsId,
-        trips: [
-          {
-            ...trip,
-            departureTime: DateTime.fromISO(
-              start?.schedule.time.departure,
-            ).toFormat('HH:mm'),
-          },
-        ],
-      };
-    }
-    return container;
-  }, {});
-
-  const isSingleRoute = Object.keys(groupedTrips).length === 1;
+  const highlightedGtfsId = selectedFilters.entity?.gtfsId;
 
   return (
     <Card
@@ -63,7 +45,6 @@ const CanceledTripCard = ({ mode, totalCount, trips, isMobile = false }) => {
           <DisruptionBadge showIcon variant="WARNING" label="NO_SERVICE" />
           {!isMobile && (
             <>
-              {' '}
               <div className="separator vertical" />
               <DisruptionStatus
                 active
@@ -85,32 +66,42 @@ const CanceledTripCard = ({ mode, totalCount, trips, isMobile = false }) => {
         <RouteBadgeGroup
           mode={mode}
           stopPropagation
-          routes={Object.entries(groupedTrips).map(
-            ([shortName, { routeGtfsId, trips: groupedRouteTrips }]) => ({
-              id: shortName,
-              name: shortName,
-              url: routePagePath(routeGtfsId, PREFIX_TIMETABLE),
-              gtfsId: routeGtfsId,
-              trips: groupedRouteTrips,
-            }),
-          )}
-          renderRouteSuffix={({ trips: groupedRouteTrips }) =>
-            isSingleRoute ? (
+          highlightedGtfsId={highlightedGtfsId}
+          routes={sortRoutes(routes, favRoutes, highlightedGtfsId)
+            .slice(0, trafficNowMaxRoutesPerCard)
+            .map(({ route }) => ({
+              name: route.shortName,
+              gtfsId: route.gtfsId,
+              id: route.id,
+              url: routePagePath(route.gtfsId),
+            }))}
+          renderRouteSuffix={route =>
+            routes.length === 1 ? (
               <CanceledDepartures
-                departures={groupedRouteTrips.map(
-                  ({ tripId, departureTime }) => ({
-                    tripId,
-                    departureTime,
-                  }),
-                )}
+                inline
+                mode={mode}
+                departureLimit={5}
+                patterns={routes
+                  .find(
+                    routeSummary => routeSummary.route.gtfsId === route.gtfsId,
+                  )
+                  .patterns.map(p => p.pattern)}
               />
             ) : null
           }
           renderSuffix={
-            totalCount > trips.length ? (
-              <span style={{ backgroundColor: '#F2F5F7' }}>
-                <Icon img="icon_three-dots" width={1.3} height={1.3} />
-              </span>
+            routes.length > trafficNowMaxRoutesPerCard ? (
+              <EntityBadge
+                className="more-routes"
+                entity={{
+                  name: `+${routes.length - trafficNowMaxRoutesPerCard}`,
+                }}
+                mode={mode}
+                ariaLabel={intl.formatMessage(
+                  { id: 'traffic-now_more-routes' },
+                  { count: routes.length - trafficNowMaxRoutesPerCard },
+                )}
+              />
             ) : null
           }
         />
@@ -124,9 +115,28 @@ const CanceledTripCard = ({ mode, totalCount, trips, isMobile = false }) => {
 
 CanceledTripCard.propTypes = {
   mode: PropTypes.string.isRequired,
-  totalCount: PropTypes.number.isRequired,
-  trips: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   isMobile: PropTypes.bool,
+  favourites: PropTypes.arrayOf(favouriteShape),
+  routes: PropTypes.arrayOf(
+    PropTypes.shape({
+      cancellationCount: PropTypes.number.isRequired,
+      route: routeShape.isRequired,
+      patterns: PropTypes.arrayOf(
+        PropTypes.shape({
+          pattern: patternShape.isRequired,
+          cancellationCount: PropTypes.number.isRequired,
+        }).isRequired,
+      ).isRequired,
+    }),
+  ).isRequired,
 };
 
-export default CanceledTripCard;
+const connectedComponent = connectToStores(
+  CanceledTripCard,
+  ['FavouriteStore'],
+  context => ({
+    favourites: context.getStore('FavouriteStore').getFavourites(),
+  }),
+);
+
+export { connectedComponent as default, CanceledTripCard as Component };
