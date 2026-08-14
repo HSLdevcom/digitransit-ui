@@ -101,8 +101,6 @@ export default function Disruptions() {
 
   const mobile = breakpoint !== 'large';
 
-  const noResults = !disruptions.length && !canceledModes.length;
-
   const resultAmount = canceledModesFiltered.length + disruptionCards.length;
 
   return (
@@ -112,7 +110,7 @@ export default function Disruptions() {
         'disruptions--mobile': mobile,
       })}
     >
-      {noResults ? (
+      {!resultAmount ? (
         <NoDisruptions />
       ) : (
         <>
