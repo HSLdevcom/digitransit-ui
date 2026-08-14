@@ -29,7 +29,6 @@ export default {
     'address-or-stop': 'Osoite tai pysäkki',
     agency: 'Liikennöitsijä',
     airplane: 'Lentokone',
-    'airplane-with-route-number': 'Lento {routeNumber}',
     'airport-check-in':
       'Tee lähtöselvitys heti saavuttuasi, jos et ole tehnyt sitä jo etukäteen',
     'airport-collect-luggage': 'Nouda matkatavarat',
@@ -41,6 +40,7 @@ export default {
     'alternative-legs':
       'Myös {leg1} klo {startTime1} ja {leg2} klo {startTime2}',
     'alternative-legs-single': 'Myös {leg1} klo {startTime1}',
+    'alternative-name-rail': 'Juna',
     'aria-itinerary-summary':
       'Matkan kokonaiskesto {duration}. Lähtö {inFuture} kello {departureTime}. Perillä kello {arrivalTime}.',
     'aria-itinerary-summary-bike-distance':
@@ -81,25 +81,20 @@ export default {
     'booking-method': 'Tilaustapa',
     bus: 'Bussi',
     'bus-express': 'Runkolinjabussi',
-    'bus-express-with-route-number': 'Runkolinjabussi {routeNumber} {headSign}',
     'bus-local': 'Lähibussi',
-    'bus-with-route-number': 'Bussi {routeNumber} {headSign}',
     'buy-in-app': 'Osta sovelluksessa',
     call: 'Kutsujoukkoliikenne',
     'call-agency-disclaimer':
       'Linja toimii ennakkotilauksella. Varmistaaksesi matkan, tee varaus etukäteen. Tarkemmat tiedot palveluntarjoalta.',
     'call-number': 'Soita {number}',
-    'call-with-route-number': 'Kutsujoukkoliikenne {routeNumber} {headSign}',
     cancel: 'Peruuta',
     canceled: 'Peruttu',
-    'capacity-modal.crushed-standing-room-only-body':
-      'Vain vähän seisomapaikkoja',
-    'capacity-modal.few-seats-available-body': 'Joitakin istumapaikkoja',
-    'capacity-modal.full-capacity-body': 'Ei vapaita paikkoja',
+    'capacity-modal.crushed-standing-room-only': 'Vain vähän seisomapaikkoja',
+    'capacity-modal.few-seats-available': 'Joitakin istumapaikkoja',
     'capacity-modal.heading': 'Onko kulkuneuvossa tilaa?',
     'capacity-modal.legend': 'Merkkien selitteet',
-    'capacity-modal.many-seats-available-body': 'Paljon istumapaikkoja',
-    'capacity-modal.standing-room-only-body':
+    'capacity-modal.many-seats-available': 'Paljon istumapaikkoja',
+    'capacity-modal.standing-room-only':
       'Vain vähän istuma- ja seisomapaikkoja',
     'capacity-modal.subheading':
       'Osasta kulkuneuvoja on saatavilla reaaliaikainen arvio paikkatilanteesta',
@@ -223,8 +218,6 @@ export default {
     'favourite-failed-text': 'Yritä hetken päästä uudelleen.',
     ferry: 'Lautta',
     'ferry-external': 'Lautta',
-    'ferry-external-with-route-number': 'Lautta {routeNumber} {headSign}',
-    'ferry-with-route-number': 'Lautta {routeNumber} {headSign}',
     filter: 'Suodata',
     filters: 'Suodattimet',
     finnish: 'Suomi',
@@ -611,7 +604,6 @@ export default {
     print: 'Tulosta',
     'print-timetable': 'Viikkoaikataulu',
     rail: 'Lähijuna',
-    'rail-with-route-number': 'Juna {routeNumber} {headSign}',
     'read-more': 'Lue lisää',
     realtime: 'Reaaliaika',
     releases: 'Tiedotteet',
@@ -619,7 +611,6 @@ export default {
     'rent-cycle-at': 'Nouda kaupunkipyörä: ',
     'rent-e-scooter-at': 'Ota sähköpotkulauta käyttöön sovelluksella',
     'replacement-bus': 'Korvaava bussi',
-    'replacement-bus-with-route-number': 'Korvaava bussi {routeNumber}',
     'restore-default-settings': 'Palauta',
     'restore-default-settings-aria-label': 'Palauta oletusasetukset.',
     'restore-default-settings-aria-label-done': 'Oletusasetukset käytössä.',
@@ -714,7 +705,6 @@ export default {
     'set-time-earlier-button-label': 'Aikaista matkustusajankohtaa',
     'set-time-later-button-label': 'Myöhäistä matkustusajankohtaa',
     settings: 'Asetukset',
-    'settings-alternative-name-rail': 'Juna',
     'settings-changed-by-you': 'Olet muokannut asetuksia',
     'settings-dropdown-close-label': 'Sulje vaihtoehdot',
     'settings-dropdown-open-label': 'Avaa vaihtoehdot',
@@ -729,13 +719,13 @@ export default {
     'settings-taxi':
       'Voit valita haluamasi taksi- ja kyytipalvelut, jolloin ne ovat osana reititystä',
     'settings-taxi-routes': 'Taksi- ja kyytipalvelut osaksi reittejäsi!',
+    'show-all': 'Näytä kaikki',
     'show-departures': 'Näytä lähdöt',
     'show-more': 'Näytä lisää',
     'show-more-stops-near-you': 'Näytä lisää pysäkkejä lähelläsi',
     'show-routes': 'Valitse linjat',
     'skip-to-content': 'Siirry sisältöön',
     speedtram: 'Pikaraitiovaunu',
-    'speedtram-with-route-number': 'Pikaraitiovaunu {routeNumber} {headSign}',
     station: 'Asema',
     'station-entrance': 'Sisäänkäynti',
     'station-exit': 'Uloskäynti',
@@ -780,7 +770,6 @@ export default {
     'subway-exit.sr-description': 'Metroaseman uloskäynti {entranceName}',
     'subway-exit.sr-description.accessible':
       'Metroaseman uloskäynti {entranceName}, esteetön',
-    'subway-with-route-number': 'Metro {routeNumber} {headSign}',
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Reittiehdotus {number}',
     'summary-page.title': 'Reittiehdotukset',
@@ -798,7 +787,6 @@ export default {
       'Entä jos kulkisit osan matkasta taksilla? {paymentInfo}',
     'taxi-distance-duration': 'Matkusta {duration} ({distance})',
     'taxi-external': 'Taksi',
-    'taxi-with-route-number': 'Taksi {routeNumber}',
     'taxis-and-ride-hailing': 'Taksit ja kyytipalvelut',
     terminal: 'Terminaali',
     'terminal-page.description': 'Terminaali - {name}',
@@ -828,7 +816,7 @@ export default {
     'traffic-now-long': 'Liikennetilanne nyt',
     'traffic-now_bread': 'Matkustaminen',
     'traffic-now_canceled-trips--amount':
-      'Näytetään {amount} yhteensä {totalAmount} perutusta lähdöstä',
+      'Näytetään {amount} yhteensä {totalAmount} linjasta',
     'traffic-now_canceled-trips--simple': '{amount} peruttua',
     'traffic-now_description':
       'Ajantasaiset tiedot häiriöistä ja poikkeuksista. ',
@@ -854,7 +842,6 @@ export default {
     'trafficnow-bread': 'Matkustaminen',
     'trafficnow-description': 'Ajantasaiset tiedot häiriöistä ja poikkeuksista',
     tram: 'Raitiovaunu',
-    'tram-with-route-number': 'Raitiovaunu {routeNumber} {headSign}',
     transfer: 'Vaihto',
     'travel-time': '{min} min',
     'travel-time-label': 'Matka-aika',

@@ -242,7 +242,9 @@ $btn-heigth: 17px;
   position: fixed;
   width: 100%;
   height: 100%;
-  z-index: 1008;
+
+  // matches .top-bar so overlay + header agree on stacking level
+  z-index: global-z('top-bar');
   top: 0;
   left: 0;
 }

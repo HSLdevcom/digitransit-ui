@@ -477,7 +477,7 @@
 #stop-page-action-bar {
   display: flex;
   justify-content: space-between;
-  z-index: 400; // get shadow over map
+  z-index: global-z('map-overlay-shadow'); // get shadow over map
   padding: 5px 10px;
   padding-bottom: 0.6em;
   text-align: right;

@@ -63,7 +63,6 @@ const TrafficNow = () => {
       )}
       <Gutterer
         maxWidth="1440px"
-        containerStyles={{ height: '100%' }}
         leftGutterStyles={{
           backgroundColor: 'var(--white)',
         }}
