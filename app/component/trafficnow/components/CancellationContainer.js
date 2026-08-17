@@ -29,7 +29,7 @@ const CancellationContainer = ({ routeSummary, mode }) => {
               },
             ]}
           />
-          <DisruptionBadge showIcon variant="WARNING" label="NO_SERVICE" />
+          <DisruptionBadge showIcon variant="WARNING" label="CANCELLATION" />
         </div>
         <FavouriteRouteContainer gtfsId={gtfsId} />
       </div>
