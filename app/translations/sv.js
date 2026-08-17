@@ -175,7 +175,7 @@ export default {
     'disruption-badge-detour': 'Omväg',
     'disruption-badge-modified_service': 'Ändringar i tjänsten',
     'disruption-badge-no_effect': 'Ingen effekt',
-    'disruption-badge-no_service': 'Hållplats ur bruk',
+    'disruption-badge-no_service': 'Ingen trafik',
     'disruption-badge-other_effect': 'Annat',
     'disruption-badge-reduced_service': 'Minskat antal rutter',
     'disruption-badge-significant_delays': 'Försening',

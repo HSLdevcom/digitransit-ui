@@ -171,7 +171,7 @@ export default {
     'disruption-badge-detour': 'Poikkeusreitti',
     'disruption-badge-modified_service': 'Palvelutason muutos',
     'disruption-badge-no_effect': 'Ei vaikutusta',
-    'disruption-badge-no_service': 'Pysäkki poissa käytöstä',
+    'disruption-badge-no_service': 'Ei liikennöintiä',
     'disruption-badge-other_effect': 'Muu',
     'disruption-badge-reduced_service': 'Vähennettyä liikennettä',
     'disruption-badge-significant_delays': 'Viivästyminen',

@@ -177,7 +177,7 @@ export default {
     'disruption-badge-detour': 'Detour',
     'disruption-badge-modified_service': 'Service modifications',
     'disruption-badge-no_effect': 'No effect',
-    'disruption-badge-no_service': 'Stop out of service',
+    'disruption-badge-no_service': 'No service',
     'disruption-badge-other_effect': 'Other',
     'disruption-badge-reduced_service': 'Reduced routes',
     'disruption-badge-significant_delays': 'Delay',
