@@ -599,7 +599,6 @@ const Itinerary = ({
       role="listitem"
       className={cx([
         'itinerary-summary-row',
-        'cursor-pointer',
         {
           passive,
           'bp-large': breakpoint === 'large',
@@ -633,7 +632,7 @@ const Itinerary = ({
         <div className="itinerary-summary-header">
           <div>
             <div
-              className="summary-clickable-area"
+              className="summary-clickable-area cursor-pointer"
               onClick={e => {
                 if (mobile(breakpoint)) {
                   e.stopPropagation();
@@ -761,7 +760,7 @@ const Itinerary = ({
               role="button"
               title={formatMessage({ id: 'itinerary-page.show-details' })}
               key="arrow"
-              className="action-arrow-click-area"
+              className="action-arrow-click-area cursor-pointer"
               onClick={e => {
                 e.stopPropagation();
                 onSelectImmediately();
