@@ -116,7 +116,9 @@ export default function Personalization({ settings, updateSettings }) {
         onToggle={onToggle}
       />
       <div className="toggle-info">
-        <FormattedMessage id="personalization-info" />
+        <div className="extra-text">
+          <FormattedMessage id="personalization-info" />
+        </div>
         <button
           type="button"
           onClick={e => {

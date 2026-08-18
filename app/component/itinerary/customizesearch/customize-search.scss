@@ -196,6 +196,12 @@
     padding-right: 2em;
     width: 80%;
 
+    .extra-text {
+      font-size: 14px;
+      line-height: 18px;
+      letter-spacing: -0.5px;
+    }
+
     button {
       margin-top: 4px;
       text-align: left;
@@ -221,7 +227,9 @@
       }
 
       span {
-        font-size: $font-size-small;
+        font-size: var(--Font-Size-Routes-Extra-small, 12px);
+        line-height: var(--Line-Height-Routes-XS, 14px);
+        letter-spacing: var(--letter-spacing-03, -0.3px);
         font-weight: $font-weight-medium;
         color: $theme-primary-color;
       }
