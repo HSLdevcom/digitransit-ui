@@ -93,7 +93,7 @@ $itinerary-tab-switch-height: 48px;
   }
 
   &.taxi-external {
-    @include getCircleSvg($external-feed-color, $fill);
+    @include getCircleSvg($taxi-external-color, $fill);
   }
 
   &.replacement-bus {
@@ -1119,7 +1119,7 @@ $itinerary-tab-switch-height: 48px;
     }
 
     &.taxi-external {
-      @include setModeCircles($external-feed-color);
+      @include setModeCircles($taxi-external-color);
     }
 
     &.replacement-bus {
@@ -2290,12 +2290,19 @@ $itinerary-tab-switch-height: 48px;
           bottom: 74px;
         }
 
-        .taxi-icon .icon-container .icon {
+        .taxi-icon {
           display: flex;
-          color: $external-feed-color;
-          border-radius: 3px;
-          font-size: 24px;
-          fill: white;
+          align-items: center;
+          flex-shrink: 0;
+
+          .icon-container .icon {
+            display: block;
+            color: $taxi-external-color;
+            border-radius: 3px;
+            fill: white;
+            height: $taxi-icon-height;
+            width: $taxi-icon-width;
+          }
         }
       }
     }

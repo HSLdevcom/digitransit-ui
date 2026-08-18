@@ -23,6 +23,7 @@ import {
   isCarLeg,
   splitLegsAtViaPoints,
   hasTaxiLegs,
+  isTaxiLeg,
   hasOneTransitLeg,
   isLegWithRoute,
   isBoardableLeg,
@@ -399,6 +400,19 @@ const Itinerary = ({
           </div>,
         );
       }
+    } else if (isTaxiLeg(leg)) {
+      const taxiTime = Math.floor(leg.duration / 60);
+      legs.push(
+        <StreetBar
+          key={`${leg.mode}_${startMs}`}
+          duration={taxiTime}
+          renderModeIcons={renderModeIcons}
+          leg={leg}
+          mode="taxi-external"
+          legLength={legLength}
+          icon={config.flex.taxiExternalIcon}
+        />,
+      );
     } else if (leg.mode === 'BICYCLE' && renderBar) {
       const bikingTime = Math.floor(leg.duration / 60);
       legs.push(
@@ -442,25 +456,27 @@ const Itinerary = ({
         onlyIconLegCount += 1;
         legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
       }
-      const renderRouteNumberForALongLeg =
-        legLength > renderRouteNumberThreshold &&
-        !longName &&
-        legWithRouteCount < 7;
-      legs.push(
-        <TransitBar
-          key={`${leg.mode}_${startMs}`}
-          leg={leg}
-          fitRouteNumber={
-            (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
-          }
-          interliningWithRoute={interliningWithRoute}
-          legLength={legLength}
-          withBicycle={withBicycle}
-          withCar={withCar}
-          hasOneTransitLeg={hasOneTransitLeg(itinerary)}
-          shortenLabels={shortenLabels}
-        />,
-      );
+      if (!isTaxiLeg(leg)) {
+        const renderRouteNumberForALongLeg =
+          legLength > renderRouteNumberThreshold &&
+          !longName &&
+          legWithRouteCount < 7;
+        legs.push(
+          <TransitBar
+            key={`${leg.mode}_${startMs}`}
+            leg={leg}
+            fitRouteNumber={
+              (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
+            }
+            interliningWithRoute={interliningWithRoute}
+            legLength={legLength}
+            withBicycle={withBicycle}
+            withCar={withCar}
+            hasOneTransitLeg={hasOneTransitLeg(itinerary)}
+            shortenLabels={shortenLabels}
+          />,
+        );
+      }
       vehicleNames.push(
         `${formatMessage({ id: modeToTranslationId(leg.mode, config) })} ${
           routeName || ''

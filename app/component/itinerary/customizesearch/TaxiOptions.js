@@ -37,7 +37,7 @@ export default function TaxiOptions({ settings, updateSettings }) {
         leftElement={
           <Icon
             className="taxi-icon"
-            img="icon_taxi-external"
+            img={config.flex.taxiExternalSettingsIcon}
             height={2}
             width={2}
           />
