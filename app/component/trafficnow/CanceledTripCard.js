@@ -42,7 +42,7 @@ const CanceledTripCard = ({
     >
       <header>
         <span className="disruption-card__header-left">
-          <DisruptionBadge showIcon variant="WARNING" label="NO_SERVICE" />
+          <DisruptionBadge showIcon variant="WARNING" label="CANCELLATION" />
           {!isMobile && (
             <>
               <div className="separator vertical" />
