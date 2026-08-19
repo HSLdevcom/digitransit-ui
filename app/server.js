@@ -187,11 +187,13 @@ export default async function serve(req, res, next) {
         res.write(`<link rel="preconnect" crossorigin href="${href}">\n`),
       );
 
-      res.write(
-        `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${
-          assets[`${config.CONFIG}_theme.css`]
-        }"/>\n`,
-      );
+      // mainAssets' CSS (e.g. the shared 'digitransit-components' chunk,
+      // which contains @hsl-fi/design-system-core's default color
+      // variables) must be linked *before* the theme CSS. Both define the
+      // same :root custom properties, so with equal specificity, whichever
+      // stylesheet is loaded (and thus applied) last wins the cascade. If
+      // the theme link came first, the shared chunk's defaults would load
+      // after and silently override every theme's brand colors.
       mainAssets
         .filter(asset => asset.endsWith('.css'))
         .forEach(asset =>
@@ -199,6 +201,11 @@ export default async function serve(req, res, next) {
             `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${asset}"/>\n`,
           ),
         );
+      res.write(
+        `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${
+          assets[`${config.CONFIG}_theme.css`]
+        }"/>\n`,
+      );
     }
     res.write(
       `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
