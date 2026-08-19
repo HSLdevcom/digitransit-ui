@@ -347,6 +347,15 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+
+      // Foundation's global `a:focus, a:hover { color: $anchor-color-hover }`
+      // (specificity 0,1,1) outranks the hsl-fi ArrowLink/TextLink's own base
+      // class (0,1,0) on focus, since the component only styles
+      // `:focus-visible` for the outline and leaves the text color to its
+      // base class. Restore the intended link color on keyboard focus here.
+      a:focus {
+        color: var(--color-text-link);
+      }
     }
   }
 
