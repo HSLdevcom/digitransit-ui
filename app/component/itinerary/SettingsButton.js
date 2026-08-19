@@ -67,7 +67,7 @@ export default function SettingsButton({ onToggleClick }) {
       )}
       {userHasCustomizedSettings &&
         !isSettingChangeInfoDismissed &&
-        isPersonalizationInfoDismissed && (
+        !showPrPopover && (
           <Popover
             targetRef={buttonRef}
             icon={<Icon img="icon_checkmark" className="checkmark" />}
