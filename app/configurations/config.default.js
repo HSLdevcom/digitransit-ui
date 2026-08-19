@@ -888,7 +888,6 @@ export default {
       showBothDirectAndTransitResults: false,
     },
     taxiExternalIcon: 'icon_taxi-external',
-    taxiExternalSettingsIcon: 'icon_taxi-external',
   },
   carPickupZone: {
     enabled: false,
