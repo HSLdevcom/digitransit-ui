@@ -763,7 +763,7 @@ export default {
   },
 
   showRouteDescNotification: IS_DEV,
-  personalization: true,
+  personalization: false,
   showNewRoutePage: true,
   staticCrisisBanners: [
     {
