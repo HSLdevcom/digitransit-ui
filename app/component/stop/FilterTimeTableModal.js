@@ -5,7 +5,7 @@ import { Modal, ModalContent } from '@hsl-fi/dialog';
 import Icon from '../Icon';
 import routeCompare from '../../util/route-compare';
 import { isKeyboardSelectionEvent } from '../../util/browser';
-import { getRouteMode } from '../../util/modeUtils';
+import { getRouteMode, modeToTranslationId } from '../../util/modeUtils';
 import { stopShape } from '../../util/shapes';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
@@ -104,7 +104,9 @@ export default function FilterTimeTableModal({
                 defaultMessage: 'Select {mode} route {shortName} to {headsign}',
               },
               {
-                mode: intl.formatMessage({ id: mode }),
+                mode: intl.formatMessage({
+                  id: modeToTranslationId(mode, config),
+                }),
                 shortName: o.shortName,
                 headsign: o.headsign,
               },

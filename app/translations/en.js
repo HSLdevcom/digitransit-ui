@@ -32,7 +32,6 @@ export default {
     'address-or-stop': 'Address or stop',
     agency: 'Operator',
     airplane: 'Flight',
-    'airplane-with-route-number': 'Flight {routeNumber}',
     'airport-check-in':
       'Check-in immediately upon arrival if you have not completed check-in in advance',
     'airport-collect-luggage': 'Collect your luggage',
@@ -44,6 +43,7 @@ export default {
     'alternative-legs':
       'Also {leg1} at {startTime1} and {leg2} at {startTime2}',
     'alternative-legs-single': 'Also {leg1} at {startTime1}',
+    'alternative-name-rail': 'Train',
     'aria-itinerary-summary':
       'Total journey time {duration}. Departing at {inFuture} {departureTime} and arriving at {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
@@ -86,26 +86,21 @@ export default {
     'booking-method': 'Booking method',
     bus: 'Bus',
     'bus-express': 'Trunk bus',
-    'bus-express-with-route-number': 'Trunk bus {routeNumber} {headSign}',
     'bus-local': 'Neighbourhood bus',
-    'bus-with-route-number': 'Bus {routeNumber} {headSign}',
     'buy-in-app': 'Buy in App',
     call: 'Demand responsive transport',
     'call-agency-disclaimer':
       'This service operates by advance booking. To ensure your ride, please book ahead of time. More information is available from the service provider. ',
     'call-number': 'Call {number}',
-    'call-with-route-number':
-      'Demand responsive transport {routeNumber} {headSign}',
     cancel: 'Cancel',
     canceled: 'Canceled',
-    'capacity-modal.crushed-standing-room-only-body':
+    'capacity-modal.crushed-standing-room-only':
       'Only limited standing room available',
-    'capacity-modal.few-seats-available-body': 'Some seats available',
-    'capacity-modal.full-capacity-body': 'No seats or standing room available',
+    'capacity-modal.few-seats-available': 'Some seats available',
     'capacity-modal.heading': 'Is there room on board?',
     'capacity-modal.legend': 'Legend for the symbols',
-    'capacity-modal.many-seats-available-body': 'Plenty of seats available',
-    'capacity-modal.standing-room-only-body':
+    'capacity-modal.many-seats-available': 'Plenty of seats available',
+    'capacity-modal.standing-room-only':
       'Only a few seats and limited standing room available',
     'capacity-modal.subheading':
       'A real-time capacity estimate is available for some vehicles',
@@ -178,10 +173,11 @@ export default {
       'Please note that the results are based on estimated travel times. The suggested transport connections cannot be guaranteed.',
     disruption: 'Disruption',
     'disruption-badge-additional_service': 'Additional routes',
+    'disruption-badge-cancellation': 'Canceled',
     'disruption-badge-detour': 'Detour',
     'disruption-badge-modified_service': 'Service modifications',
     'disruption-badge-no_effect': 'No effect',
-    'disruption-badge-no_service': 'Canceled',
+    'disruption-badge-no_service': 'No service',
     'disruption-badge-other_effect': 'Other',
     'disruption-badge-reduced_service': 'Reduced routes',
     'disruption-badge-significant_delays': 'Delay',
@@ -220,8 +216,6 @@ export default {
     'favourite-failed-text': 'Please try again in a while.',
     ferry: 'Ferry',
     'ferry-external': 'Ferry',
-    'ferry-external-with-route-number': 'Ferry {routeNumber} {headSign}',
-    'ferry-with-route-number': 'Ferry {routeNumber} {headSign}',
     filter: 'Filter',
     filters: 'Filters',
     finnish: 'Finnish',
@@ -618,7 +612,6 @@ export default {
     print: 'Print',
     'print-timetable': 'Weekly timetable',
     rail: 'Commuter train',
-    'rail-with-route-number': 'Train {routeNumber} {headSign}',
     'read-more': 'Read more',
     realtime: 'Real-time',
     releases: 'Releases',
@@ -626,7 +619,6 @@ export default {
     'rent-cycle-at': 'Fetch a city bike:',
     'rent-e-scooter-at': 'Use an app to unlock the electric scooter',
     'replacement-bus': 'Replacement bus',
-    'replacement-bus-with-route-number': 'Replacement bus {routeNumber}',
     'restore-default-settings': 'Reset',
     'restore-default-settings-aria-label': 'Restore default settings.',
     'restore-default-settings-aria-label-done': 'Default settings are in use.',
@@ -723,7 +715,6 @@ export default {
     'set-time-earlier-button-label': 'Set travel time to earlier',
     'set-time-later-button-label': 'Set travel time to later',
     settings: 'Settings',
-    'settings-alternative-name-rail': 'Train',
     'settings-changed-by-you': 'You have edited your settings',
     'settings-dropdown-close-label': 'Close options',
     'settings-dropdown-open-label': 'Open options',
@@ -741,13 +732,13 @@ export default {
       'You can choose your preferred taxi and ride‑hailing services to include them in route planning.',
     'settings-taxi-routes':
       'Include taxi and ride‑hailing services in your routes!',
+    'show-all': 'Show all',
     'show-departures': 'Show departures',
     'show-more': 'Show more',
     'show-more-stops-near-you': 'Show more stops near you',
     'show-routes': 'Choose routes',
     'skip-to-content': 'Skip to content',
     speedtram: 'Light Rail',
-    'speedtram-with-route-number': 'Light Rail {routeNumber} {headSign}',
     station: 'Station',
     'station-entrance': 'Entrance',
     'station-exit': 'Exit',
@@ -791,7 +782,6 @@ export default {
     'subway-exit.sr-description': 'Metro station exit {entranceName}}',
     'subway-exit.sr-description.accessible':
       'Metro station exit {entranceName}, accessible',
-    'subway-with-route-number': 'Metro {routeNumber} {headSign}',
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Itinerary suggestion {number}',
     'summary-page.title': 'Itinerary suggestions',
@@ -809,7 +799,6 @@ export default {
       'How about traveling part of the way by a taxi? {paymentInfo}',
     'taxi-distance-duration': 'Travel {duration} ({distance})',
     'taxi-external': 'Taxi',
-    'taxi-with-route-number': 'Taxi {routeNumber}',
     'taxis-and-ride-hailing': 'Taxis and ride-hailing services',
     terminal: 'Terminal',
     'terminal-page.description': 'Terminal {name}',
@@ -839,7 +828,7 @@ export default {
     'traffic-now-long': 'Services now',
     'traffic-now_bread': 'Travelling',
     'traffic-now_canceled-trips--amount':
-      'Listing {amount} of {totalAmount} cancelled departures',
+      'Listing {amount} of {totalAmount} routes',
     'traffic-now_canceled-trips--simple': '{amount} cancellations',
     'traffic-now_description':
       'Up-to-date information on disruptions and exceptions. ',
@@ -864,7 +853,6 @@ export default {
     'trafficnow-description':
       'Up-to-date information on disruptions and exceptions',
     tram: 'Tram',
-    'tram-with-route-number': 'Tram {routeNumber} {headSign}',
     transfer: 'Transfer',
     'travel-time': '{min} min',
     'travel-time-label': 'Travel time',

@@ -28,6 +28,7 @@ import {
   isBoardableLeg,
   isWalkOrBicycleWalkLeg,
 } from '../../util/legUtils';
+import { modeToTranslationId } from '../../util/modeUtils';
 import {
   dateOrEmpty,
   durationToString,
@@ -461,15 +462,9 @@ const Itinerary = ({
         />,
       );
       vehicleNames.push(
-        formatMessage(
-          {
-            id: `${leg.mode.toLowerCase()}-with-route-number`,
-          },
-          {
-            routeNumber: routeName,
-            headSign: '',
-          },
-        ),
+        `${formatMessage({ id: modeToTranslationId(leg.mode, config) })} ${
+          routeName || ''
+        }`,
       );
       stopNames.push(leg.from.name);
       if (

@@ -4,8 +4,9 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import * as found from 'found';
-import RouteBadgeGroup from '../../../../app/component/trafficnow/components/RouteBadgeGroup';
+import { Component as RouteBadgeGroup } from '../../../../app/component/trafficnow/components/RouteBadgeGroup';
 import Icon from '../../../../app/component/Icon';
+import EntityBadge from '../../../../app/component/trafficnow/components/EntityBadge';
 
 const makeRoute = ({
   id = 'HSL:1',
@@ -67,7 +68,7 @@ describe('<RouteBadgeGroup />', () => {
           highlightedGtfsId="HSL:1"
         />,
       );
-      expect(wrapper.find('a').hasClass('highlight')).to.equal(true);
+      expect(wrapper.find(EntityBadge).prop('highlighted')).to.equal(true);
     });
 
     it('does not apply the highlight class when gtfsId does not match', () => {
@@ -78,7 +79,7 @@ describe('<RouteBadgeGroup />', () => {
           highlightedGtfsId="HSL:99"
         />,
       );
-      expect(wrapper.find('a').hasClass('highlight')).to.equal(false);
+      expect(wrapper.find(EntityBadge).prop('highlighted')).to.equal(false);
     });
   });
 
@@ -94,7 +95,7 @@ describe('<RouteBadgeGroup />', () => {
         preventDefault: sinon.spy(),
         stopPropagation: sinon.spy(),
       };
-      wrapper.find('a').prop('onClick')(mockEvent);
+      wrapper.find(EntityBadge).prop('handleClick')('/route/HSL:1')(mockEvent);
       expect(mockRouter.push.calledWith('/route/HSL:1')).to.equal(true);
     });
 
@@ -106,7 +107,7 @@ describe('<RouteBadgeGroup />', () => {
         preventDefault: sinon.spy(),
         stopPropagation: sinon.spy(),
       };
-      wrapper.find('a').prop('onClick')(mockEvent);
+      wrapper.find(EntityBadge).prop('handleClick')('/route/HSL:1')(mockEvent);
       expect(mockEvent.stopPropagation.calledOnce).to.equal(true);
     });
 
@@ -122,7 +123,7 @@ describe('<RouteBadgeGroup />', () => {
         preventDefault: sinon.spy(),
         stopPropagation: sinon.spy(),
       };
-      wrapper.find('a').prop('onClick')(mockEvent);
+      wrapper.find(EntityBadge).prop('handleClick')('/route/HSL:1')(mockEvent);
       expect(mockEvent.stopPropagation.called).to.equal(false);
     });
   });
