@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
-import { legShape, configShape } from '../../util/shapes';
+import { legShape } from '../../util/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
+import { useConfigContext } from '../../configurations/ConfigContext';
 import { displayDistance } from '../../util/geo-utils';
 import { durationToString } from '../../util/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
@@ -13,8 +14,9 @@ import TaxiLinkContainer from './TaxiLinkContainer';
 import { splitStringToAddressAndPlace } from '../../util/otpStrings';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
-export default function TaxiLeg(props, { config }) {
+export default function TaxiLeg(props) {
   const intl = useIntl();
+  const config = useConfigContext();
   const { leg, index } = props;
   const isFirstLeg = i => i === 0;
   const alternativeOperators = [
@@ -143,7 +145,7 @@ export default function TaxiLeg(props, { config }) {
             operatorName={props.leg.route.agency.name}
             infoUrl={infoUrl}
             bookingUrl={bookingUrl}
-            icon="icon_taxi-external"
+            icon={config.flex.taxiExternalIcon}
           />
           {alternativeOperators &&
             alternativeOperators.map(operator => {
@@ -153,7 +155,7 @@ export default function TaxiLeg(props, { config }) {
                   operatorName={operator.name}
                   infoUrl={infoUrl}
                   bookingUrl={bookingUrl}
-                  icon="icon_taxi-external"
+                  icon={config.flex.taxiExternalIcon}
                 />
               );
             })}
@@ -181,8 +183,4 @@ TaxiLeg.propTypes = {
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,
-};
-
-TaxiLeg.contextTypes = {
-  config: configShape.isRequired,
 };

@@ -374,7 +374,8 @@
               &.wait,
               &.bicycle_walk,
               &.car,
-              &.scooter {
+              &.scooter,
+              &.taxi-external {
                 float: left;
                 display: flex;
                 justify-content: center;
@@ -463,7 +464,7 @@
 
           &.taxi-external {
             .icon {
-              width: 24px;
+              width: $taxi-icon-summary-width;
               fill: white;
             }
           }
