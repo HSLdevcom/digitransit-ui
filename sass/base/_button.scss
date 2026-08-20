@@ -17,17 +17,23 @@ button {
   appearance: none;
   color: inherit;
 
-  &:focus {
+  // :where() keeps this reset at zero specificity so it only applies when
+  // nothing else styles the button's focus/active/hover state. Without it,
+  // `button:focus` (0,1,1) would outrank library components (e.g. hsl-fi
+  // Button) that only style `:focus-visible` for the outline and rely on
+  // their base class (0,1,0) for background/text color, breaking their
+  // colors whenever the button receives keyboard focus.
+  &:where(:focus) {
     background-color: transparent;
     color: inherit;
   }
 
-  &:active {
+  &:where(:active) {
     background-color: transparent;
     color: inherit;
   }
 
-  &:hover {
+  &:where(:hover) {
     background-color: transparent;
     color: inherit;
   }
