@@ -61,6 +61,30 @@ $stop-modes: (
   }
 }
 
+.call {
+  color: $call-agency-color;
+}
+
+.call-local {
+  color: $bus-color;
+}
+
+.taxi-external {
+  color: $taxi-external-color;
+}
+
+.citybike_walk {
+  color: $citybike-color;
+}
+
+.citybike-off {
+  color: $citybike-color;
+}
+
+.bicycle_walk {
+  color: $bicycle-color;
+}
+
 .via {
   color: $walk-color;
 }

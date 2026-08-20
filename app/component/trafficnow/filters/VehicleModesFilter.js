@@ -41,6 +41,10 @@ const VehicleModesFilter = ({ filterId }) => {
     },
     [],
   );
+  if (availableModes.length <= 1) {
+    return null;
+  }
+
   return (
     <fieldset className={cx({ mobile: isMobile })}>
       <legend className="input-legend">
