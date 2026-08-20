@@ -3,20 +3,22 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
+import { ButtonLink, Spacer, Text } from '@hsl-fi/layout-primitives';
+import { ArrowLink } from '@hsl-fi/navigation';
 import Icon from '../../Icon';
-import ExternalLink from '../../ExternalLink';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 import { useBreakpoint } from '../../../util/withBreakpoint';
 
 export default function PrModal({ closeModal }) {
   const config = useConfigContext();
   const intl = useIntl();
+  const { formatMessage } = intl;
   const breakpoint = useBreakpoint();
 
   return (
     <Modal lang={config.language} onOpenChange={closeModal} open>
       <ModalContent
-        title={intl.formatMessage({ id: 'personalization-modal-header' })}
+        title={formatMessage({ id: 'personalization-modal-header' })}
         lang={config.language}
       >
         <div
@@ -32,37 +34,43 @@ export default function PrModal({ closeModal }) {
               width={2}
             />
             <div className="pr-info-text-area">
-              <h3>
-                <FormattedMessage id="personalization-modal-highlight" />
-              </h3>
-              <FormattedMessage id="personalization-modal-highlight-details" />
+              <Text variant="text-m-bold">
+                {formatMessage({ id: 'personalization-modal-highlight' })}
+              </Text>
+              <Text variant="text-s">
+                {formatMessage({
+                  id: 'personalization-modal-highlight-details',
+                })}
+              </Text>
               {config.favouriteLink[config.language] && (
-                <ExternalLink
-                  href={config.favouriteLink[config.language]}
-                  withArrow
-                >
-                  <FormattedMessage id="personalization-modal-link" />
-                </ExternalLink>
+                <ArrowLink href={config.favouriteLink[config.language]}>
+                  {formatMessage({ id: 'personalization-modal-link' })}
+                </ArrowLink>
               )}
             </div>
           </div>
           <div className="pr-info-content">
             <Icon img="icon_thumb" color="#666" height={2} width={2} />
             <div className="pr-info-text-area">
-              <h3>
+              <Text variant="text-m-bold">
                 <FormattedMessage id="personalization-modal-feedback" />
-              </h3>
-              <FormattedMessage id="personalization-modal-feedback-details" />
+              </Text>
+              <Text variant="text-s">
+                {formatMessage({
+                  id: 'personalization-modal-feedback-details',
+                })}
+              </Text>
             </div>
           </div>
+          {breakpoint !== 'large' && <Spacer size="xxs" />}
           <div className="pr-beta">
             {breakpoint === 'large' && (
               <div className="icon-area">
                 <Icon
                   img="personalization"
                   color={config.colors.primary}
-                  height={5}
-                  width={5}
+                  height={7.5}
+                  width={7.5}
                 />
               </div>
             )}
@@ -72,16 +80,20 @@ export default function PrModal({ closeModal }) {
               })}
             >
               <span className="beta-label">Beta</span>
-              <span>
-                <FormattedMessage id="personalization-beta" />
-              </span>
-              <button
-                type="button"
-                className="beta-feedback-button"
-                onClick={() => {}}
-              >
-                <FormattedMessage id="personalization-feedback" />
-              </button>
+              <Text variant="text-xs">
+                {formatMessage({ id: 'personalization-beta' })}
+              </Text>
+              <Spacer size="xxs" />
+              <div>
+                <ButtonLink
+                  size="s"
+                  variant="primary"
+                  expandOnMobile
+                  href="/foo"
+                >
+                  {formatMessage({ id: 'personalization-feedback' })}
+                </ButtonLink>
+              </div>
             </div>
           </div>
         </div>

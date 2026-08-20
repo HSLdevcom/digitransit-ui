@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
 import { DateTime } from 'luxon';
 
 import Select, { components as RSComponents } from 'react-select';
@@ -26,8 +26,25 @@ function DateSelectGrouped({
   const GENERATED_DAYS = 60; // Fallback range when no dates provided
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [maxMenuHeight, setMaxMenuHeight] = useState(300);
+  const selectWrapperRef = useRef(null);
+
+  // react-select's internal threshold: opens below when spaceBelow >= this value, otherwise above.
+  const RS_MIN_MENU_HEIGHT = 140;
+  const MENU_HEIGHT_FLOOR = 120;
 
   const onMenuOpen = useCallback(() => {
+    if (selectWrapperRef.current) {
+      const rect = selectWrapperRef.current.getBoundingClientRect();
+      const margin = 70;
+      const spaceBelow = window.innerHeight - rect.bottom - margin;
+      const spaceAbove = rect.top - margin;
+      // Mirror react-select's placement decision so maxMenuHeight matches the
+      // direction the menu will actually open.
+      const available =
+        spaceBelow >= RS_MIN_MENU_HEIGHT ? spaceBelow : spaceAbove;
+      setMaxMenuHeight(Math.max(available, MENU_HEIGHT_FLOOR));
+    }
     setIsMenuOpen(true);
   }, []);
 
@@ -150,6 +167,7 @@ function DateSelectGrouped({
 
   return (
     <div
+      ref={selectWrapperRef}
       className={`date-select-wrapper${
         isMenuOpen ? ' date-select-wrapper--menu-open' : ''
       }`}
@@ -212,6 +230,8 @@ function DateSelectGrouped({
         }
         value={selectedOption}
         menuPlacement="auto"
+        menuPosition="fixed"
+        maxMenuHeight={maxMenuHeight}
         menuPortalTarget={
           typeof document !== 'undefined' ? document.body : null
         }

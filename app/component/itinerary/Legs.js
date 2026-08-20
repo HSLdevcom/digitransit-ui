@@ -11,7 +11,6 @@ import EndLeg from './EndLeg';
 import AirportCheckInLeg from './AirportCheckInLeg';
 import AirportCollectLuggageLeg from './AirportCollectLuggageLeg';
 import StopCode from '../StopCode';
-import AirplaneLeg from './AirplaneLeg';
 import CarLeg from './CarLeg';
 import CarParkLeg from './CarParkLeg';
 import ViaLeg from './ViaLeg';
@@ -225,7 +224,9 @@ export default function Legs({
           focusAction={focus(leg.from)}
         />,
       );
-      legs.push(<AirplaneLeg {...transitLegProps} />);
+      legs.push(
+        <TransitLeg mode="airplane" omitDivider {...transitLegProps} />,
+      );
       legs.push(
         <AirportCollectLuggageLeg
           index={j + 0.5}

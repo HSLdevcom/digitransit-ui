@@ -132,7 +132,7 @@ describe('analytics utils', () => {
       document.cookie = 'lang=fi';
       const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
       document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-      expect(res.includes('8cb293bb-6785-481a-81c3-7f4e6f04a536')).to.equal(
+      expect(res.includes('470215ef-c02e-4123-a9de-2792c0fcaf97')).to.equal(
         true,
       );
     });
@@ -140,7 +140,7 @@ describe('analytics utils', () => {
       document.cookie = 'lang=sv';
       const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
       document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-      expect(res.includes('904fe02f-fde8-41b7-933b-ea215cdd5a00')).to.equal(
+      expect(res.includes('dd11434b-5a93-4daa-905e-3198ac502d1e')).to.equal(
         true,
       );
     });
@@ -148,7 +148,7 @@ describe('analytics utils', () => {
       document.cookie = 'lang=en';
       const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
       document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-      expect(res.includes('254eb853-fa71-4b3c-8313-9eeca10129b6')).to.equal(
+      expect(res.includes('d2ffe981-45a8-43b9-aa1b-68e100aa1c12')).to.equal(
         true,
       );
     });
@@ -156,13 +156,13 @@ describe('analytics utils', () => {
       document.cookie = 'lang=xx';
       const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
       document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-      expect(res.includes('8cb293bb-6785-481a-81c3-7f4e6f04a536')).to.equal(
+      expect(res.includes('470215ef-c02e-4123-a9de-2792c0fcaf97')).to.equal(
         false,
       );
-      expect(res.includes('904fe02f-fde8-41b7-933b-ea215cdd5a00')).to.equal(
+      expect(res.includes('dd11434b-5a93-4daa-905e-3198ac502d1e')).to.equal(
         false,
       );
-      expect(res.includes('254eb853-fa71-4b3c-8313-9eeca10129b6')).to.equal(
+      expect(res.includes('d2ffe981-45a8-43b9-aa1b-68e100aa1c12')).to.equal(
         false,
       );
     });

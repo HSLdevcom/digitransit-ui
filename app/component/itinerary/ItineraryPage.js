@@ -1466,7 +1466,10 @@ export default function ItineraryPage(props, context) {
         active={activeIndex}
         showActiveOnly={!!detailView}
         showVehicles={showVehicles()}
-        showDurationBubble={planEdges?.[0]?.node.legs?.length === 1}
+        showDurationBubble={
+          planEdges?.[0]?.node.legs?.length === 1 &&
+          !hasTaxiLegs(planEdges[0].node)
+        }
         objectsToHide={objectsToHide}
         itinerary={explicitItinerary}
         showBackButton={!naviMode}

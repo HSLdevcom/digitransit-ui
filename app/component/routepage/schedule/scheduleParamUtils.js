@@ -5,14 +5,15 @@ import { DATE_FORMAT } from '../../../constants';
 const populateData = (params, match, noOfWeeks) => {
   const { query } = match.location;
 
-  const startOfWeek = DateTime.now().startOf('week');
+  const now = DateTime.now();
+  const startOfWeek = now.startOf('week');
   const date = query.serviceDay
     ? DateTime.fromFormat(query.serviceDay, DATE_FORMAT)
     : null;
   const serviceDay =
     date && date.isValid && date.startOf('week') >= startOfWeek
       ? DateTime.fromFormat(query.serviceDay, DATE_FORMAT)
-      : DateTime.now();
+      : now;
 
   let day = startOfWeek;
 
@@ -27,7 +28,9 @@ const populateData = (params, match, noOfWeeks) => {
   return {
     ...params,
     serviceDate: serviceDay.toFormat(DATE_FORMAT),
-    date: DateTime.now().toFormat(DATE_FORMAT),
+    date: now.toFormat(DATE_FORMAT),
+    cancelationStartDate: now.toISODate(),
+    cancelationEndDate: now.plus({ days: 7 }).toISODate(),
     showTenWeeks: noOfWeeks === 10,
     ...weeks,
   };

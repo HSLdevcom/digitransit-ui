@@ -746,24 +746,24 @@ export default {
 
   flex: {
     external: {
-      enabled: true,
-      transit: true,
+      enabled: IS_DEV,
+      transit: IS_DEV,
       direct: false,
       agencies: ['Uber:agency-mog2skf5-1'],
     },
-    // TODO add when enabling flex call agencies
-    /* internal: {
-      enabled: true,
-      transit: true,
-      direct: true,
+    internal: {
+      enabled: IS_DEV,
+      transit: IS_DEV,
+      direct: IS_DEV,
       agencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
-    }, */
+    },
     infoLanguage: 'fi',
     settingLabelOverride: 'demand-responsive-traffic',
+    taxiExternalIcon: 'icon_uber-wide',
   },
 
   showRouteDescNotification: IS_DEV,
-  personalization: false,
+  personalization: IS_DEV,
   showNewRoutePage: true,
   staticCrisisBanners: [
     {

@@ -135,14 +135,6 @@ export const OtpCornerNamingPattern = Object.freeze({
   en: /corner of .* and .*/,
 });
 
-/**
- * OpenTripPlanner (v2) via point types.
- */
-export const ViaLocationType = Object.freeze({
-  PassThrough: 'PASS_THROUGH',
-  Visit: 'VISIT',
-});
-
 export const VerticalDirection = Object.freeze({
   Up: 'UP',
   Down: 'DOWN',
@@ -169,13 +161,22 @@ export const WheelchairBoarding = Object.freeze({
   Possible: 'POSSIBLE',
 });
 
-export const NaviCardType = Object.freeze({
-  Default: 'DEFAULT',
-  Indoor: 'INDOOR',
+/**
+ * OpenTripPlanner (v2) via point types.
+ */
+export const ViaLocationType = Object.freeze({
+  PassThrough: 'PASS_THROUGH',
+  Visit: 'VISIT',
 });
+
 export const LocationTypes = Object.freeze({
   STOP: 'STOP',
   STATION: 'STATION',
+});
+
+export const NaviCardType = Object.freeze({
+  Default: 'DEFAULT',
+  Indoor: 'INDOOR',
 });
 
 export const TrafficNowTransportModes = Object.freeze([

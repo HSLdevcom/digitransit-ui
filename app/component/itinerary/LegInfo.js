@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 import Modal from '@hsl-fi/modal';
 import { legShape } from '../../util/shapes';
 import { legTimeStr, isLocalCallAgency } from '../../util/legUtils';
-import { getTripOrRouteMode } from '../../util/modeUtils';
+import { getTripOrRouteMode, modeToTranslationId } from '../../util/modeUtils';
 import RouteNumber from '../RouteNumber';
 import { routePagePath, PREFIX_STOPS } from '../../util/path';
 import {
@@ -33,7 +33,7 @@ export default function LegInfo({
   mobile = false,
   isTransitLeg,
 }) {
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
   const config = useConfigContext();
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
   const { constantOperationRoutes } = config;
@@ -108,8 +108,8 @@ export default function LegInfo({
             leg.trip.pattern.code,
             shouldLinkToTrip && leg.trip.gtfsId,
           )}
-          aria-label={`${intl.formatMessage({
-            id: mode,
+          aria-label={`${formatMessage({
+            id: modeToTranslationId(mode, config),
             defaultMessage: 'Vehicle',
           })} ${(
             leg.route.shortName || leg.trip?.tripShortName
@@ -139,7 +139,7 @@ export default function LegInfo({
           type="button"
           className="capacity-icon-container"
           onClick={() => setCapacityModalOpen(true)}
-          aria-label={intl.formatMessage({
+          aria-label={formatMessage({
             id: capacityToTranslationId(capacity),
             defaultMessage: 'Capacity status',
           })}
@@ -156,7 +156,7 @@ export default function LegInfo({
         <>
           <span className="sr-only">
             {`${startTime} ${
-              leg.realTime ? intl.formatMessage({ id: 'realtime' }) : ''
+              leg.realTime ? formatMessage({ id: 'realtime' }) : ''
             }`}
           </span>
           <span

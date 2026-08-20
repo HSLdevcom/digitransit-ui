@@ -49,42 +49,42 @@ describe('occupancyUtil', () => {
   });
 
   describe('capacityToTranslationId', () => {
-    it('should map EMPTY and MANY_SEATS_AVAILABLE to many-seats heading', () => {
+    it('should map EMPTY and MANY_SEATS_AVAILABLE to many-seats', () => {
       expect(capacityToTranslationId('EMPTY')).to.equal(
-        'capacity-modal.many-seats-available-heading',
+        'capacity-modal.many-seats-available',
       );
       expect(capacityToTranslationId('MANY_SEATS_AVAILABLE')).to.equal(
-        'capacity-modal.many-seats-available-heading',
+        'capacity-modal.many-seats-available',
       );
     });
 
-    it('should map STANDING_ROOM_ONLY to standing-room heading', () => {
+    it('should map STANDING_ROOM_ONLY to standing-room', () => {
       expect(capacityToTranslationId('STANDING_ROOM_ONLY')).to.equal(
-        'capacity-modal.standing-room-only-heading',
+        'capacity-modal.standing-room-only',
       );
     });
 
-    it('should map CRUSHED_STANDING_ROOM_ONLY to crushed-standing-room heading', () => {
+    it('should map CRUSHED_STANDING_ROOM_ONLY to crushed-standing-room', () => {
       expect(capacityToTranslationId('CRUSHED_STANDING_ROOM_ONLY')).to.equal(
-        'capacity-modal.crushed-standing-room-only-heading',
+        'capacity-modal.crushed-standing-room-only',
       );
     });
 
-    it('should map NOT_ACCEPTING_PASSENGERS and FULL to full-capacity heading', () => {
+    it('should map NOT_ACCEPTING_PASSENGERS and FULL to crushed-standing-room', () => {
       expect(capacityToTranslationId('NOT_ACCEPTING_PASSENGERS')).to.equal(
-        'capacity-modal.full-capacity-heading',
+        'capacity-modal.crushed-standing-room-only',
       );
       expect(capacityToTranslationId('FULL')).to.equal(
-        'capacity-modal.full-capacity-heading',
+        'capacity-modal.crushed-standing-room-only',
       );
     });
 
-    it('should default to few-seats heading', () => {
+    it('should default to few-seats', () => {
       expect(capacityToTranslationId('FEW_SEATS_AVAILABLE')).to.equal(
-        'capacity-modal.few-seats-available-heading',
+        'capacity-modal.few-seats-available',
       );
       expect(capacityToTranslationId('UNKNOWN')).to.equal(
-        'capacity-modal.few-seats-available-heading',
+        'capacity-modal.few-seats-available',
       );
     });
   });

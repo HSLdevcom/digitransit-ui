@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-
 import Icon from './Icon';
 import IconBackground from './icon/IconBackground';
 import IconBadge from './icon/IconBadge';

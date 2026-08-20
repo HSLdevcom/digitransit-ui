@@ -99,7 +99,6 @@ export default {
         'CAR_FERRIES',
         'flixbus',
       ],
-  externalFeedIds: ['02Taksi'],
 
   additionalFeedIds: {
     estonia: ['Vikingline', 'Viro'],
@@ -171,6 +170,8 @@ export default {
   },
 
   suggestBikeMaxDistance: 2000000,
+
+  trafficNowLink: true,
 
   vehicleRental: {
     useAllSeasons: true,
@@ -268,6 +269,8 @@ export default {
     'ferry',
     'citybike',
     'airplane',
+    'carpark',
+    'bikepark',
   ],
   useAlternativeNameForModes: ['RAIL'],
 
@@ -443,31 +446,23 @@ export default {
   ],
   navigation: true,
 
-  // TODO: flex + transit disabled for now, proper configuration coming in the future
-  /* flex: {
-    external: {
-      enabled: true,
-      transit: true,
-      direct: true,
-      agencies: ['02Taksi:02_taksi'],
-      showBothDirectAndTransitResults: true,
-    },
+  externalFeedIds: ['02Taksi_carpickupzone'],
+
+  flex: {
     internal: {
-      enabled: true,
-      transit: true,
-      direct: true,
+      enabled: IS_DEV,
+      transit: IS_DEV,
+      direct: IS_DEV,
       agencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
     },
     infoLanguage: 'fi',
-  }, */
-  flex: {
-    external: {
-      enabled: true,
-      transit: false,
-      direct: true,
-      agencies: ['02Taksi:02_taksi'],
-    },
-    infoLanguage: 'fi',
+  },
+
+  carPickupZone: {
+    enabled: IS_DEV,
+    transit: IS_DEV,
+    direct: IS_DEV,
+    showBothDirectAndTransitResults: true,
   },
 
   devAnalytics: true,

@@ -6,10 +6,10 @@ import {
   graphql,
   ReactRelayContext,
 } from 'react-relay';
+import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { matchShape } from 'found';
 import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
-import cx from 'classnames';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { routeShape } from '../../util/shapes';
@@ -89,7 +89,7 @@ function RoutePatternSelectContainer({
     let cancelled = false;
 
     if (config.showSimilarRoutesOnRouteDropDown) {
-      const firstChar = route.shortName[0] ?? '';
+      const firstChar = route.shortName?.[0] ?? '';
       const isNumericRoute = firstChar >= '0' && firstChar <= '9';
 
       if (!isNumericRoute) {

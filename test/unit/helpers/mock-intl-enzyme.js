@@ -18,10 +18,9 @@ import * as found from 'found';
 import IntlBridge from '../../../app/util/IntlBridge';
 import translations from '../../../app/translations/en';
 import * as ConfigContext from '../../../app/configurations/ConfigContext';
+import { ConfigProvider } from '../../../app/configurations/ConfigContext';
 import TestProviders from './mock-providers';
 import { mockContext } from './mock-context';
-
-const { ConfigProvider } = ConfigContext;
 
 const mockRelayContext = { environment: {}, variables: {} };
 

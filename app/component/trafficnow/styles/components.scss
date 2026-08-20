@@ -14,16 +14,51 @@
   }
 }
 
+.badge-container {
+  position: relative;
+  display: inline-flex;
+
+  .fav-icon {
+    position: absolute;
+    top: -8px;
+    right: -4px;
+  }
+
+  a {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-xs);
+    align-items: center;
+    background-color: color-mix(in srgb, currentcolor, white 90%);
+    border-radius: var(--radius-s);
+    padding: var(--space-xs) var(--space-xs);
+    text-decoration: none;
+    height: $badge-height;
+    min-width: $badge-height;
+    justify-content: center;
+
+    &.highlight {
+      border: 1px solid $standalone-btn-active-color;
+    }
+
+    &:hover {
+      background-color: color-mix(in srgb, currentcolor, white 80%);
+    }
+  }
+}
+
 // Route badges, departure badges, badge groups
 .badges {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xs);
+  gap: var(--space-fixed-xs);
 
   &__group {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     gap: var(--space-xxs);
+    align-items: center;
 
     .icon.stop {
       margin: 0 calc(-1 * var(--space-xxs));
@@ -31,57 +66,89 @@
   }
 
   &__headsign-group {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--space-xxs);
-    align-items: center;
+    display: contents;
 
     &--route {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: var(--space-xxs);
-    }
-
-    a,
-    > span {
-      display: flex;
-      align-items: center;
-      background-color: color-mix(in srgb, currentcolor, white 90%);
-      border-radius: var(--radius-s);
-      padding: var(--space-xs) var(--space-xs);
-      text-decoration: none;
-      height: $badge-height;
-      min-width: $badge-height;
-      justify-content: center;
-
-      &.highlight {
-        border: 1px solid $standalone-btn-active-color;
-      }
-
-      &:hover {
-        background-color: color-mix(in srgb, currentcolor, white 80%);
-      }
+      display: contents;
     }
   }
 
   &__departure-group {
     display: flex;
-    flex-direction: row;
-    gap: $gap-badge-departure;
+    flex-direction: column;
+    gap: var(--space-s);
+
+    &.inline {
+      display: contents;
+    }
+
+    &__date-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+
+      &.inline {
+        display: contents;
+      }
+
+      .departures-date-badge {
+        background-color: #f2f5f7;
+        border-radius: var(--radius-s);
+        padding: var(--space-xxs) var(--space-s);
+        display: flex;
+        flex-direction: row;
+        gap: var(--space-xxs);
+        width: fit-content;
+        align-items: center;
+      }
+
+      &.inline .departures-date-badge {
+        align-self: stretch;
+        padding: var(--space-xs) var(--space-xs);
+      }
+
+      .departuretimes {
+        display: flex;
+        flex-direction: row;
+        gap: var(--space-fixed-xs);
+        flex-wrap: wrap;
+      }
+
+      &.inline .departuretimes {
+        display: contents;
+      }
+    }
+  }
+
+  &__departure-date {
+    padding: var(--space-xxs) var(--space-xs);
+    justify-content: center;
   }
 
   &__departure-time {
-    padding: var(--space-xxs) var(--space-xs);
+    padding: var(--space-xxs) var(--space-fixed-xs);
     color: $cancelation-red;
     text-decoration: line-through;
+    text-decoration-thickness: 2px;
     border-radius: var(--radius-s);
     border: 1px solid $light-gray;
     background: $white;
+    min-width: 60px;
+    text-align: center;
+    white-space: pre;
 
     > span {
       color: $gray;
+    }
+
+    &--show-more {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 32px;
+      min-width: 32px;
+      width: 32px;
+      text-decoration: none;
     }
   }
 }

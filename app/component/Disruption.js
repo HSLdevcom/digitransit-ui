@@ -1,0 +1,223 @@
+import React, { Fragment, useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { useRouter } from 'found';
+import { useIntl } from 'react-intl';
+import { DateTime } from 'luxon';
+import cx from 'classnames';
+import Icon from './Icon';
+import DisruptionBadge from './trafficnow/DisruptionBadge';
+import { useConfigContext } from '../configurations/ConfigContext';
+import { PREFIX_DISRUPTION, routePagePath, stopPagePath } from '../util/path';
+import IconBackground from './icon/IconBackground';
+import { getRouteMode, transitIconName } from '../util/modeUtils';
+import { getStartTimeWithColon } from '../util/timeUtils';
+import { entityShape, stopTimeShape } from '../util/shapes';
+import {
+  AlertEntityType,
+  AlertSeverityLevelType,
+  LocationTypes,
+} from '../constants';
+
+const statusText = (effectiveStartDate, intl) => {
+  if (!effectiveStartDate) {
+    return intl.formatMessage({ id: 'disruption-list-active' });
+  }
+  const startDate = DateTime.fromSeconds(effectiveStartDate);
+  const now = DateTime.now();
+  if (startDate <= DateTime.now() || startDate.hasSame(now, 'day')) {
+    return intl.formatMessage({ id: 'disruption-list-active' });
+  }
+  if (startDate.hasSame(now.plus({ days: 1 }), 'day')) {
+    return intl.formatMessage({ id: 'tomorrow' });
+  }
+  return startDate.toFormat('ccc d.L.');
+};
+
+export default function Disruption({
+  toggleDetails,
+  alertDescriptionText,
+  alertEffect = '',
+  entities = [],
+  alertHeaderText,
+  alertSeverityLevel = AlertSeverityLevelType.Unknown,
+  canceledDepartures = [],
+  effectiveStartDate,
+}) {
+  const config = useConfigContext();
+  const { match } = useRouter();
+  const intl = useIntl();
+  const hasCancelations = canceledDepartures.length > 0;
+  if (!alertDescriptionText && !alertHeaderText) {
+    return null;
+  }
+
+  // group entities by type and mode, used to display badges
+  const groupedEntities = useMemo(
+    () =>
+      entities.reduce((acc, entity) => {
+        // eslint-disable-next-line no-underscore-dangle
+        const typename = entity.__typename;
+        const mode = entity.mode
+          ? getRouteMode(entity, config)
+          : (entity.vehicleMode || 'bus').toLowerCase();
+        const key = `${typename}_${mode}`;
+        if (!acc[key]) {
+          // eslint-disable-next-line no-param-reassign
+          acc[key] = { typename, mode, items: [] };
+        }
+        acc[key].items.push(entity);
+        return acc;
+      }, {}),
+    [entities],
+  );
+
+  // if startDate not defined, assume the alert is active
+  const active =
+    !effectiveStartDate || effectiveStartDate <= DateTime.now().toSeconds();
+
+  // show status or date of cancelations
+  const status = hasCancelations && (
+    <span className="disruption-status">
+      <Icon
+        img={active ? 'icon_status' : 'icon_calendar'}
+        color={config.colors.primary}
+      />
+      <span className="disruption-status-date">
+        {statusText(effectiveStartDate, intl)}
+      </span>
+    </span>
+  );
+
+  const buttonLabel = hasCancelations
+    ? intl.formatMessage({
+        id: 'disruption-view-timetable',
+        defaultMessage: 'View timetable',
+      })
+    : intl.formatMessage({
+        id: 'disruption-view-details',
+        defaultMessage: 'View details',
+      });
+  const ariaLabel = hasCancelations ? alertDescriptionText : alertHeaderText;
+  return (
+    <div className="alert-row-container" role="listitem">
+      <div
+        className="alert-row"
+        role="button"
+        aria-label={`${ariaLabel} ${buttonLabel}`}
+        onClick={toggleDetails}
+        tabIndex={0}
+        onKeyDown={e => {
+          if (e.key === ' ' || e.key === 'Enter') {
+            if (toggleDetails) {
+              toggleDetails();
+            }
+            e.stopPropagation();
+          }
+        }}
+      >
+        {toggleDetails && (
+          <div className="alert-row-arrow">
+            <Icon
+              img="icon_arrow-collapse--right"
+              color={config.colors.primary}
+            />
+          </div>
+        )}
+        <div className="alert-row-top">
+          <DisruptionBadge
+            showIcon
+            variant={alertSeverityLevel}
+            label={alertEffect || 'no_service'}
+          />
+          {status}
+        </div>
+        <div className="alert-row-badges">
+          {groupedEntities &&
+            Object.entries(groupedEntities).map(
+              ([key, { typename, mode, items }]) => {
+                const isStop = typename === AlertEntityType.Stop;
+                return (
+                  <Fragment key={key}>
+                    <Icon
+                      img={transitIconName(mode)}
+                      className={mode.toLowerCase()}
+                      height={2.15}
+                      width={2.15}
+                      iconScale={isStop ? 0.5 : 1}
+                      background={
+                        isStop && (
+                          <IconBackground
+                            shape="stopsign"
+                            color="currentcolor"
+                          />
+                        )
+                      }
+                    />
+                    {items.map(
+                      ({ gtfsId, shortName, name, locationType, code }) => {
+                        const isStation =
+                          locationType === LocationTypes.STATION;
+                        return (
+                          <a
+                            key={gtfsId}
+                            className={cx('mode-badge', mode.toLowerCase())}
+                            href={
+                              isStop
+                                ? stopPagePath(isStation, gtfsId)
+                                : routePagePath(gtfsId, PREFIX_DISRUPTION, code)
+                            }
+                            onClick={e => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              match.router.push(
+                                isStop
+                                  ? stopPagePath(isStation, gtfsId)
+                                  : routePagePath(
+                                      gtfsId,
+                                      PREFIX_DISRUPTION,
+                                      code,
+                                    ),
+                              );
+                            }}
+                          >
+                            <div>
+                              <span>{isStop ? name : shortName}</span>
+                            </div>
+                          </a>
+                        );
+                      },
+                    )}
+                  </Fragment>
+                );
+              },
+            )}
+        </div>
+        <div className="alert-row-bottom">
+          <span className="alert-row-title">{alertHeaderText}</span>
+          {canceledDepartures.length > 0 && (
+            <div className="canceled-departures">
+              {canceledDepartures.map(st => (
+                <span key={st.scheduledDeparture} className="cancelation-badge">
+                  <span className="canceled">
+                    {getStartTimeWithColon(st.scheduledDeparture)}
+                  </span>
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+Disruption.propTypes = {
+  toggleDetails: PropTypes.func,
+  alertDescriptionText: PropTypes.string,
+  alertEffect: PropTypes.string,
+  entities: PropTypes.arrayOf(entityShape),
+  alertSeverityLevel: PropTypes.string,
+  alertHeaderText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  canceledDepartures: PropTypes.arrayOf(stopTimeShape),
+  effectiveStartDate: PropTypes.number,
+};
