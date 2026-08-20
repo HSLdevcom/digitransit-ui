@@ -44,6 +44,7 @@ import {
 } from './action/FavouriteActions';
 import { ConfigProvider } from './configurations/ConfigContext';
 import { FavouriteProvider } from './hooks/FavouriteContext';
+import { preloadBadgeMap } from './util/stopStatusSearchUtils';
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
@@ -75,6 +76,11 @@ async function init() {
 
   // For Google Tag Manager
   initAnalyticsClientSide(config);
+
+  // Fetch the stop alert badge map once at app startup
+  if (config.showStopStatusMarkers) {
+    preloadBadgeMap();
+  }
 
   window.context = context;
 
