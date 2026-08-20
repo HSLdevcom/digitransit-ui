@@ -206,9 +206,44 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
         case 'Route':
           type = 'search'; // can't be used as location
           break;
+        case 'OldSearch':
+          if (item.properties?.layer?.startsWith('route-')) {
+            type = 'search';
+          }
+          break;
         default:
       }
-      if (item.type === 'OldSearch' && item.properties.gid) {
+      if (
+        item.type === 'OldSearch' &&
+        item.properties.layer?.startsWith('route-') &&
+        item.properties.gtfsId
+      ) {
+        searchContext
+          .getRoutesByIds([item.properties.gtfsId], PATH_OPTS)
+          .then(routes => {
+            if (routes.length > 0) {
+              const refreshed = {
+                ...item,
+                properties: {
+                  ...item.properties,
+                  longName:
+                    routes[0].properties.longName ?? item.properties.longName,
+                  shortName:
+                    routes[0].properties.shortName ?? item.properties.shortName,
+                },
+              };
+              this.saveOldSearch(refreshed, type, id);
+              this.onSuggestionSelected(refreshed, id);
+            } else {
+              this.saveOldSearch(item, type, id);
+              this.onSuggestionSelected(item, id);
+            }
+          })
+          .catch(() => {
+            this.saveOldSearch(item, type, id);
+            this.onSuggestionSelected(item, id);
+          });
+      } else if (item.type === 'OldSearch' && item.properties.gid) {
         getJson(this.context.config.URL.PELIAS_PLACE, {
           ids: item.properties.gid,
         })

@@ -2077,11 +2077,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest-panel@npm:^8.3.8, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
+"@digitransit-component/digitransit-component-autosuggest-panel@npm:^8.3.11, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^7.1.13
+    "@digitransit-component/digitransit-component-autosuggest": ^7.1.16
     "@digitransit-component/digitransit-component-icon": ^2.0.2
     "@hsl-fi/sass": 1.0.0
     classnames: 2.5.1
@@ -2096,11 +2096,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest@npm:^7.1.13, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
+"@digitransit-component/digitransit-component-autosuggest@npm:^7.1.16, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest"
   dependencies:
-    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "npm:^3.3.7"
+    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "npm:^3.3.10"
     "@digitransit-search-util/digitransit-search-util-get-label": "npm:^1.0.3"
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "npm:^2.1.2"
     "@hsl-fi/hooks": "npm:^1.2.4"
@@ -2278,8 +2278,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component@workspace:digitransit-component/packages/digitransit-component"
   dependencies:
-    "@digitransit-component/digitransit-component-autosuggest": "npm:^7.1.13"
-    "@digitransit-component/digitransit-component-autosuggest-panel": "npm:^8.3.8"
+    "@digitransit-component/digitransit-component-autosuggest": "npm:^7.1.16"
+    "@digitransit-component/digitransit-component-autosuggest-panel": "npm:^8.3.11"
     "@digitransit-component/digitransit-component-control-panel": "npm:^7.1.4"
     "@digitransit-component/digitransit-component-favourite-bar": "npm:^5.0.6"
     "@digitransit-component/digitransit-component-favourite-editing-modal": "npm:^5.0.5"
@@ -2313,7 +2313,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@npm:^3.3.7, @digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate":
+"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@npm:^3.3.10, @digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate"
   dependencies:

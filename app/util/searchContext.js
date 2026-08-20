@@ -26,6 +26,9 @@ const searchContext = {
   getFavouriteRoutesQuery() {
     return Promise.resolve([]);
   },
+  getRoutesByIds() {
+    return Promise.resolve([]);
+  },
   getFavouriteVehicleRentalStations() {
     return Promise.resolve([]);
   },
