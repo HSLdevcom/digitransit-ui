@@ -760,6 +760,7 @@ export default {
     }, */
     infoLanguage: 'fi',
     settingLabelOverride: 'demand-responsive-traffic',
+    taxiExternalIcon: 'icon_uber-wide',
   },
 
   showRouteDescNotification: IS_DEV,

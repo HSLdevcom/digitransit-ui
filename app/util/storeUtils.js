@@ -38,7 +38,7 @@ export const clearOldSearches = context => {
 };
 
 export const getLanguage = context => {
-  return context.getStore('PreferencesStore').getLanguage();
+  return context.config.language;
 };
 
 export const getFutureRoutes = () => {

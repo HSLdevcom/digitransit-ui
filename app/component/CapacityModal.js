@@ -36,7 +36,7 @@ const CapacityModal = ({ config }) => {
           </div>
           <p className="capacity-info-explanation">
             <FormattedMessage
-              id="capacity-modal.many-seats-available-body"
+              id="capacity-modal.many-seats-available"
               defaultMessage="Plenty of seats available"
             />
           </p>
@@ -54,7 +54,7 @@ const CapacityModal = ({ config }) => {
           </div>
           <p className="capacity-info-explanation">
             <FormattedMessage
-              id="capacity-modal.few-seats-available-body"
+              id="capacity-modal.few-seats-available"
               defaultMessage="Some seats available"
             />
           </p>
@@ -72,7 +72,7 @@ const CapacityModal = ({ config }) => {
           </div>
           <p className="capacity-info-explanation">
             <FormattedMessage
-              id="capacity-modal.standing-room-only-body"
+              id="capacity-modal.standing-room-only"
               defaultMessage="Only a few seats and a little standing room available"
             />
           </p>
@@ -90,36 +90,12 @@ const CapacityModal = ({ config }) => {
           </div>
           <p className="capacity-info-explanation">
             <FormattedMessage
-              id="capacity-modal.crushed-standing-room-only-body"
+              id="capacity-modal.crushed-standing-room-only"
               defaultMessage="Only a little standing room available"
             />
           </p>
         </div>
       </section>
-      {/* <section>
-        <div className="capacity-info-row">
-          <div className="icon">
-            <Icon
-              img="icon_FULL"
-              width={1.5}
-              height={1.5}
-              color={config.colors.primary}
-            />
-          </div>
-          <h4 className="info-heading">
-            <FormattedMessage
-              id="capacity-modal.full-capacity-heading"
-              defaultMessage="Full"
-            />
-          </h4>
-        </div>
-        <p className="capacity-info-explanation">
-          <FormattedMessage
-            id="capacity-modal.full-capacity-body"
-            defaultMessage="No seats or standing room available"
-          />
-        </p>
-      </section> */}
     </div>
   );
 };
@@ -127,7 +103,5 @@ const CapacityModal = ({ config }) => {
 CapacityModal.propTypes = {
   config: configShape.isRequired,
 };
-
-CapacityModal.defaultProps = {};
 
 export default CapacityModal;

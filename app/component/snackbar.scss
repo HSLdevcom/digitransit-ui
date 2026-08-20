@@ -21,7 +21,7 @@
   position: fixed;
   left: 50%;
   top: 78px;
-  z-index: 9999;
+  z-index: global-z('snackbar');
   color: #fff;
   display: flex;
   width: 480px;

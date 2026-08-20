@@ -35,7 +35,7 @@ function getStopsFromGeocoding(stops, URL_PELIAS_PLACE) {
   }, {});
   return getJson(URL_PELIAS_PLACE, {
     ids: gids.slice(0, -1),
-    // lang: context.getStore('PreferencesStore').getLanguage(), TODO enable this when OTP supports translations
+    // lang: context.getLanguage(context), TODO enable this when OTP supports translations
   }).then(res => {
     return res.features.map(stop => {
       const favourite = {

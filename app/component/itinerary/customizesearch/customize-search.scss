@@ -158,8 +158,8 @@
 
         .icon {
           &.taxi-icon {
-            color: $external-feed-color;
-            fill: white;
+            color: $taxi-settings-icon-bg-color;
+            fill: $taxi-settings-icon-fill;
           }
         }
       }

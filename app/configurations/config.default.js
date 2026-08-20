@@ -887,6 +887,7 @@ export default {
       minTransferTime: 900, // seconds
       showBothDirectAndTransitResults: false,
     },
+    taxiExternalIcon: 'icon_taxi-external',
   },
   carPickupZone: {
     enabled: false,
