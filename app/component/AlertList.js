@@ -131,7 +131,7 @@ AlertList.defaultProps = {
 
 const connectedComponent = connectToStores(
   withBreakpoint(AlertList),
-  ['TimeStore', 'PreferencesStore'],
+  ['TimeStore'],
   context => ({
     currentTime: context.getStore('TimeStore').getCurrentTime(),
   }),

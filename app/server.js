@@ -113,7 +113,6 @@ export default async function serve(req, res, next) {
     const config = getConfiguration(req);
     const agent = req.headers['user-agent'];
 
-    // TODO: Move this to PreferencesStore
     // 1. use locale from cookie (user selected) or default
     let locale = req.cookies.lang || config.defaultLanguage;
 
