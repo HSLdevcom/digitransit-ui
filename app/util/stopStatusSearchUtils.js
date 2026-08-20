@@ -1,5 +1,8 @@
 // Badges are served by the UI server (fetched from OTP once per day).
 // The client loads the full badge map once per page load.
+// Pelias-provided addendum.GTFS.noServiceToday supplements the OTP badge cache.
+
+import { STOP_STATUS, STOP_STATUS_BADGE_IMGS } from './stopStatusUtils';
 
 const STATUS_LAYERS = new Set([
   'stop',
@@ -50,9 +53,6 @@ export function preloadBadgeMap() {
 }
 
 export function getStopBadgeFromCache(item) {
-  if (!badgeMap) {
-    return null;
-  }
   if (!STATUS_LAYERS.has(getLayer(item))) {
     return null;
   }
@@ -60,5 +60,16 @@ export function getStopBadgeFromCache(item) {
   if (!gtfsId) {
     return null;
   }
-  return badgeMap[gtfsId] ?? null;
+  const gtfs = item.properties?.addendum?.GTFS;
+  if (gtfs?.noService) {
+    return STOP_STATUS_BADGE_IMGS[STOP_STATUS.OUT_OF_SERVICE];
+  }
+  if (gtfs?.noServiceToday) {
+    return STOP_STATUS_BADGE_IMGS[STOP_STATUS.NO_SERVICE_TODAY];
+  }
+  const cached = badgeMap?.[gtfsId] ?? null;
+  if (cached) {
+    return cached;
+  }
+  return null;
 }
