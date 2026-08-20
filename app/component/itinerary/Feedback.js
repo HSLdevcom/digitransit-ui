@@ -3,6 +3,7 @@ import cx from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
+import { Text } from '@hsl-fi/layout-primitives';
 import ExternalLink from '../ExternalLink';
 import Icon from '../Icon';
 import { useConfigContext } from '../../configurations/ConfigContext';
@@ -34,10 +35,15 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
   const iconProps = iconMap[status];
   const loginNeeded = config.allowLogin && !config.user.sub;
   const thumbColor = loginNeeded ? '#CCC' : colors.primary;
+  const statusStyle =
+    status === 'personalization-ask' ? 'routes-s-bold' : 'text-xs';
+  const statusText = (
+    <Text variant={statusStyle}>{intl.formatMessage({ id: status })}</Text>
+  );
 
   const middleTexts = loginNeeded ? (
     <div>
-      <FormattedMessage id={status} />
+      {statusText}
       <ExternalLink
         onClick={() => window.location.assign(getLoginPath(match.location))}
         withArrow
@@ -46,7 +52,7 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
       </ExternalLink>
     </div>
   ) : (
-    <FormattedMessage id={status} />
+    statusText
   );
 
   return (
