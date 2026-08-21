@@ -12,15 +12,15 @@ import RouteControlPanel from './RouteControlPanel';
 import { PREFIX_ROUTES, PREFIX_DISRUPTION } from '../../util/path';
 import withBreakpoint from '../../util/withBreakpoint';
 import BackButton from '../BackButton';
-import { getRouteMode } from '../../util/modeUtils';
+import { getRouteMode, modeToTranslationId } from '../../util/modeUtils';
 import {
   getModeIconColor,
   ensureColorAccessibleOnWhite,
 } from '../../util/colorUtils';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RouteNotificationButton from './RouteNotificationButton';
-import { useConfigContext } from '../../configurations/ConfigContext';
 import { isLocalCallAgency } from '../../util/legUtils';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 function resolveHeadsign(pattern) {
   if (!pattern) {
@@ -65,10 +65,10 @@ function RoutePage({ route, match, breakpoint, error = undefined }) {
   const selectedPattern =
     patternId && route.patterns.find(p => p.code === patternId);
   const headsign = resolveHeadsign(selectedPattern || null);
+  const localCallAgency = isLocalCallAgency({ route }, config);
   const matchingNotification = config.routeNotifications?.find(n =>
     n.showForRoute?.(route),
   );
-  const localCallAgency = isLocalCallAgency({ route }, config);
 
   return (
     <div className="route-page-container">
@@ -97,16 +97,16 @@ function RoutePage({ route, match, breakpoint, error = undefined }) {
           </div>
           <div className="route-info">
             <h1
+              ref={headingRef}
+              tabIndex={-1}
               className={cx('route-short-name', mode, {
                 'call-local': localCallAgency,
               })}
-              ref={headingRef}
-              tabIndex={-1}
               style={{ color: shortNameColor }}
             >
               <span className="sr-only" style={{ whiteSpace: 'pre' }}>
                 {intl.formatMessage({
-                  id: mode,
+                  id: modeToTranslationId(mode, config),
                 })}{' '}
                 {label?.toLowerCase()}
               </span>
@@ -160,7 +160,11 @@ RoutePage.propTypes = {
 const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
   route: graphql`
     fragment RoutePage_route on Route
-    @argumentDefinitions(date: { type: "String" }) {
+    @argumentDefinitions(
+      date: { type: "String" }
+      cancelationStartDate: { type: "LocalDate!" }
+      cancelationEndDate: { type: "LocalDate!" }
+    ) {
       gtfsId
       color
       shortName
@@ -214,10 +218,27 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
             serviceDay
           }
         }
+        canceledTrips(
+          serviceDateRanges: [
+            { start: $cancelationStartDate, end: $cancelationEndDate }
+          ]
+        ) {
+          serviceDate
+          trip {
+            pattern {
+              code
+            }
+            gtfsId
+          }
+        }
         activeDates: trips {
           serviceId
           day: activeDates
         }
+      }
+      activeDates: trips {
+        serviceId
+        day: activeDates
       }
     }
   `,

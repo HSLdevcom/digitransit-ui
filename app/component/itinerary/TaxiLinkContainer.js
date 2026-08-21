@@ -41,7 +41,7 @@ export default function TaxiLinkContainer({
       <div className="itinerary-transit-leg-route-with-link">
         <div className="itinerary-with-link">
           <div className="taxi-icon">
-            <Icon img={icon} viewBox="0 0 32 32" />
+            <Icon img={icon} omitViewBox />
           </div>
           <div className="itinerary-with-link-text-container">
             <span className={cx('headsign', 'scooter-headsign')}>

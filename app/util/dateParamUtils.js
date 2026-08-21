@@ -3,17 +3,23 @@ import { DateTime } from 'luxon';
 import { DATE_FORMAT } from '../constants';
 
 export const prepareServiceDay = params => {
+  const now = DateTime.now();
   return {
     ...params,
-    date: DateTime.now().toFormat(DATE_FORMAT),
+    date: now.toFormat(DATE_FORMAT),
+    cancelationStartDate: now.toISODate(),
+    cancelationEndDate: now.plus({ days: 7 }).toISODate(),
   };
 };
 
 export const prepareDatesForStops = params => {
+  const now = DateTime.now();
   return {
     ...params,
-    startTime: DateTime.now().toUnixInteger() - 60 * 5, // 5 mins in the past
-    date: DateTime.now().toFormat(DATE_FORMAT),
+    startTime: now.toUnixInteger() - 60 * 5, // 5 mins in the past
+    date: now.toFormat(DATE_FORMAT),
+    cancelationStartDate: now.toISODate(),
+    cancelationEndDate: now.plus({ days: 7 }).toISODate(),
   };
 };
 

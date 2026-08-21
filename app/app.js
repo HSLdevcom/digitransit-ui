@@ -6,7 +6,6 @@ import OldSearchesStore from './store/OldSearchesStore';
 import PositionStore from './store/PositionStore';
 import OriginStore from './store/OriginStore';
 import DestinationStore from './store/DestinationStore';
-import PreferencesStore from './store/PreferencesStore';
 import RealTimeInformationStore from './store/RealTimeInformationStore';
 import TimeStore from './store/TimeStore';
 import MapLayerStore from './store/MapLayerStore';
@@ -24,7 +23,6 @@ export default config => {
   app.registerStore(PositionStore);
   app.registerStore(OriginStore);
   app.registerStore(DestinationStore);
-  app.registerStore(PreferencesStore);
   app.registerStore(RealTimeInformationStore);
   app.registerStore(TimeStore);
   app.registerStore(MapLayerStore);

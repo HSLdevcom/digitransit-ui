@@ -448,3 +448,10 @@ export function isPersonalizationEnabled(config, settings) {
     (config.user.sub || !config.allowLogin)
   );
 }
+
+export function modeToTranslationId(mode, config) {
+  if (config.useAlternativeNameForModes?.includes(mode.toUpperCase())) {
+    return `alternative-name-${mode.toLowerCase()}`;
+  }
+  return mode.toLowerCase();
+}

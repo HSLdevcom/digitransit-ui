@@ -148,7 +148,7 @@ export default configMerger(walttiConfig, {
       freebike_lahti: {
         enabled: true,
         season: {
-          start: '24.4',
+          start: '14.4',
           end: '17.11',
         },
         capacity: BIKEAVL_BIKES,

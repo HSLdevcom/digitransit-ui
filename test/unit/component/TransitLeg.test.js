@@ -72,7 +72,7 @@ describe('<TransitLeg />', () => {
         },
         interlineWithPreviousLeg: false,
       },
-      mode: 'BUS',
+      mode: 'bus',
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { ...mockContext },
@@ -126,7 +126,7 @@ describe('<TransitLeg />', () => {
         },
         interlineWithPreviousLeg: false,
       },
-      mode: 'BUS',
+      mode: 'bus',
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { ...mockContext },
@@ -181,7 +181,7 @@ describe('<TransitLeg />', () => {
         },
         interlineWithPreviousLeg: false,
       },
-      mode: 'BUS',
+      mode: 'bus',
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { ...mockContext },
@@ -236,7 +236,7 @@ describe('<TransitLeg />', () => {
         },
         interlineWithPreviousLeg: false,
       },
-      mode: 'RAIL',
+      mode: 'rail',
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { ...mockContext },
@@ -284,7 +284,7 @@ describe('<TransitLeg />', () => {
         },
         interlineWithPreviousLeg: false,
       },
-      mode: 'BUS',
+      mode: 'bus',
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { ...mockContext },
@@ -339,7 +339,7 @@ describe('<TransitLeg />', () => {
         },
         interlineWithPreviousLeg: false,
       },
-      mode: 'BUS',
+      mode: 'bus',
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { ...mockContext },
@@ -394,7 +394,7 @@ describe('<TransitLeg />', () => {
         },
         interlineWithPreviousLeg: false,
       },
-      mode: 'BUS',
+      mode: 'bus',
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { ...mockContext },
@@ -455,7 +455,7 @@ describe('<TransitLeg />', () => {
         },
         interlineWithPreviousLeg: false,
       },
-      mode: 'BUS',
+      mode: 'bus',
     };
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
       context: { ...mockContext },
@@ -503,7 +503,7 @@ describe('<TransitLeg />', () => {
         },
         interlineWithPreviousLeg: false,
       },
-      mode: 'BUS',
+      mode: 'bus',
     };
 
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
@@ -553,7 +553,7 @@ describe('<TransitLeg />', () => {
         },
         interlineWithPreviousLeg: false,
       },
-      mode: 'BUS',
+      mode: 'bus',
     };
 
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
@@ -612,7 +612,7 @@ describe('<TransitLeg />', () => {
         },
         interlineWithPreviousLeg: false,
       },
-      mode: 'BUS',
+      mode: 'bus',
     };
 
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
@@ -690,7 +690,7 @@ describe('<TransitLeg />', () => {
         },
         interlineWithPreviousLeg: false,
       },
-      mode: 'BUS',
+      mode: 'bus',
     };
 
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
@@ -745,7 +745,7 @@ describe('<TransitLeg />', () => {
         },
         interlineWithPreviousLeg: false,
       },
-      mode: 'BUS',
+      mode: 'bus',
     };
 
     const wrapper = shallowWithIntl(<TransitLeg {...props} />, {

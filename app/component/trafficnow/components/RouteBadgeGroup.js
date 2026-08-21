@@ -2,8 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useRouter } from 'found';
+import connectToStores from 'fluxible-addons-react/connectToStores';
 import Icon from '../../Icon';
 import IconBackground from '../../icon/IconBackground';
+import { favouriteShape } from '../../../util/shapes';
+import EntityBadge from './EntityBadge';
 
 const STOP_SIGN_ICON_SCALE = 0.5;
 const NORMAL_ICON_SCALE = 1;
@@ -17,8 +20,11 @@ const RouteBadgeGroup = ({
   renderSuffix = null,
   headsignGroupClassName = undefined,
   stopPropagation = false,
+  favourites = [],
 }) => {
   const { router } = useRouter();
+
+  const favouriteRoutesAndStops = favourites.map(({ gtfsId }) => gtfsId);
 
   const handleRouteBadgeClick = url => e => {
     e.preventDefault();
@@ -42,27 +48,32 @@ const RouteBadgeGroup = ({
       />
       <div className={cx('badges__headsign-group', headsignGroupClassName)}>
         {routes.map(route => {
-          const { name, url, gtfsId } = route;
-          const routeKey = gtfsId || `${name}-${url}`;
-          const link = (
-            <a
-              onClick={handleRouteBadgeClick(url)}
-              href={url}
-              className={cx(mode, {
-                highlight: gtfsId === highlightedGtfsId,
-              })}
-            >
-              <span className="routes-m-narrow">{name}</span>
-            </a>
-          );
+          const routeKey = route.gtfsId || `${route.name}-${route.url}`;
+          const isFavourite = favouriteRoutesAndStops.includes(route.gtfsId);
 
           if (!renderRouteSuffix) {
-            return <React.Fragment key={routeKey}>{link}</React.Fragment>;
+            return (
+              <React.Fragment key={routeKey}>
+                <EntityBadge
+                  entity={route}
+                  isFavourite={isFavourite}
+                  handleClick={handleRouteBadgeClick}
+                  mode={mode}
+                  highlighted={highlightedGtfsId === route.gtfsId}
+                />
+              </React.Fragment>
+            );
           }
 
           return (
             <div key={routeKey} className="badges__headsign-group--route">
-              {link}
+              <EntityBadge
+                entity={route}
+                isFavourite={isFavourite}
+                handleClick={handleRouteBadgeClick}
+                mode={mode}
+                highlighted={highlightedGtfsId === route.gtfsId}
+              />
               {renderRouteSuffix(route)}
             </div>
           );
@@ -89,6 +100,15 @@ RouteBadgeGroup.propTypes = {
   renderSuffix: PropTypes.node,
   headsignGroupClassName: PropTypes.string,
   stopPropagation: PropTypes.bool,
+  favourites: PropTypes.arrayOf(favouriteShape),
 };
 
-export default RouteBadgeGroup;
+const connectedComponent = connectToStores(
+  RouteBadgeGroup,
+  ['FavouriteStore'],
+  context => ({
+    favourites: context.getStore('FavouriteStore').getFavourites(),
+  }),
+);
+
+export { connectedComponent as default, RouteBadgeGroup as Component };

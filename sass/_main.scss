@@ -2,17 +2,7 @@
 $body-font-family: $font-family;
 $body-font-weight: $font-weight-medium;
 
-// Note: the '.css' extension is intentionally dropped here. Dart Sass only
-// leaves an '@import' as a literal, un-inlined passthrough when the path
-// explicitly ends in '.css'; webpack's splitChunks then treats that
-// passthrough import as its own module and, since it resolves under
-// node_modules/@hsl-fi/, pulls it into the shared 'digitransit-components'
-// chunk which loads *after* each theme's own CSS. That let this file's
-// default '--font-weight-medium'/'--font-weight-book' values win over the
-// theme-specific ones set later in this same file by base/helper-mixins.
-// Importing without the extension makes Sass inline the file's contents
-// here instead, so the theme override below still applies last and wins.
-@import '@hsl-fi/design-system-core/css/styles';
+@import '@hsl-fi/design-system-core/css/styles.css';
 
 // Apply theme specific values over standard hsl theme
 @import 'design-theme.css';
@@ -70,7 +60,7 @@ $body-font-weight: $font-weight-medium;
 @import '../app/component/itinerary/itinerary-page';
 @import '../app/component/itinerary/origin-destination-bar';
 @import '../app/component/itinerary/search-settings';
-@import '../app/component/itinerary/personalisation';
+@import '../app/component/itinerary/personalization';
 @import '../app/component/itinerary/itinerary-profile';
 @import '../app/component/itinerary/street-mode-selector';
 @import '../app/component/itinerary/street-mode-selector-button';

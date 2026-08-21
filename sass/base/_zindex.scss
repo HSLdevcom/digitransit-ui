@@ -1,8 +1,44 @@
-$zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
-  mobile-drawer, mobile-drawer-drag-line, context-panel, search-panel,
-  search-overlay, stop-route-station-input, destination-input, viapoint-input-5,
-  viapoint-input-4, viapoint-input-3, viapoint-input-2, viapoint-input-1,
-  origin-input, search-input-focus, search-input-icon,
-  autosuggest-suggestion-container, before-scrollable-area,
-  click-prevent-overlay, front;
+$zindex: base, map-container, map-fullscreen-toggle, map-buttons, mobile-drawer,
+  mobile-drawer-drag-line, autosuggest-suggestion-container,
+  before-scrollable-area, click-prevent-overlay, front;
 $leaflet-overlay: 800;
+
+// Single source of truth for z-index values that compete across
+// *independent, page-level* stacking contexts (page chrome, drawers,
+// overlays, notifications, etc). Unlike $zindex above - which is an
+// ordered list meant for small, purely local sibling ordering within one
+// component's own stacking context - these are real, absolute numbers
+// with intentional gaps, so new layers can be inserted without
+// renumbering everything else. Keep this map and docs/ZIndex.md in sync.
+$global-zindex: (
+  // A thin shadow/overlay that should sit just above the map surface.
+  'map-overlay-shadow': 400,
+  // Overlay that blocks interaction with the map (e.g. while a modal is open).
+  'map-click-prevent-overlay': 801,
+  // Desktop settings drawer (.offcanvas), kept above map overlays/buttons.
+  'desktop-settings-drawer': 900,
+  // Mobile top bar / app header.
+  'mobile-top-bar': 1000,
+  // Desktop top bar / app header, and full-page dark overlays that should
+  // sit at the same level (e.g. .popup-dark-overlay).
+  'top-bar': 1008,
+  // Mobile main menu drawer background dimmer.
+  'mobile-menu-background': 1200,
+  // Mobile main menu drawer content panel.
+  'mobile-menu-content': 1300,
+  // Toast-style notification, portaled to document.body so it always
+  // escapes ancestor stacking contexts - see app/component/Snackbar.js.
+  'snackbar': 9999,
+  // Full-page loading spinner, must appear above everything else.
+  'loading-spinner': 40000
+);
+
+/// Returns the z-index for a named global layer defined in $global-zindex.
+/// Throws a build-time error for unknown names to prevent silent typos.
+@function global-z($name) {
+  @if not map-has-key($global-zindex, $name) {
+    @error "Unknown global z-index name `#{$name}`. Add it to $global-zindex in sass/base/_zindex.scss.";
+  }
+
+  @return map-get($global-zindex, $name);
+}

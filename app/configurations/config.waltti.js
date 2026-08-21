@@ -174,8 +174,6 @@ export default {
   includeParkAndRideSuggestions: true,
   showBikeAndParkItineraries: true,
 
-  parkAndRide: { parkAndRideMinZoom: 14 },
-
   hostnames: [
     // DEV hostnames
     'https://dev-hameenlinna.digitransit.fi',
@@ -288,16 +286,13 @@ export default {
 
   navigation: true,
 
-  // TODO: flex disabled for now, proper configuration coming in the future
-  /* flex: {
-    external: {
-      enabled: true,
-      transit: true,
-      direct: false,
-      agencies: ['02Taksi:02_taksi'],
-    },
-    infoLanguage: 'fi',
-  }, */
+  externalFeedIds: ['02Taksi_carpickupzone'],
+
+  carPickupZone: {
+    enabled: IS_DEV,
+    transit: IS_DEV,
+    direct: false,
+  },
 
   replacementBusNotification: {
     // Header is displayed via translation key 'replacement-bus'.
@@ -321,4 +316,7 @@ export default {
   },
   showRouteDescNotification: IS_DEV,
   useAlternativeNameForModes: ['RAIL'],
+  showStopStatusMarkers: true,
+
+  trafficNowLink: true,
 };

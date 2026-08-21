@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { RadioGroup } from '@hsl-fi/form';
+import { Text } from '@hsl-fi/layout-primitives';
 import { useIntl } from 'react-intl';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
@@ -52,7 +53,7 @@ export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
     >
       <ModalContent
         title={title}
-        description={description}
+        description={<Text variant="text-s">{description}</Text>}
         lang={config.language}
         buttons={[
           {
@@ -69,7 +70,7 @@ export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
       >
         <RadioGroup
           backgroundColor="primary"
-          borderVariant="weak"
+          borderVariant="none"
           label={select}
           items={[
             {

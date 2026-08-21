@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
 import { configShape, relayShape } from '../util/shapes';
+import { useConfigContext } from '../configurations/ConfigContext';
 import SwipeableTabs from './SwipeableTabs';
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
@@ -338,16 +339,18 @@ class MessageBar extends Component {
 }
 
 const connectedComponent = connectToStores(
-  props => (
-    <ReactRelayContext.Consumer>
-      {({ environment }) => (
-        <MessageBar {...props} relayEnvironment={environment} />
-      )}
-    </ReactRelayContext.Consumer>
-  ),
-  ['MessageStore', 'PreferencesStore', 'TimeStore'],
+  props => {
+    const { language: lang } = useConfigContext();
+    return (
+      <ReactRelayContext.Consumer>
+        {({ environment }) => (
+          <MessageBar {...props} lang={lang} relayEnvironment={environment} />
+        )}
+      </ReactRelayContext.Consumer>
+    );
+  },
+  ['MessageStore', 'TimeStore'],
   context => ({
-    lang: context.getStore('PreferencesStore').getLanguage(),
     messages: context.getStore('MessageStore').getMessages(),
     currentTime: context.getStore('TimeStore').getCurrentTime(),
     duplicateMessageCounter: context
