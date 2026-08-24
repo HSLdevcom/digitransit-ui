@@ -11,15 +11,16 @@ import { useBreakpoint } from '../../../util/withBreakpoint';
 
 export default function PrModal({ closeModal }) {
   const config = useConfigContext();
+  const { language } = config;
   const intl = useIntl();
   const { formatMessage } = intl;
   const breakpoint = useBreakpoint();
 
   return (
-    <Modal lang={config.language} onOpenChange={closeModal} open>
+    <Modal lang={language} onOpenChange={closeModal} open>
       <ModalContent
         title={formatMessage({ id: 'personalization-modal-header' })}
-        lang={config.language}
+        lang={language}
       >
         <div
           className={cx('pr-info-modal', {
@@ -42,8 +43,8 @@ export default function PrModal({ closeModal }) {
                   id: 'personalization-modal-highlight-details',
                 })}
               </Text>
-              {config.favouriteLink[config.language] && (
-                <ArrowLink href={config.favouriteLink[config.language]}>
+              {config.favouriteLink[language] && (
+                <ArrowLink href={config.favouriteLink[language]}>
                   {formatMessage({ id: 'personalization-modal-link' })}
                 </ArrowLink>
               )}
@@ -84,16 +85,18 @@ export default function PrModal({ closeModal }) {
                 {formatMessage({ id: 'personalization-beta' })}
               </Text>
               <Spacer size="xxs" />
-              <div>
-                <ButtonLink
-                  size="s"
-                  variant="primary"
-                  expandOnMobile
-                  href="/foo"
-                >
-                  {formatMessage({ id: 'personalization-feedback' })}
-                </ButtonLink>
-              </div>
+              {config.personalizationSurveyLinks[language] && (
+                <div>
+                  <ButtonLink
+                    size="s"
+                    variant="primary"
+                    expandOnMobile
+                    href={config.personalizationSurveyLinks[language]}
+                  >
+                    {formatMessage({ id: 'personalization-feedback' })}
+                  </ButtonLink>
+                </div>
+              )}
             </div>
           </div>
         </div>
