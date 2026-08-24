@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { routerShape } from 'found';
-import { default as L } from 'leaflet';
-import { stopShape, configShape } from '../../../util/shapes';
+import { useRouter } from 'found';
+import L from 'leaflet';
+import { stopShape } from '../../../util/shapes';
+import { useConfigContext } from '../../../configurations/ConfigContext';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
 import {
@@ -18,92 +19,71 @@ import { STOP_STATUS_BADGE_IMGS } from '../../../util/stopStatusUtils';
 
 const STATUS_BADGE_ZOOM_THRESHOLD = 15;
 
-class StopMarker extends React.Component {
-  static propTypes = {
-    stop: stopShape.isRequired,
-    mode: PropTypes.string.isRequired,
-    renderName: PropTypes.bool,
-    disableModeIcons: PropTypes.bool,
-    disableIconBorder: PropTypes.bool,
-    limitZoom: PropTypes.number,
-    selected: PropTypes.bool,
-    colorOverride: PropTypes.string,
-    appendClass: PropTypes.string,
-    stopStatus: PropTypes.string,
-  };
+function StopMarker({
+  stop,
+  mode,
+  renderName = false,
+  disableModeIcons = false,
+  disableIconBorder = false,
+  limitZoom = undefined,
+  selected = false,
+  colorOverride = undefined,
+  appendClass = undefined,
+  stopStatus = undefined,
+}) {
+  const config = useConfigContext();
+  const { router } = useRouter();
 
-  static defaultProps = {
-    renderName: false,
-    disableModeIcons: false,
-    disableIconBorder: false,
-    limitZoom: undefined,
-    selected: false,
-    colorOverride: undefined,
-    appendClass: undefined,
-    stopStatus: undefined,
-  };
-
-  static contextTypes = {
-    config: configShape.isRequired,
-    router: routerShape.isRequired,
-  };
-
-  redirectToStopPage = () => {
-    if (
-      window.location.pathname.indexOf('bike') === -1 &&
-      window.location.pathname.indexOf('walk') === -1
-    ) {
-      const pathPrefixMatch =
-        window.location.pathname.match(/^\/([a-z]{2,})\//);
+  const redirectToStopPage = () => {
+    const { pathname } = window.location;
+    if (!pathname.includes('bike') && !pathname.includes('walk')) {
+      const pathPrefixMatch = pathname.match(/^\/([a-z]{2,})\//);
       const context =
-        pathPrefixMatch && pathPrefixMatch[1] !== this.context.config.indexPath
+        pathPrefixMatch && pathPrefixMatch[1] !== config.indexPath
           ? pathPrefixMatch[1]
           : 'index';
       addAnalyticsEvent({
         action: 'SelectMapPoint',
         category: 'Map',
         name: 'stop',
-        type: this.props.mode.toUpperCase(),
+        type: mode.toUpperCase(),
         context,
       });
     }
-    const prefix = PREFIX_STOPS;
-    this.context.router.push(
-      `/${prefix}/${encodeURIComponent(this.props.stop.gtfsId)}`,
-    );
+    router.push(`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`);
   };
 
-  getModeIcon = zoom => {
-    const iconId = `icon_${this.props.mode}`;
+  const getModeIcon = zoom => {
+    const iconId = `icon_${mode}`;
     let size;
-    if (zoom <= this.context.config.stopsSmallMaxZoom) {
-      size = this.context.config.stopsIconSize.small;
-    } else if (this.props.selected) {
-      size = this.context.config.stopsIconSize.selected;
+    if (zoom <= config.stopsSmallMaxZoom) {
+      size = config.stopsIconSize.small;
+    } else if (selected) {
+      size = config.stopsIconSize.selected;
     } else {
-      size = this.context.config.stopsIconSize.default;
+      size = config.stopsIconSize.default;
     }
 
     return L.divIcon({
       html: renderAsString(<Icon img={iconId} className="mode-icon" />),
       iconSize: [size, size],
-      className: cx('cursor-pointer', this.props.mode, {
-        small: size === this.context.config.stopsIconSize.small,
-        selected: this.props.selected,
-        'disable-icon-border': this.props.disableIconBorder,
+      className: cx('cursor-pointer', mode, {
+        small: size === config.stopsIconSize.small,
+        selected,
+        'disable-icon-border': disableIconBorder,
       }),
     });
   };
 
-  getIcon = zoom => {
-    const scale = this.props.stop.transfer || this.props.selected ? 1.5 : 1;
+  const getIcon = zoom => {
+    const scale = stop.transfer || selected ? 1.5 : 1;
 
     let calcZoom;
-    if (this.props.limitZoom) {
-      calcZoom = Math.min(zoom, this.props.limitZoom);
+    if (limitZoom) {
+      calcZoom = Math.min(zoom, limitZoom);
     } else {
       calcZoom =
-        this.props.stop.transfer || this.props.selected
+        stop.transfer || selected
           ? Math.max(zoom, STATUS_BADGE_ZOOM_THRESHOLD)
           : zoom || STATUS_BADGE_ZOOM_THRESHOLD;
     }
@@ -120,16 +100,16 @@ class StopMarker extends React.Component {
       <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
         <circle class="${cx(
           'stop',
-          this.props.appendClass,
+          appendClass,
         )}" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}" color="${
-          this.props.colorOverride ?? ''
+          colorOverride ?? ''
         }" />
         ${
-          inner > 7 && this.props.stop.platformCode
+          inner > 7 && stop.platformCode
             ? `<text x="${radius}" y="${radius}" text-anchor="middle" dominant-baseline="central"
             fill="#333" font-size="${1.2 * inner}px"
             font-family="Gotham XNarrow A, Gotham Rounded A, Gotham Rounded B, Roboto Condensed, Roboto, Arial, sans-serif"
-            >${this.props.stop.platformCode}</text>`
+            >${stop.platformCode}</text>`
             : ''
         }
       </svg>
@@ -137,26 +117,20 @@ class StopMarker extends React.Component {
 
     if (radius === 0) {
       iconSvg = '';
-    } else if (this.props.stopStatus) {
-      const badgeImg = STOP_STATUS_BADGE_IMGS[this.props.stopStatus];
+    } else if (stopStatus) {
+      const badgeImg = STOP_STATUS_BADGE_IMGS[stopStatus];
       if (badgeImg) {
         if (zoom < STATUS_BADGE_ZOOM_THRESHOLD) {
           const circleSize = radius * 3.5;
           const cr = circleSize / 2;
-          iconSvg = `<svg viewBox="0 0 ${circleSize} ${circleSize}" width="${circleSize}" height="${circleSize}"><circle class="stop-badge-${
-            this.props.stopStatus
-          }" cx="${cr}" cy="${cr}" r="${
+          iconSvg = `<svg viewBox="0 0 ${circleSize} ${circleSize}" width="${circleSize}" height="${circleSize}"><circle class="stop-badge-${stopStatus}" cx="${cr}" cy="${cr}" r="${
             cr - 1.5
           }" stroke="#fff" stroke-width="2.5"/></svg>`;
           return L.divIcon({
             html: iconSvg,
             iconSize: [circleSize, circleSize],
             // disable-icon-border prevents the global map.scss SVG border from doubling the stroke
-            className: cx(
-              this.props.mode,
-              'cursor-pointer',
-              'disable-icon-border',
-            ),
+            className: cx(mode, 'cursor-pointer', 'disable-icon-border'),
           });
         }
         const badgeSize = radius * 3.5;
@@ -169,11 +143,7 @@ class StopMarker extends React.Component {
           html: iconSvg,
           iconSize: [badgeSize, badgeSize],
           // disable-icon-border prevents map.scss from adding a second CSS border on the svg
-          className: cx(
-            this.props.mode,
-            'cursor-pointer',
-            'disable-icon-border',
-          ),
+          className: cx(mode, 'cursor-pointer', 'disable-icon-border'),
         });
       }
     }
@@ -181,32 +151,39 @@ class StopMarker extends React.Component {
     return L.divIcon({
       html: iconSvg,
       iconSize: [radius * 2, radius * 2],
-      className: cx(this.props.mode, 'cursor-pointer', {
-        'disable-icon-border': this.props.disableIconBorder,
+      className: cx(mode, 'cursor-pointer', {
+        'disable-icon-border': disableIconBorder,
       }),
     });
   };
 
-  render() {
-    return (
-      <GenericMarker
-        position={{
-          lat: this.props.stop.lat,
-          lon: this.props.stop.lon,
-        }}
-        getIcon={
-          this.context.config.map.useModeIconsInNonTileLayer &&
-          !this.props.disableModeIcons
-            ? this.getModeIcon
-            : this.getIcon
-        }
-        id={this.props.stop.gtfsId}
-        renderName={this.props.renderName}
-        name={this.props.stop.name}
-        onClick={this.redirectToStopPage}
-      />
-    );
-  }
+  return (
+    <GenericMarker
+      position={{ lat: stop.lat, lon: stop.lon }}
+      getIcon={
+        config.map.useModeIconsInNonTileLayer && !disableModeIcons
+          ? getModeIcon
+          : getIcon
+      }
+      id={stop.gtfsId}
+      renderName={renderName}
+      name={stop.name}
+      onClick={redirectToStopPage}
+    />
+  );
 }
+
+StopMarker.propTypes = {
+  stop: stopShape.isRequired,
+  mode: PropTypes.string.isRequired,
+  renderName: PropTypes.bool,
+  disableModeIcons: PropTypes.bool,
+  disableIconBorder: PropTypes.bool,
+  limitZoom: PropTypes.number,
+  selected: PropTypes.bool,
+  colorOverride: PropTypes.string,
+  appendClass: PropTypes.string,
+  stopStatus: PropTypes.string,
+};
 
 export default StopMarker;
