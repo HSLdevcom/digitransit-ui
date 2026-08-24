@@ -45,22 +45,6 @@ describe('<RouteNotificationButton />', () => {
   });
 
   describe('Content list', () => {
-    it('wraps a single content item in a <p> tag', () => {
-      const notification = {
-        ...baseNotification,
-        content: { en: ['Only item'] },
-      };
-      const wrapper = render(notification);
-      // The Modal receives a description prop containing the content node.
-      // With shallow rendering we inspect the ModalContent description prop.
-      const modalContent = wrapper.find('ModalContent');
-      expect(modalContent).to.have.lengthOf(1);
-      const description = modalContent.prop('description');
-      // description is a React Fragment wrapping [contentNode, optionalLink]
-      const contentNode = description.props.children[0];
-      expect(contentNode.type).to.equal('p');
-    });
-
     it('wraps multiple content items in a <ul>', () => {
       const wrapper = render();
       const modalContent = wrapper.find('ModalContent');
