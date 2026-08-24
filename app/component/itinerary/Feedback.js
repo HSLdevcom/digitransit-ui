@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import { Text } from '@hsl-fi/layout-primitives';
-import ExternalLink from '../ExternalLink';
+import { ArrowLink } from '@hsl-fi/navigation';
 import Icon from '../Icon';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { getLoginPath } from '../../util/path';
@@ -44,12 +44,11 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
   const middleTexts = loginNeeded ? (
     <div>
       {statusText}
-      <ExternalLink
-        onClick={() => window.location.assign(getLoginPath(match.location))}
-        withArrow
-      >
-        <FormattedMessage id="personalization-login-for-voting" />
-      </ExternalLink>
+      <ArrowLink href={getLoginPath(match.location)}>
+        <Text variant="routes-s-bold">
+          {intl.formatMessage({ id: 'personalization-login-for-voting' })}
+        </Text>
+      </ArrowLink>
     </div>
   ) : (
     statusText
