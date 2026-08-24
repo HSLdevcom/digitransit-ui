@@ -615,9 +615,9 @@ export default {
       showForRoute: route => route.type === 900,
       id: 'speedtramNotification',
       header: {
-        fi: 'Mitä pikaratikka tarkoittaa?',
-        en: 'What is light rail?',
-        sv: 'Vad är en snabbspårvagn?',
+        fi: 'Pikaratikka',
+        en: 'Light rail',
+        sv: 'Snabbspårvagn',
       },
       content: {
         fi: [
@@ -634,9 +634,9 @@ export default {
         ],
       },
       closeButtonLabel: {
-        fi: '',
-        en: '',
-        sv: '',
+        fi: 'Mitä pikaratikka tarkoittaa?',
+        en: 'What is light rail?',
+        sv: 'Vad är en snabbspårvagn?',
       },
       link: {
         fi: 'hsl.fi/reittiopas-pikaratikka',
