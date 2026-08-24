@@ -8,6 +8,7 @@ import Line from '../Line';
 import { getClosestPoint } from '../../../util/geo-utils';
 import { getTripOrRouteMode } from '../../../util/modeUtils';
 import { patternShape, configShape, tripShape } from '../../../util/shapes';
+import { getStopStatusFromStopData } from '../../../util/stopStatusUtils';
 
 /**
  * Split the array points in two at the given position. Return index to split at
@@ -45,6 +46,7 @@ function RouteLine(props, context) {
   }
 
   const objs = [];
+  const nowUnixTime = Date.now() / 1000;
   const modeClass = getTripOrRouteMode(
     props.trip,
     props.pattern.route,
@@ -87,6 +89,11 @@ function RouteLine(props, context) {
               }`}
               mode={modeClass + (props.thin ? ' thin' : '')}
               thin={props.thin}
+              stopStatus={getStopStatusFromStopData({
+                stop,
+                nowUnixTime,
+                showStopStatusMarkers: context.config.showStopStatusMarkers,
+              })}
             />
           ))
       : false;
@@ -147,6 +154,11 @@ function RouteLine(props, context) {
             mode={modeClass + (props.thin ? ' thin' : '')}
             colorOverride={i < markerSplitIndex ? beforeSplitColor : null}
             thin={props.thin}
+            stopStatus={getStopStatusFromStopData({
+              stop,
+              nowUnixTime,
+              showStopStatusMarkers: context.config.showStopStatusMarkers,
+            })}
           />
         ))
     : false;
@@ -218,6 +230,12 @@ export default createFragmentContainer(RouteLine, {
         gtfsId
         platformCode
         code
+        alerts {
+          alertEffect
+          alertSeverityLevel
+          effectiveStartDate
+          effectiveEndDate
+        }
         ...StopCardHeaderContainer_stop
       }
     }

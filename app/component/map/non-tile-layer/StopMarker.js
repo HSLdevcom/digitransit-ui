@@ -14,6 +14,9 @@ import {
 } from '../../../util/mapIconUtils';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { PREFIX_STOPS } from '../../../util/path';
+import { STOP_STATUS_BADGE_IMGS } from '../../../util/stopStatusUtils';
+
+const STATUS_BADGE_ZOOM_THRESHOLD = 15;
 
 class StopMarker extends React.Component {
   static propTypes = {
@@ -26,6 +29,7 @@ class StopMarker extends React.Component {
     selected: PropTypes.bool,
     colorOverride: PropTypes.string,
     appendClass: PropTypes.string,
+    stopStatus: PropTypes.string,
   };
 
   static defaultProps = {
@@ -36,10 +40,10 @@ class StopMarker extends React.Component {
     selected: false,
     colorOverride: undefined,
     appendClass: undefined,
+    stopStatus: undefined,
   };
 
   static contextTypes = {
-    getStore: PropTypes.func.isRequired,
     config: configShape.isRequired,
     router: routerShape.isRequired,
   };
@@ -100,8 +104,8 @@ class StopMarker extends React.Component {
     } else {
       calcZoom =
         this.props.stop.transfer || this.props.selected
-          ? Math.max(zoom, 15)
-          : zoom || 15;
+          ? Math.max(zoom, STATUS_BADGE_ZOOM_THRESHOLD)
+          : zoom || STATUS_BADGE_ZOOM_THRESHOLD;
     }
 
     const radius = getCaseRadius(calcZoom) * scale;
@@ -114,10 +118,11 @@ class StopMarker extends React.Component {
     // see app/util/mapIconUtils.js for the canvas version
     let iconSvg = `
       <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
-        <circle class="stop ${
-          this.props.appendClass
-        }" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}" color="${
-          this.props.colorOverride
+        <circle class="${cx(
+          'stop',
+          this.props.appendClass,
+        )}" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}" color="${
+          this.props.colorOverride ?? ''
         }" />
         ${
           inner > 7 && this.props.stop.platformCode
@@ -132,6 +137,45 @@ class StopMarker extends React.Component {
 
     if (radius === 0) {
       iconSvg = '';
+    } else if (this.props.stopStatus) {
+      const badgeImg = STOP_STATUS_BADGE_IMGS[this.props.stopStatus];
+      if (badgeImg) {
+        if (zoom < STATUS_BADGE_ZOOM_THRESHOLD) {
+          const circleSize = radius * 3.5;
+          const cr = circleSize / 2;
+          iconSvg = `<svg viewBox="0 0 ${circleSize} ${circleSize}" width="${circleSize}" height="${circleSize}"><circle class="stop-badge-${
+            this.props.stopStatus
+          }" cx="${cr}" cy="${cr}" r="${
+            cr - 1.5
+          }" stroke="#fff" stroke-width="2.5"/></svg>`;
+          return L.divIcon({
+            html: iconSvg,
+            iconSize: [circleSize, circleSize],
+            // disable-icon-border prevents the global map.scss SVG border from doubling the stroke
+            className: cx(
+              this.props.mode,
+              'cursor-pointer',
+              'disable-icon-border',
+            ),
+          });
+        }
+        const badgeSize = radius * 3.5;
+        const borderWidth = 0.5;
+        const innerSize = badgeSize - borderWidth * 2;
+        const center = badgeSize / 2;
+        // White circle acts as border; nested svg scales the badge inside it
+        iconSvg = `<svg width="${badgeSize}" height="${badgeSize}" style="filter:drop-shadow(0 1px 2px var(--color-shadow-strong))"><circle cx="${center}" cy="${center}" r="${center}" fill="#fff"/><svg x="${borderWidth}" y="${borderWidth}" width="${innerSize}" height="${innerSize}" viewBox="0 0 40 40"><use href="#${badgeImg}" width="100%" height="100%"/></svg></svg>`;
+        return L.divIcon({
+          html: iconSvg,
+          iconSize: [badgeSize, badgeSize],
+          // disable-icon-border prevents map.scss from adding a second CSS border on the svg
+          className: cx(
+            this.props.mode,
+            'cursor-pointer',
+            'disable-icon-border',
+          ),
+        });
+      }
     }
 
     return L.divIcon({
