@@ -38,3 +38,16 @@ button {
     color: inherit;
   }
 }
+
+// Foundation's forms module globally resets border-radius to $global-radius
+// (0) on every `[type='button'], [type='submit']` element (see
+// foundation-sites/scss/forms/_text.scss). That attribute selector has the
+// same specificity (0,1,0) as the single hashed class hsl-fi design system
+// components rely on for their own button styling (e.g. the hsl-fi/dialog
+// CloseButton's `border-radius: 100%`), so depending on cascade order it can
+// win the tie and flatten round buttons into square ones. Restore the round
+// shape with a selector specific enough (0,1,1) to always win, without
+// depending on the library's internal hashed class name staying identical.
+button[class*='closeButton'] {
+  border-radius: 100%;
+}
