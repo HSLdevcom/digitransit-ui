@@ -138,6 +138,98 @@
     position: sticky;
     top: 0;
 
+    .filters-feed-select-container {
+      position: relative;
+
+      .dropdown-arrow {
+        position: relative;
+        right: auto;
+        top: auto;
+        margin-left: auto;
+        pointer-events: none;
+        flex-shrink: 0;
+
+        &.inverted {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    .filters-feed-select-list {
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      align-self: stretch;
+      border: 1px solid var(--color-border-weak);
+      border-radius: 8px;
+      background: var(--color-surface-default);
+      box-shadow: 0 4px 4px 0 var(--color-shadow-weak);
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+
+        li {
+          display: flex;
+          padding: var(--space-xs);
+          align-items: center;
+          gap: var(--space-xxs);
+          align-self: stretch;
+          border-bottom: 1px solid var(--color-border-weak);
+        }
+
+        li:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+
+    .filters-feed-select {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      border: solid 1px $muted-gray;
+      border-radius: 5px;
+      padding: 8px;
+      gap: 8px;
+      min-height: 48px;
+      align-items: center;
+
+      .selectedfeed-group {
+        gap: 4px;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        flex-wrap: wrap;
+
+        .selectedfeed-placeholder {
+          color: $placeholder-color;
+        }
+
+        .selectedfeed {
+          display: flex;
+          padding: var(--space-xxs) var(--space-xs);
+          justify-content: center;
+          align-items: center;
+          gap: var(--space-xs);
+          border-radius: var(--radius-m);
+          background: $theme-primary-color;
+          color: #fff;
+
+          .text-x {
+            color: #fff;
+          }
+        }
+      }
+    }
+
     &-mode-option {
       border: solid $light-gray 0.5px;
       border-radius: var(--radius-s);
