@@ -217,6 +217,7 @@
 
     .thumb-button-disabled {
       background-color: var(--color-surface-disabled);
+      border: none;
     }
 
     .thumb-button svg {
@@ -228,7 +229,7 @@
     }
 
     .icon.favourite {
-      stroke: #ddd;
+      stroke: #666;
 
       &.selected {
         stroke: transparent;

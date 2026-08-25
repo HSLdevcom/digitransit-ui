@@ -25,11 +25,20 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
       img: favIcon,
       className: cx('favourite', { selected: recommended }),
       fill: recommended ? '#c53291' : '#FFF',
+      width: 1.7245,
+      height: 1.7245,
     },
-    'personalization-liked': { img: 'icon_thumb', color: colors.primary },
+    'personalization-liked': {
+      img: 'icon_thumb',
+      color: colors.primary,
+      width: 1.4,
+      height: 1.4,
+    },
     'personalization-disliked': {
       img: 'icon_thumb-down',
       color: colors.primary,
+      width: 1.4,
+      height: 1.4,
     },
   };
   const iconProps = iconMap[status];
@@ -62,7 +71,7 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
             'feedback-text-posted': status !== 'personalization-ask',
           })}
         >
-          <Icon {...iconProps} height={1.4} width={1.4} />
+          <Icon {...iconProps} />
           <span>&nbsp;&nbsp;&nbsp;</span>
           {middleTexts}
         </div>
