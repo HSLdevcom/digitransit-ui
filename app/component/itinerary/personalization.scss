@@ -8,6 +8,14 @@
   max-height: 200px;
 }
 
+// Once the expand transition has finished, overflow no longer needs to be
+// clipped. Removing it avoids a Firefox rendering bug where the bottom
+// border of .feedback-frame gets clipped by this ancestor's overflow when
+// its computed height is a fractional pixel value.
+.feedback-animated.expanded {
+  overflow: visible;
+}
+
 .feedback-animated.open .feedback-motion {
   animation: feedbackBounce 650ms forwards;
 }
