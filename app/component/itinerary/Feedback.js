@@ -68,6 +68,7 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
       <div className="feedback-container">
         <div
           className={cx('feedback-section', {
+            'feedback-section-centered': !loginNeeded,
             'feedback-text-posted': status !== 'personalization-ask',
           })}
         >

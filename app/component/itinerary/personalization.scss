@@ -172,7 +172,6 @@
     display: flex;
     flex-direction: row;
     width: auto;
-    align-items: center;
   }
 
   .feedback-text-posted {
@@ -195,10 +194,13 @@
     }
   }
 
+  .feedback-section-centered {
+    align-items: center;
+  }
+
   .feedback-section {
     display: flex;
     flex-direction: row;
-    align-items: center;
     white-space: normal;
     color: $black;
 
