@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import cx from 'classnames';
 import { useSelect, useTagGroup } from 'downshift';
 import { useIntl } from 'react-intl';
 import { useConfigContext } from '../../../configurations/ConfigContext';
-import { mapAlertSource } from '../../../util/alertUtils';
 import Icon from '../../Icon';
 import { useFilterContext } from './FiltersContext';
 
 function FeedSelect() {
-  const config = useConfigContext();
-  const { feedIds } = config;
+  const { feedIds, sourceForAlertsAndDisruptions } = useConfigContext();
   const { locale } = useIntl();
 
+  const itemToString = useCallback(
+    feed =>
+      sourceForAlertsAndDisruptions?.[feed]
+        ? sourceForAlertsAndDisruptions[feed][locale]
+        : null,
+    [sourceForAlertsAndDisruptions, locale],
+  );
+
+  // filter out feeds from selection that do not have mapping to operators
+  const availableOperators = feedIds.filter(itemToString);
   const {
     selectedFilters: { selectedFeeds },
     setFilter,
@@ -35,8 +43,8 @@ function FeedSelect() {
 
   const { isOpen, getToggleButtonProps, getMenuProps, getItemProps } =
     useSelect({
-      items: feedIds,
-      itemToString: feedId => mapAlertSource(config, locale, feedId),
+      items: availableOperators,
+      itemToString,
       onSelectedItemChange: ({ selectedItem }) => {
         if (selectedItem) {
           toggleItem(selectedItem);
@@ -59,6 +67,10 @@ function FeedSelect() {
       },
     });
 
+  // if one or less operators to select from, dont render
+  if (availableOperators.length <= 1) {
+    return null;
+  }
   return (
     <fieldset>
       <label className="input-legend">Näytä operaattoreista vain</label>
@@ -68,7 +80,7 @@ function FeedSelect() {
             {items.length ? (
               items.map((item, index) => (
                 <div className="selectedfeed" key={item}>
-                  <span {...getTagProps({ index })}>{item}</span>
+                  <span {...getTagProps({ index })}>{itemToString(item)}</span>
                   <span {...getTagRemoveProps({ index })}>
                     <Icon img="icon_close-filled" />
                   </span>
@@ -93,14 +105,14 @@ function FeedSelect() {
         >
           {isOpen && (
             <ul>
-              {feedIds.map((item, index) => (
+              {availableOperators.map((item, index) => (
                 <li key={item} {...getItemProps({ item, index })}>
                   <input
                     type="checkbox"
                     checked={items.includes(item)}
                     onChange={() => toggleItem(item)}
                   />
-                  <span className="input-label">{item}</span>
+                  <span className="input-label">{itemToString(item)}</span>
                 </li>
               ))}
             </ul>
