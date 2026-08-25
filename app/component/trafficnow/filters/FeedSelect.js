@@ -1,28 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import cx from 'classnames';
 import { useSelect, useTagGroup } from 'downshift';
 import { useIntl } from 'react-intl';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 import { mapAlertSource } from '../../../util/alertUtils';
 import Icon from '../../Icon';
+import { useFilterContext } from './FiltersContext';
 
 function FeedSelect() {
   const config = useConfigContext();
   const { feedIds } = config;
   const { locale } = useIntl();
-  const [selectedFeeds, setSelectedFeeds] = useState([]);
 
-  const { addItem, getTagProps, getTagRemoveProps, getTagGroupProps, items } =
+  const {
+    selectedFilters: { selectedFeeds },
+    setFilter,
+  } = useFilterContext();
+  const setSelectedFeeds = feeds => setFilter('selectedFeeds', feeds);
+
+  const { getTagProps, getTagRemoveProps, getTagGroupProps, items } =
     useTagGroup({
       items: selectedFeeds,
       onItemsChange: ({ items: updatedItems }) =>
         setSelectedFeeds(updatedItems),
     });
+
   const toggleItem = item => {
     if (items.includes(item)) {
       setSelectedFeeds(items.filter(selectedItem => selectedItem !== item));
     } else {
-      addItem(item);
+      setSelectedFeeds([...items, item]);
     }
   };
 

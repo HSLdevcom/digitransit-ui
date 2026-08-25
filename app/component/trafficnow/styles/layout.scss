@@ -230,6 +230,10 @@
       }
     }
 
+    .filters-feed-select:focus {
+      box-shadow: 0 0 3px 0 #000;
+    }
+
     &-mode-option {
       border: solid $light-gray 0.5px;
       border-radius: var(--radius-s);
