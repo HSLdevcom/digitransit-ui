@@ -92,6 +92,8 @@ export default function PrModal({ closeModal }) {
                     variant="primary"
                     expandOnMobile
                     href={config.personalizationSurveyLinks[language]}
+                    target="_blank"
+                    rel="noreferrer"
                   >
                     {formatMessage({ id: 'personalization-feedback' })}
                   </ButtonLink>
