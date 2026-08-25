@@ -1,30 +1,41 @@
-.mobile {
-  .snackbar {
-    width: calc(100% - 32px);
-    left: 16px;
-    top: unset;
-    bottom: 16px;
+.mobile-snackbar {
+  width: calc(100% - 32px);
+  left: 16px;
+  top: unset;
+  bottom: 16px;
 
-    &.show {
-      animation: slideUpFromBottomWithMargin 0.5s $slide-up-down-animation;
-      transform: translateY(calc(100% + 16px));
-    }
+  &.show {
+    animation: slideUpFromBottomWithMargin 0.5s $slide-up-down-animation;
+    transform: translateY(calc(100% + 16px));
+  }
 
-    &.slide-out {
-      animation: slideDownWithMargin 1s ease-in-out forwards;
-      transform: translateY(0);
-    }
+  &.slide-out {
+    animation: slideDownWithMargin 1s ease-in-out forwards;
+    transform: translateY(0);
+  }
+}
+
+.desktop-snackbar {
+  left: 50%;
+  top: 78px;
+  width: 480px;
+
+  &.show {
+    animation: slideDownFromTopCenter 0.5s $slide-up-down-animation;
+    transform: translateY(calc(-100% - 78px)) translateX(-50%);
+  }
+
+  &.slide-out {
+    animation: slideUpToTopCenter 1s ease-in-out forwards;
+    transform: translateY(0) translateX(-50%);
   }
 }
 
 .snackbar {
   position: fixed;
-  left: 50%;
-  top: 78px;
   z-index: global-z('snackbar');
   color: #fff;
   display: flex;
-  width: 480px;
   min-width: 320px;
   max-height: 96px;
   padding: 16px;
@@ -39,16 +50,6 @@
   line-height: 27px;
   letter-spacing: $letter-spacing;
   align-items: center;
-
-  &.show {
-    animation: slideDownFromTopCenter 0.5s $slide-up-down-animation;
-    transform: translateY(calc(-100% - 78px)) translateX(-50%);
-  }
-
-  &.slide-out {
-    animation: slideUpToTopCenter 1s ease-in-out forwards;
-    transform: translateY(0) translateX(-50%);
-  }
 
   .icon-container {
     display: flex;
