@@ -253,23 +253,31 @@ export const ItineraryDetailsFragment = graphql`
         }
         viaLocationType
       }
-      intermediatePlaces {
-        arrival {
-          scheduledTime
-          estimated {
+      stopCalls {
+        schedule {
+          time {
+            ... on ArrivalDepartureTime {
+              arrival
+            }
+          }
+        }
+        realTime {
+          arrival {
             time
           }
         }
-        stop {
-          gtfsId
-          lat
-          lon
-          name
-          code
-          platformCode
-          zoneId
-          parentStation {
+        stopLocation {
+          ... on Stop {
             gtfsId
+            lat
+            lon
+            name
+            code
+            platformCode
+            zoneId
+            parentStation {
+              gtfsId
+            }
           }
         }
       }

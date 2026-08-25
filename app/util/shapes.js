@@ -291,9 +291,23 @@ export const legShape = PropTypes.shape({
   }),
   rentedBike: PropTypes.bool,
   departureDelay: PropTypes.number,
+  stopCalls: PropTypes.arrayOf(
+    PropTypes.shape({
+      schedule: PropTypes.shape({
+        time: PropTypes.shape({
+          arrival: PropTypes.string,
+        }),
+      }),
+      realTime: PropTypes.shape({
+        arrival: PropTypes.shape({ time: PropTypes.string }),
+      }),
+      stopLocation: stopShape,
+    }),
+  ),
   intermediatePlaces: PropTypes.arrayOf(
     PropTypes.shape({
       arrival: legTimeShape,
+      stop: stopShape,
     }),
   ),
   interlineWithPreviousLeg: PropTypes.bool,
