@@ -8,7 +8,7 @@ import { useBreakpoint } from '../../../util/withBreakpoint';
 import VehicleModesFilter from './VehicleModesFilter';
 import EntitySearch from './EntitySearch';
 import ToggleableFilters from './ToggleableFilters';
-import FeedSelect from './FeedSelect';
+import OperatorSelect from './OperatorSelect';
 
 const Separator = () => <div className="separator horizontal" />;
 
@@ -22,7 +22,7 @@ const Filters = ({ onApplyClick = undefined, onResetClick = () => {} }) => {
   const components = [
     {
       id: 'feed',
-      Component: FeedSelect,
+      Component: OperatorSelect,
     },
     {
       id: 'entity',

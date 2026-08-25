@@ -6,9 +6,9 @@ import { useConfigContext } from '../../../configurations/ConfigContext';
 import Icon from '../../Icon';
 import { useFilterContext } from './FiltersContext';
 
-function FeedSelect() {
+function OperatorSelect() {
   const { feedIds, sourceForAlertsAndDisruptions } = useConfigContext();
-  const { locale } = useIntl();
+  const { formatMessage, locale } = useIntl();
 
   const itemToString = useCallback(
     feed =>
@@ -73,7 +73,12 @@ function FeedSelect() {
   }
   return (
     <fieldset>
-      <label className="input-legend">Näytä operaattoreista vain</label>
+      <label className="input-legend">
+        {formatMessage({
+          id: 'traffic-now_filters_operator-select-legend',
+          defaultMessage: 'Show only these operators',
+        })}
+      </label>
       <div className="filters-feed-select-container">
         <div className="filters-feed-select" {...getToggleButtonProps()}>
           <div className="selectedfeed-group" {...getTagGroupProps()}>
@@ -88,7 +93,10 @@ function FeedSelect() {
               ))
             ) : (
               <div className="selectedfeed-placeholder input-label">
-                Valitse yksi tai useita
+                {formatMessage({
+                  id: 'traffic-now_filters_operator-select-placeholder',
+                  defaultMessage: 'Select one or more',
+                })}
               </div>
             )}
           </div>
@@ -123,4 +131,4 @@ function FeedSelect() {
   );
 }
 
-export default FeedSelect;
+export default OperatorSelect;

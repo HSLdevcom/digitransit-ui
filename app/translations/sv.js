@@ -831,6 +831,9 @@ export default {
     'traffic-now_filters_entity-search': 'Sök linje eller hållplats',
     'traffic-now_filters_entity-search--placeholder':
       'Linje, hållplats eller station',
+    'traffic-now_filters_operator-select-legend':
+      'Visa endast dessa operatörer',
+    'traffic-now_filters_operator-select-placeholder': 'Välj en eller flera',
     'traffic-now_filters_toggles--cancellations-only': 'Endast inställts',
     'traffic-now_filters_toggles--favourites-only': 'Endast favoritter',
     'traffic-now_filters_validity-period': 'Filtrera efter giltighetstid',
