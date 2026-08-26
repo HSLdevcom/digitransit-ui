@@ -42,31 +42,42 @@ function OperatorSelect() {
     }
   };
 
-  const { isOpen, getToggleButtonProps, getMenuProps, getItemProps } =
-    useSelect({
-      items: availableOperators,
-      itemToString,
-      onSelectedItemChange: ({ selectedItem }) => {
-        if (selectedItem) {
-          toggleItem(selectedItem);
-        }
-      },
-      selectedItem: null,
-      stateReducer: (_state, { changes, type }) => {
-        if (
-          changes.selectedItem &&
-          type !== useSelect.stateChangeTypes.ToggleButtonBlur
-        ) {
-          return {
-            ...changes,
-            inputValue: '',
-            highlightedIndex: 0,
-            isOpen: true,
-          };
-        }
-        return changes;
-      },
-    });
+  const {
+    isOpen,
+    getToggleButtonProps,
+    getMenuProps,
+    getItemProps,
+    highlightedIndex,
+  } = useSelect({
+    items: availableOperators,
+    itemToString,
+    onSelectedItemChange: ({ selectedItem }) => {
+      if (selectedItem) {
+        toggleItem(selectedItem);
+      }
+    },
+    selectedItem: null,
+    stateReducer: (_state, { changes, type }) => {
+      if (type === useSelect.stateChangeTypes.ToggleButtonBlur) {
+        return {
+          ...changes,
+          selectedItem: null,
+        };
+      }
+      if (
+        changes.selectedItem &&
+        type !== useSelect.stateChangeTypes.ToggleButtonBlur
+      ) {
+        return {
+          ...changes,
+          inputValue: '',
+          highlightedIndex: 0,
+          isOpen: true,
+        };
+      }
+      return changes;
+    },
+  });
 
   // if one or less operators to select from, dont render
   if (availableOperators.length <= 1) {
@@ -115,6 +126,12 @@ function OperatorSelect() {
                   defaultMessage: 'Clear',
                 })}
                 type="button"
+                onKeyDown={e => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    setSelectedFeeds([]);
+                    e.stopPropagation();
+                  }
+                }}
                 onClick={e => {
                   setSelectedFeeds([]);
                   e.stopPropagation();
@@ -141,11 +158,18 @@ function OperatorSelect() {
           {isOpen && (
             <ul>
               {availableOperators.map((item, index) => (
-                <li key={item} {...getItemProps({ item, index })}>
+                <li
+                  className={cx(
+                    'traffic-now__filters-operator-select-list-item',
+                    { highlighted: highlightedIndex === index },
+                  )}
+                  key={item}
+                  {...getItemProps({ item, index })}
+                >
                   <input
                     type="checkbox"
                     checked={items.includes(item)}
-                    onChange={() => toggleItem(item)}
+                    readOnly
                   />
                   <span className="input-label">{itemToString(item)}</span>
                 </li>

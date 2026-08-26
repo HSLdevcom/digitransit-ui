@@ -163,6 +163,10 @@
       background: var(--color-surface-default);
       box-shadow: 0 4px 4px 0 var(--color-shadow-weak);
 
+      &-item.highlighted {
+        background-color: $suggestion-highlight-color;
+      }
+
       ul {
         list-style-type: none;
         padding: 0;
