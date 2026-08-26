@@ -10,6 +10,7 @@ import { getTripOrRouteMode } from '../../util/modeUtils';
 import { getModeIconColor } from '../../util/colorUtils';
 import TripRouteStop from './TripRouteStop';
 import withBreakpoint from '../../util/withBreakpoint';
+import { withCurrentTime } from '../../hooks/TimeContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
 function TripStopListContainer({
@@ -129,11 +130,10 @@ TripStopListContainer.propTypes = {
 
 const connectedComponent = createFragmentContainer(
   connectToStores(
-    withBreakpoint(TripStopListContainer),
-    ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
+    withCurrentTime(withBreakpoint(TripStopListContainer)),
+    ['RealTimeInformationStore', 'PositionStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,
-      currentTime: getStore('TimeStore').getCurrentTime(),
     }),
   ),
   {

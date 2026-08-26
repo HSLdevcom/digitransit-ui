@@ -10,6 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import { relayShape, vehicleShape, patternShape } from '../../util/shapes';
 import RouteStop from './RouteStop';
 import withBreakpoint from '../../util/withBreakpoint';
+import { withCurrentTime } from '../../hooks/TimeContext';
 import { getRouteMode } from '../../util/modeUtils';
 import { getModeIconColor } from '../../util/colorUtils';
 import { useConfigContext } from '../../configurations/ConfigContext';
@@ -115,11 +116,10 @@ RouteStopListContainer.propTypes = {
 
 const containerComponent = createRefetchContainer(
   connectToStores(
-    withBreakpoint(RouteStopListContainer),
-    ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
+    withCurrentTime(withBreakpoint(RouteStopListContainer)),
+    ['RealTimeInformationStore', 'PositionStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,
-      currentTime: getStore('TimeStore').getCurrentTime(),
     }),
   ),
   {

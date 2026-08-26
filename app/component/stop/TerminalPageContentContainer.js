@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DepartureListContainer from '../DepartureListContainer';
 import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { stationShape, errorShape, relayShape } from '../../util/shapes';
 import { getTrackOrPierOrPlatformText } from '../../util/localeUtils';
+import { withCurrentTime } from '../../hooks/TimeContext';
 
 function TerminalPageContent({ station, relay, currentTime, error }) {
   if (!station && error) {
@@ -80,9 +80,7 @@ TerminalPageContent.defaultProps = {
 };
 
 const connectedComponent = createRefetchContainer(
-  connectToStores(TerminalPageContent, ['TimeStore'], ({ getStore }) => ({
-    currentTime: getStore('TimeStore').getCurrentTime(),
-  })),
+  withCurrentTime(TerminalPageContent),
   {
     station: graphql`
       fragment TerminalPageContentContainer_station on Stop

@@ -47,6 +47,7 @@ import {
 } from '../action/PositionActions';
 import FavouriteStore from '../store/FavouriteStore';
 import { useConfigContext } from '../configurations/ConfigContext';
+import { withCurrentTime } from '../hooks/TimeContext';
 import TrafficNowLinkNew from './trafficnow/TrafficNowLink';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
@@ -484,14 +485,8 @@ const Index = memo(
 const IndexPageWithBreakpoint = withBreakpoint(Index);
 
 const IndexPageWithStores = connectToStores(
-  IndexPageWithBreakpoint,
-  [
-    'OriginStore',
-    'DestinationStore',
-    'TimeStore',
-    'PositionStore',
-    'FavouriteStore',
-  ],
+  withCurrentTime(IndexPageWithBreakpoint),
+  ['OriginStore', 'DestinationStore', 'PositionStore', 'FavouriteStore'],
   (context, props) => {
     const origin = context.getStore('OriginStore').getOrigin();
     const destination = context.getStore('DestinationStore').getDestination();
@@ -509,7 +504,6 @@ const IndexPageWithStores = connectToStores(
     }
     newProps.origin = origin;
     newProps.destination = destination;
-    newProps.currentTime = context.getStore('TimeStore').getCurrentTime();
     newProps.favouriteStatus = context.getStore('FavouriteStore').getStatus();
     newProps.favourites = context.getStore('FavouriteStore').getFavourites();
     // define itinerary search time & arriveBy

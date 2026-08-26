@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
@@ -10,6 +9,7 @@ import Icon from '../Icon';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from '../RouteNumber';
 import RouteControlPanel from './RouteControlPanel';
+import { withCurrentTime } from '../../hooks/TimeContext';
 import {
   PREFIX_ROUTES,
   PREFIX_DISRUPTION,
@@ -188,9 +188,7 @@ RoutePage.propTypes = {
 };
 
 const containerComponent = createFragmentContainer(
-  connectToStores(withBreakpoint(RoutePage), ['TimeStore'], context => ({
-    currentTime: context.getStore('TimeStore').getCurrentTime(),
-  })),
+  withCurrentTime(withBreakpoint(RoutePage)),
   {
     route: graphql`
       fragment RoutePage_route on Route

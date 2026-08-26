@@ -39,6 +39,7 @@ import {
 } from '../../util/modeUtils';
 import FavouriteStore from '../../store/FavouriteStore';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import { withCurrentTime } from '../../hooks/TimeContext';
 
 // component initialization phases
 const PH_START = 'start';
@@ -638,8 +639,8 @@ const NearYouPageWithBreakpoint = withBreakpoint(props => (
 ));
 
 const PositioningWrapper = connectToStores(
-  NearYouPageWithBreakpoint,
-  ['PositionStore', 'FavouriteStore', 'MapLayerStore', 'TimeStore'],
+  withCurrentTime(NearYouPageWithBreakpoint),
+  ['PositionStore', 'FavouriteStore', 'MapLayerStore'],
   (context, props) => {
     const favStore = context.getStore('FavouriteStore');
     const favouriteStopIds = favStore
@@ -659,7 +660,6 @@ const PositioningWrapper = connectToStores(
 
     return {
       ...props,
-      currentTime: context.getStore('TimeStore').getCurrentTime(),
       position: context.getStore('PositionStore').getLocationState(),
       mapLayers: context
         .getStore('MapLayerStore')

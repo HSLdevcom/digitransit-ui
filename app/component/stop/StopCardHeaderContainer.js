@@ -1,34 +1,29 @@
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import StopCardHeader from './StopCardHeader';
+import { withCurrentTime } from '../../hooks/TimeContext';
 
-export default createFragmentContainer(
-  connectToStores(StopCardHeader, ['TimeStore'], context => ({
-    currentTime: context.getStore('TimeStore').getCurrentTime(),
-  })),
-  {
-    stop: graphql`
-      fragment StopCardHeaderContainer_stop on Stop {
-        gtfsId
+export default createFragmentContainer(withCurrentTime(StopCardHeader), {
+  stop: graphql`
+    fragment StopCardHeaderContainer_stop on Stop {
+      gtfsId
+      name
+      code
+      desc
+      zoneId
+      vehicleMode
+      alerts {
+        alertSeverityLevel
+        effectiveEndDate
+        effectiveStartDate
+      }
+      lat
+      lon
+      stops {
         name
-        code
         desc
         zoneId
-        vehicleMode
-        alerts {
-          alertSeverityLevel
-          effectiveEndDate
-          effectiveStartDate
-        }
-        lat
-        lon
-        stops {
-          name
-          desc
-          zoneId
-        }
       }
-    `,
-  },
-);
+    }
+  `,
+});

@@ -2,12 +2,13 @@ import React, { useMemo } from 'react';
 import { RouterContext, routerShape, matchShape } from 'found';
 import PropTypes from 'prop-types';
 import { ConfigProvider } from '../../../app/configurations/ConfigContext';
+import { TimeProvider } from '../../../app/hooks/TimeContext';
 import { mockContext } from './mock-context';
 import { configShape } from '../../../app/util/shapes';
 
 /**
- * Wraps children with ConfigProvider and RouterContext.Provider
- * so that hooks like useConfigContext() and useRouter() work
+ * Wraps children with ConfigProvider, TimeProvider and RouterContext.Provider
+ * so that hooks like useConfigContext(), useCurrentTime() and useRouter() work
  * without stubbing.
  */
 export default function TestProviders({ children, ...props }) {
@@ -24,9 +25,11 @@ export default function TestProviders({ children, ...props }) {
   );
   return (
     <ConfigProvider value={config}>
-      <RouterContext.Provider value={routerContextValue}>
-        {children}
-      </RouterContext.Provider>
+      <TimeProvider>
+        <RouterContext.Provider value={routerContextValue}>
+          {children}
+        </RouterContext.Provider>
+      </TimeProvider>
     </ConfigProvider>
   );
 }

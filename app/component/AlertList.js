@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import cx from 'classnames';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -12,6 +11,7 @@ import {
   isAlertValid,
 } from '../util/alertUtils';
 import { alertShape } from '../util/shapes';
+import { withCurrentTime } from '../hooks/TimeContext';
 import withBreakpoint from '../util/withBreakpoint';
 import { AlertEntityType, AlertSeverityLevelType } from '../constants';
 
@@ -129,12 +129,6 @@ AlertList.defaultProps = {
   onClickLink: undefined,
 };
 
-const connectedComponent = connectToStores(
-  withBreakpoint(AlertList),
-  ['TimeStore'],
-  context => ({
-    currentTime: context.getStore('TimeStore').getCurrentTime(),
-  }),
-);
+const connectedComponent = withCurrentTime(withBreakpoint(AlertList));
 
 export { connectedComponent as default, AlertList as Component };

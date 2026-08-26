@@ -7,7 +7,6 @@ import PositionStore from './store/PositionStore';
 import OriginStore from './store/OriginStore';
 import DestinationStore from './store/DestinationStore';
 import RealTimeInformationStore from './store/RealTimeInformationStore';
-import TimeStore from './store/TimeStore';
 import MapLayerStore from './store/MapLayerStore';
 import GeoJsonStore from './store/GeoJsonStore';
 import ViaPointStore from './store/ViaPointStore';
@@ -24,7 +23,6 @@ export default config => {
   app.registerStore(OriginStore);
   app.registerStore(DestinationStore);
   app.registerStore(RealTimeInformationStore);
-  app.registerStore(TimeStore);
   app.registerStore(MapLayerStore);
   app.registerStore(GeoJsonStore);
   app.registerStore(ViaPointStore);

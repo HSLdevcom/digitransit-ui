@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -16,6 +15,7 @@ import {
 import { isKeyboardSelectionEvent } from '../util/browser';
 import withBreakpoint from '../util/withBreakpoint';
 import { alertShape } from '../util/shapes';
+import { withCurrentTime } from '../hooks/TimeContext';
 
 const isDisruption = alert =>
   alert && alert.alertSeverityLevel !== AlertSeverityLevelType.Info;
@@ -192,13 +192,7 @@ DisruptionListContainer.defaultProps = {
 };
 
 const containerComponent = createFragmentContainer(
-  connectToStores(
-    withBreakpoint(DisruptionListContainer),
-    ['TimeStore'],
-    context => ({
-      currentTime: context.getStore('TimeStore').getCurrentTime(),
-    }),
-  ),
+  withCurrentTime(withBreakpoint(DisruptionListContainer)),
   {
     viewer: graphql`
       fragment DisruptionListContainer_viewer on QueryType

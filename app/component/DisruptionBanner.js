@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEmpty from 'lodash/isEmpty';
 import { alertShape } from '../util/shapes';
 import { isAlertValid } from '../util/alertUtils';
@@ -8,6 +7,7 @@ import DisruptionBannerAlert from './DisruptionBannerAlert';
 import SwipeableTabs from './SwipeableTabs';
 import withBreakpoint from '../util/withBreakpoint';
 import { AlertEntityType } from '../constants';
+import { withCurrentTime } from '../hooks/TimeContext';
 
 const DisruptionBanner = ({ alerts, currentTime, mode, breakpoint }) => {
   const [allAlertsOpen, setAllAlertsOpen] = useState(false);
@@ -95,12 +95,6 @@ DisruptionBanner.propTypes = {
 
 const DisruptionBannerWithBreakpoint = withBreakpoint(DisruptionBanner);
 
-const containerComponent = connectToStores(
-  DisruptionBannerWithBreakpoint,
-  ['TimeStore'],
-  ({ getStore }) => ({
-    currentTime: getStore('TimeStore').getCurrentTime(),
-  }),
-);
+const containerComponent = withCurrentTime(DisruptionBannerWithBreakpoint);
 
 export { containerComponent as default, DisruptionBanner as Component };
