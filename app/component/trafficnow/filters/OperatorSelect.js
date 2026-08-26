@@ -80,12 +80,18 @@ function OperatorSelect() {
           defaultMessage: 'Show only these operators',
         })}
       </legend>
-      <div className="filters-feed-select-container">
-        <div className="filters-feed-select" {...getToggleButtonProps()}>
-          <div className="selectedfeed-group" {...getTagGroupProps()}>
+      <div className="traffic-now__filters-operator-select-container">
+        <div
+          className="traffic-now__filters-operator-select"
+          {...getToggleButtonProps()}
+        >
+          <div
+            className="traffic-now__filters-selected-feeds"
+            {...getTagGroupProps()}
+          >
             {items.length ? (
               items.map((item, index) => (
-                <div className="selectedfeed" key={item}>
+                <div className="traffic-now__filters-selected-feed" key={item}>
                   <span {...getTagProps({ index })}>{itemToString(item)}</span>
                   <span {...getTagRemoveProps({ index })}>
                     <Icon img="icon_close-filled" />
@@ -93,7 +99,7 @@ function OperatorSelect() {
                 </div>
               ))
             ) : (
-              <div className="selectedfeed-placeholder input-label">
+              <div className="traffic-now__filters-selected-feed-placeholder input-label">
                 {formatMessage({
                   id: 'traffic-now_filters_operator-select-placeholder',
                   defaultMessage: 'Select one or more',
@@ -101,9 +107,13 @@ function OperatorSelect() {
               </div>
             )}
           </div>
-          <span className="feed-select-buttons-container">
+          <span className="traffic-now__filters-operator-select-buttons">
             {selectedFeeds.length > 0 && (
               <button
+                aria-label={formatMessage({
+                  id: 'clear-button-label',
+                  defaultMessage: 'Clear',
+                })}
                 type="button"
                 onClick={e => {
                   setSelectedFeeds([]);
@@ -123,7 +133,9 @@ function OperatorSelect() {
           </span>
         </div>
         <div
-          className={cx('filters-feed-select-list', { hidden: !isOpen })}
+          className={cx('traffic-now__filters-operator-select-list', {
+            hidden: !isOpen,
+          })}
           {...getMenuProps()}
         >
           {isOpen && (

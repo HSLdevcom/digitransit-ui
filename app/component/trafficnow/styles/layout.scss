@@ -138,17 +138,17 @@
     position: sticky;
     top: 0;
 
-    .filters-feed-select-container {
+    &-operator-select-container {
       position: relative;
-
-      .feed-select-buttons-container {
-        display: flex;
-        flex-direction: row;
-        gap: 4px;
-      }
     }
 
-    .filters-feed-select-list {
+    &-operator-select-buttons {
+      display: flex;
+      flex-direction: row;
+      gap: 4px;
+    }
+
+    &-operator-select-list {
       z-index: 10;
       display: flex;
       flex-direction: column;
@@ -184,7 +184,7 @@
       }
     }
 
-    .filters-feed-select {
+    &-operator-select {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -194,36 +194,36 @@
       gap: 8px;
       min-height: 48px;
       align-items: center;
+    }
 
-      .selectedfeed-group {
-        gap: 4px;
-        display: flex;
-        align-items: center;
-        align-content: center;
-        flex-wrap: wrap;
+    &-selected-feeds {
+      gap: 4px;
+      display: flex;
+      align-items: center;
+      align-content: center;
+      flex-wrap: wrap;
+    }
 
-        .selectedfeed-placeholder {
-          color: $placeholder-color;
-        }
+    &-selected-feed-placeholder {
+      color: $placeholder-color;
+    }
 
-        .selectedfeed {
-          display: flex;
-          padding: var(--space-xxs) var(--space-xs);
-          justify-content: center;
-          align-items: center;
-          gap: var(--space-xs);
-          border-radius: var(--radius-m);
-          background: $theme-primary-color;
-          color: #fff;
+    &-selected-feed {
+      display: flex;
+      padding: var(--space-xxs) var(--space-xs);
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-xs);
+      border-radius: var(--radius-m);
+      background: $theme-primary-color;
+      color: #fff;
 
-          .text-x {
-            color: #fff;
-          }
-        }
+      .text-x {
+        color: #fff;
       }
     }
 
-    .filters-feed-select:focus {
+    &-operator-select:focus {
       box-shadow: 0 0 3px 0 #000;
     }
 
