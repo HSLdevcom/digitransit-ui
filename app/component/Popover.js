@@ -94,7 +94,7 @@ export default function Popover({
               </>
             )}
             <Text variant="text-xs">{message}</Text>
-            <Spacer size="xs" />
+            <Spacer size="s" />
             <Button
               size="s"
               variant="primary"
