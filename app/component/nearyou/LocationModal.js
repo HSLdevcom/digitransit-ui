@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
-import { Button, Text } from '@hsl-fi/layout-primitives';
+import { Button, Spacer, Text } from '@hsl-fi/layout-primitives';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
 export default function LocationModal({
@@ -40,8 +40,11 @@ export default function LocationModal({
         <Text variant="text-s">
           {intl.formatMessage({ id: 'stop-near-you-modal-info' })}
         </Text>
-        <Text variant="label">{intl.formatMessage({ id: 'origin' })}</Text>
-        {children}
+        <div>
+          <Text variant="label">{intl.formatMessage({ id: 'origin' })}</Text>
+          <Spacer size="xxs" />
+          {children}
+        </div>
         <Text variant="label">
           {intl.formatMessage({ id: 'stop-near-you-modal-grant-permission' })}
         </Text>
