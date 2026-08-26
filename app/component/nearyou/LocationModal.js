@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Button, Text } from '@hsl-fi/layout-primitives';
 import { useConfigContext } from '../../configurations/ConfigContext';
@@ -38,14 +38,12 @@ export default function LocationModal({
         onPointerDownOutside={ignoreMobileSearchOutsidePointerDown}
       >
         <Text variant="text-s">
-          <FormattedMessage id="stop-near-you-modal-info" />
+          {intl.formatMessage({ id: 'stop-near-you-modal-info' })}
         </Text>
-        <Text variant="label">
-          <FormattedMessage id="origin" />
-        </Text>
+        <Text variant="label">{intl.formatMessage({ id: 'origin' })}</Text>
         {children}
         <Text variant="label">
-          <FormattedMessage id="stop-near-you-modal-grant-permission" />
+          {intl.formatMessage({ id: 'stop-near-you-modal-grant-permission' })}
         </Text>
         {showGeolocationButton && (
           <Button
@@ -54,12 +52,14 @@ export default function LocationModal({
             expand
             onClick={startGeolocation}
           >
-            <FormattedMessage id="use-own-position" />
+            {intl.formatMessage({ id: 'use-own-position' })}
           </Button>
         )}
         {showInfo && (
           <Text variant="text-s">
-            <FormattedMessage id="stop-near-you-modal-grant-permission-info" />
+            {intl.formatMessage({
+              id: 'stop-near-you-modal-grant-permission-info',
+            })}
           </Text>
         )}
       </ModalContent>
