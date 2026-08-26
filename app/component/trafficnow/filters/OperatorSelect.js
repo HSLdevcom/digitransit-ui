@@ -64,10 +64,7 @@ function OperatorSelect() {
           selectedItem: null,
         };
       }
-      if (
-        changes.selectedItem &&
-        type !== useSelect.stateChangeTypes.ToggleButtonBlur
-      ) {
+      if (changes.selectedItem) {
         return {
           ...changes,
           inputValue: '',

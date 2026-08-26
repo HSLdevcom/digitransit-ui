@@ -93,7 +93,7 @@ export default function Disruptions() {
         config.feedIds,
         selectedFilters.selectedFeeds,
       ),
-    [cancelationsByMode, config.feedIds, selectedFilters],
+    [cancelationsByMode, config.feedIds, selectedFilters.selectedFeeds],
   );
 
   const canceledModesFiltered =
