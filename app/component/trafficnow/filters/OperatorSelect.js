@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import cx from 'classnames';
 import { useSelect, useTagGroup } from 'downshift';
 import { useIntl } from 'react-intl';
+import { Icon as HSLFIIcon, CloseS, ArrowUpS, ArrowDownS } from '@hsl-fi/icons';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 import Icon from '../../Icon';
 import { useFilterContext } from './FiltersContext';
@@ -73,12 +74,12 @@ function OperatorSelect() {
   }
   return (
     <fieldset>
-      <label className="input-legend">
+      <legend className="input-legend">
         {formatMessage({
           id: 'traffic-now_filters_operator-select-legend',
           defaultMessage: 'Show only these operators',
         })}
-      </label>
+      </legend>
       <div className="filters-feed-select-container">
         <div className="filters-feed-select" {...getToggleButtonProps()}>
           <div className="selectedfeed-group" {...getTagGroupProps()}>
@@ -100,11 +101,25 @@ function OperatorSelect() {
               </div>
             )}
           </div>
-          <span>
-            <Icon
-              className={cx('dropdown-arrow', { inverted: isOpen })}
-              img="icon_arrow-collapse"
-            />
+          <span className="feed-select-buttons-container">
+            {selectedFeeds.length > 0 && (
+              <button
+                type="button"
+                onClick={e => {
+                  setSelectedFeeds([]);
+                  e.stopPropagation();
+                }}
+              >
+                <HSLFIIcon icon={CloseS} size="m" color="default" />
+              </button>
+            )}
+            <span style={{ display: 'flex', margin: 'auto' }}>
+              <HSLFIIcon
+                icon={isOpen ? ArrowUpS : ArrowDownS}
+                size="s"
+                color="default"
+              />
+            </span>
           </span>
         </div>
         <div

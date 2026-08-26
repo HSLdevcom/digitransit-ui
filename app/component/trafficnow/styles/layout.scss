@@ -141,17 +141,10 @@
     .filters-feed-select-container {
       position: relative;
 
-      .dropdown-arrow {
-        position: relative;
-        right: auto;
-        top: auto;
-        margin-left: auto;
-        pointer-events: none;
-        flex-shrink: 0;
-
-        &.inverted {
-          transform: rotate(180deg);
-        }
+      .feed-select-buttons-container {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
       }
     }
 
