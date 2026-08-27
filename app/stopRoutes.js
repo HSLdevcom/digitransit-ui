@@ -20,6 +20,20 @@ import {
 import { prepareDatesForStops } from './util/dateParamUtils';
 import { DATE_FORMAT } from './constants';
 
+// Future window (90 days) used to detect whether the stop has any upcoming
+// departures for the schedule-status badge shown on the stop page map.
+const STOP_STATUS_TIME_RANGE = 90 * 24 * 60 * 60;
+
+const prepareMapVariables = params => {
+  const now = DateTime.now();
+  return {
+    ...params,
+    startOfDay: now.startOf('day').toUnixInteger(),
+    startTime: now.toUnixInteger(),
+    timeRange: STOP_STATUS_TIME_RANGE,
+  };
+};
+
 const queries = {
   stop: {
     pageHeader: graphql`
@@ -30,9 +44,19 @@ const queries = {
       }
     `,
     pageMap: graphql`
-      query stopRoutes_StopPageMapContainer_Query($stopId: String!) {
+      query stopRoutes_StopPageMapContainer_Query(
+        $stopId: String!
+        $startOfDay: Long!
+        $startTime: Long!
+        $timeRange: Int!
+      ) {
         stop(id: $stopId) {
           ...StopPageMapContainer_stop
+            @arguments(
+              startOfDay: $startOfDay
+              startTime: $startTime
+              timeRange: $timeRange
+            )
         }
       }
     `,
@@ -100,9 +124,19 @@ const queries = {
       }
     `,
     pageMap: graphql`
-      query stopRoutes_TerminalPageMapContainer_Query($terminalId: String!) {
+      query stopRoutes_TerminalPageMapContainer_Query(
+        $terminalId: String!
+        $startOfDay: Long!
+        $startTime: Long!
+        $timeRange: Int!
+      ) {
         station(id: $terminalId) {
           ...TerminalPageMapContainer_station
+            @arguments(
+              startOfDay: $startOfDay
+              startTime: $startTime
+              timeRange: $timeRange
+            )
         }
       }
     `,
@@ -299,6 +333,7 @@ export default function getStopRoutes(isTerminal = false) {
                     ).then(getDefault);
               }}
               query={queryMap.pageMap}
+              prepareVariables={prepareMapVariables}
               render={getComponentOrNullRenderer}
             />
           ),

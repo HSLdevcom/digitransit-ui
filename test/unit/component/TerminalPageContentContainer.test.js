@@ -2,9 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-import { mockMatch } from '../helpers/mock-router';
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { Component as StopPageContentContainer } from '../../../app/component/stop/StopPageContentContainer';
+import { Component as TerminalPageContent } from '../../../app/component/stop/TerminalPageContentContainer';
 import DepartureListContainer from '../../../app/component/DepartureListContainer';
 import StopServiceStatusBanner from '../../../app/component/stop/StopServiceStatusBanner';
 
@@ -19,19 +18,24 @@ const baseConfig = {
 const baseProps = {
   currentTime: 1000,
   relay: { refetch: () => {}, environment: {} },
-  match: { ...mockMatch, params: { stopId: 'HSL:1234' } },
 };
 
-const render = (stopProps, config = baseConfig) =>
+const render = (stationProps, config = baseConfig) =>
   shallowWithIntl(
-    <StopPageContentContainer
+    <TerminalPageContent
       {...baseProps}
-      stop={{ routes: [], ...stopProps }}
+      station={{
+        routes: [],
+        vehicleMode: 'BUS',
+        alerts: [],
+        futureStoptimes: [],
+        ...stationProps,
+      }}
     />,
     { config },
   );
 
-describe('<StopPageContentContainer />', () => {
+describe('<TerminalPageContentContainer />', () => {
   it('renders StopServiceStatusBanner in no-departures mode when stoptimes is empty', () => {
     const wrapper = render({});
     expect(wrapper.find(StopServiceStatusBanner)).to.have.lengthOf(1);
@@ -47,7 +51,14 @@ describe('<StopPageContentContainer />', () => {
     ).to.equal(false);
   });
 
-  it('shows the departure list when stoptimes are present', () => {
+  it('passes servicesRunningInFuture=true when futureStoptimes has entries', () => {
+    const wrapper = render({ futureStoptimes: [{ serviceDay: 1 }] });
+    expect(
+      wrapper.find(StopServiceStatusBanner).prop('servicesRunningInFuture'),
+    ).to.equal(true);
+  });
+
+  it('shows departure list when stoptimes are present', () => {
     const stoptimes = [
       { serviceDay: 0, realtimeState: 'SCHEDULED', trip: { pattern: {} } },
     ];

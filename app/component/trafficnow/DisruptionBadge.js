@@ -5,8 +5,20 @@ import { FormattedMessage } from 'react-intl';
 import capitalize from 'lodash/capitalize';
 import Icon from '../Icon';
 import { AlertSeverityLevelType } from '../../constants';
+import { DISRUPTION_BADGE_PREFIX } from '../../util/stopStatusUtils';
 
-const DISRUPTION_BADGE_PREFIX = 'disruption-badge-';
+/**
+ * Renders a styled badge pill for a GTFS-RT disruption alert in Traffic Now
+ * contexts (disruption cards, canceled trip cards, disruption details).
+ *
+ * Use this component when an alert effect (e.g. DETOUR, SIGNIFICANT_DELAYS,
+ * NO_SERVICE) is always available and you want the full badge pill with an
+ * optional severity icon.
+ *
+ * For stop/terminal pages where the status may come from service-calendar data
+ * (out-of-service, no-service-today) and may not have an alert effect, use
+ * `StopScheduleStatus` instead.
+ */
 
 function variantValidator(props, propName, componentName) {
   if (!Object.values(AlertSeverityLevelType).includes(props[propName])) {

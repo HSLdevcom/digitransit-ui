@@ -181,6 +181,7 @@ export const stopShape = PropTypes.shape({
   lat: PropTypes.number,
   lon: PropTypes.number,
   zoneId: PropTypes.string,
+  vehicleMode: PropTypes.string,
   alerts: PropTypes.arrayOf(alertShape),
   routes: PropTypes.arrayOf(routeShape),
   stoptimes: PropTypes.arrayOf(stopTimeShape),

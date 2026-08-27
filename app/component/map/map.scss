@@ -776,7 +776,7 @@ div.leaflet-marker-icon.vehicle-icon {
 }
 
 div.origin-popup {
-  font-size: $font-size-xxsmall;
+  font-size: $font-size-normal;
   cursor: pointer;
   min-width: 15em;
   left: -21px !important;
@@ -784,7 +784,6 @@ div.origin-popup {
   .origin-popup-header {
     @include font-medium;
 
-    text-transform: uppercase;
     color: $link-color;
     width: 90%;
     margin-bottom: 3px;
@@ -832,6 +831,10 @@ div.origin-popup {
     position: absolute;
     right: 0;
     top: 2em;
+  }
+
+  .selected-stop-status {
+    margin-top: var(--space-xs);
   }
 
   .leaflet-popup-tip-container {

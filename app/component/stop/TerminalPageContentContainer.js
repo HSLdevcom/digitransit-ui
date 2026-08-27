@@ -4,9 +4,12 @@ import { createRefetchContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DepartureListContainer from '../DepartureListContainer';
-import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { stationShape, errorShape, relayShape } from '../../util/shapes';
+import { getPrimaryStopMode } from '../../util/modeUtils';
+import { getModeIconColor } from '../../util/colorUtils';
+import StopServiceStatusBanner from './StopServiceStatusBanner';
+import { useConfigContext } from '../../configurations/ConfigContext';
 import { getTrackOrPierOrPlatformText } from '../../util/localeUtils';
 
 function TerminalPageContent({ station, relay, currentTime, error }) {
@@ -21,20 +24,42 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
   }, [currentTime, relay]);
 
   const intl = useIntl();
+  const config = useConfigContext();
   const { stoptimes } = station;
-  const mode = station.vehicleMode || 'BUS';
+  const vehicleMode = station.vehicleMode || 'BUS';
+  // `mode` is the icon mode (derived from routes, may differ from vehicleMode for multi-mode stops).
+  // `vehicleMode` is used for track text and the departure list.
+  const mode = getPrimaryStopMode(
+    station.routes,
+    vehicleMode,
+    station.code,
+    config,
+    true,
+  );
+  const modeColor = getModeIconColor(config, mode);
   if (!stoptimes || stoptimes.length === 0) {
     return (
-      <div className="stop-no-departures-container">
-        <Icon img="icon_station" />
-        <FormattedMessage id="no-departures" defaultMessage="No departures" />
-      </div>
+      <StopServiceStatusBanner
+        mode={mode}
+        modeColor={modeColor}
+        stoptimes={stoptimes || []}
+        currentTime={currentTime}
+        alerts={station.alerts}
+        servicesRunningInFuture={(station.futureStoptimes || []).length > 0}
+      />
     );
   }
 
   return (
     <ScrollableWrapper>
       <div className="stop-page-departure-wrapper stop-scroll-container">
+        <StopServiceStatusBanner
+          mode={mode}
+          modeColor={modeColor}
+          stoptimes={stoptimes}
+          currentTime={currentTime}
+          alerts={station.alerts}
+        />
         <div
           className="departure-list-header row padding-vertical-normal"
           aria-hidden="true"
@@ -49,12 +74,12 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
             <FormattedMessage id="leaving-at" defaultMessage="Leaves" />
           </span>
           <span className="track-header">
-            {getTrackOrPierOrPlatformText(intl, mode)}
+            {getTrackOrPierOrPlatformText(intl, vehicleMode)}
           </span>
         </div>
         <DepartureListContainer
           stoptimes={stoptimes}
-          mode={mode}
+          mode={vehicleMode}
           key="departures"
           className="stop-page"
           infiniteScroll
@@ -92,7 +117,27 @@ const connectedComponent = createRefetchContainer(
         numberOfDepartures: { type: "Int!", defaultValue: 100 }
       ) {
         vehicleMode
+        code
         url
+        routes {
+          gtfsId
+          mode
+          type
+        }
+        alerts(types: [STOP, ROUTES]) {
+          alertEffect
+          alertSeverityLevel
+          effectiveStartDate
+          effectiveEndDate
+        }
+        futureStoptimes: stoptimesWithoutPatterns(
+          startTime: $startTime
+          timeRange: 7776000 # 90 days in seconds
+          numberOfDepartures: 1
+          omitCanceled: true
+        ) {
+          serviceDay
+        }
         stops {
           patterns {
             route {
@@ -106,6 +151,7 @@ const connectedComponent = createRefetchContainer(
           numberOfDepartures: $numberOfDepartures
           omitCanceled: false
         ) {
+          serviceDay
           ...DepartureListContainer_stoptimes
         }
       }

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useContext, useState, useRef } from 'react';
-import { matchShape, routerShape } from 'found';
+import { useRouter } from 'found';
 import { connectToStores } from 'fluxible-addons-react';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { fetchQuery } from 'react-relay';
@@ -23,6 +23,8 @@ import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
 import MapRoutingButton from '../MapRoutingButton';
+import { STOP_STATUS } from '../../util/stopStatusUtils';
+import { useConfigContext } from '../../configurations/ConfigContext';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../util/path';
 import { streetQuery } from './StreetQuery';
@@ -46,10 +48,19 @@ const getModeFromProps = props => {
   return 'stop';
 };
 
-function StopPageMap(
-  { stop, breakpoint, locationState, mapLayers, mapLayerOptions, stopName },
-  { config, match },
-) {
+function StopPageMap({
+  stop = undefined,
+  breakpoint,
+  locationState,
+  mapLayers,
+  mapLayerOptions,
+  stopName = undefined,
+  stopStatus = undefined,
+  stopAlertEffects = undefined,
+}) {
+  const config = useConfigContext();
+  const { match } = useRouter();
+
   if (!stop) {
     return false;
   }
@@ -134,7 +145,12 @@ function StopPageMap(
   if (breakpoint === 'large') {
     leafletObjs.push(
       <SelectedStopPopup lat={stop.lat} lon={stop.lon} key="SelectedStopPopup">
-        <SelectedStopPopupContent stop={stop} name={stopName} />
+        <SelectedStopPopupContent
+          stop={stop}
+          name={stopName}
+          status={stopStatus}
+          alertEffects={stopAlertEffects}
+        />
       </SelectedStopPopup>,
     );
     if (config.useCookiesPrompt) {
@@ -180,13 +196,6 @@ function StopPageMap(
   );
 }
 
-StopPageMap.contextTypes = {
-  config: configShape.isRequired,
-  match: matchShape.isRequired,
-  router: routerShape.isRequired,
-  getStore: PropTypes.func.isRequired,
-};
-
 StopPageMap.propTypes = {
   stop: PropTypes.shape({
     lat: PropTypes.number.isRequired,
@@ -199,12 +208,8 @@ StopPageMap.propTypes = {
   mapLayerOptions: mapLayerOptionsShape.isRequired,
   parkType: PropTypes.string,
   stopName: PropTypes.node,
-};
-
-StopPageMap.defaultProps = {
-  stop: undefined,
-  parkType: undefined,
-  stopName: undefined,
+  stopStatus: PropTypes.oneOf(Object.values(STOP_STATUS)),
+  stopAlertEffects: PropTypes.arrayOf(PropTypes.string),
 };
 
 const componentWithBreakpoint = withBreakpoint(StopPageMap);

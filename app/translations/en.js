@@ -753,6 +753,8 @@ export default {
     stop: 'Stop',
     'stop-departure-time-future': 'Departure time is in {minutes} minutes',
     'stop-departure-time-past': 'Departure time was',
+    'stop-has-alert': 'Service alert at stop',
+    'stop-has-info': 'Notice at stop',
     'stop-list-update.sr-instructions':
       'Departure times for each stop will update in real time.',
     'stop-near-you': 'Search stops and routes near you',
@@ -763,6 +765,8 @@ export default {
     'stop-near-you-modal-info':
       'Using the nearby stops function requires location access.',
     'stop-near-you-update-alert': 'Nearest stops updated',
+    'stop-no-service-today': 'No departures today',
+    'stop-out-of-service': 'Stop out of service',
     'stop-page.description': 'Stop {name} - {code}',
     'stop-page.right-now.loaded': 'stop page loaded',
     'stop-page.title': 'Stop {name} - {code}',
