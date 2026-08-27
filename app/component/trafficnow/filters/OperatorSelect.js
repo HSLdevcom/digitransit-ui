@@ -186,12 +186,14 @@ function OperatorSelect() {
   const availableOperators = feedIds.filter(itemToString);
 
   // if one or less operators to select from, dont render
-  return availableOperators.length > 1 ? (
-    <OperatorSelectDropdown
-      availableOperators={availableOperators}
-      itemToString={itemToString}
-    />
-  ) : null;
+  return (
+    availableOperators.length > 1 && (
+      <OperatorSelectDropdown
+        availableOperators={availableOperators}
+        itemToString={itemToString}
+      />
+    )
+  );
 }
 
 export default OperatorSelect;
