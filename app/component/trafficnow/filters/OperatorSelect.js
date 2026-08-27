@@ -2,25 +2,15 @@ import React, { useCallback } from 'react';
 import cx from 'classnames';
 import { useSelect, useTagGroup } from 'downshift';
 import { useIntl } from 'react-intl';
+import PropTypes from 'prop-types';
 import { Icon as HSLFIIcon, CloseS, ArrowUpS, ArrowDownS } from '@hsl-fi/icons';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 import Icon from '../../Icon';
 import { useFilterContext } from './FiltersContext';
 
-function OperatorSelect() {
-  const { feedIds, sourceForAlertsAndDisruptions } = useConfigContext();
-  const { formatMessage, locale } = useIntl();
+function OperatorSelectDropdown({ availableOperators = [], itemToString }) {
+  const { formatMessage } = useIntl();
 
-  const itemToString = useCallback(
-    feed =>
-      sourceForAlertsAndDisruptions?.[feed]
-        ? sourceForAlertsAndDisruptions[feed][locale]
-        : null,
-    [sourceForAlertsAndDisruptions, locale],
-  );
-
-  // filter out feeds from selection that do not have mapping to operators
-  const availableOperators = feedIds.filter(itemToString);
   const {
     selectedFilters: { selectedFeeds },
     setFilter,
@@ -76,10 +66,6 @@ function OperatorSelect() {
     },
   });
 
-  // if one or less operators to select from, dont render
-  if (availableOperators.length <= 1) {
-    return null;
-  }
   return (
     <fieldset>
       <legend className="input-legend">
@@ -177,6 +163,36 @@ function OperatorSelect() {
       </div>
     </fieldset>
   );
+}
+
+OperatorSelectDropdown.propTypes = {
+  availableOperators: PropTypes.arrayOf(PropTypes.string),
+  itemToString: PropTypes.func.isRequired,
+};
+
+function OperatorSelect() {
+  const { feedIds = [], sourceForAlertsAndDisruptions = {} } =
+    useConfigContext();
+  const { locale } = useIntl();
+
+  const itemToString = useCallback(
+    feed =>
+      sourceForAlertsAndDisruptions[feed]
+        ? sourceForAlertsAndDisruptions[feed][locale]
+        : null,
+    [sourceForAlertsAndDisruptions, locale],
+  );
+
+  // filter out feeds from selection that do not have mapping to operators
+  const availableOperators = feedIds.filter(itemToString);
+
+  // if one or less operators to select from, dont render
+  return availableOperators.length > 1 ? (
+    <OperatorSelectDropdown
+      availableOperators={availableOperators}
+      itemToString={itemToString}
+    />
+  ) : null;
 }
 
 export default OperatorSelect;
