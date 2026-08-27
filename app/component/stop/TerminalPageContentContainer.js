@@ -79,7 +79,7 @@ TerminalPageContent.defaultProps = {
   error: undefined,
 };
 
-const connectedComponent = createRefetchContainer(
+const containerComponent = createRefetchContainer(
   TerminalPageContent,
   {
     station: graphql`
@@ -128,4 +128,4 @@ const connectedComponent = createRefetchContainer(
   `,
 );
 
-export { connectedComponent as default, TerminalPageContent as Component };
+export default containerComponent;

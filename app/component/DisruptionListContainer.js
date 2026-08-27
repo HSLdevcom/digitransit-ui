@@ -224,4 +224,4 @@ const containerComponent = createFragmentContainer(
   },
 );
 
-export { containerComponent as default, DisruptionListContainer as Component };
+export default containerComponent;

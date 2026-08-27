@@ -87,7 +87,7 @@ StopPageContent.contextTypes = {
   config: configShape.isRequired,
 };
 
-const connectedComponent = createRefetchContainer(
+const containerComponent = createRefetchContainer(
   StopPageContent,
   {
     stop: graphql`
@@ -128,4 +128,4 @@ const connectedComponent = createRefetchContainer(
   `,
 );
 
-export { connectedComponent as default, StopPageContent as Component };
+export { containerComponent as default, StopPageContent as Component };

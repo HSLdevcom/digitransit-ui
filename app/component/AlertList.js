@@ -128,6 +128,6 @@ AlertList.defaultProps = {
   onClickLink: undefined,
 };
 
-const connectedComponent = withBreakpoint(AlertList);
+const componentWithBreakpoint = withBreakpoint(AlertList);
 
-export { connectedComponent as default, AlertList as Component };
+export { componentWithBreakpoint as default, AlertList as Component };
