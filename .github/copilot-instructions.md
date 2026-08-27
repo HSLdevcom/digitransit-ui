@@ -69,6 +69,10 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 
 ## Architecture (see `docs/Architecture.md`, `docs/Navigation.md`)
 
+- Feature-specific design docs live next to their code, e.g.
+  `app/component/trafficnow/README.md` (disruptions/cancellations feature) — check for one before
+  making non-trivial changes in a feature directory, and keep it in sync with your changes.
+
 Data flows into components via two separate mechanisms — know which one a piece of data comes
 from before touching it:
 
