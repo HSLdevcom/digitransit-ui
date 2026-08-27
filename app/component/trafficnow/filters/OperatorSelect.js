@@ -57,8 +57,7 @@ function OperatorSelectDropdown({ availableOperators = [], itemToString }) {
       if (changes.selectedItem) {
         return {
           ...changes,
-          inputValue: '',
-          highlightedIndex: 0,
+          highlightedIndex: _state.highlightedIndex,
           isOpen: true,
         };
       }
