@@ -10,12 +10,14 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
   `util/`, `hooks/`, `__generated__/` (Relay codegen, don't hand-edit).
 - `server/` — Express SSR server.
 - `test/` — `unit/` (mocha, mirrors `app/`) and `e2e/` (Jest + Playwright visual tests).
-- `scripts/` — dev helper scripts (`ui.sh`, `sort-translations.mjs`, etc.).
+- `scripts/` — dev helper scripts (`ui.sh`, `sort-translations.mjs`, `contextHelper.js`,
+  `generate-schema.js`, `theme/` theme-scaffolding scripts; see `scripts/README.md`).
 - `digitransit-component/`, `digitransit-search-util/`, `digitransit-store/`,
   `digitransit-util/` — Yarn workspace packages, built separately (see below).
 - `sass/`, `static/` — global styles and static assets.
 - `config/` — build tooling config (e.g. rollup).
-- `build/` — build/codegen scripts (e.g. GraphQL schema generation).
+- `schema/` — generated `schema.graphql` (GraphQL schema consumed by relay-compiler and
+  graphql-eslint; regenerate with `scripts/generate-schema.js`, don't hand-edit).
 - `docs/` — architecture/testing/etc. docs; **treat as potentially stale** — when a change
   affects what a `docs/*` file describes, update that doc in the same change.
 
@@ -38,8 +40,8 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 - `yarn run build` then `yarn run start` — production build/run. Use `CONFIG=hsl` (or `tampere`,
   `matka`, etc., see `app/configurations/config.*.js`) to select a regional config, and
   `API_URL=...` to point at a different OTP/geocoding backend.
-- If the OTP GraphQL schema changes: `cd build; node generate-schema.js` (regenerates
-  `schema.graphql`; `relay-compiler` then regenerates `app/__generated__` on build/dev).
+- If the OTP GraphQL schema changes: `node scripts/generate-schema.js` (regenerates
+  `schema/schema.graphql`; `relay-compiler` then regenerates `app/__generated__` on build/dev).
 
 ## Lint & format
 
@@ -65,7 +67,7 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
     `test:update-all-*-snapshots` scripts for bulk updates across configs).
 - Accessibility: `yarn test-accessibility` (`test/accessibility.sh`).
 
-## Architecture (see `docs/Architecture.md`, `docs/GraphQL.md`, `docs/Navigation.md`)
+## Architecture (see `docs/Architecture.md`, `docs/Navigation.md`)
 
 Data flows into components via two separate mechanisms — know which one a piece of data comes
 from before touching it:
