@@ -1,36 +1,32 @@
 import React from 'react';
-
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { render } from '@testing-library/react';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../../app/constants';
-import Icon from '../../../app/component/Icon';
 
 describe('<ServiceAlertIcon />', () => {
   it('should render empty if there are no alerts', () => {
-    const wrapper = shallowWithIntl(<ServiceAlertIcon />);
-    expect(wrapper.isEmptyRender()).to.equal(true);
+    const { container } = render(<ServiceAlertIcon />);
+    expect(container.querySelector('.icon')).to.equal(null);
   });
 
   it('should render empty if the severity is falsy', () => {
-    const wrapper = shallowWithIntl(
+    const { container } = render(
       <ServiceAlertIcon severityLevel={undefined} />,
     );
-    expect(wrapper.isEmptyRender()).to.equal(true);
+    expect(container.querySelector('.icon')).to.equal(null);
   });
 
   it('should render an info icon', () => {
-    const wrapper = shallowWithIntl(
+    const { container } = render(
       <ServiceAlertIcon severityLevel={AlertSeverityLevelType.Info} />,
     );
-    expect(wrapper.isEmptyRender()).to.equal(false);
-    expect(wrapper.find(Icon).prop('className')).to.contain('info');
+    expect(container.querySelector('.info')).to.not.equal(null);
   });
 
   it('should render a caution icon', () => {
-    const wrapper = shallowWithIntl(
+    const { container } = render(
       <ServiceAlertIcon severityLevel={AlertSeverityLevelType.Warning} />,
     );
-    expect(wrapper.isEmptyRender()).to.equal(false);
-    expect(wrapper.find(Icon).prop('className')).to.contain('caution');
+    expect(container.querySelector('.caution')).to.not.equal(null);
   });
 });

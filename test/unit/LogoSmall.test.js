@@ -1,64 +1,49 @@
 import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-
-import { shallowWithIntl } from './helpers/mock-intl-enzyme';
+import { render } from '@testing-library/react';
+import { ConfigProvider } from '../../app/configurations/ConfigContext';
 import LogoSmall from '../../app/component/LogoSmall';
+
+const renderWithConfig = (ui, config) =>
+  render(
+    <ConfigProvider value={{ CONFIG: 'default', URL: {}, ...config }}>
+      {ui}
+    </ConfigProvider>,
+  );
 
 describe('<LogoSmall />', () => {
   it('should show logo image', () => {
-    const wrapper = shallowWithIntl(<LogoSmall logo="/" showLogo />, {
-      context: {
-        config: {
-          textLogo: false,
-        },
-      },
+    const { container } = renderWithConfig(<LogoSmall logo="/" />, {
+      textLogo: false,
     });
-
-    expect(wrapper.find('span.title')).to.have.lengthOf(0);
-    expect(wrapper.find('div.logo')).to.have.lengthOf(1);
+    expect(container.querySelector('span.title')).to.equal(null);
+    expect(container.querySelector('div.logo')).to.not.equal(null);
   });
 
-  it('should always show text logo when textLogo is true', () => {
-    const wrapper = shallowWithIntl(<LogoSmall showLogo />, {
-      context: {
-        config: {
-          textLogo: true,
-        },
-      },
+  it('should always show text logo when textLogo is true and no logo', () => {
+    const { container } = renderWithConfig(<LogoSmall />, {
+      textLogo: true,
     });
-
-    expect(wrapper.find('span.title')).to.have.lengthOf(1);
-    expect(wrapper.find('div.logo')).to.have.lengthOf(0);
+    expect(container.querySelector('span.title')).to.not.equal(null);
+    expect(container.querySelector('div.logo')).to.equal(null);
   });
 
   it('should show the given title text', () => {
-    const wrapper = shallowWithIntl(
-      <LogoSmall showLogo={false} title="Reittiopas" />,
-      {
-        context: {
-          config: {
-            textLogo: true,
-          },
-        },
-      },
-    );
-
-    const titleElement = wrapper.find('span.title');
-    expect(titleElement).to.have.lengthOf(1);
-    expect(titleElement.text()).to.equal('Reittiopas');
-    expect(wrapper.find('div.logo')).to.have.lengthOf(0);
+    const { container } = renderWithConfig(<LogoSmall title="Reittiopas" />, {
+      textLogo: true,
+    });
+    const titleElement = container.querySelector('span.title');
+    expect(titleElement).to.not.equal(null);
+    expect(titleElement.textContent).to.equal('Reittiopas');
+    expect(container.querySelector('div.logo')).to.equal(null);
   });
 
   it('should show the title with the logo', () => {
-    const wrapper = shallowWithIntl(<LogoSmall logo="/" title="foo" />, {
-      context: {
-        config: {
-          textLogo: true,
-        },
-      },
+    const { container } = renderWithConfig(<LogoSmall logo="/" title="foo" />, {
+      textLogo: true,
     });
-
-    expect(wrapper.find('.title').text()).to.equal('foo');
+    expect(container.querySelector('.title').textContent).to.equal('foo');
+    expect(container.querySelector('div.logo')).to.not.equal(null);
   });
 });
