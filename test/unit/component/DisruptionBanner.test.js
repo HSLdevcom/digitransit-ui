@@ -12,7 +12,6 @@ describe('<DisruptionBanner />', () => {
   it('should render a service alert', () => {
     const props = {
       breakpoint: 'large',
-      currentTime: 1500,
       language: 'fi',
       mode: 'BUS',
       alerts: [
@@ -37,6 +36,7 @@ describe('<DisruptionBanner />', () => {
       context: {
         config: { CONFIG: 'default' },
       },
+      currentTime: 1500,
     });
     expect(wrapper.find(DisruptionBannerAlert)).to.lengthOf(1);
   });

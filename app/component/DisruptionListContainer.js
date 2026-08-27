@@ -15,7 +15,7 @@ import {
 import { isKeyboardSelectionEvent } from '../util/browser';
 import withBreakpoint from '../util/withBreakpoint';
 import { alertShape } from '../util/shapes';
-import { withCurrentTime } from '../hooks/TimeContext';
+import { useCurrentTime } from '../hooks/TimeContext';
 
 const isDisruption = alert =>
   alert && alert.alertSeverityLevel !== AlertSeverityLevelType.Info;
@@ -37,13 +37,9 @@ const splitAlertByRouteModeAndColor = alert => {
   });
 };
 
-function DisruptionListContainer({
-  breakpoint,
-  currentTime,
-  viewer,
-  onClickLink,
-}) {
+function DisruptionListContainer({ breakpoint, viewer, onClickLink }) {
   const intl = useIntl();
+  const currentTime = useCurrentTime();
   const validAlerts = viewer?.alerts
     ?.filter(alert => isAlertValid(alert, currentTime))
     .filter(alert =>
@@ -179,7 +175,6 @@ function DisruptionListContainer({
 
 DisruptionListContainer.propTypes = {
   breakpoint: PropTypes.string,
-  currentTime: PropTypes.number.isRequired,
   viewer: PropTypes.shape({
     alerts: PropTypes.arrayOf(alertShape),
   }).isRequired,
@@ -192,7 +187,7 @@ DisruptionListContainer.defaultProps = {
 };
 
 const containerComponent = createFragmentContainer(
-  withCurrentTime(withBreakpoint(DisruptionListContainer)),
+  withBreakpoint(DisruptionListContainer),
   {
     viewer: graphql`
       fragment DisruptionListContainer_viewer on QueryType

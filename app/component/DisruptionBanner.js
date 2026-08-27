@@ -7,9 +7,10 @@ import DisruptionBannerAlert from './DisruptionBannerAlert';
 import SwipeableTabs from './SwipeableTabs';
 import withBreakpoint from '../util/withBreakpoint';
 import { AlertEntityType } from '../constants';
-import { withCurrentTime } from '../hooks/TimeContext';
+import { useCurrentTime } from '../hooks/TimeContext';
 
-const DisruptionBanner = ({ alerts, currentTime, mode, breakpoint }) => {
+const DisruptionBanner = ({ alerts, mode, breakpoint }) => {
+  const currentTime = useCurrentTime();
   const [allAlertsOpen, setAllAlertsOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(true);
@@ -88,13 +89,13 @@ const DisruptionBanner = ({ alerts, currentTime, mode, breakpoint }) => {
 
 DisruptionBanner.propTypes = {
   alerts: PropTypes.arrayOf(alertShape).isRequired,
-  currentTime: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
   breakpoint: PropTypes.string.isRequired,
 };
 
 const DisruptionBannerWithBreakpoint = withBreakpoint(DisruptionBanner);
 
-const containerComponent = withCurrentTime(DisruptionBannerWithBreakpoint);
-
-export { containerComponent as default, DisruptionBanner as Component };
+export {
+  DisruptionBannerWithBreakpoint as default,
+  DisruptionBanner as Component,
+};

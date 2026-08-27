@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -7,12 +6,14 @@ import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { stationShape, errorShape, relayShape } from '../../util/shapes';
 import { getTrackOrPierOrPlatformText } from '../../util/localeUtils';
-import { withCurrentTime } from '../../hooks/TimeContext';
+import { useCurrentTime } from '../../hooks/TimeContext';
 
-function TerminalPageContent({ station, relay, currentTime, error }) {
+function TerminalPageContent({ station, relay, error }) {
   if (!station && error) {
     throw error.message;
   }
+
+  const currentTime = useCurrentTime();
 
   useEffect(() => {
     relay.refetch(oldVariables => {
@@ -71,7 +72,6 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
 TerminalPageContent.propTypes = {
   station: stationShape.isRequired,
   relay: relayShape.isRequired,
-  currentTime: PropTypes.number.isRequired,
   error: errorShape,
 };
 
@@ -80,7 +80,7 @@ TerminalPageContent.defaultProps = {
 };
 
 const connectedComponent = createRefetchContainer(
-  withCurrentTime(TerminalPageContent),
+  TerminalPageContent,
   {
     station: graphql`
       fragment TerminalPageContentContainer_station on Stop

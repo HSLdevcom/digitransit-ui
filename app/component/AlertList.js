@@ -11,19 +11,19 @@ import {
   isAlertValid,
 } from '../util/alertUtils';
 import { alertShape } from '../util/shapes';
-import { withCurrentTime } from '../hooks/TimeContext';
+import { useCurrentTime } from '../hooks/TimeContext';
 import withBreakpoint from '../util/withBreakpoint';
 import { AlertEntityType, AlertSeverityLevelType } from '../constants';
 
 const AlertList = ({
   cancelations,
-  currentTime,
   disableScrolling,
   serviceAlerts,
   showLinks,
   breakpoint,
   onClickLink,
 }) => {
+  const currentTime = useCurrentTime();
   const validAlerts = serviceAlerts.filter(alert =>
     isAlertValid(alert, currentTime),
   );
@@ -112,7 +112,6 @@ const AlertList = ({
 
 AlertList.propTypes = {
   cancelations: PropTypes.arrayOf(alertShape),
-  currentTime: PropTypes.PropTypes.number.isRequired,
   disableScrolling: PropTypes.bool,
   serviceAlerts: PropTypes.arrayOf(alertShape),
   showLinks: PropTypes.bool,
@@ -129,6 +128,6 @@ AlertList.defaultProps = {
   onClickLink: undefined,
 };
 
-const connectedComponent = withCurrentTime(withBreakpoint(AlertList));
+const connectedComponent = withBreakpoint(AlertList);
 
 export { connectedComponent as default, AlertList as Component };

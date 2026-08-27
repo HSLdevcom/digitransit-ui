@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -12,13 +11,11 @@ import {
 import DepartureListContainer from '../DepartureListContainer';
 import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
-import { withCurrentTime } from '../../hooks/TimeContext';
+import { useCurrentTime } from '../../hooks/TimeContext';
 
-function StopPageContent(
-  { stop, relay, currentTime, error, match },
-  { config },
-) {
+function StopPageContent({ stop, relay, error, match }, { config }) {
   const intl = useIntl();
+  const currentTime = useCurrentTime();
   if (!stop && error) {
     throw error.message;
   }
@@ -78,7 +75,6 @@ function StopPageContent(
 StopPageContent.propTypes = {
   stop: stopShape.isRequired,
   relay: relayShape.isRequired,
-  currentTime: PropTypes.number.isRequired,
   error: errorShape,
   match: matchShape.isRequired,
 };
@@ -92,7 +88,7 @@ StopPageContent.contextTypes = {
 };
 
 const connectedComponent = createRefetchContainer(
-  withCurrentTime(StopPageContent),
+  StopPageContent,
   {
     stop: graphql`
       fragment StopPageContentContainer_stop on Stop

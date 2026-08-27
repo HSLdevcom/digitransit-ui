@@ -1,9 +1,7 @@
 import { createFragmentContainer, graphql } from 'react-relay';
-
 import StopCardHeader from './StopCardHeader';
-import { withCurrentTime } from '../../hooks/TimeContext';
 
-export default createFragmentContainer(withCurrentTime(StopCardHeader), {
+export default createFragmentContainer(StopCardHeader, {
   stop: graphql`
     fragment StopCardHeaderContainer_stop on Stop {
       gtfsId

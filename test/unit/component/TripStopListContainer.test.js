@@ -7,7 +7,6 @@ describe('<TripStopListContainer />', () => {
   it('should properly mark passed stops when vehicle information is missing', () => {
     const serviceDay = 1551650400;
     const props = {
-      currentTime: serviceDay + 2000,
       locationState: {},
       relay: {
         forceFetch: () => {},
@@ -47,6 +46,7 @@ describe('<TripStopListContainer />', () => {
     };
     const wrapper = shallowWithIntl(<TripStopListContainer {...props} />, {
       config: { CONFIG: 'default', colors: { primary: '#007AC9' } },
+      currentTime: serviceDay + 2000,
     });
     expect(wrapper.find(TripRouteStop)).to.have.lengthOf(2);
     expect(wrapper.find(TripRouteStop).at(0).prop('stopPassed')).to.equal(true);
@@ -57,7 +57,6 @@ describe('<TripStopListContainer />', () => {
 
   it('should find the selected vehicle', () => {
     const props = {
-      currentTime: 1554882006,
       locationState: {},
       relay: {
         forceFetch: () => {},
@@ -126,6 +125,7 @@ describe('<TripStopListContainer />', () => {
     };
     const wrapper = shallowWithIntl(<TripStopListContainer {...props} />, {
       config: { CONFIG: 'default', colors: { primary: '#007AC9' } },
+      currentTime: 1554882006,
     });
     expect(wrapper.find(TripRouteStop).prop('selectedVehicle').id).to.equal(
       'HSL_00875',
