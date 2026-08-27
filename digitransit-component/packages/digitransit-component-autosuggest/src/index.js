@@ -416,7 +416,10 @@ function DTAutosuggest({
     inputId: id,
     inputValue: state.value,
     defaultHighlightedIndex: 0,
-    onInputValueChange: ({ inputValue }) =>
+    // Typing is dispatched synchronously by Input. Downshift reports it from an
+    // effect a render late, which would overwrite newer keystrokes.
+    onInputValueChange: ({ inputValue, type }) =>
+      type !== useCombobox.stateChangeTypes.InputChange &&
       dispatch({ type: 'INPUT_CHANGE', value: inputValue }),
     stateReducer: useCallback(
       (oldState, { type, changes }) => {
@@ -521,6 +524,11 @@ function DTAutosuggest({
     }
     openMenu();
   };
+
+  const handleValueChange = useCallback(
+    newValue => dispatch({ type: 'INPUT_CHANGE', value: newValue }),
+    [],
+  );
 
   // Fetch suggestions when isOpen, value, or fetchSuggestions dependencies change
   useEffect(() => {
@@ -666,6 +674,7 @@ function DTAutosuggest({
           transportMode={transportMode}
           isMobile={isMobile}
           inputOnBlur={inputOnBlur}
+          onValueChange={handleValueChange}
         />
 
         <Suggestions
