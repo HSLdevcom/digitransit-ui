@@ -167,7 +167,7 @@
         }
 
         .icon-container {
-          border: 1px solid #888;
+          border: 1px solid $control-border-color;
           border-radius: var(--radius-s);
           height: 24px;
           width: 24px;
@@ -195,7 +195,7 @@
     }
 
     &-button-container {
-      background-color: white;
+      background-color: $white;
       padding: var(--space-m);
       position: sticky;
       top: 0;

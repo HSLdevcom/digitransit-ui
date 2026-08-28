@@ -74,8 +74,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-m);
-  padding: var(--space-fixed-xs) var(--space-fixed-s) var(--space-fixed-xs)
-    var(--space-fixed-s);
+  padding: var(--space-fixed-xs) var(--space-fixed-s);
   background-color: $white;
   border: 1px solid $light-gray;
   border-radius: var(--radius-pill);
@@ -92,17 +91,12 @@
 
     .icon-container {
       color: $theme-secondary-color;
-      fill: $theme-secondary-color;
       display: flex;
       align-items: center;
+      font-size: 24px;
       width: 24px;
       height: 24px;
       flex-shrink: 0;
-
-      .icon {
-        width: 24px;
-        height: 24px;
-      }
     }
   }
 
@@ -114,13 +108,12 @@
     border-radius: var(--radius-pill);
     padding: var(--space-xs) var(--space-m);
     cursor: pointer;
-    font-family: inherit;
     font-size: $font-size-small;
     font-weight: $font-weight-medium;
     white-space: nowrap;
 
     &:hover {
-      background-color: darken($theme-secondary-color, 10%);
+      background-color: color-mix(in srgb, $theme-secondary-color, black 10%);
     }
   }
 }
@@ -181,7 +174,7 @@
       }
 
       .departures-date-badge {
-        background-color: #f2f5f7;
+        background-color: $background-color-lighter;
         border-radius: var(--radius-s);
         padding: var(--space-xxs) var(--space-s);
         display: flex;
