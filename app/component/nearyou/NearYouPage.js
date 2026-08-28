@@ -39,6 +39,7 @@ import {
 } from '../../util/modeUtils';
 import FavouriteStore from '../../store/FavouriteStore';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import { useCurrentTime } from '../../hooks/TimeContext';
 
 // component initialization phases
 const PH_START = 'start';
@@ -90,13 +91,13 @@ function NearYouPage(
     favouriteVehicleStationIds,
     mapLayers,
     favouritesFetched,
-    currentTime,
     router,
   },
   { executeAction },
 ) {
   const { mode } = match.params;
   const config = useConfigContext();
+  const currentTime = useCurrentTime();
   const centerOfMap = useRef({});
   const [modes, setModes] = useState(
     extendModes(getModes(config, favourites), mode),
@@ -621,7 +622,6 @@ NearYouPage.propTypes = {
   favourites: PropTypes.array, // eslint-disable-line
   mapLayers: mapLayerShape.isRequired,
   favouritesFetched: PropTypes.bool,
-  currentTime: PropTypes.number.isRequired,
   router: routerShape.isRequired,
 };
 
@@ -639,7 +639,7 @@ const NearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   NearYouPageWithBreakpoint,
-  ['PositionStore', 'FavouriteStore', 'MapLayerStore', 'TimeStore'],
+  ['PositionStore', 'FavouriteStore', 'MapLayerStore'],
   (context, props) => {
     const favStore = context.getStore('FavouriteStore');
     const favouriteStopIds = favStore
@@ -659,7 +659,6 @@ const PositioningWrapper = connectToStores(
 
     return {
       ...props,
-      currentTime: context.getStore('TimeStore').getCurrentTime(),
       position: context.getStore('PositionStore').getLocationState(),
       mapLayers: context
         .getStore('MapLayerStore')

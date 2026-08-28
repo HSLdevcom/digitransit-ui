@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { IntlProvider } from 'react-intl';
 import { render } from '@testing-library/react';
 import { ConfigProvider } from '../../../app/configurations/ConfigContext';
+import { TimeProvider } from '../../../app/hooks/TimeContext';
 import { mockContext } from './mock-context';
 import { configShape } from '../../../app/util/shapes';
 
@@ -26,9 +27,11 @@ export default function TestProviders({
   return (
     <IntlProvider locale={locale} messages={messages}>
       <ConfigProvider value={config || mockContext.config}>
-        <RouterContext.Provider value={routerCtx}>
-          {children}
-        </RouterContext.Provider>
+        <TimeProvider>
+          <RouterContext.Provider value={routerCtx}>
+            {children}
+          </RouterContext.Provider>
+        </TimeProvider>
       </ConfigProvider>
     </IntlProvider>
   );

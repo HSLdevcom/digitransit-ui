@@ -9,7 +9,6 @@ import { Component as RouteAlertsContainer } from '../../../app/component/routep
 describe('<RouteAlertsContainer />', () => {
   it('should indicate that there are no alerts if the route has no alerts nor canceled stoptimes', () => {
     const props = {
-      currentTime: 1558599526,
       route: {
         gtfsId: 'HSL:1063',
         mode: 'BUS',
@@ -35,7 +34,9 @@ describe('<RouteAlertsContainer />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />);
+    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
+      currentTime: 1558599526,
+    });
     expect(wrapper.find(AlertList).props()).to.deep.equal({
       cancelations: [],
       serviceAlerts: [],
@@ -45,7 +46,6 @@ describe('<RouteAlertsContainer />', () => {
 
   it('should indicate that there are cancelations if there are canceled stoptimes for the selected pattern', () => {
     const props = {
-      currentTime: 1558599526,
       route: {
         gtfsId: 'HSL:1063',
         mode: 'BUS',
@@ -84,13 +84,14 @@ describe('<RouteAlertsContainer />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />);
+    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
+      currentTime: 1558599526,
+    });
     expect(wrapper.find(AlertList).prop('cancelations')).to.have.lengthOf(1);
   });
 
   it('should indicate that there are service alerts', () => {
     const props = {
-      currentTime: 1558599526,
       route: {
         gtfsId: 'HSL:2335',
         color: null,
@@ -114,7 +115,9 @@ describe('<RouteAlertsContainer />', () => {
         trips: [],
       },
     };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />);
+    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
+      currentTime: 1558599526,
+    });
     expect(wrapper.find(AlertList).prop('serviceAlerts')).to.have.lengthOf(1);
   });
 });

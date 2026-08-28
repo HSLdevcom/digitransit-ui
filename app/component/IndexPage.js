@@ -47,6 +47,7 @@ import {
 } from '../action/PositionActions';
 import FavouriteStore from '../store/FavouriteStore';
 import { useConfigContext } from '../configurations/ConfigContext';
+import { useCurrentTime } from '../hooks/TimeContext';
 import TrafficNowLinkNew from './trafficnow/TrafficNowLink';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
@@ -58,6 +59,7 @@ function IndexPage(props, context) {
   const intl = useIntl();
   const { match, router } = useRouter();
   const config = useConfigContext();
+  const currentTime = useCurrentTime();
   const { colors, fontWeights, language, iconModeSet } = config;
   const { executeAction } = context;
 
@@ -215,7 +217,7 @@ function IndexPage(props, context) {
           );
 
     const alertsContext = {
-      currentTime: props.currentTime,
+      currentTime,
       getModesWithAlerts,
       feedIds: config.feedIds,
     };
@@ -455,7 +457,6 @@ IndexPage.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   origin: locationShape.isRequired,
   destination: locationShape.isRequired,
-  currentTime: PropTypes.number.isRequired,
   query: PropTypes.object.isRequired, // eslint-disable-line
   favouriteModalAction: PropTypes.string,
   fromMap: PropTypes.string,
@@ -485,13 +486,7 @@ const IndexPageWithBreakpoint = withBreakpoint(Index);
 
 const IndexPageWithStores = connectToStores(
   IndexPageWithBreakpoint,
-  [
-    'OriginStore',
-    'DestinationStore',
-    'TimeStore',
-    'PositionStore',
-    'FavouriteStore',
-  ],
+  ['OriginStore', 'DestinationStore', 'PositionStore', 'FavouriteStore'],
   (context, props) => {
     const origin = context.getStore('OriginStore').getOrigin();
     const destination = context.getStore('DestinationStore').getDestination();
@@ -509,7 +504,6 @@ const IndexPageWithStores = connectToStores(
     }
     newProps.origin = origin;
     newProps.destination = destination;
-    newProps.currentTime = context.getStore('TimeStore').getCurrentTime();
     newProps.favouriteStatus = context.getStore('FavouriteStore').getStatus();
     newProps.favourites = context.getStore('FavouriteStore').getFavourites();
     // define itinerary search time & arriveBy
