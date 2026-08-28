@@ -24,7 +24,7 @@ import { splitGtfsId } from '../../util/gtfs';
 
 const POLL_INTERVAL_MS = 60 * 1000;
 
-const buildAlertsFingerprint = alerts =>
+export const buildAlertsFingerprint = alerts =>
   alerts
     .map(
       a =>
