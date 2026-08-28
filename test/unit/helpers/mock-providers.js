@@ -42,6 +42,9 @@ class LegacyContextProvider extends React.Component {
     if (this.props.match) {
       ctx.match = this.props.match;
     }
+    if (this.props.router) {
+      ctx.router = this.props.router;
+    }
     return ctx;
   }
 
@@ -54,6 +57,7 @@ LegacyContextProvider.childContextTypes = {
   config: PropTypes.object,
   intl: PropTypes.object,
   match: matchShape,
+  router: routerShape,
   getStore: PropTypes.func,
   executeAction: PropTypes.func,
 };
@@ -64,6 +68,7 @@ LegacyContextProvider.propTypes = {
   locale: PropTypes.string,
   messages: PropTypes.object,
   match: matchShape,
+  router: routerShape,
   getStore: PropTypes.func,
   executeAction: PropTypes.func,
 };
@@ -89,6 +94,7 @@ export default function TestProviders({
     <LegacyContextProvider
       config={config}
       match={match}
+      router={router}
       locale={locale}
       messages={messages}
     >
@@ -132,7 +138,7 @@ export function renderWithProviders(ui, opts = {}) {
   const {
     config = mockContext.config,
     match = mockContext.match,
-    router,
+    router = mockContext.router,
     locale,
     messages,
     currentTime,

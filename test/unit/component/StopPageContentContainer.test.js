@@ -1,9 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-
-import { mockMatch, mockRouter } from '../helpers/mock-router';
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../helpers/mock-providers';
+import { mockMatch } from '../helpers/mock-router';
 import { Component as StopPageContentContainer } from '../../../app/component/stop/StopPageContentContainer';
 
 describe('<StopPageContentContainer />', () => {
@@ -17,14 +16,14 @@ describe('<StopPageContentContainer />', () => {
         environment: {},
       },
       stop: {},
-      router: mockRouter,
       match: mockMatch,
     };
-    const wrapper = shallowWithIntl(<StopPageContentContainer {...props} />, {
-      context: { config: { CONFIG: 'default' } },
-      currentTime: 0,
-    });
-
-    expect(wrapper.find('.stop-no-departures-container')).to.have.lengthOf(1);
+    const { container } = renderWithProviders(
+      <StopPageContentContainer {...props} />,
+      { currentTime: 0 },
+    );
+    expect(
+      container.querySelector('.stop-no-departures-container'),
+    ).to.not.equal(null);
   });
 });

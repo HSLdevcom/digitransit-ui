@@ -1,8 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
-
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../helpers/mock-providers';
 import { Component as StopPageMap } from '../../../app/component/map/StopPageMap';
 
 describe('<StopPageMap />', () => {
@@ -14,8 +13,11 @@ describe('<StopPageMap />', () => {
       },
       routes: [],
       stop: null,
+      mapLayers: { stop: {}, terminal: {} },
+      mapLayerOptions: {},
+      locationState: { hasLocation: false },
     };
-    const wrapper = shallowWithIntl(<StopPageMap {...props} />);
-    expect(wrapper.find('.map').length).to.equal(0);
+    const { container } = renderWithProviders(<StopPageMap {...props} />);
+    expect(container.querySelector('.map')).to.equal(null);
   });
 });
