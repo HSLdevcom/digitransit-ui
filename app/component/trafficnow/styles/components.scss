@@ -48,6 +48,95 @@
 }
 
 // Route badges, departure badges, badge groups
+
+// On mobile the sticky filters button occupies top: 0; shift banner below it
+.disruptions--mobile .disruptions-update-banner-anchor {
+  top: calc(var(--space-m) * 2 + 44px);
+}
+
+// Zero-height sticky anchor: sticks without taking up any flow space
+.disruptions-update-banner-anchor {
+  position: sticky;
+  top: 0;
+  height: 0;
+  overflow: visible;
+  z-index: 2;
+}
+
+.disruptions-update-banner {
+  position: absolute;
+  top: var(--space-xs);
+  left: 0;
+  right: 0;
+  max-width: 380px;
+  margin-inline: auto;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-m);
+  padding: var(--space-fixed-xs) var(--space-fixed-s) var(--space-fixed-xs)
+    var(--space-fixed-s);
+  background-color: $white;
+  border: 1px solid $light-gray;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 8px 0 var(--color-shadow-weak);
+  animation: disruptions-update-banner-in 0.5s cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
+
+  &__text {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    color: $black;
+    flex: 1;
+
+    .icon-container {
+      color: $theme-secondary-color;
+      fill: $theme-secondary-color;
+      display: flex;
+      align-items: center;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  &__action {
+    appearance: none;
+    background-color: $theme-secondary-color;
+    border: none;
+    color: $white;
+    border-radius: var(--radius-pill);
+    padding: var(--space-xs) var(--space-m);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: darken($theme-secondary-color, 10%);
+    }
+  }
+}
+
+@keyframes disruptions-update-banner-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .badges {
   display: flex;
   flex-wrap: wrap;
