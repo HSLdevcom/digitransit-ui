@@ -78,6 +78,7 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 - Unit tests (mocha, files under `test/unit/**/*.test.js`, mirrors `app/` structure e.g.
   `test/unit/component/...`, `test/unit/store/...`, `test/unit/configurations/...`). This setup is
   currently under refactoring — verify commands against `package.json` if they seem out of date:
+  - For new React component tests, prefer **React Testing Library** and test components from the user's perspective rather than relying on implementation details.
   - Run all: `yarn test-unit` (runs app + workspace `store`/`component` package tests).
   - Run just the app suite: `yarn test-unit:app`.
   - Run a single test by name (grep on describe/it or filename stem):
