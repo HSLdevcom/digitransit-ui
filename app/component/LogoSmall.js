@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useConfigContext } from '../configurations/ConfigContext';
 
-const LogoSmall = ({ logo, title }, { config }) => {
+const LogoSmall = ({ logo, title }) => {
+  const config = useConfigContext();
   if (config.textLogo && !logo) {
     return (
       <span className="title" role="heading" aria-level="1">
@@ -27,17 +29,6 @@ const LogoSmall = ({ logo, title }, { config }) => {
 LogoSmall.propTypes = {
   logo: PropTypes.string,
   title: PropTypes.node,
-};
-
-LogoSmall.defaultProps = {
-  logo: undefined,
-  title: undefined,
-};
-
-LogoSmall.contextTypes = {
-  config: PropTypes.shape({
-    textLogo: PropTypes.bool.isRequired,
-  }).isRequired,
 };
 
 export default LogoSmall;
