@@ -5,9 +5,27 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 
 ## Directory structure
 
-- `app/` — client+server shared source: `action/` (Flux actions), `component/` (Views/Containers),
-  `store/` (Flux stores), `configurations/` (per-region config), `translations/` (i18n),
-  `util/`, `hooks/`, `__generated__/` (Relay codegen, don't hand-edit).
+- `app/` — client+server shared source, entry points and route trees at the top level:
+  `app.js` (fluxible app/store wiring), `client.js` (browser entry, farce/found router bootstrap),
+  `server.js` (SSR entry), `config.js` (server-side config resolution/merging by host),
+  `routes.js` / `routeRoutes.js` / `stopRoutes.js` (found + Relay route-tree definitions for the
+  front page, route pages, and stop pages respectively), `constants.js`, `meta.js` (page
+  metadata), `i18n.js`, `buildInfo.js` (generated build stamp, don't hand-edit). Subfolders:
+  - `component/` — Has topic subfolders
+    for larger features: `itinerary/`, `map/`, `stop/`, `routepage/`, `nearyou/`, `trafficnow/`
+    (has its own `README.md`), `embedded/`, `visual/`, `icon/`, and `__generated__/` (Relay codegen).
+  - `action/` — Flux action creators (one file per domain, e.g. `FavouriteActions.js`).
+  - `store/` — Flux stores (one file per domain, mirrors `action/`), plus `localStorage.js` /
+    `sessionStorage.js` persistence helpers.
+  - `hooks/` — shared React hooks; small today but growing, since new code should prefer
+    hooks-based state over Flux (see Architecture below).
+  - `configurations/` — `config.default.js` plus one `config.<region>.js` per deployment, and
+    `ConfigContext.js` (React context provider for config).
+  - `util/` — pure helper modules (date/fare/color/analytics/etc.), plus its own `__generated__/`
+    for Relay fragments used by utils.
+  - `translations/` — one file per locale (`fi.js`, `en.js`, `sv.js`, ...); keep sorted via
+    `scripts/sort-translations.mjs` (`yarn format` runs this).
+  - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
 - `server/` — Express SSR server.
 - `test/` — `unit/` (mocha, mirrors `app/`) and `e2e/` (Jest + Playwright visual tests).
 - `scripts/` — dev helper scripts (`ui.sh`, `sort-translations.mjs`, `contextHelper.js`,
@@ -71,10 +89,6 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 
 ## Architecture (see `docs/Architecture.md`, `docs/Navigation.md`)
 
-- Feature-specific design docs live next to their code, e.g.
-  `app/component/trafficnow/README.md` (disruptions/cancellations feature) — check for one before
-  making non-trivial changes in a feature directory, and keep it in sync with your changes.
-
 Data flows into components via two separate mechanisms — know which one a piece of data comes
 from before touching it:
 
@@ -102,10 +116,7 @@ Three component categories (naming is meaningful, not just style — follow it f
 
 Other structural notes:
 
-- `config.default.js` holds shared config defaults each `config.<region>.js` extends/overrides;
-  `ConfigContext.js` provides config via React context.
-- `server/` also handles config-merging by host header via `BASE_CONFIG`; `app/client.js` /
-  `app/app.js` are the client entry points.
+- `server/` also handles config-merging by host header via `BASE_CONFIG` (see `app/config.js`).
 - The `digitransit-*` workspace packages are consumed by the main app but built/versioned
   independently — treat them like semi-external dependencies with their own `CONTRIBUTING.md`.
 
