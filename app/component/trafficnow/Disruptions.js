@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
@@ -49,7 +49,6 @@ export function getCanceledModes(cancelationsByMode, feedIds) {
 export default function Disruptions() {
   const breakpoint = useBreakpoint();
   const config = useConfigContext();
-  const ref = useRef();
   const { router } = useRouter();
   const { selectedFilters } = useFilterContext();
 
@@ -107,10 +106,7 @@ export default function Disruptions() {
     { fetchKey },
   );
 
-  const canceledModes = useMemo(
-    () => getCanceledModes(cancelationsByMode, feedIds),
-    [cancelationsByMode, feedIds],
-  );
+  const canceledModes = getCanceledModes(cancelationsByMode, feedIds);
 
   // Capture fingerprint of the currently displayed alerts after each (re)load
   useEffect(() => {
@@ -176,32 +172,29 @@ export default function Disruptions() {
       ? []
       : filterCanceledModes(canceledModes, selectedFilters);
 
-  const disruptions = useMemo(
-    () => filterAndSortAlerts(alerts, selectedFilters),
-    [alerts, selectedFilters],
-  );
+  const disruptions = filterAndSortAlerts(alerts, selectedFilters);
 
-  const disruptionCards = useMemo(
-    () => buildDisruptionCards(disruptions, selectedFilters, config),
-    [disruptions, selectedFilters.vehicleModes, config],
+  const disruptionCards = buildDisruptionCards(
+    disruptions,
+    selectedFilters,
+    config,
   );
 
   const mobile = breakpoint !== 'large';
 
-  const noResults = !disruptions.length && !canceledModes.length;
+  const noResults = !disruptions.length && !canceledModesFiltered.length;
 
   const resultAmount = canceledModesFiltered.length + disruptionCards.length;
 
   return (
     <div
-      ref={ref}
       className={cx('disruptions', {
         'disruptions--mobile': mobile,
       })}
     >
       {hasUpdates && (
         <div className="disruptions-update-banner-anchor">
-          <div className="disruptions-update-banner">
+          <div className="disruptions-update-banner" role="status">
             <span className="disruptions-update-banner__text">
               <Icon img="icon_update" />
               <FormattedMessage id="disruptions-update-available" />
