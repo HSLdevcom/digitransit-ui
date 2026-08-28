@@ -1,35 +1,28 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { IntlProvider } from 'react-intl';
+import { fireEvent } from '@testing-library/react';
+import { renderWithProviders } from './helpers/mock-providers';
 import Checkbox from '../../app/component/Checkbox';
-
-const renderWithIntl = (ui, messages = {}) =>
-  render(
-    <IntlProvider locale="en" messages={messages}>
-      {ui}
-    </IntlProvider>,
-  );
 
 describe('<Checkbox />', () => {
   it('should render a checkbox', () => {
-    const { container } = renderWithIntl(<Checkbox onChange={() => {}} />);
+    const { container } = renderWithProviders(<Checkbox onChange={() => {}} />);
     expect(container.querySelector('input[type="checkbox"]')).to.not.equal(
       null,
     );
   });
 
   it('should show the given label', () => {
-    const { container } = renderWithIntl(
+    const { container } = renderWithProviders(
       <Checkbox labelId="citybike" onChange={() => {}} showLabel />,
-      { citybike: 'City bike' },
+      { messages: { citybike: 'City bike' } },
     );
     expect(container.textContent).to.include('City bike');
   });
 
   it('Should work also without labelId', () => {
-    const { container } = renderWithIntl(
+    const { container } = renderWithProviders(
       <Checkbox
         defaultMessage="ei tarvitse kääntää"
         onChange={() => {}}
@@ -41,7 +34,7 @@ describe('<Checkbox />', () => {
 
   it('should invoke onChange', () => {
     let wasCalled = false;
-    const { container } = renderWithIntl(
+    const { container } = renderWithProviders(
       <Checkbox
         onChange={() => {
           wasCalled = true;
@@ -54,7 +47,7 @@ describe('<Checkbox />', () => {
 
   it('should not invoke onChange when disabled', () => {
     let wasCalled = false;
-    const { container } = renderWithIntl(
+    const { container } = renderWithProviders(
       <Checkbox
         disabled
         onChange={() => {
@@ -68,7 +61,7 @@ describe('<Checkbox />', () => {
 
   it('wrapping element should mimic a checkbox event on keypress', () => {
     let receivedChecked;
-    const { container } = renderWithIntl(
+    const { container } = renderWithProviders(
       <Checkbox
         checked
         onChange={e => {

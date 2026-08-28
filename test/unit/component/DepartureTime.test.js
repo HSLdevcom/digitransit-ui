@@ -1,20 +1,9 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { IntlProvider } from 'react-intl';
-import { ConfigProvider } from '../../../app/configurations/ConfigContext';
+import { renderWithProviders } from '../helpers/mock-providers';
 import DepartureTime, {
   fromStopTime,
 } from '../../../app/component/routepage/DepartureTime';
 import { RealtimeStateType } from '../../../app/constants';
-
-const renderWithProviders = (ui, config) =>
-  render(
-    <IntlProvider locale="en" messages={{}}>
-      <ConfigProvider value={{ CONFIG: 'default', URL: {}, ...config }}>
-        {ui}
-      </ConfigProvider>
-    </IntlProvider>,
-  );
 
 describe('<DepartureTime />', () => {
   describe('fromStopTime', () => {
@@ -47,7 +36,7 @@ describe('<DepartureTime />', () => {
       showCancelationIcon: true,
     };
     const { container } = renderWithProviders(<DepartureTime {...props} />, {
-      minutesToDepartureLimit: 2,
+      config: { CONFIG: 'default', URL: {}, minutesToDepartureLimit: 2 },
     });
     expect(container.querySelector('.caution')).to.not.equal(null);
   });
