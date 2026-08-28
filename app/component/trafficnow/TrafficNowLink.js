@@ -17,17 +17,16 @@ const TrafficNowLink = () => {
           color={themeColor}
           height={1.5}
           width={1.5}
-          colorAsFillOnly={false}
         />
         <div className="traffic-now__link__left-column-body">
           <FormattedMessage
             id="traffic-now_link"
-            defaultValue="Services now"
+            defaultMessage="Services now"
             tagName="h2"
           />
           <FormattedMessage
             id="traffic-now_link-description"
-            defaultValue="See changes and disruptions"
+            defaultMessage="See changes and disruptions"
             tagName="p"
           />
         </div>
