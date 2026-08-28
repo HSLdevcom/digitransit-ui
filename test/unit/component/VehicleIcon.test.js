@@ -1,6 +1,5 @@
 import React from 'react';
-
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { render } from '@testing-library/react';
 import VehicleIcon from '../../../app/component/VehicleIcon';
 
 describe('<VehicleIcon />', () => {
@@ -10,9 +9,8 @@ describe('<VehicleIcon />', () => {
       useLargeIcon: true,
       vehicleNumber: 'P',
     };
-    const wrapper = shallowWithIntl(<VehicleIcon {...props} />);
-
-    expect(wrapper.find('use').at(0).prop('xlinkHref')).to.equal(
+    const { container } = render(<VehicleIcon {...props} />);
+    expect(container.querySelector('use').getAttribute('xlink:href')).to.equal(
       '#icon_vehicle-live-marker',
     );
   });
@@ -24,13 +22,11 @@ describe('<VehicleIcon />', () => {
         vehicleNumber: '32',
         useLargeIcon: true,
       };
-      const wrapper = shallowWithIntl(<VehicleIcon {...props} />);
-
-      expect(wrapper.find('use').at(0).prop('xlinkHref')).to.equal(
-        '#icon_vehicle-live-marker',
-      );
-
-      expect(wrapper.find('tspan').text()).to.equal('32');
+      const { container } = render(<VehicleIcon {...props} />);
+      expect(
+        container.querySelector('use').getAttribute('xlink:href'),
+      ).to.equal('#icon_vehicle-live-marker');
+      expect(container.querySelector('tspan').textContent).to.equal('32');
     });
 
     it('should use right image when useLargeIcon is false', () => {
@@ -38,11 +34,10 @@ describe('<VehicleIcon />', () => {
         rotate: 180,
         vehicleNumber: 'K',
       };
-      const wrapper = shallowWithIntl(<VehicleIcon {...props} />);
-
-      expect(wrapper.find('use').prop('xlinkHref')).to.equal(
-        '#icon_all-vehicles-small',
-      );
+      const { container } = render(<VehicleIcon {...props} />);
+      expect(
+        container.querySelector('use').getAttribute('xlink:href'),
+      ).to.equal('#icon_all-vehicles-small');
     });
   });
 });

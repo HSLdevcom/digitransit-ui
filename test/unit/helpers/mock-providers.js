@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { IntlProvider } from 'react-intl';
 import { render } from '@testing-library/react';
 import { ConfigProvider } from '../../../app/configurations/ConfigContext';
-import { TimeProvider } from '../../../app/hooks/TimeContext';
+import { TimeProvider, TimeContext } from '../../../app/hooks/TimeContext';
 import { mockContext } from './mock-context';
 import { configShape } from '../../../app/util/shapes';
 
@@ -16,6 +16,7 @@ export default function TestProviders({
   router,
   locale = 'en',
   messages = {},
+  currentTime,
 }) {
   const routerCtx = useMemo(
     () => ({
@@ -24,14 +25,21 @@ export default function TestProviders({
     }),
     [match, router],
   );
+  const inner = (
+    <RouterContext.Provider value={routerCtx}>
+      {children}
+    </RouterContext.Provider>
+  );
   return (
     <IntlProvider locale={locale} messages={messages}>
       <ConfigProvider value={config || mockContext.config}>
-        <TimeProvider>
-          <RouterContext.Provider value={routerCtx}>
-            {children}
-          </RouterContext.Provider>
-        </TimeProvider>
+        {currentTime !== undefined ? (
+          <TimeContext.Provider value={currentTime}>
+            {inner}
+          </TimeContext.Provider>
+        ) : (
+          <TimeProvider>{inner}</TimeProvider>
+        )}
       </ConfigProvider>
     </IntlProvider>
   );
@@ -44,6 +52,7 @@ TestProviders.propTypes = {
   router: routerShape,
   locale: PropTypes.string,
   messages: PropTypes.objectOf(PropTypes.string),
+  currentTime: PropTypes.number,
 };
 
 /**
@@ -51,7 +60,15 @@ TestProviders.propTypes = {
  * @param {{ config?: object, match?: object, router?: object, locale?: string, messages?: object }} opts
  */
 export function renderWithProviders(ui, opts = {}) {
-  const { config, match, router, locale, messages, ...renderOpts } = opts;
+  const {
+    config,
+    match,
+    router,
+    locale,
+    messages,
+    currentTime,
+    ...renderOpts
+  } = opts;
   const Wrapper = ({ children }) => (
     <TestProviders
       config={config}
@@ -59,6 +76,7 @@ export function renderWithProviders(ui, opts = {}) {
       router={router}
       locale={locale}
       messages={messages}
+      currentTime={currentTime}
     >
       {children}
     </TestProviders>

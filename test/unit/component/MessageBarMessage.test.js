@@ -1,21 +1,21 @@
 import React from 'react';
-
+import { renderWithProviders } from '../helpers/mock-providers';
 import MessageBarMessage from '../../../app/component/MessageBarMessage';
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import TruncatedMessage from '../../../app/component/TruncatedMessage';
 
 describe('<MessageBarMessage />', () => {
+  const opts = { config: { CONFIG: 'hsl', URL: {}, showAlertHeader: true } };
+
   it('should not render tag "a" if the href is missing', () => {
     const props = {
       content: [{ type: 'a', content: 'This is a link', href: undefined }],
       breakpoint: 'small',
       onShowMore: () => {},
     };
-    const context = { config: { showAlertHeader: true } };
-    const wrapper = shallowWithIntl(<MessageBarMessage {...props} />, {
-      context,
-    });
-    expect(wrapper.find('a')).to.have.lengthOf(0);
+    const { container } = renderWithProviders(
+      <MessageBarMessage {...props} />,
+      opts,
+    );
+    expect(container.querySelectorAll('a')).to.have.lengthOf(0);
   });
 
   it('should render tag "h2" for type "heading"', () => {
@@ -25,11 +25,13 @@ describe('<MessageBarMessage />', () => {
       onMaximize: () => {},
       onShowMore: () => {},
     };
-    const context = { config: { showAlertHeader: true } };
-    const wrapper = shallowWithIntl(<MessageBarMessage {...props} />, {
-      context,
-    });
-    expect(wrapper.find('h2').text()).to.equal('This is a header');
+    const { container } = renderWithProviders(
+      <MessageBarMessage {...props} />,
+      opts,
+    );
+    expect(container.querySelector('h2').textContent).to.equal(
+      'This is a header',
+    );
   });
 
   it('should render text for type "text"', () => {
@@ -38,10 +40,12 @@ describe('<MessageBarMessage />', () => {
       breakpoint: 'small',
       onShowMore: () => {},
     };
-    const context = { config: { showAlertHeader: true } };
-    const wrapper = shallowWithIntl(<MessageBarMessage {...props} />, {
-      context,
-    });
-    expect(wrapper.find(TruncatedMessage)).to.have.lengthOf(1);
+    const { container } = renderWithProviders(
+      <MessageBarMessage {...props} />,
+      opts,
+    );
+    expect(container.querySelector('.message-content').textContent).to.include(
+      'This is text',
+    );
   });
 });
