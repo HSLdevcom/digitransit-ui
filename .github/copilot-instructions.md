@@ -23,8 +23,9 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
     `ConfigContext.js` (React context provider for config).
   - `util/` — pure helper modules (date/fare/color/analytics/etc.), plus its own `__generated__/`
     for Relay fragments used by utils.
-  - `translations/` — one file per locale (`fi.js`, `en.js`, `sv.js`, ...); keep sorted via
-    `scripts/sort-translations.mjs` (`yarn format` runs this).
+  - `translations/` — one file per locale (`fi.js`, `en.js`, `sv.js`, ...); `fi.js` is the source
+    of truth, keep sorted via `scripts/sort-translations.mjs` (`yarn format` runs this), and every
+    key must also exist in `en.js`/`sv.js` (enforced by `test/unit/translations.test.js`).
   - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
 - `server/` — Express SSR server.
 - `test/` — `unit/` (mocha, mirrors `app/`) and `e2e/` (Jest + Playwright visual tests).
@@ -68,6 +69,9 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
   check) + `stylelint`.
 - `yarn format` — auto-fixes: sorts translations, `eslint --fix`, prettier styles, stylelint fix.
 - `yarn eslint` / `yarn eslint-fix` for JS only.
+- Husky git hooks: pre-commit runs `lint-staged` (eslint on staged JS, prettier+stylelint on
+  staged scss) and blocks on unresolved merge-conflict markers; pre-push runs the full
+  `yarn run test-unit` suite, so pushes can be slow or rejected if unit tests fail.
 
 ## Tests
 
