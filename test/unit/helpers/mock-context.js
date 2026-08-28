@@ -34,6 +34,7 @@ export const mockContext = {
     removeListener: noop,
     getRoutingSettings: () => ({}),
     isFavourite: noop,
+    getStatus: () => 'ready',
     getUser: () => ({}),
     storeFavourites: noop,
   }),
