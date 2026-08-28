@@ -107,7 +107,6 @@ const TrafficNow = () => {
                       onClose={() => setShowFiltersModal(false)}
                     />
                     <Button
-                      className="traffic-now__filters-button"
                       size="m"
                       expand
                       variant="primary"
