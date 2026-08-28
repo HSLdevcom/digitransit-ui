@@ -23,7 +23,8 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 
 ## Setup & build
 
-- Requires Node >= 24.14.1 and Yarn 4.13.0 (`corepack enable`). Also needs `watchman`.
+- Requires the Node version from `engines.node` and the Yarn version from `packageManager` in
+  `package.json` (`corepack enable`). Also needs `watchman`.
 - `yarn install && yarn setup` — installs deps and builds the `digitransit-*` workspace packages
   (components/search-util/store/util) that live under `digitransit-component/`,
   `digitransit-search-util/`, `digitransit-store/`, `digitransit-util/`. **After editing any file
@@ -53,7 +54,8 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 ## Tests
 
 - Unit tests (mocha, files under `test/unit/**/*.test.js`, mirrors `app/` structure e.g.
-  `test/unit/component/...`, `test/unit/store/...`, `test/unit/configurations/...`):
+  `test/unit/component/...`, `test/unit/store/...`, `test/unit/configurations/...`). This setup is
+  currently under refactoring — verify commands against `package.json` if they seem out of date:
   - Run all: `yarn test-unit` (runs app + workspace `store`/`component` package tests).
   - Run just the app suite: `yarn test-unit:app`.
   - Run a single test by name (grep on describe/it or filename stem):
@@ -80,9 +82,12 @@ from before touching it:
   Fragments live alongside components/routes and generated artifacts land in `app/__generated__`
   (do not hand-edit generated files; edit `.js`/route files and rerun relay-compiler via `yarn dev`
   or `yarn relay`).
-- **Flux (fluxible)** — used for everything else (app/UI state, favourites, position, search
-  history). Actions in `app/action/*Actions.js`, stores in `app/store/*Store.js`. Components read
-  store state via `connectToStores` HOCs ("StoreConnectors", see below).
+- **Flux (fluxible)** — legacy mechanism for everything else (app/UI state, favourites, position,
+  search history). Actions in `app/action/*Actions.js`, stores in `app/store/*Store.js`;
+  components read store state via `connectToStores` HOCs ("StoreConnectors", see below). Fluxible
+  is being phased out and should not be used for new code — use newer hooks-based alternatives
+  instead, which many functional components already use to fetch/manage this kind of state
+  directly.
 
 Three component categories (naming is meaningful, not just style — follow it for new files):
 
