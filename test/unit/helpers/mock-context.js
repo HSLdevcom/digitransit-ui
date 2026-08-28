@@ -14,7 +14,7 @@ const noop = () => {};
  * their propType requirements.
  */
 export const mockContext = {
-  config,
+  config: { ...config, language: config.defaultLanguage || 'en' },
   executeAction: noop,
   getStore: () => ({
     on: noop,
@@ -30,10 +30,12 @@ export const mockContext = {
       locationingFailed: false,
     }),
     getMessages: () => [],
+    getDuplicateMessageCounter: () => 0,
     removeListener: noop,
     getRoutingSettings: () => ({}),
     isFavourite: noop,
     getUser: () => ({}),
+    storeFavourites: noop,
   }),
   match: mockMatch,
   router: mockRouter,

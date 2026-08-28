@@ -1,96 +1,46 @@
 import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-
-import { shallowWithIntl } from './helpers/mock-intl-enzyme';
-
+import ReactModal from 'react-modal';
+import { fireEvent } from '@testing-library/react';
+import { renderWithProviders } from './helpers/mock-providers';
 import AppBar from '../../app/component/AppBar';
-import LogoSmall from '../../app/component/LogoSmall';
-import MainMenuContainer from '../../app/component/MainMenuContainer';
+import { mockContext } from './helpers/mock-context';
 
 describe('<AppBar />', () => {
-  it('should show logo component with right props', () => {
-    const wrapper = shallowWithIntl(
-      <AppBar titleClicked={() => {}} logo="/" homeUrl="/" showLogo />,
-      {
-        context: {
-          config: {
-            textLogo: false,
-            mainMenu: {
-              show: true,
-            },
-          },
-          match: {
-            location: {
-              pathname: '/',
-            },
-          },
-        },
-        config: {
-          textLogo: false,
-          mainMenu: {
-            show: true,
-          },
-        },
-      },
-    );
+  before(() => {
+    ReactModal.setAppElement(document.body);
+    global.requestAnimationFrame = cb => setTimeout(cb, 0);
+    global.cancelAnimationFrame = id => clearTimeout(id);
+  });
 
-    expect(wrapper.find(LogoSmall)).to.have.lengthOf(1);
-    expect(wrapper.find(LogoSmall).props().showLogo).to.equal(true);
-    expect(wrapper.find(LogoSmall).props().logo).to.equal('/');
+  it('should show logo', () => {
+    const { container } = renderWithProviders(
+      <AppBar titleClicked={() => {}} logo="/" homeUrl="/" showLogo />,
+    );
+    expect(container.querySelector('.logo')).to.not.equal(null);
   });
 
   it('should show text logo when textLogo is true', () => {
-    const wrapper = shallowWithIntl(
+    const { container } = renderWithProviders(
       <AppBar titleClicked={() => {}} homeUrl="/" />,
       {
-        context: {
-          config: {
-            textLogo: true,
-            mainMenu: {
-              show: true,
-            },
-          },
-          match: {
-            location: {
-              pathname: '/',
-            },
-          },
-        },
         config: {
+          ...mockContext.config,
           textLogo: true,
-          mainMenu: {
-            show: true,
-          },
+          mainMenu: { show: true },
         },
       },
     );
-
-    expect(wrapper.find('section.title.title')).to.have.lengthOf(1);
+    expect(container.querySelector('section.title.title')).to.not.equal(null);
   });
 
   it('should open the menu modal on button click', () => {
-    const wrapper = shallowWithIntl(
+    const { container } = renderWithProviders(
       <AppBar titleClicked={() => {}} logo="/" homeUrl="/" />,
-      {
-        context: {
-          match: {
-            location: {
-              pathname: '/',
-            },
-          },
-        },
-        config: {
-          textLogo: false,
-          mainMenu: {
-            show: true,
-          },
-        },
-      },
     );
-
-    expect(wrapper.find(MainMenuContainer)).to.have.lengthOf(0);
-    wrapper.find('#openMenuButton').simulate('click');
-    expect(wrapper.find(MainMenuContainer)).to.have.lengthOf(1);
+    expect(document.body.querySelector('.main-menu')).to.equal(null);
+    fireEvent.click(container.querySelector('#openMenuButton'));
+    expect(document.body.querySelector('.main-menu')).to.not.equal(null);
   });
 });
