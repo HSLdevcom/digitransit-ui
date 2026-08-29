@@ -21,6 +21,7 @@ import {
 import Icon from '../Icon';
 import Loading from '../Loading';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import importLogo from '../../util/importLogo';
 import useUTMCampaignParams from './hooks/useUTMCampaignParams';
 import { locationToOTP } from '../../util/otpStrings';
 
@@ -94,12 +95,8 @@ const EmbeddedSearch = (props, context) => {
     i18next.changeLanguage(lang).then(() => setReady(true));
 
     if (config.secondaryLogo || config.logo) {
-      import(
-        /* webpackChunkName: "embedded-search" */ `../../configurations/images/${
-          config.secondaryLogo || config.logo
-        }`
-      ).then(l => {
-        setLogo(l.default);
+      importLogo(config.secondaryLogo || config.logo).then(l => {
+        setLogo(l ? l.default : undefined);
         setLoading(false);
       });
     } else {

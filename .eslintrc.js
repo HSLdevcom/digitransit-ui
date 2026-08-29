@@ -64,6 +64,8 @@ module.exports = {
   plugins: ['react', 'compat', 'prettier', 'jsx-a11y'],
   settings: {
     polyfills: ['fetch', 'promises'],
+    // Vite virtual modules that have no resolvable file on disk
+    'import/core-modules': ['virtual:pwa-register'],
   },
   overrides: [
     {

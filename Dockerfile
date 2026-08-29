@@ -47,7 +47,7 @@ COPY . .
 
 RUN \
   yarn run build \
-  && rm -rf node_modules/.cache \
+  && rm -rf node_modules/.cache node_modules/.vite \
   && rm -rf /tmp/Relay*
 
 # Deleting files retrospectively, after having copied/generated them in a previous step, *does not* reduce
@@ -77,7 +77,6 @@ EXPOSE 8080
 
 COPY --from=builder /opt/digitransit-ui/ .
 
-ARG WEBPACK_DEVTOOL=''
 ENV \
   # App specific settings to override when the image is run \
   PORT=8080 \
@@ -96,7 +95,6 @@ ENV \
   # the --title option just sets the harmless property process.title
   # https://nodejs.org/api/cli.html#cli_title_title
   NODE_OPTS='--title=digitransit-ui' \
-  WEBPACK_DEVTOOL=$WEBPACK_DEVTOOL \
   ASSET_URL='' \
   STATIC_MESSAGE_URL=''
 

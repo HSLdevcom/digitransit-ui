@@ -13,9 +13,9 @@ require('@babel/register')({
   ],
 });
 
-const proxy = require('express-http-proxy');
-
 const devhost = '';
+
+const isDev = process.env.NODE_ENV === 'development';
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at:', p, 'reason:', reason);
@@ -67,27 +67,23 @@ function setUpOpenId() {
 }
 
 function setUpStaticFolders() {
-  // First set up a specific path for sw.js
-  if (process.env.ASSET_URL) {
-    const swText = fs.readFileSync(
-      path.join(process.cwd(), '_static', 'sw.js'),
-      { encoding: 'utf8' },
-    );
-    const injectionPoint = swText.indexOf(';') + 2;
-    const swPreText = swText.substring(0, injectionPoint);
-    const swPostText = swText.substring(injectionPoint);
-    const swInjectionText = fs
-      .readFileSync(path.join(process.cwd(), 'server', 'swInjection.js'), {
-        encoding: 'utf8',
-      })
-      .replace(/ASSET_URL/g, process.env.ASSET_URL);
-    const swTextInjected = swPreText + swInjectionText + swPostText;
+  // Serve sw.js with the Workbox precache manifest rewritten to the runtime
+  // ASSET_URL (vite-plugin-pwa emits the placeholder token `__ASSET_URL__/`).
+  // Replaces the old server/swInjection.js splice.
+  if (!isDev) {
+    const swPath = path.join(process.cwd(), '_static', 'sw.js');
+    if (fs.existsSync(swPath)) {
+      const assetUrl = process.env.ASSET_URL || '';
+      const swText = fs
+        .readFileSync(swPath, { encoding: 'utf8' })
+        .replace(/__ASSET_URL__\//g, assetUrl ? `${assetUrl}/` : '');
 
-    app.get('/sw.js', (req, res) => {
-      res.setHeader('Cache-Control', 'public, max-age=0');
-      res.setHeader('Content-type', 'application/javascript; charset=UTF-8');
-      res.send(swTextInjected);
-    });
+      app.get('/sw.js', (req, res) => {
+        res.setHeader('Cache-Control', 'public, max-age=0');
+        res.setHeader('Content-type', 'application/javascript; charset=UTF-8');
+        res.send(swText);
+      });
+    }
   }
 
   const staticFolder = path.join(process.cwd(), '_static');
@@ -113,13 +109,23 @@ function setUpStaticFolders() {
   );
 }
 
-function setUpMiddleware() {
+async function setUpMiddleware() {
   app.use(cookieParser());
   app.use(bodyParser.raw());
-  if (process.env.NODE_ENV === 'development') {
-    const hotloadPort = process.env.HOT_LOAD_PORT || 9000;
-    // proxy for dev-bundle
-    app.use('/proxy/', proxy(`http://localhost:${hotloadPort}/`));
+  if (isDev) {
+    // Vite dev server in middleware mode: serves app modules + HMR in-process,
+    // no separate port, no /proxy/. app/server.js runs the HTML shell through
+    // vite.transformIndexHtml to inject the HMR client + React refresh preamble.
+    const { createServer } = require('vite');
+    const vite = await createServer({
+      configFile: path.join(process.cwd(), 'vite.config.mjs'),
+      root: process.cwd(),
+      base: '/',
+      appType: 'custom',
+      server: { middlewareMode: true },
+    });
+    app.locals.vite = vite;
+    app.use(vite.middlewares);
   }
 }
 
@@ -391,17 +397,20 @@ function fetchCitybikeConfigurations() {
 }
 /* ********* Init ********* */
 
-if (process.env.OIDC_CLIENT_ID) {
-  setUpOpenId();
-}
-setUpStaticFolders();
-setUpMiddleware();
-setUpRoutes();
-setUpErrorHandling();
-Promise.all([
-  setUpAvailableTickets(),
-  collectGeoJsonZones(),
-  fetchCitybikeConfigurations(),
-]).then(startServer);
+(async () => {
+  if (process.env.OIDC_CLIENT_ID) {
+    setUpOpenId();
+  }
+  setUpStaticFolders();
+  await setUpMiddleware();
+  setUpRoutes();
+  setUpErrorHandling();
+  await Promise.all([
+    setUpAvailableTickets(),
+    collectGeoJsonZones(),
+    fetchCitybikeConfigurations(),
+  ]);
+  startServer();
+})();
 
 module.exports.app = app;

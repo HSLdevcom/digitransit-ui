@@ -6,7 +6,7 @@
 //   route-control-panel.scss – .route-tabs, .route-page-control-panel-container
 //   route-schedule.scss      – schedule container, date select, action bar
 
-@import '~@hsl-fi/sass/mixins/screen';
+@import '@hsl-fi/sass/mixins/screen';
 
 // Shared sizing constants — used within this file and by child files.
 $route-schedule-date-height: 36px;
