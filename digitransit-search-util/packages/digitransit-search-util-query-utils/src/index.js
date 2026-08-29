@@ -370,6 +370,21 @@ export function filterStopsAndStationsByMode(stopsToFilter, mode) {
 }
 
 /**
+ * Returns Route objects matching the provided GTFS IDs.
+ * @param {Array.<String>} ids Route GTFS IDs to query.
+ * @param pathOpts an object containing two properties routesPrefix and stopsPrefix to override the URL paths returned
+ *        by this method
+ * @returns {Promise<Array>} A promise resolving to the matching route objects.
+ */
+export function getRoutesByIds(ids, pathOpts) {
+  if (!relayEnvironment || !Array.isArray(ids) || ids.length === 0) {
+    return Promise.resolve([]);
+  }
+  return fetchQuery(relayEnvironment, favouriteRoutesQuery, { ids })
+    .toPromise()
+    .then(data => data.routes.map(r => mapRoute(r, pathOpts)).filter(Boolean));
+}
+/**
  * Returns Favourite Route objects depending on input
  * @param {String} input Search text, if empty no objects are returned
  * @param {*} favourites

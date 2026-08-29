@@ -208,6 +208,27 @@ function filterOldSearches(oldSearches, input, dropLayers) {
   );
 }
 
+function removeStaleRouteHistory(results) {
+  const liveRouteIds = new Set(
+    results
+      .filter(
+        result =>
+          result.type === 'Route' &&
+          result.properties?.layer?.startsWith('route-') &&
+          result.properties.gtfsId,
+      )
+      .map(result => result.properties.gtfsId),
+  );
+  return results.filter(
+    result =>
+      !(
+        result.type === 'OldSearch' &&
+        result.properties?.layer?.startsWith('route-') &&
+        liveRouteIds.has(result.properties.gtfsId)
+      ),
+  );
+}
+
 function hasFavourites(searchContext) {
   const favouriteLocations = searchContext.getFavouriteLocations(
     searchContext.context,
@@ -581,7 +602,11 @@ export function getSearchResults(
   searchResultsPromise.then(() => {
     callback({
       ...searches,
-      results: sortSearchResults(lineRegexp, searches.results, input),
+      results: sortSearchResults(
+        lineRegexp,
+        removeStaleRouteHistory(searches.results),
+        input,
+      ),
     });
   });
 }
