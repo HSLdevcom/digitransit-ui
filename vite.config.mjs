@@ -413,7 +413,7 @@ export default defineConfig({
       input: getBuildInputs(),
       output: {
         entryFileNames: 'js/[name].[hash].js',
-        chunkFileNames: 'js/[hash].js',
+        chunkFileNames: 'js/[name].[hash].js',
         assetFileNames: info => {
           const n = info.names?.[0] || info.name || '';
           return n.endsWith('.css')
@@ -429,8 +429,22 @@ export default defineConfig({
           ) {
             return 'react';
           }
+          // Named long-lived vendor chunks, carved out of what used to be one
+          // ~3.5 MB catch-all so a single dependency bump re-hashes only its own
+          // chunk. Order matters: most specific first.
+          if (/\/node_modules\/lodash-es\//.test(n)) {
+            return 'lodash';
+          }
+          if (/\/node_modules\/luxon\//.test(n)) {
+            return 'luxon';
+          }
+          if (/\/node_modules\/(i18next|react-i18next)\//.test(n)) {
+            return 'i18n';
+          }
+          if (/\/node_modules\/@hsl-fi\//.test(n)) {
+            return 'hsl-fi';
+          }
           if (
-            /\/node_modules\/@hsl-fi\//.test(n) ||
             /\/node_modules\/@digitransit-(component|search-util|util)\//.test(
               n,
             ) ||
@@ -438,6 +452,11 @@ export default defineConfig({
           ) {
             return 'digitransit-components';
           }
+          // No catch-all `vendor` bucket: forcing every remaining node_modules
+          // module into one chunk creates a chunk-level import cycle (TDZ
+          // "Cannot access 'x' before initialization" at runtime). Let Rollup
+          // auto-split the long tail (axios, react-select, …) — it orders cycles
+          // correctly.
           return undefined;
         },
       },

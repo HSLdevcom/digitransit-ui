@@ -1,12 +1,27 @@
 Digitransit-ui is a React based web application. The following bullet points describe the architecture on a overview level and provide guidelines on how the code should be.
 
 # Logic (i.e. HTML + JS in traditional web)
- - Front-end is written using modern JavaScript (ES2015)
- - Use Babel to transpile it into ES5
- - We could provide a different bundle for modern browsers using widely-supported ES6 syntax
- - Use polyfills for older browsers by polyfill-service
+ - Front-end is written using modern JavaScript (ES2015+)
+ - The client is built with [Vite](https://vitejs.dev/) / Rollup (see `vite.config.mjs`)
+ - Two bundles are emitted: a modern ES-module bundle and a `nomodule` legacy bundle for
+   older browsers, produced by `@vitejs/plugin-legacy` from the `browserslist` config
+ - Additionally the SSR server injects a per-User-Agent polyfill `<script>` into the HTML
+   shell via `polyfill-library` (see `getPolyfills` in `app/server.js`)
  - React + JSX
  - Airbnb styleguide for ES6 and React
+
+## Code splitting
+ - The route trees (`app/routes.js`, `app/routeRoutes.js`, `app/stopRoutes.js`) load page
+   components through dynamic `import()`, so each becomes its own lazy chunk and a page
+   downloads only what it renders. Rollup hoists code shared between lazy chunks automatically.
+ - These `import()` calls previously carried `/* webpackChunkName: "stop" | "route" |
+   "itinerary" */` magic comments that merged many components into a few coarse bundles.
+   Those comments were webpack-only and have been removed; Vite/Rollup does not group by them.
+ - Large third-party libraries are pinned to named, long-lived chunks (`react`, `lodash`,
+   `luxon`, `i18n`, `hsl-fi`, `digitransit-components`) via `manualChunks` in `vite.config.mjs`,
+   so a single dependency bump re-hashes only its own chunk. The remaining dependencies are
+   left to Rollup's automatic chunking (a forced catch-all `vendor` chunk introduces a
+   load-order cycle).
 
 ## Additions to Airbnb style guide
  - Use object property spread instead of `Object.assign` when creating new objects: *not* `Object.assign({}, {state}, {a: 1, b: 2})`, but *instead* `{...state, a: 1, b: 2}`

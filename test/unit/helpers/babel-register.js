@@ -49,6 +49,15 @@ Module._load = function interceptEsmPackages(request, ...args) {
       },
     );
   }
+  // app/util/logoAssets.js is a Vite-only module (`import.meta.glob`) with no
+  // equivalent here; the mere presence of `import.meta` makes Node reparse the
+  // Babel-compiled CJS output as ESM ("exports is not defined"). Stub it before
+  // it is ever compiled. importLogo() then resolves every logo to null, which is
+  // fine for the unit tests (they don't assert on rendered logo images).
+  if (/(^|[\\/])logoAssets(\.js)?$/.test(request)) {
+    return { __esModule: true, default: {} };
+  }
+
   // Fallback: stub any other @hsl-fi/* package generically.
   // Exceptions: CJS packages that can be loaded normally.
   if (

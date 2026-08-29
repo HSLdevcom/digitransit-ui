@@ -139,25 +139,23 @@ export function startMqttClient(settings, actionContext) {
   const options = settings.options || [{}];
   const topics = options.map(option => getTopic(option, settings));
 
-  return import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
+  return import('mqtt').then(mqtt => {
     if (settings.gtfsrt) {
-      return import(/* webpackChunkName: "gtfsrt" */ './gtfsrt').then(
-        bindings => {
-          const feedReader = bindings.FeedMessage.read;
-          const credentials =
-            settings.credentials !== undefined ? settings.credentials : {};
-          const client = mqtt.default.connect(settings.mqtt, credentials);
-          client.on('connect', () => client.subscribe(topics));
-          client.on('message', (topic, messages) => {
-            const parsedMessages = parseFeedMQTT(feedReader, messages, topic);
-            parsedMessages.forEach(message => {
-              actionContext.dispatch('RealTimeClientMessage', message);
-            });
+      return import('./gtfsrt').then(bindings => {
+        const feedReader = bindings.FeedMessage.read;
+        const credentials =
+          settings.credentials !== undefined ? settings.credentials : {};
+        const client = mqtt.default.connect(settings.mqtt, credentials);
+        client.on('connect', () => client.subscribe(topics));
+        client.on('message', (topic, messages) => {
+          const parsedMessages = parseFeedMQTT(feedReader, messages, topic);
+          parsedMessages.forEach(message => {
+            actionContext.dispatch('RealTimeClientMessage', message);
           });
+        });
 
-          return { client, topics };
-        },
-      );
+        return { client, topics };
+      });
     }
     const client = mqtt.default.connect(settings.mqtt);
     client.on('connect', () => client.subscribe(topics));
