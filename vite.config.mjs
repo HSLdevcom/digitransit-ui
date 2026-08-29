@@ -12,7 +12,7 @@ import flexbugs from 'postcss-flexbugs-fixes';
 import autoprefixer from 'autoprefixer';
 
 const require = createRequire(import.meta.url);
-const { getBuildInputs } = require('./scripts/build/contextHelper.js');
+const { getBuildInputs } = require('./scripts/viteBuildInputs.js');
 
 const rootDir = import.meta.dirname;
 const r = (...p) => path.resolve(rootDir, ...p);
@@ -270,11 +270,11 @@ export default defineConfig({
         find: /^@digitransit-util\/digitransit-util$/,
         replacement: r('digitransit-util/packages/digitransit-util/index.mjs'),
       },
-      { find: /^net$/, replacement: r('scripts/build/empty.js') },
-      { find: /^tls$/, replacement: r('scripts/build/empty.js') },
       // webpack shimmed the Node stream/Buffer stack `mqtt` v4 needs; use its
       // self-contained browserify UMD bundle instead (lazy-loaded for real-time
-      // vehicle positions in app/util/mqttClient.js).
+      // vehicle positions in app/util/mqttClient.js). `mqtt`'s package.json
+      // `browser` field already maps Node core `net`/`tls` to `false`, which Vite
+      // stubs automatically, so no explicit alias for those is needed.
       { find: /^mqtt$/, replacement: r('node_modules/mqtt/dist/mqtt.min.js') },
     ],
   },

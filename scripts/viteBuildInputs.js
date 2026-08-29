@@ -18,7 +18,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.join(__dirname, '..', '..');
+const ROOT = path.join(__dirname, '..');
 const THEMES_DIR = path.join(ROOT, 'sass', 'themes');
 const SPRITES_DIR = path.join(ROOT, 'static', 'assets');
 
