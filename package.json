@@ -202,7 +202,7 @@
     "suncalc": "1.8.0",
     "supercluster": "^7.1.5",
     "universal-cookie": "7.2.2",
-    "uuid": "8.3.2"
+    "uuid": "14.0.0"
   },
   "peerDependencies": {
     "@octokit/core": ">=3",
