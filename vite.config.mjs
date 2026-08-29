@@ -270,14 +270,6 @@ export default defineConfig({
         find: /^@digitransit-util\/digitransit-util$/,
         replacement: r('digitransit-util/packages/digitransit-util/index.mjs'),
       },
-      {
-        find: 'babel-runtime/helpers/slicedToArray',
-        replacement: r('app/util/slicedToArray.js'),
-      },
-      {
-        find: 'babel-runtime/core-js/get-iterator',
-        replacement: r('app/util/getIterator.js'),
-      },
       { find: /^net$/, replacement: r('scripts/build/empty.js') },
       { find: /^tls$/, replacement: r('scripts/build/empty.js') },
       // webpack shimmed the Node stream/Buffer stack `mqtt` v4 needs; use its

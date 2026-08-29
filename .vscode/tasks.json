@@ -19,7 +19,6 @@
       "dependsOn": ["killNodeOn8080", "insertSubscriptionToken"],
       "options": {
         "env": {
-          "WEBPACK_DEVTOOL": "source-map",
           "API_SUBSCRIPTION_QUERY_PARAMETER_NAME": "digitransit-subscription-key",
           "API_SUBSCRIPTION_HEADER_NAME": "digitransit-subscription-key"
         }

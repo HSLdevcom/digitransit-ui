@@ -1,19 +1,30 @@
 /* eslint-disable no-console */
-const express = require('express');
-const proxy = require('express-http-proxy');
+// Local CDN tester: run `node server/proxyTester.js`, then start the app with
+//   ASSET_URL="http://localhost:9000/proxy" yarn run start
+// Requests to http://localhost:9000/proxy/* are forwarded to the running app.
+const http = require('node:http');
 
-const app = express();
+const PORT = 9000;
+const TARGET = 'http://localhost:8080';
 
-const port = 9000;
-
-app.use('/proxy', proxy('http://localhost:8080/'));
-
-const server = app.listen(port, () =>
-  console.log('Digitransit-ui available on port %d', server.address().port),
-);
-
-/*
-  This file enables toy to test CDN functionality locally by starting with
-  node server/proxyTester.js && \
-  ASSET_URL="http://localhost:9000/proxy" yarn run start
-*/
+http
+  .createServer(async (req, res) => {
+    try {
+      const url = TARGET + req.url.replace(/^\/proxy/, '');
+      const headers = { ...req.headers };
+      delete headers.host;
+      const upstream = await fetch(url, { headers, redirect: 'manual' });
+      const body = Buffer.from(await upstream.arrayBuffer());
+      const out = Object.fromEntries(upstream.headers);
+      // fetch already decoded the body
+      delete out['content-encoding'];
+      delete out['content-length'];
+      res.writeHead(upstream.status, out);
+      res.end(body);
+    } catch (err) {
+      res.writeHead(502).end(String(err));
+    }
+  })
+  .listen(PORT, () =>
+    console.log('proxyTester on http://localhost:%d/proxy', PORT),
+  );
