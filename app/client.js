@@ -13,7 +13,7 @@ import {
   errorMiddleware,
   cacheMiddleware,
 } from 'react-relay-network-modern';
-import OfflinePlugin from 'offline-plugin/runtime';
+import { registerSW } from 'virtual:pwa-register';
 import { Helmet } from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
 import { RelayEnvironmentProvider } from 'react-relay';
@@ -88,13 +88,12 @@ async function init() {
       const axe = require('@axe-core/react');
       axe(React, ReactDOM, 2500, axeConfig);
     } */
-    try {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      require(`../sass/themes/${config.CONFIG}/main.scss`);
-    } catch (error) {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      require('../sass/themes/default/main.scss');
-    }
+    // Vite compiles this to an import.meta.glob over sass/themes/*/main.scss;
+    // the whole block is dropped from the production bundle (theme CSS there
+    // comes from the per-config `<theme>_theme` build entries).
+    import(`../sass/themes/${config.CONFIG}/main.scss`).catch(
+      () => import('../sass/themes/default/main.scss'),
+    );
   }
 
   // Query parameter is used instead of header because browsers send
@@ -104,7 +103,7 @@ async function init() {
     : '';
 
   const { language } = config;
-  const translations = await import(`./translations/${language}`);
+  const translations = await import(`./translations/${language}.js`);
   i18n.changeLanguage(language);
 
   const network = new RelayNetworkLayer([
@@ -235,9 +234,8 @@ async function init() {
   const rootNode = document.getElementById('app');
   ReactDOM.render(content, rootNode, () => {
     if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
-      OfflinePlugin.install({
-        onUpdateReady: () => OfflinePlugin.applyUpdate(),
-      });
+      // registerType: 'autoUpdate' => the new SW skips waiting and reloads
+      registerSW({ immediate: true });
     }
   });
 

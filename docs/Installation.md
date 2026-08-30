@@ -3,7 +3,7 @@
 
 ## Install requirements
 
-You need [Node](https://nodejs.org/), [Yarn](https://yarnpkg.com) (or npm) and watchman.
+You need [Node](https://nodejs.org/) and [Yarn](https://yarnpkg.com) (or npm).
 
 - `node -v` should be >= 24.14.1
   - We recommend that you use [`nvm`](https://github.com/nvm-sh/nvm) to install a specific Node.js version. Optionally, you can also set up [its automatic version switching shell integration](https://github.com/nvm-sh/nvm/tree/e6fa80cb6178ff4e9735265281b5eae811f05f11#deeper-shell-integration).
@@ -26,26 +26,6 @@ generateResolvConf=false
 generateHosts = false
 ```
 
-## Install watchman
-
-### Version
-
-A bit newer version of watchman is now required and 4.9.0 is no longer supported.
-Working versions include at least
-- 20220320.140531.0
-- 20240407.093313.0
-
-### OS X
-
-`brew install watchman`
-
-### Other
-
-It's possible to run prebuilt binaries from [some release](https://github.com/facebook/watchman/releases)
-with [these instructions](https://facebook.github.io/watchman/docs/install.html#prebuilt-binaries-2)
-or in some systems to build the binaries from code following
-[these instructions](https://facebook.github.io/watchman/docs/install.html#-building-from-source).
-
 ## Installation
 - `yarn install && yarn setup`
 
@@ -63,12 +43,10 @@ or in some systems to build the binaries from code following
 After you have changed the files in `digitransit-components` you have to re-run `yarn setup` to build those modules
 and apply the changes.
 
-## Analyse webpack bundle
-- run: `webpack -p --json > digitransit.json`
-- Upload `digitransit.json` to `http://webpack.github.io/analyse/`
-
-Or you can also use this:
-- https://github.com/robertknight/webpack-bundle-size-analyzer
+## Analyse the bundle
+The client is built with [Vite](https://vitejs.dev/). To inspect chunk sizes, add
+[`rollup-plugin-visualizer`](https://github.com/btd/rollup-plugin-visualizer) to `vite.config.mjs`
+`plugins` and run `CONFIG=hsl yarn build` — it writes a treemap report you can open in a browser.
 
 ## Using Git Hooks
 Husky (npm-package) is used for setting up the git hooks (`.git/hooks/`) that will allow custom scripts to be run on the repository.

@@ -34,8 +34,8 @@ RUN \
   && rm -rf /tmp/phantomjs
 
 # Setting $CONFIG causes digitransit-ui to only build assets for *one* instance (see app/configurations).
-# This speeds up the build (because favicons-webpack-plugin is increasingly *very* slow with the nr of
-# configs processed), but the resulting image won't be able to serve other instances.
+# This speeds up the build (favicon + theme-CSS generation scales with the number of configs
+# processed), but the resulting image won't be able to serve other instances.
 ARG CONFIG=''
 ENV CONFIG=${CONFIG}
 
@@ -47,13 +47,13 @@ COPY . .
 
 RUN \
   yarn run build \
-  && rm -rf node_modules/.cache \
+  && rm -rf node_modules/.vite \
   && rm -rf /tmp/Relay*
 
 # Deleting files retrospectively, after having copied/generated them in a previous step, *does not* reduce
 # the size of the resulting (builder) Docker image. But we prevent them from being copied into the final image.
 RUN \
-  rm -rf static docs .cache
+  rm -rf static docs
 
 FROM node:24.14.1-alpine
 LABEL org.opencontainers.image.title="digitransit-ui"
@@ -77,7 +77,6 @@ EXPOSE 8080
 
 COPY --from=builder /opt/digitransit-ui/ .
 
-ARG WEBPACK_DEVTOOL=''
 ENV \
   # App specific settings to override when the image is run \
   PORT=8080 \
@@ -96,7 +95,6 @@ ENV \
   # the --title option just sets the harmless property process.title
   # https://nodejs.org/api/cli.html#cli_title_title
   NODE_OPTS='--title=digitransit-ui' \
-  WEBPACK_DEVTOOL=$WEBPACK_DEVTOOL \
   ASSET_URL='' \
   STATIC_MESSAGE_URL=''
 

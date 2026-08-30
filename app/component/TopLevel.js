@@ -18,6 +18,7 @@ import DesktopView from './DesktopView';
 import ErrorBoundary from './ErrorBoundary';
 import { DesktopOrMobile } from '../util/withBreakpoint';
 import { addAnalyticsEvent, handleUserAnalytics } from '../util/analyticsUtils';
+import importLogo from '../util/importLogo';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -64,10 +65,8 @@ class TopLevel extends React.Component {
   componentDidMount() {
     if (this.context.config.logo) {
       // Logo is not mandatory
-      import(
-        /* webpackChunkName: "main" */ `../configurations/images/${this.context.config.logo}`
-      ).then(logo => {
-        this.setState({ logo: logo.default });
+      importLogo(this.context.config.logo).then(logo => {
+        this.setState({ logo: logo ? logo.default : undefined });
       });
     }
   }
