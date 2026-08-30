@@ -27,6 +27,7 @@ import appCreator from './app';
 import { BUILD_TIME } from './buildInfo';
 import ErrorBoundary from './component/ErrorBoundary';
 import oldParamParser from './util/oldParamParser';
+import { IS_DEV_BUILD } from './util/envUtils';
 import { ClientProvider as ClientBreakpointProvider } from './util/withBreakpoint';
 import IntlBridge from './util/IntlBridge';
 import meta from './meta';
@@ -79,7 +80,7 @@ async function init() {
 
   window.context = context;
 
-  if (process.env.NODE_ENV === 'development') {
+  if (IS_DEV_BUILD) {
     /* if (config.AXE) {
       const axeConfig = {
         resultTypes: ['violations'],
@@ -234,7 +235,7 @@ async function init() {
 
   const rootNode = document.getElementById('app');
   ReactDOM.render(content, rootNode, () => {
-    if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
+    if (!IS_DEV_BUILD && BUILD_TIME !== 'unset') {
       OfflinePlugin.install({
         onUpdateReady: () => OfflinePlugin.applyUpdate(),
       });

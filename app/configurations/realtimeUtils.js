@@ -1,4 +1,4 @@
-import { IS_DEV } from '../util/envUtils';
+import { isDevRunEnv } from '../util/envUtils';
 
 /* eslint-disable prefer-template */
 function defaultRouteSelector(routePageProps) {
@@ -191,7 +191,7 @@ function hslTopicResolver(
   );
 }
 
-const mqttAddress = IS_DEV
+const mqttAddress = isDevRunEnv()
   ? 'wss://dev-mqtt.digitransit.fi'
   : 'wss://mqtt.digitransit.fi';
 const baseMqtt = {

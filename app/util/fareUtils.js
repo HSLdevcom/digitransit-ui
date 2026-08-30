@@ -31,11 +31,7 @@ export const getFaresFromLegs = (legs, config) => {
     fareProducts: leg.fareProducts,
     agency: leg.route.agency,
     price: leg.fareProducts[0].product.price.amount,
-    ticketName:
-      // E2E-testing does not work without this check
-      (process.env.NODE_ENV === 'test' &&
-        leg.fareProducts[0].product.id.split(':')[1]) ||
-      config.fareMapping(leg.fareProducts[0].product.id),
+    ticketName: config.fareMapping(leg.fareProducts[0].product.id),
   }));
 
   // Legs that have empty fares but still have a route, i.e. transit legs
