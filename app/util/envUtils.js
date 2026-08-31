@@ -25,7 +25,6 @@ export const IS_DEV_BUILD = process.env.NODE_ENV === Environment.Development;
  * @returns {boolean}
  */
 export function isDevRunEnv(config) {
-  const value =
-    (config ? config.RUN_ENV : process.env.RUN_ENV) || Environment.Production;
-  return value !== Environment.Production;
+  const value = config ? config.RUN_ENV : process.env.RUN_ENV;
+  return value === Environment.Development;
 }
