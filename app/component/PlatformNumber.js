@@ -8,7 +8,14 @@ import {
   getTrackOrPierOrPlatformTextShort,
 } from '../util/localeUtils';
 
-function PlatformNumber({ number, short, mode, updated, withText, plain }) {
+function PlatformNumber({
+  number,
+  short = true,
+  mode,
+  updated = false,
+  withText = true,
+  plain = false,
+}) {
   const intl = useIntl();
   if (!number) {
     return false;
@@ -60,14 +67,6 @@ PlatformNumber.propTypes = {
   updated: PropTypes.bool,
   withText: PropTypes.bool,
   plain: PropTypes.bool,
-};
-
-PlatformNumber.defaultProps = {
-  number: undefined,
-  short: true,
-  updated: false,
-  withText: true,
-  plain: false,
 };
 
 PlatformNumber.displayName = 'PlatformNumber';

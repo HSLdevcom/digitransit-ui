@@ -1,9 +1,8 @@
 import React from 'react';
-
+import { renderWithProviders } from '../helpers/mock-providers';
 import DepartureTime, {
   fromStopTime,
 } from '../../../app/component/routepage/DepartureTime';
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import { RealtimeStateType } from '../../../app/constants';
 
 describe('<DepartureTime />', () => {
@@ -36,9 +35,9 @@ describe('<DepartureTime />', () => {
       departureTime: 180,
       showCancelationIcon: true,
     };
-    const wrapper = shallowWithIntl(<DepartureTime {...props} />, {
-      context: { config: { minutesToDepartureLimit: 2 } },
+    const { container } = renderWithProviders(<DepartureTime {...props} />, {
+      config: { CONFIG: 'default', URL: {}, minutesToDepartureLimit: 2 },
     });
-    expect(wrapper.find('.caution')).to.have.lengthOf(1);
+    expect(container.querySelector('.caution')).to.not.equal(null);
   });
 });

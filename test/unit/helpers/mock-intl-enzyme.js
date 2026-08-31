@@ -18,9 +18,14 @@ import * as found from 'found';
 import IntlBridge from '../../../app/util/IntlBridge';
 import translations from '../../../app/translations/en';
 import * as ConfigContext from '../../../app/configurations/ConfigContext';
-import { ConfigProvider } from '../../../app/configurations/ConfigContext';
 import TestProviders from './mock-providers';
 import { mockContext } from './mock-context';
+import * as TimeContext from '../../../app/hooks/TimeContext';
+
+// Default currentTime used by shallowWithIntl when no override is given.
+const DEFAULT_MOCK_CURRENT_TIME = 1547464412;
+
+const { ConfigProvider } = ConfigContext;
 
 const mockRelayContext = { environment: {}, variables: {} };
 
@@ -33,6 +38,7 @@ const intlCache = createIntlCache();
 let ownedUseIntlStub = null;
 let ownedConfigContextStub = null;
 let ownedUseRouterStub = null;
+let ownedUseCurrentTimeStub = null;
 
 export function restoreOwnedIntlStub() {
   if (ownedUseIntlStub) {
@@ -50,14 +56,20 @@ export function restoreOwnedContextStubs() {
     ownedUseRouterStub.restore();
     ownedUseRouterStub = null;
   }
+  if (ownedUseCurrentTimeStub) {
+    ownedUseCurrentTimeStub.restore();
+    ownedUseCurrentTimeStub = null;
+  }
 }
 
-function applyContextStubs({ config, match, router } = {}) {
+function applyContextStubs({ config, match, router, currentTime } = {}) {
   const configValue = config || mockContext.config;
   const routerValue = {
     match: match || mockContext.match,
     router: router || mockContext.router,
   };
+  const currentTimeValue =
+    currentTime !== undefined ? currentTime : DEFAULT_MOCK_CURRENT_TIME;
 
   const configAlreadyStubbed =
     typeof ConfigContext.useConfigContext.restore === 'function';
@@ -71,6 +83,16 @@ function applyContextStubs({ config, match, router } = {}) {
   if (!routerAlreadyStubbed) {
     ownedUseRouterStub = sinon.stub(found, 'useRouter').returns(routerValue);
   }
+
+  const useCurrentTimeAlreadyStubbed =
+    typeof TimeContext.useCurrentTime.restore === 'function';
+  if (!useCurrentTimeAlreadyStubbed) {
+    ownedUseCurrentTimeStub = sinon
+      .stub(TimeContext, 'useCurrentTime')
+      .returns(currentTimeValue);
+  } else if (currentTime !== undefined) {
+    TimeContext.useCurrentTime.returns(currentTimeValue);
+  }
 }
 
 export const shallowWithIntl = (
@@ -82,6 +104,7 @@ export const shallowWithIntl = (
     config,
     match,
     router,
+    currentTime,
     ...additionalOptions
   } = {},
 ) => {
@@ -97,7 +120,7 @@ export const shallowWithIntl = (
     }
   }
 
-  applyContextStubs({ config, match, router });
+  applyContextStubs({ config, match, router, currentTime });
 
   return shallow(node, {
     context: { intl, ...context },
@@ -175,16 +198,18 @@ export const mountWithProviders = (
 };
 
 /**
- * Creates a sinon sandbox pre-loaded with stubs for useIntl() and
- * useConfigContext(). Use this instead of shallowWithIntl when individual
- * `it` blocks need to override what the stubs return — for example to test
- * behaviour under a different config flag or locale.
+ * Creates a sinon sandbox pre-loaded with stubs for useIntl(),
+ * useConfigContext() and useCurrentTime(). Use this instead of
+ * shallowWithIntl when individual `it` blocks need to override what the
+ * stubs return — for example to test behaviour under a different config
+ * flag, locale, or currentTime.
  * When no per-test overrides are needed, prefer shallowWithIntl instead.
  *
  * @param {Object} [overrides] - Optional baseline overrides applied to every test in the suite
  * @param {Object} [overrides.intl] - Partial intl mock (merged over the default stub object)
  * @param {Object} [overrides.config] - Partial config (merged over mockContext.config)
- * @returns {{ sandbox: sinon.SinonSandbox, mocks: { intl: object, config: object }, stubs: { useIntl: sinon.SinonStub, useConfigContext: sinon.SinonStub } }}
+ * @param {number} [overrides.currentTime] - Value returned by useCurrentTime()
+ * @returns {{ sandbox: sinon.SinonSandbox, mocks: { intl: object, config: object, currentTime: number }, stubs: { useIntl: sinon.SinonStub, useConfigContext: sinon.SinonStub, useCurrentTime: sinon.SinonStub } }}
  */
 export const createShallowHookSandbox = (overrides = {}) => {
   const sandbox = sinon.createSandbox();
@@ -199,6 +224,10 @@ export const createShallowHookSandbox = (overrides = {}) => {
       ...mockContext.config,
       ...overrides.config,
     },
+    currentTime:
+      overrides.currentTime !== undefined
+        ? overrides.currentTime
+        : DEFAULT_MOCK_CURRENT_TIME,
   };
 
   const stubs = {
@@ -206,6 +235,9 @@ export const createShallowHookSandbox = (overrides = {}) => {
     useConfigContext: sandbox
       .stub(ConfigContext, 'useConfigContext')
       .returns(mocks.config),
+    useCurrentTime: sandbox
+      .stub(TimeContext, 'useCurrentTime')
+      .returns(mocks.currentTime),
   };
 
   return { sandbox, mocks, stubs };

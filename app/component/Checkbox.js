@@ -9,13 +9,13 @@ import { isKeyboardSelectionEvent } from '../util/browser';
 import Icon from './Icon';
 
 const Checkbox = ({
-  large,
-  checked,
-  disabled,
+  large = false,
+  checked = false,
+  disabled = false,
   onChange,
   labelId,
-  defaultMessage,
-  showLabel,
+  defaultMessage = '',
+  showLabel = true,
   title,
   name,
 }) => {
@@ -87,17 +87,6 @@ Checkbox.propTypes = {
   title: PropTypes.string,
   name: PropTypes.string,
   large: PropTypes.bool,
-};
-
-Checkbox.defaultProps = {
-  checked: false,
-  defaultMessage: '',
-  disabled: false,
-  labelId: undefined,
-  showLabel: true,
-  title: undefined,
-  name: undefined,
-  large: false,
 };
 
 export default Checkbox;
