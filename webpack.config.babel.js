@@ -196,6 +196,12 @@ module.exports = {
             '@babel/plugin-syntax-dynamic-import',
             '@babel/plugin-transform-class-properties',
             '@babel/plugin-transform-json-strings',
+            // Webpack 4's bundled acorn parser cannot parse optional chaining
+            // (?.) or nullish coalescing (??) syntax. @babel/preset-env skips
+            // transpiling these for modern browserslist targets, so force
+            // them here regardless of target to keep Webpack 4 happy.
+            '@babel/plugin-transform-optional-chaining',
+            '@babel/plugin-transform-nullish-coalescing-operator',
           ],
         },
       },
@@ -217,6 +223,8 @@ module.exports = {
           plugins: [
             '@babel/plugin-transform-class-properties',
             '@babel/plugin-transform-json-strings',
+            '@babel/plugin-transform-optional-chaining',
+            '@babel/plugin-transform-nullish-coalescing-operator',
           ],
         },
       },
@@ -239,6 +247,8 @@ module.exports = {
             plugins: [
               '@babel/plugin-transform-class-properties',
               '@babel/plugin-transform-json-strings',
+              '@babel/plugin-transform-optional-chaining',
+              '@babel/plugin-transform-nullish-coalescing-operator',
             ],
           },
         },

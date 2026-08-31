@@ -39,6 +39,12 @@ module.exports = function bbl(api) {
       },
     ],
     ['inline-react-svg'],
+    // These packages are bundled by the main app's Webpack 4 build, whose
+    // bundled acorn parser cannot handle optional chaining (?.) or nullish
+    // coalescing (??) syntax. @babel/preset-env skips transpiling these for
+    // modern browserslist targets, so force them here regardless of target.
+    '@babel/plugin-transform-optional-chaining',
+    '@babel/plugin-transform-nullish-coalescing-operator',
   ];
   if (process.env.NODE_ENV === 'production') {
     plugins.push(...productionPlugins);
