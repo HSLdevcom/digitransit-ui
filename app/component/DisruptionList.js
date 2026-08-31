@@ -192,7 +192,6 @@ const DisruptionList = ({
 
 DisruptionList.propTypes = {
   cancelations: PropTypes.arrayOf(alertShape),
-  currentTime: PropTypes.number.isRequired,
   disableScrolling: PropTypes.bool,
   serviceAlerts: PropTypes.arrayOf(alertShape),
 };
