@@ -181,6 +181,10 @@ module.exports = {
             [
               '@babel/preset-env',
               {
+                // No explicit `targets` here: this intentionally inherits
+                // the `browserslist` key from package.json, which is the
+                // single source of truth for supported browsers across
+                // both this config and other tooling (postcss/autoprefixer).
                 modules: false,
               },
             ],
@@ -346,54 +350,11 @@ module.exports = {
   cache: true,
   resolve: {
     extensions: ['.mjs', '.js', '.json'],
-    mainFields: ['browser', 'module', 'jsnext:main', 'main'],
+    mainFields: ['browser', 'module', 'main'],
     alias: {
       lodash: 'lodash-es',
       'lodash.merge': 'lodash-es/merge',
-      'babel-runtime/helpers/slicedToArray': path.join(
-        __dirname,
-        'app/util/slicedToArray',
-      ),
-      'babel-runtime/core-js/get-iterator': path.join(
-        __dirname,
-        'app/util/getIterator',
-      ),
     },
-  },
-  externals: {
-    'babel-runtime/core-js/array/from': 'var Array.from',
-    '../core-js/array/from': 'var Array.from',
-    'babel-runtime/core-js/json/stringify': 'var JSON.stringify',
-    'babel-runtime/core-js/map': 'var Map',
-    'babel-runtime/core-js/object/assign': 'var Object.assign',
-    'babel-runtime/core-js/object/create': 'var Object.create',
-    '../core-js/object/create': 'var Object.create',
-    'babel-runtime/core-js/object/define-property': 'var Object.defineProperty',
-    '../core-js/object/define-property': 'var Object.defineProperty',
-    'babel-runtime/core-js/object/entries': 'var Object.entries',
-    'babel-runtime/core-js/object/freeze': 'var Object.freeze',
-    'babel-runtime/core-js/object/keys': 'var Object.keys',
-    '../core-js/object/get-own-property-descriptor':
-      'var Object.getOwnPropertyDescriptor',
-    'babel-runtime/core-js/object/get-prototype-of':
-      'var Object.getPrototypeOf',
-    '../core-js/object/get-prototype-of': 'var Object.getPrototypeOf',
-    'babel-runtime/core-js/object/set-prototype-of':
-      'var Object.setPrototypeOf',
-    '../core-js/object/set-prototype-of': 'var Object.setPrototypeOf',
-    'babel-runtime/core-js/promise': 'var Promise',
-    '../core-js/symbol': 'var Symbol',
-    '../core-js/symbol/iterator': 'var Symbol.iterator',
-    'babel-runtime/core-js/weak-map': 'var WeakMap',
-
-    'babel-runtime/helpers/extends': 'var Object.assign',
-    'object-assign': 'var Object.assign',
-    'simple-assign': 'var Object.assign',
-
-    'fbjs/lib/fetch': 'var fetch',
-    './fetch': 'var fetch',
-
-    'fbjs/lib/Map': 'var Map',
   },
   devServer: {
     compress: true,
