@@ -53,6 +53,34 @@ const { config } = window;
 const app = appCreator(config);
 const context = app.createContext({ config });
 
+const ContextProvider = provideContext(IntlProvider, {
+  config: configShape,
+});
+
+const AppProviders = props => {
+  const providers = [
+    [ConfigProvider, { value: props.config }],
+    [ClientBreakpointProvider],
+    [
+      ContextProvider,
+      {
+        locale: props.language,
+        messages: props.messages,
+        context: props.context,
+        textComponent: 'span',
+      },
+    ],
+    [IntlBridge],
+    [RelayEnvironmentProvider, { environment: props.environment }],
+    [FavouriteProvider, { context: props.context }],
+    [TimeProvider],
+  ];
+  return providers.reduceRight(
+    (children, [Provider, value]) => <Provider {...value}>{children}</Provider>,
+    props.children,
+  );
+};
+
 const getParams = query => {
   if (!query) {
     return {};
@@ -194,43 +222,28 @@ async function init() {
       });
   }
 
-  const ContextProvider = provideContext(IntlProvider, {
-    config: configShape,
-  });
-
   const content = (
-    <ConfigProvider value={config}>
-      <ClientBreakpointProvider>
-        <ContextProvider
-          locale={language}
-          messages={translations.default[language]}
-          context={context.getComponentContext()}
-          textComponent="span"
-        >
-          <IntlBridge>
-            <RelayEnvironmentProvider environment={environment}>
-              <FavouriteProvider context={context.getComponentContext()}>
-                <TimeProvider>
-                  <ErrorBoundary>
-                    <React.Fragment>
-                      <Helmet
-                        {...meta(
-                          language,
-                          window.location.host,
-                          window.location.href,
-                          config,
-                        )}
-                      />
-                      <Router resolver={resolver} />
-                    </React.Fragment>
-                  </ErrorBoundary>
-                </TimeProvider>
-              </FavouriteProvider>
-            </RelayEnvironmentProvider>
-          </IntlBridge>
-        </ContextProvider>
-      </ClientBreakpointProvider>
-    </ConfigProvider>
+    <AppProviders
+      config={config}
+      language={language}
+      messages={translations.default[language]}
+      context={context.getComponentContext()}
+      environment={environment}
+    >
+      <ErrorBoundary>
+        <React.Fragment>
+          <Helmet
+            {...meta(
+              language,
+              window.location.host,
+              window.location.href,
+              config,
+            )}
+          />
+          <Router resolver={resolver} />
+        </React.Fragment>
+      </ErrorBoundary>
+    </AppProviders>
   );
 
   const rootNode = document.getElementById('app');
