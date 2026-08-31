@@ -236,10 +236,6 @@ const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
           day: activeDates
         }
       }
-      activeDates: trips {
-        serviceId
-        day: activeDates
-      }
     }
   `,
 });

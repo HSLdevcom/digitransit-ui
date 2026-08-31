@@ -25,7 +25,9 @@ describe('<RouteAlertsContainer />', () => {
         canceledTrips: [],
       },
     };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />);
+    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
+      currentTime: 1558599526,
+    });
     expect(wrapper.find(DisruptionList).props()).to.deep.equal({
       cancelations: [],
       serviceAlerts: [],
@@ -58,7 +60,9 @@ describe('<RouteAlertsContainer />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />);
+    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
+      currentTime: 1558599526,
+    });
     expect(wrapper.find(DisruptionList).prop('cancelations')).to.have.lengthOf(
       1,
     );
@@ -66,7 +70,6 @@ describe('<RouteAlertsContainer />', () => {
 
   it('should pass service alerts from the pattern', () => {
     const props = {
-      currentTime: 1558599526,
       route: {
         gtfsId: 'HSL:2335',
         color: null,
@@ -84,7 +87,9 @@ describe('<RouteAlertsContainer />', () => {
         trips: [],
       },
     };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />);
+    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
+      currentTime: 1558599526,
+    });
     expect(wrapper.find(DisruptionList).prop('serviceAlerts')).to.have.lengthOf(
       1,
     );

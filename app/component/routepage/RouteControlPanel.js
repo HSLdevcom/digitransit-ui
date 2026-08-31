@@ -523,6 +523,4 @@ RouteControlPanel.contextTypes = {
   executeAction: PropTypes.func.isRequired,
 };
 
-const connectedComponent = RouteControlPanel;
-
-export { connectedComponent as default, RouteControlPanel as Component };
+export default RouteControlPanel;

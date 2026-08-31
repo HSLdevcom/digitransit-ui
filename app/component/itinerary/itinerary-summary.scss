@@ -394,7 +394,7 @@
             .leg-duration-container {
               float: left;
               display: flex;
-              height: 110%;
+              height: 100%;
               padding-left: 5px;
               padding-right: 3px;
 
@@ -486,6 +486,9 @@
 
         .special-icon {
           height: 1.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         .vehicle-number-container-v {
@@ -502,7 +505,7 @@
 
             color: $white;
             font-size: 15px;
-            padding: 1px 0 0 0;
+            padding: 0;
           }
         }
 
@@ -598,7 +601,23 @@
       text-align: center;
 
       .icon {
-        font-size: 24px;
+        // Matches the height of .bar/.special-icon (1.5rem) so the icon always
+        // scales to fill the full TransitBar height instead of drifting out of
+        // sync with it (e.g. under mobile font-size scaling).
+        font-size: 1.5rem;
+      }
+
+      // Scoped to transit-leg icons (rendered inside .special-icon) only, so
+      // StreetBar's walk/bicycle/etc. icons (plain .icon, no .special-icon
+      // wrapper) aren't affected.
+      .special-icon .icon {
+        // Slightly smaller than the 1.5rem bar/special-icon height so the
+        // icon has a little breathing room to be centered with an even
+        // margin on both the top and the bottom, instead of touching (or,
+        // due to the artwork not being perfectly symmetrical, overflowing)
+        // one of the edges.
+        font-size: calc(1.5rem - 1px);
+        vertical-align: middle;
       }
     }
 

@@ -45,6 +45,7 @@ import {
 import { ConfigProvider } from './configurations/ConfigContext';
 import { FavouriteProvider } from './hooks/FavouriteContext';
 import { preloadBadgeMap } from './util/stopStatusSearchUtils';
+import { TimeProvider } from './hooks/TimeContext';
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
@@ -214,19 +215,21 @@ async function init() {
           <IntlBridge>
             <RelayEnvironmentProvider environment={environment}>
               <FavouriteProvider context={context.getComponentContext()}>
-                <ErrorBoundary>
-                  <React.Fragment>
-                    <Helmet
-                      {...meta(
-                        language,
-                        window.location.host,
-                        window.location.href,
-                        config,
-                      )}
-                    />
-                    <Router resolver={resolver} />
-                  </React.Fragment>
-                </ErrorBoundary>
+                <TimeProvider>
+                  <ErrorBoundary>
+                    <React.Fragment>
+                      <Helmet
+                        {...meta(
+                          language,
+                          window.location.host,
+                          window.location.href,
+                          config,
+                        )}
+                      />
+                      <Router resolver={resolver} />
+                    </React.Fragment>
+                  </ErrorBoundary>
+                </TimeProvider>
               </FavouriteProvider>
             </RelayEnvironmentProvider>
           </IntlBridge>

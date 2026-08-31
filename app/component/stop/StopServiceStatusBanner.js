@@ -1,48 +1,38 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  BusStop,
-  CitybikeStation,
-  Ferry,
-  Metro,
-  Scooter,
-  SpeedtramStop,
-  Stop,
-  TrainStop,
-  TramStop,
-} from '@hsl-fi/icons';
 import Icon from '../Icon';
+import ThemedIcon from '../ThemedIcon';
 import { resolveNoDeparturesBadge } from '../../util/stopStatusUtils';
 import { alertShape } from '../../util/shapes';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import StopScheduleStatus from './StopScheduleStatus';
 
-function getModeStopIcon(mode) {
+function getModeStopIconName(mode) {
   switch (mode) {
     case 'bus':
     case 'bus-express':
     case 'bus-local':
     case 'replacement-bus':
-      return BusStop;
+      return 'BusStop';
     case 'tram':
-      return TramStop;
+      return 'TramStop';
     case 'train':
     case 'rail':
-      return TrainStop;
+      return 'TrainStop';
     case 'subway':
     case 'metro':
-      return Metro;
+      return 'MetroStop';
     case 'ferry':
-      return Ferry;
+      return 'FerryStop';
     case 'citybike':
-      return CitybikeStation;
+      return 'CitybikeStation';
     case 'scooter':
-      return Scooter;
+      return 'ScooterStop';
     case 'speedtram':
-      return SpeedtramStop;
+      return 'SpeedtramStop';
     default:
-      return Stop;
+      return 'GenericStop';
   }
 }
 
@@ -71,7 +61,6 @@ export default function StopServiceStatusBanner({
     config.showStopStatusMarkers,
     noDepartures ? servicesRunningInFuture : true,
   );
-  const ModeIcon = getModeStopIcon(mode);
 
   return (
     <div
@@ -82,10 +71,10 @@ export default function StopServiceStatusBanner({
       }
     >
       <div className="stop-no-departures-icon-wrapper">
-        <ModeIcon
+        <ThemedIcon
+          name={getModeStopIconName(mode)}
           className="stop-no-departures-icon"
-          color={modeColor ? 'custom' : undefined}
-          style={modeColor ? { '--color-icon-custom': modeColor } : undefined}
+          customColor={modeColor}
         />
         {badgeImg && (
           <Icon img={badgeImg} className="stop-no-departures-badge" />

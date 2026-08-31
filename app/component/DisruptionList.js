@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React from 'react';
 import cx from 'classnames';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
@@ -20,6 +19,7 @@ import { useBreakpoint } from '../util/withBreakpoint';
 import Icon from './Icon';
 import { useConfigContext } from '../configurations/ConfigContext';
 import { isToday } from '../util/timeUtils';
+import { useCurrentTime } from '../hooks/TimeContext';
 
 export const EmptyDisruptions = () => {
   const intl = useIntl();
@@ -54,13 +54,13 @@ export const EmptyDisruptions = () => {
 
 const DisruptionList = ({
   cancelations = [],
-  currentTime,
   disableScrolling = false,
   serviceAlerts = [],
 }) => {
   const { match, router } = useRouter();
   const breakpoint = useBreakpoint();
   const intl = useIntl();
+  const currentTime = useCurrentTime();
 
   // if a valid alertId is present in url query, show alert details
   const activeAlert =
@@ -192,17 +192,8 @@ const DisruptionList = ({
 
 DisruptionList.propTypes = {
   cancelations: PropTypes.arrayOf(alertShape),
-  currentTime: PropTypes.number.isRequired,
   disableScrolling: PropTypes.bool,
   serviceAlerts: PropTypes.arrayOf(alertShape),
 };
 
-const connectedComponent = connectToStores(
-  DisruptionList,
-  ['TimeStore'],
-  context => ({
-    currentTime: context.getStore('TimeStore').getCurrentTime(),
-  }),
-);
-
-export { connectedComponent as default, DisruptionList as Component };
+export default DisruptionList;

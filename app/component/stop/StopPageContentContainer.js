@@ -1,7 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { useIntl } from 'react-intl';
 import { matchShape } from 'found';
 import { errorShape, relayShape, stopShape } from '../../util/shapes';
@@ -11,10 +9,13 @@ import { getPrimaryStopMode } from '../../util/modeUtils';
 import { getModeIconColor } from '../../util/colorUtils';
 import StopServiceStatusBanner from './StopServiceStatusBanner';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import { useCurrentTime } from '../../hooks/TimeContext';
 
-function StopPageContent({ stop, relay, currentTime, error, match }) {
+function StopPageContent({ stop, relay, error, match }) {
   const intl = useIntl();
   const config = useConfigContext();
+  const currentTime = useCurrentTime();
+
   if (!stop && error) {
     throw error.message;
   }
@@ -92,7 +93,6 @@ function StopPageContent({ stop, relay, currentTime, error, match }) {
 StopPageContent.propTypes = {
   stop: stopShape.isRequired,
   relay: relayShape.isRequired,
-  currentTime: PropTypes.number.isRequired,
   error: errorShape,
   match: matchShape.isRequired,
 };
@@ -101,10 +101,8 @@ StopPageContent.defaultProps = {
   error: undefined,
 };
 
-const connectedComponent = createRefetchContainer(
-  connectToStores(StopPageContent, ['TimeStore'], ({ getStore }) => ({
-    currentTime: getStore('TimeStore').getCurrentTime(),
-  })),
+const containerComponent = createRefetchContainer(
+  StopPageContent,
   {
     stop: graphql`
       fragment StopPageContentContainer_stop on Stop
@@ -166,4 +164,4 @@ const connectedComponent = createRefetchContainer(
   `,
 );
 
-export { connectedComponent as default, StopPageContent as Component };
+export { containerComponent as default, StopPageContent as Component };

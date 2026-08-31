@@ -584,6 +584,12 @@ const Itinerary = ({
   const itineraryContainerOverflowRef = createRef();
   const [showOverflowIcon, setShowOverflowIcon] = useState(false);
   const [isExpanded, setIsExpanded] = useState(gotFeedback);
+  // Once the feedback box has finished expanding, overflow: hidden is no
+  // longer needed to hide the content mid-animation. Dropping it afterwards
+  // avoids a Firefox rendering bug where the bottom border of .feedback-frame
+  // is clipped by the animated ancestor's overflow when its computed height
+  // is a fractional pixel value.
+  const [feedbackExpandDone, setFeedbackExpandDone] = useState(gotFeedback);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -749,8 +755,16 @@ const Itinerary = ({
                 className={
                   gotFeedback
                     ? ''
-                    : `feedback-animated ${isExpanded ? 'open' : ''}`
+                    : cx('feedback-animated', {
+                        open: isExpanded,
+                        expanded: feedbackExpandDone,
+                      })
                 }
+                onTransitionEnd={e => {
+                  if (e.propertyName === 'max-height' && isExpanded) {
+                    setFeedbackExpandDone(true);
+                  }
+                }}
               >
                 <div className={gotFeedback ? '' : 'feedback-motion'}>
                   <div className="feedback-frame">

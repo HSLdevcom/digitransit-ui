@@ -2,8 +2,7 @@ import React from 'react';
 import sinon from 'sinon';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import {
-  Component as DisruptionList,
+import DisruptionList, {
   EmptyDisruptions,
 } from '../../../app/component/DisruptionList';
 import Disruption from '../../../app/component/Disruption';
@@ -39,17 +38,17 @@ describe('<DisruptionList />', () => {
 
   it('should show EmptyDisruptions when there are no alerts or cancelations', () => {
     const props = {
-      currentTime: 1000,
       cancelations: [],
       serviceAlerts: [],
     };
-    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
+    const wrapper = shallowWithIntl(<DisruptionList {...props} />, {
+      currentTime: 1000,
+    });
     expect(wrapper.find(EmptyDisruptions)).to.have.lengthOf(1);
   });
 
   it('should render current service alerts in the active section', () => {
     const props = {
-      currentTime: 500,
       cancelations: [],
       serviceAlerts: [
         makeAlert({
@@ -59,7 +58,9 @@ describe('<DisruptionList />', () => {
         }),
       ],
     };
-    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
+    const wrapper = shallowWithIntl(<DisruptionList {...props} />, {
+      currentTime: 500,
+    });
     const disruptions = wrapper.find(Disruption);
     expect(disruptions).to.have.lengthOf(1);
     expect(disruptions.at(0).prop('alertHeaderText')).to.equal('Test alert');
@@ -67,7 +68,6 @@ describe('<DisruptionList />', () => {
 
   it('should render future service alerts in the upcoming section', () => {
     const props = {
-      currentTime: 50,
       cancelations: [],
       serviceAlerts: [
         makeAlert({
@@ -77,7 +77,9 @@ describe('<DisruptionList />', () => {
         }),
       ],
     };
-    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
+    const wrapper = shallowWithIntl(<DisruptionList {...props} />, {
+      currentTime: 50,
+    });
     const disruptions = wrapper.find(Disruption);
     expect(disruptions).to.have.lengthOf(1);
     expect(disruptions.at(0).prop('alertHeaderText')).to.equal('Test alert');
@@ -85,7 +87,6 @@ describe('<DisruptionList />', () => {
 
   it('should show valid cancelations as Disruptions', () => {
     const props = {
-      currentTime: 500,
       cancelations: [
         makeAlert({
           id: 'c1',
@@ -96,7 +97,9 @@ describe('<DisruptionList />', () => {
       ],
       serviceAlerts: [],
     };
-    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
+    const wrapper = shallowWithIntl(<DisruptionList {...props} />, {
+      currentTime: 500,
+    });
     const disruptions = wrapper.find(Disruption);
     expect(disruptions).to.have.lengthOf(1);
     expect(disruptions.at(0).prop('alertHeaderText')).to.equal('Cancelation');
@@ -112,7 +115,6 @@ describe('<DisruptionList />', () => {
     };
 
     const props = {
-      currentTime: 500,
       cancelations: [],
       serviceAlerts: [
         makeAlert({
@@ -126,6 +128,7 @@ describe('<DisruptionList />', () => {
       ],
     };
     const wrapper = shallowWithIntl(<DisruptionList {...props} />, {
+      currentTime: 500,
       match: matchWithAlertId,
     });
     expect(wrapper.find(Disruption)).to.have.lengthOf(0);
@@ -135,7 +138,6 @@ describe('<DisruptionList />', () => {
 
   it('should pass toggleDetails function to Disruption children', () => {
     const props = {
-      currentTime: 500,
       cancelations: [],
       serviceAlerts: [
         makeAlert({
@@ -145,7 +147,9 @@ describe('<DisruptionList />', () => {
         }),
       ],
     };
-    const wrapper = shallowWithIntl(<DisruptionList {...props} />);
+    const wrapper = shallowWithIntl(<DisruptionList {...props} />, {
+      currentTime: 500,
+    });
     const disruption = wrapper.find(Disruption).at(0);
     expect(disruption.prop('toggleDetails')).to.be.a('function');
   });
