@@ -14,7 +14,7 @@ const StatsPlugin = require('stats-webpack-plugin');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const { themeEntries, faviconPlugins } = require('./build/contextHelper');
+const { themeEntries, faviconPlugins } = require('./scripts/contextHelper');
 
 const mode = process.env.NODE_ENV;
 const isProduction = mode === 'production';

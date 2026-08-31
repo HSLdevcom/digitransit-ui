@@ -83,8 +83,8 @@
           gap: var(--space-m);
         }
 
-        button.load-more-button {
-          border-radius: var(--radius-pill, 999px);
+        &-show-more-container {
+          align-self: center;
         }
       }
 
