@@ -4,7 +4,10 @@
 
 ## DialogModal
 
-General component description in JSDoc format. Markdown is _supported_.
+A confirmation dialog (e.g. "Are you sure you want to delete this?") built
+on top of the HSL design system's Modal/ConfirmationModalContent. Button
+styling (colors, typography) is handled entirely by the design system's
+theme tokens, so it automatically follows the active deployment's theme.
 
 ### Parameters
 
@@ -14,15 +17,11 @@ General component description in JSDoc format. Markdown is _supported_.
     -   `$0.handleClose`  
     -   `$0.primaryButtonText`  
     -   `$0.primaryButtonOnClick`  
+    -   `$0.primaryButtonVariant`  
     -   `$0.secondaryButtonText`  
     -   `$0.secondaryButtonOnClick`  
     -   `$0.lang`  
-    -   `$0.href`  
-    -   `$0.appElement`  
     -   `$0.isModalOpen`  
-    -   `$0.modalAriaLabel`  
-    -   `$0.color`  
-    -   `$0.hoverColor`  
 
 ### Examples
 

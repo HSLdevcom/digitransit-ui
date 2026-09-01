@@ -256,8 +256,6 @@ const MobileView = ({
             setDialogOpen(false);
           }}
           secondaryButtonOnClick={() => setDialogOpen(false)}
-          colors={colors}
-          fontWeights={fontWeights}
           lang={lng}
         />
       </div>
