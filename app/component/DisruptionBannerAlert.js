@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import { alertShape } from '../util/shapes';
+import { TRAFFICNOW } from '../util/path';
 import { useConfigContext } from '../configurations/ConfigContext';
 import Icon from './Icon';
 import TruncatedMessage from './TruncatedMessage';
 import { mapAlertSource } from '../util/alertUtils';
-import { TRAFFICNOW } from '../util/path';
 
 const DisruptionBannerAlert = ({
   alert,

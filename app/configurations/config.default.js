@@ -1,3 +1,4 @@
+import { IS_DEV } from '../util/envUtils';
 import safeJsonParse from '../util/safeJsonParser';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 import realtime from './realtimeUtils';
@@ -194,6 +195,10 @@ export default {
     includeCarSuggestions: false,
     showBikeAndParkItineraries: false,
     includeTaxiSuggestions: false,
+    transitGroupRelaxFunction: {
+      constant: 300,
+      coefficient: 1.2,
+    },
   },
 
   /**
@@ -708,6 +713,7 @@ export default {
     matka: '(matka|^dev.digitransit)',
     vaasa: 'vaasa',
     walttiOpas: 'waltti',
+    walttiTest: 'waltti-test',
     rovaniemi: 'rovaniemi',
     kouvola: 'kouvola',
     tampere: 'tampere',
@@ -781,7 +787,7 @@ export default {
   parkAndRide: {
     showParkAndRide: false,
     showParkAndRideForBikes: false,
-    parkAndRideMinZoom: 13,
+    parkAndRideMinZoom: 14,
     resolver: prUtils.liipi,
   },
   parkingAreaSources: ['liipi'],
@@ -897,6 +903,6 @@ export default {
     showBothDirectAndTransitResults: false,
   },
   personalization: false,
-  showNewRoutePage: false,
+  showNewRoutePage: IS_DEV,
   user: {},
 };

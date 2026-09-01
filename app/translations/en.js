@@ -187,6 +187,14 @@ export default {
     'disruption-info-no-alerts': 'No known disruptions or diversions.',
     'disruption-info-route-no-alerts':
       'No known disruptions or diversions to the route.',
+    'disruption-list-active': 'Ongoing',
+    'disruption-list-no-active-alerts': 'No known ongoing disruptions',
+    'disruption-list-no-upcoming-alerts':
+      'No known upcoming disruptions or diversions',
+    'disruption-list-traffic-normal': 'Services normal',
+    'disruption-list-upcoming': 'Upcoming',
+    'disruption-view-details': 'View details',
+    'disruption-view-timetable': 'View timetable',
     disruptions: 'Disruptions',
     'disruptions-and-diversions': 'Disruptions and diversions',
     'disruptions-change-filters': 'Please try again with different filters',
@@ -231,7 +239,7 @@ export default {
     'from-tram': 'tram',
     frontpage: 'Frontpage',
     funicular: 'Funicular',
-    'generic-cancelation': '{mode} {route} {headsign} at {time} is cancelled.',
+    'generic-cancelation': '{mode} {route} {headsign} is cancelled at {times}',
     'generic-error': 'There was an error',
     'geolocation-denied-heading': 'Geolocation denied',
     'geolocation-denied-text':

@@ -166,7 +166,7 @@ export function getTripOrRouteText(trip, route, config, interliningWithRoute) {
   const showAgency = config.agency?.show;
   const shortName = route.shortName || trip?.tripShortName;
   if (interliningWithRoute && interliningWithRoute !== shortName) {
-    return `${route.shortName} / ${interliningWithRoute}`;
+    return `${shortName} / ${interliningWithRoute}`;
   }
   if (shortName) {
     return shortName;

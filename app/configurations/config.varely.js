@@ -1,4 +1,5 @@
 import configMerger from '../util/configMerger';
+import { IS_DEV } from '../util/envUtils';
 import walttiConfig from './config.waltti';
 
 const CONFIG = 'varely';
@@ -68,6 +69,11 @@ export default configMerger(walttiConfig, {
       availableForSelection: true,
       defaultValue: true,
       color: '#0064f0',
+    },
+
+    taxi: {
+      availableForSelection: true, // experimental feature
+      defaultValue: false,
     },
   },
 
@@ -152,16 +158,13 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  // TODO: flex disabled for now, proper configuration coming in the future
-  /* flex: {
-    external: {
-      enabled: true,
-      transit: true,
-      direct: false,
-      agencies: ['02Taksi:02_taksi'],
-    },
-    infoLanguage: 'fi',
-  }, */
+  externalFeedIds: ['02Taksi_carpickupzone'],
+
+  carPickupZone: {
+    enabled: IS_DEV,
+    transit: IS_DEV,
+    direct: false,
+  },
 
   sourceForAlertsAndDisruptions: {
     VARELY: {

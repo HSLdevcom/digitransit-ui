@@ -18,9 +18,9 @@ import * as found from 'found';
 import IntlBridge from '../../../app/util/IntlBridge';
 import translations from '../../../app/translations/en';
 import * as ConfigContext from '../../../app/configurations/ConfigContext';
-import * as TimeContext from '../../../app/hooks/TimeContext';
 import TestProviders from './mock-providers';
 import { mockContext } from './mock-context';
+import * as TimeContext from '../../../app/hooks/TimeContext';
 
 // Default currentTime used by shallowWithIntl when no override is given.
 const DEFAULT_MOCK_CURRENT_TIME = 1547464412;

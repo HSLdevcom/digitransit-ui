@@ -5,10 +5,10 @@ import { matchShape } from 'found';
 import { stopShape } from '../../util/shapes';
 import { AlertSeverityLevelType } from '../../constants';
 import {
-  getCancelationsForStop,
   getAlertsForObject,
   getServiceAlertsForStation,
   getActiveAlertSeverityLevel,
+  getUniqueAlerts,
 } from '../../util/alertUtils';
 import withBreakpoint from '../../util/withBreakpoint';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
@@ -18,7 +18,7 @@ import {
   PREFIX_TIMETABLE,
   stopPagePath,
 } from '../../util/path';
-import Icon from '../Icon';
+import { filterCanceledCalls } from './Disruptions';
 
 const Tab = {
   RightNow: 1,
@@ -37,8 +37,8 @@ const getActiveTab = pathname => {
 };
 
 function StopPageTabs({ stop }, { match }) {
-  const { router } = match;
-  if (!stop) {
+  const { router, location } = match;
+  if (!stop || location.query.alertId) {
     return null;
   }
   const activeTab = getActiveTab(match.location.pathname);
@@ -52,27 +52,42 @@ function StopPageTabs({ stop }, { match }) {
 
   const isTerminal = match.params.terminalId != null;
   const currentTime = unixTime();
-  const cancelations = getCancelationsForStop(stop);
   const maxAlertSeverity = getActiveAlertSeverityLevel(
     isTerminal ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
     currentTime,
   );
 
+  const alerts = isTerminal
+    ? getServiceAlertsForStation(stop)
+    : getAlertsForObject(stop);
+
+  const canceledCalls = filterCanceledCalls(
+    stop.canceledCalls,
+    stop.stops ? stop.stops.map(({ gtfsId }) => gtfsId) : [stop.gtfsId],
+  );
+
+  const canceledCallsByPattern = Object.groupBy(
+    canceledCalls,
+    ({ tripOnServiceDate }) =>
+      tripOnServiceDate.trip.pattern.code + tripOnServiceDate.serviceDate,
+  );
+
+  const alertsCount =
+    getUniqueAlerts(alerts).length + Object.keys(canceledCallsByPattern).length;
+
   let disruptionClassName;
   let disruptionIcon;
   if (
-    cancelations.length > 0 ||
+    canceledCalls.length > 0 ||
     maxAlertSeverity === AlertSeverityLevelType.Severe ||
     maxAlertSeverity === AlertSeverityLevelType.Warning ||
     maxAlertSeverity === AlertSeverityLevelType.Unknown
   ) {
     disruptionClassName = 'active-disruption-alert';
-    disruptionIcon = (
-      <Icon img="icon_caution-no-excl-no-stroke" color="#DC0451" />
-    );
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
   } else if (maxAlertSeverity === AlertSeverityLevelType.Info) {
     disruptionClassName = 'active-service-alert';
-    disruptionIcon = <Icon className="service-alert-icon" img="icon_info" />;
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
   } else {
     disruptionClassName = 'no-alerts';
   }

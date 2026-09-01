@@ -42,8 +42,8 @@ const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
   station: graphql`
     fragment TerminalPageTabContainer_station on Stop
     @argumentDefinitions(
-      startTime: { type: "Long" }
-      timeRange: { type: "Int", defaultValue: 3600 }
+      cancelationStartDate: { type: "LocalDate!" }
+      cancelationEndDate: { type: "LocalDate!" }
     ) {
       id
       gtfsId
@@ -56,6 +56,7 @@ const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
           alertSeverityLevel
           effectiveEndDate
           effectiveStartDate
+          alertHash
         }
       }
       alerts(types: [STOP]) {
@@ -63,14 +64,31 @@ const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
         alertSeverityLevel
         effectiveEndDate
         effectiveStartDate
+        alertHash
       }
-      stoptimes: stoptimesWithoutPatterns(
-        startTime: $startTime
-        timeRange: $timeRange
-        numberOfDepartures: 100
-        omitCanceled: false
+      canceledCalls(
+        serviceDateRanges: [
+          { start: $cancelationStartDate, end: $cancelationEndDate }
+        ]
       ) {
-        realtimeState
+        tripOnServiceDate {
+          serviceDate
+          trip {
+            pattern {
+              code
+              stops {
+                gtfsId
+              }
+            }
+          }
+        }
+        stopCall {
+          stopLocation {
+            ... on Stop {
+              gtfsId
+            }
+          }
+        }
       }
     }
   `,

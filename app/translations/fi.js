@@ -182,6 +182,14 @@ export default {
       'Ei tiedossa olevia häiriöitä tai poikkeuksia.',
     'disruption-info-route-no-alerts':
       'Linjalla ei tiedossa olevia häiriöitä tai poikkeuksia.',
+    'disruption-list-active': 'Voimassa',
+    'disruption-list-no-active-alerts': 'Ei tiedossa voimassa olevia häiriöitä',
+    'disruption-list-no-upcoming-alerts':
+      'Ei tiedossa olevia tulevia häiriöitä tai poikkeuksia',
+    'disruption-list-traffic-normal': 'Liikenne normaalia',
+    'disruption-list-upcoming': 'Tulevat',
+    'disruption-view-details': 'Katso lisätiedot',
+    'disruption-view-timetable': 'Katso aikataulu',
     disruptions: 'Häiriöt',
     'disruptions-and-diversions': 'Häiriöt ja poikkeukset',
     'disruptions-change-filters': 'Kokeile uudestaan muuttamalla valintoja',
@@ -226,7 +234,8 @@ export default {
     'from-tram': 'raitiovaunusta',
     frontpage: 'Etusivu',
     funicular: 'Funikulaari',
-    'generic-cancelation': '{mode} {route} {headsign} kello {time} on peruttu.',
+    'generic-cancelation':
+      '{mode} {route} {headsign} on peruttu kello {times}.',
     'generic-error': 'Tapahtui virhe',
     'geolocation-denied-heading': 'Paikannus on estetty',
     'geolocation-denied-text':
