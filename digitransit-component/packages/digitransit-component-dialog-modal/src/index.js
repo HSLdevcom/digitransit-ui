@@ -3,11 +3,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { I18nextProvider, useTranslation } from 'react-i18next';
-import Modal from '@hsl-fi/modal';
+import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { defaultColors } from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
-import i18n from './helpers/i18n';
 
 const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
@@ -36,84 +34,77 @@ const DialogModal = ({
   secondaryButtonOnClick,
   lang,
   href,
-  appElement,
   isModalOpen,
-  modalAriaLabel,
   colors,
   fontWeights,
 }) => {
-  const [t] = useTranslation();
-
   return (
     <Modal
-      appElement={appElement}
-      contentLabel={modalAriaLabel}
-      closeButtonLabel={t('close-modal', { lng: lang })}
-      variant="confirmation"
-      isOpen={isModalOpen}
-      onCrossClick={handleClose}
+      lang={lang}
+      open={isModalOpen}
+      onOpenChange={open => {
+        if (!open) {
+          handleClose();
+        }
+      }}
     >
-      <div
-        style={{
-          '--color': `${colors.primary}`,
-          '--hover-color': `${colors.hover}`,
-          '--font-weight-medium': fontWeights.medium,
-        }}
-      >
-        <div className={styles['digitransit-dialog-modal-top']}>
-          <div className={styles['digitransit-dialog-modal-header']}>
-            {headerText}
-          </div>
+      <ModalContent title={headerText} lang={lang}>
+        <div
+          style={{
+            '--color': `${colors.primary}`,
+            '--hover-color': `${colors.hover}`,
+            '--font-weight-medium': fontWeights.medium,
+          }}
+        >
           {dialogContent && (
             <div className={styles['digitransit-dialog-modal-content']}>
               {dialogContent}
             </div>
           )}
-        </div>
-        <div className={styles['digitransit-dialog-modal-buttons']}>
-          <a
-            type="button"
-            role="button"
-            tabIndex="0"
-            className={cx(
-              styles['digitransit-dialog-modal-button'],
-              styles.primary,
-            )}
-            href={href}
-            onKeyDown={e => {
-              if (isKeyboardSelectionEvent(e)) {
-                e.stopPropagation();
-                primaryButtonOnClick(e);
-              }
-            }}
-            onClick={e => {
-              e.stopPropagation();
-              primaryButtonOnClick(e);
-            }}
-          >
-            {primaryButtonText}
-          </a>
-          {secondaryButtonText && secondaryButtonOnClick && (
-            <button
+          <div className={styles['digitransit-dialog-modal-buttons']}>
+            <a
               type="button"
+              role="button"
               tabIndex="0"
               className={cx(
                 styles['digitransit-dialog-modal-button'],
-                styles.secondary,
+                styles.primary,
               )}
-              onClick={() => secondaryButtonOnClick()}
+              href={href}
+              onKeyDown={e => {
+                if (isKeyboardSelectionEvent(e)) {
+                  e.stopPropagation();
+                  primaryButtonOnClick(e);
+                }
+              }}
+              onClick={e => {
+                e.stopPropagation();
+                primaryButtonOnClick(e);
+              }}
             >
-              {secondaryButtonText}
-            </button>
-          )}
+              {primaryButtonText}
+            </a>
+            {secondaryButtonText && secondaryButtonOnClick && (
+              <button
+                type="button"
+                tabIndex="0"
+                className={cx(
+                  styles['digitransit-dialog-modal-button'],
+                  styles.secondary,
+                )}
+                onClick={() => secondaryButtonOnClick()}
+              >
+                {secondaryButtonText}
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      </ModalContent>
     </Modal>
   );
 };
 
 DialogModal.propTypes = {
-  appElement: PropTypes.string.isRequired,
   isModalOpen: PropTypes.bool.isRequired,
   headerText: PropTypes.string.isRequired,
   handleClose: PropTypes.func,
@@ -123,7 +114,6 @@ DialogModal.propTypes = {
   secondaryButtonOnClick: PropTypes.func,
   dialogContent: PropTypes.string,
   lang: PropTypes.string.isRequired,
-  modalAriaLabel: PropTypes.string,
   href: PropTypes.string,
   colors: PropTypes.objectOf(PropTypes.string),
   fontWeights: PropTypes.shape({
@@ -137,15 +127,10 @@ DialogModal.defaultProps = {
   secondaryButtonText: undefined,
   secondaryButtonOnClick: undefined,
   href: undefined,
-  modalAriaLabel: '',
   colors: defaultColors,
   fontWeights: {
     medium: 500,
   },
 };
 
-export default props => (
-  <I18nextProvider i18n={i18n}>
-    <DialogModal {...props} />
-  </I18nextProvider>
-);
+export default DialogModal;
