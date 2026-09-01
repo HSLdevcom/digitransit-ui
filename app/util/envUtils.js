@@ -8,9 +8,11 @@ const Environment = Object.freeze({
  * server / a dev bundle). A prod build, an unset `NODE_ENV` (mocha, CI, a bare
  * `node server/server`) and anything else count as "a real build".
  *
- * webpack's `DefinePlugin` bakes this to a literal in the client bundle; in Node
- * it is a live read of `process.env.NODE_ENV`. It is NOT the deployment tier —
- * one production bundle runs on every tier; for that use `isDevRunEnv`.
+ * webpack's `DefinePlugin` bakes this to a literal in the client bundle (no
+ * runtime `process` needed there, unlike webpack.config.babel.js's `process`
+ * `ProvidePlugin`); in Node it is a live read of `process.env.NODE_ENV`. It is
+ * NOT the deployment tier — one production bundle runs on every tier; for that
+ * use `isDevRunEnv`.
  *
  * WHEN NOT TO USE:
  * Webpack's DefinePlugin/dead-code-elimination only folds and drops a branch when its

@@ -5,13 +5,10 @@
 /* ********* Polyfills (for node) ********* */
 const path = require('path');
 const fs = require('fs');
-require('@babel/register')({
-  // This will override `node_modules` ignoring - you can alternatively pass
-  // an array of strings to be explicitly matched or a regex / glob
-  ignore: [
-    /node_modules\/(?!react-leaflet|@babel\/runtime\/helpers\/esm|@digitransit-util)/,
-  ],
-});
+// No `ignore` override is needed here: this file's require chain no longer
+// renders React components server-side (see app/server.js), so it never
+// reaches into node_modules packages like react-leaflet/@digitransit-util.
+require('@babel/register')();
 
 const proxy = require('express-http-proxy');
 
@@ -28,6 +25,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const { CosmosClient } = require('@azure/cosmos');
+const {
+  ASSET_URL_PLACEHOLDER,
+} = require('../scripts/build/assetUrlPlaceholder');
 const { getJson } = require('../app/util/xhrPromise');
 const { retryFetch } = require('../app/util/fetchUtils');
 const configTools = require('../app/config');
@@ -68,21 +68,24 @@ function setUpOpenId() {
 }
 
 function setUpStaticFolders() {
-  // First set up a specific path for sw.js
-  if (process.env.ASSET_URL) {
+  // Serve /sw.js with the ASSET_URL placeholder (baked into the precache
+  // manifest at build time by workbox-webpack-plugin's InjectManifest -
+  // see webpack.config.babel.js / app/util/serviceWorker.js) replaced by
+  // this deployment's actual CDN base URL - or stripped out entirely when
+  // ASSET_URL isn't set. Only production builds actually produce
+  // _static/sw.js (InjectManifest is production-only), and app/client.js
+  // only ever registers this service worker when !IS_DEV_BUILD, so this
+  // route is skipped entirely in dev - mirrors app/server.js's own
+  // IS_DEV_BUILD guard around its manifest.json/stats.json reads.
+  if (!IS_DEV_BUILD) {
     const swText = fs.readFileSync(
       path.join(process.cwd(), '_static', 'sw.js'),
       { encoding: 'utf8' },
     );
-    const injectionPoint = swText.indexOf(';') + 2;
-    const swPreText = swText.substring(0, injectionPoint);
-    const swPostText = swText.substring(injectionPoint);
-    const swInjectionText = fs
-      .readFileSync(path.join(process.cwd(), 'server', 'swInjection.js'), {
-        encoding: 'utf8',
-      })
-      .replace(/ASSET_URL/g, process.env.ASSET_URL);
-    const swTextInjected = swPreText + swInjectionText + swPostText;
+    const swTextInjected = swText.replace(
+      new RegExp(ASSET_URL_PLACEHOLDER, 'g'),
+      process.env.ASSET_URL || '',
+    );
 
     app.get('/sw.js', (req, res) => {
       res.setHeader('Cache-Control', 'public, max-age=0');
