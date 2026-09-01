@@ -3,9 +3,8 @@ import cx from 'classnames';
 import { useSelect, useTagGroup } from 'downshift';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Icon as HSLFIIcon, CloseS, ArrowUpS, ArrowDownS } from '@hsl-fi/icons';
+import { Icon, CloseS, ArrowUpS, ArrowDownS, CloseFilled } from '@hsl-fi/icons';
 import { useConfigContext } from '../../../configurations/ConfigContext';
-import Icon from '../../Icon';
 import { useFilterContext } from './FiltersContext';
 
 function OperatorSelectDropdown({ availableOperators = [], itemToString }) {
@@ -86,9 +85,12 @@ function OperatorSelectDropdown({ availableOperators = [], itemToString }) {
               items.map((item, index) => (
                 <div className="traffic-now__filters-selected-feed" key={item}>
                   <span {...getTagProps({ index })}>{itemToString(item)}</span>
-                  <span {...getTagRemoveProps({ index })}>
-                    <Icon img="icon_close-filled" />
-                  </span>
+                  <div
+                    {...getTagRemoveProps({ index })}
+                    style={{ display: 'flex', margin: 'auto' }}
+                  >
+                    <Icon icon={CloseFilled} size="s" color="accent" />
+                  </div>
                 </div>
               ))
             ) : (
@@ -119,14 +121,14 @@ function OperatorSelectDropdown({ availableOperators = [], itemToString }) {
                   e.stopPropagation();
                 }}
               >
-                <HSLFIIcon icon={CloseS} size="m" color="default" />
+                <Icon icon={CloseS} size="m" color="accent" />
               </button>
             )}
             <span style={{ display: 'flex', margin: 'auto' }}>
-              <HSLFIIcon
+              <Icon
                 icon={isOpen ? ArrowUpS : ArrowDownS}
                 size="s"
-                color="default"
+                color="accent"
               />
             </span>
           </span>
