@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import Button from '@hsl-fi/button';
+import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import ValidityPeriodFilter from './ValidityPeriodFilter';
 import { useFilterContext } from './FiltersContext';
@@ -51,28 +51,22 @@ const Filters = ({ onApplyClick = undefined, onResetClick = () => {} }) => {
   const buttons = (
     <>
       {onApplyClick && (
-        <Button
-          type="button"
-          size="medium"
-          fullWidth
-          variant="blue"
-          value={intl.formatMessage({
+        <Button size="m" variant="primary" onClick={onApplyClick}>
+          {intl.formatMessage({
             id: 'traffic-now_filters_view-results',
           })}
-          onClick={onApplyClick}
-        />
+        </Button>
       )}
       <Button
-        type="button"
-        size="medium"
+        size="m"
+        variant="secondary"
+        onClick={handleResetClick}
         disabled={
           JSON.stringify(selectedFilters) === JSON.stringify(DEFAULT_FILTERS)
         }
-        fullWidth={false}
-        variant="white"
-        value={intl.formatMessage({ id: 'clear-button-label' })}
-        onClick={handleResetClick}
-      />
+      >
+        {intl.formatMessage({ id: 'clear-button-label' })}
+      </Button>
     </>
   );
 

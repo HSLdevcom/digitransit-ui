@@ -41,9 +41,9 @@
     "stylelint-fix": "stylelint sass/**/*.scss app/**/*.scss digitransit-component/**/*.scss --fix",
     "build": "NODE_OPTIONS=--openssl-legacy-provider && NODE_ENV=production && yarn prebuild && node --max_old_space_size=4096 node_modules/.bin/webpack --progress --color",
     "build-workspaces": "yarn build-components && yarn build-search-utils && yarn build-store",
-    "start": "NODE_ENV=production node ${NODE_OPTS:-} server/server",
-    "start-test": "NODE_ENV=test node ${NODE_OPTS:-} server/server",
-    "add-theme": "node build/add-theme",
+    "start": "NODE_ENV=production node $NODE_OPTS server/server",
+    "start-test": "NODE_ENV=test node $NODE_OPTS server/server",
+    "add-theme": "node scripts/theme/add-theme",
     "relay": "relay-compiler",
     "relay-watch": "relay-compiler --watch",
     "digitransit-npm-publish": "lerna publish from-package --no-git-tag-version --no-push",
@@ -119,7 +119,7 @@
   },
   "relay": {
     "src": "./app",
-    "schema": "./build/schema.graphql",
+    "schema": "./schema/schema.graphql",
     "language": "javascript"
   },
   "dependencies": {
