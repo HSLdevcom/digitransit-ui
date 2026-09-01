@@ -5,6 +5,7 @@ import defaultConfig from './configurations/config.default';
 import configMerger from './util/configMerger';
 import { LightenDarkenColor } from './util/colorUtils';
 import { boundWithMinimumAreaSimple } from './util/geo-utils';
+import { IS_DEV_BUILD } from './util/envUtils';
 
 const configs = {}; // cache merged configs for speed
 const themeMap = {};
@@ -220,7 +221,7 @@ export function getConfiguration(req) {
 
   if (
     host &&
-    process.env.NODE_ENV !== 'development' &&
+    !IS_DEV_BUILD &&
     (process.env.CONFIG === '' || !process.env.CONFIG)
   ) {
     // no forced CONFIG, map dynamically

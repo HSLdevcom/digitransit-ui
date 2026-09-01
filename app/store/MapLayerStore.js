@@ -42,12 +42,14 @@ class MapLayerStore extends Store {
     this.mapLayers.citybike = showRentalVehiclesOfType(
       config.vehicleRental?.networks,
       TransportMode.Citybike,
+      config,
     );
     this.mapLayers.scooter =
       config.transportModes.scooter?.showIfSelectedForRouting &&
       showRentalVehiclesOfType(
         config.vehicleRental?.networks,
         TransportMode.Scooter,
+        config,
       );
     if (config.hideMapLayersByDefault) {
       this.mapLayers.stop = Object.keys(this.mapLayers.stop).map(() => false);
