@@ -32,6 +32,7 @@ const { getJson } = require('../app/util/xhrPromise');
 const { retryFetch } = require('../app/util/fetchUtils');
 const configTools = require('../app/config');
 const { splitGtfsId } = require('../app/util/gtfs');
+const { IS_DEV_BUILD } = require('../app/util/envUtils');
 
 const config = configTools.getConfiguration();
 
@@ -116,7 +117,7 @@ function setUpStaticFolders() {
 function setUpMiddleware() {
   app.use(cookieParser());
   app.use(bodyParser.raw());
-  if (process.env.NODE_ENV === 'development') {
+  if (IS_DEV_BUILD) {
     const hotloadPort = process.env.HOT_LOAD_PORT || 9000;
     // proxy for dev-bundle
     app.use('/proxy/', proxy(`http://localhost:${hotloadPort}/`));
@@ -135,9 +136,7 @@ function onError(err, req, res, next) {
     .status(500)
     .type('text/plain')
     .send(
-      process.env.NODE_ENV === 'production'
-        ? 'Internal server error'
-        : `${err.message}\n${err.stack}`,
+      IS_DEV_BUILD ? `${err.message}\n${err.stack}` : 'Internal server error',
     );
 }
 

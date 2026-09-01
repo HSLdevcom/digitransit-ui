@@ -1,12 +1,40 @@
+const Environment = Object.freeze({
+  Development: 'development',
+  Production: 'production',
+});
+
 /**
- * Boolean value determining if any dev environment flag is active
- * RUN_ENV='development' is set in digitransit-kubernetes-deploy for Kubernetes dev instances.
- * Setting NODE_ENV to a specific value determines how the local environment behaves.
- * NODE_ENV can be set to test, development, and production.
+ * Build mode: `true` only for `NODE_ENV === 'development'` (the local `yarn dev`
+ * server / a dev bundle). A prod build, an unset `NODE_ENV` (mocha, CI, a bare
+ * `node server/server`) and anything else count as "a real build".
  *
- * ***IMPORTANT! Sometimes it is desireable to only use NODE_ENV for setting a local dev configuration.
- * This variable should mainly be used as a config dev flag.***
+ * webpack's `DefinePlugin` bakes this to a literal in the client bundle; in Node
+ * it is a live read of `process.env.NODE_ENV`. It is NOT the deployment tier —
+ * one production bundle runs on every tier; for that use `isDevRunEnv`.
+ *
+ * WHEN NOT TO USE:
+ * Webpack's DefinePlugin/dead-code-elimination only folds and drops a branch when its
+ * condition is written as the exact literal expression — an imported/computed
+ * value like this constant can't be statically folded, so any branch guarding a
+ * dynamic `require()` (e.g. a template-string path) survives into the bundle and
+ * forces webpack to resolve every possible match instead of just one. See
+ * app/util/loadDevTheme.js and PR #5929 for the incident this caused. Use the raw
+ * `process.env.NODE_ENV === 'development'` literal instead when guarding a
+ * dynamic `require()`.
  */
-export const IS_DEV =
-  process.env.RUN_ENV === 'development' ||
-  process.env.NODE_ENV !== 'production';
+export const IS_DEV_BUILD = process.env.NODE_ENV === Environment.Development;
+
+/**
+ * Whether the app runs in a non-production deployment, from the `RUN_ENV` env var
+ * (`development` / `production`; unknown ⇒ production).
+ *
+ * @param {{RUN_ENV?: string}|null} [config] On the client pass `window.config` —
+ *   the server mirrors `RUN_ENV` into it because `process.env.RUN_ENV` does not
+ *   exist in the browser bundle. On the server / during config assembly omit it
+ *   to read `process.env.RUN_ENV` directly.
+ * @returns {boolean}
+ */
+export function isDevRunEnv(config) {
+  const value = config ? config.RUN_ENV : process.env.RUN_ENV;
+  return value === Environment.Development;
+}

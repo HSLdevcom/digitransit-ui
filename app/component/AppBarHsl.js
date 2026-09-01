@@ -8,6 +8,7 @@ import { favouriteShape } from '../util/shapes';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
 import { useConfigContext } from '../configurations/ConfigContext';
+import { IS_DEV_BUILD } from '../util/envUtils';
 
 const clearStorages = context => {
   clearOldSearches(context);
@@ -126,7 +127,7 @@ const AppBarHsl = ({ favourites = [] }, context) => {
   }, [searchQuery]);
 
   useEffect(() => {
-    if (config.URL.FONTCOUNTER && process.env.NODE_ENV === 'production') {
+    if (config.URL.FONTCOUNTER && !IS_DEV_BUILD) {
       fetch(config.URL.FONTCOUNTER, {
         mode: 'no-cors',
       });

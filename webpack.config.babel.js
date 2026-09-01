@@ -153,7 +153,13 @@ const productionPlugins = [
 module.exports = {
   mode,
   entry: {
-    main: ['./app/util/publicPath', './app/client'],
+    main: [
+      './app/util/publicPath',
+      // Dev-only: loads the active theme's SCSS via a dynamic require.
+      // Production themes are handled statically via `themeEntries` below.
+      ...(isDevelopment ? ['./app/util/loadDevTheme'] : []),
+      './app/client',
+    ],
     ...(isProduction ? themeEntries : {}),
   },
   output: {

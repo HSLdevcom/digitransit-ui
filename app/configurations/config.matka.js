@@ -6,7 +6,7 @@ import KotkaConfig from './config.kotka';
 import KouvolaConfig from './config.kouvola';
 import KuopioConfig from './config.kuopio';
 import LahtiConfig from './config.lahti';
-import { IS_DEV } from '../util/envUtils';
+import { isDevRunEnv } from '../util/envUtils';
 
 const CONFIG = 'matka';
 const APP_DESCRIPTION =
@@ -14,7 +14,7 @@ const APP_DESCRIPTION =
 const APP_TITLE = 'Fintraffic Matka – Joukkoliikenteen reittiopas ja matkahaku';
 const YEAR = 1900 + new Date().getYear();
 
-const virtualMonitorBaseUrl = IS_DEV
+const virtualMonitorBaseUrl = isDevRunEnv()
   ? 'https://dev-matkamonitori.digitransit.fi'
   : 'https://matkamonitori.digitransit.fi';
 
@@ -64,7 +64,7 @@ export default {
     rail: '#000',
     ferry: '#247C7B',
   },
-  feedIds: IS_DEV
+  feedIds: isDevRunEnv()
     ? ['MATKA', 'flixbus', 'CAR_FERRIES']
     : [
         'MATKA',
@@ -482,7 +482,7 @@ export default {
   },
 
   showStopStatusMarkers: true,
-  showRouteDescNotification: IS_DEV,
+  showRouteDescNotification: isDevRunEnv(),
   showNewRoutePage: true,
 
   replacementBusNotification: {
