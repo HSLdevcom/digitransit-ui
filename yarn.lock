@@ -37,16 +37,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axe-core/react@npm:^4.10.1":
-  version: 4.11.1
-  resolution: "@axe-core/react@npm:4.11.1"
-  dependencies:
-    axe-core: "npm:~4.11.1"
-    requestidlecallback: "npm:^0.3.0"
-  checksum: 10/dbbf71d2f47c054b675d00064a88fcb52e2c8d2ff45ab8ae02590ea01237ce73e1e31daafaa3329f5eaa9da4da528bc091a7dc93e4d70d8f5eb824c180e04d59
-  languageName: node
-  linkType: hard
-
 "@axe-core/webdriverjs@npm:^4.10.1":
   version: 4.11.1
   resolution: "@axe-core/webdriverjs@npm:4.11.1"
@@ -2077,11 +2067,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest-panel@npm:^8.3.11, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
+"@digitransit-component/digitransit-component-autosuggest-panel@npm:^8.4.0, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
-    "@digitransit-component/digitransit-component-autosuggest": ^7.1.16
+    "@digitransit-component/digitransit-component-autosuggest": ^7.2.0
     "@digitransit-component/digitransit-component-icon": ^2.0.2
     "@hsl-fi/sass": 1.0.0
     classnames: 2.5.1
@@ -2096,7 +2086,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest@npm:^7.1.16, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
+"@digitransit-component/digitransit-component-autosuggest@npm:^7.2.0, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest"
   dependencies:
@@ -2105,7 +2095,7 @@ __metadata:
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "npm:^2.1.2"
     "@hsl-fi/hooks": "npm:^1.2.4"
   peerDependencies:
-    "@digitransit-component/digitransit-component-dialog-modal": ^3.0.6
+    "@digitransit-component/digitransit-component-dialog-modal": ^4.0.0
     "@digitransit-component/digitransit-component-icon": ^2.0.2
     "@digitransit-component/digitransit-component-suggestion-item": ^3.0.3
     "@hsl-fi/sass": 1.0.0
@@ -2188,13 +2178,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-editing-modal@npm:^5.0.7, @digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
+"@digitransit-component/digitransit-component-favourite-editing-modal@npm:^5.1.0, @digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "npm:^2.1.2"
   peerDependencies:
-    "@digitransit-component/digitransit-component-dialog-modal": ^3.0.6
+    "@digitransit-component/digitransit-component-dialog-modal": ^4.0.0
     "@digitransit-component/digitransit-component-icon": ^2.0.2
     "@hsl-fi/container-spinner": 0.3.2
     "@hsl-fi/modal": ^0.3.2
@@ -2273,17 +2263,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component@workspace:digitransit-component/packages/digitransit-component"
   dependencies:
-    "@digitransit-component/digitransit-component-autosuggest": "npm:^7.1.16"
-    "@digitransit-component/digitransit-component-autosuggest-panel": "npm:^8.3.11"
+    "@digitransit-component/digitransit-component-autosuggest": "npm:^7.2.0"
+    "@digitransit-component/digitransit-component-autosuggest-panel": "npm:^8.4.0"
     "@digitransit-component/digitransit-component-control-panel": "npm:^7.1.4"
     "@digitransit-component/digitransit-component-favourite-bar": "npm:^5.0.6"
-    "@digitransit-component/digitransit-component-favourite-editing-modal": "npm:^5.0.7"
+    "@digitransit-component/digitransit-component-favourite-editing-modal": "npm:^5.1.0"
     "@digitransit-component/digitransit-component-favourite-modal": "npm:^4.0.5"
     "@digitransit-component/digitransit-component-icon": "npm:^2.0.2"
     "@digitransit-component/digitransit-component-suggestion-item": "npm:^3.0.3"
     "@digitransit-component/digitransit-component-with-breakpoint": "npm:^1.0.1"
   peerDependencies:
-    "@digitransit-component/digitransit-component-dialog-modal": ^3.0.6
+    "@digitransit-component/digitransit-component-dialog-modal": ^4.0.0
     "@hsl-fi/container-spinner": 0.3.2
     "@hsl-fi/modal": ^0.3.2
     "@hsl-fi/sass": 1.0.0
@@ -12419,7 +12409,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "digitransit-ui@workspace:."
   dependencies:
-    "@axe-core/react": "npm:^4.10.1"
     "@axe-core/webdriverjs": "npm:^4.10.1"
     "@azure/cosmos": "npm:^4.0.0"
     "@azure/storage-blob": "npm:^12.8.0"
@@ -25817,13 +25806,6 @@ __metadata:
     tunnel-agent: "npm:^0.6.0"
     uuid: "npm:^3.3.2"
   checksum: 10/005b8b237b56f1571cfd4ecc09772adaa2e82dcb884fc14ea2bb25e23dbf7c2009f9929e0b6d3fd5802e33ed8ee705a3b594c8f9467c1458cd973872bf89db8e
-  languageName: node
-  linkType: hard
-
-"requestidlecallback@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "requestidlecallback@npm:0.3.0"
-  checksum: 10/a89c75f1eea347ccf30db1f1c48154df567ada16bc3b54c7ba969ae6cfb9a23d2c71121f8b05d9bc1303fcc3292aaaf7924f4fbd3cf33c8a4ed7c3095653e849
   languageName: node
   linkType: hard
 
