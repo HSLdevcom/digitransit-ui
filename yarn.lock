@@ -3399,7 +3399,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/navigation@npm:^3.2.0, @hsl-fi/navigation@npm:^3.3.0":
+"@hsl-fi/navigation@npm: ^3.3.0, @hsl-fi/navigation@npm:^3.2.0, @hsl-fi/navigation@npm:^3.3.0":
   version: 3.3.0
   resolution: "@hsl-fi/navigation@npm:3.3.0"
   dependencies:
@@ -12450,6 +12450,7 @@ __metadata:
     "@hsl-fi/icons": "npm:^2.3.0"
     "@hsl-fi/layout-primitives": "npm:^4.9.0"
     "@hsl-fi/modal": "npm: ^0.3.2"
+    "@hsl-fi/navigation": "npm: ^3.3.0"
     "@hsl-fi/notifications": "npm:^4.1.0"
     "@hsl-fi/sass": "npm: 1.0.0"
     "@hsl-fi/shimmer": "npm:0.1.2"

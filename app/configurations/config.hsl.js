@@ -615,9 +615,9 @@ export default {
       showForRoute: route => route.type === 900,
       id: 'speedtramNotification',
       header: {
-        fi: 'Mitä pikaratikka tarkoittaa?',
-        en: 'What is light rail?',
-        sv: 'Vad är en snabbspårvagn?',
+        fi: 'Pikaratikka',
+        en: 'Light rail',
+        sv: 'Snabbspårvagn',
       },
       content: {
         fi: [
@@ -634,9 +634,9 @@ export default {
         ],
       },
       closeButtonLabel: {
-        fi: '',
-        en: '',
-        sv: '',
+        fi: 'Mitä pikaratikka tarkoittaa?',
+        en: 'What is light rail?',
+        sv: 'Vad är en snabbspårvagn?',
       },
       link: {
         fi: 'hsl.fi/reittiopas-pikaratikka',
@@ -760,10 +760,16 @@ export default {
     }, */
     infoLanguage: 'fi',
     settingLabelOverride: 'demand-responsive-traffic',
+    taxiExternalIcon: 'icon_uber-wide',
   },
 
   showRouteDescNotification: IS_DEV,
   personalization: false,
+  personalizationSurveyLinks: {
+    fi: 'https://surveys.crazyegg.com/s/303436/c50407d2-a31b-4336-a43b-149ac6639d78',
+    sv: 'https://surveys.crazyegg.com/s/303436/7977162c-07a0-4316-82e0-ae2dee934edf',
+    en: 'https://surveys.crazyegg.com/s/303436/0e3f31bb-10ab-4b65-b6cc-1058260918cc',
+  },
   showNewRoutePage: true,
   staticCrisisBanners: [
     {

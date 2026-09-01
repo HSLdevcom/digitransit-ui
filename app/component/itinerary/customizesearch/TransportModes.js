@@ -7,13 +7,13 @@ import {
   getTransitModes,
   getModes,
   toggleTransportMode,
+  modeToTranslationId,
 } from '../../../util/modeUtils';
 import { getModeIconColor } from '../../../util/colorUtils';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 
 export default function TransportModes({ updateSettings }) {
   const config = useConfigContext();
-  const alternativeNames = config.useAlternativeNameForModes || [];
   const transitModes = getTransitModes(config);
   const selectedModes = getModes(config);
 
@@ -26,11 +26,7 @@ export default function TransportModes({ updateSettings }) {
         const lowerCaseMode = mode.toLowerCase();
         return (
           <SettingsToggle
-            labelId={
-              alternativeNames.includes(mode)
-                ? `settings-alternative-name-${lowerCaseMode}`
-                : lowerCaseMode
-            }
+            labelId={modeToTranslationId(mode, config)}
             labelStyle="mode-label"
             key={`settings-toggle-${mode}`}
             id={`settings-toggle-${mode}`}

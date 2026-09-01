@@ -9,6 +9,7 @@ import {
   getTripOrRouteMode,
   getStopMode,
   transitIconName,
+  modeToTranslationId,
 } from '../../../util/modeUtils';
 import {
   getTrackOrPierOrPlatformRestoredText,
@@ -272,17 +273,7 @@ function findTransferProblems(legs, time, position, tailLength, slack) {
 }
 
 export const getLocalizedMode = (mode, intl, config) => {
-  if (config.useAlternativeNameForModes?.includes(mode)) {
-    return intl.formatMessage({
-      id: 'settings-alternative-name-rail',
-      defaultMessage: `${mode}`,
-    });
-  }
-
-  return intl.formatMessage({
-    id: `${mode.toLowerCase()}`,
-    defaultMessage: `${mode}`,
-  });
+  return intl.formatMessage({ id: modeToTranslationId(mode, config) });
 };
 
 export const getToLocalizedMode = (mode, intl) => {

@@ -1,151 +1,86 @@
-import React, { useMemo, useState } from 'react';
-import Button from '@hsl-fi/button';
+import React, { useState } from 'react';
+import { Button } from '@hsl-fi/layout-primitives';
 import cx from 'classnames';
 import Link from 'found/Link';
-import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { usePaginationFragment } from 'react-relay/hooks';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import Card from '../Card';
 import Icon from '../Icon';
-import CanceledTripsModal from './CanceledTripsModal';
 import CancellationContainer from './components/CancellationContainer';
 import ResultsProgressBar from './components/ResultsProgressBar';
-import DisruptionBadge from './DisruptionBadge';
-import DisruptionStatus from './components/DisruptionStatus';
-import CanceledTripsPaginationFragment from './queries/CanceledTripsPaginationFragment';
+import { patternShape, routeShape } from '../../util/shapes';
 
-const CANCELED_TRIPS_QUERY_AMOUNT = 20;
+const DEFAULT_ROUTES_SHOWN_AMOUNT = 8;
 
-const CanceledTrips = ({ query, isMobile = false, ...props }) => {
+const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
   const { colors } = useConfigContext();
   const intl = useIntl();
-  const [detailsKey, setDetailsKey] = useState(null);
-
-  const {
-    data: { canceledTrips },
-    loadNext,
-    isLoadingNext,
-    hasNext,
-  } = usePaginationFragment(CanceledTripsPaginationFragment, query);
-
-  const mode = props.mode.toLowerCase();
-
-  const allEdges = canceledTrips?.edges ?? [];
-
-  const trips = useMemo(
-    () =>
-      /* eslint-disable no-param-reassign */
-      allEdges.reduce((routeGroups, { node }) => {
-        if (
-          !node?.trip?.route?.gtfsId ||
-          !node?.start?.schedule?.time?.departure
-        ) {
-          return routeGroups;
-        }
-
-        const { start, end, trip } = node;
-        const routeShortName = trip?.route?.shortName;
-        const patternCode = trip?.pattern?.code;
-
-        if (!routeGroups[routeShortName]) {
-          routeGroups[routeShortName] = {
-            routeGtfsId: trip.route.gtfsId,
-            patterns: {},
-          };
-        }
-
-        if (routeGroups[routeShortName].patterns[patternCode]) {
-          routeGroups[routeShortName].patterns[
-            patternCode
-          ].canceledDepartures.push(
-            DateTime.fromISO(start?.schedule.time.departure).toFormat('HH:mm'),
-          );
-        } else {
-          routeGroups[routeShortName].patterns[patternCode] = {
-            start,
-            end,
-            trip,
-            canceledDepartures: [
-              DateTime.fromISO(start?.schedule.time.departure).toFormat(
-                'HH:mm',
-              ),
-            ],
-          };
-        }
-
-        return routeGroups;
-      }, {}),
-    [allEdges],
+  const [showAmount, setShowAmount] = useState(
+    DEFAULT_ROUTES_SHOWN_AMOUNT > canceledRoutes.length
+      ? canceledRoutes.length
+      : DEFAULT_ROUTES_SHOWN_AMOUNT,
   );
 
   const content = (
     <>
-      <header className="canceled-trips__header">
-        <DisruptionBadge showIcon variant="WARNING" label="NO_SERVICE" />
-        <DisruptionStatus active showDates={false} className="text-s-bold" />
-      </header>
       <div className="canceled-trips__body">
-        {Object.entries(trips).map(
-          ([routeShortName, { routeGtfsId, patterns }], i, arr) =>
-            isMobile ? (
-              <Card key={routeShortName}>
-                <CancellationContainer
-                  item={{
-                    routeShortName,
-                    routeGtfsId,
-                    patterns,
-                    index: i,
-                    total: arr.length,
-                  }}
-                  mode={mode}
-                  isMobile={isMobile}
-                  colors={colors}
-                  onShowDetailsClick={setDetailsKey}
-                />
-              </Card>
-            ) : (
-              <CancellationContainer
-                key={routeShortName}
-                item={{
-                  routeShortName,
-                  routeGtfsId,
-                  patterns,
-                  index: i,
-                  total: arr.length,
-                }}
-                mode={mode}
-                isMobile={isMobile}
-                colors={colors}
-                onShowDetailsClick={setDetailsKey}
-              />
-            ),
-        )}
+        {canceledRoutes.slice(0, showAmount).map((routeSummary, i) => {
+          const cancellationContainer = (
+            <CancellationContainer
+              routeSummary={routeSummary}
+              mode={mode.toLowerCase()}
+              isMobile={isMobile}
+              colors={colors}
+              separator={!isMobile && i + 1 < canceledRoutes.length}
+            />
+          );
+
+          return isMobile ? (
+            <React.Fragment key={routeSummary.route.shortName}>
+              {cancellationContainer}
+            </React.Fragment>
+          ) : (
+            <Card
+              key={routeSummary.route.shortName}
+              className="canceled-trips__card"
+            >
+              {cancellationContainer}
+            </Card>
+          );
+        })}
       </div>
       <footer className="canceled-trips__footer paragraph-extra-small">
         <div className="canceled-trips__footer-body">
           <FormattedMessage
             id="traffic-now_canceled-trips--amount"
             values={{
-              amount: allEdges.length,
-              totalAmount: canceledTrips.totalCount,
+              amount: showAmount,
+              totalAmount: canceledRoutes.length,
             }}
           />
           <ResultsProgressBar
-            currentAmount={allEdges.length}
-            totalAmount={canceledTrips.totalCount}
+            currentAmount={showAmount}
+            totalAmount={canceledRoutes.length}
           />
-          {hasNext && (
-            <Button
-              className="load-more-button link-bold-small"
-              size="small"
-              fullWidth={false}
-              variant="white"
-              value={intl.formatMessage({ id: 'show-more' })}
-              onClick={() => loadNext(CANCELED_TRIPS_QUERY_AMOUNT)}
-              disabled={isLoadingNext}
-            />
+          {showAmount < canceledRoutes.length && (
+            <div className="canceled-trips__footer-show-more-container">
+              <Button
+                size="s"
+                variant="secondary"
+                onClick={() =>
+                  setShowAmount(
+                    // cannot be set to more than the amount of cancellations
+                    showAmount + DEFAULT_ROUTES_SHOWN_AMOUNT >
+                      canceledRoutes.length
+                      ? canceledRoutes.length
+                      : showAmount + DEFAULT_ROUTES_SHOWN_AMOUNT,
+                  )
+                }
+              >
+                {intl.formatMessage({ id: 'show-more' })}
+              </Button>
+            </div>
           )}
         </div>
       </footer>
@@ -166,24 +101,25 @@ const CanceledTrips = ({ query, isMobile = false, ...props }) => {
         </Link>
       </div>
 
-      <div className="canceled-trips__container">
-        {isMobile ? content : <Card>{content}</Card>}
-      </div>
-      {!!detailsKey && (
-        <CanceledTripsModal
-          detailsKey={detailsKey}
-          mode={mode}
-          trips={trips}
-          onClose={() => setDetailsKey(null)}
-        />
-      )}
+      <div className="canceled-trips__container">{content}</div>
     </>
   );
 };
 
 CanceledTrips.propTypes = {
+  canceledRoutes: PropTypes.arrayOf(
+    PropTypes.shape({
+      cancellationCount: PropTypes.number.isRequired,
+      route: routeShape.isRequired,
+      patterns: PropTypes.arrayOf(
+        PropTypes.shape({
+          cancellationCount: PropTypes.number.isRequired,
+          pattern: patternShape.isRequired,
+        }),
+      ).isRequired,
+    }),
+  ),
   mode: PropTypes.string.isRequired,
-  query: PropTypes.shape({}).isRequired,
   isMobile: PropTypes.bool,
 };
 

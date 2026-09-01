@@ -9,12 +9,12 @@ const Icon = ({
   height,
   id,
   img,
-  omitViewBox,
-  viewBox,
+  omitViewBox = false,
+  viewBox = '0 0 40 40',
   width,
   dataURI,
-  ariaLabel,
-  iconScale,
+  ariaLabel = '',
+  iconScale = 1,
   background,
   foreground,
 }) => (
@@ -75,21 +75,6 @@ Icon.propTypes = {
   iconScale: PropTypes.number,
   background: PropTypes.node,
   foreground: PropTypes.node,
-};
-
-Icon.defaultProps = {
-  className: undefined,
-  color: undefined,
-  height: undefined,
-  id: undefined,
-  omitViewBox: false,
-  viewBox: '0 0 40 40',
-  width: undefined,
-  ariaLabel: '',
-  dataURI: undefined,
-  iconScale: 1,
-  background: undefined,
-  foreground: undefined,
 };
 
 Icon.displayName = 'Icon';

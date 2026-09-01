@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
@@ -13,6 +12,7 @@ import {
 import { getRouteMode } from '../../util/modeUtils';
 import { alertShape } from '../../util/shapes';
 import { epochToTime } from '../../util/timeUtils';
+import { useCurrentTime } from '../../hooks/TimeContext';
 import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
 
 /**
@@ -57,9 +57,10 @@ const getCancelations = (
       };
     });
 
-function RouteAlertsContainer({ currentTime, route, pattern }) {
+function RouteAlertsContainer({ route, pattern }) {
   const intl = useIntl();
   const config = useConfigContext();
+  const currentTime = useCurrentTime();
   if (!route) {
     return null;
   }
@@ -103,7 +104,6 @@ function RouteAlertsContainer({ currentTime, route, pattern }) {
 }
 
 RouteAlertsContainer.propTypes = {
-  currentTime: PropTypes.number.isRequired,
   route: PropTypes.shape({
     color: PropTypes.string,
     type: PropTypes.number,
@@ -132,65 +132,60 @@ RouteAlertsContainer.propTypes = {
   }).isRequired,
 };
 
-const containerComponent = createFragmentContainer(
-  connectToStores(RouteAlertsContainer, ['TimeStore'], context => ({
-    currentTime: context.getStore('TimeStore').getCurrentTime(),
-  })),
-  {
-    route: graphql`
-      fragment RouteAlertsContainer_route on Route {
-        color
-        mode
-        type
-        shortName
-        gtfsId
-      }
-    `,
-    pattern: graphql`
-      fragment RouteAlertsContainer_pattern on Pattern
-      @argumentDefinitions(date: { type: "String" }) {
-        alerts(types: [ROUTE, STOPS_ON_PATTERN]) {
-          id
-          alertDescriptionText
-          alertHash
-          alertHeaderText
-          alertSeverityLevel
-          alertUrl
-          effectiveEndDate
-          effectiveStartDate
-          entities {
-            __typename
-            ... on Route {
-              color
-              type
-              mode
-              shortName
-              gtfsId
-            }
-            ... on Stop {
-              name
-              code
-              vehicleMode
-              gtfsId
-            }
+const containerComponent = createFragmentContainer(RouteAlertsContainer, {
+  route: graphql`
+    fragment RouteAlertsContainer_route on Route {
+      color
+      mode
+      type
+      shortName
+      gtfsId
+    }
+  `,
+  pattern: graphql`
+    fragment RouteAlertsContainer_pattern on Pattern
+    @argumentDefinitions(date: { type: "String" }) {
+      alerts(types: [ROUTE, STOPS_ON_PATTERN]) {
+        id
+        alertDescriptionText
+        alertHash
+        alertHeaderText
+        alertSeverityLevel
+        alertUrl
+        effectiveEndDate
+        effectiveStartDate
+        entities {
+          __typename
+          ... on Route {
+            color
+            type
+            mode
+            shortName
+            gtfsId
           }
-        }
-        trips: tripsForDate(serviceDate: $date) {
-          tripHeadsign
-          stoptimes: stoptimesForDate(serviceDate: $date) {
-            headsign
-            realtimeState
-            scheduledArrival
-            scheduledDeparture
-            serviceDay
-            stop {
-              name
-            }
+          ... on Stop {
+            name
+            code
+            vehicleMode
+            gtfsId
           }
         }
       }
-    `,
-  },
-);
+      trips: tripsForDate(serviceDate: $date) {
+        tripHeadsign
+        stoptimes: stoptimesForDate(serviceDate: $date) {
+          headsign
+          realtimeState
+          scheduledArrival
+          scheduledDeparture
+          serviceDay
+          stop {
+            name
+          }
+        }
+      }
+    }
+  `,
+});
 
 export { containerComponent as default, RouteAlertsContainer as Component };

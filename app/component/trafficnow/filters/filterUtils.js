@@ -70,3 +70,12 @@ export function filterAndSortAlerts(alerts, selectedFilters) {
     .filter(alert => filterFns.every(fn => fn(alert, selectedFilters)))
     .sort((a, b) => a.effectiveStartDate - b.effectiveStartDate);
 }
+
+export function filterCanceledModes(canceledModes, selectedFilters) {
+  const filterFns = [entityFilter, favouriteFilter];
+  return canceledModes.filter(({ routes }) =>
+    filterFns.every(fn =>
+      fn({ entities: routes.map(r => r.route) }, selectedFilters),
+    ),
+  );
+}

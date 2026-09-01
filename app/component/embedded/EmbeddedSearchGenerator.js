@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useState, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggest from '@digitransit-component/digitransit-component-autosuggest';
-import { configShape } from '../../util/shapes';
+import { useConfigContext } from '../../configurations/ConfigContext';
 import EmbeddedSearch from './EmbeddedSearch';
 import { EMBEDDED_SEARCH_PATH } from '../../util/path';
 import { getRefPoint } from '../../util/apiUtils';
@@ -24,11 +23,10 @@ const languages = [
   { id: 'pl', name: 'polish', defaultMessage: 'Polish' },
 ];
 
-const EmbeddedSearchGenerator = (props, context) => {
-  const { breakpoint, lang } = props;
+const EmbeddedSearchGenerator = ({ breakpoint = undefined }) => {
   const intl = useIntl();
-  const { config } = context;
-  const { colors, fontWeights } = config;
+  const config = useConfigContext();
+  const { colors, fontWeights, language: lang } = config;
   const MIN_WIDTH = 360;
   const MAX_WIDTH = 640;
 
@@ -83,7 +81,7 @@ const EmbeddedSearchGenerator = (props, context) => {
     modeSet: config.iconModeSet,
     colors,
     selectHandler: onSelectLocation,
-    getAutoSuggestIcons: context.config.getAutoSuggestIcons,
+    getAutoSuggestIcons: config.getAutoSuggestIcons,
   };
 
   const generateComponent = () => {
@@ -467,19 +465,6 @@ const EmbeddedSearchGenerator = (props, context) => {
 
 EmbeddedSearchGenerator.propTypes = {
   breakpoint: PropTypes.string,
-  lang: PropTypes.string.isRequired,
 };
 
-EmbeddedSearchGenerator.defaultProps = { breakpoint: undefined };
-
-EmbeddedSearchGenerator.contextTypes = {
-  config: configShape.isRequired,
-};
-
-export default connectToStores(
-  withBreakpoint(EmbeddedSearchGenerator),
-  ['PreferencesStore'],
-  context => ({
-    lang: context.getStore('PreferencesStore').getLanguage(),
-  }),
-);
+export default withBreakpoint(EmbeddedSearchGenerator);

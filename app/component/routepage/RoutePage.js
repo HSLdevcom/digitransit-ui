@@ -12,7 +12,7 @@ import RouteControlPanel from './RouteControlPanel';
 import { PREFIX_ROUTES, PREFIX_DISRUPTION } from '../../util/path';
 import withBreakpoint from '../../util/withBreakpoint';
 import BackButton from '../BackButton';
-import { getRouteMode } from '../../util/modeUtils';
+import { getRouteMode, modeToTranslationId } from '../../util/modeUtils';
 import {
   getModeIconColor,
   ensureColorAccessibleOnWhite,
@@ -106,7 +106,7 @@ function RoutePage({ route, match, breakpoint, error = undefined }) {
             >
               <span className="sr-only" style={{ whiteSpace: 'pre' }}>
                 {intl.formatMessage({
-                  id: mode,
+                  id: modeToTranslationId(mode, config),
                 })}{' '}
                 {label?.toLowerCase()}
               </span>

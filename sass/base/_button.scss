@@ -17,18 +17,37 @@ button {
   appearance: none;
   color: inherit;
 
-  &:focus {
+  // :where() keeps this reset at zero specificity so it only applies when
+  // nothing else styles the button's focus/active/hover state. Without it,
+  // `button:focus` (0,1,1) would outrank library components (e.g. hsl-fi
+  // Button) that only style `:focus-visible` for the outline and rely on
+  // their base class (0,1,0) for background/text color, breaking their
+  // colors whenever the button receives keyboard focus.
+  &:where(:focus) {
     background-color: transparent;
     color: inherit;
   }
 
-  &:active {
+  &:where(:active) {
     background-color: transparent;
     color: inherit;
   }
 
-  &:hover {
+  &:where(:hover) {
     background-color: transparent;
     color: inherit;
   }
+}
+
+// Foundation's forms module globally resets border-radius to $global-radius
+// (0) on every `[type='button'], [type='submit']` element (see
+// foundation-sites/scss/forms/_text.scss). That attribute selector has the
+// same specificity (0,1,0) as the single hashed class hsl-fi design system
+// components rely on for their own button styling (e.g. the hsl-fi/dialog
+// CloseButton's `border-radius: 100%`), so depending on cascade order it can
+// win the tie and flatten round buttons into square ones. Restore the round
+// shape with a selector specific enough (0,1,1) to always win, without
+// depending on the library's internal hashed class name staying identical.
+button[class*='closeButton'] {
+  border-radius: 100%;
 }

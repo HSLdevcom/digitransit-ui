@@ -8,9 +8,6 @@ import { legTime } from './legUtils';
 export function mapStatus(status) {
   switch (status) {
     case 'EMPTY':
-      return 'MANY_SEATS_AVAILABLE';
-    case 'NOT_ACCEPTING_PASSENGERS':
-      return 'CRUSHED_STANDING_ROOM_ONLY';
     case 'MANY_SEATS_AVAILABLE':
       return 'MANY_SEATS_AVAILABLE';
     case 'FEW_SEATS_AVAILABLE':
@@ -18,7 +15,7 @@ export function mapStatus(status) {
     case 'STANDING_ROOM_ONLY':
       return 'STANDING_ROOM_ONLY';
     case 'CRUSHED_STANDING_ROOM_ONLY':
-      return 'CRUSHED_STANDING_ROOM_ONLY';
+    case 'NOT_ACCEPTING_PASSENGERS':
     case 'FULL':
       return 'CRUSHED_STANDING_ROOM_ONLY';
     default:
@@ -35,17 +32,16 @@ export function capacityToTranslationId(status) {
   switch (status) {
     case 'EMPTY':
     case 'MANY_SEATS_AVAILABLE':
-      return 'capacity-modal.many-seats-available-heading';
+      return 'capacity-modal.many-seats-available';
     case 'STANDING_ROOM_ONLY':
-      return 'capacity-modal.standing-room-only-heading';
+      return 'capacity-modal.standing-room-only';
     case 'CRUSHED_STANDING_ROOM_ONLY':
-      return 'capacity-modal.crushed-standing-room-only-heading';
     case 'NOT_ACCEPTING_PASSENGERS':
     case 'FULL':
-      return 'capacity-modal.full-capacity-heading';
+      return 'capacity-modal.crushed-standing-room-only';
     case 'FEW_SEATS_AVAILABLE':
     default:
-      return 'capacity-modal.few-seats-available-heading';
+      return 'capacity-modal.few-seats-available';
   }
 }
 
