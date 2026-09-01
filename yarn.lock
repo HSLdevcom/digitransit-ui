@@ -3399,7 +3399,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/navigation@npm:^3.2.0, @hsl-fi/navigation@npm:^3.3.0":
+"@hsl-fi/navigation@npm: ^3.3.0, @hsl-fi/navigation@npm:^3.2.0, @hsl-fi/navigation@npm:^3.3.0":
   version: 3.3.0
   resolution: "@hsl-fi/navigation@npm:3.3.0"
   dependencies:
@@ -9127,11 +9127,11 @@ __metadata:
   linkType: hard
 
 "baseline-browser-mapping@npm:^2.9.0":
-  version: 2.10.0
-  resolution: "baseline-browser-mapping@npm:2.10.0"
+  version: 2.11.18
+  resolution: "baseline-browser-mapping@npm:2.11.18"
   bin:
     baseline-browser-mapping: dist/cli.cjs
-  checksum: 10/8145e076e4299f04c7a412e6ea63803e330153cd89c47b5303f9b56b58078f4c3d5a5b5332c1069da889e76facacca4d43f8940375f7e73ce0a4d96214332953
+  checksum: 10/2b27bf073acb9ec443c7d9cf7185ca4aac854fbc1236467aeeefbfa24a212e0cc6659c32c79c29bbd50d40cb81289feb38d9faf7ecfb6f66f6fae1d5a2b332df
   languageName: node
   linkType: hard
 
@@ -9974,17 +9974,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001524, caniuse-lite@npm:^1.0.30001759":
-  version: 1.0.30001776
-  resolution: "caniuse-lite@npm:1.0.30001776"
-  checksum: 10/7a140cfcb5b56597139e700ac624df342995ec670e43e17b0b636b4b215ce6f05d3932c16a4b8c740b5fe57bc94ef5cac157f5b0e3ccb049d80c57f409c576a8
-  languageName: node
-  linkType: hard
-
-"caniuse-lite@npm:^1.0.30001774":
-  version: 1.0.30001787
-  resolution: "caniuse-lite@npm:1.0.30001787"
-  checksum: 10/2b3a2400b21d89123f13b7a8a7ad58dbdeb9971b62e33f43712d7209b69656f8bfd8ab67ab760c12e5fa7967b18c108ca67d7f20b7c7ccf039621f7db56baecf
+"caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001524, caniuse-lite@npm:^1.0.30001759, caniuse-lite@npm:^1.0.30001774":
+  version: 1.0.30001809
+  resolution: "caniuse-lite@npm:1.0.30001809"
+  checksum: 10/1034b9673e2393bf0c12f5188e0957817d423f71909809eafd69e511c91dedd880d36dd7ee1041605d73fcd3f89a42ba4e235eb942e6bb9f23acdca2fc98f927
   languageName: node
   linkType: hard
 
@@ -12450,6 +12443,7 @@ __metadata:
     "@hsl-fi/icons": "npm:^2.3.0"
     "@hsl-fi/layout-primitives": "npm:^4.9.0"
     "@hsl-fi/modal": "npm: ^0.3.2"
+    "@hsl-fi/navigation": "npm: ^3.3.0"
     "@hsl-fi/notifications": "npm:^4.1.0"
     "@hsl-fi/sass": "npm: 1.0.0"
     "@hsl-fi/shimmer": "npm:0.1.2"

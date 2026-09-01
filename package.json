@@ -43,7 +43,7 @@
     "build-workspaces": "yarn build-components && yarn build-search-utils && yarn build-store",
     "start": "NODE_ENV=production node $NODE_OPTS server/server",
     "start-test": "NODE_ENV=test node $NODE_OPTS server/server",
-    "add-theme": "node build/add-theme",
+    "add-theme": "node scripts/theme/add-theme",
     "relay": "relay-compiler",
     "relay-watch": "relay-compiler --watch",
     "digitransit-npm-publish": "lerna publish from-package --no-git-tag-version --no-push",
@@ -119,7 +119,7 @@
   },
   "relay": {
     "src": "./app",
-    "schema": "./build/schema.graphql",
+    "schema": "./schema/schema.graphql",
     "language": "javascript"
   },
   "dependencies": {
@@ -138,6 +138,7 @@
     "@hsl-fi/icons": "^2.3.0",
     "@hsl-fi/layout-primitives": "^4.9.0",
     "@hsl-fi/modal": " ^0.3.2",
+    "@hsl-fi/navigation": " ^3.3.0",
     "@hsl-fi/notifications": "^4.1.0",
     "@hsl-fi/sass": " 1.0.0",
     "@hsl-fi/shimmer": "0.1.2",

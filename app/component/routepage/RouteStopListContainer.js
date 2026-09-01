@@ -11,6 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import { relayShape, vehicleShape, patternShape } from '../../util/shapes';
 import RouteStop from './RouteStop';
 import withBreakpoint from '../../util/withBreakpoint';
+import { useCurrentTime } from '../../hooks/TimeContext';
 import { getRouteMode } from '../../util/modeUtils';
 import { getModeIconColor } from '../../util/colorUtils';
 import { useConfigContext } from '../../configurations/ConfigContext';
@@ -19,12 +20,12 @@ function RouteStopListContainer({
   pattern,
   className = undefined,
   vehicles = [],
-  currentTime,
   relay,
   breakpoint,
   hideDepartures = false,
 }) {
   const config = useConfigContext();
+  const currentTime = useCurrentTime();
   const { match } = useRouter();
   const isMountRef = useRef(true);
 
@@ -114,7 +115,6 @@ RouteStopListContainer.propTypes = {
   pattern: patternShape.isRequired,
   className: PropTypes.string,
   vehicles: PropTypes.objectOf(vehicleShape),
-  currentTime: PropTypes.number.isRequired,
   relay: relayShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   hideDepartures: PropTypes.bool,
@@ -123,10 +123,9 @@ RouteStopListContainer.propTypes = {
 const containerComponent = createRefetchContainer(
   connectToStores(
     withBreakpoint(RouteStopListContainer),
-    ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
+    ['RealTimeInformationStore', 'PositionStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,
-      currentTime: getStore('TimeStore').getCurrentTime(),
     }),
   ),
   {

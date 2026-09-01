@@ -126,10 +126,9 @@ function StopMarker({
         if (zoom < STATUS_BADGE_ZOOM_THRESHOLD) {
           const circleSize = radius * 3.5;
           const cr = circleSize / 2;
-          // stroke color/width for stop-badge-* circles are defined in map.scss
           iconSvg = `<svg viewBox="0 0 ${circleSize} ${circleSize}" width="${circleSize}" height="${circleSize}"><circle class="stop-badge-${stopStatus}" cx="${cr}" cy="${cr}" r="${
             cr - 1.5
-          }"/></svg>`;
+          }" stroke="#fff" stroke-width="2.5"/></svg>`;
           return L.divIcon({
             html: iconSvg,
             iconSize: [circleSize, circleSize],
@@ -145,22 +144,18 @@ function StopMarker({
         const background = isAlertBadge
           ? ''
           : `<circle cx="${center}" cy="${center}" r="${center}" fill="#fff"/>`;
+        // map.scss clips leaflet-marker-icon svgs to a circle; override it so
+        // the non-circular triangle isn't cut off at its corners.
+        const svgStyle = `filter:drop-shadow(0 1px 2px var(--color-shadow-strong));${
+          isAlertBadge ? 'border-radius:0;' : ''
+        }`;
         const viewBox = isAlertBadge ? '-8 -8 302.46 302.46' : '0 0 40 40';
-        iconSvg = `<svg width="${badgeSize}" height="${badgeSize}">${background}<svg x="${borderWidth}" y="${borderWidth}" width="${innerSize}" height="${innerSize}" viewBox="${viewBox}" ><use href="#${badgeImg}" width="100%" height="100%"/></svg></svg>`;
+        iconSvg = `<svg width="${badgeSize}" height="${badgeSize}" style="${svgStyle}">${background}<svg x="${borderWidth}" y="${borderWidth}" width="${innerSize}" height="${innerSize}" viewBox="${viewBox}" ><use href="#${badgeImg}" width="100%" height="100%"/></svg></svg>`;
         return L.divIcon({
           html: iconSvg,
           iconSize: [badgeSize, badgeSize],
           // disable-icon-border prevents map.scss from adding a second CSS border on the svg
-          // stop-badge-icon adds the drop-shadow; alert-badge-icon undoes the circular clip for the triangle (see map.scss)
-          className: cx(
-            mode,
-            'cursor-pointer',
-            'disable-icon-border',
-            'stop-badge-icon',
-            {
-              'alert-badge-icon': isAlertBadge,
-            },
-          ),
+          className: cx(mode, 'cursor-pointer', 'disable-icon-border'),
         });
       }
     }

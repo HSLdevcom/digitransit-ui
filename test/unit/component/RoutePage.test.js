@@ -61,7 +61,9 @@ describe('<RoutePage />', () => {
   let sandbox;
 
   beforeEach(() => {
-    ({ sandbox } = createShallowHookSandbox({ config: baseConfig }));
+    ({ sandbox } = createShallowHookSandbox({
+      config: baseConfig,
+    }));
   });
 
   afterEach(() => sandbox.restore());

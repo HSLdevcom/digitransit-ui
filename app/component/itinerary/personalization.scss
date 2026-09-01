@@ -8,6 +8,14 @@
   max-height: 200px;
 }
 
+// Once the expand transition has finished, overflow no longer needs to be
+// clipped. Removing it avoids a Firefox rendering bug where the bottom
+// border of .feedback-frame gets clipped by this ancestor's overflow when
+// its computed height is a fractional pixel value.
+.feedback-animated.expanded {
+  overflow: visible;
+}
+
 .feedback-animated.open .feedback-motion {
   animation: feedbackBounce 650ms forwards;
 }
@@ -172,7 +180,6 @@
     display: flex;
     flex-direction: row;
     width: auto;
-    align-items: center;
   }
 
   .feedback-text-posted {
@@ -195,11 +202,15 @@
     }
   }
 
+  .feedback-section-centered {
+    align-items: center;
+  }
+
   .feedback-section {
     display: flex;
     flex-direction: row;
-    align-items: center;
     white-space: normal;
+    color: $black;
 
     .thumb-button {
       display: flex;
@@ -216,6 +227,7 @@
 
     .thumb-button-disabled {
       background-color: var(--color-surface-disabled);
+      border: none;
     }
 
     .thumb-button svg {
@@ -227,12 +239,20 @@
     }
 
     .icon.favourite {
-      stroke: #ddd;
+      stroke: #666;
 
       &.selected {
         stroke: transparent;
         fill: $attention-color;
       }
+    }
+  }
+}
+
+.mobile {
+  .feedback-section {
+    .thumb-button {
+      margin-left: var(--space-fixed-xs);
     }
   }
 }

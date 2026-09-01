@@ -7,7 +7,7 @@ const MOCKPOS = false;
 let geoWatchId;
 
 function reverseGeocodeAddress(actionContext, coords) {
-  const language = actionContext.getStore('PreferencesStore').getLanguage();
+  const { language } = actionContext.config;
 
   const searchParams = {
     'point.lat': coords.latitude,

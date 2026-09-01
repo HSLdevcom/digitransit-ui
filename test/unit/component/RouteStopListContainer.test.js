@@ -7,7 +7,6 @@ import { Component as RouteStopListContainer } from '../../../app/component/rout
 describe('<RouteStopListContainer />', () => {
   it('should render route stop list', () => {
     const props = {
-      currentTime: 1573135114,
       pattern: {
         directionId: 0,
         code: 'feed:1',
@@ -110,6 +109,7 @@ describe('<RouteStopListContainer />', () => {
         nearestStopDistance: {},
         colors: { primary: '#007AC9' },
       },
+      currentTime: 1573135114,
     });
     expect(wrapper.find('.route-stop-list')).to.have.lengthOf(1);
   });

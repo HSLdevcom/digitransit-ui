@@ -12,6 +12,7 @@ import {
   getTripOrRouteText,
   LegMode,
   isLocalCallAgency,
+  isTaxiLeg,
 } from '../../util/legUtils';
 import { getTripOrRouteMode } from '../../util/modeUtils';
 import { legShape } from '../../util/shapes';
@@ -423,7 +424,7 @@ function ItineraryLine({
             transit
           />,
         );
-      } else if (leg.transitLeg && mode !== 'taxi-external') {
+      } else if (leg.transitLeg && !isTaxiLeg(leg)) {
         const name = getTripOrRouteText(
           leg.trip,
           leg.route,
