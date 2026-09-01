@@ -155,6 +155,8 @@ const MobileView = ({
     [state.renderMobile, dispatch],
   );
 
+  const handleClearHistory = useCallback(() => setDialogOpen(true), []);
+
   const { ariaRequiredText, SearchBarId, ariaCurrentSuggestion } = ariaProps;
   const ariaLabel = ariaRequiredText
     .concat(' ')
@@ -238,7 +240,7 @@ const MobileView = ({
               lng={lng}
               styles={styles}
               renderClearHistoryButton
-              handleClearHistory={() => setDialogOpen(true)}
+              handleClearHistory={handleClearHistory}
               {...suggestionProps}
             />
           </span>

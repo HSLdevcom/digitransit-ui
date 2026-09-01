@@ -1,6 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
-import React, { useEffect, useCallback, useRef, useReducer } from 'react';
+import React, {
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+  useReducer,
+} from 'react';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import cx from 'classnames';
 import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
@@ -551,15 +557,27 @@ function DTAutosuggest({
     }
   }, [state.loading, state.pendingEnter, state.suggestions]);
 
-  const baseItemProps = {
-    loading: state.loading,
-    isMobile,
-    ariaFavouriteString: t('favourite', { lng }),
-    fontWeights,
-    getAutoSuggestIcons,
-    colors,
-    modeSet,
-  };
+  const baseItemProps = useMemo(
+    () => ({
+      loading: state.loading,
+      isMobile,
+      ariaFavouriteString: t('favourite', { lng }),
+      fontWeights,
+      getAutoSuggestIcons,
+      colors,
+      modeSet,
+    }),
+    [
+      state.loading,
+      isMobile,
+      t,
+      lng,
+      fontWeights,
+      getAutoSuggestIcons,
+      colors,
+      modeSet,
+    ],
+  );
 
   const {
     ariaCurrentSuggestion,
