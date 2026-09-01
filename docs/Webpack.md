@@ -119,7 +119,15 @@ Production gets:
 - **`InjectManifest`** (`workbox-webpack-plugin`) — builds the production
   service worker; see [Service worker](#service-worker) below.
 - **`MiniCssExtractPlugin`** — extracts CSS to hashed files (prod only;
-  dev uses `style-loader`).
+  dev uses `style-loader`). `ignoreOrder: true` silences its "conflicting
+  order" warnings: the `digitransitComponents` cache group (see
+  `splitChunks` below) merges CSS from many `@hsl-fi`/`@digitransit-*`
+  packages into one shared chunk used by every route, and different
+  routes import different subsets of those packages in different
+  relative orders. Every affected file is CSS Modules output with
+  locally-scoped, per-file-hashed class names, so the actual
+  concatenation order has no visual effect - confirmed by an A/B build
+  showing byte-identical CSS output with/without the flag.
 - **`CompressionPlugin`** (×2) — pre-generates `.gz` and `.br` (Brotli)
   copies of JS/CSS/HTML/SVG/ICO assets so the server can serve
   precompressed files instead of compressing on the fly.
