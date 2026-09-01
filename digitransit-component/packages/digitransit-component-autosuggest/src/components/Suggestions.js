@@ -1,5 +1,5 @@
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import cx from 'classnames';
@@ -8,7 +8,7 @@ import {
   translateFutureRouteSuggestionTime,
 } from '../utils/utils';
 
-function Suggestion({
+const Suggestion = memo(function Suggestion({
   item,
   lng,
   getItemProps,
@@ -37,7 +37,7 @@ function Suggestion({
       <SuggestionItem item={newItem} content={content} lng={lng} {...rest} />
     </li>
   );
-}
+});
 const itemShape = PropTypes.shape({
   name: PropTypes.string,
   type: PropTypes.string,
@@ -73,7 +73,7 @@ Suggestion.propTypes = {
   styles: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
-export function Suggestions({
+export const Suggestions = memo(function Suggestions({
   suggestions,
   getMenuProps,
   getItemProps,
@@ -125,7 +125,7 @@ export function Suggestions({
       </ul>
     </div>
   );
-}
+});
 
 Suggestions.propTypes = {
   suggestions: PropTypes.arrayOf(itemShape).isRequired,
