@@ -36,7 +36,6 @@ const SURVEY_SHARE = Number(process.env.SURVEY_SHARE) || undefined;
 
 export default {
   PORT,
-  // AXE,
   CONFIG,
   OTPTimeout: OTP_TIMEOUT,
   URL: {

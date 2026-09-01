@@ -37,16 +37,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axe-core/react@npm:^4.10.1":
-  version: 4.11.1
-  resolution: "@axe-core/react@npm:4.11.1"
-  dependencies:
-    axe-core: "npm:~4.11.1"
-    requestidlecallback: "npm:^0.3.0"
-  checksum: 10/dbbf71d2f47c054b675d00064a88fcb52e2c8d2ff45ab8ae02590ea01237ce73e1e31daafaa3329f5eaa9da4da528bc091a7dc93e4d70d8f5eb824c180e04d59
-  languageName: node
-  linkType: hard
-
 "@axe-core/webdriverjs@npm:^4.10.1":
   version: 4.11.1
   resolution: "@axe-core/webdriverjs@npm:4.11.1"
@@ -12417,7 +12407,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "digitransit-ui@workspace:."
   dependencies:
-    "@axe-core/react": "npm:^4.10.1"
     "@axe-core/webdriverjs": "npm:^4.10.1"
     "@azure/cosmos": "npm:^4.0.0"
     "@azure/storage-blob": "npm:^12.8.0"
@@ -25815,13 +25804,6 @@ __metadata:
     tunnel-agent: "npm:^0.6.0"
     uuid: "npm:^3.3.2"
   checksum: 10/005b8b237b56f1571cfd4ecc09772adaa2e82dcb884fc14ea2bb25e23dbf7c2009f9929e0b6d3fd5802e33ed8ee705a3b594c8f9467c1458cd973872bf89db8e
-  languageName: node
-  linkType: hard
-
-"requestidlecallback@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "requestidlecallback@npm:0.3.0"
-  checksum: 10/a89c75f1eea347ccf30db1f1c48154df567ada16bc3b54c7ba969ae6cfb9a23d2c71121f8b05d9bc1303fcc3292aaaf7924f4fbd3cf33c8a4ed7c3095653e849
   languageName: node
   linkType: hard
 

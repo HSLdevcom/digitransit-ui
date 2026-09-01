@@ -210,7 +210,6 @@
     "typescript": ">2.7"
   },
   "devDependencies": {
-    "@axe-core/react": "^4.10.1",
     "@axe-core/webdriverjs": "^4.10.1",
     "@azure/storage-blob": "^12.8.0",
     "@babel/cli": "7.27.0",

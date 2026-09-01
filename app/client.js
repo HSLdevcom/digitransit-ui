@@ -108,24 +108,6 @@ async function init() {
 
   window.context = context;
 
-  if (IS_DEV_BUILD) {
-    /* if (config.AXE) {
-      const axeConfig = {
-        resultTypes: ['violations'],
-      };
-      // eslint-disable-next-line global-require
-      const axe = require('@axe-core/react');
-      axe(React, ReactDOM, 2500, axeConfig);
-    } */
-    try {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      require(`../sass/themes/${config.CONFIG}/main.scss`);
-    } catch (error) {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      require('../sass/themes/default/main.scss');
-    }
-  }
-
   // Query parameter is used instead of header because browsers send
   // OPTIONS queries where you can't define headers
   const queryParameters = config.hasAPISubscriptionQueryParameter
