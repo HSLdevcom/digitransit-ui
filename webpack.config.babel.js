@@ -301,7 +301,7 @@ module.exports = {
         parser: isDevelopment
           ? undefined
           : { dataUrlCondition: { maxSize: 10000 } },
-        generator: { filename: 'assets/[hash][ext]' },
+        generator: { filename: 'assets/[contenthash][ext]' },
       },
     ],
   },

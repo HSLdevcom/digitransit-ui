@@ -35,7 +35,7 @@ and output settings.
   otherwise every `app/configurations/config.*.js` deployment does.
 - `faviconPlugins` (same file) generates one `favicons-webpack-plugin`
   instance per deployment, producing per-deployment favicons/app icons
-  under `assets/icons-<CONFIG>-[hash]/`.
+  under `assets/icons-<CONFIG>-[contenthash]/`.
 - In development, `webpack.ContextReplacementPlugin` narrows the dynamic
   `require` for `sass/themes` down to just the selected `CONFIG`'s
   `main.scss`, so the dev server doesn't build every theme.
