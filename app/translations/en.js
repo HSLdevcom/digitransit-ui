@@ -192,8 +192,10 @@ export default {
     'disruptions-change-filters': 'Please try again with different filters',
     'disruptions-found-amount':
       '{amount, plural, =0 {No disruptions found} one {Found 1 disruption} other {Found {amount} disruptions} }',
+    'disruptions-refresh': 'Load page',
     'disruptions-tab.sr-disruptions': 'One or more known disruptions',
     'disruptions-tab.sr-no-disruptions': 'No known disruptions',
+    'disruptions-update-available': 'Updates available',
     'distance-total': 'Total distance',
     'e-scooter': 'Electric scooter',
     'e-scooter-alternative':

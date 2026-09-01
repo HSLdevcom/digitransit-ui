@@ -190,8 +190,10 @@ export default {
     'disruptions-change-filters': 'Försök igen genom att ändra dina val.',
     'disruptions-found-amount':
       '{amount, plural, =0 {Inga störningar hittades} one {Hittades 1 störning} other {Hittades {amount} störningar} }',
+    'disruptions-refresh': 'Ladda om',
     'disruptions-tab.sr-disruptions': 'En eller flera kända störningar',
     'disruptions-tab.sr-no-disruptions': 'Inga kända störningar',
+    'disruptions-update-available': 'Uppdateringar tillgängliga',
     'distance-total': 'Resans längd',
     'e-scooter': 'Elsparkcykel',
     'e-scooter-alternative':

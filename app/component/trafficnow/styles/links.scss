@@ -13,9 +13,12 @@
   align-items: center;
   justify-content: space-between;
 
+  &__caret {
+    transition: transform $transition-short;
+  }
+
   &:hover &__caret {
     transform: translateX(4px);
-    transition: transform $transition-short;
   }
 
   &__left-column {
