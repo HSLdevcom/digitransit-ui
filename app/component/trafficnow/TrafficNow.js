@@ -108,8 +108,8 @@ const TrafficNow = () => {
                     />
                     <Button
                       size="m"
-                      expand
                       variant="primary"
+                      expandOnMobile
                       onClick={() => setShowFiltersModal(true)}
                     >
                       {intl.formatMessage({

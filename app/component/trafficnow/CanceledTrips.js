@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from '@hsl-fi/button';
+import { Button } from '@hsl-fi/layout-primitives';
 import cx from 'classnames';
 import Link from 'found/Link';
 import PropTypes from 'prop-types';
@@ -64,22 +64,23 @@ const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
             totalAmount={canceledRoutes.length}
           />
           {showAmount < canceledRoutes.length && (
-            <Button
-              className="load-more-button link-bold-small"
-              size="small"
-              fullWidth={false}
-              variant="white"
-              value={intl.formatMessage({ id: 'show-more' })}
-              onClick={() =>
-                setShowAmount(
-                  // cannot be set to more than the amount of cancellations
-                  showAmount + DEFAULT_ROUTES_SHOWN_AMOUNT >
-                    canceledRoutes.length
-                    ? canceledRoutes.length
-                    : showAmount + DEFAULT_ROUTES_SHOWN_AMOUNT,
-                )
-              }
-            />
+            <div className="canceled-trips__footer-show-more-container">
+              <Button
+                size="s"
+                variant="secondary"
+                onClick={() =>
+                  setShowAmount(
+                    // cannot be set to more than the amount of cancellations
+                    showAmount + DEFAULT_ROUTES_SHOWN_AMOUNT >
+                      canceledRoutes.length
+                      ? canceledRoutes.length
+                      : showAmount + DEFAULT_ROUTES_SHOWN_AMOUNT,
+                  )
+                }
+              >
+                {intl.formatMessage({ id: 'show-more' })}
+              </Button>
+            </div>
           )}
         </div>
       </footer>

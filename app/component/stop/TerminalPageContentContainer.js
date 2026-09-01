@@ -1,18 +1,19 @@
-import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DepartureListContainer from '../DepartureListContainer';
 import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { stationShape, errorShape, relayShape } from '../../util/shapes';
 import { getTrackOrPierOrPlatformText } from '../../util/localeUtils';
+import { useCurrentTime } from '../../hooks/TimeContext';
 
-function TerminalPageContent({ station, relay, currentTime, error }) {
+function TerminalPageContent({ station, relay, error }) {
   if (!station && error) {
     throw error.message;
   }
+
+  const currentTime = useCurrentTime();
 
   useEffect(() => {
     relay.refetch(oldVariables => {
@@ -71,7 +72,6 @@ function TerminalPageContent({ station, relay, currentTime, error }) {
 TerminalPageContent.propTypes = {
   station: stationShape.isRequired,
   relay: relayShape.isRequired,
-  currentTime: PropTypes.number.isRequired,
   error: errorShape,
 };
 
@@ -79,10 +79,8 @@ TerminalPageContent.defaultProps = {
   error: undefined,
 };
 
-const connectedComponent = createRefetchContainer(
-  connectToStores(TerminalPageContent, ['TimeStore'], ({ getStore }) => ({
-    currentTime: getStore('TimeStore').getCurrentTime(),
-  })),
+const containerComponent = createRefetchContainer(
+  TerminalPageContent,
   {
     station: graphql`
       fragment TerminalPageContentContainer_station on Stop
@@ -130,4 +128,4 @@ const connectedComponent = createRefetchContainer(
   `,
 );
 
-export { connectedComponent as default, TerminalPageContent as Component };
+export default containerComponent;

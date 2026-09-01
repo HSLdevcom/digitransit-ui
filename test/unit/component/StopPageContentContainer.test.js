@@ -9,7 +9,6 @@ import { Component as StopPageContentContainer } from '../../../app/component/st
 describe('<StopPageContentContainer />', () => {
   it("should show a 'no departures' indicator", () => {
     const props = {
-      currentTime: 0,
       params: {
         stopId: '1234',
       },
@@ -23,6 +22,7 @@ describe('<StopPageContentContainer />', () => {
     };
     const wrapper = shallowWithIntl(<StopPageContentContainer {...props} />, {
       context: { config: { CONFIG: 'default' } },
+      currentTime: 0,
     });
 
     expect(wrapper.find('.stop-no-departures-container')).to.have.lengthOf(1);

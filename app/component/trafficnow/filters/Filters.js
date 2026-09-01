@@ -51,26 +51,19 @@ const Filters = ({ onApplyClick = undefined, onResetClick = () => {} }) => {
   const buttons = (
     <>
       {onApplyClick && (
-        <Button
-          type="button"
-          size="m"
-          expand
-          variant="primary"
-          onClick={onApplyClick}
-        >
+        <Button size="m" variant="primary" onClick={onApplyClick}>
           {intl.formatMessage({
             id: 'traffic-now_filters_view-results',
           })}
         </Button>
       )}
       <Button
-        type="button"
         size="m"
+        variant="secondary"
+        onClick={handleResetClick}
         disabled={
           JSON.stringify(selectedFilters) === JSON.stringify(DEFAULT_FILTERS)
         }
-        variant="secondary"
-        onClick={handleResetClick}
       >
         {intl.formatMessage({ id: 'clear-button-label' })}
       </Button>

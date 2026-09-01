@@ -30,10 +30,4 @@ ServiceAlertIcon.propTypes = {
   color: PropTypes.string,
 };
 
-ServiceAlertIcon.defaultProps = {
-  className: undefined,
-  severityLevel: undefined,
-  color: undefined,
-};
-
 export default ServiceAlertIcon;
