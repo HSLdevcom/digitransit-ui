@@ -117,6 +117,49 @@ jobs:
 #          sudo apt install -y libxml2-utils
 #          xmllint --nonet --noout static/assets/svg-sprite.*.svg
 
+  check-versions:
+    needs: install
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [24.14.1]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          # The version-bump check below diffs against the PR/push base
+          # commit, so it needs full git history (not the default shallow
+          # clone) to compute a merge-base.
+          fetch-depth: 0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org/'
+
+      # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v5
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Cache .yarn/cache
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        uses: actions/cache@v5
+        with:
+          path: '.yarn/cache'
+          key: yarn-v3-cache-${{ github.ref_name }}
+          restore-keys: yarn-v3-cache-v3
+      - name: Install dependencies
+        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+        run: yarn install --immutable
+
+      - name: Check changed packages have version bumps
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: yarn check-package-versions
+
   unit-test:
     needs: install
     runs-on: ubuntu-latest

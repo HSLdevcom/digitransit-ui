@@ -12,6 +12,9 @@ node_modules
 # nx.json's task pipeline) - always safe to delete, regenerated on demand.
 .nx
 
+# Lerna's debug log, written when a lerna command errors out.
+lerna-debug.log
+
 # Main app webpack build reports/manifests (see webpack.config.babel.js)
 filesizes.html
 stats.json

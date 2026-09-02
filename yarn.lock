@@ -12745,6 +12745,7 @@ __metadata:
     sass: "npm:^1.97.2"
     sass-loader: "npm:17.0.0"
     selenium-webdriver: "npm:4.0.0-alpha.1"
+    semver: "npm:^7.8.5"
     serialize-javascript: "npm:7.0.5"
     sinon: "npm:19.0.5"
     style-loader: "npm:^4.0.0"
