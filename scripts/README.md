@@ -54,6 +54,20 @@ in `config.default.js`'s host-name mapping. See [`docs/Themes.md`](/docs/Themes.
 yarn add-theme <name> '#RRGGBB' <optional navbar logo>
 ```
 
+## Using `check-version-bumps.js`
+
+Fails if a workspace package changed since a given base commit but its `package.json` `version`
+wasn't bumped accordingly (or was bumped in the wrong direction). `lerna publish from-package`
+only republishes a package when its committed version is greater than what's already on npm, so a
+changed-but-unbumped package would otherwise silently never get published. Run it (with
+`BASE_SHA` set to the commit/branch to diff against) whenever you change a workspace package
+(`digitransit-component`, `digitransit-search-util`, `digitransit-store`, `digitransit-util`) to
+make sure you remembered to bump its version — this is also enforced in CI on pull requests.
+
+```
+BASE_SHA=<git ref> yarn check-package-versions
+```
+
 ## Using `generate-schema.js`
 
 Regenerates `schema/schema.graphql` (the GraphQL schema used by relay-compiler and
