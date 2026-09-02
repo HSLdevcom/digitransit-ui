@@ -55,6 +55,9 @@ const noEffectFilter = (alert, { noEffect }) => alert.alertEffect !== noEffect;
 const pastFilter = ({ effectiveEndDate }, { now }) =>
   now < effectiveEndDate * 1000;
 
+const feedIdFilter = ({ feed }, { selectedFeeds = [] }) =>
+  !selectedFeeds.length || selectedFeeds.includes(feed);
+
 export function filterAndSortAlerts(alerts, selectedFilters) {
   const filterFns = [
     pastFilter,
@@ -63,6 +66,7 @@ export function filterAndSortAlerts(alerts, selectedFilters) {
     vehicleModesFilter,
     entityFilter,
     favouriteFilter,
+    feedIdFilter,
     cancellationsFilter,
   ];
 

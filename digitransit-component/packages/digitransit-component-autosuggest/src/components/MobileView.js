@@ -144,10 +144,8 @@ const MobileView = ({
     },
   });
   // call to suppress ref errors from downshift
-  getLabelProps({}, { suppressRefError: true });
   getMenuProps({}, { suppressRefError: true });
   getInputProps({}, { suppressRefError: true });
-  getItemProps({ index: -1 }, { suppressRefError: true });
 
   const handleValueChange = useCallback(
     newValue =>
