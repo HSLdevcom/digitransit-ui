@@ -92,6 +92,7 @@ const CanceledDepartures = ({
                   !expandedDates.includes(serviceDate) &&
                   !inline && (
                     <button
+                      type="button"
                       className="show-departures-button"
                       onClick={() =>
                         setExpandedDates([...expandedDates, serviceDate])

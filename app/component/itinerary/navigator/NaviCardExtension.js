@@ -79,11 +79,12 @@ const NaviCardExtension = (
   }
 
   if (legType === LEGTYPE.TRANSIT) {
-    const { intermediatePlaces, headsign, trip, route } = leg;
+    const { headsign, trip, route } = leg;
+    const intermediateCount = leg.stopCalls ? leg.stopCalls.length - 2 : 0;
     const hs = headsign || trip.tripHeadsign;
-    const stopCount = <span className="bold">{intermediatePlaces.length}</span>;
+    const stopCount = <span className="bold">{intermediateCount}</span>;
     const translationId =
-      intermediatePlaces.length === 1
+      intermediateCount === 1
         ? 'navileg-one-intermediate-stop'
         : 'navileg-intermediate-stops';
     const mode = getTripOrRouteMode(trip, route, config);

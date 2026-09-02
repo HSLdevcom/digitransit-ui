@@ -200,16 +200,17 @@ function ItineraryLine({
   }
 
   function handleIntermediateStops(leg, mode, objs) {
-    if (!passive && showIntermediateStops && leg.intermediatePlaces != null) {
-      leg.intermediatePlaces
-        .filter(place => place.stop)
-        .forEach(place =>
+    if (!passive && showIntermediateStops && leg.stopCalls != null) {
+      leg.stopCalls
+        .slice(1, -1)
+        .filter(sc => sc.stopLocation)
+        .forEach(sc =>
           objs.push(
             <StopMarker
               disableModeIcons
               limitZoom={14}
-              stop={place.stop}
-              key={`intermediate-${place.stop.gtfsId}`}
+              stop={sc.stopLocation}
+              key={`intermediate-${sc.stopLocation.gtfsId}`}
               mode={mode}
               thin
             />,

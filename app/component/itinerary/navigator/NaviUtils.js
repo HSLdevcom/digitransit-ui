@@ -414,16 +414,22 @@ export const getTransitLegState = (
 export function itinerarySearchPath(time, leg, nextLeg, position, to) {
   let from;
   if (leg?.transitLeg) {
-    from = leg.intermediatePlaces.find(
-      p => legTime(p.arrival) > time + EARLIEST_NEXT_STOP,
+    const intermediate = leg.stopCalls?.slice(1, -1) ?? [];
+    const sc = intermediate.find(
+      s =>
+        legTime({
+          scheduledTime: s.schedule?.time?.arrival,
+          estimated: s.realTime?.arrival
+            ? { time: s.realTime.arrival.time }
+            : undefined,
+        }) >
+        time + EARLIEST_NEXT_STOP,
     );
-    if (!from) {
-      from = leg.to;
-    }
+    from = sc ? sc.stopLocation : leg.to;
   } else {
     from = position || leg?.to || nextLeg?.from;
   }
-  const location = { ...from, ...from.stop };
+  const location = { ...from };
 
   return getItineraryPagePath(locationToUri(location), to);
 }
