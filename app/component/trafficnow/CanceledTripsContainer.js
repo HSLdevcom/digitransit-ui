@@ -2,16 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useLazyLoadQuery } from 'react-relay/hooks';
 import { connectToStores } from 'fluxible-addons-react';
-import { DateTime } from 'luxon';
 import CanceledTrips from './CanceledTrips';
 import CanceledTripsForModeQuery from './queries/CanceledTripsForModeQuery';
 import { favouriteShape } from '../../util/shapes';
 import { sortRoutes } from './utils';
 
-const CanceledTripsContainer = ({ mode, isMobile, favourites = [] }) => {
+const CanceledTripsContainer = ({
+  mode,
+  isMobile,
+  favourites = [],
+  dateTime,
+}) => {
   const { canceledTripsSummary } = useLazyLoadQuery(CanceledTripsForModeQuery, {
     mode: mode.toUpperCase(),
-    serviceDateRanges: [{ start: DateTime.now().toISODate(), end: null }],
+    runningTimeRanges: [{ start: dateTime, end: null }],
   });
   const favRoutes = favourites.map(({ gtfsId }) => gtfsId);
 
@@ -27,6 +31,7 @@ CanceledTripsContainer.propTypes = {
   mode: PropTypes.string.isRequired,
   isMobile: PropTypes.bool,
   favourites: PropTypes.arrayOf(favouriteShape),
+  dateTime: PropTypes.string.isRequired,
 };
 
 const connectedComponent = connectToStores(
