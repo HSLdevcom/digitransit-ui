@@ -3,13 +3,15 @@ import { graphql } from 'react-relay';
 export default graphql`
   fragment CanceledDeparturesFragment on Pattern
   @relay(plural: true)
-  @argumentDefinitions(serviceDateRanges: { type: "[LocalDateRangeInput!]" }) {
+  @argumentDefinitions(
+    runningTimeRanges: { type: "[OffsetDateTimeRangeInput!]" }
+  ) {
     code
     headsign
     stops {
       name
     }
-    canceledTrips(serviceDateRanges: $serviceDateRanges) {
+    canceledTrips(runningTimeRanges: $runningTimeRanges) {
       serviceDate
       trip {
         gtfsId
