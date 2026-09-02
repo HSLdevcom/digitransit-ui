@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-autosuggest-panel",
-  "version": "8.3.9",
+  "version": "8.3.10",
   "description": "digitransit-component autosuggest-panel module",
   "main": "index.js",
   "files": [
@@ -28,11 +28,11 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-autosuggest": "^7.1.14",
+    "@digitransit-component/digitransit-component-autosuggest": "^7.1.15",
     "@digitransit-component/digitransit-component-icon": "^2.0.2",
     "@hsl-fi/sass": "1.0.0",
     "classnames": "2.5.1",
-    "downshift": "9.0.10",
+    "downshift": "9.4.0",
     "i18next": "^22.5.1",
     "lodash": "4.18.1",
     "lodash-es": "4.18.1",
