@@ -10,13 +10,15 @@
     "clean": "rm -rf lib ./node_modules",
     "test": "mocha -r esm test.js",
     "docs": "node -r esm ../../scripts/generate-readmes",
-    "relay": "relay-compiler && mkdir -p lib && rm -rf lib/__generated__ && mv src/__generated__ lib/",
+    "relay": "mkdir -p lib/__generated__ && relay-compiler",
+    "watch": "yarn relay && NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "build": "yarn relay && NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
   "relay": {
     "src": "./src",
     "schema": "./schema/schema.graphql",
-    "language": "javascript"
+    "language": "javascript",
+    "artifactDirectory": "./lib/__generated__"
   },
   "repository": {
     "type": "git",

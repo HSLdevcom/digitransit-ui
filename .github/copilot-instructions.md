@@ -44,11 +44,7 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 
 - Requires the Node version from `engines.node` and the Yarn version from `packageManager` in
   `package.json` (`corepack enable`). Also needs `watchman`.
-- `yarn install && yarn setup` — installs deps and builds the `digitransit-*` workspace packages
-  (components/search-util/store/util) that live under `digitransit-component/`,
-  `digitransit-search-util/`, `digitransit-store/`, `digitransit-util/`. **After editing any file
-  in one of these workspaces, re-run `yarn setup` (or the relevant `build-*` script) for changes
-  to be picked up by the main app.**
+- `yarn install` — installs deps.
 - `yarn run dev` — dev server at http://localhost:8080 (webpack-dev-server + nodemon server +
   relay-watch + component watch, run in parallel via one script). Runs against mock/no API keys.
 - `source scripts/ui.sh` then `uidev <config>` / `uiprod <config>` / `uilocal <config>` — run the

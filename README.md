@@ -6,7 +6,7 @@ Digitransit UI is a journey planner user interface built to work with OpenTripPl
 
 ## Quick start
 
-- `yarn install && yarn setup`
+- `yarn install`
 - `yarn run dev`, then open http://localhost:8080
 
 See [Installation](docs/Installation.md) for full requirements and options, and
