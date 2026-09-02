@@ -244,7 +244,6 @@ const MobileView = ({
           </span>
         </div>
         <DialogModal
-          appElement={appElement}
           isModalOpen={isDialogOpen}
           handleClose={() => setDialogOpen(false)}
           headerText={t('delete-old-searches-header', { lng })}
@@ -255,8 +254,6 @@ const MobileView = ({
             setDialogOpen(false);
           }}
           secondaryButtonOnClick={() => setDialogOpen(false)}
-          colors={colors}
-          fontWeights={fontWeights}
           lang={lng}
         />
       </div>
