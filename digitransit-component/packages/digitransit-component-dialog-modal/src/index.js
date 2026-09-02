@@ -14,7 +14,7 @@ import { Modal, ConfirmationModalContent } from '@hsl-fi/dialog';
 const DialogModal = ({
   headerText,
   dialogContent,
-  handleClose,
+  handleClose = () => {},
   primaryButtonText,
   primaryButtonOnClick,
   primaryButtonVariant,
@@ -63,14 +63,6 @@ DialogModal.propTypes = {
   secondaryButtonOnClick: PropTypes.func,
   dialogContent: PropTypes.string,
   lang: PropTypes.string.isRequired,
-};
-
-DialogModal.defaultProps = {
-  dialogContent: undefined,
-  handleClose: () => {},
-  primaryButtonVariant: 'primary',
-  secondaryButtonText: undefined,
-  secondaryButtonOnClick: undefined,
 };
 
 export default DialogModal;
