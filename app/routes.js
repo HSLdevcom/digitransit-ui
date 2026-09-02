@@ -355,6 +355,9 @@ export default config => {
                 /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
               ).then(getDefault)
             }
+            render={({ Component }) =>
+              Component && <Component dateTime={new Date().toISOString()} />
+            }
           />
           <Route
             path={`/${TRAFFICNOW}/peruutukset/:mode`}
@@ -363,6 +366,9 @@ export default config => {
                 /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
               ).then(getDefault)
             }
+            render={({ Component }) =>
+              Component && <Component dateTime={new Date().toISOString()} />
+            }
           />
           <Route
             path={TRAFFICNOW}
@@ -370,6 +376,9 @@ export default config => {
               import(
                 /* webpackChunkName: "trafficnow" */ './component/trafficnow/TrafficNow'
               ).then(getDefault)
+            }
+            render={({ Component }) =>
+              Component && <Component dateTime={new Date().toISOString()} />
             }
           />
           <Redirect from={`/${TRAFFICNOW}/*`} to={`/${TRAFFICNOW}`} />
