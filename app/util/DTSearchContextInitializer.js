@@ -22,7 +22,7 @@ import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
 import { useCitybikes } from './modeUtils';
 import { getDefaultNetworks } from './vehicleRentalUtils';
-import { getStopBadgeFromCache } from './stopStatusSearchUtils';
+import { getStopBadge } from './stopStatusSearchUtils';
 
 export default function intializeSearchContext(context, searchContext) {
   searchContext.context = context;
@@ -69,6 +69,6 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.getFutureRoutes = getFutureRoutes;
   searchContext.clearFutureRoutes = clearFutureRoutes;
   if (config.showStopStatusMarkers) {
-    searchContext.getStopBadgeFromCache = getStopBadgeFromCache;
+    searchContext.getStopBadge = getStopBadge;
   }
 }

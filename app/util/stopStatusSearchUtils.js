@@ -1,7 +1,3 @@
-// Badges are served by the UI server (fetched from OTP once per day).
-// The client loads the full badge map once per page load.
-// Pelias-provided addendum.GTFS.noServiceToday supplements the OTP badge cache.
-
 import { STOP_STATUS, STOP_STATUS_BADGE_IMGS } from './stopStatusUtils';
 
 const STATUS_LAYERS = new Set([
@@ -10,10 +6,6 @@ const STATUS_LAYERS = new Set([
   'station',
   'favouriteStation',
 ]);
-
-// Module-level: populated on first preload, shared across all search instances.
-let badgeMap = null;
-let fetchPromise = null;
 
 function extractGtfsId(item) {
   const fromProperties = item.properties?.gtfsId || item.gtfsId;
@@ -32,27 +24,7 @@ function getLayer(item) {
   return item.properties?.layer;
 }
 
-export function preloadBadgeMap() {
-  if (badgeMap !== null || fetchPromise !== null) {
-    return fetchPromise || Promise.resolve();
-  }
-  fetchPromise = fetch('/api/stop-alert-badges')
-    .then(res => res.json())
-    .then(data => {
-      badgeMap = data;
-      fetchPromise = null;
-    })
-    .catch(err => {
-      // Fall back to an empty map so searches still work.
-      // eslint-disable-next-line no-console
-      console.warn('[stopBadge] Failed to load badge map:', err.message);
-      badgeMap = {};
-      fetchPromise = null;
-    });
-  return fetchPromise;
-}
-
-export function getStopBadgeFromCache(item) {
+export function getStopBadge(item) {
   if (!STATUS_LAYERS.has(getLayer(item))) {
     return null;
   }
@@ -67,9 +39,11 @@ export function getStopBadgeFromCache(item) {
   if (gtfs?.noServiceToday) {
     return STOP_STATUS_BADGE_IMGS[STOP_STATUS.NO_SERVICE_TODAY];
   }
-  const cached = badgeMap?.[gtfsId] ?? null;
-  if (cached) {
-    return cached;
+  if (
+    gtfs?.alertSeverity === STOP_STATUS.ALERT ||
+    gtfs?.alertSeverity === STOP_STATUS.INFO
+  ) {
+    return STOP_STATUS_BADGE_IMGS[gtfs.alertSeverity];
   }
   return null;
 }
