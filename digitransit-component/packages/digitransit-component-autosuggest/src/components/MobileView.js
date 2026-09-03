@@ -144,10 +144,8 @@ const MobileView = ({
     },
   });
   // call to suppress ref errors from downshift
-  getLabelProps({}, { suppressRefError: true });
   getMenuProps({}, { suppressRefError: true });
   getInputProps({}, { suppressRefError: true });
-  getItemProps({ index: -1 }, { suppressRefError: true });
 
   const handleValueChange = useCallback(
     newValue =>
@@ -246,7 +244,6 @@ const MobileView = ({
           </span>
         </div>
         <DialogModal
-          appElement={appElement}
           isModalOpen={isDialogOpen}
           handleClose={() => setDialogOpen(false)}
           headerText={t('delete-old-searches-header', { lng })}
@@ -257,8 +254,6 @@ const MobileView = ({
             setDialogOpen(false);
           }}
           secondaryButtonOnClick={() => setDialogOpen(false)}
-          colors={colors}
-          fontWeights={fontWeights}
           lang={lng}
         />
       </div>

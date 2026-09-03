@@ -120,7 +120,11 @@ module.exports = () => {
         // package being built, not the repo root, so a relative path
         // here would no longer resolve correctly.
         configFile: path.join(__dirname, 'babel.config.js'),
-        exclude: /node_modules/,
+        // These specific node_modules packages ship untranspiled ES2018+/ESM
+        // syntax (e.g. optional chaining) that our bundled UMD output would
+        // otherwise pass through as-is, breaking Webpack 4's old acorn
+        // parser when the main app later consumes these built libs.
+        exclude: /node_modules\/(?!@radix-ui|@floating-ui|@hsl-fi)/,
       }),
       commonjs({
         ignoreGlobal: true,

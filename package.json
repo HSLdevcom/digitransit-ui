@@ -306,7 +306,6 @@
   "resolutions": {
     "autoprefixer": "^10.4.21",
     "html-webpack-plugin": "5.6.8",
-    "sharp": "0.33",
     "cheerio": "1.0.0-rc.10"
   }
 }

@@ -1,27 +1,12 @@
-/* eslint no-console: ["error", { allow: ["warn", "error"] }] */
-/* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
 import React from 'react';
-import cx from 'classnames';
-import { I18nextProvider, useTranslation } from 'react-i18next';
-import Modal from '@hsl-fi/modal';
-import { defaultColors } from '@digitransit-component/digitransit-component-icon';
-import styles from './helpers/styles.scss';
-import i18n from './helpers/i18n';
+import { Modal, ConfirmationModalContent } from '@hsl-fi/dialog';
 
-const isKeyboardSelectionEvent = event => {
-  const space = [13, ' ', 'Spacebar'];
-  const enter = [32, 'Enter'];
-  const key = (event && (event.key || event.which || event.keyCode)) || '';
-
-  if (!key || !space.concat(enter).includes(key)) {
-    return false;
-  }
-  event.preventDefault();
-  return true;
-};
 /**
- * General component description in JSDoc format. Markdown is *supported*.
+ * A confirmation dialog (e.g. "Are you sure you want to delete this?") built
+ * on top of the HSL design system's Modal/ConfirmationModalContent. Button
+ * styling (colors, typography) is handled entirely by the design system's
+ * theme tokens, so it automatically follows the active deployment's theme.
  *
  * @example
  * <DialogModal />
@@ -29,123 +14,55 @@ const isKeyboardSelectionEvent = event => {
 const DialogModal = ({
   headerText,
   dialogContent,
-  handleClose,
+  handleClose = () => {},
   primaryButtonText,
   primaryButtonOnClick,
+  primaryButtonVariant,
   secondaryButtonText,
   secondaryButtonOnClick,
   lang,
-  href,
-  appElement,
   isModalOpen,
-  modalAriaLabel,
-  colors,
-  fontWeights,
 }) => {
-  const [t] = useTranslation();
-
   return (
     <Modal
-      appElement={appElement}
-      contentLabel={modalAriaLabel}
-      closeButtonLabel={t('close-modal', { lng: lang })}
-      variant="confirmation"
-      isOpen={isModalOpen}
-      onCrossClick={handleClose}
+      lang={lang}
+      open={isModalOpen}
+      onOpenChange={open => {
+        if (!open) {
+          handleClose();
+        }
+      }}
     >
-      <div
-        style={{
-          '--color': `${colors.primary}`,
-          '--hover-color': `${colors.hover}`,
-          '--font-weight-medium': fontWeights.medium,
-        }}
-      >
-        <div className={styles['digitransit-dialog-modal-top']}>
-          <div className={styles['digitransit-dialog-modal-header']}>
-            {headerText}
-          </div>
-          {dialogContent && (
-            <div className={styles['digitransit-dialog-modal-content']}>
-              {dialogContent}
-            </div>
-          )}
-        </div>
-        <div className={styles['digitransit-dialog-modal-buttons']}>
-          <a
-            type="button"
-            role="button"
-            tabIndex="0"
-            className={cx(
-              styles['digitransit-dialog-modal-button'],
-              styles.primary,
-            )}
-            href={href}
-            onKeyDown={e => {
-              if (isKeyboardSelectionEvent(e)) {
-                e.stopPropagation();
-                primaryButtonOnClick(e);
-              }
-            }}
-            onClick={e => {
-              e.stopPropagation();
-              primaryButtonOnClick(e);
-            }}
-          >
-            {primaryButtonText}
-          </a>
-          {secondaryButtonText && secondaryButtonOnClick && (
-            <button
-              type="button"
-              tabIndex="0"
-              className={cx(
-                styles['digitransit-dialog-modal-button'],
-                styles.secondary,
-              )}
-              onClick={() => secondaryButtonOnClick()}
-            >
-              {secondaryButtonText}
-            </button>
-          )}
-        </div>
-      </div>
+      <ConfirmationModalContent
+        title={headerText}
+        description={dialogContent}
+        confirmLabel={primaryButtonText}
+        confirmVariant={primaryButtonVariant}
+        onConfirm={primaryButtonOnClick}
+        cancelLabel={secondaryButtonText}
+        onCancel={secondaryButtonOnClick}
+      />
     </Modal>
   );
 };
 
 DialogModal.propTypes = {
-  appElement: PropTypes.string.isRequired,
   isModalOpen: PropTypes.bool.isRequired,
   headerText: PropTypes.string.isRequired,
   handleClose: PropTypes.func,
   primaryButtonText: PropTypes.string.isRequired,
   primaryButtonOnClick: PropTypes.func.isRequired,
+  primaryButtonVariant: PropTypes.oneOf([
+    'primary',
+    'secondary',
+    'success',
+    'destructive',
+    'plain',
+  ]),
   secondaryButtonText: PropTypes.string,
   secondaryButtonOnClick: PropTypes.func,
   dialogContent: PropTypes.string,
   lang: PropTypes.string.isRequired,
-  modalAriaLabel: PropTypes.string,
-  href: PropTypes.string,
-  colors: PropTypes.objectOf(PropTypes.string),
-  fontWeights: PropTypes.shape({
-    medium: PropTypes.number,
-  }),
 };
 
-DialogModal.defaultProps = {
-  dialogContent: undefined,
-  handleClose: () => {},
-  secondaryButtonText: undefined,
-  secondaryButtonOnClick: undefined,
-  href: undefined,
-  modalAriaLabel: '',
-  colors: defaultColors,
-  fontWeights: {
-    medium: 500,
-  },
-};
-
-export default props => (
-  <I18nextProvider i18n={i18n}>
-    <DialogModal {...props} />
-  </I18nextProvider>
-);
+export default DialogModal;
