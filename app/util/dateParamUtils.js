@@ -7,8 +7,8 @@ export const prepareServiceDay = params => {
   return {
     ...params,
     date: now.toFormat(DATE_FORMAT),
-    cancelationStartDate: now.toISODate(),
-    cancelationEndDate: now.plus({ days: 7 }).toISODate(),
+    cancelationStartDate: now.toISO(),
+    cancelationEndDate: now.plus({ days: 7 }).toISO(),
   };
 };
 
@@ -18,8 +18,8 @@ export const prepareDatesForStops = params => {
     ...params,
     startTime: now.toUnixInteger() - 60 * 5, // 5 mins in the past
     date: now.toFormat(DATE_FORMAT),
-    cancelationStartDate: now.toISODate(),
-    cancelationEndDate: now.plus({ days: 7 }).toISODate(),
+    cancelationStartDate: now.toISO(),
+    cancelationEndDate: now.plus({ days: 7 }).toISO(),
   };
 };
 

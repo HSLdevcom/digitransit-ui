@@ -136,6 +136,13 @@ type Agency implements Node {
 "Alert of a current or upcoming disruption in public transportation"
 type Alert implements Node {
   """
+  The periods of time when this alert is active, sorted chronologically. There is always at
+  least one period. Each period has an inclusive start and an exclusive end. A period with an
+  unbounded start has always been active and a period with an unbounded end is active
+  indefinitely.
+  """
+  activityPeriods: [OffsetDateTimeRange!]!
+  """
   Agency affected by the disruption. Note that this value is present only if the
   disruption has an effect on all operations of the agency (e.g. in case of a strike).
   """
@@ -170,9 +177,9 @@ type Alert implements Node {
   "Url with more information in all different available languages"
   alertUrlTranslations: [TranslatedString!]! @deprecated(reason : "Use `alertUrl` instead. `accept-language` header can be used for translations or the `language` parameter on the `alertUrl` field.")
   "Time when this alert is not in effect anymore. Format: Unix timestamp in seconds"
-  effectiveEndDate: Long
+  effectiveEndDate: Long @deprecated(reason : "Use `activityPeriods` instead.")
   "Time when this alert comes into effect. Format: Unix timestamp in seconds"
-  effectiveStartDate: Long
+  effectiveStartDate: Long @deprecated(reason : "Use `activityPeriods` instead.")
   "Entities affected by the disruption."
   entities: [AlertEntity]
   "The feed in which this alert was published"
@@ -941,9 +948,9 @@ type Leg {
     originModesWithParentStation: [TransitMode!]
   ): [Leg!]
   "Whether there is real-time data about this Leg"
-  realTime: Boolean
+  realTime: Boolean @deprecated(reason : "Use `realTimeTripState.updated` on `TripOnServiceDate` instead.")
   "State of real-time data"
-  realtimeState: RealtimeState
+  realtimeState: RealtimeState @deprecated(reason : "Use `realTimeTripState` on `TripOnServiceDate` instead.")
   "Whether this leg is traversed with a rented vehicle."
   rentedBike: Boolean
   "Estimate of a hailed ride like Uber."
@@ -970,6 +977,8 @@ type Leg {
   transitLeg: Boolean
   "For transit legs, the trip that is used for traversing the leg. For non-transit legs, `null`."
   trip: Trip
+  "For transit legs, the trip on service date. For non-transit legs, `null`."
+  tripOnServiceDate: TripOnServiceDate
   "Whether this leg is walking with a bike."
   walkingBike: Boolean
 }
@@ -1050,6 +1059,31 @@ type Money {
   currency: Currency!
 }
 
+"""
+A textual message about a transit entity that is already known at planning time.
+
+It is not intended to convey real-time or emergency updates of the transit system but information that
+is known well ahead of time.
+"""
+type Notice {
+  "Textual representation of the message"
+  text: String
+}
+
+"""
+A range of time which can be unbounded in either direction.
+
+The start of the range is inclusive and the end is exclusive.
+A `null` start means that the range extends indefinitely into the past and a `null` end means
+that it extends indefinitely into the future.
+"""
+type OffsetDateTimeRange {
+  "The exclusive end of the range or `null` if the range is unbounded in the future."
+  end: OffsetDateTime
+  "The inclusive start of the range or `null` if the range is unbounded in the past."
+  start: OffsetDateTime
+}
+
 type OpeningHours {
   """
   Opening hours for the selected dates using the local time of the parking lot.
@@ -1106,6 +1140,18 @@ type Pattern implements Node {
   """
   canceledTrips(
     """
+    Only return canceled trips which are scheduled to be running during one of these time ranges.
+    A trip is considered to be running from its scheduled departure from the first stop until its
+    scheduled arrival at the last stop.
+        
+    An empty list or a list containing `null` is forbidden. If this argument is not provided or its
+    value is `null`, no filtering is applied.
+        
+    If both `runningTimeRanges` and `serviceDateRanges` are defined, a trip has to match both of
+    them to be returned.
+    """
+    runningTimeRanges: [OffsetDateTimeRangeInput!],
+    """
     Only return canceled trips whose service date falls within one of these ranges.
     An empty list or a list containing `null` is forbidden.  If this argument is not provided or its
     value is `null`, no filtering is applied.
@@ -1156,7 +1202,12 @@ type Pattern implements Node {
   tripsForDate(
     "Return trips of the pattern active on this date. Format: YYYYMMDD"
     serviceDate: String
-  ): [Trip!]
+  ): [Trip!] @deprecated(reason : "Use `tripsOnServiceDate`")
+  """
+  Instances of `TripOnServiceDates` which run on the specified date. If no trips run on this date
+  then this returns an empty list.
+  """
+  tripsOnServiceDate(serviceDate: LocalDate!): [TripOnServiceDate!]!
   "Real-time updated position of vehicles that are serving this pattern."
   vehiclePositions: [VehiclePosition!]
 }
@@ -2107,6 +2158,23 @@ type RealTimeEstimate {
   time: OffsetDateTime!
 }
 
+"The real-time state of a trip"
+type RealTimeTripState {
+  "Has the trip been added via real-time updates? (extra trip)"
+  added: Boolean!
+  "Has the trip been canceled?"
+  canceled: Boolean!
+  "Have any stop arrival or departure times been modified from the scheduled times?"
+  timesModified: Boolean!
+  """
+  Has the stop sequence changed from the scheduled pattern? True if stops were added, removed,
+  reordered, or reassigned to a different stop location (`assigned_stop_id`).
+  """
+  tripPatternModified: Boolean!
+  "Have there been any real-time updates on this trip?"
+  updated: Boolean!
+}
+
 "Rental vehicle represents a vehicle that belongs to a rental network."
 type RentalVehicle implements Node & PlaceInterface {
   "If true, vehicle is currently available for renting."
@@ -2270,6 +2338,8 @@ type Route implements Node {
   ): String
   "Transport mode of this route, e.g. `BUS`"
   mode: TransitMode
+  "Notices of this trip which are known ahead of time."
+  notices: [Notice!]! @deprecated(reason : "Experimental API that can be changed without notice.")
   "List of patterns which operate on this route"
   patterns(
     """
@@ -2389,11 +2459,28 @@ type Stop implements Node & PlaceInterface {
   """
   canceledCalls(
     """
+    Selects if only calls where boarding is allowed, only calls where alighting is allowed, or calls
+    where either boarding or alighting is possible (according to the original schedule).
+    """
+    arrivalDeparture: ArrivalDeparture = EITHER,
+    """
     Only include canceled calls whose trip's service date is within any of these date ranges.
     If omitted (or `null`), no service date filter is applied and canceled calls across the entire
     transit service period are returned. Defining a range is recommended.
     """
-    serviceDateRanges: [LocalDateRangeInput!]
+    serviceDateRanges: [LocalDateRangeInput!],
+    """
+    Only include canceled calls where the vehicle is scheduled to visit this stop during one of
+    these time ranges. The visit at a stop lasts from the scheduled arrival at the stop until the
+    scheduled departure from it.
+        
+    An empty list or a list containing `null` is forbidden. If this argument is not provided or its
+    value is `null`, no filtering is applied.
+        
+    If both `timeRanges` and `serviceDateRanges` are defined, a call has to match both of
+    them to be returned.
+    """
+    timeRanges: [OffsetDateTimeRangeInput!]
   ): [StopCallOnTripOnServiceDate!]!
   "The cluster which this stop is part of"
   cluster: Cluster @deprecated(reason : "Not implemented")
@@ -2552,6 +2639,8 @@ from a specific stop location.
 This may contain real-time information, if available.
 """
 type StopCall {
+  "Notices of this call which are known ahead of time."
+  notices: [Notice!]! @deprecated(reason : "Experimental API that can be changed without notice.")
   "Real-time estimates for arrival and departure times for this stop location."
   realTime: CallRealTime
   "Scheduled arrival and departure times for this stop location."
@@ -2644,7 +2733,12 @@ type Stoptime {
   realtimeArrival: Int
   "Real-time prediction of departure time. Format: seconds since midnight of the departure date"
   realtimeDeparture: Int
-  "State of real-time data"
+  """
+  State of real-time data. Currently used to determine, whether a stop has been canceled.
+  Disclaimer: this is, in most cases the trips realtime state, unless the stop is canceled,
+  then the Trips State will be overwritten to be CANCELED.
+  It is recommended to avoid using this field.
+  """
   realtimeState: RealtimeState
   "Scheduled arrival time. Format: seconds since midnight of the departure date"
   scheduledArrival: Int
@@ -2800,11 +2894,15 @@ type Trip implements Node {
   link in a DatedServiceJourney.
   """
   isReplacement: Boolean!
+  "Notices of the trip that are known ahead of time."
+  notices: [Notice!]! @deprecated(reason : "Experimental API that can be changed without notice.")
   """
   The latest real-time occupancy information for the latest occurance of this
   trip.
   """
   occupancy: TripOccupancy
+  "Return the trip on a specific service date or `null` if the trip does not run on it."
+  onServiceDate(date: LocalDate!): TripOnServiceDate
   "The pattern the trip is running on"
   pattern: Pattern
   """
@@ -2834,7 +2932,7 @@ type Trip implements Node {
   stoptimesForDate(
     "Date for which stoptimes are returned. Format: YYYYMMDD"
     serviceDate: String
-  ): [Stoptime]
+  ): [Stoptime] @deprecated(reason : "Use `onServiceDate` instead.")
   "Coordinates of the route of this trip in Google polyline encoded format"
   tripGeometry: Geometry
   "Headsign of the vehicle when running on this trip"
@@ -2865,6 +2963,8 @@ type TripOnServiceDate {
   end: StopCall!
   "Is this TripOnServiceDate a replacement? For GTFS-sourced data this might be all we know."
   isReplacement: Boolean
+  "Real-time state of the trip on this service date."
+  realTimeTripState: RealTimeTripState
   "Replaced by these TripOnServiceDates."
   replacedByRelation: [ReplacedByRelation!]!
   "Replacement for these TripOnServiceDates."
@@ -3358,6 +3458,19 @@ enum AlertSeverityLevelType {
   with irregular schedules.
   """
   WARNING
+}
+
+"""
+Enum for limiting the returned calls depending on pickup/drop off status on a stop
+based on the original schedules.
+"""
+enum ArrivalDeparture {
+  "Only include calls where alighting from the vehicle is allowed."
+  ARRIVALS
+  "Only include calls where boarding the vehicle is allowed."
+  DEPARTURES
+  "Include calls where either boarding or alighting is allowed."
+  EITHER
 }
 
 enum BikesAllowed {
@@ -4415,6 +4528,15 @@ input CanceledTripsFilterSelectInput {
   "Canceled trips from these transit modes should be included/excluded."
   modes: [TransitMode!]
   """
+  Canceled trips are included/excluded based on if they are scheduled to be running during any of
+  these time ranges. A trip is considered to be running from its scheduled departure from the first
+  stop until its scheduled arrival at the last stop.
+    
+  If both `runningTimeRanges` and `serviceDateRanges` are defined, a trip has to match both of
+  them to be included/excluded.
+  """
+  runningTimeRanges: [OffsetDateTimeRangeInput!]
+  """
   Canceled trips are included/excluded based on if their service date (but not necessarily their running date)  is within any of these time
   ranges.
   """
@@ -4441,6 +4563,15 @@ input CanceledTripsSummaryFilterInput {
 input CanceledTripsSummaryFilterSelectInput {
   "Canceled trips from these transit modes should be included/excluded."
   modes: [TransitMode!]
+  """
+  Canceled trips are included/excluded based on if they are scheduled to be running during any of
+  these time ranges. A trip is considered to be running from its scheduled departure from the first
+  stop until its scheduled arrival at the last stop.
+    
+  If both `runningTimeRanges` and `serviceDateRanges` are defined, a trip has to match both of
+  them to be included/excluded.
+  """
+  runningTimeRanges: [OffsetDateTimeRangeInput!]
   """
   Canceled trips are included/excluded based on if their service date is within any of these time
   ranges.
@@ -4704,6 +4835,29 @@ input LocalDateRangeInput {
   dates that are before `end` are selected.
   """
   start: LocalDate
+}
+
+"""
+Filters an entity by a time range. Both ends of the range are optional which makes it possible
+to define a range which is open ended in either or both directions.
+"""
+input OffsetDateTimeRangeInput {
+  """
+  **Exclusive** end time of the filter. This means that an entity which is exactly at `end` is not
+  selected.
+    
+  If `null` this means that no end filter is applied and all entities that are after or at `start`
+  are selected.
+  """
+  end: OffsetDateTime
+  """
+  **Inclusive** start time of the filter. This means that an entity which is exactly at `start` is
+  selected.
+    
+  If `null` this means that no `start` filter is applied and all entities that are before `end` are
+  selected.
+  """
+  start: OffsetDateTime
 }
 
 """

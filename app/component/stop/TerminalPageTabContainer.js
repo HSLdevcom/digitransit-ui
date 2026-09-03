@@ -42,8 +42,8 @@ const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
   station: graphql`
     fragment TerminalPageTabContainer_station on Stop
     @argumentDefinitions(
-      cancelationStartDate: { type: "LocalDate!" }
-      cancelationEndDate: { type: "LocalDate!" }
+      cancelationStartDate: { type: "OffsetDateTime!" }
+      cancelationEndDate: { type: "OffsetDateTime!" }
     ) {
       id
       gtfsId
@@ -67,9 +67,7 @@ const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
         alertHash
       }
       canceledCalls(
-        serviceDateRanges: [
-          { start: $cancelationStartDate, end: $cancelationEndDate }
-        ]
+        timeRanges: [{ start: $cancelationStartDate, end: $cancelationEndDate }]
       ) {
         tripOnServiceDate {
           serviceDate
