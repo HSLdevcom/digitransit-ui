@@ -13,7 +13,7 @@ import {
   errorMiddleware,
   cacheMiddleware,
 } from 'react-relay-network-modern';
-import OfflinePlugin from 'offline-plugin/runtime';
+import { Workbox } from 'workbox-window';
 import { Helmet } from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
 import { RelayEnvironmentProvider } from 'react-relay';
@@ -231,9 +231,14 @@ async function init() {
   const rootNode = document.getElementById('app');
   ReactDOM.render(content, rootNode, () => {
     if (!IS_DEV_BUILD && BUILD_TIME !== 'unset') {
-      OfflinePlugin.install({
-        onUpdateReady: () => OfflinePlugin.applyUpdate(),
-      });
+      // The service worker itself calls `skipWaiting()`/`clients.claim()`
+      // (see app/util/serviceWorker.js) so new versions take over as soon
+      // as they finish installing - mirrors the previous
+      // `OfflinePlugin.install({ onUpdateReady: () =>
+      // OfflinePlugin.applyUpdate() })` behaviour, just with the
+      // "apply immediately" decision made service-worker-side instead of
+      // here.
+      new Workbox('/sw.js').register();
     }
   });
 
