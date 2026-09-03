@@ -5,19 +5,15 @@ import GeoJSON, {
   getIcons,
   getMarker,
 } from '../../../../app/component/map/GeoJSON';
-import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
-
-const context = { config: { CONFIG: 'default' } };
+import { renderWithProviders } from '../../helpers/mock-providers';
 
 describe('<GeoJSON />', () => {
   it('should render empty if there are no features', () => {
     const props = {
       data: {},
     };
-    const wrapper = shallowWithIntl(<GeoJSON {...props} />, {
-      context,
-    });
-    expect(wrapper.isEmptyRender()).to.equal(true);
+    const { container } = renderWithProviders(<GeoJSON {...props} />);
+    expect(container.innerHTML).to.equal('');
   });
 
   describe('getIcons', () => {

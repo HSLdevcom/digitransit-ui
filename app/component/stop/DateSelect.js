@@ -6,6 +6,46 @@ import { DateTime } from 'luxon';
 import Select from 'react-select';
 import Icon from '../Icon';
 
+export const getDateOptions = (
+  startDate,
+  dateFormat,
+  selectedDate,
+  formatMessage,
+) => {
+  const date = DateTime.fromFormat(startDate, dateFormat);
+  const dates = [
+    {
+      label: formatMessage({ id: 'today', defaultMessage: 'Today' }),
+      value: date.toFormat(dateFormat),
+    },
+    {
+      label: formatMessage({ id: 'tomorrow', defaultMessage: 'Tomorrow' }),
+      value: date.plus({ days: 1 }).toFormat(dateFormat),
+    },
+  ];
+
+  for (let i = 2; i < 60; i++) {
+    const dateValue = date.plus({ days: i });
+    dates.push({
+      value: dateValue.toFormat(dateFormat),
+      label: dateValue.toFormat('ccc d.L.'),
+    });
+  }
+
+  return dates.map(option => ({
+    value: option.value,
+    textLabel: option.label,
+    label: (
+      <>
+        <span>{option.label}</span>
+        {option.value === selectedDate && (
+          <Icon img="icon_check" height={1.1525} width={0.904375} />
+        )}
+      </>
+    ),
+  }));
+};
+
 function DateSelect(props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const intl = useIntl();
@@ -13,43 +53,12 @@ function DateSelect(props) {
   const onMenuOpen = () => setIsMenuOpen(true);
   const onMenuClose = () => setIsMenuOpen(false);
 
-  const dates = [];
-  const date = DateTime.fromFormat(props.startDate, props.dateFormat);
-
-  dates.push({
-    label: intl.formatMessage({ id: 'today', defaultMessage: 'Today' }),
-    value: date.toFormat(props.dateFormat),
-  });
-
-  dates.push({
-    label: intl.formatMessage({
-      id: 'tomorrow',
-      defaultMessage: 'Tomorrow',
-    }),
-    value: date.plus({ days: 1 }).toFormat(props.dateFormat),
-  });
-
-  for (let i = 2; i < 60; i++) {
-    const dateValue = date.plus({ days: i });
-    dates.push({
-      value: dateValue.toFormat(props.dateFormat),
-      label: dateValue.toFormat('ccc d.L.'),
-    });
-  }
-  const dateList = dates.map(option => {
-    return {
-      value: option.value,
-      textLabel: option.label,
-      label: (
-        <>
-          <span>{option.label}</span>
-          {option.value === props.selectedDate && (
-            <Icon img="icon_check" height={1.1525} width={0.904375} />
-          )}
-        </>
-      ),
-    };
-  });
+  const dateList = getDateOptions(
+    props.startDate,
+    props.dateFormat,
+    props.selectedDate,
+    intl.formatMessage,
+  );
   const selectedDate = dateList.find(d => d.value === props.selectedDate);
   const id = 'route-schedule-datepicker';
   const classNamePrefix = 'route-schedule';

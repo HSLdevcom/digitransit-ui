@@ -1,9 +1,5 @@
 import React from 'react';
-
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import { mockContext } from '../helpers/mock-context';
-import IconWithBigCaution from '../../../app/component/IconWithBigCaution';
-import IconWithIcon from '../../../app/component/IconWithIcon';
+import { renderWithProviders } from '../helpers/mock-providers';
 import RouteNumber from '../../../app/component/RouteNumber';
 
 describe('<RouteNumber />', () => {
@@ -11,10 +7,10 @@ describe('<RouteNumber />', () => {
     const props = {
       mode: 'CITYBIKE',
     };
-    const wrapper = shallowWithIntl(<RouteNumber {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find(IconWithIcon).prop('img')).to.equal('icon_citybike');
+    const { container } = renderWithProviders(<RouteNumber {...props} />);
+    expect(container.querySelector('use').getAttribute('xlink:href')).to.equal(
+      '#icon_citybike',
+    );
   });
 
   it('should use the given icon', () => {
@@ -22,10 +18,10 @@ describe('<RouteNumber />', () => {
       icon: 'icon_scooter',
       mode: 'CITYBIKE',
     };
-    const wrapper = shallowWithIntl(<RouteNumber {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find(IconWithIcon).prop('img')).to.equal('icon_scooter');
+    const { container } = renderWithProviders(<RouteNumber {...props} />);
+    expect(container.querySelector('use').getAttribute('xlink:href')).to.equal(
+      '#icon_scooter',
+    );
   });
 
   it('should use the given icon when there is a disruption', () => {
@@ -34,11 +30,9 @@ describe('<RouteNumber />', () => {
       icon: 'icon_scooter',
       mode: 'CITYBIKE',
     };
-    const wrapper = shallowWithIntl(<RouteNumber {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find(IconWithBigCaution).prop('img')).to.equal(
-      'icon_scooter',
+    const { container } = renderWithProviders(<RouteNumber {...props} />);
+    expect(container.querySelector('use').getAttribute('xlink:href')).to.equal(
+      '#icon_scooter',
     );
   });
 
@@ -48,9 +42,9 @@ describe('<RouteNumber />', () => {
       isCallAgency: true,
       mode: 'CITYBIKE',
     };
-    const wrapper = shallowWithIntl(<RouteNumber {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find(IconWithIcon).prop('img')).to.equal('icon_scooter');
+    const { container } = renderWithProviders(<RouteNumber {...props} />);
+    expect(container.querySelector('use').getAttribute('xlink:href')).to.equal(
+      '#icon_scooter',
+    );
   });
 });

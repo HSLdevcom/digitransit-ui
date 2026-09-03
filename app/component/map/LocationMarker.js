@@ -6,25 +6,13 @@ import Icon from '../Icon';
 import IconMarker from './IconMarker';
 import ViaPointPopup from './popups/ViaPointPopup';
 
-export default function LocationMarker({
-  position,
+export const getIconMarkerOptions = ({
   className,
+  disabled,
   isLarge,
   type,
-  disabled,
-}) {
-  const getValidType = markertype => {
-    switch (markertype) {
-      case 'from':
-        return 'from';
-      case 'to':
-        return 'to';
-      case 'via':
-      default:
-        return 'via';
-    }
-  };
-  const validType = getValidType(type);
+}) => {
+  const validType = type === 'from' || type === 'to' ? type : 'via';
   const sideLength = isLarge ? 30 : 24;
   const isFrom = validType === 'from';
   const iconImg = isFrom ? 'icon_origin-ellipse-map' : 'icon_mapMarker-map';
@@ -33,16 +21,36 @@ export default function LocationMarker({
   const iconAnchor = isFrom
     ? [fromSize / 2, fromSize / 2]
     : [sideLength / 2, sideLength];
+
+  return {
+    className: cx(validType, className),
+    icon: {
+      className: cx(validType, className),
+      element: <Icon img={iconImg} color={disabled ? '#bbbbbb' : null} />,
+      iconAnchor,
+      iconSize,
+    },
+    validType,
+  };
+};
+
+export default function LocationMarker({
+  position,
+  className,
+  isLarge,
+  type,
+  disabled,
+}) {
+  const {
+    className: markerClassName,
+    icon,
+    validType,
+  } = getIconMarkerOptions({ className, disabled, isLarge, type });
   return (
     <IconMarker
       position={position}
-      className={cx(validType, className)}
-      icon={{
-        className: cx(validType, className),
-        element: <Icon img={iconImg} color={disabled ? '#bbbbbb' : null} />,
-        iconAnchor,
-        iconSize,
-      }}
+      className={markerClassName}
+      icon={icon}
       zIndexOffset={12000}
     >
       {validType === 'via' && (

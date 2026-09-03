@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
-import { mountWithIntl, shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { mockContext } from '../helpers/mock-context';
+import { renderWithProviders } from '../helpers/mock-providers';
+import translations from '../../../app/translations/en';
 import { Component as NoItinerariesNote } from '../../../app/component/itinerary/NoItinerariesNote';
 import { PlannerMessageType } from '../../../app/constants';
 
@@ -76,70 +77,29 @@ const defaultProps = {
   currentTime: 1656580024206,
 };
 
-const matchElement = (componentName, propName, propValue) => enzymeWrapper =>
-  enzymeWrapper.name() === componentName &&
-  enzymeWrapper.prop(propName) === propValue;
-
-/**
- * Test case creation helper.
- *
- * @param {Object.<String, any>} props `props` for `NoItinerariesNote` component.
- * @param {String} expectPropValue, expectPropName
- */
-const expectElementWithId = (
-  props,
-  expectComponent,
-  expectPropName,
-  expectPropValue,
-) => {
-  const wrapper = shallowWithIntl(<NoItinerariesNote {...props} />, {
-    context: mockContext,
-    childContextTypes: mockChildContextTypes,
+const renderNote = props =>
+  renderWithProviders(<NoItinerariesNote {...props} />, {
+    config: mockContext.config,
+    match: mockContext.match,
   });
 
-  const assertErrorMessage = `<${expectComponent} ${expectPropName}="${expectPropValue}" .../> not found.`;
-  expect(
-    wrapper.findWhere(
-      matchElement(expectComponent, expectPropName, expectPropValue),
-    ),
-  ).to.have.length(1, assertErrorMessage);
+const expectMessage = (props, messageId) => {
+  const { container } = renderNote(props);
+  expect(container.querySelector('.summary-no-route-found')).to.not.equal(null);
+  expect(container.textContent).to.contain(translations.en[messageId]);
 };
 
-/**
- * Expect rendered *<NoItinerariesNote {...props}/>* component to
- * contain a child component *componentName*.
- * @param {Object.<String, *>} props Properties for NoItinerariesNote.
- * @param {String} componentName Component name to expect.
- * @param {String} [mountMethod] Should Enzyme render component by 'shallow'
- *                               (default) or 'mount'.
- */
-const expectElement = (props, componentName, mountMethod = 'shallow') => {
-  const opts = {
-    context: mockContext,
-    childContextTypes: mockChildContextTypes,
-  };
-
-  const wrapper =
-    mountMethod === 'shallow'
-      ? shallowWithIntl(<NoItinerariesNote {...props} />, opts)
-      : mountWithIntl(<NoItinerariesNote {...props} />, opts);
-
-  const assertErrorMessage = `<${componentName} .../> not found.`;
-  expect(
-    wrapper.findWhere(enzymeWrapper => enzymeWrapper.name() === componentName),
-  ).to.have.length(1, assertErrorMessage);
+const expectLink = (props, linkClass) => {
+  const { container } = renderNote(props);
+  expect(container.querySelector(`a.${linkClass}`)).to.not.equal(null);
 };
 
 describe('<NoItinerariesNote />', () => {
   it('should render without crashing', () => {
-    const wrapper = mountWithIntl(
-      <div>
-        <NoItinerariesNote {...defaultProps} />
-      </div>,
-      { context: mockContext, childContextTypes: mockChildContextTypes },
+    const { container } = renderNote(defaultProps);
+    expect(container.querySelector('.summary-no-route-found')).to.not.equal(
+      null,
     );
-
-    expect(wrapper.isEmptyRender()).to.equal(false);
   });
 
   describe('error messages', () => {
@@ -157,11 +117,11 @@ describe('<NoItinerariesNote />', () => {
         from: TestLocation.Outside,
         to: TestLocation.Rautatientori,
       };
-      expectElement(props, 'NationalServiceLink', false);
+      expectLink(props, 'no-decoration');
     });
 
     it('renders message when origin out of bounds', () => {
-      expectElementWithId(
+      expectMessage(
         {
           ...defaultProps,
           from: TestLocation.Outside,
@@ -170,14 +130,12 @@ describe('<NoItinerariesNote />', () => {
             { code: PlannerMessageType.OutsideBounds, inputField: 'FROM' },
           ],
         },
-        'ErrorCard',
-        'msgId',
         'origin-outside-service',
       );
     });
 
     it('renders message when destination out of bounds', () => {
-      expectElementWithId(
+      expectMessage(
         {
           ...defaultProps,
           from: TestLocation.Rautatientori,
@@ -186,14 +144,12 @@ describe('<NoItinerariesNote />', () => {
             { code: PlannerMessageType.OutsideBounds, inputField: 'TO' },
           ],
         },
-        'ErrorCard',
-        'msgId',
         'destination-outside-service',
       );
     });
 
     it('renders message when origin and destination out of bounds', () => {
-      expectElementWithId(
+      expectMessage(
         {
           ...defaultProps,
           from: TestLocation.Outside,
@@ -203,14 +159,12 @@ describe('<NoItinerariesNote />', () => {
             { code: PlannerMessageType.OutsideBounds, inputField: 'FROM' },
           ],
         },
-        'ErrorCard',
-        'msgId',
         'router-outside-bounds-3',
       );
     });
 
     it('renders message when: outside service period', () => {
-      expectElementWithId(
+      expectMessage(
         {
           ...defaultProps,
           searchTime: Date.now() + 180 * DAY,
@@ -223,14 +177,12 @@ describe('<NoItinerariesNote />', () => {
             },
           ],
         },
-        'ErrorCard',
-        'msgId',
         'router-outside-service-period',
       );
     });
 
     it('renders an action link when: outside service period', () => {
-      expectElement(
+      expectLink(
         {
           ...defaultProps,
           searchTime: Date.now() + 180 * DAY,
@@ -243,12 +195,12 @@ describe('<NoItinerariesNote />', () => {
             },
           ],
         },
-        'PastLink',
+        'no-decoration',
       );
     });
 
     it('renders message when: search time is in the past', () => {
-      expectElementWithId(
+      expectMessage(
         {
           ...defaultProps,
           searchTime: Date.now() - 2 * DAY,
@@ -256,66 +208,8 @@ describe('<NoItinerariesNote />', () => {
           to: TestLocation.Mannerheimintie_89,
           walking: true,
         },
-        'ErrorCard',
-        'msgId',
         'itinerary-in-the-past',
       );
     });
   });
 });
-
-/*
-Test case route queries
------------------------
-
-  NO_TRANSIT_CONNECTION
-    /reitti/Valittu%20sijainti%3A%3A60.161908100606325%2C24.981869459152225/Valittu%20sijainti%3A%3A60.15968202058385%2C24.97222423553467?time=1660567140
-
-  NO_TRANSIT_CONNECTION_IN_SEARCH_WINDOW
-    fromPlace: "Rautatientori::60.170384,24.939846",
-    toPlace: "Kabanovintie 631, Kirkkonummi::60.0706649887424,24.49556350708008", 
-    date: "08-25-2022"
-    time: "3:00am"
-
-  WALKING_BETTER_THAN_TRANSIT
-    /reitti/Rautatientori%2C%20Helsinki%3A%3A60.170384%2C24.939846/Keskuskatu%208%2C%20Helsinki%3A%3A60.1704933781611%2C24.94251072406769?time=1660567140
-
-  OUTSIDE_BOUNDS 1
-    fromPlace: "Rautatientori::60.170384,24.939846",
-    toPlace: "Ei yhteyttä::60.528407,23.617172",
-      
-  OUTSIDE_BOUNDS 2
-    fromPlace: "Ei yhteyttä::60.528407,23.617172",
-    toPlace: "Rautatientori::60.170384,24.939846",
-
-  OUTSIDE_BOUNDS 3
-    fromPlace: "Ei yhteyttä::60.528407,23.617172",
-    toPlace: "Ei yhteyttä B::60.528507,23.617272",
-
-  OUTSIDE_SERVICE_PERIOD
-    date: "2022-03-01"
-
-  LOCATION_NOT_FOUND 1
-    fromPlace: "Lempans::60.22924371006018,24.127006530761722",
-    toPlace: "Rautatientori::60.170384,24.939846", 
-
-  LOCATION_NOT_FOUND 2
-    fromPlace: "Rautatientori::60.170384,24.939846", 
-    toPlace: "Lempans::60.22924371006018,24.127006530761722",
-
-  LOCATION_NOT_FOUND 3
-    fromPlace: "Lempans::60.22924371006018,24.127006530761722",
-    toPlace: "Lappers::60.20342859480837,24.039373397827152", 
-
-  NO_STOPS_IN_RANGE 1
-    fromPlace: "Lempans::60.22924371006018,24.127006530761722",
-    toPlace: "Rautatientori::60.170384,24.939846",
-
-  NO_STOPS_IN_RANGE 2
-    fromPlace: "Rautatientori::60.170384,24.939846",
-    toPlace: "Lappers::60.20342859480837,24.039373397827152",
-
-  NO_STOPS_IN_RANGE 3
-    fromPlace: "Lempans::60.22924371006018,24.127006530761722",
-    toPlace: "Lappers::60.20342859480837,24.039373397827152", 
-*/

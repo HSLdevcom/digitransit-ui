@@ -1,9 +1,14 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../helpers/mock-providers';
+import { mockContext } from '../helpers/mock-context';
 import BicycleLeg from '../../../app/component/itinerary/BicycleLeg';
 import { RentalNetworkType } from '../../../app/util/vehicleRentalUtils';
+
+const baseConfig = {
+  ...mockContext.config,
+  defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
+  defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
+};
 
 describe('<BicycleLeg />', () => {
   it('should guide the user to rent a citybike', () => {
@@ -23,6 +28,7 @@ describe('<BicycleLeg />', () => {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
             vehiclesAvailable: 0,
+            availableVehicles: { total: 0 },
             rentalNetwork: { networkId: 'foobar' },
           },
         },
@@ -31,20 +37,16 @@ describe('<BicycleLeg />', () => {
         },
       },
     };
-    const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
-      context: {
-        config: {
-          vehicleRental: {
-            networks: { foobar: { type: RentalNetworkType.CityBike } },
-          },
-          defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
-          defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
+    const { container } = renderWithProviders(<BicycleLeg {...props} />, {
+      config: {
+        ...baseConfig,
+        vehicleRental: {
+          networks: { foobar: { type: RentalNetworkType.CityBike } },
         },
       },
     });
-    expect(wrapper.find(FormattedMessage).at(0).prop('id')).to.equal(
-      'rent-cycle-at',
-    );
+    expect(container.textContent).to.contain('Fetch a city bike:');
+    expect(container.textContent).to.contain('Hertanmäenkatu');
   });
 
   it('should guide the user to rent a scooter', () => {
@@ -64,6 +66,7 @@ describe('<BicycleLeg />', () => {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
             vehiclesAvailable: 0,
+            availableVehicles: { total: 0 },
             rentalNetwork: { networkId: 'foobar' },
           },
         },
@@ -72,19 +75,16 @@ describe('<BicycleLeg />', () => {
         },
       },
     };
-    const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
-      context: {
-        config: {
-          vehicleRental: {
-            networks: { foobar: { type: RentalNetworkType.Scooter } },
-          },
-          defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
-          defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
+    const { container } = renderWithProviders(<BicycleLeg {...props} />, {
+      config: {
+        ...baseConfig,
+        vehicleRental: {
+          networks: { foobar: { type: RentalNetworkType.Scooter } },
         },
       },
     });
-    expect(wrapper.find(FormattedMessage).at(0).prop('id')).to.equal(
-      'rent-e-scooter-at',
+    expect(container.textContent).to.contain(
+      'Use an app to unlock the electric scooter',
     );
   });
 
@@ -105,6 +105,7 @@ describe('<BicycleLeg />', () => {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
             vehiclesAvailable: 0,
+            availableVehicles: { total: 0 },
             rentalNetwork: { networkId: 'foobar' },
           },
         },
@@ -113,23 +114,15 @@ describe('<BicycleLeg />', () => {
         },
       },
     };
-    const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
-      context: {
-        config: {
-          vehicleRental: {
-            networks: { foobar: { type: RentalNetworkType.CityBike } },
-          },
-          defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
-          defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
+    const { container } = renderWithProviders(<BicycleLeg {...props} />, {
+      config: {
+        ...baseConfig,
+        vehicleRental: {
+          networks: { foobar: { type: RentalNetworkType.CityBike } },
         },
       },
     });
-    expect(
-      wrapper
-        .find(FormattedMessage)
-        .find('[id="cycle-distance-duration"]')
-        .exists(),
-    ).to.equal(true);
+    expect(container.textContent).to.contain('Cycle');
   });
 
   it('should guide the user to ride a scooter', () => {
@@ -149,6 +142,7 @@ describe('<BicycleLeg />', () => {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
             vehiclesAvailable: 0,
+            availableVehicles: { total: 0 },
             rentalNetwork: { networkId: 'foobar' },
           },
         },
@@ -157,23 +151,15 @@ describe('<BicycleLeg />', () => {
         },
       },
     };
-    const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
-      context: {
-        config: {
-          vehicleRental: {
-            networks: { foobar: { type: RentalNetworkType.Scooter } },
-          },
-          defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
-          defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
+    const { container } = renderWithProviders(<BicycleLeg {...props} />, {
+      config: {
+        ...baseConfig,
+        vehicleRental: {
+          networks: { foobar: { type: RentalNetworkType.Scooter } },
         },
       },
     });
-    expect(
-      wrapper
-        .find(FormattedMessage)
-        .find('[id="scooter-distance-duration"]')
-        .exists(),
-    ).to.equal(true);
+    expect(container.textContent).to.contain('Travel by scooter');
   });
 
   it('should guide the user to walk a bike', () => {
@@ -193,6 +179,7 @@ describe('<BicycleLeg />', () => {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
             vehiclesAvailable: 0,
+            availableVehicles: { total: 0 },
             rentalNetwork: { networkId: 'foobar' },
           },
         },
@@ -201,20 +188,15 @@ describe('<BicycleLeg />', () => {
         },
       },
     };
-    const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
-      context: {
-        config: {
-          vehicleRental: {
-            networks: { foobar: { type: RentalNetworkType.CityBike } },
-          },
-          defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
-          defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
+    const { container } = renderWithProviders(<BicycleLeg {...props} />, {
+      config: {
+        ...baseConfig,
+        vehicleRental: {
+          networks: { foobar: { type: RentalNetworkType.CityBike } },
         },
       },
     });
-    expect(wrapper.find(FormattedMessage).at(1).prop('id')).to.equal(
-      'cyclewalk-distance-duration',
-    );
+    expect(container.textContent).to.contain('Walk your bike');
   });
 
   it('should guide the user to walk a scooter', () => {
@@ -234,6 +216,7 @@ describe('<BicycleLeg />', () => {
           name: 'Hertanmäenkatu',
           vehicleRentalStation: {
             vehiclesAvailable: 0,
+            availableVehicles: { total: 0 },
             rentalNetwork: { networkId: 'foobar' },
           },
         },
@@ -242,19 +225,14 @@ describe('<BicycleLeg />', () => {
         },
       },
     };
-    const wrapper = shallowWithIntl(<BicycleLeg {...props} />, {
-      context: {
-        config: {
-          vehicleRental: {
-            networks: { foobar: { type: RentalNetworkType.Scooter } },
-          },
-          defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
-          defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
+    const { container } = renderWithProviders(<BicycleLeg {...props} />, {
+      config: {
+        ...baseConfig,
+        vehicleRental: {
+          networks: { foobar: { type: RentalNetworkType.Scooter } },
         },
       },
     });
-    expect(wrapper.find(FormattedMessage).at(1).prop('id')).to.equal(
-      'scooterwalk-distance-duration',
-    );
+    expect(container.textContent).to.contain('Walk your kick scooter');
   });
 });

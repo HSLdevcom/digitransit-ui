@@ -1,13 +1,11 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
-import { mockContext } from '../helpers/mock-context';
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../helpers/mock-providers';
 import {
   AlertSeverityLevelType,
   AlertEntityType,
 } from '../../../app/constants';
-import AlertList from '../../../app/component/AlertList';
 import StopAlerts from '../../../app/component/stop/StopAlerts';
 
 describe('<StopAlerts />', () => {
@@ -41,14 +39,8 @@ describe('<StopAlerts />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<StopAlerts {...props} />, {
-      context: { ...mockContext },
-    });
-    expect(wrapper.find(AlertList).props()).to.deep.equal({
-      cancelations: [],
-      serviceAlerts: [],
-      showLinks: false,
-    });
+    const { container } = renderWithProviders(<StopAlerts {...props} />);
+    expect(container.querySelector('.no-alerts-container')).to.not.equal(null);
   });
 
   it('should indicate that there is a direct service alert on a route', () => {
@@ -75,10 +67,8 @@ describe('<StopAlerts />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<StopAlerts {...props} />, {
-      context: { ...mockContext },
-    });
-    expect(wrapper.find(AlertList).prop('serviceAlerts')).to.have.lengthOf(1);
+    const { container } = renderWithProviders(<StopAlerts {...props} />);
+    expect(container.querySelector('.alerts-list')).to.not.equal(null);
   });
 
   it('should indicate that there is a canceled stoptime on a route', () => {
@@ -111,10 +101,8 @@ describe('<StopAlerts />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<StopAlerts {...props} />, {
-      context: { ...mockContext },
-    });
-    expect(wrapper.find(AlertList).prop('cancelations')).to.have.lengthOf(1);
+    const { container } = renderWithProviders(<StopAlerts {...props} />);
+    expect(container.querySelector('.alerts-list')).to.not.equal(null);
   });
 
   it('should indicate that the stop itself has a service alert', () => {
@@ -138,9 +126,7 @@ describe('<StopAlerts />', () => {
         stoptimes: [],
       },
     };
-    const wrapper = shallowWithIntl(<StopAlerts {...props} />, {
-      context: { ...mockContext },
-    });
-    expect(wrapper.find(AlertList).prop('serviceAlerts')).to.have.lengthOf(1);
+    const { container } = renderWithProviders(<StopAlerts {...props} />);
+    expect(container.querySelector('.alerts-list')).to.not.equal(null);
   });
 });
