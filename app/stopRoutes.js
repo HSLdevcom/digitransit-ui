@@ -70,8 +70,8 @@ const queries = {
     pageTab: graphql`
       query stopRoutes_StopPageTab_Query(
         $stopId: String!
-        $cancelationStartDate: LocalDate!
-        $cancelationEndDate: LocalDate!
+        $cancelationStartDate: OffsetDateTime!
+        $cancelationEndDate: OffsetDateTime!
       ) {
         stop(id: $stopId) {
           ...StopPageTabContainer_stop
@@ -102,8 +102,8 @@ const queries = {
     pageAlerts: graphql`
       query stopRoutes_StopDisruptions_Query(
         $stopId: String!
-        $cancelationStartDate: LocalDate!
-        $cancelationEndDate: LocalDate!
+        $cancelationStartDate: OffsetDateTime!
+        $cancelationEndDate: OffsetDateTime!
       ) {
         stop(id: $stopId) {
           ...DisruptionsFragment
@@ -150,8 +150,8 @@ const queries = {
     pageTab: graphql`
       query stopRoutes_TerminalPageTabContainer_Query(
         $terminalId: String!
-        $cancelationStartDate: LocalDate!
-        $cancelationEndDate: LocalDate!
+        $cancelationStartDate: OffsetDateTime!
+        $cancelationEndDate: OffsetDateTime!
       ) {
         station(id: $terminalId) {
           ...TerminalPageTabContainer_station
@@ -182,8 +182,8 @@ const queries = {
     pageAlerts: graphql`
       query stopRoutes_TerminalDisruptions_Query(
         $terminalId: String!
-        $cancelationStartDate: LocalDate!
-        $cancelationEndDate: LocalDate!
+        $cancelationStartDate: OffsetDateTime!
+        $cancelationEndDate: OffsetDateTime!
       ) {
         station(id: $terminalId) {
           ...DisruptionsFragment

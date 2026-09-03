@@ -3,8 +3,8 @@ import { graphql } from 'react-relay';
 export const DisruptionsFragment = graphql`
   fragment DisruptionsFragment on Stop
   @argumentDefinitions(
-    cancelationStartDate: { type: "LocalDate!" }
-    cancelationEndDate: { type: "LocalDate!" }
+    cancelationStartDate: { type: "OffsetDateTime!" }
+    cancelationEndDate: { type: "OffsetDateTime!" }
   ) {
     gtfsId
     locationType
@@ -12,9 +12,7 @@ export const DisruptionsFragment = graphql`
       gtfsId
     }
     canceledCalls(
-      serviceDateRanges: [
-        { start: $cancelationStartDate, end: $cancelationEndDate }
-      ]
+      timeRanges: [{ start: $cancelationStartDate, end: $cancelationEndDate }]
     ) {
       tripOnServiceDate {
         serviceDate
