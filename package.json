@@ -58,13 +58,13 @@
     "digitransit-component-docs": "node -r esm ./digitransit-component/scripts/generate-readmes",
     "digitransit-component-new-module": "node -r esm ./digitransit-component/scripts/create-new-module",
     "digitransit-component-tests": "lerna run test --scope '@digitransit-component/*'",
-    "watch-workspaces": "lerna run watch --parallel --stream",
     "digitransit-store-docs": "node -r esm ./digitransit-store/scripts/generate-readmes",
     "digitransit-store-new-module": "node -r esm ./digitransit-store/scripts/create-new-module",
     "digitransit-store-tests": "lerna run build:test --scope '@digitransit-store/*' && lerna run test --scope '@digitransit-store/*'",
+    "watch-workspaces": "lerna run watch --parallel --stream",
     "clean-workspaces": "lerna run clean --scope '@digitransit-component/*' --scope '@digitransit-search-util/digitransit-search-util-query-utils' --scope '@digitransit-store/*'",
-    "version-workspaces": "lerna version",
-    "check-package-versions": "node scripts/check-version-bumps.js"
+    "bump-versions-workspaces": "lerna version",
+    "check-versions-workspaces": "node scripts/check-versions-workspaces.js"
   },
   "main": "server.js",
   "repository": {

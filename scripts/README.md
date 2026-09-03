@@ -53,7 +53,7 @@ in `config.default.js`'s host-name mapping. See [`docs/Themes.md`](/docs/Themes.
 yarn add-theme <name> '#RRGGBB' <optional navbar logo>
 ```
 
-## Using `check-version-bumps.js`
+## Using `check-versions-workspaces.js`
 
 Fails if a workspace package changed since a given base commit but its `package.json` `version`
 wasn't bumped accordingly (or was bumped in the wrong direction). `lerna publish from-package`
@@ -64,7 +64,7 @@ changed-but-unbumped package would otherwise silently never get published. Run i
 make sure you remembered to bump its version — this is also enforced in CI on pull requests.
 
 ```
-BASE_SHA=<git ref> yarn check-package-versions
+BASE_SHA=<git ref> yarn check-versions-workspaces
 ```
 
 ## Using `generate-schema.js`

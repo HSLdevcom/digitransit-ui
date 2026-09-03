@@ -74,7 +74,7 @@ jobs:
       - name: Check changed packages have version bumps
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: yarn check-package-versions
+        run: yarn check-versions-workspaces
 
   unit-test:
     needs: install
