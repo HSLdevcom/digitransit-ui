@@ -24,7 +24,7 @@
     "build-search-utils": "lerna run build --scope '@digitransit-search-util/digitransit-search-util-query-utils'",
     "build-store": "lerna run build --scope '@digitransit-store/*'",
     "start": "NODE_ENV=production node $NODE_OPTS server/server",
-    "dev": "RUN_ENV=development NODE_ENV=development bash scripts/dev.sh",
+    "dev": "bash scripts/dev.sh",
     "dev-nowatch": "bash -c 'RUN_ENV=development NODE_ENV=development node server/server.js & NODE_ENV=development webpack-dev-server'",
     "test-accessibility": "./test/accessibility.sh",
     "test-unit": "yarn test-unit:components && yarn test-unit:store && yarn test-unit:app",

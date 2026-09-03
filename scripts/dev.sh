@@ -11,6 +11,43 @@
 set -eo pipefail
 set -m
 
+if [ -z "$CONFIG" ]; then
+    echo "CONFIG is not set, using 'default'. Set CONFIG=<name> to use a regional deployment (see app/configurations/config.default.js's themeMap)."
+fi
+
+export CONFIG="${CONFIG:-default}"
+export API_SUBSCRIPTION_QUERY_PARAMETER_NAME="${API_SUBSCRIPTION_QUERY_PARAMETER_NAME:-digitransit-subscription-key}"
+export API_SUBSCRIPTION_HEADER_NAME="${API_SUBSCRIPTION_HEADER_NAME:-digitransit-subscription-key}"
+export API_SUBSCRIPTION_TOKEN="${API_SUBSCRIPTION_TOKEN:-}"
+
+export API_TYPE="${API_TYPE:-development}"
+export RUN_ENV="${RUN_ENV:-development}"
+export NODE_ENV="${NODE_ENV:-development}"
+
+if [ -z "$API_SUBSCRIPTION_TOKEN" ]; then
+    echo "You should set API_SUBSCRIPTION_TOKEN to a subscription key, depending on the environment you are using."    
+    echo "A local OTP instance still requires a development subscription key for full functionality."
+fi
+
+case "$API_TYPE" in
+  development)
+    # This is the default in config.default.js
+    echo "Using API_URL=https://dev-api.digitransit.fi"
+    ;;
+  production)
+    export API_URL="https://api.digitransit.fi"
+    echo "Using API_URL=$API_URL"
+    ;;
+  local)
+    export OTP_URL="http://localhost:9080/otp/"
+    echo "Setting OTP_URL=$OTP_URL"
+    ;;
+  *)
+    echo "Invalid API_TYPE=$API_TYPE. Valid values are: development, production, local." >&2
+    exit 1
+    ;;
+esac
+
 pids=()
 
 cleanup() {
