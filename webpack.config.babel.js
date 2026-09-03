@@ -103,17 +103,14 @@ const productionPlugins = [
   new MiniCssExtractPlugin({
     filename: 'css/[name].[contenthash].css',
     chunkFilename: 'css/[name].[contenthash].css',
-    // The `digitransitComponents` splitChunks cache group (below) merges CSS
-    // from every @hsl-fi/@digitransit-* package into one shared chunk used by
-    // every route. Different routes import different subsets of these
-    // packages in different relative orders, so there is no single
-    // concatenation order that satisfies all of them - this is expected and
-    // harmless here because every file is CSS Modules output with
-    // locally-scoped, per-file-hashed class names (no shared/global
-    // selectors, no cross-file cascade dependency), confirmed by inspecting
-    // the actual CSS and by an A/B build showing byte-identical output
-    // with/without this option.
-    ignoreOrder: true,
+    // Explicitly `false` (webpack's own default) rather than omitted.
+    // These warnings are believed harmless (every file involved is CSS Modules
+    // output with locally-scoped, per-file-hashed class names - no shared/global
+    // selectors, no cross-file cascade dependency), but `ignoreOrder` is
+    // intentionally left `false` rather than suppressed with `true`, so
+    // the warnings stay visible as a reminder that this is an open,
+    // unresolved item rather than a fully-accepted non-issue.
+    ignoreOrder: false,
   }),
   new CompressionPlugin({
     filename: '[path][base].gz',
