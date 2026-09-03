@@ -28,6 +28,8 @@ jobs:
   install:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
       - name: Setup Node, install dependencies, build workspaces
         uses: ./.github/actions/setup
         with:
@@ -37,6 +39,8 @@ jobs:
     needs: install
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
       - name: Setup Node, install dependencies, build workspaces
         uses: ./.github/actions/setup
         with:
@@ -54,14 +58,17 @@ jobs:
     needs: install
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Node, install dependencies, build workspaces
-        uses: ./.github/actions/setup
+      - name: Checkout
+        uses: actions/checkout@v6
         with:
-          node-version: ${{ env.NODE_VERSION }}
           # The version-bump check below diffs against the PR/push base
           # commit, so it needs full git history (not the default shallow
           # clone) to compute a merge-base.
           fetch-depth: '0'
+      - name: Setup Node, install dependencies, build workspaces
+        uses: ./.github/actions/setup
+        with:
+          node-version: ${{ env.NODE_VERSION }}
           build-workspaces: 'false'
 
       - name: Check changed packages have version bumps
@@ -73,6 +80,8 @@ jobs:
     needs: install
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
       - name: Setup Node, install dependencies, build workspaces
         uses: ./.github/actions/setup
         with:
@@ -101,6 +110,8 @@ jobs:
       - unit-test
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
       - name: Setup Node, install dependencies, build workspaces
         uses: ./.github/actions/setup
         with:
@@ -153,6 +164,8 @@ jobs:
       - unit-test
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
       - name: Setup Node, install dependencies, build workspaces
         uses: ./.github/actions/setup
         with:

@@ -40,6 +40,8 @@ jobs:
   generate-sbom:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
       - name: Setup Node, install dependencies, build workspaces
         uses: ./.github/actions/setup
         with:
