@@ -356,9 +356,9 @@ function DTAutosuggest({
           });
 
         const applyBadges = suggestions =>
-          searchContext.getStopBadgeFromCache
+          searchContext.getStopBadge
             ? suggestions.map(item => {
-                const badge = searchContext.getStopBadgeFromCache(item);
+                const badge = searchContext.getStopBadge(item);
                 return badge
                   ? {
                       ...item,
@@ -716,7 +716,7 @@ DTAutosuggest.propTypes = {
     context: PropTypes.object,
     clearOldSearches: PropTypes.func,
     clearFutureRoutes: PropTypes.func,
-    getStopBadgeFromCache: PropTypes.func,
+    getStopBadge: PropTypes.func,
   }).isRequired,
   sources: PropTypes.arrayOf(PropTypes.string),
   targets: PropTypes.arrayOf(PropTypes.string),
