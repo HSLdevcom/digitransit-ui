@@ -2,7 +2,8 @@ name: 'Setup Node, install dependencies, build workspaces'
 description: >-
   Checks out the repo, sets up Node.js, restores/populates yarn + node_modules
   caches, and optionally builds the shared digitransit-* workspace packages
-  (with its own cache).
+  (backed by a coarse whole-tree cache, falling back to Nx's own per-package
+  cache on a miss).
 inputs:
   node-version:
     description: 'Node.js version to use'
@@ -54,6 +55,18 @@ runs:
       with:
         path: 'digitransit-*'
         key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
+    # Fallback for when the coarse cache above misses (e.g. a change in only
+    # one of the digitransit-* packages invalidates the whole-tree hash).
+    # Nx (which `yarn run build-workspaces` runs through via lerna) does its
+    # own per-package caching, so restoring its cache here lets unaffected
+    # packages be skipped instead of rebuilt from scratch.
+    - name: cache Nx
+      if: ${{ inputs.build-workspaces == 'true' && steps.cache-shared-components.outputs.cache-hit != 'true' }}
+      uses: actions/cache@v5
+      with:
+        path: '.nx/cache'
+        key: ${{ runner.os }}-nx-cache-${{ github.sha }}
+        restore-keys: ${{ runner.os }}-nx-cache-
     - name: build shared components
       if: ${{ inputs.build-workspaces == 'true' && steps.cache-shared-components.outputs.cache-hit != 'true' }}
       shell: bash
