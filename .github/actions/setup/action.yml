@@ -1,0 +1,60 @@
+name: 'Setup Node, install dependencies, build workspaces'
+description: >-
+  Checks out the repo, sets up Node.js, restores/populates yarn + node_modules
+  caches, and optionally builds the shared digitransit-* workspace packages
+  (with its own cache).
+inputs:
+  node-version:
+    description: 'Node.js version to use'
+    required: true
+  fetch-depth:
+    description: 'git checkout fetch-depth (0 = full history)'
+    required: false
+    default: '1'
+  build-workspaces:
+    description: 'Whether to cache/build the shared digitransit-* workspace packages'
+    required: false
+    default: 'true'
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: ${{ inputs.fetch-depth }}
+    - name: Use Node.js ${{ inputs.node-version }}
+      uses: actions/setup-node@v6
+      with:
+        node-version: ${{ inputs.node-version }}
+        registry-url: 'https://registry.npmjs.org/'
+
+    # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
+    - name: Cache node_modules
+      id: cache-node-modules
+      uses: actions/cache@v5
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+    - name: Cache .yarn/cache
+      if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+      uses: actions/cache@v5
+      with:
+        path: '.yarn/cache'
+        key: yarn-v3-cache-${{ github.ref_name }}
+        restore-keys: yarn-v3-cache-v3
+    - name: Install dependencies
+      if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+      shell: bash
+      run: yarn install --immutable
+
+    - name: cache shared components
+      if: ${{ inputs.build-workspaces == 'true' }}
+      id: cache-shared-components
+      uses: actions/cache@v5
+      with:
+        path: 'digitransit-*'
+        key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
+    - name: build shared components
+      if: ${{ inputs.build-workspaces == 'true' && steps.cache-shared-components.outputs.cache-hit != 'true' }}
+      shell: bash
+      run: yarn run build-workspaces

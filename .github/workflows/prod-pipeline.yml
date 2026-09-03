@@ -6,6 +6,13 @@ on:
 permissions:
   id-token: write # for generate-sbom
   contents: read
+env:
+  # Runners default to UTC; keep tooling on the zone the app is developed
+  # against so any locally-formatted timestamps stay consistent with the
+  # dev pipeline.
+  TZ: Europe/Helsinki
+  # Single source of truth for the Node version used across all jobs.
+  NODE_VERSION: 24.14.1
 jobs:
   prod-push:
     runs-on: ubuntu-latest
@@ -32,47 +39,11 @@ jobs:
 
   generate-sbom:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [24.14.1]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: "Set time zone to Europe/Helsinki"
-        uses: zcong1993/setup-timezone@master
+      - name: Setup Node, install dependencies, build workspaces
+        uses: ./.github/actions/setup
         with:
-          timezone: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v6
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org/'
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v5
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Cache .yarn/cache
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        uses: actions/cache@v5
-        with:
-          path: '.yarn/cache'
-          key: yarn-v3-cache-${{ github.ref_name }}
-          restore-keys: yarn-v3-cache-v3
-      - name: Install dependencies
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        run: yarn install --immutable
-
-      - name: cache shared components
-        id: cache-shared-components
-        uses: actions/cache@v5
-        with:
-          path: 'digitransit-*'
-          key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
-      - name: Build shared components
-        if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
-        run: yarn run build-workspaces
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Generate SBOM
         run: yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx@2.0.0 --output-file ${{ github.repository }}-${{ github.sha }}.json

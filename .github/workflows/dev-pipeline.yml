@@ -17,97 +17,30 @@ env:
   # We tell Playwright not to download browser binaries because we use microsoft/playwright-github-action.
   # https://github.com/microsoft/playwright/blob/v1.16.2/installation-tests/installation-tests.sh#L200-L216
   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+  # Runners default to UTC, but some unit tests assert on times formatted in
+  # local time and therefore expect the same zone the app is developed against.
+  TZ: Europe/Helsinki
+  # Single source of truth for the Node version used across all jobs.
+  NODE_VERSION: 24.14.1
 
 jobs:
   # install dependencies, build shared components, cache both for subsequent jobs
   install:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [24.14.1]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v6
+      - name: Setup Node, install dependencies, build workspaces
+        uses: ./.github/actions/setup
         with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org/'
-
-      # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v5
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Cache .yarn/cache
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        uses: actions/cache@v5
-        with:
-          path: '.yarn/cache'
-          key: yarn-v3-cache-${{ github.ref_name }}
-          restore-keys: yarn-v3-cache-v3
-      - name: Install dependencies
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        run: yarn install --immutable
-
-      - name: cache shared components
-        id: cache-shared-components
-        uses: actions/cache@v5
-        with:
-          path: 'digitransit-*'
-          key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
-      - name: build shared components
-        if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
-        run: yarn run build-workspaces
+          node-version: ${{ env.NODE_VERSION }}
 
   lint:
     needs: install
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [24.14.1]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: "Set time zone to Europe/Helsinki"
-        uses: zcong1993/setup-timezone@master
+      - name: Setup Node, install dependencies, build workspaces
+        uses: ./.github/actions/setup
         with:
-          timezone: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v6
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org/'
-
-      # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v5
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Cache .yarn/cache
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        uses: actions/cache@v5
-        with:
-          path: '.yarn/cache'
-          key: yarn-v3-cache-${{ github.ref_name }}
-          restore-keys: yarn-v3-cache-v3
-      - name: Install dependencies
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        run: yarn install --immutable
-
-      - name: cache shared components
-        id: cache-shared-components
-        uses: actions/cache@v5
-        with:
-          path: 'digitransit-*'
-          key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
-      - name: Build shared components
-        if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
-        run: yarn run build-workspaces
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Run linters
         run: yarn lint
@@ -120,40 +53,16 @@ jobs:
   check-versions:
     needs: install
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [24.14.1]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
+      - name: Setup Node, install dependencies, build workspaces
+        uses: ./.github/actions/setup
         with:
+          node-version: ${{ env.NODE_VERSION }}
           # The version-bump check below diffs against the PR/push base
           # commit, so it needs full git history (not the default shallow
           # clone) to compute a merge-base.
-          fetch-depth: 0
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v6
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org/'
-
-      # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v5
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Cache .yarn/cache
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        uses: actions/cache@v5
-        with:
-          path: '.yarn/cache'
-          key: yarn-v3-cache-${{ github.ref_name }}
-          restore-keys: yarn-v3-cache-v3
-      - name: Install dependencies
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        run: yarn install --immutable
+          fetch-depth: '0'
+          build-workspaces: 'false'
 
       - name: Check changed packages have version bumps
         env:
@@ -163,50 +72,11 @@ jobs:
   unit-test:
     needs: install
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [24.14.1]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: "Set time zone to Europe/Helsinki"
-        uses: zcong1993/setup-timezone@master
+      - name: Setup Node, install dependencies, build workspaces
+        uses: ./.github/actions/setup
         with:
-          timezone: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v6
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org'
-
-
-      # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v5
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Cache .yarn/cache
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        uses: actions/cache@v5
-        with:
-          path: '.yarn/cache'
-          key: yarn-v3-cache-${{ github.ref_name }}
-          restore-keys: yarn-v3-cache-v3
-      - name: Install dependencies
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        run: yarn install --immutable
-
-      - name: cache shared components
-        id: cache-shared-components
-        uses: actions/cache@v5
-        with:
-          path: 'digitransit-*'
-          key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
-      - name: Build shared components
-        if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
-        run: yarn run build-workspaces
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: cache built Relay queries
         id: cache-relay
@@ -230,49 +100,11 @@ jobs:
       - lint
       - unit-test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [24.14.1]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: "Set time zone to Europe/Helsinki"
-        uses: zcong1993/setup-timezone@master
+      - name: Setup Node, install dependencies, build workspaces
+        uses: ./.github/actions/setup
         with:
-          timezone: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v6
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org/'
-
-      # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v5
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Cache .yarn/cache
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        uses: actions/cache@v5
-        with:
-          path: '.yarn/cache'
-          key: yarn-v3-cache-${{ github.ref_name }}
-          restore-keys: yarn-v3-cache-v3
-      - name: Install dependencies
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        run: yarn install --immutable
-
-      - name: cache shared components
-        id: cache-shared-components
-        uses: actions/cache@v5
-        with:
-          path: 'digitransit-*'
-          key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
-      - name: Build shared components
-        if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
-        run: yarn run build-workspaces
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Generate SBOM
         run: yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx@2.0.0 --output-file ${{ github.repository }}-${{ github.sha }}.json
@@ -320,50 +152,11 @@ jobs:
       - lint
       - unit-test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [24.14.1]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: "Set time zone to Europe/Helsinki"
-        uses: zcong1993/setup-timezone@master
+      - name: Setup Node, install dependencies, build workspaces
+        uses: ./.github/actions/setup
         with:
-          timezone: "Europe/Helsinki"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v6
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org'
-
-
-      # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v5
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-      - name: Cache .yarn/cache
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        uses: actions/cache@v5
-        with:
-          path: '.yarn/cache'
-          key: yarn-v3-cache-${{ github.ref_name }}
-          restore-keys: yarn-v3-cache-v3
-      - name: Install dependencies
-        if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        run: yarn install --immutable
-
-      - name: cache shared components
-        id: cache-shared-components
-        uses: actions/cache@v5
-        with:
-          path: 'digitransit-*'
-          key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*') }}
-      - name: Build shared components
-        if: ${{ steps.cache-shared-components.outputs.cache-hit != 'true' }}
-        run: yarn run build-workspaces
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: cache built Relay queries
         id: cache-relay
@@ -420,11 +213,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Set time zone to Europe/Helsinki
-        uses: zcong1993/setup-timezone@master
-        with:
-          timezone: "Europe/Helsinki"
-
       - name: Create buildInfo.js file
         run: |
           echo -e "export const COMMIT_ID = \"${GITHUB_SHA}\";\nexport const BUILD_TIME = \"$(date -Iminutes -u)\";" >app/buildInfo.js
