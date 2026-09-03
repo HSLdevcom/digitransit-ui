@@ -22,3 +22,17 @@ node_modules
 _static
 /app/__generated__
 /app/**/__generated__
+
+# Nx's local task-graph/build cache (see .gitignore) - never needed in the
+# image; the Docker build always runs `yarn run build-workspaces` fresh.
+.nx
+
+# Rollup/Relay/Babel build output for the shared workspace packages (see
+# .gitignore and config/rollup.config.js) - rebuilt fresh by
+# `yarn run build-workspaces` in the Docker build.
+digitransit-component/packages/**/*.generated
+digitransit-component/packages/**/lib
+digitransit-search-util/packages/**/__generated__
+digitransit-search-util/packages/**/lib/
+digitransit-store/packages/**/*.generated
+digitransit-store/packages/**/lib
