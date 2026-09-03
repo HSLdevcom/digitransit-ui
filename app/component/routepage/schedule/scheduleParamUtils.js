@@ -29,8 +29,8 @@ const populateData = (params, match, noOfWeeks) => {
     ...params,
     serviceDate: serviceDay.toFormat(DATE_FORMAT),
     date: now.toFormat(DATE_FORMAT),
-    cancelationStartDate: now.toISODate(),
-    cancelationEndDate: now.plus({ days: 7 }).toISODate(),
+    cancelationStartDate: now.toISO(),
+    cancelationEndDate: now.plus({ days: 7 }).toISO(),
     showTenWeeks: noOfWeeks === 10,
     ...weeks,
   };

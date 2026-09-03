@@ -100,8 +100,8 @@ export default function routeRoutes(config) {
                 query routeRoutes_RoutePage_Query(
                   $routeId: String!
                   $date: String!
-                  $cancelationStartDate: LocalDate!
-                  $cancelationEndDate: LocalDate!
+                  $cancelationStartDate: OffsetDateTime!
+                  $cancelationEndDate: OffsetDateTime!
                 ) {
                   route(id: $routeId) {
                     ...RoutePage_route
@@ -187,8 +187,8 @@ export default function routeRoutes(config) {
                     $patternId: String!
                     $routeId: String!
                     $date: String!
-                    $cancelationStartDate: LocalDate!
-                    $cancelationEndDate: LocalDate!
+                    $cancelationStartDate: OffsetDateTime!
+                    $cancelationEndDate: OffsetDateTime!
                   ) {
                     pattern(id: $patternId) {
                       ...PatternStopsContainer_pattern
@@ -220,8 +220,8 @@ export default function routeRoutes(config) {
                     $tripId: String!
                     $routeId: String!
                     $date: String!
-                    $cancelationStartDate: LocalDate!
-                    $cancelationEndDate: LocalDate!
+                    $cancelationStartDate: OffsetDateTime!
+                    $cancelationEndDate: OffsetDateTime!
                   ) {
                     pattern(id: $patternId) {
                       ...TripStopsContainer_pattern
@@ -257,8 +257,8 @@ export default function routeRoutes(config) {
                   $patternId: String!
                   $serviceDate: String!
                   $date: String!
-                  $cancelationStartDate: LocalDate!
-                  $cancelationEndDate: LocalDate!
+                  $cancelationStartDate: OffsetDateTime!
+                  $cancelationEndDate: OffsetDateTime!
                   $wk1day1: String!
                   $wk1day2: String!
                   $wk1day3: String!
@@ -442,8 +442,8 @@ export default function routeRoutes(config) {
                 query routeRoutes_RouteAlertsContainer_Query(
                   $routeId: String!
                   $patternId: String!
-                  $cancelationStartDate: LocalDate!
-                  $cancelationEndDate: LocalDate!
+                  $cancelationStartDate: OffsetDateTime!
+                  $cancelationEndDate: OffsetDateTime!
                 ) {
                   route(id: $routeId) {
                     ...RouteAlertsContainerFragment_route
@@ -461,8 +461,8 @@ export default function routeRoutes(config) {
                 const now = DateTime.now();
                 return {
                   ...params,
-                  cancelationStartDate: now.toISODate(),
-                  cancelationEndDate: now.plus({ days: 7 }).toISODate(),
+                  cancelationStartDate: now.toISO(),
+                  cancelationEndDate: now.plus({ days: 7 }).toISO(),
                 };
               }}
               render={withRouteContext()}

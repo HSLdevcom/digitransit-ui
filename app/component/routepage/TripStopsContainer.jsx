@@ -102,8 +102,8 @@ const containerComponent = createFragmentContainer(componentWithBreakpoint, {
     fragment TripStopsContainer_route on Route
     @argumentDefinitions(
       date: { type: "String" }
-      cancelationStartDate: { type: "LocalDate!" }
-      cancelationEndDate: { type: "LocalDate!" }
+      cancelationStartDate: { type: "OffsetDateTime!" }
+      cancelationEndDate: { type: "OffsetDateTime!" }
     ) {
       gtfsId
       color
@@ -154,7 +154,7 @@ const containerComponent = createFragmentContainer(componentWithBreakpoint, {
           day: activeDates
         }
         canceledTrips(
-          serviceDateRanges: [
+          runningTimeRanges: [
             { start: $cancelationStartDate, end: $cancelationEndDate }
           ]
         ) {
