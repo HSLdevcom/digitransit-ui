@@ -54,7 +54,7 @@ or in some systems to build the binaries from code following
 - OSX / Linux: `yarn run dev`
 - open: http://localhost:8080
 
-`yarn run dev` runs `scripts/dev.sh`, which starts Relay, the SSR dev server (nodemon),
+`yarn run dev` runs `scripts/dev.sh`, which starts Relay, the Express dev server (nodemon),
 webpack-dev-server and `yarn watch-workspaces` (`lerna run watch --parallel --stream`) in parallel.
 `watch-workspaces` builds every `digitransit-component`, `digitransit-store` and
 `digitransit-search-util` package once and then keeps watching/rebuilding them, so a manual
