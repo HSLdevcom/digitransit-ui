@@ -3010,7 +3010,7 @@ __metadata:
   peerDependencies:
     "@marvelapp/react-ab-test": 2.3.0
     i18next: ^22.5.1
-    prop-types: ^15.7.2
+    prop-types: ^15.8.1
     react: ^16.13.0
   languageName: unknown
   linkType: soft
@@ -3250,7 +3250,7 @@ __metadata:
   resolution: "@digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "npm:^1.0.1"
-    "@digitransit-search-util/digitransit-search-util-get-geocoding-results": "npm:1.0.2"
+    "@digitransit-search-util/digitransit-search-util-get-geocoding-results": "npm:^1.0.3"
     "@digitransit-search-util/digitransit-search-util-get-json": "npm:1.0.3"
     "@digitransit-search-util/digitransit-search-util-helpers": "npm:^2.3.4"
     lodash: "npm:4.18.1"
@@ -3265,32 +3265,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-get-geocoding-results@npm:1.0.2":
-  version: 1.0.2
-  resolution: "@digitransit-search-util/digitransit-search-util-get-geocoding-results@npm:1.0.2"
-  dependencies:
-    "@digitransit-search-util/digitransit-search-util-get-json": "npm:1.0.2"
-  checksum: 10/ce3e86d88b3e5e1be2b6fac5152ba231de610e22e5b6cb6f4a35813c7426a6c0b893c3e297015c8767a409a6064b5f8a1297e3d9ac2399e159254a9cb7737bd8
-  languageName: node
-  linkType: hard
-
-"@digitransit-search-util/digitransit-search-util-get-geocoding-results@workspace:digitransit-search-util/packages/digitransit-search-util-get-geocoding-results":
+"@digitransit-search-util/digitransit-search-util-get-geocoding-results@npm:^1.0.3, @digitransit-search-util/digitransit-search-util-get-geocoding-results@workspace:digitransit-search-util/packages/digitransit-search-util-get-geocoding-results":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-get-geocoding-results@workspace:digitransit-search-util/packages/digitransit-search-util-get-geocoding-results"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-get-json": "npm:1.0.3"
   languageName: unknown
   linkType: soft
-
-"@digitransit-search-util/digitransit-search-util-get-json@npm:1.0.2":
-  version: 1.0.2
-  resolution: "@digitransit-search-util/digitransit-search-util-get-json@npm:1.0.2"
-  dependencies:
-    "@digitransit-search-util/digitransit-search-util-serialize": "npm:0.0.2"
-    axios: "npm:1.15.0"
-  checksum: 10/9714ccabda9733f35f1eaca4c79cba779897cc5f6f00cd9881867a806557263c9f01857847580d8d0569d595af6c8c57d99666ddadc3e7ee68fef2d63e211889
-  languageName: node
-  linkType: hard
 
 "@digitransit-search-util/digitransit-search-util-get-json@npm:1.0.3, @digitransit-search-util/digitransit-search-util-get-json@workspace:digitransit-search-util/packages/digitransit-search-util-get-json":
   version: 0.0.0-use.local
@@ -9450,17 +9431,6 @@ __metadata:
   version: 4.11.1
   resolution: "axe-core@npm:4.11.1"
   checksum: 10/bbc8e8959258a229b92fbaa73437050825579815051cac7b0fdbb6752946fea226e403bfeeef3d60d712477bdd4c01afdc8455f27c3d85e4251df88b032b6250
-  languageName: node
-  linkType: hard
-
-"axios@npm:1.15.0":
-  version: 1.15.0
-  resolution: "axios@npm:1.15.0"
-  dependencies:
-    follow-redirects: "npm:^1.15.11"
-    form-data: "npm:^4.0.5"
-    proxy-from-env: "npm:^2.1.0"
-  checksum: 10/d39a2c0ebc7ff4739401b282e726cc2673377949d6c46d60eb619458f8d7a2f7eadbcada7097f4dbc7d5c59abb4d3bf6fac33d474412bc3415d3f5aa7ed45530
   languageName: node
   linkType: hard
 
