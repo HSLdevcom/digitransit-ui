@@ -1,8 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-
-import { mountWithIntl } from '../../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../../helpers/mock-providers';
 import { Component as MarkerPopupBottomWithoutLeaflet } from '../../../../app/component/map/MarkerPopupBottom';
 
 describe('<MarkerPopupBottom />', () => {
@@ -17,12 +16,9 @@ describe('<MarkerPopupBottom />', () => {
       locationPopup: 'all',
       onSelectLocation: () => null,
     };
-
-    const wrapper = mountWithIntl(
+    const { container } = renderWithProviders(
       <MarkerPopupBottomWithoutLeaflet {...props} />,
-      {},
     );
-
-    expect(wrapper.find('.route-add-viapoint').length).to.equal(1);
+    expect(container.querySelector('.route-add-viapoint')).to.not.equal(null);
   });
 });

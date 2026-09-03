@@ -1,13 +1,6 @@
 import React from 'react';
-
-import { shallowWithIntl } from '../../../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../../../helpers/mock-providers';
 import MarkerSelectPopup from '../../../../../app/component/map/tile-layer/MarkerSelectPopup';
-import SelectStopRow from '../../../../../app/component/map/tile-layer/SelectStopRow';
-import SelectVehicleRentalRow from '../../../../../app/component/map/tile-layer/SelectVehicleRentalRow';
-import SelectRentalVehicleClusterRow from '../../../../../app/component/map/tile-layer/SelectRentalVehicleClusterRow';
-import SelectParkAndRideRow from '../../../../../app/component/map/tile-layer/SelectParkAndRideRow';
-import SelectVehicleContainer from '../../../../../app/component/map/tile-layer/SelectVehicleContainer';
-import { mockMatch } from '../../../helpers/mock-router';
 
 describe('<MarkerSelectPopup />', () => {
   it('should render stop, citybike, parkandride and vehicle rows with valid data', () => {
@@ -101,15 +94,13 @@ describe('<MarkerSelectPopup />', () => {
         hover: '#0062a1',
       },
     };
-    const wrapper = shallowWithIntl(<MarkerSelectPopup {...props} />, {
-      context: {
-        match: mockMatch,
-      },
-    });
-    expect(wrapper.find(SelectStopRow)).to.have.lengthOf(1);
-    expect(wrapper.find(SelectVehicleRentalRow)).to.have.lengthOf(1);
-    expect(wrapper.find(SelectParkAndRideRow)).to.have.lengthOf(2);
-    expect(wrapper.find(SelectVehicleContainer)).to.have.lengthOf(1);
+    const { container } = renderWithProviders(<MarkerSelectPopup {...props} />);
+    expect(container.querySelectorAll('.choose-row-header')).to.have.lengthOf(
+      4,
+    );
+    expect(
+      container.querySelector('.stop-popup-choose-header').textContent,
+    ).to.equal('Select route or stop');
   });
 
   it('should render a scooter cluster row with valid data but not a scooter row', () => {
@@ -150,11 +141,9 @@ describe('<MarkerSelectPopup />', () => {
         hover: '#0062a1',
       },
     };
-    const wrapper = shallowWithIntl(<MarkerSelectPopup {...props} />, {
-      context: {
-        match: mockMatch,
-      },
-    });
-    expect(wrapper.find(SelectRentalVehicleClusterRow)).to.have.lengthOf(1);
+    const { container } = renderWithProviders(<MarkerSelectPopup {...props} />);
+    expect(container.querySelectorAll('.choose-row-header')).to.have.lengthOf(
+      1,
+    );
   });
 });

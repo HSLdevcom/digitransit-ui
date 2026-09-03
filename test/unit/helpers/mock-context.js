@@ -31,6 +31,8 @@ export const mockContext = {
     }),
     getMessages: () => [],
     getDuplicateMessageCounter: () => 0,
+    getGeoJsonConfig: () => [],
+    getGeoJsonData: () => null,
     removeListener: noop,
     getRoutingSettings: () => ({}),
     isFavourite: noop,
