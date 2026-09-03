@@ -11,8 +11,11 @@
   },
   "scripts": {
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-transform-class-properties --out-file test.generated",
+    "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
+    "clean": "rm -rf ./lib ./node_modules",
     "test": "mocha -r esm test.generated",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "docs": "node -r esm ../../scripts/generate-readmes",
+    "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
   "repository": {
     "type": "git",
