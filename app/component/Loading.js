@@ -11,10 +11,10 @@ const defaultMessage = (
 
 export default function Loading(props) {
   return (
-    <>
+    <div className="loading-spinner-container">
       <Spinner />
       {props?.children || defaultMessage}
-    </>
+    </div>
   );
 }
 
