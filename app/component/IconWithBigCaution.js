@@ -4,7 +4,7 @@ import IconWithIcon from './IconWithIcon';
 import { AlertSeverityLevelType } from '../constants';
 
 export default function IconWithBigCaution({
-  alertSeverityLevel = undefined,
+  alertSeverityLevel,
   className = '',
   color,
   img,
