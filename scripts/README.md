@@ -31,3 +31,42 @@ In case you do not need features usable with a subscription key when running a l
 ```
 NO_SUBSCRIPTION_KEY=true uilocal matka
 ```
+
+## Using `build/contextHelper.js` and `build/assetUrlPlaceholder.js`
+
+Both are pure build/server-side helpers, required directly (not run standalone):
+
+- [`contextHelper.js`](/scripts/build/contextHelper.js) — used by
+  [`webpack.config.babel.js`](/webpack.config.babel.js) to compute webpack theme entries
+  and favicon plugins for every configured deployment (or just `$CONFIG` if set).
+- [`assetUrlPlaceholder.js`](/scripts/build/assetUrlPlaceholder.js) — exports the
+  placeholder token baked into the service worker's precache manifest at build time
+  (`webpack.config.babel.js`) and substituted with the real `ASSET_URL` at request time
+  (`server/server.js`).
+
+## Using `theme/add-theme.js`
+
+Scaffolds a new theme: creates `sass/themes/<name>`, a config file at
+`app/configurations/config.<name>.js` (from `theme/template.waltti.js`), and registers the theme
+in `config.default.js`'s host-name mapping. See [`docs/Themes.md`](/docs/Themes.md).
+
+```
+yarn add-theme <name> '#RRGGBB' <optional navbar logo>
+```
+
+## Using `generate-schema.js`
+
+Regenerates `schema/schema.graphql` (the GraphQL schema used by relay-compiler and
+graphql-eslint) from the OTP repo, and copies it into
+`digitransit-search-util-query-utils`.
+
+```
+node scripts/generate-schema.js
+```
+
+Use `SCHEMA_SRC=<url-or-local-path>` to fetch/copy from a non-default location, e.g. from a
+local OTP clone:
+```
+SCHEMA_SRC=~/OpenTripPlanner/application/src/main/resources/org/opentripplanner/apis/gtfs/schema.graphqls node scripts/generate-schema.js
+```
+

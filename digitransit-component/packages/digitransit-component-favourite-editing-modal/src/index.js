@@ -275,7 +275,6 @@ class FavouriteEditingModal extends React.Component {
   renderDeleteFavouriteModal = favourite => {
     return (
       <DialogModal
-        appElement={this.props.appElement}
         headerText={this.translate('delete-place-header')}
         handleClose={() =>
           this.setState(
@@ -302,8 +301,6 @@ class FavouriteEditingModal extends React.Component {
             showDeletePlaceModal: false,
           })
         }
-        colors={this.props.colors}
-        fontWeights={this.props.fontWeights}
         lang={this.props.lang}
       />
     );

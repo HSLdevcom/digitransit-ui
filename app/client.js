@@ -13,7 +13,7 @@ import {
   errorMiddleware,
   cacheMiddleware,
 } from 'react-relay-network-modern';
-import OfflinePlugin from 'offline-plugin/runtime';
+import { Workbox } from 'workbox-window';
 import { Helmet } from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
 import { RelayEnvironmentProvider } from 'react-relay';
@@ -27,6 +27,7 @@ import appCreator from './app';
 import { BUILD_TIME } from './buildInfo';
 import ErrorBoundary from './component/ErrorBoundary';
 import oldParamParser from './util/oldParamParser';
+import { IS_DEV_BUILD } from './util/envUtils';
 import { ClientProvider as ClientBreakpointProvider } from './util/withBreakpoint';
 import IntlBridge from './util/IntlBridge';
 import meta from './meta';
@@ -51,6 +52,34 @@ window.debug = debug; // Allow _debug.enable('*') in browser console
 const { config } = window;
 const app = appCreator(config);
 const context = app.createContext({ config });
+
+const ContextProvider = provideContext(IntlProvider, {
+  config: configShape,
+});
+
+const AppProviders = props => {
+  const providers = [
+    [ConfigProvider, { value: props.config }],
+    [ClientBreakpointProvider],
+    [
+      ContextProvider,
+      {
+        locale: props.language,
+        messages: props.messages,
+        context: props.context,
+        textComponent: 'span',
+      },
+    ],
+    [IntlBridge],
+    [RelayEnvironmentProvider, { environment: props.environment }],
+    [FavouriteProvider, { context: props.context }],
+    [TimeProvider],
+  ];
+  return providers.reduceRight(
+    (children, [Provider, value]) => <Provider {...value}>{children}</Provider>,
+    props.children,
+  );
+};
 
 const getParams = query => {
   if (!query) {
@@ -78,24 +107,6 @@ async function init() {
   initAnalyticsClientSide(config);
 
   window.context = context;
-
-  if (process.env.NODE_ENV === 'development') {
-    /* if (config.AXE) {
-      const axeConfig = {
-        resultTypes: ['violations'],
-      };
-      // eslint-disable-next-line global-require
-      const axe = require('@axe-core/react');
-      axe(React, ReactDOM, 2500, axeConfig);
-    } */
-    try {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      require(`../sass/themes/${config.CONFIG}/main.scss`);
-    } catch (error) {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      require('../sass/themes/default/main.scss');
-    }
-  }
 
   // Query parameter is used instead of header because browsers send
   // OPTIONS queries where you can't define headers
@@ -193,51 +204,41 @@ async function init() {
       });
   }
 
-  const ContextProvider = provideContext(IntlProvider, {
-    config: configShape,
-  });
-
   const content = (
-    <ConfigProvider value={config}>
-      <ClientBreakpointProvider>
-        <ContextProvider
-          locale={language}
-          messages={translations.default[language]}
-          context={context.getComponentContext()}
-          textComponent="span"
-        >
-          <IntlBridge>
-            <RelayEnvironmentProvider environment={environment}>
-              <FavouriteProvider context={context.getComponentContext()}>
-                <TimeProvider>
-                  <ErrorBoundary>
-                    <React.Fragment>
-                      <Helmet
-                        {...meta(
-                          language,
-                          window.location.host,
-                          window.location.href,
-                          config,
-                        )}
-                      />
-                      <Router resolver={resolver} />
-                    </React.Fragment>
-                  </ErrorBoundary>
-                </TimeProvider>
-              </FavouriteProvider>
-            </RelayEnvironmentProvider>
-          </IntlBridge>
-        </ContextProvider>
-      </ClientBreakpointProvider>
-    </ConfigProvider>
+    <AppProviders
+      config={config}
+      language={language}
+      messages={translations.default[language]}
+      context={context.getComponentContext()}
+      environment={environment}
+    >
+      <ErrorBoundary>
+        <React.Fragment>
+          <Helmet
+            {...meta(
+              language,
+              window.location.host,
+              window.location.href,
+              config,
+            )}
+          />
+          <Router resolver={resolver} />
+        </React.Fragment>
+      </ErrorBoundary>
+    </AppProviders>
   );
 
   const rootNode = document.getElementById('app');
   ReactDOM.render(content, rootNode, () => {
-    if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
-      OfflinePlugin.install({
-        onUpdateReady: () => OfflinePlugin.applyUpdate(),
-      });
+    if (!IS_DEV_BUILD && BUILD_TIME !== 'unset') {
+      // The service worker itself calls `skipWaiting()`/`clients.claim()`
+      // (see app/util/serviceWorker.js) so new versions take over as soon
+      // as they finish installing - mirrors the previous
+      // `OfflinePlugin.install({ onUpdateReady: () =>
+      // OfflinePlugin.applyUpdate() })` behaviour, just with the
+      // "apply immediately" decision made service-worker-side instead of
+      // here.
+      new Workbox('/sw.js').register();
     }
   });
 

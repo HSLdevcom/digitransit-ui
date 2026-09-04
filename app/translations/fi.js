@@ -819,6 +819,9 @@ export default {
     'traffic-now_filters_entity-search': 'Hae yksittäistä linjaa tai pysäkkiä',
     'traffic-now_filters_entity-search--placeholder':
       'Linja, pysäkki tai asema',
+    'traffic-now_filters_operator-select-legend': 'Näytä operaattoreista vain',
+    'traffic-now_filters_operator-select-placeholder':
+      'Valitse yksi tai useampia',
     'traffic-now_filters_toggles--cancellations-only': 'Vain peruutukset',
     'traffic-now_filters_toggles--favourites-only':
       'Vain omat linjat ja pysäkit',

@@ -1,12 +1,22 @@
 /* eslint-disable import/no-extraneous-dependencies, no-console */
 const fs = require('fs');
 const http = require('https');
+const path = require('path');
 
 const graphqlSchemaSource =
   process.env.SCHEMA_SRC ||
   'https://raw.githubusercontent.com/HSLdevcom/OpenTripPlanner/v2/application/src/main/resources/org/opentripplanner/apis/gtfs/schema.graphqls';
-const outputGraphQLFilename = 'schema.graphql';
-const outputGraphQLFileCopy = `../digitransit-search-util/packages/digitransit-search-util-query-utils/schema/${outputGraphQLFilename}`;
+const outputGraphQLFilename = path.join(
+  __dirname,
+  '..',
+  'schema',
+  'schema.graphql',
+);
+const outputGraphQLFileCopy = path.join(
+  __dirname,
+  '..',
+  'digitransit-search-util/packages/digitransit-search-util-query-utils/schema/schema.graphql',
+);
 
 const copySchema = (src, dest) => {
   fs.copyFile(src, dest, err => {

@@ -210,7 +210,7 @@ export function settingsLimitRouting(config) {
 }
 
 export function setCurrentTimeToURL(config, match) {
-  if (process.env.NODE_ENV !== 'test' && !match.location?.query?.time) {
+  if (!match.location?.query?.time) {
     const newLocation = {
       ...match.location,
       query: {

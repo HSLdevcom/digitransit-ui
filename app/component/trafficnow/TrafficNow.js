@@ -1,7 +1,7 @@
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import React, { useEffect, Suspense, useState } from 'react';
-import Button from '@hsl-fi/button';
+import { Button } from '@hsl-fi/layout-primitives';
 import { useRouter } from 'found';
 import ReactModal from 'react-modal';
 import { useBreakpoint } from '../../util/withBreakpoint';
@@ -107,16 +107,16 @@ const TrafficNow = () => {
                       onClose={() => setShowFiltersModal(false)}
                     />
                     <Button
-                      className="traffic-now__filters-button"
-                      size="medium"
-                      fullWidth
-                      variant="blue"
-                      value={intl.formatMessage({
+                      size="m"
+                      variant="primary"
+                      expandOnMobile
+                      onClick={() => setShowFiltersModal(true)}
+                    >
+                      {intl.formatMessage({
                         id: 'filters',
                         defaultMessage: 'Filters',
                       })}
-                      onClick={() => setShowFiltersModal(true)}
-                    />
+                    </Button>
                   </div>
                 )}
                 <Suspense fallback={<Loading />}>

@@ -29,10 +29,13 @@ const YEAR = 1900 + new Date().getYear();
 
 const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 const TRAFFIC_NOW_TEST = process.env.TRAFFIC_NOW_TEST === 'true';
+// Deployment run environment (unknown ⇒ production, see app/util/envUtils.js).
+const { RUN_ENV } = process.env;
+// CrazyEgg survey sampling divisor.
+const SURVEY_SHARE = Number(process.env.SURVEY_SHARE) || undefined;
 
 export default {
   PORT,
-  // AXE,
   CONFIG,
   OTPTimeout: OTP_TIMEOUT,
   URL: {
@@ -737,6 +740,8 @@ export default {
   showVehiclesOnItineraryPage: false,
   trafficNowLink: false,
   trafficNowTest: TRAFFIC_NOW_TEST,
+  RUN_ENV,
+  SURVEY_SHARE,
   // Maximum number of routes shown per transport mode card in the Traffic now
   // overview; any additional routes are collapsed into a "+N" badge.
   trafficNowMaxRoutesPerCard: 5,

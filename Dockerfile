@@ -9,11 +9,6 @@ ENV \
   # Picked up by various Node.js tools.
   NODE_ENV=production
 
-# install dependencies for npm packages
-RUN \
-  # required for sharp, which builds libvips using node-gyp
-  apk add --no-cache python3 make g++ vips-dev
-
 COPY .yarnrc.yml package.json yarn.lock lerna.json ./
 COPY .yarn ./.yarn
 
@@ -30,8 +25,7 @@ RUN \
   # https://github.com/microsoft/playwright/blob/v1.16.2/installation-tests/installation-tests.sh#L200-L216
   export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
   && yarn install --immutable --inline-builds \
-  && yarn cache clean --all \
-  && rm -rf /tmp/phantomjs
+  && yarn cache clean --all
 
 # Setting $CONFIG causes digitransit-ui to only build assets for *one* instance (see app/configurations).
 # This speeds up the build (because favicons-webpack-plugin is increasingly *very* slow with the nr of

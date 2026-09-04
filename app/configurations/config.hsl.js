@@ -1,4 +1,4 @@
-import { IS_DEV } from '../util/envUtils';
+import { isDevRunEnv } from '../util/envUtils';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 import ttConfig from './timetableConfigUtils';
 
@@ -21,7 +21,7 @@ const travelersAccountUrl = process.env.TRAVELERS_ACCOUNT_URL;
 const staticAssetsUrl =
   process.env.STATIC_ASSETS_URL || 'https://staticfiles-test.hslfi.hsldev.com/';
 
-const virtualMonitorBaseUrl = IS_DEV
+const virtualMonitorBaseUrl = isDevRunEnv()
   ? 'https://dev-hslmonitori.digitransit.fi'
   : 'https://omatnaytot.hsl.fi';
 
@@ -763,7 +763,7 @@ export default {
     taxiExternalIcon: 'icon_uber-wide',
   },
 
-  showRouteDescNotification: IS_DEV,
+  showRouteDescNotification: isDevRunEnv(),
   personalization: false,
   personalizationSurveyLinks: {
     fi: 'https://surveys.crazyegg.com/s/303436/c50407d2-a31b-4336-a43b-149ac6639d78',

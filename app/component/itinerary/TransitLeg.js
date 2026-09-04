@@ -429,11 +429,7 @@ export default function TransitLeg({
   const routeNotifications = [];
   const isCallAgency = mode === 'call';
 
-  if (
-    process.env.NODE_ENV !== 'test' &&
-    config.routeNotifications &&
-    config.routeNotifications.length > 0
-  ) {
+  if (config.routeNotifications && config.routeNotifications.length > 0) {
     for (let i = 0; i < config.routeNotifications.length; i++) {
       const notification = config.routeNotifications[i];
       if (

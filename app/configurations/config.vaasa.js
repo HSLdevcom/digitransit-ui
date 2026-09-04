@@ -1,5 +1,5 @@
 import configMerger from '../util/configMerger';
-import { IS_DEV } from '../util/envUtils';
+import { isDevRunEnv } from '../util/envUtils';
 import walttiConfig from './config.waltti';
 
 const CONFIG = 'vaasa';
@@ -11,7 +11,7 @@ const maxLat = 63.19;
 const minLon = 21.42;
 const maxLon = 22.18;
 
-const virtualMonitorBaseUrl = IS_DEV
+const virtualMonitorBaseUrl = isDevRunEnv()
   ? 'https://dev-vaasamonitori.digitransit.fi'
   : 'https://pysakit-vaasa.digitransit.fi';
 

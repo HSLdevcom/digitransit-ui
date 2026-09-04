@@ -1,10 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 require('@babel/register')({
   // This will override `node_modules` ignoring - you can alternatively pass
-  // an array of strings to be explicitly matched or a regex / glob
-  ignore: [
-    /node_modules\/(?!react-leaflet|@babel\/runtime\/helpers\/esm|lodash-es|@digitransit-util|@digitransit-component)/,
-  ],
+  // an array of strings to be explicitly matched or a regex / glob.
+  // react-leaflet is the only node_modules package our unit tests actually
+  // need transpiled (its untranspiled `es/*` source is required by the
+  // custom ESM loader) - verified empirically against the full test suite.
+  ignore: [/node_modules\/(?!react-leaflet)/],
 });
 
 // Prevent Node.js from trying to parse CSS/SCSS files as JavaScript

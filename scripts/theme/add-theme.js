@@ -72,7 +72,10 @@ const regexTheme = new RegExp('__theme__', 'g');
 const regexName = new RegExp('__Theme__', 'g');
 const regexLogo = new RegExp('__textlogo__,', 'g');
 
-let conf = fs.readFileSync('build/template.waltti.js', 'utf-8');
+let conf = fs.readFileSync(
+  path.join(__dirname, 'template.waltti.js'),
+  'utf-8',
+);
 conf = conf.replace(regexColor, color).replace(regexTheme, theme)
            .replace(regexName, name)
 if (textLogo === 'true') {

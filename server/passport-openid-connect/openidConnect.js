@@ -5,6 +5,7 @@ const redis = require('redis');
 const axios = require('axios');
 const RedisStore = require('connect-redis')(session);
 const LoginStrategy = require('./Strategy').Strategy;
+const { IS_DEV_BUILD } = require('../../app/util/envUtils');
 
 const clearAllUserSessions = false; // set true if logout should erase all user's sessions
 
@@ -59,7 +60,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
   const postLogoutRedirectUris = hostnames.map(
     host => `${host}${logoutCallbackPath}`,
   );
-  if (process.env.NODE_ENV === 'development') {
+  if (IS_DEV_BUILD) {
     redirectUris.push(`http://localhost:${port}${callbackPath}`);
     postLogoutRedirectUris.push(
       `http://localhost:${port}${logoutCallbackPath}`,
@@ -156,10 +157,10 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        secure: process.env.NODE_ENV === 'production',
-        httpOnly: process.env.NODE_ENV === 'production',
+        secure: !IS_DEV_BUILD,
+        httpOnly: !IS_DEV_BUILD,
         maxAge: 1000 * 60 * 60 * 24 * 60,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        sameSite: !IS_DEV_BUILD ? 'none' : 'lax',
       },
     }),
   );
