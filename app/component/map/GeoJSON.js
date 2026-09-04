@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import React, { useRef } from 'react';
 import { default as Geojson } from 'react-leaflet/es/GeoJSON';
 import PointFeatureMarker from './PointFeatureMarker';
-import { geoJsonFeatureShape, configShape } from '../../util/shapes';
+import { geoJsonFeatureShape } from '../../util/shapes';
 import {
   isMultiPointTypeGeometry,
   isPointTypeGeometry,
 } from '../../util/geo-utils';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 /**
  * Extracts svg-formatted icon data from the given features' properties.
@@ -95,7 +96,8 @@ const haloArray = [
   21.11, 25.67, 31.14, 37.71, 45.59, 55.04, 66.39, 80,
 ];
 
-function GeoJSON({ bounds, data, geoJsonZoomLevel, ...rest }, { config }) {
+function GeoJSON({ bounds, data, geoJsonZoomLevel = 0, ...rest }) {
+  const config = useConfigContext();
   const { colors, geoJsonSvgSize, language } = config;
   // cache dynamic icons to allow references by id without data duplication
   const icons = useRef(getIcons(data?.features));
@@ -201,15 +203,6 @@ GeoJSON.propTypes = {
     features: PropTypes.arrayOf(geoJsonFeatureShape),
   }).isRequired,
   geoJsonZoomLevel: PropTypes.number,
-};
-
-GeoJSON.defaultProps = {
-  bounds: undefined,
-  geoJsonZoomLevel: 0,
-};
-
-GeoJSON.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export { GeoJSON as default, getIcons, getMarker };

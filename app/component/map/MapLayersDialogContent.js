@@ -132,6 +132,7 @@ function MapLayersDialogContent({
         {showRentalVehiclesOfType(
           config.vehicleRental?.networks,
           TransportMode.Citybike,
+          config,
         ) && (
           <Checkbox
             large
@@ -149,6 +150,7 @@ function MapLayersDialogContent({
         {showRentalVehiclesOfType(
           config.vehicleRental?.networks,
           TransportMode.Scooter,
+          config,
         ) && (
           <Checkbox
             large

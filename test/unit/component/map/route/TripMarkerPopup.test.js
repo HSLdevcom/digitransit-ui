@@ -1,7 +1,6 @@
 import React from 'react';
-
+import { renderWithProviders } from '../../../helpers/mock-providers';
 import { Component as TripMarkerPopup } from '../../../../../app/component/map/route/TripMarkerPopup';
-import { shallowWithIntl } from '../../../helpers/mock-intl-enzyme';
 
 describe('<TripMarkerPopup />', () => {
   it('should render popup', () => {
@@ -49,7 +48,7 @@ describe('<TripMarkerPopup />', () => {
       },
     };
 
-    const wrapper = shallowWithIntl(<TripMarkerPopup {...props} />);
-    expect(wrapper.find('.route')).to.have.lengthOf(1);
+    const { container } = renderWithProviders(<TripMarkerPopup {...props} />);
+    expect(container.textContent).to.include('15');
   });
 });

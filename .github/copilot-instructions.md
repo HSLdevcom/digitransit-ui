@@ -29,7 +29,7 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
   - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
 - `server/` — Express SSR server.
 - `test/` — `unit/` (mocha, mirrors `app/`) and `e2e/` (Jest + Playwright visual tests).
-- `scripts/` — dev helper scripts (`ui.sh`, `sort-translations.mjs`, `contextHelper.js`,
+- `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.mjs`, `contextHelper.js`,
   `generate-schema.js`, `theme/` theme-scaffolding scripts; see `scripts/README.md`).
 - `digitransit-component/`, `digitransit-search-util/`, `digitransit-store/`,
   `digitransit-util/` — Yarn workspace packages, built separately (see below).
@@ -44,19 +44,15 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 
 - Requires the Node version from `engines.node` and the Yarn version from `packageManager` in
   `package.json` (`corepack enable`). Also needs `watchman`.
-- `yarn install && yarn setup` — installs deps and builds the `digitransit-*` workspace packages
-  (components/search-util/store/util) that live under `digitransit-component/`,
-  `digitransit-search-util/`, `digitransit-store/`, `digitransit-util/`. **After editing any file
-  in one of these workspaces, re-run `yarn setup` (or the relevant `build-*` script) for changes
-  to be picked up by the main app.**
+- `yarn install` — installs deps.
 - `yarn run dev` — dev server at http://localhost:8080 (webpack-dev-server + nodemon server +
   relay-watch + component watch, run in parallel via one script). Runs against mock/no API keys.
-- `source scripts/ui.sh` then `uidev <config>` / `uiprod <config>` / `uilocal <config>` — run the
-  dev server against real APIs (map tiles, geocoding, etc.):
-  - `uidev` — dev API; requires `DEV_SUBSCRIPTION_KEY` env var.
-  - `uiprod` — prod API (`api.digitransit.fi`); requires `SUBSCRIPTION_KEY` env var.
-  - `uilocal` — local OTP at `http://localhost:9080/otp/`; requires `DEV_SUBSCRIPTION_KEY`.
-  - Set `NO_SUBSCRIPTION_KEY=true` to skip the key requirement instead.
+- `API_TYPE=development|production|local API_SUBSCRIPTION_TOKEN=<key> yarn run dev` — run the dev
+  server against real APIs (map tiles, geocoding, etc.), handled inside `scripts/dev.sh`:
+  - `development` (default) — `dev-api.digitransit.fi`.
+  - `production` — `api.digitransit.fi`.
+  - `local` — local OTP at `http://localhost:9080/otp/`.
+  - `API_SUBSCRIPTION_TOKEN` is required for full functionality in all three modes.
 - `yarn run build` then `yarn run start` — production build/run. Use `CONFIG=hsl` (or `tampere`,
   `matka`, etc., see `app/configurations/config.*.js`) to select a regional config, and
   `API_URL=...` to point at a different OTP/geocoding backend.

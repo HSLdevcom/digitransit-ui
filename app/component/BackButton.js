@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { routerShape, matchShape } from 'found';
 import Icon from './Icon';
 import { useConfigContext } from '../configurations/ConfigContext';
+import { IS_DEV_BUILD } from '../util/envUtils';
 
 export default function BackButton(props, context) {
   const config = useConfigContext();
@@ -39,7 +40,7 @@ export default function BackButton(props, context) {
 
   let url;
   // apply rootlink only in production, it is annoying locally
-  if (process.env.NODE_ENV !== 'development') {
+  if (!IS_DEV_BUILD) {
     if (config.passLanguageToRootLink && intl.locale !== 'fi') {
       url = `${config.URL.ROOTLINK}/${intl.locale}`;
     } else {

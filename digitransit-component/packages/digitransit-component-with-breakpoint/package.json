@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-with-breakpoint",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "digitransit-component with-breakpoint module",
   "main": "lib/index.js",
   "files": [
@@ -10,10 +10,12 @@
     "access": "public"
   },
   "scripts": {
-    "build:index": "ENV=production NAME=digitransit-component--with-breakpoint webpack --config ../webpack.config.babel.js && yarn run docs",
     "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-transform-class-properties --out-file test.generated",
+    "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
+    "clean": "rm -rf ./lib ./node_modules",
     "test": "mocha -r esm test.generated",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "docs": "node -r esm ../../scripts/generate-readmes",
+    "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
   "repository": {
     "type": "git",

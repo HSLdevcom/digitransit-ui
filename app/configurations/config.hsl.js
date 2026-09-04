@@ -1,4 +1,4 @@
-import { IS_DEV } from '../util/envUtils';
+import { isDevRunEnv } from '../util/envUtils';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 import ttConfig from './timetableConfigUtils';
 
@@ -21,7 +21,7 @@ const travelersAccountUrl = process.env.TRAVELERS_ACCOUNT_URL;
 const staticAssetsUrl =
   process.env.STATIC_ASSETS_URL || 'https://staticfiles-test.hslfi.hsldev.com/';
 
-const virtualMonitorBaseUrl = IS_DEV
+const virtualMonitorBaseUrl = isDevRunEnv()
   ? 'https://dev-hslmonitori.digitransit.fi'
   : 'https://omatnaytot.hsl.fi';
 
@@ -746,15 +746,15 @@ export default {
 
   flex: {
     external: {
-      enabled: IS_DEV,
-      transit: IS_DEV,
+      enabled: isDevRunEnv(),
+      transit: isDevRunEnv(),
       direct: false,
       agencies: ['Uber:agency-mog2skf5-1'],
     },
     internal: {
-      enabled: IS_DEV,
-      transit: IS_DEV,
-      direct: IS_DEV,
+      enabled: isDevRunEnv(),
+      transit: isDevRunEnv(),
+      direct: isDevRunEnv(),
       agencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
     },
     infoLanguage: 'fi',
@@ -762,8 +762,9 @@ export default {
     taxiExternalIcon: 'icon_uber-wide',
   },
 
-  showRouteDescNotification: IS_DEV,
-  personalization: IS_DEV,
+  showRouteDescNotification: isDevRunEnv(),
+  // Intentionally hidden regardless of environment; see "chore: hide personalization in dev".
+  personalization: isDevRunEnv(),
   personalizationSurveyLinks: {
     fi: 'https://surveys.crazyegg.com/s/303436/c50407d2-a31b-4336-a43b-149ac6639d78',
     sv: 'https://surveys.crazyegg.com/s/303436/7977162c-07a0-4316-82e0-ae2dee934edf',

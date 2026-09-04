@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { renderWithProviders } from '../helpers/mock-providers';
+import { mockContext } from '../helpers/mock-context';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 import RouteStop from '../../../app/component/routepage/RouteStop';
 import Icon from '../../../app/component/Icon';
@@ -11,42 +12,34 @@ describe('<RouteStop />', () => {
     const props = {
       currentTime: 1471515614,
       color: '',
-      stop: {
-        alerts: [],
-      },
+      stop: { alerts: [] },
     };
-    const context = {
+    const { container } = renderWithProviders(<RouteStop {...props} />, {
       config: {
-        CONFIG: 'default',
+        ...mockContext.config,
         minutesToDepartureLimit: 0,
         zones: { stops: true },
       },
-    };
-    const wrapper = mountWithIntl(<RouteStop {...props} />, { context });
-    expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
+    });
+    expect(container.querySelector('.caution')).to.equal(null);
   });
 
   it('should render a service alert icon for the stop', () => {
     const props = {
       currentTime: 1471515614,
-      stop: {
-        alerts: [
-          {
-            alertSeverityLevel: AlertSeverityLevelType.Warning,
-          },
-        ],
-      },
       color: '',
+      stop: {
+        alerts: [{ alertSeverityLevel: AlertSeverityLevelType.Warning }],
+      },
     };
-    const context = {
+    const { container } = renderWithProviders(<RouteStop {...props} />, {
       config: {
-        CONFIG: 'default',
+        ...mockContext.config,
         minutesToDepartureLimit: 0,
         zones: { stops: true },
       },
-    };
-    const wrapper = mountWithIntl(<RouteStop {...props} />, { context });
-    expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(false);
+    });
+    expect(container.querySelector('.caution')).to.not.equal(null);
   });
 
   it('should not render a service alert icon for the stop if the alert is not active', () => {
@@ -64,15 +57,14 @@ describe('<RouteStop />', () => {
         ],
       },
     };
-    const context = {
+    const { container } = renderWithProviders(<RouteStop {...props} />, {
       config: {
-        CONFIG: 'default',
+        ...mockContext.config,
         minutesToDepartureLimit: 0,
         zones: { stops: true },
       },
-    };
-    const wrapper = mountWithIntl(<RouteStop {...props} />, { context });
-    expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
+    });
+    expect(container.querySelector('.caution')).to.equal(null);
   });
 
   it('should not render a service alert icon when showStopStatusMarkers is enabled', () => {

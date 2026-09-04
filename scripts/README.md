@@ -5,37 +5,43 @@
 This script sorts translation files in the [`app/translations`](/app/translations) directory.
 See the `sort-translations` and `format` scripts in [`package.json`](/package.json).
 
-## Using `ui.sh`
+## `dev.sh` API options
 
-See the `themeMap` in `app/configurations/config.default.js` for configuration options.
+`scripts/dev.sh` (run via `yarn run dev`) reads env vars to pick which API/config to run against.
+See the `themeMap` in `app/configurations/config.default.js` for `CONFIG` options.
 
-### Before using
-```
-source ui.sh
-```
+- `CONFIG` — deployment config to use, e.g. `hsl`, `matka` (default: `default`).
+- `API_TYPE` — `development` (default, `dev-api.digitransit.fi`), `production`
+  (`api.digitransit.fi`), or `local` (OTP at `http://localhost:9080/otp/`).
+- `API_SUBSCRIPTION_TOKEN` — subscription key for map tiles/geocoding/etc.
+
 ### Usage examples
 
 Using the UI with the development API:
 ```
-DEV_SUBSCRIPTION_KEY=<your_subscription_key> uidev hsl
+CONFIG=hsl API_TYPE=development API_SUBSCRIPTION_TOKEN=<your_subscription_key> yarn run dev
 ```
 Using the UI with the production API:
 ```
-SUBSCRIPTION_KEY=<your_subscription_key> uiprod hsl
+CONFIG=hsl API_TYPE=production API_SUBSCRIPTION_TOKEN=<your_subscription_key> yarn run dev
 ```
-Using the UI with a local instance of OTP on port `9080`:
+Using the UI with a local instance of OTP on port `9080` (still needs a dev subscription key for
+map tiles and similar features):
 ```
-DEV_SUBSCRIPTION_KEY=<your_subscription_key> uilocal matka
-```
-In case you do not need features usable with a subscription key when running a local instance of OTP on port `9080`:
-```
-NO_SUBSCRIPTION_KEY=true uilocal matka
+CONFIG=matka API_TYPE=local API_SUBSCRIPTION_TOKEN=<your_subscription_key> yarn run dev
 ```
 
-## Using `contextHelper.js`
+## Using `build/contextHelper.js` and `build/assetUrlPlaceholder.js`
 
-Used by [`webpack.config.babel.js`](/webpack.config.babel.js) to compute webpack theme entries
-and favicon plugins for every configured deployment (or just `$CONFIG` if set). Not run directly.
+Both are pure build/server-side helpers, required directly (not run standalone):
+
+- [`contextHelper.js`](/scripts/build/contextHelper.js) — used by
+  [`webpack.config.babel.js`](/webpack.config.babel.js) to compute webpack theme entries
+  and favicon plugins for every configured deployment (or just `$CONFIG` if set).
+- [`assetUrlPlaceholder.js`](/scripts/build/assetUrlPlaceholder.js) — exports the
+  placeholder token baked into the service worker's precache manifest at build time
+  (`webpack.config.babel.js`) and substituted with the real `ASSET_URL` at request time
+  (`server/server.js`).
 
 ## Using `theme/add-theme.js`
 
@@ -45,6 +51,20 @@ in `config.default.js`'s host-name mapping. See [`docs/Themes.md`](/docs/Themes.
 
 ```
 yarn add-theme <name> '#RRGGBB' <optional navbar logo>
+```
+
+## Using `check-versions-workspaces.js`
+
+Fails if a workspace package changed since a given base commit but its `package.json` `version`
+wasn't bumped accordingly (or was bumped in the wrong direction). `lerna publish from-package`
+only republishes a package when its committed version is greater than what's already on npm, so a
+changed-but-unbumped package would otherwise silently never get published. Run it (with
+`BASE_SHA` set to the commit/branch to diff against) whenever you change a workspace package
+(`digitransit-component`, `digitransit-search-util`, `digitransit-store`, `digitransit-util`) to
+make sure you remembered to bump its version — this is also enforced in CI on pull requests.
+
+```
+BASE_SHA=<git ref> yarn check-versions-workspaces
 ```
 
 ## Using `generate-schema.js`

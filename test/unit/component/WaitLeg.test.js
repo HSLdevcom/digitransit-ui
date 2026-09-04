@@ -2,9 +2,8 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
 
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../helpers/mock-providers';
 import WaitLeg from '../../../app/component/itinerary/WaitLeg';
-import ItineraryCircleLineWithIcon from '../../../app/component/itinerary/ItineraryCircleLineWithIcon';
 
 const defaultProps = {
   index: 1,
@@ -18,58 +17,50 @@ const defaultProps = {
 };
 
 describe('<WaitLeg />', () => {
-  describe('hasPreviousTransitLeg prop threading', () => {
-    it('should pass hasPreviousTransitLeg=true to ItineraryCircleLineWithIcon', () => {
-      const wrapper = shallowWithIntl(
+  describe('transit-leg marker behavior', () => {
+    it('should suppress the top circle when preceded by a transit leg', () => {
+      const { container } = renderWithProviders(
         <WaitLeg {...defaultProps} hasPreviousTransitLeg />,
       );
-      expect(
-        wrapper.find(ItineraryCircleLineWithIcon).prop('hasPreviousTransitLeg'),
-      ).to.equal(true);
+      expect(container.querySelector('.leg-before-circle.top')).to.equal(null);
     });
 
-    it('should pass hasPreviousTransitLeg=false to ItineraryCircleLineWithIcon by default', () => {
-      const wrapper = shallowWithIntl(<WaitLeg {...defaultProps} />);
+    it('should show the top circle by default', () => {
+      const { container } = renderWithProviders(<WaitLeg {...defaultProps} />);
       expect(
-        wrapper.find(ItineraryCircleLineWithIcon).prop('hasPreviousTransitLeg'),
-      ).to.equal(false);
+        container.querySelectorAll('.leg-before-circle.top'),
+      ).to.have.lengthOf(1);
     });
 
-    it('should pass hasPreviousTransitLeg=false when explicitly set to false', () => {
-      const wrapper = shallowWithIntl(
+    it('should show the top circle when not preceded by a transit leg', () => {
+      const { container } = renderWithProviders(
         <WaitLeg {...defaultProps} hasPreviousTransitLeg={false} />,
       );
       expect(
-        wrapper.find(ItineraryCircleLineWithIcon).prop('hasPreviousTransitLeg'),
-      ).to.equal(false);
+        container.querySelectorAll('.leg-before-circle.top'),
+      ).to.have.lengthOf(1);
     });
   });
 
   describe('rendering', () => {
-    it('should always render with modeClassName wait', () => {
-      const wrapper = shallowWithIntl(<WaitLeg {...defaultProps} />);
-      expect(
-        wrapper.find(ItineraryCircleLineWithIcon).prop('modeClassName'),
-      ).to.equal('wait');
+    it('should render with wait styling', () => {
+      const { container } = renderWithProviders(<WaitLeg {...defaultProps} />);
+      expect(container.querySelector('.leg-before.wait')).to.not.equal(null);
     });
 
-    it('should always pass isNotFirstLeg=true to ItineraryCircleLineWithIcon', () => {
-      const wrapper = shallowWithIntl(<WaitLeg {...defaultProps} />);
-      expect(
-        wrapper.find(ItineraryCircleLineWithIcon).prop('isNotFirstLeg'),
-      ).to.equal(true);
-    });
-
-    it('should pass the index prop through to ItineraryCircleLineWithIcon', () => {
-      const wrapper = shallowWithIntl(<WaitLeg {...defaultProps} index={3} />);
-      expect(wrapper.find(ItineraryCircleLineWithIcon).prop('index')).to.equal(
-        3,
-      );
+    it('should not render a first-leg marker', () => {
+      const { container } = renderWithProviders(<WaitLeg {...defaultProps} />);
+      expect(container.querySelector('.leg-before.first-leg')).to.equal(null);
     });
 
     it('should render the destination stop name', () => {
-      const wrapper = shallowWithIntl(<WaitLeg {...defaultProps} />);
-      expect(wrapper.find('.itinerary-row').text()).to.include('Stop B');
+      const { container } = renderWithProviders(<WaitLeg {...defaultProps} />);
+      expect(container.querySelector('.itinerary-row').textContent).to.include(
+        'Stop B',
+      );
+      expect(
+        container.querySelector('.itinerary-time-column-time').textContent,
+      ).to.equal('14:48');
     });
   });
 });

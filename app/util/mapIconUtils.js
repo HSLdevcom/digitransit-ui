@@ -412,7 +412,7 @@ export function drawStopIcon(
       const iconX = x;
       const iconY = y;
       // Draw the selection circle before the badge so the badge paints on top.
-      if (isHighlighted && !isFerryTerminal) {
+      if (isHighlighted && !isFerryTerminal && mode !== 'subway') {
         drawSelectionCircle(tile, iconX, iconY, zoom, radius);
       }
       if (drawNumber && platformNumber) {
@@ -440,7 +440,7 @@ export function drawStopIcon(
       );
     });
 
-    if (isHighlighted && isFerryTerminal) {
+    if (isHighlighted && (isFerryTerminal || mode === 'subway')) {
       getImageFromSpriteCache(`icon_station_highlight`, width, height).then(
         image => {
           tile.ctx.drawImage(

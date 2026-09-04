@@ -7,7 +7,9 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 function getAllConfigs() {
   if (process.env.CONFIG && process.env.CONFIG !== '') {
-    return [require('../app/config').getNamedConfiguration(process.env.CONFIG)];
+    return [
+      require('../../app/config').getNamedConfiguration(process.env.CONFIG),
+    ];
   }
 
   const srcDirectory = './app/configurations';
@@ -16,7 +18,7 @@ function getAllConfigs() {
     .filter(file => /^config\.\w+\.js$/.test(file))
     .map(file => {
       const theme = file.replace('config.', '').replace('.js', '');
-      return require('../app/config').getNamedConfiguration(theme);
+      return require('../../app/config').getNamedConfiguration(theme);
     });
 }
 
@@ -37,7 +39,7 @@ function getEntries(theme, sprites = null) {
 
 function getAllThemeEntries() {
   if (process.env.CONFIG && process.env.CONFIG !== '') {
-    const config = require('../app/config').getNamedConfiguration(
+    const config = require('../../app/config').getNamedConfiguration(
       process.env.CONFIG,
     );
 
@@ -67,7 +69,7 @@ function faviconPluginFromConfig(config) {
     // Your source logo
     logo,
     // The prefix for all image files (might be a folder or a name)
-    prefix: `assets/icons-${config.CONFIG}-[hash]/`,
+    prefix: `assets/icons-${config.CONFIG}-[contenthash]/`,
     // Emit all stats of the generated icons
     emitStats: true,
     // The name of the json containing all favicon information

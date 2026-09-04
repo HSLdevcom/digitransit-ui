@@ -1,8 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../helpers/mock-providers';
 import TimetableRow from '../../../app/component/stop/TimetableRow';
 
 import data from '../test-data/dt2720';
@@ -12,17 +11,18 @@ describe('<TimetableRow />', () => {
     const props = {
       ...data.matchingFilteredRoutes,
     };
-    const wrapper = shallowWithIntl(<TimetableRow {...props} />);
-    expect(wrapper.find('.timetablerow-linetime')).to.have.lengthOf(2);
+    const { container } = renderWithProviders(<TimetableRow {...props} />);
+    expect(
+      container.querySelectorAll('.timetablerow-linetime'),
+    ).to.have.lengthOf(2);
   });
 
   it('should apply style "display: none" when no suitable departure times exist for the filtered routes', () => {
     const props = {
       ...data.nonMatchingFilteredRoutes,
     };
-    const wrapper = shallowWithIntl(<TimetableRow {...props} />);
-    expect(wrapper.find('.timetable-row').get(0).props.style).to.have.property(
-      'display',
+    const { container } = renderWithProviders(<TimetableRow {...props} />);
+    expect(container.querySelector('.timetable-row').style.display).to.equal(
       'none',
     );
   });
@@ -57,8 +57,12 @@ describe('<TimetableRow />', () => {
       showRoutes: [],
       timerows: [],
     };
-    const wrapper = shallowWithIntl(<TimetableRow {...props} />);
-    expect(wrapper.find('.timetablerow-linetime')).to.have.lengthOf(2);
-    expect(wrapper.find('.timetablerow-linetime.canceled')).to.have.lengthOf(1);
+    const { container } = renderWithProviders(<TimetableRow {...props} />);
+    expect(
+      container.querySelectorAll('.timetablerow-linetime'),
+    ).to.have.lengthOf(2);
+    expect(
+      container.querySelectorAll('.timetablerow-linetime.canceled'),
+    ).to.have.lengthOf(1);
   });
 });

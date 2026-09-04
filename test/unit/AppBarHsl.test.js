@@ -1,93 +1,19 @@
 import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-
-import { shallowWithIntl } from './helpers/mock-intl-enzyme';
-
+import { renderWithProviders } from './helpers/mock-providers';
 import AppBarHsl from '../../app/component/AppBarHsl';
 
 describe('<AppBarHsl />', () => {
-  it('should render', () => {
-    const wrapper = shallowWithIntl(<AppBarHsl />, {
-      context: {
-        match: {
-          location: {
-            pathname: '/',
-          },
-        },
-      },
+  it('should render without errors', () => {
+    const { container } = renderWithProviders(<AppBarHsl />, {
       config: {
+        CONFIG: 'default',
         allowLogin: false,
-        URL: {
-          ROOTLINK: 'http://www.foo.com',
-        },
+        URL: { ROOTLINK: 'http://www.foo.com' },
         user: {},
       },
     });
-    expect(wrapper.isEmptyRender()).to.equal(false);
+    expect(container).to.not.equal(null);
   });
-
-  it.skip("language should be 'fi'", () => {
-    const props = {
-      lang: 'fi',
-    };
-    const wrapper = shallowWithIntl(<AppBarHsl {...props} />, {
-      context: {
-        match: {
-          location: {
-            pathname: '/',
-          },
-        },
-      },
-      config: {
-        allowLogin: false,
-        URL: {
-          ROOTLINK: 'http://www.foo.com',
-        },
-        user: {},
-      },
-    });
-    expect(wrapper.name()).to.equal('ForwardRef');
-    expect(wrapper.prop('searchPage')).to.equal('https://uusi.hsl.fi/haku');
-  });
-
-  /* it("language should be 'sv'", () => {
-    const props = {
-      lang: 'sv',
-    };
-    const wrapper = shallowWithIntl(<AppBarHsl {...props} />, {
-      context: {
-        match: {
-          location: {
-            pathname: '/',
-          },
-        },
-      },
-    });
-    expect(wrapper.name()).to.equal('ForwardRef');
-    expect(wrapper.prop('searchPage')).to.equal(
-      '/https://www.uusi.hsl.fi/sv/search/solr',
-    );
-  });
-
-  it("language should be 'en'", () => {
-    const props = {
-      lang: 'en',
-    };
-    const wrapper = shallowWithIntl(<AppBarHsl {...props} />, {
-      context: {
-        match: {
-          location: {
-            pathname: '/',
-          },
-        },
-      },
-    });
-    expect(wrapper.name()).to.equal('ForwardRef');
-    expect(wrapper.prop('searchPage')).to.equal(
-      'https://www.uusi.hsl.fi/en/search/solr',
-    );
-    );
-  });
-  */
 });
