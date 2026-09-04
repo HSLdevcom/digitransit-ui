@@ -4,6 +4,10 @@
   "description": "a JavaScript library for Digitransit",
   "main": "digitransit-util",
   "module": "digitransit-util.mjs",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HSLdevcom/digitransit-ui.git"
+  },
   "keywords": [
     "digitransit-util"
   ],
