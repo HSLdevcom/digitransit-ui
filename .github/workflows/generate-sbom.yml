@@ -1,0 +1,68 @@
+name: Generate SBOM
+
+# Shared by dev-pipeline.yml and prod-pipeline.yml so the SBOM
+# generation/upload logic only needs to be maintained in one place. Callers
+# must pass `secrets: inherit` so this workflow can read the SBOM_* secrets
+# directly.
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        description: 'Name for the uploaded SBOM artifact'
+        required: true
+        type: string
+      sbom-env-key-name:
+        description: >-
+          Name (not value - `with:` can't reference the `secrets` context,
+          see https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability)
+          of the secret holding the destination blob-path prefix for the
+          central SBOM server (e.g. "SBOM_ENV_KEY_DEV_V3"). The caller
+          picks which secret name applies (it depends on which
+          branch/workflow is calling); this workflow looks up its value
+          via `secrets[inputs.sbom-env-key-name]`.
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  NODE_VERSION: 24.14.1
+
+jobs:
+  generate-sbom:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Node, install dependencies, build workspaces
+        uses: ./.github/actions/setup
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Generate SBOM
+        run: yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx@2.0.0 --output-file ${{ github.repository }}-${{ github.sha }}.json
+
+      - name: Save SBOM artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: ${{ github.repository }}-${{ github.sha }}.json
+
+      - name: Az CLI login for central SBOM server
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.SBOM_CLIENT_ID }}
+          tenant-id: ${{ secrets.SBOM_TENANT_ID }}
+          subscription-id: ${{ secrets.SBOM_SUBSCRIPTION_ID }}
+
+      - name: Send SBOM to central SBOM server
+        run: >-
+          az storage blob upload
+          --account-name ${{ secrets.SBOM_STORAGE_ACCOUNT_NAME }}
+          --container-name sbom-ingest
+          --file ${{ github.repository }}-${{ github.sha }}.json
+          --name ${{ secrets[inputs.sbom-env-key-name] }}/${{ github.sha }}.json
+          --auth-mode login
+          --overwrite true
