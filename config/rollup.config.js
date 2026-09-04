@@ -1,16 +1,13 @@
-import path from 'path';
-import fs from 'fs';
-import autoprefixer from 'autoprefixer';
-import commonjs from '@rollup/plugin-commonjs';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import postcss from 'rollup-plugin-postcss';
-import babel from 'rollup-plugin-babel';
-import json from '@rollup/plugin-json';
-import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import { terser } from 'rollup-plugin-terser';
-import { getPackages } from '@lerna/project';
-import filterPackages from '@lerna/filter-packages';
-import batchPackages from '@lerna/batch-packages';
+const path = require('path');
+const fs = require('fs');
+const autoprefixer = require('autoprefixer');
+const commonjs = require('@rollup/plugin-commonjs');
+const { nodeResolve } = require('@rollup/plugin-node-resolve');
+const postcss = require('rollup-plugin-postcss');
+const { babel } = require('@rollup/plugin-babel');
+const json = require('@rollup/plugin-json');
+const peerDepsExternal = require('rollup-plugin-peer-deps-external');
+const terser = require('@rollup/plugin-terser').default;
 
 const globals = {
   react: 'React',
@@ -54,100 +51,106 @@ const globals = {
   'react-select': 'Select',
 };
 
-async function getSortedPackages() {
-  const scope = process.env.SCOPE;
-  const ignore = process.env.IGNORE;
-  const ignored = [
-    '@digitransit-component/digitransit-component',
-    '@digitransit-component/digitransit-component-with-breakpoint',
-    ignore,
-  ];
-  const packages = await getPackages(__dirname);
-  const filtered = filterPackages(packages, scope, ignored, false);
-  return batchPackages(filtered).reduce((arr, batch) => arr.concat(batch), []);
+/**
+ * This config builds a single package: the one whose directory is the
+ * current working directory. It's designed to be run per-package via
+ * `lerna run build --scope ...` (each package's own "build" script invokes
+ * `rollup -c <path-to-this-file>` from within its own directory), so that
+ * Lerna's Nx-powered task pipeline (see nx.json) can order/parallelize/
+ * cache builds across packages instead of this config looping over all of
+ * them in one process.
+ */
+function getPackage() {
+  const packageDir = process.cwd();
+  const packageJsonPath = path.join(packageDir, 'package.json');
+  if (!fs.existsSync(packageJsonPath)) {
+    throw new Error(
+      `No package.json found in ${packageDir}. Run this config from a ` +
+        'package directory, e.g. via that package\'s own "build" script ' +
+        '(invoked through `lerna run build --scope ...`), not directly ' +
+        'from the repo root.',
+    );
+  }
+  const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+  return { name: pkg.name, location: packageDir };
 }
 
-export default async () => {
-  const config = [];
-  const packages = await getSortedPackages();
-  packages.forEach(pkg => {
-    /* Absolute path to package directory */
-    const basePath = path.relative(__dirname, pkg.location);
-    let input = path.join(__dirname, basePath, 'src/index.js');
-    if (!fs.existsSync(input)) {
-      input = path.join(__dirname, basePath, 'index.js');
-    }
-    const buildConfig = {
-      input,
-      output: [
-        {
-          name: pkg.name,
-          dir: path.join(__dirname, basePath, 'lib'),
-          format: 'umd',
-          sourcemap: true,
-          inlineDynamicImports: true,
-          exports: 'named',
-          globals,
-        },
-        {
-          name: pkg.name,
-          file: path.join(__dirname, basePath, 'lib', 'index.development.js'),
-          format: 'umd',
-          sourcemap: 'inline',
-          inlineDynamicImports: true,
-          exports: 'named',
-          globals,
-        },
-      ],
-      context: 'self',
-      plugins: [
-        peerDepsExternal({
-          packageJsonPath: path.join(__dirname, basePath, 'package.json'),
-        }),
-        nodeResolve({ browser: true }),
-        babel({
-          runtimeHelpers: true,
-          configFile: './config/babel.config.js',
-          // These specific node_modules packages ship untranspiled ES2018+/ESM
-          // syntax (e.g. optional chaining) that our bundled UMD output would
-          // otherwise pass through as-is, breaking Webpack 4's old acorn
-          // parser when the main app later consumes these built libs.
-          exclude: /node_modules\/(?!@radix-ui|@floating-ui|@hsl-fi)/,
-        }),
-        commonjs({
-          ignoreGlobal: true,
-          include: /node_modules/,
-          sourceMap: true,
-          namedExports: {
-            './node_modules/react-is/index.js': ['isValidElementType'],
-          },
-        }),
-        postcss({
-          extract: false,
-          plugins: [autoprefixer()],
-          modules: true,
-          use: [
-            [
-              'sass',
-              {
-                quietDeps: true,
-                silenceDeprecations: [
-                  'import',
-                  'global-builtin',
-                  'color-functions',
-                ],
-              },
-            ],
+module.exports = () => {
+  const pkg = getPackage();
+  let input = path.join(pkg.location, 'src/index.js');
+  if (!fs.existsSync(input)) {
+    input = path.join(pkg.location, 'index.js');
+  }
+  const buildConfig = {
+    input,
+    output: [
+      {
+        name: pkg.name,
+        dir: path.join(pkg.location, 'lib'),
+        format: 'umd',
+        sourcemap: true,
+        inlineDynamicImports: true,
+        exports: 'named',
+        // Rollup 3+ changed the default from 'compat' to 'default', which
+        // stopped unwrapping `.default` on externalized ESM-as-CJS peer
+        // deps (e.g. react-select). 'auto' restores that interop safely.
+        interop: 'auto',
+        globals,
+      },
+      {
+        name: pkg.name,
+        file: path.join(pkg.location, 'lib', 'index.development.js'),
+        format: 'umd',
+        sourcemap: 'inline',
+        inlineDynamicImports: true,
+        exports: 'named',
+        interop: 'auto',
+        globals,
+      },
+    ],
+    context: 'self',
+    plugins: [
+      peerDepsExternal({
+        packageJsonPath: path.join(pkg.location, 'package.json'),
+      }),
+      nodeResolve({ browser: true }),
+      babel({
+        babelHelpers: 'runtime',
+        // Absolute path: this config now runs with cwd set to the
+        // package being built, not the repo root, so a relative path
+        // here would no longer resolve correctly.
+        configFile: path.join(__dirname, 'babel.config.js'),
+        exclude: /node_modules/,
+      }),
+      commonjs({
+        ignoreGlobal: true,
+        include: /node_modules/,
+        sourceMap: true,
+      }),
+      postcss({
+        extract: false,
+        plugins: [autoprefixer()],
+        modules: true,
+        use: [
+          [
+            'sass',
+            {
+              quietDeps: true,
+              silenceDeprecations: [
+                'import',
+                'global-builtin',
+                'color-functions',
+              ],
+            },
           ],
-          config: false,
-        }),
-        json(),
-      ],
-    };
-    if (process.env.NODE_ENV === 'production') {
-      buildConfig.plugins.push(terser());
-    }
-    config.push(buildConfig);
-  });
-  return config;
+        ],
+        config: false,
+      }),
+      json(),
+    ],
+  };
+  if (process.env.NODE_ENV === 'production') {
+    buildConfig.plugins.push(terser());
+  }
+  return buildConfig;
 };
