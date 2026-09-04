@@ -1,11 +1,32 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-// import getGeocodingResults from '.';
+import getGeocodingResults from './index.js';
 
 describe('Testing @digitransit-search-util/digitransit-search-util-get-geocoding-results module', () => {
-  it('Checking that true is true', () => {
-    // TODO: const retValue = getGeocodingResults(param1, param2);
-    expect(true).to.be.equal(true);
+  it('resolves to an empty array for an empty search string, without making a request', () => {
+    return getGeocodingResults('').then(results => {
+      expect(results).to.deep.equal([]);
+    });
+  });
+
+  it('resolves to an empty array for a whitespace-only search string', () => {
+    return getGeocodingResults('   ').then(results => {
+      expect(results).to.deep.equal([]);
+    });
+  });
+
+  it('resolves to an empty array when the search string fails minimalRegexp', () => {
+    return getGeocodingResults(
+      'a',
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      /^\d+$/,
+    ).then(results => {
+      expect(results).to.deep.equal([]);
+    });
   });
 });

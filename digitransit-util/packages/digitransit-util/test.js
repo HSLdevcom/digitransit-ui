@@ -1,10 +1,11 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-const directory = path.join(__dirname, '..');
+const directory = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 let modules = [];
 fs.readdirSync(directory).forEach(name => {
   if (name.includes('digitransit-util')) {

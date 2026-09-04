@@ -2,7 +2,7 @@
   "name": "@digitransit-component/digitransit-component-autosuggest-panel",
   "version": "8.4.1",
   "description": "digitransit-component autosuggest-panel module",
-  "main": "index.js",
+  "main": "index.cjs",
   "files": [
     "/lib"
   ],
@@ -10,10 +10,10 @@
     "access": "public"
   },
   "scripts": {
-    "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-transform-class-properties,@babel/plugin-transform-numeric-separator --out-file test.generated",
     "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "clean": "rm -rf ./lib ./node_modules",
-    "test": "mocha -r esm test.generated",
+    "pretest": "yarn build",
+    "test": "mocha --exit --require ../../../scripts/workspace-packages/setup-jsdom.js --require ../../../scripts/workspace-packages/stub-esm-peer-deps.js test.js",
     "docs": "node -r esm ../../scripts/generate-readmes",
     "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
@@ -27,6 +27,10 @@
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "devDependencies": {
+    "@testing-library/react": "^12",
+    "jsdom": "26.0.0"
+  },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-autosuggest": "^7.2.0",
     "@digitransit-component/digitransit-component-icon": "^2.0.2",
@@ -40,5 +44,6 @@
     "react": "^16.13.0",
     "react-i18next": "^12.3.1",
     "react-sortablejs": "2.0.11"
-  }
+  },
+  "type": "module"
 }

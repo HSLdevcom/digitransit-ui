@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import getJson from '.';
+import getJson from './index.js';
 
 describe('Testing @digitransit-search-util/digitransit-search-util-get-json module', () => {
   it('Checking that null returns empty ', () => {

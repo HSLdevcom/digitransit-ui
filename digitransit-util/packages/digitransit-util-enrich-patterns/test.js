@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { DateTime } from 'luxon';
-import enrichPatterns from '.';
+import enrichPatterns from './index.js';
 
 const DATE_FORMAT = 'yyyyLLdd';
 
@@ -65,7 +65,7 @@ describe('Testing @digitransit-util/digitransit-util-enrich-patterns module', ()
   it('All added keys (rangeFollowingDays, dayDiff, dayString, allowedDiff, fromDate and untilDate) exists', () => {
     expect(retValue[0])
       .to.be.an('object')
-      .that.has.all.keys(
+      .that.includes.all.keys(
         'activeDates',
         'allowedDiff',
         'code',

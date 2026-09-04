@@ -1,6 +1,6 @@
-import isString from 'lodash/isString';
-import orderBy from 'lodash/orderBy';
-import uniqWith from 'lodash/uniqWith';
+import isString from 'lodash/isString.js';
+import orderBy from 'lodash/orderBy.js';
+import uniqWith from 'lodash/uniqWith.js';
 import isDuplicate from '@digitransit-search-util/digitransit-search-util-is-duplicate';
 
 const normalize = str => {

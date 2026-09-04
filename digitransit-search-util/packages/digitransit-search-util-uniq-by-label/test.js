@@ -1,7 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import uniqByLabel, { formatFavouritePlaceLabel, getNameLabel } from '.';
+import uniqByLabel, {
+  formatFavouritePlaceLabel,
+  getNameLabel,
+} from './index.js';
 
 const feature1 = {
   properties: {

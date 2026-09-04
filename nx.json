@@ -5,10 +5,6 @@
       "dependsOn": ["^build"],
       "outputs": ["{projectRoot}/lib"],
       "cache": true
-    },
-    "build:test": {
-      "outputs": ["{projectRoot}/test.generated"],
-      "cache": true
     }
   }
 }

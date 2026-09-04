@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import truEq from '.';
+import truEq from './index.js';
 
 describe('Testing @digitransit-util/digitransit-util-tru-eq module', () => {
   it('Checking that true is true', () => {

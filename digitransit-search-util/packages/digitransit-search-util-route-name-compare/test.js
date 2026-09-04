@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import routeNameCompare from '.';
+import routeNameCompare from './index.js';
 
 const a = {
   shortName: 'hki',

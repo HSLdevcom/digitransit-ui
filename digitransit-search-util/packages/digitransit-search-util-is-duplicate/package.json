@@ -3,11 +3,12 @@
   "version": "2.1.1",
   "description": "digitransit-search-util is-duplicate module",
   "main": "index.js",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "test": "mocha -r esm test.js",
+    "test": "mocha test.js",
     "docs": "node -r esm ../../scripts/generate-readmes"
   },
   "repository": {

@@ -2,7 +2,7 @@
 /* eslint-disable func-names */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import dayRangePattern from '.';
+import dayRangePattern from './index.js';
 
 const tests = [
   { dayPattern: 'ma-ma', dayNoArray: ['1', '1', '1', '1'] },

@@ -2,19 +2,20 @@
   "name": "@digitransit-component/digitransit-component-favourite-modal",
   "version": "4.0.6",
   "description": "digitransit-component favourite-modal module",
-  "main": "index.js",
+  "main": "index.cjs",
+  "type": "module",
   "files": [
     "/lib",
-    "index.js"
+    "index.cjs"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-transform-class-properties,@babel/plugin-transform-numeric-separator --out-file test.generated",
     "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "clean": "rm -rf ./lib ./node_modules",
-    "test": "mocha -r esm test.generated",
+    "pretest": "yarn build",
+    "test": "mocha --exit --require ../../../scripts/workspace-packages/setup-jsdom.js --require ../../../scripts/workspace-packages/stub-esm-peer-deps.js test.js",
     "docs": "node -r esm ../../scripts/generate-readmes",
     "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
@@ -28,6 +29,10 @@
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "devDependencies": {
+    "@testing-library/react": "^12",
+    "jsdom": "26.0.0"
+  },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-icon": "^2.0.2",
     "@hsl-fi/modal": "^0.3.2",

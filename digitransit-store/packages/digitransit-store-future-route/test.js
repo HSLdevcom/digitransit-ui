@@ -2,31 +2,38 @@
 
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import {
-  getItem,
-  getItemAsJson,
-  removeItem,
-  setItem,
-} from '@digitransit-store/digitransit-store-common-functions';
-import {
-  createUrl,
-  addFutureRoute,
-} from '@digitransit-store/digitransit-store-future-route';
-import './mock-localstorage';
+// Node's CJS/ESM interop can't statically see named exports through
+// Rollup's UMD factory indirection (see digitransit-component-icon/test.js
+// for the equivalent component-side note) - import the default (the whole
+// UMD exports object) and destructure instead.
+import commonFunctions from '@digitransit-store/digitransit-store-common-functions';
+import futureRoute from '@digitransit-store/digitransit-store-future-route';
+import './mock-localstorage.js';
+
+const { getItem, getItemAsJson, removeItem, setItem } = commonFunctions;
+const { createUrl, addFutureRoute } = futureRoute;
 
 describe('Testing @digitransit-store/digitransit-store-future-route module', () => {
   describe('createUrl(route)', () => {
+    // createUrl(item, pathOpts) expects the FutureRoute shape produced by
+    // addFutureRoute() - name/localadmin already split out and nested under
+    // `.properties` - not the flat { address, coordinates } shape that
+    // addFutureRoute() itself takes as input (used in the tests below).
     const route = {
-      origin: {
-        address: 'Pasila, Helsinki',
-        coordinates: { lat: 60.198828, lon: 24.933514 },
+      properties: {
+        origin: {
+          name: 'Pasila',
+          localadmin: 'Helsinki',
+          coordinates: { lat: 60.198828, lon: 24.933514 },
+        },
+        destination: {
+          name: 'Myyrmäki',
+          localadmin: 'Vantaa',
+          coordinates: { lat: 60.261238, lon: 24.854782 },
+        },
+        arriveBy: false,
+        time: 1600757120,
       },
-      destination: {
-        address: 'Myyrmäki, Vantaa',
-        coordinates: { lat: 60.261238, lon: 24.854782 },
-      },
-      arriveBy: false,
-      time: 1600757120,
     };
     it('Url should be match', () => {
       const url = createUrl(route);

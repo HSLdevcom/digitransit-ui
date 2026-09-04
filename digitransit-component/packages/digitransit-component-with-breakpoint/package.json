@@ -2,7 +2,8 @@
   "name": "@digitransit-component/digitransit-component-with-breakpoint",
   "version": "1.0.2",
   "description": "digitransit-component with-breakpoint module",
-  "main": "lib/index.js",
+  "main": "lib/index.cjs",
+  "type": "module",
   "files": [
     "/lib"
   ],
@@ -10,10 +11,10 @@
     "access": "public"
   },
   "scripts": {
-    "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-transform-class-properties --out-file test.generated",
     "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "clean": "rm -rf ./lib ./node_modules",
-    "test": "mocha -r esm test.generated",
+    "pretest": "yarn build",
+    "test": "mocha --exit --require ../../../scripts/workspace-packages/setup-jsdom.js --require ../../../scripts/workspace-packages/stub-esm-peer-deps.js test.js",
     "docs": "node -r esm ../../scripts/generate-readmes",
     "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
@@ -27,6 +28,10 @@
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "devDependencies": {
+    "@testing-library/react": "^12",
+    "jsdom": "26.0.0"
+  },
   "peerDependencies": {
     "hoist-non-react-statics": "2.5.4",
     "lodash": "4.18.1",

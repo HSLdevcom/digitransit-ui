@@ -3,8 +3,9 @@
   "version": "4.1.1",
   "description": "digitransit-util route-pattern-option-text module",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "mocha -r esm test.js",
+    "test": "mocha test.js",
     "docs": "node -r esm ../../scripts/generate-readmes"
   },
   "repository": {

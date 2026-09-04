@@ -4,13 +4,14 @@
   "description": "a JavaScript library for Digitransit",
   "main": "digitransit-util",
   "module": "digitransit-util.mjs",
+  "type": "module",
   "keywords": [
     "digitransit-util"
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "scripts": {
-    "test": "mocha -r esm test.js",
+    "test": "mocha test.js",
     "docs": "node -r esm ../../scripts/generate-readmes"
   },
   "dependencies": {

@@ -9,8 +9,9 @@
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "type": "module",
   "scripts": {
-    "test": "mocha -r esm test.js",
+    "test": "mocha test.js",
     "docs": "node -r esm ../../scripts/generate-readmes"
   },
   "repository": {

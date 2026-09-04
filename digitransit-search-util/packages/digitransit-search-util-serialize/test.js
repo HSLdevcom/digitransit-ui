@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import serialize from '.';
+import serialize from './index.js';
 
 describe('Testing @digitransit-search-util/digitransit-search-util-serialize module', () => {
   it('Checking that null returns empty', () => {

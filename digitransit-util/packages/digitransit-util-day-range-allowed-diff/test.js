@@ -2,7 +2,7 @@
 /* eslint-disable func-names */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import dayRangeAllowedDiff from '.';
+import dayRangeAllowedDiff from './index.js';
 
 const testsForMonday = [
   { allowedDiff: 7, dayNoArray: ['1', '1', '1', '1'] },

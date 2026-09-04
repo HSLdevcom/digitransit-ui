@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import isDuplicate from '.';
+import isDuplicate from './index.js';
 
 describe('Testing @digitransit-util/digitransit-util-is-duplicate module', () => {
   it('Checking that duplicate items returns true', () => {

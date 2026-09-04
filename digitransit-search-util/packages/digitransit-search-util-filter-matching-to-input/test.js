@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import filterMatchingToInput from '.';
+import filterMatchingToInput from './index.js';
 
 describe('Testing @digitransit-util/digitransit-util-filter-matching-to-input module', () => {
   it('Checking that true is true', () => {

@@ -3,11 +3,12 @@
   "version": "0.0.3",
   "description": "digitransit-search-util route-name-compare module",
   "main": "index.js",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "test": "mocha -r esm test.js",
+    "test": "mocha test.js",
     "docs": "node -r esm ../../scripts/generate-readmes"
   },
   "repository": {

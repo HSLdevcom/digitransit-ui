@@ -3,8 +3,8 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { DateTime } from 'luxon';
-import cloneDeep from 'lodash/cloneDeep';
-import routePatternOptionText from '.';
+import cloneDeep from 'lodash/cloneDeep.js';
+import routePatternOptionText from './index.js';
 
 const languages = ['fi', 'en', 'sv'];
 

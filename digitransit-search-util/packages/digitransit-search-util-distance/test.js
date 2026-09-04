@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import distance from '.';
+import distance from './index.js';
 
 describe('Testing @digitransit-util/digitransit-util-distance module', () => {
   it('Checking that distance is calculated', () => {
