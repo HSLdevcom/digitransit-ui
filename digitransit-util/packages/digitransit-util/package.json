@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-util/digitransit-util",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "description": "a JavaScript library for Digitransit",
   "main": "digitransit-util",
   "module": "digitransit-util.mjs",
