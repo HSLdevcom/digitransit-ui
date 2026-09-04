@@ -104,7 +104,7 @@ module.exports = {
         '@graphql-eslint/unique-operation-name': 'off',
       },
       parserOptions: {
-        schema: './build/schema.graphql',
+        schema: './schema/schema.graphql',
       },
     },
   ],

@@ -9,6 +9,7 @@ Icon renders predefined Svg icons as react component.
 ### Parameters
 
 -   `$0` **[Object][1]** 
+    -   `$0.className`  
     -   `$0.color`  
     -   `$0.img`  
     -   `$0.height`  
@@ -24,6 +25,7 @@ Icon renders predefined Svg icons as react component.
    width={1}       // Width as em, optional
    color="#007ac9" // Color of image, optional
    rotate={90}     // How many degrees to rotate image, optional
+   className="foo" // Extra class name on the svg, optional
 />
 ```
 

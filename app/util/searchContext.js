@@ -17,6 +17,7 @@ const searchContext = {
   URL_PELIAS_PLACE: '',
   geocodingSearchParams: null,
   geocodingSources: '',
+  showStopStatusMarkers: false,
   getRoutesQuery() {
     return Promise.resolve([]);
   },

@@ -355,26 +355,10 @@ function DTAutosuggest({
             return suggestion;
           });
 
-        const applyBadges = suggestions =>
-          searchContext.getStopBadge
-            ? suggestions.map(item => {
-                const badge = searchContext.getStopBadge(item);
-                return badge
-                  ? {
-                      ...item,
-                      properties: {
-                        ...item.properties,
-                        stopStatusBadge: badge,
-                      },
-                    }
-                  : item;
-              })
-            : suggestions;
-
         dispatch({
           type: 'FETCH_SUGGESTIONS',
           loading: false,
-          suggestions: applyBadges(newSuggestions),
+          suggestions: newSuggestions,
         });
       },
       pathOpts,
@@ -568,6 +552,7 @@ function DTAutosuggest({
     getAutoSuggestIcons,
     colors,
     modeSet,
+    showStopStatusMarkers: !!searchContext.showStopStatusMarkers,
   };
 
   const {
@@ -716,7 +701,7 @@ DTAutosuggest.propTypes = {
     context: PropTypes.object,
     clearOldSearches: PropTypes.func,
     clearFutureRoutes: PropTypes.func,
-    getStopBadge: PropTypes.func,
+    showStopStatusMarkers: PropTypes.bool,
   }).isRequired,
   sources: PropTypes.arrayOf(PropTypes.string),
   targets: PropTypes.arrayOf(PropTypes.string),

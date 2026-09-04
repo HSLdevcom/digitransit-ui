@@ -119,7 +119,7 @@
   },
   "relay": {
     "src": "./app",
-    "schema": "./build/schema.graphql",
+    "schema": "./schema/schema.graphql",
     "language": "javascript"
   },
   "dependencies": {
