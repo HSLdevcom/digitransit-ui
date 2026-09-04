@@ -19,6 +19,8 @@ import { AlertEntityType } from '../constants';
 import { getRouteMode } from '../util/modeUtils';
 import { useConfigContext } from '../configurations/ConfigContext';
 
+export const getAlertRoutePath = gtfsId => routePagePath(gtfsId, PREFIX_STOPS);
+
 /**
  * Returns a localized string representing a time period between startTime and endTime
  * @param {{currentTime: DateTime, startTime: DateTime, endTime: DateTime, intl: any}}
@@ -141,7 +143,7 @@ export default function AlertRow({
               onClickLink?.();
             }}
             key={`${gtfsIdList[i]}-${index}`}
-            to={routePagePath(gtfsIdList[i], PREFIX_STOPS)}
+            to={getAlertRoutePath(gtfsIdList[i])}
             className={cx('alert-row-link', routeMode)}
             style={{ color: routeColor }}
             aria-label={`${intl.formatMessage({

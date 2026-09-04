@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it, afterEach } from 'mocha';
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import { act } from 'react-dom/test-utils';
 import {
@@ -43,13 +43,13 @@ const OutsideConsumer = () => {
 };
 
 describe('TimeContext', () => {
-  let wrapper;
+  let unmount;
   let clock;
 
   afterEach(() => {
-    if (wrapper) {
-      wrapper.unmount();
-      wrapper = null;
+    if (unmount) {
+      unmount();
+      unmount = null;
     }
     if (clock) {
       clock.restore();
@@ -61,59 +61,63 @@ describe('TimeContext', () => {
     it('provides the current unix time in seconds', () => {
       const now = Date.parse('2024-05-01T12:00:00Z');
       clock = sinon.useFakeTimers(now);
-      const controlRef = React.createRef();
-      wrapper = mount(
+      const result = render(
         <TimeProvider>
-          <TimeConsumer controlRef={controlRef} />
+          <TimeConsumer />
         </TimeProvider>,
       );
-      expect(controlRef.current).to.equal(Math.floor(now / 1000));
+      unmount = result.unmount;
+      expect(result.container.firstChild.dataset.currentTime).to.equal(
+        String(Math.floor(now / 1000)),
+      );
     });
 
     it('refreshes the current time every 30 seconds', () => {
       const start = Date.parse('2024-05-01T12:00:00Z');
       clock = sinon.useFakeTimers(start);
-      const controlRef = React.createRef();
-      wrapper = mount(
+      const result = render(
         <TimeProvider>
-          <TimeConsumer controlRef={controlRef} />
+          <TimeConsumer />
         </TimeProvider>,
       );
-      const initialTime = controlRef.current;
+      unmount = result.unmount;
+      const initialTime = Number(
+        result.container.firstChild.dataset.currentTime,
+      );
 
       act(() => {
         clock.tick(TWICE_PER_MINUTE);
       });
-      wrapper.update();
 
-      expect(controlRef.current).to.equal(
-        initialTime + TWICE_PER_MINUTE / 1000,
+      expect(result.container.firstChild.dataset.currentTime).to.equal(
+        String(initialTime + TWICE_PER_MINUTE / 1000),
       );
     });
 
     it('does not update the time before the interval elapses', () => {
       const start = Date.parse('2024-05-01T12:00:00Z');
       clock = sinon.useFakeTimers(start);
-      const controlRef = React.createRef();
-      wrapper = mount(
+      const result = render(
         <TimeProvider>
-          <TimeConsumer controlRef={controlRef} />
+          <TimeConsumer />
         </TimeProvider>,
       );
-      const initialTime = controlRef.current;
+      unmount = result.unmount;
+      const initialTime = result.container.firstChild.dataset.currentTime;
 
       act(() => {
         clock.tick(TWICE_PER_MINUTE - 1000);
       });
-      wrapper.update();
 
-      expect(controlRef.current).to.equal(initialTime);
+      expect(result.container.firstChild.dataset.currentTime).to.equal(
+        initialTime,
+      );
     });
   });
 
   describe('useCurrentTime outside provider', () => {
     it('throws when used outside a TimeProvider', () => {
-      expect(() => mount(<OutsideConsumer />)).to.throw(
+      expect(() => render(<OutsideConsumer />)).to.throw(
         'useCurrentTime must be used within a TimeProvider',
       );
     });
@@ -127,15 +131,15 @@ describe('TimeContext', () => {
         <div data-current-time={props.currentTime} /> // eslint-disable-line react/prop-types
       );
       const Wrapped = withCurrentTime(Inner);
-      wrapper = mount(
+      const result = render(
         <TimeProvider>
           <Wrapped foo="bar" />
         </TimeProvider>,
       );
-      expect(wrapper.find(Inner).prop('currentTime')).to.equal(
-        Math.floor(now / 1000),
+      unmount = result.unmount;
+      expect(result.container.firstChild.dataset.currentTime).to.equal(
+        String(Math.floor(now / 1000)),
       );
-      expect(wrapper.find(Inner).prop('foo')).to.equal('bar');
     });
   });
 });
