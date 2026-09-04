@@ -7,6 +7,11 @@
 # `set -m` gives each backgrounded job its own process group. This allows
 # cleanup to terminate the whole process tree for tools such as nodemon and
 # webpack-dev-server instead of only killing the direct yarn process.
+#
+# If any one job exits early (crash), we want to notice and clean up the
+# rest rather than leaving a partially-broken dev session running. That
+# needs a "wait for the first of several background jobs" mechanism; see
+# wait_any() below for how that is done in a mac/Linux-compatible way.
 
 set -eo pipefail
 set -m
@@ -64,6 +69,27 @@ cleanup() {
 
 trap cleanup EXIT INT TERM
 
+# `wait -n` (wait for the first of several background jobs to exit) needs
+# bash >= 4.3. macOS ships bash 3.2, where `wait -n` errors with
+# "wait: -n: invalid option". Use the native form when available (as on
+# Linux and any newer bash), and fall back to a simple kill -0 liveness
+# poll loop otherwise, which works on any bash version. Either path
+# returns as soon as one tracked process exits, so the script falls off
+# the end, the EXIT trap fires, and cleanup() tears down the rest of the
+# process group.
+wait_any() {
+  if (( BASH_VERSINFO[0] > 4 || (BASH_VERSINFO[0] == 4 && BASH_VERSINFO[1] >= 3) )); then
+    wait -n
+  else
+    while true; do
+      for pid in "${pids[@]}"; do
+        kill -0 "$pid" 2>/dev/null || return
+      done
+      sleep 1
+    done
+  fi
+}
+
 yarn run static
 
 yarn run relay-watch &
@@ -91,4 +117,4 @@ yarn watch-workspaces &
 pids+=("$!")
 
 # If any dev process exits, terminate the rest.
-wait -n
+wait_any
