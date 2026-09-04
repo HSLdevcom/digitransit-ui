@@ -11,7 +11,7 @@
     "clean": "rm -rf lib ./node_modules",
     "pretest": "yarn build",
     "test": "mocha test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs search-util",
     "relay": "mkdir -p lib/__generated__ && echo '{\"type\":\"commonjs\"}' > lib/__generated__/package.json && relay-compiler",
     "watch": "yarn relay && NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "build": "yarn relay && NODE_ENV=production rollup -c ../../../config/rollup.config.js"

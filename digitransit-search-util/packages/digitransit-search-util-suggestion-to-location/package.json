@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "mocha test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs search-util"
   },
   "repository": {
     "type": "git",

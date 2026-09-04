@@ -76,6 +76,28 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: yarn check-versions-workspaces
 
+  check-readmes:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Node, install dependencies, build workspaces
+        uses: ./.github/actions/setup
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          build-workspaces: 'false'
+
+      - name: Regenerate workspace package READMEs
+        run: |
+          yarn digitransit-component-docs
+          yarn digitransit-search-util-docs
+          yarn digitransit-store-docs
+          yarn digitransit-util-docs
+
+      - name: Fail if committed READMEs are out of date
+        run: git diff --exit-code -- 'digitransit-*/packages/*/README.md'
+
   unit-test:
     needs: install
     runs-on: ubuntu-latest

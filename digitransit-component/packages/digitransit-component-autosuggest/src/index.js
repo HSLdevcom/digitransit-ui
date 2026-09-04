@@ -135,6 +135,8 @@ const getNewTargets = ({
 };
 
 /**
+ * An autosuggest search input for finding locations, stops, stations, routes and vehicle rental stations.
+ *
  * @example
  * const searchContext = {
  *   isPeliasLocationAware: false // true / false does Let Pelias suggest based on current user location

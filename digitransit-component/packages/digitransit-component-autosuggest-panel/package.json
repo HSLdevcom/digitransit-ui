@@ -14,7 +14,7 @@
     "clean": "rm -rf ./lib ./node_modules",
     "pretest": "yarn build",
     "test": "mocha --exit --require ../../../scripts/workspace-packages/setup-jsdom.js --require ../../../scripts/workspace-packages/stub-esm-peer-deps.js test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs component",
     "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
   "repository": {
