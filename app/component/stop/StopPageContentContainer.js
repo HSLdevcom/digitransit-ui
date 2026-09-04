@@ -11,7 +11,7 @@ import StopServiceStatusBanner from './StopServiceStatusBanner';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
 
-function StopPageContent({ stop, relay, error = undefined, match }) {
+function StopPageContent({ stop, relay, error, match }) {
   const intl = useIntl();
   const config = useConfigContext();
   const currentTime = useCurrentTime();
