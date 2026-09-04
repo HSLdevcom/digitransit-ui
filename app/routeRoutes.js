@@ -18,7 +18,10 @@ import {
   getComponentOrLoadingRenderer,
   getComponentOrLoadingRendererWithRequired,
 } from './util/routerUtils';
-import { prepareServiceDay } from './util/dateParamUtils';
+import {
+  prepareServiceDay,
+  preparePatternStopsVariables,
+} from './util/dateParamUtils';
 import {
   prepareScheduleParamsWithFiveWeeks,
   prepareScheduleParamsWithTenWeeks,
@@ -187,12 +190,18 @@ export default function routeRoutes(config) {
                     $patternId: String!
                     $routeId: String!
                     $date: String!
+                    $currentTime: Long!
+                    $startOfDay: Long!
                     $cancelationStartDate: LocalDate!
                     $cancelationEndDate: LocalDate!
                   ) {
                     pattern(id: $patternId) {
                       ...PatternStopsContainer_pattern
-                        @arguments(patternId: $patternId)
+                        @arguments(
+                          patternId: $patternId
+                          currentTime: $currentTime
+                          startOfDay: $startOfDay
+                        )
                     }
                     route(id: $routeId) {
                       ...PatternStopsContainer_route
@@ -204,7 +213,7 @@ export default function routeRoutes(config) {
                     }
                   }
                 `}
-                prepareVariables={prepareServiceDay}
+                prepareVariables={preparePatternStopsVariables}
                 render={getComponentOrLoadingRenderer}
               />
               <Route
@@ -220,6 +229,8 @@ export default function routeRoutes(config) {
                     $tripId: String!
                     $routeId: String!
                     $date: String!
+                    $currentTime: Long!
+                    $startOfDay: Long!
                     $cancelationStartDate: LocalDate!
                     $cancelationEndDate: LocalDate!
                   ) {
@@ -228,6 +239,10 @@ export default function routeRoutes(config) {
                     }
                     trip(id: $tripId) {
                       ...TripStopsContainer_trip
+                        @arguments(
+                          currentTime: $currentTime
+                          startOfDay: $startOfDay
+                        )
                     }
                     route(id: $routeId) {
                       ...TripStopsContainer_route
@@ -239,7 +254,7 @@ export default function routeRoutes(config) {
                     }
                   }
                 `}
-                prepareVariables={prepareServiceDay}
+                prepareVariables={preparePatternStopsVariables}
                 render={getComponentOrLoadingRenderer}
               />
             </Route>,

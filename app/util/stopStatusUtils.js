@@ -1,12 +1,11 @@
+import {
+  STOP_STATUS,
+  STOP_STATUS_BADGE_IMGS,
+} from '@digitransit-component/digitransit-component-suggestion-item';
 import { isAlertValid, getMaximumAlertSeverityLevel } from './alertUtils';
 import { AlertSeverityLevelType } from '../constants';
 
-export const STOP_STATUS = {
-  OUT_OF_SERVICE: 'out-of-service',
-  NO_SERVICE_TODAY: 'no-service-today',
-  ALERT: 'alert',
-  INFO: 'info',
-};
+export { STOP_STATUS, STOP_STATUS_BADGE_IMGS };
 
 /**
  * Maps an alert severity level to the matching stop status. Info-level alerts
@@ -171,16 +170,6 @@ export const STOP_STATUS_MESSAGE_IDS = {
 };
 
 /**
- * Maps each STOP_STATUS value to the sprite id of its corner badge icon.
- */
-export const STOP_STATUS_BADGE_IMGS = {
-  [STOP_STATUS.OUT_OF_SERVICE]: 'icon_stop-closed-badge',
-  [STOP_STATUS.ALERT]: 'icon_caution-badge',
-  [STOP_STATUS.INFO]: 'icon_info-circled-badge',
-  [STOP_STATUS.NO_SERVICE_TODAY]: 'icon_stop-temporarily-closed-badge',
-};
-
-/**
  * Resolves the badge icon, stop status, and alert effects shown on the
  * "no departures" panel of a stop or terminal page.
  *
@@ -274,7 +263,6 @@ export function getStopStatusFromStopData({
   const activeAlerts = (stop.alerts || []).filter(
     alert => alert && isAlertValid(alert, nowUnixTime),
   );
-
   return getStopStatus({
     showStopStatusMarkers,
     closedByServiceAlert: isClosedByServiceAlert(activeAlerts),

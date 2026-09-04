@@ -167,8 +167,8 @@ li:last-child > div.suggestion-item-container.mobile {
   text-align: center;
   padding-top: 6px;
 
-  // Default size
-  svg {
+  // Default size — badge SVG is excluded so its own rule wins.
+  svg:not(.suggestion-status-badge) {
     width: 22px;
     height: 22px;
   }
@@ -240,4 +240,21 @@ li:last-child > div.suggestion-item-container.mobile {
   position: absolute;
   white-space: nowrap;
   width: 1px;
+}
+
+.suggestion-icon-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.suggestion-status-badge {
+  position: absolute;
+
+  // Aligns the badge over the top-right corner of the 22px mode icon.
+  bottom: 13px;
+  right: -5px;
+  width: 13px;
+  height: 13px;
 }

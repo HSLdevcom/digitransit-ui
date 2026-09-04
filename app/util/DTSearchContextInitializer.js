@@ -67,4 +67,5 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.clearOldSearches = clearOldSearches;
   searchContext.getFutureRoutes = getFutureRoutes;
   searchContext.clearFutureRoutes = clearFutureRoutes;
+  searchContext.showStopStatusMarkers = !!config.showStopStatusMarkers;
 }

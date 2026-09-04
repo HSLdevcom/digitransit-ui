@@ -23,6 +23,16 @@ export const prepareDatesForStops = params => {
   };
 };
 
+export const preparePatternStopsVariables = params => {
+  const now = DateTime.now();
+  return {
+    ...params,
+    date: now.toFormat(DATE_FORMAT),
+    currentTime: now.toUnixInteger(),
+    startOfDay: now.startOf('day').toUnixInteger(),
+  };
+};
+
 /**
  * prepares weekdays for the current week
  * @param {*} params

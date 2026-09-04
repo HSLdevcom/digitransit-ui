@@ -354,6 +354,7 @@ function DTAutosuggest({
             }
             return suggestion;
           });
+
         dispatch({
           type: 'FETCH_SUGGESTIONS',
           loading: false,
@@ -551,6 +552,7 @@ function DTAutosuggest({
     getAutoSuggestIcons,
     colors,
     modeSet,
+    showStopStatusMarkers: !!searchContext.showStopStatusMarkers,
   };
 
   const {
@@ -699,6 +701,7 @@ DTAutosuggest.propTypes = {
     context: PropTypes.object,
     clearOldSearches: PropTypes.func,
     clearFutureRoutes: PropTypes.func,
+    showStopStatusMarkers: PropTypes.bool,
   }).isRequired,
   sources: PropTypes.arrayOf(PropTypes.string),
   targets: PropTypes.arrayOf(PropTypes.string),
