@@ -1,0 +1,212 @@
+# Workspace Packages
+
+`digitransit-ui` hosts four independently-versioned and independently-published
+npm package families, managed as yarn workspaces via [lerna](https://lernajs.io/):
+
+| Family                 | npm scope                 | Packages directory                   | Entry point                                                 | Build step                                  |
+| ----------------------- | -------------------------- | ------------------------------------- | ------------------------------------------------------------ | -------------------------------------------- |
+| `digitransit-component` | `@digitransit-component/*` | `digitransit-component/packages/*`    | `src/index.js`                                                | [Rollup](https://rollupjs.org) (compiles JSX) |
+| `digitransit-search-util` | `@digitransit-search-util/*` | `digitransit-search-util/packages/*` | `index.js` (except `digitransit-search-util-query-utils`, which has a build step and uses `src/index.js`) | none, except `query-utils` (relay-compiler)  |
+| `digitransit-store`     | `@digitransit-store/*`     | `digitransit-store/packages/*`        | `src/index.js`                                                | Rollup (no JSX)                              |
+| `digitransit-util`      | `@digitransit-util/*`      | `digitransit-util/packages/*`         | `index.js`                                                    | none                                          |
+
+The main app consumes `component`/`store` via their built `lib/index.cjs`
+(resolved through each package's `"main"` field) and `search-util`/`util` via
+raw source, using webpack's native ESM support. Treat these packages like
+semi-external dependencies: changes to their public API should bump their
+version (see [Publishing](#publishing)) the same way a change to a real npm
+dependency would.
+
+## How to Contribute
+
+- Most work happens inside a family's `packages/<family>-<module>` directory.
+- If you'd like to propose a new module or feature, open an issue first.
+- Always include tests. Component packages use
+  [`@testing-library/react`](https://testing-library.com/docs/react-testing-library/intro/)
+  (`render`, `screen`, `fireEvent`); every other family uses plain
+  [mocha](https://mochajs.org)/[chai](https://www.chaijs.com) assertions
+  against real input/output pairs — no placeholders, no commented-out tests.
+- Keep modules small and focused (one exported component/function per
+  package) and avoid large dependencies.
+- `README.md` files are generated from source JSDoc — **never edit a
+  package's `README.md` directly**; see [Documentation](#documentation-readme-generation).
+- Before submitting, run `yarn lint` and `yarn test-unit` from the repo root.
+
+## Code Style
+
+At the repository root:
+
+```sh
+$ yarn lint
+```
+
+Runs `eslint`, `prettier` (for `.scss`), and `stylelint`. Follow the
+[Airbnb JavaScript style guide](https://github.com/airbnb/javascript), which
+the eslint config is based on.
+
+## Module Structure
+
+A `component`/`store` package looks like:
+
+```
+digitransit-<family>-<module>
+│   package.json
+│   README.md
+│   test.js
+│   LICENSE-AGPL.txt
+│   LICENSE-EUPL.txt
+└── src
+    └── index.js
+```
+
+A `search-util`/`util` package is the same, but flat (no build step, no
+`src/` directory — `index.js` sits at the package root next to `test.js`).
+
+- `src/index.js` / `index.js` — the module's implementation, documented with
+  [JSDoc](https://jsdoc.app/). This JSDoc is the *only* source of truth for
+  the generated `README.md` — write real descriptions, `@param`/`@returns`,
+  and an `@example`, not just type annotations.
+- `test.js` — real, executable mocha/chai (and, for `component`, RTL) tests.
+  Runs as plain native ESM with **zero Babel at test time** (all four
+  families' packages set `"type": "module"`); JSX is not available in
+  `test.js`, so component tests use `React.createElement` directly instead.
+  `component`/`store` packages test the *built* artifact
+  (`import Module from './lib/index.cjs'`, then unwrap `Module.default`
+  if the source has a default export — Node's CJS/ESM interop binds a
+  default import to the whole UMD exports object, not just `.default`), via
+  a `"pretest": "yarn build"` hook that keeps `lib/` fresh automatically.
+- `package.json` — runtime imports go under `dependencies`; anything the
+  *host app* must also provide goes under `peerDependencies` instead (see
+  [Dependency classification](#dependency-classification)); build/compile-only
+  tooling goes under `devDependencies`.
+- `README.md` — generated, do not hand-edit (see below).
+- `LICENSE-*.txt` — copied from the repository root, do not hand-edit.
+
+## Creating a New Module
+
+There's no scaffolding script (the old per-family `create-new-module`
+scripts were removed — they generated stale, webpack-based tooling that no
+package has actually used since the migration to Rollup). Instead:
+
+1. Copy the nearest existing sibling package as a starting point, e.g.:
+   ```sh
+   $ cp -r digitransit-component/packages/digitransit-component-icon \
+          digitransit-component/packages/digitransit-component-<name>
+   ```
+2. In the new `package.json`: rename `"name"`, reset `"version"` to `"0.0.1"`,
+   update `"description"`, and clear out anything the copied package needed
+   that yours doesn't (extra `dependencies`/`peerDependencies`).
+3. Delete any build output that came along (`lib/`) — it's gitignored and
+   regenerated by `yarn build`.
+4. Replace `src/index.js` (or `index.js`) with your implementation, and
+   `test.js` with real tests for it.
+5. Run `yarn install` from the repo root so the workspace picks up the new
+   package (the root `package.json`'s `workspaces` globs already cover any
+   `digitransit-<family>/packages/*` directory — nothing to add there).
+6. Generate its README: run `yarn digitransit-<family>-docs` from inside the
+   new package's directory (see [Documentation](#documentation-readme-generation)).
+7. Add tests to CI simply by existing — `yarn test-unit:<family>` (part of
+   `yarn test-unit`) discovers every package in the family automatically via
+   `lerna run test --scope '@digitransit-<family>/*'`.
+
+## Testing
+
+Every package's `test.js` runs with plain `mocha test.js` — no `-r esm`, no
+Babel, no `test.generated` compile step. `component` packages additionally
+`--require` two shared helpers (both under `scripts/workspace-packages/`):
+
+- `stub-esm-peer-deps.js` — patches `Module._load` so a `require()` of an
+  ESM-only `@hsl-fi/*` peer dependency (currently only `@hsl-fi/icons`/
+  `@hsl-fi/dialog`, often pulled in transitively) falls back to an inert
+  stub instead of crashing the whole test file.
+- `setup-jsdom.js` — a minimal jsdom `window`/`document`/`navigator`, a
+  `requestAnimationFrame` polyfill, and a persistent `<div id="app">` (for
+  `@hsl-fi/modal`'s `appElement` prop), plus RTL's `cleanup()` wired into a
+  Mocha root hook so every test starts from a clean DOM.
+
+Run everything from the repository root:
+
+```sh
+$ yarn test-unit
+```
+
+Or one family at a time:
+
+```sh
+$ yarn test-unit:components   # or :search-utils / :store / :util
+```
+
+Or a single package, from inside its own directory:
+
+```sh
+$ yarn test
+```
+
+## Documentation (README generation)
+
+Every package's `README.md` is generated from its JSDoc by
+[`documentation.js`](https://documentation.js.org/), via the single shared
+`scripts/workspace-packages/generate-readmes.mjs` script (and its
+`installation.md` template). **If you find an error in a README, fix the
+source JSDoc and regenerate — never hand-edit the `README.md` file.** A
+hand-edit will silently disappear the next time anyone regenerates it.
+
+```sh
+# regenerate one package's README (run from inside the package's directory)
+$ yarn digitransit-component-docs
+
+# regenerate every package in a family (run from the repository root)
+$ yarn digitransit-component-docs      # or digitransit-search-util-docs / -store-docs / -util-docs
+```
+
+CI enforces this: the `check-readmes` job in `.github/workflows/dev-pipeline.yml`
+regenerates every family and fails the build if that produces any diff
+against what's committed — so a PR that changes JSDoc without regenerating
+its README (or one that only hand-edits a README) won't merge.
+
+## Publishing
+
+```sh
+$ yarn digitransit-npm-publish       # interactive, for local/manual use
+$ yarn digitransit-npm-autopublish   # non-interactive (-y), used by CI
+```
+
+Both run `lerna publish from-package --no-git-tag-version --no-push`;
+the only difference is CI's `-y` to skip lerna's confirmation prompt.
+
+Versioning is independent per package (`lerna.json`'s `"version": "independent"`)
+and bumped manually:
+
+```sh
+$ yarn bump-versions-workspaces   # lerna version
+```
+
+`yarn check-versions-workspaces` then verifies every internal
+`@digitransit-*` dependency range across all four families is satisfied by
+the versions actually present — this runs in CI on every push/PR.
+
+### Changelogs
+
+`lerna.json`'s `command.publish.conventionalCommits` is deliberately `false`
+— changelog generation is **not** automated, and there's no commitlint
+enforcing commit message format. Don't enable either; this project's commit
+history doesn't follow the Conventional Commits format the tooling expects.
+
+## Dependency Classification
+
+When adding an import to a package's `src/index.js`/`index.js`, classify it
+in `package.json` as:
+
+- **`dependencies`** — a real runtime dependency that this package should
+  pull in on its own (e.g. `lodash`, `downshift`).
+- **`peerDependencies`** — anything the *host application* is expected to
+  already provide a single shared instance of. This includes `react`,
+  `react-dom`, and **every `@hsl-fi/*` package** — regardless of whether it's
+  imported directly or only used in an SCSS `@import` (e.g. `@hsl-fi/sass`).
+  Keep the version range in sync with what the root `package.json` actually
+  installs; a stale/wrong peer range (too narrow, or naming a major version
+  the host doesn't ship) is a bug even if it happens to install locally.
+- **`devDependencies`** — anything needed only to build, test, or generate
+  docs for the package itself (e.g. `babel-plugin-relay` for
+  `query-utils`'s own relay-compiler step) but that the published bundle
+  never needs at runtime.

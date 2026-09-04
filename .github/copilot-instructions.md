@@ -119,7 +119,8 @@ Other structural notes:
 
 - `server/` also handles config-merging by host header via `BASE_CONFIG` (see `app/config.js`).
 - The `digitransit-*` workspace packages are consumed by the main app but built/versioned
-  independently — treat them like semi-external dependencies with their own `CONTRIBUTING.md`.
+  independently — treat them like semi-external dependencies. See `docs/WorkspacePackages.md`
+  for how they're structured, tested, documented, and published.
 
 ## Code conventions
 
