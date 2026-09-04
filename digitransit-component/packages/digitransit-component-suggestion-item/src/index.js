@@ -204,15 +204,10 @@ const SuggestionItem = memo(
       >
         <Icon color={iconColor} img={iconId} />
         {stopStatusBadge && (
-          <svg
-            width="13"
-            height="13"
-            viewBox="0 0 40 40"
+          <Icon
+            img={stopStatusBadge}
             className={styles['suggestion-status-badge']}
-            aria-hidden="true"
-          >
-            <use href={`#${stopStatusBadge}`} />
-          </svg>
+          />
         )}
       </span>
     );

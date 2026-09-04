@@ -70,6 +70,10 @@ import RailFillDigitransit from './assets/rail-fill-digitransit.svg';
 import TramFillDigitransit from './assets/tram-fill-digitransit.svg';
 import CarParkFill from './assets/carpark-fill.svg';
 import BikeParkFill from './assets/bikepark-fill.svg';
+import CautionBadge from './assets/caution-badge.svg';
+import StopClosedBadge from './assets/stop-closed-badge.svg';
+import InfoCircledBadge from './assets/info-circled-badge.svg';
+import StopTemporarilyClosedBadge from './assets/stop-temporarily-closed-badge.svg';
 
 export const defaultColors = {
   primary: '#0074bf',
@@ -171,6 +175,10 @@ const iconMap = {
   // no theme binding
   'bikepark-fill': BikeParkFill,
   'carpark-fill': CarParkFill,
+  'icon_caution-badge': CautionBadge,
+  'icon_stop-closed-badge': StopClosedBadge,
+  'icon_info-circled-badge': InfoCircledBadge,
+  'icon_stop-temporarily-closed-badge': StopTemporarilyClosedBadge,
 };
 
 /**
@@ -182,9 +190,10 @@ const iconMap = {
  *    width={1}       // Width as em, optional
  *    color="#007ac9" // Color of image, optional
  *    rotate={90}     // How many degrees to rotate image, optional
+ *    className="foo" // Extra class name on the svg, optional
  * />
  */
-const Icon = ({ color, img, height, width, rotate }) => {
+const Icon = ({ className, color, img, height, width, rotate }) => {
   const style = {
     fill: color || null,
     height: height ? `${height}em` : null,
@@ -193,11 +202,12 @@ const Icon = ({ color, img, height, width, rotate }) => {
   };
   const Component = iconMap[img] || BusStopDigitransit;
 
-  return <Component style={style} />;
+  return <Component className={className} style={style} />;
 };
 
 Icon.propTypes = {
   img: PropTypes.string.isRequired,
+  className: PropTypes.string,
   color: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
@@ -205,6 +215,7 @@ Icon.propTypes = {
 };
 
 Icon.defaultProps = {
+  className: undefined,
   color: undefined,
   width: undefined,
   height: undefined,
