@@ -11,8 +11,6 @@ env:
   # against so any locally-formatted timestamps stay consistent with the
   # dev pipeline.
   TZ: Europe/Helsinki
-  # Single source of truth for the Node version used across all jobs.
-  NODE_VERSION: 24.14.1
 jobs:
   prod-push:
     runs-on: ubuntu-latest
@@ -38,37 +36,8 @@ jobs:
           DOCKER_DEV_TAG: ${{ github.event.release.target_commitish }}
 
   generate-sbom:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: Setup Node, install dependencies, build workspaces
-        uses: ./.github/actions/setup
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Generate SBOM
-        run: yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx@2.0.0 --output-file ${{ github.repository }}-${{ github.sha }}.json
-
-      - name: Save SBOM artifact
-        uses: actions/upload-artifact@v7
-        with:
-          name: sbom-artifact-prod
-          path: ${{ github.repository }}-${{ github.sha }}.json
-
-      - name: 'Az CLI login for central SBOM server'
-        uses: azure/login@v3
-        with:
-          client-id: ${{ secrets.SBOM_CLIENT_ID }}
-          tenant-id: ${{ secrets.SBOM_TENANT_ID }}
-          subscription-id: ${{ secrets.SBOM_SUBSCRIPTION_ID }}
-
-      - name: 'Send SBOM to central SBOM server'
-        run: >-
-          az storage blob upload
-          --account-name ${{ secrets.SBOM_STORAGE_ACCOUNT_NAME }}
-          --container-name sbom-ingest
-          --file ${{ github.repository }}-${{ github.sha }}.json
-          --name ${{ secrets.SBOM_ENV_KEY_PROD }}/${{ github.sha }}.json
-          --auth-mode login
-          --overwrite true
+    uses: ./.github/workflows/generate-sbom.yml
+    secrets: inherit
+    with:
+      artifact-name: sbom-artifact-prod
+      sbom-env-key-name: 'SBOM_ENV_KEY_PROD'
