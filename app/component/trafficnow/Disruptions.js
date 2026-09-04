@@ -1,9 +1,10 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import { useLazyLoadQuery } from 'react-relay/hooks';
+import { Text } from '@hsl-fi/layout-primitives';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { TransportMode } from '../../constants';
 import { useBreakpoint } from '../../util/withBreakpoint';
@@ -58,6 +59,7 @@ export default function Disruptions({ dateTime }) {
   const config = useConfigContext();
   const { router } = useRouter();
   const { selectedFilters } = useFilterContext();
+  const { formatMessage } = useIntl();
 
   const [hasUpdates, setHasUpdates] = useState(null);
   const [fetchKey, setFetchKey] = useState(0);
@@ -220,13 +222,15 @@ export default function Disruptions({ dateTime }) {
           <NoDisruptions />
         ) : (
           <>
-            <FormattedMessage
-              id="disruptions-found-amount"
-              values={{ amount: resultAmount }}
-              defaultValue="No disruptions found"
-            >
-              {msg => <h3 className="heading-xs">{msg}</h3>}
-            </FormattedMessage>
+            <Text variant="heading-xs" as="h3">
+              {formatMessage(
+                {
+                  id: 'disruptions-found-amount',
+                  defaultMessage: 'No disruptions found',
+                },
+                { amount: resultAmount },
+              )}
+            </Text>
             <div className="disruptions-list">
               {canceledModesFiltered.map(({ key, routes }) => (
                 <CanceledTripCard

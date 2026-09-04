@@ -20,6 +20,86 @@ require.extensions['.scss'] = () => {};
 const Module = require('module');
 const React = require('react');
 const PropTypes = require('prop-types');
+// eslint-disable-next-line import/no-commonjs
+const { createElement } = require('react');
+
+// Module._load is invoked on every require() call (it bypasses Node's own
+// require cache for these intercepted requests), so without caching, two
+// files requiring the same @hsl-fi/* package would each get a distinct stub
+// module/component instance. That breaks referential-equality-based Enzyme
+// lookups (e.g. `wrapper.find(Text)`) whenever a test imports the same named
+// export that a component under test also imports. Caching per request
+// ensures every require() of a given package returns the same stub module,
+// and every access to a given named export returns the same stub component.
+const stubModuleCache = new Map();
+
+function createNamedStubModule() {
+  const namedStubs = {};
+  const target = function StubComponent() {
+    return null;
+  };
+  return new Proxy(target, {
+    get(_, prop) {
+      if (prop === '__esModule') {
+        return true;
+      }
+      if (prop === 'default') {
+        return target;
+      }
+      if (typeof prop !== 'string') {
+        return undefined;
+      }
+      if (!namedStubs[prop]) {
+        // Named so Enzyme can match it by displayName / function.name
+        namedStubs[prop] = { [prop]: () => null }[prop];
+      }
+      return namedStubs[prop];
+    },
+  });
+}
+
+// @hsl-fi/layout-primitives' `Text` (and its sibling text-ish exports) is
+// used purely for typography - real usages are asserted on by their actual
+// rendered text content. Rather than stubbing it away to `null`, render it as
+// a plain `div`/`as` tag with its `variant` prop exposed as the className, so
+// tests can use @testing-library/react to find the element by its variant
+// (e.g. `container.querySelector('.routes-s-narrow')`) and read its real
+// text content, instead of introspecting React internals.
+const TEXT_LIKE_EXPORTS = new Set(['Text', 'TextButton', 'TextLink']);
+
+function createLayoutPrimitivesStubModule() {
+  const namedStubs = {};
+  const target = function StubComponent() {
+    return null;
+  };
+  return new Proxy(target, {
+    get(_, prop) {
+      if (prop === '__esModule') {
+        return true;
+      }
+      if (prop === 'default') {
+        return target;
+      }
+      if (typeof prop !== 'string') {
+        return undefined;
+      }
+      if (!namedStubs[prop]) {
+        namedStubs[prop] = TEXT_LIKE_EXPORTS.has(prop)
+          ? {
+              [prop]({ children, as: Tag = 'div', variant, className } = {}) {
+                return createElement(
+                  Tag,
+                  { className: [variant, className].filter(Boolean).join(' ') },
+                  children,
+                );
+              },
+            }[prop]
+          : { [prop]: () => null }[prop];
+      }
+      return namedStubs[prop];
+    },
+  });
+}
 
 const originalLoad = Module._load;
 Module._load = function interceptEsmPackages(request, ...args) {
@@ -71,16 +151,16 @@ Module._load = function interceptEsmPackages(request, ...args) {
   if (request === '@hsl-fi/icons') {
     // Return a Proxy so any named icon export resolves to a stub component.
     // This avoids maintaining an explicit list of every icon exported by the lib.
-    return new Proxy(
-      {},
-      {
-        get(_, name) {
-          // Return a named stub function so Enzyme can match it by .name
-          const stub = { [name]: () => null }[name];
-          return stub;
-        },
-      },
-    );
+    if (!stubModuleCache.has(request)) {
+      stubModuleCache.set(request, createNamedStubModule());
+    }
+    return stubModuleCache.get(request);
+  }
+  if (request === '@hsl-fi/layout-primitives') {
+    if (!stubModuleCache.has(request)) {
+      stubModuleCache.set(request, createLayoutPrimitivesStubModule());
+    }
+    return stubModuleCache.get(request);
   }
   // Fallback: stub any other @hsl-fi/* package generically.
   // Exceptions: CJS packages that can be loaded normally.
@@ -89,24 +169,10 @@ Module._load = function interceptEsmPackages(request, ...args) {
     request !== '@hsl-fi/utilities' &&
     request !== '@hsl-fi/content-delivery-api-types'
   ) {
-    return new Proxy(
-      function StubComponent() {
-        return null;
-      },
-      {
-        get(target, prop) {
-          if (prop === '__esModule') {
-            return true;
-          }
-          if (prop === 'default') {
-            return target;
-          }
-          return function StubComponent() {
-            return null;
-          };
-        },
-      },
-    );
+    if (!stubModuleCache.has(request)) {
+      stubModuleCache.set(request, createNamedStubModule());
+    }
+    return stubModuleCache.get(request);
   }
   return originalLoad.apply(this, [request, ...args]);
 };

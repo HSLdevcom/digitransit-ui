@@ -2,7 +2,8 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
 import cx from 'classnames';
-import Icon from '../Icon';
+import { Text } from '@hsl-fi/layout-primitives';
+import { Icon, ArrowRightS } from '@hsl-fi/icons';
 import { useBreakpoint } from '../../util/withBreakpoint';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { useLogo } from '../../hooks/useLogo';
@@ -63,6 +64,7 @@ export default function TrafficNowHeader() {
     language,
     URL: { ROOTLINK },
   } = useConfigContext();
+  const { formatMessage } = useIntl();
 
   const { logo } = useLogo(trafficNowHeaderGraphic);
   const desktop = breakpoint === 'large';
@@ -70,7 +72,9 @@ export default function TrafficNowHeader() {
   const breadcrumbHref = localizedRootPath
     ? `${ROOTLINK}${localizedRootPath}`
     : undefined;
-  const breadcrumbLabel = <FormattedMessage id="traffic-now_bread" />;
+  const breadcrumbLabel = (
+    <Text>{formatMessage({ id: 'traffic-now_bread' })}</Text>
+  );
   return (
     <header
       className={cx('traffic-now__header', {
@@ -83,19 +87,17 @@ export default function TrafficNowHeader() {
         ) : (
           <Link to="/">{breadcrumbLabel}</Link>
         )}
-        <Icon
-          img="icon_chevron-right"
-          className="traffic-now__header-crumbarrow"
-        />
-        <FormattedMessage id="traffic-now" />
+        <Icon icon={ArrowRightS} size="s" />
+        <Text>{formatMessage({ id: 'traffic-now' })}</Text>
       </span>
-      <h2 className="heading-l">
-        <FormattedMessage id="traffic-now" />
-      </h2>
-      <p className="traffic-now__header-description text-l">
-        <FormattedMessage id="traffic-now_description" />
+      <Text variant="heading-l" as="h2">
+        {formatMessage({ id: 'traffic-now' })}
+      </Text>
+
+      <Text variant="text-l" as="p">
+        <span>{formatMessage({ id: 'traffic-now_description' })}</span>
         {CONFIG === 'hsl' && <AdditionalDescription />}
-      </p>
+      </Text>
       {logo && desktop && (
         <img src={logo} alt="" className="traffic-now__header-image" />
       )}

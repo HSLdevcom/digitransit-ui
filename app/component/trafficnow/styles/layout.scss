@@ -51,11 +51,14 @@
     }
 
     &-breadcrumb {
-      display: inline-flex;
+      display: flex;
       align-items: center;
+      align-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
 
       a {
-        text-decoration: none;
+        color: var(--color-text-link);
       }
     }
 

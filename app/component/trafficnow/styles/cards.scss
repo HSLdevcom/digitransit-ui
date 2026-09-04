@@ -12,13 +12,12 @@
         border-right: 1px solid $light-gray;
         min-width: 258px;
 
-        .cta-small {
+        a {
           display: flex;
           flex-direction: row;
-          gap: var(--space-xs);
           align-items: center;
-          width: 100%;
-          flex-wrap: nowrap;
+          gap: var(--space-s);
+          color: var(--color-text-default);
         }
 
         &--mobile {
@@ -28,14 +27,12 @@
           justify-content: space-between;
           border-bottom: 1px solid $light-gray;
 
-          .cta-small {
-            width: 100%;
+          a {
+            color: var(--color-text-default);
+            display: flex;
+            align-items: center;
             justify-content: space-between;
           }
-        }
-
-        .icon-container {
-          color: $link-color;
         }
       }
     }
