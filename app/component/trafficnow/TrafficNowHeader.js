@@ -1,5 +1,5 @@
-import { FormattedMessage, useIntl } from 'react-intl';
 import React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
 import cx from 'classnames';
 import Icon from '../Icon';
@@ -56,10 +56,21 @@ const AdditionalDescription = () => {
 
 export default function TrafficNowHeader() {
   const breakpoint = useBreakpoint();
-  const { CONFIG, trafficNowHeaderGraphic } = useConfigContext();
+  const {
+    CONFIG,
+    trafficNowHeaderGraphic,
+    trafficNowRootPath,
+    language,
+    URL: { ROOTLINK },
+  } = useConfigContext();
 
   const { logo } = useLogo(trafficNowHeaderGraphic);
   const desktop = breakpoint === 'large';
+  const localizedRootPath = trafficNowRootPath && trafficNowRootPath[language];
+  const breadcrumbHref = localizedRootPath
+    ? `${ROOTLINK}${localizedRootPath}`
+    : undefined;
+  const breadcrumbLabel = <FormattedMessage id="traffic-now_bread" />;
   return (
     <header
       className={cx('traffic-now__header', {
@@ -67,9 +78,11 @@ export default function TrafficNowHeader() {
       })}
     >
       <span className="traffic-now__header-breadcrumb">
-        <Link to="/">
-          <FormattedMessage id="traffic-now_bread" />
-        </Link>
+        {breadcrumbHref ? (
+          <a href={breadcrumbHref}>{breadcrumbLabel}</a>
+        ) : (
+          <Link to="/">{breadcrumbLabel}</Link>
+        )}
         <Icon
           img="icon_chevron-right"
           className="traffic-now__header-crumbarrow"
