@@ -8,6 +8,7 @@ export const agencyShape = PropTypes.shape({
 
 export const alertShape = PropTypes.shape({
   alertDescriptionText: PropTypes.string,
+  alertEffect: PropTypes.string,
   effectiveEndDate: PropTypes.number,
   effectiveStartDate: PropTypes.number,
   alertHash: PropTypes.number,

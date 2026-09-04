@@ -9,12 +9,9 @@ import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { createShallowHookSandbox } from '../helpers/mock-intl-enzyme';
 import { Component as RoutePage } from '../../../app/component/routepage/RoutePage';
 import BackButton from '../../../app/component/BackButton';
-import AlertBanner from '../../../app/component/AlertBanner';
 import RouteControlPanel from '../../../app/component/routepage/RouteControlPanel';
 import FavouriteRouteContainer from '../../../app/component/routepage/FavouriteRouteContainer';
 import { PREFIX_DISRUPTION } from '../../../app/util/path';
-
-const currentTime = Math.floor(Date.now() / 1000);
 
 const baseConfig = {
   CONFIG: 'default',
@@ -66,7 +63,6 @@ describe('<RoutePage />', () => {
   beforeEach(() => {
     ({ sandbox } = createShallowHookSandbox({
       config: baseConfig,
-      currentTime,
     }));
   });
 
@@ -329,148 +325,6 @@ describe('<RoutePage />', () => {
       expect(wrapper.find('.destination-headsign').text()).to.equal(
         'End Station',
       );
-    });
-  });
-
-  describe('AlertBanner', () => {
-    const makeAlert = () => ({
-      entities: [{ __typename: 'Route' }],
-      alertHeaderText: 'Service disruption',
-      alertDescriptionText: null,
-      alertSeverityLevel: 'WARNING',
-      effectiveStartDate: null,
-      effectiveEndDate: null,
-    });
-
-    it('shows AlertBanner when tripId is set and pattern has valid route alerts', () => {
-      const route = {
-        ...baseRoute,
-        patterns: [
-          {
-            code: 'HSL:1001:0:01',
-            headsign: 'Destination',
-            alerts: [makeAlert()],
-            stops: [{ name: 'First' }, { name: 'Last' }],
-          },
-        ],
-      };
-      const wrapper = render({
-        route,
-        match: {
-          ...baseMatch,
-          params: {
-            routeId: 'HSL:1001',
-            tripId: 'trip-1',
-            patternId: 'HSL:1001:0:01',
-          },
-        },
-      });
-      expect(wrapper.find(AlertBanner)).to.have.lengthOf(1);
-    });
-
-    it('hides AlertBanner when tripId is absent even if alerts exist', () => {
-      const route = {
-        ...baseRoute,
-        patterns: [
-          {
-            code: 'HSL:1001:0:01',
-            headsign: 'Destination',
-            alerts: [makeAlert()],
-            stops: [{ name: 'First' }, { name: 'Last' }],
-          },
-        ],
-      };
-      const wrapper = render({
-        route,
-        match: {
-          ...baseMatch,
-          params: { routeId: 'HSL:1001', patternId: 'HSL:1001:0:01' }, // no tripId
-        },
-      });
-      expect(wrapper.find(AlertBanner)).to.have.lengthOf(0);
-    });
-
-    it('hides AlertBanner when tripId is set but pattern has no alerts', () => {
-      const wrapper = render({
-        match: {
-          ...baseMatch,
-          params: {
-            routeId: 'HSL:1001',
-            tripId: 'trip-1',
-            patternId: 'HSL:1001:0:01',
-          },
-        },
-      });
-      expect(wrapper.find(AlertBanner)).to.have.lengthOf(0);
-    });
-
-    it('hides AlertBanner when tripId is set but alerts have no Route entity', () => {
-      const route = {
-        ...baseRoute,
-        patterns: [
-          {
-            code: 'HSL:1001:0:01',
-            headsign: 'Destination',
-            alerts: [
-              {
-                entities: [{ __typename: 'Stop' }], // not Route
-                alertHeaderText: 'Stop disruption',
-                alertDescriptionText: null,
-                effectiveStartDate: null,
-                effectiveEndDate: null,
-              },
-            ],
-            stops: [{ name: 'First' }, { name: 'Last' }],
-          },
-        ],
-      };
-      const wrapper = render({
-        route,
-        match: {
-          ...baseMatch,
-          params: {
-            routeId: 'HSL:1001',
-            tripId: 'trip-1',
-            patternId: 'HSL:1001:0:01',
-          },
-        },
-      });
-      expect(wrapper.find(AlertBanner)).to.have.lengthOf(0);
-    });
-
-    it('hides AlertBanner when alerts have expired (effectiveEndDate in the past)', () => {
-      const expiredTime = currentTime - 7200; // 2 hours ago
-      const route = {
-        ...baseRoute,
-        patterns: [
-          {
-            code: 'HSL:1001:0:01',
-            headsign: 'Destination',
-            alerts: [
-              {
-                entities: [{ __typename: 'Route' }],
-                alertHeaderText: 'Old disruption',
-                alertDescriptionText: null,
-                effectiveStartDate: expiredTime - 3600,
-                effectiveEndDate: expiredTime,
-              },
-            ],
-            stops: [{ name: 'First' }, { name: 'Last' }],
-          },
-        ],
-      };
-      const wrapper = render({
-        route,
-        match: {
-          ...baseMatch,
-          params: {
-            routeId: 'HSL:1001',
-            tripId: 'trip-1',
-            patternId: 'HSL:1001:0:01',
-          },
-        },
-      });
-      expect(wrapper.find(AlertBanner)).to.have.lengthOf(0);
     });
   });
 

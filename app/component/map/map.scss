@@ -876,6 +876,16 @@ div.origin-popup {
   fill-opacity: 1;
 }
 
+.map .stop-badge-out-of-service,
+.map .stop-badge-alert {
+  fill: $cancelation-red;
+}
+
+.map .stop-badge-info,
+.map .stop-badge-no-service-today {
+  fill: $muted-gray;
+}
+
 .map .stop {
   stroke: currentcolor;
   stroke-opacity: 1;
