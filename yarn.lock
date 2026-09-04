@@ -3133,7 +3133,7 @@ __metadata:
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^4.0.0
     "@digitransit-component/digitransit-component-icon": ^2.0.2
-    "@hsl-fi/container-spinner": 0.3.2
+    "@hsl-fi/loading-indicators": ^2.0.0
     "@hsl-fi/modal": ^0.3.2
     "@hsl-fi/sass": 1.0.0
     i18next: ^22.5.1
@@ -3221,7 +3221,7 @@ __metadata:
     "@digitransit-component/digitransit-component-with-breakpoint": "npm:^1.0.2"
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^4.0.0
-    "@hsl-fi/container-spinner": 0.3.2
+    "@hsl-fi/loading-indicators": ^2.0.0
     "@hsl-fi/modal": ^0.3.2
     "@hsl-fi/sass": 1.0.0
     "@hsl-fi/shimmer": 0.1.2
@@ -4089,16 +4089,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/animated-spinner@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@hsl-fi/animated-spinner@npm:0.3.0"
-  dependencies:
-    "@hsl-fi/icons": "npm:^1.0.6"
-    "@hsl-fi/sass": "npm:^0.2.0"
-  checksum: 10/12fab8bf588db324507b0354f6b88f5830a06126f7f6ac5d114d2490bd011f2d8278839845656c33572fbfe9a0a888d43060792d9129cf2017b5bdc9f734280f
-  languageName: node
-  linkType: hard
-
 "@hsl-fi/animations@npm:^1.11.0":
   version: 1.11.0
   resolution: "@hsl-fi/animations@npm:1.11.0"
@@ -4149,17 +4139,6 @@ __metadata:
     "@hsl-fi/sass": "npm:^0.2.0"
     "@hsl-fi/utilities": "npm:^0.3.2"
   checksum: 10/d32d8b60fb8ccf3c7ee6fcfe9a8c60f15ad14520c788182901280106fd4987b97f5c197e8e1a6bd388e87c1fda572a749a586691ebb5b7e50eb03ca3a214270e
-  languageName: node
-  linkType: hard
-
-"@hsl-fi/container-spinner@npm:0.3.2":
-  version: 0.3.2
-  resolution: "@hsl-fi/container-spinner@npm:0.3.2"
-  dependencies:
-    "@hsl-fi/animated-spinner": "npm:^0.3.0"
-    "@hsl-fi/sass": "npm:^0.2.0"
-    "@hsl-fi/utilities": "npm:^0.3.2"
-  checksum: 10/24e1a67d1634e6f4ec17d9205f9ebec445f832c532971b14f9b669d8263befe3e7967d8c49f6cbd1b79345711b0bd70b17ccc9c1b2b0b8bb18583bfc23f5de86
   languageName: node
   linkType: hard
 
@@ -12636,13 +12615,13 @@ __metadata:
     "@graphql-eslint/eslint-plugin": "npm:3.20.1"
     "@hsl-fi/assets": "npm:^2.1.0"
     "@hsl-fi/button": "npm:^1.2.4"
-    "@hsl-fi/container-spinner": "npm:0.3.2"
     "@hsl-fi/design-system-core": "npm:^2.7.1"
     "@hsl-fi/design-tokens": "npm:^1.25.0"
     "@hsl-fi/dialog": "npm:^3.1.3"
     "@hsl-fi/hooks": "npm:1.2.4"
     "@hsl-fi/icons": "npm:^2.3.0"
     "@hsl-fi/layout-primitives": "npm:^4.9.0"
+    "@hsl-fi/loading-indicators": "npm:^2.0.0"
     "@hsl-fi/modal": "npm: ^0.3.2"
     "@hsl-fi/navigation": "npm: ^3.3.0"
     "@hsl-fi/notifications": "npm:^4.1.0"

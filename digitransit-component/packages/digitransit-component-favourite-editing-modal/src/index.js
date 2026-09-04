@@ -8,7 +8,7 @@ import differenceWith from 'lodash/differenceWith';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import omit from 'lodash/omit';
-import ContainerSpinner from '@hsl-fi/container-spinner';
+import { Spinner } from '@hsl-fi/loading-indicators';
 import Modal from '@hsl-fi/modal';
 import Icon, {
   defaultColors,
@@ -254,20 +254,23 @@ class FavouriteEditingModal extends React.Component {
     const { favourites } = this.state;
     return (
       <div className={styles['favourite-edit-list-container']}>
-        <ContainerSpinner visible={isLoading}>
-          <ReactSortable
-            className={styles['favourite-edit-list']}
-            tag="ul"
-            list={favourites}
-            setList={items => this.setState({ favourites: items })}
-            animation={200}
-            handle={`.${styles['favourite-edit-list-item-left']}`}
-          >
-            {favourites.map((favourite, index) => {
-              return this.renderFavouriteListItem(favourite, index);
-            })}
-          </ReactSortable>
-        </ContainerSpinner>
+        <ReactSortable
+          className={styles['favourite-edit-list']}
+          tag="ul"
+          list={favourites}
+          setList={items => this.setState({ favourites: items })}
+          animation={200}
+          handle={`.${styles['favourite-edit-list-item-left']}`}
+        >
+          {favourites.map((favourite, index) => {
+            return this.renderFavouriteListItem(favourite, index);
+          })}
+        </ReactSortable>
+        {isLoading && (
+          <div className={styles['favourite-edit-list-overlay']}>
+            <Spinner />
+          </div>
+        )}
       </div>
     );
   };

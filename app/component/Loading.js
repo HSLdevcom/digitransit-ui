@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import ContainerSpinner from '@hsl-fi/container-spinner';
+import { Spinner } from '@hsl-fi/loading-indicators';
 
 const defaultMessage = (
   <span className="sr-only" aria-busy="true" aria-live="polite">
@@ -11,9 +11,10 @@ const defaultMessage = (
 
 export default function Loading(props) {
   return (
-    <ContainerSpinner visible>
+    <>
+      <Spinner />
       {props?.children || defaultMessage}
-    </ContainerSpinner>
+    </>
   );
 }
 
