@@ -130,7 +130,6 @@
     "@babel/preset-react": "7.26.3",
     "@babel/register": "7.25.9",
     "@hsl-fi/assets": "^2.1.0",
-    "@hsl-fi/button": "^1.2.4",
     "@hsl-fi/container-spinner": "0.3.2",
     "@hsl-fi/design-system-core": "^2.7.1",
     "@hsl-fi/design-tokens": "^1.25.0",
