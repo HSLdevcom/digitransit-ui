@@ -1,13 +1,15 @@
 import React from 'react';
-
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import ZoneIcon from '../../../app/component/ZoneIcon';
-
+import { renderWithProviders } from '../helpers/mock-providers';
+import { mockContext } from '../helpers/mock-context';
 import StopCardHeader from '../../../app/component/stop/StopCardHeader';
-import ExternalLink from '../../../app/component/ExternalLink';
-import { mockContext, mockChildContextTypes } from '../helpers/mock-context';
 
 describe('<StopCardHeader />', () => {
+  const baseConfig = {
+    ...mockContext.config,
+    stopCard: { header: {} },
+    colors: { primary: '#000000' },
+  };
+
   it('should not render the zone icon if zoneId is missing', () => {
     const props = {
       stop: {
@@ -18,24 +20,10 @@ describe('<StopCardHeader />', () => {
         zoneId: null,
       },
     };
-    const wrapper = shallowWithIntl(<StopCardHeader {...props} />, {
-      context: {
-        ...mockContext,
-        config: {
-          stopCard: { header: {} },
-          zones: {
-            stops: true,
-          },
-          colors: {
-            primary: '#000000',
-          },
-        },
-      },
-      childContextTypes: {
-        ...mockChildContextTypes,
-      },
+    const { container } = renderWithProviders(<StopCardHeader {...props} />, {
+      config: { ...baseConfig, zones: { stops: true } },
     });
-    expect(wrapper.find(ZoneIcon)).to.have.lengthOf(0);
+    expect(container.querySelector('.zone-icon-container')).to.equal(null);
   });
 
   it('should not render the virtual monitor if so configured', () => {
@@ -49,30 +37,15 @@ describe('<StopCardHeader />', () => {
       },
       className: 'stop-page header',
     };
-    const wrapper = shallowWithIntl(<StopCardHeader {...props} />, {
-      context: {
-        ...mockContext,
-        config: {
-          stopCard: {
-            header: {
-              virtualMonitorBaseUrl: '',
-            },
-          },
-          zones: {
-            stops: false,
-          },
-          colors: {
-            primary: '#000000',
-          },
-          allowLogin: false,
-        },
-      },
-      childContextTypes: {
-        ...mockChildContextTypes,
+    const { container } = renderWithProviders(<StopCardHeader {...props} />, {
+      config: {
+        ...baseConfig,
+        stopCard: { header: { virtualMonitorBaseUrl: '' } },
+        zones: { stops: false },
+        allowLogin: false,
       },
     });
-
-    expect(wrapper.find(ExternalLink)).to.have.lengthOf(0);
+    expect(container.querySelector('.external-link-container')).to.equal(null);
   });
 
   it('should not render the zone icon if so configured', () => {
@@ -85,23 +58,9 @@ describe('<StopCardHeader />', () => {
         zoneId: 'A',
       },
     };
-    const wrapper = shallowWithIntl(<StopCardHeader {...props} />, {
-      context: {
-        ...mockContext,
-        config: {
-          stopCard: { header: {} },
-          zones: {
-            stops: false,
-          },
-          colors: {
-            primary: '#000000',
-          },
-        },
-      },
-      childContextTypes: {
-        ...mockChildContextTypes,
-      },
+    const { container } = renderWithProviders(<StopCardHeader {...props} />, {
+      config: { ...baseConfig, zones: { stops: false } },
     });
-    expect(wrapper.find(ZoneIcon)).to.have.lengthOf(0);
+    expect(container.querySelector('.zone-icon-container')).to.equal(null);
   });
 });

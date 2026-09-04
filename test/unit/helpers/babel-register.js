@@ -18,13 +18,45 @@ require.extensions['.scss'] = () => {};
 // runs before Node's ESM check.
 // eslint-disable-next-line import/no-commonjs
 const Module = require('module');
+const React = require('react');
+const PropTypes = require('prop-types');
 
 const originalLoad = Module._load;
 Module._load = function interceptEsmPackages(request, ...args) {
   if (request === '@hsl-fi/dialog') {
-    // Named arrow functions so Enzyme can match by displayName / function.name
-    const Modal = () => null;
-    const ModalContent = () => null;
+    // Minimal interactive stub for testing app integration.
+    const Modal = ({ open, onOpenChange, children }) =>
+      open
+        ? React.createElement(
+            'div',
+            {
+              role: 'dialog',
+              onKeyDown: event => {
+                if (event.key === 'Escape') {
+                  onOpenChange(false);
+                }
+              },
+              tabIndex: -1,
+            },
+            children,
+          )
+        : null;
+    Modal.propTypes = {
+      open: PropTypes.bool,
+      onOpenChange: PropTypes.func,
+      children: PropTypes.node,
+    };
+    const ModalContent = ({ title, description }) =>
+      React.createElement(
+        'div',
+        { className: 'modal-content' },
+        title,
+        description,
+      );
+    ModalContent.propTypes = {
+      title: PropTypes.node,
+      description: PropTypes.node,
+    };
     const ModalTrigger = () => null;
     const ConfirmationModalContent = () => null;
     const ScrollableModalContent = () => null;

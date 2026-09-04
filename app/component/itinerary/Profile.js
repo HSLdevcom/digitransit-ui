@@ -2,7 +2,8 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { configShape, itineraryShape } from '../../util/shapes';
+import { itineraryShape } from '../../util/shapes';
+import { useConfigContext } from '../../configurations/ConfigContext';
 import { displayDistance } from '../../util/geo-utils';
 import { getTotalDistance } from '../../util/legUtils';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
@@ -19,8 +20,9 @@ const printItinerary = e => {
   window.print();
 };
 
-export default function Profile({ itinerary, small }, { config }) {
+export default function Profile({ itinerary, small = false }) {
   const intl = useIntl();
+  const config = useConfigContext();
   return (
     <div className={cx('itinerary-profile-container', { small })}>
       <div className="itinerary-profile-item">
@@ -54,12 +56,4 @@ export default function Profile({ itinerary, small }, { config }) {
 Profile.propTypes = {
   itinerary: itineraryShape.isRequired,
   small: PropTypes.bool,
-};
-
-Profile.defaultProps = {
-  small: false,
-};
-
-Profile.contextTypes = {
-  config: configShape.isRequired,
 };

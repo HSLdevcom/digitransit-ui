@@ -10,6 +10,9 @@ function getCurrentUnixTime() {
 
 const TimeContext = createContext();
 
+// Exported for test helpers that need to provide a fixed time value.
+export { TimeContext };
+
 /**
  * Provides the current unix time (in seconds), refreshed every 30 seconds.
  * Replaces the old Fluxible TimeStore.

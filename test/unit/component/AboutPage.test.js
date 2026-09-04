@@ -1,10 +1,11 @@
 import React from 'react';
+import { renderWithProviders } from '../helpers/mock-providers';
 import AboutPage from '../../../app/component/AboutPage';
-import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 
 describe('<AboutPage />', () => {
   const config = {
     CONFIG: 'default',
+    URL: {},
     aboutThisService: {
       fi: [
         {
@@ -32,27 +33,33 @@ describe('<AboutPage />', () => {
   };
 
   it('should render all defined headers and paragraph texts in given order', () => {
-    const wrapper = mountWithIntl(<AboutPage />, {
+    const { container } = renderWithProviders(<AboutPage />, {
       config: { ...config, language: 'fi' },
     });
-    expect(wrapper.find('p').first().text()).to.equal('foo1'); //eslint-disable-line
-    expect(wrapper.find('p').last().text()).to.equal('foo2'); //eslint-disable-line
-    expect(wrapper.find('.about-header').first().text()).to.equal('header1'); //eslint-disable-line
-    expect(wrapper.find('.about-header').last().text()).to.equal('header2'); //eslint-disable-line
+    const paragraphs = container.querySelectorAll('p');
+    expect(paragraphs[0].textContent).to.equal('foo1');
+    expect(paragraphs[paragraphs.length - 1].textContent).to.equal('foo2');
+    const headers = container.querySelectorAll('.about-header');
+    expect(headers[0].textContent).to.equal('header1');
+    expect(headers[headers.length - 1].textContent).to.equal('header2');
   });
 
   it('should render external links', () => {
-    const wrapper = mountWithIntl(<AboutPage />, {
+    const { container } = renderWithProviders(<AboutPage />, {
       config: { ...config, language: 'fi' },
     });
-    expect(wrapper.find('a').first().prop('href')).to.equal('foo1.com'); //eslint-disable-line
+    expect(container.querySelector('a').getAttribute('href')).to.equal(
+      'foo1.com',
+    );
   });
 
   it('should obey language selection', () => {
-    const wrapper = mountWithIntl(<AboutPage />, {
+    const { container } = renderWithProviders(<AboutPage />, {
       config: { ...config, language: 'sv' },
     });
-    expect(wrapper.find('.about-header').first().text()).to.equal('sv_header1'); //eslint-disable-line
-    expect(wrapper.find('p').first().text()).to.equal('sv_foo1'); //eslint-disable-line
+    expect(container.querySelector('.about-header').textContent).to.equal(
+      'sv_header1',
+    );
+    expect(container.querySelector('p').textContent).to.equal('sv_foo1');
   });
 });

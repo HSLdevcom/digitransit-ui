@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { configShape } from '../util/shapes';
 import TruncatedMessage from './TruncatedMessage';
+import { useConfigContext } from '../configurations/ConfigContext';
 
-export default function MessageBarMessage(
-  { content, textColor, truncate, onShowMore },
-  { config },
-) {
+export default function MessageBarMessage({
+  content,
+  textColor,
+  truncate = false,
+  onShowMore,
+}) {
+  const config = useConfigContext();
   const heading = (e, color) => {
     if (config.showAlertHeader && e?.type === 'heading') {
       return <h2 style={{ color }}>{e.content}</h2>;
@@ -71,13 +74,4 @@ MessageBarMessage.propTypes = {
   textColor: PropTypes.string,
   truncate: PropTypes.bool,
   onShowMore: PropTypes.func.isRequired,
-};
-
-MessageBarMessage.defaultProps = {
-  textColor: undefined,
-  truncate: false,
-};
-
-MessageBarMessage.contextTypes = {
-  config: configShape.isRequired,
 };
