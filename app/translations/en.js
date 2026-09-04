@@ -850,6 +850,8 @@ export default {
     'traffic-now_description_see-also--link2': 'major changes',
     'traffic-now_filters_entity-search': 'Search for individual route or stop',
     'traffic-now_filters_entity-search--placeholder': 'Route, stop or station',
+    'traffic-now_filters_operator-select-legend': 'Show only these operators',
+    'traffic-now_filters_operator-select-placeholder': 'Select one or more',
     'traffic-now_filters_toggles--cancellations-only': 'Cancellations only',
     'traffic-now_filters_toggles--favourites-only': 'Favourites only',
     'traffic-now_filters_validity-period': 'Filter by validity period',

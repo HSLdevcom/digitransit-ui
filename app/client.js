@@ -13,7 +13,7 @@ import {
   errorMiddleware,
   cacheMiddleware,
 } from 'react-relay-network-modern';
-import OfflinePlugin from 'offline-plugin/runtime';
+import { Workbox } from 'workbox-window';
 import { Helmet } from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
 import { RelayEnvironmentProvider } from 'react-relay';
@@ -27,6 +27,7 @@ import appCreator from './app';
 import { BUILD_TIME } from './buildInfo';
 import ErrorBoundary from './component/ErrorBoundary';
 import oldParamParser from './util/oldParamParser';
+import { IS_DEV_BUILD } from './util/envUtils';
 import { ClientProvider as ClientBreakpointProvider } from './util/withBreakpoint';
 import IntlBridge from './util/IntlBridge';
 import meta from './meta';
@@ -106,24 +107,6 @@ async function init() {
   initAnalyticsClientSide(config);
 
   window.context = context;
-
-  if (process.env.NODE_ENV === 'development') {
-    /* if (config.AXE) {
-      const axeConfig = {
-        resultTypes: ['violations'],
-      };
-      // eslint-disable-next-line global-require
-      const axe = require('@axe-core/react');
-      axe(React, ReactDOM, 2500, axeConfig);
-    } */
-    try {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      require(`../sass/themes/${config.CONFIG}/main.scss`);
-    } catch (error) {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      require('../sass/themes/default/main.scss');
-    }
-  }
 
   // Query parameter is used instead of header because browsers send
   // OPTIONS queries where you can't define headers
@@ -247,10 +230,15 @@ async function init() {
 
   const rootNode = document.getElementById('app');
   ReactDOM.render(content, rootNode, () => {
-    if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
-      OfflinePlugin.install({
-        onUpdateReady: () => OfflinePlugin.applyUpdate(),
-      });
+    if (!IS_DEV_BUILD && BUILD_TIME !== 'unset') {
+      // The service worker itself calls `skipWaiting()`/`clients.claim()`
+      // (see app/util/serviceWorker.js) so new versions take over as soon
+      // as they finish installing - mirrors the previous
+      // `OfflinePlugin.install({ onUpdateReady: () =>
+      // OfflinePlugin.applyUpdate() })` behaviour, just with the
+      // "apply immediately" decision made service-worker-side instead of
+      // here.
+      new Workbox('/sw.js').register();
     }
   });
 

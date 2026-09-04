@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { renderWithProviders } from '../helpers/mock-providers';
+import { mockContext } from '../helpers/mock-context';
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 import TripRouteStop from '../../../app/component/routepage/TripRouteStop';
 import Icon from '../../../app/component/Icon';
@@ -30,10 +31,10 @@ describe('<TripRouteStop />', () => {
       vehicles: [],
       setHumanScrolling: () => {},
     };
-    const wrapper = mountWithIntl(<TripRouteStop {...props} />, {
-      context: { config: { CONFIG: 'default', zones: { stops: true } } },
+    const { container } = renderWithProviders(<TripRouteStop {...props} />, {
+      config: { ...mockContext.config, zones: { stops: true } },
     });
-    expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
+    expect(container.querySelector('.caution')).to.equal(null);
   });
 
   it('should not render a service alert icon when showStopStatusMarkers is enabled', () => {

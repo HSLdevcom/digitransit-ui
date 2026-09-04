@@ -1,0 +1,68 @@
+name: 'Setup Node, install dependencies, build workspaces'
+description: >-
+  Sets up Node.js, restores/populates yarn + node_modules caches, and
+  optionally builds the shared digitransit-* workspace packages (backed by
+  a coarse whole-tree cache, falling back to Nx's own per-package cache on
+  a miss). The calling job must check out the repo itself first: GitHub
+  Actions has to resolve this action's own action.yml from disk before it
+  can run any of its steps (including a checkout step), so a checkout
+  cannot happen from inside a local composite action.
+inputs:
+  node-version:
+    description: 'Node.js version to use'
+    required: true
+  build-workspaces:
+    description: 'Whether to cache/build the shared digitransit-* workspace packages'
+    required: false
+    default: 'true'
+runs:
+  using: 'composite'
+  steps:
+    - name: Use Node.js ${{ inputs.node-version }}
+      uses: actions/setup-node@v6
+      with:
+        node-version: ${{ inputs.node-version }}
+        registry-url: 'https://registry.npmjs.org/'
+
+    # https://github.com/actions/cache/blob/8f1e2e02865c42348f9baddbbaafb1841dce610a/examples.md#node---yarn-2
+    - name: Cache node_modules
+      id: cache-node-modules
+      uses: actions/cache@v5
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
+    - name: Cache .yarn/cache
+      if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+      uses: actions/cache@v5
+      with:
+        path: '.yarn/cache'
+        key: yarn-v3-cache-${{ github.ref_name }}
+        restore-keys: yarn-v3-cache-v3
+    - name: Install dependencies
+      if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
+      shell: bash
+      run: yarn install --immutable
+
+    - name: cache shared components
+      if: ${{ inputs.build-workspaces == 'true' }}
+      id: cache-shared-components
+      uses: actions/cache@v5
+      with:
+        path: 'digitransit-*'
+        key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*/**') }}
+    # Fallback for when the coarse cache above misses (e.g. a change in only
+    # one of the digitransit-* packages invalidates the whole-tree hash).
+    # Nx (which `yarn run build-workspaces` runs through via lerna) does its
+    # own per-package caching, so restoring its cache here lets unaffected
+    # packages be skipped instead of rebuilt from scratch.
+    - name: cache Nx
+      if: ${{ inputs.build-workspaces == 'true' && steps.cache-shared-components.outputs.cache-hit != 'true' }}
+      uses: actions/cache@v5
+      with:
+        path: '.nx/cache'
+        key: ${{ runner.os }}-nx-cache-${{ github.sha }}
+        restore-keys: ${{ runner.os }}-nx-cache-
+    - name: build shared components
+      if: ${{ inputs.build-workspaces == 'true' && steps.cache-shared-components.outputs.cache-hit != 'true' }}
+      shell: bash
+      run: yarn run build-workspaces

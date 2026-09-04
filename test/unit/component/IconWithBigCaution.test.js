@@ -1,40 +1,43 @@
 import React from 'react';
-
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../helpers/mock-providers';
 import IconWithBigCaution from '../../../app/component/IconWithBigCaution';
-import IconWithIcon from '../../../app/component/IconWithIcon';
 import { AlertSeverityLevelType } from '../../../app/constants';
 
 describe('<IconWithBigCaution />', () => {
   it('should have a caution sub icon by default', () => {
-    it('should have a caution sub icon when alertSeverityLevel is not defined', () => {
-      const props = {
-        img: 'foobar',
-      };
-      const wrapper = shallowWithIntl(<IconWithBigCaution {...props} />);
-      expect(wrapper.find(IconWithIcon).prop('subIcon')).to.equal(
-        'icon_caution',
-      );
-    });
+    const { container } = renderWithProviders(
+      <IconWithBigCaution img="foobar" />,
+      { messages: { disruption: 'Disruption' } },
+    );
+    const icons = container.querySelectorAll('use');
+    expect(icons[1].getAttribute('xlink:href')).to.equal(
+      '#icon_caution-no-excl',
+    );
   });
 
   it('should have a caution sub icon when alertSeverityLevel is high enough', () => {
-    const props = {
-      alertSeverityLevel: AlertSeverityLevelType.Warning,
-      img: 'foobar',
-    };
-    const wrapper = shallowWithIntl(<IconWithBigCaution {...props} />);
-    expect(wrapper.find(IconWithIcon).prop('subIcon')).to.equal(
-      'icon_caution-no-excl',
+    const { container } = renderWithProviders(
+      <IconWithBigCaution
+        alertSeverityLevel={AlertSeverityLevelType.Warning}
+        img="foobar"
+      />,
+      { messages: { disruption: 'Disruption' } },
+    );
+    const icons = container.querySelectorAll('use');
+    expect(icons[1].getAttribute('xlink:href')).to.equal(
+      '#icon_caution-no-excl',
     );
   });
 
   it('should have an info sub icon when alertSeverityLevel is "INFO"', () => {
-    const props = {
-      alertSeverityLevel: AlertSeverityLevelType.Info,
-      img: 'foobar',
-    };
-    const wrapper = shallowWithIntl(<IconWithBigCaution {...props} />);
-    expect(wrapper.find(IconWithIcon).prop('subIcon')).to.equal('icon_info');
+    const { container } = renderWithProviders(
+      <IconWithBigCaution
+        alertSeverityLevel={AlertSeverityLevelType.Info}
+        img="foobar"
+      />,
+      { messages: { disruption: 'Disruption' } },
+    );
+    const icons = container.querySelectorAll('use');
+    expect(icons[1].getAttribute('xlink:href')).to.equal('#icon_info');
   });
 });

@@ -1,9 +1,6 @@
 import React from 'react';
-
-import { mockChildContextTypes } from '../helpers/mock-context';
+import { renderWithProviders } from '../helpers/mock-providers';
 import VehicleRentalAvailability from '../../../app/component/VehicleRentalAvailability';
-import Availability from '../../../app/component/Availability';
-import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 
 describe('<VehicleRentalStationAvailability />', () => {
   it('should render CityBikeAvailability with valid props', () => {
@@ -15,15 +12,14 @@ describe('<VehicleRentalStationAvailability />', () => {
       type: 'citybike',
       useSpacesAvailable: true,
     };
-    const wrapper = mountWithIntl(<VehicleRentalAvailability {...props} />, {
-      context: {
-        config: {
-          cityBike: { useSpacesAvailable: true },
-        },
-      },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-    expect(wrapper.find(Availability)).to.have.lengthOf(1);
-    expect(wrapper.find('.availability-header')).to.have.lengthOf(1);
+    const { container } = renderWithProviders(
+      <VehicleRentalAvailability {...props} />,
+    );
+    expect(container.querySelector('.availability-container')).to.not.equal(
+      null,
+    );
+    expect(container.querySelectorAll('.availability-header')).to.have.lengthOf(
+      1,
+    );
   });
 });
