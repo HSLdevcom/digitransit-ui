@@ -4,6 +4,18 @@ import ScheduleDropdown from './ScheduleDropdown';
 import PrintableStopHeader from './PrintableStopHeader';
 import { stopShape } from '../../../util/shapes';
 
+export const getScheduleHeaderOptions = (stops, from, to) => {
+  const allOptions = stops.map((stop, index) => ({
+    label: stop.name,
+    value: index,
+  }));
+  const safeDestinationIndex = Math.min(to, allOptions.length - 1);
+  return {
+    fromOptions: allOptions.slice(0, safeDestinationIndex),
+    toOptions: allOptions.slice(from + 1),
+  };
+};
+
 /**
  * Header component for route schedules with origin/destination selection.
  * Includes printable stop headers for the print view.
@@ -15,14 +27,7 @@ function ScheduleHeader({
   onFromSelectChange,
   onToSelectChange,
 }) {
-  const allOptions = stops.map((stop, index) => ({
-    label: stop.name,
-    value: index,
-  }));
-
-  const safeDestinationIndex = Math.min(to, allOptions.length - 1);
-  const fromOptions = allOptions.slice(0, safeDestinationIndex);
-  const toOptions = allOptions.slice(from + 1);
+  const { fromOptions, toOptions } = getScheduleHeaderOptions(stops, from, to);
   const fromDisplayName = fromOptions.find(o => o.value === from)?.label || '';
   const toDisplayName = toOptions.find(o => o.value === to)?.label || '';
 

@@ -9,6 +9,15 @@ import { truncateLabel } from '../../../util/stringUtils';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 import { getAriaMessages, getClassNamePrefix } from './scheduleDropdownUtils';
 
+export const handleScheduleDropdownChange = (
+  selectedOption,
+  onSelectChange,
+) => {
+  if (onSelectChange) {
+    onSelectChange(selectedOption.value);
+  }
+};
+
 /**
  * Generic dropdown used on the schedule page for stop selection.
  */
@@ -30,12 +39,6 @@ function ScheduleDropdown({
 
   const onMenuOpen = () => setIsMenuOpen(true);
   const onMenuClose = () => setIsMenuOpen(false);
-
-  const handleChange = selectedOption => {
-    if (onSelectChange) {
-      onSelectChange(selectedOption.value);
-    }
-  };
 
   const selectedOption =
     validatedValue != null
@@ -101,7 +104,9 @@ function ScheduleDropdown({
         isSearchable={false}
         name={id}
         menuIsOpen={isMenuOpen}
-        onChange={handleChange}
+        onChange={option =>
+          handleScheduleDropdownChange(option, onSelectChange)
+        }
         onMenuOpen={onMenuOpen}
         onMenuClose={onMenuClose}
         options={list}

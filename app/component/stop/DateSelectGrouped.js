@@ -13,6 +13,10 @@ import {
   generateDateRange,
 } from '../../util/dateSelectUtils';
 
+export const handleDateSelectChange = (option, onDateChange) => {
+  onDateChange(option.value);
+};
+
 function DateSelectGrouped({
   startDate,
   selectedDay,
@@ -86,7 +90,7 @@ function DateSelectGrouped({
 
   const handleChange = useCallback(
     option => {
-      onDateChange(option.value);
+      handleDateSelectChange(option, onDateChange);
       onMenuClose();
     },
     [onDateChange, onMenuClose],
@@ -229,12 +233,6 @@ DateSelectGrouped.propTypes = {
   dateFormat: PropTypes.string.isRequired,
   dates: PropTypes.arrayOf(PropTypes.instanceOf(DateTime)),
   onDateChange: PropTypes.func.isRequired,
-};
-
-DateSelectGrouped.defaultProps = {
-  startDate: undefined,
-  selectedDay: undefined,
-  dates: undefined,
 };
 
 DateSelectGrouped.displayName = 'DateSelectGrouped';
