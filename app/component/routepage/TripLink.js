@@ -93,10 +93,4 @@ TripLink.propTypes = {
   vehicleState: PropTypes.string,
 };
 
-TripLink.defaultProps = {
-  trip: undefined,
-  shortName: undefined,
-  vehicleState: undefined,
-};
-
 export default TripLink;

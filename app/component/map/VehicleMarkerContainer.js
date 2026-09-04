@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { configShape } from '../../util/shapes';
 import { ExtendedRouteTypes } from '../../constants';
 import VehicleIcon from '../VehicleIcon';
 import IconMarker from './IconMarker';
 import { splitGtfsId } from '../../util/gtfs';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 const MODES_WITH_ICONS = [
   'bus',
@@ -68,31 +68,36 @@ function shouldShowVehicle(
   );
 }
 
-function VehicleMarkerContainer(props, { config }) {
+function VehicleMarkerContainer({
+  direction,
+  headsign,
+  pattern,
+  setVisibleVehicles,
+  topics,
+  useLargeIcon = true,
+  vehicles,
+}) {
+  const config = useConfigContext();
   // TODO: move vehicle filtering logic to RealtimeInformationStore
-  const visibleVehicles = Object.entries(props.vehicles).filter(
-    ([, message]) => {
-      const { feedId, entityId: routeId } = splitGtfsId(message.route);
-      const { ignoreHeadsign } = config.realTime[feedId];
-      const desc = routeId
-        ? props.topics?.find(t => t.route === routeId)
-        : undefined;
-      return shouldShowVehicle(
-        message,
-        props.direction || desc?.direction,
-        desc?.tripStart,
-        props.pattern,
-        ignoreHeadsign ? undefined : props.headsign,
-        desc?.tripId,
-      );
-    },
-  );
+  const visibleVehicles = Object.entries(vehicles).filter(([, message]) => {
+    const { feedId, entityId: routeId } = splitGtfsId(message.route);
+    const { ignoreHeadsign } = config.realTime[feedId];
+    const desc = routeId ? topics?.find(t => t.route === routeId) : undefined;
+    return shouldShowVehicle(
+      message,
+      direction || desc?.direction,
+      desc?.tripStart,
+      pattern,
+      ignoreHeadsign ? undefined : headsign,
+      desc?.tripId,
+    );
+  });
   const visibleVehicleIds = visibleVehicles.map(([id]) => id);
-  props.setVisibleVehicles(visibleVehicleIds);
+  setVisibleVehicles(visibleVehicleIds);
 
   return visibleVehicles.map(([id, message]) => {
     const { entityId: routeId } = splitGtfsId(message.route);
-    const type = props.topics?.find(
+    const type = topics?.find(
       t => t.shortName === message.shortName || t.route === routeId,
     )?.type;
     let mode;
@@ -127,7 +132,7 @@ function VehicleMarkerContainer(props, { config }) {
           message.heading,
           vehicleNumber,
           message.color,
-          props.useLargeIcon,
+          useLargeIcon,
         )}
       />
     );
@@ -152,23 +157,12 @@ VehicleMarkerContainer.propTypes = {
   mode: PropTypes.string,
 };
 
-VehicleMarkerContainer.defaultProps = {
-  direction: undefined,
-  useLargeIcon: true,
-  mode: undefined,
-};
-
-VehicleMarkerContainer.contextTypes = {
-  config: configShape,
-};
-
 const connectedComponent = connectToStores(
   VehicleMarkerContainer,
   ['RealTimeInformationStore'],
   (context, props) => {
-    const { vehicles, setVisibleVehicles } = context.getStore(
-      'RealTimeInformationStore',
-    );
+    const store = context.getStore('RealTimeInformationStore');
+    const { vehicles } = store;
     let vehiclesFiltered = vehicles;
     if (props.mode) {
       const filtered = Object.entries(vehicles).filter(
@@ -187,7 +181,7 @@ const connectedComponent = connectToStores(
     return {
       ...props,
       vehicles: Object.fromEntries(vehiclesWithRecentUpdates),
-      setVisibleVehicles,
+      setVisibleVehicles: store.setVisibleVehicles.bind(store),
     };
   },
 );

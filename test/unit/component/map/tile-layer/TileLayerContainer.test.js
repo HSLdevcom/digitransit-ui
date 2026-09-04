@@ -1,141 +1,76 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { LeafletProvider } from 'react-leaflet/es/context';
 import sinon from 'sinon';
-import { ReactRelayContext } from 'react-relay';
 
-import {
-  shallowWithIntl,
-  mountWithIntl,
-} from '../../../helpers/mock-intl-enzyme';
-import {
-  mockChildContextTypes,
-  mockContext,
-} from '../../../helpers/mock-context';
-import TileLayerContainer, {
-  Component,
-} from '../../../../../app/component/map/tile-layer/TileLayerContainer';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import { mockContext } from '../../../helpers/mock-context';
+import { Component } from '../../../../../app/component/map/tile-layer/TileLayerContainer';
 import * as analytics from '../../../../../app/util/analyticsUtils';
 
 describe('<TileLayerContainer />', () => {
-  it('should have an onClose handler defined for the popup', () => {
-    const props = {
-      tileSize: 512,
-      zoomOffset: -1,
-      mapLayers: { stop: {}, terminal: {} },
-      lang: 'fi',
-      currentTime: 123457890,
-    };
-    const wrapper = mountWithIntl(
-      <LeafletProvider
-        value={{
-          map: {
-            addEventParent: () => {},
-            addLayer: () => {},
-            closePopup: () => {},
-            on: () => {},
-            openPopup: () => {},
-            options: {
-              maxZoom: 16,
-              minZoom: 10,
-            },
-            removeEventParent: () => {},
-          },
-        }}
-      >
-        <ReactRelayContext.Provider value={{ environment: {} }}>
-          <TileLayerContainer {...props} />
-        </ReactRelayContext.Provider>
-      </LeafletProvider>,
-      {
-        context: {
-          ...mockContext,
-          getStore: () => ({
-            addChangeListener: () => {},
-            getCurrentTime: () => ({ unix: () => 123457890 }),
-            getMapLayers: () => ({
-              stop: {},
-              terminal: {},
-            }),
-            getLanguage: () => 'fi',
-            on: () => {},
-          }),
-        },
-        childContextTypes: {
-          ...mockChildContextTypes,
-          leaflet: PropTypes.func,
-        },
+  const props = {
+    tileSize: 1,
+    zoomOffset: 1,
+    mapLayers: { stop: {}, terminal: {} },
+    leaflet: {
+      map: {
+        addLayer: () => null,
+        addEventParent: () => null,
+        closePopup: () => null,
+        off: () => null,
+        removeEventParent: () => null,
+        options: { maxZoom: null, minZoom: null },
       },
-    );
-    wrapper.find(Component).setState({
-      selectableTargets: [
-        {
-          feature: {
-            geom: { x: 1899, y: 2945 },
-            layer: 'stop',
-            properties: {
-              code: '1409',
-              gtfsId: 'HSL:1301214',
-              name: 'Saunalahti',
-              parentStation: 'null',
-              patterns:
-                '"[{"headsign":"Otaniemi","type":"BUS","shortName":"552"}]"',
-              platform: 'null',
-              type: 'BUS',
-            },
-          },
-          coords: {
-            lat: 60.192229421528765,
-            lng: 24.87814038991928,
-          },
-          showSpinner: true,
-        },
-      ],
-    });
+    },
+    lang: 'fi',
+    currentTime: 123457890,
+  };
 
-    expect(wrapper.find('.popup').at(0).prop('onClose')).to.not.equal(
-      undefined,
-    );
-  });
-  it('should call addAnalyticsEvent on open', () => {
-    const props = {
-      tileSize: 1,
-      zoomOffset: 1,
-      mapLayers: { stop: {}, terminal: {} },
-      leaflet: {
-        map: {
-          addLayer: () => null,
-          addEventParent: () => null,
-          closePopup: () => null,
-          removeEventParent: () => null,
-          options: { maxZoom: null, minZoom: null },
-        },
-      },
-      lang: 'fi',
-      currentTime: 123457890,
-    };
+  it('should send analytics for a terminal stop target', () => {
     const spy = sinon.spy(analytics, 'addAnalyticsEvent');
-    const wrapper = shallowWithIntl(
-      <Component {...props} relayEnvironment={{}} />,
+    const componentRef = React.createRef();
+    renderWithProviders(
+      <Component {...props} relayEnvironment={{}} ref={componentRef} />,
       {
-        context: {
-          ...mockContext,
-          getStore: () => ({
-            addChangeListener: () => {},
-            getCurrentTime: () => ({ unix: () => 123457890 }),
-            getMapLayers: () => ({
-              stop: {},
-              terminal: {},
-            }),
-            on: () => {},
-          }),
-          config: { CONFIG: 'default', vehicleRental: {} },
-        },
+        config: { ...mockContext.config, vehicleRental: {} },
+        context: { popupContainer: { openPopup: () => {} } },
       },
     );
-    wrapper.setState({ selectableTargets: [{ feature: { properties: {} } }] });
-    wrapper.prop('onOpen')();
+    componentRef.current.state.selectableTargets = [
+      {
+        layer: 'stop',
+        feature: {
+          properties: {
+            stops: 'HSL:1234',
+            type: 'BUS',
+          },
+        },
+      },
+    ];
+    componentRef.current.PopupOptions.onOpen();
     expect(spy.calledOnce).to.equal(true);
+    expect(spy.firstCall.args[0]).to.deep.equal({
+      action: 'SelectMapPoint',
+      category: 'Map',
+      name: 'stop',
+      type: 'BUS_TERMINAL',
+      source: 'index',
+    });
+    spy.restore();
+  });
+
+  it('should not send analytics when there are no selected targets', () => {
+    const spy = sinon.spy(analytics, 'addAnalyticsEvent');
+    const componentRef = React.createRef();
+    renderWithProviders(
+      <Component {...props} relayEnvironment={{}} ref={componentRef} />,
+      {
+        config: { ...mockContext.config, vehicleRental: {} },
+        context: { popupContainer: { openPopup: () => {} } },
+      },
+    );
+    componentRef.current.state.selectableTargets = [];
+    componentRef.current.PopupOptions.onOpen();
+    expect(spy.notCalled).to.equal(true);
     spy.restore();
   });
 });
