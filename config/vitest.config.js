@@ -7,7 +7,7 @@ const react = require('@vitejs/plugin-react');
 // the repo root.
 const repoRoot = path.resolve(__dirname, '..');
 
-const nodeProject = (name, family) => ({
+const nodeProject = name => ({
   test: {
     name,
     root: repoRoot,
@@ -17,7 +17,7 @@ const nodeProject = (name, family) => ({
     // changes) and speeds up reruns - transforms are otherwise redone every
     // time. Rides along with CI's existing whole-node_modules cache too.
     fsModuleCache: true,
-    include: [`digitransit-${family}/packages/*/test.js`],
+    include: [`${name}/packages/*/test.js`],
   },
 });
 
@@ -124,9 +124,9 @@ module.exports = {
           include: ['digitransit-component/packages/*/test.js'],
         },
       },
-      nodeProject('digitransit-search-util', 'search-util'),
-      nodeProject('digitransit-store', 'store'),
-      nodeProject('digitransit-util', 'util'),
+      nodeProject('digitransit-search-util'),
+      nodeProject('digitransit-store'),
+      nodeProject('digitransit-util'),
     ],
   },
 };
