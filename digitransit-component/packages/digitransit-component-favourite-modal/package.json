@@ -29,7 +29,8 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "devDependencies": {
-    "@testing-library/react": "^12"
+    "@testing-library/react": "^12",
+    "react-modal": "~3.11.2"
   },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-icon": "^2.0.2",

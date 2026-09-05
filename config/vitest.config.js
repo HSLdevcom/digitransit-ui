@@ -65,6 +65,31 @@ module.exports = {
               plugins: ['inline-react-svg'],
             },
           }),
+          // config/rollup.config.js's postcss plugin treats every .scss
+          // import as a CSS module (`modules: true`, unconditional - not
+          // gated by a `.module.scss` filename). Vitest's own built-in CSS
+          // handling (active via `css: false` below) only recognizes
+          // `.module.<ext>`-named files as CSS modules and otherwise stubs
+          // the import to `export default ""` - a plain string, not the
+          // object components expect (e.g. `styles['some-class']`). Stub
+          // every .scss import as an object here instead, overriding
+          // Vitest's own post-transform (`order: 'post'` needed since both
+          // run in the "post" phase and the last transform wins).
+          {
+            name: 'digitransit-component:css-module-stub',
+            enforce: 'post',
+            transform: {
+              order: 'post',
+              handler(_code, id) {
+                if (!/\.s?css$/.test(id)) {
+                  return undefined;
+                }
+                return {
+                  code: 'export default new Proxy(Object.create(null), { get: (_, prop) => prop });',
+                };
+              },
+            },
+          },
         ],
         test: {
           name: 'digitransit-component',

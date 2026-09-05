@@ -1,7 +1,16 @@
 import { describe, it, expect } from 'vitest';
 import React from 'react';
+import ReactModal from 'react-modal';
 import { render, screen, fireEvent } from '@testing-library/react';
 import FavouriteModal from './src/index.js';
+
+// @hsl-fi/modal's own useEffect calls Modal.setAppElement(appElement) on
+// mount, but only after react-modal's own componentDidMount already ran
+// (child effects fire before the parent's) - so on the very first render
+// with isModalOpen already true, react-modal warns before that effect has
+// had a chance to run. Set it upfront, same as the real app does once in
+// app/component/trafficnow/TrafficNow.js.
+ReactModal.setAppElement(document.querySelector('#app'));
 
 describe('Testing @digitransit-component/digitransit-component-favourite-modal module', () => {
   it('shows a "Save place" header and a disabled save button until an icon is chosen', () => {
