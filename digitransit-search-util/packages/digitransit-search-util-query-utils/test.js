@@ -1,6 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { expect } from 'chai';
-import { describe, it, afterEach } from 'mocha';
+import { describe, it, expect, afterEach } from 'vitest';
 import QueryUtilsModule from './lib/index.cjs';
 
 // Unlike digitransit-component-icon/test.js's equivalent note: src/index.js
@@ -34,19 +32,19 @@ describe('Testing @digitransit-search-util/digitransit-search-util-query-utils m
   describe('without a Relay environment set', () => {
     it('getModesWithAlerts resolves an empty array', () =>
       getModesWithAlerts(0).then(result => {
-        expect(result).to.deep.equal([]);
+        expect(result).toEqual([]);
       }));
 
     it('getStopAndStationsQuery resolves an empty array', () =>
       getStopAndStationsQuery([{ type: 'stop', gtfsId: 'HSL:1234' }]).then(
         result => {
-          expect(result).to.deep.equal([]);
+          expect(result).toEqual([]);
         },
       ));
 
     it('getAllVehicleRentalStations resolves an empty array', () =>
       getAllVehicleRentalStations().then(result => {
-        expect(result).to.deep.equal([]);
+        expect(result).toEqual([]);
       }));
 
     it('filterStopsAndStationsByMode resolves an empty array', () =>
@@ -54,12 +52,12 @@ describe('Testing @digitransit-search-util/digitransit-search-util-query-utils m
         [{ gtfsId: 'HSL:1234', properties: { layer: 'stop' } }],
         'BUS',
       ).then(result => {
-        expect(result).to.deep.equal([]);
+        expect(result).toEqual([]);
       }));
 
     it('getFavouriteRoutesQuery resolves an empty array', () =>
       getFavouriteRoutesQuery(['HSL:1234'], '').then(result => {
-        expect(result).to.deep.equal([]);
+        expect(result).toEqual([]);
       }));
 
     it('getFavouriteVehicleRentalStationsQuery resolves an empty array', () =>
@@ -67,12 +65,12 @@ describe('Testing @digitransit-search-util/digitransit-search-util-query-utils m
         [{ stationId: 'station1' }],
         '',
       ).then(result => {
-        expect(result).to.deep.equal([]);
+        expect(result).toEqual([]);
       }));
 
     it('getRoutesQuery resolves an empty array', () =>
       getRoutesQuery('55', []).then(result => {
-        expect(result).to.deep.equal([]);
+        expect(result).toEqual([]);
       }));
   });
 
@@ -80,28 +78,28 @@ describe('Testing @digitransit-search-util/digitransit-search-util-query-utils m
     it('filterStopsAndStationsByMode resolves an empty array for an empty input list, even with a Relay environment set', () => {
       setRelayEnvironment({});
       return filterStopsAndStationsByMode([], 'BUS').then(result => {
-        expect(result).to.deep.equal([]);
+        expect(result).toEqual([]);
       });
     });
 
     it('getFavouriteRoutesQuery resolves an empty array for an empty favourites list, even with a Relay environment set', () => {
       setRelayEnvironment({});
       return getFavouriteRoutesQuery([], '').then(result => {
-        expect(result).to.deep.equal([]);
+        expect(result).toEqual([]);
       });
     });
 
     it('getFavouriteVehicleRentalStationsQuery resolves an empty array for an empty favourites list, even with a Relay environment set', () => {
       setRelayEnvironment({});
       return getFavouriteVehicleRentalStationsQuery([], '').then(result => {
-        expect(result).to.deep.equal([]);
+        expect(result).toEqual([]);
       });
     });
 
     it('getRoutesQuery resolves an empty array for a blank search string, even with a Relay environment set', () => {
       setRelayEnvironment({});
       return getRoutesQuery('   ', []).then(result => {
-        expect(result).to.deep.equal([]);
+        expect(result).toEqual([]);
       });
     });
   });
@@ -111,19 +109,19 @@ describe('Testing @digitransit-search-util/digitransit-search-util-query-utils m
       const before = Math.floor(Date.now() / 1000);
       const result = withCurrentTime({ pathname: '/reitti' });
       const after = Math.floor(Date.now() / 1000);
-      expect(result.pathname).to.equal('/reitti');
-      expect(result.query.time).to.be.at.least(before);
-      expect(result.query.time).to.be.at.most(after);
+      expect(result.pathname).toBe('/reitti');
+      expect(result.query.time).toBeGreaterThanOrEqual(before);
+      expect(result.query.time).toBeLessThanOrEqual(after);
     });
 
     it('leaves an existing query.time untouched', () => {
       const result = withCurrentTime({ query: { time: 123, foo: 'bar' } });
-      expect(result.query).to.deep.equal({ time: 123, foo: 'bar' });
+      expect(result.query).toEqual({ time: 123, foo: 'bar' });
     });
 
     it('handles a location with no query object', () => {
       const result = withCurrentTime(undefined);
-      expect(result.query.time).to.be.a('number');
+      expect(result.query.time).toBeTypeOf('number');
     });
   });
 
@@ -139,19 +137,17 @@ describe('Testing @digitransit-search-util/digitransit-search-util-query-utils m
     ];
 
     it("keeps only stops whose GTFS modes include the given mode, for type 'Stops'", () => {
-      expect(filterSearchResultsByMode(stops, 'BUS', 'Stops')).to.deep.equal([
+      expect(filterSearchResultsByMode(stops, 'BUS', 'Stops')).toEqual([
         stops[0],
       ]);
     });
 
     it("returns results unchanged for type 'Routes'", () => {
-      expect(filterSearchResultsByMode(stops, 'BUS', 'Routes')).to.equal(stops);
+      expect(filterSearchResultsByMode(stops, 'BUS', 'Routes')).toBe(stops);
     });
 
     it("defaults to filtering as 'Stops' when type is omitted", () => {
-      expect(filterSearchResultsByMode(stops, 'SUBWAY')).to.deep.equal([
-        stops[1],
-      ]);
+      expect(filterSearchResultsByMode(stops, 'SUBWAY')).toEqual([stops[1]]);
     });
   });
 });

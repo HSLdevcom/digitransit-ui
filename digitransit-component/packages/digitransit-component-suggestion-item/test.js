@@ -1,17 +1,10 @@
-/* eslint-disable no-unused-expressions */
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import SuggestionItemModule from './lib/index.cjs';
+import SuggestionItem from './src/index.js';
 
-// Node's CJS/ESM interop binds a default import to the whole UMD `exports`
-// object, not `.default` - cjs-module-lexer can't see named exports through
-// Rollup's UMD factory indirection to unwrap it automatically.
-const SuggestionItem = SuggestionItemModule.default;
-
-// test.js runs as plain native ESM (no Babel at test time), so JSX isn't
-// available here: use React.createElement directly instead.
+// test.js still doesn't use literal JSX (kept as a mechanical migration from
+// Mocha, not a redesign) - use React.createElement directly instead.
 const h = React.createElement;
 
 describe('Testing @digitransit-component/digitransit-component-suggestion-item module', () => {
@@ -28,8 +21,8 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
         content: ['Osoite', 'Mannerheimintie 1', 'Helsinki'],
       }),
     );
-    expect(screen.getByText('Mannerheimintie 1')).to.exist;
-    expect(screen.getByText('Helsinki')).to.exist;
+    expect(screen.getByText('Mannerheimintie 1')).toBeTruthy();
+    expect(screen.getByText('Helsinki')).toBeTruthy();
   });
 
   it('renders a favourite place using only its name', () => {
@@ -47,7 +40,7 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
         colors: { primary: '#0074bf' },
       }),
     );
-    expect(screen.getByText('Home')).to.exist;
+    expect(screen.getByText('Home')).toBeTruthy();
   });
 
   it('renders a stop suggestion with its stop code shown separately from the name', () => {
@@ -61,8 +54,8 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
         content: ['Pysäkki', 'Rautatientori', 'Helsinki', '1234'],
       }),
     );
-    expect(screen.getByText('Rautatientori')).to.exist;
-    expect(screen.getByText('1234')).to.exist;
+    expect(screen.getByText('Rautatientori')).toBeTruthy();
+    expect(screen.getByText('1234')).toBeTruthy();
   });
 
   it('renders a future route suggestion with both origin and destination names', () => {
@@ -76,8 +69,8 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
       },
     };
     render(h(SuggestionItem, { item, content: ['Tuleva reitti'] }));
-    expect(screen.getByText('Pasila')).to.exist;
-    expect(screen.getByText('Myyrmäki')).to.exist;
-    expect(screen.getByText('Coming Friday')).to.exist;
+    expect(screen.getByText('Pasila')).toBeTruthy();
+    expect(screen.getByText('Myyrmäki')).toBeTruthy();
+    expect(screen.getByText('Coming Friday')).toBeTruthy();
   });
 });

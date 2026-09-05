@@ -21,11 +21,12 @@ dependency would.
 
 - Most work happens inside a family's `packages/<family>-<module>` directory.
 - If you'd like to propose a new module or feature, open an issue first.
-- Always include tests. Component packages use
+- Always include tests, using [Vitest](https://vitest.dev). Component
+  packages use
   [`@testing-library/react`](https://testing-library.com/docs/react-testing-library/intro/)
-  (`render`, `screen`, `fireEvent`); every other family uses plain
-  [mocha](https://mochajs.org)/[chai](https://www.chaijs.com) assertions
-  against real input/output pairs — no placeholders, no commented-out tests.
+  (`render`, `screen`, `fireEvent`); every other family uses Vitest's
+  built-in `expect` against real input/output pairs — no placeholders, no
+  commented-out tests.
 - Keep modules small and focused (one exported component/function per
   package) and avoid large dependencies.
 - `README.md` files are generated from source JSDoc — **never edit a
@@ -66,15 +67,11 @@ A `search-util`/`util` package is the same, but flat (no build step, no
   [JSDoc](https://jsdoc.app/). This JSDoc is the *only* source of truth for
   the generated `README.md` — write real descriptions, `@param`/`@returns`,
   and an `@example`, not just type annotations.
-- `test.js` — real, executable mocha/chai (and, for `component`, RTL) tests.
-  Runs as plain native ESM with **zero Babel at test time** (all four
-  families' packages set `"type": "module"`); JSX is not available in
-  `test.js`, so component tests use `React.createElement` directly instead.
-  `component`/`store` packages test the *built* artifact
-  (`import Module from './lib/index.cjs'`, then unwrap `Module.default`
-  if the source has a default export — Node's CJS/ESM interop binds a
-  default import to the whole UMD exports object, not just `.default`), via
-  a `"pretest": "yarn build"` hook that keeps `lib/` fresh automatically.
+- `test.js` — real, executable [Vitest](https://vitest.dev) (and, for
+  `component`, RTL) tests, run against raw source (`src/index.js`/
+  `index.js`) rather than a built artifact — `component`/`store` packages
+  need no `pretest: yarn build` step just to test. `test.js` doesn't use
+  literal JSX; component tests call `React.createElement` directly instead.
 - `package.json` — runtime imports go under `dependencies`; anything the
   *host app* must also provide goes under `peerDependencies` instead (see
   [Dependency classification](#dependency-classification)); build/compile-only
@@ -107,22 +104,22 @@ package has actually used since the migration to Rollup). Instead:
    new package's directory (see [Documentation](#documentation-readme-generation)).
 7. Add tests to CI simply by existing — `yarn test-unit:<family>` (part of
    `yarn test-unit`) discovers every package in the family automatically via
-   `lerna run test --scope '@digitransit-<family>/*'`.
+   Vitest's `include` glob (`digitransit-<family>/packages/*/test.js`).
 
 ## Testing
 
-Every package's `test.js` runs with plain `mocha test.js` — no `-r esm`, no
-Babel, no `test.generated` compile step. `component` packages additionally
-`--require` two shared helpers (both under `scripts/workspace-packages/`):
-
-- `stub-esm-peer-deps.js` — patches `Module._load` so a `require()` of an
-  ESM-only `@hsl-fi/*` peer dependency (currently only `@hsl-fi/icons`/
-  `@hsl-fi/dialog`, often pulled in transitively) falls back to an inert
-  stub instead of crashing the whole test file.
-- `setup-jsdom.js` — a minimal jsdom `window`/`document`/`navigator`, a
-  `requestAnimationFrame` polyfill, and a persistent `<div id="app">` (for
-  `@hsl-fi/modal`'s `appElement` prop), plus RTL's `cleanup()` wired into a
-  Mocha root hook so every test starts from a clean DOM.
+Tests run on [Vitest](https://vitest.dev), configured from a single root
+`config/vitest.config.js` (one `test.projects` entry per family, so
+`--project <name>` maps onto `yarn test-unit:<family>`). `component` runs
+under a jsdom environment with a small setup file
+(`config/vitest.setup.component.mjs`: a persistent `<div id="app">` for
+`@hsl-fi/modal`'s `appElement` prop, plus RTL's `cleanup()` after each
+test); the other three families run under plain Node. `component` also
+loads `config/vitest.jsx-runtime-loader.mjs`, a Node ESM loader hook (wired
+in via `NODE_OPTIONS`, not a Vitest config option) that patches the
+extensionless `react/jsx-runtime` import and stubs `.css`/`.scss` — both
+needed for real, un-stubbed ESM `@hsl-fi/*` peer dependencies, which Node
+resolves natively rather than through Vite.
 
 Run everything from the repository root:
 

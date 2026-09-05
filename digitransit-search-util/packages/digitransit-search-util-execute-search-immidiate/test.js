@@ -1,6 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, expect } from 'vitest';
 import { executeSearch } from './index.js';
 
 // Minimal but complete searchContext stub: getSearchResults() destructures and
@@ -48,7 +46,7 @@ describe('Testing @digitransit-search-util/digitransit-search-util-execute-searc
         { input: '' },
         arg => calls.push(arg),
       );
-      expect(calls).to.deep.equal([null]);
+      expect(calls).toEqual([null]);
     });
 
     it('resolves an empty query to the "select from map" suggestion', done => {
@@ -64,8 +62,8 @@ describe('Testing @digitransit-search-util/digitransit-search-util-execute-searc
         result => {
           calls.push(result);
           if (calls.length === 2) {
-            expect(result.results).to.have.lengthOf(1);
-            expect(result.results[0]).to.include({
+            expect(result.results).toHaveLength(1);
+            expect(result.results[0]).toMatchObject({
               type: 'SelectFromMap',
               address: 'SelectFromMap',
             });

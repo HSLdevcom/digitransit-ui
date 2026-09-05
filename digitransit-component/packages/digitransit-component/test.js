@@ -1,9 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import * as fs from 'fs';
 import * as path from 'path';
-import { fileURLToPath } from 'url';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { fileURLToPath } from 'node:url';
+import { describe, it, expect } from 'vitest';
 
 const directory = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 let modules = [];
@@ -31,6 +29,6 @@ modules = modules.filter(({ name }) => name !== 'digitransit-component');
 
 describe('Testing @digitransit-component module', () => {
   it('Checking that count of modules is greater or equal than count of dependencies', () => {
-    expect(modules.length).to.have.gte(cntDependencies);
+    expect(modules.length).toBeGreaterThanOrEqual(cntDependencies);
   });
 });

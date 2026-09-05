@@ -1,17 +1,10 @@
-/* eslint-disable no-unused-expressions */
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import TrafficNowLinkModule from './lib/index.cjs';
+import TrafficNowLink from './src/index.js';
 
-// Node's CJS/ESM interop binds a default import to the whole UMD `exports`
-// object, not `.default` - cjs-module-lexer can't see named exports through
-// Rollup's UMD factory indirection to unwrap it automatically.
-const TrafficNowLink = TrafficNowLinkModule.default;
-
-// test.js runs as plain native ESM (no Babel at test time), so JSX isn't
-// available here: use React.createElement directly instead.
+// test.js still doesn't use literal JSX (kept as a mechanical migration from
+// Mocha, not a redesign) - use React.createElement directly instead.
 const h = React.createElement;
 
 describe('Testing @digitransit-component/digitransit-component-traffic-now-link module', () => {
@@ -23,9 +16,8 @@ describe('Testing @digitransit-component/digitransit-component-traffic-now-link 
         handleClick: () => {},
       }),
     );
-    expect(screen.getByRole('button')).to.exist;
-    expect(screen.getByRole('link')).to.have.property(
-      'href',
+    expect(screen.getByRole('button')).toBeTruthy();
+    expect(screen.getByRole('link').href).toBe(
       'https://example.invalid/traffic',
     );
   });
@@ -39,7 +31,7 @@ describe('Testing @digitransit-component/digitransit-component-traffic-now-link 
       }),
     );
     fireEvent.click(screen.getByRole('button'));
-    expect(calls).to.deep.equal(['sv']);
+    expect(calls).toEqual(['sv']);
   });
 
   it('calls handleClick on Enter and Space key presses, but not other keys', () => {
@@ -54,6 +46,6 @@ describe('Testing @digitransit-component/digitransit-component-traffic-now-link 
     fireEvent.keyDown(button, { keyCode: 13 });
     fireEvent.keyDown(button, { keyCode: 32 });
     fireEvent.keyDown(button, { keyCode: 27 });
-    expect(calls).to.deep.equal(['fi', 'fi']);
+    expect(calls).toEqual(['fi', 'fi']);
   });
 });

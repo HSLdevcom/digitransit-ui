@@ -1,6 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, expect } from 'vitest';
 import uniqByLabel, {
   formatFavouritePlaceLabel,
   getNameLabel,
@@ -52,13 +50,13 @@ describe('Testing @digitransit-search-util/digitransit-search-util-uniq-by-label
     it('Checking that returns unique results by label', () => {
       const features = [feature1, feature2, feature3];
       const retValue = uniqByLabel(features);
-      expect(retValue.length).to.be.equal(2);
+      expect(retValue.length).toBe(2);
     });
 
     it('Checking that returns only one result', () => {
       const features = [feature1, feature3];
       const retValue = uniqByLabel(features);
-      expect(retValue.length).to.be.equal(1);
+      expect(retValue.length).toBe(1);
     });
   });
 
@@ -80,9 +78,9 @@ describe('Testing @digitransit-search-util/digitransit-search-util-uniq-by-label
       };
 
       const output = getNameLabel(testSuggestionProps1);
-      expect(output.length).to.equal(2);
-      expect(output[0]).to.equal('Koti');
-      expect(output[1]).to.equal('Vermonrinne 1, Espoo');
+      expect(output.length).toBe(2);
+      expect(output[0]).toBe('Koti');
+      expect(output[1]).toBe('Vermonrinne 1, Espoo');
     });
   });
 
@@ -92,9 +90,9 @@ describe('Testing @digitransit-search-util/digitransit-search-util-uniq-by-label
         'Tietäjä',
         'Tietäjäntie 11, Espoo',
       );
-      expect(output.length).to.equal(2);
-      expect(output[0]).to.equal('Tietäjä');
-      expect(output[1]).to.equal('Tietäjäntie 11, Espoo');
+      expect(output.length).toBe(2);
+      expect(output[0]).toBe('Tietäjä');
+      expect(output[1]).toBe('Tietäjäntie 11, Espoo');
     });
 
     it('should remove trailing comma and space', () => {
@@ -102,17 +100,17 @@ describe('Testing @digitransit-search-util/digitransit-search-util-uniq-by-label
         'Tietäjäntie',
         'Tietäjäntie 11, Espoo',
       );
-      expect(output1.length).to.equal(2);
-      expect(output1[0]).to.equal('Tietäjäntie');
-      expect(output1[1]).to.equal('11, Espoo');
+      expect(output1.length).toBe(2);
+      expect(output1[0]).toBe('Tietäjäntie');
+      expect(output1[1]).toBe('11, Espoo');
 
       const output2 = formatFavouritePlaceLabel(
         'Tietäjäntie 11',
         'Tietäjäntie 11, Espoo',
       );
-      expect(output2.length).to.equal(2);
-      expect(output2[0]).to.equal('Tietäjäntie 11');
-      expect(output2[1]).to.equal('Espoo');
+      expect(output2.length).toBe(2);
+      expect(output2[0]).toBe('Tietäjäntie 11');
+      expect(output2[1]).toBe('Espoo');
     });
   });
 });

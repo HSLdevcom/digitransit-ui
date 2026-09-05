@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha test.js",
+    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs util"
   },
   "repository": {

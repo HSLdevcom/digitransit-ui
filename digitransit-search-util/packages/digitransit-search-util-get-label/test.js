@@ -1,6 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, expect } from 'vitest';
 import getLabel from './index.js';
 
 describe('Testing @digitransit-search-util/digitransit-search-util-get-label module', () => {
@@ -10,7 +8,7 @@ describe('Testing @digitransit-search-util/digitransit-search-util-get-label mod
       name: 'Mannerheimintie 1',
       label: 'Mannerheimintie 1, Helsinki',
     });
-    expect(label).to.equal('Mannerheimintie 1, Helsinki');
+    expect(label).toBe('Mannerheimintie 1, Helsinki');
   });
 
   it('returns only the address for a current-position suggestion', () => {
@@ -19,7 +17,7 @@ describe('Testing @digitransit-search-util/digitransit-search-util-get-label mod
       labelId: 'use-own-position',
       address: 'My location',
     });
-    expect(label).to.equal('My location');
+    expect(label).toBe('My location');
   });
 
   it('returns only the name for a favourite place', () => {
@@ -28,6 +26,6 @@ describe('Testing @digitransit-search-util/digitransit-search-util-get-label mod
       name: 'Home',
       address: 'Home, Helsinki',
     });
-    expect(label).to.equal('Home');
+    expect(label).toBe('Home');
   });
 });

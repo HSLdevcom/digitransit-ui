@@ -1,6 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, expect } from 'vitest';
 import isDuplicate from './index.js';
 
 describe('Testing @digitransit-util/digitransit-util-is-duplicate module', () => {
@@ -31,7 +29,7 @@ describe('Testing @digitransit-util/digitransit-util-is-duplicate module', () =>
       },
     };
     const retValue = isDuplicate(param1, param2);
-    expect(retValue).to.be.equal(true);
+    expect(retValue).toBe(true);
   });
 
   it('Checking that non-duplicate items returns false', () => {
@@ -61,6 +59,6 @@ describe('Testing @digitransit-util/digitransit-util-is-duplicate module', () =>
       },
     };
     const retValue = isDuplicate(param1, param2);
-    expect(retValue).to.be.equal(true);
+    expect(retValue).toBe(true);
   });
 });

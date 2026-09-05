@@ -1,25 +1,15 @@
-/* eslint-disable no-unused-expressions */
-import { expect } from 'chai';
-import { describe, it, afterEach } from 'mocha';
+import { describe, it, expect, afterEach } from 'vitest';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import WithBreakpointModule from './lib/index.cjs';
-
-// Node's CJS/ESM interop binds a default import to the whole UMD `exports`
-// object, not `.default` - cjs-module-lexer can't see named exports through
-// Rollup's UMD factory indirection to unwrap it automatically (see
-// digitransit-component-icon/test.js for the equivalent note). Only the
-// default export (withBreakpoint) needs unwrapping; the rest are named.
-const {
+import withBreakpoint, {
   getClientBreakpoint,
   getServerBreakpoint,
   BreakpointProvider,
   DesktopOrMobile,
-} = WithBreakpointModule;
-const withBreakpoint = WithBreakpointModule.default;
+} from './src/index.js';
 
-// test.js runs as plain native ESM (no Babel at test time), so JSX isn't
-// available here: use React.createElement directly instead.
+// test.js still doesn't use literal JSX (kept as a mechanical migration from
+// Mocha, not a redesign) - use React.createElement directly instead.
 const h = React.createElement;
 
 describe('Testing @digitransit-component/digitransit-component-with-breakpoint module', () => {
@@ -31,17 +21,17 @@ describe('Testing @digitransit-component/digitransit-component-with-breakpoint m
   describe('getClientBreakpoint()', () => {
     it('returns "small" below 400px', () => {
       window.innerWidth = 399;
-      expect(getClientBreakpoint()).to.equal('small');
+      expect(getClientBreakpoint()).toBe('small');
     });
 
     it('returns "medium" between 400 and 899px', () => {
       window.innerWidth = 600;
-      expect(getClientBreakpoint()).to.equal('medium');
+      expect(getClientBreakpoint()).toBe('medium');
     });
 
     it('returns "large" at 900px and above', () => {
       window.innerWidth = 900;
-      expect(getClientBreakpoint()).to.equal('large');
+      expect(getClientBreakpoint()).toBe('large');
     });
   });
 
@@ -51,7 +41,7 @@ describe('Testing @digitransit-component/digitransit-component-with-breakpoint m
         getServerBreakpoint(
           'Mozilla/5.0 (Linux; Android 10) Mobile Safari/537.36',
         ),
-      ).to.equal('small');
+      ).toBe('small');
     });
 
     it('returns "large" for a desktop user agent', () => {
@@ -59,11 +49,11 @@ describe('Testing @digitransit-component/digitransit-component-with-breakpoint m
         getServerBreakpoint(
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Safari/537.36',
         ),
-      ).to.equal('large');
+      ).toBe('large');
     });
 
     it('returns "large" when no user agent is given', () => {
-      expect(getServerBreakpoint(undefined)).to.equal('large');
+      expect(getServerBreakpoint(undefined)).toBe('large');
     });
   });
 
@@ -74,7 +64,7 @@ describe('Testing @digitransit-component/digitransit-component-with-breakpoint m
       }
       const WrappedProbe = withBreakpoint(Probe);
       render(h(BreakpointProvider, { value: 'medium' }, h(WrappedProbe)));
-      expect(screen.getByTestId('probe').textContent).to.equal('medium');
+      expect(screen.getByTestId('probe').textContent).toBe('medium');
     });
   });
 
@@ -90,8 +80,8 @@ describe('Testing @digitransit-component/digitransit-component-with-breakpoint m
           }),
         ),
       );
-      expect(screen.getByText('desktop-view')).to.exist;
-      expect(screen.queryByText('mobile-view')).to.equal(null);
+      expect(screen.getByText('desktop-view')).toBeTruthy();
+      expect(screen.queryByText('mobile-view')).toBeNull();
     });
 
     it('renders the mobile render prop when breakpoint is small', () => {
@@ -105,8 +95,8 @@ describe('Testing @digitransit-component/digitransit-component-with-breakpoint m
           }),
         ),
       );
-      expect(screen.getByText('mobile-view')).to.exist;
-      expect(screen.queryByText('desktop-view')).to.equal(null);
+      expect(screen.getByText('mobile-view')).toBeTruthy();
+      expect(screen.queryByText('desktop-view')).toBeNull();
     });
   });
 });

@@ -1,17 +1,10 @@
-/* eslint-disable no-unused-expressions */
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import FavouriteModalModule from './lib/index.cjs';
+import FavouriteModal from './src/index.js';
 
-// Node's CJS/ESM interop binds a default import to the whole UMD `exports`
-// object, not `.default` - cjs-module-lexer can't see named exports through
-// Rollup's UMD factory indirection to unwrap it automatically.
-const FavouriteModal = FavouriteModalModule.default;
-
-// test.js runs as plain native ESM (no Babel at test time), so JSX isn't
-// available here: use React.createElement directly instead.
+// test.js still doesn't use literal JSX (kept as a mechanical migration from
+// Mocha, not a redesign) - use React.createElement directly instead.
 const h = React.createElement;
 
 describe('Testing @digitransit-component/digitransit-component-favourite-modal module', () => {
@@ -27,10 +20,8 @@ describe('Testing @digitransit-component/digitransit-component-favourite-modal m
         autosuggestComponent: h('input', { placeholder: 'search' }),
       }),
     );
-    expect(screen.getByText('Save place')).to.exist;
-    expect(screen.getByText('Save').getAttribute('aria-disabled')).to.equal(
-      'true',
-    );
+    expect(screen.getByText('Save place')).toBeTruthy();
+    expect(screen.getByText('Save').getAttribute('aria-disabled')).toBe('true');
   });
 
   it('enables saving once an icon is chosen, and reports the chosen favourite with its icon', () => {
@@ -49,17 +40,17 @@ describe('Testing @digitransit-component/digitransit-component-favourite-modal m
     );
     fireEvent.click(screen.getByLabelText('home'));
     const saveButton = screen.getByText('Save');
-    expect(saveButton.getAttribute('aria-disabled')).to.equal('false');
+    expect(saveButton.getAttribute('aria-disabled')).toBe('false');
     fireEvent.click(saveButton);
-    expect(saved).to.have.lengthOf(1);
-    expect(saved[0]).to.include({
+    expect(saved).toHaveLength(1);
+    expect(saved[0]).toMatchObject({
       address: 'Mannerheimintie 1',
       lat: 60.2,
       lon: 24.9,
       selectedIconId: 'icon-icon_home',
       type: 'place',
     });
-    expect(closed).to.deep.equal([true]);
+    expect(closed).toEqual([true]);
   });
 
   it('shows an "Edit place" header when editing an existing favourite', () => {
@@ -80,6 +71,6 @@ describe('Testing @digitransit-component/digitransit-component-favourite-modal m
         autosuggestComponent: h('input', { placeholder: 'search' }),
       }),
     );
-    expect(screen.getByText('Edit place')).to.exist;
+    expect(screen.getByText('Edit place')).toBeTruthy();
   });
 });
