@@ -25,12 +25,15 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
     for Relay fragments used by utils.
   - `translations/` — one file per locale (`fi.js`, `en.js`, `sv.js`, ...); `fi.js` is the source
     of truth, keep sorted via `scripts/sort-translations.mjs` (`yarn format` runs this), and every
-    key must also exist in `en.js`/`sv.js` (enforced by `test/unit/translations.test.js`).
+    key must also exist in `en.js`/`sv.js` (enforced by `test/unit/translations.test.js`). Some
+    `digitransit-component` packages ship their own i18next translation bundles instead, sorted/
+    checked separately via `scripts/workspace-packages/sort-translations.mjs`.
   - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
 - `server/` — Express SSR server.
 - `test/` — `unit/` (mocha, mirrors `app/`) and `e2e/` (Jest + Playwright visual tests).
 - `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.mjs`, `contextHelper.js`,
-  `generate-schema.js`, `theme/` theme-scaffolding scripts; see `scripts/README.md`).
+  `generate-schema.js`, `theme/` theme-scaffolding scripts, `workspace-packages/` (readme
+  generation, version checks, translation sort/check); see `scripts/README.md`).
 - `digitransit-component/`, `digitransit-search-util/`, `digitransit-store/`,
   `digitransit-util/` — Yarn workspace packages, built separately (see below).
 - `sass/`, `static/` — global styles and static assets.
@@ -62,8 +65,9 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 ## Lint & format
 
 - `yarn lint` — eslint (Airbnb config + jsx-a11y + compat + prettier) + `prettier-styles` (scss
-  check) + `stylelint`.
-- `yarn format` — auto-fixes: sorts translations, `eslint --fix`, prettier styles, stylelint fix.
+  check) + `stylelint` + component-package translation parity check.
+- `yarn format` — auto-fixes: sorts translations (app + component packages), `eslint --fix`,
+  prettier styles, stylelint fix.
 - `yarn eslint` / `yarn eslint-fix` for JS only.
 - Husky git hooks: pre-commit runs `lint-staged` (eslint on staged JS, prettier+stylelint on
   staged scss) and blocks on unresolved merge-conflict markers; pre-push runs the full

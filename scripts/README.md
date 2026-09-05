@@ -67,6 +67,27 @@ make sure you remembered to bump its version — this is also enforced in CI on 
 BASE_SHA=<git ref> yarn workspace-packages-version-check
 ```
 
+## Using `workspace-packages/generate-readmes.mjs`
+
+Regenerates a workspace package's `README.md` from its JSDoc via
+[`documentation.js`](https://documentation.js.org/). Needs no family/package argument: run from
+inside a package's directory to regenerate just that one, or from anywhere else (e.g. the
+repository root) to regenerate every package in every family. See the `workspace-packages-docs`
+script in [`package.json`](/package.json). Never hand-edit a generated `README.md` — fix the
+source JSDoc and regenerate instead.
+
+```
+node scripts/workspace-packages/generate-readmes.mjs
+```
+
+## Using `workspace-packages/sort-translations.mjs`
+
+Sorts and checks `digitransit-component` packages' own translation bundles
+(`src/{helpers,utils}/translations.js`) — a different shape from `app/translations`, so
+separate from the `sort-translations.js` script above. Flags any key missing from a `fi`/`sv`/`en`
+locale. See the `workspace-packages-translations-check`/`-fix` scripts in
+[`package.json`](/package.json).
+
 ## Using `generate-schema.js`
 
 Regenerates `schema/schema.graphql` (the GraphQL schema used by relay-compiler and
