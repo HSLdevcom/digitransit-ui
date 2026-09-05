@@ -48,7 +48,7 @@ function findEntryPoint(directory) {
 
 // Running from inside a single package's directory regenerates just that
 // package; running from anywhere else (e.g. the repo root, via `yarn
-// digitransit-<family>-docs`) regenerates every package in the family.
+// workspace-packages-docs`) regenerates every package in the family.
 function findPackagePaths(family) {
   const packagesDir = path.join(repoRoot, family.dirName, 'packages');
   const currentFolder = path.basename(process.cwd());

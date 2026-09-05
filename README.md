@@ -39,6 +39,19 @@ Visual tests are run with jest and playwright.
 More information about [testing](docs/Tests.md).
 
 
+## Workspace package scripts
+
+Root-level commands covering all `digitransit-*` workspace packages at once
+(see [Workspace Packages](docs/WorkspacePackages.md) for detail):
+
+- `yarn workspace-packages-build` — build every package
+- `yarn workspace-packages-test` — run every package's tests
+- `yarn workspace-packages-watch` — build, then rebuild on change
+- `yarn workspace-packages-clean` — remove build output + `node_modules`
+- `yarn workspace-packages-docs` — regenerate every package's README
+- `yarn workspace-packages-publish[-ci]` — publish changed packages to npm
+- `yarn workspace-packages-version-bump` / `-version-check` — bump/verify versions
+
 ## Documentation
 
 - [Architecture](docs/Architecture.md)

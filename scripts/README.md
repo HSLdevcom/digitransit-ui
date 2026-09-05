@@ -64,7 +64,7 @@ changed-but-unbumped package would otherwise silently never get published. Run i
 make sure you remembered to bump its version — this is also enforced in CI on pull requests.
 
 ```
-BASE_SHA=<git ref> yarn check-versions-workspaces
+BASE_SHA=<git ref> yarn workspace-packages-version-check
 ```
 
 ## Using `generate-schema.js`

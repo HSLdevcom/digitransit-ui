@@ -74,7 +74,7 @@ jobs:
       - name: Check changed packages have version bumps
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: yarn check-versions-workspaces
+        run: yarn workspace-packages-version-check
 
   check-readmes:
     needs: install
@@ -89,11 +89,7 @@ jobs:
           build-workspaces: 'false'
 
       - name: Regenerate workspace package READMEs
-        run: |
-          yarn digitransit-component-docs
-          yarn digitransit-search-util-docs
-          yarn digitransit-store-docs
-          yarn digitransit-util-docs
+        run: yarn workspace-packages-docs
 
       - name: Fail if committed READMEs are out of date
         run: git diff --exit-code -- 'digitransit-*/packages/*/README.md'
@@ -214,7 +210,7 @@ jobs:
         run: |
           {
             echo 'publish-logs<<EOF' >> $GITHUB_OUTPUT
-            yarn digitransit-npm-autopublish >> $GITHUB_OUTPUT
+            yarn workspace-packages-publish-ci >> $GITHUB_OUTPUT
             echo 'EOF' >> $GITHUB_OUTPUT
           }
         shell: bash

@@ -55,10 +55,10 @@ or in some systems to build the binaries from code following
 - open: http://localhost:8080
 
 `yarn run dev` runs `scripts/dev.sh`, which starts Relay, the Express dev server (nodemon),
-webpack-dev-server and `yarn watch-workspaces` (`lerna run watch --parallel --stream`) in parallel.
-`watch-workspaces` builds every `digitransit-component`, `digitransit-store` and
-`digitransit-search-util` package once and then keeps watching/rebuilding them, so a manual
-`yarn setup`/`yarn build-workspaces` is not required beforehand.
+webpack-dev-server and `yarn workspace-packages-watch` (`lerna run watch --parallel --stream`)
+in parallel. `workspace-packages-watch` builds every `digitransit-component`, `digitransit-store`
+and `digitransit-search-util` package once and then keeps watching/rebuilding them, so a manual
+`yarn setup`/`yarn workspace-packages-build` is not required beforehand.
 
 ## Start production version
 - First run: `yarn run setup`, then `yarn run build`, then run: `yarn run start`

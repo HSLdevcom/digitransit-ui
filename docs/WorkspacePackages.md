@@ -70,8 +70,8 @@ A `search-util`/`util` package is the same, but flat (no build step, no
 - `test.js` — real, executable [Vitest](https://vitest.dev) (and, for
   `component`, RTL) tests, run against raw source (`src/index.js`/
   `index.js`) rather than a built artifact — `component`/`store` packages
-  need no `pretest: yarn build` step just to test. `test.js` doesn't use
-  literal JSX; component tests call `React.createElement` directly instead.
+  need no `pretest: yarn build` step just to test. `component` tests use
+  literal JSX.
 - `package.json` — runtime imports go under `dependencies`; anything the
   *host app* must also provide goes under `peerDependencies` instead (see
   [Dependency classification](#dependency-classification)); build/compile-only
@@ -100,26 +100,29 @@ package has actually used since the migration to Rollup). Instead:
 5. Run `yarn install` from the repo root so the workspace picks up the new
    package (the root `package.json`'s `workspaces` globs already cover any
    `digitransit-<family>/packages/*` directory — nothing to add there).
-6. Generate its README: run `yarn digitransit-<family>-docs` from inside the
-   new package's directory (see [Documentation](#documentation-readme-generation)).
-7. Add tests to CI simply by existing — `yarn test-unit:<family>` (part of
-   `yarn test-unit`) discovers every package in the family automatically via
-   Vitest's `include` glob (`digitransit-<family>/packages/*/test.js`).
+6. Generate its README: run `yarn workspace-packages-docs` from the repo
+   root, or `yarn docs` from inside the new package's directory (see
+   [Documentation](#documentation-readme-generation)).
+7. Add tests to CI simply by existing — `yarn workspace-packages-test` (part
+   of `yarn test-unit`) discovers every package in every family
+   automatically via Vitest's `include` glob
+   (`digitransit-<family>/packages/*/test.js`).
 
 ## Testing
 
 Tests run on [Vitest](https://vitest.dev), configured from a single root
-`config/vitest.config.js` (one `test.projects` entry per family, so
-`--project <name>` maps onto `yarn test-unit:<family>`). `component` runs
-under a jsdom environment with a small setup file
-(`config/vitest.setup.component.mjs`: a persistent `<div id="app">` for
-`@hsl-fi/modal`'s `appElement` prop, plus RTL's `cleanup()` after each
-test); the other three families run under plain Node. `component` also
-loads `config/vitest.jsx-runtime-loader.mjs`, a Node ESM loader hook (wired
-in via `NODE_OPTIONS`, not a Vitest config option) that patches the
-extensionless `react/jsx-runtime` import and stubs `.css`/`.scss` — both
-needed for real, un-stubbed ESM `@hsl-fi/*` peer dependencies, which Node
-resolves natively rather than through Vite.
+`config/vitest.config.js` (one `test.projects` entry per family). `component`
+runs under a jsdom environment, configured entirely in `vitest.config.js`
+(no setup file): `environmentOptions.jsdom.html` seeds a persistent
+`<div id="app">` for `@hsl-fi/modal`'s `appElement` prop, and `globals: true`
+makes `afterEach` a real global, which is all RTL's own automatic
+`cleanup()` needs to fire after each test. The other three families run
+under plain Node. `component` also loads
+`config/vitest.jsx-runtime-loader.mjs`, a Node ESM loader hook (wired in via
+`NODE_OPTIONS`, not a Vitest config option) that patches the extensionless
+`react/jsx-runtime` import and stubs `.css`/`.scss` — both needed for real,
+un-stubbed ESM `@hsl-fi/*` peer dependencies, which Node resolves natively
+rather than through Vite.
 
 Run everything from the repository root:
 
@@ -127,10 +130,10 @@ Run everything from the repository root:
 $ yarn test-unit
 ```
 
-Or one family at a time:
+Or just the workspace packages (all four families in one run):
 
 ```sh
-$ yarn test-unit:components   # or :search-utils / :store / :util
+$ yarn workspace-packages-test
 ```
 
 Or a single package, from inside its own directory:
@@ -150,10 +153,10 @@ hand-edit will silently disappear the next time anyone regenerates it.
 
 ```sh
 # regenerate one package's README (run from inside the package's directory)
-$ yarn digitransit-component-docs
+$ yarn docs
 
-# regenerate every package in a family (run from the repository root)
-$ yarn digitransit-component-docs      # or digitransit-search-util-docs / -store-docs / -util-docs
+# regenerate every package, in every family (run from the repository root)
+$ yarn workspace-packages-docs
 ```
 
 CI enforces this: the `check-readmes` job in `.github/workflows/dev-pipeline.yml`
@@ -164,8 +167,8 @@ its README (or one that only hand-edits a README) won't merge.
 ## Publishing
 
 ```sh
-$ yarn digitransit-npm-publish       # interactive, for local/manual use
-$ yarn digitransit-npm-autopublish   # non-interactive (-y), used by CI
+$ yarn workspace-packages-publish      # interactive, for local/manual use
+$ yarn workspace-packages-publish-ci   # non-interactive (-y), used by CI
 ```
 
 Both run `lerna publish from-package --no-git-tag-version --no-push`;
@@ -175,10 +178,10 @@ Versioning is independent per package (`lerna.json`'s `"version": "independent"`
 and bumped manually:
 
 ```sh
-$ yarn bump-versions-workspaces   # lerna version
+$ yarn workspace-packages-version-bump   # lerna version
 ```
 
-`yarn check-versions-workspaces` then verifies every internal
+`yarn workspace-packages-version-check` then verifies every internal
 `@digitransit-*` dependency range across all four families is satisfied by
 the versions actually present — this runs in CI on every push/PR.
 
