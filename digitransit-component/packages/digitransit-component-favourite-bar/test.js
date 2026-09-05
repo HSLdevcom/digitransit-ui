@@ -3,10 +3,6 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import FavouriteBar from './src/index.js';
 
-// test.js still doesn't use literal JSX (kept as a mechanical migration from
-// Mocha, not a redesign) - use React.createElement directly instead.
-const h = React.createElement;
-
 const favourites = [
   { name: 'Home', address: 'Kotikatu 1, Helsinki', favouriteId: 'fav1' },
   { name: 'Work', address: 'Toimistotie 2, Helsinki', favouriteId: 'fav2' },
@@ -19,14 +15,14 @@ const favourites = [
 
 describe('Testing @digitransit-component/digitransit-component-favourite-bar module', () => {
   it('shows the first two favourites directly, with the rest in the expandable list', () => {
-    render(h(FavouriteBar, { favourites, lang: 'en' }));
+    render(<FavouriteBar favourites={favourites} lang="en" />);
     expect(screen.getByText('Home')).toBeTruthy();
     expect(screen.getByText('Work')).toBeTruthy();
     expect(screen.queryByText('Gym')).toBeNull();
   });
 
   it('reveals the remaining favourites when the expand button is clicked', () => {
-    render(h(FavouriteBar, { favourites, lang: 'en' }));
+    render(<FavouriteBar favourites={favourites} lang="en" />);
     fireEvent.click(screen.getByLabelText('Open favourites'));
     expect(screen.getByText('Gym')).toBeTruthy();
   });
@@ -34,11 +30,11 @@ describe('Testing @digitransit-component/digitransit-component-favourite-bar mod
   it('calls onClickFavourite with the selected favourite from the expanded list', () => {
     const clicked = [];
     render(
-      h(FavouriteBar, {
-        favourites,
-        lang: 'en',
-        onClickFavourite: favourite => clicked.push(favourite.favouriteId),
-      }),
+      <FavouriteBar
+        favourites={favourites}
+        lang="en"
+        onClickFavourite={favourite => clicked.push(favourite.favouriteId)}
+      />,
     );
     fireEvent.click(screen.getByLabelText('Open favourites'));
     fireEvent.click(screen.getByText('Gym'));
@@ -48,11 +44,11 @@ describe('Testing @digitransit-component/digitransit-component-favourite-bar mod
   it('calls onClickFavourite when clicking the first favourite slot directly', () => {
     const clicked = [];
     render(
-      h(FavouriteBar, {
-        favourites,
-        lang: 'en',
-        onClickFavourite: favourite => clicked.push(favourite.favouriteId),
-      }),
+      <FavouriteBar
+        favourites={favourites}
+        lang="en"
+        onClickFavourite={favourite => clicked.push(favourite.favouriteId)}
+      />,
     );
     fireEvent.click(screen.getByText('Home'));
     expect(clicked).toEqual(['fav1']);
@@ -61,13 +57,13 @@ describe('Testing @digitransit-component/digitransit-component-favourite-bar mod
   it('calls onAddHome when there is no first favourite yet', () => {
     let addHomeCalled = false;
     render(
-      h(FavouriteBar, {
-        favourites: [],
-        lang: 'en',
-        onAddHome: () => {
+      <FavouriteBar
+        favourites={[]}
+        lang="en"
+        onAddHome={() => {
           addHomeCalled = true;
-        },
-      }),
+        }}
+      />,
     );
     fireEvent.click(screen.getByLabelText('Add home'));
     expect(addHomeCalled).toBe(true);

@@ -8,10 +8,6 @@ import withBreakpoint, {
   DesktopOrMobile,
 } from './src/index.js';
 
-// test.js still doesn't use literal JSX (kept as a mechanical migration from
-// Mocha, not a redesign) - use React.createElement directly instead.
-const h = React.createElement;
-
 describe('Testing @digitransit-component/digitransit-component-with-breakpoint module', () => {
   const originalInnerWidth = window.innerWidth;
   afterEach(() => {
@@ -59,11 +55,16 @@ describe('Testing @digitransit-component/digitransit-component-with-breakpoint m
 
   describe('withBreakpoint(Component)', () => {
     it('passes the breakpoint from context as a prop', () => {
+      // eslint-disable-next-line react/prop-types
       function Probe({ breakpoint }) {
-        return h('span', { 'data-testid': 'probe' }, breakpoint);
+        return <span data-testid="probe">{breakpoint}</span>;
       }
       const WrappedProbe = withBreakpoint(Probe);
-      render(h(BreakpointProvider, { value: 'medium' }, h(WrappedProbe)));
+      render(
+        <BreakpointProvider value="medium">
+          <WrappedProbe />
+        </BreakpointProvider>,
+      );
       expect(screen.getByTestId('probe').textContent).toBe('medium');
     });
   });
@@ -71,14 +72,12 @@ describe('Testing @digitransit-component/digitransit-component-with-breakpoint m
   describe('DesktopOrMobile', () => {
     it('renders the desktop render prop when breakpoint is large', () => {
       render(
-        h(
-          BreakpointProvider,
-          { value: 'large' },
-          h(DesktopOrMobile, {
-            desktop: () => h('span', null, 'desktop-view'),
-            mobile: () => h('span', null, 'mobile-view'),
-          }),
-        ),
+        <BreakpointProvider value="large">
+          <DesktopOrMobile
+            desktop={() => <span>desktop-view</span>}
+            mobile={() => <span>mobile-view</span>}
+          />
+        </BreakpointProvider>,
       );
       expect(screen.getByText('desktop-view')).toBeTruthy();
       expect(screen.queryByText('mobile-view')).toBeNull();
@@ -86,14 +85,12 @@ describe('Testing @digitransit-component/digitransit-component-with-breakpoint m
 
     it('renders the mobile render prop when breakpoint is small', () => {
       render(
-        h(
-          BreakpointProvider,
-          { value: 'small' },
-          h(DesktopOrMobile, {
-            desktop: () => h('span', null, 'desktop-view'),
-            mobile: () => h('span', null, 'mobile-view'),
-          }),
-        ),
+        <BreakpointProvider value="small">
+          <DesktopOrMobile
+            desktop={() => <span>desktop-view</span>}
+            mobile={() => <span>mobile-view</span>}
+          />
+        </BreakpointProvider>,
       );
       expect(screen.getByText('mobile-view')).toBeTruthy();
       expect(screen.queryByText('desktop-view')).toBeNull();

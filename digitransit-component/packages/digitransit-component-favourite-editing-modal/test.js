@@ -3,10 +3,6 @@ import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import FavouriteEditingModal from './src/index.js';
 
-// test.js still doesn't use literal JSX (kept as a mechanical migration from
-// Mocha, not a redesign) - use React.createElement directly instead.
-const h = React.createElement;
-
 const favourites = [
   {
     name: 'Home',
@@ -24,18 +20,18 @@ const favourites = [
 
 function renderModal(props) {
   return render(
-    h(FavouriteEditingModal, {
-      handleClose: () => {},
-      updateFavourites: () => {},
-      deleteFavourite: () => {},
-      onEditSelected: () => {},
-      favourites,
-      appElement: '#app',
-      isModalOpen: true,
-      isLoading: false,
-      lang: 'en',
-      ...props,
-    }),
+    <FavouriteEditingModal
+      handleClose={() => {}}
+      updateFavourites={() => {}}
+      deleteFavourite={() => {}}
+      onEditSelected={() => {}}
+      favourites={favourites}
+      appElement="#app"
+      isModalOpen
+      isLoading={false}
+      lang="en"
+      {...props}
+    />,
   );
 }
 

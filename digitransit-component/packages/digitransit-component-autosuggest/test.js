@@ -3,10 +3,6 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import DTAutosuggest from './src/index.js';
 
-// test.js still doesn't use literal JSX (kept as a mechanical migration from
-// Mocha, not a redesign) - use React.createElement directly instead.
-const h = React.createElement;
-
 // Minimal but complete searchContext stub - see
 // digitransit-search-util-execute-search-immidiate/test.js for the equivalent
 // note on why every field needs to be something callable/iterable.
@@ -38,18 +34,18 @@ const searchContext = {
 
 function renderAutosuggest(props) {
   return render(
-    h(DTAutosuggest, {
-      appElement: '#app',
-      id: 'origin',
-      placeholder: 'give-origin',
-      onSelect: () => {},
-      value: '',
-      lang: 'en',
-      searchContext,
-      sources: [],
-      targets: [],
-      ...props,
-    }),
+    <DTAutosuggest
+      appElement="#app"
+      id="origin"
+      placeholder="give-origin"
+      onSelect={() => {}}
+      value=""
+      lang="en"
+      searchContext={searchContext}
+      sources={[]}
+      targets={[]}
+      {...props}
+    />,
   );
 }
 

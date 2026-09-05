@@ -3,10 +3,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import SuggestionItem from './src/index.js';
 
-// test.js still doesn't use literal JSX (kept as a mechanical migration from
-// Mocha, not a redesign) - use React.createElement directly instead.
-const h = React.createElement;
-
 describe('Testing @digitransit-component/digitransit-component-suggestion-item module', () => {
   it('renders a geocoded address suggestion with name and label', () => {
     const item = {
@@ -16,10 +12,10 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
       properties: { layer: 'address' },
     };
     render(
-      h(SuggestionItem, {
-        item,
-        content: ['Osoite', 'Mannerheimintie 1', 'Helsinki'],
-      }),
+      <SuggestionItem
+        item={item}
+        content={['Osoite', 'Mannerheimintie 1', 'Helsinki']}
+      />,
     );
     expect(screen.getByText('Mannerheimintie 1')).toBeTruthy();
     expect(screen.getByText('Helsinki')).toBeTruthy();
@@ -34,11 +30,11 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
       properties: { layer: 'favouritePlace' },
     };
     render(
-      h(SuggestionItem, {
-        item,
-        content: ['Suosikki', 'Home', 'Kotikatu 1, Helsinki'],
-        colors: { primary: '#0074bf' },
-      }),
+      <SuggestionItem
+        item={item}
+        content={['Suosikki', 'Home', 'Kotikatu 1, Helsinki']}
+        colors={{ primary: '#0074bf' }}
+      />,
     );
     expect(screen.getByText('Home')).toBeTruthy();
   });
@@ -49,10 +45,10 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
       properties: { layer: 'stop', id: '1234' },
     };
     render(
-      h(SuggestionItem, {
-        item,
-        content: ['Pysäkki', 'Rautatientori', 'Helsinki', '1234'],
-      }),
+      <SuggestionItem
+        item={item}
+        content={['Pysäkki', 'Rautatientori', 'Helsinki', '1234']}
+      />,
     );
     expect(screen.getByText('Rautatientori')).toBeTruthy();
     expect(screen.getByText('1234')).toBeTruthy();
@@ -68,7 +64,7 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
         destination: { name: 'Myyrmäki', localadmin: 'Vantaa' },
       },
     };
-    render(h(SuggestionItem, { item, content: ['Tuleva reitti'] }));
+    render(<SuggestionItem item={item} content={['Tuleva reitti']} />);
     expect(screen.getByText('Pasila')).toBeTruthy();
     expect(screen.getByText('Myyrmäki')).toBeTruthy();
     expect(screen.getByText('Coming Friday')).toBeTruthy();

@@ -3,10 +3,6 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import DTAutosuggestPanel from './src/index.js';
 
-// test.js still doesn't use literal JSX (kept as a mechanical migration from
-// Mocha, not a redesign) - use React.createElement directly instead.
-const h = React.createElement;
-
 // Minimal but complete searchContext stub - see
 // digitransit-search-util-execute-search-immidiate/test.js for the equivalent
 // note on why every field needs to be something callable/iterable.
@@ -38,13 +34,13 @@ const searchContext = {
 
 function renderPanel(props) {
   return render(
-    h(DTAutosuggestPanel, {
-      appElement: '#app',
-      searchContext,
-      onSelect: () => {},
-      lang: 'en',
-      ...props,
-    }),
+    <DTAutosuggestPanel
+      appElement="#app"
+      searchContext={searchContext}
+      onSelect={() => {}}
+      lang="en"
+      {...props}
+    />,
   );
 }
 

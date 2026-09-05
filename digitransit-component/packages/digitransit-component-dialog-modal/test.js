@@ -3,10 +3,6 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import DialogModal from './src/index.js';
 
-// test.js still doesn't use literal JSX (kept as a mechanical migration from
-// Mocha, not a redesign) - use React.createElement directly instead.
-const h = React.createElement;
-
 // Under Mocha, @hsl-fi/dialog was ESM-only and couldn't be require()'d, so
 // stub-esm-peer-deps.js replaced Modal/ConfirmationModalContent with a stub
 // that always rendered null - these tests could only check "doesn't throw",
@@ -16,13 +12,13 @@ const h = React.createElement;
 describe('Testing @digitransit-component/digitransit-component-dialog-modal module', () => {
   it('renders the dialog with its header text when open', () => {
     render(
-      h(DialogModal, {
-        isModalOpen: true,
-        headerText: 'Delete this place?',
-        primaryButtonText: 'Delete',
-        primaryButtonOnClick: () => {},
-        lang: 'en',
-      }),
+      <DialogModal
+        isModalOpen
+        headerText="Delete this place?"
+        primaryButtonText="Delete"
+        primaryButtonOnClick={() => {}}
+        lang="en"
+      />,
     );
     expect(screen.getByRole('dialog')).toBeTruthy();
     expect(screen.getByText('Delete this place?')).toBeTruthy();
@@ -30,13 +26,13 @@ describe('Testing @digitransit-component/digitransit-component-dialog-modal modu
 
   it('renders nothing when closed', () => {
     render(
-      h(DialogModal, {
-        isModalOpen: false,
-        headerText: 'Delete this place?',
-        primaryButtonText: 'Delete',
-        primaryButtonOnClick: () => {},
-        lang: 'en',
-      }),
+      <DialogModal
+        isModalOpen={false}
+        headerText="Delete this place?"
+        primaryButtonText="Delete"
+        primaryButtonOnClick={() => {}}
+        lang="en"
+      />,
     );
     expect(screen.queryByRole('dialog')).toBeNull();
   });
@@ -44,13 +40,13 @@ describe('Testing @digitransit-component/digitransit-component-dialog-modal modu
   it('invokes primaryButtonOnClick when the confirm button is clicked', () => {
     const primaryButtonOnClick = vi.fn();
     render(
-      h(DialogModal, {
-        isModalOpen: true,
-        headerText: 'Delete this place?',
-        primaryButtonText: 'Delete',
-        primaryButtonOnClick,
-        lang: 'en',
-      }),
+      <DialogModal
+        isModalOpen
+        headerText="Delete this place?"
+        primaryButtonText="Delete"
+        primaryButtonOnClick={primaryButtonOnClick}
+        lang="en"
+      />,
     );
     // Both the row and column button layouts render simultaneously in
     // jsdom (their visibility is normally decided by a CSS media query,

@@ -3,10 +3,6 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Datetimepicker from './src/index.js';
 
-// test.js still doesn't use literal JSX (kept as a mechanical migration from
-// Mocha, not a redesign) - use React.createElement directly instead.
-const h = React.createElement;
-
 // A fixed timestamp (2023-11-15T00:13:20+02:00, Europe/Helsinki - the
 // component's default timeZone) so the rendered date/time text is
 // deterministic regardless of the host machine's own timezone or the wall
@@ -22,16 +18,16 @@ function renderPicker(props) {
     onNowClick: [],
   };
   const result = render(
-    h(Datetimepicker, {
-      onDepartureClick: t => calls.onDepartureClick.push(t),
-      onArrivalClick: t => calls.onArrivalClick.push(t),
-      onTimeChange: (...args) => calls.onTimeChange.push(args),
-      onDateChange: (...args) => calls.onDateChange.push(args),
-      onNowClick: t => calls.onNowClick.push(t),
-      lang: 'en',
-      initialTimestamp: FIXED_TIMESTAMP,
-      ...props,
-    }),
+    <Datetimepicker
+      onDepartureClick={t => calls.onDepartureClick.push(t)}
+      onArrivalClick={t => calls.onArrivalClick.push(t)}
+      onTimeChange={(...args) => calls.onTimeChange.push(args)}
+      onDateChange={(...args) => calls.onDateChange.push(args)}
+      onNowClick={t => calls.onNowClick.push(t)}
+      lang="en"
+      initialTimestamp={FIXED_TIMESTAMP}
+      {...props}
+    />,
   );
   // The toggle button's accessible name comes from its associated <label>
   // (an sr-only "Open the picker" span), not from the visible date/time text

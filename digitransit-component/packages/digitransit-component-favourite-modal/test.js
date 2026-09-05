@@ -3,22 +3,18 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import FavouriteModal from './src/index.js';
 
-// test.js still doesn't use literal JSX (kept as a mechanical migration from
-// Mocha, not a redesign) - use React.createElement directly instead.
-const h = React.createElement;
-
 describe('Testing @digitransit-component/digitransit-component-favourite-modal module', () => {
   it('shows a "Save place" header and a disabled save button until an icon is chosen', () => {
     render(
-      h(FavouriteModal, {
-        isModalOpen: true,
-        handleClose: () => {},
-        saveFavourite: () => {},
-        appElement: '#app',
-        lang: 'en',
-        favourite: { address: 'Mannerheimintie 1', lat: 60.2, lon: 24.9 },
-        autosuggestComponent: h('input', { placeholder: 'search' }),
-      }),
+      <FavouriteModal
+        isModalOpen
+        handleClose={() => {}}
+        saveFavourite={() => {}}
+        appElement="#app"
+        lang="en"
+        favourite={{ address: 'Mannerheimintie 1', lat: 60.2, lon: 24.9 }}
+        autosuggestComponent={<input placeholder="search" />}
+      />,
     );
     expect(screen.getByText('Save place')).toBeTruthy();
     expect(screen.getByText('Save').getAttribute('aria-disabled')).toBe('true');
@@ -28,15 +24,15 @@ describe('Testing @digitransit-component/digitransit-component-favourite-modal m
     const saved = [];
     const closed = [];
     render(
-      h(FavouriteModal, {
-        isModalOpen: true,
-        handleClose: () => closed.push(true),
-        saveFavourite: favourite => saved.push(favourite),
-        appElement: '#app',
-        lang: 'en',
-        favourite: { address: 'Mannerheimintie 1', lat: 60.2, lon: 24.9 },
-        autosuggestComponent: h('input', { placeholder: 'search' }),
-      }),
+      <FavouriteModal
+        isModalOpen
+        handleClose={() => closed.push(true)}
+        saveFavourite={favourite => saved.push(favourite)}
+        appElement="#app"
+        lang="en"
+        favourite={{ address: 'Mannerheimintie 1', lat: 60.2, lon: 24.9 }}
+        autosuggestComponent={<input placeholder="search" />}
+      />,
     );
     fireEvent.click(screen.getByLabelText('home'));
     const saveButton = screen.getByText('Save');
@@ -55,21 +51,21 @@ describe('Testing @digitransit-component/digitransit-component-favourite-modal m
 
   it('shows an "Edit place" header when editing an existing favourite', () => {
     render(
-      h(FavouriteModal, {
-        isModalOpen: true,
-        handleClose: () => {},
-        saveFavourite: () => {},
-        appElement: '#app',
-        lang: 'en',
-        favourite: {
+      <FavouriteModal
+        isModalOpen
+        handleClose={() => {}}
+        saveFavourite={() => {}}
+        appElement="#app"
+        lang="en"
+        favourite={{
           favouriteId: 'fav1',
           address: 'Mannerheimintie 1',
           lat: 60.2,
           lon: 24.9,
           selectedIconId: 'icon-icon_home',
-        },
-        autosuggestComponent: h('input', { placeholder: 'search' }),
-      }),
+        }}
+        autosuggestComponent={<input placeholder="search" />}
+      />,
     );
     expect(screen.getByText('Edit place')).toBeTruthy();
   });
