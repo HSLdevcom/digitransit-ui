@@ -12,6 +12,11 @@ const nodeProject = (name, family) => ({
     name,
     root: repoRoot,
     environment: 'node',
+    // Persists transformed modules under node_modules/.vitest-cache (keyed
+    // by content/plugin hashes, so it self-invalidates on source or config
+    // changes) and speeds up reruns - transforms are otherwise redone every
+    // time. Rides along with CI's existing whole-node_modules cache too.
+    fsModuleCache: true,
     include: [`digitransit-${family}/packages/*/test.js`],
   },
 });
@@ -110,6 +115,12 @@ module.exports = {
           // its dist/index.js) - gets RTL's per-test cleanup() for free
           // instead of registering it manually in a setup file.
           globals: true,
+          // Persists transformed modules under node_modules/.vitest-cache
+          // (keyed by content/plugin hashes, so it self-invalidates on
+          // source or config changes) and speeds up reruns - transforms are
+          // otherwise redone every time. Rides along with CI's existing
+          // whole-node_modules cache too.
+          fsModuleCache: true,
           include: ['digitransit-component/packages/*/test.js'],
         },
       },
