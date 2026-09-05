@@ -48,7 +48,7 @@
     "workspace-packages-build": "lerna run build",
     "workspace-packages-test": "yarn workspace-packages-build && NODE_OPTIONS=\"--import ./config/vitest.jsx-runtime-loader.mjs\" vitest run --config config/vitest.config.js",
     "workspace-packages-clean": "lerna run clean",
-    "workspace-packages-version-bump": "lerna version",
+    "workspace-packages-version-bump": "git fetch --tags && lerna version --no-push --include-merged-tags",
     "workspace-packages-version-check": "node scripts/workspace-packages/check-versions.js"
   },
   "main": "server.js",
