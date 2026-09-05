@@ -58,7 +58,7 @@
     "watch-workspaces": "lerna run watch --parallel --stream",
     "clean-workspaces": "lerna run clean --scope '@digitransit-component/*' --scope '@digitransit-search-util/digitransit-search-util-query-utils' --scope '@digitransit-store/*'",
     "bump-versions-workspaces": "lerna version",
-    "check-versions-workspaces": "node scripts/check-versions-workspaces.js"
+    "check-versions-workspaces": "node scripts/workspace-packages/check-versions.js"
   },
   "main": "server.js",
   "repository": {

@@ -53,7 +53,7 @@ in `config.default.js`'s host-name mapping. See [`docs/Themes.md`](/docs/Themes.
 yarn add-theme <name> '#RRGGBB' <optional navbar logo>
 ```
 
-## Using `check-versions-workspaces.js`
+## Using `workspace-packages/check-versions.js`
 
 Fails if a workspace package changed since a given base commit but its `package.json` `version`
 wasn't bumped accordingly (or was bumped in the wrong direction). `lerna publish from-package`
