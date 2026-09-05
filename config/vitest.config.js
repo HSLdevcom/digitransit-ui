@@ -74,7 +74,17 @@ module.exports = {
           // .css/.scss requires as no-ops for the main app's Mocha suite);
           // this is also Vitest's own default, kept explicit for clarity.
           css: false,
-          setupFiles: [path.join(__dirname, 'vitest.setup.component.mjs')],
+          // @hsl-fi/modal (react-modal) needs a real DOM node matching its
+          // appElement selector for react-modal's aria-hider - set as the
+          // jsdom environment's initial document instead of a setup file.
+          environmentOptions: {
+            jsdom: { html: '<!DOCTYPE html><div id="app"></div>' },
+          },
+          // Makes `afterEach` (among others) a real global, which is all
+          // @testing-library/react's own auto-cleanup checks for (see
+          // its dist/index.js) - gets RTL's per-test cleanup() for free
+          // instead of registering it manually in a setup file.
+          globals: true,
           include: ['digitransit-component/packages/*/test.js'],
         },
       },
