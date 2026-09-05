@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
-    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs search-util"
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs"
   },
   "repository": {
     "type": "git",

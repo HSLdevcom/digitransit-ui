@@ -43,7 +43,7 @@
     "add-theme": "node scripts/theme/add-theme",
     "workspace-packages-publish": "lerna publish from-package --no-git-tag-version --no-push",
     "workspace-packages-publish-ci": "lerna publish from-package --no-git-tag-version --no-push -y",
-    "workspace-packages-docs": "node scripts/workspace-packages/generate-readmes.mjs component && node scripts/workspace-packages/generate-readmes.mjs search-util && node scripts/workspace-packages/generate-readmes.mjs store && node scripts/workspace-packages/generate-readmes.mjs util",
+    "workspace-packages-docs": "node scripts/workspace-packages/generate-readmes.mjs",
     "workspace-packages-watch": "lerna run watch --parallel --stream",
     "workspace-packages-build": "lerna run build",
     "workspace-packages-test": "yarn workspace-packages-build && NODE_OPTIONS=\"--import ./config/vitest.jsx-runtime-loader.mjs\" vitest run --config config/vitest.config.js",

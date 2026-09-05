@@ -146,10 +146,15 @@ $ yarn test
 
 Every package's `README.md` is generated from its JSDoc by
 [`documentation.js`](https://documentation.js.org/), via the single shared
-`scripts/workspace-packages/generate-readmes.mjs` script (and its
-`installation.md` template). **If you find an error in a README, fix the
-source JSDoc and regenerate — never hand-edit the `README.md` file.** A
-hand-edit will silently disappear the next time anyone regenerates it.
+`scripts/workspace-packages/generate-readmes.mjs` script. **If you find an
+error in a README, fix the source JSDoc and regenerate — never hand-edit
+the `README.md` file.** A hand-edit will silently disappear the next time
+anyone regenerates it.
+
+The script needs no family/package argument — it works out what to
+regenerate from where it's run: from inside a single package's directory it
+regenerates just that package; from anywhere else (e.g. the repository
+root) it discovers and regenerates every package in every family.
 
 ```sh
 # regenerate one package's README (run from inside the package's directory)
@@ -158,6 +163,12 @@ $ yarn docs
 # regenerate every package, in every family (run from the repository root)
 $ yarn workspace-packages-docs
 ```
+
+Each family's meta-package (`@digitransit-component/digitransit-component`,
+`@digitransit-util/digitransit-util` — the ones that re-export every
+sibling in the family) gets a README too, generated the same way;
+`search-util` and `store` don't have a meta-package, so their packages'
+READMEs don't mention installing one.
 
 CI enforces this: the `check-readmes` job in `.github/workflows/dev-pipeline.yml`
 regenerates every family and fails the build if that produces any diff

@@ -15,7 +15,7 @@
     "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "clean": "rm -rf ./lib ./node_modules",
     "test": "NODE_OPTIONS=\"--import ../../../config/vitest.jsx-runtime-loader.mjs\" vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
-    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs component",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs",
     "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
   "repository": {
