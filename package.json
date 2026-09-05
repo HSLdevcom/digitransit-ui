@@ -31,8 +31,8 @@
     "test:update-all-desktop-snapshots": "CONFIG=hsl yarn test:update-snapshots && CONFIG=tampere yarn test:update-snapshots && CONFIG=matka yarn test:update-snapshots",
     "test:update-all-mobile-snapshots": "MOBILE=true CONFIG=hsl yarn test:update-snapshots && MOBILE=true CONFIG=tampere yarn test:update-snapshots && MOBILE=true CONFIG=matka yarn test:update-snapshots",
     "test:update-all-snapshots": "yarn test:update-all-desktop-snapshots && yarn test:update-all-mobile-snapshots",
-    "lint": "yarn run eslint && yarn run prettier-styles && yarn run stylelint",
-    "format": "yarn run sort-translations && yarn run eslint-fix && yarn run prettier-styles-fix && yarn run stylelint-fix",
+    "lint": "yarn run eslint && yarn run prettier-styles && yarn run stylelint && yarn run workspace-packages-translations-check",
+    "format": "yarn run sort-translations && yarn run workspace-packages-translations-fix && yarn run eslint-fix && yarn run prettier-styles-fix && yarn run stylelint-fix",
     "sort-translations": "node scripts/sort-translations.mjs",
     "eslint": "eslint .",
     "eslint-fix": "eslint . --fix",
@@ -49,7 +49,9 @@
     "workspace-packages-test": "yarn workspace-packages-build && NODE_OPTIONS=\"--import ./config/vitest.jsx-runtime-loader.mjs\" vitest run --config config/vitest.config.js",
     "workspace-packages-clean": "lerna run clean",
     "workspace-packages-version-bump": "git fetch --tags && lerna version --no-push --include-merged-tags",
-    "workspace-packages-version-check": "node scripts/workspace-packages/check-versions.js"
+    "workspace-packages-version-check": "node scripts/workspace-packages/check-versions.js",
+    "workspace-packages-translations-check": "node scripts/workspace-packages/sort-translations.mjs",
+    "workspace-packages-translations-fix": "node scripts/workspace-packages/sort-translations.mjs --fix"
   },
   "main": "server.js",
   "repository": {

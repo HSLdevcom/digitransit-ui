@@ -142,6 +142,27 @@ Or a single package, from inside its own directory:
 $ yarn test
 ```
 
+## Translations
+
+Some `digitransit-component` packages ship their own i18next translation
+bundle (`src/helpers/translations.js` or `src/utils/translations.js`) — one
+file per package holding every locale, each nested under a `translation`
+namespace, consumed by a package-local `i18n.js` instance. This is a
+different shape from `app/translations/*.js` (one locale per file, no
+namespace), so it has its own tooling, separate from the root
+`sort-translations` script:
+
+```sh
+$ yarn workspace-packages-translations-check  # verify only, wired into `yarn lint`
+$ yarn workspace-packages-translations-fix    # sort in place, wired into `yarn format`
+```
+
+Both modes also flag any key that isn't present in every locale of a file —
+a missing translation, or a typo'd key duplicating another with a different
+spelling. That mismatch is never auto-fixed (there's no way to guess the
+correct key or translation), so `--fix` still exits non-zero if any remain;
+resolve those by hand in the package's `translations.js`.
+
 ## Documentation (README generation)
 
 Every package's `README.md` is generated from its JSDoc by
