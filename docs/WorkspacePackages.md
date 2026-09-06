@@ -104,14 +104,17 @@ package has actually used since the migration to Rollup). Instead:
    root, or `yarn docs` from inside the new package's directory (see
    [Documentation](#documentation-readme-generation)).
 7. Add tests to CI simply by existing — `yarn workspace-packages-test` (part
-   of `yarn test-unit`) discovers every package in every family
-   automatically via Vitest's `include` glob
+   of `yarn test-unit`, run with `--project '!app'`) discovers every package
+   in every family automatically via Vitest's `include` glob
    (`digitransit-<family>/packages/*/test.js`).
 
 ## Testing
 
 Tests run on [Vitest](https://vitest.dev), configured from a single root
-`config/vitest.config.js` (one `test.projects` entry per family). `component`
+`config/vitest.config.js` (one `test.projects` entry per family, plus an
+`app` project for the main app suite under `test/unit/**` —
+`yarn test-unit:app`, while `yarn workspace-packages-test` runs the families
+with `--project '!app'`). `component`
 runs under a jsdom environment, configured entirely in `vitest.config.js`
 (no setup file): `environmentOptions.jsdom.html` seeds a persistent
 `<div id="app">` for `@hsl-fi/modal`'s `appElement` prop, and `globals: true`

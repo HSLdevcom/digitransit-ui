@@ -22,7 +22,11 @@ E2E-tests are run with hsl, tampere and matka configs on github actions. Desktop
 
 ## Unit tests
 
-Unit tests can be run locally. This currently uses the `mocha` test runner. The pattern being watched is `'test/unit/**/*.test.js'`.
+Unit tests can be run locally. This uses the [Vitest](https://vitest.dev) test
+runner. The main app suite is the `app` project in the shared
+`config/vitest.config.js`, matching `'test/unit/**/*.test.js'`; the
+workspace-package suites are the other projects in the same config and run via
+`yarn workspace-packages-test` (which passes `--project '!app'`).
 
 Using yarn
 
@@ -30,13 +34,20 @@ Using yarn
 yarn run test-unit
 ```
 
-Run a single test using yarn
+Run just the app suite
 
 ```sh
-yarn run test-unit -g <name of the tested file without .test.js>
+yarn run test-unit:app
+```
+
+Run a single test by name (matches `describe`/`it` text)
+
+```sh
+yarn run test-single -t <pattern>
 ```
 
 Using the continuous watch mode
 
 ```sh
-yarn run test-unit -- --watch
+yarn run test-unit:app --watch
+```

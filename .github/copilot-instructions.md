@@ -30,7 +30,7 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
     checked separately via `scripts/workspace-packages/sort-translations.mjs`.
   - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
 - `server/` — Express SSR server.
-- `test/` — `unit/` (mocha, mirrors `app/`) and `e2e/` (Jest + Playwright visual tests).
+- `test/` — `unit/` (Vitest, mirrors `app/`) and `e2e/` (Jest + Playwright visual tests).
 - `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.mjs`, `contextHelper.js`,
   `generate-schema.js`, `theme/` theme-scaffolding scripts, `workspace-packages/` (readme
   generation, version checks, translation sort/check); see `scripts/README.md`).
@@ -75,15 +75,16 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 
 ## Tests
 
-- Unit tests (mocha, files under `test/unit/**/*.test.js`, mirrors `app/` structure e.g.
-  `test/unit/component/...`, `test/unit/store/...`, `test/unit/configurations/...`). This setup is
-  currently under refactoring — verify commands against `package.json` if they seem out of date:
+- Unit tests (Vitest, files under `test/unit/**/*.test.js`, mirrors `app/` structure e.g.
+  `test/unit/component/...`, `test/unit/store/...`, `test/unit/configurations/...`). The app suite
+  and the workspace-package suites share one `config/vitest.config.js`: the app suite is the `app`
+  project, the workspace packages are the other projects and run with `--project '!app'`.
   - For new React component tests, prefer **React Testing Library** and test components from the user's perspective rather than relying on implementation details.
-  - Run all: `yarn test-unit` (runs app + workspace `store`/`component` package tests).
+  - Run all: `yarn test-unit` (runs `workspace-packages-test` + `test-unit:app`).
   - Run just the app suite: `yarn test-unit:app`.
-  - Run a single test by name (grep on describe/it or filename stem):
-    `yarn test-single -g <pattern>` (this is `test-unit:app -g <pattern>`).
-  - Watch mode: `yarn run test-unit -- --watch`.
+  - Run a single test by name (matches `describe`/`it` text):
+    `yarn test-single -t <pattern>` (this is `test-unit:app -t <pattern>`).
+  - Watch mode: `yarn test-unit:app --watch`.
 - E2E/visual tests (Jest + Playwright, config under `test/e2e/jest.config.js`), require a prior
   `yarn build`:
   - `CONFIG=hsl yarn test:e2e` (desktop), `MOBILE=TRUE CONFIG=hsl yarn test:e2e` (mobile).
