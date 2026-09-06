@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 
 const testdata = {
@@ -33,7 +31,7 @@ describe('suggestionUtils', () => {
   describe('getNameLabel', () => {
     it('should include locality in plaintext gtfs stop label', () => {
       const label = getNameLabel(testdata.stop, true);
-      expect(label[1]).to.equal('Helsinki');
+      expect(label[1]).toBe('Helsinki');
     });
 
     it('should include agency in the plaintext for routes', () => {
@@ -47,7 +45,7 @@ describe('suggestionUtils', () => {
       };
 
       const label = getNameLabel(properties, true);
-      expect(label).to.deep.equal([
+      expect(label).toEqual([
         '32',
         'TAYS - Hervanta - Hatanpää-Tampella',
         'Tampereen joukkoliikenne',
@@ -63,7 +61,7 @@ describe('suggestionUtils', () => {
       };
 
       const label = getNameLabel(properties, true);
-      expect(label).to.deep.equal([
+      expect(label).toEqual([
         '32',
         'TAYS - Hervanta - Hatanpää-Tampella',
         undefined,

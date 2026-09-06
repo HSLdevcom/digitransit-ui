@@ -8,7 +8,7 @@ describe('<RouteNumber />', () => {
       mode: 'CITYBIKE',
     };
     const { container } = renderWithProviders(<RouteNumber {...props} />);
-    expect(container.querySelector('use').getAttribute('xlink:href')).to.equal(
+    expect(container.querySelector('use').getAttribute('xlink:href')).toBe(
       '#icon_citybike',
     );
   });
@@ -19,7 +19,7 @@ describe('<RouteNumber />', () => {
       mode: 'CITYBIKE',
     };
     const { container } = renderWithProviders(<RouteNumber {...props} />);
-    expect(container.querySelector('use').getAttribute('xlink:href')).to.equal(
+    expect(container.querySelector('use').getAttribute('xlink:href')).toBe(
       '#icon_scooter',
     );
   });
@@ -31,7 +31,7 @@ describe('<RouteNumber />', () => {
       mode: 'CITYBIKE',
     };
     const { container } = renderWithProviders(<RouteNumber {...props} />);
-    expect(container.querySelector('use').getAttribute('xlink:href')).to.equal(
+    expect(container.querySelector('use').getAttribute('xlink:href')).toBe(
       '#icon_scooter',
     );
   });
@@ -43,7 +43,7 @@ describe('<RouteNumber />', () => {
       mode: 'CITYBIKE',
     };
     const { container } = renderWithProviders(<RouteNumber {...props} />);
-    expect(container.querySelector('use').getAttribute('xlink:href')).to.equal(
+    expect(container.querySelector('use').getAttribute('xlink:href')).toBe(
       '#icon_scooter',
     );
   });

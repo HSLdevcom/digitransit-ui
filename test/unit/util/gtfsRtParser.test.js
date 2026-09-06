@@ -1,6 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-
 import { decode } from 'base64-arraybuffer';
 import bindings from '../../../app/util/gtfsrt';
 import { parseFeedMQTT } from '../../../app/util/gtfsRtParser';
@@ -19,7 +16,7 @@ describe('gtfsRtParser', () => {
         '/gtfsrt/vp/tampere///TRAM/8/1/Atala/5645934646/123456/14:35/130210/61;23/47/62/47/8/000000/',
       );
 
-      expect(result).to.deep.equal([
+      expect(result).toEqual([
         {
           id: 'tampere:130210',
           route: 'tampere:8',
@@ -48,7 +45,7 @@ describe('gtfsRtParser', () => {
         '/gtfsrt/vp/tampere////15//////TKL_23/61;23/47/62/47//',
       );
 
-      expect(result).to.deep.equal([
+      expect(result).toEqual([
         {
           id: 'tampere:TKL_23',
           route: 'tampere:15',

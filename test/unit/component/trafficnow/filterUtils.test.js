@@ -1,6 +1,3 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
-import sinon from 'sinon';
 import { filterAndSortAlerts } from '../../../../app/component/trafficnow/filters/filterUtils';
 
 const NOW_MS = 1_000_000;
@@ -23,14 +20,9 @@ const defaultFilters = {
 };
 
 describe('filterAndSortAlerts', () => {
-  let sandbox;
-
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(Date, 'now').returns(NOW_MS);
+    vi.spyOn(Date, 'now').mockReturnValue(NOW_MS);
   });
-
-  afterEach(() => sandbox.restore());
 
   describe('pastFilter — removes alerts whose end time has passed', () => {
     it('includes an alert when selectedFilters.now < effectiveEndDate * 1000', () => {
@@ -39,7 +31,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         now: 1_000_000,
       });
-      expect(result).to.include(alert);
+      expect(result).toContain(alert);
     });
 
     it('excludes an alert when selectedFilters.now >= effectiveEndDate * 1000', () => {
@@ -48,7 +40,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         now: 1_000_000,
       });
-      expect(result).to.not.include(alert);
+      expect(result).not.toContain(alert);
     });
   });
 
@@ -56,13 +48,13 @@ describe('filterAndSortAlerts', () => {
     it('excludes an alert whose alertEffect equals noEffect', () => {
       const alert = makeAlert({ alertEffect: 'NO_EFFECT' });
       const result = filterAndSortAlerts([alert], defaultFilters);
-      expect(result).to.have.length(0);
+      expect(result).toHaveLength(0);
     });
 
     it('includes an alert whose alertEffect differs from noEffect', () => {
       const alert = makeAlert({ alertEffect: 'DELAY' });
       const result = filterAndSortAlerts([alert], defaultFilters);
-      expect(result).to.include(alert);
+      expect(result).toContain(alert);
     });
   });
 
@@ -76,7 +68,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         validityPeriod: 'ALL',
       });
-      expect(result).to.include(alert);
+      expect(result).toContain(alert);
     });
 
     it('includes an active alert when validityPeriod is VALID', () => {
@@ -88,7 +80,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         validityPeriod: 'VALID',
       });
-      expect(result).to.include(alert);
+      expect(result).toContain(alert);
     });
 
     it('excludes a future alert when validityPeriod is VALID', () => {
@@ -100,7 +92,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         validityPeriod: 'VALID',
       });
-      expect(result).to.have.length(0);
+      expect(result).toHaveLength(0);
     });
 
     it('excludes an already-ended alert when validityPeriod is VALID', () => {
@@ -113,7 +105,7 @@ describe('filterAndSortAlerts', () => {
         now: 100,
         validityPeriod: 'VALID',
       });
-      expect(result).to.have.length(0);
+      expect(result).toHaveLength(0);
     });
 
     it('includes a future alert when validityPeriod is UPCOMING', () => {
@@ -125,7 +117,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         validityPeriod: 'UPCOMING',
       });
-      expect(result).to.include(alert);
+      expect(result).toContain(alert);
     });
 
     it('excludes an active alert when validityPeriod is UPCOMING', () => {
@@ -137,7 +129,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         validityPeriod: 'UPCOMING',
       });
-      expect(result).to.have.length(0);
+      expect(result).toHaveLength(0);
     });
 
     it('excludes an alert with no effectiveStartDate when validityPeriod is UPCOMING', () => {
@@ -146,7 +138,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         validityPeriod: 'UPCOMING',
       });
-      expect(result).to.have.length(0);
+      expect(result).toHaveLength(0);
     });
   });
 
@@ -157,7 +149,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         vehicleModes: [],
       });
-      expect(result).to.include(alert);
+      expect(result).toContain(alert);
     });
 
     it('includes an alert when a Stop entity vehicleMode matches a selected mode', () => {
@@ -166,7 +158,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         vehicleModes: ['BUS'],
       });
-      expect(result).to.include(alert);
+      expect(result).toContain(alert);
     });
 
     it('includes an alert when a Route entity mode matches a selected mode', () => {
@@ -175,7 +167,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         vehicleModes: ['TRAM'],
       });
-      expect(result).to.include(alert);
+      expect(result).toContain(alert);
     });
 
     it('includes an alert when a StopOnRoute entity route.mode matches a selected mode', () => {
@@ -184,7 +176,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         vehicleModes: ['RAIL'],
       });
-      expect(result).to.include(alert);
+      expect(result).toContain(alert);
     });
 
     it('excludes an alert when no entity matches any of the selected modes', () => {
@@ -193,7 +185,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         vehicleModes: ['TRAM'],
       });
-      expect(result).to.have.length(0);
+      expect(result).toHaveLength(0);
     });
 
     it('is case-insensitive when comparing modes', () => {
@@ -202,7 +194,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         vehicleModes: ['BUS'],
       });
-      expect(result).to.include(alert);
+      expect(result).toContain(alert);
     });
   });
 
@@ -210,7 +202,7 @@ describe('filterAndSortAlerts', () => {
     it('includes all alerts when no entity filter is set', () => {
       const alert = makeAlert({ entities: [{ gtfsId: 'HSL:1' }] });
       const result = filterAndSortAlerts([alert], defaultFilters);
-      expect(result).to.include(alert);
+      expect(result).toContain(alert);
     });
 
     it('includes an alert when one of its entities matches the filter entity gtfsId', () => {
@@ -219,7 +211,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         entity: { gtfsId: 'HSL:1' },
       });
-      expect(result).to.include(alert);
+      expect(result).toContain(alert);
     });
 
     it('excludes an alert when none of its entities match the filter entity gtfsId', () => {
@@ -228,7 +220,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         entity: { gtfsId: 'HSL:1' },
       });
-      expect(result).to.have.length(0);
+      expect(result).toHaveLength(0);
     });
   });
 
@@ -236,7 +228,7 @@ describe('filterAndSortAlerts', () => {
     it('includes all alerts when no favourites filter is set', () => {
       const alert = makeAlert({ entities: [{ gtfsId: 'HSL:1' }] });
       const result = filterAndSortAlerts([alert], defaultFilters);
-      expect(result).to.include(alert);
+      expect(result).toContain(alert);
     });
 
     it('includes an alert when an entity gtfsId is in the favourites Set', () => {
@@ -245,7 +237,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         favourites: new Set(['HSL:1']),
       });
-      expect(result).to.include(alert);
+      expect(result).toContain(alert);
     });
 
     it('excludes an alert when no entity gtfsId is in the favourites Set', () => {
@@ -254,7 +246,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         favourites: new Set(['HSL:1']),
       });
-      expect(result).to.have.length(0);
+      expect(result).toHaveLength(0);
     });
   });
 
@@ -265,7 +257,7 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         cancellations: true,
       });
-      expect(result).to.include(item);
+      expect(result).toContain(item);
     });
 
     it('excludes Alert type items when the cancellations filter is set', () => {
@@ -274,13 +266,13 @@ describe('filterAndSortAlerts', () => {
         ...defaultFilters,
         cancellations: true,
       });
-      expect(result).to.have.length(0);
+      expect(result).toHaveLength(0);
     });
 
     it('includes Alert type items when the cancellations filter is not set', () => {
       const alert = makeAlert({ __typename: 'Alert' });
       const result = filterAndSortAlerts([alert], defaultFilters);
-      expect(result).to.include(alert);
+      expect(result).toContain(alert);
     });
   });
 
@@ -290,9 +282,7 @@ describe('filterAndSortAlerts', () => {
       const a2 = makeAlert({ effectiveStartDate: 300 });
       const a3 = makeAlert({ effectiveStartDate: 600 });
       const result = filterAndSortAlerts([a1, a2, a3], defaultFilters);
-      expect(result.map(a => a.effectiveStartDate)).to.deep.equal([
-        300, 600, 800,
-      ]);
+      expect(result.map(a => a.effectiveStartDate)).toEqual([300, 600, 800]);
     });
   });
 });

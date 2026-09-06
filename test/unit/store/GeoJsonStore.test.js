@@ -9,7 +9,7 @@ import GeoJsonStore, {
 describe('GeoJsonStore', () => {
   let store;
   const dispatcher = () => {};
-  before(() => fetchMock.mockGlobal());
+  beforeAll(() => fetchMock.mockGlobal());
 
   beforeEach(() => {
     store = new GeoJsonStore(dispatcher);
@@ -20,11 +20,11 @@ describe('GeoJsonStore', () => {
     fetchMock.clearHistory();
   });
 
-  after(() => fetchMock.unmockGlobal());
+  afterAll(() => fetchMock.unmockGlobal());
 
   describe('getGeoJsonConfig', () => {
     it('should return undefined if the url is falsey', async () => {
-      expect(await store.getGeoJsonConfig(undefined)).to.equal(undefined);
+      expect(await store.getGeoJsonConfig(undefined)).toBe(undefined);
     });
 
     it('should retrieve the configuration from the given url', async () => {
@@ -33,7 +33,7 @@ describe('GeoJsonStore', () => {
       fetchMock.get(url, response);
 
       const result = await store.getGeoJsonConfig(url);
-      expect(result).to.deep.equal(response.geoJson.layers);
+      expect(result).toEqual(response.geoJson.layers);
     });
 
     it('should support lowercase naming', async () => {
@@ -42,7 +42,7 @@ describe('GeoJsonStore', () => {
       fetchMock.get(url, response);
 
       const result = await store.getGeoJsonConfig(url);
-      expect(result).to.deep.equal(response.geojson.layers);
+      expect(result).toEqual(response.geojson.layers);
     });
 
     it('should retrieve the configuration only once', async () => {
@@ -52,8 +52,8 @@ describe('GeoJsonStore', () => {
 
       const result1 = await store.getGeoJsonConfig(url);
       const result2 = await store.getGeoJsonConfig(url);
-      expect(fetchMock.callHistory.calls().length).to.equal(1);
-      expect(result1).to.equal(result2);
+      expect(fetchMock.callHistory.calls().length).toBe(1);
+      expect(result1).toBe(result2);
     });
 
     it('should ignore a missing configuration', async () => {
@@ -68,9 +68,7 @@ describe('GeoJsonStore', () => {
 
   describe('getGeoJsonData', () => {
     it('should return undefined if the url is falsey', async () => {
-      expect(await store.getGeoJsonData(undefined, 'foo', {})).to.equal(
-        undefined,
-      );
+      expect(await store.getGeoJsonData(undefined, 'foo', {})).toBe(undefined);
     });
 
     it('should retrieve the data only once', async () => {
@@ -83,8 +81,8 @@ describe('GeoJsonStore', () => {
 
       const result1 = await store.getGeoJsonData(url, undefined, undefined);
       const result2 = await store.getGeoJsonData(url, undefined, undefined);
-      expect(fetchMock.callHistory.calls().length).to.equal(1);
-      expect(result1).to.deep.equal(result2);
+      expect(fetchMock.callHistory.calls().length).toBe(1);
+      expect(result1).toEqual(result2);
     });
 
     it('should use the given name as the dataset name', async () => {
@@ -96,7 +94,7 @@ describe('GeoJsonStore', () => {
       fetchMock.get(url, response);
 
       const result = await store.getGeoJsonData(url, 'foo', undefined);
-      expect(result.name).to.equal('foo');
+      expect(result.name).toBe('foo');
     });
 
     it('should use the url as the dataset name', async () => {
@@ -108,7 +106,7 @@ describe('GeoJsonStore', () => {
       fetchMock.get(url, response);
 
       const result = await store.getGeoJsonData(url, undefined, undefined);
-      expect(result.name).to.equal(url);
+      expect(result.name).toBe(url);
     });
 
     it('should apply metadata mapping', async () => {
@@ -133,7 +131,7 @@ describe('GeoJsonStore', () => {
       const result = await store.getGeoJsonData(url, undefined, {
         name: 'foo',
       });
-      expect(result.data.features[0].properties.name).to.equal(
+      expect(result.data.features[0].properties.name).toBe(
         response.features[0].properties.foo,
       );
     });
@@ -169,10 +167,10 @@ describe('GeoJsonStore', () => {
       const dataClone = cloneDeep(data);
 
       MapJSON(data, undefined);
-      expect(data).to.deep.equal(dataClone);
+      expect(data).toEqual(dataClone);
 
       MapJSON(data, {});
-      expect(data).to.deep.equal(dataClone);
+      expect(data).toEqual(dataClone);
     });
 
     it('can map custom properties to known properties', () => {
@@ -222,9 +220,9 @@ describe('GeoJsonStore', () => {
       const p0 = geoJsonResponse.features[0].properties;
       const p1 = geoJsonResponse.features[1].properties;
 
-      expect(p0.textOnly).to.equal('this-text-is-visible');
-      expect(p0.name).to.equal('this-text-is-visible');
-      expect(p1.popupContent).to.equal('ponnahdusvalikko');
+      expect(p0.textOnly).toBe('this-text-is-visible');
+      expect(p0.name).toBe('this-text-is-visible');
+      expect(p1.popupContent).toBe('ponnahdusvalikko');
     });
   });
 
@@ -265,25 +263,21 @@ describe('GeoJsonStore', () => {
       };
 
       const output = styleFeatures(input);
-      expect(output).to.not.equal(input);
-      expect(output.features.length).to.equal(3);
-      expect(
-        output.features.filter(feature => feature.styles),
-      ).to.have.lengthOf(0);
-      expect(output.features[0].geometry).to.deep.equal(
-        output.features[1].geometry,
-      );
-      expect(output.features[0].style).to.deep.equal({
+      expect(output).not.toBe(input);
+      expect(output.features.length).toBe(3);
+      expect(output.features.filter(feature => feature.styles)).toHaveLength(0);
+      expect(output.features[0].geometry).toEqual(output.features[1].geometry);
+      expect(output.features[0].style).toEqual({
         color: 'black',
         type: 'line',
         weight: 1,
       });
-      expect(output.features[1].style).to.deep.equal({
+      expect(output.features[1].style).toEqual({
         color: 'gray',
         type: 'halo',
         weight: 5,
       });
-      expect(output.features[0]).to.not.equal(output.features[1]);
+      expect(output.features[0]).not.toBe(output.features[1]);
     });
 
     it('should return the same array if no styles exist', () => {
@@ -299,7 +293,7 @@ describe('GeoJsonStore', () => {
         ],
       };
       const output = styleFeatures(input);
-      expect(output).to.equal(input);
+      expect(output).toBe(input);
     });
   });
 });

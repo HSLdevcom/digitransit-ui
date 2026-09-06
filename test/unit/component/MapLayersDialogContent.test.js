@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
@@ -27,7 +25,7 @@ describe('<MapLayersDialogContent />', () => {
       childContextTypes: { ...mockChildContextTypes },
     });
 
-    expect(wrapper.find('.map-layer-header')).to.have.lengthOf(1);
+    expect(wrapper.find('.map-layer-header')).toHaveLength(1);
   });
 
   it('should update the vehicles layer', () => {
@@ -59,7 +57,7 @@ describe('<MapLayersDialogContent />', () => {
       .at(0)
       .simulate('change', { target: { checked: true } });
 
-    expect(mapLayers.vehicles).to.equal(true);
+    expect(mapLayers.vehicles).toBe(true);
   });
 
   it('should update the bus stop layer', () => {
@@ -97,7 +95,7 @@ describe('<MapLayersDialogContent />', () => {
       .at(0)
       .simulate('change', { target: { checked: true } });
 
-    expect(mapLayers.stop.bus).to.equal(true);
+    expect(mapLayers.stop.bus).toBe(true);
   });
 
   it('should update the tram stop layer', () => {
@@ -135,7 +133,7 @@ describe('<MapLayersDialogContent />', () => {
       .at(0)
       .simulate('change', { target: { checked: true } });
 
-    expect(mapLayers.stop.tram).to.equal(true);
+    expect(mapLayers.stop.tram).toBe(true);
   });
 
   it('should update the ferry stop layer', () => {
@@ -173,7 +171,7 @@ describe('<MapLayersDialogContent />', () => {
       .at(0)
       .simulate('change', { target: { checked: true } });
 
-    expect(mapLayers.stop.ferry).to.equal(true);
+    expect(mapLayers.stop.ferry).toBe(true);
   });
 
   it('should update the airplane stop layer', () => {
@@ -211,7 +209,7 @@ describe('<MapLayersDialogContent />', () => {
       .at(0)
       .simulate('change', { target: { checked: true } });
 
-    expect(mapLayers.stop.airplane).to.equal(true);
+    expect(mapLayers.stop.airplane).toBe(true);
   });
 
   it('should update the citybike layer', () => {
@@ -272,7 +270,7 @@ describe('<MapLayersDialogContent />', () => {
       .find('.option-checkbox.large input')
       .at(0)
       .simulate('change', { target: { checked: true } });
-    expect(mapLayers.citybike).to.equal(true);
+    expect(mapLayers.citybike).toBe(true);
   });
 
   it('should update the park&ride layer', () => {
@@ -307,7 +305,7 @@ describe('<MapLayersDialogContent />', () => {
       .at(0)
       .simulate('change', { target: { checked: true } });
 
-    expect(mapLayers.parkAndRide).to.equal(true);
+    expect(mapLayers.parkAndRide).toBe(true);
   });
 
   it('should include geoJson layers', () => {
@@ -374,11 +372,11 @@ describe('<MapLayersDialogContent />', () => {
       childContextTypes: { ...mockChildContextTypes },
     });
     const checkboxes = wrapper.find('.option-checkbox.large input');
-    expect(checkboxes.length).to.equal(2);
+    expect(checkboxes.length).toBe(2);
 
     checkboxes.at(1).simulate('change', { target: { checked: true } });
 
-    expect(mapLayers.geoJson.morejson).to.equal(true);
+    expect(mapLayers.geoJson.morejson).toBe(true);
   });
 
   describe('getGeoJsonLayersOrDefault', () => {
@@ -394,7 +392,7 @@ describe('<MapLayersDialogContent />', () => {
         },
       };
       const store = { layers: undefined };
-      expect(getGeoJsonLayersOrDefault(config, store)).to.equal(
+      expect(getGeoJsonLayersOrDefault(config, store)).toBe(
         config.geoJson.layers,
       );
     });
@@ -413,15 +411,15 @@ describe('<MapLayersDialogContent />', () => {
           },
         ],
       };
-      expect(getGeoJsonLayersOrDefault(config, store)).to.equal(store.layers);
+      expect(getGeoJsonLayersOrDefault(config, store)).toBe(store.layers);
     });
 
     it('should return the defaultValue', () => {
       const store = {};
       const defaultValue = [];
-      expect(
-        getGeoJsonLayersOrDefault(testConfig, store, defaultValue),
-      ).to.equal(defaultValue);
+      expect(getGeoJsonLayersOrDefault(testConfig, store, defaultValue)).toBe(
+        defaultValue,
+      );
     });
   });
 });

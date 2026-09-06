@@ -1,5 +1,3 @@
-import { assert } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 
 import NavigatorIntro from '../../../../../app/component/itinerary/navigator/navigatorintro/NavigatorIntro';
@@ -26,7 +24,7 @@ describe('<NavigatorIntro />', () => {
       },
     );
 
-    expect(wrapper.find('div.intro-body img')).to.have.lengthOf(1);
+    expect(wrapper.find('div.intro-body img')).toHaveLength(1);
   });
 
   it('should not render logo if prop is missing', () => {
@@ -37,6 +35,6 @@ describe('<NavigatorIntro />', () => {
       childContextTypes: { ...mockChildContextTypes },
     });
 
-    assert(wrapper.find('div.intro-body img'), undefined);
+    expect(wrapper.find('div.intro-body img')).toHaveLength(0);
   });
 });

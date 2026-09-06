@@ -1,6 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { renderWithProviders } from '../helpers/mock-providers';
 import TimetableRow from '../../../app/component/stop/TimetableRow';
 
@@ -12,9 +10,9 @@ describe('<TimetableRow />', () => {
       ...data.matchingFilteredRoutes,
     };
     const { container } = renderWithProviders(<TimetableRow {...props} />);
-    expect(
-      container.querySelectorAll('.timetablerow-linetime'),
-    ).to.have.lengthOf(2);
+    expect(container.querySelectorAll('.timetablerow-linetime')).toHaveLength(
+      2,
+    );
   });
 
   it('should apply style "display: none" when no suitable departure times exist for the filtered routes', () => {
@@ -22,7 +20,7 @@ describe('<TimetableRow />', () => {
       ...data.nonMatchingFilteredRoutes,
     };
     const { container } = renderWithProviders(<TimetableRow {...props} />);
-    expect(container.querySelector('.timetable-row').style.display).to.equal(
+    expect(container.querySelector('.timetable-row').style.display).toBe(
       'none',
     );
   });
@@ -58,11 +56,11 @@ describe('<TimetableRow />', () => {
       timerows: [],
     };
     const { container } = renderWithProviders(<TimetableRow {...props} />);
-    expect(
-      container.querySelectorAll('.timetablerow-linetime'),
-    ).to.have.lengthOf(2);
+    expect(container.querySelectorAll('.timetablerow-linetime')).toHaveLength(
+      2,
+    );
     expect(
       container.querySelectorAll('.timetablerow-linetime.canceled'),
-    ).to.have.lengthOf(1);
+    ).toHaveLength(1);
   });
 });

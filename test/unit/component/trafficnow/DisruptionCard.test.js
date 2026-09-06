@@ -1,8 +1,5 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
 import { createShallowHookSandbox } from '../../helpers/mock-intl-enzyme';
 import DisruptionCard from '../../../../app/component/trafficnow/DisruptionCard';
 import DisruptionStatus from '../../../../app/component/trafficnow/components/DisruptionStatus';
@@ -39,14 +36,10 @@ const makeAlert = (overrides = {}) => ({
 });
 
 describe('<DisruptionCard />', () => {
-  let sandbox;
-
   beforeEach(() => {
-    ({ sandbox } = createShallowHookSandbox({ config: baseConfig }));
-    sandbox.stub(Date, 'now').returns(NOW_MS);
+    createShallowHookSandbox({ config: baseConfig });
+    vi.spyOn(Date, 'now').mockReturnValue(NOW_MS);
   });
-
-  afterEach(() => sandbox.restore());
 
   describe('RouteBadges', () => {
     it('renders RouteBadges when entities are present', () => {
@@ -62,13 +55,13 @@ describe('<DisruptionCard />', () => {
         ],
       });
       const wrapper = shallow(<DisruptionCard alert={alert} />);
-      expect(wrapper.find(RouteBadges)).to.have.lengthOf(1);
+      expect(wrapper.find(RouteBadges)).toHaveLength(1);
     });
 
     it('still renders RouteBadges when entities is an empty array', () => {
       const alert = makeAlert({ entities: [] });
       const wrapper = shallow(<DisruptionCard alert={alert} />);
-      expect(wrapper.find(RouteBadges).prop('entities')).to.deep.equal([]);
+      expect(wrapper.find(RouteBadges).prop('entities')).toEqual([]);
     });
   });
 
@@ -77,15 +70,15 @@ describe('<DisruptionCard />', () => {
       const wrapper = shallow(
         <DisruptionCard alert={makeAlert()} isMobile={false} />,
       );
-      expect(wrapper.find('.separator.vertical')).to.have.lengthOf(1);
-      expect(wrapper.find('header').find(DisruptionStatus)).to.have.lengthOf(1);
+      expect(wrapper.find('.separator.vertical')).toHaveLength(1);
+      expect(wrapper.find('header').find(DisruptionStatus)).toHaveLength(1);
     });
 
     it('hides the header separator and moves DisruptionStatus below route badges when isMobile=true', () => {
       const wrapper = shallow(<DisruptionCard alert={makeAlert()} isMobile />);
-      expect(wrapper.find('.separator.vertical')).to.have.lengthOf(0);
-      expect(wrapper.find('header').find(DisruptionStatus)).to.have.lengthOf(0);
-      expect(wrapper.find(DisruptionStatus)).to.have.lengthOf(1);
+      expect(wrapper.find('.separator.vertical')).toHaveLength(0);
+      expect(wrapper.find('header').find(DisruptionStatus)).toHaveLength(0);
+      expect(wrapper.find(DisruptionStatus)).toHaveLength(1);
     });
 
     it('passes showDates=false to DisruptionStatus for INFO severity', () => {
@@ -93,7 +86,7 @@ describe('<DisruptionCard />', () => {
         alertSeverityLevel: AlertSeverityLevelType.Info,
       });
       const wrapper = shallow(<DisruptionCard alert={alert} />);
-      expect(wrapper.find(DisruptionStatus).prop('showDates')).to.equal(false);
+      expect(wrapper.find(DisruptionStatus).prop('showDates')).toBe(false);
     });
 
     it('passes showDates=true to DisruptionStatus for WARNING severity', () => {
@@ -101,19 +94,19 @@ describe('<DisruptionCard />', () => {
         alertSeverityLevel: AlertSeverityLevelType.Warning,
       });
       const wrapper = shallow(<DisruptionCard alert={alert} />);
-      expect(wrapper.find(DisruptionStatus).prop('showDates')).to.equal(true);
+      expect(wrapper.find(DisruptionStatus).prop('showDates')).toBe(true);
     });
   });
 
   describe('onClick delegation', () => {
     it('calls onClick with the alert id when the card is clicked', () => {
-      const onClickSpy = sinon.spy();
+      const onClickSpy = vi.fn();
       const alert = makeAlert({ id: 'alert-42' });
       const wrapper = shallow(
         <DisruptionCard alert={alert} onClick={onClickSpy} />,
       );
       wrapper.find(Card).prop('onClick')();
-      expect(onClickSpy.firstCall.args[0]).to.equal('alert-42');
+      expect(onClickSpy.mock.calls[0][0]).toBe('alert-42');
     });
   });
 
@@ -121,7 +114,7 @@ describe('<DisruptionCard />', () => {
     it('does not render RouteBadges when entities is null', () => {
       const alert = makeAlert({ entities: null });
       const wrapper = shallow(<DisruptionCard alert={alert} />);
-      expect(wrapper.find(RouteBadges)).to.have.lengthOf(0);
+      expect(wrapper.find(RouteBadges)).toHaveLength(0);
     });
   });
 });

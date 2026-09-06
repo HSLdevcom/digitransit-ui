@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 import { renderWithProviders } from './helpers/mock-providers';
 
@@ -47,6 +45,6 @@ describe('<ItineraryDetails />', () => {
       tabIndex: 0,
     };
     const { container } = renderWithProviders(<ItineraryDetails {...props} />);
-    expect(container.querySelector('.itinerary-tab')).to.not.equal(null);
+    expect(container.querySelector('.itinerary-tab')).not.toBe(null);
   });
 });

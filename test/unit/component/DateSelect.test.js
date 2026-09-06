@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { Settings } from 'luxon';
 
 import { getDateOptions } from '../../../app/component/stop/DateSelect';
@@ -12,9 +10,14 @@ describe('<DateSelect />', () => {
     onDateChange: event => event.target.value,
   };
 
-  after(() => {
+  beforeAll(() => {
     Settings.defaultLocale = 'en';
-    Settings.defaultZone = 'system';
+    Settings.defaultZone = 'Europe/Helsinki';
+  });
+
+  afterAll(() => {
+    Settings.defaultLocale = 'fi';
+    Settings.defaultZone = 'Europe/Helsinki';
   });
 
   it('should render 60 options', () => {
@@ -24,7 +27,7 @@ describe('<DateSelect />', () => {
       defaultProps.selectedDate,
       ({ defaultMessage }) => defaultMessage,
     );
-    expect(options).to.have.lengthOf(60);
+    expect(options).toHaveLength(60);
   });
 
   it('should render today and tomorrow as text, others as weekday abbreviation with date', () => {
@@ -34,9 +37,9 @@ describe('<DateSelect />', () => {
       defaultProps.selectedDate,
       ({ defaultMessage }) => defaultMessage,
     );
-    expect(options[0].textLabel).to.equal('Today');
-    expect(options[1].textLabel).to.equal('Tomorrow');
-    expect(options[2].textLabel).to.equal('Thu 3.1.');
+    expect(options[0].textLabel).toBe('Today');
+    expect(options[1].textLabel).toBe('Tomorrow');
+    expect(options[2].textLabel).toBe('Thu 3.1.');
   });
 
   it('should use correct locale for weekday abbreviation', () => {
@@ -49,7 +52,7 @@ describe('<DateSelect />', () => {
       defaultProps.selectedDate,
       ({ defaultMessage }) => defaultMessage,
     );
-    expect(options[2].textLabel).to.equal('to 3.1.');
+    expect(options[2].textLabel).toBe('to 3.1.');
   });
 
   it('should have selectedDate selected', () => {
@@ -61,6 +64,6 @@ describe('<DateSelect />', () => {
     );
     expect(
       options.find(option => option.value === defaultProps.selectedDate),
-    ).to.not.equal(undefined);
+    ).not.toBe(undefined);
   });
 });

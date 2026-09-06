@@ -89,9 +89,7 @@ describe('<TicketInformation />', () => {
       context: { config: defaultConfig },
     });
 
-    expect(wrapper.find('.ticket-type-zone.multi-component')).to.have.lengthOf(
-      2,
-    );
+    expect(wrapper.find('.ticket-type-zone.multi-component')).toHaveLength(2);
   });
 
   it('should show a "multiple tickets required" title when there are multiple components', () => {
@@ -148,7 +146,7 @@ describe('<TicketInformation />', () => {
     const wrapper = mountWithIntl(<TicketInformation {...props} />, {
       context: { config: defaultConfig },
     });
-    expect(wrapper.find('.ticket-title').first().text()).to.equal(
+    expect(wrapper.find('.ticket-title').first().text()).toBe(
       'Required tickets:',
     );
   });
@@ -187,7 +185,7 @@ describe('<TicketInformation />', () => {
       context: { config: defaultConfig },
     });
 
-    expect(wrapper.find('.ticket-title').first().text()).to.equal(
+    expect(wrapper.find('.ticket-title').first().text()).toBe(
       'Required ticket:',
     );
   });
@@ -214,9 +212,9 @@ describe('<TicketInformation />', () => {
       context: { config: defaultConfig },
     });
 
-    expect(wrapper.find('.ticket-type-zone')).to.have.lengthOf(0);
-    expect(wrapper.find('.ticket-title')).to.have.lengthOf(0);
-    expect(wrapper.find('.itinerary-ticket-type')).to.have.lengthOf(0);
+    expect(wrapper.find('.ticket-type-zone')).toHaveLength(0);
+    expect(wrapper.find('.ticket-title')).toHaveLength(0);
+    expect(wrapper.find('.itinerary-ticket-type')).toHaveLength(0);
   });
 
   it('should convert and show the total fare when showTicketPrice is true', () => {
@@ -253,7 +251,7 @@ describe('<TicketInformation />', () => {
       context: { config: defaultConfig },
     });
 
-    expect(wrapper.find('.ticket-description').text()).to.contain('3.10 €');
+    expect(wrapper.find('.ticket-description').text()).toContain('3.10 €');
   });
 
   it('should not show the total fare when showTicketPrice is false', () => {
@@ -290,7 +288,7 @@ describe('<TicketInformation />', () => {
       context: { config: { ...defaultConfig, showTicketPrice: false } },
     });
 
-    expect(wrapper.find('.ticket-description')).to.have.lengthOf(0);
+    expect(wrapper.find('.ticket-description')).toHaveLength(0);
   });
 
   it('should use a zone ticket icon if configured', () => {
@@ -333,7 +331,7 @@ describe('<TicketInformation />', () => {
         },
       },
     });
-    expect(wrapper.find(ZoneTicket)).to.have.lengthOf(1);
+    expect(wrapper.find(ZoneTicket)).toHaveLength(1);
   });
 
   it('should use the mapped name for the ticket', () => {
@@ -374,9 +372,7 @@ describe('<TicketInformation />', () => {
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
       context: { config },
     });
-    expect(wrapper.find('.ticket-identifier').text()).to.equal(
-      'foo_HSL:AB_bar',
-    );
+    expect(wrapper.find('.ticket-identifier').text()).toBe('foo_HSL:AB_bar');
   });
 
   it('should use a zone ticket icon if configured', () => {
@@ -418,7 +414,7 @@ describe('<TicketInformation />', () => {
         },
       },
     });
-    expect(wrapper.find(ZoneTicket)).to.have.lengthOf(1);
+    expect(wrapper.find(ZoneTicket)).toHaveLength(1);
   });
 
   it('should show AB and BC tickets for a trip within B zone', () => {
@@ -467,9 +463,9 @@ describe('<TicketInformation />', () => {
       },
     });
 
-    expect(wrapper.find(ZoneTicket)).to.have.lengthOf(2);
-    expect(wrapper.find(ZoneTicket).at(0).props().ticketType).to.equal('AB');
-    expect(wrapper.find(ZoneTicket).at(1).props().ticketType).to.equal('BC');
+    expect(wrapper.find(ZoneTicket)).toHaveLength(2);
+    expect(wrapper.find(ZoneTicket).at(0).props().ticketType).toBe('AB');
+    expect(wrapper.find(ZoneTicket).at(1).props().ticketType).toBe('BC');
   });
 
   it('should show a fare url link for the agency', () => {
@@ -506,7 +502,7 @@ describe('<TicketInformation />', () => {
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
       context: { config: { ...defaultConfig } },
     });
-    expect(wrapper.find('a').prop('href')).to.equal('foobar');
+    expect(wrapper.find('a').prop('href')).toBe('foobar');
   });
 
   it('should include unknown fares to the listing', () => {
@@ -569,15 +565,15 @@ describe('<TicketInformation />', () => {
     const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
       context: { config: { ...defaultConfig } },
     });
-    expect(wrapper.find('.ticket-identifier')).to.have.lengthOf(2);
+    expect(wrapper.find('.ticket-identifier')).toHaveLength(2);
 
     const ticketWrapper = wrapper.find('.ticket-type-zone').at(1);
-    expect(ticketWrapper.find('.ticket-identifier').text()).to.equal(
+    expect(ticketWrapper.find('.ticket-identifier').text()).toBe(
       'Merisataman lautta',
     );
-    expect(ticketWrapper.find('.ticket-description').text()).to.equal(
+    expect(ticketWrapper.find('.ticket-description').text()).toBe(
       'Merisataman lauttaliikenne',
     );
-    expect(wrapper.find('a').prop('href')).to.equal('foobaz');
+    expect(wrapper.find('a').prop('href')).toBe('foobaz');
   });
 });

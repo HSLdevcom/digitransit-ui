@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { afterEach, beforeEach, describe, it } from 'mocha';
 import { DateTime, Settings } from 'luxon';
 import {
   formatDateLabel,
@@ -47,7 +45,7 @@ describe('dateSelectUtils', () => {
 
       const result = formatDateLabel(date, today, tomorrow, mockIntl);
 
-      expect(result).to.equal('Today');
+      expect(result).toBe('Today');
     });
 
     it('should return "Tomorrow" for tomorrow\'s date', () => {
@@ -57,7 +55,7 @@ describe('dateSelectUtils', () => {
 
       const result = formatDateLabel(date, today, tomorrow, mockIntl);
 
-      expect(result).to.equal('Tomorrow');
+      expect(result).toBe('Tomorrow');
     });
 
     it('should return formatted date for other dates', () => {
@@ -67,7 +65,7 @@ describe('dateSelectUtils', () => {
 
       const result = formatDateLabel(date, today, tomorrow, mockIntl);
 
-      expect(result).to.equal('Sat 20.1.');
+      expect(result).toBe('Sat 20.1.');
     });
   });
 
@@ -78,7 +76,7 @@ describe('dateSelectUtils', () => {
 
       const result = formatWeekLabel(weekNum, currentWeek, mockIntl);
 
-      expect(result).to.equal('This week');
+      expect(result).toBe('This week');
     });
 
     it('should return "Next week" for next week', () => {
@@ -87,7 +85,7 @@ describe('dateSelectUtils', () => {
 
       const result = formatWeekLabel(weekNum, currentWeek, mockIntl);
 
-      expect(result).to.equal('Next week');
+      expect(result).toBe('Next week');
     });
 
     it('should return week number for other weeks', () => {
@@ -96,7 +94,7 @@ describe('dateSelectUtils', () => {
 
       const result = formatWeekLabel(weekNum, currentWeek, mockIntl);
 
-      expect(result).to.equal('Week 5');
+      expect(result).toBe('Week 5');
     });
   });
 
@@ -112,12 +110,12 @@ describe('dateSelectUtils', () => {
 
       const result = processDates(dates, today, tomorrow, dateFormat, mockIntl);
 
-      expect(result).to.have.lengthOf(3);
-      expect(result[0].textLabel).to.equal('Today');
-      expect(result[0].value).to.equal('20240115');
-      expect(result[1].textLabel).to.equal('Tomorrow');
-      expect(result[1].value).to.equal('20240116');
-      expect(result[2].value).to.equal('20240117');
+      expect(result).toHaveLength(3);
+      expect(result[0].textLabel).toBe('Today');
+      expect(result[0].value).toBe('20240115');
+      expect(result[1].textLabel).toBe('Tomorrow');
+      expect(result[1].value).toBe('20240116');
+      expect(result[2].value).toBe('20240117');
     });
 
     it('should include dateObj and weekNumber in processed dates', () => {
@@ -127,9 +125,9 @@ describe('dateSelectUtils', () => {
 
       const result = processDates(dates, today, tomorrow, dateFormat, mockIntl);
 
-      expect(result[0]).to.have.property('dateObj');
-      expect(result[0]).to.have.property('weekNumber');
-      expect(result[0].weekNumber).to.be.a('number');
+      expect(result[0]).toHaveProperty('dateObj');
+      expect(result[0]).toHaveProperty('weekNumber');
+      expect(typeof result[0].weekNumber).toBe('number');
     });
   });
 
@@ -161,11 +159,11 @@ describe('dateSelectUtils', () => {
 
       const result = groupDatesByWeek(processedDates, 3, mockIntl);
 
-      expect(result).to.have.lengthOf(2);
-      expect(result[0].label).to.equal('This week');
-      expect(result[0].options).to.have.lengthOf(2);
-      expect(result[1].label).to.equal('Next week');
-      expect(result[1].options).to.have.lengthOf(1);
+      expect(result).toHaveLength(2);
+      expect(result[0].label).toBe('This week');
+      expect(result[0].options).toHaveLength(2);
+      expect(result[1].label).toBe('Next week');
+      expect(result[1].options).toHaveLength(1);
     });
 
     it('should include accessibility labels in grouped options', () => {
@@ -181,8 +179,8 @@ describe('dateSelectUtils', () => {
 
       const result = groupDatesByWeek(processedDates, 3, mockIntl);
 
-      expect(result[0].options[0]).to.have.property('ariaLabel');
-      expect(result[0].options[0].ariaLabel).to.equal('Monday 15.1.');
+      expect(result[0].options[0]).toHaveProperty('ariaLabel');
+      expect(result[0].options[0].ariaLabel).toBe('Monday 15.1.');
     });
 
     it('should sort weeks in ascending order', () => {
@@ -212,10 +210,10 @@ describe('dateSelectUtils', () => {
 
       const result = groupDatesByWeek(processedDates, 3, mockIntl);
 
-      expect(result).to.have.lengthOf(3);
-      expect(result[0].label).to.equal('This week');
-      expect(result[1].label).to.equal('Next week');
-      expect(result[2].label).to.equal('Week 5');
+      expect(result).toHaveLength(3);
+      expect(result[0].label).toBe('This week');
+      expect(result[1].label).toBe('Next week');
+      expect(result[2].label).toBe('Week 5');
     });
   });
 
@@ -226,9 +224,9 @@ describe('dateSelectUtils', () => {
 
       const result = generateDateRange(startDate, numberOfDays, 'en');
 
-      expect(result).to.have.lengthOf(7);
-      expect(result[0].toISODate()).to.equal('2024-01-15');
-      expect(result[6].toISODate()).to.equal('2024-01-21');
+      expect(result).toHaveLength(7);
+      expect(result[0].toISODate()).toBe('2024-01-15');
+      expect(result[6].toISODate()).toBe('2024-01-21');
     });
 
     it('should set correct locale', () => {
@@ -237,7 +235,7 @@ describe('dateSelectUtils', () => {
 
       const result = generateDateRange(startDate, numberOfDays, 'fi');
 
-      expect(result[0].locale).to.equal('fi');
+      expect(result[0].locale).toBe('fi');
     });
 
     it('should normalize dates to start of day', () => {
@@ -248,9 +246,9 @@ describe('dateSelectUtils', () => {
 
       const result = generateDateRange(startDate, numberOfDays, 'en');
 
-      expect(result[0].hour).to.equal(0);
-      expect(result[0].minute).to.equal(0);
-      expect(result[0].second).to.equal(0);
+      expect(result[0].hour).toBe(0);
+      expect(result[0].minute).toBe(0);
+      expect(result[0].second).toBe(0);
     });
   });
 
@@ -260,7 +258,7 @@ describe('dateSelectUtils', () => {
 
       const result = extractSelectedValue(selectedDay, dateFormat);
 
-      expect(result).to.equal('20240115');
+      expect(result).toBe('20240115');
     });
 
     it('should return undefined for invalid DateTime', () => {
@@ -268,25 +266,25 @@ describe('dateSelectUtils', () => {
 
       const result = extractSelectedValue(invalidDate, dateFormat);
 
-      expect(result).to.equal(undefined);
+      expect(result).toBe(undefined);
     });
 
     it('should return undefined for null', () => {
       const result = extractSelectedValue(null, dateFormat);
 
-      expect(result).to.equal(undefined);
+      expect(result).toBe(undefined);
     });
 
     it('should return undefined for undefined', () => {
       const result = extractSelectedValue(undefined, dateFormat);
 
-      expect(result).to.equal(undefined);
+      expect(result).toBe(undefined);
     });
 
     it('should return undefined for non-DateTime objects', () => {
       const result = extractSelectedValue('2024-01-15', dateFormat);
 
-      expect(result).to.equal(undefined);
+      expect(result).toBe(undefined);
     });
   });
 });

@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { mockMatch } from '../helpers/mock-router';
@@ -16,6 +14,6 @@ describe('<TripStopsContainer />', () => {
     const { container } = renderWithProviders(
       <TripStopsContainer {...props} />,
     );
-    expect(container.innerHTML).to.equal('');
+    expect(container.innerHTML).toBe('');
   });
 });

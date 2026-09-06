@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
 import { shallow } from 'enzyme';
 import { createShallowHookSandbox } from '../../helpers/mock-intl-enzyme';
@@ -16,62 +14,71 @@ const baseConfig = {
 };
 
 describe('<TrafficNowHeader />', () => {
-  let sandbox;
   let stubs;
 
   beforeEach(() => {
-    ({ sandbox, stubs } = createShallowHookSandbox({ config: baseConfig }));
-    sandbox.stub(withBreakpoint, 'useBreakpoint').returns('large');
-    sandbox.stub(useLogo, 'useLogo').returns({ logo: null, loading: false });
+    ({ stubs } = createShallowHookSandbox({ config: baseConfig }));
+    vi.spyOn(withBreakpoint, 'useBreakpoint').mockReturnValue('large');
+    vi.spyOn(useLogo, 'useLogo').mockReturnValue({
+      logo: null,
+      loading: false,
+    });
   });
-
-  afterEach(() => sandbox.restore());
 
   describe('Desktop vs mobile class', () => {
     it('does not apply --mobile modifier on large breakpoint', () => {
       const wrapper = shallow(<TrafficNowHeader />);
-      expect(wrapper.hasClass('traffic-now__header--mobile')).to.equal(false);
+      expect(wrapper.hasClass('traffic-now__header--mobile')).toBe(false);
     });
 
     it('applies --mobile modifier on small breakpoint', () => {
-      withBreakpoint.useBreakpoint.returns('small');
+      withBreakpoint.useBreakpoint.mockReturnValue('small');
       const wrapper = shallow(<TrafficNowHeader />);
-      expect(wrapper.hasClass('traffic-now__header--mobile')).to.equal(true);
+      expect(wrapper.hasClass('traffic-now__header--mobile')).toBe(true);
     });
   });
 
   describe('Header logo image', () => {
     it('renders the logo <img> on desktop when a logo URL is returned by useLogo', () => {
-      useLogo.useLogo.returns({ logo: '/path/to/header.svg', loading: false });
+      useLogo.useLogo.mockReturnValue({
+        logo: '/path/to/header.svg',
+        loading: false,
+      });
       const wrapper = shallow(<TrafficNowHeader />);
-      expect(wrapper.find('img')).to.have.lengthOf(1);
+      expect(wrapper.find('img')).toHaveLength(1);
     });
 
     it('does not render the logo <img> on mobile even when a logo is available', () => {
-      withBreakpoint.useBreakpoint.returns('small');
-      useLogo.useLogo.returns({ logo: '/path/to/header.svg', loading: false });
+      withBreakpoint.useBreakpoint.mockReturnValue('small');
+      useLogo.useLogo.mockReturnValue({
+        logo: '/path/to/header.svg',
+        loading: false,
+      });
       const wrapper = shallow(<TrafficNowHeader />);
-      expect(wrapper.find('img')).to.have.lengthOf(0);
+      expect(wrapper.find('img')).toHaveLength(0);
     });
 
     it('does not render the logo <img> on desktop when no logo is available', () => {
-      useLogo.useLogo.returns({ logo: null, loading: false });
+      useLogo.useLogo.mockReturnValue({ logo: null, loading: false });
       const wrapper = shallow(<TrafficNowHeader />);
-      expect(wrapper.find('img')).to.have.lengthOf(0);
+      expect(wrapper.find('img')).toHaveLength(0);
     });
   });
 
   describe('HSL-specific AdditionalDescription', () => {
     it('renders AdditionalDescription when CONFIG is hsl', () => {
-      stubs.useConfigContext.returns({ ...baseConfig, CONFIG: 'hsl' });
+      stubs.useConfigContext.mockReturnValue({ ...baseConfig, CONFIG: 'hsl' });
       const wrapper = shallow(<TrafficNowHeader />);
-      expect(wrapper.find('AdditionalDescription')).to.have.lengthOf(1);
+      expect(wrapper.find('AdditionalDescription')).toHaveLength(1);
     });
 
     it('does not render AdditionalDescription when CONFIG is not hsl', () => {
-      stubs.useConfigContext.returns({ ...baseConfig, CONFIG: 'default' });
+      stubs.useConfigContext.mockReturnValue({
+        ...baseConfig,
+        CONFIG: 'default',
+      });
       const wrapper = shallow(<TrafficNowHeader />);
-      expect(wrapper.find('AdditionalDescription')).to.have.lengthOf(0);
+      expect(wrapper.find('AdditionalDescription')).toHaveLength(0);
     });
   });
 });

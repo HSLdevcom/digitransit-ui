@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import IntermediateLeg from '../../../app/component/itinerary/IntermediateLeg';
@@ -28,10 +26,10 @@ describe('<IntermediateLeg />', () => {
         colors: { primary: '#007ac9' },
       },
     });
-    expect(container.querySelectorAll('.zone-dual')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.zone-dual')).toHaveLength(1);
     expect(
       container.querySelectorAll('.time-column-zone-icons-container .circle'),
-    ).to.have.lengthOf(2);
+    ).toHaveLength(2);
   });
 
   it('should apply class zone-triple for triple zones', () => {
@@ -50,10 +48,10 @@ describe('<IntermediateLeg />', () => {
         colors: { primary: '#007ac9' },
       },
     });
-    expect(container.querySelectorAll('.zone-triple')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.zone-triple')).toHaveLength(1);
     expect(
       container.querySelectorAll('.time-column-zone-icons-container .circle'),
-    ).to.have.lengthOf(3);
+    ).toHaveLength(3);
   });
 
   it('should not apply class zone-dual for triple zones', () => {
@@ -72,7 +70,7 @@ describe('<IntermediateLeg />', () => {
         colors: { primary: '#007ac9' },
       },
     });
-    expect(container.querySelectorAll('.zone-dual')).to.have.lengthOf(0);
+    expect(container.querySelectorAll('.zone-dual')).toHaveLength(0);
   });
 
   it('should apply class zone-previous when there is a current zone and a previous zone', () => {
@@ -90,10 +88,10 @@ describe('<IntermediateLeg />', () => {
         colors: { primary: '#007ac9' },
       },
     });
-    expect(container.querySelectorAll('.zone-previous')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.zone-previous')).toHaveLength(1);
     expect(
       container.querySelectorAll('.time-column-zone-icons-container .circle'),
-    ).to.have.lengthOf(2);
+    ).toHaveLength(2);
   });
 
   it('should not show any zone limit information if disabled', () => {
@@ -107,11 +105,11 @@ describe('<IntermediateLeg />', () => {
     const { container } = renderWithProviders(<IntermediateLeg {...props} />, {
       config: { CONFIG: 'default', colors: { primary: '#007ac9' } },
     });
-    expect(container.querySelectorAll('.zone-dual')).to.have.lengthOf(0);
-    expect(container.querySelectorAll('.zone-triple')).to.have.lengthOf(0);
-    expect(container.querySelectorAll('.zone-previous')).to.have.lengthOf(0);
+    expect(container.querySelectorAll('.zone-dual')).toHaveLength(0);
+    expect(container.querySelectorAll('.zone-triple')).toHaveLength(0);
+    expect(container.querySelectorAll('.zone-previous')).toHaveLength(0);
     expect(
       container.querySelectorAll('.time-column-zone-icons-container'),
-    ).to.have.lengthOf(0);
+    ).toHaveLength(0);
   });
 });

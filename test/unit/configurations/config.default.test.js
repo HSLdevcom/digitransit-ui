@@ -1,6 +1,3 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-
 import defaultConfig from '../../../app/configurations/config.default';
 
 describe('default configuration', () => {
@@ -12,7 +9,7 @@ describe('default configuration', () => {
         },
       };
       const result = defaultConfig.realTime.HSL.routeSelector(props);
-      expect(result).to.equal('12345');
+      expect(result).toBe('12345');
     });
   });
 });

@@ -18,16 +18,16 @@ const resize = (width, height) => {
 describe('useWindowSize()', () => {
   it('should return browser window size', () => {
     const { result } = renderHook(() => useWindowSize());
-    expect(result.current.width).to.equal(1024);
-    expect(result.current.height).to.equal(768);
-    expect(result.current.outer.width).to.equal(1024);
-    expect(result.current.outer.height).to.equal(768);
+    expect(result.current.width).toBe(1024);
+    expect(result.current.height).toBe(768);
+    expect(result.current.outer.width).toBe(1024);
+    expect(result.current.outer.height).toBe(768);
   });
 
   it('should update on resize event', () => {
     const { result } = renderHook(() => useWindowSize());
-    expect(result.current.width).to.equal(1024, 'initial width');
+    expect(result.current.width).toBe(1024, 'initial width');
     resize(500, 768);
-    expect(result.current.width).to.equal(500, 'width after resize');
+    expect(result.current.width).toBe(500, 'width after resize');
   });
 });

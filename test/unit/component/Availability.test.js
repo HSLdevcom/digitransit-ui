@@ -13,7 +13,7 @@ describe('<Availability />', () => {
       showStatusBar: true,
     };
     const { container } = render(<Availability {...props} />);
-    expect(container.querySelector('.test-text').textContent).to.equal('foo');
+    expect(container.querySelector('.test-text').textContent).toBe('foo');
   });
 
   it('should render status bar when showStatusBar is true', () => {
@@ -26,8 +26,8 @@ describe('<Availability />', () => {
       showStatusBar: true,
     };
     const { container } = render(<Availability {...props} />);
-    expect(container.querySelectorAll('.available-few')).to.have.lengthOf(1);
-    expect(container.querySelectorAll('.available-none')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.available-few')).toHaveLength(1);
+    expect(container.querySelectorAll('.available-none')).toHaveLength(1);
   });
 
   it('should not render status bar when showStatusBar is false', () => {
@@ -40,7 +40,7 @@ describe('<Availability />', () => {
       showStatusBar: false,
     };
     const { container } = render(<Availability {...props} />);
-    expect(container.querySelectorAll('.available-few')).to.have.lengthOf(0);
-    expect(container.querySelectorAll('.available-none')).to.have.lengthOf(0);
+    expect(container.querySelectorAll('.available-few')).toHaveLength(0);
+    expect(container.querySelectorAll('.available-none')).toHaveLength(0);
   });
 });

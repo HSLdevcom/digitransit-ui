@@ -27,7 +27,7 @@ describe('<PointFeatureMarker />', () => {
       language: 'fi',
     };
     const wrapper = shallowWithIntl(<PointFeatureMarker {...props} />);
-    expect(wrapper.isEmptyRender()).to.equal(false);
+    expect(wrapper.isEmptyRender()).toBe(false);
   });
 
   it('should render empty if the geometry type is not Point', () => {
@@ -45,7 +45,7 @@ describe('<PointFeatureMarker />', () => {
       language: 'fi',
     };
     const wrapper = shallowWithIntl(<PointFeatureMarker {...props} />);
-    expect(wrapper.isEmptyRender()).to.equal(true);
+    expect(wrapper.isEmptyRender()).toBe(true);
   });
 
   it('should use the name property as header', () => {
@@ -63,7 +63,7 @@ describe('<PointFeatureMarker />', () => {
       language: 'fi',
     };
     const wrapper = shallowWithIntl(<PointFeatureMarker {...props} />);
-    expect(wrapper.find(PopupHeader).props().header).to.equal('foobar');
+    expect(wrapper.find(PopupHeader).props().header).toBe('foobar');
   });
 
   it('should use the address and city properties as header', () => {
@@ -81,7 +81,7 @@ describe('<PointFeatureMarker />', () => {
       language: 'fi',
     };
     const wrapper = shallowWithIntl(<PointFeatureMarker {...props} />);
-    expect(wrapper.find(PopupHeader).props().header).to.equal('foo, bar');
+    expect(wrapper.find(PopupHeader).props().header).toBe('foo, bar');
   });
 
   it('should use the address and city properties as description', () => {
@@ -100,12 +100,12 @@ describe('<PointFeatureMarker />', () => {
       language: 'fi',
     };
     const wrapper = shallowWithIntl(<PointFeatureMarker {...props} />);
-    expect(wrapper.find(PopupHeader).props().subHeader).to.equal('foo, bar');
+    expect(wrapper.find(PopupHeader).props().subHeader).toBe('foo, bar');
   });
 
   describe('getPropertyValueOrDefault', () => {
     it('should return the defaultValue if properties is falsey', () => {
-      expect(getPropertyValueOrDefault(undefined, 'foo', 'fi', 'bar')).to.equal(
+      expect(getPropertyValueOrDefault(undefined, 'foo', 'fi', 'bar')).toBe(
         'bar',
       );
     });
@@ -113,46 +113,46 @@ describe('<PointFeatureMarker />', () => {
     it('should return the defaultValue if propertyName is falsey', () => {
       expect(
         getPropertyValueOrDefault({ foo: 'bar' }, undefined, 'fi', 'baz'),
-      ).to.equal('baz');
+      ).toBe('baz');
     });
 
     it('should return the value of the non-translated property if it exists and the language is falsey', () => {
       expect(
         getPropertyValueOrDefault({ foo: 'bar' }, 'foo', undefined, 'baz'),
-      ).to.equal('bar');
+      ).toBe('bar');
     });
 
     it('should return the value of the translated property if it exists for the given language', () => {
       expect(
         getPropertyValueOrDefault({ foo_fi: 'bar' }, 'foo', 'fi', 'baz'),
-      ).to.equal('bar');
+      ).toBe('bar');
     });
 
     it('should return the defaultValue if the property has no value', () => {
       expect(
         getPropertyValueOrDefault({ foo_fi: undefined }, 'foo', 'fi', 'baz'),
-      ).to.equal('baz');
+      ).toBe('baz');
     });
   });
 
   describe('getRoundIcon', () => {
     it('should return an svg icon with a non-zero radius', () => {
       const icon = getRoundIcon(12);
-      expect(icon.options.html).to.contain('svg');
-      expect(icon.options.iconSize).to.deep.equal([3, 3]);
+      expect(icon.options.html).toContain('svg');
+      expect(icon.options.iconSize).toEqual([3, 3]);
     });
   });
 
   describe('getCustomIcon', () => {
     it('should return a scaled custom icon', () => {
       const icon = getCustomIcon(CUSTOM_ICON_MIN_ZOOM, 'foobar', 20);
-      expect(icon.options.iconAnchor[0]).to.equal(
+      expect(icon.options.iconAnchor[0]).toBe(
         (icon.options.iconSize[0] * 1) / 2,
       );
-      expect(icon.options.iconAnchor[0]).to.equal(icon.options.iconAnchor[1]);
-      expect(icon.options.iconSize[0]).to.be.at.least(CUSTOM_ICON_SIZE);
-      expect(icon.options.iconSize[0]).to.equal(icon.options.iconSize[1]);
-      expect(icon.options.iconUrl).to.equal('foobar');
+      expect(icon.options.iconAnchor[0]).toBe(icon.options.iconAnchor[1]);
+      expect(icon.options.iconSize[0]).toBeGreaterThanOrEqual(CUSTOM_ICON_SIZE);
+      expect(icon.options.iconSize[0]).toBe(icon.options.iconSize[1]);
+      expect(icon.options.iconUrl).toBe('foobar');
     });
   });
 });

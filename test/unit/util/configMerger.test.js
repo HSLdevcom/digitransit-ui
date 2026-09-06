@@ -42,20 +42,17 @@ describe('configMerger', () => {
 
       const merged = merger(base, modifications);
 
-      // overwrite matching sections
-      expect(merged.aboutThisService.fi[0].header).to.equal('header1');
-      expect(merged.aboutThisService.fi[0].paragraphs[0]).to.equal('bar1');
-      expect(merged.aboutThisService.fi[0].link).to.equal('bar1.com');
+      expect(merged.aboutThisService.fi[0].header).toBe('header1');
+      expect(merged.aboutThisService.fi[0].paragraphs[0]).toBe('bar1');
+      expect(merged.aboutThisService.fi[0].link).toBe('bar1.com');
 
-      // keep sections which do not exist in sub config
-      expect(merged.aboutThisService.fi[1].header).to.equal('header2');
-      expect(merged.aboutThisService.fi[1].paragraphs[0]).to.equal('foo2');
-      expect(merged.aboutThisService.fi[1].link).to.equal('bar2.com');
+      expect(merged.aboutThisService.fi[1].header).toBe('header2');
+      expect(merged.aboutThisService.fi[1].paragraphs[0]).toBe('foo2');
+      expect(merged.aboutThisService.fi[1].link).toBe('bar2.com');
 
-      // insert new sections
-      expect(merged.aboutThisService.fi[2].header).to.equal('header3');
-      expect(merged.aboutThisService.fi[2].paragraphs[0]).to.equal('bar3');
-      expect(merged.aboutThisService.fi[2].link).to.equal('bar3.com');
+      expect(merged.aboutThisService.fi[2].header).toBe('header3');
+      expect(merged.aboutThisService.fi[2].paragraphs[0]).toBe('bar3');
+      expect(merged.aboutThisService.fi[2].link).toBe('bar3.com');
     });
   });
 });

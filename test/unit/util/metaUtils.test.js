@@ -1,6 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-
 import { generateMetaData } from '../../../app/util/metaUtils';
 
 describe('metaUtils', () => {
@@ -9,7 +6,7 @@ describe('metaUtils', () => {
       const title = 'Foo';
       const description = 'Bar';
       const result = generateMetaData({ title, description });
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         title,
         meta: [
           {

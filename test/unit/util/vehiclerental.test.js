@@ -9,42 +9,38 @@ import {
 describe('vehiclerental', () => {
   describe('getRentalNetworkId', () => {
     it('should default to undefined', () => {
-      expect(getRentalNetworkId(undefined)).to.equal(undefined);
-      expect(getRentalNetworkId([])).to.equal(undefined);
+      expect(getRentalNetworkId(undefined)).toBe(undefined);
+      expect(getRentalNetworkId([])).toBe(undefined);
     });
 
     it('should pick the first networkId', () => {
       const networks = ['Samocat', 'Smoove'];
-      expect(getRentalNetworkId(networks)).to.equal('Samocat');
+      expect(getRentalNetworkId(networks)).toBe('Samocat');
     });
 
     it('should also accept an input string', () => {
       const networks = 'Samocat';
-      expect(getRentalNetworkId(networks)).to.equal('Samocat');
+      expect(getRentalNetworkId(networks)).toBe('Samocat');
     });
   });
 
   describe('getRentalNetworkId', () => {
     it('should default to a default config', () => {
-      expect(getRentalNetworkConfig(undefined, {})).to.equal(
-        defaultNetworkConfig,
-      );
-      expect(getRentalNetworkConfig('Smoove', {})).to.equal(
-        defaultNetworkConfig,
-      );
-      expect(getRentalNetworkConfig('Smoove', { vehicleRental: {} })).to.equal(
+      expect(getRentalNetworkConfig(undefined, {})).toBe(defaultNetworkConfig);
+      expect(getRentalNetworkConfig('Smoove', {})).toBe(defaultNetworkConfig);
+      expect(getRentalNetworkConfig('Smoove', { vehicleRental: {} })).toBe(
         defaultNetworkConfig,
       );
       expect(
         getRentalNetworkConfig('Smoove', {
           vehicleRental: { networks: {} },
         }),
-      ).to.equal(defaultNetworkConfig);
+      ).toBe(defaultNetworkConfig);
       expect(
         getRentalNetworkConfig('Smoove', {
           vehicleRental: { networks: { smoove: {} } },
         }),
-      ).to.equal(defaultNetworkConfig);
+      ).toBe(defaultNetworkConfig);
     });
 
     it('should return the configuration by the given network id', () => {
@@ -58,7 +54,7 @@ describe('vehiclerental', () => {
           },
         },
       };
-      expect(getRentalNetworkConfig('foobar', config)).to.equal(
+      expect(getRentalNetworkConfig('foobar', config)).toBe(
         config.vehicleRental.networks.foobar,
       );
     });
@@ -74,7 +70,7 @@ describe('vehiclerental', () => {
           },
         },
       };
-      expect(getRentalNetworkConfig('Foobar', config)).to.equal(
+      expect(getRentalNetworkConfig('Foobar', config)).toBe(
         config.vehicleRental.networks.foobar,
       );
     });
@@ -83,7 +79,7 @@ describe('vehiclerental', () => {
   describe('getRentalNetworkIcon', () => {
     it('should default to "icon_citybike"', () => {
       const result = getRentalNetworkIcon();
-      expect(result).to.equal('icon_citybike');
+      expect(result).toBe('icon_citybike');
     });
 
     it('should default to "icon_citybike" if no icon has been defined', () => {
@@ -91,7 +87,7 @@ describe('vehiclerental', () => {
         icon: undefined,
       };
       const result = getRentalNetworkIcon(networkConfig);
-      expect(result).to.equal('icon_citybike');
+      expect(result).toBe('icon_citybike');
     });
 
     it('should return the given icon', () => {
@@ -99,28 +95,28 @@ describe('vehiclerental', () => {
         icon: 'foobar',
       };
       const result = getRentalNetworkIcon(networkConfig);
-      expect(result).to.equal('icon_foobar');
+      expect(result).toBe('icon_foobar');
     });
   });
 
   describe('getRentalNetworkName', () => {
     it('should default to undefined', () => {
       const result = getRentalNetworkName();
-      expect(result).to.equal(undefined);
+      expect(result).toBe(undefined);
     });
 
     it('should return undefined if no matching language term exists', () => {
       const networkConfig = { name: { en: 'Test' } };
       const language = 'sv';
       const result = getRentalNetworkName(networkConfig, language);
-      expect(result).to.equal(undefined);
+      expect(result).toBe(undefined);
     });
 
     it('should pick the name for the given language', () => {
       const networkConfig = { name: { fi: 'Testi' } };
       const language = 'fi';
       const result = getRentalNetworkName(networkConfig, language);
-      expect(result).to.equal('Testi');
+      expect(result).toBe('Testi');
     });
   });
 });

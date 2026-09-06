@@ -15,7 +15,7 @@ describe('<MessageBarMessage />', () => {
       <MessageBarMessage {...props} />,
       opts,
     );
-    expect(container.querySelectorAll('a')).to.have.lengthOf(0);
+    expect(container.querySelectorAll('a')).toHaveLength(0);
   });
 
   it('should render tag "h2" for type "heading"', () => {
@@ -29,9 +29,7 @@ describe('<MessageBarMessage />', () => {
       <MessageBarMessage {...props} />,
       opts,
     );
-    expect(container.querySelector('h2').textContent).to.equal(
-      'This is a header',
-    );
+    expect(container.querySelector('h2').textContent).toBe('This is a header');
   });
 
   it('should render text for type "text"', () => {
@@ -44,7 +42,7 @@ describe('<MessageBarMessage />', () => {
       <MessageBarMessage {...props} />,
       opts,
     );
-    expect(container.querySelector('.message-content').textContent).to.include(
+    expect(container.querySelector('.message-content').textContent).toContain(
       'This is text',
     );
   });

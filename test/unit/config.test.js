@@ -1,6 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-
 import { getConfiguration } from '../../app/config';
 import defaultConfig from '../../app/configurations/config.default';
 
@@ -11,8 +8,8 @@ describe('config', () => {
         headers: {},
       };
       const config = getConfiguration(request);
-      expect(config.CONFIG).to.equal('default');
-      expect(config.searchParams['boundary.polygon']).to.equal(undefined);
+      expect(config.CONFIG).toBe('default');
+      expect(config.searchParams['boundary.polygon']).toBe(undefined);
     });
 
     it('should return hsl configuration with searchParams.boundary.polygon which coordinates are around hsl area when using www.reittiopas.fi as request header', () => {
@@ -26,19 +23,23 @@ describe('config', () => {
       const boundaryPolygon =
         config.searchParams['boundary.polygon'].split(' ');
 
-      expect(config.CONFIG).to.equal('hsl');
-      // first coordinate is lon
-      expect(parseFloat(boundaryPolygon[0])).to.be.within(23, 26);
+      expect(config.CONFIG).toBe('hsl');
+      expect(parseFloat(boundaryPolygon[0])).toBeGreaterThanOrEqual(23);
+      expect(parseFloat(boundaryPolygon[0])).toBeLessThanOrEqual(26);
       // rest of coordinates are pairs of lat,lon
       for (let i = 1; i < boundaryPolygon.length - 1; i++) {
         const coordinatesSplit = boundaryPolygon[i].split(',');
-        expect(parseFloat(coordinatesSplit[0])).to.be.within(59, 62);
-        expect(parseFloat(coordinatesSplit[1])).to.be.within(23, 26);
+        expect(parseFloat(coordinatesSplit[0])).toBeGreaterThanOrEqual(59);
+        expect(parseFloat(coordinatesSplit[0])).toBeLessThanOrEqual(62);
+        expect(parseFloat(coordinatesSplit[1])).toBeGreaterThanOrEqual(23);
+        expect(parseFloat(coordinatesSplit[1])).toBeLessThanOrEqual(26);
       }
-      // last coordinate is lat
       expect(
         parseFloat(boundaryPolygon[boundaryPolygon.length - 1]),
-      ).to.be.within(59, 62);
+      ).toBeGreaterThanOrEqual(59);
+      expect(
+        parseFloat(boundaryPolygon[boundaryPolygon.length - 1]),
+      ).toBeLessThanOrEqual(62);
     });
     /* eslint-disable no-unused-expressions */
     it('should return default configuration with empty modePolygons object and no modeBoundingBoxes when using no headers', () => {
@@ -46,8 +47,8 @@ describe('config', () => {
         headers: {},
       };
       const config = getConfiguration(request);
-      expect(config.modePolygons).to.be.empty; // eslint-disable-line no-unused-expressions
-      expect(config.modeBoundingBoxes).to.be.undefined; // eslint-disable-line no-unused-expressions
+      expect(config.modePolygons).toEqual({});
+      expect(config.modeBoundingBoxes).toBeUndefined();
     });
 
     /* eslint-disable no-unused-expressions */
@@ -56,10 +57,8 @@ describe('config', () => {
         headers: {},
       };
       const config = getConfiguration(request);
-      expect(config.realTimePatch).to.be.empty; // eslint-disable-line no-unused-expressions
-      expect(config.realTime.HSL.mqtt).to.equal(
-        defaultConfig.realTime.HSL.mqtt,
-      ); // eslint-disable-line no-unused-expressions
+      expect(config.realTimePatch).toEqual({});
+      expect(config.realTime.HSL.mqtt).toBe(defaultConfig.realTime.HSL.mqtt);
     });
   });
 });

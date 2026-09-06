@@ -12,7 +12,7 @@ describe('<AlertList />', () => {
     const { container } = renderWithProviders(<AlertList {...props} />, {
       currentTime: 1547464412,
     });
-    expect(container.querySelector('.no-alerts-container')).to.not.equal(null);
+    expect(container.querySelector('.no-alerts-container')).not.toBe(null);
   });
 
   it('should order the cancelations and service alerts by route shortName and put alerts first', () => {
@@ -84,7 +84,7 @@ describe('<AlertList />', () => {
     const routeIdentifiers = [
       ...container.querySelectorAll('.route-alert-entityid'),
     ].map(identifier => identifier.textContent);
-    expect(routeIdentifiers).to.deep.equal(['8A', '138', '37N', 'A']);
+    expect(routeIdentifiers).toEqual(['8A', '138', '37N', 'A']);
   });
 
   it('should not display past service alerts', () => {
@@ -111,7 +111,7 @@ describe('<AlertList />', () => {
     const { container } = renderWithProviders(<AlertList {...props} />, {
       currentTime: 100,
     });
-    expect(container.querySelector('.no-alerts-container')).to.not.equal(null);
+    expect(container.querySelector('.no-alerts-container')).not.toBe(null);
   });
 
   it('should display current cancelations and service alerts', () => {
@@ -152,7 +152,7 @@ describe('<AlertList />', () => {
     const { container } = renderWithProviders(<AlertList {...props} />, {
       currentTime: 100,
     });
-    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(2);
+    expect(container.querySelectorAll('.alert-row')).toHaveLength(2);
   });
 
   it('should not display future service alerts', () => {
@@ -178,6 +178,6 @@ describe('<AlertList />', () => {
     const { container } = renderWithProviders(<AlertList {...props} />, {
       currentTime: 100,
     });
-    expect(container.querySelector('.no-alerts-container')).to.not.equal(null);
+    expect(container.querySelector('.no-alerts-container')).not.toBe(null);
   });
 });

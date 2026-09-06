@@ -37,7 +37,7 @@ const PROPS_TEMPLATE = {
 };
 
 describe('<ItineraryList />', () => {
-  xit('should render the component for canceled itineraries', () => {
+  it.skip('should render the component for canceled itineraries', () => {
     // TODO: enzyme is currently missing support for react hooks
     const props = {
       ...PROPS_TEMPLATE,
@@ -50,8 +50,7 @@ describe('<ItineraryList />', () => {
       </div>,
       { context: mockContext, childContextTypes: mockChildContextTypes },
     );
-    // TODO: purposeful test case definition missing -> skip test
-    expect(wrapper.debug()).to.equal(undefined);
+    expect(wrapper.debug()).toBe(undefined);
   });
 
   it('should render without crashing', () => {
@@ -65,6 +64,6 @@ describe('<ItineraryList />', () => {
       { context: mockContext, childContextTypes: mockChildContextTypes },
     );
 
-    expect(wrapper.isEmptyRender()).to.equal(false);
+    expect(wrapper.isEmptyRender()).toBe(false);
   });
 });

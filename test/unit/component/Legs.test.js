@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import Legs from '../../../app/component/itinerary/Legs';
@@ -20,6 +18,6 @@ describe('<Legs />', () => {
     const { container } = renderWithProviders(<Legs {...props} />, {
       config: { CONFIG: 'default', URL: {}, itinerary: { waitThreshold: 5 } },
     });
-    expect(container.innerHTML).to.equal('');
+    expect(container.innerHTML).toBe('');
   });
 });

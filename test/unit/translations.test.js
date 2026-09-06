@@ -1,6 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-
 import fi from '../../app/translations/fi';
 import sv from '../../app/translations/sv';
 import en from '../../app/translations/en';
@@ -13,7 +10,7 @@ describe('translations', () => {
       .forEach(key => {
         missing[key] = fi.fi[key];
       });
-    expect(missing).to.deep.equal(
+    expect(missing).toEqual(
       {},
       'the English translations are missing for these Finnish terms',
     );
@@ -26,7 +23,7 @@ describe('translations', () => {
       .forEach(key => {
         missing[key] = fi.fi[key];
       });
-    expect(missing).to.deep.equal(
+    expect(missing).toEqual(
       {},
       'the Swedish translations are missing for these Finnish terms',
     );

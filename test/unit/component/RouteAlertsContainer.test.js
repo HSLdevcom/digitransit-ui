@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { Component as RouteAlertsContainer } from '../../../app/component/routepage/RouteAlertsContainer';
@@ -36,7 +34,7 @@ describe('<RouteAlertsContainer />', () => {
       <RouteAlertsContainer {...props} />,
       { currentTime: 1558599526 },
     );
-    expect(container.querySelector('.no-alerts-container')).to.not.equal(null);
+    expect(container.querySelector('.no-alerts-container')).not.toBe(null);
   });
 
   it('should indicate that there are cancelations if there are canceled stoptimes for the selected pattern', () => {
@@ -83,7 +81,7 @@ describe('<RouteAlertsContainer />', () => {
       <RouteAlertsContainer {...props} />,
       { currentTime: 1558599526 },
     );
-    expect(container.querySelector('.alerts-list')).to.not.equal(null);
+    expect(container.querySelector('.alerts-list')).not.toBe(null);
   });
 
   it('should indicate that there are service alerts', () => {
@@ -115,6 +113,6 @@ describe('<RouteAlertsContainer />', () => {
       <RouteAlertsContainer {...props} />,
       { currentTime: 1558599526 },
     );
-    expect(container.querySelector('.alerts-list')).to.not.equal(null);
+    expect(container.querySelector('.alerts-list')).not.toBe(null);
   });
 });

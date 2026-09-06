@@ -1,6 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-
 import * as utils from '../../app/util/browser';
 
 const noop = () => {};
@@ -14,7 +11,7 @@ describe('browser', () => {
       };
 
       const result = utils.isKeyboardSelectionEvent(event);
-      expect(result).to.equal(true);
+      expect(result).toBe(true);
     });
 
     it('should return true for space "Spacebar"', () => {
@@ -24,7 +21,7 @@ describe('browser', () => {
       };
 
       const result = utils.isKeyboardSelectionEvent(event);
-      expect(result).to.equal(true);
+      expect(result).toBe(true);
     });
 
     it('should return true for enter', () => {
@@ -34,13 +31,13 @@ describe('browser', () => {
       };
 
       const result = utils.isKeyboardSelectionEvent(event);
-      expect(result).to.equal(true);
+      expect(result).toBe(true);
     });
 
     it('should return false for invalid events', () => {
-      expect(utils.isKeyboardSelectionEvent(undefined)).to.equal(false);
-      expect(utils.isKeyboardSelectionEvent(null)).to.equal(false);
-      expect(utils.isKeyboardSelectionEvent(true)).to.equal(false);
+      expect(utils.isKeyboardSelectionEvent(undefined)).toBe(false);
+      expect(utils.isKeyboardSelectionEvent(null)).toBe(false);
+      expect(utils.isKeyboardSelectionEvent(true)).toBe(false);
     });
 
     it('should call preventDefault for a matching event', () => {
@@ -53,7 +50,7 @@ describe('browser', () => {
       };
 
       utils.isKeyboardSelectionEvent(event);
-      expect(wasCalled).to.equal(true);
+      expect(wasCalled).toBe(true);
     });
 
     it('should not call preventDefault for a non-matching event', () => {
@@ -66,7 +63,7 @@ describe('browser', () => {
       };
 
       utils.isKeyboardSelectionEvent(event);
-      expect(wasCalled).to.equal(false);
+      expect(wasCalled).toBe(false);
     });
 
     it('should read .which if .key is not available', () => {
@@ -76,7 +73,7 @@ describe('browser', () => {
       };
 
       const result = utils.isKeyboardSelectionEvent(event);
-      expect(result).to.equal(true);
+      expect(result).toBe(true);
     });
 
     it('should read .keyCode if .which and .key are not available', () => {
@@ -86,7 +83,7 @@ describe('browser', () => {
       };
 
       const result = utils.isKeyboardSelectionEvent(event);
-      expect(result).to.equal(true);
+      expect(result).toBe(true);
     });
   });
 });

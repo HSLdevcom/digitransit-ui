@@ -18,9 +18,9 @@ describe('<Icon />', () => {
         background={<IconBackground shape="circle" />}
       />,
     );
-    expect(container.querySelectorAll('svg')).to.have.lengthOf(1);
-    expect(container.querySelectorAll('use')).to.have.lengthOf(1);
-    expect(container.querySelectorAll('circle')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('svg')).toHaveLength(1);
+    expect(container.querySelectorAll('use')).toHaveLength(1);
+    expect(container.querySelectorAll('circle')).toHaveLength(1);
   });
 
   it('should include expected parts of the svg in its string representation', () => {
@@ -32,8 +32,8 @@ describe('<Icon />', () => {
         background={<IconBackground shape="circle" />}
       />,
     );
-    expect(result).to.contain(`class="icon ${className}"`);
-    expect(result).to.contain('circle');
+    expect(result).toContain(`class="icon ${className}"`);
+    expect(result).toContain('circle');
   });
 
   it('should render <image /> if dataURI is defined', () => {
@@ -41,36 +41,36 @@ describe('<Icon />', () => {
     const { container } = render(
       <Icon className={className} id={id} img={img} dataURI={dataURI} />,
     );
-    expect(container.querySelectorAll('image')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('image')).toHaveLength(1);
   });
 
   it('should reference the img prop via xlink:href on <use />', () => {
     const { container } = render(<Icon img={img} />);
     const use = container.querySelector('use');
-    expect(use.getAttribute('xlink:href')).to.equal(`#${img}`);
+    expect(use.getAttribute('xlink:href')).toBe(`#${img}`);
   });
 
   it('should not render <use /> when dataURI is defined', () => {
     const { container } = render(
       <Icon img={img} dataURI="data:image/svg+xml;base64,ABC" />,
     );
-    expect(container.querySelectorAll('use')).to.have.lengthOf(0);
+    expect(container.querySelectorAll('use')).toHaveLength(0);
   });
 
   it('should have default viewBox and omit it when omitViewBox is true', () => {
     const { container: withViewBox } = render(<Icon img={img} />);
-    expect(withViewBox.querySelector('svg').getAttribute('viewBox')).to.equal(
+    expect(withViewBox.querySelector('svg').getAttribute('viewBox')).toBe(
       '0 0 40 40',
     );
 
     const { container: without } = render(<Icon img={img} omitViewBox />);
-    expect(without.querySelector('svg').getAttribute('viewBox')).to.equal(null);
+    expect(without.querySelector('svg').getAttribute('viewBox')).toBe(null);
   });
 
   it('should set aria-label on the svg', () => {
     const label = 'Bus icon';
     const { container } = render(<Icon img={img} ariaLabel={label} />);
-    expect(container.querySelector('svg').getAttribute('aria-label')).to.equal(
+    expect(container.querySelector('svg').getAttribute('aria-label')).toBe(
       label,
     );
   });

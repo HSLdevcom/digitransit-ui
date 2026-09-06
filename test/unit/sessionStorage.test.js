@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import sinon from 'sinon';
 import {
   getSessionStorage,
   getSessionMessageIds,
@@ -9,40 +7,43 @@ import {
 describe('sessionStorage', () => {
   describe('getSessionStorage', () => {
     it('should invoke the given errorHandler and sessionStorage throws', () => {
-      const handler = sinon.stub();
-      const stub = sinon.stub(window, 'sessionStorage').get(() => {
-        throw new DOMException();
-      });
+      const handler = vi.fn();
+      const stub = vi
+        .spyOn(window, 'sessionStorage', 'get')
+        .mockImplementation(() => {
+          throw new DOMException();
+        });
       getSessionStorage(handler);
-      expect(handler.called).to.equal(true);
-      stub.restore();
+      expect(handler).toHaveBeenCalled();
+      stub.mockRestore();
     });
 
     it('should return null if thrown exception was a SecurityError and it was handled by default', () => {
-      const stub = sinon.stub(window, 'sessionStorage').get(() => {
-        throw new DOMException('Foo', 'SecurityError');
-      });
+      const stub = vi
+        .spyOn(window, 'sessionStorage', 'get')
+        .mockImplementation(() => {
+          throw new DOMException('Foo', 'SecurityError');
+        });
       const result = getSessionStorage();
-      expect(result).to.equal(null);
-      stub.restore();
+      expect(result).toBe(null);
+      stub.mockRestore();
     });
 
     it('should return window.sessionStorage', () => {
       const result = getSessionStorage(true);
-      expect(result).to.equal(window.sessionStorage);
+      expect(result).toBe(window.sessionStorage);
     });
   });
 
   describe('getSessionMessageIds', () => {
     it('result should be empty array', () => {
       const result = getSessionMessageIds();
-      // eslint-disable-next-line no-unused-expressions
-      expect(result).to.be.empty;
+      expect(result).toHaveLength(0);
     });
     it('result should be "1"', () => {
       window.sessionStorage.setItem('messages', JSON.stringify(1));
       const result = getSessionMessageIds();
-      expect(result).to.equal(JSON.parse('1'));
+      expect(result).toBe(JSON.parse('1'));
     });
   });
 
@@ -50,7 +51,7 @@ describe('sessionStorage', () => {
     it('result should be ["1"]', () => {
       setSessionMessageIds(['1']);
       const result = window.sessionStorage.getItem('messages');
-      expect(result).to.equal('["1"]');
+      expect(result).toBe('["1"]');
     });
   });
 });

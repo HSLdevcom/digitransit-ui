@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 import data from './test-data/dcw31';
 import { renderWithProviders } from './helpers/mock-providers';
@@ -16,7 +14,7 @@ describe('<ItinerarySummary />', () => {
     const { container } = renderWithProviders(<ItinerarySummary {...props} />);
     expect(
       container.querySelectorAll('.distance--itinerary-summary'),
-    ).to.have.lengthOf(2);
+    ).toHaveLength(2);
   });
 
   it('should show walking distance before biking distance', () => {
@@ -28,10 +26,8 @@ describe('<ItinerarySummary />', () => {
     };
     const { container } = renderWithProviders(<ItinerarySummary {...props} />);
     const items = container.querySelectorAll('.distance--itinerary-summary');
-    expect(items[0].querySelector('.icon.walk')).to.not.equal(null);
-    expect(items[items.length - 1].querySelector('.icon.bike')).to.not.equal(
-      null,
-    );
+    expect(items[0].querySelector('.icon.walk')).not.toBe(null);
+    expect(items[items.length - 1].querySelector('.icon.bike')).not.toBe(null);
   });
 
   it('should show only biking distance for only biking itinerary', () => {
@@ -43,8 +39,8 @@ describe('<ItinerarySummary />', () => {
     const { container } = renderWithProviders(<ItinerarySummary {...props} />);
     expect(
       container.querySelectorAll('.distance--itinerary-summary'),
-    ).to.have.lengthOf(1);
-    expect(container.querySelector('.icon.bike')).to.not.equal(null);
-    expect(container.querySelector('.icon.walk')).to.equal(null);
+    ).toHaveLength(1);
+    expect(container.querySelector('.icon.bike')).not.toBe(null);
+    expect(container.querySelector('.icon.walk')).toBe(null);
   });
 });

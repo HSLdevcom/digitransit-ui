@@ -43,9 +43,9 @@ describe('<WalkLeg />', () => {
 
     const { container } = renderWithProviders(<WalkLeg {...props} />);
 
-    expect(
-      container.querySelector('.itinerary-leg-row').textContent,
-    ).to.contain('Veturitori');
+    expect(container.querySelector('.itinerary-leg-row').textContent).toContain(
+      'Veturitori',
+    );
   });
 
   it('should tell the user to return a rented bike to the starting point station', () => {
@@ -103,8 +103,8 @@ describe('<WalkLeg />', () => {
 
     const { container } = renderWithProviders(<WalkLeg {...props} />);
 
-    expect(container.textContent).to.contain('Return the bike:');
-    expect(container.textContent).to.contain('Veturitori');
+    expect(container.textContent).toContain('Return the bike:');
+    expect(container.textContent).toContain('Veturitori');
   });
 
   it('should show a service alert icon if there is one at the "from" stop', () => {
@@ -156,7 +156,7 @@ describe('<WalkLeg />', () => {
 
     const { container } = renderWithProviders(<WalkLeg {...props} />);
 
-    expect(container.querySelector('.info')).to.not.equal(null);
+    expect(container.querySelector('.info')).not.toBe(null);
   });
 
   it('should render with leg.{from,to}.stop.vehicleMode being null', () => {

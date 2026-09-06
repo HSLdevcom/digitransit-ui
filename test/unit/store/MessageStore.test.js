@@ -1,7 +1,4 @@
-import { expect } from 'chai';
 import fetchMock from 'fetch-mock';
-import { describe, it } from 'mocha';
-import sinon from 'sinon';
 
 import MessageStore, {
   processStaticMessages,
@@ -9,14 +6,14 @@ import MessageStore, {
 
 describe('MessageStore', () => {
   describe('getMessages', () => {
-    before(() => fetchMock.mockGlobal());
+    beforeAll(() => fetchMock.mockGlobal());
 
     afterEach(() => {
       fetchMock.removeRoutes();
       fetchMock.clearHistory();
     });
 
-    after(() => fetchMock.unmockGlobal());
+    afterAll(() => fetchMock.unmockGlobal());
 
     it('should show higher priority first', async () => {
       const staticMessagesUrl = '/staticMessages';
@@ -55,8 +52,8 @@ describe('MessageStore', () => {
       };
 
       await store.addConfigMessages(config);
-      expect(fetchMock.callHistory.called(staticMessagesUrl)).to.equal(true);
-      expect(store.getMessages()).to.deep.equal([
+      expect(fetchMock.callHistory.called(staticMessagesUrl)).toBe(true);
+      expect(store.getMessages()).toEqual([
         {
           content: {
             en: [{ type: 'text', content: 'foo' }],
@@ -106,9 +103,9 @@ describe('MessageStore', () => {
           },
         },
       ];
-      const callback = sinon.spy();
+      const callback = vi.fn();
       processStaticMessages({ staticMessages }, callback);
-      expect(callback.called).to.equal(true);
+      expect(callback).toHaveBeenCalled();
     });
 
     it('should ignore messages that have no content in any language', () => {
@@ -146,9 +143,9 @@ describe('MessageStore', () => {
           },
         },
       ];
-      const callback = sinon.spy();
+      const callback = vi.fn();
       processStaticMessages({ staticMessages }, callback);
-      expect(callback.called).to.equal(false);
+      expect(callback).not.toHaveBeenCalled();
     });
 
     it('should process messages that have content in some language', () => {
@@ -167,9 +164,9 @@ describe('MessageStore', () => {
           },
         },
       ];
-      const callback = sinon.spy();
+      const callback = vi.fn();
       processStaticMessages({ staticMessages }, callback);
-      expect(callback.called).to.equal(true);
+      expect(callback).toHaveBeenCalled();
     });
   });
 
@@ -189,7 +186,7 @@ describe('MessageStore', () => {
         priority: -1,
       };
       await store.addMessage(message);
-      expect(store.getMessages().length).to.equal(1);
+      expect(store.getMessages().length).toBe(1);
     });
   });
 });

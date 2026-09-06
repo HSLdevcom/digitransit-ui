@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 
 import { renderWithProviders } from '../helpers/mock-providers';
@@ -22,45 +20,45 @@ describe('<WaitLeg />', () => {
       const { container } = renderWithProviders(
         <WaitLeg {...defaultProps} hasPreviousTransitLeg />,
       );
-      expect(container.querySelector('.leg-before-circle.top')).to.equal(null);
+      expect(container.querySelector('.leg-before-circle.top')).toBe(null);
     });
 
     it('should show the top circle by default', () => {
       const { container } = renderWithProviders(<WaitLeg {...defaultProps} />);
-      expect(
-        container.querySelectorAll('.leg-before-circle.top'),
-      ).to.have.lengthOf(1);
+      expect(container.querySelectorAll('.leg-before-circle.top')).toHaveLength(
+        1,
+      );
     });
 
     it('should show the top circle when not preceded by a transit leg', () => {
       const { container } = renderWithProviders(
         <WaitLeg {...defaultProps} hasPreviousTransitLeg={false} />,
       );
-      expect(
-        container.querySelectorAll('.leg-before-circle.top'),
-      ).to.have.lengthOf(1);
+      expect(container.querySelectorAll('.leg-before-circle.top')).toHaveLength(
+        1,
+      );
     });
   });
 
   describe('rendering', () => {
     it('should render with wait styling', () => {
       const { container } = renderWithProviders(<WaitLeg {...defaultProps} />);
-      expect(container.querySelector('.leg-before.wait')).to.not.equal(null);
+      expect(container.querySelector('.leg-before.wait')).not.toBe(null);
     });
 
     it('should not render a first-leg marker', () => {
       const { container } = renderWithProviders(<WaitLeg {...defaultProps} />);
-      expect(container.querySelector('.leg-before.first-leg')).to.equal(null);
+      expect(container.querySelector('.leg-before.first-leg')).toBe(null);
     });
 
     it('should render the destination stop name', () => {
       const { container } = renderWithProviders(<WaitLeg {...defaultProps} />);
-      expect(container.querySelector('.itinerary-row').textContent).to.include(
+      expect(container.querySelector('.itinerary-row').textContent).toContain(
         'Stop B',
       );
       expect(
         container.querySelector('.itinerary-time-column-time').textContent,
-      ).to.equal('14:48');
+      ).toBe('14:48');
     });
   });
 });

@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
 import { DateTime } from 'luxon';
 
 import {
@@ -12,17 +10,17 @@ describe('scheduleTripsUtils', () => {
   describe('sortTrips', () => {
     it('should return null when trips is null', () => {
       const result = sortTrips(null);
-      expect(result).to.equal(null);
+      expect(result).toBe(null);
     });
 
     it('should return null when trips is undefined', () => {
       const result = sortTrips(undefined);
-      expect(result).to.equal(null);
+      expect(result).toBe(null);
     });
 
     it('should return empty array when trips is empty', () => {
       const result = sortTrips([]);
-      expect(result).to.deep.equal([]);
+      expect(result).toEqual([]);
     });
 
     it('should sort trips by first stoptime scheduledDeparture', () => {
@@ -43,10 +41,10 @@ describe('scheduleTripsUtils', () => {
 
       const result = sortTrips(trips);
 
-      expect(result).to.have.lengthOf(3);
-      expect(result[0].id).to.equal('trip-1');
-      expect(result[1].id).to.equal('trip-2');
-      expect(result[2].id).to.equal('trip-3');
+      expect(result).toHaveLength(3);
+      expect(result[0].id).toBe('trip-1');
+      expect(result[1].id).toBe('trip-2');
+      expect(result[2].id).toBe('trip-3');
     });
 
     it('should move trips without stoptimes to the end', () => {
@@ -67,9 +65,9 @@ describe('scheduleTripsUtils', () => {
 
       const result = sortTrips(trips);
 
-      expect(result[0].id).to.equal('trip-1');
-      expect(result[1].id).to.equal('trip-2');
-      expect(result[2].id).to.equal('trip-no-stoptimes');
+      expect(result[0].id).toBe('trip-1');
+      expect(result[1].id).toBe('trip-2');
+      expect(result[2].id).toBe('trip-no-stoptimes');
     });
 
     it('should move trips with undefined stoptimes to the end', () => {
@@ -86,8 +84,8 @@ describe('scheduleTripsUtils', () => {
 
       const result = sortTrips(trips);
 
-      expect(result[0].id).to.equal('trip-1');
-      expect(result[1].id).to.equal('trip-undefined-stoptimes');
+      expect(result[0].id).toBe('trip-1');
+      expect(result[1].id).toBe('trip-undefined-stoptimes');
     });
 
     it('should preserve original array (not mutate)', () => {
@@ -105,7 +103,7 @@ describe('scheduleTripsUtils', () => {
       const originalOrder = trips.map(t => t.id);
       sortTrips(trips);
 
-      expect(trips.map(t => t.id)).to.deep.equal(originalOrder);
+      expect(trips.map(t => t.id)).toEqual(originalOrder);
     });
 
     it('should handle trips with only undefined stoptimes', () => {
@@ -122,9 +120,9 @@ describe('scheduleTripsUtils', () => {
 
       const result = sortTrips(trips);
 
-      expect(result).to.have.lengthOf(2);
-      expect(result[0].id).to.equal('trip-2');
-      expect(result[1].id).to.equal('trip-1');
+      expect(result).toHaveLength(2);
+      expect(result[0].id).toBe('trip-2');
+      expect(result[1].id).toBe('trip-1');
     });
   });
 
@@ -157,9 +155,9 @@ describe('scheduleTripsUtils', () => {
         intl: mockIntl,
       });
 
-      expect(result.trips).to.equal(null);
-      expect(result.noTripsMessage).to.not.equal(null);
-      expect(result.noTripsMessage.props.children).to.include('16.1.2024');
+      expect(result.trips).toBe(null);
+      expect(result.noTripsMessage).not.toBe(null);
+      expect(result.noTripsMessage.props.children).toContain('16.1.2024');
     });
 
     it('should return sorted trips when trips are available', () => {
@@ -182,10 +180,10 @@ describe('scheduleTripsUtils', () => {
         intl: mockIntl,
       });
 
-      expect(result.trips).to.have.lengthOf(2);
-      expect(result.trips[0].id).to.equal('trip-1');
-      expect(result.trips[1].id).to.equal('trip-2');
-      expect(result.noTripsMessage).to.equal(null);
+      expect(result.trips).toHaveLength(2);
+      expect(result.trips[0].id).toBe('trip-1');
+      expect(result.trips[1].id).toBe('trip-2');
+      expect(result.noTripsMessage).toBe(null);
     });
 
     it('should return null for pattern when pattern is null', () => {
@@ -194,7 +192,7 @@ describe('scheduleTripsUtils', () => {
         intl: mockIntl,
       });
 
-      expect(result.trips).to.equal(null);
+      expect(result.trips).toBe(null);
     });
 
     it('should return null for pattern when pattern is undefined', () => {
@@ -203,7 +201,7 @@ describe('scheduleTripsUtils', () => {
         intl: mockIntl,
       });
 
-      expect(result.trips).to.equal(null);
+      expect(result.trips).toBe(null);
     });
 
     it('should include formatted date in message when no trips found', () => {
@@ -219,8 +217,8 @@ describe('scheduleTripsUtils', () => {
         wantedDay,
       });
 
-      expect(result.noTripsMessage).to.not.equal(null);
-      expect(result.noTripsMessage.props.children).to.include('15.1.2024');
+      expect(result.noTripsMessage).not.toBe(null);
+      expect(result.noTripsMessage.props.children).toContain('15.1.2024');
     });
 
     it('should handle pattern without trips property', () => {
@@ -233,9 +231,9 @@ describe('scheduleTripsUtils', () => {
         intl: mockIntl,
       });
 
-      expect(result.trips).to.equal(null);
-      expect(result.noTripsMessage).to.not.equal(null);
-      expect(result.noTripsMessage.props.role).to.equal('alert');
+      expect(result.trips).toBe(null);
+      expect(result.noTripsMessage).not.toBe(null);
+      expect(result.noTripsMessage.props.role).toBe('alert');
     });
 
     describe('Edge cases', () => {
@@ -250,7 +248,7 @@ describe('scheduleTripsUtils', () => {
           intl: mockIntl,
         });
 
-        expect(result.trips).to.equal(null);
+        expect(result.trips).toBe(null);
       });
 
       it('should handle trips with mixed valid and invalid stoptimes', () => {
@@ -277,10 +275,10 @@ describe('scheduleTripsUtils', () => {
           intl: mockIntl,
         });
 
-        expect(result.trips).to.have.lengthOf(3);
-        expect(result.trips[0].id).to.equal('trip-valid');
-        expect(result.trips[1].id).to.equal('trip-another-valid');
-        expect(result.trips[2].id).to.equal('trip-empty');
+        expect(result.trips).toHaveLength(3);
+        expect(result.trips[0].id).toBe('trip-valid');
+        expect(result.trips[1].id).toBe('trip-another-valid');
+        expect(result.trips[2].id).toBe('trip-empty');
       });
 
       it('should handle undefined wantedDay', () => {
@@ -295,11 +293,9 @@ describe('scheduleTripsUtils', () => {
           wantedDay: undefined,
         });
 
-        expect(result.trips).to.equal(null);
-        expect(result.noTripsMessage).to.not.equal(null);
-        expect(result.noTripsMessage.props.className).to.equal(
-          'no-trips-message',
-        );
+        expect(result.trips).toBe(null);
+        expect(result.noTripsMessage).not.toBe(null);
+        expect(result.noTripsMessage.props.className).toBe('no-trips-message');
       });
 
       it('should return object with both trips and noTripsMessage properties', () => {
@@ -318,8 +314,8 @@ describe('scheduleTripsUtils', () => {
           intl: mockIntl,
         });
 
-        expect(result).to.have.property('trips');
-        expect(result).to.have.property('noTripsMessage');
+        expect(result).toHaveProperty('trips');
+        expect(result).toHaveProperty('noTripsMessage');
       });
     });
   });

@@ -12,7 +12,7 @@ describe('<CardHeader />', () => {
       stop: {},
     };
     const { container } = renderWithProviders(<CardHeader {...props} />);
-    expect(container.querySelectorAll('.header-icon')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.header-icon')).toHaveLength(1);
   });
   it('should render the station code', () => {
     const props = {
@@ -24,9 +24,9 @@ describe('<CardHeader />', () => {
       stop: {},
     };
     const { container } = renderWithProviders(<CardHeader {...props} />);
-    expect(
-      container.querySelector('.itinerary-stop-code').textContent,
-    ).to.equal('7528');
+    expect(container.querySelector('.itinerary-stop-code').textContent).toBe(
+      '7528',
+    );
   });
   it('should  render the virtual monitor if so configured', () => {
     const props = {
@@ -44,9 +44,9 @@ describe('<CardHeader />', () => {
       stop: {},
     };
     const { container } = renderWithProviders(<CardHeader {...props} />);
-    expect(
-      container.querySelector('.external-link').getAttribute('href'),
-    ).to.equal('http://foo.com/virtualmonitor/HSL:1130181');
+    expect(container.querySelector('.external-link').getAttribute('href')).toBe(
+      'http://foo.com/virtualmonitor/HSL:1130181',
+    );
   });
 
   it('should not render the virtual monitor if its not passed', () => {
@@ -60,6 +60,6 @@ describe('<CardHeader />', () => {
       stop: {},
     };
     const { container } = renderWithProviders(<CardHeader {...props} />);
-    expect(container.querySelector('a')).to.equal(null);
+    expect(container.querySelector('a')).toBe(null);
   });
 });

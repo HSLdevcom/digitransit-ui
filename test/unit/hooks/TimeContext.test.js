@@ -1,9 +1,6 @@
-import { expect } from 'chai';
-import { describe, it, afterEach } from 'mocha';
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { mount } from 'enzyme';
-import sinon from 'sinon';
 import { act } from 'react-dom/test-utils';
 import {
   TimeProvider,
@@ -52,7 +49,7 @@ describe('TimeContext', () => {
       wrapper = null;
     }
     if (clock) {
-      clock.restore();
+      vi.useRealTimers();
       clock = null;
     }
   });
@@ -60,19 +57,21 @@ describe('TimeContext', () => {
   describe('TimeProvider', () => {
     it('provides the current unix time in seconds', () => {
       const now = Date.parse('2024-05-01T12:00:00Z');
-      clock = sinon.useFakeTimers(now);
+      vi.useFakeTimers({ now });
+      clock = true;
       const controlRef = React.createRef();
       wrapper = mount(
         <TimeProvider>
           <TimeConsumer controlRef={controlRef} />
         </TimeProvider>,
       );
-      expect(controlRef.current).to.equal(Math.floor(now / 1000));
+      expect(controlRef.current).toBe(Math.floor(now / 1000));
     });
 
     it('refreshes the current time every 30 seconds', () => {
       const start = Date.parse('2024-05-01T12:00:00Z');
-      clock = sinon.useFakeTimers(start);
+      vi.useFakeTimers({ now: start });
+      clock = true;
       const controlRef = React.createRef();
       wrapper = mount(
         <TimeProvider>
@@ -82,18 +81,17 @@ describe('TimeContext', () => {
       const initialTime = controlRef.current;
 
       act(() => {
-        clock.tick(TWICE_PER_MINUTE);
+        vi.advanceTimersByTime(TWICE_PER_MINUTE);
       });
       wrapper.update();
 
-      expect(controlRef.current).to.equal(
-        initialTime + TWICE_PER_MINUTE / 1000,
-      );
+      expect(controlRef.current).toBe(initialTime + TWICE_PER_MINUTE / 1000);
     });
 
     it('does not update the time before the interval elapses', () => {
       const start = Date.parse('2024-05-01T12:00:00Z');
-      clock = sinon.useFakeTimers(start);
+      vi.useFakeTimers({ now: start });
+      clock = true;
       const controlRef = React.createRef();
       wrapper = mount(
         <TimeProvider>
@@ -103,17 +101,17 @@ describe('TimeContext', () => {
       const initialTime = controlRef.current;
 
       act(() => {
-        clock.tick(TWICE_PER_MINUTE - 1000);
+        vi.advanceTimersByTime(TWICE_PER_MINUTE - 1000);
       });
       wrapper.update();
 
-      expect(controlRef.current).to.equal(initialTime);
+      expect(controlRef.current).toBe(initialTime);
     });
   });
 
   describe('useCurrentTime outside provider', () => {
     it('throws when used outside a TimeProvider', () => {
-      expect(() => mount(<OutsideConsumer />)).to.throw(
+      expect(() => mount(<OutsideConsumer />)).toThrow(
         'useCurrentTime must be used within a TimeProvider',
       );
     });
@@ -122,7 +120,8 @@ describe('TimeContext', () => {
   describe('withCurrentTime', () => {
     it('injects currentTime as a prop', () => {
       const now = Date.parse('2024-05-01T12:00:00Z');
-      clock = sinon.useFakeTimers(now);
+      vi.useFakeTimers({ now });
+      clock = true;
       const Inner = props => (
         <div data-current-time={props.currentTime} /> // eslint-disable-line react/prop-types
       );
@@ -132,10 +131,10 @@ describe('TimeContext', () => {
           <Wrapped foo="bar" />
         </TimeProvider>,
       );
-      expect(wrapper.find(Inner).prop('currentTime')).to.equal(
+      expect(wrapper.find(Inner).prop('currentTime')).toBe(
         Math.floor(now / 1000),
       );
-      expect(wrapper.find(Inner).prop('foo')).to.equal('bar');
+      expect(wrapper.find(Inner).prop('foo')).toBe('bar');
     });
   });
 });

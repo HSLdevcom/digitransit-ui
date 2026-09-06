@@ -31,6 +31,6 @@ describe('<TripRouteStop />', () => {
     const { container } = renderWithProviders(<TripRouteStop {...props} />, {
       config: { ...mockContext.config, zones: { stops: true } },
     });
-    expect(container.querySelector('.caution')).to.equal(null);
+    expect(container.querySelector('.caution')).toBe(null);
   });
 });

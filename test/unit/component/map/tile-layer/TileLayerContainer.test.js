@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { LeafletProvider } from 'react-leaflet/es/context';
-import sinon from 'sinon';
 import { ReactRelayContext } from 'react-relay';
 
 import {
@@ -93,9 +92,7 @@ describe('<TileLayerContainer />', () => {
       ],
     });
 
-    expect(wrapper.find('.popup').at(0).prop('onClose')).to.not.equal(
-      undefined,
-    );
+    expect(wrapper.find('.popup').at(0).prop('onClose')).not.toBe(undefined);
   });
   it('should call addAnalyticsEvent on open', () => {
     const props = {
@@ -114,7 +111,7 @@ describe('<TileLayerContainer />', () => {
       lang: 'fi',
       currentTime: 123457890,
     };
-    const spy = sinon.spy(analytics, 'addAnalyticsEvent');
+    const spy = vi.spyOn(analytics, 'addAnalyticsEvent');
     const wrapper = shallowWithIntl(
       <Component {...props} relayEnvironment={{}} />,
       {
@@ -135,7 +132,7 @@ describe('<TileLayerContainer />', () => {
     );
     wrapper.setState({ selectableTargets: [{ feature: { properties: {} } }] });
     wrapper.prop('onOpen')();
-    expect(spy.calledOnce).to.equal(true);
-    spy.restore();
+    expect(spy).toHaveBeenCalledOnce();
+    spy.mockRestore();
   });
 });

@@ -85,21 +85,19 @@ const renderNote = props =>
 
 const expectMessage = (props, messageId) => {
   const { container } = renderNote(props);
-  expect(container.querySelector('.summary-no-route-found')).to.not.equal(null);
-  expect(container.textContent).to.contain(translations.en[messageId]);
+  expect(container.querySelector('.summary-no-route-found')).not.toBe(null);
+  expect(container.textContent).toContain(translations.en[messageId]);
 };
 
 const expectLink = (props, linkClass) => {
   const { container } = renderNote(props);
-  expect(container.querySelector(`a.${linkClass}`)).to.not.equal(null);
+  expect(container.querySelector(`a.${linkClass}`)).not.toBe(null);
 };
 
 describe('<NoItinerariesNote />', () => {
   it('should render without crashing', () => {
     const { container } = renderNote(defaultProps);
-    expect(container.querySelector('.summary-no-route-found')).to.not.equal(
-      null,
-    );
+    expect(container.querySelector('.summary-no-route-found')).not.toBe(null);
   });
 
   describe('error messages', () => {

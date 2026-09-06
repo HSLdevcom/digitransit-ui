@@ -49,6 +49,6 @@ describe('<TripMarkerPopup />', () => {
     };
 
     const { container } = renderWithProviders(<TripMarkerPopup {...props} />);
-    expect(container.textContent).to.include('15');
+    expect(container.textContent).toContain('15');
   });
 });

@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../helpers/mock-providers';
@@ -42,18 +40,18 @@ describe('<CanceledDepartures />', () => {
     const container = renderCanceledDepartures();
     expect(
       container.querySelectorAll('.badges__departure-group__date-group'),
-    ).to.have.lengthOf(2);
+    ).toHaveLength(2);
     const times = [...container.querySelectorAll('.routes-m-narrow')].map(n =>
       n.textContent.trim(),
     );
-    expect(times).to.deep.equal(['08:00', '09:00']);
+    expect(times).toEqual(['08:00', '09:00']);
   });
 
   it('shows a button when a date has more departures than the limit', () => {
     const container = renderCanceledDepartures();
-    expect(
-      container.querySelectorAll('.show-departures-button'),
-    ).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.show-departures-button')).toHaveLength(
+      1,
+    );
   });
 
   it('shows all departures for the date when the button is clicked', () => {
@@ -62,6 +60,6 @@ describe('<CanceledDepartures />', () => {
     const times = [...container.querySelectorAll('.routes-m-narrow')].map(n =>
       n.textContent.trim(),
     );
-    expect(times).to.deep.equal(['08:00', '08:05', '09:00']);
+    expect(times).toEqual(['08:00', '08:05', '09:00']);
   });
 });

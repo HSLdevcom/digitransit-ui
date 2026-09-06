@@ -1,6 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-
 import { mockMatch } from '../helpers/mock-router';
 
 import * as utils from '../../../app/util/queryUtils';
@@ -15,7 +12,7 @@ describe('queryUtils', () => {
         },
       };
       utils.setIntermediatePlaces(router, mockMatch, {});
-      expect(callParams).to.equal(undefined);
+      expect(callParams).toBe(undefined);
     });
 
     it('should not modify the query if the parameter is an array but not a string array', () => {
@@ -40,7 +37,7 @@ describe('queryUtils', () => {
 
       utils.setIntermediatePlaces(router, mockMatch, intermediatePlaces);
 
-      expect(callParams).to.equal(undefined);
+      expect(callParams).toBe(undefined);
     });
 
     it('should modify the query if the parameter is a string', () => {
@@ -54,7 +51,7 @@ describe('queryUtils', () => {
 
       utils.setIntermediatePlaces(router, mockMatch, intermediatePlace);
 
-      expect(callParams.query.intermediatePlaces).to.equal(intermediatePlace);
+      expect(callParams.query.intermediatePlaces).toBe(intermediatePlace);
     });
 
     it('should modify the query if the parameter is a string array', () => {
@@ -71,9 +68,7 @@ describe('queryUtils', () => {
 
       utils.setIntermediatePlaces(router, mockMatch, intermediatePlaces);
 
-      expect(callParams.query.intermediatePlaces).to.deep.equal(
-        intermediatePlaces,
-      );
+      expect(callParams.query.intermediatePlaces).toEqual(intermediatePlaces);
     });
   });
 });

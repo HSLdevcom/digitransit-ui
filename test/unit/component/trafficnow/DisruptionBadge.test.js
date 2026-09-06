@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
 import DisruptionBadge from '../../../../app/component/trafficnow/DisruptionBadge';
@@ -16,7 +14,7 @@ describe('<DisruptionBadge />', () => {
           showIcon={false}
         />,
       );
-      expect(wrapper.find(Icon)).to.have.lengthOf(0);
+      expect(wrapper.find(Icon)).toHaveLength(0);
     });
 
     it('renders icon_info-circled for INFO variant when showIcon=true', () => {
@@ -28,8 +26,8 @@ describe('<DisruptionBadge />', () => {
         />,
       );
       const icon = wrapper.find(Icon);
-      expect(icon).to.have.lengthOf(1);
-      expect(icon.prop('img')).to.equal('icon_info-circled');
+      expect(icon).toHaveLength(1);
+      expect(icon.prop('img')).toBe('icon_info-circled');
     });
 
     it('renders icon_info-circled for UNKNOWN_SEVERITY variant when showIcon=true', () => {
@@ -41,8 +39,8 @@ describe('<DisruptionBadge />', () => {
         />,
       );
       const icon = wrapper.find(Icon);
-      expect(icon).to.have.lengthOf(1);
-      expect(icon.prop('img')).to.equal('icon_info-circled');
+      expect(icon).toHaveLength(1);
+      expect(icon.prop('img')).toBe('icon_info-circled');
     });
 
     it('renders icon_caution_white_exclamation for WARNING variant when showIcon=true', () => {
@@ -54,8 +52,8 @@ describe('<DisruptionBadge />', () => {
         />,
       );
       const icon = wrapper.find(Icon);
-      expect(icon).to.have.lengthOf(1);
-      expect(icon.prop('img')).to.equal('icon_caution_white_exclamation');
+      expect(icon).toHaveLength(1);
+      expect(icon.prop('img')).toBe('icon_caution_white_exclamation');
     });
 
     it('renders icon_caution_white_exclamation for SEVERE variant when showIcon=true', () => {
@@ -67,8 +65,8 @@ describe('<DisruptionBadge />', () => {
         />,
       );
       const icon = wrapper.find(Icon);
-      expect(icon).to.have.lengthOf(1);
-      expect(icon.prop('img')).to.equal('icon_caution_white_exclamation');
+      expect(icon).toHaveLength(1);
+      expect(icon.prop('img')).toBe('icon_caution_white_exclamation');
     });
   });
 });

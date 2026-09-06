@@ -1,6 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
 import { DateTime } from 'luxon';
 import { shallow } from 'enzyme';
 
@@ -16,7 +14,6 @@ import { mockMatch, mockRouter } from '../../helpers/mock-router';
 import { createScheduleTestContext } from '../../helpers/mock-schedule-context';
 
 describe('<ScheduleContainer />', () => {
-  let sandbox;
   let stubs;
   let mocks;
   let defaultProps;
@@ -117,7 +114,7 @@ describe('<ScheduleContainer />', () => {
   };
 
   beforeEach(() => {
-    // Create test context with sandbox and all stubs
+    // Create test context with all stubs
     const testContext = createScheduleTestContext({
       availableDates: [
         DateTime.fromISO('2024-01-01'),
@@ -126,21 +123,16 @@ describe('<ScheduleContainer />', () => {
       scheduleData: mockFirstDepartures,
     });
 
-    sandbox = testContext.sandbox;
     mocks = testContext.mocks;
     stubs = testContext.stubs;
 
-    routerReplaceSpy = sandbox.spy(mockRouter, 'replace');
+    routerReplaceSpy = vi.spyOn(mockRouter, 'replace');
 
     defaultProps = {
       pattern: mockPattern,
       route: mockRoute,
       firstDepartures: mockFirstDepartures,
     };
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   describe('State initialization', () => {
@@ -152,11 +144,10 @@ describe('<ScheduleContainer />', () => {
       const header = wrapper.find(ScheduleHeader);
       const tripList = wrapper.find(ScheduleTripList);
 
-      // Should start at first stop and end at last stop
-      expect(header.prop('from')).to.equal(0);
-      expect(header.prop('to')).to.equal(1); // pattern has 2 stops (0-1)
-      expect(tripList.prop('fromIdx')).to.equal(0);
-      expect(tripList.prop('toIdx')).to.equal(1);
+      expect(header.prop('from')).toBe(0);
+      expect(header.prop('to')).toBe(1);
+      expect(tripList.prop('fromIdx')).toBe(0);
+      expect(tripList.prop('toIdx')).toBe(1);
     });
   });
 
@@ -185,9 +176,8 @@ describe('<ScheduleContainer />', () => {
       wrapper.find(ScheduleHeader).prop('onToSelectChange')(2);
       wrapper.update();
 
-      // Both header and trip list should update
-      expect(wrapper.find(ScheduleHeader).prop('to')).to.equal(2);
-      expect(wrapper.find(ScheduleTripList).prop('toIdx')).to.equal(2);
+      expect(wrapper.find(ScheduleHeader).prop('to')).toBe(2);
+      expect(wrapper.find(ScheduleTripList).prop('toIdx')).toBe(2);
     });
 
     it('should auto-adjust destination when origin is moved past it', () => {
@@ -214,11 +204,10 @@ describe('<ScheduleContainer />', () => {
       wrapper.find(ScheduleHeader).prop('onFromSelectChange')(3);
       wrapper.update();
 
-      // origin is 3, so destination auto-adjusts to min(3+1, 3) = 3
-      expect(wrapper.find(ScheduleHeader).prop('from')).to.equal(3);
-      expect(wrapper.find(ScheduleHeader).prop('to')).to.equal(3);
-      expect(wrapper.find(ScheduleTripList).prop('fromIdx')).to.equal(3);
-      expect(wrapper.find(ScheduleTripList).prop('toIdx')).to.equal(3);
+      expect(wrapper.find(ScheduleHeader).prop('from')).toBe(3);
+      expect(wrapper.find(ScheduleHeader).prop('to')).toBe(3);
+      expect(wrapper.find(ScheduleTripList).prop('fromIdx')).toBe(3);
+      expect(wrapper.find(ScheduleTripList).prop('toIdx')).toBe(3);
     });
   });
 
@@ -230,9 +219,9 @@ describe('<ScheduleContainer />', () => {
 
       wrapper.find(DateSelectGrouped).prop('onDateChange')('20240102');
 
-      expect(routerReplaceSpy.calledOnce).to.equal(true);
-      const callArgs = routerReplaceSpy.firstCall.args[0];
-      expect(callArgs.query.serviceDay).to.equal('20240102');
+      expect(routerReplaceSpy).toHaveBeenCalledOnce();
+      const callArgs = routerReplaceSpy.mock.calls[0][0];
+      expect(callArgs.query.serviceDay).toBe('20240102');
     });
 
     it('should preserve other query params when changing date', () => {
@@ -253,10 +242,10 @@ describe('<ScheduleContainer />', () => {
 
       wrapper.find(DateSelectGrouped).prop('onDateChange')('20240103');
 
-      const callArgs = routerReplaceSpy.firstCall.args[0];
-      expect(callArgs.query.serviceDay).to.equal('20240103');
-      expect(callArgs.query.test).to.equal('1');
-      expect(callArgs.query.someOtherParam).to.equal('value');
+      const callArgs = routerReplaceSpy.mock.calls[0][0];
+      expect(callArgs.query.serviceDay).toBe('20240103');
+      expect(callArgs.query.test).toBe('1');
+      expect(callArgs.query.someOtherParam).toBe('value');
     });
 
     it('should parse serviceDay URL query param and pass it to DateSelectGrouped', () => {
@@ -273,7 +262,7 @@ describe('<ScheduleContainer />', () => {
       );
 
       const dateSelect = wrapper.find(DateSelectGrouped);
-      expect(dateSelect.prop('selectedDay').toISODate()).to.equal('2024-01-02');
+      expect(dateSelect.prop('selectedDay').toISODate()).toBe('2024-01-02');
     });
 
     it('should pass today as selectedDay when service only starts in the future', () => {
@@ -281,7 +270,7 @@ describe('<ScheduleContainer />', () => {
       const nextMonday = DateTime.local().startOf('week').plus({ weeks: 1 });
       const nextTuesday = nextMonday.plus({ days: 1 });
 
-      stubs.buildAvailableDates.returns([nextMonday, nextTuesday]);
+      stubs.buildAvailableDates.mockReturnValue([nextMonday, nextTuesday]);
 
       // No serviceDay in URL — wantedDay should default to today
       const wrapper = shallow(
@@ -292,7 +281,7 @@ describe('<ScheduleContainer />', () => {
       // The data is fetched for today; the picker must show today so the
       // selected value matches what is actually being displayed.
       const today = DateTime.local();
-      expect(dateSelect.prop('selectedDay').toISODate()).to.equal(
+      expect(dateSelect.prop('selectedDay').toISODate()).toBe(
         today.toISODate(),
       );
     });
@@ -312,12 +301,11 @@ describe('<ScheduleContainer />', () => {
 
       // Should render constant operation component
       const constantOp = wrapper.find(ScheduleConstantOperation);
-      expect(constantOp).to.have.lengthOf(1);
-      expect(constantOp.prop('route')).to.equal(defaultProps.route);
+      expect(constantOp).toHaveLength(1);
+      expect(constantOp.prop('route')).toBe(defaultProps.route);
 
-      // Should not render regular timetable components
-      expect(wrapper.find(ScheduleHeader)).to.have.lengthOf(0);
-      expect(wrapper.find(ScheduleTripList)).to.have.lengthOf(0);
+      expect(wrapper.find(ScheduleHeader)).toHaveLength(0);
+      expect(wrapper.find(ScheduleTripList)).toHaveLength(0);
     });
 
     it('should show regular timetable when route has no constant operation', () => {
@@ -327,12 +315,10 @@ describe('<ScheduleContainer />', () => {
         <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
       );
 
-      // Should render regular timetable components
-      expect(wrapper.find(ScheduleHeader)).to.have.lengthOf(1);
-      expect(wrapper.find(ScheduleTripList)).to.have.lengthOf(1);
+      expect(wrapper.find(ScheduleHeader)).toHaveLength(1);
+      expect(wrapper.find(ScheduleTripList)).toHaveLength(1);
 
-      // Should not render constant operation component
-      expect(wrapper.find(ScheduleConstantOperation)).to.have.lengthOf(0);
+      expect(wrapper.find(ScheduleConstantOperation)).toHaveLength(0);
     });
 
     it('should not show RouteControlPanel when route has no patterns', () => {
@@ -349,11 +335,11 @@ describe('<ScheduleContainer />', () => {
         <ScheduleContainer {...props} match={mockMatchWithRouter} />,
       );
 
-      expect(wrapper.find(RouteControlPanel)).to.have.lengthOf(0);
+      expect(wrapper.find(RouteControlPanel)).toHaveLength(0);
     });
 
     it('should show no-trips message when no trips are available', () => {
-      stubs.getTripsList.returns({
+      stubs.getTripsList.mockReturnValue({
         trips: null,
         noTripsMessage: <div className="no-trips-test">No service today</div>,
       });
@@ -362,23 +348,19 @@ describe('<ScheduleContainer />', () => {
         <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
       );
 
-      // Should show the no-trips message
-      expect(wrapper.find('.no-trips-test')).to.have.lengthOf(1);
-      expect(wrapper.find('.no-trips-test').text()).to.equal(
-        'No service today',
-      );
+      expect(wrapper.find('.no-trips-test')).toHaveLength(1);
+      expect(wrapper.find('.no-trips-test').text()).toBe('No service today');
 
-      // Should not show trip list
-      expect(wrapper.find(ScheduleTripList)).to.have.lengthOf(0);
+      expect(wrapper.find(ScheduleTripList)).toHaveLength(0);
     });
 
     it('should show timetable print button when route PDF config exists', () => {
       mocks.config.URL.ROUTE_TIMETABLES = { HSL: 'https://example.com' };
       mocks.config.timetables = {
         HSL: {
-          routeTimetableUrlResolver: sandbox
-            .stub()
-            .returns({ href: 'https://example.com/timetable.pdf' }),
+          routeTimetableUrlResolver: vi
+            .fn()
+            .mockReturnValue({ href: 'https://example.com/timetable.pdf' }),
         },
       };
 
@@ -390,8 +372,8 @@ describe('<ScheduleContainer />', () => {
         .find(SecondaryButton)
         .filterWhere(button => button.prop('buttonName') === 'print-timetable');
 
-      expect(printButton).to.have.lengthOf(1);
-      expect(printButton.prop('buttonClickAction')).to.be.a('function');
+      expect(printButton).toHaveLength(1);
+      expect(typeof printButton.prop('buttonClickAction')).toBe('function');
     });
 
     it('should not show timetable print button when route PDF config is missing', () => {
@@ -406,7 +388,7 @@ describe('<ScheduleContainer />', () => {
         .find(SecondaryButton)
         .filterWhere(button => button.prop('buttonName') === 'print-timetable');
 
-      expect(printButton).to.have.lengthOf(0);
+      expect(printButton).toHaveLength(0);
     });
   });
 
@@ -417,7 +399,7 @@ describe('<ScheduleContainer />', () => {
       );
 
       const header = wrapper.find(ScheduleHeader);
-      expect(header.prop('stops')).to.equal(defaultProps.pattern.stops);
+      expect(header.prop('stops')).toBe(defaultProps.pattern.stops);
     });
 
     it('should pass trips from utility to trip list component', () => {
@@ -425,14 +407,17 @@ describe('<ScheduleContainer />', () => {
         { id: 'trip-1', stoptimes: [] },
         { id: 'trip-2', stoptimes: [] },
       ];
-      stubs.getTripsList.returns({ trips: mockTrips, noTripsMessage: null });
+      stubs.getTripsList.mockReturnValue({
+        trips: mockTrips,
+        noTripsMessage: null,
+      });
 
       const wrapper = shallow(
         <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
       );
 
       const tripList = wrapper.find(ScheduleTripList);
-      expect(tripList.prop('trips')).to.equal(mockTrips);
+      expect(tripList.prop('trips')).toBe(mockTrips);
     });
 
     it('should pass route and breakpoint to control panel', () => {
@@ -441,8 +426,8 @@ describe('<ScheduleContainer />', () => {
       );
 
       const controlPanel = wrapper.find(RouteControlPanel);
-      expect(controlPanel.prop('route')).to.equal(defaultProps.route);
-      expect(controlPanel.prop('breakpoint')).to.equal('large');
+      expect(controlPanel.prop('route')).toBe(defaultProps.route);
+      expect(controlPanel.prop('breakpoint')).toBe('large');
     });
 
     it('should pass available dates to date selector', () => {
@@ -451,15 +436,15 @@ describe('<ScheduleContainer />', () => {
         DateTime.fromISO('2024-01-02'),
         DateTime.fromISO('2024-01-03'),
       ];
-      stubs.buildAvailableDates.returns(mockDates);
+      stubs.buildAvailableDates.mockReturnValue(mockDates);
 
       const wrapper = shallow(
         <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
       );
 
       const dateSelect = wrapper.find(DateSelectGrouped);
-      expect(dateSelect.prop('dates')).to.equal(mockDates);
-      expect(dateSelect.prop('dateFormat')).to.equal(DATE_FORMAT);
+      expect(dateSelect.prop('dates')).toBe(mockDates);
+      expect(dateSelect.prop('dateFormat')).toBe(DATE_FORMAT);
     });
 
     it('should keep header and trip list from/to indices synchronized', () => {
@@ -485,17 +470,15 @@ describe('<ScheduleContainer />', () => {
       wrapper.find(ScheduleHeader).prop('onFromSelectChange')(1);
       wrapper.update();
 
-      // Header and trip list should match
-      expect(wrapper.find(ScheduleHeader).prop('from')).to.equal(1);
-      expect(wrapper.find(ScheduleTripList).prop('fromIdx')).to.equal(1);
+      expect(wrapper.find(ScheduleHeader).prop('from')).toBe(1);
+      expect(wrapper.find(ScheduleTripList).prop('fromIdx')).toBe(1);
 
       // Change destination
       wrapper.find(ScheduleHeader).prop('onToSelectChange')(1);
       wrapper.update();
 
-      // Both should stay synchronized
-      expect(wrapper.find(ScheduleHeader).prop('to')).to.equal(1);
-      expect(wrapper.find(ScheduleTripList).prop('toIdx')).to.equal(1);
+      expect(wrapper.find(ScheduleHeader).prop('to')).toBe(1);
+      expect(wrapper.find(ScheduleTripList).prop('toIdx')).toBe(1);
     });
   });
 });
