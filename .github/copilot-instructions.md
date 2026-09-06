@@ -80,8 +80,8 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
   and the workspace-package suites share one `config/vitest.config.js`: the app suite is the `app`
   project, the workspace packages are the other projects and run with `--project '!app'`.
   - For new React component tests, prefer **React Testing Library** and test components from the user's perspective rather than relying on implementation details.
-  - Run all: `yarn test-unit` (runs `workspace-packages-test` + `test-unit:app`).
-  - Run just the app suite: `yarn test-unit:app`.
+  - Run all: `yarn test-unit` (one `vitest run` over every project in `config/vitest.config.js`).
+  - Run just the app suite: `yarn test-unit:app` (`--project app`); just the packages: `yarn workspace-packages-test` (`--project '!app'`).
   - Run a single test by name (matches `describe`/`it` text):
     `yarn test-single -t <pattern>` (this is `test-unit:app -t <pattern>`).
   - Watch mode: `yarn test-unit:app --watch`.

@@ -23,7 +23,7 @@
     "dev": "bash scripts/dev.sh",
     "dev-nowatch": "bash -c 'RUN_ENV=development NODE_ENV=development node server/server.js & NODE_ENV=development webpack-dev-server'",
     "test-accessibility": "./test/accessibility.sh",
-    "test-unit": "yarn workspace-packages-test && yarn test-unit:app",
+    "test-unit": "yarn workspace-packages-build && NODE_OPTIONS=\"--import ./config/vitest.jsx-runtime-loader.mjs\" vitest run --config config/vitest.config.js",
     "test-unit:app": "vitest run --config config/vitest.config.js --project app",
     "test-single": "yarn test-unit:app -t",
     "test:e2e": "jest --runInBand --detectOpenHandles --config=./test/e2e/jest.config.js",

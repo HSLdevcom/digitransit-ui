@@ -103,10 +103,10 @@ package has actually used since the migration to Rollup). Instead:
 6. Generate its README: run `yarn workspace-packages-docs` from the repo
    root, or `yarn docs` from inside the new package's directory (see
    [Documentation](#documentation-readme-generation)).
-7. Add tests to CI simply by existing — `yarn workspace-packages-test` (part
-   of `yarn test-unit`, run with `--project '!app'`) discovers every package
-   in every family automatically via Vitest's `include` glob
-   (`digitransit-<family>/packages/*/test.js`).
+7. Add tests to CI simply by existing — `yarn test-unit` (all projects) and
+   `yarn workspace-packages-test` (`--project '!app'`, packages only) both
+   discover every package in every family automatically via Vitest's `include`
+   glob (`digitransit-<family>/packages/*/test.js`).
 
 ## Testing
 
