@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import * as utils from '../../../app/util/legUtils';
 
 describe('legUtils', () => {
@@ -7,7 +5,7 @@ describe('legUtils', () => {
     it('should return undefined for a null leg', () => {
       const leg = null;
       const mode = utils.getLegMode(leg);
-      expect(mode).to.equal(undefined);
+      expect(mode).toBe(undefined);
     });
 
     it('should return undefined for a null mode', () => {
@@ -15,7 +13,7 @@ describe('legUtils', () => {
         mode: null,
       };
       const mode = utils.getLegMode(leg);
-      expect(mode).to.equal(undefined);
+      expect(mode).toBe(undefined);
     });
 
     it('should return undefined for an unknown mode', () => {
@@ -23,7 +21,7 @@ describe('legUtils', () => {
         mode: 'invalid',
       };
       const mode = utils.getLegMode(leg);
-      expect(mode).to.equal(undefined);
+      expect(mode).toBe(undefined);
     });
 
     it('should be case-insensitive', () => {
@@ -31,20 +29,20 @@ describe('legUtils', () => {
         mode: 'citybike',
       };
       const mode = utils.getLegMode(leg);
-      expect(mode).to.equal(utils.LegMode.CityBike);
+      expect(mode).toBe(utils.LegMode.CityBike);
     });
 
     it('should return the mode for a string literal mode', () => {
       const literalMode = 'WALK';
       const mode = utils.getLegMode(literalMode);
-      expect(mode).to.equal(utils.LegMode.Walk);
+      expect(mode).toBe(utils.LegMode.Walk);
     });
 
     it('should return the mode for a string object mode', () => {
       // eslint-disable-next-line no-new-wrappers
       const objectMode = new String('WALK');
       const mode = utils.getLegMode(objectMode);
-      expect(mode).to.equal(utils.LegMode.Walk);
+      expect(mode).toBe(utils.LegMode.Walk);
     });
   });
 
@@ -54,7 +52,7 @@ describe('legUtils', () => {
         legs: [],
       };
       const distance = utils.getTotalWalkingDistance(itinerary);
-      expect(distance).to.equal(0);
+      expect(distance).toBe(0);
     });
 
     it('should include only walking legs', () => {
@@ -71,7 +69,7 @@ describe('legUtils', () => {
         ],
       };
       const distance = utils.getTotalWalkingDistance(itinerary);
-      expect(distance).to.equal(2);
+      expect(distance).toBe(2);
     });
 
     it('should include all walking legs', () => {
@@ -92,7 +90,7 @@ describe('legUtils', () => {
         ],
       };
       const distance = utils.getTotalWalkingDistance(itinerary);
-      expect(distance).to.equal(3);
+      expect(distance).toBe(3);
     });
 
     it('should include bicycle_walk legs', () => {
@@ -109,7 +107,7 @@ describe('legUtils', () => {
         ],
       };
       const distance = utils.getTotalWalkingDistance(itinerary);
-      expect(distance).to.equal(3);
+      expect(distance).toBe(3);
     });
   });
 
@@ -119,7 +117,7 @@ describe('legUtils', () => {
         legs: [],
       };
       const distance = utils.getTotalBikingDistance(itinerary);
-      expect(distance).to.equal(0);
+      expect(distance).toBe(0);
     });
 
     it('should include bicycle legs', () => {
@@ -136,7 +134,7 @@ describe('legUtils', () => {
         ],
       };
       const distance = utils.getTotalBikingDistance(itinerary);
-      expect(distance).to.equal(1);
+      expect(distance).toBe(1);
     });
 
     it('should include citybike legs', () => {
@@ -153,7 +151,7 @@ describe('legUtils', () => {
         ],
       };
       const distance = utils.getTotalBikingDistance(itinerary);
-      expect(distance).to.equal(1);
+      expect(distance).toBe(1);
     });
   });
 
@@ -354,11 +352,11 @@ describe('legUtils', () => {
       expect(
         compressedLegs.filter(leg => leg.to.name === 'Jorvas, Kirkkonummi')[0]
           .mode,
-      ).to.equal('BICYCLE');
+      ).toBe('BICYCLE');
       expect(
         compressedLegs.filter(leg => leg.from.name === 'Jorvas, Kirkkonummi')[0]
           .mode,
-      ).to.equal('BICYCLE');
+      ).toBe('BICYCLE');
     });
 
     it('should not compress intermediate legs', () => {
@@ -367,15 +365,15 @@ describe('legUtils', () => {
       expect(
         compressedLegs.filter(leg => leg.from.name === 'Jorvas, Kirkkonummi')[0]
           .from.viaLocationType === 'VISIT',
-      ).to.equal(true);
+      ).toBe(true);
       expect(
         compressedLegs.filter(
           leg => leg.from.name === 'Elfvinginkuja 7, Kirkkonummi',
         )[0].from.viaLocationType === 'VISIT',
-      ).to.equal(true);
+      ).toBe(true);
       expect(
         compressedLegs.filter(leg => !!leg.from.viaLocationType).length,
-      ).to.equal(2);
+      ).toBe(2);
     });
   });
 
@@ -384,23 +382,23 @@ describe('legUtils', () => {
       const itinerary = {
         legs: [{ distance: 1 }, { distance: 3 }, { distance: 5 }],
       };
-      expect(utils.getTotalDistance(itinerary)).to.equal(9);
+      expect(utils.getTotalDistance(itinerary)).toBe(9);
     });
 
     it('should ignore a missing distance value', () => {
       const itinerary = {
         legs: [{ distance: 1 }, { distance: undefined }, { distance: 5 }],
       };
-      expect(utils.getTotalDistance(itinerary)).to.equal(6);
+      expect(utils.getTotalDistance(itinerary)).toBe(6);
     });
   });
 
   describe('getZones', () => {
     it('should return an empty array if there are no legs', () => {
-      expect(utils.getZones({})).to.deep.equal([]);
-      expect(utils.getZones(undefined)).to.deep.equal([]);
-      expect(utils.getZones(null)).to.deep.equal([]);
-      expect(utils.getZones([])).to.deep.equal([]);
+      expect(utils.getZones({})).toEqual([]);
+      expect(utils.getZones(undefined)).toEqual([]);
+      expect(utils.getZones(null)).toEqual([]);
+      expect(utils.getZones([])).toEqual([]);
     });
 
     it('should ignore a missing "from" field', () => {
@@ -413,7 +411,7 @@ describe('legUtils', () => {
           },
         },
       ];
-      expect(utils.getZones(legs)).to.deep.equal(['A']);
+      expect(utils.getZones(legs)).toEqual(['A']);
     });
 
     it('should ignore a missing "to" field', () => {
@@ -426,7 +424,7 @@ describe('legUtils', () => {
           },
         },
       ];
-      expect(utils.getZones(legs)).to.deep.equal(['A']);
+      expect(utils.getZones(legs)).toEqual(['A']);
     });
 
     it('should retrieve the zone from "from"', () => {
@@ -444,7 +442,7 @@ describe('legUtils', () => {
           },
         },
       ];
-      expect(utils.getZones(legs)).to.deep.equal(['A']);
+      expect(utils.getZones(legs)).toEqual(['A']);
     });
 
     it('should retrieve the zone from "to"', () => {
@@ -462,7 +460,7 @@ describe('legUtils', () => {
           },
         },
       ];
-      expect(utils.getZones(legs)).to.deep.equal(['A']);
+      expect(utils.getZones(legs)).toEqual(['A']);
     });
 
     it('should retrieve the zone from "intermediatePlaces"', () => {
@@ -485,7 +483,7 @@ describe('legUtils', () => {
           ],
         },
       ];
-      expect(utils.getZones(legs)).to.deep.equal(['A']);
+      expect(utils.getZones(legs)).toEqual(['A']);
     });
 
     it('should add zone "B" if zones "A" and "C" already exist', () => {
@@ -505,7 +503,7 @@ describe('legUtils', () => {
           },
         },
       ];
-      expect(utils.getZones(legs)).to.deep.equal(['A', 'B', 'C']);
+      expect(utils.getZones(legs)).toEqual(['A', 'B', 'C']);
     });
 
     it('should return unique values in alphabetical order', () => {
@@ -555,7 +553,7 @@ describe('legUtils', () => {
           },
         },
       ];
-      expect(utils.getZones(legs)).to.deep.equal(['A', 'B', 'C']);
+      expect(utils.getZones(legs)).toEqual(['A', 'B', 'C']);
     });
   });
 
@@ -565,7 +563,7 @@ describe('legUtils', () => {
         legs: [],
       };
       const duration = utils.getTotalWalkingDuration(itinerary);
-      expect(duration).to.equal(0);
+      expect(duration).toBe(0);
     });
 
     it('should include only walking legs', () => {
@@ -582,7 +580,7 @@ describe('legUtils', () => {
         ],
       };
       const duration = utils.getTotalWalkingDuration(itinerary);
-      expect(duration).to.equal(240);
+      expect(duration).toBe(240);
     });
 
     it('should include all walking legs', () => {
@@ -603,7 +601,7 @@ describe('legUtils', () => {
         ],
       };
       const duration = utils.getTotalWalkingDuration(itinerary);
-      expect(duration).to.equal(480);
+      expect(duration).toBe(480);
     });
 
     it('should include bicycle_walk legs', () => {
@@ -620,7 +618,7 @@ describe('legUtils', () => {
         ],
       };
       const duration = utils.getTotalWalkingDuration(itinerary);
-      expect(duration).to.equal(360);
+      expect(duration).toBe(360);
     });
   });
 
@@ -630,7 +628,7 @@ describe('legUtils', () => {
         legs: [],
       };
       const duration = utils.getTotalBikingDuration(itinerary);
-      expect(duration).to.equal(0);
+      expect(duration).toBe(0);
     });
 
     it('should include bicycle legs', () => {
@@ -647,7 +645,7 @@ describe('legUtils', () => {
         ],
       };
       const duration = utils.getTotalBikingDuration(itinerary);
-      expect(duration).to.equal(120);
+      expect(duration).toBe(120);
     });
 
     it('should include citybike legs', () => {
@@ -664,7 +662,7 @@ describe('legUtils', () => {
         ],
       };
       const duration = utils.getTotalBikingDuration(itinerary);
-      expect(duration).to.equal(120);
+      expect(duration).toBe(120);
     });
   });
 });

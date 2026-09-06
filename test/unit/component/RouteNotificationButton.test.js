@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../helpers/mock-providers';
@@ -25,10 +23,10 @@ describe('<RouteNotificationButton />', () => {
     const { container } = renderNotification();
     expect(
       container.querySelectorAll('.route-notification-trigger'),
-    ).to.have.lengthOf(1);
+    ).toHaveLength(1);
     expect(
       container.querySelector('.route-notification-trigger span').textContent,
-    ).to.equal('Close info');
+    ).toBe('Close info');
   });
 
   it('renders nothing when closeButtonLabel is missing for the locale', () => {
@@ -37,41 +35,41 @@ describe('<RouteNotificationButton />', () => {
       closeButtonLabel: { fi: 'Sulje' },
     };
     const { container } = renderNotification(notification);
-    expect(container.innerHTML).to.equal('');
+    expect(container.innerHTML).toBe('');
   });
 
   it('renders nothing when closeButtonLabel is undefined', () => {
     const notification = { ...baseNotification, closeButtonLabel: undefined };
     const { container } = renderNotification(notification);
-    expect(container.innerHTML).to.equal('');
+    expect(container.innerHTML).toBe('');
   });
 
   it('wraps multiple content items in a list when the modal opens', () => {
     const { container } = renderNotification();
     fireEvent.click(container.querySelector('.route-notification-trigger'));
-    expect(document.body.querySelectorAll('ul')).to.have.lengthOf(1);
-    expect(document.body.querySelectorAll('ul li')).to.have.lengthOf(2);
+    expect(document.body.querySelectorAll('ul')).toHaveLength(1);
+    expect(document.body.querySelectorAll('ul li')).toHaveLength(2);
   });
 
   it('omits the link when no link is provided for the locale', () => {
     const notification = { ...baseNotification, link: undefined };
     const { container } = renderNotification(notification);
     fireEvent.click(container.querySelector('.route-notification-trigger'));
-    expect(document.body.querySelector('a')).to.equal(null);
+    expect(document.body.querySelector('a')).toBe(null);
   });
 
   it('opens the modal on click', () => {
     const { container } = renderNotification();
     fireEvent.click(container.querySelector('.route-notification-trigger'));
-    expect(document.body.querySelector('[role="dialog"]')).to.not.equal(null);
+    expect(document.body.querySelector('[role="dialog"]')).not.toBe(null);
   });
 
   it('closes the modal when Escape is pressed', () => {
     const { container } = renderNotification();
     fireEvent.click(container.querySelector('.route-notification-trigger'));
     const dialog = document.body.querySelector('[role="dialog"]');
-    expect(dialog).to.not.equal(null);
+    expect(dialog).not.toBe(null);
     fireEvent.keyDown(dialog, { key: 'Escape', code: 'Escape' });
-    expect(document.body.querySelector('[role="dialog"]')).to.equal(null);
+    expect(document.body.querySelector('[role="dialog"]')).toBe(null);
   });
 });

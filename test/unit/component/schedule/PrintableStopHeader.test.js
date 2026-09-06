@@ -1,6 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { render } from '@testing-library/react';
 
 import PrintableStopHeader from '../../../../app/component/routepage/schedule/PrintableStopHeader';
@@ -13,23 +11,21 @@ describe('<PrintableStopHeader />', () => {
 
   it('should render without crashing', () => {
     const { container } = render(<PrintableStopHeader {...defaultProps} />);
-    expect(container.querySelector('.printable-stop-header')).to.not.equal(
-      null,
-    );
+    expect(container.querySelector('.printable-stop-header')).not.toBe(null);
   });
 
   it('should display origin stop name', () => {
     const { container } = render(<PrintableStopHeader {...defaultProps} />);
     expect(
       container.querySelector('.printable-stop-header_from').textContent,
-    ).to.equal('Kamppi');
+    ).toBe('Kamppi');
   });
 
   it('should display destination stop name', () => {
     const { container } = render(<PrintableStopHeader {...defaultProps} />);
     expect(
       container.querySelector('.printable-stop-header_to').textContent,
-    ).to.equal('Rautatientori');
+    ).toBe('Rautatientori');
   });
 
   it('should display both stop names with special characters', () => {
@@ -41,9 +37,9 @@ describe('<PrintableStopHeader />', () => {
 
     expect(
       container.querySelector('.printable-stop-header_from').textContent,
-    ).to.equal('Käpylä (Helsinki)');
+    ).toBe('Käpylä (Helsinki)');
     expect(
       container.querySelector('.printable-stop-header_to').textContent,
-    ).to.equal('Töölö / Tölö');
+    ).toBe('Töölö / Tölö');
   });
 });

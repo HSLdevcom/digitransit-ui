@@ -15,11 +15,7 @@ describe('<VehicleRentalStationAvailability />', () => {
     const { container } = renderWithProviders(
       <VehicleRentalAvailability {...props} />,
     );
-    expect(container.querySelector('.availability-container')).to.not.equal(
-      null,
-    );
-    expect(container.querySelectorAll('.availability-header')).to.have.lengthOf(
-      1,
-    );
+    expect(container.querySelector('.availability-container')).not.toBe(null);
+    expect(container.querySelectorAll('.availability-header')).toHaveLength(1);
   });
 });

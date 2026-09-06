@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { Component as RouteStopListContainer } from '../../../app/component/routepage/RouteStopListContainer';
 
@@ -110,6 +109,6 @@ describe('<RouteStopListContainer />', () => {
       <RouteStopListContainer {...props} />,
       { currentTime: 1573135114 },
     );
-    expect(container.querySelectorAll('.route-stop-list')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.route-stop-list')).toHaveLength(1);
   });
 });

@@ -24,13 +24,13 @@ const defaultProps = {
 describe('<MapWithTracking />', () => {
   const originalGetContext = HTMLCanvasElement.prototype.getContext;
 
-  before(() => {
+  beforeAll(() => {
     HTMLCanvasElement.prototype.getContext = () => ({});
     global.requestAnimationFrame = callback => setTimeout(callback, 0);
     global.cancelAnimationFrame = id => clearTimeout(id);
   });
 
-  after(() => {
+  afterAll(() => {
     HTMLCanvasElement.prototype.getContext = originalGetContext;
   });
 
@@ -48,6 +48,6 @@ describe('<MapWithTracking />', () => {
         },
       },
     );
-    expect(container.innerHTML).to.not.equal('');
+    expect(container.innerHTML).not.toBe('');
   });
 });

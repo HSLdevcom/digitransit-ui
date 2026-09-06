@@ -1,6 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { mockMatch } from '../helpers/mock-router';
 import { Component as StopPageContentContainer } from '../../../app/component/stop/StopPageContentContainer';
@@ -22,8 +20,8 @@ describe('<StopPageContentContainer />', () => {
       <StopPageContentContainer {...props} />,
       { currentTime: 0 },
     );
-    expect(
-      container.querySelector('.stop-no-departures-container'),
-    ).to.not.equal(null);
+    expect(container.querySelector('.stop-no-departures-container')).not.toBe(
+      null,
+    );
   });
 });

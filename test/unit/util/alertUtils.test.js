@@ -8,31 +8,29 @@ import * as utils from '../../../app/util/alertUtils';
 describe('alertUtils', () => {
   describe('stoptimeHasCancelation', () => {
     it('should return false if stoptime is undefined', () => {
-      expect(utils.stoptimeHasCancelation(undefined)).to.equal(false);
+      expect(utils.stoptimeHasCancelation(undefined)).toBe(false);
     });
 
     it('should return false if stoptime has a non-matching realtimeState', () => {
-      expect(
-        utils.stoptimeHasCancelation({ realtimeState: 'SCHEDULED' }),
-      ).to.equal(false);
+      expect(utils.stoptimeHasCancelation({ realtimeState: 'SCHEDULED' })).toBe(
+        false,
+      );
     });
 
     it('should return true if stoptime has a matching realtimeState', () => {
-      expect(
-        utils.stoptimeHasCancelation({ realtimeState: 'CANCELED' }),
-      ).to.equal(true);
+      expect(utils.stoptimeHasCancelation({ realtimeState: 'CANCELED' })).toBe(
+        true,
+      );
     });
   });
 
   describe('tripHasCancelation', () => {
     it('should return false if trip is undefined', () => {
-      expect(utils.tripHasCancelation(undefined)).to.equal(false);
+      expect(utils.tripHasCancelation(undefined)).toBe(false);
     });
 
     it('should return false if trip has no array "stoptimes"', () => {
-      expect(utils.tripHasCancelation({ stoptimes: undefined })).to.equal(
-        false,
-      );
+      expect(utils.tripHasCancelation({ stoptimes: undefined })).toBe(false);
     });
 
     it('should return false if only some of the stoptimes have been canceled', () => {
@@ -43,7 +41,7 @@ describe('alertUtils', () => {
             { realtimeState: 'SCHEDULED' },
           ],
         }),
-      ).to.equal(false);
+      ).toBe(false);
     });
 
     it('should return true if all of the stoptimes have been canceled', () => {
@@ -54,7 +52,7 @@ describe('alertUtils', () => {
             { realtimeState: 'CANCELED' },
           ],
         }),
-      ).to.equal(true);
+      ).toBe(true);
     });
   });
 
@@ -62,11 +60,11 @@ describe('alertUtils', () => {
     it('should return false if trip is undefined', () => {
       expect(
         utils.tripHasCancelationForStop(undefined, { gtfsId: 'foo' }),
-      ).to.equal(false);
+      ).toBe(false);
     });
 
     it('should return false if trip has no array "stoptimes"', () => {
-      expect(utils.tripHasCancelationForStop({}, { gtfsId: 'foo' })).to.equal(
+      expect(utils.tripHasCancelationForStop({}, { gtfsId: 'foo' })).toBe(
         false,
       );
     });
@@ -84,7 +82,7 @@ describe('alertUtils', () => {
           },
           undefined,
         ),
-      ).to.equal(false);
+      ).toBe(false);
     });
 
     it('should return false if stop has no gtfsId', () => {
@@ -100,7 +98,7 @@ describe('alertUtils', () => {
           },
           {},
         ),
-      ).to.equal(false);
+      ).toBe(false);
     });
 
     it('should return true when there is a cancelation for the given stop', () => {
@@ -118,39 +116,39 @@ describe('alertUtils', () => {
             gtfsId: 'foo',
           },
         ),
-      ).to.equal(true);
+      ).toBe(true);
     });
   });
 
   describe('legHasCancelation', () => {
     it('should return false if leg is falsy', () => {
-      expect(utils.legHasCancelation(undefined)).to.equal(false);
+      expect(utils.legHasCancelation(undefined)).toBe(false);
     });
 
     it('should return false if the leg has not been canceled', () => {
       expect(
         utils.legHasCancelation({ realtimeState: RealtimeStateType.Scheduled }),
-      ).to.equal(false);
+      ).toBe(false);
     });
 
     it('should return true if the leg has been canceled', () => {
       expect(
         utils.legHasCancelation({ realtimeState: RealtimeStateType.Canceled }),
-      ).to.equal(true);
+      ).toBe(true);
     });
   });
 
   describe('getMaximumAlertSeverityLevel', () => {
     it('should return undefined if the alerts array is not an array', () => {
-      expect(utils.getMaximumAlertSeverityLevel(undefined)).to.equal(undefined);
+      expect(utils.getMaximumAlertSeverityLevel(undefined)).toBe(undefined);
     });
 
     it('should return undefined if the alerts array is empty', () => {
-      expect(utils.getMaximumAlertSeverityLevel([])).to.equal(undefined);
+      expect(utils.getMaximumAlertSeverityLevel([])).toBe(undefined);
     });
 
     it('should return undefined if the severity level cannot be determined', () => {
-      expect(utils.getMaximumAlertSeverityLevel([{ foo: 'bar' }])).to.equal(
+      expect(utils.getMaximumAlertSeverityLevel([{ foo: 'bar' }])).toBe(
         undefined,
       );
     });
@@ -161,7 +159,7 @@ describe('alertUtils', () => {
         { alertSeverityLevel: AlertSeverityLevelType.Info },
         { foo: 'baz' },
       ];
-      expect(utils.getMaximumAlertSeverityLevel(alerts)).to.equal(
+      expect(utils.getMaximumAlertSeverityLevel(alerts)).toBe(
         AlertSeverityLevelType.Info,
       );
     });
@@ -171,7 +169,7 @@ describe('alertUtils', () => {
         { alertSeverityLevel: AlertSeverityLevelType.Severe },
         { alertSeverityLevel: AlertSeverityLevelType.Warning },
       ];
-      expect(utils.getMaximumAlertSeverityLevel(alerts)).to.equal(
+      expect(utils.getMaximumAlertSeverityLevel(alerts)).toBe(
         AlertSeverityLevelType.Severe,
       );
     });
@@ -181,7 +179,7 @@ describe('alertUtils', () => {
         { alertSeverityLevel: AlertSeverityLevelType.Info },
         { alertSeverityLevel: AlertSeverityLevelType.Warning },
       ];
-      expect(utils.getMaximumAlertSeverityLevel(alerts)).to.equal(
+      expect(utils.getMaximumAlertSeverityLevel(alerts)).toBe(
         AlertSeverityLevelType.Warning,
       );
     });
@@ -191,7 +189,7 @@ describe('alertUtils', () => {
         { alertSeverityLevel: AlertSeverityLevelType.Info },
         { alertSeverityLevel: AlertSeverityLevelType.Unknown },
       ];
-      expect(utils.getMaximumAlertSeverityLevel(alerts)).to.equal(
+      expect(utils.getMaximumAlertSeverityLevel(alerts)).toBe(
         AlertSeverityLevelType.Info,
       );
     });
@@ -199,7 +197,7 @@ describe('alertUtils', () => {
 
   describe('isAlertValid', () => {
     it('should mark an alert missing its validity period as valid', () => {
-      expect(utils.isAlertValid({}, 1)).to.equal(true);
+      expect(utils.isAlertValid({}, 1)).toBe(true);
     });
 
     it('should mark an alert missing its validity start and end times as valid', () => {
@@ -208,7 +206,7 @@ describe('alertUtils', () => {
           { effectiveStartDate: null, effectiveEndDate: null },
           1000,
         ),
-      ).to.equal(true);
+      ).toBe(true);
     });
 
     it('should mark an alert in the past as invalid', () => {
@@ -217,7 +215,7 @@ describe('alertUtils', () => {
           { effectiveStartDate: 1000, effectiveEndDate: 2000 },
           2500,
         ),
-      ).to.equal(false);
+      ).toBe(false);
     });
 
     it('should mark a current alert as valid', () => {
@@ -226,7 +224,7 @@ describe('alertUtils', () => {
           { effectiveStartDate: 1000, effectiveEndDate: 2000 },
           1500,
         ),
-      ).to.equal(true);
+      ).toBe(true);
     });
 
     it('should mark a current alert within DEFAULT_VALIDITY period as valid', () => {
@@ -234,7 +232,7 @@ describe('alertUtils', () => {
         utils.isAlertValid({ effectiveStartDate: 1000 }, 1100, {
           defaultValidity: 200,
         }),
-      ).to.equal(true);
+      ).toBe(true);
     });
 
     it('should mark an alert after the DEFAULT_VALIDITY period as invalid', () => {
@@ -242,7 +240,7 @@ describe('alertUtils', () => {
         utils.isAlertValid({ effectiveStartDate: 1000 }, 1300, {
           defaultValidity: 200,
         }),
-      ).to.equal(false);
+      ).toBe(false);
     });
 
     it('should mark an alert in the future as invalid', () => {
@@ -251,7 +249,7 @@ describe('alertUtils', () => {
           { effectiveStartDate: 1000, effectiveEndDate: 2000 },
           500,
         ),
-      ).to.equal(false);
+      ).toBe(false);
     });
 
     it('should mark an alert as valid if the given reference time is not a number', () => {
@@ -260,7 +258,7 @@ describe('alertUtils', () => {
           { effectiveStartDate: 0, effectiveEndDate: 1000 },
           undefined,
         ),
-      ).to.equal(true);
+      ).toBe(true);
     });
 
     it('should accept non-integer numbers', () => {
@@ -272,11 +270,11 @@ describe('alertUtils', () => {
           },
           1558678507424 / 1000,
         ),
-      ).to.equal(false);
+      ).toBe(false);
     });
 
     it('should return false if the alert itself is falsy', () => {
-      expect(utils.isAlertValid(undefined, 0)).to.equal(false);
+      expect(utils.isAlertValid(undefined, 0)).toBe(false);
     });
 
     it('should return true if the alert is in the future when configured', () => {
@@ -286,19 +284,19 @@ describe('alertUtils', () => {
           99,
           { isFutureValid: true },
         ),
-      ).to.equal(true);
+      ).toBe(true);
     });
   });
 
   describe('getCancelationsForRoute', () => {
     it('should return an empty array if route is missing', () => {
-      expect(utils.getCancelationsForRoute(undefined)).to.deep.equal([]);
+      expect(utils.getCancelationsForRoute(undefined)).toEqual([]);
     });
 
     it('should return an empty array if route has no array "patterns"', () => {
-      expect(
-        utils.getCancelationsForRoute({ patterns: undefined }),
-      ).to.deep.equal([]);
+      expect(utils.getCancelationsForRoute({ patterns: undefined })).toEqual(
+        [],
+      );
     });
 
     it('should return stoptimes with cancelations', () => {
@@ -317,7 +315,7 @@ describe('alertUtils', () => {
           },
         ],
       };
-      expect(utils.getCancelationsForRoute(route)).to.have.lengthOf(1);
+      expect(utils.getCancelationsForRoute(route)).toHaveLength(1);
     });
 
     it('should filter by patternId', () => {
@@ -349,14 +347,14 @@ describe('alertUtils', () => {
           },
         ],
       };
-      expect(utils.getCancelationsForRoute(route, 'foo')).to.have.lengthOf(1);
+      expect(utils.getCancelationsForRoute(route, 'foo')).toHaveLength(1);
     });
   });
 
   describe('checkActiveDisruptions', () => {
     it('should not crash even if cancelations or alerts is not defined', () => {
-      expect(utils.checkActiveDisruptions(1, undefined, [])).to.equal(false);
-      expect(utils.checkActiveDisruptions(1, [], undefined)).to.equal(false);
+      expect(utils.checkActiveDisruptions(1, undefined, [])).toBe(false);
+      expect(utils.checkActiveDisruptions(1, [], undefined)).toBe(false);
     });
 
     it('should return true if there is an active cancelation', () => {
@@ -369,7 +367,7 @@ describe('alertUtils', () => {
             serviceDay: 0,
           },
         ]),
-      ).to.equal(true);
+      ).toBe(true);
     });
 
     it('should return true if there is an active alert with no severity level', () => {
@@ -384,7 +382,7 @@ describe('alertUtils', () => {
             },
           ],
         ),
-      ).to.equal(true);
+      ).toBe(true);
     });
 
     it('should return true if there is an active alert with a severity level !== INFO', () => {
@@ -400,7 +398,7 @@ describe('alertUtils', () => {
             },
           ],
         ),
-      ).to.equal(true);
+      ).toBe(true);
     });
 
     it('should return false if there is an active alert with a severity level === INFO', () => {
@@ -416,7 +414,7 @@ describe('alertUtils', () => {
             },
           ],
         ),
-      ).to.equal(false);
+      ).toBe(false);
     });
 
     it('should return false if there is an expired service alert', () => {
@@ -431,11 +429,11 @@ describe('alertUtils', () => {
             },
           ],
         ),
-      ).to.equal(false);
+      ).toBe(false);
     });
 
     it('should return true by default for service alerts that have no start or end', () => {
-      expect(utils.checkActiveDisruptions(200, [], [{}])).to.equal(true);
+      expect(utils.checkActiveDisruptions(200, [], [{}])).toBe(true);
     });
   });
 
@@ -446,7 +444,7 @@ describe('alertUtils', () => {
         scheduledDeparture: 20,
         serviceDay: 0,
       };
-      expect(utils.cancelationHasExpired(25, cancelation)).to.equal(true);
+      expect(utils.cancelationHasExpired(25, cancelation)).toBe(true);
     });
 
     it('should return false for an active cancelation', () => {
@@ -455,7 +453,7 @@ describe('alertUtils', () => {
         scheduledDeparture: 20,
         serviceDay: 0,
       };
-      expect(utils.cancelationHasExpired(15, cancelation)).to.equal(false);
+      expect(utils.cancelationHasExpired(15, cancelation)).toBe(false);
     });
 
     it('should return false for a future cancelation', () => {
@@ -464,19 +462,19 @@ describe('alertUtils', () => {
         scheduledDeparture: 10,
         serviceDay: 0,
       };
-      expect(utils.cancelationHasExpired(5, cancelation)).to.equal(false);
+      expect(utils.cancelationHasExpired(5, cancelation)).toBe(false);
     });
   });
 
   describe('getCancelationsForStop', () => {
     it('should return an empty array if stop is missing', () => {
-      expect(utils.getCancelationsForStop(undefined)).to.deep.equal([]);
+      expect(utils.getCancelationsForStop(undefined)).toEqual([]);
     });
 
     it('should return an empty array if stop has no array "stoptimes"', () => {
-      expect(
-        utils.getCancelationsForStop({ stoptimes: undefined }),
-      ).to.deep.equal([]);
+      expect(utils.getCancelationsForStop({ stoptimes: undefined })).toEqual(
+        [],
+      );
     });
 
     it('should return only canceled stoptimes', () => {
@@ -499,22 +497,20 @@ describe('alertUtils', () => {
           },
         ],
       };
-      expect(utils.getCancelationsForStop(stop)).to.have.lengthOf(1);
+      expect(utils.getCancelationsForStop(stop)).toHaveLength(1);
     });
   });
 
   describe('getActiveLegAlertSeverityLevel', () => {
     it('should return undefined if the leg is falsy', () => {
-      expect(utils.getActiveLegAlertSeverityLevel(undefined)).to.equal(
-        undefined,
-      );
+      expect(utils.getActiveLegAlertSeverityLevel(undefined)).toBe(undefined);
     });
 
     it('should return "WARNING" if the leg is canceled', () => {
       const leg = {
         realtimeState: RealtimeStateType.Canceled,
       };
-      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(
         AlertSeverityLevelType.Warning,
       );
     });
@@ -537,7 +533,7 @@ describe('alertUtils', () => {
           ).toISOString(),
         },
       };
-      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(
         AlertSeverityLevelType.Warning,
       );
     });
@@ -560,7 +556,7 @@ describe('alertUtils', () => {
           ).toISOString(),
         },
       };
-      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(undefined);
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(undefined);
     });
 
     it('should return "WARNING" if there is an active route alert', () => {
@@ -586,7 +582,7 @@ describe('alertUtils', () => {
           },
         },
       };
-      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(
         AlertSeverityLevelType.Warning,
       );
     });
@@ -606,7 +602,7 @@ describe('alertUtils', () => {
         },
         start: { scheduledTime: new Date(1553769600000).toISOString() },
       };
-      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(
         AlertSeverityLevelType.Warning,
       );
     });
@@ -626,7 +622,7 @@ describe('alertUtils', () => {
         },
         start: { scheduledTime: new Date(1553769600000).toISOString() },
       };
-      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(
         AlertSeverityLevelType.Warning,
       );
     });
@@ -648,7 +644,7 @@ describe('alertUtils', () => {
         ],
         start: { scheduledTime: new Date(1553769600000).toISOString() },
       };
-      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(undefined);
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(undefined);
     });
 
     it('should return the given alertSeverityLevel', () => {
@@ -664,7 +660,7 @@ describe('alertUtils', () => {
         },
         start: { scheduledTime: new Date(1553769600000).toISOString() },
       };
-      expect(utils.getActiveLegAlertSeverityLevel(leg)).to.equal(
+      expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(
         AlertSeverityLevelType.Info,
       );
     });
@@ -680,7 +676,7 @@ describe('alertUtils', () => {
         },
       ];
       const currentTime = 1558599526;
-      expect(utils.getActiveAlertSeverityLevel(alerts, currentTime)).to.equal(
+      expect(utils.getActiveAlertSeverityLevel(alerts, currentTime)).toBe(
         undefined,
       );
     });
@@ -694,7 +690,7 @@ describe('alertUtils', () => {
         },
       ];
       const currentTime = 1558599526;
-      expect(utils.getActiveAlertSeverityLevel(alerts, currentTime)).to.equal(
+      expect(utils.getActiveAlertSeverityLevel(alerts, currentTime)).toBe(
         AlertSeverityLevelType.Info,
       );
     });
@@ -709,7 +705,7 @@ describe('alertUtils', () => {
           effectiveEndDate: currentTime + 100,
         },
       ];
-      expect(utils.getActiveAlertSeverityLevel(alerts, currentTime)).to.equal(
+      expect(utils.getActiveAlertSeverityLevel(alerts, currentTime)).toBe(
         AlertSeverityLevelType.Info,
       );
     });
@@ -725,7 +721,7 @@ describe('alertUtils', () => {
         { alertSeverityLevel: 'foo' },
       ];
       const sortedAlerts = alerts.sort(utils.alertSeverityCompare);
-      expect(sortedAlerts[0].alertSeverityLevel).to.equal(
+      expect(sortedAlerts[0].alertSeverityLevel).toBe(
         AlertSeverityLevelType.Severe,
       );
     });
@@ -738,7 +734,7 @@ describe('alertUtils', () => {
         { alertSeverityLevel: 'foo' },
       ];
       const sortedAlerts = alerts.sort(utils.alertSeverityCompare);
-      expect(sortedAlerts[0].alertSeverityLevel).to.equal(
+      expect(sortedAlerts[0].alertSeverityLevel).toBe(
         AlertSeverityLevelType.Warning,
       );
     });
@@ -747,7 +743,7 @@ describe('alertUtils', () => {
   describe('hasMeaningfulData', () => {
     it('should return false if there are no alerts', () => {
       const alerts = [];
-      expect(utils.hasMeaningfulData(alerts)).to.equal(false);
+      expect(utils.hasMeaningfulData(alerts)).toBe(false);
     });
     it('should return true if header or description present', () => {
       const alerts = [
@@ -757,14 +753,14 @@ describe('alertUtils', () => {
           alertDescriptionText: 'foo',
         },
       ];
-      expect(utils.hasMeaningfulData(alerts)).to.equal(true);
+      expect(utils.hasMeaningfulData(alerts)).toBe(true);
     });
     it('should return false if neither header or description are present', () => {
       const alerts = [
         { alertSeverityLevel: AlertSeverityLevelType.Warning },
         { alertSeverityLevel: AlertSeverityLevelType.Severe },
       ];
-      expect(utils.hasMeaningfulData(alerts)).to.equal(false);
+      expect(utils.hasMeaningfulData(alerts)).toBe(false);
     });
     it('should return false if no meaningful data is included in header or description fields', () => {
       const alerts = [
@@ -778,7 +774,7 @@ describe('alertUtils', () => {
           alertHeaderText: '',
         },
       ];
-      expect(utils.hasMeaningfulData(alerts)).to.equal(false);
+      expect(utils.hasMeaningfulData(alerts)).toBe(false);
     });
   });
 });

@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import {
@@ -40,7 +38,7 @@ describe('<StopAlerts />', () => {
       },
     };
     const { container } = renderWithProviders(<StopAlerts {...props} />);
-    expect(container.querySelector('.no-alerts-container')).to.not.equal(null);
+    expect(container.querySelector('.no-alerts-container')).not.toBe(null);
   });
 
   it('should indicate that there is a direct service alert on a route', () => {
@@ -68,7 +66,7 @@ describe('<StopAlerts />', () => {
       },
     };
     const { container } = renderWithProviders(<StopAlerts {...props} />);
-    expect(container.querySelector('.alerts-list')).to.not.equal(null);
+    expect(container.querySelector('.alerts-list')).not.toBe(null);
   });
 
   it('should indicate that there is a canceled stoptime on a route', () => {
@@ -102,7 +100,7 @@ describe('<StopAlerts />', () => {
       },
     };
     const { container } = renderWithProviders(<StopAlerts {...props} />);
-    expect(container.querySelector('.alerts-list')).to.not.equal(null);
+    expect(container.querySelector('.alerts-list')).not.toBe(null);
   });
 
   it('should indicate that the stop itself has a service alert', () => {
@@ -127,6 +125,6 @@ describe('<StopAlerts />', () => {
       },
     };
     const { container } = renderWithProviders(<StopAlerts {...props} />);
-    expect(container.querySelector('.alerts-list')).to.not.equal(null);
+    expect(container.querySelector('.alerts-list')).not.toBe(null);
   });
 });

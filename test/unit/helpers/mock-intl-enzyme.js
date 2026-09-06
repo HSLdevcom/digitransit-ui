@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { mount, shallow } from 'enzyme';
-import sinon from 'sinon';
+import { vi } from 'vitest';
 import * as ReactIntl from 'react-intl';
 import { createIntl, createIntlCache, IntlProvider } from 'react-intl';
 import { ReactRelayContext } from 'react-relay';
@@ -42,22 +42,22 @@ let ownedUseCurrentTimeStub = null;
 
 export function restoreOwnedIntlStub() {
   if (ownedUseIntlStub) {
-    ownedUseIntlStub.restore();
+    ownedUseIntlStub.mockRestore();
     ownedUseIntlStub = null;
   }
 }
 
 export function restoreOwnedContextStubs() {
   if (ownedConfigContextStub) {
-    ownedConfigContextStub.restore();
+    ownedConfigContextStub.mockRestore();
     ownedConfigContextStub = null;
   }
   if (ownedUseRouterStub) {
-    ownedUseRouterStub.restore();
+    ownedUseRouterStub.mockRestore();
     ownedUseRouterStub = null;
   }
   if (ownedUseCurrentTimeStub) {
-    ownedUseCurrentTimeStub.restore();
+    ownedUseCurrentTimeStub.mockRestore();
     ownedUseCurrentTimeStub = null;
   }
 }
@@ -71,27 +71,31 @@ function applyContextStubs({ config, match, router, currentTime } = {}) {
   const currentTimeValue =
     currentTime !== undefined ? currentTime : DEFAULT_MOCK_CURRENT_TIME;
 
-  const configAlreadyStubbed =
-    typeof ConfigContext.useConfigContext.restore === 'function';
+  const configAlreadyStubbed = vi.isMockFunction(
+    ConfigContext.useConfigContext,
+  );
   if (!configAlreadyStubbed) {
-    ownedConfigContextStub = sinon
-      .stub(ConfigContext, 'useConfigContext')
-      .returns(configValue);
+    ownedConfigContextStub = vi
+      .spyOn(ConfigContext, 'useConfigContext')
+      .mockReturnValue(configValue);
   }
 
-  const routerAlreadyStubbed = typeof found.useRouter.restore === 'function';
+  const routerAlreadyStubbed = vi.isMockFunction(found.useRouter);
   if (!routerAlreadyStubbed) {
-    ownedUseRouterStub = sinon.stub(found, 'useRouter').returns(routerValue);
+    ownedUseRouterStub = vi
+      .spyOn(found, 'useRouter')
+      .mockReturnValue(routerValue);
   }
 
-  const useCurrentTimeAlreadyStubbed =
-    typeof TimeContext.useCurrentTime.restore === 'function';
+  const useCurrentTimeAlreadyStubbed = vi.isMockFunction(
+    TimeContext.useCurrentTime,
+  );
   if (!useCurrentTimeAlreadyStubbed) {
-    ownedUseCurrentTimeStub = sinon
-      .stub(TimeContext, 'useCurrentTime')
-      .returns(currentTimeValue);
+    ownedUseCurrentTimeStub = vi
+      .spyOn(TimeContext, 'useCurrentTime')
+      .mockReturnValue(currentTimeValue);
   } else if (currentTime !== undefined) {
-    TimeContext.useCurrentTime.returns(currentTimeValue);
+    TimeContext.useCurrentTime.mockReturnValue(currentTimeValue);
   }
 }
 
@@ -111,12 +115,12 @@ export const shallowWithIntl = (
   const intl = createIntl({ locale, messages }, intlCache);
 
   // Stub useIntl() for function components, unless already stubbed by test code.
-  const alreadyStubbed = typeof ReactIntl.useIntl.restore === 'function';
+  const alreadyStubbed = vi.isMockFunction(ReactIntl.useIntl);
   if (!alreadyStubbed) {
     if (!ownedUseIntlStub) {
-      ownedUseIntlStub = sinon.stub(ReactIntl, 'useIntl').returns(intl);
+      ownedUseIntlStub = vi.spyOn(ReactIntl, 'useIntl').mockReturnValue(intl);
     } else {
-      ownedUseIntlStub.returns(intl);
+      ownedUseIntlStub.mockReturnValue(intl);
     }
   }
 
@@ -198,8 +202,9 @@ export const mountWithProviders = (
 };
 
 /**
- * Creates a sinon sandbox pre-loaded with stubs for useIntl(),
- * useConfigContext() and useCurrentTime(). Use this instead of
+ * Creates a set of vi.spyOn stubs for useIntl(), useConfigContext() and
+ * useCurrentTime() (auto-restored between tests via `restoreMocks: true`).
+ * Use this instead of
  * shallowWithIntl when individual `it` blocks need to override what the
  * stubs return — for example to test behaviour under a different config
  * flag, locale, or currentTime.
@@ -209,14 +214,12 @@ export const mountWithProviders = (
  * @param {Object} [overrides.intl] - Partial intl mock (merged over the default stub object)
  * @param {Object} [overrides.config] - Partial config (merged over mockContext.config)
  * @param {number} [overrides.currentTime] - Value returned by useCurrentTime()
- * @returns {{ sandbox: sinon.SinonSandbox, mocks: { intl: object, config: object, currentTime: number }, stubs: { useIntl: sinon.SinonStub, useConfigContext: sinon.SinonStub, useCurrentTime: sinon.SinonStub } }}
+ * @returns {{ mocks: { intl: object, config: object, currentTime: number }, stubs: { useIntl: import('vitest').MockInstance, useConfigContext: import('vitest').MockInstance, useCurrentTime: import('vitest').MockInstance } }}
  */
 export const createShallowHookSandbox = (overrides = {}) => {
-  const sandbox = sinon.createSandbox();
-
   const mocks = {
     intl: {
-      formatMessage: sandbox.stub().returns('translated text'),
+      formatMessage: vi.fn().mockReturnValue('translated text'),
       locale: 'en',
       ...overrides.intl,
     },
@@ -231,14 +234,14 @@ export const createShallowHookSandbox = (overrides = {}) => {
   };
 
   const stubs = {
-    useIntl: sandbox.stub(ReactIntl, 'useIntl').returns(mocks.intl),
-    useConfigContext: sandbox
-      .stub(ConfigContext, 'useConfigContext')
-      .returns(mocks.config),
-    useCurrentTime: sandbox
-      .stub(TimeContext, 'useCurrentTime')
-      .returns(mocks.currentTime),
+    useIntl: vi.spyOn(ReactIntl, 'useIntl').mockReturnValue(mocks.intl),
+    useConfigContext: vi
+      .spyOn(ConfigContext, 'useConfigContext')
+      .mockReturnValue(mocks.config),
+    useCurrentTime: vi
+      .spyOn(TimeContext, 'useCurrentTime')
+      .mockReturnValue(mocks.currentTime),
   };
 
-  return { sandbox, mocks, stubs };
+  return { mocks, stubs };
 };

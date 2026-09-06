@@ -29,7 +29,7 @@ describe('<AlertRow />', () => {
     const wrapper = shallowWithIntl(<AlertRow {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find('.alert-row')).to.have.lengthOf(0);
+    expect(wrapper.find('.alert-row')).toHaveLength(0);
   });
 
   it('should not render a div for the header if it is missing', () => {
@@ -50,7 +50,7 @@ describe('<AlertRow />', () => {
     const wrapper = shallowWithIntl(<AlertRow {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find('.alert-header')).to.have.lengthOf(0);
+    expect(wrapper.find('.alert-header')).toHaveLength(0);
   });
 
   it('should not render a div for the description if it is missing', () => {
@@ -70,7 +70,7 @@ describe('<AlertRow />', () => {
     const wrapper = shallowWithIntl(<AlertRow {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find('.alert-body')).to.have.lengthOf(0);
+    expect(wrapper.find('.alert-body')).toHaveLength(0);
   });
 
   it('should render a RouteNumber if a mode is provided, has description and the type is route', () => {
@@ -91,7 +91,7 @@ describe('<AlertRow />', () => {
     const wrapper = shallowWithIntl(<AlertRow {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find(RouteNumber)).to.have.lengthOf(1);
+    expect(wrapper.find(RouteNumber)).toHaveLength(1);
   });
 
   it('should render an Icon if a mode is provided, has description and the type is stop', () => {
@@ -109,7 +109,7 @@ describe('<AlertRow />', () => {
     const wrapper = shallowWithIntl(<AlertRow {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find(Icon)).to.have.lengthOf(1);
+    expect(wrapper.find(Icon)).toHaveLength(1);
   });
 
   it('should show the time period', () => {
@@ -131,7 +131,7 @@ describe('<AlertRow />', () => {
     const wrapper = shallowWithIntl(<AlertRow {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find('.alert-top-row').text()).to.contain('at');
+    expect(wrapper.find('.alert-top-row').text()).toContain('at');
   });
 
   it('should render the identifier', () => {
@@ -152,7 +152,7 @@ describe('<AlertRow />', () => {
     const wrapper = shallowWithIntl(<AlertRow {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find('.bus')).to.have.lengthOf(1);
+    expect(wrapper.find('.bus')).toHaveLength(1);
   });
 
   it('should render link for route', () => {
@@ -173,7 +173,7 @@ describe('<AlertRow />', () => {
     const wrapper = shallowWithIntl(<AlertRow {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find('.alert-row-link').get(0).props.to).to.equal(
+    expect(wrapper.find('.alert-row-link').get(0).props.to).toBe(
       routePagePath('HSL:2097N', PREFIX_STOPS),
     );
   });
@@ -196,7 +196,7 @@ describe('<AlertRow />', () => {
     const wrapper = shallowWithIntl(<AlertRow {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find('.alert-url')).to.have.lengthOf(1);
+    expect(wrapper.find('.alert-url')).toHaveLength(1);
   });
 
   it('should render a RouteNumber with a specified alertSeverityLevel', () => {
@@ -217,7 +217,7 @@ describe('<AlertRow />', () => {
     const wrapper = shallowWithIntl(<AlertRow {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find(RouteNumber).prop('alertSeverityLevel')).to.equal(
+    expect(wrapper.find(RouteNumber).prop('alertSeverityLevel')).toBe(
       AlertSeverityLevelType.Warning,
     );
   });
@@ -239,8 +239,6 @@ describe('<AlertRow />', () => {
     const wrapper = shallowWithIntl(<AlertRow {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find('.alert-url').prop('href')).to.equal(
-      'http://www.hsl.fi',
-    );
+    expect(wrapper.find('.alert-url').prop('href')).toBe('http://www.hsl.fi');
   });
 });

@@ -25,12 +25,15 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
     for Relay fragments used by utils.
   - `translations/` — one file per locale (`fi.js`, `en.js`, `sv.js`, ...); `fi.js` is the source
     of truth, keep sorted via `scripts/sort-translations.mjs` (`yarn format` runs this), and every
-    key must also exist in `en.js`/`sv.js` (enforced by `test/unit/translations.test.js`).
+    key must also exist in `en.js`/`sv.js` (enforced by `test/unit/translations.test.js`). Some
+    `digitransit-component` packages ship their own i18next translation bundles instead, sorted/
+    checked separately via `scripts/workspace-packages/sort-translations.mjs`.
   - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
 - `server/` — Express SSR server.
-- `test/` — `unit/` (mocha, mirrors `app/`) and `e2e/` (Jest + Playwright visual tests).
+- `test/` — `unit/` (Vitest, mirrors `app/`) and `e2e/` (Jest + Playwright visual tests).
 - `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.mjs`, `contextHelper.js`,
-  `generate-schema.js`, `theme/` theme-scaffolding scripts; see `scripts/README.md`).
+  `generate-schema.js`, `theme/` theme-scaffolding scripts, `workspace-packages/` (readme
+  generation, version checks, translation sort/check); see `scripts/README.md`).
 - `digitransit-component/`, `digitransit-search-util/`, `digitransit-store/`,
   `digitransit-util/` — Yarn workspace packages, built separately (see below).
 - `sass/`, `static/` — global styles and static assets.
@@ -62,8 +65,9 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 ## Lint & format
 
 - `yarn lint` — eslint (Airbnb config + jsx-a11y + compat + prettier) + `prettier-styles` (scss
-  check) + `stylelint`.
-- `yarn format` — auto-fixes: sorts translations, `eslint --fix`, prettier styles, stylelint fix.
+  check) + `stylelint` + component-package translation parity check.
+- `yarn format` — auto-fixes: sorts translations (app + component packages), `eslint --fix`,
+  prettier styles, stylelint fix.
 - `yarn eslint` / `yarn eslint-fix` for JS only.
 - Husky git hooks: pre-commit runs `lint-staged` (eslint on staged JS, prettier+stylelint on
   staged scss) and blocks on unresolved merge-conflict markers; pre-push runs the full
@@ -71,15 +75,16 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 
 ## Tests
 
-- Unit tests (mocha, files under `test/unit/**/*.test.js`, mirrors `app/` structure e.g.
-  `test/unit/component/...`, `test/unit/store/...`, `test/unit/configurations/...`). This setup is
-  currently under refactoring — verify commands against `package.json` if they seem out of date:
+- Unit tests (Vitest, files under `test/unit/**/*.test.js`, mirrors `app/` structure e.g.
+  `test/unit/component/...`, `test/unit/store/...`, `test/unit/configurations/...`). The app suite
+  and the workspace-package suites share one `config/vitest.config.js`: the app suite is the `app`
+  project, the workspace packages are the other projects and run with `--project '!app'`.
   - For new React component tests, prefer **React Testing Library** and test components from the user's perspective rather than relying on implementation details.
-  - Run all: `yarn test-unit` (runs app + workspace `store`/`component` package tests).
-  - Run just the app suite: `yarn test-unit:app`.
-  - Run a single test by name (grep on describe/it or filename stem):
-    `yarn test-single -g <pattern>` (this is `test-unit:app -g <pattern>`).
-  - Watch mode: `yarn run test-unit -- --watch`.
+  - Run all: `yarn test-unit` (one `vitest run` over every project in `config/vitest.config.js`).
+  - Run just the app suite: `yarn test-unit:app` (`--project app`); just the packages: `yarn workspace-packages-test` (`--project '!app'`).
+  - Run a single test by name (matches `describe`/`it` text):
+    `yarn test-single -t <pattern>` (this is `test-unit:app -t <pattern>`).
+  - Watch mode: `yarn test-unit:app --watch`.
 - E2E/visual tests (Jest + Playwright, config under `test/e2e/jest.config.js`), require a prior
   `yarn build`:
   - `CONFIG=hsl yarn test:e2e` (desktop), `MOBILE=TRUE CONFIG=hsl yarn test:e2e` (mobile).
@@ -119,7 +124,8 @@ Other structural notes:
 
 - `server/` also handles config-merging by host header via `BASE_CONFIG` (see `app/config.js`).
 - The `digitransit-*` workspace packages are consumed by the main app but built/versioned
-  independently — treat them like semi-external dependencies with their own `CONTRIBUTING.md`.
+  independently — treat them like semi-external dependencies. See `docs/WorkspacePackages.md`
+  for how they're structured, tested, documented, and published.
 
 ## Code conventions
 

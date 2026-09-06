@@ -1,5 +1,4 @@
 import React from 'react';
-import sinon from 'sinon';
 
 import { mockContext } from '../../../../helpers/mock-context';
 import { shallowWithIntl } from '../../../../helpers/mock-intl-enzyme';
@@ -12,14 +11,14 @@ describe('<StopMarker />', () => {
       stop: { gtfsId: 'HSL:1541157' },
       mode: 'BUS',
     };
-    const spy = sinon.spy(analytics, 'addAnalyticsEvent');
+    const spy = vi.spyOn(analytics, 'addAnalyticsEvent');
     shallowWithIntl(<StopMarker {...props} />, {
       context: {
         ...mockContext,
         config: { map: { useModeIconsInNonTileLayer: true } },
       },
     });
-    expect(spy.called).to.equal(true);
-    spy.restore();
+    expect(spy).toHaveBeenCalled();
+    spy.mockRestore();
   });
 });

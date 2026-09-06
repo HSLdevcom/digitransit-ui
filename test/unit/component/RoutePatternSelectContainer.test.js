@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 import { DateTime } from 'luxon';
 
@@ -87,11 +85,9 @@ describe('<RoutePatternSelectContainer />', () => {
         <RoutePatternSelectContainer {...props} />,
         { config: baseConfig },
       );
-      expect(wrapper.find(RoutePatternHeader)).to.have.lengthOf(1);
-      expect(wrapper.find('button.route-pattern-swap-button')).to.have.lengthOf(
-        1,
-      );
-      expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(0);
+      expect(wrapper.find(RoutePatternHeader)).toHaveLength(1);
+      expect(wrapper.find('button.route-pattern-swap-button')).toHaveLength(1);
+      expect(wrapper.find(RoutePatternSelect)).toHaveLength(0);
     });
 
     it('calls onSelectChange with the other pattern code when the swap button is clicked', () => {
@@ -108,8 +104,7 @@ describe('<RoutePatternSelectContainer />', () => {
         { config: baseConfig },
       );
       wrapper.find('button.route-pattern-swap-button').simulate('click');
-      // The active pattern is ROUTE:1:0:01; clicking swap should select the opposite direction.
-      expect(selectedCode).to.equal('ROUTE:1:1:01');
+      expect(selectedCode).toBe('ROUTE:1:1:01');
     });
   });
 
@@ -132,7 +127,7 @@ describe('<RoutePatternSelectContainer />', () => {
         <RoutePatternSelectContainer {...props} />,
         { config: baseConfig },
       );
-      expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(1);
+      expect(wrapper.find(RoutePatternSelect)).toHaveLength(1);
     });
 
     it('all pattern codes appear as selectable options in the dropdown', () => {
@@ -153,8 +148,8 @@ describe('<RoutePatternSelectContainer />', () => {
 
       // Every supplied pattern code must appear exactly once across all groups.
       const allCodes = optionArray.flatMap(g => g.options.map(o => o.code));
-      expect(allCodes).to.have.lengthOf(patterns.length);
-      patterns.forEach(p => expect(allCodes).to.include(p.code));
+      expect(allCodes).toHaveLength(patterns.length);
+      patterns.forEach(p => expect(allCodes).toContain(p.code));
     });
 
     it('passes the pattern matching the URL patternId as currentPattern to the dropdown', () => {
@@ -177,7 +172,7 @@ describe('<RoutePatternSelectContainer />', () => {
       const currentPattern = wrapper
         .find(RoutePatternSelect)
         .prop('currentPattern');
-      expect(currentPattern.code).to.equal('ROUTE:1:1:01');
+      expect(currentPattern.code).toBe('ROUTE:1:1:01');
     });
   });
 
@@ -217,7 +212,7 @@ describe('<RoutePatternSelectContainer />', () => {
         PREFIX_STOPS,
         'ROUTE:1:0:01',
       );
-      expect(replacedUrl).to.equal(expectedUrl);
+      expect(replacedUrl).toBe(expectedUrl);
     });
   });
 
@@ -241,10 +236,8 @@ describe('<RoutePatternSelectContainer />', () => {
         <RoutePatternSelectContainer {...props} />,
         { config: baseConfig },
       );
-      expect(wrapper.find(RoutePatternHeader)).to.have.lengthOf(1);
-      expect(wrapper.find('button.route-pattern-swap-button')).to.have.lengthOf(
-        1,
-      );
+      expect(wrapper.find(RoutePatternHeader)).toHaveLength(1);
+      expect(wrapper.find('button.route-pattern-swap-button')).toHaveLength(1);
     });
   });
 
@@ -258,8 +251,8 @@ describe('<RoutePatternSelectContainer />', () => {
         <RoutePatternSelectContainer {...props} />,
         { config: baseConfig },
       );
-      expect(wrapper.find('.route-pattern-select')).to.have.lengthOf(0);
-      expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(0);
+      expect(wrapper.find('.route-pattern-select')).toHaveLength(0);
+      expect(wrapper.find(RoutePatternSelect)).toHaveLength(0);
     });
   });
 
@@ -280,12 +273,9 @@ describe('<RoutePatternSelectContainer />', () => {
         <RoutePatternSelectContainer {...props} />,
         { config: baseConfig },
       );
-      // Shows header but no swap button; dropdown is still present for the single option
-      expect(wrapper.find(RoutePatternHeader)).to.have.lengthOf(1);
-      expect(wrapper.find('button.route-pattern-swap-button')).to.have.lengthOf(
-        0,
-      );
-      expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(0);
+      expect(wrapper.find(RoutePatternHeader)).toHaveLength(1);
+      expect(wrapper.find('button.route-pattern-swap-button')).toHaveLength(0);
+      expect(wrapper.find(RoutePatternSelect)).toHaveLength(0);
     });
 
     it('does not show a swap button and onSelectChange is never called when there is only one pattern', () => {
@@ -308,11 +298,8 @@ describe('<RoutePatternSelectContainer />', () => {
         <RoutePatternSelectContainer {...props} />,
         { config: baseConfig },
       );
-      // No swap button rendered — direction swap is not available
-      expect(wrapper.find('button.route-pattern-swap-button')).to.have.lengthOf(
-        0,
-      );
-      expect(callCount).to.equal(0);
+      expect(wrapper.find('button.route-pattern-swap-button')).toHaveLength(0);
+      expect(callCount).toBe(0);
     });
   });
 
@@ -336,18 +323,14 @@ describe('<RoutePatternSelectContainer />', () => {
         <RoutePatternSelectContainer {...props} />,
         { config: baseConfig },
       );
-      expect(wrapper.find('button.route-pattern-swap-button')).to.have.lengthOf(
-        0,
-      );
-      expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(1);
+      expect(wrapper.find('button.route-pattern-swap-button')).toHaveLength(0);
+      expect(wrapper.find(RoutePatternSelect)).toHaveLength(1);
 
       const optionArray = wrapper.find(RoutePatternSelect).prop('optionArray');
-      // First group: main route (labelled 'Directions')
-      expect(optionArray[0].name).to.match(/directions/i);
-      expect(optionArray[0].options).to.have.lengthOf(1);
-      // Second group: special routes
-      expect(optionArray[1].name).to.match(/other routes/i);
-      expect(optionArray[1].options).to.have.lengthOf(1);
+      expect(optionArray[0].name).toMatch(/directions/i);
+      expect(optionArray[0].options).toHaveLength(1);
+      expect(optionArray[1].name).toMatch(/other routes/i);
+      expect(optionArray[1].options).toHaveLength(1);
     });
   });
 
@@ -380,21 +363,18 @@ describe('<RoutePatternSelectContainer />', () => {
         <RoutePatternSelectContainer {...props} />,
         { config: baseConfig },
       );
-      // Future option forces dropdown rendering even though there is only one active route
-      expect(wrapper.find(RoutePatternSelect)).to.have.lengthOf(1);
-      expect(wrapper.find('button.route-pattern-swap-button')).to.have.lengthOf(
-        0,
-      );
+      expect(wrapper.find(RoutePatternSelect)).toHaveLength(1);
+      expect(wrapper.find('button.route-pattern-swap-button')).toHaveLength(0);
 
       const optionArray = wrapper.find(RoutePatternSelect).prop('optionArray');
       const futureGroup = optionArray.find(g => /future routes/i.test(g.name));
-      expect(futureGroup).to.not.equal(undefined);
-      expect(futureGroup.options).to.have.lengthOf(1);
-      expect(futureGroup.options[0].code).to.equal('ROUTE:1:0:99');
+      expect(futureGroup).not.toBe(undefined);
+      expect(futureGroup.options).toHaveLength(1);
+      expect(futureGroup.options[0].code).toBe('ROUTE:1:0:99');
 
       // The active pattern must still appear in its own group
       const allCodes = optionArray.flatMap(g => g.options.map(o => o.code));
-      expect(allCodes).to.include('ROUTE:1:0:01');
+      expect(allCodes).toContain('ROUTE:1:0:01');
     });
   });
 
@@ -419,7 +399,7 @@ describe('<RoutePatternSelectContainer />', () => {
       mountWithProviders(<RoutePatternSelectContainer {...props} />, {
         config: baseConfig,
       });
-      expect(replacedUrl).to.equal(undefined);
+      expect(replacedUrl).toBe(undefined);
     });
   });
 });

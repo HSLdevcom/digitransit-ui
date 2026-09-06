@@ -2,7 +2,8 @@
   "name": "@digitransit-component/digitransit-component-with-breakpoint",
   "version": "1.0.2",
   "description": "digitransit-component with-breakpoint module",
-  "main": "lib/index.js",
+  "main": "lib/index.cjs",
+  "type": "module",
   "files": [
     "/lib"
   ],
@@ -10,11 +11,10 @@
     "access": "public"
   },
   "scripts": {
-    "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-transform-class-properties --out-file test.generated",
     "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "clean": "rm -rf ./lib ./node_modules",
-    "test": "mocha -r esm test.generated",
-    "docs": "node -r esm ../../scripts/generate-readmes",
+    "test": "NODE_OPTIONS=\"--import ../../../config/vitest.jsx-runtime-loader.mjs\" vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs",
     "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
   "repository": {
@@ -27,6 +27,9 @@
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "devDependencies": {
+    "@testing-library/react": "^12"
+  },
   "peerDependencies": {
     "hoist-non-react-statics": "2.5.4",
     "lodash": "4.18.1",

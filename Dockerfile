@@ -35,7 +35,7 @@ ENV CONFIG=${CONFIG}
 
 COPY config ./config
 RUN \
-  yarn run build-workspaces
+  yarn run workspace-packages-build
 
 COPY . .
 
@@ -46,7 +46,7 @@ RUN \
 
 # Deleting files retrospectively, after having copied/generated them in a previous step, *does not* reduce
 # the size of the resulting (builder) Docker image. But we prevent them from being copied into the final image.
-# `.nx` (Nx's local build cache, created by `yarn run build-workspaces` above) falls in the same category:
+# `.nx` (Nx's local build cache, created by `yarn run workspace-packages-build` above) falls in the same category:
 # pure build-tooling state, never `require()`d at runtime, so it'd otherwise just bloat the final image.
 RUN \
   rm -rf static docs .cache .nx

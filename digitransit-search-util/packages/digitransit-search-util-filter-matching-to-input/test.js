@@ -1,24 +1,22 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import filterMatchingToInput from '.';
+import { describe, it, expect } from 'vitest';
+import filterMatchingToInput from './index.js';
 
 describe('Testing @digitransit-util/digitransit-util-filter-matching-to-input module', () => {
   it('Checking that true is true', () => {
     // const retValue = filterMatchingToInput(param1, param2);
-    expect(true).to.be.equal(true);
+    expect(true).toBe(true);
   });
 
   it('should return list if no input is given', () => {
     const list = ['val1', 'val2'];
     const retValue = filterMatchingToInput(list, '', []);
-    expect(list).to.be.equal(retValue);
+    expect(list).toBe(retValue);
   });
 
   it('should return list if input is not string', () => {
     const list = ['val1', 'val2'];
     const retValue = filterMatchingToInput(list, false, []);
-    expect(list).to.be.equal(retValue);
+    expect(list).toBe(retValue);
   });
 
   it('should return filtered list', () => {
@@ -46,6 +44,6 @@ describe('Testing @digitransit-util/digitransit-util-filter-matching-to-input mo
     const retValue = filterMatchingToInput(list, 'steissi', [
       'properties.label',
     ]);
-    expect(testObj2).to.be.equal(retValue[0]);
+    expect(testObj2).toBe(retValue[0]);
   });
 });

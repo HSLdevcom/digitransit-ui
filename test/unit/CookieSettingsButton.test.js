@@ -1,7 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
-import sinon from 'sinon';
-import { describe, it } from 'mocha';
 import { fireEvent } from '@testing-library/react';
 import CookieSettingsButton from '../../app/component/CookieSettingsButton';
 import { renderWithProviders } from './helpers/mock-providers';
@@ -12,10 +9,10 @@ describe('CookieSettingsButton', () => {
   });
 
   it('renders the button with correct text', () => {
-    global.window.CookieConsent = { renew: sinon.spy() };
+    global.window.CookieConsent = { renew: vi.fn() };
     const { container } = renderWithProviders(<CookieSettingsButton />);
     const btn = container.querySelector('button');
-    expect(btn.classList.contains('cookie-settings-button')).to.equal(true);
+    expect(btn.classList.contains('cookie-settings-button')).toBe(true);
   });
 
   it('renders the button with mobile class when isMobile is true', () => {
@@ -24,16 +21,14 @@ describe('CookieSettingsButton', () => {
       <CookieSettingsButton isMobile />,
     );
     const btn = container.querySelector('button');
-    expect(btn.classList.contains('cookie-settings-button-mobile')).to.equal(
-      true,
-    );
+    expect(btn.classList.contains('cookie-settings-button-mobile')).toBe(true);
   });
 
   it('calls window.CookieConsent.renew when clicked', () => {
-    global.window.CookieConsent = { renew: sinon.spy() };
+    global.window.CookieConsent = { renew: vi.fn() };
     const { container } = renderWithProviders(<CookieSettingsButton />);
     fireEvent.click(container.querySelector('button'));
-    sinon.assert.calledOnce(window.CookieConsent.renew);
+    expect(window.CookieConsent.renew).toHaveBeenCalledOnce();
   });
 
   it('does not throw if window.CookieConsent.renew is undefined', () => {
@@ -41,6 +36,6 @@ describe('CookieSettingsButton', () => {
     const { container } = renderWithProviders(<CookieSettingsButton />);
     expect(() => {
       fireEvent.click(container.querySelector('button'));
-    }).to.not.throw();
+    }).not.toThrow();
   });
 });

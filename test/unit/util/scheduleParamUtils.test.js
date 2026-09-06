@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { afterEach, beforeEach, describe, it } from 'mocha';
 import { DateTime, Settings } from 'luxon';
 
 import { calculateRedirectDecision } from '../../../app/component/routepage/schedule/scheduleParamUtils';
@@ -24,11 +22,11 @@ describe('scheduleParamUtils', () => {
         routeId: 'HSL:1001',
       });
 
-      expect(decision.shouldRedirect).to.equal(true);
-      expect(decision.query.serviceDay).to.equal(
+      expect(decision.shouldRedirect).toBe(true);
+      expect(decision.query.serviceDay).toBe(
         fixedNow.startOf('day').toFormat(DATE_FORMAT),
       );
-      expect(decision.redirectPath).to.equal(null);
+      expect(decision.redirectPath).toBe(null);
     });
 
     it('should redirect invalid dates to today', () => {
@@ -37,11 +35,11 @@ describe('scheduleParamUtils', () => {
         routeId: 'HSL:1001',
       });
 
-      expect(decision.shouldRedirect).to.equal(true);
-      expect(decision.query.serviceDay).to.equal(
+      expect(decision.shouldRedirect).toBe(true);
+      expect(decision.query.serviceDay).toBe(
         fixedNow.startOf('day').toFormat(DATE_FORMAT),
       );
-      expect(decision.redirectPath).to.equal(null);
+      expect(decision.redirectPath).toBe(null);
     });
 
     it('should redirect to route timetable when pattern code is missing', () => {
@@ -51,9 +49,9 @@ describe('scheduleParamUtils', () => {
         routeId,
       });
 
-      expect(decision.shouldRedirect).to.equal(true);
-      expect(decision.query).to.deep.equal({});
-      expect(decision.redirectPath).to.equal(
+      expect(decision.shouldRedirect).toBe(true);
+      expect(decision.query).toEqual({});
+      expect(decision.redirectPath).toBe(
         routePagePath(routeId, PREFIX_TIMETABLE),
       );
     });
@@ -65,9 +63,9 @@ describe('scheduleParamUtils', () => {
         routeId: 'HSL:1001',
       });
 
-      expect(decision.shouldRedirect).to.equal(false);
-      expect(decision.query).to.deep.equal({});
-      expect(decision.redirectPath).to.equal(null);
+      expect(decision.shouldRedirect).toBe(false);
+      expect(decision.query).toEqual({});
+      expect(decision.redirectPath).toBe(null);
     });
 
     it('should redirect to first available date when no trips found and wantedDay differs', () => {
@@ -82,9 +80,9 @@ describe('scheduleParamUtils', () => {
         hasTrips: false,
       });
 
-      expect(decision.shouldRedirect).to.equal(true);
-      expect(decision.redirectPath).to.equal(null);
-      expect(decision.query.serviceDay).to.equal(
+      expect(decision.shouldRedirect).toBe(true);
+      expect(decision.redirectPath).toBe(null);
+      expect(decision.query.serviceDay).toBe(
         firstAvailable.toFormat(DATE_FORMAT),
       );
     });
@@ -100,7 +98,7 @@ describe('scheduleParamUtils', () => {
         hasTrips: false,
       });
 
-      expect(decision.shouldRedirect).to.equal(false);
+      expect(decision.shouldRedirect).toBe(false);
     });
 
     it('should not redirect when wantedDay is the same calendar date as the first available date but a different object instance', () => {
@@ -117,7 +115,7 @@ describe('scheduleParamUtils', () => {
         hasTrips: false,
       });
 
-      expect(decision.shouldRedirect).to.equal(false);
+      expect(decision.shouldRedirect).toBe(false);
     });
 
     it('should not redirect when patternCode is missing and routeId is also missing', () => {
@@ -127,7 +125,7 @@ describe('scheduleParamUtils', () => {
         routeId: undefined,
       });
 
-      expect(decision.shouldRedirect).to.equal(false);
+      expect(decision.shouldRedirect).toBe(false);
     });
   });
 });

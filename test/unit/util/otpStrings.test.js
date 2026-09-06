@@ -1,6 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-
 import * as utils from '../../../app/util/otpStrings';
 
 describe('otpStrings', () => {
@@ -8,46 +5,38 @@ describe('otpStrings', () => {
     it('should parse address and coordinates', () => {
       const input = 'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365';
       const location = utils.otpToLocation(input);
-      expect(location.address).to.equal('Kluuvi, luoteinen, Kluuvi, Helsinki');
-      expect(location.lat).to.equal(60.173123);
-      expect(location.lon).to.equal(24.948365);
+      expect(location.address).toBe('Kluuvi, luoteinen, Kluuvi, Helsinki');
+      expect(location.lat).toBe(60.173123);
+      expect(location.lon).toBe(24.948365);
     });
 
     it('should ignore an invalid lat', () => {
       const input = 'Kluuvi, luoteinen, Kluuvi, Helsinki::foo,24.948365';
       const location = utils.otpToLocation(input);
-      expect(location.address).to.equal('Kluuvi, luoteinen, Kluuvi, Helsinki');
-      expect(Object.prototype.hasOwnProperty.call(location, 'lat')).to.equal(
-        false,
-      );
-      expect(Object.prototype.hasOwnProperty.call(location, 'lon')).to.equal(
-        false,
-      );
+      expect(location.address).toBe('Kluuvi, luoteinen, Kluuvi, Helsinki');
+      expect(Object.prototype.hasOwnProperty.call(location, 'lat')).toBe(false);
+      expect(Object.prototype.hasOwnProperty.call(location, 'lon')).toBe(false);
     });
 
     it('should ignore an invalid lon', () => {
       const input = 'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,foo';
       const location = utils.otpToLocation(input);
-      expect(location.address).to.equal('Kluuvi, luoteinen, Kluuvi, Helsinki');
-      expect(Object.prototype.hasOwnProperty.call(location, 'lat')).to.equal(
-        false,
-      );
-      expect(Object.prototype.hasOwnProperty.call(location, 'lon')).to.equal(
-        false,
-      );
+      expect(location.address).toBe('Kluuvi, luoteinen, Kluuvi, Helsinki');
+      expect(Object.prototype.hasOwnProperty.call(location, 'lat')).toBe(false);
+      expect(Object.prototype.hasOwnProperty.call(location, 'lon')).toBe(false);
     });
 
     it('should parse a valid slack time', () => {
       const input =
         'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365::1000';
       const location = utils.otpToLocation(input);
-      expect(location.locationSlack).to.equal(1000);
+      expect(location.locationSlack).toBe(1000);
     });
 
     it('should parse a valid slack time when coordinates are invalid', () => {
       const input = 'Kluuvi, luoteinen, Kluuvi, Helsinki::foo,bar::1000';
       const location = utils.otpToLocation(input);
-      expect(location.locationSlack).to.equal(1000);
+      expect(location.locationSlack).toBe(1000);
     });
 
     it('should ignore a missing slack time', () => {
@@ -55,7 +44,7 @@ describe('otpStrings', () => {
       const location = utils.otpToLocation(input);
       expect(
         Object.prototype.hasOwnProperty.call(location, 'locationSlack'),
-      ).to.equal(false);
+      ).toBe(false);
     });
 
     it('should ignore an invalid slack time', () => {
@@ -64,22 +53,22 @@ describe('otpStrings', () => {
       const location = utils.otpToLocation(input);
       expect(
         Object.prototype.hasOwnProperty.call(location, 'locationSlack'),
-      ).to.equal(false);
+      ).toBe(false);
     });
   });
   describe('getIntermediatePlaces', () => {
     it('should return an empty array for missing query', () => {
       const query = null;
       const result = utils.getIntermediatePlaces(query);
-      expect(Array.isArray(result)).to.equal(true);
-      expect(result.length).to.equal(0);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBe(0);
     });
 
     it('should return an empty array for missing intermediatePlaces', () => {
       const query = {};
       const result = utils.getIntermediatePlaces(query);
-      expect(Array.isArray(result)).to.equal(true);
-      expect(result.length).to.equal(0);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBe(0);
     });
 
     it('should return an empty array for whitespace intermediatePlaces', () => {
@@ -87,8 +76,8 @@ describe('otpStrings', () => {
         intermediatePlaces: ' ',
       };
       const result = utils.getIntermediatePlaces(query);
-      expect(Array.isArray(result)).to.equal(true);
-      expect(result.length).to.equal(0);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBe(0);
     });
 
     it('should return a location parsed from a string-mode intermediatePlaces', () => {
@@ -96,11 +85,11 @@ describe('otpStrings', () => {
         intermediatePlaces: 'Kera, Espoo::60.217992,24.75494',
       };
       const result = utils.getIntermediatePlaces(query);
-      expect(Array.isArray(result)).to.equal(true);
-      expect(result.length).to.equal(1);
-      expect(result[0].address).to.equal('Kera, Espoo');
-      expect(result[0].lat).to.equal(60.217992);
-      expect(result[0].lon).to.equal(24.75494);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBe(1);
+      expect(result[0].address).toBe('Kera, Espoo');
+      expect(result[0].lat).toBe(60.217992);
+      expect(result[0].lon).toBe(24.75494);
     });
 
     it('should return locations parsed from an array-mode intermediatePlaces', () => {
@@ -111,14 +100,14 @@ describe('otpStrings', () => {
         ],
       };
       const result = utils.getIntermediatePlaces(query);
-      expect(Array.isArray(result)).to.equal(true);
-      expect(result.length).to.equal(2);
-      expect(result[0].address).to.equal('Kera, Espoo');
-      expect(result[0].lat).to.equal(60.217992);
-      expect(result[0].lon).to.equal(24.75494);
-      expect(result[1].address).to.equal('Leppävaara, Espoo');
-      expect(result[1].lat).to.equal(60.219235);
-      expect(result[1].lon).to.equal(24.81329);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBe(2);
+      expect(result[0].address).toBe('Kera, Espoo');
+      expect(result[0].lat).toBe(60.217992);
+      expect(result[0].lon).toBe(24.75494);
+      expect(result[1].address).toBe('Leppävaara, Espoo');
+      expect(result[1].lat).toBe(60.219235);
+      expect(result[1].lon).toBe(24.81329);
     });
 
     it('should return an empty array if intermediatePlaces is neither a string nor an array', () => {
@@ -126,8 +115,8 @@ describe('otpStrings', () => {
         intermediatePlaces: {},
       };
       const result = utils.getIntermediatePlaces(query);
-      expect(Array.isArray(result)).to.equal(true);
-      expect(result.length).to.equal(0);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBe(0);
     });
   });
 });

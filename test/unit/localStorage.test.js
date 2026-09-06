@@ -1,7 +1,3 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import sinon from 'sinon';
-
 import {
   getLocalStorage,
   getCustomizedSettings,
@@ -14,7 +10,7 @@ import defaultConfig from '../../app/configurations/config.default';
 describe('localStorage', () => {
   describe('getCustomizedSettings', () => {
     it('should return an empty object by default', () => {
-      expect(getCustomizedSettings()).to.deep.equal({});
+      expect(getCustomizedSettings()).toEqual({});
     });
   });
 
@@ -25,45 +21,48 @@ describe('localStorage', () => {
       delete defaultSettings.minTransferTime;
       delete defaultSettings.optimize;
       setCustomizedSettings(defaultSettings);
-      expect(getCustomizedSettings()).to.deep.equal(defaultSettings);
+      expect(getCustomizedSettings()).toEqual(defaultSettings);
     });
   });
 
   describe('getLocalStorage', () => {
     it('should invoke the given errorHandler if in browser and localStorage throws', () => {
-      const handler = sinon.stub();
-      const stub = sinon.stub(window, 'localStorage').get(() => {
-        throw new DOMException();
-      });
+      const handler = vi.fn();
+      const stub = vi
+        .spyOn(window, 'localStorage', 'get')
+        .mockImplementation(() => {
+          throw new DOMException();
+        });
       getLocalStorage(handler);
-      expect(handler.called).to.equal(true);
-      stub.restore();
+      expect(handler).toHaveBeenCalled();
+      stub.mockRestore();
     });
 
     it('should return null if thrown exception was a SecurityError and it was handled by default', () => {
-      const stub = sinon.stub(window, 'localStorage').get(() => {
-        throw new DOMException('Foo', 'SecurityError');
-      });
+      const stub = vi
+        .spyOn(window, 'localStorage', 'get')
+        .mockImplementation(() => {
+          throw new DOMException('Foo', 'SecurityError');
+        });
       const result = getLocalStorage();
-      expect(result).to.equal(null);
-      stub.restore();
+      expect(result).toBe(null);
+      stub.mockRestore();
     });
 
     it('should return window.localStorage', () => {
       const result = getLocalStorage();
-      expect(result).to.equal(window.localStorage);
+      expect(result).toBe(window.localStorage);
     });
   });
   describe('getReadMessageIds', () => {
     it('result should be empty array', () => {
       const result = getReadMessageIds();
-      // eslint-disable-next-line no-unused-expressions
-      expect(result).to.be.empty;
+      expect(result).toHaveLength(0);
     });
     it('result should be "1"', () => {
       window.localStorage.setItem('readMessages', JSON.stringify(1));
       const result = getReadMessageIds();
-      expect(result).to.equal(JSON.parse('1'));
+      expect(result).toBe(JSON.parse('1'));
     });
   });
 
@@ -71,7 +70,7 @@ describe('localStorage', () => {
     it('result should be ["1"]', () => {
       setReadMessageIds(['1']);
       const result = window.localStorage.getItem('readMessages');
-      expect(result).to.equal('["1"]');
+      expect(result).toBe('["1"]');
     });
   });
 });

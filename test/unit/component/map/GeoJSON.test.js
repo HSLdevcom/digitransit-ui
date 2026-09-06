@@ -13,13 +13,13 @@ describe('<GeoJSON />', () => {
       data: {},
     };
     const { container } = renderWithProviders(<GeoJSON {...props} />);
-    expect(container.innerHTML).to.equal('');
+    expect(container.innerHTML).toBe('');
   });
 
   describe('getIcons', () => {
     it('should return an empty object if no features exist', () => {
-      expect(getIcons(undefined)).to.deep.equal({});
-      expect(getIcons([])).to.deep.equal({});
+      expect(getIcons(undefined)).toEqual({});
+      expect(getIcons([])).toEqual({});
     });
 
     it('should generate svg-encoded icons', () => {
@@ -35,7 +35,7 @@ describe('<GeoJSON />', () => {
       ];
 
       const icons = getIcons(features);
-      expect(icons.test).to.equal(
+      expect(icons.test).toBe(
         'data:image/svg+xml;charset=utf-8,%23%3Cfoobar%3E%23',
       );
     });
@@ -59,8 +59,8 @@ describe('<GeoJSON />', () => {
       };
 
       const marker = getMarker(feature, latLng, icons);
-      expect(marker.options.icon.options.iconUrl).to.equal(icons.test);
-      expect(marker.options.interactive).to.equal(false);
+      expect(marker.options.icon.options.iconUrl).toBe(icons.test);
+      expect(marker.options.interactive).toBe(false);
       expect(marker._radius).equal(undefined);
     });
 
@@ -72,8 +72,8 @@ describe('<GeoJSON />', () => {
       });
 
       const marker = getMarker(feature, latLng);
-      expect(marker.options.interactive).to.equal(false);
-      expect(marker._radius).to.not.equal(undefined);
+      expect(marker.options.interactive).toBe(false);
+      expect(marker._radius).not.toBe(undefined);
     });
 
     it('should use a circleMarker and a tooltip for textOnly', () => {
@@ -88,9 +88,9 @@ describe('<GeoJSON />', () => {
       });
 
       const marker = getMarker(feature, latLng);
-      expect(marker.options.interactive).to.equal(false);
-      expect(marker._radius).to.not.equal(undefined);
-      expect(marker._tooltip._content).to.equal(feature.properties.textOnly);
+      expect(marker.options.interactive).toBe(false);
+      expect(marker._radius).not.toBe(undefined);
+      expect(marker._tooltip._content).toBe(feature.properties.textOnly);
     });
   });
 });

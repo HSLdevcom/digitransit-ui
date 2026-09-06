@@ -1,8 +1,5 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
 import {
   shallowWithIntl,
   createShallowHookSandbox,
@@ -86,27 +83,25 @@ const baseConfig = {
 
 describe('<CanceledTripCard />', () => {
   let stubs;
-  let sandbox;
   let filterContextStub;
 
   beforeEach(() => {
-    ({ sandbox, stubs } = createShallowHookSandbox({ config: baseConfig }));
-    filterContextStub = sandbox.stub(FiltersContext, 'useFilterContext');
-    filterContextStub.returns({
+    ({ stubs } = createShallowHookSandbox({ config: baseConfig }));
+    filterContextStub = vi.spyOn(FiltersContext, 'useFilterContext');
+    filterContextStub.mockReturnValue({
       selectedFilters: {},
     });
   });
-  afterEach(() => sandbox.restore());
 
   describe('RouteBadgeGroup props', () => {
     it('maps canceled route summaries to route badges', () => {
       const wrapper = shallowWithIntl(<CanceledTripCard {...baseProps} />);
       const badgeGroup = wrapper.find(RouteBadgeGroup);
 
-      expect(badgeGroup).to.have.lengthOf(1);
-      expect(badgeGroup.prop('mode')).to.equal('bus');
-      expect(badgeGroup.prop('stopPropagation')).to.equal(true);
-      expect(badgeGroup.prop('routes')).to.deep.equal([
+      expect(badgeGroup).toHaveLength(1);
+      expect(badgeGroup.prop('mode')).toBe('bus');
+      expect(badgeGroup.prop('stopPropagation')).toBe(true);
+      expect(badgeGroup.prop('routes')).toEqual([
         {
           name: '21B',
           gtfsId: 'HSL:21B',
@@ -117,7 +112,7 @@ describe('<CanceledTripCard />', () => {
     });
 
     it('limits the amount of route badges', () => {
-      stubs.useConfigContext.returns({
+      stubs.useConfigContext.mockReturnValue({
         ...baseConfig,
         trafficNowMaxRoutesPerCard: 3,
       });
@@ -126,12 +121,12 @@ describe('<CanceledTripCard />', () => {
       );
       const routes = wrapper.find(RouteBadgeGroup).prop('routes');
 
-      expect(routes).to.have.lengthOf(3);
-      expect(routes.map(route => route.name)).to.deep.equal(['20', '21', '22']);
+      expect(routes).toHaveLength(3);
+      expect(routes.map(route => route.name)).toEqual(['20', '21', '22']);
     });
 
     it('renders the count of hidden routes when there are more than allowed', () => {
-      stubs.useConfigContext.returns({
+      stubs.useConfigContext.mockReturnValue({
         ...baseConfig,
         trafficNowMaxRoutesPerCard: 3,
       });
@@ -142,9 +137,9 @@ describe('<CanceledTripCard />', () => {
       const rendered = shallow(<div>{renderSuffix}</div>);
       const moreRoutes = rendered.find(EntityBadge);
 
-      expect(moreRoutes).to.have.lengthOf(1);
-      expect(moreRoutes.prop('className')).to.equal('more-routes');
-      expect(moreRoutes.prop('entity').name).to.equal('+3');
+      expect(moreRoutes).toHaveLength(1);
+      expect(moreRoutes.prop('className')).toBe('more-routes');
+      expect(moreRoutes.prop('entity').name).toBe('+3');
     });
 
     it('does not render the three-dots icon when all routes are visible', () => {
@@ -152,7 +147,7 @@ describe('<CanceledTripCard />', () => {
         <CanceledTripCard {...baseProps} routes={makeRoutes(5)} />,
       );
 
-      expect(wrapper.find(RouteBadgeGroup).prop('renderSuffix')).to.equal(null);
+      expect(wrapper.find(RouteBadgeGroup).prop('renderSuffix')).toBe(null);
     });
 
     it('renders the departure time when there is only a single route', () => {
@@ -169,7 +164,7 @@ describe('<CanceledTripCard />', () => {
           .dive()
           .find('.routes-m-narrow')
           .text(),
-      ).to.equal(' 08:00 ');
+      ).toBe(' 08:00 ');
     });
 
     it('renders cancellations from all patterns when there is only a single route', () => {
@@ -230,7 +225,7 @@ describe('<CanceledTripCard />', () => {
           .dive()
           .find('.routes-m-narrow')
           .map(node => node.text()),
-      ).to.deep.equal([' 08:00 ', ' 08:05 ']);
+      ).toEqual([' 08:00 ', ' 08:05 ']);
     });
 
     it('limits inline departures per pattern', () => {
@@ -282,7 +277,7 @@ describe('<CanceledTripCard />', () => {
           .dive()
           .find('.badges__departure-time')
           .not('.badges__departure-time--show-more'),
-      ).to.have.lengthOf(10);
+      ).toHaveLength(10);
     });
 
     it('renders inline hidden departure count per pattern', () => {
@@ -334,7 +329,7 @@ describe('<CanceledTripCard />', () => {
           .dive()
           .find('.badges__departure-time--show-more')
           .map(node => node.text()),
-      ).to.deep.equal(['+2', '+3']);
+      ).toEqual(['+2', '+3']);
     });
   });
 
@@ -344,8 +339,8 @@ describe('<CanceledTripCard />', () => {
         <CanceledTripCard {...baseProps} isMobile={false} />,
       );
 
-      expect(wrapper.find('.separator.vertical')).to.have.lengthOf(1);
-      expect(wrapper.find('header').find(DisruptionStatus)).to.have.lengthOf(1);
+      expect(wrapper.find('.separator.vertical')).toHaveLength(1);
+      expect(wrapper.find('header').find(DisruptionStatus)).toHaveLength(1);
     });
 
     it('hides the header separator and moves DisruptionStatus below badges when isMobile=true', () => {
@@ -353,15 +348,15 @@ describe('<CanceledTripCard />', () => {
         <CanceledTripCard {...baseProps} isMobile />,
       );
 
-      expect(wrapper.find('.separator.vertical')).to.have.lengthOf(0);
-      expect(wrapper.find('header').find(DisruptionStatus)).to.have.lengthOf(0);
-      expect(wrapper.find(DisruptionStatus)).to.have.lengthOf(1);
+      expect(wrapper.find('.separator.vertical')).toHaveLength(0);
+      expect(wrapper.find('header').find(DisruptionStatus)).toHaveLength(0);
+      expect(wrapper.find(DisruptionStatus)).toHaveLength(1);
     });
   });
 
   describe('Navigation', () => {
     it('navigates to the canceled trips detail view for the mode when the card is clicked', () => {
-      const router = { push: sinon.spy() };
+      const router = { push: vi.fn() };
       const wrapper = shallowWithIntl(<CanceledTripCard {...baseProps} />, {
         router,
       });
@@ -372,9 +367,7 @@ describe('<CanceledTripCard />', () => {
 
       wrapper.find(Card).prop('onClick')(event);
 
-      expect(router.push.calledWith('/liikenne/peruutukset/bus')).to.equal(
-        true,
-      );
+      expect(router.push).toHaveBeenCalledWith('/liikenne/peruutukset/bus');
     });
   });
 });

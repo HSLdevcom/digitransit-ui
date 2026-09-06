@@ -1,6 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { renderWithProviders } from '../../helpers/mock-providers';
 
 import ScheduleConstantOperation from '../../../../app/component/routepage/schedule/ScheduleConstantOperation';
@@ -28,9 +26,7 @@ describe('<ScheduleConstantOperation />', () => {
     const { container } = renderWithProviders(
       <ScheduleConstantOperation {...defaultProps} />,
     );
-    expect(container.querySelector('.constant-operation-panel')).to.not.equal(
-      null,
-    );
+    expect(container.querySelector('.constant-operation-panel')).not.toBe(null);
   });
 
   it('should display constant operation text', () => {
@@ -39,7 +35,7 @@ describe('<ScheduleConstantOperation />', () => {
     );
     expect(
       container.querySelector('.constant-operation-content').textContent,
-    ).to.include('This route operates continuously 24/7.');
+    ).toContain('This route operates continuously 24/7.');
   });
 
   it('should open link in new tab', () => {
@@ -48,8 +44,8 @@ describe('<ScheduleConstantOperation />', () => {
     );
     const link = container.querySelector('a');
 
-    expect(link.getAttribute('target')).to.equal('_blank');
-    expect(link.getAttribute('rel')).to.equal('noreferrer');
+    expect(link.getAttribute('target')).toBe('_blank');
+    expect(link.getAttribute('rel')).toBe('noreferrer');
   });
 
   it('should apply mobile class when breakpoint is not large', () => {
@@ -61,6 +57,6 @@ describe('<ScheduleConstantOperation />', () => {
       container
         .querySelector('.route-schedule-container')
         .classList.contains('mobile'),
-    ).to.equal(true);
+    ).toBe(true);
   });
 });

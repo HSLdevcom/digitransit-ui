@@ -3,9 +3,10 @@
   "version": "4.1.1",
   "description": "digitransit-util route-pattern-option-text module",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs"
   },
   "repository": {
     "type": "git",

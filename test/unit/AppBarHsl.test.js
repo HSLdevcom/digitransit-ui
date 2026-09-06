@@ -1,6 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { renderWithProviders } from './helpers/mock-providers';
 import AppBarHsl from '../../app/component/AppBarHsl';
 
@@ -14,6 +12,6 @@ describe('<AppBarHsl />', () => {
         user: {},
       },
     });
-    expect(container).to.not.equal(null);
+    expect(container).not.toBe(null);
   });
 });

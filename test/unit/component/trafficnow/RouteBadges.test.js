@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
 import { shallow } from 'enzyme';
 import { createShallowHookSandbox } from '../../helpers/mock-intl-enzyme';
@@ -33,20 +31,17 @@ const makeBusRouteGroup = entities => ({
 });
 
 describe('<RouteBadges />', () => {
-  let sandbox;
   let stubs;
   let filterContextStub;
 
   beforeEach(() => {
-    ({ sandbox, stubs } = createShallowHookSandbox({ config: baseConfig }));
-    filterContextStub = sandbox
-      .stub(FiltersContext, 'useFilterContext')
-      .returns({
+    ({ stubs } = createShallowHookSandbox({ config: baseConfig }));
+    filterContextStub = vi
+      .spyOn(FiltersContext, 'useFilterContext')
+      .mockReturnValue({
         selectedFilters: {},
       });
   });
-
-  afterEach(() => sandbox.restore());
 
   describe('All-Unknown entities', () => {
     it('returns null when every entity has __typename Unknown', () => {
@@ -55,25 +50,25 @@ describe('<RouteBadges />', () => {
         makeEntity(AlertEntityType.Unknown, 'HSL:2'),
       ];
       const wrapper = shallow(<RouteBadges entities={entities} />);
-      expect(wrapper.type()).to.equal(null);
+      expect(wrapper.type()).toBe(null);
     });
 
     it('does not return null when at least one entity is not Unknown', () => {
-      sandbox
-        .stub(trafficNowUtils, 'groupEntitiesByMode')
-        .returns(makeBusRouteGroup());
+      vi.spyOn(trafficNowUtils, 'groupEntitiesByMode').mockReturnValue(
+        makeBusRouteGroup(),
+      );
       const entities = [
         makeEntity(AlertEntityType.Unknown, 'HSL:1'),
         makeEntity(AlertEntityType.Route, 'HSL:2'),
       ];
       const wrapper = shallow(<RouteBadges entities={entities} />);
-      expect(wrapper.type()).to.not.equal(null);
+      expect(wrapper.type()).not.toBe(null);
     });
   });
 
   describe('RouteBadgeGroup rendering', () => {
     it('renders one RouteBadgeGroup per mode group', () => {
-      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+      vi.spyOn(trafficNowUtils, 'groupEntitiesByMode').mockReturnValue({
         bus_route: {
           mode: 'bus',
           isRoute: true,
@@ -88,21 +83,21 @@ describe('<RouteBadges />', () => {
       const wrapper = shallow(
         <RouteBadges entities={[makeEntity(AlertEntityType.Route, 'HSL:1')]} />,
       );
-      expect(wrapper.find(RouteBadgeGroup)).to.have.lengthOf(2);
+      expect(wrapper.find(RouteBadgeGroup)).toHaveLength(2);
     });
 
     it('passes isStop=false for route groups', () => {
-      sandbox
-        .stub(trafficNowUtils, 'groupEntitiesByMode')
-        .returns(makeBusRouteGroup());
+      vi.spyOn(trafficNowUtils, 'groupEntitiesByMode').mockReturnValue(
+        makeBusRouteGroup(),
+      );
       const wrapper = shallow(
         <RouteBadges entities={[makeEntity(AlertEntityType.Route, 'HSL:1')]} />,
       );
-      expect(wrapper.find(RouteBadgeGroup).prop('isStop')).to.equal(false);
+      expect(wrapper.find(RouteBadgeGroup).prop('isStop')).toBe(false);
     });
 
     it('passes isStop=true for stop groups', () => {
-      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+      vi.spyOn(trafficNowUtils, 'groupEntitiesByMode').mockReturnValue({
         bus_stop: {
           mode: 'bus',
           isRoute: false,
@@ -114,11 +109,11 @@ describe('<RouteBadges />', () => {
       const wrapper = shallow(
         <RouteBadges entities={[makeEntity(AlertEntityType.Stop, 'HSL:1')]} />,
       );
-      expect(wrapper.find(RouteBadgeGroup).prop('isStop')).to.equal(true);
+      expect(wrapper.find(RouteBadgeGroup).prop('isStop')).toBe(true);
     });
 
     it('skips groups that have no mode', () => {
-      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+      vi.spyOn(trafficNowUtils, 'groupEntitiesByMode').mockReturnValue({
         bus_route: {
           mode: 'bus',
           isRoute: true,
@@ -133,11 +128,11 @@ describe('<RouteBadges />', () => {
       const wrapper = shallow(
         <RouteBadges entities={[makeEntity(AlertEntityType.Route, 'HSL:1')]} />,
       );
-      expect(wrapper.find(RouteBadgeGroup)).to.have.lengthOf(1);
+      expect(wrapper.find(RouteBadgeGroup)).toHaveLength(1);
     });
 
     it('passes each entity mapped to { id, name, url, gtfsId } as routes', () => {
-      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+      vi.spyOn(trafficNowUtils, 'groupEntitiesByMode').mockReturnValue({
         bus_route: {
           mode: 'bus',
           isRoute: true,
@@ -158,8 +153,8 @@ describe('<RouteBadges />', () => {
         />,
       );
       const routes = wrapper.find(RouteBadgeGroup).prop('routes');
-      expect(routes).to.have.lengthOf(1);
-      expect(routes[0]).to.deep.equal({
+      expect(routes).toHaveLength(1);
+      expect(routes[0]).toEqual({
         id: 'e1',
         name: '99',
         url: '/route/HSL:99',
@@ -170,29 +165,29 @@ describe('<RouteBadges />', () => {
 
   describe('highlightedGtfsId from selectedFilters.entity', () => {
     it('passes undefined as highlightedGtfsId when selectedFilters has no entity', () => {
-      sandbox
-        .stub(trafficNowUtils, 'groupEntitiesByMode')
-        .returns(makeBusRouteGroup());
-      filterContextStub.returns({ selectedFilters: {} });
+      vi.spyOn(trafficNowUtils, 'groupEntitiesByMode').mockReturnValue(
+        makeBusRouteGroup(),
+      );
+      filterContextStub.mockReturnValue({ selectedFilters: {} });
       const wrapper = shallow(
         <RouteBadges entities={[makeEntity(AlertEntityType.Route, 'HSL:1')]} />,
       );
-      expect(wrapper.find(RouteBadgeGroup).prop('highlightedGtfsId')).to.equal(
+      expect(wrapper.find(RouteBadgeGroup).prop('highlightedGtfsId')).toBe(
         undefined,
       );
     });
 
     it('passes the entity gtfsId as highlightedGtfsId when selectedFilters.entity is set', () => {
-      sandbox
-        .stub(trafficNowUtils, 'groupEntitiesByMode')
-        .returns(makeBusRouteGroup());
-      filterContextStub.returns({
+      vi.spyOn(trafficNowUtils, 'groupEntitiesByMode').mockReturnValue(
+        makeBusRouteGroup(),
+      );
+      filterContextStub.mockReturnValue({
         selectedFilters: { entity: { gtfsId: 'HSL:1' } },
       });
       const wrapper = shallow(
         <RouteBadges entities={[makeEntity(AlertEntityType.Route, 'HSL:1')]} />,
       );
-      expect(wrapper.find(RouteBadgeGroup).prop('highlightedGtfsId')).to.equal(
+      expect(wrapper.find(RouteBadgeGroup).prop('highlightedGtfsId')).toBe(
         'HSL:1',
       );
     });
@@ -208,7 +203,7 @@ describe('<RouteBadges />', () => {
       }));
 
     it('limits routes to 5 and passes a renderSuffix for the hidden ones', () => {
-      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+      vi.spyOn(trafficNowUtils, 'groupEntitiesByMode').mockReturnValue({
         bus_route: { mode: 'bus', isRoute: true, entities: makeRoutes(8) },
       });
       const wrapper = shallow(
@@ -218,12 +213,12 @@ describe('<RouteBadges />', () => {
         />,
       );
       const group = wrapper.find(RouteBadgeGroup);
-      expect(group.prop('routes')).to.have.lengthOf(5);
-      expect(group.prop('renderSuffix')).to.not.equal(null);
+      expect(group.prop('routes')).toHaveLength(5);
+      expect(group.prop('renderSuffix')).not.toBe(null);
     });
 
     it('does not render a suffix when there are 5 or fewer routes', () => {
-      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+      vi.spyOn(trafficNowUtils, 'groupEntitiesByMode').mockReturnValue({
         bus_route: { mode: 'bus', isRoute: true, entities: makeRoutes(5) },
       });
       const wrapper = shallow(
@@ -233,16 +228,16 @@ describe('<RouteBadges />', () => {
         />,
       );
       const group = wrapper.find(RouteBadgeGroup);
-      expect(group.prop('routes')).to.have.lengthOf(5);
-      expect(group.prop('renderSuffix')).to.equal(null);
+      expect(group.prop('routes')).toHaveLength(5);
+      expect(group.prop('renderSuffix')).toBe(null);
     });
 
     it('uses the configurable trafficNowMaxRoutesPerCard limit', () => {
-      stubs.useConfigContext.returns({
+      stubs.useConfigContext.mockReturnValue({
         ...baseConfig,
         trafficNowMaxRoutesPerCard: 2,
       });
-      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+      vi.spyOn(trafficNowUtils, 'groupEntitiesByMode').mockReturnValue({
         bus_route: { mode: 'bus', isRoute: true, entities: makeRoutes(5) },
       });
       const wrapper = shallow(
@@ -252,12 +247,12 @@ describe('<RouteBadges />', () => {
         />,
       );
       const group = wrapper.find(RouteBadgeGroup);
-      expect(group.prop('routes')).to.have.lengthOf(2);
-      expect(group.prop('renderSuffix')).to.not.equal(null);
+      expect(group.prop('routes')).toHaveLength(2);
+      expect(group.prop('renderSuffix')).not.toBe(null);
     });
 
     it('hides stop groups when a route group exists', () => {
-      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+      vi.spyOn(trafficNowUtils, 'groupEntitiesByMode').mockReturnValue({
         bus_route: {
           mode: 'bus',
           isRoute: true,
@@ -278,12 +273,12 @@ describe('<RouteBadges />', () => {
         />,
       );
       const groups = wrapper.find(RouteBadgeGroup);
-      expect(groups).to.have.lengthOf(1);
-      expect(groups.prop('isStop')).to.equal(false);
+      expect(groups).toHaveLength(1);
+      expect(groups.prop('isStop')).toBe(false);
     });
 
     it('still shows stop groups when there are no route groups', () => {
-      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+      vi.spyOn(trafficNowUtils, 'groupEntitiesByMode').mockReturnValue({
         bus_stop: {
           mode: 'bus',
           isRoute: false,
@@ -299,14 +294,14 @@ describe('<RouteBadges />', () => {
         />,
       );
       const groups = wrapper.find(RouteBadgeGroup);
-      expect(groups).to.have.lengthOf(1);
-      expect(groups.prop('isStop')).to.equal(true);
+      expect(groups).toHaveLength(1);
+      expect(groups.prop('isStop')).toBe(true);
     });
   });
 
   describe('mode filter', () => {
     it('renders only the groups belonging to the given mode', () => {
-      sandbox.stub(trafficNowUtils, 'groupEntitiesByMode').returns({
+      vi.spyOn(trafficNowUtils, 'groupEntitiesByMode').mockReturnValue({
         bus_route: {
           mode: 'bus',
           isRoute: true,
@@ -325,8 +320,8 @@ describe('<RouteBadges />', () => {
         />,
       );
       const groups = wrapper.find(RouteBadgeGroup);
-      expect(groups).to.have.lengthOf(1);
-      expect(groups.prop('mode')).to.equal('tram');
+      expect(groups).toHaveLength(1);
+      expect(groups.prop('mode')).toBe('tram');
     });
   });
 });

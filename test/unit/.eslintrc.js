@@ -1,9 +1,15 @@
 module.exports = {
   extends: '../../.eslintrc.js',
-  env: {
-    mocha: true,
-  },
+  // ESLint 8 has no built-in `vitest` env; `globals: true` in
+  // config/vitest.config.js exposes these as real globals in every test file.
   globals: {
-    expect: true,
+    describe: 'readonly',
+    it: 'readonly',
+    expect: 'readonly',
+    vi: 'readonly',
+    beforeAll: 'readonly',
+    afterAll: 'readonly',
+    beforeEach: 'readonly',
+    afterEach: 'readonly',
   },
 };

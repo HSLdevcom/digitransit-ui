@@ -18,7 +18,7 @@ describe('<RouteStop />', () => {
         zones: { stops: true },
       },
     });
-    expect(container.querySelector('.caution')).to.equal(null);
+    expect(container.querySelector('.caution')).toBe(null);
   });
 
   it('should render a service alert icon for the stop', () => {
@@ -36,7 +36,7 @@ describe('<RouteStop />', () => {
         zones: { stops: true },
       },
     });
-    expect(container.querySelector('.caution')).to.not.equal(null);
+    expect(container.querySelector('.caution')).not.toBe(null);
   });
 
   it('should not render a service alert icon for the stop if the alert is not active', () => {
@@ -61,6 +61,6 @@ describe('<RouteStop />', () => {
         zones: { stops: true },
       },
     });
-    expect(container.querySelector('.caution')).to.equal(null);
+    expect(container.querySelector('.caution')).toBe(null);
   });
 });

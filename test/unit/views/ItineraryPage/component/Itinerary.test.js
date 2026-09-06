@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 
 import {
@@ -41,9 +39,9 @@ describe('<Itinerary />', () => {
       context: { config: mockContext.config },
     });
 
-    expect(wrapper.find('.itinerary-legs').children()).to.have.lengthOf(3);
-    expect(wrapper.find(StreetBar)).to.have.lengthOf(2);
-    expect(wrapper.find(ViaLeg)).to.have.lengthOf(1);
+    expect(wrapper.find('.itinerary-legs').children()).toHaveLength(3);
+    expect(wrapper.find(StreetBar)).toHaveLength(2);
+    expect(wrapper.find(ViaLeg)).toHaveLength(1);
   });
 
   it('should display all city bike leg start stations in the summary view', () => {
@@ -67,8 +65,8 @@ describe('<Itinerary />', () => {
       childContextTypes: { ...mockChildContextTypes },
     });
     const legs = wrapper.find('.itinerary-legs');
-    expect(legs.find(StreetBar)).to.have.lengthOf.above(3);
-    expect(wrapper.find(ViaLeg)).to.have.lengthOf(2);
+    expect(legs.find(StreetBar).length).toBeGreaterThan(3);
+    expect(wrapper.find(ViaLeg)).toHaveLength(2);
   });
 
   it('should hide short legs from the summary view for a non-transit itinerary', () => {
@@ -86,12 +84,12 @@ describe('<Itinerary />', () => {
     });
 
     const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(5);
-    expect(legs.childAt(0).is(StreetBar)).to.equal(true);
-    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(2).is(StreetBar)).to.equal(true);
-    expect(legs.childAt(3).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(4).is(StreetBar)).to.equal(true);
+    expect(legs.children()).toHaveLength(5);
+    expect(legs.childAt(0).is(StreetBar)).toBe(true);
+    expect(legs.childAt(1).is(ViaLeg)).toBe(true);
+    expect(legs.childAt(2).is(StreetBar)).toBe(true);
+    expect(legs.childAt(3).is(ViaLeg)).toBe(true);
+    expect(legs.childAt(4).is(StreetBar)).toBe(true);
   });
 
   it('should show a connecting walk leg between via points for transit itinerary', () => {
@@ -109,9 +107,9 @@ describe('<Itinerary />', () => {
       childContextTypes: { ...mockChildContextTypes },
     });
 
-    expect(wrapper.find(ViaLeg)).to.have.lengthOf(2);
-    expect(wrapper.find(TransitBar)).to.have.lengthOf(2);
-    expect(wrapper.find(StreetBar)).to.have.lengthOf.above(0);
+    expect(wrapper.find(ViaLeg)).toHaveLength(2);
+    expect(wrapper.find(TransitBar)).toHaveLength(2);
+    expect(wrapper.find(StreetBar).length).toBeGreaterThan(0);
   });
 
   it('should show a connecting walk leg between last via point and end for transit itinerary', () => {
@@ -132,9 +130,9 @@ describe('<Itinerary />', () => {
     });
 
     const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(4);
-    expect(legs.childAt(0).is(TransitBar)).to.equal(true);
-    expect(legs.childAt(legs.length).is(StreetBar)).to.equal(true);
+    expect(legs.children()).toHaveLength(4);
+    expect(legs.childAt(0).is(TransitBar)).toBe(true);
+    expect(legs.childAt(legs.length).is(StreetBar)).toBe(true);
   });
 
   it('should show a connecting walk leg between start and first via point for transit itinerary', () => {
@@ -155,9 +153,9 @@ describe('<Itinerary />', () => {
     });
 
     const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(4);
-    expect(legs.childAt(0).is(StreetBar)).to.equal(true);
-    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
+    expect(legs.children()).toHaveLength(4);
+    expect(legs.childAt(0).is(StreetBar)).toBe(true);
+    expect(legs.childAt(1).is(ViaLeg)).toBe(true);
   });
 
   it('should show a via point for transit itinerary when the via point is at a stop', () => {
@@ -174,7 +172,7 @@ describe('<Itinerary />', () => {
       childContextTypes: { ...mockChildContextTypes },
     });
 
-    expect(wrapper.find(ViaLeg)).to.have.lengthOf(1);
+    expect(wrapper.find(ViaLeg)).toHaveLength(1);
   });
 
   it('should show the really short first walking leg for a transit itinerary', () => {
@@ -191,9 +189,9 @@ describe('<Itinerary />', () => {
       childContextTypes: { ...mockChildContextTypes },
     });
 
-    expect(wrapper.find(ViaLeg)).to.have.lengthOf(3);
-    expect(wrapper.find(TransitBar)).to.have.lengthOf(2);
-    expect(wrapper.find(StreetBar)).to.have.lengthOf.above(2);
+    expect(wrapper.find(ViaLeg)).toHaveLength(3);
+    expect(wrapper.find(TransitBar)).toHaveLength(2);
+    expect(wrapper.find(StreetBar).length).toBeGreaterThan(2);
   });
 
   it('should not indicate that there is a disruption if the alert is not in effect', () => {
@@ -236,9 +234,9 @@ describe('<Itinerary />', () => {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
-    expect(
-      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
-    ).to.equal(undefined);
+    expect(wrapper.find(RouteNumberContainer).props().alertSeverityLevel).toBe(
+      undefined,
+    );
   });
 
   it('should indicate that there is a disruption due to a trip alert', () => {
@@ -282,9 +280,9 @@ describe('<Itinerary />', () => {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
-    expect(
-      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
-    ).to.equal(AlertSeverityLevelType.Warning);
+    expect(wrapper.find(RouteNumberContainer).props().alertSeverityLevel).toBe(
+      AlertSeverityLevelType.Warning,
+    );
   });
 
   it('should indicate that there is a disruption due to a route alert', () => {
@@ -319,9 +317,9 @@ describe('<Itinerary />', () => {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
-    expect(
-      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
-    ).to.equal(AlertSeverityLevelType.Warning);
+    expect(wrapper.find(RouteNumberContainer).props().alertSeverityLevel).toBe(
+      AlertSeverityLevelType.Warning,
+    );
   });
 
   it('should indicate that there is a disruption due to a stop alert at the "from" stop', () => {
@@ -359,9 +357,9 @@ describe('<Itinerary />', () => {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
-    expect(
-      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
-    ).to.equal(AlertSeverityLevelType.Warning);
+    expect(wrapper.find(RouteNumberContainer).props().alertSeverityLevel).toBe(
+      AlertSeverityLevelType.Warning,
+    );
   });
 
   it('should indicate that there is a disruption due to a stop alert at the "to" stop', () => {
@@ -399,9 +397,9 @@ describe('<Itinerary />', () => {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
-    expect(
-      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
-    ).to.equal(AlertSeverityLevelType.Warning);
+    expect(wrapper.find(RouteNumberContainer).props().alertSeverityLevel).toBe(
+      AlertSeverityLevelType.Warning,
+    );
   });
 
   it('should not indicate that there is a disruption due to a stop alert at an intermediate stop', () => {
@@ -450,8 +448,8 @@ describe('<Itinerary />', () => {
       context: { ...mockContext },
       childContextTypes: { ...mockChildContextTypes },
     });
-    expect(
-      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
-    ).to.equal(undefined);
+    expect(wrapper.find(RouteNumberContainer).props().alertSeverityLevel).toBe(
+      undefined,
+    );
   });
 });

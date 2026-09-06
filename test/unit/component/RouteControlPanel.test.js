@@ -1,7 +1,4 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
-import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
 import { DateTime } from 'luxon';
@@ -19,14 +16,11 @@ const baseConfig = {
 };
 
 describe('<RouteControlPanel />', () => {
-  let sandbox;
   let stubs;
 
   beforeEach(() => {
-    ({ sandbox, stubs } = createShallowHookSandbox({ config: baseConfig }));
+    ({ stubs } = createShallowHookSandbox({ config: baseConfig }));
   });
-
-  afterEach(() => sandbox.restore());
 
   it('should set the activeAlert class if there is an alert and a matching patternId', () => {
     const props = {
@@ -75,7 +69,7 @@ describe('<RouteControlPanel />', () => {
     const wrapper = shallow(<RouteControlPanel {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find('.activeAlert')).to.have.lengthOf(1);
+    expect(wrapper.find('.activeAlert')).toHaveLength(1);
   });
 
   it('renders without error when active pattern is found and realtime is configured', () => {
@@ -116,7 +110,7 @@ describe('<RouteControlPanel />', () => {
         },
       },
     };
-    stubs.useConfigContext.returns({
+    stubs.useConfigContext.mockReturnValue({
       ...baseConfig,
       realTime: {
         tampere: {
@@ -153,7 +147,7 @@ describe('<RouteControlPanel />', () => {
         },
       },
     };
-    stubs.useConfigContext.returns({
+    stubs.useConfigContext.mockReturnValue({
       ...baseConfig,
       realTime: {
         tampere: {
@@ -165,12 +159,12 @@ describe('<RouteControlPanel />', () => {
     });
     const context = {
       ...mockContext,
-      executeAction: sinon.stub(),
+      executeAction: vi.fn(),
     };
 
     shallow(<RouteControlPanel {...props} />, { context });
 
-    expect(context.executeAction.callCount).to.equal(0);
+    expect(context.executeAction).toHaveBeenCalledTimes(0);
   });
 
   it('should set the activeAlert class if there is a cancelation for today', () => {
@@ -212,7 +206,7 @@ describe('<RouteControlPanel />', () => {
     const wrapper = shallow(<RouteControlPanel {...props} />, {
       context: mockContext,
     });
-    expect(wrapper.find('.activeAlert')).to.have.lengthOf(1);
+    expect(wrapper.find('.activeAlert')).toHaveLength(1);
   });
 
   describe('componentDidMount', () => {
@@ -242,7 +236,7 @@ describe('<RouteControlPanel />', () => {
           },
         },
       };
-      stubs.useConfigContext.returns({
+      stubs.useConfigContext.mockReturnValue({
         ...baseConfig,
         realTime: { HSL: { active: true } },
       });
@@ -278,7 +272,7 @@ describe('<RouteControlPanel />', () => {
           },
         },
       };
-      stubs.useConfigContext.returns({
+      stubs.useConfigContext.mockReturnValue({
         ...baseConfig,
         realTime: { HSL: { active: true, routeSelector: () => '63' } },
       });
@@ -327,7 +321,7 @@ describe('<RouteControlPanel />', () => {
         />,
         { context: mockContext },
       );
-      expect(wrapper.find('.active-service-alert')).to.have.lengthOf(1);
+      expect(wrapper.find('.active-service-alert')).toHaveLength(1);
     });
 
     it('should mark the disruptions tab with .active-disruption-alert for WARNING level', () => {
@@ -339,7 +333,7 @@ describe('<RouteControlPanel />', () => {
         />,
         { context: mockContext },
       );
-      expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(1);
+      expect(wrapper.find('.active-disruption-alert')).toHaveLength(1);
     });
 
     it('should mark the disruptions tab with .active-disruption-alert for SEVERE level', () => {
@@ -351,7 +345,7 @@ describe('<RouteControlPanel />', () => {
         />,
         { context: mockContext },
       );
-      expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(1);
+      expect(wrapper.find('.active-disruption-alert')).toHaveLength(1);
     });
   });
 });

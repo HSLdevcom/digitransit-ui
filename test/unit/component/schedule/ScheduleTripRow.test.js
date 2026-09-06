@@ -1,6 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { render } from '@testing-library/react';
 
 import ScheduleTripRow from '../../../../app/component/routepage/schedule/ScheduleTripRow';
@@ -15,17 +13,13 @@ describe('<ScheduleTripRow />', () => {
   describe('Rendering times', () => {
     it('should display departure and arrival times', () => {
       const { container } = render(<ScheduleTripRow {...defaultProps} />);
-      expect(container.querySelector('.trip-from').textContent).to.equal(
-        '08:00',
-      );
-      expect(container.querySelector('.trip-to').textContent).to.equal('08:30');
+      expect(container.querySelector('.trip-from').textContent).toBe('08:00');
+      expect(container.querySelector('.trip-to').textContent).toBe('08:30');
     });
 
     it('should render arrow icon separator', () => {
       const { container } = render(<ScheduleTripRow {...defaultProps} />);
-      expect(
-        container.querySelectorAll('.trip-separator svg'),
-      ).to.have.lengthOf(1);
+      expect(container.querySelectorAll('.trip-separator svg')).toHaveLength(1);
     });
   });
 
@@ -35,10 +29,10 @@ describe('<ScheduleTripRow />', () => {
       const { container } = render(<ScheduleTripRow {...props} />);
       expect(
         container.querySelector('.trip-from').classList.contains('canceled'),
-      ).to.equal(true);
+      ).toBe(true);
       expect(
         container.querySelector('.trip-to').classList.contains('canceled'),
-      ).to.equal(true);
+      ).toBe(true);
     });
 
     it('should not apply canceled styling when isCanceled is false', () => {
@@ -46,24 +40,22 @@ describe('<ScheduleTripRow />', () => {
       const { container } = render(<ScheduleTripRow {...props} />);
       expect(
         container.querySelector('.trip-from').classList.contains('canceled'),
-      ).to.equal(false);
+      ).toBe(false);
       expect(
         container.querySelector('.trip-to').classList.contains('canceled'),
-      ).to.equal(false);
+      ).toBe(false);
     });
   });
 
   describe('Accessibility', () => {
     it('should have listitem role for screen readers', () => {
       const { container } = render(<ScheduleTripRow {...defaultProps} />);
-      expect(container.querySelectorAll('[role="listitem"]')).to.have.lengthOf(
-        1,
-      );
+      expect(container.querySelectorAll('[role="listitem"]')).toHaveLength(1);
     });
 
     it('should be keyboard accessible with tabIndex', () => {
       const { container } = render(<ScheduleTripRow {...defaultProps} />);
-      expect(container.querySelector('[role="listitem"]').tabIndex).to.equal(0);
+      expect(container.querySelector('[role="listitem"]').tabIndex).toBe(0);
     });
   });
 });

@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
 import { shallow } from 'enzyme';
 import * as found from 'found';
@@ -18,7 +16,7 @@ const baseConfig = {
 };
 
 /**
- * Creates the shared sandbox with useIntl and useConfigContext stubs,
+ * Installs the shared useIntl and useConfigContext stubs,
  * then adds stubs for useBreakpoint and useRouter.
  */
 function createSandbox({
@@ -26,221 +24,209 @@ function createSandbox({
   mode = undefined,
   alertId = undefined,
 } = {}) {
-  const { sandbox, stubs } = createShallowHookSandbox({ config: baseConfig });
-  sandbox.stub(withBreakpoint, 'useBreakpoint').returns(breakpoint);
-  sandbox.stub(found, 'useRouter').returns({
+  const { stubs } = createShallowHookSandbox({ config: baseConfig });
+  vi.spyOn(withBreakpoint, 'useBreakpoint').mockReturnValue(breakpoint);
+  vi.spyOn(found, 'useRouter').mockReturnValue({
     match: { params: { mode, alertId } },
   });
-  return { sandbox, stubs };
+  return { stubs };
 }
 
 describe('<TrafficNow />', () => {
-  let sandbox;
-
-  afterEach(() => sandbox.restore());
-
   describe('Desktop layout — no mode param', () => {
     beforeEach(() => {
-      ({ sandbox } = createSandbox({ breakpoint: 'large', mode: undefined }));
+      createSandbox({ breakpoint: 'large', mode: undefined });
     });
 
     it('renders the TrafficNowHeader', () => {
       const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(1);
+      expect(wrapper.find(TrafficNowHeader)).toHaveLength(1);
     });
 
     it('renders the desktop Filters panel inside .traffic-now__filters-container', () => {
       const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find('.traffic-now__filters-container')).to.have.lengthOf(
-        1,
-      );
+      expect(wrapper.find('.traffic-now__filters-container')).toHaveLength(1);
       expect(
         wrapper.find('.traffic-now__filters-container').find(Filters),
-      ).to.have.lengthOf(1);
+      ).toHaveLength(1);
     });
 
     it('renders Disruptions', () => {
       const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find(Disruptions)).to.have.lengthOf(1);
+      expect(wrapper.find(Disruptions)).toHaveLength(1);
     });
 
     it('does NOT render the mobile filters button container', () => {
       const wrapper = shallow(<TrafficNow />);
       expect(
         wrapper.find('.traffic-now__filters-button-container'),
-      ).to.have.lengthOf(0);
+      ).toHaveLength(0);
     });
 
     it('does NOT apply the mobile body modifier class', () => {
       const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find('.traffic-now__body--mobile')).to.have.lengthOf(0);
+      expect(wrapper.find('.traffic-now__body--mobile')).toHaveLength(0);
     });
   });
 
   describe('Mobile layout — no mode param', () => {
     beforeEach(() => {
-      ({ sandbox } = createSandbox({ breakpoint: 'small', mode: undefined }));
+      createSandbox({ breakpoint: 'small', mode: undefined });
     });
 
     it('renders the TrafficNowHeader', () => {
       const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(1);
+      expect(wrapper.find(TrafficNowHeader)).toHaveLength(1);
     });
 
     it('renders the mobile filters button container instead of the desktop Filters panel', () => {
       const wrapper = shallow(<TrafficNow />);
       expect(
         wrapper.find('.traffic-now__filters-button-container'),
-      ).to.have.lengthOf(1);
-      expect(wrapper.find('.traffic-now__filters-container')).to.have.lengthOf(
-        0,
-      );
+      ).toHaveLength(1);
+      expect(wrapper.find('.traffic-now__filters-container')).toHaveLength(0);
     });
 
     it('renders Disruptions', () => {
       const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find(Disruptions)).to.have.lengthOf(1);
+      expect(wrapper.find(Disruptions)).toHaveLength(1);
     });
 
     it('applies the mobile body modifier class', () => {
       const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find('.traffic-now__body--mobile')).to.have.lengthOf(1);
+      expect(wrapper.find('.traffic-now__body--mobile')).toHaveLength(1);
     });
   });
 
   describe('Desktop layout — with mode param', () => {
     beforeEach(() => {
-      ({ sandbox } = createSandbox({ breakpoint: 'large', mode: 'CANCELED' }));
+      createSandbox({ breakpoint: 'large', mode: 'CANCELED' });
     });
 
     it('shows the TrafficNowHeader (not a mobile canceled-trips view on desktop)', () => {
       const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(1);
+      expect(wrapper.find(TrafficNowHeader)).toHaveLength(1);
     });
 
     it('renders CanceledTripsContainer with the correct mode prop', () => {
       const wrapper = shallow(<TrafficNow />);
       const container = wrapper.find(CanceledTripsContainer);
-      expect(container).to.have.lengthOf(1);
-      expect(container.prop('mode')).to.equal('CANCELED');
+      expect(container).toHaveLength(1);
+      expect(container.prop('mode')).toBe('CANCELED');
     });
 
     it('passes isMobile=false to CanceledTripsContainer on desktop', () => {
       const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find(CanceledTripsContainer).prop('isMobile')).to.equal(
+      expect(wrapper.find(CanceledTripsContainer).prop('isMobile')).toBe(false);
+    });
+
+    it('does NOT render Disruptions', () => {
+      const wrapper = shallow(<TrafficNow />);
+      expect(wrapper.find(Disruptions)).toHaveLength(0);
+    });
+  });
+
+  describe('Mobile layout — with mode param (isMobileCanceledTripsView)', () => {
+    beforeEach(() => {
+      createSandbox({ breakpoint: 'medium', mode: 'CANCELED' });
+    });
+
+    it('hides the TrafficNowHeader', () => {
+      const wrapper = shallow(<TrafficNow />);
+      expect(wrapper.find(TrafficNowHeader)).toHaveLength(0);
+    });
+
+    it('hides the separator', () => {
+      const wrapper = shallow(<TrafficNow />);
+      expect(wrapper.find('.separator.horizontal')).toHaveLength(0);
+    });
+
+    it('renders CanceledTripsContainer with the correct mode prop', () => {
+      const wrapper = shallow(<TrafficNow />);
+      const container = wrapper.find(CanceledTripsContainer);
+      expect(container).toHaveLength(1);
+      expect(container.prop('mode')).toBe('CANCELED');
+    });
+
+    it('passes isMobile=true to CanceledTripsContainer', () => {
+      const wrapper = shallow(<TrafficNow />);
+      expect(wrapper.find(CanceledTripsContainer).prop('isMobile')).toBe(true);
+    });
+
+    it('applies the mobile body modifier class', () => {
+      const wrapper = shallow(<TrafficNow />);
+      expect(wrapper.find('.traffic-now__body--mobile')).toHaveLength(1);
+    });
+  });
+
+  describe('Desktop layout — with alertId param (details view)', () => {
+    beforeEach(() => {
+      createSandbox({
+        breakpoint: 'large',
+        alertId: 'alert-1',
+      });
+    });
+
+    it('renders the TrafficNowHeader', () => {
+      const wrapper = shallow(<TrafficNow />);
+      expect(wrapper.find(TrafficNowHeader)).toHaveLength(1);
+    });
+
+    it('renders DisruptionDetailsContainer with the correct alertId', () => {
+      const wrapper = shallow(<TrafficNow />);
+      const container = wrapper.find(DisruptionDetailsContainer);
+      expect(container).toHaveLength(1);
+      expect(container.prop('alertId')).toBe('alert-1');
+    });
+
+    it('passes isMobile=false to DisruptionDetailsContainer on desktop', () => {
+      const wrapper = shallow(<TrafficNow />);
+      expect(wrapper.find(DisruptionDetailsContainer).prop('isMobile')).toBe(
         false,
       );
     });
 
     it('does NOT render Disruptions', () => {
       const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find(Disruptions)).to.have.lengthOf(0);
+      expect(wrapper.find(Disruptions)).toHaveLength(0);
+    });
+
+    it('does NOT render CanceledTripsContainer', () => {
+      const wrapper = shallow(<TrafficNow />);
+      expect(wrapper.find(CanceledTripsContainer)).toHaveLength(0);
     });
   });
 
-  describe('Mobile layout — with mode param (isMobileCanceledTripsView)', () => {
+  describe('Mobile layout — with alertId param (details view)', () => {
     beforeEach(() => {
-      ({ sandbox } = createSandbox({ breakpoint: 'medium', mode: 'CANCELED' }));
+      createSandbox({
+        breakpoint: 'medium',
+        alertId: 'alert-1',
+      });
     });
 
     it('hides the TrafficNowHeader', () => {
       const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(0);
+      expect(wrapper.find(TrafficNowHeader)).toHaveLength(0);
     });
 
-    it('hides the separator', () => {
+    it('renders DisruptionDetailsContainer with the correct alertId', () => {
       const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find('.separator.horizontal')).to.have.lengthOf(0);
+      const container = wrapper.find(DisruptionDetailsContainer);
+      expect(container).toHaveLength(1);
+      expect(container.prop('alertId')).toBe('alert-1');
     });
 
-    it('renders CanceledTripsContainer with the correct mode prop', () => {
+    it('passes isMobile=true to DisruptionDetailsContainer on mobile', () => {
       const wrapper = shallow(<TrafficNow />);
-      const container = wrapper.find(CanceledTripsContainer);
-      expect(container).to.have.lengthOf(1);
-      expect(container.prop('mode')).to.equal('CANCELED');
-    });
-
-    it('passes isMobile=true to CanceledTripsContainer', () => {
-      const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find(CanceledTripsContainer).prop('isMobile')).to.equal(
+      expect(wrapper.find(DisruptionDetailsContainer).prop('isMobile')).toBe(
         true,
       );
     });
 
     it('applies the mobile body modifier class', () => {
       const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find('.traffic-now__body--mobile')).to.have.lengthOf(1);
-    });
-  });
-
-  describe('Desktop layout — with alertId param (details view)', () => {
-    beforeEach(() => {
-      ({ sandbox } = createSandbox({
-        breakpoint: 'large',
-        alertId: 'alert-1',
-      }));
-    });
-
-    it('renders the TrafficNowHeader', () => {
-      const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(1);
-    });
-
-    it('renders DisruptionDetailsContainer with the correct alertId', () => {
-      const wrapper = shallow(<TrafficNow />);
-      const container = wrapper.find(DisruptionDetailsContainer);
-      expect(container).to.have.lengthOf(1);
-      expect(container.prop('alertId')).to.equal('alert-1');
-    });
-
-    it('passes isMobile=false to DisruptionDetailsContainer on desktop', () => {
-      const wrapper = shallow(<TrafficNow />);
-      expect(
-        wrapper.find(DisruptionDetailsContainer).prop('isMobile'),
-      ).to.equal(false);
-    });
-
-    it('does NOT render Disruptions', () => {
-      const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find(Disruptions)).to.have.lengthOf(0);
-    });
-
-    it('does NOT render CanceledTripsContainer', () => {
-      const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find(CanceledTripsContainer)).to.have.lengthOf(0);
-    });
-  });
-
-  describe('Mobile layout — with alertId param (details view)', () => {
-    beforeEach(() => {
-      ({ sandbox } = createSandbox({
-        breakpoint: 'medium',
-        alertId: 'alert-1',
-      }));
-    });
-
-    it('hides the TrafficNowHeader', () => {
-      const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(0);
-    });
-
-    it('renders DisruptionDetailsContainer with the correct alertId', () => {
-      const wrapper = shallow(<TrafficNow />);
-      const container = wrapper.find(DisruptionDetailsContainer);
-      expect(container).to.have.lengthOf(1);
-      expect(container.prop('alertId')).to.equal('alert-1');
-    });
-
-    it('passes isMobile=true to DisruptionDetailsContainer on mobile', () => {
-      const wrapper = shallow(<TrafficNow />);
-      expect(
-        wrapper.find(DisruptionDetailsContainer).prop('isMobile'),
-      ).to.equal(true);
-    });
-
-    it('applies the mobile body modifier class', () => {
-      const wrapper = shallow(<TrafficNow />);
-      expect(wrapper.find('.traffic-now__body--mobile')).to.have.lengthOf(1);
+      expect(wrapper.find('.traffic-now__body--mobile')).toHaveLength(1);
     });
   });
 });

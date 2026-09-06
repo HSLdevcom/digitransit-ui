@@ -1,8 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable func-names */
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import dayRangeAllowedDiff from '.';
+import { describe, it, expect } from 'vitest';
+import dayRangeAllowedDiff from './index.js';
 
 const testsForMonday = [
   { allowedDiff: 7, dayNoArray: ['1', '1', '1', '1'] },
@@ -321,7 +319,7 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
         new Set(test.dayNoArray.sort()),
       ).join('')}"`, () => {
         const retValue = dayRangeAllowedDiff(test.dayNoArray, 1);
-        expect(retValue).to.equal(test.allowedDiff);
+        expect(retValue).toBe(test.allowedDiff);
       });
     });
   });
@@ -333,7 +331,7 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
         new Set(test.dayNoArray.sort()),
       ).join('')}"`, () => {
         const retValue = dayRangeAllowedDiff(test.dayNoArray, 2);
-        expect(retValue).to.equal(test.allowedDiff);
+        expect(retValue).toBe(test.allowedDiff);
       });
     });
   });
@@ -345,7 +343,7 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
         new Set(test.dayNoArray.sort()),
       ).join('')}"`, () => {
         const retValue = dayRangeAllowedDiff(test.dayNoArray, 3);
-        expect(retValue).to.equal(test.allowedDiff);
+        expect(retValue).toBe(test.allowedDiff);
       });
     });
   });
@@ -357,7 +355,7 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
         new Set(test.dayNoArray.sort()),
       ).join('')}"`, () => {
         const retValue = dayRangeAllowedDiff(test.dayNoArray, 4);
-        expect(retValue).to.equal(test.allowedDiff);
+        expect(retValue).toBe(test.allowedDiff);
       });
     });
   });
@@ -369,7 +367,7 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
         new Set(test.dayNoArray.sort()),
       ).join('')}"`, () => {
         const retValue = dayRangeAllowedDiff(test.dayNoArray, 5);
-        expect(retValue).to.equal(test.allowedDiff);
+        expect(retValue).toBe(test.allowedDiff);
       });
     });
   });
@@ -381,7 +379,7 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
         new Set(test.dayNoArray.sort()),
       ).join('')}"`, () => {
         const retValue = dayRangeAllowedDiff(test.dayNoArray, 6);
-        expect(retValue).to.equal(test.allowedDiff);
+        expect(retValue).toBe(test.allowedDiff);
       });
     });
   });
@@ -393,7 +391,7 @@ describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', ()
         new Set(test.dayNoArray.sort()),
       ).join('')}"`, () => {
         const retValue = dayRangeAllowedDiff(test.dayNoArray, 7);
-        expect(retValue).to.equal(test.allowedDiff);
+        expect(retValue).toBe(test.allowedDiff);
       });
     });
   });

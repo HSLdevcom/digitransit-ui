@@ -38,7 +38,7 @@ describe('<FuzzyTripLink />', () => {
         <FuzzyTripLink {...props} />
       </ReactRelayContext.Provider>,
     );
-    expect(wrapper.find('.route-now-content')).to.have.lengthOf(1);
-    expect(wrapper.find(VehicleIcon)).to.have.lengthOf(1);
+    expect(wrapper.find('.route-now-content')).toHaveLength(1);
+    expect(wrapper.find(VehicleIcon)).toHaveLength(1);
   });
 });

@@ -1,9 +1,6 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
 import { DateTime, Settings } from 'luxon';
 import Select from 'react-select';
-import sinon from 'sinon';
 
 import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 import DateSelectGrouped from '../../../app/component/stop/DateSelectGrouped';
@@ -41,7 +38,7 @@ describe('<DateSelectGrouped />', () => {
       (count, group) => count + group.options.length,
       0,
     );
-    expect(totalOptions).to.equal(60);
+    expect(totalOptions).toBe(60);
   });
 
   it('should render today and tomorrow as text, others as weekday abbreviation with date', () => {
@@ -52,18 +49,18 @@ describe('<DateSelectGrouped />', () => {
       [],
     );
 
-    expect(flatOptions[0].textLabel).to.equal('Today');
-    expect(flatOptions[1].textLabel).to.equal('Tomorrow');
+    expect(flatOptions[0].textLabel).toBe('Today');
+    expect(flatOptions[1].textLabel).toBe('Tomorrow');
   });
 
   it('should have selectedDate selected', () => {
     const wrapper = mountWithIntl(<DateSelectGrouped {...defaultProps} />);
     const selectValue = wrapper.find(Select).props().value;
-    expect(selectValue.value).to.equal('20190102');
+    expect(selectValue.value).toBe('20190102');
   });
 
   it('should call onDateChange when a date is selected', () => {
-    const onDateChange = sinon.spy();
+    const onDateChange = vi.fn();
     const wrapper = mountWithIntl(
       <DateSelectGrouped {...defaultProps} onDateChange={onDateChange} />,
     );
@@ -72,8 +69,8 @@ describe('<DateSelectGrouped />', () => {
     const selectComponent = wrapper.find(Select);
     selectComponent.props().onChange({ value: newDate });
 
-    expect(onDateChange.calledOnce).to.equal(true);
-    expect(onDateChange.calledWith(newDate)).to.equal(true);
+    expect(onDateChange).toHaveBeenCalledOnce();
+    expect(onDateChange).toHaveBeenCalledWith(newDate);
   });
 
   it('should generate 60 days when no dates provided', () => {
@@ -91,7 +88,7 @@ describe('<DateSelectGrouped />', () => {
       0,
     );
 
-    expect(totalOptions).to.equal(60);
+    expect(totalOptions).toBe(60);
   });
 
   it('should generate dates from startDate when no dates provided', () => {
@@ -109,7 +106,7 @@ describe('<DateSelectGrouped />', () => {
       [],
     );
 
-    expect(flatOptions[0].value).to.equal('20190105');
+    expect(flatOptions[0].value).toBe('20190105');
   });
 
   it('should return no options when dates array is empty', () => {
@@ -127,7 +124,7 @@ describe('<DateSelectGrouped />', () => {
       0,
     );
 
-    expect(totalOptions).to.equal(0);
+    expect(totalOptions).toBe(0);
   });
 
   it('should select first option when selectedDay is undefined', () => {
@@ -141,8 +138,8 @@ describe('<DateSelectGrouped />', () => {
     );
     const selectValue = wrapper.find(Select).props().value;
 
-    expect(selectValue).to.not.equal(undefined);
-    expect(selectValue.value).to.equal('20190101');
+    expect(selectValue).not.toBe(undefined);
+    expect(selectValue.value).toBe('20190101');
   });
 
   it('should select first option when selectedDay is invalid', () => {
@@ -156,24 +153,24 @@ describe('<DateSelectGrouped />', () => {
     );
     const selectValue = wrapper.find(Select).props().value;
 
-    expect(selectValue.value).to.equal('20190101');
+    expect(selectValue.value).toBe('20190101');
   });
 
   it('should group dates by week', () => {
     const wrapper = mountWithIntl(<DateSelectGrouped {...defaultProps} />);
     const { options } = wrapper.find(Select).props();
 
-    expect(options.length).to.be.greaterThan(1);
-    expect(options[0]).to.have.property('label');
-    expect(options[0]).to.have.property('options');
-    expect(options[0].options).to.be.an('array');
+    expect(options.length).toBeGreaterThan(1);
+    expect(options[0]).toHaveProperty('label');
+    expect(options[0]).toHaveProperty('options');
+    expect(options[0].options).toBeInstanceOf(Array);
   });
 
   it('should have "This week" as first group label', () => {
     const wrapper = mountWithIntl(<DateSelectGrouped {...defaultProps} />);
     const { options } = wrapper.find(Select).props();
 
-    expect(options[0].label).to.equal('This week');
+    expect(options[0].label).toBe('This week');
   });
 
   it('should include accessibility labels in options', () => {
@@ -181,22 +178,22 @@ describe('<DateSelectGrouped />', () => {
     const { options } = wrapper.find(Select).props();
     const firstOption = options[0].options[0];
 
-    expect(firstOption).to.have.property('ariaLabel');
-    expect(firstOption.ariaLabel).to.be.a('string');
+    expect(firstOption).toHaveProperty('ariaLabel');
+    expect(typeof firstOption.ariaLabel).toBe('string');
   });
 
   it('should pass closeMenuOnSelect prop to Select', () => {
     const wrapper = mountWithIntl(<DateSelectGrouped {...defaultProps} />);
     const selectProps = wrapper.find(Select).props();
 
-    expect(selectProps.closeMenuOnSelect).to.equal(true);
+    expect(selectProps.closeMenuOnSelect).toBe(true);
   });
 
   it('should set isSearchable to false', () => {
     const wrapper = mountWithIntl(<DateSelectGrouped {...defaultProps} />);
     const selectProps = wrapper.find(Select).props();
 
-    expect(selectProps.isSearchable).to.equal(false);
+    expect(selectProps.isSearchable).toBe(false);
   });
 
   it('should not recompute when startDate is recreated with same date value', () => {
@@ -223,11 +220,9 @@ describe('<DateSelectGrouped />', () => {
     const { options: options2 } = wrapper.find(Select).props();
     const firstOptionAfter = options2[0].options[0].value;
 
-    // Values should be the same
-    expect(firstOptionBefore).to.equal(firstOptionAfter);
-    expect(firstOptionBefore).to.equal('20190105');
+    expect(firstOptionBefore).toBe(firstOptionAfter);
+    expect(firstOptionBefore).toBe('20190105');
 
-    // References should be the same (no recomputation due to stable primitive dependency)
-    expect(options1).to.equal(options2);
+    expect(options1).toBe(options2);
   });
 });

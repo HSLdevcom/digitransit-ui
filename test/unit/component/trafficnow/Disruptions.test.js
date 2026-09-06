@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { getCanceledModes } from '../../../../app/component/trafficnow/Disruptions';
 
 const makeRouteSummary = gtfsId => ({
@@ -27,7 +25,7 @@ describe('getCanceledModes', () => {
       ['HSL'],
     );
 
-    expect(canceledModes).to.deep.equal([
+    expect(canceledModes).toEqual([
       {
         key: 'bus',
         routes: [makeRouteSummary('HSL:1001')],
@@ -45,6 +43,6 @@ describe('getCanceledModes', () => {
       ['HSL'],
     );
 
-    expect(canceledModes).to.deep.equal([]);
+    expect(canceledModes).toEqual([]);
   });
 });

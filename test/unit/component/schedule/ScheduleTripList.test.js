@@ -1,6 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { shallow } from 'enzyme';
 
 import ScheduleTripList from '../../../../app/component/routepage/schedule/ScheduleTripList';
@@ -38,7 +36,7 @@ describe('<ScheduleTripList />', () => {
     it('should render null when trips array is empty', () => {
       const props = { ...defaultProps, trips: [] };
       const wrapper = shallow(<ScheduleTripList {...props} />);
-      expect(wrapper.type()).to.equal(null);
+      expect(wrapper.type()).toBe(null);
     });
   });
 
@@ -64,8 +62,8 @@ describe('<ScheduleTripList />', () => {
       const props = { ...defaultProps, trips };
       const wrapper = shallow(<ScheduleTripList {...props} />);
 
-      expect(wrapper.find(ScheduleTripRow)).to.have.lengthOf(1);
-      expect(wrapper.find(ScheduleTripRow).first().key()).to.include(
+      expect(wrapper.find(ScheduleTripRow)).toHaveLength(1);
+      expect(wrapper.find(ScheduleTripRow).first().key()).toContain(
         'valid-trip',
       );
     });
@@ -91,8 +89,8 @@ describe('<ScheduleTripList />', () => {
       const props = { ...defaultProps, trips };
       const wrapper = shallow(<ScheduleTripList {...props} />);
 
-      expect(wrapper.find(ScheduleTripRow)).to.have.lengthOf(1);
-      expect(wrapper.find(ScheduleTripRow).first().key()).to.include(
+      expect(wrapper.find(ScheduleTripRow)).toHaveLength(1);
+      expect(wrapper.find(ScheduleTripRow).first().key()).toContain(
         'valid-trip',
       );
     });
@@ -109,7 +107,7 @@ describe('<ScheduleTripList />', () => {
       const props = { ...defaultProps, trips };
       const wrapper = shallow(<ScheduleTripList {...props} />);
 
-      expect(wrapper.find(ScheduleTripRow)).to.have.lengthOf(1);
+      expect(wrapper.find(ScheduleTripRow)).toHaveLength(1);
     });
 
     it('should use correct fromIdx and toIdx when extracting stoptimes', () => {
@@ -148,9 +146,8 @@ describe('<ScheduleTripList />', () => {
       const wrapper = shallow(<ScheduleTripList {...props} />);
 
       const row = wrapper.find(ScheduleTripRow).first();
-      // Verify times match the selected stoptimes (20000 and 40000 seconds)
-      expect(row.prop('departureTime')).to.equal('05:33');
-      expect(row.prop('arrivalTime')).to.equal('11:06');
+      expect(row.prop('departureTime')).toBe('05:33');
+      expect(row.prop('arrivalTime')).toBe('11:06');
     });
   });
 
@@ -178,7 +175,7 @@ describe('<ScheduleTripList />', () => {
       const wrapper = shallow(<ScheduleTripList {...props} />);
 
       const row = wrapper.find(ScheduleTripRow).first();
-      expect(row.prop('isCanceled')).to.equal(true);
+      expect(row.prop('isCanceled')).toBe(true);
     });
 
     it('should not mark trip as canceled when only some stoptimes are CANCELED', () => {
@@ -204,13 +201,13 @@ describe('<ScheduleTripList />', () => {
       const wrapper = shallow(<ScheduleTripList {...props} />);
 
       const row = wrapper.find(ScheduleTripRow).first();
-      expect(row.prop('isCanceled')).to.equal(false);
+      expect(row.prop('isCanceled')).toBe(false);
     });
 
     it('should not mark trip as canceled for SCHEDULED state', () => {
       const wrapper = shallow(<ScheduleTripList {...defaultProps} />);
       const row = wrapper.find(ScheduleTripRow).first();
-      expect(row.prop('isCanceled')).to.equal(false);
+      expect(row.prop('isCanceled')).toBe(false);
     });
 
     it('should not mark trip as canceled for UPDATED state', () => {
@@ -219,7 +216,7 @@ describe('<ScheduleTripList />', () => {
       const wrapper = shallow(<ScheduleTripList {...props} />);
 
       const row = wrapper.find(ScheduleTripRow).first();
-      expect(row.prop('isCanceled')).to.equal(false);
+      expect(row.prop('isCanceled')).toBe(false);
     });
   });
 
@@ -231,8 +228,8 @@ describe('<ScheduleTripList />', () => {
       const wrapper = shallow(<ScheduleTripList {...defaultProps} />);
       const firstRow = wrapper.find(ScheduleTripRow).at(0);
 
-      expect(firstRow.prop('departureTime')).to.equal('07:48');
-      expect(firstRow.prop('arrivalTime')).to.equal('08:21');
+      expect(firstRow.prop('departureTime')).toBe('07:48');
+      expect(firstRow.prop('arrivalTime')).toBe('08:21');
     });
 
     it('should calculate times correctly for different service days', () => {
@@ -258,8 +255,8 @@ describe('<ScheduleTripList />', () => {
       const wrapper = shallow(<ScheduleTripList {...props} />);
 
       const row = wrapper.find(ScheduleTripRow).first();
-      expect(row.prop('departureTime')).to.equal('01:00');
-      expect(row.prop('arrivalTime')).to.equal('02:00');
+      expect(row.prop('departureTime')).toBe('01:00');
+      expect(row.prop('arrivalTime')).toBe('02:00');
     });
 
     it('should render one ScheduleTripRow per valid trip', () => {
@@ -272,7 +269,7 @@ describe('<ScheduleTripList />', () => {
       const props = { ...defaultProps, trips };
       const wrapper = shallow(<ScheduleTripList {...props} />);
 
-      expect(wrapper.find(ScheduleTripRow)).to.have.lengthOf(3);
+      expect(wrapper.find(ScheduleTripRow)).toHaveLength(3);
     });
   });
 });

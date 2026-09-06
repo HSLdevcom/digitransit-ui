@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { Component as StopPageMap } from '../../../app/component/map/StopPageMap';
@@ -18,6 +16,6 @@ describe('<StopPageMap />', () => {
       locationState: { hasLocation: false },
     };
     const { container } = renderWithProviders(<StopPageMap {...props} />);
-    expect(container.querySelector('.map')).to.equal(null);
+    expect(container.querySelector('.map')).toBe(null);
   });
 });

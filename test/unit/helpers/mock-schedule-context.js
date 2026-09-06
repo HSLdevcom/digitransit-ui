@@ -1,4 +1,4 @@
-import sinon from 'sinon';
+import { vi } from 'vitest';
 import * as ReactRelay from 'react-relay';
 import * as ReactIntl from 'react-intl';
 import * as ConfigContext from '../../../app/configurations/ConfigContext';
@@ -8,8 +8,9 @@ import * as scheduleTripsUtils from '../../../app/component/routepage/schedule/s
 import { mockContext } from './mock-context';
 
 /**
- * Create a sandbox and all common schedule-related stubs.
- * Returns sandbox, mocks, and stubs for schedule component tests.
+ * Create all common schedule-related stubs (auto-restored between tests via
+ * `restoreMocks: true` in config/vitest.config.js).
+ * Returns mocks and stubs for schedule component tests.
  *
  * @param {Object} overrides - Optional overrides for mock data
  * @param {Object} overrides.intl - Override intl mock
@@ -18,18 +19,16 @@ import { mockContext } from './mock-context';
  * @param {Array} overrides.availableDates - Override available dates
  * @param {Object} overrides.tripsResult - Override trips result
  * @param {Object} overrides.scheduleData - Override schedule data
- * @returns {Object} { sandbox, mocks, stubs }
+ * @returns {Object} { mocks, stubs }
  */
 export const createScheduleTestContext = (overrides = {}) => {
-  const sandbox = sinon.createSandbox();
-
   // Create mock objects
   const mocks = {
     intl: {
-      formatMessage: sandbox.stub().returns('translated text'),
-      formatDate: sandbox.stub().returns('formatted date'),
-      formatTime: sandbox.stub().returns('formatted time'),
-      formatNumber: sandbox.stub().returns('formatted number'),
+      formatMessage: vi.fn().mockReturnValue('translated text'),
+      formatDate: vi.fn().mockReturnValue('formatted date'),
+      formatTime: vi.fn().mockReturnValue('formatted time'),
+      formatNumber: vi.fn().mockReturnValue('formatted number'),
       locale: 'en',
       ...overrides.intl,
     },
@@ -55,25 +54,25 @@ export const createScheduleTestContext = (overrides = {}) => {
     scheduleData: overrides.scheduleData || {},
   };
 
-  // Create stubs - all use the sandbox for automatic cleanup
+  // All spies are auto-restored before each test (restoreMocks: true).
   const stubs = {
-    useFragment: sandbox
-      .stub(ReactRelay, 'useFragment')
-      .callsFake((fragment, ref) => ref),
-    useIntl: sandbox.stub(ReactIntl, 'useIntl').returns(mocks.intl),
-    useConfigContext: sandbox
-      .stub(ConfigContext, 'useConfigContext')
-      .returns(mocks.config),
-    calculateRedirectDecision: sandbox
-      .stub(scheduleParamUtils, 'calculateRedirectDecision')
-      .returns(mocks.redirectDecision),
-    buildAvailableDates: sandbox
-      .stub(scheduleDataUtils, 'buildAvailableDates')
-      .returns(mocks.availableDates),
-    getTripsList: sandbox
-      .stub(scheduleTripsUtils, 'getTripsList')
-      .returns(mocks.tripsResult),
+    useFragment: vi
+      .spyOn(ReactRelay, 'useFragment')
+      .mockImplementation((fragment, ref) => ref),
+    useIntl: vi.spyOn(ReactIntl, 'useIntl').mockReturnValue(mocks.intl),
+    useConfigContext: vi
+      .spyOn(ConfigContext, 'useConfigContext')
+      .mockReturnValue(mocks.config),
+    calculateRedirectDecision: vi
+      .spyOn(scheduleParamUtils, 'calculateRedirectDecision')
+      .mockReturnValue(mocks.redirectDecision),
+    buildAvailableDates: vi
+      .spyOn(scheduleDataUtils, 'buildAvailableDates')
+      .mockReturnValue(mocks.availableDates),
+    getTripsList: vi
+      .spyOn(scheduleTripsUtils, 'getTripsList')
+      .mockReturnValue(mocks.tripsResult),
   };
 
-  return { sandbox, mocks, stubs };
+  return { mocks, stubs };
 };

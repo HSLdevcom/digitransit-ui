@@ -9,6 +9,8 @@ import styles from './helpers/styles.scss';
 /**
  * A banner with blue caution Icon and arrow mark, original purpose is to act as a link to a page about current traffic information.
  *
+ * @deprecated The component is no longer maintained or updated and is currently pending deletion from the project.
+ *
  * @example
  *   handleClick = (e, lang) => {
     e.preventDefault();

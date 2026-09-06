@@ -45,8 +45,8 @@ describe('<BicycleLeg />', () => {
         },
       },
     });
-    expect(container.textContent).to.contain('Fetch a city bike:');
-    expect(container.textContent).to.contain('Hertanmäenkatu');
+    expect(container.textContent).toContain('Fetch a city bike:');
+    expect(container.textContent).toContain('Hertanmäenkatu');
   });
 
   it('should guide the user to rent a scooter', () => {
@@ -83,7 +83,7 @@ describe('<BicycleLeg />', () => {
         },
       },
     });
-    expect(container.textContent).to.contain(
+    expect(container.textContent).toContain(
       'Use an app to unlock the electric scooter',
     );
   });
@@ -122,7 +122,7 @@ describe('<BicycleLeg />', () => {
         },
       },
     });
-    expect(container.textContent).to.contain('Cycle');
+    expect(container.textContent).toContain('Cycle');
   });
 
   it('should guide the user to ride a scooter', () => {
@@ -159,7 +159,7 @@ describe('<BicycleLeg />', () => {
         },
       },
     });
-    expect(container.textContent).to.contain('Travel by scooter');
+    expect(container.textContent).toContain('Travel by scooter');
   });
 
   it('should guide the user to walk a bike', () => {
@@ -196,7 +196,7 @@ describe('<BicycleLeg />', () => {
         },
       },
     });
-    expect(container.textContent).to.contain('Walk your bike');
+    expect(container.textContent).toContain('Walk your bike');
   });
 
   it('should guide the user to walk a scooter', () => {
@@ -233,6 +233,6 @@ describe('<BicycleLeg />', () => {
         },
       },
     });
-    expect(container.textContent).to.contain('Walk your kick scooter');
+    expect(container.textContent).toContain('Walk your kick scooter');
   });
 });

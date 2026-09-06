@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import Profile from '../../../app/component/itinerary/Profile';
@@ -20,11 +18,11 @@ describe('<Profile />', () => {
       config: { CONFIG: 'hsl', URL: {}, imperialEnabled: false },
     });
 
-    expect(
-      container.querySelectorAll('.itinerary-profile-item'),
-    ).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.itinerary-profile-item')).toHaveLength(
+      1,
+    );
     expect(
       container.querySelector('.itinerary-profile-item-value').textContent,
-    ).to.equal('1.2 km');
+    ).toBe('1.2 km');
   });
 });

@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 
 import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
@@ -79,10 +77,10 @@ describe('<TransitLeg />', () => {
       config,
     });
     const leg = wrapper.find(IntermediateLeg);
-    expect(leg.props().showCurrentZoneDelimiter).to.equal(true);
-    expect(leg.props().previousZoneId).to.equal('A');
-    expect(leg.props().currentZoneId).to.equal('B');
-    expect(leg.props().nextZoneId).to.equal(undefined);
+    expect(leg.props().showCurrentZoneDelimiter).toBe(true);
+    expect(leg.props().previousZoneId).toBe('A');
+    expect(leg.props().currentZoneId).toBe('B');
+    expect(leg.props().nextZoneId).toBe(undefined);
   });
 
   it('should show a zone change between the last intermediate place and to', () => {
@@ -134,10 +132,10 @@ describe('<TransitLeg />', () => {
     });
 
     const leg = wrapper.find(IntermediateLeg);
-    expect(leg.props().showCurrentZoneDelimiter).to.equal(false);
-    expect(leg.props().previousZoneId).to.equal(undefined);
-    expect(leg.props().currentZoneId).to.equal('B');
-    expect(leg.props().nextZoneId).to.equal('C');
+    expect(leg.props().showCurrentZoneDelimiter).toBe(false);
+    expect(leg.props().previousZoneId).toBe(undefined);
+    expect(leg.props().currentZoneId).toBe('B');
+    expect(leg.props().nextZoneId).toBe('C');
   });
 
   it('should not show any zone changes if the feature is disabled', () => {
@@ -191,7 +189,7 @@ describe('<TransitLeg />', () => {
       },
     });
     const leg = wrapper.find(IntermediateLeg);
-    expect(leg.props().showZoneLimits).to.equal(false);
+    expect(leg.props().showZoneLimits).toBe(false);
   });
 
   it('should apply isCanceled to an intermediate leg', () => {
@@ -242,7 +240,7 @@ describe('<TransitLeg />', () => {
       context: { ...mockContext },
       config,
     });
-    expect(wrapper.find(IntermediateLeg).prop('isCanceled')).to.equal(true);
+    expect(wrapper.find(IntermediateLeg).prop('isCanceled')).toBe(true);
   });
 
   it('should apply alertSeverityLevel due to a route alert', () => {
@@ -293,7 +291,7 @@ describe('<TransitLeg />', () => {
         showAlternativeLegs: true,
       },
     });
-    expect(wrapper.find(LegInfo).props().alertSeverityLevel).to.equal(
+    expect(wrapper.find(LegInfo).props().alertSeverityLevel).toBe(
       AlertSeverityLevelType.Warning,
     );
   });
@@ -348,7 +346,7 @@ describe('<TransitLeg />', () => {
         showAlternativeLegs: true,
       },
     });
-    expect(wrapper.find(LegInfo).props().alertSeverityLevel).to.equal(
+    expect(wrapper.find(LegInfo).props().alertSeverityLevel).toBe(
       AlertSeverityLevelType.Warning,
     );
   });
@@ -403,7 +401,7 @@ describe('<TransitLeg />', () => {
         showAlternativeLegs: true,
       },
     });
-    expect(wrapper.find(LegInfo).props().alertSeverityLevel).to.equal(
+    expect(wrapper.find(LegInfo).props().alertSeverityLevel).toBe(
       AlertSeverityLevelType.Warning,
     );
   });
@@ -464,9 +462,7 @@ describe('<TransitLeg />', () => {
         showAlternativeLegs: true,
       },
     });
-    expect(wrapper.find(LegInfo).props().alertSeverityLevel).to.equal(
-      undefined,
-    );
+    expect(wrapper.find(LegInfo).props().alertSeverityLevel).toBe(undefined);
   });
 
   it('should show a disclaimer with relevant information for an unknown ticket', () => {
@@ -515,8 +511,8 @@ describe('<TransitLeg />', () => {
         hideExternalOperator: () => false,
       },
     });
-    expect(wrapper.find('.disclaimer-container')).to.have.lengthOf(1);
-    expect(wrapper.find('.agency-link')).to.have.lengthOf(1);
+    expect(wrapper.find('.disclaimer-container')).toHaveLength(1);
+    expect(wrapper.find('.agency-link')).toHaveLength(1);
   });
 
   it('should not show a disclaimer for an unknown ticket when there is nothing for feedIds in availableTickets', () => {
@@ -565,8 +561,8 @@ describe('<TransitLeg />', () => {
         hideExternalOperator: () => false,
       },
     });
-    expect(wrapper.find('.disclaimer-container')).to.have.lengthOf(1);
-    expect(wrapper.find('.agency-link')).to.have.lengthOf(1);
+    expect(wrapper.find('.disclaimer-container')).toHaveLength(1);
+    expect(wrapper.find('.agency-link')).toHaveLength(1);
   });
 
   it('should show a service alert icon if there is one at the "from" stop', () => {
@@ -619,7 +615,7 @@ describe('<TransitLeg />', () => {
       context: { ...mockContext },
       config,
     });
-    expect(wrapper.find(ServiceAlertIcon).prop('severityLevel')).to.equal(
+    expect(wrapper.find(ServiceAlertIcon).prop('severityLevel')).toBe(
       AlertSeverityLevelType.Info,
     );
   });
@@ -700,7 +696,7 @@ describe('<TransitLeg />', () => {
         showAlertHeader: true,
       },
     });
-    expect(wrapper.find('.description').text()).to.equal('severe header');
+    expect(wrapper.find('.description').text()).toBe('severe header');
   });
 
   it('should show header of unknown severity alerts if there is not alert more severe', () => {
@@ -755,6 +751,6 @@ describe('<TransitLeg />', () => {
         showAlertHeader: true,
       },
     });
-    expect(wrapper.find('.description').text()).to.equal('unknown header');
+    expect(wrapper.find('.description').text()).toBe('unknown header');
   });
 });

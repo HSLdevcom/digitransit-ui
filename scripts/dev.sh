@@ -113,7 +113,7 @@ pids+=("$!")
 yarn webpack-dev-server &
 pids+=("$!")
 
-yarn watch-workspaces &
+yarn workspace-packages-watch &
 pids+=("$!")
 
 # If any dev process exits, terminate the rest.

@@ -23,7 +23,7 @@ describe('<StopCardHeader />', () => {
     const { container } = renderWithProviders(<StopCardHeader {...props} />, {
       config: { ...baseConfig, zones: { stops: true } },
     });
-    expect(container.querySelector('.zone-icon-container')).to.equal(null);
+    expect(container.querySelector('.zone-icon-container')).toBe(null);
   });
 
   it('should not render the virtual monitor if so configured', () => {
@@ -45,7 +45,7 @@ describe('<StopCardHeader />', () => {
         allowLogin: false,
       },
     });
-    expect(container.querySelector('.external-link-container')).to.equal(null);
+    expect(container.querySelector('.external-link-container')).toBe(null);
   });
 
   it('should not render the zone icon if so configured', () => {
@@ -61,6 +61,6 @@ describe('<StopCardHeader />', () => {
     const { container } = renderWithProviders(<StopCardHeader {...props} />, {
       config: { ...baseConfig, zones: { stops: false } },
     });
-    expect(container.querySelector('.zone-icon-container')).to.equal(null);
+    expect(container.querySelector('.zone-icon-container')).toBe(null);
   });
 });

@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-expressions */
-import { expect } from 'chai';
-import { afterEach, describe, it } from 'mocha';
 import MockDate from 'mockdate';
 import { DateTime } from 'luxon';
 
@@ -103,8 +100,8 @@ describe('OldSearchesStore', () => {
       store.getStorageObject();
 
       const { items, version } = getOldSearchesStorage();
-      expect(items).to.be.empty;
-      expect(version).to.equal(STORE_VERSION);
+      expect(items).toHaveLength(0);
+      expect(version).toBe(STORE_VERSION);
     });
   });
 
@@ -112,13 +109,13 @@ describe('OldSearchesStore', () => {
     it('should return an empty array for missing parameters', () => {
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches();
-      expect(oldSearches).to.be.empty;
+      expect(oldSearches).toHaveLength(0);
     });
 
     it('should return an empty array when no matches are found', () => {
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches('invalid');
-      expect(oldSearches).to.be.empty;
+      expect(oldSearches).toHaveLength(0);
     });
 
     it('should ignore old version numbers from localStorage', () => {
@@ -134,7 +131,7 @@ describe('OldSearchesStore', () => {
 
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches();
-      expect(oldSearches).to.be.empty;
+      expect(oldSearches).toHaveLength(0);
     });
 
     it('should filter by type', () => {
@@ -148,8 +145,8 @@ describe('OldSearchesStore', () => {
       });
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches('endpoint');
-      expect(oldSearches).to.not.be.empty;
-      expect(oldSearches.length).to.equal(2);
+      expect(oldSearches).not.toHaveLength(0);
+      expect(oldSearches.length).toBe(2);
     });
 
     it('should filter by timestamp', () => {
@@ -190,10 +187,12 @@ describe('OldSearchesStore', () => {
 
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches();
-      expect(oldSearches).to.not.be.empty;
-      expect(oldSearches.length).to.equal(3);
-      expect(oldSearches.filter(s => s.foo === 'yes_filter')).to.be.empty;
-      expect(oldSearches.filter(s => s.foo === 'no_filter')).to.not.be.empty;
+      expect(oldSearches).not.toHaveLength(0);
+      expect(oldSearches.length).toBe(3);
+      expect(oldSearches.filter(s => s.foo === 'yes_filter')).toHaveLength(0);
+      expect(oldSearches.filter(s => s.foo === 'no_filter')).not.toHaveLength(
+        0,
+      );
     });
 
     it('should ignore a missing timestamp', () => {
@@ -206,8 +205,8 @@ describe('OldSearchesStore', () => {
 
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches();
-      expect(oldSearches).to.not.be.empty;
-      expect(oldSearches.length).to.equal(1);
+      expect(oldSearches).not.toHaveLength(0);
+      expect(oldSearches.length).toBe(1);
     });
   });
 
@@ -217,12 +216,12 @@ describe('OldSearchesStore', () => {
       const oldDestination = mockData.old;
       store.saveSearch(oldDestination);
       const storedOldDestination = store.getOldSearches()[0];
-      expect(storedOldDestination).to.deep.equal(oldDestination.item);
+      expect(storedOldDestination).toEqual(oldDestination.item);
 
       const updatedDestination = mockData.updated;
       store.saveSearch(updatedDestination);
       const storedUpdatedDestination = store.getOldSearches()[0];
-      expect(storedUpdatedDestination).to.deep.equal(updatedDestination.item);
+      expect(storedUpdatedDestination).toEqual(updatedDestination.item);
     });
 
     it('should apply the current timestamp', () => {
@@ -232,7 +231,7 @@ describe('OldSearchesStore', () => {
       const store = new OldSearchesStore();
       store.saveSearch(mockData.updated);
       const storedDestination = getOldSearchesStorage().items[0];
-      expect(storedDestination.lastUpdated).to.equal(timestamp.toUnixInteger());
+      expect(storedDestination.lastUpdated).toBe(timestamp.toUnixInteger());
     });
 
     it("should update a route item's properties if found from store", () => {
@@ -297,7 +296,7 @@ describe('OldSearchesStore', () => {
       store.saveSearch(newData);
 
       const result = store.getOldSearches()[0];
-      expect(result).to.deep.equal(newData.item);
+      expect(result).toEqual(newData.item);
     });
   });
 });

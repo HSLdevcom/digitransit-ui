@@ -13,8 +13,8 @@ describe('<DepartureTime />', () => {
       };
       const currentTime = 0;
       const component = fromStopTime(stoptime, currentTime);
-      expect(component.props.canceled).to.equal(true);
-      expect(component.props.showCancelationIcon).to.equal(true);
+      expect(component.props.canceled).toBe(true);
+      expect(component.props.showCancelationIcon).toBe(true);
     });
 
     it('should generate a canceled DepartureTime with showCancelationIcon set to false', () => {
@@ -23,8 +23,8 @@ describe('<DepartureTime />', () => {
       };
       const currentTime = 0;
       const component = fromStopTime(stoptime, currentTime, false);
-      expect(component.props.canceled).to.equal(true);
-      expect(component.props.showCancelationIcon).to.equal(false);
+      expect(component.props.canceled).toBe(true);
+      expect(component.props.showCancelationIcon).toBe(false);
     });
   });
 
@@ -38,6 +38,6 @@ describe('<DepartureTime />', () => {
     const { container } = renderWithProviders(<DepartureTime {...props} />, {
       config: { CONFIG: 'default', URL: {}, minutesToDepartureLimit: 2 },
     });
-    expect(container.querySelector('.caution')).to.not.equal(null);
+    expect(container.querySelector('.caution')).not.toBe(null);
   });
 });

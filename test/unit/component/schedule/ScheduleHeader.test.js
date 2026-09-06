@@ -1,8 +1,5 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
 
 import ScheduleHeader from '../../../../app/component/routepage/schedule/ScheduleHeader';
 import ScheduleDropdown from '../../../../app/component/routepage/schedule/ScheduleDropdown';
@@ -23,8 +20,8 @@ describe('<ScheduleHeader />', () => {
       stops: defaultStops,
       from: 0,
       to: 3,
-      onFromSelectChange: sinon.spy(),
-      onToSelectChange: sinon.spy(),
+      onFromSelectChange: vi.fn(),
+      onToSelectChange: vi.fn(),
     };
   });
 
@@ -33,8 +30,8 @@ describe('<ScheduleHeader />', () => {
       const wrapper = shallow(<ScheduleHeader {...defaultProps} />);
       const stopHeaderDisplay = wrapper.find(PrintableStopHeader);
 
-      expect(stopHeaderDisplay.prop('fromDisplayName')).to.equal('First Stop');
-      expect(stopHeaderDisplay.prop('toDisplayName')).to.equal('Fourth Stop');
+      expect(stopHeaderDisplay.prop('fromDisplayName')).toBe('First Stop');
+      expect(stopHeaderDisplay.prop('toDisplayName')).toBe('Fourth Stop');
     });
 
     it('should update displayed names when origin changes', () => {
@@ -42,7 +39,7 @@ describe('<ScheduleHeader />', () => {
       const wrapper = shallow(<ScheduleHeader {...props} />);
       const stopHeaderDisplay = wrapper.find(PrintableStopHeader);
 
-      expect(stopHeaderDisplay.prop('fromDisplayName')).to.equal('Third Stop');
+      expect(stopHeaderDisplay.prop('fromDisplayName')).toBe('Third Stop');
     });
 
     it('should update displayed names when destination changes', () => {
@@ -50,7 +47,7 @@ describe('<ScheduleHeader />', () => {
       const wrapper = shallow(<ScheduleHeader {...props} />);
       const stopHeaderDisplay = wrapper.find(PrintableStopHeader);
 
-      expect(stopHeaderDisplay.prop('toDisplayName')).to.equal('Second Stop');
+      expect(stopHeaderDisplay.prop('toDisplayName')).toBe('Second Stop');
     });
   });
 
@@ -60,11 +57,10 @@ describe('<ScheduleHeader />', () => {
       const fromDropdown = wrapper.find(ScheduleDropdown).at(0);
       const fromOptions = fromDropdown.prop('list');
 
-      // to=3, so origin can be 0-2
-      expect(fromOptions).to.have.lengthOf(3);
-      expect(fromOptions[0]).to.deep.equal({ label: 'First Stop', value: 0 });
-      expect(fromOptions[1]).to.deep.equal({ label: 'Second Stop', value: 1 });
-      expect(fromOptions[2]).to.deep.equal({ label: 'Third Stop', value: 2 });
+      expect(fromOptions).toHaveLength(3);
+      expect(fromOptions[0]).toEqual({ label: 'First Stop', value: 0 });
+      expect(fromOptions[1]).toEqual({ label: 'Second Stop', value: 1 });
+      expect(fromOptions[2]).toEqual({ label: 'Third Stop', value: 2 });
     });
 
     it('should adjust when destination moves', () => {
@@ -73,9 +69,8 @@ describe('<ScheduleHeader />', () => {
       const fromDropdown = wrapper.find(ScheduleDropdown).at(0);
       const fromOptions = fromDropdown.prop('list');
 
-      // to=2, so origin can only be 0-1
-      expect(fromOptions).to.have.lengthOf(2);
-      expect(fromOptions).to.deep.equal([
+      expect(fromOptions).toHaveLength(2);
+      expect(fromOptions).toEqual([
         { label: 'First Stop', value: 0 },
         { label: 'Second Stop', value: 1 },
       ]);
@@ -88,11 +83,10 @@ describe('<ScheduleHeader />', () => {
       const toDropdown = wrapper.find(ScheduleDropdown).at(1);
       const toOptions = toDropdown.prop('list');
 
-      // from=0, so destination can be 1-3
-      expect(toOptions).to.have.lengthOf(3);
-      expect(toOptions[0]).to.deep.equal({ label: 'Second Stop', value: 1 });
-      expect(toOptions[1]).to.deep.equal({ label: 'Third Stop', value: 2 });
-      expect(toOptions[2]).to.deep.equal({ label: 'Fourth Stop', value: 3 });
+      expect(toOptions).toHaveLength(3);
+      expect(toOptions[0]).toEqual({ label: 'Second Stop', value: 1 });
+      expect(toOptions[1]).toEqual({ label: 'Third Stop', value: 2 });
+      expect(toOptions[2]).toEqual({ label: 'Fourth Stop', value: 3 });
     });
 
     it('should adjust when origin moves', () => {
@@ -101,9 +95,8 @@ describe('<ScheduleHeader />', () => {
       const toDropdown = wrapper.find(ScheduleDropdown).at(1);
       const toOptions = toDropdown.prop('list');
 
-      // from=2, so destination can only be 3
-      expect(toOptions).to.have.lengthOf(1);
-      expect(toOptions[0]).to.deep.equal({ label: 'Fourth Stop', value: 3 });
+      expect(toOptions).toHaveLength(1);
+      expect(toOptions[0]).toEqual({ label: 'Fourth Stop', value: 3 });
     });
   });
 
@@ -119,8 +112,8 @@ describe('<ScheduleHeader />', () => {
       const fromDropdown = wrapper.find(ScheduleDropdown).at(0);
       const toDropdown = wrapper.find(ScheduleDropdown).at(1);
 
-      expect(fromDropdown.prop('list')).to.have.lengthOf(1);
-      expect(toDropdown.prop('list')).to.have.lengthOf(1);
+      expect(fromDropdown.prop('list')).toHaveLength(1);
+      expect(toDropdown.prop('list')).toHaveLength(1);
     });
 
     it('should handle many stops', () => {
@@ -134,9 +127,8 @@ describe('<ScheduleHeader />', () => {
       const fromDropdown = wrapper.find(ScheduleDropdown).at(0);
       const toDropdown = wrapper.find(ScheduleDropdown).at(1);
 
-      // from can be 0-18, to can be 1-19
-      expect(fromDropdown.prop('list')).to.have.lengthOf(19);
-      expect(toDropdown.prop('list')).to.have.lengthOf(19);
+      expect(fromDropdown.prop('list')).toHaveLength(19);
+      expect(toDropdown.prop('list')).toHaveLength(19);
     });
   });
 });

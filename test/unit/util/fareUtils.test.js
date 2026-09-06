@@ -9,17 +9,17 @@ const defaultConfig = {
 describe('fareUtils', () => {
   describe('getFaresFromLegs', () => {
     it('should return null for missing fares', () => {
-      expect(getFaresFromLegs(null, defaultConfig)).to.equal(null);
-      expect(getFaresFromLegs({}, defaultConfig)).to.equal(null);
+      expect(getFaresFromLegs(null, defaultConfig)).toBe(null);
+      expect(getFaresFromLegs({}, defaultConfig)).toBe(null);
     });
 
     it('should return null if showTicketInformation is falsey', () => {
-      expect(getFaresFromLegs([], {})).to.equal(null);
+      expect(getFaresFromLegs([], {})).toBe(null);
     });
 
     it('should return empty list if no fare products are given', () => {
       const fares = [{ fareProducts: [] }];
-      expect(getFaresFromLegs(fares, defaultConfig).length).to.equal(0);
+      expect(getFaresFromLegs(fares, defaultConfig).length).toBe(0);
     });
 
     it('should return individual tickets even if the total cost is unknown', () => {
@@ -30,12 +30,12 @@ describe('fareUtils', () => {
         },
         { fareProducts: [], route: { agency: {} } },
       ];
-      expect(getFaresFromLegs(fares, defaultConfig)).to.have.lengthOf(2);
+      expect(getFaresFromLegs(fares, defaultConfig)).toHaveLength(2);
     });
 
     it('should return empty list if there are no fare products', () => {
       const fares = [{ fareProducts: [] }];
-      expect(getFaresFromLegs(fares, defaultConfig).length).to.equal(0);
+      expect(getFaresFromLegs(fares, defaultConfig).length).toBe(0);
     });
 
     it('should return an array containing a single fare', () => {
@@ -46,7 +46,7 @@ describe('fareUtils', () => {
         },
       ];
       const result = getFaresFromLegs(fares, defaultConfig);
-      expect(result).to.have.lengthOf(1);
+      expect(result).toHaveLength(1);
     });
 
     it('should use the configured fareMapping function', () => {
@@ -65,7 +65,7 @@ describe('fareUtils', () => {
         ...defaultConfig,
         fareMapping: fareId => `${fareId.split(':')[1]}`,
       };
-      expect(getFaresFromLegs(fares, config)[0].ticketName).to.equal('AB');
+      expect(getFaresFromLegs(fares, config)[0].ticketName).toBe('AB');
     });
 
     it('should preserve the fare products properties', () => {
@@ -84,7 +84,7 @@ describe('fareUtils', () => {
         ...defaultConfig,
         fareMapping: fareId => fareId.replace('HSL:', ''),
       };
-      expect(getFaresFromLegs(fares, config)[0].fareProducts).to.deep.equal([
+      expect(getFaresFromLegs(fares, config)[0].fareProducts).toEqual([
         {
           id: '1',
           product: { id: 'HSL:AB', price: { amount: 3.1 } },
@@ -114,7 +114,7 @@ describe('fareUtils', () => {
         ...defaultConfig,
         fareMapping: fareId => fareId.replace('HSL:', ''),
       };
-      expect(getFaresFromLegs(fares, config)[0].agency).to.deep.equal({
+      expect(getFaresFromLegs(fares, config)[0].agency).toEqual({
         name: 'foo',
         fareUrl: 'https://www.hsl.fi',
         gtfsId: 'bar',
@@ -153,17 +153,17 @@ describe('fareUtils', () => {
     ];
 
     const result = getFaresFromLegs(fares, defaultConfig);
-    expect(result).to.have.lengthOf(2);
-    expect(result.filter(fare => fare.isUnknown)).to.have.lengthOf(1);
+    expect(result).toHaveLength(2);
+    expect(result.filter(fare => fare.isUnknown)).toHaveLength(1);
 
     const unknown = result.find(fare => fare.isUnknown);
-    expect(unknown.agency).to.deep.equal({
+    expect(unknown.agency).toEqual({
       fareUrl: 'foobaz',
       gtfsId: 'FOO:BAR',
       name: 'Merisataman lauttaliikenne',
     });
-    expect(unknown.routeGtfsId).to.equal('FOO:1234');
-    expect(unknown.routeName).to.equal('Merisataman lautta');
+    expect(unknown.routeGtfsId).toBe('FOO:1234');
+    expect(unknown.routeName).toBe('Merisataman lautta');
   });
 
   it('should map route and agency props for unknown fares, even without known fares', () => {
@@ -193,17 +193,17 @@ describe('fareUtils', () => {
     ];
 
     const result = getFaresFromLegs(fares, defaultConfig);
-    expect(result).to.have.lengthOf(2);
-    expect(result.filter(fare => fare.isUnknown)).to.have.lengthOf(2);
+    expect(result).toHaveLength(2);
+    expect(result.filter(fare => fare.isUnknown)).toHaveLength(2);
 
     const unknown = result.find(fare => fare.isUnknown);
-    expect(unknown.agency).to.deep.equal({
+    expect(unknown.agency).toEqual({
       fareUrl: undefined,
       gtfsId: 'HSL:HSL',
       name: undefined,
     });
-    expect(unknown.routeGtfsId).to.equal('HSL:1003');
-    expect(unknown.routeName).to.equal(
+    expect(unknown.routeGtfsId).toBe('HSL:1003');
+    expect(unknown.routeName).toBe(
       'Olympiaterminaali - Eira - Kallio - Meilahti',
     );
   });
@@ -220,7 +220,7 @@ describe('fareUtils', () => {
       },
     ];
     const result = getFaresFromLegs(fares, defaultConfig);
-    expect(result).to.have.lengthOf(1);
-    expect(result.filter(fare => fare.isUnknown)).to.have.lengthOf(0);
+    expect(result).toHaveLength(1);
+    expect(result.filter(fare => fare.isUnknown)).toHaveLength(0);
   });
 });

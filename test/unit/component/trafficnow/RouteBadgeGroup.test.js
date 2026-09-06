@@ -1,8 +1,5 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
 import { shallow } from 'enzyme';
-import sinon from 'sinon';
 import * as found from 'found';
 import { Component as RouteBadgeGroup } from '../../../../app/component/trafficnow/components/RouteBadgeGroup';
 import Icon from '../../../../app/component/Icon';
@@ -16,30 +13,26 @@ const makeRoute = ({
 } = {}) => ({ id, name, url, gtfsId });
 
 describe('<RouteBadgeGroup />', () => {
-  let sandbox;
   let mockRouter;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    mockRouter = { push: sandbox.spy() };
-    sandbox.stub(found, 'useRouter').returns({ router: mockRouter });
+    mockRouter = { push: vi.fn() };
+    vi.spyOn(found, 'useRouter').mockReturnValue({ router: mockRouter });
   });
-
-  afterEach(() => sandbox.restore());
 
   describe('Mode icon', () => {
     it('renders at normal iconScale (1) when isStop=false', () => {
       const wrapper = shallow(
         <RouteBadgeGroup mode="bus" routes={[makeRoute()]} isStop={false} />,
       );
-      expect(wrapper.find(Icon).first().prop('iconScale')).to.equal(1);
+      expect(wrapper.find(Icon).first().prop('iconScale')).toBe(1);
     });
 
     it('renders at half iconScale (0.5) when isStop=true', () => {
       const wrapper = shallow(
         <RouteBadgeGroup mode="bus" routes={[makeRoute()]} isStop />,
       );
-      expect(wrapper.find(Icon).first().prop('iconScale')).to.equal(0.5);
+      expect(wrapper.find(Icon).first().prop('iconScale')).toBe(0.5);
     });
 
     it('passes a background element when isStop=true', () => {
@@ -47,15 +40,15 @@ describe('<RouteBadgeGroup />', () => {
         <RouteBadgeGroup mode="bus" routes={[makeRoute()]} isStop />,
       );
       const bg = wrapper.find(Icon).first().prop('background');
-      expect(bg).to.not.equal(false);
-      expect(bg).to.not.equal(null);
+      expect(bg).not.toBe(false);
+      expect(bg).not.toBe(null);
     });
 
     it('passes background=false when isStop=false', () => {
       const wrapper = shallow(
         <RouteBadgeGroup mode="bus" routes={[makeRoute()]} isStop={false} />,
       );
-      expect(wrapper.find(Icon).first().prop('background')).to.equal(false);
+      expect(wrapper.find(Icon).first().prop('background')).toBe(false);
     });
   });
 
@@ -68,7 +61,7 @@ describe('<RouteBadgeGroup />', () => {
           highlightedGtfsId="HSL:1"
         />,
       );
-      expect(wrapper.find(EntityBadge).prop('highlighted')).to.equal(true);
+      expect(wrapper.find(EntityBadge).prop('highlighted')).toBe(true);
     });
 
     it('does not apply the highlight class when gtfsId does not match', () => {
@@ -79,7 +72,7 @@ describe('<RouteBadgeGroup />', () => {
           highlightedGtfsId="HSL:99"
         />,
       );
-      expect(wrapper.find(EntityBadge).prop('highlighted')).to.equal(false);
+      expect(wrapper.find(EntityBadge).prop('highlighted')).toBe(false);
     });
   });
 
@@ -92,11 +85,11 @@ describe('<RouteBadgeGroup />', () => {
         />,
       );
       const mockEvent = {
-        preventDefault: sinon.spy(),
-        stopPropagation: sinon.spy(),
+        preventDefault: vi.fn(),
+        stopPropagation: vi.fn(),
       };
       wrapper.find(EntityBadge).prop('handleClick')('/route/HSL:1')(mockEvent);
-      expect(mockRouter.push.calledWith('/route/HSL:1')).to.equal(true);
+      expect(mockRouter.push).toHaveBeenCalledWith('/route/HSL:1');
     });
 
     it('calls event.stopPropagation when stopPropagation=true', () => {
@@ -104,11 +97,11 @@ describe('<RouteBadgeGroup />', () => {
         <RouteBadgeGroup mode="bus" routes={[makeRoute()]} stopPropagation />,
       );
       const mockEvent = {
-        preventDefault: sinon.spy(),
-        stopPropagation: sinon.spy(),
+        preventDefault: vi.fn(),
+        stopPropagation: vi.fn(),
       };
       wrapper.find(EntityBadge).prop('handleClick')('/route/HSL:1')(mockEvent);
-      expect(mockEvent.stopPropagation.calledOnce).to.equal(true);
+      expect(mockEvent.stopPropagation).toHaveBeenCalledOnce();
     });
 
     it('does NOT call event.stopPropagation when stopPropagation=false', () => {
@@ -120,11 +113,11 @@ describe('<RouteBadgeGroup />', () => {
         />,
       );
       const mockEvent = {
-        preventDefault: sinon.spy(),
-        stopPropagation: sinon.spy(),
+        preventDefault: vi.fn(),
+        stopPropagation: vi.fn(),
       };
       wrapper.find(EntityBadge).prop('handleClick')('/route/HSL:1')(mockEvent);
-      expect(mockEvent.stopPropagation.called).to.equal(false);
+      expect(mockEvent.stopPropagation).not.toHaveBeenCalled();
     });
   });
 
@@ -137,9 +130,7 @@ describe('<RouteBadgeGroup />', () => {
           renderRouteSuffix={null}
         />,
       );
-      expect(wrapper.find('.badges__headsign-group--route')).to.have.lengthOf(
-        0,
-      );
+      expect(wrapper.find('.badges__headsign-group--route')).toHaveLength(0);
     });
 
     it('renders the suffix node returned by renderRouteSuffix for the given route', () => {
@@ -156,7 +147,7 @@ describe('<RouteBadgeGroup />', () => {
           renderRouteSuffix={r => <span className={`suffix-${r.id}`} />}
         />,
       );
-      expect(wrapper.find('.suffix-r1')).to.have.lengthOf(1);
+      expect(wrapper.find('.suffix-r1')).toHaveLength(1);
     });
   });
 });

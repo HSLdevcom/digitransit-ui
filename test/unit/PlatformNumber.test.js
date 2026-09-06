@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
 import { renderWithProviders } from './helpers/mock-providers';
 import PlatformNumber from '../../app/component/PlatformNumber';
@@ -21,7 +19,7 @@ describe('<PlatformNumber />', () => {
       <PlatformNumber short={false} mode={TransportMode.Bus} />,
       opts,
     );
-    expect(container.textContent).to.equal('');
+    expect(container.textContent).toBe('');
   });
 
   it('should render platform text when mode is not RAIL or FERRY', () => {
@@ -29,7 +27,7 @@ describe('<PlatformNumber />', () => {
       <PlatformNumber number="12" short={false} mode={TransportMode.Bus} />,
       opts,
     );
-    expect(container.textContent).to.include('Platform');
+    expect(container.textContent).toContain('Platform');
   });
 
   it('should render pier text when mode is FERRY', () => {
@@ -37,7 +35,7 @@ describe('<PlatformNumber />', () => {
       <PlatformNumber number="12" short={false} mode={TransportMode.Ferry} />,
       opts,
     );
-    expect(container.textContent).to.include('Pier');
+    expect(container.textContent).toContain('Pier');
   });
 
   it('should render track text when mode is RAIL', () => {
@@ -45,7 +43,7 @@ describe('<PlatformNumber />', () => {
       <PlatformNumber number="12" short={false} mode={TransportMode.Rail} />,
       opts,
     );
-    expect(container.textContent).to.include('Track');
+    expect(container.textContent).toContain('Track');
   });
 
   it('should render short platform text when short is true', () => {
@@ -53,7 +51,7 @@ describe('<PlatformNumber />', () => {
       <PlatformNumber number="12" short mode={TransportMode.Bus} />,
       opts,
     );
-    expect(container.textContent).to.include('Plat.');
+    expect(container.textContent).toContain('Plat.');
   });
 
   it('should use plain class on outer span when plain is true', () => {
@@ -66,12 +64,10 @@ describe('<PlatformNumber />', () => {
       />,
       opts,
     );
-    expect(container.querySelector('.platform-number-plain')).to.not.equal(
-      null,
-    );
+    expect(container.querySelector('.platform-number-plain')).not.toBe(null);
     expect(
       container.querySelector('.platform-number:not(.platform-number-plain)'),
-    ).to.equal(null);
+    ).toBe(null);
   });
 
   it('should show update icon and class when updated is true', () => {
@@ -84,10 +80,8 @@ describe('<PlatformNumber />', () => {
       />,
       opts,
     );
-    expect(container.querySelector('.platform-updated')).to.not.equal(null);
-    expect(container.querySelector('.platform-updated-icon')).to.not.equal(
-      null,
-    );
+    expect(container.querySelector('.platform-updated')).not.toBe(null);
+    expect(container.querySelector('.platform-updated-icon')).not.toBe(null);
   });
 
   it('should omit label text when withText is false', () => {
@@ -100,7 +94,7 @@ describe('<PlatformNumber />', () => {
       />,
       opts,
     );
-    expect(container.textContent).to.not.include('Platform');
-    expect(container.textContent).to.include('12');
+    expect(container.textContent).not.toContain('Platform');
+    expect(container.textContent).toContain('12');
   });
 });

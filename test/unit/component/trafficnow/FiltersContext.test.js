@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it, afterEach } from 'mocha';
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { mount } from 'enzyme';
@@ -64,7 +62,7 @@ describe('FiltersContext', () => {
           <FilterConsumer controlRef={controlRef} />
         </FilterContextProvider>,
       );
-      expect(controlRef.current.selectedFilters.noEffect).to.equal('NO_EFFECT');
+      expect(controlRef.current.selectedFilters.noEffect).toBe('NO_EFFECT');
     });
 
     it('initialises validityPeriod to ALL', () => {
@@ -74,7 +72,7 @@ describe('FiltersContext', () => {
           <FilterConsumer controlRef={controlRef} />
         </FilterContextProvider>,
       );
-      expect(controlRef.current.selectedFilters.validityPeriod).to.equal('ALL');
+      expect(controlRef.current.selectedFilters.validityPeriod).toBe('ALL');
     });
 
     it('initialises vehicleModes to an empty array', () => {
@@ -84,7 +82,7 @@ describe('FiltersContext', () => {
           <FilterConsumer controlRef={controlRef} />
         </FilterContextProvider>,
       );
-      expect(controlRef.current.selectedFilters.vehicleModes).to.deep.equal([]);
+      expect(controlRef.current.selectedFilters.vehicleModes).toEqual([]);
     });
 
     it('initialises now as a number', () => {
@@ -94,7 +92,7 @@ describe('FiltersContext', () => {
           <FilterConsumer controlRef={controlRef} />
         </FilterContextProvider>,
       );
-      expect(controlRef.current.selectedFilters.now).to.be.a('number');
+      expect(typeof controlRef.current.selectedFilters.now).toBe('number');
     });
   });
 
@@ -111,9 +109,7 @@ describe('FiltersContext', () => {
         controlRef.current.setFilter('vehicleModes', ['BUS']);
       });
 
-      expect(controlRef.current.selectedFilters.vehicleModes).to.deep.equal([
-        'BUS',
-      ]);
+      expect(controlRef.current.selectedFilters.vehicleModes).toEqual(['BUS']);
     });
 
     it('does not affect other filter keys when only one is updated', () => {
@@ -128,8 +124,7 @@ describe('FiltersContext', () => {
         controlRef.current.setFilter('vehicleModes', ['RAIL']);
       });
 
-      // noEffect should be unchanged
-      expect(controlRef.current.selectedFilters.noEffect).to.equal('NO_EFFECT');
+      expect(controlRef.current.selectedFilters.noEffect).toBe('NO_EFFECT');
     });
   });
 
@@ -149,7 +144,7 @@ describe('FiltersContext', () => {
         controlRef.current.removeFilter('entity');
       });
 
-      expect(controlRef.current.selectedFilters).not.to.have.property('entity');
+      expect(controlRef.current.selectedFilters).not.toHaveProperty('entity');
     });
 
     it('leaves other keys intact after removing one', () => {
@@ -164,7 +159,7 @@ describe('FiltersContext', () => {
         controlRef.current.removeFilter('vehicleModes');
       });
 
-      expect(controlRef.current.selectedFilters.noEffect).to.equal('NO_EFFECT');
+      expect(controlRef.current.selectedFilters.noEffect).toBe('NO_EFFECT');
     });
   });
 
@@ -185,16 +180,15 @@ describe('FiltersContext', () => {
         controlRef.current.resetFilters();
       });
 
-      expect(controlRef.current.selectedFilters.vehicleModes).to.deep.equal([]);
-      expect(controlRef.current.selectedFilters.validityPeriod).to.equal('ALL');
-      expect(controlRef.current.selectedFilters.noEffect).to.equal('NO_EFFECT');
+      expect(controlRef.current.selectedFilters.vehicleModes).toEqual([]);
+      expect(controlRef.current.selectedFilters.validityPeriod).toBe('ALL');
+      expect(controlRef.current.selectedFilters.noEffect).toBe('NO_EFFECT');
     });
   });
 
   describe('useFilterContext outside provider', () => {
     it('throws when used outside a FilterContextProvider', () => {
-      // wrapper intentionally not assigned; component throws on mount
-      expect(() => mount(<OutsideConsumer />)).to.throw(
+      expect(() => mount(<OutsideConsumer />)).toThrow(
         'useFilterContext must be used within a FilterContextProvider',
       );
     });

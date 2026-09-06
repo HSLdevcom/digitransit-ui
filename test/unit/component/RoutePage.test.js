@@ -1,8 +1,5 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
 import PropTypes from 'prop-types';
-import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
 import { mockMatch, mockRouter } from '../helpers/mock-router';
@@ -61,16 +58,12 @@ const baseProps = {
 };
 
 describe('<RoutePage />', () => {
-  let sandbox;
-
   beforeEach(() => {
-    ({ sandbox } = createShallowHookSandbox({
+    createShallowHookSandbox({
       config: baseConfig,
       currentTime,
-    }));
+    });
   });
-
-  afterEach(() => sandbox.restore());
 
   const render = (props = {}) =>
     shallow(<RoutePage {...baseProps} {...props} />);
@@ -86,7 +79,7 @@ describe('<RoutePage />', () => {
         ...originalPropTypes,
         route: PropTypes.shape({}),
       };
-      const replaceSpy = sinon.spy();
+      const replaceSpy = vi.fn();
       let wrapper;
       try {
         wrapper = render({
@@ -99,12 +92,12 @@ describe('<RoutePage />', () => {
       } finally {
         RoutePage.propTypes = originalPropTypes;
       }
-      expect(replaceSpy.calledOnce).to.equal(true);
-      expect(wrapper.type()).to.equal(null);
+      expect(replaceSpy).toHaveBeenCalledOnce();
+      expect(wrapper.type()).toBe(null);
     });
 
     it('does not redirect when route is null but error is present', () => {
-      const replaceSpy = sinon.spy();
+      const replaceSpy = vi.fn();
       // When error is set and route is null the component throws before
       // reaching the redirect guard, so replace should never be called.
       try {
@@ -119,7 +112,7 @@ describe('<RoutePage />', () => {
       } catch (_e) {
         // expected: component throws the relay error
       }
-      expect(replaceSpy.called).to.equal(false);
+      expect(replaceSpy).not.toHaveBeenCalled();
     });
   });
 
@@ -135,7 +128,7 @@ describe('<RoutePage />', () => {
       try {
         expect(() =>
           render({ route: null, error: { message: 'Relay fetch failed' } }),
-        ).to.throw();
+        ).toThrow();
       } finally {
         RoutePage.propTypes = originalPropTypes;
       }
@@ -145,14 +138,14 @@ describe('<RoutePage />', () => {
   describe('Label derivation', () => {
     it('uses shortName as label when present', () => {
       const wrapper = render({ route: { ...baseRoute, shortName: 'A1' } });
-      expect(wrapper.find('span[aria-hidden="true"]').text()).to.equal('A1');
+      expect(wrapper.find('span[aria-hidden="true"]').text()).toBe('A1');
     });
 
     it('falls back to longName when shortName is absent', () => {
       const wrapper = render({
         route: { ...baseRoute, shortName: null, longName: 'Long Route Name' },
       });
-      expect(wrapper.find('span[aria-hidden="true"]').text()).to.equal(
+      expect(wrapper.find('span[aria-hidden="true"]').text()).toBe(
         'Long Route Name',
       );
     });
@@ -161,24 +154,24 @@ describe('<RoutePage />', () => {
       const wrapper = render({
         route: { ...baseRoute, shortName: null, longName: null },
       });
-      expect(wrapper.find('span[aria-hidden="true"]').text()).to.equal('');
+      expect(wrapper.find('span[aria-hidden="true"]').text()).toBe('');
     });
   });
 
   describe('BackButton visibility', () => {
     it('renders BackButton on large breakpoint', () => {
       const wrapper = render({ breakpoint: 'large' });
-      expect(wrapper.find(BackButton)).to.have.lengthOf(1);
+      expect(wrapper.find(BackButton)).toHaveLength(1);
     });
 
     it('does not render BackButton on small breakpoint', () => {
       const wrapper = render({ breakpoint: 'small' });
-      expect(wrapper.find(BackButton)).to.have.lengthOf(0);
+      expect(wrapper.find(BackButton)).toHaveLength(0);
     });
 
     it('does not render BackButton on medium breakpoint', () => {
       const wrapper = render({ breakpoint: 'medium' });
-      expect(wrapper.find(BackButton)).to.have.lengthOf(0);
+      expect(wrapper.find(BackButton)).toHaveLength(0);
     });
   });
 
@@ -190,7 +183,7 @@ describe('<RoutePage />', () => {
           params: { ...baseMatch.params, tripId: undefined },
         },
       });
-      expect(wrapper.find(FavouriteRouteContainer)).to.have.lengthOf(1);
+      expect(wrapper.find(FavouriteRouteContainer)).toHaveLength(1);
     });
 
     it('hides FavouriteRouteContainer when tripId is present', () => {
@@ -200,7 +193,7 @@ describe('<RoutePage />', () => {
           params: { ...baseMatch.params, tripId: 'trip-123' },
         },
       });
-      expect(wrapper.find(FavouriteRouteContainer)).to.have.lengthOf(0);
+      expect(wrapper.find(FavouriteRouteContainer)).toHaveLength(0);
     });
   });
 
@@ -216,10 +209,8 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(wrapper.find('.trip-destination')).to.have.lengthOf(1);
-      expect(wrapper.find('.destination-headsign').text()).to.equal(
-        'Destination',
-      );
+      expect(wrapper.find('.trip-destination')).toHaveLength(1);
+      expect(wrapper.find('.destination-headsign').text()).toBe('Destination');
     });
 
     it('hides trip destination when tripId is absent', () => {
@@ -229,7 +220,7 @@ describe('<RoutePage />', () => {
           params: { routeId: 'HSL:1001' }, // no tripId, no patternId
         },
       });
-      expect(wrapper.find('.trip-destination')).to.have.lengthOf(0);
+      expect(wrapper.find('.trip-destination')).toHaveLength(0);
     });
 
     it('hides trip destination when tripId is present but no matching pattern', () => {
@@ -243,8 +234,7 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      // headsign will be null because pattern is not found
-      expect(wrapper.find('.trip-destination')).to.have.lengthOf(0);
+      expect(wrapper.find('.trip-destination')).toHaveLength(0);
     });
   });
 
@@ -272,7 +262,7 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(wrapper.find('.destination-headsign').text()).to.equal(
+      expect(wrapper.find('.destination-headsign').text()).toBe(
         'Central Station',
       );
     });
@@ -300,7 +290,7 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(wrapper.find('.destination-headsign').text()).to.equal('Terminal');
+      expect(wrapper.find('.destination-headsign').text()).toBe('Terminal');
     });
 
     it('uses last stop name when pattern has no headsign', () => {
@@ -326,9 +316,7 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(wrapper.find('.destination-headsign').text()).to.equal(
-        'End Station',
-      );
+      expect(wrapper.find('.destination-headsign').text()).toBe('End Station');
     });
   });
 
@@ -365,7 +353,7 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(wrapper.find(AlertBanner)).to.have.lengthOf(1);
+      expect(wrapper.find(AlertBanner)).toHaveLength(1);
     });
 
     it('hides AlertBanner when tripId is absent even if alerts exist', () => {
@@ -387,7 +375,7 @@ describe('<RoutePage />', () => {
           params: { routeId: 'HSL:1001', patternId: 'HSL:1001:0:01' }, // no tripId
         },
       });
-      expect(wrapper.find(AlertBanner)).to.have.lengthOf(0);
+      expect(wrapper.find(AlertBanner)).toHaveLength(0);
     });
 
     it('hides AlertBanner when tripId is set but pattern has no alerts', () => {
@@ -401,7 +389,7 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(wrapper.find(AlertBanner)).to.have.lengthOf(0);
+      expect(wrapper.find(AlertBanner)).toHaveLength(0);
     });
 
     it('hides AlertBanner when tripId is set but alerts have no Route entity', () => {
@@ -435,7 +423,7 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(wrapper.find(AlertBanner)).to.have.lengthOf(0);
+      expect(wrapper.find(AlertBanner)).toHaveLength(0);
     });
 
     it('hides AlertBanner when alerts have expired (effectiveEndDate in the past)', () => {
@@ -470,7 +458,7 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(wrapper.find(AlertBanner)).to.have.lengthOf(0);
+      expect(wrapper.find(AlertBanner)).toHaveLength(0);
     });
   });
 
@@ -482,14 +470,14 @@ describe('<RoutePage />', () => {
           params: { ...baseMatch.params, type: PREFIX_DISRUPTION },
         },
       });
-      expect(wrapper.find(RouteControlPanel)).to.have.lengthOf(1);
+      expect(wrapper.find(RouteControlPanel)).toHaveLength(1);
     });
 
     it('does not render RouteControlPanel when type param is absent', () => {
       const wrapper = render({
         match: { ...baseMatch, params: { routeId: 'HSL:1001' } },
       });
-      expect(wrapper.find(RouteControlPanel)).to.have.lengthOf(0);
+      expect(wrapper.find(RouteControlPanel)).toHaveLength(0);
     });
 
     it('does not render RouteControlPanel when type param is not PREFIX_DISRUPTION', () => {
@@ -499,7 +487,7 @@ describe('<RoutePage />', () => {
           params: { ...baseMatch.params, type: 'some-other-prefix' },
         },
       });
-      expect(wrapper.find(RouteControlPanel)).to.have.lengthOf(0);
+      expect(wrapper.find(RouteControlPanel)).toHaveLength(0);
     });
   });
 
@@ -508,7 +496,7 @@ describe('<RoutePage />', () => {
       // #003399 (dark blue) has contrast ~10.2 against white, passes WCAG AA
       const wrapper = render({ route: { ...baseRoute, color: '003399' } });
       const heading = wrapper.find('h1.route-short-name');
-      expect(heading.prop('style')).to.deep.equal({ color: '#003399' });
+      expect(heading.prop('style')).toEqual({ color: '#003399' });
     });
 
     it('falls back to #333 when route has no color (mode color fails WCAG AA)', () => {
@@ -516,7 +504,7 @@ describe('<RoutePage />', () => {
       // fails WCAG AA so ensureColorAccessibleOnWhite returns the #333 fallback
       const wrapper = render({ route: { ...baseRoute, color: null } });
       const heading = wrapper.find('h1.route-short-name');
-      expect(heading.prop('style')).to.deep.equal({ color: '#333' });
+      expect(heading.prop('style')).toEqual({ color: '#333' });
     });
   });
 });

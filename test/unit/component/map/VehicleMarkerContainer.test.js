@@ -1,5 +1,4 @@
 import React from 'react';
-import sinon from 'sinon';
 
 import { ReactRelayContext } from 'react-relay';
 import { LeafletProvider } from 'react-leaflet/es/context';
@@ -40,7 +39,7 @@ describe('<VehicleMarkerContainer />', () => {
   describe('VehicleMarkerContainer', () => {
     it('should render', () => {
       const environment = {};
-      const addLayer = sinon.spy();
+      const addLayer = vi.fn();
       const wrapper = mountWithIntl(
         <LeafletProvider value={{ layerContainer: { addLayer } }}>
           <ReactRelayContext.Provider value={{ environment }}>
@@ -61,8 +60,8 @@ describe('<VehicleMarkerContainer />', () => {
           },
         },
       );
-      expect(wrapper.children.length).to.equal(1);
-      expect(addLayer.callCount).to.equal(1);
+      expect(wrapper.children.length).toBe(1);
+      expect(addLayer).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -80,7 +79,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(false);
+      expect(shouldShow).toBe(false);
     });
 
     it('should return false when long is missing', () => {
@@ -96,7 +95,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(false);
+      expect(shouldShow).toBe(false);
     });
 
     it('should return false when route doesnt match', () => {
@@ -113,7 +112,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(false);
+      expect(shouldShow).toBe(false);
     });
 
     it('should return true when lat, long and route exist/match', () => {
@@ -130,7 +129,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(true);
+      expect(shouldShow).toBe(true);
     });
 
     it('should return false when headsign does not match', () => {
@@ -150,7 +149,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(false);
+      expect(shouldShow).toBe(false);
     });
 
     it('should return false when direction does not match', () => {
@@ -170,7 +169,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(false);
+      expect(shouldShow).toBe(false);
     });
 
     it('should return false when tripStartTime does not match', () => {
@@ -190,7 +189,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(false);
+      expect(shouldShow).toBe(false);
     });
 
     it('should return true when headsign, direction and tripStartTime match', () => {
@@ -210,7 +209,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(true);
+      expect(shouldShow).toBe(true);
     });
 
     it('should return true when direction, tripStartTime, pattern and headsign are undefined in arguments', () => {
@@ -230,7 +229,7 @@ describe('<VehicleMarkerContainer />', () => {
         undefined,
         undefined,
       );
-      expect(shouldShow).to.equal(true);
+      expect(shouldShow).toBe(true);
     });
   });
 
@@ -239,19 +238,19 @@ describe('<VehicleMarkerContainer />', () => {
       it('should use a small icon when useLargeIcon is false', () => {
         const icon = getVehicleIcon(null, 180, '32', undefined, false);
         const wrapper = mountWithIntl(icon.element);
-        expect(wrapper.find('use').prop('xlinkHref')).to.equal(
+        expect(wrapper.find('use').prop('xlinkHref')).toBe(
           '#icon_all-vehicles-small',
         );
-        expect(icon.className).to.contain('bus');
+        expect(icon.className).toContain('bus');
       });
 
       it('should use a large icon when useLargeIcon is true', () => {
         const icon = getVehicleIcon('bus', 180, '32', undefined, true);
         const wrapper = mountWithIntl(icon.element);
-        expect(wrapper.find('use').prop('xlinkHref')).to.equal(
+        expect(wrapper.find('use').prop('xlinkHref')).toBe(
           '#icon_vehicle-live-marker',
         );
-        expect(icon.className).to.contain('bus');
+        expect(icon.className).toContain('bus');
       });
     });
   });

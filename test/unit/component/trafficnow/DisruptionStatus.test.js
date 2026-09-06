@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
 import { shallow } from 'enzyme';
 import { createShallowHookSandbox } from '../../helpers/mock-intl-enzyme';
@@ -18,35 +16,31 @@ const baseConfig = {
 const NOW_MS = 1_000_000;
 
 describe('<DisruptionStatus />', () => {
-  let sandbox;
-
   beforeEach(() => {
-    ({ sandbox } = createShallowHookSandbox({ config: baseConfig }));
-    sandbox.stub(Date, 'now').returns(NOW_MS);
+    createShallowHookSandbox({ config: baseConfig });
+    vi.spyOn(Date, 'now').mockReturnValue(NOW_MS);
   });
-
-  afterEach(() => sandbox.restore());
 
   describe('isValid — timestamp-based', () => {
     it('shows icon_status (active) when now is between start and end', () => {
       const wrapper = shallow(
         <DisruptionStatus effectiveStartDate={500} effectiveEndDate={2000} />,
       );
-      expect(wrapper.find(Icon).prop('img')).to.equal('icon_status');
+      expect(wrapper.find(Icon).prop('img')).toBe('icon_status');
     });
 
     it('shows icon_calendar (upcoming) when start is in the future', () => {
       const wrapper = shallow(
         <DisruptionStatus effectiveStartDate={2000} effectiveEndDate={5000} />,
       );
-      expect(wrapper.find(Icon).prop('img')).to.equal('icon_calendar');
+      expect(wrapper.find(Icon).prop('img')).toBe('icon_calendar');
     });
 
     it('shows icon_calendar (ended) when end is in the past', () => {
       const wrapper = shallow(
         <DisruptionStatus effectiveStartDate={100} effectiveEndDate={500} />,
       );
-      expect(wrapper.find(Icon).prop('img')).to.equal('icon_calendar');
+      expect(wrapper.find(Icon).prop('img')).toBe('icon_calendar');
     });
   });
 
@@ -60,7 +54,7 @@ describe('<DisruptionStatus />', () => {
           effectiveEndDate={5000}
         />,
       );
-      expect(wrapper.find(Icon).prop('img')).to.equal('icon_status');
+      expect(wrapper.find(Icon).prop('img')).toBe('icon_status');
     });
 
     it('shows icon_calendar when active=false regardless of timestamps', () => {
@@ -72,7 +66,7 @@ describe('<DisruptionStatus />', () => {
           effectiveEndDate={2000}
         />,
       );
-      expect(wrapper.find(Icon).prop('img')).to.equal('icon_calendar');
+      expect(wrapper.find(Icon).prop('img')).toBe('icon_calendar');
     });
   });
 
@@ -85,7 +79,7 @@ describe('<DisruptionStatus />', () => {
           showDates={false}
         />,
       );
-      expect(wrapper.find('.routes-s')).to.have.lengthOf(0);
+      expect(wrapper.find('.routes-s')).toHaveLength(0);
     });
 
     it('renders the date span when showDates=true and effectiveStartDate is non-zero', () => {
@@ -96,7 +90,7 @@ describe('<DisruptionStatus />', () => {
           showDates
         />,
       );
-      expect(wrapper.find('.routes-s')).to.have.lengthOf(1);
+      expect(wrapper.find('.routes-s')).toHaveLength(1);
     });
 
     it('hides the date span when showDates=true but effectiveStartDate is falsy (0)', () => {
@@ -107,14 +101,14 @@ describe('<DisruptionStatus />', () => {
           showDates
         />,
       );
-      expect(wrapper.find('.routes-s')).to.have.lengthOf(0);
+      expect(wrapper.find('.routes-s')).toHaveLength(0);
     });
   });
 
   describe('Date range text', () => {
     // Stub getFormattedTimeDate to make tests timezone-independent.
     beforeEach(() => {
-      sandbox.stub(timeUtils, 'getFormattedTimeDate').callsFake(ms => {
+      vi.spyOn(timeUtils, 'getFormattedTimeDate').mockImplementation(ms => {
         if (ms === 1_000_000) {
           return 'start-date';
         }
@@ -133,7 +127,7 @@ describe('<DisruptionStatus />', () => {
           showDates
         />,
       );
-      expect(wrapper.find('.routes-s').text()).to.include(' - ');
+      expect(wrapper.find('.routes-s').text()).toContain(' - ');
     });
 
     it('shows only startDate when start and end fall on the same date', () => {
@@ -144,14 +138,14 @@ describe('<DisruptionStatus />', () => {
           showDates
         />,
       );
-      expect(wrapper.find('.routes-s').text()).to.not.include(' - ');
+      expect(wrapper.find('.routes-s').text()).not.toContain(' - ');
     });
 
     it('shows only startDate when effectiveEndDate is not provided', () => {
       const wrapper = shallow(
         <DisruptionStatus effectiveStartDate={1000} showDates />,
       );
-      expect(wrapper.find('.routes-s').text()).to.not.include(' - ');
+      expect(wrapper.find('.routes-s').text()).not.toContain(' - ');
     });
   });
 });

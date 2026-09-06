@@ -1,7 +1,4 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
 import { DateTime } from 'luxon';
-import sinon from 'sinon';
 
 import RealTimeInformationStore from '../../../app/store/RealTimeInformationStore';
 
@@ -10,7 +7,7 @@ describe('RealtimeInformationStore', () => {
   let dispatcher;
 
   beforeEach(() => {
-    dispatcher = sinon.stub();
+    dispatcher = vi.fn();
     store = new RealTimeInformationStore(dispatcher);
   });
 
@@ -24,8 +21,8 @@ describe('RealtimeInformationStore', () => {
         topics: ['/gtfsrt/vp/test/#'],
       };
       store.storeClient(data);
-      expect(store.client).to.deep.equal(data.client);
-      expect(store.topics).to.deep.equal(data.topics);
+      expect(store.client).toEqual(data.client);
+      expect(store.topics).toEqual(data.topics);
     });
   });
 
@@ -39,9 +36,9 @@ describe('RealtimeInformationStore', () => {
         topics: ['/gtfsrt/vp/test/#'],
       });
       store.clearClient();
-      expect(store.client).to.equal(undefined);
-      expect(store.topics).to.equal(undefined);
-      expect(store.vehicles).to.deep.equal({});
+      expect(store.client).toBe(undefined);
+      expect(store.topics).toBe(undefined);
+      expect(store.vehicles).toEqual({});
     });
   });
 
@@ -56,9 +53,9 @@ describe('RealtimeInformationStore', () => {
       });
       const { vehicles } = store;
       store.resetClient();
-      expect(store.vehicles).to.not.equal(vehicles);
-      expect(store.topics).to.equal(undefined);
-      expect(store.vehicles).to.deep.equal({});
+      expect(store.vehicles).not.toBe(vehicles);
+      expect(store.topics).toBe(undefined);
+      expect(store.vehicles).toEqual({});
     });
   });
 
@@ -70,7 +67,7 @@ describe('RealtimeInformationStore', () => {
       };
       store.handleMessage(message);
       const receivedAt = DateTime.now().toUnixInteger();
-      expect(store.vehicles.foo).to.deep.equal({ ...message, receivedAt });
+      expect(store.vehicles.foo).toEqual({ ...message, receivedAt });
     });
 
     it('should handle an array of messages', () => {
@@ -86,8 +83,8 @@ describe('RealtimeInformationStore', () => {
       ];
       store.handleMessage(messages);
       const receivedAt = DateTime.now().toUnixInteger();
-      expect(store.vehicles.foo1).to.deep.equal({ ...messages[0], receivedAt });
-      expect(store.vehicles.foo2).to.deep.equal({ ...messages[1], receivedAt });
+      expect(store.vehicles.foo1).toEqual({ ...messages[0], receivedAt });
+      expect(store.vehicles.foo2).toEqual({ ...messages[1], receivedAt });
     });
   });
 
@@ -100,7 +97,7 @@ describe('RealtimeInformationStore', () => {
 
       const vehicle = store.getVehicle('foo');
       const receivedAt = DateTime.now().toUnixInteger();
-      expect(vehicle).to.deep.equal({
+      expect(vehicle).toEqual({
         id: 'foo',
         bar: 'baz',
         receivedAt,

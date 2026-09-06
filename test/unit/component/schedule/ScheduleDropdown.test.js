@@ -1,7 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
-import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import Select from 'react-select';
 import Icon from '@digitransit-component/digitransit-component-icon';
@@ -30,7 +27,7 @@ describe('<ScheduleDropdown />', () => {
         { label: 'Rautatientori', value: 'rautatientori' },
         { label: 'Sörnäinen', value: 'sornainen' },
       ],
-      onSelectChange: sinon.spy(),
+      onSelectChange: vi.fn(),
       alignRight: false,
     };
   });
@@ -40,7 +37,7 @@ describe('<ScheduleDropdown />', () => {
       const wrapper = renderDropdown(<ScheduleDropdown {...defaultProps} />);
       const select = wrapper.find(Select);
 
-      expect(select.prop('placeholder')).to.not.equal(undefined);
+      expect(select.prop('placeholder')).not.toBe(undefined);
     });
 
     it('should handle selection when onSelectChange is not provided', () => {
@@ -49,7 +46,7 @@ describe('<ScheduleDropdown />', () => {
       const select = wrapper.find(Select);
 
       const option = { value: 'kamppi', label: 'Kamppi' };
-      expect(() => select.prop('onChange')(option)).to.not.throw();
+      expect(() => select.prop('onChange')(option)).not.toThrow();
     });
   });
 
@@ -60,8 +57,8 @@ describe('<ScheduleDropdown />', () => {
       const select = wrapper.find(Select);
 
       const valueProp = select.prop('value');
-      expect(valueProp).to.be.an('object');
-      expect(valueProp.value).to.equal('kamppi');
+      expect(typeof valueProp).toBe('object');
+      expect(valueProp.value).toBe('kamppi');
     });
 
     it('should clear selection when value is not in options list', () => {
@@ -70,7 +67,7 @@ describe('<ScheduleDropdown />', () => {
       const select = wrapper.find(Select);
 
       const valueProp = select.prop('value');
-      expect(valueProp).to.equal(null);
+      expect(valueProp).toBe(null);
     });
 
     it('should update selection when controlled value prop changes', () => {
@@ -78,14 +75,14 @@ describe('<ScheduleDropdown />', () => {
       const wrapper = renderDropdown(<ScheduleDropdown {...props} />);
 
       let select = wrapper.find(Select);
-      expect(select.prop('value').value).to.equal('kamppi');
+      expect(select.prop('value').value).toBe('kamppi');
 
       // Update controlled value
       wrapper.setProps({ value: 'sornainen' });
       wrapper.update();
 
       select = wrapper.find(Select);
-      expect(select.prop('value').value).to.equal('sornainen');
+      expect(select.prop('value').value).toBe('sornainen');
     });
   });
 
@@ -107,18 +104,16 @@ describe('<ScheduleDropdown />', () => {
         context: 'menu',
       });
       const selectedWrapper = shallow(<div>{selectedFormatted}</div>);
-      // Should contain Icon with check
-      expect(selectedWrapper.find(Icon).prop('img')).to.equal('check');
-      expect(selectedWrapper.text()).to.include('Kamppi');
+      expect(selectedWrapper.find(Icon).prop('img')).toBe('check');
+      expect(selectedWrapper.text()).toContain('Kamppi');
 
       // Format unselected option (in menu context) - returns JSX fragment
       const unselectedFormatted = formatOptionLabel(unselectedOption, {
         context: 'menu',
       });
       const unselectedWrapper = shallow(<div>{unselectedFormatted}</div>);
-      // Should not contain Icon
-      expect(unselectedWrapper.find(Icon)).to.have.lengthOf(0);
-      expect(unselectedWrapper.text()).to.include('Sörnäinen');
+      expect(unselectedWrapper.find(Icon)).toHaveLength(0);
+      expect(unselectedWrapper.text()).toContain('Sörnäinen');
     });
 
     it('should format options correctly in value context (no checkmark)', () => {
@@ -139,7 +134,7 @@ describe('<ScheduleDropdown />', () => {
 
       // Should not show a checkmark icon in value context (only in menu context)
       const rendered = shallow(<div>{valueFormatted}</div>);
-      expect(rendered.find(Icon).filter({ img: 'check' })).to.have.lengthOf(0);
+      expect(rendered.find(Icon).filter({ img: 'check' })).toHaveLength(0);
     });
 
     it('should pass all options to Select component', () => {
@@ -147,10 +142,10 @@ describe('<ScheduleDropdown />', () => {
       const select = wrapper.find(Select);
       const options = select.prop('options');
 
-      expect(options).to.have.lengthOf(3);
-      expect(options[0].value).to.equal('kamppi');
-      expect(options[1].value).to.equal('rautatientori');
-      expect(options[2].value).to.equal('sornainen');
+      expect(options).toHaveLength(3);
+      expect(options[0].value).toBe('kamppi');
+      expect(options[1].value).toBe('rautatientori');
+      expect(options[2].value).toBe('sornainen');
     });
   });
 
@@ -163,10 +158,10 @@ describe('<ScheduleDropdown />', () => {
       const labelId = 'aria-label-test-dropdown';
       const inputId = 'aria-input-test-dropdown';
 
-      expect(label.prop('id')).to.equal(labelId);
-      expect(label.prop('htmlFor')).to.equal(inputId);
-      expect(select.prop('inputId')).to.equal(inputId);
-      expect(select.prop('aria-labelledby')).to.equal(labelId);
+      expect(label.prop('id')).toBe(labelId);
+      expect(label.prop('htmlFor')).toBe(inputId);
+      expect(select.prop('inputId')).toBe(inputId);
+      expect(select.prop('aria-labelledby')).toBe(labelId);
     });
 
     it('should render visible label', () => {
@@ -175,7 +170,7 @@ describe('<ScheduleDropdown />', () => {
       const visibleLabel = wrapper
         .find('label.dd-header-title')
         .not('.sr-only');
-      expect(visibleLabel).to.have.lengthOf(1);
+      expect(visibleLabel).toHaveLength(1);
     });
 
     it('should render localized label text using id as translation key', () => {
@@ -184,22 +179,16 @@ describe('<ScheduleDropdown />', () => {
       const label = wrapper.find('label').first();
       const select = wrapper.find(Select);
 
-      // Label text is the translation for 'test-dropdown' injected via messages
-      expect(label.text()).to.equal('Test dropdown');
-      // Label should not have sr-only class
-      expect(label.hasClass('sr-only')).to.equal(false);
-      // Select should reference this label via aria-labelledby
-      expect(select.prop('aria-labelledby')).to.equal(
-        'aria-label-test-dropdown',
-      );
+      expect(label.text()).toBe('Test dropdown');
+      expect(label.hasClass('sr-only')).toBe(false);
+      expect(select.prop('aria-labelledby')).toBe('aria-label-test-dropdown');
     });
 
     it('should not have aria-label prop that would override aria-labelledby', () => {
       const wrapper = renderDropdown(<ScheduleDropdown {...defaultProps} />);
       const select = wrapper.find(Select);
 
-      // aria-label should not be present, allowing aria-labelledby to work
-      expect(select.prop('aria-label')).to.equal(undefined);
+      expect(select.prop('aria-label')).toBe(undefined);
     });
   });
 
@@ -213,8 +202,8 @@ describe('<ScheduleDropdown />', () => {
         label: 'Rautatientori',
       });
 
-      expect(defaultProps.onSelectChange.calledOnce).to.equal(true);
-      expect(defaultProps.onSelectChange.firstCall.args[0]).to.equal(
+      expect(defaultProps.onSelectChange).toHaveBeenCalledOnce();
+      expect(defaultProps.onSelectChange.mock.calls[0][0]).toBe(
         'rautatientori',
       );
     });
@@ -224,15 +213,15 @@ describe('<ScheduleDropdown />', () => {
 describe('scheduleDropdownUtils', () => {
   describe('getClassNamePrefix', () => {
     it('should return dd-timerange for other-dates with alignRight', () => {
-      expect(getClassNamePrefix(true, 'other-dates')).to.equal('dd-timerange');
+      expect(getClassNamePrefix(true, 'other-dates')).toBe('dd-timerange');
     });
 
     it('should return dd-right for alignRight with other IDs', () => {
-      expect(getClassNamePrefix(true, 'some-dropdown')).to.equal('dd-right');
+      expect(getClassNamePrefix(true, 'some-dropdown')).toBe('dd-right');
     });
 
     it('should return dd when alignRight is false', () => {
-      expect(getClassNamePrefix(false, 'any-id')).to.equal('dd');
+      expect(getClassNamePrefix(false, 'any-id')).toBe('dd');
     });
   });
 
@@ -249,10 +238,10 @@ describe('scheduleDropdownUtils', () => {
 
       const messages = getAriaMessages(mockIntl);
 
-      expect(messages).to.have.property('guidance');
-      expect(messages).to.have.property('onChange');
-      expect(messages).to.have.property('onFilter');
-      expect(messages).to.have.property('onFocus');
+      expect(messages).toHaveProperty('guidance');
+      expect(messages).toHaveProperty('onChange');
+      expect(messages).toHaveProperty('onFilter');
+      expect(messages).toHaveProperty('onFocus');
     });
 
     it('should format onChange message with option label', () => {
@@ -270,8 +259,8 @@ describe('scheduleDropdownUtils', () => {
         value: { label: 'Test Stop' },
       });
 
-      expect(changeMessage).to.include('Selected:');
-      expect(changeMessage).to.include('Test Stop');
+      expect(changeMessage).toContain('Selected:');
+      expect(changeMessage).toContain('Test Stop');
     });
   });
 });
