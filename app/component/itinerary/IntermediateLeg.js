@@ -2,33 +2,32 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
-import { configShape, legTimeShape } from '../../util/shapes';
+import { legTimeShape } from '../../util/shapes';
 import { legTimeStr } from '../../util/legUtils';
 import ZoneIcon from '../ZoneIcon';
 import { stopPagePath } from '../../util/path';
 import Icon from '../Icon';
 import { splitGtfsId } from '../../util/gtfs';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
-function IntermediateLeg(
-  {
-    placesCount,
-    color,
-    mode,
-    name,
-    arrival,
-    realTime,
-    gtfsId,
-    showCurrentZoneDelimiter,
-    showZoneLimits,
-    previousZoneId,
-    currentZoneId,
-    nextZoneId,
-    isViaPoint,
-    isCanceled,
-    isLastPlace,
-  },
-  { config },
-) {
+function IntermediateLeg({
+  placesCount,
+  color,
+  mode,
+  name,
+  arrival,
+  realTime,
+  gtfsId,
+  showCurrentZoneDelimiter,
+  showZoneLimits,
+  previousZoneId,
+  currentZoneId,
+  nextZoneId,
+  isViaPoint,
+  isCanceled,
+  isLastPlace,
+}) {
+  const config = useConfigContext();
   const { feedIds, colors } = config;
   const modeClassName = mode.toLowerCase();
   const isDualZone = currentZoneId && (previousZoneId || nextZoneId);
@@ -211,10 +210,6 @@ IntermediateLeg.defaultProps = {
   isViaPoint: false,
   gtfsId: undefined,
   color: undefined,
-};
-
-IntermediateLeg.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default IntermediateLeg;

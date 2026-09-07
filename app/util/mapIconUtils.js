@@ -447,7 +447,7 @@ export function drawStopIcon(
     });
 
     if (isHighlighted) {
-      if (isFerryTerminal) {
+      if (isFerryTerminal || mode === 'subway') {
         getImageFromSpriteCache(`icon_station_highlight`, width, height).then(
           image => {
             tile.ctx.drawImage(

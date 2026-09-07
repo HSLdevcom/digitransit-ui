@@ -1,37 +1,41 @@
 import React from 'react';
-
-import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
+import sinon from 'sinon';
+import { LeafletProvider } from 'react-leaflet/es/context';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import { mockContext } from '../../helpers/mock-context';
 import { Component as GenericMarker } from '../../../../app/component/map/GenericMarker';
 
 describe('<GenericMarker />', () => {
   it('should render', () => {
+    const getIcon = sinon.spy();
+    const map = {
+      addLayer: () => {},
+      getZoom: () => 12,
+      off: () => {},
+      on: () => {},
+      removeLayer: () => {},
+    };
     const props = {
-      getIcon: () => {},
-      leaflet: {
-        map: {
-          getZoom: () => {},
-          off: () => {},
-          on: () => {},
-        },
-      },
+      getIcon,
+      leaflet: { map },
       position: {
         lat: 60,
         lon: 25,
       },
     };
-    const wrapper = shallowWithIntl(<GenericMarker {...props} />, {
-      context: {
+    renderWithProviders(
+      <LeafletProvider value={{ map }}>
+        <GenericMarker {...props} />
+      </LeafletProvider>,
+      {
         config: {
-          CONFIG: 'default',
-          map: {
-            genericMarker: {
-              popup: {},
-            },
-          },
+          ...mockContext.config,
+          map: { genericMarker: { popup: {} } },
         },
       },
-    });
-    expect(wrapper.isEmptyRender()).to.equal(false);
+    );
+    expect(getIcon.calledOnce).to.equal(true);
+    expect(getIcon.firstCall.args[0]).to.equal(12);
   });
 
   it('should render empty if shouldRender returns false for the current zoom level', () => {
@@ -50,18 +54,12 @@ describe('<GenericMarker />', () => {
       },
       shouldRender: zoom => zoom !== 10,
     };
-    const wrapper = shallowWithIntl(<GenericMarker {...props} />, {
-      context: {
-        config: {
-          CONFIG: 'default',
-          map: {
-            genericMarker: {
-              popup: {},
-            },
-          },
-        },
+    const { container } = renderWithProviders(<GenericMarker {...props} />, {
+      config: {
+        ...mockContext.config,
+        map: { genericMarker: { popup: {} } },
       },
     });
-    expect(wrapper.isEmptyRender()).to.equal(true);
+    expect(container.innerHTML).to.equal('');
   });
 });

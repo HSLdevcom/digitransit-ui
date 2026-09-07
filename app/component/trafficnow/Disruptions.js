@@ -34,13 +34,20 @@ export const buildAlertsFingerprint = alerts =>
     .join(';');
 
 // filters out routes with non relevant feedId:s and modes without any routes
-export function getCanceledModes(cancelationsByMode, feedIds) {
+export function getCanceledModes(
+  cancelationsByMode,
+  feedIds,
+  selectedFeeds = [],
+) {
   return Object.entries(cancelationsByMode)
     .map(([key, value]) => ({
       key,
       ...value,
-      routes: value.routes.filter(({ route }) =>
-        feedIds.includes(splitGtfsId(route.gtfsId).feedId),
+      routes: value.routes.filter(
+        ({ route }) =>
+          feedIds.includes(splitGtfsId(route.gtfsId).feedId) &&
+          (!selectedFeeds.length ||
+            selectedFeeds.includes(splitGtfsId(route.gtfsId).feedId)),
       ),
     }))
     .filter(({ routes }) => routes.length);
@@ -106,7 +113,11 @@ export default function Disruptions() {
     { fetchKey },
   );
 
-  const canceledModes = getCanceledModes(cancelationsByMode, feedIds);
+  const canceledModes = getCanceledModes(
+    cancelationsByMode,
+    config.feedIds,
+    selectedFilters.selectedFeeds,
+  );
 
   // Capture fingerprint of the currently displayed alerts after each (re)load
   useEffect(() => {
@@ -182,8 +193,6 @@ export default function Disruptions() {
 
   const mobile = breakpoint !== 'large';
 
-  const noResults = !disruptions.length && !canceledModesFiltered.length;
-
   const resultAmount = canceledModesFiltered.length + disruptionCards.length;
 
   return (
@@ -210,7 +219,7 @@ export default function Disruptions() {
         </div>
       )}
       <div className="disruptions__scroll">
-        {noResults ? (
+        {!resultAmount ? (
           <NoDisruptions />
         ) : (
           <>

@@ -1,22 +1,8 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
-
-import { mockContext } from '../helpers/mock-context';
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../helpers/mock-providers';
 import Legs from '../../../app/component/itinerary/Legs';
-
-const context = {
-  ...mockContext,
-  match: {
-    ...mockContext.match,
-    location: {
-      ...mockContext.match.location,
-      state: {},
-    },
-  },
-  config: { itinerary: { waitThreshold: 5 }, CONFIG: 'default' },
-};
 
 describe('<Legs />', () => {
   it("should not fail to render even if the itinerary's legs array is empty", () => {
@@ -31,10 +17,9 @@ describe('<Legs />', () => {
       focusToLeg: () => {},
       openSettings: () => {},
     };
-    const wrapper = shallowWithIntl(<Legs {...props} />, {
-      config: context.config,
+    const { container } = renderWithProviders(<Legs {...props} />, {
+      config: { CONFIG: 'default', URL: {}, itinerary: { waitThreshold: 5 } },
     });
-
-    expect(wrapper.isEmptyRender()).to.equal(true);
+    expect(container.innerHTML).to.equal('');
   });
 });

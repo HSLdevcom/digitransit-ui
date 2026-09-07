@@ -1,11 +1,8 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
-import { mockContext } from '../helpers/mock-context';
 import Timetable from '../../../app/component/stop/Timetable';
-import TimetableRow from '../../../app/component/stop/TimetableRow';
-import SecondaryButton from '../../../app/component/SecondaryButton';
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../helpers/mock-providers';
 import * as timetables from '../../../app/configurations/timetableConfigUtils';
 
 const stopIdNumber = '1140199';
@@ -46,37 +43,32 @@ const props = {
       },
     ],
   },
-  date: '20231031',
+  date: '20190110',
   language: 'en',
 };
 
 describe('<Timetable />', () => {
   it('should set isCanceled to true for rows that have RealtimeState CANCELED', () => {
-    const wrapper = shallowWithIntl(<Timetable {...props} />, {
-      context: {
-        ...mockContext,
-        config: {
-          CONFIG: 'default',
-          URL: {},
-        },
-      },
+    const { container } = renderWithProviders(<Timetable {...props} />, {
+      config: { CONFIG: 'default', URL: {} },
     });
-    expect(wrapper.find(TimetableRow)).to.have.lengthOf(1);
-    expect(wrapper.find(TimetableRow).prop('stoptimes')[0].isCanceled).to.equal(
-      true,
-    );
+    expect(
+      container.querySelectorAll('.timetablerow-linetime'),
+    ).to.have.lengthOf(1);
+    expect(
+      container.querySelectorAll('.timetablerow-linetime.canceled'),
+    ).to.have.lengthOf(1);
   });
 
   it('should set valid stopPDFURL for StopPageActionBar', () => {
     const baseTimetableURL = 'https://timetabletest.com/stops/';
-    const wrapper = shallowWithIntl(<Timetable {...props} />, {
-      context: { ...mockContext },
+    const { container } = renderWithProviders(<Timetable {...props} />, {
       config: {
         CONFIG: 'default',
         URL: { STOP_TIMETABLES: { HSL: baseTimetableURL } },
         timetables: { HSL: timetables.default.HSL },
       },
     });
-    expect(wrapper.find(SecondaryButton)).to.have.lengthOf(2);
+    expect(container.querySelectorAll('.secondary-button')).to.have.lengthOf(2);
   });
 });

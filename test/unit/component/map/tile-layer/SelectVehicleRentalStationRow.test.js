@@ -1,8 +1,6 @@
 import React from 'react';
-
 import SelectVehicleRentalRow from '../../../../../app/component/map/tile-layer/SelectVehicleRentalRow';
-import { shallowWithIntl } from '../../../helpers/mock-intl-enzyme';
-import Icon from '../../../../../app/component/Icon';
+import { renderWithProviders } from '../../../helpers/mock-providers';
 import { mockContext } from '../../../helpers/mock-context';
 
 describe('<SelectVehicleRentalRow />', () => {
@@ -13,10 +11,12 @@ describe('<SelectVehicleRentalRow />', () => {
       id: '001',
       prefix: 'citybike',
     };
-    const wrapper = shallowWithIntl(<SelectVehicleRentalRow {...props} />, {
-      context: { ...mockContext, config: { colors: { iconColors: {} } } },
-    });
-    expect(wrapper.find(Icon).first().prop('img')).to.contain('citybike');
+    const { container } = renderWithProviders(
+      <SelectVehicleRentalRow {...props} />,
+      { config: { ...mockContext.config, colors: { iconColors: {} } } },
+    );
+    const use = container.querySelector('use');
+    expect(use.getAttribute('xlink:href')).to.contain('citybike');
   });
 
   it('should use the configured icon for the network', () => {
@@ -26,14 +26,20 @@ describe('<SelectVehicleRentalRow />', () => {
       id: '001',
       prefix: 'citybike',
     };
-    const wrapper = shallowWithIntl(<SelectVehicleRentalRow {...props} />, {
-      context: {
+    const { container } = renderWithProviders(
+      <SelectVehicleRentalRow {...props} />,
+      {
         config: {
-          vehicleRental: { networks: { scooter_network: { icon: 'scooter' } } },
+          ...mockContext.config,
+          ...mockContext.config,
+          vehicleRental: {
+            networks: { scooter_network: { icon: 'scooter' } },
+          },
           colors: { iconColors: {} },
         },
       },
-    });
-    expect(wrapper.find(Icon).first().prop('img')).to.contain('scooter');
+    );
+    const use = container.querySelector('use');
+    expect(use.getAttribute('xlink:href')).to.contain('scooter');
   });
 });

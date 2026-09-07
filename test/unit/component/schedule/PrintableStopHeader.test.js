@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import PrintableStopHeader from '../../../../app/component/routepage/schedule/PrintableStopHeader';
 
@@ -12,18 +12,24 @@ describe('<PrintableStopHeader />', () => {
   };
 
   it('should render without crashing', () => {
-    const wrapper = shallow(<PrintableStopHeader {...defaultProps} />);
-    expect(wrapper.exists()).to.equal(true);
+    const { container } = render(<PrintableStopHeader {...defaultProps} />);
+    expect(container.querySelector('.printable-stop-header')).to.not.equal(
+      null,
+    );
   });
 
   it('should display origin stop name', () => {
-    const wrapper = shallow(<PrintableStopHeader {...defaultProps} />);
-    expect(wrapper.text()).to.include('Kamppi');
+    const { container } = render(<PrintableStopHeader {...defaultProps} />);
+    expect(
+      container.querySelector('.printable-stop-header_from').textContent,
+    ).to.equal('Kamppi');
   });
 
   it('should display destination stop name', () => {
-    const wrapper = shallow(<PrintableStopHeader {...defaultProps} />);
-    expect(wrapper.text()).to.include('Rautatientori');
+    const { container } = render(<PrintableStopHeader {...defaultProps} />);
+    expect(
+      container.querySelector('.printable-stop-header_to').textContent,
+    ).to.equal('Rautatientori');
   });
 
   it('should display both stop names with special characters', () => {
@@ -31,9 +37,13 @@ describe('<PrintableStopHeader />', () => {
       fromDisplayName: 'Käpylä (Helsinki)',
       toDisplayName: 'Töölö / Tölö',
     };
-    const wrapper = shallow(<PrintableStopHeader {...props} />);
+    const { container } = render(<PrintableStopHeader {...props} />);
 
-    expect(wrapper.text()).to.include('Käpylä (Helsinki)');
-    expect(wrapper.text()).to.include('Töölö / Tölö');
+    expect(
+      container.querySelector('.printable-stop-header_from').textContent,
+    ).to.equal('Käpylä (Helsinki)');
+    expect(
+      container.querySelector('.printable-stop-header_to').textContent,
+    ).to.equal('Töölö / Tölö');
   });
 });

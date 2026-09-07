@@ -16,10 +16,10 @@ import withBreakpoint from '../util/withBreakpoint';
 import { AlertEntityType, AlertSeverityLevelType } from '../constants';
 
 const AlertList = ({
-  cancelations,
-  disableScrolling,
-  serviceAlerts,
-  showLinks,
+  cancelations = [],
+  disableScrolling = false,
+  serviceAlerts = [],
+  showLinks = false,
   breakpoint,
   onClickLink,
 }) => {
@@ -117,15 +117,6 @@ AlertList.propTypes = {
   showLinks: PropTypes.bool,
   breakpoint: PropTypes.string,
   onClickLink: PropTypes.func,
-};
-
-AlertList.defaultProps = {
-  cancelations: [],
-  disableScrolling: false,
-  serviceAlerts: [],
-  showLinks: false,
-  breakpoint: undefined,
-  onClickLink: undefined,
 };
 
 const componentWithBreakpoint = withBreakpoint(AlertList);

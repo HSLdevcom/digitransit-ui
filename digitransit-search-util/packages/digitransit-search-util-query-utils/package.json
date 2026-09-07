@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
-  "version": "4.5.11",
+  "version": "4.5.12",
   "description": "digitransit-search-util query-utils module",
   "main": "lib/index.js",
   "publishConfig": {
@@ -10,12 +10,15 @@
     "clean": "rm -rf lib ./node_modules",
     "test": "mocha -r esm test.js",
     "docs": "node -r esm ../../scripts/generate-readmes",
-    "relay": "relay-compiler && mkdir lib && mv src/__generated__ lib/"
+    "relay": "mkdir -p lib/__generated__ && relay-compiler",
+    "watch": "yarn relay && NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
+    "build": "yarn relay && NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
   "relay": {
     "src": "./src",
     "schema": "./schema/schema.graphql",
-    "language": "javascript"
+    "language": "javascript",
+    "artifactDirectory": "./lib/__generated__"
   },
   "repository": {
     "type": "git",
@@ -36,9 +39,9 @@
     "relay-compiler": "16.2.0"
   },
   "dependencies": {
-    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "^1.0.1",
-    "@digitransit-search-util/digitransit-search-util-helpers": "^2.3.4",
-    "@digitransit-search-util/digitransit-search-util-route-name-compare": "0.0.2",
+    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "^1.0.2",
+    "@digitransit-search-util/digitransit-search-util-helpers": "^2.3.5",
+    "@digitransit-search-util/digitransit-search-util-route-name-compare": "^0.0.3",
     "babel-plugin-relay": "16.2.0"
   }
 }

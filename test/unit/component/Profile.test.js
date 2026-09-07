@@ -1,9 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
-
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-
+import { renderWithProviders } from '../helpers/mock-providers';
 import Profile from '../../../app/component/itinerary/Profile';
 
 describe('<Profile />', () => {
@@ -18,13 +16,15 @@ describe('<Profile />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<Profile {...props} />, {
-      context: { config: { imperialEnabled: false } },
+    const { container } = renderWithProviders(<Profile {...props} />, {
+      config: { CONFIG: 'hsl', URL: {}, imperialEnabled: false },
     });
 
-    expect(wrapper.find('.itinerary-profile-item')).to.have.lengthOf(1);
-    expect(wrapper.find('.itinerary-profile-item-value').at(0).text()).to.equal(
-      '1.2 km',
-    );
+    expect(
+      container.querySelectorAll('.itinerary-profile-item'),
+    ).to.have.lengthOf(1);
+    expect(
+      container.querySelector('.itinerary-profile-item-value').textContent,
+    ).to.equal('1.2 km');
   });
 });

@@ -1,8 +1,7 @@
 import React from 'react';
-
-import { mountWithIntl } from '../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../helpers/mock-providers';
+import { mockContext } from '../helpers/mock-context';
 import TripRouteStop from '../../../app/component/routepage/TripRouteStop';
-import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../../app/constants';
 
 describe('<TripRouteStop />', () => {
@@ -29,9 +28,9 @@ describe('<TripRouteStop />', () => {
       vehicles: [],
       setHumanScrolling: () => {},
     };
-    const wrapper = mountWithIntl(<TripRouteStop {...props} />, {
-      context: { config: { CONFIG: 'default', zones: { stops: true } } },
+    const { container } = renderWithProviders(<TripRouteStop {...props} />, {
+      config: { ...mockContext.config, zones: { stops: true } },
     });
-    expect(wrapper.find(ServiceAlertIcon).isEmptyRender()).to.equal(true);
+    expect(container.querySelector('.caution')).to.equal(null);
   });
 });
