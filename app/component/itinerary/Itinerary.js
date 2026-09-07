@@ -180,7 +180,7 @@ const Itinerary = ({
   let containsScooterLeg = false;
   let nameLengthSum = 0; // approximate space required for route labels
   compressedLegs.forEach((leg, i) => {
-    if (isLegWithRoute(leg, config.carPickupZone.allowedRouteTypes)) {
+    if (isLegWithRoute(leg, config.taxiZone.allowedRouteTypes)) {
       legWithRouteCount += 1;
       nameLengthSum += getTripOrRouteText(leg.trip, leg.route, config).length;
     }
@@ -513,7 +513,7 @@ const Itinerary = ({
   const hasCallAgencyLeg = itinerary.legs.some(leg => isCallAgencyLeg(leg));
 
   const firstDeparture = compressedLegs.find(leg =>
-    isBoardableLeg(leg, config.carPickupZone.allowedRouteTypes),
+    isBoardableLeg(leg, config.taxiZone.allowedRouteTypes),
   );
   const firstLegStartTime = (
     <FirstLegStartTime
