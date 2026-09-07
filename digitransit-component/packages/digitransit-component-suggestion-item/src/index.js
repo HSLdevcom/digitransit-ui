@@ -81,17 +81,12 @@ const STATUS_LAYERS = new Set([
   'favouriteStation',
 ]);
 
-function extractGtfsId(item) {
-  const fromProperties = item.properties?.gtfsId || item.gtfsId;
-  if (fromProperties) {
-    return fromProperties;
-  }
-  const gidPart = item.properties?.gid?.split('GTFS:')[1];
-  if (!gidPart) {
-    return undefined;
-  }
-  const hashIndex = gidPart.indexOf('#');
-  return hashIndex === -1 ? gidPart : gidPart.substring(0, hashIndex);
+function hasGtfsId(item) {
+  return !!(
+    item.properties?.gtfsId ||
+    item.gtfsId ||
+    item.properties?.gid?.includes('GTFS:')
+  );
 }
 
 /**
@@ -105,7 +100,7 @@ export function getStopBadge(item) {
   if (!STATUS_LAYERS.has(item.properties?.layer)) {
     return null;
   }
-  if (!extractGtfsId(item)) {
+  if (!hasGtfsId(item)) {
     return null;
   }
   const gtfs = item.properties?.addendum?.GTFS;
@@ -227,15 +222,23 @@ const SuggestionItem = memo(
   ({
     item,
     content,
-    loading,
-    isMobile,
-    ariaFavouriteString,
-    fillInput,
-    fontWeights,
+    loading = false,
+    isMobile = false,
+    ariaFavouriteString = '',
+    fillInput = () => {},
+    fontWeights = { medium: 500 },
     colors,
-    getAutoSuggestIcons,
-    modeSet,
-    showStopStatusMarkers,
+    getAutoSuggestIcons = {
+      citybikes: station => {
+        const name =
+          station.properties.source === 'citybikesvantaa'
+            ? 'citybike-stop-hsl-secondary'
+            : 'citybike-stop-hsl';
+        return [name, defaultColors.citybike];
+      },
+    },
+    modeSet = 'hsl',
+    showStopStatusMarkers = false,
   }) => {
     const [suggestionType, name, label, stopCode, modes, platform] =
       content || ['', item.name, item.address];
@@ -509,28 +512,6 @@ SuggestionItem.propTypes = {
   colors: PropTypes.objectOf(PropTypes.string),
   modeSet: PropTypes.string,
   showStopStatusMarkers: PropTypes.bool,
-};
-
-SuggestionItem.defaultProps = {
-  loading: false,
-  ariaFavouriteString: '',
-  fillInput: () => {},
-  isMobile: false,
-  showStopStatusMarkers: false,
-  fontWeights: {
-    medium: 500,
-  },
-  colors: undefined,
-  getAutoSuggestIcons: {
-    citybikes: station => {
-      const name =
-        station.properties.source === 'citybikesvantaa'
-          ? 'citybike-stop-hsl-secondary'
-          : 'citybike-stop-hsl';
-      return [name, defaultColors.citybike];
-    },
-  },
-  modeSet: 'hsl',
 };
 
 export default SuggestionItem;
