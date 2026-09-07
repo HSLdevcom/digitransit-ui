@@ -8,7 +8,6 @@ import groupBy from 'lodash/groupBy';
 import CanceledDeparturesFragment from '../queries/CanceledDeparturesFragment';
 import Icon from '../../Icon';
 import EntityBadge from './EntityBadge';
-import { stopShape } from '../../../util/shapes';
 
 const DEPARTURE_LIMIT = 10;
 
@@ -117,24 +116,7 @@ const CanceledDepartures = ({
 };
 
 CanceledDepartures.propTypes = {
-  patterns: PropTypes.arrayOf(
-    PropTypes.shape({
-      code: PropTypes.string.isRequired,
-      stops: PropTypes.arrayOf(stopShape).isRequired,
-      canceledTrips: PropTypes.arrayOf(
-        PropTypes.shape({
-          trip: PropTypes.shape({
-            gtfsId: PropTypes.string.isRequired,
-            stoptimes: PropTypes.arrayOf(
-              PropTypes.shape({
-                scheduledDeparture: PropTypes.number.isRequired,
-              }).isRequired,
-            ).isRequired,
-          }).isRequired,
-        }).isRequired,
-      ),
-    }).isRequired,
-  ).isRequired,
+  patterns: PropTypes.arrayOf(PropTypes.shape({})),
   departureLimit: PropTypes.number,
   inline: PropTypes.bool,
   mode: PropTypes.string,
