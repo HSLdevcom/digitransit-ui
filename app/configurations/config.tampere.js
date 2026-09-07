@@ -1,5 +1,5 @@
 import configMerger from '../util/configMerger';
-import { IS_DEV } from '../util/envUtils';
+import { isDevRunEnv } from '../util/envUtils';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 import walttiConfig from './config.waltti';
 import ttConfig from './timetableConfigUtils';
@@ -9,7 +9,7 @@ const CONFIG = 'tampere';
 const APP_TITLE = 'Nyssen reittiopas';
 const APP_DESCRIPTION = 'Nyssen reittiopas';
 
-const virtualMonitorBaseUrl = IS_DEV
+const virtualMonitorBaseUrl = isDevRunEnv()
   ? 'https://dev-tremonitori.digitransit.fi'
   : 'https://tremonitori.digitransit.fi';
 

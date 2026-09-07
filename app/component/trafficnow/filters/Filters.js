@@ -8,6 +8,7 @@ import { useBreakpoint } from '../../../util/withBreakpoint';
 import VehicleModesFilter from './VehicleModesFilter';
 import EntitySearch from './EntitySearch';
 import ToggleableFilters from './ToggleableFilters';
+import OperatorSelect from './OperatorSelect';
 
 const Separator = () => <div className="separator horizontal" />;
 
@@ -19,6 +20,10 @@ const Filters = ({ onApplyClick = undefined, onResetClick = () => {} }) => {
   const mobile = breakpoint !== 'large';
 
   const components = [
+    {
+      id: 'feed',
+      Component: OperatorSelect,
+    },
     {
       id: 'entity',
       Component: EntitySearch,

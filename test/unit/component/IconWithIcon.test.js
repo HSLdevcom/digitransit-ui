@@ -1,7 +1,5 @@
 import React from 'react';
-
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import Icon from '../../../app/component/Icon';
+import { renderWithProviders } from '../helpers/mock-providers';
 import IconWithIcon from '../../../app/component/IconWithIcon';
 
 describe('<IconWithIcon />', () => {
@@ -11,9 +9,9 @@ describe('<IconWithIcon />', () => {
       subIcon: 'sub-img',
       subIconShape: 'circle',
     };
-    const wrapper = shallowWithIntl(<IconWithIcon {...props} />);
-    expect(wrapper.find(Icon).at(1).prop('background').props.shape).to.equal(
-      'circle',
-    );
+    const { container } = renderWithProviders(<IconWithIcon {...props} />, {
+      messages: { disruption: 'Disruption' },
+    });
+    expect(container.querySelectorAll('circle')).to.have.lengthOf(1);
   });
 });

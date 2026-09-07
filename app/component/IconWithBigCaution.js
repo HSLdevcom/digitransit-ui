@@ -5,7 +5,7 @@ import { AlertSeverityLevelType } from '../constants';
 
 export default function IconWithBigCaution({
   alertSeverityLevel,
-  className,
+  className = '',
   color,
   img,
 }) {
@@ -34,10 +34,4 @@ IconWithBigCaution.propTypes = {
   color: PropTypes.string,
   className: PropTypes.string,
   img: PropTypes.string.isRequired,
-};
-
-IconWithBigCaution.defaultProps = {
-  alertSeverityLevel: undefined,
-  className: '',
-  color: undefined,
 };

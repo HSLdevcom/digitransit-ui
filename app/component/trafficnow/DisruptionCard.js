@@ -8,6 +8,7 @@ import DisruptionBadge from './DisruptionBadge';
 import DisruptionStatus from './components/DisruptionStatus';
 import Icon from '../Icon';
 import RouteBadges from './RouteBadges';
+import OperatorBadge from './components/OperatorBadge';
 
 export default function DisruptionCard({
   alert,
@@ -23,6 +24,7 @@ export default function DisruptionCard({
     entities,
     effectiveStartDate,
     effectiveEndDate,
+    feed,
   } = alert;
   const { colors } = useConfigContext();
 
@@ -40,6 +42,7 @@ export default function DisruptionCard({
             variant={alertSeverityLevel}
             label={alertEffect}
           />
+          <OperatorBadge feed={feed} />
           {!isMobile && (
             <>
               <div className="separator vertical" />

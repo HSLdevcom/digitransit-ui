@@ -1,5 +1,5 @@
 import configMerger from '../util/configMerger';
-import { IS_DEV } from '../util/envUtils';
+import { isDevRunEnv } from '../util/envUtils';
 import walttiConfig from './config.waltti';
 
 const CONFIG = 'varely';
@@ -161,8 +161,8 @@ export default configMerger(walttiConfig, {
   externalFeedIds: ['02Taksi_carpickupzone'],
 
   carPickupZone: {
-    enabled: IS_DEV,
-    transit: IS_DEV,
+    enabled: isDevRunEnv(),
+    transit: isDevRunEnv(),
     direct: false,
   },
 

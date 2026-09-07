@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { ClearButton } from './ClearButton';
@@ -23,18 +23,13 @@ export function Input({
   clearButtonColor,
   autoFocus,
   inputOnBlur,
+  onValueChange,
 }) {
-  const cursorRef = useRef(null);
-
-  useLayoutEffect(() => {
-    const el = inputRef.current;
-    if (el && cursorRef.current !== null && el === document.activeElement) {
-      el.setSelectionRange(cursorRef.current, cursorRef.current);
-    }
-  }, [value]);
-
   const handleChange = e => {
-    cursorRef.current = e.target.selectionStart;
+    // Downshift reports the new value only in an effect, one render later. Until
+    // then it feeds the stale controlled inputValue back into the DOM node, which
+    // wipes the keystroke and desyncs Android keyboards' composing range.
+    onValueChange(e.target.value);
   };
 
   return (
@@ -63,7 +58,6 @@ export function Input({
           value ? styles.hasValue : '',
           inputClassName,
         )}
-        value={value}
         id={id}
         {...getInputProps({
           ref: inputRef,
@@ -105,6 +99,7 @@ Input.propTypes = {
   clearButtonColor: PropTypes.string.isRequired,
   autoFocus: PropTypes.bool,
   inputOnBlur: PropTypes.func,
+  onValueChange: PropTypes.func.isRequired,
 };
 
 Input.defaultProps = {

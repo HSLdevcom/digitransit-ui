@@ -1,4 +1,4 @@
-import { IS_DEV } from '../util/envUtils';
+import { isDevRunEnv } from '../util/envUtils';
 
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/waltti/`;
@@ -289,8 +289,8 @@ export default {
   externalFeedIds: ['02Taksi_carpickupzone'],
 
   carPickupZone: {
-    enabled: IS_DEV,
-    transit: IS_DEV,
+    enabled: isDevRunEnv(),
+    transit: isDevRunEnv(),
     direct: false,
   },
 
@@ -314,7 +314,7 @@ export default {
       ],
     },
   },
-  showRouteDescNotification: IS_DEV,
+  showRouteDescNotification: isDevRunEnv(),
   useAlternativeNameForModes: ['RAIL'],
   showStopStatusMarkers: true,
 

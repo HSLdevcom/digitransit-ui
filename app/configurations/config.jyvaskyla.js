@@ -1,12 +1,12 @@
 import configMerger from '../util/configMerger';
-import { IS_DEV } from '../util/envUtils';
+import { isDevRunEnv } from '../util/envUtils';
 import walttiConfig from './config.waltti';
 
 const CONFIG = 'jyvaskyla';
 const APP_TITLE = 'Reittiopas Jyväskylä';
 const APP_DESCRIPTION = 'Jyväskylän uusi reittiopas';
 
-const virtualMonitorBaseUrl = IS_DEV
+const virtualMonitorBaseUrl = isDevRunEnv()
   ? 'https://dev-jyvaskylamonitori.digitransit.fi'
   : 'https://pysakit.jyvaskyla.fi';
 

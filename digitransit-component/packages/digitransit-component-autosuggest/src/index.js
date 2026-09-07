@@ -1,6 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
-import React, { useEffect, useCallback, useRef, useReducer } from 'react';
+import React, {
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+  useReducer,
+} from 'react';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import cx from 'classnames';
 import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
@@ -416,7 +422,10 @@ function DTAutosuggest({
     inputId: id,
     inputValue: state.value,
     defaultHighlightedIndex: 0,
-    onInputValueChange: ({ inputValue }) =>
+    // Typing is dispatched synchronously by Input. Downshift reports it from an
+    // effect a render late, which would overwrite newer keystrokes.
+    onInputValueChange: ({ inputValue, type }) =>
+      type !== useCombobox.stateChangeTypes.InputChange &&
       dispatch({ type: 'INPUT_CHANGE', value: inputValue }),
     stateReducer: useCallback(
       (oldState, { type, changes }) => {
@@ -522,6 +531,11 @@ function DTAutosuggest({
     openMenu();
   };
 
+  const handleValueChange = useCallback(
+    newValue => dispatch({ type: 'INPUT_CHANGE', value: newValue }),
+    [],
+  );
+
   // Fetch suggestions when isOpen, value, or fetchSuggestions dependencies change
   useEffect(() => {
     // Don't search when the search field (state.value) contains position strings that were given as a prop (value),
@@ -543,15 +557,27 @@ function DTAutosuggest({
     }
   }, [state.loading, state.pendingEnter, state.suggestions]);
 
-  const baseItemProps = {
-    loading: state.loading,
-    isMobile,
-    ariaFavouriteString: t('favourite', { lng }),
-    fontWeights,
-    getAutoSuggestIcons,
-    colors,
-    modeSet,
-  };
+  const baseItemProps = useMemo(
+    () => ({
+      loading: state.loading,
+      isMobile,
+      ariaFavouriteString: t('favourite', { lng }),
+      fontWeights,
+      getAutoSuggestIcons,
+      colors,
+      modeSet,
+    }),
+    [
+      state.loading,
+      isMobile,
+      t,
+      lng,
+      fontWeights,
+      getAutoSuggestIcons,
+      colors,
+      modeSet,
+    ],
+  );
 
   const {
     ariaCurrentSuggestion,
@@ -666,6 +692,7 @@ function DTAutosuggest({
           transportMode={transportMode}
           isMobile={isMobile}
           inputOnBlur={inputOnBlur}
+          onValueChange={handleValueChange}
         />
 
         <Suggestions
