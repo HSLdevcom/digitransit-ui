@@ -3125,7 +3125,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-editing-modal@npm:^5.1.1, @digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
+"@digitransit-component/digitransit-component-favourite-editing-modal@npm:^5.1.2, @digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal"
   dependencies:
@@ -3214,7 +3214,7 @@ __metadata:
     "@digitransit-component/digitransit-component-autosuggest-panel": "npm:^8.4.1"
     "@digitransit-component/digitransit-component-control-panel": "npm:^7.1.5"
     "@digitransit-component/digitransit-component-favourite-bar": "npm:^5.0.7"
-    "@digitransit-component/digitransit-component-favourite-editing-modal": "npm:^5.1.1"
+    "@digitransit-component/digitransit-component-favourite-editing-modal": "npm:^5.1.2"
     "@digitransit-component/digitransit-component-favourite-modal": "npm:^4.0.6"
     "@digitransit-component/digitransit-component-icon": "npm:^2.0.3"
     "@digitransit-component/digitransit-component-suggestion-item": "npm:^3.0.4"
