@@ -47,21 +47,29 @@ or in some systems to build the binaries from code following
 [these instructions](https://facebook.github.io/watchman/docs/install.html#-building-from-source).
 
 ## Installation
-- `yarn install && yarn setup`
+- `yarn install`
 
 ## Start development version
 
 - OSX / Linux: `yarn run dev`
 - open: http://localhost:8080
 
+`yarn run dev` runs `scripts/dev.sh`, which starts Relay, the Express dev server (nodemon),
+webpack-dev-server and `yarn watch-workspaces` (`lerna run watch --parallel --stream`) in parallel.
+`watch-workspaces` builds every `digitransit-component`, `digitransit-store` and
+`digitransit-search-util` package once and then keeps watching/rebuilding them, so a manual
+`yarn setup`/`yarn build-workspaces` is not required beforehand.
+
 ## Start production version
-- First run: `yarn run build`, then run: `yarn run start`
+- First run: `yarn run setup`, then `yarn run build`, then run: `yarn run start`
 - open: http://localhost:8080
 
 ## Modifying sub-modules and components
 
-After you have changed the files in `digitransit-components` you have to re-run `yarn setup` to build those modules
-and apply the changes.
+While `yarn run dev` is running, changes to files in `digitransit-component`, `digitransit-store`
+and `digitransit-search-util` (including its query-utils Relay queries, which are also watched by
+a dedicated `relay-compiler --watch` in `scripts/dev.sh`) are picked up automatically by live
+watchers and rebuilt in the background — no manual rebuild step is needed.
 
 ## Analyse webpack bundle
 - run: `webpack -p --json > digitransit.json`
@@ -81,6 +89,17 @@ Digitransit ui can be configured in multiple ways. You can
 - Switch API backend using `API_URL` parameter
 
 Note that you can combine multiple configuration parameters.
+
+### Run environment vs. build mode
+
+`app/util/envUtils.js` exposes two independent signals — see its JSDoc for details:
+
+- **`RUN_ENV`** (`development` / `production`) — deployment tier. Server-only env var; read during
+  config assembly to pick dev vs prod backends and mirrored into `window.config` for the client.
+  Check it via `isDevRunEnv(config)`. `yarn dev` sets `RUN_ENV=development`; deployments set it via
+  Kubernetes / `-e RUN_ENV=…`.
+- **`NODE_ENV`** (`development` / `production`) — build mode. Check it via the `IS_DEV_BUILD`
+  constant; `true` only for the local `yarn dev` server / a dev bundle.
 
 ### Changing National/Regional version (optional)
 Start national version

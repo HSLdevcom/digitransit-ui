@@ -110,7 +110,7 @@ export function getAnalyticsInitCode(config, req) {
       );
     }
     if (config.crazyEgg) {
-      const surveyShare = process.env.SURVEY_SHARE || 250;
+      const surveyShare = config.SURVEY_SHARE || 250;
       const surveyStartupDelay = 8000;
       const lang = cookies.get('lang');
       const ceBase =

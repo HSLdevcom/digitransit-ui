@@ -1,10 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 require('@babel/register')({
   // This will override `node_modules` ignoring - you can alternatively pass
-  // an array of strings to be explicitly matched or a regex / glob
-  ignore: [
-    /node_modules\/(?!react-leaflet|@babel\/runtime\/helpers\/esm|lodash-es|@digitransit-util|@digitransit-component)/,
-  ],
+  // an array of strings to be explicitly matched or a regex / glob.
+  // react-leaflet is the only node_modules package our unit tests actually
+  // need transpiled (its untranspiled `es/*` source is required by the
+  // custom ESM loader) - verified empirically against the full test suite.
+  ignore: [/node_modules\/(?!react-leaflet)/],
 });
 
 // Prevent Node.js from trying to parse CSS/SCSS files as JavaScript
@@ -17,13 +18,45 @@ require.extensions['.scss'] = () => {};
 // runs before Node's ESM check.
 // eslint-disable-next-line import/no-commonjs
 const Module = require('module');
+const React = require('react');
+const PropTypes = require('prop-types');
 
 const originalLoad = Module._load;
 Module._load = function interceptEsmPackages(request, ...args) {
   if (request === '@hsl-fi/dialog') {
-    // Named arrow functions so Enzyme can match by displayName / function.name
-    const Modal = () => null;
-    const ModalContent = () => null;
+    // Minimal interactive stub for testing app integration.
+    const Modal = ({ open, onOpenChange, children }) =>
+      open
+        ? React.createElement(
+            'div',
+            {
+              role: 'dialog',
+              onKeyDown: event => {
+                if (event.key === 'Escape') {
+                  onOpenChange(false);
+                }
+              },
+              tabIndex: -1,
+            },
+            children,
+          )
+        : null;
+    Modal.propTypes = {
+      open: PropTypes.bool,
+      onOpenChange: PropTypes.func,
+      children: PropTypes.node,
+    };
+    const ModalContent = ({ title, description }) =>
+      React.createElement(
+        'div',
+        { className: 'modal-content' },
+        title,
+        description,
+      );
+    ModalContent.propTypes = {
+      title: PropTypes.node,
+      description: PropTypes.node,
+    };
     const ModalTrigger = () => null;
     const ConfirmationModalContent = () => null;
     const ScrollableModalContent = () => null;

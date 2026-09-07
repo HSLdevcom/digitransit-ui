@@ -8,6 +8,7 @@ import meta from './meta';
 // configuration
 import { getConfiguration } from './config';
 import { getAnalyticsInitCode } from './util/analyticsUtils';
+import { IS_DEV_BUILD } from './util/envUtils';
 
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
@@ -19,7 +20,7 @@ let assets;
 let mainAssets;
 let manifest;
 
-if (process.env.NODE_ENV !== 'development') {
+if (!IS_DEV_BUILD) {
   // eslint-disable-next-line global-require, import/no-unresolved
   assets = require('../manifest.json');
   // eslint-disable-next-line global-require, import/no-unresolved
@@ -83,7 +84,7 @@ function getPolyfills(userAgent, config) {
     .getPolyfillString({
       uaString: userAgent,
       features,
-      minify: process.env.NODE_ENV !== 'development',
+      minify: !IS_DEV_BUILD,
       unknown: 'polyfill',
     })
     .then(polyfills =>
@@ -151,7 +152,7 @@ export default async function serve(req, res, next) {
     });
 
     // Write preload hints before doing anything else
-    if (process.env.NODE_ENV !== 'development') {
+    if (!IS_DEV_BUILD) {
       res.write(getAnalyticsInitCode(config, req));
 
       const preloads = [
@@ -217,7 +218,7 @@ export default async function serve(req, res, next) {
     res.write('</head>\n');
     res.write('<body>\n');
 
-    if (process.env.NODE_ENV !== 'development') {
+    if (!IS_DEV_BUILD) {
       res.write('<script>\n');
       res.write(`fetch('${ASSET_URL}/${assets[spriteName]}')
           .then(function(response) {return response.text();}).then(function(blob) {
@@ -234,7 +235,7 @@ export default async function serve(req, res, next) {
 
     res.write('<div id="app" />');
 
-    if (process.env.NODE_ENV === 'development') {
+    if (IS_DEV_BUILD) {
       res.write('<script async src="/proxy/js/main.js"></script>\n');
     } else {
       res.write('<script>');

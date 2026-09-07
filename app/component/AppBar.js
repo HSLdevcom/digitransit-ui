@@ -39,9 +39,7 @@ export default function AppBar(
 
   return (
     <>
-      {process.env.NODE_ENV !== 'test' && (
-        <MessageBar breakpoint={breakpoint} />
-      )}
+      <MessageBar breakpoint={breakpoint} />
       <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
         <section className="title">
           <button

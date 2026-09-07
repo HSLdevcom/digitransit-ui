@@ -4,7 +4,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import Link from 'found/Link';
 import { fetchQuery } from 'react-relay';
-import { legShape, configShape, relayShape } from '../../util/shapes';
+import { legShape, relayShape } from '../../util/shapes';
 import { legTimeStr, legDestination } from '../../util/legUtils';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
@@ -25,20 +25,19 @@ import { isKeyboardSelectionEvent } from '../../util/browser';
 import StopCode from '../StopCode';
 import PlatformNumber from '../PlatformNumber';
 import nearestQuery from './NearestQuery';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
-export default function BicycleLeg(
-  {
-    focusAction,
-    index,
-    leg,
-    focusToLeg,
-    bicycleWalkLeg,
-    openSettings,
-    nextLegMode,
-    relayEnvironment,
-  },
-  { config },
-) {
+export default function BicycleLeg({
+  focusAction,
+  index,
+  leg,
+  focusToLeg,
+  bicycleWalkLeg,
+  openSettings,
+  nextLegMode,
+  relayEnvironment,
+}) {
+  const config = useConfigContext();
   const intl = useIntl();
   let stopsDescription;
   let circleLine;
@@ -522,8 +521,4 @@ BicycleLeg.defaultProps = {
   bicycleWalkLeg: undefined,
   nextLegMode: undefined,
   relayEnvironment: undefined,
-};
-
-BicycleLeg.contextTypes = {
-  config: configShape.isRequired,
 };

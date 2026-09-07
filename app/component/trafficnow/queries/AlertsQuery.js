@@ -12,6 +12,7 @@ export default graphql`
       effectiveStartDate
       effectiveEndDate
       alertUrl
+      feed
       entities {
         __typename
         ... on Stop {

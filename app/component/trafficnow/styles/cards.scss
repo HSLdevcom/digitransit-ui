@@ -197,6 +197,19 @@
       }
     }
 
+    .disruption-operator-badge {
+      display: flex;
+      flex-direction: row;
+      gap: var(--space-xxs);
+      align-items: center;
+      min-height: 24px;
+      max-width: 200px;
+      padding: 0 12px 0 12px;
+      border: 1px solid $light-gray;
+      border-radius: var(--radius-pill);
+      white-space: nowrap;
+    }
+
     .disruption-card {
       width: 100%;
       display: flex;
@@ -237,6 +250,7 @@
         flex-direction: row;
         align-items: center;
         gap: var(--space-xs);
+        flex-wrap: wrap;
       }
 
       &__icon {

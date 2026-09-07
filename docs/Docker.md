@@ -25,6 +25,10 @@ You must use following additional variables:
 - `-e NODE_ENV=production`
 
 There are also optional variables:
+- `-e RUN_ENV=<development|production>` — deployment run environment (default `production`,
+  server-only). Set `development` on dev/staging instances so the server picks dev backends (dev
+  MQTT broker, dev stop-monitor URLs) when it assembles the config. Also surfaced to the browser
+  as `window.config.RUN_ENV`.
 - `-e API_URL=<..>`
 - `-e MAP_URL=<..>`
 - `-e OTP_URL=<..>`

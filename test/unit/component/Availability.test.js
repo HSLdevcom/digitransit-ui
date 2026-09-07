@@ -1,7 +1,6 @@
 import React from 'react';
-
+import { render } from '@testing-library/react';
 import Availability from '../../../app/component/Availability';
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 
 describe('<Availability />', () => {
   it('should render text', () => {
@@ -13,8 +12,8 @@ describe('<Availability />', () => {
       text: <p className="test-text">foo</p>,
       showStatusBar: true,
     };
-    const wrapper = shallowWithIntl(<Availability {...props} />);
-    expect(wrapper.find('.test-text').text()).to.equal('foo');
+    const { container } = render(<Availability {...props} />);
+    expect(container.querySelector('.test-text').textContent).to.equal('foo');
   });
 
   it('should render status bar when showStatusBar is true', () => {
@@ -26,9 +25,9 @@ describe('<Availability />', () => {
       text: <p className="test-text">foo</p>,
       showStatusBar: true,
     };
-    const wrapper = shallowWithIntl(<Availability {...props} />);
-    expect(wrapper.find('.available-few')).to.have.lengthOf(1);
-    expect(wrapper.find('.available-none')).to.have.lengthOf(1);
+    const { container } = render(<Availability {...props} />);
+    expect(container.querySelectorAll('.available-few')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.available-none')).to.have.lengthOf(1);
   });
 
   it('should not render status bar when showStatusBar is false', () => {
@@ -40,8 +39,8 @@ describe('<Availability />', () => {
       text: <p className="test-text">foo</p>,
       showStatusBar: false,
     };
-    const wrapper = shallowWithIntl(<Availability {...props} />);
-    expect(wrapper.find('.available-few')).to.have.lengthOf(0);
-    expect(wrapper.find('.available-none')).to.have.lengthOf(0);
+    const { container } = render(<Availability {...props} />);
+    expect(container.querySelectorAll('.available-few')).to.have.lengthOf(0);
+    expect(container.querySelectorAll('.available-none')).to.have.lengthOf(0);
   });
 });

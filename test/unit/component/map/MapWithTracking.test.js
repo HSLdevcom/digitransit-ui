@@ -1,8 +1,6 @@
 import React from 'react';
-import sinon from 'sinon';
-
+import { renderWithProviders } from '../../helpers/mock-providers';
 import { mockContext } from '../../helpers/mock-context';
-import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
 import { Component as MapWithTracking } from '../../../../app/component/map/MapWithTracking';
 
 const defaultProps = {
@@ -17,38 +15,39 @@ const defaultProps = {
   lat: 60,
   lon: 25,
   zoom: 12,
+  leafletObjs: [],
   mapLayers: { stop: {}, terminal: {} },
   breakpoint: 'large',
   lang: 'fi',
 };
 
-const defaultContext = {
-  ...mockContext,
-  config: {
-    CONFIG: 'default',
-    realTime: {
-      tampere: {
-        gtfsRt: 'foobar',
-        routeSelector: () => '32',
-        active: false,
-      },
-    },
-    vehicles: false,
-    feedIds: [],
-    map: {
-      // DT-3470
-      showZoomControl: true,
-    },
-    stopsMinZoom: 12,
-  },
-  executeAction: sinon.stub(),
-};
-
 describe('<MapWithTracking />', () => {
+  const originalGetContext = HTMLCanvasElement.prototype.getContext;
+
+  before(() => {
+    HTMLCanvasElement.prototype.getContext = () => ({});
+    global.requestAnimationFrame = callback => setTimeout(callback, 0);
+    global.cancelAnimationFrame = id => clearTimeout(id);
+  });
+
+  after(() => {
+    HTMLCanvasElement.prototype.getContext = originalGetContext;
+  });
+
   it('should render', () => {
-    const wrapper = shallowWithIntl(<MapWithTracking {...defaultProps} />, {
-      context: { ...defaultContext },
-    });
-    expect(wrapper.isEmptyRender()).to.equal(false);
+    const { container } = renderWithProviders(
+      <MapWithTracking {...defaultProps} />,
+      {
+        config: {
+          ...mockContext.config,
+          realTime: {},
+          vehicles: false,
+          feedIds: [],
+          map: { ...mockContext.config.map, showZoomControl: true },
+          stopsMinZoom: 12,
+        },
+      },
+    );
+    expect(container.innerHTML).to.not.equal('');
   });
 });

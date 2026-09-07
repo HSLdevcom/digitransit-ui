@@ -100,11 +100,7 @@ function RouteControlPanel(
   };
 
   const routeNotifications = [];
-  if (
-    config.NODE_ENV !== 'test' &&
-    config.routeNotifications &&
-    config.routeNotifications.length > 0
-  ) {
+  if (config.routeNotifications && config.routeNotifications.length > 0) {
     for (let i = 0; i < config.routeNotifications.length; i++) {
       const n = config.routeNotifications[i];
       if (n.showForRoute?.(route)) {
@@ -198,7 +194,7 @@ function RouteControlPanel(
         }
 
         const { realTime } = config;
-        if (realTime && process.env.NODE_ENV !== 'test') {
+        if (realTime) {
           const { feedId, entityId } = splitGtfsId(route.gtfsId);
           const source = realTime[feedId];
           if (source?.active && isActiveDate(selectedPattern)) {
@@ -281,7 +277,7 @@ function RouteControlPanel(
       }
     } else if (isActivePattern) {
       const { realTime } = config;
-      if (realTime && process.env.NODE_ENV !== 'test') {
+      if (realTime) {
         const source = realTime[feedId];
         if (source?.active) {
           const id =

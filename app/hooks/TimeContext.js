@@ -5,14 +5,13 @@ import PropTypes from 'prop-types';
 export const TWICE_PER_MINUTE = 30 * 1000;
 
 function getCurrentUnixTime() {
-  if (process.env.NODE_ENV === 'test') {
-    // Set current time to Tue Dec 28 2021 for E2E-tests
-    return Math.floor(Date.parse('2021-12-28T12:57:00+00:00') / 1000);
-  }
   return Math.floor(Date.now() / 1000);
 }
 
 const TimeContext = createContext();
+
+// Exported for test helpers that need to provide a fixed time value.
+export { TimeContext };
 
 /**
  * Provides the current unix time (in seconds), refreshed every 30 seconds.

@@ -8,6 +8,7 @@ const DEFAULT_FILTERS = Object.freeze({
   noEffect: 'NO_EFFECT',
   validityPeriod: 'ALL',
   vehicleModes: [],
+  selectedFeeds: [],
 });
 
 const FilterContextProvider = ({ children }) => {

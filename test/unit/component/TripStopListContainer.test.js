@@ -1,7 +1,7 @@
 import React from 'react';
-import TripRouteStop from '../../../app/component/routepage/TripRouteStop';
 import { Component as TripStopListContainer } from '../../../app/component/routepage/TripStopListContainer';
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../helpers/mock-providers';
+import { mockContext } from '../helpers/mock-context';
 
 describe('<TripStopListContainer />', () => {
   it('should properly mark passed stops when vehicle information is missing', () => {
@@ -44,23 +44,21 @@ describe('<TripStopListContainer />', () => {
       tripStart: '',
       breakpoint: 'large',
     };
-    const wrapper = shallowWithIntl(<TripStopListContainer {...props} />, {
-      config: { CONFIG: 'default', colors: { primary: '#007AC9' } },
-      currentTime: serviceDay + 2000,
-    });
-    expect(wrapper.find(TripRouteStop)).to.have.lengthOf(2);
-    expect(wrapper.find(TripRouteStop).at(0).prop('stopPassed')).to.equal(true);
-    expect(wrapper.find(TripRouteStop).at(1).prop('stopPassed')).to.equal(
-      false,
+    const { container } = renderWithProviders(
+      <TripStopListContainer {...props} />,
+      {
+        config: { ...mockContext.config, colors: { primary: '#007AC9' } },
+        currentTime: serviceDay + 2000,
+      },
     );
+    const stops = container.querySelectorAll('.route-stop');
+    expect(stops).to.have.lengthOf(2);
+    expect(stops[0].classList.contains('passed')).to.equal(true);
+    expect(stops[1].classList.contains('passed')).to.equal(false);
   });
 
-  it('should find the selected vehicle', () => {
+  it('should render the selected vehicle at its next stop', () => {
     const props = {
-      locationState: {},
-      relay: {
-        forceFetch: () => {},
-      },
       trip: {
         gtfsId: 'HSL:1',
         pattern: {
@@ -83,29 +81,17 @@ describe('<TripStopListContainer />', () => {
               lon: 24.738517,
               alerts: [],
             },
+            realtimeArrival: 36300,
             realtimeDeparture: 36300,
-            realtime: true,
             scheduledDeparture: 36300,
             serviceDay: 1554843600,
+            realtime: true,
             realtimeState: 'UPDATED',
           },
         ],
       },
       tripStart: '1005',
       vehicles: {
-        HSL_00225: {
-          id: 'HSL_00225',
-          route: 'HSL:6172',
-          direction: 1,
-          tripStartTime: '1016',
-          operatingDay: '2019-04-10',
-          mode: 'bus',
-          next_stop: '6040278',
-          timestamp: 1554881821,
-          lat: 60.1305,
-          long: 24.42246,
-          heading: 89,
-        },
         HSL_00875: {
           id: 'HSL_00875',
           route: 'HSL:6172',
@@ -113,22 +99,24 @@ describe('<TripStopListContainer />', () => {
           tripStartTime: '1005',
           operatingDay: '2019-04-10',
           mode: 'bus',
-          next_stop: '6040231',
+          shortName: '875',
+          next_stop: 'HSL:2314219',
           timestamp: 1554881822,
           lat: 60.12307,
           long: 24.41071,
           heading: 140,
         },
       },
-      color: '',
       breakpoint: 'large',
     };
-    const wrapper = shallowWithIntl(<TripStopListContainer {...props} />, {
-      config: { CONFIG: 'default', colors: { primary: '#007AC9' } },
-      currentTime: 1554882006,
-    });
-    expect(wrapper.find(TripRouteStop).prop('selectedVehicle').id).to.equal(
-      'HSL_00875',
+    const { container } = renderWithProviders(
+      <TripStopListContainer {...props} />,
+      {
+        config: { ...mockContext.config, colors: { primary: '#007AC9' } },
+        currentTime: 1554882006,
+      },
     );
+    expect(container.querySelectorAll('.route-stop')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.route-stop-now')).to.have.lengthOf(1);
   });
 });

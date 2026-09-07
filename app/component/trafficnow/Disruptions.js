@@ -22,13 +22,20 @@ import { TRAFFICNOW } from '../../util/path';
 import { splitGtfsId } from '../../util/gtfs';
 
 // filters out routes with non relevant feedId:s and modes without any routes
-export function getCanceledModes(cancelationsByMode, feedIds) {
+export function getCanceledModes(
+  cancelationsByMode,
+  feedIds,
+  selectedFeeds = [],
+) {
   return Object.entries(cancelationsByMode)
     .map(([key, value]) => ({
       key,
       ...value,
-      routes: value.routes.filter(({ route }) =>
-        feedIds.includes(splitGtfsId(route.gtfsId).feedId),
+      routes: value.routes.filter(
+        ({ route }) =>
+          feedIds.includes(splitGtfsId(route.gtfsId).feedId) &&
+          (!selectedFeeds.length ||
+            selectedFeeds.includes(splitGtfsId(route.gtfsId).feedId)),
       ),
     }))
     .filter(({ routes }) => routes.length);
@@ -80,8 +87,13 @@ export default function Disruptions() {
   );
 
   const canceledModes = useMemo(
-    () => getCanceledModes(cancelationsByMode, config.feedIds),
-    [cancelationsByMode, config.feedIds],
+    () =>
+      getCanceledModes(
+        cancelationsByMode,
+        config.feedIds,
+        selectedFilters.selectedFeeds,
+      ),
+    [cancelationsByMode, config.feedIds, selectedFilters.selectedFeeds],
   );
 
   const canceledModesFiltered =
@@ -101,8 +113,6 @@ export default function Disruptions() {
 
   const mobile = breakpoint !== 'large';
 
-  const noResults = !disruptions.length && !canceledModes.length;
-
   const resultAmount = canceledModesFiltered.length + disruptionCards.length;
 
   return (
@@ -112,7 +122,7 @@ export default function Disruptions() {
         'disruptions--mobile': mobile,
       })}
     >
-      {noResults ? (
+      {!resultAmount ? (
         <NoDisruptions />
       ) : (
         <>
