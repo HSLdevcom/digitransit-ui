@@ -203,7 +203,7 @@ function ItineraryLine({
     if (!passive && showIntermediateStops && leg.intermediatePlaces != null) {
       leg.intermediatePlaces
         .filter(place => place.stop)
-        .forEach(place =>
+        .forEach(place => {
           objs.push(
             <StopMarker
               disableModeIcons
@@ -213,8 +213,8 @@ function ItineraryLine({
               mode={mode}
               thin
             />,
-          ),
-        );
+          );
+        });
     }
   }
 
