@@ -124,7 +124,7 @@ export default function CustomizeSearch({ onToggleClick, mobile }) {
             <Scooters updateSettings={updateSettings} />
           </div>
         )}
-        {(config.flex.external.enabled || config.carPickupZone.enabled) &&
+        {(config.flex.external.enabled || config.taxiZone.enabled) &&
           config.transportModes.taxi.availableForSelection && (
             <div className="settings-section">
               <TaxiOptions

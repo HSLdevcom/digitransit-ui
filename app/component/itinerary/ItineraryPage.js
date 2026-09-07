@@ -73,7 +73,7 @@ import {
   mergeExternalFlexPlan,
   mergeScooterTransitPlan,
   mergeInternalFlexPlan,
-  mergeCarPickupZonePlan,
+  mergeTaxiZonePlan,
   parseCarTransitPlan,
   quitIteration,
   reportError,
@@ -180,7 +180,7 @@ export default function ItineraryPage(props, context) {
   const [scooterState, setScooterState] = useState(unset);
   const [externalFlexState, setExternalFlexState] = useState(unset);
   const [internalFlexState, setInternalFlexState] = useState(unset);
-  const [carPickupZoneState, setCarPickupZoneState] = useState(unset);
+  const [taxiZoneState, setTaxiZoneState] = useState(unset);
   const [isNavigatorIntroDismissed, setNavigatorIntroDismissed] = useState(
     getDialogState('navi-intro'),
   );
@@ -610,24 +610,24 @@ export default function ItineraryPage(props, context) {
     }
   }
 
-  async function makeCarPickupZoneQuery() {
-    if (!planQueryNeeded(config, match, PLANTYPE.CARPICKUPZONE)) {
-      setCarPickupZoneState(emptyPlan);
+  async function makeTaxiZoneQuery() {
+    if (!planQueryNeeded(config, match, PLANTYPE.TAXIZONE)) {
+      setTaxiZoneState(emptyPlan);
       return;
     }
-    setCarPickupZoneState({ loading: LOADSTATE.LOADING });
+    setTaxiZoneState({ loading: LOADSTATE.LOADING });
     const planParams = getPlanParams(
       config,
       match,
-      PLANTYPE.CARPICKUPZONE,
+      PLANTYPE.TAXIZONE,
       false, // no relaxed settings
     );
     try {
       const plan = await iterateQuery(planParams);
-      setCarPickupZoneState({ plan, loading: LOADSTATE.DONE });
+      setTaxiZoneState({ plan, loading: LOADSTATE.DONE });
     } catch (error) {
       reportError(error);
-      setCarPickupZoneState(emptyPlan);
+      setTaxiZoneState(emptyPlan);
     }
   }
 
@@ -1058,7 +1058,7 @@ export default function ItineraryPage(props, context) {
     makeScooterQuery();
     makeExternalFlexQuery();
     makeInternalFlexQuery();
-    makeCarPickupZoneQuery();
+    makeTaxiZoneQuery();
     makeMainQuery();
     Object.keys(altStates).forEach(key => makeAltQuery(key));
 
@@ -1179,7 +1179,7 @@ export default function ItineraryPage(props, context) {
       scooterState.loading === LOADSTATE.DONE &&
       externalFlexState.loading === LOADSTATE.DONE &&
       internalFlexState.loading === LOADSTATE.DONE &&
-      carPickupZoneState.loading === LOADSTATE.DONE
+      taxiZoneState.loading === LOADSTATE.DONE
     ) {
       let plan = mergeScooterTransitPlan(
         scooterState.plan,
@@ -1207,13 +1207,13 @@ export default function ItineraryPage(props, context) {
         );
       }
 
-      if (carPickupZoneState.plan?.edges) {
-        plan = mergeCarPickupZonePlan(
-          carPickupZoneState.plan,
+      if (taxiZoneState.plan?.edges) {
+        plan = mergeTaxiZonePlan(
+          taxiZoneState.plan,
           plan,
           match.location.query.arriveBy === 'true',
-          config.carPickupZone.showBothDirectAndTransitResults,
-          config.carPickupZone.allowedRouteTypes,
+          config.taxiZone.showBothDirectAndTransitResults,
+          config.taxiZone.allowedRouteTypes,
         );
       }
 
@@ -1232,7 +1232,7 @@ export default function ItineraryPage(props, context) {
     mainState.plan,
     externalFlexState.plan,
     internalFlexState.plan,
-    carPickupZoneState.plan,
+    taxiZoneState.plan,
   ]);
 
   // merge the relaxed scooter plan and the relaxed flex plan into one

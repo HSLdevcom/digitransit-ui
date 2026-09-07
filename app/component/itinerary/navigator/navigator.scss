@@ -677,11 +677,6 @@
     &.success {
       background-color: $theme-success-color;
       gap: var(--space-xs);
-
-      button {
-        color: white;
-        background-color: $realtime-color;
-      }
     }
   }
 }

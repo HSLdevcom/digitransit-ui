@@ -15,6 +15,10 @@ node_modules
 # Lerna's debug log, written when a lerna command errors out.
 lerna-debug.log
 
+# JSON summary written by `lerna publish --summary-file` (used by the
+# publish-npm CI job); only produced when actually publishing.
+lerna-publish-summary.json
+
 # Main app webpack build reports/manifests (see webpack.config.babel.js)
 filesizes.html
 stats.json
