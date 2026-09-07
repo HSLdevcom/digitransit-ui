@@ -90,17 +90,19 @@ export default function TrafficNowHeader() {
         <Icon icon={ArrowRightS} size="s" />
         <Text>{formatMessage({ id: 'traffic-now' })}</Text>
       </span>
-      <Text variant="heading-l" as="h2">
-        {formatMessage({ id: 'traffic-now' })}
-      </Text>
+      <div className="traffic-now__header-text-area">
+        <Text variant="heading-l" as="h2">
+          {formatMessage({ id: 'traffic-now' })}
+        </Text>
 
-      <Text variant="text-l" as="p">
-        <span>{formatMessage({ id: 'traffic-now_description' })}</span>
-        {CONFIG === 'hsl' && <AdditionalDescription />}
-      </Text>
-      {logo && desktop && (
-        <img src={logo} alt="" className="traffic-now__header-image" />
-      )}
+        <Text variant="text-l" as="p">
+          <span>{formatMessage({ id: 'traffic-now_description' })}</span>
+          {CONFIG === 'hsl' && <AdditionalDescription />}
+        </Text>
+        {logo && desktop && (
+          <img src={logo} alt="" className="traffic-now__header-image" />
+        )}
+      </div>
     </header>
   );
 }

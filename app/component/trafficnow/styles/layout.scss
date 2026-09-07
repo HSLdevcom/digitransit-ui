@@ -39,15 +39,21 @@
   &__header {
     display: flex;
     flex-direction: column;
-    gap: var(--space-m);
-    padding: var(--space-l) $padding-horizontal-gutter var(--space-xl)
-      $padding-horizontal-gutter;
+    padding: 30px var(--padding-horizontal-gutter) var(--space-xl)
+      var(--padding-horizontal-gutter);
     flex: 0 0 50%;
 
     &-image {
       position: absolute;
       right: 0;
       bottom: 0;
+    }
+
+    &-text-area {
+      padding-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
     &-breadcrumb {
@@ -101,6 +107,10 @@
       flex-direction: column;
       min-width: 0;
       min-height: 0;
+      overflow: auto;
+      padding: var(--space-xl) var(--padding-horizontal-gutter) var(--space-xl)
+        var(--space-xl);
+      gap: var(--space-s);
 
       &__scroll {
         overflow: auto;
@@ -325,7 +335,7 @@
       max-width: 480px;
       background-color: $white;
       flex-shrink: 0;
-      padding-left: $padding-horizontal-gutter;
+      padding-left: var(--padding-horizontal-gutter);
       border-right: 1px solid $light-gray;
     }
 
