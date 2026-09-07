@@ -5,7 +5,6 @@ import { RadioGroup } from '@hsl-fi/form';
 import { Text } from '@hsl-fi/layout-primitives';
 import { useIntl } from 'react-intl';
 import { useConfigContext } from '../../../configurations/ConfigContext';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { setPersonalization } from '../../../store/localStorage';
 
 export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
@@ -24,33 +23,14 @@ export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
   const remove = intl.formatMessage({ id: 'personalization-history-remove' });
 
   const handlePrimaryClick = () => {
-    // if (!action) return;
-    addAnalyticsEvent({
-      category: 'Personalization',
-      action: 'continue',
-      name: action,
-    });
     if (action === 'remove') {
       setPersonalization({});
     }
     onContinue();
   };
 
-  const handleSecondaryClick = () => {
-    addAnalyticsEvent({
-      category: 'Personalization',
-      action: 'cancel',
-      name: null,
-    });
-    onClose();
-  };
-
   return (
-    <Modal
-      lang={config.language}
-      onOpenChange={handleSecondaryClick}
-      open={open}
-    >
+    <Modal lang={config.language} onOpenChange={onClose} open={open}>
       <ModalContent
         title={title}
         description={<Text variant="text-s">{description}</Text>}
@@ -63,7 +43,7 @@ export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
           },
           {
             children: cancel,
-            onClick: handleSecondaryClick,
+            onClick: onClose,
             variant: 'secondary',
           },
         ]}

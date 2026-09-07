@@ -1401,6 +1401,11 @@ export default function ItineraryPage(props, context) {
   };
 
   const giveFeedback = (i, itinerary, liked) => {
+    addAnalyticsEvent({
+      event: 'personalization_feedback',
+      feedback_successful: liked ? 'yes' : 'no',
+      feedback_location: 'reittiohje',
+    });
     weights.current = applyFeedback(weights.current, itinerary, liked);
     setPersonalization({ weights: weights.current }); // save to local storage
     const updated = { ...feedback };
