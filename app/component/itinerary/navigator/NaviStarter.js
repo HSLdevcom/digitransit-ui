@@ -1,4 +1,4 @@
-import Button from '@hsl-fi/button';
+import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -72,11 +72,9 @@ const NaviStarter = (
       </div>
       <div className="navi-initializer-card success">
         <FormattedMessage id="navigation-journey-start-early-prompt" />
-        <Button
-          size="small"
-          value={intl.formatMessage({ id: 'navigation-intro-begin' })}
-          onClick={handleClick}
-        />
+        <Button size="s" variant="success" onClick={handleClick}>
+          {intl.formatMessage({ id: 'navigation-intro-begin' })}
+        </Button>
       </div>
     </div>
   );

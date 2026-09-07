@@ -3125,7 +3125,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-editing-modal@npm:^5.1.1, @digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
+"@digitransit-component/digitransit-component-favourite-editing-modal@npm:^5.1.2, @digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal"
   dependencies:
@@ -3133,7 +3133,7 @@ __metadata:
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^4.0.0
     "@digitransit-component/digitransit-component-icon": ^2.0.2
-    "@hsl-fi/container-spinner": 0.3.2
+    "@hsl-fi/loading-indicators": ^2.0.0
     "@hsl-fi/modal": ^0.3.2
     "@hsl-fi/sass": 1.0.0
     i18next: ^22.5.1
@@ -3214,14 +3214,14 @@ __metadata:
     "@digitransit-component/digitransit-component-autosuggest-panel": "npm:^8.4.1"
     "@digitransit-component/digitransit-component-control-panel": "npm:^7.1.5"
     "@digitransit-component/digitransit-component-favourite-bar": "npm:^5.0.7"
-    "@digitransit-component/digitransit-component-favourite-editing-modal": "npm:^5.1.1"
+    "@digitransit-component/digitransit-component-favourite-editing-modal": "npm:^5.1.2"
     "@digitransit-component/digitransit-component-favourite-modal": "npm:^4.0.6"
     "@digitransit-component/digitransit-component-icon": "npm:^2.0.3"
     "@digitransit-component/digitransit-component-suggestion-item": "npm:^3.0.4"
     "@digitransit-component/digitransit-component-with-breakpoint": "npm:^1.0.2"
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": ^4.0.0
-    "@hsl-fi/container-spinner": 0.3.2
+    "@hsl-fi/loading-indicators": ^2.0.0
     "@hsl-fi/modal": ^0.3.2
     "@hsl-fi/sass": 1.0.0
     "@hsl-fi/shimmer": 0.1.2
