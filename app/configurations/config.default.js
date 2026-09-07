@@ -900,7 +900,7 @@ export default {
     },
     taxiExternalIcon: 'icon_taxi-external',
   },
-  carPickupZone: {
+  taxiZone: {
     enabled: false,
     direct: false,
     transit: false,

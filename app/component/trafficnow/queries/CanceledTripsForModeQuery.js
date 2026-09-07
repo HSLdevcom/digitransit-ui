@@ -4,11 +4,11 @@ import './CanceledTripsPatternFragment';
 export default graphql`
   query CanceledTripsForModeQuery(
     $mode: TransitMode!
-    $serviceDateRanges: [LocalDateRangeInput!]!
+    $runningTimeRanges: [OffsetDateTimeRangeInput!]
   ) {
     canceledTripsSummary(
       filters: {
-        include: { modes: [$mode], serviceDateRanges: $serviceDateRanges }
+        include: { modes: [$mode], runningTimeRanges: $runningTimeRanges }
       }
     ) {
       routes {
@@ -24,7 +24,7 @@ export default graphql`
           pattern {
             code
             ...CanceledTripsPatternFragment
-              @arguments(serviceDateRanges: $serviceDateRanges)
+              @arguments(runningTimeRanges: $runningTimeRanges)
           }
         }
       }
