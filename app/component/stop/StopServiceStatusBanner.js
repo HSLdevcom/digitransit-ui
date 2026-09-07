@@ -25,6 +25,8 @@ function getModeStopIconName(mode) {
       return 'MetroStop';
     case 'ferry':
       return 'FerryStop';
+    case 'ferry-external':
+      return 'FerryExternalStop';
     case 'citybike':
       return 'CitybikeStation';
     case 'scooter':
