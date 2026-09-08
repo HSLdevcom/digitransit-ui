@@ -60,6 +60,12 @@ webpack-dev-server and `yarn watch-workspaces` (`lerna run watch --parallel --st
 `digitransit-search-util` package once and then keeps watching/rebuilding them, so a manual
 `yarn setup`/`yarn build-workspaces` is not required beforehand.
 
+There's also a lighter-weight `yarn dev-nowatch`, which only runs the Express dev server and
+webpack-dev-server (no Relay/workspace-package watchers). Since it skips `watch-workspaces`, on a
+fresh clone you must run `yarn build-workspaces` yourself first, or webpack fails with
+`Module not found` errors for `@digitransit-component/*`/`@digitransit-search-util/*`/
+`@digitransit-store/*` packages.
+
 ## Start production version
 - First run: `yarn run setup`, then `yarn run build`, then run: `yarn run start`
 - open: http://localhost:8080
