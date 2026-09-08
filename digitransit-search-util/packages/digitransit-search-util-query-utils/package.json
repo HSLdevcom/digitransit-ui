@@ -12,8 +12,8 @@
     "pretest": "yarn build",
     "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs",
-    "relay": "mkdir -p lib/__generated__ && relay-compiler && echo '{\"type\":\"commonjs\"}' > lib/__generated__/package.json",
-    "relay-watch": "mkdir -p lib/__generated__ && relay-compiler --watch",
+    "relay": "mkdir -p lib/__generated__ && relay-compiler && echo '{\"type\":\"commonjs\"}' > lib/package.json",
+    "relay-watch": "mkdir -p lib/__generated__ && echo '{\"type\":\"commonjs\"}' > lib/package.json && relay-compiler --watch",
     "watch": "yarn relay && NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "build": "yarn relay && NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
