@@ -158,9 +158,9 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  externalFeedIds: ['02Taksi_carpickupzone'],
+  externalFeedIds: ['02Taksi'],
 
-  carPickupZone: {
+  taxiZone: {
     enabled: isDevRunEnv(),
     transit: isDevRunEnv(),
     direct: false,
