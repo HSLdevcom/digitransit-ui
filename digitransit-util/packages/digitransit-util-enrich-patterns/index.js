@@ -4,7 +4,8 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable prefer-destructuring */
 import dayRangeAllowedDiff from '@digitransit-util/digitransit-util-day-range-allowed-diff';
-import cloneDeep from 'lodash/cloneDeep';
+import dayRangePattern from '@digitransit-util/digitransit-util-day-range-pattern';
+import cloneDeep from 'lodash/cloneDeep.js';
 import { DateTime } from 'luxon';
 
 const DATE_FORMAT = 'yyyyLLdd';
@@ -120,6 +121,7 @@ export default function enrichPatterns(
     futureTrips[y].lastRangeDate = lastRangeDate.toFormat(DATE_FORMAT);
     futureTrips[y].rangeFollowingDays = rangeFollowingDays;
     futureTrips[y].dayDiff = dayDiff;
+    futureTrips[y].dayString = dayRangePattern(dayNumbers);
     futureTrips[y].activeDates = Array.from(new Set(actDates.sort()));
     futureTrips[y].allowedDiff = dayRangeAllowedDiff(
       dayNumbers,

@@ -256,7 +256,7 @@ const SuggestionItem = memo(
       if (item.properties?.color) {
         iconColor = `#${item.properties.color}`;
       } else if (iconId === 'position' || isFavourite(item)) {
-        iconColor = colors.primary;
+        iconColor = colors?.primary || defaultColors.primary;
       } else {
         iconColor = colors?.[colorId] || defaultColors[colorId] || '#888';
       }

@@ -1,14 +1,15 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-distance",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "digitransit-search-util distance module",
   "main": "index.js",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs"
   },
   "repository": {
     "type": "git",

@@ -97,11 +97,11 @@ yarn static
 # clone (or after `lib/` is removed/out of date) the packages' `lib/*.cjs`
 # outputs don't exist yet; webpack-dev-server's persistent filesystem cache
 # (see webpack.config.babel.js) doesn't reliably invalidate when those
-# outputs later appear via watch-workspaces's rollup watch, so it
+# outputs later appear via workspace-packages-watch's rollup watch, so it
 # can permanently cache a broken/missing module resolution. Building here
 # first ensures webpack-dev-server always sees valid output on its first
 # compile.
-yarn build-workspaces
+yarn workspace-packages-build
 
 yarn relay-watch &
 pids+=("$!")
@@ -126,7 +126,7 @@ pids+=("$!")
 yarn webpack-dev-server &
 pids+=("$!")
 
-yarn watch-workspaces &
+yarn workspace-packages-watch &
 pids+=("$!")
 
 # If any dev process exits, terminate the rest.

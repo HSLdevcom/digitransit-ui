@@ -1,10 +1,8 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable func-names */
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, expect } from 'vitest';
 import { DateTime } from 'luxon';
-import cloneDeep from 'lodash/cloneDeep';
-import routePatternOptionText from '.';
+import cloneDeep from 'lodash/cloneDeep.js';
+import routePatternOptionText from './index.js';
 
 const languages = ['fi', 'en', 'sv'];
 
@@ -235,7 +233,7 @@ describe('Testing @digitransit-util/digitransit-util-route-pattern-option-text m
             pattern,
             test.togglable,
           );
-          expect(retValue).to.be.equal(test.expected[index]);
+          expect(retValue).toBe(test.expected[index]);
         });
       });
     });

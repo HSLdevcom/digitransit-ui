@@ -1,21 +1,76 @@
-/* eslint-disable import/no-extraneous-dependencies */
+import { describe, it, expect } from 'vitest';
 import React from 'react';
-import Adapter from 'enzyme-adapter-react-16';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { shallow, configure } from 'enzyme';
-import Icon from '@digitransit-component/digitransit-component-icon';
-import SuggestionItem, { getStopBadge, STOP_STATUS_BADGE_IMGS } from './src';
-
-configure({ adapter: new Adapter() });
+import { render, screen } from '@testing-library/react';
+import SuggestionItem, {
+  getStopBadge,
+  STOP_STATUS_BADGE_IMGS,
+} from './src/index.js';
 
 describe('Testing @digitransit-component/digitransit-component-suggestion-item module', () => {
-  const item = {};
-  const content = ['suggestionType', 'label', 'name'];
-  const wrapper = shallow(<SuggestionItem item={item} content={content} />);
+  it('renders a geocoded address suggestion with name and label', () => {
+    const item = {
+      type: 'Address',
+      name: 'Mannerheimintie 1',
+      address: 'Mannerheimintie 1, Helsinki',
+      properties: { layer: 'address' },
+    };
+    render(
+      <SuggestionItem
+        item={item}
+        content={['Osoite', 'Mannerheimintie 1', 'Helsinki']}
+      />,
+    );
+    expect(screen.getByText('Mannerheimintie 1')).toBeTruthy();
+    expect(screen.getByText('Helsinki')).toBeTruthy();
+  });
 
-  it('should render', () => {
-    expect(wrapper.isEmptyRender()).to.equal(false);
+  it('renders a favourite place using only its name', () => {
+    const item = {
+      type: 'FavouritePlace',
+      name: 'Home',
+      address: 'Kotikatu 1, Helsinki',
+      selectedIconId: 'icon-icon_home',
+      properties: { layer: 'favouritePlace' },
+    };
+    render(
+      <SuggestionItem
+        item={item}
+        content={['Suosikki', 'Home', 'Kotikatu 1, Helsinki']}
+        colors={{ primary: '#0074bf' }}
+      />,
+    );
+    expect(screen.getByText('Home')).toBeTruthy();
+  });
+
+  it('renders a stop suggestion with its stop code shown separately from the name', () => {
+    const item = {
+      type: 'Stop',
+      properties: { layer: 'stop', id: '1234' },
+    };
+    render(
+      <SuggestionItem
+        item={item}
+        content={['Pysäkki', 'Rautatientori', 'Helsinki', '1234']}
+      />,
+    );
+    expect(screen.getByText('Rautatientori')).toBeTruthy();
+    expect(screen.getByText('1234')).toBeTruthy();
+  });
+
+  it('renders a future route suggestion with both origin and destination names', () => {
+    const item = {
+      type: 'FutureRoute',
+      translatedText: 'Coming Friday',
+      properties: {
+        layer: 'futureRoute',
+        origin: { name: 'Pasila', localadmin: 'Helsinki' },
+        destination: { name: 'Myyrmäki', localadmin: 'Vantaa' },
+      },
+    };
+    render(<SuggestionItem item={item} content={['Tuleva reitti']} />);
+    expect(screen.getByText('Pasila')).toBeTruthy();
+    expect(screen.getByText('Myyrmäki')).toBeTruthy();
+    expect(screen.getByText('Coming Friday')).toBeTruthy();
   });
 
   const stopItem = {
@@ -25,24 +80,25 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
       addendum: { GTFS: { noService: true } },
     },
   };
+  const content = ['Pysäkki', 'Rautatientori', 'Helsinki', '1234'];
 
   it('does not render a badge when showStopStatusMarkers is false', () => {
-    const noBadgeWrapper = shallow(
+    const { container } = render(
       <SuggestionItem item={stopItem} content={content} />,
     );
-    expect(noBadgeWrapper.find(Icon)).to.have.lengthOf(1);
+    expect(container.querySelector('.suggestion-status-badge')).toBeNull();
   });
 
   it('renders a badge when showStopStatusMarkers is true and a badge applies', () => {
-    const badgeWrapper = shallow(
+    const { container } = render(
       <SuggestionItem
         item={stopItem}
         content={content}
         showStopStatusMarkers
       />,
     );
-    const badgeIcon = badgeWrapper.find(Icon).at(1);
-    expect(badgeIcon.prop('img')).to.equal(
+    expect(container.querySelector('.suggestion-status-badge')).toBeTruthy();
+    expect(getStopBadge(stopItem)).toBe(
       STOP_STATUS_BADGE_IMGS['out-of-service'],
     );
   });
@@ -56,11 +112,11 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
           addendum: { GTFS: { noService: true } },
         },
       };
-      expect(getStopBadge(nonStopItem)).to.equal(null);
+      expect(getStopBadge(nonStopItem)).toBe(null);
     });
 
     it('returns null when item.properties is missing entirely', () => {
-      expect(getStopBadge({})).to.equal(null);
+      expect(getStopBadge({})).toBe(null);
     });
 
     ['stop', 'favouriteStop', 'station', 'favouriteStation'].forEach(layer => {
@@ -72,7 +128,7 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
             addendum: { GTFS: { noService: true } },
           },
         };
-        expect(getStopBadge(layerItem)).to.equal(
+        expect(getStopBadge(layerItem)).toBe(
           STOP_STATUS_BADGE_IMGS['out-of-service'],
         );
       });
@@ -86,7 +142,7 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
           addendum: { GTFS: { noService: true } },
         },
       };
-      expect(getStopBadge(noIdItem)).to.equal(null);
+      expect(getStopBadge(noIdItem)).toBe(null);
     });
 
     it('extracts the gtfsId from item.properties.gid', () => {
@@ -97,7 +153,7 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
           addendum: { GTFS: { noService: true } },
         },
       };
-      expect(getStopBadge(gidItem)).to.equal(
+      expect(getStopBadge(gidItem)).toBe(
         STOP_STATUS_BADGE_IMGS['out-of-service'],
       );
     });
@@ -116,7 +172,7 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
           },
         },
       };
-      expect(getStopBadge(priorityItem)).to.equal(
+      expect(getStopBadge(priorityItem)).toBe(
         STOP_STATUS_BADGE_IMGS['out-of-service'],
       );
     });
@@ -134,7 +190,7 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
           },
         },
       };
-      expect(getStopBadge(noServiceTodayItem)).to.equal(
+      expect(getStopBadge(noServiceTodayItem)).toBe(
         STOP_STATUS_BADGE_IMGS['no-service-today'],
       );
     });
@@ -147,7 +203,7 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
           addendum: { GTFS: { alertSeverity: 'alert' } },
         },
       };
-      expect(getStopBadge(alertItem)).to.equal(STOP_STATUS_BADGE_IMGS.alert);
+      expect(getStopBadge(alertItem)).toBe(STOP_STATUS_BADGE_IMGS.alert);
     });
 
     it('returns the info badge for an "info" severity', () => {
@@ -158,7 +214,7 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
           addendum: { GTFS: { alertSeverity: 'info' } },
         },
       };
-      expect(getStopBadge(infoItem)).to.equal(STOP_STATUS_BADGE_IMGS.info);
+      expect(getStopBadge(infoItem)).toBe(STOP_STATUS_BADGE_IMGS.info);
     });
 
     it('returns null for an unrecognized alert severity', () => {
@@ -169,7 +225,7 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
           addendum: { GTFS: { alertSeverity: 'unknown' } },
         },
       };
-      expect(getStopBadge(unknownSeverityItem)).to.equal(null);
+      expect(getStopBadge(unknownSeverityItem)).toBe(null);
     });
   });
 });

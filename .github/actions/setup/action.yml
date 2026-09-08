@@ -52,7 +52,7 @@ runs:
         key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*/**') }}
     # Fallback for when the coarse cache above misses (e.g. a change in only
     # one of the digitransit-* packages invalidates the whole-tree hash).
-    # Nx (which `yarn run build-workspaces` runs through via lerna) does its
+    # Nx (which `yarn run workspace-packages-build` runs through via lerna) does its
     # own per-package caching, so restoring its cache here lets unaffected
     # packages be skipped instead of rebuilt from scratch.
     - name: cache Nx
@@ -65,4 +65,4 @@ runs:
     - name: build shared components
       if: ${{ inputs.build-workspaces == 'true' && steps.cache-shared-components.outputs.cache-hit != 'true' }}
       shell: bash
-      run: yarn run build-workspaces
+      run: yarn run workspace-packages-build

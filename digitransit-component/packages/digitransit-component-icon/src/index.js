@@ -211,7 +211,7 @@ Icon.propTypes = {
   color: PropTypes.string,
   width: PropTypes.number,
   height: PropTypes.number,
-  rotate: PropTypes.string,
+  rotate: PropTypes.number,
 };
 
 export default Icon;

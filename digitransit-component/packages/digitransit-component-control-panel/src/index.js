@@ -335,7 +335,7 @@ class CtrlPanel extends React.Component {
   static SeparatorLine = SeparatorLine;
 
   static propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node),
+    children: PropTypes.node,
     position: PropTypes.string.isRequired,
     fontWeights: PropTypes.shape({
       medium: PropTypes.number,

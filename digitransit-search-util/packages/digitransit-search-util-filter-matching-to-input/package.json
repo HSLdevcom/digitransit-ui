@@ -1,14 +1,15 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-filter-matching-to-input",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "digitransit-search-util filter-matching-to-input module",
   "main": "index.js",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs"
   },
   "repository": {
     "type": "git",
