@@ -446,7 +446,7 @@ export default {
   ],
   navigation: true,
 
-  externalFeedIds: ['02Taksi_carpickupzone'],
+  externalFeedIds: ['02Taksi'],
 
   flex: {
     internal: {
@@ -458,7 +458,7 @@ export default {
     infoLanguage: 'fi',
   },
 
-  carPickupZone: {
+  taxiZone: {
     enabled: isDevRunEnv(),
     transit: isDevRunEnv(),
     direct: isDevRunEnv(),

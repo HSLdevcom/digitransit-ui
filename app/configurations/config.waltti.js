@@ -286,9 +286,9 @@ export default {
 
   navigation: true,
 
-  externalFeedIds: ['02Taksi_carpickupzone'],
+  externalFeedIds: ['02Taksi'],
 
-  carPickupZone: {
+  taxiZone: {
     enabled: isDevRunEnv(),
     transit: isDevRunEnv(),
     direct: false,

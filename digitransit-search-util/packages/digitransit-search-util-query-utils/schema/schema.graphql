@@ -3827,6 +3827,11 @@ enum PlanAccessMode {
   scooter.
   """
   SCOOTER_RENTAL
+  """
+  Traveling by taxi. This can include walking before being picked up and/or
+  after being dropped off.
+  """
+  TAXI
   "Walking to a stop."
   WALK
 }
@@ -3882,6 +3887,11 @@ enum PlanDirectMode {
   """
   SCOOTER_RENTAL
   """
+  Traveling by taxi. This can include walking before being picked up and/or
+  after being dropped off.
+  """
+  TAXI
+  """
   Walking from the origin to the destination. Note, this can include walking
   when it's needed to walk the bicycle.
   """
@@ -3936,6 +3946,11 @@ enum PlanEgressMode {
   scooter.
   """
   SCOOTER_RENTAL
+  """
+  Traveling by taxi. This can include walking before being picked up and/or
+  after being dropped off.
+  """
+  TAXI
   "Walking from a stop to the destination."
   WALK
 }
