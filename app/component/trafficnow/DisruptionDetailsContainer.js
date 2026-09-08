@@ -11,7 +11,7 @@ import DisruptionStatus from './components/DisruptionStatus';
 import RouteBadges from './RouteBadges';
 import AlertsQuery from './queries/AlertsQuery';
 import { AlertSeverityLevelType } from '../../constants';
-import CTAContaineer from './components/CTAContainer';
+import CTAContainer from './components/CTAContainer';
 
 const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {
   const config = useConfigContext();
@@ -121,7 +121,7 @@ const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {
   if (isMobile) {
     return (
       <>
-        <CTAContaineer isMobile />
+        <CTAContainer isMobile />
         <div className="disruption-details disruption-details--mobile">
           {content}
         </div>
@@ -131,7 +131,7 @@ const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {
 
   return (
     <>
-      <CTAContaineer />
+      <CTAContainer />
       <div className="disruption-details__container">
         <Card>{content}</Card>
       </div>
