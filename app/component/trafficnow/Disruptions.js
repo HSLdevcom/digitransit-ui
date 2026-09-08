@@ -70,7 +70,6 @@ export default function Disruptions() {
     API_SUBSCRIPTION_QUERY_PARAMETER_NAME: subParamName,
     API_SUBSCRIPTION_TOKEN: subToken,
   } = config;
-  const feedIdsStr = feedIds.join(',');
 
   const disruptionCardOnClick = id => {
     router.push(`/${TRAFFICNOW}/hairio/${id}`);
@@ -131,7 +130,6 @@ export default function Disruptions() {
       ? `?${subParamName}=${encodeURIComponent(subToken)}`
       : '';
     const endpoint = `${otpUrl}gtfs/v1${queryParam}`;
-    const ids = feedIdsStr ? feedIdsStr.split(',') : [];
 
     const checkForUpdates = async () => {
       try {
@@ -141,7 +139,7 @@ export default function Disruptions() {
           body: JSON.stringify({
             query:
               'query DisruptionsPoll($feedIds:[String!]){alerts(feeds:$feedIds){id effectiveStartDate effectiveEndDate alertSeverityLevel}}',
-            variables: { feedIds: ids },
+            variables: { feedIds },
           }),
         });
         if (!res.ok) {
@@ -166,13 +164,7 @@ export default function Disruptions() {
     return () => {
       clearInterval(intervalId);
     };
-  }, [
-    otpUrl,
-    feedIdsStr,
-    hasAPISubscriptionQueryParameter,
-    subParamName,
-    subToken,
-  ]);
+  }, []);
 
   const handleRefresh = () => {
     setFetchKey(k => k + 1);
