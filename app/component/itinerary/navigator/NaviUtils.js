@@ -18,7 +18,12 @@ import {
 } from '../../../util/localeUtils';
 import { locationToUri } from '../../../util/otpStrings';
 import { getItineraryPagePath } from '../../../util/path';
-import { durationToString, epochToIso, timeStr } from '../../../util/timeUtils';
+import {
+  durationToString,
+  epochToIso,
+  stopCallTime,
+  timeStr,
+} from '../../../util/timeUtils';
 import Icon from '../../Icon';
 import { getModeIconColor } from '../../../util/colorUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
@@ -416,14 +421,7 @@ export function itinerarySearchPath(time, leg, nextLeg, position, to) {
   if (leg?.transitLeg) {
     const intermediate = leg.stopCalls?.slice(1, -1) ?? [];
     const sc = intermediate.find(
-      s =>
-        legTime({
-          scheduledTime: s.schedule?.time?.arrival,
-          estimated: s.realTime?.arrival
-            ? { time: s.realTime.arrival.time }
-            : undefined,
-        }) >
-        time + EARLIEST_NEXT_STOP,
+      s => legTime(stopCallTime(s, 'arrival')) > time + EARLIEST_NEXT_STOP,
     );
     from = sc ? sc.stopLocation : leg.to;
   } else {

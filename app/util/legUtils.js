@@ -2,6 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { getTripOrRouteMode } from './modeUtils';
 import { BIKEAVL_UNKNOWN } from './vehicleRentalUtils';
 import { ExtendedRouteTypes, OtpCornerNamingPattern } from '../constants';
+import { stopCallTime } from './timeUtils';
 
 /**
  * Gets a (nested) property value from an object
@@ -243,12 +244,7 @@ function stopCallToPlace(sc) {
     lat: stop?.lat,
     lon: stop?.lon,
     name: stop?.name,
-    arrival: {
-      scheduledTime: sc.schedule?.time?.arrival,
-      estimated: sc.realTime?.arrival
-        ? { time: sc.realTime.arrival.time }
-        : undefined,
-    },
+    arrival: stopCallTime(sc, 'arrival'),
   };
 }
 
