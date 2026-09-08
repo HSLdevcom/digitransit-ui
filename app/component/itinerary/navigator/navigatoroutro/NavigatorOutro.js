@@ -1,4 +1,4 @@
-import Button from '@hsl-fi/button';
+import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -35,17 +35,12 @@ const NavigatorOutro = ({ onClose, destination, logo }) => {
         </div>
       </div>
       <div className="outro-buttons">
-        <Button
-          className="close-button"
-          size="large"
-          fullWidth
-          value={intl.formatMessage({
+        <Button size="l" expand variant="success" onClick={onClose}>
+          {intl.formatMessage({
             id: 'navigation-outro-dismiss',
             defaultMessage: 'Exit Navigator',
           })}
-          onClick={onClose}
-          variant="black"
-        />
+        </Button>
       </div>
     </>
   );

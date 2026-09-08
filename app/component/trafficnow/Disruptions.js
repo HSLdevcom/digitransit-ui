@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
-import { DateTime } from 'luxon';
 import { useLazyLoadQuery } from 'react-relay/hooks';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { TransportMode } from '../../constants';
@@ -53,7 +53,7 @@ export function getCanceledModes(
     .filter(({ routes }) => routes.length);
 }
 
-export default function Disruptions() {
+export default function Disruptions({ dateTime }) {
   const breakpoint = useBreakpoint();
   const config = useConfigContext();
   const { router } = useRouter();
@@ -92,19 +92,24 @@ export default function Disruptions() {
           TransportMode.Ferry,
         ]
       : selectedFilters.vehicleModes.map(mode => mode.toUpperCase());
-  const canceledTripsVars = {
-    serviceDateRanges: [
-      {
-        start: DateTime.now().toISODate(),
-        end: null,
-      },
-    ],
-    fetchBus: modesToFetch.includes(TransportMode.Bus),
-    fetchTram: modesToFetch.includes(TransportMode.Tram),
-    fetchRail: modesToFetch.includes(TransportMode.Rail),
-    fetchSubway: modesToFetch.includes(TransportMode.Subway),
-    fetchFerry: modesToFetch.includes(TransportMode.Ferry),
-  };
+
+  // Memoized so the query variables stay stable across re-renders.
+  const canceledTripsVars = useMemo(
+    () => ({
+      runningTimeRanges: [
+        {
+          start: dateTime,
+          end: null,
+        },
+      ],
+      fetchBus: modesToFetch.includes(TransportMode.Bus),
+      fetchTram: modesToFetch.includes(TransportMode.Tram),
+      fetchRail: modesToFetch.includes(TransportMode.Rail),
+      fetchSubway: modesToFetch.includes(TransportMode.Subway),
+      fetchFerry: modesToFetch.includes(TransportMode.Ferry),
+    }),
+    [dateTime, selectedFilters.vehicleModes.join(',')],
+  );
 
   const cancelationsByMode = useLazyLoadQuery(
     CanceledTripsOverviewQuery,
@@ -247,3 +252,7 @@ export default function Disruptions() {
     </div>
   );
 }
+
+Disruptions.propTypes = {
+  dateTime: PropTypes.string.isRequired,
+};
