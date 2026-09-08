@@ -1,8 +1,27 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import React from 'react';
 import ReactModal from 'react-modal';
-import { render, screen, within } from '@testing-library/react';
+// Import from the "pure" entry point instead of the package root: the root
+// entry auto-registers an `afterEach(cleanup)` that unmounts with real
+// timers, racing @hsl-fi/modal's react-modal, which schedules its portal
+// removal via `setTimeout(removePortal, closeTimeoutMS)` on unmount (see
+// react-modal's Modal.js componentWillUnmount) instead of removing it
+// synchronously. That timer can still be pending when this test file's
+// jsdom environment is torn down, so it later fires against a
+// `document` that no longer exists, surfacing as an unhandled
+// "ReferenceError: document is not defined" - flaky since it depends on
+// how quickly the environment teardown happens relative to the timeout.
+// Cleaning up manually with fake timers (below) flushes that timeout
+// synchronously while the environment is still alive.
+import { render, screen, within, cleanup } from '@testing-library/react/pure';
 import FavouriteEditingModal from './src/index.js';
+
+afterEach(() => {
+  vi.useFakeTimers();
+  cleanup();
+  vi.runAllTimers();
+  vi.useRealTimers();
+});
 
 // @hsl-fi/modal's own useEffect calls Modal.setAppElement(appElement) on
 // mount, but only after react-modal's own componentDidMount already ran
