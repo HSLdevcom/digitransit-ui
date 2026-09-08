@@ -55,13 +55,24 @@ yarn add-theme <name> '#RRGGBB' <optional navbar logo>
 
 ## Using `workspace-packages/check-versions.js`
 
-Fails if a workspace package changed since a given base commit but its `package.json` `version`
-wasn't bumped accordingly (or was bumped in the wrong direction). `lerna publish from-package`
-only republishes a package when its committed version is greater than what's already on npm, so a
-changed-but-unbumped package would otherwise silently never get published. Run it (with
-`BASE_SHA` set to the commit/branch to diff against) whenever you change a workspace package
-(`digitransit-component`, `digitransit-search-util`, `digitransit-store`, `digitransit-util`) to
-make sure you remembered to bump its version — this is also enforced in CI on pull requests.
+Runs two checks against the workspace packages (`digitransit-component`,
+`digitransit-search-util`, `digitransit-store`, `digitransit-util`); both are enforced in CI on
+pull requests.
+
+1. **Internal reference protocol.** Every `@digitransit-*` `dependencies`/`peerDependencies`
+   entry that points at another workspace package must be declared as exactly `"workspace:^"`.
+   `lerna version` only rewrites/cascades an internal cross-reference (and `yarn` only links the
+   local copy instead of pulling a stale published one) when it uses the `workspace:` protocol; a
+   plain semver pin is silently left behind on version bumps. `lerna publish` resolves
+   `"workspace:^"` to `"^<version>"` in the published tarball, so consumers outside the monorepo
+   are unaffected. This check always runs, regardless of `BASE_SHA`.
+
+2. **Version bumps.** Fails if a workspace package changed since a given base commit but its
+   `package.json` `version` wasn't bumped accordingly (or was bumped in the wrong direction).
+   `lerna publish from-package` only republishes a package when its committed version is greater
+   than what's already on npm, so a changed-but-unbumped package would otherwise silently never
+   get published. This check runs only when `BASE_SHA` is set. Run `yarn bump-versions-workspaces`
+   (`lerna version`) to bump the changed packages and cascade bumps to their dependents.
 
 ```
 BASE_SHA=<git ref> yarn workspace-packages-version-check

@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
-  "version": "4.5.13",
+  "version": "4.5.14",
   "description": "digitransit-search-util query-utils module",
   "main": "lib/index.cjs",
   "type": "module",
@@ -42,8 +42,8 @@
     "relay-compiler": "16.2.0"
   },
   "dependencies": {
-    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "^1.0.2",
-    "@digitransit-search-util/digitransit-search-util-helpers": "^2.3.5",
-    "@digitransit-search-util/digitransit-search-util-route-name-compare": "^0.0.3"
+    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "workspace:^",
+    "@digitransit-search-util/digitransit-search-util-helpers": "workspace:^",
+    "@digitransit-search-util/digitransit-search-util-route-name-compare": "workspace:^"
   }
 }

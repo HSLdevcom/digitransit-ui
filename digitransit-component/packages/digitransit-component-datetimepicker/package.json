@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-datetimepicker",
-  "version": "6.0.8",
+  "version": "6.0.9",
   "description": "digitransit-component datetimepicker module",
   "main": "index.cjs",
   "files": [
@@ -31,7 +31,7 @@
     "@testing-library/react": "^12"
   },
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-icon": "^2.0.2",
+    "@digitransit-component/digitransit-component-icon": "workspace:^",
     "@hsl-fi/sass": "1.0.0",
     "classnames": "2.5.1",
     "downshift": "9.4.0",

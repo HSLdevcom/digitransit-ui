@@ -187,8 +187,10 @@ export default {
     'disruptions-change-filters': 'Kokeile uudestaan muuttamalla valintoja',
     'disruptions-found-amount':
       '{amount, plural, =0 {Tiedotteita ei löytynyt} one {Löytyi 1 tiedote} other {Löytyi {amount} tiedotetta} }',
+    'disruptions-refresh': 'Lataa sivu',
     'disruptions-tab.sr-disruptions': 'Yksi tai useampi häiriö tiedossa',
     'disruptions-tab.sr-no-disruptions': 'Ei tiedossa olevia häiriöitä',
+    'disruptions-update-available': 'Päivityksiä saatavilla',
     'distance-total': 'Matkan pituus',
     'e-scooter': 'Sähköpotkulauta',
     'e-scooter-alternative':
