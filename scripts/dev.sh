@@ -99,8 +99,10 @@ pids+=("$!")
 # (separate from the root app's) for the graphql`` tags in its src. Its
 # "watch" script only runs relay-compiler once before starting rollup -w,
 # so without this it wouldn't regenerate lib/__generated__ if one of its
-# queries is edited during a dev session.
-(cd digitransit-search-util/packages/digitransit-search-util-query-utils && yarn relay-compiler --watch) &
+# queries is edited during a dev session. Its "relay-watch" script
+# mkdir -p's lib/__generated__ before starting relay-compiler --watch, so
+# this also works on a fresh clone where lib/ doesn't exist yet.
+(cd digitransit-search-util/packages/digitransit-search-util-query-utils && yarn relay-watch) &
 pids+=("$!")
 
 yarn nodemon \
