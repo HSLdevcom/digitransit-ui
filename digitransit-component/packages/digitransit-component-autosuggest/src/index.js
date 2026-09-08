@@ -103,7 +103,12 @@ const getNewTargets = ({
   sources,
 }) => {
   const useAll = !targets?.length;
-  let newTargets;
+  // Default: neither the ownPlaces nor the "explicit, non-empty targets"
+  // case applies (e.g. the common "leave targets empty to search
+  // everything" usage) - pass targets through unchanged rather than
+  // leaving newTargets undefined, which would crash downstream calls like
+  // `targets.includes(...)` in getSearchResults.
+  let newTargets = targets;
   if (ownPlaces) {
     newTargets = ['Locations'];
     if (useAll || targets.includes('Stops')) {
@@ -130,6 +135,8 @@ const getNewTargets = ({
 };
 
 /**
+ * An autosuggest search input for finding locations, stops, stations, routes and vehicle rental stations.
+ *
  * @example
  * const searchContext = {
  *   isPeliasLocationAware: false // true / false does Let Pelias suggest based on current user location

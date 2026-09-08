@@ -39,6 +39,23 @@ Visual tests are run with jest and playwright.
 More information about [testing](docs/Tests.md).
 
 
+## Workspace package scripts
+
+Root-level commands covering all `digitransit-*` workspace packages at once
+(see [Workspace Packages](docs/WorkspacePackages.md) for detail):
+
+- `yarn workspace-packages-build` — build every package
+- `yarn workspace-packages-test` — run every package's tests
+- `yarn workspace-packages-watch` — build, then rebuild on change
+- `yarn workspace-packages-clean` — remove build output + `node_modules`
+- `yarn workspace-packages-docs` — regenerate every package's README
+- `yarn workspace-packages-publish` — publish changed packages to npm (interactive)
+- `yarn workspace-packages-publish-ci` — same, non-interactive (used by CI)
+- `yarn workspace-packages-version-bump` — bump versions locally (fetches tags first, doesn't push), should be run at the end of a PR that changes workspace packages right before it is merged
+- `yarn workspace-packages-version-check` — verify versions/dependency ranges are consistent
+- `yarn workspace-packages-translations-check` — verify `digitransit-component` packages' own translations are sorted and every locale has the same keys
+- `yarn workspace-packages-translations-fix` — same, but sorts keys in place (key mismatches need a manual fix)
+
 ## Documentation
 
 - [Architecture](docs/Architecture.md)
@@ -50,3 +67,4 @@ More information about [testing](docs/Tests.md).
 - [Navigation](docs/Navigation.md)
 - [Themes](docs/Themes.md)
 - [GeoJSON](docs/GeoJson.md)
+- [Workspace Packages](docs/WorkspacePackages.md)

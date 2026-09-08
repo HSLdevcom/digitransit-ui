@@ -326,9 +326,7 @@ class FavouriteModal extends React.Component {
       : t('save-place', { lng: lang });
     const modalProps = {
       headerText,
-      autosuggestComponent: {
-        ...this.props.autosuggestComponent,
-      },
+      autosuggestComponent: this.props.autosuggestComponent,
       inputPlaceholder: t('input-placeholder', { lng: lang }),
       specifyName: this.specifyName,
       name: (favourite && favourite.name) || '',

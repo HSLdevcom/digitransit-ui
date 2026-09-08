@@ -1,7 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import routeNameCompare from '.';
+import { describe, it, expect } from 'vitest';
+import routeNameCompare from './index.js';
 
 const a = {
   shortName: 'hki',
@@ -28,11 +26,11 @@ const c = {
 describe('Testing @digitransit-search-util/digitransit-search-util-route-name-compare module', () => {
   it('Checking that same routes returns 0 ', () => {
     const retValue = routeNameCompare(a, b);
-    expect(0).to.be.equal(retValue);
+    expect(0).toBe(retValue);
   });
 
   it('Checking that different routes returns -1 ', () => {
     const retValue = routeNameCompare(a, c);
-    expect(-1).to.be.equal(retValue);
+    expect(-1).toBe(retValue);
   });
 });

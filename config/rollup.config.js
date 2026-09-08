@@ -86,7 +86,13 @@ module.exports = () => {
     output: [
       {
         name: pkg.name,
-        dir: path.join(pkg.location, 'lib'),
+        // .cjs, not .js: these packages set "type": "module" in their own
+        // package.json (so their raw source/tests run as native ESM), but
+        // this UMD bundle uses CJS-style `module.exports`/`require`
+        // branches. Node always treats a .cjs file as CommonJS regardless
+        // of the containing package's "type" field, which keeps this
+        // require()-able without fighting Node's ESM parser.
+        file: path.join(pkg.location, 'lib', 'index.cjs'),
         format: 'umd',
         sourcemap: true,
         inlineDynamicImports: true,
@@ -99,7 +105,7 @@ module.exports = () => {
       },
       {
         name: pkg.name,
-        file: path.join(pkg.location, 'lib', 'index.development.js'),
+        file: path.join(pkg.location, 'lib', 'index.development.cjs'),
         format: 'umd',
         sourcemap: 'inline',
         inlineDynamicImports: true,

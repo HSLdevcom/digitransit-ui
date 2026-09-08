@@ -451,7 +451,7 @@ class DTAutosuggestPanel extends React.Component {
             autoFocus={
               disableAutoFocus === true
                 ? false
-                : !this.props.isMobile && !origin.lat
+                : !this.props.isMobile && !origin?.lat
             }
             storeRef={this.storeReference}
             refPoint={this.props.refPoint}
@@ -645,7 +645,7 @@ class DTAutosuggestPanel extends React.Component {
             autoFocus={
               disableAutoFocus === true
                 ? false
-                : !this.props.isMobile && !Number.isNaN(origin.lat)
+                : !this.props.isMobile && !Number.isNaN(origin?.lat)
             }
             storeRef={this.storeReference}
             placeholder={this.props.destinationPlaceHolder}

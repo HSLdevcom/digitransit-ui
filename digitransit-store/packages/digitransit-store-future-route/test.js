@@ -1,36 +1,38 @@
-/* eslint-disable no-unused-expressions */
-
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, expect } from 'vitest';
 import {
   getItem,
   getItemAsJson,
   removeItem,
   setItem,
-} from '@digitransit-store/digitransit-store-common-functions';
-import {
-  createUrl,
-  addFutureRoute,
-} from '@digitransit-store/digitransit-store-future-route';
-import './mock-localstorage';
+} from '@digitransit-store/digitransit-store-common-functions/src/index.js';
+import { createUrl, addFutureRoute } from './src/index.js';
+import './mock-localstorage.js';
 
 describe('Testing @digitransit-store/digitransit-store-future-route module', () => {
   describe('createUrl(route)', () => {
+    // createUrl(item, pathOpts) expects the FutureRoute shape produced by
+    // addFutureRoute() - name/localadmin already split out and nested under
+    // `.properties` - not the flat { address, coordinates } shape that
+    // addFutureRoute() itself takes as input (used in the tests below).
     const route = {
-      origin: {
-        address: 'Pasila, Helsinki',
-        coordinates: { lat: 60.198828, lon: 24.933514 },
+      properties: {
+        origin: {
+          name: 'Pasila',
+          localadmin: 'Helsinki',
+          coordinates: { lat: 60.198828, lon: 24.933514 },
+        },
+        destination: {
+          name: 'Myyrmäki',
+          localadmin: 'Vantaa',
+          coordinates: { lat: 60.261238, lon: 24.854782 },
+        },
+        arriveBy: false,
+        time: 1600757120,
       },
-      destination: {
-        address: 'Myyrmäki, Vantaa',
-        coordinates: { lat: 60.261238, lon: 24.854782 },
-      },
-      arriveBy: false,
-      time: 1600757120,
     };
     it('Url should be match', () => {
       const url = createUrl(route);
-      expect(url).to.be.equal(
+      expect(url).toBe(
         '/reitti/Pasila%2C%20Helsinki%3A%3A60.198828%2C24.933514/Myyrm%C3%A4ki%2C%20Vantaa%3A%3A60.261238%2C24.854782?time=1600757120',
       );
     });
@@ -95,7 +97,7 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
         getItemAsJson('digitransit-store-future-route-test'),
       );
       setItem('digitransit-store-future-route-test', futureRoutes);
-      expect(futureRoutes).lengthOf(0);
+      expect(futureRoutes).toHaveLength(0);
     });
 
     it('Save should add 1st route item', () => {
@@ -104,7 +106,7 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
         getItemAsJson('digitransit-store-future-route-test'),
       );
       setItem('digitransit-store-future-route-test', futureRoutes);
-      expect(futureRoutes).lengthOf(1);
+      expect(futureRoutes).toHaveLength(1);
     });
 
     it('Save should not add 2nd route item (pair of origin and location already exists), only override timestamp', () => {
@@ -115,8 +117,8 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
       );
       setItem('digitransit-store-future-route-test', futureRoutes);
       const afterSave = getItemAsJson('digitransit-store-future-route-test');
-      expect(beforeSave).not.to.be.equal(afterSave);
-      expect(afterSave).lengthOf(1);
+      expect(beforeSave).not.toBe(afterSave);
+      expect(afterSave).toHaveLength(1);
     });
 
     it('Save should add 2nd route item (pair of origin and location not exists)', () => {
@@ -125,7 +127,7 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
         getItemAsJson('digitransit-store-future-route-test'),
       );
       setItem('digitransit-store-future-route-test', futureRoutes);
-      expect(futureRoutes).lengthOf(2);
+      expect(futureRoutes).toHaveLength(2);
     });
 
     it('Save should not to add route in past as 3rd item', () => {
@@ -134,7 +136,7 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
         getItemAsJson('digitransit-store-future-route-test'),
       );
       setItem('digitransit-store-future-route-test', futureRoutes);
-      expect(futureRoutes).lengthOf(2);
+      expect(futureRoutes).toHaveLength(2);
     });
   });
 
@@ -142,7 +144,7 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
     it("Clear should empty 'items'", () => {
       removeItem('digitransit-store-future-route-test');
       const item = getItem('digitransit-store-future-route-test');
-      expect(item).to.be.null;
+      expect(item).toBeNull();
     });
   });
 });

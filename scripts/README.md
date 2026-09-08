@@ -53,7 +53,7 @@ in `config.default.js`'s host-name mapping. See [`docs/Themes.md`](/docs/Themes.
 yarn add-theme <name> '#RRGGBB' <optional navbar logo>
 ```
 
-## Using `check-versions-workspaces.js`
+## Using `workspace-packages/check-versions.js`
 
 Runs two checks against the workspace packages (`digitransit-component`,
 `digitransit-search-util`, `digitransit-store`, `digitransit-util`); both are enforced in CI on
@@ -75,8 +75,29 @@ pull requests.
    (`lerna version`) to bump the changed packages and cascade bumps to their dependents.
 
 ```
-BASE_SHA=<git ref> yarn check-versions-workspaces
+BASE_SHA=<git ref> yarn workspace-packages-version-check
 ```
+
+## Using `workspace-packages/generate-readmes.mjs`
+
+Regenerates a workspace package's `README.md` from its JSDoc via
+[`documentation.js`](https://documentation.js.org/). Needs no family/package argument: run from
+inside a package's directory to regenerate just that one, or from anywhere else (e.g. the
+repository root) to regenerate every package in every family. See the `workspace-packages-docs`
+script in [`package.json`](/package.json). Never hand-edit a generated `README.md` — fix the
+source JSDoc and regenerate instead.
+
+```
+node scripts/workspace-packages/generate-readmes.mjs
+```
+
+## Using `workspace-packages/sort-translations.mjs`
+
+Sorts and checks `digitransit-component` packages' own translation bundles
+(`src/{helpers,utils}/translations.js`) — a different shape from `app/translations`, so
+separate from the `sort-translations.js` script above. Flags any key missing from a `fi`/`sv`/`en`
+locale. See the `workspace-packages-translations-check`/`-fix` scripts in
+[`package.json`](/package.json).
 
 ## Using `generate-schema.js`
 

@@ -24,10 +24,10 @@
  *    package with an unbumped version would silently never get published.
  *    This check only runs when $BASE_SHA is provided.
  *
- * Usage: BASE_SHA=<git ref> yarn check-versions-workspaces
+ * Usage: BASE_SHA=<git ref> yarn workspace-packages-version-check
  *
- * Intended to be run via the "check-versions-workspaces" npm script (so
- * node_modules/.bin, including lerna, is on PATH), not invoked directly.
+ * Intended to be run via the "workspace-packages-version-check" npm script
+ * (so node_modules/.bin, including lerna, is on PATH), not invoked directly.
  */
 const { execFileSync } = require('child_process');
 const { readFileSync } = require('fs');
@@ -223,7 +223,9 @@ function checkOwnVersionBumps(base) {
     });
 
     console.error(
-      red('\nRun `yarn bump-versions-workspaces` to bump package versions.'),
+      red(
+        '\nRun `yarn workspace-packages-version-bump` to bump package versions.',
+      ),
     );
 
     return false;

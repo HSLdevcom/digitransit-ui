@@ -1,11 +1,12 @@
 {
   "name": "@digitransit-util/digitransit-util-day-range-pattern",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "digitransit-util digitransit-util-day-range-pattern module",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs"
   },
   "repository": {
     "type": "git",

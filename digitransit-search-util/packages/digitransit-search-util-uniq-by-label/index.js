@@ -1,8 +1,8 @@
-import uniqWith from 'lodash/uniqWith';
-import isEqual from 'lodash/isEqual';
-import memoize from 'lodash/memoize';
-import escapeRegExp from 'lodash/escapeRegExp';
-import cloneDeep from 'lodash/cloneDeep';
+import uniqWith from 'lodash/uniqWith.js';
+import isEqual from 'lodash/isEqual.js';
+import memoize from 'lodash/memoize.js';
+import escapeRegExp from 'lodash/escapeRegExp.js';
+import cloneDeep from 'lodash/cloneDeep.js';
 
 /**
  * Location properties.

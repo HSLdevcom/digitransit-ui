@@ -1,17 +1,19 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
-  "version": "4.5.15",
+  "version": "4.5.16",
   "description": "digitransit-search-util query-utils module",
-  "main": "lib/index.js",
+  "main": "lib/index.cjs",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "clean": "rm -rf lib ./node_modules",
-    "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes",
-    "relay": "mkdir -p lib/__generated__ && relay-compiler",
-    "relay-watch": "mkdir -p lib/__generated__ && relay-compiler --watch",
+    "pretest": "yarn build",
+    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs",
+    "relay": "mkdir -p lib/__generated__ && relay-compiler && echo '{\"type\":\"commonjs\"}' > lib/package.json",
+    "relay-watch": "mkdir -p lib/__generated__ && echo '{\"type\":\"commonjs\"}' > lib/package.json && relay-compiler --watch",
     "watch": "yarn relay && NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "build": "yarn relay && NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
@@ -37,12 +39,12 @@
     "react-relay": "16.2.0"
   },
   "devDependencies": {
+    "babel-plugin-relay": "16.2.0",
     "relay-compiler": "16.2.0"
   },
   "dependencies": {
     "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "workspace:^",
     "@digitransit-search-util/digitransit-search-util-helpers": "workspace:^",
-    "@digitransit-search-util/digitransit-search-util-route-name-compare": "workspace:^",
-    "babel-plugin-relay": "16.2.0"
+    "@digitransit-search-util/digitransit-search-util-route-name-compare": "workspace:^"
   }
 }

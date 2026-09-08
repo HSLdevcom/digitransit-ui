@@ -196,7 +196,11 @@ function Datetimepicker({
     if (alertRef.current) {
       alertRef.current.innerHTML = t('accessible-closed', translationSettings);
       setTimeout(() => {
-        alertRef.current.innerHTML = null;
+        // The component may have unmounted (clearing the ref) before this
+        // fires - don't crash in that case.
+        if (alertRef.current) {
+          alertRef.current.innerHTML = null;
+        }
       }, 100);
     }
   }
@@ -205,7 +209,11 @@ function Datetimepicker({
     if (alertRef.current) {
       alertRef.current.innerHTML = t('accessible-opened', translationSettings);
       setTimeout(() => {
-        alertRef.current.innerHTML = null;
+        // The component may have unmounted (clearing the ref) before this
+        // fires - don't crash in that case.
+        if (alertRef.current) {
+          alertRef.current.innerHTML = null;
+        }
       }, 100);
     }
   }
