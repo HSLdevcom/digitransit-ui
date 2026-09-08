@@ -199,17 +199,21 @@ async function init() {
         config.user = user || {};
         handleUserAnalytics(config);
         context.executeAction(fetchFavourites);
+      })
+      .catch(() => {
+        config.user = { notLogged: true };
+        context.executeAction(fetchFavouritesComplete);
+      })
+      .finally(() => {
         addAnalyticsEvent({
           event: 'personalization_status',
           personalization_setting: isPersonalizationEnabled(
             config,
             getSettings(config),
-          ),
+          )
+            ? 'on'
+            : 'off',
         });
-      })
-      .catch(() => {
-        config.user = { notLogged: true };
-        context.executeAction(fetchFavouritesComplete);
       });
   }
 
