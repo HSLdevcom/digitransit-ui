@@ -149,8 +149,9 @@ Module._load = function interceptEsmPackages(request, ...args) {
     };
   }
   if (request === '@hsl-fi/icons') {
-    // Return a Proxy so any named icon export resolves to a stub component.
-    // This avoids maintaining an explicit list of every icon exported by the lib.
+    // Return a cached Proxy so any named icon export resolves to the same
+    // stub component on every require(). This avoids maintaining an explicit
+    // list of every icon exported by the lib.
     if (!stubModuleCache.has(request)) {
       stubModuleCache.set(request, createNamedStubModule());
     }
