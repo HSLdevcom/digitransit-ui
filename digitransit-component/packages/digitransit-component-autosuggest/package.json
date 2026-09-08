@@ -33,13 +33,13 @@
   "dependencies": {
     "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "workspace:^",
     "@digitransit-search-util/digitransit-search-util-get-label": "workspace:^",
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
+    "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^",
+    "@hsl-fi/hooks": "^1.2.4"
   },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^",
     "@digitransit-component/digitransit-component-icon": "workspace:^",
     "@digitransit-component/digitransit-component-suggestion-item": "workspace:^",
-    "@hsl-fi/hooks": "^1.2.4",
     "@hsl-fi/sass": "1.0.0",
     "classnames": "2.5.1",
     "downshift": "9.4.0",
