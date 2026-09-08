@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   BusStop,
   CitybikeStation,
-  Ferry,
   Metro,
   Question,
   Scooter,
@@ -24,7 +23,10 @@ const ICON_MAP = {
   TramStop: { hslFiIcon: TramStop, fallbackImg: 'icon_tram-lollipop' },
   TrainStop: { hslFiIcon: TrainStop, fallbackImg: 'icon_rail-lollipop' },
   MetroStop: { hslFiIcon: Metro, fallbackImg: 'icon_subway' },
-  FerryStop: { hslFiIcon: Ferry, fallbackImg: 'icon_ferry-lollipop' },
+  // TODO: use @hsl-fi/icons once it exports FerryStop
+  FerryStop: { fallbackImg: 'icon_ferry-stop' },
+  // TODO: use @hsl-fi/icons once it exports FerryExternalStop
+  FerryExternalStop: { fallbackImg: 'icon_ferry-external-stop' },
   CitybikeStation: {
     hslFiIcon: CitybikeStation,
     fallbackImg: 'icon_citybike-lollipop',
@@ -54,7 +56,7 @@ function ThemedIcon({ name, customColor, style, ...rest }) {
   const config = useConfigContext();
   const { hslFiIcon, fallbackImg } = ICON_MAP[name];
 
-  if (config.iconModeSet === 'hsl') {
+  if (config.iconModeSet === 'hsl' && hslFiIcon) {
     const HslIcon = hslFiIcon;
     return (
       <HslIcon
