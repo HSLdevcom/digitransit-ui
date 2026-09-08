@@ -45,10 +45,10 @@ export default function Personalization({ settings, updateSettings }) {
 
   const changePersonalization = newState => {
     addAnalyticsEvent({
-      category: 'ItinerarySettings',
-      action: `Settings${newState ? 'Enable' : 'Disable'}Personalization`,
-      name: null,
+      event: 'manual_personalization_status',
+      personalization_setting: newState ? 'on' : 'off',
     });
+
     updateSettings({ personalization: newState });
     if (newState) {
       setShowSnackbar(true);

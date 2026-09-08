@@ -44,7 +44,11 @@ export default function PrModal({ closeModal }) {
                 })}
               </Text>
               {config.favouriteLink[language] && (
-                <ArrowLink href={config.favouriteLink[language]}>
+                <ArrowLink
+                  href={config.favouriteLink[language]}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   {formatMessage({ id: 'personalization-modal-link' })}
                 </ArrowLink>
               )}

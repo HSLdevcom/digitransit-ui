@@ -46,6 +46,8 @@ import {
 import { ConfigProvider } from './configurations/ConfigContext';
 import { FavouriteProvider } from './hooks/FavouriteContext';
 import { TimeProvider } from './hooks/TimeContext';
+import { isPersonalizationEnabled } from './util/modeUtils';
+import { getSettings } from './util/planParamUtil';
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
@@ -201,6 +203,17 @@ async function init() {
       .catch(() => {
         config.user = { notLogged: true };
         context.executeAction(fetchFavouritesComplete);
+      })
+      .finally(() => {
+        addAnalyticsEvent({
+          event: 'personalization_status',
+          personalization_setting: isPersonalizationEnabled(
+            config,
+            getSettings(config),
+          )
+            ? 'on'
+            : 'off',
+        });
       });
   }
 
