@@ -3,15 +3,19 @@
  * Runs two checks against the workspace packages:
  *
  * 1. checkInternalDependencyRanges(): for every workspace package, verifies
- *    that each of its @digitransit-* dependencies/peerDependencies is a range
- *    that is actually satisfied by the CURRENT version of the referenced
- *    workspace package. This catches stale internal pins (e.g. a package
- *    pinned to an exact old version of a dependency that has since been
- *    bumped), which would otherwise make yarn/npm resolve that dependency
- *    from the public registry instead of the local workspace copy - silently
- *    building against stale, disconnected code. This check always runs,
- *    regardless of $BASE_SHA, since it's a static consistency check on the
- *    current state of the repo, not a diff against history.
+ *    that each of its @digitransit-* dependencies/peerDependencies that refers
+ *    to another workspace package is declared as exactly "workspace:^".
+ *    `lerna version` only rewrites/cascades an internal cross-reference when it
+ *    uses the workspace: protocol (see getLocalDependency in lerna's source);
+ *    a plain semver pin is silently left untouched on version bumps and never
+ *    triggers a cascading bump of the dependent, so on a breaking change it
+ *    ends up resolving the dependency from the public registry instead of the
+ *    local workspace copy - silently building against stale, disconnected
+ *    code. The bare "workspace:^" alias (no pinned version) means the line
+ *    itself never needs maintenance; `lerna publish` rewrites it to
+ *    "^<version>" in the published tarball. This check always runs, regardless
+ *    of $BASE_SHA, since it's a static consistency check on the current state
+ *    of the repo, not a diff against history.
  *
  * 2. checkOwnVersionBumps(): fails if a workspace package changed since
  *    $BASE_SHA but its package.json "version" wasn't bumped accordingly.
@@ -61,15 +65,16 @@ function lernaLs(extraArgs) {
   return JSON.parse(output);
 }
 
-// Checks that every workspace package's @digitransit-* dependency/
-// peerDependency ranges are satisfied by the current version of the
-// referenced workspace package. devDependencies are intentionally excluded:
-// they don't affect published consumers.
+// The only spec allowed for an internal @digitransit-* cross-reference.
+const REQUIRED_INTERNAL_SPEC = 'workspace:^';
+
+// Checks that every workspace package references its sibling @digitransit-*
+// workspace packages via exactly "workspace:^" in dependencies/peerDependencies.
+// devDependencies are intentionally excluded: they don't affect published
+// consumers, and lerna doesn't cascade through them.
 function checkInternalDependencyRanges() {
   const allPackages = lernaLs([]);
-  const versionByName = new Map(
-    allPackages.map(pkg => [pkg.name, pkg.version]),
-  );
+  const workspacePackageNames = new Set(allPackages.map(pkg => pkg.name));
 
   const failures = [];
 
@@ -81,32 +86,20 @@ function checkInternalDependencyRanges() {
     ['dependencies', 'peerDependencies'].forEach(depField => {
       const deps = packageJson[depField] || {};
 
-      Object.entries(deps).forEach(([depName, range]) => {
-        if (!depName.startsWith('@digitransit-')) {
+      Object.entries(deps).forEach(([depName, spec]) => {
+        // Only sibling workspace packages are relevant. An external scoped
+        // dependency that merely shares the @digitransit- prefix is skipped.
+        if (!workspacePackageNames.has(depName)) {
           return;
         }
 
-        const currentDepVersion = versionByName.get(depName);
-
-        // Not a workspace package (e.g. an external scoped dependency not
-        // managed in this repo) - nothing to check.
-        if (!currentDepVersion) {
-          return;
-        }
-
-        if (!semver.satisfies(currentDepVersion, range)) {
-          failures.push({
-            name: pkg.name,
-            depField,
-            depName,
-            range,
-            currentDepVersion,
-          });
+        if (spec !== REQUIRED_INTERNAL_SPEC) {
+          failures.push({ name: pkg.name, depField, depName, spec });
 
           console.error(
             red(
-              `✗ ${pkg.name}: ${depField} "${depName}": "${range}" does not ` +
-                `match the current version of ${depName} (${currentDepVersion})`,
+              `✗ ${pkg.name}: ${depField} "${depName}": "${spec}" must be ` +
+                `"${REQUIRED_INTERNAL_SPEC}"`,
             ),
           );
         }
@@ -117,21 +110,25 @@ function checkInternalDependencyRanges() {
   if (failures.length > 0) {
     console.error(
       red(
-        '\nThe following internal dependency ranges are stale and must be updated:',
+        '\nThe following internal @digitransit-* references do not use the ' +
+          `"${REQUIRED_INTERNAL_SPEC}" protocol:`,
       ),
     );
 
     failures.forEach(failure => {
       console.error(
         red(
-          `  - ${failure.name} → ${failure.depName} (declared "${failure.range}", current ${failure.currentDepVersion})`,
+          `  - ${failure.name} → ${failure.depName} in ${failure.depField} (declared "${failure.spec}")`,
         ),
       );
     });
 
     console.error(
       red(
-        '\nUpdate the declared range so it is satisfied by the current version of the dependency.',
+        `\nDeclare every internal @digitransit-* dependency/peerDependency as ` +
+          `"${REQUIRED_INTERNAL_SPEC}" so \`lerna version\` maintains it (rewrites ` +
+          `and cascades bumps); \`lerna publish\` resolves it to "^<version>" in ` +
+          `the published package.`,
       ),
     );
 
@@ -139,7 +136,9 @@ function checkInternalDependencyRanges() {
   }
 
   console.log(
-    green('✓ All internal @digitransit-* dependency ranges are satisfied.'),
+    green(
+      `✓ All internal @digitransit-* references use "${REQUIRED_INTERNAL_SPEC}".`,
+    ),
   );
   return true;
 }
