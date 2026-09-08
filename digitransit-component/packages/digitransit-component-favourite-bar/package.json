@@ -32,8 +32,8 @@
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "^2.1.3"
   },
   "peerDependencies": {
-    "@digitransit-component/digitransit-component-icon": "^2.0.2",
-    "@digitransit-component/digitransit-component-suggestion-item": "^3.0.3",
+    "@digitransit-component/digitransit-component-icon": "^2.0.3",
+    "@digitransit-component/digitransit-component-suggestion-item": "^3.0.4",
     "@hsl-fi/sass": "1.0.0",
     "@hsl-fi/shimmer": "0.1.2",
     "classnames": "2.5.1",

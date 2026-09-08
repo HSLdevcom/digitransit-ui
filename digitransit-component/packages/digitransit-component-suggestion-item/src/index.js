@@ -58,6 +58,67 @@ function isFavourite(item) {
   return item.type?.includes('Favourite');
 }
 
+export const STOP_STATUS = {
+  OUT_OF_SERVICE: 'out-of-service',
+  NO_SERVICE_TODAY: 'no-service-today',
+  ALERT: 'alert',
+  INFO: 'info',
+};
+
+/** Maps each STOP_STATUS value to the sprite id of its corner badge icon. */
+export const STOP_STATUS_BADGE_IMGS = {
+  [STOP_STATUS.OUT_OF_SERVICE]: 'icon_stop-closed-badge',
+  [STOP_STATUS.ALERT]: 'icon_caution-badge',
+  [STOP_STATUS.INFO]: 'icon_info-circled-badge',
+  [STOP_STATUS.NO_SERVICE_TODAY]: 'icon_stop-temporarily-closed-badge',
+};
+
+// Layers eligible for a stop status badge in search suggestions.
+const STATUS_LAYERS = new Set([
+  'stop',
+  'favouriteStop',
+  'station',
+  'favouriteStation',
+]);
+
+function hasGtfsId(item) {
+  return !!(
+    item.properties?.gtfsId ||
+    item.gtfsId ||
+    item.properties?.gid?.includes('GTFS:')
+  );
+}
+
+/**
+ * Resolves the sprite id of the stop status badge shown on a suggestion's
+ * icon, based on the item's geocoding `addendum.GTFS` metadata.
+ *
+ * @param {object} item a search suggestion item
+ * @returns {string|null} a badge sprite id, or null when no badge applies
+ */
+export function getStopBadge(item) {
+  if (!STATUS_LAYERS.has(item.properties?.layer)) {
+    return null;
+  }
+  if (!hasGtfsId(item)) {
+    return null;
+  }
+  const gtfs = item.properties?.addendum?.GTFS;
+  if (gtfs?.noService) {
+    return STOP_STATUS_BADGE_IMGS[STOP_STATUS.OUT_OF_SERVICE];
+  }
+  if (gtfs?.noServiceToday) {
+    return STOP_STATUS_BADGE_IMGS[STOP_STATUS.NO_SERVICE_TODAY];
+  }
+  if (
+    gtfs?.alertSeverity === STOP_STATUS.ALERT ||
+    gtfs?.alertSeverity === STOP_STATUS.INFO
+  ) {
+    return STOP_STATUS_BADGE_IMGS[gtfs.alertSeverity];
+  }
+  return null;
+}
+
 function getAriaDescription(ariaContentArray) {
   const description = ariaContentArray
     .filter(part => part !== undefined && part !== null && part !== '')
@@ -154,20 +215,30 @@ function hasVehicleStationCode(stationId) {
  *    item={suggestionObject}
  *    content={['Pysäkki', 'Kuusitie', 'Helsinki', 'H1923']}
  *    loading={false}
+ *    showStopStatusMarkers={true}
  * />
  */
 const SuggestionItem = memo(
   ({
     item,
     content,
-    loading,
-    isMobile,
-    ariaFavouriteString,
-    fillInput,
-    fontWeights,
+    loading = false,
+    isMobile = false,
+    ariaFavouriteString = '',
+    fillInput = () => {},
+    fontWeights = { medium: 500 },
     colors,
-    getAutoSuggestIcons,
-    modeSet,
+    getAutoSuggestIcons = {
+      citybikes: station => {
+        const name =
+          station.properties.source === 'citybikesvantaa'
+            ? 'citybike-stop-hsl-secondary'
+            : 'citybike-stop-hsl';
+        return [name, defaultColors.citybike];
+      },
+    },
+    modeSet = 'hsl',
+    showStopStatusMarkers = false,
   }) => {
     const [suggestionType, name, label, stopCode, modes, platform] =
       content || ['', item.name, item.address];
@@ -197,9 +268,18 @@ const SuggestionItem = memo(
     // It fills the input field.
     const [arrowClicked, setArrowClicked] = useState(false);
 
+    const stopStatusBadge = showStopStatusMarkers ? getStopBadge(item) : null;
     const icon = (
-      <span className={styles[iconId]}>
+      <span
+        className={`${styles['suggestion-icon-wrapper']} ${styles[iconId]}`}
+      >
         <Icon color={iconColor} img={iconId} />
+        {stopStatusBadge && (
+          <Icon
+            img={stopStatusBadge}
+            className={styles['suggestion-status-badge']}
+          />
+        )}
       </span>
     );
     let ariaParts;
@@ -431,27 +511,7 @@ SuggestionItem.propTypes = {
   getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
   colors: PropTypes.objectOf(PropTypes.string),
   modeSet: PropTypes.string,
-};
-
-SuggestionItem.defaultProps = {
-  loading: false,
-  ariaFavouriteString: '',
-  fillInput: () => {},
-  isMobile: false,
-  fontWeights: {
-    medium: 500,
-  },
-  colors: undefined,
-  getAutoSuggestIcons: {
-    citybikes: station => {
-      const name =
-        station.properties.source === 'citybikesvantaa'
-          ? 'citybike-stop-hsl-secondary'
-          : 'citybike-stop-hsl';
-      return [name, defaultColors.citybike];
-    },
-  },
-  modeSet: 'hsl',
+  showStopStatusMarkers: PropTypes.bool,
 };
 
 export default SuggestionItem;

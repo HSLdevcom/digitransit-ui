@@ -398,6 +398,7 @@ if (process.env.OIDC_CLIENT_ID) {
 }
 setUpStaticFolders();
 setUpMiddleware();
+
 setUpRoutes();
 setUpErrorHandling();
 Promise.all([
