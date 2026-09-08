@@ -62,7 +62,7 @@
     "digitransit-store-new-module": "node -r esm ./digitransit-store/scripts/create-new-module",
     "digitransit-store-tests": "lerna run build:test --scope '@digitransit-store/*' && lerna run test --scope '@digitransit-store/*'",
     "watch-workspaces": "lerna run watch --parallel --stream",
-    "clean-workspaces": "lerna run clean --scope '@digitransit-component/*' --scope '@digitransit-search-util/digitransit-search-util-query-utils' --scope '@digitransit-store/*'",
+    "clean-workspaces": "lerna run clean --scope '@digitransit-component/*' --scope '@digitransit-search-util/digitransit-search-util-query-utils' --scope '@digitransit-store/*' && rm -rf node_modules/.cache .nx",
     "bump-versions-workspaces": "git fetch --tags && lerna version --no-push --include-merged-tags",
     "check-versions-workspaces": "node scripts/check-versions-workspaces.js"
   },

@@ -13,6 +13,39 @@
 # needs a "wait for the first of several background jobs" mechanism; see
 # wait_any() below for how that is done in a mac/Linux-compatible way.
 
+cleanup() {
+  trap - EXIT INT TERM
+
+  echo "Stopping development processes..."
+
+  for pid in "${pids[@]}"; do
+    kill -- "-$pid" 2>/dev/null || true
+  done
+
+  wait 2>/dev/null || true
+}
+
+# `wait -n` (wait for the first of several background jobs to exit) needs
+# bash >= 4.3. macOS ships bash 3.2, where `wait -n` errors with
+# "wait: -n: invalid option". Use the native form when available (as on
+# Linux and any newer bash), and fall back to a simple kill -0 liveness
+# poll loop otherwise, which works on any bash version. Either path
+# returns as soon as one tracked process exits, so the script falls off
+# the end, the EXIT trap fires, and cleanup() tears down the rest of the
+# process group.
+wait_any() {
+  if (( BASH_VERSINFO[0] > 4 || (BASH_VERSINFO[0] == 4 && BASH_VERSINFO[1] >= 3) )); then
+    wait -n
+  else
+    while true; do
+      for pid in "${pids[@]}"; do
+        kill -0 "$pid" 2>/dev/null || return
+      done
+      sleep 1
+    done
+  fi
+}
+
 set -eo pipefail
 set -m
 
@@ -55,52 +88,32 @@ esac
 
 pids=()
 
-cleanup() {
-  trap - EXIT INT TERM
-
-  echo "Stopping development processes..."
-
-  for pid in "${pids[@]}"; do
-    kill -- "-$pid" 2>/dev/null || true
-  done
-
-  wait 2>/dev/null || true
-}
-
 trap cleanup EXIT INT TERM
 
-# `wait -n` (wait for the first of several background jobs to exit) needs
-# bash >= 4.3. macOS ships bash 3.2, where `wait -n` errors with
-# "wait: -n: invalid option". Use the native form when available (as on
-# Linux and any newer bash), and fall back to a simple kill -0 liveness
-# poll loop otherwise, which works on any bash version. Either path
-# returns as soon as one tracked process exits, so the script falls off
-# the end, the EXIT trap fires, and cleanup() tears down the rest of the
-# process group.
-wait_any() {
-  if (( BASH_VERSINFO[0] > 4 || (BASH_VERSINFO[0] == 4 && BASH_VERSINFO[1] >= 3) )); then
-    wait -n
-  else
-    while true; do
-      for pid in "${pids[@]}"; do
-        kill -0 "$pid" 2>/dev/null || return
-      done
-      sleep 1
-    done
-  fi
-}
+yarn static
 
-yarn run static
+# Build the digitransit-* workspace packages once, synchronously, before
+# starting webpack-dev-server and the workspace watchers below. On a fresh
+# clone (or after `lib/` is removed/out of date) the packages' `lib/*.cjs`
+# outputs don't exist yet; webpack-dev-server's persistent filesystem cache
+# (see webpack.config.babel.js) doesn't reliably invalidate when those
+# outputs later appear via watch-workspaces's rollup watch, so it
+# can permanently cache a broken/missing module resolution. Building here
+# first ensures webpack-dev-server always sees valid output on its first
+# compile.
+yarn build-workspaces
 
-yarn run relay-watch &
+yarn relay-watch &
 pids+=("$!")
 
 # digitransit-search-util-query-utils has its own relay-compiler config
 # (separate from the root app's) for the graphql`` tags in its src. Its
 # "watch" script only runs relay-compiler once before starting rollup -w,
 # so without this it wouldn't regenerate lib/__generated__ if one of its
-# queries is edited during a dev session.
-(cd digitransit-search-util/packages/digitransit-search-util-query-utils && yarn relay-compiler --watch) &
+# queries is edited during a dev session. Its "relay-watch" script
+# mkdir -p's lib/__generated__ before starting relay-compiler --watch, so
+# this also works on a fresh clone where lib/ doesn't exist yet.
+(cd digitransit-search-util/packages/digitransit-search-util-query-utils && yarn relay-watch) &
 pids+=("$!")
 
 yarn nodemon \

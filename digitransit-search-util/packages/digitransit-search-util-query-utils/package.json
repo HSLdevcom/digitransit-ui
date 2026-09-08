@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
-  "version": "4.5.14",
+  "version": "4.5.15",
   "description": "digitransit-search-util query-utils module",
   "main": "lib/index.js",
   "publishConfig": {
@@ -11,6 +11,7 @@
     "test": "mocha -r esm test.js",
     "docs": "node -r esm ../../scripts/generate-readmes",
     "relay": "mkdir -p lib/__generated__ && relay-compiler",
+    "relay-watch": "mkdir -p lib/__generated__ && relay-compiler --watch",
     "watch": "yarn relay && NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "build": "yarn relay && NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
