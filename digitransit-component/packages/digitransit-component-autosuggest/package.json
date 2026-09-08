@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-autosuggest",
-  "version": "7.2.2",
+  "version": "7.2.3",
   "description": "digitransit-component autosuggest module",
   "main": "index.cjs",
   "files": [

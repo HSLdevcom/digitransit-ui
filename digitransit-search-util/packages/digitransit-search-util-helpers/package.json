@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-helpers",
-  "version": "2.3.6",
+  "version": "2.3.7",
   "description": "digitransit-search-util helpers module",
   "main": "index.js",
   "type": "module",
