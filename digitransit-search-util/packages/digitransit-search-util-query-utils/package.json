@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
-  "version": "4.5.14",
+  "version": "4.5.15",
   "description": "digitransit-search-util query-utils module",
   "main": "lib/index.cjs",
   "type": "module",
@@ -13,6 +13,7 @@
     "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs",
     "relay": "mkdir -p lib/__generated__ && relay-compiler && echo '{\"type\":\"commonjs\"}' > lib/__generated__/package.json",
+    "relay-watch": "mkdir -p lib/__generated__ && relay-compiler --watch",
     "watch": "yarn relay && NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "build": "yarn relay && NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
