@@ -18,7 +18,12 @@ import {
 } from '../../../util/localeUtils';
 import { locationToUri } from '../../../util/otpStrings';
 import { getItineraryPagePath } from '../../../util/path';
-import { durationToString, epochToIso, timeStr } from '../../../util/timeUtils';
+import {
+  durationToString,
+  epochToIso,
+  stopCallTime,
+  timeStr,
+} from '../../../util/timeUtils';
 import Icon from '../../Icon';
 import { getModeIconColor } from '../../../util/colorUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
@@ -414,16 +419,15 @@ export const getTransitLegState = (
 export function itinerarySearchPath(time, leg, nextLeg, position, to) {
   let from;
   if (leg?.transitLeg) {
-    from = leg.intermediatePlaces.find(
-      p => legTime(p.arrival) > time + EARLIEST_NEXT_STOP,
+    const intermediate = leg.stopCalls?.slice(1, -1) ?? [];
+    const sc = intermediate.find(
+      s => legTime(stopCallTime(s, 'arrival')) > time + EARLIEST_NEXT_STOP,
     );
-    if (!from) {
-      from = leg.to;
-    }
+    from = sc ? sc.stopLocation : leg.to;
   } else {
     from = position || leg?.to || nextLeg?.from;
   }
-  const location = { ...from, ...from.stop };
+  const location = { ...from };
 
   return getItineraryPagePath(locationToUri(location), to);
 }

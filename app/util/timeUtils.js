@@ -26,6 +26,22 @@ export function getStartTimeWithColon(seconds) {
 }
 
 /**
+ * Builds a legTime-compatible object (scheduledTime/estimated) for a stop call's
+ * arrival or departure, as returned by leg.stopCalls.
+ * @param {Object} stopCall a StopCall from leg.stopCalls
+ * @param {'arrival'|'departure'} eventType
+ * @returns {{scheduledTime: string, estimated: ({time: string}|undefined)}}
+ */
+export function stopCallTime(stopCall, eventType) {
+  return {
+    scheduledTime: stopCall.schedule?.time?.[eventType],
+    estimated: stopCall.realTime?.[eventType]
+      ? { time: stopCall.realTime[eventType].time }
+      : undefined,
+  };
+}
+
+/**
  * @param {number} startTime milliseconds since 1970 UTC
  * @param {number} [refTime] milliseconds since 1970 UTC
  * @returns {boolean} true if startTime is the same day compared to refTime or if refTime is not given and startTime is today
