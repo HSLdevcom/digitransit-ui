@@ -316,7 +316,7 @@ export default {
     'itinerary-summary-row.first-leg-start-time-scooter':
       'Avgång kl {firstDepartureTime} med en sparkcykel',
     'itinerary-summary-row.first-leg-start-time-sr':
-      '{vehicle} avgår från station {firstDepartureStop} klockan {firstDepartureTime} {firstDeparturePlatform}.',
+      '{vehicle} avgår från {firstDepartureStopType} {firstDepartureStop} klockan {firstDepartureTime} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time-taxi':
       'Taxi avgår från {firstDepartureStop} kl. {firstDepartureTime}',
     'itinerary-summary-row.no-transit-legs': 'Avgå när det passar för dig',
