@@ -57,7 +57,7 @@ import TrafficNowLinkNew from './trafficnow/TrafficNowLink';
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
 
-function IndexPage(props, context) {
+function IndexPage({ favouriteModalAction = '', fromMap, ...props }, context) {
   const pendingOriginRef = useRef(null);
   const pendingDestinationRef = useRef(null);
   const intl = useIntl();
@@ -316,7 +316,7 @@ function IndexPage(props, context) {
     selectHandler: onSelectLocation,
     getAutoSuggestIcons: config.getAutoSuggestIcons,
     onGeolocationStart: onSelectLocation,
-    fromMap: props.fromMap,
+    fromMap,
     fontWeights,
     colors,
     modeSet: iconModeSet,
@@ -375,7 +375,7 @@ function IndexPage(props, context) {
           {!config.hideFavourites && (
             <>
               <FavouritesContainer
-                favouriteModalAction={props.favouriteModalAction}
+                favouriteModalAction={favouriteModalAction}
                 onClickFavourite={clickFavourite}
                 lang={language}
               />
@@ -465,11 +465,6 @@ IndexPage.propTypes = {
   favouriteModalAction: PropTypes.string,
   fromMap: PropTypes.string,
   locationState: locationShape.isRequired,
-};
-
-IndexPage.defaultProps = {
-  favouriteModalAction: '',
-  fromMap: undefined,
 };
 
 // update only when origin/destination/breakpoint or language changes

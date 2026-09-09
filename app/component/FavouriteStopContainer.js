@@ -17,9 +17,11 @@ import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { failedFavouriteMessage } from '../util/messageUtils';
 import { useConfigContext } from '../configurations/ConfigContext';
 
-function FavouriteStopContainerComponent(props, context) {
+export default function FavouriteStopContainer(
+  { stop, isTerminal = false, ...rest },
+  context,
+) {
   const [isFetching, setIsFetching] = useState(false);
-  const { stop, isTerminal } = props;
   const config = useConfigContext();
   const favourites = useFavourites();
   const favouriteStatus = useFavouriteStatus();
@@ -30,11 +32,9 @@ function FavouriteStopContainerComponent(props, context) {
 
   return (
     <Favourite
-      {...props}
+      {...rest}
       favourite={favourite}
-      isFetching={
-        props.isFetching || isFetching || favouriteStatus === 'fetching'
-      }
+      isFetching={isFetching || favouriteStatus === 'fetching'}
       addFavourite={() => {
         setIsFetching(true);
         let gid = `gtfs${stop.gtfsId
@@ -97,19 +97,11 @@ function FavouriteStopContainerComponent(props, context) {
   );
 }
 
-FavouriteStopContainerComponent.propTypes = {
+FavouriteStopContainer.propTypes = {
   stop: stopShape.isRequired,
   isTerminal: PropTypes.bool,
-  isFetching: PropTypes.bool,
 };
 
-FavouriteStopContainerComponent.defaultProps = {
-  isTerminal: false,
-  isFetching: false,
-};
-
-FavouriteStopContainerComponent.contextTypes = {
+FavouriteStopContainer.contextTypes = {
   executeAction: PropTypes.func.isRequired,
 };
-
-export default FavouriteStopContainerComponent;

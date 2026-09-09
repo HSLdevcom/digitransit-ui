@@ -98,7 +98,7 @@ function NearYouPage(
     favouriteStationIds,
     favouriteVehicleStationIds,
     mapLayers,
-    favouritesFetched,
+    favouritesFetched = false,
     router,
   },
   { executeAction },
@@ -631,10 +631,6 @@ NearYouPage.propTypes = {
   mapLayers: mapLayerShape.isRequired,
   favouritesFetched: PropTypes.bool,
   router: routerShape.isRequired,
-};
-
-NearYouPage.defaultProps = {
-  favouritesFetched: false,
 };
 
 const NearYouPageWithBreakpoint = withBreakpoint(props => (
