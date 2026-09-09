@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useConfigContext } from '../configurations/ConfigContext';
 
-const LogoSmall = ({ logo, title }) => {
+const LogoSmall = ({ logo }) => {
   const config = useConfigContext();
+  const { title } = config;
   if (config.textLogo && !logo) {
     return (
       <span className="title" role="heading" aria-level="1">
@@ -28,7 +29,6 @@ const LogoSmall = ({ logo, title }) => {
 
 LogoSmall.propTypes = {
   logo: PropTypes.string,
-  title: PropTypes.node,
 };
 
 export default LogoSmall;

@@ -65,8 +65,4 @@ AppBarContainer.propTypes = {
 
 const AppBarContainerWithBreakpoint = withBreakpoint(AppBarContainer);
 
-AppBarContainerWithBreakpoint.propTypes = {
-  title: PropTypes.node,
-};
-
 export default AppBarContainerWithBreakpoint;

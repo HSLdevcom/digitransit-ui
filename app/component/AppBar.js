@@ -14,7 +14,6 @@ import { useConfigContext } from '../configurations/ConfigContext';
 
 export default function AppBar({
   showLogo = false,
-  title,
   homeUrl,
   logo,
   breakpoint,
@@ -69,7 +68,7 @@ export default function AppBar({
               });
             }}
           >
-            <LogoSmall showLogo={showLogo} logo={logo} title={title} />
+            <LogoSmall showLogo={showLogo} logo={logo} />
           </button>
         </section>
         <section className="controls">
@@ -125,7 +124,6 @@ export default function AppBar({
 
 AppBar.propTypes = {
   showLogo: PropTypes.bool,
-  title: PropTypes.node,
   homeUrl: PropTypes.string,
   logo: PropTypes.string,
   breakpoint: PropTypes.string,
