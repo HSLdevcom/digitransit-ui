@@ -57,7 +57,7 @@ import TrafficNowLinkNew from './trafficnow/TrafficNowLink';
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
 
-function IndexPage({ favouriteModalAction = '', fromMap, ...props }, context) {
+function IndexPage({ fromMap, ...props }, context) {
   const pendingOriginRef = useRef(null);
   const pendingDestinationRef = useRef(null);
   const intl = useIntl();
@@ -375,7 +375,6 @@ function IndexPage({ favouriteModalAction = '', fromMap, ...props }, context) {
           {!config.hideFavourites && (
             <>
               <FavouritesContainer
-                favouriteModalAction={favouriteModalAction}
                 onClickFavourite={clickFavourite}
                 lang={language}
               />
@@ -462,7 +461,6 @@ IndexPage.propTypes = {
   origin: locationShape.isRequired,
   destination: locationShape.isRequired,
   query: PropTypes.object.isRequired, // eslint-disable-line
-  favouriteModalAction: PropTypes.string,
   fromMap: PropTypes.string,
   locationState: locationShape.isRequired,
 };
@@ -490,13 +488,10 @@ const IndexPageWithStores = connectToStores(
     const destination = context.getStore('DestinationStore').getDestination();
     const locationState = context.getStore('PositionStore').getLocationState();
     const { query } = props.match.location;
-    const { favouriteModalAction, fromMap } = query;
+    const { fromMap } = query;
 
     const newProps = {};
     newProps.locationState = locationState;
-    if (favouriteModalAction) {
-      newProps.favouriteModalAction = favouriteModalAction;
-    }
     if (fromMap === 'origin' || fromMap === 'destination') {
       newProps.fromMap = fromMap;
     }

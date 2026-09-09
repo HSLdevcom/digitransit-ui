@@ -126,4 +126,4 @@ CanceledTripCard.propTypes = {
   ).isRequired,
 };
 
-export { CanceledTripCard as default, CanceledTripCard as Component };
+export default CanceledTripCard;

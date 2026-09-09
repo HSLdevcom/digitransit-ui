@@ -101,4 +101,4 @@ RouteBadgeGroup.propTypes = {
   stopPropagation: PropTypes.bool,
 };
 
-export { RouteBadgeGroup as default, RouteBadgeGroup as Component };
+export default RouteBadgeGroup;

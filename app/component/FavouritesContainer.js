@@ -26,11 +26,8 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
   const config = useConfigContext();
   const favourites = useFavourites();
   const favouriteStatus = useFavouriteStatus() || STATUS_FETCHING_OR_UPDATING;
-  const {
-    saveFavourite: saveFavouriteAction,
-    deleteFavourite: deleteFavouriteAction,
-    updateFavourites: updateFavouritesAction,
-  } = useFavouriteActions();
+  const { saveFavourite, deleteFavourite, updateFavourites } =
+    useFavouriteActions();
   const closeModalTimeoutRef = useRef(null);
 
   const [loginModalOpen, setLoginModalOpen] = useState(false);
@@ -115,7 +112,7 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
       name: null,
     });
 
-    saveFavouriteAction(favouriteToSave);
+    saveFavourite(favouriteToSave);
   };
 
   const deleteSelectedFavourite = favouriteToDelete => {
@@ -125,7 +122,7 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
       name: null,
     });
 
-    deleteFavouriteAction(favouriteToDelete);
+    deleteFavourite(favouriteToDelete);
   };
 
   const updateFavouriteOrder = updatedFavouritePlaces => {
@@ -141,7 +138,7 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
       ...favourites.filter(item => item.type !== 'place'),
     ];
 
-    updateFavouritesAction(reordered);
+    updateFavourites(reordered);
   };
 
   const editSelectedFavourite = currentFavourite => {
@@ -273,4 +270,4 @@ FavouritesContainer.propTypes = {
   isMobile: PropTypes.bool,
 };
 
-export { FavouritesContainer as default, FavouritesContainer as Component };
+export default FavouritesContainer;
