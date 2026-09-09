@@ -49,6 +49,9 @@ export function FavouriteProvider({ context, children = null }) {
     favouriteStore.getStatus(),
   );
 
+  // config and context are stable for the app's lifetime (set once at app
+  // init in client.js), so they are intentionally omitted from dependency
+  // arrays below.
   useEffect(() => {
     favouriteStore.init(config);
     const onChange = () => {
@@ -58,18 +61,15 @@ export function FavouriteProvider({ context, children = null }) {
     onChange();
     favouriteStore.addChangeListener(onChange);
     return () => favouriteStore.removeChangeListener(onChange);
-  }, [config]);
+  }, []);
 
   // Sends a failure message via the (still Fluxible-backed) MessageStore.
   // This if statement should be removed when backend service is added for waltti
-  const notifyFailure = useCallback(
-    (type, isSave) => {
-      if (!config.allowFavouritesFromLocalstorage) {
-        context.executeAction(addMessage, failedFavouriteMessage(type, isSave));
-      }
-    },
-    [config, context],
-  );
+  const notifyFailure = useCallback((type, isSave) => {
+    if (!config.allowFavouritesFromLocalstorage) {
+      context.executeAction(addMessage, failedFavouriteMessage(type, isSave));
+    }
+  }, []);
 
   const actions = useMemo(
     () => ({
