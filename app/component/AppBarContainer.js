@@ -2,23 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useRouter } from 'found';
 import { FormattedMessage } from 'react-intl';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import withBreakpoint from '../util/withBreakpoint';
-import { favouriteShape } from '../util/shapes';
+import { useFavourites } from '../hooks/FavouriteContext';
 import AppBar from './AppBar';
 import AppBarHsl from './AppBarHsl';
 import CrisisBannerHsl from './CrisisBannerHsl';
 import MessageBar from './MessageBar';
 
-const AppBarContainer = ({
-  homeUrl,
-  logo,
-  favourites,
-  style,
-  breakpoint,
-  ...args
-}) => {
+const AppBarContainer = ({ homeUrl, logo, style, breakpoint, ...args }) => {
   const { match, router } = useRouter();
+  const favourites = useFavourites();
   return (
     <>
       <a
@@ -66,23 +59,14 @@ const AppBarContainer = ({
 AppBarContainer.propTypes = {
   homeUrl: PropTypes.string.isRequired,
   logo: PropTypes.string,
-  favourites: PropTypes.arrayOf(favouriteShape),
   style: PropTypes.string.isRequired,
   breakpoint: PropTypes.string.isRequired,
 };
 
 const AppBarContainerWithBreakpoint = withBreakpoint(AppBarContainer);
 
-const WithContext = connectToStores(
-  AppBarContainerWithBreakpoint,
-  ['FavouriteStore'],
-  context => ({
-    favourites: context.getStore('FavouriteStore').getFavourites(),
-  }),
-);
-
-WithContext.propTypes = {
+AppBarContainerWithBreakpoint.propTypes = {
   title: PropTypes.node,
 };
 
-export default WithContext;
+export default AppBarContainerWithBreakpoint;

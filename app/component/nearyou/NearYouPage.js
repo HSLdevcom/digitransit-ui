@@ -6,7 +6,7 @@ import { graphql, ReactRelayContext, QueryRenderer } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { configShape, relayShape, locationShape } from '../../util/shapes';
+import { relayShape, locationShape } from '../../util/shapes';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../../util/withBreakpoint';
@@ -37,7 +37,15 @@ import {
   getNearYouModes,
   useCitybikes,
 } from '../../util/modeUtils';
-import FavouriteStore from '../../store/FavouriteStore';
+import {
+  STATUS_FETCHING_OR_UPDATING,
+  getFavouriteStopsAndStations,
+  getFavouriteVehicleRentalStations,
+} from '../../store/FavouriteStore';
+import {
+  useFavourites,
+  useFavouriteStatus,
+} from '../../hooks/FavouriteContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
 
@@ -639,46 +647,53 @@ const NearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   NearYouPageWithBreakpoint,
-  ['PositionStore', 'FavouriteStore', 'MapLayerStore'],
-  (context, props) => {
-    const favStore = context.getStore('FavouriteStore');
-    const favouriteStopIds = favStore
-      .getStopsAndStations()
-      .filter(stop => stop.type === 'stop')
-      .map(stop => stop.gtfsId);
-    const favouriteStationIds = favStore
-      .getStopsAndStations()
-      .filter(stop => stop.type === 'station')
-      .map(stop => stop.gtfsId);
-    const favouriteVehicleStationIds = useCitybikes(
-      context.config.vehicleRental?.networks,
-      context.config,
-    )
-      ? favStore.getVehicleRentalStations().map(station => station.stationId)
-      : [];
-
-    return {
-      ...props,
-      position: context.getStore('PositionStore').getLocationState(),
-      mapLayers: context
-        .getStore('MapLayerStore')
-        .getMapLayers({ notThese: ['vehicles', 'scooter'] }),
-      favouriteStopIds,
-      favouriteVehicleStationIds,
-      favouriteStationIds,
-      favourites: favStore.getFavourites(),
-      favouritesFetched:
-        favStore.getStatus() !== FavouriteStore.STATUS_FETCHING_OR_UPDATING,
-    };
-  },
+  ['PositionStore', 'MapLayerStore'],
+  (context, props) => ({
+    ...props,
+    position: context.getStore('PositionStore').getLocationState(),
+    mapLayers: context
+      .getStore('MapLayerStore')
+      .getMapLayers({ notThese: ['vehicles', 'scooter'] }),
+  }),
 );
+
+function NearYouPageWithFavourites(props) {
+  const config = useConfigContext();
+  const favourites = useFavourites();
+  const favouriteStatus = useFavouriteStatus();
+  const stopsAndStations = getFavouriteStopsAndStations(favourites);
+  const favouriteStopIds = stopsAndStations
+    .filter(stop => stop.type === 'stop')
+    .map(stop => stop.gtfsId);
+  const favouriteStationIds = stopsAndStations
+    .filter(stop => stop.type === 'station')
+    .map(stop => stop.gtfsId);
+  const favouriteVehicleStationIds = useCitybikes(
+    config.vehicleRental?.networks,
+    config,
+  )
+    ? getFavouriteVehicleRentalStations(favourites).map(
+        station => station.stationId,
+      )
+    : [];
+
+  return (
+    <PositioningWrapper
+      {...props}
+      favourites={favourites}
+      favouriteStopIds={favouriteStopIds}
+      favouriteStationIds={favouriteStationIds}
+      favouriteVehicleStationIds={favouriteVehicleStationIds}
+      favouritesFetched={favouriteStatus !== STATUS_FETCHING_OR_UPDATING}
+    />
+  );
+}
 
 PositioningWrapper.contextTypes = {
   getStore: PropTypes.func.isRequired,
-  config: configShape.isRequired,
 };
 
 export {
-  PositioningWrapper as default,
+  NearYouPageWithFavourites as default,
   NearYouPageWithBreakpoint as Component,
 };

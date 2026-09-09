@@ -1,25 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useLazyLoadQuery } from 'react-relay/hooks';
-import { connectToStores } from 'fluxible-addons-react';
 import CanceledTrips from './CanceledTrips';
 import CanceledTripsForModeQuery from './queries/CanceledTripsForModeQuery';
-import { favouriteShape } from '../../util/shapes';
 import { sortRoutes } from './utils';
 import { useFilterContext } from './filters/FiltersContext';
+import { useFavourites } from '../../hooks/FavouriteContext';
 import { splitGtfsId } from '../../util/gtfs';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
-const CanceledTripsContainer = ({
-  mode,
-  isMobile,
-  favourites = [],
-  dateTime,
-}) => {
+const CanceledTripsContainer = ({ mode, isMobile, dateTime }) => {
   const { canceledTripsSummary } = useLazyLoadQuery(CanceledTripsForModeQuery, {
     mode: mode.toUpperCase(),
     runningTimeRanges: [{ start: dateTime, end: null }],
   });
+  const favourites = useFavourites();
   const favRoutes = favourites.map(({ gtfsId }) => gtfsId);
   const {
     selectedFilters: { selectedFeeds },
@@ -44,16 +39,7 @@ const CanceledTripsContainer = ({
 CanceledTripsContainer.propTypes = {
   mode: PropTypes.string.isRequired,
   isMobile: PropTypes.bool,
-  favourites: PropTypes.arrayOf(favouriteShape),
   dateTime: PropTypes.string.isRequired,
 };
 
-const connectedComponent = connectToStores(
-  CanceledTripsContainer,
-  ['FavouriteStore'],
-  context => ({
-    favourites: context.getStore('FavouriteStore').getFavourites(),
-  }),
-);
-
-export default connectedComponent;
+export default CanceledTripsContainer;

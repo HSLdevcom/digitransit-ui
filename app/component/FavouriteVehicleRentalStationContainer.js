@@ -1,23 +1,35 @@
+import React from 'react';
 import PropTypes from 'prop-types';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import Favourite from './Favourite';
-import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
+import { getFavouriteByStationIdAndNetworks } from '../store/FavouriteStore';
+import {
+  useFavourites,
+  useFavouriteStatus,
+  useFavouriteActions,
+} from '../hooks/FavouriteContext';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 
-const connectedComponent = connectToStores(
-  Favourite,
-  ['FavouriteStore'],
-  (context, { vehicleRentalStation }) => {
-    const favouriteStore = context.getStore('FavouriteStore');
+export default function FavouriteVehicleRentalStationContainer({
+  vehicleRentalStation,
+  ...rest
+}) {
+  const favourites = useFavourites();
+  const favouriteStatus = useFavouriteStatus();
+  const { saveFavourite, deleteFavourite } = useFavouriteActions();
 
-    return {
-      favourite: favouriteStore.isFavourite(
-        vehicleRentalStation.stationId,
-        'bikeStation',
-      ),
-      isFetching: favouriteStore.getStatus() === 'fetching',
-      addFavourite: () => {
-        context.executeAction(saveFavourite, {
+  const favourite = !!getFavouriteByStationIdAndNetworks(
+    favourites,
+    vehicleRentalStation.stationId,
+    vehicleRentalStation.rentalNetwork.networkId,
+  );
+
+  return (
+    <Favourite
+      {...rest}
+      favourite={favourite}
+      isFetching={favouriteStatus === 'fetching'}
+      addFavourite={() => {
+        saveFavourite({
           lat: vehicleRentalStation.lat,
           lon: vehicleRentalStation.lon,
           network: vehicleRentalStation.rentalNetwork.networkId,
@@ -29,36 +41,35 @@ const connectedComponent = connectToStores(
         addAnalyticsEvent({
           category: 'BikeRentalStation',
           action: 'MarkBikeRentalStationAsFavourite',
-          name: !favouriteStore.isFavourite(
-            vehicleRentalStation.stationId,
-            'bikeStation',
-          ),
+          name: !favourite,
         });
-      },
-      delFavourite: () => {
-        const vehicleRentalStationToDelete =
-          favouriteStore.getByStationIdAndNetworks(
-            vehicleRentalStation.stationId,
-            vehicleRentalStation.rentalNetwork.networkId,
-          );
-        context.executeAction(deleteFavourite, vehicleRentalStationToDelete);
+      }}
+      delFavourite={() => {
+        const vehicleRentalStationToDelete = getFavouriteByStationIdAndNetworks(
+          favourites,
+          vehicleRentalStation.stationId,
+          vehicleRentalStation.rentalNetwork.networkId,
+        );
+        deleteFavourite(vehicleRentalStationToDelete);
 
         addAnalyticsEvent({
           category: 'BikeRentalStation',
           action: 'MarkBikeRentalStationAsFavourite',
-          name: !favouriteStore.isFavourite(
-            vehicleRentalStation.stationId,
-            'bikeStation',
-          ),
+          name: !favourite,
         });
-      },
-    };
-  },
-);
+      }}
+    />
+  );
+}
 
-connectedComponent.contextTypes = {
-  getStore: PropTypes.func.isRequired,
-  executeAction: PropTypes.func.isRequired,
+FavouriteVehicleRentalStationContainer.propTypes = {
+  vehicleRentalStation: PropTypes.shape({
+    stationId: PropTypes.string.isRequired,
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+    name: PropTypes.string,
+    rentalNetwork: PropTypes.shape({
+      networkId: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
-
-export default connectedComponent;

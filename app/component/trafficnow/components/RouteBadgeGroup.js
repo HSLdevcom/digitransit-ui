@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useRouter } from 'found';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import Icon from '../../Icon';
 import IconBackground from '../../icon/IconBackground';
-import { favouriteShape } from '../../../util/shapes';
+import { useFavourites } from '../../../hooks/FavouriteContext';
 import EntityBadge from './EntityBadge';
 
 const STOP_SIGN_ICON_SCALE = 0.5;
@@ -20,9 +19,9 @@ const RouteBadgeGroup = ({
   renderSuffix = null,
   headsignGroupClassName = undefined,
   stopPropagation = false,
-  favourites = [],
 }) => {
   const { router } = useRouter();
+  const favourites = useFavourites();
 
   const favouriteRoutesAndStops = favourites.map(({ gtfsId }) => gtfsId);
 
@@ -100,15 +99,6 @@ RouteBadgeGroup.propTypes = {
   renderSuffix: PropTypes.node,
   headsignGroupClassName: PropTypes.string,
   stopPropagation: PropTypes.bool,
-  favourites: PropTypes.arrayOf(favouriteShape),
 };
 
-const connectedComponent = connectToStores(
-  RouteBadgeGroup,
-  ['FavouriteStore'],
-  context => ({
-    favourites: context.getStore('FavouriteStore').getFavourites(),
-  }),
-);
-
-export { connectedComponent as default, RouteBadgeGroup as Component };
+export { RouteBadgeGroup as default, RouteBadgeGroup as Component };

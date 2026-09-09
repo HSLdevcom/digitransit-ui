@@ -19,24 +19,21 @@ import { getIntermediatePlaces, locationToOTP } from '../../util/otpStrings';
 import { setViaPoints } from '../../action/ViaPointActions';
 import { getRefPoint } from '../../util/apiUtils';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import { useFavourites } from '../../hooks/FavouriteContext';
+import { countLocations } from '../../store/FavouriteStore';
 
 const DTAutosuggestPanelWithSearchContext =
   withSearchContext(DTAutosuggestPanel);
 
 function OriginDestinationBar(
-  {
-    origin,
-    destination,
-    isMobile = false,
-    showFavourites,
-    viaPoints = [],
-    locationState,
-  },
+  { origin, destination, isMobile = false, viaPoints = [], locationState },
   context,
 ) {
   const config = useConfigContext();
   const { match, router } = useRouter();
   const mountedRef = useRef(false);
+  const favourites = useFavourites();
+  const showFavourites = countLocations(favourites) > 0;
 
   useEffect(() => {
     const initialViaPoints = getIntermediatePlaces(match.location.query);
@@ -143,7 +140,6 @@ OriginDestinationBar.propTypes = {
   origin: locationShape.isRequired,
   destination: locationShape.isRequired,
   isMobile: PropTypes.bool,
-  showFavourites: PropTypes.bool.isRequired,
   viaPoints: PropTypes.arrayOf(locationShape),
   locationState: locationStateShape.isRequired,
 };
@@ -155,9 +151,8 @@ OriginDestinationBar.contextTypes = {
 
 const connectedComponent = connectToStores(
   OriginDestinationBar,
-  ['FavouriteStore', 'ViaPointStore', 'PositionStore'],
+  ['ViaPointStore', 'PositionStore'],
   ({ getStore }) => ({
-    showFavourites: getStore('FavouriteStore').getLocationCount() > 0,
     viaPoints: getStore('ViaPointStore').getViaPoints(),
     locationState: getStore('PositionStore').getLocationState(),
   }),

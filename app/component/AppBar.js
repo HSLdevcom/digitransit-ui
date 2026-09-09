@@ -12,10 +12,14 @@ import LoginButton from './LoginButton';
 import UserMenu from './UserMenu';
 import { useConfigContext } from '../configurations/ConfigContext';
 
-export default function AppBar(
-  { showLogo = false, title, homeUrl, logo, breakpoint, titleClicked },
-  { getStore },
-) {
+export default function AppBar({
+  showLogo = false,
+  title,
+  homeUrl,
+  logo,
+  breakpoint,
+  titleClicked,
+}) {
   const intl = useIntl();
   const config = useConfigContext();
   const { user } = config;
@@ -82,7 +86,6 @@ export default function AppBar(
                     href: '/logout',
                     onClick: event => {
                       event.preventDefault();
-                      getStore('FavouriteStore').storeFavourites();
                       window.location.href = '/logout';
                     },
                   },
@@ -127,8 +130,4 @@ AppBar.propTypes = {
   logo: PropTypes.string,
   breakpoint: PropTypes.string,
   titleClicked: PropTypes.func.isRequired,
-};
-
-AppBar.contextTypes = {
-  getStore: PropTypes.func.isRequired,
 };

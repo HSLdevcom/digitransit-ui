@@ -5,6 +5,8 @@ import withBreakpoint from '../../util/withBreakpoint';
 import { getMapLayerOptions } from '../../util/mapLayerUtils';
 import ItineraryPage from './ItineraryPage';
 import { ItineraryContextProvider } from './context/ItineraryContext';
+import { useFavourites } from '../../hooks/FavouriteContext';
+import { getFavouriteRouteGtfsIds } from '../../store/FavouriteStore';
 
 const ItineraryPageWithBreakpoint = withBreakpoint(props => (
   <ReactRelayContext.Consumer>
@@ -20,7 +22,7 @@ const ItineraryPageWithBreakpoint = withBreakpoint(props => (
 
 const ItineraryPageWithStores = connectToStores(
   ItineraryPageWithBreakpoint,
-  ['MapLayerStore', 'FavouriteStore'],
+  ['MapLayerStore'],
   ({ getStore }) => ({
     getStore,
     mapLayers: getStore('MapLayerStore').getMapLayers({
@@ -30,10 +32,15 @@ const ItineraryPageWithStores = connectToStores(
       lockedMapLayers: ['vehicles', 'citybike', 'stop'],
       selectedMapLayers: ['vehicles'],
     }),
-    favouriteRoutes: getStore('FavouriteStore').getRouteGtfsIds(),
   }),
 );
 
 export default function ItineraryPageContainer(props) {
-  return <ItineraryPageWithStores {...props} />;
+  const favourites = useFavourites();
+  return (
+    <ItineraryPageWithStores
+      {...props}
+      favouriteRoutes={getFavouriteRouteGtfsIds(favourites)}
+    />
+  );
 }

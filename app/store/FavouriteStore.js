@@ -1,4 +1,3 @@
-import Store from 'fluxible/addons/BaseStore';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
@@ -50,44 +49,126 @@ export function countLocations(favourites) {
   return cnt;
 }
 
-export default class FavouriteStore extends Store {
-  static storeName = 'FavouriteStore';
+/**
+ * Pure helpers operating on a favourites array. These are used both by the
+ * FavouriteData singleton below and directly by React components that
+ * already hold a `favourites` array from useFavourites(), so that querying
+ * favourites doesn't require reaching into the singleton's internal state.
+ */
+export function isFavourite(favourites, id, type) {
+  for (let i = 0; i < favourites.length; i++) {
+    const favourite = favourites[i];
+    const fid = favourite.gtfsId || favourite.gid || favourite.stationId;
+    if (favourite.type === type && fid === id) {
+      return true;
+    }
+  }
+  return false;
+}
 
-  static STATUS_FETCHING_OR_UPDATING = 'fetching';
+export function getFavouriteByGtfsId(favourites, gtfsId, type) {
+  return find(
+    favourites,
+    favourite => gtfsId === favourite.gtfsId && type === favourite.type,
+  );
+}
 
-  static STATUS_HAS_DATA = 'has-data';
+export function getFavouriteByStationIdAndNetworks(
+  favourites,
+  stationId,
+  network,
+) {
+  return find(
+    favourites,
+    favourite =>
+      stationId === favourite.stationId && network === favourite.network,
+  );
+}
 
-  static FETCH_FAILED = 'fetch-failed';
+export function getFavouriteRouteGtfsIds(favourites) {
+  return favourites
+    .filter(favourite => favourite.type === 'route')
+    .map(favourite => favourite.gtfsId);
+}
 
+export function getFavouriteStopsAndStations(favourites) {
+  return favourites.filter(
+    favourite => favourite.type === 'stop' || favourite.type === 'station',
+  );
+}
+
+export function getFavouriteVehicleRentalStations(favourites) {
+  return favourites.filter(favourite => favourite.type === 'bikeStation');
+}
+
+export const STATUS_FETCHING_OR_UPDATING = 'fetching';
+
+export const STATUS_HAS_DATA = 'has-data';
+
+export const STATUS_FETCH_FAILED = 'fetch-failed';
+
+/**
+ * Plain (non-Flux) singleton that holds the current favourites and syncs
+ * them with the backend service and/or localStorage. This replaces the
+ * former Fluxible FavouriteStore. React components should not use this
+ * module directly; use the useFavourites()/useFavouriteStatus()/
+ * useFavouriteActions() hooks exported from hooks/FavouriteContext.js
+ * instead, which wrap this singleton and keep components in sync with it.
+ */
+class FavouriteData {
   favourites = [];
 
   config = {};
 
   status = null;
 
-  constructor(dispatcher) {
-    super(dispatcher);
-    this.config = dispatcher.getContext().config;
-    if (!this.config.allowLogin) {
+  listeners = [];
+
+  initialized = false;
+
+  /**
+   * Initializes the store with the current config. Safe to call more than
+   * once (e.g. from multiple mounts of FavouriteProvider); only the first
+   * call has an effect.
+   */
+  init(config) {
+    if (this.initialized) {
+      return;
+    }
+    this.initialized = true;
+    this.config = config;
+    if (!config.allowLogin) {
       this.favourites = mapFromStore(getFavouriteStorage());
-      this.status = FavouriteStore.STATUS_HAS_DATA;
+      this.status = STATUS_HAS_DATA;
     } else {
-      this.status = FavouriteStore.STATUS_FETCHING_OR_UPDATING;
+      this.status = STATUS_FETCHING_OR_UPDATING;
     }
   }
 
+  addChangeListener(listener) {
+    this.listeners.push(listener);
+  }
+
+  removeChangeListener(listener) {
+    this.listeners = this.listeners.filter(l => l !== listener);
+  }
+
+  emitChange() {
+    this.listeners.forEach(listener => listener());
+  }
+
   fetchComplete() {
-    this.status = FavouriteStore.STATUS_HAS_DATA;
+    this.status = STATUS_HAS_DATA;
     this.emitChange();
   }
 
   fetchingOrUpdating() {
-    this.status = FavouriteStore.STATUS_FETCHING_OR_UPDATING;
+    this.status = STATUS_FETCHING_OR_UPDATING;
     this.emitChange();
   }
 
   fetchFailed() {
-    this.status = FavouriteStore.FETCH_FAILED;
+    this.status = STATUS_FETCH_FAILED;
     this.emitChange();
   }
 
@@ -120,14 +201,7 @@ export default class FavouriteStore extends Store {
   }
 
   isFavourite(id, type) {
-    for (let i = 0; i < this.favourites.length; i++) {
-      const favourite = this.favourites[i];
-      const fid = favourite.gtfsId || favourite.gid || favourite.stationId;
-      if (favourite.type === type && fid === id) {
-        return true;
-      }
-    }
-    return false;
+    return isFavourite(this.favourites, id, type);
   }
 
   clearFavourites() {
@@ -142,30 +216,23 @@ export default class FavouriteStore extends Store {
   }
 
   getByGtfsId(gtfsId, type) {
-    return find(
-      this.favourites,
-      favourite => gtfsId === favourite.gtfsId && type === favourite.type,
-    );
+    return getFavouriteByGtfsId(this.favourites, gtfsId, type);
   }
 
   getByStationIdAndNetworks(stationId, network) {
-    return find(
+    return getFavouriteByStationIdAndNetworks(
       this.favourites,
-      favourite =>
-        stationId === favourite.stationId && network === favourite.network,
+      stationId,
+      network,
     );
   }
 
   getRouteGtfsIds() {
-    return this.favourites
-      .filter(favourite => favourite.type === 'route')
-      .map(favourite => favourite.gtfsId);
+    return getFavouriteRouteGtfsIds(this.favourites);
   }
 
   getStopsAndStations() {
-    return this.favourites.filter(
-      favourite => favourite.type === 'stop' || favourite.type === 'station',
-    );
+    return getFavouriteStopsAndStations(this.favourites);
   }
 
   getStops() {
@@ -177,9 +244,7 @@ export default class FavouriteStore extends Store {
   }
 
   getVehicleRentalStations() {
-    return this.favourites.filter(
-      favourite => favourite.type === 'bikeStation',
-    );
+    return getFavouriteVehicleRentalStations(this.favourites);
   }
 
   getLocationCount() {
@@ -210,37 +275,38 @@ export default class FavouriteStore extends Store {
 
   /**
    * Saves (or updates) favourite.
-   * Triggers onFail callback function when storing favourite fails.
+   * Calls onFail when storing favourite fails.
    * Generates or updates lastUpdated epoch and for new favourites,
    * it also generates favouriteId.
    *
-   * @param {*} actionData object containing favourite data
-   * and on fail callback function under onFail key
+   * @param {*} data object containing favourite data
+   * @param {*} onFail callback invoked if storing the favourite fails
    */
-  saveFavourite(actionData) {
-    let { ...data } = actionData;
-    const { onFail } = actionData;
-    if (typeof data !== 'object') {
+  saveFavourite(data, onFail) {
+    let favourite = { ...data };
+    if (typeof favourite !== 'object') {
       onFail();
-      throw new Error(`New favourite is not a object:${JSON.stringify(data)}`);
+      throw new Error(
+        `New favourite is not a object:${JSON.stringify(favourite)}`,
+      );
     }
     this.fetchingOrUpdating();
-    if (data.type === 'bikeStation') {
-      data = mapVehicleRentalToStore(data);
+    if (favourite.type === 'bikeStation') {
+      favourite = mapVehicleRentalToStore(favourite);
     }
     const newFavourites = mapToStore(this.favourites);
     const editIndex = findIndex(
       newFavourites,
-      item => data.favouriteId === item.favouriteId,
+      item => favourite.favouriteId === item.favouriteId,
     );
     if (editIndex >= 0) {
       newFavourites[editIndex] = {
-        ...data,
+        ...favourite,
         lastUpdated: unixTime(),
       };
     } else {
       newFavourites.push({
-        ...data,
+        ...favourite,
         lastUpdated: unixTime(),
         favouriteId: uuid(),
       });
@@ -268,11 +334,10 @@ export default class FavouriteStore extends Store {
   /**
    * Replaces existing array of favourites with an updated array of favourites.
    *
-   * @param {*} actionData object containing array of new favourites
-   * and on fail callback function under onFail key
+   * @param {*} newFavourites array of new favourites
+   * @param {*} onFail callback invoked if updating the favourites fails
    */
-  updateFavourites(actionData) {
-    const { onFail, newFavourites } = actionData;
+  updateFavourites(newFavourites, onFail) {
     if (!Array.isArray(newFavourites)) {
       onFail();
       throw new Error(
@@ -304,11 +369,10 @@ export default class FavouriteStore extends Store {
   /**
    * Deletes given favourite if one exists in store.
    *
-   * @param {*} actionData object containing data for favourite to be deleted
-   * and on fail callback function under onFail key
+   * @param {*} data object of the favourite to be deleted
+   * @param {*} onFail callback invoked if deleting the favourite fails
    */
-  deleteFavourite(actionData) {
-    const { onFail, ...data } = actionData;
+  deleteFavourite(data, onFail) {
     if (typeof data !== 'object') {
       onFail();
       throw new Error(`Favourite is not an object:${JSON.stringify(data)}`);
@@ -336,12 +400,8 @@ export default class FavouriteStore extends Store {
       setFavouriteStorage(newFavourites);
     }
   }
-
-  static handlers = {
-    SaveFavourite: 'saveFavourite',
-    UpdateFavourites: 'updateFavourites',
-    DeleteFavourite: 'deleteFavourite',
-    FetchFavourites: 'fetchFavourites',
-    FetchFavouritesComplete: 'fetchComplete',
-  };
 }
+
+const favouriteStore = new FavouriteData();
+
+export default favouriteStore;
