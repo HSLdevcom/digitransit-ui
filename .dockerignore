@@ -1,38 +1,76 @@
-.git
-.gitignore
-.*swp
+# Default-deny: ignore everything, then explicitly re-include only what the
+# Docker build (yarn install / workspace-packages-build / yarn run build) and
+# runtime (yarn run start) actually need.
+*
 
-.github
+# Package manager / workspace manifests required for `yarn install`.
+!package.json
+!yarn.lock
+!.yarnrc.yml
+!lerna.json
+!nx.json
 
-LICENSE*
-Changelog.md
-docs/
-/test
+# Yarn Berry toolchain: only the parts required to run the pinned `yarnPath`
+# binary and (optionally) plugins/patches/sdks.
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+!.yarn/patches
 
-/Dockerfile
+# Workspace packages (source only; `lib` build output - which, for
+# digitransit-search-util-query-utils, includes lib/__generated__ relay
+# artifacts (see its package.json "relay.artifactDirectory") - is rebuilt
+# fresh by `yarn run workspace-packages-build`). digitransit-util has no
+# "build" script in any of its packages today (ships raw source, no lib/
+# output), but the lib/ exclusion is kept here for future-proofing in case
+# that changes.
+!digitransit-util
+digitransit-util/packages/**/lib
 
-node_modules
-/.yarn
-# todo: keep?
-# !/.yarn/install-state.gz
-!/.yarn/plugins
-!/.yarn/releases
-!/.yarn/versions
+!digitransit-search-util
+digitransit-search-util/packages/**/lib
 
-_static
-/app/__generated__
-/app/**/__generated__
-
-# Nx's local task-graph/build cache (see .gitignore) - never needed in the
-# image; the Docker build always runs `yarn run workspace-packages-build` fresh.
-.nx
-
-# Rollup/Relay/Babel build output for the shared workspace packages (see
-# .gitignore and config/rollup.config.js) - rebuilt fresh by
-# `yarn run workspace-packages-build` in the Docker build.
-digitransit-component/packages/**/*.generated
+!digitransit-component
 digitransit-component/packages/**/lib
-digitransit-search-util/packages/**/__generated__
-digitransit-search-util/packages/**/lib/
-digitransit-store/packages/**/*.generated
+
+!digitransit-store
 digitransit-store/packages/**/lib
+
+# Build tooling config consumed by workspace-package builds (config/rollup.config.js,
+# config/babel.config.js) and by relay-compiler (schema/schema.graphql).
+!config
+!schema
+
+# Main app source (relay-compiler regenerates app/**/__generated__ fresh).
+!app
+app/**/__generated__
+
+# Server source; only required for `yarn run start`.
+!server
+
+# Styles and static assets bundled by webpack.
+!sass
+!static
+
+# Only scripts/build/* (contextHelper.js, assetUrlPlaceholder.js) is actually
+# required, by webpack.config.babel.js and server/server.js respectively - the
+# rest of scripts/ (dev.sh, generate-schema.js, sort-translations.mjs, theme/,
+# workspace-packages/) is dev/tooling-only and never read by the image.
+!scripts/build
+
+# Root-level build config.
+!webpack.config.babel.js
+!babel.config.js
+!postcss.config.js
+
+# Kept for compliance/legal visibility even though not functionally required:
+# digitransit-ui is dual AGPL-3.0/EUPL-1.2 licensed.
+!COPYING
+!LICENSE-AGPL.txt
+!LICENSE-EUPL.txt
+
+# NOTE: node_modules is intentionally left off the allow-list. It's rebuilt
+# fresh by `yarn install` inside the image, and must never be overwritten by
+# the host's copy, which may contain native modules built for a different
+# OS/architecture.
