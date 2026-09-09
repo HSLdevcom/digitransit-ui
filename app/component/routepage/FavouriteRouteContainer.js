@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Favourite from '../Favourite';
-import {
-  isFavourite as isFavouriteFn,
-  getFavouriteByGtfsId,
-} from '../../store/FavouriteStore';
+import favouriteStore from '../../data/FavouriteData';
 import {
   useFavourites,
   useFavouriteStatus,
@@ -13,11 +10,11 @@ import {
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 
 export default function FavouriteRouteContainer({ gtfsId, ...rest }) {
-  const favourites = useFavourites();
+  useFavourites();
   const favouriteStatus = useFavouriteStatus();
   const { saveFavourite, deleteFavourite } = useFavouriteActions();
 
-  const favourite = isFavouriteFn(favourites, gtfsId, 'route');
+  const favourite = favouriteStore.isFavourite(gtfsId, 'route');
 
   return (
     <Favourite
@@ -33,7 +30,7 @@ export default function FavouriteRouteContainer({ gtfsId, ...rest }) {
         });
       }}
       delFavourite={() => {
-        const route = getFavouriteByGtfsId(favourites, gtfsId, 'route');
+        const route = favouriteStore.getFavouriteByGtfsId(gtfsId, 'route');
         deleteFavourite(route);
         addAnalyticsEvent({
           category: 'Route',

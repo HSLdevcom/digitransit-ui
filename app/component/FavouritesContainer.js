@@ -15,7 +15,7 @@ import {
   useFavouriteStatus,
   useFavouriteActions,
 } from '../hooks/FavouriteContext';
-import { STATUS_FETCHING_OR_UPDATING } from '../store/FavouriteStore';
+import { STATUS_FETCHING_OR_UPDATING } from '../data/FavouriteData';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { useConfigContext } from '../configurations/ConfigContext';
 

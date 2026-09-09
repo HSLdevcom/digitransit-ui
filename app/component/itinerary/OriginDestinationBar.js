@@ -20,7 +20,7 @@ import { setViaPoints } from '../../action/ViaPointActions';
 import { getRefPoint } from '../../util/apiUtils';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { useFavourites } from '../../hooks/FavouriteContext';
-import { countLocations } from '../../store/FavouriteStore';
+import favouriteStore from '../../data/FavouriteData';
 
 const DTAutosuggestPanelWithSearchContext =
   withSearchContext(DTAutosuggestPanel);
@@ -32,8 +32,8 @@ function OriginDestinationBar(
   const config = useConfigContext();
   const { match, router } = useRouter();
   const mountedRef = useRef(false);
-  const favourites = useFavourites();
-  const showFavourites = countLocations(favourites) > 0;
+  useFavourites();
+  const showFavourites = favouriteStore.countLocations() > 0;
 
   useEffect(() => {
     const initialViaPoints = getIntermediatePlaces(match.location.query);

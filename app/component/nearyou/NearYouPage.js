@@ -37,11 +37,9 @@ import {
   getNearYouModes,
   useCitybikes,
 } from '../../util/modeUtils';
-import {
+import favouriteStore, {
   STATUS_FETCHING_OR_UPDATING,
-  getFavouriteStopsAndStations,
-  getFavouriteVehicleRentalStations,
-} from '../../store/FavouriteStore';
+} from '../../data/FavouriteData';
 import {
   useFavourites,
   useFavouriteStatus,
@@ -657,7 +655,7 @@ function NearYouPageWithFavourites(props) {
   const config = useConfigContext();
   const favourites = useFavourites();
   const favouriteStatus = useFavouriteStatus();
-  const stopsAndStations = getFavouriteStopsAndStations(favourites);
+  const stopsAndStations = favouriteStore.getFavouriteStopsAndStations();
   const favouriteStopIds = stopsAndStations
     .filter(stop => stop.type === 'stop')
     .map(stop => stop.gtfsId);
@@ -668,9 +666,9 @@ function NearYouPageWithFavourites(props) {
     config.vehicleRental?.networks,
     config,
   )
-    ? getFavouriteVehicleRentalStations(favourites).map(
-        station => station.stationId,
-      )
+    ? favouriteStore
+        .getFavouriteVehicleRentalStations()
+        .map(station => station.stationId)
     : [];
 
   return (

@@ -45,10 +45,9 @@ import {
   checkPositioningPermission,
   startLocationWatch,
 } from '../action/PositionActions';
-import {
+import favouriteStore, {
   STATUS_FETCHING_OR_UPDATING,
-  countLocations,
-} from '../store/FavouriteStore';
+} from '../data/FavouriteData';
 import { useFavourites, useFavouriteStatus } from '../hooks/FavouriteContext';
 import { useConfigContext } from '../configurations/ConfigContext';
 import { useCurrentTime } from '../hooks/TimeContext';
@@ -280,7 +279,7 @@ function IndexPage({ fromMap, ...props }, context) {
 
   targets.push('FutureRoutes');
 
-  if (countLocations(favourites)) {
+  if (favouriteStore.countLocations()) {
     locationSources.push('Favourite');
   }
 

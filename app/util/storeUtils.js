@@ -1,11 +1,6 @@
 import { addFutureRoute } from '@digitransit-store/digitransit-store-future-route';
 import PositionStore from '../store/PositionStore';
-import favouriteStore, {
-  getFavouriteRouteGtfsIds,
-  getFavouriteStopsAndStations,
-  getFavouriteVehicleRentalStations as getFavouriteVehicleRentalStationsList,
-  getFavouritePlaces,
-} from '../store/FavouriteStore';
+import favouriteStore from '../data/FavouriteData';
 import {
   getFutureRoutesStorage,
   setFutureRoutesStorage,
@@ -20,19 +15,19 @@ export const getPositions = context => {
 };
 
 export const getFavouriteLocations = () => {
-  return getFavouritePlaces(favouriteStore.getFavourites());
+  return favouriteStore.getFavouritePlaces();
 };
 
 export const getFavouriteRoutes = () => {
-  return getFavouriteRouteGtfsIds(favouriteStore.getFavourites());
+  return favouriteStore.getFavouriteRouteGtfsIds();
 };
 
 export const getFavouriteStops = () => {
-  return getFavouriteStopsAndStations(favouriteStore.getFavourites());
+  return favouriteStore.getFavouriteStopsAndStations();
 };
 
 export const getFavouriteVehicleRentalStations = () => {
-  return getFavouriteVehicleRentalStationsList(favouriteStore.getFavourites());
+  return favouriteStore.getFavouriteVehicleRentalStations();
 };
 
 export const getOldSearches = (context, type) => {

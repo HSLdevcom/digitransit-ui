@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
-import favouriteStore from '../store/FavouriteStore';
+import favouriteStore from '../data/FavouriteData';
 import { addMessage } from '../action/MessageActions';
 import { failedFavouriteMessage, favouriteTypes } from '../util/messageUtils';
 import { useConfigContext } from '../configurations/ConfigContext';

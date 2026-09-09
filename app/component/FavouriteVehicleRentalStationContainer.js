@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Favourite from './Favourite';
-import { getFavouriteByStationIdAndNetworks } from '../store/FavouriteStore';
+import favouriteStore from '../data/FavouriteData';
 import {
   useFavourites,
   useFavouriteStatus,
@@ -13,12 +13,11 @@ export default function FavouriteVehicleRentalStationContainer({
   vehicleRentalStation,
   ...rest
 }) {
-  const favourites = useFavourites();
+  useFavourites();
   const favouriteStatus = useFavouriteStatus();
   const { saveFavourite, deleteFavourite } = useFavouriteActions();
 
-  const favourite = !!getFavouriteByStationIdAndNetworks(
-    favourites,
+  const favourite = !!favouriteStore.getFavouriteByStationIdAndNetworks(
     vehicleRentalStation.stationId,
     vehicleRentalStation.rentalNetwork.networkId,
   );
@@ -45,11 +44,11 @@ export default function FavouriteVehicleRentalStationContainer({
         });
       }}
       delFavourite={() => {
-        const vehicleRentalStationToDelete = getFavouriteByStationIdAndNetworks(
-          favourites,
-          vehicleRentalStation.stationId,
-          vehicleRentalStation.rentalNetwork.networkId,
-        );
+        const vehicleRentalStationToDelete =
+          favouriteStore.getFavouriteByStationIdAndNetworks(
+            vehicleRentalStation.stationId,
+            vehicleRentalStation.rentalNetwork.networkId,
+          );
         deleteFavourite(vehicleRentalStationToDelete);
 
         addAnalyticsEvent({

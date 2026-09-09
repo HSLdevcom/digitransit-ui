@@ -39,7 +39,7 @@ import {
 import { getCountries } from './store/localStorage';
 import { configureCountry } from './util/configureCountry';
 import { getUser } from './util/apiUtils';
-import favouriteStore from './store/FavouriteStore';
+import favouriteStore from './data/FavouriteData';
 import { ConfigProvider } from './configurations/ConfigContext';
 import { FavouriteProvider } from './hooks/FavouriteContext';
 import { TimeProvider } from './hooks/TimeContext';
