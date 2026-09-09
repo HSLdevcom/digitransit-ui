@@ -27,7 +27,6 @@ import appCreator from './app';
 import { BUILD_TIME } from './buildInfo';
 import ErrorBoundary from './component/ErrorBoundary';
 import oldParamParser from './util/oldParamParser';
-import { IS_DEV_BUILD } from './util/envUtils';
 import { ClientProvider as ClientBreakpointProvider } from './util/withBreakpoint';
 import IntlBridge from './util/IntlBridge';
 import meta from './meta';
@@ -243,7 +242,7 @@ async function init() {
 
   const rootNode = document.getElementById('app');
   ReactDOM.render(content, rootNode, () => {
-    if (!IS_DEV_BUILD && BUILD_TIME !== 'unset') {
+    if (process.env.NODE_ENV !== 'development' && BUILD_TIME !== 'unset') {
       // The service worker itself calls `skipWaiting()`/`clients.claim()`
       // (see app/util/serviceWorker.js) so new versions take over as soon
       // as they finish installing - mirrors the previous

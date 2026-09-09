@@ -32,7 +32,6 @@ const { getJson } = require('../app/util/xhrPromise');
 const { retryFetch } = require('../app/util/fetchUtils');
 const configTools = require('../app/config');
 const { splitGtfsId } = require('../app/util/gtfs');
-const { IS_DEV_BUILD } = require('../app/util/envUtils');
 
 const config = configTools.getConfiguration();
 
@@ -74,10 +73,12 @@ function setUpStaticFolders() {
   // this deployment's actual CDN base URL - or stripped out entirely when
   // ASSET_URL isn't set. Only production builds actually produce
   // _static/sw.js (InjectManifest is production-only), and app/client.js
-  // only ever registers this service worker when !IS_DEV_BUILD, so this
-  // route is skipped entirely in dev - mirrors app/server.js's own
-  // IS_DEV_BUILD guard around its manifest.json/stats.json reads.
-  if (!IS_DEV_BUILD) {
+  // only ever registers this service worker when
+  // `process.env.NODE_ENV !== 'development'`, so this route is skipped
+  // entirely in dev - mirrors app/server.js's own
+  // `process.env.NODE_ENV !== 'development'` guard around its
+  // manifest.json/stats.json reads.
+  if (process.env.NODE_ENV !== 'development') {
     const swText = fs.readFileSync(
       path.join(process.cwd(), '_static', 'sw.js'),
       { encoding: 'utf8' },
@@ -120,7 +121,7 @@ function setUpStaticFolders() {
 function setUpMiddleware() {
   app.use(cookieParser());
   app.use(bodyParser.raw());
-  if (IS_DEV_BUILD) {
+  if (process.env.NODE_ENV === 'development') {
     const hotloadPort = process.env.HOT_LOAD_PORT || 9000;
     // proxy for dev-bundle
     app.use('/proxy/', proxy(`http://localhost:${hotloadPort}/`));
@@ -139,7 +140,9 @@ function onError(err, req, res, next) {
     .status(500)
     .type('text/plain')
     .send(
-      IS_DEV_BUILD ? `${err.message}\n${err.stack}` : 'Internal server error',
+      process.env.NODE_ENV === 'development'
+        ? `${err.message}\n${err.stack}`
+        : 'Internal server error',
     );
 }
 

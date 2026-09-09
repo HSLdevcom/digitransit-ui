@@ -98,14 +98,15 @@ Note that you can combine multiple configuration parameters.
 
 ### Run environment vs. build mode
 
-`app/util/envUtils.js` exposes two independent signals — see its JSDoc for details:
-
 - **`RUN_ENV`** (`development` / `production`) — deployment tier. Server-only env var; read during
   config assembly to pick dev vs prod backends and mirrored into `window.config` for the client.
-  Check it via `isDevRunEnv(config)`. `yarn dev` sets `RUN_ENV=development`; deployments set it via
-  Kubernetes / `-e RUN_ENV=…`.
-- **`NODE_ENV`** (`development` / `production`) — build mode. Check it via the `IS_DEV_BUILD`
-  constant; `true` only for the local `yarn dev` server / a dev bundle.
+  Check it via `isDevRunEnv(config)` (`app/util/envUtils.js`, see its JSDoc for details).
+  `yarn dev` sets `RUN_ENV=development`; deployments set it via Kubernetes / `-e RUN_ENV=…`.
+- **`NODE_ENV`** (`development` / `production`) — build mode; `'development'` only for the local
+  `yarn dev` server / a dev bundle. Not the deployment tier — one production bundle runs on every
+  tier; use `RUN_ENV`/`isDevRunEnv` for that. Always check it via a literal
+  `process.env.NODE_ENV` comparison written inline (`=== 'development'`, `!== 'production'`,
+  etc.), not through an imported/computed constant — see `docs/Webpack.md` for why.
 
 ### Changing National/Regional version (optional)
 Start national version
