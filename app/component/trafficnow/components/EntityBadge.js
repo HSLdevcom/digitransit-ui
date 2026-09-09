@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { Text } from '@hsl-fi/layout-primitives';
 import Icon from '../../Icon';
 import { entityShape } from '../../../util/shapes';
 
@@ -24,15 +25,19 @@ function EntityBadge({
         highlight: highlighted,
       })}
     >
-      <span className="routes-m-narrow">{name}</span>
+      <Text variant="routes-s-narrow" as="span" color="default">
+        {name}
+      </Text>
     </a>
   ) : (
     <a onClick={handleClick} href={url} className={mode}>
-      <span className="routes-m-narrow">{entity.stops[0].name}</span>
+      <Text variant="routes-s-narrow" as="span" color="default">
+        {entity.stops[0].name}
+      </Text>
       <Icon img="icon_arrow-right-long" color="currentcolor" />
-      <span className="routes-m-narrow">
+      <Text variant="routes-s-narrow" as="span" color="default">
         {entity.headsign || entity.stops?.at(-1).name}
-      </span>
+      </Text>
     </a>
   );
 

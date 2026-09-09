@@ -3,10 +3,10 @@ import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { connectToStores } from 'fluxible-addons-react';
+import { ArrowLinkButton } from '@hsl-fi/navigation';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { TRAFFICNOW, routePagePath } from '../../util/path';
 import Card from '../Card';
-import Icon from '../Icon';
 import CanceledDepartures from './components/CanceledDepartures';
 import DisruptionStatus from './components/DisruptionStatus';
 import RouteBadgeGroup from './components/RouteBadgeGroup';
@@ -24,7 +24,7 @@ const CanceledTripCard = ({
 }) => {
   const { router } = useRouter();
   const intl = useIntl();
-  const { colors, trafficNowMaxRoutesPerCard } = useConfigContext();
+  const { trafficNowMaxRoutesPerCard } = useConfigContext();
   const { selectedFilters } = useFilterContext();
   const handleRouteBadgeClick = url => e => {
     e.preventDefault();
@@ -49,18 +49,12 @@ const CanceledTripCard = ({
               <DisruptionStatus
                 active
                 showDates={false}
-                className="text-xs-bold"
+                variant="text-xs-bold"
               />
             </>
           )}
         </span>
-        <button type="button">
-          <Icon
-            img="icon_arrow-collapse--right"
-            color={colors.primary}
-            className="disruption-card__icon"
-          />
-        </button>
+        <ArrowLinkButton />
       </header>
       <div className="badges">
         <RouteBadgeGroup
@@ -107,7 +101,7 @@ const CanceledTripCard = ({
         />
       </div>
       {isMobile && (
-        <DisruptionStatus active showDates={false} className="text-xs-bold" />
+        <DisruptionStatus active showDates={false} variant="text-xs-bold" />
       )}
     </Card>
   );

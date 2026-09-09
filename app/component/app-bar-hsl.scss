@@ -10,3 +10,15 @@
     color: #0062a1 !important;
   }
 }
+
+// Force 40px height for the white top bar section of the header
+// for some reason it otherwise gets a height of 41.59px
+// even though the height is derived based on the content and
+// all the items look identical
+.hsl-header-container {
+  [class*='_topBar_'] {
+    box-sizing: border-box;
+    height: 40px;
+    align-items: center;
+  }
+}

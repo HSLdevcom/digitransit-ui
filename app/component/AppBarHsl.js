@@ -215,6 +215,7 @@ const AppBarHsl = ({ favourites = [] }, context) => {
           userMenu={userMenu}
           langMenu={languages}
           search={search}
+          selectedMainNavSection="traveling"
         />
       )}
     </>

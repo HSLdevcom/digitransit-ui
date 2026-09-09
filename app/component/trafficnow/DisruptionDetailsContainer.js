@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { ButtonLink } from '@hsl-fi/layout-primitives';
-import Link from 'found/Link';
+import { useIntl } from 'react-intl';
+import { ButtonLink, Text } from '@hsl-fi/layout-primitives';
 import { useRouter } from 'found';
 import { useLazyLoadQuery } from 'react-relay/hooks';
 import { useConfigContext } from '../../configurations/ConfigContext';
@@ -10,13 +9,13 @@ import Card from '../Card';
 import DisruptionBadge from './DisruptionBadge';
 import DisruptionStatus from './components/DisruptionStatus';
 import RouteBadges from './RouteBadges';
-import Icon from '../Icon';
 import AlertsQuery from './queries/AlertsQuery';
 import { AlertSeverityLevelType } from '../../constants';
+import CTAContainer from './components/CTAContainer';
 
 const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {
   const config = useConfigContext();
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
   const { router } = useRouter();
   const { alerts } = useLazyLoadQuery(AlertsQuery, {
     feedIds: config.feedIds,
@@ -71,7 +70,7 @@ const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {
           <DisruptionStatus
             effectiveStartDate={effectiveStartDate}
             effectiveEndDate={effectiveEndDate}
-            className="routes-s-bold"
+            variant="routes-s-bold"
             showDates={alertSeverityLevel !== AlertSeverityLevelType.Info}
           />
         )}
@@ -82,10 +81,20 @@ const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {
             <RouteBadges entities={entities} />
           </div>
         )}
-        <h2 className="disruption-details__title">{alertHeaderText}</h2>
-        <p className="disruption-details__description">
+        <Text
+          variant="heading-xs"
+          as="h2"
+          className="disruption-details__title"
+        >
+          {alertHeaderText}
+        </Text>
+        <Text
+          variant="text-m"
+          as="p"
+          className="disruption-details__description"
+        >
           {alertDescriptionText}
-        </p>
+        </Text>
         {checkedUrl && (
           <div className="disruption-details__link">
             <ButtonLink
@@ -98,7 +107,7 @@ const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {
                 minWidth: isMobile ? '100%' : 'none',
               }}
             >
-              {intl.formatMessage({
+              {formatMessage({
                 id: 'extra-info',
                 defaultMessage: 'More info',
               })}
@@ -112,13 +121,7 @@ const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {
   if (isMobile) {
     return (
       <>
-        <div className="detail-view__cta-container detail-view__cta-container--mobile">
-          <Link to="/liikenne" className="cta-small">
-            <Icon img="icon_chevron-left" />
-            <FormattedMessage id="traffic-now_go-back" />
-            <div />
-          </Link>
-        </div>
+        <CTAContainer isMobile />
         <div className="disruption-details disruption-details--mobile">
           {content}
         </div>
@@ -128,12 +131,7 @@ const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {
 
   return (
     <>
-      <div className="detail-view__cta-container">
-        <Link to="/liikenne" className="cta-small">
-          <Icon img="icon_chevron-left" />
-          <FormattedMessage id="traffic-now_go-back" />
-        </Link>
-      </div>
+      <CTAContainer />
       <div className="disruption-details__container">
         <Card>{content}</Card>
       </div>

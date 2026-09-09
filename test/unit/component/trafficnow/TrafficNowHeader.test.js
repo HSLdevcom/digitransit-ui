@@ -61,6 +61,54 @@ describe('<TrafficNowHeader />', () => {
     });
   });
 
+  describe('Breadcrumb link', () => {
+    it('links to "/" when trafficNowRootPath is not defined', () => {
+      const wrapper = shallow(<TrafficNowHeader />);
+      const breadcrumb = wrapper.find('.traffic-now__header-breadcrumb Link');
+      expect(breadcrumb).to.have.lengthOf(1);
+      expect(breadcrumb.prop('to')).to.equal('/');
+    });
+
+    it('links to ROOTLINK + trafficNowRootPath when defined', () => {
+      stubs.useConfigContext.returns({
+        ...baseConfig,
+        CONFIG: 'hsl',
+        trafficNowRootPath: {
+          fi: '/matkustaminen',
+          sv: '/sv/att-resa',
+          en: '/en/travelling',
+        },
+        URL: { ROOTLINK: 'https://www.hsl.fi' },
+      });
+      const wrapper = shallow(<TrafficNowHeader />);
+      const breadcrumb = wrapper.find('.traffic-now__header-breadcrumb a');
+      expect(breadcrumb).to.have.lengthOf(1);
+      expect(breadcrumb.prop('href')).to.equal(
+        'https://www.hsl.fi/matkustaminen',
+      );
+    });
+
+    it('links using the localized path for the current language', () => {
+      stubs.useConfigContext.returns({
+        ...baseConfig,
+        CONFIG: 'hsl',
+        language: 'sv',
+        trafficNowRootPath: {
+          fi: '/matkustaminen',
+          sv: '/sv/att-resa',
+          en: '/en/travelling',
+        },
+        URL: { ROOTLINK: 'https://www.hsl.fi' },
+      });
+      const wrapper = shallow(<TrafficNowHeader />);
+      const breadcrumb = wrapper.find('.traffic-now__header-breadcrumb a');
+      expect(breadcrumb).to.have.lengthOf(1);
+      expect(breadcrumb.prop('href')).to.equal(
+        'https://www.hsl.fi/sv/att-resa',
+      );
+    });
+  });
+
   describe('HSL-specific AdditionalDescription', () => {
     it('renders AdditionalDescription when CONFIG is hsl', () => {
       stubs.useConfigContext.returns({ ...baseConfig, CONFIG: 'hsl' });

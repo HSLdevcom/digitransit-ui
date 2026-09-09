@@ -7,9 +7,13 @@
 $bp-tablet-small: 620px;
 $bp-tablet: 900px;
 $bp-typography-tablet: 768px;
+$bp-desktop-narrow: 1260px;
 
 // Layout padding & sizing
+// Horizontal gutter is exposed as a custom property so it can adapt to
+// viewport width, use var(--padding-horizontal-gutter) in layout rules.
 $padding-horizontal-gutter: 50px;
+$padding-horizontal-gutter-narrow: 42px;
 $padding-mobile-small-x: 20px;
 $padding-mobile-small-y: 25px;
 
@@ -54,4 +58,9 @@ $placeholder-color: #888;
 .traffic-now {
   --white: #{$white};
   --background-color-lighter: #{$background-color-lighter};
+  --padding-horizontal-gutter: #{$padding-horizontal-gutter};
+
+  @media screen and (max-width: $bp-desktop-narrow) {
+    --padding-horizontal-gutter: #{$padding-horizontal-gutter-narrow};
+  }
 }
