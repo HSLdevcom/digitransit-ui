@@ -42,7 +42,7 @@ function resolveFavouriteType(data) {
     : favouriteTypes[0];
 }
 
-export function FavouriteProvider({ context, children }) {
+export function FavouriteProvider({ context, children = null }) {
   const config = useConfigContext();
   const [favourites, setFavourites] = useState(favouriteStore.getFavourites());
   const [favouriteStatus, setFavouriteStatus] = useState(
@@ -107,8 +107,4 @@ export function FavouriteProvider({ context, children }) {
 FavouriteProvider.propTypes = {
   context: fluxibleContextShape.isRequired,
   children: PropTypes.node,
-};
-
-FavouriteProvider.defaultProps = {
-  children: null,
 };

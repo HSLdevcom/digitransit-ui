@@ -132,5 +132,10 @@ Other structural notes:
   overrides: prefer object spread over `Object.assign`; `no-console` is an error; Prettier config
   is `singleQuote: true, trailingComma: 'all', arrowParens: 'avoid'`.
 - `.js` files are used for JSX (no `.jsx` extension).
+- Avoid `Component.defaultProps` in function components (deprecated by React, and unsupported for
+  function components in newer React versions). Declare defaults via destructuring in the
+  function signature instead, e.g. `function Foo({ isMobile = false, children = null })`. This
+  applies to new code and to any component touched during refactors; existing untouched
+  components may still use `defaultProps` until they're otherwise modified.
 - SCSS under `sass/`, `app/**/*.scss`, `digitransit-component/**/*.scss` — must pass
   `prettier --check` and `stylelint`.

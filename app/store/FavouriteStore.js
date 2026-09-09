@@ -101,6 +101,10 @@ export function getFavouriteVehicleRentalStations(favourites) {
   return favourites.filter(favourite => favourite.type === 'bikeStation');
 }
 
+export function getFavouritePlaces(favourites) {
+  return favourites.filter(favourite => favourite.type === 'place');
+}
+
 export const STATUS_FETCHING_OR_UPDATING = 'fetching';
 
 export const STATUS_HAS_DATA = 'has-data';
@@ -200,10 +204,6 @@ class FavouriteData {
     return this.status;
   }
 
-  isFavourite(id, type) {
-    return isFavourite(this.favourites, id, type);
-  }
-
   clearFavourites() {
     clearFavouriteStorage();
     this.favourites = [];
@@ -213,42 +213,6 @@ class FavouriteData {
 
   getFavourites() {
     return this.favourites;
-  }
-
-  getByGtfsId(gtfsId, type) {
-    return getFavouriteByGtfsId(this.favourites, gtfsId, type);
-  }
-
-  getByStationIdAndNetworks(stationId, network) {
-    return getFavouriteByStationIdAndNetworks(
-      this.favourites,
-      stationId,
-      network,
-    );
-  }
-
-  getRouteGtfsIds() {
-    return getFavouriteRouteGtfsIds(this.favourites);
-  }
-
-  getStopsAndStations() {
-    return getFavouriteStopsAndStations(this.favourites);
-  }
-
-  getStops() {
-    return this.favourites.filter(favourite => favourite.type === 'stop');
-  }
-
-  getLocations() {
-    return this.favourites.filter(favourite => favourite.type === 'place');
-  }
-
-  getVehicleRentalStations() {
-    return getFavouriteVehicleRentalStations(this.favourites);
-  }
-
-  getLocationCount() {
-    return countLocations(this.favourites);
   }
 
   /**
