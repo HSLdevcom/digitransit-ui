@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React, { createRef, useLayoutEffect, useEffect, useState } from 'react';
+import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
@@ -12,8 +12,6 @@ import TransitBar from './TransitBar';
 import {
   getLegMode,
   compressLegs,
-  getInterliningLegs,
-  isFirstInterliningLeg,
   getTotalDistance,
   getTripOrRouteText,
   legTime,
@@ -51,6 +49,7 @@ import { getTicketString } from '../../util/fareUtils';
 import { ViaLocationType } from '../../constants';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import FirstLegStartTime from './FirstLegStartTime';
+import { normalizeLegLengths } from './itineraryLegProcessor';
 
 const NAME_LENGTH_THRESHOLD = 65; // for truncating long short names
 
@@ -170,7 +169,6 @@ const Itinerary = ({
   const duration = endTime - startTime;
   const co2value = getCo2Value(itinerary);
   const mobile = bp => !(bp === 'large');
-  const legs = [];
   const splitLegs = splitLegsAtViaPoints(itinerary.legs, intermediatePlaces);
   const compressedLegs = compressLegs(splitLegs).map(leg => ({
     ...leg,
@@ -194,92 +192,57 @@ const Itinerary = ({
   const shortenLabels = nameLengthSum > NAME_LENGTH_THRESHOLD;
   const durationWithoutSlack = duration - intermediateSlack; // don't include time spent at intermediate places in calculations for bar lengths
   const relativeLength = durationMs =>
-    (100 * durationMs) / durationWithoutSlack; // as %
+    durationWithoutSlack > 0 ? (100 * durationMs) / durationWithoutSlack : 0; // as %
   let renderBarThreshold = 6;
   const renderRouteNumberThreshold = 12; // route numbers will be rendered on legs that are longer than this
   if (breakpoint === 'small') {
     renderBarThreshold = 8.5;
   }
-  const vehicleNames = [];
-  const stopNames = [];
-  let addition = 0;
-  let onlyIconLegCount = 0; // keep track of legs that are too short to have a bar
   const waitThreshold = 180000;
   const lastLeg = compressedLegs[compressedLegs.length - 1];
-  const lastLegLength = relativeLength(lastLeg.duration * 1000);
+  const lastLegLength = lastLeg ? relativeLength(lastLeg.duration * 1000) : 0;
   const fitAllRouteNumbers = legWithRouteCount < 4; // if there are three or fewer legs with routes, we will show all the route numbers.
   const bikeParkedIndex = usingOwnBicycle
     ? getBikeParkedIndex(compressedLegs)
     : undefined;
   const renderModeIcons = compressedLegs.length < 10;
+
+  const normalizedLegs = normalizeLegLengths(compressedLegs, {
+    relativeLength,
+    renderBarThreshold,
+    lastLegLength,
+    waitThreshold,
+  });
+
+  const legs = [];
+  let onlyIconLegCount = 0;
+  const vehicleNames = [];
+  const stopNames = [];
   let bikeNetwork;
   let showRentalBikeDurationWarning = false;
   const citybikeNetworks = new Set();
   let citybikeicon;
-  compressedLegs.forEach((leg, i) => {
-    let interliningWithRoute;
-    let renderBar = true;
-    let waiting = false;
-    let waitTime;
-    let waitLength;
+
+  normalizedLegs.forEach(processedLeg => {
+    if (processedLeg.skipped) {
+      return;
+    }
+    const {
+      leg,
+      index: i,
+      legLength,
+      renderBar,
+      waiting,
+      waitTime,
+      waitLength,
+      interliningWithRoute,
+      nextLeg,
+    } = processedLeg;
     const startMs = legTime(leg.start);
-    const endMs = legTime(leg.end);
-    const nextLeg =
-      i < compressedLegs.length - 1 ? compressedLegs[i + 1] : null;
-    let legLength = relativeLength(endMs - startMs);
     const routeName =
       leg.route && getTripOrRouteText(leg.trip, leg.route, config);
     const longName = !routeName || routeName.length > 5;
 
-    if (nextLeg && !leg.to.viaLocationType) {
-      // don't show waiting in intermediate places
-      waitTime = legTime(nextLeg.start) - endMs;
-      waitLength = relativeLength(waitTime);
-      if (waitTime > waitThreshold && waitLength > renderBarThreshold) {
-        // if waittime is long enough, render a waiting bar
-        waiting = true;
-      } else {
-        // otherwise add the waiting to the current leg's length
-        legLength = relativeLength(endMs - startMs + waitTime);
-      }
-    }
-
-    if (isFirstInterliningLeg(compressedLegs, i)) {
-      const [interliningLines, interliningLegs] = getInterliningLegs(
-        compressedLegs,
-        i,
-      );
-      interliningWithRoute = interliningLines.join(' / ');
-      const lastLegWithInterline = interliningLegs[interliningLegs.length - 1];
-      legLength = relativeLength(legTime(lastLegWithInterline.end) - startMs);
-      if (
-        compressedLegs.length - 2 === i + interliningLegs.length &&
-        lastLegLength < renderBarThreshold
-      ) {
-        // If the last interlining leg is the next to last leg and
-        // if the last leg is too short add its length to the interlining leg.
-        legLength += lastLegLength;
-      }
-    } else if (leg.interlineWithPreviousLeg) {
-      // Interlining legs after the first one should be skipped, this skips to the next index.
-      return;
-    } else if (
-      compressedLegs.length - 2 === i &&
-      lastLegLength < renderBarThreshold
-    ) {
-      // Interlining legs handle this addition differently.
-      // If this leg is the next to last leg and
-      // if the last leg is too short add its length to the leg before it.
-      legLength += lastLegLength;
-    }
-
-    legLength += addition;
-    addition = 0;
-    if (legLength < renderBarThreshold && isWalkOrBicycleWalkLeg(leg)) {
-      // don't render short legs that are on foot at all
-      renderBar = false;
-      addition += legLength; // carry over the length of the leg to the next
-    }
     let viaPointAdded = false;
     if (leg.from.viaLocationType === ViaLocationType.Visit) {
       viaPointAdded = true;
@@ -507,9 +470,11 @@ const Itinerary = ({
       );
     }
   });
+
   const normalLegCount = legs.length - onlyIconLegCount;
   // how many pixels to take from each 'normal' leg to give room for the icons
-  const iconLegsInPixels = (24 * onlyIconLegCount) / normalLegCount;
+  const iconLegsInPixels =
+    normalLegCount > 0 ? (24 * onlyIconLegCount) / normalLegCount : 0;
   const hasCallAgencyLeg = itinerary.legs.some(leg => isCallAgencyLeg(leg));
 
   const firstDeparture = compressedLegs.find(leg =>
@@ -525,22 +490,18 @@ const Itinerary = ({
   );
 
   //  accessible representation for summary
-  const summaryDescription = (
-    <div className="sr-only" key="screenReader">
-      {getSummaryDescriptionText(intl, {
-        hasCallAgencyLeg,
-        startTime,
-        endTime,
-        refTime,
-        departureTime,
-        arrivalTime,
-        vehicleNames,
-        firstDeparture,
-        stopNames,
-        duration,
-      })}
-    </div>
-  );
+  const summaryDescription = getSummaryDescriptionText(intl, {
+    hasCallAgencyLeg,
+    startTime,
+    endTime,
+    refTime,
+    departureTime,
+    arrivalTime,
+    vehicleNames,
+    firstDeparture,
+    stopNames,
+    duration,
+  });
   const co2summary = (
     <FormattedMessage
       id="itinerary-co2.description-simple"
@@ -581,7 +542,7 @@ const Itinerary = ({
     !containsScooterLeg;
 
   const gotFeedback = props.feedback !== undefined;
-  const itineraryContainerOverflowRef = createRef();
+  const itineraryContainerOverflowRef = useRef(null);
   const [showOverflowIcon, setShowOverflowIcon] = useState(false);
   const [isExpanded, setIsExpanded] = useState(gotFeedback);
   // Once the feedback box has finished expanding, overflow: hidden is no
@@ -609,7 +570,7 @@ const Itinerary = ({
     } else {
       setShowOverflowIcon(false);
     }
-  }, [itineraryContainerOverflowRef]);
+  }, []);
 
   return (
     <div
@@ -630,9 +591,9 @@ const Itinerary = ({
           values={{
             number: props.hash + 1,
           }}
-        />
+        />{' '}
         {summaryDescription}
-        {showCo2Info && co2summary}
+        {showCo2Info && <> {co2summary}</>}
       </div>
       <div
         className="itinerary-summary-visible"
