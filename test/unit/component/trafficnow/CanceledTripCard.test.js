@@ -1,19 +1,14 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
-import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import {
-  shallowWithIntl,
-  createShallowHookSandbox,
-} from '../../helpers/mock-intl-enzyme';
+import { render, fireEvent } from '@testing-library/react';
+import { IntlProvider } from 'react-intl';
+import * as found from 'found';
+import translations from '../../../../app/translations/en';
+import { ConfigProvider } from '../../../../app/configurations/ConfigContext';
 import CanceledTripCard from '../../../../app/component/trafficnow/CanceledTripCard';
-import Card from '../../../../app/component/Card';
-import DisruptionStatus from '../../../../app/component/trafficnow/components/DisruptionStatus';
-import RouteBadgeGroup from '../../../../app/component/trafficnow/components/RouteBadgeGroup';
-import CanceledDepartures from '../../../../app/component/trafficnow/components/CanceledDepartures';
 import * as FiltersContext from '../../../../app/component/trafficnow/filters/FiltersContext';
-import EntityBadge from '../../../../app/component/trafficnow/components/EntityBadge';
 
 const makeRouteSummary = ({
   shortName = '21B',
@@ -85,292 +80,257 @@ const baseConfig = {
 };
 
 describe('<CanceledTripCard />', () => {
-  let stubs;
-  let sandbox;
-  let filterContextStub;
+  let router;
 
   beforeEach(() => {
-    ({ sandbox, stubs } = createShallowHookSandbox({ config: baseConfig }));
-    filterContextStub = sandbox.stub(FiltersContext, 'useFilterContext');
-    filterContextStub.returns({
-      selectedFilters: {},
-    });
+    router = { push: sinon.spy() };
+    sinon.stub(found, 'useRouter').returns({ router });
+    sinon
+      .stub(FiltersContext, 'useFilterContext')
+      .returns({ selectedFilters: {} });
   });
-  afterEach(() => sandbox.restore());
+
+  afterEach(() => {
+    found.useRouter.restore();
+    FiltersContext.useFilterContext.restore();
+  });
+
+  const renderCanceledTripCard = (props, config = baseConfig) => {
+    const { container } = render(
+      <IntlProvider locale="en" messages={translations.en}>
+        <ConfigProvider value={config}>
+          <CanceledTripCard {...baseProps} {...props} />
+        </ConfigProvider>
+      </IntlProvider>,
+    );
+    return container;
+  };
+
+  const routeBadgeNames = container =>
+    Array.from(
+      container.querySelectorAll(
+        '.badges__headsign-group > .badge-container:not(.more-routes) a, .badges__headsign-group > .badges__headsign-group--route > .badge-container:not(.more-routes) a',
+      ),
+    ).map(a => a.textContent.trim());
+
+  const routeBadgeHrefs = container =>
+    Array.from(
+      container.querySelectorAll(
+        '.badges__headsign-group > .badge-container:not(.more-routes) a, .badges__headsign-group > .badges__headsign-group--route > .badge-container:not(.more-routes) a',
+      ),
+    ).map(a => a.getAttribute('href'));
 
   describe('RouteBadgeGroup props', () => {
     it('maps canceled route summaries to route badges', () => {
-      const wrapper = shallowWithIntl(<CanceledTripCard {...baseProps} />);
-      const badgeGroup = wrapper.find(RouteBadgeGroup);
+      const container = renderCanceledTripCard();
 
-      expect(badgeGroup).to.have.lengthOf(1);
-      expect(badgeGroup.prop('mode')).to.equal('bus');
-      expect(badgeGroup.prop('stopPropagation')).to.equal(true);
-      expect(badgeGroup.prop('routes')).to.deep.equal([
-        {
-          name: '21B',
-          gtfsId: 'HSL:21B',
-          id: 'route-21B',
-          url: '/linjat/HSL%3A21B',
-        },
-      ]);
+      expect(routeBadgeNames(container)).to.deep.equal(['21B']);
+      expect(routeBadgeHrefs(container)).to.deep.equal(['/linjat/HSL%3A21B']);
     });
 
     it('limits the amount of route badges', () => {
-      stubs.useConfigContext.returns({
-        ...baseConfig,
-        trafficNowMaxRoutesPerCard: 3,
-      });
-      const wrapper = shallowWithIntl(
-        <CanceledTripCard {...baseProps} routes={makeRoutes(6)} />,
+      const container = renderCanceledTripCard(
+        { routes: makeRoutes(6) },
+        { ...baseConfig, trafficNowMaxRoutesPerCard: 3 },
       );
-      const routes = wrapper.find(RouteBadgeGroup).prop('routes');
 
-      expect(routes).to.have.lengthOf(3);
-      expect(routes.map(route => route.name)).to.deep.equal(['20', '21', '22']);
+      expect(routeBadgeNames(container)).to.deep.equal(['20', '21', '22']);
     });
 
     it('renders the count of hidden routes when there are more than allowed', () => {
-      stubs.useConfigContext.returns({
-        ...baseConfig,
-        trafficNowMaxRoutesPerCard: 3,
-      });
-      const wrapper = shallowWithIntl(
-        <CanceledTripCard {...baseProps} routes={makeRoutes(6)} />,
+      const container = renderCanceledTripCard(
+        { routes: makeRoutes(6) },
+        { ...baseConfig, trafficNowMaxRoutesPerCard: 3 },
       );
-      const renderSuffix = wrapper.find(RouteBadgeGroup).prop('renderSuffix');
-      const rendered = shallow(<div>{renderSuffix}</div>);
-      const moreRoutes = rendered.find(EntityBadge);
+      const moreRoutes = container.querySelector('.more-routes');
 
-      expect(moreRoutes).to.have.lengthOf(1);
-      expect(moreRoutes.prop('className')).to.equal('more-routes');
-      expect(moreRoutes.prop('entity').name).to.equal('+3');
+      expect(moreRoutes).to.not.equal(null);
+      expect(moreRoutes.textContent.trim()).to.equal('+3');
     });
 
     it('does not render the three-dots icon when all routes are visible', () => {
-      const wrapper = shallowWithIntl(
-        <CanceledTripCard {...baseProps} routes={makeRoutes(5)} />,
-      );
+      const container = renderCanceledTripCard({ routes: makeRoutes(5) });
 
-      expect(wrapper.find(RouteBadgeGroup).prop('renderSuffix')).to.equal(null);
+      expect(container.querySelector('.more-routes')).to.equal(null);
     });
 
     it('renders the departure time when there is only a single route', () => {
-      const wrapper = shallowWithIntl(<CanceledTripCard {...baseProps} />);
-      const badgeGroup = wrapper.find(RouteBadgeGroup);
-      const [route] = badgeGroup.prop('routes');
-      const renderedSuffix = shallow(
-        <div>{badgeGroup.prop('renderRouteSuffix')(route)}</div>,
-      );
+      const container = renderCanceledTripCard();
+      const departureTimes = Array.from(
+        container.querySelectorAll(
+          '.badges__headsign-group--route .badges__departure-time .routes-s-narrow',
+        ),
+      ).map(node => node.textContent.trim());
 
-      expect(
-        renderedSuffix
-          .find(CanceledDepartures)
-          .dive()
-          .find('.routes-m-narrow')
-          .text(),
-      ).to.equal(' 08:00 ');
+      expect(departureTimes).to.deep.equal(['08:00']);
     });
 
     it('renders cancellations from all patterns when there is only a single route', () => {
-      const wrapper = shallowWithIntl(
-        <CanceledTripCard
-          {...baseProps}
-          routes={[
-            makeRouteSummary({
-              patterns: [
-                {
-                  cancellationCount: 1,
-                  pattern: {
-                    code: 'pattern-21B-1',
-                    headsign: 'Kamppi',
-                    stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
-                    canceledTrips: [
-                      {
-                        serviceDate: '2026-01-01',
-                        trip: {
-                          gtfsId: 'trip-21B-1',
-                          stoptimes: [{ scheduledDeparture: 28800 }],
-                        },
+      const container = renderCanceledTripCard({
+        routes: [
+          makeRouteSummary({
+            patterns: [
+              {
+                cancellationCount: 1,
+                pattern: {
+                  code: 'pattern-21B-1',
+                  headsign: 'Kamppi',
+                  stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
+                  canceledTrips: [
+                    {
+                      serviceDate: '2026-01-01',
+                      trip: {
+                        gtfsId: 'trip-21B-1',
+                        stoptimes: [{ scheduledDeparture: 28800 }],
                       },
-                    ],
-                  },
+                    },
+                  ],
                 },
-                {
-                  cancellationCount: 1,
-                  pattern: {
-                    code: 'pattern-21B-2',
-                    headsign: 'Rautatientori',
-                    stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
-                    canceledTrips: [
-                      {
-                        serviceDate: '2026-01-01',
-                        trip: {
-                          gtfsId: 'trip-21B-2',
-                          stoptimes: [{ scheduledDeparture: 29100 }],
-                        },
+              },
+              {
+                cancellationCount: 1,
+                pattern: {
+                  code: 'pattern-21B-2',
+                  headsign: 'Rautatientori',
+                  stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
+                  canceledTrips: [
+                    {
+                      serviceDate: '2026-01-01',
+                      trip: {
+                        gtfsId: 'trip-21B-2',
+                        stoptimes: [{ scheduledDeparture: 29100 }],
                       },
-                    ],
-                  },
+                    },
+                  ],
                 },
-              ],
-            }),
-          ]}
-        />,
-      );
-      const badgeGroup = wrapper.find(RouteBadgeGroup);
-      const [route] = badgeGroup.prop('routes');
-      const renderedSuffix = shallow(
-        <div>{badgeGroup.prop('renderRouteSuffix')(route)}</div>,
-      );
+              },
+            ],
+          }),
+        ],
+      });
+      const departureTimes = Array.from(
+        container.querySelectorAll(
+          '.badges__headsign-group--route .badges__departure-time .routes-s-narrow',
+        ),
+      ).map(node => node.textContent.trim());
 
-      expect(
-        renderedSuffix
-          .find(CanceledDepartures)
-          .dive()
-          .find('.routes-m-narrow')
-          .map(node => node.text()),
-      ).to.deep.equal([' 08:00 ', ' 08:05 ']);
+      expect(departureTimes).to.deep.equal(['08:00', '08:05']);
     });
 
     it('limits inline departures per pattern', () => {
-      const wrapper = shallowWithIntl(
-        <CanceledTripCard
-          {...baseProps}
-          routes={[
-            makeRouteSummary({
-              patterns: [
-                {
-                  cancellationCount: 6,
-                  pattern: {
-                    code: 'pattern-21B-1',
-                    headsign: 'Kamppi',
-                    stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
-                    canceledTrips: makeCanceledTrips({
-                      amount: 6,
-                      gtfsIdPrefix: 'trip-21B-1',
-                    }),
-                  },
+      const container = renderCanceledTripCard({
+        routes: [
+          makeRouteSummary({
+            patterns: [
+              {
+                cancellationCount: 6,
+                pattern: {
+                  code: 'pattern-21B-1',
+                  headsign: 'Kamppi',
+                  stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
+                  canceledTrips: makeCanceledTrips({
+                    amount: 6,
+                    gtfsIdPrefix: 'trip-21B-1',
+                  }),
                 },
-                {
-                  cancellationCount: 6,
-                  pattern: {
-                    code: 'pattern-21B-2',
-                    headsign: 'Rautatientori',
-                    stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
-                    canceledTrips: makeCanceledTrips({
-                      amount: 6,
-                      startTime: 9 * 60 * 60,
-                      gtfsIdPrefix: 'trip-21B-2',
-                    }),
-                  },
+              },
+              {
+                cancellationCount: 6,
+                pattern: {
+                  code: 'pattern-21B-2',
+                  headsign: 'Rautatientori',
+                  stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
+                  canceledTrips: makeCanceledTrips({
+                    amount: 6,
+                    startTime: 9 * 60 * 60,
+                    gtfsIdPrefix: 'trip-21B-2',
+                  }),
                 },
-              ],
-            }),
-          ]}
-        />,
-      );
-      const badgeGroup = wrapper.find(RouteBadgeGroup);
-      const [route] = badgeGroup.prop('routes');
-      const renderedSuffix = shallow(
-        <div>{badgeGroup.prop('renderRouteSuffix')(route)}</div>,
-      );
+              },
+            ],
+          }),
+        ],
+      });
 
       expect(
-        renderedSuffix
-          .find(CanceledDepartures)
-          .dive()
-          .find('.badges__departure-time')
-          .not('.badges__departure-time--show-more'),
+        container.querySelectorAll(
+          '.badges__departure-time:not(.badges__departure-time--show-more)',
+        ),
       ).to.have.lengthOf(10);
     });
 
     it('renders inline hidden departure count per pattern', () => {
-      const wrapper = shallowWithIntl(
-        <CanceledTripCard
-          {...baseProps}
-          routes={[
-            makeRouteSummary({
-              patterns: [
-                {
-                  cancellationCount: 7,
-                  pattern: {
-                    code: 'pattern-21B-1',
-                    headsign: 'Kamppi',
-                    stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
-                    canceledTrips: makeCanceledTrips({
-                      amount: 7,
-                      gtfsIdPrefix: 'trip-21B-1',
-                    }),
-                  },
+      const container = renderCanceledTripCard({
+        routes: [
+          makeRouteSummary({
+            patterns: [
+              {
+                cancellationCount: 7,
+                pattern: {
+                  code: 'pattern-21B-1',
+                  headsign: 'Kamppi',
+                  stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
+                  canceledTrips: makeCanceledTrips({
+                    amount: 7,
+                    gtfsIdPrefix: 'trip-21B-1',
+                  }),
                 },
-                {
-                  cancellationCount: 8,
-                  pattern: {
-                    code: 'pattern-21B-2',
-                    headsign: 'Rautatientori',
-                    stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
-                    canceledTrips: makeCanceledTrips({
-                      amount: 8,
-                      startTime: 9 * 60 * 60,
-                      gtfsIdPrefix: 'trip-21B-2',
-                    }),
-                  },
+              },
+              {
+                cancellationCount: 8,
+                pattern: {
+                  code: 'pattern-21B-2',
+                  headsign: 'Rautatientori',
+                  stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
+                  canceledTrips: makeCanceledTrips({
+                    amount: 8,
+                    startTime: 9 * 60 * 60,
+                    gtfsIdPrefix: 'trip-21B-2',
+                  }),
                 },
-              ],
-            }),
-          ]}
-        />,
-      );
-      const badgeGroup = wrapper.find(RouteBadgeGroup);
-      const [route] = badgeGroup.prop('routes');
-      const renderedSuffix = shallow(
-        <div>{badgeGroup.prop('renderRouteSuffix')(route)}</div>,
-      );
+              },
+            ],
+          }),
+        ],
+      });
+      const hiddenCounts = Array.from(
+        container.querySelectorAll('.badges__departure-time--show-more'),
+      ).map(node => node.textContent.trim());
 
-      expect(
-        renderedSuffix
-          .find(CanceledDepartures)
-          .dive()
-          .find('.badges__departure-time--show-more')
-          .map(node => node.text()),
-      ).to.deep.equal(['+2', '+3']);
+      expect(hiddenCounts).to.deep.equal(['+2', '+3']);
     });
   });
 
   describe('isMobile layout', () => {
     it('renders separator and DisruptionStatus in the header when isMobile=false', () => {
-      const wrapper = shallowWithIntl(
-        <CanceledTripCard {...baseProps} isMobile={false} />,
-      );
+      const container = renderCanceledTripCard({ isMobile: false });
 
-      expect(wrapper.find('.separator.vertical')).to.have.lengthOf(1);
-      expect(wrapper.find('header').find(DisruptionStatus)).to.have.lengthOf(1);
+      expect(
+        container.querySelectorAll('.separator.vertical'),
+      ).to.have.lengthOf(1);
+      expect(container.querySelector('header .disruption-status')).to.not.equal(
+        null,
+      );
     });
 
     it('hides the header separator and moves DisruptionStatus below badges when isMobile=true', () => {
-      const wrapper = shallowWithIntl(
-        <CanceledTripCard {...baseProps} isMobile />,
-      );
+      const container = renderCanceledTripCard({ isMobile: true });
 
-      expect(wrapper.find('.separator.vertical')).to.have.lengthOf(0);
-      expect(wrapper.find('header').find(DisruptionStatus)).to.have.lengthOf(0);
-      expect(wrapper.find(DisruptionStatus)).to.have.lengthOf(1);
+      expect(
+        container.querySelectorAll('.separator.vertical'),
+      ).to.have.lengthOf(0);
+      expect(container.querySelector('header .disruption-status')).to.equal(
+        null,
+      );
+      expect(container.querySelector('.disruption-status')).to.not.equal(null);
     });
   });
 
   describe('Navigation', () => {
     it('navigates to the canceled trips detail view for the mode when the card is clicked', () => {
-      const router = { push: sinon.spy() };
-      const wrapper = shallowWithIntl(<CanceledTripCard {...baseProps} />, {
-        router,
-      });
-      const event = {
-        preventDefault: () => {},
-        stopPropagation: () => {},
-      };
+      const container = renderCanceledTripCard();
 
-      wrapper.find(Card).prop('onClick')(event);
+      fireEvent.click(container.querySelector('.card'));
 
       expect(router.push.calledWith('/liikenne/peruutukset/bus')).to.equal(
         true,

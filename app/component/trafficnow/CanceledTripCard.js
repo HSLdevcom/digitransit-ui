@@ -2,11 +2,11 @@ import React from 'react';
 import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
+import { ArrowLinkButton } from '@hsl-fi/navigation';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { useFavourites } from '../../hooks/FavouriteContext';
 import { TRAFFICNOW, routePagePath } from '../../util/path';
 import Card from '../Card';
-import Icon from '../Icon';
 import CanceledDepartures from './components/CanceledDepartures';
 import DisruptionStatus from './components/DisruptionStatus';
 import RouteBadgeGroup from './components/RouteBadgeGroup';
@@ -19,7 +19,7 @@ import { sortRoutes } from './utils';
 const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
   const { router } = useRouter();
   const intl = useIntl();
-  const { colors, trafficNowMaxRoutesPerCard } = useConfigContext();
+  const { trafficNowMaxRoutesPerCard } = useConfigContext();
   const { selectedFilters } = useFilterContext();
   const favourites = useFavourites();
   const handleRouteBadgeClick = url => e => {
@@ -45,18 +45,12 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
               <DisruptionStatus
                 active
                 showDates={false}
-                className="text-xs-bold"
+                variant="text-xs-bold"
               />
             </>
           )}
         </span>
-        <button type="button">
-          <Icon
-            img="icon_arrow-collapse--right"
-            color={colors.primary}
-            className="disruption-card__icon"
-          />
-        </button>
+        <ArrowLinkButton />
       </header>
       <div className="badges">
         <RouteBadgeGroup
@@ -103,7 +97,7 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
         />
       </div>
       {isMobile && (
-        <DisruptionStatus active showDates={false} className="text-xs-bold" />
+        <DisruptionStatus active showDates={false} variant="text-xs-bold" />
       )}
     </Card>
   );

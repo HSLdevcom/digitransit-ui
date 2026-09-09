@@ -388,6 +388,11 @@ export default {
     en: 'travelling/services-now',
     sv: 'att-resa/Trafiken-just-nu',
   },
+  trafficNowRootPath: {
+    fi: '/matkustaminen',
+    sv: '/sv/att-resa',
+    en: '/en/travelling',
+  },
 
   vehicleRental: {
     minZoomStopsNearYou: 10,

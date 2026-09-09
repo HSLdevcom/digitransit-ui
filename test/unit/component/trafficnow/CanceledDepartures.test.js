@@ -21,6 +21,11 @@ const makePattern = canceledTrips => ({
 });
 
 describe('<CanceledDepartures />', () => {
+  const departureTimes = container =>
+    Array.from(
+      container.querySelectorAll('.badges__departure-time .routes-s-narrow'),
+    ).map(node => node.textContent.trim());
+
   const renderCanceledDepartures = props => {
     const { container } = renderWithProviders(
       <CanceledDepartures
@@ -40,28 +45,29 @@ describe('<CanceledDepartures />', () => {
 
   it('splits departures per date and applies the limit per date', () => {
     const container = renderCanceledDepartures();
+
     expect(
       container.querySelectorAll('.badges__departure-group__date-group'),
     ).to.have.lengthOf(2);
-    const times = [...container.querySelectorAll('.routes-m-narrow')].map(n =>
-      n.textContent.trim(),
-    );
-    expect(times).to.deep.equal(['08:00', '09:00']);
+    expect(departureTimes(container)).to.deep.equal(['08:00', '09:00']);
   });
 
   it('shows a button when a date has more departures than the limit', () => {
     const container = renderCanceledDepartures();
-    expect(
-      container.querySelectorAll('.show-departures-button'),
-    ).to.have.lengthOf(1);
+    const showAllButton = container.querySelector('.show-departures-button');
+
+    expect(showAllButton).to.not.equal(null);
+    expect(showAllButton.textContent).to.equal('Show all');
   });
 
   it('shows all departures for the date when the button is clicked', () => {
     const container = renderCanceledDepartures();
+
     fireEvent.click(container.querySelector('.show-departures-button'));
-    const times = [...container.querySelectorAll('.routes-m-narrow')].map(n =>
-      n.textContent.trim(),
-    );
-    expect(times).to.deep.equal(['08:00', '08:05', '09:00']);
+    expect(departureTimes(container)).to.deep.equal([
+      '08:00',
+      '08:05',
+      '09:00',
+    ]);
   });
 });
