@@ -10,6 +10,7 @@ Icon renders predefined Svg icons as react component.
 
 *   `$0` **[Object][1]** 
 
+    *   `$0.className`  
     *   `$0.color`  
     *   `$0.img`  
     *   `$0.height`  
