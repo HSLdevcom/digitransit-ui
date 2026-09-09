@@ -12,11 +12,6 @@ const outputGraphQLFilename = path.join(
   'schema',
   'schema.graphql',
 );
-const outputGraphQLFileCopy = path.join(
-  __dirname,
-  '..',
-  'digitransit-search-util/packages/digitransit-search-util-query-utils/schema/schema.graphql',
-);
 
 const copySchema = (src, dest) => {
   fs.copyFile(src, dest, err => {
@@ -35,10 +30,8 @@ if (graphqlSchemaSource.includes('http')) {
     file.on('finish', () => {
       file.close();
       console.log(`GraphQL schema saved to ${outputGraphQLFilename}`);
-      copySchema(outputGraphQLFilename, outputGraphQLFileCopy);
     });
   });
 } else {
   copySchema(graphqlSchemaSource, outputGraphQLFilename);
-  copySchema(graphqlSchemaSource, outputGraphQLFileCopy);
 }

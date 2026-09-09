@@ -102,8 +102,8 @@ locale. See the `workspace-packages-translations-check`/`-fix` scripts in
 ## Using `generate-schema.js`
 
 Regenerates `schema/schema.graphql` (the GraphQL schema used by relay-compiler and
-graphql-eslint) from the OTP repo, and copies it into
-`digitransit-search-util-query-utils`.
+graphql-eslint) from the OTP repo. `digitransit-search-util-query-utils` references this same
+file via a relative path (`../../../schema/schema.graphql`) rather than keeping its own copy.
 
 ```
 node scripts/generate-schema.js

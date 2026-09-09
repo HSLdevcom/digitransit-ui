@@ -1,8 +1,18 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*"]
+  },
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/config/rollup.config.js",
+        "{workspaceRoot}/config/babel.config.js",
+        "{workspaceRoot}/schema/schema.graphql"
+      ],
       "outputs": ["{projectRoot}/lib"],
       "cache": true
     }

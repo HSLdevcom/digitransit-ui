@@ -249,3 +249,23 @@ in `package.json` as:
   docs for the package itself (e.g. `babel-plugin-relay` for
   `query-utils`'s own relay-compiler step) but that the published bundle
   never needs at runtime.
+
+## CSS Modules
+
+`component`/`store` packages using SCSS (e.g. `src/helpers/styles.scss`) get
+it compiled as a CSS Module by the shared `config/rollup.config.js`, which
+runs once per package with `cwd` set to that package's own directory. Since
+many packages share the same relative file path (e.g.
+`src/helpers/styles.scss`), the config passes a per-package `hashPrefix`
+(the package's npm name) into `postcss-modules` so that two unrelated
+packages using the same local class name (e.g. `.combobox-icon`) never hash
+to the same scoped class name and leak styles into each other once bundled
+into the app — don't remove `hashPrefix`/`autoModules: false` from that
+config without preserving this.
+
+## Build Caching
+
+Because `nx.json`'s `build` target defines an explicit `inputs` list, any
+future shared build config file (beyond `config/rollup.config.js`/
+`config/babel.config.js`, already listed there) needs adding to that list
+too, or editing it won't invalidate every package's Nx build cache.
