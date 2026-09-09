@@ -281,9 +281,9 @@ export default {
     'itinerary-details.route-has-unknown-alert': 'Störningar längs rutten..',
     'itinerary-details.route-has-warning-alert': 'Störningar längs rutten..',
     'itinerary-details.scooter-leg':
-      '{time} åk elsparkcykel {distance} från {origin} till destinationen {destination}. Restid {duration}',
+      '{time} åk elsparkcykel {distance} från upphämtningsplatsen {origin} till destinationen {destination}. Restid {duration}',
     'itinerary-details.taxi-leg':
-      '{time} res med taxi {distance} från {origin} till {to} {destination}. Restid {duration}',
+      '{time} res med taxi {distance} från upphämtningsplatsen {origin} till {to} {destination}. Restid {duration}',
     'itinerary-details.transit-leg-part-1': '{time} {realtime} ta',
     'itinerary-details.transit-leg-part-2':
       'från hållplats {startStop} {startZoneInfo} {trackInfo} till hållplats {endStop} {endZoneInfo}. Beräknad restid {duration}. ',
@@ -314,11 +314,11 @@ export default {
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Avgång kl {firstDepartureTime} från {firstDepartureStop} stadscykelstation',
     'itinerary-summary-row.first-leg-start-time-scooter':
-      'Avgång kl {firstDepartureTime} med en sparkcykel',
+      'Avgång kl {firstDepartureTime} från elsparkcykelns upphämtningsplats',
     'itinerary-summary-row.first-leg-start-time-sr':
       '{vehicle} avgår från station {firstDepartureStop} klockan {firstDepartureTime} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time-taxi':
-      'Taxi avgår från {firstDepartureStop} kl. {firstDepartureTime}',
+      'Avgång kl {firstDepartureTime} från taxins upphämtningsplats',
     'itinerary-summary-row.no-transit-legs': 'Avgå när det passar för dig',
     'itinerary-summary-row.transfers':
       'Byte {vehicle} vid hållplats {stopName}',
