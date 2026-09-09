@@ -7,7 +7,7 @@ import { isKeyboardSelectionEvent } from '../../util/browser';
 import { hasCustomizedSettings, getSettings } from '../../util/planParamUtil';
 import { isPersonalizationEnabled } from '../../util/modeUtils';
 import Popover from '../Popover';
-import { getDialogState, setDialogState } from '../../store/localStorage';
+import { getDialogState, setDialogState } from '../../data/localStorage';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
 export default function SettingsButton({ onToggleClick }) {

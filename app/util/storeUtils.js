@@ -4,7 +4,7 @@ import favouriteStore from '../data/FavouriteData';
 import {
   getFutureRoutesStorage,
   setFutureRoutesStorage,
-} from '../store/localStorage';
+} from '../data/localStorage';
 
 export const getPositionStore = () => {
   return PositionStore;

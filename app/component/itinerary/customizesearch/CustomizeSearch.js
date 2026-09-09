@@ -22,7 +22,7 @@ import { getSettings } from '../../../util/planParamUtil';
 import {
   getCustomizedSettings,
   setCustomizedSettings,
-} from '../../../store/localStorage';
+} from '../../../data/localStorage';
 import ScrollableWrapper from '../../ScrollableWrapper';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 

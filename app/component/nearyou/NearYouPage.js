@@ -24,7 +24,7 @@ import {
 } from '../../action/PositionActions';
 import Search from './Search';
 import StopRouteSearch from './StopRouteSearch';
-import { getGeolocationState } from '../../store/localStorage';
+import { getGeolocationState } from '../../data/localStorage';
 import { PREFIX_NEARYOU } from '../../util/path';
 import NearYouContainer from './NearYouContainer';
 import SwipeableTabs, { setFocusables } from '../SwipeableTabs';
