@@ -33,7 +33,13 @@ RUN \
 ARG CONFIG=''
 ENV CONFIG=${CONFIG}
 
+# Deliberately scoped to config/schema (rather than folded into the `COPY . .` +
+# `yarn run build` step below): this keeps the RUN below cacheable by Docker's
+# layer cache whenever only app/server files change (the common case), instead
+# of invalidating (and re-running all 16 workspace-package builds) on *any*
+# file change in the repo.
 COPY config ./config
+COPY schema ./schema
 RUN \
   yarn run workspace-packages-build
 
