@@ -38,8 +38,6 @@ test_output
 test/binaries
 selenium-debug.log
 tags
-.nyc_output
-coverage
 sessions/
 run*.sh
 

@@ -136,7 +136,27 @@ module.exports = () => {
       postcss({
         extract: false,
         plugins: [autoprefixer()],
-        modules: true,
+        // postcss-modules' scoped class names are hashed from
+        // `path.relative(process.cwd(), filepath) + localName` (see
+        // generic-names). Since this config now runs per-package with cwd
+        // set to that package's own directory (e.g. every package's SCSS
+        // module lives at the same relative path "src/helpers/styles.scss"),
+        // two unrelated packages that happen to use the same local class
+        // name (e.g. ".combobox-icon") would otherwise hash to the exact
+        // same scoped name and collide once bundled together in the app.
+        // Passing a per-package hashPrefix (forwarded straight into that
+        // hash input) restores uniqueness across packages.
+        modules: {
+          generateScopedName: '[name]_[local]__[hash:base64:5]',
+          hashPrefix: pkg.name,
+        },
+        // rollup-plugin-postcss only honours a custom `modules` object (as
+        // opposed to treating every matched file as a CSS module) when
+        // `autoModules` isn't left to its filename-based default (which
+        // requires a `.module.scss` naming convention that this codebase
+        // doesn't use) - explicitly disable it so plain `.scss` files still
+        // go through postcss-modules with our settings above.
+        autoModules: false,
         use: [
           [
             'sass',
