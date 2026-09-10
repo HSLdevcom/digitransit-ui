@@ -24,46 +24,17 @@ import { getDefaultNetworks } from '../util/vehicleRentalUtils';
  * and the concrete Digitransit implementation of, the "search context"
  * consumed by the framework-agnostic @digitransit-search-util packages
  * (most notably digitransit-search-util-execute-search-immidiate). Those
- * packages only rely on the shape of this object (methods/fields read off
- * it), so its properties double as living documentation of that contract.
+ * packages only rely on the shape of this object (fields/methods read off
+ * it, all set up in init() below), so init() doubles as living
+ * documentation of that contract.
  *
  * init() is called once, synchronously, during app bootstrap in client.js
  * (mirroring favouriteStore.init(config)), strictly before anything renders.
  * Consequently no component ever observes this singleton in an
  * uninitialized state, so unlike FavouriteData it doesn't need to expose
- * safe no-op defaults for its methods.
+ * safe no-op defaults for its fields/methods.
  */
 class SearchContext {
-  context = null;
-
-  positionStore = null;
-
-  startLocationWatch = null;
-
-  saveSearch = null;
-
-  saveFutureRoute = null;
-
-  isPeliasLocationAware = false;
-
-  minimalRegexp = null;
-
-  lineRegexp = null;
-
-  feedIDs = [];
-
-  URL_PELIAS = '';
-
-  URL_PELIAS_PLACE = '';
-
-  geocodingSearchParams = null;
-
-  geocodingSources = '';
-
-  parkingAreaSources = undefined;
-
-  cityBikeNetworks = [];
-
   initialized = false;
 
   /**
