@@ -51,9 +51,9 @@ export function FavouriteProvider({ context, children = null }) {
 
   // config and context are stable for the app's lifetime (set once at app
   // init in client.js), so they are intentionally omitted from dependency
-  // arrays below.
+  // arrays below. favouriteStore is also already initialized by client.js
+  // (favouriteStore.init(config)) before this provider ever mounts.
   useEffect(() => {
-    favouriteStore.init(config);
     const onChange = () => {
       setFavourites(favouriteStore.getFavourites());
       setFavouriteStatus(favouriteStore.getStatus());

@@ -70,8 +70,9 @@ class FavouriteData {
   initialized = false;
 
   /**
-   * Initializes the store with the current config. Safe to call more than
-   * once (e.g. from multiple mounts of FavouriteProvider); only the first
+   * Initializes the store with the current config. Called once during app
+   * bootstrap in client.js, before anything renders (mirrors
+   * SearchContext.init()). Safe to call more than once; only the first
    * call has an effect.
    */
   init(config) {
