@@ -7,7 +7,7 @@ import {
 } from './modeUtils';
 import { otpToLocation, getIntermediatePlaces } from './otpStrings';
 import { getAllNetworksOfType, getDefaultNetworks } from './vehicleRentalUtils';
-import { getCustomizedSettings } from '../store/localStorage';
+import { getCustomizedSettings } from '../data/localStorage';
 import { estimateItineraryDistance } from './geo-utils';
 import { TransportMode } from '../constants';
 

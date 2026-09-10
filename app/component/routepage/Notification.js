@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { configShape } from '../../util/shapes';
-import { getDialogState, setDialogState } from '../../store/localStorage';
+import { getDialogState, setDialogState } from '../../data/localStorage';
 
 import Icon from '../Icon';
 

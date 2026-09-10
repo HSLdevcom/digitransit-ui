@@ -35,13 +35,11 @@ import {
   addAnalyticsEvent,
   handleUserAnalytics,
 } from './util/analyticsUtils';
-import { getCountries } from './store/localStorage';
+import { getCountries } from './data/localStorage';
 import { configureCountry } from './util/configureCountry';
 import { getUser } from './util/apiUtils';
-import {
-  fetchFavourites,
-  fetchFavouritesComplete,
-} from './action/FavouriteActions';
+import favouriteStore from './data/FavouriteData';
+import searchContext from './data/SearchContext';
 import { ConfigProvider } from './configurations/ConfigContext';
 import { FavouriteProvider } from './hooks/FavouriteContext';
 import { TimeProvider } from './hooks/TimeContext';
@@ -192,16 +190,18 @@ async function init() {
   });
 
   // fetch Userdata and favourites
+  favouriteStore.init(config);
+  searchContext.init(context.getComponentContext());
   if (config.allowLogin) {
     getUser()
       .then(user => {
         config.user = user || {};
         handleUserAnalytics(config);
-        context.executeAction(fetchFavourites);
+        favouriteStore.fetchFavourites();
       })
       .catch(() => {
         config.user = { notLogged: true };
-        context.executeAction(fetchFavouritesComplete);
+        favouriteStore.fetchComplete();
       })
       .finally(() => {
         addAnalyticsEvent({

@@ -1,6 +1,6 @@
 import Store from 'fluxible/addons/BaseStore';
 import PropTypes from 'prop-types';
-import { setMapLayerSettings, getMapLayerSettings } from './localStorage';
+import { setMapLayerSettings, getMapLayerSettings } from '../data/localStorage';
 import { showRentalVehiclesOfType } from '../util/modeUtils';
 import { TransportMode } from '../constants';
 

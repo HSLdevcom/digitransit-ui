@@ -136,5 +136,16 @@ Other structural notes:
   overrides: prefer object spread over `Object.assign`; `no-console` is an error; Prettier config
   is `singleQuote: true, trailingComma: 'all', arrowParens: 'avoid'`.
 - `.js` files are used for JSX (no `.jsx` extension).
+- Avoid `Component.defaultProps` in function components (deprecated by React, and unsupported for
+  function components in newer React versions). Declare defaults via destructuring in the
+  function signature instead, e.g. `function Foo({ isMobile = false, children = null })`. This
+  applies to new code and to any component touched during refactors; existing untouched
+  components may still use `defaultProps` until they're otherwise modified.
+- The project does not enable `eslint-plugin-react-hooks`'s `exhaustive-deps` rule, and top-level
+  app values such as `config` (`useConfigContext()`) and the Fluxible `context`/`executeAction`
+  bridge are set once at app init and never change identity for the app's lifetime. It's fine to
+  omit such stable values from `useEffect`/`useCallback`/`useMemo` dependency arrays — prefer this
+  over padding dependency arrays with values that never actually change, and add a short comment
+  noting why the value is omitted.
 - SCSS under `sass/`, `app/**/*.scss`, `digitransit-component/**/*.scss` — must pass
   `prettier --check` and `stylelint`.

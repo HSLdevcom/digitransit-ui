@@ -1,36 +1,14 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
-import PropTypes from 'prop-types';
 import sinon from 'sinon';
 import { render, fireEvent } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import * as found from 'found';
 import translations from '../../../../app/translations/en';
 import { ConfigProvider } from '../../../../app/configurations/ConfigContext';
-import { Component as CanceledTripCard } from '../../../../app/component/trafficnow/CanceledTripCard';
+import CanceledTripCard from '../../../../app/component/trafficnow/CanceledTripCard';
 import * as FiltersContext from '../../../../app/component/trafficnow/filters/FiltersContext';
-import { mockContext } from '../../helpers/mock-context';
-
-// RouteBadgeGroup is rendered via its `connectToStores`-wrapped default
-// export, which reads `FavouriteStore` off the legacy Fluxible context.
-// Reuse the shared mockContext so the real component tree renders.
-class LegacyFluxibleContext extends React.Component {
-  getChildContext() {
-    return {
-      getStore: name => ({
-        ...mockContext.getStore(name),
-        getFavourites: () => [],
-      }),
-    };
-  }
-
-  render() {
-    return this.props.children;
-  }
-}
-LegacyFluxibleContext.childContextTypes = { getStore: PropTypes.func };
-LegacyFluxibleContext.propTypes = { children: PropTypes.node.isRequired };
 
 const makeRouteSummary = ({
   shortName = '21B',
@@ -121,9 +99,7 @@ describe('<CanceledTripCard />', () => {
     const { container } = render(
       <IntlProvider locale="en" messages={translations.en}>
         <ConfigProvider value={config}>
-          <LegacyFluxibleContext>
-            <CanceledTripCard {...baseProps} {...props} />
-          </LegacyFluxibleContext>
+          <CanceledTripCard {...baseProps} {...props} />
         </ConfigProvider>
       </IntlProvider>,
     );

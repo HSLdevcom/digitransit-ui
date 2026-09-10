@@ -22,10 +22,14 @@ describe('<LogoSmall />', () => {
   });
 
   it('should show the given title text', () => {
-    const { container } = renderWithProviders(
-      <LogoSmall title="Reittiopas" />,
-      { config: { CONFIG: 'default', URL: {}, textLogo: true } },
-    );
+    const { container } = renderWithProviders(<LogoSmall />, {
+      config: {
+        CONFIG: 'default',
+        URL: {},
+        textLogo: true,
+        title: 'Reittiopas',
+      },
+    });
     const titleElement = container.querySelector('span.title');
     expect(titleElement).to.not.equal(null);
     expect(titleElement.textContent).to.equal('Reittiopas');
@@ -33,10 +37,9 @@ describe('<LogoSmall />', () => {
   });
 
   it('should show the title with the logo', () => {
-    const { container } = renderWithProviders(
-      <LogoSmall logo="/" title="foo" />,
-      { config: { CONFIG: 'default', URL: {}, textLogo: true } },
-    );
+    const { container } = renderWithProviders(<LogoSmall logo="/" />, {
+      config: { CONFIG: 'default', URL: {}, textLogo: true, title: 'foo' },
+    });
     expect(container.querySelector('.title').textContent).to.equal('foo');
     expect(container.querySelector('div.logo')).to.not.equal(null);
   });

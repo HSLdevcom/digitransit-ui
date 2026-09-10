@@ -11,7 +11,7 @@ import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { isPersonalizationEnabled } from '../../../util/modeUtils';
 import { settingsShape } from '../../../util/shapes';
 import { useConfigContext } from '../../../configurations/ConfigContext';
-import { getPersonalization } from '../../../store/localStorage';
+import { getPersonalization } from '../../../data/localStorage';
 
 export default function Personalization({ settings, updateSettings }) {
   const intl = useIntl();

@@ -1,6 +1,6 @@
 import isString from 'lodash/isString';
 import without from 'lodash/without';
-import { getCustomizedSettings } from '../store/localStorage';
+import { getCustomizedSettings } from '../data/localStorage';
 import { addAnalyticsEvent } from './analyticsUtils';
 import { networkIsActive } from './modeUtils';
 import { isAndroid, isIOS } from './browser';
