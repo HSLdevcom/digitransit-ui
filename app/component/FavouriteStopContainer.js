@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import { stopShape } from '../util/shapes';
 import Favourite from './Favourite';
-import favouriteStore from '../data/FavouriteData';
+import { isFavourite, getFavouriteByGtfsId } from '../data/FavouriteData';
 import {
   useFavourites,
   useFavouriteStatus,
@@ -20,12 +20,12 @@ export default function FavouriteStopContainer(
 ) {
   const [isFetching, setIsFetching] = useState(false);
   const config = useConfigContext();
-  useFavourites();
+  const favourites = useFavourites();
   const favouriteStatus = useFavouriteStatus();
   const { saveFavourite, deleteFavourite } = useFavouriteActions();
 
   const favouriteType = isTerminal ? 'station' : 'stop';
-  const favourite = favouriteStore.isFavourite(stop.gtfsId, favouriteType);
+  const favourite = isFavourite(stop.gtfsId, favouriteType, favourites);
 
   return (
     <Favourite
@@ -78,9 +78,10 @@ export default function FavouriteStopContainer(
           });
       }}
       delFavourite={() => {
-        const stopToDelete = favouriteStore.getFavouriteByGtfsId(
+        const stopToDelete = getFavouriteByGtfsId(
           stop.gtfsId,
           favouriteType,
+          favourites,
         );
         deleteFavourite(stopToDelete);
         addAnalyticsEvent({

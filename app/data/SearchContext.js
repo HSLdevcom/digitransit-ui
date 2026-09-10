@@ -13,7 +13,12 @@ import {
   getFutureRoutes,
   clearFutureRoutes,
 } from '../util/storeUtils';
-import favouriteStore from './FavouriteData';
+import favouriteStore, {
+  getFavouritePlaces,
+  getFavouriteStopsAndStations,
+  getFavouriteRouteGtfsIds,
+  getFavouriteVehicleRentalStations,
+} from './FavouriteData';
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
 import { useCitybikes } from '../util/modeUtils';
@@ -68,17 +73,19 @@ class SearchContext {
     this.geocodingSources = config.searchSources;
     this.geocodingSearchParams = config.searchParams;
     this.getOldSearches = getOldSearches;
-    this.getFavouriteLocations = () => favouriteStore.getFavouritePlaces();
+    this.getFavouriteLocations = () =>
+      getFavouritePlaces(favouriteStore.getFavourites());
     this.getFavouriteStops = () =>
-      favouriteStore.getFavouriteStopsAndStations();
+      getFavouriteStopsAndStations(favouriteStore.getFavourites());
     this.getLanguage = getLanguage;
-    this.getFavouriteRoutes = () => favouriteStore.getFavouriteRouteGtfsIds();
+    this.getFavouriteRoutes = () =>
+      getFavouriteRouteGtfsIds(favouriteStore.getFavourites());
     this.getPositions = getPositions;
     this.getRoutesQuery = getRoutesQuery;
     this.getStopAndStationsQuery = getStopAndStationsQuery;
     this.getFavouriteRoutesQuery = getFavouriteRoutesQuery;
     this.getFavouriteVehicleRentalStations = () =>
-      favouriteStore.getFavouriteVehicleRentalStations();
+      getFavouriteVehicleRentalStations(favouriteStore.getFavourites());
     this.getFavouriteVehicleRentalStationsQuery =
       getFavouriteVehicleRentalStationsQuery;
     this.startLocationWatch = startLocationWatch;

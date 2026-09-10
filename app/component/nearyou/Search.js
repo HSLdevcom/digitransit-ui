@@ -6,7 +6,7 @@ import {
   withSearchContext,
   getLocationSearchTargets,
 } from '../WithSearchContext';
-import favouriteStore from '../../data/FavouriteData';
+import { countLocations } from '../../data/FavouriteData';
 import { useFavourites } from '../../hooks/FavouriteContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
@@ -15,7 +15,7 @@ const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 function Search({ onMap, ...rest }) {
   const config = useConfigContext();
   const intl = useIntl();
-  useFavourites();
+  const favourites = useFavourites();
   const searchProps = {
     id: 'origin-stop-near-you',
     placeholder: 'origin',
@@ -30,7 +30,7 @@ function Search({ onMap, ...rest }) {
     lang: config.language,
   };
   const sources = ['History', 'Datasource'];
-  if (favouriteStore.countLocations()) {
+  if (countLocations(favourites)) {
     sources.push('Favourite');
   }
   return (

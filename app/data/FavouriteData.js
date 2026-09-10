@@ -44,19 +44,84 @@ export const STATUS_HAS_DATA = 'has-data';
 
 export const STATUS_FETCH_FAILED = 'fetch-failed';
 
+/* fav count excluding routes */
+export function countLocations(favourites) {
+  let cnt = 0;
+  favourites.forEach(favourite => {
+    if (locationTypes.includes(favourite.type)) {
+      cnt += 1;
+    }
+  });
+  return cnt;
+}
+
+export function isFavourite(id, type, favourites) {
+  for (let i = 0; i < favourites.length; i++) {
+    const favourite = favourites[i];
+    const fid = favourite.gtfsId || favourite.gid || favourite.stationId;
+    if (favourite.type === type && fid === id) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function getFavouriteByGtfsId(gtfsId, type, favourites) {
+  return find(
+    favourites,
+    favourite => gtfsId === favourite.gtfsId && type === favourite.type,
+  );
+}
+
+export function getFavouriteByStationIdAndNetworks(
+  stationId,
+  network,
+  favourites,
+) {
+  return find(
+    favourites,
+    favourite =>
+      stationId === favourite.stationId && network === favourite.network,
+  );
+}
+
+export function getFavouriteRouteGtfsIds(favourites) {
+  return favourites
+    .filter(favourite => favourite.type === 'route')
+    .map(favourite => favourite.gtfsId);
+}
+
+export function getFavouriteStopsAndStations(favourites) {
+  return favourites.filter(
+    favourite => favourite.type === 'stop' || favourite.type === 'station',
+  );
+}
+
+export function getFavouriteVehicleRentalStations(favourites) {
+  return favourites.filter(favourite => favourite.type === 'bikeStation');
+}
+
+export function getFavouritePlaces(favourites) {
+  return favourites.filter(favourite => favourite.type === 'place');
+}
+
 /**
- * Plain (non-Flux) singleton that holds the current favourites, syncs them
- * with the backend service and/or localStorage, and exposes query methods
- * for them. This replaces the former Fluxible FavouriteStore. React
- * components should not use this module directly; use the
+ * Plain (non-Flux) singleton that holds the current favourites and syncs
+ * them with the backend service and/or localStorage. This replaces the
+ * former Fluxible FavouriteStore. React components should not use this
+ * module's default export directly for reading state; use the
  * useFavourites()/useFavouriteStatus()/useFavouriteActions() hooks exported
  * from hooks/FavouriteContext.js instead, which wrap this singleton and
  * keep components in sync with it.
  *
- * The query methods below default to operating on the singleton's own
- * favourites, but also accept an explicit favourites array so that React
- * components already holding one from useFavourites() can pass it in
- * directly instead of reaching into this singleton's internal state.
+ * Pure query helpers over a favourites array (isFavourite,
+ * getFavouriteByGtfsId, getFavouriteByStationIdAndNetworks,
+ * getFavouriteRouteGtfsIds, getFavouriteStopsAndStations,
+ * getFavouriteVehicleRentalStations, getFavouritePlaces, countLocations) are
+ * exported above as standalone functions rather than methods on this class,
+ * so callers always pass the favourites array they actually have (e.g. from
+ * useFavourites()) instead of implicitly reaching into this singleton's
+ * internal state.
  */
 class FavouriteData {
   favourites = [];
@@ -153,67 +218,6 @@ class FavouriteData {
 
   getFavourites() {
     return this.favourites;
-  }
-
-  /* fav count excluding routes */
-  countLocations(favourites = this.favourites) {
-    let cnt = 0;
-    favourites.forEach(favourite => {
-      if (locationTypes.includes(favourite.type)) {
-        cnt += 1;
-      }
-    });
-    return cnt;
-  }
-
-  isFavourite(id, type, favourites = this.favourites) {
-    for (let i = 0; i < favourites.length; i++) {
-      const favourite = favourites[i];
-      const fid = favourite.gtfsId || favourite.gid || favourite.stationId;
-      if (favourite.type === type && fid === id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  getFavouriteByGtfsId(gtfsId, type, favourites = this.favourites) {
-    return find(
-      favourites,
-      favourite => gtfsId === favourite.gtfsId && type === favourite.type,
-    );
-  }
-
-  getFavouriteByStationIdAndNetworks(
-    stationId,
-    network,
-    favourites = this.favourites,
-  ) {
-    return find(
-      favourites,
-      favourite =>
-        stationId === favourite.stationId && network === favourite.network,
-    );
-  }
-
-  getFavouriteRouteGtfsIds(favourites = this.favourites) {
-    return favourites
-      .filter(favourite => favourite.type === 'route')
-      .map(favourite => favourite.gtfsId);
-  }
-
-  getFavouriteStopsAndStations(favourites = this.favourites) {
-    return favourites.filter(
-      favourite => favourite.type === 'stop' || favourite.type === 'station',
-    );
-  }
-
-  getFavouriteVehicleRentalStations(favourites = this.favourites) {
-    return favourites.filter(favourite => favourite.type === 'bikeStation');
-  }
-
-  getFavouritePlaces(favourites = this.favourites) {
-    return favourites.filter(favourite => favourite.type === 'place');
   }
 
   /**

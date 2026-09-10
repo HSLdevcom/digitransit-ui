@@ -62,6 +62,10 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 - If the OTP GraphQL schema changes: `node scripts/generate-schema.js` (regenerates
   `schema/schema.graphql`; `relay-compiler` then regenerates `app/__generated__` on build/dev).
 
+## Docker
+
+- `.dockerignore` is a default-deny allow-list; add an explicit `!path` line if the image genuinely needs something new.
+
 ## Lint & format
 
 - `yarn lint` — eslint (Airbnb config + jsx-a11y + compat + prettier) + `prettier-styles` (scss
