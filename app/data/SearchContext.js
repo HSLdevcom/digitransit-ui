@@ -33,7 +33,7 @@ import { getDefaultNetworks } from '../util/vehicleRentalUtils';
  * uninitialized state, so unlike FavouriteData it doesn't need to expose
  * safe no-op defaults for its methods.
  */
-class SearchContextData {
+class SearchContext {
   context = null;
 
   positionStore = null;
@@ -118,6 +118,6 @@ class SearchContextData {
   }
 }
 
-const searchContext = new SearchContextData();
+const searchContext = new SearchContext();
 
 export default searchContext;

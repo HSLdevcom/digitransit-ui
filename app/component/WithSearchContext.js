@@ -11,7 +11,7 @@ import {
   PREFIX_STOPS,
   PREFIX_ROUTES,
 } from '../util/path';
-import searchContext from '../data/SearchContextData';
+import searchContext from '../data/SearchContext';
 import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMap from './map/SelectFromMap';
 import DTModal from './DTModal';
