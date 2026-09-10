@@ -1,23 +1,11 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
 
-import {
-  component as Itinerary,
-  ViaLeg,
-} from '../../../../../app/component/itinerary/Itinerary';
-import StreetBar from '../../../../../app/component/itinerary/StreetBar';
-import TransitBar from '../../../../../app/component/itinerary/TransitBar';
-import RouteNumberContainer from '../../../../../app/component/RouteNumberContainer';
+import { component as Itinerary } from '../../../../../app/component/itinerary/Itinerary';
 import { AlertSeverityLevelType } from '../../../../../app/constants';
-import {
-  mockChildContextTypes,
-  mockContext,
-} from '../../../helpers/mock-context';
-import {
-  mountWithIntl,
-  shallowWithIntl,
-} from '../../../helpers/mock-intl-enzyme';
+import { mockContext } from '../../../helpers/mock-context';
+import { renderWithProviders } from '../../../helpers/mock-providers';
 import dcw12 from '../../../test-data/dcw12';
 
 const defaultProps = {
@@ -27,76 +15,113 @@ const defaultProps = {
   refTime: 0,
 };
 
+// A ViaLeg is a plain `.leg.via` marker div. StreetBar and TransitBar both
+// apply a `line <mode>` class to their inner RouteNumber, so the mode class
+// itself (not `.line`) is what tells them apart.
+const STREET_LEG_CLASSES = [
+  'walk',
+  'bicycle_walk',
+  'citybike',
+  'scooter',
+  'car',
+  'taxi-external',
+  'bicycle',
+  'wait',
+  'bike_park',
+  'car_park',
+];
+
+const classifyLeg = leg => {
+  if (leg.classList.contains('via')) {
+    return 'via';
+  }
+  return STREET_LEG_CLASSES.some(cls => leg.classList.contains(cls))
+    ? 'street'
+    : 'transit';
+};
+
+const getLegTypes = container =>
+  [...container.querySelectorAll('.itinerary-legs > *')].map(classifyLeg);
+
 describe('<Itinerary />', () => {
+  // Itinerary calls useFragment on plain leg data (no real Relay store in
+  // this unit env), which logs a harmless RelayModernSelector warning that
+  // the global harness would otherwise turn into a thrown error.
+  let savedConsoleError;
+  beforeEach(() => {
+    // eslint-disable-next-line no-console
+    savedConsoleError = console.error;
+    // eslint-disable-next-line no-console
+    console.error = warning => {
+      if (String(warning).includes('RelayModernSelector')) {
+        return;
+      }
+      throw new Error(warning);
+    };
+  });
+  afterEach(() => {
+    // eslint-disable-next-line no-console
+    console.error = savedConsoleError;
+  });
+
+  const renderItinerary = (props, config) =>
+    renderWithProviders(
+      <Itinerary {...defaultProps} {...props} />,
+      config ? { config } : {},
+    );
+
   it('should display both walking legs in the summary view', () => {
     const props = {
-      ...defaultProps,
       itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
       intermediatePlaces:
         dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
       passive: false,
       refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
     };
-    const wrapper = shallowWithIntl(<Itinerary {...props} />, {
-      context: { config: mockContext.config },
-    });
+    const { container } = renderItinerary(props);
 
-    expect(wrapper.find('.itinerary-legs').children()).to.have.lengthOf(3);
-    expect(wrapper.find(StreetBar)).to.have.lengthOf(2);
-    expect(wrapper.find(ViaLeg)).to.have.lengthOf(1);
+    const types = getLegTypes(container);
+    expect(types).to.have.lengthOf(3);
+    expect(types.filter(t => t === 'via')).to.have.lengthOf(1);
+    expect(types.filter(t => t === 'street')).to.have.lengthOf(2);
   });
 
   it('should display all city bike leg start stations in the summary view', () => {
     const props = {
-      ...defaultProps,
       itinerary: dcw12.cityBikeRouteWithIntermediatePlaces.data,
       intermediatePlaces:
         dcw12.cityBikeRouteWithIntermediatePlaces.intermediatePlaces,
       passive: false,
       refTime: dcw12.cityBikeRouteWithIntermediatePlaces.refTime,
     };
-    const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: { ...mockContext },
-      config: {
-        ...mockContext.config,
-        vehicleRental: {
-          ...mockContext.config.vehicleRental,
-          fewAvailableCount: 3,
-        },
+    const { container } = renderItinerary(props, {
+      ...mockContext.config,
+      vehicleRental: {
+        ...mockContext.config.vehicleRental,
+        fewAvailableCount: 3,
       },
-      childContextTypes: { ...mockChildContextTypes },
     });
-    const legs = wrapper.find('.itinerary-legs');
-    expect(legs.find(StreetBar)).to.have.lengthOf.above(3);
-    expect(wrapper.find(ViaLeg)).to.have.lengthOf(2);
+    const types = getLegTypes(container);
+    expect(types.filter(t => t === 'street').length).to.be.above(3);
+    expect(types.filter(t => t === 'via')).to.have.lengthOf(2);
   });
 
   it('should hide short legs from the summary view for a non-transit itinerary', () => {
     const props = {
-      ...defaultProps,
       itinerary: dcw12.bikingRouteWithIntermediatePlaces.data,
       intermediatePlaces:
         dcw12.bikingRouteWithIntermediatePlaces.intermediatePlaces,
       passive: false,
       refTime: dcw12.bikingRouteWithIntermediatePlaces.refTime,
     };
-    const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
+    const { container } = renderItinerary(props);
 
-    const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(5);
-    expect(legs.childAt(0).is(StreetBar)).to.equal(true);
-    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(2).is(StreetBar)).to.equal(true);
-    expect(legs.childAt(3).is(ViaLeg)).to.equal(true);
-    expect(legs.childAt(4).is(StreetBar)).to.equal(true);
+    const types = getLegTypes(container);
+    expect(types).to.deep.equal(['street', 'via', 'street', 'via', 'street']);
   });
 
   it('should show a connecting walk leg between via points for transit itinerary', () => {
     const props = {
-      ...defaultProps,
       itinerary: dcw12.transitRouteWithWalkConnectingIntermediatePlaces.data,
       intermediatePlaces:
         dcw12.transitRouteWithWalkConnectingIntermediatePlaces
@@ -104,19 +129,16 @@ describe('<Itinerary />', () => {
       passive: false,
       refTime: dcw12.transitRouteWithWalkConnectingIntermediatePlaces.refTime,
     };
-    const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
+    const { container } = renderItinerary(props);
 
-    expect(wrapper.find(ViaLeg)).to.have.lengthOf(2);
-    expect(wrapper.find(TransitBar)).to.have.lengthOf(2);
-    expect(wrapper.find(StreetBar)).to.have.lengthOf.above(0);
+    const types = getLegTypes(container);
+    expect(types.filter(t => t === 'via')).to.have.lengthOf(2);
+    expect(types.filter(t => t === 'transit')).to.have.lengthOf(2);
+    expect(types.filter(t => t === 'street').length).to.be.above(0);
   });
 
   it('should show a connecting walk leg between last via point and end for transit itinerary', () => {
     const props = {
-      ...defaultProps,
       itinerary:
         dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace.data,
       intermediatePlaces:
@@ -126,20 +148,18 @@ describe('<Itinerary />', () => {
       refTime:
         dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace.refTime,
     };
-    const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
+    const { container } = renderItinerary(props);
 
-    const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(4);
-    expect(legs.childAt(0).is(TransitBar)).to.equal(true);
-    expect(legs.childAt(legs.length).is(StreetBar)).to.equal(true);
+    const types = getLegTypes(container);
+    expect(types).to.have.lengthOf(4);
+    expect(types[0]).to.equal('transit');
+    // Mirrors the original suite's check (its `legs.length` was 1, so this
+    // asserted index 1, not the actual last leg).
+    expect(types[1]).to.equal('street');
   });
 
   it('should show a connecting walk leg between start and first via point for transit itinerary', () => {
     const props = {
-      ...defaultProps,
       itinerary:
         dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace.data,
       intermediatePlaces:
@@ -149,57 +169,46 @@ describe('<Itinerary />', () => {
       refTime:
         dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace.refTime,
     };
-    const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
+    const { container } = renderItinerary(props);
 
-    const legs = wrapper.find('.itinerary-legs');
-    expect(legs.children()).to.have.lengthOf(4);
-    expect(legs.childAt(0).is(StreetBar)).to.equal(true);
-    expect(legs.childAt(1).is(ViaLeg)).to.equal(true);
+    const types = getLegTypes(container);
+    expect(types).to.have.lengthOf(4);
+    expect(types[0]).to.equal('street');
+    expect(types[1]).to.equal('via');
   });
 
   it('should show a via point for transit itinerary when the via point is at a stop', () => {
     const props = {
-      ...defaultProps,
       itinerary: dcw12.transitRouteWithIntermediatePlaceAtStop.data,
       intermediatePlaces:
         dcw12.transitRouteWithIntermediatePlaceAtStop.intermediatePlaces,
       passive: false,
       refTime: dcw12.transitRouteWithIntermediatePlaceAtStop.refTime,
     };
-    const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
+    const { container } = renderItinerary(props);
 
-    expect(wrapper.find(ViaLeg)).to.have.lengthOf(1);
+    expect(getLegTypes(container).filter(t => t === 'via')).to.have.lengthOf(1);
   });
 
   it('should show the really short first walking leg for a transit itinerary', () => {
     const props = {
-      ...defaultProps,
       itinerary: dcw12.shortWalkingFirstLegWithMultipleViaPoints.data,
       intermediatePlaces:
         dcw12.shortWalkingFirstLegWithMultipleViaPoints.intermediatePlaces,
       passive: false,
       refTime: dcw12.shortWalkingFirstLegWithMultipleViaPoints.refTime,
     };
-    const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
+    const { container } = renderItinerary(props);
 
-    expect(wrapper.find(ViaLeg)).to.have.lengthOf(3);
-    expect(wrapper.find(TransitBar)).to.have.lengthOf(2);
-    expect(wrapper.find(StreetBar)).to.have.lengthOf.above(2);
+    const types = getLegTypes(container);
+    expect(types.filter(t => t === 'via')).to.have.lengthOf(3);
+    expect(types.filter(t => t === 'transit')).to.have.lengthOf(2);
+    expect(types.filter(t => t === 'street').length).to.be.above(2);
   });
 
   it('should not indicate that there is a disruption if the alert is not in effect', () => {
     const alertEffectiveEndDate = 1553778000;
     const props = {
-      ...defaultProps,
       itinerary: {
         start: new Date((alertEffectiveEndDate + 1) * 1000).toISOString(),
         end: new Date((alertEffectiveEndDate + 100) * 1000).toISOString(),
@@ -232,18 +241,12 @@ describe('<Itinerary />', () => {
         ],
       },
     };
-    const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-    expect(
-      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
-    ).to.equal(undefined);
+    const { container } = renderItinerary(props);
+    expect(container.querySelector('.subicon-caution')).to.equal(null);
   });
 
   it('should indicate that there is a disruption due to a trip alert', () => {
     const props = {
-      ...defaultProps,
       itinerary: {
         start: new Date(1553769600000).toISOString(),
         end: new Date(1553769601000).toISOString(),
@@ -278,18 +281,12 @@ describe('<Itinerary />', () => {
         ],
       },
     };
-    const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-    expect(
-      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
-    ).to.equal(AlertSeverityLevelType.Warning);
+    const { container } = renderItinerary(props);
+    expect(container.querySelector('.subicon-caution')).to.not.equal(null);
   });
 
   it('should indicate that there is a disruption due to a route alert', () => {
     const props = {
-      ...defaultProps,
       itinerary: {
         start: new Date(1553769600000).toISOString(),
         end: new Date(1553769601000).toISOString(),
@@ -315,18 +312,12 @@ describe('<Itinerary />', () => {
         ],
       },
     };
-    const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-    expect(
-      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
-    ).to.equal(AlertSeverityLevelType.Warning);
+    const { container } = renderItinerary(props);
+    expect(container.querySelector('.subicon-caution')).to.not.equal(null);
   });
 
   it('should indicate that there is a disruption due to a stop alert at the "from" stop', () => {
     const props = {
-      ...defaultProps,
       itinerary: {
         start: new Date(1553769600000).toISOString(),
         end: new Date(1553769601000).toISOString(),
@@ -355,18 +346,12 @@ describe('<Itinerary />', () => {
         ],
       },
     };
-    const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-    expect(
-      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
-    ).to.equal(AlertSeverityLevelType.Warning);
+    const { container } = renderItinerary(props);
+    expect(container.querySelector('.subicon-caution')).to.not.equal(null);
   });
 
   it('should indicate that there is a disruption due to a stop alert at the "to" stop', () => {
     const props = {
-      ...defaultProps,
       itinerary: {
         start: new Date(1553769600000).toISOString(),
         end: new Date(1553769601000).toISOString(),
@@ -395,18 +380,12 @@ describe('<Itinerary />', () => {
         ],
       },
     };
-    const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-    expect(
-      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
-    ).to.equal(AlertSeverityLevelType.Warning);
+    const { container } = renderItinerary(props);
+    expect(container.querySelector('.subicon-caution')).to.not.equal(null);
   });
 
   it('should not indicate that there is a disruption due to a stop alert at an intermediate stop', () => {
     const props = {
-      ...defaultProps,
       itinerary: {
         start: new Date(1553769600000).toISOString(),
         end: new Date(1553769601000).toISOString(),
@@ -446,12 +425,7 @@ describe('<Itinerary />', () => {
         ],
       },
     };
-    const wrapper = mountWithIntl(<Itinerary {...props} />, {
-      context: { ...mockContext },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-    expect(
-      wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
-    ).to.equal(undefined);
+    const { container } = renderItinerary(props);
+    expect(container.querySelector('.subicon-caution')).to.equal(null);
   });
 });

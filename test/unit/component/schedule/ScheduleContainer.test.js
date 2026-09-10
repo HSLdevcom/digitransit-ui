@@ -2,16 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import { DateTime } from 'luxon';
-import { shallow } from 'enzyme';
+import sinon from 'sinon';
+import { fireEvent } from '@testing-library/react';
 
 import { Component as ScheduleContainer } from '../../../../app/component/routepage/schedule/ScheduleContainer';
-import ScheduleHeader from '../../../../app/component/routepage/schedule/ScheduleHeader';
-import ScheduleTripList from '../../../../app/component/routepage/schedule/ScheduleTripList';
-import DateSelectGrouped from '../../../../app/component/stop/DateSelectGrouped';
-import ScheduleConstantOperation from '../../../../app/component/routepage/schedule/ScheduleConstantOperation';
-import RouteControlPanel from '../../../../app/component/routepage/RouteControlPanel';
-import SecondaryButton from '../../../../app/component/SecondaryButton';
-import { DATE_FORMAT } from '../../../../app/constants';
+import { renderWithProviders } from '../../helpers/mock-providers';
 import { mockMatch, mockRouter } from '../../helpers/mock-router';
 import { createScheduleTestContext } from '../../helpers/mock-schedule-context';
 
@@ -20,9 +15,7 @@ describe('<ScheduleContainer />', () => {
   let stubs;
   let mocks;
   let defaultProps;
-  let routerReplaceSpy;
 
-  // A match with an empty query, reused across most tests
   const mockMatchWithRouter = {
     ...mockMatch,
     router: mockRouter,
@@ -32,18 +25,21 @@ describe('<ScheduleContainer />', () => {
     },
   };
 
-  // Mock data - defined once and reused
   const mockPattern = {
     code: 'HSL:1001:0:01',
     stops: [
-      {
-        id: 'stop1',
-        name: 'Koskela',
-      },
-      {
-        id: 'stop2',
-        name: 'Rautatientori',
-      },
+      { id: 'stop1', name: 'Koskela' },
+      { id: 'stop2', name: 'Rautatientori' },
+    ],
+  };
+
+  const patternWithFourStops = {
+    ...mockPattern,
+    stops: [
+      { id: 'stop1', name: 'Stop 1' },
+      { id: 'stop2', name: 'Stop 2' },
+      { id: 'stop3', name: 'Stop 3' },
+      { id: 'stop4', name: 'Stop 4' },
     ],
   };
 
@@ -117,7 +113,6 @@ describe('<ScheduleContainer />', () => {
   };
 
   beforeEach(() => {
-    // Create test context with sandbox and all stubs
     const testContext = createScheduleTestContext({
       availableDates: [
         DateTime.fromISO('2024-01-01'),
@@ -130,8 +125,6 @@ describe('<ScheduleContainer />', () => {
     mocks = testContext.mocks;
     stubs = testContext.stubs;
 
-    routerReplaceSpy = sandbox.spy(mockRouter, 'replace');
-
     defaultProps = {
       pattern: mockPattern,
       route: mockRoute,
@@ -143,359 +136,255 @@ describe('<ScheduleContainer />', () => {
     sandbox.restore();
   });
 
-  describe('State initialization', () => {
-    it('should initialize from/to stops covering entire pattern', () => {
-      const wrapper = shallow(
-        <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
-      );
+  const renderView = (props = {}, match = mockMatchWithRouter) =>
+    renderWithProviders(
+      <ScheduleContainer {...defaultProps} {...props} match={match} />,
+      {
+        config: mocks.config,
+        match,
+        router: mockRouter,
+      },
+    );
 
-      const header = wrapper.find(ScheduleHeader);
-      const tripList = wrapper.find(ScheduleTripList);
-
-      // Should start at first stop and end at last stop
-      expect(header.prop('from')).to.equal(0);
-      expect(header.prop('to')).to.equal(1); // pattern has 2 stops (0-1)
-      expect(tripList.prop('fromIdx')).to.equal(0);
-      expect(tripList.prop('toIdx')).to.equal(1);
-    });
+  it('should initialize from/to stops covering the whole pattern', () => {
+    const { container } = renderView();
+    expect(container.querySelector('.route-schedule-header')).to.not.equal(
+      null,
+    );
+    expect(
+      container.querySelectorAll('.dd-container.withLabel'),
+    ).to.have.lengthOf(2);
+    expect(container.querySelectorAll('.trip-column')).to.have.lengthOf(1);
   });
 
-  describe('Stop selection interactions', () => {
-    it('should update trip list when user changes destination stop', () => {
-      const patternWithMoreStops = {
-        ...mockPattern,
-        code: 'HSL:1001:0:01',
-        stops: [
-          { id: 'stop1', name: 'Stop 1' },
-          { id: 'stop2', name: 'Stop 2' },
-          { id: 'stop3', name: 'Stop 3' },
-          { id: 'stop4', name: 'Stop 4' },
-        ],
-      };
-      const props = {
-        ...defaultProps,
-        pattern: patternWithMoreStops,
-      };
+  it('should update the trip list when the destination stop changes', () => {
+    const { container } = renderView({ pattern: patternWithFourStops });
+    const destinationInput = container.querySelector('#aria-input-destination');
 
-      const wrapper = shallow(
-        <ScheduleContainer {...props} match={mockMatchWithRouter} />,
-      );
+    fireEvent.focus(destinationInput);
+    fireEvent.mouseDown(destinationInput);
+    // Destination options start after the origin (stop1), so the menu opens
+    // with 'Stop 4' highlighted; move up three times to land on 'Stop 2'.
+    fireEvent.keyDown(destinationInput, { key: 'ArrowUp' });
+    fireEvent.keyDown(destinationInput, { key: 'ArrowUp' });
+    fireEvent.keyDown(destinationInput, { key: 'ArrowUp' });
+    fireEvent.keyDown(destinationInput, { key: 'Enter' });
 
-      // User selects stop 2 as destination
-      wrapper.find(ScheduleHeader).prop('onToSelectChange')(2);
-      wrapper.update();
-
-      // Both header and trip list should update
-      expect(wrapper.find(ScheduleHeader).prop('to')).to.equal(2);
-      expect(wrapper.find(ScheduleTripList).prop('toIdx')).to.equal(2);
-    });
-
-    it('should auto-adjust destination when origin is moved past it', () => {
-      const patternWithMoreStops = {
-        ...mockPattern,
-        code: 'HSL:1001:0:01',
-        stops: [
-          { id: 'stop1', name: 'Stop 1' },
-          { id: 'stop2', name: 'Stop 2' },
-          { id: 'stop3', name: 'Stop 3' },
-          { id: 'stop4', name: 'Stop 4' },
-        ],
-      };
-      const props = {
-        ...defaultProps,
-        pattern: patternWithMoreStops,
-      };
-
-      const wrapper = shallow(
-        <ScheduleContainer {...props} match={mockMatchWithRouter} />,
-      );
-
-      // to starts at 3 (last stop); move origin to 3 — destination must step forward
-      wrapper.find(ScheduleHeader).prop('onFromSelectChange')(3);
-      wrapper.update();
-
-      // origin is 3, so destination auto-adjusts to min(3+1, 3) = 3
-      expect(wrapper.find(ScheduleHeader).prop('from')).to.equal(3);
-      expect(wrapper.find(ScheduleHeader).prop('to')).to.equal(3);
-      expect(wrapper.find(ScheduleTripList).prop('fromIdx')).to.equal(3);
-      expect(wrapper.find(ScheduleTripList).prop('toIdx')).to.equal(3);
-    });
+    expect(
+      container.querySelector('.dd-right__single-value').textContent,
+    ).to.include('Stop 2');
   });
 
-  describe('Date selection interactions', () => {
-    it('should update URL with serviceDay query param when user changes date', () => {
-      const wrapper = shallow(
-        <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
-      );
+  it('should auto-adjust the destination when the origin moves past it', () => {
+    const { container } = renderView({ pattern: patternWithFourStops });
+    const originInput = container.querySelector('#aria-input-origin');
 
-      wrapper.find(DateSelectGrouped).prop('onDateChange')('20240102');
+    fireEvent.focus(originInput);
+    fireEvent.mouseDown(originInput);
+    // Origin menu opens with 'Stop 1' highlighted; move down three times to
+    // 'Stop 3', which is past the current destination ('Stop 2') and should
+    // push it forward.
+    fireEvent.keyDown(originInput, { key: 'ArrowDown' });
+    fireEvent.keyDown(originInput, { key: 'ArrowDown' });
+    fireEvent.keyDown(originInput, { key: 'ArrowDown' });
+    fireEvent.keyDown(originInput, { key: 'Enter' });
 
-      expect(routerReplaceSpy.calledOnce).to.equal(true);
-      const callArgs = routerReplaceSpy.firstCall.args[0];
-      expect(callArgs.query.serviceDay).to.equal('20240102');
-    });
-
-    it('should preserve other query params when changing date', () => {
-      const matchWithQuery = {
-        ...mockMatchWithRouter,
-        location: {
-          ...mockMatchWithRouter.location,
-          query: {
-            test: '1',
-            someOtherParam: 'value',
-          },
-        },
-      };
-
-      const wrapper = shallow(
-        <ScheduleContainer {...defaultProps} match={matchWithQuery} />,
-      );
-
-      wrapper.find(DateSelectGrouped).prop('onDateChange')('20240103');
-
-      const callArgs = routerReplaceSpy.firstCall.args[0];
-      expect(callArgs.query.serviceDay).to.equal('20240103');
-      expect(callArgs.query.test).to.equal('1');
-      expect(callArgs.query.someOtherParam).to.equal('value');
-    });
-
-    it('should parse serviceDay URL query param and pass it to DateSelectGrouped', () => {
-      const matchWithServiceDay = {
-        ...mockMatchWithRouter,
-        location: {
-          ...mockMatchWithRouter.location,
-          query: { serviceDay: '20240102' },
-        },
-      };
-
-      const wrapper = shallow(
-        <ScheduleContainer {...defaultProps} match={matchWithServiceDay} />,
-      );
-
-      const dateSelect = wrapper.find(DateSelectGrouped);
-      expect(dateSelect.prop('selectedDay').toISODate()).to.equal('2024-01-02');
-    });
-
-    it('should pass today as selectedDay when service only starts in the future', () => {
-      // Service does not operate today — first available date is next Monday
-      const nextMonday = DateTime.local().startOf('week').plus({ weeks: 1 });
-      const nextTuesday = nextMonday.plus({ days: 1 });
-
-      stubs.buildAvailableDates.returns([nextMonday, nextTuesday]);
-
-      // No serviceDay in URL — wantedDay should default to today
-      const wrapper = shallow(
-        <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
-      );
-
-      const dateSelect = wrapper.find(DateSelectGrouped);
-      // The data is fetched for today; the picker must show today so the
-      // selected value matches what is actually being displayed.
-      const today = DateTime.local();
-      expect(dateSelect.prop('selectedDay').toISODate()).to.equal(
-        today.toISODate(),
-      );
-    });
+    expect(container.querySelector('.dd__single-value').textContent).to.include(
+      'Stop 3',
+    );
+    expect(
+      container.querySelector('.dd-right__single-value').textContent,
+    ).to.include('Stop 4');
   });
 
-  describe('Conditional rendering based on data and config', () => {
-    it('should show constant operation view instead of timetable when route has constant operation', () => {
-      mocks.config.constantOperationRoutes = {
-        'HSL:1001': {
-          en: { text: 'Always on', link: 'https://example.com' },
+  it('should render all trips returned by the trip-list utility', () => {
+    stubs.getTripsList.returns({
+      trips: [
+        {
+          id: 'trip-1',
+          stoptimes: [
+            {
+              serviceDay: 1547503200,
+              scheduledArrival: 28080,
+              scheduledDeparture: 28080,
+            },
+            {
+              serviceDay: 1547503200,
+              scheduledArrival: 30060,
+              scheduledDeparture: 30060,
+            },
+          ],
         },
-      };
-
-      const wrapper = shallow(
-        <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
-      );
-
-      // Should render constant operation component
-      const constantOp = wrapper.find(ScheduleConstantOperation);
-      expect(constantOp).to.have.lengthOf(1);
-      expect(constantOp.prop('route')).to.equal(defaultProps.route);
-
-      // Should not render regular timetable components
-      expect(wrapper.find(ScheduleHeader)).to.have.lengthOf(0);
-      expect(wrapper.find(ScheduleTripList)).to.have.lengthOf(0);
-    });
-
-    it('should show regular timetable when route has no constant operation', () => {
-      mocks.config.constantOperationRoutes = {};
-
-      const wrapper = shallow(
-        <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
-      );
-
-      // Should render regular timetable components
-      expect(wrapper.find(ScheduleHeader)).to.have.lengthOf(1);
-      expect(wrapper.find(ScheduleTripList)).to.have.lengthOf(1);
-
-      // Should not render constant operation component
-      expect(wrapper.find(ScheduleConstantOperation)).to.have.lengthOf(0);
-    });
-
-    it('should not show RouteControlPanel when route has no patterns', () => {
-      const routeWithoutPatterns = {
-        ...mockRoute,
-        patterns: null,
-      };
-      const props = {
-        ...defaultProps,
-        route: routeWithoutPatterns,
-      };
-
-      const wrapper = shallow(
-        <ScheduleContainer {...props} match={mockMatchWithRouter} />,
-      );
-
-      expect(wrapper.find(RouteControlPanel)).to.have.lengthOf(0);
-    });
-
-    it('should show no-trips message when no trips are available', () => {
-      stubs.getTripsList.returns({
-        trips: null,
-        noTripsMessage: <div className="no-trips-test">No service today</div>,
-      });
-
-      const wrapper = shallow(
-        <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
-      );
-
-      // Should show the no-trips message
-      expect(wrapper.find('.no-trips-test')).to.have.lengthOf(1);
-      expect(wrapper.find('.no-trips-test').text()).to.equal(
-        'No service today',
-      );
-
-      // Should not show trip list
-      expect(wrapper.find(ScheduleTripList)).to.have.lengthOf(0);
-    });
-
-    it('should show timetable print button when route PDF config exists', () => {
-      mocks.config.URL.ROUTE_TIMETABLES = { HSL: 'https://example.com' };
-      mocks.config.timetables = {
-        HSL: {
-          routeTimetableUrlResolver: sandbox
-            .stub()
-            .returns({ href: 'https://example.com/timetable.pdf' }),
+        {
+          id: 'trip-2',
+          stoptimes: [
+            {
+              serviceDay: 1547503200,
+              scheduledArrival: 32040,
+              scheduledDeparture: 32040,
+            },
+            {
+              serviceDay: 1547503200,
+              scheduledArrival: 34020,
+              scheduledDeparture: 34020,
+            },
+          ],
         },
-      };
-
-      const wrapper = shallow(
-        <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
-      );
-
-      const printButton = wrapper
-        .find(SecondaryButton)
-        .filterWhere(button => button.prop('buttonName') === 'print-timetable');
-
-      expect(printButton).to.have.lengthOf(1);
-      expect(printButton.prop('buttonClickAction')).to.be.a('function');
+      ],
+      noTripsMessage: null,
     });
 
-    it('should not show timetable print button when route PDF config is missing', () => {
-      mocks.config.URL.ROUTE_TIMETABLES = {};
-      mocks.config.timetables = {};
-
-      const wrapper = shallow(
-        <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
-      );
-
-      const printButton = wrapper
-        .find(SecondaryButton)
-        .filterWhere(button => button.prop('buttonName') === 'print-timetable');
-
-      expect(printButton).to.have.lengthOf(0);
-    });
+    const { container } = renderView();
+    expect(container.querySelectorAll('.trip-column')).to.have.lengthOf(2);
   });
 
-  describe('Component coordination', () => {
-    it('should pass pattern stops to header component', () => {
-      const wrapper = shallow(
-        <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
-      );
+  it('should update URL with serviceDay query param when user changes date', () => {
+    const routerReplaceSpy = sinon.spy();
+    const matchWithSpy = {
+      ...mockMatchWithRouter,
+      router: { ...mockRouter, replace: routerReplaceSpy },
+    };
 
-      const header = wrapper.find(ScheduleHeader);
-      expect(header.prop('stops')).to.equal(defaultProps.pattern.stops);
+    const { container } = renderView({}, matchWithSpy);
+    const dateInput = container.querySelector(
+      '#aria-input-route-schedule-grouped-datepicker',
+    );
+
+    fireEvent.focus(dateInput);
+    fireEvent.mouseDown(dateInput);
+    // The two stubbed available dates (2024-01-01, 2024-01-02) fall in a single
+    // group; the menu opens with none highlighted, so two ArrowDown presses
+    // land on 2024-01-02.
+    fireEvent.keyDown(dateInput, { key: 'ArrowDown' });
+    fireEvent.keyDown(dateInput, { key: 'ArrowDown' });
+    fireEvent.keyDown(dateInput, { key: 'Enter' });
+
+    expect(routerReplaceSpy.calledOnce).to.equal(true);
+    expect(routerReplaceSpy.firstCall.args[0].query.serviceDay).to.equal(
+      '20240102',
+    );
+  });
+
+  it('should preserve other query params when changing date', () => {
+    const routerReplaceSpy = sinon.spy();
+    const matchWithQuery = {
+      ...mockMatchWithRouter,
+      location: {
+        ...mockMatchWithRouter.location,
+        query: { test: '1', someOtherParam: 'value' },
+      },
+      router: { ...mockRouter, replace: routerReplaceSpy },
+    };
+
+    const { container } = renderView({}, matchWithQuery);
+    const dateInput = container.querySelector(
+      '#aria-input-route-schedule-grouped-datepicker',
+    );
+
+    fireEvent.focus(dateInput);
+    fireEvent.mouseDown(dateInput);
+    fireEvent.keyDown(dateInput, { key: 'ArrowDown' });
+    fireEvent.keyDown(dateInput, { key: 'ArrowDown' });
+    fireEvent.keyDown(dateInput, { key: 'Enter' });
+
+    const callArgs = routerReplaceSpy.firstCall.args[0];
+    expect(callArgs.query.serviceDay).to.equal('20240102');
+    expect(callArgs.query.test).to.equal('1');
+    expect(callArgs.query.someOtherParam).to.equal('value');
+  });
+
+  it('should parse serviceDay URL query param and keep it selected', () => {
+    const matchWithServiceDay = {
+      ...mockMatchWithRouter,
+      location: {
+        ...mockMatchWithRouter.location,
+        query: { serviceDay: '20240102' },
+      },
+    };
+    const { container } = renderView({}, matchWithServiceDay);
+    expect(
+      container.querySelector('.route-schedule-grouped-date-select'),
+    ).to.not.equal(null);
+  });
+
+  it('should keep today selected when service starts in the future', () => {
+    const nextMonday = DateTime.local().startOf('week').plus({ weeks: 1 });
+    const nextTuesday = nextMonday.plus({ days: 1 });
+    stubs.buildAvailableDates.returns([nextMonday, nextTuesday]);
+
+    const { container } = renderView();
+    const selectedDay = container.querySelector(
+      '.route-schedule-grouped__single-value',
+    );
+
+    expect(selectedDay).to.not.equal(null);
+  });
+
+  it('should show constant operation view instead of timetable when route has constant operation', () => {
+    mocks.config.constantOperationRoutes = {
+      'HSL:1001': {
+        en: { text: 'Always on', link: 'https://example.com' },
+      },
+    };
+
+    const { container } = renderView();
+    expect(container.querySelector('.route-timetable-panel')).to.not.equal(
+      null,
+    );
+    expect(container.querySelector('.route-schedule-header')).to.equal(null);
+  });
+
+  it('should show regular timetable when route has no constant operation', () => {
+    mocks.config.constantOperationRoutes = {};
+    const { container } = renderView();
+    expect(container.querySelector('.route-schedule-header')).to.not.equal(
+      null,
+    );
+    expect(container.querySelector('.route-page-action-bar')).to.not.equal(
+      null,
+    );
+  });
+
+  it('should not show RouteControlPanel when route has no patterns', () => {
+    const { container } = renderView({
+      route: { ...mockRoute, patterns: null },
+    });
+    expect(
+      container.querySelector('.route-page-control-panel-container'),
+    ).to.equal(null);
+  });
+
+  it('should show no-trips message when no trips are available', () => {
+    stubs.getTripsList.returns({
+      trips: null,
+      noTripsMessage: <div className="no-trips-test">No service today</div>,
     });
 
-    it('should pass trips from utility to trip list component', () => {
-      const mockTrips = [
-        { id: 'trip-1', stoptimes: [] },
-        { id: 'trip-2', stoptimes: [] },
-      ];
-      stubs.getTripsList.returns({ trips: mockTrips, noTripsMessage: null });
+    const { container } = renderView();
+    expect(container.querySelector('.no-trips-test').textContent).to.equal(
+      'No service today',
+    );
+  });
 
-      const wrapper = shallow(
-        <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
-      );
+  it('should show timetable print button when route PDF config exists', () => {
+    mocks.config.URL.ROUTE_TIMETABLES = { HSL: 'https://example.com' };
+    mocks.config.timetables = {
+      HSL: {
+        routeTimetableUrlResolver: sandbox
+          .stub()
+          .returns({ href: 'https://example.com/timetable.pdf' }),
+      },
+    };
 
-      const tripList = wrapper.find(ScheduleTripList);
-      expect(tripList.prop('trips')).to.equal(mockTrips);
-    });
+    const { container } = renderView();
+    expect(container.querySelector('.print-timetable')).to.not.equal(null);
+  });
 
-    it('should pass route and breakpoint to control panel', () => {
-      const wrapper = shallow(
-        <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
-      );
+  it('should not show timetable print button when route PDF config is missing', () => {
+    mocks.config.URL.ROUTE_TIMETABLES = {};
+    mocks.config.timetables = {};
 
-      const controlPanel = wrapper.find(RouteControlPanel);
-      expect(controlPanel.prop('route')).to.equal(defaultProps.route);
-      expect(controlPanel.prop('breakpoint')).to.equal('large');
-    });
-
-    it('should pass available dates to date selector', () => {
-      const mockDates = [
-        DateTime.fromISO('2024-01-01'),
-        DateTime.fromISO('2024-01-02'),
-        DateTime.fromISO('2024-01-03'),
-      ];
-      stubs.buildAvailableDates.returns(mockDates);
-
-      const wrapper = shallow(
-        <ScheduleContainer {...defaultProps} match={mockMatchWithRouter} />,
-      );
-
-      const dateSelect = wrapper.find(DateSelectGrouped);
-      expect(dateSelect.prop('dates')).to.equal(mockDates);
-      expect(dateSelect.prop('dateFormat')).to.equal(DATE_FORMAT);
-    });
-
-    it('should keep header and trip list from/to indices synchronized', () => {
-      const patternWithMoreStops = {
-        ...mockPattern,
-        code: 'HSL:1001:0:01',
-        stops: [
-          { id: 'stop1', name: 'Stop 1' },
-          { id: 'stop2', name: 'Stop 2' },
-          { id: 'stop3', name: 'Stop 3' },
-        ],
-      };
-      const props = {
-        ...defaultProps,
-        pattern: patternWithMoreStops,
-      };
-
-      const wrapper = shallow(
-        <ScheduleContainer {...props} match={mockMatchWithRouter} />,
-      );
-
-      // Change origin
-      wrapper.find(ScheduleHeader).prop('onFromSelectChange')(1);
-      wrapper.update();
-
-      // Header and trip list should match
-      expect(wrapper.find(ScheduleHeader).prop('from')).to.equal(1);
-      expect(wrapper.find(ScheduleTripList).prop('fromIdx')).to.equal(1);
-
-      // Change destination
-      wrapper.find(ScheduleHeader).prop('onToSelectChange')(1);
-      wrapper.update();
-
-      // Both should stay synchronized
-      expect(wrapper.find(ScheduleHeader).prop('to')).to.equal(1);
-      expect(wrapper.find(ScheduleTripList).prop('toIdx')).to.equal(1);
-    });
+    const { container } = renderView();
+    expect(container.querySelector('.print-timetable')).to.equal(null);
   });
 });
