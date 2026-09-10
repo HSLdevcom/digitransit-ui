@@ -30,8 +30,8 @@ export const preparePatternStopsVariables = params => {
     date: now.toFormat(DATE_FORMAT),
     currentTime: now.toUnixInteger(),
     startOfDay: now.startOf('day').toUnixInteger(),
-    cancelationStartDate: now.toISODate(),
-    cancelationEndDate: now.plus({ days: 7 }).toISODate(),
+    cancelationStartDate: now.toISO(),
+    cancelationEndDate: now.plus({ days: 7 }).toISO(),
   };
 };
 
