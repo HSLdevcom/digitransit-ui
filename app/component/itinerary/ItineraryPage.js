@@ -26,7 +26,7 @@ import {
   setDialogState,
   getPersonalization,
   setPersonalization,
-} from '../../store/localStorage';
+} from '../../data/localStorage';
 import { addAnalyticsEvent } from '../../util/analyticsUtils';
 import { getWeatherData } from '../../util/apiUtils';
 import { isIOS } from '../../util/browser';

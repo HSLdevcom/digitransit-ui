@@ -4,29 +4,6 @@ const Environment = Object.freeze({
 });
 
 /**
- * Build mode: `true` only for `NODE_ENV === 'development'` (the local `yarn dev`
- * server / a dev bundle). A prod build, an unset `NODE_ENV` (mocha, CI, a bare
- * `node server/server`) and anything else count as "a real build".
- *
- * webpack's `DefinePlugin` bakes this to a literal in the client bundle (no
- * runtime `process` needed there, unlike webpack.config.babel.js's `process`
- * `ProvidePlugin`); in Node it is a live read of `process.env.NODE_ENV`. It is
- * NOT the deployment tier — one production bundle runs on every tier; for that
- * use `isDevRunEnv`.
- *
- * WHEN NOT TO USE:
- * Webpack's DefinePlugin/dead-code-elimination only folds and drops a branch when its
- * condition is written as the exact literal expression — an imported/computed
- * value like this constant can't be statically folded, so any branch guarding a
- * dynamic `require()` (e.g. a template-string path) survives into the bundle and
- * forces webpack to resolve every possible match instead of just one. See
- * app/util/loadDevTheme.js and PR #5929 for the incident this caused. Use the raw
- * `process.env.NODE_ENV === 'development'` literal instead when guarding a
- * dynamic `require()`.
- */
-export const IS_DEV_BUILD = process.env.NODE_ENV === Environment.Development;
-
-/**
  * Whether the app runs in a non-production deployment, from the `RUN_ENV` env var
  * (`development` / `production`; unknown ⇒ production).
  *

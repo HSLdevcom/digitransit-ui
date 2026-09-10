@@ -10,7 +10,7 @@ import OldSearchesStore, {
 import {
   getOldSearchesStorage,
   setOldSearchesStorage,
-} from '../../app/store/localStorage';
+} from '../../app/data/localStorage';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../app/util/path';
 
 const mockData = {

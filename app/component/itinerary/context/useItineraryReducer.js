@@ -7,7 +7,7 @@ import {
   getLatestNavigatorItinerary,
   setLatestNavigatorItinerary,
   updateLatestNavigatorItineraryParams,
-} from '../../../store/localStorage';
+} from '../../../data/localStorage';
 
 const REDUCER_ACTION_TYPES = {
   INIT_NAVIGATOR_ITINERARY: 'INIT_NAVIGATOR_ITINERARY',

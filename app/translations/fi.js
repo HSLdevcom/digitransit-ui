@@ -284,9 +284,9 @@ export default {
     'itinerary-details.route-has-unknown-alert': 'Reitillä on häiriöitä.',
     'itinerary-details.route-has-warning-alert': 'Reitillä on häiriöitä.',
     'itinerary-details.scooter-leg':
-      '{time} potkulautaile kohteesta {origin} {distance} {to} {destination}. Matka-aika {duration}',
+      '{time} potkulautaile noutopaikasta {origin} {distance} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.taxi-leg':
-      '{time} matkusta taksilla {distance} kohteesta {origin} {to} {destination}. Matka-aika {duration}',
+      '{time} matkusta taksilla {distance} noutopaikasta {origin} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.transit-leg-part-1': '{time} {realtime} ota',
     'itinerary-details.transit-leg-part-2':
       'pysäkiltä {startStop} {startZoneInfo} {trackInfo} pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}. ',
@@ -317,11 +317,11 @@ export default {
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Lähtö klo {firstDepartureTime} kaupunkipyöräasemalta {firstDepartureStop}',
     'itinerary-summary-row.first-leg-start-time-scooter':
-      'Lähtö klo {firstDepartureTime} sähköpotkulaudalla',
+      'Lähtö klo {firstDepartureTime} sähköpotkulaudan noutopaikasta',
     'itinerary-summary-row.first-leg-start-time-sr':
       '{vehicle} lähtee asemalta {firstDepartureStop} kello {firstDepartureTime} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time-taxi':
-      'Lähtö klo {firstDepartureTime} taksilla kohteesta {firstDepartureStop}',
+      'Lähtö klo {firstDepartureTime} taksin noutopaikasta',
     'itinerary-summary-row.no-transit-legs': 'Lähde, kun sinulle sopii',
     'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
     'itinerary-summary-row.transfers-to-rental': 'Vaihto {vehicle}',

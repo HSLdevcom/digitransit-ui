@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 import cx from 'classnames';
 import { useIntl } from 'react-intl';
 import groupBy from 'lodash/groupBy';
+import { Text } from '@hsl-fi/layout-primitives';
 import CanceledDeparturesFragment from '../queries/CanceledDeparturesFragment';
 import Icon from '../../Icon';
 import EntityBadge from './EntityBadge';
@@ -58,12 +59,12 @@ const CanceledDepartures = ({
                 {serviceDate !== DateTime.now().toISODate() && (
                   <div className="departures-date-badge">
                     <Icon img="icon_calendar" />
-                    <div className="routes-s-bold">
+                    <Text variant="routes-s-bold" as="div">
                       {serviceDate ===
                       DateTime.now().plus({ days: 1 }).toISODate()
                         ? formatMessage({ id: 'tomorrow' })
                         : DateTime.fromISO(serviceDate).toFormat('d.L.')}
-                    </div>
+                    </Text>
                   </div>
                 )}
                 <div className="departuretimes">
@@ -79,11 +80,11 @@ const CanceledDepartures = ({
                         key={`${trip.gtfsId}-${trip.stoptimes[0].scheduledDeparture}`}
                         className="badges__departure-time"
                       >
-                        <span className="routes-m-narrow">
+                        <Text variant="routes-s-narrow" as="span">
                           {DateTime.fromISO(serviceDate)
                             .plus(trip.stoptimes[0].scheduledDeparture * 1000)
                             .toFormat(' HH:mm ')}
-                        </span>
+                        </Text>
                       </span>
                     ))}
                 </div>
@@ -105,9 +106,9 @@ const CanceledDepartures = ({
           )}
           {inline && pattern.hiddenDepartureCount > 0 && (
             <span className="badges__departure-time badges__departure-time--show-more">
-              <span className="routes-m-narrow">
+              <Text variant="routes-s-narrow" as="span">
                 +{pattern.hiddenDepartureCount}
-              </span>
+              </Text>
             </span>
           )}
         </React.Fragment>

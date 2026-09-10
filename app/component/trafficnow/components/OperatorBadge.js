@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { Icon, MapLocation } from '@hsl-fi/icons';
+import { Text } from '@hsl-fi/layout-primitives';
 import { useConfigContext } from '../../../configurations/ConfigContext';
 
 function OperatorBadge({ feed }) {
@@ -15,7 +16,7 @@ function OperatorBadge({ feed }) {
     area && (
       <div className="disruption-operator-badge">
         <Icon icon={MapLocation} size="s" color="default" />
-        <span className="tag-bold">{area}</span>
+        <Text variant="tag-bold">{area}</Text>
       </div>
     )
   );

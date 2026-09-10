@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import capitalize from 'lodash/capitalize';
+import { Text } from '@hsl-fi/layout-primitives';
 import Icon from '../Icon';
 import { AlertSeverityLevelType } from '../../constants';
 import { DISRUPTION_BADGE_PREFIX } from '../../util/stopStatusUtils';
@@ -54,16 +55,16 @@ export default function DisruptionBadge({
   className = undefined,
   ...rest
 }) {
+  const { formatMessage } = useIntl();
   return (
-    <div
-      {...rest}
-      className={cx('badge tag-bold', variant.toLowerCase(), className)}
-    >
+    <div {...rest} className={cx('badge', variant.toLowerCase(), className)}>
       {showIcon && getIcon(variant)}
-      <FormattedMessage
-        id={`${DISRUPTION_BADGE_PREFIX}${label.toLowerCase()}`}
-        defaultMessage={capitalize(label.toLowerCase()).replace(/_/g, ' ')}
-      />
+      <Text variant="tag-bold">
+        {formatMessage({
+          id: `${DISRUPTION_BADGE_PREFIX}${label.toLowerCase()}`,
+          defaultMessage: capitalize(label.toLowerCase()).replace(/_/g, ' '),
+        })}
+      </Text>
     </div>
   );
 }

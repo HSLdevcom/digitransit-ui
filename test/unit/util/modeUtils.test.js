@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { StreetMode, TransportMode } from '../../../app/constants';
 import * as utils from '../../../app/util/modeUtils';
-import { setCustomizedSettings } from '../../../app/store/localStorage';
+import { setCustomizedSettings } from '../../../app/data/localStorage';
 
 const config = {
   transportModes: {

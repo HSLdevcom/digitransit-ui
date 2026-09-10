@@ -1,39 +1,33 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import AutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import FavouriteBar from '@digitransit-component/digitransit-component-favourite-bar';
 import FavouriteModal from '@digitransit-component/digitransit-component-favourite-modal';
 import FavouriteEditModal from '@digitransit-component/digitransit-component-favourite-editing-modal';
 import { useIntl } from 'react-intl';
-import { favouriteShape } from '../util/shapes';
 import LoginPrompt from './LoginPrompt';
 import {
   withSearchContext,
   getLocationSearchTargets,
 } from './WithSearchContext';
 import {
-  saveFavourite,
-  updateFavourites,
-  deleteFavourite,
-} from '../action/FavouriteActions';
-import FavouriteStore from '../store/FavouriteStore';
+  useFavourites,
+  useFavouriteStatus,
+  useFavouriteActions,
+} from '../hooks/FavouriteContext';
+import { STATUS_FETCHING_OR_UPDATING } from '../data/FavouriteData';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { useConfigContext } from '../configurations/ConfigContext';
 
 const AutoSuggestWithSearchContext = withSearchContext(AutoSuggest);
 
-function FavouritesContainer({
-  favourites = [],
-  onClickFavourite,
-  isMobile = false,
-  favouriteStatus = FavouriteStore.STATUS_FETCHING,
-  saveFavouriteAction,
-  deleteFavouriteAction,
-  updateFavouritesAction,
-}) {
+function FavouritesContainer({ onClickFavourite, isMobile = false }) {
   const intl = useIntl();
   const config = useConfigContext();
+  const favourites = useFavourites();
+  const favouriteStatus = useFavouriteStatus() || STATUS_FETCHING_OR_UPDATING;
+  const { saveFavourite, deleteFavourite, updateFavourites } =
+    useFavouriteActions();
   const closeModalTimeoutRef = useRef(null);
 
   const [loginModalOpen, setLoginModalOpen] = useState(false);
@@ -55,8 +49,7 @@ function FavouritesContainer({
   const enabled =
     config.allowFavouritesFromLocalstorage || config.user?.sub !== undefined;
 
-  const isLoading =
-    favouriteStatus === FavouriteStore.STATUS_FETCHING_OR_UPDATING;
+  const isLoading = favouriteStatus === STATUS_FETCHING_OR_UPDATING;
 
   const favouritePlaces = enabled
     ? favourites.filter(item => item.type === 'place')
@@ -119,7 +112,7 @@ function FavouritesContainer({
       name: null,
     });
 
-    saveFavouriteAction(favouriteToSave);
+    saveFavourite(favouriteToSave);
   };
 
   const deleteSelectedFavourite = favouriteToDelete => {
@@ -129,7 +122,7 @@ function FavouritesContainer({
       name: null,
     });
 
-    deleteFavouriteAction(favouriteToDelete);
+    deleteFavourite(favouriteToDelete);
   };
 
   const updateFavouriteOrder = updatedFavouritePlaces => {
@@ -145,7 +138,7 @@ function FavouritesContainer({
       ...favourites.filter(item => item.type !== 'place'),
     ];
 
-    updateFavouritesAction(reordered);
+    updateFavourites(reordered);
   };
 
   const editSelectedFavourite = currentFavourite => {
@@ -273,35 +266,8 @@ function FavouritesContainer({
 }
 
 FavouritesContainer.propTypes = {
-  favourites: PropTypes.arrayOf(favouriteShape),
   onClickFavourite: PropTypes.func.isRequired,
   isMobile: PropTypes.bool,
-  favouriteStatus: PropTypes.string,
-  saveFavouriteAction: PropTypes.func.isRequired,
-  deleteFavouriteAction: PropTypes.func.isRequired,
-  updateFavouritesAction: PropTypes.func.isRequired,
 };
 
-const connectedComponent = connectToStores(
-  FavouritesContainer,
-  ['FavouriteStore'],
-  context => {
-    const favouriteStore = context.getStore('FavouriteStore');
-
-    return {
-      favourites: favouriteStore.getFavourites(),
-      favouriteStatus: favouriteStore.getStatus(),
-      saveFavouriteAction: favourite =>
-        context.executeAction(saveFavourite, favourite),
-      deleteFavouriteAction: favourite =>
-        context.executeAction(deleteFavourite, favourite),
-      updateFavouritesAction: favouritesToUpdate =>
-        context.executeAction(updateFavourites, favouritesToUpdate),
-    };
-  },
-  {
-    executeAction: PropTypes.func.isRequired,
-  },
-);
-
-export { connectedComponent as default, FavouritesContainer as Component };
+export default FavouritesContainer;

@@ -1,10 +1,9 @@
 import React from 'react';
 import Modal from '@hsl-fi/modal';
+import { CloseButton } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Filters from './Filters';
-import Icon from '../../Icon';
-import IconBackground from '../../icon/IconBackground';
 import { useFilterContext } from './FiltersContext';
 
 const FiltersModal = ({ isOpen, onClose }) => {
@@ -33,16 +32,7 @@ const FiltersModal = ({ isOpen, onClose }) => {
             </h3>
           )}
         </FormattedMessage>
-        <button type="button" onClick={onClose}>
-          <Icon
-            height={2.1}
-            width={2.1}
-            iconScale={0.5}
-            img="icon_close"
-            color="#007ac9"
-            background={<IconBackground shape="circle" color="#ebf6fd" />}
-          />
-        </button>
+        <CloseButton lang={intl.locale} onClick={onClose} />
       </header>
       <Filters onApplyClick={onClose} onResetClick={resetFilters} />
     </Modal>

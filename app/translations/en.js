@@ -292,9 +292,9 @@ export default {
     'itinerary-details.route-has-unknown-alert': 'Route has disruptions.',
     'itinerary-details.route-has-warning-alert': 'Route has disruptions.',
     'itinerary-details.scooter-leg':
-      'At {time} travel by scooter {distance} from {origin} to {destination}. Estimated time {duration}',
+      'At {time} travel by scooter {distance} from the pickup location {origin} to {destination}. Estimated time {duration}',
     'itinerary-details.taxi-leg':
-      'At {time} travel by taxi {distance} from {origin} to {to} {destination}. Estimated time {duration}',
+      'At {time} travel by taxi {distance} from the pickup location {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.transit-leg-part-1': 'At {time} {realtime} take',
     'itinerary-details.transit-leg-part-2':
       'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}. ',
@@ -326,11 +326,11 @@ export default {
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
     'itinerary-summary-row.first-leg-start-time-scooter':
-      'Departure at {firstDepartureTime} with a scooter',
+      'Departure at {firstDepartureTime} from the scooter pickup location',
     'itinerary-summary-row.first-leg-start-time-sr':
       '{vehicle} leaves at {firstDepartureTime} from stop {firstDepartureStop} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time-taxi':
-      'Departure at {firstDepartureTime} by taxi from {firstDepartureStop}',
+      'Departure at {firstDepartureTime} from the taxi pickup location',
     'itinerary-summary-row.no-transit-legs': 'Leave when it suits you',
     'itinerary-summary-row.transfers':
       'Transfer to {vehicle} on stop {stopName}',

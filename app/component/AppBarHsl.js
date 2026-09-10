@@ -8,18 +8,19 @@ import { favouriteShape } from '../util/shapes';
 import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
 import { getJson } from '../util/xhrPromise';
 import { useConfigContext } from '../configurations/ConfigContext';
-import { IS_DEV_BUILD } from '../util/envUtils';
+import { useFavouriteActions } from '../hooks/FavouriteContext';
 
-const clearStorages = context => {
+const clearStorages = (context, clearFavourites) => {
   clearOldSearches(context);
   clearFutureRoutes();
-  context.getStore('FavouriteStore').clearFavourites();
+  clearFavourites();
 };
 
 const notificationAPI = '/api/user/notifications';
 
 const AppBarHsl = ({ favourites = [] }, context) => {
   const config = useConfigContext();
+  const { clearFavourites } = useFavouriteActions();
   const { user, language } = config;
   const { match } = useRouter();
   const { location } = match;
@@ -127,7 +128,7 @@ const AppBarHsl = ({ favourites = [] }, context) => {
   }, [searchQuery]);
 
   useEffect(() => {
-    if (config.URL.FONTCOUNTER && !IS_DEV_BUILD) {
+    if (config.URL.FONTCOUNTER && process.env.NODE_ENV !== 'development') {
       fetch(config.URL.FONTCOUNTER, {
         mode: 'no-cors',
       });
@@ -162,7 +163,10 @@ const AppBarHsl = ({ favourites = [] }, context) => {
         loading={false}
         authenticated={!!user.sub}
         loginLink={{ href: `/login?returnTo=${encodeURIComponent(returnTo)}` }}
-        logoutLink={{ href: '/logout', onClick: () => clearStorages(context) }}
+        logoutLink={{
+          href: '/logout',
+          onClick: () => clearStorages(context, clearFavourites),
+        }}
         name={{ givenName: given_name, familyName: family_name }}
         userNotifications={userNotifications}
         travelersAccountLink={travelersAccountLink}
@@ -215,6 +219,7 @@ const AppBarHsl = ({ favourites = [] }, context) => {
           userMenu={userMenu}
           langMenu={languages}
           search={search}
+          selectedMainNavSection="traveling"
         />
       )}
     </>
