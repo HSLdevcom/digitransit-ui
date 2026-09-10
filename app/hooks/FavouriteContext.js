@@ -23,6 +23,7 @@ const FavouriteContext = createContext({
     saveFavourite: () => {},
     updateFavourites: () => {},
     deleteFavourite: () => {},
+    savePersonalizationWeights: () => {},
     fetchFavourites: () => {},
     clearFavourites: () => {},
   },
@@ -34,6 +35,14 @@ export const useFavouriteStatus = () =>
   useContext(FavouriteContext).favouriteStatus;
 
 export const useFavouriteActions = () => useContext(FavouriteContext).actions;
+
+/**
+ * Returns the mode weights of the 'personalization' favourite (see
+ * FavouriteData.getPersonalizationWeights()), kept in sync with the other
+ * favourites hooks above.
+ */
+export const usePersonalizationWeights = () =>
+  favouriteStore.getPersonalizationWeights(useFavourites());
 
 function resolveFavouriteType(data) {
   const item = Array.isArray(data) ? data[0] : data;
@@ -84,6 +93,10 @@ export function FavouriteProvider({ context, children = null }) {
       deleteFavourite: data =>
         favouriteStore.deleteFavourite(data, () =>
           notifyFailure(resolveFavouriteType(data), false),
+        ),
+      savePersonalizationWeights: weights =>
+        favouriteStore.savePersonalizationWeights(weights, () =>
+          notifyFailure('personalization', true),
         ),
       fetchFavourites: () => favouriteStore.fetchFavourites(),
       fetchFavouritesComplete: () => favouriteStore.fetchComplete(),

@@ -13,6 +13,8 @@ export default {
     acknowledged: 'Klart',
     'add-favourite-bikeStation-failed-heading':
       'Kunde inte spara stadscykelstationen',
+    'add-favourite-personalization-failed-heading':
+      'Kunde inte spara dina personaliseringsinställningar',
     'add-favourite-place-failed-heading': 'Kunde inte spara platsen',
     'add-favourite-route-failed-heading': 'Kunde inte spara linjen',
     'add-favourite-station-failed-heading': 'Kunde inte spara stationen',

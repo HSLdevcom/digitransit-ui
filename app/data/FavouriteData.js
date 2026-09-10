@@ -217,6 +217,38 @@ class FavouriteData {
   }
 
   /**
+   * Returns the mode weights of the 'personalization' favourite, a
+   * singleton favourite (at most one exists per user) holding the
+   * itinerary personalization mode weights. Returns an empty object if no
+   * such favourite exists yet.
+   */
+  getPersonalizationWeights(favourites = this.favourites) {
+    return (
+      find(favourites, favourite => favourite.type === 'personalization')
+        ?.weights || {}
+    );
+  }
+
+  /**
+   * Saves (or updates) the 'personalization' favourite's weights. Reuses
+   * the existing favouriteId if a 'personalization' favourite already
+   * exists, so that saving never creates a duplicate.
+   *
+   * @param {*} weights mode weights object, e.g. { bus: 1.2, tram: 0.8 }
+   * @param {*} onFail callback invoked if storing the favourite fails
+   */
+  savePersonalizationWeights(weights, onFail) {
+    const existing = find(
+      this.favourites,
+      favourite => favourite.type === 'personalization',
+    );
+    this.saveFavourite(
+      { ...existing, type: 'personalization', weights },
+      onFail,
+    );
+  }
+
+  /**
    * Merges array of favourites with favourites from localstorage and returns uniques by favouriteId and gtfsId.
    * If there are duplicates by favouriteId or gtfsId, newer one is saved (by lastUpdated field)
    * @param {array} arrayOfFavourites array of favourites

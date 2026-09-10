@@ -13,6 +13,8 @@ export default {
     acknowledged: 'Selvä',
     'add-favourite-bikeStation-failed-heading':
       'Kaupunkipyöräaseman tallentaminen ei onnistunut',
+    'add-favourite-personalization-failed-heading':
+      'Personointiasetusten tallentaminen ei onnistunut',
     'add-favourite-place-failed-heading': 'Paikan tallentaminen ei onnistunut',
     'add-favourite-route-failed-heading': 'Linjan tallentaminen ei onnistunut',
     'add-favourite-station-failed-heading':

@@ -11,7 +11,7 @@ import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { isPersonalizationEnabled } from '../../../util/modeUtils';
 import { settingsShape } from '../../../util/shapes';
 import { useConfigContext } from '../../../configurations/ConfigContext';
-import { getPersonalization } from '../../../data/localStorage';
+import { usePersonalizationWeights } from '../../../hooks/FavouriteContext';
 
 export default function Personalization({ settings, updateSettings }) {
   const intl = useIntl();
@@ -26,6 +26,7 @@ export default function Personalization({ settings, updateSettings }) {
   const settingsToggleRef = useRef(null);
   const wasAnyModalOpenRef = useRef(null);
   const personalization = isPersonalizationEnabled(config, settings);
+  const personalizationWeights = usePersonalizationWeights();
 
   useEffect(() => {
     return () => {
@@ -68,7 +69,7 @@ export default function Personalization({ settings, updateSettings }) {
       setLoginPromptOpen(true);
     } else {
       const newState = !personalization;
-      if (newState && Object.keys(getPersonalization().weights || []).length) {
+      if (newState && Object.keys(personalizationWeights).length) {
         setAgainModalOpen(true);
       } else {
         changePersonalization(newState);
