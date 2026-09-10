@@ -8,16 +8,13 @@ import {
 } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import {
   getPositions,
-  getFavouriteLocations,
-  getFavouriteRoutes,
   getOldSearches,
-  getFavouriteStops,
   getLanguage,
   clearOldSearches,
   getFutureRoutes,
   clearFutureRoutes,
-  getFavouriteVehicleRentalStations,
 } from './storeUtils';
+import favouriteStore from '../data/FavouriteData';
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
 import { useCitybikes } from './modeUtils';
@@ -50,16 +47,19 @@ export default function intializeSearchContext(context, searchContext) {
   searchContext.geocodingSources = config.searchSources;
   searchContext.geocodingSearchParams = config.searchParams;
   searchContext.getOldSearches = getOldSearches;
-  searchContext.getFavouriteLocations = getFavouriteLocations;
-  searchContext.getFavouriteStops = getFavouriteStops;
+  searchContext.getFavouriteLocations = () =>
+    favouriteStore.getFavouritePlaces();
+  searchContext.getFavouriteStops = () =>
+    favouriteStore.getFavouriteStopsAndStations();
   searchContext.getLanguage = getLanguage;
-  searchContext.getFavouriteRoutes = getFavouriteRoutes;
+  searchContext.getFavouriteRoutes = () =>
+    favouriteStore.getFavouriteRouteGtfsIds();
   searchContext.getPositions = getPositions;
   searchContext.getRoutesQuery = getRoutesQuery;
   searchContext.getStopAndStationsQuery = getStopAndStationsQuery;
   searchContext.getFavouriteRoutesQuery = getFavouriteRoutesQuery;
-  searchContext.getFavouriteVehicleRentalStations =
-    getFavouriteVehicleRentalStations;
+  searchContext.getFavouriteVehicleRentalStations = () =>
+    favouriteStore.getFavouriteVehicleRentalStations();
   searchContext.getFavouriteVehicleRentalStationsQuery =
     getFavouriteVehicleRentalStationsQuery;
   searchContext.startLocationWatch = startLocationWatch;
