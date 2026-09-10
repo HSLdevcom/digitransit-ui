@@ -115,7 +115,7 @@ export default {
   externalFeedIds: ['HSLlautta', 'Uber'],
   externalFerryByStopCode: true, // no stop code means external ferry
 
-  allowLogin: false,
+  allowLogin: true,
   allowFavouritesFromLocalstorage: !process.env.OIDC_CLIENT_ID,
   loginAnalyticsEventName: 'user-hsl-id',
   loginAnalyticsKey: 'hsl-id',
