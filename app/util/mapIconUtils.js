@@ -314,7 +314,9 @@ function drawSelectionCircle(tile, x, y, zoom, radius) {
  */
 function drawStopStatusBadgeForStatus(tile, x, y, iconWidth, status) {
   const badgeImageId = status && STOP_STATUS_BADGE_IMGS[status];
-  if (!badgeImageId) {
+  // Sprite is injected asynchronously (see app/server.js), skip drawing
+  // rather than caching a permanent failure if it isn't there yet.
+  if (!badgeImageId || !document.getElementById(badgeImageId)) {
     return Promise.resolve();
   }
   const badgeSize = iconWidth * 0.75; // badge size is 75% of the icon size
