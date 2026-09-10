@@ -27,10 +27,11 @@ import { getDefaultNetworks } from '../util/vehicleRentalUtils';
  * packages only rely on the shape of this object (methods/fields read off
  * it), so its properties double as living documentation of that contract.
  *
- * Before init() has been called, the singleton exposes harmless no-op
- * defaults so that consumers can be rendered/used before the app context is
- * available. init() is idempotent: only the first call has an effect,
- * mirroring FavouriteData's init(config).
+ * init() is called once, synchronously, during app bootstrap in client.js
+ * (mirroring favouriteStore.init(config)), strictly before anything renders.
+ * Consequently no component ever observes this singleton in an
+ * uninitialized state, so unlike FavouriteData it doesn't need to expose
+ * safe no-op defaults for its methods.
  */
 class SearchContextData {
   context = null;
@@ -65,82 +66,10 @@ class SearchContextData {
 
   initialized = false;
 
-  // Default no-op implementations below are placeholders used before init()
-  // is called; they are overwritten with the real implementations then.
-
-  // eslint-disable-next-line class-methods-use-this
-  getRoutesQuery() {
-    return Promise.resolve([]);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getStopAndStationsQuery() {
-    return Promise.resolve([]);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getFavouriteRoutesQuery() {
-    return Promise.resolve([]);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getFavouriteVehicleRentalStations() {
-    return Promise.resolve([]);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getFavouriteVehicleRentalStationsQuery() {
-    return Promise.resolve([]);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getPositions() {
-    return {
-      lat: 0,
-      lon: 0,
-      address: undefined,
-      status: 'no-location',
-      hasLocation: false,
-      isLocationingInProgress: false,
-      locationingFailed: false,
-    };
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getFavouriteLocations() {
-    return [];
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getOldSearches() {
-    return [];
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getFavouriteStops() {
-    return [];
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getFavouriteRoutes() {
-    return [];
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getLanguage() {
-    return 'en';
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getFutureRoutes() {
-    return [];
-  }
-
   /**
    * Initializes the singleton with the real Digitransit implementations,
-   * derived from the fluxible context/config. Safe to call more than once
-   * (e.g. from multiple mounts of WithSearchContext); only the first call
-   * has an effect.
+   * derived from the fluxible context/config. Safe to call more than once;
+   * only the first call has an effect.
    */
   init(context) {
     if (this.initialized) {

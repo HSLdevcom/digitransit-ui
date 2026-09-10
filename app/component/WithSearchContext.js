@@ -107,7 +107,6 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
 
     componentDidMount() {
       if (!this.state.isInitialized) {
-        searchContext.init(this.context);
         this.setState({ isInitialized: true });
       }
     }
