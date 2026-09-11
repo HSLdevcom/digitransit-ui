@@ -1,8 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, expect } from 'vitest';
 import { DateTime } from 'luxon';
-import enrichPatterns from '.';
+import enrichPatterns from './index.js';
 
 const DATE_FORMAT = 'yyyyLLdd';
 
@@ -63,9 +61,9 @@ describe('Testing @digitransit-util/digitransit-util-enrich-patterns module', ()
   const retValue = enrichPatterns(patterns, true, 3);
 
   it('All added keys (rangeFollowingDays, dayDiff, dayString, allowedDiff, fromDate and untilDate) exists', () => {
-    expect(retValue[0])
-      .to.be.an('object')
-      .that.has.all.keys(
+    expect(retValue[0]).toBeTypeOf('object');
+    expect(Object.keys(retValue[0])).toEqual(
+      expect.arrayContaining([
         'activeDates',
         'allowedDiff',
         'code',
@@ -79,10 +77,11 @@ describe('Testing @digitransit-util/digitransit-util-enrich-patterns module', ()
         'stops',
         'tripsForDate',
         'untilDate',
-      );
+      ]),
+    );
   });
 
   it("Pattern`s dayString is 'pe-la'", () => {
-    expect(retValue[0].dayString).to.equal('pe-la');
+    expect(retValue[0].dayString).toBe('pe-la');
   });
 });

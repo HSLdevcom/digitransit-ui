@@ -1,17 +1,18 @@
 {
   "name": "@digitransit-store/digitransit-store-future-route",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "digitransit-store future-route module",
-  "main": "lib/index.js",
+  "main": "lib/index.cjs",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-transform-class-properties,@babel/plugin-transform-numeric-separator --out-file test.generated",
-    "watch": "ENV=development webpack --watch --config webpack.config.babel.js",
+    "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "clean": "rm -rf ./lib ./node_modules",
-    "test": "mocha -r esm -r mock-local-storage test.generated",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs",
+    "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
   "repository": {
     "type": "git",

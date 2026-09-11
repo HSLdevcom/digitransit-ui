@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import cx from 'classnames';
-import { stopShape, configShape } from '../util/shapes';
+import { stopShape } from '../util/shapes';
 import AddressRow from './AddressRow';
 import Icon from './Icon';
 import ZoneIcon from './ZoneIcon';
@@ -9,27 +9,26 @@ import SplitBars from './SplitBars';
 import BackButton from './BackButton';
 import { getZoneLabel } from '../util/legUtils';
 import { splitGtfsId } from '../util/gtfs';
+import { useConfigContext } from '../configurations/ConfigContext';
 
-export default function CardHeader(
-  {
-    className,
-    children,
-    headerIcon,
-    headingStyle,
-    name,
-    stop,
-    description,
-    code,
-    externalLink,
-    icon,
-    icons,
-    unlinked,
-    showBackButton,
-    favouriteContainer,
-    isTerminal,
-  },
-  { config },
-) {
+export default function CardHeader({
+  className = '',
+  children,
+  headerIcon,
+  headingStyle,
+  name,
+  stop,
+  description,
+  code,
+  externalLink,
+  icon,
+  icons,
+  unlinked = false,
+  showBackButton = false,
+  favouriteContainer,
+  isTerminal = false,
+}) {
+  const config = useConfigContext();
   const headerTitle = stop.name ? stop.name : name;
   // Station query does not return zoneId, so dig it up from child stops
   const zoneId =
@@ -101,25 +100,4 @@ CardHeader.propTypes = {
   favouriteContainer: PropTypes.element,
   name: PropTypes.string,
   isTerminal: PropTypes.bool,
-};
-
-CardHeader.defaultProps = {
-  headerIcon: undefined,
-  favouriteContainer: undefined,
-  className: '',
-  headingStyle: undefined,
-  code: undefined,
-  externalLink: undefined,
-  description: undefined,
-  icon: undefined,
-  icons: undefined,
-  children: undefined,
-  unlinked: false,
-  showBackButton: false,
-  name: undefined,
-  isTerminal: false,
-};
-
-CardHeader.contextTypes = {
-  config: configShape.isRequired,
 };

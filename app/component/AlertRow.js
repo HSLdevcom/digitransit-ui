@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import Link from 'found/Link';
-import { configShape } from '../util/shapes';
 import ExternalLink from './ExternalLink';
 import Icon from './Icon';
 import RouteNumber from './RouteNumber';
@@ -18,6 +17,7 @@ import {
 } from '../util/alertUtils';
 import { AlertEntityType } from '../constants';
 import { getRouteMode } from '../util/modeUtils';
+import { useConfigContext } from '../configurations/ConfigContext';
 
 /**
  * Returns a localized string representing a time period between startTime and endTime
@@ -96,23 +96,21 @@ const getEntitiesWithUniqueIdentifiers = entities => {
   return Object.values(entitiesByIdentifier);
 };
 
-export default function AlertRow(
-  {
-    currentTime,
-    description,
-    endTime,
-    entities,
-    feed,
-    header,
-    severityLevel,
-    showLinks,
-    startTime,
-    url,
-    index,
-    onClickLink,
-  },
-  { config },
-) {
+export default function AlertRow({
+  currentTime = DateTime.now().toSeconds(),
+  description,
+  endTime,
+  entities,
+  feed,
+  header,
+  severityLevel,
+  showLinks = false,
+  startTime,
+  url,
+  index,
+  onClickLink,
+}) {
+  const config = useConfigContext();
   const intl = useIntl();
   if (!description && !header) {
     return null;
@@ -266,22 +264,4 @@ AlertRow.propTypes = {
   feed: PropTypes.string,
   index: PropTypes.number.isRequired,
   onClickLink: PropTypes.func,
-};
-
-AlertRow.contextTypes = {
-  config: configShape.isRequired,
-};
-
-AlertRow.defaultProps = {
-  description: undefined,
-  currentTime: DateTime.now().toSeconds(),
-  endTime: undefined,
-  severityLevel: undefined,
-  startTime: undefined,
-  feed: undefined,
-  header: undefined,
-  entities: undefined,
-  url: undefined,
-  showLinks: false,
-  onClickLink: undefined,
 };

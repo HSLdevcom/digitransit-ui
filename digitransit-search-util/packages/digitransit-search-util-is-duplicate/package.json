@@ -1,14 +1,15 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-is-duplicate",
-  "version": "2.1.0",
+  "version": "2.1.3",
   "description": "digitransit-search-util is-duplicate module",
   "main": "index.js",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,6 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-search-util/digitransit-search-util-tru-eq": "0.0.2"
+    "@digitransit-search-util/digitransit-search-util-tru-eq": "workspace:^"
   }
 }

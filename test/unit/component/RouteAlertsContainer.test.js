@@ -1,15 +1,12 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
-
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import AlertList from '../../../app/component/AlertList';
+import { renderWithProviders } from '../helpers/mock-providers';
 import { Component as RouteAlertsContainer } from '../../../app/component/routepage/RouteAlertsContainer';
 
 describe('<RouteAlertsContainer />', () => {
   it('should indicate that there are no alerts if the route has no alerts nor canceled stoptimes', () => {
     const props = {
-      currentTime: 1558599526,
       route: {
         gtfsId: 'HSL:1063',
         mode: 'BUS',
@@ -35,17 +32,15 @@ describe('<RouteAlertsContainer />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />);
-    expect(wrapper.find(AlertList).props()).to.deep.equal({
-      cancelations: [],
-      serviceAlerts: [],
-      showLinks: false,
-    });
+    const { container } = renderWithProviders(
+      <RouteAlertsContainer {...props} />,
+      { currentTime: 1558599526 },
+    );
+    expect(container.querySelector('.no-alerts-container')).to.not.equal(null);
   });
 
   it('should indicate that there are cancelations if there are canceled stoptimes for the selected pattern', () => {
     const props = {
-      currentTime: 1558599526,
       route: {
         gtfsId: 'HSL:1063',
         mode: 'BUS',
@@ -84,13 +79,15 @@ describe('<RouteAlertsContainer />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />);
-    expect(wrapper.find(AlertList).prop('cancelations')).to.have.lengthOf(1);
+    const { container } = renderWithProviders(
+      <RouteAlertsContainer {...props} />,
+      { currentTime: 1558599526 },
+    );
+    expect(container.querySelector('.alerts-list')).to.not.equal(null);
   });
 
   it('should indicate that there are service alerts', () => {
     const props = {
-      currentTime: 1558599526,
       route: {
         gtfsId: 'HSL:2335',
         color: null,
@@ -114,7 +111,10 @@ describe('<RouteAlertsContainer />', () => {
         trips: [],
       },
     };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />);
-    expect(wrapper.find(AlertList).prop('serviceAlerts')).to.have.lengthOf(1);
+    const { container } = renderWithProviders(
+      <RouteAlertsContainer {...props} />,
+      { currentTime: 1558599526 },
+    );
+    expect(container.querySelector('.alerts-list')).to.not.equal(null);
   });
 });

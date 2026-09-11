@@ -3,7 +3,7 @@
 ## Overview
 TrafficNow queries and renders disruption information from two separate OTP data sources in one view:
 - Alert disruptions from GraphQL `alerts`
-- Canceled departures from GraphQL `canceledTrips`
+- Canceled departures from GraphQL `canceledTripsSummary`
 
 The feature has two user flows:
 1. Overview flow: mixed disruption list with filtering.
@@ -17,20 +17,22 @@ The feature has two user flows:
 - Otherwise, it renders overview disruptions (`Disruptions`) inside `FilterContextProvider`.
 
 ### Overview flow
-1. `Disruptions.js` loads alerts with `AlertsQuery`.
-2. `Disruptions.js` loads canceled trips overview with `CanceledTripsOverviewQuery`.
-3. Alerts are filtered and sorted by `filterAndSortAlerts` from `filters/filterUtils.js`.
+1. `Disruptions.js` loads alerts with `AlertsQuery` and cancellations with `CanceledTripsOverviewQuery`
+   (both via `useLazyLoadQuery`, one request each - no pagination).
+2. Alerts are filtered and sorted by `filterAndSortAlerts` from `filters/filterUtils.js`.
+3. Each alert is split into one card per affected transport mode by `buildDisruptionCards`
+   (in `utils.js`) - an alert covering multiple modes yields multiple cards.
 4. UI list rendering order is:
-- canceled trips cards first (`CanceledTripCard`)
+- canceled trips cards first (`CanceledTripCard`), one per mode with cancellations
 - alert cards second (`DisruptionCard`)
 
 ### Mode-specific cancellations flow
-1. `CanceledTripsContainer.js` and `CanceledTrips.js` load paginated mode-specific data via canceledTripsSummary query
-2. Trips are grouped for display by:
-- `routeShortName`
-- then `patternCode`
-- canceled trips are shown under each mode, grouped per day. 
-  By default 10 departure times are shown initially with the ability to expand the list when theres more available
+1. `CanceledTripsContainer.js` loads all canceled routes for the selected mode in a single
+   `useLazyLoadQuery` request (`CanceledTripsForModeQuery`) - not paginated.
+2. `CanceledTrips.js` renders the routes but only reveals `DEFAULT_ROUTES_SHOWN_AMOUNT` (8) at a
+   time client-side, with a "show more" button to reveal more routes from the already-loaded data.
+3. Within each route, `components/CanceledDepartures.js` groups canceled trips by service date and
+   also caps visible departure times (`DEPARTURE_LIMIT`, default 10) with a per-date "show all" expand.
 
 ## Data Sources and GraphQL
 
@@ -51,28 +53,32 @@ The feature has two user flows:
 Each mode query is conditionally included with `@include` booleans from available config modes.
 
 ### Canceled trips mode details
-`queries/CanceledTripsForModeQuery.js` uses a pagination fragment (`CanceledTripsPaginationFragment`) for incremental loading in mode view.
+`queries/CanceledTripsForModeQuery.js` fetches all routes/patterns for one mode in a single query.
+Pattern-level fields (headsign, stops, departures) come from `CanceledTripsPatternFragment`, which
+in turn spreads `CanceledDeparturesFragment`. Neither is a relay cursor-pagination fragment; both
+are plain fragments loaded up front.
 
 ## Card Types and Grouping Rules
 
 ### Canceled trips cards (`CanceledTripCard.js`)
 Rules in overview:
-1. One card per mode appears when that mode has more than one cancellation.
-2. A node is skipped if either is missing:
-- `trip.route.gtfsId`
-- `start.schedule.time.departure`
-3. Card-internal grouping key is `trip.route.shortName`.
-4. Departure times are formatted to `HH:mm`.
-5. If exactly one grouped route exists, canceled departure times are displayed directly in the card.
-  - Pattern and date are also then showed inline with the departures.
-6. If `totalCount > trips.length`, an ellipsis indicator is shown.
+1. One card per mode that has at least one cancellation (`Disruptions.js`'s `getCanceledModes`).
+2. Routes within a card are ordered by `sortRoutes` (`utils.js`): route `shortName` alphabetically,
+   then favourited routes first, then the currently highlighted/selected entity (`highlightedGtfsId`)
+   first.
+3. Only the first `trafficNowMaxRoutesPerCard` (config value) routes are shown as badges; any
+   remaining routes are collapsed into a single "+N" `EntityBadge`.
+4. If the card has exactly one route, its canceled departures are shown inline via
+   `CanceledDepartures` (`departureLimit={5}`) instead of a badge.
 
 ### Alert cards (`DisruptionCard.js`)
 Rules:
-1. One alert equals one card.
+1. Each alert produces one card per affected transport mode (see `buildDisruptionCards` in
+   `utils.js`) - not one card per alert. Alerts with no recognized mode get a single card.
 2. Badge variant is based on `alertSeverityLevel`; label is `alertEffect`.
 3. Card status is Active or Upcoming from effective timestamps.
-4. Expanded card can show external details button if `alertUrl` exists.
+4. Affected entities for that mode are shown via `RouteBadges` (compact mode, capped the same way
+   as cancellation cards, with a "+N" overflow badge).
 
 ## Filtering and Sorting
 
@@ -96,17 +102,12 @@ Rules:
 Important behavior:
 - `cancellationsFilter` removes GraphQL alerts (`__typename === 'Alert'`) when cancellations-only toggle is active.
 - Canceled trips still remain visible, because they are rendered from separate `canceledTrips` data.
+- `filterCanceledModes` applies only `entityFilter`/`favouriteFilter` to cancellation routes
+  (cancellations have no severity/effect/validity fields to filter on).
 
 ### Sorting order
-`filterAndSortAlerts` sorting behavior:
-1. Active non-info alerts (warning/severe) before others.
-2. If both are active warnings, sort by severity order:
-- `SEVERE`
-- `WARNING`
-- `INFO`
-- default fallback
-3. Then by `effectiveStartDate` ascending.
-4. Non-prioritized alerts are also sorted by `effectiveStartDate` ascending.
+`filterAndSortAlerts` sorts the filtered alerts by `effectiveStartDate` ascending only. There is no
+severity-based ordering - all active/upcoming alerts are interleaved by start date.
 
 ## Badge Behavior
 
@@ -118,16 +119,32 @@ Important behavior:
 4. Group members are sorted alphanumerically by display name.
 5. `RouteBadgeGroup` can highlight currently selected entity via `highlightedGtfsId`.
 
+Note: `RouteBadges.js` (wraps `RouteBadgeGroup` + `EntityBadge`, used by `DisruptionCard.js` /
+`DisruptionDetailsContainer.js` for alert entities) and `components/RouteBadgeGroup.js` (used
+directly by `CanceledTripCard.js` for cancellation routes) are two separate badge-rendering
+entry points built on the same underlying grouping/highlight rules.
+
 ## Key Files
 - `TrafficNow.js`: entry component and route split.
-- `Disruptions.js`: overview data load, filter application, mixed rendering.
-- `CanceledTripCard.js`: overview canceled-trip grouping and card content.
-- `CanceledTrips.js`: mode-specific grouping and pagination behavior.
-- `DisruptionCard.js`: alert card UI and expansion behavior.
+- `TrafficNowHeader.js` / `TrafficNowFooter.js` / `TrafficNowLink.js`: shared chrome and navigation link.
+- `Disruptions.js`: overview data load, filter application, disruption-card splitting, mixed rendering.
+- `CanceledTripCard.js`: overview canceled-trip card (per mode).
+- `CanceledTripsContainer.js`: mode-detail data load.
+- `CanceledTrips.js`: mode-detail route list with client-side progressive reveal.
+- `DisruptionCard.js` / `DisruptionBadge.js`: alert card UI and badge styling.
+- `DisruptionDetailsContainer.js`: single-alert detail view.
+- `RouteBadges.js`: entity badge rendering orchestration for alerts.
+- `utils.js`: mode availability, entity grouping, disruption-card building, route sorting.
 - `filters/FiltersContext.js`: filter defaults and state API.
 - `filters/filterUtils.js`: filter chain and sorting implementation.
-- `RouteBadges.js`: entity badge rendering orchestration.
-- `utils.js`: mode availability and entity grouping utilities.
+- `components/CanceledDepartures.js`: per-route, per-date departure list with expand.
+- `components/CancellationContainer.js`: per-route wrapper rendering patterns + `CanceledDepartures`.
+- `components/PatternWithCancellations.js`: per-pattern cancellation rendering.
+- `components/RouteBadgeGroup.js`: shared route/stop badge group renderer.
+- `components/EntityBadge.js`: single badge (route, stop, or "+N" overflow).
+- `components/DisruptionStatus.js`: Active/Upcoming status label.
+- `components/ResultsProgressBar.js`: "show more" progress indicator.
+- `components/NoDisruptions.js`: empty-state message.
 - `queries/*`: feature GraphQL documents and fragments.
 
 ## Maintenance Notes
@@ -137,7 +154,7 @@ Important behavior:
 - mode availability from config (`getAvailableModes`)
 - query include variables in `CanceledTripsOverviewQuery`
 - mode rendering in cards and filters
-4. If cancellation grouping logic changes, ensure overview (`CanceledTripCard.js`) and mode detail (`CanceledTrips.js`) stay conceptually aligned.
+4. If cancellation grouping/sorting logic changes, ensure overview (`CanceledTripCard.js`) and mode detail (`CanceledTripsContainer.js`/`CanceledTrips.js`) stay conceptually aligned, since both use `sortRoutes` from `utils.js`.
 
 ## TODO
 - Change `Disruptions` view to render paginated results when OTP endpoint supports pagination

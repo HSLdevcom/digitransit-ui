@@ -1,11 +1,12 @@
 {
   "name": "@digitransit-util/digitransit-util-enrich-patterns",
-  "version": "2.0.0",
+  "version": "2.0.3",
   "description": "digitransit-util enrich-patterns module",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs"
   },
   "repository": {
     "type": "git",
@@ -18,8 +19,8 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-util/digitransit-util-day-range-allowed-diff": "^1.0.4",
-    "@digitransit-util/digitransit-util-day-range-pattern": "^1.1.0"
+    "@digitransit-util/digitransit-util-day-range-allowed-diff": "workspace:^",
+    "@digitransit-util/digitransit-util-day-range-pattern": "workspace:^"
   },
   "peerDependencies": {
     "lodash": "4.17.21",

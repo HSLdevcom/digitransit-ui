@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactModal from 'react-modal';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
@@ -107,8 +107,9 @@ const MobileView = ({
     labelId,
     selectedItem: null,
     defaultHighlightedIndex: -1,
-    onInputValueChange: ({ inputValue }) =>
+    onInputValueChange: ({ inputValue, type }) =>
       state.renderMobile && // prevent updating value when the search is not open
+      type !== useCombobox.stateChangeTypes.InputChange && // typing is dispatched synchronously by Input
       dispatch({ type: 'INPUT_CHANGE', value: inputValue }),
     stateReducer: (oldState, { changes, type }) => {
       switch (type) {
@@ -143,10 +144,16 @@ const MobileView = ({
     },
   });
   // call to suppress ref errors from downshift
-  getLabelProps({}, { suppressRefError: true });
   getMenuProps({}, { suppressRefError: true });
   getInputProps({}, { suppressRefError: true });
-  getItemProps({ index: -1 }, { suppressRefError: true });
+
+  const handleValueChange = useCallback(
+    newValue =>
+      state.renderMobile && dispatch({ type: 'INPUT_CHANGE', value: newValue }),
+    [state.renderMobile, dispatch],
+  );
+
+  const handleClearHistory = useCallback(() => setDialogOpen(true), []);
 
   const { ariaRequiredText, SearchBarId, ariaCurrentSuggestion } = ariaProps;
   const ariaLabel = ariaRequiredText
@@ -219,6 +226,7 @@ const MobileView = ({
               inputClassName={inputClassName}
               required={required}
               isMobile
+              onValueChange={handleValueChange}
             />
             <Suggestions
               suggestions={state.suggestions}
@@ -230,13 +238,12 @@ const MobileView = ({
               lng={lng}
               styles={styles}
               renderClearHistoryButton
-              handleClearHistory={() => setDialogOpen(true)}
+              handleClearHistory={handleClearHistory}
               {...suggestionProps}
             />
           </span>
         </div>
         <DialogModal
-          appElement={appElement}
           isModalOpen={isDialogOpen}
           handleClose={() => setDialogOpen(false)}
           headerText={t('delete-old-searches-header', { lng })}
@@ -247,8 +254,6 @@ const MobileView = ({
             setDialogOpen(false);
           }}
           secondaryButtonOnClick={() => setDialogOpen(false)}
-          colors={colors}
-          fontWeights={fontWeights}
           lang={lng}
         />
       </div>

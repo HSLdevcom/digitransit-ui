@@ -39,7 +39,8 @@ const TimetableRow = ({ title, stoptimes, showRoutes = [], timerows = [] }) => {
               key={`${time.id}-${time.name}-${time.scheduledDeparture}-${time.gtfsId}`}
             >
               <div className="sr-only">
-                {time.isCanceled ? intl.formatMessage({ id: 'canceled' }) : ''}
+                {time.isCanceled &&
+                  `${intl.formatMessage({ id: 'canceled' })} `}
                 {`${DateTime.fromSeconds(
                   time.serviceDay + time.scheduledDeparture,
                 ).toFormat('HH:mm')}, ${intl.formatMessage({

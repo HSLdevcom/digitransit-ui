@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
-import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
+import { fireEvent } from '@testing-library/react';
+import { renderWithProviders } from '../../helpers/mock-providers';
 import CanceledDepartures from '../../../../app/component/trafficnow/components/CanceledDepartures';
 
 const makeCanceledTrip = (serviceDate, scheduledDeparture, gtfsId) => ({
@@ -20,11 +21,13 @@ const makePattern = canceledTrips => ({
 });
 
 describe('<CanceledDepartures />', () => {
-  const departureTimes = wrapper =>
-    wrapper.find('.routes-m-narrow').map(node => node.text().trim());
+  const departureTimes = container =>
+    Array.from(
+      container.querySelectorAll('.badges__departure-time .routes-s-narrow'),
+    ).map(node => node.textContent.trim());
 
-  const renderCanceledDepartures = props =>
-    shallowWithIntl(
+  const renderCanceledDepartures = props => {
+    const { container } = renderWithProviders(
       <CanceledDepartures
         departureLimit={1}
         patterns={[
@@ -37,27 +40,34 @@ describe('<CanceledDepartures />', () => {
         {...props}
       />,
     );
+    return container;
+  };
 
   it('splits departures per date and applies the limit per date', () => {
-    const wrapper = renderCanceledDepartures();
+    const container = renderCanceledDepartures();
 
     expect(
-      wrapper.find('.badges__departure-group__date-group'),
+      container.querySelectorAll('.badges__departure-group__date-group'),
     ).to.have.lengthOf(2);
-    expect(departureTimes(wrapper)).to.deep.equal(['08:00', '09:00']);
+    expect(departureTimes(container)).to.deep.equal(['08:00', '09:00']);
   });
 
   it('shows a button when a date has more departures than the limit', () => {
-    const wrapper = renderCanceledDepartures();
-    const showAllButton = wrapper.find('.show-departures-button');
+    const container = renderCanceledDepartures();
+    const showAllButton = container.querySelector('.show-departures-button');
 
-    expect(showAllButton).to.have.lengthOf(1);
+    expect(showAllButton).to.not.equal(null);
+    expect(showAllButton.textContent).to.equal('Show all');
   });
 
   it('shows all departures for the date when the button is clicked', () => {
-    const wrapper = renderCanceledDepartures();
+    const container = renderCanceledDepartures();
 
-    wrapper.find('.show-departures-button').simulate('click');
-    expect(departureTimes(wrapper)).to.deep.equal(['08:00', '08:05', '09:00']);
+    fireEvent.click(container.querySelector('.show-departures-button'));
+    expect(departureTimes(container)).to.deep.equal([
+      '08:00',
+      '08:05',
+      '09:00',
+    ]);
   });
 });

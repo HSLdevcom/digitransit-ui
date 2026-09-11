@@ -1,86 +1,76 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-
-import { mountWithIntl } from './helpers/mock-intl-enzyme';
+import { fireEvent } from '@testing-library/react';
+import { renderWithProviders } from './helpers/mock-providers';
 import Checkbox from '../../app/component/Checkbox';
-import Message from '../../app/component/Message';
 
 describe('<Checkbox />', () => {
   it('should render a checkbox', () => {
-    const props = {
-      onChange: () => {},
-    };
-    const wrapper = mountWithIntl(<Checkbox {...props} />);
-    expect(wrapper.length).to.equal(1);
+    const { container } = renderWithProviders(<Checkbox onChange={() => {}} />);
+    expect(container.querySelector('input[type="checkbox"]')).to.not.equal(
+      null,
+    );
   });
 
   it('should show the given label', () => {
-    const props = {
-      labelId: 'citybike',
-      onChange: () => {},
-      showLabel: true,
-    };
-    const wrapper = mountWithIntl(<Checkbox {...props} />);
-    expect(wrapper.length).to.equal(1);
-    const label = wrapper.find(FormattedMessage);
-    expect(label.length).to.equal(1);
-    expect(label.text()).to.equal('City bike');
+    const { container } = renderWithProviders(
+      <Checkbox labelId="citybike" onChange={() => {}} showLabel />,
+      { messages: { citybike: 'City bike' } },
+    );
+    expect(container.textContent).to.include('City bike');
   });
 
   it('Should work also without labelId', () => {
-    const props = {
-      defaultMessage: 'ei tarvitse k‰‰nt‰‰',
-      onChange: () => {},
-      showLabel: true,
-    };
-    const wrapper = mountWithIntl(<Checkbox {...props} />);
-    expect(wrapper.length).to.equal(1);
-    const label = wrapper.find(Message);
-    expect(label.length).to.equal(1);
-    expect(label.text()).to.have.string('ei tarvitse k‰‰nt‰‰');
+    const { container } = renderWithProviders(
+      <Checkbox
+        defaultMessage="ei tarvitse k√§√§nt√§√§"
+        onChange={() => {}}
+        showLabel
+      />,
+    );
+    expect(container.textContent).to.include('ei tarvitse k√§√§nt√§√§');
   });
 
   it('should invoke onChange', () => {
     let wasCalled = false;
-    const props = {
-      onChange: () => {
-        wasCalled = true;
-      },
-    };
-
-    const wrapper = mountWithIntl(<Checkbox {...props} />);
-    wrapper.find('input').simulate('change');
+    const { container } = renderWithProviders(
+      <Checkbox
+        onChange={() => {
+          wasCalled = true;
+        }}
+      />,
+    );
+    fireEvent.click(container.querySelector('input'));
     expect(wasCalled).to.equal(true);
   });
 
   it('should not invoke onChange when disabled', () => {
     let wasCalled = false;
-    const props = {
-      disabled: true,
-      onChange: () => {
-        wasCalled = true;
-      },
-    };
-
-    const wrapper = mountWithIntl(<Checkbox {...props} />);
-    wrapper.find('input').simulate('change');
+    const { container } = renderWithProviders(
+      <Checkbox
+        disabled
+        onChange={() => {
+          wasCalled = true;
+        }}
+      />,
+    );
+    fireEvent.click(container.querySelector('input'));
     expect(wasCalled).to.equal(false);
   });
 
   it('wrapping element should mimic a checkbox event on keypress', () => {
-    let wasCalled = false;
-    const props = {
-      checked: true,
-      onChange: e => {
-        wasCalled = true;
-        expect(e.target.checked).to.equal(false);
-      },
-    };
-
-    const wrapper = mountWithIntl(<Checkbox {...props} />);
-    wrapper.find('.option-checkbox').simulate('keypress', { key: 'Enter' });
-    expect(wasCalled).to.equal(true);
+    let receivedChecked;
+    const { container } = renderWithProviders(
+      <Checkbox
+        checked
+        onChange={e => {
+          receivedChecked = e.target.checked;
+        }}
+      />,
+    );
+    const el = container.querySelector('.option-checkbox');
+    fireEvent.keyPress(el, { key: 'Enter', charCode: 13 });
+    expect(receivedChecked).to.equal(false);
   });
 });

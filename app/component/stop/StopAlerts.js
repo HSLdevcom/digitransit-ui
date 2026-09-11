@@ -9,8 +9,9 @@ import {
 } from '../../util/alertUtils';
 import { getRouteMode } from '../../util/modeUtils';
 import { epochToTime } from '../../util/timeUtils';
-import { stopShape, configShape } from '../../util/shapes';
+import { stopShape } from '../../util/shapes';
 import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
 export const isRelevantEntity = (entity, stopIds, routeIds) =>
   // eslint-disable-next-line no-underscore-dangle
@@ -99,8 +100,9 @@ export const getAlerts = stop => {
   );
 };
 
-const StopAlerts = ({ stop }, { config }) => {
+const StopAlerts = ({ stop }) => {
   const intl = useIntl();
+  const config = useConfigContext();
   const cancelations = getCancelations(stop, intl, config);
   const serviceAlerts = getAlerts(stop);
 
@@ -114,8 +116,5 @@ const StopAlerts = ({ stop }, { config }) => {
 };
 
 StopAlerts.propTypes = { stop: stopShape.isRequired };
-StopAlerts.contextTypes = {
-  config: configShape,
-};
 
 export default StopAlerts;

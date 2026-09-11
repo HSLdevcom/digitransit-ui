@@ -181,7 +181,6 @@ class TopLevel extends React.Component {
       <Fragment>
         {!this.topBarOptions.hidden && (
           <AppBarContainer
-            title={this.context.config.title}
             {...this.topBarOptions}
             {...this.state}
             homeUrl={homeUrl}

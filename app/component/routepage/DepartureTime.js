@@ -2,19 +2,26 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import { configShape } from '../../util/shapes';
+import { useConfigContext } from '../../configurations/ConfigContext';
 import { epochToTime } from '../../util/timeUtils';
 import Icon from '../Icon';
 
-export default function DepartureTime(props, context) {
+export default function DepartureTime({
+  className = '',
+  canceled = false,
+  currentTime,
+  departureTime,
+  realtime = false,
+  showCancelationIcon = false,
+  isNextDeparture = false,
+}) {
   const intl = useIntl();
+  const config = useConfigContext();
   let shownTime;
-  const timeDiffInMinutes = Math.floor(
-    (props.departureTime - props.currentTime) / 60,
-  );
+  const timeDiffInMinutes = Math.floor((departureTime - currentTime) / 60);
   if (timeDiffInMinutes <= -1) {
     shownTime = undefined;
-  } else if (timeDiffInMinutes <= context.config.minutesToDepartureLimit) {
+  } else if (timeDiffInMinutes <= config.minutesToDepartureLimit) {
     shownTime = intl.formatMessage(
       { id: 'departure-time-in-minutes', defaultMessage: '{minutes} min' },
       { minutes: timeDiffInMinutes },
@@ -23,7 +30,7 @@ export default function DepartureTime(props, context) {
 
   return (
     <React.Fragment>
-      {!props.isNextDeparture && (
+      {!isNextDeparture && (
         <>
           <span className="sr-only">
             {shownTime
@@ -43,16 +50,16 @@ export default function DepartureTime(props, context) {
             className={cx(
               'time',
               {
-                realtime: props.realtime,
-                canceled: props.canceled,
+                realtime,
+                canceled,
               },
-              props.className,
+              className,
             )}
             aria-hidden
           >
             {shownTime}
           </span>
-          {props.realtime && (
+          {realtime && (
             <span className="sr-only">
               {intl.formatMessage({
                 id: 'realtime',
@@ -66,31 +73,27 @@ export default function DepartureTime(props, context) {
         className={cx(
           'time',
           {
-            realtime: props.realtime,
-            canceled: props.canceled,
-            first: !props.isNextDeparture,
-            next: props.isNextDeparture,
+            realtime,
+            canceled,
+            first: !isNextDeparture,
+            next: isNextDeparture,
           },
-          props.className,
+          className,
         )}
       >
-        {props.isNextDeparture &&
+        {isNextDeparture &&
           `${intl.formatMessage({
             id: 'next',
             defaultMessage: 'Next',
           })} `}
-        {epochToTime(props.departureTime * 1000, context.config)}
+        {epochToTime(departureTime * 1000, config)}
       </span>
-      {props.canceled && props.showCancelationIcon && (
+      {canceled && showCancelationIcon && (
         <Icon className="caution" img="icon_caution" />
       )}
     </React.Fragment>
   );
 }
-
-DepartureTime.contextTypes = {
-  config: configShape.isRequired,
-};
 
 DepartureTime.displayName = 'DepartureTime';
 
@@ -102,18 +105,6 @@ DepartureTime.propTypes = {
   realtime: PropTypes.bool,
   showCancelationIcon: PropTypes.bool,
   isNextDeparture: PropTypes.bool,
-};
-
-DepartureTime.defaultProps = {
-  className: '',
-  canceled: false,
-  realtime: false,
-  showCancelationIcon: false,
-  isNextDeparture: false,
-};
-
-DepartureTime.contextTypes = {
-  config: configShape.isRequired,
 };
 
 /**

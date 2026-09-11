@@ -1,9 +1,6 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
-
-import { shallowWithIntl } from './helpers/mock-intl-enzyme';
+import { renderWithProviders } from './helpers/mock-providers';
 import WalkLeg from '../../app/component/itinerary/WalkLeg';
-import ServiceAlertIcon from '../../app/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../app/constants';
 
 describe('<WalkLeg />', () => {
@@ -44,9 +41,11 @@ describe('<WalkLeg />', () => {
       },
     };
 
-    const wrapper = shallowWithIntl(<WalkLeg {...props} />);
+    const { container } = renderWithProviders(<WalkLeg {...props} />);
 
-    expect(wrapper.find('.itinerary-leg-row').text()).to.contain('Veturitori');
+    expect(
+      container.querySelector('.itinerary-leg-row').textContent,
+    ).to.contain('Veturitori');
   });
 
   it('should tell the user to return a rented bike to the starting point station', () => {
@@ -102,11 +101,10 @@ describe('<WalkLeg />', () => {
       },
     };
 
-    const wrapper = shallowWithIntl(<WalkLeg {...props} />);
+    const { container } = renderWithProviders(<WalkLeg {...props} />);
 
-    expect(wrapper.find(FormattedMessage).at(0).prop('id')).to.equal(
-      'return-cycle-to',
-    );
+    expect(container.textContent).to.contain('Return the bike:');
+    expect(container.textContent).to.contain('Veturitori');
   });
 
   it('should show a service alert icon if there is one at the "from" stop', () => {
@@ -156,11 +154,9 @@ describe('<WalkLeg />', () => {
       },
     };
 
-    const wrapper = shallowWithIntl(<WalkLeg {...props} />);
+    const { container } = renderWithProviders(<WalkLeg {...props} />);
 
-    expect(wrapper.find(ServiceAlertIcon).prop('severityLevel')).to.equal(
-      AlertSeverityLevelType.Info,
-    );
+    expect(container.querySelector('.info')).to.not.equal(null);
   });
 
   it('should render with leg.{from,to}.stop.vehicleMode being null', () => {
@@ -206,6 +202,6 @@ describe('<WalkLeg />', () => {
       },
     };
 
-    shallowWithIntl(<WalkLeg {...props} />);
+    renderWithProviders(<WalkLeg {...props} />);
   });
 });

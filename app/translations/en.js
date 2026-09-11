@@ -192,8 +192,10 @@ export default {
     'disruptions-change-filters': 'Please try again with different filters',
     'disruptions-found-amount':
       '{amount, plural, =0 {No disruptions found} one {Found 1 disruption} other {Found {amount} disruptions} }',
+    'disruptions-refresh': 'Load page',
     'disruptions-tab.sr-disruptions': 'One or more known disruptions',
     'disruptions-tab.sr-no-disruptions': 'No known disruptions',
+    'disruptions-update-available': 'Updates available',
     'distance-total': 'Total distance',
     'e-scooter': 'Electric scooter',
     'e-scooter-alternative':
@@ -282,9 +284,9 @@ export default {
     'itinerary-details.route-has-unknown-alert': 'Route has disruptions.',
     'itinerary-details.route-has-warning-alert': 'Route has disruptions.',
     'itinerary-details.scooter-leg':
-      'At {time} travel by scooter {distance} from {origin} to {destination}. Estimated time {duration}',
+      'At {time} travel by scooter {distance} from the pickup location {origin} to {destination}. Estimated time {duration}',
     'itinerary-details.taxi-leg':
-      'At {time} travel by taxi {distance} from {origin} to {to} {destination}. Estimated time {duration}',
+      'At {time} travel by taxi {distance} from the pickup location {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.transit-leg-part-1': 'At {time} {realtime} take',
     'itinerary-details.transit-leg-part-2':
       'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}. ',
@@ -316,11 +318,11 @@ export default {
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
     'itinerary-summary-row.first-leg-start-time-scooter':
-      'Departure at {firstDepartureTime} with a scooter',
+      'Departure at {firstDepartureTime} from the scooter pickup location',
     'itinerary-summary-row.first-leg-start-time-sr':
-      '{vehicle} leaves at {firstDepartureTime} from stop {firstDepartureStop} {firstDeparturePlatform}.',
+      '{vehicle} leaves at {firstDepartureTime} from {firstDepartureStopType} {firstDepartureStop} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time-taxi':
-      'Departure at {firstDepartureTime} by taxi from {firstDepartureStop}',
+      'Departure at {firstDepartureTime} from the taxi pickup location',
     'itinerary-summary-row.no-transit-legs': 'Leave when it suits you',
     'itinerary-summary-row.transfers':
       'Transfer to {vehicle} on stop {stopName}',
@@ -690,7 +692,7 @@ export default {
     'scooter-distance-duration':
       'Travel by scooter for {duration} ({distance})',
     'scooterwalk-distance-duration':
-      'Walk your kick scooter {duration} ({distance})',
+      'Walk your kick scooter {duration} ({distance}).',
     'search-current-suggestion': 'Current selection: {selection}',
     'search-fields.sr-instructions':
       'Route search will take place automatically when you enter origin and destination. Changing search parameters will trigger a new search. Navigate to the search fields using the tab key',
@@ -838,6 +840,8 @@ export default {
     'traffic-now_description_see-also--link2': 'major changes',
     'traffic-now_filters_entity-search': 'Search for individual route or stop',
     'traffic-now_filters_entity-search--placeholder': 'Route, stop or station',
+    'traffic-now_filters_operator-select-legend': 'Show only these operators',
+    'traffic-now_filters_operator-select-placeholder': 'Select one or more',
     'traffic-now_filters_toggles--cancellations-only': 'Cancellations only',
     'traffic-now_filters_toggles--favourites-only': 'Favourites only',
     'traffic-now_filters_validity-period': 'Filter by validity period',

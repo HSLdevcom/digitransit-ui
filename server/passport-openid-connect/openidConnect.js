@@ -156,10 +156,10 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        secure: process.env.NODE_ENV === 'production',
-        httpOnly: process.env.NODE_ENV === 'production',
+        secure: process.env.NODE_ENV !== 'development',
+        httpOnly: process.env.NODE_ENV !== 'development',
         maxAge: 1000 * 60 * 60 * 24 * 60,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        sameSite: process.env.NODE_ENV !== 'development' ? 'none' : 'lax',
       },
     }),
   );

@@ -1,12 +1,19 @@
+const Environment = Object.freeze({
+  Development: 'development',
+  Production: 'production',
+});
+
 /**
- * Boolean value determining if any dev environment flag is active
- * RUN_ENV='development' is set in digitransit-kubernetes-deploy for Kubernetes dev instances.
- * Setting NODE_ENV to a specific value determines how the local environment behaves.
- * NODE_ENV can be set to test, development, and production.
+ * Whether the app runs in a non-production deployment, from the `RUN_ENV` env var
+ * (`development` / `production`; unknown ⇒ production).
  *
- * ***IMPORTANT! Sometimes it is desireable to only use NODE_ENV for setting a local dev configuration.
- * This variable should mainly be used as a config dev flag.***
+ * @param {{RUN_ENV?: string}|null} [config] On the client pass `window.config` —
+ *   the server mirrors `RUN_ENV` into it because `process.env.RUN_ENV` does not
+ *   exist in the browser bundle. On the server / during config assembly omit it
+ *   to read `process.env.RUN_ENV` directly.
+ * @returns {boolean}
  */
-export const IS_DEV =
-  process.env.RUN_ENV === 'development' ||
-  process.env.NODE_ENV !== 'production';
+export function isDevRunEnv(config) {
+  const value = config ? config.RUN_ENV : process.env.RUN_ENV;
+  return value === Environment.Development;
+}

@@ -6,7 +6,7 @@ import {
   withSearchContext,
   getLocationSearchTargets,
 } from '../WithSearchContext';
-import { countLocations } from '../../store/FavouriteStore';
+import { countLocations } from '../../data/FavouriteData';
 import { useFavourites } from '../../hooks/FavouriteContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
 

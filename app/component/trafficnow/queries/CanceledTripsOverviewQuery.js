@@ -3,7 +3,7 @@ import './CanceledDeparturesFragment';
 
 export default graphql`
   query CanceledTripsOverviewQuery(
-    $serviceDateRanges: [LocalDateRangeInput!]!
+    $runningTimeRanges: [OffsetDateTimeRangeInput!]
     $fetchBus: Boolean!
     $fetchTram: Boolean!
     $fetchRail: Boolean!
@@ -12,7 +12,7 @@ export default graphql`
   ) {
     bus: canceledTripsSummary(
       filters: {
-        include: { modes: [BUS], serviceDateRanges: $serviceDateRanges }
+        include: { modes: [BUS], runningTimeRanges: $runningTimeRanges }
       }
     ) @include(if: $fetchBus) {
       routes {
@@ -27,7 +27,7 @@ export default graphql`
           cancellationCount
           pattern {
             ...CanceledDeparturesFragment
-              @arguments(serviceDateRanges: $serviceDateRanges)
+              @arguments(runningTimeRanges: $runningTimeRanges)
           }
         }
       }
@@ -35,7 +35,7 @@ export default graphql`
 
     tram: canceledTripsSummary(
       filters: {
-        include: { modes: [TRAM], serviceDateRanges: $serviceDateRanges }
+        include: { modes: [TRAM], runningTimeRanges: $runningTimeRanges }
       }
     ) @include(if: $fetchTram) {
       routes {
@@ -50,7 +50,7 @@ export default graphql`
           cancellationCount
           pattern {
             ...CanceledDeparturesFragment
-              @arguments(serviceDateRanges: $serviceDateRanges)
+              @arguments(runningTimeRanges: $runningTimeRanges)
           }
         }
       }
@@ -58,7 +58,7 @@ export default graphql`
 
     rail: canceledTripsSummary(
       filters: {
-        include: { modes: [RAIL], serviceDateRanges: $serviceDateRanges }
+        include: { modes: [RAIL], runningTimeRanges: $runningTimeRanges }
       }
     ) @include(if: $fetchRail) {
       routes {
@@ -73,7 +73,7 @@ export default graphql`
           cancellationCount
           pattern {
             ...CanceledDeparturesFragment
-              @arguments(serviceDateRanges: $serviceDateRanges)
+              @arguments(runningTimeRanges: $runningTimeRanges)
           }
         }
       }
@@ -81,7 +81,7 @@ export default graphql`
 
     subway: canceledTripsSummary(
       filters: {
-        include: { modes: [SUBWAY], serviceDateRanges: $serviceDateRanges }
+        include: { modes: [SUBWAY], runningTimeRanges: $runningTimeRanges }
       }
     ) @include(if: $fetchSubway) {
       routes {
@@ -96,7 +96,7 @@ export default graphql`
           cancellationCount
           pattern {
             ...CanceledDeparturesFragment
-              @arguments(serviceDateRanges: $serviceDateRanges)
+              @arguments(runningTimeRanges: $runningTimeRanges)
           }
         }
       }
@@ -104,7 +104,7 @@ export default graphql`
 
     ferry: canceledTripsSummary(
       filters: {
-        include: { modes: [FERRY], serviceDateRanges: $serviceDateRanges }
+        include: { modes: [FERRY], runningTimeRanges: $runningTimeRanges }
       }
     ) @include(if: $fetchFerry) {
       routes {
@@ -119,7 +119,7 @@ export default graphql`
           cancellationCount
           pattern {
             ...CanceledDeparturesFragment
-              @arguments(serviceDateRanges: $serviceDateRanges)
+              @arguments(runningTimeRanges: $runningTimeRanges)
           }
         }
       }

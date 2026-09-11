@@ -12,10 +12,13 @@ import LoginButton from './LoginButton';
 import UserMenu from './UserMenu';
 import { useConfigContext } from '../configurations/ConfigContext';
 
-export default function AppBar(
-  { showLogo = false, title, homeUrl, logo, breakpoint, titleClicked },
-  { getStore },
-) {
+export default function AppBar({
+  showLogo = false,
+  homeUrl,
+  logo,
+  breakpoint,
+  titleClicked,
+}) {
   const intl = useIntl();
   const config = useConfigContext();
   const { user } = config;
@@ -47,9 +50,7 @@ export default function AppBar(
   return (
     <>
       {disruptionInfoOpen && <DisruptionInfo setOpen={toggleDisruptionInfo} />}
-      {process.env.NODE_ENV !== 'test' && (
-        <MessageBar breakpoint={breakpoint} />
-      )}
+      <MessageBar breakpoint={breakpoint} />
       <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
         <section className="title">
           <button
@@ -67,7 +68,7 @@ export default function AppBar(
               });
             }}
           >
-            <LogoSmall showLogo={showLogo} logo={logo} title={title} />
+            <LogoSmall showLogo={showLogo} logo={logo} />
           </button>
         </section>
         <section className="controls">
@@ -84,7 +85,6 @@ export default function AppBar(
                     href: '/logout',
                     onClick: event => {
                       event.preventDefault();
-                      getStore('FavouriteStore').storeFavourites();
                       window.location.href = '/logout';
                     },
                   },
@@ -124,13 +124,8 @@ export default function AppBar(
 
 AppBar.propTypes = {
   showLogo: PropTypes.bool,
-  title: PropTypes.node,
   homeUrl: PropTypes.string,
   logo: PropTypes.string,
   breakpoint: PropTypes.string,
   titleClicked: PropTypes.func.isRequired,
-};
-
-AppBar.contextTypes = {
-  getStore: PropTypes.func.isRequired,
 };

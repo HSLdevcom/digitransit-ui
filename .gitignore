@@ -1,10 +1,17 @@
+# macOS Finder metadata
 .DS_Store
+
+# Main app webpack build output (see webpack.config.babel.js)
 _static
 npm-debug.log
-node_modules
 filesizes.html
 stats.json
 manifest.json
+
+# Installed dependencies (yarn/npm)
+node_modules
+
+# various files
 test/credentials.json
 test/binaries
 *.swp
@@ -14,23 +21,39 @@ test/binaries
 !.vscode/tasks.json
 *.iml
 *~
-test_output
-test/binaries
 selenium-debug.log
 tags
-.nyc_output
-coverage
 sessions/
 run*.sh
+
+# Relay-compiler generated GraphQL artifacts (main app)
 app/**/__generated__
-digitransit-component/packages/**/*.generated
+
+# Rollup build output (see config/rollup.config.js). digitransit-search-util-
+# query-utils's relay.artifactDirectory (./lib/__generated__) always nests
+# generated GraphQL artifacts inside lib/, so this already covers them too.
+digitransit-util/packages/**/lib
+digitransit-search-util/packages/**/lib
 digitransit-component/packages/**/lib
-digitransit-search-util/packages/**/__generated__
-digitransit-search-util/packages/**/lib/
-digitransit-store/packages/**/*.generated
 digitransit-store/packages/**/lib
+
+# Rollup build output (see config/rollup.config.js)
 yarn-error.log
 dump.rdb
+
+# Nx's local task-graph/build cache (used by `lerna run build`/`watch` via
+# nx.json's task pipeline) - always safe to delete, regenerated on demand.
+.nx
+
+# Lerna's debug log, written when a lerna command errors out.
+lerna-debug.log
+
+# JSON summary written by `lerna publish --summary-file` (used by the
+# publish-npm CI job); only produced when actually publishing.
+lerna-publish-summary.json
+
+# Yarn Berry (zero-installs) cache - only keep the config/tooling subdirs, not the
+# downloaded package cache itself
 .yarn/*
 !.yarn/patches
 !.yarn/releases

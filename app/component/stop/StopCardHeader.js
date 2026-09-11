@@ -1,21 +1,36 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { matchShape } from 'found';
+import React, { useEffect } from 'react';
+import { useRouter } from 'found';
 import { stopShape, stationShape } from '../../util/shapes';
 import CardHeader from '../CardHeader';
 import { getJson } from '../../util/xhrPromise';
 import { saveSearch } from '../../action/SearchActions';
 import { isIOS } from '../../util/browser';
 import FavouriteStopContainer from '../FavouriteStopContainer';
+import { useConfigContext } from '../../configurations/ConfigContext';
 
-class StopCardHeader extends React.Component {
-  componentDidMount() {
-    // update localStorage searches if necessary
-    const { stop, isPopUp } = this.props;
-    if (!isIOS || !stop || isPopUp || !this.context.match.location.query.save) {
+function StopCardHeader(
+  {
+    stop,
+    distance,
+    className,
+    headingStyle,
+    icons,
+    isPopUp = false,
+    breakpoint,
+    isTerminal = false,
+  },
+  { executeAction },
+) {
+  const config = useConfigContext();
+  const { match } = useRouter();
+  const headerConfig = config.stopCard?.header || {};
+
+  useEffect(() => {
+    if (!isIOS || !stop || isPopUp || !match.location.query?.save) {
       return;
     }
-    const layer = this.props.isTerminal ? 'station' : 'stop';
+    const layer = isTerminal ? 'station' : 'stop';
     let id = `GTFS:${stop.gtfsId}`;
     let { name } = stop;
     if (stop.code) {
@@ -29,18 +44,18 @@ class StopCardHeader extends React.Component {
       'boundary.circle.radius': 0.2,
       size: 1,
     };
-    if (this.context.config.searchParams['boundary.country']) {
+    if (config.searchParams?.['boundary.country']) {
       searchParams['boundary.country'] =
-        this.context.config.searchParams['boundary.country'];
+        config.searchParams['boundary.country'];
     }
 
-    getJson(this.context.config.URL.PELIAS_REVERSE_GEOCODER, searchParams).then(
-      data => {
+    getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams)
+      .then(data => {
         if (data.features != null && data.features.length > 0) {
-          const match = data.features[0].properties;
-          const city = match.localadmin;
+          const feat = data.features[0].properties;
+          const city = feat.localadmin;
 
-          this.context.executeAction(saveSearch, {
+          executeAction(saveSearch, {
             item: {
               geometry: { coordinates: [stop.lon, stop.lat] },
               properties: {
@@ -56,55 +71,43 @@ class StopCardHeader extends React.Component {
             type: 'endpoint',
           });
         }
-      },
-    );
+      })
+      .catch(() => {});
+  }, []);
+
+  if (!stop) {
+    return false;
   }
 
-  get headerConfig() {
-    return this.context.config.stopCard.header;
-  }
-
-  getDescription() {
-    let description = '';
-
-    if (this.headerConfig.showDescription && this.props.stop.desc) {
-      description += this.props.stop.desc;
+  const getDescription = () => {
+    let desc = '';
+    if (headerConfig.showDescription && stop.desc) {
+      desc += stop.desc;
     }
-
-    if (this.headerConfig.showDistance && this.props.distance) {
-      description += ` // ${Math.round(this.props.distance)} m`;
+    if (headerConfig.showDistance && distance) {
+      desc += ` // ${Math.round(distance)} m`;
     }
-
-    if (this.props.isTerminal && this.props.stop.stops) {
-      description = this.props.stop.stops[0].desc;
+    if (isTerminal && stop.stops) {
+      desc = stop.stops[0].desc;
     }
+    return desc;
+  };
 
-    return description;
-  }
-
-  render() {
-    const { className, headingStyle, icons, stop, breakpoint, isTerminal } =
-      this.props;
-    if (!stop) {
-      return false;
-    }
-
-    return (
-      <CardHeader
-        className={className}
-        headingStyle={headingStyle}
-        description={this.getDescription()}
-        code={this.headerConfig.showStopCode && stop.code ? stop.code : null}
-        icons={icons}
-        showBackButton={breakpoint === 'large'}
-        stop={stop}
-        isTerminal={isTerminal}
-        favouriteContainer={
-          <FavouriteStopContainer stop={stop} isTerminal={isTerminal} />
-        }
-      />
-    );
-  }
+  return (
+    <CardHeader
+      className={className}
+      headingStyle={headingStyle}
+      description={getDescription()}
+      code={headerConfig.showStopCode && stop.code ? stop.code : null}
+      icons={icons}
+      showBackButton={breakpoint === 'large'}
+      stop={stop}
+      isTerminal={isTerminal}
+      favouriteContainer={
+        <FavouriteStopContainer stop={stop} isTerminal={isTerminal} />
+      }
+    />
+  );
 }
 
 StopCardHeader.propTypes = {
@@ -118,31 +121,9 @@ StopCardHeader.propTypes = {
   isTerminal: PropTypes.bool,
 };
 
-StopCardHeader.defaultProps = {
-  stop: undefined,
-  isTerminal: false,
-  distance: undefined,
-  className: undefined,
-  headingStyle: undefined,
-  icons: undefined,
-  isPopUp: false,
-  breakpoint: undefined,
-};
-
+// executeAction stays on legacy contextTypes until Fluxible is replaced with React context / or executeAction is moved to react context.
 StopCardHeader.contextTypes = {
-  config: PropTypes.shape({
-    stopCard: PropTypes.shape({
-      header: PropTypes.shape({
-        showDescription: PropTypes.bool,
-        showDistance: PropTypes.bool,
-        showStopCode: PropTypes.bool,
-        virtualMonitorBaseUrl: PropTypes.string,
-      }).isRequired,
-    }).isRequired,
-  }).isRequired,
-  intl: PropTypes.object.isRequired, // eslint-disable-line
   executeAction: PropTypes.func.isRequired,
-  match: matchShape.isRequired,
 };
 
 StopCardHeader.displayName = 'StopCardHeader';

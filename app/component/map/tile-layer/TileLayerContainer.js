@@ -26,6 +26,7 @@ import {
   PREFIX_RENTALVEHICLES,
 } from '../../../util/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
+import { withCurrentTime } from '../../../hooks/TimeContext';
 
 const initialState = {
   selectableTargets: undefined,
@@ -61,6 +62,7 @@ class TileLayerContainer extends GridLayer {
     stopsToShow: PropTypes.arrayOf(PropTypes.string),
     objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     vehicles: PropTypes.objectOf(vehicleShape),
+    currentTime: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -74,7 +76,6 @@ class TileLayerContainer extends GridLayer {
   };
 
   static contextTypes = {
-    getStore: PropTypes.func.isRequired,
     config: configShape.isRequired,
     match: matchShape.isRequired,
     router: routerShape.isRequired,
@@ -107,7 +108,6 @@ class TileLayerContainer extends GridLayer {
 
   componentDidMount() {
     super.componentDidMount();
-    this.context.getStore('TimeStore').addChangeListener(this.onTimeChange);
     this.props.leaflet.map.addEventParent(this.leafletElement);
     this.leafletElement.on('click contextmenu', this.onClick);
   }
@@ -122,33 +122,31 @@ class TileLayerContainer extends GridLayer {
     if (!isEqual(prevProps.highlightedStops, this.props.highlightedStops)) {
       this.leafletElement.redraw();
     }
+    if (prevProps.currentTime !== this.props.currentTime) {
+      this.onTimeChange();
+    }
   }
 
   componentWillUnmount() {
-    this.context.getStore('TimeStore').removeChangeListener(this.onTimeChange);
     this.leafletElement.off('click contextmenu', this.onClick);
   }
 
-  onTimeChange = e => {
-    let activeTiles;
-
-    if (e.currentTime) {
-      /* eslint-disable no-underscore-dangle */
-      activeTiles = lodashFilter(
-        this.leafletElement._tiles,
-        tile => tile.active,
-      );
-      /* eslint-enable no-underscore-dangle */
-      activeTiles.forEach(
-        tile =>
-          tile.el.layers &&
-          tile.el.layers.forEach(layer => {
-            if (layer.onTimeChange) {
-              layer.onTimeChange(this.context.config.language);
-            }
-          }),
-      );
-    }
+  onTimeChange = () => {
+    /* eslint-disable no-underscore-dangle */
+    const activeTiles = lodashFilter(
+      this.leafletElement._tiles,
+      tile => tile.active,
+    );
+    /* eslint-enable no-underscore-dangle */
+    activeTiles.forEach(
+      tile =>
+        tile.el.layers &&
+        tile.el.layers.forEach(layer => {
+          if (layer.onTimeChange) {
+            layer.onTimeChange(this.context.config.language);
+          }
+        }),
+    );
   };
 
   onClick = e => {
@@ -453,13 +451,13 @@ class TileLayerContainer extends GridLayer {
 
 const connectedComponent = withLeaflet(
   connectToStores(
-    props => (
+    withCurrentTime(props => (
       <ReactRelayContext.Consumer>
         {({ environment }) => (
           <TileLayerContainer {...props} relayEnvironment={environment} />
         )}
       </ReactRelayContext.Consumer>
-    ),
+    )),
     [RealTimeInformationStore],
     context => ({
       vehicles: context.getStore(RealTimeInformationStore).vehicles,

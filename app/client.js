@@ -13,7 +13,7 @@ import {
   errorMiddleware,
   cacheMiddleware,
 } from 'react-relay-network-modern';
-import OfflinePlugin from 'offline-plugin/runtime';
+import { Workbox } from 'workbox-window';
 import { Helmet } from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
 import { RelayEnvironmentProvider } from 'react-relay';
@@ -35,21 +35,50 @@ import {
   addAnalyticsEvent,
   handleUserAnalytics,
 } from './util/analyticsUtils';
-import { getCountries } from './store/localStorage';
+import { getCountries } from './data/localStorage';
 import { configureCountry } from './util/configureCountry';
 import { getUser } from './util/apiUtils';
-import {
-  fetchFavourites,
-  fetchFavouritesComplete,
-} from './action/FavouriteActions';
+import favouriteStore from './data/FavouriteData';
+import searchContext from './data/SearchContext';
 import { ConfigProvider } from './configurations/ConfigContext';
 import { FavouriteProvider } from './hooks/FavouriteContext';
+import { TimeProvider } from './hooks/TimeContext';
+import { isPersonalizationEnabled } from './util/modeUtils';
+import { getSettings } from './util/planParamUtil';
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
 const { config } = window;
 const app = appCreator(config);
 const context = app.createContext({ config });
+
+const ContextProvider = provideContext(IntlProvider, {
+  config: configShape,
+});
+
+const AppProviders = props => {
+  const providers = [
+    [ConfigProvider, { value: props.config }],
+    [ClientBreakpointProvider],
+    [
+      ContextProvider,
+      {
+        locale: props.language,
+        messages: props.messages,
+        context: props.context,
+        textComponent: 'span',
+      },
+    ],
+    [IntlBridge],
+    [RelayEnvironmentProvider, { environment: props.environment }],
+    [FavouriteProvider, { context: props.context }],
+    [TimeProvider],
+  ];
+  return providers.reduceRight(
+    (children, [Provider, value]) => <Provider {...value}>{children}</Provider>,
+    props.children,
+  );
+};
 
 const getParams = query => {
   if (!query) {
@@ -77,24 +106,6 @@ async function init() {
   initAnalyticsClientSide(config);
 
   window.context = context;
-
-  if (process.env.NODE_ENV === 'development') {
-    /* if (config.AXE) {
-      const axeConfig = {
-        resultTypes: ['violations'],
-      };
-      // eslint-disable-next-line global-require
-      const axe = require('@axe-core/react');
-      axe(React, ReactDOM, 2500, axeConfig);
-    } */
-    try {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      require(`../sass/themes/${config.CONFIG}/main.scss`);
-    } catch (error) {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      require('../sass/themes/default/main.scss');
-    }
-  }
 
   // Query parameter is used instead of header because browsers send
   // OPTIONS queries where you can't define headers
@@ -179,62 +190,67 @@ async function init() {
   });
 
   // fetch Userdata and favourites
+  favouriteStore.init(config);
+  searchContext.init(context.getComponentContext());
   if (config.allowLogin) {
     getUser()
       .then(user => {
         config.user = user || {};
         handleUserAnalytics(config);
-        context.executeAction(fetchFavourites);
+        favouriteStore.fetchFavourites();
       })
       .catch(() => {
         config.user = { notLogged: true };
-        context.executeAction(fetchFavouritesComplete);
+        favouriteStore.fetchComplete();
+      })
+      .finally(() => {
+        addAnalyticsEvent({
+          event: 'personalization_status',
+          personalization_setting: isPersonalizationEnabled(
+            config,
+            getSettings(config),
+          )
+            ? 'on'
+            : 'off',
+        });
       });
   }
 
-  const ContextProvider = provideContext(IntlProvider, {
-    config: configShape,
-  });
-
   const content = (
-    <ConfigProvider value={config}>
-      <ClientBreakpointProvider>
-        <ContextProvider
-          locale={language}
-          messages={translations.default[language]}
-          context={context.getComponentContext()}
-          textComponent="span"
-        >
-          <IntlBridge>
-            <RelayEnvironmentProvider environment={environment}>
-              <FavouriteProvider context={context.getComponentContext()}>
-                <ErrorBoundary>
-                  <React.Fragment>
-                    <Helmet
-                      {...meta(
-                        language,
-                        window.location.host,
-                        window.location.href,
-                        config,
-                      )}
-                    />
-                    <Router resolver={resolver} />
-                  </React.Fragment>
-                </ErrorBoundary>
-              </FavouriteProvider>
-            </RelayEnvironmentProvider>
-          </IntlBridge>
-        </ContextProvider>
-      </ClientBreakpointProvider>
-    </ConfigProvider>
+    <AppProviders
+      config={config}
+      language={language}
+      messages={translations.default[language]}
+      context={context.getComponentContext()}
+      environment={environment}
+    >
+      <ErrorBoundary>
+        <React.Fragment>
+          <Helmet
+            {...meta(
+              language,
+              window.location.host,
+              window.location.href,
+              config,
+            )}
+          />
+          <Router resolver={resolver} />
+        </React.Fragment>
+      </ErrorBoundary>
+    </AppProviders>
   );
 
   const rootNode = document.getElementById('app');
   ReactDOM.render(content, rootNode, () => {
-    if (process.env.NODE_ENV === 'production' && BUILD_TIME !== 'unset') {
-      OfflinePlugin.install({
-        onUpdateReady: () => OfflinePlugin.applyUpdate(),
-      });
+    if (process.env.NODE_ENV !== 'development' && BUILD_TIME !== 'unset') {
+      // The service worker itself calls `skipWaiting()`/`clients.claim()`
+      // (see app/util/serviceWorker.js) so new versions take over as soon
+      // as they finish installing - mirrors the previous
+      // `OfflinePlugin.install({ onUpdateReady: () =>
+      // OfflinePlugin.applyUpdate() })` behaviour, just with the
+      // "apply immediately" decision made service-worker-side instead of
+      // here.
+      new Workbox('/sw.js').register();
     }
   });
 

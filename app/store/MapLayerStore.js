@@ -1,6 +1,6 @@
 import Store from 'fluxible/addons/BaseStore';
 import PropTypes from 'prop-types';
-import { setMapLayerSettings, getMapLayerSettings } from './localStorage';
+import { setMapLayerSettings, getMapLayerSettings } from '../data/localStorage';
 import { showRentalVehiclesOfType } from '../util/modeUtils';
 import { TransportMode } from '../constants';
 
@@ -42,12 +42,14 @@ class MapLayerStore extends Store {
     this.mapLayers.citybike = showRentalVehiclesOfType(
       config.vehicleRental?.networks,
       TransportMode.Citybike,
+      config,
     );
     this.mapLayers.scooter =
       config.transportModes.scooter?.showIfSelectedForRouting &&
       showRentalVehiclesOfType(
         config.vehicleRental?.networks,
         TransportMode.Scooter,
+        config,
       );
     if (config.hideMapLayersByDefault) {
       this.mapLayers.stop = Object.keys(this.mapLayers.stop).map(() => false);

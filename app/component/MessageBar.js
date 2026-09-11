@@ -6,11 +6,12 @@ import React, { Component } from 'react';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
 import { configShape, relayShape } from '../util/shapes';
 import { useConfigContext } from '../configurations/ConfigContext';
+import { withCurrentTime } from '../hooks/TimeContext';
 import SwipeableTabs from './SwipeableTabs';
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
 import { markMessageAsRead } from '../action/MessageActions';
-import { getReadMessageIds } from '../store/localStorage';
+import { getReadMessageIds } from '../data/localStorage';
 import { mapAlertSource } from '../util/alertUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
 import hashCode from '../util/hashUtil';
@@ -338,21 +339,22 @@ class MessageBar extends Component {
   }
 }
 
+const MessageBarWithConfig = props => {
+  const { language: lang } = useConfigContext();
+  return (
+    <ReactRelayContext.Consumer>
+      {({ environment }) => (
+        <MessageBar {...props} lang={lang} relayEnvironment={environment} />
+      )}
+    </ReactRelayContext.Consumer>
+  );
+};
+
 const connectedComponent = connectToStores(
-  props => {
-    const { language: lang } = useConfigContext();
-    return (
-      <ReactRelayContext.Consumer>
-        {({ environment }) => (
-          <MessageBar {...props} lang={lang} relayEnvironment={environment} />
-        )}
-      </ReactRelayContext.Consumer>
-    );
-  },
-  ['MessageStore', 'TimeStore'],
+  withCurrentTime(MessageBarWithConfig),
+  ['MessageStore'],
   context => ({
     messages: context.getStore('MessageStore').getMessages(),
-    currentTime: context.getStore('TimeStore').getCurrentTime(),
     duplicateMessageCounter: context
       .getStore('MessageStore')
       .getDuplicateMessageCounter(),

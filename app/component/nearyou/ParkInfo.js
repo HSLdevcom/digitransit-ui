@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { getReadMessageIds, setReadMessageId } from '../../store/localStorage';
+import { getReadMessageIds, setReadMessageId } from '../../data/localStorage';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import Disclaimer from '../Disclaimer';
 

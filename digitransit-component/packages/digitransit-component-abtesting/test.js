@@ -1,10 +1,12 @@
-/* eslint-disable import/no-extraneous-dependencies */
-// import React from 'react';
-// import Adapter from 'enzyme-adapter-react-16';
-// import { expect } from 'chai';
-// import { describe, it } from 'mocha';
-// import { shallow, configure } from 'enzyme';
+import { describe, it, expect } from 'vitest';
+// src/index.js currently exports nothing (`export {}`), so there is no
+// default export to import - `import * as` still gives a real Module
+// Namespace Object, matching the original "loads without error, is an
+// object" check.
+import * as AbtestingModule from './src/index.js';
 
-// configure({ adapter: new Adapter() });
-
-// describe('Testing something', () => {
+describe('Testing @digitransit-component/digitransit-component-abtesting module', () => {
+  it('loads without error', () => {
+    expect(AbtestingModule).toBeTypeOf('object');
+  });
+});

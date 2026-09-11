@@ -1,4 +1,4 @@
-import { IS_DEV } from '../util/envUtils';
+import { isDevRunEnv } from '../util/envUtils';
 import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
 import ttConfig from './timetableConfigUtils';
 
@@ -21,7 +21,7 @@ const travelersAccountUrl = process.env.TRAVELERS_ACCOUNT_URL;
 const staticAssetsUrl =
   process.env.STATIC_ASSETS_URL || 'https://staticfiles-test.hslfi.hsldev.com/';
 
-const virtualMonitorBaseUrl = IS_DEV
+const virtualMonitorBaseUrl = isDevRunEnv()
   ? 'https://dev-hslmonitori.digitransit.fi'
   : 'https://omatnaytot.hsl.fi';
 
@@ -388,6 +388,11 @@ export default {
     en: 'travelling/services-now',
     sv: 'att-resa/Trafiken-just-nu',
   },
+  trafficNowRootPath: {
+    fi: '/matkustaminen',
+    sv: '/sv/att-resa',
+    en: '/en/travelling',
+  },
 
   vehicleRental: {
     minZoomStopsNearYou: 10,
@@ -615,9 +620,9 @@ export default {
       showForRoute: route => route.type === 900,
       id: 'speedtramNotification',
       header: {
-        fi: 'Mitä pikaratikka tarkoittaa?',
-        en: 'What is light rail?',
-        sv: 'Vad är en snabbspårvagn?',
+        fi: 'Pikaratikka',
+        en: 'Light rail',
+        sv: 'Snabbspårvagn',
       },
       content: {
         fi: [
@@ -634,9 +639,9 @@ export default {
         ],
       },
       closeButtonLabel: {
-        fi: '',
-        en: '',
-        sv: '',
+        fi: 'Mitä pikaratikka tarkoittaa?',
+        en: 'What is light rail?',
+        sv: 'Vad är en snabbspårvagn?',
       },
       link: {
         fi: 'hsl.fi/reittiopas-pikaratikka',
@@ -763,8 +768,13 @@ export default {
     taxiExternalIcon: 'icon_uber-wide',
   },
 
-  showRouteDescNotification: IS_DEV,
+  showRouteDescNotification: isDevRunEnv(),
   personalization: false,
+  personalizationSurveyLinks: {
+    fi: 'https://surveys.crazyegg.com/s/303436/c50407d2-a31b-4336-a43b-149ac6639d78',
+    sv: 'https://surveys.crazyegg.com/s/303436/7977162c-07a0-4316-82e0-ae2dee934edf',
+    en: 'https://surveys.crazyegg.com/s/303436/0e3f31bb-10ab-4b65-b6cc-1058260918cc',
+  },
   showNewRoutePage: true,
   staticCrisisBanners: [
     {

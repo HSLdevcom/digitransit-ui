@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
-import Button from '@hsl-fi/button';
-import cx from 'classnames';
-import Link from 'found/Link';
+import { Button, Text } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import Card from '../Card';
-import Icon from '../Icon';
 import CancellationContainer from './components/CancellationContainer';
 import ResultsProgressBar from './components/ResultsProgressBar';
 import { patternShape, routeShape } from '../../util/shapes';
+import CTAContainer from './components/CTAContainer';
 
 const DEFAULT_ROUTES_SHOWN_AMOUNT = 8;
 
 const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
   const { colors } = useConfigContext();
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
   const [showAmount, setShowAmount] = useState(
     DEFAULT_ROUTES_SHOWN_AMOUNT > canceledRoutes.length
       ? canceledRoutes.length
@@ -50,36 +48,39 @@ const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
           );
         })}
       </div>
-      <footer className="canceled-trips__footer paragraph-extra-small">
+      <footer className="canceled-trips__footer">
         <div className="canceled-trips__footer-body">
-          <FormattedMessage
-            id="traffic-now_canceled-trips--amount"
-            values={{
-              amount: showAmount,
-              totalAmount: canceledRoutes.length,
-            }}
-          />
+          <Text variant="text-xs" as="div">
+            {formatMessage(
+              { id: 'traffic-now_canceled-trips--amount' },
+              {
+                amount: showAmount,
+                totalAmount: canceledRoutes.length,
+              },
+            )}
+          </Text>
           <ResultsProgressBar
             currentAmount={showAmount}
             totalAmount={canceledRoutes.length}
           />
           {showAmount < canceledRoutes.length && (
-            <Button
-              className="load-more-button link-bold-small"
-              size="small"
-              fullWidth={false}
-              variant="white"
-              value={intl.formatMessage({ id: 'show-more' })}
-              onClick={() =>
-                setShowAmount(
-                  // cannot be set to more than the amount of cancellations
-                  showAmount + DEFAULT_ROUTES_SHOWN_AMOUNT >
-                    canceledRoutes.length
-                    ? canceledRoutes.length
-                    : showAmount + DEFAULT_ROUTES_SHOWN_AMOUNT,
-                )
-              }
-            />
+            <div className="canceled-trips__footer-show-more-container">
+              <Button
+                size="s"
+                variant="secondary"
+                onClick={() =>
+                  setShowAmount(
+                    // cannot be set to more than the amount of cancellations
+                    showAmount + DEFAULT_ROUTES_SHOWN_AMOUNT >
+                      canceledRoutes.length
+                      ? canceledRoutes.length
+                      : showAmount + DEFAULT_ROUTES_SHOWN_AMOUNT,
+                  )
+                }
+              >
+                {formatMessage({ id: 'show-more' })}
+              </Button>
+            </div>
           )}
         </div>
       </footer>
@@ -88,18 +89,7 @@ const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
 
   return (
     <>
-      <div
-        className={cx('detail-view__cta-container', {
-          'detail-view__cta-container--mobile': isMobile,
-        })}
-      >
-        <Link to="/liikenne" className="cta-small">
-          <Icon img="icon_chevron-left" />
-          <FormattedMessage id="traffic-now_go-back" />
-          {isMobile && <div />}
-        </Link>
-      </div>
-
+      <CTAContainer isMobile={isMobile} />
       <div className="canceled-trips__container">{content}</div>
     </>
   );

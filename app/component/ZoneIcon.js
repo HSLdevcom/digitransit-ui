@@ -2,9 +2,10 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { configShape } from '../util/shapes';
+import { useConfigContext } from '../configurations/ConfigContext';
 
-const ZoneIcon = ({ className, zoneId, showUnknown }, { config }) => {
+const ZoneIcon = ({ className, zoneId, showUnknown = true }) => {
+  const config = useConfigContext();
   const intl = useIntl();
   if (!zoneId) {
     return null;
@@ -65,16 +66,6 @@ ZoneIcon.propTypes = {
   className: PropTypes.string,
   zoneId: PropTypes.string,
   showUnknown: PropTypes.bool,
-};
-
-ZoneIcon.defaultProps = {
-  className: undefined,
-  zoneId: undefined,
-  showUnknown: true,
-};
-
-ZoneIcon.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default ZoneIcon;

@@ -10,19 +10,20 @@ import { getTripOrRouteMode } from '../../util/modeUtils';
 import { getModeIconColor } from '../../util/colorUtils';
 import TripRouteStop from './TripRouteStop';
 import withBreakpoint from '../../util/withBreakpoint';
+import { useCurrentTime } from '../../hooks/TimeContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
 
 function TripStopListContainer({
   trip,
   className = undefined,
   vehicles = {},
-  currentTime,
   tripStart,
   breakpoint,
   keepTracking = false,
   setHumanScrolling = () => {},
 }) {
   const config = useConfigContext();
+  const currentTime = useCurrentTime();
 
   const mode = getTripOrRouteMode(trip, trip.route, config);
 
@@ -120,7 +121,6 @@ TripStopListContainer.propTypes = {
   trip: tripShape.isRequired,
   className: PropTypes.string,
   vehicles: PropTypes.objectOf(vehicleShape),
-  currentTime: PropTypes.number.isRequired,
   tripStart: PropTypes.string.isRequired,
   breakpoint: PropTypes.string.isRequired,
   keepTracking: PropTypes.bool,
@@ -130,10 +130,9 @@ TripStopListContainer.propTypes = {
 const connectedComponent = createFragmentContainer(
   connectToStores(
     withBreakpoint(TripStopListContainer),
-    ['RealTimeInformationStore', 'PositionStore', 'TimeStore'],
+    ['RealTimeInformationStore', 'PositionStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,
-      currentTime: getStore('TimeStore').getCurrentTime(),
     }),
   ),
   {

@@ -45,19 +45,27 @@ import {
   checkPositioningPermission,
   startLocationWatch,
 } from '../action/PositionActions';
-import FavouriteStore from '../store/FavouriteStore';
+import {
+  countLocations,
+  STATUS_FETCHING_OR_UPDATING,
+} from '../data/FavouriteData';
+import { useFavourites, useFavouriteStatus } from '../hooks/FavouriteContext';
 import { useConfigContext } from '../configurations/ConfigContext';
+import { useCurrentTime } from '../hooks/TimeContext';
 import TrafficNowLinkNew from './trafficnow/TrafficNowLink';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
 
-function IndexPage(props, context) {
+function IndexPage({ fromMap, ...props }, context) {
   const pendingOriginRef = useRef(null);
   const pendingDestinationRef = useRef(null);
   const intl = useIntl();
   const { match, router } = useRouter();
   const config = useConfigContext();
+  const currentTime = useCurrentTime();
+  const favourites = useFavourites();
+  const favouriteStatus = useFavouriteStatus();
   const { colors, fontWeights, language, iconModeSet } = config;
   const { executeAction } = context;
 
@@ -201,7 +209,7 @@ function IndexPage(props, context) {
   };
 
   const renderNearStops = () => {
-    const nearYouModes = getNearYouModes(config, props.favourites);
+    const nearYouModes = getNearYouModes(config, favourites);
     // If nearYouModes is configured, display those. Otherwise, display all configured transport modes
     const modeArray =
       nearYouModes.length > 0
@@ -215,7 +223,7 @@ function IndexPage(props, context) {
           );
 
     const alertsContext = {
-      currentTime: props.currentTime,
+      currentTime,
       getModesWithAlerts,
       feedIds: config.feedIds,
     };
@@ -228,9 +236,7 @@ function IndexPage(props, context) {
       <CtrlPanel.NearStopsAndRoutes
         appElement="#app"
         modeArray={modeArray}
-        loading={
-          props.favouriteStatus === FavouriteStore.STATUS_FETCHING_OR_UPDATING
-        }
+        loading={favouriteStatus === STATUS_FETCHING_OR_UPDATING}
         modeSet={iconModeSet}
         urlPrefix={`/${PREFIX_NEARYOU}`}
         language={language}
@@ -274,7 +280,7 @@ function IndexPage(props, context) {
 
   targets.push('FutureRoutes');
 
-  if (context.getStore('FavouriteStore').getLocationCount()) {
+  if (countLocations(favourites)) {
     locationSources.push('Favourite');
   }
 
@@ -310,7 +316,7 @@ function IndexPage(props, context) {
     selectHandler: onSelectLocation,
     getAutoSuggestIcons: config.getAutoSuggestIcons,
     onGeolocationStart: onSelectLocation,
-    fromMap: props.fromMap,
+    fromMap,
     fontWeights,
     colors,
     modeSet: iconModeSet,
@@ -369,7 +375,6 @@ function IndexPage(props, context) {
           {!config.hideFavourites && (
             <>
               <FavouritesContainer
-                favouriteModalAction={props.favouriteModalAction}
                 onClickFavourite={clickFavourite}
                 lang={language}
               />
@@ -455,21 +460,14 @@ IndexPage.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   origin: locationShape.isRequired,
   destination: locationShape.isRequired,
-  currentTime: PropTypes.number.isRequired,
   query: PropTypes.object.isRequired, // eslint-disable-line
-  favouriteModalAction: PropTypes.string,
   fromMap: PropTypes.string,
   locationState: locationShape.isRequired,
-  favouriteStatus: PropTypes.string.isRequired,
-  favourites: PropTypes.array.isRequired, // eslint-disable-line
 };
 
-IndexPage.defaultProps = {
-  favouriteModalAction: '',
-  fromMap: undefined,
-};
-
-// update only when origin/destination/breakpoint, favourite store status or language changes
+// update only when origin/destination/breakpoint or language changes
+// (favourites and favourite status are read via context and trigger their
+// own re-renders independently of this memo comparison)
 const Index = memo(
   IndexPage,
   (props, nextProps) =>
@@ -477,41 +475,28 @@ const Index = memo(
     isEqual(nextProps.destination, props.destination) &&
     isEqual(nextProps.breakpoint, props.breakpoint) &&
     isEqual(nextProps.query, props.query) &&
-    isEqual(nextProps.locationState, props.locationState) &&
-    isEqual(nextProps.favouriteStatus, props.favouriteStatus),
+    isEqual(nextProps.locationState, props.locationState),
 );
 
 const IndexPageWithBreakpoint = withBreakpoint(Index);
 
 const IndexPageWithStores = connectToStores(
   IndexPageWithBreakpoint,
-  [
-    'OriginStore',
-    'DestinationStore',
-    'TimeStore',
-    'PositionStore',
-    'FavouriteStore',
-  ],
+  ['OriginStore', 'DestinationStore', 'PositionStore'],
   (context, props) => {
     const origin = context.getStore('OriginStore').getOrigin();
     const destination = context.getStore('DestinationStore').getDestination();
     const locationState = context.getStore('PositionStore').getLocationState();
     const { query } = props.match.location;
-    const { favouriteModalAction, fromMap } = query;
+    const { fromMap } = query;
 
     const newProps = {};
     newProps.locationState = locationState;
-    if (favouriteModalAction) {
-      newProps.favouriteModalAction = favouriteModalAction;
-    }
     if (fromMap === 'origin' || fromMap === 'destination') {
       newProps.fromMap = fromMap;
     }
     newProps.origin = origin;
     newProps.destination = destination;
-    newProps.currentTime = context.getStore('TimeStore').getCurrentTime();
-    newProps.favouriteStatus = context.getStore('FavouriteStore').getStatus();
-    newProps.favourites = context.getStore('FavouriteStore').getFavourites();
     // define itinerary search time & arriveBy
     newProps.query = query;
 

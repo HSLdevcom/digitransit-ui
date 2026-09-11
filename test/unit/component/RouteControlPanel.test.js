@@ -7,7 +7,7 @@ import { shallow } from 'enzyme';
 import { DateTime } from 'luxon';
 import { mockContext } from '../helpers/mock-context';
 import { mockMatch } from '../helpers/mock-router';
-import { Component as RouteControlPanel } from '../../../app/component/routepage/RouteControlPanel';
+import RouteControlPanel from '../../../app/component/routepage/RouteControlPanel';
 import { AlertSeverityLevelType } from '../../../app/constants';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../app/util/path';
 import { createShallowHookSandbox } from '../helpers/mock-intl-enzyme';

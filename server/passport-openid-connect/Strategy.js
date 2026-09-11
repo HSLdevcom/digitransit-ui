@@ -14,7 +14,6 @@ const OICStrategy = function strategy(config) {
   this.name = 'passport-openid-connect';
   this.config = config || {};
   this.client = null;
-  this.tokenSet = null;
   this.init().then(() => {
     console.log(
       'Initialization of OpenID Connect discovery process completed.',
@@ -70,15 +69,21 @@ OICStrategy.prototype.authenticate = function auth(req, opts) {
   this.redirect(authurl);
 };
 
-OICStrategy.prototype.getUserInfo = function getuinfo() {
+// NOTE: tokenSet/userinfo must never be stored on `this` (the strategy
+// instance is a singleton shared by every concurrent request). Doing so
+// previously caused a race condition where one user's async callback could
+// read back another user's tokenSet/userinfo, logging them in as the wrong
+// person. Always thread these values through the promise chain as local
+// arguments instead.
+OICStrategy.prototype.getUserInfo = function getuinfo(tokenSet) {
   if (debugLogging) {
     console.log('passport getUserInfo');
   }
-  return this.client.userinfo(this.tokenSet.access_token).then(userinfo => {
-    this.userinfo = userinfo;
+  return this.client.userinfo(tokenSet.access_token).then(userinfo => {
     if (debugLogging) {
       console.log(`got userInfo: ${JSON.stringify(userinfo)}`);
     }
+    return userinfo;
   });
 };
 
@@ -94,16 +99,18 @@ OICStrategy.prototype.callback = function cb(req, opts) {
     .then(tokenSet => {
       req.session.ssoToken = null;
       req.session.ssoValidTo = null;
-      this.tokenSet = tokenSet;
       if (debugLogging) {
         console.log(`got tokenSet: ${JSON.stringify(tokenSet)}`);
       }
-      return this.getUserInfo();
+      return this.getUserInfo(tokenSet).then(userinfo => ({
+        tokenSet,
+        userinfo,
+      }));
     })
-    .then(() => {
-      const user = new User(this.userinfo);
-      user.token = this.tokenSet;
-      user.idtoken = this.tokenSet.claims;
+    .then(({ tokenSet, userinfo }) => {
+      const user = new User(userinfo);
+      user.token = tokenSet;
+      user.idtoken = tokenSet.claims;
       if (debugLogging) {
         console.log(`set user: ${JSON.stringify(user)}`);
       }
@@ -127,16 +134,18 @@ OICStrategy.prototype.refresh = function refresh(req) {
   return this.client
     .refresh(req.user.token.refresh_token)
     .then(tokenSet => {
-      this.tokenSet = tokenSet;
       if (debugLogging) {
         console.log(`got tokenSet: ${JSON.stringify(tokenSet)}`);
       }
-      return this.getUserInfo();
+      return this.getUserInfo(tokenSet).then(userinfo => ({
+        tokenSet,
+        userinfo,
+      }));
     })
-    .then(() => {
-      const user = new User(this.userinfo);
-      user.token = this.tokenSet;
-      user.idtoken = this.tokenSet.claims;
+    .then(({ tokenSet, userinfo }) => {
+      const user = new User(userinfo);
+      user.token = tokenSet;
+      user.idtoken = tokenSet.claims;
       if (debugLogging) {
         console.log(`set user: ${JSON.stringify(user)}`);
       }

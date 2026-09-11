@@ -187,8 +187,10 @@ export default {
     'disruptions-change-filters': 'Kokeile uudestaan muuttamalla valintoja',
     'disruptions-found-amount':
       '{amount, plural, =0 {Tiedotteita ei löytynyt} one {Löytyi 1 tiedote} other {Löytyi {amount} tiedotetta} }',
+    'disruptions-refresh': 'Lataa sivu',
     'disruptions-tab.sr-disruptions': 'Yksi tai useampi häiriö tiedossa',
     'disruptions-tab.sr-no-disruptions': 'Ei tiedossa olevia häiriöitä',
+    'disruptions-update-available': 'Päivityksiä saatavilla',
     'distance-total': 'Matkan pituus',
     'e-scooter': 'Sähköpotkulauta',
     'e-scooter-alternative':
@@ -273,9 +275,9 @@ export default {
     'itinerary-details.route-has-unknown-alert': 'Reitillä on häiriöitä.',
     'itinerary-details.route-has-warning-alert': 'Reitillä on häiriöitä.',
     'itinerary-details.scooter-leg':
-      '{time} potkulautaile kohteesta {origin} {distance} {to} {destination}. Matka-aika {duration}',
+      '{time} potkulautaile noutopaikasta {origin} {distance} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.taxi-leg':
-      '{time} matkusta taksilla {distance} kohteesta {origin} {to} {destination}. Matka-aika {duration}',
+      '{time} matkusta taksilla {distance} noutopaikasta {origin} {to} {destination}. Matka-aika {duration}',
     'itinerary-details.transit-leg-part-1': '{time} {realtime} ota',
     'itinerary-details.transit-leg-part-2':
       'pysäkiltä {startStop} {startZoneInfo} {trackInfo} pysäkille {endStop} {endZoneInfo}. Arvioitu matka-aika {duration}. ',
@@ -306,11 +308,11 @@ export default {
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Lähtö klo {firstDepartureTime} kaupunkipyöräasemalta {firstDepartureStop}',
     'itinerary-summary-row.first-leg-start-time-scooter':
-      'Lähtö klo {firstDepartureTime} sähköpotkulaudalla',
+      'Lähtö klo {firstDepartureTime} sähköpotkulaudan noutopaikasta',
     'itinerary-summary-row.first-leg-start-time-sr':
-      '{vehicle} lähtee asemalta {firstDepartureStop} kello {firstDepartureTime} {firstDeparturePlatform}.',
+      '{vehicle} lähtee {firstDepartureStopType} {firstDepartureStop} kello {firstDepartureTime} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time-taxi':
-      'Lähtö klo {firstDepartureTime} taksilla kohteesta {firstDepartureStop}',
+      'Lähtö klo {firstDepartureTime} taksin noutopaikasta',
     'itinerary-summary-row.no-transit-legs': 'Lähde, kun sinulle sopii',
     'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
     'itinerary-summary-row.transfers-to-rental': 'Vaihto {vehicle}',
@@ -819,6 +821,9 @@ export default {
     'traffic-now_filters_entity-search': 'Hae yksittäistä linjaa tai pysäkkiä',
     'traffic-now_filters_entity-search--placeholder':
       'Linja, pysäkki tai asema',
+    'traffic-now_filters_operator-select-legend': 'Näytä operaattoreista vain',
+    'traffic-now_filters_operator-select-placeholder':
+      'Valitse yksi tai useampia',
     'traffic-now_filters_toggles--cancellations-only': 'Vain peruutukset',
     'traffic-now_filters_toggles--favourites-only':
       'Vain omat linjat ja pysäkit',

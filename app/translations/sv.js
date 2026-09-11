@@ -190,8 +190,10 @@ export default {
     'disruptions-change-filters': 'Försök igen genom att ändra dina val.',
     'disruptions-found-amount':
       '{amount, plural, =0 {Inga störningar hittades} one {Hittades 1 störning} other {Hittades {amount} störningar} }',
+    'disruptions-refresh': 'Ladda om',
     'disruptions-tab.sr-disruptions': 'En eller flera kända störningar',
     'disruptions-tab.sr-no-disruptions': 'Inga kända störningar',
+    'disruptions-update-available': 'Uppdateringar tillgängliga',
     'distance-total': 'Resans längd',
     'e-scooter': 'Elsparkcykel',
     'e-scooter-alternative':
@@ -279,9 +281,9 @@ export default {
     'itinerary-details.route-has-unknown-alert': 'Störningar längs rutten..',
     'itinerary-details.route-has-warning-alert': 'Störningar längs rutten..',
     'itinerary-details.scooter-leg':
-      '{time} åk elsparkcykel {distance} från {origin} till destinationen {destination}. Restid {duration}',
+      '{time} åk elsparkcykel {distance} från upphämtningsplatsen {origin} till destinationen {destination}. Restid {duration}',
     'itinerary-details.taxi-leg':
-      '{time} res med taxi {distance} från {origin} till {to} {destination}. Restid {duration}',
+      '{time} res med taxi {distance} från upphämtningsplatsen {origin} till {to} {destination}. Restid {duration}',
     'itinerary-details.transit-leg-part-1': '{time} {realtime} ta',
     'itinerary-details.transit-leg-part-2':
       'från hållplats {startStop} {startZoneInfo} {trackInfo} till hållplats {endStop} {endZoneInfo}. Beräknad restid {duration}. ',
@@ -312,11 +314,11 @@ export default {
     'itinerary-summary-row.first-leg-start-time-citybike':
       'Avgång kl {firstDepartureTime} från {firstDepartureStop} stadscykelstation',
     'itinerary-summary-row.first-leg-start-time-scooter':
-      'Avgång kl {firstDepartureTime} med en sparkcykel',
+      'Avgång kl {firstDepartureTime} från elsparkcykelns upphämtningsplats',
     'itinerary-summary-row.first-leg-start-time-sr':
-      '{vehicle} avgår från station {firstDepartureStop} klockan {firstDepartureTime} {firstDeparturePlatform}.',
+      '{vehicle} avgår från {firstDepartureStopType} {firstDepartureStop} klockan {firstDepartureTime} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time-taxi':
-      'Taxi avgår från {firstDepartureStop} kl. {firstDepartureTime}',
+      'Avgång kl {firstDepartureTime} från taxins upphämtningsplats',
     'itinerary-summary-row.no-transit-legs': 'Avgå när det passar för dig',
     'itinerary-summary-row.transfers':
       'Byte {vehicle} vid hållplats {stopName}',
@@ -831,6 +833,9 @@ export default {
     'traffic-now_filters_entity-search': 'Sök linje eller hållplats',
     'traffic-now_filters_entity-search--placeholder':
       'Linje, hållplats eller station',
+    'traffic-now_filters_operator-select-legend':
+      'Visa endast dessa operatörer',
+    'traffic-now_filters_operator-select-placeholder': 'Välj en eller flera',
     'traffic-now_filters_toggles--cancellations-only': 'Endast inställts',
     'traffic-now_filters_toggles--favourites-only': 'Endast favoritter',
     'traffic-now_filters_validity-period': 'Filtrera efter giltighetstid',

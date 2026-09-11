@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import cx from 'classnames';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -12,18 +11,19 @@ import {
   isAlertValid,
 } from '../util/alertUtils';
 import { alertShape } from '../util/shapes';
+import { useCurrentTime } from '../hooks/TimeContext';
 import withBreakpoint from '../util/withBreakpoint';
 import { AlertEntityType, AlertSeverityLevelType } from '../constants';
 
 const AlertList = ({
-  cancelations,
-  currentTime,
-  disableScrolling,
-  serviceAlerts,
-  showLinks,
+  cancelations = [],
+  disableScrolling = false,
+  serviceAlerts = [],
+  showLinks = false,
   breakpoint,
   onClickLink,
 }) => {
+  const currentTime = useCurrentTime();
   const validAlerts = serviceAlerts.filter(alert =>
     isAlertValid(alert, currentTime),
   );
@@ -112,7 +112,6 @@ const AlertList = ({
 
 AlertList.propTypes = {
   cancelations: PropTypes.arrayOf(alertShape),
-  currentTime: PropTypes.PropTypes.number.isRequired,
   disableScrolling: PropTypes.bool,
   serviceAlerts: PropTypes.arrayOf(alertShape),
   showLinks: PropTypes.bool,
@@ -120,21 +119,6 @@ AlertList.propTypes = {
   onClickLink: PropTypes.func,
 };
 
-AlertList.defaultProps = {
-  cancelations: [],
-  disableScrolling: false,
-  serviceAlerts: [],
-  showLinks: false,
-  breakpoint: undefined,
-  onClickLink: undefined,
-};
+const componentWithBreakpoint = withBreakpoint(AlertList);
 
-const connectedComponent = connectToStores(
-  withBreakpoint(AlertList),
-  ['TimeStore'],
-  context => ({
-    currentTime: context.getStore('TimeStore').getCurrentTime(),
-  }),
-);
-
-export { connectedComponent as default, AlertList as Component };
+export { componentWithBreakpoint as default, AlertList as Component };

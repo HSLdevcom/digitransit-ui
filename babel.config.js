@@ -11,11 +11,5 @@ module.exports = {
     ],
     '@babel/preset-react',
   ],
-  plugins: [
-    'dynamic-import-node',
-    'relay',
-    '@babel/plugin-syntax-dynamic-import',
-    '@babel/plugin-transform-class-properties',
-    '@babel/plugin-transform-json-strings',
-  ],
+  plugins: ['dynamic-import-node', 'relay'],
 };

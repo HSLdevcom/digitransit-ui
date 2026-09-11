@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
+import { Text } from '@hsl-fi/layout-primitives';
+import { ArrowLink } from '@hsl-fi/navigation';
 import { useIntl } from 'react-intl';
 import ThemedIcon from '../ThemedIcon';
 
@@ -19,11 +21,13 @@ function RouteNotificationButton({ notification }) {
 
   const contentNode =
     content.length === 1 ? (
-      <p>{content[0]}</p>
+      <Text variant="text-s">{content[0]}</Text>
     ) : (
       <ul>
         {content.map(item => (
-          <li key={item}>{item}</li>
+          <li key={item}>
+            <Text variant="text-s">{item}</Text>
+          </li>
         ))}
       </ul>
     );
@@ -37,14 +41,9 @@ function RouteNotificationButton({ notification }) {
     <>
       {contentNode}
       {linkHref && (
-        <a
-          href={linkHref}
-          target="_blank"
-          rel="noreferrer"
-          className="route-notification-extra-info"
-        >
-          {intl.formatMessage({ id: 'extra-info' })} ›
-        </a>
+        <ArrowLink href={linkHref} target="_blank" rel="noreferrer">
+          {intl.formatMessage({ id: 'extra-info' })}
+        </ArrowLink>
       )}
     </>
   );

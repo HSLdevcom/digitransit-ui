@@ -3,7 +3,8 @@ import cx from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
-import ExternalLink from '../ExternalLink';
+import { Text } from '@hsl-fi/layout-primitives';
+import { ArrowLink } from '@hsl-fi/navigation';
 import Icon from '../Icon';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { getLoginPath } from '../../util/path';
@@ -24,29 +25,42 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
       img: favIcon,
       className: cx('favourite', { selected: recommended }),
       fill: recommended ? '#c53291' : '#FFF',
+      width: 1.7245,
+      height: 1.7245,
     },
-    'personalization-liked': { img: 'icon_thumb', color: colors.primary },
+    'personalization-liked': {
+      img: 'icon_thumb',
+      color: colors.primary,
+      width: 1.4,
+      height: 1.4,
+    },
     'personalization-disliked': {
       img: 'icon_thumb-down',
       color: colors.primary,
+      width: 1.4,
+      height: 1.4,
     },
   };
   const iconProps = iconMap[status];
   const loginNeeded = config.allowLogin && !config.user.sub;
   const thumbColor = loginNeeded ? '#CCC' : colors.primary;
+  const statusStyle =
+    status === 'personalization-ask' ? 'routes-s-bold' : 'text-xs';
+  const statusText = (
+    <Text variant={statusStyle}>{intl.formatMessage({ id: status })}</Text>
+  );
 
   const middleTexts = loginNeeded ? (
     <div>
-      <FormattedMessage id={status} />
-      <ExternalLink
-        onClick={() => window.location.assign(getLoginPath(match.location))}
-        withArrow
-      >
-        <FormattedMessage id="personalization-login-for-voting" />
-      </ExternalLink>
+      {statusText}
+      <ArrowLink href={getLoginPath(match.location)}>
+        <Text variant="routes-s-bold">
+          {intl.formatMessage({ id: 'personalization-login-for-voting' })}
+        </Text>
+      </ArrowLink>
     </div>
   ) : (
-    <FormattedMessage id={status} />
+    statusText
   );
 
   return (
@@ -54,10 +68,11 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
       <div className="feedback-container">
         <div
           className={cx('feedback-section', {
+            'feedback-section-centered': !loginNeeded,
             'feedback-text-posted': status !== 'personalization-ask',
           })}
         >
-          <Icon {...iconProps} height={1.4} width={1.4} />
+          <Icon {...iconProps} />
           <span>&nbsp;&nbsp;&nbsp;</span>
           {middleTexts}
         </div>

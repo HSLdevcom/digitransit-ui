@@ -2,11 +2,11 @@ import isString from 'lodash/isString';
 import sortedUniq from 'lodash/sortedUniq';
 import xor from 'lodash/xor';
 import inside from 'point-in-polygon';
-import { getCustomizedSettings } from '../store/localStorage';
+import { getCustomizedSettings } from '../data/localStorage';
 import { isInBoundingBox } from './geo-utils';
 import { addAnalyticsEvent } from './analyticsUtils';
 import { ExtendedRouteTypes, TransportMode } from '../constants';
-import { IS_DEV } from './envUtils';
+import { isDevRunEnv } from './envUtils';
 import { isExternalFeed } from './feedScopedIdUtils';
 import { splitGtfsId } from './gtfs';
 
@@ -40,13 +40,14 @@ export function isCitybikePreSeasonActive(season) {
   );
 }
 
-export function showCitybikeNetwork(networkConfig) {
+export function showCitybikeNetwork(networkConfig, config) {
   return (
     networkConfig?.enabled &&
     networkConfig.type === 'citybike' &&
     (isCitybikeSeasonActive(networkConfig?.season) ||
       isCitybikePreSeasonActive(networkConfig?.season) ||
-      IS_DEV)
+      // dev/staging deployments show every network regardless of season
+      isDevRunEnv(config))
   );
 }
 
@@ -79,7 +80,7 @@ export function useScooters(config) {
   );
 }
 
-export function showRentalVehiclesOfType(networks, type) {
+export function showRentalVehiclesOfType(networks, type, config) {
   if (!networks) {
     return false;
   }
@@ -87,7 +88,7 @@ export function showRentalVehiclesOfType(networks, type) {
     network =>
       network.type === type.toLowerCase() &&
       network.enabled &&
-      (network.showRentalVehicles || showCitybikeNetwork(network)),
+      (network.showRentalVehicles || showCitybikeNetwork(network, config)),
   );
 }
 

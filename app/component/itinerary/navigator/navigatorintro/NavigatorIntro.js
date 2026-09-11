@@ -1,4 +1,4 @@
-import Button from '@hsl-fi/button';
+import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -57,21 +57,16 @@ const NavigatorIntro = (
       </div>
       <div className="intro-buttons">
         <Button
-          size="large"
-          fullWidth
-          variant="blue"
-          value={intl.formatMessage({ id: 'navigation-intro-begin' })}
+          size="l"
+          expand
+          variant="primary"
           onClick={onPrimaryClick || onClose}
-          style={{ backgroundColor: primaryColor, border: 'none' }}
-        />
-        <Button
-          size="large"
-          fullWidth
-          variant="white"
-          value={intl.formatMessage({ id: 'cancel' })}
-          onClick={onClose}
-          style={{ borderColor: 'transparent' }}
-        />
+        >
+          {intl.formatMessage({ id: 'navigation-intro-begin' })}
+        </Button>
+        <Button size="l" expand variant="plain" onClick={onClose}>
+          {intl.formatMessage({ id: 'cancel' })}
+        </Button>
       </div>
     </>
   );

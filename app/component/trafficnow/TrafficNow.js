@@ -1,7 +1,8 @@
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
+import PropTypes from 'prop-types';
 import React, { useEffect, Suspense, useState } from 'react';
-import Button from '@hsl-fi/button';
+import { Button } from '@hsl-fi/layout-primitives';
 import { useRouter } from 'found';
 import ReactModal from 'react-modal';
 import { useBreakpoint } from '../../util/withBreakpoint';
@@ -20,7 +21,7 @@ import FiltersModal from './filters/FiltersModal';
 // defines the scroll position at which a drop shadow is applied to the header button on mobile
 const HEADER_HEIGHT = 320;
 
-const TrafficNow = () => {
+const TrafficNow = ({ dateTime }) => {
   const {
     match: {
       params: { mode, alertId },
@@ -86,7 +87,11 @@ const TrafficNow = () => {
             )}
             {!alertId && mode && (
               <Suspense fallback={<Loading />}>
-                <CanceledTripsContainer mode={mode} isMobile={mobile} />
+                <CanceledTripsContainer
+                  mode={mode}
+                  dateTime={dateTime}
+                  isMobile={mobile}
+                />
               </Suspense>
             )}
             {!alertId && !mode && (
@@ -107,20 +112,20 @@ const TrafficNow = () => {
                       onClose={() => setShowFiltersModal(false)}
                     />
                     <Button
-                      className="traffic-now__filters-button"
-                      size="medium"
-                      fullWidth
-                      variant="blue"
-                      value={intl.formatMessage({
+                      size="m"
+                      variant="primary"
+                      expandOnMobile
+                      onClick={() => setShowFiltersModal(true)}
+                    >
+                      {intl.formatMessage({
                         id: 'filters',
                         defaultMessage: 'Filters',
                       })}
-                      onClick={() => setShowFiltersModal(true)}
-                    />
+                    </Button>
                   </div>
                 )}
                 <Suspense fallback={<Loading />}>
-                  <Disruptions />
+                  <Disruptions dateTime={dateTime} />
                 </Suspense>
               </>
             )}
@@ -133,3 +138,7 @@ const TrafficNow = () => {
 };
 
 export default TrafficNow;
+
+TrafficNow.propTypes = {
+  dateTime: PropTypes.string.isRequired,
+};

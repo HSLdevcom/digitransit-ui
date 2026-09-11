@@ -2,6 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { getTripOrRouteMode } from './modeUtils';
 import { BIKEAVL_UNKNOWN } from './vehicleRentalUtils';
 import { ExtendedRouteTypes, OtpCornerNamingPattern } from '../constants';
+import { stopCallTime } from './timeUtils';
 
 /**
  * Gets a (nested) property value from an object
@@ -235,6 +236,18 @@ function includesAndRemove(array, id) {
   return false;
 }
 
+// Converts a StopCall (from leg.stopCalls) to a Place-compatible shape
+function stopCallToPlace(sc) {
+  const stop = sc.stopLocation;
+  return {
+    stop,
+    lat: stop?.lat,
+    lon: stop?.lon,
+    name: stop?.name,
+    arrival: stopCallTime(sc, 'arrival'),
+  };
+}
+
 function isViaPointMatch(stop, viaPoints) {
   return (
     stop &&
@@ -269,7 +282,9 @@ export function splitLegsAtViaPoints(originalLegs, viaPlaces) {
   let nextLegStartsWithIntermediate = false;
   originalLegs.forEach(originalLeg => {
     const leg = { ...originalLeg };
-    const { intermediatePlaces } = leg;
+    const intermediatePlaces = leg.stopCalls
+      ? leg.stopCalls.slice(1, -1).map(stopCallToPlace)
+      : leg.intermediatePlaces;
     if (
       nextLegStartsWithIntermediate ||
       (leg.transitLeg && isViaPointMatch(leg.from.stop, viaPoints))
@@ -277,7 +292,7 @@ export function splitLegsAtViaPoints(originalLegs, viaPlaces) {
       leg.viaStopCall = true;
       nextLegStartsWithIntermediate = false;
     }
-    if (intermediatePlaces) {
+    if (intermediatePlaces && intermediatePlaces.length > 0) {
       let start = 0;
       let lastSplit = -1;
       intermediatePlaces.forEach((place, i) => {
@@ -301,7 +316,11 @@ export function splitLegsAtViaPoints(originalLegs, viaPlaces) {
         leg.from = syntheticEndpoint(leg.from, lastPlace);
         leg.start = lastPlace.arrival;
         leg.intermediatePlaces = intermediatePlaces.slice(lastSplit + 1);
+      } else {
+        leg.intermediatePlaces = intermediatePlaces;
       }
+    } else {
+      leg.intermediatePlaces = [];
     }
     splitLegs.push(leg);
     if (leg.transitLeg && isViaPointMatch(leg.to.stop, viaPoints)) {
@@ -326,17 +345,16 @@ export function markViaPoints(originalLegs, viaPlaces) {
     const viaAddress = getViaPointAddress(leg.from, viaPlaces)?.address;
     const isViaPoint = !!leg.from.viaLocationType;
 
-    if (leg.intermediatePlaces) {
+    const rawPlaces = leg.stopCalls
+      ? leg.stopCalls.slice(1, -1).map(stopCallToPlace)
+      : leg.intermediatePlaces;
+    if (rawPlaces && rawPlaces.length > 0) {
       // ViaLocationType pass_through
       const viaPoints = viaPlaces.map(p => p.gtfsId);
-      const intermediatePlaces = [];
-
-      leg.intermediatePlaces.forEach(place => {
-        intermediatePlaces.push({
-          ...place,
-          isViaPoint: isViaPointMatch(place.stop, viaPoints),
-        });
-      });
+      const intermediatePlaces = rawPlaces.map(place => ({
+        ...place,
+        isViaPoint: isViaPointMatch(place.stop, viaPoints),
+      }));
       legs.push({
         ...leg,
         intermediatePlaces,
@@ -346,6 +364,7 @@ export function markViaPoints(originalLegs, viaPlaces) {
     } else {
       legs.push({
         ...leg,
+        intermediatePlaces: [],
         isViaPoint,
         viaAddress,
       });
@@ -505,21 +524,17 @@ export function isDirectItineraryWithAllowedRouteTypes(
     allowedRouteTypes.includes(legsWithRoute[0].route.type)
   );
 }
-export function isCarPickupZoneLeg(leg, allowedCarPickupZoneRouteTypes) {
-  return (
-    !leg.transitLeg && allowedCarPickupZoneRouteTypes.includes(leg.route?.type)
-  );
+export function isTaxiZoneLeg(leg, allowedTaxiZoneRouteTypes) {
+  return !leg.transitLeg && allowedTaxiZoneRouteTypes.includes(leg.route?.type);
 }
-export function isLegWithRoute(leg, allowedCarPickupZoneRouteTypes) {
-  return (
-    leg.transitLeg || isCarPickupZoneLeg(leg, allowedCarPickupZoneRouteTypes)
-  );
+export function isLegWithRoute(leg, allowedTaxiZoneRouteTypes) {
+  return leg.transitLeg || isTaxiZoneLeg(leg, allowedTaxiZoneRouteTypes);
 }
-export function isBoardableLeg(leg, allowedCarPickupZoneRouteTypes) {
+export function isBoardableLeg(leg, allowedTaxiZoneRouteTypes) {
   return (
     leg.transitLeg ||
     isBikeOrScooterRentalLeg(leg) ||
-    isCarPickupZoneLeg(leg, allowedCarPickupZoneRouteTypes)
+    isTaxiZoneLeg(leg, allowedTaxiZoneRouteTypes)
   );
 }
 
@@ -678,7 +693,19 @@ export function getZones(legs) {
         maxCharCode,
       );
     }
-    if (Array.isArray(leg.intermediatePlaces)) {
+    if (Array.isArray(leg.stopCalls)) {
+      leg.stopCalls
+        .slice(1, -1)
+        .filter(sc => sc.stopLocation?.zoneId)
+        .forEach(sc => {
+          const zoneCharCode = sc.stopLocation.zoneId.charCodeAt(0);
+          [minCharCode, maxCharCode] = getNewMinMaxCharCodes(
+            zoneCharCode,
+            minCharCode,
+            maxCharCode,
+          );
+        });
+    } else if (Array.isArray(leg.intermediatePlaces)) {
       leg.intermediatePlaces
         .filter(place => place.stop && place.stop.zoneId)
         .forEach(place => {

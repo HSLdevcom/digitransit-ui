@@ -1,6 +1,6 @@
 import Store from 'fluxible/addons/BaseStore';
 import { isIeOrOldVersion } from '../util/browser';
-import { setReadMessageIds, getReadMessageIds } from './localStorage';
+import { setReadMessageIds, getReadMessageIds } from '../data/localStorage';
 import { setSessionMessageIds, getSessionMessageIds } from './sessionStorage';
 
 export const processStaticMessages = (root, callback) => {

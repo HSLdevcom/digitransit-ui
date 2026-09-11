@@ -21,20 +21,11 @@ html {
 
   /* Disable touch delay on ms-devices */
   touch-action: manipulation;
-  font-size: 15px !important;
+
+  /* Keep root font-size at 16px on all screen sizes so rem-based sizing
+     (including HSL-fi design system components) matches its intended scale. */
+  font-size: 16px !important;
   height: 100%;
-}
-
-@media screen and (min-width: 320px) {
-  html {
-    font-size: calc(14px + 7 * (100vw - 320px) / 500) !important;
-  }
-}
-
-@media screen and (min-width: 900px) {
-  html {
-    font-size: 16px !important;
-  }
 }
 
 @media print {

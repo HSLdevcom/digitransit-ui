@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
+import sinon from 'sinon';
 
 import {
   component as Itinerary,
@@ -8,8 +9,12 @@ import {
 } from '../../../../../app/component/itinerary/Itinerary';
 import StreetBar from '../../../../../app/component/itinerary/StreetBar';
 import TransitBar from '../../../../../app/component/itinerary/TransitBar';
+import Feedback from '../../../../../app/component/itinerary/Feedback';
 import RouteNumberContainer from '../../../../../app/component/RouteNumberContainer';
-import { AlertSeverityLevelType } from '../../../../../app/constants';
+import {
+  AlertSeverityLevelType,
+  ExtendedRouteTypes,
+} from '../../../../../app/constants';
 import {
   mockChildContextTypes,
   mockContext,
@@ -453,5 +458,386 @@ describe('<Itinerary />', () => {
     expect(
       wrapper.find(RouteNumberContainer).props().alertSeverityLevel,
     ).to.equal(undefined);
+  });
+
+  it('should render a CAR leg with the car icon and a park-and-ride indicator', () => {
+    const props = {
+      ...defaultProps,
+      itinerary: {
+        start: new Date(1553769600000).toISOString(),
+        end: new Date(1553769700000).toISOString(),
+        legs: [
+          {
+            from: {},
+            to: { vehicleParking: true },
+            mode: 'CAR',
+            duration: 600,
+            distance: 3000,
+            route: null,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769660000).toISOString() },
+          },
+        ],
+      },
+    };
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    const streetBar = wrapper.find(StreetBar);
+    expect(streetBar).to.have.lengthOf(1);
+    expect(streetBar.props().mode).to.equal('CAR');
+    expect(streetBar.props().icon).to.equal('icon_car');
+    expect(wrapper.find('.leg.car_park')).to.have.lengthOf(1);
+  });
+
+  it('should render a taxi leg with the external taxi icon and skip the transit bar even when a route is present', () => {
+    const props = {
+      ...defaultProps,
+      itinerary: {
+        start: new Date(1553769600000).toISOString(),
+        end: new Date(1553769700000).toISOString(),
+        legs: [
+          {
+            from: {},
+            to: {},
+            mode: 'TAXI',
+            duration: 500,
+            distance: 2000,
+            route: { mode: 'BUS', alerts: [] },
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769660000).toISOString() },
+          },
+        ],
+      },
+    };
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    expect(wrapper.find(TransitBar)).to.have.lengthOf(0);
+    const streetBar = wrapper.find(StreetBar);
+    expect(streetBar).to.have.lengthOf(1);
+    expect(streetBar.props().mode).to.equal('taxi-external');
+    expect(streetBar.props().icon).to.equal(
+      mockContext.config.flex.taxiExternalIcon,
+    );
+  });
+
+  it('should render a scooter leg and suppress the CO2 summary even when emissions data is present', () => {
+    const props = {
+      ...defaultProps,
+      lowestCo2value: 40,
+      itinerary: {
+        start: new Date(1553769600000).toISOString(),
+        end: new Date(1553769700000).toISOString(),
+        emissionsPerPerson: { co2: 40 },
+        legs: [
+          {
+            from: {},
+            to: {},
+            mode: 'SCOOTER',
+            rentedBike: true,
+            duration: 400,
+            distance: 1800,
+            route: null,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769660000).toISOString() },
+          },
+        ],
+      },
+    };
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
+      context: { ...mockContext },
+      config: { ...mockContext.config, showCO2InItinerarySummary: true },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    const streetBar = wrapper.find(StreetBar);
+    expect(streetBar).to.have.lengthOf(1);
+    expect(streetBar.props().mode).to.equal('SCOOTER');
+    expect(wrapper.find('.itinerary-co2-value-container')).to.have.lengthOf(0);
+  });
+
+  it('should show the CO2 leaf icon and total distance when configured and the itinerary has the lowest emissions', () => {
+    const props = {
+      ...defaultProps,
+      lowestCo2value: 42,
+      itinerary: {
+        start: new Date(1553769600000).toISOString(),
+        end: new Date(1553769700000).toISOString(),
+        emissionsPerPerson: { co2: 42 },
+        legs: [
+          {
+            from: {},
+            to: {},
+            mode: 'RAIL',
+            route: { alerts: [], mode: 'RAIL' },
+            distance: 1500,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769660000).toISOString() },
+          },
+        ],
+      },
+    };
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
+      context: { ...mockContext },
+      config: {
+        ...mockContext.config,
+        showCO2InItinerarySummary: true,
+        showDistanceInItinerarySummary: true,
+      },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    expect(wrapper.find('svg.co2-leaf')).to.have.lengthOf(1);
+    expect(wrapper.find('.itinerary-co2-value').text()).to.equal('42 g');
+    expect(wrapper.find('.itinerary-total-distance').text()).to.equal('1.5 km');
+  });
+
+  it('should show a short citybike duration warning when a single rental network exceeds its surcharge-free time', () => {
+    const props = {
+      ...defaultProps,
+      itinerary: {
+        start: new Date(1553769600000).toISOString(),
+        end: new Date(1553770500000).toISOString(),
+        legs: [
+          {
+            from: {
+              vehicleRentalStation: {
+                rentalNetwork: { networkId: 'testnetwork' },
+              },
+            },
+            to: {},
+            mode: 'CITYBIKE',
+            rentedBike: true,
+            duration: 900,
+            distance: 3000,
+            route: null,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553770500000).toISOString() },
+          },
+        ],
+      },
+    };
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
+      context: { ...mockContext },
+      config: {
+        ...mockContext.config,
+        vehicleRental: {
+          ...mockContext.config.vehicleRental,
+          networks: {
+            testnetwork: {
+              timeBeforeSurcharge: 600,
+              durationInstructions: 'https://example.org/pricing',
+              icon: 'citybike',
+            },
+          },
+        },
+      },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    const warning = wrapper.find('.citybike-duration-info-short');
+    expect(warning).to.have.lengthOf(1);
+    expect(warning.text()).to.contain('10 min');
+  });
+
+  it('should show the general citybike duration warning when more than one rental network exceeds its surcharge-free time', () => {
+    const props = {
+      ...defaultProps,
+      itinerary: {
+        start: new Date(1553769600000).toISOString(),
+        end: new Date(1553771400000).toISOString(),
+        legs: [
+          {
+            from: {
+              vehicleRentalStation: {
+                rentalNetwork: { networkId: 'networka' },
+              },
+            },
+            to: {},
+            mode: 'CITYBIKE',
+            rentedBike: true,
+            duration: 900,
+            distance: 3000,
+            route: null,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553770500000).toISOString() },
+          },
+          {
+            from: {
+              vehicleRentalStation: {
+                rentalNetwork: { networkId: 'networkb' },
+              },
+            },
+            to: {},
+            mode: 'CITYBIKE',
+            rentedBike: true,
+            duration: 900,
+            distance: 3000,
+            route: null,
+            start: { scheduledTime: new Date(1553770500000).toISOString() },
+            end: { scheduledTime: new Date(1553771400000).toISOString() },
+          },
+        ],
+      },
+    };
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
+      context: { ...mockContext },
+      config: {
+        ...mockContext.config,
+        vehicleRental: {
+          ...mockContext.config.vehicleRental,
+          networks: {
+            networka: {
+              timeBeforeSurcharge: 600,
+              durationInstructions: 'https://example.org/pricing',
+            },
+            networkb: {
+              timeBeforeSurcharge: 600,
+              durationInstructions: 'https://example.org/pricing',
+            },
+          },
+        },
+      },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    const warning = wrapper.find('.citybike-duration-info-short');
+    expect(warning).to.have.lengthOf(1);
+    expect(warning.text()).to.contain(
+      'Extra charge applies to several sections',
+    );
+  });
+
+  it('should render the Feedback component when feedback is requested for a recommended itinerary', () => {
+    const props = {
+      ...defaultProps,
+      giveFeedback: () => {},
+      recommended: true,
+      feedback: true,
+      itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
+      intermediatePlaces:
+        dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
+      refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
+    };
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    expect(wrapper.find(Feedback)).to.have.lengthOf(1);
+  });
+
+  it('should not render the Feedback component when feedback props are absent', () => {
+    const props = {
+      ...defaultProps,
+      itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
+      intermediatePlaces:
+        dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
+      refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
+    };
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    expect(wrapper.find(Feedback)).to.have.lengthOf(0);
+  });
+
+  it('should show an estimated time and dial-a-ride message for a call agency leg', () => {
+    const props = {
+      ...defaultProps,
+      itinerary: {
+        start: new Date(1553769600000).toISOString(),
+        end: new Date(1553769660000).toISOString(),
+        legs: [
+          {
+            from: {},
+            to: {},
+            mode: 'BUS',
+            route: {
+              alerts: [],
+              mode: 'BUS',
+              type: ExtendedRouteTypes.CallAgency,
+              agency: { gtfsId: 'test:agency' },
+            },
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769660000).toISOString() },
+          },
+        ],
+      },
+    };
+    const wrapper = mountWithIntl(<Itinerary {...props} />, {
+      context: { ...mockContext },
+      childContextTypes: { ...mockChildContextTypes },
+    });
+    expect(wrapper.find('.itinerary-duration').text()).to.contain('Estimate');
+    expect(wrapper.text()).to.contain('Dial-a-ride service');
+  });
+
+  describe('selecting an itinerary', () => {
+    const buildProps = extra => ({
+      ...defaultProps,
+      hash: 2,
+      itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
+      intermediatePlaces:
+        dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
+      refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
+      ...extra,
+    });
+
+    it('should immediately navigate to the itinerary details when not passive', () => {
+      const replace = sinon.spy();
+      const push = sinon.spy();
+      const focusToHeader = sinon.spy();
+      const props = buildProps({ passive: false, focusToHeader });
+      const wrapper = mountWithIntl(<Itinerary {...props} />, {
+        context: { ...mockContext },
+        router: { ...mockContext.router, replace, push },
+        childContextTypes: { ...mockChildContextTypes },
+      });
+      wrapper.find('.summary-clickable-area').first().simulate('click');
+      expect(replace.calledOnce).to.equal(true);
+      expect(push.calledOnce).to.equal(true);
+      expect(focusToHeader.calledOnce).to.equal(true);
+    });
+
+    it('should only highlight the itinerary without navigating when passive on a large breakpoint', () => {
+      const replace = sinon.spy();
+      const push = sinon.spy();
+      const focusToHeader = sinon.spy();
+      const props = buildProps({
+        passive: true,
+        breakpoint: 'large',
+        focusToHeader,
+      });
+      const wrapper = mountWithIntl(<Itinerary {...props} />, {
+        context: { ...mockContext },
+        router: { ...mockContext.router, replace, push },
+        childContextTypes: { ...mockChildContextTypes },
+      });
+      wrapper.find('.summary-clickable-area').first().simulate('click');
+      expect(push.called).to.equal(false);
+      expect(replace.calledOnce).to.equal(true);
+      expect(replace.firstCall.args[0].state.selectedItineraryIndex).to.equal(
+        2,
+      );
+      expect(focusToHeader.called).to.equal(false);
+    });
+
+    it('should still navigate immediately on a mobile breakpoint even when passive', () => {
+      const replace = sinon.spy();
+      const push = sinon.spy();
+      const focusToHeader = sinon.spy();
+      const props = buildProps({
+        passive: true,
+        breakpoint: 'small',
+        focusToHeader,
+      });
+      const wrapper = mountWithIntl(<Itinerary {...props} />, {
+        context: { ...mockContext },
+        router: { ...mockContext.router, replace, push },
+        childContextTypes: { ...mockChildContextTypes },
+      });
+      wrapper.find('.summary-clickable-area').first().simulate('click');
+      expect(push.calledOnce).to.equal(true);
+      expect(focusToHeader.calledOnce).to.equal(true);
+    });
   });
 });

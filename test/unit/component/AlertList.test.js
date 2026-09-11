@@ -1,24 +1,22 @@
 import React from 'react';
-
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../helpers/mock-providers';
 import { Component as AlertList } from '../../../app/component/AlertList';
-import AlertRow from '../../../app/component/AlertRow';
 import { AlertEntityType } from '../../../app/constants';
 
 describe('<AlertList />', () => {
   it('should show a "no alerts" message', () => {
     const props = {
-      currentTime: 1547464412,
       cancelations: [],
       serviceAlerts: [],
     };
-    const wrapper = shallowWithIntl(<AlertList {...props} />);
-    expect(wrapper.find('.no-alerts-container')).to.have.lengthOf(1);
+    const { container } = renderWithProviders(<AlertList {...props} />, {
+      currentTime: 1547464412,
+    });
+    expect(container.querySelector('.no-alerts-container')).to.not.equal(null);
   });
 
   it('should order the cancelations and service alerts by route shortName and put alerts first', () => {
     const props = {
-      currentTime: 1547464414,
       cancelations: [
         {
           alertHeaderText: 'third',
@@ -80,16 +78,17 @@ describe('<AlertList />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertList {...props} />);
-    expect(wrapper.find(AlertRow).at(0).prop('header')).to.equal('first');
-    expect(wrapper.find(AlertRow).at(1).prop('header')).to.equal('second');
-    expect(wrapper.find(AlertRow).at(2).prop('header')).to.equal('third');
-    expect(wrapper.find(AlertRow).at(3).prop('header')).to.equal('fourth');
+    const { container } = renderWithProviders(<AlertList {...props} />, {
+      currentTime: 1547464414,
+    });
+    const routeIdentifiers = [
+      ...container.querySelectorAll('.route-alert-entityid'),
+    ].map(identifier => identifier.textContent);
+    expect(routeIdentifiers).to.deep.equal(['8A', '138', '37N', 'A']);
   });
 
   it('should not display past service alerts', () => {
     const props = {
-      currentTime: 100,
       cancelations: [],
       serviceAlerts: [
         {
@@ -109,13 +108,14 @@ describe('<AlertList />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertList {...props} />);
-    expect(wrapper.find('.no-alerts-container')).to.have.lengthOf(1);
+    const { container } = renderWithProviders(<AlertList {...props} />, {
+      currentTime: 100,
+    });
+    expect(container.querySelector('.no-alerts-container')).to.not.equal(null);
   });
 
   it('should display current cancelations and service alerts', () => {
     const props = {
-      currentTime: 100,
       cancelations: [
         {
           alertHeaderText: 'cancelation',
@@ -149,13 +149,14 @@ describe('<AlertList />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertList {...props} />);
-    expect(wrapper.find(AlertRow)).to.have.lengthOf(2);
+    const { container } = renderWithProviders(<AlertList {...props} />, {
+      currentTime: 100,
+    });
+    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(2);
   });
 
   it('should not display future service alerts', () => {
     const props = {
-      currentTime: 100,
       serviceAlerts: [
         {
           alertHeaderText: 'servicealert',
@@ -174,7 +175,9 @@ describe('<AlertList />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<AlertList {...props} />);
-    expect(wrapper.find('.no-alerts-container')).to.have.lengthOf(1);
+    const { container } = renderWithProviders(<AlertList {...props} />, {
+      currentTime: 100,
+    });
+    expect(container.querySelector('.no-alerts-container')).to.not.equal(null);
   });
 });

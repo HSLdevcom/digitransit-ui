@@ -1,13 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../helpers/mock-providers';
 import { Component as RouteStopListContainer } from '../../../app/component/routepage/RouteStopListContainer';
 
 describe('<RouteStopListContainer />', () => {
   it('should render route stop list', () => {
     const props = {
-      currentTime: 1573135114,
       pattern: {
         directionId: 0,
         code: 'feed:1',
@@ -24,6 +22,7 @@ describe('<RouteStopListContainer />', () => {
             lat: 60.17164,
             lon: 24.94299,
             name: 'Rautatientori',
+            platformCode: null,
             stopTimesForPattern: [
               {
                 pickupType: 'SCHEDULED',
@@ -32,6 +31,7 @@ describe('<RouteStopListContainer />', () => {
                 realtimeState: 'SCHEDULED',
                 scheduledDeparture: 57540,
                 serviceDay: 1573077600,
+                stop: { platformCode: null },
               },
             ],
           },
@@ -43,6 +43,7 @@ describe('<RouteStopListContainer />', () => {
             lat: 60.2197,
             lon: 24.96428,
             name: 'Koskela',
+            platformCode: null,
             stopTimesForPattern: [
               {
                 pickupType: 'NONE',
@@ -51,6 +52,7 @@ describe('<RouteStopListContainer />', () => {
                 realtimeState: 'UPDATED',
                 scheduledDeparture: 56820,
                 serviceDay: 1573077600,
+                stop: { platformCode: null },
               },
             ],
           },
@@ -104,13 +106,10 @@ describe('<RouteStopListContainer />', () => {
         environment: {},
       },
     };
-    const wrapper = shallowWithIntl(<RouteStopListContainer {...props} />, {
-      config: {
-        CONFIG: 'default',
-        nearestStopDistance: {},
-        colors: { primary: '#007AC9' },
-      },
-    });
-    expect(wrapper.find('.route-stop-list')).to.have.lengthOf(1);
+    const { container } = renderWithProviders(
+      <RouteStopListContainer {...props} />,
+      { currentTime: 1573135114 },
+    );
+    expect(container.querySelectorAll('.route-stop-list')).to.have.lengthOf(1);
   });
 });

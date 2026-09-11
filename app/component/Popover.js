@@ -1,12 +1,14 @@
 import React, { useLayoutEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
+import { Text, Button, Spacer } from '@hsl-fi/layout-primitives';
 import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../util/browser';
 
 export default function Popover({
   icon,
   onClose,
+  header = null,
   message,
   buttonText = null,
   targetRef,
@@ -51,6 +53,7 @@ export default function Popover({
     }
   };
 
+  const buttonLabel = buttonText || intl.formatMessage({ id: 'acknowledged' });
   return (
     <>
       {highlight && (
@@ -84,28 +87,28 @@ export default function Popover({
         >
           <span className="icon-area">{icon}</span>
           <div className="popover-content">
-            <div className="message">{message}</div>
-
-            <button
-              type="button"
-              tabIndex="0"
+            {header && (
+              <>
+                <Text variant="routes-m-bold">{header}</Text>
+                <Spacer size="xxs" />
+              </>
+            )}
+            <Text variant="text-xs">{message}</Text>
+            <Spacer size="s" />
+            <Button
+              size="s"
+              variant="primary"
+              expand
               onClick={e => {
                 e.stopPropagation();
                 dismiss();
               }}
               onKeyDown={handleKeyboardClose}
-              className="popover-acknowledge-button"
-              aria-label={intl.formatMessage({
-                id: 'acknowledged',
-                defaultMessage: 'Understood',
-              })}
+              aria-label={buttonLabel}
             >
-              {buttonText || (
-                <FormattedMessage id="acknowledged" defaultMessage="Got it!" />
-              )}
-            </button>
+              <span className="button-label"> {buttonLabel} </span>
+            </Button>
           </div>
-
           <button
             type="button"
             tabIndex="0"
@@ -129,6 +132,7 @@ export default function Popover({
 Popover.propTypes = {
   icon: PropTypes.node,
   onClose: PropTypes.func.isRequired,
+  header: PropTypes.node,
   message: PropTypes.node.isRequired,
   buttonText: PropTypes.node,
   targetRef: PropTypes.shape({

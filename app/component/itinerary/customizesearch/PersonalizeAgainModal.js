@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { RadioGroup } from '@hsl-fi/form';
+import { Text } from '@hsl-fi/layout-primitives';
 import { useIntl } from 'react-intl';
 import { useConfigContext } from '../../../configurations/ConfigContext';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { setPersonalization } from '../../../store/localStorage';
+import { setPersonalization } from '../../../data/localStorage';
 
 export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
   const intl = useIntl();
@@ -23,36 +23,17 @@ export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
   const remove = intl.formatMessage({ id: 'personalization-history-remove' });
 
   const handlePrimaryClick = () => {
-    // if (!action) return;
-    addAnalyticsEvent({
-      category: 'Personalization',
-      action: 'continue',
-      name: action,
-    });
     if (action === 'remove') {
       setPersonalization({});
     }
     onContinue();
   };
 
-  const handleSecondaryClick = () => {
-    addAnalyticsEvent({
-      category: 'Personalization',
-      action: 'cancel',
-      name: null,
-    });
-    onClose();
-  };
-
   return (
-    <Modal
-      lang={config.language}
-      onOpenChange={handleSecondaryClick}
-      open={open}
-    >
+    <Modal lang={config.language} onOpenChange={onClose} open={open}>
       <ModalContent
         title={title}
-        description={description}
+        description={<Text variant="text-s">{description}</Text>}
         lang={config.language}
         buttons={[
           {
@@ -62,14 +43,14 @@ export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
           },
           {
             children: cancel,
-            onClick: handleSecondaryClick,
+            onClick: onClose,
             variant: 'secondary',
           },
         ]}
       >
         <RadioGroup
           backgroundColor="primary"
-          borderVariant="weak"
+          borderVariant="none"
           label={select}
           items={[
             {

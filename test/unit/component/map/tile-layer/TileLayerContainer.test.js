@@ -24,6 +24,7 @@ describe('<TileLayerContainer />', () => {
       zoomOffset: -1,
       mapLayers: { stop: {}, terminal: {} },
       lang: 'fi',
+      currentTime: 123457890,
     };
     const wrapper = mountWithIntl(
       <LeafletProvider
@@ -111,6 +112,7 @@ describe('<TileLayerContainer />', () => {
         },
       },
       lang: 'fi',
+      currentTime: 123457890,
     };
     const spy = sinon.spy(analytics, 'addAnalyticsEvent');
     const wrapper = shallowWithIntl(

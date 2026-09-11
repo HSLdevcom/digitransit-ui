@@ -210,7 +210,7 @@ export function settingsLimitRouting(config) {
 }
 
 export function setCurrentTimeToURL(config, match) {
-  if (process.env.NODE_ENV !== 'test' && !match.location?.query?.time) {
+  if (!match.location?.query?.time) {
     const newLocation = {
       ...match.location,
       query: {
@@ -613,21 +613,21 @@ export function mergeInternalFlexPlan(
   return sortAndMergePlans(selectedInternalFlexEdges, plan, arriveBy);
 }
 
-/** Combine a car pickup zone taxi plan with the main transit plan. */
-export function mergeCarPickupZonePlan(
-  carPickupZonePlan,
+/** Combine a taxi zone plan with the main transit plan. */
+export function mergeTaxiZonePlan(
+  taxiZonePlan,
   transitPlan,
   arriveBy,
   showBothDirectAndTransitResults,
-  allowedCarPickupZoneRouteTypes,
+  allowedTaxiZoneRouteTypes,
 ) {
   const filteredEdges = filterItinerariesByRouteType(
-    carPickupZonePlan.edges,
-    allowedCarPickupZoneRouteTypes,
+    taxiZonePlan.edges,
+    allowedTaxiZoneRouteTypes,
   );
   const selectedEdges = selectEdgesWithAllowedRouteTypes(
     filteredEdges,
-    allowedCarPickupZoneRouteTypes,
+    allowedTaxiZoneRouteTypes,
     showBothDirectAndTransitResults,
   );
   return sortAndMergePlans(selectedEdges, transitPlan, arriveBy);

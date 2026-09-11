@@ -45,12 +45,16 @@ describe('<TrafficNow />', () => {
     });
 
     it('renders the TrafficNowHeader', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(1);
     });
 
     it('renders the desktop Filters panel inside .traffic-now__filters-container', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find('.traffic-now__filters-container')).to.have.lengthOf(
         1,
       );
@@ -60,19 +64,25 @@ describe('<TrafficNow />', () => {
     });
 
     it('renders Disruptions', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find(Disruptions)).to.have.lengthOf(1);
     });
 
     it('does NOT render the mobile filters button container', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(
         wrapper.find('.traffic-now__filters-button-container'),
       ).to.have.lengthOf(0);
     });
 
     it('does NOT apply the mobile body modifier class', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find('.traffic-now__body--mobile')).to.have.lengthOf(0);
     });
   });
@@ -83,12 +93,16 @@ describe('<TrafficNow />', () => {
     });
 
     it('renders the TrafficNowHeader', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(1);
     });
 
     it('renders the mobile filters button container instead of the desktop Filters panel', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(
         wrapper.find('.traffic-now__filters-button-container'),
       ).to.have.lengthOf(1);
@@ -98,12 +112,16 @@ describe('<TrafficNow />', () => {
     });
 
     it('renders Disruptions', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find(Disruptions)).to.have.lengthOf(1);
     });
 
     it('applies the mobile body modifier class', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find('.traffic-now__body--mobile')).to.have.lengthOf(1);
     });
   });
@@ -114,26 +132,34 @@ describe('<TrafficNow />', () => {
     });
 
     it('shows the TrafficNowHeader (not a mobile canceled-trips view on desktop)', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(1);
     });
 
     it('renders CanceledTripsContainer with the correct mode prop', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       const container = wrapper.find(CanceledTripsContainer);
       expect(container).to.have.lengthOf(1);
       expect(container.prop('mode')).to.equal('CANCELED');
     });
 
     it('passes isMobile=false to CanceledTripsContainer on desktop', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find(CanceledTripsContainer).prop('isMobile')).to.equal(
         false,
       );
     });
 
     it('does NOT render Disruptions', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find(Disruptions)).to.have.lengthOf(0);
     });
   });
@@ -144,31 +170,41 @@ describe('<TrafficNow />', () => {
     });
 
     it('hides the TrafficNowHeader', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(0);
     });
 
     it('hides the separator', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find('.separator.horizontal')).to.have.lengthOf(0);
     });
 
     it('renders CanceledTripsContainer with the correct mode prop', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       const container = wrapper.find(CanceledTripsContainer);
       expect(container).to.have.lengthOf(1);
       expect(container.prop('mode')).to.equal('CANCELED');
     });
 
     it('passes isMobile=true to CanceledTripsContainer', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find(CanceledTripsContainer).prop('isMobile')).to.equal(
         true,
       );
     });
 
     it('applies the mobile body modifier class', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find('.traffic-now__body--mobile')).to.have.lengthOf(1);
     });
   });
@@ -182,31 +218,41 @@ describe('<TrafficNow />', () => {
     });
 
     it('renders the TrafficNowHeader', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(1);
     });
 
     it('renders DisruptionDetailsContainer with the correct alertId', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       const container = wrapper.find(DisruptionDetailsContainer);
       expect(container).to.have.lengthOf(1);
       expect(container.prop('alertId')).to.equal('alert-1');
     });
 
     it('passes isMobile=false to DisruptionDetailsContainer on desktop', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(
         wrapper.find(DisruptionDetailsContainer).prop('isMobile'),
       ).to.equal(false);
     });
 
     it('does NOT render Disruptions', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find(Disruptions)).to.have.lengthOf(0);
     });
 
     it('does NOT render CanceledTripsContainer', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find(CanceledTripsContainer)).to.have.lengthOf(0);
     });
   });
@@ -220,26 +266,34 @@ describe('<TrafficNow />', () => {
     });
 
     it('hides the TrafficNowHeader', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(0);
     });
 
     it('renders DisruptionDetailsContainer with the correct alertId', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       const container = wrapper.find(DisruptionDetailsContainer);
       expect(container).to.have.lengthOf(1);
       expect(container.prop('alertId')).to.equal('alert-1');
     });
 
     it('passes isMobile=true to DisruptionDetailsContainer on mobile', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(
         wrapper.find(DisruptionDetailsContainer).prop('isMobile'),
       ).to.equal(true);
     });
 
     it('applies the mobile body modifier class', () => {
-      const wrapper = shallow(<TrafficNow />);
+      const wrapper = shallow(
+        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      );
       expect(wrapper.find('.traffic-now__body--mobile')).to.have.lengthOf(1);
     });
   });

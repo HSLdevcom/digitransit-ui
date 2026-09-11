@@ -184,6 +184,15 @@ export function getFirstDepartureMessageId(
     : 'itinerary-summary-row.first-leg-start-time';
 }
 
+// Makes a fragment read as a complete sentence so segments joined together stay grammatical.
+function ensureSentence(text) {
+  if (!text) {
+    return '';
+  }
+  const trimmed = text.trim();
+  return /[.!?]$/.test(trimmed) ? trimmed : `${trimmed}.`; // Add a period if the text doesn't already end with punctuation.
+}
+
 /**
  * Builds a localized accessible text summary for an itinerary row (for screen readers).
  *
@@ -230,7 +239,7 @@ export function getSummaryDescriptionText(
     firstDeparture,
   );
 
-  const firstDepartureText =
+  const firstDepartureText = ensureSentence(
     vehicleNames.length && firstDeparture
       ? intl.formatMessage(
           { id: getFirstDepartureMessageId(firstDeparture, true) },
@@ -238,40 +247,51 @@ export function getSummaryDescriptionText(
             vehicle: vehicleNames[0],
             firstDepartureTime,
             firstDepartureStop: stopNames[0],
+            firstDepartureStopType: getFirstDepartureStopTypeText(
+              intl,
+              firstDeparture.mode,
+            ),
             firstDeparturePlatform,
           },
         )
-      : '';
+      : '',
+  );
 
   const transfers = vehicleNames
     .map((name, index) => {
       if (index === 0) {
         return null;
       }
-      return intl.formatMessage(
-        {
-          id: stopNames[index]
-            ? 'itinerary-summary-row.transfers'
-            : 'itinerary-summary-row.transfers-to-rental',
-        },
-        {
-          vehicle: name,
-          stopName: stopNames[index],
-        },
+      return ensureSentence(
+        intl.formatMessage(
+          {
+            id: stopNames[index]
+              ? 'itinerary-summary-row.transfers'
+              : 'itinerary-summary-row.transfers-to-rental',
+          },
+          {
+            vehicle: name,
+            stopName: stopNames[index],
+          },
+        ),
       );
     })
-    .filter(Boolean);
+    .filter(Boolean)
+    .join(' '); // Ensure that transfers are separated by a space, not a newline.
 
-  return intl.formatMessage(
-    { id: 'itinerary-summary-row.description' },
-    {
-      departureDate: dateOrEmpty(startTime, refTime),
-      departureTime,
-      arrivalDate: dateOrEmpty(endTime, refTime),
-      arrivalTime,
-      firstDeparture: firstDepartureText,
-      transfers,
-      totalTime: durationToString(intl, duration),
-    },
-  );
+  return intl
+    .formatMessage(
+      { id: 'itinerary-summary-row.description' },
+      {
+        departureDate: dateOrEmpty(startTime, refTime),
+        departureTime,
+        arrivalDate: dateOrEmpty(endTime, refTime),
+        arrivalTime,
+        firstDeparture: firstDepartureText,
+        transfers,
+        totalTime: durationToString(intl, duration),
+      },
+    )
+    .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+    .trim();
 }

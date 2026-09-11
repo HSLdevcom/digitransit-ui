@@ -1,35 +1,56 @@
-/* eslint-disable import/no-extraneous-dependencies */
+import { describe, it, expect } from 'vitest';
 import React from 'react';
-import Adapter from 'enzyme-adapter-react-16';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { shallow, configure } from 'enzyme';
-import CtrlPanel from './src';
-
-configure({ adapter: new Adapter() });
+import { render, screen } from '@testing-library/react';
+import CtrlPanel from './src/index.js';
 
 describe('Testing @digitransit-component/digitransit-component-control-panel module', () => {
-  const wrapper = shallow(
-    <CtrlPanel language="fi" position="left">
-      <CtrlPanel.OriginToDestination showTitle />
-      <CtrlPanel.SeparatorLine />
-      <CtrlPanel.NearStopsAndRoutes
-        showTitle
-        buttons={['bus', 'tram', 'subway', 'rail', 'ferry', 'citybike']}
-      />
-    </CtrlPanel>,
-  );
+  it('exports SeparatorLine and NearStopsAndRoutes as static members', () => {
+    expect(CtrlPanel.SeparatorLine).toBeTypeOf('function');
+    expect(CtrlPanel.NearStopsAndRoutes).toBeTypeOf('function');
+  });
 
-  it('should render', () => {
-    expect(wrapper.isEmptyRender()).to.equal(false);
+  it('renders children inside a positioned container', () => {
+    render(
+      <CtrlPanel position="left">
+        <div>panel-child</div>
+      </CtrlPanel>,
+    );
+    expect(screen.getByText('panel-child')).toBeTruthy();
   });
-  it("should create a 'separator line' element", () => {
-    expect(wrapper.find(CtrlPanel.SeparatorLine)).to.have.lengthOf(1);
-  });
-  it("should create a 'origin to destination' element", () => {
-    expect(wrapper.find(CtrlPanel.OriginToDestination)).to.have.lengthOf(1);
-  });
-  it("should create a 'near stops and routes' element", () => {
-    expect(wrapper.find(CtrlPanel.NearStopsAndRoutes)).to.have.lengthOf(1);
+
+  describe('NearStopsAndRoutes', () => {
+    it('renders a near-you button for each requested, valid mode', () => {
+      render(
+        <CtrlPanel position="left">
+          <CtrlPanel.NearStopsAndRoutes
+            appElement="#app"
+            modeArray={['bus', 'tram', 'not-a-real-mode']}
+            language="en"
+            origin={{}}
+            onClick={() => {}}
+            urlPrefix="/nearyou"
+          />
+        </CtrlPanel>,
+      );
+      expect(screen.getAllByRole('link')).toHaveLength(2);
+    });
+
+    it('navigates to the mode-specific URL, including origin coordinates, on click', () => {
+      const clicks = [];
+      render(
+        <CtrlPanel position="left">
+          <CtrlPanel.NearStopsAndRoutes
+            appElement="#app"
+            modeArray={['bus']}
+            language="en"
+            origin={{ address: 'Pasila', lat: 60.2, lon: 24.9 }}
+            onClick={url => clicks.push(url)}
+            urlPrefix="/nearyou"
+          />
+        </CtrlPanel>,
+      );
+      screen.getByRole('link').click();
+      expect(clicks).toEqual(['/en/nearyou/BUS/POS/Pasila::60.2,24.9']);
+    });
   });
 });

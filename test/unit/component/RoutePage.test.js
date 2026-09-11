@@ -58,14 +58,16 @@ const baseProps = {
   route: baseRoute,
   match: baseMatch,
   breakpoint: 'large',
-  currentTime,
 };
 
 describe('<RoutePage />', () => {
   let sandbox;
 
   beforeEach(() => {
-    ({ sandbox } = createShallowHookSandbox({ config: baseConfig }));
+    ({ sandbox } = createShallowHookSandbox({
+      config: baseConfig,
+      currentTime,
+    }));
   });
 
   afterEach(() => sandbox.restore());

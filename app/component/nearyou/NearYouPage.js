@@ -6,7 +6,7 @@ import { graphql, ReactRelayContext, QueryRenderer } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { configShape, relayShape, locationShape } from '../../util/shapes';
+import { relayShape, locationShape } from '../../util/shapes';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';
 import withBreakpoint, { DesktopOrMobile } from '../../util/withBreakpoint';
@@ -24,7 +24,7 @@ import {
 } from '../../action/PositionActions';
 import Search from './Search';
 import StopRouteSearch from './StopRouteSearch';
-import { getGeolocationState } from '../../store/localStorage';
+import { getGeolocationState } from '../../data/localStorage';
 import { PREFIX_NEARYOU } from '../../util/path';
 import NearYouContainer from './NearYouContainer';
 import SwipeableTabs, { setFocusables } from '../SwipeableTabs';
@@ -37,8 +37,17 @@ import {
   getNearYouModes,
   useCitybikes,
 } from '../../util/modeUtils';
-import FavouriteStore from '../../store/FavouriteStore';
+import {
+  getFavouriteStopsAndStations,
+  getFavouriteVehicleRentalStations,
+  STATUS_FETCHING_OR_UPDATING,
+} from '../../data/FavouriteData';
+import {
+  useFavourites,
+  useFavouriteStatus,
+} from '../../hooks/FavouriteContext';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import { useCurrentTime } from '../../hooks/TimeContext';
 
 // component initialization phases
 const PH_START = 'start';
@@ -89,14 +98,14 @@ function NearYouPage(
     favouriteStationIds,
     favouriteVehicleStationIds,
     mapLayers,
-    favouritesFetched,
-    currentTime,
+    favouritesFetched = false,
     router,
   },
   { executeAction },
 ) {
   const { mode } = match.params;
   const config = useConfigContext();
+  const currentTime = useCurrentTime();
   const centerOfMap = useRef({});
   const [modes, setModes] = useState(
     extendModes(getModes(config, favourites), mode),
@@ -621,12 +630,7 @@ NearYouPage.propTypes = {
   favourites: PropTypes.array, // eslint-disable-line
   mapLayers: mapLayerShape.isRequired,
   favouritesFetched: PropTypes.bool,
-  currentTime: PropTypes.number.isRequired,
   router: routerShape.isRequired,
-};
-
-NearYouPage.defaultProps = {
-  favouritesFetched: false,
 };
 
 const NearYouPageWithBreakpoint = withBreakpoint(props => (
@@ -639,47 +643,53 @@ const NearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   NearYouPageWithBreakpoint,
-  ['PositionStore', 'FavouriteStore', 'MapLayerStore', 'TimeStore'],
-  (context, props) => {
-    const favStore = context.getStore('FavouriteStore');
-    const favouriteStopIds = favStore
-      .getStopsAndStations()
-      .filter(stop => stop.type === 'stop')
-      .map(stop => stop.gtfsId);
-    const favouriteStationIds = favStore
-      .getStopsAndStations()
-      .filter(stop => stop.type === 'station')
-      .map(stop => stop.gtfsId);
-    const favouriteVehicleStationIds = useCitybikes(
-      context.config.vehicleRental?.networks,
-      context.config,
-    )
-      ? favStore.getVehicleRentalStations().map(station => station.stationId)
-      : [];
-
-    return {
-      ...props,
-      currentTime: context.getStore('TimeStore').getCurrentTime(),
-      position: context.getStore('PositionStore').getLocationState(),
-      mapLayers: context
-        .getStore('MapLayerStore')
-        .getMapLayers({ notThese: ['vehicles', 'scooter'] }),
-      favouriteStopIds,
-      favouriteVehicleStationIds,
-      favouriteStationIds,
-      favourites: favStore.getFavourites(),
-      favouritesFetched:
-        favStore.getStatus() !== FavouriteStore.STATUS_FETCHING_OR_UPDATING,
-    };
-  },
+  ['PositionStore', 'MapLayerStore'],
+  (context, props) => ({
+    ...props,
+    position: context.getStore('PositionStore').getLocationState(),
+    mapLayers: context
+      .getStore('MapLayerStore')
+      .getMapLayers({ notThese: ['vehicles', 'scooter'] }),
+  }),
 );
+
+function NearYouPageWithFavourites(props) {
+  const config = useConfigContext();
+  const favourites = useFavourites();
+  const favouriteStatus = useFavouriteStatus();
+  const stopsAndStations = getFavouriteStopsAndStations(favourites);
+  const favouriteStopIds = stopsAndStations
+    .filter(stop => stop.type === 'stop')
+    .map(stop => stop.gtfsId);
+  const favouriteStationIds = stopsAndStations
+    .filter(stop => stop.type === 'station')
+    .map(stop => stop.gtfsId);
+  const favouriteVehicleStationIds = useCitybikes(
+    config.vehicleRental?.networks,
+    config,
+  )
+    ? getFavouriteVehicleRentalStations(favourites).map(
+        station => station.stationId,
+      )
+    : [];
+
+  return (
+    <PositioningWrapper
+      {...props}
+      favourites={favourites}
+      favouriteStopIds={favouriteStopIds}
+      favouriteStationIds={favouriteStationIds}
+      favouriteVehicleStationIds={favouriteVehicleStationIds}
+      favouritesFetched={favouriteStatus !== STATUS_FETCHING_OR_UPDATING}
+    />
+  );
+}
 
 PositioningWrapper.contextTypes = {
   getStore: PropTypes.func.isRequired,
-  config: configShape.isRequired,
 };
 
 export {
-  PositioningWrapper as default,
+  NearYouPageWithFavourites as default,
   NearYouPageWithBreakpoint as Component,
 };
