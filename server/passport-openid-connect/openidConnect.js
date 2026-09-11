@@ -329,6 +329,9 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       headers: { Authorization: `Bearer ${req.user.token.access_token}` },
       method: req.method,
       url: `${FavouriteHost}/${req.user.data.sub}`,
+      // Forward query params (e.g. 'type') so callers can ask fav-service
+      // to only return favourites of a given type, instead of the full set.
+      params: req.query,
       data: JSON.stringify(req.body),
     })
       .then(function (response) {

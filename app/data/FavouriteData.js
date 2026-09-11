@@ -249,13 +249,30 @@ class FavouriteData {
    * @param {*} newFavourites the full, locally computed favourites array
    * @param {*} payload the array actually sent to the backend service
    * @param {*} onFail callback invoked if storing to the backend service fails
+   * @param {*} responseType optional favourite 'type' to request back from
+   *   the backend service (see fav-service's filterFavourites): when given,
+   *   the backend only returns favourites of that type instead of the
+   *   whole favourites array (much smaller response), and the result is
+   *   merged into `newFavourites` (replacing any existing favourites of
+   *   that type) instead of replacing the whole local state with the
+   *   (now partial) response. Only use this for singleton favourite types
+   *   (currently just 'personalization'), where the caller can guarantee
+   *   no other favourite of that type - or of any other type - was
+   *   affected by this update.
    */
-  persistFavourites(newFavourites, payload, onFail) {
+  persistFavourites(newFavourites, payload, onFail, responseType) {
     this.fetchingOrUpdating();
     if (this.config.allowLogin) {
-      updateFavourites(payload)
+      updateFavourites(payload, responseType)
         .then(res => {
-          this.set(res);
+          if (responseType) {
+            const kept = mapToStore(newFavourites).filter(
+              favourite => favourite.type !== responseType,
+            );
+            this.set([...kept, ...res]);
+          } else {
+            this.set(res);
+          }
         })
         .catch(() => {
           onFail();
@@ -277,12 +294,13 @@ class FavouriteData {
    * favourite (and reuses its favouriteId, if one exists), so that saving
    * never creates a duplicate and unrelated preferences aren't lost.
    *
-   * Unlike saveFavourite()/updateFavourites(), this does NOT resend the
-   * whole favourites array to the backend; see persistFavourites() above
-   * for why only the changed favourite needs to be sent. This keeps
-   * personalization saves (which can happen frequently, e.g. once per
-   * itinerary feedback) cheap regardless of how many other favourites the
-   * user has.
+   * Unlike saveFavourite()/updateFavourites(), this does NOT resend or
+   * read back the whole favourites array: only the single changed
+   * favourite is sent, and only favourites of type 'personalization' are
+   * requested back in the response (see persistFavourites() above). This
+   * keeps personalization saves (which can happen frequently, e.g. once
+   * per itinerary feedback) cheap in both directions, regardless of how
+   * many other favourites the user has.
    *
    * @param {*} preferences preferences object to merge in, e.g. { weights: {...} }
    * @param {*} onFail callback invoked if storing the favourite fails
@@ -309,7 +327,12 @@ class FavouriteData {
     } else {
       newFavourites.push(favourite);
     }
-    this.persistFavourites(newFavourites, [favourite], onFail);
+    this.persistFavourites(
+      newFavourites,
+      [favourite],
+      onFail,
+      'personalization',
+    );
   }
 
   /**
