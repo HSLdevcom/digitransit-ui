@@ -310,7 +310,7 @@ export default {
     'itinerary-summary-row.first-leg-start-time-scooter':
       'Lähtö klo {firstDepartureTime} sähköpotkulaudan noutopaikasta',
     'itinerary-summary-row.first-leg-start-time-sr':
-      '{vehicle} lähtee asemalta {firstDepartureStop} kello {firstDepartureTime} {firstDeparturePlatform}.',
+      '{vehicle} lähtee {firstDepartureStopType} {firstDepartureStop} kello {firstDepartureTime} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time-taxi':
       'Lähtö klo {firstDepartureTime} taksin noutopaikasta',
     'itinerary-summary-row.no-transit-legs': 'Lähde, kun sinulle sopii',

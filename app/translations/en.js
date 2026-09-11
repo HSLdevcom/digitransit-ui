@@ -320,7 +320,7 @@ export default {
     'itinerary-summary-row.first-leg-start-time-scooter':
       'Departure at {firstDepartureTime} from the scooter pickup location',
     'itinerary-summary-row.first-leg-start-time-sr':
-      '{vehicle} leaves at {firstDepartureTime} from stop {firstDepartureStop} {firstDeparturePlatform}.',
+      '{vehicle} leaves at {firstDepartureTime} from {firstDepartureStopType} {firstDepartureStop} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time-taxi':
       'Departure at {firstDepartureTime} from the taxi pickup location',
     'itinerary-summary-row.no-transit-legs': 'Leave when it suits you',
@@ -692,7 +692,7 @@ export default {
     'scooter-distance-duration':
       'Travel by scooter for {duration} ({distance})',
     'scooterwalk-distance-duration':
-      'Walk your kick scooter {duration} ({distance})',
+      'Walk your kick scooter {duration} ({distance}).',
     'search-current-suggestion': 'Current selection: {selection}',
     'search-fields.sr-instructions':
       'Route search will take place automatically when you enter origin and destination. Changing search parameters will trigger a new search. Navigate to the search fields using the tab key',

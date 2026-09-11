@@ -21,9 +21,8 @@ export default function StreetModeSelectorWeather({ weatherData }) {
         >
           <div className="hover-frame">
             <span className="sr-only">
-              <FormattedMessage id="weather" />
-              <FormattedMessage id={`weather-icon-${iconMsgId}`} />
-              {tempLabel}
+              <FormattedMessage id="weather" />{' '}
+              <FormattedMessage id={`weather-icon-${iconMsgId}`} /> {tempLabel}
             </span>
             <Icon img={`icon_weather_${iconId}`} />
             <div
