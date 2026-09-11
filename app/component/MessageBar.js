@@ -132,6 +132,14 @@ function MessageBar({
   const [allAlertsOpen, setAllAlertsOpen] = useState(false);
   const [ready, setReady] = useState(false);
   const [serviceAlerts, setServiceAlerts] = useState([]);
+  // Tracks ids dismissed during this mount so closing a service alert (which
+  // markMessageAsRead only persists to localStorage, since service alerts
+  // aren't part of MessageContext's own message state) reliably triggers a
+  // re-render even when slideIndex doesn't change (e.g. closing the only/
+  // last message, where setSlideIndex(0) would otherwise be a no-op).
+  const [readMessageIds, setReadMessageIds] = useState(() =>
+    getReadMessageIds(),
+  );
 
   const onSwipe = e => {
     setSlideIndex(e);
@@ -175,7 +183,6 @@ function MessageBar({
   }, []);
 
   const validMessages = () => {
-    const readMessageIds = getReadMessageIds();
     const filteredServiceAlerts = serviceAlerts.filter(
       alert => readMessageIds.indexOf(getServiceAlertId(alert)) === -1,
     );
@@ -207,6 +214,9 @@ function MessageBar({
 
     setSlideIndex(Math.max(0, index - 1));
     markMessageAsRead(msgId);
+    setReadMessageIds(prevIds =>
+      prevIds.indexOf(msgId) === -1 ? [...prevIds, msgId] : prevIds,
+    );
   };
 
   if (!ready) {
