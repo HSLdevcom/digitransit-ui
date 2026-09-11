@@ -144,6 +144,25 @@ const favouriteRoutesQuery = graphql`
   }
 `;
 
+const routesByIdsQuery = graphql`
+  query srcRoutesByIdsQuery($ids: [String!]!) {
+    routes(ids: $ids) {
+      gtfsId
+      agency {
+        name
+      }
+      type
+      shortName
+      mode
+      color
+      longName
+      patterns {
+        code
+      }
+    }
+  }
+`;
+
 const favouriteVehicleRentalQuery = graphql`
   query srcFavouriteVehicleRentalStationsQuery($ids: [String!]!) {
     vehicleRentalStations(ids: $ids) {
@@ -380,7 +399,7 @@ export function getRoutesByIds(ids, pathOpts) {
   if (!relayEnvironment || !Array.isArray(ids) || ids.length === 0) {
     return Promise.resolve([]);
   }
-  return fetchQuery(relayEnvironment, favouriteRoutesQuery, { ids })
+  return fetchQuery(relayEnvironment, routesByIdsQuery, { ids })
     .toPromise()
     .then(data => data.routes.map(r => mapRoute(r, pathOpts)).filter(Boolean));
 }

@@ -26,14 +26,14 @@ const getItemKey = properties => {
 const deduplicateItems = items => {
   const uniqueItems = [];
   items.forEach(item => {
-    if (!item.item?.properties) {
+    if (!item.item.properties) {
       uniqueItems.push(item);
       return;
     }
     const key = getItemKey(item.item.properties);
     const existingIndex = uniqueItems.findIndex(
       existingItem =>
-        existingItem.item?.properties &&
+        existingItem.item.properties &&
         isEqual(key, getItemKey(existingItem.item.properties)),
     );
     if (existingIndex === -1) {

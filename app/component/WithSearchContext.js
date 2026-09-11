@@ -222,20 +222,12 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
           .getRoutesByIds([item.properties.gtfsId], PATH_OPTS)
           .then(routes => {
             if (routes.length > 0) {
-              const refreshed = {
-                ...item,
-                properties: {
-                  ...item.properties,
-                  longName:
-                    routes[0].properties.longName ?? item.properties.longName,
-                  shortName:
-                    routes[0].properties.shortName ?? item.properties.shortName,
-                },
-              };
+              const refreshed = { ...item, ...routes[0], type: item.type };
               this.saveOldSearch(refreshed, type, id);
               this.onSuggestionSelected(refreshed, id);
             } else {
-              this.saveOldSearch(item, type, id);
+              // route no longer exists; drop the stale saved search entirely
+              this.context.executeAction(removeSearch, { item, type });
               this.onSuggestionSelected(item, id);
             }
           })
