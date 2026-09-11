@@ -236,9 +236,10 @@ export default function BicycleLeg({
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
-        {leg.rentedBike === true && legDescription}
-        {(leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') &&
-          stopsDescription}
+        {leg.rentedBike === true && <>{legDescription}. </>}
+        {(leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') && (
+          <>{stopsDescription}. </>
+        )}
         <FormattedMessage
           id={
             isScooter

@@ -143,7 +143,7 @@ function WalkLeg({
   const getMainRow = () => (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
-        {returnNotice}
+        {returnNotice}{' '}
         <FormattedMessage
           id="itinerary-details.walk-leg"
           values={{

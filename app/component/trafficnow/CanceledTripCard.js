@@ -2,30 +2,26 @@ import React from 'react';
 import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { connectToStores } from 'fluxible-addons-react';
+import { ArrowLinkButton } from '@hsl-fi/navigation';
 import { useConfigContext } from '../../configurations/ConfigContext';
+import { useFavourites } from '../../hooks/FavouriteContext';
 import { TRAFFICNOW, routePagePath } from '../../util/path';
 import Card from '../Card';
-import Icon from '../Icon';
 import CanceledDepartures from './components/CanceledDepartures';
 import DisruptionStatus from './components/DisruptionStatus';
 import RouteBadgeGroup from './components/RouteBadgeGroup';
 import DisruptionBadge from './DisruptionBadge';
 import EntityBadge from './components/EntityBadge';
-import { favouriteShape, patternShape, routeShape } from '../../util/shapes';
+import { patternShape, routeShape } from '../../util/shapes';
 import { useFilterContext } from './filters/FiltersContext';
 import { sortRoutes } from './utils';
 
-const CanceledTripCard = ({
-  mode,
-  routes,
-  isMobile = false,
-  favourites = [],
-}) => {
+const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
   const { router } = useRouter();
   const intl = useIntl();
-  const { colors, trafficNowMaxRoutesPerCard } = useConfigContext();
+  const { trafficNowMaxRoutesPerCard } = useConfigContext();
   const { selectedFilters } = useFilterContext();
+  const favourites = useFavourites();
   const handleRouteBadgeClick = url => e => {
     e.preventDefault();
     e.stopPropagation();
@@ -49,18 +45,12 @@ const CanceledTripCard = ({
               <DisruptionStatus
                 active
                 showDates={false}
-                className="text-xs-bold"
+                variant="text-xs-bold"
               />
             </>
           )}
         </span>
-        <button type="button">
-          <Icon
-            img="icon_arrow-collapse--right"
-            color={colors.primary}
-            className="disruption-card__icon"
-          />
-        </button>
+        <ArrowLinkButton />
       </header>
       <div className="badges">
         <RouteBadgeGroup
@@ -107,7 +97,7 @@ const CanceledTripCard = ({
         />
       </div>
       {isMobile && (
-        <DisruptionStatus active showDates={false} className="text-xs-bold" />
+        <DisruptionStatus active showDates={false} variant="text-xs-bold" />
       )}
     </Card>
   );
@@ -116,7 +106,6 @@ const CanceledTripCard = ({
 CanceledTripCard.propTypes = {
   mode: PropTypes.string.isRequired,
   isMobile: PropTypes.bool,
-  favourites: PropTypes.arrayOf(favouriteShape),
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       cancellationCount: PropTypes.number.isRequired,
@@ -131,12 +120,4 @@ CanceledTripCard.propTypes = {
   ).isRequired,
 };
 
-const connectedComponent = connectToStores(
-  CanceledTripCard,
-  ['FavouriteStore'],
-  context => ({
-    favourites: context.getStore('FavouriteStore').getFavourites(),
-  }),
-);
-
-export { connectedComponent as default, CanceledTripCard as Component };
+export default CanceledTripCard;

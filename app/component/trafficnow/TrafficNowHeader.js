@@ -1,8 +1,9 @@
-import { FormattedMessage, useIntl } from 'react-intl';
 import React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
 import cx from 'classnames';
-import Icon from '../Icon';
+import { Text } from '@hsl-fi/layout-primitives';
+import { Icon, ArrowRightS } from '@hsl-fi/icons';
 import { useBreakpoint } from '../../util/withBreakpoint';
 import { useConfigContext } from '../../configurations/ConfigContext';
 import { useLogo } from '../../hooks/useLogo';
@@ -56,10 +57,24 @@ const AdditionalDescription = () => {
 
 export default function TrafficNowHeader() {
   const breakpoint = useBreakpoint();
-  const { CONFIG, trafficNowHeaderGraphic } = useConfigContext();
+  const {
+    CONFIG,
+    trafficNowHeaderGraphic,
+    trafficNowRootPath,
+    language,
+    URL: { ROOTLINK },
+  } = useConfigContext();
+  const { formatMessage } = useIntl();
 
   const { logo } = useLogo(trafficNowHeaderGraphic);
   const desktop = breakpoint === 'large';
+  const localizedRootPath = trafficNowRootPath && trafficNowRootPath[language];
+  const breadcrumbHref = localizedRootPath
+    ? `${ROOTLINK}${localizedRootPath}`
+    : undefined;
+  const breadcrumbLabel = (
+    <Text>{formatMessage({ id: 'traffic-now_bread' })}</Text>
+  );
   return (
     <header
       className={cx('traffic-now__header', {
@@ -67,25 +82,27 @@ export default function TrafficNowHeader() {
       })}
     >
       <span className="traffic-now__header-breadcrumb">
-        <Link to="/">
-          <FormattedMessage id="traffic-now_bread" />
-        </Link>
-        <Icon
-          img="icon_chevron-right"
-          className="traffic-now__header-crumbarrow"
-        />
-        <FormattedMessage id="traffic-now" />
+        {breadcrumbHref ? (
+          <a href={breadcrumbHref}>{breadcrumbLabel}</a>
+        ) : (
+          <Link to="/">{breadcrumbLabel}</Link>
+        )}
+        <Icon icon={ArrowRightS} size="s" />
+        <Text>{formatMessage({ id: 'traffic-now' })}</Text>
       </span>
-      <h2 className="heading-l">
-        <FormattedMessage id="traffic-now" />
-      </h2>
-      <p className="traffic-now__header-description text-l">
-        <FormattedMessage id="traffic-now_description" />
-        {CONFIG === 'hsl' && <AdditionalDescription />}
-      </p>
-      {logo && desktop && (
-        <img src={logo} alt="" className="traffic-now__header-image" />
-      )}
+      <div className="traffic-now__header-text-area">
+        <Text variant="heading-l" as="h2">
+          {formatMessage({ id: 'traffic-now' })}
+        </Text>
+
+        <Text variant="text-l" as="p">
+          <span>{formatMessage({ id: 'traffic-now_description' })}</span>
+          {CONFIG === 'hsl' && <AdditionalDescription />}
+        </Text>
+        {logo && desktop && (
+          <img src={logo} alt="" className="traffic-now__header-image" />
+        )}
+      </div>
     </header>
   );
 }

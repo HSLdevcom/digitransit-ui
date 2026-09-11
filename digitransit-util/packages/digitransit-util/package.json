@@ -1,22 +1,27 @@
 {
   "name": "@digitransit-util/digitransit-util",
-  "version": "4.1.0",
+  "version": "4.1.4",
   "description": "a JavaScript library for Digitransit",
   "main": "digitransit-util",
   "module": "digitransit-util.mjs",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HSLdevcom/digitransit-ui.git"
+  },
   "keywords": [
     "digitransit-util"
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "scripts": {
-    "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs"
   },
   "dependencies": {
-    "@digitransit-util/digitransit-util-day-range-allowed-diff": "^1.0.4",
-    "@digitransit-util/digitransit-util-day-range-pattern": "^1.1.0",
-    "@digitransit-util/digitransit-util-enrich-patterns": "^2.0.0",
-    "@digitransit-util/digitransit-util-route-pattern-option-text": "^4.1.0"
+    "@digitransit-util/digitransit-util-day-range-allowed-diff": "workspace:^",
+    "@digitransit-util/digitransit-util-day-range-pattern": "workspace:^",
+    "@digitransit-util/digitransit-util-enrich-patterns": "workspace:^",
+    "@digitransit-util/digitransit-util-route-pattern-option-text": "workspace:^"
   }
 }

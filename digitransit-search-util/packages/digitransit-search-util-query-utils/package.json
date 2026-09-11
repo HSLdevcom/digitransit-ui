@@ -1,21 +1,28 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
-  "version": "4.5.11",
+  "version": "4.5.17",
   "description": "digitransit-search-util query-utils module",
-  "main": "lib/index.js",
+  "main": "lib/index.cjs",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "clean": "rm -rf lib ./node_modules",
-    "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes",
-    "relay": "relay-compiler && mkdir lib && mv src/__generated__ lib/"
+    "pretest": "yarn build",
+    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs",
+    "relay": "mkdir -p lib/__generated__ && relay-compiler && echo '{\"type\":\"commonjs\"}' > lib/package.json",
+    "relay-watch": "mkdir -p lib/__generated__ && echo '{\"type\":\"commonjs\"}' > lib/package.json && relay-compiler --watch",
+    "watch": "yarn relay && NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
+    "copy-schema": "mkdir -p lib/schema && cp ../../../schema/schema.graphql lib/schema/schema.graphql",
+    "build": "yarn relay && yarn copy-schema && NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
   "relay": {
     "src": "./src",
-    "schema": "./schema/schema.graphql",
-    "language": "javascript"
+    "schema": "../../../schema/schema.graphql",
+    "language": "javascript",
+    "artifactDirectory": "./lib/__generated__"
   },
   "repository": {
     "type": "git",
@@ -33,12 +40,12 @@
     "react-relay": "16.2.0"
   },
   "devDependencies": {
+    "babel-plugin-relay": "16.2.0",
     "relay-compiler": "16.2.0"
   },
   "dependencies": {
-    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "^1.0.1",
-    "@digitransit-search-util/digitransit-search-util-helpers": "^2.3.4",
-    "@digitransit-search-util/digitransit-search-util-route-name-compare": "0.0.2",
-    "babel-plugin-relay": "16.2.0"
+    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "workspace:^",
+    "@digitransit-search-util/digitransit-search-util-helpers": "workspace:^",
+    "@digitransit-search-util/digitransit-search-util-route-name-compare": "workspace:^"
   }
 }

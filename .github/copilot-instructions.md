@@ -25,12 +25,15 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
     for Relay fragments used by utils.
   - `translations/` — one file per locale (`fi.js`, `en.js`, `sv.js`, ...); `fi.js` is the source
     of truth, keep sorted via `scripts/sort-translations.mjs` (`yarn format` runs this), and every
-    key must also exist in `en.js`/`sv.js` (enforced by `test/unit/translations.test.js`).
+    key must also exist in `en.js`/`sv.js` (enforced by `test/unit/translations.test.js`). Some
+    `digitransit-component` packages ship their own i18next translation bundles instead, sorted/
+    checked separately via `scripts/workspace-packages/sort-translations.mjs`.
   - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
 - `server/` — Express SSR server.
 - `test/` — `unit/` (mocha, mirrors `app/`) and `e2e/` (Jest + Playwright visual tests).
-- `scripts/` — dev helper scripts (`ui.sh`, `sort-translations.mjs`, `contextHelper.js`,
-  `generate-schema.js`, `theme/` theme-scaffolding scripts; see `scripts/README.md`).
+- `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.mjs`, `contextHelper.js`,
+  `generate-schema.js`, `theme/` theme-scaffolding scripts, `workspace-packages/` (readme
+  generation, version checks, translation sort/check); see `scripts/README.md`).
 - `digitransit-component/`, `digitransit-search-util/`, `digitransit-store/`,
   `digitransit-util/` — Yarn workspace packages, built separately (see below).
 - `sass/`, `static/` — global styles and static assets.
@@ -44,30 +47,31 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 
 - Requires the Node version from `engines.node` and the Yarn version from `packageManager` in
   `package.json` (`corepack enable`). Also needs `watchman`.
-- `yarn install && yarn setup` — installs deps and builds the `digitransit-*` workspace packages
-  (components/search-util/store/util) that live under `digitransit-component/`,
-  `digitransit-search-util/`, `digitransit-store/`, `digitransit-util/`. **After editing any file
-  in one of these workspaces, re-run `yarn setup` (or the relevant `build-*` script) for changes
-  to be picked up by the main app.**
+- `yarn install` — installs deps.
 - `yarn run dev` — dev server at http://localhost:8080 (webpack-dev-server + nodemon server +
   relay-watch + component watch, run in parallel via one script). Runs against mock/no API keys.
-- `source scripts/ui.sh` then `uidev <config>` / `uiprod <config>` / `uilocal <config>` — run the
-  dev server against real APIs (map tiles, geocoding, etc.):
-  - `uidev` — dev API; requires `DEV_SUBSCRIPTION_KEY` env var.
-  - `uiprod` — prod API (`api.digitransit.fi`); requires `SUBSCRIPTION_KEY` env var.
-  - `uilocal` — local OTP at `http://localhost:9080/otp/`; requires `DEV_SUBSCRIPTION_KEY`.
-  - Set `NO_SUBSCRIPTION_KEY=true` to skip the key requirement instead.
+- `API_TYPE=development|production|local API_SUBSCRIPTION_TOKEN=<key> yarn run dev` — run the dev
+  server against real APIs (map tiles, geocoding, etc.), handled inside `scripts/dev.sh`:
+  - `development` (default) — `dev-api.digitransit.fi`.
+  - `production` — `api.digitransit.fi`.
+  - `local` — local OTP at `http://localhost:9080/otp/`.
+  - `API_SUBSCRIPTION_TOKEN` is required for full functionality in all three modes.
 - `yarn run build` then `yarn run start` — production build/run. Use `CONFIG=hsl` (or `tampere`,
   `matka`, etc., see `app/configurations/config.*.js`) to select a regional config, and
   `API_URL=...` to point at a different OTP/geocoding backend.
 - If the OTP GraphQL schema changes: `node scripts/generate-schema.js` (regenerates
   `schema/schema.graphql`; `relay-compiler` then regenerates `app/__generated__` on build/dev).
 
+## Docker
+
+- `.dockerignore` is a default-deny allow-list; add an explicit `!path` line if the image genuinely needs something new.
+
 ## Lint & format
 
 - `yarn lint` — eslint (Airbnb config + jsx-a11y + compat + prettier) + `prettier-styles` (scss
-  check) + `stylelint`.
-- `yarn format` — auto-fixes: sorts translations, `eslint --fix`, prettier styles, stylelint fix.
+  check) + `stylelint` + component-package translation parity check.
+- `yarn format` — auto-fixes: sorts translations (app + component packages), `eslint --fix`,
+  prettier styles, stylelint fix.
 - `yarn eslint` / `yarn eslint-fix` for JS only.
 - Husky git hooks: pre-commit runs `lint-staged` (eslint on staged JS, prettier+stylelint on
   staged scss) and blocks on unresolved merge-conflict markers; pre-push runs the full
@@ -123,7 +127,8 @@ Other structural notes:
 
 - `server/` also handles config-merging by host header via `BASE_CONFIG` (see `app/config.js`).
 - The `digitransit-*` workspace packages are consumed by the main app but built/versioned
-  independently — treat them like semi-external dependencies with their own `CONTRIBUTING.md`.
+  independently — treat them like semi-external dependencies. See `docs/WorkspacePackages.md`
+  for how they're structured, tested, documented, and published.
 
 ## Code conventions
 
@@ -133,5 +138,16 @@ Other structural notes:
 - When removing `defaultProps`, use parameter defaults only for valid values; never default to
   `undefined`.
 - `.js` files are used for JSX (no `.jsx` extension).
+- Avoid `Component.defaultProps` in function components (deprecated by React, and unsupported for
+  function components in newer React versions). Declare defaults via destructuring in the
+  function signature instead, e.g. `function Foo({ isMobile = false, children = null })`. This
+  applies to new code and to any component touched during refactors; existing untouched
+  components may still use `defaultProps` until they're otherwise modified.
+- The project does not enable `eslint-plugin-react-hooks`'s `exhaustive-deps` rule, and top-level
+  app values such as `config` (`useConfigContext()`) and the Fluxible `context`/`executeAction`
+  bridge are set once at app init and never change identity for the app's lifetime. It's fine to
+  omit such stable values from `useEffect`/`useCallback`/`useMemo` dependency arrays — prefer this
+  over padding dependency arrays with values that never actually change, and add a short comment
+  noting why the value is omitted.
 - SCSS under `sass/`, `app/**/*.scss`, `digitransit-component/**/*.scss` — must pass
   `prettier --check` and `stylelint`.

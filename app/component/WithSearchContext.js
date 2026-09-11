@@ -11,8 +11,7 @@ import {
   PREFIX_STOPS,
   PREFIX_ROUTES,
 } from '../util/path';
-import searchContext from '../util/searchContext';
-import intializeSearchContext from '../util/DTSearchContextInitializer';
+import searchContext from '../data/SearchContext';
 import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMap from './map/SelectFromMap';
 import DTModal from './DTModal';
@@ -108,7 +107,6 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
 
     componentDidMount() {
       if (!this.state.isInitialized) {
-        intializeSearchContext(this.context, searchContext);
         this.setState({ isInitialized: true });
       }
     }

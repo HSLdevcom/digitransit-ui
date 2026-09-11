@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
+import { Text } from '@hsl-fi/layout-primitives';
 import Icon from '../../Icon';
 import { getFormattedTimeDate } from '../../../util/timeUtils';
 import { useConfigContext } from '../../../configurations/ConfigContext';
@@ -13,9 +14,9 @@ export default function DisruptionStatus({
   effectiveEndDate,
   showDates = true,
   active,
-  className,
+  variant = 'text-xs-bold',
 }) {
-  const intl = useIntl();
+  const { formatMessage } = useIntl();
   const {
     colors: { primary: primaryColor },
   } = useConfigContext();
@@ -45,23 +46,23 @@ export default function DisruptionStatus({
   const dates = showDates && startDate;
 
   return (
-    <span className={`disruption-status ${className || ''}`}>
+    <span className="disruption-status">
       <Icon
         img={isValid ? 'icon_status' : 'icon_calendar'}
         color={primaryColor}
       />
-      <span>
-        {`${intl.formatMessage({
+      <Text variant={variant}>
+        {`${formatMessage({
           id: isValid ? 'valid' : 'upcoming',
           defaultMessage: isValid ? 'Active' : 'Upcoming',
         })}${dates ? ':' : ''}`}
-      </span>
+      </Text>
       {dates && (
-        <span className="routes-s">
+        <Text variant="routes-s">
           {`${startDate}${
             endDate && startDate !== endDate ? ` - ${endDate}` : ''
           }`}
-        </span>
+        </Text>
       )}
     </span>
   );
@@ -72,5 +73,5 @@ DisruptionStatus.propTypes = {
   effectiveEndDate: PropTypes.number,
   showDates: PropTypes.bool,
   active: PropTypes.bool,
-  className: PropTypes.string,
+  variant: PropTypes.string,
 };

@@ -1,6 +1,6 @@
-import debounce from 'lodash/debounce';
-import flatten from 'lodash/flatten';
-import take from 'lodash/take';
+import debounce from 'lodash/debounce.js';
+import flatten from 'lodash/flatten.js';
+import take from 'lodash/take.js';
 import {
   sortSearchResults,
   isStop,

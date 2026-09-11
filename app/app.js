@@ -10,7 +10,6 @@ import RealTimeInformationStore from './store/RealTimeInformationStore';
 import MapLayerStore from './store/MapLayerStore';
 import GeoJsonStore from './store/GeoJsonStore';
 import ViaPointStore from './store/ViaPointStore';
-import FavouriteStore from './store/FavouriteStore';
 
 export default config => {
   const app = new Fluxible({
@@ -26,7 +25,6 @@ export default config => {
   app.registerStore(MapLayerStore);
   app.registerStore(GeoJsonStore);
   app.registerStore(ViaPointStore);
-  app.registerStore(FavouriteStore);
 
   app.plug({
     name: 'extra-context-plugin',

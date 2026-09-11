@@ -1,14 +1,15 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-execute-search-immidiate",
-  "version": "3.3.7",
+  "version": "3.3.10",
   "description": "digitransit-search-util execute-search-immidiate module",
   "main": "index.js",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "test": "mocha -r esm test.js",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs"
   },
   "repository": {
     "type": "git",
@@ -21,10 +22,10 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "^1.0.1",
-    "@digitransit-search-util/digitransit-search-util-get-geocoding-results": "1.0.2",
-    "@digitransit-search-util/digitransit-search-util-get-json": "1.0.3",
-    "@digitransit-search-util/digitransit-search-util-helpers": "^2.3.4",
+    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "workspace:^",
+    "@digitransit-search-util/digitransit-search-util-get-geocoding-results": "workspace:^",
+    "@digitransit-search-util/digitransit-search-util-get-json": "workspace:^",
+    "@digitransit-search-util/digitransit-search-util-helpers": "workspace:^",
     "lodash": "4.18.1"
   }
 }

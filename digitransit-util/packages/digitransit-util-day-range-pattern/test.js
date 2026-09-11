@@ -1,8 +1,6 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable func-names */
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import dayRangePattern from '.';
+import { describe, it, expect } from 'vitest';
+import dayRangePattern from './index.js';
 
 const tests = [
   { dayPattern: 'ma-ma', dayNoArray: ['1', '1', '1', '1'] },
@@ -56,7 +54,7 @@ describe('Testing @digitransit-util/digitransit-util-day-range-pattern', () => {
       new Set(test.dayNoArray.sort()),
     ).join('')}"`, () => {
       const retValue = dayRangePattern(test.dayNoArray);
-      expect(retValue).to.equal(test.dayPattern);
+      expect(retValue).toBe(test.dayPattern);
     });
   });
 });

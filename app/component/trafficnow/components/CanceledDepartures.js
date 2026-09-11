@@ -5,10 +5,10 @@ import { DateTime } from 'luxon';
 import cx from 'classnames';
 import { useIntl } from 'react-intl';
 import groupBy from 'lodash/groupBy';
+import { Text } from '@hsl-fi/layout-primitives';
 import CanceledDeparturesFragment from '../queries/CanceledDeparturesFragment';
 import Icon from '../../Icon';
 import EntityBadge from './EntityBadge';
-import { stopShape } from '../../../util/shapes';
 
 const DEPARTURE_LIMIT = 10;
 
@@ -59,12 +59,12 @@ const CanceledDepartures = ({
                 {serviceDate !== DateTime.now().toISODate() && (
                   <div className="departures-date-badge">
                     <Icon img="icon_calendar" />
-                    <div className="routes-s-bold">
+                    <Text variant="routes-s-bold" as="div">
                       {serviceDate ===
                       DateTime.now().plus({ days: 1 }).toISODate()
                         ? formatMessage({ id: 'tomorrow' })
                         : DateTime.fromISO(serviceDate).toFormat('d.L.')}
-                    </div>
+                    </Text>
                   </div>
                 )}
                 <div className="departuretimes">
@@ -80,11 +80,11 @@ const CanceledDepartures = ({
                         key={`${trip.gtfsId}-${trip.stoptimes[0].scheduledDeparture}`}
                         className="badges__departure-time"
                       >
-                        <span className="routes-m-narrow">
+                        <Text variant="routes-s-narrow" as="span">
                           {DateTime.fromISO(serviceDate)
                             .plus(trip.stoptimes[0].scheduledDeparture * 1000)
                             .toFormat(' HH:mm ')}
-                        </span>
+                        </Text>
                       </span>
                     ))}
                 </div>
@@ -92,6 +92,7 @@ const CanceledDepartures = ({
                   !expandedDates.includes(serviceDate) &&
                   !inline && (
                     <button
+                      type="button"
                       className="show-departures-button"
                       onClick={() =>
                         setExpandedDates([...expandedDates, serviceDate])
@@ -105,9 +106,9 @@ const CanceledDepartures = ({
           )}
           {inline && pattern.hiddenDepartureCount > 0 && (
             <span className="badges__departure-time badges__departure-time--show-more">
-              <span className="routes-m-narrow">
+              <Text variant="routes-s-narrow" as="span">
                 +{pattern.hiddenDepartureCount}
-              </span>
+              </Text>
             </span>
           )}
         </React.Fragment>
@@ -117,24 +118,7 @@ const CanceledDepartures = ({
 };
 
 CanceledDepartures.propTypes = {
-  patterns: PropTypes.arrayOf(
-    PropTypes.shape({
-      code: PropTypes.string.isRequired,
-      stops: PropTypes.arrayOf(stopShape).isRequired,
-      canceledTrips: PropTypes.arrayOf(
-        PropTypes.shape({
-          trip: PropTypes.shape({
-            gtfsId: PropTypes.string.isRequired,
-            stoptimes: PropTypes.arrayOf(
-              PropTypes.shape({
-                scheduledDeparture: PropTypes.number.isRequired,
-              }).isRequired,
-            ).isRequired,
-          }).isRequired,
-        }).isRequired,
-      ),
-    }).isRequired,
-  ).isRequired,
+  patterns: PropTypes.arrayOf(PropTypes.shape({})),
   departureLimit: PropTypes.number,
   inline: PropTypes.bool,
   mode: PropTypes.string,

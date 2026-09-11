@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { ArrowLinkButton } from '@hsl-fi/navigation';
+import { Text } from '@hsl-fi/layout-primitives';
 import { AlertSeverityLevelType } from '../../constants';
 import { alertShape } from '../../util/shapes';
 import Card from '../Card';
 import DisruptionBadge from './DisruptionBadge';
 import DisruptionStatus from './components/DisruptionStatus';
-import Icon from '../Icon';
 import RouteBadges from './RouteBadges';
 import OperatorBadge from './components/OperatorBadge';
 
@@ -26,7 +26,6 @@ export default function DisruptionCard({
     effectiveEndDate,
     feed,
   } = alert;
-  const { colors } = useConfigContext();
 
   return (
     <Card
@@ -49,27 +48,23 @@ export default function DisruptionCard({
               <DisruptionStatus
                 effectiveStartDate={effectiveStartDate}
                 effectiveEndDate={effectiveEndDate}
-                className="text-xs-bold"
+                variant="text-xs-bold"
                 showDates={alertSeverityLevel !== AlertSeverityLevelType.Info}
               />
             </>
           )}
         </span>
-        <button type="button">
-          <Icon
-            img="icon_arrow-collapse--right"
-            color={colors.primary}
-            className="disruption-card__icon"
-          />
-        </button>
+        <ArrowLinkButton size="m" />
       </header>
       {entities && <RouteBadges entities={entities} mode={mode} compact />}
-      <h2 className="cta-small">{alertHeaderText}</h2>
+      <Text variant="cta-small" color="default" as="h2">
+        {alertHeaderText}
+      </Text>
       {isMobile && (
         <DisruptionStatus
           effectiveStartDate={effectiveStartDate}
           effectiveEndDate={effectiveEndDate}
-          className="text-xs-bold"
+          variant="text-xs-bold"
           showDates={alertSeverityLevel !== AlertSeverityLevelType.Info}
         />
       )}

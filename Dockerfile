@@ -33,9 +33,15 @@ RUN \
 ARG CONFIG=''
 ENV CONFIG=${CONFIG}
 
+# Deliberately scoped to config/schema (rather than folded into the `COPY . .` +
+# `yarn run build` step below): this keeps the RUN below cacheable by Docker's
+# layer cache whenever only app/server files change (the common case), instead
+# of invalidating (and re-running all 16 workspace-package builds) on *any*
+# file change in the repo.
 COPY config ./config
+COPY schema ./schema
 RUN \
-  yarn run build-workspaces
+  yarn run workspace-packages-build
 
 COPY . .
 
@@ -46,8 +52,10 @@ RUN \
 
 # Deleting files retrospectively, after having copied/generated them in a previous step, *does not* reduce
 # the size of the resulting (builder) Docker image. But we prevent them from being copied into the final image.
+# `.nx` (Nx's local build cache, created by `yarn run workspace-packages-build` above) falls in the same category:
+# pure build-tooling state, never `require()`d at runtime, so it'd otherwise just bloat the final image.
 RUN \
-  rm -rf static docs .cache
+  rm -rf static docs .cache .nx
 
 FROM node:24.14.1-alpine
 LABEL org.opencontainers.image.title="digitransit-ui"

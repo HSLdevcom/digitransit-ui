@@ -28,18 +28,29 @@ export const ItineraryFragment = graphql`
       duration
       rentedBike
       interlineWithPreviousLeg
-      intermediatePlaces {
-        stop {
-          zoneId
-          gtfsId
-          parentStation {
-            gtfsId
+      stopCalls {
+        schedule {
+          time {
+            ... on ArrivalDepartureTime {
+              arrival
+            }
           }
         }
-        arrival {
-          scheduledTime
-          estimated {
+        realTime {
+          arrival {
             time
+          }
+        }
+        stopLocation {
+          ... on Stop {
+            zoneId
+            gtfsId
+            lat
+            lon
+            name
+            parentStation {
+              gtfsId
+            }
           }
         }
       }

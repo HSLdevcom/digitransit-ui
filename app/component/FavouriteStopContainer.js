@@ -1,27 +1,39 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import { stopShape } from '../util/shapes';
 import Favourite from './Favourite';
-import { saveFavourite, deleteFavourite } from '../action/FavouriteActions';
+import { isFavourite, getFavouriteByGtfsId } from '../data/FavouriteData';
+import {
+  useFavourites,
+  useFavouriteStatus,
+  useFavouriteActions,
+} from '../hooks/FavouriteContext';
 import { addMessage } from '../action/MessageActions';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { failedFavouriteMessage } from '../util/messageUtils';
 import { useConfigContext } from '../configurations/ConfigContext';
 
-function FavouriteStopContainerComponent(props, context) {
+export default function FavouriteStopContainer(
+  { stop, isTerminal = false, ...rest },
+  context,
+) {
   const [isFetching, setIsFetching] = useState(false);
-  const { stop, isTerminal } = props;
   const config = useConfigContext();
+  const favourites = useFavourites();
+  const favouriteStatus = useFavouriteStatus();
+  const { saveFavourite, deleteFavourite } = useFavouriteActions();
+
+  const favouriteType = isTerminal ? 'station' : 'stop';
+  const favourite = isFavourite(stop.gtfsId, favouriteType, favourites);
 
   return (
     <Favourite
-      {...props}
-      isFetching={props.isFetching || isFetching}
+      {...rest}
+      favourite={favourite}
+      isFetching={isFetching || favouriteStatus === 'fetching'}
       addFavourite={() => {
         setIsFetching(true);
-        const favouriteType = isTerminal ? 'station' : 'stop';
         let gid = `gtfs${stop.gtfsId
           .split(':')[0]
           .toLowerCase()}:${favouriteType}:GTFS:${stop.gtfsId}`;
@@ -34,7 +46,7 @@ function FavouriteStopContainerComponent(props, context) {
             if (Array.isArray(res.features) && res.features.length > 0) {
               const stopOrStation = res.features[0];
               const { label } = stopOrStation.properties;
-              context.executeAction(saveFavourite, {
+              saveFavourite({
                 address: label,
                 code: stop.code,
                 gid,
@@ -46,9 +58,7 @@ function FavouriteStopContainerComponent(props, context) {
               addAnalyticsEvent({
                 category: 'Stop',
                 action: 'MarkStopAsFavourite',
-                name: !context
-                  .getStore('FavouriteStore')
-                  .isFavourite(stop.gtfsId, favouriteType),
+                name: !favourite,
               });
               setIsFetching(false);
             } else {
@@ -67,53 +77,28 @@ function FavouriteStopContainerComponent(props, context) {
             setIsFetching(false);
           });
       }}
+      delFavourite={() => {
+        const stopToDelete = getFavouriteByGtfsId(
+          stop.gtfsId,
+          favouriteType,
+          favourites,
+        );
+        deleteFavourite(stopToDelete);
+        addAnalyticsEvent({
+          category: 'Stop',
+          action: 'MarkStopAsFavourite',
+          name: !favourite,
+        });
+      }}
     />
   );
 }
 
-FavouriteStopContainerComponent.propTypes = {
+FavouriteStopContainer.propTypes = {
   stop: stopShape.isRequired,
   isTerminal: PropTypes.bool,
-  isFetching: PropTypes.bool,
 };
-
-FavouriteStopContainerComponent.defaultProps = {
-  isTerminal: false,
-  isFetching: false,
-};
-
-FavouriteStopContainerComponent.contextTypes = {
-  getStore: PropTypes.func.isRequired,
-  executeAction: PropTypes.func.isRequired,
-};
-
-const FavouriteStopContainer = connectToStores(
-  FavouriteStopContainerComponent,
-  ['FavouriteStore'],
-  (context, { stop, isTerminal }) => ({
-    favourite: context
-      .getStore('FavouriteStore')
-      .isFavourite(stop.gtfsId, isTerminal ? 'station' : 'stop'),
-    isFetching: context.getStore('FavouriteStore').getStatus() === 'fetching',
-    delFavourite: () => {
-      const stopToDelete = context
-        .getStore('FavouriteStore')
-        .getByGtfsId(stop.gtfsId, isTerminal ? 'station' : 'stop');
-      context.executeAction(deleteFavourite, stopToDelete);
-      addAnalyticsEvent({
-        category: 'Stop',
-        action: 'MarkStopAsFavourite',
-        name: !context
-          .getStore('FavouriteStore')
-          .isFavourite(stop.gtfsId, isTerminal ? 'station' : 'stop'),
-      });
-    },
-  }),
-);
 
 FavouriteStopContainer.contextTypes = {
-  getStore: PropTypes.func.isRequired,
   executeAction: PropTypes.func.isRequired,
 };
-
-export default FavouriteStopContainer;

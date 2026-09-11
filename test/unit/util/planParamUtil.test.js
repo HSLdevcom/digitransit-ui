@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 
 import defaultConfig from '../../../app/configurations/config.default';
 import * as utils from '../../../app/util/planParamUtil';
-import { setCustomizedSettings } from '../../../app/store/localStorage';
+import { setCustomizedSettings } from '../../../app/data/localStorage';
 
 const from = 'Kera, Espoo::60.217992,24.75494';
 const to = 'Leppävaara, Espoo::60.219235,24.81329';

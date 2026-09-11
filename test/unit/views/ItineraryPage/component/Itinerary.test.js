@@ -1,9 +1,14 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
+import sinon from 'sinon';
+import { fireEvent } from '@testing-library/react';
 
 import { component as Itinerary } from '../../../../../app/component/itinerary/Itinerary';
-import { AlertSeverityLevelType } from '../../../../../app/constants';
+import {
+  AlertSeverityLevelType,
+  ExtendedRouteTypes,
+} from '../../../../../app/constants';
 import { mockContext } from '../../../helpers/mock-context';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import dcw12 from '../../../test-data/dcw12';
@@ -64,11 +69,11 @@ describe('<Itinerary />', () => {
     console.error = savedConsoleError;
   });
 
-  const renderItinerary = (props, config) =>
-    renderWithProviders(
-      <Itinerary {...defaultProps} {...props} />,
-      config ? { config } : {},
-    );
+  const renderItinerary = (props, config, router) =>
+    renderWithProviders(<Itinerary {...defaultProps} {...props} />, {
+      ...(config ? { config } : {}),
+      ...(router ? { router } : {}),
+    });
 
   it('should display both walking legs in the summary view', () => {
     const props = {
@@ -427,5 +432,363 @@ describe('<Itinerary />', () => {
     };
     const { container } = renderItinerary(props);
     expect(container.querySelector('.subicon-caution')).to.equal(null);
+  });
+
+  it('should render a CAR leg with the car icon and a park-and-ride indicator', () => {
+    const props = {
+      itinerary: {
+        start: new Date(1553769600000).toISOString(),
+        end: new Date(1553769700000).toISOString(),
+        legs: [
+          {
+            from: {},
+            to: { vehicleParking: true },
+            mode: 'CAR',
+            duration: 600,
+            distance: 3000,
+            route: null,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769660000).toISOString() },
+          },
+        ],
+      },
+    };
+    const { container } = renderItinerary(props);
+
+    expect(
+      container.querySelector('.leg.car use')?.getAttribute('xlink:href'),
+    ).to.equal('#icon_car');
+    expect(container.querySelectorAll('.leg.car_park')).to.have.lengthOf(1);
+  });
+
+  it('should render a taxi leg with the external taxi icon and skip the transit bar even when a route is present', () => {
+    const props = {
+      itinerary: {
+        start: new Date(1553769600000).toISOString(),
+        end: new Date(1553769700000).toISOString(),
+        legs: [
+          {
+            from: {},
+            to: {},
+            mode: 'TAXI',
+            duration: 500,
+            distance: 2000,
+            route: { mode: 'BUS', alerts: [] },
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769660000).toISOString() },
+          },
+        ],
+      },
+    };
+    const { container } = renderItinerary(props);
+
+    expect(
+      getLegTypes(container).filter(t => t === 'transit'),
+    ).to.have.lengthOf(0);
+    expect(
+      container
+        .querySelector('.leg.taxi-external use')
+        ?.getAttribute('xlink:href'),
+    ).to.equal(`#${mockContext.config.flex.taxiExternalIcon}`);
+  });
+
+  it('should render a scooter leg and suppress the CO2 summary even when emissions data is present', () => {
+    const props = {
+      lowestCo2value: 40,
+      itinerary: {
+        start: new Date(1553769600000).toISOString(),
+        end: new Date(1553769700000).toISOString(),
+        emissionsPerPerson: { co2: 40 },
+        legs: [
+          {
+            from: {},
+            to: {},
+            mode: 'SCOOTER',
+            rentedBike: true,
+            duration: 400,
+            distance: 1800,
+            route: null,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769660000).toISOString() },
+          },
+        ],
+      },
+    };
+    const { container } = renderItinerary(props, {
+      ...mockContext.config,
+      showCO2InItinerarySummary: true,
+    });
+
+    expect(
+      container.querySelector('.leg.scooter use')?.getAttribute('xlink:href'),
+    ).to.not.equal(null);
+    expect(
+      container.querySelectorAll('.itinerary-co2-value-container'),
+    ).to.have.lengthOf(0);
+  });
+
+  it('should show the CO2 leaf icon and total distance when configured and the itinerary has the lowest emissions', () => {
+    const props = {
+      lowestCo2value: 42,
+      itinerary: {
+        start: new Date(1553769600000).toISOString(),
+        end: new Date(1553769700000).toISOString(),
+        emissionsPerPerson: { co2: 42 },
+        legs: [
+          {
+            from: {},
+            to: {},
+            mode: 'RAIL',
+            route: { alerts: [], mode: 'RAIL' },
+            distance: 1500,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769660000).toISOString() },
+          },
+        ],
+      },
+    };
+    const { container } = renderItinerary(props, {
+      ...mockContext.config,
+      showCO2InItinerarySummary: true,
+      showDistanceInItinerarySummary: true,
+    });
+
+    expect(container.querySelectorAll('svg.co2-leaf')).to.have.lengthOf(1);
+    expect(
+      container.querySelector('.itinerary-co2-value').textContent,
+    ).to.equal('42 g');
+    expect(
+      container.querySelector('.itinerary-total-distance').textContent,
+    ).to.equal('1.5 km');
+  });
+
+  it('should show a short citybike duration warning when a single rental network exceeds its surcharge-free time', () => {
+    const props = {
+      itinerary: {
+        start: new Date(1553769600000).toISOString(),
+        end: new Date(1553770500000).toISOString(),
+        legs: [
+          {
+            from: {
+              vehicleRentalStation: {
+                rentalNetwork: { networkId: 'testnetwork' },
+              },
+            },
+            to: {},
+            mode: 'CITYBIKE',
+            rentedBike: true,
+            duration: 900,
+            distance: 3000,
+            route: null,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553770500000).toISOString() },
+          },
+        ],
+      },
+    };
+    const { container } = renderItinerary(props, {
+      ...mockContext.config,
+      vehicleRental: {
+        ...mockContext.config.vehicleRental,
+        networks: {
+          testnetwork: {
+            timeBeforeSurcharge: 600,
+            durationInstructions: 'https://example.org/pricing',
+            icon: 'citybike',
+          },
+        },
+      },
+    });
+
+    const warning = container.querySelector('.citybike-duration-info-short');
+    expect(warning).to.not.equal(null);
+    expect(warning.textContent).to.contain('10 min');
+  });
+
+  it('should show the general citybike duration warning when more than one rental network exceeds its surcharge-free time', () => {
+    const props = {
+      itinerary: {
+        start: new Date(1553769600000).toISOString(),
+        end: new Date(1553771400000).toISOString(),
+        legs: [
+          {
+            from: {
+              vehicleRentalStation: {
+                rentalNetwork: { networkId: 'networka' },
+              },
+            },
+            to: {},
+            mode: 'CITYBIKE',
+            rentedBike: true,
+            duration: 900,
+            distance: 3000,
+            route: null,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553770500000).toISOString() },
+          },
+          {
+            from: {
+              vehicleRentalStation: {
+                rentalNetwork: { networkId: 'networkb' },
+              },
+            },
+            to: {},
+            mode: 'CITYBIKE',
+            rentedBike: true,
+            duration: 900,
+            distance: 3000,
+            route: null,
+            start: { scheduledTime: new Date(1553770500000).toISOString() },
+            end: { scheduledTime: new Date(1553771400000).toISOString() },
+          },
+        ],
+      },
+    };
+    const { container } = renderItinerary(props, {
+      ...mockContext.config,
+      vehicleRental: {
+        ...mockContext.config.vehicleRental,
+        networks: {
+          networka: {
+            timeBeforeSurcharge: 600,
+            durationInstructions: 'https://example.org/pricing',
+          },
+          networkb: {
+            timeBeforeSurcharge: 600,
+            durationInstructions: 'https://example.org/pricing',
+          },
+        },
+      },
+    });
+
+    const warning = container.querySelector('.citybike-duration-info-short');
+    expect(warning).to.not.equal(null);
+    expect(warning.textContent).to.contain(
+      'Extra charge applies to several sections',
+    );
+  });
+
+  it('should render the Feedback component when feedback is requested for a recommended itinerary', () => {
+    const props = {
+      giveFeedback: () => {},
+      recommended: true,
+      feedback: true,
+      itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
+      intermediatePlaces:
+        dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
+      refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
+    };
+    const { container } = renderItinerary(props);
+    expect(container.querySelectorAll('.feedback-panel')).to.have.lengthOf(1);
+  });
+
+  it('should not render the Feedback component when feedback props are absent', () => {
+    const props = {
+      itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
+      intermediatePlaces:
+        dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
+      refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
+    };
+    const { container } = renderItinerary(props);
+    expect(container.querySelectorAll('.feedback-panel')).to.have.lengthOf(0);
+  });
+
+  it('should show an estimated time and dial-a-ride message for a call agency leg', () => {
+    const props = {
+      itinerary: {
+        start: new Date(1553769600000).toISOString(),
+        end: new Date(1553769660000).toISOString(),
+        legs: [
+          {
+            from: {},
+            to: {},
+            mode: 'BUS',
+            route: {
+              alerts: [],
+              mode: 'BUS',
+              type: ExtendedRouteTypes.CallAgency,
+              agency: { gtfsId: 'test:agency' },
+            },
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553769660000).toISOString() },
+          },
+        ],
+      },
+    };
+    const { container } = renderItinerary(props);
+
+    expect(
+      container.querySelector('.itinerary-duration').textContent,
+    ).to.contain('Estimate');
+    expect(container.textContent).to.contain('Dial-a-ride service');
+  });
+
+  describe('selecting an itinerary', () => {
+    const buildProps = extra => ({
+      hash: 2,
+      itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
+      intermediatePlaces:
+        dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
+      refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
+      ...extra,
+    });
+
+    it('should immediately navigate to the itinerary details when not passive', () => {
+      const replace = sinon.spy();
+      const push = sinon.spy();
+      const focusToHeader = sinon.spy();
+      const props = buildProps({ passive: false, focusToHeader });
+      const { container } = renderItinerary(props, undefined, {
+        ...mockContext.router,
+        replace,
+        push,
+      });
+      fireEvent.click(container.querySelector('.summary-clickable-area'));
+      expect(replace.calledOnce).to.equal(true);
+      expect(push.calledOnce).to.equal(true);
+      expect(focusToHeader.calledOnce).to.equal(true);
+    });
+
+    it('should only highlight the itinerary without navigating when passive on a large breakpoint', () => {
+      const replace = sinon.spy();
+      const push = sinon.spy();
+      const focusToHeader = sinon.spy();
+      const props = buildProps({
+        passive: true,
+        breakpoint: 'large',
+        focusToHeader,
+      });
+      const { container } = renderItinerary(props, undefined, {
+        ...mockContext.router,
+        replace,
+        push,
+      });
+      fireEvent.click(container.querySelector('.summary-clickable-area'));
+      expect(push.called).to.equal(false);
+      expect(replace.calledOnce).to.equal(true);
+      expect(replace.firstCall.args[0].state.selectedItineraryIndex).to.equal(
+        2,
+      );
+      expect(focusToHeader.called).to.equal(false);
+    });
+
+    it('should still navigate immediately on a mobile breakpoint even when passive', () => {
+      const replace = sinon.spy();
+      const push = sinon.spy();
+      const focusToHeader = sinon.spy();
+      const props = buildProps({
+        passive: true,
+        breakpoint: 'small',
+        focusToHeader,
+      });
+      const { container } = renderItinerary(props, undefined, {
+        ...mockContext.router,
+        replace,
+        push,
+      });
+      fireEvent.click(container.querySelector('.summary-clickable-area'));
+      expect(push.calledOnce).to.equal(true);
+      expect(focusToHeader.calledOnce).to.equal(true);
+    });
   });
 });

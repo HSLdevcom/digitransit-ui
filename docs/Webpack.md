@@ -41,17 +41,22 @@ and output settings.
   `main.scss`, so the dev server doesn't build every theme.
 - `app/util/loadDevTheme.js` holds a dynamic
   `require(`../../sass/themes/${window.config.CONFIG}/main.scss`)` that used
-  to live inline in `app/client.js` behind an `if (IS_DEV_BUILD)` runtime
-  check. That was moved into its own file, only added to `entry.main` when
-  `isDevelopment`, because webpack resolves a dynamic `require`'s "context
-  module" (every file the template string could possibly match) while
-  building the module graph — a step that runs before any dead-code
-  elimination and can't see across module boundaries. Guarding the
-  `require` with an *imported* boolean constant like `IS_DEV_BUILD` didn't
-  stop webpack from still resolving (and bundling) every theme's SCSS into
-  production; only literally excluding the file from `entry` in production
-  does. See `app/util/envUtils.js`'s `IS_DEV_BUILD` doc comment and PR
-  #5929 for the full story. It reads `window.config.CONFIG` (the
+  to live inline in `app/client.js` behind an
+  `if (process.env.NODE_ENV === 'development')` runtime check written as an
+  imported/computed constant rather than the literal expression. That was
+  moved into its own file, only added to `entry.main` when `isDevelopment`,
+  because webpack resolves a dynamic `require`'s "context module" (every
+  file the template string could possibly match) while building the module
+  graph — a step that runs before any dead-code elimination and can't see
+  across module boundaries. Guarding the `require` with an *imported*
+  boolean constant didn't stop webpack from still resolving (and bundling)
+  every theme's SCSS into production; only literally excluding the file
+  from `entry` in production does, and only a literal `process.env.NODE_ENV`
+  comparison written inline (any operator/value — `=== 'development'`,
+  `!== 'production'`, etc.) gets folded/dropped by
+  `DefinePlugin`/dead-code-elimination in the first place — an
+  imported/computed value can't be statically folded. See PR #5929 for the
+  full story. It reads `window.config.CONFIG` (the
   server-injected, already-resolved config object `app/client.js` uses for
   everything else) rather than `process.env.CONFIG`: the browser bundle
   never sees real build-time env var *values* (only the `ProvidePlugin`
@@ -198,10 +203,11 @@ shared between this config and `server/server.js`) via `InjectManifest`'s
 `modifyURLPrefix`, since the real CDN URL (`ASSET_URL` env var) isn't known
 at build time. `server/server.js`'s `/sw.js` route replaces that
 placeholder with the real `ASSET_URL` (or `''` if unset) at request time.
-This route only exists outside development (guarded by `IS_DEV_BUILD`,
-since `_static/sw.js` is only produced by a production build), matching
-`app/client.js`, which only ever registers the resulting service worker
-via `workbox-window`'s `Workbox` class when `!IS_DEV_BUILD` (replacing
+This route only exists outside development (guarded by
+`process.env.NODE_ENV !== 'development'`, since `_static/sw.js` is only
+produced by a production build), matching `app/client.js`, which only ever
+registers the resulting service worker via `workbox-window`'s `Workbox` class
+when `process.env.NODE_ENV !== 'development'` (replacing
 `offline-plugin/runtime`).
 
 ## Optimization

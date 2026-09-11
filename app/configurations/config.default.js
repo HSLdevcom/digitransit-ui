@@ -740,6 +740,10 @@ export default {
   showVehiclesOnItineraryPage: false,
   trafficNowLink: false,
   trafficNowTest: TRAFFIC_NOW_TEST,
+  // per-language path appended to URL.ROOTLINK used as the TrafficNowHeader
+  // breadcrumb link target; falls back to the index page when not defined,
+  // e.g. { fi: '/matkustaminen', sv: '/sv/att-resa', en: '/en/travelling' }
+  trafficNowRootPath: undefined,
   RUN_ENV,
   SURVEY_SHARE,
   // Maximum number of routes shown per transport mode card in the Traffic now
@@ -894,7 +898,7 @@ export default {
     },
     taxiExternalIcon: 'icon_taxi-external',
   },
-  carPickupZone: {
+  taxiZone: {
     enabled: false,
     direct: false,
     transit: false,
