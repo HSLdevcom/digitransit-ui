@@ -7,29 +7,11 @@ import React, {
   useReducer,
 } from 'react';
 import PropTypes from 'prop-types';
-import { isIeOrOldVersion } from '../util/browser';
 import { setReadMessageIds, getReadMessageIds } from '../data/localStorage';
-import {
-  setSessionMessageIds,
-  getSessionMessageIds,
-} from '../store/sessionStorage';
 import { useConfigContext } from '../configurations/ConfigContext';
 
 export const processStaticMessages = (root, callback) => {
-  const { staticMessages, staticIEMessage } = root;
-  if (Array.isArray(staticIEMessage) && isIeOrOldVersion()) {
-    staticIEMessage
-      .filter(
-        msg =>
-          msg.content &&
-          Object.keys(msg.content).some(
-            key =>
-              Array.isArray(msg.content[key]) && msg.content[key].length > 0,
-          ),
-      )
-      .forEach(callback);
-  }
-
+  const { staticMessages } = root;
   if (Array.isArray(staticMessages)) {
     staticMessages
       .filter(
@@ -68,7 +50,7 @@ const initialState = () => ({
 function messagesReducer(state, action) {
   switch (action.type) {
     case 'ADD_MESSAGE': {
-      const { message, readIds, sessionReadIds } = action;
+      const { message, readIds } = action;
       if (state.messages.has(message.id)) {
         return {
           ...state,
@@ -76,9 +58,8 @@ function messagesReducer(state, action) {
         };
       }
       if (
-        (message.persistence !== 'repeat' &&
-          readIds.indexOf(message.id) !== -1) ||
-        sessionReadIds.indexOf(message.id) !== -1
+        message.persistence !== 'repeat' &&
+        readIds.indexOf(message.id) !== -1
       ) {
         return state;
       }
@@ -129,37 +110,27 @@ export function MessageProvider({ children = null }) {
 
   const addMessage = useCallback(msg => {
     const readIds = getReadMessageIds();
-    const sessionReadIds = getSessionMessageIds();
     const message = { ...msg };
 
     if (!message.id) {
       message.id = JSON.stringify(message);
     }
-    dispatch({ type: 'ADD_MESSAGE', message, readIds, sessionReadIds });
+    dispatch({ type: 'ADD_MESSAGE', message, readIds });
   }, []);
 
   const markMessageAsRead = useCallback(ident => {
     const ids = Array.isArray(ident) ? ident : [ident];
     const readIds = getReadMessageIds();
-    const sessionReadIds = getSessionMessageIds();
     let changed;
-    let sessionChanged;
 
     ids.forEach(id => {
-      // Add staticIEMessage's id to sessionStorage (id 3)
-      if (readIds.indexOf(id) === -1 && id !== '3') {
+      if (readIds.indexOf(id) === -1) {
         readIds.push(id);
         changed = true;
-      } else if (sessionReadIds.indexOf(id) === -1 && id === '3') {
-        sessionReadIds.push(id);
-        sessionChanged = true;
       }
     });
     if (changed) {
       setReadMessageIds(readIds);
-    }
-    if (sessionChanged) {
-      setSessionMessageIds(sessionReadIds);
     }
     dispatch({ type: 'MARK_READ', ids });
   }, []);
