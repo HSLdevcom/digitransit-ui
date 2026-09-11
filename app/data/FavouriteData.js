@@ -249,7 +249,7 @@ class FavouriteData {
    * @param {*} newFavourites the full, locally computed favourites array
    * @param {*} payload the array actually sent to the backend service
    * @param {*} onFail callback invoked if storing to the backend service fails
-   * @param {*} responseType optional favourite 'type' to request back from
+   * @param {*} favouriteType optional favourite 'type' to request back from
    *   the backend service (see fav-service's filterFavourites): when given,
    *   the backend only returns favourites of that type instead of the
    *   whole favourites array (much smaller response), and the result is
@@ -260,14 +260,14 @@ class FavouriteData {
    *   no other favourite of that type - or of any other type - was
    *   affected by this update.
    */
-  persistFavourites(newFavourites, payload, onFail, responseType) {
+  persistFavourites(newFavourites, payload, onFail, favouriteType) {
     this.fetchingOrUpdating();
     if (this.config.allowLogin) {
-      updateFavourites(payload, responseType)
+      updateFavourites(payload, favouriteType)
         .then(res => {
-          if (responseType) {
+          if (favouriteType) {
             const kept = mapToStore(newFavourites).filter(
-              favourite => favourite.type !== responseType,
+              favourite => favourite.type !== favouriteType,
             );
             this.set([...kept, ...res]);
           } else {
