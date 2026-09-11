@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import favouriteStore, {
-  getPersonalizationWeights,
+  getPersonalizationPreferences,
 } from '../data/FavouriteData';
 import { addMessage } from '../action/MessageActions';
 import { failedFavouriteMessage, favouriteTypes } from '../util/messageUtils';
@@ -25,7 +25,7 @@ const FavouriteContext = createContext({
     saveFavourite: () => {},
     updateFavourites: () => {},
     deleteFavourite: () => {},
-    savePersonalizationWeights: () => {},
+    savePersonalizationPreferences: () => {},
     fetchFavourites: () => {},
     clearFavourites: () => {},
   },
@@ -39,12 +39,12 @@ export const useFavouriteStatus = () =>
 export const useFavouriteActions = () => useContext(FavouriteContext).actions;
 
 /**
- * Returns the mode weights of the 'personalization' favourite (see
- * getPersonalizationWeights() in data/FavouriteData.js), kept in sync with
- * the other favourites hooks above.
+ * Returns the preferences of the 'personalization' favourite (see
+ * getPersonalizationPreferences() in data/FavouriteData.js), kept in sync
+ * with the other favourites hooks above.
  */
-export const usePersonalizationWeights = () =>
-  getPersonalizationWeights(useFavourites());
+export const usePersonalizationPreferences = () =>
+  getPersonalizationPreferences(useFavourites());
 
 function resolveFavouriteType(data) {
   const item = Array.isArray(data) ? data[0] : data;
@@ -96,8 +96,8 @@ export function FavouriteProvider({ context, children = null }) {
         favouriteStore.deleteFavourite(data, () =>
           notifyFailure(resolveFavouriteType(data), false),
         ),
-      savePersonalizationWeights: weights =>
-        favouriteStore.savePersonalizationWeights(weights, () =>
+      savePersonalizationPreferences: preferences =>
+        favouriteStore.savePersonalizationPreferences(preferences, () =>
           notifyFailure('personalization', true),
         ),
       fetchFavourites: () => favouriteStore.fetchFavourites(),

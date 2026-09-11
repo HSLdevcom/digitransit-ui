@@ -106,16 +106,16 @@ export function getFavouritePlaces(favourites) {
 }
 
 /**
- * Returns the mode weights of the 'personalization' favourite, a
- * singleton favourite (at most one exists per user) holding the
- * itinerary personalization mode weights. Returns an empty object if no
- * such favourite exists yet.
+ * Returns the preferences of the 'personalization' favourite, a singleton
+ * favourite (at most one exists per user) holding itinerary personalization
+ * preferences, e.g. 'weights' (mode multipliers used to rate itineraries).
+ * Returns an empty object if no such favourite exists yet, or if it has no
+ * preferences saved.
  */
-export function getPersonalizationWeights(favourites) {
-  return (
-    find(favourites, favourite => favourite.type === 'personalization')
-      ?.weights || {}
-  );
+export function getPersonalizationPreferences(favourites) {
+  const { type, favouriteId, lastUpdated, ...preferences } =
+    find(favourites, favourite => favourite.type === 'personalization') || {};
+  return preferences;
 }
 
 /**
@@ -131,7 +131,7 @@ export function getPersonalizationWeights(favourites) {
  * getFavouriteByGtfsId, getFavouriteByStationIdAndNetworks,
  * getFavouriteRouteGtfsIds, getFavouriteStopsAndStations,
  * getFavouriteVehicleRentalStations, getFavouritePlaces,
- * getPersonalizationWeights, countLocations) are exported above as
+ * getPersonalizationPreferences, countLocations) are exported above as
  * standalone functions rather than methods on this class, so callers always
  * pass the favourites array they actually have (e.g. from useFavourites())
  * instead of implicitly reaching into this singleton's internal state.
@@ -234,20 +234,21 @@ class FavouriteData {
   }
 
   /**
-   * Saves (or updates) the 'personalization' favourite's weights. Reuses
-   * the existing favouriteId if a 'personalization' favourite already
-   * exists, so that saving never creates a duplicate.
+   * Saves (or updates) the 'personalization' favourite's preferences.
+   * Merges the given preferences into any existing 'personalization'
+   * favourite (and reuses its favouriteId, if one exists), so that saving
+   * never creates a duplicate and unrelated preferences aren't lost.
    *
-   * @param {*} weights mode weights object, e.g. { bus: 1.2, tram: 0.8 }
+   * @param {*} preferences preferences object to merge in, e.g. { weights: {...} }
    * @param {*} onFail callback invoked if storing the favourite fails
    */
-  savePersonalizationWeights(weights, onFail) {
+  savePersonalizationPreferences(preferences, onFail) {
     const existing = find(
       this.favourites,
       favourite => favourite.type === 'personalization',
     );
     this.saveFavourite(
-      { ...existing, type: 'personalization', weights },
+      { ...existing, type: 'personalization', ...preferences },
       onFail,
     );
   }

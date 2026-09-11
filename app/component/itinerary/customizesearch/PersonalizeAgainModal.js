@@ -10,7 +10,7 @@ import { useFavouriteActions } from '../../../hooks/FavouriteContext';
 export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
   const intl = useIntl();
   const config = useConfigContext();
-  const { savePersonalizationWeights } = useFavouriteActions();
+  const { savePersonalizationPreferences } = useFavouriteActions();
   const [action, setAction] = useState();
 
   const ok = intl.formatMessage({ id: 'continue' });
@@ -25,7 +25,7 @@ export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
 
   const handlePrimaryClick = () => {
     if (action === 'remove') {
-      savePersonalizationWeights({});
+      savePersonalizationPreferences({ weights: {} });
     }
     onContinue();
   };

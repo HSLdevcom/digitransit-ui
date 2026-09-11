@@ -47,7 +47,7 @@ import { getAllNetworksOfType } from '../../util/vehicleRentalUtils';
 import { isPersonalizationEnabled } from '../../util/modeUtils';
 import {
   useFavouriteActions,
-  usePersonalizationWeights,
+  usePersonalizationPreferences,
 } from '../../hooks/FavouriteContext';
 import DesktopView from '../DesktopView';
 import Loading from '../Loading';
@@ -165,25 +165,23 @@ export default function ItineraryPage(props, context) {
   const mobileRef = useRef();
   const ariaRef = useRef('summary-page.title');
   const mapLayerRef = useRef();
-  const { savePersonalizationWeights } = useFavouriteActions();
-  const personalizationWeights = usePersonalizationWeights();
-  const weights = useRef(personalizationWeights);
+  const { savePersonalizationPreferences } = useFavouriteActions();
+  const personalizationPreferences = usePersonalizationPreferences();
+  const weights = useRef(personalizationPreferences.weights || {});
   // personalization weights may still be loading (e.g. fetched from the
   // favourites backend) when this component mounts; hydrate the ref once
   // real data arrives, but only until then, so in-session feedback isn't
   // overwritten by a late-arriving fetch.
   const weightsHydratedRef = useRef(
-    !!Object.keys(personalizationWeights).length,
+    !!Object.keys(personalizationPreferences.weights || {}).length,
   );
   useEffect(() => {
-    if (
-      !weightsHydratedRef.current &&
-      Object.keys(personalizationWeights).length
-    ) {
-      weights.current = personalizationWeights;
+    const preferenceWeights = personalizationPreferences.weights || {};
+    if (!weightsHydratedRef.current && Object.keys(preferenceWeights).length) {
+      weights.current = preferenceWeights;
       weightsHydratedRef.current = true;
     }
-  }, [personalizationWeights]);
+  }, [personalizationPreferences]);
   const recommendedItinerary = useRef(-1);
 
   const [mainState, setMainState] = useState({
@@ -1427,7 +1425,7 @@ export default function ItineraryPage(props, context) {
       feedback_location: 'reittiohje',
     });
     weights.current = applyFeedback(weights.current, itinerary, liked);
-    savePersonalizationWeights(weights.current);
+    savePersonalizationPreferences({ weights: weights.current });
     const updated = { ...feedback };
     updated[i] = liked;
     setFeedback(updated);
