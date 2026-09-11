@@ -234,19 +234,55 @@ class FavouriteData {
   }
 
   /**
+   * Persists `newFavourites` as the new favourites state: syncs `payload`
+   * to the backend service (when login is allowed), then applies the
+   * result (or, on failure/when login isn't allowed, `newFavourites`
+   * itself) as the current favourites.
+   *
+   * `payload` is usually the same array as `newFavourites` - the whole,
+   * locally computed favourites array. savePersonalizationPreferences()
+   * is the exception: it only needs to send the single changed favourite
+   * (fav-service's merge endpoint treats 'personalization' as a singleton
+   * favourite matched by type alone), so it passes a smaller `payload`
+   * while still keeping `newFavourites` as the full local state.
+   *
+   * @param {*} newFavourites the full, locally computed favourites array
+   * @param {*} payload the array actually sent to the backend service
+   * @param {*} onFail callback invoked if storing to the backend service fails
+   */
+  persistFavourites(newFavourites, payload, onFail) {
+    this.fetchingOrUpdating();
+    if (this.config.allowLogin) {
+      updateFavourites(payload)
+        .then(res => {
+          this.set(res);
+        })
+        .catch(() => {
+          onFail();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.set(newFavourites);
+            setFavouriteStorage(newFavourites);
+          }
+          this.fetchComplete();
+        });
+    } else {
+      this.set(newFavourites);
+      setFavouriteStorage(newFavourites);
+    }
+  }
+
+  /**
    * Saves (or updates) the 'personalization' favourite's preferences.
    * Merges the given preferences into any existing 'personalization'
    * favourite (and reuses its favouriteId, if one exists), so that saving
    * never creates a duplicate and unrelated preferences aren't lost.
    *
    * Unlike saveFavourite()/updateFavourites(), this does NOT resend the
-   * whole favourites array to the backend: fav-service's merge endpoint
-   * treats 'personalization' as a singleton favourite matched by type
-   * alone (see fav-service's mergeFavourites), so sending just the changed
-   * favourite is enough for the backend to merge it in without touching
-   * any other favourites. This keeps personalization saves (which can
-   * happen frequently, e.g. once per itinerary feedback) cheap regardless
-   * of how many other favourites the user has.
+   * whole favourites array to the backend; see persistFavourites() above
+   * for why only the changed favourite needs to be sent. This keeps
+   * personalization saves (which can happen frequently, e.g. once per
+   * itinerary feedback) cheap regardless of how many other favourites the
+   * user has.
    *
    * @param {*} preferences preferences object to merge in, e.g. { weights: {...} }
    * @param {*} onFail callback invoked if storing the favourite fails
@@ -263,7 +299,6 @@ class FavouriteData {
       lastUpdated: unixTime(),
       favouriteId: existing?.favouriteId || uuid(),
     };
-    this.fetchingOrUpdating();
     const newFavourites = mapToStore(this.favourites);
     const editIndex = findIndex(
       newFavourites,
@@ -274,24 +309,7 @@ class FavouriteData {
     } else {
       newFavourites.push(favourite);
     }
-    if (this.config.allowLogin) {
-      // Only the changed favourite is sent; see the doc comment above.
-      updateFavourites([favourite])
-        .then(res => {
-          this.set(res);
-        })
-        .catch(() => {
-          onFail();
-          if (this.config.allowFavouritesFromLocalstorage) {
-            this.set(newFavourites);
-            setFavouriteStorage(newFavourites);
-          }
-          this.fetchComplete();
-        });
-    } else {
-      this.set(newFavourites);
-      setFavouriteStorage(newFavourites);
-    }
+    this.persistFavourites(newFavourites, [favourite], onFail);
   }
 
   /**
@@ -333,7 +351,6 @@ class FavouriteData {
         `New favourite is not a object:${JSON.stringify(favourite)}`,
       );
     }
-    this.fetchingOrUpdating();
     if (favourite.type === 'bikeStation') {
       favourite = mapVehicleRentalToStore(favourite);
     }
@@ -354,24 +371,7 @@ class FavouriteData {
         favouriteId: uuid(),
       });
     }
-    if (this.config.allowLogin) {
-      // Update favourites to backend service
-      updateFavourites(newFavourites)
-        .then(res => {
-          this.set(res);
-        })
-        .catch(() => {
-          onFail();
-          if (this.config.allowFavouritesFromLocalstorage) {
-            this.set(newFavourites);
-            setFavouriteStorage(newFavourites);
-          }
-          this.fetchComplete();
-        });
-    } else {
-      this.set(newFavourites);
-      setFavouriteStorage(newFavourites);
-    }
+    this.persistFavourites(newFavourites, newFavourites, onFail);
   }
 
   /**
