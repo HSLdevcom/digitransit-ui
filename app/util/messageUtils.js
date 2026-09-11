@@ -4,6 +4,7 @@ export const favouriteTypes = [
   'bikeStation',
   'place',
   'route',
+  'personalization',
 ];
 
 /**

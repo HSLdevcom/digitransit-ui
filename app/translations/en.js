@@ -13,6 +13,8 @@ export default {
     acknowledged: 'OK',
     'add-favourite-bikeStation-failed-heading':
       'Saving the citybike station failed',
+    'add-favourite-personalization-failed-heading':
+      'Saving your personalization settings failed',
     'add-favourite-place-failed-heading': 'Unable to save location',
     'add-favourite-route-failed-heading': 'Saving the route failed',
     'add-favourite-station-failed-heading': 'Saving the station failed.',

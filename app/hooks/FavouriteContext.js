@@ -7,7 +7,9 @@ import React, {
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
-import favouriteStore from '../data/FavouriteData';
+import favouriteStore, {
+  getPersonalizationPreferences,
+} from '../data/FavouriteData';
 import { addMessage } from '../action/MessageActions';
 import { failedFavouriteMessage, favouriteTypes } from '../util/messageUtils';
 import { useConfigContext } from '../configurations/ConfigContext';
@@ -23,6 +25,7 @@ const FavouriteContext = createContext({
     saveFavourite: () => {},
     updateFavourites: () => {},
     deleteFavourite: () => {},
+    savePersonalizationPreferences: () => {},
     fetchFavourites: () => {},
     clearFavourites: () => {},
   },
@@ -34,6 +37,14 @@ export const useFavouriteStatus = () =>
   useContext(FavouriteContext).favouriteStatus;
 
 export const useFavouriteActions = () => useContext(FavouriteContext).actions;
+
+/**
+ * Returns the preferences of the 'personalization' favourite (see
+ * getPersonalizationPreferences() in data/FavouriteData.js), kept in sync
+ * with the other favourites hooks above.
+ */
+export const usePersonalizationPreferences = () =>
+  getPersonalizationPreferences(useFavourites());
 
 function resolveFavouriteType(data) {
   const item = Array.isArray(data) ? data[0] : data;
@@ -84,6 +95,10 @@ export function FavouriteProvider({ context, children = null }) {
       deleteFavourite: data =>
         favouriteStore.deleteFavourite(data, () =>
           notifyFailure(resolveFavouriteType(data), false),
+        ),
+      savePersonalizationPreferences: preferences =>
+        favouriteStore.savePersonalizationPreferences(preferences, () =>
+          notifyFailure('personalization', true),
         ),
       fetchFavourites: () => favouriteStore.fetchFavourites(),
       fetchFavouritesComplete: () => favouriteStore.fetchComplete(),
