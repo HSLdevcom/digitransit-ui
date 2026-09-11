@@ -7,7 +7,9 @@ import React, {
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
-import favouriteStore from '../data/FavouriteData';
+import favouriteStore, {
+  getPersonalizationWeights,
+} from '../data/FavouriteData';
 import { addMessage } from '../action/MessageActions';
 import { failedFavouriteMessage, favouriteTypes } from '../util/messageUtils';
 import { useConfigContext } from '../configurations/ConfigContext';
@@ -38,11 +40,11 @@ export const useFavouriteActions = () => useContext(FavouriteContext).actions;
 
 /**
  * Returns the mode weights of the 'personalization' favourite (see
- * FavouriteData.getPersonalizationWeights()), kept in sync with the other
- * favourites hooks above.
+ * getPersonalizationWeights() in data/FavouriteData.js), kept in sync with
+ * the other favourites hooks above.
  */
 export const usePersonalizationWeights = () =>
-  favouriteStore.getPersonalizationWeights(useFavourites());
+  getPersonalizationWeights(useFavourites());
 
 function resolveFavouriteType(data) {
   const item = Array.isArray(data) ? data[0] : data;

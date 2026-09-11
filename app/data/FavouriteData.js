@@ -106,6 +106,19 @@ export function getFavouritePlaces(favourites) {
 }
 
 /**
+ * Returns the mode weights of the 'personalization' favourite, a
+ * singleton favourite (at most one exists per user) holding the
+ * itinerary personalization mode weights. Returns an empty object if no
+ * such favourite exists yet.
+ */
+export function getPersonalizationWeights(favourites) {
+  return (
+    find(favourites, favourite => favourite.type === 'personalization')
+      ?.weights || {}
+  );
+}
+
+/**
  * Plain (non-Flux) singleton that holds the current favourites and syncs
  * them with the backend service and/or localStorage. This replaces the
  * former Fluxible FavouriteStore. React components should not use this
@@ -117,11 +130,11 @@ export function getFavouritePlaces(favourites) {
  * Pure query helpers over a favourites array (isFavourite,
  * getFavouriteByGtfsId, getFavouriteByStationIdAndNetworks,
  * getFavouriteRouteGtfsIds, getFavouriteStopsAndStations,
- * getFavouriteVehicleRentalStations, getFavouritePlaces, countLocations) are
- * exported above as standalone functions rather than methods on this class,
- * so callers always pass the favourites array they actually have (e.g. from
- * useFavourites()) instead of implicitly reaching into this singleton's
- * internal state.
+ * getFavouriteVehicleRentalStations, getFavouritePlaces,
+ * getPersonalizationWeights, countLocations) are exported above as
+ * standalone functions rather than methods on this class, so callers always
+ * pass the favourites array they actually have (e.g. from useFavourites())
+ * instead of implicitly reaching into this singleton's internal state.
  */
 class FavouriteData {
   favourites = [];
@@ -218,19 +231,6 @@ class FavouriteData {
 
   getFavourites() {
     return this.favourites;
-  }
-
-  /**
-   * Returns the mode weights of the 'personalization' favourite, a
-   * singleton favourite (at most one exists per user) holding the
-   * itinerary personalization mode weights. Returns an empty object if no
-   * such favourite exists yet.
-   */
-  getPersonalizationWeights(favourites = this.favourites) {
-    return (
-      find(favourites, favourite => favourite.type === 'personalization')
-        ?.weights || {}
-    );
   }
 
   /**
