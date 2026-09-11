@@ -117,7 +117,7 @@ export const getPopupHeaderValues = (feature, language) => {
 
 const PointFeatureMarker = ({
   feature,
-  icons,
+  icons = {},
   language,
   locationPopup,
   onSelectLocation,
@@ -191,10 +191,6 @@ PointFeatureMarker.propTypes = {
   locationPopup: PropTypes.string,
   onSelectLocation: PropTypes.func,
   size: PropTypes.number,
-};
-
-PointFeatureMarker.defaultProps = {
-  icons: {},
 };
 
 export default PointFeatureMarker;
