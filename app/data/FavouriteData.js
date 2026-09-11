@@ -239,6 +239,15 @@ class FavouriteData {
    * favourite (and reuses its favouriteId, if one exists), so that saving
    * never creates a duplicate and unrelated preferences aren't lost.
    *
+   * Unlike saveFavourite()/updateFavourites(), this does NOT resend the
+   * whole favourites array to the backend: fav-service's merge endpoint
+   * treats 'personalization' as a singleton favourite matched by type
+   * alone (see fav-service's mergeFavourites), so sending just the changed
+   * favourite is enough for the backend to merge it in without touching
+   * any other favourites. This keeps personalization saves (which can
+   * happen frequently, e.g. once per itinerary feedback) cheap regardless
+   * of how many other favourites the user has.
+   *
    * @param {*} preferences preferences object to merge in, e.g. { weights: {...} }
    * @param {*} onFail callback invoked if storing the favourite fails
    */
@@ -247,10 +256,42 @@ class FavouriteData {
       this.favourites,
       favourite => favourite.type === 'personalization',
     );
-    this.saveFavourite(
-      { ...existing, type: 'personalization', ...preferences },
-      onFail,
+    const favourite = {
+      ...existing,
+      type: 'personalization',
+      ...preferences,
+      lastUpdated: unixTime(),
+      favouriteId: existing?.favouriteId || uuid(),
+    };
+    this.fetchingOrUpdating();
+    const newFavourites = mapToStore(this.favourites);
+    const editIndex = findIndex(
+      newFavourites,
+      item => item.favouriteId === favourite.favouriteId,
     );
+    if (editIndex >= 0) {
+      newFavourites[editIndex] = favourite;
+    } else {
+      newFavourites.push(favourite);
+    }
+    if (this.config.allowLogin) {
+      // Only the changed favourite is sent; see the doc comment above.
+      updateFavourites([favourite])
+        .then(res => {
+          this.set(res);
+        })
+        .catch(() => {
+          onFail();
+          if (this.config.allowFavouritesFromLocalstorage) {
+            this.set(newFavourites);
+            setFavouriteStorage(newFavourites);
+          }
+          this.fetchComplete();
+        });
+    } else {
+      this.set(newFavourites);
+      setFavouriteStorage(newFavourites);
+    }
   }
 
   /**
