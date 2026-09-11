@@ -8,13 +8,9 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import favouriteStore from '../data/FavouriteData';
-import { addMessage } from '../action/MessageActions';
+import { useMessageActions } from './MessageContext';
 import { failedFavouriteMessage, favouriteTypes } from '../util/messageUtils';
 import { useConfigContext } from '../configurations/ConfigContext';
-
-const fluxibleContextShape = PropTypes.shape({
-  executeAction: PropTypes.func.isRequired,
-});
 
 const FavouriteContext = createContext({
   favourites: [],
@@ -42,16 +38,17 @@ function resolveFavouriteType(data) {
     : favouriteTypes[0];
 }
 
-export function FavouriteProvider({ context, children = null }) {
+export function FavouriteProvider({ children = null }) {
   const config = useConfigContext();
+  const { addMessage } = useMessageActions();
   const [favourites, setFavourites] = useState(favouriteStore.getFavourites());
   const [favouriteStatus, setFavouriteStatus] = useState(
     favouriteStore.getStatus(),
   );
 
-  // config and context are stable for the app's lifetime (set once at app
-  // init in client.js), so they are intentionally omitted from dependency
-  // arrays below. favouriteStore is also already initialized by client.js
+  // config is stable for the app's lifetime (set once at app init in
+  // client.js), so it's intentionally omitted from dependency arrays below.
+  // favouriteStore is also already initialized by client.js
   // (favouriteStore.init(config)) before this provider ever mounts.
   useEffect(() => {
     const onChange = () => {
@@ -63,13 +60,16 @@ export function FavouriteProvider({ context, children = null }) {
     return () => favouriteStore.removeChangeListener(onChange);
   }, []);
 
-  // Sends a failure message via the (still Fluxible-backed) MessageStore.
+  // Sends a failure message via MessageContext.
   // This if statement should be removed when backend service is added for waltti
-  const notifyFailure = useCallback((type, isSave) => {
-    if (!config.allowFavouritesFromLocalstorage) {
-      context.executeAction(addMessage, failedFavouriteMessage(type, isSave));
-    }
-  }, []);
+  const notifyFailure = useCallback(
+    (type, isSave) => {
+      if (!config.allowFavouritesFromLocalstorage) {
+        addMessage(failedFavouriteMessage(type, isSave));
+      }
+    },
+    [addMessage],
+  );
 
   const actions = useMemo(
     () => ({
@@ -105,6 +105,5 @@ export function FavouriteProvider({ context, children = null }) {
 }
 
 FavouriteProvider.propTypes = {
-  context: fluxibleContextShape.isRequired,
   children: PropTypes.node,
 };

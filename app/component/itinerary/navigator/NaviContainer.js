@@ -1,4 +1,3 @@
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape } from 'found';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
@@ -212,12 +211,4 @@ NaviContainer.defaultProps = {
   isNavigatorIntroDismissed: false,
 };
 
-const connectedComponent = connectToStores(
-  NaviContainer,
-  ['MessageStore'],
-  context => ({
-    messages: context.getStore('MessageStore').getMessages(),
-  }),
-);
-
-export default connectedComponent;
+export default NaviContainer;

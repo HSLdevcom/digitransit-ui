@@ -1,7 +1,6 @@
 import Fluxible from 'fluxible';
 
 import routes from './routes';
-import MessageStore from './store/MessageStore';
 import OldSearchesStore from './store/OldSearchesStore';
 import PositionStore from './store/PositionStore';
 import OriginStore from './store/OriginStore';
@@ -16,7 +15,6 @@ export default config => {
     component: routes(config),
   });
 
-  app.registerStore(MessageStore);
   app.registerStore(OldSearchesStore);
   app.registerStore(PositionStore);
   app.registerStore(OriginStore);
