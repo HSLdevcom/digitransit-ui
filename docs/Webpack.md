@@ -80,10 +80,10 @@ and output settings.
 ## Module rules (loaders)
 
 - **`app/**/*.js`** — `babel-loader`, config inline (`configFile: false`;
-  `.babelrc`/`babel.config.js` are only for tooling like tests).
+  `.babelrc`/`babel.config.cjs` are only for tooling like tests).
   `@babel/preset-env` has no explicit `targets` — it inherits the
   `browserslist` key in `package.json`, the single source of truth for
-  supported browsers shared with `postcss.config.js`/autoprefixer. Also:
+  supported browsers shared with `postcss.config.cjs`/autoprefixer. Also:
   `@babel/preset-react`, Relay's babel plugin, and
   `@babel/plugin-transform-runtime` (dedupes/shares Babel helper functions
   across files instead of inlining a copy per file).
@@ -307,7 +307,7 @@ user-agent-specific JS polyfills at runtime — intentional, documented
 architecture (see `docs/Architecture.md`), not controlled by this file,
 but relevant context for "old browser support" in this codebase overall.
 
-## `postcss.config.js`
+## `postcss.config.cjs`
 
 Small file outside this config, consumed by its `postcss-loader` step:
 runs `autoprefixer` + `postcss-flexbugs-fixes` in production only. Still

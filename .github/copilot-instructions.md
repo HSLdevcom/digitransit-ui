@@ -88,7 +88,7 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
   - Run a single test by name (grep on describe/it or filename stem):
     `yarn test-single -g <pattern>` (this is `test-unit:app -g <pattern>`).
   - Watch mode: `yarn run test-unit -- --watch`.
-- E2E/visual tests (Jest + Playwright, config under `test/e2e/jest.config.js`), require a prior
+- E2E/visual tests (Jest + Playwright, config under `test/e2e/jest.config.cjs`), require a prior
   `yarn build`:
   - `CONFIG=hsl yarn test:e2e` (desktop), `MOBILE=TRUE CONFIG=hsl yarn test:e2e` (mobile).
   - Single test: `CONFIG=hsl yarn test:e2e -- FrontPage`.
