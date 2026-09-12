@@ -266,6 +266,6 @@ config without preserving this.
 ## Build Caching
 
 Because `nx.json`'s `build` target defines an explicit `inputs` list, any
-future shared build config file (beyond `config/rollup.config.mjs`/
+future shared build config file (beyond `config/rollup.config.js`/
 `config/babel.config.cjs`, already listed there) needs adding to that list
 too, or editing it won't invalidate every package's Nx build cache.

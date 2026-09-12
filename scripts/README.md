@@ -43,7 +43,7 @@ Both are pure build/server-side helpers, required directly (not run standalone):
   (`webpack.config.babel.js`) and substituted with the real `ASSET_URL` at request time
   (`server/server.js`).
 
-## Using `theme/add-theme.mjs`
+## Using `theme/add-theme.js`
 
 Scaffolds a new theme: creates `sass/themes/<name>`, a config file at
 `app/configurations/config.<name>.js` (from `theme/template.waltti.js`), and registers the theme
@@ -53,7 +53,7 @@ in `config.default.js`'s host-name mapping. See [`docs/Themes.md`](/docs/Themes.
 yarn add-theme <name> '#RRGGBB' <optional navbar logo>
 ```
 
-## Using `workspace-packages/check-versions.mjs`
+## Using `workspace-packages/check-versions.js`
 
 Runs two checks against the workspace packages (`digitransit-component`,
 `digitransit-search-util`, `digitransit-store`, `digitransit-util`); both are enforced in CI on
@@ -99,19 +99,19 @@ separate from the `sort-translations.js` script above. Flags any key missing fro
 locale. See the `workspace-packages-translations-check`/`-fix` scripts in
 [`package.json`](/package.json).
 
-## Using `generate-schema.mjs`
+## Using `generate-schema.js`
 
 Regenerates `schema/schema.graphql` (the GraphQL schema used by relay-compiler and
 graphql-eslint) from the OTP repo. `digitransit-search-util-query-utils` references this same
 file via a relative path (`../../../schema/schema.graphql`) rather than keeping its own copy.
 
 ```
-node scripts/generate-schema.mjs
+node scripts/generate-schema.js
 ```
 
 Use `SCHEMA_SRC=<url-or-local-path>` to fetch/copy from a non-default location, e.g. from a
 local OTP clone:
 ```
-SCHEMA_SRC=~/OpenTripPlanner/application/src/main/resources/org/opentripplanner/apis/gtfs/schema.graphqls node scripts/generate-schema.mjs
+SCHEMA_SRC=~/OpenTripPlanner/application/src/main/resources/org/opentripplanner/apis/gtfs/schema.graphqls node scripts/generate-schema.js
 ```
 
