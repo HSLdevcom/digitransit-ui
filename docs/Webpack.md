@@ -102,6 +102,15 @@ and output settings.
   webpack5's stricter default ESM resolution would otherwise reject.
 - **`.mjs` under `node_modules`** — same treatment, for packages (e.g.
   `@radix-ui`) that ship a native ESM entry point instead.
+- **`digitransit-component`/`digitransit-store` sources** — forced
+  `type: 'javascript/auto'`. These packages' real ESM Rollup build
+  (`lib/index.js`, see `docs/WorkspacePackages.md`) still default-imports
+  CJS peer deps (e.g. `@hsl-fi/modal`) that only mark themselves via
+  Babel's userland `__esModule` flag, not a real `"module"`/`exports`
+  field. Strict ESM's default-import semantics don't recognize that flag
+  and bind the whole `module.exports` instead of `.default`, crashing at
+  render ("Element type is invalid"); `javascript/auto`'s lenient interop
+  unwraps it correctly, same as the rest of the app.
 - **`.scss`** — `sass-loader` → `postcss-loader` → `css-loader` →
   `style-loader` (dev) / `MiniCssExtractPlugin.loader` (prod). Includes
   Foundation Sites' Sass path via `loadPaths` (Dart Sass's modern name for
