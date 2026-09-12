@@ -1,4 +1,4 @@
-import { startMqttClient, changeTopics } from '../util/mqttClient';
+import { startMqttClient, changeTopics } from '../util/mqttClient.js';
 
 export function startRealTimeClient(actionContext, settings, done) {
   /* settings may have changed, so reset old store content */

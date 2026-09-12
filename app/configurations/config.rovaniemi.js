@@ -1,5 +1,5 @@
-import configMerger from '../util/configMerger';
-import walttiConfig from './config.waltti';
+import configMerger from '../util/configMerger.js';
+import walttiConfig from './config.waltti.js';
 
 const CONFIG = 'rovaniemi';
 const APP_TITLE = 'Rovaniemen reittiopas';

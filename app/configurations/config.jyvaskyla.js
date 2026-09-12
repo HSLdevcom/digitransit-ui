@@ -1,6 +1,6 @@
-import configMerger from '../util/configMerger';
-import { isDevRunEnv } from '../util/envUtils';
-import walttiConfig from './config.waltti';
+import configMerger from '../util/configMerger.js';
+import { isDevRunEnv } from '../util/envUtils.js';
+import walttiConfig from './config.waltti.js';
 
 const CONFIG = 'jyvaskyla';
 const APP_TITLE = 'Reittiopas Jyväskylä';

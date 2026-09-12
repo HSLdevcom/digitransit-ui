@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { DATE_FORMAT } from '../constants';
+import { DATE_FORMAT } from '../constants.js';
 
 export const prepareServiceDay = params => {
   return {

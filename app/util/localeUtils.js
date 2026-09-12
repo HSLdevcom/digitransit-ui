@@ -1,12 +1,12 @@
-import { TransportMode } from '../constants';
+import { TransportMode } from '../constants.js';
 import {
   isBikeOrScooterRentalLeg,
   isPlatformChanged,
   isScooterLeg,
   isTaxiLeg,
   legTimeStr,
-} from './legUtils';
-import { dateOrEmpty, durationToString } from './timeUtils';
+} from './legUtils.js';
+import { dateOrEmpty, durationToString } from './timeUtils.js';
 
 const TRACK_OR_PIER_OR_PLATFORM_TEXT_SHORT_MSGS = {
   [TransportMode.Rail]: { id: 'track', defaultMessage: 'Track' },

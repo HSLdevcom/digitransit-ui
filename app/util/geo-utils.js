@@ -2,7 +2,7 @@
 import unzip from 'lodash/unzip';
 
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { isImperial } from './browser';
+import { isImperial } from './browser.js';
 
 function toRad(deg) {
   return deg * (Math.PI / 180);

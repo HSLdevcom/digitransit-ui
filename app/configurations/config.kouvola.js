@@ -1,6 +1,6 @@
-import configMerger from '../util/configMerger';
-import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
-import walttiConfig from './config.waltti';
+import configMerger from '../util/configMerger.js';
+import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils.js';
+import walttiConfig from './config.waltti.js';
 
 const CONFIG = 'kouvola';
 const APP_TITLE = 'Kouvolan reittiopas';

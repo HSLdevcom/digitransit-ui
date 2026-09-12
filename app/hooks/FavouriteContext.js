@@ -7,10 +7,13 @@ import React, {
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
-import favouriteStore from '../data/FavouriteData';
-import { addMessage } from '../action/MessageActions';
-import { failedFavouriteMessage, favouriteTypes } from '../util/messageUtils';
-import { useConfigContext } from '../configurations/ConfigContext';
+import favouriteStore from '../data/FavouriteData.js';
+import { addMessage } from '../action/MessageActions.js';
+import {
+  failedFavouriteMessage,
+  favouriteTypes,
+} from '../util/messageUtils.js';
+import { useConfigContext } from '../configurations/ConfigContext.js';
 
 const fluxibleContextShape = PropTypes.shape({
   executeAction: PropTypes.func.isRequired,

@@ -1,7 +1,7 @@
 import Store from 'fluxible/addons/BaseStore';
-import events from '../util/events';
-import { unixTime } from '../util/timeUtils';
-import { splitGtfsId } from '../util/gtfs';
+import events from '../util/events.js';
+import { unixTime } from '../util/timeUtils.js';
+import { splitGtfsId } from '../util/gtfs.js';
 
 class RealTimeInformationStore extends Store {
   static storeName = 'RealTimeInformationStore';

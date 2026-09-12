@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import cloneDeep from 'lodash/cloneDeep';
-import defaultConfig from './configurations/config.default';
-import configMerger from './util/configMerger';
-import { LightenDarkenColor } from './util/colorUtils';
-import { boundWithMinimumAreaSimple } from './util/geo-utils';
+import defaultConfig from './configurations/config.default.js';
+import configMerger from './util/configMerger.js';
+import { LightenDarkenColor } from './util/colorUtils.js';
+import { boundWithMinimumAreaSimple } from './util/geo-utils.js';
 
 const configs = {}; // cache merged configs for speed
 const themeMap = {};

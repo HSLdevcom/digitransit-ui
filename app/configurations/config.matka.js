@@ -1,12 +1,12 @@
-import HSLConfig from './config.hsl';
-import TurkuConfig from './config.turku';
-import LappeenrantaConfig from './config.lappeenranta';
-import TampereConfig from './config.tampere';
-import KotkaConfig from './config.kotka';
-import KouvolaConfig from './config.kouvola';
-import KuopioConfig from './config.kuopio';
-import LahtiConfig from './config.lahti';
-import { isDevRunEnv } from '../util/envUtils';
+import HSLConfig from './config.hsl.js';
+import TurkuConfig from './config.turku.js';
+import LappeenrantaConfig from './config.lappeenranta.js';
+import TampereConfig from './config.tampere.js';
+import KotkaConfig from './config.kotka.js';
+import KouvolaConfig from './config.kouvola.js';
+import KuopioConfig from './config.kuopio.js';
+import LahtiConfig from './config.lahti.js';
+import { isDevRunEnv } from '../util/envUtils.js';
 
 const CONFIG = 'matka';
 const APP_DESCRIPTION =

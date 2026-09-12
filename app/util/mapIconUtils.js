@@ -1,10 +1,10 @@
 import memoize from 'lodash/memoize';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
-import glfun from './glfun';
-import { transitIconName } from './modeUtils';
-import { getModeIconColor } from './colorUtils';
-import { ParkTypes, TransportMode } from '../constants';
+import glfun from './glfun.js';
+import { transitIconName } from './modeUtils.js';
+import { getModeIconColor } from './colorUtils.js';
+import { ParkTypes, TransportMode } from '../constants.js';
 
 /**
  * Corresponds to an arc forming a full circle (Math.PI * 2).

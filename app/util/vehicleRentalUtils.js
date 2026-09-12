@@ -1,10 +1,10 @@
 import isString from 'lodash/isString';
 import without from 'lodash/without';
-import { getCustomizedSettings } from '../data/localStorage';
-import { addAnalyticsEvent } from './analyticsUtils';
-import { networkIsActive } from './modeUtils';
-import { isAndroid, isIOS } from './browser';
-import { splitGtfsId } from './gtfs';
+import { getCustomizedSettings } from '../data/localStorage.js';
+import { addAnalyticsEvent } from './analyticsUtils.js';
+import { networkIsActive } from './modeUtils.js';
+import { isAndroid, isIOS } from './browser.js';
+import { splitGtfsId } from './gtfs.js';
 
 export const BIKEAVL_UNKNOWN = 'No availability';
 export const BIKEAVL_BIKES = 'Bikes on station';

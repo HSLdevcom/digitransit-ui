@@ -1,4 +1,4 @@
-import matkaConfig from './config.matka';
+import matkaConfig from './config.matka.js';
 
 const CONFIG = 'kela';
 const APP_TITLE = 'Reittiopas';
