@@ -1,5 +1,8 @@
 import Store from 'fluxible/addons/BaseStore';
-import { getGeolocationState, setGeolocationState } from '../data/localStorage';
+import {
+  getGeolocationState,
+  setGeolocationState,
+} from '../data/localStorage.js';
 
 export default class PositionStore extends Store {
   static storeName = 'PositionStore';

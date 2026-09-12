@@ -2,13 +2,13 @@ import isString from 'lodash/isString';
 import sortedUniq from 'lodash/sortedUniq';
 import xor from 'lodash/xor';
 import inside from 'point-in-polygon';
-import { getCustomizedSettings } from '../data/localStorage';
-import { isInBoundingBox } from './geo-utils';
-import { addAnalyticsEvent } from './analyticsUtils';
-import { ExtendedRouteTypes, TransportMode } from '../constants';
-import { isDevRunEnv } from './envUtils';
-import { isExternalFeed } from './feedScopedIdUtils';
-import { splitGtfsId } from './gtfs';
+import { getCustomizedSettings } from '../data/localStorage.js';
+import { isInBoundingBox } from './geo-utils.js';
+import { addAnalyticsEvent } from './analyticsUtils.js';
+import { ExtendedRouteTypes, TransportMode } from '../constants.js';
+import { isDevRunEnv } from './envUtils.js';
+import { isExternalFeed } from './feedScopedIdUtils.js';
+import { splitGtfsId } from './gtfs.js';
 
 function seasonMs(ddmmyyyy) {
   const parts = ddmmyyyy.split('.');

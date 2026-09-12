@@ -1,4 +1,4 @@
-import { legTime } from './legUtils';
+import { legTime } from './legUtils.js';
 
 /**
  * Maps status to corresponding string.
