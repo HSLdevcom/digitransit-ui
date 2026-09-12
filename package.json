@@ -54,6 +54,7 @@
     "workspace-packages-translations-fix": "node scripts/workspace-packages/sort-translations.mjs --fix"
   },
   "main": "server.js",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/HSLdevcom/digitransit-ui"
@@ -110,7 +111,8 @@
   "relay": {
     "src": "./app",
     "schema": "./schema/schema.graphql",
-    "language": "javascript"
+    "language": "javascript",
+    "eagerEsModules": true
   },
   "dependencies": {
     "@azure/cosmos": "^4.0.0",

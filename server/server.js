@@ -1,37 +1,48 @@
-/* eslint-disable no-param-reassign, no-console, strict, global-require, no-unused-vars, func-names */
+/* eslint-disable no-param-reassign, no-console, no-unused-vars, func-names */
 
-'use strict';
+// This file runs as native ESM (the repo is `"type": "module"`) - no
+// `@babel/register` transpile hook. Its `../app/*` require-chain no longer
+// renders React server-side (see app/server.js) and every module in it is
+// plain ESM, so Node 24 loads it directly.
+import path from 'path';
+import fs from 'fs';
+import { createRequire } from 'module';
+import proxy from 'express-http-proxy';
+import express from 'express';
+import expressStaticGzip from 'express-static-gzip';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import logger from 'morgan';
+import helmet from 'helmet';
+import { CosmosClient } from '@azure/cosmos';
+import { ASSET_URL_PLACEHOLDER } from '../scripts/build/assetUrlPlaceholder.js';
+import { getJson } from '../app/util/xhrPromise.js';
+import { retryFetch } from '../app/util/fetchUtils.js';
+import * as configTools from '../app/config.js';
+import { splitGtfsId } from '../app/util/gtfs.js';
+// Previously lazy `require()`d inside setUp* functions; hoisted to
+// top-level imports for ESM. The OIDC stack (passport/redis/openid-client)
+// still only runs when `process.env.OIDC_CLIENT_ID` is set.
+import setUpOIDC from './passport-openid-connect/openidConnect.js';
+import reittiopasParameterMiddleware from './reittiopasParameterMiddleware.js';
+import serve from '../app/server.js';
 
-/* ********* Polyfills (for node) ********* */
-const path = require('path');
-const fs = require('fs');
-// No `ignore` override is needed here: this file's require chain no longer
-// renders React components server-side (see app/server.js), so it never
-// reaches into node_modules packages like react-leaflet/@digitransit-util.
-require('@babel/register')();
-
-const proxy = require('express-http-proxy');
+// Node 24 `require()`s an ESM `config.*.js` graph directly (none use
+// top-level await), so the geoJson/citybike config sweeps below stay
+// synchronous instead of turning their promise executors async. Anchored
+// via `process.cwd()` rather than `import.meta.url`: a file containing
+// `import.meta` can't be transpiled to CommonJS by `@babel/register`, which
+// breaks the Mocha unit-test suite's require()-based module loading. Both
+// call sites below pass createRequire's returned function an already-fully-
+// absolute path (built from `configsDir`), so the anchor itself only needs
+// to be *some* valid absolute location, not this file's true location.
+const require = createRequire(path.join(process.cwd(), 'server/server.js'));
 
 const devhost = '';
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at:', p, 'reason:', reason);
 });
-
-/* ********* Server ********* */
-const express = require('express');
-const expressStaticGzip = require('express-static-gzip');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const logger = require('morgan');
-const { CosmosClient } = require('@azure/cosmos');
-const {
-  ASSET_URL_PLACEHOLDER,
-} = require('../scripts/build/assetUrlPlaceholder');
-const { getJson } = require('../app/util/xhrPromise');
-const { retryFetch } = require('../app/util/fetchUtils');
-const configTools = require('../app/config');
-const { splitGtfsId } = require('../app/util/gtfs');
 
 const config = configTools.getConfiguration();
 
@@ -49,7 +60,6 @@ const { indexPath, hostnames } = config;
 
 /* Setup functions */
 function setUpOpenId() {
-  const setUpOIDC = require('./passport-openid-connect/openidConnect').default;
   if (process.env.DEBUGLOGGING) {
     app.use(logger('dev'));
   }
@@ -57,7 +67,7 @@ function setUpOpenId() {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
   app.use(
-    require('helmet')({
+    helmet({
       contentSecurityPolicy: false,
       referrerPolicy: false,
       expectCt: false,
@@ -69,7 +79,7 @@ function setUpOpenId() {
 function setUpStaticFolders() {
   // Serve /sw.js with the ASSET_URL placeholder (baked into the precache
   // manifest at build time by workbox-webpack-plugin's InjectManifest -
-  // see webpack.config.babel.js / app/util/serviceWorker.js) replaced by
+  // see webpack.config.js / app/util/serviceWorker.js) replaced by
   // this deployment's actual CDN base URL - or stripped out entirely when
   // ASSET_URL isn't set. Only production builds actually produce
   // _static/sw.js (InjectManifest is production-only), and app/client.js
@@ -153,9 +163,9 @@ function setUpErrorHandling() {
 function setUpRoutes() {
   app.use(
     ['/', '/fi/', '/en/', '/sv/', '/ru/', '/slangi/'],
-    require('./reittiopasParameterMiddleware').default,
+    reittiopasParameterMiddleware,
   );
-  app.use(require('../app/server').default);
+  app.use(serve);
 
   // Make sure req has the correct hostname extracted from the proxy info
   app.enable('trust proxy');
@@ -409,4 +419,4 @@ Promise.all([
   fetchCitybikeConfigurations(),
 ]).then(startServer);
 
-module.exports.app = app;
+export { app };
