@@ -258,8 +258,8 @@ export default {
         // packages get the same lenient interop as the rest of the app.
         test: /\.js$/,
         include: [
-          path.resolve(__dirname, 'digitransit-component'),
-          path.resolve(__dirname, 'digitransit-store'),
+          path.resolve(rootDir, 'digitransit-component'),
+          path.resolve(rootDir, 'digitransit-store'),
         ],
         type: 'javascript/auto',
       },
