@@ -14,9 +14,9 @@
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs",
     "relay": "mkdir -p lib/__generated__ && relay-compiler && echo '{\"type\":\"commonjs\"}' > lib/package.json",
     "relay-watch": "mkdir -p lib/__generated__ && echo '{\"type\":\"commonjs\"}' > lib/package.json && relay-compiler --watch",
-    "watch": "yarn relay && NODE_ENV=development rollup -w -c ../../../config/rollup.config.mjs",
+    "watch": "yarn relay && NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "copy-schema": "mkdir -p lib/schema && cp ../../../schema/schema.graphql lib/schema/schema.graphql",
-    "build": "yarn relay && yarn copy-schema && NODE_ENV=production rollup -c ../../../config/rollup.config.mjs"
+    "build": "yarn relay && yarn copy-schema && NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
   "relay": {
     "src": "./src",
