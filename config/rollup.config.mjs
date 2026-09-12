@@ -127,7 +127,7 @@ export default () => {
         // Absolute path: this config now runs with cwd set to the
         // package being built, not the repo root, so a relative path
         // here would no longer resolve correctly.
-        configFile: path.join(rootDir, 'babel.config.js'),
+        configFile: path.join(rootDir, 'babel.config.cjs'),
         exclude: /node_modules/,
       }),
       commonjs({

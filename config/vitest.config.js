@@ -1,7 +1,7 @@
 const path = require('path');
 const react = require('@vitejs/plugin-react');
 
-// This config lives under config/ (like babel.config.js and rollup.config.mjs)
+// This config lives under config/ (like babel.config.cjs and rollup.config.mjs)
 // rather than the repo root, so `root` must be set explicitly - otherwise
 // Vitest would resolve include globs relative to this directory instead of
 // the repo root.
@@ -55,9 +55,9 @@ module.exports = {
         // @vitejs/plugin-react already handles JSX; the only thing it's
         // missing versus Rollup's build is inline-react-svg, needed for
         // digitransit-component-icon's raw .svg imports. Adding just that
-        // one plugin (rather than reusing config/babel.config.js wholesale)
+        // one plugin (rather than reusing config/babel.config.cjs wholesale)
         // keeps plugin-react's own sensible defaults - notably preserving
-        // ESM output, which config/babel.config.js's `modules: 'auto'`
+        // ESM output, which config/babel.config.cjs's `modules: 'auto'`
         // preset-env otherwise mis-detects as CJS under Vitest's loader.
         plugins: [
           react({
