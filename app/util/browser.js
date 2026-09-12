@@ -1,9 +1,7 @@
 const isBrowser = typeof window !== 'undefined' && window !== null;
-const isFirefox = isBrowser && navigator.userAgent.match(/Firefox/) != null;
 const isEdge = isBrowser && navigator.userAgent.match(/Edge/) != null;
 const isChrome =
   isBrowser && !isEdge && navigator.userAgent.match(/Chrome/) != null;
-const isIe = isBrowser && navigator.userAgent.match(/Trident/) != null;
 
 export const isIOS =
   isBrowser && !!navigator.platform.match(/iPhone|iPod|iPad/);
@@ -29,35 +27,6 @@ export const isImperial = config => {
   return false;
 };
 
-// Returns true if user is using unsupported browser
-export const isIeOrOldVersion = () => {
-  const browser =
-    isBrowser &&
-    navigator.userAgent.match(
-      /(MSIE|Trident|(?!Gecko.+)Firefox|(?!AppleWebKit.+Chrome.+)Safari(?!.+Edge)|(?!AppleWebKit.+)Chrom(e|ium)(?!.+Edge)|(?!AppleWebKit.+Chrome.+Safari.+)Edge|AppleWebKit(?!.+Chrome|.+Safari)|Gecko(?!.+Firefox))(?: |\/)([0-9]+)./,
-    );
-  let version = 0;
-  if (isSafari) {
-    version = parseInt(
-      navigator.userAgent.substring(
-        navigator.userAgent.indexOf('Version/') + 8,
-      ),
-      10,
-    );
-  } else if (browser) {
-    version = parseInt(browser[browser.length - 1], 10);
-  }
-  if (
-    isIe ||
-    (isEdge && version < 14) || // Edge version < 14
-    (isChrome && version < 60) || // Chrome version < 60
-    (isFirefox && version < 50) || // Firefox version < 50
-    (isSafari && version < 11)
-  ) {
-    return true;
-  }
-  return false;
-};
 export const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
   const enter = [32, 'Enter'];

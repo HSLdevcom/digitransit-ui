@@ -9,20 +9,22 @@ import {
   useFavouriteStatus,
   useFavouriteActions,
 } from '../hooks/FavouriteContext';
-import { addMessage } from '../action/MessageActions';
+import { useMessageActions } from '../hooks/MessageContext';
 import { addAnalyticsEvent } from '../util/analyticsUtils';
 import { failedFavouriteMessage } from '../util/messageUtils';
 import { useConfigContext } from '../configurations/ConfigContext';
 
-export default function FavouriteStopContainer(
-  { stop, isTerminal = false, ...rest },
-  context,
-) {
+export default function FavouriteStopContainer({
+  stop,
+  isTerminal = false,
+  ...rest
+}) {
   const [isFetching, setIsFetching] = useState(false);
   const config = useConfigContext();
   const favourites = useFavourites();
   const favouriteStatus = useFavouriteStatus();
   const { saveFavourite, deleteFavourite } = useFavouriteActions();
+  const { addMessage } = useMessageActions();
 
   const favouriteType = isTerminal ? 'station' : 'stop';
   const favourite = isFavourite(stop.gtfsId, favouriteType, favourites);
@@ -62,18 +64,12 @@ export default function FavouriteStopContainer(
               });
               setIsFetching(false);
             } else {
-              context.executeAction(
-                addMessage,
-                failedFavouriteMessage(favouriteType, true),
-              );
+              addMessage(failedFavouriteMessage(favouriteType, true));
               setIsFetching(false);
             }
           })
           .catch(() => {
-            context.executeAction(
-              addMessage,
-              failedFavouriteMessage(favouriteType, true),
-            );
+            addMessage(failedFavouriteMessage(favouriteType, true));
             setIsFetching(false);
           });
       }}
@@ -97,8 +93,4 @@ export default function FavouriteStopContainer(
 FavouriteStopContainer.propTypes = {
   stop: stopShape.isRequired,
   isTerminal: PropTypes.bool,
-};
-
-FavouriteStopContainer.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
 };

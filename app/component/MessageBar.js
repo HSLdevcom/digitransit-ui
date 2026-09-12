@@ -1,16 +1,20 @@
 import cx from 'classnames';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
-import { configShape, relayShape } from '../util/shapes';
+import { relayShape } from '../util/shapes';
 import { useConfigContext } from '../configurations/ConfigContext';
 import { withCurrentTime } from '../hooks/TimeContext';
+import {
+  useMessages,
+  useDuplicateMessageCounter,
+  useMessageActions,
+} from '../hooks/MessageContext';
 import SwipeableTabs from './SwipeableTabs';
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
-import { markMessageAsRead } from '../action/MessageActions';
 import { getReadMessageIds } from '../data/localStorage';
 import { mapAlertSource } from '../util/alertUtils';
 import { isKeyboardSelectionEvent } from '../util/browser';
@@ -112,47 +116,43 @@ const hasContent = (el, lang) => {
   return Array.isArray(resolved) && resolved.length > 0 && resolved[0].content;
 };
 
-class MessageBar extends Component {
-  static contextTypes = {
-    getStore: PropTypes.func.isRequired,
-    intl: PropTypes.object.isRequired,
-    executeAction: PropTypes.func.isRequired,
-    config: configShape.isRequired,
+function MessageBar({
+  currentTime,
+  getServiceAlertsAsync = fetchServiceAlerts,
+  lang,
+  messages,
+  relayEnvironment,
+  duplicateMessageCounter,
+  breakpoint = undefined,
+  markMessageAsRead = () => {},
+}) {
+  const intl = useIntl();
+  const config = useConfigContext();
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [allAlertsOpen, setAllAlertsOpen] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [serviceAlerts, setServiceAlerts] = useState([]);
+  // Tracks ids dismissed during this mount so closing a service alert (which
+  // markMessageAsRead only persists to localStorage, since service alerts
+  // aren't part of MessageContext's own message state) reliably triggers a
+  // re-render even when slideIndex doesn't change (e.g. closing the only/
+  // last message, where setSlideIndex(0) would otherwise be a no-op).
+  const [readMessageIds, setReadMessageIds] = useState(() =>
+    getReadMessageIds(),
+  );
+
+  const onSwipe = e => {
+    setSlideIndex(e);
   };
 
-  static propTypes = {
-    currentTime: PropTypes.number.isRequired,
-    getServiceAlertsAsync: PropTypes.func,
-    lang: PropTypes.string.isRequired,
-    // eslint-disable-next-line
-    messages: PropTypes.arrayOf(PropTypes.object).isRequired,
-    relayEnvironment: relayShape.isRequired,
-    duplicateMessageCounter: PropTypes.number.isRequired,
-    breakpoint: PropTypes.string,
+  const openAllAlerts = () => {
+    setAllAlertsOpen(true);
   };
 
-  static defaultProps = {
-    getServiceAlertsAsync: fetchServiceAlerts,
-    breakpoint: undefined,
-  };
-
-  state = {
-    slideIndex: 0,
-    allAlertsOpen: false,
-  };
-
-  onSwipe = e => {
-    this.setState({ slideIndex: e });
-  };
-
-  openAllAlerts = () => {
-    this.setState({ allAlertsOpen: true });
-  };
-
-  componentDidMount() {
-    const { currentTime, getServiceAlertsAsync, relayEnvironment } = this.props;
-    const { config } = this.context;
-
+  // Runs once on mount, mirroring the previous class component's
+  // componentDidMount; currentTime/getServiceAlertsAsync/relayEnvironment/
+  // config are treated as stable for the lifetime of a single mount here.
+  useEffect(() => {
     const feedIds =
       Array.isArray(config.feedIds) && config.feedIds.length > 0
         ? config.feedIds
@@ -160,9 +160,9 @@ class MessageBar extends Component {
     if (config.messageBarAlerts) {
       getServiceAlertsAsync(feedIds, relayEnvironment)
         .then(alerts => {
-          this.setState({
-            ready: true,
-            serviceAlerts: uniqBy(
+          setReady(true);
+          setServiceAlerts(
+            uniqBy(
               alerts.filter(
                 alert =>
                   alert.effectiveStartDate <= currentTime &&
@@ -170,49 +170,22 @@ class MessageBar extends Component {
               ),
               alert => alert.alertHash,
             ),
-          });
+          );
         })
         .catch(() => {
-          this.setState({
-            ready: true,
-            serviceAlerts: [],
-          });
+          setReady(true);
+          setServiceAlerts([]);
         });
     } else {
-      this.setState({
-        ready: true,
-        serviceAlerts: [],
-      });
+      setReady(true);
+      setServiceAlerts([]);
     }
-  }
+  }, []);
 
-  getTabContent = (textColor, slideIndex) => {
-    const { intl } = this.context;
-    return this.validMessages().map((el, index) => (
-      <div
-        key={el.id}
-        className={`swipeable-tab ${slideIndex !== index && 'inactive'}`}
-      >
-        <MessageBarMessage
-          key={el.id}
-          content={resolveContent(el, this.props.lang, intl)}
-          textColor={textColor}
-          truncate={!this.state.allAlertsOpen}
-          onShowMore={this.openAllAlerts}
-        />
-      </div>
-    ));
-  };
-
-  validMessages = () => {
-    const { serviceAlerts } = this.state;
-    const { intl, config } = this.context;
-
-    const readMessageIds = getReadMessageIds();
+  const validMessages = () => {
     const filteredServiceAlerts = serviceAlerts.filter(
       alert => readMessageIds.indexOf(getServiceAlertId(alert)) === -1,
     );
-    const { lang, messages } = this.props;
     return [
       ...filteredServiceAlerts.map(alert =>
         toMessage(alert, intl, config, lang),
@@ -221,123 +194,145 @@ class MessageBar extends Component {
     ].filter(el => hasContent(el, lang));
   };
 
-  handleClose = () => {
-    const messages = this.validMessages();
-    const index = this.state.slideIndex;
-    const msgId = messages[index].id;
+  const getTabContent = (textColor, index) =>
+    validMessages().map((el, i) => (
+      <div key={el.id} className={`swipeable-tab ${index !== i && 'inactive'}`}>
+        <MessageBarMessage
+          key={el.id}
+          content={resolveContent(el, lang, intl)}
+          textColor={textColor}
+          truncate={!allAlertsOpen}
+          onShowMore={openAllAlerts}
+        />
+      </div>
+    ));
 
-    this.setState({ slideIndex: Math.max(0, index - 1) });
-    this.context.executeAction(markMessageAsRead, msgId);
+  const handleClose = () => {
+    const currentMessages = validMessages();
+    const index = slideIndex;
+    const msgId = currentMessages[index].id;
+
+    setSlideIndex(Math.max(0, index - 1));
+    markMessageAsRead(msgId);
+    setReadMessageIds(prevIds =>
+      prevIds.indexOf(msgId) === -1 ? [...prevIds, msgId] : prevIds,
+    );
   };
 
-  render() {
-    const { ready, slideIndex } = this.state;
-    if (!ready) {
-      return null;
-    }
-    const messages = this.validMessages();
-    if (messages.length === 0) {
-      return null;
-    }
+  if (!ready) {
+    return null;
+  }
+  const currentMessages = validMessages();
+  if (currentMessages.length === 0) {
+    return null;
+  }
 
-    const index = Math.min(slideIndex, messages.length - 1);
-    const msg = messages[index];
-    const type = msg.type || 'info';
-    const icon = msg.icon || 'info';
-    // eslint-disable-next-line prefer-destructuring
-    const iconColor = msg.iconColor;
-    const iconName = `icon_${icon}`;
-    const isDisruption = msg.type === 'disruption';
-    const backgroundColor = msg.backgroundColor || '#fff';
-    const textColor = isDisruption ? '#fff' : msg.textColor || '#000';
-    const dataURI = msg.dataURI || null;
-    const ariaContent = (content, id) => {
-      return (
-        <span key={`message-${id}`}>
-          {content.map(e => (
-            <span key={`message-content-${id}-${e.type}`}>{e.content}</span>
-          ))}
-        </span>
-      );
-    };
+  const index = Math.min(slideIndex, currentMessages.length - 1);
+  const msg = currentMessages[index];
+  const type = msg.type || 'info';
+  const icon = msg.icon || 'info';
+  // eslint-disable-next-line prefer-destructuring
+  const iconColor = msg.iconColor;
+  const iconName = `icon_${icon}`;
+  const isDisruption = msg.type === 'disruption';
+  const backgroundColor = msg.backgroundColor || '#fff';
+  const textColor = isDisruption ? '#fff' : msg.textColor || '#000';
+  const dataURI = msg.dataURI || null;
+  const ariaContent = (content, id) => {
     return (
-      <>
-        <span className="sr-only" role="alert">
-          {messages.map(el =>
-            ariaContent(
-              resolveContent(el, this.props.lang, this.context.intl),
-              el.id,
-            ),
-          )}
-        </span>
-        <section
-          key={this.props.duplicateMessageCounter}
-          id="messageBar"
-          className="message-bar flex-horizontal"
-          style={{ background: backgroundColor }}
+      <span key={`message-${id}`}>
+        {content.map(e => (
+          <span key={`message-content-${id}-${e.type}`}>{e.content}</span>
+        ))}
+      </span>
+    );
+  };
+  return (
+    <>
+      <span className="sr-only" role="alert">
+        {currentMessages.map(el =>
+          ariaContent(resolveContent(el, lang, intl), el.id),
+        )}
+      </span>
+      <section
+        key={duplicateMessageCounter}
+        id="messageBar"
+        className="message-bar flex-horizontal"
+        style={{ background: backgroundColor }}
+      >
+        <div
+          className={cx('banner-container', {
+            'banner-disruption': isDisruption,
+          })}
         >
-          <div
-            className={cx('banner-container', {
-              'banner-disruption': isDisruption,
-            })}
-          >
-            <Icon
-              img={iconName}
-              color={iconColor}
-              dataURI={dataURI}
-              className="message-icon"
-            />
-            <div className={`message-bar-content message-bar-${type}`}>
-              <div>
-                <div className="message-bar-container">
-                  <div
-                    style={{
-                      background: isDisruption ? 'inherit' : backgroundColor,
-                    }}
-                  >
-                    {this.validMessages().length > 1 ? (
-                      <SwipeableTabs
-                        tabIndex={index}
-                        tabs={this.getTabContent(textColor, slideIndex)}
-                        onSwipe={this.onSwipe}
-                        hideArrows={this.props.breakpoint !== 'large'}
-                        navigationOnBottom
-                        ariaRole="swipe-message-bar-tab"
-                      />
-                    ) : (
-                      <div className="single-alert">
-                        {this.getTabContent(textColor, slideIndex)}
-                      </div>
-                    )}
-                  </div>
+          <Icon
+            img={iconName}
+            color={iconColor}
+            dataURI={dataURI}
+            className="message-icon"
+          />
+          <div className={`message-bar-content message-bar-${type}`}>
+            <div>
+              <div className="message-bar-container">
+                <div
+                  style={{
+                    background: isDisruption ? 'inherit' : backgroundColor,
+                  }}
+                >
+                  {currentMessages.length > 1 ? (
+                    <SwipeableTabs
+                      tabIndex={index}
+                      tabs={getTabContent(textColor, slideIndex)}
+                      onSwipe={onSwipe}
+                      hideArrows={breakpoint !== 'large'}
+                      navigationOnBottom
+                      ariaRole="swipe-message-bar-tab"
+                    />
+                  ) : (
+                    <div className="single-alert">
+                      {getTabContent(textColor, slideIndex)}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
-            <div>
-              <button
-                id="close-message-bar"
-                title={this.context.intl.formatMessage({
-                  id: 'messagebar-label-close-message-bar',
-                  defaultMessage: 'Close banner',
-                })}
-                onClick={this.handleClose}
-                onKeyDown={e => {
-                  if (isKeyboardSelectionEvent(e)) {
-                    this.handleClose();
-                  }
-                }}
-                className="noborder close-button  cursor-pointer"
-                type="button"
-              >
-                <Icon img="icon_close" className="close" color="#333333" />
-              </button>
-            </div>
           </div>
-        </section>
-      </>
-    );
-  }
+          <div>
+            <button
+              id="close-message-bar"
+              title={intl.formatMessage({
+                id: 'messagebar-label-close-message-bar',
+                defaultMessage: 'Close banner',
+              })}
+              onClick={handleClose}
+              onKeyDown={e => {
+                if (isKeyboardSelectionEvent(e)) {
+                  handleClose();
+                }
+              }}
+              className="noborder close-button  cursor-pointer"
+              type="button"
+            >
+              <Icon img="icon_close" className="close" color="#333333" />
+            </button>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }
+
+MessageBar.propTypes = {
+  currentTime: PropTypes.number.isRequired,
+  getServiceAlertsAsync: PropTypes.func,
+  lang: PropTypes.string.isRequired,
+  // eslint-disable-next-line
+  messages: PropTypes.arrayOf(PropTypes.object).isRequired,
+  relayEnvironment: relayShape.isRequired,
+  duplicateMessageCounter: PropTypes.number.isRequired,
+  breakpoint: PropTypes.string,
+  markMessageAsRead: PropTypes.func,
+};
 
 const MessageBarWithConfig = props => {
   const { language: lang } = useConfigContext();
@@ -350,15 +345,20 @@ const MessageBarWithConfig = props => {
   );
 };
 
-const connectedComponent = connectToStores(
-  withCurrentTime(MessageBarWithConfig),
-  ['MessageStore'],
-  context => ({
-    messages: context.getStore('MessageStore').getMessages(),
-    duplicateMessageCounter: context
-      .getStore('MessageStore')
-      .getDuplicateMessageCounter(),
-  }),
-);
+const MessageBarWithTime = withCurrentTime(MessageBarWithConfig);
 
-export { connectedComponent as default, MessageBar as Component };
+const ConnectedMessageBar = props => {
+  const messages = useMessages();
+  const duplicateMessageCounter = useDuplicateMessageCounter();
+  const { markMessageAsRead } = useMessageActions();
+  return (
+    <MessageBarWithTime
+      {...props}
+      messages={messages}
+      duplicateMessageCounter={duplicateMessageCounter}
+      markMessageAsRead={markMessageAsRead}
+    />
+  );
+};
+
+export { ConnectedMessageBar as default, MessageBar as Component };

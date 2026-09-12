@@ -1,4 +1,3 @@
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { routerShape } from 'found';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
@@ -6,6 +5,7 @@ import {
   startLocationWatch,
   stopLocationWatch,
 } from '../../../action/PositionActions';
+import { useMessages } from '../../../hooks/MessageContext';
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { legTime, legTimeStr } from '../../../util/legUtils';
 import { relayShape } from '../../../util/shapes';
@@ -49,6 +49,12 @@ function NaviContainer(
   const { vehicles } = getStore('RealTimeInformationStore');
 
   const { itinerary, params } = useItineraryContext();
+
+  // Subscribing here forces NaviContainer to re-render whenever the message
+  // bar's content changes, so that layout-dependent values such as
+  // containerTopPosition (derived from mapLayerRef's bounding rect) stay in
+  // sync immediately instead of waiting for an unrelated re-render.
+  useMessages();
 
   // TODO disable after testing
   const simulateTransferProblem = LEGLOG && settings.bikeSpeed > 8;
@@ -212,12 +218,4 @@ NaviContainer.defaultProps = {
   isNavigatorIntroDismissed: false,
 };
 
-const connectedComponent = connectToStores(
-  NaviContainer,
-  ['MessageStore'],
-  context => ({
-    messages: context.getStore('MessageStore').getMessages(),
-  }),
-);
-
-export default connectedComponent;
+export default NaviContainer;
