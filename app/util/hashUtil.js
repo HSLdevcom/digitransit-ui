@@ -1,4 +1,4 @@
-import isString from 'lodash/isString';
+import isString from 'lodash/isString.js';
 
 /**
  * A simple Java-like hash function for strings.

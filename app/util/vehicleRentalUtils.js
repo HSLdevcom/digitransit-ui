@@ -1,5 +1,5 @@
-import isString from 'lodash/isString';
-import without from 'lodash/without';
+import isString from 'lodash/isString.js';
+import without from 'lodash/without.js';
 import { getCustomizedSettings } from '../data/localStorage.js';
 import { addAnalyticsEvent } from './analyticsUtils.js';
 import { networkIsActive } from './modeUtils.js';

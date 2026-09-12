@@ -1,4 +1,4 @@
-import Store from 'fluxible/addons/BaseStore';
+import Store from 'fluxible/addons/BaseStore.js';
 import { isIeOrOldVersion } from '../util/browser.js';
 import { setReadMessageIds, getReadMessageIds } from '../data/localStorage.js';
 import {

@@ -1,4 +1,4 @@
-import debounce from 'lodash/debounce';
+import debounce from 'lodash/debounce.js';
 import { getJson } from '../util/xhrPromise.js';
 import { geolocationMessages } from '../util/geolocationMessages.js';
 import { addAnalyticsEvent } from '../util/analyticsUtils.js';

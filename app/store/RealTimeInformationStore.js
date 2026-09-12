@@ -1,4 +1,4 @@
-import Store from 'fluxible/addons/BaseStore';
+import Store from 'fluxible/addons/BaseStore.js';
 import events from '../util/events.js';
 import { unixTime } from '../util/timeUtils.js';
 import { splitGtfsId } from '../util/gtfs.js';

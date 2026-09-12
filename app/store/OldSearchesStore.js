@@ -1,8 +1,8 @@
-import Store from 'fluxible/addons/BaseStore';
-import cloneDeep from 'lodash/cloneDeep';
-import find from 'lodash/find';
-import isEqual from 'lodash/isEqual';
-import orderBy from 'lodash/orderBy';
+import Store from 'fluxible/addons/BaseStore.js';
+import cloneDeep from 'lodash/cloneDeep.js';
+import find from 'lodash/find.js';
+import isEqual from 'lodash/isEqual.js';
+import orderBy from 'lodash/orderBy.js';
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import { unixTime } from '../util/timeUtils.js';
 import {

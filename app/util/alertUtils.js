@@ -1,4 +1,4 @@
-import isNumber from 'lodash/isNumber';
+import isNumber from 'lodash/isNumber.js';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
 
 import {

@@ -1,6 +1,6 @@
-import find from 'lodash/find';
-import findIndex from 'lodash/findIndex';
-import isEmpty from 'lodash/isEmpty';
+import find from 'lodash/find.js';
+import findIndex from 'lodash/findIndex.js';
+import isEmpty from 'lodash/isEmpty.js';
 import { v4 as uuid } from 'uuid';
 import { unixTime } from '../util/timeUtils.js';
 import {

@@ -1,4 +1,4 @@
-import Store from 'fluxible/addons/BaseStore';
+import Store from 'fluxible/addons/BaseStore.js';
 import {
   getGeolocationState,
   setGeolocationState,

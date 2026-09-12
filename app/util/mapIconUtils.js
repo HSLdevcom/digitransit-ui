@@ -1,6 +1,6 @@
-import memoize from 'lodash/memoize';
+import memoize from 'lodash/memoize.js';
 import ReactDOM from 'react-dom';
-import ReactDOMServer from 'react-dom/server';
+import ReactDOMServer from 'react-dom/server.js';
 import glfun from './glfun.js';
 import { transitIconName } from './modeUtils.js';
 import { getModeIconColor } from './colorUtils.js';

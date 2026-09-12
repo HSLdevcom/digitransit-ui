@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import unzip from 'lodash/unzip';
+import unzip from 'lodash/unzip.js';
 
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { isImperial } from './browser.js';

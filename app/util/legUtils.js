@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep';
+import cloneDeep from 'lodash/cloneDeep.js';
 import { getTripOrRouteMode } from './modeUtils.js';
 import { BIKEAVL_UNKNOWN } from './vehicleRentalUtils.js';
 import { ExtendedRouteTypes, OtpCornerNamingPattern } from '../constants.js';

@@ -1,6 +1,6 @@
-import isEmpty from 'lodash/isEmpty';
-import isString from 'lodash/isString';
-import trim from 'lodash/trim';
+import isEmpty from 'lodash/isEmpty.js';
+import isString from 'lodash/isString.js';
+import trim from 'lodash/trim.js';
 
 // Convert between location objects (address, lat, lon)
 // and string format OpenTripPlanner uses in many places
