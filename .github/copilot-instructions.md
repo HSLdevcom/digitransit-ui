@@ -135,6 +135,8 @@ Other structural notes:
 - ES2015+ transpiled with Babel; Airbnb JS/React style guide (`.eslintrc.js`) with project
   overrides: prefer object spread over `Object.assign`; `no-console` is an error; Prettier config
   is `singleQuote: true, trailingComma: 'all', arrowParens: 'avoid'`.
+- When removing `defaultProps`, use parameter defaults only for valid values; never default to
+  `undefined`.
 - `.js` files are used for JSX (no `.jsx` extension).
 - Avoid `Component.defaultProps` in function components (deprecated by React, and unsupported for
   function components in newer React versions). Declare defaults via destructuring in the

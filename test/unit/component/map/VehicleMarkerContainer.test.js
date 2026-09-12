@@ -1,16 +1,16 @@
 import React from 'react';
 import sinon from 'sinon';
+import { render } from '@testing-library/react';
 
-import { ReactRelayContext } from 'react-relay';
 import { LeafletProvider } from 'react-leaflet/es/context';
 
-import { mountWithIntl } from '../../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../../helpers/mock-providers';
 import {
   Component as VehicleMarkerContainer,
   shouldShowVehicle,
   getVehicleIcon,
 } from '../../../../app/component/map/VehicleMarkerContainer';
-import { mockChildContextTypes } from '../../helpers/mock-context';
+import { mockContext } from '../../helpers/mock-context';
 
 const defaultProps = {
   direction: 0,
@@ -39,29 +39,22 @@ const defaultProps = {
 describe('<VehicleMarkerContainer />', () => {
   describe('VehicleMarkerContainer', () => {
     it('should render', () => {
-      const environment = {};
       const addLayer = sinon.spy();
-      const wrapper = mountWithIntl(
-        <LeafletProvider value={{ layerContainer: { addLayer } }}>
-          <ReactRelayContext.Provider value={{ environment }}>
-            <VehicleMarkerContainer {...defaultProps} />
-          </ReactRelayContext.Provider>
+      renderWithProviders(
+        <LeafletProvider
+          value={{ layerContainer: { addLayer, removeLayer: () => {} } }}
+        >
+          <VehicleMarkerContainer {...defaultProps} />
         </LeafletProvider>,
         {
-          context: {
-            config: {
-              CONFIG: 'default',
-              realTime: {
-                tampere: {},
-              },
+          config: {
+            ...mockContext.config,
+            realTime: {
+              tampere: {},
             },
-          },
-          childContextTypes: {
-            ...mockChildContextTypes,
           },
         },
       );
-      expect(wrapper.children.length).to.equal(1);
       expect(addLayer.callCount).to.equal(1);
     });
   });
@@ -238,19 +231,19 @@ describe('<VehicleMarkerContainer />', () => {
     describe('modeless icon', () => {
       it('should use a small icon when useLargeIcon is false', () => {
         const icon = getVehicleIcon(null, 180, '32', undefined, false);
-        const wrapper = mountWithIntl(icon.element);
-        expect(wrapper.find('use').prop('xlinkHref')).to.equal(
-          '#icon_all-vehicles-small',
-        );
+        const { container } = render(icon.element);
+        expect(
+          container.querySelector('use').getAttribute('xlink:href'),
+        ).to.equal('#icon_all-vehicles-small');
         expect(icon.className).to.contain('bus');
       });
 
       it('should use a large icon when useLargeIcon is true', () => {
         const icon = getVehicleIcon('bus', 180, '32', undefined, true);
-        const wrapper = mountWithIntl(icon.element);
-        expect(wrapper.find('use').prop('xlinkHref')).to.equal(
-          '#icon_vehicle-live-marker',
-        );
+        const { container } = render(icon.element);
+        expect(
+          container.querySelector('use').getAttribute('xlink:href'),
+        ).to.equal('#icon_vehicle-live-marker');
         expect(icon.className).to.contain('bus');
       });
     });

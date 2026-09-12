@@ -1,8 +1,7 @@
 import React from 'react';
-import { mountWithIntl, shallowWithIntl } from './helpers/mock-intl-enzyme';
+import { renderWithProviders } from './helpers/mock-providers';
 
 import TicketInformation from '../../app/component/itinerary/TicketInformation';
-import ZoneTicket from '../../app/component/itinerary/ZoneTicket';
 import { getFaresFromLegs } from '../../app/util/fareUtils';
 
 const defaultConfig = {
@@ -85,13 +84,14 @@ describe('<TicketInformation />', () => {
         defaultConfig,
       ),
     };
-    const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: { config: defaultConfig },
-    });
-
-    expect(wrapper.find('.ticket-type-zone.multi-component')).to.have.lengthOf(
-      2,
+    const { container } = renderWithProviders(
+      <TicketInformation {...props} />,
+      { config: defaultConfig },
     );
+
+    expect(
+      container.querySelectorAll('.ticket-type-zone.multi-component'),
+    ).to.have.lengthOf(2);
   });
 
   it('should show a "multiple tickets required" title when there are multiple components', () => {
@@ -145,10 +145,11 @@ describe('<TicketInformation />', () => {
         defaultConfig,
       ),
     };
-    const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: { config: defaultConfig },
-    });
-    expect(wrapper.find('.ticket-title').first().text()).to.equal(
+    const { container } = renderWithProviders(
+      <TicketInformation {...props} />,
+      { config: defaultConfig },
+    );
+    expect(container.querySelector('.ticket-title').textContent).to.equal(
       'Required tickets:',
     );
   });
@@ -183,11 +184,12 @@ describe('<TicketInformation />', () => {
         defaultConfig,
       ),
     };
-    const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: { config: defaultConfig },
-    });
+    const { container } = renderWithProviders(
+      <TicketInformation {...props} />,
+      { config: defaultConfig },
+    );
 
-    expect(wrapper.find('.ticket-title').first().text()).to.equal(
+    expect(container.querySelector('.ticket-title').textContent).to.equal(
       'Required ticket:',
     );
   });
@@ -210,13 +212,16 @@ describe('<TicketInformation />', () => {
         defaultConfig,
       ),
     };
-    const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: { config: defaultConfig },
-    });
+    const { container } = renderWithProviders(
+      <TicketInformation {...props} />,
+      { config: defaultConfig },
+    );
 
-    expect(wrapper.find('.ticket-type-zone')).to.have.lengthOf(0);
-    expect(wrapper.find('.ticket-title')).to.have.lengthOf(0);
-    expect(wrapper.find('.itinerary-ticket-type')).to.have.lengthOf(0);
+    expect(container.querySelectorAll('.ticket-type-zone')).to.have.lengthOf(0);
+    expect(container.querySelectorAll('.ticket-title')).to.have.lengthOf(0);
+    expect(
+      container.querySelectorAll('.itinerary-ticket-type'),
+    ).to.have.lengthOf(0);
   });
 
   it('should convert and show the total fare when showTicketPrice is true', () => {
@@ -249,11 +254,14 @@ describe('<TicketInformation />', () => {
         defaultConfig,
       ),
     };
-    const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: { config: defaultConfig },
-    });
+    const { container } = renderWithProviders(
+      <TicketInformation {...props} />,
+      { config: defaultConfig },
+    );
 
-    expect(wrapper.find('.ticket-description').text()).to.contain('3.10 €');
+    expect(
+      container.querySelector('.ticket-description').textContent,
+    ).to.contain('3.10 €');
   });
 
   it('should not show the total fare when showTicketPrice is false', () => {
@@ -286,11 +294,14 @@ describe('<TicketInformation />', () => {
         defaultConfig,
       ),
     };
-    const wrapper = mountWithIntl(<TicketInformation {...props} />, {
-      context: { config: { ...defaultConfig, showTicketPrice: false } },
-    });
+    const { container } = renderWithProviders(
+      <TicketInformation {...props} />,
+      { config: { ...defaultConfig, showTicketPrice: false } },
+    );
 
-    expect(wrapper.find('.ticket-description')).to.have.lengthOf(0);
+    expect(container.querySelectorAll('.ticket-description')).to.have.lengthOf(
+      0,
+    );
   });
 
   it('should use a zone ticket icon if configured', () => {
@@ -322,18 +333,13 @@ describe('<TicketInformation />', () => {
         ],
         defaultConfig,
       ),
-      defaultConfig,
     };
 
-    const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
-      context: {
-        config: {
-          ...defaultConfig,
-          useTicketIcons: true,
-        },
-      },
-    });
-    expect(wrapper.find(ZoneTicket)).to.have.lengthOf(1);
+    const { container } = renderWithProviders(
+      <TicketInformation {...props} />,
+      { config: { ...defaultConfig, useTicketIcons: true } },
+    );
+    expect(container.querySelectorAll('.zone-ticket')).to.have.lengthOf(1);
   });
 
   it('should use the mapped name for the ticket', () => {
@@ -371,54 +377,13 @@ describe('<TicketInformation />', () => {
       ),
     };
 
-    const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
-      context: { config },
-    });
-    expect(wrapper.find('.ticket-identifier').text()).to.equal(
+    const { container } = renderWithProviders(
+      <TicketInformation {...props} />,
+      { config },
+    );
+    expect(container.querySelector('.ticket-identifier').textContent).to.equal(
       'foo_HSL:AB_bar',
     );
-  });
-
-  it('should use a zone ticket icon if configured', () => {
-    const props = {
-      legs: [],
-      fares: getFaresFromLegs(
-        [
-          {
-            route: {
-              agency: {
-                gtfsId: 'HSL:F1',
-                fareUrl: 'http://www.hsl.fi/liput',
-                name: 'Helsingin seudun liikenne',
-                phone: '(09) 4766 4444',
-              },
-            },
-            fareProducts: [
-              {
-                id: '511c1709-3a49-3e39-88d5-7bd67f845c32',
-                product: {
-                  id: 'HSL:AB',
-                  price: {
-                    amount: 3.1,
-                  },
-                },
-              },
-            ],
-          },
-        ],
-        defaultConfig,
-      ),
-    };
-
-    const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
-      context: {
-        config: {
-          ...defaultConfig,
-          useTicketIcons: true,
-        },
-      },
-    });
-    expect(wrapper.find(ZoneTicket)).to.have.lengthOf(1);
   });
 
   it('should show AB and BC tickets for a trip within B zone', () => {
@@ -452,24 +417,15 @@ describe('<TicketInformation />', () => {
       ),
       zones: ['B'],
     };
-    const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
-      context: {
-        config: {
-          ...defaultConfig,
-          useTicketIcons: true,
-          /*  availableTickets: {
-            HSL: {
-              'HSL:AB': { price: 3.1, zones: ['A', 'B'] },
-              'HSL:BC': { price: 3.1, zones: ['B', 'C'] },
-            }, 
-          }, */
-        },
-      },
-    });
+    const { container } = renderWithProviders(
+      <TicketInformation {...props} />,
+      { config: { ...defaultConfig, useTicketIcons: true } },
+    );
 
-    expect(wrapper.find(ZoneTicket)).to.have.lengthOf(2);
-    expect(wrapper.find(ZoneTicket).at(0).props().ticketType).to.equal('AB');
-    expect(wrapper.find(ZoneTicket).at(1).props().ticketType).to.equal('BC');
+    const zoneTickets = container.querySelectorAll('.zone-ticket');
+    expect(zoneTickets).to.have.lengthOf(2);
+    expect(zoneTickets[0].textContent).to.equal('AB');
+    expect(zoneTickets[1].textContent).to.equal('BC');
   });
 
   it('should show a fare url link for the agency', () => {
@@ -503,10 +459,13 @@ describe('<TicketInformation />', () => {
       ),
       ticketLink: 'foobar',
     };
-    const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
-      context: { config: { ...defaultConfig } },
-    });
-    expect(wrapper.find('a').prop('href')).to.equal('foobar');
+    const { container } = renderWithProviders(
+      <TicketInformation {...props} />,
+      { config: { ...defaultConfig } },
+    );
+    expect(container.querySelector('a').getAttribute('href')).to.equal(
+      'foobar',
+    );
   });
 
   it('should include unknown fares to the listing', () => {
@@ -566,18 +525,23 @@ describe('<TicketInformation />', () => {
       ),
       ticketLink: 'foobaz',
     };
-    const wrapper = shallowWithIntl(<TicketInformation {...props} />, {
-      context: { config: { ...defaultConfig } },
-    });
-    expect(wrapper.find('.ticket-identifier')).to.have.lengthOf(2);
+    const { container } = renderWithProviders(
+      <TicketInformation {...props} />,
+      { config: { ...defaultConfig } },
+    );
+    expect(container.querySelectorAll('.ticket-identifier')).to.have.lengthOf(
+      2,
+    );
 
-    const ticketWrapper = wrapper.find('.ticket-type-zone').at(1);
-    expect(ticketWrapper.find('.ticket-identifier').text()).to.equal(
-      'Merisataman lautta',
+    const ticketWrapper = container.querySelectorAll('.ticket-type-zone')[1];
+    expect(
+      ticketWrapper.querySelector('.ticket-identifier').textContent,
+    ).to.equal('Merisataman lautta');
+    expect(
+      ticketWrapper.querySelector('.ticket-description').textContent,
+    ).to.equal('Merisataman lauttaliikenne');
+    expect(container.querySelector('a').getAttribute('href')).to.equal(
+      'foobaz',
     );
-    expect(ticketWrapper.find('.ticket-description').text()).to.equal(
-      'Merisataman lauttaliikenne',
-    );
-    expect(wrapper.find('a').prop('href')).to.equal('foobaz');
   });
 });

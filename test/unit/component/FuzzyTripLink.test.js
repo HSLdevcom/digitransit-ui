@@ -1,10 +1,7 @@
 import React from 'react';
-
 import { ReactRelayContext } from 'react-relay';
-
+import { renderWithProviders } from '../helpers/mock-providers';
 import FuzzyTripLink from '../../../app/component/routepage/FuzzyTripLink';
-import VehicleIcon from '../../../app/component/VehicleIcon';
-import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 
 describe('<FuzzyTripLink />', () => {
   it('should render content and icon', () => {
@@ -31,14 +28,18 @@ describe('<FuzzyTripLink />', () => {
       stopName: '1',
       nextStopName: '2',
     };
-    const environment = {};
-
-    const wrapper = mountWithIntl(
-      <ReactRelayContext.Provider value={{ environment }}>
+    // Empty environment keeps the QueryRenderer unresolved, so the component
+    // renders its icon-only fallback content.
+    const { container } = renderWithProviders(
+      <ReactRelayContext.Provider value={{ environment: {} }}>
         <FuzzyTripLink {...props} />
       </ReactRelayContext.Provider>,
     );
-    expect(wrapper.find('.route-now-content')).to.have.lengthOf(1);
-    expect(wrapper.find(VehicleIcon)).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.route-now-content')).to.have.lengthOf(
+      1,
+    );
+    expect(container.querySelectorAll('.large-vehicle-icon')).to.have.lengthOf(
+      1,
+    );
   });
 });

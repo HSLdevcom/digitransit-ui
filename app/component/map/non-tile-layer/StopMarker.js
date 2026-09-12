@@ -15,6 +15,27 @@ import {
 import { addAnalyticsEvent } from '../../../util/analyticsUtils';
 import { PREFIX_STOPS } from '../../../util/path';
 
+export const getStopMarkerAnalytics = (pathname, indexPath, mode) => {
+  if (pathname.includes('bike') || pathname.includes('walk')) {
+    return null;
+  }
+  const pathPrefixMatch = pathname.match(/^\/([a-z]{2,})\//);
+  const context =
+    pathPrefixMatch && pathPrefixMatch[1] !== indexPath
+      ? pathPrefixMatch[1]
+      : 'index';
+  return {
+    action: 'SelectMapPoint',
+    category: 'Map',
+    name: 'stop',
+    type: mode.toUpperCase(),
+    context,
+  };
+};
+
+export const getStopMarkerPath = gtfsId =>
+  `/${PREFIX_STOPS}/${encodeURIComponent(gtfsId)}`;
+
 class StopMarker extends React.Component {
   static propTypes = {
     stop: stopShape.isRequired,
@@ -45,28 +66,15 @@ class StopMarker extends React.Component {
   };
 
   redirectToStopPage = () => {
-    if (
-      window.location.pathname.indexOf('bike') === -1 &&
-      window.location.pathname.indexOf('walk') === -1
-    ) {
-      const pathPrefixMatch =
-        window.location.pathname.match(/^\/([a-z]{2,})\//);
-      const context =
-        pathPrefixMatch && pathPrefixMatch[1] !== this.context.config.indexPath
-          ? pathPrefixMatch[1]
-          : 'index';
-      addAnalyticsEvent({
-        action: 'SelectMapPoint',
-        category: 'Map',
-        name: 'stop',
-        type: this.props.mode.toUpperCase(),
-        context,
-      });
-    }
-    const prefix = PREFIX_STOPS;
-    this.context.router.push(
-      `/${prefix}/${encodeURIComponent(this.props.stop.gtfsId)}`,
+    const analyticsEvent = getStopMarkerAnalytics(
+      window.location.pathname,
+      this.context.config.indexPath,
+      this.props.mode,
     );
+    if (analyticsEvent) {
+      addAnalyticsEvent(analyticsEvent);
+    }
+    this.context.router.push(getStopMarkerPath(this.props.stop.gtfsId));
   };
 
   getModeIcon = zoom => {

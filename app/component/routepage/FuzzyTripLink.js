@@ -137,9 +137,4 @@ FuzzyTripLink.propTypes = {
   nextStopName: PropTypes.string,
 };
 
-FuzzyTripLink.defaultProps = {
-  trip: undefined,
-  nextStopName: undefined,
-};
-
 export default FuzzyTripLink;

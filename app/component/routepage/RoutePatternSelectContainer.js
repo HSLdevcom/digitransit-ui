@@ -51,7 +51,7 @@ const similarRoutesQuery = graphql`
   }
 `;
 
-function getPatternOptions(patterns, serviceTimeRange) {
+export function getPatternOptions(patterns, serviceTimeRange) {
   if (patterns.length === 0) {
     return null;
   }

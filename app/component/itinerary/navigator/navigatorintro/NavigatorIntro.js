@@ -2,16 +2,18 @@ import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { configShape } from '../../../../util/shapes';
 import NavigatorIntroFeature from './NavigatorIntroFeature';
 import Icon from '../../../Icon';
+import { useConfigContext } from '../../../../configurations/ConfigContext';
 
-const NavigatorIntro = (
-  { logo, onPrimaryClick, onClose, onOpenGeolocationInfo },
-  context,
-) => {
+const NavigatorIntro = ({
+  logo,
+  onPrimaryClick,
+  onClose,
+  onOpenGeolocationInfo,
+}) => {
   const intl = useIntl();
-  const { config } = context;
+  const config = useConfigContext();
 
   const primaryColor = config.colors.accessiblePrimary;
 
@@ -77,15 +79,6 @@ NavigatorIntro.propTypes = {
   onClose: PropTypes.func.isRequired,
   onPrimaryClick: PropTypes.func,
   onOpenGeolocationInfo: PropTypes.func.isRequired,
-};
-
-NavigatorIntro.defaultProps = {
-  logo: undefined,
-  onPrimaryClick: undefined,
-};
-
-NavigatorIntro.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default NavigatorIntro;

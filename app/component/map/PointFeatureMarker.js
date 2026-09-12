@@ -103,9 +103,21 @@ export const getPropertyValueOrDefault = (
     (properties[`${propertyName}_${language}`] || properties[propertyName])) ||
   defaultValue;
 
+export const getPopupHeaderValues = (feature, language) => {
+  const { properties } = feature;
+  const header = getPropertyValueOrDefault(properties, 'name', language);
+  const address = getPropertyValueOrDefault(properties, 'address', language);
+  const city = getPropertyValueOrDefault(properties, 'city', language);
+  const description = city ? `${address}, ${city}` : address;
+  return {
+    header: header || description,
+    subHeader: header ? description : '',
+  };
+};
+
 const PointFeatureMarker = ({
   feature,
-  icons,
+  icons = {},
   language,
   locationPopup,
   onSelectLocation,
@@ -117,11 +129,8 @@ const PointFeatureMarker = ({
   }
 
   const { icon } = properties;
-  const header = getPropertyValueOrDefault(properties, 'name', language);
+  const { header, subHeader } = getPopupHeaderValues(feature, language);
   const address = getPropertyValueOrDefault(properties, 'address', language);
-  const city = getPropertyValueOrDefault(properties, 'city', language);
-  const description = city ? `${address}, ${city}` : address;
-  const useDescriptionAsHeader = !header;
   const hasCustomIcon = icon && icon.id && icons[icon.id];
   const [lon, lat] = geometry.coordinates;
 
@@ -142,10 +151,7 @@ const PointFeatureMarker = ({
       }
     >
       <Card>
-        <PopupHeader
-          header={useDescriptionAsHeader ? description : header}
-          subHeader={useDescriptionAsHeader ? '' : description}
-        />
+        <PopupHeader header={header} subHeader={subHeader} />
         {(locationPopup === 'all' || locationPopup === 'origindestination') && (
           <MarkerPopupBottom
             location={{
@@ -185,13 +191,6 @@ PointFeatureMarker.propTypes = {
   locationPopup: PropTypes.string,
   onSelectLocation: PropTypes.func,
   size: PropTypes.number,
-};
-
-PointFeatureMarker.defaultProps = {
-  icons: {},
-  locationPopup: undefined,
-  onSelectLocation: undefined,
-  size: undefined,
 };
 
 export default PointFeatureMarker;
