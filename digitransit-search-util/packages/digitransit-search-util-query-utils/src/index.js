@@ -144,6 +144,25 @@ const favouriteRoutesQuery = graphql`
   }
 `;
 
+const routesByIdsQuery = graphql`
+  query srcRoutesByIdsQuery($ids: [String!]!) {
+    routes(ids: $ids) {
+      gtfsId
+      agency {
+        name
+      }
+      type
+      shortName
+      mode
+      color
+      longName
+      patterns {
+        code
+      }
+    }
+  }
+`;
+
 const favouriteVehicleRentalQuery = graphql`
   query srcFavouriteVehicleRentalStationsQuery($ids: [String!]!) {
     vehicleRentalStations(ids: $ids) {
@@ -369,6 +388,21 @@ export function filterStopsAndStationsByMode(stopsToFilter, mode) {
     .then(compact);
 }
 
+/**
+ * Returns Route objects matching the provided GTFS IDs.
+ * @param {Array.<String>} ids Route GTFS IDs to query.
+ * @param pathOpts an object containing two properties routesPrefix and stopsPrefix to override the URL paths returned
+ *        by this method
+ * @returns {Promise<Array>} A promise resolving to the matching route objects.
+ */
+export function getRoutesByIds(ids, pathOpts) {
+  if (!relayEnvironment || !Array.isArray(ids) || ids.length === 0) {
+    return Promise.resolve([]);
+  }
+  return fetchQuery(relayEnvironment, routesByIdsQuery, { ids })
+    .toPromise()
+    .then(data => data.routes.map(r => mapRoute(r, pathOpts)).filter(Boolean));
+}
 /**
  * Returns Favourite Route objects depending on input
  * @param {String} input Search text, if empty no objects are returned

@@ -106,6 +106,35 @@ describe('OldSearchesStore', () => {
       expect(items).to.be.empty;
       expect(version).to.equal(STORE_VERSION);
     });
+
+    it('should persist only the highest-count entry for duplicate routes', () => {
+      const routeItem = longName => ({
+        type: 'Route',
+        geometry: { coordinates: null },
+        properties: {
+          gtfsId: 'tampere:32',
+          shortName: '32',
+          longName,
+          layer: 'route-BUS',
+          mode: 'BUS',
+        },
+      });
+      setOldSearchesStorage({
+        version: STORE_VERSION,
+        items: [
+          { count: 1, item: routeItem('Stale Name'), type: 'search' },
+          { count: 4, item: routeItem('Current Name'), type: 'search' },
+        ],
+      });
+
+      const store = new OldSearchesStore();
+      store.getStorageObject();
+
+      const { items } = getOldSearchesStorage();
+      expect(items).to.have.length(1);
+      expect(items[0].count).to.equal(4);
+      expect(items[0].item.properties.longName).to.equal('Current Name');
+    });
   });
 
   describe('getOldSearches(type)', () => {
@@ -240,23 +269,23 @@ describe('OldSearchesStore', () => {
         item: {
           type: 'Route',
           properties: {
-            gtfsId: 'foobar',
+            gtfsId: 'tampere:32',
             agency: {
               name: 'Tampereen joukkoliikenne',
             },
             shortName: '32',
             mode: 'BUS',
-            longName: 'TAYS - Hervanta - Hatanpää-Tampella',
+            longName: 'Old Name - Hervanta',
             patterns: [
               {
-                code: 'foobar:0:01',
+                code: 'tampere:32:0:01',
               },
               {
-                code: 'foobar:1:01',
+                code: 'tampere:32:1:01',
               },
             ],
             layer: 'route-BUS',
-            link: `/${PREFIX_ROUTES}/foobar/${PREFIX_STOPS}/foobar:0:01`,
+            link: `/${PREFIX_ROUTES}/tampere:32/${PREFIX_STOPS}/tampere:32:0:01`,
           },
           geometry: {
             coordinates: null,
@@ -298,6 +327,114 @@ describe('OldSearchesStore', () => {
 
       const result = store.getOldSearches()[0];
       expect(result).to.deep.equal(newData.item);
+    });
+
+    it('should collapse duplicate route entries with the same gtfsId into one', () => {
+      const makeRouteEntry = (longName, count) => ({
+        count,
+        lastUpdated: 1000,
+        type: 'search',
+        item: {
+          type: 'OldSearch',
+          properties: {
+            gtfsId: 'tampere:32',
+            shortName: '32',
+            longName,
+            layer: 'route-BUS',
+            mode: 'BUS',
+          },
+          geometry: { coordinates: null },
+        },
+      });
+
+      setOldSearchesStorage({
+        version: STORE_VERSION,
+        items: [
+          makeRouteEntry('Old Name', 5),
+          makeRouteEntry('Stale Name', 1),
+          makeRouteEntry('Another Stale Name', 1),
+        ],
+      });
+
+      const store = new OldSearchesStore();
+      store.saveSearch({
+        type: 'search',
+        item: {
+          type: 'Route',
+          properties: {
+            gtfsId: 'tampere:32',
+            shortName: '32',
+            longName: 'Fresh Name',
+            layer: 'route-BUS',
+            mode: 'BUS',
+          },
+          geometry: { coordinates: null },
+        },
+      });
+
+      const results = store.getOldSearches();
+      expect(results.length).to.equal(1);
+      expect(results[0].properties.longName).to.equal('Fresh Name');
+    });
+
+    it('should inherit the highest count when merging duplicate route entries', () => {
+      setOldSearchesStorage({
+        version: STORE_VERSION,
+        items: [
+          {
+            count: 8,
+            lastUpdated: 1000,
+            type: 'search',
+            item: {
+              type: 'Route',
+              properties: {
+                gtfsId: 'tampere:32',
+                shortName: '32',
+                longName: 'High Count Entry',
+                layer: 'route-BUS',
+                mode: 'BUS',
+              },
+              geometry: { coordinates: null },
+            },
+          },
+          {
+            count: 2,
+            lastUpdated: 900,
+            type: 'search',
+            item: {
+              type: 'OldSearch',
+              properties: {
+                gtfsId: 'tampere:32',
+                shortName: '32',
+                longName: 'Low Count Entry',
+                layer: 'route-BUS',
+                mode: 'BUS',
+              },
+              geometry: { coordinates: null },
+            },
+          },
+        ],
+      });
+
+      const store = new OldSearchesStore();
+      store.saveSearch({
+        type: 'search',
+        item: {
+          type: 'Route',
+          properties: {
+            gtfsId: 'tampere:32',
+            shortName: '32',
+            longName: 'Fresh Name',
+            layer: 'route-BUS',
+            mode: 'BUS',
+          },
+          geometry: { coordinates: null },
+        },
+      });
+
+      const storedItems = getOldSearchesStorage().items;
+      expect(storedItems.length).to.equal(1);
+      expect(storedItems[0].count).to.equal(9); // 8 + 1
     });
   });
 });
