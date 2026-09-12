@@ -37,18 +37,18 @@ and output settings.
   instance per deployment, producing per-deployment favicons/app icons
   under `assets/icons-<CONFIG>-[contenthash]/`.
 - In development, `webpack.ContextReplacementPlugin` narrows the dynamic
-  `require` for `sass/themes` down to just the selected `CONFIG`'s
+  `import` for `sass/themes` down to just the selected `CONFIG`'s
   `main.scss`, so the dev server doesn't build every theme.
-- `app/util/loadDevTheme.js` holds a dynamic
-  `require(`../../sass/themes/${window.config.CONFIG}/main.scss`)` that used
-  to live inline in `app/client.js` behind an
+- `app/util/loadDevTheme.js` holds a dynamic, fire-and-forget
+  `import(`../../sass/themes/${window.config.CONFIG}/main.scss`)` that used
+  to live inline in `app/client.js` as a `require(...)` behind an
   `if (process.env.NODE_ENV === 'development')` runtime check written as an
   imported/computed constant rather than the literal expression. That was
   moved into its own file, only added to `entry.main` when `isDevelopment`,
-  because webpack resolves a dynamic `require`'s "context module" (every
+  because webpack resolves a dynamic import's "context module" (every
   file the template string could possibly match) while building the module
   graph — a step that runs before any dead-code elimination and can't see
-  across module boundaries. Guarding the `require` with an *imported*
+  across module boundaries. Guarding it with an *imported*
   boolean constant didn't stop webpack from still resolving (and bundling)
   every theme's SCSS into production; only literally excluding the file
   from `entry` in production does, and only a literal `process.env.NODE_ENV`
@@ -56,7 +56,9 @@ and output settings.
   `!== 'production'`, etc.) gets folded/dropped by
   `DefinePlugin`/dead-code-elimination in the first place — an
   imported/computed value can't be statically folded. See PR #5929 for the
-  full story. It reads `window.config.CONFIG` (the
+  full story. The original `require(...)` became `import(...)` once `app/`
+  files were parsed as strict ESM (`"type": "module"`), which has no
+  `require` global. It reads `window.config.CONFIG` (the
   server-injected, already-resolved config object `app/client.js` uses for
   everything else) rather than `process.env.CONFIG`: the browser bundle
   never sees real build-time env var *values* (only the `ProvidePlugin`
