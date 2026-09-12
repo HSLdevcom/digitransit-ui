@@ -1,4 +1,4 @@
-import { splitGtfsId } from './gtfs';
+import { splitGtfsId } from './gtfs.js';
 
 export default function getZoneId(config, propertiesZones, dataZones) {
   function zoneFilter(zones) {

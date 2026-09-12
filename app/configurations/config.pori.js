@@ -1,5 +1,5 @@
-import configMerger from '../util/configMerger';
-import walttiConfig from './config.waltti';
+import configMerger from '../util/configMerger.js';
+import walttiConfig from './config.waltti.js';
 
 const CONFIG = 'pori';
 const APP_DESCRIPTION = 'Porin joukkoliikenne';

@@ -3,11 +3,11 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import orderBy from 'lodash/orderBy';
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
-import { unixTime } from '../util/timeUtils';
+import { unixTime } from '../util/timeUtils.js';
 import {
   getOldSearchesStorage,
   setOldSearchesStorage,
-} from '../data/localStorage';
+} from '../data/localStorage.js';
 
 /**
  * The current version number of this store.

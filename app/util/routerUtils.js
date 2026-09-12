@@ -1,8 +1,8 @@
 import React from 'react';
-import Error404 from '../component/404';
-import NetworkError from '../component/NetworkError';
-import Loading from '../component/LoadingPage';
-import isRelayNetworkError from './relayUtils';
+import Error404 from '../component/404.js';
+import NetworkError from '../component/NetworkError.js';
+import Loading from '../component/LoadingPage.js';
+import isRelayNetworkError from './relayUtils.js';
 
 export function errorLoading(err) {
   /* eslint-disable-next-line no-console */

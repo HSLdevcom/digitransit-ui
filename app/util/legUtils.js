@@ -1,8 +1,8 @@
 import cloneDeep from 'lodash/cloneDeep';
-import { getTripOrRouteMode } from './modeUtils';
-import { BIKEAVL_UNKNOWN } from './vehicleRentalUtils';
-import { ExtendedRouteTypes, OtpCornerNamingPattern } from '../constants';
-import { stopCallTime } from './timeUtils';
+import { getTripOrRouteMode } from './modeUtils.js';
+import { BIKEAVL_UNKNOWN } from './vehicleRentalUtils.js';
+import { ExtendedRouteTypes, OtpCornerNamingPattern } from '../constants.js';
+import { stopCallTime } from './timeUtils.js';
 
 /**
  * Gets a (nested) property value from an object

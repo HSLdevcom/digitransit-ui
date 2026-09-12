@@ -3,9 +3,12 @@ import {
   locationToOTP,
   otpToLocation,
   getIntermediatePlaces,
-} from './otpStrings';
-import { getPathWithEndpointObjects, PREFIX_ITINERARY_SUMMARY } from './path';
-import { addViaPoint, deleteViaPoint } from '../action/ViaPointActions';
+} from './otpStrings.js';
+import {
+  getPathWithEndpointObjects,
+  PREFIX_ITINERARY_SUMMARY,
+} from './path.js';
+import { addViaPoint, deleteViaPoint } from '../action/ViaPointActions.js';
 
 /**
  * Processes query so that empty arrays will be preserved in URL
