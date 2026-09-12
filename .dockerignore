@@ -61,7 +61,6 @@ app/**/__generated__
 
 # Root-level build config.
 !webpack.config.js
-!babel.config.cjs
 !postcss.config.cjs
 
 # Kept for compliance/legal visibility even though not functionally required:
