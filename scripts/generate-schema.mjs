@@ -8,7 +8,12 @@ const rootDir = import.meta.dirname;
 const graphqlSchemaSource =
   process.env.SCHEMA_SRC ||
   'https://raw.githubusercontent.com/HSLdevcom/OpenTripPlanner/v2/application/src/main/resources/org/opentripplanner/apis/gtfs/schema.graphqls';
-const outputGraphQLFilename = path.join(rootDir, '..', 'schema', 'schema.graphql');
+const outputGraphQLFilename = path.join(
+  rootDir,
+  '..',
+  'schema',
+  'schema.graphql',
+);
 
 const copySchema = (src, dest) => {
   fs.copyFile(src, dest, err => {
