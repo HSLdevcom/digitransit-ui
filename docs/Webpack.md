@@ -1,6 +1,6 @@
 # Webpack configuration
 
-How `webpack.config.babel.js` (repo root) is put together: what each part
+How `webpack.config.js` (repo root) is put together: what each part
 does and why. Reflects the config as it stands on **webpack 5**. Update
 this doc whenever the config changes structurally.
 
@@ -12,13 +12,13 @@ and `CONFIG` (regional deployment — `hsl`/`tampere`/`matka`/etc., see
 
 ## Bootstrapping
 
-`require('@babel/register')();` at the top of the file lets this
-CommonJS config `require()` `./scripts/build/contextHelper` (and,
-transitively, `app/config.js` and the regional configs), which use ES
-module `import` syntax. It's needed because webpack-cli 5+ dropped the
-automatic `interpret`-based Babel registration that used to make
-`*.config.babel.js` filenames "just work". No `ignore` option is needed —
-this file's require chain never reaches into `node_modules`.
+The repo is `"type": "module"`, so this config is native ESM — no
+`@babel/register` bootstrap needed to `import` `./scripts/build/
+contextHelper.js` (and, transitively, `app/config.js` and the regional
+configs). `import.meta.dirname` (as `rootDir`) replaces `__dirname`;
+`createRequire(import.meta.url)` is kept only for the two
+`require.resolve(...)` polyfill lookups in `resolve.fallback`/`plugins`
+(see `node`/`resolve`/`cache` below), since ESM has no bare `require`.
 
 `mode` comes straight from `NODE_ENV`; `isProduction`/`isDevelopment` are
 derived from it and used throughout to pick different loaders, plugins,
@@ -80,7 +80,11 @@ and output settings.
 ## Module rules (loaders)
 
 - **`app/**/*.js`** — `babel-loader`, config inline (`configFile: false`;
-  `.babelrc`/`babel.config.cjs` are only for tooling like tests).
+  `.babelrc`/`babel.config.cjs` are only for tooling like tests). Also sets
+  `resolve.fullySpecified: false`: under `"type": "module"` webpack5 would
+  otherwise treat every `app/` file as strict ESM and demand an explicit
+  extension on every relative import, but the client bundle keeps the
+  project's long-standing extensionless import style.
   `@babel/preset-env` has no explicit `targets` — it inherits the
   `browserslist` key in `package.json`, the single source of truth for
   supported browsers shared with `postcss.config.cjs`/autoprefixer. Also:
