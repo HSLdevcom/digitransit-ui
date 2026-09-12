@@ -1,4 +1,4 @@
-import ceil from 'lodash/ceil';
+import ceil from 'lodash/ceil.js';
 import { DateTime } from 'luxon';
 import { parseFeedMQTT } from './gtfsRtParser.js';
 import { convertTo24HourFormat } from './timeUtils.js';

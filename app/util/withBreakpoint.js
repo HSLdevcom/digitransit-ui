@@ -2,7 +2,7 @@
 /* eslint-disable react/no-multi-comp */
 import React, { createContext, useContext } from 'react';
 import PropTypes from 'prop-types';
-import throttle from 'lodash/throttle';
+import throttle from 'lodash/throttle.js';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
 const BreakpointContext = createContext('large');

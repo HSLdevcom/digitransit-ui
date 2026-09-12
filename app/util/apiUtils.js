@@ -1,5 +1,5 @@
 import { XMLParser } from 'fast-xml-parser';
-import isEmpty from 'lodash/isEmpty';
+import isEmpty from 'lodash/isEmpty.js';
 import { retryFetch } from './fetchUtils.js';
 
 export function getUser() {
