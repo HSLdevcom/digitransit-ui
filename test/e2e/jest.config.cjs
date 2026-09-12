@@ -1,6 +1,6 @@
 process.env.JEST_PLAYWRIGHT_CONFIG = `./test/e2e/jest-playwright-${
   (process.env.MOBILE === 'true' && 'mobile') || 'desktop'
-}.config.js`;
+}.config.cjs`;
 
 module.exports = {
   verbose: true,
@@ -11,5 +11,5 @@ module.exports = {
   testTimeout: 200000,
   preset: 'jest-playwright-preset',
   setupFilesAfterEnv: ['./test/e2e/jest.image.js'],
-  reporters: ['default', './test/e2e/helpers/image-reporter.js'],
+  reporters: ['default', './test/e2e/helpers/image-reporter.cjs'],
 };
