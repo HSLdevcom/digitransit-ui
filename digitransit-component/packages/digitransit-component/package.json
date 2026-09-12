@@ -2,8 +2,6 @@
   "name": "@digitransit-component/digitransit-component",
   "version": "5.1.4",
   "description": "a JavaScript library for Digitransit",
-  "main": "digitransit-component",
-  "module": "digitransit-component.mjs",
   "keywords": [
     "digitransit-component"
   ],
