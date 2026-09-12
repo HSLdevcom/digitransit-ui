@@ -38,8 +38,6 @@ import serve from '../app/server.js';
 // to be *some* valid absolute location, not this file's true location.
 const require = createRequire(path.join(process.cwd(), 'server/server.js'));
 
-const devhost = '';
-
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at:', p, 'reason:', reason);
 });
