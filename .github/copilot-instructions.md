@@ -32,14 +32,14 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 - `server/` — Express SSR server.
 - `test/` — `unit/` (mocha, mirrors `app/`) and `e2e/` (Jest + Playwright visual tests).
 - `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.mjs`, `contextHelper.js`,
-  `generate-schema.mjs`, `theme/` theme-scaffolding scripts, `workspace-packages/` (readme
+  `generate-schema.js`, `theme/` theme-scaffolding scripts, `workspace-packages/` (readme
   generation, version checks, translation sort/check); see `scripts/README.md`).
 - `digitransit-component/`, `digitransit-search-util/`, `digitransit-store/`,
   `digitransit-util/` — Yarn workspace packages, built separately (see below).
 - `sass/`, `static/` — global styles and static assets.
 - `config/` — build tooling config (e.g. rollup).
 - `schema/` — generated `schema.graphql` (GraphQL schema consumed by relay-compiler and
-  graphql-eslint; regenerate with `scripts/generate-schema.mjs`, don't hand-edit).
+  graphql-eslint; regenerate with `scripts/generate-schema.js`, don't hand-edit).
 - `docs/` — architecture/testing/etc. docs; **treat as potentially stale** — when a change
   affects what a `docs/*` file describes, update that doc in the same change.
 
@@ -59,7 +59,7 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 - `yarn run build` then `yarn run start` — production build/run. Use `CONFIG=hsl` (or `tampere`,
   `matka`, etc., see `app/configurations/config.*.js`) to select a regional config, and
   `API_URL=...` to point at a different OTP/geocoding backend.
-- If the OTP GraphQL schema changes: `node scripts/generate-schema.mjs` (regenerates
+- If the OTP GraphQL schema changes: `node scripts/generate-schema.js` (regenerates
   `schema/schema.graphql`; `relay-compiler` then regenerates `app/__generated__` on build/dev).
 
 ## Docker
