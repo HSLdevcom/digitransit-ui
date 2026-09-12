@@ -1,4 +1,4 @@
-# syntax = docker/dockerfile:1.4
+# syntax = docker/dockerfile:1.27.0
 FROM node:24.14.1-alpine as builder
 
 WORKDIR /opt/digitransit-ui
@@ -10,30 +10,31 @@ ENV \
   # Picked up by various Node.js tools.
   NODE_ENV=production
 
+# Copying only these manifests (not the packages' actual source) means
+# `yarn install` below is cacheable across any change to app code in these
+# packages, only invalidating on a real dependency change.
 COPY .yarnrc.yml package.json yarn.lock lerna.json ./
 COPY .yarn ./.yarn
-
-# todo: only copy */packages/*/package.json, not all of the code
-# AFAIK there is no blob syntax that copies */package.json while keeping paths.
-# https://github.com/moby/moby/issues/15858
-COPY digitransit-util ./digitransit-util
-COPY digitransit-search-util ./digitransit-search-util
-COPY digitransit-component ./digitransit-component
-COPY digitransit-store ./digitransit-store
-
+COPY --parents digitransit-util/packages/*/package.json ./
+COPY --parents digitransit-search-util/packages/*/package.json ./
+COPY --parents digitransit-component/packages/*/package.json ./
+COPY --parents digitransit-store/packages/*/package.json ./
 RUN \
   # Tell Playwright not to download browser binaries, as it is only used for testing (not building).
   # https://github.com/microsoft/playwright/blob/v1.16.2/installation-tests/installation-tests.sh#L200-L216
   export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
   && yarn install --immutable --inline-builds
 
-# Deliberately scoped to config/schema (rather than folded into the `COPY . .` +
-# `yarn run build` step below): this keeps the RUN below cacheable by Docker's
-# layer cache whenever only app/server files change (the common case), instead
-# of invalidating (and re-running all 16 workspace-package builds) on *any*
-# file change in the repo.
+# Deliberately scoped to config, schema, and the workspace packages' full
+# source (rather than folded into the `COPY . .` + `yarn run build` step
+# below): this keeps the RUN below cacheable by Docker's layer cache
+# whenever only app/server files change.
 COPY config ./config
 COPY schema ./schema
+COPY digitransit-util ./digitransit-util
+COPY digitransit-search-util ./digitransit-search-util
+COPY digitransit-component ./digitransit-component
+COPY digitransit-store ./digitransit-store
 RUN \
   yarn run workspace-packages-build
 
