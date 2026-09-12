@@ -1,17 +1,14 @@
-/* eslint-disable import/no-extraneous-dependencies, no-console */
-const fs = require('fs');
-const http = require('https');
-const path = require('path');
+/* eslint-disable no-console */
+import fs from 'fs';
+import http from 'https';
+import path from 'path';
+
+const rootDir = import.meta.dirname;
 
 const graphqlSchemaSource =
   process.env.SCHEMA_SRC ||
   'https://raw.githubusercontent.com/HSLdevcom/OpenTripPlanner/v2/application/src/main/resources/org/opentripplanner/apis/gtfs/schema.graphqls';
-const outputGraphQLFilename = path.join(
-  __dirname,
-  '..',
-  'schema',
-  'schema.graphql',
-);
+const outputGraphQLFilename = path.join(rootDir, '..', 'schema', 'schema.graphql');
 
 const copySchema = (src, dest) => {
   fs.copyFile(src, dest, err => {

@@ -2,8 +2,10 @@
 
 /* initialize a skeleton for a new theme */
 /* For example: npm run add-theme juupajoki 0x80CCAA */
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+
+const rootDir = import.meta.dirname;
 
 const theme = process.argv[2];
 const color = process.argv[3] || '$livi-blue';
@@ -73,7 +75,7 @@ const regexName = new RegExp('__Theme__', 'g');
 const regexLogo = new RegExp('__textlogo__,', 'g');
 
 let conf = fs.readFileSync(
-  path.join(__dirname, 'template.waltti.js'),
+  path.join(rootDir, 'template.waltti.js'),
   'utf-8',
 );
 conf = conf.replace(regexColor, color).replace(regexTheme, theme)

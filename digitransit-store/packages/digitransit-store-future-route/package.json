@@ -8,11 +8,11 @@
     "access": "public"
   },
   "scripts": {
-    "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
+    "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.mjs",
     "clean": "rm -rf ./lib ./node_modules",
     "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs",
-    "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
+    "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.mjs"
   },
   "repository": {
     "type": "git",

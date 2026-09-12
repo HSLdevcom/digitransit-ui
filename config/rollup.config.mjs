@@ -1,13 +1,15 @@
-const path = require('path');
-const fs = require('fs');
-const autoprefixer = require('autoprefixer');
-const commonjs = require('@rollup/plugin-commonjs');
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const postcss = require('rollup-plugin-postcss');
-const { babel } = require('@rollup/plugin-babel');
-const json = require('@rollup/plugin-json');
-const peerDepsExternal = require('rollup-plugin-peer-deps-external');
-const terser = require('@rollup/plugin-terser').default;
+import path from 'path';
+import fs from 'fs';
+import autoprefixer from 'autoprefixer';
+import commonjs from '@rollup/plugin-commonjs';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import postcss from 'rollup-plugin-postcss';
+import { babel } from '@rollup/plugin-babel';
+import json from '@rollup/plugin-json';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import terser from '@rollup/plugin-terser';
+
+const rootDir = import.meta.dirname;
 
 const globals = {
   react: 'React',
@@ -75,7 +77,7 @@ function getPackage() {
   return { name: pkg.name, location: packageDir };
 }
 
-module.exports = () => {
+export default () => {
   const pkg = getPackage();
   let input = path.join(pkg.location, 'src/index.js');
   if (!fs.existsSync(input)) {
@@ -125,7 +127,7 @@ module.exports = () => {
         // Absolute path: this config now runs with cwd set to the
         // package being built, not the repo root, so a relative path
         // here would no longer resolve correctly.
-        configFile: path.join(__dirname, 'babel.config.js'),
+        configFile: path.join(rootDir, 'babel.config.js'),
         exclude: /node_modules/,
       }),
       commonjs({

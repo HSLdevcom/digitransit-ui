@@ -40,7 +40,7 @@
     "prettier-styles-fix": "prettier sass/**/*.scss app/**/*.scss digitransit-component/**/*.scss --write",
     "stylelint": "stylelint sass/**/*.scss app/**/*.scss digitransit-component/**/*.scss",
     "stylelint-fix": "stylelint sass/**/*.scss app/**/*.scss digitransit-component/**/*.scss --fix",
-    "add-theme": "node scripts/theme/add-theme",
+    "add-theme": "node scripts/theme/add-theme.mjs",
     "workspace-packages-publish": "lerna publish from-package --no-git-tag-version --no-push --summary-file",
     "workspace-packages-publish-ci": "lerna publish from-package --no-git-tag-version --no-push --summary-file -y",
     "workspace-packages-docs": "node scripts/workspace-packages/generate-readmes.mjs",
@@ -49,7 +49,7 @@
     "workspace-packages-test": "yarn workspace-packages-build && NODE_OPTIONS=\"--import ./config/vitest.jsx-runtime-loader.mjs\" vitest run --config config/vitest.config.js",
     "workspace-packages-clean": "lerna run clean && rm -rf node_modules/.cache .nx",
     "workspace-packages-version-bump": "git fetch --tags && lerna version --no-push --include-merged-tags",
-    "workspace-packages-version-check": "node scripts/workspace-packages/check-versions.js",
+    "workspace-packages-version-check": "node scripts/workspace-packages/check-versions.mjs",
     "workspace-packages-translations-check": "node scripts/workspace-packages/sort-translations.mjs",
     "workspace-packages-translations-fix": "node scripts/workspace-packages/sort-translations.mjs --fix"
   },

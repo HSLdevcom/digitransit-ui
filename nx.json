@@ -9,7 +9,7 @@
       "inputs": [
         "default",
         "^default",
-        "{workspaceRoot}/config/rollup.config.js",
+        "{workspaceRoot}/config/rollup.config.mjs",
         "{workspaceRoot}/config/babel.config.js",
         "{workspaceRoot}/schema/schema.graphql"
       ],
