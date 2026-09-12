@@ -1,11 +1,11 @@
-const path = require('path');
-const react = require('@vitejs/plugin-react');
+import path from 'path';
+import react from '@vitejs/plugin-react';
 
 // This config lives under config/ (like babel.config.cjs and rollup.config.mjs)
 // rather than the repo root, so `root` must be set explicitly - otherwise
 // Vitest would resolve include globs relative to this directory instead of
 // the repo root.
-const repoRoot = path.resolve(__dirname, '..');
+const repoRoot = path.resolve(import.meta.dirname, '..');
 
 const nodeProject = name => ({
   test: {
@@ -21,7 +21,7 @@ const nodeProject = name => ({
   },
 });
 
-module.exports = {
+export default {
   test: {
     projects: [
       {
