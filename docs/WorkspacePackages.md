@@ -118,7 +118,7 @@ runs under a jsdom environment, configured entirely in `vitest.config.js`
 makes `afterEach` a real global, which is all RTL's own automatic
 `cleanup()` needs to fire after each test. The other three families run
 under plain Node. `component` also loads
-`config/vitest.jsx-runtime-loader.mjs`, a Node ESM loader hook (wired in via
+`config/vitest.jsx-runtime-loader.js`, a Node ESM loader hook (wired in via
 `NODE_OPTIONS`, not a Vitest config option) that patches the extensionless
 `react/jsx-runtime` import and stubs `.css`/`.scss` — both needed for real,
 un-stubbed ESM `@hsl-fi/*` peer dependencies, which Node resolves natively
@@ -167,7 +167,7 @@ resolve those by hand in the package's `translations.js`.
 
 Every package's `README.md` is generated from its JSDoc by
 [`documentation.js`](https://documentation.js.org/), via the single shared
-`scripts/workspace-packages/generate-readmes.mjs` script. **If you find an
+`scripts/workspace-packages/generate-readmes.js` script. **If you find an
 error in a README, fix the source JSDoc and regenerate — never hand-edit
 the `README.md` file.** A hand-edit will silently disappear the next time
 anyone regenerates it.

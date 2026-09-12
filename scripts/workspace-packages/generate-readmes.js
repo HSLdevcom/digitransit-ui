@@ -18,10 +18,9 @@ function readPackageJson(packageJsonPath) {
 
 // Most packages keep a flat index.js; component/store packages (plus the
 // one search-util package with a build step, digitransit-search-util-query-
-// utils) keep their source under src/index.js instead. The two family
-// meta-packages (digitransit-component, digitransit-util) use index.mjs.
+// utils) keep their source under src/index.js instead.
 function findEntryPoint(directory) {
-  const candidates = ['src/index.js', 'index.js', 'index.mjs'];
+  const candidates = ['src/index.js', 'index.js'];
   const found = candidates
     .map(candidate => path.join(directory, candidate))
     .find(fullPath => fs.existsSync(fullPath));

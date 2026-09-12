@@ -55,7 +55,7 @@ app/**/__generated__
 
 # Only scripts/build/* (contextHelper.js, assetUrlPlaceholder.js) is actually
 # required, by webpack.config.babel.js and server/server.js respectively - the
-# rest of scripts/ (dev.sh, generate-schema.js, sort-translations.mjs, theme/,
+# rest of scripts/ (dev.sh, generate-schema.js, sort-translations.js, theme/,
 # workspace-packages/) is dev/tooling-only and never read by the image.
 !scripts/build
 

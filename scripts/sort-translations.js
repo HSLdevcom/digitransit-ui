@@ -60,7 +60,7 @@ function sortedTranslationsFileContent(lang, translations) {
 
 async function main() {
   try {
-    console.log('---------- Running sort-translations.mjs script ----------');
+    console.log('---------- Running sort-translations.js script ----------');
 
     const files = fs
       .readdirSync(TRANSLATIONS_DIR)
