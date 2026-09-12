@@ -96,7 +96,7 @@ ENV \
   OTP_URL='' \
   GEOCODING_BASE_URL='' \
   CONFIG=$CONFIG \
-  NODE_ENV='' \
+  NODE_ENV='production' \
   RUN_ENV='' \
   # setting a non-empty default value for NODE_OPTS
   # if you don't do this then yarn/node seem to think that you want to
@@ -114,4 +114,4 @@ HEALTHCHECK \
   --interval=5s --timeout=3s --retries=3 --start-period=5s \
   CMD wget --spider -q "http://localhost:$PORT/" || exit 1
 
-CMD yarn run start
+CMD ["sh", "-c", "exec node $NODE_OPTS server/server.js"]

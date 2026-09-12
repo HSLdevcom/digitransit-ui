@@ -375,4 +375,6 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
         errorHandler(res, err);
       });
   });
+
+  return RedisClient;
 }
