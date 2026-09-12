@@ -1,37 +1,28 @@
-// webpack-cli 5+ no longer auto-registers Babel for `*.config.babel.js`
-// filenames (that "interpret"-based magic was removed) - the config file
-// itself is plain CommonJS/ES2015+ and needs no transform, but requiring
-// `./scripts/build/contextHelper`, which in turn requires `app/config.js` and
-// friends, does: those still use ES module `import` syntax. Register Babel
-// explicitly before any of those requires happen. No `ignore` override is
-// needed here: this file's require chain never reaches into `node_modules`.
-require('@babel/register')();
-
-const path = require('path');
-const webpack = require('webpack');
-
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserJsPlugin = require('terser-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-
-const { InjectManifest } = require('workbox-webpack-plugin');
-
-const CompressionPlugin = require('compression-webpack-plugin');
-
+// The `app/` require-chain reached from `./scripts/build/contextHelper.js`
+// (`app/config.js` and friends) is native ESM now - the repo is
+// `"type": "module"` - so this config no longer needs `@babel/register` to
+// load it. `import.meta.dirname` (as `rootDir`) replaces `__dirname`;
+// `createRequire` is kept only for the two `require.resolve(...)` polyfill
+// lookups below.
+import path from 'path';
+import fs from 'fs';
+import { createRequire } from 'module';
+import webpack from 'webpack';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import TerserJsPlugin from 'terser-webpack-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
+import { InjectManifest } from 'workbox-webpack-plugin';
+import CompressionPlugin from 'compression-webpack-plugin';
 // This package's `exports` map subpath types aren't understood by
 // eslint-plugin-import's resolver.
 // eslint-disable-next-line import/no-unresolved
-const { WebpackAssetsManifest } = require('webpack-assets-manifest');
+import { WebpackAssetsManifest } from 'webpack-assets-manifest';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import { themeEntries, faviconPlugins } from './scripts/build/contextHelper.js';
+import { ASSET_URL_PLACEHOLDER } from './scripts/build/assetUrlPlaceholder.js';
 
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-
-const {
-  themeEntries,
-  faviconPlugins,
-} = require('./scripts/build/contextHelper');
-const {
-  ASSET_URL_PLACEHOLDER,
-} = require('./scripts/build/assetUrlPlaceholder');
+const require = createRequire(import.meta.url);
+const rootDir = import.meta.dirname;
 
 const mode = process.env.NODE_ENV;
 const isProduction = mode === 'production';
@@ -66,8 +57,7 @@ class EntrypointStatsPlugin {
         ),
       };
       const outputPath = path.join(compiler.outputPath, this.destination);
-      // eslint-disable-next-line global-require
-      require('fs').writeFileSync(outputPath, JSON.stringify(json));
+      fs.writeFileSync(outputPath, JSON.stringify(json));
     });
   }
 }
@@ -75,7 +65,7 @@ class EntrypointStatsPlugin {
 const productionPlugins = [
   ...faviconPlugins,
   new InjectManifest({
-    swSrc: path.join(__dirname, 'app/util/serviceWorker.js'),
+    swSrc: path.join(rootDir, 'app/util/serviceWorker.js'),
     swDest: 'sw.js',
     // Mirrors the previous offline-plugin `excludes` list: source maps,
     // compressed variants, and the per-deployment theme/sprite chunks and
@@ -127,11 +117,11 @@ const productionPlugins = [
   new CopyWebpackPlugin({
     patterns: [
       {
-        from: path.join(__dirname, 'static/assets/geojson'),
+        from: path.join(rootDir, 'static/assets/geojson'),
         transform: function minify(content) {
           return JSON.stringify(JSON.parse(content.toString()));
         },
-        to: path.join(__dirname, '_static/assets/geojson'),
+        to: path.join(rootDir, '_static/assets/geojson'),
       },
     ],
   }),
@@ -139,7 +129,7 @@ const productionPlugins = [
   new WebpackAssetsManifest({ output: '../manifest.json' }),
 ];
 
-module.exports = {
+export default {
   mode,
   entry: {
     main: [
@@ -152,7 +142,7 @@ module.exports = {
     ...(isProduction ? themeEntries : {}),
   },
   output: {
-    path: path.join(__dirname, '_static'),
+    path: path.join(rootDir, '_static'),
     filename: isDevelopment ? 'js/[name].js' : 'js/[name].[contenthash].js',
     chunkFilename: 'js/[contenthash].js',
     publicPath: isDevelopment ? '/proxy/' : '/',
@@ -162,7 +152,14 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        include: [path.resolve(__dirname, 'app')],
+        include: [path.resolve(rootDir, 'app')],
+        // The repo is `"type": "module"`, so webpack5 treats every `app/`
+        // file as strict ESM and would otherwise demand an explicit
+        // extension on every relative/subpath import. Only the small
+        // server-side subgraph is loaded by Node directly (and that has
+        // been made fully-specified); the client bundle keeps the
+        // project's long-standing extensionless style.
+        resolve: { fullySpecified: false },
         loader: 'babel-loader',
         options: {
           configFile: false,
@@ -254,7 +251,7 @@ module.exports = {
                 // Modern Dart Sass JS API option name (was `includePaths`
                 // under the legacy API sass-loader used to default to).
                 loadPaths: [
-                  path.join(__dirname, 'node_modules/foundation-sites/scss'),
+                  path.join(rootDir, 'node_modules/foundation-sites/scss'),
                 ],
                 quietDeps: true,
                 silenceDeprecations: [

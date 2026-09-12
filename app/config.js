@@ -1,16 +1,25 @@
 import fs from 'fs';
 import path from 'path';
-import cloneDeep from 'lodash/cloneDeep';
+import { createRequire } from 'module';
+import cloneDeep from 'lodash/cloneDeep.js';
 import defaultConfig from './configurations/config.default.js';
 import configMerger from './util/configMerger.js';
 import { LightenDarkenColor } from './util/colorUtils.js';
 import { boundWithMinimumAreaSimple } from './util/geo-utils.js';
 
+// Node 24 `require()`s an ESM `config.*.js` graph directly (none use
+// top-level await), so getNamedConfiguration's dynamic per-region require
+// below stays synchronous instead of turning every caller async. Anchored
+// via `process.cwd()` (this file already assumes cwd is the repo root, see
+// `appRoot` below) rather than `import.meta.url`: a file containing
+// `import.meta` can't be transpiled to CommonJS by `@babel/register`, which
+// breaks the Mocha unit-test suite's require()-based module loading.
+const require = createRequire(path.join(process.cwd(), 'app/config.js'));
+
 const configs = {}; // cache merged configs for speed
 const themeMap = {};
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
-// eslint-disable-next-line global-require
 const metaDataTemplate = require('./ssrmeta.json');
 
 if (defaultConfig.themeMap) {
@@ -98,9 +107,9 @@ export function getNamedConfiguration(configName) {
     let additionalConfig;
 
     if (configName !== 'default') {
-      // eslint-disable-next-line global-require, import/no-dynamic-require
+      // eslint-disable-next-line import/no-dynamic-require
       additionalConfig = require(
-        `./configurations/config.${configName}`,
+        `./configurations/config.${configName}.js`,
       ).default;
     }
 

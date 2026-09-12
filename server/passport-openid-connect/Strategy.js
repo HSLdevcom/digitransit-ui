@@ -1,11 +1,9 @@
-/* eslint-disable no-console, strict, no-unused-vars, prefer-destructuring, consistent-return */
+/* eslint-disable no-console, no-unused-vars, prefer-destructuring, consistent-return */
 
-'use strict';
-
-const { Issuer, Strategy, custom } = require('openid-client');
-const util = require('util');
-const process = require('process');
-const User = require('./User').User;
+import { Issuer, Strategy, custom } from 'openid-client';
+import util from 'util';
+import process from 'process';
+import { User } from './User.js';
 
 const debugLogging = process.env.DEBUGLOGGING;
 const callbackPath = '/oid_callback';
@@ -201,4 +199,4 @@ OICStrategy.deserializeUser = function deserializeUser(packed, cb) {
   cb(null, User.unserialize(packed));
 };
 
-exports.Strategy = OICStrategy;
+export { OICStrategy as Strategy };
