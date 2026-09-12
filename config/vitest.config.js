@@ -1,7 +1,7 @@
 const path = require('path');
 const react = require('@vitejs/plugin-react');
 
-// This config lives under config/ (like babel.config.js and rollup.config.js)
+// This config lives under config/ (like babel.config.js and rollup.config.mjs)
 // rather than the repo root, so `root` must be set explicitly - otherwise
 // Vitest would resolve include globs relative to this directory instead of
 // the repo root.
@@ -70,7 +70,7 @@ module.exports = {
               plugins: ['inline-react-svg'],
             },
           }),
-          // config/rollup.config.js's postcss plugin treats every .scss
+          // config/rollup.config.mjs's postcss plugin treats every .scss
           // import as a CSS module (`modules: true`, unconditional - not
           // gated by a `.module.scss` filename). Vitest's own built-in CSS
           // handling (active via `css: false` below) only recognizes

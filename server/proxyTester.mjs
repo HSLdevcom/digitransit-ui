@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-const express = require('express');
-const proxy = require('express-http-proxy');
+import express from 'express';
+import proxy from 'express-http-proxy';
 
 const app = express();
 
@@ -14,6 +14,6 @@ const server = app.listen(port, () =>
 
 /*
   This file enables toy to test CDN functionality locally by starting with
-  node server/proxyTester.js && \
+  node server/proxyTester.mjs && \
   ASSET_URL="http://localhost:9000/proxy" yarn run start
 */
