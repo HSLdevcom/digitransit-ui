@@ -38,7 +38,7 @@ digitransit-component/packages/**/lib
 digitransit-store/packages/**/lib
 
 # Build tooling config consumed by workspace-package builds (config/rollup.config.js,
-# config/babel.config.js) and by relay-compiler (schema/schema.graphql).
+# config/babel.config.cjs) and by relay-compiler (schema/schema.graphql).
 !config
 !schema
 
@@ -54,15 +54,15 @@ app/**/__generated__
 !static
 
 # Only scripts/build/* (contextHelper.js, assetUrlPlaceholder.js) is actually
-# required, by webpack.config.babel.js and server/server.js respectively - the
+# required, by webpack.config.js and server/server.js respectively - the
 # rest of scripts/ (dev.sh, generate-schema.js, sort-translations.js, theme/,
 # workspace-packages/) is dev/tooling-only and never read by the image.
 !scripts/build
 
 # Root-level build config.
-!webpack.config.babel.js
-!babel.config.js
-!postcss.config.js
+!webpack.config.js
+!babel.config.cjs
+!postcss.config.cjs
 
 # Kept for compliance/legal visibility even though not functionally required:
 # digitransit-ui is dual AGPL-3.0/EUPL-1.2 licensed.
