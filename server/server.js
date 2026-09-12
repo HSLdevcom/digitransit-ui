@@ -57,6 +57,8 @@ let allZones;
 const port = config.PORT || 8080;
 const app = express();
 const { indexPath, hostnames } = config;
+let httpServer;
+let redisClient;
 
 /* Setup functions */
 function setUpOpenId() {
@@ -73,7 +75,7 @@ function setUpOpenId() {
       expectCt: false,
     }),
   );
-  setUpOIDC(app, port, indexPath, hostnames);
+  redisClient = setUpOIDC(app, port, indexPath, hostnames);
 }
 
 function setUpStaticFolders() {
@@ -312,10 +314,47 @@ function collectGeoJsonZones() {
 }
 
 function startServer() {
-  const server = app.listen(port, () =>
-    console.log('Digitransit-ui available on port %d', server.address().port),
+  httpServer = app.listen(port, () =>
+    console.log(
+      'Digitransit-ui available on port %d',
+      httpServer.address().port,
+    ),
   );
 }
+
+// Stop accepting new connections and let in-flight requests finish (up to a
+// grace period, kept under `docker stop`'s default 10s so our own clean
+// exit(1) below wins the race instead of being cut off by a SIGKILL) before
+// closing the Redis connection (if OIDC/sessions are configured) and
+// exiting. Running as PID 1 in a container means the kernel skips the
+// default terminate-on-signal action entirely unless a handler is
+// registered (SIGTERM/SIGINT would otherwise just be silently discarded).
+function gracefulShutdown(signal) {
+  console.log(`Received ${signal}, shutting down gracefully`);
+
+  const forceExitTimer = setTimeout(() => {
+    console.log('Graceful shutdown timed out, forcing exit');
+    process.exit(1);
+  }, 8_000);
+  forceExitTimer.unref();
+
+  const closeRedisAndExit = () =>
+    redisClient ? redisClient.quit(() => process.exit(0)) : process.exit(0);
+
+  if (httpServer) {
+    httpServer.close(closeRedisAndExit);
+    // `close()` above only stops accepting new connections - it waits
+    // indefinitely for already-open keep-alive sockets to close on their
+    // own. Proactively close idle ones now so only genuinely in-flight
+    // requests hold up the shutdown.
+    httpServer.closeIdleConnections();
+  } else {
+    closeRedisAndExit();
+  }
+}
+
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
 async function fetchCitybikeSeasons() {
   const client = new CosmosClient(process.env.CITYBIKE_DB_CONN_STRING);
