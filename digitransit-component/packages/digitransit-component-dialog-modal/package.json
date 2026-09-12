@@ -2,10 +2,22 @@
   "name": "@digitransit-component/digitransit-component-dialog-modal",
   "version": "4.0.2",
   "description": "digitransit-component dialog-modal module",
+  "type": "module",
   "main": "index.cjs",
+  "module": "lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./index.cjs",
+      "default": "./index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "/lib",
-    "index.cjs"
+    "index.cjs",
+    "LICENSE-AGPL.txt",
+    "LICENSE-EUPL.txt"
   ],
   "publishConfig": {
     "access": "public"
@@ -34,6 +46,5 @@
     "@hsl-fi/dialog": "^3.1.3",
     "prop-types": "^15.8.1",
     "react": "^16.13.0"
-  },
-  "type": "module"
+  }
 }

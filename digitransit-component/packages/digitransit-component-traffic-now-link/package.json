@@ -2,10 +2,22 @@
   "name": "@digitransit-component/digitransit-component-traffic-now-link",
   "version": "4.0.4",
   "description": "digitransit-component traffic-now-link module",
+  "type": "module",
   "main": "index.cjs",
+  "module": "lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./index.cjs",
+      "default": "./index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "/lib",
-    "index.cjs"
+    "index.cjs",
+    "LICENSE-AGPL.txt",
+    "LICENSE-EUPL.txt"
   ],
   "publishConfig": {
     "access": "public"
@@ -37,6 +49,5 @@
     "prop-types": "^15.8.1",
     "react": "^16.13.0",
     "react-i18next": "^12.3.2"
-  },
-  "type": "module"
+  }
 }

@@ -2,10 +2,22 @@
   "name": "@digitransit-component/digitransit-component-datetimepicker",
   "version": "6.0.10",
   "description": "digitransit-component datetimepicker module",
+  "type": "module",
   "main": "index.cjs",
+  "module": "lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./index.cjs",
+      "default": "./index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "/lib",
-    "index.cjs"
+    "index.cjs",
+    "LICENSE-AGPL.txt",
+    "LICENSE-EUPL.txt"
   ],
   "publishConfig": {
     "access": "public"
@@ -44,6 +56,5 @@
     "react-i18next": "^12.3.1",
     "react-modal": "~3.11.2",
     "react-select": "^4.3.1"
-  },
-  "type": "module"
+  }
 }

@@ -2,8 +2,22 @@
   "name": "@digitransit-store/digitransit-store-common-functions",
   "version": "0.1.2",
   "description": "digitransit-store common-functions module",
-  "main": "lib/index.cjs",
   "type": "module",
+  "main": "lib/index.cjs",
+  "module": "lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs",
+      "default": "./lib/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "/lib",
+    "LICENSE-AGPL.txt",
+    "LICENSE-EUPL.txt"
+  ],
   "publishConfig": {
     "access": "public"
   },

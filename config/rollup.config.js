@@ -102,6 +102,11 @@ module.exports = () => {
         // deps (e.g. react-select). 'auto' restores that interop safely.
         interop: 'auto',
         globals,
+        // Scoped to this output only (rather than pushed into the shared
+        // top-level `plugins` below) so minification only ever applies to
+        // this one "production" UMD file, never to index.development.cjs or
+        // the ESM output below, regardless of NODE_ENV.
+        plugins: [terser()],
       },
       {
         name: pkg.name,
@@ -112,6 +117,25 @@ module.exports = () => {
         exports: 'named',
         interop: 'auto',
         globals,
+      },
+      {
+        // ESM build for the "module"/"exports" (import condition) fields.
+        // Deliberately a single, unminified file — unlike the two UMD
+        // outputs above there's no dev/prod split here: ESM `import`
+        // statements are static and can't branch on process.env.NODE_ENV
+        // the way the CJS shim (see the per-package index.cjs files) does,
+        // and shipping unminified ESM for the consuming bundler to minify
+        // itself is the standard idiom behind a "module" field anyway.
+        // No `name`/`globals`/`interop`: those only affect umd/iife output.
+        // Plain `.js`, not `.mjs`: every one of these packages already sets
+        // "type": "module", so a .js file here is already parsed as ESM -
+        // no extension trick needed (unlike the .cjs files above, which
+        // rely on their extension to force CJS parsing despite "type").
+        file: path.join(pkg.location, 'lib', 'index.js'),
+        format: 'es',
+        sourcemap: true,
+        inlineDynamicImports: true,
+        exports: 'named',
       },
     ],
     context: 'self',
@@ -175,8 +199,5 @@ module.exports = () => {
       json(),
     ],
   };
-  if (process.env.NODE_ENV === 'production') {
-    buildConfig.plugins.push(terser());
-  }
   return buildConfig;
 };
