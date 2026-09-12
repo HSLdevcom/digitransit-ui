@@ -5,6 +5,7 @@ WORKDIR /opt/digitransit-ui
 
 ENV \
   # We mimick common CI/CD systems so that tools don't assume a "normal" dev env.
+  # Also makes Lerna (via Nx) skip local build caching, so it never writes `.nx`.
   CI=true \
   # Picked up by various Node.js tools.
   NODE_ENV=production
@@ -24,14 +25,7 @@ RUN \
   # Tell Playwright not to download browser binaries, as it is only used for testing (not building).
   # https://github.com/microsoft/playwright/blob/v1.16.2/installation-tests/installation-tests.sh#L200-L216
   export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
-  && yarn install --immutable --inline-builds \
-  && yarn cache clean --all
-
-# Setting $CONFIG causes digitransit-ui to only build assets for *one* instance (see app/configurations).
-# This speeds up the build (because favicons-webpack-plugin is increasingly *very* slow with the nr of
-# configs processed), but the resulting image won't be able to serve other instances.
-ARG CONFIG=''
-ENV CONFIG=${CONFIG}
+  && yarn install --immutable --inline-builds
 
 # Deliberately scoped to config/schema (rather than folded into the `COPY . .` +
 # `yarn run build` step below): this keeps the RUN below cacheable by Docker's
@@ -43,19 +37,39 @@ COPY schema ./schema
 RUN \
   yarn run workspace-packages-build
 
+# Setting $CONFIG causes digitransit-ui to only build assets for *one* instance (see app/configurations).
+# This speeds up the build (because favicons-webpack-plugin is increasingly *very* slow with the nr of
+# configs processed), but the resulting image won't be able to serve other instances. Declared here
+# (only read by webpack.config.js below, not by the workspace-package build above) rather than
+# earlier, so that building for a different CONFIG doesn't needlessly invalidate that step's cache too.
+ARG CONFIG=''
+ENV CONFIG=${CONFIG}
 COPY . .
-
 RUN \
   yarn run build \
   && rm -rf node_modules/.cache \
   && rm -rf /tmp/Relay*
 
-# Deleting files retrospectively, after having copied/generated them in a previous step, *does not* reduce
-# the size of the resulting (builder) Docker image. But we prevent them from being copied into the final image.
-# `.nx` (Nx's local build cache, created by `yarn run workspace-packages-build` above) falls in the same category:
-# pure build-tooling state, never `require()`d at runtime, so it'd otherwise just bloat the final image.
+# Prune node_modules down to production-only dependencies across every workspace
+# (root + digitransit-component/store/search-util/util packages) *before* the
+# final stage's `COPY --from=builder` below, not after: a later `RUN` in the
+# final stage can only add a whiteout for deleted files - the full unpruned
+# tree would still be baked into the `COPY` layer itself and still count
+# against the final image's real (pushed/pulled) size. Doing it here, using
+# the cache this stage's own `yarn install` already warmed (no network
+# access needed), means the final stage only ever copies the already-small
+# tree.
+#
+# Once this finishes, nothing later needs Yarn/Lerna/Nx again (the final image
+# doesn't invoke any of them - see its CMD), so their toolchain/config files
+# are removed here too, alongside the build-only rollup/babel/relay-schema
+# config (only read by `yarn run workspace-packages-build` above) and `static`
+# (source assets consumed by CopyWebpackPlugin, see webpack.config.js, already
+# copied into `_static` by the build above).
 RUN \
-  rm -rf static docs .cache .nx
+  yarn workspaces focus --all --production \
+  && yarn cache clean --all \
+  && rm -rf .yarn .yarnrc.yml yarn.lock lerna.json nx.json config schema static
 
 FROM node:24.14.1-alpine
 LABEL org.opencontainers.image.title="digitransit-ui"
@@ -68,17 +82,11 @@ LABEL org.opencontainers.image.licenses="(AGPL-3.0 OR EUPL-1.2)"
 
 WORKDIR /opt/digitransit-ui
 
-ARG CONFIG=''
-ENV CONFIG=${CONFIG}
-
 EXPOSE 8080
-
-# todo: install production dependencies only, re-use .yarn/cache from above
-# `yarn install --production` is not supported by Yarn v2.4.3, and the suggested `yarn workspaces focus` command
-# does not exist.
 
 COPY --from=builder /opt/digitransit-ui/ .
 
+ARG CONFIG=''
 ARG WEBPACK_DEVTOOL=''
 ENV \
   # App specific settings to override when the image is run \
