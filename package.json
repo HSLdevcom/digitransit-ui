@@ -34,8 +34,8 @@
     "lint": "yarn run eslint && yarn run prettier-styles && yarn run stylelint && yarn run workspace-packages-translations-check",
     "format": "yarn run sort-translations && yarn run workspace-packages-translations-fix && yarn run eslint-fix && yarn run prettier-styles-fix && yarn run stylelint-fix",
     "sort-translations": "node scripts/sort-translations.mjs",
-    "eslint": "eslint .",
-    "eslint-fix": "eslint . --fix",
+    "eslint": "eslint . --ext .js,.mjs,.cjs",
+    "eslint-fix": "eslint . --ext .js,.mjs,.cjs --fix",
     "prettier-styles": "prettier sass/**/*.scss app/**/*.scss digitransit-component/**/*.scss --check",
     "prettier-styles-fix": "prettier sass/**/*.scss app/**/*.scss digitransit-component/**/*.scss --write",
     "stylelint": "stylelint sass/**/*.scss app/**/*.scss digitransit-component/**/*.scss",
@@ -79,7 +79,7 @@
     "trailingComma": "all"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
+    "*.{js,jsx,mjs,cjs}": [
       "eslint"
     ],
     "*.scss": [

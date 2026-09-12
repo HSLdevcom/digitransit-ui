@@ -119,7 +119,11 @@ async function generateReadme(packagePath) {
   console.log(`Building docs: ${name}`);
 
   const markdown = await formats.md(res);
-  const readme = `# ${name}\n\n${markdown}${installationSection(name, metaPackage, dirName)}`;
+  const readme = `# ${name}\n\n${markdown}${installationSection(
+    name,
+    metaPackage,
+    dirName,
+  )}`;
   fs.writeFileSync(path.join(directory, 'README.md'), readme);
 }
 
