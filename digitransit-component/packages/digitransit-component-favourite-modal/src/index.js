@@ -7,8 +7,8 @@ import {
   useTranslation,
   withTranslation,
 } from 'react-i18next';
-import isEmpty from 'lodash/isEmpty';
-import isNumber from 'lodash/isNumber';
+import isEmpty from 'lodash/isEmpty.js';
+import isNumber from 'lodash/isNumber.js';
 import Modal from '@hsl-fi/modal';
 import Icon, {
   defaultColors,

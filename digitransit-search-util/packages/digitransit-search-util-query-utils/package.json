@@ -2,8 +2,8 @@
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
   "version": "4.5.18",
   "description": "digitransit-search-util query-utils module",
-  "main": "lib/index.cjs",
   "type": "module",
+  "main": "lib/index.cjs",
   "publishConfig": {
     "access": "public"
   },

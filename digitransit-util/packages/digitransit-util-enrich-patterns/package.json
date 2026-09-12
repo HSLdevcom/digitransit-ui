@@ -2,8 +2,8 @@
   "name": "@digitransit-util/digitransit-util-enrich-patterns",
   "version": "2.0.3",
   "description": "digitransit-util enrich-patterns module",
-  "main": "index.js",
   "type": "module",
+  "main": "index.js",
   "scripts": {
     "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs"

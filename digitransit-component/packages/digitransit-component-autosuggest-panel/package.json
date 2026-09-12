@@ -2,9 +2,22 @@
   "name": "@digitransit-component/digitransit-component-autosuggest-panel",
   "version": "8.4.3",
   "description": "digitransit-component autosuggest-panel module",
+  "type": "module",
   "main": "index.cjs",
+  "module": "lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./index.cjs",
+      "default": "./index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
-    "/lib"
+    "/lib",
+    "index.cjs",
+    "LICENSE-AGPL.txt",
+    "LICENSE-EUPL.txt"
   ],
   "publishConfig": {
     "access": "public"
@@ -42,6 +55,5 @@
     "react": "^16.13.0",
     "react-i18next": "^12.3.1",
     "react-sortablejs": "2.0.11"
-  },
-  "type": "module"
+  }
 }

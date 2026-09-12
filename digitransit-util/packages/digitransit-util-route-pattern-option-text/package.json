@@ -2,8 +2,8 @@
   "name": "@digitransit-util/digitransit-util-route-pattern-option-text",
   "version": "4.1.2",
   "description": "digitransit-util route-pattern-option-text module",
-  "main": "index.js",
   "type": "module",
+  "main": "index.js",
   "scripts": {
     "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs"

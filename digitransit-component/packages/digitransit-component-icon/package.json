@@ -2,11 +2,22 @@
   "name": "@digitransit-component/digitransit-component-icon",
   "version": "2.0.4",
   "description": "digitransit-component icon module",
-  "main": "index.cjs",
   "type": "module",
+  "main": "index.cjs",
+  "module": "lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./index.cjs",
+      "default": "./index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "/lib",
-    "index.cjs"
+    "index.cjs",
+    "LICENSE-AGPL.txt",
+    "LICENSE-EUPL.txt"
   ],
   "publishConfig": {
     "access": "public"
