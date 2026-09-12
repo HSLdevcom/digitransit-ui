@@ -4,10 +4,10 @@ import polyfillLibrary from 'polyfill-library';
 import fs from 'fs';
 import path from 'path';
 import LRU from 'lru-cache';
-import meta from './meta';
+import meta from './meta.js';
 // configuration
-import { getConfiguration } from './config';
-import { getAnalyticsInitCode } from './util/analyticsUtils';
+import { getConfiguration } from './config.js';
+import { getAnalyticsInitCode } from './util/analyticsUtils.js';
 
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
@@ -20,10 +20,13 @@ let mainAssets;
 let manifest;
 
 if (process.env.NODE_ENV !== 'development') {
-  // eslint-disable-next-line global-require, import/no-unresolved
-  assets = require('../manifest.json');
-  // eslint-disable-next-line global-require, import/no-unresolved
-  mainAssets = require('../stats.json').entrypoints.main.assets.filter(
+  assets = JSON.parse(
+    fs.readFileSync(path.join(appRoot, 'manifest.json'), 'utf8'),
+  );
+  const stats = JSON.parse(
+    fs.readFileSync(path.join(appRoot, 'stats.json'), 'utf8'),
+  );
+  mainAssets = stats.entrypoints.main.assets.filter(
     asset => !asset.endsWith('.map'),
   );
 
