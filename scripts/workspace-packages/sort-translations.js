@@ -4,7 +4,7 @@
 /**
  * Sorts and checks digitransit-component packages' own translation bundles
  * (`src/{helpers,utils}/translations.js`) - a different shape from
- * `app/translations/*.js` (handled separately by ../sort-translations.mjs):
+ * `app/translations/*.js` (handled separately by ../sort-translations.js):
  * one file per package holding EVERY locale, each nested under an i18next
  * `translation` namespace, e.g.
  *
@@ -16,11 +16,11 @@
  *
  * Two modes, mirroring eslint/eslint-fix:
  *
- *   node sort-translations.mjs         check mode (read-only): reports
+ *   node sort-translations.js         check mode (read-only): reports
  *     unsorted keys and cross-locale key-parity mismatches, exits non-zero
  *     if anything is found. Wired into `yarn lint`.
  *
- *   node sort-translations.mjs --fix   rewrites each file with locales and
+ *   node sort-translations.js --fix   rewrites each file with locales and
  *     each locale's keys sorted alphabetically. Parity mismatches can't be
  *     auto-fixed (a human has to decide the correct key/translation), so
  *     they're still reported and still fail the run, same as `eslint --fix`
@@ -34,7 +34,7 @@ const PACKAGES_DIR = path.join(repoRoot, 'digitransit-component/packages');
 const PRINT_WIDTH = 80;
 const SORT_KEYS_PRAGMA = '/* eslint sort-keys: "error" */';
 
-// Mirrors generate-readmes.mjs's findEntryPoint: a fixed candidate list
+// Mirrors generate-readmes.js's findEntryPoint: a fixed candidate list
 // rather than a recursive glob, since every package that has one of these
 // keeps it at one of exactly two spots.
 const CANDIDATE_RELATIVE_PATHS = [
@@ -115,7 +115,7 @@ function findParityMismatches(translations) {
 
 // Sorted locales + each locale's sorted translation keys, formatted to
 // match the existing style of these files (const + named export, 2-space
-// nesting per level), reusing ../sort-translations.mjs's key/value
+// nesting per level), reusing ../sort-translations.js's key/value
 // formatting and line-wrapping.
 function sortedFileContent(translations) {
   const lines = [];
@@ -200,7 +200,7 @@ async function checkFile(filePath, fix) {
 async function main() {
   const fix = process.argv.includes('--fix');
   console.log(
-    `---------- Running sort-translations.mjs script (${
+    `---------- Running sort-translations.js script (${
       fix ? '--fix' : 'check'
     }) ----------`,
   );
