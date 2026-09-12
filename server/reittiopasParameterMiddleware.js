@@ -1,4 +1,4 @@
-import isFinite from 'lodash/isFinite';
+import isFinite from 'lodash/isFinite.js';
 import oldParamParser from '../app/util/oldParamParser.js';
 import { getConfiguration } from '../app/config.js';
 

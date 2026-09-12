@@ -1,6 +1,6 @@
-import cloneDeep from 'lodash/cloneDeep';
-import isEmpty from 'lodash/isEmpty';
-import Store from 'fluxible/addons/BaseStore';
+import cloneDeep from 'lodash/cloneDeep.js';
+import isEmpty from 'lodash/isEmpty.js';
+import Store from 'fluxible/addons/BaseStore.js';
 
 import { getJson } from '../util/xhrPromise.js';
 

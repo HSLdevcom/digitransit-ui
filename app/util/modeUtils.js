@@ -1,6 +1,6 @@
-import isString from 'lodash/isString';
-import sortedUniq from 'lodash/sortedUniq';
-import xor from 'lodash/xor';
+import isString from 'lodash/isString.js';
+import sortedUniq from 'lodash/sortedUniq.js';
+import xor from 'lodash/xor.js';
 import inside from 'point-in-polygon';
 import { getCustomizedSettings } from '../data/localStorage.js';
 import { isInBoundingBox } from './geo-utils.js';

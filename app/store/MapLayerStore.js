@@ -1,4 +1,4 @@
-import Store from 'fluxible/addons/BaseStore';
+import Store from 'fluxible/addons/BaseStore.js';
 import PropTypes from 'prop-types';
 import {
   setMapLayerSettings,
