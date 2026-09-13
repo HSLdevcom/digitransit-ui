@@ -74,6 +74,19 @@ describe('MessageStore', () => {
 
       global.fetch = undefined;
     });
+
+    it('should not fetch when staticMessagesUrl is an empty string', async () => {
+      const store = new MessageStore();
+      const config = {
+        staticMessages: [],
+        staticMessagesUrl: '',
+      };
+
+      await store.addConfigMessages(config);
+      expect(fetchMock.callHistory.called()).to.equal(false);
+
+      global.fetch = undefined;
+    });
   });
 
   describe('processStaticMessages', () => {

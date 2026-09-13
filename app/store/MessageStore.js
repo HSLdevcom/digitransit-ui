@@ -92,7 +92,7 @@ class MessageStore extends Store {
   addConfigMessages = async config => {
     processStaticMessages(config, this.addMessage);
 
-    if (config.staticMessagesUrl !== undefined) {
+    if (config.staticMessagesUrl) {
       const response = await fetch(config.staticMessagesUrl, {
         mode: 'cors',
         cache: 'reload',
