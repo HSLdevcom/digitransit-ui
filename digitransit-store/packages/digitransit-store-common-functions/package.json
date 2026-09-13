@@ -11,6 +11,7 @@
       "require": "./lib/index.cjs",
       "default": "./lib/index.cjs"
     },
+    "./src/index.js": "./src/index.js",
     "./package.json": "./package.json"
   },
   "files": [
