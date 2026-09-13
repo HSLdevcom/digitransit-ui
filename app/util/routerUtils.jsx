@@ -1,7 +1,7 @@
 import React from 'react';
-import Error404 from '../component/404.js';
-import NetworkError from '../component/NetworkError.js';
-import Loading from '../component/LoadingPage.js';
+import Error404 from '../component/404.jsx';
+import NetworkError from '../component/NetworkError.jsx';
+import Loading from '../component/LoadingPage.jsx';
 import isRelayNetworkError from './relayUtils.js';
 
 export function errorLoading(err) {

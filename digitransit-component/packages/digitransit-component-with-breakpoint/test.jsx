@@ -6,7 +6,7 @@ import withBreakpoint, {
   getServerBreakpoint,
   BreakpointProvider,
   DesktopOrMobile,
-} from './src/index.js';
+} from './src/index.jsx';
 
 describe('Testing @digitransit-component/digitransit-component-with-breakpoint module', () => {
   const originalInnerWidth = window.innerWidth;

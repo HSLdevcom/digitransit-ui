@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import React from 'react';
 import ReactModal from 'react-modal';
 import { render, screen, fireEvent } from '@testing-library/react';
-import FavouriteModal from './src/index.js';
+import FavouriteModal from './src/index.jsx';
 
 // @hsl-fi/modal's own useEffect calls Modal.setAppElement(appElement) on
 // mount, but only after react-modal's own componentDidMount already ran

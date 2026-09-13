@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axios from 'axios';
-import DTAutosuggestPanel from './src/index.js';
+import DTAutosuggestPanel from './src/index.jsx';
 
 // searchContext's sources/targets being empty means "search all sources",
 // which includes a real geocoding lookup via axios - mock it so tests that
