@@ -266,6 +266,12 @@ Only used by `webpack-dev-server` during `yarn run dev`. Notable:
 false` (full reload on change, no HMR), IPv6 loopback host (`::1`), and a
 permissive CORS header so the separately-running app server
 (`server/server.js`) can proxy asset requests to this dev server.
+Since `devServer.host` is IPv6-only, `server/server.js` targets the
+literal `[::1]` address rather than the `localhost` hostname when
+proxying — this avoids depending on how the machine's resolver orders
+`localhost`'s A/AAAA records (a resolver that prefers `127.0.0.1` would
+otherwise make the proxy fail with `ECONNREFUSED` even though
+webpack-dev-server is up).
 
 ## Browser support (`browserslist` in `package.json`)
 

@@ -124,7 +124,7 @@ function setUpMiddleware() {
   if (process.env.NODE_ENV === 'development') {
     const hotloadPort = process.env.HOT_LOAD_PORT || 9000;
     // proxy for dev-bundle
-    app.use('/proxy/', proxy(`http://localhost:${hotloadPort}/`));
+    app.use('/proxy/', proxy(`http://[::1]:${hotloadPort}/`));
   }
 }
 
