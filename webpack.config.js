@@ -153,22 +153,14 @@ export default {
       {
         test: /\.jsx?$/,
         include: [path.resolve(rootDir, 'app')],
-        // The repo is `"type": "module"`, so webpack5 would otherwise treat
-        // every `app/` file as strict ESM: (1) it'd demand an explicit
-        // extension on every relative import (the client bundle keeps its
-        // long-standing extensionless style instead), and (2) several
-        // `app/` files default-import third-party UMD packages (e.g.
-        // `@hsl-fi/modal`) whose `__esModule` flag is set inside a UMD
-        // factory rather than visibly at the module's top level - strict
-        // ESM can't prove that flag through the wrapper and binds the raw
-        // CJS exports instead of `.default`, crashing with React error #130
-        // ("Element type is invalid"). `javascript/auto`'s lenient,
-        // runtime-checked interop avoids both problems. Third-party
-        // packages we don't control the build of, so unlike the
-        // `digitransit-component`/`digitransit-store` rule below (fixed via
-        // our own real ESM build), this has to stay regardless of that fix.
+        // `javascript/auto`: several `app/` files default-import third-party
+        // UMD packages (e.g. `@hsl-fi/modal`) whose `__esModule` flag is set
+        // inside the UMD factory rather than visibly at the module's top
+        // level, so strict ESM binds the raw CJS exports instead of
+        // `.default`, crashing with React error #130 ("Element type is
+        // invalid"). `javascript/auto`'s lenient, runtime-checked interop
+        // avoids that.
         type: 'javascript/auto',
-        resolve: { fullySpecified: false },
         loader: 'babel-loader',
         options: {
           configFile: false,
@@ -401,6 +393,17 @@ export default {
   },
   resolve: {
     extensions: ['.mjs', '.js', '.jsx', '.json'],
+    // babel-plugin-relay's inline `graphql`` transform synthesizes
+    // `import X from './__generated__/Foo.graphql'` (no further extension)
+    // from the tagged template - there's no such literal import in source
+    // for a codemod to fix, and the real file is `Foo.graphql.js`. Strict
+    // ESM resolution (now that the app/ rule below no longer sets
+    // `fullySpecified: false`) won't append `.js` to something that already
+    // looks extensioned, so this remaps that one specific case instead of
+    // disabling strict resolution for all of app/'s own imports too.
+    extensionAlias: {
+      '.graphql': ['.graphql.js'],
+    },
     mainFields: ['browser', 'module', 'main'],
     alias: {
       lodash: 'lodash-es',
