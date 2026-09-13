@@ -95,7 +95,7 @@
         "regex": "/^[<>|=]{4,}/m"
       },
       {
-        "filter": "\\.js$",
+        "filter": "\\.jsx?$",
         "nonBlocking": "true",
         "message": "You are using `console.log` in your JavaScripts",
         "regex": "console\\.log"
