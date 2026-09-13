@@ -15,7 +15,11 @@ module.exports = {
     'no-restricted-exports': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/no-named-default': 'off',
-    'import/extensions': 'off',
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      { js: 'always', jsx: 'always' },
+    ],
     'import/prefer-default-export': 'off',
     // react
     'react/button-has-type': 'warn',
