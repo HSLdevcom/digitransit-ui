@@ -2,9 +2,9 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Icon from '../Icon';
-import IconMarker from './IconMarker';
-import ViaPointPopup from './popups/ViaPointPopup';
+import Icon from '../Icon.jsx';
+import IconMarker from './IconMarker.jsx';
+import ViaPointPopup from './popups/ViaPointPopup.jsx';
 
 export const getIconMarkerOptions = ({
   className,

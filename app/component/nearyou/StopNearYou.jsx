@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'found';
 import Modal from '@hsl-fi/modal';
-import { stopShape, relayShape } from '../../util/shapes';
-import { hasEntitiesOfType } from '../../util/alertUtils';
-import { stopPagePath } from '../../util/path';
-import { AlertEntityType } from '../../constants';
-import NearYouHeader from './NearYouHeader';
-import AlertBanner from '../AlertBanner';
-import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
-import CapacityModal from '../CapacityModal';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { stopShape, relayShape } from '../../util/shapes.js';
+import { hasEntitiesOfType } from '../../util/alertUtils.js';
+import { stopPagePath } from '../../util/path.js';
+import { AlertEntityType } from '../../constants.js';
+import NearYouHeader from './NearYouHeader.jsx';
+import AlertBanner from '../AlertBanner.jsx';
+import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer.jsx';
+import CapacityModal from '../CapacityModal.jsx';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
   const config = useConfigContext();

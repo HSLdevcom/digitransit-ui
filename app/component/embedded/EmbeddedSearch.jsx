@@ -5,24 +5,24 @@ import { matchShape } from 'found';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import i18next from 'i18next';
-import { configShape } from '../../util/shapes';
-import { getRefPoint } from '../../util/apiUtils';
+import { configShape } from '../../util/shapes.js';
+import { getRefPoint } from '../../util/apiUtils.js';
 import {
   withSearchContext,
   getLocationSearchTargets,
-} from '../WithSearchContext';
+} from '../WithSearchContext.jsx';
 import {
   buildQueryString,
   buildURL,
   getIndexPath,
   getPathWithEndpointObjects,
   PREFIX_ITINERARY_SUMMARY,
-} from '../../util/path';
-import Icon from '../Icon';
-import Loading from '../Loading';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import useUTMCampaignParams from './hooks/useUTMCampaignParams';
-import { locationToOTP } from '../../util/otpStrings';
+} from '../../util/path.js';
+import Icon from '../Icon.jsx';
+import Loading from '../Loading.jsx';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
+import useUTMCampaignParams from './hooks/useUTMCampaignParams.js';
+import { locationToOTP } from '../../util/otpStrings.js';
 
 const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
 

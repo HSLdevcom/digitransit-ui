@@ -1,6 +1,6 @@
-import { legTime } from '../../../../../util/legUtils';
-import { epochToIso } from '../../../../../util/timeUtils';
-import { DESTINATION_RADIUS, legTraversal } from '../../NaviUtils';
+import { legTime } from '../../../../../util/legUtils.js';
+import { epochToIso } from '../../../../../util/timeUtils.js';
+import { DESTINATION_RADIUS, legTraversal } from '../../NaviUtils.jsx';
 
 /**
  * Finds the index of the next transit leg starting from a given index.

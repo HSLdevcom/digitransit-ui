@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { withLeaflet } from 'react-leaflet/es/context';
-import { locationShape } from '../../util/shapes';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { locationShape } from '../../util/shapes.js';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
 
 class MarkerPopupBottom extends React.Component {
   static displayName = 'MarkerPopupBottom';

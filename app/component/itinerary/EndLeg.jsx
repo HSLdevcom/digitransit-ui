@@ -3,11 +3,11 @@ import React from 'react';
 import cx from 'classnames';
 import { matchShape } from 'found';
 import { FormattedMessage } from 'react-intl';
-import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
-import { parseLocation } from '../../util/path';
-import { timeStr } from '../../util/timeUtils';
-import { stopShape } from '../../util/shapes';
+import Icon from '../Icon.jsx';
+import ItineraryMapAction from './ItineraryMapAction.jsx';
+import { parseLocation } from '../../util/path.js';
+import { timeStr } from '../../util/timeUtils.js';
+import { stopShape } from '../../util/shapes.js';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function EndLeg(props, context) {

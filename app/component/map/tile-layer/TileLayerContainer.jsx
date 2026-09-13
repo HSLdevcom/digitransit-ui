@@ -9,24 +9,24 @@ import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
 import { matchShape, routerShape } from 'found';
-import { relayShape, configShape, vehicleShape } from '../../../util/shapes';
-import { mapLayerShape } from '../../../store/MapLayerStore';
-import MarkerSelectPopup from './MarkerSelectPopup';
-import LocationPopup from '../popups/LocationPopup';
-import TileContainer from './TileContainer';
-import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
-import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { getClientBreakpoint } from '../../../util/withBreakpoint';
+import { relayShape, configShape, vehicleShape } from '../../../util/shapes.js';
+import { mapLayerShape } from '../../../store/MapLayerStore.js';
+import MarkerSelectPopup from './MarkerSelectPopup.jsx';
+import LocationPopup from '../popups/LocationPopup.jsx';
+import TileContainer from './TileContainer.js';
+import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils.js';
+import RealTimeInformationStore from '../../../store/RealTimeInformationStore.js';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils.js';
+import { getClientBreakpoint } from '../../../util/withBreakpoint.jsx';
 import {
   stopPagePath,
   PREFIX_BIKESTATIONS,
   PREFIX_CARPARK,
   PREFIX_BIKEPARK,
   PREFIX_RENTALVEHICLES,
-} from '../../../util/path';
-import SelectVehicleContainer from './SelectVehicleContainer';
-import { withCurrentTime } from '../../../hooks/TimeContext';
+} from '../../../util/path.js';
+import SelectVehicleContainer from './SelectVehicleContainer.jsx';
+import { withCurrentTime } from '../../../hooks/TimeContext.jsx';
 
 const initialState = {
   selectableTargets: undefined,

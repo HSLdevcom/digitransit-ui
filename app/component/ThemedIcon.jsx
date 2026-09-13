@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon as HslFiIconWrapper, Question } from '@hsl-fi/icons';
-import { useConfigContext } from '../configurations/ConfigContext';
-import SvgIcon from './Icon';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
+import SvgIcon from './Icon.jsx';
 
 /**
  * ICON_MAP maps a logical icon name to:

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from './Icon';
+import Icon from './Icon.jsx';
 
 const LoginButton = ({ loginUrl }) => {
   const loginClick = event => {

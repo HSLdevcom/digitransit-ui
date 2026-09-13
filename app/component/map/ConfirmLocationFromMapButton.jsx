@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { otpToLocation } from '../../util/otpStrings';
+import { otpToLocation } from '../../util/otpStrings.js';
 
 const ConfirmLocationFromMapButton = props => {
   const redirect = () => {

@@ -3,15 +3,15 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import { routerShape } from 'found';
-import { vehicleRentalStationShape, errorShape } from '../util/shapes';
-import VehicleRentalStation from './VehicleRentalStation';
-import Disclaimer from './Disclaimer';
-import ParkOrStationHeader from './ParkOrStationHeader';
-import withBreakpoint from '../util/withBreakpoint';
-import { getRentalNetworkConfig } from '../util/vehicleRentalUtils';
-import { PREFIX_BIKESTATIONS } from '../util/path';
-import { TransportMode } from '../constants';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { vehicleRentalStationShape, errorShape } from '../util/shapes.js';
+import VehicleRentalStation from './VehicleRentalStation.jsx';
+import Disclaimer from './Disclaimer.jsx';
+import ParkOrStationHeader from './ParkOrStationHeader.jsx';
+import withBreakpoint from '../util/withBreakpoint.jsx';
+import { getRentalNetworkConfig } from '../util/vehicleRentalUtils.js';
+import { PREFIX_BIKESTATIONS } from '../util/path.js';
+import { TransportMode } from '../constants.js';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 const VehicleRentalStationContent = ({
   vehicleRentalStation,

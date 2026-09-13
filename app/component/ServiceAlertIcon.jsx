@@ -2,8 +2,8 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Icon from './Icon';
-import { AlertSeverityLevelType } from '../constants';
+import Icon from './Icon.jsx';
+import { AlertSeverityLevelType } from '../constants.js';
 
 const ServiceAlertIcon = ({ className, severityLevel, color }) => {
   if (!severityLevel) {

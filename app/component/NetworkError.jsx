@@ -4,7 +4,7 @@ import { matchShape } from 'found';
 
 import { FormattedMessage } from 'react-intl';
 import Link from 'found/Link';
-import Icon from './Icon';
+import Icon from './Icon.jsx';
 
 const NetworkError = ({ retry }, { match }) => (
   <div className="page-not-found">

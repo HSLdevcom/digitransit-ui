@@ -9,23 +9,23 @@ import {
   configShape,
   locationShape,
   mapLayerOptionsShape,
-} from '../../util/shapes';
-import { getSettings } from '../../util/planParamUtil';
-import PositionStore from '../../store/PositionStore';
-import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
-import MapWithTracking from './MapWithTracking';
-import SelectedStopPopup from './popups/SelectedStopPopup';
-import SelectedStopPopupContent from '../SelectedStopPopupContent';
-import withBreakpoint from '../../util/withBreakpoint';
-import VehicleMarkerContainer from './VehicleMarkerContainer';
-import BackButton from '../BackButton';
-import ItineraryLine from './ItineraryLine';
-import Loading from '../Loading';
-import { getMapLayerOptions } from '../../util/mapLayerUtils';
-import MapRoutingButton from '../MapRoutingButton';
-import CookieSettingsButton from '../CookieSettingsButton';
-import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../util/path';
-import { streetQuery } from './StreetQuery';
+} from '../../util/shapes.js';
+import { getSettings } from '../../util/planParamUtil.js';
+import PositionStore from '../../store/PositionStore.js';
+import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore.js';
+import MapWithTracking from './MapWithTracking.jsx';
+import SelectedStopPopup from './popups/SelectedStopPopup.jsx';
+import SelectedStopPopupContent from '../SelectedStopPopupContent.jsx';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
+import VehicleMarkerContainer from './VehicleMarkerContainer.jsx';
+import BackButton from '../BackButton.jsx';
+import ItineraryLine from './ItineraryLine.jsx';
+import Loading from '../Loading.jsx';
+import { getMapLayerOptions } from '../../util/mapLayerUtils.js';
+import MapRoutingButton from '../MapRoutingButton.jsx';
+import CookieSettingsButton from '../CookieSettingsButton.jsx';
+import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../util/path.js';
+import { streetQuery } from './StreetQuery.js';
 
 const getModeFromProps = props => {
   if (props.citybike) {

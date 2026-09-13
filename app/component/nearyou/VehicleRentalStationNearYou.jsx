@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import { graphql, createRefetchContainer } from 'react-relay';
-import VehicleRentalStation from '../VehicleRentalStation';
-import FavouriteVehicleRentalStationContainer from '../FavouriteVehicleRentalStationContainer';
-import { PREFIX_BIKESTATIONS } from '../../util/path';
-import { isKeyboardSelectionEvent } from '../../util/browser';
-import { hasVehicleRentalCode } from '../../util/vehicleRentalUtils';
-import { vehicleRentalStationShape, relayShape } from '../../util/shapes';
-import { splitGtfsId } from '../../util/gtfs';
+import VehicleRentalStation from '../VehicleRentalStation.jsx';
+import FavouriteVehicleRentalStationContainer from '../FavouriteVehicleRentalStationContainer.jsx';
+import { PREFIX_BIKESTATIONS } from '../../util/path.js';
+import { isKeyboardSelectionEvent } from '../../util/browser.js';
+import { hasVehicleRentalCode } from '../../util/vehicleRentalUtils.js';
+import { vehicleRentalStationShape, relayShape } from '../../util/shapes.js';
+import { splitGtfsId } from '../../util/gtfs.js';
 
 const VehicleRentalStationNearYou = ({
   station,

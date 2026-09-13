@@ -1,13 +1,13 @@
 import cloneDeep from 'lodash/cloneDeep';
 import polyUtil from 'polyline-encoded';
 import { useReducer } from 'react';
-import { GeodeticToEnu } from '../../../util/geo-utils';
-import { legTime } from '../../../util/legUtils';
+import { GeodeticToEnu } from '../../../util/geo-utils.js';
+import { legTime } from '../../../util/legUtils.js';
 import {
   getLatestNavigatorItinerary,
   setLatestNavigatorItinerary,
   updateLatestNavigatorItineraryParams,
-} from '../../../data/localStorage';
+} from '../../../data/localStorage.js';
 
 const REDUCER_ACTION_TYPES = {
   INIT_NAVIGATOR_ITINERARY: 'INIT_NAVIGATOR_ITINERARY',

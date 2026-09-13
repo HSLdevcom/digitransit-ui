@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useFragment } from 'react-relay';
-import { getTripOrRouteMode } from '../../util/modeUtils';
+import { getTripOrRouteMode } from '../../util/modeUtils.js';
 import {
   getFaresFromLegs,
   shouldShowFareInfo,
   shouldShowFarePurchaseInfo,
-} from '../../util/fareUtils';
-import localizedUrl from '../../util/urlUtils';
+} from '../../util/fareUtils.js';
+import localizedUrl from '../../util/urlUtils.js';
 import {
   compressLegs,
   getTotalBikingDistance,
@@ -27,26 +27,26 @@ import {
   isBikeParkLeg,
   isBikeRentalLeg,
   legTimeStr,
-} from '../../util/legUtils';
-import { streetHash } from '../../util/path';
-import { itineraryShape, relayShape } from '../../util/shapes';
-import { getFutureText } from '../../util/timeUtils';
-import { BreakpointConsumer } from '../../util/withBreakpoint';
-import { getSettings } from '../../util/planParamUtil';
-import BackButton from '../BackButton';
-import Emissions from './Emissions';
-import EmissionsInfo from './EmissionsInfo';
-import FareDisclaimer from './FareDisclaimer';
-import Feedback from './Feedback';
-import RouteDisclaimer from './RouteDisclaimer';
-import ItinerarySummary from './ItinerarySummary';
-import Legs from './Legs';
-import MobileTicketPurchaseInformation from './MobileTicketPurchaseInformation';
-import StartNavi from './StartNavi';
-import TicketInformation from './TicketInformation';
-import VehicleRentalDurationInfo from './VehicleRentalDurationInfo';
-import { ItineraryDetailsFragment } from './queries/ItineraryDetailsFragment';
-import { useConfigContext } from '../../configurations/ConfigContext';
+} from '../../util/legUtils.js';
+import { streetHash } from '../../util/path.js';
+import { itineraryShape, relayShape } from '../../util/shapes.js';
+import { getFutureText } from '../../util/timeUtils.js';
+import { BreakpointConsumer } from '../../util/withBreakpoint.jsx';
+import { getSettings } from '../../util/planParamUtil.js';
+import BackButton from '../BackButton.jsx';
+import Emissions from './Emissions.jsx';
+import EmissionsInfo from './EmissionsInfo.jsx';
+import FareDisclaimer from './FareDisclaimer.jsx';
+import Feedback from './Feedback.jsx';
+import RouteDisclaimer from './RouteDisclaimer.jsx';
+import ItinerarySummary from './ItinerarySummary.jsx';
+import Legs from './Legs.jsx';
+import MobileTicketPurchaseInformation from './MobileTicketPurchaseInformation.jsx';
+import StartNavi from './StartNavi.jsx';
+import TicketInformation from './TicketInformation.jsx';
+import VehicleRentalDurationInfo from './VehicleRentalDurationInfo.jsx';
+import { ItineraryDetailsFragment } from './queries/ItineraryDetailsFragment.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 function getExtraProps(itinerary, intl) {
   const compressedItinerary = {

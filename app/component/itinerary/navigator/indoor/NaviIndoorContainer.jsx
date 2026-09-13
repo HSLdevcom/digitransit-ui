@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { configShape } from '../../../../util/shapes';
-import { IndoorStepType, VerticalDirection } from '../../../../constants';
-import NaviIndoorStepInfo from './NaviIndoorStepInfo';
-import { getStepFocusAction } from '../../../../util/indoorUtils';
+import { configShape } from '../../../../util/shapes.js';
+import { IndoorStepType, VerticalDirection } from '../../../../constants.js';
+import NaviIndoorStepInfo from './NaviIndoorStepInfo.jsx';
+import { getStepFocusAction } from '../../../../util/indoorUtils.js';
 
 function NaviIndoorContainer({ focusToPoint, indoorSteps }) {
   return (

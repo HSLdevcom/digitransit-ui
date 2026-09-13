@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Icon from '../../../Icon';
-import IconBackground from '../../../icon/IconBackground';
+import Icon from '../../../Icon.jsx';
+import IconBackground from '../../../icon/IconBackground.jsx';
 
 const NavigatorIntroFeature = ({
   icon,

@@ -2,7 +2,7 @@ import Modal from '@hsl-fi/modal';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { configShape } from '../../../util/shapes';
+import { configShape } from '../../../util/shapes.js';
 
 const NavigatorModal = ({ withBackdrop, isOpen, children, slideUp }) => {
   const overlayClass = cx('navigator-modal-container', {

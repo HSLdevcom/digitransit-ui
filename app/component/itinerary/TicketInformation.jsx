@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { v4 as uuid } from 'uuid';
-import { configShape, fareShape, legShape } from '../../util/shapes';
-import { renderZoneTicket } from './ZoneTicket';
-import Icon from '../Icon';
-import { getAlternativeFares, formatFare } from '../../util/fareUtils';
+import { configShape, fareShape, legShape } from '../../util/shapes.js';
+import { renderZoneTicket } from './ZoneTicket.jsx';
+import Icon from '../Icon.jsx';
+import { getAlternativeFares, formatFare } from '../../util/fareUtils.js';
 
 export default function TicketInformation(
   { fares, zones, legs, ticketLink },

@@ -3,9 +3,9 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import Link from 'found/Link';
-import { routePagePath, PREFIX_STOPS } from '../../../util/path';
-import { getRouteMode } from '../../../util/modeUtils';
-import Icon from '../../Icon';
+import { routePagePath, PREFIX_STOPS } from '../../../util/path.js';
+import { getRouteMode } from '../../../util/modeUtils.js';
+import Icon from '../../Icon.jsx';
 
 function SelectVehicleRow({ trip }) {
   const mode = getRouteMode(trip.route);

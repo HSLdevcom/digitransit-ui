@@ -5,17 +5,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   startLocationWatch,
   stopLocationWatch,
-} from '../../../action/PositionActions';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { legTime, legTimeStr } from '../../../util/legUtils';
-import { relayShape } from '../../../util/shapes';
-import { useItineraryContext } from '../context/ItineraryContext';
-import { useRealtimeLegs } from './hooks/useRealtimeLegs';
-import NaviBottom from './NaviBottom';
-import NaviCardContainer from './NaviCardContainer';
-import NavigatorOutroModal from './navigatoroutro/NavigatorOutroModal';
-import NaviStarter from './NaviStarter';
-import { DESTINATION_RADIUS, summaryString } from './NaviUtils';
+} from '../../../action/PositionActions.js';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils.js';
+import { legTime, legTimeStr } from '../../../util/legUtils.js';
+import { relayShape } from '../../../util/shapes.js';
+import { useItineraryContext } from '../context/ItineraryContext.jsx';
+import { useRealtimeLegs } from './hooks/useRealtimeLegs.js';
+import NaviBottom from './NaviBottom.jsx';
+import NaviCardContainer from './NaviCardContainer.jsx';
+import NavigatorOutroModal from './navigatoroutro/NavigatorOutroModal.jsx';
+import NaviStarter from './NaviStarter.jsx';
+import { DESTINATION_RADIUS, summaryString } from './NaviUtils.jsx';
 
 const ADDITIONAL_ARRIVAL_TIME = 30000; // 30 s
 const LEGLOG = false;

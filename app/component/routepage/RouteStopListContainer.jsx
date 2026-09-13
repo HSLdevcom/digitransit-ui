@@ -7,13 +7,13 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import { relayShape, vehicleShape, patternShape } from '../../util/shapes';
-import RouteStop from './RouteStop';
-import withBreakpoint from '../../util/withBreakpoint';
-import { useCurrentTime } from '../../hooks/TimeContext';
-import { getRouteMode } from '../../util/modeUtils';
-import { getModeIconColor } from '../../util/colorUtils';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { relayShape, vehicleShape, patternShape } from '../../util/shapes.js';
+import RouteStop from './RouteStop.jsx';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
+import { useCurrentTime } from '../../hooks/TimeContext.jsx';
+import { getRouteMode } from '../../util/modeUtils.js';
+import { getModeIconColor } from '../../util/colorUtils.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 function RouteStopListContainer({
   pattern,

@@ -4,28 +4,28 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import Link from 'found/Link';
 import { fetchQuery } from 'react-relay';
-import { legShape, relayShape } from '../../util/shapes';
-import { legTimeStr, legDestination } from '../../util/legUtils';
-import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
-import { displayDistance } from '../../util/geo-utils';
-import { durationToString } from '../../util/timeUtils';
-import ItineraryCircleLine from './ItineraryCircleLine';
-import ItineraryCircleLineLong from './ItineraryCircleLineLong';
-import { stopPagePath } from '../../util/path';
+import { legShape, relayShape } from '../../util/shapes.js';
+import { legTimeStr, legDestination } from '../../util/legUtils.js';
+import Icon from '../Icon.jsx';
+import ItineraryMapAction from './ItineraryMapAction.jsx';
+import { displayDistance } from '../../util/geo-utils.js';
+import { durationToString } from '../../util/timeUtils.js';
+import ItineraryCircleLine from './ItineraryCircleLine.jsx';
+import ItineraryCircleLineLong from './ItineraryCircleLineLong.jsx';
+import { stopPagePath } from '../../util/path.js';
 import {
   getRentalNetworkConfig,
   RentalNetworkType,
-} from '../../util/vehicleRentalUtils';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { splitStringToAddressAndPlace } from '../../util/otpStrings';
-import VehicleRentalLeg from './VehicleRentalLeg';
-import { getSettings } from '../../util/planParamUtil';
-import { isKeyboardSelectionEvent } from '../../util/browser';
-import StopCode from '../StopCode';
-import PlatformNumber from '../PlatformNumber';
-import nearestQuery from './NearestQuery';
-import { useConfigContext } from '../../configurations/ConfigContext';
+} from '../../util/vehicleRentalUtils.js';
+import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon.jsx';
+import { splitStringToAddressAndPlace } from '../../util/otpStrings.js';
+import VehicleRentalLeg from './VehicleRentalLeg.jsx';
+import { getSettings } from '../../util/planParamUtil.js';
+import { isKeyboardSelectionEvent } from '../../util/browser.js';
+import StopCode from '../StopCode.jsx';
+import PlatformNumber from '../PlatformNumber.jsx';
+import nearestQuery from './NearestQuery.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 export default function BicycleLeg({
   focusAction,

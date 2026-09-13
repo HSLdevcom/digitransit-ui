@@ -7,11 +7,11 @@ import {
   RoutingerrorShape,
   locationStateShape,
   locationShape,
-} from '../../util/shapes';
-import ErrorCard from './ErrorCard';
-import findErrorMessageIds from './findErrorMessageIds';
-import errorCardProps from './errorCardProperties';
-import { useConfigContext } from '../../configurations/ConfigContext';
+} from '../../util/shapes.js';
+import ErrorCard from './ErrorCard.jsx';
+import findErrorMessageIds from './findErrorMessageIds.js';
+import errorCardProps from './errorCardProperties.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 /**
  * Get error message visual properties.

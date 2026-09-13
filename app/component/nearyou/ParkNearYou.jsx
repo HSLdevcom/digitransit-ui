@@ -2,10 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'found';
 import { graphql, createRefetchContainer } from 'react-relay';
-import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../util/path';
-import { isKeyboardSelectionEvent } from '../../util/browser';
-import { parkShape, relayShape } from '../../util/shapes';
-import ParkAndRideContent from '../ParkAndRideContent';
+import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../util/path.js';
+import { isKeyboardSelectionEvent } from '../../util/browser.js';
+import { parkShape, relayShape } from '../../util/shapes.js';
+import ParkAndRideContent from '../ParkAndRideContent.jsx';
 
 const ParkNearYou = ({ park, relay, currentTime, isParentTabActive, mode }) => {
   const timeRef = useRef(currentTime);

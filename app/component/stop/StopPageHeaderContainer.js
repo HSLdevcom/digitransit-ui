@@ -1,6 +1,6 @@
 import { createFragmentContainer, graphql } from 'react-relay';
 
-import StopPageHeader from './StopPageHeader';
+import StopPageHeader from './StopPageHeader.jsx';
 
 export default createFragmentContainer(StopPageHeader, {
   stop: graphql`

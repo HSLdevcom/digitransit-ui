@@ -2,10 +2,10 @@ import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { configShape } from '../../../util/shapes';
-import Icon from '../../Icon';
-import { useLogo } from '../../../hooks/useLogo';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils.js';
+import { configShape } from '../../../util/shapes.js';
+import Icon from '../../Icon.jsx';
+import { useLogo } from '../../../hooks/useLogo.js';
 
 const NaviStarter = (
   { time, startItinerary, containerTopPosition, isPastStart },

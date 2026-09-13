@@ -3,8 +3,8 @@ import Modal from '@hsl-fi/modal';
 import { CloseButton } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Filters from './Filters';
-import { useFilterContext } from './FiltersContext';
+import Filters from './Filters.jsx';
+import { useFilterContext } from './FiltersContext.jsx';
 
 const FiltersModal = ({ isOpen, onClose }) => {
   const { resetFilters } = useFilterContext();

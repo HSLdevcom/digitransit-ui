@@ -3,9 +3,9 @@ import React, { memo } from 'react';
 import { routerShape } from 'found';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import { filterSearchResultsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
-import { withSearchContext } from '../WithSearchContext';
-import { getStopRoutePath } from '../../util/path';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { withSearchContext } from '../WithSearchContext.jsx';
+import { getStopRoutePath } from '../../util/path.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 const searchSources = ['Favourite', 'History', 'Datasource'];

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import NaviMessage from './NaviMessage';
+import NaviMessage from './NaviMessage.jsx';
 
 const NaviStack = ({ messages, handleRemove, cardAnimation }) => {
   return (

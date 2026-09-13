@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 import RoutePageStopListMockData from './mock-data/RoutePageStopListQueryResponse.json';
 import RoutePageStopListTampereMockData from './mock-data/RoutePageStopListTampereResponse.json';
-import getConfig from './helpers/image-snapshot-config';
+import getConfig from './helpers/image-snapshot-config.js';
 
 const config = process.env.CONFIG || 'hsl';
 const customSnapshotsDir = `test/e2e/__image_snapshots__`;

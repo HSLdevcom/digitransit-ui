@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 export default function AboutPage() {
   const config = useConfigContext();

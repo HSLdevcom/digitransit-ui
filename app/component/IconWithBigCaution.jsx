@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import IconWithIcon from './IconWithIcon';
-import { AlertSeverityLevelType } from '../constants';
+import IconWithIcon from './IconWithIcon.jsx';
+import { AlertSeverityLevelType } from '../constants.js';
 
 export default function IconWithBigCaution({
   alertSeverityLevel,

@@ -7,34 +7,34 @@ import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import { matchShape } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import RoutePatternSelectContainer from './RoutePatternSelectContainer';
-import { DATE_FORMAT, ExtendedRouteTypes } from '../../constants';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import RoutePatternSelectContainer from './RoutePatternSelectContainer.jsx';
+import { DATE_FORMAT, ExtendedRouteTypes } from '../../constants.js';
 import {
   startRealTimeClient,
   stopRealTimeClient,
   changeRealTimeClientTopics,
-} from '../../action/realTimeClientAction';
+} from '../../action/realTimeClientAction.js';
 import {
   getCancelationsForRoute,
   getAlertsForObject,
   checkActiveDisruptions,
   getActiveAlertSeverityLevel,
-} from '../../util/alertUtils';
-import { isActiveDate } from '../../util/patternUtils';
+} from '../../util/alertUtils.js';
+import { isActiveDate } from '../../util/patternUtils.js';
 import {
   routePagePath,
   PREFIX_DISRUPTION,
   PREFIX_STOPS,
   PREFIX_TIMETABLE,
-} from '../../util/path';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { isIOS } from '../../util/browser';
-import { unixTime, unixToYYYYMMDD } from '../../util/timeUtils';
-import { saveSearch } from '../../action/SearchActions';
-import Icon from '../Icon';
-import Notification from './Notification';
-import { splitGtfsId } from '../../util/gtfs';
+} from '../../util/path.js';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
+import { isIOS } from '../../util/browser.js';
+import { unixTime, unixToYYYYMMDD } from '../../util/timeUtils.js';
+import { saveSearch } from '../../action/SearchActions.js';
+import Icon from '../Icon.jsx';
+import Notification from './Notification.jsx';
+import { splitGtfsId } from '../../util/gtfs.js';
 
 const Tab = {
   Disruptions: PREFIX_DISRUPTION,

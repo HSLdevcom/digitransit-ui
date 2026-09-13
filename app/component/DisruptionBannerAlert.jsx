@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import { alertShape } from '../util/shapes';
-import { useConfigContext } from '../configurations/ConfigContext';
-import Icon from './Icon';
-import TruncatedMessage from './TruncatedMessage';
-import { mapAlertSource } from '../util/alertUtils';
-import { TRAFFICNOW } from '../util/path';
+import { alertShape } from '../util/shapes.js';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
+import Icon from './Icon.jsx';
+import TruncatedMessage from './TruncatedMessage.jsx';
+import { mapAlertSource } from '../util/alertUtils.js';
+import { TRAFFICNOW } from '../util/path.js';
 
 const DisruptionBannerAlert = ({
   alert,

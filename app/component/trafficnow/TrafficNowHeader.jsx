@@ -4,9 +4,9 @@ import Link from 'found/Link';
 import cx from 'classnames';
 import { Text } from '@hsl-fi/layout-primitives';
 import { Icon, ArrowRightS } from '@hsl-fi/icons';
-import { useBreakpoint } from '../../util/withBreakpoint';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { useLogo } from '../../hooks/useLogo';
+import { useBreakpoint } from '../../util/withBreakpoint.jsx';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import { useLogo } from '../../hooks/useLogo.js';
 
 const AdditionalDescription = () => {
   const intl = useIntl();

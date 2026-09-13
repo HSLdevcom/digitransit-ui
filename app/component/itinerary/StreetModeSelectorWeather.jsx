@@ -3,8 +3,8 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import Icon from '../Icon';
-import WeatherDetailsPopup from './WeatherDetailsPopup';
+import Icon from '../Icon.jsx';
+import WeatherDetailsPopup from './WeatherDetailsPopup.jsx';
 
 export default function StreetModeSelectorWeather({ weatherData }) {
   const [popupOpen, changeOpen] = useState(false);

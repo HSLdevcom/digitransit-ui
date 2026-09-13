@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import { transitIconName, modeToTranslationId } from '../util/modeUtils';
-import IconWithBigCaution from './IconWithBigCaution';
-import IconWithIcon from './IconWithIcon';
-import Icon from './Icon';
-import { TransportMode } from '../constants';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { transitIconName, modeToTranslationId } from '../util/modeUtils.js';
+import IconWithBigCaution from './IconWithBigCaution.jsx';
+import IconWithIcon from './IconWithIcon.jsx';
+import Icon from './Icon.jsx';
+import { TransportMode } from '../constants.js';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 const LONG_ROUTE_NUMBER_LENGTH = 6;
 

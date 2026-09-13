@@ -1,6 +1,6 @@
 import React from 'react';
 import { SiteFooter } from '@hsl-fi/site-footer';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 const SUPPORTED_LANGS = ['fi', 'sv', 'en'];
 

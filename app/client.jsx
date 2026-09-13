@@ -20,31 +20,31 @@ import { RelayEnvironmentProvider } from 'react-relay';
 import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { Settings } from 'luxon';
 import { IntlProvider } from 'react-intl';
-import { configShape } from './util/shapes';
-import i18n from './i18n';
-import { historyMiddlewares, render } from './routes';
-import appCreator from './app';
-import { BUILD_TIME } from './buildInfo';
-import ErrorBoundary from './component/ErrorBoundary';
-import oldParamParser from './util/oldParamParser';
-import { ClientProvider as ClientBreakpointProvider } from './util/withBreakpoint';
-import IntlBridge from './util/IntlBridge';
-import meta from './meta';
+import { configShape } from './util/shapes.js';
+import i18n from './i18n.js';
+import { historyMiddlewares, render } from './routes.jsx';
+import appCreator from './app.js';
+import { BUILD_TIME } from './buildInfo.js';
+import ErrorBoundary from './component/ErrorBoundary.jsx';
+import oldParamParser from './util/oldParamParser.js';
+import { ClientProvider as ClientBreakpointProvider } from './util/withBreakpoint.jsx';
+import IntlBridge from './util/IntlBridge.js';
+import meta from './meta.js';
 import {
   initAnalyticsClientSide,
   addAnalyticsEvent,
   handleUserAnalytics,
-} from './util/analyticsUtils';
-import { getCountries } from './data/localStorage';
-import { configureCountry } from './util/configureCountry';
-import { getUser } from './util/apiUtils';
-import favouriteStore from './data/FavouriteData';
-import searchContext from './data/SearchContext';
-import { ConfigProvider } from './configurations/ConfigContext';
-import { FavouriteProvider } from './hooks/FavouriteContext';
-import { TimeProvider } from './hooks/TimeContext';
-import { isPersonalizationEnabled } from './util/modeUtils';
-import { getSettings } from './util/planParamUtil';
+} from './util/analyticsUtils.js';
+import { getCountries } from './data/localStorage.js';
+import { configureCountry } from './util/configureCountry.js';
+import { getUser } from './util/apiUtils.js';
+import favouriteStore from './data/FavouriteData.js';
+import searchContext from './data/SearchContext.js';
+import { ConfigProvider } from './configurations/ConfigContext.jsx';
+import { FavouriteProvider } from './hooks/FavouriteContext.jsx';
+import { TimeProvider } from './hooks/TimeContext.jsx';
+import { isPersonalizationEnabled } from './util/modeUtils.js';
+import { getSettings } from './util/planParamUtil.js';
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
 

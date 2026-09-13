@@ -4,11 +4,11 @@ import { DateTime, Settings } from 'luxon';
 import uniqueId from 'lodash/uniqueId.js';
 import { useTranslation } from 'react-i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import DesktopDatetimepicker from './DesktopDatetimepicker';
+import DesktopDatetimepicker from './DesktopDatetimepicker.jsx';
 import styles from './styles.scss';
-import { isMobile } from './mobileDetection';
-import dateTimeInputIsSupported from './dateTimeInputIsSupported';
-import MobilePickerModal from './MobilePickerModal';
+import { isMobile } from './mobileDetection.js';
+import dateTimeInputIsSupported from './dateTimeInputIsSupported.js';
+import MobilePickerModal from './MobilePickerModal.jsx';
 
 Settings.defaultLocale = 'en';
 

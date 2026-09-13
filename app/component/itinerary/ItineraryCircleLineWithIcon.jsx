@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import Icon from '../Icon';
-import RouteNumber from '../RouteNumber';
-import { ViaLocationType, IndoorLegType } from '../../constants';
+import Icon from '../Icon.jsx';
+import RouteNumber from '../RouteNumber.jsx';
+import { ViaLocationType, IndoorLegType } from '../../constants.js';
 
 function ItineraryCircleLineWithIcon({
   index,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { stopShape } from '../../util/shapes';
-import StopAlerts from './StopAlerts';
+import { stopShape } from '../../util/shapes.js';
+import StopAlerts from './StopAlerts.jsx';
 
 const StopAlertsContainer = ({ stop }) => {
   return <StopAlerts stop={stop} />;

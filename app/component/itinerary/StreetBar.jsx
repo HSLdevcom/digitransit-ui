@@ -1,14 +1,14 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { legShape } from '../../util/shapes';
-import RouteNumber from '../RouteNumber';
-import { getLegBadgeProps, isLocalCallAgency } from '../../util/legUtils';
+import { legShape } from '../../util/shapes.js';
+import RouteNumber from '../RouteNumber.jsx';
+import { getLegBadgeProps, isLocalCallAgency } from '../../util/legUtils.js';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
-} from '../../util/vehicleRentalUtils';
-import { useConfigContext } from '../../configurations/ConfigContext';
+} from '../../util/vehicleRentalUtils.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 export default function StreetBar({
   leg,

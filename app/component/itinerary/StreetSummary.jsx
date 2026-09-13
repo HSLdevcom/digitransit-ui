@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { configShape } from '../../util/shapes';
-import Icon from '../Icon';
-import { durationToString } from '../../util/timeUtils';
-import { displayDistance } from '../../util/geo-utils';
+import { configShape } from '../../util/shapes.js';
+import Icon from '../Icon.jsx';
+import { durationToString } from '../../util/timeUtils.js';
+import { displayDistance } from '../../util/geo-utils.js';
 
 export default function StreetSummary(props, { config }) {
   const intl = useIntl();

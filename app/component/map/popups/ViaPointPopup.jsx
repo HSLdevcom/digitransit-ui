@@ -4,12 +4,12 @@ import { FormattedMessage } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Popup from 'react-leaflet/es/Popup';
-import ViaPointStore from '../../../store/ViaPointStore';
-import { setViaPoints } from '../../../action/ViaPointActions';
-import { setIntermediatePlaces } from '../../../util/queryUtils';
-import { locationToOTP } from '../../../util/otpStrings';
-import { locationShape } from '../../../util/shapes';
-import Card from '../../Card';
+import ViaPointStore from '../../../store/ViaPointStore.js';
+import { setViaPoints } from '../../../action/ViaPointActions.js';
+import { setIntermediatePlaces } from '../../../util/queryUtils.js';
+import { locationToOTP } from '../../../util/otpStrings.js';
+import { locationShape } from '../../../util/shapes.js';
+import Card from '../../Card.jsx';
 
 const filterViaPoint = (allPoints, pointToRemove) => {
   return allPoints.filter(

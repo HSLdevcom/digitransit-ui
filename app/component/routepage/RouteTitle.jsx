@@ -3,11 +3,11 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { routePagePath } from '../../util/path';
-import { routeShape } from '../../util/shapes';
-import withBreakpoint from '../../util/withBreakpoint';
+import { routePagePath } from '../../util/path.js';
+import { routeShape } from '../../util/shapes.js';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
 
-import RouteNumberContainer from '../RouteNumberContainer';
+import RouteNumberContainer from '../RouteNumberContainer.jsx';
 
 const RouteTitle = ({ route, breakpoint }) =>
   breakpoint === 'large' || !route || !route.mode ? (

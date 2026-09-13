@@ -6,14 +6,14 @@ import PropTypes from 'prop-types';
 import { default as L } from 'leaflet';
 
 import cx from 'classnames';
-import { configShape, locationShape } from '../../util/shapes';
-import GenericMarker from './GenericMarker';
+import { configShape, locationShape } from '../../util/shapes.js';
+import GenericMarker from './GenericMarker.jsx';
 
-import Card from '../Card';
-import PopupHeader from './PopupHeader';
-import Icon from '../Icon';
-import { IndoorStepType, VerticalDirection } from '../../constants';
-import { getVerticalTransportationUseIconId } from '../../util/indoorUtils';
+import Card from '../Card.jsx';
+import PopupHeader from './PopupHeader.jsx';
+import Icon from '../Icon.jsx';
+import { IndoorStepType, VerticalDirection } from '../../constants.js';
+import { getVerticalTransportationUseIconId } from '../../util/indoorUtils.js';
 
 export default function IndoorStepMarker({ position, index, indoorSteps }) {
   const intl = useIntl();

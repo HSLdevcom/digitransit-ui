@@ -3,9 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Icon from './Icon';
-import withBreakpoint from '../util/withBreakpoint';
-import { useConfigContext } from '../configurations/ConfigContext';
+import Icon from './Icon.jsx';
+import withBreakpoint from '../util/withBreakpoint.jsx';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 /**
  * A generic snackbar notification.

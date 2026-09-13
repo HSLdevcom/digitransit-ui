@@ -1,5 +1,5 @@
 import { graphql } from 'react-relay';
-import './CanceledTripsPatternFragment';
+import './CanceledTripsPatternFragment.js';
 
 export default graphql`
   query CanceledTripsForModeQuery(

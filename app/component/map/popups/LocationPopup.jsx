@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
-import { configShape } from '../../../util/shapes';
-import MarkerPopupBottom from '../MarkerPopupBottom';
-import Card from '../../Card';
-import Loading from '../../Loading';
-import ZoneIcon from '../../ZoneIcon';
-import { getJson } from '../../../util/xhrPromise';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { splitStringToAddressAndPlace } from '../../../util/otpStrings';
-import getZoneId from '../../../util/zoneIconUtils';
-import PopupHeader from '../PopupHeader';
+import { configShape } from '../../../util/shapes.js';
+import MarkerPopupBottom from '../MarkerPopupBottom.jsx';
+import Card from '../../Card.jsx';
+import Loading from '../../Loading.jsx';
+import ZoneIcon from '../../ZoneIcon.jsx';
+import { getJson } from '../../../util/xhrPromise.js';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils.js';
+import { splitStringToAddressAndPlace } from '../../../util/otpStrings.js';
+import getZoneId from '../../../util/zoneIconUtils.js';
+import PopupHeader from '../PopupHeader.jsx';
 
 class LocationPopup extends React.Component {
   static contextTypes = {

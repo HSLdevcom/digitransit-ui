@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { legShape, legTimeShape, configShape } from '../../util/shapes';
-import { displayDistance } from '../../util/geo-utils';
-import { durationToString } from '../../util/timeUtils';
-import { legTime, legTimeStr, legDestination } from '../../util/legUtils';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import ItineraryMapAction from './ItineraryMapAction';
-import { splitStringToAddressAndPlace } from '../../util/otpStrings';
+import { legShape, legTimeShape, configShape } from '../../util/shapes.js';
+import { displayDistance } from '../../util/geo-utils.js';
+import { durationToString } from '../../util/timeUtils.js';
+import { legTime, legTimeStr, legDestination } from '../../util/legUtils.js';
+import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon.jsx';
+import ItineraryMapAction from './ItineraryMapAction.jsx';
+import { splitStringToAddressAndPlace } from '../../util/otpStrings.js';
 
 const getDescription = (mode, distance, duration) => {
   if (mode === 'BICYCLE_WALK') {

@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React, { useRef, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import Link from 'found/Link';
-import VehicleIcon from '../VehicleIcon';
-import { routePagePath, PREFIX_STOPS } from '../../util/path';
+import VehicleIcon from '../VehicleIcon.jsx';
+import { routePagePath, PREFIX_STOPS } from '../../util/path.js';
 
 function TripLinkWithScroll({
   mode,

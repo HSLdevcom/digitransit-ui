@@ -6,9 +6,9 @@ import cx from 'classnames';
 import { useIntl } from 'react-intl';
 import groupBy from 'lodash/groupBy';
 import { Text } from '@hsl-fi/layout-primitives';
-import CanceledDeparturesFragment from '../queries/CanceledDeparturesFragment';
-import Icon from '../../Icon';
-import EntityBadge from './EntityBadge';
+import CanceledDeparturesFragment from '../queries/CanceledDeparturesFragment.js';
+import Icon from '../../Icon.jsx';
+import EntityBadge from './EntityBadge.jsx';
 
 const DEPARTURE_LIMIT = 10;
 

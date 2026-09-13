@@ -3,9 +3,9 @@ import React from 'react';
 import { useRouter } from 'found';
 import debounce from 'lodash/debounce';
 import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
-import { replaceQueryParams } from '../util/queryUtils';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { replaceQueryParams } from '../util/queryUtils.js';
+import { addAnalyticsEvent } from '../util/analyticsUtils.js';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 export default function DatetimepickerContainer({
   realtime,

@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape } from 'found';
-import { routeShape } from '../../../util/shapes';
-import RouteControlPanel from '../RouteControlPanel';
+import { routeShape } from '../../../util/shapes.js';
+import RouteControlPanel from '../RouteControlPanel.jsx';
 
 /**
  * Shown for routes that operate 24/7 instead of a timetable list.

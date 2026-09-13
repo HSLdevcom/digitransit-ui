@@ -1,15 +1,15 @@
 import Fluxible from 'fluxible';
 
-import routes from './routes';
-import MessageStore from './store/MessageStore';
-import OldSearchesStore from './store/OldSearchesStore';
-import PositionStore from './store/PositionStore';
-import OriginStore from './store/OriginStore';
-import DestinationStore from './store/DestinationStore';
-import RealTimeInformationStore from './store/RealTimeInformationStore';
-import MapLayerStore from './store/MapLayerStore';
-import GeoJsonStore from './store/GeoJsonStore';
-import ViaPointStore from './store/ViaPointStore';
+import routes from './routes.jsx';
+import MessageStore from './store/MessageStore.js';
+import OldSearchesStore from './store/OldSearchesStore.js';
+import PositionStore from './store/PositionStore.js';
+import OriginStore from './store/OriginStore.js';
+import DestinationStore from './store/DestinationStore.js';
+import RealTimeInformationStore from './store/RealTimeInformationStore.js';
+import MapLayerStore from './store/MapLayerStore.js';
+import GeoJsonStore from './store/GeoJsonStore.js';
+import ViaPointStore from './store/ViaPointStore.js';
 
 export default config => {
   const app = new Fluxible({

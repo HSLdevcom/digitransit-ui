@@ -9,20 +9,20 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useFragment } from 'react-relay';
 import cx from 'classnames';
 import { useRouter } from 'found';
-import Icon from '../Icon';
-import FilterTimeTableModal from './FilterTimeTableModal';
-import TimeTableOptionsPanel from './TimeTableOptionsPanel';
-import TimetableRow from './TimetableRow';
-import { DATE_FORMAT, RealtimeStateType } from '../../constants';
-import SecondaryButton from '../SecondaryButton';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import DateSelect from './DateSelect';
-import ScrollableWrapper from '../ScrollableWrapper';
-import { replaceQueryParams } from '../../util/queryUtils';
-import { PREFIX_STOPS } from '../../util/path';
-import { TimetableFragment } from './queries/TimetableFragment';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { splitGtfsId } from '../../util/gtfs';
+import Icon from '../Icon.jsx';
+import FilterTimeTableModal from './FilterTimeTableModal.jsx';
+import TimeTableOptionsPanel from './TimeTableOptionsPanel.jsx';
+import TimetableRow from './TimetableRow.jsx';
+import { DATE_FORMAT, RealtimeStateType } from '../../constants.js';
+import SecondaryButton from '../SecondaryButton.jsx';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
+import DateSelect from './DateSelect.jsx';
+import ScrollableWrapper from '../ScrollableWrapper.jsx';
+import { replaceQueryParams } from '../../util/queryUtils.js';
+import { PREFIX_STOPS } from '../../util/path.js';
+import { TimetableFragment } from './queries/TimetableFragment.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import { splitGtfsId } from '../../util/gtfs.js';
 
 const mapStopTimes = stoptimesObject =>
   stoptimesObject

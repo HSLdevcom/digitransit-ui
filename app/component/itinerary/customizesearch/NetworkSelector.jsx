@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Icon from '../../Icon';
-import SettingsToggle from './SettingsToggle';
+import Icon from '../../Icon.jsx';
+import SettingsToggle from './SettingsToggle.jsx';
 import {
   mapDefaultNetworkProperties,
   getRentalNetworkName,
@@ -9,9 +9,9 @@ import {
   updateVehicleNetworks,
   getScooterNetworks,
   getCitybikeNetworks,
-} from '../../../util/vehicleRentalUtils';
-import { TransportMode } from '../../../constants';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+} from '../../../util/vehicleRentalUtils.js';
+import { TransportMode } from '../../../constants.js';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
 
 export default function NetworkSelector({ type, updateSettings }) {
   const config = useConfigContext();

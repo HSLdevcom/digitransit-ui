@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import Icon from '../../Icon';
-import { stopPagePath } from '../../../util/path';
-import { configShape } from '../../../util/shapes';
-import { getStopMode, transitIconName } from '../../../util/modeUtils';
-import { getModeIconColor } from '../../../util/colorUtils';
+import Icon from '../../Icon.jsx';
+import { stopPagePath } from '../../../util/path.js';
+import { configShape } from '../../../util/shapes.js';
+import { getStopMode, transitIconName } from '../../../util/modeUtils.js';
+import { getModeIconColor } from '../../../util/colorUtils.js';
 
 function isNull(val) {
   return val === 'null' || val === undefined || val === null;

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 const LogoSmall = ({ logo }) => {
   const config = useConfigContext();

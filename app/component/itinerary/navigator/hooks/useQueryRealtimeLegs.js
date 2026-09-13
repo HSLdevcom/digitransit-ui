@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { fetchQuery } from 'react-relay';
-import { legTime } from '../../../../util/legUtils';
-import { legQuery } from '../../queries/LegQuery';
+import { legTime } from '../../../../util/legUtils.js';
+import { legQuery } from '../../queries/LegQuery.js';
 
 /**
  * Custom hook to query and map real-time legs.

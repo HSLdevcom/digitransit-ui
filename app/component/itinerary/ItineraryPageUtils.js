@@ -7,19 +7,19 @@ import {
   changeRealTimeClientTopics,
   startRealTimeClient,
   stopRealTimeClient,
-} from '../../action/realTimeClientAction';
-import { PlannerMessageType, ExtendedRouteTypes } from '../../constants';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { boundWithMinimumArea } from '../../util/geo-utils';
+} from '../../action/realTimeClientAction.js';
+import { PlannerMessageType, ExtendedRouteTypes } from '../../constants.js';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
+import { boundWithMinimumArea } from '../../util/geo-utils.js';
 import {
   compressLegs,
   getTotalBikingDistance,
   isDirectItineraryWithAllowedRouteTypes,
-} from '../../util/legUtils';
-import { getMapLayerOptions } from '../../util/mapLayerUtils';
-import { getDefaultSettings, getSettings } from '../../util/planParamUtil';
-import { getStartTimeWithColon } from '../../util/timeUtils';
-import { splitGtfsId } from '../../util/gtfs';
+} from '../../util/legUtils.js';
+import { getMapLayerOptions } from '../../util/mapLayerUtils.js';
+import { getDefaultSettings, getSettings } from '../../util/planParamUtil.js';
+import { getStartTimeWithColon } from '../../util/timeUtils.js';
+import { splitGtfsId } from '../../util/gtfs.js';
 
 /**
  * Returns the index of selected itinerary. Attempts to look for

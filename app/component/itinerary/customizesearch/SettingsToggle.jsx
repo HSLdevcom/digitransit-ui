@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { forwardRef } from 'react';
 import { FormattedMessage } from 'react-intl';
-import Toggle from '../../Toggle';
+import Toggle from '../../Toggle.jsx';
 
 const SettingsToggle = forwardRef(function SettingsToggle(
   {

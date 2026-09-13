@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import { configShape } from '../../util/shapes';
-import { isKeyboardSelectionEvent } from '../../util/browser';
-import Icon from '../Icon';
+import { configShape } from '../../util/shapes.js';
+import { isKeyboardSelectionEvent } from '../../util/browser.js';
+import Icon from '../Icon.jsx';
 
 export default function IndoorInfo(
   { intermediateStepCount, showIntermediateSteps, toggleFunction },

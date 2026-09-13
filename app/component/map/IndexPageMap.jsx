@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connectToStores } from 'fluxible-addons-react';
 import { matchShape } from 'found';
-import MapWithTracking from './MapWithTracking';
-import { sameLocations } from '../../util/path';
-import OriginStore from '../../store/OriginStore';
-import DestinationStore from '../../store/DestinationStore';
-import { configShape, locationShape } from '../../util/shapes';
-import storeOrigin from '../../action/originActions';
-import storeDestination from '../../action/destinationActions';
+import MapWithTracking from './MapWithTracking.jsx';
+import { sameLocations } from '../../util/path.js';
+import OriginStore from '../../store/OriginStore.js';
+import DestinationStore from '../../store/DestinationStore.js';
+import { configShape, locationShape } from '../../util/shapes.js';
+import storeOrigin from '../../action/originActions.js';
+import storeDestination from '../../action/destinationActions.js';
 // eslint-disable-next-line import/no-named-as-default
-import { mapLayerShape } from '../../store/MapLayerStore';
-import CookieSettingsButton from '../CookieSettingsButton';
-import LocationMarker from './LocationMarker';
+import { mapLayerShape } from '../../store/MapLayerStore.js';
+import CookieSettingsButton from '../CookieSettingsButton.jsx';
+import LocationMarker from './LocationMarker.jsx';
 
 let focus = {};
 const mwtProps = {};

@@ -11,17 +11,19 @@ import { matchShape } from 'found';
 import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
 import cx from 'classnames';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { routeShape } from '../../util/shapes';
-import { routePagePath, PREFIX_STOPS } from '../../util/path';
-import RoutePatternSelect, { patternTextWithIcon } from './RoutePatternSelect';
-import RoutePatternHeader from './RoutePatternHeader';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import { routeShape } from '../../util/shapes.js';
+import { routePagePath, PREFIX_STOPS } from '../../util/path.js';
+import RoutePatternSelect, {
+  patternTextWithIcon,
+} from './RoutePatternSelect.jsx';
+import RoutePatternHeader from './RoutePatternHeader.jsx';
 import {
   getModeIconColor,
   ensureColorAccessibleOnWhite,
-} from '../../util/colorUtils';
-import { getRouteMode } from '../../util/modeUtils';
-import Icon from '../Icon';
+} from '../../util/colorUtils.js';
+import { getRouteMode } from '../../util/modeUtils.js';
+import Icon from '../Icon.jsx';
 
 function filterSimilarRoutes(routes, currentRoute) {
   const withoutCurrent = routes.filter(

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useLazyLoadQuery } from 'react-relay/hooks';
-import CanceledTrips from './CanceledTrips';
-import CanceledTripsForModeQuery from './queries/CanceledTripsForModeQuery';
-import { sortRoutes } from './utils';
-import { useFilterContext } from './filters/FiltersContext';
-import { useFavourites } from '../../hooks/FavouriteContext';
-import { splitGtfsId } from '../../util/gtfs';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import CanceledTrips from './CanceledTrips.jsx';
+import CanceledTripsForModeQuery from './queries/CanceledTripsForModeQuery.js';
+import { sortRoutes } from './utils.js';
+import { useFilterContext } from './filters/FiltersContext.jsx';
+import { useFavourites } from '../../hooks/FavouriteContext.jsx';
+import { splitGtfsId } from '../../util/gtfs.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 const CanceledTripsContainer = ({ mode, isMobile, dateTime }) => {
   const { canceledTripsSummary } = useLazyLoadQuery(CanceledTripsForModeQuery, {

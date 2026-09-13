@@ -5,7 +5,7 @@ import { withLeaflet } from 'react-leaflet/es/context';
 import Marker from 'react-leaflet/es/Marker';
 import Popup from 'react-leaflet/es/Popup';
 import { default as L } from 'leaflet';
-import { configShape, locationShape } from '../../util/shapes';
+import { configShape, locationShape } from '../../util/shapes.js';
 
 class GenericMarker extends React.Component {
   static displayName = 'GenericMarker';

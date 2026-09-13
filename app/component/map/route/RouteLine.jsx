@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import StopMarker from '../non-tile-layer/StopMarker';
-import LocationMarker from '../LocationMarker';
-import Line from '../Line';
-import { getClosestPoint } from '../../../util/geo-utils';
-import { getTripOrRouteMode } from '../../../util/modeUtils';
-import { patternShape, configShape, tripShape } from '../../../util/shapes';
+import StopMarker from '../non-tile-layer/StopMarker.jsx';
+import LocationMarker from '../LocationMarker.jsx';
+import Line from '../Line.jsx';
+import { getClosestPoint } from '../../../util/geo-utils.js';
+import { getTripOrRouteMode } from '../../../util/modeUtils.js';
+import { patternShape, configShape, tripShape } from '../../../util/shapes.js';
 
 /**
  * Split the array points in two at the given position. Return index to split at

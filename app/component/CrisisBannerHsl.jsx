@@ -4,8 +4,8 @@ import { useIntl } from 'react-intl';
 import { classList } from '@hsl-fi/utilities';
 import { AlertTriangleFilled } from '@hsl-fi/icons';
 import { CrisisPriority } from '@hsl-fi/content-delivery-api-types';
-import { useConfigContext } from '../configurations/ConfigContext';
-import { getJson } from '../util/xhrPromise';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
+import { getJson } from '../util/xhrPromise.js';
 import './crisis-banner-hsl.scss';
 
 const CrisisBannerHsl = ({ initialBanners = null }) => {

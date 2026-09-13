@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { Settings, DateTime } from 'luxon';
 import debounce from 'lodash/debounce.js';
-import Datetimepicker from './helpers/Datetimepicker';
-import i18n from './helpers/i18n';
+import Datetimepicker from './helpers/Datetimepicker.jsx';
+import i18n from './helpers/i18n.js';
 
 /**
  * This component renders an input to choose a date and time. Renders separate input fields for date and time selection. Values for timestamp and arriveBy correspond to Digitransit query params time and arriveBy. This component will display a native date input on mobile and a custom one for desktop. Mobile detection is done by parsing user agent.

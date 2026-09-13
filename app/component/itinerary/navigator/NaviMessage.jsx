@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { configShape } from '../../../util/shapes';
+import { configShape } from '../../../util/shapes.js';
 
-import Icon from '../../Icon';
+import Icon from '../../Icon.jsx';
 
 function NaviMessage(
   { severity, children, index, handleRemove, hideClose, cardAnimation },

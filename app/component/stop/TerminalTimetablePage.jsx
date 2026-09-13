@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { matchShape, routerShape } from 'found';
-import { configShape, relayShape } from '../../util/shapes';
-import { unixTime, unixToYYYYMMDD } from '../../util/timeUtils';
-import { prepareServiceDay } from '../../util/dateParamUtils';
-import Timetable from './Timetable';
+import { configShape, relayShape } from '../../util/shapes.js';
+import { unixTime, unixToYYYYMMDD } from '../../util/timeUtils.js';
+import { prepareServiceDay } from '../../util/dateParamUtils.js';
+import Timetable from './Timetable.jsx';
 
 class TerminalTimetablePage extends React.Component {
   static propTypes = {

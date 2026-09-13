@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import Icon from './Icon';
+import Icon from './Icon.jsx';
 import {
   getTrackOrPierOrPlatformText,
   getTrackOrPierOrPlatformTextShort,
-} from '../util/localeUtils';
+} from '../util/localeUtils.js';
 
 function PlatformNumber({
   number,

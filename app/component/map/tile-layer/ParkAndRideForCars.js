@@ -1,5 +1,5 @@
-import ParkAndRide from './ParkAndRide';
-import { ParkTypes } from '../../../constants';
+import ParkAndRide from './ParkAndRide.js';
+import { ParkTypes } from '../../../constants.js';
 
 export default class ParkAndRideForCars extends ParkAndRide {
   constructor(tile, config, mapLayers, relayEnvironment, lang) {

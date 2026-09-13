@@ -9,8 +9,8 @@ import Icon, {
   defaultColors,
 } from '@digitransit-component/digitransit-component-icon';
 import isEmpty from 'lodash/isEmpty.js';
-import Select from './helpers/Select';
-import i18n from './helpers/i18n';
+import Select from './helpers/Select.jsx';
+import i18n from './helpers/i18n.js';
 import styles from './helpers/styles.scss';
 
 export const getEmptyViaPointPlaceHolder = () => ({});

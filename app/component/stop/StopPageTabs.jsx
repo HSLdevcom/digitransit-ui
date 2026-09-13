@@ -2,23 +2,23 @@ import cx from 'classnames';
 import React, { useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { matchShape } from 'found';
-import { stopShape } from '../../util/shapes';
-import { AlertSeverityLevelType } from '../../constants';
+import { stopShape } from '../../util/shapes.js';
+import { AlertSeverityLevelType } from '../../constants.js';
 import {
   getCancelationsForStop,
   getAlertsForObject,
   getServiceAlertsForStation,
   getActiveAlertSeverityLevel,
-} from '../../util/alertUtils';
-import withBreakpoint from '../../util/withBreakpoint';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { unixTime } from '../../util/timeUtils';
+} from '../../util/alertUtils.js';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
+import { unixTime } from '../../util/timeUtils.js';
 import {
   PREFIX_DISRUPTION,
   PREFIX_TIMETABLE,
   stopPagePath,
-} from '../../util/path';
-import Icon from '../Icon';
+} from '../../util/path.js';
+import Icon from '../Icon.jsx';
 
 const Tab = {
   RightNow: 1,

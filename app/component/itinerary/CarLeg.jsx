@@ -2,15 +2,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
-import { legShape, configShape } from '../../util/shapes';
-import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
-import { displayDistance } from '../../util/geo-utils';
-import { durationToString } from '../../util/timeUtils';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { legTimeStr, legDestination } from '../../util/legUtils';
-import ItineraryCircleLineLong from './ItineraryCircleLineLong';
-import { splitStringToAddressAndPlace } from '../../util/otpStrings';
+import { legShape, configShape } from '../../util/shapes.js';
+import Icon from '../Icon.jsx';
+import ItineraryMapAction from './ItineraryMapAction.jsx';
+import { displayDistance } from '../../util/geo-utils.js';
+import { durationToString } from '../../util/timeUtils.js';
+import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon.jsx';
+import { legTimeStr, legDestination } from '../../util/legUtils.js';
+import ItineraryCircleLineLong from './ItineraryCircleLineLong.jsx';
+import { splitStringToAddressAndPlace } from '../../util/otpStrings.js';
 
 export default function CarLeg(props, { config }) {
   const intl = useIntl();

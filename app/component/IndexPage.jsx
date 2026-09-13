@@ -11,16 +11,16 @@ import TrafficNowLink from '@digitransit-component/digitransit-component-traffic
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import inside from 'point-in-polygon';
-import { locationShape } from '../util/shapes';
-import storeOrigin from '../action/originActions';
-import storeDestination from '../action/destinationActions';
-import OverlayWithSpinner from './visual/OverlayWithSpinner';
-import FavouritesContainer from './FavouritesContainer';
-import DatetimepickerContainer from './DatetimepickerContainer';
+import { locationShape } from '../util/shapes.js';
+import storeOrigin from '../action/originActions.js';
+import storeDestination from '../action/destinationActions.js';
+import OverlayWithSpinner from './visual/OverlayWithSpinner.jsx';
+import FavouritesContainer from './FavouritesContainer.jsx';
+import DatetimepickerContainer from './DatetimepickerContainer.jsx';
 import {
   withSearchContext,
   getLocationSearchTargets,
-} from './WithSearchContext';
+} from './WithSearchContext.jsx';
 import {
   getPathWithEndpointObjects,
   getStopRoutePath,
@@ -29,30 +29,33 @@ import {
   definesItinerarySearch,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
-} from '../util/path';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import withBreakpoint from '../util/withBreakpoint';
-import Geomover from './Geomover';
-import scrollTop from '../util/scroll';
-import { getRefPoint } from '../util/apiUtils';
-import { filterObject } from '../util/filterUtils';
+} from '../util/path.js';
+import { addAnalyticsEvent } from '../util/analyticsUtils.js';
+import withBreakpoint from '../util/withBreakpoint.jsx';
+import Geomover from './Geomover.jsx';
+import scrollTop from '../util/scroll.js';
+import { getRefPoint } from '../util/apiUtils.js';
+import { filterObject } from '../util/filterUtils.js';
 import {
   getTransportModes,
   getNearYouModes,
   useCitybikes,
-} from '../util/modeUtils';
+} from '../util/modeUtils.js';
 import {
   checkPositioningPermission,
   startLocationWatch,
-} from '../action/PositionActions';
+} from '../action/PositionActions.js';
 import {
   countLocations,
   STATUS_FETCHING_OR_UPDATING,
-} from '../data/FavouriteData';
-import { useFavourites, useFavouriteStatus } from '../hooks/FavouriteContext';
-import { useConfigContext } from '../configurations/ConfigContext';
-import { useCurrentTime } from '../hooks/TimeContext';
-import TrafficNowLinkNew from './trafficnow/TrafficNowLink';
+} from '../data/FavouriteData.js';
+import {
+  useFavourites,
+  useFavouriteStatus,
+} from '../hooks/FavouriteContext.jsx';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
+import { useCurrentTime } from '../hooks/TimeContext.jsx';
+import TrafficNowLinkNew from './trafficnow/TrafficNowLink.jsx';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);

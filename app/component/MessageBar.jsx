@@ -4,17 +4,17 @@ import uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
-import { configShape, relayShape } from '../util/shapes';
-import { useConfigContext } from '../configurations/ConfigContext';
-import { withCurrentTime } from '../hooks/TimeContext';
-import SwipeableTabs from './SwipeableTabs';
-import Icon from './Icon';
-import MessageBarMessage from './MessageBarMessage';
-import { markMessageAsRead } from '../action/MessageActions';
-import { getReadMessageIds } from '../data/localStorage';
-import { mapAlertSource } from '../util/alertUtils';
-import { isKeyboardSelectionEvent } from '../util/browser';
-import hashCode from '../util/hashUtil';
+import { configShape, relayShape } from '../util/shapes.js';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
+import { withCurrentTime } from '../hooks/TimeContext.jsx';
+import SwipeableTabs from './SwipeableTabs.jsx';
+import Icon from './Icon.jsx';
+import MessageBarMessage from './MessageBarMessage.jsx';
+import { markMessageAsRead } from '../action/MessageActions.js';
+import { getReadMessageIds } from '../data/localStorage.js';
+import { mapAlertSource } from '../util/alertUtils.js';
+import { isKeyboardSelectionEvent } from '../util/browser.js';
+import hashCode from '../util/hashUtil.js';
 
 /* Small version has constant height,
  * big version has max height of half but can be

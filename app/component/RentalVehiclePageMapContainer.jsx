@@ -1,8 +1,8 @@
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import StopPageMap from './map/StopPageMap';
-import { rentalVehicleShape } from '../util/shapes';
+import StopPageMap from './map/StopPageMap.jsx';
+import { rentalVehicleShape } from '../util/shapes.js';
 
 const RentalVehiclePageMapContainer = ({ rentalVehicle }) => {
   if (!rentalVehicle) {

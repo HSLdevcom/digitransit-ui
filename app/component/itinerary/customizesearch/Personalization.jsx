@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import SettingsToggle from './SettingsToggle';
-import PrModal from './PrModal';
-import PersonalizeAgainModal from './PersonalizeAgainModal';
-import Snackbar from '../../Snackbar';
-import LoginPrompt from '../../LoginPrompt';
-import Icon from '../../Icon';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { isPersonalizationEnabled } from '../../../util/modeUtils';
-import { settingsShape } from '../../../util/shapes';
-import { useConfigContext } from '../../../configurations/ConfigContext';
-import { getPersonalization } from '../../../data/localStorage';
+import SettingsToggle from './SettingsToggle.jsx';
+import PrModal from './PrModal.jsx';
+import PersonalizeAgainModal from './PersonalizeAgainModal.jsx';
+import Snackbar from '../../Snackbar.jsx';
+import LoginPrompt from '../../LoginPrompt.jsx';
+import Icon from '../../Icon.jsx';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils.js';
+import { isPersonalizationEnabled } from '../../../util/modeUtils.js';
+import { settingsShape } from '../../../util/shapes.js';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
+import { getPersonalization } from '../../../data/localStorage.js';
 
 export default function Personalization({ settings, updateSettings }) {
   const intl = useIntl();

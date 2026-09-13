@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FavouriteRouteContainer from '../../routepage/FavouriteRouteContainer';
-import { PREFIX_TIMETABLE, routePagePath } from '../../../util/path';
-import PatternWithCancellations from './PatternWithCancellations';
-import RouteBadgeGroup from './RouteBadgeGroup';
-import DisruptionBadge from '../DisruptionBadge';
-import { patternShape, routeShape } from '../../../util/shapes';
+import FavouriteRouteContainer from '../../routepage/FavouriteRouteContainer.jsx';
+import { PREFIX_TIMETABLE, routePagePath } from '../../../util/path.js';
+import PatternWithCancellations from './PatternWithCancellations.jsx';
+import RouteBadgeGroup from './RouteBadgeGroup.jsx';
+import DisruptionBadge from '../DisruptionBadge.jsx';
+import { patternShape, routeShape } from '../../../util/shapes.js';
 
 const CancellationContainer = ({ routeSummary, mode }) => {
   const {

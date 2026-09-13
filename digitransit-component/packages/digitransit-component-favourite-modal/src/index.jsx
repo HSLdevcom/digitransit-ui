@@ -14,9 +14,9 @@ import Icon, {
   defaultColors,
 } from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
-import i18n from './helpers/i18n';
-import DesktopModal from './helpers/DesktopModal';
-import MobileModal from './helpers/MobileModal';
+import i18n from './helpers/i18n.js';
+import DesktopModal from './helpers/DesktopModal.jsx';
+import MobileModal from './helpers/MobileModal.jsx';
 
 const FavouriteIconIdToNameMap = {
   'icon-icon_place': 'place',

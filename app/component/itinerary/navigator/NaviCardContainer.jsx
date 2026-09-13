@@ -2,26 +2,26 @@ import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils.js';
 import {
   isAnyLegPropertyIdentical,
   legTime,
   getPlatformChangeStatus,
   PLATFORM_STATUS,
-} from '../../../util/legUtils';
-import { legShape } from '../../../util/shapes';
-import { getTopics, updateClient } from '../ItineraryPageUtils';
-import NaviCard from './NaviCard';
-import NaviStack from './NaviStack';
+} from '../../../util/legUtils.js';
+import { legShape } from '../../../util/shapes.js';
+import { getTopics, updateClient } from '../ItineraryPageUtils.js';
+import NaviCard from './NaviCard.jsx';
+import NaviStack from './NaviStack.jsx';
 import {
   getAdditionalMessages,
   getItineraryAlerts,
   getTransitLegState,
   itinerarySearchPath,
   LEGTYPE,
-} from './NaviUtils';
-import usePrevious from './hooks/usePrevious';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+} from './NaviUtils.jsx';
+import usePrevious from './hooks/usePrevious.js';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
 
 const HIDE_TOPCARD_DURATION = 2000; // milliseconds
 

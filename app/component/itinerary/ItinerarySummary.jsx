@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import TimeSummary from './TimeSummary';
-import StreetSummary from './StreetSummary';
-import { itineraryShape } from '../../util/shapes';
+import TimeSummary from './TimeSummary.jsx';
+import StreetSummary from './StreetSummary.jsx';
+import { itineraryShape } from '../../util/shapes.js';
 
 function ItinerarySummary({
   itinerary,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Loading from '../Loading';
+import Loading from '../Loading.jsx';
 
 const OverlayWithSpinner = () => (
   <div className="overlay-with-spinner">

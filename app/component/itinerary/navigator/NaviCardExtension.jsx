@@ -2,9 +2,9 @@ import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Icon from '../../Icon';
-import StopCode from '../../StopCode';
-import PlatformNumber from '../../PlatformNumber';
+import Icon from '../../Icon.jsx';
+import StopCode from '../../StopCode.jsx';
+import PlatformNumber from '../../PlatformNumber.jsx';
 import {
   getZoneLabel,
   getHeadsignFromRouteLongName,
@@ -12,19 +12,23 @@ import {
   legTimeStr,
   isLocalCallAgency,
   isCallAgencyLeg,
-} from '../../../util/legUtils';
-import ZoneIcon from '../../ZoneIcon';
-import { legShape, configShape } from '../../../util/shapes';
-import { getDestinationProperties, LEGTYPE, withRealTime } from './NaviUtils';
-import { getTripOrRouteMode } from '../../../util/modeUtils';
-import { durationToString } from '../../../util/timeUtils';
-import RouteNumberContainer from '../../RouteNumberContainer';
-import BoardingInfo from './BoardingInfo';
-import { getModeIconColor } from '../../../util/colorUtils';
-import NaviIndoorButtonContainer from './indoor/NaviIndoorButtonContainer';
-import NaviIndoorCard from './indoor/NaviIndoorCard';
-import { IndoorLegType, NaviCardType } from '../../../constants';
-import { getIndoorLegType } from '../../../util/indoorUtils';
+} from '../../../util/legUtils.js';
+import ZoneIcon from '../../ZoneIcon.jsx';
+import { legShape, configShape } from '../../../util/shapes.js';
+import {
+  getDestinationProperties,
+  LEGTYPE,
+  withRealTime,
+} from './NaviUtils.jsx';
+import { getTripOrRouteMode } from '../../../util/modeUtils.js';
+import { durationToString } from '../../../util/timeUtils.js';
+import RouteNumberContainer from '../../RouteNumberContainer.jsx';
+import BoardingInfo from './BoardingInfo.jsx';
+import { getModeIconColor } from '../../../util/colorUtils.js';
+import NaviIndoorButtonContainer from './indoor/NaviIndoorButtonContainer.jsx';
+import NaviIndoorCard from './indoor/NaviIndoorCard.jsx';
+import { IndoorLegType, NaviCardType } from '../../../constants.js';
+import { getIndoorLegType } from '../../../util/indoorUtils.js';
 
 const NaviCardExtension = (
   {

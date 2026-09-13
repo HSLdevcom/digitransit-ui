@@ -1,9 +1,9 @@
 import React from 'react';
 import { useFragment } from 'react-relay';
 import get from 'lodash/get';
-import { legShape, configShape } from '../../util/shapes';
-import AgencyInfo from '../AgencyInfo';
-import { LegAgencyInfoFragment } from './queries/LegAgencyInfoFragment';
+import { legShape, configShape } from '../../util/shapes.js';
+import AgencyInfo from '../AgencyInfo.jsx';
+import { LegAgencyInfoFragment } from './queries/LegAgencyInfoFragment.js';
 
 function LegAgencyInfo({ leg: legRef }, { config }) {
   const leg = useFragment(LegAgencyInfoFragment, legRef);

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Link from 'found/Link';
-import Icon from './Icon';
-import { useConfigContext } from '../configurations/ConfigContext';
+import Icon from './Icon.jsx';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 export default function Error404({ error }) {
   const config = useConfigContext();

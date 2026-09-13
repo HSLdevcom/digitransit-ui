@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import React from 'react';
-import Icon from '../Icon';
-import { isKeyboardSelectionEvent } from '../../util/browser';
-import { legShape } from '../../util/shapes';
-import { legTimeStr } from '../../util/legUtils';
+import Icon from '../Icon.jsx';
+import { isKeyboardSelectionEvent } from '../../util/browser.js';
+import { legShape } from '../../util/shapes.js';
+import { legTimeStr } from '../../util/legUtils.js';
 
 export default function AlternativeLegsInfo({
   legs,

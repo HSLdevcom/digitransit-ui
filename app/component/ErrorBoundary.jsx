@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { FormattedMessage } from 'react-intl';
-import Icon from './Icon';
-import NetworkError from './NetworkError';
-import isRelayNetworkError from '../util/relayUtils';
+import Icon from './Icon.jsx';
+import NetworkError from './NetworkError.jsx';
+import isRelayNetworkError from '../util/relayUtils.js';
 
 export default class ErrorBoundary extends React.Component {
   static propTypes = { children: PropTypes.node.isRequired };

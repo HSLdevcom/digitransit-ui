@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { tripShape, routeShape, configShape } from '../util/shapes';
-import { getTripOrRouteText } from '../util/legUtils';
-import RouteNumber from './RouteNumber';
+import { tripShape, routeShape, configShape } from '../util/shapes.js';
+import { getTripOrRouteText } from '../util/legUtils.js';
+import RouteNumber from './RouteNumber.jsx';
 
 const RouteNumberContainer = (
   { interliningWithRoute, trip, route, mode, hideText, ...props },

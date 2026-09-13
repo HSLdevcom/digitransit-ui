@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import StopPageMap from '../map/StopPageMap';
+import StopPageMap from '../map/StopPageMap.jsx';
 
 function StopPageMapContainer({ stop }) {
   if (!stop) {

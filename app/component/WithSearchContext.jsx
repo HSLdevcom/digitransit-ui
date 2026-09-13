@@ -3,20 +3,20 @@ import PropTypes from 'prop-types';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { configShape, locationStateShape } from '../util/shapes';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { useCitybikes } from '../util/modeUtils';
+import { configShape, locationStateShape } from '../util/shapes.js';
+import { addAnalyticsEvent } from '../util/analyticsUtils.js';
+import { useCitybikes } from '../util/modeUtils.js';
 import {
   PREFIX_ITINERARY_SUMMARY,
   PREFIX_STOPS,
   PREFIX_ROUTES,
-} from '../util/path';
-import searchContext from '../data/SearchContext';
-import SelectFromMapHeader from './SelectFromMapHeader';
-import SelectFromMap from './map/SelectFromMap';
-import DTModal from './DTModal';
-import FromMapModal from './FromMapModal';
-import { removeSearch } from '../action/SearchActions';
+} from '../util/path.js';
+import searchContext from '../data/SearchContext.js';
+import SelectFromMapHeader from './SelectFromMapHeader.jsx';
+import SelectFromMap from './map/SelectFromMap.jsx';
+import DTModal from './DTModal.jsx';
+import FromMapModal from './FromMapModal.jsx';
+import { removeSearch } from '../action/SearchActions.js';
 
 const PATH_OPTS = {
   stopsPrefix: PREFIX_STOPS,

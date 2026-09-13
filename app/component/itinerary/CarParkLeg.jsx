@@ -3,15 +3,15 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { Link } from 'found';
-import { legShape, parkShape, configShape } from '../../util/shapes';
-import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
-import { displayDistance } from '../../util/geo-utils';
-import { durationToString } from '../../util/timeUtils';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { PREFIX_CARPARK } from '../../util/path';
-import ItineraryCircleLine from './ItineraryCircleLine';
-import { legTimeStr, legDestination } from '../../util/legUtils';
+import { legShape, parkShape, configShape } from '../../util/shapes.js';
+import Icon from '../Icon.jsx';
+import ItineraryMapAction from './ItineraryMapAction.jsx';
+import { displayDistance } from '../../util/geo-utils.js';
+import { durationToString } from '../../util/timeUtils.js';
+import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon.jsx';
+import { PREFIX_CARPARK } from '../../util/path.js';
+import ItineraryCircleLine from './ItineraryCircleLine.jsx';
+import { legTimeStr, legDestination } from '../../util/legUtils.js';
 
 function CarParkLeg(props, { config }) {
   const intl = useIntl();

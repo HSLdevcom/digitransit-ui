@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, createFragmentContainer } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import NearYouMap from '../map/NearYouMap';
+import NearYouMap from '../map/NearYouMap.jsx';
 import {
   vehicleRentalStationShape,
   stopShape,
   stationShape,
   locationShape,
-} from '../../util/shapes';
+} from '../../util/shapes.js';
 
 function NearYouFavouritesMapContainer(props) {
   const { stops, stations, vehicleStations, position } = props;

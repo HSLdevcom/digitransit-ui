@@ -1,5 +1,5 @@
 import { createFragmentContainer, graphql } from 'react-relay';
-import ParkAndRideContent from './ParkAndRideContent';
+import ParkAndRideContent from './ParkAndRideContent.jsx';
 
 const containerComponent = createFragmentContainer(ParkAndRideContent, {
   vehicleParking: graphql`

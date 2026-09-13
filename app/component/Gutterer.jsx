@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { stylesShape } from '../util/shapes';
+import { stylesShape } from '../util/shapes.js';
 
 const Gutterer = ({
   children,

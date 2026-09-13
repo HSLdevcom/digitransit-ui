@@ -3,10 +3,10 @@ import {
   ICON_INFO,
   ICON_TYPE_INFO,
   ICON_TYPE_CAUTION,
-} from './ErrorCard';
-import NationalServiceLink from './NationalServiceLink';
-import PastLink from './PastLink';
-import ChangeDepartureTimeLink from './ChangeDepartureTimeLink';
+} from './ErrorCard.jsx';
+import NationalServiceLink from './NationalServiceLink.jsx';
+import PastLink from './PastLink.jsx';
+import ChangeDepartureTimeLink from './ChangeDepartureTimeLink.jsx';
 
 const info = { iconType: ICON_TYPE_INFO, iconImg: ICON_INFO };
 const caution = { iconImg: ICON_CAUTION, iconType: ICON_TYPE_CAUTION };

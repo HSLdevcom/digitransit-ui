@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ErrorBoundary from './ErrorBoundary';
-import BackButton from './BackButton';
-import ScrollableWrapper from './ScrollableWrapper';
+import ErrorBoundary from './ErrorBoundary.jsx';
+import BackButton from './BackButton.jsx';
+import ScrollableWrapper from './ScrollableWrapper.jsx';
 
 export default function DesktopView({
   title,

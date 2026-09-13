@@ -4,8 +4,8 @@ import { useSelect, useTagGroup } from 'downshift';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Icon, CloseS, ArrowUpS, ArrowDownS, CloseFilled } from '@hsl-fi/icons';
-import { useConfigContext } from '../../../configurations/ConfigContext';
-import { useFilterContext } from './FiltersContext';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
+import { useFilterContext } from './FiltersContext.jsx';
 
 function OperatorSelectDropdown({ availableOperators = [], itemToString }) {
   const { formatMessage } = useIntl();

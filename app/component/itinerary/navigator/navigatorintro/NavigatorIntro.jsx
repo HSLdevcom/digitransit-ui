@@ -2,9 +2,9 @@ import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import NavigatorIntroFeature from './NavigatorIntroFeature';
-import Icon from '../../../Icon';
-import { useConfigContext } from '../../../../configurations/ConfigContext';
+import NavigatorIntroFeature from './NavigatorIntroFeature.jsx';
+import Icon from '../../../Icon.jsx';
+import { useConfigContext } from '../../../../configurations/ConfigContext.jsx';
 
 const NavigatorIntro = ({
   logo,

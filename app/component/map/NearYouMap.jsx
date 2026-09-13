@@ -6,33 +6,33 @@ import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import BackButton from '../BackButton';
-import VehicleMarkerContainer from './VehicleMarkerContainer';
-import Line from './Line';
-import MapWithTracking from './MapWithTracking';
-import { getSettings } from '../../util/planParamUtil';
+import BackButton from '../BackButton.jsx';
+import VehicleMarkerContainer from './VehicleMarkerContainer.jsx';
+import Line from './Line.jsx';
+import MapWithTracking from './MapWithTracking.jsx';
+import { getSettings } from '../../util/planParamUtil.js';
 import {
   startRealTimeClient,
   stopRealTimeClient,
   changeRealTimeClientTopics,
-} from '../../action/realTimeClientAction';
+} from '../../action/realTimeClientAction.js';
 import {
   sortNearYouRentalStations,
   sortNearYouStops,
-} from '../../util/sortUtils';
-import ItineraryLine from './ItineraryLine';
+} from '../../util/sortUtils.js';
+import ItineraryLine from './ItineraryLine.jsx';
 import {
   locationShape,
   relayShape,
   configShape,
   stopShape,
-} from '../../util/shapes';
-import Loading from '../Loading';
-import { getRouteMode } from '../../util/modeUtils';
-import CookieSettingsButton from '../CookieSettingsButton';
-import { streetQuery } from './StreetQuery';
-import LocationMarker from './LocationMarker';
-import { splitGtfsId } from '../../util/gtfs';
+} from '../../util/shapes.js';
+import Loading from '../Loading.jsx';
+import { getRouteMode } from '../../util/modeUtils.js';
+import CookieSettingsButton from '../CookieSettingsButton.jsx';
+import { streetQuery } from './StreetQuery.js';
+import LocationMarker from './LocationMarker.jsx';
+import { splitGtfsId } from '../../util/gtfs.js';
 
 function getId(edge) {
   const { place } = edge.node;

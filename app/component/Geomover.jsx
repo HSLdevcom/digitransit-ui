@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { startLocationWatch } from '../action/PositionActions';
-import { coordsDiff } from '../util/path';
-import storeOrigin from '../action/originActions';
-import storeDestination from '../action/destinationActions';
+import { startLocationWatch } from '../action/PositionActions.js';
+import { coordsDiff } from '../util/path.js';
+import storeOrigin from '../action/originActions.js';
+import storeDestination from '../action/destinationActions.js';
 
 // This container updates origin and destination store if they are set to follow current location
 export default function withGeomover(WrappedComponent) {

@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
-import LegAgencyInfo from './LegAgencyInfo';
-import Icon from '../Icon';
-import IntermediateLeg from './IntermediateLeg';
-import ItineraryCircleLine from './ItineraryCircleLine';
-import ItineraryMapAction from './ItineraryMapAction';
-import PlatformNumber from '../PlatformNumber';
-import ServiceAlertIcon from '../ServiceAlertIcon';
-import StopCode from '../StopCode';
+import LegAgencyInfo from './LegAgencyInfo.jsx';
+import Icon from '../Icon.jsx';
+import IntermediateLeg from './IntermediateLeg.jsx';
+import ItineraryCircleLine from './ItineraryCircleLine.jsx';
+import ItineraryMapAction from './ItineraryMapAction.jsx';
+import PlatformNumber from '../PlatformNumber.jsx';
+import ServiceAlertIcon from '../ServiceAlertIcon.jsx';
+import StopCode from '../StopCode.jsx';
 import {
   alertSeverityCompare,
   getActiveAlertSeverityLevel,
@@ -19,15 +19,15 @@ import {
   getMaximumAlertSeverityLevel,
   hasEntitiesOfType,
   tripHasCancelationForStop,
-} from '../../util/alertUtils';
-import { modeToTranslationId } from '../../util/modeUtils';
+} from '../../util/alertUtils.js';
+import { modeToTranslationId } from '../../util/modeUtils.js';
 import {
   PREFIX_DISRUPTION,
   routePagePath,
   stopPagePath,
-} from '../../util/path';
-import { durationToString } from '../../util/timeUtils';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
+} from '../../util/path.js';
+import { durationToString } from '../../util/timeUtils.js';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
 import {
   getHeadsignFromRouteLongName,
   getStopHeadsignFromStoptimes,
@@ -39,22 +39,22 @@ import {
   isPlatformChanged,
   getValidatedLegName,
   isLocalCallAgency,
-} from '../../util/legUtils';
-import { shouldShowFareInfo } from '../../util/fareUtils';
-import { AlertEntityType, AlertSeverityLevelType } from '../../constants';
-import { legShape } from '../../util/shapes';
-import ZoneIcon from '../ZoneIcon';
-import StopInfo from './StopInfo';
-import InterlineInfo from './InterlineInfo';
-import AlternativeLegsInfo from './AlternativeLegsInfo';
-import LegInfo from './LegInfo';
-import ExternalLink from '../ExternalLink';
+} from '../../util/legUtils.js';
+import { shouldShowFareInfo } from '../../util/fareUtils.js';
+import { AlertEntityType, AlertSeverityLevelType } from '../../constants.js';
+import { legShape } from '../../util/shapes.js';
+import ZoneIcon from '../ZoneIcon.jsx';
+import StopInfo from './StopInfo.jsx';
+import InterlineInfo from './InterlineInfo.jsx';
+import AlternativeLegsInfo from './AlternativeLegsInfo.jsx';
+import LegInfo from './LegInfo.jsx';
+import ExternalLink from '../ExternalLink.jsx';
 import {
   getBoardingInformationText,
   getTrackOrPierOrPlatformChangeText,
-} from '../../util/localeUtils';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { splitGtfsId } from '../../util/gtfs';
+} from '../../util/localeUtils.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import { splitGtfsId } from '../../util/gtfs.js';
 
 const stopCode = code => code && <StopCode code={code} />;
 

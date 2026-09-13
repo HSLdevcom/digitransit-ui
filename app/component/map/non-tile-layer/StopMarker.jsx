@@ -3,17 +3,17 @@ import React from 'react';
 import cx from 'classnames';
 import { routerShape } from 'found';
 import { default as L } from 'leaflet';
-import { stopShape, configShape } from '../../../util/shapes';
-import GenericMarker from '../GenericMarker';
-import Icon from '../../Icon';
+import { stopShape, configShape } from '../../../util/shapes.js';
+import GenericMarker from '../GenericMarker.jsx';
+import Icon from '../../Icon.jsx';
 import {
   getCaseRadius,
   getStopRadius,
   getHubRadius,
   renderAsString,
-} from '../../../util/mapIconUtils';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { PREFIX_STOPS } from '../../../util/path';
+} from '../../../util/mapIconUtils.js';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils.js';
+import { PREFIX_STOPS } from '../../../util/path.js';
 
 export const getStopMarkerAnalytics = (pathname, indexPath, mode) => {
   if (pathname.includes('bike') || pathname.includes('walk')) {

@@ -1,17 +1,17 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { uniq } from 'lodash';
-import AlertList from '../AlertList';
+import AlertList from '../AlertList.jsx';
 import {
   getCancelationsForStop,
   getAlertsForObject,
   getServiceAlertsForStation,
-} from '../../util/alertUtils';
-import { getRouteMode } from '../../util/modeUtils';
-import { epochToTime } from '../../util/timeUtils';
-import { stopShape } from '../../util/shapes';
-import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
-import { useConfigContext } from '../../configurations/ConfigContext';
+} from '../../util/alertUtils.js';
+import { getRouteMode } from '../../util/modeUtils.js';
+import { epochToTime } from '../../util/timeUtils.js';
+import { stopShape } from '../../util/shapes.js';
+import { AlertSeverityLevelType, AlertEntityType } from '../../constants.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 export const isRelevantEntity = (entity, stopIds, routeIds) =>
   // eslint-disable-next-line no-underscore-dangle

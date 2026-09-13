@@ -2,8 +2,8 @@ import React, { useLayoutEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { Text, Button, Spacer } from '@hsl-fi/layout-primitives';
-import Icon from './Icon';
-import { isKeyboardSelectionEvent } from '../util/browser';
+import Icon from './Icon.jsx';
+import { isKeyboardSelectionEvent } from '../util/browser.js';
 
 export default function Popover({
   icon,

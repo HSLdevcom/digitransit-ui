@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import { useFilterContext } from './FiltersContext';
+import { useFilterContext } from './FiltersContext.jsx';
 
 const FILTER_OPTIONS = [
   { value: 'ALL', labelId: 'all' },

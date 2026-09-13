@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Icon from '../../Icon';
+import Icon from '../../Icon.jsx';
 
 /**
  * Represents the types of acceptable values.

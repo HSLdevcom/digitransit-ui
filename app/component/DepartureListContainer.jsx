@@ -4,19 +4,19 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import { stopTimeShape, configShape } from '../util/shapes';
-import Icon from './Icon';
-import DepartureRow from './DepartureRow';
+import { stopTimeShape, configShape } from '../util/shapes.js';
+import Icon from './Icon.jsx';
+import DepartureRow from './DepartureRow.jsx';
 import {
   stopRealTimeClient,
   startRealTimeClient,
   changeRealTimeClientTopics,
-} from '../action/realTimeClientAction';
+} from '../action/realTimeClientAction.js';
 import {
   getHeadsignFromRouteLongName,
   isPlatformChanged,
-} from '../util/legUtils';
-import { splitGtfsId } from '../util/gtfs';
+} from '../util/legUtils.js';
+import { splitGtfsId } from '../util/gtfs.js';
 
 const getDropoffMessage = (hasOnlyDropoff, hasNoStop) => {
   if (hasNoStop) {

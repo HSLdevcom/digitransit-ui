@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import Icon from '../Icon';
-import { openDeepLink } from '../../util/vehicleRentalUtils';
+import Icon from '../Icon.jsx';
+import { openDeepLink } from '../../util/vehicleRentalUtils.js';
 
 export default function CallAgencyDisclaimer({
   textId,

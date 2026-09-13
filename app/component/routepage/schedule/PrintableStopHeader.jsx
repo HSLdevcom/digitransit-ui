@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from '../../Icon';
+import Icon from '../../Icon.jsx';
 
 /**
  * Displays the selected origin and destination when printing the schedule page.

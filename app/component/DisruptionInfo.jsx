@@ -3,8 +3,8 @@ import React, { useContext } from 'react';
 import { useIntl } from 'react-intl';
 import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
 import Modal from '@hsl-fi/modal';
-import Loading from './Loading';
-import DisruptionListContainer from './DisruptionListContainer';
+import Loading from './Loading.jsx';
+import DisruptionListContainer from './DisruptionListContainer.jsx';
 
 export default function DisruptionInfo(props, context) {
   const { setOpen } = props;

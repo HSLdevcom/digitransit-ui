@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import StopCode from './StopCode';
-import { getTerminalOrStationText } from '../util/localeUtils';
+import StopCode from './StopCode.jsx';
+import { getTerminalOrStationText } from '../util/localeUtils.js';
 
 export default function AddressRow({
   desc,

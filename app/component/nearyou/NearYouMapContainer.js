@@ -1,5 +1,5 @@
 import { graphql, createPaginationContainer } from 'react-relay';
-import NearYouMap from '../map/NearYouMap';
+import NearYouMap from '../map/NearYouMap.jsx';
 
 const containerComponent = createPaginationContainer(
   NearYouMap,

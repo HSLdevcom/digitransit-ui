@@ -4,12 +4,12 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import cx from 'classnames';
 import { matchShape } from 'found';
 import debounce from 'lodash/debounce';
-import RouteControlPanel from './RouteControlPanel';
-import { getStartTime } from '../../util/timeUtils';
-import TripStopListContainer from './TripStopListContainer';
-import withBreakpoint from '../../util/withBreakpoint';
-import ScrollableWrapper from '../ScrollableWrapper';
-import { routeShape } from '../../util/shapes';
+import RouteControlPanel from './RouteControlPanel.jsx';
+import { getStartTime } from '../../util/timeUtils.js';
+import TripStopListContainer from './TripStopListContainer.jsx';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
+import ScrollableWrapper from '../ScrollableWrapper.jsx';
+import { routeShape } from '../../util/shapes.js';
 
 const TripStopsContainer = memo(function TripStopsContainer({
   breakpoint,

@@ -2,17 +2,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
-import { legShape } from '../../util/shapes';
-import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { displayDistance } from '../../util/geo-utils';
-import { durationToString } from '../../util/timeUtils';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { legTimeStr, legDestination } from '../../util/legUtils';
-import TaxiLinkContainer from './TaxiLinkContainer';
-import { splitStringToAddressAndPlace } from '../../util/otpStrings';
-import ItineraryCircleLine from './ItineraryCircleLine';
+import { legShape } from '../../util/shapes.js';
+import Icon from '../Icon.jsx';
+import ItineraryMapAction from './ItineraryMapAction.jsx';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import { displayDistance } from '../../util/geo-utils.js';
+import { durationToString } from '../../util/timeUtils.js';
+import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon.jsx';
+import { legTimeStr, legDestination } from '../../util/legUtils.js';
+import TaxiLinkContainer from './TaxiLinkContainer.jsx';
+import { splitStringToAddressAndPlace } from '../../util/otpStrings.js';
+import ItineraryCircleLine from './ItineraryCircleLine.jsx';
 
 export default function TaxiLeg(props) {
   const intl = useIntl();

@@ -2,7 +2,7 @@ import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { configShape } from '../../../../util/shapes';
+import { configShape } from '../../../../util/shapes.js';
 
 const NaviGeolocationInfo = ({ logo, onClose }) => {
   const intl = useIntl();

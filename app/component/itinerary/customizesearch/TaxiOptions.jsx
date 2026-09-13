@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import SettingsToggle from './SettingsToggle';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { settingsShape } from '../../../util/shapes';
-import Icon from '../../Icon';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+import SettingsToggle from './SettingsToggle.jsx';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils.js';
+import { settingsShape } from '../../../util/shapes.js';
+import Icon from '../../Icon.jsx';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
 
 export default function TaxiOptions({ settings, updateSettings }) {
   const config = useConfigContext();

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useTranslation, I18nextProvider } from 'react-i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import i18n from './helpers/i18n';
+import i18n from './helpers/i18n.js';
 import styles from './helpers/styles.scss';
 
 /**

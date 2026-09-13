@@ -5,11 +5,11 @@ import { QueryRenderer, graphql } from 'react-relay';
 import Link from 'found/Link';
 import cx from 'classnames';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
-import VehicleIcon from '../VehicleIcon';
-import TripLinkWithScroll from './TripLinkWithScroll';
-import { routePagePath, PREFIX_STOPS } from '../../util/path';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { vehicleShape, tripShape } from '../../util/shapes';
+import VehicleIcon from '../VehicleIcon.jsx';
+import TripLinkWithScroll from './TripLinkWithScroll.jsx';
+import { routePagePath, PREFIX_STOPS } from '../../util/path.js';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
+import { vehicleShape, tripShape } from '../../util/shapes.js';
 
 function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }) {
   const { environment } = useContext(ReactRelayContext);

@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { durationToString } from '../../util/timeUtils';
-import { getHeadsignFromRouteLongName, legTime } from '../../util/legUtils';
-import Icon from '../Icon';
-import { legShape } from '../../util/shapes';
+import { durationToString } from '../../util/timeUtils.js';
+import { getHeadsignFromRouteLongName, legTime } from '../../util/legUtils.js';
+import Icon from '../Icon.jsx';
+import { legShape } from '../../util/shapes.js';
 
 const InterlineInfo = ({ legs, leg, usingOwnCarWholeTrip }) => {
   const intl = useIntl();

@@ -1,5 +1,5 @@
 import { createInstance } from 'i18next';
-import translations from './translations';
+import translations from './translations.js';
 
 const i18n = createInstance({
   fallbackLng: 'fi',

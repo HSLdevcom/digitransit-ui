@@ -1,5 +1,5 @@
 import React from 'react';
-import { configShape } from '../util/shapes';
+import { configShape } from '../util/shapes.js';
 
 const TitleComponent = (props, { config: { title } }) => <span>{title}</span>;
 

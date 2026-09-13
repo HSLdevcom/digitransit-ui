@@ -5,19 +5,19 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import Link from 'found/Link';
-import ExternalLink from './ExternalLink';
-import Icon from './Icon';
-import RouteNumber from './RouteNumber';
-import ServiceAlertIcon from './ServiceAlertIcon';
-import { routePagePath, stopPagePath, PREFIX_STOPS } from '../util/path';
+import ExternalLink from './ExternalLink.jsx';
+import Icon from './Icon.jsx';
+import RouteNumber from './RouteNumber.jsx';
+import ServiceAlertIcon from './ServiceAlertIcon.jsx';
+import { routePagePath, stopPagePath, PREFIX_STOPS } from '../util/path.js';
 import {
   entityCompare,
   getEntitiesOfType,
   mapAlertSource,
-} from '../util/alertUtils';
-import { AlertEntityType } from '../constants';
-import { getRouteMode } from '../util/modeUtils';
-import { useConfigContext } from '../configurations/ConfigContext';
+} from '../util/alertUtils.js';
+import { AlertEntityType } from '../constants.js';
+import { getRouteMode } from '../util/modeUtils.js';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 export const getAlertRoutePath = gtfsId => routePagePath(gtfsId, PREFIX_STOPS);
 

@@ -4,16 +4,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-import AlertRow from './AlertRow';
+import AlertRow from './AlertRow.jsx';
 import {
   alertCompare,
   getEntitiesOfType,
   isAlertValid,
-} from '../util/alertUtils';
-import { alertShape } from '../util/shapes';
-import { useCurrentTime } from '../hooks/TimeContext';
-import withBreakpoint from '../util/withBreakpoint';
-import { AlertEntityType, AlertSeverityLevelType } from '../constants';
+} from '../util/alertUtils.js';
+import { alertShape } from '../util/shapes.js';
+import { useCurrentTime } from '../hooks/TimeContext.jsx';
+import withBreakpoint from '../util/withBreakpoint.jsx';
+import { AlertEntityType, AlertSeverityLevelType } from '../constants.js';
 
 const AlertList = ({
   cancelations = [],

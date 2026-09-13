@@ -10,19 +10,19 @@ import L from 'leaflet';
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 import isEmpty from 'lodash/isEmpty';
-import { configShape } from '../../util/shapes';
-import VehicleMarkerContainer from './VehicleMarkerContainer';
+import { configShape } from '../../util/shapes.js';
+import VehicleMarkerContainer from './VehicleMarkerContainer.jsx';
 import {
   startRealTimeClient,
   stopRealTimeClient,
-} from '../../action/realTimeClientAction';
-import PositionMarker from './PositionMarker';
-import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
-import { boundWithMinimumArea } from '../../util/geo-utils';
-import events from '../../util/events';
-import { getLayerBaseUrl } from '../../util/mapLayerUtils';
-import GeoJSON from './GeoJSON';
-import { mapLayerShape } from '../../store/MapLayerStore';
+} from '../../action/realTimeClientAction.js';
+import PositionMarker from './PositionMarker.jsx';
+import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer.jsx';
+import { boundWithMinimumArea } from '../../util/geo-utils.js';
+import events from '../../util/events.js';
+import { getLayerBaseUrl } from '../../util/mapLayerUtils.js';
+import GeoJSON from './GeoJSON.jsx';
+import { mapLayerShape } from '../../store/MapLayerStore.js';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon_minus"/></svg>`;
 const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon_plus"/></svg>`;

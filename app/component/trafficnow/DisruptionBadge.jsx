@@ -4,8 +4,8 @@ import cx from 'classnames';
 import { useIntl } from 'react-intl';
 import capitalize from 'lodash/capitalize';
 import { Text } from '@hsl-fi/layout-primitives';
-import Icon from '../Icon';
-import { AlertSeverityLevelType } from '../../constants';
+import Icon from '../Icon.jsx';
+import { AlertSeverityLevelType } from '../../constants.js';
 
 const DISRUPTION_BADGE_PREFIX = 'disruption-badge-';
 

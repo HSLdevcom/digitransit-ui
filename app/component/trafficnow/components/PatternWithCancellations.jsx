@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useFragment } from 'react-relay';
 import { useRouter } from 'found';
-import CanceledDepartures from './CanceledDepartures';
+import CanceledDepartures from './CanceledDepartures.jsx';
 import './PatternWithCancellations.scss';
-import CanceledTripsPatternFragment from '../queries/CanceledTripsPatternFragment';
-import { patternShape } from '../../../util/shapes';
-import EntityBadge from './EntityBadge';
-import { PREFIX_TIMETABLE, routePagePath } from '../../../util/path';
+import CanceledTripsPatternFragment from '../queries/CanceledTripsPatternFragment.js';
+import { patternShape } from '../../../util/shapes.js';
+import EntityBadge from './EntityBadge.jsx';
+import { PREFIX_TIMETABLE, routePagePath } from '../../../util/path.js';
 
 const PatternWithCancellations = ({ routeId, pattern: patternRef, mode }) => {
   const pattern = useFragment(CanceledTripsPatternFragment, patternRef);

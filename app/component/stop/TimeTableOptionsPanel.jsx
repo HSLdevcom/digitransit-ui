@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import uniqBy from 'lodash/uniqBy';
-import Icon from '../Icon';
-import { ExtendedRouteTypes } from '../../constants';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { stopShape } from '../../util/shapes';
+import Icon from '../Icon.jsx';
+import { ExtendedRouteTypes } from '../../constants.js';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
+import { stopShape } from '../../util/shapes.js';
 
 const MAX_ROUTEFILTER_LEN = 13;
 

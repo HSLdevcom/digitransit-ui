@@ -1,5 +1,5 @@
 import { createFragmentContainer, graphql } from 'react-relay';
-import StopCardHeader from './StopCardHeader';
+import StopCardHeader from './StopCardHeader.jsx';
 
 export default createFragmentContainer(StopCardHeader, {
   stop: graphql`

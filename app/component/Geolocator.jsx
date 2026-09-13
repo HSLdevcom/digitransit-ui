@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { startLocationWatch } from '../action/PositionActions';
-import Loading from './Loading';
-import { locationToUri } from '../util/otpStrings';
+import { startLocationWatch } from '../action/PositionActions.js';
+import Loading from './Loading.jsx';
+import { locationToUri } from '../util/otpStrings.js';
 
 const Geolocator = () => <Loading />;
 

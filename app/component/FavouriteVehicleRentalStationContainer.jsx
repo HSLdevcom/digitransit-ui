@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Favourite from './Favourite';
-import { getFavouriteByStationIdAndNetworks } from '../data/FavouriteData';
+import Favourite from './Favourite.jsx';
+import { getFavouriteByStationIdAndNetworks } from '../data/FavouriteData.js';
 import {
   useFavourites,
   useFavouriteStatus,
   useFavouriteActions,
-} from '../hooks/FavouriteContext';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
+} from '../hooks/FavouriteContext.jsx';
+import { addAnalyticsEvent } from '../util/analyticsUtils.js';
 
 export default function FavouriteVehicleRentalStationContainer({
   vehicleRentalStation,

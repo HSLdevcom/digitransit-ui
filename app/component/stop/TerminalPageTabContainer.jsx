@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { alertShape } from '../../util/shapes';
-import StopPageTabs from './StopPageTabs';
+import { alertShape } from '../../util/shapes.js';
+import StopPageTabs from './StopPageTabs.jsx';
 
 function TerminalPageTabContainer({ children, station }) {
   return (

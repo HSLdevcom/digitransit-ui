@@ -7,25 +7,25 @@ import cx from 'classnames';
 import {
   vehicleRentalStationShape,
   rentalVehicleShape,
-} from '../../util/shapes';
+} from '../../util/shapes.js';
 import {
   BIKEAVL_UNKNOWN,
   getVehicleCapacity,
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   hasVehicleRentalCode,
-} from '../../util/vehicleRentalUtils';
-import withBreakpoint from '../../util/withBreakpoint';
-import Icon from '../Icon';
-import { PREFIX_BIKESTATIONS } from '../../util/path';
+} from '../../util/vehicleRentalUtils.js';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
+import Icon from '../Icon.jsx';
+import { PREFIX_BIKESTATIONS } from '../../util/path.js';
 import {
   getVehicleAvailabilityTextColor,
   getVehicleAvailabilityIndicatorColor,
-} from '../../util/legUtils';
-import ScooterLinkContainer from './ScooterLinkContainer';
-import IconBadge from '../icon/IconBadge';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { splitGtfsId } from '../../util/gtfs';
+} from '../../util/legUtils.js';
+import ScooterLinkContainer from './ScooterLinkContainer.jsx';
+import IconBadge from '../icon/IconBadge.jsx';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import { splitGtfsId } from '../../util/gtfs.js';
 
 function VehicleRentalLeg({
   stationName,

@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { configShape } from '../../../util/shapes';
-import Icon from '../../Icon';
-import { hasVehicleRentalCode } from '../../../util/vehicleRentalUtils';
-import { splitGtfsId } from '../../../util/gtfs';
+import { configShape } from '../../../util/shapes.js';
+import Icon from '../../Icon.jsx';
+import { hasVehicleRentalCode } from '../../../util/vehicleRentalUtils.js';
+import { splitGtfsId } from '../../../util/gtfs.js';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectVehicleRentalClusterRow(

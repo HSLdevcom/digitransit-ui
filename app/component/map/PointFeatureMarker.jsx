@@ -1,17 +1,17 @@
 import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
-import Card from '../Card';
-import GenericMarker from './GenericMarker';
-import MarkerPopupBottom from './MarkerPopupBottom';
-import { isPointTypeGeometry } from '../../util/geo-utils';
+import Card from '../Card.jsx';
+import GenericMarker from './GenericMarker.jsx';
+import MarkerPopupBottom from './MarkerPopupBottom.jsx';
+import { isPointTypeGeometry } from '../../util/geo-utils.js';
 import {
   getCaseRadius,
   getStopRadius,
   getHubRadius,
   getMapIconScale,
-} from '../../util/mapIconUtils';
-import PopupHeader from './PopupHeader';
+} from '../../util/mapIconUtils.js';
+import PopupHeader from './PopupHeader.jsx';
 
 /**
  * The minimum radius at which the default round icon is visible.

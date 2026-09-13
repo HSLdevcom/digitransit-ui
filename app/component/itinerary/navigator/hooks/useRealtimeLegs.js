@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
-import { legTime } from '../../../../util/legUtils';
-import { useItineraryContext } from '../../context/ItineraryContext';
-import { REDUCER_ACTION_TYPES } from '../../context/useItineraryReducer';
-import { getRemainingTraversal } from '../NaviUtils';
-import useProcessLegs from './useProcessLegs';
-import useQueryRealtimeLegs from './useQueryRealtimeLegs';
+import { legTime } from '../../../../util/legUtils.js';
+import { useItineraryContext } from '../../context/ItineraryContext.jsx';
+import { REDUCER_ACTION_TYPES } from '../../context/useItineraryReducer.js';
+import { getRemainingTraversal } from '../NaviUtils.jsx';
+import useProcessLegs from './useProcessLegs.js';
+import useQueryRealtimeLegs from './useQueryRealtimeLegs.js';
 import {
   getLegsOfInterest,
   nextTransitIndex,
   shiftLegs,
-} from './utils/realtimeLegUtils';
+} from './utils/realtimeLegUtils.js';
 
 const useRealtimeLegs = (
   relayEnvironment,

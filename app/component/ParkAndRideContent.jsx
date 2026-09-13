@@ -4,13 +4,13 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { Info } from 'luxon';
 import { routerShape } from 'found';
-import { parkShape, errorShape } from '../util/shapes';
-import ParkOrStationHeader from './ParkOrStationHeader';
-import Icon from './Icon';
-import Disclaimer from './Disclaimer';
-import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../util/path';
-import { useConfigContext } from '../configurations/ConfigContext';
-import { useBreakpoint } from '../util/withBreakpoint';
+import { parkShape, errorShape } from '../util/shapes.js';
+import ParkOrStationHeader from './ParkOrStationHeader.jsx';
+import Icon from './Icon.jsx';
+import Disclaimer from './Disclaimer.jsx';
+import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../util/path.js';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
+import { useBreakpoint } from '../util/withBreakpoint.jsx';
 
 function parkLabel(id) {
   return (

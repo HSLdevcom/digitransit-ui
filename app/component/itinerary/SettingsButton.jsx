@@ -2,13 +2,16 @@ import PropTypes from 'prop-types';
 import React, { useState, useCallback, useRef } from 'react';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Icon from '../Icon';
-import { isKeyboardSelectionEvent } from '../../util/browser';
-import { hasCustomizedSettings, getSettings } from '../../util/planParamUtil';
-import { isPersonalizationEnabled } from '../../util/modeUtils';
-import Popover from '../Popover';
-import { getDialogState, setDialogState } from '../../data/localStorage';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import Icon from '../Icon.jsx';
+import { isKeyboardSelectionEvent } from '../../util/browser.js';
+import {
+  hasCustomizedSettings,
+  getSettings,
+} from '../../util/planParamUtil.js';
+import { isPersonalizationEnabled } from '../../util/modeUtils.js';
+import Popover from '../Popover.jsx';
+import { getDialogState, setDialogState } from '../../data/localStorage.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 export default function SettingsButton({ onToggleClick }) {
   const { formatMessage } = useIntl();

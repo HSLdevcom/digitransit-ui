@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import NoItinerariesNote from './NoItinerariesNote';
-import { locationShape } from '../../util/shapes';
+import NoItinerariesNote from './NoItinerariesNote.jsx';
+import { locationShape } from '../../util/shapes.js';
 
 export default function ItinerariesNotFound(props) {
   const { from, to } = props;

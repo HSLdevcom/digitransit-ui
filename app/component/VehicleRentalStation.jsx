@@ -1,14 +1,14 @@
 import React from 'react';
-import { configShape, vehicleRentalStationShape } from '../util/shapes';
-import VehicleRentalAvailability from './VehicleRentalAvailability';
-import Icon from './Icon';
+import { configShape, vehicleRentalStationShape } from '../util/shapes.js';
+import VehicleRentalAvailability from './VehicleRentalAvailability.jsx';
+import Icon from './Icon.jsx';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
   getVehicleCapacity,
   BIKEAVL_UNKNOWN,
   BIKEAVL_WITHMAX,
-} from '../util/vehicleRentalUtils';
+} from '../util/vehicleRentalUtils.js';
 
 const VehicleRentalStation = ({ vehicleRentalStation }, { config }) => {
   const vehicleCapacity = getVehicleCapacity(

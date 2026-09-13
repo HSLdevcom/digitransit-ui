@@ -4,11 +4,11 @@ import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
-import { locationShape, itineraryShape } from '../../util/shapes';
-import Icon from '../Icon';
-import Feedback from './Feedback';
-import StreetBar from './StreetBar';
-import TransitBar from './TransitBar';
+import { locationShape, itineraryShape } from '../../util/shapes.js';
+import Icon from '../Icon.jsx';
+import Feedback from './Feedback.jsx';
+import StreetBar from './StreetBar.jsx';
+import TransitBar from './TransitBar.jsx';
 import {
   getLegMode,
   compressLegs,
@@ -26,30 +26,30 @@ import {
   isLegWithRoute,
   isBoardableLeg,
   isWalkOrBicycleWalkLeg,
-} from '../../util/legUtils';
-import { modeToTranslationId } from '../../util/modeUtils';
+} from '../../util/legUtils.js';
+import { modeToTranslationId } from '../../util/modeUtils.js';
 import {
   dateOrEmpty,
   durationToString,
   isTomorrow,
   timeStr,
-} from '../../util/timeUtils';
-import withBreakpoint from '../../util/withBreakpoint';
-import { isKeyboardSelectionEvent } from '../../util/browser';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { getItineraryPagePath, streetHash } from '../../util/path';
+} from '../../util/timeUtils.js';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
+import { isKeyboardSelectionEvent } from '../../util/browser.js';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
+import { getItineraryPagePath, streetHash } from '../../util/path.js';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
-} from '../../util/vehicleRentalUtils';
-import { getSummaryDescriptionText } from '../../util/localeUtils';
-import getCo2Value from '../../util/emissions';
-import { ItineraryFragment } from './queries/ItineraryFragment';
-import { getTicketString } from '../../util/fareUtils';
-import { ViaLocationType } from '../../constants';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import FirstLegStartTime from './FirstLegStartTime';
-import { normalizeLegLengths } from './itineraryLegProcessor';
+} from '../../util/vehicleRentalUtils.js';
+import { getSummaryDescriptionText } from '../../util/localeUtils.js';
+import getCo2Value from '../../util/emissions.js';
+import { ItineraryFragment } from './queries/ItineraryFragment.js';
+import { getTicketString } from '../../util/fareUtils.js';
+import { ViaLocationType } from '../../constants.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import FirstLegStartTime from './FirstLegStartTime.jsx';
+import { normalizeLegLengths } from './itineraryLegProcessor.js';
 
 const NAME_LENGTH_THRESHOLD = 65; // for truncating long short names
 

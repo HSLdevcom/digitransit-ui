@@ -1,13 +1,13 @@
 import React from 'react';
-import { configShape } from '../../../util/shapes';
-import TileLayerContainer from './TileLayerContainer';
-import VehicleRentalStations from './VehicleRentalStations';
-import Stops from './Stops';
-import ParkAndRideForCars from './ParkAndRideForCars';
-import ParkAndRideForBikes from './ParkAndRideForBikes';
-import { mapLayerShape } from '../../../store/MapLayerStore';
-import RentalVehicles from './RentalVehicles';
-import AreaStops from './AreaStops';
+import { configShape } from '../../../util/shapes.js';
+import TileLayerContainer from './TileLayerContainer.jsx';
+import VehicleRentalStations from './VehicleRentalStations.js';
+import Stops from './Stops.js';
+import ParkAndRideForCars from './ParkAndRideForCars.js';
+import ParkAndRideForBikes from './ParkAndRideForBikes.js';
+import { mapLayerShape } from '../../../store/MapLayerStore.js';
+import RentalVehicles from './RentalVehicles.js';
+import AreaStops from './AreaStops.js';
 
 export default function VectorTileLayerContainer(
   { mapLayers, ...rest },

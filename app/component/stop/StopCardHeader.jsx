@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useRouter } from 'found';
-import { stopShape, stationShape } from '../../util/shapes';
-import CardHeader from '../CardHeader';
-import { getJson } from '../../util/xhrPromise';
-import { saveSearch } from '../../action/SearchActions';
-import { isIOS } from '../../util/browser';
-import FavouriteStopContainer from '../FavouriteStopContainer';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { stopShape, stationShape } from '../../util/shapes.js';
+import CardHeader from '../CardHeader.jsx';
+import { getJson } from '../../util/xhrPromise.js';
+import { saveSearch } from '../../action/SearchActions.js';
+import { isIOS } from '../../util/browser.js';
+import FavouriteStopContainer from '../FavouriteStopContainer.jsx';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 function StopCardHeader(
   {

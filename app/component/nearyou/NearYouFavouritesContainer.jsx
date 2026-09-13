@@ -7,9 +7,9 @@ import {
   stationShape,
   vehicleRentalStationShape,
   locationShape,
-} from '../../util/shapes';
-import StopNearYouContainer from './StopNearYouContainer';
-import VehicleRentalStationNearYou from './VehicleRentalStationNearYou';
+} from '../../util/shapes.js';
+import StopNearYouContainer from './StopNearYouContainer.js';
+import VehicleRentalStationNearYou from './VehicleRentalStationNearYou.jsx';
 
 function NearYouFavouritesContainer({
   stops,

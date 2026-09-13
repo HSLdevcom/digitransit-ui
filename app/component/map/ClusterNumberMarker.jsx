@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { default as L } from 'leaflet';
 
-import { configShape, locationShape } from '../../util/shapes';
-import GenericMarker from './GenericMarker';
+import { configShape, locationShape } from '../../util/shapes.js';
+import GenericMarker from './GenericMarker.jsx';
 
 export default function ClusterNumberMarker({ position, number }, { config }) {
   const objs = [];

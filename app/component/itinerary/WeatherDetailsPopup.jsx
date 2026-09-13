@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Modal from '@hsl-fi/modal';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Icon from '../Icon';
+import Icon from '../Icon.jsx';
 
 export default function WeatherDetailsPopup({ weatherData, onClose }) {
   const intl = useIntl();

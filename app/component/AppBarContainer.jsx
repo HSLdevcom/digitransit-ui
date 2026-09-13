@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useRouter } from 'found';
 import { FormattedMessage } from 'react-intl';
-import withBreakpoint from '../util/withBreakpoint';
-import { useFavourites } from '../hooks/FavouriteContext';
-import AppBar from './AppBar';
-import AppBarHsl from './AppBarHsl';
-import CrisisBannerHsl from './CrisisBannerHsl';
-import MessageBar from './MessageBar';
+import withBreakpoint from '../util/withBreakpoint.jsx';
+import { useFavourites } from '../hooks/FavouriteContext.jsx';
+import AppBar from './AppBar.jsx';
+import AppBarHsl from './AppBarHsl.jsx';
+import CrisisBannerHsl from './CrisisBannerHsl.jsx';
+import MessageBar from './MessageBar.jsx';
 
 const AppBarContainer = ({ homeUrl, logo, style, breakpoint, ...args }) => {
   const { match, router } = useRouter();

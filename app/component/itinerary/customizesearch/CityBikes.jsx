@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import NetworkSelector from './NetworkSelector';
-import { TransportMode } from '../../../constants';
+import NetworkSelector from './NetworkSelector.jsx';
+import { TransportMode } from '../../../constants.js';
 
 export default function CityBikes({ updateSettings }) {
   return (

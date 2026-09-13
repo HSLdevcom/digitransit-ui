@@ -1,7 +1,7 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from '../Icon';
+import Icon from '../Icon.jsx';
 
 export default function UpdateLocationButton({ mode, onClick }) {
   const intl = useIntl();

@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import SearchSettingsDropdown, { valueShape } from './SearchSettingsDropdown';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { findNearestOption } from '../../../util/planParamUtil';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+import SearchSettingsDropdown, {
+  valueShape,
+} from './SearchSettingsDropdown.jsx';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils.js';
+import { findNearestOption } from '../../../util/planParamUtil.js';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
 
 export default function BikingSpeed({ bikeSpeed, updateSettings }) {
   const config = useConfigContext();

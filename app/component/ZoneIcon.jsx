@@ -2,7 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 const ZoneIcon = ({ className, zoneId, showUnknown = true }) => {
   const config = useConfigContext();

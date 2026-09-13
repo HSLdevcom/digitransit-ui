@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
-import { routePagePath, PREFIX_STOPS } from '../../../util/path';
-import { convertTo24HourFormat } from '../../../util/timeUtils';
-import RouteNumber from '../../RouteNumber';
-import { getRouteMode } from '../../../util/modeUtils';
+import { routePagePath, PREFIX_STOPS } from '../../../util/path.js';
+import { convertTo24HourFormat } from '../../../util/timeUtils.js';
+import RouteNumber from '../../RouteNumber.jsx';
+import { getRouteMode } from '../../../util/modeUtils.js';
 
 export default function PopupHeader({
   route,

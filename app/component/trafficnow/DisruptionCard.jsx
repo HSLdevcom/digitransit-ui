@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ArrowLinkButton } from '@hsl-fi/navigation';
 import { Text } from '@hsl-fi/layout-primitives';
-import { AlertSeverityLevelType } from '../../constants';
-import { alertShape } from '../../util/shapes';
-import Card from '../Card';
-import DisruptionBadge from './DisruptionBadge';
-import DisruptionStatus from './components/DisruptionStatus';
-import RouteBadges from './RouteBadges';
-import OperatorBadge from './components/OperatorBadge';
+import { AlertSeverityLevelType } from '../../constants.js';
+import { alertShape } from '../../util/shapes.js';
+import Card from '../Card.jsx';
+import DisruptionBadge from './DisruptionBadge.jsx';
+import DisruptionStatus from './components/DisruptionStatus.jsx';
+import RouteBadges from './RouteBadges.jsx';
+import OperatorBadge from './components/OperatorBadge.jsx';
 
 export default function DisruptionCard({
   alert,

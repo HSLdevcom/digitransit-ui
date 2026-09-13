@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { legShape } from '../../util/shapes';
-import TransitLeg from './TransitLeg';
-import CallAgencyDisclaimer from './CallAgencyDisclaimer';
-import RouteNumberContainer from '../RouteNumber';
-import withBreakpoint from '../../util/withBreakpoint';
-import { isLocalCallAgency } from '../../util/legUtils';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { legShape } from '../../util/shapes.js';
+import TransitLeg from './TransitLeg.jsx';
+import CallAgencyDisclaimer from './CallAgencyDisclaimer.jsx';
+import RouteNumberContainer from '../RouteNumber.jsx';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
+import { isLocalCallAgency } from '../../util/legUtils.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 const CallAgencyLeg = ({ leg, breakpoint, ...props }) => {
   const intl = useIntl();

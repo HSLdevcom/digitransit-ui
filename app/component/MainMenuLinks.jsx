@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import MenuItem from './MenuItem';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
+import MenuItem from './MenuItem.jsx';
+import { addAnalyticsEvent } from '../util/analyticsUtils.js';
 
 export default function MainMenuLinks({ closeMenu, content = [] }) {
   return (

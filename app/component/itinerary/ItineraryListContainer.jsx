@@ -3,13 +3,13 @@ import React from 'react';
 import { useFragment } from 'react-relay';
 import { useRouter } from 'found';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { planEdgeShape } from '../../util/shapes';
-import Icon from '../Icon';
-import ItineraryList from './ItineraryList';
-import { isIOS, isSafari } from '../../util/browser';
-import ItineraryNotification from './ItineraryNotification';
-import { transitEdges } from './ItineraryPageUtils';
-import { ItineraryListContainerPlanEdges } from './queries/ItineraryListContainerPlanEdges';
+import { planEdgeShape } from '../../util/shapes.js';
+import Icon from '../Icon.jsx';
+import ItineraryList from './ItineraryList.jsx';
+import { isIOS, isSafari } from '../../util/browser.js';
+import ItineraryNotification from './ItineraryNotification.jsx';
+import { transitEdges } from './ItineraryPageUtils.js';
+import { ItineraryListContainerPlanEdges } from './queries/ItineraryListContainerPlanEdges.js';
 
 function ItineraryListContainer({
   planEdges: planEdgesRef,

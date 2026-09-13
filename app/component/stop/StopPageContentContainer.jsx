@@ -7,11 +7,11 @@ import {
   errorShape,
   relayShape,
   stopShape,
-} from '../../util/shapes';
-import DepartureListContainer from '../DepartureListContainer';
-import Icon from '../Icon';
-import ScrollableWrapper from '../ScrollableWrapper';
-import { useCurrentTime } from '../../hooks/TimeContext';
+} from '../../util/shapes.js';
+import DepartureListContainer from '../DepartureListContainer.jsx';
+import Icon from '../Icon.jsx';
+import ScrollableWrapper from '../ScrollableWrapper.jsx';
+import { useCurrentTime } from '../../hooks/TimeContext.jsx';
 
 function StopPageContent({ stop, relay, error, match }, { config }) {
   const intl = useIntl();

@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import SettingsToggle from './SettingsToggle';
-import Icon from '../../Icon';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { settingsShape } from '../../../util/shapes';
+import SettingsToggle from './SettingsToggle.jsx';
+import Icon from '../../Icon.jsx';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils.js';
+import { settingsShape } from '../../../util/shapes.js';
 
 export default function AccessibilityOptions({ settings, updateSettings }) {
   const onToggle = () => {

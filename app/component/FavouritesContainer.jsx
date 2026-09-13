@@ -5,19 +5,19 @@ import FavouriteBar from '@digitransit-component/digitransit-component-favourite
 import FavouriteModal from '@digitransit-component/digitransit-component-favourite-modal';
 import FavouriteEditModal from '@digitransit-component/digitransit-component-favourite-editing-modal';
 import { useIntl } from 'react-intl';
-import LoginPrompt from './LoginPrompt';
+import LoginPrompt from './LoginPrompt.jsx';
 import {
   withSearchContext,
   getLocationSearchTargets,
-} from './WithSearchContext';
+} from './WithSearchContext.jsx';
 import {
   useFavourites,
   useFavouriteStatus,
   useFavouriteActions,
-} from '../hooks/FavouriteContext';
-import { STATUS_FETCHING_OR_UPDATING } from '../data/FavouriteData';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { useConfigContext } from '../configurations/ConfigContext';
+} from '../hooks/FavouriteContext.jsx';
+import { STATUS_FETCHING_OR_UPDATING } from '../data/FavouriteData.js';
+import { addAnalyticsEvent } from '../util/analyticsUtils.js';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 const AutoSuggestWithSearchContext = withSearchContext(AutoSuggest);
 

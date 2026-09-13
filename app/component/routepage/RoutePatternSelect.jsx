@@ -5,12 +5,12 @@ import { useSelect } from 'downshift';
 import { Link, useRouter } from 'found';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
-import Icon from '../Icon';
-import { routePagePath } from '../../util/path';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { patternShape, routeShape } from '../../util/shapes';
-import { useBreakpoint } from '../../util/withBreakpoint';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import Icon from '../Icon.jsx';
+import { routePagePath } from '../../util/path.js';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
+import { patternShape, routeShape } from '../../util/shapes.js';
+import { useBreakpoint } from '../../util/withBreakpoint.jsx';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 function patternOptionText(pattern) {
   if (!pattern) {

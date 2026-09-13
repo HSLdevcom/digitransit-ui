@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { settingsShape, minTransferTimeShape } from '../../../util/shapes';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import SearchSettingsDropdown from './SearchSettingsDropdown';
+import { settingsShape, minTransferTimeShape } from '../../../util/shapes.js';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils.js';
+import SearchSettingsDropdown from './SearchSettingsDropdown.jsx';
 
 export default function MinTransferTime({
   minTransferTimeOptions,

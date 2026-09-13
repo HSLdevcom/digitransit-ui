@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import { alertShape, configShape } from '../util/shapes';
-import Icon from './Icon';
+import { alertShape, configShape } from '../util/shapes.js';
+import Icon from './Icon.jsx';
 
 function DisruptionInfoButton(props, { config }) {
   if (!config.disruption || config.disruption.showInfoButton) {

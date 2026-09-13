@@ -8,14 +8,14 @@ import React, {
   useEffect,
 } from 'react';
 import { matchShape } from 'found';
-import MapBottomsheetContext from './map/MapBottomsheetContext';
-import MobileFooter from './MobileFooter';
+import MapBottomsheetContext from './map/MapBottomsheetContext.js';
+import MobileFooter from './MobileFooter.jsx';
 
 import {
   PREFIX_ROUTES,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
-} from '../util/path';
+} from '../util/path.js';
 
 const noBottomSheetResetAtContentChange = [
   PREFIX_ROUTES,

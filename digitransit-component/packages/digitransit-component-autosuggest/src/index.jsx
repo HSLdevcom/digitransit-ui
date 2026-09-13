@@ -14,13 +14,13 @@ import { useCombobox } from 'downshift';
 import Icon, {
   defaultColors,
 } from '@digitransit-component/digitransit-component-icon';
-import i18n from './utils/i18n';
+import i18n from './utils/i18n.js';
 import styles from './components/styles.scss';
-import { getSuggestionValue, suggestionAsAriaContent } from './utils/utils';
-import MobileView from './components/MobileView';
-import { Input } from './components/Input';
-import { Suggestions } from './components/Suggestions';
-import { searchReducer } from './utils/searchReducer';
+import { getSuggestionValue, suggestionAsAriaContent } from './utils/utils.js';
+import MobileView from './components/MobileView.jsx';
+import { Input } from './components/Input.jsx';
+import { Suggestions } from './components/Suggestions.jsx';
+import { searchReducer } from './utils/searchReducer.js';
 
 const getAriaProps = ({
   id,

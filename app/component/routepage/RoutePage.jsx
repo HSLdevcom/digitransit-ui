@@ -4,35 +4,35 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
-import { routeShape, errorShape } from '../../util/shapes';
-import Icon from '../Icon';
-import RouteAgencyInfo from './RouteAgencyInfo';
-import RouteNumber from '../RouteNumber';
-import RouteControlPanel from './RouteControlPanel';
-import { useCurrentTime } from '../../hooks/TimeContext';
+import { routeShape, errorShape } from '../../util/shapes.js';
+import Icon from '../Icon.jsx';
+import RouteAgencyInfo from './RouteAgencyInfo.jsx';
+import RouteNumber from '../RouteNumber.jsx';
+import RouteControlPanel from './RouteControlPanel.jsx';
+import { useCurrentTime } from '../../hooks/TimeContext.jsx';
 import {
   PREFIX_ROUTES,
   PREFIX_DISRUPTION,
   routePagePath,
-} from '../../util/path';
-import withBreakpoint from '../../util/withBreakpoint';
-import BackButton from '../BackButton';
-import { getRouteMode, modeToTranslationId } from '../../util/modeUtils';
+} from '../../util/path.js';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
+import BackButton from '../BackButton.jsx';
+import { getRouteMode, modeToTranslationId } from '../../util/modeUtils.js';
 import {
   getModeIconColor,
   ensureColorAccessibleOnWhite,
-} from '../../util/colorUtils';
-import AlertBanner from '../AlertBanner';
+} from '../../util/colorUtils.js';
+import AlertBanner from '../AlertBanner.jsx';
 import {
   hasEntitiesOfType,
   hasMeaningfulData,
   isAlertValid,
-} from '../../util/alertUtils';
-import { AlertEntityType } from '../../constants';
-import FavouriteRouteContainer from './FavouriteRouteContainer';
-import RouteNotificationButton from './RouteNotificationButton';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { isLocalCallAgency } from '../../util/legUtils';
+} from '../../util/alertUtils.js';
+import { AlertEntityType } from '../../constants.js';
+import FavouriteRouteContainer from './FavouriteRouteContainer.jsx';
+import RouteNotificationButton from './RouteNotificationButton.jsx';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import { isLocalCallAgency } from '../../util/legUtils.js';
 
 function resolveHeadsign(pattern) {
   if (!pattern) {

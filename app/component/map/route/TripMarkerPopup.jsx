@@ -4,11 +4,11 @@ import { createFragmentContainer, graphql } from 'react-relay';
 
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { routePagePath, PREFIX_STOPS } from '../../../util/path';
+import { routePagePath, PREFIX_STOPS } from '../../../util/path.js';
 
-import PopupHeader from './PopupHeader';
+import PopupHeader from './PopupHeader.jsx';
 
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
+import { addAnalyticsEvent } from '../../../util/analyticsUtils.js';
 
 function TripMarkerPopup({ trip, message }) {
   const patternPath = routePagePath(

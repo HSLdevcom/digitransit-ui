@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import SettingsButton from './SettingsButton';
-import DatetimepickerContainer from '../DatetimepickerContainer';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import SettingsButton from './SettingsButton.jsx';
+import DatetimepickerContainer from '../DatetimepickerContainer.jsx';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 export default function SearchSettings({ toggleSettings }) {
   const config = useConfigContext();

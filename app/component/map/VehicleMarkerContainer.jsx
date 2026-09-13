@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { ExtendedRouteTypes } from '../../constants';
-import VehicleIcon from '../VehicleIcon';
-import IconMarker from './IconMarker';
-import { splitGtfsId } from '../../util/gtfs';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { ExtendedRouteTypes } from '../../constants.js';
+import VehicleIcon from '../VehicleIcon.jsx';
+import IconMarker from './IconMarker.jsx';
+import { splitGtfsId } from '../../util/gtfs.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 const MODES_WITH_ICONS = [
   'bus',

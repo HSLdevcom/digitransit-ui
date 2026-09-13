@@ -2,9 +2,9 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import PropTypes from 'prop-types';
-import { withSearchContext } from '../../WithSearchContext';
-import { useConfigContext } from '../../../configurations/ConfigContext';
-import { useFilterContext } from './FiltersContext';
+import { withSearchContext } from '../../WithSearchContext.jsx';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
+import { useFilterContext } from './FiltersContext.jsx';
 
 const searchSources = ['Favourite', 'History', 'Datasource'];
 

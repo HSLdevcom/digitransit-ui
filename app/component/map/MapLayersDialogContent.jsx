@@ -3,21 +3,21 @@ import React, { Fragment } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 
-import { mapLayerOptionsShape } from '../../util/shapes';
-import { isKeyboardSelectionEvent } from '../../util/browser';
-import Icon from '../Icon';
-import Checkbox from '../Checkbox';
-import GeoJsonStore from '../../store/GeoJsonStore';
-import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
-import { updateMapLayers } from '../../action/MapLayerActions';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import withGeojsonObjects from './withGeojsonObjects';
+import { mapLayerOptionsShape } from '../../util/shapes.js';
+import { isKeyboardSelectionEvent } from '../../util/browser.js';
+import Icon from '../Icon.jsx';
+import Checkbox from '../Checkbox.jsx';
+import GeoJsonStore from '../../store/GeoJsonStore.js';
+import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore.js';
+import { updateMapLayers } from '../../action/MapLayerActions.js';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
+import withGeojsonObjects from './withGeojsonObjects.jsx';
 import {
   getTransportModes,
   showRentalVehiclesOfType,
-} from '../../util/modeUtils';
-import { TransportMode } from '../../constants';
-import { useConfigContext } from '../../configurations/ConfigContext';
+} from '../../util/modeUtils.js';
+import { TransportMode } from '../../constants.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 const sendLayerChangeAnalytic = (name, enable) => {
   const action = enable ? 'ShowMapLayer' : 'HideMapLayer';

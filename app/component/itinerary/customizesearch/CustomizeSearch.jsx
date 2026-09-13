@@ -1,30 +1,30 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import React, { useState } from 'react';
-import Icon from '../../Icon';
-import StreetModeSelector from './StreetModeSelector';
-import TransportModes from './TransportModes';
-import WalkingOptions from './WalkingOptions';
-import Personalization from './Personalization';
-import MinTransferTime from './MinTransferTime';
-import AccessibilityOptions from './AccessibilityOptions';
-import TransferOptions from './TransferOptions';
-import CityBikes from './CityBikes';
-import Scooters from './Scooters';
-import TaxiOptions from './TaxiOptions';
-import RestoreDefaultSettings from './RestoreDefaultSettings';
+import Icon from '../../Icon.jsx';
+import StreetModeSelector from './StreetModeSelector.jsx';
+import TransportModes from './TransportModes.jsx';
+import WalkingOptions from './WalkingOptions.jsx';
+import Personalization from './Personalization.jsx';
+import MinTransferTime from './MinTransferTime.jsx';
+import AccessibilityOptions from './AccessibilityOptions.jsx';
+import TransferOptions from './TransferOptions.jsx';
+import CityBikes from './CityBikes.jsx';
+import Scooters from './Scooters.jsx';
+import TaxiOptions from './TaxiOptions.jsx';
+import RestoreDefaultSettings from './RestoreDefaultSettings.jsx';
 import {
   showModeSettings,
   useCitybikes,
   useScooters,
-} from '../../../util/modeUtils';
-import { getSettings } from '../../../util/planParamUtil';
+} from '../../../util/modeUtils.js';
+import { getSettings } from '../../../util/planParamUtil.js';
 import {
   getCustomizedSettings,
   setCustomizedSettings,
-} from '../../../data/localStorage';
-import ScrollableWrapper from '../../ScrollableWrapper';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+} from '../../../data/localStorage.js';
+import ScrollableWrapper from '../../ScrollableWrapper.jsx';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
 
 export default function CustomizeSearch({ onToggleClick, mobile }) {
   const config = useConfigContext();

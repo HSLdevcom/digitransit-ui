@@ -4,8 +4,8 @@ import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { RadioGroup } from '@hsl-fi/form';
 import { Text } from '@hsl-fi/layout-primitives';
 import { useIntl } from 'react-intl';
-import { useConfigContext } from '../../../configurations/ConfigContext';
-import { setPersonalization } from '../../../data/localStorage';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
+import { setPersonalization } from '../../../data/localStorage.js';
 
 export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
   const intl = useIntl();

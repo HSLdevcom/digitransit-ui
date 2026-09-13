@@ -2,9 +2,9 @@ import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import RouteNumberContainer from '../../RouteNumberContainer';
-import { routeShape } from '../../../util/shapes';
-import Icon from '../../Icon';
+import RouteNumberContainer from '../../RouteNumberContainer.jsx';
+import { routeShape } from '../../../util/shapes.js';
+import Icon from '../../Icon.jsx';
 
 const BoardingInfo = ({
   route,

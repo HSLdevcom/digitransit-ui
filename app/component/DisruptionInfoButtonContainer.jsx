@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
-import DisruptionInfoButton from './DisruptionInfoButton';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
+import DisruptionInfoButton from './DisruptionInfoButton.jsx';
+import { addAnalyticsEvent } from '../util/analyticsUtils.js';
 
 function DisruptionInfoButtonContainer(
   { onClick = () => {} },

@@ -2,10 +2,10 @@ import { FormattedMessage } from 'react-intl';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { openDeepLink } from '../../util/vehicleRentalUtils';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import Icon from '../Icon';
-import ExternalLink from '../ExternalLink';
+import { openDeepLink } from '../../util/vehicleRentalUtils.js';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
+import Icon from '../Icon.jsx';
+import ExternalLink from '../ExternalLink.jsx';
 
 export default function TaxiLinkContainer({
   operatorName,

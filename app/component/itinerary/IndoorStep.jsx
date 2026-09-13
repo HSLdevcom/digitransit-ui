@@ -2,18 +2,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
-import { configShape } from '../../util/shapes';
-import Icon from '../Icon';
+import { configShape } from '../../util/shapes.js';
+import Icon from '../Icon.jsx';
 import {
   getIndoorTranslationId,
   getVerticalTransportationUseIconId,
-} from '../../util/indoorUtils';
+} from '../../util/indoorUtils.js';
 import {
   IndoorLegType,
   IndoorStepType,
   VerticalDirection,
-} from '../../constants';
-import ItineraryMapAction from './ItineraryMapAction';
+} from '../../constants.js';
+import ItineraryMapAction from './ItineraryMapAction.jsx';
 
 function IndoorStep({
   focusAction,

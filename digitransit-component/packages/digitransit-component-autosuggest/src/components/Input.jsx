@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { ClearButton } from './ClearButton';
-import { isKeyboardSelectionEvent } from '../utils/utils';
+import { ClearButton } from './ClearButton.jsx';
+import { isKeyboardSelectionEvent } from '../utils/utils.js';
 
 export function Input({
   id,

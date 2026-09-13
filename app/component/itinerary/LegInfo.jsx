@@ -4,20 +4,23 @@ import Link from 'found/Link';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import Modal from '@hsl-fi/modal';
-import { legShape } from '../../util/shapes';
-import { legTimeStr, isLocalCallAgency } from '../../util/legUtils';
-import { getTripOrRouteMode, modeToTranslationId } from '../../util/modeUtils';
-import RouteNumber from '../RouteNumber';
-import { routePagePath, PREFIX_STOPS } from '../../util/path';
+import { legShape } from '../../util/shapes.js';
+import { legTimeStr, isLocalCallAgency } from '../../util/legUtils.js';
+import {
+  getTripOrRouteMode,
+  modeToTranslationId,
+} from '../../util/modeUtils.js';
+import RouteNumber from '../RouteNumber.jsx';
+import { routePagePath, PREFIX_STOPS } from '../../util/path.js';
 import {
   getCapacityForLeg,
   capacityToTranslationId,
-} from '../../util/occupancyUtil';
-import Icon from '../Icon';
-import CapacityModal from '../CapacityModal';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import OnDemandInfo from './OnDemandInfo';
-import RouteNumberContainer from '../RouteNumberContainer';
+} from '../../util/occupancyUtil.js';
+import Icon from '../Icon.jsx';
+import CapacityModal from '../CapacityModal.jsx';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import OnDemandInfo from './OnDemandInfo.jsx';
+import RouteNumberContainer from '../RouteNumberContainer.jsx';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 export default function LegInfo({

@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { epochToTime } from '../../util/timeUtils';
-import Icon from '../Icon';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import { epochToTime } from '../../util/timeUtils.js';
+import Icon from '../Icon.jsx';
 
 export default function DepartureTime({
   className = '',

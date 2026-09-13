@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { getReadMessageIds, setReadMessageId } from '../../data/localStorage';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import Disclaimer from '../Disclaimer';
+import {
+  getReadMessageIds,
+  setReadMessageId,
+} from '../../data/localStorage.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import Disclaimer from '../Disclaimer.jsx';
 
 const ParkInfo = ({ mode }) => {
   const { language, parkAndRide } = useConfigContext();

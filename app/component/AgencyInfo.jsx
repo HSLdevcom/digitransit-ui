@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ExternalLink from './ExternalLink';
+import ExternalLink from './ExternalLink.jsx';
 
 function AgencyInfo({ agencyName, url }) {
   if (agencyName && url) {

@@ -5,23 +5,23 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import { useLazyLoadQuery } from 'react-relay/hooks';
 import { Text } from '@hsl-fi/layout-primitives';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { TransportMode } from '../../constants';
-import { useBreakpoint } from '../../util/withBreakpoint';
-import Icon from '../Icon';
-import CanceledTripCard from './CanceledTripCard';
-import DisruptionCard from './DisruptionCard';
-import NoDisruptions from './components/NoDisruptions';
-import { useFilterContext } from './filters/FiltersContext';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import { TransportMode } from '../../constants.js';
+import { useBreakpoint } from '../../util/withBreakpoint.jsx';
+import Icon from '../Icon.jsx';
+import CanceledTripCard from './CanceledTripCard.jsx';
+import DisruptionCard from './DisruptionCard.jsx';
+import NoDisruptions from './components/NoDisruptions.jsx';
+import { useFilterContext } from './filters/FiltersContext.jsx';
 import {
   filterAndSortAlerts,
   filterCanceledModes,
-} from './filters/filterUtils';
-import AlertsQuery from './queries/AlertsQuery';
-import CanceledTripsOverviewQuery from './queries/CanceledTripsOverviewQuery';
-import { buildDisruptionCards } from './utils';
-import { TRAFFICNOW } from '../../util/path';
-import { splitGtfsId } from '../../util/gtfs';
+} from './filters/filterUtils.js';
+import AlertsQuery from './queries/AlertsQuery.js';
+import CanceledTripsOverviewQuery from './queries/CanceledTripsOverviewQuery.js';
+import { buildDisruptionCards } from './utils.js';
+import { TRAFFICNOW } from '../../util/path.js';
+import { splitGtfsId } from '../../util/gtfs.js';
 
 const POLL_INTERVAL_MS = 60 * 1000;
 

@@ -13,11 +13,11 @@ import React, {
 import { FormattedMessage } from 'react-intl';
 import { fetchQuery } from 'react-relay';
 import { useRouter } from 'found';
-import { saveFutureRoute } from '../../util/storeUtils';
-import { startLocationWatch } from '../../action/PositionActions';
-import { saveSearch } from '../../action/SearchActions';
-import { TransportMode } from '../../constants';
-import { mapLayerShape } from '../../store/MapLayerStore';
+import { saveFutureRoute } from '../../util/storeUtils.js';
+import { startLocationWatch } from '../../action/PositionActions.js';
+import { saveSearch } from '../../action/SearchActions.js';
+import { TransportMode } from '../../constants.js';
+import { mapLayerShape } from '../../store/MapLayerStore.js';
 import {
   clearLatestNavigatorItinerary,
   getDialogState,
@@ -26,36 +26,36 @@ import {
   setDialogState,
   getPersonalization,
   setPersonalization,
-} from '../../data/localStorage';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { getWeatherData } from '../../util/apiUtils';
-import { isIOS } from '../../util/browser';
-import { boundWithMinimumArea, GeodeticToEcef } from '../../util/geo-utils';
+} from '../../data/localStorage.js';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
+import { getWeatherData } from '../../util/apiUtils.js';
+import { isIOS } from '../../util/browser.js';
+import { boundWithMinimumArea, GeodeticToEcef } from '../../util/geo-utils.js';
 import {
   getIntermediatePlaces,
   otpToLocation,
   parseLatLon,
-} from '../../util/otpStrings';
-import { getItineraryPagePath, streetHash } from '../../util/path';
+} from '../../util/otpStrings.js';
+import { getItineraryPagePath, streetHash } from '../../util/path.js';
 import {
   getPlanParams,
   getSettings,
   planQueryNeeded,
   PLANTYPE,
-} from '../../util/planParamUtil';
-import { mapLayerOptionsShape, relayShape } from '../../util/shapes';
-import { epochToTime } from '../../util/timeUtils';
-import { getAllNetworksOfType } from '../../util/vehicleRentalUtils';
-import { isPersonalizationEnabled } from '../../util/modeUtils';
-import DesktopView from '../DesktopView';
-import Loading from '../Loading';
-import MobileView from '../MobileView';
-import ItineraryPageMap from '../map/ItineraryPageMap';
-import AlternativeItineraryBar from './AlternativeItineraryBar';
-import CustomizeSearch from './customizesearch/CustomizeSearch';
-import { spinnerPosition } from './ItineraryList';
-import ItineraryListContainer from './ItineraryListContainer';
-import ItineraryPageControls from './ItineraryPageControls';
+} from '../../util/planParamUtil.js';
+import { mapLayerOptionsShape, relayShape } from '../../util/shapes.js';
+import { epochToTime } from '../../util/timeUtils.js';
+import { getAllNetworksOfType } from '../../util/vehicleRentalUtils.js';
+import { isPersonalizationEnabled } from '../../util/modeUtils.js';
+import DesktopView from '../DesktopView.jsx';
+import Loading from '../Loading.jsx';
+import MobileView from '../MobileView.jsx';
+import ItineraryPageMap from '../map/ItineraryPageMap.jsx';
+import AlternativeItineraryBar from './AlternativeItineraryBar.jsx';
+import CustomizeSearch from './customizesearch/CustomizeSearch.jsx';
+import { spinnerPosition } from './ItineraryList.jsx';
+import ItineraryListContainer from './ItineraryListContainer.jsx';
+import ItineraryPageControls from './ItineraryPageControls.jsx';
 import {
   addBikeStationMapForRentalVehicleItineraries,
   checkDayNight,
@@ -85,16 +85,16 @@ import {
   updateClient,
   rateItineraries,
   applyFeedback,
-} from './ItineraryPageUtils';
-import ItineraryTabs from './ItineraryTabs';
-import { useItineraryContext } from './context/ItineraryContext';
-import { REDUCER_ACTION_TYPES } from './context/useItineraryReducer';
-import NaviContainer from './navigator/NaviContainer';
-import NaviGeolocationInfoModal from './navigator/navigatorgeolocation/NaviGeolocationInfoModal';
-import NavigatorIntroModal from './navigator/navigatorintro/NavigatorIntroModal';
-import { planConnection } from './queries/PlanConnection';
-import { isCallAgencyLeg, hasTaxiLegs } from '../../util/legUtils';
-import { useConfigContext } from '../../configurations/ConfigContext';
+} from './ItineraryPageUtils.js';
+import ItineraryTabs from './ItineraryTabs.jsx';
+import { useItineraryContext } from './context/ItineraryContext.jsx';
+import { REDUCER_ACTION_TYPES } from './context/useItineraryReducer.js';
+import NaviContainer from './navigator/NaviContainer.jsx';
+import NaviGeolocationInfoModal from './navigator/navigatorgeolocation/NaviGeolocationInfoModal.jsx';
+import NavigatorIntroModal from './navigator/navigatorintro/NavigatorIntroModal.jsx';
+import { planConnection } from './queries/PlanConnection.js';
+import { isCallAgencyLeg, hasTaxiLegs } from '../../util/legUtils.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
 

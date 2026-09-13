@@ -1,5 +1,5 @@
 import { graphql } from 'react-relay';
-import './CanceledDeparturesFragment';
+import './CanceledDeparturesFragment.js';
 
 export default graphql`
   fragment CanceledTripsPatternFragment on Pattern

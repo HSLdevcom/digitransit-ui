@@ -2,13 +2,13 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { entityShape } from '../../util/shapes';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { AlertEntityType } from '../../constants';
-import { groupEntitiesByMode } from './utils';
-import { useFilterContext } from './filters/FiltersContext';
-import RouteBadgeGroup from './components/RouteBadgeGroup';
-import EntityBadge from './components/EntityBadge';
+import { entityShape } from '../../util/shapes.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import { AlertEntityType } from '../../constants.js';
+import { groupEntitiesByMode } from './utils.js';
+import { useFilterContext } from './filters/FiltersContext.jsx';
+import RouteBadgeGroup from './components/RouteBadgeGroup.jsx';
+import EntityBadge from './components/EntityBadge.jsx';
 
 export default function RouteBadges({
   entities: rawEntities,

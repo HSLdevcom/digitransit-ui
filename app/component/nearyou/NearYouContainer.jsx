@@ -2,19 +2,19 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { createPaginationContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { relayShape } from '../../util/shapes';
-import StopNearYouContainer from './StopNearYouContainer';
-import withBreakpoint from '../../util/withBreakpoint';
+import { relayShape } from '../../util/shapes.js';
+import StopNearYouContainer from './StopNearYouContainer.js';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
 import {
   sortNearYouRentalStations,
   sortNearYouStops,
-} from '../../util/sortUtils';
-import VehicleRentalStationNearYou from './VehicleRentalStationNearYou';
-import ParkNearYou from './ParkNearYou';
-import Loading from '../Loading';
-import Icon from '../Icon';
-import DisruptionBanner from '../DisruptionBanner';
-import { useConfigContext } from '../../configurations/ConfigContext';
+} from '../../util/sortUtils.js';
+import VehicleRentalStationNearYou from './VehicleRentalStationNearYou.jsx';
+import ParkNearYou from './ParkNearYou.jsx';
+import Loading from '../Loading.jsx';
+import Icon from '../Icon.jsx';
+import DisruptionBanner from '../DisruptionBanner.jsx';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 function NearYouContainer({
   places,

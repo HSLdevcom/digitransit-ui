@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useIntl } from 'react-intl';
-import Icon from '../Icon';
+import Icon from '../Icon.jsx';
 
 function RoutePatternHeader({
   origin,

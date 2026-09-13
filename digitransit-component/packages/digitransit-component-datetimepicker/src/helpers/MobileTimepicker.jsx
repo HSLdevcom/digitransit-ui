@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Settings } from 'luxon';
 import cx from 'classnames';
 import styles from './styles.scss';
-import { parseTypedTime, getTs, validateInput } from './utils';
+import { parseTypedTime, getTs, validateInput } from './utils.js';
 
 /**
  * Component to display a time input on mobile

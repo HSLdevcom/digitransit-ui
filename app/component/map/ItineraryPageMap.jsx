@@ -2,21 +2,21 @@
 import { matchShape, routerShape } from 'found';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { onLocationPopup } from '../../util/queryUtils';
+import { onLocationPopup } from '../../util/queryUtils.js';
 import {
   configShape,
   itineraryShape,
   locationShape,
   planEdgeShape,
-} from '../../util/shapes';
-import BackButton from '../BackButton';
-import CookieSettingsButton from '../CookieSettingsButton';
-import ItineraryLine from './ItineraryLine';
-import LocationMarker from './LocationMarker';
-import ParkingAreaMarker from './non-tile-layer/ParkingAreaMarker';
-import MapWithTracking from './MapWithTracking';
-import VehicleMarkerContainer from './VehicleMarkerContainer';
-import { isBikeParkLeg, isCarParkLeg } from '../../util/legUtils';
+} from '../../util/shapes.js';
+import BackButton from '../BackButton.jsx';
+import CookieSettingsButton from '../CookieSettingsButton.jsx';
+import ItineraryLine from './ItineraryLine.jsx';
+import LocationMarker from './LocationMarker.jsx';
+import ParkingAreaMarker from './non-tile-layer/ParkingAreaMarker.jsx';
+import MapWithTracking from './MapWithTracking.jsx';
+import VehicleMarkerContainer from './VehicleMarkerContainer.jsx';
+import { isBikeParkLeg, isCarParkLeg } from '../../util/legUtils.js';
 
 const POINT_FOCUS_ZOOM = 17; // default
 

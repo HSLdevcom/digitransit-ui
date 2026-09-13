@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { configShape, fareShape } from '../../util/shapes';
-import { renderZoneTicket } from './ZoneTicket';
-import { getAlternativeFares, formatFare } from '../../util/fareUtils';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { configShape, fareShape } from '../../util/shapes.js';
+import { renderZoneTicket } from './ZoneTicket.jsx';
+import { getAlternativeFares, formatFare } from '../../util/fareUtils.js';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
 
 export default function MobileTicketPurchaseInformation(
   { fares, zones },

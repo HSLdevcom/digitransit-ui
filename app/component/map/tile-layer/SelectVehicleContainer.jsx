@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
-import TripMarkerPopup from '../route/TripMarkerPopup';
-import SelectVehicleRow from './SelectVehicleRow';
-import { vehicleShape } from '../../../util/shapes';
+import TripMarkerPopup from '../route/TripMarkerPopup.jsx';
+import SelectVehicleRow from './SelectVehicleRow.jsx';
+import { vehicleShape } from '../../../util/shapes.js';
 
 const rowQuery = graphql`
   query SelectVehicleContainerRowQuery($tripId: String!) {

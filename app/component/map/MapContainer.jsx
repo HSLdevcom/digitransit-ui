@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
-import MapBottomsheetContext from './MapBottomsheetContext';
-import withGeojsonObjects from './withGeojsonObjects';
-import Map from './Map';
+import MapBottomsheetContext from './MapBottomsheetContext.js';
+import withGeojsonObjects from './withGeojsonObjects.jsx';
+import Map from './Map.jsx';
 
 function MapContainer({ className, children, ...props }) {
   const contextPadding = useContext(MapBottomsheetContext);

@@ -5,9 +5,12 @@ import React, { useState } from 'react';
 
 import Select from 'react-select';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import { truncateLabel } from '../../../util/stringUtils';
-import { useConfigContext } from '../../../configurations/ConfigContext';
-import { getAriaMessages, getClassNamePrefix } from './scheduleDropdownUtils';
+import { truncateLabel } from '../../../util/stringUtils.js';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
+import {
+  getAriaMessages,
+  getClassNamePrefix,
+} from './scheduleDropdownUtils.js';
 
 export const handleScheduleDropdownChange = (
   selectedOption,

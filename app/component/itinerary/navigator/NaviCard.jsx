@@ -1,16 +1,19 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import cx from 'classnames';
-import { isAnyLegPropertyIdentical, isRental } from '../../../util/legUtils';
-import { getTripOrRouteMode, transitIconName } from '../../../util/modeUtils';
-import { configShape, legShape } from '../../../util/shapes';
-import Icon from '../../Icon';
-import NaviCardExtension from './NaviCardExtension';
-import NaviInstructions from './NaviInstructions';
-import { LEGTYPE } from './NaviUtils';
-import usePrevious from './hooks/usePrevious';
-import { IndoorLegType, NaviCardType } from '../../../constants';
-import { getIndoorLegType } from '../../../util/indoorUtils';
+import { isAnyLegPropertyIdentical, isRental } from '../../../util/legUtils.js';
+import {
+  getTripOrRouteMode,
+  transitIconName,
+} from '../../../util/modeUtils.js';
+import { configShape, legShape } from '../../../util/shapes.js';
+import Icon from '../../Icon.jsx';
+import NaviCardExtension from './NaviCardExtension.jsx';
+import NaviInstructions from './NaviInstructions.jsx';
+import { LEGTYPE } from './NaviUtils.jsx';
+import usePrevious from './hooks/usePrevious.js';
+import { IndoorLegType, NaviCardType } from '../../../constants.js';
+import { getIndoorLegType } from '../../../util/indoorUtils.js';
 
 const iconMap = {
   BICYCLE: 'icon_cyclist',

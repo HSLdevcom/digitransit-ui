@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Button, Text } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import Card from '../Card';
-import CancellationContainer from './components/CancellationContainer';
-import ResultsProgressBar from './components/ResultsProgressBar';
-import { patternShape, routeShape } from '../../util/shapes';
-import CTAContainer from './components/CTAContainer';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import Card from '../Card.jsx';
+import CancellationContainer from './components/CancellationContainer.jsx';
+import ResultsProgressBar from './components/ResultsProgressBar.jsx';
+import { patternShape, routeShape } from '../../util/shapes.js';
+import CTAContainer from './components/CTAContainer.jsx';
 
 const DEFAULT_ROUTES_SHOWN_AMOUNT = 8;
 

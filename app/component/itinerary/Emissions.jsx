@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import Icon from '../Icon';
-import { itineraryShape } from '../../util/shapes';
-import getCo2Value from '../../util/emissions';
+import Icon from '../Icon.jsx';
+import { itineraryShape } from '../../util/shapes.js';
+import getCo2Value from '../../util/emissions.js';
 
 export default function Emissions({
   itinerary,

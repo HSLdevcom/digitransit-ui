@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Icon from './Icon';
+import Icon from './Icon.jsx';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
-} from '../util/vehicleRentalUtils';
-import { rentalVehicleShape } from '../util/shapes';
+} from '../util/vehicleRentalUtils.js';
+import { rentalVehicleShape } from '../util/shapes.js';
 
 const RentalVehicle = ({ rentalVehicle }, { config }) => {
   const vehicleIcon = getRentalNetworkIcon(

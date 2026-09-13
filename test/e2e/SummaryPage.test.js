@@ -1,8 +1,8 @@
 /* eslint-disable compat/compat */
 /* eslint-disable no-undef */
 import fs from 'fs';
-import getConfig from './helpers/image-snapshot-config';
-import * as MockHelper from './helpers/mock-request-helper';
+import getConfig from './helpers/image-snapshot-config.js';
+import * as MockHelper from './helpers/mock-request-helper.js';
 import summaryPageMockData from './mock-data/SummaryPageQueryResponse.json';
 import walkBikeMockData from './mock-data/WalkBikeQueryResponse.json';
 

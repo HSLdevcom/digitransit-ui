@@ -4,14 +4,14 @@ import { DateTime } from 'luxon';
 
 import Select, { components as RSComponents } from 'react-select';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Icon from '../Icon';
+import Icon from '../Icon.jsx';
 import {
   extractSelectedValue,
   formatDateLabel,
   processDates,
   groupDatesByWeek,
   generateDateRange,
-} from '../../util/dateSelectUtils';
+} from '../../util/dateSelectUtils.js';
 
 export const handleDateSelectChange = (option, onDateChange) => {
   onDateChange(option.value);

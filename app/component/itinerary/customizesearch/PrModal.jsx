@@ -5,9 +5,9 @@ import cx from 'classnames';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { ButtonLink, Spacer, Text } from '@hsl-fi/layout-primitives';
 import { ArrowLink } from '@hsl-fi/navigation';
-import Icon from '../../Icon';
-import { useConfigContext } from '../../../configurations/ConfigContext';
-import { useBreakpoint } from '../../../util/withBreakpoint';
+import Icon from '../../Icon.jsx';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
+import { useBreakpoint } from '../../../util/withBreakpoint.jsx';
 
 export default function PrModal({ closeModal }) {
   const config = useConfigContext();

@@ -4,20 +4,23 @@ import React, { Fragment } from 'react';
 import some from 'lodash/some';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
-import { configShape, locationShape } from '../util/shapes';
+import { configShape, locationShape } from '../util/shapes.js';
 import {
   getHomeUrl,
   PREFIX_STOPS,
   PREFIX_ROUTES,
   PREFIX_TERMINALS,
   PREFIX_BIKESTATIONS,
-} from '../util/path';
-import AppBarContainer from './AppBarContainer';
-import MobileView from './MobileView';
-import DesktopView from './DesktopView';
-import ErrorBoundary from './ErrorBoundary';
-import { DesktopOrMobile } from '../util/withBreakpoint';
-import { addAnalyticsEvent, handleUserAnalytics } from '../util/analyticsUtils';
+} from '../util/path.js';
+import AppBarContainer from './AppBarContainer.jsx';
+import MobileView from './MobileView.jsx';
+import DesktopView from './DesktopView.jsx';
+import ErrorBoundary from './ErrorBoundary.jsx';
+import { DesktopOrMobile } from '../util/withBreakpoint.jsx';
+import {
+  addAnalyticsEvent,
+  handleUserAnalytics,
+} from '../util/analyticsUtils.js';
 
 class TopLevel extends React.Component {
   static propTypes = {

@@ -2,12 +2,12 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { useFilterContext } from './FiltersContext';
-import { useConfigContext } from '../../../configurations/ConfigContext';
-import { getTransportModes } from '../../../util/modeUtils';
-import { TrafficNowTransportModes } from '../../../constants';
-import Icon from '../../Icon';
-import { useBreakpoint } from '../../../util/withBreakpoint';
+import { useFilterContext } from './FiltersContext.jsx';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
+import { getTransportModes } from '../../../util/modeUtils.js';
+import { TrafficNowTransportModes } from '../../../constants.js';
+import Icon from '../../Icon.jsx';
+import { useBreakpoint } from '../../../util/withBreakpoint.jsx';
 
 const VehicleModesFilter = ({ filterId }) => {
   const config = useConfigContext();

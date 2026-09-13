@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useRouter } from 'found';
-import Icon from '../../Icon';
-import IconBackground from '../../icon/IconBackground';
-import { useFavourites } from '../../../hooks/FavouriteContext';
-import EntityBadge from './EntityBadge';
+import Icon from '../../Icon.jsx';
+import IconBackground from '../../icon/IconBackground.jsx';
+import { useFavourites } from '../../../hooks/FavouriteContext.jsx';
+import EntityBadge from './EntityBadge.jsx';
 
 const STOP_SIGN_ICON_SCALE = 0.5;
 const NORMAL_ICON_SCALE = 1;

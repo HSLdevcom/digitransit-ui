@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { configShape } from '../../util/shapes';
-import { getDialogState, setDialogState } from '../../data/localStorage';
+import { configShape } from '../../util/shapes.js';
+import { getDialogState, setDialogState } from '../../data/localStorage.js';
 
-import Icon from '../Icon';
+import Icon from '../Icon.jsx';
 
 const RouteNotification = ({ notification, lang }, context) => {
   const intl = useIntl();

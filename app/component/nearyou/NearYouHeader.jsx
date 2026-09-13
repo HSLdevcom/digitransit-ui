@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'found';
-import { stopShape } from '../../util/shapes';
-import AddressRow from '../AddressRow';
-import ZoneIcon from '../ZoneIcon';
-import PlatformNumber from '../PlatformNumber';
-import FavouriteStopContainer from '../FavouriteStopContainer';
-import { getZoneLabel } from '../../util/legUtils';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { splitGtfsId } from '../../util/gtfs';
+import { stopShape } from '../../util/shapes.js';
+import AddressRow from '../AddressRow.jsx';
+import ZoneIcon from '../ZoneIcon.jsx';
+import PlatformNumber from '../PlatformNumber.jsx';
+import FavouriteStopContainer from '../FavouriteStopContainer.jsx';
+import { getZoneLabel } from '../../util/legUtils.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import { splitGtfsId } from '../../util/gtfs.js';
 
 const NearYouHeader = ({ stop, desc, isStation, linkAddress, mode }) => {
   const config = useConfigContext();

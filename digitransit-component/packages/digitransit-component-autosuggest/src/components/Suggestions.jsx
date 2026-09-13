@@ -6,7 +6,7 @@ import cx from 'classnames';
 import {
   getSuggestionContent,
   translateFutureRouteSuggestionTime,
-} from '../utils/utils';
+} from '../utils/utils.js';
 
 const Suggestion = memo(function Suggestion({
   item,

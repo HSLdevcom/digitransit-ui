@@ -5,10 +5,10 @@ import DTAutoSuggest from '@digitransit-component/digitransit-component-autosugg
 import {
   withSearchContext,
   getLocationSearchTargets,
-} from '../WithSearchContext';
-import { countLocations } from '../../data/FavouriteData';
-import { useFavourites } from '../../hooks/FavouriteContext';
-import { useConfigContext } from '../../configurations/ConfigContext';
+} from '../WithSearchContext.jsx';
+import { countLocations } from '../../data/FavouriteData.js';
+import { useFavourites } from '../../hooks/FavouriteContext.jsx';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import MenuDrawer from './MenuDrawer';
-import MainMenu from './MainMenu';
+import MenuDrawer from './MenuDrawer.jsx';
+import MainMenu from './MainMenu.jsx';
 
 export default function MainMenuContainer({ breakpoint, closeMenu, ...rest }) {
   return (

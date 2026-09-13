@@ -4,7 +4,7 @@ import { DateTime, Settings } from 'luxon';
 import { useSelect } from 'downshift';
 import cx from 'classnames';
 import styles from './styles.scss';
-import { isAndroid } from './mobileDetection';
+import { isAndroid } from './mobileDetection.js';
 
 const AndroidSelect = ({
   value,

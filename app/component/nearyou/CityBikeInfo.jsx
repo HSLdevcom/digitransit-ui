@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { getReadMessageIds, setReadMessageId } from '../../data/localStorage';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import {
+  getReadMessageIds,
+  setReadMessageId,
+} from '../../data/localStorage.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 import {
   getRentalNetworkConfig,
   getRentalNetworkId,
-} from '../../util/vehicleRentalUtils';
-import Disclaimer from '../Disclaimer';
+} from '../../util/vehicleRentalUtils.js';
+import Disclaimer from '../Disclaimer.jsx';
 
 const CityBikeInfo = () => {
   const config = useConfigContext();

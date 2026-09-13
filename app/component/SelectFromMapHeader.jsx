@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Icon from './Icon';
-import { useConfigContext } from '../configurations/ConfigContext';
+import Icon from './Icon.jsx';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 export default function SelectFromMapHeader(props) {
   const { colors } = useConfigContext();

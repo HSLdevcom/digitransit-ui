@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createFragmentContainer, graphql } from 'react-relay';
 
-import StopPageHeader from './StopPageHeader';
+import StopPageHeader from './StopPageHeader.jsx';
 
 const TerminalPageHeader = props => <StopPageHeader {...props} isTerminal />;
 

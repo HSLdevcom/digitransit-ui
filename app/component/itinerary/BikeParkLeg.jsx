@@ -3,14 +3,14 @@ import cx from 'classnames';
 import { Link } from 'found';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { displayDistance } from '../../util/geo-utils';
-import { legDestination, legTimeStr } from '../../util/legUtils';
-import { PREFIX_BIKEPARK } from '../../util/path';
-import { configShape, legShape, parkShape } from '../../util/shapes';
-import { durationToString } from '../../util/timeUtils';
-import Icon from '../Icon';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import ItineraryMapAction from './ItineraryMapAction';
+import { displayDistance } from '../../util/geo-utils.js';
+import { legDestination, legTimeStr } from '../../util/legUtils.js';
+import { PREFIX_BIKEPARK } from '../../util/path.js';
+import { configShape, legShape, parkShape } from '../../util/shapes.js';
+import { durationToString } from '../../util/timeUtils.js';
+import Icon from '../Icon.jsx';
+import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon.jsx';
+import ItineraryMapAction from './ItineraryMapAction.jsx';
 
 const BikeParkLeg = ({ leg, index, focusAction, bikePark }, { config }) => {
   const intl = useIntl();

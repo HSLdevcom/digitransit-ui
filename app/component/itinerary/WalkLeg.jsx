@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
-import { legShape } from '../../util/shapes';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { legShape } from '../../util/shapes.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 import {
   legTime,
   legTimeStr,
@@ -13,24 +13,24 @@ import {
   isTaxiLeg,
   getValidatedLegName,
   isBikeOrScooterRentalLeg,
-} from '../../util/legUtils';
-import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import PlatformNumber from '../PlatformNumber';
-import SubwayEntranceInfo from './SubwayEntranceInfo';
-import ServiceAlertIcon from '../ServiceAlertIcon';
-import { getActiveAlertSeverityLevel } from '../../util/alertUtils';
-import { PREFIX_STOPS } from '../../util/path';
+} from '../../util/legUtils.js';
+import Icon from '../Icon.jsx';
+import ItineraryMapAction from './ItineraryMapAction.jsx';
+import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon.jsx';
+import PlatformNumber from '../PlatformNumber.jsx';
+import SubwayEntranceInfo from './SubwayEntranceInfo.jsx';
+import ServiceAlertIcon from '../ServiceAlertIcon.jsx';
+import { getActiveAlertSeverityLevel } from '../../util/alertUtils.js';
+import { PREFIX_STOPS } from '../../util/path.js';
 import {
   RentalNetworkType,
   getRentalNetworkConfig,
-} from '../../util/vehicleRentalUtils';
-import { displayDistance } from '../../util/geo-utils';
-import { durationToString } from '../../util/timeUtils';
-import { splitStringToAddressAndPlace } from '../../util/otpStrings';
-import VehicleRentalLeg from './VehicleRentalLeg';
-import IndoorInfo from './IndoorInfo';
+} from '../../util/vehicleRentalUtils.js';
+import { displayDistance } from '../../util/geo-utils.js';
+import { durationToString } from '../../util/timeUtils.js';
+import { splitStringToAddressAndPlace } from '../../util/otpStrings.js';
+import VehicleRentalLeg from './VehicleRentalLeg.jsx';
+import IndoorInfo from './IndoorInfo.jsx';
 import {
   subwayTransferUsesSameStation,
   getIndoorLegType,
@@ -38,9 +38,9 @@ import {
   getStepFocusAction,
   getEntranceWheelchairAccessibility,
   getEntranceName,
-} from '../../util/indoorUtils';
-import IndoorStep from './IndoorStep';
-import { IndoorLegType } from '../../constants';
+} from '../../util/indoorUtils.js';
+import IndoorStep from './IndoorStep.jsx';
+import { IndoorLegType } from '../../constants.js';
 
 function WalkLeg({
   children,

@@ -2,28 +2,31 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { routerShape } from 'found';
 import { default as L } from 'leaflet';
-import { TransportMode } from '../../../constants';
+import { TransportMode } from '../../../constants.js';
 import {
   vehicleRentalStationShape,
   rentalVehicleShape,
   configShape,
-} from '../../../util/shapes';
-import Icon from '../../Icon';
-import GenericMarker from '../GenericMarker';
+} from '../../../util/shapes.js';
+import Icon from '../../Icon.jsx';
+import GenericMarker from '../GenericMarker.jsx';
 import {
   BIKEAVL_UNKNOWN,
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   getVehicleCapacity,
-} from '../../../util/vehicleRentalUtils';
+} from '../../../util/vehicleRentalUtils.js';
 import {
   getVehicleAvailabilityIndicatorColor,
   getVehicleAvailabilityTextColor,
-} from '../../../util/legUtils';
+} from '../../../util/legUtils.js';
 
-import { PREFIX_BIKESTATIONS, PREFIX_RENTALVEHICLES } from '../../../util/path';
-import { renderAsString } from '../../../util/mapIconUtils';
-import IconBadge from '../../icon/IconBadge';
+import {
+  PREFIX_BIKESTATIONS,
+  PREFIX_RENTALVEHICLES,
+} from '../../../util/path.js';
+import { renderAsString } from '../../../util/mapIconUtils.js';
+import IconBadge from '../../icon/IconBadge.jsx';
 
 // Small icon for zoom levels <= 15
 const smallIconSvg = `

@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useRouter } from 'found';
 import { FormattedMessage } from 'react-intl';
-import OriginDestinationBar from './OriginDestinationBar';
-import SearchSettings from './SearchSettings';
-import { parseLocation, streetHash } from '../../util/path';
-import withBreakpoint from '../../util/withBreakpoint';
-import BackButton from '../BackButton';
+import OriginDestinationBar from './OriginDestinationBar.jsx';
+import SearchSettings from './SearchSettings.jsx';
+import { parseLocation, streetHash } from '../../util/path.js';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
+import BackButton from '../BackButton.jsx';
 
 function ItineraryPageControls({ breakpoint, toggleSettings }) {
   const { match } = useRouter();

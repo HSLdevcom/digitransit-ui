@@ -2,12 +2,12 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { itineraryShape } from '../../util/shapes';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { displayDistance } from '../../util/geo-utils';
-import { getTotalDistance } from '../../util/legUtils';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import SecondaryButton from '../SecondaryButton';
+import { itineraryShape } from '../../util/shapes.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import { displayDistance } from '../../util/geo-utils.js';
+import { getTotalDistance } from '../../util/legUtils.js';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
+import SecondaryButton from '../SecondaryButton.jsx';
 
 const printItinerary = e => {
   e.stopPropagation();

@@ -3,20 +3,20 @@ import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-import { alertShape, configShape, vehicleShape } from '../../util/shapes';
-import TripLink from './TripLink';
-import FuzzyTripLink from './FuzzyTripLink';
-import AddressRow from '../AddressRow';
-import ServiceAlertIcon from '../ServiceAlertIcon';
-import { fromStopTime } from './DepartureTime';
-import { stopPagePath } from '../../util/path';
-import { getActiveAlertSeverityLevel } from '../../util/alertUtils';
-import { estimateItineraryDistance } from '../../util/geo-utils';
-import ZoneIcon from '../ZoneIcon';
-import { getZoneLabel } from '../../util/legUtils';
-import getVehicleState from '../../util/vehicleStateUtils';
-import { ensureColorAccessibleOnWhite } from '../../util/colorUtils';
-import { splitGtfsId } from '../../util/gtfs';
+import { alertShape, configShape, vehicleShape } from '../../util/shapes.js';
+import TripLink from './TripLink.jsx';
+import FuzzyTripLink from './FuzzyTripLink.jsx';
+import AddressRow from '../AddressRow.jsx';
+import ServiceAlertIcon from '../ServiceAlertIcon.jsx';
+import { fromStopTime } from './DepartureTime.jsx';
+import { stopPagePath } from '../../util/path.js';
+import { getActiveAlertSeverityLevel } from '../../util/alertUtils.js';
+import { estimateItineraryDistance } from '../../util/geo-utils.js';
+import ZoneIcon from '../ZoneIcon.jsx';
+import { getZoneLabel } from '../../util/legUtils.js';
+import getVehicleState from '../../util/vehicleStateUtils.js';
+import { ensureColorAccessibleOnWhite } from '../../util/colorUtils.js';
+import { splitGtfsId } from '../../util/gtfs.js';
 
 const TripRouteStop = (props, { config }) => {
   const {

@@ -3,17 +3,17 @@ import React, { useEffect, useState } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
-import Icon from './Icon';
-import withBreakpoint from '../util/withBreakpoint';
+import Icon from './Icon.jsx';
+import withBreakpoint from '../util/withBreakpoint.jsx';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
-} from '../util/vehicleRentalUtils';
-import { PREFIX_RENTALVEHICLES } from '../util/path';
-import VehicleRentalLeg from './itinerary/VehicleRentalLeg';
-import BackButton from './BackButton';
-import { rentalVehicleShape } from '../util/shapes';
-import { useConfigContext } from '../configurations/ConfigContext';
+} from '../util/vehicleRentalUtils.js';
+import { PREFIX_RENTALVEHICLES } from '../util/path.js';
+import VehicleRentalLeg from './itinerary/VehicleRentalLeg.jsx';
+import BackButton from './BackButton.jsx';
+import { rentalVehicleShape } from '../util/shapes.js';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 function RentalVehicleContent({
   rentalVehicle,

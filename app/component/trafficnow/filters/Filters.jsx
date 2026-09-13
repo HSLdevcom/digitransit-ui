@@ -2,13 +2,13 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
-import ValidityPeriodFilter from './ValidityPeriodFilter';
-import { useFilterContext } from './FiltersContext';
-import { useBreakpoint } from '../../../util/withBreakpoint';
-import VehicleModesFilter from './VehicleModesFilter';
-import EntitySearch from './EntitySearch';
-import ToggleableFilters from './ToggleableFilters';
-import OperatorSelect from './OperatorSelect';
+import ValidityPeriodFilter from './ValidityPeriodFilter.jsx';
+import { useFilterContext } from './FiltersContext.jsx';
+import { useBreakpoint } from '../../../util/withBreakpoint.jsx';
+import VehicleModesFilter from './VehicleModesFilter.jsx';
+import EntitySearch from './EntitySearch.jsx';
+import ToggleableFilters from './ToggleableFilters.jsx';
+import OperatorSelect from './OperatorSelect.jsx';
 
 const Separator = () => <div className="separator horizontal" />;
 

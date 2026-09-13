@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import TruncatedMessage from './TruncatedMessage';
-import { useConfigContext } from '../configurations/ConfigContext';
+import TruncatedMessage from './TruncatedMessage.jsx';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 export default function MessageBarMessage({
   content,

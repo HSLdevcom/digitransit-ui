@@ -4,15 +4,15 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape } from 'found';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import { routeShape } from '../../util/shapes';
-import RouteStopListContainer from './RouteStopListContainer';
-import withBreakpoint from '../../util/withBreakpoint';
-import RouteControlPanel from './RouteControlPanel';
-import { routePagePath } from '../../util/path';
-import Error404 from '../404';
-import ScrollableWrapper from '../ScrollableWrapper';
-import { ExtendedRouteTypes } from '../../constants';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { routeShape } from '../../util/shapes.js';
+import RouteStopListContainer from './RouteStopListContainer.jsx';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
+import RouteControlPanel from './RouteControlPanel.jsx';
+import { routePagePath } from '../../util/path.js';
+import Error404 from '../404.jsx';
+import ScrollableWrapper from '../ScrollableWrapper.jsx';
+import { ExtendedRouteTypes } from '../../constants.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 function PatternStopsContainer({ pattern, match, breakpoint, route }) {
   const intl = useIntl();

@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import uniqueId from 'lodash/uniqueId.js';
 import Modal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import MobileDatepicker from './MobileDatepicker';
-import MobileTimepicker from './MobileTimepicker';
+import MobileDatepicker from './MobileDatepicker.jsx';
+import MobileTimepicker from './MobileTimepicker.jsx';
 import styles from './styles.scss';
 
 Settings.defaultLocale = 'en';

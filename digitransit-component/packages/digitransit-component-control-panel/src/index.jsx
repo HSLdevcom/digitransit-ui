@@ -6,10 +6,10 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation, I18nextProvider } from 'react-i18next';
 import { defaultColors } from '@digitransit-component/digitransit-component-icon';
 import Shimmer from '@hsl-fi/shimmer';
-import NearYouButton from './helpers/NearYouButton';
-import AllModesModal from './helpers/AllModesModal';
+import NearYouButton from './helpers/NearYouButton.jsx';
+import AllModesModal from './helpers/AllModesModal.jsx';
 import styles from './helpers/styles.scss';
-import i18n from './helpers/i18n';
+import i18n from './helpers/i18n.js';
 
 const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];

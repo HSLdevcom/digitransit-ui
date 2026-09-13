@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import SettingsToggle from './SettingsToggle';
-import Icon from '../../Icon';
+import SettingsToggle from './SettingsToggle.jsx';
+import Icon from '../../Icon.jsx';
 import {
   getTransitModes,
   getModes,
   toggleTransportMode,
   modeToTranslationId,
-} from '../../../util/modeUtils';
-import { getModeIconColor } from '../../../util/colorUtils';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+} from '../../../util/modeUtils.js';
+import { getModeIconColor } from '../../../util/colorUtils.js';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
 
 export default function TransportModes({ updateSettings }) {
   const config = useConfigContext();

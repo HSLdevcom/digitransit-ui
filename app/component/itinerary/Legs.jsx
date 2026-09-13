@@ -2,20 +2,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useRouter } from 'found';
-import { fareShape, itineraryShape, relayShape } from '../../util/shapes';
-import TransitLeg from './TransitLeg';
-import WalkLeg from './WalkLeg';
-import WaitLeg from './WaitLeg';
-import BicycleLeg from './BicycleLeg';
-import EndLeg from './EndLeg';
-import AirportCheckInLeg from './AirportCheckInLeg';
-import AirportCollectLuggageLeg from './AirportCollectLuggageLeg';
-import StopCode from '../StopCode';
-import CarLeg from './CarLeg';
-import CarParkLeg from './CarParkLeg';
-import ViaLeg from './ViaLeg';
-import CallAgencyLeg from './CallAgencyLeg';
-import TaxiLeg from './TaxiLeg';
+import { fareShape, itineraryShape, relayShape } from '../../util/shapes.js';
+import TransitLeg from './TransitLeg.jsx';
+import WalkLeg from './WalkLeg.jsx';
+import WaitLeg from './WaitLeg.jsx';
+import BicycleLeg from './BicycleLeg.jsx';
+import EndLeg from './EndLeg.jsx';
+import AirportCheckInLeg from './AirportCheckInLeg.jsx';
+import AirportCollectLuggageLeg from './AirportCollectLuggageLeg.jsx';
+import StopCode from '../StopCode.jsx';
+import CarLeg from './CarLeg.jsx';
+import CarParkLeg from './CarParkLeg.jsx';
+import ViaLeg from './ViaLeg.jsx';
+import CallAgencyLeg from './CallAgencyLeg.jsx';
+import TaxiLeg from './TaxiLeg.jsx';
 import {
   compressLegs,
   isCallAgencyLeg,
@@ -24,13 +24,13 @@ import {
   legTime,
   markViaPoints,
   getBoardingLeg,
-} from '../../util/legUtils';
-import { getTripOrRouteMode } from '../../util/modeUtils';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import Profile from './Profile';
-import BikeParkLeg from './BikeParkLeg';
-import { getIntermediatePlaces } from '../../util/otpStrings';
-import { useConfigContext } from '../../configurations/ConfigContext';
+} from '../../util/legUtils.js';
+import { getTripOrRouteMode } from '../../util/modeUtils.js';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
+import Profile from './Profile.jsx';
+import BikeParkLeg from './BikeParkLeg.jsx';
+import { getIntermediatePlaces } from '../../util/otpStrings.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 const stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 

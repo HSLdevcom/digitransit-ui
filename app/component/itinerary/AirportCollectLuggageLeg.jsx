@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
-import { legShape, configShape } from '../../util/shapes';
-import { legTimeStr } from '../../util/legUtils';
-import Icon from '../Icon';
-import ItineraryCircleLine from './ItineraryCircleLine';
-import ItineraryMapAction from './ItineraryMapAction';
-import { stopPagePath } from '../../util/path';
+import { legShape, configShape } from '../../util/shapes.js';
+import { legTimeStr } from '../../util/legUtils.js';
+import Icon from '../Icon.jsx';
+import ItineraryCircleLine from './ItineraryCircleLine.jsx';
+import ItineraryMapAction from './ItineraryMapAction.jsx';
+import { stopPagePath } from '../../util/path.js';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function AirportCollectLuggageLeg(props, { config }) {

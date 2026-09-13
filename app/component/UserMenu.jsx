@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import Icon from './Icon';
-import { isKeyboardSelectionEvent } from '../util/browser';
-import { userShape } from '../util/shapes';
+import Icon from './Icon.jsx';
+import { isKeyboardSelectionEvent } from '../util/browser.js';
+import { userShape } from '../util/shapes.js';
 
 const UserMenu = ({ menuItems, user }) => {
   const intl = useIntl();

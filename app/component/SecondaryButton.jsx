@@ -3,7 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 
 import { FormattedMessage, useIntl } from 'react-intl';
-import Icon from './Icon';
+import Icon from './Icon.jsx';
 
 const secondaryButton = props => {
   const intl = useIntl();

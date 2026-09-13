@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { Text } from '@hsl-fi/layout-primitives';
-import Icon from '../../Icon';
-import { entityShape } from '../../../util/shapes';
+import Icon from '../../Icon.jsx';
+import { entityShape } from '../../../util/shapes.js';
 
 function EntityBadge({
   entity,

@@ -2,11 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { default as L } from 'leaflet';
 
-import { locationShape } from '../../util/shapes';
-import GenericMarker from './GenericMarker';
-import { renderAsString, getIndexedIconFields } from '../../util/mapIconUtils';
-import { WheelchairBoarding } from '../../constants';
-import Icon from '../Icon';
+import { locationShape } from '../../util/shapes.js';
+import GenericMarker from './GenericMarker.jsx';
+import {
+  renderAsString,
+  getIndexedIconFields,
+} from '../../util/mapIconUtils.js';
+import { WheelchairBoarding } from '../../constants.js';
+import Icon from '../Icon.jsx';
 
 export default function EntranceMarker({ position, code, entranceAccessible }) {
   const objs = [];

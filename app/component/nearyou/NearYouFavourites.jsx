@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import { locationShape, relayShape } from '../../util/shapes';
-import NearYouFavouritesContainer from './NearYouFavouritesContainer';
-import withBreakpoint from '../../util/withBreakpoint';
-import Loading from '../Loading';
+import { locationShape, relayShape } from '../../util/shapes.js';
+import NearYouFavouritesContainer from './NearYouFavouritesContainer.jsx';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
+import Loading from '../Loading.jsx';
 
 function NearYouFavourites({
   stopIds,

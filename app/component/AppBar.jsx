@@ -2,15 +2,15 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
-import Icon from './Icon';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import DisruptionInfo from './DisruptionInfo';
-import MainMenuContainer from './MainMenuContainer';
-import MessageBar from './MessageBar';
-import LogoSmall from './LogoSmall';
-import LoginButton from './LoginButton';
-import UserMenu from './UserMenu';
-import { useConfigContext } from '../configurations/ConfigContext';
+import Icon from './Icon.jsx';
+import { addAnalyticsEvent } from '../util/analyticsUtils.js';
+import DisruptionInfo from './DisruptionInfo.jsx';
+import MainMenuContainer from './MainMenuContainer.jsx';
+import MessageBar from './MessageBar.jsx';
+import LogoSmall from './LogoSmall.jsx';
+import LoginButton from './LoginButton.jsx';
+import UserMenu from './UserMenu.jsx';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 export default function AppBar({
   showLogo = false,

@@ -2,9 +2,9 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'found';
 import { Text } from '@hsl-fi/layout-primitives';
-import { TRAFFICNOW } from '../../util/path';
-import Icon from '../Icon';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { TRAFFICNOW } from '../../util/path.js';
+import Icon from '../Icon.jsx';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 const TrafficNowLink = () => {
   const config = useConfigContext();

@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-import Icon from './Icon';
-import IconBackground from './icon/IconBackground';
-import IconBadge from './icon/IconBadge';
+import Icon from './Icon.jsx';
+import IconBackground from './icon/IconBackground.jsx';
+import IconBadge from './icon/IconBadge.jsx';
 
 const IconWithIcon = ({
   badgeFill,

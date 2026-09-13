@@ -5,9 +5,9 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import { Text } from '@hsl-fi/layout-primitives';
 import { ArrowLink } from '@hsl-fi/navigation';
-import Icon from '../Icon';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { getLoginPath } from '../../util/path';
+import Icon from '../Icon.jsx';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import { getLoginPath } from '../../util/path.js';
 
 const ANIMATION_MS = 1200;
 

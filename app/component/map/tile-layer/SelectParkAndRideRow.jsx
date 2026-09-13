@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
-import Icon from '../../Icon';
-import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../util/path';
+import Icon from '../../Icon.jsx';
+import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../util/path.js';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function SelectParkAndRideRow({ name, bikeParkId, carParkId }) {

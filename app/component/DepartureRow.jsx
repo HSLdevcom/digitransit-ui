@@ -8,17 +8,17 @@ import {
   alertSeverityCompare,
   getAlertsForObject,
   isAlertValid,
-} from '../util/alertUtils';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { getHeadsignFromRouteLongName } from '../util/legUtils';
-import { getRouteMode } from '../util/modeUtils';
-import { getCapacity } from '../util/occupancyUtil';
-import { routePagePath, PREFIX_STOPS } from '../util/path';
-import { configShape, departureShape } from '../util/shapes';
-import { epochToTime } from '../util/timeUtils';
-import Icon from './Icon';
-import IconBackground from './icon/IconBackground';
-import PlatformNumber from './PlatformNumber';
+} from '../util/alertUtils.js';
+import { addAnalyticsEvent } from '../util/analyticsUtils.js';
+import { getHeadsignFromRouteLongName } from '../util/legUtils.js';
+import { getRouteMode } from '../util/modeUtils.js';
+import { getCapacity } from '../util/occupancyUtil.js';
+import { routePagePath, PREFIX_STOPS } from '../util/path.js';
+import { configShape, departureShape } from '../util/shapes.js';
+import { epochToTime } from '../util/timeUtils.js';
+import Icon from './Icon.jsx';
+import IconBackground from './icon/IconBackground.jsx';
+import PlatformNumber from './PlatformNumber.jsx';
 
 const getMostSevereAlert = route => {
   const alerts = [...getAlertsForObject(route)];

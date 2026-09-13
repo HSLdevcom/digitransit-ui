@@ -8,22 +8,22 @@ import {
   configShape,
   vehicleShape,
   stopTimeShape,
-} from '../../util/shapes';
-import AddressRow from '../AddressRow';
-import TripLink from './TripLink';
-import FuzzyTripLink from './FuzzyTripLink';
-import ServiceAlertIcon from '../ServiceAlertIcon';
-import { fromStopTime } from './DepartureTime';
-import ZoneIcon from '../ZoneIcon';
-import { getActiveAlertSeverityLevel } from '../../util/alertUtils';
-import { PREFIX_STOPS } from '../../util/path';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { getZoneLabel } from '../../util/legUtils';
-import { estimateItineraryDistance } from '../../util/geo-utils';
-import getVehicleState from '../../util/vehicleStateUtils';
-import Icon from '../Icon';
-import { ensureColorAccessibleOnWhite } from '../../util/colorUtils';
-import { splitGtfsId } from '../../util/gtfs';
+} from '../../util/shapes.js';
+import AddressRow from '../AddressRow.jsx';
+import TripLink from './TripLink.jsx';
+import FuzzyTripLink from './FuzzyTripLink.jsx';
+import ServiceAlertIcon from '../ServiceAlertIcon.jsx';
+import { fromStopTime } from './DepartureTime.jsx';
+import ZoneIcon from '../ZoneIcon.jsx';
+import { getActiveAlertSeverityLevel } from '../../util/alertUtils.js';
+import { PREFIX_STOPS } from '../../util/path.js';
+import { addAnalyticsEvent } from '../../util/analyticsUtils.js';
+import { getZoneLabel } from '../../util/legUtils.js';
+import { estimateItineraryDistance } from '../../util/geo-utils.js';
+import getVehicleState from '../../util/vehicleStateUtils.js';
+import Icon from '../Icon.jsx';
+import { ensureColorAccessibleOnWhite } from '../../util/colorUtils.js';
+import { splitGtfsId } from '../../util/gtfs.js';
 
 function getDepartureTime(stoptime) {
   return (

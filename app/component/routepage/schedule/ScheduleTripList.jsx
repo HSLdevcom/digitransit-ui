@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ScheduleTripRow from './ScheduleTripRow';
-import { getFormattedTimeDate } from '../../../util/timeUtils';
+import ScheduleTripRow from './ScheduleTripRow.jsx';
+import { getFormattedTimeDate } from '../../../util/timeUtils.js';
 
 const isTripCanceled = trip =>
   trip.stoptimes.length > 0 &&

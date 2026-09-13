@@ -6,39 +6,39 @@ import { withLeaflet } from 'react-leaflet';
 import polyUtil from 'polyline-encoded';
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { getMiddleOf } from '../../util/geo-utils';
+import { getMiddleOf } from '../../util/geo-utils.js';
 import {
   getInterliningLegs,
   getTripOrRouteText,
   LegMode,
   isLocalCallAgency,
   isTaxiLeg,
-} from '../../util/legUtils';
-import { getTripOrRouteMode } from '../../util/modeUtils';
-import { legShape } from '../../util/shapes';
-import { durationToString } from '../../util/timeUtils';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import Line from './Line';
-import StopMarker from './non-tile-layer/StopMarker';
-import TransitLegMarkers from './non-tile-layer/TransitLegMarkers';
-import VehicleMarker from './non-tile-layer/VehicleMarker';
-import SpeechBubble from './SpeechBubble';
-import EntranceMarker from './EntranceMarker';
-import ClusterNumberMarker from './ClusterNumberMarker';
-import IndoorStepMarker from './IndoorStepMarker';
-import { createFeatureObjects } from '../../util/clusterUtils';
+} from '../../util/legUtils.js';
+import { getTripOrRouteMode } from '../../util/modeUtils.js';
+import { legShape } from '../../util/shapes.js';
+import { durationToString } from '../../util/timeUtils.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import Line from './Line.jsx';
+import StopMarker from './non-tile-layer/StopMarker.jsx';
+import TransitLegMarkers from './non-tile-layer/TransitLegMarkers.jsx';
+import VehicleMarker from './non-tile-layer/VehicleMarker.jsx';
+import SpeechBubble from './SpeechBubble.jsx';
+import EntranceMarker from './EntranceMarker.jsx';
+import ClusterNumberMarker from './ClusterNumberMarker.jsx';
+import IndoorStepMarker from './IndoorStepMarker.jsx';
+import { createFeatureObjects } from '../../util/clusterUtils.js';
 import {
   IndoorStepType,
   IndoorLegType,
   WheelchairBoarding,
-} from '../../constants';
+} from '../../constants.js';
 import {
   getEntranceObject,
   getEntranceWheelchairAccessibility,
   getIndoorLegType,
   getIndoorStepsWithVerticalTransportation,
   isVerticalTransportationUse,
-} from '../../util/indoorUtils';
+} from '../../util/indoorUtils.js';
 
 function ItineraryLine({
   legs,

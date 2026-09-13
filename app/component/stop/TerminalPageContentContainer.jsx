@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
-import DepartureListContainer from '../DepartureListContainer';
-import Icon from '../Icon';
-import ScrollableWrapper from '../ScrollableWrapper';
-import { stationShape, errorShape, relayShape } from '../../util/shapes';
-import { getTrackOrPierOrPlatformText } from '../../util/localeUtils';
-import { useCurrentTime } from '../../hooks/TimeContext';
+import DepartureListContainer from '../DepartureListContainer.jsx';
+import Icon from '../Icon.jsx';
+import ScrollableWrapper from '../ScrollableWrapper.jsx';
+import { stationShape, errorShape, relayShape } from '../../util/shapes.js';
+import { getTrackOrPierOrPlatformText } from '../../util/localeUtils.js';
+import { useCurrentTime } from '../../hooks/TimeContext.jsx';
 
 function TerminalPageContent({ station, relay, error }) {
   if (!station && error) {

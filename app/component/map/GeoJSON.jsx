@@ -2,13 +2,13 @@ import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React, { useRef } from 'react';
 import { default as Geojson } from 'react-leaflet/es/GeoJSON';
-import PointFeatureMarker from './PointFeatureMarker';
-import { geoJsonFeatureShape } from '../../util/shapes';
+import PointFeatureMarker from './PointFeatureMarker.jsx';
+import { geoJsonFeatureShape } from '../../util/shapes.js';
 import {
   isMultiPointTypeGeometry,
   isPointTypeGeometry,
-} from '../../util/geo-utils';
-import { useConfigContext } from '../../configurations/ConfigContext';
+} from '../../util/geo-utils.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 /**
  * Extracts svg-formatted icon data from the given features' properties.

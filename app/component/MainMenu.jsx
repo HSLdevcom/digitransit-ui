@@ -3,15 +3,15 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
 import { useRouter } from 'found';
-import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
-import Icon from './Icon';
-import LangSelect from './LangSelect';
-import MainMenuLinks from './MainMenuLinks';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import Toggle from './Toggle';
-import { getCountries, setCountries } from '../data/localStorage';
-import { TRAFFICNOW } from '../util/path';
-import { useConfigContext } from '../configurations/ConfigContext';
+import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer.jsx';
+import Icon from './Icon.jsx';
+import LangSelect from './LangSelect.jsx';
+import MainMenuLinks from './MainMenuLinks.jsx';
+import { addAnalyticsEvent } from '../util/analyticsUtils.js';
+import Toggle from './Toggle.jsx';
+import { getCountries, setCountries } from '../data/localStorage.js';
+import { TRAFFICNOW } from '../util/path.js';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 export default function MainMenu({
   setDisruptionInfoOpen,

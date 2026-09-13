@@ -2,15 +2,15 @@ import PropTypes from 'prop-types';
 import React, { useState, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DTAutosuggest from '@digitransit-component/digitransit-component-autosuggest';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import EmbeddedSearch from './EmbeddedSearch';
-import { EMBEDDED_SEARCH_PATH } from '../../util/path';
-import { getRefPoint } from '../../util/apiUtils';
-import withBreakpoint from '../../util/withBreakpoint';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import EmbeddedSearch from './EmbeddedSearch.jsx';
+import { EMBEDDED_SEARCH_PATH } from '../../util/path.js';
+import { getRefPoint } from '../../util/apiUtils.js';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
 import {
   withSearchContext,
   getLocationSearchTargets,
-} from '../WithSearchContext';
+} from '../WithSearchContext.jsx';
 
 const LocationSearch = withSearchContext(DTAutosuggest, true);
 

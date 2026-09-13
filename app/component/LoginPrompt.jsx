@@ -3,9 +3,9 @@ import React from 'react';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
-import { useConfigContext } from '../configurations/ConfigContext';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { getLoginPath } from '../util/path';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
+import { addAnalyticsEvent } from '../util/analyticsUtils.js';
+import { getLoginPath } from '../util/path.js';
 
 export default function LoginPrompt({
   open,

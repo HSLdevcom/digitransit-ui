@@ -4,15 +4,15 @@ import get from 'lodash/get';
 import { matchShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
-import { configShape } from '../../util/shapes';
-import LocationMarker from './LocationMarker';
-import MapWithTracking from './MapWithTracking';
-import { otpToLocation } from '../../util/otpStrings';
-import { getJson } from '../../util/xhrPromise';
-import { mapLayerShape } from '../../store/MapLayerStore';
-import withBreakpoint from '../../util/withBreakpoint';
-import LocationMarkerWithPermanentTooltip from './LocationMarkerWithPermanentTooltip';
-import ConfirmLocationFromMapButton from './ConfirmLocationFromMapButton';
+import { configShape } from '../../util/shapes.js';
+import LocationMarker from './LocationMarker.jsx';
+import MapWithTracking from './MapWithTracking.jsx';
+import { otpToLocation } from '../../util/otpStrings.js';
+import { getJson } from '../../util/xhrPromise.js';
+import { mapLayerShape } from '../../store/MapLayerStore.js';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
+import LocationMarkerWithPermanentTooltip from './LocationMarkerWithPermanentTooltip.jsx';
+import ConfirmLocationFromMapButton from './ConfirmLocationFromMapButton.jsx';
 
 const DESKTOP_BREAKPOINT = 'large';
 

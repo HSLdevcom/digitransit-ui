@@ -3,10 +3,10 @@ import { useIntl } from 'react-intl';
 import React, { useEffect, useState, useRef } from 'react';
 import ReactSwipe from 'react-swipe';
 import cx from 'classnames';
-import Icon from './Icon';
-import ScrollableWrapper from './ScrollableWrapper';
-import TabBalls from './TabBalls';
-import { isKeyboardSelectionEvent } from '../util/browser';
+import Icon from './Icon.jsx';
+import ScrollableWrapper from './ScrollableWrapper.jsx';
+import TabBalls from './TabBalls.jsx';
+import { isKeyboardSelectionEvent } from '../util/browser.js';
 
 export function setFocusables() {
   // Set inactive tab focusables to unfocusable and for active tab set previously made unfocusable elements to focusable

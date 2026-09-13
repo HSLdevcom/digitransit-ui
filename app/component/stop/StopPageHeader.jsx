@@ -1,8 +1,8 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import StopCardHeaderContainer from './StopCardHeaderContainer';
-import withBreakpoint from '../../util/withBreakpoint';
-import { stopShape, stationShape } from '../../util/shapes';
+import StopCardHeaderContainer from './StopCardHeaderContainer.js';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
+import { stopShape, stationShape } from '../../util/shapes.js';
 
 function StopPageHeader({ stop, station, breakpoint, isTerminal }) {
   const props = {

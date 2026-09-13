@@ -4,7 +4,7 @@ import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Text } from '@hsl-fi/layout-primitives';
 import { ArrowLink } from '@hsl-fi/navigation';
 import { useIntl } from 'react-intl';
-import ThemedIcon from '../ThemedIcon';
+import ThemedIcon from '../ThemedIcon.jsx';
 
 function RouteNotificationButton({ notification }) {
   const intl = useIntl();

@@ -4,21 +4,21 @@ import { useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { useRouter } from 'found';
-import { planEdgeShape } from '../../util/shapes';
-import Icon from '../Icon';
-import Itinerary from './Itinerary';
+import { planEdgeShape } from '../../util/shapes.js';
+import Icon from '../Icon.jsx';
+import Itinerary from './Itinerary.jsx';
 import {
   getExtendedMode,
   showBikeBoardingNote,
   showCarBoardingNote,
-} from '../../util/legUtils';
-import ItineraryListHeader from './ItineraryListHeader';
-import ItinerariesNotFound from './ItinerariesNotFound';
-import Loading from '../Loading';
-import { streetHash } from '../../util/path';
-import { getIntermediatePlaces } from '../../util/otpStrings';
-import { ItineraryListPlanEdges } from './queries/ItineraryListPlanEdges';
-import { useConfigContext } from '../../configurations/ConfigContext';
+} from '../../util/legUtils.js';
+import ItineraryListHeader from './ItineraryListHeader.jsx';
+import ItinerariesNotFound from './ItinerariesNotFound.jsx';
+import Loading from '../Loading.jsx';
+import { streetHash } from '../../util/path.js';
+import { getIntermediatePlaces } from '../../util/otpStrings.js';
+import { ItineraryListPlanEdges } from './queries/ItineraryListPlanEdges.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
 
 const spinnerPosition = {
   top: 'top',

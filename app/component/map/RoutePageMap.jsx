@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { configShape, patternShape, errorShape } from '../../util/shapes';
-import MapWithTracking from './MapWithTracking';
-import RouteLine from './route/RouteLine';
-import VehicleMarkerContainer from './VehicleMarkerContainer';
-import { getStartTime } from '../../util/timeUtils';
-import withBreakpoint from '../../util/withBreakpoint';
-import BackButton from '../BackButton';
-import { isActiveDate } from '../../util/patternUtils';
-import { boundWithMinimumArea } from '../../util/geo-utils';
-import { getMapLayerOptions } from '../../util/mapLayerUtils';
-import CookieSettingsButton from '../CookieSettingsButton';
-import { splitGtfsId } from '../../util/gtfs';
+import { configShape, patternShape, errorShape } from '../../util/shapes.js';
+import MapWithTracking from './MapWithTracking.jsx';
+import RouteLine from './route/RouteLine.jsx';
+import VehicleMarkerContainer from './VehicleMarkerContainer.jsx';
+import { getStartTime } from '../../util/timeUtils.js';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
+import BackButton from '../BackButton.jsx';
+import { isActiveDate } from '../../util/patternUtils.js';
+import { boundWithMinimumArea } from '../../util/geo-utils.js';
+import { getMapLayerOptions } from '../../util/mapLayerUtils.js';
+import CookieSettingsButton from '../CookieSettingsButton.jsx';
+import { splitGtfsId } from '../../util/gtfs.js';
 
 function RoutePageMap(
   { pattern, lat, lon, breakpoint, trip, error, ...rest },

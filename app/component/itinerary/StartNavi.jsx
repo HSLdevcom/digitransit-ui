@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { configShape } from '../../util/shapes';
-import Icon from '../Icon';
+import { configShape } from '../../util/shapes.js';
+import Icon from '../Icon.jsx';
 
 const StartNavi = ({ startNavigation }, context) => {
   const intl = useIntl();

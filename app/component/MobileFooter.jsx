@@ -1,6 +1,6 @@
 import React from 'react';
-import { configShape } from '../util/shapes';
-import CookieSettingsButton from './CookieSettingsButton';
+import { configShape } from '../util/shapes.js';
+import CookieSettingsButton from './CookieSettingsButton.jsx';
 
 const MobileFooter = (props, { config }) => {
   return config.useCookiesPrompt ? (

@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import SelectStopRow from './SelectStopRow';
-import SelectVehicleRentalRow from './SelectVehicleRentalRow';
-import SelectVehicleRentalClusterRow from './SelectRentalVehicleClusterRow';
-import SelectParkAndRideRow from './SelectParkAndRideRow';
-import SelectVehicleContainer from './SelectVehicleContainer';
-import { PREFIX_BIKESTATIONS, PREFIX_RENTALVEHICLES } from '../../../util/path';
+import SelectStopRow from './SelectStopRow.jsx';
+import SelectVehicleRentalRow from './SelectVehicleRentalRow.jsx';
+import SelectVehicleRentalClusterRow from './SelectRentalVehicleClusterRow.jsx';
+import SelectParkAndRideRow from './SelectParkAndRideRow.jsx';
+import SelectVehicleContainer from './SelectVehicleContainer.jsx';
+import {
+  PREFIX_BIKESTATIONS,
+  PREFIX_RENTALVEHICLES,
+} from '../../../util/path.js';
 
 function MarkerSelectPopup(props) {
   const intl = useIntl();

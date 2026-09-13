@@ -16,7 +16,7 @@ import Icon, {
 } from '@digitransit-component/digitransit-component-icon';
 import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import styles from './helpers/styles.scss';
-import i18n from './helpers/i18n';
+import i18n from './helpers/i18n.js';
 
 const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];

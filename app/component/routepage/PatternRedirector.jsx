@@ -3,11 +3,11 @@ import React, { useEffect } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import sortBy from 'lodash/sortBy';
 import { matchShape, routerShape } from 'found';
-import { routePagePath, PREFIX_STOPS } from '../../util/path';
-import Error404 from '../404';
-import { saveSearchItems } from '../../action/SearchActions';
-import { getOldSearchItems } from '../../util/storeUtils';
-import { routeShape } from '../../util/shapes';
+import { routePagePath, PREFIX_STOPS } from '../../util/path.js';
+import Error404 from '../404.jsx';
+import { saveSearchItems } from '../../action/SearchActions.js';
+import { getOldSearchItems } from '../../util/storeUtils.js';
+import { routeShape } from '../../util/shapes.js';
 
 const PatternRedirector = ({ router, match, route }, context) => {
   if (!route) {

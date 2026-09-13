@@ -4,7 +4,7 @@ import { DateTime, Settings } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import cx from 'classnames';
-import { parseTypedTime, validateInput, getTs } from './utils';
+import { parseTypedTime, validateInput, getTs } from './utils.js';
 import styles from './styles.scss';
 
 /**

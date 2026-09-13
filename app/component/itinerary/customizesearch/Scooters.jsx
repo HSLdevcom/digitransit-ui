@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import NetworkSelector from './NetworkSelector';
-import Disclaimer from '../../Disclaimer';
+import NetworkSelector from './NetworkSelector.jsx';
+import Disclaimer from '../../Disclaimer.jsx';
 import {
   getReadMessageIds,
   setReadMessageId,
-} from '../../../data/localStorage';
-import { TransportMode } from '../../../constants';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+} from '../../../data/localStorage.js';
+import { TransportMode } from '../../../constants.js';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
 
 export default function Scooters({ updateSettings }) {
   const config = useConfigContext();

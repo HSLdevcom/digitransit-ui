@@ -6,48 +6,48 @@ import { graphql, ReactRelayContext, QueryRenderer } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { relayShape, locationShape } from '../../util/shapes';
-import DesktopView from '../DesktopView';
-import MobileView from '../MobileView';
-import withBreakpoint, { DesktopOrMobile } from '../../util/withBreakpoint';
-import { otpToLocation, locationToUri } from '../../util/otpStrings';
-import Loading from '../Loading';
-import StopNearYouContainer from './StopNearYouContainer';
-import UpdateLocationButton from './UpdateLocationButton';
-import MapWrapper from './MapWrapper';
-import LocationModal from './LocationModal';
-import CityBikeInfo from './CityBikeInfo';
-import ParkInfo from './ParkInfo';
+import { relayShape, locationShape } from '../../util/shapes.js';
+import DesktopView from '../DesktopView.jsx';
+import MobileView from '../MobileView.jsx';
+import withBreakpoint, { DesktopOrMobile } from '../../util/withBreakpoint.jsx';
+import { otpToLocation, locationToUri } from '../../util/otpStrings.js';
+import Loading from '../Loading.jsx';
+import StopNearYouContainer from './StopNearYouContainer.js';
+import UpdateLocationButton from './UpdateLocationButton.jsx';
+import MapWrapper from './MapWrapper.jsx';
+import LocationModal from './LocationModal.jsx';
+import CityBikeInfo from './CityBikeInfo.jsx';
+import ParkInfo from './ParkInfo.jsx';
 import {
   checkPositioningPermission,
   startLocationWatch,
-} from '../../action/PositionActions';
-import Search from './Search';
-import StopRouteSearch from './StopRouteSearch';
-import { getGeolocationState } from '../../data/localStorage';
-import { PREFIX_NEARYOU } from '../../util/path';
-import NearYouContainer from './NearYouContainer';
-import SwipeableTabs, { setFocusables } from '../SwipeableTabs';
-import NearYouFavourites from './NearYouFavourites';
-import { mapLayerShape } from '../../store/MapLayerStore';
-import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
-import { getMapLayerOptions } from '../../util/mapLayerUtils';
+} from '../../action/PositionActions.js';
+import Search from './Search.jsx';
+import StopRouteSearch from './StopRouteSearch.jsx';
+import { getGeolocationState } from '../../data/localStorage.js';
+import { PREFIX_NEARYOU } from '../../util/path.js';
+import NearYouContainer from './NearYouContainer.jsx';
+import SwipeableTabs, { setFocusables } from '../SwipeableTabs.jsx';
+import NearYouFavourites from './NearYouFavourites.jsx';
+import { mapLayerShape } from '../../store/MapLayerStore.js';
+import { getDefaultNetworks } from '../../util/vehicleRentalUtils.js';
+import { getMapLayerOptions } from '../../util/mapLayerUtils.js';
 import {
   getTransportModes,
   getNearYouModes,
   useCitybikes,
-} from '../../util/modeUtils';
+} from '../../util/modeUtils.js';
 import {
   getFavouriteStopsAndStations,
   getFavouriteVehicleRentalStations,
   STATUS_FETCHING_OR_UPDATING,
-} from '../../data/FavouriteData';
+} from '../../data/FavouriteData.js';
 import {
   useFavourites,
   useFavouriteStatus,
-} from '../../hooks/FavouriteContext';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { useCurrentTime } from '../../hooks/TimeContext';
+} from '../../hooks/FavouriteContext.jsx';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import { useCurrentTime } from '../../hooks/TimeContext.jsx';
 
 // component initialization phases
 const PH_START = 'start';

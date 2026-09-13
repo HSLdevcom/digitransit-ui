@@ -5,11 +5,11 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import {
   getDefaultSettings,
   hasCustomizedSettings,
-} from '../../../util/planParamUtil';
-import { getCustomizedSettings } from '../../../data/localStorage';
-import Icon from '../../Icon';
-import Snackbar from '../../Snackbar';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+} from '../../../util/planParamUtil.js';
+import { getCustomizedSettings } from '../../../data/localStorage.js';
+import Icon from '../../Icon.jsx';
+import Snackbar from '../../Snackbar.jsx';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
 
 export default function RestoreDefaultSettings({ updateSettings }) {
   const config = useConfigContext();

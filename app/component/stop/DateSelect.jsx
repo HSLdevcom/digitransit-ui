@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
 
 import Select from 'react-select';
-import Icon from '../Icon';
+import Icon from '../Icon.jsx';
 
 export const getDateOptions = (
   startDate,

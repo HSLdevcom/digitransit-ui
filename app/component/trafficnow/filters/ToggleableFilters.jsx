@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Toggle from '../../Toggle';
-import { useFilterContext } from './FiltersContext';
-import { useFavourites } from '../../../hooks/FavouriteContext';
+import Toggle from '../../Toggle.jsx';
+import { useFilterContext } from './FiltersContext.jsx';
+import { useFavourites } from '../../../hooks/FavouriteContext.jsx';
 
 const TOGGLEABLE_FILTERS = [
   {

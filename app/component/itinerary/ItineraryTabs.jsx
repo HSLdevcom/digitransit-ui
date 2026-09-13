@@ -1,9 +1,9 @@
 /* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
 import React from 'react';
-import ItineraryDetails from './ItineraryDetails';
-import SwipeableTabs from '../SwipeableTabs';
-import { planEdgeShape } from '../../util/shapes';
+import ItineraryDetails from './ItineraryDetails.jsx';
+import SwipeableTabs from '../SwipeableTabs.jsx';
+import { planEdgeShape } from '../../util/shapes.js';
 
 function ItineraryTabs({
   planEdges,

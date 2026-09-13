@@ -1,7 +1,7 @@
 /* eslint-disable compat/compat */
 /* eslint-disable no-undef */
 import StopPageMockData from './mock-data/StopPageContenQueryResponse.json';
-import getConfig from './helpers/image-snapshot-config';
+import getConfig from './helpers/image-snapshot-config.js';
 
 const config = process.env.CONFIG || 'hsl';
 const customSnapshotsDir = `test/e2e/__image_snapshots__`;

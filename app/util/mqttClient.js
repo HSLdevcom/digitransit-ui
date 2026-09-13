@@ -141,7 +141,7 @@ export function startMqttClient(settings, actionContext) {
 
   return import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
     if (settings.gtfsrt) {
-      return import(/* webpackChunkName: "gtfsrt" */ './gtfsrt').then(
+      return import(/* webpackChunkName: "gtfsrt" */ './gtfsrt.js').then(
         bindings => {
           const feedReader = bindings.FeedMessage.read;
           const credentials =

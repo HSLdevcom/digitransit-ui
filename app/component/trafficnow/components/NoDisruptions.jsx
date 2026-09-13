@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Icon from '../../Icon';
-import { useLogo } from '../../../hooks/useLogo';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+import Icon from '../../Icon.jsx';
+import { useLogo } from '../../../hooks/useLogo.js';
+import { useConfigContext } from '../../../configurations/ConfigContext.jsx';
 
 export default function NoDisruptions() {
   const { notFoundGraphic, colors } = useConfigContext();

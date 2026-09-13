@@ -7,12 +7,12 @@ import {
   getRentalNetworkIcon,
   getRentalVehicleLink,
   openDeepLink,
-} from '../../util/vehicleRentalUtils';
-import { rentalVehicleShape } from '../../util/shapes';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import withBreakpoint from '../../util/withBreakpoint';
-import Icon from '../Icon';
-import ExternalLink from '../ExternalLink';
+} from '../../util/vehicleRentalUtils.js';
+import { rentalVehicleShape } from '../../util/shapes.js';
+import { useConfigContext } from '../../configurations/ConfigContext.jsx';
+import withBreakpoint from '../../util/withBreakpoint.jsx';
+import Icon from '../Icon.jsx';
+import ExternalLink from '../ExternalLink.jsx';
 
 function ScooterLinkContainer({ rentalVehicle, mobileReturn = false }) {
   const config = useConfigContext();
