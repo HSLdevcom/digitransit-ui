@@ -18,9 +18,10 @@ function readPackageJson(packageJsonPath) {
 
 // Most packages keep a flat index.js; component/store packages (plus the
 // one search-util package with a build step, digitransit-search-util-query-
-// utils) keep their source under src/index.js instead.
+// utils) keep their source under src/index.js(x) instead - .jsx for the
+// packages that actually contain JSX, plain .js otherwise.
 function findEntryPoint(directory) {
-  const candidates = ['src/index.js', 'index.js'];
+  const candidates = ['src/index.js', 'src/index.jsx', 'index.js', 'index.jsx'];
   const found = candidates
     .map(candidate => path.join(directory, candidate))
     .find(fullPath => fs.existsSync(fullPath));
