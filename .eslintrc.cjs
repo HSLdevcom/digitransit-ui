@@ -20,7 +20,7 @@ module.exports = {
     // react
     'react/button-has-type': 'warn',
     'react/destructuring-assignment': 'off',
-    'react/jsx-filename-extension': ['error', { extensions: ['.js'] }],
+    'react/jsx-filename-extension': ['error', { extensions: ['.jsx'] }],
     'react/jsx-fragments': 'off',
     'react/jsx-key': 'error',
     'react/jsx-props-no-spreading': 'off',
@@ -67,7 +67,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.js'],
+      files: ['*.js', '*.jsx'],
       processor: '@graphql-eslint/graphql',
     },
     {

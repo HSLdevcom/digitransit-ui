@@ -47,7 +47,7 @@ export default {
               find: /^@digitransit-component\/(digitransit-component-.+)$/,
               replacement: path.join(
                 repoRoot,
-                'digitransit-component/packages/$1/src/index.js',
+                'digitransit-component/packages/$1/src/index',
               ),
             },
           ],
@@ -121,7 +121,7 @@ export default {
           // otherwise redone every time. Rides along with CI's existing
           // whole-node_modules cache too.
           fsModuleCache: true,
-          include: ['digitransit-component/packages/*/test.js'],
+          include: ['digitransit-component/packages/*/test.{js,jsx}'],
         },
       },
       nodeProject('digitransit-search-util'),
