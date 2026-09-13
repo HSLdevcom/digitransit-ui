@@ -81,12 +81,12 @@ and output settings.
 
 ## Module rules (loaders)
 
-- **`app/**/*.js`** — `babel-loader`, config inline (`configFile: false`;
-  `.babelrc`/`babel.config.cjs` are only for tooling like tests). Also sets
-  `resolve.fullySpecified: false`: under `"type": "module"` webpack5 would
-  otherwise treat every `app/` file as strict ESM and demand an explicit
-  extension on every relative import, but the client bundle keeps the
-  project's long-standing extensionless import style.
+- **`app/**/*.{js,jsx}`** — `babel-loader`, config inline (`configFile: false`;
+  `.babelrc`/`babel.config.cjs` are only for tooling like tests). Forces
+  `type: 'javascript/auto'`: several `app/` files default-import
+  third-party UMD packages (e.g. `@hsl-fi/modal`) whose `__esModule` flag
+  isn't visible to strict ESM, so lenient CJS/ESM interop is needed to bind
+  `.default` correctly instead of crashing ("Element type is invalid").
   `@babel/preset-env` has no explicit `targets` — it inherits the
   `browserslist` key in `package.json`, the single source of truth for
   supported browsers shared with `postcss.config.cjs`/autoprefixer. Also:
@@ -261,8 +261,16 @@ when `process.env.NODE_ENV !== 'development'` (replacing
 
 - **`cache: { type: 'filesystem' }`** — webpack5's built-in persistent
   build cache (replaces webpack4's memory-only `cache: true`).
-- **`resolve.extensions`** adds `.mjs` ahead of the defaults so native-ESM
-  entry points resolve.
+- **`resolve.extensions`** adds `.mjs`/`.jsx` ahead of the defaults so
+  native-ESM entry points and JSX-containing files resolve.
+- **`resolve.extensionAlias: { '.graphql': ['.graphql.js'] }`** —
+  `babel-plugin-relay`'s inline `graphql`` `` transform synthesizes
+  `import X from './__generated__/Foo.graphql'` (no further extension) from
+  the tagged template; the real generated file is `Foo.graphql.js`. Every
+  `app/` import is otherwise fully extensioned and resolved under strict
+  ESM (no `resolve.fullySpecified: false` on the `app/` rule), so this
+  remaps just that one specifier shape instead of relaxing resolution for
+  all of `app/`'s own imports too.
 - **`resolve.mainFields`** prefers `browser`, then `module` (ESM), over
   `main` (CJS) — picks up tree-shakeable ESM builds when available.
 - **`resolve.alias`** forces `lodash`/`lodash.merge` (including transitive
