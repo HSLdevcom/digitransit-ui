@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { render } from '@testing-library/react';
-import Icon from './src/index.js';
+import Icon from './src/index.jsx';
 
 describe('Testing @digitransit-component/digitransit-component-icon module', () => {
   it('renders the svg for a known icon key', () => {

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import TrafficNowLink from './src/index.js';
+import TrafficNowLink from './src/index.jsx';
 
 describe('Testing @digitransit-component/digitransit-component-traffic-now-link module', () => {
   it('renders as a button with an href link', () => {

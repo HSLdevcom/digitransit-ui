@@ -13,7 +13,7 @@ import {
   failedFavouriteMessage,
   favouriteTypes,
 } from '../util/messageUtils.js';
-import { useConfigContext } from '../configurations/ConfigContext.js';
+import { useConfigContext } from '../configurations/ConfigContext.jsx';
 
 const fluxibleContextShape = PropTypes.shape({
   executeAction: PropTypes.func.isRequired,
