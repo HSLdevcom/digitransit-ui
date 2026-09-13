@@ -81,7 +81,13 @@ export default () => {
   const pkg = getPackage();
   let input = path.join(pkg.location, 'src/index.js');
   if (!fs.existsSync(input)) {
+    input = path.join(pkg.location, 'src/index.jsx');
+  }
+  if (!fs.existsSync(input)) {
     input = path.join(pkg.location, 'index.js');
+  }
+  if (!fs.existsSync(input)) {
+    input = path.join(pkg.location, 'index.jsx');
   }
   const buildConfig = {
     input,
@@ -145,7 +151,10 @@ export default () => {
       peerDepsExternal({
         packageJsonPath: path.join(pkg.location, 'package.json'),
       }),
-      nodeResolve({ browser: true }),
+      nodeResolve({
+        browser: true,
+        extensions: ['.mjs', '.js', '.jsx', '.json', '.node'],
+      }),
       babel({
         babelHelpers: 'runtime',
         // Absolute path: this config now runs with cwd set to the

@@ -151,7 +151,7 @@ export default {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         include: [path.resolve(rootDir, 'app')],
         // The repo is `"type": "module"`, so webpack5 would otherwise treat
         // every `app/` file as strict ESM: (1) it'd demand an explicit
@@ -400,7 +400,7 @@ export default {
     type: 'filesystem',
   },
   resolve: {
-    extensions: ['.mjs', '.js', '.json'],
+    extensions: ['.mjs', '.js', '.jsx', '.json'],
     mainFields: ['browser', 'module', 'main'],
     alias: {
       lodash: 'lodash-es',

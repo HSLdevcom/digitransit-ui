@@ -137,7 +137,10 @@ Other structural notes:
   is `singleQuote: true, trailingComma: 'all', arrowParens: 'avoid'`.
 - When removing `defaultProps`, use parameter defaults only for valid values; never default to
   `undefined`.
-- `.js` files are used for JSX (no `.jsx` extension).
+- JSX-containing files use the `.jsx` extension; plain `.js` never contains JSX. The one
+  exception is `test/unit/**`, which still uses `.js` for JSX pending a separate Mocha→Vitest
+  migration. Relative import specifiers must always include their extension (`import/extensions`
+  is enforced everywhere except `test/unit/**`).
 - Avoid `Component.defaultProps` in function components (deprecated by React, and unsupported for
   function components in newer React versions). Declare defaults via destructuring in the
   function signature instead, e.g. `function Foo({ isMobile = false, children = null })`. This
