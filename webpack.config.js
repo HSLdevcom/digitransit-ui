@@ -153,12 +153,21 @@ export default {
       {
         test: /\.js$/,
         include: [path.resolve(rootDir, 'app')],
-        // The repo is `"type": "module"`, so webpack5 treats every `app/`
-        // file as strict ESM and would otherwise demand an explicit
-        // extension on every relative/subpath import. Only the small
-        // server-side subgraph is loaded by Node directly (and that has
-        // been made fully-specified); the client bundle keeps the
-        // project's long-standing extensionless style.
+        // The repo is `"type": "module"`, so webpack5 would otherwise treat
+        // every `app/` file as strict ESM: (1) it'd demand an explicit
+        // extension on every relative import (the client bundle keeps its
+        // long-standing extensionless style instead), and (2) several
+        // `app/` files default-import third-party UMD packages (e.g.
+        // `@hsl-fi/modal`) whose `__esModule` flag is set inside a UMD
+        // factory rather than visibly at the module's top level - strict
+        // ESM can't prove that flag through the wrapper and binds the raw
+        // CJS exports instead of `.default`, crashing with React error #130
+        // ("Element type is invalid"). `javascript/auto`'s lenient,
+        // runtime-checked interop avoids both problems. Third-party
+        // packages we don't control the build of, so unlike the
+        // `digitransit-component`/`digitransit-store` rule below (fixed via
+        // our own real ESM build), this has to stay regardless of that fix.
+        type: 'javascript/auto',
         resolve: { fullySpecified: false },
         loader: 'babel-loader',
         options: {
