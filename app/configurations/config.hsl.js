@@ -775,7 +775,6 @@ export default {
     sv: 'https://surveys.crazyegg.com/s/303436/7977162c-07a0-4316-82e0-ae2dee934edf',
     en: 'https://surveys.crazyegg.com/s/303436/0e3f31bb-10ab-4b65-b6cc-1058260918cc',
   },
-  showNewRoutePage: true,
   staticCrisisBanners: [
     {
       body: 'Dummy crisis alert — primary',

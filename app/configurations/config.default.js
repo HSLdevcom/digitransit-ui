@@ -906,6 +906,6 @@ export default {
     showBothDirectAndTransitResults: false,
   },
   personalization: false,
-  showNewRoutePage: false,
+  showNewRoutePage: true,
   user: {},
 };
