@@ -36,11 +36,11 @@ CONFIG=matka API_TYPE=local API_SUBSCRIPTION_TOKEN=<your_subscription_key> yarn 
 Both are pure build/server-side helpers, required directly (not run standalone):
 
 - [`contextHelper.js`](/scripts/build/contextHelper.js) — used by
-  [`webpack.config.babel.js`](/webpack.config.babel.js) to compute webpack theme entries
+  [`webpack.config.js`](/webpack.config.js) to compute webpack theme entries
   and favicon plugins for every configured deployment (or just `$CONFIG` if set).
 - [`assetUrlPlaceholder.js`](/scripts/build/assetUrlPlaceholder.js) — exports the
   placeholder token baked into the service worker's precache manifest at build time
-  (`webpack.config.babel.js`) and substituted with the real `ASSET_URL` at request time
+  (`webpack.config.js`) and substituted with the real `ASSET_URL` at request time
   (`server/server.js`).
 
 ## Using `theme/add-theme.js`

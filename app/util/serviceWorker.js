@@ -1,7 +1,7 @@
 /* eslint no-restricted-globals: warn */
 /*
  * Service worker entry point, built by workbox-webpack-plugin's
- * InjectManifest mode (see webpack.config.babel.js). This file is the
+ * InjectManifest mode (see webpack.config.js). This file is the
  * *source* for the built `_static/sw.js` - it goes through the normal
  * webpack module resolution (hence the plain imports below), and
  * `self.__WB_MANIFEST` is replaced at build time with the list of

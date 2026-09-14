@@ -19,7 +19,7 @@
     "relay-watch": "relay-compiler --watch",
     "prebuild": "yarn run static && yarn run relay",
     "build": "NODE_ENV=production bash -c 'yarn prebuild && node --max_old_space_size=4096 node_modules/.bin/webpack --progress --color'",
-    "start": "NODE_ENV=production node $NODE_OPTS server/server",
+    "start": "NODE_ENV=production node $NODE_OPTS server/server.js",
     "dev": "bash scripts/dev.sh",
     "dev-nowatch": "RUN_ENV=development NODE_ENV=development bash -c 'node server/server.js & webpack-dev-server'",
     "test-accessibility": "./test/accessibility.sh",
