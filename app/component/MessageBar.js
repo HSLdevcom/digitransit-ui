@@ -123,7 +123,7 @@ function MessageBar({
   messages,
   relayEnvironment,
   duplicateMessageCounter,
-  breakpoint = undefined,
+  breakpoint,
   markMessageAsRead = () => {},
 }) {
   const intl = useIntl();
