@@ -15,7 +15,7 @@ module.exports = {
     'no-restricted-exports': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/no-named-default': 'off',
-    'import/extensions': 'off',
+    'import/extensions': ['error', 'never', { ignorePackages: true }],
     'import/prefer-default-export': 'off',
     // react
     'react/button-has-type': 'warn',
@@ -66,6 +66,23 @@ module.exports = {
     polyfills: ['fetch', 'promises'],
   },
   overrides: [
+    {
+      // These files/directories are loaded by Node directly as native ESM
+      // (no bundler/transpiler in between - webpack/Babel/Vitest are all
+      // extension-agnostic and cover everything else), so relative imports
+      // here *must* keep an explicit extension or Node's ESM loader fails.
+      files: [
+        'server/**/*.js',
+        'utils/shared/**/*.js',
+        'utils/server/**/*.js',
+        'webpack.config.js',
+        'scripts/**/*.js',
+        'config/*.js',
+      ],
+      rules: {
+        'import/extensions': ['error', 'always', { ignorePackages: true }],
+      },
+    },
     {
       files: ['*.js', '*.jsx'],
       processor: '@graphql-eslint/graphql',
