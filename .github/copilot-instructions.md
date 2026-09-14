@@ -33,10 +33,11 @@ right one by *who consumes the code*, not just by convenience.
     `digitransit-component` packages ship their own i18next translation bundles instead, sorted/
     checked separately via `scripts/workspace-packages/sort-translations.js`.
   - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
-- `server/` — Express SSR server, native-ESM, never bundled: `server.js` (entrypoint),
-  `serve.js` (SSR render), `reittiopasParameterMiddleware.js`, `passport-openid-connect/`,
-  `proxyTester.js`, and `configs/` — `config.js` (server-side config resolution/merging by host)
-  plus one `config.<region>.js` per deployment.
+- `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint), `serve.js`
+  (renders the initial HTML shell — meta tags, config, asset preloads; no React runs server-side,
+  the client bundle does all component rendering), `reittiopasParameterMiddleware.js`,
+  `passport-openid-connect/`, `proxyTester.js`, and `configs/` — `config.js` (server-side config
+  resolution/merging by host) plus one `config.<region>.js` per deployment.
 - `utils/` — helper modules split by consumer (see "Server/client boundary" below):
   - `shared/` — used by both server and client, e.g. `constants.js`, `meta.js`,
     `analyticsUtils.js`, `gtfs.js`, `citybikeSeasonUtils.js`. Isomorphic only: a file (or a
@@ -164,8 +165,8 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
 (client) or run through Mocha's Babel-ESM loader (tests), both extension-agnostic.
 
 - `server/**` never imports from `app/**` — only from `utils/shared/`, `utils/server/`, and
-  itself. It renders the SSR shell and serializes the merged config onto `window.config`; the
-  client bundle never re-reads `server/configs/*` directly.
+  itself. It renders the initial HTML shell (no React runs server-side) and serializes the merged
+  config onto `window.config`; the client bundle never re-reads `server/configs/*` directly.
 - `utils/shared/**` holds code genuinely imported by both sides (e.g. `gtfs.js`,
   `citybikeSeasonUtils.js`, `analyticsUtils.js`). `envUtils.js` is split per-consumer instead:
   `utils/server/envUtils.js` and `utils/client/envUtils.js` both contain a `isDevRunEnv` function.
