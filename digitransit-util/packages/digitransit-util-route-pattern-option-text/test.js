@@ -1,8 +1,8 @@
 /* eslint-disable func-names */
 import { describe, it, expect } from 'vitest';
 import { DateTime } from 'luxon';
-import cloneDeep from 'lodash/cloneDeep.js';
-import routePatternOptionText from './index.js';
+import cloneDeep from 'lodash/cloneDeep';
+import routePatternOptionText from './index';
 
 const languages = ['fi', 'en', 'sv'];
 

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { getItem, getItemAsJson, removeItem, setItem } from './src/index.js';
-import './mock-localstorage.js';
+import { getItem, getItemAsJson, removeItem, setItem } from './src/index';
+import './mock-localstorage';
 
 describe('Testing @digitransit-store/digitransit-store-common-functions', () => {
   describe('getItem', () => {

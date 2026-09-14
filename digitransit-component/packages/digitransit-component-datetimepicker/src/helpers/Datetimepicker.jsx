@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { DateTime, Settings } from 'luxon';
-import uniqueId from 'lodash/uniqueId.js';
+import uniqueId from 'lodash/uniqueId';
 import { useTranslation } from 'react-i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DesktopDatetimepicker from './DesktopDatetimepicker';

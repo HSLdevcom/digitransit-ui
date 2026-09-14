@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import getJson from './index.js';
+import getJson from './index';
 
 describe('Testing @digitransit-search-util/digitransit-search-util-get-json module', () => {
   it('Checking that null returns empty ', async () => {

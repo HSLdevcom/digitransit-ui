@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Datetimepicker from './src/index.jsx';
+import Datetimepicker from './src/index';
 
 // A fixed timestamp (2023-11-15T00:13:20+02:00, Europe/Helsinki - the
 // component's default timeZone) so the rendered date/time text is

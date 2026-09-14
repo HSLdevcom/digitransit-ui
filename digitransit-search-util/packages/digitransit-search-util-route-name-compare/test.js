@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import routeNameCompare from './index.js';
+import routeNameCompare from './index';
 
 const a = {
   shortName: 'hki',

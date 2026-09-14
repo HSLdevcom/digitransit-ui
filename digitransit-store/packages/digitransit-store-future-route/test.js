@@ -1,12 +1,17 @@
 import { describe, it, expect } from 'vitest';
+// The extension below can't be dropped: the target package's package.json
+// "exports" map has an exact-string key "./src/index.js" (no wildcard), so
+// Node/Vitest's package-exports resolution requires an exact specifier
+// match here (unlike plain relative-path resolution elsewhere).
 import {
   getItem,
   getItemAsJson,
   removeItem,
   setItem,
+  // eslint-disable-next-line import/extensions
 } from '@digitransit-store/digitransit-store-common-functions/src/index.js';
-import { createUrl, addFutureRoute } from './src/index.js';
-import './mock-localstorage.js';
+import { createUrl, addFutureRoute } from './src/index';
+import './mock-localstorage';
 
 describe('Testing @digitransit-store/digitransit-store-future-route module', () => {
   describe('createUrl(route)', () => {
