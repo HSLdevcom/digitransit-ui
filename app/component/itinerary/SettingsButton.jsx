@@ -13,7 +13,7 @@ import Popover from '../Popover';
 import {
   getDialogState,
   setDialogState,
-} from '../../../utils/shared/localStorage';
+} from '../../../utils/client/localStorage';
 import { useConfigContext } from '../../client/ConfigContext';
 
 export default function SettingsButton({ onToggleClick }) {

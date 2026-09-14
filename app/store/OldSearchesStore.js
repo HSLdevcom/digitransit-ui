@@ -7,7 +7,7 @@ import { unixTime } from '../../utils/client/timeUtils';
 import {
   getOldSearchesStorage,
   setOldSearchesStorage,
-} from '../../utils/shared/localStorage';
+} from '../../utils/client/localStorage';
 
 /**
  * The current version number of this store.

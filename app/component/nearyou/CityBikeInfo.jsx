@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   getReadMessageIds,
   setReadMessageId,
-} from '../../../utils/shared/localStorage';
+} from '../../../utils/client/localStorage';
 import { useConfigContext } from '../../client/ConfigContext';
 import {
   getRentalNetworkConfig,

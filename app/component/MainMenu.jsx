@@ -9,7 +9,7 @@ import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import Toggle from './Toggle';
-import { getCountries, setCountries } from '../../utils/shared/localStorage';
+import { getCountries, setCountries } from '../../utils/client/localStorage';
 import { TRAFFICNOW } from '../../utils/shared/path';
 import { useConfigContext } from '../client/ConfigContext';
 

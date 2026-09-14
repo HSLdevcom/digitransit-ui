@@ -6,7 +6,7 @@ import {
   getDefaultSettings,
   hasCustomizedSettings,
 } from '../../../../utils/client/planParamUtil';
-import { getCustomizedSettings } from '../../../../utils/shared/localStorage';
+import { getCustomizedSettings } from '../../../../utils/client/localStorage';
 import Icon from '../../Icon';
 import Snackbar from '../../Snackbar';
 import { useConfigContext } from '../../../client/ConfigContext';

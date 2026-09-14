@@ -11,7 +11,7 @@ import SwipeableTabs from './SwipeableTabs';
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
 import { markMessageAsRead } from '../action/MessageActions';
-import { getReadMessageIds } from '../../utils/shared/localStorage';
+import { getReadMessageIds } from '../../utils/client/localStorage';
 import { mapAlertSource } from '../../utils/client/alertUtils';
 import { isKeyboardSelectionEvent } from '../../utils/shared/browser';
 import hashCode from '../../utils/client/hashUtil';

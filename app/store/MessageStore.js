@@ -3,7 +3,7 @@ import { isIeOrOldVersion } from '../../utils/shared/browser';
 import {
   setReadMessageIds,
   getReadMessageIds,
-} from '../../utils/shared/localStorage';
+} from '../../utils/client/localStorage';
 import { setSessionMessageIds, getSessionMessageIds } from './sessionStorage';
 
 export const processStaticMessages = (root, callback) => {

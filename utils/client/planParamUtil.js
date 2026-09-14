@@ -7,7 +7,7 @@ import {
   getAllNetworksOfType,
   getDefaultNetworks,
 } from '../shared/vehicleRentalUtils';
-import { getCustomizedSettings } from '../shared/localStorage';
+import { getCustomizedSettings } from './localStorage';
 import { estimateItineraryDistance } from '../shared/geo-utils';
 import { TransportMode } from '../shared/constants';
 

@@ -7,7 +7,7 @@ import {
   clearFavouriteStorage,
   getFavouriteStorage,
   setFavouriteStorage,
-} from '../../utils/shared/localStorage';
+} from '../../utils/client/localStorage';
 import {
   deleteFavourites,
   getFavourites,

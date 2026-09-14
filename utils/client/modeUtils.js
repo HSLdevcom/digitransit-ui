@@ -2,7 +2,7 @@ import isString from 'lodash/isString';
 import sortedUniq from 'lodash/sortedUniq';
 import xor from 'lodash/xor';
 import inside from 'point-in-polygon';
-import { getCustomizedSettings } from '../shared/localStorage';
+import { getCustomizedSettings } from './localStorage';
 import { isInBoundingBox } from '../shared/geo-utils';
 import { addAnalyticsEvent } from '../shared/analyticsUtils';
 import { ExtendedRouteTypes, TransportMode } from '../shared/constants';

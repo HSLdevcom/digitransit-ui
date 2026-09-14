@@ -35,7 +35,7 @@ import {
   addAnalyticsEvent,
   handleUserAnalytics,
 } from '../../utils/shared/analyticsUtils';
-import { getCountries } from '../../utils/shared/localStorage';
+import { getCountries } from '../../utils/client/localStorage';
 import { configureCountry } from '../../utils/client/configureCountry';
 import { getUser } from '../../utils/client/apiUtils';
 import favouriteStore from '../data/FavouriteData';

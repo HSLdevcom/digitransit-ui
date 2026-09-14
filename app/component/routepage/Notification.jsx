@@ -5,7 +5,7 @@ import { configShape } from '../../../utils/client/shapes';
 import {
   getDialogState,
   setDialogState,
-} from '../../../utils/shared/localStorage';
+} from '../../../utils/client/localStorage';
 
 import Icon from '../Icon';
 

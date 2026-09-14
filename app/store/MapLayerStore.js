@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   setMapLayerSettings,
   getMapLayerSettings,
-} from '../../utils/shared/localStorage';
+} from '../../utils/client/localStorage';
 import { showRentalVehiclesOfType } from '../../utils/client/modeUtils';
 import { TransportMode } from '../../utils/shared/constants';
 

@@ -6,7 +6,7 @@ import Disclaimer from '../../Disclaimer';
 import {
   getReadMessageIds,
   setReadMessageId,
-} from '../../../../utils/shared/localStorage';
+} from '../../../../utils/client/localStorage';
 import { TransportMode } from '../../../../utils/shared/constants';
 import { useConfigContext } from '../../../client/ConfigContext';
 

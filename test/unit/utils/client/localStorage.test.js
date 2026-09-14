@@ -8,8 +8,8 @@ import {
   setCustomizedSettings,
   getReadMessageIds,
   setReadMessageIds,
-} from '../../utils/shared/localStorage';
-import defaultConfig from '../../server/configs/config.default';
+} from '../../../../utils/client/localStorage';
+import defaultConfig from '../../../../server/configs/config.default';
 
 describe('localStorage', () => {
   describe('getCustomizedSettings', () => {
