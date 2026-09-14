@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
-import { openDeepLink } from '../../util/vehicleRentalUtils';
+import { openDeepLink } from '../../../utils/shared/vehicleRentalUtils';
 
 export default function CallAgencyDisclaimer({
   textId,

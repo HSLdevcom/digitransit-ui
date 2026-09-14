@@ -6,7 +6,7 @@ import { render, fireEvent } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import * as found from 'found';
 import translations from '../../../../app/translations/en';
-import { ConfigProvider } from '../../../../app/configurations/ConfigContext';
+import { ConfigProvider } from '../../../../app/client/ConfigContext';
 import CanceledTripCard from '../../../../app/component/trafficnow/CanceledTripCard';
 import * as FiltersContext from '../../../../app/component/trafficnow/filters/FiltersContext';
 

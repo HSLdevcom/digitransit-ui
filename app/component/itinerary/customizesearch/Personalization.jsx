@@ -7,11 +7,11 @@ import PersonalizeAgainModal from './PersonalizeAgainModal';
 import Snackbar from '../../Snackbar';
 import LoginPrompt from '../../LoginPrompt';
 import Icon from '../../Icon';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { isPersonalizationEnabled } from '../../../util/modeUtils';
-import { settingsShape } from '../../../util/shapes';
-import { useConfigContext } from '../../../configurations/ConfigContext';
-import { getPersonalization } from '../../../data/localStorage';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { isPersonalizationEnabled } from '../../../../utils/shared/modeUtils';
+import { settingsShape } from '../../../../utils/client/shapes';
+import { useConfigContext } from '../../../client/ConfigContext';
+import { getPersonalization } from '../../../../utils/shared/localStorage';
 
 export default function Personalization({ settings, updateSettings }) {
   const intl = useIntl();

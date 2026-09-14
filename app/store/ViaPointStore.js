@@ -1,4 +1,4 @@
-import Store from 'fluxible/addons/BaseStore.js';
+import Store from 'fluxible/addons/BaseStore';
 
 class ViaPointStore extends Store {
   static storeName = 'ViaPointStore';

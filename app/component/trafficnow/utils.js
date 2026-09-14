@@ -3,13 +3,13 @@ import {
   getTransportModes,
   getRouteMode,
   getBaseTransportMode,
-} from '../../util/modeUtils';
+} from '../../../utils/shared/modeUtils';
 import {
   AlertEntityType,
   LocationTypes,
   TrafficNowTransportModes,
-} from '../../constants';
-import { stopPagePath, routePagePath } from '../../util/path';
+} from '../../../utils/shared/constants';
+import { stopPagePath, routePagePath } from '../../../utils/shared/path';
 
 const sortAlphaNumeric = (a, b) => {
   const first = typeof a === 'string' ? a.toLowerCase() : a.toString();

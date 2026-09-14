@@ -1,0 +1,201 @@
+import configMerger from '../../utils/server/configMerger.js';
+import { BIKEAVL_BIKES } from '../../utils/shared/vehicleRentalUtils.js';
+import walttiConfig from './config.waltti.js';
+
+const CONFIG = 'kuopio';
+const APP_TITLE = 'Reittiopas Kuopio';
+const APP_DESCRIPTION = 'Reittiopas Kuopio';
+
+export default configMerger(walttiConfig, {
+  CONFIG,
+
+  appBarLink: {
+    name: 'VILKKU',
+    href: 'https://vilkku.kuopio.fi/',
+    altLink: {
+      sv: {
+        name: 'VILKKU',
+        href: 'https://vilkku.kuopio.fi/en',
+      },
+      en: {
+        name: 'VILKKU',
+        href: 'https://vilkku.kuopio.fi/en',
+      },
+    },
+  },
+
+  colors: {
+    primary: '#0ab1c8',
+    bus: '#724f9f',
+    rail: '#0E7F3C',
+  },
+
+  socialMedia: {
+    title: APP_TITLE,
+    description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-kuopio.png',
+      width: 760,
+      height: 224,
+    },
+  },
+
+  title: APP_TITLE,
+
+  favicon: './app/client/images/kuopio/kuopio-favicon.png',
+
+  // Navbar logo
+  logo: 'kuopio/logo.png',
+  secondaryLogo: 'kuopio/kuopio-secondary-logo.png',
+
+  feedIds: ['Kuopio', 'digitraffic'],
+
+  useTicketIcons: true,
+  showTicketPrice: true,
+  showTicketInformation: true,
+  primaryAgencyName: 'Kuopion seudun joukkoliikenne',
+
+  ticketLink: {
+    fi: 'https://vilkku.kuopio.fi/liput-ja-hinnat',
+    sv: 'https://vilkku.kuopio.fi/en/tickets-and-prices',
+    en: 'https://vilkku.kuopio.fi/en/tickets-and-prices',
+  },
+  ticketLinkOperatorCode: 50221,
+
+  searchParams: {
+    'boundary.rect.min_lat': 62.454915,
+    'boundary.rect.max_lat': 63.469325,
+    'boundary.rect.min_lon': 26.163918,
+    'boundary.rect.max_lon': 29.013261,
+  },
+
+  areaPolygon: [
+    [26.163918, 62.454915],
+    [26.163918, 63.469325],
+    [29.013261, 63.469325],
+    [29.013261, 62.454915],
+  ],
+
+  defaultEndpoint: {
+    address: 'Kuopion tori',
+    lat: 62.892511,
+    lon: 27.678136,
+  },
+
+  vehicleRental: {
+    networks: {
+      breeze_kuopio: {
+        enabled: true,
+        season: {
+          start: '27.4',
+          end: '31.10',
+        },
+        capacity: BIKEAVL_BIKES,
+        icon: 'citybike',
+        name: {
+          fi: 'Vilkku',
+          sv: 'Vilkku',
+          en: 'Vilkku',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaupunkipyorat.kuopio.fi/',
+          sv: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
+          en: 'https://kaupunkipyorat.kuopio.fi/?lang=2',
+        },
+      },
+    },
+  },
+
+  transportModes: {
+    citybike: {
+      availableForSelection: true,
+    },
+    rail: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+  },
+
+  nearYouModes: ['bus', 'rail', 'citybike'],
+
+  menu: {
+    copyright: { label: `© Kuopio ${walttiConfig.YEAR}` },
+    content: [
+      {
+        name: 'menu-feedback',
+        href: {
+          fi: 'https://palaute.kuopio.fi/fi#!/palautelomake/27050/27054',
+          sv: 'https://palaute.kuopio.fi/fi#!/palautelomake/27050/27054',
+          en: 'https://palaute.kuopio.fi/en#!/palautelomake/27050/27054',
+        },
+      },
+      {
+        name: 'about-this-service',
+        route: '/tietoja-palvelusta',
+      },
+      {
+        name: 'accessibility-statement',
+        href: {
+          fi: 'https://www.digitransit.fi/accessibility',
+          sv: 'https://www.digitransit.fi/accessibility',
+          en: 'https://www.digitransit.fi/en/accessibility',
+        },
+      },
+    ],
+  },
+
+  aboutThisService: {
+    fi: [
+      {
+        header: 'Tietoja palvelusta',
+        paragraphs: [
+          'Tämän palvelun tarjoaa Kuopion seudun joukkoliikenne reittisuunnittelua varten Kuopion ja Siilinjärven alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit-palvelualustaan.',
+        ],
+      },
+    ],
+
+    sv: [
+      {
+        header: 'Om tjänsten',
+        paragraphs: [
+          'Den här tjänsten erbjuds av Kuopion seudun joukkoliikenne för reseplanering inom Kuopio och Siilinjärvi region. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
+        ],
+      },
+    ],
+
+    en: [
+      {
+        header: 'About this service',
+        paragraphs: [
+          'This service is provided by Kuopion seudun joukkoliikenne for route planning in Kuopio and Siilinjärvi region. The service covers public transport, walking, cycling, and some private car use. Service is built on Digitransit platform.',
+        ],
+      },
+    ],
+  },
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/kuopio_zone_lines_20240508.geojson',
+      },
+    ],
+  },
+  zoneIdMapping: {
+    1: 'A',
+    2: 'B',
+    3: 'C',
+    4: 'D',
+    5: 'E',
+    6: 'F',
+  },
+  zones: {
+    stops: true,
+    itinerary: true,
+  },
+  externalFareRouteIds: ['600_Skibus'],
+});

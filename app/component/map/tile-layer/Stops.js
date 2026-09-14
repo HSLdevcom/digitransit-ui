@@ -8,15 +8,18 @@ import {
   drawStopIcon,
   drawHybridStopIcon,
   drawHybridStationIcon,
-} from '../../../util/mapIconUtils';
-import { getStopMode } from '../../../util/modeUtils';
+} from '../../../../utils/client/mapIconUtils';
+import { getStopMode } from '../../../../utils/shared/modeUtils';
 import {
   isFeatureLayerEnabled,
   getLayerBaseUrl,
-} from '../../../util/mapLayerUtils';
-import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../util/path';
-import { splitGtfsId } from '../../../util/gtfs';
-import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
+} from '../../../../utils/client/mapLayerUtils';
+import {
+  PREFIX_ITINERARY_SUMMARY,
+  PREFIX_ROUTES,
+} from '../../../../utils/shared/path';
+import { splitGtfsId } from '../../../../utils/shared/gtfs';
+import { fetchWithLanguageAndSubscription } from '../../../../utils/shared/fetchUtils';
 
 const stopAlertsQuery = graphql`
   query StopsQuery($stopId: String!, $date: String!) {

@@ -1,13 +1,13 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { legShape } from '../../util/shapes';
+import { legShape } from '../../../utils/client/shapes';
 import RouteNumberContainer from '../RouteNumberContainer';
-import { getActiveLegAlertSeverityLevel } from '../../util/alertUtils';
-import { isLocalCallAgency } from '../../util/legUtils';
-import { getTripOrRouteMode } from '../../util/modeUtils';
-import { getCapacityForLeg } from '../../util/occupancyUtil';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { getActiveLegAlertSeverityLevel } from '../../../utils/client/alertUtils';
+import { isLocalCallAgency } from '../../../utils/client/legUtils';
+import { getTripOrRouteMode } from '../../../utils/shared/modeUtils';
+import { getCapacityForLeg } from '../../../utils/client/occupancyUtil';
+import { useConfigContext } from '../../client/ConfigContext';
 
 export default function TransitBar({
   leg,

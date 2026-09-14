@@ -4,7 +4,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { matchShape } from 'found';
-import { routeShape, errorShape } from '../../util/shapes';
+import { routeShape, errorShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from '../RouteNumber';
@@ -14,25 +14,28 @@ import {
   PREFIX_ROUTES,
   PREFIX_DISRUPTION,
   routePagePath,
-} from '../../util/path';
-import withBreakpoint from '../../util/withBreakpoint';
+} from '../../../utils/shared/path';
+import withBreakpoint from '../../../utils/client/withBreakpoint';
 import BackButton from '../BackButton';
-import { getRouteMode, modeToTranslationId } from '../../util/modeUtils';
+import {
+  getRouteMode,
+  modeToTranslationId,
+} from '../../../utils/shared/modeUtils';
 import {
   getModeIconColor,
   ensureColorAccessibleOnWhite,
-} from '../../util/colorUtils';
+} from '../../../utils/shared/colorUtils';
 import AlertBanner from '../AlertBanner';
 import {
   hasEntitiesOfType,
   hasMeaningfulData,
   isAlertValid,
-} from '../../util/alertUtils';
-import { AlertEntityType } from '../../constants';
+} from '../../../utils/client/alertUtils';
+import { AlertEntityType } from '../../../utils/shared/constants';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RouteNotificationButton from './RouteNotificationButton';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { isLocalCallAgency } from '../../util/legUtils';
+import { useConfigContext } from '../../client/ConfigContext';
+import { isLocalCallAgency } from '../../../utils/client/legUtils';
 
 function resolveHeadsign(pattern) {
   if (!pattern) {

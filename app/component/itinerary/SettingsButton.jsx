@@ -3,12 +3,18 @@ import React, { useState, useCallback, useRef } from 'react';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from '../Icon';
-import { isKeyboardSelectionEvent } from '../../util/browser';
-import { hasCustomizedSettings, getSettings } from '../../util/planParamUtil';
-import { isPersonalizationEnabled } from '../../util/modeUtils';
+import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
+import {
+  hasCustomizedSettings,
+  getSettings,
+} from '../../../utils/client/planParamUtil';
+import { isPersonalizationEnabled } from '../../../utils/shared/modeUtils';
 import Popover from '../Popover';
-import { getDialogState, setDialogState } from '../../data/localStorage';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import {
+  getDialogState,
+  setDialogState,
+} from '../../../utils/shared/localStorage';
+import { useConfigContext } from '../../client/ConfigContext';
 
 export default function SettingsButton({ onToggleClick }) {
   const { formatMessage } = useIntl();

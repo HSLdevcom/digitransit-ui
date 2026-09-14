@@ -7,13 +7,13 @@ import {
   getMapIconScale,
   drawScooterIcon,
   drawSmallVehicleRentalMarker,
-} from '../../../util/mapIconUtils';
+} from '../../../../utils/client/mapIconUtils';
 
-import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
-import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
-import { TransportMode } from '../../../constants';
-import { getSettings } from '../../../util/planParamUtil';
-import { createFeatureObjects } from '../../../util/clusterUtils';
+import { fetchWithLanguageAndSubscription } from '../../../../utils/shared/fetchUtils';
+import { getLayerBaseUrl } from '../../../../utils/client/mapLayerUtils';
+import { TransportMode } from '../../../../utils/shared/constants';
+import { getSettings } from '../../../../utils/client/planParamUtil';
+import { createFeatureObjects } from '../../../../utils/client/clusterUtils';
 
 class RentalVehicles {
   constructor(tile, config, mapLayers, relayEnvironment) {

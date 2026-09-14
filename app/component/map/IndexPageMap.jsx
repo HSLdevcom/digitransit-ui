@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { connectToStores } from 'fluxible-addons-react';
 import { matchShape } from 'found';
 import MapWithTracking from './MapWithTracking';
-import { sameLocations } from '../../util/path';
+import { sameLocations } from '../../../utils/shared/path';
 import OriginStore from '../../store/OriginStore';
 import DestinationStore from '../../store/DestinationStore';
-import { configShape, locationShape } from '../../util/shapes';
+import { configShape, locationShape } from '../../../utils/client/shapes';
 import storeOrigin from '../../action/originActions';
 import storeDestination from '../../action/destinationActions';
 // eslint-disable-next-line import/no-named-as-default

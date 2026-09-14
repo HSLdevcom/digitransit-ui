@@ -9,15 +9,19 @@ import ExternalLink from './ExternalLink';
 import Icon from './Icon';
 import RouteNumber from './RouteNumber';
 import ServiceAlertIcon from './ServiceAlertIcon';
-import { routePagePath, stopPagePath, PREFIX_STOPS } from '../util/path';
+import {
+  routePagePath,
+  stopPagePath,
+  PREFIX_STOPS,
+} from '../../utils/shared/path';
 import {
   entityCompare,
   getEntitiesOfType,
   mapAlertSource,
-} from '../util/alertUtils';
-import { AlertEntityType } from '../constants';
-import { getRouteMode } from '../util/modeUtils';
-import { useConfigContext } from '../configurations/ConfigContext';
+} from '../../utils/client/alertUtils';
+import { AlertEntityType } from '../../utils/shared/constants';
+import { getRouteMode } from '../../utils/shared/modeUtils';
+import { useConfigContext } from '../client/ConfigContext';
 
 export const getAlertRoutePath = gtfsId => routePagePath(gtfsId, PREFIX_STOPS);
 

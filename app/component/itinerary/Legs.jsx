@@ -2,7 +2,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useRouter } from 'found';
-import { fareShape, itineraryShape, relayShape } from '../../util/shapes';
+import {
+  fareShape,
+  itineraryShape,
+  relayShape,
+} from '../../../utils/client/shapes';
 import TransitLeg from './TransitLeg';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
@@ -24,13 +28,13 @@ import {
   legTime,
   markViaPoints,
   getBoardingLeg,
-} from '../../util/legUtils';
-import { getTripOrRouteMode } from '../../util/modeUtils';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
+} from '../../../utils/client/legUtils';
+import { getTripOrRouteMode } from '../../../utils/shared/modeUtils';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import Profile from './Profile';
 import BikeParkLeg from './BikeParkLeg';
-import { getIntermediatePlaces } from '../../util/otpStrings';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { getIntermediatePlaces } from '../../../utils/shared/otpStrings';
+import { useConfigContext } from '../../client/ConfigContext';
 
 const stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 

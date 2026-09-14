@@ -4,8 +4,8 @@ import Marker from 'react-leaflet/es/Marker';
 import { default as L } from 'leaflet';
 import cx from 'classnames';
 import Icon from '../../Icon';
-import { legShape, configShape } from '../../../util/shapes';
-import { renderAsString } from '../../../util/mapIconUtils';
+import { legShape, configShape } from '../../../../utils/client/shapes';
+import { renderAsString } from '../../../../utils/client/mapIconUtils';
 
 class LegMarker extends React.Component {
   static propTypes = {

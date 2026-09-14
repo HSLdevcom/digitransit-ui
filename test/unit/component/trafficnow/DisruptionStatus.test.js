@@ -5,9 +5,9 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import translations from '../../../../app/translations/en';
-import { ConfigProvider } from '../../../../app/configurations/ConfigContext';
+import { ConfigProvider } from '../../../../app/client/ConfigContext';
 import DisruptionStatus from '../../../../app/component/trafficnow/components/DisruptionStatus';
-import * as timeUtils from '../../../../app/util/timeUtils';
+import * as timeUtils from '../../../../utils/client/timeUtils';
 
 const baseConfig = {
   CONFIG: 'default',

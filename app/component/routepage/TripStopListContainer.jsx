@@ -5,13 +5,13 @@ import cx from 'classnames';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
-import { tripShape, vehicleShape } from '../../util/shapes';
-import { getTripOrRouteMode } from '../../util/modeUtils';
-import { getModeIconColor } from '../../util/colorUtils';
+import { tripShape, vehicleShape } from '../../../utils/client/shapes';
+import { getTripOrRouteMode } from '../../../utils/shared/modeUtils';
+import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import TripRouteStop from './TripRouteStop';
-import withBreakpoint from '../../util/withBreakpoint';
+import withBreakpoint from '../../../utils/client/withBreakpoint';
 import { useCurrentTime } from '../../hooks/TimeContext';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 
 function TripStopListContainer({
   trip,

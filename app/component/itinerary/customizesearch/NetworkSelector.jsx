@@ -9,9 +9,9 @@ import {
   updateVehicleNetworks,
   getScooterNetworks,
   getCitybikeNetworks,
-} from '../../../util/vehicleRentalUtils';
-import { TransportMode } from '../../../constants';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+} from '../../../../utils/shared/vehicleRentalUtils';
+import { TransportMode } from '../../../../utils/shared/constants';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 export default function NetworkSelector({ type, updateSettings }) {
   const config = useConfigContext();

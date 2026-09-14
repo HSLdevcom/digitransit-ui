@@ -4,21 +4,21 @@ import { useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { useRouter } from 'found';
-import { planEdgeShape } from '../../util/shapes';
+import { planEdgeShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import Itinerary from './Itinerary';
 import {
   getExtendedMode,
   showBikeBoardingNote,
   showCarBoardingNote,
-} from '../../util/legUtils';
+} from '../../../utils/client/legUtils';
 import ItineraryListHeader from './ItineraryListHeader';
 import ItinerariesNotFound from './ItinerariesNotFound';
 import Loading from '../Loading';
-import { streetHash } from '../../util/path';
-import { getIntermediatePlaces } from '../../util/otpStrings';
+import { streetHash } from '../../../utils/shared/path';
+import { getIntermediatePlaces } from '../../../utils/shared/otpStrings';
 import { ItineraryListPlanEdges } from './queries/ItineraryListPlanEdges';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 
 const spinnerPosition = {
   top: 'top',

@@ -10,7 +10,7 @@ import Filters from '../../../../app/component/trafficnow/filters/Filters';
 import Disruptions from '../../../../app/component/trafficnow/Disruptions';
 import CanceledTripsContainer from '../../../../app/component/trafficnow/CanceledTripsContainer';
 import DisruptionDetailsContainer from '../../../../app/component/trafficnow/DisruptionDetailsContainer';
-import * as withBreakpoint from '../../../../app/util/withBreakpoint';
+import * as withBreakpoint from '../../../../utils/client/withBreakpoint';
 
 const baseConfig = {
   CONFIG: 'default',

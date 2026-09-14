@@ -4,7 +4,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { createShallowHookSandbox } from '../../helpers/mock-intl-enzyme';
 import TrafficNowHeader from '../../../../app/component/trafficnow/TrafficNowHeader';
-import * as withBreakpoint from '../../../../app/util/withBreakpoint';
+import * as withBreakpoint from '../../../../utils/client/withBreakpoint';
 import * as useLogo from '../../../../app/hooks/useLogo';
 
 const baseConfig = {

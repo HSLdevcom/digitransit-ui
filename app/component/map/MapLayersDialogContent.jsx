@@ -3,21 +3,21 @@ import React, { Fragment } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 
-import { mapLayerOptionsShape } from '../../util/shapes';
-import { isKeyboardSelectionEvent } from '../../util/browser';
+import { mapLayerOptionsShape } from '../../../utils/client/shapes';
+import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import Icon from '../Icon';
 import Checkbox from '../Checkbox';
 import GeoJsonStore from '../../store/GeoJsonStore';
 import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
 import { updateMapLayers } from '../../action/MapLayerActions';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import withGeojsonObjects from './withGeojsonObjects';
 import {
   getTransportModes,
   showRentalVehiclesOfType,
-} from '../../util/modeUtils';
-import { TransportMode } from '../../constants';
-import { useConfigContext } from '../../configurations/ConfigContext';
+} from '../../../utils/shared/modeUtils';
+import { TransportMode } from '../../../utils/shared/constants';
+import { useConfigContext } from '../../client/ConfigContext';
 
 const sendLayerChangeAnalytic = (name, enable) => {
   const action = enable ? 'ShowMapLayer' : 'HideMapLayer';

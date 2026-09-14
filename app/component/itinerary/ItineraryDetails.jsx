@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useFragment } from 'react-relay';
-import { getTripOrRouteMode } from '../../util/modeUtils';
+import { getTripOrRouteMode } from '../../../utils/shared/modeUtils';
 import {
   getFaresFromLegs,
   shouldShowFareInfo,
   shouldShowFarePurchaseInfo,
-} from '../../util/fareUtils';
-import localizedUrl from '../../util/urlUtils';
+} from '../../../utils/client/fareUtils';
+import localizedUrl from '../../../utils/client/urlUtils';
 import {
   compressLegs,
   getTotalBikingDistance,
@@ -27,12 +27,12 @@ import {
   isBikeParkLeg,
   isBikeRentalLeg,
   legTimeStr,
-} from '../../util/legUtils';
-import { streetHash } from '../../util/path';
-import { itineraryShape, relayShape } from '../../util/shapes';
-import { getFutureText } from '../../util/timeUtils';
-import { BreakpointConsumer } from '../../util/withBreakpoint';
-import { getSettings } from '../../util/planParamUtil';
+} from '../../../utils/client/legUtils';
+import { streetHash } from '../../../utils/shared/path';
+import { itineraryShape, relayShape } from '../../../utils/client/shapes';
+import { getFutureText } from '../../../utils/client/timeUtils';
+import { BreakpointConsumer } from '../../../utils/client/withBreakpoint';
+import { getSettings } from '../../../utils/client/planParamUtil';
 import BackButton from '../BackButton';
 import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';
@@ -46,7 +46,7 @@ import StartNavi from './StartNavi';
 import TicketInformation from './TicketInformation';
 import VehicleRentalDurationInfo from './VehicleRentalDurationInfo';
 import { ItineraryDetailsFragment } from './queries/ItineraryDetailsFragment';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 
 function getExtraProps(itinerary, intl) {
   const compressedItinerary = {

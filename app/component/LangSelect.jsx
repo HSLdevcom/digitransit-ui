@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { matchShape } from 'found';
 import { useIntl } from 'react-intl';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { useConfigContext } from '../client/ConfigContext';
 
 const Language = ({ lang }, { match }) => {
   const { language } = useConfigContext();

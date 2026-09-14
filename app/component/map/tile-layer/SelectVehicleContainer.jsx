@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
 import TripMarkerPopup from '../route/TripMarkerPopup';
 import SelectVehicleRow from './SelectVehicleRow';
-import { vehicleShape } from '../../../util/shapes';
+import { vehicleShape } from '../../../../utils/client/shapes';
 
 const rowQuery = graphql`
   query SelectVehicleContainerRowQuery($tripId: String!) {

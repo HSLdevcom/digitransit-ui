@@ -6,9 +6,9 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import Popup from 'react-leaflet/es/Popup';
 import ViaPointStore from '../../../store/ViaPointStore';
 import { setViaPoints } from '../../../action/ViaPointActions';
-import { setIntermediatePlaces } from '../../../util/queryUtils';
-import { locationToOTP } from '../../../util/otpStrings';
-import { locationShape } from '../../../util/shapes';
+import { setIntermediatePlaces } from '../../../../utils/client/queryUtils';
+import { locationToOTP } from '../../../../utils/shared/otpStrings';
+import { locationShape } from '../../../../utils/client/shapes';
 import Card from '../../Card';
 
 const filterViaPoint = (allPoints, pointToRemove) => {

@@ -5,8 +5,8 @@ import React from 'react';
 import { mockMatch } from '../helpers/mock-router';
 import { renderWithProviders } from '../helpers/mock-providers';
 import RouteControlPanel from '../../../app/component/routepage/RouteControlPanel';
-import { AlertSeverityLevelType } from '../../../app/constants';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../app/util/path';
+import { AlertSeverityLevelType } from '../../../utils/shared/constants';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../utils/shared/path';
 
 const baseConfig = {
   CONFIG: 'default',

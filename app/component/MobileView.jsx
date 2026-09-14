@@ -15,7 +15,7 @@ import {
   PREFIX_ROUTES,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
-} from '../util/path';
+} from '../../utils/shared/path';
 
 const noBottomSheetResetAtContentChange = [
   PREFIX_ROUTES,

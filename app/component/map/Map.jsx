@@ -10,7 +10,7 @@ import L from 'leaflet';
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 import isEmpty from 'lodash/isEmpty';
-import { configShape } from '../../util/shapes';
+import { configShape } from '../../../utils/client/shapes';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import {
   startRealTimeClient,
@@ -18,9 +18,9 @@ import {
 } from '../../action/realTimeClientAction';
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
-import { boundWithMinimumArea } from '../../util/geo-utils';
-import events from '../../util/events';
-import { getLayerBaseUrl } from '../../util/mapLayerUtils';
+import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
+import events from '../../../utils/client/events';
+import { getLayerBaseUrl } from '../../../utils/client/mapLayerUtils';
 import GeoJSON from './GeoJSON';
 import { mapLayerShape } from '../../store/MapLayerStore';
 

@@ -19,15 +19,15 @@ import {
   getMaximumAlertSeverityLevel,
   hasEntitiesOfType,
   tripHasCancelationForStop,
-} from '../../util/alertUtils';
-import { modeToTranslationId } from '../../util/modeUtils';
+} from '../../../utils/client/alertUtils';
+import { modeToTranslationId } from '../../../utils/shared/modeUtils';
 import {
   PREFIX_DISRUPTION,
   routePagePath,
   stopPagePath,
-} from '../../util/path';
-import { durationToString } from '../../util/timeUtils';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
+} from '../../../utils/shared/path';
+import { durationToString } from '../../../utils/client/timeUtils';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import {
   getHeadsignFromRouteLongName,
   getStopHeadsignFromStoptimes,
@@ -39,10 +39,13 @@ import {
   isPlatformChanged,
   getValidatedLegName,
   isLocalCallAgency,
-} from '../../util/legUtils';
-import { shouldShowFareInfo } from '../../util/fareUtils';
-import { AlertEntityType, AlertSeverityLevelType } from '../../constants';
-import { legShape } from '../../util/shapes';
+} from '../../../utils/client/legUtils';
+import { shouldShowFareInfo } from '../../../utils/client/fareUtils';
+import {
+  AlertEntityType,
+  AlertSeverityLevelType,
+} from '../../../utils/shared/constants';
+import { legShape } from '../../../utils/client/shapes';
 import ZoneIcon from '../ZoneIcon';
 import StopInfo from './StopInfo';
 import InterlineInfo from './InterlineInfo';
@@ -52,9 +55,9 @@ import ExternalLink from '../ExternalLink';
 import {
   getBoardingInformationText,
   getTrackOrPierOrPlatformChangeText,
-} from '../../util/localeUtils';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { splitGtfsId } from '../../util/gtfs';
+} from '../../../utils/client/localeUtils';
+import { useConfigContext } from '../../client/ConfigContext';
+import { splitGtfsId } from '../../../utils/shared/gtfs';
 
 const stopCode = code => code && <StopCode code={code} />;
 

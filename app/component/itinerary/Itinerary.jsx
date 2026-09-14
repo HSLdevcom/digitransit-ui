@@ -4,7 +4,7 @@ import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
-import { locationShape, itineraryShape } from '../../util/shapes';
+import { locationShape, itineraryShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import Feedback from './Feedback';
 import StreetBar from './StreetBar';
@@ -26,28 +26,28 @@ import {
   isLegWithRoute,
   isBoardableLeg,
   isWalkOrBicycleWalkLeg,
-} from '../../util/legUtils';
-import { modeToTranslationId } from '../../util/modeUtils';
+} from '../../../utils/client/legUtils';
+import { modeToTranslationId } from '../../../utils/shared/modeUtils';
 import {
   dateOrEmpty,
   durationToString,
   isTomorrow,
   timeStr,
-} from '../../util/timeUtils';
-import withBreakpoint from '../../util/withBreakpoint';
-import { isKeyboardSelectionEvent } from '../../util/browser';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { getItineraryPagePath, streetHash } from '../../util/path';
+} from '../../../utils/client/timeUtils';
+import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { getItineraryPagePath, streetHash } from '../../../utils/shared/path';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
-} from '../../util/vehicleRentalUtils';
-import { getSummaryDescriptionText } from '../../util/localeUtils';
-import getCo2Value from '../../util/emissions';
+} from '../../../utils/shared/vehicleRentalUtils';
+import { getSummaryDescriptionText } from '../../../utils/client/localeUtils';
+import getCo2Value from '../../../utils/client/emissions';
 import { ItineraryFragment } from './queries/ItineraryFragment';
-import { getTicketString } from '../../util/fareUtils';
-import { ViaLocationType } from '../../constants';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { getTicketString } from '../../../utils/client/fareUtils';
+import { ViaLocationType } from '../../../utils/shared/constants';
+import { useConfigContext } from '../../client/ConfigContext';
 import FirstLegStartTime from './FirstLegStartTime';
 import { normalizeLegLengths } from './itineraryLegProcessor';
 

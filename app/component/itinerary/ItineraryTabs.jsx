@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ItineraryDetails from './ItineraryDetails';
 import SwipeableTabs from '../SwipeableTabs';
-import { planEdgeShape } from '../../util/shapes';
+import { planEdgeShape } from '../../../utils/client/shapes';
 
 function ItineraryTabs({
   planEdges,

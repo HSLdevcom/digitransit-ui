@@ -3,17 +3,20 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
 import AlertList from '../AlertList';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 import {
   getAlertsForObject,
   tripHasCancelation,
   setEntityForAlert,
-} from '../../util/alertUtils';
-import { getRouteMode } from '../../util/modeUtils';
-import { alertShape } from '../../util/shapes';
-import { epochToTime } from '../../util/timeUtils';
+} from '../../../utils/client/alertUtils';
+import { getRouteMode } from '../../../utils/shared/modeUtils';
+import { alertShape } from '../../../utils/client/shapes';
+import { epochToTime } from '../../../utils/client/timeUtils';
 import { useCurrentTime } from '../../hooks/TimeContext';
-import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
+import {
+  AlertSeverityLevelType,
+  AlertEntityType,
+} from '../../../utils/shared/constants';
 
 /**
  * This returns the trips mapped as alerts for the route.

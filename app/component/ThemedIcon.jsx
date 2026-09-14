@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon as HslFiIconWrapper, Question } from '@hsl-fi/icons';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { useConfigContext } from '../client/ConfigContext';
 import SvgIcon from './Icon';
 
 /**

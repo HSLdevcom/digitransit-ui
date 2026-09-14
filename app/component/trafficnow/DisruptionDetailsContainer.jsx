@@ -4,13 +4,13 @@ import { useIntl } from 'react-intl';
 import { ButtonLink, Text } from '@hsl-fi/layout-primitives';
 import { useRouter } from 'found';
 import { useLazyLoadQuery } from 'react-relay/hooks';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 import Card from '../Card';
 import DisruptionBadge from './DisruptionBadge';
 import DisruptionStatus from './components/DisruptionStatus';
 import RouteBadges from './RouteBadges';
 import AlertsQuery from './queries/AlertsQuery';
-import { AlertSeverityLevelType } from '../../constants';
+import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 import CTAContainer from './components/CTAContainer';
 
 const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {

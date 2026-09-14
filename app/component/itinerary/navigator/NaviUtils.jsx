@@ -2,36 +2,40 @@ import distance from '@digitransit-search-util/digitransit-search-util-distance'
 import cx from 'classnames';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { GeodeticToEnu } from '../../../util/geo-utils';
-import { legTime, legTimeAcc, PLATFORM_STATUS } from '../../../util/legUtils';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { GeodeticToEnu } from '../../../../utils/shared/geo-utils';
+import {
+  legTime,
+  legTimeAcc,
+  PLATFORM_STATUS,
+} from '../../../../utils/client/legUtils';
 import {
   getTripOrRouteMode,
   getStopMode,
   transitIconName,
   modeToTranslationId,
-} from '../../../util/modeUtils';
+} from '../../../../utils/shared/modeUtils';
 import {
   getTrackOrPierOrPlatformRestoredText,
   getTrackOrPierOrPlatformChangeText,
   getTrackOrPierOrPlatformChangeDetailsText,
-} from '../../../util/localeUtils';
-import { locationToUri } from '../../../util/otpStrings';
-import { getItineraryPagePath } from '../../../util/path';
+} from '../../../../utils/client/localeUtils';
+import { locationToUri } from '../../../../utils/shared/otpStrings';
+import { getItineraryPagePath } from '../../../../utils/shared/path';
 import {
   durationToString,
   epochToIso,
   stopCallTime,
   timeStr,
-} from '../../../util/timeUtils';
+} from '../../../../utils/client/timeUtils';
 import Icon from '../../Icon';
-import { getModeIconColor } from '../../../util/colorUtils';
+import { getModeIconColor } from '../../../../utils/shared/colorUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
 import {
   formatFare,
   getFaresFromLegs,
   shouldShowFareInfo,
-} from '../../../util/fareUtils';
+} from '../../../../utils/client/fareUtils';
 
 const DISPLAY_MESSAGE_THRESHOLD = 120 * 1000; // 2 minutes
 const EARLIEST_NEXT_STOP = 60 * 1000;

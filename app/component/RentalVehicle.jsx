@@ -4,8 +4,8 @@ import Icon from './Icon';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
-} from '../util/vehicleRentalUtils';
-import { rentalVehicleShape } from '../util/shapes';
+} from '../../utils/shared/vehicleRentalUtils';
+import { rentalVehicleShape } from '../../utils/client/shapes';
 
 const RentalVehicle = ({ rentalVehicle }, { config }) => {
   const vehicleIcon = getRentalNetworkIcon(

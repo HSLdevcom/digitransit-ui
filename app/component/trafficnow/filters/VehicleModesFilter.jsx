@@ -3,11 +3,11 @@ import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useFilterContext } from './FiltersContext';
-import { useConfigContext } from '../../../configurations/ConfigContext';
-import { getTransportModes } from '../../../util/modeUtils';
-import { TrafficNowTransportModes } from '../../../constants';
+import { useConfigContext } from '../../../client/ConfigContext';
+import { getTransportModes } from '../../../../utils/shared/modeUtils';
+import { TrafficNowTransportModes } from '../../../../utils/shared/constants';
 import Icon from '../../Icon';
-import { useBreakpoint } from '../../../util/withBreakpoint';
+import { useBreakpoint } from '../../../../utils/client/withBreakpoint';
 
 const VehicleModesFilter = ({ filterId }) => {
   const config = useConfigContext();

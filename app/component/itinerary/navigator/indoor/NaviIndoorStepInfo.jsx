@@ -1,15 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { configShape } from '../../../../util/shapes';
+import { configShape } from '../../../../../utils/client/shapes';
 import Icon from '../../../Icon';
 import {
   getIndoorTranslationId,
   getVerticalTransportationUseIconId,
-} from '../../../../util/indoorUtils';
-import { IndoorStepType, VerticalDirection } from '../../../../constants';
+} from '../../../../../utils/client/indoorUtils';
+import {
+  IndoorStepType,
+  VerticalDirection,
+} from '../../../../../utils/shared/constants';
 import ItineraryMapAction from '../../ItineraryMapAction';
-import { isKeyboardSelectionEvent } from '../../../../util/browser';
+import { isKeyboardSelectionEvent } from '../../../../../utils/shared/browser';
 
 function NaviIndoorStepInfo({
   focusAction,

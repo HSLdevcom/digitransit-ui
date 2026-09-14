@@ -8,7 +8,7 @@ import {
   stopShape,
   stationShape,
   locationShape,
-} from '../../util/shapes';
+} from '../../../utils/client/shapes';
 
 function NearYouFavouritesMapContainer(props) {
   const { stops, stations, vehicleStations, position } = props;

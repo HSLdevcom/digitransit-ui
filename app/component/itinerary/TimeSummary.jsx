@@ -3,7 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from '../Icon';
-import { durationToString, timeStr } from '../../util/timeUtils';
+import { durationToString, timeStr } from '../../../utils/client/timeUtils';
 
 export default function TimeSummary(props) {
   const intl = useIntl();

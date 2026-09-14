@@ -3,15 +3,15 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { Link } from 'found';
-import { legShape, parkShape, configShape } from '../../util/shapes';
+import { legShape, parkShape, configShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { displayDistance } from '../../util/geo-utils';
-import { durationToString } from '../../util/timeUtils';
+import { displayDistance } from '../../../utils/shared/geo-utils';
+import { durationToString } from '../../../utils/client/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { PREFIX_CARPARK } from '../../util/path';
+import { PREFIX_CARPARK } from '../../../utils/shared/path';
 import ItineraryCircleLine from './ItineraryCircleLine';
-import { legTimeStr, legDestination } from '../../util/legUtils';
+import { legTimeStr, legDestination } from '../../../utils/client/legUtils';
 
 function CarParkLeg(props, { config }) {
   const intl = useIntl();

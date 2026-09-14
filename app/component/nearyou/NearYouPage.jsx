@@ -6,11 +6,13 @@ import { graphql, ReactRelayContext, QueryRenderer } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { relayShape, locationShape } from '../../util/shapes';
+import { relayShape, locationShape } from '../../../utils/client/shapes';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';
-import withBreakpoint, { DesktopOrMobile } from '../../util/withBreakpoint';
-import { otpToLocation, locationToUri } from '../../util/otpStrings';
+import withBreakpoint, {
+  DesktopOrMobile,
+} from '../../../utils/client/withBreakpoint';
+import { otpToLocation, locationToUri } from '../../../utils/shared/otpStrings';
 import Loading from '../Loading';
 import StopNearYouContainer from './StopNearYouContainer';
 import UpdateLocationButton from './UpdateLocationButton';
@@ -24,19 +26,19 @@ import {
 } from '../../action/PositionActions';
 import Search from './Search';
 import StopRouteSearch from './StopRouteSearch';
-import { getGeolocationState } from '../../data/localStorage';
-import { PREFIX_NEARYOU } from '../../util/path';
+import { getGeolocationState } from '../../../utils/shared/localStorage';
+import { PREFIX_NEARYOU } from '../../../utils/shared/path';
 import NearYouContainer from './NearYouContainer';
 import SwipeableTabs, { setFocusables } from '../SwipeableTabs';
 import NearYouFavourites from './NearYouFavourites';
 import { mapLayerShape } from '../../store/MapLayerStore';
-import { getDefaultNetworks } from '../../util/vehicleRentalUtils';
-import { getMapLayerOptions } from '../../util/mapLayerUtils';
+import { getDefaultNetworks } from '../../../utils/shared/vehicleRentalUtils';
+import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import {
   getTransportModes,
   getNearYouModes,
   useCitybikes,
-} from '../../util/modeUtils';
+} from '../../../utils/shared/modeUtils';
 import {
   getFavouriteStopsAndStations,
   getFavouriteVehicleRentalStations,
@@ -46,7 +48,7 @@ import {
   useFavourites,
   useFavouriteStatus,
 } from '../../hooks/FavouriteContext';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
 
 // component initialization phases

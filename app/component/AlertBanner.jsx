@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'found';
 import TruncateMarkup from 'react-truncate-markup';
-import { alertShape } from '../util/shapes';
+import { alertShape } from '../../utils/client/shapes';
 import Icon from './Icon';
-import { alertSeverityCompare } from '../util/alertUtils';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { alertSeverityCompare } from '../../utils/client/alertUtils';
+import { useConfigContext } from '../client/ConfigContext';
 
 export default function AlertBanner({ alerts, linkAddress }) {
   const { colors } = useConfigContext();

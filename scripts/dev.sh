@@ -50,7 +50,7 @@ set -eo pipefail
 set -m
 
 if [ -z "$CONFIG" ]; then
-    echo "CONFIG is not set, using 'default'. Set CONFIG=<name> to use a regional deployment (see app/configurations/config.default.js's themeMap)."
+    echo "CONFIG is not set, using 'default'. Set CONFIG=<name> to use a regional deployment (see server/configs/config.default.js's themeMap)."
 fi
 
 export CONFIG="${CONFIG:-default}"
