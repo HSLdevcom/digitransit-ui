@@ -1,5 +1,6 @@
 /* eslint-disable prefer-template */
-import configMerger from '../util/configMerger';
+import configMerger from '../util/configMerger.js';
+import ouluConfig from './config.oulu.js';
 
 const CONFIG = 'walttiTest';
 const APP_TITLE = 'Waltin testireittiopas';
@@ -7,8 +8,6 @@ const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/waltti-alt/`;
 const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/waltti-alt`;
-
-const ouluConfig = require('./config.oulu').default;
 
 export default configMerger(ouluConfig, {
   CONFIG,
