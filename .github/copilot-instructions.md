@@ -21,6 +21,10 @@ right one by *who consumes the code*, not just by convenience.
   - `action/` — Flux action creators (one file per domain, e.g. `FavouriteActions.js`).
   - `store/` — Flux stores (one file per domain, mirrors `action/`), plus `sessionStorage.js`
     persistence helper.
+  - `data/` — plain (non-Flux) client-side singleton stores: `FavouriteData.js` (user
+    favourites, synced via API + `localStorage`) and `SearchContext.js` (bridges the
+    framework-agnostic `digitransit-search-util` packages), both instantiated once in
+    `app/client/client.jsx`.
   - `hooks/` — shared React hooks; small today but growing, since new code should prefer
     hooks-based state over Flux (see Architecture below).
   - `translations/` — one file per locale (`fi.js`, `en.js`, `sv.js`, ...); `fi.js` is the source
@@ -34,11 +38,15 @@ right one by *who consumes the code*, not just by convenience.
   `proxyTester.js`, and `configs/` — `config.js` (server-side config resolution/merging by host)
   plus one `config.<region>.js` per deployment.
 - `utils/` — helper modules split by consumer (see "Server/client boundary" below):
-  `shared/` (used by both server and client, e.g. `constants.js`, `meta.js`, `localStorage.js`,
-  `analyticsUtils.js`, `gtfs.js`, `citybikeSeasonUtils.js`), `server/` (server-only, e.g.
-  `configMerger.js`, `realtimeUtils.js`, `timetableConfigUtils.js` — config-assembly helpers used
-  only by `server/configs/*.js`), `client/` (client-bundle-only, the bulk of the old `app/util/`,
-  plus its own `__generated__/` for Relay fragments used by utils).
+  - `shared/` — used by both server and client, e.g. `constants.js`, `meta.js`,
+    `analyticsUtils.js`, `gtfs.js`, `citybikeSeasonUtils.js`. Isomorphic only: a file (or a
+    function within a file, e.g. `vehicleRentalUtils.js`'s pure network/config helpers vs. its
+    `client/` counterpart's `localStorage`/analytics-touching ones) belongs here only if it's
+    safe to run on the server too — no `window`/`document`/`localStorage` access.
+  - `server/` — server-only, e.g. `configMerger.js`, `realtimeUtils.js`,
+    `timetableConfigUtils.js` — config-assembly helpers used only by `server/configs/*.js`.
+  - `client/` — client-bundle-only, the bulk of the old `app/util/`, e.g. `localStorage.js`,
+    plus its own `__generated__/` for Relay fragments used by utils.
 - `test/` — `unit/` (mocha, mirrors the `app/`/`server/`/`utils/` layout, e.g.
   `test/unit/utils/{shared,server,client}/`, `test/unit/server/configs/`) and `e2e/` (Jest +
   Playwright visual tests).
@@ -48,13 +56,15 @@ right one by *who consumes the code*, not just by convenience.
 - `digitransit-component/`, `digitransit-search-util/`, `digitransit-store/`,
   `digitransit-util/` — Yarn workspace packages, built separately (see below).
 - `sass/`, `static/` — global styles and static assets.
-- `config/` — build tooling config (e.g. rollup).
+- `config/` — build tooling config: `babel.config.cjs`, `rollup.config.js` (component-package
+  builds), `vitest.config.js`/`vitest.jsx-runtime-loader.js` (workspace-package tests, see
+  Tests below).
 - `schema/` — generated `schema.graphql` (GraphQL schema consumed by relay-compiler and
   graphql-eslint; regenerate with `scripts/generate-schema.js`, don't hand-edit).
 - `docs/` — architecture/testing/etc. docs; **treat as potentially stale** — when a change
   affects what a `docs/*` file describes, update that doc in the same change.
 
-## Setup & build
+## Setup & build (see `docs/Installation.md`)
 
 - Requires the Node version from `engines.node` and the Yarn version from `packageManager` in
   `package.json` (`corepack enable`). Also needs `watchman`.
@@ -73,7 +83,7 @@ right one by *who consumes the code*, not just by convenience.
 - If the OTP GraphQL schema changes: `node scripts/generate-schema.js` (regenerates
   `schema/schema.graphql`; `relay-compiler` then regenerates `app/__generated__` on build/dev).
 
-## Docker
+## Docker (see `docs/Docker.md`)
 
 - `.dockerignore` is a default-deny allow-list; add an explicit `!path` line if the image genuinely needs something new.
 
@@ -88,14 +98,17 @@ right one by *who consumes the code*, not just by convenience.
   staged scss) and blocks on unresolved merge-conflict markers; pre-push runs the full
   `yarn run test-unit` suite, so pushes can be slow or rejected if unit tests fail.
 
-## Tests
+## Tests (see `docs/Tests.md`)
 
-- Unit tests (mocha, files under `test/unit/**/*.test.js`, mirrors the source structure e.g.
-  `test/unit/component/...`, `test/unit/store/...`, `test/unit/server/configs/...`,
-  `test/unit/utils/{shared,server,client}/...`). This setup is currently under refactoring —
-  verify commands against `package.json` if they seem out of date:
+- Unit tests (mocha, files under `test/unit/**/*.test.js`) mirror the source structure where
+  the reorg has been applied, e.g. `test/unit/component/...`, `test/unit/store/...`,
+  `test/unit/server/configs/...`, `test/unit/utils/{shared,server,client}/...` — a
+  `test/unit/util/` (old, singular) directory and some flat `test/unit/*.test.js` files remain
+  from before the reorg and don't yet mirror anything. This setup is currently under
+  refactoring — verify commands against `package.json` if they seem out of date:
   - For new React component tests, prefer **React Testing Library** and test components from the user's perspective rather than relying on implementation details.
-  - Run all: `yarn test-unit` (runs app + workspace `store`/`component` package tests).
+  - Run all: `yarn test-unit` (runs the app suite plus the workspace `store`/`component`
+    package tests, the latter via **Vitest**, `config/vitest.config.js`).
   - Run just the app suite: `yarn test-unit:app`.
   - Run a single test by name (grep on describe/it or filename stem):
     `yarn test-single -g <pattern>` (this is `test-unit:app -g <pattern>`).
@@ -146,7 +159,7 @@ Other structural notes:
 ## Server/client boundary
 
 The repo is `"type": "module"`. Only a few entry points are loaded by Node **directly**, with no
-bundler/transpiler in between: `server/**`, `webpack.config.js`, `scripts/**`, `config/*.js`.
+bundler/transpiler in between: `server/**`, `webpack.config.js`, `scripts/**`, `config/*.{js,cjs}`.
 Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by webpack
 (client) or run through Mocha's Babel-ESM loader (tests), both extension-agnostic.
 
@@ -178,10 +191,8 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   `undefined`.
 - JSX-containing files use the `.jsx` extension; plain `.js` never contains JSX. The one
   exception is `test/unit/**`, which still uses `.js` for JSX pending a separate Mocha→Vitest
-  migration. Relative/bare import specifiers must **not** include an extension anywhere except
-  the native-ESM-loaded directories (`server/**`, `utils/shared/**`, `utils/server/**`,
-  `webpack.config.js`, `scripts/**`, `config/*.js`), where an extension is required — see
-  "Server/client boundary" above. `import/extensions` is not autofixable by `eslint --fix`.
+  migration. For the extension-required-vs-forbidden import policy, see "Server/client
+  boundary" above; `import/extensions` is not autofixable by `eslint --fix`.
 - Avoid `Component.defaultProps` in function components (deprecated by React, and unsupported for
   function components in newer React versions). Declare defaults via destructuring in the
   function signature instead, e.g. `function Foo({ isMobile = false, children = null })`. This
