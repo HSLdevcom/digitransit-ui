@@ -4,9 +4,9 @@ const Environment = Object.freeze({
 });
 
 /**
- * Whether the app runs in a non-production deployment, from `config.RUN_ENV`
- * (pass `window.config` on the client — the server mirrors `RUN_ENV` into it
- * because `process.env` does not exist in the browser bundle).
+ * Client-side. Whether the app runs in a non-production deployment, from `config.RUN_ENV`
+ * (pass `window.config` — the server mirrors `RUN_ENV` into it because `process.env`
+ * does not exist in the browser bundle).
  *
  * @param {{RUN_ENV?: string}|null} config
  * @returns {boolean}
