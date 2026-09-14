@@ -389,7 +389,12 @@ export default {
         },
         digitransitComponents: {
           name: 'digitransit-components',
-          test: /[\\/]node_modules[\\/](@digitransit-component|@digitransit-search-util|@digitransit-util|@hsl-fi)[\\/]/,
+          // The 4 `digitransit-*` workspace packages are Yarn-workspace
+          // symlinks, so webpack resolves them to their real path outside
+          // `node_modules` entirely - hence the second, bare alternative
+          // below (no `node_modules[\\/]` prefix), unlike the `@hsl-fi`
+          // branch and the `react` cache group above.
+          test: /[\\/](node_modules[\\/]@hsl-fi|digitransit-(?:component|search-util|store|util))[\\/]/,
         },
       },
     },
