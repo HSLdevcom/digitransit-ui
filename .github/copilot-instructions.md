@@ -168,7 +168,7 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   client bundle never re-reads `server/configs/*` directly.
 - `utils/shared/**` holds code genuinely imported by both sides (e.g. `gtfs.js`,
   `citybikeSeasonUtils.js`, `analyticsUtils.js`). `envUtils.js` is split per-consumer instead:
-  `utils/server/envUtils.js` and `utils/client/envUtils.js`.
+  `utils/server/envUtils.js` and `utils/client/envUtils.js` both contain a `isDevRunEnv` function.
 - `utils/server/**` and `utils/client/**` are single-consumer-only; don't add server-only helpers
   to `utils/client/` or vice versa.
 - This boundary is enforced by ESLint's `import/no-restricted-paths` (`.eslintrc.cjs`): `server/**`
