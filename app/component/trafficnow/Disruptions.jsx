@@ -217,11 +217,7 @@ export default function Disruptions({ dateTime }) {
           </div>
         </div>
       )}
-      <div
-        className={
-          mobile ? 'disruptions__scroll--mobile' : 'disruptions__scroll'
-        }
-      >
+      <div className="disruptions__scroll">
         {!resultAmount ? (
           <NoDisruptions />
         ) : (
