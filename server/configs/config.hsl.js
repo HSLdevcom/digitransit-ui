@@ -1,6 +1,6 @@
 import { isDevRunEnv } from '../../utils/server/envUtils.js';
 import { BIKEAVL_WITHMAX } from '../../utils/shared/vehicleRentalUtils.js';
-import ttConfig from './timetableConfigUtils.js';
+import ttConfig from '../../utils/server/timetableConfigUtils.js';
 
 const HSLTimetables = ttConfig.HSL;
 const CONFIG = 'hsl';

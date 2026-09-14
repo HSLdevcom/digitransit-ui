@@ -1,6 +1,6 @@
 import safeJsonParse from '../../utils/server/safeJsonParser.js';
 import { BIKEAVL_WITHMAX } from '../../utils/shared/vehicleRentalUtils.js';
-import realtime from './realtimeUtils.js';
+import realtime from '../../utils/server/realtimeUtils.js';
 import prUtils from '../../utils/server/ParkAndRideUtils.js';
 
 const CONFIG = process.env.CONFIG || 'default';

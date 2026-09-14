@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import * as timetables from '../../../../server/configs/timetableConfigUtils';
+import * as timetables from '../../../../utils/server/timetableConfigUtils';
 
 describe('timetableConfigUtils', () => {
   describe('routeTimetableUrlResolver', () => {
