@@ -135,6 +135,23 @@ describe('OldSearchesStore', () => {
       expect(items[0].count).to.equal(4);
       expect(items[0].item.properties.longName).to.equal('Current Name');
     });
+
+    it('should drop items without properties as unusable', () => {
+      setOldSearchesStorage({
+        version: STORE_VERSION,
+        items: [
+          { count: 1, item: { type: 'search' }, type: 'search' },
+          { count: 2, item: mockData.updated.item, type: 'endpoint' },
+        ],
+      });
+
+      const store = new OldSearchesStore();
+      store.getStorageObject();
+
+      const { items } = getOldSearchesStorage();
+      expect(items).to.have.length(1);
+      expect(items[0].item.properties).to.exist;
+    });
   });
 
   describe('getOldSearches(type)', () => {
@@ -170,9 +187,9 @@ describe('OldSearchesStore', () => {
       setOldSearchesStorage({
         version: STORE_VERSION,
         items: [
-          { item: {}, type: 'endpoint' },
-          { item: {}, type: 'route' },
-          { item: {}, type: 'endpoint' },
+          { item: { properties: { label: 'A' } }, type: 'endpoint' },
+          { item: { properties: { label: 'B' } }, type: 'route' },
+          { item: { properties: { label: 'C' } }, type: 'endpoint' },
         ],
       });
       const store = new OldSearchesStore();
@@ -189,24 +206,28 @@ describe('OldSearchesStore', () => {
         items: [
           {
             item: {
+              properties: { label: 'foo-bar' },
               foo: 'bar',
             },
             lastUpdated: timestamp().toUnixInteger(),
           },
           {
             item: {
+              properties: { label: 'foo-baz' },
               foo: 'baz',
             },
             lastUpdated: timestamp().plus({ seconds: 1 }).toUnixInteger(),
           },
           {
             item: {
+              properties: { label: 'foo-yes-filter' },
               foo: 'yes_filter',
             },
             lastUpdated: timestamp().minus({ days: 60 }).toUnixInteger(),
           },
           {
             item: {
+              properties: { label: 'foo-no-filter' },
               foo: 'no_filter',
             },
             lastUpdated: timestamp()
@@ -230,7 +251,7 @@ describe('OldSearchesStore', () => {
       MockDate.set(timestamp);
       setOldSearchesStorage({
         version: STORE_VERSION,
-        items: [{ item: {} }],
+        items: [{ item: { properties: { label: 'foo' } } }],
       });
 
       const store = new OldSearchesStore();

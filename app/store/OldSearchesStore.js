@@ -29,15 +29,13 @@ const getItemKey = properties => {
 const deduplicateItems = items => {
   const uniqueItems = [];
   items.forEach(item => {
+    // Items without properties are malformed/unusable downstream, drop them.
     if (!item.item.properties) {
-      uniqueItems.push(item);
       return;
     }
     const key = getItemKey(item.item.properties);
-    const existingIndex = uniqueItems.findIndex(
-      existingItem =>
-        existingItem.item.properties &&
-        isEqual(key, getItemKey(existingItem.item.properties)),
+    const existingIndex = uniqueItems.findIndex(existingItem =>
+      isEqual(key, getItemKey(existingItem.item.properties)),
     );
     if (existingIndex === -1) {
       uniqueItems.push(item);
