@@ -271,51 +271,47 @@ function MessageBar({
             dataURI={dataURI}
             className="message-icon"
           />
-          <div className={`message-bar-content message-bar-${type}`}>
-            <div>
-              <div className="message-bar-container">
-                <div
-                  style={{
-                    background: isDisruption ? 'inherit' : backgroundColor,
-                  }}
-                >
-                  {currentMessages.length > 1 ? (
-                    <SwipeableTabs
-                      tabIndex={index}
-                      tabs={getTabContent(textColor, slideIndex)}
-                      onSwipe={onSwipe}
-                      hideArrows={breakpoint !== 'large'}
-                      navigationOnBottom
-                      ariaRole="swipe-message-bar-tab"
-                    />
-                  ) : (
-                    <div className="single-alert">
-                      {getTabContent(textColor, slideIndex)}
-                    </div>
-                  )}
+          <div
+            className={`message-bar-content message-bar-container message-bar-${type}`}
+          >
+            <div
+              style={{
+                background: isDisruption ? 'inherit' : backgroundColor,
+              }}
+            >
+              {currentMessages.length > 1 ? (
+                <SwipeableTabs
+                  tabIndex={index}
+                  tabs={getTabContent(textColor, slideIndex)}
+                  onSwipe={onSwipe}
+                  hideArrows={breakpoint !== 'large'}
+                  navigationOnBottom
+                  ariaRole="swipe-message-bar-tab"
+                />
+              ) : (
+                <div className="single-alert">
+                  {getTabContent(textColor, slideIndex)}
                 </div>
-              </div>
+              )}
             </div>
           </div>
-          <div>
-            <button
-              id="close-message-bar"
-              title={intl.formatMessage({
-                id: 'messagebar-label-close-message-bar',
-                defaultMessage: 'Close banner',
-              })}
-              onClick={handleClose}
-              onKeyDown={e => {
-                if (isKeyboardSelectionEvent(e)) {
-                  handleClose();
-                }
-              }}
-              className="noborder close-button  cursor-pointer"
-              type="button"
-            >
-              <Icon img="icon_close" className="close" color="#333333" />
-            </button>
-          </div>
+          <button
+            id="close-message-bar"
+            title={intl.formatMessage({
+              id: 'messagebar-label-close-message-bar',
+              defaultMessage: 'Close banner',
+            })}
+            onClick={handleClose}
+            onKeyDown={e => {
+              if (isKeyboardSelectionEvent(e)) {
+                handleClose();
+              }
+            }}
+            className="noborder close-button  cursor-pointer"
+            type="button"
+          >
+            <Icon img="icon_close" className="close" color="#333333" />
+          </button>
         </div>
       </section>
     </>
