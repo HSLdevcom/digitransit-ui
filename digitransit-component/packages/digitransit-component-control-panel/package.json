@@ -1,11 +1,23 @@
 {
   "name": "@digitransit-component/digitransit-component-control-panel",
-  "version": "7.1.7",
+  "version": "8.0.0",
   "description": "digitransit-component control-panel module",
+  "type": "module",
   "main": "index.cjs",
+  "module": "lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./index.cjs",
+      "default": "./index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "/lib",
-    "index.cjs"
+    "index.cjs",
+    "LICENSE-AGPL.txt",
+    "LICENSE-EUPL.txt"
   ],
   "publishConfig": {
     "access": "public"
@@ -13,8 +25,8 @@
   "scripts": {
     "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "clean": "rm -rf ./lib ./node_modules",
-    "test": "NODE_OPTIONS=\"--import ../../../config/vitest.jsx-runtime-loader.mjs\" vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
-    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs",
+    "test": "NODE_OPTIONS=\"--import ../../../config/vitest.jsx-runtime-loader.js\" vitest run --config ../../../config/vitest.config.js \"$PWD/test.jsx\"",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.js",
     "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
   "repository": {
@@ -40,6 +52,5 @@
     "prop-types": "^15.8.1",
     "react": "^16.13.0",
     "react-i18next": "^12.3.1"
-  },
-  "type": "module"
+  }
 }

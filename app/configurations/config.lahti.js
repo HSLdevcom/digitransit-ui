@@ -1,6 +1,6 @@
-import configMerger from '../util/configMerger';
-import { BIKEAVL_BIKES } from '../util/vehicleRentalUtils';
-import walttiConfig from './config.waltti';
+import configMerger from '../util/configMerger.js';
+import { BIKEAVL_BIKES } from '../util/vehicleRentalUtils.js';
+import walttiConfig from './config.waltti.js';
 
 const CONFIG = 'lahti';
 const APP_TITLE = 'LSL reittiopas';

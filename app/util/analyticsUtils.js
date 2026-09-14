@@ -1,5 +1,5 @@
 import Cookies from 'universal-cookie';
-import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from './path';
+import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from './path.js';
 
 /**
  * This file contains functions for UI analytics.

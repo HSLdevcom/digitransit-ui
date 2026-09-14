@@ -1,8 +1,8 @@
-import { isDevRunEnv } from '../util/envUtils';
-import safeJsonParse from '../util/safeJsonParser';
-import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
-import realtime from './realtimeUtils';
-import prUtils from '../util/ParkAndRideUtils';
+import { isDevRunEnv } from '../util/envUtils.js';
+import safeJsonParse from '../util/safeJsonParser.js';
+import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils.js';
+import realtime from './realtimeUtils.js';
+import prUtils from '../util/ParkAndRideUtils.js';
 
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
