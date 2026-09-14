@@ -1,6 +1,6 @@
 # Webpack configuration
 
-How `webpack.config.babel.js` (repo root) is put together: what each part
+How `webpack.config.js` (repo root) is put together: what each part
 does and why. Reflects the config as it stands on **webpack 5**. Update
 this doc whenever the config changes structurally.
 
@@ -12,13 +12,13 @@ and `CONFIG` (regional deployment — `hsl`/`tampere`/`matka`/etc., see
 
 ## Bootstrapping
 
-`require('@babel/register')();` at the top of the file lets this
-CommonJS config `require()` `./scripts/build/contextHelper` (and,
-transitively, `app/config.js` and the regional configs), which use ES
-module `import` syntax. It's needed because webpack-cli 5+ dropped the
-automatic `interpret`-based Babel registration that used to make
-`*.config.babel.js` filenames "just work". No `ignore` option is needed —
-this file's require chain never reaches into `node_modules`.
+The repo is `"type": "module"`, so this config is native ESM — no
+`@babel/register` bootstrap needed to `import` `./scripts/build/
+contextHelper.js` (and, transitively, `app/config.js` and the regional
+configs). `import.meta.dirname` (as `rootDir`) replaces `__dirname`;
+`createRequire(import.meta.url)` is kept only for the two
+`require.resolve(...)` polyfill lookups in `resolve.fallback`/`plugins`
+(see `node`/`resolve`/`cache` below), since ESM has no bare `require`.
 
 `mode` comes straight from `NODE_ENV`; `isProduction`/`isDevelopment` are
 derived from it and used throughout to pick different loaders, plugins,
@@ -37,18 +37,18 @@ and output settings.
   instance per deployment, producing per-deployment favicons/app icons
   under `assets/icons-<CONFIG>-[contenthash]/`.
 - In development, `webpack.ContextReplacementPlugin` narrows the dynamic
-  `require` for `sass/themes` down to just the selected `CONFIG`'s
+  `import` for `sass/themes` down to just the selected `CONFIG`'s
   `main.scss`, so the dev server doesn't build every theme.
-- `app/util/loadDevTheme.js` holds a dynamic
-  `require(`../../sass/themes/${window.config.CONFIG}/main.scss`)` that used
-  to live inline in `app/client.js` behind an
+- `app/util/loadDevTheme.js` holds a dynamic, fire-and-forget
+  `import(`../../sass/themes/${window.config.CONFIG}/main.scss`)` that used
+  to live inline in `app/client.js` as a `require(...)` behind an
   `if (process.env.NODE_ENV === 'development')` runtime check written as an
   imported/computed constant rather than the literal expression. That was
   moved into its own file, only added to `entry.main` when `isDevelopment`,
-  because webpack resolves a dynamic `require`'s "context module" (every
+  because webpack resolves a dynamic import's "context module" (every
   file the template string could possibly match) while building the module
   graph — a step that runs before any dead-code elimination and can't see
-  across module boundaries. Guarding the `require` with an *imported*
+  across module boundaries. Guarding it with an *imported*
   boolean constant didn't stop webpack from still resolving (and bundling)
   every theme's SCSS into production; only literally excluding the file
   from `entry` in production does, and only a literal `process.env.NODE_ENV`
@@ -56,7 +56,9 @@ and output settings.
   `!== 'production'`, etc.) gets folded/dropped by
   `DefinePlugin`/dead-code-elimination in the first place — an
   imported/computed value can't be statically folded. See PR #5929 for the
-  full story. It reads `window.config.CONFIG` (the
+  full story. The original `require(...)` became `import(...)` once `app/`
+  files were parsed as strict ESM (`"type": "module"`), which has no
+  `require` global. It reads `window.config.CONFIG` (the
   server-injected, already-resolved config object `app/client.js` uses for
   everything else) rather than `process.env.CONFIG`: the browser bundle
   never sees real build-time env var *values* (only the `ProvidePlugin`
@@ -80,10 +82,14 @@ and output settings.
 ## Module rules (loaders)
 
 - **`app/**/*.js`** — `babel-loader`, config inline (`configFile: false`;
-  `.babelrc`/`babel.config.js` are only for tooling like tests).
+  `.babelrc`/`babel.config.cjs` are only for tooling like tests). Also sets
+  `resolve.fullySpecified: false`: under `"type": "module"` webpack5 would
+  otherwise treat every `app/` file as strict ESM and demand an explicit
+  extension on every relative import, but the client bundle keeps the
+  project's long-standing extensionless import style.
   `@babel/preset-env` has no explicit `targets` — it inherits the
   `browserslist` key in `package.json`, the single source of truth for
-  supported browsers shared with `postcss.config.js`/autoprefixer. Also:
+  supported browsers shared with `postcss.config.cjs`/autoprefixer. Also:
   `@babel/preset-react`, Relay's babel plugin, and
   `@babel/plugin-transform-runtime` (dedupes/shares Babel helper functions
   across files instead of inlining a copy per file).
@@ -96,6 +102,15 @@ and output settings.
   webpack5's stricter default ESM resolution would otherwise reject.
 - **`.mjs` under `node_modules`** — same treatment, for packages (e.g.
   `@radix-ui`) that ship a native ESM entry point instead.
+- **`digitransit-component`/`digitransit-store` sources** — forced
+  `type: 'javascript/auto'`. These packages' real ESM Rollup build
+  (`lib/index.js`, see `docs/WorkspacePackages.md`) still default-imports
+  CJS peer deps (e.g. `@hsl-fi/modal`) that only mark themselves via
+  Babel's userland `__esModule` flag, not a real `"module"`/`exports`
+  field. Strict ESM's default-import semantics don't recognize that flag
+  and bind the whole `module.exports` instead of `.default`, crashing at
+  render ("Element type is invalid"); `javascript/auto`'s lenient interop
+  unwraps it correctly, same as the rest of the app.
 - **`.scss`** — `sass-loader` → `postcss-loader` → `css-loader` →
   `style-loader` (dev) / `MiniCssExtractPlugin.loader` (prod). Includes
   Foundation Sites' Sass path via `loadPaths` (Dart Sass's modern name for
@@ -307,7 +322,7 @@ user-agent-specific JS polyfills at runtime — intentional, documented
 architecture (see `docs/Architecture.md`), not controlled by this file,
 but relevant context for "old browser support" in this codebase overall.
 
-## `postcss.config.js`
+## `postcss.config.cjs`
 
 Small file outside this config, consumed by its `postcss-loader` step:
 runs `autoprefixer` + `postcss-flexbugs-fixes` in production only. Still

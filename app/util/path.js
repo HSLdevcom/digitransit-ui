@@ -1,8 +1,8 @@
-import get from 'lodash/get';
-import trimEnd from 'lodash/trimEnd';
-import trimStart from 'lodash/trimStart';
-import toPairs from 'lodash/toPairs';
-import { otpToLocation, locationToOTP, locationToUri } from './otpStrings';
+import get from 'lodash/get.js';
+import trimEnd from 'lodash/trimEnd.js';
+import trimStart from 'lodash/trimStart.js';
+import toPairs from 'lodash/toPairs.js';
+import { otpToLocation, locationToOTP, locationToUri } from './otpStrings.js';
 
 export const TAB_NEARBY = 'lahellasi';
 export const TAB_FAVOURITES = 'suosikit';

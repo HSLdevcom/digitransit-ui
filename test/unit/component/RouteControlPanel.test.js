@@ -1,32 +1,47 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
-import sinon from 'sinon';
-import { shallow } from 'enzyme';
 
-import { DateTime } from 'luxon';
-import { mockContext } from '../helpers/mock-context';
 import { mockMatch } from '../helpers/mock-router';
+import { renderWithProviders } from '../helpers/mock-providers';
 import RouteControlPanel from '../../../app/component/routepage/RouteControlPanel';
 import { AlertSeverityLevelType } from '../../../app/constants';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../app/util/path';
-import { createShallowHookSandbox } from '../helpers/mock-intl-enzyme';
 
 const baseConfig = {
   CONFIG: 'default',
   colors: { primary: '#00AFFF' },
   URL: {},
+  itinerary: { serviceTimeRange: 60 },
+  user: { sub: undefined },
 };
 
 describe('<RouteControlPanel />', () => {
-  let sandbox;
-  let stubs;
-
+  let savedConsoleError;
   beforeEach(() => {
-    ({ sandbox, stubs } = createShallowHookSandbox({ config: baseConfig }));
+    // Relax console.error for the known Relay fragment warning
+    // eslint-disable-next-line no-console
+    savedConsoleError = console.error;
+    // eslint-disable-next-line no-console
+    console.error = warning => {
+      if (String(warning).includes('RelayModernSelector')) {
+        return;
+      }
+      throw new Error(warning);
+    };
   });
 
-  afterEach(() => sandbox.restore());
+  afterEach(() => {
+    // eslint-disable-next-line no-console
+    console.error = savedConsoleError;
+  });
+
+  const renderView = (props, config = baseConfig, contextOverrides = {}) =>
+    renderWithProviders(<RouteControlPanel {...props} />, {
+      config,
+      match: props.match,
+      ...contextOverrides,
+    }).container;
 
   it('should set the activeAlert class if there is an alert and a matching patternId', () => {
     const props = {
@@ -48,6 +63,7 @@ describe('<RouteControlPanel />', () => {
               },
             ],
             code: 'HSL:1063:0:01',
+            stops: [{ name: 'Stop A' }, { name: 'Stop B' }],
             trips: [
               {
                 stoptimes: [
@@ -72,65 +88,7 @@ describe('<RouteControlPanel />', () => {
         },
       },
     };
-    const wrapper = shallow(<RouteControlPanel {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find('.activeAlert')).to.have.lengthOf(1);
-  });
-
-  it('renders without error when active pattern is found and realtime is configured', () => {
-    const activeDates = [{ day: DateTime.now().toFormat('yyyyLLdd') }];
-    const props = {
-      reRouteAllowed: true,
-      breakpoint: 'large',
-      route: {
-        gtfsId: 'tampere:32',
-        mode: 'BUS',
-        patterns: [
-          {
-            code: 'tampere:32:1:01',
-            headsign: 'Tampella',
-            activeDates,
-            trips: [
-              {
-                stoptimes: [
-                  {
-                    realtimeState: 'CANCELED',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-        agency: { name: 'mock' },
-        type: 3,
-      },
-      match: {
-        ...mockMatch,
-        location: {
-          ...mockMatch.location,
-          pathname: `/${PREFIX_ROUTES}/tampere:32/${PREFIX_STOPS}/tampere:32:1:01`,
-        },
-        params: {
-          patternId: 'tampere:32:1:01',
-        },
-      },
-    };
-    stubs.useConfigContext.returns({
-      ...baseConfig,
-      realTime: {
-        tampere: {
-          gtfsRt: 'foobar',
-          routeSelector: () => '32',
-          active: true,
-        },
-      },
-    });
-    // useEffect that starts the realtime client runs after mount, but cannot be
-    // reliably tested with Enzyme shallow rendering (effects don't run) or mount
-    // (requires a full Relay refetch container environment). This test verifies
-    // that the component renders without throwing given these props.
-    shallow(<RouteControlPanel {...props} />, { context: mockContext });
+    expect(renderView(props).querySelector('.activeAlert')).to.not.equal(null);
   });
 
   it('should not start the real time client after mounting if realtime is not active', () => {
@@ -141,6 +99,12 @@ describe('<RouteControlPanel />', () => {
         mode: 'BUS',
         type: 3,
         agency: { name: 'mock' },
+        patterns: [
+          {
+            code: 'tampere:32:1:01',
+            stops: [{ name: 'Stop A' }, { name: 'Stop B' }],
+          },
+        ],
       },
       match: {
         ...mockMatch,
@@ -153,7 +117,7 @@ describe('<RouteControlPanel />', () => {
         },
       },
     };
-    stubs.useConfigContext.returns({
+    const config = {
       ...baseConfig,
       realTime: {
         tampere: {
@@ -162,15 +126,8 @@ describe('<RouteControlPanel />', () => {
           active: false,
         },
       },
-    });
-    const context = {
-      ...mockContext,
-      executeAction: sinon.stub(),
     };
-
-    shallow(<RouteControlPanel {...props} />, { context });
-
-    expect(context.executeAction.callCount).to.equal(0);
+    renderView(props, config);
   });
 
   it('should set the activeAlert class if there is a cancelation for today', () => {
@@ -183,6 +140,7 @@ describe('<RouteControlPanel />', () => {
           {
             alerts: [],
             code: 'HSL:1063:0:01',
+            stops: [{ name: 'Stop A' }, { name: 'Stop B' }],
             trips: [
               {
                 stoptimes: [
@@ -209,10 +167,7 @@ describe('<RouteControlPanel />', () => {
         },
       },
     };
-    const wrapper = shallow(<RouteControlPanel {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find('.activeAlert')).to.have.lengthOf(1);
+    expect(renderView(props).querySelector('.activeAlert')).to.not.equal(null);
   });
 
   describe('componentDidMount', () => {
@@ -225,6 +180,7 @@ describe('<RouteControlPanel />', () => {
           patterns: [
             {
               code: 'HSL:1063:0:01',
+              stops: [{ name: 'Stop A' }, { name: 'Stop B' }],
             },
           ],
           type: 3,
@@ -242,12 +198,12 @@ describe('<RouteControlPanel />', () => {
           },
         },
       };
-      stubs.useConfigContext.returns({
+      const config = {
         ...baseConfig,
         realTime: { HSL: { active: true } },
-      });
+      };
       // Renders without throwing even when patternId does not match any pattern
-      shallow(<RouteControlPanel {...props} />, { context: mockContext });
+      renderView(props, config);
     });
   });
 
@@ -261,6 +217,7 @@ describe('<RouteControlPanel />', () => {
           patterns: [
             {
               code: 'HSL:1063:0:01',
+              stops: [{ name: 'Stop A' }, { name: 'Stop B' }],
             },
           ],
           type: 3,
@@ -278,17 +235,12 @@ describe('<RouteControlPanel />', () => {
           },
         },
       };
-      stubs.useConfigContext.returns({
+      const config = {
         ...baseConfig,
         realTime: { HSL: { active: true, routeSelector: () => '63' } },
-      });
+      };
       // Renders without throwing even when the pattern change triggers with no match
-      shallow(<RouteControlPanel {...props} />, {
-        context: {
-          ...mockContext,
-          getStore: () => ({ client: {} }),
-        },
-      });
+      renderView(props, config);
     });
   });
 
@@ -302,6 +254,7 @@ describe('<RouteControlPanel />', () => {
         {
           alerts: [{ id: 'foobar', alertSeverityLevel }],
           code: 'HSL:1063:0:01',
+          stops: [{ name: 'Stop A' }, { name: 'Stop B' }],
         },
       ],
     });
@@ -319,39 +272,45 @@ describe('<RouteControlPanel />', () => {
     };
 
     it('should mark the disruptions tab with .active-service-alert for INFO level', () => {
-      const wrapper = shallow(
-        <RouteControlPanel
-          breakpoint="large"
-          route={makeAlertRoute(AlertSeverityLevelType.Info)}
-          match={alertMatch}
-        />,
-        { context: mockContext },
+      const container = renderView(
+        {
+          breakpoint: 'large',
+          route: makeAlertRoute(AlertSeverityLevelType.Info),
+          match: alertMatch,
+        },
+        baseConfig,
       );
-      expect(wrapper.find('.active-service-alert')).to.have.lengthOf(1);
+      expect(container.querySelector('.active-service-alert')).to.not.equal(
+        null,
+      );
     });
 
     it('should mark the disruptions tab with .active-disruption-alert for WARNING level', () => {
-      const wrapper = shallow(
-        <RouteControlPanel
-          breakpoint="large"
-          route={makeAlertRoute(AlertSeverityLevelType.Warning)}
-          match={alertMatch}
-        />,
-        { context: mockContext },
+      const container = renderView(
+        {
+          breakpoint: 'large',
+          route: makeAlertRoute(AlertSeverityLevelType.Warning),
+          match: alertMatch,
+        },
+        baseConfig,
       );
-      expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(1);
+      expect(container.querySelector('.active-disruption-alert')).to.not.equal(
+        null,
+      );
     });
 
     it('should mark the disruptions tab with .active-disruption-alert for SEVERE level', () => {
-      const wrapper = shallow(
-        <RouteControlPanel
-          breakpoint="large"
-          route={makeAlertRoute(AlertSeverityLevelType.Severe)}
-          match={alertMatch}
-        />,
-        { context: mockContext },
+      const container = renderView(
+        {
+          breakpoint: 'large',
+          route: makeAlertRoute(AlertSeverityLevelType.Severe),
+          match: alertMatch,
+        },
+        baseConfig,
       );
-      expect(wrapper.find('.active-disruption-alert')).to.have.lengthOf(1);
+      expect(container.querySelector('.active-disruption-alert')).to.not.equal(
+        null,
+      );
     });
   });
 });

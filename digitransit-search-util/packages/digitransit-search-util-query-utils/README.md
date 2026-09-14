@@ -46,6 +46,18 @@ acquired from OTP by checking the modes of the departures on the given stops.
 *   `stopsToFilter` **any** 
 *   `mode` **[String][3]** 
 
+## getRoutesByIds
+
+Returns Route objects matching the provided GTFS IDs.
+
+### Parameters
+
+*   `ids` **[Array][2]<[String][3]>** Route GTFS IDs to query.
+*   `pathOpts`  an object containing two properties routesPrefix and stopsPrefix to override the URL paths returned
+    by this method
+
+Returns **[Promise][4]<[Array][2]>** A promise resolving to the matching route objects.
+
 ## getFavouriteRoutesQuery
 
 Returns Favourite Route objects depending on input
@@ -94,6 +106,8 @@ Can be used to filter stops and stations by a given mode
 [2]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 
 [3]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[4]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
 ---
 
 This module is part of the Digitransit-ui project. It is maintained in the

@@ -1,8 +1,8 @@
-import configMerger from '../util/configMerger';
-import { isDevRunEnv } from '../util/envUtils';
-import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils';
-import walttiConfig from './config.waltti';
-import ttConfig from './timetableConfigUtils';
+import configMerger from '../util/configMerger.js';
+import { isDevRunEnv } from '../util/envUtils.js';
+import { BIKEAVL_WITHMAX } from '../util/vehicleRentalUtils.js';
+import walttiConfig from './config.waltti.js';
+import ttConfig from './timetableConfigUtils.js';
 
 const tampereTimetables = ttConfig.tampere;
 const CONFIG = 'tampere';

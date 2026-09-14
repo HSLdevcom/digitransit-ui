@@ -1,4 +1,4 @@
-import trimEnd from 'lodash/trimEnd';
+import trimEnd from 'lodash/trimEnd.js';
 
 /**
  * The default icon sizes to generate manifest urls for.

@@ -1,5 +1,5 @@
 import { uniqBy } from 'lodash';
-import { isCallAgencyLeg, isTaxiLeg } from './legUtils';
+import { isCallAgencyLeg, isTaxiLeg } from './legUtils.js';
 
 // TODO: support for currency
 export function formatFare(fare) {

@@ -1,9 +1,9 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-query-utils",
-  "version": "4.5.17",
+  "version": "4.5.19",
   "description": "digitransit-search-util query-utils module",
-  "main": "lib/index.cjs",
   "type": "module",
+  "main": "lib/index.cjs",
   "publishConfig": {
     "access": "public"
   },
@@ -11,7 +11,7 @@
     "clean": "rm -rf lib ./node_modules",
     "pretest": "yarn build",
     "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
-    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.js",
     "relay": "mkdir -p lib/__generated__ && relay-compiler && echo '{\"type\":\"commonjs\"}' > lib/package.json",
     "relay-watch": "mkdir -p lib/__generated__ && echo '{\"type\":\"commonjs\"}' > lib/package.json && relay-compiler --watch",
     "watch": "yarn relay && NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
