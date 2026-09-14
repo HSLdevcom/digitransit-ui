@@ -1,10 +1,6 @@
 import React from 'react';
+import { renderWithProviders } from '../../../helpers/mock-providers';
 import ItineraryList from '../../../../../app/component/itinerary/ItineraryList';
-import {
-  mockChildContextTypes,
-  mockContext,
-} from '../../../helpers/mock-context';
-import { mountWithIntl } from '../../../helpers/mock-intl-enzyme';
 
 const noop = () => {};
 
@@ -24,7 +20,7 @@ const PROPS_TEMPLATE = {
   currentTime: 1656580024206,
   locationState: LOCATIONS_STATE_TEMPLATE,
   from: {},
-  itineraries: [],
+  planEdges: [],
   focusToHeader: noop,
   searchTime: 1656509749000,
   to: {},
@@ -37,34 +33,25 @@ const PROPS_TEMPLATE = {
 };
 
 describe('<ItineraryList />', () => {
-  xit('should render the component for canceled itineraries', () => {
-    // TODO: enzyme is currently missing support for react hooks
+  it('should render the empty state when there are no itineraries', () => {
     const props = {
       ...PROPS_TEMPLATE,
       currentTime: 1234567890,
       searchTime: 1234567890,
     };
-    const wrapper = mountWithIntl(
-      <div>
-        <ItineraryList {...props} />
-      </div>,
-      { context: mockContext, childContextTypes: mockChildContextTypes },
+    const { container } = renderWithProviders(<ItineraryList {...props} />);
+    expect(container.querySelector('.summary-list-container')).to.not.equal(
+      null,
     );
-    // TODO: purposeful test case definition missing -> skip test
-    expect(wrapper.debug()).to.equal(undefined);
   });
 
   it('should render without crashing', () => {
     const props = {
       ...PROPS_TEMPLATE,
     };
-    const wrapper = mountWithIntl(
-      <div>
-        <ItineraryList {...props} />
-      </div>,
-      { context: mockContext, childContextTypes: mockChildContextTypes },
+    const { container } = renderWithProviders(<ItineraryList {...props} />);
+    expect(container.querySelector('.summary-list-container')).to.not.equal(
+      null,
     );
-
-    expect(wrapper.isEmptyRender()).to.equal(false);
   });
 });

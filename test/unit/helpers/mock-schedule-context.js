@@ -48,7 +48,23 @@ export const createScheduleTestContext = (overrides = {}) => {
     },
     availableDates: overrides.availableDates || [],
     tripsResult: {
-      trips: [{ id: 'trip-1', stoptimes: [] }],
+      trips: [
+        {
+          id: 'trip-1',
+          stoptimes: [
+            {
+              serviceDay: 1547503200,
+              scheduledDeparture: 28080,
+              scheduledArrival: 28080,
+            },
+            {
+              serviceDay: 1547503200,
+              scheduledDeparture: 30060,
+              scheduledArrival: 30060,
+            },
+          ],
+        },
+      ],
       noTripsMessage: null,
       ...overrides.tripsResult,
     },

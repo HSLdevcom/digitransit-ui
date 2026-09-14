@@ -1,11 +1,11 @@
-const path = require('path');
-const react = require('@vitejs/plugin-react');
+import path from 'path';
+import react from '@vitejs/plugin-react';
 
-// This config lives under config/ (like babel.config.js and rollup.config.js)
+// This config lives under config/ (like babel.config.cjs and rollup.config.js)
 // rather than the repo root, so `root` must be set explicitly - otherwise
 // Vitest would resolve include globs relative to this directory instead of
 // the repo root.
-const repoRoot = path.resolve(__dirname, '..');
+const repoRoot = path.resolve(import.meta.dirname, '..');
 
 const nodeProject = name => ({
   test: {
@@ -21,7 +21,7 @@ const nodeProject = name => ({
   },
 });
 
-module.exports = {
+export default {
   test: {
     projects: [
       {
@@ -47,7 +47,7 @@ module.exports = {
               find: /^@digitransit-component\/(digitransit-component-.+)$/,
               replacement: path.join(
                 repoRoot,
-                'digitransit-component/packages/$1/src/index.js',
+                'digitransit-component/packages/$1/src/index',
               ),
             },
           ],
@@ -55,9 +55,9 @@ module.exports = {
         // @vitejs/plugin-react already handles JSX; the only thing it's
         // missing versus Rollup's build is inline-react-svg, needed for
         // digitransit-component-icon's raw .svg imports. Adding just that
-        // one plugin (rather than reusing config/babel.config.js wholesale)
+        // one plugin (rather than reusing config/babel.config.cjs wholesale)
         // keeps plugin-react's own sensible defaults - notably preserving
-        // ESM output, which config/babel.config.js's `modules: 'auto'`
+        // ESM output, which config/babel.config.cjs's `modules: 'auto'`
         // preset-env otherwise mis-detects as CJS under Vitest's loader.
         plugins: [
           react({
@@ -121,7 +121,7 @@ module.exports = {
           // otherwise redone every time. Rides along with CI's existing
           // whole-node_modules cache too.
           fsModuleCache: true,
-          include: ['digitransit-component/packages/*/test.js'],
+          include: ['digitransit-component/packages/*/test.{js,jsx}'],
         },
       },
       nodeProject('digitransit-search-util'),

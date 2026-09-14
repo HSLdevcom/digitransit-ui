@@ -2,7 +2,7 @@ import { addFutureRoute } from '@digitransit-store/digitransit-store-future-rout
 import {
   getFutureRoutesStorage,
   setFutureRoutesStorage,
-} from '../data/localStorage';
+} from '../data/localStorage.js';
 
 export const getPositions = context => {
   return context.getStore('PositionStore').getLocationState();

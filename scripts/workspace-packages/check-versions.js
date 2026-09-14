@@ -29,10 +29,10 @@
  * Intended to be run via the "workspace-packages-version-check" npm script
  * (so node_modules/.bin, including lerna, is on PATH), not invoked directly.
  */
-const { execFileSync } = require('child_process');
-const { readFileSync } = require('fs');
-const { relative, join } = require('path');
-const semver = require('semver');
+import { execFileSync } from 'child_process';
+import { readFileSync } from 'fs';
+import { relative, join } from 'path';
+import semver from 'semver';
 
 // Plain ANSI codes (no extra dependency needed): GitHub Actions' log viewer,
 // like most terminals, renders these directly. Respect the NO_COLOR

@@ -2,6 +2,7 @@ import {
   getRoutesQuery,
   getStopAndStationsQuery,
   getFavouriteRoutesQuery,
+  getRoutesByIds,
   getFavouriteVehicleRentalStationsQuery,
   // getAllVehicleRentalStations,  // Bike stations are fetched from Geocoding
 } from '@digitransit-search-util/digitransit-search-util-query-utils';
@@ -12,17 +13,17 @@ import {
   clearOldSearches,
   getFutureRoutes,
   clearFutureRoutes,
-} from '../util/storeUtils';
+} from '../util/storeUtils.js';
 import favouriteStore, {
   getFavouritePlaces,
   getFavouriteStopsAndStations,
   getFavouriteRouteGtfsIds,
   getFavouriteVehicleRentalStations,
-} from './FavouriteData';
-import { startLocationWatch } from '../action/PositionActions';
-import { saveSearch } from '../action/SearchActions';
-import { useCitybikes } from '../util/modeUtils';
-import { getDefaultNetworks } from '../util/vehicleRentalUtils';
+} from './FavouriteData.js';
+import { startLocationWatch } from '../action/PositionActions.js';
+import { saveSearch } from '../action/SearchActions.js';
+import { useCitybikes } from '../util/modeUtils.js';
+import { getDefaultNetworks } from '../util/vehicleRentalUtils.js';
 
 /**
  * Plain (non-Flux) singleton that acts both as the template/interface for,
@@ -84,6 +85,7 @@ class SearchContext {
     this.getRoutesQuery = getRoutesQuery;
     this.getStopAndStationsQuery = getStopAndStationsQuery;
     this.getFavouriteRoutesQuery = getFavouriteRoutesQuery;
+    this.getRoutesByIds = getRoutesByIds;
     this.getFavouriteVehicleRentalStations = () =>
       getFavouriteVehicleRentalStations(favouriteStore.getFavourites());
     this.getFavouriteVehicleRentalStationsQuery =

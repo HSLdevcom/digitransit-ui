@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-const express = require('express');
-const proxy = require('express-http-proxy');
+import express from 'express';
+import proxy from 'express-http-proxy';
 
 const app = express();
 

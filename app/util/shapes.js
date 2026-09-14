@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { VerticalDirection, PlannerMessageType } from '../constants';
+import { VerticalDirection, PlannerMessageType } from '../constants.js';
 
 export const agencyShape = PropTypes.shape({
   name: PropTypes.string,

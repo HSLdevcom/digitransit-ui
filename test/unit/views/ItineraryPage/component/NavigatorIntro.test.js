@@ -1,13 +1,6 @@
-import { assert } from 'chai';
-import { describe, it } from 'mocha';
 import React from 'react';
-
+import { renderWithProviders } from '../../../helpers/mock-providers';
 import NavigatorIntro from '../../../../../app/component/itinerary/navigator/navigatorintro/NavigatorIntro';
-import {
-  mockChildContextTypes,
-  mockContext,
-} from '../../../helpers/mock-context';
-import { mountWithIntl } from '../../../helpers/mock-intl-enzyme';
 
 const defaultProps = {
   onClose: () => {},
@@ -15,28 +8,17 @@ const defaultProps = {
 };
 
 describe('<NavigatorIntro />', () => {
-  it('should render logo if prop is present', () => {
-    const wrapper = mountWithIntl(
+  it('should render the logo when provided', () => {
+    const { container } = renderWithProviders(
       <NavigatorIntro logo="foobar" {...defaultProps} />,
-      {
-        context: {
-          ...mockContext,
-        },
-        childContextTypes: { ...mockChildContextTypes },
-      },
     );
-
-    expect(wrapper.find('div.intro-body img')).to.have.lengthOf(1);
+    expect(container.querySelector('.intro-body img')).to.not.equal(null);
   });
 
-  it('should not render logo if prop is missing', () => {
-    const wrapper = mountWithIntl(<NavigatorIntro {...defaultProps} />, {
-      context: {
-        ...mockContext,
-      },
-      childContextTypes: { ...mockChildContextTypes },
-    });
-
-    assert(wrapper.find('div.intro-body img'), undefined);
+  it('should not render a logo when it is not provided', () => {
+    const { container } = renderWithProviders(
+      <NavigatorIntro {...defaultProps} />,
+    );
+    expect(container.querySelector('.intro-body img')).to.equal(null);
   });
 });

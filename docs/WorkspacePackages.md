@@ -10,9 +10,11 @@ npm package families, managed as yarn workspaces via [lerna](https://lernajs.io/
 | `digitransit-store`     | `@digitransit-store/*`     | `digitransit-store/packages/*`        | `src/index.js`                                                | Rollup (no JSX)                              |
 | `digitransit-util`      | `@digitransit-util/*`      | `digitransit-util/packages/*`         | `index.js`                                                    | none                                          |
 
-The main app consumes `component`/`store` via their built `lib/index.cjs`
-(resolved through each package's `"main"` field) and `search-util`/`util` via
-raw source, using webpack's native ESM support. Treat these packages like
+The main app consumes `component`/`store` via their built Rollup output —
+real ESM (`lib/index.js`, via each package's `"module"`/`exports` fields,
+preferred by webpack for `import`) with a UMD `lib/index.cjs` (`"main"`) as
+the `require`/Node fallback — and `search-util`/`util` via raw source, using
+webpack's native ESM support. Treat these packages like
 semi-external dependencies: changes to their public API should bump their
 version (see [Publishing](#publishing)) the same way a change to a real npm
 dependency would.
@@ -118,7 +120,7 @@ runs under a jsdom environment, configured entirely in `vitest.config.js`
 makes `afterEach` a real global, which is all RTL's own automatic
 `cleanup()` needs to fire after each test. The other three families run
 under plain Node. `component` also loads
-`config/vitest.jsx-runtime-loader.mjs`, a Node ESM loader hook (wired in via
+`config/vitest.jsx-runtime-loader.js`, a Node ESM loader hook (wired in via
 `NODE_OPTIONS`, not a Vitest config option) that patches the extensionless
 `react/jsx-runtime` import and stubs `.css`/`.scss` — both needed for real,
 un-stubbed ESM `@hsl-fi/*` peer dependencies, which Node resolves natively
@@ -167,7 +169,7 @@ resolve those by hand in the package's `translations.js`.
 
 Every package's `README.md` is generated from its JSDoc by
 [`documentation.js`](https://documentation.js.org/), via the single shared
-`scripts/workspace-packages/generate-readmes.mjs` script. **If you find an
+`scripts/workspace-packages/generate-readmes.js` script. **If you find an
 error in a README, fix the source JSDoc and regenerate — never hand-edit
 the `README.md` file.** A hand-edit will silently disappear the next time
 anyone regenerates it.
@@ -267,5 +269,5 @@ config without preserving this.
 
 Because `nx.json`'s `build` target defines an explicit `inputs` list, any
 future shared build config file (beyond `config/rollup.config.js`/
-`config/babel.config.js`, already listed there) needs adding to that list
+`config/babel.config.cjs`, already listed there) needs adding to that list
 too, or editing it won't invalidate every package's Nx build cache.

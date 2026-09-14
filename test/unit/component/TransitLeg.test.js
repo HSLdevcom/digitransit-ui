@@ -1,18 +1,14 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
 
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../helpers/mock-providers';
 import TransitLeg from '../../../app/component/itinerary/TransitLeg';
-import IntermediateLeg from '../../../app/component/itinerary/IntermediateLeg';
 import {
   RealtimeStateType,
   AlertSeverityLevelType,
   AlertEntityType,
 } from '../../../app/constants';
-import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
-import { mockContext } from '../helpers/mock-context';
-import LegInfo from '../../../app/component/itinerary/LegInfo';
 
 const defaultProps = {
   children: <div />,
@@ -32,9 +28,33 @@ const config = {
 };
 
 describe('<TransitLeg />', () => {
+  // LegAgencyInfo calls useFragment on a plain leg object (no real Relay
+  // store in this unit env), which logs a harmless RelayModernSelector
+  // warning that the global harness would otherwise turn into a thrown error.
+  let savedConsoleError;
+  beforeEach(() => {
+    // eslint-disable-next-line no-console
+    savedConsoleError = console.error;
+    // eslint-disable-next-line no-console
+    console.error = warning => {
+      if (String(warning).includes('RelayModernSelector')) {
+        return;
+      }
+      throw new Error(warning);
+    };
+  });
+  afterEach(() => {
+    // eslint-disable-next-line no-console
+    console.error = savedConsoleError;
+  });
+
+  const renderLeg = (props, legConfig = config) =>
+    renderWithProviders(<TransitLeg {...defaultProps} {...props} />, {
+      config: legConfig,
+    });
+
   it('should show a zone change between from and the first intermediate place', () => {
     const props = {
-      ...defaultProps,
       leg: {
         from: {
           name: 'Lokkalantie',
@@ -44,9 +64,10 @@ describe('<TransitLeg />', () => {
           },
         },
         duration: 10000,
+        mode: 'BUS',
         intermediatePlaces: [
           {
-            arrival: { scheduledtime: new Date(1540990260000).toISOString() },
+            arrival: { scheduledTime: new Date(1540990260000).toISOString() },
             stop: {
               code: 'E2502',
               gtfsId: 'HSL:2252202',
@@ -74,20 +95,17 @@ describe('<TransitLeg />', () => {
       },
       mode: 'bus',
     };
-    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { ...mockContext },
-      config,
-    });
-    const leg = wrapper.find(IntermediateLeg);
-    expect(leg.props().showCurrentZoneDelimiter).to.equal(true);
-    expect(leg.props().previousZoneId).to.equal('A');
-    expect(leg.props().currentZoneId).to.equal('B');
-    expect(leg.props().nextZoneId).to.equal(undefined);
+    const { container } = renderLeg(props);
+    const zoneIcons = container.querySelectorAll(
+      '.time-column-zone-icons-container.intermediate-leg .circle',
+    );
+    // previous stop's zone ('A') then the current stop's zone ('B'); no
+    // 'next' zone icon since 'to' has no zoneId.
+    expect([...zoneIcons].map(el => el.textContent)).to.deep.equal(['A', 'B']);
   });
 
   it('should show a zone change between the last intermediate place and to', () => {
     const props = {
-      ...defaultProps,
       leg: {
         from: {
           name: 'Lokkalantie',
@@ -96,9 +114,10 @@ describe('<TransitLeg />', () => {
           },
         },
         duration: 10000,
+        mode: 'BUS',
         intermediatePlaces: [
           {
-            arrival: { scheduledtime: new Date(1540990260000).toISOString() },
+            arrival: { scheduledTime: new Date(1540990260000).toISOString() },
             stop: {
               code: 'E2502',
               gtfsId: 'HSL:2252202',
@@ -128,21 +147,16 @@ describe('<TransitLeg />', () => {
       },
       mode: 'bus',
     };
-    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { ...mockContext },
-      config,
-    });
-
-    const leg = wrapper.find(IntermediateLeg);
-    expect(leg.props().showCurrentZoneDelimiter).to.equal(false);
-    expect(leg.props().previousZoneId).to.equal(undefined);
-    expect(leg.props().currentZoneId).to.equal('B');
-    expect(leg.props().nextZoneId).to.equal('C');
+    const { container } = renderLeg(props);
+    const zoneIcons = container.querySelectorAll(
+      '.time-column-zone-icons-container.intermediate-leg .circle',
+    );
+    // no 'previous' zone icon (from has no zoneId); current ('B') then next ('C').
+    expect([...zoneIcons].map(el => el.textContent)).to.deep.equal(['B', 'C']);
   });
 
   it('should not show any zone changes if the feature is disabled', () => {
     const props = {
-      ...defaultProps,
       leg: {
         from: {
           name: 'Lokkalantie',
@@ -151,9 +165,10 @@ describe('<TransitLeg />', () => {
           },
         },
         duration: 10000,
+        mode: 'BUS',
         intermediatePlaces: [
           {
-            arrival: { scheduledtime: new Date(1540990260000).toISOString() },
+            arrival: { scheduledTime: new Date(1540990260000).toISOString() },
             stop: {
               code: 'E2502',
               gtfsId: 'HSL:2252202',
@@ -183,29 +198,27 @@ describe('<TransitLeg />', () => {
       },
       mode: 'bus',
     };
-    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { ...mockContext },
-      config: {
-        ...config,
-        zones: { itinerary: false },
-      },
+    const { container } = renderLeg(props, {
+      ...config,
+      zones: { itinerary: false },
     });
-    const leg = wrapper.find(IntermediateLeg);
-    expect(leg.props().showZoneLimits).to.equal(false);
+    expect(
+      container.querySelector('.time-column-zone-icons-container'),
+    ).to.equal(null);
   });
 
   it('should apply isCanceled to an intermediate leg', () => {
     const props = {
-      ...defaultProps,
       leg: {
         from: {
           name: 'Huopalahti',
           stop: {},
         },
         duration: 10000,
+        mode: 'BUS',
         intermediatePlaces: [
           {
-            arrival: { scheduledtime: new Date(1540989970000).toISOString() },
+            arrival: { scheduledTime: new Date(1540989970000).toISOString() },
             stop: {
               code: '007',
               gtfsId: 'stop1',
@@ -214,7 +227,7 @@ describe('<TransitLeg />', () => {
           },
         ],
         route: {
-          gtfsId: 'A',
+          gtfsId: 'HSL:A',
         },
         start: { scheduledTime: new Date(1540989960000).toISOString() },
         to: {
@@ -238,16 +251,14 @@ describe('<TransitLeg />', () => {
       },
       mode: 'rail',
     };
-    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { ...mockContext },
-      config,
-    });
-    expect(wrapper.find(IntermediateLeg).prop('isCanceled')).to.equal(true);
+    const { container } = renderLeg(props);
+    expect(
+      container.querySelector('.itinerary-intermediate-stop-name .canceled'),
+    ).to.not.equal(null);
   });
 
   it('should apply alertSeverityLevel due to a route alert', () => {
     const props = {
-      ...defaultProps,
       leg: {
         end: { scheduledtime: new Date(1553856420000).toISOString() },
         from: {
@@ -255,6 +266,7 @@ describe('<TransitLeg />', () => {
           stop: {},
         },
         duration: 10000,
+        mode: 'BUS',
         intermediatePlaces: [],
         route: {
           alerts: [
@@ -263,12 +275,12 @@ describe('<TransitLeg />', () => {
               entities: [
                 {
                   __typename: AlertEntityType.Route,
-                  gtfsId: 'A',
+                  gtfsId: 'HSL:A',
                 },
               ],
             },
           ],
-          gtfsId: 'A',
+          gtfsId: 'HSL:A',
         },
         start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
@@ -286,21 +298,15 @@ describe('<TransitLeg />', () => {
       },
       mode: 'bus',
     };
-    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { ...mockContext },
-      config: {
-        ...config,
-        showAlternativeLegs: true,
-      },
+    const { container } = renderLeg(props, {
+      ...config,
+      showAlternativeLegs: true,
     });
-    expect(wrapper.find(LegInfo).props().alertSeverityLevel).to.equal(
-      AlertSeverityLevelType.Warning,
-    );
+    expect(container.querySelector('.subicon-caution')).to.not.equal(null);
   });
 
   it('should apply alertSeverityLevel due to a stop alert at the "from" stop', () => {
     const props = {
-      ...defaultProps,
       leg: {
         end: { scheduledtime: new Date(1553856420000).toISOString() },
         from: {
@@ -321,6 +327,7 @@ describe('<TransitLeg />', () => {
           },
         },
         duration: 10000,
+        mode: 'BUS',
         intermediatePlaces: [],
         route: {
           gtfsId: 'A:2',
@@ -341,21 +348,15 @@ describe('<TransitLeg />', () => {
       },
       mode: 'bus',
     };
-    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { ...mockContext },
-      config: {
-        ...config,
-        showAlternativeLegs: true,
-      },
+    const { container } = renderLeg(props, {
+      ...config,
+      showAlternativeLegs: true,
     });
-    expect(wrapper.find(LegInfo).props().alertSeverityLevel).to.equal(
-      AlertSeverityLevelType.Warning,
-    );
+    expect(container.querySelector('.subicon-caution')).to.not.equal(null);
   });
 
   it('should apply alertSeverityLevel due to a stop alert at the "to" stop', () => {
     const props = {
-      ...defaultProps,
       leg: {
         end: { scheduledtime: new Date(1553856420000).toISOString() },
         from: {
@@ -363,9 +364,10 @@ describe('<TransitLeg />', () => {
           stop: {},
         },
         duration: 10000,
+        mode: 'BUS',
         intermediatePlaces: [],
         route: {
-          gtfsId: 'A',
+          gtfsId: 'HSL:A',
         },
         start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
@@ -396,21 +398,15 @@ describe('<TransitLeg />', () => {
       },
       mode: 'bus',
     };
-    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { ...mockContext },
-      config: {
-        ...config,
-        showAlternativeLegs: true,
-      },
+    const { container } = renderLeg(props, {
+      ...config,
+      showAlternativeLegs: true,
     });
-    expect(wrapper.find(LegInfo).props().alertSeverityLevel).to.equal(
-      AlertSeverityLevelType.Warning,
-    );
+    expect(container.querySelector('.subicon-caution')).to.not.equal(null);
   });
 
   it('should not apply alertSeverityLevel due to a stop alert at an intermediate stop', () => {
     const props = {
-      ...defaultProps,
       leg: {
         end: { scheduledtime: new Date(1553856420000).toISOString() },
         from: {
@@ -418,9 +414,10 @@ describe('<TransitLeg />', () => {
           stop: {},
         },
         duration: 10000,
+        mode: 'BUS',
         intermediatePlaces: [
           {
-            arrival: { scheduledtime: new Date(1553856410).toISOString() },
+            arrival: { scheduledTime: new Date(1553856410).toISOString() },
             stop: {
               gtfsId: 'foobar',
               name: 'Foo',
@@ -439,7 +436,7 @@ describe('<TransitLeg />', () => {
           },
         ],
         route: {
-          gtfsId: 'A',
+          gtfsId: 'HSL:A',
         },
         start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
@@ -457,21 +454,16 @@ describe('<TransitLeg />', () => {
       },
       mode: 'bus',
     };
-    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { ...mockContext },
-      config: {
-        ...config,
-        showAlternativeLegs: true,
-      },
+    const { container } = renderLeg(props, {
+      ...config,
+      showAlternativeLegs: true,
     });
-    expect(wrapper.find(LegInfo).props().alertSeverityLevel).to.equal(
-      undefined,
-    );
+    expect(container.querySelector('.subicon-caution')).to.equal(null);
+    expect(container.querySelector('.subicon-info')).to.equal(null);
   });
 
   it('should show a disclaimer with relevant information for an unknown ticket', () => {
     const props = {
-      ...defaultProps,
       leg: {
         fare: {
           isUnknown: true,
@@ -485,9 +477,10 @@ describe('<TransitLeg />', () => {
           stop: {},
         },
         duration: 10000,
+        mode: 'BUS',
         intermediatePlaces: [],
         route: {
-          gtfsId: '1234',
+          gtfsId: 'HSL:1234',
         },
         start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
@@ -506,22 +499,20 @@ describe('<TransitLeg />', () => {
       mode: 'bus',
     };
 
-    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { ...mockContext },
-      config: {
-        ...config,
-        showTicketInformation: true,
-        availableTickets: { HSL: { 'HSL:A': { price: 5.5, zones: ['A'] } } },
-        hideExternalOperator: () => false,
-      },
+    const { container } = renderLeg(props, {
+      ...config,
+      showTicketInformation: true,
+      availableTickets: { HSL: { 'HSL:A': { price: 5.5, zones: ['A'] } } },
+      hideExternalOperator: () => false,
     });
-    expect(wrapper.find('.disclaimer-container')).to.have.lengthOf(1);
-    expect(wrapper.find('.agency-link')).to.have.lengthOf(1);
+    expect(
+      container.querySelectorAll('.disclaimer-container'),
+    ).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.agency-link')).to.have.lengthOf(1);
   });
 
   it('should not show a disclaimer for an unknown ticket when there is nothing for feedIds in availableTickets', () => {
     const props = {
-      ...defaultProps,
       leg: {
         fare: {
           isUnknown: true,
@@ -535,9 +526,10 @@ describe('<TransitLeg />', () => {
           stop: {},
         },
         duration: 10000,
+        mode: 'BUS',
         intermediatePlaces: [],
         route: {
-          gtfsId: '1234',
+          gtfsId: 'HSL:1234',
         },
         start: { scheduledTime: new Date(1553856180000).toISOString() },
         to: {
@@ -556,23 +548,21 @@ describe('<TransitLeg />', () => {
       mode: 'bus',
     };
 
-    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { ...mockContext },
-      config: {
-        ...config,
-        showTicketInformation: true,
-        availableTickets: { HSL: { 'foo:A': { price: 5.5, zones: ['A'] } } },
-        hideExternalOperator: () => false,
-      },
+    const { container } = renderLeg(props, {
+      ...config,
+      showTicketInformation: true,
+      availableTickets: { HSL: { 'foo:A': { price: 5.5, zones: ['A'] } } },
+      hideExternalOperator: () => false,
     });
-    expect(wrapper.find('.disclaimer-container')).to.have.lengthOf(1);
-    expect(wrapper.find('.agency-link')).to.have.lengthOf(1);
+    expect(
+      container.querySelectorAll('.disclaimer-container'),
+    ).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.agency-link')).to.have.lengthOf(1);
   });
 
   it('should show a service alert icon if there is one at the "from" stop', () => {
     const startTime = 1553754595;
     const props = {
-      ...defaultProps,
       leg: {
         from: {
           name: 'Test',
@@ -594,6 +584,7 @@ describe('<TransitLeg />', () => {
           },
         },
         duration: 1000,
+        mode: 'BUS',
         intermediatePlaces: [],
         route: {
           gtfsId: 'FOO:A1234',
@@ -615,28 +606,23 @@ describe('<TransitLeg />', () => {
       mode: 'bus',
     };
 
-    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { ...mockContext },
-      config,
-    });
-    expect(wrapper.find(ServiceAlertIcon).prop('severityLevel')).to.equal(
-      AlertSeverityLevelType.Info,
-    );
+    const { container } = renderLeg(props);
+    expect(container.querySelector('.inline-icon.info')).to.not.equal(null);
   });
 
   it('should show header of the most severe alert', () => {
     const startTime = 123456789;
     const props = {
-      ...defaultProps,
       leg: {
         from: {
           name: 'Test',
           stop: {},
         },
         duration: 10000,
+        mode: 'BUS',
         intermediatePlaces: [],
         route: {
-          gtfsId: 'A1234',
+          gtfsId: 'HSL:A1234',
           alerts: [
             {
               alertSeverityLevel: AlertSeverityLevelType.Unknown,
@@ -646,7 +632,7 @@ describe('<TransitLeg />', () => {
               entities: [
                 {
                   __typename: AlertEntityType.Route,
-                  gtfsId: 'A1234',
+                  gtfsId: 'HSL:A1234',
                 },
               ],
             },
@@ -658,7 +644,7 @@ describe('<TransitLeg />', () => {
               entities: [
                 {
                   __typename: AlertEntityType.Route,
-                  gtfsId: 'A1234',
+                  gtfsId: 'HSL:A1234',
                 },
               ],
             },
@@ -670,7 +656,7 @@ describe('<TransitLeg />', () => {
               entities: [
                 {
                   __typename: AlertEntityType.Route,
-                  gtfsId: 'A1234',
+                  gtfsId: 'HSL:A1234',
                 },
               ],
             },
@@ -693,29 +679,28 @@ describe('<TransitLeg />', () => {
       mode: 'bus',
     };
 
-    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { ...mockContext },
-      config: {
-        ...config,
-        showAlertHeader: true,
-      },
+    const { container } = renderLeg(props, {
+      ...config,
+      showAlertHeader: true,
     });
-    expect(wrapper.find('.description').text()).to.equal('severe header');
+    expect(container.querySelector('.description').textContent).to.equal(
+      'severe header',
+    );
   });
 
   it('should show header of unknown severity alerts if there is not alert more severe', () => {
     const startTime = 123456789;
     const props = {
-      ...defaultProps,
       leg: {
         from: {
           name: 'Test',
           stop: {},
         },
         duration: 10000,
+        mode: 'BUS',
         intermediatePlaces: [],
         route: {
-          gtfsId: 'A1234',
+          gtfsId: 'HSL:A1234',
           alerts: [
             {
               alertSeverityLevel: AlertSeverityLevelType.Unknown,
@@ -725,7 +710,7 @@ describe('<TransitLeg />', () => {
               entities: [
                 {
                   __typename: AlertEntityType.Route,
-                  gtfsId: 'A1234',
+                  gtfsId: 'HSL:A1234',
                 },
               ],
             },
@@ -748,13 +733,12 @@ describe('<TransitLeg />', () => {
       mode: 'bus',
     };
 
-    const wrapper = shallowWithIntl(<TransitLeg {...props} />, {
-      context: { ...mockContext },
-      config: {
-        ...config,
-        showAlertHeader: true,
-      },
+    const { container } = renderLeg(props, {
+      ...config,
+      showAlertHeader: true,
     });
-    expect(wrapper.find('.description').text()).to.equal('unknown header');
+    expect(container.querySelector('.description').textContent).to.equal(
+      'unknown header',
+    );
   });
 });

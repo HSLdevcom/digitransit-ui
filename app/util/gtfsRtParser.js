@@ -1,4 +1,4 @@
-import ceil from 'lodash/ceil';
+import ceil from 'lodash/ceil.js';
 import Pbf from 'pbf';
 
 export const parseFeedMQTT = (feedParser, data, topic) => {
