@@ -176,7 +176,7 @@ li:last-child > div.suggestion-item-container.mobile {
   .place,
   .busstop,
   .select-from-map {
-    svg {
+    svg:not(.suggestion-status-badge) {
       width: 24px;
       height: 24px;
     }
@@ -184,7 +184,7 @@ li:last-child > div.suggestion-item-container.mobile {
 
   .locate,
   .edit {
-    svg {
+    svg:not(.suggestion-status-badge) {
       width: 22px;
       height: 22px;
     }
@@ -192,7 +192,7 @@ li:last-child > div.suggestion-item-container.mobile {
 
   .star,
   .work {
-    svg {
+    svg:not(.suggestion-status-badge) {
       width: 20px;
       height: 20px;
     }
@@ -201,14 +201,14 @@ li:last-child > div.suggestion-item-container.mobile {
   .school,
   .sport,
   .shopping {
-    svg {
+    svg:not(.suggestion-status-badge) {
       width: 18px;
       height: 18px;
     }
   }
 
   .arrow {
-    svg {
+    svg:not(.suggestion-status-badge) {
       width: 17px;
       height: 17px;
       transform: rotate(180deg);
@@ -216,7 +216,7 @@ li:last-child > div.suggestion-item-container.mobile {
   }
 
   .future-route {
-    svg {
+    svg:not(.suggestion-status-badge) {
       width: 32px;
       height: 32px;
       position: relative;
@@ -225,7 +225,7 @@ li:last-child > div.suggestion-item-container.mobile {
   }
 
   .station {
-    svg {
+    svg:not(.suggestion-status-badge) {
       width: 25px;
       height: 24px;
     }
