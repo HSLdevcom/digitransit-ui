@@ -6,10 +6,12 @@ import {
   mapDefaultNetworkProperties,
   getRentalNetworkName,
   getRentalNetworkConfig,
+} from '../../../../utils/shared/vehicleRentalUtils';
+import {
   updateVehicleNetworks,
   getScooterNetworks,
   getCitybikeNetworks,
-} from '../../../../utils/shared/vehicleRentalUtils';
+} from '../../../../utils/client/vehicleRentalUtils';
 import { TransportMode } from '../../../../utils/shared/constants';
 import { useConfigContext } from '../../../client/ConfigContext';
 

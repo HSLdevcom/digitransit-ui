@@ -2,7 +2,7 @@ import { FormattedMessage } from 'react-intl';
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { openDeepLink } from '../../../utils/shared/vehicleRentalUtils';
+import { openDeepLink } from '../../../utils/client/vehicleRentalUtils';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import Icon from '../Icon';
 import ExternalLink from '../ExternalLink';

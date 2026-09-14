@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import Icon from './Icon';
-import { openDeepLink } from '../../utils/shared/vehicleRentalUtils';
+import { openDeepLink } from '../../utils/client/vehicleRentalUtils';
 import { useConfigContext } from '../client/ConfigContext';
 
 export default function Disclaimer({
