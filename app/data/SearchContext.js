@@ -22,7 +22,7 @@ import favouriteStore, {
 } from './FavouriteData';
 import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch } from '../action/SearchActions';
-import { useCitybikes } from '../../utils/shared/modeUtils';
+import { useCitybikes } from '../../utils/client/modeUtils';
 import { getDefaultNetworks } from '../../utils/shared/vehicleRentalUtils';
 
 /**

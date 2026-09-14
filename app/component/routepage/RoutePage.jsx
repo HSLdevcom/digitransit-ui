@@ -20,7 +20,7 @@ import BackButton from '../BackButton';
 import {
   getRouteMode,
   modeToTranslationId,
-} from '../../../utils/shared/modeUtils';
+} from '../../../utils/client/modeUtils';
 import {
   getModeIconColor,
   ensureColorAccessibleOnWhite,

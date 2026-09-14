@@ -6,7 +6,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import { tripShape, vehicleShape } from '../../../utils/client/shapes';
-import { getTripOrRouteMode } from '../../../utils/shared/modeUtils';
+import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import TripRouteStop from './TripRouteStop';
 import withBreakpoint from '../../../utils/client/withBreakpoint';

@@ -22,7 +22,7 @@ const configs = {}; // cache merged configs for speed
 const themeMap = {};
 // Look up paths for various asset files
 const appRoot = `${process.cwd()}/`;
-const metaDataTemplate = require('../../app/ssrmeta.json');
+const metaDataTemplate = require('./ssrmeta.json');
 
 if (defaultConfig.themeMap) {
   Object.keys(defaultConfig.themeMap).forEach(theme => {

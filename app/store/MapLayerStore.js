@@ -4,7 +4,7 @@ import {
   setMapLayerSettings,
   getMapLayerSettings,
 } from '../../utils/shared/localStorage';
-import { showRentalVehiclesOfType } from '../../utils/shared/modeUtils';
+import { showRentalVehiclesOfType } from '../../utils/client/modeUtils';
 import { TransportMode } from '../../utils/shared/constants';
 
 class MapLayerStore extends Store {

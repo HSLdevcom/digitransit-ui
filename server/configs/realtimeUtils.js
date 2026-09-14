@@ -1,4 +1,4 @@
-import { isDevRunEnv } from '../../utils/shared/envUtils.js';
+import { isDevRunEnv } from '../../utils/server/envUtils.js';
 
 /* eslint-disable prefer-template */
 function defaultRouteSelector(routePageProps) {

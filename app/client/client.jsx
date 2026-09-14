@@ -43,7 +43,7 @@ import searchContext from '../data/SearchContext';
 import { ConfigProvider } from './ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
 import { TimeProvider } from '../hooks/TimeContext';
-import { isPersonalizationEnabled } from '../../utils/shared/modeUtils';
+import { isPersonalizationEnabled } from '../../utils/client/modeUtils';
 import { getSettings } from '../../utils/client/planParamUtil';
 
 window.debug = debug; // Allow _debug.enable('*') in browser console

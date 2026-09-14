@@ -6,7 +6,7 @@ import StopMarker from '../non-tile-layer/StopMarker';
 import LocationMarker from '../LocationMarker';
 import Line from '../Line';
 import { getClosestPoint } from '../../../../utils/shared/geo-utils';
-import { getTripOrRouteMode } from '../../../../utils/shared/modeUtils';
+import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
 import {
   patternShape,
   configShape,

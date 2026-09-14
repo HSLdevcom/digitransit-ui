@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep';
-import { getTripOrRouteMode } from '../shared/modeUtils';
+import { getTripOrRouteMode } from './modeUtils';
 import { BIKEAVL_UNKNOWN } from '../shared/vehicleRentalUtils';
 import {
   ExtendedRouteTypes,

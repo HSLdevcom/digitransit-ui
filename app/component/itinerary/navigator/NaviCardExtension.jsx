@@ -16,7 +16,7 @@ import {
 import ZoneIcon from '../../ZoneIcon';
 import { legShape, configShape } from '../../../../utils/client/shapes';
 import { getDestinationProperties, LEGTYPE, withRealTime } from './NaviUtils';
-import { getTripOrRouteMode } from '../../../../utils/shared/modeUtils';
+import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
 import { durationToString } from '../../../../utils/client/timeUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
 import BoardingInfo from './BoardingInfo';

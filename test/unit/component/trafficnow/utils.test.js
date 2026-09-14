@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import sinon from 'sinon';
-import * as modeUtils from '../../../../utils/shared/modeUtils';
+import * as modeUtils from '../../../../utils/client/modeUtils';
 import * as pathUtils from '../../../../utils/shared/path';
 import {
   AlertEntityType,

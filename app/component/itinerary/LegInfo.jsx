@@ -9,7 +9,7 @@ import { legTimeStr, isLocalCallAgency } from '../../../utils/client/legUtils';
 import {
   getTripOrRouteMode,
   modeToTranslationId,
-} from '../../../utils/shared/modeUtils';
+} from '../../../utils/client/modeUtils';
 import RouteNumber from '../RouteNumber';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import {

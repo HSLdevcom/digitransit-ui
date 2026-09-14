@@ -5,7 +5,7 @@ import { legShape } from '../../../utils/client/shapes';
 import RouteNumberContainer from '../RouteNumberContainer';
 import { getActiveLegAlertSeverityLevel } from '../../../utils/client/alertUtils';
 import { isLocalCallAgency } from '../../../utils/client/legUtils';
-import { getTripOrRouteMode } from '../../../utils/shared/modeUtils';
+import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import { getCapacityForLeg } from '../../../utils/client/occupancyUtil';
 import { useConfigContext } from '../../client/ConfigContext';
 

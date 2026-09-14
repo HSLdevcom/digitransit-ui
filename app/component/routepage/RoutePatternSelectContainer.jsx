@@ -20,7 +20,7 @@ import {
   getModeIconColor,
   ensureColorAccessibleOnWhite,
 } from '../../../utils/shared/colorUtils';
-import { getRouteMode } from '../../../utils/shared/modeUtils';
+import { getRouteMode } from '../../../utils/client/modeUtils';
 import Icon from '../Icon';
 
 function filterSimilarRoutes(routes, currentRoute) {

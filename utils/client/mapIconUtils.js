@@ -2,7 +2,7 @@ import memoize from 'lodash/memoize';
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 import glfun from './glfun';
-import { transitIconName } from '../shared/modeUtils';
+import { transitIconName } from './modeUtils';
 import { getModeIconColor } from '../shared/colorUtils';
 import { ParkTypes, TransportMode } from '../shared/constants';
 

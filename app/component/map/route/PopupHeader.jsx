@@ -5,7 +5,7 @@ import cx from 'classnames';
 import { routePagePath, PREFIX_STOPS } from '../../../../utils/shared/path';
 import { convertTo24HourFormat } from '../../../../utils/client/timeUtils';
 import RouteNumber from '../../RouteNumber';
-import { getRouteMode } from '../../../../utils/shared/modeUtils';
+import { getRouteMode } from '../../../../utils/client/modeUtils';
 
 export default function PopupHeader({
   route,

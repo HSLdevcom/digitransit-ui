@@ -1,4 +1,4 @@
-import { isDevRunEnv } from '../../utils/shared/envUtils.js';
+import { isDevRunEnv } from '../../utils/server/envUtils.js';
 import { BIKEAVL_WITHMAX } from '../../utils/shared/vehicleRentalUtils.js';
 import ttConfig from './timetableConfigUtils.js';
 

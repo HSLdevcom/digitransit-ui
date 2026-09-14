@@ -8,7 +8,7 @@ import {
   getModes,
   toggleTransportMode,
   modeToTranslationId,
-} from '../../../../utils/shared/modeUtils';
+} from '../../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../../utils/shared/colorUtils';
 import { useConfigContext } from '../../../client/ConfigContext';
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useFragment } from 'react-relay';
-import { getTripOrRouteMode } from '../../../utils/shared/modeUtils';
+import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import {
   getFaresFromLegs,
   shouldShowFareInfo,

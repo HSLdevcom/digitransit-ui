@@ -16,7 +16,7 @@ import {
   getToLocalizedMode,
   withRealTime,
 } from './NaviUtils';
-import { getTripOrRouteMode } from '../../../../utils/shared/modeUtils';
+import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
 import BoardingInfo from './BoardingInfo';
 import { durationToString } from '../../../../utils/client/timeUtils';
 

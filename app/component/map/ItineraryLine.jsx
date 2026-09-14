@@ -14,7 +14,7 @@ import {
   isLocalCallAgency,
   isTaxiLeg,
 } from '../../../utils/client/legUtils';
-import { getTripOrRouteMode } from '../../../utils/shared/modeUtils';
+import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import { legShape } from '../../../utils/client/shapes';
 import { durationToString } from '../../../utils/client/timeUtils';
 import { useConfigContext } from '../../client/ConfigContext';

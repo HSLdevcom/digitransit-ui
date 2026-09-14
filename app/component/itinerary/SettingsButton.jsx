@@ -8,7 +8,7 @@ import {
   hasCustomizedSettings,
   getSettings,
 } from '../../../utils/client/planParamUtil';
-import { isPersonalizationEnabled } from '../../../utils/shared/modeUtils';
+import { isPersonalizationEnabled } from '../../../utils/client/modeUtils';
 import Popover from '../Popover';
 import {
   getDialogState,

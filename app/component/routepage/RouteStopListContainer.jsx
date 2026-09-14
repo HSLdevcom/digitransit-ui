@@ -15,7 +15,7 @@ import {
 import RouteStop from './RouteStop';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import { useCurrentTime } from '../../hooks/TimeContext';
-import { getRouteMode } from '../../../utils/shared/modeUtils';
+import { getRouteMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 

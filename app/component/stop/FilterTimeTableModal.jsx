@@ -8,7 +8,7 @@ import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import {
   getRouteMode,
   modeToTranslationId,
-} from '../../../utils/shared/modeUtils';
+} from '../../../utils/client/modeUtils';
 import { stopShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../client/ConfigContext';
 

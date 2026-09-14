@@ -8,7 +8,7 @@ import {
 import {
   getTripOrRouteMode,
   transitIconName,
-} from '../../../../utils/shared/modeUtils';
+} from '../../../../utils/client/modeUtils';
 import { configShape, legShape } from '../../../../utils/client/shapes';
 import Icon from '../../Icon';
 import NaviCardExtension from './NaviCardExtension';

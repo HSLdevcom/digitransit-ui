@@ -5,7 +5,7 @@ import cx from 'classnames';
 import {
   transitIconName,
   modeToTranslationId,
-} from '../../utils/shared/modeUtils';
+} from '../../utils/client/modeUtils';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import Icon from './Icon';

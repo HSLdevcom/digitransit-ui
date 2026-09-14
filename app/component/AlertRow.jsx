@@ -20,7 +20,7 @@ import {
   mapAlertSource,
 } from '../../utils/client/alertUtils';
 import { AlertEntityType } from '../../utils/shared/constants';
-import { getRouteMode } from '../../utils/shared/modeUtils';
+import { getRouteMode } from '../../utils/client/modeUtils';
 import { useConfigContext } from '../client/ConfigContext';
 
 export const getAlertRoutePath = gtfsId => routePagePath(gtfsId, PREFIX_STOPS);

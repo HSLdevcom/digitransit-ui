@@ -9,7 +9,7 @@ import {
   tripHasCancelation,
   setEntityForAlert,
 } from '../../../utils/client/alertUtils';
-import { getRouteMode } from '../../../utils/shared/modeUtils';
+import { getRouteMode } from '../../../utils/client/modeUtils';
 import { alertShape } from '../../../utils/client/shapes';
 import { epochToTime } from '../../../utils/client/timeUtils';
 import { useCurrentTime } from '../../hooks/TimeContext';

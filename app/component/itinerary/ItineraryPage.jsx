@@ -49,7 +49,7 @@ import {
 import { mapLayerOptionsShape, relayShape } from '../../../utils/client/shapes';
 import { epochToTime } from '../../../utils/client/timeUtils';
 import { getAllNetworksOfType } from '../../../utils/shared/vehicleRentalUtils';
-import { isPersonalizationEnabled } from '../../../utils/shared/modeUtils';
+import { isPersonalizationEnabled } from '../../../utils/client/modeUtils';
 import DesktopView from '../DesktopView';
 import Loading from '../Loading';
 import MobileView from '../MobileView';

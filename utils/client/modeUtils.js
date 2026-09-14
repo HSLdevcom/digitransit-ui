@@ -1,33 +1,20 @@
-import isString from 'lodash/isString.js';
-import sortedUniq from 'lodash/sortedUniq.js';
-import xor from 'lodash/xor.js';
+import isString from 'lodash/isString';
+import sortedUniq from 'lodash/sortedUniq';
+import xor from 'lodash/xor';
 import inside from 'point-in-polygon';
-import { getCustomizedSettings } from './localStorage.js';
-import { isInBoundingBox } from './geo-utils.js';
-import { addAnalyticsEvent } from './analyticsUtils.js';
-import { ExtendedRouteTypes, TransportMode } from './constants.js';
-import { isDevRunEnv } from './envUtils.js';
-import { isExternalFeed } from './feedScopedIdUtils.js';
-import { splitGtfsId } from './gtfs.js';
-
-function seasonMs(ddmmyyyy) {
-  const parts = ddmmyyyy.split('.');
-  const year = parts.length > 2 ? parts[2] : new Date().getFullYear();
-  return new Date(year, parts[1] - 1, parts[0]).valueOf();
-}
-
-const dayMs = 24 * 60 * 60 * 1000;
-
-export function isCitybikeSeasonActive(season) {
-  if (!season) {
-    return false;
-  }
-  if (season.alwaysOn) {
-    return true;
-  }
-  const now = Date.now();
-  return now <= seasonMs(season.end) + dayMs && now >= seasonMs(season.start);
-}
+import { getCustomizedSettings } from '../shared/localStorage';
+import { isInBoundingBox } from '../shared/geo-utils';
+import { addAnalyticsEvent } from '../shared/analyticsUtils';
+import { ExtendedRouteTypes, TransportMode } from '../shared/constants';
+import {
+  seasonMs,
+  dayMs,
+  isCitybikeSeasonActive,
+  networkIsActive,
+} from '../shared/citybikeSeasonUtils';
+import { isDevRunEnv } from './envUtils';
+import { isExternalFeed } from '../shared/feedScopedIdUtils';
+import { splitGtfsId } from '../shared/gtfs';
 
 export function isCitybikePreSeasonActive(season) {
   if (!season.start || !season.preSeasonStart) {
@@ -49,10 +36,6 @@ export function showCitybikeNetwork(networkConfig, config) {
       // dev/staging deployments show every network regardless of season
       isDevRunEnv(config))
   );
-}
-
-export function networkIsActive(network) {
-  return network?.enabled && isCitybikeSeasonActive(network?.season);
 }
 
 export function useCitybikes(networks, config) {

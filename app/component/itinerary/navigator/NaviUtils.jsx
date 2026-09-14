@@ -14,7 +14,7 @@ import {
   getStopMode,
   transitIconName,
   modeToTranslationId,
-} from '../../../../utils/shared/modeUtils';
+} from '../../../../utils/client/modeUtils';
 import {
   getTrackOrPierOrPlatformRestoredText,
   getTrackOrPierOrPlatformChangeText,

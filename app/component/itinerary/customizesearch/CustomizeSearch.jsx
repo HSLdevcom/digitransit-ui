@@ -17,7 +17,7 @@ import {
   showModeSettings,
   useCitybikes,
   useScooters,
-} from '../../../../utils/shared/modeUtils';
+} from '../../../../utils/client/modeUtils';
 import { getSettings } from '../../../../utils/client/planParamUtil';
 import {
   getCustomizedSettings,

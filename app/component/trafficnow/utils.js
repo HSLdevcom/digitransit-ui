@@ -3,7 +3,7 @@ import {
   getTransportModes,
   getRouteMode,
   getBaseTransportMode,
-} from '../../../utils/shared/modeUtils';
+} from '../../../utils/client/modeUtils';
 import {
   AlertEntityType,
   LocationTypes,

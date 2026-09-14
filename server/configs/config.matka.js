@@ -6,7 +6,7 @@ import KotkaConfig from './config.kotka.js';
 import KouvolaConfig from './config.kouvola.js';
 import KuopioConfig from './config.kuopio.js';
 import LahtiConfig from './config.lahti.js';
-import { isDevRunEnv } from '../../utils/shared/envUtils.js';
+import { isDevRunEnv } from '../../utils/server/envUtils.js';
 
 const CONFIG = 'matka';
 const APP_DESCRIPTION =

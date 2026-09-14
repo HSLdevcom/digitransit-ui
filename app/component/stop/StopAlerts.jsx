@@ -7,7 +7,7 @@ import {
   getAlertsForObject,
   getServiceAlertsForStation,
 } from '../../../utils/client/alertUtils';
-import { getRouteMode } from '../../../utils/shared/modeUtils';
+import { getRouteMode } from '../../../utils/client/modeUtils';
 import { epochToTime } from '../../../utils/client/timeUtils';
 import { stopShape } from '../../../utils/client/shapes';
 import {

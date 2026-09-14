@@ -40,7 +40,7 @@ import {
   getTransportModes,
   getNearYouModes,
   useCitybikes,
-} from '../../utils/shared/modeUtils';
+} from '../../utils/client/modeUtils';
 import {
   checkPositioningPermission,
   startLocationWatch,

@@ -1,4 +1,4 @@
-import { isDevRunEnv } from '../../utils/shared/envUtils.js';
+import { isDevRunEnv } from '../../utils/server/envUtils.js';
 
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/waltti/`;

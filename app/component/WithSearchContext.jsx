@@ -5,7 +5,7 @@ import suggestionToLocation from '@digitransit-search-util/digitransit-search-ut
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { configShape, locationStateShape } from '../../utils/client/shapes';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
-import { useCitybikes } from '../../utils/shared/modeUtils';
+import { useCitybikes } from '../../utils/client/modeUtils';
 import {
   PREFIX_ITINERARY_SUMMARY,
   PREFIX_STOPS,

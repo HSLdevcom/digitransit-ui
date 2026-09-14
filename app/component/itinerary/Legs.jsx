@@ -29,7 +29,7 @@ import {
   markViaPoints,
   getBoardingLeg,
 } from '../../../utils/client/legUtils';
-import { getTripOrRouteMode } from '../../../utils/shared/modeUtils';
+import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import Profile from './Profile';
 import BikeParkLeg from './BikeParkLeg';

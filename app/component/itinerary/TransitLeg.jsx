@@ -20,7 +20,7 @@ import {
   hasEntitiesOfType,
   tripHasCancelationForStop,
 } from '../../../utils/client/alertUtils';
-import { modeToTranslationId } from '../../../utils/shared/modeUtils';
+import { modeToTranslationId } from '../../../utils/client/modeUtils';
 import {
   PREFIX_DISRUPTION,
   routePagePath,

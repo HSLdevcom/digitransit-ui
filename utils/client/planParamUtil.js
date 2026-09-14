@@ -1,10 +1,7 @@
 import { DateTime } from 'luxon';
 import isEqual from 'lodash/isEqual';
-import {
-  getTransitModes,
-  isTransportModeAvailable,
-  networkIsActive,
-} from '../shared/modeUtils';
+import { getTransitModes, isTransportModeAvailable } from './modeUtils';
+import { networkIsActive } from '../shared/citybikeSeasonUtils';
 import { otpToLocation, getIntermediatePlaces } from '../shared/otpStrings';
 import {
   getAllNetworksOfType,

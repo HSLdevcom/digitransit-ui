@@ -28,7 +28,7 @@ import {
   stopShape,
 } from '../../../utils/client/shapes';
 import Loading from '../Loading';
-import { getRouteMode } from '../../../utils/shared/modeUtils';
+import { getRouteMode } from '../../../utils/client/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { streetQuery } from './StreetQuery';
 import LocationMarker from './LocationMarker';

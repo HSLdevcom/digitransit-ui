@@ -9,7 +9,7 @@ import {
   drawHybridStopIcon,
   drawHybridStationIcon,
 } from '../../../../utils/client/mapIconUtils';
-import { getStopMode } from '../../../../utils/shared/modeUtils';
+import { getStopMode } from '../../../../utils/client/modeUtils';
 import {
   isFeatureLayerEnabled,
   getLayerBaseUrl,

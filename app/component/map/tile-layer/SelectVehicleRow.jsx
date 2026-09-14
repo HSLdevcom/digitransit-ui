@@ -4,7 +4,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 
 import Link from 'found/Link';
 import { routePagePath, PREFIX_STOPS } from '../../../../utils/shared/path';
-import { getRouteMode } from '../../../../utils/shared/modeUtils';
+import { getRouteMode } from '../../../../utils/client/modeUtils';
 import Icon from '../../Icon';
 
 function SelectVehicleRow({ trip }) {

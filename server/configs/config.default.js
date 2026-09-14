@@ -29,7 +29,7 @@ const YEAR = 1900 + new Date().getYear();
 
 const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
 const TRAFFIC_NOW_TEST = process.env.TRAFFIC_NOW_TEST === 'true';
-// Deployment run environment (unknown ⇒ production, see utils/shared/envUtils.js).
+// Deployment run environment (unknown ⇒ production, see utils/server/envUtils.js).
 const { RUN_ENV } = process.env;
 // CrazyEgg survey sampling divisor.
 const SURVEY_SHARE = Number(process.env.SURVEY_SHARE) || undefined;

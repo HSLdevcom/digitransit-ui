@@ -8,7 +8,7 @@ import {
   drawCitybikeIcon,
   drawSmallVehicleRentalMarker,
 } from '../../../../utils/client/mapIconUtils';
-import { showCitybikeNetwork } from '../../../../utils/shared/modeUtils';
+import { showCitybikeNetwork } from '../../../../utils/client/modeUtils';
 
 import {
   getRentalNetworkConfig,

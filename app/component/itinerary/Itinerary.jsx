@@ -27,7 +27,7 @@ import {
   isBoardableLeg,
   isWalkOrBicycleWalkLeg,
 } from '../../../utils/client/legUtils';
-import { modeToTranslationId } from '../../../utils/shared/modeUtils';
+import { modeToTranslationId } from '../../../utils/client/modeUtils';
 import {
   dateOrEmpty,
   durationToString,

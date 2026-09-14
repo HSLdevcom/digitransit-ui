@@ -15,7 +15,7 @@ import withGeojsonObjects from './withGeojsonObjects';
 import {
   getTransportModes,
   showRentalVehiclesOfType,
-} from '../../../utils/shared/modeUtils';
+} from '../../../utils/client/modeUtils';
 import { TransportMode } from '../../../utils/shared/constants';
 import { useConfigContext } from '../../client/ConfigContext';
 

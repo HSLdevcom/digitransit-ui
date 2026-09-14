@@ -2,7 +2,7 @@ import isString from 'lodash/isString.js';
 import without from 'lodash/without.js';
 import { getCustomizedSettings } from './localStorage.js';
 import { addAnalyticsEvent } from './analyticsUtils.js';
-import { networkIsActive } from './modeUtils.js';
+import { networkIsActive } from './citybikeSeasonUtils.js';
 import { isAndroid, isIOS } from './browser.js';
 import { splitGtfsId } from './gtfs.js';
 
