@@ -5,33 +5,43 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 
 ## Directory structure
 
-- `app/` — client+server shared source, entry points and route trees at the top level:
-  `app.js` (fluxible app/store wiring), `client.js` (browser entry, farce/found router bootstrap),
-  `server.js` (SSR entry), `config.js` (server-side config resolution/merging by host),
-  `routes.js` / `routeRoutes.js` / `stopRoutes.js` (found + Relay route-tree definitions for the
-  front page, route pages, and stop pages respectively), `constants.js`, `meta.js` (page
-  metadata), `i18n.js`, `buildInfo.js` (generated build stamp, don't hand-edit). Subfolders:
-  - `component/` — Has topic subfolders
-    for larger features: `itinerary/`, `map/`, `stop/`, `routepage/`, `nearyou/`, `trafficnow/`
-    (has its own `README.md`), `embedded/`, `visual/`, `icon/`, and `__generated__/` (Relay codegen).
+Directories reflect a server/client/shared split (see "Server/client boundary" below) — pick the
+right one by *who consumes the code*, not just by convenience.
+
+- `app/` — client-bundle-only React app (Views/Containers/Flux + route trees):
+  - `client/` — client entry & top-level client-only modules: `client.jsx` (browser entry,
+    farce/found router bootstrap), `app.js` (fluxible app/store wiring), `routes.jsx` /
+    `routeRoutes.jsx` / `stopRoutes.jsx` (found + Relay route-tree definitions for the front page,
+    route pages, and stop pages), `i18n.js`, `buildInfo.js` (generated build stamp, don't
+    hand-edit), `ConfigContext.jsx` (React context provider for config), `images/` (regional logo
+    assets).
+  - `component/` — topic subfolders for larger features: `itinerary/`, `map/`, `stop/`,
+    `routepage/`, `nearyou/`, `trafficnow/` (has its own `README.md`), `embedded/`, `visual/`,
+    `icon/`, and `__generated__/` (Relay codegen).
   - `action/` — Flux action creators (one file per domain, e.g. `FavouriteActions.js`).
-  - `store/` — Flux stores (one file per domain, mirrors `action/`), plus `localStorage.js` /
-    `sessionStorage.js` persistence helpers.
+  - `store/` — Flux stores (one file per domain, mirrors `action/`), plus `sessionStorage.js`
+    persistence helper.
   - `hooks/` — shared React hooks; small today but growing, since new code should prefer
     hooks-based state over Flux (see Architecture below).
-  - `configurations/` — `config.default.js` plus one `config.<region>.js` per deployment, and
-    `ConfigContext.js` (React context provider for config).
-  - `util/` — pure helper modules (date/fare/color/analytics/etc.), plus its own `__generated__/`
-    for Relay fragments used by utils.
   - `translations/` — one file per locale (`fi.js`, `en.js`, `sv.js`, ...); `fi.js` is the source
     of truth, keep sorted via `scripts/sort-translations.js` (`yarn format` runs this), and every
     key must also exist in `en.js`/`sv.js` (enforced by `test/unit/translations.test.js`). Some
     `digitransit-component` packages ship their own i18next translation bundles instead, sorted/
     checked separately via `scripts/workspace-packages/sort-translations.js`.
   - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
-- `server/` — Express SSR server.
-- `test/` — `unit/` (mocha, mirrors `app/`) and `e2e/` (Jest + Playwright visual tests).
-- `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.js`, `contextHelper.js`,
+- `server/` — Express SSR server, native-ESM, never bundled: `server.js` (entrypoint),
+  `serve.js` (SSR render), `reittiopasParameterMiddleware.js`, `passport-openid-connect/`,
+  `proxyTester.js`, and `configs/` — `config.js` (server-side config resolution/merging by host)
+  plus one `config.<region>.js` per deployment, `realtimeUtils.js`, `timetableConfigUtils.js`.
+- `utils/` — helper modules split by consumer (see "Server/client boundary" below):
+  `shared/` (used by both server and client, e.g. `constants.js`, `meta.js`, `localStorage.js`,
+  `analyticsUtils.js`, `gtfs.js`), `server/` (server-only, e.g. `configMerger.js`), `client/`
+  (client-bundle-only, the bulk of the old `app/util/`, plus its own `__generated__/` for Relay
+  fragments used by utils).
+- `test/` — `unit/` (mocha, mirrors the `app/`/`server/`/`utils/` layout, e.g.
+  `test/unit/utils/{shared,server,client}/`, `test/unit/server/configs/`) and `e2e/` (Jest +
+  Playwright visual tests).
+- `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.js`, `build/contextHelper.js`,
   `generate-schema.js`, `theme/` theme-scaffolding scripts, `workspace-packages/` (readme
   generation, version checks, translation sort/check); see `scripts/README.md`).
 - `digitransit-component/`, `digitransit-search-util/`, `digitransit-store/`,
@@ -57,7 +67,7 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
   - `local` — local OTP at `http://localhost:9080/otp/`.
   - `API_SUBSCRIPTION_TOKEN` is required for full functionality in all three modes.
 - `yarn run build` then `yarn run start` — production build/run. Use `CONFIG=hsl` (or `tampere`,
-  `matka`, etc., see `app/configurations/config.*.js`) to select a regional config, and
+  `matka`, etc., see `server/configs/config.*.js`) to select a regional config, and
   `API_URL=...` to point at a different OTP/geocoding backend.
 - If the OTP GraphQL schema changes: `node scripts/generate-schema.js` (regenerates
   `schema/schema.graphql`; `relay-compiler` then regenerates `app/__generated__` on build/dev).
@@ -79,9 +89,10 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 
 ## Tests
 
-- Unit tests (mocha, files under `test/unit/**/*.test.js`, mirrors `app/` structure e.g.
-  `test/unit/component/...`, `test/unit/store/...`, `test/unit/configurations/...`). This setup is
-  currently under refactoring — verify commands against `package.json` if they seem out of date:
+- Unit tests (mocha, files under `test/unit/**/*.test.js`, mirrors the source structure e.g.
+  `test/unit/component/...`, `test/unit/store/...`, `test/unit/server/configs/...`,
+  `test/unit/utils/{shared,server,client}/...`). This setup is currently under refactoring —
+  verify commands against `package.json` if they seem out of date:
   - For new React component tests, prefer **React Testing Library** and test components from the user's perspective rather than relying on implementation details.
   - Run all: `yarn test-unit` (runs app + workspace `store`/`component` package tests).
   - Run just the app suite: `yarn test-unit:app`.
@@ -125,10 +136,32 @@ Three component categories (naming is meaningful, not just style — follow it f
 
 Other structural notes:
 
-- `server/` also handles config-merging by host header via `BASE_CONFIG` (see `app/config.js`).
+- `server/` also handles config-merging by host header via `BASE_CONFIG` (see
+  `server/configs/config.js`).
 - The `digitransit-*` workspace packages are consumed by the main app but built/versioned
   independently — treat them like semi-external dependencies. See `docs/WorkspacePackages.md`
   for how they're structured, tested, documented, and published.
+
+## Server/client boundary
+
+The repo is `"type": "module"`. Only a few entry points are loaded by Node **directly**, with no
+bundler/transpiler in between: `server/**`, `webpack.config.js`, `scripts/**`, `config/*.js`.
+Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by webpack
+(client) or run through Mocha's Babel-ESM loader (tests), both extension-agnostic.
+
+- `server/**` never imports from `app/**` — only from `utils/shared/`, `utils/server/`, and
+  itself. It renders the SSR shell and serializes the merged config onto `window.config`; the
+  client bundle never re-reads `server/configs/*` directly.
+- `utils/shared/**` holds code genuinely imported by both sides (e.g. `gtfs.js`, `modeUtils.js`,
+  `analyticsUtils.js` — the latter has internal server-only and client-only exports but is kept
+  as one file, not split, since both halves are needed by their respective importers).
+- `utils/server/**` and `utils/client/**` are single-consumer-only; don't add server-only helpers
+  to `utils/client/` or vice versa.
+- Because `server/**`/`utils/shared/**`/`utils/server/**` run as native ESM without a bundler,
+  their relative imports **must** keep an explicit file extension (Node's ESM loader doesn't
+  resolve extensionless specifiers) — enforced by the `import/extensions: 'always'` override in
+  `.eslintrc.cjs`. Everywhere else (`app/**`, `utils/client/**`, tests, `digitransit-*` packages)
+  extensions are forbidden (`'never'`), matching the bundler's extension-agnostic resolution.
 
 ## Code conventions
 
@@ -139,8 +172,10 @@ Other structural notes:
   `undefined`.
 - JSX-containing files use the `.jsx` extension; plain `.js` never contains JSX. The one
   exception is `test/unit/**`, which still uses `.js` for JSX pending a separate Mocha→Vitest
-  migration. Relative import specifiers must always include their extension (`import/extensions`
-  is enforced everywhere except `test/unit/**`).
+  migration. Relative/bare import specifiers must **not** include an extension anywhere except
+  the native-ESM-loaded directories (`server/**`, `utils/shared/**`, `utils/server/**`,
+  `webpack.config.js`, `scripts/**`, `config/*.js`), where an extension is required — see
+  "Server/client boundary" above. `import/extensions` is not autofixable by `eslint --fix`.
 - Avoid `Component.defaultProps` in function components (deprecated by React, and unsupported for
   function components in newer React versions). Declare defaults via destructuring in the
   function signature instead, e.g. `function Foo({ isMobile = false, children = null })`. This

@@ -100,7 +100,7 @@ Note that you can combine multiple configuration parameters.
 
 - **`RUN_ENV`** (`development` / `production`) — deployment tier. Server-only env var; read during
   config assembly to pick dev vs prod backends and mirrored into `window.config` for the client.
-  Check it via `isDevRunEnv(config)` (`app/util/envUtils.js`, see its JSDoc for details).
+  Check it via `isDevRunEnv(config)` (`utils/shared/envUtils.js`, see its JSDoc for details).
   `yarn dev` sets `RUN_ENV=development`; deployments set it via Kubernetes / `-e RUN_ENV=…`.
 - **`NODE_ENV`** (`development` / `production`) — build mode; `'development'` only for the local
   `yarn dev` server / a dev bundle. Not the deployment tier — one production bundle runs on every

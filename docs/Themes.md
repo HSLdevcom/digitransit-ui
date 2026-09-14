@@ -1,10 +1,10 @@
 # Custom themes and configurations
 
 Appearance and behavior of digitransit-ui can be customized by:
-- Creating a custom config file to a path `app/configurations/config.<theme>.js`
+- Creating a custom config file to a path `server/configs/config.<theme>.js`
 - Optionally adding custom style definitions to `sass/themes/<theme>` folder
 - If dynamic theme mapping to the new theme is desired, the new theme must be added to the
-theme map found in `app/configurations/config.default.js`
+theme map found in `server/configs/config.default.js`
 
 Check the existing themes such as 'oulu' for details. There is a npm script for initializing all three steps above
 with a single command:
@@ -35,5 +35,5 @@ selected theme can be forced by setting the `CONFIG` env. variable:
 
 ## Building the production version
 
-The build command `npm run build` collects all existing themes found from `app/configurations` folder.
+The build command `npm run build` collects all existing themes found from `server/configs` folder.
 
