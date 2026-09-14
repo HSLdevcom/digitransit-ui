@@ -35,9 +35,9 @@ right one by *who consumes the code*, not just by convenience.
   plus one `config.<region>.js` per deployment, `realtimeUtils.js`, `timetableConfigUtils.js`.
 - `utils/` — helper modules split by consumer (see "Server/client boundary" below):
   `shared/` (used by both server and client, e.g. `constants.js`, `meta.js`, `localStorage.js`,
-  `analyticsUtils.js`, `gtfs.js`), `server/` (server-only, e.g. `configMerger.js`), `client/`
-  (client-bundle-only, the bulk of the old `app/util/`, plus its own `__generated__/` for Relay
-  fragments used by utils).
+  `analyticsUtils.js`, `gtfs.js`, `citybikeSeasonUtils.js`), `server/` (server-only, e.g.
+  `configMerger.js`), `client/` (client-bundle-only, the bulk of the old `app/util/`, plus its own
+  `__generated__/` for Relay fragments used by utils).
 - `test/` — `unit/` (mocha, mirrors the `app/`/`server/`/`utils/` layout, e.g.
   `test/unit/utils/{shared,server,client}/`, `test/unit/server/configs/`) and `e2e/` (Jest +
   Playwright visual tests).
@@ -152,16 +152,27 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
 - `server/**` never imports from `app/**` — only from `utils/shared/`, `utils/server/`, and
   itself. It renders the SSR shell and serializes the merged config onto `window.config`; the
   client bundle never re-reads `server/configs/*` directly.
-- `utils/shared/**` holds code genuinely imported by both sides (e.g. `gtfs.js`, `modeUtils.js`,
-  `analyticsUtils.js` — the latter has internal server-only and client-only exports but is kept
-  as one file, not split, since both halves are needed by their respective importers).
+- `utils/shared/**` holds code genuinely imported by both sides (e.g. `gtfs.js`,
+  `citybikeSeasonUtils.js`, `analyticsUtils.js` — the latter has internal server-only and
+  client-only exports but is kept as one file, not split, since both halves are needed by their
+  respective importers; contrast `envUtils.js`, which *was* split into `utils/server/envUtils.js`
+  and `utils/client/envUtils.js` because its two callers needed genuinely different behavior, not
+  just different halves of one function).
 - `utils/server/**` and `utils/client/**` are single-consumer-only; don't add server-only helpers
   to `utils/client/` or vice versa.
+- This boundary is enforced by ESLint's `import/no-restricted-paths` (`.eslintrc.cjs`): `server/**`
+  + `utils/server/**` cannot import `app/**`/`utils/client/**`, the reverse is also forbidden, and
+  `utils/shared/**` cannot import either `utils/client/**` or `utils/server/**` (it may only depend
+  on other `utils/shared/**` code or external packages).
 - Because `server/**`/`utils/shared/**`/`utils/server/**` run as native ESM without a bundler,
   their relative imports **must** keep an explicit file extension (Node's ESM loader doesn't
   resolve extensionless specifiers) — enforced by the `import/extensions: 'always'` override in
   `.eslintrc.cjs`. Everywhere else (`app/**`, `utils/client/**`, tests, `digitransit-*` packages)
   extensions are forbidden (`'never'`), matching the bundler's extension-agnostic resolution.
+  The 4 `digitransit-*` workspace packages set `"type": "module"` themselves, which would make
+  webpack require fully-specified extensions there too when bundled into the app — avoided via a
+  `resolve.fullySpecified: false` + `type: 'javascript/auto'` override in `webpack.config.js` so
+  they can follow the same extensionless policy as `app/**`.
 
 ## Code conventions
 
