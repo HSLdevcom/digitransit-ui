@@ -1,9 +1,23 @@
 {
   "name": "@digitransit-store/digitransit-store-future-route",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "description": "digitransit-store future-route module",
-  "main": "lib/index.cjs",
   "type": "module",
+  "main": "lib/index.cjs",
+  "module": "lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs",
+      "default": "./lib/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "/lib",
+    "LICENSE-AGPL.txt",
+    "LICENSE-EUPL.txt"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -11,7 +25,7 @@
     "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "clean": "rm -rf ./lib ./node_modules",
     "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
-    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.js",
     "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
   "repository": {

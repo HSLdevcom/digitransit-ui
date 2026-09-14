@@ -1,4 +1,4 @@
-import sortBy from 'lodash/sortBy';
+import sortBy from 'lodash/sortBy.js';
 
 const DEFAULT_ITINERARY_PREFIX = 'reitti';
 

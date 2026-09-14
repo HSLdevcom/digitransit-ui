@@ -2,7 +2,7 @@
 You can run Digitransit-ui in docker. This is probably the easiest way to see the application running.
 
 ## Prerequisites
-- Docker 1.9
+- Docker with BuildKit support (Docker 23+ recommended)
 
 ## Run latest national white label version for testing
 - `docker run -p 8080:8080 hsldevcom/digitransit-ui`
@@ -20,9 +20,8 @@ On Mac:
 - open `http://[DOCKER_HOST]:8080`
 
 ## Running in production
-You must use following additional variables:
+You must use the following additional variable:
 - `-e CONFIG=<..>`
-- `-e NODE_ENV=production`
 
 There are also optional variables:
 - `-e RUN_ENV=<development|production>` — deployment run environment (default `production`,

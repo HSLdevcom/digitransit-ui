@@ -1,13 +1,13 @@
-import isNumber from 'lodash/isNumber';
+import isNumber from 'lodash/isNumber.js';
 import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
 
 import {
   RealtimeStateType,
   AlertSeverityLevelType,
   AlertEntityType,
-} from '../constants';
+} from '../constants.js';
 
-import { legTime } from './legUtils';
+import { legTime } from './legUtils.js';
 
 /**
  * Checks if the stoptime has a cancelation.

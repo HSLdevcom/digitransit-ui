@@ -1,15 +1,15 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-get-geocoding-results",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "digitransit-search-util get-geocoding-results module",
-  "main": "index.js",
   "type": "module",
+  "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
-    "docs": "node ../../../scripts/workspace-packages/generate-readmes.mjs"
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.js"
   },
   "repository": {
     "type": "git",

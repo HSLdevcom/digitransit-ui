@@ -78,7 +78,7 @@ pull requests.
 BASE_SHA=<git ref> yarn workspace-packages-version-check
 ```
 
-## Using `workspace-packages/generate-readmes.mjs`
+## Using `workspace-packages/generate-readmes.js`
 
 Regenerates a workspace package's `README.md` from its JSDoc via
 [`documentation.js`](https://documentation.js.org/). Needs no family/package argument: run from
@@ -88,10 +88,10 @@ script in [`package.json`](/package.json). Never hand-edit a generated `README.m
 source JSDoc and regenerate instead.
 
 ```
-node scripts/workspace-packages/generate-readmes.mjs
+node scripts/workspace-packages/generate-readmes.js
 ```
 
-## Using `workspace-packages/sort-translations.mjs`
+## Using `workspace-packages/sort-translations.js`
 
 Sorts and checks `digitransit-component` packages' own translation bundles
 (`src/{helpers,utils}/translations.js`) — a different shape from `app/translations`, so
