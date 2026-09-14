@@ -13,6 +13,7 @@ import {
   useMessages,
   useDuplicateMessageCounter,
   useMessageActions,
+  messageActions,
 } from '../../../app/hooks/MessageContext';
 import { setReadMessageIds } from '../../../app/data/localStorage';
 import { mockContext } from '../helpers/mock-context';
@@ -179,6 +180,70 @@ describe('MessageContext', () => {
       });
       wrapper.update();
       expect(controlRef.current.messages.length).to.equal(0);
+    });
+
+    it('still produces a new messages reference for an id that was never added', () => {
+      // Some message-bar items (live service alerts fetched directly by
+      // MessageBar, geolocation messages added via the messageActions
+      // bridge below) call markMessageAsRead without ever having been added
+      // via addMessage/ADD_MESSAGE. Components that only subscribe via
+      // useMessages() to detect "something in the message bar changed"
+      // (e.g. NaviContainer) rely on the messages reference changing even
+      // in this case.
+      setReadMessageIds([]);
+      const controlRef = React.createRef();
+      wrapper = mount(
+        <ConfigProvider value={mockContext.config}>
+          <MessageProvider>
+            <MessageConsumer controlRef={controlRef} />
+          </MessageProvider>
+        </ConfigProvider>,
+      );
+
+      const messagesBefore = controlRef.current.messages;
+      act(() => {
+        controlRef.current.actions.markMessageAsRead('never-added-id');
+      });
+      wrapper.update();
+      expect(controlRef.current.messages).to.not.equal(messagesBefore);
+    });
+  });
+
+  describe('messageActions bridge', () => {
+    it('allows plain (non-React) modules to add and dismiss messages', () => {
+      // Mirrors how app/action/PositionActions.js posts geolocation
+      // permission/timeout messages: it can't call hooks, so it goes
+      // through the messageActions bridge instead of useMessageActions().
+      setReadMessageIds([]);
+      const controlRef = React.createRef();
+      wrapper = mount(
+        <ConfigProvider value={mockContext.config}>
+          <MessageProvider>
+            <MessageConsumer controlRef={controlRef} />
+          </MessageProvider>
+        </ConfigProvider>,
+      );
+
+      const message = {
+        id: 'geolocation-denied',
+        content: { en: [{ type: 'text', content: 'Geolocation denied' }] },
+      };
+
+      act(() => {
+        messageActions.addMessage(message);
+      });
+      wrapper.update();
+      expect(controlRef.current.messages.map(m => m.id)).to.include(
+        'geolocation-denied',
+      );
+
+      act(() => {
+        messageActions.markMessageAsRead('geolocation-denied');
+      });
+      wrapper.update();
+      expect(controlRef.current.messages.map(m => m.id)).to.not.include(
+        'geolocation-denied',
+      );
     });
   });
 

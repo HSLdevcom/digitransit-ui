@@ -2,6 +2,7 @@ import debounce from 'lodash/debounce.js';
 import { getJson } from '../util/xhrPromise.js';
 import { geolocationMessages } from '../util/geolocationMessages.js';
 import { addAnalyticsEvent } from '../util/analyticsUtils.js';
+import { messageActions } from '../hooks/MessageContext.jsx';
 
 const MOCKPOS = false;
 let geoWatchId;
@@ -62,12 +63,12 @@ function geoCallback(actionContext, pos) {
 function updateGeolocationMessage(actionContext, newId) {
   Object.keys(geolocationMessages).forEach(id => {
     if (id !== newId) {
-      actionContext.dispatch('MarkMessageAsRead', geolocationMessages[id].id);
+      messageActions.markMessageAsRead(geolocationMessages[id].id);
     }
   });
 
   if (newId) {
-    actionContext.dispatch('AddMessage', geolocationMessages[newId]);
+    messageActions.addMessage(geolocationMessages[newId]);
   }
 }
 

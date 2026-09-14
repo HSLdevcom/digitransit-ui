@@ -69,15 +69,20 @@ function messagesReducer(state, action) {
     }
     case 'MARK_READ': {
       const { ids } = action;
-      let changed = false;
+      // Always return a new state/messages reference, even if none of the
+      // ids were tracked in state.messages. Some message-bar items (live
+      // service alerts fetched directly by MessageBar, geolocation
+      // permission messages from PositionActions) are dismissed via this
+      // same markMessageAsRead call but never went through ADD_MESSAGE, so
+      // they're never present in state.messages. Bailing out with the same
+      // state reference in that case (as before) meant the context value
+      // never changed, so components that only subscribe via useMessages()
+      // to know "something in the message bar changed" (e.g. NaviContainer,
+      // which recomputes layout) never re-rendered when such messages were
+      // closed.
       const messages = new Map(state.messages);
-      ids.forEach(id => {
-        if (messages.has(id)) {
-          messages.delete(id);
-          changed = true;
-        }
-      });
-      return changed ? { ...state, messages } : state;
+      ids.forEach(id => messages.delete(id));
+      return { ...state, messages };
     }
     default:
       return state;
@@ -92,6 +97,22 @@ const MessageContext = createContext({
     markMessageAsRead: () => {},
   },
 });
+
+// Bridge for plain (non-React) modules that still need to add/dismiss
+// messages but can't call hooks, e.g. app/action/PositionActions.js's
+// Fluxible action creators (geolocation permission/timeout messages).
+// MessageProvider fills these in with its real, stable (useCallback with no
+// deps) action functions once it mounts; there's only ever one
+// MessageProvider instance for the app's lifetime.
+const messageActionsBridge = {
+  addMessage: () => {},
+  markMessageAsRead: () => {},
+};
+
+export const messageActions = {
+  addMessage: message => messageActionsBridge.addMessage(message),
+  markMessageAsRead: ident => messageActionsBridge.markMessageAsRead(ident),
+};
 
 export const useMessages = () => useContext(MessageContext).messages;
 
@@ -154,6 +175,18 @@ export function MessageProvider({ children = null }) {
     };
     loadConfigMessages();
   }, []);
+
+  // Exposes this provider's addMessage/markMessageAsRead to plain (non-React)
+  // modules via messageActionsBridge (see above). addMessage/markMessageAsRead
+  // are stable (useCallback with no deps), so this only needs to run once.
+  useEffect(() => {
+    messageActionsBridge.addMessage = addMessage;
+    messageActionsBridge.markMessageAsRead = markMessageAsRead;
+    return () => {
+      messageActionsBridge.addMessage = () => {};
+      messageActionsBridge.markMessageAsRead = () => {};
+    };
+  }, [addMessage, markMessageAsRead]);
 
   const actions = useMemo(
     () => ({ addMessage, markMessageAsRead }),
