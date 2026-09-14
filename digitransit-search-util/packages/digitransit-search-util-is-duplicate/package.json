@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-is-duplicate",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "digitransit-search-util is-duplicate module",
   "type": "module",
   "main": "index.js",
