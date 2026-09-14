@@ -1,13 +1,15 @@
-const path = require('path');
-const fs = require('fs');
-const autoprefixer = require('autoprefixer');
-const commonjs = require('@rollup/plugin-commonjs');
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const postcss = require('rollup-plugin-postcss');
-const { babel } = require('@rollup/plugin-babel');
-const json = require('@rollup/plugin-json');
-const peerDepsExternal = require('rollup-plugin-peer-deps-external');
-const terser = require('@rollup/plugin-terser').default;
+import path from 'path';
+import fs from 'fs';
+import autoprefixer from 'autoprefixer';
+import commonjs from '@rollup/plugin-commonjs';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import postcss from 'rollup-plugin-postcss';
+import { babel } from '@rollup/plugin-babel';
+import json from '@rollup/plugin-json';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import terser from '@rollup/plugin-terser';
+
+const rootDir = import.meta.dirname;
 
 const globals = {
   react: 'React',
@@ -75,11 +77,17 @@ function getPackage() {
   return { name: pkg.name, location: packageDir };
 }
 
-module.exports = () => {
+export default () => {
   const pkg = getPackage();
   let input = path.join(pkg.location, 'src/index.js');
   if (!fs.existsSync(input)) {
+    input = path.join(pkg.location, 'src/index.jsx');
+  }
+  if (!fs.existsSync(input)) {
     input = path.join(pkg.location, 'index.js');
+  }
+  if (!fs.existsSync(input)) {
+    input = path.join(pkg.location, 'index.jsx');
   }
   const buildConfig = {
     input,
@@ -102,6 +110,11 @@ module.exports = () => {
         // deps (e.g. react-select). 'auto' restores that interop safely.
         interop: 'auto',
         globals,
+        // Scoped to this output only (rather than pushed into the shared
+        // top-level `plugins` below) so minification only ever applies to
+        // this one "production" UMD file, never to index.development.cjs or
+        // the ESM output below, regardless of NODE_ENV.
+        plugins: [terser()],
       },
       {
         name: pkg.name,
@@ -113,19 +126,41 @@ module.exports = () => {
         interop: 'auto',
         globals,
       },
+      {
+        // ESM build for the "module"/"exports" (import condition) fields.
+        // Deliberately a single, unminified file — unlike the two UMD
+        // outputs above there's no dev/prod split here: ESM `import`
+        // statements are static and can't branch on process.env.NODE_ENV
+        // the way the CJS shim (see the per-package index.cjs files) does,
+        // and shipping unminified ESM for the consuming bundler to minify
+        // itself is the standard idiom behind a "module" field anyway.
+        // No `name`/`globals`/`interop`: those only affect umd/iife output.
+        // Plain `.js`, not `.mjs`: every one of these packages already sets
+        // "type": "module", so a .js file here is already parsed as ESM -
+        // no extension trick needed (unlike the .cjs files above, which
+        // rely on their extension to force CJS parsing despite "type").
+        file: path.join(pkg.location, 'lib', 'index.js'),
+        format: 'es',
+        sourcemap: true,
+        inlineDynamicImports: true,
+        exports: 'named',
+      },
     ],
     context: 'self',
     plugins: [
       peerDepsExternal({
         packageJsonPath: path.join(pkg.location, 'package.json'),
       }),
-      nodeResolve({ browser: true }),
+      nodeResolve({
+        browser: true,
+        extensions: ['.mjs', '.js', '.jsx', '.json', '.node'],
+      }),
       babel({
         babelHelpers: 'runtime',
         // Absolute path: this config now runs with cwd set to the
         // package being built, not the repo root, so a relative path
         // here would no longer resolve correctly.
-        configFile: path.join(__dirname, 'babel.config.js'),
+        configFile: path.join(rootDir, 'babel.config.cjs'),
         exclude: /node_modules/,
       }),
       commonjs({
@@ -175,8 +210,5 @@ module.exports = () => {
       json(),
     ],
   };
-  if (process.env.NODE_ENV === 'production') {
-    buildConfig.plugins.push(terser());
-  }
   return buildConfig;
 };

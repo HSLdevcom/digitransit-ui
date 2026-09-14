@@ -1,4 +1,4 @@
-// Shared between webpack.config.babel.js (build time) and server/server.js
+// Shared between webpack.config.js (build time) and server/server.js
 // (request time). This placeholder is baked into the service worker's
 // precache manifest URLs at build time (see the `modifyURLPrefix` option
 // passed to workbox-webpack-plugin's `InjectManifest`), then swapped out
@@ -12,6 +12,4 @@
 // A plain string constant (not a comment marker) is used deliberately:
 // Terser minification strips comments, which would silently break a
 // comment-based injection marker in production builds.
-module.exports = {
-  ASSET_URL_PLACEHOLDER: '__DIGITRANSIT_ASSET_URL__',
-};
+export const ASSET_URL_PLACEHOLDER = '__DIGITRANSIT_ASSET_URL__';

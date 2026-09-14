@@ -24,14 +24,14 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
   - `util/` — pure helper modules (date/fare/color/analytics/etc.), plus its own `__generated__/`
     for Relay fragments used by utils.
   - `translations/` — one file per locale (`fi.js`, `en.js`, `sv.js`, ...); `fi.js` is the source
-    of truth, keep sorted via `scripts/sort-translations.mjs` (`yarn format` runs this), and every
+    of truth, keep sorted via `scripts/sort-translations.js` (`yarn format` runs this), and every
     key must also exist in `en.js`/`sv.js` (enforced by `test/unit/translations.test.js`). Some
     `digitransit-component` packages ship their own i18next translation bundles instead, sorted/
-    checked separately via `scripts/workspace-packages/sort-translations.mjs`.
+    checked separately via `scripts/workspace-packages/sort-translations.js`.
   - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
 - `server/` — Express SSR server.
 - `test/` — `unit/` (mocha, mirrors `app/`) and `e2e/` (Jest + Playwright visual tests).
-- `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.mjs`, `contextHelper.js`,
+- `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.js`, `contextHelper.js`,
   `generate-schema.js`, `theme/` theme-scaffolding scripts, `workspace-packages/` (readme
   generation, version checks, translation sort/check); see `scripts/README.md`).
 - `digitransit-component/`, `digitransit-search-util/`, `digitransit-store/`,
@@ -88,7 +88,7 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
   - Run a single test by name (grep on describe/it or filename stem):
     `yarn test-single -g <pattern>` (this is `test-unit:app -g <pattern>`).
   - Watch mode: `yarn run test-unit -- --watch`.
-- E2E/visual tests (Jest + Playwright, config under `test/e2e/jest.config.js`), require a prior
+- E2E/visual tests (Jest + Playwright, config under `test/e2e/jest.config.cjs`), require a prior
   `yarn build`:
   - `CONFIG=hsl yarn test:e2e` (desktop), `MOBILE=TRUE CONFIG=hsl yarn test:e2e` (mobile).
   - Single test: `CONFIG=hsl yarn test:e2e -- FrontPage`.
@@ -132,10 +132,15 @@ Other structural notes:
 
 ## Code conventions
 
-- ES2015+ transpiled with Babel; Airbnb JS/React style guide (`.eslintrc.js`) with project
+- ES2015+ transpiled with Babel; Airbnb JS/React style guide (`.eslintrc.cjs`) with project
   overrides: prefer object spread over `Object.assign`; `no-console` is an error; Prettier config
   is `singleQuote: true, trailingComma: 'all', arrowParens: 'avoid'`.
-- `.js` files are used for JSX (no `.jsx` extension).
+- When removing `defaultProps`, use parameter defaults only for valid values; never default to
+  `undefined`.
+- JSX-containing files use the `.jsx` extension; plain `.js` never contains JSX. The one
+  exception is `test/unit/**`, which still uses `.js` for JSX pending a separate Mocha→Vitest
+  migration. Relative import specifiers must always include their extension (`import/extensions`
+  is enforced everywhere except `test/unit/**`).
 - Avoid `Component.defaultProps` in function components (deprecated by React, and unsupported for
   function components in newer React versions). Declare defaults via destructuring in the
   function signature instead, e.g. `function Foo({ isMobile = false, children = null })`. This

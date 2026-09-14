@@ -1,246 +1,117 @@
 import React from 'react';
-
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import Icon from '../../../app/component/Icon';
-import AlertRow from '../../../app/component/AlertRow';
-import RouteNumber from '../../../app/component/RouteNumber';
+import { renderWithProviders } from '../helpers/mock-providers';
+import AlertRow, { getAlertRoutePath } from '../../../app/component/AlertRow';
 import {
   AlertSeverityLevelType,
   AlertEntityType,
 } from '../../../app/constants';
-import { PREFIX_STOPS, routePagePath } from '../../../app/util/path';
-import { mockContext } from '../helpers/mock-context';
 
 describe('<AlertRow />', () => {
-  it('should not render a div for the alert if description is missing', () => {
-    const props = {
-      expired: false,
-      index: 0,
-      feed: 'foo',
-      entities: [
-        {
-          __typename: AlertEntityType.Route,
-          mode: 'BUS',
-          shortName: '1',
-          gtfsId: 'foo:1',
-        },
-      ],
-    };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find('.alert-row')).to.have.lengthOf(0);
+  const routeEntity = {
+    __typename: AlertEntityType.Route,
+    mode: 'BUS',
+    shortName: '1',
+    gtfsId: 'HSL:2097N',
+  };
+
+  const baseProps = {
+    expired: false,
+    description: 'Lorem ipsum',
+    index: 0,
+    feed: 'foo',
+    entities: [routeEntity],
+  };
+
+  it('should not render when description and header are missing', () => {
+    const { container } = renderWithProviders(
+      <AlertRow {...baseProps} description={undefined} header={undefined} />,
+    );
+    expect(container.querySelector('.alert-row')).to.equal(null);
   });
 
-  it('should not render a div for the header if it is missing', () => {
-    const props = {
-      expired: false,
-      description: 'Lorem ipsum',
-      index: 0,
-      feed: 'foo',
-      entities: [
-        {
-          __typename: AlertEntityType.Route,
-          mode: 'BUS',
-          shortName: '1',
-          gtfsId: 'foo:1',
-        },
-      ],
-    };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find('.alert-header')).to.have.lengthOf(0);
+  it('should render when only a header is provided', () => {
+    const { container } = renderWithProviders(
+      <AlertRow
+        {...baseProps}
+        description={undefined}
+        header="Service alert"
+      />,
+    );
+    expect(container.querySelector('.alert-row')).to.not.equal(null);
   });
 
-  it('should not render a div for the description if it is missing', () => {
-    const props = {
-      expired: false,
-      index: 0,
-      feed: 'foo',
-      entities: [
-        {
-          __typename: AlertEntityType.Route,
-          mode: 'BUS',
-          shortName: '1',
-          gtfsId: 'foo:1',
-        },
-      ],
-    };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find('.alert-body')).to.have.lengthOf(0);
+  it('should render the description in the alert body', () => {
+    const { container } = renderWithProviders(<AlertRow {...baseProps} />);
+    expect(container.querySelector('.alert-body').textContent).to.include(
+      'Lorem ipsum',
+    );
   });
 
-  it('should render a RouteNumber if a mode is provided, has description and the type is route', () => {
-    const props = {
-      expired: false,
-      description: 'Lorem ipsum',
-      index: 0,
-      feed: 'foo',
-      entities: [
-        {
-          __typename: AlertEntityType.Route,
-          mode: 'BUS',
-          shortName: '1',
-          gtfsId: 'foo:1',
-        },
-      ],
-    };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find(RouteNumber)).to.have.lengthOf(1);
+  it('should render the route identifier', () => {
+    const { container } = renderWithProviders(<AlertRow {...baseProps} />);
+    expect(
+      container.querySelector('.route-alert-entityid').textContent,
+    ).to.equal('1');
   });
 
-  it('should render an Icon if a mode is provided, has description and the type is stop', () => {
-    const props = {
-      feed: 'foo',
-      entities: [
-        {
-          __typename: AlertEntityType.Stop,
-          gtfsId: 'foo:1',
-        },
-      ],
-      description: 'Lorem ipsum',
-      index: 0,
-    };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find(Icon)).to.have.lengthOf(1);
+  it('should create the route page path for a route alert', () => {
+    expect(getAlertRoutePath('HSL:2097N')).to.equal(
+      '/linjat/HSL%3A2097N/pysakit',
+    );
+  });
+
+  it('should render an info icon for an informational stop alert', () => {
+    const { container } = renderWithProviders(
+      <AlertRow
+        {...baseProps}
+        entities={[{ __typename: AlertEntityType.Stop, gtfsId: 'HSL:1' }]}
+        severityLevel={AlertSeverityLevelType.Info}
+      />,
+    );
+    expect(container.querySelector('.stop-disruption.info')).to.not.equal(null);
   });
 
   it('should show the time period', () => {
-    const props = {
-      severityLevel: AlertSeverityLevelType.Warning,
-      currentTime: 15,
-      startTime: 20,
-      endTime: 30,
-      description: 'Lorem ipsum',
-      index: 0,
-      feed: 'foo',
-      entities: [
-        {
-          __typename: AlertEntityType.Stop,
-          gtfsId: 'foo:1',
-        },
-      ],
-    };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find('.alert-top-row').text()).to.contain('at');
-  });
-
-  it('should render the identifier', () => {
-    const props = {
-      gtfsIds: 'HSL:2097N',
-      description: 'Lorem ipsum',
-      index: 0,
-      feed: 'foo',
-      entities: [
-        {
-          __typename: AlertEntityType.Route,
-          mode: 'BUS',
-          shortName: '97N',
-          gtfsId: 'foo:1',
-        },
-      ],
-    };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find('.bus')).to.have.lengthOf(1);
-  });
-
-  it('should render link for route', () => {
-    const props = {
-      showLinks: true,
-      description: 'Lorem ipsum',
-      index: 0,
-      feed: 'foo',
-      entities: [
-        {
-          __typename: AlertEntityType.Route,
-          mode: 'BUS',
-          shortName: '97N',
-          gtfsId: 'HSL:2097N',
-        },
-      ],
-    };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find('.alert-row-link').get(0).props.to).to.equal(
-      routePagePath('HSL:2097N', PREFIX_STOPS),
+    const { container } = renderWithProviders(
+      <AlertRow
+        {...baseProps}
+        currentTime={15}
+        startTime={20}
+        endTime={30}
+        severityLevel={AlertSeverityLevelType.Warning}
+      />,
+    );
+    expect(container.querySelector('.alert-top-row').textContent).to.include(
+      'at',
     );
   });
 
-  it('should render the url', () => {
-    const props = {
-      url: 'https://www.hsl.fi',
-      description: 'Liirum laarum',
-      index: 0,
-      feed: 'foo',
-      entities: [
-        {
-          __typename: AlertEntityType.Route,
-          mode: 'BUS',
-          shortName: '97N',
-          gtfsId: 'HSL:2097N',
-        },
-      ],
-    };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find('.alert-url')).to.have.lengthOf(1);
+  it('should render the extra-information URL', () => {
+    const { container } = renderWithProviders(
+      <AlertRow {...baseProps} url="https://www.hsl.fi" />,
+    );
+    expect(container.querySelector('.alert-url')).to.not.equal(null);
   });
 
-  it('should render a RouteNumber with a specified alertSeverityLevel', () => {
-    const props = {
-      severityLevel: AlertSeverityLevelType.Warning,
-      description: 'Lorem ipsum',
-      index: 0,
-      feed: 'foo',
-      entities: [
-        {
-          __typename: AlertEntityType.Route,
-          mode: 'BUS',
-          shortName: '97N',
-          gtfsId: 'HSL:2097N',
-        },
-      ],
-    };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find(RouteNumber).prop('alertSeverityLevel')).to.equal(
-      AlertSeverityLevelType.Warning,
+  it('should render a warning stop icon for a warning alert', () => {
+    const { container } = renderWithProviders(
+      <AlertRow
+        {...baseProps}
+        entities={[{ __typename: AlertEntityType.Stop, gtfsId: 'HSL:1' }]}
+        severityLevel={AlertSeverityLevelType.Warning}
+      />,
+    );
+    expect(container.querySelector('.stop-disruption.warning')).to.not.equal(
+      null,
     );
   });
-  it("should add the http prefix to the url if it's missing", () => {
-    const props = {
-      url: 'www.hsl.fi',
-      description: 'Liirum laarum',
-      index: 0,
-      feed: 'foo',
-      entities: [
-        {
-          __typename: AlertEntityType.Route,
-          mode: 'BUS',
-          shortName: '97N',
-          gtfsId: 'HSL:2097N',
-        },
-      ],
-    };
-    const wrapper = shallowWithIntl(<AlertRow {...props} />, {
-      context: mockContext,
-    });
-    expect(wrapper.find('.alert-url').prop('href')).to.equal(
-      'http://www.hsl.fi',
+
+  it("should add the http prefix to a URL if it's missing", () => {
+    const { container } = renderWithProviders(
+      <AlertRow {...baseProps} url="www.hsl.fi" />,
     );
+    expect(
+      container.querySelector('.alert-url .external-link').getAttribute('href'),
+    ).to.equal('http://www.hsl.fi');
   });
 });

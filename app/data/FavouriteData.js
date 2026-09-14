@@ -1,22 +1,22 @@
-import find from 'lodash/find';
-import findIndex from 'lodash/findIndex';
-import isEmpty from 'lodash/isEmpty';
+import find from 'lodash/find.js';
+import findIndex from 'lodash/findIndex.js';
+import isEmpty from 'lodash/isEmpty.js';
 import { v4 as uuid } from 'uuid';
-import { unixTime } from '../util/timeUtils';
+import { unixTime } from '../util/timeUtils.js';
 import {
   clearFavouriteStorage,
   getFavouriteStorage,
   setFavouriteStorage,
-} from './localStorage';
+} from './localStorage.js';
 import {
   deleteFavourites,
   getFavourites,
   updateFavourites,
-} from '../util/apiUtils';
+} from '../util/apiUtils.js';
 import {
   mapVehicleRentalFromStore,
   mapVehicleRentalToStore,
-} from '../util/vehicleRentalUtils';
+} from '../util/vehicleRentalUtils.js';
 
 // internal data model for vehicle rental stations has changed
 // however, data is stored in old form for compatibility
@@ -124,7 +124,7 @@ export function getPersonalizationPreferences(favourites) {
  * former Fluxible FavouriteStore. React components should not use this
  * module's default export directly for reading state; use the
  * useFavourites()/useFavouriteStatus()/useFavouriteActions() hooks exported
- * from hooks/FavouriteContext.js instead, which wrap this singleton and
+ * from hooks/FavouriteContext.jsx instead, which wrap this singleton and
  * keep components in sync with it.
  *
  * Pure query helpers over a favourites array (isFavourite,

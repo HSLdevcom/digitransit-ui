@@ -1,4 +1,4 @@
-import { generateManifestUrl } from './manifestUtils';
+import { generateManifestUrl } from './manifestUtils.js';
 
 /**
  * This helper function generates a manifest and some social media meta tags
