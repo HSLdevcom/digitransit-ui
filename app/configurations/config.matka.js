@@ -483,7 +483,6 @@ export default {
 
   showStopStatusMarkers: true,
   showRouteDescNotification: isDevRunEnv(),
-  showNewRoutePage: true,
 
   replacementBusNotification: {
     // Header is displayed via translation key 'replacement-bus'.
