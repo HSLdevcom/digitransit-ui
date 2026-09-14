@@ -164,7 +164,7 @@ export function MessageProvider({ children = null }) {
   useEffect(() => {
     const loadConfigMessages = async () => {
       processStaticMessages(config, addMessage);
-      if (config.staticMessagesUrl !== undefined) {
+      if (config.staticMessagesUrl) {
         const response = await fetch(config.staticMessagesUrl, {
           mode: 'cors',
           cache: 'reload',

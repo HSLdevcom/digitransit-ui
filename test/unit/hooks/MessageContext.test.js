@@ -117,6 +117,29 @@ describe('MessageContext', () => {
         },
       ]);
     });
+
+    it('does not fetch when staticMessagesUrl is an empty string', async () => {
+      const config = {
+        ...mockContext.config,
+        staticMessages: [],
+        staticMessagesUrl: '',
+      };
+      const controlRef = React.createRef();
+
+      await act(async () => {
+        wrapper = mount(
+          <ConfigProvider value={config}>
+            <MessageProvider>
+              <MessageConsumer controlRef={controlRef} />
+            </MessageProvider>
+          </ConfigProvider>,
+        );
+      });
+      await flushEffects();
+      wrapper.update();
+
+      expect(fetchMock.callHistory.called()).to.equal(false);
+    });
   });
 
   describe('addMessage', () => {
