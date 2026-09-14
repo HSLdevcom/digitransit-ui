@@ -17,6 +17,31 @@ module.exports = {
     'import/no-named-default': 'off',
     'import/extensions': ['error', 'never', { ignorePackages: true }],
     'import/prefer-default-export': 'off',
+    'import/no-restricted-paths': [
+      'error',
+      {
+        zones: [
+          {
+            target: ['./server/**/*', './utils/server/**/*'],
+            from: ['./app/**/*', './utils/client/**/*'],
+            message:
+              'server/** and utils/server/** must not import client-only code. Put cross-cutting code in utils/shared/** instead.',
+          },
+          {
+            target: ['./app/**/*', './utils/client/**/*'],
+            from: ['./server/**/*', './utils/server/**/*'],
+            message:
+              'app/** and utils/client/** must not import server-only code. Put cross-cutting code in utils/shared/** instead.',
+          },
+          {
+            target: './utils/shared/**/*',
+            from: ['./utils/client/**/*', './utils/server/**/*'],
+            message:
+              'utils/shared/** must only depend on other utils/shared/** code (or external packages) so it stays safely importable by both server and client.',
+          },
+        ],
+      },
+    ],
     // react
     'react/button-has-type': 'warn',
     'react/destructuring-assignment': 'off',
