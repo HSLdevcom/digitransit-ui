@@ -3,10 +3,13 @@ import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
-import { stopPagePath } from '../../../util/path';
-import { configShape } from '../../../util/shapes';
-import { getStopMode, transitIconName } from '../../../util/modeUtils';
-import { getModeIconColor } from '../../../util/colorUtils';
+import { stopPagePath } from '../../../../utils/shared/path';
+import { configShape } from '../../../../utils/client/shapes';
+import {
+  getStopMode,
+  transitIconName,
+} from '../../../../utils/client/modeUtils';
+import { getModeIconColor } from '../../../../utils/shared/colorUtils';
 
 function isNull(val) {
   return val === 'null' || val === undefined || val === null;

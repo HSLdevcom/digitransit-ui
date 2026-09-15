@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 // default export to import - `import * as` still gives a real Module
 // Namespace Object, matching the original "loads without error, is an
 // object" check.
-import * as AbtestingModule from './src/index.js';
+import * as AbtestingModule from './src/index';
 
 describe('Testing @digitransit-component/digitransit-component-abtesting module', () => {
   it('loads without error', () => {

@@ -10,7 +10,7 @@ import BackButton from '../BackButton';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import Line from './Line';
 import MapWithTracking from './MapWithTracking';
-import { getSettings } from '../../util/planParamUtil';
+import { getSettings } from '../../../utils/client/planParamUtil';
 import {
   startRealTimeClient,
   stopRealTimeClient,
@@ -19,20 +19,20 @@ import {
 import {
   sortNearYouRentalStations,
   sortNearYouStops,
-} from '../../util/sortUtils';
+} from '../../../utils/client/sortUtils';
 import ItineraryLine from './ItineraryLine';
 import {
   locationShape,
   relayShape,
   configShape,
   stopShape,
-} from '../../util/shapes';
+} from '../../../utils/client/shapes';
 import Loading from '../Loading';
-import { getRouteMode } from '../../util/modeUtils';
+import { getRouteMode } from '../../../utils/client/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { streetQuery } from './StreetQuery';
 import LocationMarker from './LocationMarker';
-import { splitGtfsId } from '../../util/gtfs';
+import { splitGtfsId } from '../../../utils/shared/gtfs';
 
 function getId(edge) {
   const { place } = edge.node;

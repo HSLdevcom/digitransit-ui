@@ -1,0 +1,197 @@
+import configMerger from '../../utils/server/configMerger.js';
+import walttiConfig from './config.waltti.js';
+
+const CONFIG = 'varely';
+const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+const APP_TITLE = 'Seutu+ reittiopas';
+const APP_DESCRIPTION = 'Varsinais-Suomen ELY-keskuksen reittiopas';
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/varely/`;
+const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3/varely`;
+const colorPrimary = '#008161';
+
+export default configMerger(walttiConfig, {
+  CONFIG,
+
+  URL: {
+    OTP: OTP_URL,
+
+    // read stops and stations OTP2 vector map tile server
+    STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
+    REALTIME_STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
+    },
+  },
+
+  feedIds: ['VARELY', 'FOLI', 'Rauma', 'Pori', 'Salo'],
+
+  colors: {
+    primary: colorPrimary,
+    hover: '#00BF6F',
+    bus: colorPrimary,
+    ferry: '#0064f0',
+  },
+
+  appBarLink: { name: 'Seutu+', href: 'https://seutuplus.fi/' },
+
+  socialMedia: {
+    title: APP_TITLE,
+    description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-seutuplus.png',
+      width: 611,
+      height: 225,
+    },
+  },
+
+  meta: {
+    description: APP_DESCRIPTION,
+  },
+
+  title: APP_TITLE,
+
+  // Navbar logo
+  logo: 'varely/seutuplus-logo-white.svg',
+  favicon: './app/client/images/varely/varely-favicon.png',
+
+  transportModes: {
+    bus: {
+      availableForSelection: true,
+      color: colorPrimary,
+    },
+
+    ferry: {
+      availableForSelection: true,
+      defaultValue: true,
+      color: '#0064f0',
+    },
+  },
+
+  nearYouModes: ['bus', 'ferry'],
+
+  useSearchPolygon: true,
+
+  areaPolygon: [
+    [21.0, 59.75],
+    [22.83, 59.77],
+    [22.92, 59.96],
+    [23.73, 60.15],
+    [24.04, 60.65],
+    [23.38, 60.8],
+    [23.33, 61.06],
+    [22.68, 61.47],
+    [22.92, 61.75],
+    [22.79, 61.98],
+    [22.97, 62.27],
+    [22.58, 62.36],
+    [22.03, 62.1],
+    [21.0, 62.02],
+  ],
+
+  map: {
+    minZoom: 7,
+  },
+
+  menu: {
+    copyright: { label: `© Seutu+ ${walttiConfig.YEAR}` },
+    content: [
+      {
+        name: 'about-this-service',
+        route: '/tietoja-palvelusta',
+      },
+      {
+        name: 'accessibility-statement',
+        href: {
+          fi: 'https://www.digitransit.fi/accessibility',
+          sv: 'https://www.digitransit.fi/accessibility',
+          en: 'https://www.digitransit.fi/en/accessibility',
+        },
+      },
+    ],
+  },
+
+  defaultEndpoint: {
+    address: 'Linja-autoasema, Turku',
+    lat: 60.4567994,
+    lon: 22.2679201,
+  },
+
+  /* Enable real-time map layer for vehicle positions */
+  vehicles: false,
+
+  aboutThisService: {
+    fi: [
+      {
+        header: 'Tietoja palvelusta',
+        paragraphs: [
+          'Tervetuloa reittioppaaseen! Reittiopas kertoo, miten pääset nopeasti ja helposti perille joukkoliikenteellä Turussa, Aurassa, Maskussa, Mynämäellä, Nousiaisissa, Paimiossa, Paraisilla, Raumalla, Porissa ja Salossa. Reittiopas-palvelun tarjoaa Varsinais-Suomen ELY-keskus, ja se perustuu Digitransit –palvelualustaan.',
+        ],
+      },
+    ],
+
+    sv: [
+      {
+        header: 'Om tjänsten',
+        paragraphs: [
+          'Den här tjänsten är för reseplanering inom Egentliga Finland (Åbo, Aura, Masku, Virmo, Nousis, Pemar, Pargas, Raumo, Björneborg och Salo). Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
+        ],
+      },
+    ],
+
+    en: [
+      {
+        header: 'About this service',
+        paragraphs: [
+          'Welcome to the Journey Planner! The Journey Planner shows you how to get to your destination fast and easy by public transport in Turku, Aura, Masku, Mynämäki, Nousiainen, Paimio, Parainen, Rauma, Pori and Salo. You can also use the planner to find fast walking and cycling routes, and to an extent, for driving directions. The Journey Planner is provided by Centre for Economic Development, Transport and the Environment of Southwest Finland and it is based on the Digitransit service platform.',
+        ],
+      },
+    ],
+  },
+
+  // TODO: flex disabled for now, proper configuration coming in the future
+  /* flex: {
+    external: {
+      enabled: true,
+      transit: true,
+      direct: false,
+      agencies: ['02Taksi:02_taksi'],
+    },
+    infoLanguage: 'fi',
+  }, */
+
+  sourceForAlertsAndDisruptions: {
+    VARELY: {
+      fi: 'Varsinais-Suomi',
+      sv: 'Egentliga Finland',
+      en: 'Varsinais-Suomi',
+    },
+    Rauma: {
+      fi: 'Rauma',
+      sv: 'Raumo',
+      en: 'Rauma',
+    },
+    FOLI: {
+      fi: 'Turun seutu',
+      sv: 'Åboregion',
+      en: 'Turku region',
+    },
+    Salo: {
+      fi: 'Salo',
+      sv: 'Salo',
+      en: 'Salo',
+    },
+    Pori: {
+      fi: 'Pori',
+      sv: 'Björneborg',
+      en: 'Pori',
+    },
+  },
+
+  routeNotifications: [],
+  analyticsScript: '',
+  GTMid: null,
+});

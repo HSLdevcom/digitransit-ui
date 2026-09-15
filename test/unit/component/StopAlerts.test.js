@@ -5,7 +5,7 @@ import { renderWithProviders } from '../helpers/mock-providers';
 import {
   AlertSeverityLevelType,
   AlertEntityType,
-} from '../../../app/constants';
+} from '../../../utils/shared/constants';
 import StopAlerts from '../../../app/component/stop/StopAlerts';
 
 describe('<StopAlerts />', () => {

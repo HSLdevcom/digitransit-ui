@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
-import { configShape } from '../../../util/shapes';
+import { configShape } from '../../../../utils/client/shapes';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import Loading from '../../Loading';
 import ZoneIcon from '../../ZoneIcon';
-import { getJson } from '../../../util/xhrPromise';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { splitStringToAddressAndPlace } from '../../../util/otpStrings';
-import getZoneId from '../../../util/zoneIconUtils';
+import { getJson } from '../../../../utils/shared/xhrPromise';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { splitStringToAddressAndPlace } from '../../../../utils/shared/otpStrings';
+import getZoneId from '../../../../utils/client/zoneIconUtils';
 import PopupHeader from '../PopupHeader';
 
 class LocationPopup extends React.Component {

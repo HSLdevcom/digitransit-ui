@@ -17,14 +17,14 @@ import {
   showModeSettings,
   useCitybikes,
   useScooters,
-} from '../../../util/modeUtils';
-import { getSettings } from '../../../util/planParamUtil';
+} from '../../../../utils/client/modeUtils';
+import { getSettings } from '../../../../utils/client/planParamUtil';
 import {
   getCustomizedSettings,
   setCustomizedSettings,
-} from '../../../data/localStorage';
+} from '../../../../utils/client/localStorage';
 import ScrollableWrapper from '../../ScrollableWrapper';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 export default function CustomizeSearch({ onToggleClick, mobile }) {
   const config = useConfigContext();

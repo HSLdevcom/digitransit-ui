@@ -7,8 +7,8 @@ import {
 } from '../../../app/component/MessageBar';
 import { mockContext } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
-import { setReadMessageIds } from '../../../app/data/localStorage';
-import { AlertSeverityLevelType } from '../../../app/constants';
+import { setReadMessageIds } from '../../../utils/client/localStorage';
+import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 
 const defaultProps = {
   getServiceAlertsAsync: async () => [],

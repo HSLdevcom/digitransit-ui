@@ -28,6 +28,7 @@ run*.sh
 
 # Relay-compiler generated GraphQL artifacts (main app)
 app/**/__generated__
+utils/**/__generated__
 
 # Rollup build output (see config/rollup.config.js). digitransit-search-util-
 # query-utils's relay.artifactDirectory (./lib/__generated__) always nests

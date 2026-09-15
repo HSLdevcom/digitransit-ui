@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { default as L } from 'leaflet';
 
-import { configShape, locationShape } from '../../util/shapes';
+import { configShape, locationShape } from '../../../utils/client/shapes';
 import GenericMarker from './GenericMarker';
 
 export default function ClusterNumberMarker({ position, number }, { config }) {

@@ -11,16 +11,16 @@ import { matchShape } from 'found';
 import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
 import cx from 'classnames';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { routeShape } from '../../util/shapes';
-import { routePagePath, PREFIX_STOPS } from '../../util/path';
+import { useConfigContext } from '../../client/ConfigContext';
+import { routeShape } from '../../../utils/client/shapes';
+import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import RoutePatternSelect, { patternTextWithIcon } from './RoutePatternSelect';
 import RoutePatternHeader from './RoutePatternHeader';
 import {
   getModeIconColor,
   ensureColorAccessibleOnWhite,
-} from '../../util/colorUtils';
-import { getRouteMode } from '../../util/modeUtils';
+} from '../../../utils/shared/colorUtils';
+import { getRouteMode } from '../../../utils/client/modeUtils';
 import Icon from '../Icon';
 
 function filterSimilarRoutes(routes, currentRoute) {

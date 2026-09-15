@@ -8,7 +8,7 @@ import DTAutoSuggest from '@digitransit-component/digitransit-component-autosugg
 import Icon, {
   defaultColors,
 } from '@digitransit-component/digitransit-component-icon';
-import isEmpty from 'lodash/isEmpty.js';
+import isEmpty from 'lodash/isEmpty';
 import Select from './helpers/Select';
 import i18n from './helpers/i18n';
 import styles from './helpers/styles.scss';

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import isDuplicate from './index.js';
+import isDuplicate from './index';
 
 describe('Testing @digitransit-util/digitransit-util-is-duplicate module', () => {
   it('Checking that duplicate items returns true', () => {

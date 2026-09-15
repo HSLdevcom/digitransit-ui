@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { DateTime, Duration } from 'luxon';
-import { pickupBookingInfoShape, routeShape } from '../../util/shapes';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import {
+  pickupBookingInfoShape,
+  routeShape,
+} from '../../../utils/client/shapes';
+import { useConfigContext } from '../../client/ConfigContext';
 import Icon from '../Icon';
 import FavouriteRouteContainer from '../routepage/FavouriteRouteContainer';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
-import { openDeepLink } from '../../util/vehicleRentalUtils';
+import { openDeepLink } from '../../../utils/client/vehicleRentalUtils';
 
 function OnDemandInfo({
   routeNumber,

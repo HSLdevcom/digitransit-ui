@@ -3,11 +3,14 @@ import React, { useState } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import Icon from '../Icon';
-import routeCompare from '../../util/route-compare';
-import { isKeyboardSelectionEvent } from '../../util/browser';
-import { getRouteMode, modeToTranslationId } from '../../util/modeUtils';
-import { stopShape } from '../../util/shapes';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import routeCompare from '../../../utils/client/route-compare';
+import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
+import {
+  getRouteMode,
+  modeToTranslationId,
+} from '../../../utils/client/modeUtils';
+import { stopShape } from '../../../utils/client/shapes';
+import { useConfigContext } from '../../client/ConfigContext';
 
 export default function FilterTimeTableModal({
   stop,

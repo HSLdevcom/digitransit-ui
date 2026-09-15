@@ -5,7 +5,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import Message from './Message';
 
-import { isKeyboardSelectionEvent } from '../util/browser';
+import { isKeyboardSelectionEvent } from '../../utils/shared/browser';
 import Icon from './Icon';
 
 const Checkbox = ({

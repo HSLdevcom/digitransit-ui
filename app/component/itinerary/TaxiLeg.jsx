@@ -2,16 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
-import { legShape } from '../../util/shapes';
+import { legShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { displayDistance } from '../../util/geo-utils';
-import { durationToString } from '../../util/timeUtils';
+import { useConfigContext } from '../../client/ConfigContext';
+import { displayDistance } from '../../../utils/shared/geo-utils';
+import { durationToString } from '../../../utils/client/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { legTimeStr, legDestination } from '../../util/legUtils';
+import { legTimeStr, legDestination } from '../../../utils/client/legUtils';
 import TaxiLinkContainer from './TaxiLinkContainer';
-import { splitStringToAddressAndPlace } from '../../util/otpStrings';
+import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
 export default function TaxiLeg(props) {

@@ -2,9 +2,9 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { entityShape } from '../../util/shapes';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { AlertEntityType } from '../../constants';
+import { entityShape } from '../../../utils/client/shapes';
+import { useConfigContext } from '../../client/ConfigContext';
+import { AlertEntityType } from '../../../utils/shared/constants';
 import { groupEntitiesByMode } from './utils';
 import { useFilterContext } from './filters/FiltersContext';
 import RouteBadgeGroup from './components/RouteBadgeGroup';

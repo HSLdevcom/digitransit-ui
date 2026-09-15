@@ -4,8 +4,12 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import DepartureListContainer from '../DepartureListContainer';
 import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
-import { stationShape, errorShape, relayShape } from '../../util/shapes';
-import { getTrackOrPierOrPlatformText } from '../../util/localeUtils';
+import {
+  stationShape,
+  errorShape,
+  relayShape,
+} from '../../../utils/client/shapes';
+import { getTrackOrPierOrPlatformText } from '../../../utils/client/localeUtils';
 import { useCurrentTime } from '../../hooks/TimeContext';
 
 function TerminalPageContent({ station, relay, error }) {

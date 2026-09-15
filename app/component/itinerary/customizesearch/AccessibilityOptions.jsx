@@ -3,8 +3,8 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import SettingsToggle from './SettingsToggle';
 import Icon from '../../Icon';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { settingsShape } from '../../../util/shapes';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { settingsShape } from '../../../../utils/client/shapes';
 
 export default function AccessibilityOptions({ settings, updateSettings }) {
   const onToggle = () => {

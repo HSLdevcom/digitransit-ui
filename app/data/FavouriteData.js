@@ -1,22 +1,22 @@
-import find from 'lodash/find.js';
-import findIndex from 'lodash/findIndex.js';
-import isEmpty from 'lodash/isEmpty.js';
+import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
+import isEmpty from 'lodash/isEmpty';
 import { v4 as uuid } from 'uuid';
-import { unixTime } from '../util/timeUtils.js';
+import { unixTime } from '../../utils/client/timeUtils';
 import {
   clearFavouriteStorage,
   getFavouriteStorage,
   setFavouriteStorage,
-} from './localStorage.js';
+} from '../../utils/client/localStorage';
 import {
   deleteFavourites,
   getFavourites,
   updateFavourites,
-} from '../util/apiUtils.js';
+} from '../../utils/client/apiUtils';
 import {
   mapVehicleRentalFromStore,
   mapVehicleRentalToStore,
-} from '../util/vehicleRentalUtils.js';
+} from '../../utils/shared/vehicleRentalUtils';
 
 // internal data model for vehicle rental stations has changed
 // however, data is stored in old form for compatibility

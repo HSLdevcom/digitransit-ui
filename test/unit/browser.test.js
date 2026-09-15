@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-import * as utils from '../../app/util/browser';
+import * as utils from '../../utils/shared/browser';
 
 const noop = () => {};
 

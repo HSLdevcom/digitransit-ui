@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 import { describe, it, expect } from 'vitest';
-import dayRangePattern from './index.js';
+import dayRangePattern from './index';
 
 const tests = [
   { dayPattern: 'ma-ma', dayNoArray: ['1', '1', '1', '1'] },

@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithProviders } from './helpers/mock-providers';
 import WalkLeg from '../../app/component/itinerary/WalkLeg';
-import { AlertSeverityLevelType } from '../../app/constants';
+import { AlertSeverityLevelType } from '../../utils/shared/constants';
 
 describe('<WalkLeg />', () => {
   it('should show the leg starting point name', () => {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { ReactRelayContext } from 'react-relay';
 import { connectToStores } from 'fluxible-addons-react';
-import withBreakpoint from '../../util/withBreakpoint';
-import { getMapLayerOptions } from '../../util/mapLayerUtils';
+import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import ItineraryPage from './ItineraryPage';
 import { ItineraryContextProvider } from './context/ItineraryContext';
 import { useFavourites } from '../../hooks/FavouriteContext';

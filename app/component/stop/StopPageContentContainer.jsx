@@ -7,7 +7,7 @@ import {
   errorShape,
   relayShape,
   stopShape,
-} from '../../util/shapes';
+} from '../../../utils/client/shapes';
 import DepartureListContainer from '../DepartureListContainer';
 import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';

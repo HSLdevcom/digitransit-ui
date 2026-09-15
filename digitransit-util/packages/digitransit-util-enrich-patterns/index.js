@@ -5,7 +5,7 @@
 /* eslint-disable prefer-destructuring */
 import dayRangeAllowedDiff from '@digitransit-util/digitransit-util-day-range-allowed-diff';
 import dayRangePattern from '@digitransit-util/digitransit-util-day-range-pattern';
-import cloneDeep from 'lodash/cloneDeep.js';
+import cloneDeep from 'lodash/cloneDeep';
 import { DateTime } from 'luxon';
 
 const DATE_FORMAT = 'yyyyLLdd';

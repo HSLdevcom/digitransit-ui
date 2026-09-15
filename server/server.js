@@ -2,7 +2,7 @@
 
 // This file runs as native ESM (the repo is `"type": "module"`) - no
 // `@babel/register` transpile hook. Its `../app/*` require-chain no longer
-// renders React server-side (see app/server.js) and every module in it is
+// renders React server-side (see server/serve.js) and every module in it is
 // plain ESM, so Node 24 loads it directly.
 import path from 'path';
 import fs from 'fs';
@@ -16,16 +16,16 @@ import logger from 'morgan';
 import helmet from 'helmet';
 import { CosmosClient } from '@azure/cosmos';
 import { ASSET_URL_PLACEHOLDER } from '../scripts/build/assetUrlPlaceholder.js';
-import { getJson } from '../app/util/xhrPromise.js';
-import { retryFetch } from '../app/util/fetchUtils.js';
-import * as configTools from '../app/config.js';
-import { splitGtfsId } from '../app/util/gtfs.js';
+import { getJson } from '../utils/shared/xhrPromise.js';
+import { retryFetch } from '../utils/shared/fetchUtils.js';
+import * as configTools from './configs/config.js';
+import { splitGtfsId } from '../utils/shared/gtfs.js';
 // Previously lazy `require()`d inside setUp* functions; hoisted to
 // top-level imports for ESM. The OIDC stack (passport/redis/openid-client)
 // still only runs when `process.env.OIDC_CLIENT_ID` is set.
 import setUpOIDC from './passport-openid-connect/openidConnect.js';
 import reittiopasParameterMiddleware from './reittiopasParameterMiddleware.js';
-import serve from '../app/server.js';
+import serve from './serve.js';
 
 // Node 24 `require()`s an ESM `config.*.js` graph directly (none use
 // top-level await), so the geoJson/citybike config sweeps below stay
@@ -45,10 +45,12 @@ process.on('unhandledRejection', (reason, p) => {
 const config = configTools.getConfiguration();
 
 const appRoot = `${process.cwd()}/`;
-const configsDir = path.join(appRoot, 'app', 'configurations');
+const configsDir = path.join(appRoot, 'server', 'configs');
 const configFiles = fs
   .readdirSync(configsDir)
-  .filter(file => file.startsWith('config'));
+  // matches only the per-region `config.<name>.js` files, not the shared
+  // `config.js` module that now lives alongside them in this directory.
+  .filter(file => /^config\.\w+\.js$/.test(file));
 let allZones;
 
 /* ********* Global ********* */
@@ -79,13 +81,13 @@ function setUpOpenId() {
 function setUpStaticFolders() {
   // Serve /sw.js with the ASSET_URL placeholder (baked into the precache
   // manifest at build time by workbox-webpack-plugin's InjectManifest -
-  // see webpack.config.js / app/util/serviceWorker.js) replaced by
+  // see webpack.config.js / utils/client/serviceWorker.js) replaced by
   // this deployment's actual CDN base URL - or stripped out entirely when
   // ASSET_URL isn't set. Only production builds actually produce
   // _static/sw.js (InjectManifest is production-only), and app/client.js
   // only ever registers this service worker when
   // `process.env.NODE_ENV !== 'development'`, so this route is skipped
-  // entirely in dev - mirrors app/server.js's own
+  // entirely in dev - mirrors server/serve.js's own
   // `process.env.NODE_ENV !== 'development'` guard around its
   // manifest.json/stats.json reads.
   if (process.env.NODE_ENV !== 'development') {
@@ -134,7 +136,7 @@ function setUpMiddleware() {
   if (process.env.NODE_ENV === 'development') {
     const hotloadPort = process.env.HOT_LOAD_PORT || 9000;
     // proxy for dev-bundle
-    app.use('/proxy/', proxy(`http://localhost:${hotloadPort}/`));
+    app.use('/proxy/', proxy(`http://[::1]:${hotloadPort}/`));
   }
 }
 
