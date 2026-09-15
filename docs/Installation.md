@@ -14,16 +14,25 @@ You also need a C compiler:
 - OS X: Xcode 5.0 or later
 
 ### WSL
-To use Windows Subsystem for Linux in digitransit-ui development you may need to do at least the following
-1. Add the following to your `/etc/hosts`. This is because the project uses ipv6 compliant `::1` instead of ipv4 style `0.0.0.0`:
-```
-::1     ip6-localhost ip6-loopback localhost
-```
-2. Add the following to your `/etc/wsl.conf` if not yet present. This prevents WSL from regenerating the `/etc/hosts` as well as the `/etc/resolv.conf`:
+
+Add the following to your `/etc/wsl.conf` if not yet present. This prevents WSL from regenerating the `/etc/hosts` as well as the `/etc/resolv.conf`:
 ```
 [network]
 generateResolvConf=false
 generateHosts = false
+```
+
+#### Fixed issues
+
+Previously, using Windows Subsystem for Linux required remapping `localhost` to the IPv6
+loopback address in `/etc/hosts`, because `webpack-dev-server` binds `::1` only
+(`webpack.config.babel.js`) and `server/server.js` used to proxy to it by the `localhost`
+hostname — which on stock WSL resolves only to `127.0.0.1`, causing `ECONNREFUSED`.
+`server/server.js` now targets the literal `[::1]` address instead, so this is no longer
+required for `yarn run dev` to work. If you still hit other WSL networking issues, you may
+need to add the following to your `/etc/hosts`:
+```
+::1     ip6-localhost ip6-loopback localhost
 ```
 
 ## Install watchman
