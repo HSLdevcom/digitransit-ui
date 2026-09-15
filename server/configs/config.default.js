@@ -28,7 +28,6 @@ const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 12000;
 const YEAR = 1900 + new Date().getYear();
 
 const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
-const TRAFFIC_NOW_TEST = process.env.TRAFFIC_NOW_TEST === 'true';
 // Deployment run environment (unknown ⇒ production, see utils/server/envUtils.js).
 const { RUN_ENV } = process.env;
 // CrazyEgg survey sampling divisor.
@@ -739,7 +738,6 @@ export default {
   showVehiclesOnStopPage: false,
   showVehiclesOnItineraryPage: false,
   trafficNowLink: false,
-  trafficNowTest: TRAFFIC_NOW_TEST,
   // per-language path appended to URL.ROOTLINK used as the TrafficNowHeader
   // breadcrumb link target; falls back to the index page when not defined,
   // e.g. { fi: '/matkustaminen', sv: '/sv/att-resa', en: '/en/travelling' }

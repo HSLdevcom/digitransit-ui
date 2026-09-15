@@ -13,11 +13,7 @@ import { getCountries, setCountries } from '../../utils/client/localStorage';
 import { TRAFFICNOW } from '../../utils/shared/path';
 import { useConfigContext } from '../client/ConfigContext';
 
-export default function MainMenu({
-  setDisruptionInfoOpen,
-  closeMenu,
-  homeUrl,
-}) {
+export default function MainMenu({ closeMenu, homeUrl }) {
   const intl = useIntl();
   const config = useConfigContext();
   const { router } = useRouter();
@@ -65,14 +61,10 @@ export default function MainMenu({
         {config.mainMenu.showDisruptions && (
           <div className="offcanvas-section">
             <DisruptionInfoButtonContainer
-              onClick={
-                config.trafficNowTest
-                  ? () => {
-                      router.push(`/${TRAFFICNOW}`);
-                      closeMenu();
-                    }
-                  : () => setDisruptionInfoOpen(true)
-              }
+              onClick={() => {
+                router.push(`/${TRAFFICNOW}`);
+                closeMenu();
+              }}
             />
           </div>
         )}
@@ -163,7 +155,6 @@ export default function MainMenu({
 }
 
 MainMenu.propTypes = {
-  setDisruptionInfoOpen: PropTypes.func.isRequired,
   closeMenu: PropTypes.func.isRequired,
   homeUrl: PropTypes.string.isRequired,
 };
