@@ -4,58 +4,43 @@ import Marker from 'react-leaflet/es/Marker';
 import { default as L } from 'leaflet';
 import cx from 'classnames';
 import Icon from '../../Icon';
-import { legShape, configShape } from '../../../../utils/client/shapes';
+import { legShape } from '../../../../utils/client/shapes';
 import { renderAsString } from '../../../../utils/client/mapIconUtils';
+import { useConfigContext } from '../../../client/ConfigContext';
 
-class LegMarker extends React.Component {
-  static propTypes = {
-    leg: legShape.isRequired,
-    mode: PropTypes.string.isRequired,
-    color: PropTypes.string,
-    zIndexOffset: PropTypes.number,
-    wide: PropTypes.bool,
-    style: PropTypes.string,
-    appendClass: PropTypes.string,
-  };
+// An arrow marker will be displayed if the normal marker can't fit
+export default function LegMarker({
+  leg,
+  mode,
+  color = 'currentColor',
+  zIndexOffset = undefined,
+  wide = false,
+  style = undefined,
+  appendClass = undefined,
+}) {
+  const config = useConfigContext();
+  const className = wide ? 'wide' : '';
+  const iconName = mode === 'bus-express' ? 'icon_bus' : `icon_${mode}`;
+  // Do not display route number if it is an external route and the route number is empty.
+  const displayRouteNumber = !(
+    config.externalFeedIds !== undefined &&
+    mode.includes('external') &&
+    leg.name === ''
+  );
+  const routeNumber = displayRouteNumber
+    ? `<span class="map-route-number ${mode}" aria-hidden="true">${
+        leg.name
+      }</span>
+         <span class="sr-only">${leg.name.toLowerCase()}</span>`
+    : '';
 
-  static defaultProps = {
-    color: 'currentColor',
-    zIndexOffset: undefined,
-    wide: false,
-    style: undefined,
-    appendClass: undefined,
-  };
-
-  static contextTypes = {
-    config: configShape.isRequired,
-  };
-
-  // An arrow marker will be displayed if the normal marker can't fit
-  getLegMarker() {
-    const color = this.props.color ? this.props.color : 'currentColor';
-    const className = this.props.wide ? 'wide' : '';
-    const iconName =
-      this.props.mode === 'bus-express'
-        ? 'icon_bus'
-        : `icon_${this.props.mode}`;
-    // Do not display route number if it is an external route and the route number is empty.
-    const displayRouteNumber = !(
-      this.context.config.externalFeedIds !== undefined &&
-      this.props.mode.includes('external') &&
-      this.props.leg.name === ''
-    );
-    const routeNumber = displayRouteNumber
-      ? `<span class="map-route-number ${this.props.mode}" aria-hidden="true">${
-          this.props.leg.name
-        }</span>
-         <span class="sr-only">${this.props.leg.name.toLowerCase()}</span>`
-      : '';
-    return (
+  return (
+    <div>
       <Marker
-        key={`${this.props.leg.name}_text`}
+        key={`${leg.name}_text`}
         position={{
-          lat: this.props.leg.lat,
-          lng: this.props.leg.lon,
+          lat: leg.lat,
+          lng: leg.lon,
         }}
         interactive={false}
         icon={L.divIcon({
@@ -67,22 +52,26 @@ class LegMarker extends React.Component {
               ${routeNumber}
             </div>`,
           className: cx(
-            this.props.style ? `arrow-${this.props.style}` : 'legmarker',
-            this.props.mode,
+            style ? `arrow-${style}` : 'legmarker',
+            mode,
             { 'only-icon': !displayRouteNumber },
-            this.props.appendClass,
+            appendClass,
           ),
           iconSize: null,
         })}
-        zIndexOffset={this.props.zIndexOffset}
+        zIndexOffset={zIndexOffset}
         keyboard={false}
       />
-    );
-  }
-
-  render() {
-    return <div>{this.getLegMarker()}</div>;
-  }
+    </div>
+  );
 }
 
-export default LegMarker;
+LegMarker.propTypes = {
+  leg: legShape.isRequired,
+  mode: PropTypes.string.isRequired,
+  color: PropTypes.string,
+  zIndexOffset: PropTypes.number,
+  wide: PropTypes.bool,
+  style: PropTypes.string,
+  appendClass: PropTypes.string,
+};
