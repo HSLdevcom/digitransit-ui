@@ -21,8 +21,14 @@ export default function LocationPopup({
 }) {
   const config = useConfigContext();
   const intl = useIntl();
-  const [loading, setLoading] = useState(true);
-  const [location, setLocation] = useState({ lat, lon });
+  // loading and location are updated together from a Promise callback, which
+  // React 16 doesn't batch outside of event handlers. Keeping them in a
+  // single state object avoids rendering with loading=false before location
+  // has been updated with an address.
+  const [state, setState] = useState({
+    loading: true,
+    location: { lat, lon },
+  });
 
   useEffect(() => {
     const searchParams = {
@@ -44,22 +50,26 @@ export default function LocationPopup({
         let pointName;
         if (data.features != null && data.features.length > 0) {
           const match = data.features[0].properties;
-          setLoading(false);
-          setLocation(prevLocation => ({
-            ...prevLocation,
-            address: getLabel(match),
-            zoneId: getZoneId(config, match.zones, data.zones),
+          setState(prevState => ({
+            loading: false,
+            location: {
+              ...prevState.location,
+              address: getLabel(match),
+              zoneId: getZoneId(config, match.zones, data.zones),
+            },
           }));
           pointName = 'FreeAddress';
         } else {
-          setLoading(false);
-          setLocation(prevLocation => ({
-            ...prevLocation,
-            address: intl.formatMessage({
-              id: 'location-from-map',
-              defaultMessage: 'Selected location',
-            }),
-            zoneId: getZoneId(config, data.zones),
+          setState(prevState => ({
+            loading: false,
+            location: {
+              ...prevState.location,
+              address: intl.formatMessage({
+                id: 'location-from-map',
+                defaultMessage: 'Selected location',
+              }),
+              zoneId: getZoneId(config, data.zones),
+            },
           }));
           pointName = 'NoAddress';
         }
@@ -78,18 +88,21 @@ export default function LocationPopup({
         });
       },
       () => {
-        setLoading(false);
-        setLocation({
-          address: intl.formatMessage({
-            id: 'location-from-map',
-            defaultMessage: 'Selected location',
-          }),
+        setState({
+          loading: false,
+          location: {
+            address: intl.formatMessage({
+              id: 'location-from-map',
+              defaultMessage: 'Selected location',
+            }),
+          },
         });
       },
     );
     // Run only on mount, mirroring the previous componentDidMount.
   }, []);
 
+  const { loading, location } = state;
   if (loading) {
     return (
       <div className="card smallspinner" style={{ height: '4rem' }}>
