@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 import capitalize from 'lodash/capitalize';
 import { Text } from '@hsl-fi/layout-primitives';
 import Icon from '../Icon';
-import { AlertSeverityLevelType } from '../../constants';
+import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 
 const DISRUPTION_BADGE_PREFIX = 'disruption-badge-';
 

@@ -4,14 +4,14 @@ import fs from 'fs';
 
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 
-import { getNamedConfiguration } from '../../app/config.js';
+import { getNamedConfiguration } from '../../server/configs/config.js';
 
 function getAllConfigs() {
   if (process.env.CONFIG && process.env.CONFIG !== '') {
     return [getNamedConfiguration(process.env.CONFIG)];
   }
 
-  const srcDirectory = './app/configurations';
+  const srcDirectory = './server/configs';
   return fs
     .readdirSync(srcDirectory)
     .filter(file => /^config\.\w+\.js$/.test(file))
@@ -57,9 +57,9 @@ function getAllThemeEntries() {
 function faviconPluginFromConfig(config) {
   let logo =
     config.favicon ||
-    `./app/configurations/images/${config.CONFIG}/${config.CONFIG}-favicon.png`;
+    `./app/client/images/${config.CONFIG}/${config.CONFIG}-favicon.png`;
   if (!fs.existsSync(logo)) {
-    logo = './app/configurations/images/default/default-favicon.png';
+    logo = './app/client/images/default/default-favicon.png';
   }
 
   return new FaviconsWebpackPlugin({

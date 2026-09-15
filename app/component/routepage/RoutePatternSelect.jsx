@@ -6,11 +6,11 @@ import { Link, useRouter } from 'found';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import Icon from '../Icon';
-import { routePagePath } from '../../util/path';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { patternShape, routeShape } from '../../util/shapes';
-import { useBreakpoint } from '../../util/withBreakpoint';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { routePagePath } from '../../../utils/shared/path';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { patternShape, routeShape } from '../../../utils/client/shapes';
+import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useConfigContext } from '../../client/ConfigContext';
 
 function patternOptionText(pattern) {
   if (!pattern) {

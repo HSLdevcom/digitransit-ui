@@ -1,5 +1,5 @@
 /* eslint-disable */
-import configMerger from '../util/configMerger.js';
+import configMerger from '../../utils/server/configMerger.js';
 
 const CONFIG = '__theme__';
 const APP_TITLE = 'Uusi Reittiopas';

@@ -12,18 +12,18 @@ import ScheduleHeader from './ScheduleHeader';
 import ScheduleTripList from './ScheduleTripList';
 import ScheduleConstantOperation from './ScheduleConstantOperation';
 import SecondaryButton from '../../SecondaryButton';
-import { DATE_FORMAT } from '../../../constants';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { useBreakpoint } from '../../../util/withBreakpoint';
+import { DATE_FORMAT } from '../../../../utils/shared/constants';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { useBreakpoint } from '../../../../utils/client/withBreakpoint';
 import DateSelectGrouped from '../../stop/DateSelectGrouped';
 import RouteControlPanel from '../RouteControlPanel';
 import ScrollableWrapper from '../../ScrollableWrapper';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+import { useConfigContext } from '../../../client/ConfigContext';
 import { getTripsList } from './scheduleTripsUtils';
-import { routeShape, patternShape } from '../../../util/shapes';
+import { routeShape, patternShape } from '../../../../utils/client/shapes';
 import { calculateRedirectDecision } from './scheduleParamUtils';
 import { buildAvailableDates } from './scheduleDataUtils';
-import { splitGtfsId } from '../../../util/gtfs';
+import { splitGtfsId } from '../../../../utils/shared/gtfs';
 
 /**
  * Open a route timetable PDF in a new window.

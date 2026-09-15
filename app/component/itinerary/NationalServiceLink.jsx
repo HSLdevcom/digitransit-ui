@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 
 export default function NationalServiceLink({ nationalServiceLink }) {
   const config = useConfigContext();

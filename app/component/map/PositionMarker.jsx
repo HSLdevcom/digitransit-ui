@@ -2,10 +2,10 @@ import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import Marker from 'react-leaflet/es/Marker';
 import { default as L } from 'leaflet';
-import { renderAsString } from '../../util/mapIconUtils';
+import { renderAsString } from '../../../utils/client/mapIconUtils';
 
 import Icon from '../Icon';
-import { locationShape } from '../../util/shapes';
+import { locationShape } from '../../../utils/client/shapes';
 
 const currentLocationIcon = L.divIcon({
   html: renderAsString(<Icon img="icon_current-location" />),

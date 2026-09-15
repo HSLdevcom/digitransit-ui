@@ -7,11 +7,11 @@ import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
 import Icon from './Icon';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import Toggle from './Toggle';
-import { getCountries, setCountries } from '../data/localStorage';
-import { TRAFFICNOW } from '../util/path';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { getCountries, setCountries } from '../../utils/client/localStorage';
+import { TRAFFICNOW } from '../../utils/shared/path';
+import { useConfigContext } from '../client/ConfigContext';
 
 export default function MainMenu({
   setDisruptionInfoOpen,

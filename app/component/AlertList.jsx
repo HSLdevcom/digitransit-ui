@@ -9,11 +9,14 @@ import {
   alertCompare,
   getEntitiesOfType,
   isAlertValid,
-} from '../util/alertUtils';
-import { alertShape } from '../util/shapes';
+} from '../../utils/client/alertUtils';
+import { alertShape } from '../../utils/client/shapes';
 import { useCurrentTime } from '../hooks/TimeContext';
-import withBreakpoint from '../util/withBreakpoint';
-import { AlertEntityType, AlertSeverityLevelType } from '../constants';
+import withBreakpoint from '../../utils/client/withBreakpoint';
+import {
+  AlertEntityType,
+  AlertSeverityLevelType,
+} from '../../utils/shared/constants';
 
 const AlertList = ({
   cancelations = [],

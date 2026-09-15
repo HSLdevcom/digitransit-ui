@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import React from 'react';
 import { renderWithProviders } from './helpers/mock-providers';
 import PlatformNumber from '../../app/component/PlatformNumber';
-import { TransportMode } from '../../app/constants';
+import { TransportMode } from '../../utils/shared/constants';
 
 const opts = {
   messages: {

@@ -1,0 +1,178 @@
+import configMerger from '../../utils/server/configMerger.js';
+import { BIKEAVL_BIKES } from '../../utils/shared/vehicleRentalUtils.js';
+import walttiConfig from './config.waltti.js';
+
+const CONFIG = 'lahti';
+const APP_TITLE = 'LSL reittiopas';
+const APP_DESCRIPTION = 'Lahden seudun liikenteen reittiopas';
+
+const minLat = 60.6546;
+const maxLat = 61.819;
+const minLon = 24.81629;
+const maxLon = 26.5902;
+
+export default configMerger(walttiConfig, {
+  CONFIG,
+
+  appBarLink: {
+    name: 'lsl.fi',
+    href: 'https://www.lsl.fi/',
+    altLink: {
+      sv: { name: 'lsl.fi/en', href: 'https://www.lsl.fi/in-english/' },
+      en: { name: 'lsl.fi/en', href: 'https://www.lsl.fi/in-english/' },
+    },
+  },
+  colors: {
+    primary: '#0066B3',
+    bus: '#0066B3',
+  },
+
+  socialMedia: {
+    title: APP_TITLE,
+    description: APP_DESCRIPTION,
+    twitter: {
+      site: '@LSL_fi',
+    },
+    image: {
+      url: 'img/social-share-lahti.png',
+      width: 751,
+      height: 301,
+    },
+  },
+
+  title: APP_TITLE,
+
+  favicon: './app/client/images/lahti/lahti-favicon.png',
+
+  // Navbar logo
+  logo: 'lahti/lahti-logo.png',
+  secondaryLogo: 'lahti/secondary-lahti-logo.png',
+
+  feedIds: ['Lahti'],
+
+  searchParams: {
+    'boundary.rect.min_lat': minLat,
+    'boundary.rect.max_lat': maxLat,
+    'boundary.rect.min_lon': minLon,
+    'boundary.rect.max_lon': maxLon,
+  },
+
+  areaPolygon: [
+    [minLon, minLat],
+    [minLon, maxLat],
+    [maxLon, maxLat],
+    [maxLon, minLat],
+  ],
+
+  defaultEndpoint: {
+    address: 'Keskusta, Lahti',
+    lat: 60.983552,
+    lon: 25.656398,
+  },
+
+  menu: {
+    copyright: { label: `© Lahti ${walttiConfig.YEAR}` },
+    content: [
+      {
+        name: 'menu-feedback',
+        href: {
+          fi: 'https://e-asiointi.lahti.fi/eFeedback/fi/Feedback/29-Joukkoliikenne',
+          sv: 'https://e-asiointi.lahti.fi/eFeedback/sv/Feedback/29-Kollektivtrafik',
+          en: 'https://e-asiointi.lahti.fi/eFeedback/en/Feedback/29-Public%20transport',
+        },
+      },
+      {
+        name: 'about-this-service',
+        route: '/tietoja-palvelusta',
+      },
+      {
+        name: 'accessibility-statement',
+        href: {
+          fi: 'https://www.digitransit.fi/accessibility',
+          sv: 'https://www.digitransit.fi/accessibility',
+          en: 'https://www.digitransit.fi/en/accessibility',
+        },
+      },
+    ],
+  },
+
+  aboutThisService: {
+    fi: [
+      {
+        header: 'Tietoja palvelusta',
+        paragraphs: [
+          'Tämän palvelun tarjoaa LSL joukkoliikenteen reittisuunnittelua varten Päijät-Hämeen alueella. Palvelu kattaa joukkoliikenteen, kävelyn, pyöräilyn ja yksityisautoilun rajatuilta osin. Palvelu perustuu Digitransit-palvelualustaan.',
+        ],
+      },
+    ],
+
+    sv: [
+      {
+        header: 'Om tjänsten',
+        paragraphs: [
+          'Den här tjänsten erbjuds av LSL för reseplanering inom Lahti region trafiken. Reseplaneraren täcker med vissa begränsningar kollektivtrafik, promenad, cykling samt privatbilism. Tjänsten baserar sig på Digitransit-plattformen.',
+        ],
+      },
+    ],
+
+    en: [
+      {
+        header: 'About this service',
+        paragraphs: [
+          'The Journey Planner shows you how to get to your destination fast and easy by public transport in Lahti region. You can also use the planner to find fast walking and cycling routes, and to an extent, for driving directions. The Journey Planner is provided by Lahti region transport and it is based on the Digitransit service platform.',
+        ],
+      },
+    ],
+  },
+  zoneIdMapping: {
+    1: 'LSL',
+    2: 'LSL',
+    3: 'LSL',
+    4: 'LSL',
+  },
+  zones: {
+    stops: true,
+    itinerary: true,
+  },
+
+  transportModes: {
+    citybike: {
+      availableForSelection: true,
+    },
+  },
+
+  nearYouModes: ['bus', 'citybike'],
+
+  vehicleRental: {
+    networks: {
+      freebike_lahti: {
+        enabled: true,
+        season: {
+          start: '24.4',
+          end: '17.11',
+        },
+        capacity: BIKEAVL_BIKES,
+        icon: 'citybike',
+        name: {
+          fi: 'Mankeli',
+          sv: 'Mankeli',
+          en: 'Mankeli',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaupunkipyorat.lahti.fi/',
+          sv: 'https://kaupunkipyorat.lahti.fi/?lang=19',
+          en: 'https://kaupunkipyorat.lahti.fi/?lang=2',
+        },
+      },
+    },
+  },
+
+  showTicketInformation: true,
+  useTicketIcons: true,
+  ticketLink: {
+    fi: 'https://www.lsl.fi/liput-ja-hinnat/',
+  },
+  showTicketPrice: false,
+  ticketLinkOperatorCode: 50223,
+});

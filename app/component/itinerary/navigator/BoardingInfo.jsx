@@ -3,7 +3,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import RouteNumberContainer from '../../RouteNumberContainer';
-import { routeShape } from '../../../util/shapes';
+import { routeShape } from '../../../../utils/client/shapes';
 import Icon from '../../Icon';
 
 const BoardingInfo = ({

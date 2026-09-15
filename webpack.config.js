@@ -1,5 +1,6 @@
-// The `app/` require-chain reached from `./scripts/build/contextHelper.js`
-// (`app/config.js` and friends) is native ESM now - the repo is
+// The `server/configs/` require-chain reached from
+// `./scripts/build/contextHelper.js` (`server/configs/config.js` and
+// friends) is native ESM now - the repo is
 // `"type": "module"` - so this config no longer needs `@babel/register` to
 // load it. `import.meta.dirname` (as `rootDir`) replaces `__dirname`;
 // `createRequire` is kept only for the two `require.resolve(...)` polyfill
@@ -35,8 +36,8 @@ const selectedTheme = new RegExp(
 
 // Small stand-in for the unmaintained `stats-webpack-plugin`: writes the
 // same trimmed-down stats shape that server/server.js's (via
-// app/server.js) asset lookup reads to know which built JS/CSS files
-// belong to the `main` entrypoint. `app/server.js` expects
+// server/serve.js) asset lookup reads to know which built JS/CSS files
+// belong to the `main` entrypoint. `server/serve.js` expects
 // `entrypoints.<name>.assets` to be an array of plain filename strings
 // (the shape `stats-webpack-plugin` used to produce), not webpack5's
 // native `{ name, size }` asset objects, so that shape is preserved here.
@@ -65,7 +66,7 @@ class EntrypointStatsPlugin {
 const productionPlugins = [
   ...faviconPlugins,
   new InjectManifest({
-    swSrc: path.join(rootDir, 'app/util/serviceWorker.js'),
+    swSrc: path.join(rootDir, 'utils/client/serviceWorker.js'),
     swDest: 'sw.js',
     // Mirrors the previous offline-plugin `excludes` list: source maps,
     // compressed variants, and the per-deployment theme/sprite chunks and
@@ -79,7 +80,7 @@ const productionPlugins = [
       /assets\/iconstats-.*\.json$/,
       /assets\/icons-[^/]+\//,
       // PNG/SVG/GeoJSON/CSS are cached lazily at runtime instead (see
-      // app/util/serviceWorker.js) rather than eagerly precached, mirroring
+      // utils/client/serviceWorker.js) rather than eagerly precached, mirroring
       // the previous "optional" (safeToUseOptionalCaches) cache group.
       /\.png$/,
       /\.svg$/,
@@ -133,11 +134,11 @@ export default {
   mode,
   entry: {
     main: [
-      './app/util/publicPath',
+      './utils/client/publicPath',
       // Dev-only: loads the active theme's SCSS via a dynamic require.
       // Production themes are handled statically via `themeEntries` below.
-      ...(isDevelopment ? ['./app/util/loadDevTheme'] : []),
-      './app/client',
+      ...(isDevelopment ? ['./utils/client/loadDevTheme'] : []),
+      './app/client/client',
     ],
     ...(isProduction ? themeEntries : {}),
   },
@@ -152,12 +153,17 @@ export default {
     rules: [
       {
         test: /\.jsx?$/,
-        include: [path.resolve(rootDir, 'app')],
+        include: [
+          path.resolve(rootDir, 'app'),
+          path.resolve(rootDir, 'utils/client'),
+          path.resolve(rootDir, 'utils/shared'),
+        ],
         // The repo is `"type": "module"`, so webpack5 would otherwise treat
-        // every `app/` file as strict ESM: (1) it'd demand an explicit
-        // extension on every relative import (the client bundle keeps its
-        // long-standing extensionless style instead), and (2) several
-        // `app/` files default-import third-party UMD packages (e.g.
+        // every `app/`/`utils/client/`/`utils/shared/` file as strict ESM:
+        // (1) it'd demand an explicit extension on every relative import
+        // (the client bundle keeps its long-standing extensionless style
+        // instead), and (2) several files default-import third-party UMD
+        // packages (e.g.
         // `@hsl-fi/modal`) whose `__esModule` flag is set inside a UMD
         // factory rather than visibly at the module's top level - strict
         // ESM can't prove that flag through the wrapper and binds the raw
@@ -248,29 +254,41 @@ export default {
         },
       },
       {
-        // The digitransit-component/digitransit-store packages set
-        // "type": "module" (so their raw source/tests run as native ESM),
-        // and their Rollup-built `lib/index.js` ("module"/"exports" target)
-        // is genuine ESM too - which webpack, following that package.json
-        // field, parses as strict `javascript/esm` rather than `auto`.
-        // Several of these packages default-import third-party CJS
-        // dependencies (e.g. `@hsl-fi/modal`) that use Babel's userland
-        // `__esModule`-marker convention instead of a real "exports"/
-        // "module" field. Webpack's *lenient* `javascript/auto` interop
-        // recognizes that marker and unwraps `.default` (matching what
-        // Babel itself does, and what every `app/` file gets); its *strict*
-        // ESM interop follows real Node semantics instead, where a CJS
-        // default import is simply the whole `module.exports` - silently
-        // handing components like `Modal` the entire exports object instead
-        // of the component function, which blows up at render time with
-        // "Element type is invalid". Force `javascript/auto` here so these
-        // packages get the same lenient interop as the rest of the app.
+        // All 4 digitransit-* workspace packages set "type": "module" (so
+        // their raw source/tests run as native ESM) - which webpack, following
+        // that package.json field, parses as strict `javascript/esm` rather
+        // than `auto`. This causes two distinct problems when bundled directly
+        // into the app (not through app/**'s lenient babel-loader rule):
+        //   1. Several packages default-import third-party CJS dependencies
+        //      (e.g. `@hsl-fi/modal`) that use Babel's userland `__esModule`-
+        //      marker convention instead of a real "exports"/"module" field.
+        //      Webpack's *lenient* `javascript/auto` interop recognizes that
+        //      marker and unwraps `.default` (matching what Babel itself
+        //      does, and what every `app/` file gets); its *strict* ESM
+        //      interop follows real Node semantics instead, where a CJS
+        //      default import is simply the whole `module.exports` - silently
+        //      handing components like `Modal` the entire exports object
+        //      instead of the component function, which blows up at render
+        //      time with "Element type is invalid".
+        //   2. Strict ESM also requires relative imports to be "fully
+        //      specified" (explicit file extension) - but these packages'
+        //      own `import/extensions` policy is "never" (matching app/**),
+        //      so an extensionless relative import (valid and required by
+        //      lint) would otherwise fail to resolve here.
+        // Force `javascript/auto` here so these packages get the same
+        // lenient interop as the rest of the app. `type: 'javascript/auto'`
+        // alone only changes CJS/ESM interop, not extension-resolution
+        // strictness, so `resolve.fullySpecified: false` is needed too
+        // (matching the `.mjs`/node_modules rule above) to fix problem 2.
         test: /\.js$/,
         include: [
           path.resolve(rootDir, 'digitransit-component'),
+          path.resolve(rootDir, 'digitransit-search-util'),
           path.resolve(rootDir, 'digitransit-store'),
+          path.resolve(rootDir, 'digitransit-util'),
         ],
         type: 'javascript/auto',
+        resolve: { fullySpecified: false },
       },
       {
         test: /\.scss$/,
@@ -353,7 +371,7 @@ export default {
     //   process/browser's process.env is always {} (no real env values),
     //   so this only prevents crashes; it doesn't expose actual
     //   build-time environment variables to the browser.
-    // - mqtt-packet (a dependency of mqtt, used by app/util/mqttClient.js
+    // - mqtt-packet (a dependency of mqtt, used by utils/client/mqttClient.js
     //   for real-time vehicle-position streaming) calls Buffer.from/
     //   Buffer.alloc etc. as bare, unguarded module-top-level globals -
     //   this crashes without the "Buffer" shim.

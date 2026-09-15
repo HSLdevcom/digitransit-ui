@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { Component as AlertList } from '../../../app/component/AlertList';
-import { AlertEntityType } from '../../../app/constants';
+import { AlertEntityType } from '../../../utils/shared/constants';
 
 describe('<AlertList />', () => {
   it('should show a "no alerts" message', () => {

@@ -1,0 +1,107 @@
+import configMerger from '../../utils/server/configMerger.js';
+import walttiConfig from './config.waltti.js';
+
+const CONFIG = 'rovaniemi';
+const APP_TITLE = 'Rovaniemen reittiopas';
+const APP_DESCRIPTION = 'Rovaniemen uusi reittiopas';
+
+const minLat = 66.147037;
+const maxLat = 67.180128;
+const minLon = 24.634987;
+const maxLon = 27.373531;
+
+export default configMerger(walttiConfig, {
+  CONFIG,
+
+  appBarLink: {
+    name: 'Linkkari',
+    href: 'https://linkkari.fi/',
+    altLink: {
+      sv: {
+        name: 'Linkkari',
+        href: 'https://linkkari.fi/in-English',
+      },
+      en: {
+        name: 'Linkkari',
+        href: 'https://linkkari.fi/in-English',
+      },
+    },
+  },
+
+  colors: {
+    primary: '#34B233',
+    bus: '#34B233',
+  },
+  socialMedia: {
+    title: APP_TITLE,
+    description: APP_DESCRIPTION,
+    image: {
+      url: 'img/social-share-rovaniemi.png',
+      width: 504,
+      height: 426,
+    },
+  },
+
+  title: APP_TITLE,
+  favicon: './app/client/images/rovaniemi/rovaniemi-favicon.png',
+  // Navbar logo
+  logo: 'rovaniemi/rovaniemi-logo.svg',
+  feedIds: ['Rovaniemi'],
+
+  searchParams: {
+    'boundary.rect.min_lat': minLat,
+    'boundary.rect.max_lat': maxLat,
+    'boundary.rect.min_lon': minLon,
+    'boundary.rect.max_lon': maxLon,
+  },
+
+  areaPolygon: [
+    [minLon, minLat],
+    [minLon, maxLat],
+    [maxLon, maxLat],
+    [maxLon, minLat],
+  ],
+
+  defaultEndpoint: {
+    address: 'Rovaniemi',
+    lat: 66.500855,
+    lon: 25.723734,
+  },
+
+  menu: {
+    copyright: { label: `© Rovaniemi ${walttiConfig.YEAR}` },
+    content: [
+      {
+        name: 'about-this-service',
+        route: '/tietoja-palvelusta',
+      },
+      {
+        name: 'accessibility-statement',
+        href: {
+          fi: 'https://www.digitransit.fi/accessibility',
+          sv: 'https://www.digitransit.fi/accessibility',
+          en: 'https://www.digitransit.fi/en/accessibility',
+        },
+      },
+    ],
+  },
+
+  aboutThisService: {
+    fi: [
+      {
+        header: 'Tietoja palvelusta',
+        paragraphs: [
+          'Tämän palvelun tarjoaa Rovaniemen kaupungin joukkoliikenne reittisuunnittelua varten Rovaniemen alueella. ',
+        ],
+      },
+    ],
+  },
+  zoneIdMapping: {
+    1: 'A',
+    2: 'B',
+  },
+  zones: {
+    stops: true,
+    itinerary: true,
+  },
+});

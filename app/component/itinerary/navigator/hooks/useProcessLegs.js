@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { useCallback, useRef } from 'react';
-import { legTime } from '../../../../util/legUtils';
+import { legTime } from '../../../../../utils/client/legUtils';
 import {
   fakeDelay,
   matchLegEnds,

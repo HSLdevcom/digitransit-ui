@@ -4,7 +4,7 @@ import { matchShape, routerShape } from 'found';
 
 import { mockRouter, mockMatch } from './mock-router';
 import PositionStore from '../../../app/store/PositionStore';
-import config from '../../../app/configurations/config.default';
+import config from '../../../server/configs/config.default';
 
 const noop = () => {};
 

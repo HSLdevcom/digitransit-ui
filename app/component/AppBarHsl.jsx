@@ -4,10 +4,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'found';
 import { Helmet } from 'react-helmet';
 import { SiteHeader, UserMenu, QuickSearch } from '@hsl-fi/site-header';
-import { favouriteShape } from '../util/shapes';
-import { clearOldSearches, clearFutureRoutes } from '../util/storeUtils';
-import { getJson } from '../util/xhrPromise';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { favouriteShape } from '../../utils/client/shapes';
+import {
+  clearOldSearches,
+  clearFutureRoutes,
+} from '../../utils/client/storeUtils';
+import { getJson } from '../../utils/shared/xhrPromise';
+import { useConfigContext } from '../client/ConfigContext';
 import { useFavouriteActions } from '../hooks/FavouriteContext';
 
 const clearStorages = (context, clearFavourites) => {

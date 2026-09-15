@@ -3,7 +3,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Button, Spacer, Text } from '@hsl-fi/layout-primitives';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 
 export default function LocationModal({
   handleClose,

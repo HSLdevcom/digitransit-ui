@@ -8,7 +8,7 @@ import {
   RealtimeStateType,
   AlertSeverityLevelType,
   AlertEntityType,
-} from '../../../app/constants';
+} from '../../../utils/shared/constants';
 
 const defaultProps = {
   children: <div />,

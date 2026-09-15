@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import GeoJsonStore from '../../store/GeoJsonStore';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 
 /**
  * Adds geojson map layers to the props of the given component.

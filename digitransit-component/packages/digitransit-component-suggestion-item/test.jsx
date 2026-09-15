@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import SuggestionItem from './src/index.jsx';
+import SuggestionItem from './src/index';
 
 describe('Testing @digitransit-component/digitransit-component-suggestion-item module', () => {
   it('renders a geocoded address suggestion with name and label', () => {

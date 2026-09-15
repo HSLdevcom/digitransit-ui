@@ -8,7 +8,7 @@ import DisruptionCard from '../../../../app/component/trafficnow/DisruptionCard'
 import DisruptionStatus from '../../../../app/component/trafficnow/components/DisruptionStatus';
 import RouteBadges from '../../../../app/component/trafficnow/RouteBadges';
 import Card from '../../../../app/component/Card';
-import { AlertSeverityLevelType } from '../../../../app/constants';
+import { AlertSeverityLevelType } from '../../../../utils/shared/constants';
 
 const baseConfig = {
   CONFIG: 'default',

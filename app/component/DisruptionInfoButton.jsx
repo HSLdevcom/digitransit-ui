@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import { alertShape, configShape } from '../util/shapes';
+import { alertShape, configShape } from '../../utils/client/shapes';
 import Icon from './Icon';
 
 function DisruptionInfoButton(props, { config }) {

@@ -3,7 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import { routerShape } from 'found';
 import { default as L } from 'leaflet';
-import { stopShape, configShape } from '../../../util/shapes';
+import { stopShape, configShape } from '../../../../utils/client/shapes';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
 import {
@@ -11,9 +11,9 @@ import {
   getStopRadius,
   getHubRadius,
   renderAsString,
-} from '../../../util/mapIconUtils';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { PREFIX_STOPS } from '../../../util/path';
+} from '../../../../utils/client/mapIconUtils';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { PREFIX_STOPS } from '../../../../utils/shared/path';
 
 export const getStopMarkerAnalytics = (pathname, indexPath, mode) => {
   if (pathname.includes('bike') || pathname.includes('walk')) {
@@ -119,7 +119,7 @@ class StopMarker extends React.Component {
     const inner = (stopRadius + hubRadius) / 2;
     const stroke = stopRadius - hubRadius;
 
-    // see app/util/mapIconUtils.js for the canvas version
+    // see utils/client/mapIconUtils.js for the canvas version
     let iconSvg = `
       <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
         <circle class="stop ${

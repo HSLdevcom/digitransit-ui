@@ -3,8 +3,8 @@ import React from 'react';
 import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
-import { legShape } from '../../util/shapes';
-import { ViaLocationType } from '../../constants';
+import { legShape } from '../../../utils/client/shapes';
+import { ViaLocationType } from '../../../utils/shared/constants';
 
 const ItineraryCircleLineLong = props => {
   const isFirstChild = () => {

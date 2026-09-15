@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFragment } from 'react-relay';
 import get from 'lodash/get';
-import { legShape, configShape } from '../../util/shapes';
+import { legShape, configShape } from '../../../utils/client/shapes';
 import AgencyInfo from '../AgencyInfo';
 import { LegAgencyInfoFragment } from './queries/LegAgencyInfoFragment';
 

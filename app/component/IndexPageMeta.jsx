@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { configShape } from '../util/shapes';
-import { generateManifestUrl } from '../util/manifestUtils';
+import { configShape } from '../../utils/client/shapes';
+import { generateManifestUrl } from '../../utils/client/manifestUtils';
 
 function IndexPageMeta(_, { config }) {
   const link = [

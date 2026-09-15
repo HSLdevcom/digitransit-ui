@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import DialogModal from './src/index.jsx';
+import DialogModal from './src/index';
 
 // Under Mocha, @hsl-fi/dialog was ESM-only and couldn't be require()'d, so
 // stub-esm-peer-deps.js replaced Modal/ConfirmationModalContent with a stub

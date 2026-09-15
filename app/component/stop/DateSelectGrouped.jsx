@@ -11,7 +11,7 @@ import {
   processDates,
   groupDatesByWeek,
   generateDateRange,
-} from '../../util/dateSelectUtils';
+} from '../../../utils/client/dateSelectUtils';
 
 export const handleDateSelectChange = (option, onDateChange) => {
   onDateChange(option.value);

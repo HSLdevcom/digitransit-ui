@@ -3,7 +3,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { startLocationWatch } from '../action/PositionActions';
-import { coordsDiff } from '../util/path';
+import { coordsDiff } from '../../utils/shared/path';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
 

@@ -4,8 +4,11 @@ import React, { useEffect, useRef } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { useRouter } from 'found';
-import { locationStateShape, locationShape } from '../../util/shapes';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import {
+  locationStateShape,
+  locationShape,
+} from '../../../utils/client/shapes';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import {
   withSearchContext,
   getLocationSearchTargets,
@@ -14,11 +17,14 @@ import {
   setIntermediatePlaces,
   updateItinerarySearch,
   onLocationPopup,
-} from '../../util/queryUtils';
-import { getIntermediatePlaces, locationToOTP } from '../../util/otpStrings';
+} from '../../../utils/client/queryUtils';
+import {
+  getIntermediatePlaces,
+  locationToOTP,
+} from '../../../utils/shared/otpStrings';
 import { setViaPoints } from '../../action/ViaPointActions';
-import { getRefPoint } from '../../util/apiUtils';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { getRefPoint } from '../../../utils/client/apiUtils';
+import { useConfigContext } from '../../client/ConfigContext';
 import { useFavourites } from '../../hooks/FavouriteContext';
 import { countLocations } from '../../data/FavouriteData';
 

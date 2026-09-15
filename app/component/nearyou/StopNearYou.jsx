@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'found';
 import Modal from '@hsl-fi/modal';
-import { stopShape, relayShape } from '../../util/shapes';
-import { hasEntitiesOfType } from '../../util/alertUtils';
-import { stopPagePath } from '../../util/path';
-import { AlertEntityType } from '../../constants';
+import { stopShape, relayShape } from '../../../utils/client/shapes';
+import { hasEntitiesOfType } from '../../../utils/client/alertUtils';
+import { stopPagePath } from '../../../utils/shared/path';
+import { AlertEntityType } from '../../../utils/shared/constants';
 import NearYouHeader from './NearYouHeader';
 import AlertBanner from '../AlertBanner';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 import CapacityModal from '../CapacityModal';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 
 const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
   const config = useConfigContext();

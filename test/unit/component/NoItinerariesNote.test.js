@@ -4,7 +4,7 @@ import { mockContext } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
 import translations from '../../../app/translations/en';
 import { Component as NoItinerariesNote } from '../../../app/component/itinerary/NoItinerariesNote';
-import { PlannerMessageType } from '../../../app/constants';
+import { PlannerMessageType } from '../../../utils/shared/constants';
 
 const TestLocation = {
   Outside: {

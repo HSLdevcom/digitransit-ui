@@ -2,7 +2,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import StopPageMap from './map/StopPageMap';
-import { rentalVehicleShape } from '../util/shapes';
+import { rentalVehicleShape } from '../../utils/client/shapes';
 
 const RentalVehiclePageMapContainer = ({ rentalVehicle }) => {
   if (!rentalVehicle) {

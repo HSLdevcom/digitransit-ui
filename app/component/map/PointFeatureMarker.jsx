@@ -4,13 +4,13 @@ import React from 'react';
 import Card from '../Card';
 import GenericMarker from './GenericMarker';
 import MarkerPopupBottom from './MarkerPopupBottom';
-import { isPointTypeGeometry } from '../../util/geo-utils';
+import { isPointTypeGeometry } from '../../../utils/shared/geo-utils';
 import {
   getCaseRadius,
   getStopRadius,
   getHubRadius,
   getMapIconScale,
-} from '../../util/mapIconUtils';
+} from '../../../utils/client/mapIconUtils';
 import PopupHeader from './PopupHeader';
 
 /**

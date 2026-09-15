@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { stopShape } from '../util/shapes';
+import { stopShape } from '../../utils/client/shapes';
 
 const SelectedStopPopupContent = ({ stop, name }) => (
   <div className="origin-popup">

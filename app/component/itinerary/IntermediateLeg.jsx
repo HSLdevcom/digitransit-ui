@@ -2,13 +2,13 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
-import { legTimeShape } from '../../util/shapes';
-import { legTimeStr } from '../../util/legUtils';
+import { legTimeShape } from '../../../utils/client/shapes';
+import { legTimeStr } from '../../../utils/client/legUtils';
 import ZoneIcon from '../ZoneIcon';
-import { stopPagePath } from '../../util/path';
+import { stopPagePath } from '../../../utils/shared/path';
 import Icon from '../Icon';
-import { splitGtfsId } from '../../util/gtfs';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { useConfigContext } from '../../client/ConfigContext';
 
 function IntermediateLeg({
   placesCount,

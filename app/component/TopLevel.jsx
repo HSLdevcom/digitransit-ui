@@ -4,20 +4,23 @@ import React, { Fragment } from 'react';
 import some from 'lodash/some';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
-import { configShape, locationShape } from '../util/shapes';
+import { configShape, locationShape } from '../../utils/client/shapes';
 import {
   getHomeUrl,
   PREFIX_STOPS,
   PREFIX_ROUTES,
   PREFIX_TERMINALS,
   PREFIX_BIKESTATIONS,
-} from '../util/path';
+} from '../../utils/shared/path';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import ErrorBoundary from './ErrorBoundary';
-import { DesktopOrMobile } from '../util/withBreakpoint';
-import { addAnalyticsEvent, handleUserAnalytics } from '../util/analyticsUtils';
+import { DesktopOrMobile } from '../../utils/client/withBreakpoint';
+import {
+  addAnalyticsEvent,
+  handleUserAnalytics,
+} from '../../utils/shared/analyticsUtils';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -65,7 +68,7 @@ class TopLevel extends React.Component {
     if (this.context.config.logo) {
       // Logo is not mandatory
       import(
-        /* webpackChunkName: "main" */ `../configurations/images/${this.context.config.logo}`
+        /* webpackChunkName: "main" */ `../client/images/${this.context.config.logo}`
       ).then(logo => {
         this.setState({ logo: logo.default });
       });

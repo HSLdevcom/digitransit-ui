@@ -8,7 +8,7 @@ import {
 } from '../WithSearchContext';
 import { countLocations } from '../../data/FavouriteData';
 import { useFavourites } from '../../hooks/FavouriteContext';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 

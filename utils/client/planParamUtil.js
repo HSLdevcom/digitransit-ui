@@ -1,0 +1,560 @@
+import { DateTime } from 'luxon';
+import isEqual from 'lodash/isEqual';
+import { getTransitModes, isTransportModeAvailable } from './modeUtils';
+import { networkIsActive } from '../shared/citybikeSeasonUtils';
+import { otpToLocation, getIntermediatePlaces } from '../shared/otpStrings';
+import {
+  getAllNetworksOfType,
+  getDefaultNetworks,
+} from '../shared/vehicleRentalUtils';
+import { getCustomizedSettings } from './localStorage';
+import { estimateItineraryDistance } from '../shared/geo-utils';
+import { TransportMode } from '../shared/constants';
+
+export const PLANTYPE = {
+  WALK: 'WALK',
+  BIKE: 'BICYCLE',
+  CAR: 'CAR',
+  CARTRANSIT: 'CARTRANSIT',
+  TRANSIT: 'TRANSIT',
+  BIKEPARK: 'BIKEPARK',
+  BIKETRANSIT: 'BIKETRANSIT',
+  PARKANDRIDE: 'PARKANDRIDE',
+  SCOOTERTRANSIT: 'SCOOTERTRANSIT',
+  FLEXTRANSIT_EXTERNAL: 'EXTERNAL_FLEXTRANSIT',
+  FLEXTRANSIT_INTERNAL: 'INTERNAL_FLEXTRANSIT',
+  TAXIZONE: 'TAXIZONE',
+};
+
+const directModes = [PLANTYPE.WALK, PLANTYPE.BIKE, PLANTYPE.CAR];
+const SHORT_TRIP_METERS = 2000;
+
+/**
+ * Find an option nearest to the value
+ *
+ * @param value a number
+ * @param options array of numbers
+ * @returns on option from options that is closest to the provided value
+ */
+export function findNearestOption(value, options) {
+  let currNearest = options[0];
+  let diff = Math.abs(value - currNearest);
+  for (let i = 1; i < options.length; i++) {
+    const newdiff = Math.abs(value - options[i]);
+    if (newdiff < diff) {
+      diff = newdiff;
+      currNearest = options[i];
+    }
+  }
+  return currNearest;
+}
+
+/**
+ * Retrieves the default settings from the configuration.
+ *
+ * @param {*} config UI configuration
+ */
+export function getDefaultSettings(config) {
+  if (!config) {
+    return {};
+  }
+
+  return {
+    ...config.defaultSettings,
+    modes: getTransitModes(config),
+    allowedBikeRentalNetworks: config.transportModes?.citybike?.defaultValue
+      ? getDefaultNetworks(config)
+      : [],
+    scooterNetworks: [],
+  };
+}
+
+/**
+ * Whether user has customized any settings that are visible and make a difference.
+ * @param {*} config the configuration for the software installation
+ */
+export function hasCustomizedSettings(config) {
+  const defaultSettings = getDefaultSettings(config);
+  const customizedSettings = getCustomizedSettings();
+  if (Object.keys(customizedSettings).length === 0) {
+    return false;
+  }
+
+  return Object.keys(customizedSettings).some(key => {
+    if (key === 'personalization') {
+      return false;
+    }
+    if (key === 'allowedBikeRentalNetworks') {
+      return customizedSettings.allowedBikeRentalNetworks.some(network =>
+        networkIsActive(config.vehicleRental.networks[network]),
+      );
+    }
+    if (
+      Array.isArray(customizedSettings[key]) &&
+      Array.isArray(defaultSettings[key])
+    ) {
+      return customizedSettings[key].length !== defaultSettings[key].length;
+    }
+    return customizedSettings[key] !== defaultSettings[key];
+  });
+}
+
+/**
+ * Retrieves the current (customized) settings kept in local store
+ * Missing setting gets a default value
+ * @param {*} config the configuration for the software installation
+ */
+export function getSettings(config) {
+  const defaultSettings = getDefaultSettings(config);
+  const userSettings = getCustomizedSettings();
+  const allNetworks = getDefaultNetworks(config);
+  const allScooterNetworks = getAllNetworksOfType(
+    config,
+    TransportMode.Scooter,
+  );
+
+  const settings = {
+    ...defaultSettings,
+    ...userSettings,
+    modes: userSettings?.modes // filter modes to configured allowed values
+      ? [
+          ...userSettings.modes.filter(mode =>
+            isTransportModeAvailable(config, mode),
+          ),
+        ].sort()
+      : defaultSettings.modes,
+    // filter networks to configured allowed values
+    allowedBikeRentalNetworks:
+      userSettings.allowedBikeRentalNetworks?.length > 0
+        ? userSettings.allowedBikeRentalNetworks.filter(network =>
+            allNetworks.includes(network),
+          )
+        : defaultSettings.allowedBikeRentalNetworks,
+    scooterNetworks:
+      userSettings.scooterNetworks?.length > 0
+        ? userSettings.scooterNetworks.filter(network =>
+            allScooterNetworks.includes(network),
+          )
+        : defaultSettings.scooterNetworks,
+  };
+  const { defaultOptions } = config;
+  return {
+    ...settings,
+    walkSpeed: findNearestOption(settings.walkSpeed, defaultOptions.walkSpeed),
+    bikeSpeed: findNearestOption(settings.bikeSpeed, defaultOptions.bikeSpeed),
+  };
+}
+
+function filterTransitModes(modes, planType, config) {
+  if (planType === PLANTYPE.BIKETRANSIT) {
+    if (config.bikeBoardingModes) {
+      return modes.filter(m => config.bikeBoardingModes[m]);
+    }
+    return [];
+  }
+  if (planType === PLANTYPE.CARTRANSIT) {
+    if (config.carBoardingModes) {
+      return modes.filter(m => config.carBoardingModes[m]);
+    }
+    return [];
+  }
+  return modes;
+}
+
+export function planQueryNeeded(
+  config,
+  {
+    params: { from, to },
+    location: {
+      query: { intermediatePlaces, arriveBy, time },
+    },
+  },
+  planType,
+  relaxSettings = false,
+) {
+  if (!from || !to || from === '-' || to === '-') {
+    return false;
+  }
+  const fromLocation = otpToLocation(from);
+  const toLocation = otpToLocation(to);
+  const intermediateLocations = getIntermediatePlaces({
+    intermediatePlaces,
+  });
+
+  // not needed if origin is destination an no via points
+  if (isEqual(fromLocation, toLocation) && !intermediateLocations.length) {
+    return false;
+  }
+
+  const defaultSettings = getDefaultSettings(config);
+  const settings = getSettings(config);
+  const transitModes = filterTransitModes(
+    relaxSettings ? defaultSettings.modes : settings.modes,
+    planType,
+    config,
+  );
+  const wheelchair = !!settings.accessibilityOption;
+  const distance = estimateItineraryDistance(
+    fromLocation,
+    toLocation,
+    intermediateLocations,
+  );
+
+  switch (planType) {
+    case PLANTYPE.WALK:
+      return (
+        !wheelchair &&
+        distance < config.suggestWalkMaxDistance &&
+        !config.hideWalkOption
+      );
+
+    case PLANTYPE.BIKE:
+      return (
+        !wheelchair &&
+        distance < config.suggestBikeMaxDistance &&
+        settings.includeBikeSuggestions
+      );
+
+    case PLANTYPE.CAR:
+      return (
+        config.showCO2InItinerarySummary ||
+        (distance > config.suggestCarMinDistance &&
+          settings.includeCarSuggestions)
+      );
+
+    case PLANTYPE.BIKEPARK:
+      return (
+        transitModes.length > 0 &&
+        !wheelchair &&
+        config.showBikeAndParkItineraries &&
+        settings.showBikeAndParkItineraries
+      );
+
+    case PLANTYPE.BIKETRANSIT:
+      return (
+        transitModes.length > 0 &&
+        !wheelchair &&
+        settings.includeBikeSuggestions
+      );
+
+    case PLANTYPE.CARTRANSIT:
+      return transitModes.length > 0 && settings.includeCarSuggestions;
+
+    case PLANTYPE.SCOOTERTRANSIT:
+      /* special logic: relaxed scooter query is made only if no networks allowed */
+      /* special logic: scooter queries are not made if the search is n minutes or more into the future or if arrival time is too late */
+      return (
+        config.transportModes.scooter.availableForSelection &&
+        transitModes.length > 0 &&
+        !wheelchair &&
+        (relaxSettings
+          ? settings.scooterNetworks.length === 0
+          : settings.scooterNetworks.length > 0) &&
+        ((!arriveBy &&
+          (time - Date.now() / 1000) / 60 <
+            config.vehicleRental.maxMinutesToRentalJourneyStart) ||
+          (arriveBy &&
+            (time - Date.now() / 1000) / 60 <
+              config.vehicleRental.maxMinutesToRentalJourneyEnd))
+      );
+    case PLANTYPE.PARKANDRIDE:
+      return (
+        transitModes.length > 0 &&
+        distance > config.suggestCarMinDistance &&
+        settings.includeParkAndRideSuggestions
+      );
+    /* special logic: relaxed flex query is made only if taxis are not allowed */
+    case PLANTYPE.FLEXTRANSIT_EXTERNAL:
+      return (
+        config.flex.external.enabled &&
+        (transitModes.length > 0 || config.flex.external.direct) &&
+        settings.includeTaxiSuggestions !== relaxSettings
+      );
+    case PLANTYPE.FLEXTRANSIT_INTERNAL:
+      return (
+        config.flex.internal.enabled && transitModes.includes(TransportMode.Bus)
+      );
+
+    case PLANTYPE.TAXIZONE:
+      return (
+        config.taxiZone.enabled &&
+        (transitModes.length > 0 || config.taxiZone.direct) &&
+        settings.includeTaxiSuggestions !== relaxSettings
+      );
+
+    case PLANTYPE.TRANSIT:
+    default:
+      return true;
+  }
+}
+
+function getLocation(str) {
+  const loc = otpToLocation(str);
+  if (loc.gtfsId) {
+    return {
+      location: {
+        stopLocation: { stopLocationId: loc.gtfsId },
+      },
+    };
+  }
+  return {
+    location: {
+      coordinate: {
+        latitude: loc.lat,
+        longitude: loc.lon,
+      },
+    },
+    label: loc.address,
+  };
+}
+
+/*
+ * Exclude agencies from the plan query. Format is: { exclude: { agencies: [FeedId:AgencyId] } }
+ * @param {Array} agencies - List of agency IDs to exclude.
+ * @returns {Object|null} - Returns an object with the exclude filter or null if
+ * agencies is empty or not provided.
+ */
+function excludeAgencies(agencies) {
+  if (!agencies?.length) {
+    return null;
+  }
+  return {
+    exclude: {
+      agencies,
+    },
+  };
+}
+
+export function getPlanParams(
+  config,
+  {
+    params: { from, to },
+    location: {
+      query: { arriveBy, time, intermediatePlaces },
+    },
+  },
+  planType,
+  relaxSettings = false,
+) {
+  const fromPlace = getLocation(from);
+  const toPlace = getLocation(to);
+  const useLatestArrival = arriveBy === 'true';
+  // estimate distance for search iteration heuristics
+  const fromLocation = otpToLocation(from);
+  const toLocation = otpToLocation(to);
+  const intermediateLocations = getIntermediatePlaces({
+    intermediatePlaces,
+  });
+  let via = intermediateLocations
+    .map(loc => {
+      if (loc.gtfsId) {
+        return {
+          visit: {
+            stopLocationIds: [loc.gtfsId],
+            coordinate: {
+              latitude: loc.lat,
+              longitude: loc.lon,
+            },
+          },
+        };
+      }
+      if (loc.lat && loc.lon) {
+        return {
+          visit: {
+            coordinate: {
+              latitude: loc.lat,
+              longitude: loc.lon,
+            },
+          },
+        };
+      }
+      return null;
+    })
+    .filter(Boolean);
+
+  const distance = estimateItineraryDistance(
+    fromLocation,
+    toLocation,
+    intermediateLocations,
+  );
+  const shortTrip = distance < SHORT_TRIP_METERS;
+
+  const defaultSettings = getDefaultSettings(config);
+  const settings = getSettings(config);
+
+  if (settings.allowedBikeRentalNetworks.length === 0) {
+    settings.allowedBikeRentalNetworks = null;
+  }
+
+  const transitModes = filterTransitModes(
+    relaxSettings ? defaultSettings.modes : settings.modes,
+    planType,
+    config,
+  );
+
+  let otpModes = transitModes.map(mode => {
+    return { mode };
+  });
+  if (transitModes.includes('RAIL') && !transitModes.includes('BUS')) {
+    otpModes.push({ mode: 'BUS', replacement: { requirement: 'REQUIRED' } });
+  }
+  if (config.customWeights) {
+    otpModes.forEach(m => {
+      if (config.customWeights[m.mode]) {
+        // eslint-disable-next-line
+        m.cost = { reluctance: config.customWeights[m.mode] };
+      }
+    });
+  }
+
+  const directOnly = directModes.includes(planType) || otpModes.length === 0;
+  let transitOnly = !!relaxSettings;
+  const wheelchair = !!settings.accessibilityOption;
+  const cityBike =
+    !wheelchair && settings.allowedBikeRentalNetworks?.length > 0;
+  let { minTransferTime } = settings;
+  // set defaults
+  let access = cityBike ? ['WALK', 'BICYCLE_RENTAL'] : ['WALK'];
+  let egress = access;
+  let transfer = ['WALK'];
+  let direct = null;
+  let numItineraries = directOnly ? 1 : 5;
+  let carReluctance = null;
+  let noIterationsForShortTrips = false;
+  // A null value uses the default amount of maximum iterations.
+  let maxQueryIterations = null;
+  let filters = null;
+
+  switch (planType) {
+    case PLANTYPE.BIKEPARK:
+      access = ['BICYCLE_PARKING'];
+      transitOnly = true;
+      noIterationsForShortTrips = shortTrip;
+      break;
+    case PLANTYPE.BIKETRANSIT:
+      access = ['BICYCLE'];
+      egress = ['BICYCLE'];
+      transfer = ['BICYCLE'];
+      transitOnly = true;
+      noIterationsForShortTrips = shortTrip;
+      break;
+    case PLANTYPE.CARTRANSIT:
+      // For cars the direct mode is included to allow OTP to filter out unwanted routes.
+      direct = ['CAR'];
+      access = ['CAR'];
+      egress = ['CAR'];
+      transfer = ['CAR'];
+      transitOnly = false;
+      numItineraries = 6;
+      carReluctance = 1.75;
+      // As of writing this comment, iterating (paging) does not support filtering of bad car transit itineraries.
+      maxQueryIterations = 1;
+      break;
+    case PLANTYPE.PARKANDRIDE:
+      access = ['CAR_PARKING'];
+      transitOnly = true;
+      break;
+    case PLANTYPE.TRANSIT:
+      direct = access;
+      break;
+    case PLANTYPE.SCOOTERTRANSIT:
+      access = ['WALK', 'SCOOTER_RENTAL'];
+      egress = access;
+      direct = access;
+      break;
+    case PLANTYPE.FLEXTRANSIT_EXTERNAL:
+      access = config.flex.external.transit ? ['WALK', 'FLEX'] : null;
+      egress = access;
+      direct = config.flex.external.direct ? ['WALK', 'FLEX'] : null;
+      transitOnly = false;
+      filters = excludeAgencies(config.flex.internal.agencies);
+      via = null;
+      break;
+    case PLANTYPE.FLEXTRANSIT_INTERNAL:
+      access = config.flex.internal.transit ? ['WALK', 'FLEX'] : null;
+      egress = access;
+      direct = config.flex.internal.direct ? ['WALK', 'FLEX'] : null;
+      transitOnly = false;
+      filters = excludeAgencies(config.flex.external.agencies);
+      minTransferTime = config.flex.internal.minTransferTime || minTransferTime;
+      via = null;
+      break;
+    case PLANTYPE.TAXIZONE:
+      access = config.taxiZone.transit ? ['WALK', 'TAXI'] : null;
+      egress = access;
+      direct = config.taxiZone.direct ? ['WALK', 'TAXI'] : null;
+      transitOnly = false;
+      via = null;
+      break;
+    default: // direct modes
+      direct = [planType];
+      break;
+  }
+  // reset unused arrays
+  if (directOnly) {
+    access = null;
+    egress = null;
+    transfer = null;
+    otpModes = [];
+  }
+  if (!access?.includes('BICYCLE_RENTAL')) {
+    settings.allowedBikeRentalNetworks = null;
+  }
+  if (!access?.includes('SCOOTER_RENTAL')) {
+    settings.scooterNetworks = null;
+  }
+
+  const modes = {
+    directOnly,
+    transitOnly,
+    direct,
+    transit: {
+      access,
+      transfer,
+      egress,
+      transit: otpModes.length === 0 ? null : otpModes,
+    },
+  };
+
+  const walkReluctance = relaxSettings
+    ? defaultSettings.walkReluctance
+    : settings.walkReluctance;
+  const walkBoardCost = relaxSettings
+    ? defaultSettings.walkBoardCost
+    : settings.walkBoardCost;
+  const transferPenalty = relaxSettings
+    ? defaultSettings.transferPenalty
+    : settings.transferPenalty;
+  const timeStr = (time ? DateTime.fromSeconds(+time) : DateTime.now()).toISO({
+    suppressMilliseconds: true,
+  });
+  const datetime = useLatestArrival
+    ? { latestArrival: timeStr }
+    : { earliestDeparture: timeStr };
+
+  return {
+    ...settings,
+    allowedRentalNetworks:
+      planType === PLANTYPE.SCOOTERTRANSIT
+        ? settings.scooterNetworks
+        : settings.allowedBikeRentalNetworks,
+    fromPlace,
+    toPlace,
+    datetime,
+    minTransferTime: `PT${minTransferTime}S`,
+    first: numItineraries, // used in actual query
+    numItineraries, // backup original value for convenient paging
+    wheelchair,
+    walkReluctance,
+    walkBoardCost,
+    transferPenalty,
+    modes,
+    planType,
+    noIterationsForShortTrips,
+    via,
+    carReluctance,
+    maxQueryIterations,
+    filters,
+    bookingTime: DateTime.now().toISO({ suppressMilliseconds: true }),
+  };
+}

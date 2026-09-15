@@ -2,9 +2,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useFragment, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
-import { configShape, stationShape } from '../../util/shapes';
+import { configShape, stationShape } from '../../../utils/client/shapes';
 
-import { generateMetaData } from '../../util/metaUtils';
+import { generateMetaData } from '../../../utils/client/metaUtils';
 
 function TerminalPageMeta({ station: stationRef }, { config }) {
   const station = useFragment(

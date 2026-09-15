@@ -3,9 +3,9 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import React from 'react';
 import Icon from '../Icon';
-import { isKeyboardSelectionEvent } from '../../util/browser';
-import { legShape } from '../../util/shapes';
-import { legTimeStr } from '../../util/legUtils';
+import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
+import { legShape } from '../../../utils/client/shapes';
+import { legTimeStr } from '../../../utils/client/legUtils';
 
 export default function AlternativeLegsInfo({
   legs,

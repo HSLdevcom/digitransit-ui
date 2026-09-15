@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '../../../Icon';
-import { legShape } from '../../../../util/shapes';
+import { legShape } from '../../../../../utils/client/shapes';
 import {
   getIndoorStepsWithVerticalTransportation,
   getStepFocusAction,
-} from '../../../../util/indoorUtils';
+} from '../../../../../utils/client/indoorUtils';
 import NaviIndoorStepInfo from './NaviIndoorStepInfo';
 import NaviIndoorButton from './NaviIndoorButton';
-import { NaviCardType } from '../../../../constants';
+import { NaviCardType } from '../../../../../utils/shared/constants';
 
 export default function NaviIndoorButtonContainer({
   currentCard,

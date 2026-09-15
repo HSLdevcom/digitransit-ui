@@ -6,9 +6,9 @@ import cx from 'classnames';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import VehicleIcon from '../VehicleIcon';
 import TripLinkWithScroll from './TripLinkWithScroll';
-import { routePagePath, PREFIX_STOPS } from '../../util/path';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { vehicleShape } from '../../util/shapes';
+import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { vehicleShape } from '../../../utils/client/shapes';
 
 function TripLink({ vehicleState, vehicle, shortName, ...rest }) {
   const { environment } = useContext(ReactRelayContext);

@@ -4,10 +4,10 @@ import React from 'react';
 import { I18nextProvider, withTranslation } from 'react-i18next';
 import { ReactSortable } from 'react-sortablejs';
 import cx from 'classnames';
-import differenceWith from 'lodash/differenceWith.js';
-import isEqual from 'lodash/isEqual.js';
-import isEmpty from 'lodash/isEmpty.js';
-import omit from 'lodash/omit.js';
+import differenceWith from 'lodash/differenceWith';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
+import omit from 'lodash/omit';
 import { Spinner } from '@hsl-fi/loading-indicators';
 import Modal from '@hsl-fi/modal';
 import Icon, {

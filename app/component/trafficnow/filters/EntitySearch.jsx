@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import PropTypes from 'prop-types';
 import { withSearchContext } from '../../WithSearchContext';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+import { useConfigContext } from '../../../client/ConfigContext';
 import { useFilterContext } from './FiltersContext';
 
 const searchSources = ['Favourite', 'History', 'Datasource'];

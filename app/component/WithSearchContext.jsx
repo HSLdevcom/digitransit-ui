@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { configShape, locationStateShape } from '../util/shapes';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { useCitybikes } from '../util/modeUtils';
+import { configShape, locationStateShape } from '../../utils/client/shapes';
+import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { useCitybikes } from '../../utils/client/modeUtils';
 import {
   PREFIX_ITINERARY_SUMMARY,
   PREFIX_STOPS,
   PREFIX_ROUTES,
-} from '../util/path';
+} from '../../utils/shared/path';
 import searchContext from '../data/SearchContext';
 import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMap from './map/SelectFromMap';
