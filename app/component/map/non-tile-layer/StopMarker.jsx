@@ -43,10 +43,10 @@ export default function StopMarker({
   renderName = false,
   disableModeIcons = false,
   disableIconBorder = false,
-  limitZoom = undefined,
+  limitZoom,
   selected = false,
-  colorOverride = undefined,
-  appendClass = undefined,
+  colorOverride,
+  appendClass,
 }) {
   const config = useConfigContext();
   const { router } = useRouter();

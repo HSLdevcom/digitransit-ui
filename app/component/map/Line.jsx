@@ -11,10 +11,10 @@ export default function Line({
   thin = false,
   opaque = false,
   passive = false,
-  color = undefined,
+  color,
   mode,
   geometry,
-  appendClass = undefined,
+  appendClass,
 }) {
   const config = useConfigContext();
   const line = useRef(null);

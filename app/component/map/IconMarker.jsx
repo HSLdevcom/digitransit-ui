@@ -4,12 +4,7 @@ import { createPortal } from 'react-dom';
 import { default as L } from 'leaflet';
 import Marker from 'react-leaflet/es/Marker';
 
-export default function IconMarker({
-  icon,
-  zIndexOffset = undefined,
-  children = undefined,
-  ...rest
-}) {
+export default function IconMarker({ icon, zIndexOffset, children, ...rest }) {
   const [div, setDiv] = useState(undefined);
   const hasMounted = useRef(false);
 

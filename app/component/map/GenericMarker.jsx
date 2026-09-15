@@ -14,12 +14,12 @@ function GenericMarker({
   getIcon,
   renderName = false,
   name = '',
-  maxWidth = undefined,
-  minWidth = undefined,
-  children = undefined,
+  maxWidth,
+  minWidth,
+  children,
   leaflet,
   onClick = () => {},
-  zIndexOffset = undefined,
+  zIndexOffset,
 }) {
   const config = useConfigContext();
   const [zoom, setZoom] = useState(() => leaflet.map.getZoom());

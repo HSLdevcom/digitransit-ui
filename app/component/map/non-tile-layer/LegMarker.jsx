@@ -13,10 +13,10 @@ export default function LegMarker({
   leg,
   mode,
   color = 'currentColor',
-  zIndexOffset = undefined,
+  zIndexOffset,
   wide = false,
-  style = undefined,
-  appendClass = undefined,
+  style,
+  appendClass,
 }) {
   const config = useConfigContext();
   const className = wide ? 'wide' : '';

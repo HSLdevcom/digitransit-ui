@@ -38,13 +38,7 @@ const markLocation = (markerType, position) => {
   return null;
 };
 
-function SelectFromMap({
-  breakpoint = undefined,
-  language,
-  type,
-  onConfirm,
-  mapLayers,
-}) {
+function SelectFromMap({ breakpoint, language, type, onConfirm, mapLayers }) {
   const config = useConfigContext();
   const intl = useIntl();
   const { match } = useRouter();

@@ -16,7 +16,7 @@ import { useConfigContext } from '../../../client/ConfigContext';
 export default function LocationPopup({
   lat,
   lon,
-  locationPopup = undefined,
+  locationPopup,
   onSelectLocation = () => {},
 }) {
   const config = useConfigContext();
