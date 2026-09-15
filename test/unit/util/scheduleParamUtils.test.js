@@ -3,8 +3,8 @@ import { afterEach, beforeEach, describe, it } from 'mocha';
 import { DateTime, Settings } from 'luxon';
 
 import { calculateRedirectDecision } from '../../../app/component/routepage/schedule/scheduleParamUtils';
-import { routePagePath, PREFIX_TIMETABLE } from '../../../app/util/path';
-import { DATE_FORMAT } from '../../../app/constants';
+import { routePagePath, PREFIX_TIMETABLE } from '../../../utils/shared/path';
+import { DATE_FORMAT } from '../../../utils/shared/constants';
 
 describe('scheduleParamUtils', () => {
   describe('calculateRedirectDecision', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
-import { AlertSeverityLevelType } from '../../../app/constants';
+import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 
 describe('<ServiceAlertIcon />', () => {
   it('should render empty if there are no alerts', () => {

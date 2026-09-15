@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import distance from './index.js';
+import distance from './index';
 
 describe('Testing @digitransit-util/digitransit-util-distance module', () => {
   it('Checking that distance is calculated', () => {

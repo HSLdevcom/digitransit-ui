@@ -11,7 +11,7 @@ import {
   TrainStop,
   TramStop,
 } from '@hsl-fi/icons';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { useConfigContext } from '../client/ConfigContext';
 import SvgIcon from './Icon';
 
 /**

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { stopShape } from '../util/shapes';
+import { stopShape } from '../../utils/client/shapes';
 import StopScheduleStatus from './stop/StopScheduleStatus';
-import { STOP_STATUS } from '../util/stopStatusUtils';
+import { STOP_STATUS } from '../../utils/client/stopStatusUtils';
 
 const SelectedStopPopupContent = ({
   stop,

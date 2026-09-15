@@ -11,7 +11,7 @@ import TrafficNowLink from '@digitransit-component/digitransit-component-traffic
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import inside from 'point-in-polygon';
-import { locationShape } from '../util/shapes';
+import { locationShape } from '../../utils/client/shapes';
 import storeOrigin from '../action/originActions';
 import storeDestination from '../action/destinationActions';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
@@ -29,18 +29,18 @@ import {
   definesItinerarySearch,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
-} from '../util/path';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import withBreakpoint from '../util/withBreakpoint';
+} from '../../utils/shared/path';
+import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import withBreakpoint from '../../utils/client/withBreakpoint';
 import Geomover from './Geomover';
-import scrollTop from '../util/scroll';
-import { getRefPoint } from '../util/apiUtils';
-import { filterObject } from '../util/filterUtils';
+import scrollTop from '../../utils/client/scroll';
+import { getRefPoint } from '../../utils/client/apiUtils';
+import { filterObject } from '../../utils/client/filterUtils';
 import {
   getTransportModes,
   getNearYouModes,
   useCitybikes,
-} from '../util/modeUtils';
+} from '../../utils/client/modeUtils';
 import {
   checkPositioningPermission,
   startLocationWatch,
@@ -50,7 +50,7 @@ import {
   STATUS_FETCHING_OR_UPDATING,
 } from '../data/FavouriteData';
 import { useFavourites, useFavouriteStatus } from '../hooks/FavouriteContext';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { useConfigContext } from '../client/ConfigContext';
 import { useCurrentTime } from '../hooks/TimeContext';
 import TrafficNowLinkNew from './trafficnow/TrafficNowLink';
 

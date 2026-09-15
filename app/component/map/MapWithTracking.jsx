@@ -4,7 +4,10 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import { mapLayerOptionsShape, configShape } from '../../util/shapes';
+import {
+  mapLayerOptionsShape,
+  configShape,
+} from '../../../utils/client/shapes';
 import { startLocationWatch } from '../../action/PositionActions';
 import MapContainer from './MapContainer';
 import MapControlButton from './MapControlButton';
@@ -12,7 +15,7 @@ import PositionStore from '../../store/PositionStore';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import MapLayersDialogContent from './MapLayersDialogContent';
 import MenuDrawer from '../MenuDrawer';
-import withBreakpoint from '../../util/withBreakpoint';
+import withBreakpoint from '../../../utils/client/withBreakpoint';
 
 const onlyUpdateCoordChanges = (prevProps, nextProps) =>
   prevProps.lat === nextProps.lat &&

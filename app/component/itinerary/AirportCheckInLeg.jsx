@@ -2,12 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
-import { legShape, legTimeShape, configShape } from '../../util/shapes';
-import { legTimeStr } from '../../util/legUtils';
+import {
+  legShape,
+  legTimeShape,
+  configShape,
+} from '../../../utils/client/shapes';
+import { legTimeStr } from '../../../utils/client/legUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { stopPagePath } from '../../util/path';
+import { stopPagePath } from '../../../utils/shared/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 export default function AirportCheckInLeg(props, { config }) {

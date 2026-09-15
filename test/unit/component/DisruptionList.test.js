@@ -6,8 +6,8 @@ import DisruptionList, {
   EmptyDisruptions,
 } from '../../../app/component/DisruptionList';
 import Disruption from '../../../app/component/Disruption';
-import { AlertEntityType } from '../../../app/constants';
-import * as withBreakpoint from '../../../app/util/withBreakpoint';
+import { AlertEntityType } from '../../../utils/shared/constants';
+import * as withBreakpoint from '../../../utils/client/withBreakpoint';
 import { mockMatch } from '../helpers/mock-router';
 
 const routeEntity = (overrides = {}) => ({

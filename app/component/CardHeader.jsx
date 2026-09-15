@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import cx from 'classnames';
-import { stopShape } from '../util/shapes';
+import { stopShape } from '../../utils/client/shapes';
 import AddressRow from './AddressRow';
 import Icon from './Icon';
 import ZoneIcon from './ZoneIcon';
 import SplitBars from './SplitBars';
 import BackButton from './BackButton';
-import { getZoneLabel } from '../util/legUtils';
-import { splitGtfsId } from '../util/gtfs';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { getZoneLabel } from '../../utils/client/legUtils';
+import { splitGtfsId } from '../../utils/shared/gtfs';
+import { useConfigContext } from '../client/ConfigContext';
 
 export default function CardHeader({
   className = '',

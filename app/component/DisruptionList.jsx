@@ -12,13 +12,13 @@ import {
   currentAndFutureAlerts,
   getUniqueAlerts,
   alertSeverityCompare,
-} from '../util/alertUtils';
-import { alertShape } from '../util/shapes';
-import { PREFIX_DISRUPTION, PREFIX_TIMETABLE } from '../util/path';
-import { useBreakpoint } from '../util/withBreakpoint';
+} from '../../utils/client/alertUtils';
+import { alertShape } from '../../utils/client/shapes';
+import { PREFIX_DISRUPTION, PREFIX_TIMETABLE } from '../../utils/shared/path';
+import { useBreakpoint } from '../../utils/client/withBreakpoint';
 import Icon from './Icon';
-import { useConfigContext } from '../configurations/ConfigContext';
-import { isToday } from '../util/timeUtils';
+import { useConfigContext } from '../client/ConfigContext';
+import { isToday } from '../../utils/client/timeUtils';
 import { useCurrentTime } from '../hooks/TimeContext';
 
 export const EmptyDisruptions = () => {

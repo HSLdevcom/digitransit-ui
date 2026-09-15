@@ -4,7 +4,7 @@
 
 import { DateTime } from 'luxon';
 import i18next from 'i18next';
-import translations from './helpers/translations.js';
+import translations from './helpers/translations';
 
 const DATE_FORMAT = 'yyyyLLdd';
 const DATE_FORMAT2 = 'd.L.';

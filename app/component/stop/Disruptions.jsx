@@ -8,14 +8,17 @@ import {
   getAlertsForObject,
   getServiceAlertsForStation,
   getUniqueAlerts,
-} from '../../util/alertUtils';
-import { getRouteMode } from '../../util/modeUtils';
-import { getStartTimeWithColon } from '../../util/timeUtils';
-import { stopShape, stationShape } from '../../util/shapes';
-import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
+} from '../../../utils/client/alertUtils';
+import { getRouteMode } from '../../../utils/client/modeUtils';
+import { getStartTimeWithColon } from '../../../utils/client/timeUtils';
+import { stopShape, stationShape } from '../../../utils/client/shapes';
+import {
+  AlertSeverityLevelType,
+  AlertEntityType,
+} from '../../../utils/shared/constants';
 import { DisruptionsFragment } from './queries/DisruptionsFragment';
 import { patternTextWithIcon } from '../routepage/RoutePatternSelect';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 
 export const isRelevantEntity = (entity, stopIds, routeIds) =>
   // eslint-disable-next-line no-underscore-dangle

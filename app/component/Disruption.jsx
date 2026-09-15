@@ -6,17 +6,21 @@ import { DateTime } from 'luxon';
 import cx from 'classnames';
 import Icon from './Icon';
 import DisruptionBadge from './trafficnow/DisruptionBadge';
-import { useConfigContext } from '../configurations/ConfigContext';
-import { PREFIX_DISRUPTION, routePagePath, stopPagePath } from '../util/path';
+import { useConfigContext } from '../client/ConfigContext';
+import {
+  PREFIX_DISRUPTION,
+  routePagePath,
+  stopPagePath,
+} from '../../utils/shared/path';
 import IconBackground from './icon/IconBackground';
-import { getRouteMode, transitIconName } from '../util/modeUtils';
-import { getStartTimeWithColon } from '../util/timeUtils';
-import { entityShape, stopTimeShape } from '../util/shapes';
+import { getRouteMode, transitIconName } from '../../utils/client/modeUtils';
+import { getStartTimeWithColon } from '../../utils/client/timeUtils';
+import { entityShape, stopTimeShape } from '../../utils/client/shapes';
 import {
   AlertEntityType,
   AlertSeverityLevelType,
   LocationTypes,
-} from '../constants';
+} from '../../utils/shared/constants';
 
 const statusText = (effectiveStartDate, intl) => {
   if (!effectiveStartDate) {

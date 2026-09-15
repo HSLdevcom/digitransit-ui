@@ -8,7 +8,7 @@ See the `sort-translations` and `format` scripts in [`package.json`](/package.js
 ## `dev.sh` API options
 
 `scripts/dev.sh` (run via `yarn run dev`) reads env vars to pick which API/config to run against.
-See the `themeMap` in `app/configurations/config.default.js` for `CONFIG` options.
+See the `themeMap` in `server/configs/config.default.js` for `CONFIG` options.
 
 - `CONFIG` — deployment config to use, e.g. `hsl`, `matka` (default: `default`).
 - `API_TYPE` — `development` (default, `dev-api.digitransit.fi`), `production`
@@ -46,7 +46,7 @@ Both are pure build/server-side helpers, required directly (not run standalone):
 ## Using `theme/add-theme.js`
 
 Scaffolds a new theme: creates `sass/themes/<name>`, a config file at
-`app/configurations/config.<name>.js` (from `theme/template.waltti.js`), and registers the theme
+`server/configs/config.<name>.js` (from `theme/template.waltti.js`), and registers the theme
 in `config.default.js`'s host-name mapping. See [`docs/Themes.md`](/docs/Themes.md).
 
 ```

@@ -8,14 +8,14 @@ import {
   alertSeverityCompare,
   getAlertsForObject,
   isAlertValid,
-} from '../util/alertUtils';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
-import { getHeadsignFromRouteLongName } from '../util/legUtils';
-import { getRouteMode } from '../util/modeUtils';
-import { getCapacity } from '../util/occupancyUtil';
-import { routePagePath, PREFIX_STOPS } from '../util/path';
-import { configShape, departureShape } from '../util/shapes';
-import { epochToTime } from '../util/timeUtils';
+} from '../../utils/client/alertUtils';
+import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { getHeadsignFromRouteLongName } from '../../utils/client/legUtils';
+import { getRouteMode } from '../../utils/client/modeUtils';
+import { getCapacity } from '../../utils/client/occupancyUtil';
+import { routePagePath, PREFIX_STOPS } from '../../utils/shared/path';
+import { configShape, departureShape } from '../../utils/client/shapes';
+import { epochToTime } from '../../utils/client/timeUtils';
 import Icon from './Icon';
 import IconBackground from './icon/IconBackground';
 import PlatformNumber from './PlatformNumber';

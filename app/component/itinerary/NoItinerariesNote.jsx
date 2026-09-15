@@ -7,11 +7,11 @@ import {
   RoutingerrorShape,
   locationStateShape,
   locationShape,
-} from '../../util/shapes';
+} from '../../../utils/client/shapes';
 import ErrorCard from './ErrorCard';
 import findErrorMessageIds from './findErrorMessageIds';
 import errorCardProps from './errorCardProperties';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 
 /**
  * Get error message visual properties.

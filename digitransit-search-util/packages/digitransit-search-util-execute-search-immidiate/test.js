@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { executeSearch } from './index.js';
+import { executeSearch } from './index';
 
 // Minimal but complete searchContext stub: getSearchResults() destructures and
 // calls most of these unconditionally (or whenever targets/sources are left

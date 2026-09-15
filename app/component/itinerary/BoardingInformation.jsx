@@ -1,8 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 import PlatformNumber from '../PlatformNumber';
-import { isPlatformChanged } from '../../util/legUtils';
-import { legShape } from '../../util/shapes';
+import { isPlatformChanged } from '../../../utils/client/legUtils';
+import { legShape } from '../../../utils/client/shapes';
 
 /**
  * BoardingInformation displays platform or track information for a transit leg.

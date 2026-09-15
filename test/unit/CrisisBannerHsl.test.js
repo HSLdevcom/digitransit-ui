@@ -4,7 +4,7 @@ import { IntlProvider } from 'react-intl';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-import { ConfigProvider } from '../../app/configurations/ConfigContext';
+import { ConfigProvider } from '../../app/client/ConfigContext';
 import CrisisBannerHsl from '../../app/component/CrisisBannerHsl';
 
 const primaryBanner = { body: 'Primary alert', priority: 'Primary' };

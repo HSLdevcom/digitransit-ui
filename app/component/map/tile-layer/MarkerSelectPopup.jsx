@@ -6,7 +6,10 @@ import SelectVehicleRentalRow from './SelectVehicleRentalRow';
 import SelectVehicleRentalClusterRow from './SelectRentalVehicleClusterRow';
 import SelectParkAndRideRow from './SelectParkAndRideRow';
 import SelectVehicleContainer from './SelectVehicleContainer';
-import { PREFIX_BIKESTATIONS, PREFIX_RENTALVEHICLES } from '../../../util/path';
+import {
+  PREFIX_BIKESTATIONS,
+  PREFIX_RENTALVEHICLES,
+} from '../../../../utils/shared/path';
 
 function MarkerSelectPopup(props) {
   const intl = useIntl();

@@ -13,10 +13,10 @@ import React, {
 import { FormattedMessage } from 'react-intl';
 import { fetchQuery } from 'react-relay';
 import { useRouter } from 'found';
-import { saveFutureRoute } from '../../util/storeUtils';
+import { saveFutureRoute } from '../../../utils/client/storeUtils';
 import { startLocationWatch } from '../../action/PositionActions';
 import { saveSearch } from '../../action/SearchActions';
-import { TransportMode } from '../../constants';
+import { TransportMode } from '../../../utils/shared/constants';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import {
   clearLatestNavigatorItinerary,
@@ -26,27 +26,30 @@ import {
   setDialogState,
   getPersonalization,
   setPersonalization,
-} from '../../data/localStorage';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { getWeatherData } from '../../util/apiUtils';
-import { isIOS } from '../../util/browser';
-import { boundWithMinimumArea, GeodeticToEcef } from '../../util/geo-utils';
+} from '../../../utils/client/localStorage';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { getWeatherData } from '../../../utils/client/apiUtils';
+import { isIOS } from '../../../utils/shared/browser';
+import {
+  boundWithMinimumArea,
+  GeodeticToEcef,
+} from '../../../utils/shared/geo-utils';
 import {
   getIntermediatePlaces,
   otpToLocation,
   parseLatLon,
-} from '../../util/otpStrings';
-import { getItineraryPagePath, streetHash } from '../../util/path';
+} from '../../../utils/shared/otpStrings';
+import { getItineraryPagePath, streetHash } from '../../../utils/shared/path';
 import {
   getPlanParams,
   getSettings,
   planQueryNeeded,
   PLANTYPE,
-} from '../../util/planParamUtil';
-import { mapLayerOptionsShape, relayShape } from '../../util/shapes';
-import { epochToTime } from '../../util/timeUtils';
-import { getAllNetworksOfType } from '../../util/vehicleRentalUtils';
-import { isPersonalizationEnabled } from '../../util/modeUtils';
+} from '../../../utils/client/planParamUtil';
+import { mapLayerOptionsShape, relayShape } from '../../../utils/client/shapes';
+import { epochToTime } from '../../../utils/client/timeUtils';
+import { getAllNetworksOfType } from '../../../utils/shared/vehicleRentalUtils';
+import { isPersonalizationEnabled } from '../../../utils/client/modeUtils';
 import DesktopView from '../DesktopView';
 import Loading from '../Loading';
 import MobileView from '../MobileView';
@@ -93,8 +96,8 @@ import NaviContainer from './navigator/NaviContainer';
 import NaviGeolocationInfoModal from './navigator/navigatorgeolocation/NaviGeolocationInfoModal';
 import NavigatorIntroModal from './navigator/navigatorintro/NavigatorIntroModal';
 import { planConnection } from './queries/PlanConnection';
-import { isCallAgencyLeg, hasTaxiLegs } from '../../util/legUtils';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { isCallAgencyLeg, hasTaxiLegs } from '../../../utils/client/legUtils';
+import { useConfigContext } from '../../client/ConfigContext';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
 

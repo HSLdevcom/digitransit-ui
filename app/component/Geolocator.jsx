@@ -3,7 +3,7 @@ import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { startLocationWatch } from '../action/PositionActions';
 import Loading from './Loading';
-import { locationToUri } from '../util/otpStrings';
+import { locationToUri } from '../../utils/shared/otpStrings';
 
 const Geolocator = () => <Loading />;
 

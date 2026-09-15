@@ -6,8 +6,8 @@ import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import StopServiceStatusBanner from '../../../app/component/stop/StopServiceStatusBanner';
 import Icon from '../../../app/component/Icon';
 import StopScheduleStatus from '../../../app/component/stop/StopScheduleStatus';
-import { STOP_STATUS } from '../../../app/util/stopStatusUtils';
-import { AlertSeverityLevelType } from '../../../app/constants';
+import { STOP_STATUS } from '../../../utils/client/stopStatusUtils';
+import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 
 const baseConfig = {
   CONFIG: 'default',

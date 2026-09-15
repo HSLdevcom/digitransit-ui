@@ -1,11 +1,11 @@
-import Store from 'fluxible/addons/BaseStore.js';
+import Store from 'fluxible/addons/BaseStore';
 import PropTypes from 'prop-types';
 import {
   setMapLayerSettings,
   getMapLayerSettings,
-} from '../data/localStorage.js';
-import { showRentalVehiclesOfType } from '../util/modeUtils.js';
-import { TransportMode } from '../constants.js';
+} from '../../utils/client/localStorage';
+import { showRentalVehiclesOfType } from '../../utils/client/modeUtils';
+import { TransportMode } from '../../utils/shared/constants';
 
 class MapLayerStore extends Store {
   static handlers = {

@@ -3,12 +3,16 @@ import { createRefetchContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DepartureListContainer from '../DepartureListContainer';
 import ScrollableWrapper from '../ScrollableWrapper';
-import { stationShape, errorShape, relayShape } from '../../util/shapes';
-import { getPrimaryStopMode } from '../../util/modeUtils';
-import { getModeIconColor } from '../../util/colorUtils';
+import {
+  stationShape,
+  errorShape,
+  relayShape,
+} from '../../../utils/client/shapes';
+import { getPrimaryStopMode } from '../../../utils/client/modeUtils';
+import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import StopServiceStatusBanner from './StopServiceStatusBanner';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { getTrackOrPierOrPlatformText } from '../../util/localeUtils';
+import { useConfigContext } from '../../client/ConfigContext';
+import { getTrackOrPierOrPlatformText } from '../../../utils/client/localeUtils';
 import { useCurrentTime } from '../../hooks/TimeContext';
 
 function TerminalPageContent({ station, relay, error }) {

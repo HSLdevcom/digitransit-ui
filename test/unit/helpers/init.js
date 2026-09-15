@@ -9,7 +9,7 @@ import { after, afterEach, before } from 'mocha';
 import { stub } from 'sinon';
 import { Settings } from 'luxon';
 import { cleanup } from '@testing-library/react';
-import { initAnalyticsClientSide } from '../../../app/util/analyticsUtils';
+import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
 import {
   restoreOwnedIntlStub,
   restoreOwnedContextStubs,

@@ -1,6 +1,6 @@
 import isFinite from 'lodash/isFinite.js';
-import oldParamParser from '../app/util/oldParamParser.js';
-import { getConfiguration } from '../app/config.js';
+import oldParamParser from '../utils/shared/oldParamParser.js';
+import { getConfiguration } from './configs/config.js';
 
 function formatQuery(query) {
   const params = Object.keys(query)

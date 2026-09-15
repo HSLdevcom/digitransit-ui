@@ -1,7 +1,7 @@
-import debounce from 'lodash/debounce.js';
-import { getJson } from '../util/xhrPromise.js';
-import { geolocationMessages } from '../util/geolocationMessages.js';
-import { addAnalyticsEvent } from '../util/analyticsUtils.js';
+import debounce from 'lodash/debounce';
+import { getJson } from '../../utils/shared/xhrPromise';
+import { geolocationMessages } from '../../utils/client/geolocationMessages';
+import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 
 const MOCKPOS = false;
 let geoWatchId;

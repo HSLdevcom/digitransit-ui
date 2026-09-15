@@ -5,8 +5,8 @@ import { matchShape } from 'found';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import i18next from 'i18next';
-import { configShape } from '../../util/shapes';
-import { getRefPoint } from '../../util/apiUtils';
+import { configShape } from '../../../utils/client/shapes';
+import { getRefPoint } from '../../../utils/client/apiUtils';
 import {
   withSearchContext,
   getLocationSearchTargets,
@@ -17,12 +17,12 @@ import {
   getIndexPath,
   getPathWithEndpointObjects,
   PREFIX_ITINERARY_SUMMARY,
-} from '../../util/path';
+} from '../../../utils/shared/path';
 import Icon from '../Icon';
 import Loading from '../Loading';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import useUTMCampaignParams from './hooks/useUTMCampaignParams';
-import { locationToOTP } from '../../util/otpStrings';
+import { locationToOTP } from '../../../utils/shared/otpStrings';
 
 const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
 
@@ -95,7 +95,7 @@ const EmbeddedSearch = (props, context) => {
 
     if (config.secondaryLogo || config.logo) {
       import(
-        /* webpackChunkName: "embedded-search" */ `../../configurations/images/${
+        /* webpackChunkName: "embedded-search" */ `../../client/images/${
           config.secondaryLogo || config.logo
         }`
       ).then(l => {

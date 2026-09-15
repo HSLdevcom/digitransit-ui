@@ -8,7 +8,7 @@ import { component as Itinerary } from '../../../../../app/component/itinerary/I
 import {
   AlertSeverityLevelType,
   ExtendedRouteTypes,
-} from '../../../../../app/constants';
+} from '../../../../../utils/shared/constants';
 import { mockContext } from '../../../helpers/mock-context';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import dcw12 from '../../../test-data/dcw12';

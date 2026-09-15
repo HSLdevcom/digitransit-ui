@@ -8,7 +8,7 @@ import getStopStatus, {
   combineStopStatuses,
   resolveNoDeparturesBadge,
   getStopAlertEffects,
-} from '../../../app/util/stopStatusUtils';
+} from '../../../utils/client/stopStatusUtils';
 
 describe('stopStatusUtils', () => {
   describe('getStopStatus', () => {

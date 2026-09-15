@@ -2,17 +2,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
-import { configShape } from '../../util/shapes';
+import { configShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import {
   getIndoorTranslationId,
   getVerticalTransportationUseIconId,
-} from '../../util/indoorUtils';
+} from '../../../utils/client/indoorUtils';
 import {
   IndoorLegType,
   IndoorStepType,
   VerticalDirection,
-} from '../../constants';
+} from '../../../utils/shared/constants';
 import ItineraryMapAction from './ItineraryMapAction';
 
 function IndoorStep({

@@ -2,22 +2,22 @@ import cx from 'classnames';
 import React, { useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { matchShape } from 'found';
-import { stopShape } from '../../util/shapes';
-import { AlertSeverityLevelType } from '../../constants';
+import { stopShape } from '../../../utils/client/shapes';
+import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 import {
   getAlertsForObject,
   getServiceAlertsForStation,
   getActiveAlertSeverityLevel,
   getUniqueAlerts,
-} from '../../util/alertUtils';
-import withBreakpoint from '../../util/withBreakpoint';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { unixTime } from '../../util/timeUtils';
+} from '../../../utils/client/alertUtils';
+import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { unixTime } from '../../../utils/client/timeUtils';
 import {
   PREFIX_DISRUPTION,
   PREFIX_TIMETABLE,
   stopPagePath,
-} from '../../util/path';
+} from '../../../utils/shared/path';
 import { filterCanceledCalls } from './Disruptions';
 
 const Tab = {

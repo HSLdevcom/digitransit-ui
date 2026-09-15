@@ -9,22 +9,26 @@ import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
 import { matchShape, routerShape } from 'found';
-import { relayShape, configShape, vehicleShape } from '../../../util/shapes';
+import {
+  relayShape,
+  configShape,
+  vehicleShape,
+} from '../../../../utils/client/shapes';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
-import { isFeatureLayerEnabled } from '../../../util/mapLayerUtils';
+import { isFeatureLayerEnabled } from '../../../../utils/client/mapLayerUtils';
 import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { getClientBreakpoint } from '../../../util/withBreakpoint';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { getClientBreakpoint } from '../../../../utils/client/withBreakpoint';
 import {
   stopPagePath,
   PREFIX_BIKESTATIONS,
   PREFIX_CARPARK,
   PREFIX_BIKEPARK,
   PREFIX_RENTALVEHICLES,
-} from '../../../util/path';
+} from '../../../../utils/shared/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import { withCurrentTime } from '../../../hooks/TimeContext';
 

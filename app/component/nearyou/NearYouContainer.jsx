@@ -2,19 +2,19 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { createPaginationContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { relayShape } from '../../util/shapes';
+import { relayShape } from '../../../utils/client/shapes';
 import StopNearYouContainer from './StopNearYouContainer';
-import withBreakpoint from '../../util/withBreakpoint';
+import withBreakpoint from '../../../utils/client/withBreakpoint';
 import {
   sortNearYouRentalStations,
   sortNearYouStops,
-} from '../../util/sortUtils';
+} from '../../../utils/client/sortUtils';
 import VehicleRentalStationNearYou from './VehicleRentalStationNearYou';
 import ParkNearYou from './ParkNearYou';
 import Loading from '../Loading';
 import Icon from '../Icon';
 import DisruptionBanner from '../DisruptionBanner';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 
 function NearYouContainer({
   places,

@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { useRouter } from 'found';
-import L from 'leaflet';
-import { stopShape } from '../../../util/shapes';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+import { default as L } from 'leaflet';
+import { stopShape } from '../../../../utils/client/shapes';
+import { useConfigContext } from '../../../client/ConfigContext';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
 import {
@@ -12,13 +12,13 @@ import {
   getStopRadius,
   getHubRadius,
   renderAsString,
-} from '../../../util/mapIconUtils';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { PREFIX_STOPS } from '../../../util/path';
+} from '../../../../utils/client/mapIconUtils';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { PREFIX_STOPS } from '../../../../utils/shared/path';
 import {
   STOP_STATUS,
   STOP_STATUS_BADGE_IMGS,
-} from '../../../util/stopStatusUtils';
+} from '../../../../utils/client/stopStatusUtils';
 
 const STATUS_BADGE_ZOOM_THRESHOLD = 15;
 
@@ -112,7 +112,7 @@ function StopMarker({
     const inner = (stopRadius + hubRadius) / 2;
     const stroke = stopRadius - hubRadius;
 
-    // see app/util/mapIconUtils.js for the canvas version
+    // see utils/client/mapIconUtils.js for the canvas version
     let iconSvg = `
       <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
         <circle class="${cx(
