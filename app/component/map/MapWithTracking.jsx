@@ -178,14 +178,19 @@ function MapWithTrackingStateHandler(
     };
   };
 
+  // Exposed to the parent via setMWTRef as a stable object reference, whose
+  // methods are refreshed on every render below so callers always invoke the
+  // latest closures (e.g. reading the current position/mapTrackingState)
+  // instead of the ones captured when setMWTRef was first called.
+  const exposedInstance = useRef({}).current;
+  exposedInstance.enableMapTracking = enableMapTracking;
+  exposedInstance.disableMapTracking = disableMapTracking;
+  exposedInstance.forceRefresh = forceRefresh;
+
   useEffect(() => {
     mounted.current = true;
     if (setMWTRef) {
-      setMWTRef({
-        enableMapTracking,
-        disableMapTracking,
-        forceRefresh,
-      });
+      setMWTRef(exposedInstance);
     }
     return () => {
       mounted.current = false;
