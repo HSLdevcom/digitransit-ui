@@ -80,7 +80,7 @@ export const getCancelations = (stop, intl, config) => {
           mode: translatedMode,
           route: shortName,
           headsign: stoptime.headsign || stoptime.trip.tripHeadsign,
-          time: epochToTime(departureTime * 1000, config),
+          times: epochToTime(departureTime * 1000, config),
         },
       ),
       entities: [entity],
