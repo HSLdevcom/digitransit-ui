@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { configShape } from '../util/shapes';
+import { configShape } from '../../utils/client/shapes';
 import StopCode from './StopCode';
-import withBreakpoint from '../util/withBreakpoint';
+import withBreakpoint from '../../utils/client/withBreakpoint';
 import BackButton from './BackButton';
-import { getJson } from '../util/xhrPromise';
-import getZoneId from '../util/zoneIconUtils';
+import { getJson } from '../../utils/shared/xhrPromise';
+import getZoneId from '../../utils/client/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
-import { hasVehicleRentalCode } from '../util/vehicleRentalUtils';
+import { hasVehicleRentalCode } from '../../utils/shared/vehicleRentalUtils';
 import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
-import { splitGtfsId } from '../util/gtfs';
+import { splitGtfsId } from '../../utils/shared/gtfs';
 
 const ParkOrBikeStationHeader = (
   { parkOrStation, breakpoint, parkType, backButton, withSeparator },

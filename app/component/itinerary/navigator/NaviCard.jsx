@@ -1,16 +1,25 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import cx from 'classnames';
-import { isAnyLegPropertyIdentical, isRental } from '../../../util/legUtils';
-import { getTripOrRouteMode, transitIconName } from '../../../util/modeUtils';
-import { configShape, legShape } from '../../../util/shapes';
+import {
+  isAnyLegPropertyIdentical,
+  isRental,
+} from '../../../../utils/client/legUtils';
+import {
+  getTripOrRouteMode,
+  transitIconName,
+} from '../../../../utils/client/modeUtils';
+import { configShape, legShape } from '../../../../utils/client/shapes';
 import Icon from '../../Icon';
 import NaviCardExtension from './NaviCardExtension';
 import NaviInstructions from './NaviInstructions';
 import { LEGTYPE } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
-import { IndoorLegType, NaviCardType } from '../../../constants';
-import { getIndoorLegType } from '../../../util/indoorUtils';
+import {
+  IndoorLegType,
+  NaviCardType,
+} from '../../../../utils/shared/constants';
+import { getIndoorLegType } from '../../../../utils/client/indoorUtils';
 
 const iconMap = {
   BICYCLE: 'icon_cyclist',

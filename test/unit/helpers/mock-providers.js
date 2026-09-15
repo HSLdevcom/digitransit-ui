@@ -4,11 +4,11 @@ import { ReactRelayContext } from 'react-relay';
 import PropTypes from 'prop-types';
 import { IntlProvider, createIntl, createIntlCache } from 'react-intl';
 import { render } from '@testing-library/react';
-import { ConfigProvider } from '../../../app/configurations/ConfigContext';
+import { ConfigProvider } from '../../../app/client/ConfigContext';
 import { TimeProvider, TimeContext } from '../../../app/hooks/TimeContext';
 import translations from '../../../app/translations/en';
 import { mockContext } from './mock-context';
-import { configShape } from '../../../app/util/shapes';
+import { configShape } from '../../../utils/client/shapes';
 
 const defaultMessages = translations.en || translations;
 const noop = () => {};

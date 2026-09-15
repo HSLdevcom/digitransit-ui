@@ -2,7 +2,7 @@
 /* eslint-disable react/no-multi-comp */
 import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
-import throttle from 'lodash/throttle.js';
+import throttle from 'lodash/throttle';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
 const { Provider, Consumer } = createContext('large');

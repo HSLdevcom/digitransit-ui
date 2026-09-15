@@ -3,8 +3,8 @@
 import fs from 'fs';
 import getConfig from './helpers/image-snapshot-config';
 import * as MockHelper from './helpers/mock-request-helper';
-import summaryPageMockData from './mock-data/SummaryPageQueryResponse.json';
-import walkBikeMockData from './mock-data/WalkBikeQueryResponse.json';
+import summaryPageMockData from './mock-data/SummaryPageQueryResponse';
+import walkBikeMockData from './mock-data/WalkBikeQueryResponse';
 
 const config = process.env.CONFIG || 'hsl';
 const customSnapshotsDir = `test/e2e/__image_snapshots__`;

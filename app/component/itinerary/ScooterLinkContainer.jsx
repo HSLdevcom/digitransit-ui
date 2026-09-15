@@ -6,11 +6,11 @@ import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   getRentalVehicleLink,
-  openDeepLink,
-} from '../../util/vehicleRentalUtils';
-import { rentalVehicleShape } from '../../util/shapes';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import withBreakpoint from '../../util/withBreakpoint';
+} from '../../../utils/shared/vehicleRentalUtils';
+import { openDeepLink } from '../../../utils/client/vehicleRentalUtils';
+import { rentalVehicleShape } from '../../../utils/client/shapes';
+import { useConfigContext } from '../../client/ConfigContext';
+import withBreakpoint from '../../../utils/client/withBreakpoint';
 import Icon from '../Icon';
 import ExternalLink from '../ExternalLink';
 

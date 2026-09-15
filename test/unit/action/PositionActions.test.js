@@ -3,7 +3,7 @@ import { describe, it, afterEach } from 'mocha';
 import sinon from 'sinon';
 import { showGeolocationDeniedMessage } from '../../../app/action/PositionActions';
 import { messageActions } from '../../../app/hooks/MessageContext';
-import { geolocationMessages } from '../../../app/util/geolocationMessages';
+import { geolocationMessages } from '../../../utils/client/geolocationMessages';
 
 describe('PositionActions', () => {
   // A scoped sandbox, not the default sinon.stub()/sinon.restore(): the

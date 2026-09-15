@@ -9,22 +9,22 @@ import {
   configShape,
   locationShape,
   mapLayerOptionsShape,
-} from '../../util/shapes';
-import { getSettings } from '../../util/planParamUtil';
+} from '../../../utils/client/shapes';
+import { getSettings } from '../../../utils/client/planParamUtil';
 import PositionStore from '../../store/PositionStore';
 import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
 import MapWithTracking from './MapWithTracking';
 import SelectedStopPopup from './popups/SelectedStopPopup';
 import SelectedStopPopupContent from '../SelectedStopPopupContent';
-import withBreakpoint from '../../util/withBreakpoint';
+import withBreakpoint from '../../../utils/client/withBreakpoint';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import BackButton from '../BackButton';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
-import { getMapLayerOptions } from '../../util/mapLayerUtils';
+import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import MapRoutingButton from '../MapRoutingButton';
 import CookieSettingsButton from '../CookieSettingsButton';
-import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../util/path';
+import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../../utils/shared/path';
 import { streetQuery } from './StreetQuery';
 
 const getModeFromProps = props => {

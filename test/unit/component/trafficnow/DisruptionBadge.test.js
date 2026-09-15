@@ -4,7 +4,7 @@ import React from 'react';
 import { shallowWithIntl } from '../../helpers/mock-intl-enzyme';
 import DisruptionBadge from '../../../../app/component/trafficnow/DisruptionBadge';
 import Icon from '../../../../app/component/Icon';
-import { AlertSeverityLevelType } from '../../../../app/constants';
+import { AlertSeverityLevelType } from '../../../../utils/shared/constants';
 
 describe('<DisruptionBadge />', () => {
   describe('Icon rendering', () => {

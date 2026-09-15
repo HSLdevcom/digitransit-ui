@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import sinon from 'sinon';
-import { ConfigProvider } from '../../../app/configurations/ConfigContext';
+import { ConfigProvider } from '../../../app/client/ConfigContext';
 import {
   MessageProvider,
   processStaticMessages,
@@ -15,7 +15,7 @@ import {
   useMessageActions,
   messageActions,
 } from '../../../app/hooks/MessageContext';
-import { setReadMessageIds } from '../../../app/data/localStorage';
+import { setReadMessageIds } from '../../../utils/client/localStorage';
 import { mockContext } from '../helpers/mock-context';
 
 /**

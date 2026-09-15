@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import SettingsToggle from './SettingsToggle';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { settingsShape } from '../../../util/shapes';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { settingsShape } from '../../../../utils/client/shapes';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 export default function TransferOptions({ settings, updateSettings }) {
   const { transferPenaltyHigh, minTransferTimeSelection, defaultSettings } =

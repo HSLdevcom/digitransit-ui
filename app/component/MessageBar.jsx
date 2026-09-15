@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
-import { relayShape } from '../util/shapes';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { relayShape } from '../../utils/client/shapes';
+import { useConfigContext } from '../client/ConfigContext';
 import { withCurrentTime } from '../hooks/TimeContext';
 import {
   useMessages,
@@ -15,10 +15,10 @@ import {
 import SwipeableTabs from './SwipeableTabs';
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
-import { getReadMessageIds } from '../data/localStorage';
-import { mapAlertSource } from '../util/alertUtils';
-import { isKeyboardSelectionEvent } from '../util/browser';
-import hashCode from '../util/hashUtil';
+import { getReadMessageIds } from '../../utils/client/localStorage';
+import { mapAlertSource } from '../../utils/client/alertUtils';
+import { isKeyboardSelectionEvent } from '../../utils/shared/browser';
+import hashCode from '../../utils/client/hashUtil';
 
 /* Small version has constant height,
  * big version has max height of half but can be

@@ -9,8 +9,11 @@ import React, {
 import PropTypes from 'prop-types';
 import favouriteStore from '../data/FavouriteData';
 import { useMessageActions } from './MessageContext';
-import { failedFavouriteMessage, favouriteTypes } from '../util/messageUtils';
-import { useConfigContext } from '../configurations/ConfigContext';
+import {
+  failedFavouriteMessage,
+  favouriteTypes,
+} from '../../utils/client/messageUtils';
+import { useConfigContext } from '../client/ConfigContext';
 
 const FavouriteContext = createContext({
   favourites: [],

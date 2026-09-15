@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { matchShape, routerShape } from 'found';
 import Modal from '@hsl-fi/modal';
-import { stopShape, configShape } from '../util/shapes';
+import { stopShape, configShape } from '../../utils/client/shapes';
 import Icon from './Icon';
-import { locationToUri, locationToOTP } from '../util/otpStrings';
+import { locationToUri, locationToOTP } from '../../utils/shared/otpStrings';
 import {
   getPathWithEndpointObjects,
   getItineraryPagePath,
   PREFIX_ITINERARY_SUMMARY,
-} from '../util/path';
+} from '../../utils/shared/path';
 
 export default function MapRoutingButton({ stop }, { router, match, config }) {
   const intl = useIntl();

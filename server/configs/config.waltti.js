@@ -1,0 +1,324 @@
+import { isDevRunEnv } from '../../utils/server/envUtils.js';
+
+const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
+const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/waltti/`;
+const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
+const POI_MAP_PREFIX = `${MAP_URL}/map/v3/waltti`;
+const APP_DESCRIPTION = 'Digitransit-reittiopas';
+const YEAR = 1900 + new Date().getYear();
+
+export default {
+  YEAR,
+  URL: {
+    OTP: OTP_URL,
+    STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
+    },
+    REALTIME_STOP_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
+      sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
+    },
+    RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
+    },
+    REALTIME_RENTAL_STATION_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
+    },
+    PARK_AND_RIDE_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParking/`,
+    },
+    PARK_AND_RIDE_GROUP_MAP: {
+      default: `${POI_MAP_PREFIX}/en/vehicleParkingGroups/`,
+      sv: `${POI_MAP_PREFIX}/sv/vehicleParkingGroups/`,
+      fi: `${POI_MAP_PREFIX}/fi/vehicleParkingGroups/`,
+    },
+    REALTIME_RENTAL_VEHICLE_MAP: {
+      default: `${POI_MAP_PREFIX}/fi/realtimeRentalVehicles/`,
+    },
+  },
+
+  aboutThisService: {
+    fi: [
+      {
+        header: 'Käytön seuranta ja analytiikka',
+        paragraphs: [
+          'Käytämme evästeetöntä Plausible Analytics -analytiikkatyökalua palvelun käytön seurantaan ja kehittämiseen. Kerättävä tieto on tilastollista eikä mahdollista yksittäisten käyttäjien tunnistamista.',
+        ],
+      },
+    ],
+    sv: [
+      {
+        header: 'Uppföljning och analys',
+        paragraphs: [
+          'Vi använder det cookiefria analysverktyget Plausible Analytics för att följa upp och utveckla användningen av tjänsten. Den information som samlas in är statistisk och gör det inte möjligt att identifiera enskilda användare.',
+        ],
+      },
+    ],
+    en: [
+      {
+        header: 'Tracking and analytics',
+        paragraphs: [
+          'We use the cookie-free analytics tool Plausible Analytics to monitor and develop the use of the service. The data collected is statistical in nature and does not enable the identification of individual users.',
+        ],
+      },
+    ],
+  },
+
+  stopsMinZoom: 14,
+
+  vehicleRental: {},
+
+  search: {
+    minimalRegexp: /.+/,
+  },
+
+  agency: {
+    show: false,
+  },
+
+  meta: {
+    description: APP_DESCRIPTION,
+  },
+
+  vehicles: true,
+  showVehiclesOnStopPage: true,
+  showVehiclesOnItineraryPage: true,
+  showCO2InItinerarySummary: true,
+
+  transportModes: {
+    bus: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+
+    rail: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
+
+    tram: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
+
+    subway: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
+
+    citybike: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
+
+    airplane: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
+
+    ferry: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
+
+    funicular: {
+      availableForSelection: false,
+      defaultValue: false,
+    },
+
+    taxi: {
+      availableForSelection: true, // experimental feature
+      defaultValue: false,
+    },
+  },
+
+  showNearYouButtons: true,
+  nearYouTitle: {
+    fi: 'Aikataulut ja linjat',
+    sv: 'Tidtabeller och linjer',
+    en: 'Timetables and routes',
+  },
+  nearYouModes: ['bus'],
+  maxNearYouDistance: {
+    bus: 30000,
+    tram: 30000,
+    rail: 50000,
+    ferry: 50000,
+    citybike: 30000,
+  },
+
+  redirectReittiopasParams: true,
+  queryMaxAgeDays: 14,
+
+  nationalServiceLink: {
+    fi: {
+      name: 'matka.fintraffic.fi',
+      href: 'https://matka.fintraffic.fi/',
+    },
+    sv: {
+      name: 'matka.fintraffic.fi',
+      href: 'https://matka.fintraffic.fi/sv/',
+    },
+    en: {
+      name: 'matka.fintraffic.fi',
+      href: 'https://matka.fintraffic.fi/en/',
+    },
+  },
+
+  messageBarAlerts: true,
+
+  includeCarSuggestions: true,
+  includeParkAndRideSuggestions: true,
+  showBikeAndParkItineraries: true,
+
+  parkAndRide: { parkAndRideMinZoom: 14 },
+
+  hostnames: [
+    // DEV hostnames
+    'https://dev-hameenlinna.digitransit.fi',
+    'https://dev-joensuu.digitransit.fi',
+    'https://dev-jyvaskyla.digitransit.fi',
+    'https://dev-kotka.digitransit.fi',
+    'https://dev-kouvola.digitransit.fi',
+    'https://dev-kuopio.digitransit.fi',
+    'https://dev-lahti.digitransit.fi',
+    'https://dev-lappeenranta.digitransit.fi',
+    'https://dev-mikkeli.digitransit.fi',
+    'https://dev-oulu.digitransit.fi',
+    'https://dev-pori.digitransit.fi',
+    'https://dev-raasepori.digitransit.fi',
+    'https://dev-rovaniemi.digitransit.fi',
+    'https://dev-tampere.digitransit.fi',
+    'https://dev-turku.digitransit.fi',
+    'https://dev-vaasa.digitransit.fi',
+    'https://dev-varely.digitransit.fi',
+    'https://dev-waltti.digitransit.fi',
+    // PROD hostnames
+    'https://bosse.digitransit.fi',
+    'https://reittiopas.hameenlinna.fi',
+    'https://hameenlinna.digitransit.fi',
+    'https://joensuu.digitransit.fi',
+    'https://jyvaskyla.digitransit.fi',
+    'https://kotka.digitransit.fi',
+    'https://kouvola.digitransit.fi',
+    'https://kuopio.digitransit.fi',
+    'https://lahti.digitransit.fi',
+    'https://lappeenranta.digitransit.fi',
+    'https://mikkeli.digitransit.fi',
+    'https://reittiopas.osl.fi',
+    'https://pori.digitransit.fi',
+    'https://rovaniemi.digitransit.fi',
+    'https://reittiopas.tampere.fi',
+    'https://repa.tampere.fi',
+    'https://reittiopas.tampere.fi',
+    'https://tampere.digitransit.fi',
+    'https://turku.digitransit.fi',
+    'https://reittiopas.foli.fi',
+    'https://vaasa.digitransit.fi',
+    'https://varely.digitransit.fi',
+    'https://reittiopas.seutuplus.fi',
+    'https://opas.waltti.fi',
+  ],
+  showDisclaimer: true,
+
+  // mapping fareId from OTP fare identifiers to human readable form
+  fareMapping: function mapFareId(fareId) {
+    return fareId && fareId.substring
+      ? fareId.substring(fareId.indexOf(':') + 1)
+      : '';
+  },
+
+  // if true we don't show fare information on top of the itinerary
+  // when there are legs from unknown operators
+  hideUnknownFares: true,
+
+  startSearchFromUserLocation: true,
+
+  minTransferTimeSelection: [
+    {
+      title: '1.5 min',
+      value: 90,
+    },
+    {
+      title: '3 min',
+      value: 180,
+    },
+    {
+      title: '5 min',
+      value: 300,
+    },
+    {
+      title: '7 min',
+      value: 420,
+    },
+    {
+      title: '10 min',
+      value: 600,
+    },
+  ],
+  carBoardingModes: {
+    FERRY: { showNotification: true },
+  },
+
+  ticketPurchaseLink: function purchaseTicketLink(fare, availableTickets) {
+    const fareId = fare.fareProducts[0].product.id;
+    const feed = fareId.split(':')[0];
+    const zones = availableTickets[feed][fareId].zones.reduce((acc, zone) => {
+      return `${acc}0${zone}`;
+    }, '');
+    return `https://waltti.fi/${this.appName}/busTicket/?operator=${this.ticketLinkOperatorCode}&ticketType=single&customerGroup=adult&zones=${zones}`;
+  },
+  appName: 'walttiapp',
+  ticketButtonTextId: 'buy-in-app',
+
+  analyticsScript: function createAnalyticsScript(
+    hostname,
+    sendAnalyticsCustomEventGoals,
+  ) {
+    const address = sendAnalyticsCustomEventGoals
+      ? 'https://plausible.io/js/script.tagged-events.js'
+      : 'https://plausible.io/js/script.js';
+    // eslint-disable-next-line no-useless-escape
+    return `<script defer data-domain="${hostname}" src="${address}"><\/script>\n`;
+  },
+  analyticsClass: 'plausible-event-name=Ticket+Purchase+Link',
+
+  navigation: true,
+
+  // TODO: flex disabled for now, proper configuration coming in the future
+  /* flex: {
+    external: {
+      enabled: true,
+      transit: true,
+      direct: false,
+      agencies: ['02Taksi:02_taksi'],
+    },
+    infoLanguage: 'fi',
+  }, */
+
+  replacementBusNotification: {
+    // Header is displayed via translation key 'replacement-bus'.
+    content: {
+      fi: [
+        'Voit nousta kyytiin myös bussin keskiovista.',
+        'Pysäkit on merkitty punaisilla tunnuksilla.',
+        'Linja käyttää valikoituja pysäkkejä, eli bussi ei pysähdy kaikilla pysäkeillä.',
+      ],
+      en: [
+        'You can also board the bus through the middle doors.',
+        'The stops are marked with red signs.',
+        'The bus stops only at designated stops and does not serve all stops.',
+      ],
+      sv: [
+        'Du kan också stiga på bussen genom mittdörren.',
+        'Hållplatserna är markerade med röda punkter.',
+        'Linjen stannar endast vid vissa hållplatser, dvs. bussen stannar inte vid alla hållplatser.',
+      ],
+    },
+  },
+  showRouteDescNotification: isDevRunEnv(),
+  useAlternativeNameForModes: ['RAIL'],
+};

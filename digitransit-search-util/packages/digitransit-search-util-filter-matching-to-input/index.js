@@ -1,4 +1,4 @@
-import get from 'lodash/get.js';
+import get from 'lodash/get';
 
 /**
  * Function that filters list matching to input.

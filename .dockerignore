@@ -46,6 +46,12 @@ digitransit-store/packages/**/lib
 !app
 app/**/__generated__
 
+# Shared/server/client utility modules (utils/shared, utils/server, utils/client),
+# imported by both app and server source (relay-compiler regenerates
+# utils/**/__generated__ fresh).
+!utils
+utils/**/__generated__
+
 # Server source; only required for `yarn run start`.
 !server
 

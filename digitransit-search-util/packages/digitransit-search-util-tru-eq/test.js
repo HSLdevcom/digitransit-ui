@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import truEq from './index.js';
+import truEq from './index';
 
 describe('Testing @digitransit-util/digitransit-util-tru-eq module', () => {
   it('Checking that true is true', () => {

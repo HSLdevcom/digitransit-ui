@@ -2,7 +2,7 @@ import React from 'react';
 import { renderWithProviders } from './helpers/mock-providers';
 
 import TicketInformation from '../../app/component/itinerary/TicketInformation';
-import { getFaresFromLegs } from '../../app/util/fareUtils';
+import { getFaresFromLegs } from '../../utils/client/fareUtils';
 
 const defaultConfig = {
   CONFIG: 'default',

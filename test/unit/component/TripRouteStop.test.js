@@ -2,7 +2,7 @@ import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { mockContext } from '../helpers/mock-context';
 import TripRouteStop from '../../../app/component/routepage/TripRouteStop';
-import { AlertSeverityLevelType } from '../../../app/constants';
+import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 
 describe('<TripRouteStop />', () => {
   it('should not render a service alert icon for the trip route stop if the alert is not active', () => {

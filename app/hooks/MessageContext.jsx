@@ -7,8 +7,11 @@ import React, {
   useReducer,
 } from 'react';
 import PropTypes from 'prop-types';
-import { setReadMessageIds, getReadMessageIds } from '../data/localStorage';
-import { useConfigContext } from '../configurations/ConfigContext';
+import {
+  setReadMessageIds,
+  getReadMessageIds,
+} from '../../utils/client/localStorage';
+import { useConfigContext } from '../client/ConfigContext';
 
 export const processStaticMessages = (root, callback) => {
   const { staticMessages } = root;

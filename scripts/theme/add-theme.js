@@ -53,7 +53,7 @@ let textLogo;
 let logo;
 if (logoPath) {
   logo = path.basename(logoPath);
-  const imageDir = 'app/configurations/images/' + theme;
+  const imageDir = 'app/client/images/' + theme;
   if(!fs.existsSync(imageDir)) {
     fs.mkdirSync(imageDir);
   }
@@ -86,10 +86,10 @@ if (textLogo === 'true') {
   conf = conf.replace(regexLogo, `false,\n\n  logo: '${theme}/${logo}',`);
 }
 
-fs.writeFileSync('app/configurations/config.' + theme + '.js', conf);
+fs.writeFileSync('server/configs/config.' + theme + '.js', conf);
 
 // update host name mapping
-const defaultConfName = 'app/configurations/config.default.js';
+const defaultConfName = 'server/configs/config.default.js';
 const appendAfter = `matka: 'matka',`;
 
 conf = fs.readFileSync(defaultConfName, 'utf-8');

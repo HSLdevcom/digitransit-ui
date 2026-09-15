@@ -1,7 +1,7 @@
 import Protobuf from 'pbf';
 import { VectorTile } from '@mapbox/vector-tile';
-import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
-import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
+import { fetchWithLanguageAndSubscription } from '../../../../utils/shared/fetchUtils';
+import { getLayerBaseUrl } from '../../../../utils/client/mapLayerUtils';
 
 class AreaStops {
   constructor(tile, config, mapLayers, relayEnvironment) {

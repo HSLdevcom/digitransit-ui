@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { DateTime, Settings } from 'luxon';
 import { buildAvailableDates } from '../../../app/component/routepage/schedule/scheduleDataUtils';
-import { DATE_FORMAT } from '../../../app/constants';
+import { DATE_FORMAT } from '../../../utils/shared/constants';
 
 describe('scheduleDataUtils', () => {
   describe('buildAvailableDates', () => {

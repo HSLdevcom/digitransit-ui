@@ -8,18 +8,24 @@ import {
   startRealTimeClient,
   stopRealTimeClient,
 } from '../../action/realTimeClientAction';
-import { PlannerMessageType, ExtendedRouteTypes } from '../../constants';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { boundWithMinimumArea } from '../../util/geo-utils';
+import {
+  PlannerMessageType,
+  ExtendedRouteTypes,
+} from '../../../utils/shared/constants';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
 import {
   compressLegs,
   getTotalBikingDistance,
   isDirectItineraryWithAllowedRouteTypes,
-} from '../../util/legUtils';
-import { getMapLayerOptions } from '../../util/mapLayerUtils';
-import { getDefaultSettings, getSettings } from '../../util/planParamUtil';
-import { getStartTimeWithColon } from '../../util/timeUtils';
-import { splitGtfsId } from '../../util/gtfs';
+} from '../../../utils/client/legUtils';
+import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
+import {
+  getDefaultSettings,
+  getSettings,
+} from '../../../utils/client/planParamUtil';
+import { getStartTimeWithColon } from '../../../utils/client/timeUtils';
+import { splitGtfsId } from '../../../utils/shared/gtfs';
 
 /**
  * Returns the index of selected itinerary. Attempts to look for

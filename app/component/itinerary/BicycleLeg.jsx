@@ -4,28 +4,28 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import Link from 'found/Link';
 import { fetchQuery } from 'react-relay';
-import { legShape, relayShape } from '../../util/shapes';
-import { legTimeStr, legDestination } from '../../util/legUtils';
+import { legShape, relayShape } from '../../../utils/client/shapes';
+import { legTimeStr, legDestination } from '../../../utils/client/legUtils';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { displayDistance } from '../../util/geo-utils';
-import { durationToString } from '../../util/timeUtils';
+import { displayDistance } from '../../../utils/shared/geo-utils';
+import { durationToString } from '../../../utils/client/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
-import { stopPagePath } from '../../util/path';
+import { stopPagePath } from '../../../utils/shared/path';
 import {
   getRentalNetworkConfig,
   RentalNetworkType,
-} from '../../util/vehicleRentalUtils';
+} from '../../../utils/shared/vehicleRentalUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { splitStringToAddressAndPlace } from '../../util/otpStrings';
+import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
-import { getSettings } from '../../util/planParamUtil';
-import { isKeyboardSelectionEvent } from '../../util/browser';
+import { getSettings } from '../../../utils/client/planParamUtil';
+import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import StopCode from '../StopCode';
 import PlatformNumber from '../PlatformNumber';
 import nearestQuery from './NearestQuery';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 
 export default function BicycleLeg({
   focusAction,

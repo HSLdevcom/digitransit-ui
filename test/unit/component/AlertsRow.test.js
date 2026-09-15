@@ -4,7 +4,7 @@ import AlertRow, { getAlertRoutePath } from '../../../app/component/AlertRow';
 import {
   AlertSeverityLevelType,
   AlertEntityType,
-} from '../../../app/constants';
+} from '../../../utils/shared/constants';
 
 describe('<AlertRow />', () => {
   const routeEntity = {

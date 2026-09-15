@@ -2,7 +2,7 @@ import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { addAnalyticsEvent } from '../../../../util/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../../utils/shared/analyticsUtils';
 
 const NavigatorOutro = ({ onClose, destination, logo }) => {
   const intl = useIntl();

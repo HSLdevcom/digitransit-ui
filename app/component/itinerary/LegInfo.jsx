@@ -4,18 +4,21 @@ import Link from 'found/Link';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import Modal from '@hsl-fi/modal';
-import { legShape } from '../../util/shapes';
-import { legTimeStr, isLocalCallAgency } from '../../util/legUtils';
-import { getTripOrRouteMode, modeToTranslationId } from '../../util/modeUtils';
+import { legShape } from '../../../utils/client/shapes';
+import { legTimeStr, isLocalCallAgency } from '../../../utils/client/legUtils';
+import {
+  getTripOrRouteMode,
+  modeToTranslationId,
+} from '../../../utils/client/modeUtils';
 import RouteNumber from '../RouteNumber';
-import { routePagePath, PREFIX_STOPS } from '../../util/path';
+import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import {
   getCapacityForLeg,
   capacityToTranslationId,
-} from '../../util/occupancyUtil';
+} from '../../../utils/client/occupancyUtil';
 import Icon from '../Icon';
 import CapacityModal from '../CapacityModal';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 import OnDemandInfo from './OnDemandInfo';
 import RouteNumberContainer from '../RouteNumberContainer';
 

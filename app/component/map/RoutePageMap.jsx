@@ -3,18 +3,22 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { configShape, patternShape, errorShape } from '../../util/shapes';
+import {
+  configShape,
+  patternShape,
+  errorShape,
+} from '../../../utils/client/shapes';
 import MapWithTracking from './MapWithTracking';
 import RouteLine from './route/RouteLine';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
-import { getStartTime } from '../../util/timeUtils';
-import withBreakpoint from '../../util/withBreakpoint';
+import { getStartTime } from '../../../utils/client/timeUtils';
+import withBreakpoint from '../../../utils/client/withBreakpoint';
 import BackButton from '../BackButton';
-import { isActiveDate } from '../../util/patternUtils';
-import { boundWithMinimumArea } from '../../util/geo-utils';
-import { getMapLayerOptions } from '../../util/mapLayerUtils';
+import { isActiveDate } from '../../../utils/client/patternUtils';
+import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
+import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
-import { splitGtfsId } from '../../util/gtfs';
+import { splitGtfsId } from '../../../utils/shared/gtfs';
 
 function RoutePageMap(
   { pattern, lat, lon, breakpoint, trip, error, ...rest },

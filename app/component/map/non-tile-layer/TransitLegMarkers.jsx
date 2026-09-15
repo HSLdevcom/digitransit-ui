@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { withLeaflet } from 'react-leaflet/es/context';
 import polyUtil from 'polyline-encoded';
-import { configShape, legShape } from '../../../util/shapes';
-import { isLocalCallAgency, legTime } from '../../../util/legUtils';
-import { getMiddleOf } from '../../../util/geo-utils';
+import { configShape, legShape } from '../../../../utils/client/shapes';
+import { isLocalCallAgency, legTime } from '../../../../utils/client/legUtils';
+import { getMiddleOf } from '../../../../utils/shared/geo-utils';
 import LegMarker from './LegMarker';
 import SpeechBubble from '../SpeechBubble';
-import { durationToString } from '../../../util/timeUtils';
+import { durationToString } from '../../../../utils/client/timeUtils';
 
 const offsetNormal = { x: 22.5, y: 0 };
 const offsetArrow = { x: 55, y: 15 };

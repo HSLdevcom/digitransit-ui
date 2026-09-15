@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import { stopTimeShape, configShape } from '../util/shapes';
+import { stopTimeShape, configShape } from '../../utils/client/shapes';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
 import {
@@ -15,8 +15,8 @@ import {
 import {
   getHeadsignFromRouteLongName,
   isPlatformChanged,
-} from '../util/legUtils';
-import { splitGtfsId } from '../util/gtfs';
+} from '../../utils/client/legUtils';
+import { splitGtfsId } from '../../utils/shared/gtfs';
 
 const getDropoffMessage = (hasOnlyDropoff, hasNoStop) => {
   if (hasNoStop) {

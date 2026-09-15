@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { DateTime } from 'luxon';
-import enrichPatterns from './index.js';
+import enrichPatterns from './index';
 
 const DATE_FORMAT = 'yyyyLLdd';
 

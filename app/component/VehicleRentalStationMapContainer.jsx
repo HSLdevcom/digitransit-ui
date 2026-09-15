@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { configShape } from '../util/shapes';
+import { configShape } from '../../utils/client/shapes';
 import StopPageMap from './map/StopPageMap';
 
 const VehicleRentalStationMapContainer = ({ vehicleRentalStation }) => {

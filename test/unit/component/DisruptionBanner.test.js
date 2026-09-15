@@ -4,7 +4,7 @@ import { Component as DisruptionBanner } from '../../../app/component/Disruption
 import {
   AlertSeverityLevelType,
   AlertEntityType,
-} from '../../../app/constants';
+} from '../../../utils/shared/constants';
 
 describe('<DisruptionBanner />', () => {
   it('should render a service alert', () => {

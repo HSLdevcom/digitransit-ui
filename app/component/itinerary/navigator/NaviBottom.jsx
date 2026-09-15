@@ -2,12 +2,18 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { legShape } from '../../../util/shapes';
-import { epochToTime, durationToString } from '../../../util/timeUtils';
-import { getFaresFromLegs, shouldShowFareInfo } from '../../../util/fareUtils';
-import localizedUrl from '../../../util/urlUtils';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { legShape } from '../../../../utils/client/shapes';
+import {
+  epochToTime,
+  durationToString,
+} from '../../../../utils/client/timeUtils';
+import {
+  getFaresFromLegs,
+  shouldShowFareInfo,
+} from '../../../../utils/client/fareUtils';
+import localizedUrl from '../../../../utils/client/urlUtils';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 export default function NaviBottom({ setNavigation, arrival, time, legs }) {
   const intl = useIntl();

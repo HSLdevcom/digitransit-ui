@@ -4,7 +4,7 @@ import { useSelect, useTagGroup } from 'downshift';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Icon, CloseS, ArrowUpS, ArrowDownS, CloseFilled } from '@hsl-fi/icons';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+import { useConfigContext } from '../../../client/ConfigContext';
 import { useFilterContext } from './FiltersContext';
 
 function OperatorSelectDropdown({ availableOperators = [], itemToString }) {

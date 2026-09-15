@@ -3,8 +3,8 @@ import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
-import { itineraryShape } from '../../util/shapes';
-import getCo2Value from '../../util/emissions';
+import { itineraryShape } from '../../../utils/client/shapes';
+import getCo2Value from '../../../utils/client/emissions';
 
 export default function Emissions({
   itinerary,
