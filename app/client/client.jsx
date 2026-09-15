@@ -72,8 +72,8 @@ const AppProviders = props => {
     ],
     [IntlBridge],
     [RelayEnvironmentProvider, { environment: props.environment }],
-    [FavouriteProvider],
     [MessageProvider],
+    [FavouriteProvider],
     [TimeProvider],
   ];
   return providers.reduceRight(
