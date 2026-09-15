@@ -139,15 +139,16 @@ Production gets:
 - **`InjectManifest`** (`workbox-webpack-plugin`) — builds the production
   service worker; see [Service worker](#service-worker) below.
 - **`MiniCssExtractPlugin`** — extracts CSS to hashed files (prod only;
-  dev uses `style-loader`). `ignoreOrder: true` silences its "conflicting
-  order" warnings: the `digitransitComponents` cache group (see
-  `splitChunks` below) merges CSS from many `@hsl-fi`/`@digitransit-*`
-  packages into one shared chunk used by every route, and different
-  routes import different subsets of those packages in different
-  relative orders. Every affected file is CSS Modules output with
+  dev uses `style-loader`). `ignoreOrder` is deliberately left `false`
+  (the default) rather than suppressed: the `digitransitComponents` cache
+  group (see `splitChunks` below) merges CSS from many `@hsl-fi`/
+  `@digitransit-*` packages into one shared chunk used by every route,
+  and different routes import different subsets of those packages in
+  different relative orders, which triggers "conflicting order"
+  warnings. Every affected file is CSS Modules output with
   locally-scoped, per-file-hashed class names, so the actual
-  concatenation order has no visual effect - confirmed by an A/B build
-  showing byte-identical CSS output with/without the flag.
+  concatenation order likely has no visual effect - but the warnings are
+  kept visible on purpose as a reminder of this open, unconfirmed item.
 - **`CompressionPlugin`** (×2) — pre-generates `.gz` and `.br` (Brotli)
   copies of JS/CSS/HTML/SVG/ICO assets so the server can serve
   precompressed files instead of compressing on the fly.
@@ -281,6 +282,12 @@ Only used by `webpack-dev-server` during `yarn run dev`. Notable:
 false` (full reload on change, no HMR), IPv6 loopback host (`::1`), and a
 permissive CORS header so the separately-running app server
 (`server/server.js`) can proxy asset requests to this dev server.
+Since `devServer.host` is IPv6-only, `server/server.js` targets the
+literal `[::1]` address rather than the `localhost` hostname when
+proxying — this avoids depending on how the machine's resolver orders
+`localhost`'s A/AAAA records (a resolver that prefers `127.0.0.1` would
+otherwise make the proxy fail with `ECONNREFUSED` even though
+webpack-dev-server is up).
 
 ## Browser support (`browserslist` in `package.json`)
 

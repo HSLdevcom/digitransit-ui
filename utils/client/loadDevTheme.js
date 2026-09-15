@@ -1,4 +1,4 @@
-// Dev-only entry module (see webpack.config.babel.js, added to `entry.main`
+// Dev-only entry module (see webpack.config.js, added to `entry.main`
 // only when `isDevelopment`), so this dynamic `import` never bundles every
 // theme's SCSS into production (see PR #5929).
 //
