@@ -9,6 +9,8 @@ You can run Digitransit-ui in docker. This is probably the easiest way to see th
 
 ## Run latest HSL version for testing
 - `docker run -p 8080:8080 -e CONFIG=hsl hsldevcom/digitransit-ui`
+- Runtime `-e CONFIG=<name>` only works against an image built without `--build-arg CONFIG=...`;
+  a single-CONFIG build only serves that one config.
 
 ## Access running application
 On Linux:
