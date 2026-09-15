@@ -87,11 +87,8 @@ a dedicated `relay-compiler --watch` in `scripts/dev.sh`) are picked up automati
 watchers and rebuilt in the background — no manual rebuild step is needed.
 
 ## Analyse webpack bundle
-- run: `webpack -p --json > digitransit.json`
-- Upload `digitransit.json` to `http://webpack.github.io/analyse/`
-
-Or you can also use this:
-- https://github.com/robertknight/webpack-bundle-size-analyzer
+- run: `CONFIG=hsl NODE_ENV=production node node_modules/.bin/webpack --json > _static/digitransit.json`
+- run: `yarn webpack-bundle-analyzer _static/digitransit.json`
 
 ## Using Git Hooks
 Husky (npm-package) is used for setting up the git hooks (`.git/hooks/`) that will allow custom scripts to be run on the repository.
