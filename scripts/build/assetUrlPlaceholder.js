@@ -5,7 +5,7 @@
 // for the real `process.env.ASSET_URL` (or an empty string, if unset) the
 // first time `_static/sw.js` is requested. This preserves the CDN
 // base-URL override that other, non-service-worker assets get via
-// `process.env.ASSET_URL` elsewhere in the app (see app/util/publicPath.js
+// `process.env.ASSET_URL` elsewhere in the app (see utils/client/publicPath.js
 // and the HTML asset tags built in server/server.js), without requiring
 // pre-built assets to already know their eventual CDN host.
 //

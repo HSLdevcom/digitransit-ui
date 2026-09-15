@@ -2,18 +2,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { useIntl } from 'react-intl';
-import { configShape, planShape } from '../../util/shapes';
+import { configShape, planShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
-import { displayDistance } from '../../util/geo-utils';
-import { durationToString } from '../../util/timeUtils';
+import { displayDistance } from '../../../utils/shared/geo-utils';
+import { durationToString } from '../../../utils/client/timeUtils';
 import {
   getTotalDistance,
   getTotalBikingDistance,
   getTotalDrivingDistance,
   getExtendedMode,
-} from '../../util/legUtils';
-import { streetHash } from '../../util/path';
-import { getModeIconColor } from '../../util/colorUtils';
+} from '../../../utils/client/legUtils';
+import { streetHash } from '../../../utils/shared/path';
+import { getModeIconColor } from '../../../utils/shared/colorUtils';
 
 export default function StreetModeSelectorButton(
   { icon, name, plan, onClick },

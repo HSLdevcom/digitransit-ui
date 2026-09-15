@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import SearchSettingsDropdown, { valueShape } from './SearchSettingsDropdown';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { findNearestOption } from '../../../util/planParamUtil';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { findNearestOption } from '../../../../utils/client/planParamUtil';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 export default function BikingSpeed({ bikeSpeed, updateSettings }) {
   const config = useConfigContext();

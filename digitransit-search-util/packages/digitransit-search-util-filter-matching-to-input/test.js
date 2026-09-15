@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import filterMatchingToInput from './index.js';
+import filterMatchingToInput from './index';
 
 describe('Testing @digitransit-util/digitransit-util-filter-matching-to-input module', () => {
   it('Checking that true is true', () => {

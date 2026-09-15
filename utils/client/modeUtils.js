@@ -1,0 +1,414 @@
+import isString from 'lodash/isString';
+import sortedUniq from 'lodash/sortedUniq';
+import xor from 'lodash/xor';
+import inside from 'point-in-polygon';
+import { getCustomizedSettings } from './localStorage';
+import { isInBoundingBox } from '../shared/geo-utils';
+import { addAnalyticsEvent } from '../shared/analyticsUtils';
+import { ExtendedRouteTypes, TransportMode } from '../shared/constants';
+import {
+  seasonMs,
+  dayMs,
+  isCitybikeSeasonActive,
+  networkIsActive,
+} from '../shared/citybikeSeasonUtils';
+import { isDevRunEnv } from './envUtils';
+import { isExternalFeed } from '../shared/feedScopedIdUtils';
+import { splitGtfsId } from '../shared/gtfs';
+
+export function isCitybikePreSeasonActive(season) {
+  if (!season.start || !season.preSeasonStart) {
+    return false;
+  }
+  const now = Date.now();
+  return (
+    now <= seasonMs(season.start) + dayMs &&
+    now >= seasonMs(season.preSeasonStart)
+  );
+}
+
+export function showCitybikeNetwork(networkConfig, config) {
+  return (
+    networkConfig?.enabled &&
+    networkConfig.type === 'citybike' &&
+    (isCitybikeSeasonActive(networkConfig?.season) ||
+      isCitybikePreSeasonActive(networkConfig?.season) ||
+      // dev/staging deployments show every network regardless of season
+      isDevRunEnv(config))
+  );
+}
+
+export function useCitybikes(networks, config) {
+  if (!networks) {
+    return false;
+  }
+  return Object.values(networks).some(
+    network =>
+      network.type === TransportMode.Citybike.toLowerCase() &&
+      networkIsActive(network, config),
+  );
+}
+
+export function useScooters(config) {
+  if (!config.transportModes?.scooter?.availableForSelection) {
+    return false;
+  }
+  const networks = config.vehicleRental?.networks;
+  if (!networks) {
+    return false;
+  }
+  return Object.values(networks).some(
+    network =>
+      network.type === TransportMode.Scooter.toLowerCase() && network.enabled,
+  );
+}
+
+export function showRentalVehiclesOfType(networks, type, config) {
+  if (!networks) {
+    return false;
+  }
+  return Object.values(networks).some(
+    network =>
+      network.type === type.toLowerCase() &&
+      network.enabled &&
+      (network.showRentalVehicles || showCitybikeNetwork(network, config)),
+  );
+}
+
+const nearYouStopTypes = ['stop', 'station'];
+
+export function getNearYouModes(config, favourites) {
+  let modes = config.nearYouModes;
+  let cityBikesActive = config.nearYouModes.includes('citybike');
+  if (cityBikesActive && !useCitybikes(config.vehicleRental.networks, config)) {
+    modes = modes.filter(mode => mode !== 'citybike');
+    cityBikesActive = false;
+  }
+  const nearFavs = favourites.filter(f => {
+    return (
+      nearYouStopTypes.includes(f.type) ||
+      (f.type === 'bikeStation' && cityBikesActive)
+    );
+  });
+  if (!nearFavs.length) {
+    modes = modes.filter(mode => mode !== 'favorite');
+  }
+  return modes;
+}
+
+export function getTransportModes(config) {
+  let citybikeConfig = {};
+  let scooterConfig = {};
+  if (config.vehicleRental?.networks) {
+    if (!useCitybikes(config.vehicleRental.networks, config)) {
+      citybikeConfig = { citybike: { availableForSelection: false } };
+    }
+    if (!useScooters(config)) {
+      scooterConfig = { scooter: { availableForSelection: false } };
+    }
+  }
+  return {
+    ...config.transportModes,
+    ...citybikeConfig,
+    ...scooterConfig,
+  };
+}
+
+/**
+ * @returns mode always in lower case
+ */
+export function getRouteMode(route, config) {
+  if (config?.replacementBusRoutes?.includes(route.gtfsId)) {
+    return 'replacement-bus';
+  }
+  switch (route.type) {
+    case ExtendedRouteTypes.BusExpress:
+      return config?.useExtendedRouteTypes ? 'bus-express' : 'bus';
+    case ExtendedRouteTypes.BusLocal:
+      return config?.useExtendedRouteTypes ? 'bus-local' : 'bus';
+    case ExtendedRouteTypes.SpeedTram:
+      return config?.useExtendedRouteTypes ? 'speedtram' : 'tram';
+    case ExtendedRouteTypes.CallAgency:
+      return 'call';
+    case ExtendedRouteTypes.ReplacementBus:
+      return 'replacement-bus';
+    default:
+      return isExternalFeed(splitGtfsId(route?.gtfsId).feedId, config)
+        ? `${route.mode?.toLowerCase()}-external`
+        : route.mode?.toLowerCase();
+  }
+}
+
+/**
+ * In NeTEx, mode and submode are properties of the trip. In GTFS, they are
+ * properties of the route. Eventually we hope we can get OTP to always report
+ * them in the more specific entity, trip, but because historically we have
+ * taken them from route, this is a fail safe way of making the change.
+ * @param trip
+ * @param route
+ * @param config
+ * @returns {string|*}
+ */
+export function getTripOrRouteMode(trip, route, config) {
+  if (trip?.isReplacement) {
+    return 'replacement-bus';
+  }
+  return getRouteMode(route, config);
+}
+
+/**
+ * extract stop's transit mode. Handles routes from map API and from OTP graphql query
+ */
+export function getStopMode(vehicleMode, routes, code, config, isTerminal) {
+  if (routes) {
+    switch (vehicleMode) {
+      case 'BUS':
+        if (config.useExtendedRouteTypes && !isTerminal) {
+          const arr = typeof routes === 'string' ? JSON.parse(routes) : routes;
+          if (
+            arr.some(
+              r => (r.gtfsType || r.type) === ExtendedRouteTypes.BusExpress,
+            )
+          ) {
+            return 'bus-express';
+          }
+        }
+        break;
+      case 'TRAM':
+        if (config.useExtendedRouteTypes) {
+          const arr = typeof routes === 'string' ? JSON.parse(routes) : routes;
+          if (
+            arr.some(
+              r => (r.gtfsType || r.type) === ExtendedRouteTypes.SpeedTram,
+            )
+          ) {
+            return 'speedtram';
+          }
+        }
+        break;
+      case 'FERRY':
+        {
+          if (config.externalFerryByStopCode && !isTerminal && !code) {
+            return 'ferry-external';
+          }
+          const arr = typeof routes === 'string' ? JSON.parse(routes) : routes;
+          if (
+            arr.some(r => isExternalFeed(splitGtfsId(r.gtfsId).feedId, config))
+          ) {
+            return 'ferry-external';
+          }
+        }
+        break;
+      default:
+        break;
+    }
+  }
+  return vehicleMode.toLowerCase();
+}
+
+/**
+ * Maps an extended route mode string back to its base transport mode.
+ */
+export function getBaseTransportMode(mode) {
+  if (
+    mode === 'bus-local' ||
+    mode === 'bus-express' ||
+    mode === 'replacement-bus'
+  ) {
+    return 'bus';
+  }
+  if (mode === 'speedtram') {
+    return 'tram';
+  }
+  return mode;
+}
+
+/**
+ * @returns icon name
+ */
+export function transitIconName(mode, lollipop) {
+  switch (mode) {
+    case 'bus-express':
+      return lollipop ? 'icon_bus-lollipop' : 'icon_bus';
+    case 'bus-local':
+      return lollipop ? 'icon_bus-lollipop' : 'icon_bus-local';
+    case 'replacement-bus':
+      return lollipop ? 'icon_bus-lollipop' : 'icon_replacement-bus';
+    case 'subway':
+      return `icon_${mode}`; // no lollipop version
+    default:
+      return lollipop ? `icon_${mode}-lollipop` : `icon_${mode}`;
+  }
+}
+
+/**
+ * Retrieves all transport modes that have specified "availableForSelection": true.
+ * The full configuration will be returned.
+ *
+ * @param {*} config The configuration for the software installation
+ */
+export function getAvailableTransportModeConfigs(config) {
+  const transportModes = getTransportModes(config);
+  return transportModes
+    ? Object.keys(transportModes)
+        .filter(tm => transportModes[tm].availableForSelection)
+        .map(tm => ({ ...transportModes[tm], name: tm.toUpperCase() }))
+    : [];
+}
+
+export function getTransitModes(config) {
+  return getAvailableTransportModeConfigs(config)
+    .filter(
+      tm => tm.defaultValue && tm.name !== 'scooter' && tm.name !== 'citybike',
+    )
+    .map(tm => tm.name)
+    .sort();
+}
+
+/**
+ * Retrieves all transport modes that have specified "availableForSelection": true.
+ * Only the name of each transport mode will be returned.
+ *
+ * @param {*} config The configuration for the software installation
+ */
+export function getAvailableTransportModes(config) {
+  return getAvailableTransportModeConfigs(config).map(tm => tm.name);
+}
+
+/**
+ * Checks if the given transport mode has been configured as availableForSelection.
+ *
+ * @param {*} config The configuration for the software installation
+ * @param {String} mode The mode to check
+ */
+export function isTransportModeAvailable(config, mode) {
+  return getAvailableTransportModes(config).includes(mode.toUpperCase());
+}
+
+/**
+ * Checks if mode does not exist in config's modePolygons or
+ * at least one of the given coordinates is inside any of the polygons defined for a mode
+ *
+ * @param {*} config The configuration for the software installation
+ * @param {String} mode The mode to check
+ * @param {*} places
+ */
+export function isModeAvailableInsidePolygons(config, mode, places) {
+  if (mode in config.modePolygons && places.length > 0) {
+    for (let i = 0; i < places.length; i++) {
+      const { lat, lon } = places[i];
+      for (let j = 0; j < config.modeBoundingBoxes[mode].length; j++) {
+        const boundingBox = config.modeBoundingBoxes[mode][j];
+        if (
+          isInBoundingBox(boundingBox, lat, lon) &&
+          inside([lon, lat], config.modePolygons[mode][j])
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Maps the given modes (either a string array or a comma-separated string of values)
+ * to their OTP counterparts. Any modes with no counterpart available will be dropped
+ * from the output.
+ *
+ * @param {*} config The configuration for the software installation
+ * @param {String[]|String} modes The modes to filter
+ * @returns The filtered modes, or an empty string
+ */
+export function filterModes(config, modes, from, to, intermediatePlaces) {
+  if (!modes) {
+    return [];
+  }
+  const modesStr = modes instanceof Array ? modes.join(',') : modes;
+  if (!isString(modesStr)) {
+    return [];
+  }
+  return sortedUniq(
+    modesStr
+      .split(',')
+      .filter(mode => isTransportModeAvailable(config, mode))
+      .filter(mode =>
+        isModeAvailableInsidePolygons(config, mode, [
+          from,
+          to,
+          ...intermediatePlaces,
+        ]),
+      )
+      .filter(mode => !!mode)
+      .sort(),
+  );
+}
+
+/**
+ * Giving user an option to change mode settings when there are no
+ * alternative options does not make sense. This function checks
+ * if there are at least two available transport modes
+ *
+ * @param {*} config
+ * @returns {Boolean} True if mode settings should be shown to users
+ */
+export function showModeSettings(config) {
+  return getAvailableTransportModes(config).length > 1;
+}
+
+/**
+ * Retrieves all transit modes and returns the currently available
+ * If user has no ability to change mode settings, always use default modes.
+ *
+ * @param {*} config The configuration for the software
+ * @returns {String[]} returns user set modes or default modes
+ */
+export function getModes(config) {
+  const { modes } = getCustomizedSettings();
+  if (showModeSettings(config) && Array.isArray(modes)) {
+    const transportModes = modes.filter(mode =>
+      isTransportModeAvailable(config, mode),
+    );
+    return transportModes;
+  }
+  return getTransitModes(config);
+}
+
+/**
+ * Updates the localStorage to reflect the selected transport mode.
+ *
+ * @param {*} transportMode The transport mode to select
+ * @param {*} config The configuration for the software installation
+ * @returns {String[]} an array of currently selected modes
+ */
+export function toggleTransportMode(transportMode, config) {
+  let actionName;
+  if (getModes(config).includes(transportMode.toUpperCase())) {
+    actionName = 'SettingsDisableTransportMode';
+  } else {
+    actionName = 'SettingsEnableTransportMode';
+  }
+  addAnalyticsEvent({
+    action: actionName,
+    category: 'ItinerarySettings',
+    name: transportMode,
+  });
+  const modes = xor(getModes(config), [transportMode.toUpperCase()]);
+  return modes;
+}
+
+export function isPersonalizationEnabled(config, settings) {
+  return !!(
+    settings.personalization &&
+    config.personalization &&
+    (config.user.sub || !config.allowLogin)
+  );
+}
+
+export function modeToTranslationId(mode, config) {
+  if (config.useAlternativeNameForModes?.includes(mode.toUpperCase())) {
+    return `alternative-name-${mode.toLowerCase()}`;
+  }
+  return mode.toLowerCase();
+}

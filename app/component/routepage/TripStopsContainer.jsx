@@ -5,11 +5,11 @@ import cx from 'classnames';
 import { matchShape } from 'found';
 import debounce from 'lodash/debounce';
 import RouteControlPanel from './RouteControlPanel';
-import { getStartTime } from '../../util/timeUtils';
+import { getStartTime } from '../../../utils/client/timeUtils';
 import TripStopListContainer from './TripStopListContainer';
-import withBreakpoint from '../../util/withBreakpoint';
+import withBreakpoint from '../../../utils/client/withBreakpoint';
 import ScrollableWrapper from '../ScrollableWrapper';
-import { routeShape } from '../../util/shapes';
+import { routeShape } from '../../../utils/client/shapes';
 
 const TripStopsContainer = memo(function TripStopsContainer({
   breakpoint,

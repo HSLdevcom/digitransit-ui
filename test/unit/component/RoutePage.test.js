@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { Component as RoutePage } from '../../../app/component/routepage/RoutePage';
-import { PREFIX_DISRUPTION } from '../../../app/util/path';
+import { PREFIX_DISRUPTION } from '../../../utils/shared/path';
 
 const currentTime = Math.floor(Date.now() / 1000);
 

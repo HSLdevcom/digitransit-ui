@@ -4,7 +4,10 @@ import React from 'react';
 import { renderWithProviders as render } from '../helpers/mock-providers';
 
 import ItineraryCircleLineWithIcon from '../../../app/component/itinerary/ItineraryCircleLineWithIcon';
-import { ViaLocationType, IndoorLegType } from '../../../app/constants';
+import {
+  ViaLocationType,
+  IndoorLegType,
+} from '../../../utils/shared/constants';
 
 const defaultProps = {
   index: 1,

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import Polyline from 'react-leaflet/es/Polyline';
-import { configShape } from '../../util/shapes';
+import { configShape } from '../../../utils/client/shapes';
 
 export default class Line extends React.Component {
   static propTypes = {

@@ -1,8 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import uniqByLabel, {
-  formatFavouritePlaceLabel,
-  getNameLabel,
-} from './index.js';
+import uniqByLabel, { formatFavouritePlaceLabel, getNameLabel } from './index';
 
 const feature1 = {
   properties: {

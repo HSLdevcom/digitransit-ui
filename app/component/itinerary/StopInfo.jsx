@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { durationToString } from '../../util/timeUtils';
-import { isKeyboardSelectionEvent } from '../../util/browser';
+import { durationToString } from '../../../utils/client/timeUtils';
+import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import Icon from '../Icon';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 
 export default function StopInfo({
   intermediateStopCount,

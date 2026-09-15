@@ -4,16 +4,16 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
 import Icon from './Icon';
-import withBreakpoint from '../util/withBreakpoint';
+import withBreakpoint from '../../utils/client/withBreakpoint';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
-} from '../util/vehicleRentalUtils';
-import { PREFIX_RENTALVEHICLES } from '../util/path';
+} from '../../utils/shared/vehicleRentalUtils';
+import { PREFIX_RENTALVEHICLES } from '../../utils/shared/path';
 import VehicleRentalLeg from './itinerary/VehicleRentalLeg';
 import BackButton from './BackButton';
-import { rentalVehicleShape } from '../util/shapes';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { rentalVehicleShape } from '../../utils/client/shapes';
+import { useConfigContext } from '../client/ConfigContext';
 
 function RentalVehicleContent({
   rentalVehicle,

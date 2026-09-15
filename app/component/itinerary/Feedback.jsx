@@ -6,8 +6,8 @@ import { useRouter } from 'found';
 import { Text } from '@hsl-fi/layout-primitives';
 import { ArrowLink } from '@hsl-fi/navigation';
 import Icon from '../Icon';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { getLoginPath } from '../../util/path';
+import { useConfigContext } from '../../client/ConfigContext';
+import { getLoginPath } from '../../../utils/shared/path';
 
 const ANIMATION_MS = 1200;
 

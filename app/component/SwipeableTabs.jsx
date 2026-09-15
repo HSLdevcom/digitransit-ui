@@ -6,7 +6,7 @@ import cx from 'classnames';
 import Icon from './Icon';
 import ScrollableWrapper from './ScrollableWrapper';
 import TabBalls from './TabBalls';
-import { isKeyboardSelectionEvent } from '../util/browser';
+import { isKeyboardSelectionEvent } from '../../utils/shared/browser';
 
 export function setFocusables() {
   // Set inactive tab focusables to unfocusable and for active tab set previously made unfocusable elements to focusable

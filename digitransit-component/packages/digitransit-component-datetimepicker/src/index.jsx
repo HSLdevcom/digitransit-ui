@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { Settings, DateTime } from 'luxon';
-import debounce from 'lodash/debounce.js';
+import debounce from 'lodash/debounce';
 import Datetimepicker from './helpers/Datetimepicker';
 import i18n from './helpers/i18n';
 

@@ -4,8 +4,8 @@ import Link from 'found/Link';
 import cx from 'classnames';
 import { Text } from '@hsl-fi/layout-primitives';
 import { Icon, ArrowRightS } from '@hsl-fi/icons';
-import { useBreakpoint } from '../../util/withBreakpoint';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useConfigContext } from '../../client/ConfigContext';
 import { useLogo } from '../../hooks/useLogo';
 
 const AdditionalDescription = () => {

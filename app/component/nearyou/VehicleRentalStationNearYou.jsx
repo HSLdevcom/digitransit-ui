@@ -5,11 +5,14 @@ import { Link } from 'found';
 import { graphql, createRefetchContainer } from 'react-relay';
 import VehicleRentalStation from '../VehicleRentalStation';
 import FavouriteVehicleRentalStationContainer from '../FavouriteVehicleRentalStationContainer';
-import { PREFIX_BIKESTATIONS } from '../../util/path';
-import { isKeyboardSelectionEvent } from '../../util/browser';
-import { hasVehicleRentalCode } from '../../util/vehicleRentalUtils';
-import { vehicleRentalStationShape, relayShape } from '../../util/shapes';
-import { splitGtfsId } from '../../util/gtfs';
+import { PREFIX_BIKESTATIONS } from '../../../utils/shared/path';
+import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
+import { hasVehicleRentalCode } from '../../../utils/shared/vehicleRentalUtils';
+import {
+  vehicleRentalStationShape,
+  relayShape,
+} from '../../../utils/client/shapes';
+import { splitGtfsId } from '../../../utils/shared/gtfs';
 
 const VehicleRentalStationNearYou = ({
   station,

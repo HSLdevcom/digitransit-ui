@@ -12,7 +12,7 @@ const useLogo = logoPath => {
     setLoading(true);
     try {
       const importedLogo = await import(
-        /* webpackChunkName: "main" */ `../configurations/images/${logoPath}`
+        /* webpackChunkName: "main" */ `../client/images/${logoPath}`
       );
       setLogo(importedLogo.default);
     } catch (error) {

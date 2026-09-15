@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { tripShape, routeShape, configShape } from '../util/shapes';
-import { getTripOrRouteText } from '../util/legUtils';
+import { tripShape, routeShape, configShape } from '../../utils/client/shapes';
+import { getTripOrRouteText } from '../../utils/client/legUtils';
 import RouteNumber from './RouteNumber';
 
 const RouteNumberContainer = (

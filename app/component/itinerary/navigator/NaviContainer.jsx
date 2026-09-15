@@ -6,9 +6,9 @@ import {
   startLocationWatch,
   stopLocationWatch,
 } from '../../../action/PositionActions';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { legTime, legTimeStr } from '../../../util/legUtils';
-import { relayShape } from '../../../util/shapes';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { legTime, legTimeStr } from '../../../../utils/client/legUtils';
+import { relayShape } from '../../../../utils/client/shapes';
 import { useItineraryContext } from '../context/ItineraryContext';
 import { useRealtimeLegs } from './hooks/useRealtimeLegs';
 import NaviBottom from './NaviBottom';

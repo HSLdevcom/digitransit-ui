@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import React from 'react';
 import Timetable from '../../../app/component/stop/Timetable';
 import { renderWithProviders } from '../helpers/mock-providers';
-import * as timetables from '../../../app/configurations/timetableConfigUtils';
+import * as timetables from '../../../utils/server/timetableConfigUtils';
 
 const stopIdNumber = '1140199';
 

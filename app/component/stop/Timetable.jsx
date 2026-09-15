@@ -13,16 +13,19 @@ import Icon from '../Icon';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
 import TimetableRow from './TimetableRow';
-import { DATE_FORMAT, RealtimeStateType } from '../../constants';
+import {
+  DATE_FORMAT,
+  RealtimeStateType,
+} from '../../../utils/shared/constants';
 import SecondaryButton from '../SecondaryButton';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import DateSelect from './DateSelect';
 import ScrollableWrapper from '../ScrollableWrapper';
-import { replaceQueryParams } from '../../util/queryUtils';
-import { PREFIX_STOPS } from '../../util/path';
+import { replaceQueryParams } from '../../../utils/client/queryUtils';
+import { PREFIX_STOPS } from '../../../utils/shared/path';
 import { TimetableFragment } from './queries/TimetableFragment';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { splitGtfsId } from '../../util/gtfs';
+import { useConfigContext } from '../../client/ConfigContext';
+import { splitGtfsId } from '../../../utils/shared/gtfs';
 
 const mapStopTimes = stoptimesObject =>
   stoptimesObject

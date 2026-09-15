@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import FavouriteBar from './src/index.jsx';
+import FavouriteBar from './src/index';
 
 const favourites = [
   { name: 'Home', address: 'Kotikatu 1, Helsinki', favouriteId: 'fav1' },

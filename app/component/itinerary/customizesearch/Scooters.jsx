@@ -6,9 +6,9 @@ import Disclaimer from '../../Disclaimer';
 import {
   getReadMessageIds,
   setReadMessageId,
-} from '../../../data/localStorage';
-import { TransportMode } from '../../../constants';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+} from '../../../../utils/client/localStorage';
+import { TransportMode } from '../../../../utils/shared/constants';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 export default function Scooters({ updateSettings }) {
   const config = useConfigContext();

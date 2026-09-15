@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import suggestionToLocation, { getGTFSId } from './index.js';
+import suggestionToLocation, { getGTFSId } from './index';
 
 describe('Testing @digitransit-search-util/digitransit-search-util-suggestion-to-location module', () => {
   describe('getGTFSId(properties)', () => {

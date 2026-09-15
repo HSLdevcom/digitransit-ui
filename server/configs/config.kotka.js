@@ -1,0 +1,202 @@
+import configMerger from '../../utils/server/configMerger.js';
+import { BIKEAVL_WITHMAX } from '../../utils/shared/vehicleRentalUtils.js';
+import walttiConfig from './config.waltti.js';
+
+const CONFIG = 'kotka';
+const APP_TITLE = 'Kotkan seudun reittiopas';
+const APP_DESCRIPTION = 'Kotkan seudun reittiopas';
+const CDN_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
+
+export default configMerger(walttiConfig, {
+  CONFIG,
+
+  appBarLink: {
+    name: 'Kotkan seudun joukkoliikenne',
+    href: 'https://jonnejaminne.fi/',
+    altLink: {
+      sv: {
+        name: 'Kotka regiontrafik',
+        href: 'https://jonnejaminne.fi/sv/',
+      },
+      en: {
+        name: 'Kotka region traffic',
+        href: 'https://jonnejaminne.fi/en/',
+      },
+    },
+  },
+
+  colors: {
+    primary: '#0001FF',
+    bus: '#0001FF',
+  },
+  transportModes: {
+    bus: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+    citybike: {
+      availableForSelection: true,
+    },
+    ferry: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+  },
+
+  nearYouModes: ['bus', 'ferry', 'citybike'],
+
+  vehicleRental: {
+    networks: {
+      donkey_kotka: {
+        enabled: true,
+        season: {
+          start: '28.4',
+          end: '31.10',
+        },
+        capacity: BIKEAVL_WITHMAX,
+        icon: 'citybike',
+        name: {
+          fi: 'Kotkan-Haminan seutu',
+          sv: 'Kotka-Fredrikshamnsregionen',
+          en: 'Kotka-Hamina region',
+        },
+        type: 'citybike',
+        url: {
+          fi: 'https://kaakau.fi/kotka/',
+          sv: 'https://kaakau.fi/kotka/?lang=sv',
+          en: 'https://kaakau.fi/kotka/?lang=en',
+        },
+        returnInstructions: {
+          fi: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+          sv: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+          en: 'https://kaakau.fi/ohjeet/pyoran-palauttaminen/',
+        },
+      },
+    },
+  },
+
+  getAutoSuggestIcons: {
+    citybikes: station => {
+      if (station.properties.source === 'citybikesdonkey_hamina') {
+        return ['citybike-stop-digitransit-secondary', '#f2b62d'];
+      }
+      return ['citybike-stop-digitransit', '#f2b62d'];
+    },
+  },
+
+  socialMedia: {
+    title: APP_TITLE,
+    description: APP_DESCRIPTION,
+  },
+
+  title: APP_TITLE,
+
+  // Navbar logo
+  logo: 'kotka/kotka.png',
+
+  feedIds: ['Kotka', 'KotkaLautat'],
+  feedIdFiltering: true,
+
+  useSearchPolygon: true,
+
+  areaPolygon: [
+    [26.422, 60.243],
+    [27.618, 60.243],
+    [27.618, 60.852],
+    [27.284, 60.852],
+    [26.422, 60.688],
+  ],
+
+  defaultEndpoint: {
+    address: 'Kotkan kauppatori',
+    lat: 60.467348,
+    lon: 26.945758,
+  },
+
+  menu: {
+    copyright: { label: `© Kotka ${walttiConfig.YEAR}` },
+    content: [
+      {
+        name: 'about-this-service',
+        route: '/tietoja-palvelusta',
+      },
+      {
+        name: 'accessibility-statement',
+        href: {
+          fi: 'https://www.digitransit.fi/accessibility',
+          sv: 'https://www.digitransit.fi/accessibility',
+          en: 'https://www.digitransit.fi/en/accessibility',
+        },
+      },
+    ],
+  },
+
+  aboutThisService: {
+    fi: [
+      {
+        header: 'Tietoja palvelusta',
+        paragraphs: [
+          'Kotkan seudun joukkoliikenne tarjoaa tämän palvelun joukkoliikenteen reittisuunnittelua varten Kotkan, Haminan ja Pyhtään alueella. Palvelu kattaa joukkoliikenteen, kävelyn ja pyöräilyn rajatuilta osin. Palvelu perustuu Digitransit-palvelualustaan.',
+        ],
+      },
+    ],
+
+    sv: [
+      {
+        header: 'Om tjänsten',
+        paragraphs: [
+          'Kotkan seudun joukkoliikenne erbjuder denna tjänst för ruttplanering av kollektivtrafiken i områden i Kotka, Fredrikshamn och Pyttis. Tjänsten omfattar kollektivtrafik, gång och cykling avgränsad fråga. Tjänsten är baserad på Digitransit tjänsteplattform.',
+        ],
+      },
+    ],
+
+    en: [
+      {
+        header: 'About this service',
+        paragraphs: [
+          'Kotkan seudun joukkoliikenne offers this service for route planning of public transport in areas of Kotka, Hamina and Pyhtää. The service covers public transport, walking and cycling demarcated regard. The service is based on Digitransit service platform.',
+        ],
+      },
+    ],
+  },
+  zoneIdMapping: {
+    1: 'A',
+    2: 'B',
+  },
+  zones: {
+    stops: true,
+    itinerary: true,
+  },
+
+  geoJson: {
+    layers: [
+      {
+        name: {
+          fi: 'Vyöhykkeet',
+          sv: 'Zoner',
+          en: 'Zones',
+        },
+        url: '/assets/geojson/kotka_zone_lines_20250114.geojson',
+      },
+      {
+        name: {
+          fi: 'Myyntipisteet',
+          sv: 'Servicekontorer',
+          en: 'Service points',
+        },
+        url: `${CDN_URL}/waltti-assets/v1/salespoints/salespoints_kotka.json`,
+      },
+    ],
+  },
+
+  showTicketInformation: true,
+  useTicketIcons: true,
+  ticketLink: {
+    fi: 'https://jonnejaminne.fi/liput-ja-hinnastot/hinnasto/',
+    sv: 'https://jonnejaminne.fi/en/tickets-and-prices/price-list/ ',
+    en: 'https://jonnejaminne.fi/en/tickets-and-prices/price-list/ ',
+  },
+  showTicketPrice: true,
+  ticketLinkOperatorCode: 50217,
+  externalFareRouteIds: ['77ELY', '707'],
+});

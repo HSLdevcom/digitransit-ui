@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import Icon from './Icon';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import DisruptionInfo from './DisruptionInfo';
 import MainMenuContainer from './MainMenuContainer';
 import MessageBar from './MessageBar';
 import LogoSmall from './LogoSmall';
 import LoginButton from './LoginButton';
 import UserMenu from './UserMenu';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { useConfigContext } from '../client/ConfigContext';
 
 export default function AppBar({
   showLogo = false,

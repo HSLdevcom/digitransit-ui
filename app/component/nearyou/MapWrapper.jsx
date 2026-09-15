@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import { matchShape } from 'found';
-import { relayShape, mapLayerOptionsShape } from '../../util/shapes';
+import { relayShape, mapLayerOptionsShape } from '../../../utils/client/shapes';
 import NearYouMapContainer from './NearYouMapContainer';
 import NearYouFavouritesMapContainer from './NearYouFavouritesMapContainer';
 import { mapLayerShape } from '../../store/MapLayerStore';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 
 const TransitStopModes = ['BUS', 'FERRY', 'RAIL', 'SUBWAY', 'TRAM'];
 

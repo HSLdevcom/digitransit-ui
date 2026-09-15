@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import IconWithBigCaution from '../../../app/component/IconWithBigCaution';
-import { AlertSeverityLevelType } from '../../../app/constants';
+import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 
 describe('<IconWithBigCaution />', () => {
   it('should have a caution sub icon by default', () => {

@@ -4,7 +4,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import NetworkError from './NetworkError';
-import isRelayNetworkError from '../util/relayUtils';
+import isRelayNetworkError from '../../utils/client/relayUtils';
 
 export default class ErrorBoundary extends React.Component {
   static propTypes = { children: PropTypes.node.isRequired };

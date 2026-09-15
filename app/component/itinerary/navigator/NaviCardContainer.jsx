@@ -2,14 +2,14 @@ import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import {
   isAnyLegPropertyIdentical,
   legTime,
   getPlatformChangeStatus,
   PLATFORM_STATUS,
-} from '../../../util/legUtils';
-import { legShape } from '../../../util/shapes';
+} from '../../../../utils/client/legUtils';
+import { legShape } from '../../../../utils/client/shapes';
 import { getTopics, updateClient } from '../ItineraryPageUtils';
 import NaviCard from './NaviCard';
 import NaviStack from './NaviStack';
@@ -21,7 +21,7 @@ import {
   LEGTYPE,
 } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 const HIDE_TOPCARD_DURATION = 2000; // milliseconds
 

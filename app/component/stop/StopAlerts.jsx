@@ -6,12 +6,15 @@ import {
   getCancelationsForStop,
   getAlertsForObject,
   getServiceAlertsForStation,
-} from '../../util/alertUtils';
-import { getRouteMode } from '../../util/modeUtils';
-import { epochToTime } from '../../util/timeUtils';
-import { stopShape } from '../../util/shapes';
-import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
-import { useConfigContext } from '../../configurations/ConfigContext';
+} from '../../../utils/client/alertUtils';
+import { getRouteMode } from '../../../utils/client/modeUtils';
+import { epochToTime } from '../../../utils/client/timeUtils';
+import { stopShape } from '../../../utils/client/shapes';
+import {
+  AlertSeverityLevelType,
+  AlertEntityType,
+} from '../../../utils/shared/constants';
+import { useConfigContext } from '../../client/ConfigContext';
 
 export const isRelevantEntity = (entity, stopIds, routeIds) =>
   // eslint-disable-next-line no-underscore-dangle

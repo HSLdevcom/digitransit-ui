@@ -1,5 +1,8 @@
 import React from 'react';
-import { configShape, vehicleRentalStationShape } from '../util/shapes';
+import {
+  configShape,
+  vehicleRentalStationShape,
+} from '../../utils/client/shapes';
 import VehicleRentalAvailability from './VehicleRentalAvailability';
 import Icon from './Icon';
 import {
@@ -8,7 +11,7 @@ import {
   getVehicleCapacity,
   BIKEAVL_UNKNOWN,
   BIKEAVL_WITHMAX,
-} from '../util/vehicleRentalUtils';
+} from '../../utils/shared/vehicleRentalUtils';
 
 const VehicleRentalStation = ({ vehicleRentalStation }, { config }) => {
   const vehicleCapacity = getVehicleCapacity(

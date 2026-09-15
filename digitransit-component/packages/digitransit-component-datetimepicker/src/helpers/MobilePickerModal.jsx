@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { DateTime, Settings } from 'luxon';
 import { useTranslation } from 'react-i18next';
-import uniqueId from 'lodash/uniqueId.js';
+import uniqueId from 'lodash/uniqueId';
 import Modal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import MobileDatepicker from './MobileDatepicker';

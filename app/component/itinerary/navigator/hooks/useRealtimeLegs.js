@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { legTime } from '../../../../util/legUtils';
+import { legTime } from '../../../../../utils/client/legUtils';
 import { useItineraryContext } from '../../context/ItineraryContext';
 import { REDUCER_ACTION_TYPES } from '../../context/useItineraryReducer';
 import { getRemainingTraversal } from '../NaviUtils';

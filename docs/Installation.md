@@ -14,16 +14,25 @@ You also need a C compiler:
 - OS X: Xcode 5.0 or later
 
 ### WSL
-To use Windows Subsystem for Linux in digitransit-ui development you may need to do at least the following
-1. Add the following to your `/etc/hosts`. This is because the project uses ipv6 compliant `::1` instead of ipv4 style `0.0.0.0`:
-```
-::1     ip6-localhost ip6-loopback localhost
-```
-2. Add the following to your `/etc/wsl.conf` if not yet present. This prevents WSL from regenerating the `/etc/hosts` as well as the `/etc/resolv.conf`:
+
+Add the following to your `/etc/wsl.conf` if not yet present. This prevents WSL from regenerating the `/etc/hosts` as well as the `/etc/resolv.conf`:
 ```
 [network]
 generateResolvConf=false
 generateHosts = false
+```
+
+#### Fixed issues
+
+Previously, using Windows Subsystem for Linux required remapping `localhost` to the IPv6
+loopback address in `/etc/hosts`, because `webpack-dev-server` binds `::1` only
+(`webpack.config.babel.js`) and `server/server.js` used to proxy to it by the `localhost`
+hostname — which on stock WSL resolves only to `127.0.0.1`, causing `ECONNREFUSED`.
+`server/server.js` now targets the literal `[::1]` address instead, so this is no longer
+required for `yarn run dev` to work. If you still hit other WSL networking issues, you may
+need to add the following to your `/etc/hosts`:
+```
+::1     ip6-localhost ip6-loopback localhost
 ```
 
 ## Install watchman
@@ -78,11 +87,8 @@ a dedicated `relay-compiler --watch` in `scripts/dev.sh`) are picked up automati
 watchers and rebuilt in the background — no manual rebuild step is needed.
 
 ## Analyse webpack bundle
-- run: `webpack -p --json > digitransit.json`
-- Upload `digitransit.json` to `http://webpack.github.io/analyse/`
-
-Or you can also use this:
-- https://github.com/robertknight/webpack-bundle-size-analyzer
+- run: `CONFIG=hsl NODE_ENV=production node node_modules/.bin/webpack --json > _static/digitransit.json`
+- run: `yarn webpack-bundle-analyzer _static/digitransit.json`
 
 ## Using Git Hooks
 Husky (npm-package) is used for setting up the git hooks (`.git/hooks/`) that will allow custom scripts to be run on the repository.
@@ -100,7 +106,7 @@ Note that you can combine multiple configuration parameters.
 
 - **`RUN_ENV`** (`development` / `production`) — deployment tier. Server-only env var; read during
   config assembly to pick dev vs prod backends and mirrored into `window.config` for the client.
-  Check it via `isDevRunEnv(config)` (`app/util/envUtils.js`, see its JSDoc for details).
+  Check it via `isDevRunEnv(config)` (`utils/shared/envUtils.js`, see its JSDoc for details).
   `yarn dev` sets `RUN_ENV=development`; deployments set it via Kubernetes / `-e RUN_ENV=…`.
 - **`NODE_ENV`** (`development` / `production`) — build mode; `'development'` only for the local
   `yarn dev` server / a dev bundle. Not the deployment tier — one production bundle runs on every

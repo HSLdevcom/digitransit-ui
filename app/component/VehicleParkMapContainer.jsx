@@ -1,9 +1,9 @@
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { matchShape } from 'found';
-import { parkShape } from '../util/shapes';
+import { parkShape } from '../../utils/client/shapes';
 import StopPageMap from './map/StopPageMap';
-import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../util/path';
+import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../utils/shared/path';
 
 function VehicleParkMapContainer({ vehicleParking }, context) {
   if (!vehicleParking) {

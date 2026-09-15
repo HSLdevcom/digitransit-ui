@@ -8,13 +8,13 @@ Consumed via the `build` script (`webpack --progress --color`, run with
 `NODE_ENV=production`) and via `webpack-dev-server` during `yarn run dev`.
 Two env vars change its behavior: `NODE_ENV` (production vs. anything else)
 and `CONFIG` (regional deployment — `hsl`/`tampere`/`matka`/etc., see
-`app/configurations/config.*.js`).
+`server/configs/config.*.js`).
 
 ## Bootstrapping
 
 The repo is `"type": "module"`, so this config is native ESM — no
 `@babel/register` bootstrap needed to `import` `./scripts/build/
-contextHelper.js` (and, transitively, `app/config.js` and the regional
+contextHelper.js` (and, transitively, `server/configs/config.js` and the regional
 configs). `import.meta.dirname` (as `rootDir`) replaces `__dirname`;
 `createRequire(import.meta.url)` is kept only for the two
 `require.resolve(...)` polyfill lookups in `resolve.fallback`/`plugins`
@@ -26,20 +26,20 @@ and output settings.
 
 ## Entries & per-deployment theming
 
-- `main` is the real app entry (`app/util/publicPath` + `app/client`), plus
-  `app/util/loadDevTheme` in development only (see below).
+- `main` is the real app entry (`utils/client/publicPath` + `app/client/client`), plus
+  `utils/client/loadDevTheme` in development only (see below).
 - In production, `scripts/build/contextHelper.js` adds one `<theme>_theme`
   entry per regional theme's `sass/themes/<theme>/main.scss`, plus a
   `<sprite>` entry for any config-declared SVG sprite sheet. With `CONFIG`
   set, only the `default` theme and the selected config's theme build;
-  otherwise every `app/configurations/config.*.js` deployment does.
+  otherwise every `server/configs/config.*.js` deployment does.
 - `faviconPlugins` (same file) generates one `favicons-webpack-plugin`
   instance per deployment, producing per-deployment favicons/app icons
   under `assets/icons-<CONFIG>-[contenthash]/`.
 - In development, `webpack.ContextReplacementPlugin` narrows the dynamic
   `import` for `sass/themes` down to just the selected `CONFIG`'s
   `main.scss`, so the dev server doesn't build every theme.
-- `app/util/loadDevTheme.js` holds a dynamic, fire-and-forget
+- `utils/client/loadDevTheme.js` holds a dynamic, fire-and-forget
   `import(`../../sass/themes/${window.config.CONFIG}/main.scss`)` that used
   to live inline in `app/client.js` as a `require(...)` behind an
   `if (process.env.NODE_ENV === 'development')` runtime check written as an
@@ -139,15 +139,16 @@ Production gets:
 - **`InjectManifest`** (`workbox-webpack-plugin`) — builds the production
   service worker; see [Service worker](#service-worker) below.
 - **`MiniCssExtractPlugin`** — extracts CSS to hashed files (prod only;
-  dev uses `style-loader`). `ignoreOrder: true` silences its "conflicting
-  order" warnings: the `digitransitComponents` cache group (see
-  `splitChunks` below) merges CSS from many `@hsl-fi`/`@digitransit-*`
-  packages into one shared chunk used by every route, and different
-  routes import different subsets of those packages in different
-  relative orders. Every affected file is CSS Modules output with
+  dev uses `style-loader`). `ignoreOrder` is deliberately left `false`
+  (the default) rather than suppressed: the `digitransitComponents` cache
+  group (see `splitChunks` below) merges CSS from many `@hsl-fi`/
+  `@digitransit-*` packages into one shared chunk used by every route,
+  and different routes import different subsets of those packages in
+  different relative orders, which triggers "conflicting order"
+  warnings. Every affected file is CSS Modules output with
   locally-scoped, per-file-hashed class names, so the actual
-  concatenation order has no visual effect - confirmed by an A/B build
-  showing byte-identical CSS output with/without the flag.
+  concatenation order likely has no visual effect - but the warnings are
+  kept visible on purpose as a reminder of this open, unconfirmed item.
 - **`CompressionPlugin`** (×2) — pre-generates `.gz` and `.br` (Brotli)
   copies of JS/CSS/HTML/SVG/ICO assets so the server can serve
   precompressed files instead of compressing on the fly.
@@ -156,7 +157,7 @@ Production gets:
 - **`EntrypointStatsPlugin`** (defined at the top of this file) — small
   local stand-in for the unmaintained `stats-webpack-plugin`. Writes
   `../stats.json` with `entrypoints.<name>.assets` as a plain array of
-  filename strings (the old plugin's shape), because `app/server.js`
+  filename strings (the old plugin's shape), because `server/serve.js`
   reads this file to know which hashed asset filenames belong to the
   `main` entrypoint, and expects that shape rather than webpack5's native
   `{ name, size }` asset objects.
@@ -181,7 +182,7 @@ Both dev and prod also always get:
     Next.js router internals reading `process.env.__NEXT_*` flags with no
     guard.
   - `Buffer` — `mqtt-packet` (required by the `mqtt` package,
-    dynamically imported by `app/util/mqttClient.js` for real-time
+    dynamically imported by `utils/client/mqttClient.js` for real-time
     vehicle-position streaming) calls bare `Buffer.from`/`Buffer.alloc`
     at module-init time with no guard.
 
@@ -196,7 +197,7 @@ Both dev and prod also always get:
 
 ### Service worker
 
-Built from `app/util/serviceWorker.js` via Workbox's `InjectManifest`
+Built from `utils/client/serviceWorker.js` via Workbox's `InjectManifest`
 (bundles that file and injects the precache manifest — unlike
 `GenerateSW`, this keeps full control over the SW's own logic). That
 source file combines:
@@ -281,6 +282,12 @@ Only used by `webpack-dev-server` during `yarn run dev`. Notable:
 false` (full reload on change, no HMR), IPv6 loopback host (`::1`), and a
 permissive CORS header so the separately-running app server
 (`server/server.js`) can proxy asset requests to this dev server.
+Since `devServer.host` is IPv6-only, `server/server.js` targets the
+literal `[::1]` address rather than the `localhost` hostname when
+proxying — this avoids depending on how the machine's resolver orders
+`localhost`'s A/AAAA records (a resolver that prefers `127.0.0.1` would
+otherwise make the proxy fail with `ECONNREFUSED` even though
+webpack-dev-server is up).
 
 ## Browser support (`browserslist` in `package.json`)
 
@@ -317,7 +324,7 @@ IE version, matching the `< 55`/`< 11` exclusion style — IE11 was the
 last IE release, so excluding only the exact version left older ones
 technically permitted.
 
-Separately, `app/server.js` uses `polyfill-library` to serve
+Separately, `server/serve.js` uses `polyfill-library` to serve
 user-agent-specific JS polyfills at runtime — intentional, documented
 architecture (see `docs/Architecture.md`), not controlled by this file,
 but relevant context for "old browser support" in this codebase overall.
