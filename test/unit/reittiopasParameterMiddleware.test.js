@@ -5,8 +5,8 @@ import {
   dropPathLanguageAndFixLocaleParam,
 } from '../../server/reittiopasParameterMiddleware';
 
-import config from '../../app/configurations/config.default';
-import { PREFIX_ITINERARY_SUMMARY } from '../../app/util/path';
+import config from '../../server/configs/config.default';
+import { PREFIX_ITINERARY_SUMMARY } from '../../utils/shared/path';
 
 // validateParams returns an url if it is modified and it removes invalid
 // parameteres from req.query => two ways to check if it did what it should

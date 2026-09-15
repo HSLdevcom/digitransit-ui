@@ -2,8 +2,8 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useFragment, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
-import { configShape, routeShape } from '../../util/shapes';
-import { generateMetaData } from '../../util/metaUtils';
+import { configShape, routeShape } from '../../../utils/client/shapes';
+import { generateMetaData } from '../../../utils/client/metaUtils';
 
 function RoutePageMeta({ route: routeRef }, { config }) {
   const route = useFragment(

@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import SuggestionItem, {
   getStopBadge,
   STOP_STATUS_BADGE_IMGS,
-} from './src/index.jsx';
+} from './src/index';
 
 describe('Testing @digitransit-component/digitransit-component-suggestion-item module', () => {
   it('renders a geocoded address suggestion with name and label', () => {

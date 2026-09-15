@@ -7,7 +7,7 @@ import {
   Component as RoutePatternSelectContainer,
   getPatternOptions,
 } from '../../../app/component/routepage/RoutePatternSelectContainer';
-import { routePagePath, PREFIX_STOPS } from '../../../app/util/path';
+import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 
 const serviceDay = Math.floor(new Date().getTime() / 1000);
 const today = DateTime.now().toFormat('yyyyLLdd');

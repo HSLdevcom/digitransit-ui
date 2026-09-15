@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 import { describe, it, expect } from 'vitest';
-import dayRangeAllowedDiff from './index.js';
+import dayRangeAllowedDiff from './index';
 
 const testsForMonday = [
   { allowedDiff: 7, dayNoArray: ['1', '1', '1', '1'] },

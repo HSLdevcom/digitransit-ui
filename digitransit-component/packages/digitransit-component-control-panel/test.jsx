@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import CtrlPanel from './src/index.jsx';
+import CtrlPanel from './src/index';
 
 describe('Testing @digitransit-component/digitransit-component-control-panel module', () => {
   it('exports SeparatorLine and NearStopsAndRoutes as static members', () => {

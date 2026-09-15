@@ -2,8 +2,8 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useFragment, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
-import { configShape, stopShape } from '../../util/shapes';
-import { generateMetaData } from '../../util/metaUtils';
+import { configShape, stopShape } from '../../../utils/client/shapes';
+import { generateMetaData } from '../../../utils/client/metaUtils';
 
 function StopPageMeta({ stop: stopRef }, { config }) {
   const stop = useFragment(

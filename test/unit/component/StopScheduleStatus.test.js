@@ -8,7 +8,7 @@ import {
   STOP_STATUS,
   STOP_STATUS_MESSAGE_IDS,
   DISRUPTION_BADGE_PREFIX,
-} from '../../../app/util/stopStatusUtils';
+} from '../../../utils/client/stopStatusUtils';
 
 describe('<StopScheduleStatus />', () => {
   it('returns null when status is undefined', () => {

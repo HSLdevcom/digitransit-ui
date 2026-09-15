@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { matchShape } from 'found';
-import { routeShape } from '../../../util/shapes';
+import { routeShape } from '../../../../utils/client/shapes';
 import RouteControlPanel from '../RouteControlPanel';
 
 /**

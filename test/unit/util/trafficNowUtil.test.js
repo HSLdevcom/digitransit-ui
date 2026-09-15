@@ -2,7 +2,7 @@ import {
   groupEntitiesByMode,
   buildDisruptionCards,
 } from '../../../app/component/trafficnow/utils';
-import { stopPagePath, routePagePath } from '../../../app/util/path';
+import { stopPagePath, routePagePath } from '../../../utils/shared/path';
 
 const mocks = {
   tramRoute: {

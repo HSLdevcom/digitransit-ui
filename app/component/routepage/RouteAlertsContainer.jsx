@@ -4,9 +4,15 @@ import { useFragment } from 'react-relay';
 import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
 import DisruptionList from '../DisruptionList';
-import { getAlertsForObject, setEntityForAlert } from '../../util/alertUtils';
-import { getStartTimeWithColon } from '../../util/timeUtils';
-import { AlertSeverityLevelType, AlertEntityType } from '../../constants';
+import {
+  getAlertsForObject,
+  setEntityForAlert,
+} from '../../../utils/client/alertUtils';
+import { getStartTimeWithColon } from '../../../utils/client/timeUtils';
+import {
+  AlertSeverityLevelType,
+  AlertEntityType,
+} from '../../../utils/shared/constants';
 import { patternTextWithIcon } from './RoutePatternSelect';
 import { RouteAlertsContainerFragment } from './queries/RouteAlertsContainerFragment';
 

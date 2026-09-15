@@ -3,25 +3,29 @@ import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-import { alertShape, configShape, vehicleShape } from '../../util/shapes';
+import {
+  alertShape,
+  configShape,
+  vehicleShape,
+} from '../../../utils/client/shapes';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
 import AddressRow from '../AddressRow';
 import ServiceAlertIcon from '../ServiceAlertIcon';
 import { fromStopTime } from './DepartureTime';
-import { stopPagePath } from '../../util/path';
-import { getActiveAlertSeverityLevel } from '../../util/alertUtils';
-import { estimateItineraryDistance } from '../../util/geo-utils';
+import { stopPagePath } from '../../../utils/shared/path';
+import { getActiveAlertSeverityLevel } from '../../../utils/client/alertUtils';
+import { estimateItineraryDistance } from '../../../utils/shared/geo-utils';
 import ZoneIcon from '../ZoneIcon';
-import { getZoneLabel } from '../../util/legUtils';
-import getVehicleState from '../../util/vehicleStateUtils';
+import { getZoneLabel } from '../../../utils/client/legUtils';
+import getVehicleState from '../../../utils/client/vehicleStateUtils';
 import Icon from '../Icon';
-import { ensureColorAccessibleOnWhite } from '../../util/colorUtils';
-import { splitGtfsId } from '../../util/gtfs';
+import { ensureColorAccessibleOnWhite } from '../../../utils/shared/colorUtils';
+import { splitGtfsId } from '../../../utils/shared/gtfs';
 import {
   getStopStatusFromStopData,
   STOP_STATUS_BADGE_IMGS,
-} from '../../util/stopStatusUtils';
+} from '../../../utils/client/stopStatusUtils';
 
 const TripRouteStop = (props, { config }) => {
   const {

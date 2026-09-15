@@ -3,12 +3,12 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { DateTime } from 'luxon';
 import StopPageMap from '../map/StopPageMap';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 import {
   STOP_STATUS,
   getStopStatusFromStopData,
   getStopAlertEffects,
-} from '../../util/stopStatusUtils';
+} from '../../../utils/client/stopStatusUtils';
 
 function StopPageMapContainer({ stop = undefined }) {
   const config = useConfigContext();

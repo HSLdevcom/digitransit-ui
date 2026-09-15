@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import getLabel from './index.js';
+import getLabel from './index';
 
 describe('Testing @digitransit-search-util/digitransit-search-util-get-label module', () => {
   it('joins name and address for a plain address suggestion', () => {

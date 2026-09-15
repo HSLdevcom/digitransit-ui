@@ -6,9 +6,9 @@ import {
   withTranslation,
 } from 'react-i18next';
 import cx from 'classnames';
-import differenceWith from 'lodash/differenceWith.js';
-import isEqual from 'lodash/isEqual.js';
-import isEmpty from 'lodash/isEmpty.js';
+import differenceWith from 'lodash/differenceWith';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import Shimmer from '@hsl-fi/shimmer';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
 import Icon, {

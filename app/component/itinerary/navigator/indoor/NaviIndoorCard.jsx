@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { configShape, legShape } from '../../../../util/shapes';
-import { getIndoorStepsWithVerticalTransportation } from '../../../../util/indoorUtils';
+import { configShape, legShape } from '../../../../../utils/client/shapes';
+import { getIndoorStepsWithVerticalTransportation } from '../../../../../utils/client/indoorUtils';
 import NaviIndoorButton from './NaviIndoorButton';
 import NaviIndoorContainer from './NaviIndoorContainer';
-import { NaviCardType } from '../../../../constants';
+import { NaviCardType } from '../../../../../utils/shared/constants';
 
 function NaviIndoorCard({
   setCurrentCard,

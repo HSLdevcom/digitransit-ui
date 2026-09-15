@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Popup from 'react-leaflet/es/Popup';
-import { configShape } from '../../../util/shapes';
+import { configShape } from '../../../../utils/client/shapes';
 
 export default function SelectedStopPopup({ lat, lon, children }, { config }) {
   return (

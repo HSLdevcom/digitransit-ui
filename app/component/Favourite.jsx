@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import LoginPrompt from './LoginPrompt';
 import Icon from './Icon';
-import { useConfigContext } from '../configurations/ConfigContext';
+import { useConfigContext } from '../client/ConfigContext';
 
 export default function Favourite({
   addFavourite,

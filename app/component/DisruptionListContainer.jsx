@@ -3,18 +3,21 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { createFragmentContainer, graphql } from 'react-relay';
-import DisruptionList from './DisruptionList.jsx';
+import DisruptionList from './DisruptionList';
 import Icon from './Icon';
-import { AlertSeverityLevelType, AlertEntityType } from '../constants';
+import {
+  AlertSeverityLevelType,
+  AlertEntityType,
+} from '../../utils/shared/constants';
 import {
   getEntitiesOfTypeFromAlert,
   hasEntitiesOfType,
   hasEntitiesOfTypes,
   isAlertValid,
-} from '../util/alertUtils';
-import { isKeyboardSelectionEvent } from '../util/browser';
-import withBreakpoint from '../util/withBreakpoint';
-import { alertShape } from '../util/shapes';
+} from '../../utils/client/alertUtils';
+import { isKeyboardSelectionEvent } from '../../utils/shared/browser';
+import withBreakpoint from '../../utils/client/withBreakpoint';
+import { alertShape } from '../../utils/client/shapes';
 import { useCurrentTime } from '../hooks/TimeContext';
 
 const isDisruption = alert =>

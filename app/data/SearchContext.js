@@ -13,17 +13,17 @@ import {
   clearOldSearches,
   getFutureRoutes,
   clearFutureRoutes,
-} from '../util/storeUtils.js';
+} from '../../utils/client/storeUtils';
 import favouriteStore, {
   getFavouritePlaces,
   getFavouriteStopsAndStations,
   getFavouriteRouteGtfsIds,
   getFavouriteVehicleRentalStations,
-} from './FavouriteData.js';
-import { startLocationWatch } from '../action/PositionActions.js';
-import { saveSearch } from '../action/SearchActions.js';
-import { useCitybikes } from '../util/modeUtils.js';
-import { getDefaultNetworks } from '../util/vehicleRentalUtils.js';
+} from './FavouriteData';
+import { startLocationWatch } from '../action/PositionActions';
+import { saveSearch } from '../action/SearchActions';
+import { useCitybikes } from '../../utils/client/modeUtils';
+import { getDefaultNetworks } from '../../utils/shared/vehicleRentalUtils';
 
 /**
  * Plain (non-Flux) singleton that acts both as the template/interface for,

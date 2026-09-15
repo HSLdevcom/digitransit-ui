@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { configShape } from '../util/shapes';
+import { configShape } from '../../utils/client/shapes';
 import Icon from './Icon';
 
 const CapacityModal = ({ config }) => {

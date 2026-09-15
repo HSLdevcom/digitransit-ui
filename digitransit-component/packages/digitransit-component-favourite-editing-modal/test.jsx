@@ -14,7 +14,7 @@ import ReactModal from 'react-modal';
 // Cleaning up manually with fake timers (below) flushes that timeout
 // synchronously while the environment is still alive.
 import { render, screen, within, cleanup } from '@testing-library/react/pure';
-import FavouriteEditingModal from './src/index.jsx';
+import FavouriteEditingModal from './src/index';
 
 afterEach(() => {
   vi.useFakeTimers();

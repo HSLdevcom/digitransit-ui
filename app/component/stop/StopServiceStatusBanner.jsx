@@ -3,9 +3,9 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
 import ThemedIcon from '../ThemedIcon';
-import { resolveNoDeparturesBadge } from '../../util/stopStatusUtils';
-import { alertShape } from '../../util/shapes';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { resolveNoDeparturesBadge } from '../../../utils/client/stopStatusUtils';
+import { alertShape } from '../../../utils/client/shapes';
+import { useConfigContext } from '../../client/ConfigContext';
 import StopScheduleStatus from './StopScheduleStatus';
 
 function getModeStopIconName(mode) {

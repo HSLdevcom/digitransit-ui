@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
-import { legShape } from '../../util/shapes';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { legShape } from '../../../utils/client/shapes';
+import { useConfigContext } from '../../client/ConfigContext';
 import {
   legTime,
   legTimeStr,
@@ -13,22 +13,22 @@ import {
   isTaxiLeg,
   getValidatedLegName,
   isBikeOrScooterRentalLeg,
-} from '../../util/legUtils';
+} from '../../../utils/client/legUtils';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import PlatformNumber from '../PlatformNumber';
 import SubwayEntranceInfo from './SubwayEntranceInfo';
 import ServiceAlertIcon from '../ServiceAlertIcon';
-import { getActiveAlertSeverityLevel } from '../../util/alertUtils';
-import { PREFIX_STOPS } from '../../util/path';
+import { getActiveAlertSeverityLevel } from '../../../utils/client/alertUtils';
+import { PREFIX_STOPS } from '../../../utils/shared/path';
 import {
   RentalNetworkType,
   getRentalNetworkConfig,
-} from '../../util/vehicleRentalUtils';
-import { displayDistance } from '../../util/geo-utils';
-import { durationToString } from '../../util/timeUtils';
-import { splitStringToAddressAndPlace } from '../../util/otpStrings';
+} from '../../../utils/shared/vehicleRentalUtils';
+import { displayDistance } from '../../../utils/shared/geo-utils';
+import { durationToString } from '../../../utils/client/timeUtils';
+import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 import IndoorInfo from './IndoorInfo';
 import {
@@ -38,9 +38,9 @@ import {
   getStepFocusAction,
   getEntranceWheelchairAccessibility,
   getEntranceName,
-} from '../../util/indoorUtils';
+} from '../../../utils/client/indoorUtils';
 import IndoorStep from './IndoorStep';
-import { IndoorLegType } from '../../constants';
+import { IndoorLegType } from '../../../utils/shared/constants';
 
 function WalkLeg({
   children,

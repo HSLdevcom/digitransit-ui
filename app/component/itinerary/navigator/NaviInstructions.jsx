@@ -2,23 +2,23 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { displayDistance } from '../../../util/geo-utils';
-import { legShape, configShape } from '../../../util/shapes';
+import { displayDistance } from '../../../../utils/shared/geo-utils';
+import { legShape, configShape } from '../../../../utils/client/shapes';
 import {
   legDestination,
   legTimeStr,
   legTime,
   isLocalCallAgency,
-} from '../../../util/legUtils';
+} from '../../../../utils/client/legUtils';
 import {
   LEGTYPE,
   getLocalizedMode,
   getToLocalizedMode,
   withRealTime,
 } from './NaviUtils';
-import { getTripOrRouteMode } from '../../../util/modeUtils';
+import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
 import BoardingInfo from './BoardingInfo';
-import { durationToString } from '../../../util/timeUtils';
+import { durationToString } from '../../../../utils/client/timeUtils';
 
 function getBoardingParams(intl, leg, time, config) {
   if (!leg?.transitLeg) {

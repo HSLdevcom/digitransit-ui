@@ -7,7 +7,7 @@ import RouteBadges from '../../../../app/component/trafficnow/RouteBadges';
 import RouteBadgeGroup from '../../../../app/component/trafficnow/components/RouteBadgeGroup';
 import * as FiltersContext from '../../../../app/component/trafficnow/filters/FiltersContext';
 import * as trafficNowUtils from '../../../../app/component/trafficnow/utils';
-import { AlertEntityType } from '../../../../app/constants';
+import { AlertEntityType } from '../../../../utils/shared/constants';
 
 const baseConfig = {
   CONFIG: 'default',

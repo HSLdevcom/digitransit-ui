@@ -2,9 +2,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { matchShape } from 'found';
 import { useIntl } from 'react-intl';
-import { configShape } from '../../util/shapes';
-import { otpToLocation } from '../../util/otpStrings';
-import { generateMetaData } from '../../util/metaUtils';
+import { configShape } from '../../../utils/client/shapes';
+import { otpToLocation } from '../../../utils/shared/otpStrings';
+import { generateMetaData } from '../../../utils/client/metaUtils';
 
 function ItineraryPageMeta({ match }, { config }) {
   const intl = useIntl();

@@ -4,8 +4,8 @@ import { routerShape } from 'found';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import { filterSearchResultsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { withSearchContext } from '../WithSearchContext';
-import { getStopRoutePath } from '../../util/path';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { getStopRoutePath } from '../../../utils/shared/path';
+import { useConfigContext } from '../../client/ConfigContext';
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 const searchSources = ['Favourite', 'History', 'Datasource'];

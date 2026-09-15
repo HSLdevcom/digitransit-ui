@@ -2,8 +2,8 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { matchShape } from 'found';
-import { generateMetaData } from '../../util/metaUtils';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { generateMetaData } from '../../../utils/client/metaUtils';
+import { useConfigContext } from '../../client/ConfigContext';
 
 function NearYouPageMeta({ match }) {
   const config = useConfigContext();

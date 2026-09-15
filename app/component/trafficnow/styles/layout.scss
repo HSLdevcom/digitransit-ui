@@ -120,10 +120,12 @@
         gap: var(--space-s);
       }
 
-      &--mobile &__scroll {
-        margin-top: var(--space-l);
-        padding: 0 var(--space-m);
-        gap: var(--space-l);
+      &--mobile {
+        .disruptions__scroll {
+          margin-top: var(--space-l);
+          padding: 0 var(--space-m);
+          gap: var(--space-l);
+        }
       }
 
       &-list {

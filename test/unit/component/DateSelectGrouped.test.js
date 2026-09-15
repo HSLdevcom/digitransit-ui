@@ -10,7 +10,7 @@ import {
   generateDateRange,
   processDates,
   groupDatesByWeek,
-} from '../../../app/util/dateSelectUtils';
+} from '../../../utils/client/dateSelectUtils';
 
 describe('<DateSelectGrouped />', () => {
   const dateFormat = 'yyyyLLdd';

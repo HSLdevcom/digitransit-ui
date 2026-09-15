@@ -3,7 +3,10 @@ import React from 'react';
 import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
-import { ViaLocationType, IndoorLegType } from '../../constants';
+import {
+  ViaLocationType,
+  IndoorLegType,
+} from '../../../utils/shared/constants';
 
 function ItineraryCircleLineWithIcon({
   index,

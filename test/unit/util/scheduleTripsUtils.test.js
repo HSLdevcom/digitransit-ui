@@ -6,7 +6,7 @@ import {
   sortTrips,
   getTripsList,
 } from '../../../app/component/routepage/schedule/scheduleTripsUtils';
-import { DATE_FORMAT } from '../../../app/constants';
+import { DATE_FORMAT } from '../../../utils/shared/constants';
 
 describe('scheduleTripsUtils', () => {
   describe('sortTrips', () => {

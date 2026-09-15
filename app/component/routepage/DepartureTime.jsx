@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import { useConfigContext } from '../../configurations/ConfigContext';
-import { epochToTime } from '../../util/timeUtils';
+import { useConfigContext } from '../../client/ConfigContext';
+import { epochToTime } from '../../../utils/client/timeUtils';
 import Icon from '../Icon';
 
 export default function DepartureTime({

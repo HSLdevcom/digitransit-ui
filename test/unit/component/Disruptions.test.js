@@ -7,7 +7,7 @@ import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import {
   AlertSeverityLevelType,
   AlertEntityType,
-} from '../../../app/constants';
+} from '../../../utils/shared/constants';
 import DisruptionList from '../../../app/component/DisruptionList';
 import Disruptions from '../../../app/component/stop/Disruptions';
 

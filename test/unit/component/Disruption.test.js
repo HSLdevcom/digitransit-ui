@@ -5,13 +5,13 @@ import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
 import Icon from '../../../app/component/Icon';
 import DisruptionBadge from '../../../app/component/trafficnow/DisruptionBadge';
 import Disruption from '../../../app/component/Disruption';
-import { AlertEntityType } from '../../../app/constants';
+import { AlertEntityType } from '../../../utils/shared/constants';
 import {
   routePagePath,
   PREFIX_STOPS,
   PREFIX_TERMINALS,
   PREFIX_DISRUPTION,
-} from '../../../app/util/path';
+} from '../../../utils/shared/path';
 import { mockContext } from '../helpers/mock-context';
 
 const routeEntity = (overrides = {}) => ({

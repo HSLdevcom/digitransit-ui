@@ -3,9 +3,9 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import uniqBy from 'lodash/uniqBy';
 import Icon from '../Icon';
-import { ExtendedRouteTypes } from '../../constants';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { stopShape } from '../../util/shapes';
+import { ExtendedRouteTypes } from '../../../utils/shared/constants';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { stopShape } from '../../../utils/client/shapes';
 
 const MAX_ROUTEFILTER_LEN = 13;
 

@@ -2,8 +2,8 @@ import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { configShape } from '../../../util/shapes';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { configShape } from '../../../../utils/client/shapes';
 import Icon from '../../Icon';
 import { useLogo } from '../../../hooks/useLogo';
 

@@ -5,8 +5,8 @@ import { useIntl } from 'react-intl';
 import capitalize from 'lodash/capitalize';
 import { Text } from '@hsl-fi/layout-primitives';
 import Icon from '../Icon';
-import { AlertSeverityLevelType } from '../../constants';
-import { DISRUPTION_BADGE_PREFIX } from '../../util/stopStatusUtils';
+import { AlertSeverityLevelType } from '../../../utils/shared/constants';
+import { DISRUPTION_BADGE_PREFIX } from '../../../utils/client/stopStatusUtils';
 
 /**
  * Renders a styled badge pill for a GTFS-RT disruption alert in Traffic Now

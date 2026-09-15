@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import Icon from '../../../app/component/Icon';
 import IconBackground from '../../../app/component/icon/IconBackground';
-import { renderAsString } from '../../../app/util/mapIconUtils';
+import { renderAsString } from '../../../utils/client/mapIconUtils';
 
 describe('<Icon />', () => {
   const className = 'foo_class';

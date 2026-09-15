@@ -2,15 +2,18 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { legShape, legTimeShape } from '../../util/shapes';
+import { legShape, legTimeShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
-import { durationToString } from '../../util/timeUtils';
+import { durationToString } from '../../../utils/client/timeUtils';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { PREFIX_STOPS } from '../../util/path';
-import { legTimeStr, getValidatedLegName } from '../../util/legUtils';
-import { ViaLocationType } from '../../constants';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { PREFIX_STOPS } from '../../../utils/shared/path';
+import {
+  legTimeStr,
+  getValidatedLegName,
+} from '../../../utils/client/legUtils';
+import { ViaLocationType } from '../../../utils/shared/constants';
+import { useConfigContext } from '../../client/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function WaitLeg({

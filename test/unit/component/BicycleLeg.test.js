@@ -2,7 +2,7 @@ import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { mockContext } from '../helpers/mock-context';
 import BicycleLeg from '../../../app/component/itinerary/BicycleLeg';
-import { RentalNetworkType } from '../../../app/util/vehicleRentalUtils';
+import { RentalNetworkType } from '../../../utils/shared/vehicleRentalUtils';
 
 const baseConfig = {
   ...mockContext.config,

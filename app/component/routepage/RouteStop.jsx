@@ -8,26 +8,26 @@ import {
   configShape,
   vehicleShape,
   stopTimeShape,
-} from '../../util/shapes';
+} from '../../../utils/client/shapes';
 import AddressRow from '../AddressRow';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
 import ServiceAlertIcon from '../ServiceAlertIcon';
 import { fromStopTime } from './DepartureTime';
 import ZoneIcon from '../ZoneIcon';
-import { getActiveAlertSeverityLevel } from '../../util/alertUtils';
-import { PREFIX_STOPS } from '../../util/path';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { getZoneLabel } from '../../util/legUtils';
-import { estimateItineraryDistance } from '../../util/geo-utils';
-import getVehicleState from '../../util/vehicleStateUtils';
+import { getActiveAlertSeverityLevel } from '../../../utils/client/alertUtils';
+import { PREFIX_STOPS } from '../../../utils/shared/path';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { getZoneLabel } from '../../../utils/client/legUtils';
+import { estimateItineraryDistance } from '../../../utils/shared/geo-utils';
+import getVehicleState from '../../../utils/client/vehicleStateUtils';
 import Icon from '../Icon';
-import { ensureColorAccessibleOnWhite } from '../../util/colorUtils';
-import { splitGtfsId } from '../../util/gtfs';
+import { ensureColorAccessibleOnWhite } from '../../../utils/shared/colorUtils';
+import { splitGtfsId } from '../../../utils/shared/gtfs';
 import {
   getStopStatusFromStopData,
   STOP_STATUS_BADGE_IMGS,
-} from '../../util/stopStatusUtils';
+} from '../../../utils/client/stopStatusUtils';
 
 function getDepartureTime(stoptime) {
   return (

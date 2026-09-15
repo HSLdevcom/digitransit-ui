@@ -5,7 +5,7 @@ import { mountWithIntl } from '../helpers/mock-intl-enzyme';
 import RouteStop from '../../../app/component/routepage/RouteStop';
 import Icon from '../../../app/component/Icon';
 import ServiceAlertIcon from '../../../app/component/ServiceAlertIcon';
-import { AlertSeverityLevelType } from '../../../app/constants';
+import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 
 describe('<RouteStop />', () => {
   it('should not render a service alert icon for the stop', () => {

@@ -4,13 +4,13 @@ import get from 'lodash/get';
 import { matchShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
-import { configShape } from '../../util/shapes';
+import { configShape } from '../../../utils/client/shapes';
 import LocationMarker from './LocationMarker';
 import MapWithTracking from './MapWithTracking';
-import { otpToLocation } from '../../util/otpStrings';
-import { getJson } from '../../util/xhrPromise';
+import { otpToLocation } from '../../../utils/shared/otpStrings';
+import { getJson } from '../../../utils/shared/xhrPromise';
 import { mapLayerShape } from '../../store/MapLayerStore';
-import withBreakpoint from '../../util/withBreakpoint';
+import withBreakpoint from '../../../utils/client/withBreakpoint';
 import LocationMarkerWithPermanentTooltip from './LocationMarkerWithPermanentTooltip';
 import ConfirmLocationFromMapButton from './ConfirmLocationFromMapButton';
 

@@ -2,13 +2,17 @@ import React, { useEffect } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
 import { matchShape } from 'found';
-import { errorShape, relayShape, stopShape } from '../../util/shapes';
+import {
+  errorShape,
+  relayShape,
+  stopShape,
+} from '../../../utils/client/shapes';
 import DepartureListContainer from '../DepartureListContainer';
 import ScrollableWrapper from '../ScrollableWrapper';
-import { getPrimaryStopMode } from '../../util/modeUtils';
-import { getModeIconColor } from '../../util/colorUtils';
+import { getPrimaryStopMode } from '../../../utils/client/modeUtils';
+import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import StopServiceStatusBanner from './StopServiceStatusBanner';
-import { useConfigContext } from '../../configurations/ConfigContext';
+import { useConfigContext } from '../../client/ConfigContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
 
 function StopPageContent({ stop, relay, error, match }) {

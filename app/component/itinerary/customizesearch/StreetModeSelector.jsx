@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { settingsShape } from '../../../util/shapes';
+import { settingsShape } from '../../../../utils/client/shapes';
 import SettingsToggle from './SettingsToggle';
 import Icon from '../../Icon';
 import BikingSpeed from './BikingSpeed';
-import { addAnalyticsEvent } from '../../../util/analyticsUtils';
-import { useConfigContext } from '../../../configurations/ConfigContext';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 export default function StreetModeSelector({ settings, updateSettings }) {
   const config = useConfigContext();
