@@ -10,7 +10,7 @@ export const favouriteTypes = [
  * Get favourite save or delete error message
  * @param {string} type the type of the favourite (stop|station|citybike-station|route|place)
  * @param {boolean} isSave if message is generated for failed save, alternatively it's for failed deletion
- * @returns error message that can be added to MessageStore
+ * @returns error message that can be added via MessageContext's addMessage
  */
 export function failedFavouriteMessage(type, isSave) {
   const t = favouriteTypes.includes(type) ? type : favouriteTypes[0];

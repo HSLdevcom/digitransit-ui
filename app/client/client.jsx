@@ -42,6 +42,7 @@ import favouriteStore from '../data/FavouriteData';
 import searchContext from '../data/SearchContext';
 import { ConfigProvider } from './ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
+import { MessageProvider } from '../hooks/MessageContext';
 import { TimeProvider } from '../hooks/TimeContext';
 import { isPersonalizationEnabled } from '../../utils/client/modeUtils';
 import { getSettings } from '../../utils/client/planParamUtil';
@@ -71,7 +72,8 @@ const AppProviders = props => {
     ],
     [IntlBridge],
     [RelayEnvironmentProvider, { environment: props.environment }],
-    [FavouriteProvider, { context: props.context }],
+    [MessageProvider],
+    [FavouriteProvider],
     [TimeProvider],
   ];
   return providers.reduceRight(
@@ -157,11 +159,6 @@ async function init() {
     resolver,
     render,
   });
-
-  context
-    .getComponentContext()
-    .getStore('MessageStore')
-    .addConfigMessages(config);
 
   // configure luxon timezone and locale
   Settings.defaultLocale = language;
