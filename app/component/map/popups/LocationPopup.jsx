@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
-import { configShape } from '../../../../utils/client/shapes';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import Loading from '../../Loading';
@@ -11,45 +11,25 @@ import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { splitStringToAddressAndPlace } from '../../../../utils/shared/otpStrings';
 import getZoneId from '../../../../utils/client/zoneIconUtils';
 import PopupHeader from '../PopupHeader';
+import { useConfigContext } from '../../../client/ConfigContext';
 
-class LocationPopup extends React.Component {
-  static contextTypes = {
-    config: configShape.isRequired,
-    intl: PropTypes.object.isRequired,
-  };
+export default function LocationPopup({
+  lat,
+  lon,
+  locationPopup = undefined,
+  onSelectLocation = () => {},
+}) {
+  const config = useConfigContext();
+  const intl = useIntl();
+  const [loading, setLoading] = useState(true);
+  const [location, setLocation] = useState({ lat, lon });
 
-  static propTypes = {
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
-    locationPopup: PropTypes.string,
-    onSelectLocation: PropTypes.func,
-  };
-
-  static defaultProps = {
-    locationPopup: undefined,
-    onSelectLocation: () => {},
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-      location: {
-        lat: this.props.lat,
-        lon: this.props.lon,
-      },
-    };
-  }
-
-  componentDidMount() {
-    const { lat, lon } = this.props;
-    const { config } = this.context;
-
+  useEffect(() => {
     const searchParams = {
       'point.lat': lat,
       'point.lon': lon,
       'boundary.circle.radius': 0.1, // 100m
-      lang: this.context.config.language,
+      lang: config.language,
       size: 1,
       layers: 'address',
       zones: 1,
@@ -64,26 +44,22 @@ class LocationPopup extends React.Component {
         let pointName;
         if (data.features != null && data.features.length > 0) {
           const match = data.features[0].properties;
-          this.setState(prevState => ({
-            loading: false,
-            location: {
-              ...prevState.location,
-              address: getLabel(match),
-              zoneId: getZoneId(config, match.zones, data.zones),
-            },
+          setLoading(false);
+          setLocation(prevLocation => ({
+            ...prevLocation,
+            address: getLabel(match),
+            zoneId: getZoneId(config, match.zones, data.zones),
           }));
           pointName = 'FreeAddress';
         } else {
-          this.setState(prevState => ({
-            loading: false,
-            location: {
-              ...prevState.location,
-              address: this.context.intl.formatMessage({
-                id: 'location-from-map',
-                defaultMessage: 'Selected location',
-              }),
-              zoneId: getZoneId(config, data.zones),
-            },
+          setLoading(false);
+          setLocation(prevLocation => ({
+            ...prevLocation,
+            address: intl.formatMessage({
+              id: 'location-from-map',
+              defaultMessage: 'Selected location',
+            }),
+            zoneId: getZoneId(config, data.zones),
           }));
           pointName = 'NoAddress';
         }
@@ -102,49 +78,48 @@ class LocationPopup extends React.Component {
         });
       },
       () => {
-        this.setState({
-          loading: false,
-          location: {
-            address: this.context.intl.formatMessage({
-              id: 'location-from-map',
-              defaultMessage: 'Selected location',
-            }),
-          },
+        setLoading(false);
+        setLocation({
+          address: intl.formatMessage({
+            id: 'location-from-map',
+            defaultMessage: 'Selected location',
+          }),
         });
       },
     );
-  }
+    // Run only on mount, mirroring the previous componentDidMount.
+  }, []);
 
-  render() {
-    if (this.state.loading) {
-      return (
-        <div className="card smallspinner" style={{ height: '4rem' }}>
-          <Loading />
-        </div>
-      );
-    }
-    const { zoneId } = this.state.location;
-    const [address, place] = splitStringToAddressAndPlace(
-      this.state.location.address,
-    );
+  if (loading) {
     return (
-      <Card>
-        <PopupHeader header={address} subHeader={place}>
-          {zoneId && zoneId !== place && (
-            <ZoneIcon zoneId={zoneId} showUnknown={false} />
-          )}
-        </PopupHeader>
-        {(this.props.locationPopup === 'all' ||
-          this.props.locationPopup === 'origindestination') && (
-          <MarkerPopupBottom
-            location={this.state.location}
-            locationPopup={this.props.locationPopup}
-            onSelectLocation={this.props.onSelectLocation}
-          />
-        )}
-      </Card>
+      <div className="card smallspinner" style={{ height: '4rem' }}>
+        <Loading />
+      </div>
     );
   }
+  const { zoneId } = location;
+  const [address, place] = splitStringToAddressAndPlace(location.address);
+  return (
+    <Card>
+      <PopupHeader header={address} subHeader={place}>
+        {zoneId && zoneId !== place && (
+          <ZoneIcon zoneId={zoneId} showUnknown={false} />
+        )}
+      </PopupHeader>
+      {(locationPopup === 'all' || locationPopup === 'origindestination') && (
+        <MarkerPopupBottom
+          location={location}
+          locationPopup={locationPopup}
+          onSelectLocation={onSelectLocation}
+        />
+      )}
+    </Card>
+  );
 }
 
-export default LocationPopup;
+LocationPopup.propTypes = {
+  lat: PropTypes.number.isRequired,
+  lon: PropTypes.number.isRequired,
+  locationPopup: PropTypes.string,
+  onSelectLocation: PropTypes.func,
+};
