@@ -53,12 +53,9 @@ describe('LegMarker', () => {
       expect(getLegRouteNumberHtml('bus', 'U', false)).to.equal('');
     });
 
-    it('should render the route number and a lower-cased screen reader label', () => {
+    it('should render the route number markup', () => {
       const html = getLegRouteNumberHtml('rail', 'U', true);
-      expect(html).to.contain(
-        '<span class="map-route-number rail" aria-hidden="true">U</span>',
-      );
-      expect(html).to.contain('<span class="sr-only">u</span>');
+      expect(html).to.equal('<span class="map-route-number rail">U</span>');
     });
   });
 });

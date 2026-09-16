@@ -24,8 +24,7 @@ export const shouldDisplayLegRouteNumber = (config, mode, legName) =>
 
 export const getLegRouteNumberHtml = (mode, legName, displayRouteNumber) =>
   displayRouteNumber
-    ? `<span class="map-route-number ${mode}" aria-hidden="true">${legName}</span>
-         <span class="sr-only">${legName.toLowerCase()}</span>`
+    ? `<span class="map-route-number ${mode}">${legName}</span>`
     : '';
 
 // An arrow marker will be displayed if the normal marker can't fit
