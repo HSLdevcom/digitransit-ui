@@ -1,9 +1,9 @@
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
 import React from 'react';
 import sinon from 'sinon';
 
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import Icon from '../../../app/component/Icon';
-import DisruptionBadge from '../../../app/component/trafficnow/DisruptionBadge';
+import { renderWithProviders } from '../helpers/mock-providers';
 import Disruption from '../../../app/component/Disruption';
 import { AlertEntityType } from '../../../utils/shared/constants';
 import {
@@ -12,7 +12,11 @@ import {
   PREFIX_TERMINALS,
   PREFIX_DISRUPTION,
 } from '../../../utils/shared/path';
-import { mockContext } from '../helpers/mock-context';
+
+const baseConfig = {
+  CONFIG: 'default',
+  colors: { primary: '#007ac9' },
+};
 
 const routeEntity = (overrides = {}) => ({
   __typename: AlertEntityType.Route,
@@ -34,152 +38,123 @@ const stopEntity = (overrides = {}) => ({
   ...overrides,
 });
 
+const renderDisruption = props =>
+  renderWithProviders(<Disruption {...props} />, { config: baseConfig })
+    .container;
+
 describe('<Disruption />', () => {
   it('should return null when both alertDescriptionText and alertHeaderText are missing', () => {
-    const props = {
+    const container = renderDisruption({
       id: 'alert-null',
       entities: [routeEntity()],
-    };
-    const wrapper = shallowWithIntl(<Disruption {...props} />, {
-      context: mockContext,
     });
-    expect(wrapper.find('.alert-row')).to.have.lengthOf(0);
+    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(0);
   });
 
   it('should render alert-row when alertHeaderText is provided', () => {
-    const props = {
+    const container = renderDisruption({
       id: 'alert-row',
       alertHeaderText: 'Service alert',
       alertSeverityLevel: 'WARNING',
       entities: [routeEntity()],
-    };
-    const wrapper = shallowWithIntl(<Disruption {...props} />, {
-      context: mockContext,
     });
-    expect(wrapper.find('.alert-row')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(1);
   });
 
   it('should render toggle button when toggleDetails is provided', () => {
-    const toggleDetails = sinon.spy();
-    const props = {
+    const container = renderDisruption({
       alertHeaderText: 'Alert',
       alertSeverityLevel: 'WARNING',
       id: 'alert-1',
-      toggleDetails,
+      toggleDetails: sinon.spy(),
       entities: [routeEntity()],
-    };
-    const wrapper = shallowWithIntl(<Disruption {...props} />, {
-      context: mockContext,
     });
-    const button = wrapper.find('.alert-row-arrow');
-    expect(button).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.alert-row-arrow')).to.have.lengthOf(1);
   });
 
   it('should render link to the timetablepage for cancelations', () => {
-    const props = {
+    const container = renderDisruption({
       id: 'cancelation-1',
       alertHeaderText: 'Cancelation',
       alertSeverityLevel: 'WARNING',
       toggleDetails: sinon.spy(),
       canceledDepartures: [{ scheduledDeparture: 36000 }],
       entities: [routeEntity()],
-    };
-    const wrapper = shallowWithIntl(<Disruption {...props} />, {
-      context: mockContext,
     });
-    const link = wrapper.find('.alert-row-arrow');
-    expect(link).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.alert-row-arrow')).to.have.lengthOf(1);
   });
 
   it('should render DisruptionBadge with correct severity and effect', () => {
-    const props = {
+    const container = renderDisruption({
       id: 'badge-1',
       alertHeaderText: 'Alert',
       alertSeverityLevel: 'WARNING',
       alertEffect: 'REDUCED_SERVICE',
       entities: [routeEntity()],
-    };
-    const wrapper = shallowWithIntl(<Disruption {...props} />, {
-      context: mockContext,
     });
-    const badge = wrapper.find(DisruptionBadge);
-    expect(badge).to.have.lengthOf(1);
-    expect(badge.prop('variant')).to.equal('WARNING');
-    expect(badge.prop('label')).to.equal('REDUCED_SERVICE');
+    const badge = container.querySelector('.badge.warning');
+    expect(badge).to.not.equal(null);
+    expect(badge.textContent).to.equal('Reduced routes');
   });
 
   it('should render mode icon and link for route entity', () => {
-    const props = {
+    const container = renderDisruption({
       id: 'route-link-1',
       alertHeaderText: 'Alert',
       alertSeverityLevel: 'WARNING',
       entities: [routeEntity()],
-    };
-    const wrapper = shallowWithIntl(<Disruption {...props} />, {
-      context: mockContext,
     });
-    expect(
-      wrapper.find(Icon).findWhere(n => n.prop('className') === 'bus'),
-    ).to.have.lengthOf(1);
-    const link = wrapper.find('.mode-badge');
-    expect(link).to.have.lengthOf(1);
-    expect(link.prop('href')).to.equal(
+    expect(container.querySelectorAll('svg.icon.bus')).to.have.lengthOf(1);
+    const link = container.querySelector('.mode-badge');
+    expect(link).to.not.equal(null);
+    expect(link.getAttribute('href')).to.equal(
       routePagePath('HSL:2097N', PREFIX_DISRUPTION, '2097N_20240101_1'),
     );
-    expect(link.find('span').text()).to.equal('97N');
+    expect(link.querySelector('span').textContent).to.equal('97N');
   });
 
   it('should render stop link with PREFIX_STOPS for non-station stop', () => {
-    const props = {
+    const container = renderDisruption({
       id: 'stop-link-1',
       alertHeaderText: 'Alert',
       alertSeverityLevel: 'WARNING',
       entities: [stopEntity()],
-    };
-    const wrapper = shallowWithIntl(<Disruption {...props} />, {
-      context: mockContext,
     });
-    const link = wrapper.find('.mode-badge');
-    expect(link).to.have.lengthOf(1);
-    expect(link.prop('href')).to.equal(
+    const link = container.querySelector('.mode-badge');
+    expect(link).to.not.equal(null);
+    expect(link.getAttribute('href')).to.equal(
       `/${PREFIX_STOPS}/${encodeURIComponent('HSL:1234')}`,
     );
-    expect(link.find('span').text()).to.equal('Test Stop');
+    expect(link.querySelector('span').textContent).to.equal('Test Stop');
   });
 
   it('should render terminal link for station stop', () => {
-    const props = {
+    const container = renderDisruption({
       id: 'terminal-link-1',
       alertHeaderText: 'Alert',
       alertSeverityLevel: 'WARNING',
       entities: [stopEntity({ locationType: 'STATION', gtfsId: 'HSL:5678' })],
-    };
-    const wrapper = shallowWithIntl(<Disruption {...props} />, {
-      context: mockContext,
     });
-    const link = wrapper.find('.mode-badge');
-    expect(link.prop('href')).to.equal(
+    const link = container.querySelector('.mode-badge');
+    expect(link.getAttribute('href')).to.equal(
       `/${PREFIX_TERMINALS}/${encodeURIComponent('HSL:5678')}`,
     );
   });
 
   it('should render alertHeaderText in alert-row-bottom', () => {
-    const props = {
+    const container = renderDisruption({
       id: 'header-text-1',
       alertHeaderText: 'Detour on route 97N',
       alertSeverityLevel: 'WARNING',
       entities: [routeEntity()],
-    };
-    const wrapper = shallowWithIntl(<Disruption {...props} />, {
-      context: mockContext,
     });
-    expect(wrapper.find('.alert-row-title').text()).to.equal(
+    expect(container.querySelector('.alert-row-title').textContent).to.equal(
       'Detour on route 97N',
     );
   });
 
   it('should render canceled departure times', () => {
-    const props = {
+    const container = renderDisruption({
       id: 'cancelation-times-1',
       alertHeaderText: 'Cancelation',
       alertSeverityLevel: 'WARNING',
@@ -188,19 +163,18 @@ describe('<Disruption />', () => {
         { scheduledDeparture: 39600 },
       ],
       entities: [routeEntity()],
-    };
-    const wrapper = shallowWithIntl(<Disruption {...props} />, {
-      context: mockContext,
     });
-    expect(wrapper.find('.canceled-departures')).to.have.lengthOf(1);
-    const badges = wrapper.find('.cancelation-badge');
+    expect(container.querySelectorAll('.canceled-departures')).to.have.lengthOf(
+      1,
+    );
+    const badges = container.querySelectorAll('.cancelation-badge');
     expect(badges).to.have.lengthOf(2);
-    expect(badges.at(0).find('.canceled').text()).to.equal('10:00');
-    expect(badges.at(1).find('.canceled').text()).to.equal('11:00');
+    expect(badges[0].querySelector('.canceled').textContent).to.equal('10:00');
+    expect(badges[1].querySelector('.canceled').textContent).to.equal('11:00');
   });
 
   it('should group entities of same type and mode under one icon', () => {
-    const props = {
+    const container = renderDisruption({
       id: 'grouped-entities-1',
       alertHeaderText: 'Alert',
       alertSeverityLevel: 'WARNING',
@@ -208,13 +182,8 @@ describe('<Disruption />', () => {
         routeEntity({ gtfsId: 'HSL:1001', shortName: '1', id: 'r1' }),
         routeEntity({ gtfsId: 'HSL:1002', shortName: '2', id: 'r2' }),
       ],
-    };
-    const wrapper = shallowWithIntl(<Disruption {...props} />, {
-      context: mockContext,
     });
-    expect(
-      wrapper.find(Icon).findWhere(n => n.prop('className') === 'bus'),
-    ).to.have.lengthOf(1);
-    expect(wrapper.find('.mode-badge')).to.have.lengthOf(2);
+    expect(container.querySelectorAll('svg.icon.bus')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.mode-badge')).to.have.lengthOf(2);
   });
 });

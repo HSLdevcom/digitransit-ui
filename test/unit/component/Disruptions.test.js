@@ -2,14 +2,16 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
 import { DateTime } from 'luxon';
-import { mockContext } from '../helpers/mock-context';
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
+
+import { renderWithProviders } from '../helpers/mock-providers';
 import {
   AlertSeverityLevelType,
   AlertEntityType,
 } from '../../../utils/shared/constants';
-import DisruptionList from '../../../app/component/DisruptionList';
 import Disruptions from '../../../app/component/stop/Disruptions';
+
+const renderDisruptions = props =>
+  renderWithProviders(<Disruptions {...props} />).container;
 
 describe('<Disruptions />', () => {
   it("should indicate that there are no alerts if the stop's routes have no alerts and the stop has no canceled stoptimes", () => {
@@ -42,13 +44,9 @@ describe('<Disruptions />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<Disruptions {...props} />, {
-      context: { ...mockContext },
-    });
-    expect(wrapper.find(DisruptionList).props()).to.deep.equal({
-      cancelations: [],
-      serviceAlerts: [],
-    });
+    const container = renderDisruptions(props);
+    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(0);
+    expect(container.textContent).to.contain('Services normal');
   });
 
   it('should indicate that there is a direct service alert on a route', () => {
@@ -59,6 +57,8 @@ describe('<Disruptions />', () => {
         code: '321',
         alerts: [
           {
+            id: 'alert-101',
+            alertHeaderText: 'Route disrupted',
             entities: [
               {
                 __typename: AlertEntityType.Route,
@@ -75,12 +75,8 @@ describe('<Disruptions />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<Disruptions {...props} />, {
-      context: { ...mockContext },
-    });
-    expect(wrapper.find(DisruptionList).prop('serviceAlerts')).to.have.lengthOf(
-      1,
-    );
+    const container = renderDisruptions(props);
+    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(1);
   });
 
   it('should indicate that there is a canceled stoptime on a route', () => {
@@ -104,7 +100,7 @@ describe('<Disruptions />', () => {
                 gtfsId: 'feed:63:01-1',
                 route: {
                   gtfsId: 'feed:63',
-                  type: 'foo',
+                  type: 3,
                   color: undefined,
                   mode: 'BUS',
                   shortName: '63',
@@ -123,12 +119,8 @@ describe('<Disruptions />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<Disruptions {...props} />, {
-      context: { ...mockContext },
-    });
-    expect(wrapper.find(DisruptionList).prop('cancelations')).to.have.lengthOf(
-      1,
-    );
+    const container = renderDisruptions(props);
+    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(1);
   });
 
   it('should filter out a canceled call if the trip terminates on the stop', () => {
@@ -152,7 +144,7 @@ describe('<Disruptions />', () => {
                 gtfsId: 'feed:63:01-1',
                 route: {
                   gtfsId: 'feed:63',
-                  type: 'foo',
+                  type: 3,
                   color: undefined,
                   mode: 'BUS',
                   shortName: '63',
@@ -172,12 +164,9 @@ describe('<Disruptions />', () => {
         ],
       },
     };
-    const wrapper = shallowWithIntl(<Disruptions {...props} />, {
-      context: { ...mockContext },
-    });
-    expect(wrapper.find(DisruptionList).prop('cancelations')).to.have.lengthOf(
-      0,
-    );
+    const container = renderDisruptions(props);
+    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(0);
+    expect(container.textContent).to.contain('Services normal');
   });
 
   it('should indicate that the stop itself has a service alert', () => {
@@ -188,6 +177,8 @@ describe('<Disruptions />', () => {
         code: '321',
         alerts: [
           {
+            id: 'alert-bar',
+            alertHeaderText: 'Stop disrupted',
             alertSeverityLevel: AlertSeverityLevelType.Warning,
             entities: [
               {
@@ -201,11 +192,7 @@ describe('<Disruptions />', () => {
         stoptimes: [],
       },
     };
-    const wrapper = shallowWithIntl(<Disruptions {...props} />, {
-      context: { ...mockContext },
-    });
-    expect(wrapper.find(DisruptionList).prop('serviceAlerts')).to.have.lengthOf(
-      1,
-    );
+    const container = renderDisruptions(props);
+    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(1);
   });
 });

@@ -1,22 +1,23 @@
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
 import React from 'react';
 
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import DisruptionList, {
-  EmptyDisruptions,
-} from '../../../app/component/DisruptionList';
-import Disruption from '../../../app/component/Disruption';
+import { renderWithProviders } from '../helpers/mock-providers';
+import DisruptionList from '../../../app/component/DisruptionList';
 import { AlertEntityType } from '../../../utils/shared/constants';
+
+const renderList = (props, currentTime = 1547464412) =>
+  renderWithProviders(<DisruptionList {...props} />, { currentTime }).container;
+
+const alertRowTitles = container =>
+  Array.from(container.querySelectorAll('.alert-row-title')).map(
+    node => node.textContent,
+  );
 
 describe('<DisruptionList />', () => {
   it('should show a "no alerts" message', () => {
-    const props = {
-      cancelations: [],
-      serviceAlerts: [],
-    };
-    const wrapper = shallowWithIntl(<DisruptionList {...props} />, {
-      currentTime: 1547464412,
-    });
-    expect(wrapper.find(EmptyDisruptions)).to.have.lengthOf(1);
+    const container = renderList({ cancelations: [], serviceAlerts: [] });
+    expect(container.textContent).to.contain('Services normal');
   });
 
   it('should list cancelations before service alerts', () => {
@@ -92,21 +93,13 @@ describe('<DisruptionList />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<DisruptionList {...props} />, {
-      currentTime: 1547464414,
-    });
-    expect(wrapper.find(Disruption).at(0).prop('alertHeaderText')).to.equal(
+    const container = renderList(props, 1547464414);
+    expect(alertRowTitles(container)).to.deep.equal([
       'third',
-    );
-    expect(wrapper.find(Disruption).at(1).prop('alertHeaderText')).to.equal(
       'fourth',
-    );
-    expect(wrapper.find(Disruption).at(2).prop('alertHeaderText')).to.equal(
       'second',
-    );
-    expect(wrapper.find(Disruption).at(3).prop('alertHeaderText')).to.equal(
       'first',
-    );
+    ]);
   });
 
   it('should not display past service alerts', () => {
@@ -131,10 +124,8 @@ describe('<DisruptionList />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<DisruptionList {...props} />, {
-      currentTime: 100,
-    });
-    expect(wrapper.find(EmptyDisruptions)).to.have.lengthOf(1);
+    const container = renderList(props, 100);
+    expect(container.textContent).to.contain('Services normal');
   });
 
   it('should display current cancelations and service alerts', () => {
@@ -176,10 +167,8 @@ describe('<DisruptionList />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<DisruptionList {...props} />, {
-      currentTime: 100,
-    });
-    expect(wrapper.find(Disruption)).to.have.lengthOf(2);
+    const container = renderList(props, 100);
+    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(2);
   });
 
   it('should display future service alerts under the upcoming section', () => {
@@ -203,10 +192,14 @@ describe('<DisruptionList />', () => {
         },
       ],
     };
-    const wrapper = shallowWithIntl(<DisruptionList {...props} />, {
-      currentTime: 100,
-    });
-    expect(wrapper.find(Disruption)).to.have.lengthOf(1);
-    expect(wrapper.find(EmptyDisruptions)).to.have.lengthOf(0);
+    const container = renderList(props, 100);
+    // Active section is empty (rendered as a <p>), Upcoming section has 1 item
+    expect(
+      container.querySelector('p.alerts-list-section-no-alerts'),
+    ).to.not.equal(null);
+    expect(container.querySelectorAll('[role="list"]')).to.have.lengthOf(1);
+    expect(
+      container.querySelectorAll('[role="list"] .alert-row'),
+    ).to.have.lengthOf(1);
   });
 });
