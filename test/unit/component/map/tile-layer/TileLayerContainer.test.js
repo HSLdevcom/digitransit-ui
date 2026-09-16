@@ -23,6 +23,8 @@ describe('<TileLayerContainer />', () => {
     },
     lang: 'fi',
     currentTime: 123457890,
+    config: { ...mockContext.config, vehicleRental: {} },
+    router: mockContext.router,
   };
 
   it('should send analytics for a terminal stop target', () => {
@@ -32,7 +34,6 @@ describe('<TileLayerContainer />', () => {
       <Component {...props} relayEnvironment={{}} ref={componentRef} />,
       {
         config: { ...mockContext.config, vehicleRental: {} },
-        context: { popupContainer: { openPopup: () => {} } },
       },
     );
     componentRef.current.state.selectableTargets = [
@@ -65,7 +66,6 @@ describe('<TileLayerContainer />', () => {
       <Component {...props} relayEnvironment={{}} ref={componentRef} />,
       {
         config: { ...mockContext.config, vehicleRental: {} },
-        context: { popupContainer: { openPopup: () => {} } },
       },
     );
     componentRef.current.state.selectableTargets = [];
