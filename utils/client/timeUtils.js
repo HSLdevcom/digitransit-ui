@@ -9,7 +9,9 @@ export const DATE_PATTERN = 'ccc d.L.';
  * @returns {string} time in format HHmm
  */
 export function getStartTime(seconds) {
-  return DateTime.fromSeconds(seconds, { zone: 'utc' }).toFormat('HHmm');
+  const hours = `0${Math.floor(seconds / 60 / 60)}`.slice(-2);
+  const mins = `0${(seconds / 60) % 60}`.slice(-2);
+  return hours + mins;
 }
 
 /**
@@ -18,7 +20,9 @@ export function getStartTime(seconds) {
  * @returns {string} time in format HH:mm
  */
 export function getStartTimeWithColon(seconds) {
-  return DateTime.fromSeconds(seconds, { zone: 'utc' }).toFormat(TIME_PATTERN);
+  const hours = `0${Math.floor(seconds / 60 / 60)}`.slice(-2);
+  const mins = `0${(seconds / 60) % 60}`.slice(-2);
+  return `${hours}:${mins}`;
 }
 
 /**

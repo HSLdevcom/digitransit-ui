@@ -123,6 +123,76 @@ describe('<Disruptions />', () => {
     expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(1);
   });
 
+  it('should render multiple canceled departure times for the same trip pattern in chronological order', () => {
+    const baseTime = DateTime.now().set({
+      hour: 12,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+    });
+    const tripOnServiceDate = {
+      serviceDate: baseTime.toISODate(),
+      trip: {
+        tripHeadsign: 'Kamppi',
+        gtfsId: 'feed:63:01-1',
+        route: {
+          gtfsId: 'feed:63',
+          type: 3,
+          color: undefined,
+          mode: 'BUS',
+          shortName: '63',
+        },
+        pattern: {
+          code: 'feed:63:01',
+          headsign: 'Kamppi',
+          stops: [
+            { name: 'foo', gtfsId: 'feed:bar' },
+            { name: 'foo', gtfsId: 'feed:foo' },
+          ],
+        },
+      },
+    };
+    const props = {
+      stop: {
+        gtfsId: 'feed:bar',
+        locationType: 'STOP',
+        code: '431',
+        alerts: [],
+        routes: [],
+        // listed out of chronological order on purpose
+        canceledCalls: [
+          {
+            stopCall: {
+              schedule: {
+                time: { departure: baseTime.plus({ hours: 2 }).toISO() },
+              },
+              stopLocation: { gtfsId: 'feed:bar' },
+            },
+            tripOnServiceDate,
+          },
+          {
+            stopCall: {
+              schedule: {
+                time: { departure: baseTime.minus({ hours: 3 }).toISO() },
+              },
+              stopLocation: { gtfsId: 'feed:bar' },
+            },
+            tripOnServiceDate,
+          },
+        ],
+      },
+    };
+    const container = renderDisruptions(props);
+    const badges = container.querySelectorAll('.cancelation-badge .canceled');
+    expect(badges).to.have.lengthOf(2);
+    expect(badges[0].textContent).to.equal(
+      baseTime.minus({ hours: 3 }).toFormat('HH:mm'),
+    );
+    expect(badges[1].textContent).to.equal(
+      baseTime.plus({ hours: 2 }).toFormat('HH:mm'),
+    );
+  });
+
   it('should filter out a canceled call if the trip terminates on the stop', () => {
     const props = {
       stop: {

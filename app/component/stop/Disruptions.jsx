@@ -11,7 +11,10 @@ import {
   getUniqueAlerts,
 } from '../../../utils/client/alertUtils';
 import { getRouteMode } from '../../../utils/client/modeUtils';
-import { getStartTimeWithColon } from '../../../utils/client/timeUtils';
+import {
+  getStartTime,
+  convertTo24HourFormat,
+} from '../../../utils/client/timeUtils';
 import { stopShape, stationShape } from '../../../utils/client/shapes';
 import {
   AlertSeverityLevelType,
@@ -78,20 +81,22 @@ const getCancelations = (stop, intl, config) => {
   );
 
   return Object.entries(canceledCallsByRoute).map(([tripId, canceledCalls]) => {
-    const canceledDepartures = canceledCalls.map(
-      ({
-        stopCall: {
-          schedule: {
-            time: { departure },
+    const canceledDepartures = canceledCalls
+      .map(
+        ({
+          stopCall: {
+            schedule: {
+              time: { departure },
+            },
           },
-        },
-      }) => ({
-        scheduledDeparture:
-          (DateTime.fromISO(departure) -
-            DateTime.fromISO(departure).startOf('day')) /
-          1000,
-      }),
-    );
+        }) => ({
+          scheduledDeparture:
+            (DateTime.fromISO(departure) -
+              DateTime.fromISO(departure).startOf('day')) /
+            1000,
+        }),
+      )
+      .sort((a, b) => a.scheduledDeparture - b.scheduledDeparture);
     const { trip, serviceDate } = canceledCalls[0].tripOnServiceDate;
     return {
       alertDescriptionText: intl.formatMessage(
@@ -101,15 +106,16 @@ const getCancelations = (stop, intl, config) => {
           route: trip.route.shortName,
           headsign: trip.tripHeadsign,
           times: canceledDepartures
-            .sort()
-            .map(st => getStartTimeWithColon(st.scheduledDeparture))
+            .map(st =>
+              convertTo24HourFormat(getStartTime(st.scheduledDeparture)),
+            )
             .join(', '),
         },
       ),
 
       id: tripId,
       alertHeaderText: patternTextWithIcon(trip.pattern),
-      canceledDepartures: canceledDepartures.sort(),
+      canceledDepartures,
       entities: [
         {
           ...trip.route,

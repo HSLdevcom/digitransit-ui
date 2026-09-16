@@ -14,7 +14,10 @@ import {
 } from '../../utils/shared/path';
 import IconBackground from './icon/IconBackground';
 import { getRouteMode, transitIconName } from '../../utils/client/modeUtils';
-import { getStartTimeWithColon } from '../../utils/client/timeUtils';
+import {
+  getStartTime,
+  convertTo24HourFormat,
+} from '../../utils/client/timeUtils';
 import { entityShape, stopTimeShape } from '../../utils/client/shapes';
 import {
   AlertEntityType,
@@ -205,7 +208,7 @@ export default function Disruption({
               {canceledDepartures.map(st => (
                 <span key={st.scheduledDeparture} className="cancelation-badge">
                   <span className="canceled">
-                    {getStartTimeWithColon(st.scheduledDeparture)}
+                    {convertTo24HourFormat(getStartTime(st.scheduledDeparture))}
                   </span>
                 </span>
               ))}
