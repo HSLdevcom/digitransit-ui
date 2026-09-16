@@ -2,13 +2,14 @@ import cx from 'classnames';
 import React, { useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { matchShape } from 'found';
+import groupBy from 'lodash/groupBy';
 import { stopShape } from '../../../utils/client/shapes';
 import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 import {
-  getCancelationsForStop,
   getAlertsForObject,
   getServiceAlertsForStation,
   getActiveAlertSeverityLevel,
+  getUniqueAlerts,
 } from '../../../utils/client/alertUtils';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
@@ -18,7 +19,7 @@ import {
   PREFIX_TIMETABLE,
   stopPagePath,
 } from '../../../utils/shared/path';
-import Icon from '../Icon';
+import { filterCanceledCalls } from './Disruptions';
 
 const Tab = {
   RightNow: 1,
@@ -37,8 +38,8 @@ const getActiveTab = pathname => {
 };
 
 function StopPageTabs({ stop }, { match }) {
-  const { router } = match;
-  if (!stop) {
+  const { router, location } = match;
+  if (!stop || location.query.alertId) {
     return null;
   }
   const activeTab = getActiveTab(match.location.pathname);
@@ -52,27 +53,42 @@ function StopPageTabs({ stop }, { match }) {
 
   const isTerminal = match.params.terminalId != null;
   const currentTime = unixTime();
-  const cancelations = getCancelationsForStop(stop);
   const maxAlertSeverity = getActiveAlertSeverityLevel(
     isTerminal ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
     currentTime,
   );
 
+  const alerts = isTerminal
+    ? getServiceAlertsForStation(stop)
+    : getAlertsForObject(stop);
+
+  const canceledCalls = filterCanceledCalls(
+    stop.canceledCalls,
+    stop.stops ? stop.stops.map(({ gtfsId }) => gtfsId) : [stop.gtfsId],
+  );
+
+  const canceledCallsByPattern = groupBy(
+    canceledCalls,
+    ({ tripOnServiceDate }) =>
+      tripOnServiceDate.trip.pattern.code + tripOnServiceDate.serviceDate,
+  );
+
+  const alertsCount =
+    getUniqueAlerts(alerts).length + Object.keys(canceledCallsByPattern).length;
+
   let disruptionClassName;
   let disruptionIcon;
   if (
-    cancelations.length > 0 ||
+    canceledCalls.length > 0 ||
     maxAlertSeverity === AlertSeverityLevelType.Severe ||
     maxAlertSeverity === AlertSeverityLevelType.Warning ||
     maxAlertSeverity === AlertSeverityLevelType.Unknown
   ) {
     disruptionClassName = 'active-disruption-alert';
-    disruptionIcon = (
-      <Icon img="icon_caution-no-excl-no-stroke" color="#DC0451" />
-    );
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
   } else if (maxAlertSeverity === AlertSeverityLevelType.Info) {
     disruptionClassName = 'active-service-alert';
-    disruptionIcon = <Icon className="service-alert-icon" img="icon_info" />;
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
   } else {
     disruptionClassName = 'no-alerts';
   }

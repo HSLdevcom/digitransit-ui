@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
+import groupBy from 'lodash/groupBy';
 import { matchShape } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import { useConfigContext } from '../../client/ConfigContext';
@@ -35,7 +36,6 @@ import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { isIOS } from '../../../utils/shared/browser';
 import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
 import { saveSearch } from '../../action/SearchActions';
-import Icon from '../Icon';
 import Notification from './Notification';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 
@@ -346,7 +346,10 @@ function RouteControlPanel(
   };
 
   const currentTime = unixTime();
-  const selectedPattern = route?.patterns?.find(p => p.code === patternId);
+  const selectedPattern = route?.patterns?.find(
+    pattern => pattern.code === patternId,
+  );
+
   const hasActiveAlert = checkActiveDisruptions(
     currentTime,
     getCancelationsForRoute(
@@ -358,27 +361,37 @@ function RouteControlPanel(
     getAlertsForObject(selectedPattern),
   );
 
+  const canceledTripsByDate = groupBy(
+    selectedPattern?.canceledTrips || [],
+    ({ serviceDate }) => serviceDate,
+  );
+  const alerts = getAlertsForObject(selectedPattern);
+
   const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
-    getAlertsForObject(selectedPattern),
+    alerts,
     currentTime,
   );
 
+  // if the pattern has cancelations, add one to alert count
+  const alertsCount = alerts.length + Object.keys(canceledTripsByDate).length;
+
   const disruptionClassName =
-    (hasActiveAlert && 'active-disruption-alert') ||
+    ((hasActiveAlert || Object.keys(canceledTripsByDate).length) &&
+      'active-disruption-alert') ||
     (hasActiveServiceAlerts && 'active-service-alert');
 
   const countOfButtons = 3;
 
   let disruptionIcon;
-  if (hasActiveAlert) {
-    disruptionIcon = (
-      <Icon
-        img="icon_caution-no-excl-no-stroke"
-        color={config.colors.caution}
-      />
-    );
-  } else if (hasActiveServiceAlerts) {
-    disruptionIcon = <Icon className="service-alert-icon" img="icon_info" />;
+  if (disruptionClassName === 'active-disruption-alert') {
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
+  } else if (disruptionClassName === 'active-service-alert') {
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
+  }
+
+  // If disruption details are opened, hide controlpanel
+  if (location.query?.alertId) {
+    return null;
   }
 
   return (

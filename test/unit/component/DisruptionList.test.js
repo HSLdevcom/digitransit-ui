@@ -1,27 +1,34 @@
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
 import React from 'react';
+
 import { renderWithProviders } from '../helpers/mock-providers';
-import { Component as AlertList } from '../../../app/component/AlertList';
+import DisruptionList from '../../../app/component/DisruptionList';
 import { AlertEntityType } from '../../../utils/shared/constants';
 
-describe('<AlertList />', () => {
+const renderList = (props, currentTime = 1547464412) =>
+  renderWithProviders(<DisruptionList {...props} />, { currentTime }).container;
+
+const alertRowTitles = container =>
+  Array.from(container.querySelectorAll('.alert-row-title')).map(
+    node => node.textContent,
+  );
+
+describe('<DisruptionList />', () => {
   it('should show a "no alerts" message', () => {
-    const props = {
-      cancelations: [],
-      serviceAlerts: [],
-    };
-    const { container } = renderWithProviders(<AlertList {...props} />, {
-      currentTime: 1547464412,
-    });
-    expect(container.querySelector('.no-alerts-container')).to.not.equal(null);
+    const container = renderList({ cancelations: [], serviceAlerts: [] });
+    expect(container.textContent).to.contain('Services normal');
   });
 
-  it('should order the cancelations and service alerts by route shortName and put alerts first', () => {
+  it('should list cancelations before service alerts', () => {
     const props = {
       cancelations: [
         {
+          id: 'cancel-3',
           alertHeaderText: 'third',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1547464413,
+          effectiveEndDate: 1547464420,
           feed: 'foo',
           entities: [
             {
@@ -33,9 +40,11 @@ describe('<AlertList />', () => {
           ],
         },
         {
+          id: 'cancel-4',
           alertHeaderText: 'fourth',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1547464413,
+          effectiveEndDate: 1547464420,
           feed: 'foo',
           entities: [
             {
@@ -49,9 +58,12 @@ describe('<AlertList />', () => {
       ],
       serviceAlerts: [
         {
+          id: 'alert-2',
+          alertHash: 2,
           alertHeaderText: 'second',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1547464413,
+          effectiveEndDate: 1547464420,
           feed: 'foo',
           entities: [
             {
@@ -63,9 +75,12 @@ describe('<AlertList />', () => {
           ],
         },
         {
+          id: 'alert-1',
+          alertHash: 1,
           alertHeaderText: 'first',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1547464413,
+          effectiveEndDate: 1547464420,
           feed: 'foo',
           entities: [
             {
@@ -78,13 +93,13 @@ describe('<AlertList />', () => {
         },
       ],
     };
-    const { container } = renderWithProviders(<AlertList {...props} />, {
-      currentTime: 1547464414,
-    });
-    const routeIdentifiers = [
-      ...container.querySelectorAll('.route-alert-entityid'),
-    ].map(identifier => identifier.textContent);
-    expect(routeIdentifiers).to.deep.equal(['8A', '138', '37N', 'A']);
+    const container = renderList(props, 1547464414);
+    expect(alertRowTitles(container)).to.deep.equal([
+      'third',
+      'fourth',
+      'second',
+      'first',
+    ]);
   });
 
   it('should not display past service alerts', () => {
@@ -92,6 +107,7 @@ describe('<AlertList />', () => {
       cancelations: [],
       serviceAlerts: [
         {
+          id: 'alert',
           alertHeaderText: 'alert',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 1,
@@ -108,18 +124,19 @@ describe('<AlertList />', () => {
         },
       ],
     };
-    const { container } = renderWithProviders(<AlertList {...props} />, {
-      currentTime: 100,
-    });
-    expect(container.querySelector('.no-alerts-container')).to.not.equal(null);
+    const container = renderList(props, 100);
+    expect(container.textContent).to.contain('Services normal');
   });
 
   it('should display current cancelations and service alerts', () => {
     const props = {
       cancelations: [
         {
+          id: 'cancelation',
           alertHeaderText: 'cancelation',
           alertSeverityLevel: 'SEVERE',
+          effectiveStartDate: 50,
+          effectiveEndDate: 150,
           feed: 'foo',
           entities: [
             {
@@ -133,10 +150,11 @@ describe('<AlertList />', () => {
       ],
       serviceAlerts: [
         {
+          id: 'servicealert',
           alertHeaderText: 'servicealert',
           alertSeverityLevel: 'SEVERE',
-          effectiveStartDate: 100,
-          effectiveEndDate: 100,
+          effectiveStartDate: 50,
+          effectiveEndDate: 150,
           feed: 'foo',
           entities: [
             {
@@ -149,16 +167,15 @@ describe('<AlertList />', () => {
         },
       ],
     };
-    const { container } = renderWithProviders(<AlertList {...props} />, {
-      currentTime: 100,
-    });
+    const container = renderList(props, 100);
     expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(2);
   });
 
-  it('should not display future service alerts', () => {
+  it('should display future service alerts under the upcoming section', () => {
     const props = {
       serviceAlerts: [
         {
+          id: 'servicealert',
           alertHeaderText: 'servicealert',
           alertSeverityLevel: 'SEVERE',
           effectiveStartDate: 101,
@@ -175,9 +192,14 @@ describe('<AlertList />', () => {
         },
       ],
     };
-    const { container } = renderWithProviders(<AlertList {...props} />, {
-      currentTime: 100,
-    });
-    expect(container.querySelector('.no-alerts-container')).to.not.equal(null);
+    const container = renderList(props, 100);
+    // Active section is empty (rendered as a <p>), Upcoming section has 1 item
+    expect(
+      container.querySelector('p.alerts-list-section-no-alerts'),
+    ).to.not.equal(null);
+    expect(container.querySelectorAll('[role="list"]')).to.have.lengthOf(1);
+    expect(
+      container.querySelectorAll('[role="list"] .alert-row'),
+    ).to.have.lengthOf(1);
   });
 });
