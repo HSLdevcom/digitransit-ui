@@ -16,7 +16,10 @@ const offsetArrow = { x: 55, y: 15 };
 const offsetSpeechBubble = { x: 15, y: 40 };
 const minDistanceToShow = 64;
 
-const doMarkersOverlap = (proposedPosition, existingPositions) => {
+// The functions below operate purely on plain pixel-position objects and
+// contain no Leaflet-specific logic, so they are exported for unit testing
+// and can be reused as-is if the underlying map engine changes.
+export const doMarkersOverlap = (proposedPosition, existingPositions) => {
   const l1 = proposedPosition.topLeft;
   const r1 = proposedPosition.bottomRight;
   for (let i = 0; i < existingPositions.length; i++) {
@@ -38,7 +41,7 @@ const doMarkersOverlap = (proposedPosition, existingPositions) => {
   return false;
 };
 
-const getArrowMarkerStyle = (leg, pixelPositions) => {
+export const getArrowMarkerStyle = (leg, pixelPositions) => {
   // Initial style is bottomLeft, try that
   const proposedPosition = {
     topLeft: leg.topLeft,
@@ -81,7 +84,7 @@ const getArrowMarkerStyle = (leg, pixelPositions) => {
   return { style: 'topLeft', pixelPosition: proposedPosition };
 };
 
-const getSpeechBubbleStyle = (position, pixelPositions) => {
+export const getSpeechBubbleStyle = (position, pixelPositions) => {
   const proposedPosition = { ...position };
   let overlap = doMarkersOverlap(proposedPosition, pixelPositions);
   // The area used to calculate overlaps excludes the arrow part for simplicity. This offset x and y are caused by the area that the arrow takes

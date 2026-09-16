@@ -37,6 +37,86 @@ export const getStopMarkerAnalytics = (pathname, indexPath, mode) => {
 export const getStopMarkerPath = gtfsId =>
   `/${PREFIX_STOPS}/${encodeURIComponent(gtfsId)}`;
 
+// The functions below compute plain values (icon size, class names, SVG
+// markup) with no Leaflet dependency. They are exported for unit testing
+// and can be reused as-is if the underlying map engine changes.
+export const getModeIconSize = (zoom, config, selected) => {
+  if (zoom <= config.stopsSmallMaxZoom) {
+    return config.stopsIconSize.small;
+  }
+  if (selected) {
+    return config.stopsIconSize.selected;
+  }
+  return config.stopsIconSize.default;
+};
+
+export const getModeIconClassName = (
+  mode,
+  size,
+  config,
+  selected,
+  disableIconBorder,
+) =>
+  cx('cursor-pointer', mode, {
+    small: size === config.stopsIconSize.small,
+    selected,
+    'disable-icon-border': disableIconBorder,
+  });
+
+export const getStopIconRadii = (zoom, { limitZoom, transfer, selected }) => {
+  const scale = transfer || selected ? 1.5 : 1;
+
+  let calcZoom;
+  if (limitZoom) {
+    calcZoom = Math.min(zoom, limitZoom);
+  } else {
+    calcZoom = transfer || selected ? Math.max(zoom, 15) : zoom || 15;
+  }
+
+  const radius = getCaseRadius(calcZoom) * scale;
+  const stopRadius = getStopRadius(calcZoom) * scale;
+  const hubRadius = getHubRadius(calcZoom) * scale;
+
+  const inner = (stopRadius + hubRadius) / 2;
+  const stroke = stopRadius - hubRadius;
+
+  return { radius, inner, stroke };
+};
+
+// see utils/client/mapIconUtils.js for the canvas version
+export const buildStopIconSvg = ({
+  radius,
+  inner,
+  stroke,
+  appendClass,
+  colorOverride,
+  platformCode,
+}) => {
+  if (radius === 0) {
+    return '';
+  }
+  return `
+      <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
+        <circle class="stop ${appendClass}" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"${
+          colorOverride ? ` color="${colorOverride}"` : ''
+        } />
+        ${
+          inner > 7 && platformCode
+            ? `<text x="${radius}" y="${radius}" text-anchor="middle" dominant-baseline="central"
+            fill="#333" font-size="${1.2 * inner}px"
+            font-family="Gotham XNarrow A, Gotham Rounded A, Gotham Rounded B, Roboto Condensed, Roboto, Arial, sans-serif"
+            >${platformCode}</text>`
+            : ''
+        }
+      </svg>
+    `;
+};
+
+export const getStopIconClassName = (mode, disableIconBorder) =>
+  cx(mode, 'cursor-pointer', {
+    'disable-icon-border': disableIconBorder,
+  });
+
 export default function StopMarker({
   stop,
   mode,
@@ -65,70 +145,41 @@ export default function StopMarker({
 
   const getModeIcon = zoom => {
     const iconId = `icon_${mode}`;
-    let size;
-    if (zoom <= config.stopsSmallMaxZoom) {
-      size = config.stopsIconSize.small;
-    } else if (selected) {
-      size = config.stopsIconSize.selected;
-    } else {
-      size = config.stopsIconSize.default;
-    }
+    const size = getModeIconSize(zoom, config, selected);
 
     return L.divIcon({
       html: renderAsString(<Icon img={iconId} className="mode-icon" />),
       iconSize: [size, size],
-      className: cx('cursor-pointer', mode, {
-        small: size === config.stopsIconSize.small,
+      className: getModeIconClassName(
+        mode,
+        size,
+        config,
         selected,
-        'disable-icon-border': disableIconBorder,
-      }),
+        disableIconBorder,
+      ),
     });
   };
 
   const getIcon = zoom => {
-    const scale = stop.transfer || selected ? 1.5 : 1;
+    const { radius, inner, stroke } = getStopIconRadii(zoom, {
+      limitZoom,
+      transfer: stop.transfer,
+      selected,
+    });
 
-    let calcZoom;
-    if (limitZoom) {
-      calcZoom = Math.min(zoom, limitZoom);
-    } else {
-      calcZoom = stop.transfer || selected ? Math.max(zoom, 15) : zoom || 15;
-    }
-
-    const radius = getCaseRadius(calcZoom) * scale;
-    const stopRadius = getStopRadius(calcZoom) * scale;
-    const hubRadius = getHubRadius(calcZoom) * scale;
-
-    const inner = (stopRadius + hubRadius) / 2;
-    const stroke = stopRadius - hubRadius;
-
-    // see utils/client/mapIconUtils.js for the canvas version
-    let iconSvg = `
-      <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
-        <circle class="stop ${appendClass}" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"${
-          colorOverride ? ` color="${colorOverride}"` : ''
-        } />
-        ${
-          inner > 7 && stop.platformCode
-            ? `<text x="${radius}" y="${radius}" text-anchor="middle" dominant-baseline="central"
-            fill="#333" font-size="${1.2 * inner}px"
-            font-family="Gotham XNarrow A, Gotham Rounded A, Gotham Rounded B, Roboto Condensed, Roboto, Arial, sans-serif"
-            >${stop.platformCode}</text>`
-            : ''
-        }
-      </svg>
-    `;
-
-    if (radius === 0) {
-      iconSvg = '';
-    }
+    const iconSvg = buildStopIconSvg({
+      radius,
+      inner,
+      stroke,
+      appendClass,
+      colorOverride,
+      platformCode: stop.platformCode,
+    });
 
     return L.divIcon({
       html: iconSvg,
       iconSize: [radius * 2, radius * 2],
-      className: cx(mode, 'cursor-pointer', {
-        'disable-icon-border': disableIconBorder,
-      }),
+      className: getStopIconClassName(mode, disableIconBorder),
     });
   };
 
