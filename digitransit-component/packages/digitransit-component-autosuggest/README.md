@@ -31,32 +31,32 @@ An autosuggest search input for finding locations, stops, stations, routes and v
     *   `props.placeholder`  
     *   `props.onSelect`  
     *   `props.icon`  
-    *   `props.value`  
+    *   `props.value`   (optional, default `''`)
     *   `props.onClear`  
-    *   `props.lang`  
+    *   `props.lang`   (optional, default `'fi'`)
     *   `props.getAutoSuggestIcons`  
     *   `props.handleViaPoints`  
     *   `props.focusChange`  
     *   `props.storeRef`  
-    *   `props.isMobile`  
+    *   `props.isMobile`   (optional, default `false`)
     *   `props.mobileLabel`  
-    *   `props.inputClassName`  
+    *   `props.inputClassName`   (optional, default `''`)
     *   `props.translatedPlaceholder`  
-    *   `props.required`  
+    *   `props.required`   (optional, default `false`)
     *   `props.ariaLabel`  
-    *   `props.fontWeights`  
-    *   `props.colors`  
+    *   `props.fontWeights`   (optional, default `{medium:500}`)
+    *   `props.colors`   (optional, default `defaultColors`)
     *   `props.modeSet`  
-    *   `props.showScroll`  
-    *   `props.isEmbedded`  
+    *   `props.showScroll`   (optional, default `false`)
+    *   `props.isEmbedded`   (optional, default `false`)
     *   `props.transportMode`  
     *   `props.targets`  
-    *   `props.sources`  
+    *   `props.sources`   (optional, default `[]`)
     *   `props.geocodingSize`  
     *   `props.filterResults`  
     *   `props.searchContext`  
-    *   `props.pathOpts`  
-    *   `props.refPoint`  
+    *   `props.pathOpts`   (optional, default `{routesPrefix:'linjat',stopsPrefix:'pysakit'}`)
+    *   `props.refPoint`   (optional, default `{}`)
 
 ### Properties
 
