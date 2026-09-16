@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Modal from 'react-modal';
 
 export default function MenuDrawer({
@@ -9,6 +9,7 @@ export default function MenuDrawer({
   breakpoint,
   className,
 }) {
+  useEffect(() => Modal.setAppElement(document.querySelector('#app')), []);
   const classNames = {
     base: `${className} ${breakpoint !== 'large' ? 'mobile' : ''} menu-content`,
     afterOpen: 'menu-content-open',
