@@ -105,7 +105,9 @@ export default function StopMarker({
     // see utils/client/mapIconUtils.js for the canvas version
     let iconSvg = `
       <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
-        <circle class="stop ${appendClass}" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}" color="${colorOverride}" />
+        <circle class="stop ${appendClass}" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"${
+          colorOverride ? ` color="${colorOverride}"` : ''
+        } />
         ${
           inner > 7 && stop.platformCode
             ? `<text x="${radius}" y="${radius}" text-anchor="middle" dominant-baseline="central"
