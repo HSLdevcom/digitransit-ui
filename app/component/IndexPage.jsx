@@ -7,7 +7,6 @@ import isEqual from 'lodash/isEqual';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
-import TrafficNowLink from '@digitransit-component/digitransit-component-traffic-now-link';
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import inside from 'point-in-polygon';
@@ -52,7 +51,7 @@ import {
 import { useFavourites, useFavouriteStatus } from '../hooks/FavouriteContext';
 import { useConfigContext } from '../client/ConfigContext';
 import { useCurrentTime } from '../hooks/TimeContext';
-import TrafficNowLinkNew from './trafficnow/TrafficNowLink';
+import TrafficNowLink from './trafficnow/TrafficNowLink';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
@@ -262,12 +261,6 @@ function IndexPage({ fromMap, ...props }, context) {
     );
   };
 
-  const { trafficNowLink, trafficNowTest } = config;
-  const trafficNowHref = trafficNowLink
-    ? `${config.URL.ROOTLINK}/${language === 'fi' ? '' : `${language}/`}${
-        config.trafficNowLink[language]
-      }`
-    : undefined;
   const { breakpoint } = props;
 
   const origin = pendingOriginRef.current || props.origin;
@@ -390,18 +383,7 @@ function IndexPage({ fromMap, ...props }, context) {
             </>
           )}
 
-          {trafficNowLink && !trafficNowTest && (
-            <TrafficNowLink
-              handleClick={(e, lang) => {
-                window.location = `${config.URL.ROOTLINK}/${
-                  lang === 'fi' ? '' : `${lang}/`
-                }${config.trafficNowLink[lang]}`;
-              }}
-              href={trafficNowHref}
-              lang={language}
-            />
-          )}
-          {trafficNowTest && <TrafficNowLinkNew />}
+          <TrafficNowLink />
         </CtrlPanel>
       </div>
       {(showSpinner && <OverlayWithSpinner />) || null}
@@ -433,18 +415,7 @@ function IndexPage({ fromMap, ...props }, context) {
             <StopRouteSearch isMobile {...stopRouteSearchProps} />
           </div>
           <CtrlPanel.SeparatorLine usePaddingBottom20 />
-          {trafficNowLink && !trafficNowTest && (
-            <TrafficNowLink
-              handleClick={(e, lang) => {
-                window.location = `${config.URL.ROOTLINK}/${
-                  lang === 'fi' ? '' : `${lang}/`
-                }${config.trafficNowLink[lang]}`;
-              }}
-              href={trafficNowHref}
-              lang={language}
-            />
-          )}
-          {trafficNowTest && <TrafficNowLinkNew />}
+          <TrafficNowLink />
         </CtrlPanel>
       </div>
     </div>
