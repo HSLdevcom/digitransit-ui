@@ -2,6 +2,7 @@ import cx from 'classnames';
 import React, { useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { matchShape } from 'found';
+import groupBy from 'lodash/groupBy';
 import { stopShape } from '../../../utils/client/shapes';
 import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 import {
@@ -66,7 +67,7 @@ function StopPageTabs({ stop }, { match }) {
     stop.stops ? stop.stops.map(({ gtfsId }) => gtfsId) : [stop.gtfsId],
   );
 
-  const canceledCallsByPattern = Object.groupBy(
+  const canceledCallsByPattern = groupBy(
     canceledCalls,
     ({ tripOnServiceDate }) =>
       tripOnServiceDate.trip.pattern.code + tripOnServiceDate.serviceDate,

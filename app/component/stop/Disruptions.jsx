@@ -1,6 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { uniq } from 'lodash';
+import groupBy from 'lodash/groupBy';
 import { useFragment } from 'react-relay';
 import { DateTime } from 'luxon';
 import DisruptionList from '../DisruptionList';
@@ -69,7 +70,7 @@ const getCancelations = (stop, intl, config) => {
     ? stop.stops.map(({ gtfsId }) => gtfsId)
     : [stop.gtfsId];
   // group by pattern id to make individual disruption objects for each
-  const canceledCallsByRoute = Object.groupBy(
+  const canceledCallsByRoute = groupBy(
     // filter out calls from trips that are not departing from the focused stop or its children
     filterCanceledCalls(stop.canceledCalls, relevantStopIds),
     ({ tripOnServiceDate }) =>

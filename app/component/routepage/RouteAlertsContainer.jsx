@@ -3,6 +3,7 @@ import React from 'react';
 import { useFragment } from 'react-relay';
 import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
+import groupBy from 'lodash/groupBy';
 import DisruptionList from '../DisruptionList';
 import {
   getAlertsForObject,
@@ -21,7 +22,7 @@ const getCancelations = (route, pattern, entity, intl) => {
     return null;
   }
 
-  const canceledTripsByDate = Object.groupBy(
+  const canceledTripsByDate = groupBy(
     pattern.canceledTrips,
     ({ serviceDate }) => serviceDate,
   );

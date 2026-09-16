@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
+import groupBy from 'lodash/groupBy';
 import { matchShape } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import { useConfigContext } from '../../client/ConfigContext';
@@ -360,7 +361,7 @@ function RouteControlPanel(
     getAlertsForObject(selectedPattern),
   );
 
-  const canceledTripsByDate = Map.groupBy(
+  const canceledTripsByDate = groupBy(
     selectedPattern?.canceledTrips || [],
     ({ serviceDate }) => serviceDate,
   );
@@ -372,10 +373,10 @@ function RouteControlPanel(
   );
 
   // if the pattern has cancelations, add one to alert count
-  const alertsCount = alerts.length + canceledTripsByDate.size;
+  const alertsCount = alerts.length + Object.keys(canceledTripsByDate).length;
 
   const disruptionClassName =
-    ((hasActiveAlert || canceledTripsByDate.size) &&
+    ((hasActiveAlert || Object.keys(canceledTripsByDate).length) &&
       'active-disruption-alert') ||
     (hasActiveServiceAlerts && 'active-service-alert');
 

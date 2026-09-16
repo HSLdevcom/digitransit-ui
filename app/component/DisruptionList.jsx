@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import { SuccessAnimationView } from '@hsl-fi/notifications';
+import groupBy from 'lodash/groupBy';
 
 import Disruption from './Disruption';
 import DisruptionDetails from './DisruptionDetails';
@@ -81,7 +82,7 @@ const DisruptionList = ({
     );
   }
 
-  const cancelationsByValidity = Object.groupBy(
+  const cancelationsByValidity = groupBy(
     cancelations,
     ({ effectiveStartDate }) =>
       isToday(effectiveStartDate * 1000, currentTime * 1000)
