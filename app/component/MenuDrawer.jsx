@@ -7,7 +7,7 @@ export default function MenuDrawer({
   children,
   onRequestChange,
   breakpoint,
-  className,
+  className = '',
 }) {
   useEffect(() => Modal.setAppElement(document.querySelector('#app')), []);
   const classNames = {
@@ -36,14 +36,8 @@ export default function MenuDrawer({
 
 MenuDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
-  children: PropTypes.node,
-  onRequestChange: PropTypes.func,
+  children: PropTypes.node.isRequired,
+  onRequestChange: PropTypes.func.isRequired,
   breakpoint: PropTypes.string.isRequired,
   className: PropTypes.string,
-};
-
-MenuDrawer.defaultProps = {
-  children: undefined,
-  onRequestChange: undefined,
-  className: '',
 };
