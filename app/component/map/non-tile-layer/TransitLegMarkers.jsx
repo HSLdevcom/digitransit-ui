@@ -228,7 +228,7 @@ function TransitLegMarkers({
           leg.nextLeg?.interlineWithPreviousLeg &&
           leg.interliningWithRoute !== leg.route.shortName
         }
-        color={leg.route && leg.route.color ? `#${leg.route.color}` : null}
+        color={leg.route && leg.route.color ? `#${leg.route.color}` : undefined}
         leg={{
           from: leg.from,
           to: leg.nextLeg?.interlineWithPreviousLeg ? leg.nextLeg.to : leg.to,
@@ -264,7 +264,7 @@ function TransitLegMarkers({
           leg.nextLeg?.interlineWithPreviousLeg &&
           leg.interliningWithRoute !== leg.route.shortName
         }
-        color={leg.route && leg.route.color ? `#${leg.route.color}` : null}
+        color={leg.route && leg.route.color ? `#${leg.route.color}` : undefined}
         leg={{
           from: leg.from,
           to: leg.nextLeg?.interlineWithPreviousLeg ? leg.nextLeg.to : leg.to,
