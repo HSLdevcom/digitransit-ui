@@ -1,5 +1,6 @@
 import React from 'react';
 import { waitFor } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 
 import {
   Component as MessageBar,
@@ -123,6 +124,42 @@ describe('<MessageBar />', () => {
       config,
       currentTime: defaultProps.currentTime,
     });
+    await waitFor(() =>
+      expect(container.querySelector('.message-bar')).to.equal(null),
+    );
+  });
+
+  it('should hide the only shown message immediately after clicking close, without a remount', async () => {
+    const alerts = [
+      {
+        alertDescriptionText: 'bar',
+        alertHash: 1,
+        alertHeaderText: 'foo',
+        alertSeverityLevel: AlertSeverityLevelType.Severe,
+        effectiveStartDate: defaultProps.currentTime - 100,
+        effectiveEndDate: defaultProps.currentTime + 100,
+        feed: 'Foo',
+      },
+    ];
+    const props = {
+      ...defaultProps,
+      getServiceAlertsAsync: async () => alerts,
+    };
+    const { container } = renderWithProviders(<MessageBar {...props} />, {
+      config,
+      currentTime: defaultProps.currentTime,
+    });
+    await waitFor(() =>
+      expect(container.querySelector('.message-bar')).to.not.equal(null),
+    );
+
+    const closeButton = container.querySelector('#close-message-bar');
+    act(() => {
+      closeButton.dispatchEvent(
+        new window.MouseEvent('click', { bubbles: true }),
+      );
+    });
+
     await waitFor(() =>
       expect(container.querySelector('.message-bar')).to.equal(null),
     );
