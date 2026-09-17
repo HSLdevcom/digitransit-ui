@@ -8,6 +8,7 @@ import {
   getStartTime,
   isTomorrow,
   isToday,
+  getFutureText,
 } from '../../../../utils/client/timeUtils';
 
 const now = DateTime.now();
@@ -124,6 +125,16 @@ describe('timeUtils', () => {
     it('should return true if startTime is today', () => {
       const startTime = now.toMillis();
       expect(isToday(startTime)).to.equal(true);
+    });
+  });
+  describe('getFutureText', () => {
+    it('should format the weekday using the given intl locale', () => {
+      const startTime = now.plus({ days: 2 }).toISO();
+      const intl = { locale: 'fi', formatMessage: () => '' };
+      const finnishText = getFutureText(startTime, intl);
+      expect(finnishText).to.equal(
+        DateTime.fromISO(startTime).setLocale('fi').toFormat('ccc d.L.'),
+      );
     });
   });
 });
