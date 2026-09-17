@@ -12,10 +12,6 @@ export default function MainMenuContainer({ breakpoint, closeMenu, ...rest }) {
 }
 
 MainMenuContainer.propTypes = {
-  breakpoint: PropTypes.string,
+  breakpoint: PropTypes.string.isRequired,
   closeMenu: PropTypes.func.isRequired,
-};
-
-MainMenuContainer.defaultProps = {
-  breakpoint: 'small',
 };
