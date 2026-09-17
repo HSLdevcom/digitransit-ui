@@ -119,10 +119,12 @@ function IndexPage({ fromMap, ...props }, context) {
 
     const { location } = match;
 
-    // assign locationState conditionally
+    // assign locationState conditionally, but never as a stand-in origin
+    // when the destination is already the user's own current location
     const currentLocation =
       config.startSearchFromUserLocation &&
       !origin.address &&
+      destination.type !== 'CurrentLocation' &&
       locationState?.hasLocation &&
       locationState;
 
