@@ -347,9 +347,13 @@ export default {
       'Kör din bil ombord på färjan',
     'itinerary-summary.carAndPublic-rail-title': 'Kör din bil ombord på tåget',
     'itinerary-summary.interline-wait':
-      'Linjenumret ({shortName}) och destinationen ({destination}) ändras vid hållplats {stop}. Resan fortsätter om {time}. Vänta ombord på bussen.',
+      'Linjenumret ({shortName}) och destinationen ({destination}) ändras vid hållplats {stop}. Resan fortsätter om {time}. Vänta ombord.',
     'itinerary-summary.interline-wait-multiple-legs':
-      'Linjenumret ({shortName}) och destinationen ändras många gånger under resan. Väntetiden är sammanlagt {time}. Vänta på fordon.',
+      'Linjenumret ({shortName}) och destinationen ändras många gånger under resan. Väntetiden är sammanlagt {time}. Vänta ombord.',
+    'itinerary-summary.interline-wait-multiple-legs-same-route':
+      'Destinationen ändras många gånger under resan. Väntetiden är sammanlagt {time}. Vänta ombord.',
+    'itinerary-summary.interline-wait-same-route':
+      'Destinationen ({destination}) ändras vid hållplats {stop}. Resan fortsätter om {time}. Vänta ombord.',
     'itinerary-summary.show-on-map': 'Visa på kartan {target}',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',

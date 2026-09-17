@@ -354,6 +354,10 @@ export default {
       'The route number ({shortName}) and destination ({destination}) will change at the {stop} stop. Waiting time at the stop is {time}. Please wait onboard.',
     'itinerary-summary.interline-wait-multiple-legs':
       'The route number ({shortName}) and destination will change several times during the journey. Total waiting time is {time}. Please do not leave the vehicle.',
+    'itinerary-summary.interline-wait-multiple-legs-same-route':
+      'The destination will change several times during the journey. Total waiting time is {time}. Please do not leave the vehicle.',
+    'itinerary-summary.interline-wait-same-route':
+      'The destination ({destination}) will change at the {stop} stop. Waiting time at the stop is {time}. Please wait onboard.',
     'itinerary-summary.show-on-map': 'Show on map {target}',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
