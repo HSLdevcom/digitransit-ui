@@ -256,6 +256,10 @@ const getNewTargets = ({
  * @property {Object} [pathOpts]
  * @property {Object} [refPoint]
  * @param {DTAutosuggestProps} props
+ * @param {string[]} [props.sources=[]]
+ * @param {Object} [props.pathOpts={routesPrefix: 'linjat', stopsPrefix: 'pysakit'}]
+ * @param {Object} [props.refPoint={}]
+ * @param {Object} [props.fontWeights={medium: 500}]
  * @returns {JSX.Element}
  */
 function DTAutosuggest({

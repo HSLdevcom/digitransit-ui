@@ -26,6 +26,10 @@ An autosuggest search input for finding locations, stops, stations, routes and v
 
 *   `props` **DTAutosuggestProps** 
 
+    *   `props.fontWeights` **[Object][1]**  (optional, default `{medium:500}`)
+    *   `props.sources` **[Array][2]<[string][3]>**  (optional, default `[]`)
+    *   `props.pathOpts` **[Object][1]**  (optional, default `{routesPrefix:'linjat',stopsPrefix:'pysakit'}`)
+    *   `props.refPoint` **[Object][1]**  (optional, default `{}`)
     *   `props.appElement`  
     *   `props.id`  
     *   `props.placeholder`  
@@ -44,19 +48,15 @@ An autosuggest search input for finding locations, stops, stations, routes and v
     *   `props.translatedPlaceholder`  
     *   `props.required`   (optional, default `false`)
     *   `props.ariaLabel`  
-    *   `props.fontWeights`   (optional, default `{medium:500}`)
     *   `props.colors`   (optional, default `defaultColors`)
     *   `props.modeSet`  
     *   `props.showScroll`   (optional, default `false`)
     *   `props.isEmbedded`   (optional, default `false`)
     *   `props.transportMode`  
     *   `props.targets`  
-    *   `props.sources`   (optional, default `[]`)
     *   `props.geocodingSize`  
     *   `props.filterResults`  
     *   `props.searchContext`  
-    *   `props.pathOpts`   (optional, default `{routesPrefix:'linjat',stopsPrefix:'pysakit'}`)
-    *   `props.refPoint`   (optional, default `{}`)
 
 ### Properties
 
