@@ -22,6 +22,18 @@ import { Input } from './components/Input';
 import { Suggestions } from './components/Suggestions';
 import { searchReducer } from './utils/searchReducer';
 
+// Hoisted so these defaults are referentially stable across renders. Using
+// inline object/array literals as parameter defaults (e.g. `sources = []`)
+// creates a brand-new reference on every render in which the caller omits
+// the prop, which in turn invalidates every hook (useEffect/useCallback/
+// useMemo) that depends on them - e.g. causing `fetchSuggestions` to be
+// recreated and refetch on every render, and the `RESET_SOURCES` effect to
+// fire in a loop.
+const DEFAULT_SOURCES = [];
+const DEFAULT_PATH_OPTS = { routesPrefix: 'linjat', stopsPrefix: 'pysakit' };
+const DEFAULT_REF_POINT = {};
+const DEFAULT_FONT_WEIGHTS = { medium: 500 };
+
 const getAriaProps = ({
   id,
   ariaLabel,
@@ -265,19 +277,19 @@ function DTAutosuggest({
   translatedPlaceholder,
   required = false,
   ariaLabel,
-  fontWeights = { medium: 500 },
+  fontWeights = DEFAULT_FONT_WEIGHTS,
   colors = defaultColors,
   modeSet,
   showScroll = false,
   isEmbedded = false,
   transportMode,
   targets,
-  sources = [],
+  sources = DEFAULT_SOURCES,
   geocodingSize,
   filterResults,
   searchContext,
-  pathOpts = { routesPrefix: 'linjat', stopsPrefix: 'pysakit' },
-  refPoint = {},
+  pathOpts = DEFAULT_PATH_OPTS,
+  refPoint = DEFAULT_REF_POINT,
 }) {
   const [t] = useTranslation();
   const initialState = {
