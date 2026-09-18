@@ -3,7 +3,7 @@ import fetchMock from 'fetch-mock';
 import { describe, it, afterEach } from 'mocha';
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import sinon from 'sinon';
 import { ConfigProvider } from '../../../app/client/ConfigContext';
@@ -93,7 +93,7 @@ describe('MessageContext', () => {
       const controlRef = React.createRef();
 
       await act(async () => {
-        wrapper = mount(
+        wrapper = render(
           <ConfigProvider value={config}>
             <MessageProvider>
               <MessageConsumer controlRef={controlRef} />
@@ -102,7 +102,6 @@ describe('MessageContext', () => {
         );
       });
       await flushEffects();
-      wrapper.update();
 
       expect(fetchMock.callHistory.called(staticMessagesUrl)).to.equal(true);
       expect(controlRef.current.messages).to.deep.equal([
@@ -127,7 +126,7 @@ describe('MessageContext', () => {
       const controlRef = React.createRef();
 
       await act(async () => {
-        wrapper = mount(
+        wrapper = render(
           <ConfigProvider value={config}>
             <MessageProvider>
               <MessageConsumer controlRef={controlRef} />
@@ -136,7 +135,6 @@ describe('MessageContext', () => {
         );
       });
       await flushEffects();
-      wrapper.update();
 
       expect(fetchMock.callHistory.called()).to.equal(false);
     });
@@ -145,7 +143,7 @@ describe('MessageContext', () => {
   describe('addMessage', () => {
     it('adds a message and increments duplicateMessageCounter on repeat', async () => {
       const controlRef = React.createRef();
-      wrapper = mount(
+      wrapper = render(
         <ConfigProvider value={mockContext.config}>
           <MessageProvider>
             <MessageConsumer controlRef={controlRef} />
@@ -162,14 +160,12 @@ describe('MessageContext', () => {
       act(() => {
         controlRef.current.actions.addMessage(message);
       });
-      wrapper.update();
       expect(controlRef.current.messages.length).to.equal(1);
       expect(controlRef.current.duplicateMessageCounter).to.equal(0);
 
       act(() => {
         controlRef.current.actions.addMessage(message);
       });
-      wrapper.update();
       expect(controlRef.current.messages.length).to.equal(1);
       expect(controlRef.current.duplicateMessageCounter).to.equal(1);
     });
@@ -179,7 +175,7 @@ describe('MessageContext', () => {
     it('removes the message and persists the read id', async () => {
       setReadMessageIds([]);
       const controlRef = React.createRef();
-      wrapper = mount(
+      wrapper = render(
         <ConfigProvider value={mockContext.config}>
           <MessageProvider>
             <MessageConsumer controlRef={controlRef} />
@@ -195,13 +191,11 @@ describe('MessageContext', () => {
       act(() => {
         controlRef.current.actions.addMessage(message);
       });
-      wrapper.update();
       expect(controlRef.current.messages.length).to.equal(1);
 
       act(() => {
         controlRef.current.actions.markMessageAsRead('42');
       });
-      wrapper.update();
       expect(controlRef.current.messages.length).to.equal(0);
     });
 
@@ -215,7 +209,7 @@ describe('MessageContext', () => {
       // in this case.
       setReadMessageIds([]);
       const controlRef = React.createRef();
-      wrapper = mount(
+      wrapper = render(
         <ConfigProvider value={mockContext.config}>
           <MessageProvider>
             <MessageConsumer controlRef={controlRef} />
@@ -227,7 +221,6 @@ describe('MessageContext', () => {
       act(() => {
         controlRef.current.actions.markMessageAsRead('never-added-id');
       });
-      wrapper.update();
       expect(controlRef.current.messages).to.not.equal(messagesBefore);
     });
   });
@@ -239,7 +232,7 @@ describe('MessageContext', () => {
       // through the messageActions bridge instead of useMessageActions().
       setReadMessageIds([]);
       const controlRef = React.createRef();
-      wrapper = mount(
+      wrapper = render(
         <ConfigProvider value={mockContext.config}>
           <MessageProvider>
             <MessageConsumer controlRef={controlRef} />
@@ -255,7 +248,6 @@ describe('MessageContext', () => {
       act(() => {
         messageActions.addMessage(message);
       });
-      wrapper.update();
       expect(controlRef.current.messages.map(m => m.id)).to.include(
         'geolocation-denied',
       );
@@ -263,7 +255,6 @@ describe('MessageContext', () => {
       act(() => {
         messageActions.markMessageAsRead('geolocation-denied');
       });
-      wrapper.update();
       expect(controlRef.current.messages.map(m => m.id)).to.not.include(
         'geolocation-denied',
       );
