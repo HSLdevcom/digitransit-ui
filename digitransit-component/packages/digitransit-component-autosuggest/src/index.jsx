@@ -22,6 +22,18 @@ import { Input } from './components/Input';
 import { Suggestions } from './components/Suggestions';
 import { searchReducer } from './utils/searchReducer';
 
+// Hoisted so these defaults are referentially stable across renders. Using
+// inline object/array literals as parameter defaults (e.g. `sources = []`)
+// creates a brand-new reference on every render in which the caller omits
+// the prop, which in turn invalidates every hook (useEffect/useCallback/
+// useMemo) that depends on them - e.g. causing `fetchSuggestions` to be
+// recreated and refetch on every render, and the `RESET_SOURCES` effect to
+// fire in a loop.
+const DEFAULT_SOURCES = [];
+const DEFAULT_PATH_OPTS = { routesPrefix: 'linjat', stopsPrefix: 'pysakit' };
+const DEFAULT_REF_POINT = {};
+const DEFAULT_FONT_WEIGHTS = { medium: 500 };
+
 const getAriaProps = ({
   id,
   ariaLabel,
@@ -265,19 +277,19 @@ function DTAutosuggest({
   translatedPlaceholder,
   required = false,
   ariaLabel,
-  fontWeights = { medium: 500 },
+  fontWeights = DEFAULT_FONT_WEIGHTS,
   colors = defaultColors,
   modeSet,
   showScroll = false,
   isEmbedded = false,
   transportMode,
   targets,
-  sources = [],
+  sources = DEFAULT_SOURCES,
   geocodingSize,
   filterResults,
   searchContext,
-  pathOpts = { routesPrefix: 'linjat', stopsPrefix: 'pysakit' },
-  refPoint = {},
+  pathOpts = DEFAULT_PATH_OPTS,
+  refPoint = DEFAULT_REF_POINT,
 }) {
   const [t] = useTranslation();
   const initialState = {
@@ -289,7 +301,6 @@ function DTAutosuggest({
     isCleared: false,
     renderMobile: false,
     value,
-    enterPending: false,
     isMenuOpen: false,
   };
   const [state, dispatch] = useReducer(searchReducer, initialState);
@@ -298,6 +309,12 @@ function DTAutosuggest({
   useEffect(() => dispatch({ type: 'RESET_SOURCES', sources }), [sources]);
   // create and store input ref in the parent if storeRef is provided
   const inputRef = useRef(id);
+  // Tracks whether the user pressed enter/clicked an item while suggestions
+  // were still loading; a ref (rather than reducer state) is used because
+  // setting it is a pure bookkeeping side effect of the stateReducer below,
+  // not something that should itself trigger a render or round-trip through
+  // another dispatch.
+  const pendingEnterRef = useRef(false);
   useEffect(() => {
     if (storeRef) {
       storeRef(inputRef.current);
@@ -412,8 +429,35 @@ function DTAutosuggest({
     [isMobile],
   );
 
-  const onSelectedItemChange = changes =>
-    selectSuggestion(changes.selectedItem, changes.highlightedIndex);
+  const onSelectedItemChange = changes => {
+    const { selectedItem } = changes;
+    if (!selectedItem) {
+      return;
+    }
+    // These are sentinel navigation items, not real suggestions: react to
+    // them here (the designated place for side effects) instead of from
+    // inside the stateReducer, which should stay a pure function computing
+    // downshift's next state.
+    if (selectedItem.type === 'SelectFromOwnLocations') {
+      dispatch({
+        type: 'SET_SOURCES',
+        sources: ['Favourite', 'Back'],
+        showOwnPlaces: true,
+        pendingSelection: selectedItem.type,
+      });
+      return;
+    }
+    if (selectedItem.type === 'back') {
+      dispatch({
+        type: 'SET_SOURCES',
+        sources,
+        showOwnPlaces: false,
+        pendingSelection: null,
+      });
+      return;
+    }
+    selectSuggestion(selectedItem, changes.highlightedIndex);
+  };
 
   const {
     isOpen,
@@ -439,33 +483,25 @@ function DTAutosuggest({
         switch (type) {
           case useCombobox.stateChangeTypes.ItemClick:
           case useCombobox.stateChangeTypes.InputKeyDownEnter: {
-            // setCleared(false);
-            // keep enterPressedRef to make selection when suggestions have loaded
+            // If suggestions are still loading, remember that a selection was
+            // requested and let the effect below make it once loading
+            // finishes - see the "pending enter" effect near closeMenu().
             if (state.loading) {
-              dispatch({ type: 'PENDING_ENTER', enterPending: true });
+              pendingEnterRef.current = true;
               return oldState;
             }
             if (!changes.selectedItem) {
               return changes;
             }
-            if (changes.selectedItem.type === 'SelectFromOwnLocations') {
-              // if selecting from own locations, keep menu open and keep old state
-              dispatch({
-                type: 'SET_SOURCES',
-                sources: ['Favourite', 'Back'],
-                showOwnPlaces: true,
-                pendingSelection: changes.selectedItem.type,
-              });
-              return oldState;
-            }
-            if (changes.selectedItem.type === 'back') {
-              dispatch({
-                type: 'SET_SOURCES',
-                sources,
-                showOwnPlaces: false,
-                pendingSelection: null,
-              });
-              return oldState;
+            if (
+              changes.selectedItem.type === 'SelectFromOwnLocations' ||
+              changes.selectedItem.type === 'back'
+            ) {
+              // Keep the menu open for these sentinel "navigation" items
+              // instead of closing/committing a normal selection. The
+              // source-switching side effect itself runs in
+              // onSelectedItemChange once downshift commits this change.
+              return { ...changes, isOpen: true };
             }
             return changes;
           }
@@ -483,7 +519,7 @@ function DTAutosuggest({
             if (changes.selectedItem) {
               return {
                 ...changes,
-                selectedItem: oldState.selectItem,
+                selectedItem: oldState.selectedItem,
                 inputValue: oldState.inputValue,
               };
             }
@@ -558,11 +594,12 @@ function DTAutosuggest({
 
   // this effect handles selecting the suggestion when enter was pressed but suggestions were still loading
   useEffect(() => {
-    if (state.enterPending && !state.loading) {
+    if (pendingEnterRef.current && !state.loading) {
+      pendingEnterRef.current = false;
       selectSuggestion(state.suggestions[0], 0);
       closeMenu();
     }
-  }, [state.loading, state.pendingEnter, state.suggestions]);
+  }, [state.loading, state.suggestions]);
 
   const baseItemProps = useMemo(
     () => ({
@@ -645,6 +682,7 @@ function DTAutosuggest({
           required={required}
           state={state}
           dispatch={dispatch}
+          pendingEnterRef={pendingEnterRef}
         />
       )}
 

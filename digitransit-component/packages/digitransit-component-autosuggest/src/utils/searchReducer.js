@@ -49,12 +49,6 @@ export const searchReducer = (state, action) => {
     case 'RESET': {
       return action.initialState;
     }
-    case 'PENDING_ENTER': {
-      return {
-        ...state,
-        enterPending: action.enterPending,
-      };
-    }
     case 'TOGGLE_MENU': {
       if (action.isMobile) {
         if (!state.renderMobile) {
