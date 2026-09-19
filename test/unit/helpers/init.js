@@ -35,6 +35,20 @@ const copyProps = (src, target) => {
   Object.defineProperties(target, props);
 };
 
+// Temporarily default NODE_ENV to 'development' for mocha's module-loading
+// phase only (restored below, in the root `before` hook, before any test
+// body runs). This file is loaded via mocha's `--file` flag, which
+// guarantees it runs before any globbed test file's own top-level imports -
+// server/** modules that read NODE_ENV at *import time* (e.g.
+// server/html/assetManifest.js, which skips reading the production
+// manifest.json/stats.json - absent in this environment - specifically
+// under 'development') would otherwise crash before any test even starts.
+// It must not stay 'development' for the actual test run: e.g.
+// test/unit/server/configs/config.test.js exercises getConfiguration()'s
+// host-based config lookup, which is itself gated to skip in dev mode.
+const originalNodeEnv = process.env.NODE_ENV;
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
 // set up timezone in luxon
 Settings.defaultZone = 'Europe/Helsinki';
 Settings.defaultLocale = 'fi';
@@ -79,6 +93,7 @@ const MockLink = ({ children }) => children;
 
 // set up mocha hooks
 before('setting up the environment', () => {
+  process.env.NODE_ENV = originalNodeEnv;
   const callback = warning => {
     throw new Error(warning);
   };

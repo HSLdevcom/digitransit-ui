@@ -3,15 +3,16 @@ import { describe, it } from 'mocha';
 import {
   validateParams,
   dropPathLanguageAndFixLocaleParam,
-} from '../../server/reittiopasParameterMiddleware';
+} from '../../../../server/middleware/legacyUrlMiddleware';
 
-import config from '../../server/configs/config.default';
-import { PREFIX_ITINERARY_SUMMARY } from '../../utils/shared/path';
+import config from '../../../../server/configs/config.default';
+import { LEGACY_LOCALE_PATH_SEGMENTS } from '../../../../utils/shared/constants';
+import { PREFIX_ITINERARY_SUMMARY } from '../../../../utils/shared/path';
 
 // validateParams returns an url if it is modified and it removes invalid
 // parameteres from req.query => two ways to check if it did what it should
 
-describe('reittiopasParameterMiddleware', () => {
+describe('legacyUrlMiddleware', () => {
   describe('validateParams', () => {
     const req = {
       query: {
@@ -69,6 +70,25 @@ describe('reittiopasParameterMiddleware', () => {
       expect(relativeUrl).to.equal(
         `/${PREFIX_ITINERARY_SUMMARY}/Otaniemi,%20Espoo::60.187938,24.83182/Rautatientori,%20Asemanaukio%202,%20Helsinki::60.170384,24.939846?time=1565074800&arriveBy=false&locale=en`,
       );
+    });
+
+    it('should drop the special "slangi" pseudo-locale to the "fi" query param', () => {
+      req.path = '/slangi/';
+      req.query = {};
+      const relativeUrl = dropPathLanguageAndFixLocaleParam(req, 'slangi');
+      expect(relativeUrl).to.equal('/?locale=fi');
+    });
+  });
+
+  describe('LEGACY_LOCALE_PATH_SEGMENTS', () => {
+    it('is the single source of truth this middleware redirects on', () => {
+      expect(LEGACY_LOCALE_PATH_SEGMENTS).to.include.members([
+        'fi',
+        'en',
+        'sv',
+        'ru',
+        'slangi',
+      ]);
     });
   });
 });

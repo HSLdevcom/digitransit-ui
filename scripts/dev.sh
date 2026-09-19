@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Local development runner: runs Relay, the SSR dev server (nodemon),
+# Local development runner: runs Relay, the Express dev server (nodemon),
 # webpack-dev-server and the Digitransit workspace watchers in parallel
 # until interrupted.
 #

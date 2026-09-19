@@ -1,6 +1,7 @@
 import isFinite from 'lodash/isFinite.js';
-import oldParamParser from '../utils/shared/oldParamParser.js';
-import { getConfiguration } from './configs/config.js';
+import oldParamParser from '../../utils/shared/oldParamParser.js';
+import { LEGACY_LOCALE_PATH_SEGMENTS } from '../../utils/shared/constants.js';
+import { getConfiguration } from '../configs/config.js';
 
 function formatQuery(query) {
   const params = Object.keys(query)
@@ -64,7 +65,7 @@ const fixLocaleParamAndRedirect = (req, res, lang) => {
   res.redirect(fixedUrl);
 };
 
-export default function reittiopasParameterMiddleware(req, res, next) {
+export default function legacyUrlMiddleware(req, res, next) {
   const config = getConfiguration(req);
   const newUrl = validateParams(req, config);
   if (newUrl) {
@@ -86,7 +87,7 @@ export default function reittiopasParameterMiddleware(req, res, next) {
       req.query.to_in
     ) {
       oldParamParser(req.query, config).then(url => res.redirect(url));
-    } else if (['fi', 'en', 'sv', 'ru', 'slangi'].includes(lang)) {
+    } else if (LEGACY_LOCALE_PATH_SEGMENTS.includes(lang)) {
       dropPathLanguageAndRedirect(req, res, lang);
     } else {
       const { locale } = req.query;

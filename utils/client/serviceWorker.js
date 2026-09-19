@@ -21,7 +21,7 @@ import { CacheFirst } from 'workbox-strategies';
 // stale caches are simply superseded by new URLs on the next deploy.
 // `self.__WB_MANIFEST` entry URLs are prefixed at build time (see the
 // `modifyURLPrefix` option passed to `InjectManifest`) with a
-// placeholder token, which `server/server.js` replaces at request time
+// placeholder token, which `server/app.js` replaces at request time
 // with the deployment's `ASSET_URL` (or with an empty string when
 // `ASSET_URL` is unset) - this preserves the CDN base URL override that
 // previously ran through `server/swInjection.js`.
