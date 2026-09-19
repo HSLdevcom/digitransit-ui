@@ -30,7 +30,7 @@ import oldParamParser from '../../utils/shared/oldParamParser';
 import { LEGACY_LOCALE_PATH_SEGMENTS } from '../../utils/shared/constants';
 import { ClientProvider as ClientBreakpointProvider } from '../../utils/client/withBreakpoint';
 import IntlBridge from '../../utils/client/IntlBridge';
-import meta from '../../utils/shared/meta';
+import getMetadata from '../../utils/shared/metaUtils';
 import {
   initAnalyticsClientSide,
   addAnalyticsEvent,
@@ -227,7 +227,7 @@ async function init() {
       <ErrorBoundary>
         <React.Fragment>
           <Helmet
-            {...meta(
+            {...getMetadata(
               language,
               window.location.host,
               window.location.href,
