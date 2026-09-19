@@ -27,6 +27,7 @@ import appCreator from './app';
 import { BUILD_TIME } from './buildInfo';
 import ErrorBoundary from '../component/ErrorBoundary';
 import oldParamParser from '../../utils/shared/oldParamParser';
+import { LEGACY_LOCALE_PATH_SEGMENTS } from '../../utils/shared/constants';
 import { ClientProvider as ClientBreakpointProvider } from '../../utils/client/withBreakpoint';
 import IntlBridge from '../../utils/client/IntlBridge';
 import meta from '../../utils/shared/meta';
@@ -175,7 +176,9 @@ async function init() {
       oldParamParser(query, config).then(redirectUrl =>
         window.location.replace(redirectUrl),
       );
-    } else if (['/fi/', '/en/', '/sv/', '/ru/', '/slangi/'].includes(path)) {
+    } else if (
+      LEGACY_LOCALE_PATH_SEGMENTS.map(segment => `/${segment}/`).includes(path)
+    ) {
       window.location.replace('/');
     }
   }

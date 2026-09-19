@@ -1,10 +1,3 @@
-// The `server/configs/` require-chain reached from
-// `./scripts/build/contextHelper.js` (`server/configs/config.js` and
-// friends) is native ESM now - the repo is
-// `"type": "module"` - so this config no longer needs `@babel/register` to
-// load it. `import.meta.dirname` (as `rootDir`) replaces `__dirname`;
-// `createRequire` is kept only for the two `require.resolve(...)` polyfill
-// lookups below.
 import path from 'path';
 import fs from 'fs';
 import { createRequire } from 'module';
@@ -35,9 +28,9 @@ const selectedTheme = new RegExp(
 );
 
 // Small stand-in for the unmaintained `stats-webpack-plugin`: writes the
-// same trimmed-down stats shape that server/server.js's (via
-// server/serve.js) asset lookup reads to know which built JS/CSS files
-// belong to the `main` entrypoint. `server/serve.js` expects
+// same trimmed-down stats shape that server/middleware/shell.js's (via
+// server/html/assetManifest.js) asset lookup reads to know which built
+// JS/CSS files belong to the `main` entrypoint. It expects
 // `entrypoints.<name>.assets` to be an array of plain filename strings
 // (the shape `stats-webpack-plugin` used to produce), not webpack5's
 // native `{ name, size }` asset objects, so that shape is preserved here.
@@ -88,7 +81,7 @@ const productionPlugins = [
       /\.css$/,
     ],
     // Bake the ASSET_URL placeholder into every precached URL; replaced
-    // at request time in server/server.js. See scripts/build/assetUrlPlaceholder.js.
+    // at request time in server/app.js. See scripts/build/assetUrlPlaceholder.js.
     modifyURLPrefix: { '': ASSET_URL_PLACEHOLDER },
   }),
   new MiniCssExtractPlugin({

@@ -33,10 +33,16 @@ right one by *who consumes the code*, not just by convenience.
     `digitransit-component` packages ship their own i18next translation bundles instead, sorted/
     checked separately via `scripts/workspace-packages/sort-translations.js`.
   - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
-- `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint), `serve.js`
-  (renders the initial HTML shell — meta tags, config, asset preloads; no React runs server-side,
-  the client bundle does all component rendering), `reittiopasParameterMiddleware.js`,
-  `passport-openid-connect/`, `proxyTester.js`, and `configs/` — `config.js` (server-side config
+- `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint: boot-time data
+  fetches via `services/`, `.listen()`, graceful shutdown), `app.js` (`createApp()` — builds the
+  configured Express app, no `.listen()`, so it's directly testable with supertest),
+  `middleware/` — `shell.js` (renders the initial HTML shell — meta tags, config, asset preloads;
+  no React runs server-side, the client bundle does all component rendering),
+  `legacyUrlMiddleware.js` (redirects legacy reittiopas-era URLs), `devProxy.js` (dev-mode
+  `/proxy/` passthrough to webpack-dev-server), `services/` — boot-time integrations
+  (`ticketPrices.js`, `geoJsonZones.js`, `citybikeSeasons.js`), `html/` — HTML-shell helpers
+  (`assetManifest.js` reads webpack's build manifest, `polyfills.js` serves user-agent-specific
+  polyfills), `passport-openid-connect/`, and `configs/` — `config.js` (server-side config
   resolution/merging by host) plus one `config.<region>.js` per deployment.
 - `utils/` — helper modules split by consumer (see "Server/client boundary" below):
   - `shared/` — used by both server and client, e.g. `constants.js`, `meta.js`,
