@@ -1,5 +1,5 @@
 import serialize from 'serialize-javascript';
-import meta from '../../utils/shared/meta.js';
+import getMetadata from '../../utils/shared/metaUtils.js';
 import { getConfiguration } from '../configs/config.js';
 import { getAnalyticsInitCode } from '../../utils/shared/analyticsUtils.js';
 import {
@@ -32,7 +32,7 @@ function getAssetContext() {
 
 async function buildHead(config, req, locale) {
   const polyfills = await getPolyfills(req.headers['user-agent'], config);
-  const metadata = meta(
+  const metadata = getMetadata(
     locale,
     req.hostname,
     `https://${req.hostname}${req.originalUrl}`,

@@ -74,10 +74,6 @@ export default function getMetadata(lang, host, url, config) {
         content: config.socialMedia.twitter.site,
       },
       {
-        property: 'twitter:creator',
-        content: config.socialMedia.twitter.site,
-      },
-      {
         property: 'twitter:title',
         content: config.socialMedia.title,
       },
@@ -92,7 +88,7 @@ export default function getMetadata(lang, host, url, config) {
     ],
     link: [
       {
-        rel: 'yandex-tableaou-widget',
+        rel: 'yandex-tableau-widget',
         href: `${iconPath}yandex-browser-manifest.json`,
       },
     ],

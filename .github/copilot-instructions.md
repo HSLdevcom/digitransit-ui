@@ -35,22 +35,22 @@ right one by *who consumes the code*, not just by convenience.
   - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
 - `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint: boot-time data
   fetches via `services/`, `.listen()`, graceful shutdown), `app.js` (`createApp()` — builds the
-  configured Express app, no `.listen()`, so it's directly testable with supertest),
-  `middleware/` — `shell.js` (renders the initial HTML shell — meta tags, config, asset preloads;
-  no React runs server-side, the client bundle does all component rendering),
-  `legacyUrlMiddleware.js` (redirects legacy reittiopas-era URLs), `devProxy.js` (dev-mode
-  `/proxy/` passthrough to webpack-dev-server), `services/` — boot-time integrations
-  (`ticketPrices.js`, `geoJsonZones.js`, `citybikeSeasons.js`), `html/` — HTML-shell helpers
-  (`assetManifest.js` reads webpack's build manifest, `polyfills.js` serves user-agent-specific
-  polyfills), `passport-openid-connect/`, and `configs/` — `config.js` (server-side config
-  resolution/merging by host) plus one `config.<region>.js` per deployment.
+  configured Express app, including the dev-mode `/proxy/` passthrough to webpack-dev-server, no
+  `.listen()`, so it's directly testable with supertest), `middleware/` — `shell.js` (renders the
+  initial HTML shell — meta tags, config, asset preloads; no React runs server-side, the client
+  bundle does all component rendering), `legacyUrlMiddleware.js` (redirects legacy reittiopas-era
+  URLs), `services/` — boot-time integrations (`ticketPrices.js`, `geoJsonZones.js`,
+  `citybikeSeasons.js`), `html/` — HTML-shell helpers (`assetManifest.js` reads webpack's build
+  manifest, `polyfills.js` serves user-agent-specific polyfills), `passport-openid-connect/`, and
+  `configs/` — `config.js` (server-side config resolution/merging by host) plus one
+  `config.<region>.js` per deployment.
 - `utils/` — helper modules split by consumer (see "Server/client boundary" below):
-  - `shared/` — used by both server and client, e.g. `constants.js`, `meta.js`,
+  - `shared/` — used by both server and client, e.g. `constants.js`, `metaUtils.js`,
     `analyticsUtils.js`, `gtfs.js`, `citybikeSeasonUtils.js`. Isomorphic only: a file (or a
     function within a file, e.g. `vehicleRentalUtils.js`'s pure network/config helpers vs. its
     `client/` counterpart's `localStorage`/analytics-touching ones) belongs here only if it's
     safe to run on the server too — no `window`/`document`/`localStorage` access.
-  - `server/` — server-only, e.g. `configMerger.js`, `realtimeUtils.js`,
+  - `server/` — server-only, e.g. `configMerger.js`, `metaUtils.js`, `realtimeUtils.js`,
     `timetableConfigUtils.js` — config-assembly helpers used only by `server/configs/*.js`.
   - `client/` — client-bundle-only, e.g. `localStorage.js`,
     plus its own `__generated__/` for Relay fragments used by utils.
