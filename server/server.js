@@ -49,23 +49,19 @@ process.on('unhandledRejection', (reason, p) => {
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
-async function main() {
-  const config = getConfiguration();
-  const { app, redisClient } = createApp();
-  state.redisClient = redisClient;
+const config = getConfiguration();
+const { app, redisClient } = createApp();
+state.redisClient = redisClient;
 
-  await Promise.all([
-    fetchTicketPrices(config),
-    collectGeoJsonZones(),
-    fetchCitybikeConfigurations(),
-  ]);
+await Promise.all([
+  fetchTicketPrices(config),
+  collectGeoJsonZones(),
+  fetchCitybikeConfigurations(),
+]);
 
-  state.httpServer = app.listen(config.PORT, () =>
-    console.log(
-      'Digitransit-ui available on port %d',
-      state.httpServer.address().port,
-    ),
-  );
-}
-
-await main();
+state.httpServer = app.listen(config.PORT, () =>
+  console.log(
+    'Digitransit-ui available on port %d',
+    state.httpServer.address().port,
+  ),
+);
