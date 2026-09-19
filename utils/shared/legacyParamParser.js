@@ -127,7 +127,7 @@ function parseTime(query, config) {
   return Promise.resolve(timeStr);
 }
 
-export default function oldParamParser(query, config) {
+export default function legacyParamParser(query, config) {
   return Promise.all([
     parseLocation(query.from, query.from_in, config),
     parseLocation(query.to, query.to_in, config),

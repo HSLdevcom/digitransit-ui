@@ -12,7 +12,7 @@ import { getConfiguration } from './configs/config.js';
 import setUpOIDC from './passport-openid-connect/openidConnect.js';
 import legacyUrlMiddleware from './middleware/legacyUrlMiddleware.js';
 import shell from './middleware/shell.js';
-import { LEGACY_LOCALE_PATH_SEGMENTS } from '../utils/shared/constants.js';
+import { LEGACY_LOCALE_PATHS } from '../utils/shared/constants.js';
 
 function setUpOpenId(app) {
   const config = getConfiguration();
@@ -116,10 +116,7 @@ function setUpMiddleware(app) {
 }
 
 function setUpRoutes(app) {
-  app.use(
-    ['/', ...LEGACY_LOCALE_PATH_SEGMENTS.map(segment => `/${segment}/`)],
-    legacyUrlMiddleware,
-  );
+  app.use(['/', ...LEGACY_LOCALE_PATHS], legacyUrlMiddleware);
   app.use(shell);
 
   // Make sure req has the correct hostname extracted from the proxy info
