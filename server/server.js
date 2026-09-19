@@ -51,7 +51,7 @@ process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
 async function main() {
   const config = getConfiguration();
-  const { app, port, redisClient } = createApp();
+  const { app, redisClient } = createApp();
   state.redisClient = redisClient;
 
   await Promise.all([
@@ -60,7 +60,7 @@ async function main() {
     fetchCitybikeConfigurations(),
   ]);
 
-  state.httpServer = app.listen(port, () =>
+  state.httpServer = app.listen(config.PORT, () =>
     console.log(
       'Digitransit-ui available on port %d',
       state.httpServer.address().port,

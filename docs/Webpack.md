@@ -281,8 +281,8 @@ Only used by `webpack-dev-server` during `yarn run dev`. Notable:
 `publicPath: '/'` under `/proxy/` (matches `output.publicPath`), `hot:
 false` (full reload on change, no HMR), IPv6 loopback host (`::1`), and a
 permissive CORS header so the separately-running app server
-(`server/middleware/devProxy.js`) can proxy asset requests to this dev server.
-Since `devServer.host` is IPv6-only, `server/middleware/devProxy.js` targets the
+(`server/app.js`) can proxy asset requests to this dev server.
+Since `devServer.host` is IPv6-only, `server/app.js` targets the
 literal `[::1]` address rather than the `localhost` hostname when
 proxying — this avoids depending on how the machine's resolver orders
 `localhost`'s A/AAAA records (a resolver that prefers `127.0.0.1` would

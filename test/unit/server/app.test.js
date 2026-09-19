@@ -3,7 +3,7 @@ import { describe, it, before, after, afterEach } from 'mocha';
 import request from 'supertest';
 import fs from 'fs';
 import path from 'path';
-import createApp from '../../../server/app';
+import createApp, { onError } from '../../../server/app';
 
 // server/app.js's import chain reaches server/html/assetManifest.js, which
 // reads manifest.json/stats.json from disk at *module load time* when
@@ -87,5 +87,74 @@ describe('server app', () => {
       expect(response.status).to.equal(302);
       expect(response.headers.location).to.equal('/?locale=fi');
     });
+  });
+});
+
+// Plain-JS mocks rather than a mocking library: res only needs setHeader
+// (untracked here, since no test asserts on it) plus the chainable
+// status()/type()/send() trio, and next() just needs its call args recorded.
+function createMockRes({ headersSent = false } = {}) {
+  const calls = { status: [], type: [], send: [] };
+  const res = {
+    headersSent,
+    setHeader: () => {},
+    status: (...args) => {
+      calls.status.push(args);
+      return res;
+    },
+    type: (...args) => {
+      calls.type.push(args);
+      return res;
+    },
+    send: (...args) => {
+      calls.send.push(args);
+      return res;
+    },
+  };
+  return { res, calls };
+}
+
+describe('onError', () => {
+  let originalNodeEnv;
+
+  before(() => {
+    originalNodeEnv = process.env.NODE_ENV;
+  });
+
+  afterEach(() => {
+    process.env.NODE_ENV = originalNodeEnv;
+  });
+
+  it('delegates to next(err) instead of responding again once headers are already sent', () => {
+    const err = new Error('boom');
+    const { res, calls } = createMockRes({ headersSent: true });
+    const nextCalls = [];
+
+    onError(err, {}, res, (...args) => nextCalls.push(args));
+
+    expect(nextCalls).to.deep.equal([[err]]);
+    expect(calls.status).to.deep.equal([]);
+  });
+
+  it('includes the error message and stack in development', () => {
+    process.env.NODE_ENV = 'development';
+    const err = new Error('boom');
+    const { res, calls } = createMockRes();
+
+    onError(err, {}, res, () => {});
+
+    expect(calls.status).to.deep.equal([[500]]);
+    expect(calls.type).to.deep.equal([['text/plain']]);
+    expect(calls.send).to.deep.equal([[`${err.message}\n${err.stack}`]]);
+  });
+
+  it('hides the error details behind a generic message outside development', () => {
+    process.env.NODE_ENV = 'production';
+    const err = new Error('boom');
+    const { res, calls } = createMockRes();
+
+    onError(err, {}, res, () => {});
+
+    expect(calls.send).to.deep.equal([['Internal server error']]);
   });
 });
