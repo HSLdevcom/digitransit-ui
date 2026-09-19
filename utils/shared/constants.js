@@ -194,10 +194,7 @@ export const TrafficNowTransportModes = Object.freeze([
  * today) — this list is fixed across all regions since it's about
  * recognizing old links, not what's currently translated.
  */
-export const LEGACY_LOCALE_PATH_SEGMENTS = Object.freeze([
-  'fi',
-  'en',
-  'sv',
-  'ru',
-  'slangi',
-]);
+export const LEGACY_LOCALES = Object.freeze(['fi', 'en', 'sv', 'ru', 'slangi']);
+export const LEGACY_LOCALE_PATHS = Object.freeze(
+  LEGACY_LOCALES.map(locale => `/${locale}/`),
+);

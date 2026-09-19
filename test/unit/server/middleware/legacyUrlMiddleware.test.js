@@ -6,7 +6,10 @@ import {
 } from '../../../../server/middleware/legacyUrlMiddleware';
 
 import config from '../../../../server/configs/config.default';
-import { LEGACY_LOCALE_PATH_SEGMENTS } from '../../../../utils/shared/constants';
+import {
+  LEGACY_LOCALES,
+  LEGACY_LOCALE_PATHS,
+} from '../../../../utils/shared/constants';
 import { PREFIX_ITINERARY_SUMMARY } from '../../../../utils/shared/path';
 
 // validateParams returns an url if it is modified and it removes invalid
@@ -15,6 +18,7 @@ import { PREFIX_ITINERARY_SUMMARY } from '../../../../utils/shared/path';
 describe('legacyUrlMiddleware', () => {
   describe('validateParams', () => {
     const req = {
+      path: `/${PREFIX_ITINERARY_SUMMARY}`,
       query: {
         minTransferTime: '60',
         modes: 'BUS,TRAM,RAIL,SUBWAY,FERRY,WALK,CITYBIKE',
@@ -32,8 +36,20 @@ describe('legacyUrlMiddleware', () => {
 
     it('should remove invalid time parameter', () => {
       req.query.time = 'test';
-      validateParams(req, config);
+      const url = validateParams(req, config);
       expect(req.query.time).to.be.an('undefined');
+      expect(url).to.equal(
+        `/${PREFIX_ITINERARY_SUMMARY}?minTransferTime=60&modes=BUS,TRAM,RAIL,SUBWAY,FERRY,WALK,CITYBIKE&transferPenalty=0&walkBoardCost=540&walkReluctance=1.5&walkSpeed=1.5`,
+      );
+    });
+
+    it('should not leave a trailing "?" when removing the only query parameter', () => {
+      const emptyReq = {
+        path: `/${PREFIX_ITINERARY_SUMMARY}`,
+        query: { time: 'test' },
+      };
+      const url = validateParams(emptyReq, config);
+      expect(url).to.equal(`/${PREFIX_ITINERARY_SUMMARY}`);
     });
   });
 
@@ -80,15 +96,21 @@ describe('legacyUrlMiddleware', () => {
     });
   });
 
-  describe('LEGACY_LOCALE_PATH_SEGMENTS', () => {
-    it('is the single source of truth this middleware redirects on', () => {
-      expect(LEGACY_LOCALE_PATH_SEGMENTS).to.include.members([
+  describe('LEGACY_LOCALES / LEGACY_LOCALE_PATHS', () => {
+    it('LEGACY_LOCALES is the single source of truth this middleware redirects on', () => {
+      expect(LEGACY_LOCALES).to.include.members([
         'fi',
         'en',
         'sv',
         'ru',
         'slangi',
       ]);
+    });
+
+    it('LEGACY_LOCALE_PATHS is derived from LEGACY_LOCALES', () => {
+      expect(LEGACY_LOCALE_PATHS).to.deep.equal(
+        LEGACY_LOCALES.map(locale => `/${locale}/`),
+      );
     });
   });
 });

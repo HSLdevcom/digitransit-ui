@@ -26,8 +26,8 @@ import { historyMiddlewares, render } from './routes';
 import appCreator from './app';
 import { BUILD_TIME } from './buildInfo';
 import ErrorBoundary from '../component/ErrorBoundary';
-import oldParamParser from '../../utils/shared/oldParamParser';
-import { LEGACY_LOCALE_PATH_SEGMENTS } from '../../utils/shared/constants';
+import legacyParamParser from '../../utils/shared/legacyParamParser';
+import { LEGACY_LOCALE_PATHS } from '../../utils/shared/constants';
 import { ClientProvider as ClientBreakpointProvider } from '../../utils/client/withBreakpoint';
 import IntlBridge from '../../utils/client/IntlBridge';
 import getMetadata from '../../utils/shared/metaUtils';
@@ -173,12 +173,10 @@ async function init() {
     const query = getParams(window.location.search);
 
     if (query.from || query.to || query.from_in || query.to_in) {
-      oldParamParser(query, config).then(redirectUrl =>
+      legacyParamParser(query, config).then(redirectUrl =>
         window.location.replace(redirectUrl),
       );
-    } else if (
-      LEGACY_LOCALE_PATH_SEGMENTS.map(segment => `/${segment}/`).includes(path)
-    ) {
+    } else if (LEGACY_LOCALE_PATHS.includes(path)) {
       window.location.replace('/');
     }
   }
