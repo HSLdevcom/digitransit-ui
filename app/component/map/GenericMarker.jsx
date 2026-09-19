@@ -1,131 +1,108 @@
 import isFunction from 'lodash/isFunction';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { withLeaflet } from 'react-leaflet/es/context';
 import Marker from 'react-leaflet/es/Marker';
 import Popup from 'react-leaflet/es/Popup';
 import { default as L } from 'leaflet';
-import { configShape, locationShape } from '../../../utils/client/shapes';
+import { locationShape } from '../../../utils/client/shapes';
+import { useConfigContext } from '../../client/ConfigContext';
 
-class GenericMarker extends React.Component {
-  static displayName = 'GenericMarker';
+function GenericMarker({
+  shouldRender = () => true,
+  position,
+  getIcon,
+  renderName = false,
+  name = '',
+  maxWidth,
+  minWidth,
+  children,
+  leaflet,
+  onClick = () => {},
+  zIndexOffset,
+}) {
+  const config = useConfigContext();
+  const [zoom, setZoom] = useState(() => leaflet.map.getZoom());
 
-  static contextTypes = {
-    config: configShape.isRequired,
-  };
+  useEffect(() => {
+    const onMapMove = () => setZoom(leaflet.map.getZoom());
+    leaflet.map.on('zoomend', onMapMove);
+    return () => leaflet.map.off('zoomend', onMapMove);
+  }, [leaflet.map]);
 
-  static propTypes = {
-    shouldRender: PropTypes.func,
-    position: locationShape.isRequired,
-    getIcon: PropTypes.func.isRequired,
-    renderName: PropTypes.bool,
-    name: PropTypes.string,
-    maxWidth: PropTypes.number,
-    minWidth: PropTypes.number,
-    children: PropTypes.node,
-    leaflet: PropTypes.shape({
-      map: PropTypes.shape({
-        getZoom: PropTypes.func.isRequired,
-        on: PropTypes.func.isRequired,
-        off: PropTypes.func.isRequired,
-      }).isRequired,
-    }).isRequired,
-    onClick: PropTypes.func,
-    zIndexOffset: PropTypes.number,
-  };
-
-  static defaultProps = {
-    shouldRender: () => true,
-    onClick: () => {},
-    renderName: false,
-    name: '',
-    maxWidth: undefined,
-    minWidth: undefined,
-    children: undefined,
-    zIndexOffset: undefined,
-  };
-
-  state = { zoom: this.props.leaflet.map.getZoom() };
-
-  componentDidMount() {
-    this.props.leaflet.map.on('zoomend', this.onMapMove);
+  if (isFunction(shouldRender) && !shouldRender(zoom)) {
+    return null;
   }
 
-  componentWillUnmount() {
-    this.props.leaflet.map.off('zoomend', this.onMapMove);
-  }
-
-  onMapMove = () => this.setState({ zoom: this.props.leaflet.map.getZoom() });
-
-  getMarker = () => (
+  const marker = (
     <Marker
-      position={{ lat: this.props.position.lat, lng: this.props.position.lon }}
-      icon={this.props.getIcon(this.state.zoom)}
-      onClick={this.props.onClick}
+      position={{ lat: position.lat, lng: position.lon }}
+      icon={getIcon(zoom)}
+      onClick={onClick}
       keyboard={false}
-      zIndexOffset={this.props.zIndexOffset}
+      zIndexOffset={zIndexOffset}
     >
-      {this.props.children && (
+      {children && (
         <Popup
-          maxWidth={
-            this.props.maxWidth ||
-            this.context.config.map.genericMarker.popup.maxWidth
-          }
-          minWidth={
-            this.props.minWidth ||
-            this.context.config.map.genericMarker.popup.minWidth
-          }
+          maxWidth={maxWidth || config.map.genericMarker.popup.maxWidth}
+          minWidth={minWidth || config.map.genericMarker.popup.minWidth}
           className="popup"
         >
-          {this.props.children}
+          {children}
         </Popup>
       )}
     </Marker>
   );
 
-  getNameMarker() {
-    if (
-      !this.props.renderName ||
-      this.props.leaflet.map.getZoom() <
-        this.context.config.map.genericMarker.nameMarkerMinZoom
-    ) {
-      return false;
-    }
-    return (
+  const nameMarker = renderName &&
+    leaflet.map.getZoom() >= config.map.genericMarker.nameMarkerMinZoom && (
       <Marker
-        key={`${this.props.name}_text`}
+        key={`${name}_text`}
         position={{
-          lat: this.props.position.lat,
-          lng: this.props.position.lon,
+          lat: position.lat,
+          lng: position.lon,
         }}
         interactive={false}
         icon={L.divIcon({
-          html: `<div>${this.props.name}</div>`,
+          html: `<div>${name}</div>`,
           className: 'popup',
           iconSize: [150, 0],
           iconAnchor: [-8, 7],
         })}
         keyboard={false}
-        zIndexOffset={this.props.zIndexOffset}
+        zIndexOffset={zIndexOffset}
       />
     );
-  }
 
-  render() {
-    const { shouldRender } = this.props;
-    const { zoom } = this.state;
-    if (isFunction(shouldRender) && !shouldRender(zoom)) {
-      return null;
-    }
-
-    return (
-      <React.Fragment>
-        {this.getMarker()}
-        {this.getNameMarker()}
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      {marker}
+      {nameMarker}
+    </React.Fragment>
+  );
 }
+
+GenericMarker.displayName = 'GenericMarker';
+
+GenericMarker.propTypes = {
+  shouldRender: PropTypes.func,
+  position: locationShape.isRequired,
+  getIcon: PropTypes.func.isRequired,
+  renderName: PropTypes.bool,
+  name: PropTypes.string,
+  maxWidth: PropTypes.number,
+  minWidth: PropTypes.number,
+  children: PropTypes.node,
+  leaflet: PropTypes.shape({
+    map: PropTypes.shape({
+      getZoom: PropTypes.func.isRequired,
+      on: PropTypes.func.isRequired,
+      off: PropTypes.func.isRequired,
+    }).isRequired,
+  }).isRequired,
+  onClick: PropTypes.func,
+  zIndexOffset: PropTypes.number,
+};
 
 const leafletComponent = withLeaflet(GenericMarker);
 export { leafletComponent as default, GenericMarker as Component };
