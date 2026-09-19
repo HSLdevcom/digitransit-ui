@@ -33,6 +33,25 @@ function setUpOpenId(app) {
   return setUpOIDC(app, PORT, indexPath, hostnames);
 }
 
+function isAssetRequest(req) {
+  // Path starts with /js/, /css/ or /assets/
+  return /^\/(js|css|assets)\//.test(req.path);
+}
+
+// expressStaticGzip below calls next() when the requested file doesn't
+// exist. For asset-shaped paths specifically, that means the asset is
+// genuinely missing - respond with 404 instead of letting the request fall
+// through to server/middleware/shell.js, which would otherwise render an
+// HTML page for what was clearly meant to be a JS/CSS/asset request.
+function handleMissingAssetRequests(req, res, next) {
+  if (!isAssetRequest(req)) {
+    return next();
+  }
+  res.setHeader('Cache-Control', 'no-store, max-age=0');
+  res.setHeader('Cloudflare-CDN-Cache-Control', 'no-store');
+  return res.status(404).type('text/plain').send('Static asset not found');
+}
+
 function setUpStaticFolders(app) {
   // Serve /sw.js with the ASSET_URL placeholder (baked into the precache
   // manifest at build time by workbox-webpack-plugin's InjectManifest -
@@ -83,6 +102,7 @@ function setUpStaticFolders(app) {
       },
     }),
   );
+  app.use(handleMissingAssetRequests);
 }
 
 function setUpMiddleware(app) {
