@@ -26,8 +26,8 @@ and output settings.
 
 ## Entries & per-deployment theming
 
-- `main` is the real app entry (`utils/client/publicPath` + `app/client/client`), plus
-  `utils/client/loadDevTheme` in development only (see below).
+- `main` is the real app entry (`app/client/publicPath` + `app/client/client`), plus
+  `app/client/loadDevTheme` in development only (see below).
 - In production, `scripts/build/contextHelper.js` adds one `<theme>_theme`
   entry per regional theme's `sass/themes/<theme>/main.scss`, plus a
   `<sprite>` entry for any config-declared SVG sprite sheet. With `CONFIG`
@@ -39,7 +39,7 @@ and output settings.
 - In development, `webpack.ContextReplacementPlugin` narrows the dynamic
   `import` for `sass/themes` down to just the selected `CONFIG`'s
   `main.scss`, so the dev server doesn't build every theme.
-- `utils/client/loadDevTheme.js` holds a dynamic, fire-and-forget
+- `app/client/loadDevTheme.js` holds a dynamic, fire-and-forget
   `import(`../../sass/themes/${window.config.CONFIG}/main.scss`)` that used
   to live inline in `app/client.js` as a `require(...)` behind an
   `if (process.env.NODE_ENV === 'development')` runtime check written as an
@@ -197,7 +197,7 @@ Both dev and prod also always get:
 
 ### Service worker
 
-Built from `utils/client/serviceWorker.js` via Workbox's `InjectManifest`
+Built from `app/client/serviceWorker.js` via Workbox's `InjectManifest`
 (bundles that file and injects the precache manifest — unlike
 `GenerateSW`, this keeps full control over the SW's own logic). That
 source file combines:
