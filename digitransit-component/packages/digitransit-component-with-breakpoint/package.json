@@ -4,6 +4,7 @@
   "description": "digitransit-component with-breakpoint module",
   "type": "module",
   "main": "lib/index.cjs",
+  "deprecated": "This package has no direct consumers and is unused. It will be removed in a future release.",
   "module": "lib/index.js",
   "exports": {
     ".": {

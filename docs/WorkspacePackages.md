@@ -187,12 +187,6 @@ $ yarn docs
 $ yarn workspace-packages-docs
 ```
 
-Each family's meta-package (`@digitransit-component/digitransit-component`,
-`@digitransit-util/digitransit-util` — the ones that re-export every
-sibling in the family) gets a README too, generated the same way;
-`search-util` and `store` don't have a meta-package, so their packages'
-READMEs don't mention installing one.
-
 CI enforces this: the `check-readmes` job in `.github/workflows/dev-pipeline.yml`
 regenerates every family and fails the build if that produces any diff
 against what's committed — so a PR that changes JSDoc without regenerating
@@ -271,3 +265,32 @@ Because `nx.json`'s `build` target defines an explicit `inputs` list, any
 future shared build config file (beyond `config/rollup.config.js`/
 `config/babel.config.cjs`, already listed there) needs adding to that list
 too, or editing it won't invalidate every package's Nx build cache.
+
+## Deprecated
+
+These packages are marked deprecated — via a `@deprecated` JSDoc tag (which
+also shows up in the generated `README.md`) and a `"deprecated"` field in
+`package.json` (which npm surfaces on install/publish) — and are scheduled
+for removal in a future change. Don't add new code to them, and don't add
+any new dependents.
+
+- **`@digitransit-component/digitransit-component`** — this family's
+  meta-package, re-exporting every sibling component. No call site in
+  `app/**` used it; every consumer imports the specific
+  `@digitransit-component/digitransit-component-*` sub-package it needs
+  directly.
+- **`@digitransit-util/digitransit-util`** — this family's equivalent
+  meta-package. Same reasoning; import the specific
+  `@digitransit-util/digitransit-util-*` sub-package instead.
+- **`@digitransit-component/digitransit-component-abtesting`** — never
+  adopted, unused.
+- **`@digitransit-component/digitransit-component-traffic-now-link`** — no
+  longer maintained or used.
+- **`@digitransit-component/digitransit-component-with-breakpoint`** — no
+  direct consumers.
+- **`@digitransit-store/digitransit-store-common-functions`** — no real
+  consumers.
+- **`@digitransit-search-util/digitransit-search-util-execute-search-immidiate`**
+  — renamed due to a spelling fix; use
+  `@digitransit-search-util/digitransit-search-util-execute-search-immediate`
+  instead.

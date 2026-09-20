@@ -32,7 +32,7 @@ const searchContext = {
   cityBikeNetworks: [],
 };
 
-describe('Testing @digitransit-search-util/digitransit-search-util-execute-search-immidiate module', () => {
+describe('Testing @digitransit-search-util/digitransit-search-util-execute-search-immediate module', () => {
   describe('executeSearch', () => {
     it('calls back synchronously with null to signal that a search has started', () => {
       const calls = [];

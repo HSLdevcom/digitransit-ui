@@ -4,6 +4,7 @@
   "description": "a JavaScript library for Digitransit",
   "type": "module",
   "main": "index.js",
+  "deprecated": "This meta-package is deprecated — import the specific @digitransit-component/digitransit-component-* sub-package you need instead. This package will be removed in a future release.",
   "keywords": [
     "digitransit-component"
   ],

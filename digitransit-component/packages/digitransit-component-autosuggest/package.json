@@ -43,7 +43,7 @@
     "@testing-library/react": "^12"
   },
   "dependencies": {
-    "@digitransit-search-util/digitransit-search-util-execute-search-immidiate": "workspace:^",
+    "@digitransit-search-util/digitransit-search-util-execute-search-immediate": "workspace:^",
     "@digitransit-search-util/digitransit-search-util-get-label": "workspace:^",
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^",
     "@hsl-fi/hooks": "^1.2.4"
