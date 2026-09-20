@@ -55,7 +55,7 @@ function handleMissingAssetRequests(req, res, next) {
 function setUpStaticFolders(app) {
   // Serve /sw.js with the ASSET_URL placeholder (baked into the precache
   // manifest at build time by workbox-webpack-plugin's InjectManifest -
-  // see webpack.config.js / utils/client/serviceWorker.js) replaced by
+  // see webpack.config.js / app/client/serviceWorker.js) replaced by
   // this deployment's actual CDN base URL - or stripped out entirely when
   // ASSET_URL isn't set. Only production builds actually produce
   // _static/sw.js (InjectManifest is production-only), and app/client.js

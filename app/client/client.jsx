@@ -242,7 +242,7 @@ async function init() {
   ReactDOM.render(content, rootNode, () => {
     if (process.env.NODE_ENV !== 'development' && BUILD_TIME !== 'unset') {
       // The service worker itself calls `skipWaiting()`/`clients.claim()`
-      // (see utils/client/serviceWorker.js) so new versions take over as soon
+      // (see app/client/serviceWorker.js) so new versions take over as soon
       // as they finish installing - mirrors the previous
       // `OfflinePlugin.install({ onUpdateReady: () =>
       // OfflinePlugin.applyUpdate() })` behaviour, just with the

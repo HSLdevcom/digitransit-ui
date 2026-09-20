@@ -59,7 +59,7 @@ class EntrypointStatsPlugin {
 const productionPlugins = [
   ...faviconPlugins,
   new InjectManifest({
-    swSrc: path.join(rootDir, 'utils/client/serviceWorker.js'),
+    swSrc: path.join(rootDir, 'app/client/serviceWorker.js'),
     swDest: 'sw.js',
     // Mirrors the previous offline-plugin `excludes` list: source maps,
     // compressed variants, and the per-deployment theme/sprite chunks and
@@ -73,7 +73,7 @@ const productionPlugins = [
       /assets\/iconstats-.*\.json$/,
       /assets\/icons-[^/]+\//,
       // PNG/SVG/GeoJSON/CSS are cached lazily at runtime instead (see
-      // utils/client/serviceWorker.js) rather than eagerly precached, mirroring
+      // app/client/serviceWorker.js) rather than eagerly precached, mirroring
       // the previous "optional" (safeToUseOptionalCaches) cache group.
       /\.png$/,
       /\.svg$/,
@@ -127,10 +127,10 @@ export default {
   mode,
   entry: {
     main: [
-      './utils/client/publicPath',
+      './app/client/publicPath',
       // Dev-only: loads the active theme's SCSS via a dynamic require.
       // Production themes are handled statically via `themeEntries` below.
-      ...(isDevelopment ? ['./utils/client/loadDevTheme'] : []),
+      ...(isDevelopment ? ['./app/client/loadDevTheme'] : []),
       './app/client/client',
     ],
     ...(isProduction ? themeEntries : {}),
