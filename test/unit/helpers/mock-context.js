@@ -21,8 +21,9 @@ export const mockContext = {
     getCurrentTime: () => DateTime.now(),
     getLanguage: () => 'en',
     getLocationState: () => ({
-      lat: '',
-      lon: '',
+      type: 'CurrentLocation',
+      lat: undefined,
+      lon: undefined,
       address: '',
       status: PositionStore.STATUS_NO_LOCATION,
       hasLocation: false,
