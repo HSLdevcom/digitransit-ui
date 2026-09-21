@@ -157,12 +157,18 @@ const NaviCardExtension = (
 
   if (legType === LEGTYPE.WAIT_IN_VEHICLE) {
     const { route, trip } = nextLeg;
+    const sameRouteInterline =
+      previousLeg?.route?.shortName === route.shortName;
     return (
       <div className="extension">
         <div className="extension-divider" />
         <div className="wait-in-vehicle">
           <FormattedMessage
-            id="navigation-interline-wait"
+            id={
+              sameRouteInterline
+                ? 'navigation-interline-wait-same-route'
+                : 'navigation-interline-wait'
+            }
             values={{
               line: <span className="bold">{route.shortName}</span>,
               destination: (
