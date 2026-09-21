@@ -28,8 +28,8 @@ Previously, using Windows Subsystem for Linux required remapping `localhost` to 
 loopback address in `/etc/hosts`, because `webpack-dev-server` binds `::1` only
 (`webpack.config.babel.js`) and `server/server.js` used to proxy to it by the `localhost`
 hostname — which on stock WSL resolves only to `127.0.0.1`, causing `ECONNREFUSED`.
-`server/server.js` now targets the literal `[::1]` address instead, so this is no longer
-required for `yarn run dev` to work. If you still hit other WSL networking issues, you may
+`server/app.js` now targets the literal `[::1]` address instead, so this is
+no longer required for `yarn run dev` to work. If you still hit other WSL networking issues, you may
 need to add the following to your `/etc/hosts`:
 ```
 ::1     ip6-localhost ip6-loopback localhost

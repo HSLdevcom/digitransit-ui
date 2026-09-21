@@ -26,10 +26,11 @@ import { historyMiddlewares, render } from './routes';
 import appCreator from './app';
 import { BUILD_TIME } from './buildInfo';
 import ErrorBoundary from '../component/ErrorBoundary';
-import oldParamParser from '../../utils/shared/oldParamParser';
+import legacyParamParser from '../../utils/shared/legacyParamParser';
+import { LEGACY_LOCALE_PATHS } from '../../utils/shared/constants';
 import { ClientProvider as ClientBreakpointProvider } from '../../utils/client/withBreakpoint';
 import IntlBridge from '../../utils/client/IntlBridge';
-import meta from '../../utils/shared/meta';
+import getMetadata from '../../utils/shared/metaUtils';
 import {
   initAnalyticsClientSide,
   addAnalyticsEvent,
@@ -172,10 +173,10 @@ async function init() {
     const query = getParams(window.location.search);
 
     if (query.from || query.to || query.from_in || query.to_in) {
-      oldParamParser(query, config).then(redirectUrl =>
+      legacyParamParser(query, config).then(redirectUrl =>
         window.location.replace(redirectUrl),
       );
-    } else if (['/fi/', '/en/', '/sv/', '/ru/', '/slangi/'].includes(path)) {
+    } else if (LEGACY_LOCALE_PATHS.includes(path)) {
       window.location.replace('/');
     }
   }
@@ -224,7 +225,7 @@ async function init() {
       <ErrorBoundary>
         <React.Fragment>
           <Helmet
-            {...meta(
+            {...getMetadata(
               language,
               window.location.host,
               window.location.href,
@@ -241,7 +242,7 @@ async function init() {
   ReactDOM.render(content, rootNode, () => {
     if (process.env.NODE_ENV !== 'development' && BUILD_TIME !== 'unset') {
       // The service worker itself calls `skipWaiting()`/`clients.claim()`
-      // (see utils/client/serviceWorker.js) so new versions take over as soon
+      // (see app/client/serviceWorker.js) so new versions take over as soon
       // as they finish installing - mirrors the previous
       // `OfflinePlugin.install({ onUpdateReady: () =>
       // OfflinePlugin.applyUpdate() })` behaviour, just with the

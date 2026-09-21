@@ -1,10 +1,3 @@
-// The `server/configs/` require-chain reached from
-// `./scripts/build/contextHelper.js` (`server/configs/config.js` and
-// friends) is native ESM now - the repo is
-// `"type": "module"` - so this config no longer needs `@babel/register` to
-// load it. `import.meta.dirname` (as `rootDir`) replaces `__dirname`;
-// `createRequire` is kept only for the two `require.resolve(...)` polyfill
-// lookups below.
 import path from 'path';
 import fs from 'fs';
 import { createRequire } from 'module';
@@ -35,9 +28,9 @@ const selectedTheme = new RegExp(
 );
 
 // Small stand-in for the unmaintained `stats-webpack-plugin`: writes the
-// same trimmed-down stats shape that server/server.js's (via
-// server/serve.js) asset lookup reads to know which built JS/CSS files
-// belong to the `main` entrypoint. `server/serve.js` expects
+// same trimmed-down stats shape that server/middleware/shell.js's (via
+// server/html/assetManifest.js) asset lookup reads to know which built
+// JS/CSS files belong to the `main` entrypoint. It expects
 // `entrypoints.<name>.assets` to be an array of plain filename strings
 // (the shape `stats-webpack-plugin` used to produce), not webpack5's
 // native `{ name, size }` asset objects, so that shape is preserved here.
@@ -66,7 +59,7 @@ class EntrypointStatsPlugin {
 const productionPlugins = [
   ...faviconPlugins,
   new InjectManifest({
-    swSrc: path.join(rootDir, 'utils/client/serviceWorker.js'),
+    swSrc: path.join(rootDir, 'app/client/serviceWorker.js'),
     swDest: 'sw.js',
     // Mirrors the previous offline-plugin `excludes` list: source maps,
     // compressed variants, and the per-deployment theme/sprite chunks and
@@ -80,7 +73,7 @@ const productionPlugins = [
       /assets\/iconstats-.*\.json$/,
       /assets\/icons-[^/]+\//,
       // PNG/SVG/GeoJSON/CSS are cached lazily at runtime instead (see
-      // utils/client/serviceWorker.js) rather than eagerly precached, mirroring
+      // app/client/serviceWorker.js) rather than eagerly precached, mirroring
       // the previous "optional" (safeToUseOptionalCaches) cache group.
       /\.png$/,
       /\.svg$/,
@@ -88,7 +81,7 @@ const productionPlugins = [
       /\.css$/,
     ],
     // Bake the ASSET_URL placeholder into every precached URL; replaced
-    // at request time in server/server.js. See scripts/build/assetUrlPlaceholder.js.
+    // at request time in server/app.js. See scripts/build/assetUrlPlaceholder.js.
     modifyURLPrefix: { '': ASSET_URL_PLACEHOLDER },
   }),
   new MiniCssExtractPlugin({
@@ -134,10 +127,10 @@ export default {
   mode,
   entry: {
     main: [
-      './utils/client/publicPath',
+      './app/client/publicPath',
       // Dev-only: loads the active theme's SCSS via a dynamic require.
       // Production themes are handled statically via `themeEntries` below.
-      ...(isDevelopment ? ['./utils/client/loadDevTheme'] : []),
+      ...(isDevelopment ? ['./app/client/loadDevTheme'] : []),
       './app/client/client',
     ],
     ...(isProduction ? themeEntries : {}),
