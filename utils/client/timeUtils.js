@@ -9,7 +9,9 @@ export const DATE_PATTERN = 'ccc d.L.';
  * @returns {string} time in format HHmm
  */
 export function getStartTime(seconds) {
-  return DateTime.fromSeconds(seconds, { zone: 'utc' }).toFormat('HHmm');
+  const hours = `0${Math.floor(seconds / 60 / 60)}`.slice(-2);
+  const mins = `0${(seconds / 60) % 60}`.slice(-2);
+  return hours + mins;
 }
 
 /**
@@ -18,7 +20,9 @@ export function getStartTime(seconds) {
  * @returns {string} time in format HH:mm
  */
 export function getStartTimeWithColon(seconds) {
-  return DateTime.fromSeconds(seconds, { zone: 'utc' }).toFormat(TIME_PATTERN);
+  const hours = `0${Math.floor(seconds / 60 / 60)}`.slice(-2);
+  const mins = `0${(seconds / 60) % 60}`.slice(-2);
+  return `${hours}:${mins}`;
 }
 
 /**
@@ -88,10 +92,12 @@ export function durationToString(intl, durationMs) {
  * Returns formatted date / time
  * @param {number} startTime milliseconds since 1970 UTC
  * @param {string} pattern format string using luxon tokens
+ * @param {string} [locale] locale to format the date/time in, e.g. 'fi'
  * @returns {string} formatted date
  */
-export function getFormattedTimeDate(startTime, pattern) {
-  return DateTime.fromMillis(startTime).toFormat(pattern);
+export function getFormattedTimeDate(startTime, pattern, locale) {
+  const dateTime = DateTime.fromMillis(startTime);
+  return (locale ? dateTime.setLocale(locale) : dateTime).toFormat(pattern);
 }
 
 /**
@@ -126,7 +132,7 @@ export function getFutureText(itineraryStart, intl) {
       id: 'tomorrow',
     });
   }
-  return getFormattedTimeDate(startTime, 'ccc d.L.');
+  return getFormattedTimeDate(startTime, 'ccc d.L.', intl.locale);
 }
 
 /**

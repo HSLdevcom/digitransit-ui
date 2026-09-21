@@ -36,7 +36,7 @@ Digitransit-ui is a React based web application. The following bullet points des
       - Data from stores should be loaded using fluxible connectToStores
       - Higher order component that wraps another component to provide store state to other component props
       - Must include StoreConnector in their name
-    - Containers should include unit tests either testing their functions separately or by testing it's shallow rendering using Enzyme
+    - Containers should include unit tests either testing their functions separately or by testing their rendering using React Testing Library
 
 React components can access data in two different ways:
 - OpenTripPlanner GraphQL queries with Relay

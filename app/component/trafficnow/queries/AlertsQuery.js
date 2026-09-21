@@ -23,6 +23,9 @@ export default graphql`
           locationType
           vehicleMode
           platformCode
+          parentStation {
+            gtfsId
+          }
         }
         ... on Route {
           gtfsId

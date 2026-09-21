@@ -28,7 +28,6 @@ const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 12000;
 const YEAR = 1900 + new Date().getYear();
 
 const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
-const TRAFFIC_NOW_TEST = process.env.TRAFFIC_NOW_TEST === 'true';
 // Deployment run environment (unknown ⇒ production, see utils/server/envUtils.js).
 const { RUN_ENV } = process.env;
 // CrazyEgg survey sampling divisor.
@@ -628,81 +627,6 @@ export default {
 
   staticMessages: [],
 
-  staticIEMessage: [
-    {
-      id: '3',
-      priority: -1,
-      content: {
-        fi: [
-          {
-            type: 'text',
-            content:
-              'Palvelu ei tue käyttämääsi selainta. Päivitä selainohjelmasi tai lataa uusi selain oheisista linkeistä.\n',
-          },
-          {
-            type: 'a',
-            content: 'Google Chrome',
-            href: 'https://www.google.com/chrome/',
-          },
-          {
-            type: 'a',
-            content: 'Firefox',
-            href: 'https://www.mozilla.org/fi/firefox/new/',
-          },
-          {
-            type: 'a',
-            content: 'Microsoft Edge',
-            href: 'https://www.microsoft.com/en-us/windows/microsoft-edge',
-          },
-        ],
-        en: [
-          {
-            type: 'text',
-            content:
-              'The service does not support the browser you are using. Update your browser or download a new browser using the links below.\n',
-          },
-          {
-            type: 'a',
-            content: 'Google Chrome',
-            href: 'https://www.google.com/chrome/',
-          },
-          {
-            type: 'a',
-            content: 'Firefox',
-            href: 'https://www.mozilla.org/fi/firefox/new/',
-          },
-          {
-            type: 'a',
-            content: 'Microsoft Edge',
-            href: 'https://www.microsoft.com/en-us/windows/microsoft-edge',
-          },
-        ],
-        sv: [
-          {
-            type: 'text',
-            content:
-              'Tjänsten stöder inte den webbläsare som du har i bruk. Uppdatera din webbläsare eller ladda ner en ny webbläsare via nedanstående länk.\n',
-          },
-          {
-            type: 'a',
-            content: 'Google Chrome',
-            href: 'https://www.google.com/chrome/',
-          },
-          {
-            type: 'a',
-            content: 'Firefox',
-            href: 'https://www.mozilla.org/sv-SE/firefox/new/',
-          },
-          {
-            type: 'a',
-            content: 'Microsoft Edge',
-            href: 'https://www.microsoft.com/en-us/windows/microsoft-edge',
-          },
-        ],
-      },
-    },
-  ],
-
   /* Do not change order of theme map lines */
   /* key: name of theme, value: regex matching part of host name */
   themeMap: {
@@ -744,7 +668,6 @@ export default {
   showVehiclesOnStopPage: false,
   showVehiclesOnItineraryPage: false,
   trafficNowLink: false,
-  trafficNowTest: TRAFFIC_NOW_TEST,
   // per-language path appended to URL.ROOTLINK used as the TrafficNowHeader
   // breadcrumb link target; falls back to the index page when not defined,
   // e.g. { fi: '/matkustaminen', sv: '/sv/att-resa', en: '/en/travelling' }

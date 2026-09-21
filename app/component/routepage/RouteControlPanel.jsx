@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
+import groupBy from 'lodash/groupBy';
 import { matchShape } from 'found';
 import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import { useConfigContext } from '../../client/ConfigContext';
@@ -355,7 +356,6 @@ function RouteControlPanel(
   const selectedPattern = route?.patterns?.find(
     pattern => pattern.code === patternId,
   );
-  const countOfButtons = 3;
 
   const hasActiveAlert = checkActiveDisruptions(
     currentTime,
@@ -368,7 +368,7 @@ function RouteControlPanel(
     getAlertsForObject(selectedPattern),
   );
 
-  const canceledTripsByDate = Map.groupBy(
+  const canceledTripsByDate = groupBy(
     selectedPattern?.canceledTrips || [],
     ({ serviceDate }) => serviceDate,
   );
@@ -380,18 +380,25 @@ function RouteControlPanel(
   );
 
   // if the pattern has cancelations, add one to alert count
-  const alertsCount = alerts.length + canceledTripsByDate.size;
+  const alertsCount = alerts.length + Object.keys(canceledTripsByDate).length;
 
   const disruptionClassName =
-    ((hasActiveAlert || canceledTripsByDate.size) &&
+    ((hasActiveAlert || Object.keys(canceledTripsByDate).length) &&
       'active-disruption-alert') ||
     (hasActiveServiceAlerts && 'active-service-alert');
+
+  const countOfButtons = 3;
 
   let disruptionIcon;
   if (disruptionClassName === 'active-disruption-alert') {
     disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
   } else if (disruptionClassName === 'active-service-alert') {
     disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
+  }
+
+  // If disruption details are opened, hide controlpanel
+  if (location.query?.alertId) {
+    return null;
   }
 
   return (

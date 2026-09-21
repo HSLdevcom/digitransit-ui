@@ -27,7 +27,7 @@ describe('<DateSelectGrouped />', () => {
 
   afterEach(() => {
     Settings.defaultLocale = 'en';
-    Settings.defaultZone = 'system';
+    Settings.defaultZone = 'Europe/Helsinki';
     Settings.now = () => Date.now();
   });
 

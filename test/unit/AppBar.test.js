@@ -16,14 +16,20 @@ describe('<AppBar />', () => {
 
   it('should show logo', () => {
     const { container } = renderWithProviders(
-      <AppBar titleClicked={() => {}} logo="/" homeUrl="/" showLogo />,
+      <AppBar
+        titleClicked={() => {}}
+        logo="/"
+        homeUrl="/"
+        showLogo
+        breakpoint="large"
+      />,
     );
     expect(container.querySelector('.logo')).to.not.equal(null);
   });
 
   it('should show text logo when textLogo is true', () => {
     const { container } = renderWithProviders(
-      <AppBar titleClicked={() => {}} homeUrl="/" />,
+      <AppBar titleClicked={() => {}} homeUrl="/" breakpoint="large" />,
       {
         config: {
           ...mockContext.config,
@@ -37,7 +43,12 @@ describe('<AppBar />', () => {
 
   it('should open the menu modal on button click', () => {
     const { container } = renderWithProviders(
-      <AppBar titleClicked={() => {}} logo="/" homeUrl="/" />,
+      <AppBar
+        titleClicked={() => {}}
+        logo="/"
+        homeUrl="/"
+        breakpoint="large"
+      />,
     );
     expect(document.body.querySelector('.main-menu')).to.equal(null);
     fireEvent.click(container.querySelector('#openMenuButton'));

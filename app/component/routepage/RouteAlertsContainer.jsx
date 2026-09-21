@@ -3,12 +3,16 @@ import React from 'react';
 import { useFragment } from 'react-relay';
 import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
+import groupBy from 'lodash/groupBy';
 import DisruptionList from '../DisruptionList';
 import {
   getAlertsForObject,
   setEntityForAlert,
 } from '../../../utils/client/alertUtils';
-import { getStartTimeWithColon } from '../../../utils/client/timeUtils';
+import {
+  getStartTime,
+  convertTo24HourFormat,
+} from '../../../utils/client/timeUtils';
 import {
   AlertSeverityLevelType,
   AlertEntityType,
@@ -21,35 +25,45 @@ const getCancelations = (route, pattern, entity, intl) => {
     return null;
   }
 
-  const canceledTripsByDate = Object.groupBy(
+  const canceledTripsByDate = groupBy(
     pattern.canceledTrips,
     ({ serviceDate }) => serviceDate,
   );
 
-  return Object.entries(canceledTripsByDate).map(([date, canceledTrips]) => ({
-    alertDescriptionText: intl.formatMessage(
-      { id: 'generic-cancelation' },
-      {
-        mode: route.mode,
-        route: route.shortName,
-        headsign: canceledTrips[0].trip.tripHeadsign,
-        times: canceledTrips
-          .map(st =>
-            getStartTimeWithColon(st.trip.stoptimes[0].scheduledDeparture),
-          )
-          .join(', '),
-      },
-    ),
-    id: pattern.code + date,
-    alertHeaderText: patternTextWithIcon(pattern),
-    canceledDepartures: canceledTrips.map(({ trip }) => ({
-      scheduledDeparture: trip.stoptimes[0].scheduledDeparture,
-    })),
-    entities: [entity],
-    alertSeverityLevel: AlertSeverityLevelType.Warning,
-    effectiveStartDate: DateTime.fromISO(date).toSeconds(),
-    effectiveEndDate: DateTime.fromISO(date).plus({ days: 1 }).toSeconds(),
-  }));
+  return Object.entries(canceledTripsByDate).map(([date, canceledTrips]) => {
+    const sortedCanceledTrips = [...canceledTrips].sort(
+      (a, b) =>
+        a.trip.stoptimes[0].scheduledDeparture -
+        b.trip.stoptimes[0].scheduledDeparture,
+    );
+    return {
+      alertDescriptionText: intl.formatMessage(
+        { id: 'generic-cancelation' },
+        {
+          mode: route.mode,
+          route: route.shortName,
+          headsign: sortedCanceledTrips[0].trip.tripHeadsign,
+          times: sortedCanceledTrips
+            .map(st =>
+              convertTo24HourFormat(
+                getStartTime(st.trip.stoptimes[0].scheduledDeparture),
+              ),
+            )
+            .join(', '),
+        },
+      ),
+      id: pattern.code + date,
+      alertHeaderText: patternTextWithIcon(pattern),
+      canceledDepartures: sortedCanceledTrips.map(({ trip }) => ({
+        scheduledDeparture: trip.stoptimes[0].scheduledDeparture,
+      })),
+      entities: [entity],
+      alertSeverityLevel: AlertSeverityLevelType.Warning,
+      alertEffect: 'CANCELLATION',
+      effectiveStartDate: DateTime.fromISO(date).toSeconds(),
+      effectiveEndDate: DateTime.fromISO(date).plus({ days: 1 }).toSeconds(),
+    };
+  });
 };
 
 function RouteAlertsContainer({ route: routeRef, pattern: patternRef }) {

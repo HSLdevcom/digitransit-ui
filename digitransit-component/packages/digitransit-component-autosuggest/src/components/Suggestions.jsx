@@ -80,8 +80,8 @@ export const Suggestions = memo(function Suggestions({
   lng,
   styles,
   hidden,
-  renderClearHistoryButton,
-  handleClearHistory,
+  renderClearHistoryButton = false,
+  handleClearHistory = () => undefined,
   ...rest
 }) {
   const [t] = useTranslation();
@@ -138,9 +138,4 @@ Suggestions.propTypes = {
   hidden: PropTypes.bool.isRequired,
   renderClearHistoryButton: PropTypes.bool,
   handleClearHistory: PropTypes.func,
-};
-
-Suggestions.defaultProps = {
-  renderClearHistoryButton: false,
-  handleClearHistory: () => undefined,
 };

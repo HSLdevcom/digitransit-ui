@@ -46,7 +46,7 @@ right one by *who consumes the code*, not just by convenience.
     safe to run on the server too — no `window`/`document`/`localStorage` access.
   - `server/` — server-only, e.g. `configMerger.js`, `realtimeUtils.js`,
     `timetableConfigUtils.js` — config-assembly helpers used only by `server/configs/*.js`.
-  - `client/` — client-bundle-only, the bulk of the old `app/util/`, e.g. `localStorage.js`,
+  - `client/` — client-bundle-only, e.g. `localStorage.js`,
     plus its own `__generated__/` for Relay fragments used by utils.
 - `test/` — `unit/` (mocha, mirrors the `app/`/`server/`/`utils/` layout, e.g.
   `test/unit/utils/{shared,server,client}/`, `test/unit/server/configs/`) and `e2e/` (Jest +
@@ -107,7 +107,8 @@ right one by *who consumes the code*, not just by convenience.
   `test/unit/util/` (old, singular) directory and some flat `test/unit/*.test.js` files remain
   from before the reorg and don't yet mirror anything. This setup is currently under
   refactoring — verify commands against `package.json` if they seem out of date:
-  - For new React component tests, prefer **React Testing Library** and test components from the user's perspective rather than relying on implementation details.
+  - For new React component tests, prefer **React Testing Library** and test components from the
+    user's perspective rather than relying on implementation details.
   - Run all: `yarn test-unit` (runs the app suite plus the workspace `store`/`component`
     package tests, the latter via **Vitest**, `config/vitest.config.js`).
   - Run just the app suite: `yarn test-unit:app`.
@@ -121,6 +122,9 @@ right one by *who consumes the code*, not just by convenience.
   - Update snapshots: `CONFIG=hsl yarn test:update-snapshots` (see other
     `test:update-all-*-snapshots` scripts for bulk updates across configs).
 - Accessibility: `yarn test-accessibility` (`test/accessibility.sh`).
+- Add a concise set of core functionality tests for new features. App-breaking logic should be
+  tested, but e.g. checking whether an individual UI element was rendered is not necessary unless
+  conditionally rendered to keep the set of tests focused and concise.
 
 ## Architecture (see `docs/Architecture.md`, `docs/Navigation.md`)
 
@@ -199,6 +203,8 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   function signature instead, e.g. `function Foo({ isMobile = false, children = null })`. This
   applies to new code and to any component touched during refactors; existing untouched
   components may still use `defaultProps` until they're otherwise modified.
+- Never bump package versions manually; the `workspace-packages-version-bump` script is run after
+  a PR is approved but before merging by the author.
 - The project does not enable `eslint-plugin-react-hooks`'s `exhaustive-deps` rule, and top-level
   app values such as `config` (`useConfigContext()`) and the Fluxible `context`/`executeAction`
   bridge are set once at app init and never change identity for the app's lifetime. It's fine to
