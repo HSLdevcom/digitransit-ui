@@ -1,37 +1,76 @@
 import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { describe, it, afterEach } from 'mocha';
 import React from 'react';
-import { shallow } from 'enzyme';
-import * as found from 'found';
-import { createShallowHookSandbox } from '../../helpers/mock-intl-enzyme';
+import sinon from 'sinon';
+// react-relay's CJS build (unlike this repo's own Babel-ESM output) has no
+// `__esModule` marker, so `import * as X` gets a one-off *copied* namespace
+// object from Babel's interop helper instead of the live module.exports —
+// stubbing that copy wouldn't be visible to the component modules' own
+// (separately copied) references. A default import bypasses that: Babel's
+// `_interopRequireDefault` wraps a non-ESM module as `{ default: rawModule }`
+// without copying properties, so `relayHooks` below is the exact same live
+// object every importer of 'react-relay/hooks' reads its named exports from.
+import relayHooks from 'react-relay/hooks';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import { mockMatch } from '../../helpers/mock-router';
 import TrafficNow from '../../../../app/component/trafficnow/TrafficNow';
-import TrafficNowHeader from '../../../../app/component/trafficnow/TrafficNowHeader';
-import Filters from '../../../../app/component/trafficnow/filters/Filters';
-import Disruptions from '../../../../app/component/trafficnow/Disruptions';
-import CanceledTripsContainer from '../../../../app/component/trafficnow/CanceledTripsContainer';
-import DisruptionDetailsContainer from '../../../../app/component/trafficnow/DisruptionDetailsContainer';
+import AlertsQuery from '../../../../app/component/trafficnow/queries/AlertsQuery';
+import CanceledTripsOverviewQuery from '../../../../app/component/trafficnow/queries/CanceledTripsOverviewQuery';
+import CanceledTripsForModeQuery from '../../../../app/component/trafficnow/queries/CanceledTripsForModeQuery';
 import * as withBreakpoint from '../../../../utils/client/withBreakpoint';
 
 const baseConfig = {
   CONFIG: 'default',
   colors: { primary: '#007ac9' },
+  feedIds: ['MATKA'],
+  URL: { OTP: 'https://example.com/otp/' },
+};
+
+// Minimal Relay query result fixtures. Only what each consuming component
+// (Disruptions / CanceledTripsContainer / DisruptionDetailsContainer)
+// actually destructures/reads is included, kept empty by default so
+// "no disruptions/cancelations" branches render deterministically.
+const EMPTY_ALERTS_FIXTURE = { alerts: [] };
+const EMPTY_CANCELATIONS_OVERVIEW_FIXTURE = {};
+const EMPTY_CANCELED_TRIPS_FOR_MODE_FIXTURE = {
+  canceledTripsSummary: { routes: [] },
+};
+
+const ALERT_ONE = {
+  id: 'alert-1',
+  alertSeverityLevel: 'WARNING',
+  alertEffect: 'REDUCED_SERVICE',
+  alertHeaderText: 'Alert one header',
+  alertDescriptionText: 'Alert one description',
+  effectiveStartDate: 1000,
+  effectiveEndDate: 2000,
+  alertUrl: null,
+  entities: undefined,
 };
 
 /**
- * Creates the shared sandbox with useIntl and useConfigContext stubs,
- * then adds stubs for useBreakpoint and useRouter.
+ * Stubs useLazyLoadQuery (react-relay/hooks) so every child component that
+ * calls it (Disruptions, CanceledTripsContainer, DisruptionDetailsContainer)
+ * renders using canned fixture data instead of requiring a real Relay
+ * environment/network response. `alertsFixture` is swappable per test so the
+ * alertId (details) view can be exercised with a matching alert.
  */
-function createSandbox({
-  breakpoint = 'large',
-  mode = undefined,
-  alertId = undefined,
-} = {}) {
-  const { sandbox, stubs } = createShallowHookSandbox({ config: baseConfig });
-  sandbox.stub(withBreakpoint, 'useBreakpoint').returns(breakpoint);
-  sandbox.stub(found, 'useRouter').returns({
-    match: { params: { mode, alertId } },
+function stubRelayQueries(
+  sandbox,
+  { alertsFixture = EMPTY_ALERTS_FIXTURE } = {},
+) {
+  sandbox.stub(relayHooks, 'useLazyLoadQuery').callsFake(query => {
+    if (query === AlertsQuery) {
+      return alertsFixture;
+    }
+    if (query === CanceledTripsOverviewQuery) {
+      return EMPTY_CANCELATIONS_OVERVIEW_FIXTURE;
+    }
+    if (query === CanceledTripsForModeQuery) {
+      return EMPTY_CANCELED_TRIPS_FOR_MODE_FIXTURE;
+    }
+    return {};
   });
-  return { sandbox, stubs };
 }
 
 describe('<TrafficNow />', () => {
@@ -39,262 +78,175 @@ describe('<TrafficNow />', () => {
 
   afterEach(() => sandbox.restore());
 
+  const renderTrafficNow = ({ breakpoint, mode, alertId, alertsFixture }) => {
+    sandbox = sinon.createSandbox();
+    sandbox.stub(withBreakpoint, 'useBreakpoint').returns(breakpoint);
+    stubRelayQueries(sandbox, { alertsFixture });
+    // jsdom doesn't implement window.scrollTo; TrafficNow calls it (via
+    // utils/client/scroll.js) on mount and whenever mode/alertId change.
+    sandbox.stub(window, 'scrollTo');
+    return renderWithProviders(
+      <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      {
+        config: baseConfig,
+        match: { ...mockMatch, params: { mode, alertId } },
+      },
+    );
+  };
+
+  // Each `it` below renders TrafficNow once for its scenario (rather than
+  // once per assertion): the repo's global `afterEach` unmounts the DOM via
+  // RTL's `cleanup()` after every test, so a single shared render can't be
+  // reused across multiple `it`s — consolidating instead means one render
+  // per distinct prop combination, with all of that render's expectations
+  // grouped into that one test.
   describe('Desktop layout — no mode param', () => {
-    beforeEach(() => {
-      ({ sandbox } = createSandbox({ breakpoint: 'large', mode: undefined }));
-    });
+    it('renders the header, desktop Filters panel, and Disruptions (empty state); no mobile classes/containers', () => {
+      const { container } = renderTrafficNow({ breakpoint: 'large' });
 
-    it('renders the TrafficNowHeader', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      expect(container.querySelector('.traffic-now__header')).to.not.equal(
+        null,
       );
-      expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(1);
-    });
 
-    it('renders the desktop Filters panel inside .traffic-now__filters-container', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      const filtersContainer = container.querySelector(
+        '.traffic-now__filters-container',
       );
-      expect(wrapper.find('.traffic-now__filters-container')).to.have.lengthOf(
-        1,
-      );
+      expect(filtersContainer).to.not.equal(null);
+      // Filters renders a "validity period" filter group as one of its parts.
       expect(
-        wrapper.find('.traffic-now__filters-container').find(Filters),
-      ).to.have.lengthOf(1);
-    });
+        filtersContainer.querySelector('.separator.horizontal'),
+      ).to.not.equal(null);
 
-    it('renders Disruptions', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
-      expect(wrapper.find(Disruptions)).to.have.lengthOf(1);
-    });
+      expect(container.querySelector('.disruptions')).to.not.equal(null);
+      expect(container.querySelector('.disruptions-empty')).to.not.equal(null);
 
-    it('does NOT render the mobile filters button container', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
       expect(
-        wrapper.find('.traffic-now__filters-button-container'),
-      ).to.have.lengthOf(0);
-    });
-
-    it('does NOT apply the mobile body modifier class', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+        container.querySelector('.traffic-now__filters-button-container'),
+      ).to.equal(null);
+      expect(container.querySelector('.traffic-now__body--mobile')).to.equal(
+        null,
       );
-      expect(wrapper.find('.traffic-now__body--mobile')).to.have.lengthOf(0);
     });
   });
 
   describe('Mobile layout — no mode param', () => {
-    beforeEach(() => {
-      ({ sandbox } = createSandbox({ breakpoint: 'small', mode: undefined }));
-    });
+    it('renders the header, mobile filters button, and Disruptions (empty state); applies the mobile body class', () => {
+      const { container } = renderTrafficNow({ breakpoint: 'small' });
 
-    it('renders the TrafficNowHeader', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      expect(container.querySelector('.traffic-now__header')).to.not.equal(
+        null,
       );
-      expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(1);
-    });
 
-    it('renders the mobile filters button container instead of the desktop Filters panel', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
       expect(
-        wrapper.find('.traffic-now__filters-button-container'),
-      ).to.have.lengthOf(1);
-      expect(wrapper.find('.traffic-now__filters-container')).to.have.lengthOf(
-        0,
-      );
-    });
+        container.querySelector('.traffic-now__filters-button-container'),
+      ).to.not.equal(null);
+      expect(
+        container.querySelector('.traffic-now__filters-container'),
+      ).to.equal(null);
 
-    it('renders Disruptions', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
-      expect(wrapper.find(Disruptions)).to.have.lengthOf(1);
-    });
+      expect(container.querySelector('.disruptions')).to.not.equal(null);
 
-    it('applies the mobile body modifier class', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
-      expect(wrapper.find('.traffic-now__body--mobile')).to.have.lengthOf(1);
+      expect(
+        container.querySelector('.traffic-now__body--mobile'),
+      ).to.not.equal(null);
     });
   });
 
   describe('Desktop layout — with mode param', () => {
-    beforeEach(() => {
-      ({ sandbox } = createSandbox({ breakpoint: 'large', mode: 'CANCELED' }));
-    });
+    it('shows the header and renders CanceledTripsContainer in non-mobile layout; hides Disruptions', () => {
+      const { container } = renderTrafficNow({
+        breakpoint: 'large',
+        mode: 'CANCELED',
+      });
 
-    it('shows the TrafficNowHeader (not a mobile canceled-trips view on desktop)', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      expect(container.querySelector('.traffic-now__header')).to.not.equal(
+        null,
       );
-      expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(1);
-    });
 
-    it('renders CanceledTripsContainer with the correct mode prop', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      expect(container.querySelector('.canceled-trips__body')).to.not.equal(
+        null,
       );
-      const container = wrapper.find(CanceledTripsContainer);
-      expect(container).to.have.lengthOf(1);
-      expect(container.prop('mode')).to.equal('CANCELED');
-    });
+      // Cards (rather than bare fragments) are only used in the non-mobile layout.
+      expect(container.querySelector('.canceled-trips__footer')).to.not.equal(
+        null,
+      );
+      expect(container.querySelector('.traffic-now__body--mobile')).to.equal(
+        null,
+      );
 
-    it('passes isMobile=false to CanceledTripsContainer on desktop', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
-      expect(wrapper.find(CanceledTripsContainer).prop('isMobile')).to.equal(
-        false,
-      );
-    });
-
-    it('does NOT render Disruptions', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
-      expect(wrapper.find(Disruptions)).to.have.lengthOf(0);
+      expect(container.querySelector('.disruptions')).to.equal(null);
     });
   });
 
   describe('Mobile layout — with mode param (isMobileCanceledTripsView)', () => {
-    beforeEach(() => {
-      ({ sandbox } = createSandbox({ breakpoint: 'medium', mode: 'CANCELED' }));
-    });
+    it('hides the header/separator and renders CanceledTripsContainer with the mobile body class', () => {
+      const { container } = renderTrafficNow({
+        breakpoint: 'medium',
+        mode: 'CANCELED',
+      });
 
-    it('hides the TrafficNowHeader', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
-      expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(0);
-    });
+      expect(container.querySelector('.traffic-now__header')).to.equal(null);
+      expect(container.querySelector('.separator.horizontal')).to.equal(null);
 
-    it('hides the separator', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      expect(container.querySelector('.canceled-trips__body')).to.not.equal(
+        null,
       );
-      expect(wrapper.find('.separator.horizontal')).to.have.lengthOf(0);
-    });
-
-    it('renders CanceledTripsContainer with the correct mode prop', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
-      const container = wrapper.find(CanceledTripsContainer);
-      expect(container).to.have.lengthOf(1);
-      expect(container.prop('mode')).to.equal('CANCELED');
-    });
-
-    it('passes isMobile=true to CanceledTripsContainer', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
-      expect(wrapper.find(CanceledTripsContainer).prop('isMobile')).to.equal(
-        true,
-      );
-    });
-
-    it('applies the mobile body modifier class', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
-      expect(wrapper.find('.traffic-now__body--mobile')).to.have.lengthOf(1);
+      expect(
+        container.querySelector('.traffic-now__body--mobile'),
+      ).to.not.equal(null);
     });
   });
 
   describe('Desktop layout — with alertId param (details view)', () => {
-    beforeEach(() => {
-      ({ sandbox } = createSandbox({
+    it('shows the header and renders DisruptionDetailsContainer in non-mobile layout with alert content; hides Disruptions/CanceledTripsContainer', () => {
+      const { container } = renderTrafficNow({
         breakpoint: 'large',
         alertId: 'alert-1',
-      }));
-    });
+        alertsFixture: { alerts: [ALERT_ONE] },
+      });
 
-    it('renders the TrafficNowHeader', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
+      expect(container.querySelector('.traffic-now__header')).to.not.equal(
+        null,
       );
-      expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(1);
-    });
 
-    it('renders DisruptionDetailsContainer with the correct alertId', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
-      const container = wrapper.find(DisruptionDetailsContainer);
-      expect(container).to.have.lengthOf(1);
-      expect(container.prop('alertId')).to.equal('alert-1');
-    });
-
-    it('passes isMobile=false to DisruptionDetailsContainer on desktop', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
       expect(
-        wrapper.find(DisruptionDetailsContainer).prop('isMobile'),
-      ).to.equal(false);
-    });
+        container.querySelector('.detail-view__cta-container'),
+      ).to.not.equal(null);
+      expect(container.textContent).to.include('Alert one header');
+      expect(container.textContent).to.include('Alert one description');
+      expect(
+        container.querySelector('.detail-view__cta-container--mobile'),
+      ).to.equal(null);
+      expect(
+        container.querySelector('.disruption-details__container'),
+      ).to.not.equal(null);
 
-    it('does NOT render Disruptions', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
-      expect(wrapper.find(Disruptions)).to.have.lengthOf(0);
-    });
-
-    it('does NOT render CanceledTripsContainer', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
-      expect(wrapper.find(CanceledTripsContainer)).to.have.lengthOf(0);
+      expect(container.querySelector('.disruptions')).to.equal(null);
+      expect(container.querySelector('.canceled-trips__body')).to.equal(null);
     });
   });
 
   describe('Mobile layout — with alertId param (details view)', () => {
-    beforeEach(() => {
-      ({ sandbox } = createSandbox({
+    it('hides the header and renders DisruptionDetailsContainer in mobile layout with the mobile body class', () => {
+      const { container } = renderTrafficNow({
         breakpoint: 'medium',
         alertId: 'alert-1',
-      }));
-    });
+        alertsFixture: { alerts: [ALERT_ONE] },
+      });
 
-    it('hides the TrafficNowHeader', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
-      expect(wrapper.find(TrafficNowHeader)).to.have.lengthOf(0);
-    });
+      expect(container.querySelector('.traffic-now__header')).to.equal(null);
 
-    it('renders DisruptionDetailsContainer with the correct alertId', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
-      const container = wrapper.find(DisruptionDetailsContainer);
-      expect(container).to.have.lengthOf(1);
-      expect(container.prop('alertId')).to.equal('alert-1');
-    });
-
-    it('passes isMobile=true to DisruptionDetailsContainer on mobile', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
+      expect(container.textContent).to.include('Alert one header');
       expect(
-        wrapper.find(DisruptionDetailsContainer).prop('isMobile'),
-      ).to.equal(true);
-    });
+        container.querySelector('.detail-view__cta-container--mobile'),
+      ).to.not.equal(null);
+      expect(
+        container.querySelector('.disruption-details--mobile'),
+      ).to.not.equal(null);
 
-    it('applies the mobile body modifier class', () => {
-      const wrapper = shallow(
-        <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
-      );
-      expect(wrapper.find('.traffic-now__body--mobile')).to.have.lengthOf(1);
+      expect(
+        container.querySelector('.traffic-now__body--mobile'),
+      ).to.not.equal(null);
     });
   });
 });

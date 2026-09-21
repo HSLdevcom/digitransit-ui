@@ -1,13 +1,12 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
-import { shallow } from 'enzyme';
+import { fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import { createShallowHookSandbox } from '../../helpers/mock-intl-enzyme';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import { FilterContextProvider } from '../../../../app/component/trafficnow/filters/FiltersContext';
 import DisruptionCard from '../../../../app/component/trafficnow/DisruptionCard';
-import DisruptionStatus from '../../../../app/component/trafficnow/components/DisruptionStatus';
-import RouteBadges from '../../../../app/component/trafficnow/RouteBadges';
-import Card from '../../../../app/component/Card';
+import * as trafficNowUtils from '../../../../app/component/trafficnow/utils';
 import { AlertSeverityLevelType } from '../../../../utils/shared/constants';
 
 const baseConfig = {
@@ -42,86 +41,113 @@ describe('<DisruptionCard />', () => {
   let sandbox;
 
   beforeEach(() => {
-    ({ sandbox } = createShallowHookSandbox({ config: baseConfig }));
+    sandbox = sinon.createSandbox();
     sandbox.stub(Date, 'now').returns(NOW_MS);
   });
 
   afterEach(() => sandbox.restore());
 
+  // RouteBadges needs a real FilterContextProvider ancestor: useFilterContext
+  // throws without one and there's no default context value.
+  const renderCard = props => {
+    const { container } = renderWithProviders(
+      <FilterContextProvider>
+        <DisruptionCard alert={makeAlert()} {...props} />
+      </FilterContextProvider>,
+      { config: baseConfig },
+    );
+    return container;
+  };
+
   describe('RouteBadges', () => {
-    it('renders RouteBadges when entities are present', () => {
-      const alert = makeAlert({
-        entities: [
-          {
-            __typename: 'Route',
-            gtfsId: 'HSL:1',
-            id: 'HSL:1',
-            mode: 'BUS',
-            shortName: '1',
-          },
-        ],
-      });
-      const wrapper = shallow(<DisruptionCard alert={alert} />);
-      expect(wrapper.find(RouteBadges)).to.have.lengthOf(1);
+    it('renders RouteBadges (mounts groupEntitiesByMode) when entities are present', () => {
+      const groupEntitiesByModeSpy = sandbox.spy(
+        trafficNowUtils,
+        'groupEntitiesByMode',
+      );
+      const container = renderCard();
+      expect(groupEntitiesByModeSpy.called).to.equal(true);
+      expect(container.querySelector('.badges__group')).to.not.equal(null);
     });
 
-    it('still renders RouteBadges when entities is an empty array', () => {
-      const alert = makeAlert({ entities: [] });
-      const wrapper = shallow(<DisruptionCard alert={alert} />);
-      expect(wrapper.find(RouteBadges).prop('entities')).to.deep.equal([]);
+    it('still renders RouteBadges (mounts groupEntitiesByMode with []) when entities is an empty array', () => {
+      const groupEntitiesByModeSpy = sandbox.spy(
+        trafficNowUtils,
+        'groupEntitiesByMode',
+      );
+      renderCard({ alert: makeAlert({ entities: [] }) });
+      // [].every(...) is vacuously true, so RouteBadges itself renders
+      // nothing here -- but it must still have been mounted/invoked (with an
+      // empty array reaching groupEntitiesByMode), unlike the null case below.
+      expect(groupEntitiesByModeSpy.calledWith([])).to.equal(true);
     });
   });
 
   describe('isMobile layout', () => {
     it('renders separator and DisruptionStatus in the header when isMobile=false', () => {
-      const wrapper = shallow(
-        <DisruptionCard alert={makeAlert()} isMobile={false} />,
+      const container = renderCard({ isMobile: false });
+      expect(container.querySelector('.separator.vertical')).to.not.equal(null);
+      expect(container.querySelector('header .disruption-status')).to.not.equal(
+        null,
       );
-      expect(wrapper.find('.separator.vertical')).to.have.lengthOf(1);
-      expect(wrapper.find('header').find(DisruptionStatus)).to.have.lengthOf(1);
     });
 
     it('hides the header separator and moves DisruptionStatus below route badges when isMobile=true', () => {
-      const wrapper = shallow(<DisruptionCard alert={makeAlert()} isMobile />);
-      expect(wrapper.find('.separator.vertical')).to.have.lengthOf(0);
-      expect(wrapper.find('header').find(DisruptionStatus)).to.have.lengthOf(0);
-      expect(wrapper.find(DisruptionStatus)).to.have.lengthOf(1);
+      const container = renderCard({ isMobile: true });
+      expect(container.querySelector('.separator.vertical')).to.equal(null);
+      expect(container.querySelector('header .disruption-status')).to.equal(
+        null,
+      );
+      expect(container.querySelector('.disruption-status')).to.not.equal(null);
     });
 
     it('passes showDates=false to DisruptionStatus for INFO severity', () => {
-      const alert = makeAlert({
-        alertSeverityLevel: AlertSeverityLevelType.Info,
+      const container = renderCard({
+        alert: makeAlert({ alertSeverityLevel: AlertSeverityLevelType.Info }),
       });
-      const wrapper = shallow(<DisruptionCard alert={alert} />);
-      expect(wrapper.find(DisruptionStatus).prop('showDates')).to.equal(false);
+      // showDates=false means DisruptionStatus never renders its date-range Text.
+      expect(container.querySelector('.disruption-status .routes-s')).to.equal(
+        null,
+      );
     });
 
     it('passes showDates=true to DisruptionStatus for WARNING severity', () => {
-      const alert = makeAlert({
-        alertSeverityLevel: AlertSeverityLevelType.Warning,
+      const container = renderCard({
+        alert: makeAlert({
+          alertSeverityLevel: AlertSeverityLevelType.Warning,
+        }),
       });
-      const wrapper = shallow(<DisruptionCard alert={alert} />);
-      expect(wrapper.find(DisruptionStatus).prop('showDates')).to.equal(true);
+      expect(
+        container.querySelector('.disruption-status .routes-s'),
+      ).to.not.equal(null);
     });
   });
 
   describe('onClick delegation', () => {
     it('calls onClick with the alert id when the card is clicked', () => {
       const onClickSpy = sinon.spy();
-      const alert = makeAlert({ id: 'alert-42' });
-      const wrapper = shallow(
-        <DisruptionCard alert={alert} onClick={onClickSpy} />,
-      );
-      wrapper.find(Card).prop('onClick')();
+      const container = renderCard({
+        alert: makeAlert({ id: 'alert-42' }),
+        onClick: onClickSpy,
+      });
+      fireEvent.click(container.querySelector('.disruption-card'));
       expect(onClickSpy.firstCall.args[0]).to.equal('alert-42');
     });
   });
 
   describe('Null entities', () => {
     it('does not render RouteBadges when entities is null', () => {
-      const alert = makeAlert({ entities: null });
-      const wrapper = shallow(<DisruptionCard alert={alert} />);
-      expect(wrapper.find(RouteBadges)).to.have.lengthOf(0);
+      const groupEntitiesByModeSpy = sandbox.spy(
+        trafficNowUtils,
+        'groupEntitiesByMode',
+      );
+      const container = renderCard({
+        alert: makeAlert({ entities: null }),
+      });
+      // With entities=null, DisruptionCard's `{entities && <RouteBadges />}`
+      // guard skips mounting RouteBadges entirely.
+      expect(groupEntitiesByModeSpy.called).to.equal(false);
+      expect(container.querySelector('.badges')).to.equal(null);
     });
   });
 });

@@ -1,12 +1,10 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import * as found from 'found';
 import RouteBadgeGroup from '../../../../app/component/trafficnow/components/RouteBadgeGroup';
-import Icon from '../../../../app/component/Icon';
-import EntityBadge from '../../../../app/component/trafficnow/components/EntityBadge';
 
 const makeRoute = ({
   id = 'HSL:1',
@@ -29,117 +27,115 @@ describe('<RouteBadgeGroup />', () => {
 
   describe('Mode icon', () => {
     it('renders at normal iconScale (1) when isStop=false', () => {
-      const wrapper = shallow(
+      const { container } = render(
         <RouteBadgeGroup mode="bus" routes={[makeRoute()]} isStop={false} />,
       );
-      expect(wrapper.find(Icon).first().prop('iconScale')).to.equal(1);
+      const g = container.querySelector('svg.icon g');
+      expect(g.style.transform).to.equal('scale(1)');
     });
 
     it('renders at half iconScale (0.5) when isStop=true', () => {
-      const wrapper = shallow(
+      const { container } = render(
         <RouteBadgeGroup mode="bus" routes={[makeRoute()]} isStop />,
       );
-      expect(wrapper.find(Icon).first().prop('iconScale')).to.equal(0.5);
+      const g = container.querySelector('svg.icon g');
+      expect(g.style.transform).to.equal('scale(0.5)');
     });
 
-    it('passes a background element when isStop=true', () => {
-      const wrapper = shallow(
+    it('renders a background (.icon-circle) when isStop=true', () => {
+      const { container } = render(
         <RouteBadgeGroup mode="bus" routes={[makeRoute()]} isStop />,
       );
-      const bg = wrapper.find(Icon).first().prop('background');
-      expect(bg).to.not.equal(false);
-      expect(bg).to.not.equal(null);
+      expect(container.querySelector('svg.icon .icon-circle')).to.not.equal(
+        null,
+      );
     });
 
-    it('passes background=false when isStop=false', () => {
-      const wrapper = shallow(
+    it('renders no background when isStop=false', () => {
+      const { container } = render(
         <RouteBadgeGroup mode="bus" routes={[makeRoute()]} isStop={false} />,
       );
-      expect(wrapper.find(Icon).first().prop('background')).to.equal(false);
+      expect(container.querySelector('svg.icon .icon-circle')).to.equal(null);
     });
   });
 
   describe('Route link rendering', () => {
     it('applies the highlight class when gtfsId matches highlightedGtfsId', () => {
-      const wrapper = shallow(
+      const { container } = render(
         <RouteBadgeGroup
           mode="bus"
           routes={[makeRoute({ gtfsId: 'HSL:1' })]}
           highlightedGtfsId="HSL:1"
         />,
       );
-      expect(wrapper.find(EntityBadge).prop('highlighted')).to.equal(true);
+      expect(container.querySelector('a.highlight')).to.not.equal(null);
     });
 
     it('does not apply the highlight class when gtfsId does not match', () => {
-      const wrapper = shallow(
+      const { container } = render(
         <RouteBadgeGroup
           mode="bus"
           routes={[makeRoute({ gtfsId: 'HSL:1' })]}
           highlightedGtfsId="HSL:99"
         />,
       );
-      expect(wrapper.find(EntityBadge).prop('highlighted')).to.equal(false);
+      expect(container.querySelector('a.highlight')).to.equal(null);
     });
   });
 
   describe('Click handler', () => {
     it('calls router.push with the route url when a link is clicked', () => {
-      const wrapper = shallow(
+      const { container } = render(
         <RouteBadgeGroup
           mode="bus"
           routes={[makeRoute({ url: '/route/HSL:1' })]}
         />,
       );
-      const mockEvent = {
-        preventDefault: sinon.spy(),
-        stopPropagation: sinon.spy(),
-      };
-      wrapper.find(EntityBadge).prop('handleClick')('/route/HSL:1')(mockEvent);
+      fireEvent.click(container.querySelector('a'));
       expect(mockRouter.push.calledWith('/route/HSL:1')).to.equal(true);
     });
 
     it('calls event.stopPropagation when stopPropagation=true', () => {
-      const wrapper = shallow(
-        <RouteBadgeGroup mode="bus" routes={[makeRoute()]} stopPropagation />,
+      const outerClickSpy = sinon.spy();
+      const { container } = render(
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
+        <div onClick={outerClickSpy}>
+          <RouteBadgeGroup mode="bus" routes={[makeRoute()]} stopPropagation />
+        </div>,
       );
-      const mockEvent = {
-        preventDefault: sinon.spy(),
-        stopPropagation: sinon.spy(),
-      };
-      wrapper.find(EntityBadge).prop('handleClick')('/route/HSL:1')(mockEvent);
-      expect(mockEvent.stopPropagation.calledOnce).to.equal(true);
+      fireEvent.click(container.querySelector('a'));
+      expect(outerClickSpy.called).to.equal(false);
     });
 
     it('does NOT call event.stopPropagation when stopPropagation=false', () => {
-      const wrapper = shallow(
-        <RouteBadgeGroup
-          mode="bus"
-          routes={[makeRoute()]}
-          stopPropagation={false}
-        />,
+      const outerClickSpy = sinon.spy();
+      const { container } = render(
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
+        <div onClick={outerClickSpy}>
+          <RouteBadgeGroup
+            mode="bus"
+            routes={[makeRoute()]}
+            stopPropagation={false}
+          />
+        </div>,
       );
-      const mockEvent = {
-        preventDefault: sinon.spy(),
-        stopPropagation: sinon.spy(),
-      };
-      wrapper.find(EntityBadge).prop('handleClick')('/route/HSL:1')(mockEvent);
-      expect(mockEvent.stopPropagation.called).to.equal(false);
+      fireEvent.click(container.querySelector('a'));
+      expect(outerClickSpy.called).to.equal(true);
     });
   });
 
   describe('renderRouteSuffix', () => {
     it('renders routes in plain Fragments when renderRouteSuffix is null', () => {
-      const wrapper = shallow(
+      const { container } = render(
         <RouteBadgeGroup
           mode="bus"
           routes={[makeRoute()]}
           renderRouteSuffix={null}
         />,
       );
-      expect(wrapper.find('.badges__headsign-group--route')).to.have.lengthOf(
-        0,
-      );
+      expect(
+        container.querySelectorAll('.badges__headsign-group--route'),
+      ).to.have.lengthOf(0);
     });
 
     it('renders the suffix node returned by renderRouteSuffix for the given route', () => {
@@ -149,14 +145,14 @@ describe('<RouteBadgeGroup />', () => {
         url: '/route/r1',
         gtfsId: 'HSL:r1',
       });
-      const wrapper = shallow(
+      const { container } = render(
         <RouteBadgeGroup
           mode="bus"
           routes={[route]}
           renderRouteSuffix={r => <span className={`suffix-${r.id}`} />}
         />,
       );
-      expect(wrapper.find('.suffix-r1')).to.have.lengthOf(1);
+      expect(container.querySelectorAll('.suffix-r1')).to.have.lengthOf(1);
     });
   });
 });

@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { describe, it, afterEach } from 'mocha';
+import { describe, it } from 'mocha';
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import {
   FilterContextProvider,
@@ -47,19 +47,13 @@ const OutsideConsumer = () => {
 };
 
 describe('FiltersContext', () => {
-  let wrapper;
-
-  afterEach(() => {
-    if (wrapper) {
-      wrapper.unmount();
-      wrapper = null;
-    }
-  });
+  // The repo's global afterEach already calls RTL's cleanup() (unmounting
+  // every render), so no manual wrapper/unmount bookkeeping is needed here.
 
   describe('Default filter state', () => {
     it('initialises noEffect to NO_EFFECT', () => {
       const controlRef = React.createRef();
-      wrapper = mount(
+      render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
         </FilterContextProvider>,
@@ -69,7 +63,7 @@ describe('FiltersContext', () => {
 
     it('initialises validityPeriod to ALL', () => {
       const controlRef = React.createRef();
-      wrapper = mount(
+      render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
         </FilterContextProvider>,
@@ -79,7 +73,7 @@ describe('FiltersContext', () => {
 
     it('initialises vehicleModes to an empty array', () => {
       const controlRef = React.createRef();
-      wrapper = mount(
+      render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
         </FilterContextProvider>,
@@ -89,7 +83,7 @@ describe('FiltersContext', () => {
 
     it('initialises now as a number', () => {
       const controlRef = React.createRef();
-      wrapper = mount(
+      render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
         </FilterContextProvider>,
@@ -101,7 +95,7 @@ describe('FiltersContext', () => {
   describe('setFilter', () => {
     it('updates vehicleModes when setFilter is called', () => {
       const controlRef = React.createRef();
-      wrapper = mount(
+      render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
         </FilterContextProvider>,
@@ -118,7 +112,7 @@ describe('FiltersContext', () => {
 
     it('does not affect other filter keys when only one is updated', () => {
       const controlRef = React.createRef();
-      wrapper = mount(
+      render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
         </FilterContextProvider>,
@@ -136,7 +130,7 @@ describe('FiltersContext', () => {
   describe('removeFilter', () => {
     it('removes the specified key from selectedFilters', () => {
       const controlRef = React.createRef();
-      wrapper = mount(
+      render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
         </FilterContextProvider>,
@@ -154,7 +148,7 @@ describe('FiltersContext', () => {
 
     it('leaves other keys intact after removing one', () => {
       const controlRef = React.createRef();
-      wrapper = mount(
+      render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
         </FilterContextProvider>,
@@ -171,7 +165,7 @@ describe('FiltersContext', () => {
   describe('resetFilters', () => {
     it('restores all filters to their default values', () => {
       const controlRef = React.createRef();
-      wrapper = mount(
+      render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
         </FilterContextProvider>,
@@ -193,8 +187,8 @@ describe('FiltersContext', () => {
 
   describe('useFilterContext outside provider', () => {
     it('throws when used outside a FilterContextProvider', () => {
-      // wrapper intentionally not assigned; component throws on mount
-      expect(() => mount(<OutsideConsumer />)).to.throw(
+      // render intentionally not stored; the component throws during render.
+      expect(() => render(<OutsideConsumer />)).to.throw(
         'useFilterContext must be used within a FilterContextProvider',
       );
     });
