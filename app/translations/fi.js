@@ -561,6 +561,7 @@ export default {
       'Huomaathan, että sähköpotkulautojen, taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     'payment-info-taxi':
       'Huomaathan, että taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+    payment_at_gate: 'Maksu portilla',
     'personal-itineraries': 'Yksilölliset reittiehdotukset',
     personalization: 'Personointi',
     'personalization-activated': 'Personointi on otettu käyttöön',

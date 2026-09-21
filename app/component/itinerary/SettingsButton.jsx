@@ -37,9 +37,13 @@ export default function SettingsButton({ onToggleClick }) {
         defaultMessage: 'Change settings',
       });
 
-  const dismissTarget = isPersonalizationInfoDismissed
-    ? 'setting-change-acknowledged'
-    : 'personalization-acknowledged';
+  const personalizationEnabled = isPersonalizationEnabled(config, settings);
+  const showPrPopover =
+    config.personalization && !isPersonalizationInfoDismissed;
+
+  const dismissTarget = showPrPopover
+    ? 'personalization-acknowledged'
+    : 'setting-change-acknowledged';
   const dismissPopover = useCallback(() => {
     // wait 1 second before dismissing to allow user to see the popover disappearing
     const timeoutId = setTimeout(() => {
@@ -51,11 +55,7 @@ export default function SettingsButton({ onToggleClick }) {
       }
     }, 1000);
     return () => clearTimeout(timeoutId);
-  }, []);
-
-  const personalizationEnabled = isPersonalizationEnabled(config, settings);
-  const showPrPopover =
-    config.personalization && !isPersonalizationInfoDismissed;
+  }, [dismissTarget]);
 
   return (
     <div className="right-offcanvas-toggle">
