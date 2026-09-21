@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
 import { expect } from 'chai';
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import Link from 'found/Link';
 import relay from 'react-relay';
 import { JSDOM } from 'jsdom';
@@ -10,10 +8,6 @@ import { stub } from 'sinon';
 import { Settings } from 'luxon';
 import { cleanup } from '@testing-library/react';
 import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
-import {
-  restoreOwnedIntlStub,
-  restoreOwnedContextStubs,
-} from './mock-intl-enzyme';
 
 /**
  * Helper function to copy the properties of the source object to the
@@ -89,7 +83,6 @@ before('setting up the environment', () => {
   stub(relay, 'useFragment').callsFake((query, ref) => ref);
   // TODO this could be renabled when dependencies don't throw warnings
   // stub(console, 'warn').callsFake(callback);
-  configure({ adapter: new Adapter() });
 });
 
 after('resetting the environment', () => {
@@ -101,8 +94,6 @@ after('resetting the environment', () => {
 // make sure the local and session storage stays clear for each test
 afterEach(() => {
   cleanup();
-  restoreOwnedIntlStub();
-  restoreOwnedContextStubs();
   window.localStorage.clear();
   window.sessionStorage.clear();
 });
