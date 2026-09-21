@@ -1,26 +1,26 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connectToStores } from 'fluxible-addons-react';
 import { matchShape } from 'found';
 import MapWithTracking from './MapWithTracking';
 import { sameLocations } from '../../../utils/shared/path';
-import OriginStore from '../../store/OriginStore';
-import DestinationStore from '../../store/DestinationStore';
-import { configShape, locationShape } from '../../../utils/client/shapes';
-import storeOrigin from '../../action/originActions';
-import storeDestination from '../../action/destinationActions';
+import { configShape } from '../../../utils/client/shapes';
 // eslint-disable-next-line import/no-named-as-default
 import { mapLayerShape } from '../../store/MapLayerStore';
 import CookieSettingsButton from '../CookieSettingsButton';
 import LocationMarker from './LocationMarker';
+import {
+  useOrigin,
+  useDestination,
+  useItineraryLocationActions,
+} from '../../hooks/ItineraryLocationContext';
 
 let focus = {};
 const mwtProps = {};
 
-function IndexPageMap(
-  { match, origin, destination, mapLayers },
-  { config, executeAction },
-) {
+function IndexPageMap({ match, mapLayers }, { config }) {
+  const origin = useOrigin();
+  const destination = useDestination();
+  const { setOrigin, setDestination } = useItineraryLocationActions();
   let newFocus = {};
   let zoom = 16;
 
@@ -73,9 +73,9 @@ function IndexPageMap(
 
   const selectLocation = (item, id) => {
     if (id === 'origin') {
-      executeAction(storeOrigin, item);
+      setOrigin(item);
     } else {
-      executeAction(storeDestination, item);
+      setDestination(item);
     }
   };
 
@@ -96,34 +96,19 @@ function IndexPageMap(
 
 IndexPageMap.propTypes = {
   match: matchShape.isRequired,
-  origin: locationShape,
-  destination: locationShape,
   mapLayers: mapLayerShape.isRequired,
-};
-
-IndexPageMap.defaultProps = {
-  origin: {},
-  destination: {},
 };
 
 IndexPageMap.contextTypes = {
   config: configShape.isRequired,
-  executeAction: PropTypes.func.isRequired,
 };
 
 const IndexPageMapWithStores = connectToStores(
   IndexPageMap,
-  [OriginStore, DestinationStore, 'MapLayerStore'],
-  ({ getStore }) => {
-    const origin = getStore(OriginStore).getOrigin();
-    const destination = getStore(DestinationStore).getDestination();
-
-    return {
-      origin,
-      destination,
-      mapLayers: getStore('MapLayerStore').getMapLayers(),
-    };
-  },
+  ['MapLayerStore'],
+  ({ getStore }) => ({
+    mapLayers: getStore('MapLayerStore').getMapLayers(),
+  }),
 );
 
 export { IndexPageMapWithStores as default, IndexPageMap as Component };

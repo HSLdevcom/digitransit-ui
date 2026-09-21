@@ -17,6 +17,7 @@ import ParkingAreaMarker from './non-tile-layer/ParkingAreaMarker';
 import MapWithTracking from './MapWithTracking';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import { isBikeParkLeg, isCarParkLeg } from '../../../utils/client/legUtils';
+import { useItineraryLocationActions } from '../../hooks/ItineraryLocationContext';
 
 const POINT_FOCUS_ZOOM = 17; // default
 
@@ -38,8 +39,9 @@ const ItineraryPageMap = (
     realtimeTransfers,
     ...rest
   },
-  { match, router, executeAction, config },
+  { match, router, config },
 ) => {
+  const { addViaPoint, deleteViaPoint } = useItineraryLocationActions();
   const { hash } = match.params;
   const leafletObjs = [];
 
@@ -130,7 +132,14 @@ const ItineraryPageMap = (
   if (isLocationPopupEnabled) {
     locationPopup = config.viaPointsEnabled ? 'all' : 'origindestination';
     onSelectLocation = (item, id) =>
-      onLocationPopup(item, id, router, match, executeAction, config);
+      onLocationPopup(
+        item,
+        id,
+        router,
+        match,
+        { addViaPoint, deleteViaPoint },
+        config,
+      );
   }
 
   return (
@@ -189,7 +198,6 @@ ItineraryPageMap.contextTypes = {
   match: matchShape.isRequired,
   router: routerShape.isRequired,
   config: configShape,
-  executeAction: PropTypes.func.isRequired,
 };
 
 export default ItineraryPageMap;

@@ -22,17 +22,20 @@ import {
   getIntermediatePlaces,
   locationToOTP,
 } from '../../../utils/shared/otpStrings';
-import { setViaPoints } from '../../action/ViaPointActions';
 import { getRefPoint } from '../../../utils/client/apiUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 import { useFavourites } from '../../hooks/FavouriteContext';
 import { countLocations } from '../../data/FavouriteData';
+import {
+  useViaPoints,
+  useItineraryLocationActions,
+} from '../../hooks/ItineraryLocationContext';
 
 const DTAutosuggestPanelWithSearchContext =
   withSearchContext(DTAutosuggestPanel);
 
 function OriginDestinationBar(
-  { origin, destination, isMobile = false, viaPoints = [], locationState },
+  { origin, destination, isMobile = false, locationState },
   context,
 ) {
   const config = useConfigContext();
@@ -40,10 +43,13 @@ function OriginDestinationBar(
   const mountedRef = useRef(false);
   const favourites = useFavourites();
   const showFavourites = countLocations(favourites) > 0;
+  const viaPoints = useViaPoints();
+  const viaPointActions = useItineraryLocationActions();
+  const { setViaPoints } = viaPointActions;
 
   useEffect(() => {
     const initialViaPoints = getIntermediatePlaces(match.location.query);
-    context.executeAction(setViaPoints, initialViaPoints);
+    setViaPoints(initialViaPoints);
     mountedRef.current = true;
 
     return () => {
@@ -58,7 +64,7 @@ function OriginDestinationBar(
     }
 
     const points = newViaPoints.filter(vp => vp.lat && vp.address);
-    context.executeAction(setViaPoints, points);
+    setViaPoints(points);
     setIntermediatePlaces(router, match, points.map(locationToOTP));
   };
 
@@ -91,7 +97,7 @@ function OriginDestinationBar(
     } else {
       action =
         id === 'origin' ? 'EditJourneyStartPoint' : 'EditJourneyEndPoint';
-      onLocationPopup(item, id, router, match, context.executeAction);
+      onLocationPopup(item, id, router, match, viaPointActions);
     }
 
     addAnalyticsEvent({
@@ -146,20 +152,17 @@ OriginDestinationBar.propTypes = {
   origin: locationShape.isRequired,
   destination: locationShape.isRequired,
   isMobile: PropTypes.bool,
-  viaPoints: PropTypes.arrayOf(locationShape),
   locationState: locationStateShape.isRequired,
 };
 
 OriginDestinationBar.contextTypes = {
   executeAction: PropTypes.func.isRequired,
-  getStore: PropTypes.func,
 };
 
 const connectedComponent = connectToStores(
   OriginDestinationBar,
-  ['ViaPointStore', 'PositionStore'],
+  ['PositionStore'],
   ({ getStore }) => ({
-    viaPoints: getStore('ViaPointStore').getViaPoints(),
     locationState: getStore('PositionStore').getLocationState(),
   }),
 );
