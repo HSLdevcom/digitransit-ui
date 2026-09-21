@@ -1,46 +1,9 @@
-.weather-details-content {
-  background: white;
-  margin: 50px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-
-  .weather-icon-row {
-    display: flex;
-    margin: 25px 0 15px 0;
-
-    .icon {
-      width: 41px;
-      height: 41px;
-    }
-
-    .weather-temperature {
-      font-size: 24px;
-      font-weight: $font-weight-medium;
-      letter-spacing: -0.8px;
-      text-align: center;
-      margin: 5px 3px 0 25px;
-    }
-  }
-
-  .weather-description {
-    margin: 0 10px 27px 0;
-    font-size: 15px;
-    letter-spacing: -0.5px;
-    line-height: 1.2;
-    text-align: center;
-    color: #333;
-    flex-grow: 1;
-  }
-
-  .weather-data-source {
-    font-size: 13px;
-    letter-spacing: -0.43px;
-    line-height: 1.38;
-    text-align: center;
-    color: #666;
-    margin: 0;
-    font-weight: $font-weight-book;
+// The design-system Modal has no narrow-size variant; its sheet is up to
+// 560px wide on desktop. Narrow it down to match the old small modal size
+// for this short weather popup.
+.weather-modal-sheet {
+  @media (min-width: 500px) {
+    max-width: 335px;
+    margin: 0 auto;
   }
 }
