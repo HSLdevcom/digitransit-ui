@@ -308,7 +308,7 @@ $content-background-color: $background-color;
   button {
     font-size: 15px;
     position: absolute;
-    left: -2px;
+    left: -4px;
     top: 4px;
 
     .icon {
@@ -360,11 +360,9 @@ $content-background-color: $background-color;
 
 .main-menu {
   outline: none;
-  width: 400px;
   padding: 0;
   padding-left: 20px;
   padding-right: 20px;
-  background: $white;
   color: $theme-primary-color;
   height: 100%;
   overflow-y: auto;
@@ -492,7 +490,8 @@ $content-background-color: $background-color;
 }
 
 .menu-content {
-  background-color: #333;
+  width: 400px;
+  background-color: $white;
   position: fixed;
   left: auto;
   right: 0;
@@ -514,10 +513,6 @@ $content-background-color: $background-color;
 }
 
 .mobile {
-  .main-menu {
-    width: 100%;
-  }
-
   .menu-content {
     width: 100%;
   }

@@ -1,11 +1,9 @@
 .offcanvas-layers {
-  width: 400px;
   height: 100%;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
   padding: 1em;
-  background-color: white;
 
   .map-layer-header {
     font-size: 18px;

@@ -40,6 +40,9 @@ import {
  * @property {boolean} [showScroll]
  * @property {AutosuggestState} state
  * @property {function} dispatch
+ * @property {Object} pendingEnterRef ref tracking whether a selection was
+ *   requested (click/enter) while suggestions were still loading; shared
+ *   with the parent DTAutosuggest component
  *
  * @param {MobileViewProps} props
  * @returns {JSX.Element}
@@ -62,6 +65,7 @@ const MobileView = ({
   showScroll,
   state,
   dispatch,
+  pendingEnterRef,
   colors,
 }) => {
   const [t] = useTranslation();
@@ -120,7 +124,10 @@ const MobileView = ({
         }
         case useCombobox.stateChangeTypes.InputKeyDownEnter:
           if (state.loading) {
-            dispatch({ type: 'PENDING_ENTER', enterPending: true });
+            // Refs are designed to be mutated directly; this signals the
+            // parent's "pending enter" effect once suggestions have loaded.
+            // eslint-disable-next-line no-param-reassign
+            pendingEnterRef.current = true;
             return oldState;
           }
           // select the first item if none is highlighted
@@ -290,6 +297,9 @@ MobileView.propTypes = {
     loading: PropTypes.bool.isRequired,
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
+  pendingEnterRef: PropTypes.shape({
+    current: PropTypes.bool,
+  }).isRequired,
 };
 
 export default MobileView;

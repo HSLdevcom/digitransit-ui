@@ -44,9 +44,17 @@ const queries = {
       }
     `,
     pageTab: graphql`
-      query stopRoutes_StopPageTab_Query($stopId: String!) {
+      query stopRoutes_StopPageTab_Query(
+        $stopId: String!
+        $cancelationStartDate: OffsetDateTime!
+        $cancelationEndDate: OffsetDateTime!
+      ) {
         stop(id: $stopId) {
           ...StopPageTabContainer_stop
+            @arguments(
+              cancelationStartDate: $cancelationStartDate
+              cancelationEndDate: $cancelationEndDate
+            )
         }
       }
     `,
@@ -68,12 +76,17 @@ const queries = {
       }
     `,
     pageAlerts: graphql`
-      query stopRoutes_StopAlertsContainer_Query(
+      query stopRoutes_StopDisruptions_Query(
         $stopId: String!
-        $startTime: Long!
+        $cancelationStartDate: OffsetDateTime!
+        $cancelationEndDate: OffsetDateTime!
       ) {
         stop(id: $stopId) {
-          ...StopAlertsContainer_stop @arguments(startTime: $startTime)
+          ...DisruptionsFragment
+            @arguments(
+              cancelationStartDate: $cancelationStartDate
+              cancelationEndDate: $cancelationEndDate
+            )
         }
       }
     `,
@@ -101,9 +114,17 @@ const queries = {
       }
     `,
     pageTab: graphql`
-      query stopRoutes_TerminalPageTabContainer_Query($terminalId: String!) {
+      query stopRoutes_TerminalPageTabContainer_Query(
+        $terminalId: String!
+        $cancelationStartDate: OffsetDateTime!
+        $cancelationEndDate: OffsetDateTime!
+      ) {
         station(id: $terminalId) {
           ...TerminalPageTabContainer_station
+            @arguments(
+              cancelationStartDate: $cancelationStartDate
+              cancelationEndDate: $cancelationEndDate
+            )
         }
       }
     `,
@@ -125,12 +146,17 @@ const queries = {
       }
     `,
     pageAlerts: graphql`
-      query stopRoutes_TerminalAlertsContainer_Query(
+      query stopRoutes_TerminalDisruptions_Query(
         $terminalId: String!
-        $startTime: Long!
+        $cancelationStartDate: OffsetDateTime!
+        $cancelationEndDate: OffsetDateTime!
       ) {
         station(id: $terminalId) {
-          ...TerminalAlertsContainer_station @arguments(startTime: $startTime)
+          ...DisruptionsFragment
+            @arguments(
+              cancelationStartDate: $cancelationStartDate
+              cancelationEndDate: $cancelationEndDate
+            )
         }
       }
     `,
@@ -188,6 +214,7 @@ export default function getStopRoutes(isTerminal = false) {
                     ).then(getDefault);
               }}
               query={queryMap.pageTab}
+              prepareVariables={prepareDatesForStops}
               render={getComponentOrNullRenderer}
             >
               <Route
@@ -245,22 +272,16 @@ export default function getStopRoutes(isTerminal = false) {
               />
               <Route
                 path={PREFIX_DISRUPTION}
-                getComponent={() => {
-                  return isTerminal
-                    ? import(
-                        /* webpackChunkName: "stop" */ '../component/stop/TerminalAlertsContainer'
-                      )
-                        .then(getDefault)
-                        .catch(errorLoading)
-                    : import(
-                        /* webpackChunkName: "stop" */ '../component/stop/StopAlertsContainer'
-                      )
-                        .then(getDefault)
-                        .catch(errorLoading);
-                }}
+                getComponent={() =>
+                  import(
+                    /* webpackChunkName: "stop" */ '../component/stop/Disruptions'
+                  )
+                    .then(getDefault)
+                    .catch(errorLoading)
+                }
                 query={queryMap.pageAlerts}
                 prepareVariables={prepareDatesForStops}
-                render={getComponentOrLoadingRenderer}
+                render={getComponentOrNullRenderer}
               />
             </Route>
           ),

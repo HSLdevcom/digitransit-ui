@@ -92,6 +92,7 @@ li:last-child > div.suggestion-item-container.mobile {
       text-overflow: ellipsis;
       position: relative;
       top: -1px;
+      margin-top: 3px;
 
       @include min-width(tablet) {
         font-size: 11px !important;
@@ -100,12 +101,15 @@ li:last-child > div.suggestion-item-container.mobile {
       }
 
       .stop-code {
+        display: inline-block;
         border-radius: 3px;
         font-size: 9px;
+        line-height: 9px;
         padding: 1px 2px 1px;
         font-weight: var(--font-weight-medium);
         border: 1px solid #ddd;
         margin: 0 4px;
+        vertical-align: middle;
       }
 
       .platform {

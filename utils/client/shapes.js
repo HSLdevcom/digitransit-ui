@@ -11,7 +11,7 @@ export const alertShape = PropTypes.shape({
   effectiveEndDate: PropTypes.number,
   effectiveStartDate: PropTypes.number,
   alertHash: PropTypes.number,
-  alertHeaderText: PropTypes.string,
+  alertHeaderText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   alertSeverityLevel: PropTypes.string,
   alertUrl: PropTypes.string,
   id: PropTypes.string,

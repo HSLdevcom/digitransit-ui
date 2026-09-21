@@ -182,6 +182,14 @@ export default {
       'Ei tiedossa olevia häiriöitä tai poikkeuksia.',
     'disruption-info-route-no-alerts':
       'Linjalla ei tiedossa olevia häiriöitä tai poikkeuksia.',
+    'disruption-list-active': 'Voimassa',
+    'disruption-list-no-active-alerts': 'Ei tiedossa voimassa olevia häiriöitä',
+    'disruption-list-no-upcoming-alerts':
+      'Ei tiedossa olevia tulevia häiriöitä tai poikkeuksia',
+    'disruption-list-traffic-normal': 'Liikenne normaalia',
+    'disruption-list-upcoming': 'Tulevat',
+    'disruption-view-details': 'Katso lisätiedot',
+    'disruption-view-timetable': 'Katso aikataulu',
     disruptions: 'Häiriöt',
     'disruptions-and-diversions': 'Häiriöt ja poikkeukset',
     'disruptions-change-filters': 'Kokeile uudestaan muuttamalla valintoja',
@@ -228,7 +236,8 @@ export default {
     'from-tram': 'raitiovaunusta',
     frontpage: 'Etusivu',
     funicular: 'Funikulaari',
-    'generic-cancelation': '{mode} {route} {headsign} kello {time} on peruttu.',
+    'generic-cancelation':
+      '{mode} {route} {headsign} on peruttu kello {times}.',
     'generic-error': 'Tapahtui virhe',
     'geolocation-denied-heading': 'Paikannus on estetty',
     'geolocation-denied-text':
@@ -334,7 +343,11 @@ export default {
     'itinerary-summary.interline-wait':
       'Linjatunnus ({shortName}) ja määränpää ({destination}) vaihtuvat pysäkillä {stop}. Matka jatkuu {time} odotuksen jälkeen. Odota kulkuneuvossa.',
     'itinerary-summary.interline-wait-multiple-legs':
-      'Linjatunnus ({shortName}) ja määränpää vaihtuvat useita kertoja matkan aikana. Odotusta yhteensä {time}. Odota ajoneuvossa.',
+      'Linjatunnus ({shortName}) ja määränpää vaihtuvat useita kertoja matkan aikana. Odotusta yhteensä {time}. Odota kulkuneuvossa.',
+    'itinerary-summary.interline-wait-multiple-legs-same-route':
+      'Määränpää vaihtuu useita kertoja matkan aikana. Odotusta yhteensä {time}. Odota kulkuneuvossa.',
+    'itinerary-summary.interline-wait-same-route':
+      'Määränpää ({destination}) vaihtuu pysäkillä {stop}. Matka jatkuu {time} odotuksen jälkeen. Odota kulkuneuvossa.',
     'itinerary-summary.show-on-map': 'Näytä kartalla {target}',
     'itinerary-ticket.title': 'Tarvittava lippu',
     'itinerary-tickets.title': 'Reitillä tarvittavat liput',
@@ -548,6 +561,7 @@ export default {
       'Huomaathan, että sähköpotkulautojen, taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
     'payment-info-taxi':
       'Huomaathan, että taksien ja kyytipalveluiden käyttö ja maksaminen tapahtuu toimijoiden omilla sovelluksilla.',
+    payment_at_gate: 'Maksu portilla',
     'personal-itineraries': 'Yksilölliset reittiehdotukset',
     personalization: 'Personointi',
     'personalization-activated': 'Personointi on otettu käyttöön',
