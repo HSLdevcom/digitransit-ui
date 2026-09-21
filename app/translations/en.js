@@ -572,6 +572,7 @@ export default {
       'Please note that you use and pay for scooters, taxis and ride-hailing services in the service providers’ own apps.',
     'payment-info-taxi':
       'Please note that you use and pay for taxis and ride‑hailing services in the service providers’ own apps.',
+    payment_at_gate: 'Payment at the gate ',
     'personal-itineraries': 'Personal itineraries',
     personalization: 'Personalization',
     'personalization-activated': 'Personalization has been enabled',

@@ -565,6 +565,7 @@ export default {
       'Vänligen observera att du använder och betalar för elsparkcyklar, taxi och skjutstjänster med aktörernas egna appar.',
     'payment-info-taxi':
       'Vänligen observera att du använder och betalar för taxi och skjutstjänster med aktörernas egna appar.',
+    payment_at_gate: 'Betalning vid porten',
     'personal-itineraries': 'Individuella ruttförslag',
     personalization: 'Personalisering',
     'personalization-activated': 'Personalisering har aktiverats',
