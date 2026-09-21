@@ -95,7 +95,11 @@ export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
   `,
   route: graphql`
     fragment PatternStopsContainer_route on Route
-    @argumentDefinitions(date: { type: "String" }) {
+    @argumentDefinitions(
+      date: { type: "String" }
+      cancelationStartDate: { type: "OffsetDateTime!" }
+      cancelationEndDate: { type: "OffsetDateTime!" }
+    ) {
       gtfsId
       color
       shortName
@@ -128,6 +132,19 @@ export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
         activeDates: trips {
           serviceId
           day: activeDates
+        }
+        canceledTrips(
+          runningTimeRanges: [
+            { start: $cancelationStartDate, end: $cancelationEndDate }
+          ]
+        ) {
+          serviceDate
+          trip {
+            pattern {
+              code
+            }
+            gtfsId
+          }
         }
       }
     }

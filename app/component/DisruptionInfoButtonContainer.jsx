@@ -4,11 +4,10 @@ import { graphql, QueryRenderer } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import DisruptionInfoButton from './DisruptionInfoButton';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { useConfigContext } from '../client/ConfigContext';
 
-function DisruptionInfoButtonContainer(
-  { onClick = () => {} },
-  { config: { feedIds } },
-) {
+function DisruptionInfoButtonContainer({ onClick = () => {} }) {
+  const { feedIds } = useConfigContext();
   const { environment } = useContext(ReactRelayContext);
   const openDisruptionInfo = () => {
     addAnalyticsEvent({
@@ -44,12 +43,6 @@ function DisruptionInfoButtonContainer(
 
 DisruptionInfoButtonContainer.propTypes = {
   onClick: PropTypes.func,
-};
-
-DisruptionInfoButtonContainer.contextTypes = {
-  config: PropTypes.shape({
-    feedIds: PropTypes.arrayOf(PropTypes.string.isRequired),
-  }).isRequired,
 };
 
 export default DisruptionInfoButtonContainer;

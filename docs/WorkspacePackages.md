@@ -212,12 +212,12 @@ Versioning is independent per package (`lerna.json`'s `"version": "independent"`
 and bumped manually:
 
 ```sh
-$ yarn workspace-packages-version-bump   # git fetch --tags && lerna version --no-push --include-merged-tags
+$ yarn workspace-packages-version-bump   # git fetch --tags && lerna version --include-merged-tags
 ```
 
-`--no-push` because `lerna version` pushes the version-bump commit and its
-tags to the git remote by default — this script should only touch the local
-checkout. `git fetch --tags` first, plus `--include-merged-tags`, keep
+`lerna version` pushes the version-bump commit and its tags to the git
+remote by default; this is intentional here so release tags actually reach
+GitHub. `git fetch --tags` first, plus `--include-merged-tags`, keep
 independent-mode change detection (which package changed since its last
 release tag) reliable even when local tags are stale or only exist on
 another branch pending merge.

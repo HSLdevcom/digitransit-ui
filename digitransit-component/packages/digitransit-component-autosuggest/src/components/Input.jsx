@@ -16,13 +16,13 @@ export function Input({
   ariaLabel,
   inputRef,
   styles,
-  renderLabel,
+  renderLabel = false,
   isMobile,
   inputClassName,
   transportMode,
   clearButtonColor,
-  autoFocus,
-  inputOnBlur,
+  autoFocus = false,
+  inputOnBlur = () => {},
   onValueChange,
 }) {
   const handleChange = e => {
@@ -100,11 +100,4 @@ Input.propTypes = {
   autoFocus: PropTypes.bool,
   inputOnBlur: PropTypes.func,
   onValueChange: PropTypes.func.isRequired,
-};
-
-Input.defaultProps = {
-  autoFocus: false,
-  renderLabel: false,
-  transportMode: undefined,
-  inputOnBlur: () => {},
 };

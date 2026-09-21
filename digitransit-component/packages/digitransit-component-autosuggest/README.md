@@ -26,37 +26,37 @@ An autosuggest search input for finding locations, stops, stations, routes and v
 
 *   `props` **DTAutosuggestProps** 
 
+    *   `props.fontWeights` **[Object][1]**  (optional, default `{medium:500}`)
+    *   `props.sources` **[Array][2]<[string][3]>**  (optional, default `[]`)
+    *   `props.pathOpts` **[Object][1]**  (optional, default `{routesPrefix:'linjat',stopsPrefix:'pysakit'}`)
+    *   `props.refPoint` **[Object][1]**  (optional, default `{}`)
     *   `props.appElement`  
     *   `props.id`  
     *   `props.placeholder`  
     *   `props.onSelect`  
     *   `props.icon`  
-    *   `props.value`  
+    *   `props.value`   (optional, default `''`)
     *   `props.onClear`  
-    *   `props.lang`  
+    *   `props.lang`   (optional, default `'fi'`)
     *   `props.getAutoSuggestIcons`  
     *   `props.handleViaPoints`  
     *   `props.focusChange`  
     *   `props.storeRef`  
-    *   `props.isMobile`  
+    *   `props.isMobile`   (optional, default `false`)
     *   `props.mobileLabel`  
-    *   `props.inputClassName`  
+    *   `props.inputClassName`   (optional, default `''`)
     *   `props.translatedPlaceholder`  
-    *   `props.required`  
+    *   `props.required`   (optional, default `false`)
     *   `props.ariaLabel`  
-    *   `props.fontWeights`  
-    *   `props.colors`  
+    *   `props.colors`   (optional, default `defaultColors`)
     *   `props.modeSet`  
-    *   `props.showScroll`  
-    *   `props.isEmbedded`  
+    *   `props.showScroll`   (optional, default `false`)
+    *   `props.isEmbedded`   (optional, default `false`)
     *   `props.transportMode`  
     *   `props.targets`  
-    *   `props.sources`  
     *   `props.geocodingSize`  
     *   `props.filterResults`  
     *   `props.searchContext`  
-    *   `props.pathOpts`  
-    *   `props.refPoint`  
 
 ### Properties
 

@@ -22,6 +22,8 @@ const InterlineInfo = ({ legs, leg, usingOwnCarWholeTrip }) => {
       }
     });
   }
+  // the route's short name may stay the same across an interlined transfer
+  const shortNameChanges = new Set(routes).size > 1;
   const icon = usingOwnCarWholeTrip ? 'icon_wait-car' : 'icon_wait_sitting';
   return (
     <div className="interline-info-container">
@@ -29,7 +31,11 @@ const InterlineInfo = ({ legs, leg, usingOwnCarWholeTrip }) => {
         <>
           <Icon img={icon} />
           <FormattedMessage
-            id="itinerary-summary.interline-wait"
+            id={
+              shortNameChanges
+                ? 'itinerary-summary.interline-wait'
+                : 'itinerary-summary.interline-wait-same-route'
+            }
             values={{
               shortName: (
                 <span className="bold">{legs[0]?.route.shortName}</span>
@@ -54,7 +60,11 @@ const InterlineInfo = ({ legs, leg, usingOwnCarWholeTrip }) => {
         <>
           <Icon img={icon} />
           <FormattedMessage
-            id="itinerary-summary.interline-wait-multiple-legs"
+            id={
+              shortNameChanges
+                ? 'itinerary-summary.interline-wait-multiple-legs'
+                : 'itinerary-summary.interline-wait-multiple-legs-same-route'
+            }
             values={{
               time: (
                 <span className="bold no-wrap">

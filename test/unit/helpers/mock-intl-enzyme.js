@@ -4,30 +4,19 @@
  *   so both class components (contextTypes) and function components (useIntl hook) work.
  *   Also stubs useConfigContext() and useRouter() since shallow rendering does not
  *   support context providers for hooks.
- * - mountWithIntl: wraps with IntlProvider + IntlBridge + TestProviders for full mount tests
  */
-import React from 'react';
-import PropTypes from 'prop-types';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import * as ReactIntl from 'react-intl';
-import { createIntl, createIntlCache, IntlProvider } from 'react-intl';
-import { ReactRelayContext } from 'react-relay';
-import { RouterContext } from 'found';
+import { createIntl, createIntlCache } from 'react-intl';
 import * as found from 'found';
-import IntlBridge from '../../../utils/client/IntlBridge';
 import translations from '../../../app/translations/en';
 import * as ConfigContext from '../../../app/client/ConfigContext';
 import * as TimeContext from '../../../app/hooks/TimeContext';
-import TestProviders from './mock-providers';
 import { mockContext } from './mock-context';
 
 // Default currentTime used by shallowWithIntl when no override is given.
 const DEFAULT_MOCK_CURRENT_TIME = 1547464412;
-
-const { ConfigProvider } = ConfigContext;
-
-const mockRelayContext = { environment: {}, variables: {} };
 
 const getMessages = locale => translations[locale] || {};
 
@@ -126,75 +115,6 @@ export const shallowWithIntl = (
     context: { intl, ...context },
     ...additionalOptions,
   });
-};
-
-export const mountWithIntl = (
-  node,
-  {
-    context = {},
-    childContextTypes = {},
-    locale = 'en',
-    messages = getMessages(locale),
-    config,
-    match,
-    router,
-    ...additionalOptions
-  } = {},
-) => {
-  const fullChildContextTypes = {
-    intl: PropTypes.object,
-    config: PropTypes.object,
-    ...childContextTypes,
-  };
-
-  return mount(
-    <IntlProvider locale={locale} messages={messages}>
-      <IntlBridge>{node}</IntlBridge>
-    </IntlProvider>,
-    {
-      context: {
-        ...context,
-      },
-      childContextTypes: fullChildContextTypes,
-      wrappingComponent: TestProviders,
-      wrappingComponentProps: { config, match, router },
-      ...additionalOptions,
-    },
-  );
-};
-
-/**
- * Mounts a component wrapped with IntlContextProvider, ConfigProvider,
- * ReactRelayContext, and RouterContext — enough for components that use
- * useIntl(), useConfigContext(), useContext(ReactRelayContext), and useRouter().
- *
- * @param {React.Element} node - The component to mount
- * @param {object} options
- * @param {object} options.config - Config object for ConfigProvider
- * @param {string} [options.locale='en'] - Locale for intl
- * @param {object} [options.match] - match object for RouterContext
- * @param {object} [options.router] - router object for RouterContext
- */
-export const mountWithProviders = (
-  node,
-  { config, locale = 'en', match, router } = {},
-) => {
-  const messages = getMessages(locale);
-  const routerContextValue = {
-    match: match || mockContext.match,
-    router: router || mockContext.router,
-  };
-  return mount(
-    <IntlProvider locale={locale} messages={messages}>
-      <ConfigProvider value={config}>
-        <ReactRelayContext.Provider value={mockRelayContext}>
-          <RouterContext.Provider value={routerContextValue}>
-            {node}
-          </RouterContext.Provider>
-        </ReactRelayContext.Provider>
-      </ConfigProvider>
-    </IntlProvider>,
-  );
 };
 
 /**

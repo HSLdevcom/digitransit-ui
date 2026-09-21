@@ -189,6 +189,14 @@ export default {
     'disruption-info-no-alerts': 'No known disruptions or diversions.',
     'disruption-info-route-no-alerts':
       'No known disruptions or diversions to the route.',
+    'disruption-list-active': 'Ongoing',
+    'disruption-list-no-active-alerts': 'No known ongoing disruptions',
+    'disruption-list-no-upcoming-alerts':
+      'No known upcoming disruptions or diversions',
+    'disruption-list-traffic-normal': 'Services normal',
+    'disruption-list-upcoming': 'Upcoming',
+    'disruption-view-details': 'View details',
+    'disruption-view-timetable': 'View timetable',
     disruptions: 'Disruptions',
     'disruptions-and-diversions': 'Disruptions and diversions',
     'disruptions-change-filters': 'Please try again with different filters',
@@ -235,7 +243,7 @@ export default {
     'from-tram': 'tram',
     frontpage: 'Frontpage',
     funicular: 'Funicular',
-    'generic-cancelation': '{mode} {route} {headsign} at {time} is cancelled.',
+    'generic-cancelation': '{mode} {route} {headsign} is cancelled at {times}',
     'generic-error': 'There was an error',
     'geolocation-denied-heading': 'Geolocation denied',
     'geolocation-denied-text':
@@ -348,6 +356,10 @@ export default {
       'The route number ({shortName}) and destination ({destination}) will change at the {stop} stop. Waiting time at the stop is {time}. Please wait onboard.',
     'itinerary-summary.interline-wait-multiple-legs':
       'The route number ({shortName}) and destination will change several times during the journey. Total waiting time is {time}. Please do not leave the vehicle.',
+    'itinerary-summary.interline-wait-multiple-legs-same-route':
+      'The destination will change several times during the journey. Total waiting time is {time}. Please do not leave the vehicle.',
+    'itinerary-summary.interline-wait-same-route':
+      'The destination ({destination}) will change at the {stop} stop. Waiting time at the stop is {time}. Please wait onboard.',
     'itinerary-summary.show-on-map': 'Show on map {target}',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
@@ -562,6 +574,7 @@ export default {
       'Please note that you use and pay for scooters, taxis and ride-hailing services in the service providers’ own apps.',
     'payment-info-taxi':
       'Please note that you use and pay for taxis and ride‑hailing services in the service providers’ own apps.',
+    payment_at_gate: 'Payment at the gate ',
     'personal-itineraries': 'Personal itineraries',
     personalization: 'Personalization',
     'personalization-activated': 'Personalization has been enabled',

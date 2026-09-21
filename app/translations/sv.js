@@ -187,6 +187,14 @@ export default {
     'disruption-info-no-alerts': 'Inga kända störningar eller avvikelser.',
     'disruption-info-route-no-alerts':
       'Linjen har för tillfället inga kända störningar eller avvikelser.',
+    'disruption-list-active': 'Aktuella',
+    'disruption-list-no-active-alerts': 'Inga kända störningar',
+    'disruption-list-no-upcoming-alerts':
+      'Inga kända kommande störningar eller avvikelser',
+    'disruption-list-traffic-normal': 'Normal trafik',
+    'disruption-list-upcoming': 'Kommande',
+    'disruption-view-details': 'Mer information',
+    'disruption-view-timetable': 'Öppna tidtabell',
     disruptions: 'Störningar',
     'disruptions-and-diversions': 'Störningar och avvikelser',
     'disruptions-change-filters': 'Försök igen genom att ändra dina val.',
@@ -233,7 +241,8 @@ export default {
     'from-tram': 'spårvagnen',
     frontpage: 'Framsidan',
     funicular: 'Bergbanan',
-    'generic-cancelation': '{mode} {route} {headsign} kl. {time} ställs in.',
+    'generic-cancelation':
+      '{mode} {route} {headsign} har ställs in kl. {times}',
     'generic-error': 'Det hände ett fel',
     'geolocation-denied-heading': 'Delning av platsinformation är förbjudet',
     'geolocation-denied-text':
@@ -340,9 +349,13 @@ export default {
       'Kör din bil ombord på färjan',
     'itinerary-summary.carAndPublic-rail-title': 'Kör din bil ombord på tåget',
     'itinerary-summary.interline-wait':
-      'Linjenumret ({shortName}) och destinationen ({destination}) ändras vid hållplats {stop}. Resan fortsätter om {time}. Vänta ombord på bussen.',
+      'Linjenumret ({shortName}) och destinationen ({destination}) ändras vid hållplats {stop}. Resan fortsätter om {time}. Vänta ombord.',
     'itinerary-summary.interline-wait-multiple-legs':
-      'Linjenumret ({shortName}) och destinationen ändras många gånger under resan. Väntetiden är sammanlagt {time}. Vänta på fordon.',
+      'Linjenumret ({shortName}) och destinationen ändras många gånger under resan. Väntetiden är sammanlagt {time}. Vänta ombord.',
+    'itinerary-summary.interline-wait-multiple-legs-same-route':
+      'Destinationen ändras många gånger under resan. Väntetiden är sammanlagt {time}. Vänta ombord.',
+    'itinerary-summary.interline-wait-same-route':
+      'Destinationen ({destination}) ändras vid hållplats {stop}. Resan fortsätter om {time}. Vänta ombord.',
     'itinerary-summary.show-on-map': 'Visa på kartan {target}',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',
@@ -554,6 +567,7 @@ export default {
       'Vänligen observera att du använder och betalar för elsparkcyklar, taxi och skjutstjänster med aktörernas egna appar.',
     'payment-info-taxi':
       'Vänligen observera att du använder och betalar för taxi och skjutstjänster med aktörernas egna appar.',
+    payment_at_gate: 'Betalning vid porten',
     'personal-itineraries': 'Individuella ruttförslag',
     personalization: 'Personalisering',
     'personalization-activated': 'Personalisering har aktiverats',
