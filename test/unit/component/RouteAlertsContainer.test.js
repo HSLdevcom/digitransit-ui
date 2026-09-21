@@ -2,8 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import React from 'react';
 
-import { shallowWithIntl } from '../helpers/mock-intl-enzyme';
-import DisruptionList from '../../../app/component/DisruptionList';
+import { renderWithProviders } from '../helpers/mock-providers';
 import RouteAlertsContainer from '../../../app/component/routepage/RouteAlertsContainer';
 
 const defaultRoute = {
@@ -14,29 +13,25 @@ const defaultRoute = {
 
 const defaultStops = [{ name: 'First stop' }, { name: 'Last stop' }];
 
+const renderContainer = props =>
+  renderWithProviders(<RouteAlertsContainer {...props} />).container;
+
 describe('<RouteAlertsContainer />', () => {
   it('should pass empty arrays when there are no alerts or cancelations', () => {
-    const props = {
-      currentTime: 1558599526,
+    const container = renderContainer({
       route: defaultRoute,
       pattern: {
         alerts: [],
         stops: defaultStops,
         canceledTrips: [],
       },
-    };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      currentTime: 1558599526,
     });
-    expect(wrapper.find(DisruptionList).props()).to.deep.equal({
-      cancelations: [],
-      serviceAlerts: [],
-    });
+    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(0);
+    expect(container.textContent).to.contain('Services normal');
   });
 
   it('should pass cancelations when there are canceled stoptimes', () => {
-    const props = {
-      currentTime: 1558599526,
+    const container = renderContainer({
       route: defaultRoute,
       pattern: {
         alerts: [],
@@ -59,17 +54,12 @@ describe('<RouteAlertsContainer />', () => {
           },
         ],
       },
-    };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      currentTime: 1558599526,
     });
-    expect(wrapper.find(DisruptionList).prop('cancelations')).to.have.lengthOf(
-      1,
-    );
+    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(1);
   });
 
   it('should pass service alerts from the pattern', () => {
-    const props = {
+    const container = renderContainer({
       route: {
         gtfsId: 'HSL:2335',
         color: null,
@@ -80,18 +70,14 @@ describe('<RouteAlertsContainer />', () => {
         stops: defaultStops,
         alerts: [
           {
+            id: 'alert-335',
             alertHeaderText: null,
             alertDescriptionText: 'Route 335 canceled due to disruption.',
           },
         ],
         trips: [],
       },
-    };
-    const wrapper = shallowWithIntl(<RouteAlertsContainer {...props} />, {
-      currentTime: 1558599526,
     });
-    expect(wrapper.find(DisruptionList).prop('serviceAlerts')).to.have.lengthOf(
-      1,
-    );
+    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(1);
   });
 });

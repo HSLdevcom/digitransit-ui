@@ -346,44 +346,40 @@ export default config => {
           ),
         }}
       </Route>
-      {config.trafficNowTest && (
-        <>
-          <Route
-            path={`/${TRAFFICNOW}/hairio/:alertId`}
-            getComponent={() =>
-              import(
-                /* webpackChunkName: "trafficnow" */ '../component/trafficnow/TrafficNow'
-              ).then(getDefault)
-            }
-            render={({ Component }) =>
-              Component && <Component dateTime={new Date().toISOString()} />
-            }
-          />
-          <Route
-            path={`/${TRAFFICNOW}/peruutukset/:mode`}
-            getComponent={() =>
-              import(
-                /* webpackChunkName: "trafficnow" */ '../component/trafficnow/TrafficNow'
-              ).then(getDefault)
-            }
-            render={({ Component }) =>
-              Component && <Component dateTime={new Date().toISOString()} />
-            }
-          />
-          <Route
-            path={TRAFFICNOW}
-            getComponent={() =>
-              import(
-                /* webpackChunkName: "trafficnow" */ '../component/trafficnow/TrafficNow'
-              ).then(getDefault)
-            }
-            render={({ Component }) =>
-              Component && <Component dateTime={new Date().toISOString()} />
-            }
-          />
-          <Redirect from={`/${TRAFFICNOW}/*`} to={`/${TRAFFICNOW}`} />
-        </>
-      )}
+      <Route
+        path={`/${TRAFFICNOW}/hairio/:alertId`}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "trafficnow" */ '../component/trafficnow/TrafficNow'
+          ).then(getDefault)
+        }
+        render={({ Component }) =>
+          Component && <Component dateTime={new Date().toISOString()} />
+        }
+      />
+      <Route
+        path={`/${TRAFFICNOW}/peruutukset/:mode`}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "trafficnow" */ '../component/trafficnow/TrafficNow'
+          ).then(getDefault)
+        }
+        render={({ Component }) =>
+          Component && <Component dateTime={new Date().toISOString()} />
+        }
+      />
+      <Route
+        path={TRAFFICNOW}
+        getComponent={() =>
+          import(
+            /* webpackChunkName: "trafficnow" */ '../component/trafficnow/TrafficNow'
+          ).then(getDefault)
+        }
+        render={({ Component }) =>
+          Component && <Component dateTime={new Date().toISOString()} />
+        }
+      />
+      <Redirect from={`/${TRAFFICNOW}/*`} to={`/${TRAFFICNOW}`} />
       <Route
         path="/tietoja-palvelusta"
         getComponent={() =>

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import { SuccessAnimationView } from '@hsl-fi/notifications';
+import groupBy from 'lodash/groupBy';
 
 import Disruption from './Disruption';
 import DisruptionDetails from './DisruptionDetails';
@@ -14,12 +15,12 @@ import {
   alertSeverityCompare,
 } from '../../utils/client/alertUtils';
 import { alertShape } from '../../utils/client/shapes';
+import { useCurrentTime } from '../hooks/TimeContext';
 import { PREFIX_DISRUPTION, PREFIX_TIMETABLE } from '../../utils/shared/path';
 import { useBreakpoint } from '../../utils/client/withBreakpoint';
 import Icon from './Icon';
 import { useConfigContext } from '../client/ConfigContext';
 import { isToday } from '../../utils/client/timeUtils';
-import { useCurrentTime } from '../hooks/TimeContext';
 
 export const EmptyDisruptions = () => {
   const intl = useIntl();
@@ -56,11 +57,12 @@ const DisruptionList = ({
   cancelations = [],
   disableScrolling = false,
   serviceAlerts = [],
+  onClickLink,
 }) => {
   const { match, router } = useRouter();
   const breakpoint = useBreakpoint();
-  const intl = useIntl();
   const currentTime = useCurrentTime();
+  const intl = useIntl();
 
   // if a valid alertId is present in url query, show alert details
   const activeAlert =
@@ -80,10 +82,12 @@ const DisruptionList = ({
     );
   }
 
-  const cancelationsByValidity = Object.groupBy(
+  const cancelationsByValidity = groupBy(
     cancelations,
     ({ effectiveStartDate }) =>
-      isToday(effectiveStartDate * 1000) ? 'ongoing' : 'upcoming',
+      isToday(effectiveStartDate * 1000, currentTime * 1000)
+        ? 'ongoing'
+        : 'upcoming',
   );
   const toggleDetails = id => {
     router.push({ pathname: match.location.pathname, query: { alertId: id } });
@@ -131,12 +135,14 @@ const DisruptionList = ({
                 disruption.canceledDepartures ? (
                   <Disruption
                     toggleDetails={() => router.push(timetableUrl)}
+                    onClickLink={onClickLink}
                     key={disruption.id}
                     {...disruption}
                   />
                 ) : (
                   <Disruption
                     toggleDetails={() => toggleDetails(disruption.id)}
+                    onClickLink={onClickLink}
                     key={disruption.id}
                     {...disruption}
                   />
@@ -163,12 +169,14 @@ const DisruptionList = ({
                 disruption.canceledDepartures ? (
                   <Disruption
                     toggleDetails={() => router.push(timetableUrl)}
+                    onClickLink={onClickLink}
                     key={disruption.id}
                     {...disruption}
                   />
                 ) : (
                   <Disruption
                     toggleDetails={() => toggleDetails(disruption.id)}
+                    onClickLink={onClickLink}
                     key={disruption.id}
                     {...disruption}
                   />
@@ -194,6 +202,7 @@ DisruptionList.propTypes = {
   cancelations: PropTypes.arrayOf(alertShape),
   disableScrolling: PropTypes.bool,
   serviceAlerts: PropTypes.arrayOf(alertShape),
+  onClickLink: PropTypes.func,
 };
 
 export default DisruptionList;

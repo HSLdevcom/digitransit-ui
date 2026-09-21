@@ -115,8 +115,8 @@ export default function AppBar({
 
 AppBar.propTypes = {
   showLogo: PropTypes.bool,
-  homeUrl: PropTypes.string,
+  homeUrl: PropTypes.string.isRequired,
   logo: PropTypes.string,
-  breakpoint: PropTypes.string,
+  breakpoint: PropTypes.string.isRequired,
   titleClicked: PropTypes.func.isRequired,
 };

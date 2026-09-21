@@ -14,7 +14,10 @@ import {
 } from '../../utils/shared/path';
 import IconBackground from './icon/IconBackground';
 import { getRouteMode, transitIconName } from '../../utils/client/modeUtils';
-import { getStartTimeWithColon } from '../../utils/client/timeUtils';
+import {
+  getStartTime,
+  convertTo24HourFormat,
+} from '../../utils/client/timeUtils';
 import { entityShape, stopTimeShape } from '../../utils/client/shapes';
 import {
   AlertEntityType,
@@ -44,6 +47,7 @@ export default function Disruption({
   entities = [],
   alertHeaderText,
   alertSeverityLevel = AlertSeverityLevelType.Unknown,
+  onClickLink,
   canceledDepartures = [],
   effectiveStartDate,
 }) {
@@ -173,6 +177,7 @@ export default function Disruption({
                             onClick={e => {
                               e.preventDefault();
                               e.stopPropagation();
+                              onClickLink?.();
                               match.router.push(
                                 isStop
                                   ? stopPagePath(isStation, gtfsId)
@@ -203,7 +208,7 @@ export default function Disruption({
               {canceledDepartures.map(st => (
                 <span key={st.scheduledDeparture} className="cancelation-badge">
                   <span className="canceled">
-                    {getStartTimeWithColon(st.scheduledDeparture)}
+                    {convertTo24HourFormat(getStartTime(st.scheduledDeparture))}
                   </span>
                 </span>
               ))}
@@ -222,6 +227,7 @@ Disruption.propTypes = {
   entities: PropTypes.arrayOf(entityShape),
   alertSeverityLevel: PropTypes.string,
   alertHeaderText: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  onClickLink: PropTypes.func,
   canceledDepartures: PropTypes.arrayOf(stopTimeShape),
   effectiveStartDate: PropTypes.number,
 };

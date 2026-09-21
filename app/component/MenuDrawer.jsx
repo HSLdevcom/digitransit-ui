@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Modal from 'react-modal';
 
 export default function MenuDrawer({
@@ -7,8 +7,9 @@ export default function MenuDrawer({
   children,
   onRequestChange,
   breakpoint,
-  className,
+  className = '',
 }) {
+  useEffect(() => Modal.setAppElement(document.querySelector('#app')), []);
   const classNames = {
     base: `${className} ${breakpoint !== 'large' ? 'mobile' : ''} menu-content`,
     afterOpen: 'menu-content-open',
@@ -35,14 +36,8 @@ export default function MenuDrawer({
 
 MenuDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
-  children: PropTypes.node,
-  onRequestChange: PropTypes.func,
+  children: PropTypes.node.isRequired,
+  onRequestChange: PropTypes.func.isRequired,
   breakpoint: PropTypes.string.isRequired,
   className: PropTypes.string,
-};
-
-MenuDrawer.defaultProps = {
-  children: undefined,
-  onRequestChange: undefined,
-  className: '',
 };

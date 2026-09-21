@@ -217,6 +217,7 @@
 
       .stop-near-you-info {
         display: flex;
+        align-items: center;
         margin-bottom: 5px;
 
         .route-stop-address-row {
@@ -250,10 +251,11 @@
         }
 
         .itinerary-stop-code {
+          display: flex;
+          align-items: center;
           height: 16px;
           padding: 0 4px;
           align-self: center;
-          margin-bottom: 2px;
         }
 
         .zone-icon-container {

@@ -34,8 +34,8 @@ class LegacyContextProvider extends React.Component {
       getStore: this.props.getStore || mockContext.getStore,
       executeAction: this.props.executeAction || mockContext.executeAction,
     };
-    // Only provide config/match when explicitly set, so Enzyme's own
-    // legacy context isn't shadowed for tests that still use mountWithIntl.
+    // Only provide config/match when explicitly set, so the legacy
+    // context isn't shadowed for components that read it directly.
     if (this.props.config) {
       ctx.config = this.props.config;
     }
@@ -73,7 +73,8 @@ LegacyContextProvider.propTypes = {
   executeAction: PropTypes.func,
 };
 
-// Default export used by Enzyme's mountWithIntl as wrappingComponent
+// Wraps the component under test with the intl, config, relay and router
+// context providers used by renderWithProviders below.
 export default function TestProviders({
   children,
   config,

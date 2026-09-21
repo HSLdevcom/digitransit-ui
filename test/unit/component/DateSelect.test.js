@@ -14,7 +14,7 @@ describe('<DateSelect />', () => {
 
   after(() => {
     Settings.defaultLocale = 'en';
-    Settings.defaultZone = 'system';
+    Settings.defaultZone = 'Europe/Helsinki';
   });
 
   it('should render 60 options', () => {

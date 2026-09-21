@@ -12,7 +12,7 @@ import { patternShape, routeShape } from '../../../utils/client/shapes';
 import { useBreakpoint } from '../../../utils/client/withBreakpoint';
 import { useConfigContext } from '../../client/ConfigContext';
 
-function patternOptionText(pattern) {
+export function patternOptionText(pattern) {
   if (!pattern) {
     return '';
   }

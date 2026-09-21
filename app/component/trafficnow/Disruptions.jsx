@@ -56,6 +56,7 @@ export function getCanceledModes(
 
 export default function Disruptions({ dateTime }) {
   const breakpoint = useBreakpoint();
+  const mobile = breakpoint !== 'large';
   const config = useConfigContext();
   const { router } = useRouter();
   const { selectedFilters } = useFilterContext();
@@ -64,6 +65,8 @@ export default function Disruptions({ dateTime }) {
   const [hasUpdates, setHasUpdates] = useState(null);
   const [fetchKey, setFetchKey] = useState(0);
   const displayedFingerprintRef = useRef(null);
+  const scrollRef = useRef(null);
+  const isInitialFiltersRender = useRef(true);
 
   const {
     URL: { OTP: otpUrl },
@@ -131,6 +134,34 @@ export default function Disruptions({ dateTime }) {
     setHasUpdates(null);
   }, [fetchKey]);
 
+  // Changing filters can shrink or empty the visible results while the user
+  // is scrolled down (in the list's own scroll container and/or the window),
+  // which would otherwise leave the viewport showing whatever now sits at the
+  // old scroll position (e.g. the page footer) instead of the new content.
+  // Scroll the results back to their own top whenever the filters change.
+  const scrollResultsToTop = () => {
+    if (mobile) {
+      // On mobile the whole window scrolls (there's no independent scroll
+      // container), and the filters button above the list is `position:
+      // sticky`. Scrolling only the list's own top into view would leave
+      // that button "stuck" over the top of the (now shorter) list, hiding
+      // part of its content. Scrolling the window fully to the top avoids
+      // that overlap by keeping the button in its normal, unstuck position.
+      window.scrollTo(0, 0);
+    } else if (scrollRef.current) {
+      scrollRef.current.scrollTop = 0;
+      scrollRef.current.scrollIntoView({ block: 'start' });
+    }
+  };
+
+  useEffect(() => {
+    if (isInitialFiltersRender.current) {
+      isInitialFiltersRender.current = false;
+      return;
+    }
+    scrollResultsToTop();
+  }, [selectedFilters]);
+
   // Poll for server-side changes without updating the Relay store
   useEffect(() => {
     const queryParam = hasAPISubscriptionQueryParameter
@@ -190,8 +221,6 @@ export default function Disruptions({ dateTime }) {
     config,
   );
 
-  const mobile = breakpoint !== 'large';
-
   const resultAmount = canceledModesFiltered.length + disruptionCards.length;
 
   return (
@@ -217,7 +246,7 @@ export default function Disruptions({ dateTime }) {
           </div>
         </div>
       )}
-      <div className="disruptions__scroll">
+      <div className="disruptions__scroll" ref={scrollRef}>
         {!resultAmount ? (
           <NoDisruptions />
         ) : (
