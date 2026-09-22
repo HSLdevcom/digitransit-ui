@@ -1,4 +1,3 @@
-import { afterEach, beforeEach, describe, it } from 'vitest';
 import { DateTime, Settings } from 'luxon';
 
 import { calculateRedirectDecision } from '../../../app/component/routepage/schedule/scheduleParamUtils';

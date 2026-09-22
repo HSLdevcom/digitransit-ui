@@ -25,7 +25,7 @@
   "scripts": {
     "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "clean": "rm -rf ./lib",
-    "test": "NODE_OPTIONS=\"--import ../../../config/vitest.jsx-runtime-loader.js\" vitest run --config ../../../config/vitest.config.js \"$PWD/test.jsx\"",
+    "test": "NODE_OPTIONS=\"--import ../../../config/vitest.jsx-runtime-loader.js\" vitest run --config ../../../vitest.config.js \"$PWD/test.jsx\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js",
     "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },

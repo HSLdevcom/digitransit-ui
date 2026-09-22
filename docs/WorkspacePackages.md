@@ -113,7 +113,8 @@ package has actually used since the migration to Rollup). Instead:
 ## Testing
 
 Tests run on [Vitest](https://vitest.dev), configured from a single root
-`config/vitest.config.js` (one `test.projects` entry per family). `component`
+`vitest.config.js` (one `test.projects` entry per family, plus one for the
+main app suite — see `docs/Tests.md`). `component`
 runs under a jsdom environment, configured entirely in `vitest.config.js`
 (no setup file): `environmentOptions.jsdom.html` seeds a persistent
 `<div id="app">` for `@hsl-fi/modal`'s `appElement` prop, and `globals: true`

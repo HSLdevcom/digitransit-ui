@@ -1,5 +1,3 @@
-import { describe, it } from 'vitest';
-
 import fi from '../../app/translations/fi';
 import sv from '../../app/translations/sv';
 import en from '../../app/translations/en';

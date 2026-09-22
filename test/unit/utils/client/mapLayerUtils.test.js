@@ -1,5 +1,3 @@
-import { describe, it } from 'vitest';
-
 import * as utils from '../../../../utils/client/mapLayerUtils';
 
 describe('mapLayerUtils', () => {

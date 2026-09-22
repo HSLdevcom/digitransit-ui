@@ -1,5 +1,3 @@
-import { describe, it } from 'vitest';
-
 import PositionStore from '../../../app/store/PositionStore';
 
 describe('PositionStore', () => {

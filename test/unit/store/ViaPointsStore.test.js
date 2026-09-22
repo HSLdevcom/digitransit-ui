@@ -1,5 +1,3 @@
-import { describe, it } from 'vitest';
-
 import ViaPointStore from '../../../app/store/ViaPointStore';
 
 describe('ViaPointsStore', () => {

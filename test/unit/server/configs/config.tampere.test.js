@@ -1,5 +1,3 @@
-import { describe, it } from 'vitest';
-
 import tampereConfig from '../../../../server/configs/config.tampere';
 
 describe('tampere configuration', () => {

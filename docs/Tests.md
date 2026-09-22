@@ -23,10 +23,10 @@ E2E-tests are run with hsl, tampere and matka configs on github actions. Desktop
 ## Unit tests
 
 Unit tests can be run locally. This uses the [Vitest](https://vitest.dev/) test
-runner (`config/vitest.app.config.js`) with globals enabled, so `describe`/
+runner (`vitest.config.js`'s `app` project) with globals enabled, so `describe`/
 `it`/`expect`/`vi` are available without imports (imports are still used
 throughout the suite for clarity/lint compliance). The pattern being watched
-is `'test/unit/**/*.test.js'`. Assertions use Vitest's native `expect` API and
+is `'test/unit/**/*.test.{js,jsx}'`. Assertions use Vitest's native `expect` API and
 mocking uses `vi.fn()`/`vi.spyOn()` — there is no dependency on
 mocha/chai/sinon.
 

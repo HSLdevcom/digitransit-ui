@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import Cookies from 'universal-cookie';
 
 import {

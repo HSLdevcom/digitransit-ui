@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-expressions */
-import { describe, it } from 'vitest';
 import { StreetMode, TransportMode } from '../../../../utils/shared/constants';
 import * as utils from '../../../../utils/client/modeUtils';
 import { setCustomizedSettings } from '../../../../utils/client/localStorage';

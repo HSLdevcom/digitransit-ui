@@ -1,5 +1,3 @@
-import { describe, it } from 'vitest';
-
 import * as utils from '../../utils/shared/browser';
 
 const noop = () => {};

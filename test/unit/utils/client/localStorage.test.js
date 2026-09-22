@@ -1,5 +1,3 @@
-import { describe, it, vi } from 'vitest';
-
 import {
   getLocalStorage,
   getCustomizedSettings,

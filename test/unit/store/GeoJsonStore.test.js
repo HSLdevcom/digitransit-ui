@@ -1,5 +1,4 @@
 import fetchMock from 'fetch-mock';
-import { describe, it, beforeEach, beforeAll, afterAll } from 'vitest';
 import cloneDeep from 'lodash/cloneDeep';
 
 import GeoJsonStore, {

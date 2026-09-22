@@ -1,4 +1,3 @@
-import { describe, it } from 'vitest';
 import { pathJoin } from '../../../../utils/shared/path';
 
 describe('path', () => {

@@ -1,5 +1,3 @@
-import { describe, it } from 'vitest';
-
 import { generateMetaData } from '../../../../utils/client/metaUtils';
 
 describe('metaUtils', () => {

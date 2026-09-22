@@ -14,7 +14,7 @@ import { mockContext } from './mock-context';
  * Create all common schedule-related mocks/stubs.
  * Returns mocks and stubs for schedule component tests. Stubs are vi mocks,
  * auto-restored between tests via the `restoreMocks: true` Vitest config
- * option (config/vitest.app.config.js) - no manual sandbox/restore needed.
+ * option (vitest.config.js's `app` project) - no manual sandbox/restore needed.
  *
  * @param {Object} overrides - Optional overrides for mock data
  * @param {Object} overrides.intl - Override intl mock

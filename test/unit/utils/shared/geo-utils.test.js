@@ -1,5 +1,3 @@
-import { describe, it } from 'vitest';
-
 import {
   getClosestPoint,
   isMultiPointTypeGeometry,

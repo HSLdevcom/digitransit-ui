@@ -1,4 +1,3 @@
-import { describe, it } from 'vitest';
 import findErrorMessageIds from '../../../app/component/itinerary/findErrorMessageIds';
 
 const expectSingleValue = (arr, expected) => {

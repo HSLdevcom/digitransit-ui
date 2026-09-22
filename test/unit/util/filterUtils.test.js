@@ -1,4 +1,3 @@
-import { describe, it, beforeEach, vi } from 'vitest';
 import { filterAndSortAlerts } from '../../../app/component/trafficnow/filters/filterUtils';
 
 /**

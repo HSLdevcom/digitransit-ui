@@ -1,4 +1,3 @@
-import { describe, it } from 'vitest';
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 
 const testdata = {

@@ -1,4 +1,3 @@
-import { describe, it, vi } from 'vitest';
 import { showGeolocationDeniedMessage } from '../../../app/action/PositionActions';
 import { messageActions } from '../../../app/hooks/MessageContext';
 import { geolocationMessages } from '../../../utils/client/geolocationMessages';

@@ -1,5 +1,3 @@
-import { describe, it } from 'vitest';
-
 import { decode } from 'base64-arraybuffer';
 import bindings from '../../../../utils/client/gtfsrt';
 import { parseFeedMQTT } from '../../../../utils/client/gtfsRtParser';

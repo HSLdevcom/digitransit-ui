@@ -1,5 +1,4 @@
 import fetchMock from 'fetch-mock';
-import { describe, it, beforeAll, afterAll } from 'vitest';
 import { retryFetch } from '../../../../utils/shared/fetchUtils';
 
 // retryFetch retries fetch requests (url, options, retry count, delay) where total number or calls is initial request + retry count

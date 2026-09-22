@@ -1,14 +1,13 @@
 /* eslint-disable no-console */
 // Vitest setup for the app unit suite (replaces the former Mocha
 // test/unit/helpers/init.js, now removed). jsdom's own `environment: 'jsdom'`
-// (config/vitest.app.config.js) already provides window/document/navigator/
+// (vitest.config.js's `app` project) already provides window/document/navigator/
 // localStorage/sessionStorage globally, so this file doesn't need to
 // construct a JSDOM instance or copy its properties onto `global` by hand.
 import Link from 'found/Link';
 import relay from 'react-relay';
 import { Settings } from 'luxon';
 import { cleanup } from '@testing-library/react';
-import { afterAll, afterEach, beforeAll, vi } from 'vitest';
 import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
 
 // set up timezone in luxon
@@ -40,7 +39,7 @@ const MockLink = ({ children }) => children;
 // These are process-wide overrides applied once for the whole run (not
 // per-test mocks), so they're done via plain property reassignment rather
 // than vi.fn()/vi.spyOn() - the `restoreMocks: true` Vitest config option
-// (config/vitest.app.config.js) restores every vi mock before each test,
+// (vitest.config.js's `app` project) restores every vi mock before each test,
 // which would undo a vi-based stub here after the very first test.
 const originalConsoleError = console.error;
 const originalLinkRender = Link.render;
@@ -67,7 +66,7 @@ afterAll(() => {
 // make sure the local and session storage stays clear for each test
 afterEach(() => {
   cleanup();
-  // `restoreMocks: true` (config/vitest.app.config.js) only restores
+  // `restoreMocks: true` (vitest.config.js's `app` project) only restores
   // vi.fn()/vi.spyOn() mocks right before the *next* test starts, so a
   // test-scoped mock (e.g. one replacing the window.localStorage getter)
   // is still active here otherwise, breaking this cleanup itself.

@@ -1,4 +1,3 @@
-import { describe, it } from 'vitest';
 import { failedFavouriteMessage } from '../../../../utils/client/messageUtils';
 
 describe('failedFavouriteMessage', () => {

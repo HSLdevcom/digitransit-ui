@@ -1,5 +1,4 @@
 import fetchMock from 'fetch-mock';
-import { describe, it, beforeAll, afterAll } from 'vitest';
 import Stops from '../../../../../app/component/map/tile-layer/Stops';
 
 describe('Stops', () => {

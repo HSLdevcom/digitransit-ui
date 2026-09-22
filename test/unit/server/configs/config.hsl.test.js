@@ -1,5 +1,3 @@
-import { describe, it } from 'vitest';
-
 import config from '../../../../server/configs/config.hsl';
 
 describe('HSL Configuration', () => {

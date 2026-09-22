@@ -1,4 +1,3 @@
-import { describe, it, beforeEach, vi } from 'vitest';
 import * as modeUtils from '../../../../utils/client/modeUtils';
 import * as pathUtils from '../../../../utils/shared/path';
 import {

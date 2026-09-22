@@ -1,5 +1,3 @@
-import { describe, it } from 'vitest';
-
 import defaultConfig from '../../../../server/configs/config.default';
 
 describe('default configuration', () => {

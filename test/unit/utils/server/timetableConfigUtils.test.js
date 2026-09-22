@@ -1,4 +1,3 @@
-import { describe, it } from 'vitest';
 import * as timetables from '../../../../utils/server/timetableConfigUtils';
 
 describe('timetableConfigUtils', () => {

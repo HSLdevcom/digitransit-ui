@@ -1,4 +1,3 @@
-import { describe, it } from 'vitest';
 import {
   ICON_SIZES,
   getIconUrl,
