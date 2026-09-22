@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { matchShape, routerShape } from 'found';
+import { useRouter } from 'found';
 import Popup from 'react-leaflet/es/Popup';
 import { setIntermediatePlaces } from '../../../../utils/client/queryUtils';
 import { locationToOTP } from '../../../../utils/shared/otpStrings';
@@ -17,7 +17,8 @@ const filterViaPoint = (allPoints, pointToRemove) => {
   );
 };
 
-function ViaPointPopup({ lat, lon }, { router, match }) {
+function ViaPointPopup({ lat, lon }) {
+  const { router, match } = useRouter();
   const viaPoints = useViaPoints();
   const { setViaPoints } = useItineraryLocationActions();
   const currentPoint = { lat, lon };
@@ -66,9 +67,4 @@ ViaPointPopup.propTypes = {
   lon: PropTypes.number.isRequired,
 };
 
-ViaPointPopup.contextTypes = {
-  router: routerShape.isRequired,
-  match: matchShape.isRequired,
-};
-
-export { ViaPointPopup as default, ViaPointPopup as Component };
+export default ViaPointPopup;
