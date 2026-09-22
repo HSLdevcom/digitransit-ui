@@ -34,10 +34,12 @@ import {
 const DTAutosuggestPanelWithSearchContext =
   withSearchContext(DTAutosuggestPanel);
 
-function OriginDestinationBar(
-  { origin, destination, isMobile = false, locationState },
-  context,
-) {
+function OriginDestinationBar({
+  origin,
+  destination,
+  isMobile = false,
+  locationState,
+}) {
   const config = useConfigContext();
   const { match, router } = useRouter();
   const mountedRef = useRef(false);
@@ -76,13 +78,7 @@ function OriginDestinationBar(
       location.query.intermediatePlaces.reverse();
     }
 
-    updateItinerarySearch(
-      destination,
-      origin,
-      router,
-      location,
-      context.executeAction,
-    );
+    updateItinerarySearch(destination, origin, router, location);
   };
 
   const onLocationSelect = (item, id) => {
@@ -153,10 +149,6 @@ OriginDestinationBar.propTypes = {
   destination: locationShape.isRequired,
   isMobile: PropTypes.bool,
   locationState: locationStateShape.isRequired,
-};
-
-OriginDestinationBar.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
 };
 
 const connectedComponent = connectToStores(
