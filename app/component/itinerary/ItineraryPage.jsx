@@ -1395,6 +1395,16 @@ export default function ItineraryPage(props, context) {
     showSettingsPanel(!settingsState.settingsOpen);
   };
 
+  // Keeps the settings panel in sync with browser back/forward navigation.
+  useEffect(() => {
+    if (settingsState.settingsOpen && !location.state?.itinerarySettingsOpen) {
+      setSettingsState(prevState => ({
+        ...prevState,
+        settingsOpen: false,
+      }));
+    }
+  }, [location.state?.itinerarySettingsOpen]);
+
   const focusToHeader = () => {
     setTimeout(() => {
       if (headerRef.current) {
