@@ -1,7 +1,5 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { describe, it, beforeEach, vi } from 'vitest';
 import React from 'react';
-import sinon from 'sinon';
 import { render, fireEvent } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import * as found from 'found';
@@ -83,16 +81,14 @@ describe('<CanceledTripCard />', () => {
   let router;
 
   beforeEach(() => {
-    router = { push: sinon.spy() };
-    sinon.stub(found, 'useRouter').returns({ router });
-    sinon
-      .stub(FiltersContext, 'useFilterContext')
-      .returns({ selectedFilters: {} });
-  });
-
-  afterEach(() => {
-    found.useRouter.restore();
-    FiltersContext.useFilterContext.restore();
+    router = { push: vi.fn() };
+    vi.spyOn(found, 'useRouter').mockReturnValue({ router });
+    // sinon can't stub this repo's own ESM exports (the binding read by
+    // FiltersContext's real importers stays live/un-replaced); vi.spyOn can,
+    // and is auto-restored by the `restoreMocks: true` Vitest config option.
+    vi.spyOn(FiltersContext, 'useFilterContext').mockReturnValue({
+      selectedFilters: {},
+    });
   });
 
   const renderCanceledTripCard = (props, config = baseConfig) => {
@@ -124,8 +120,8 @@ describe('<CanceledTripCard />', () => {
     it('maps canceled route summaries to route badges', () => {
       const container = renderCanceledTripCard();
 
-      expect(routeBadgeNames(container)).to.deep.equal(['21B']);
-      expect(routeBadgeHrefs(container)).to.deep.equal(['/linjat/HSL%3A21B']);
+      expect(routeBadgeNames(container)).toEqual(['21B']);
+      expect(routeBadgeHrefs(container)).toEqual(['/linjat/HSL%3A21B']);
     });
 
     it('limits the amount of route badges', () => {
@@ -134,7 +130,7 @@ describe('<CanceledTripCard />', () => {
         { ...baseConfig, trafficNowMaxRoutesPerCard: 3 },
       );
 
-      expect(routeBadgeNames(container)).to.deep.equal(['20', '21', '22']);
+      expect(routeBadgeNames(container)).toEqual(['20', '21', '22']);
     });
 
     it('renders the count of hidden routes when there are more than allowed', () => {
@@ -144,25 +140,25 @@ describe('<CanceledTripCard />', () => {
       );
       const moreRoutes = container.querySelector('.more-routes');
 
-      expect(moreRoutes).to.not.equal(null);
-      expect(moreRoutes.textContent.trim()).to.equal('+3');
+      expect(moreRoutes).not.toBeNull();
+      expect(moreRoutes.textContent.trim()).toBe('+3');
     });
 
     it('does not render the three-dots icon when all routes are visible', () => {
       const container = renderCanceledTripCard({ routes: makeRoutes(5) });
 
-      expect(container.querySelector('.more-routes')).to.equal(null);
+      expect(container.querySelector('.more-routes')).toBeNull();
     });
 
     it('renders the departure time when there is only a single route', () => {
       const container = renderCanceledTripCard();
       const departureTimes = Array.from(
         container.querySelectorAll(
-          '.badges__headsign-group--route .badges__departure-time .routes-s-narrow',
+          '.badges__headsign-group--route .badges__departure-time [class*="routes-s-narrow"]',
         ),
       ).map(node => node.textContent.trim());
 
-      expect(departureTimes).to.deep.equal(['08:00']);
+      expect(departureTimes).toEqual(['08:00']);
     });
 
     it('renders cancellations from all patterns when there is only a single route', () => {
@@ -210,11 +206,11 @@ describe('<CanceledTripCard />', () => {
       });
       const departureTimes = Array.from(
         container.querySelectorAll(
-          '.badges__headsign-group--route .badges__departure-time .routes-s-narrow',
+          '.badges__headsign-group--route .badges__departure-time [class*="routes-s-narrow"]',
         ),
       ).map(node => node.textContent.trim());
 
-      expect(departureTimes).to.deep.equal(['08:00', '08:05']);
+      expect(departureTimes).toEqual(['08:00', '08:05']);
     });
 
     it('limits inline departures per pattern', () => {
@@ -256,7 +252,7 @@ describe('<CanceledTripCard />', () => {
         container.querySelectorAll(
           '.badges__departure-time:not(.badges__departure-time--show-more)',
         ),
-      ).to.have.lengthOf(10);
+      ).toHaveLength(10);
     });
 
     it('renders inline hidden departure count per pattern', () => {
@@ -297,7 +293,7 @@ describe('<CanceledTripCard />', () => {
         container.querySelectorAll('.badges__departure-time--show-more'),
       ).map(node => node.textContent.trim());
 
-      expect(hiddenCounts).to.deep.equal(['+2', '+3']);
+      expect(hiddenCounts).toEqual(['+2', '+3']);
     });
   });
 
@@ -305,24 +301,18 @@ describe('<CanceledTripCard />', () => {
     it('renders separator and DisruptionStatus in the header when isMobile=false', () => {
       const container = renderCanceledTripCard({ isMobile: false });
 
+      expect(container.querySelectorAll('.separator.vertical')).toHaveLength(1);
       expect(
-        container.querySelectorAll('.separator.vertical'),
-      ).to.have.lengthOf(1);
-      expect(container.querySelector('header .disruption-status')).to.not.equal(
-        null,
-      );
+        container.querySelector('header .disruption-status'),
+      ).not.toBeNull();
     });
 
     it('hides the header separator and moves DisruptionStatus below badges when isMobile=true', () => {
       const container = renderCanceledTripCard({ isMobile: true });
 
-      expect(
-        container.querySelectorAll('.separator.vertical'),
-      ).to.have.lengthOf(0);
-      expect(container.querySelector('header .disruption-status')).to.equal(
-        null,
-      );
-      expect(container.querySelector('.disruption-status')).to.not.equal(null);
+      expect(container.querySelectorAll('.separator.vertical')).toHaveLength(0);
+      expect(container.querySelector('header .disruption-status')).toBeNull();
+      expect(container.querySelector('.disruption-status')).not.toBeNull();
     });
   });
 
@@ -332,9 +322,11 @@ describe('<CanceledTripCard />', () => {
 
       fireEvent.click(container.querySelector('.card'));
 
-      expect(router.push.calledWith('/liikenne/peruutukset/bus')).to.equal(
-        true,
-      );
+      expect(
+        router.push.mock.calls.some(
+          call => call[0] === '/liikenne/peruutukset/bus',
+        ),
+      ).toBe(true);
     });
   });
 });

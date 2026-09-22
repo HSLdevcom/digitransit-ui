@@ -12,6 +12,6 @@ describe('<IconWithIcon />', () => {
     const { container } = renderWithProviders(<IconWithIcon {...props} />, {
       messages: { disruption: 'Disruption' },
     });
-    expect(container.querySelectorAll('circle')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('circle')).toHaveLength(1);
   });
 });

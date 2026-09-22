@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import { expect } from 'chai';
-import { afterEach, describe, it } from 'mocha';
+import { afterEach, describe, it } from 'vitest';
 import MockDate from 'mockdate';
 import { DateTime } from 'luxon';
 
@@ -103,8 +102,8 @@ describe('OldSearchesStore', () => {
       store.getStorageObject();
 
       const { items, version } = getOldSearchesStorage();
-      expect(items).to.be.empty;
-      expect(version).to.equal(STORE_VERSION);
+      expect(Object.keys(items)).toHaveLength(0);
+      expect(version).toBe(STORE_VERSION);
     });
 
     it('should persist only the highest-count entry for duplicate routes', () => {
@@ -131,9 +130,9 @@ describe('OldSearchesStore', () => {
       store.getStorageObject();
 
       const { items } = getOldSearchesStorage();
-      expect(items).to.have.length(1);
-      expect(items[0].count).to.equal(4);
-      expect(items[0].item.properties.longName).to.equal('Current Name');
+      expect(items).toHaveLength(1);
+      expect(items[0].count).toBe(4);
+      expect(items[0].item.properties.longName).toBe('Current Name');
     });
 
     it('should drop items without properties as unusable', () => {
@@ -149,8 +148,8 @@ describe('OldSearchesStore', () => {
       store.getStorageObject();
 
       const { items } = getOldSearchesStorage();
-      expect(items).to.have.length(1);
-      expect(items[0].item.properties).to.exist;
+      expect(items).toHaveLength(1);
+      expect(items[0].item.properties).toBeDefined();
     });
   });
 
@@ -158,13 +157,13 @@ describe('OldSearchesStore', () => {
     it('should return an empty array for missing parameters', () => {
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches();
-      expect(oldSearches).to.be.empty;
+      expect(Object.keys(oldSearches)).toHaveLength(0);
     });
 
     it('should return an empty array when no matches are found', () => {
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches('invalid');
-      expect(oldSearches).to.be.empty;
+      expect(Object.keys(oldSearches)).toHaveLength(0);
     });
 
     it('should ignore old version numbers from localStorage', () => {
@@ -180,7 +179,7 @@ describe('OldSearchesStore', () => {
 
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches();
-      expect(oldSearches).to.be.empty;
+      expect(Object.keys(oldSearches)).toHaveLength(0);
     });
 
     it('should filter by type', () => {
@@ -194,8 +193,8 @@ describe('OldSearchesStore', () => {
       });
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches('endpoint');
-      expect(oldSearches).to.not.be.empty;
-      expect(oldSearches.length).to.equal(2);
+      expect(Object.keys(oldSearches)).not.toHaveLength(0);
+      expect(oldSearches.length).toBe(2);
     });
 
     it('should filter by timestamp', () => {
@@ -240,10 +239,12 @@ describe('OldSearchesStore', () => {
 
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches();
-      expect(oldSearches).to.not.be.empty;
-      expect(oldSearches.length).to.equal(3);
-      expect(oldSearches.filter(s => s.foo === 'yes_filter')).to.be.empty;
-      expect(oldSearches.filter(s => s.foo === 'no_filter')).to.not.be.empty;
+      expect(Object.keys(oldSearches)).not.toHaveLength(0);
+      expect(oldSearches.length).toBe(3);
+      expect(oldSearches.filter(s => s.foo === 'yes_filter')).toHaveLength(0);
+      expect(oldSearches.filter(s => s.foo === 'no_filter')).not.toHaveLength(
+        0,
+      );
     });
 
     it('should ignore a missing timestamp', () => {
@@ -256,8 +257,8 @@ describe('OldSearchesStore', () => {
 
       const store = new OldSearchesStore();
       const oldSearches = store.getOldSearches();
-      expect(oldSearches).to.not.be.empty;
-      expect(oldSearches.length).to.equal(1);
+      expect(Object.keys(oldSearches)).not.toHaveLength(0);
+      expect(oldSearches.length).toBe(1);
     });
   });
 
@@ -267,12 +268,12 @@ describe('OldSearchesStore', () => {
       const oldDestination = mockData.old;
       store.saveSearch(oldDestination);
       const storedOldDestination = store.getOldSearches()[0];
-      expect(storedOldDestination).to.deep.equal(oldDestination.item);
+      expect(storedOldDestination).toEqual(oldDestination.item);
 
       const updatedDestination = mockData.updated;
       store.saveSearch(updatedDestination);
       const storedUpdatedDestination = store.getOldSearches()[0];
-      expect(storedUpdatedDestination).to.deep.equal(updatedDestination.item);
+      expect(storedUpdatedDestination).toEqual(updatedDestination.item);
     });
 
     it('should apply the current timestamp', () => {
@@ -282,7 +283,7 @@ describe('OldSearchesStore', () => {
       const store = new OldSearchesStore();
       store.saveSearch(mockData.updated);
       const storedDestination = getOldSearchesStorage().items[0];
-      expect(storedDestination.lastUpdated).to.equal(timestamp.toUnixInteger());
+      expect(storedDestination.lastUpdated).toBe(timestamp.toUnixInteger());
     });
 
     it("should update a route item's properties if found from store", () => {
@@ -347,7 +348,7 @@ describe('OldSearchesStore', () => {
       store.saveSearch(newData);
 
       const result = store.getOldSearches()[0];
-      expect(result).to.deep.equal(newData.item);
+      expect(result).toEqual(newData.item);
     });
 
     it('should collapse duplicate route entries with the same gtfsId into one', () => {
@@ -394,8 +395,8 @@ describe('OldSearchesStore', () => {
       });
 
       const results = store.getOldSearches();
-      expect(results.length).to.equal(1);
-      expect(results[0].properties.longName).to.equal('Fresh Name');
+      expect(results.length).toBe(1);
+      expect(results[0].properties.longName).toBe('Fresh Name');
     });
 
     it('should inherit the highest count when merging duplicate route entries', () => {
@@ -454,8 +455,8 @@ describe('OldSearchesStore', () => {
       });
 
       const storedItems = getOldSearchesStorage().items;
-      expect(storedItems.length).to.equal(1);
-      expect(storedItems[0].count).to.equal(9); // 8 + 1
+      expect(storedItems.length).toBe(1);
+      expect(storedItems[0].count).toBe(9); // 8 + 1
     });
   });
 });

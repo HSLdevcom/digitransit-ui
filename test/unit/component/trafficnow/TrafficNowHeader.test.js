@@ -1,13 +1,11 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { describe, it, beforeEach, vi } from 'vitest';
 import React from 'react';
-import sinon from 'sinon';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import TrafficNowHeader from '../../../../app/component/trafficnow/TrafficNowHeader';
 import * as withBreakpoint from '../../../../utils/client/withBreakpoint';
 import * as useLogo from '../../../../app/hooks/useLogo';
 
-// found's <Link> is globally stubbed (test/unit/helpers/init.js) to render only
+// found's <Link> is globally stubbed (test/unit/helpers/vitest.setup.js) to render only
 // its children, with no wrapping <a>/href — so the "fallback to Link" branch of
 // the breadcrumb can only be asserted on by its rendered text, not by an href.
 const baseConfig = {
@@ -21,15 +19,15 @@ const baseConfig = {
 };
 
 describe('<TrafficNowHeader />', () => {
-  let sandbox;
-
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(withBreakpoint, 'useBreakpoint').returns('large');
-    sandbox.stub(useLogo, 'useLogo').returns({ logo: null, loading: false });
+    // sinon can't stub this repo's own ESM exports; vi.spyOn can (auto-
+    // restored via the `restoreMocks: true` Vitest config option).
+    vi.spyOn(withBreakpoint, 'useBreakpoint').mockReturnValue('large');
+    vi.spyOn(useLogo, 'useLogo').mockReturnValue({
+      logo: null,
+      loading: false,
+    });
   });
-
-  afterEach(() => sandbox.restore());
 
   const renderHeader = (config = baseConfig) =>
     renderWithProviders(<TrafficNowHeader />, { config });
@@ -37,38 +35,44 @@ describe('<TrafficNowHeader />', () => {
   describe('Desktop vs mobile class', () => {
     it('does not apply --mobile modifier on large breakpoint', () => {
       const { container } = renderHeader();
-      expect(container.querySelector('.traffic-now__header--mobile')).to.equal(
-        null,
-      );
+      expect(
+        container.querySelector('.traffic-now__header--mobile'),
+      ).toBeNull();
     });
 
     it('applies --mobile modifier on small breakpoint', () => {
-      withBreakpoint.useBreakpoint.returns('small');
+      withBreakpoint.useBreakpoint.mockReturnValue('small');
       const { container } = renderHeader();
       expect(
         container.querySelector('.traffic-now__header--mobile'),
-      ).to.not.equal(null);
+      ).not.toBeNull();
     });
   });
 
   describe('Header logo image', () => {
     it('renders the logo <img> on desktop when a logo URL is returned by useLogo', () => {
-      useLogo.useLogo.returns({ logo: '/path/to/header.svg', loading: false });
+      useLogo.useLogo.mockReturnValue({
+        logo: '/path/to/header.svg',
+        loading: false,
+      });
       const { container } = renderHeader();
-      expect(container.querySelectorAll('img')).to.have.lengthOf(1);
+      expect(container.querySelectorAll('img')).toHaveLength(1);
     });
 
     it('does not render the logo <img> on mobile even when a logo is available', () => {
-      withBreakpoint.useBreakpoint.returns('small');
-      useLogo.useLogo.returns({ logo: '/path/to/header.svg', loading: false });
+      withBreakpoint.useBreakpoint.mockReturnValue('small');
+      useLogo.useLogo.mockReturnValue({
+        logo: '/path/to/header.svg',
+        loading: false,
+      });
       const { container } = renderHeader();
-      expect(container.querySelectorAll('img')).to.have.lengthOf(0);
+      expect(container.querySelectorAll('img')).toHaveLength(0);
     });
 
     it('does not render the logo <img> on desktop when no logo is available', () => {
-      useLogo.useLogo.returns({ logo: null, loading: false });
+      useLogo.useLogo.mockReturnValue({ logo: null, loading: false });
       const { container } = renderHeader();
-      expect(container.querySelectorAll('img')).to.have.lengthOf(0);
+      expect(container.querySelectorAll('img')).toHaveLength(0);
     });
   });
 
@@ -80,8 +84,8 @@ describe('<TrafficNowHeader />', () => {
       );
       // No trafficNowRootPath => the plain <a> branch is skipped and the
       // (globally stubbed) found Link branch renders instead, so no <a> exists.
-      expect(breadcrumb.querySelector('a')).to.equal(null);
-      expect(breadcrumb.textContent).to.include('Travelling');
+      expect(breadcrumb.querySelector('a')).toBeNull();
+      expect(breadcrumb.textContent).toContain('Travelling');
     });
 
     it('links to ROOTLINK + trafficNowRootPath when defined', () => {
@@ -98,8 +102,8 @@ describe('<TrafficNowHeader />', () => {
       const breadcrumb = container.querySelector(
         '.traffic-now__header-breadcrumb a',
       );
-      expect(breadcrumb).to.not.equal(null);
-      expect(breadcrumb.getAttribute('href')).to.equal(
+      expect(breadcrumb).not.toBeNull();
+      expect(breadcrumb.getAttribute('href')).toBe(
         'https://www.hsl.fi/matkustaminen',
       );
     });
@@ -119,8 +123,8 @@ describe('<TrafficNowHeader />', () => {
       const breadcrumb = container.querySelector(
         '.traffic-now__header-breadcrumb a',
       );
-      expect(breadcrumb).to.not.equal(null);
-      expect(breadcrumb.getAttribute('href')).to.equal(
+      expect(breadcrumb).not.toBeNull();
+      expect(breadcrumb.getAttribute('href')).toBe(
         'https://www.hsl.fi/sv/att-resa',
       );
     });
@@ -132,15 +136,13 @@ describe('<TrafficNowHeader />', () => {
       const link = Array.from(container.querySelectorAll('a')).find(a =>
         a.textContent.includes('holidays and exceptions'),
       );
-      expect(link).to.not.equal(undefined);
-      expect(link.getAttribute('href')).to.equal(
-        'https://example.com/holidays',
-      );
+      expect(link).toBeDefined();
+      expect(link.getAttribute('href')).toBe('https://example.com/holidays');
     });
 
     it('does not render AdditionalDescription when CONFIG is not hsl', () => {
       const { container } = renderHeader({ ...baseConfig, CONFIG: 'default' });
-      expect(container.textContent).to.not.include('holidays and exceptions');
+      expect(container.textContent).not.toContain('holidays and exceptions');
     });
   });
 });

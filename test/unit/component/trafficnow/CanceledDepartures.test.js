@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it } from 'vitest';
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../helpers/mock-providers';
@@ -23,7 +22,9 @@ const makePattern = canceledTrips => ({
 describe('<CanceledDepartures />', () => {
   const departureTimes = container =>
     Array.from(
-      container.querySelectorAll('.badges__departure-time .routes-s-narrow'),
+      container.querySelectorAll(
+        '.badges__departure-time [class*="routes-s-narrow"]',
+      ),
     ).map(node => node.textContent.trim());
 
   const renderCanceledDepartures = props => {
@@ -48,26 +49,22 @@ describe('<CanceledDepartures />', () => {
 
     expect(
       container.querySelectorAll('.badges__departure-group__date-group'),
-    ).to.have.lengthOf(2);
-    expect(departureTimes(container)).to.deep.equal(['08:00', '09:00']);
+    ).toHaveLength(2);
+    expect(departureTimes(container)).toEqual(['08:00', '09:00']);
   });
 
   it('shows a button when a date has more departures than the limit', () => {
     const container = renderCanceledDepartures();
     const showAllButton = container.querySelector('.show-departures-button');
 
-    expect(showAllButton).to.not.equal(null);
-    expect(showAllButton.textContent).to.equal('Show all');
+    expect(showAllButton).not.toBeNull();
+    expect(showAllButton.textContent).toBe('Show all');
   });
 
   it('shows all departures for the date when the button is clicked', () => {
     const container = renderCanceledDepartures();
 
     fireEvent.click(container.querySelector('.show-departures-button'));
-    expect(departureTimes(container)).to.deep.equal([
-      '08:00',
-      '08:05',
-      '09:00',
-    ]);
+    expect(departureTimes(container)).toEqual(['08:00', '08:05', '09:00']);
   });
 });

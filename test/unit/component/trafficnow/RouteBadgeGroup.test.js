@@ -1,8 +1,6 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { describe, it, beforeEach, vi } from 'vitest';
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import sinon from 'sinon';
 import * as found from 'found';
 import RouteBadgeGroup from '../../../../app/component/trafficnow/components/RouteBadgeGroup';
 
@@ -14,16 +12,12 @@ const makeRoute = ({
 } = {}) => ({ id, name, url, gtfsId });
 
 describe('<RouteBadgeGroup />', () => {
-  let sandbox;
   let mockRouter;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    mockRouter = { push: sandbox.spy() };
-    sandbox.stub(found, 'useRouter').returns({ router: mockRouter });
+    mockRouter = { push: vi.fn() };
+    vi.spyOn(found, 'useRouter').mockReturnValue({ router: mockRouter });
   });
-
-  afterEach(() => sandbox.restore());
 
   describe('Mode icon', () => {
     it('renders at normal iconScale (1) when isStop=false', () => {
@@ -31,7 +25,7 @@ describe('<RouteBadgeGroup />', () => {
         <RouteBadgeGroup mode="bus" routes={[makeRoute()]} isStop={false} />,
       );
       const g = container.querySelector('svg.icon g');
-      expect(g.style.transform).to.equal('scale(1)');
+      expect(g.style.transform).toBe('scale(1)');
     });
 
     it('renders at half iconScale (0.5) when isStop=true', () => {
@@ -39,23 +33,21 @@ describe('<RouteBadgeGroup />', () => {
         <RouteBadgeGroup mode="bus" routes={[makeRoute()]} isStop />,
       );
       const g = container.querySelector('svg.icon g');
-      expect(g.style.transform).to.equal('scale(0.5)');
+      expect(g.style.transform).toBe('scale(0.5)');
     });
 
     it('renders a background (.icon-circle) when isStop=true', () => {
       const { container } = render(
         <RouteBadgeGroup mode="bus" routes={[makeRoute()]} isStop />,
       );
-      expect(container.querySelector('svg.icon .icon-circle')).to.not.equal(
-        null,
-      );
+      expect(container.querySelector('svg.icon .icon-circle')).not.toBeNull();
     });
 
     it('renders no background when isStop=false', () => {
       const { container } = render(
         <RouteBadgeGroup mode="bus" routes={[makeRoute()]} isStop={false} />,
       );
-      expect(container.querySelector('svg.icon .icon-circle')).to.equal(null);
+      expect(container.querySelector('svg.icon .icon-circle')).toBeNull();
     });
   });
 
@@ -68,7 +60,7 @@ describe('<RouteBadgeGroup />', () => {
           highlightedGtfsId="HSL:1"
         />,
       );
-      expect(container.querySelector('a.highlight')).to.not.equal(null);
+      expect(container.querySelector('a.highlight')).not.toBeNull();
     });
 
     it('does not apply the highlight class when gtfsId does not match', () => {
@@ -79,7 +71,7 @@ describe('<RouteBadgeGroup />', () => {
           highlightedGtfsId="HSL:99"
         />,
       );
-      expect(container.querySelector('a.highlight')).to.equal(null);
+      expect(container.querySelector('a.highlight')).toBeNull();
     });
   });
 
@@ -92,11 +84,13 @@ describe('<RouteBadgeGroup />', () => {
         />,
       );
       fireEvent.click(container.querySelector('a'));
-      expect(mockRouter.push.calledWith('/route/HSL:1')).to.equal(true);
+      expect(
+        mockRouter.push.mock.calls.some(call => call[0] === '/route/HSL:1'),
+      ).toBe(true);
     });
 
     it('calls event.stopPropagation when stopPropagation=true', () => {
-      const outerClickSpy = sinon.spy();
+      const outerClickSpy = vi.fn();
       const { container } = render(
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
         <div onClick={outerClickSpy}>
@@ -104,11 +98,11 @@ describe('<RouteBadgeGroup />', () => {
         </div>,
       );
       fireEvent.click(container.querySelector('a'));
-      expect(outerClickSpy.called).to.equal(false);
+      expect(outerClickSpy.mock.calls.length).toBe(0);
     });
 
     it('does NOT call event.stopPropagation when stopPropagation=false', () => {
-      const outerClickSpy = sinon.spy();
+      const outerClickSpy = vi.fn();
       const { container } = render(
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
         <div onClick={outerClickSpy}>
@@ -120,7 +114,7 @@ describe('<RouteBadgeGroup />', () => {
         </div>,
       );
       fireEvent.click(container.querySelector('a'));
-      expect(outerClickSpy.called).to.equal(true);
+      expect(outerClickSpy.mock.calls.length).toBeGreaterThan(0);
     });
   });
 
@@ -135,7 +129,7 @@ describe('<RouteBadgeGroup />', () => {
       );
       expect(
         container.querySelectorAll('.badges__headsign-group--route'),
-      ).to.have.lengthOf(0);
+      ).toHaveLength(0);
     });
 
     it('renders the suffix node returned by renderRouteSuffix for the given route', () => {
@@ -152,7 +146,7 @@ describe('<RouteBadgeGroup />', () => {
           renderRouteSuffix={r => <span className={`suffix-${r.id}`} />}
         />,
       );
-      expect(container.querySelectorAll('.suffix-r1')).to.have.lengthOf(1);
+      expect(container.querySelectorAll('.suffix-r1')).toHaveLength(1);
     });
   });
 });

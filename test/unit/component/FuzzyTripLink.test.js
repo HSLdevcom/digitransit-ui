@@ -35,11 +35,7 @@ describe('<FuzzyTripLink />', () => {
         <FuzzyTripLink {...props} />
       </ReactRelayContext.Provider>,
     );
-    expect(container.querySelectorAll('.route-now-content')).to.have.lengthOf(
-      1,
-    );
-    expect(container.querySelectorAll('.large-vehicle-icon')).to.have.lengthOf(
-      1,
-    );
+    expect(container.querySelectorAll('.route-now-content')).toHaveLength(1);
+    expect(container.querySelectorAll('.large-vehicle-icon')).toHaveLength(1);
   });
 });

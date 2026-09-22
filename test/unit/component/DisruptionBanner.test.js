@@ -33,8 +33,6 @@ describe('<DisruptionBanner />', () => {
       config: { CONFIG: 'default', URL: {}, language: 'fi' },
       currentTime: 1500,
     });
-    expect(
-      container.querySelectorAll('.disruption-container'),
-    ).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.disruption-container')).toHaveLength(1);
   });
 });

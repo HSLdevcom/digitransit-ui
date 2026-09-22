@@ -1,5 +1,5 @@
 import React from 'react';
-import sinon from 'sinon';
+import { vi } from 'vitest';
 
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { mockContext } from '../../../helpers/mock-context';
@@ -26,7 +26,7 @@ describe('<TileLayerContainer />', () => {
   };
 
   it('should send analytics for a terminal stop target', () => {
-    const spy = sinon.spy(analytics, 'addAnalyticsEvent');
+    const spy = vi.spyOn(analytics, 'addAnalyticsEvent');
     const componentRef = React.createRef();
     renderWithProviders(
       <Component {...props} relayEnvironment={{}} ref={componentRef} />,
@@ -47,19 +47,18 @@ describe('<TileLayerContainer />', () => {
       },
     ];
     componentRef.current.PopupOptions.onOpen();
-    expect(spy.calledOnce).to.equal(true);
-    expect(spy.firstCall.args[0]).to.deep.equal({
+    expect(spy.mock.calls.length).toBe(1);
+    expect(spy.mock.calls[0][0]).toEqual({
       action: 'SelectMapPoint',
       category: 'Map',
       name: 'stop',
       type: 'BUS_TERMINAL',
       source: 'index',
     });
-    spy.restore();
   });
 
   it('should not send analytics when there are no selected targets', () => {
-    const spy = sinon.spy(analytics, 'addAnalyticsEvent');
+    const spy = vi.spyOn(analytics, 'addAnalyticsEvent');
     const componentRef = React.createRef();
     renderWithProviders(
       <Component {...props} relayEnvironment={{}} ref={componentRef} />,
@@ -70,7 +69,6 @@ describe('<TileLayerContainer />', () => {
     );
     componentRef.current.state.selectableTargets = [];
     componentRef.current.PopupOptions.onOpen();
-    expect(spy.notCalled).to.equal(true);
-    spy.restore();
+    expect(spy.mock.calls.length).toBe(0);
   });
 });

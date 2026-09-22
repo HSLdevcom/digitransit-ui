@@ -48,7 +48,7 @@ right one by *who consumes the code*, not just by convenience.
     `timetableConfigUtils.js` — config-assembly helpers used only by `server/configs/*.js`.
   - `client/` — client-bundle-only, e.g. `localStorage.js`,
     plus its own `__generated__/` for Relay fragments used by utils.
-- `test/` — `unit/` (mocha, mirrors the `app/`/`server/`/`utils/` layout, e.g.
+- `test/` — `unit/` (Vitest, mirrors the `app/`/`server/`/`utils/` layout, e.g.
   `test/unit/utils/{shared,server,client}/`, `test/unit/server/configs/`) and `e2e/` (Jest +
   Playwright visual tests).
 - `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.js`, `build/contextHelper.js`,
@@ -101,7 +101,7 @@ right one by *who consumes the code*, not just by convenience.
 
 ## Tests (see `docs/Tests.md`)
 
-- Unit tests (mocha, files under `test/unit/**/*.test.js`) mirror the source structure where
+- Unit tests (Vitest, files under `test/unit/**/*.test.js`) mirror the source structure where
   the reorg has been applied, e.g. `test/unit/component/...`, `test/unit/store/...`,
   `test/unit/server/configs/...`, `test/unit/utils/{shared,server,client}/...` — a
   `test/unit/util/` (old, singular) directory and some flat `test/unit/*.test.js` files remain

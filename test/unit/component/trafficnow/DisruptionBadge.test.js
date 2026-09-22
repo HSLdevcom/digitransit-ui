@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it } from 'vitest';
 import React from 'react';
 import { render } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
@@ -32,7 +31,7 @@ describe('<DisruptionBadge />', () => {
         variant: AlertSeverityLevelType.Warning,
         showIcon: false,
       });
-      expect(container.querySelector('svg')).to.equal(null);
+      expect(container.querySelector('svg')).toBeNull();
     });
 
     it('renders icon_info-circled for INFO variant when showIcon=true', () => {
@@ -41,8 +40,8 @@ describe('<DisruptionBadge />', () => {
         variant: AlertSeverityLevelType.Info,
         showIcon: true,
       });
-      expect(container.querySelectorAll('svg')).to.have.lengthOf(1);
-      expect(getIconHref(container)).to.equal('#icon_info-circled');
+      expect(container.querySelectorAll('svg')).toHaveLength(1);
+      expect(getIconHref(container)).toBe('#icon_info-circled');
     });
 
     it('renders icon_info-circled for UNKNOWN_SEVERITY variant when showIcon=true', () => {
@@ -51,8 +50,8 @@ describe('<DisruptionBadge />', () => {
         variant: AlertSeverityLevelType.Unknown,
         showIcon: true,
       });
-      expect(container.querySelectorAll('svg')).to.have.lengthOf(1);
-      expect(getIconHref(container)).to.equal('#icon_info-circled');
+      expect(container.querySelectorAll('svg')).toHaveLength(1);
+      expect(getIconHref(container)).toBe('#icon_info-circled');
     });
 
     it('renders icon_caution_white_exclamation for WARNING variant when showIcon=true', () => {
@@ -61,10 +60,8 @@ describe('<DisruptionBadge />', () => {
         variant: AlertSeverityLevelType.Warning,
         showIcon: true,
       });
-      expect(container.querySelectorAll('svg')).to.have.lengthOf(1);
-      expect(getIconHref(container)).to.equal(
-        '#icon_caution_white_exclamation',
-      );
+      expect(container.querySelectorAll('svg')).toHaveLength(1);
+      expect(getIconHref(container)).toBe('#icon_caution_white_exclamation');
     });
 
     it('renders icon_caution_white_exclamation for SEVERE variant when showIcon=true', () => {
@@ -73,10 +70,8 @@ describe('<DisruptionBadge />', () => {
         variant: AlertSeverityLevelType.Severe,
         showIcon: true,
       });
-      expect(container.querySelectorAll('svg')).to.have.lengthOf(1);
-      expect(getIconHref(container)).to.equal(
-        '#icon_caution_white_exclamation',
-      );
+      expect(container.querySelectorAll('svg')).toHaveLength(1);
+      expect(getIconHref(container)).toBe('#icon_caution_white_exclamation');
     });
   });
 });

@@ -1,6 +1,5 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it } from 'vitest';
 import { render } from '@testing-library/react';
 
 import ScheduleTripList from '../../../../app/component/routepage/schedule/ScheduleTripList';
@@ -37,7 +36,7 @@ describe('<ScheduleTripList />', () => {
     it('should render null when trips array is empty', () => {
       const props = { ...defaultProps, trips: [] };
       const { container } = render(<ScheduleTripList {...props} />);
-      expect(container.firstChild).to.equal(null);
+      expect(container.firstChild).toBeNull();
     });
   });
 
@@ -63,11 +62,9 @@ describe('<ScheduleTripList />', () => {
         <ScheduleTripList {...defaultProps} trips={trips} />,
       );
 
-      expect(container.querySelectorAll('[role="listitem"]').length).to.equal(
-        1,
-      );
-      expect(container.textContent).to.include('07:48');
-      expect(container.textContent).to.include('08:21');
+      expect(container.querySelectorAll('[role="listitem"]').length).toBe(1);
+      expect(container.textContent).toContain('07:48');
+      expect(container.textContent).toContain('08:21');
     });
 
     it('should filter out trips missing toIdx stoptime', () => {
@@ -91,10 +88,8 @@ describe('<ScheduleTripList />', () => {
         <ScheduleTripList {...defaultProps} trips={trips} />,
       );
 
-      expect(container.querySelectorAll('[role="listitem"]').length).to.equal(
-        1,
-      );
-      expect(container.textContent).to.include('07:48');
+      expect(container.querySelectorAll('[role="listitem"]').length).toBe(1);
+      expect(container.textContent).toContain('07:48');
     });
 
     it('should filter out trips with empty stoptimes array', () => {
@@ -110,9 +105,7 @@ describe('<ScheduleTripList />', () => {
         <ScheduleTripList {...defaultProps} trips={trips} />,
       );
 
-      expect(container.querySelectorAll('[role="listitem"]').length).to.equal(
-        1,
-      );
+      expect(container.querySelectorAll('[role="listitem"]').length).toBe(1);
     });
 
     it('should use correct fromIdx and toIdx when extracting stoptimes', () => {
@@ -150,8 +143,8 @@ describe('<ScheduleTripList />', () => {
         <ScheduleTripList trips={[trip]} fromIdx={1} toIdx={3} />,
       );
 
-      expect(container.textContent).to.include('05:33');
-      expect(container.textContent).to.include('11:06');
+      expect(container.textContent).toContain('05:33');
+      expect(container.textContent).toContain('11:06');
     });
   });
 
@@ -179,8 +172,8 @@ describe('<ScheduleTripList />', () => {
         <ScheduleTripList {...defaultProps} trips={[fullyCanceledTrip]} />,
       );
 
-      expect(container.querySelector('.trip-from.canceled')).to.not.equal(null);
-      expect(container.querySelector('.trip-to.canceled')).to.not.equal(null);
+      expect(container.querySelector('.trip-from.canceled')).not.toBeNull();
+      expect(container.querySelector('.trip-to.canceled')).not.toBeNull();
     });
 
     it('should not mark trip as canceled when only some stoptimes are CANCELED', () => {
@@ -206,14 +199,14 @@ describe('<ScheduleTripList />', () => {
         <ScheduleTripList {...defaultProps} trips={[partiallyCanceledTrip]} />,
       );
 
-      expect(container.querySelector('.trip-from.canceled')).to.equal(null);
-      expect(container.querySelector('.trip-to.canceled')).to.equal(null);
+      expect(container.querySelector('.trip-from.canceled')).toBeNull();
+      expect(container.querySelector('.trip-to.canceled')).toBeNull();
     });
 
     it('should not mark trip as canceled for SCHEDULED state', () => {
       const { container } = render(<ScheduleTripList {...defaultProps} />);
-      expect(container.querySelector('.trip-from.canceled')).to.equal(null);
-      expect(container.querySelector('.trip-to.canceled')).to.equal(null);
+      expect(container.querySelector('.trip-from.canceled')).toBeNull();
+      expect(container.querySelector('.trip-to.canceled')).toBeNull();
     });
 
     it('should not mark trip as canceled for UPDATED state', () => {
@@ -222,16 +215,16 @@ describe('<ScheduleTripList />', () => {
         <ScheduleTripList {...defaultProps} trips={trips} />,
       );
 
-      expect(container.querySelector('.trip-from.canceled')).to.equal(null);
-      expect(container.querySelector('.trip-to.canceled')).to.equal(null);
+      expect(container.querySelector('.trip-from.canceled')).toBeNull();
+      expect(container.querySelector('.trip-to.canceled')).toBeNull();
     });
   });
 
   describe('Data transformation', () => {
     it('should pass formatted departure and arrival times to ScheduleTripRow', () => {
       const { container } = render(<ScheduleTripList {...defaultProps} />);
-      expect(container.textContent).to.include('07:48');
-      expect(container.textContent).to.include('08:21');
+      expect(container.textContent).toContain('07:48');
+      expect(container.textContent).toContain('08:21');
     });
 
     it('should calculate times correctly for different service days', () => {
@@ -257,8 +250,8 @@ describe('<ScheduleTripList />', () => {
         <ScheduleTripList {...defaultProps} trips={[trip]} />,
       );
 
-      expect(container.textContent).to.include('01:00');
-      expect(container.textContent).to.include('02:00');
+      expect(container.textContent).toContain('01:00');
+      expect(container.textContent).toContain('02:00');
     });
 
     it('should render one ScheduleTripRow per valid trip', () => {
@@ -272,9 +265,7 @@ describe('<ScheduleTripList />', () => {
         <ScheduleTripList {...defaultProps} trips={trips} />,
       );
 
-      expect(container.querySelectorAll('[role="listitem"]').length).to.equal(
-        3,
-      );
+      expect(container.querySelectorAll('[role="listitem"]').length).toBe(3);
     });
   });
 });

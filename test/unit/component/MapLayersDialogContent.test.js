@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it } from 'vitest';
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 
@@ -29,7 +28,7 @@ describe('<MapLayersDialogContent />', () => {
     };
     const { container } = renderMapLayersDialogContent(props);
 
-    expect(container.querySelector('.map-layer-header')).to.not.equal(null);
+    expect(container.querySelector('.map-layer-header')).not.toBeNull();
   });
 
   it('should update the vehicles layer', () => {
@@ -53,7 +52,7 @@ describe('<MapLayersDialogContent />', () => {
     )[0];
     fireEvent.click(checkbox);
 
-    expect(mapLayers.vehicles).to.equal(true);
+    expect(mapLayers.vehicles).toBe(true);
   });
 
   it('should update the bus stop layer', () => {
@@ -80,7 +79,7 @@ describe('<MapLayersDialogContent />', () => {
     const checkbox = container.querySelector('.option-checkbox.large input');
     fireEvent.click(checkbox);
 
-    expect(mapLayers.stop.bus).to.equal(true);
+    expect(mapLayers.stop.bus).toBe(true);
   });
 
   it('should update the tram stop layer', () => {
@@ -107,7 +106,7 @@ describe('<MapLayersDialogContent />', () => {
     const checkbox = container.querySelector('.option-checkbox.large input');
     fireEvent.click(checkbox);
 
-    expect(mapLayers.stop.tram).to.equal(true);
+    expect(mapLayers.stop.tram).toBe(true);
   });
 
   it('should update the ferry stop layer', () => {
@@ -134,7 +133,7 @@ describe('<MapLayersDialogContent />', () => {
     const checkbox = container.querySelector('.option-checkbox.large input');
     fireEvent.click(checkbox);
 
-    expect(mapLayers.stop.ferry).to.equal(true);
+    expect(mapLayers.stop.ferry).toBe(true);
   });
 
   it('should update the airplane stop layer', () => {
@@ -161,7 +160,7 @@ describe('<MapLayersDialogContent />', () => {
     const checkbox = container.querySelector('.option-checkbox.large input');
     fireEvent.click(checkbox);
 
-    expect(mapLayers.stop.airplane).to.equal(true);
+    expect(mapLayers.stop.airplane).toBe(true);
   });
 
   it('should update the citybike layer', () => {
@@ -211,7 +210,7 @@ describe('<MapLayersDialogContent />', () => {
     const checkbox = container.querySelector('.option-checkbox.large input');
     fireEvent.click(checkbox);
 
-    expect(mapLayers.citybike).to.equal(true);
+    expect(mapLayers.citybike).toBe(true);
   });
 
   it('should update the park&ride layer', () => {
@@ -235,7 +234,7 @@ describe('<MapLayersDialogContent />', () => {
     const checkbox = container.querySelector('.option-checkbox.large input');
     fireEvent.click(checkbox);
 
-    expect(mapLayers.parkAndRide).to.equal(true);
+    expect(mapLayers.parkAndRide).toBe(true);
   });
 
   it('should include geoJson layers', () => {
@@ -296,11 +295,11 @@ describe('<MapLayersDialogContent />', () => {
     const checkboxes = container.querySelectorAll(
       '.option-checkbox.large input',
     );
-    expect(checkboxes.length).to.equal(2);
+    expect(checkboxes.length).toBe(2);
 
     fireEvent.click(checkboxes[1]);
 
-    expect(mapLayers.geoJson.morejson).to.equal(true);
+    expect(mapLayers.geoJson.morejson).toBe(true);
   });
 
   describe('getGeoJsonLayersOrDefault', () => {
@@ -316,7 +315,7 @@ describe('<MapLayersDialogContent />', () => {
         },
       };
       const store = { layers: undefined };
-      expect(getGeoJsonLayersOrDefault(config, store)).to.equal(
+      expect(getGeoJsonLayersOrDefault(config, store)).toBe(
         config.geoJson.layers,
       );
     });
@@ -335,15 +334,15 @@ describe('<MapLayersDialogContent />', () => {
           },
         ],
       };
-      expect(getGeoJsonLayersOrDefault(config, store)).to.equal(store.layers);
+      expect(getGeoJsonLayersOrDefault(config, store)).toBe(store.layers);
     });
 
     it('should return the defaultValue', () => {
       const store = {};
       const defaultValue = [];
-      expect(
-        getGeoJsonLayersOrDefault(testConfig, store, defaultValue),
-      ).to.equal(defaultValue);
+      expect(getGeoJsonLayersOrDefault(testConfig, store, defaultValue)).toBe(
+        defaultValue,
+      );
     });
   });
 });

@@ -10,9 +10,7 @@ describe('<IconWithBigCaution />', () => {
       { messages: { disruption: 'Disruption' } },
     );
     const icons = container.querySelectorAll('use');
-    expect(icons[1].getAttribute('xlink:href')).to.equal(
-      '#icon_caution-no-excl',
-    );
+    expect(icons[1].getAttribute('xlink:href')).toBe('#icon_caution-no-excl');
   });
 
   it('should have a caution sub icon when alertSeverityLevel is high enough', () => {
@@ -24,9 +22,7 @@ describe('<IconWithBigCaution />', () => {
       { messages: { disruption: 'Disruption' } },
     );
     const icons = container.querySelectorAll('use');
-    expect(icons[1].getAttribute('xlink:href')).to.equal(
-      '#icon_caution-no-excl',
-    );
+    expect(icons[1].getAttribute('xlink:href')).toBe('#icon_caution-no-excl');
   });
 
   it('should have an info sub icon when alertSeverityLevel is "INFO"', () => {
@@ -38,6 +34,6 @@ describe('<IconWithBigCaution />', () => {
       { messages: { disruption: 'Disruption' } },
     );
     const icons = container.querySelectorAll('use');
-    expect(icons[1].getAttribute('xlink:href')).to.equal('#icon_info');
+    expect(icons[1].getAttribute('xlink:href')).toBe('#icon_info');
   });
 });

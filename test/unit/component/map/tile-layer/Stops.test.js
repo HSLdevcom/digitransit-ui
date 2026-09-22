@@ -1,9 +1,10 @@
 import fetchMock from 'fetch-mock';
+import { describe, it, beforeAll, afterAll } from 'vitest';
 import Stops from '../../../../../app/component/map/tile-layer/Stops';
 
 describe('Stops', () => {
-  before(() => fetchMock.mockGlobal());
-  after(() => fetchMock.unmockGlobal());
+  beforeAll(() => fetchMock.mockGlobal());
+  afterAll(() => fetchMock.unmockGlobal());
   const config = {
     URL: {
       STOP_MAP: { default: 'https://localhost/stopmap/' },
@@ -31,7 +32,7 @@ describe('Stops', () => {
         { repeat: 1 },
       );
       new Stops(tile, config, []).getPromise(); // eslint-disable-line no-new
-      expect(fetchMock.callHistory.called('end:/3/1/2.pbf')).to.equal(true);
+      expect(fetchMock.callHistory.called('end:/3/1/2.pbf')).toBe(true);
     });
 
     it('should add zoom offset to the z coordinate', () => {
@@ -43,7 +44,7 @@ describe('Stops', () => {
         { repeat: 1 },
       );
       new Stops({ ...tile, props: { zoomOffset: 1 } }, config, []).getPromise(); // eslint-disable-line no-new
-      expect(fetchMock.callHistory.called('end:/4/1/2.pbf')).to.equal(true);
+      expect(fetchMock.callHistory.called('end:/4/1/2.pbf')).toBe(true);
     });
 
     it('should make a get to realtime stops uri when zoomed in', () => {
@@ -55,7 +56,7 @@ describe('Stops', () => {
         config,
         [],
       ).getPromise();
-      expect(fetchMock.callHistory.called('end:/13/1/2.pbf')).to.equal(true);
+      expect(fetchMock.callHistory.called('end:/13/1/2.pbf')).toBe(true);
     });
   });
 });

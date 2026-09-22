@@ -1,5 +1,5 @@
 import React from 'react';
-import sinon from 'sinon';
+import { vi } from 'vitest';
 import { render } from '@testing-library/react';
 
 import { LeafletProvider } from 'react-leaflet/es/context';
@@ -39,7 +39,7 @@ const defaultProps = {
 describe('<VehicleMarkerContainer />', () => {
   describe('VehicleMarkerContainer', () => {
     it('should render', () => {
-      const addLayer = sinon.spy();
+      const addLayer = vi.fn();
       renderWithProviders(
         <LeafletProvider
           value={{ layerContainer: { addLayer, removeLayer: () => {} } }}
@@ -55,7 +55,7 @@ describe('<VehicleMarkerContainer />', () => {
           },
         },
       );
-      expect(addLayer.callCount).to.equal(1);
+      expect(addLayer.mock.calls.length).toBe(1);
     });
   });
 
@@ -73,7 +73,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(false);
+      expect(shouldShow).toBe(false);
     });
 
     it('should return false when long is missing', () => {
@@ -89,7 +89,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(false);
+      expect(shouldShow).toBe(false);
     });
 
     it('should return false when route doesnt match', () => {
@@ -106,7 +106,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(false);
+      expect(shouldShow).toBe(false);
     });
 
     it('should return true when lat, long and route exist/match', () => {
@@ -123,7 +123,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(true);
+      expect(shouldShow).toBe(true);
     });
 
     it('should return false when headsign does not match', () => {
@@ -143,7 +143,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(false);
+      expect(shouldShow).toBe(false);
     });
 
     it('should return false when direction does not match', () => {
@@ -163,7 +163,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(false);
+      expect(shouldShow).toBe(false);
     });
 
     it('should return false when tripStartTime does not match', () => {
@@ -183,7 +183,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(false);
+      expect(shouldShow).toBe(false);
     });
 
     it('should return true when headsign, direction and tripStartTime match', () => {
@@ -203,7 +203,7 @@ describe('<VehicleMarkerContainer />', () => {
         'tampere:2:0:02',
         'Pyynikintori',
       );
-      expect(shouldShow).to.equal(true);
+      expect(shouldShow).toBe(true);
     });
 
     it('should return true when direction, tripStartTime, pattern and headsign are undefined in arguments', () => {
@@ -223,7 +223,7 @@ describe('<VehicleMarkerContainer />', () => {
         undefined,
         undefined,
       );
-      expect(shouldShow).to.equal(true);
+      expect(shouldShow).toBe(true);
     });
   });
 
@@ -232,19 +232,19 @@ describe('<VehicleMarkerContainer />', () => {
       it('should use a small icon when useLargeIcon is false', () => {
         const icon = getVehicleIcon(null, 180, '32', undefined, false);
         const { container } = render(icon.element);
-        expect(
-          container.querySelector('use').getAttribute('xlink:href'),
-        ).to.equal('#icon_all-vehicles-small');
-        expect(icon.className).to.contain('bus');
+        expect(container.querySelector('use').getAttribute('xlink:href')).toBe(
+          '#icon_all-vehicles-small',
+        );
+        expect(icon.className).toContain('bus');
       });
 
       it('should use a large icon when useLargeIcon is true', () => {
         const icon = getVehicleIcon('bus', 180, '32', undefined, true);
         const { container } = render(icon.element);
-        expect(
-          container.querySelector('use').getAttribute('xlink:href'),
-        ).to.equal('#icon_vehicle-live-marker');
-        expect(icon.className).to.contain('bus');
+        expect(container.querySelector('use').getAttribute('xlink:href')).toBe(
+          '#icon_vehicle-live-marker',
+        );
+        expect(icon.className).toContain('bus');
       });
     });
   });

@@ -1,6 +1,5 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, beforeAll } from 'vitest';
 import ReactModal from 'react-modal';
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from './helpers/mock-providers';
@@ -8,7 +7,7 @@ import AppBar from '../../app/component/AppBar';
 import { mockContext } from './helpers/mock-context';
 
 describe('<AppBar />', () => {
-  before(() => {
+  beforeAll(() => {
     ReactModal.setAppElement(document.body);
     global.requestAnimationFrame = cb => setTimeout(cb, 0);
     global.cancelAnimationFrame = id => clearTimeout(id);
@@ -24,7 +23,7 @@ describe('<AppBar />', () => {
         breakpoint="large"
       />,
     );
-    expect(container.querySelector('.logo')).to.not.equal(null);
+    expect(container.querySelector('.logo')).not.toBeNull();
   });
 
   it('should show text logo when textLogo is true', () => {
@@ -38,7 +37,7 @@ describe('<AppBar />', () => {
         },
       },
     );
-    expect(container.querySelector('section.title.title')).to.not.equal(null);
+    expect(container.querySelector('section.title.title')).not.toBeNull();
   });
 
   it('should open the menu modal on button click', () => {
@@ -50,8 +49,8 @@ describe('<AppBar />', () => {
         breakpoint="large"
       />,
     );
-    expect(document.body.querySelector('.main-menu')).to.equal(null);
+    expect(document.body.querySelector('.main-menu')).toBeNull();
     fireEvent.click(container.querySelector('#openMenuButton'));
-    expect(document.body.querySelector('.main-menu')).to.not.equal(null);
+    expect(document.body.querySelector('.main-menu')).not.toBeNull();
   });
 });

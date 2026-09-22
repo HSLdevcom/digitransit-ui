@@ -40,9 +40,7 @@ describe('<ItineraryList />', () => {
       searchTime: 1234567890,
     };
     const { container } = renderWithProviders(<ItineraryList {...props} />);
-    expect(container.querySelector('.summary-list-container')).to.not.equal(
-      null,
-    );
+    expect(container.querySelector('.summary-list-container')).not.toBeNull();
   });
 
   it('should render without crashing', () => {
@@ -50,8 +48,6 @@ describe('<ItineraryList />', () => {
       ...PROPS_TEMPLATE,
     };
     const { container } = renderWithProviders(<ItineraryList {...props} />);
-    expect(container.querySelector('.summary-list-container')).to.not.equal(
-      null,
-    );
+    expect(container.querySelector('.summary-list-container')).not.toBeNull();
   });
 });

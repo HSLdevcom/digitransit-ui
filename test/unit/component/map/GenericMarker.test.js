@@ -1,5 +1,5 @@
 import React from 'react';
-import sinon from 'sinon';
+import { vi } from 'vitest';
 import { LeafletProvider } from 'react-leaflet/es/context';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { mockContext } from '../../helpers/mock-context';
@@ -7,7 +7,7 @@ import { Component as GenericMarker } from '../../../../app/component/map/Generi
 
 describe('<GenericMarker />', () => {
   it('should render', () => {
-    const getIcon = sinon.spy();
+    const getIcon = vi.fn();
     const map = {
       addLayer: () => {},
       getZoom: () => 12,
@@ -34,8 +34,8 @@ describe('<GenericMarker />', () => {
         },
       },
     );
-    expect(getIcon.calledOnce).to.equal(true);
-    expect(getIcon.firstCall.args[0]).to.equal(12);
+    expect(getIcon.mock.calls.length).toBe(1);
+    expect(getIcon.mock.calls[0][0]).toBe(12);
   });
 
   it('should render empty if shouldRender returns false for the current zoom level', () => {
@@ -60,6 +60,6 @@ describe('<GenericMarker />', () => {
         map: { genericMarker: { popup: {} } },
       },
     });
-    expect(container.innerHTML).to.equal('');
+    expect(container.innerHTML).toBe('');
   });
 });

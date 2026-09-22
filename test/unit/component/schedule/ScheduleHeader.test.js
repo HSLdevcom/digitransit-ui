@@ -26,10 +26,10 @@ describe('<ScheduleHeader />', () => {
     );
     expect(
       container.querySelector('.printable-stop-header_from').textContent,
-    ).to.equal('First Stop');
+    ).toBe('First Stop');
     expect(
       container.querySelector('.printable-stop-header_to').textContent,
-    ).to.equal('Fourth Stop');
+    ).toBe('Fourth Stop');
   });
 
   it('should update displayed names when the selected stops change', () => {
@@ -38,10 +38,10 @@ describe('<ScheduleHeader />', () => {
     );
     expect(
       container.querySelector('.printable-stop-header_from').textContent,
-    ).to.equal('Third Stop');
+    ).toBe('Third Stop');
     expect(
       container.querySelector('.printable-stop-header_to').textContent,
-    ).to.equal('Fourth Stop');
+    ).toBe('Fourth Stop');
   });
 
   it('should update only the origin display when origin changes', () => {
@@ -50,10 +50,10 @@ describe('<ScheduleHeader />', () => {
     );
     expect(
       container.querySelector('.printable-stop-header_from').textContent,
-    ).to.equal('Third Stop');
+    ).toBe('Third Stop');
     expect(
       container.querySelector('.printable-stop-header_to').textContent,
-    ).to.equal('Fourth Stop');
+    ).toBe('Fourth Stop');
   });
 
   it('should update only the destination display when destination changes', () => {
@@ -62,15 +62,15 @@ describe('<ScheduleHeader />', () => {
     );
     expect(
       container.querySelector('.printable-stop-header_from').textContent,
-    ).to.equal('First Stop');
+    ).toBe('First Stop');
     expect(
       container.querySelector('.printable-stop-header_to').textContent,
-    ).to.equal('Second Stop');
+    ).toBe('Second Stop');
   });
 
   it('should only offer origin stops before the destination', () => {
     const { fromOptions } = getScheduleHeaderOptions(stops, 0, 3);
-    expect(fromOptions).to.deep.equal([
+    expect(fromOptions).toEqual([
       { label: 'First Stop', value: 0 },
       { label: 'Second Stop', value: 1 },
       { label: 'Third Stop', value: 2 },
@@ -79,7 +79,7 @@ describe('<ScheduleHeader />', () => {
 
   it('should only offer destination stops after the origin', () => {
     const { toOptions } = getScheduleHeaderOptions(stops, 0, 3);
-    expect(toOptions).to.deep.equal([
+    expect(toOptions).toEqual([
       { label: 'Second Stop', value: 1 },
       { label: 'Third Stop', value: 2 },
       { label: 'Fourth Stop', value: 3 },
@@ -92,8 +92,8 @@ describe('<ScheduleHeader />', () => {
       { id: 'stop2', name: 'End' },
     ];
     const { fromOptions, toOptions } = getScheduleHeaderOptions(twoStops, 0, 1);
-    expect(fromOptions).to.have.lengthOf(1);
-    expect(toOptions).to.have.lengthOf(1);
+    expect(fromOptions).toHaveLength(1);
+    expect(toOptions).toHaveLength(1);
   });
 
   it('should handle many stops', () => {
@@ -106,7 +106,7 @@ describe('<ScheduleHeader />', () => {
       0,
       19,
     );
-    expect(fromOptions).to.have.lengthOf(19);
-    expect(toOptions).to.have.lengthOf(19);
+    expect(fromOptions).toHaveLength(19);
+    expect(toOptions).toHaveLength(19);
   });
 });

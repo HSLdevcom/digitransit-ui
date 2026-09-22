@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { describe, it, beforeEach, afterEach } from 'vitest';
 import React from 'react';
 
 import { mockMatch } from '../helpers/mock-router';
@@ -88,7 +87,7 @@ describe('<RouteControlPanel />', () => {
         },
       },
     };
-    expect(renderView(props).querySelector('.activeAlert')).to.not.equal(null);
+    expect(renderView(props).querySelector('.activeAlert')).not.toBeNull();
   });
 
   it('should not start the real time client after mounting if realtime is not active', () => {
@@ -167,7 +166,7 @@ describe('<RouteControlPanel />', () => {
         },
       },
     };
-    expect(renderView(props).querySelector('.activeAlert')).to.not.equal(null);
+    expect(renderView(props).querySelector('.activeAlert')).not.toBeNull();
   });
 
   describe('componentDidMount', () => {
@@ -280,9 +279,7 @@ describe('<RouteControlPanel />', () => {
         },
         baseConfig,
       );
-      expect(container.querySelector('.active-service-alert')).to.not.equal(
-        null,
-      );
+      expect(container.querySelector('.active-service-alert')).not.toBeNull();
     });
 
     it('should mark the disruptions tab with .active-disruption-alert for WARNING level', () => {
@@ -294,9 +291,9 @@ describe('<RouteControlPanel />', () => {
         },
         baseConfig,
       );
-      expect(container.querySelector('.active-disruption-alert')).to.not.equal(
-        null,
-      );
+      expect(
+        container.querySelector('.active-disruption-alert'),
+      ).not.toBeNull();
     });
 
     it('should mark the disruptions tab with .active-disruption-alert for SEVERE level', () => {
@@ -308,9 +305,9 @@ describe('<RouteControlPanel />', () => {
         },
         baseConfig,
       );
-      expect(container.querySelector('.active-disruption-alert')).to.not.equal(
-        null,
-      );
+      expect(
+        container.querySelector('.active-disruption-alert'),
+      ).not.toBeNull();
     });
   });
 });

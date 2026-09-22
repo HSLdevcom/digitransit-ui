@@ -1,7 +1,5 @@
-import { expect } from 'chai';
-import { describe, it, afterEach } from 'mocha';
+import { describe, it, vi } from 'vitest';
 import React from 'react';
-import sinon from 'sinon';
 // react-relay's CJS build (unlike this repo's own Babel-ESM output) has no
 // `__esModule` marker, so `import * as X` gets a one-off *copied* namespace
 // object from Babel's interop helper instead of the live module.exports —
@@ -55,11 +53,8 @@ const ALERT_ONE = {
  * environment/network response. `alertsFixture` is swappable per test so the
  * alertId (details) view can be exercised with a matching alert.
  */
-function stubRelayQueries(
-  sandbox,
-  { alertsFixture = EMPTY_ALERTS_FIXTURE } = {},
-) {
-  sandbox.stub(relayHooks, 'useLazyLoadQuery').callsFake(query => {
+function stubRelayQueries({ alertsFixture = EMPTY_ALERTS_FIXTURE } = {}) {
+  vi.spyOn(relayHooks, 'useLazyLoadQuery').mockImplementation(query => {
     if (query === AlertsQuery) {
       return alertsFixture;
     }
@@ -74,17 +69,12 @@ function stubRelayQueries(
 }
 
 describe('<TrafficNow />', () => {
-  let sandbox;
-
-  afterEach(() => sandbox.restore());
-
   const renderTrafficNow = ({ breakpoint, mode, alertId, alertsFixture }) => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(withBreakpoint, 'useBreakpoint').returns(breakpoint);
-    stubRelayQueries(sandbox, { alertsFixture });
+    vi.spyOn(withBreakpoint, 'useBreakpoint').mockReturnValue(breakpoint);
+    stubRelayQueries({ alertsFixture });
     // jsdom doesn't implement window.scrollTo; TrafficNow calls it (via
     // utils/client/scroll.js) on mount and whenever mode/alertId change.
-    sandbox.stub(window, 'scrollTo');
+    vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
     return renderWithProviders(
       <TrafficNow dateTime="2024-01-01T00:00:00.000Z" />,
       {
@@ -104,28 +94,24 @@ describe('<TrafficNow />', () => {
     it('renders the header, desktop Filters panel, and Disruptions (empty state); no mobile classes/containers', () => {
       const { container } = renderTrafficNow({ breakpoint: 'large' });
 
-      expect(container.querySelector('.traffic-now__header')).to.not.equal(
-        null,
-      );
+      expect(container.querySelector('.traffic-now__header')).not.toBeNull();
 
       const filtersContainer = container.querySelector(
         '.traffic-now__filters-container',
       );
-      expect(filtersContainer).to.not.equal(null);
+      expect(filtersContainer).not.toBeNull();
       // Filters renders a "validity period" filter group as one of its parts.
       expect(
         filtersContainer.querySelector('.separator.horizontal'),
-      ).to.not.equal(null);
+      ).not.toBeNull();
 
-      expect(container.querySelector('.disruptions')).to.not.equal(null);
-      expect(container.querySelector('.disruptions-empty')).to.not.equal(null);
+      expect(container.querySelector('.disruptions')).not.toBeNull();
+      expect(container.querySelector('.disruptions-empty')).not.toBeNull();
 
       expect(
         container.querySelector('.traffic-now__filters-button-container'),
-      ).to.equal(null);
-      expect(container.querySelector('.traffic-now__body--mobile')).to.equal(
-        null,
-      );
+      ).toBeNull();
+      expect(container.querySelector('.traffic-now__body--mobile')).toBeNull();
     });
   });
 
@@ -133,22 +119,20 @@ describe('<TrafficNow />', () => {
     it('renders the header, mobile filters button, and Disruptions (empty state); applies the mobile body class', () => {
       const { container } = renderTrafficNow({ breakpoint: 'small' });
 
-      expect(container.querySelector('.traffic-now__header')).to.not.equal(
-        null,
-      );
+      expect(container.querySelector('.traffic-now__header')).not.toBeNull();
 
       expect(
         container.querySelector('.traffic-now__filters-button-container'),
-      ).to.not.equal(null);
+      ).not.toBeNull();
       expect(
         container.querySelector('.traffic-now__filters-container'),
-      ).to.equal(null);
+      ).toBeNull();
 
-      expect(container.querySelector('.disruptions')).to.not.equal(null);
+      expect(container.querySelector('.disruptions')).not.toBeNull();
 
       expect(
         container.querySelector('.traffic-now__body--mobile'),
-      ).to.not.equal(null);
+      ).not.toBeNull();
     });
   });
 
@@ -159,22 +143,14 @@ describe('<TrafficNow />', () => {
         mode: 'CANCELED',
       });
 
-      expect(container.querySelector('.traffic-now__header')).to.not.equal(
-        null,
-      );
+      expect(container.querySelector('.traffic-now__header')).not.toBeNull();
 
-      expect(container.querySelector('.canceled-trips__body')).to.not.equal(
-        null,
-      );
+      expect(container.querySelector('.canceled-trips__body')).not.toBeNull();
       // Cards (rather than bare fragments) are only used in the non-mobile layout.
-      expect(container.querySelector('.canceled-trips__footer')).to.not.equal(
-        null,
-      );
-      expect(container.querySelector('.traffic-now__body--mobile')).to.equal(
-        null,
-      );
+      expect(container.querySelector('.canceled-trips__footer')).not.toBeNull();
+      expect(container.querySelector('.traffic-now__body--mobile')).toBeNull();
 
-      expect(container.querySelector('.disruptions')).to.equal(null);
+      expect(container.querySelector('.disruptions')).toBeNull();
     });
   });
 
@@ -185,15 +161,13 @@ describe('<TrafficNow />', () => {
         mode: 'CANCELED',
       });
 
-      expect(container.querySelector('.traffic-now__header')).to.equal(null);
-      expect(container.querySelector('.separator.horizontal')).to.equal(null);
+      expect(container.querySelector('.traffic-now__header')).toBeNull();
+      expect(container.querySelector('.separator.horizontal')).toBeNull();
 
-      expect(container.querySelector('.canceled-trips__body')).to.not.equal(
-        null,
-      );
+      expect(container.querySelector('.canceled-trips__body')).not.toBeNull();
       expect(
         container.querySelector('.traffic-now__body--mobile'),
-      ).to.not.equal(null);
+      ).not.toBeNull();
     });
   });
 
@@ -205,24 +179,22 @@ describe('<TrafficNow />', () => {
         alertsFixture: { alerts: [ALERT_ONE] },
       });
 
-      expect(container.querySelector('.traffic-now__header')).to.not.equal(
-        null,
-      );
+      expect(container.querySelector('.traffic-now__header')).not.toBeNull();
 
       expect(
         container.querySelector('.detail-view__cta-container'),
-      ).to.not.equal(null);
-      expect(container.textContent).to.include('Alert one header');
-      expect(container.textContent).to.include('Alert one description');
+      ).not.toBeNull();
+      expect(container.textContent).toContain('Alert one header');
+      expect(container.textContent).toContain('Alert one description');
       expect(
         container.querySelector('.detail-view__cta-container--mobile'),
-      ).to.equal(null);
+      ).toBeNull();
       expect(
         container.querySelector('.disruption-details__container'),
-      ).to.not.equal(null);
+      ).not.toBeNull();
 
-      expect(container.querySelector('.disruptions')).to.equal(null);
-      expect(container.querySelector('.canceled-trips__body')).to.equal(null);
+      expect(container.querySelector('.disruptions')).toBeNull();
+      expect(container.querySelector('.canceled-trips__body')).toBeNull();
     });
   });
 
@@ -234,19 +206,19 @@ describe('<TrafficNow />', () => {
         alertsFixture: { alerts: [ALERT_ONE] },
       });
 
-      expect(container.querySelector('.traffic-now__header')).to.equal(null);
+      expect(container.querySelector('.traffic-now__header')).toBeNull();
 
-      expect(container.textContent).to.include('Alert one header');
+      expect(container.textContent).toContain('Alert one header');
       expect(
         container.querySelector('.detail-view__cta-container--mobile'),
-      ).to.not.equal(null);
+      ).not.toBeNull();
       expect(
         container.querySelector('.disruption-details--mobile'),
-      ).to.not.equal(null);
+      ).not.toBeNull();
 
       expect(
         container.querySelector('.traffic-now__body--mobile'),
-      ).to.not.equal(null);
+      ).not.toBeNull();
     });
   });
 });

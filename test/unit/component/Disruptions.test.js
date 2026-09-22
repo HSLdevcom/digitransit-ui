@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it } from 'vitest';
 import React from 'react';
 import { DateTime } from 'luxon';
 
@@ -45,8 +44,8 @@ describe('<Disruptions />', () => {
       },
     };
     const container = renderDisruptions(props);
-    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(0);
-    expect(container.textContent).to.contain('Services normal');
+    expect(container.querySelectorAll('.alert-row')).toHaveLength(0);
+    expect(container.textContent).toContain('Services normal');
   });
 
   it('should indicate that there is a direct service alert on a route', () => {
@@ -76,7 +75,7 @@ describe('<Disruptions />', () => {
       },
     };
     const container = renderDisruptions(props);
-    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.alert-row')).toHaveLength(1);
   });
 
   it('should indicate that there is a canceled stoptime on a route', () => {
@@ -120,7 +119,7 @@ describe('<Disruptions />', () => {
       },
     };
     const container = renderDisruptions(props);
-    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.alert-row')).toHaveLength(1);
   });
 
   it('should render multiple canceled departure times for the same trip pattern in chronological order', () => {
@@ -184,11 +183,11 @@ describe('<Disruptions />', () => {
     };
     const container = renderDisruptions(props);
     const badges = container.querySelectorAll('.cancelation-badge .canceled');
-    expect(badges).to.have.lengthOf(2);
-    expect(badges[0].textContent).to.equal(
+    expect(badges).toHaveLength(2);
+    expect(badges[0].textContent).toBe(
       baseTime.minus({ hours: 3 }).toFormat('HH:mm'),
     );
-    expect(badges[1].textContent).to.equal(
+    expect(badges[1].textContent).toBe(
       baseTime.plus({ hours: 2 }).toFormat('HH:mm'),
     );
   });
@@ -235,8 +234,8 @@ describe('<Disruptions />', () => {
       },
     };
     const container = renderDisruptions(props);
-    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(0);
-    expect(container.textContent).to.contain('Services normal');
+    expect(container.querySelectorAll('.alert-row')).toHaveLength(0);
+    expect(container.textContent).toContain('Services normal');
   });
 
   it('should indicate that the stop itself has a service alert', () => {
@@ -263,6 +262,6 @@ describe('<Disruptions />', () => {
       },
     };
     const container = renderDisruptions(props);
-    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.alert-row')).toHaveLength(1);
   });
 });

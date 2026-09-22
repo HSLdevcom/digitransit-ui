@@ -1,11 +1,9 @@
-import { expect } from 'chai';
 import fetchMock from 'fetch-mock';
-import { describe, it, afterEach } from 'mocha';
+import { describe, it, afterEach, beforeAll, afterAll, vi } from 'vitest';
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { render } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
-import sinon from 'sinon';
 import { ConfigProvider } from '../../../app/client/ConfigContext';
 import {
   MessageProvider,
@@ -62,8 +60,8 @@ describe('MessageContext', () => {
   });
 
   describe('MessageProvider', () => {
-    before(() => fetchMock.mockGlobal());
-    after(() => fetchMock.unmockGlobal());
+    beforeAll(() => fetchMock.mockGlobal());
+    afterAll(() => fetchMock.unmockGlobal());
 
     it('loads static and remotely fetched config messages, sorted by priority', async () => {
       const staticMessagesUrl = '/staticMessages';
@@ -103,8 +101,8 @@ describe('MessageContext', () => {
       });
       await flushEffects();
 
-      expect(fetchMock.callHistory.called(staticMessagesUrl)).to.equal(true);
-      expect(controlRef.current.messages).to.deep.equal([
+      expect(fetchMock.callHistory.called(staticMessagesUrl)).toBe(true);
+      expect(controlRef.current.messages).toEqual([
         {
           content: { en: [{ type: 'text', content: 'foo' }] },
           id: '2',
@@ -136,7 +134,7 @@ describe('MessageContext', () => {
       });
       await flushEffects();
 
-      expect(fetchMock.callHistory.called()).to.equal(false);
+      expect(fetchMock.callHistory.called()).toBe(false);
     });
   });
 
@@ -160,14 +158,14 @@ describe('MessageContext', () => {
       act(() => {
         controlRef.current.actions.addMessage(message);
       });
-      expect(controlRef.current.messages.length).to.equal(1);
-      expect(controlRef.current.duplicateMessageCounter).to.equal(0);
+      expect(controlRef.current.messages.length).toBe(1);
+      expect(controlRef.current.duplicateMessageCounter).toBe(0);
 
       act(() => {
         controlRef.current.actions.addMessage(message);
       });
-      expect(controlRef.current.messages.length).to.equal(1);
-      expect(controlRef.current.duplicateMessageCounter).to.equal(1);
+      expect(controlRef.current.messages.length).toBe(1);
+      expect(controlRef.current.duplicateMessageCounter).toBe(1);
     });
   });
 
@@ -191,12 +189,12 @@ describe('MessageContext', () => {
       act(() => {
         controlRef.current.actions.addMessage(message);
       });
-      expect(controlRef.current.messages.length).to.equal(1);
+      expect(controlRef.current.messages.length).toBe(1);
 
       act(() => {
         controlRef.current.actions.markMessageAsRead('42');
       });
-      expect(controlRef.current.messages.length).to.equal(0);
+      expect(controlRef.current.messages.length).toBe(0);
     });
 
     it('still produces a new messages reference for an id that was never added', () => {
@@ -221,7 +219,7 @@ describe('MessageContext', () => {
       act(() => {
         controlRef.current.actions.markMessageAsRead('never-added-id');
       });
-      expect(controlRef.current.messages).to.not.equal(messagesBefore);
+      expect(controlRef.current.messages).not.toBe(messagesBefore);
     });
   });
 
@@ -248,14 +246,14 @@ describe('MessageContext', () => {
       act(() => {
         messageActions.addMessage(message);
       });
-      expect(controlRef.current.messages.map(m => m.id)).to.include(
+      expect(controlRef.current.messages.map(m => m.id)).toContain(
         'geolocation-denied',
       );
 
       act(() => {
         messageActions.markMessageAsRead('geolocation-denied');
       });
-      expect(controlRef.current.messages.map(m => m.id)).to.not.include(
+      expect(controlRef.current.messages.map(m => m.id)).not.toContain(
         'geolocation-denied',
       );
     });
@@ -291,9 +289,9 @@ describe('MessageContext', () => {
           },
         },
       ];
-      const callback = sinon.spy();
+      const callback = vi.fn();
       processStaticMessages({ staticMessages }, callback);
-      expect(callback.called).to.equal(true);
+      expect(callback.mock.calls.length > 0).toBe(true);
     });
 
     it('should ignore messages that have no content in any language', () => {
@@ -315,9 +313,9 @@ describe('MessageContext', () => {
           content: { fi: [], en: [], sv: [] },
         },
       ];
-      const callback = sinon.spy();
+      const callback = vi.fn();
       processStaticMessages({ staticMessages }, callback);
-      expect(callback.called).to.equal(false);
+      expect(callback.mock.calls.length > 0).toBe(false);
     });
 
     it('should process messages that have content in some language', () => {
@@ -331,9 +329,9 @@ describe('MessageContext', () => {
           },
         },
       ];
-      const callback = sinon.spy();
+      const callback = vi.fn();
       processStaticMessages({ staticMessages }, callback);
-      expect(callback.called).to.equal(true);
+      expect(callback.mock.calls.length > 0).toBe(true);
     });
   });
 });

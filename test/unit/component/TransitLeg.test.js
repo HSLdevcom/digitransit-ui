@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { describe, it, beforeEach, afterEach } from 'vitest';
 import React from 'react';
 
 import { renderWithProviders } from '../helpers/mock-providers';
@@ -101,7 +100,7 @@ describe('<TransitLeg />', () => {
     );
     // previous stop's zone ('A') then the current stop's zone ('B'); no
     // 'next' zone icon since 'to' has no zoneId.
-    expect([...zoneIcons].map(el => el.textContent)).to.deep.equal(['A', 'B']);
+    expect([...zoneIcons].map(el => el.textContent)).toEqual(['A', 'B']);
   });
 
   it('should show a zone change between the last intermediate place and to', () => {
@@ -152,7 +151,7 @@ describe('<TransitLeg />', () => {
       '.time-column-zone-icons-container.intermediate-leg .circle',
     );
     // no 'previous' zone icon (from has no zoneId); current ('B') then next ('C').
-    expect([...zoneIcons].map(el => el.textContent)).to.deep.equal(['B', 'C']);
+    expect([...zoneIcons].map(el => el.textContent)).toEqual(['B', 'C']);
   });
 
   it('should not show any zone changes if the feature is disabled', () => {
@@ -204,7 +203,7 @@ describe('<TransitLeg />', () => {
     });
     expect(
       container.querySelector('.time-column-zone-icons-container'),
-    ).to.equal(null);
+    ).toBeNull();
   });
 
   it('should apply isCanceled to an intermediate leg', () => {
@@ -254,7 +253,7 @@ describe('<TransitLeg />', () => {
     const { container } = renderLeg(props);
     expect(
       container.querySelector('.itinerary-intermediate-stop-name .canceled'),
-    ).to.not.equal(null);
+    ).not.toBeNull();
   });
 
   it('should apply alertSeverityLevel due to a route alert', () => {
@@ -302,7 +301,7 @@ describe('<TransitLeg />', () => {
       ...config,
       showAlternativeLegs: true,
     });
-    expect(container.querySelector('.subicon-caution')).to.not.equal(null);
+    expect(container.querySelector('.subicon-caution')).not.toBeNull();
   });
 
   it('should apply alertSeverityLevel due to a stop alert at the "from" stop', () => {
@@ -352,7 +351,7 @@ describe('<TransitLeg />', () => {
       ...config,
       showAlternativeLegs: true,
     });
-    expect(container.querySelector('.subicon-caution')).to.not.equal(null);
+    expect(container.querySelector('.subicon-caution')).not.toBeNull();
   });
 
   it('should apply alertSeverityLevel due to a stop alert at the "to" stop', () => {
@@ -402,7 +401,7 @@ describe('<TransitLeg />', () => {
       ...config,
       showAlternativeLegs: true,
     });
-    expect(container.querySelector('.subicon-caution')).to.not.equal(null);
+    expect(container.querySelector('.subicon-caution')).not.toBeNull();
   });
 
   it('should not apply alertSeverityLevel due to a stop alert at an intermediate stop', () => {
@@ -458,8 +457,8 @@ describe('<TransitLeg />', () => {
       ...config,
       showAlternativeLegs: true,
     });
-    expect(container.querySelector('.subicon-caution')).to.equal(null);
-    expect(container.querySelector('.subicon-info')).to.equal(null);
+    expect(container.querySelector('.subicon-caution')).toBeNull();
+    expect(container.querySelector('.subicon-info')).toBeNull();
   });
 
   it('should show a disclaimer with relevant information for an unknown ticket', () => {
@@ -505,10 +504,8 @@ describe('<TransitLeg />', () => {
       availableTickets: { HSL: { 'HSL:A': { price: 5.5, zones: ['A'] } } },
       hideExternalOperator: () => false,
     });
-    expect(
-      container.querySelectorAll('.disclaimer-container'),
-    ).to.have.lengthOf(1);
-    expect(container.querySelectorAll('.agency-link')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.disclaimer-container')).toHaveLength(1);
+    expect(container.querySelectorAll('.agency-link')).toHaveLength(1);
   });
 
   it('should not show a disclaimer for an unknown ticket when there is nothing for feedIds in availableTickets', () => {
@@ -554,10 +551,8 @@ describe('<TransitLeg />', () => {
       availableTickets: { HSL: { 'foo:A': { price: 5.5, zones: ['A'] } } },
       hideExternalOperator: () => false,
     });
-    expect(
-      container.querySelectorAll('.disclaimer-container'),
-    ).to.have.lengthOf(1);
-    expect(container.querySelectorAll('.agency-link')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.disclaimer-container')).toHaveLength(1);
+    expect(container.querySelectorAll('.agency-link')).toHaveLength(1);
   });
 
   it('should show a service alert icon if there is one at the "from" stop', () => {
@@ -607,7 +602,7 @@ describe('<TransitLeg />', () => {
     };
 
     const { container } = renderLeg(props);
-    expect(container.querySelector('.inline-icon.info')).to.not.equal(null);
+    expect(container.querySelector('.inline-icon.info')).not.toBeNull();
   });
 
   it('should show header of the most severe alert', () => {
@@ -683,7 +678,7 @@ describe('<TransitLeg />', () => {
       ...config,
       showAlertHeader: true,
     });
-    expect(container.querySelector('.description').textContent).to.equal(
+    expect(container.querySelector('.description').textContent).toBe(
       'severe header',
     );
   });
@@ -737,7 +732,7 @@ describe('<TransitLeg />', () => {
       ...config,
       showAlertHeader: true,
     });
-    expect(container.querySelector('.description').textContent).to.equal(
+    expect(container.querySelector('.description').textContent).toBe(
       'unknown header',
     );
   });

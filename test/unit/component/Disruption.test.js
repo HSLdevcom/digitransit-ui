@@ -1,7 +1,5 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, vi } from 'vitest';
 import React from 'react';
-import sinon from 'sinon';
 
 import { renderWithProviders } from '../helpers/mock-providers';
 import Disruption from '../../../app/component/Disruption';
@@ -48,7 +46,7 @@ describe('<Disruption />', () => {
       id: 'alert-null',
       entities: [routeEntity()],
     });
-    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(0);
+    expect(container.querySelectorAll('.alert-row')).toHaveLength(0);
   });
 
   it('should render alert-row when alertHeaderText is provided', () => {
@@ -58,7 +56,7 @@ describe('<Disruption />', () => {
       alertSeverityLevel: 'WARNING',
       entities: [routeEntity()],
     });
-    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.alert-row')).toHaveLength(1);
   });
 
   it('should render toggle button when toggleDetails is provided', () => {
@@ -66,10 +64,10 @@ describe('<Disruption />', () => {
       alertHeaderText: 'Alert',
       alertSeverityLevel: 'WARNING',
       id: 'alert-1',
-      toggleDetails: sinon.spy(),
+      toggleDetails: vi.fn(),
       entities: [routeEntity()],
     });
-    expect(container.querySelectorAll('.alert-row-arrow')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.alert-row-arrow')).toHaveLength(1);
   });
 
   it('should render link to the timetablepage for cancelations', () => {
@@ -77,11 +75,11 @@ describe('<Disruption />', () => {
       id: 'cancelation-1',
       alertHeaderText: 'Cancelation',
       alertSeverityLevel: 'WARNING',
-      toggleDetails: sinon.spy(),
+      toggleDetails: vi.fn(),
       canceledDepartures: [{ scheduledDeparture: 36000 }],
       entities: [routeEntity()],
     });
-    expect(container.querySelectorAll('.alert-row-arrow')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.alert-row-arrow')).toHaveLength(1);
   });
 
   it('should render DisruptionBadge with correct severity and effect', () => {
@@ -93,8 +91,8 @@ describe('<Disruption />', () => {
       entities: [routeEntity()],
     });
     const badge = container.querySelector('.badge.warning');
-    expect(badge).to.not.equal(null);
-    expect(badge.textContent).to.equal('Reduced routes');
+    expect(badge).not.toBeNull();
+    expect(badge.textContent).toBe('Reduced routes');
   });
 
   it('should render mode icon and link for route entity', () => {
@@ -104,13 +102,13 @@ describe('<Disruption />', () => {
       alertSeverityLevel: 'WARNING',
       entities: [routeEntity()],
     });
-    expect(container.querySelectorAll('svg.icon.bus')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('svg.icon.bus')).toHaveLength(1);
     const link = container.querySelector('.mode-badge');
-    expect(link).to.not.equal(null);
-    expect(link.getAttribute('href')).to.equal(
+    expect(link).not.toBeNull();
+    expect(link.getAttribute('href')).toBe(
       routePagePath('HSL:2097N', PREFIX_DISRUPTION, '2097N_20240101_1'),
     );
-    expect(link.querySelector('span').textContent).to.equal('97N');
+    expect(link.querySelector('span').textContent).toBe('97N');
   });
 
   it('should render stop link with PREFIX_STOPS for non-station stop', () => {
@@ -121,11 +119,11 @@ describe('<Disruption />', () => {
       entities: [stopEntity()],
     });
     const link = container.querySelector('.mode-badge');
-    expect(link).to.not.equal(null);
-    expect(link.getAttribute('href')).to.equal(
+    expect(link).not.toBeNull();
+    expect(link.getAttribute('href')).toBe(
       `/${PREFIX_STOPS}/${encodeURIComponent('HSL:1234')}`,
     );
-    expect(link.querySelector('span').textContent).to.equal('Test Stop');
+    expect(link.querySelector('span').textContent).toBe('Test Stop');
   });
 
   it('should render terminal link for station stop', () => {
@@ -136,7 +134,7 @@ describe('<Disruption />', () => {
       entities: [stopEntity({ locationType: 'STATION', gtfsId: 'HSL:5678' })],
     });
     const link = container.querySelector('.mode-badge');
-    expect(link.getAttribute('href')).to.equal(
+    expect(link.getAttribute('href')).toBe(
       `/${PREFIX_TERMINALS}/${encodeURIComponent('HSL:5678')}`,
     );
   });
@@ -148,7 +146,7 @@ describe('<Disruption />', () => {
       alertSeverityLevel: 'WARNING',
       entities: [routeEntity()],
     });
-    expect(container.querySelector('.alert-row-title').textContent).to.equal(
+    expect(container.querySelector('.alert-row-title').textContent).toBe(
       'Detour on route 97N',
     );
   });
@@ -164,13 +162,11 @@ describe('<Disruption />', () => {
       ],
       entities: [routeEntity()],
     });
-    expect(container.querySelectorAll('.canceled-departures')).to.have.lengthOf(
-      1,
-    );
+    expect(container.querySelectorAll('.canceled-departures')).toHaveLength(1);
     const badges = container.querySelectorAll('.cancelation-badge');
-    expect(badges).to.have.lengthOf(2);
-    expect(badges[0].querySelector('.canceled').textContent).to.equal('10:00');
-    expect(badges[1].querySelector('.canceled').textContent).to.equal('11:00');
+    expect(badges).toHaveLength(2);
+    expect(badges[0].querySelector('.canceled').textContent).toBe('10:00');
+    expect(badges[1].querySelector('.canceled').textContent).toBe('11:00');
   });
 
   it('should group entities of same type and mode under one icon', () => {
@@ -183,7 +179,7 @@ describe('<Disruption />', () => {
         routeEntity({ gtfsId: 'HSL:1002', shortName: '2', id: 'r2' }),
       ],
     });
-    expect(container.querySelectorAll('svg.icon.bus')).to.have.lengthOf(1);
-    expect(container.querySelectorAll('.mode-badge')).to.have.lengthOf(2);
+    expect(container.querySelectorAll('svg.icon.bus')).toHaveLength(1);
+    expect(container.querySelectorAll('.mode-badge')).toHaveLength(2);
   });
 });

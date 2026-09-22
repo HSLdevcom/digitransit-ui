@@ -78,12 +78,12 @@ describe('<RoutePatternSelectContainer />', () => {
       />,
       { config: baseConfig },
     );
-    expect(container.querySelector('.route-pattern-swap-button')).to.not.equal(
-      null,
-    );
+    expect(
+      container.querySelector('.route-pattern-swap-button'),
+    ).not.toBeNull();
     expect(
       container.querySelector('.route-pattern-location-name').textContent,
-    ).to.equal('Origin');
+    ).toBe('Origin');
   });
 
   it('should select the other pattern when the swap button is clicked', () => {
@@ -99,7 +99,7 @@ describe('<RoutePatternSelectContainer />', () => {
       { config: baseConfig },
     );
     fireEvent.click(container.querySelector('.route-pattern-swap-button'));
-    expect(selectedCode).to.equal('ROUTE:1:1:01');
+    expect(selectedCode).toBe('ROUTE:1:1:01');
   });
 
   it('should render no content when there are no patterns', () => {
@@ -110,11 +110,11 @@ describe('<RoutePatternSelectContainer />', () => {
       />,
       { config: baseConfig },
     );
-    expect(container.innerHTML).to.equal('');
+    expect(container.innerHTML).toBe('');
   });
 
   it('should return null when pattern options are empty', () => {
-    expect(getPatternOptions([], 30)).to.equal(null);
+    expect(getPatternOptions([], 30)).toBeNull();
   });
 
   it('should include all active patterns in the calculated options', () => {
@@ -124,7 +124,7 @@ describe('<RoutePatternSelectContainer />', () => {
       makePattern('ROUTE:1:0:02', 0, 'Via Downtown', [makeTripForDate()]),
     ];
     const options = getPatternOptions(patterns, 30);
-    expect(options.map(option => option.code)).to.have.members(
+    expect(options.map(option => option.code)).toEqual(
       patterns.map(pattern => pattern.code),
     );
   });
@@ -149,7 +149,7 @@ describe('<RoutePatternSelectContainer />', () => {
       />,
       { config: baseConfig },
     );
-    expect(replacedUrl).to.equal(
+    expect(replacedUrl).toBe(
       routePagePath('ROUTE:1', PREFIX_STOPS, 'ROUTE:1:0:01'),
     );
   });
@@ -174,7 +174,7 @@ describe('<RoutePatternSelectContainer />', () => {
       />,
       { config: baseConfig },
     );
-    expect(replacedUrl).to.equal(undefined);
+    expect(replacedUrl).toBeUndefined();
   });
 
   it('should render a toggle button for single pattern without swap', () => {
@@ -192,10 +192,8 @@ describe('<RoutePatternSelectContainer />', () => {
       />,
       { config: baseConfig },
     );
-    expect(container.innerHTML).to.not.equal('');
-    expect(container.querySelector('.route-pattern-swap-button')).to.equal(
-      null,
-    );
+    expect(container.innerHTML).not.toBe('');
+    expect(container.querySelector('.route-pattern-swap-button')).toBeNull();
   });
 
   it('should not call onSelectChange for single pattern', () => {
@@ -217,7 +215,7 @@ describe('<RoutePatternSelectContainer />', () => {
       />,
       { config: baseConfig },
     );
-    expect(callCount).to.equal(0);
+    expect(callCount).toBe(0);
   });
 
   it('should render without swap button when there are three patterns', () => {
@@ -237,10 +235,8 @@ describe('<RoutePatternSelectContainer />', () => {
       />,
       { config: baseConfig },
     );
-    expect(container.innerHTML).to.not.equal('');
-    expect(container.querySelector('.route-pattern-swap-button')).to.equal(
-      null,
-    );
+    expect(container.innerHTML).not.toBe('');
+    expect(container.querySelector('.route-pattern-swap-button')).toBeNull();
   });
 
   it('should group same-direction patterns into special routes', () => {
@@ -249,11 +245,11 @@ describe('<RoutePatternSelectContainer />', () => {
       makePattern('ROUTE:1:0:02', 0, 'Via Downtown', [makeTripForDate()]),
     ];
     const options = getPatternOptions(patterns, 30);
-    expect(options.length).to.equal(2);
+    expect(options.length).toBe(2);
     // Both patterns should be in options; component logic will group the second into special
     const codes = options.map(o => o.code);
-    expect(codes).to.include('ROUTE:1:0:01');
-    expect(codes).to.include('ROUTE:1:0:02');
+    expect(codes).toContain('ROUTE:1:0:01');
+    expect(codes).toContain('ROUTE:1:0:02');
   });
 
   it('should include future patterns when trips exist beyond service range', () => {
@@ -271,10 +267,10 @@ describe('<RoutePatternSelectContainer />', () => {
     ];
     const options = getPatternOptions(patterns, 30);
     // enrichPatterns will mark the second as inFuture
-    expect(options).to.have.length.above(0);
+    expect(options.length).toBeGreaterThan(0);
     const codes = options.map(o => o.code);
-    expect(codes).to.include('ROUTE:1:0:01');
-    expect(codes).to.include('ROUTE:1:0:99');
+    expect(codes).toContain('ROUTE:1:0:01');
+    expect(codes).toContain('ROUTE:1:0:99');
   });
 
   it('should use fallback patterns when no trips exist for today', () => {
@@ -284,8 +280,10 @@ describe('<RoutePatternSelectContainer />', () => {
     ];
     const options = getPatternOptions(patterns, 30);
     // enrichPatterns returns fallback patterns ending in :01 when no trips found
-    expect(options).to.not.equal(null);
+    expect(options).not.toBeNull();
     const codes = options.map(o => o.code);
-    expect(codes).to.have.members(['ROUTE:1:0:01', 'ROUTE:1:1:01']);
+    expect(codes).toEqual(
+      expect.arrayContaining(['ROUTE:1:0:01', 'ROUTE:1:1:01']),
+    );
   });
 });

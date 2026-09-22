@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it } from 'vitest';
 
 import defaultConfig from '../../../../server/configs/config.default';
 import * as utils from '../../../../utils/client/planParamUtil';
@@ -62,7 +61,7 @@ describe('planParamUtil', () => {
         utils.PLANTYPE.TRANSIT,
       );
       const modes = params.modes.transit.transit;
-      expect(modes).to.deep.equal([{ mode: 'BUS' }]);
+      expect(modes).toEqual([{ mode: 'BUS' }]);
     });
 
     it('should ignore localstorage modes if useDefaultModes is true', () => {
@@ -74,7 +73,7 @@ describe('planParamUtil', () => {
         true,
       );
       const modes = params.modes.transit.transit;
-      expect(modes).to.deep.equal([{ mode: 'BUS' }]);
+      expect(modes).toEqual([{ mode: 'BUS' }]);
     });
 
     it('should use bikeSpeed from localStorage to find closest possible option in config', () => {
@@ -85,7 +84,7 @@ describe('planParamUtil', () => {
         utils.PLANTYPE.TRANSIT,
       );
       const { bikeSpeed } = params;
-      expect(bikeSpeed).to.equal(
+      expect(bikeSpeed).toBe(
         Math.max(...defaultConfig.defaultOptions.bikeSpeed),
       );
     });
@@ -103,7 +102,7 @@ describe('planParamUtil', () => {
         ),
       );
       const missing = defaultKeys.filter(key => !paramsKeys.includes(key));
-      expect(missing).to.deep.equal([]);
+      expect(missing).toEqual([]);
     });
 
     it('should not include CITYBIKE in bikepark modes', () => {
@@ -124,14 +123,14 @@ describe('planParamUtil', () => {
         utils.PLANTYPE.TRANSIT,
       );
       const modes = params.modes.transit.transit;
-      expect(modes).to.deep.equal([{ mode: 'BUS' }]);
+      expect(modes).toEqual([{ mode: 'BUS' }]);
     });
   });
 
   describe('getDefaultSettings', () => {
     it('should include a modes array', () => {
       const defaultSettings = utils.getDefaultSettings(defaultConfig);
-      expect(Array.isArray(defaultSettings.modes)).to.equal(true);
+      expect(Array.isArray(defaultSettings.modes)).toBe(true);
     });
   });
 
@@ -139,7 +138,7 @@ describe('planParamUtil', () => {
     it('current settings should equal default settings if no user set settings', () => {
       const defaultSettings = utils.getDefaultSettings(defaultConfig);
       const currentSettings = utils.getSettings(defaultConfig);
-      expect(defaultSettings).to.deep.equal(currentSettings);
+      expect(defaultSettings).toEqual(currentSettings);
     });
 
     it('setting custom settings should make default settings differ from current settings', () => {
@@ -149,7 +148,7 @@ describe('planParamUtil', () => {
 
       const defaultSettings = utils.getDefaultSettings(defaultConfig);
       const currentSettings = utils.getSettings(defaultConfig);
-      expect(defaultSettings).to.not.deep.equal(currentSettings);
+      expect(defaultSettings).not.toEqual(currentSettings);
     });
 
     it('order of set custom settings should not affect default and current settings comparison', () => {
@@ -158,7 +157,7 @@ describe('planParamUtil', () => {
         modes: defaultSettings.modes.slice().reverse(),
       });
       const currentSettings = utils.getSettings(defaultConfig);
-      expect(defaultSettings).to.deep.equal(currentSettings);
+      expect(defaultSettings).toEqual(currentSettings);
     });
 
     it('unavailable modes should not exist in current settings', () => {
@@ -166,8 +165,8 @@ describe('planParamUtil', () => {
         modes: ['BUS', 'WALK', 'FOO'],
       });
       const currentSettings = utils.getSettings(defaultConfig);
-      expect(currentSettings.modes.length).to.equal(1);
-      expect(currentSettings.modes).to.not.contain('FOO');
+      expect(currentSettings.modes.length).toBe(1);
+      expect(currentSettings.modes).not.toContain('FOO');
     });
   });
 });

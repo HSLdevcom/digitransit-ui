@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it } from 'vitest';
 import React from 'react';
 
 import { renderWithProviders } from '../helpers/mock-providers';
@@ -17,7 +16,7 @@ const alertRowTitles = container =>
 describe('<DisruptionList />', () => {
   it('should show a "no alerts" message', () => {
     const container = renderList({ cancelations: [], serviceAlerts: [] });
-    expect(container.textContent).to.contain('Services normal');
+    expect(container.textContent).toContain('Services normal');
   });
 
   it('should list cancelations before service alerts', () => {
@@ -94,7 +93,7 @@ describe('<DisruptionList />', () => {
       ],
     };
     const container = renderList(props, 1547464414);
-    expect(alertRowTitles(container)).to.deep.equal([
+    expect(alertRowTitles(container)).toEqual([
       'third',
       'fourth',
       'second',
@@ -125,7 +124,7 @@ describe('<DisruptionList />', () => {
       ],
     };
     const container = renderList(props, 100);
-    expect(container.textContent).to.contain('Services normal');
+    expect(container.textContent).toContain('Services normal');
   });
 
   it('should display current cancelations and service alerts', () => {
@@ -168,7 +167,7 @@ describe('<DisruptionList />', () => {
       ],
     };
     const container = renderList(props, 100);
-    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(2);
+    expect(container.querySelectorAll('.alert-row')).toHaveLength(2);
   });
 
   it('should display future service alerts under the upcoming section', () => {
@@ -196,10 +195,10 @@ describe('<DisruptionList />', () => {
     // Active section is empty (rendered as a <p>), Upcoming section has 1 item
     expect(
       container.querySelector('p.alerts-list-section-no-alerts'),
-    ).to.not.equal(null);
-    expect(container.querySelectorAll('[role="list"]')).to.have.lengthOf(1);
-    expect(
-      container.querySelectorAll('[role="list"] .alert-row'),
-    ).to.have.lengthOf(1);
+    ).not.toBeNull();
+    expect(container.querySelectorAll('[role="list"]')).toHaveLength(1);
+    expect(container.querySelectorAll('[role="list"] .alert-row')).toHaveLength(
+      1,
+    );
   });
 });

@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it } from 'vitest';
 
 import * as utils from '../../../../utils/client/mapLayerUtils';
 
@@ -14,7 +13,7 @@ describe('mapLayerUtils', () => {
         },
       };
       const result = utils.isLayerEnabled('stop', mapLayers);
-      expect(result).to.equal(false);
+      expect(result).toBe(false);
     });
 
     it('should return true if any of the underlying features is enabled', () => {
@@ -26,7 +25,7 @@ describe('mapLayerUtils', () => {
         },
       };
       const result = utils.isLayerEnabled('stop', mapLayers);
-      expect(result).to.equal(true);
+      expect(result).toBe(true);
     });
 
     it('should return false if there are no underlying features and the layer is disabled', () => {
@@ -34,7 +33,7 @@ describe('mapLayerUtils', () => {
         citybike: false,
       };
       const result = utils.isLayerEnabled('citybike', mapLayers);
-      expect(result).to.equal(false);
+      expect(result).toBe(false);
     });
 
     it('should return true if there are no underlying features and the layer is enabled', () => {
@@ -42,7 +41,7 @@ describe('mapLayerUtils', () => {
         citybike: true,
       };
       const result = utils.isLayerEnabled('citybike', mapLayers);
-      expect(result).to.equal(true);
+      expect(result).toBe(true);
     });
 
     it('should return false if the layer does not exist', () => {
@@ -50,7 +49,7 @@ describe('mapLayerUtils', () => {
         parkAndRide: true,
       };
       const result = utils.isLayerEnabled('foo', mapLayers);
-      expect(result).to.equal(false);
+      expect(result).toBe(false);
     });
 
     it('should return false if layerName is falsey', () => {
@@ -58,7 +57,7 @@ describe('mapLayerUtils', () => {
         parkAndRide: true,
       };
       const result = utils.isLayerEnabled(undefined, mapLayers);
-      expect(result).to.equal(false);
+      expect(result).toBe(false);
     });
   });
 
@@ -71,7 +70,7 @@ describe('mapLayerUtils', () => {
       };
 
       const result = utils.isFeatureLayerEnabled(feature, layerName, mapLayers);
-      expect(result).to.equal(false);
+      expect(result).toBe(false);
     });
 
     it('should return false if layerName is falsey', () => {
@@ -86,7 +85,7 @@ describe('mapLayerUtils', () => {
       };
 
       const result = utils.isFeatureLayerEnabled(feature, layerName, mapLayers);
-      expect(result).to.equal(false);
+      expect(result).toBe(false);
     });
 
     it('should return false if mapLayers is falsey', () => {
@@ -99,7 +98,7 @@ describe('mapLayerUtils', () => {
       const mapLayers = undefined;
 
       const result = utils.isFeatureLayerEnabled(feature, layerName, mapLayers);
-      expect(result).to.equal(false);
+      expect(result).toBe(false);
     });
 
     it('should return false if the layer is missing', () => {
@@ -116,7 +115,7 @@ describe('mapLayerUtils', () => {
       };
 
       const result = utils.isFeatureLayerEnabled(feature, layerName, mapLayers);
-      expect(result).to.equal(false);
+      expect(result).toBe(false);
     });
 
     it('should check feature by type', () => {
@@ -133,7 +132,7 @@ describe('mapLayerUtils', () => {
       };
 
       const result = utils.isFeatureLayerEnabled(feature, layerName, mapLayers);
-      expect(result).to.equal(true);
+      expect(result).toBe(true);
     });
 
     it('should check terminal instead of stop if feature has stops', () => {
@@ -154,7 +153,7 @@ describe('mapLayerUtils', () => {
       };
 
       const result = utils.isFeatureLayerEnabled(feature, layerName, mapLayers);
-      expect(result).to.equal(true);
+      expect(result).toBe(true);
     });
 
     it('should fall back to isLayerEnabled if nothing matches', () => {
@@ -167,7 +166,7 @@ describe('mapLayerUtils', () => {
       };
 
       const result = utils.isFeatureLayerEnabled(feature, layerName, mapLayers);
-      expect(result).to.equal(true);
+      expect(result).toBe(true);
     });
   });
 });

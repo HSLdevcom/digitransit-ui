@@ -34,7 +34,7 @@ describe('<MessageBar />', () => {
       currentTime: defaultProps.currentTime,
     });
     await waitFor(() =>
-      expect(container.querySelector('.message-bar')).to.equal(null),
+      expect(container.querySelector('.message-bar')).toBeNull(),
     );
   });
 
@@ -57,10 +57,10 @@ describe('<MessageBar />', () => {
       currentTime: defaultProps.currentTime,
     });
     await waitFor(() =>
-      expect(container.querySelector('.message-bar')).to.not.equal(null),
+      expect(container.querySelector('.message-bar')).not.toBeNull(),
     );
-    expect(container.textContent).to.contain('foo');
-    expect(container.textContent).to.contain('bar');
+    expect(container.textContent).toContain('foo');
+    expect(container.textContent).toContain('bar');
   });
 
   it('should not show a closed service alert again', async () => {
@@ -86,7 +86,7 @@ describe('<MessageBar />', () => {
       },
     ];
 
-    expect(getServiceAlertId(alerts[0])).to.equal(alertId);
+    expect(getServiceAlertId(alerts[0])).toBe(alertId);
     setReadMessageIds([alertId]);
 
     const props = {
@@ -98,11 +98,11 @@ describe('<MessageBar />', () => {
       currentTime: defaultProps.currentTime,
     });
     await waitFor(() =>
-      expect(container.querySelector('.message-bar')).to.not.equal(null),
+      expect(container.querySelector('.message-bar')).not.toBeNull(),
     );
-    expect(container.textContent).to.contain('header');
-    expect(container.textContent).to.contain('text');
-    expect(container.textContent).to.not.contain('bar');
+    expect(container.textContent).toContain('header');
+    expect(container.textContent).toContain('text');
+    expect(container.textContent).not.toContain('bar');
   });
 
   it('should not render service alerts that are expired', async () => {
@@ -125,7 +125,7 @@ describe('<MessageBar />', () => {
       currentTime: defaultProps.currentTime,
     });
     await waitFor(() =>
-      expect(container.querySelector('.message-bar')).to.equal(null),
+      expect(container.querySelector('.message-bar')).toBeNull(),
     );
   });
 
@@ -150,7 +150,7 @@ describe('<MessageBar />', () => {
       currentTime: defaultProps.currentTime,
     });
     await waitFor(() =>
-      expect(container.querySelector('.message-bar')).to.not.equal(null),
+      expect(container.querySelector('.message-bar')).not.toBeNull(),
     );
 
     const closeButton = container.querySelector('#close-message-bar');
@@ -161,7 +161,7 @@ describe('<MessageBar />', () => {
     });
 
     await waitFor(() =>
-      expect(container.querySelector('.message-bar')).to.equal(null),
+      expect(container.querySelector('.message-bar')).toBeNull(),
     );
   });
 
@@ -184,7 +184,7 @@ describe('<MessageBar />', () => {
       currentTime: defaultProps.currentTime,
     });
     await waitFor(() =>
-      expect(container.querySelector('.message-bar')).to.equal(null),
+      expect(container.querySelector('.message-bar')).toBeNull(),
     );
   });
 
@@ -211,9 +211,9 @@ describe('<MessageBar />', () => {
       currentTime: defaultProps.currentTime,
     });
     await waitFor(() =>
-      expect(container.querySelector('.message-bar')).to.not.equal(null),
+      expect(container.querySelector('.message-bar')).not.toBeNull(),
     );
-    expect(container.querySelector('.message-bar').style.background).to.equal(
+    expect(container.querySelector('.message-bar').style.background).toBe(
       'rgb(0, 0, 0)',
     );
   });

@@ -1,8 +1,6 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { describe, it, beforeEach, vi } from 'vitest';
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
-import sinon from 'sinon';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { FilterContextProvider } from '../../../../app/component/trafficnow/filters/FiltersContext';
 import DisruptionCard from '../../../../app/component/trafficnow/DisruptionCard';
@@ -38,14 +36,9 @@ const makeAlert = (overrides = {}) => ({
 });
 
 describe('<DisruptionCard />', () => {
-  let sandbox;
-
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(Date, 'now').returns(NOW_MS);
+    vi.spyOn(Date, 'now').mockReturnValue(NOW_MS);
   });
-
-  afterEach(() => sandbox.restore());
 
   // RouteBadges needs a real FilterContextProvider ancestor: useFilterContext
   // throws without one and there's no default context value.
@@ -61,17 +54,20 @@ describe('<DisruptionCard />', () => {
 
   describe('RouteBadges', () => {
     it('renders RouteBadges (mounts groupEntitiesByMode) when entities are present', () => {
-      const groupEntitiesByModeSpy = sandbox.spy(
+      // sinon can't spy on this repo's own ESM exports (calls aren't
+      // observed on the live binding real importers read from); vi.spyOn can
+      // (auto-restored via the `restoreMocks: true` Vitest config option).
+      const groupEntitiesByModeSpy = vi.spyOn(
         trafficNowUtils,
         'groupEntitiesByMode',
       );
       const container = renderCard();
-      expect(groupEntitiesByModeSpy.called).to.equal(true);
-      expect(container.querySelector('.badges__group')).to.not.equal(null);
+      expect(groupEntitiesByModeSpy.mock.calls.length).toBeGreaterThan(0);
+      expect(container.querySelector('.badges__group')).not.toBeNull();
     });
 
     it('still renders RouteBadges (mounts groupEntitiesByMode with []) when entities is an empty array', () => {
-      const groupEntitiesByModeSpy = sandbox.spy(
+      const groupEntitiesByModeSpy = vi.spyOn(
         trafficNowUtils,
         'groupEntitiesByMode',
       );
@@ -79,26 +75,26 @@ describe('<DisruptionCard />', () => {
       // [].every(...) is vacuously true, so RouteBadges itself renders
       // nothing here -- but it must still have been mounted/invoked (with an
       // empty array reaching groupEntitiesByMode), unlike the null case below.
-      expect(groupEntitiesByModeSpy.calledWith([])).to.equal(true);
+      expect(
+        groupEntitiesByModeSpy.mock.calls.map(call => call[0]),
+      ).toContainEqual([]);
     });
   });
 
   describe('isMobile layout', () => {
     it('renders separator and DisruptionStatus in the header when isMobile=false', () => {
       const container = renderCard({ isMobile: false });
-      expect(container.querySelector('.separator.vertical')).to.not.equal(null);
-      expect(container.querySelector('header .disruption-status')).to.not.equal(
-        null,
-      );
+      expect(container.querySelector('.separator.vertical')).not.toBeNull();
+      expect(
+        container.querySelector('header .disruption-status'),
+      ).not.toBeNull();
     });
 
     it('hides the header separator and moves DisruptionStatus below route badges when isMobile=true', () => {
       const container = renderCard({ isMobile: true });
-      expect(container.querySelector('.separator.vertical')).to.equal(null);
-      expect(container.querySelector('header .disruption-status')).to.equal(
-        null,
-      );
-      expect(container.querySelector('.disruption-status')).to.not.equal(null);
+      expect(container.querySelector('.separator.vertical')).toBeNull();
+      expect(container.querySelector('header .disruption-status')).toBeNull();
+      expect(container.querySelector('.disruption-status')).not.toBeNull();
     });
 
     it('passes showDates=false to DisruptionStatus for INFO severity', () => {
@@ -106,9 +102,9 @@ describe('<DisruptionCard />', () => {
         alert: makeAlert({ alertSeverityLevel: AlertSeverityLevelType.Info }),
       });
       // showDates=false means DisruptionStatus never renders its date-range Text.
-      expect(container.querySelector('.disruption-status .routes-s')).to.equal(
-        null,
-      );
+      expect(
+        container.querySelector('.disruption-status [class*="routes-s"]'),
+      ).toBeNull();
     });
 
     it('passes showDates=true to DisruptionStatus for WARNING severity', () => {
@@ -118,26 +114,26 @@ describe('<DisruptionCard />', () => {
         }),
       });
       expect(
-        container.querySelector('.disruption-status .routes-s'),
-      ).to.not.equal(null);
+        container.querySelector('.disruption-status [class*="routes-s"]'),
+      ).not.toBeNull();
     });
   });
 
   describe('onClick delegation', () => {
     it('calls onClick with the alert id when the card is clicked', () => {
-      const onClickSpy = sinon.spy();
+      const onClickSpy = vi.fn();
       const container = renderCard({
         alert: makeAlert({ id: 'alert-42' }),
         onClick: onClickSpy,
       });
       fireEvent.click(container.querySelector('.disruption-card'));
-      expect(onClickSpy.firstCall.args[0]).to.equal('alert-42');
+      expect(onClickSpy.mock.calls[0][0]).toBe('alert-42');
     });
   });
 
   describe('Null entities', () => {
     it('does not render RouteBadges when entities is null', () => {
-      const groupEntitiesByModeSpy = sandbox.spy(
+      const groupEntitiesByModeSpy = vi.spyOn(
         trafficNowUtils,
         'groupEntitiesByMode',
       );
@@ -146,8 +142,8 @@ describe('<DisruptionCard />', () => {
       });
       // With entities=null, DisruptionCard's `{entities && <RouteBadges />}`
       // guard skips mounting RouteBadges entirely.
-      expect(groupEntitiesByModeSpy.called).to.equal(false);
-      expect(container.querySelector('.badges')).to.equal(null);
+      expect(groupEntitiesByModeSpy.mock.calls.length).toBe(0);
+      expect(container.querySelector('.badges')).toBeNull();
     });
   });
 });

@@ -44,11 +44,11 @@ describe('<DateSelectGrouped />', () => {
     expect(
       container.querySelector('.route-schedule-grouped-date-select-heading')
         .textContent,
-    ).to.include('Select time');
+    ).toContain('Select time');
     expect(
       container.querySelector('.route-schedule-grouped__single-value')
         .textContent,
-    ).to.include('Tomorrow');
+    ).toContain('Tomorrow');
   });
 
   it('should select the first available date when selectedDay is undefined', () => {
@@ -63,7 +63,7 @@ describe('<DateSelectGrouped />', () => {
     expect(
       container.querySelector('.route-schedule-grouped__single-value')
         .textContent,
-    ).to.include('Today');
+    ).toContain('Today');
   });
 
   it('should select the first available date when selectedDay is invalid', () => {
@@ -79,38 +79,34 @@ describe('<DateSelectGrouped />', () => {
     expect(
       container.querySelector('.route-schedule-grouped__single-value')
         .textContent,
-    ).to.include('Today');
+    ).toContain('Today');
   });
 
   it('should generate 60 dates when no dates are provided', () => {
-    expect(generateDateRange(today, 60, 'en')).to.have.lengthOf(60);
+    expect(generateDateRange(today, 60, 'en')).toHaveLength(60);
   });
 
   it('should generate dates from startDate', () => {
     const startDate = DateTime.fromISO('2019-01-05', { zone: 'UTC' });
-    expect(generateDateRange(startDate, 60, 'en')[0].toISODate()).to.equal(
+    expect(generateDateRange(startDate, 60, 'en')[0].toISODate()).toBe(
       '2019-01-05',
     );
   });
 
   it('should return no options for an empty dates array', () => {
-    expect(
-      processDates([], today, tomorrow, dateFormat, intl),
-    ).to.have.lengthOf(0);
+    expect(processDates([], today, tomorrow, dateFormat, intl)).toHaveLength(0);
   });
 
   it('should label today and tomorrow', () => {
-    expect(formatDateLabel(today, today, tomorrow, intl)).to.equal('Today');
-    expect(formatDateLabel(tomorrow, today, tomorrow, intl)).to.equal(
-      'Tomorrow',
-    );
+    expect(formatDateLabel(today, today, tomorrow, intl)).toBe('Today');
+    expect(formatDateLabel(tomorrow, today, tomorrow, intl)).toBe('Tomorrow');
   });
 
   it('should create accessible date options', () => {
     const options = processDates([today], today, tomorrow, dateFormat, intl);
-    expect(options[0].value).to.equal('20190101');
-    expect(options[0].ariaLabel).to.be.a('string');
-    expect(options[0].textLabel).to.equal('Today');
+    expect(options[0].value).toBe('20190101');
+    expect(typeof options[0].ariaLabel).toBe('string');
+    expect(options[0].textLabel).toBe('Today');
   });
 
   it('should pass the selected date value to onDateChange', () => {
@@ -118,7 +114,7 @@ describe('<DateSelectGrouped />', () => {
     handleDateSelectChange({ value: '20190102' }, value => {
       changedDate = value;
     });
-    expect(changedDate).to.equal('20190102');
+    expect(changedDate).toBe('20190102');
   });
 
   it('should group dates by week', () => {
@@ -130,13 +126,13 @@ describe('<DateSelectGrouped />', () => {
       intl,
     );
     const groups = groupDatesByWeek(options, today.weekNumber, intl);
-    expect(groups[0].label).to.equal('This week');
-    expect(groups[0].options).to.have.lengthOf(2);
+    expect(groups[0].label).toBe('This week');
+    expect(groups[0].options).toHaveLength(2);
   });
 
   it('should label the next week', () => {
-    expect(
-      formatWeekLabel(today.weekNumber + 1, today.weekNumber, intl),
-    ).to.equal('Next week');
+    expect(formatWeekLabel(today.weekNumber + 1, today.weekNumber, intl)).toBe(
+      'Next week',
+    );
   });
 });

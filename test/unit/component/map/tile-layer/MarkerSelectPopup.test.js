@@ -95,12 +95,10 @@ describe('<MarkerSelectPopup />', () => {
       },
     };
     const { container } = renderWithProviders(<MarkerSelectPopup {...props} />);
-    expect(container.querySelectorAll('.choose-row-header')).to.have.lengthOf(
-      4,
-    );
+    expect(container.querySelectorAll('.choose-row-header')).toHaveLength(4);
     expect(
       container.querySelector('.stop-popup-choose-header').textContent,
-    ).to.equal('Select route or stop');
+    ).toBe('Select route or stop');
   });
 
   it('should render a scooter cluster row with valid data but not a scooter row', () => {
@@ -142,8 +140,6 @@ describe('<MarkerSelectPopup />', () => {
       },
     };
     const { container } = renderWithProviders(<MarkerSelectPopup {...props} />);
-    expect(container.querySelectorAll('.choose-row-header')).to.have.lengthOf(
-      1,
-    );
+    expect(container.querySelectorAll('.choose-row-header')).toHaveLength(1);
   });
 });

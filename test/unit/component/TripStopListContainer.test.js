@@ -52,9 +52,9 @@ describe('<TripStopListContainer />', () => {
       },
     );
     const stops = container.querySelectorAll('.route-stop');
-    expect(stops).to.have.lengthOf(2);
-    expect(stops[0].classList.contains('passed')).to.equal(true);
-    expect(stops[1].classList.contains('passed')).to.equal(false);
+    expect(stops).toHaveLength(2);
+    expect(stops[0].classList.contains('passed')).toBe(true);
+    expect(stops[1].classList.contains('passed')).toBe(false);
   });
 
   it('should render the selected vehicle at its next stop', () => {
@@ -116,7 +116,7 @@ describe('<TripStopListContainer />', () => {
         currentTime: 1554882006,
       },
     );
-    expect(container.querySelectorAll('.route-stop')).to.have.lengthOf(1);
-    expect(container.querySelectorAll('.route-stop-now')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.route-stop')).toHaveLength(1);
+    expect(container.querySelectorAll('.route-stop-now')).toHaveLength(1);
   });
 });

@@ -91,7 +91,7 @@ describe('<TicketInformation />', () => {
 
     expect(
       container.querySelectorAll('.ticket-type-zone.multi-component'),
-    ).to.have.lengthOf(2);
+    ).toHaveLength(2);
   });
 
   it('should show a "multiple tickets required" title when there are multiple components', () => {
@@ -149,7 +149,7 @@ describe('<TicketInformation />', () => {
       <TicketInformation {...props} />,
       { config: defaultConfig },
     );
-    expect(container.querySelector('.ticket-title').textContent).to.equal(
+    expect(container.querySelector('.ticket-title').textContent).toBe(
       'Required tickets:',
     );
   });
@@ -189,7 +189,7 @@ describe('<TicketInformation />', () => {
       { config: defaultConfig },
     );
 
-    expect(container.querySelector('.ticket-title').textContent).to.equal(
+    expect(container.querySelector('.ticket-title').textContent).toBe(
       'Required ticket:',
     );
   });
@@ -217,11 +217,11 @@ describe('<TicketInformation />', () => {
       { config: defaultConfig },
     );
 
-    expect(container.querySelectorAll('.ticket-type-zone')).to.have.lengthOf(0);
-    expect(container.querySelectorAll('.ticket-title')).to.have.lengthOf(0);
-    expect(
-      container.querySelectorAll('.itinerary-ticket-type'),
-    ).to.have.lengthOf(0);
+    expect(container.querySelectorAll('.ticket-type-zone')).toHaveLength(0);
+    expect(container.querySelectorAll('.ticket-title')).toHaveLength(0);
+    expect(container.querySelectorAll('.itinerary-ticket-type')).toHaveLength(
+      0,
+    );
   });
 
   it('should convert and show the total fare when showTicketPrice is true', () => {
@@ -261,7 +261,7 @@ describe('<TicketInformation />', () => {
 
     expect(
       container.querySelector('.ticket-description').textContent,
-    ).to.contain('3.10 €');
+    ).toContain('3.10 €');
   });
 
   it('should not show the total fare when showTicketPrice is false', () => {
@@ -299,9 +299,7 @@ describe('<TicketInformation />', () => {
       { config: { ...defaultConfig, showTicketPrice: false } },
     );
 
-    expect(container.querySelectorAll('.ticket-description')).to.have.lengthOf(
-      0,
-    );
+    expect(container.querySelectorAll('.ticket-description')).toHaveLength(0);
   });
 
   it('should use a zone ticket icon if configured', () => {
@@ -339,7 +337,7 @@ describe('<TicketInformation />', () => {
       <TicketInformation {...props} />,
       { config: { ...defaultConfig, useTicketIcons: true } },
     );
-    expect(container.querySelectorAll('.zone-ticket')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.zone-ticket')).toHaveLength(1);
   });
 
   it('should use the mapped name for the ticket', () => {
@@ -381,7 +379,7 @@ describe('<TicketInformation />', () => {
       <TicketInformation {...props} />,
       { config },
     );
-    expect(container.querySelector('.ticket-identifier').textContent).to.equal(
+    expect(container.querySelector('.ticket-identifier').textContent).toBe(
       'foo_HSL:AB_bar',
     );
   });
@@ -423,9 +421,9 @@ describe('<TicketInformation />', () => {
     );
 
     const zoneTickets = container.querySelectorAll('.zone-ticket');
-    expect(zoneTickets).to.have.lengthOf(2);
-    expect(zoneTickets[0].textContent).to.equal('AB');
-    expect(zoneTickets[1].textContent).to.equal('BC');
+    expect(zoneTickets).toHaveLength(2);
+    expect(zoneTickets[0].textContent).toBe('AB');
+    expect(zoneTickets[1].textContent).toBe('BC');
   });
 
   it('should show a fare url link for the agency', () => {
@@ -463,9 +461,7 @@ describe('<TicketInformation />', () => {
       <TicketInformation {...props} />,
       { config: { ...defaultConfig } },
     );
-    expect(container.querySelector('a').getAttribute('href')).to.equal(
-      'foobar',
-    );
+    expect(container.querySelector('a').getAttribute('href')).toBe('foobar');
   });
 
   it('should include unknown fares to the listing', () => {
@@ -529,19 +525,15 @@ describe('<TicketInformation />', () => {
       <TicketInformation {...props} />,
       { config: { ...defaultConfig } },
     );
-    expect(container.querySelectorAll('.ticket-identifier')).to.have.lengthOf(
-      2,
-    );
+    expect(container.querySelectorAll('.ticket-identifier')).toHaveLength(2);
 
     const ticketWrapper = container.querySelectorAll('.ticket-type-zone')[1];
-    expect(
-      ticketWrapper.querySelector('.ticket-identifier').textContent,
-    ).to.equal('Merisataman lautta');
-    expect(
-      ticketWrapper.querySelector('.ticket-description').textContent,
-    ).to.equal('Merisataman lauttaliikenne');
-    expect(container.querySelector('a').getAttribute('href')).to.equal(
-      'foobaz',
+    expect(ticketWrapper.querySelector('.ticket-identifier').textContent).toBe(
+      'Merisataman lautta',
     );
+    expect(ticketWrapper.querySelector('.ticket-description').textContent).toBe(
+      'Merisataman lauttaliikenne',
+    );
+    expect(container.querySelector('a').getAttribute('href')).toBe('foobaz');
   });
 });

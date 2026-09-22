@@ -1,6 +1,5 @@
 import React from 'react';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it } from 'vitest';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { Component as MarkerPopupBottomWithoutLeaflet } from '../../../../app/component/map/MarkerPopupBottom';
 
@@ -19,6 +18,6 @@ describe('<MarkerPopupBottom />', () => {
     const { container } = renderWithProviders(
       <MarkerPopupBottomWithoutLeaflet {...props} />,
     );
-    expect(container.querySelector('.route-add-viapoint')).to.not.equal(null);
+    expect(container.querySelector('.route-add-viapoint')).not.toBeNull();
   });
 });

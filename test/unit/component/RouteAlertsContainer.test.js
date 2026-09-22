@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it } from 'vitest';
 import React from 'react';
 
 import { renderWithProviders } from '../helpers/mock-providers';
@@ -26,8 +25,8 @@ describe('<RouteAlertsContainer />', () => {
         canceledTrips: [],
       },
     });
-    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(0);
-    expect(container.textContent).to.contain('Services normal');
+    expect(container.querySelectorAll('.alert-row')).toHaveLength(0);
+    expect(container.textContent).toContain('Services normal');
   });
 
   it('should pass cancelations when there are canceled stoptimes', () => {
@@ -55,7 +54,7 @@ describe('<RouteAlertsContainer />', () => {
         ],
       },
     });
-    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.alert-row')).toHaveLength(1);
   });
 
   it('should pass service alerts from the pattern', () => {
@@ -78,6 +77,6 @@ describe('<RouteAlertsContainer />', () => {
         trips: [],
       },
     });
-    expect(container.querySelectorAll('.alert-row')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('.alert-row')).toHaveLength(1);
   });
 });

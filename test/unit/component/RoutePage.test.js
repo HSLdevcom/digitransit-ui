@@ -1,8 +1,6 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { describe, it, beforeEach, afterEach, vi } from 'vitest';
 import React from 'react';
 import PropTypes from 'prop-types';
-import sinon from 'sinon';
 
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { renderWithProviders } from '../helpers/mock-providers';
@@ -99,7 +97,7 @@ describe('<RoutePage />', () => {
         ...originalPropTypes,
         route: PropTypes.shape({}),
       };
-      const replaceSpy = sinon.spy();
+      const replaceSpy = vi.fn();
       let container;
       try {
         const result = renderView({
@@ -113,12 +111,12 @@ describe('<RoutePage />', () => {
       } finally {
         RoutePage.propTypes = originalPropTypes;
       }
-      expect(replaceSpy.calledOnce).to.equal(true);
-      expect(container.firstChild).to.equal(null);
+      expect(replaceSpy.mock.calls.length).toBe(1);
+      expect(container.firstChild).toBeNull();
     });
 
     it('does not redirect when route is null but error is present', () => {
-      const replaceSpy = sinon.spy();
+      const replaceSpy = vi.fn();
       try {
         expect(() =>
           renderView({
@@ -129,11 +127,11 @@ describe('<RoutePage />', () => {
               router: { ...mockRouter, replace: replaceSpy },
             },
           }),
-        ).to.throw();
+        ).toThrow();
       } catch (_e) {
         // expected: component throws the relay error
       }
-      expect(replaceSpy.called).to.equal(false);
+      expect(replaceSpy.mock.calls.length > 0).toBe(false);
     });
   });
 
@@ -141,7 +139,7 @@ describe('<RoutePage />', () => {
     it('throws a relay error without redirecting when route is missing', () => {
       // eslint-disable-next-line react/forbid-foreign-prop-types
       const originalPropTypes = RoutePage.propTypes;
-      const replaceSpy = sinon.spy();
+      const replaceSpy = vi.fn();
       // eslint-disable-next-line react/forbid-foreign-prop-types
       RoutePage.propTypes = {
         ...originalPropTypes,
@@ -165,8 +163,8 @@ describe('<RoutePage />', () => {
       } finally {
         RoutePage.propTypes = originalPropTypes;
       }
-      expect(thrown).to.equal('Relay fetch failed');
-      expect(replaceSpy.called).to.equal(false);
+      expect(thrown).toBe('Relay fetch failed');
+      expect(replaceSpy.mock.calls.length > 0).toBe(false);
     });
   });
 
@@ -178,7 +176,7 @@ describe('<RoutePage />', () => {
       expect(
         container.querySelector('h1.route-short-name span[aria-hidden="true"]')
           .textContent,
-      ).to.equal('A1');
+      ).toBe('A1');
     });
 
     it('falls back to longName when shortName is absent', () => {
@@ -188,7 +186,7 @@ describe('<RoutePage />', () => {
       expect(
         container.querySelector('h1.route-short-name span[aria-hidden="true"]')
           .textContent,
-      ).to.equal('Long Route Name');
+      ).toBe('Long Route Name');
     });
 
     it('uses empty string when both shortName and longName are absent', () => {
@@ -198,24 +196,24 @@ describe('<RoutePage />', () => {
       expect(
         container.querySelector('h1.route-short-name span[aria-hidden="true"]')
           .textContent,
-      ).to.equal('');
+      ).toBe('');
     });
   });
 
   describe('BackButton visibility', () => {
     it('renders BackButton on large breakpoint', () => {
       const { container } = renderView({ breakpoint: 'large' });
-      expect(container.querySelector('.back-button')).to.not.equal(null);
+      expect(container.querySelector('.back-button')).not.toBeNull();
     });
 
     it('does not render BackButton on small breakpoint', () => {
       const { container } = renderView({ breakpoint: 'small' });
-      expect(container.querySelector('.back-button')).to.equal(null);
+      expect(container.querySelector('.back-button')).toBeNull();
     });
 
     it('does not render BackButton on medium breakpoint', () => {
       const { container } = renderView({ breakpoint: 'medium' });
-      expect(container.querySelector('.back-button')).to.equal(null);
+      expect(container.querySelector('.back-button')).toBeNull();
     });
   });
 
@@ -227,9 +225,7 @@ describe('<RoutePage />', () => {
           params: { ...baseMatch.params, tripId: undefined },
         },
       });
-      expect(container.querySelector('.route-header-actions')).to.not.equal(
-        null,
-      );
+      expect(container.querySelector('.route-header-actions')).not.toBeNull();
     });
 
     it('hides FavouriteRouteContainer when tripId is present', () => {
@@ -239,7 +235,7 @@ describe('<RoutePage />', () => {
           params: { ...baseMatch.params, tripId: 'trip-123' },
         },
       });
-      expect(container.querySelector('.route-header-actions')).to.equal(null);
+      expect(container.querySelector('.route-header-actions')).toBeNull();
     });
   });
 
@@ -255,10 +251,10 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(container.querySelector('.trip-destination')).to.not.equal(null);
-      expect(
-        container.querySelector('.destination-headsign').textContent,
-      ).to.equal('Destination');
+      expect(container.querySelector('.trip-destination')).not.toBeNull();
+      expect(container.querySelector('.destination-headsign').textContent).toBe(
+        'Destination',
+      );
     });
 
     it('hides trip destination when tripId is absent', () => {
@@ -268,7 +264,7 @@ describe('<RoutePage />', () => {
           params: { routeId: 'HSL:1001' },
         },
       });
-      expect(container.querySelector('.trip-destination')).to.equal(null);
+      expect(container.querySelector('.trip-destination')).toBeNull();
     });
 
     it('hides trip destination when tripId is present but no matching pattern', () => {
@@ -282,7 +278,7 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(container.querySelector('.trip-destination')).to.equal(null);
+      expect(container.querySelector('.trip-destination')).toBeNull();
     });
   });
 
@@ -310,9 +306,9 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(
-        container.querySelector('.destination-headsign').textContent,
-      ).to.equal('Central Station');
+      expect(container.querySelector('.destination-headsign').textContent).toBe(
+        'Central Station',
+      );
     });
 
     it('uses last stop name when pattern code starts with NETEX:', () => {
@@ -338,9 +334,9 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(
-        container.querySelector('.destination-headsign').textContent,
-      ).to.equal('Terminal');
+      expect(container.querySelector('.destination-headsign').textContent).toBe(
+        'Terminal',
+      );
     });
 
     it('uses last stop name when pattern has no headsign', () => {
@@ -366,9 +362,9 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(
-        container.querySelector('.destination-headsign').textContent,
-      ).to.equal('End Station');
+      expect(container.querySelector('.destination-headsign').textContent).toBe(
+        'End Station',
+      );
     });
   });
 
@@ -407,7 +403,7 @@ describe('<RoutePage />', () => {
       });
       expect(
         container.querySelector('.trip-page-alert-container'),
-      ).to.not.equal(null);
+      ).not.toBeNull();
     });
 
     it('hides AlertBanner when tripId is absent even if alerts exist', () => {
@@ -429,9 +425,7 @@ describe('<RoutePage />', () => {
           params: { routeId: 'HSL:1001', patternId: 'HSL:1001:0:01' },
         },
       });
-      expect(container.querySelector('.trip-page-alert-container')).to.equal(
-        null,
-      );
+      expect(container.querySelector('.trip-page-alert-container')).toBeNull();
     });
 
     it('hides AlertBanner when tripId is set but pattern has no alerts', () => {
@@ -445,9 +439,7 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(container.querySelector('.trip-page-alert-container')).to.equal(
-        null,
-      );
+      expect(container.querySelector('.trip-page-alert-container')).toBeNull();
     });
 
     it('hides AlertBanner when tripId is set but alerts have no Route entity', () => {
@@ -481,9 +473,7 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(container.querySelector('.trip-page-alert-container')).to.equal(
-        null,
-      );
+      expect(container.querySelector('.trip-page-alert-container')).toBeNull();
     });
 
     it('hides AlertBanner when alerts have expired (effectiveEndDate in the past)', () => {
@@ -518,9 +508,7 @@ describe('<RoutePage />', () => {
           },
         },
       });
-      expect(container.querySelector('.trip-page-alert-container')).to.equal(
-        null,
-      );
+      expect(container.querySelector('.trip-page-alert-container')).toBeNull();
     });
   });
 
@@ -534,7 +522,7 @@ describe('<RoutePage />', () => {
       });
       expect(
         container.querySelector('.route-page-control-panel-container'),
-      ).to.not.equal(null);
+      ).not.toBeNull();
     });
 
     it('does not render RouteControlPanel when type param is absent', () => {
@@ -543,7 +531,7 @@ describe('<RoutePage />', () => {
       });
       expect(
         container.querySelector('.route-page-control-panel-container'),
-      ).to.equal(null);
+      ).toBeNull();
     });
 
     it('does not render RouteControlPanel when type param is not PREFIX_DISRUPTION', () => {
@@ -555,7 +543,7 @@ describe('<RoutePage />', () => {
       });
       expect(
         container.querySelector('.route-page-control-panel-container'),
-      ).to.equal(null);
+      ).toBeNull();
     });
   });
 
@@ -565,7 +553,7 @@ describe('<RoutePage />', () => {
         route: { ...baseRoute, color: '003399' },
       });
       const heading = container.querySelector('h1.route-short-name');
-      expect(heading.style.color).to.equal('rgb(0, 51, 153)');
+      expect(heading.style.color).toBe('rgb(0, 51, 153)');
     });
 
     it('falls back to #333 when route has no color (mode color fails WCAG AA)', () => {
@@ -573,7 +561,7 @@ describe('<RoutePage />', () => {
         route: { ...baseRoute, color: null },
       });
       const heading = container.querySelector('h1.route-short-name');
-      expect(heading.style.color).to.equal('rgb(51, 51, 51)');
+      expect(heading.style.color).toBe('rgb(51, 51, 51)');
     });
   });
 });

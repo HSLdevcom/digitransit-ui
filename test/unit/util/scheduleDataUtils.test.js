@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { afterEach, beforeEach, describe, it } from 'vitest';
 import { DateTime, Settings } from 'luxon';
 import { buildAvailableDates } from '../../../app/component/routepage/schedule/scheduleDataUtils';
 import { DATE_FORMAT } from '../../../utils/shared/constants';
@@ -24,10 +23,10 @@ describe('scheduleDataUtils', () => {
 
       const result = buildAvailableDates(departures);
 
-      expect(result).to.be.an('array');
-      expect(result).to.have.lengthOf(2);
-      expect(result[0]).to.be.instanceOf(DateTime);
-      expect(result[1]).to.be.instanceOf(DateTime);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result).toHaveLength(2);
+      expect(result[0]).toBeInstanceOf(DateTime);
+      expect(result[1]).toBeInstanceOf(DateTime);
     });
 
     it('should handle single week of departures', () => {
@@ -39,7 +38,7 @@ describe('scheduleDataUtils', () => {
 
       const result = buildAvailableDates(departures);
 
-      expect(result).to.have.lengthOf(3);
+      expect(result).toHaveLength(3);
     });
 
     it('should handle multiple weeks with same schedule', () => {
@@ -52,7 +51,7 @@ describe('scheduleDataUtils', () => {
 
       const result = buildAvailableDates(departures);
 
-      expect(result).to.have.lengthOf(4);
+      expect(result).toHaveLength(4);
     });
 
     it('should handle multiple weeks with different schedules', () => {
@@ -65,8 +64,8 @@ describe('scheduleDataUtils', () => {
 
       const result = buildAvailableDates(departures);
 
-      expect(result).to.be.an('array');
-      expect(result).to.have.lengthOf(4);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result).toHaveLength(4);
     });
 
     it('should filter out empty departure arrays', () => {
@@ -78,7 +77,7 @@ describe('scheduleDataUtils', () => {
 
       const result = buildAvailableDates(departures);
 
-      expect(result).to.have.lengthOf(1);
+      expect(result).toHaveLength(1);
     });
 
     it('should calculate dates relative to current week', () => {
@@ -88,9 +87,9 @@ describe('scheduleDataUtils', () => {
 
       const result = buildAvailableDates(departures);
 
-      expect(result).to.have.lengthOf(1);
+      expect(result).toHaveLength(1);
       const expectedDate = fixedNow.startOf('week');
-      expect(result[0].toFormat(DATE_FORMAT)).to.equal(
+      expect(result[0].toFormat(DATE_FORMAT)).toBe(
         expectedDate.toFormat(DATE_FORMAT),
       );
     });
@@ -98,15 +97,15 @@ describe('scheduleDataUtils', () => {
     it('should return empty array when departures is null', () => {
       const result = buildAvailableDates(null);
 
-      expect(result).to.be.an('array');
-      expect(result).to.have.lengthOf(0);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result).toHaveLength(0);
     });
 
     it('should return empty array when departures is undefined', () => {
       const result = buildAvailableDates(undefined);
 
-      expect(result).to.be.an('array');
-      expect(result).to.have.lengthOf(0);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result).toHaveLength(0);
     });
 
     it('should handle empty departure object', () => {
@@ -114,8 +113,8 @@ describe('scheduleDataUtils', () => {
 
       const result = buildAvailableDates(departures);
 
-      expect(result).to.be.an('array');
-      expect(result).to.have.lengthOf(0);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result).toHaveLength(0);
     });
 
     it('should handle all empty departure arrays', () => {
@@ -126,8 +125,8 @@ describe('scheduleDataUtils', () => {
 
       const result = buildAvailableDates(departures);
 
-      expect(result).to.be.an('array');
-      expect(result).to.have.lengthOf(0);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result).toHaveLength(0);
     });
 
     it('should deduplicate dates with same key', () => {
@@ -140,8 +139,8 @@ describe('scheduleDataUtils', () => {
 
       const result = buildAvailableDates(departures);
 
-      expect(result).to.have.lengthOf(2);
-      expect(result[0].toFormat(DATE_FORMAT)).to.not.equal(
+      expect(result).toHaveLength(2);
+      expect(result[0].toFormat(DATE_FORMAT)).not.toBe(
         result[1].toFormat(DATE_FORMAT),
       );
     });
@@ -155,7 +154,7 @@ describe('scheduleDataUtils', () => {
 
       const result = buildAvailableDates(departures);
 
-      expect(result).to.have.lengthOf(2);
+      expect(result).toHaveLength(2);
     });
 
     it('should exclude dates that are in the past', () => {
@@ -172,10 +171,10 @@ describe('scheduleDataUtils', () => {
 
       const result = buildAvailableDates(departures);
 
-      expect(result).to.have.lengthOf(2);
+      expect(result).toHaveLength(2);
       const today = wednesday.startOf('day');
       result.forEach(date => {
-        expect(date >= today).to.equal(true);
+        expect(date >= today).toBe(true);
       });
     });
   });

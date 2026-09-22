@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it } from 'vitest';
 import { DateTime } from 'luxon';
 import {
   validateServiceTimeRange,
@@ -14,11 +13,11 @@ import {
 const now = DateTime.now();
 
 const test = validated => {
-  expect(validated).to.be.an('object');
-  expect(validated).to.have.own.property('start');
-  expect(validated).to.have.own.property('end');
-  expect(validated.start).to.be.at.most(now.toUnixInteger());
-  expect(validated.end).to.be.at.least(now.toUnixInteger());
+  expect(validated).toBeInstanceOf(Object);
+  expect(validated).toHaveProperty('start');
+  expect(validated).toHaveProperty('end');
+  expect(validated.start).toBeLessThanOrEqual(now.toUnixInteger());
+  expect(validated.end).toBeGreaterThanOrEqual(now.toUnixInteger());
 };
 
 describe('timeUtils', () => {
@@ -50,10 +49,10 @@ describe('timeUtils', () => {
         now.toUnixInteger(),
       );
       test(validated);
-      expect(DateTime.fromSeconds(validated.start).ordinal).to.equal(
+      expect(DateTime.fromSeconds(validated.start).ordinal).toBe(
         DateTime.fromSeconds(range.start).ordinal,
       );
-      expect(DateTime.fromSeconds(validated.end).ordinal).to.equal(
+      expect(DateTime.fromSeconds(validated.end).ordinal).toBe(
         DateTime.fromSeconds(range.end).ordinal,
       );
     });
@@ -70,61 +69,61 @@ describe('timeUtils', () => {
         now.toUnixInteger(),
       );
       test(validated);
-      expect((validated.end - validated.start) / 1000 / 86400).to.be.at.most(
-        RANGE_FUTURE + RANGE_PAST + 1,
-      ); // +1 for today
+      expect(
+        (validated.end - validated.start) / 1000 / 86400,
+      ).toBeLessThanOrEqual(RANGE_FUTURE + RANGE_PAST + 1); // +1 for today
     });
   });
   describe('convertTo24HourFormat', () => {
     it('should just add : to times under 2400', () => {
-      expect(convertTo24HourFormat('2355')).to.equal('23:55');
+      expect(convertTo24HourFormat('2355')).toBe('23:55');
     });
     it('should change format to 24 hour system after midnight', () => {
-      expect(convertTo24HourFormat('2630')).to.equal('02:30');
+      expect(convertTo24HourFormat('2630')).toBe('02:30');
     });
     it('should change format to 00:00 at midnight', () => {
-      expect(convertTo24HourFormat('2400')).to.equal('00:00');
+      expect(convertTo24HourFormat('2400')).toBe('00:00');
     });
     it('should return given parameter if already correct format', () => {
-      expect(convertTo24HourFormat('23:45')).to.equal('23:45');
+      expect(convertTo24HourFormat('23:45')).toBe('23:45');
     });
   });
   describe('getStartTime', () => {
     it('should convert zero seconds to 0000', () => {
-      expect(getStartTime(0)).to.equal('0000');
+      expect(getStartTime(0)).toBe('0000');
     });
     it('should convert seconds to HHmm', () => {
-      expect(getStartTime(5 * 3600 + 32 * 60)).to.equal('0532');
+      expect(getStartTime(5 * 3600 + 32 * 60)).toBe('0532');
     });
     it('should preserve service-day hours past midnight (>=24h) for real-time matching', () => {
       // GTFS trips starting after midnight keep hours >= 24 relative to the service day,
       // e.g. 25:30 for a trip departing at 01:30 the next calendar day.
-      expect(getStartTime(25 * 3600 + 30 * 60)).to.equal('2530');
+      expect(getStartTime(25 * 3600 + 30 * 60)).toBe('2530');
     });
   });
   describe('isTomorrow', () => {
     it('should return true if startTime is tomorrow', () => {
       const startTime = now.plus({ days: 1 }).toMillis();
-      expect(isTomorrow(startTime)).to.equal(true);
+      expect(isTomorrow(startTime)).toBe(true);
     });
     it('should return false if startTime is not tomorrow', () => {
       const startTime = now.plus({ days: 2 }).toMillis();
-      expect(isTomorrow(startTime)).to.equal(false);
+      expect(isTomorrow(startTime)).toBe(false);
     });
     it('should return false if refTime is not today', () => {
       const startTime = now.plus({ days: 1 }).toMillis();
       const refTime = now.minus({ days: 2 }).toMillis();
-      expect(isTomorrow(startTime, refTime)).to.equal(false);
+      expect(isTomorrow(startTime, refTime)).toBe(false);
     });
     it('should return false if startTime is one week and one day from today', () => {
       const startTime = now.plus({ days: 1 + 7 }).toMillis();
-      expect(isTomorrow(startTime)).to.equal(false);
+      expect(isTomorrow(startTime)).toBe(false);
     });
   });
   describe('isToday', () => {
     it('should return true if startTime is today', () => {
       const startTime = now.toMillis();
-      expect(isToday(startTime)).to.equal(true);
+      expect(isToday(startTime)).toBe(true);
     });
   });
   describe('getFutureText', () => {
@@ -132,7 +131,7 @@ describe('timeUtils', () => {
       const startTime = now.plus({ days: 2 }).toISO();
       const intl = { locale: 'fi', formatMessage: () => '' };
       const finnishText = getFutureText(startTime, intl);
-      expect(finnishText).to.equal(
+      expect(finnishText).toBe(
         DateTime.fromISO(startTime).setLocale('fi').toFormat('ccc d.L.'),
       );
     });

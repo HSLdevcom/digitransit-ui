@@ -12,13 +12,13 @@ describe('<NavigatorIntro />', () => {
     const { container } = renderWithProviders(
       <NavigatorIntro logo="foobar" {...defaultProps} />,
     );
-    expect(container.querySelector('.intro-body img')).to.not.equal(null);
+    expect(container.querySelector('.intro-body img')).not.toBeNull();
   });
 
   it('should not render a logo when it is not provided', () => {
     const { container } = renderWithProviders(
       <NavigatorIntro {...defaultProps} />,
     );
-    expect(container.querySelector('.intro-body img')).to.equal(null);
+    expect(container.querySelector('.intro-body img')).toBeNull();
   });
 });

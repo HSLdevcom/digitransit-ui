@@ -1,7 +1,5 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { describe, it, beforeEach, vi } from 'vitest';
 import React from 'react';
-import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import translations from '../../../../app/translations/en';
@@ -20,14 +18,9 @@ const baseConfig = {
 const NOW_MS = 1_000_000;
 
 describe('<DisruptionStatus />', () => {
-  let sandbox;
-
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(Date, 'now').returns(NOW_MS);
+    vi.spyOn(Date, 'now').mockReturnValue(NOW_MS);
   });
-
-  afterEach(() => sandbox.restore());
 
   const renderDisruptionStatus = props => {
     const { container } = render(
@@ -43,7 +36,7 @@ describe('<DisruptionStatus />', () => {
   const iconName = container =>
     container.querySelector('use')?.getAttribute('xlink:href')?.slice(1);
 
-  const dateSpan = container => container.querySelector('.routes-s');
+  const dateSpan = container => container.querySelector('[class*="routes-s"]');
 
   describe('isValid — timestamp-based', () => {
     it('shows icon_status (active) when now is between start and end', () => {
@@ -51,7 +44,7 @@ describe('<DisruptionStatus />', () => {
         effectiveStartDate: 500,
         effectiveEndDate: 2000,
       });
-      expect(iconName(container)).to.equal('icon_status');
+      expect(iconName(container)).toBe('icon_status');
     });
 
     it('shows icon_calendar (upcoming) when start is in the future', () => {
@@ -59,7 +52,7 @@ describe('<DisruptionStatus />', () => {
         effectiveStartDate: 2000,
         effectiveEndDate: 5000,
       });
-      expect(iconName(container)).to.equal('icon_calendar');
+      expect(iconName(container)).toBe('icon_calendar');
     });
 
     it('shows icon_calendar (ended) when end is in the past', () => {
@@ -67,7 +60,7 @@ describe('<DisruptionStatus />', () => {
         effectiveStartDate: 100,
         effectiveEndDate: 500,
       });
-      expect(iconName(container)).to.equal('icon_calendar');
+      expect(iconName(container)).toBe('icon_calendar');
     });
   });
 
@@ -79,7 +72,7 @@ describe('<DisruptionStatus />', () => {
         effectiveStartDate: 2000,
         effectiveEndDate: 5000,
       });
-      expect(iconName(container)).to.equal('icon_status');
+      expect(iconName(container)).toBe('icon_status');
     });
 
     it('shows icon_calendar when active=false regardless of timestamps', () => {
@@ -89,7 +82,7 @@ describe('<DisruptionStatus />', () => {
         effectiveStartDate: 500,
         effectiveEndDate: 2000,
       });
-      expect(iconName(container)).to.equal('icon_calendar');
+      expect(iconName(container)).toBe('icon_calendar');
     });
   });
 
@@ -100,7 +93,7 @@ describe('<DisruptionStatus />', () => {
         effectiveEndDate: 2000,
         showDates: false,
       });
-      expect(dateSpan(container)).to.equal(null);
+      expect(dateSpan(container)).toBeNull();
     });
 
     it('renders the date span when showDates=true and effectiveStartDate is non-zero', () => {
@@ -109,7 +102,7 @@ describe('<DisruptionStatus />', () => {
         effectiveEndDate: 2000,
         showDates: true,
       });
-      expect(dateSpan(container)).to.not.equal(null);
+      expect(dateSpan(container)).not.toBeNull();
     });
 
     it('hides the date span when showDates=true but effectiveStartDate is falsy (0)', () => {
@@ -118,14 +111,16 @@ describe('<DisruptionStatus />', () => {
         effectiveEndDate: 2000,
         showDates: true,
       });
-      expect(dateSpan(container)).to.equal(null);
+      expect(dateSpan(container)).toBeNull();
     });
   });
 
   describe('Date range text', () => {
     // Stub getFormattedTimeDate to make tests timezone-independent.
     beforeEach(() => {
-      sandbox.stub(timeUtils, 'getFormattedTimeDate').callsFake(ms => {
+      // sinon can't stub this repo's own ESM exports; vi.spyOn can (auto-
+      // restored via the `restoreMocks: true` Vitest config option).
+      vi.spyOn(timeUtils, 'getFormattedTimeDate').mockImplementation(ms => {
         if (ms === 1_000_000) {
           return 'start-date';
         }
@@ -142,7 +137,7 @@ describe('<DisruptionStatus />', () => {
         effectiveEndDate: 2000,
         showDates: true,
       });
-      expect(dateSpan(container).textContent).to.include(' - ');
+      expect(dateSpan(container).textContent).toContain(' - ');
     });
 
     it('shows only startDate when start and end fall on the same date', () => {
@@ -151,7 +146,7 @@ describe('<DisruptionStatus />', () => {
         effectiveEndDate: 1000,
         showDates: true,
       });
-      expect(dateSpan(container).textContent).to.not.include(' - ');
+      expect(dateSpan(container).textContent).not.toContain(' - ');
     });
 
     it('shows only startDate when effectiveEndDate is not provided', () => {
@@ -159,7 +154,7 @@ describe('<DisruptionStatus />', () => {
         effectiveStartDate: 1000,
         showDates: true,
       });
-      expect(dateSpan(container).textContent).to.not.include(' - ');
+      expect(dateSpan(container).textContent).not.toContain(' - ');
     });
   });
 });
