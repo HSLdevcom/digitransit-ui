@@ -1,10 +1,10 @@
 /* eslint-disable react/no-array-index-key */
-import { matchShape, routerShape } from 'found';
+import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { onLocationPopup } from '../../../utils/client/queryUtils';
+import { useConfigContext } from '../../client/ConfigContext';
 import {
-  configShape,
   itineraryShape,
   locationShape,
   planEdgeShape,
@@ -21,26 +21,25 @@ import { useItineraryLocationActions } from '../../hooks/ItineraryLocationContex
 
 const POINT_FOCUS_ZOOM = 17; // default
 
-const ItineraryPageMap = (
-  {
-    planEdges,
-    active,
-    showActiveOnly,
-    from,
-    to,
-    viaPoints,
-    breakpoint,
-    showVehicles,
-    topics,
-    showDurationBubble,
-    itinerary,
-    showBackButton,
-    isLocationPopupEnabled,
-    realtimeTransfers,
-    ...rest
-  },
-  { match, router, config },
-) => {
+const ItineraryPageMap = ({
+  planEdges,
+  active,
+  showActiveOnly,
+  from,
+  to,
+  viaPoints,
+  breakpoint,
+  showVehicles,
+  topics,
+  showDurationBubble,
+  itinerary,
+  showBackButton,
+  isLocationPopupEnabled,
+  realtimeTransfers,
+  ...rest
+}) => {
+  const { match, router } = useRouter();
+  const config = useConfigContext();
   const { addViaPoint, deleteViaPoint } = useItineraryLocationActions();
   const { hash } = match.params;
   const leafletObjs = [];
@@ -192,12 +191,6 @@ ItineraryPageMap.defaultProps = {
   showBackButton: true,
   isLocationPopupEnabled: false,
   realtimeTransfers: false,
-};
-
-ItineraryPageMap.contextTypes = {
-  match: matchShape.isRequired,
-  router: routerShape.isRequired,
-  config: configShape,
 };
 
 export default ItineraryPageMap;
