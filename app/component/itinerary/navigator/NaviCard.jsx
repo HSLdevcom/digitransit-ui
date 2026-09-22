@@ -63,6 +63,20 @@ export default function NaviCard(
     setCurrentCard(NaviCardType.Default);
   }
 
+  // Must run unconditionally (before the early return below) so hook order
+  // stays stable across PENDING/END <-> normal leg transitions.
+  useEffect(() => {
+    const element = contentRef.current;
+    if (!element) {
+      return;
+    }
+
+    // Resize card when card size changes.
+    if (cardExpanded || currentCard === NaviCardType.Indoor) {
+      element.style.maxHeight = `${element.scrollHeight}px`;
+    }
+  }, [cardExpanded, currentCard]);
+
   if (
     (!leg && !nextLeg) ||
     legType === LEGTYPE.PENDING ||
@@ -103,18 +117,6 @@ export default function NaviCard(
   const maxHeight = cardExpanded
     ? `${contentRef.current?.scrollHeight}px`
     : '0px';
-
-  useEffect(() => {
-    const element = contentRef.current;
-    if (!element) {
-      return;
-    }
-
-    // Resize card when card size changes.
-    if (cardExpanded || currentCard === NaviCardType.Indoor) {
-      element.style.maxHeight = `${element.scrollHeight}px`;
-    }
-  }, [cardExpanded, currentCard]);
 
   return (
     <button
