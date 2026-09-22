@@ -427,6 +427,8 @@ export default {
     'navigation-interline-resume': 'Matka jatkuu {duration} odotuksen jälkeen',
     'navigation-interline-wait':
       'Linjatunnus {line} ja määränpää {destination} vaihtuvat pysäkillä',
+    'navigation-interline-wait-same-route':
+      'Määränpää {destination} vaihtuu pysäkillä',
     'navigation-intro-begin': 'Aloita matka',
     'navigation-intro-help-body': 'Matkusta vaihe kerrallaan',
     'navigation-intro-notifications-body':
@@ -462,7 +464,9 @@ export default {
     'navileg-hop-on': 'ja nouse kyytiin',
     'navileg-in-transit': '{mode}matka',
     'navileg-in-transit-interline':
-      'Matka jatkuu {duration} min päästä klo {legTime}. Odota kulkuneuvossa',
+      'Linjatunnus ja määränpää vaihtuvat {stopOrStation} {stop} {duration} päästä klo {legTime}. Odota kulkuneuvossa.',
+    'navileg-in-transit-interline-same-route':
+      'Määränpää vaihtuu {stopOrStation} {stop} {duration} päästä klo {legTime}. Odota kulkuneuvossa.',
     'navileg-intermediate-stops': '{stopCount} välipysäkkiä',
     'navileg-leave-at':
       'Jää pois {stopOrStation} {stop} {duration} päästä klo {legTime}',
