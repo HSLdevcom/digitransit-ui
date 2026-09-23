@@ -19,6 +19,12 @@ const hslFiCjsInteropModules = {
     const raw = require('@hsl-fi/modal');
     export default raw.default;
   `,
+  '@hsl-fi/shimmer': `
+    import { createRequire } from 'module';
+    const require = createRequire(import.meta.url);
+    const raw = require('@hsl-fi/shimmer');
+    export default raw.default;
+  `,
   '@hsl-fi/utilities': `
     import { createRequire } from 'module';
     const require = createRequire(import.meta.url);
@@ -29,6 +35,26 @@ const hslFiCjsInteropModules = {
       .join('\n    ')}
   `,
 };
+
+// Vite plugin unwrapping the packages in `hslFiCjsInteropModules` above.
+// Each project that inlines @hsl-fi/* needs its own plugin instance.
+const hslFiCjsInteropPlugin = () => ({
+  name: 'digitransit-ui:hsl-fi-cjs-interop',
+  enforce: 'pre',
+  resolveId(source) {
+    if (source in hslFiCjsInteropModules) {
+      return `\0hsl-fi-cjs-interop:${source}`;
+    }
+    return undefined;
+  },
+  load(id) {
+    if (!id.startsWith('\0hsl-fi-cjs-interop:')) {
+      return undefined;
+    }
+    const source = id.slice('\0hsl-fi-cjs-interop:'.length);
+    return hslFiCjsInteropModules[source];
+  },
+});
 
 const nodeProject = name => ({
   test: {
@@ -76,23 +102,7 @@ export default {
           },
           // See the `hslFiCjsInteropModules` comment above - unwraps the
           // two @hsl-fi/* UMD packages the app imports directly.
-          {
-            name: 'digitransit-ui:hsl-fi-cjs-interop',
-            enforce: 'pre',
-            resolveId(source) {
-              if (source in hslFiCjsInteropModules) {
-                return `\0hsl-fi-cjs-interop:${source}`;
-              }
-              return undefined;
-            },
-            load(id) {
-              if (!id.startsWith('\0hsl-fi-cjs-interop:')) {
-                return undefined;
-              }
-              const source = id.slice('\0hsl-fi-cjs-interop:'.length);
-              return hslFiCjsInteropModules[source];
-            },
-          },
+          hslFiCjsInteropPlugin(),
         ],
         test: {
           name: 'app',
@@ -162,6 +172,10 @@ export default {
               plugins: ['inline-react-svg'],
             },
           }),
+          // See the `hslFiCjsInteropModules` comment above - unwraps the
+          // @hsl-fi/* UMD packages this project's own components import
+          // (directly or transitively).
+          hslFiCjsInteropPlugin(),
           // rollup.config.js's postcss plugin treats every .scss import as
           // a CSS module. Vitest's built-in CSS handling (`css: false`
           // below) only does that for `.module.<ext>` files, otherwise
@@ -200,6 +214,21 @@ export default {
           // @testing-library/react's auto-cleanup checks for - gets RTL's
           // per-test cleanup() for free.
           globals: true,
+          // @hsl-fi/dialog (pulled in by digitransit-component-dialog-modal,
+          // and transitively by MobileView.js in several other packages)
+          // and its own @radix-ui/@floating-ui dependencies all ship real
+          // ESM builds that statically import the extensionless
+          // `react/jsx-runtime` subpath, which this React version's
+          // `exports` map doesn't resolve under Node's own strict ESM
+          // resolver. Forcing these through Vite's own (more lenient)
+          // resolver instead avoids that; the hsl-fi-cjs-interop plugin
+          // above handles the resulting default-export unwrap for
+          // @hsl-fi/modal, @hsl-fi/shimmer, and @hsl-fi/utilities.
+          server: {
+            deps: {
+              inline: [/node_modules\/(@hsl-fi|@radix-ui|@floating-ui)\//],
+            },
+          },
           // Caches transformed modules under node_modules/.vitest-cache to
           // speed up reruns; rides along with CI's whole-node_modules cache.
           fsModuleCache: true,
