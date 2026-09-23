@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it, afterEach } from 'mocha';
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { render } from '@testing-library/react';
@@ -59,9 +57,9 @@ describe('ItineraryLocationContext', () => {
 
   it('starts with empty origin, destination and via points', () => {
     setup();
-    expect(controlRef.current.origin).to.deep.equal({});
-    expect(controlRef.current.destination).to.deep.equal({});
-    expect(controlRef.current.viaPoints).to.deep.equal([]);
+    expect(controlRef.current.origin).toEqual({});
+    expect(controlRef.current.destination).toEqual({});
+    expect(controlRef.current.viaPoints).toEqual([]);
   });
 
   it('updates the origin via setOrigin', () => {
@@ -69,7 +67,7 @@ describe('ItineraryLocationContext', () => {
     act(() => {
       controlRef.current.actions.setOrigin({ lat: 1, lon: 2 });
     });
-    expect(controlRef.current.origin).to.deep.equal({ lat: 1, lon: 2 });
+    expect(controlRef.current.origin).toEqual({ lat: 1, lon: 2 });
   });
 
   it('updates the destination via setDestination', () => {
@@ -77,7 +75,7 @@ describe('ItineraryLocationContext', () => {
     act(() => {
       controlRef.current.actions.setDestination({ lat: 3, lon: 4 });
     });
-    expect(controlRef.current.destination).to.deep.equal({ lat: 3, lon: 4 });
+    expect(controlRef.current.destination).toEqual({ lat: 3, lon: 4 });
   });
 
   it('replaces via points via setViaPoints', () => {
@@ -89,7 +87,7 @@ describe('ItineraryLocationContext', () => {
     act(() => {
       controlRef.current.actions.setViaPoints(points);
     });
-    expect(controlRef.current.viaPoints).to.deep.equal(points);
+    expect(controlRef.current.viaPoints).toEqual(points);
   });
 
   it('removes a matching via point via deleteViaPoint', () => {
@@ -104,6 +102,6 @@ describe('ItineraryLocationContext', () => {
     act(() => {
       controlRef.current.actions.deleteViaPoint({ lat: 1, lon: 1 });
     });
-    expect(controlRef.current.viaPoints).to.deep.equal([{ lat: 2, lon: 2 }]);
+    expect(controlRef.current.viaPoints).toEqual([{ lat: 2, lon: 2 }]);
   });
 });
