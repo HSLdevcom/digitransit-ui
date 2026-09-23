@@ -433,6 +433,8 @@ export default {
       'Din resa fortsätter efter en väntetid på {duration}',
     'navigation-interline-wait':
       'Linjenummer {line} och destination {destination} ändras på hållplatsen',
+    'navigation-interline-wait-same-route':
+      'Destinationen {destination} ändras på hållplatsen',
     'navigation-intro-begin': 'Starta resa',
     'navigation-intro-help-body': 'Ta resan ett steg i taget',
     'navigation-intro-notifications-body': 'Håll koll på din resa',
@@ -467,7 +469,9 @@ export default {
     'navileg-hop-on': 'och stig på',
     'navileg-in-transit': 'med {mode}',
     'navileg-in-transit-interline':
-      'Din resa fortsätter om {duration} min klockan {legTime}. Vänta i fordonet',
+      'Linjen och destinationen byts vid {stop} {stopOrStation} om {duration} klockan {legTime}. Vänta i fordonet.',
+    'navileg-in-transit-interline-same-route':
+      'Destinationen byts vid {stop} {stopOrStation} om {duration} klockan {legTime}. Vänta i fordonet.',
     'navileg-intermediate-stops': '{stopCount} mellanhållplatser',
     'navileg-leave-at':
       'Stig av vid {stop} {stopOrStation} om {duration} klockan {legTime}',

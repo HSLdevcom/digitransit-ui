@@ -1,6 +1,9 @@
-import sinon from 'sinon';
-import * as ReactRelay from 'react-relay';
-import * as ReactIntl from 'react-intl';
+import { vi } from 'vitest';
+// react-intl is CommonJS - importing its default export (the real, mutable
+// `module.exports` object) rather than `* as` (which Vite wraps in a frozen
+// ES module namespace object even for CJS deps) is what makes stubbing it
+// below possible.
+import ReactIntl from 'react-intl';
 import * as ConfigContext from '../../../app/client/ConfigContext';
 import * as scheduleParamUtils from '../../../app/component/routepage/schedule/scheduleParamUtils';
 import * as scheduleDataUtils from '../../../app/component/routepage/schedule/scheduleDataUtils';
@@ -8,8 +11,10 @@ import * as scheduleTripsUtils from '../../../app/component/routepage/schedule/s
 import { mockContext } from './mock-context';
 
 /**
- * Create a sandbox and all common schedule-related stubs.
- * Returns sandbox, mocks, and stubs for schedule component tests.
+ * Create all common schedule-related mocks/stubs.
+ * Returns mocks and stubs for schedule component tests. Stubs are vi mocks,
+ * auto-restored between tests via the `restoreMocks: true` Vitest config
+ * option (vitest.config.js's `app` project) - no manual sandbox/restore needed.
  *
  * @param {Object} overrides - Optional overrides for mock data
  * @param {Object} overrides.intl - Override intl mock
@@ -18,18 +23,16 @@ import { mockContext } from './mock-context';
  * @param {Array} overrides.availableDates - Override available dates
  * @param {Object} overrides.tripsResult - Override trips result
  * @param {Object} overrides.scheduleData - Override schedule data
- * @returns {Object} { sandbox, mocks, stubs }
+ * @returns {Object} { mocks, stubs }
  */
 export const createScheduleTestContext = (overrides = {}) => {
-  const sandbox = sinon.createSandbox();
-
   // Create mock objects
   const mocks = {
     intl: {
-      formatMessage: sandbox.stub().returns('translated text'),
-      formatDate: sandbox.stub().returns('formatted date'),
-      formatTime: sandbox.stub().returns('formatted time'),
-      formatNumber: sandbox.stub().returns('formatted number'),
+      formatMessage: vi.fn().mockReturnValue('translated text'),
+      formatDate: vi.fn().mockReturnValue('formatted date'),
+      formatTime: vi.fn().mockReturnValue('formatted time'),
+      formatNumber: vi.fn().mockReturnValue('formatted number'),
       locale: 'en',
       ...overrides.intl,
     },
@@ -71,25 +74,24 @@ export const createScheduleTestContext = (overrides = {}) => {
     scheduleData: overrides.scheduleData || {},
   };
 
-  // Create stubs - all use the sandbox for automatic cleanup
+  // useFragment isn't re-stubbed here: test/unit/helpers/vitest.setup.js
+  // already stubs react-relay's useFragment globally with the same
+  // pass-through behavior.
   const stubs = {
-    useFragment: sandbox
-      .stub(ReactRelay, 'useFragment')
-      .callsFake((fragment, ref) => ref),
-    useIntl: sandbox.stub(ReactIntl, 'useIntl').returns(mocks.intl),
-    useConfigContext: sandbox
-      .stub(ConfigContext, 'useConfigContext')
-      .returns(mocks.config),
-    calculateRedirectDecision: sandbox
-      .stub(scheduleParamUtils, 'calculateRedirectDecision')
-      .returns(mocks.redirectDecision),
-    buildAvailableDates: sandbox
-      .stub(scheduleDataUtils, 'buildAvailableDates')
-      .returns(mocks.availableDates),
-    getTripsList: sandbox
-      .stub(scheduleTripsUtils, 'getTripsList')
-      .returns(mocks.tripsResult),
+    useIntl: vi.spyOn(ReactIntl, 'useIntl').mockReturnValue(mocks.intl),
+    useConfigContext: vi
+      .spyOn(ConfigContext, 'useConfigContext')
+      .mockReturnValue(mocks.config),
+    calculateRedirectDecision: vi
+      .spyOn(scheduleParamUtils, 'calculateRedirectDecision')
+      .mockReturnValue(mocks.redirectDecision),
+    buildAvailableDates: vi
+      .spyOn(scheduleDataUtils, 'buildAvailableDates')
+      .mockReturnValue(mocks.availableDates),
+    getTripsList: vi
+      .spyOn(scheduleTripsUtils, 'getTripsList')
+      .mockReturnValue(mocks.tripsResult),
   };
 
-  return { sandbox, mocks, stubs };
+  return { mocks, stubs };
 };
