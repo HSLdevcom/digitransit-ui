@@ -36,8 +36,12 @@ const hslFiCjsInteropModules = {
   `,
 };
 
-// Vite plugin unwrapping the packages in `hslFiCjsInteropModules` above.
-// Each project that inlines @hsl-fi/* needs its own plugin instance.
+/**
+ * Vite plugin unwrapping the packages listed in `hslFiCjsInteropModules`
+ * above. Each project that inlines @hsl-fi/* needs its own plugin instance.
+ *
+ * @returns {import('vite').Plugin}
+ */
 const hslFiCjsInteropPlugin = () => ({
   name: 'digitransit-ui:hsl-fi-cjs-interop',
   enforce: 'pre',
@@ -70,9 +74,6 @@ const nodeProject = name => ({
 
 export default {
   test: {
-    // Prints one line per test case (like Mocha's spec reporter), instead
-    // of the default reporter's one-line-per-file summary.
-    reporters: ['verbose'],
     projects: [
       {
         // The main app suite (test/unit/**). Run alone with `--project app`
@@ -100,8 +101,6 @@ export default {
               return { code: 'export default {};' };
             },
           },
-          // See the `hslFiCjsInteropModules` comment above - unwraps the
-          // two @hsl-fi/* UMD packages the app imports directly.
           hslFiCjsInteropPlugin(),
         ],
         test: {
@@ -172,9 +171,6 @@ export default {
               plugins: ['inline-react-svg'],
             },
           }),
-          // See the `hslFiCjsInteropModules` comment above - unwraps the
-          // @hsl-fi/* UMD packages this project's own components import
-          // (directly or transitively).
           hslFiCjsInteropPlugin(),
           // rollup.config.js's postcss plugin treats every .scss import as
           // a CSS module. Vitest's built-in CSS handling (`css: false`
