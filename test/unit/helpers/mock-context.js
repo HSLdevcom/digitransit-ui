@@ -21,8 +21,9 @@ export const mockContext = {
     getCurrentTime: () => DateTime.now(),
     getLanguage: () => 'en',
     getLocationState: () => ({
-      lat: '',
-      lon: '',
+      type: 'CurrentLocation',
+      lat: undefined,
+      lon: undefined,
       address: '',
       status: PositionStore.STATUS_NO_LOCATION,
       hasLocation: false,
@@ -55,3 +56,13 @@ export const mockChildContextTypes = {
   router: routerShape,
   match: matchShape,
 };
+
+/**
+ * Builds a test config by shallow-merging overrides onto the real default
+ * config (mockContext.config), instead of hand-building a config object
+ * from scratch per test file.
+ */
+export const createTestConfig = (overrides = {}) => ({
+  ...mockContext.config,
+  ...overrides,
+});

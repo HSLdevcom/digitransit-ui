@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-util/digitransit-util",
-  "version": "4.1.6",
+  "version": "4.1.7",
   "description": "a JavaScript library for Digitransit",
   "type": "module",
   "main": "index.js",
@@ -14,7 +14,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "scripts": {
-    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js"
   },
   "dependencies": {
