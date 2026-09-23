@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-store/digitransit-store-common-functions",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "digitransit-store common-functions module",
   "type": "module",
   "main": "lib/index.cjs",

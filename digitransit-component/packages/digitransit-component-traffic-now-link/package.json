@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-traffic-now-link",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "digitransit-component traffic-now-link module",
   "type": "module",
   "main": "index.cjs",
