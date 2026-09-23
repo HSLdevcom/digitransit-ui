@@ -240,15 +240,81 @@ function getImageFromSpriteSync(icon, width, height, fill) {
   return image;
 }
 
+// How long to wait for a sprite symbol to appear in the DOM before giving up
+// (e.g. the icon id is genuinely unknown) and resolving with null.
+const SPRITE_WAIT_TIMEOUT_MS = 15000;
+
+// A single shared MutationObserver serves all pending sprite lookups instead
+// of creating one per icon (many tiles/icons can be requested at once, e.g.
+// while panning). It's only alive while requests are pending.
+let spriteObserver;
+const pendingSpriteRequests = [];
+
+function stopWatchingForSprite() {
+  if (spriteObserver) {
+    spriteObserver.disconnect();
+    spriteObserver = undefined;
+  }
+}
+
+function removePendingSpriteRequest(pending) {
+  const index = pendingSpriteRequests.indexOf(pending);
+  if (index !== -1) {
+    pendingSpriteRequests.splice(index, 1);
+  }
+  if (pendingSpriteRequests.length === 0) {
+    stopWatchingForSprite();
+  }
+}
+
+function checkPendingSpriteRequests() {
+  // Snapshot first: resolving a request removes it from
+  // pendingSpriteRequests, which would otherwise shift indices mid-iteration.
+  pendingSpriteRequests.slice().forEach(pending => {
+    const image = getImageFromSpriteSync(
+      pending.icon,
+      pending.width,
+      pending.height,
+      pending.fill,
+    );
+    if (image) {
+      clearTimeout(pending.timeoutId);
+      removePendingSpriteRequest(pending);
+      image.onload = () => pending.resolve(image);
+    }
+  });
+}
+
+// Waits for the sprite symbol for `icon` to appear in the DOM (e.g. the
+// async-loaded SVG sprite hasn't finished loading/injecting yet) instead of
+// giving up immediately. Resolves with null if it still hasn't appeared
+// after SPRITE_WAIT_TIMEOUT_MS, e.g. because the icon id doesn't exist.
+function waitForSprite(icon, width, height, fill, resolve) {
+  if (typeof MutationObserver === 'undefined' || !document?.body) {
+    resolve(null);
+    return;
+  }
+  const pending = { icon, width, height, fill, resolve };
+  pending.timeoutId = setTimeout(() => {
+    removePendingSpriteRequest(pending);
+    resolve(null);
+  }, SPRITE_WAIT_TIMEOUT_MS);
+  pendingSpriteRequests.push(pending);
+
+  if (!spriteObserver) {
+    spriteObserver = new MutationObserver(checkPendingSpriteRequests);
+    spriteObserver.observe(document.body, { childList: true, subtree: true });
+  }
+}
+
 function getImageFromSpriteAsync(icon, width, height, fill) {
   return new Promise(resolve => {
-    // TODO: check that icon exists using MutationObserver
     const image = getImageFromSpriteSync(icon, width, height, fill);
     // image is null if the sprite symbol for `icon` isn't in the DOM (yet), e.g.
-    // an unknown icon id or the sprite hasn't loaded. Resolve with null instead
-    // of crashing; callers must skip drawing when the resolved image is falsy.
+    // an unknown icon id or the sprite hasn't loaded. Wait for it to appear
+    // rather than giving up immediately.
     if (!image) {
-      resolve(image);
+      waitForSprite(icon, width, height, fill, resolve);
       return;
     }
     image.onload = () => resolve(image);
