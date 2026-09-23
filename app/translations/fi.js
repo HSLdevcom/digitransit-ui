@@ -40,7 +40,7 @@ export default {
     'alternative-legs':
       'Myös {leg1} klo {startTime1} ja {leg2} klo {startTime2}',
     'alternative-legs-single': 'Myös {leg1} klo {startTime1}',
-    'alternative-name-rail': 'Juna',
+    'alternative-name-rail': 'Lähijuna',
     'aria-itinerary-summary':
       'Matkan kokonaiskesto {duration}. Lähtö {inFuture} kello {departureTime}. Perillä kello {arrivalTime}.',
     'aria-itinerary-summary-bike-distance':
@@ -615,7 +615,7 @@ export default {
     price: 'Hinta',
     print: 'Tulosta',
     'print-timetable': 'Viikkoaikataulu',
-    rail: 'Lähijuna',
+    rail: 'Juna',
     'read-more': 'Lue lisää',
     realtime: 'Reaaliaika',
     releases: 'Tiedotteet',
