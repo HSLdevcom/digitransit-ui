@@ -211,9 +211,6 @@ export const getMapIconScale = memoize(
 );
 
 function getImageFromSpriteSync(icon, width, height, fill) {
-  if (!document) {
-    return null;
-  }
   const symbol = document.getElementById(icon);
   if (!symbol) {
     return null;
@@ -290,10 +287,6 @@ function checkPendingSpriteRequests() {
 // giving up immediately. Resolves with null if it still hasn't appeared
 // after SPRITE_WAIT_TIMEOUT_MS, e.g. because the icon id doesn't exist.
 function waitForSprite(icon, width, height, fill, resolve) {
-  if (typeof MutationObserver === 'undefined' || !document?.body) {
-    resolve(null);
-    return;
-  }
   const pending = { icon, width, height, fill, resolve };
   pending.timeoutId = setTimeout(() => {
     removePendingSpriteRequest(pending);
