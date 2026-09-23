@@ -113,18 +113,20 @@ package has actually used since the migration to Rollup). Instead:
 ## Testing
 
 Tests run on [Vitest](https://vitest.dev), configured from a single root
-`config/vitest.config.js` (one `test.projects` entry per family). `component`
+`vitest.config.js` (one `test.projects` entry per family, plus one for the
+main app suite — see `docs/Tests.md`). `component`
 runs under a jsdom environment, configured entirely in `vitest.config.js`
 (no setup file): `environmentOptions.jsdom.html` seeds a persistent
 `<div id="app">` for `@hsl-fi/modal`'s `appElement` prop, and `globals: true`
 makes `afterEach` a real global, which is all RTL's own automatic
 `cleanup()` needs to fire after each test. The other three families run
-under plain Node. `component` also loads
-`config/vitest.jsx-runtime-loader.js`, a Node ESM loader hook (wired in via
-`NODE_OPTIONS`, not a Vitest config option) that patches the extensionless
-`react/jsx-runtime` import and stubs `.css`/`.scss` — both needed for real,
-un-stubbed ESM `@hsl-fi/*` peer dependencies, which Node resolves natively
-rather than through Vite.
+under plain Node. `component`'s real, un-stubbed ESM `@hsl-fi/*` peer
+dependencies (and their own `@radix-ui`/`@floating-ui` dependencies) ship
+extensionless `react/jsx-runtime` imports that Node's own resolver can't
+match; `component`'s project config forces those through Vite's own (more
+lenient) resolver instead (`server.deps.inline`), with a small plugin
+unwrapping the handful of `@hsl-fi/*` packages that need a manual
+CJS/ESM default-export unwrap.
 
 Run everything from the repository root:
 

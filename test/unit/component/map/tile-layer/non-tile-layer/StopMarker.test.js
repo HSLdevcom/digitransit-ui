@@ -6,7 +6,7 @@ import {
 describe('StopMarker', () => {
   describe('getStopMarkerAnalytics', () => {
     it('should create an analytics event for a normal map path', () => {
-      expect(getStopMarkerAnalytics('/fi/', 'fi', 'BUS')).to.deep.equal({
+      expect(getStopMarkerAnalytics('/fi/', 'fi', 'BUS')).toEqual({
         action: 'SelectMapPoint',
         category: 'Map',
         name: 'stop',
@@ -16,9 +16,7 @@ describe('StopMarker', () => {
     });
 
     it('should use the path prefix as context outside the index path', () => {
-      expect(
-        getStopMarkerAnalytics('/tampere/stops', 'fi', 'TRAM'),
-      ).to.deep.equal({
+      expect(getStopMarkerAnalytics('/tampere/stops', 'fi', 'TRAM')).toEqual({
         action: 'SelectMapPoint',
         category: 'Map',
         name: 'stop',
@@ -28,16 +26,14 @@ describe('StopMarker', () => {
     });
 
     it('should not create analytics for bike or walk paths', () => {
-      expect(getStopMarkerAnalytics('/bike/', 'fi', 'BUS')).to.equal(null);
-      expect(getStopMarkerAnalytics('/walk/', 'fi', 'BUS')).to.equal(null);
+      expect(getStopMarkerAnalytics('/bike/', 'fi', 'BUS')).toBeNull();
+      expect(getStopMarkerAnalytics('/walk/', 'fi', 'BUS')).toBeNull();
     });
   });
 
   describe('getStopMarkerPath', () => {
     it('should encode the stop id in the stop page path', () => {
-      expect(getStopMarkerPath('HSL:1541157')).to.equal(
-        '/pysakit/HSL%3A1541157',
-      );
+      expect(getStopMarkerPath('HSL:1541157')).toBe('/pysakit/HSL%3A1541157');
     });
   });
 });

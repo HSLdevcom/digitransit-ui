@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component",
-  "version": "5.1.10",
+  "version": "5.1.11",
   "description": "a JavaScript library for Digitransit",
   "type": "module",
   "main": "index.js",
@@ -11,7 +11,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "scripts": {
-    "test": "NODE_OPTIONS=\"--import ../../../config/vitest.jsx-runtime-loader.js\" vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js"
   },
   "repository": {

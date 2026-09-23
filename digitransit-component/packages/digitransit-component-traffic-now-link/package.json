@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-traffic-now-link",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "digitransit-component traffic-now-link module",
   "type": "module",
   "main": "index.cjs",
@@ -26,7 +26,7 @@
   "scripts": {
     "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "clean": "rm -rf ./lib ./node_modules",
-    "test": "NODE_OPTIONS=\"--import ../../../config/vitest.jsx-runtime-loader.js\" vitest run --config ../../../config/vitest.config.js \"$PWD/test.jsx\"",
+    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.jsx\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js",
     "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },

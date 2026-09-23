@@ -354,6 +354,10 @@ export default {
       'The route number ({shortName}) and destination ({destination}) will change at the {stop} stop. Waiting time at the stop is {time}. Please wait onboard.',
     'itinerary-summary.interline-wait-multiple-legs':
       'The route number ({shortName}) and destination will change several times during the journey. Total waiting time is {time}. Please do not leave the vehicle.',
+    'itinerary-summary.interline-wait-multiple-legs-same-route':
+      'The destination will change several times during the journey. Total waiting time is {time}. Please do not leave the vehicle.',
+    'itinerary-summary.interline-wait-same-route':
+      'The destination ({destination}) will change at the {stop} stop. Waiting time at the stop is {time}. Please wait onboard.',
     'itinerary-summary.show-on-map': 'Show on map {target}',
     'itinerary-ticket.title': 'Required ticket',
     'itinerary-tickets.title': 'Required tickets',
@@ -434,6 +438,8 @@ export default {
       'Your journey will continue in {duration} minutes',
     'navigation-interline-wait':
       'The route number {line} and destination {destination} will change at the stop',
+    'navigation-interline-wait-same-route':
+      'The destination {destination} will change at the stop',
     'navigation-intro-begin': 'Start journey',
     'navigation-intro-help-body': 'Travel step by step',
     'navigation-intro-notifications-body': 'Stay on track with your journey',
@@ -469,7 +475,9 @@ export default {
     'navileg-hop-on': 'and board',
     'navileg-in-transit': '{mode} journey',
     'navileg-in-transit-interline':
-      'Your journey will continue in {duration} minutes at {legTime}. Wait onboard.',
+      'The route number and destination change at {stop} {stopOrStation} in {duration} at {legTime}. Wait onboard.',
+    'navileg-in-transit-interline-same-route':
+      'The destination changes at {stop} {stopOrStation} in {duration} at {legTime}. Wait onboard.',
     'navileg-intermediate-stops': '{stopCount} intermediate stops',
     'navileg-leave-at':
       'Get off at {stop} {stopOrStation} in {duration} at {legTime}',
@@ -568,6 +576,7 @@ export default {
       'Please note that you use and pay for scooters, taxis and ride-hailing services in the service providers’ own apps.',
     'payment-info-taxi':
       'Please note that you use and pay for taxis and ride‑hailing services in the service providers’ own apps.',
+    payment_at_gate: 'Payment at the gate ',
     'personal-itineraries': 'Personal itineraries',
     personalization: 'Personalization',
     'personalization-activated': 'Personalization has been enabled',

@@ -347,9 +347,13 @@ export default {
       'Kör din bil ombord på färjan',
     'itinerary-summary.carAndPublic-rail-title': 'Kör din bil ombord på tåget',
     'itinerary-summary.interline-wait':
-      'Linjenumret ({shortName}) och destinationen ({destination}) ändras vid hållplats {stop}. Resan fortsätter om {time}. Vänta ombord på bussen.',
+      'Linjenumret ({shortName}) och destinationen ({destination}) ändras vid hållplats {stop}. Resan fortsätter om {time}. Vänta ombord.',
     'itinerary-summary.interline-wait-multiple-legs':
-      'Linjenumret ({shortName}) och destinationen ändras många gånger under resan. Väntetiden är sammanlagt {time}. Vänta på fordon.',
+      'Linjenumret ({shortName}) och destinationen ändras många gånger under resan. Väntetiden är sammanlagt {time}. Vänta ombord.',
+    'itinerary-summary.interline-wait-multiple-legs-same-route':
+      'Destinationen ändras många gånger under resan. Väntetiden är sammanlagt {time}. Vänta ombord.',
+    'itinerary-summary.interline-wait-same-route':
+      'Destinationen ({destination}) ändras vid hållplats {stop}. Resan fortsätter om {time}. Vänta ombord.',
     'itinerary-summary.show-on-map': 'Visa på kartan {target}',
     'itinerary-ticket.title': 'Biljett som behövs',
     'itinerary-tickets.title': 'Biljetter som behövs',
@@ -429,6 +433,8 @@ export default {
       'Din resa fortsätter efter en väntetid på {duration}',
     'navigation-interline-wait':
       'Linjenummer {line} och destination {destination} ändras på hållplatsen',
+    'navigation-interline-wait-same-route':
+      'Destinationen {destination} ändras på hållplatsen',
     'navigation-intro-begin': 'Starta resa',
     'navigation-intro-help-body': 'Ta resan ett steg i taget',
     'navigation-intro-notifications-body': 'Håll koll på din resa',
@@ -463,7 +469,9 @@ export default {
     'navileg-hop-on': 'och stig på',
     'navileg-in-transit': 'med {mode}',
     'navileg-in-transit-interline':
-      'Din resa fortsätter om {duration} min klockan {legTime}. Vänta i fordonet',
+      'Linjen och destinationen byts vid {stop} {stopOrStation} om {duration} klockan {legTime}. Vänta i fordonet.',
+    'navileg-in-transit-interline-same-route':
+      'Destinationen byts vid {stop} {stopOrStation} om {duration} klockan {legTime}. Vänta i fordonet.',
     'navileg-intermediate-stops': '{stopCount} mellanhållplatser',
     'navileg-leave-at':
       'Stig av vid {stop} {stopOrStation} om {duration} klockan {legTime}',
@@ -561,6 +569,7 @@ export default {
       'Vänligen observera att du använder och betalar för elsparkcyklar, taxi och skjutstjänster med aktörernas egna appar.',
     'payment-info-taxi':
       'Vänligen observera att du använder och betalar för taxi och skjutstjänster med aktörernas egna appar.',
+    payment_at_gate: 'Betalning vid porten',
     'personal-itineraries': 'Individuella ruttförslag',
     personalization: 'Personalisering',
     'personalization-activated': 'Personalisering har aktiverats',

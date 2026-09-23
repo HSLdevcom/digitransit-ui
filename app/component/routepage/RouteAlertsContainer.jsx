@@ -59,6 +59,7 @@ const getCancelations = (route, pattern, entity, intl) => {
       })),
       entities: [entity],
       alertSeverityLevel: AlertSeverityLevelType.Warning,
+      alertEffect: 'CANCELLATION',
       effectiveStartDate: DateTime.fromISO(date).toSeconds(),
       effectiveEndDate: DateTime.fromISO(date).plus({ days: 1 }).toSeconds(),
     };
