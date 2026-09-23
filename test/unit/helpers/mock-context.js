@@ -56,3 +56,13 @@ export const mockChildContextTypes = {
   router: routerShape,
   match: matchShape,
 };
+
+/**
+ * Builds a test config by shallow-merging overrides onto the real default
+ * config (mockContext.config), instead of hand-building a config object
+ * from scratch per test file.
+ */
+export const createTestConfig = (overrides = {}) => ({
+  ...mockContext.config,
+  ...overrides,
+});

@@ -1,6 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-
 import {
   getClosestPoint,
   isMultiPointTypeGeometry,
@@ -10,29 +7,29 @@ import {
 describe('geo-utils', () => {
   describe('isMultiPointTypeGeometry', () => {
     it('should return false if geometry is falsey', () => {
-      expect(isMultiPointTypeGeometry(undefined)).to.equal(false);
+      expect(isMultiPointTypeGeometry(undefined)).toBe(false);
     });
 
     it('should return false if the geometry type does not match', () => {
-      expect(isMultiPointTypeGeometry({ type: 'foo' })).to.equal(false);
+      expect(isMultiPointTypeGeometry({ type: 'foo' })).toBe(false);
     });
 
     it('should return true if the geometry type matches', () => {
-      expect(isMultiPointTypeGeometry({ type: 'MultiPoint' })).to.equal(true);
+      expect(isMultiPointTypeGeometry({ type: 'MultiPoint' })).toBe(true);
     });
   });
 
   describe('isPointTypeGeometry', () => {
     it('should return false if geometry is falsey', () => {
-      expect(isPointTypeGeometry(undefined)).to.equal(false);
+      expect(isPointTypeGeometry(undefined)).toBe(false);
     });
 
     it('should return false if the geometry type does not match', () => {
-      expect(isPointTypeGeometry({ type: 'foo' })).to.equal(false);
+      expect(isPointTypeGeometry({ type: 'foo' })).toBe(false);
     });
 
     it('should return true if the geometry type matches', () => {
-      expect(isPointTypeGeometry({ type: 'Point' })).to.equal(true);
+      expect(isPointTypeGeometry({ type: 'Point' })).toBe(true);
     });
   });
 
@@ -42,20 +39,20 @@ describe('geo-utils', () => {
     it('should return a if that is closest', () => {
       const c = { lon: 8, lat: 3 };
       const result = getClosestPoint(a, b, c);
-      expect(result.lon).to.equal(a.lon);
-      expect(result.lat).to.equal(a.lat);
+      expect(result.lon).toBe(a.lon);
+      expect(result.lat).toBe(a.lat);
     });
     it('should return b if that is closest', () => {
       const c = { lon: 2, lat: 7 };
       const result = getClosestPoint(a, b, c);
-      expect(result.lon).to.equal(b.lon);
-      expect(result.lat).to.equal(b.lat);
+      expect(result.lon).toBe(b.lon);
+      expect(result.lat).toBe(b.lat);
     });
     it('should return a point between a and b if that is closest', () => {
       const c = { lon: 1, lat: 1 };
       const result = getClosestPoint(a, b, c);
-      expect(Math.round(10 * result.lon)).to.equal(29);
-      expect(Math.round(10 * result.lat)).to.equal(24);
+      expect(Math.round(10 * result.lon)).toBe(29);
+      expect(Math.round(10 * result.lat)).toBe(24);
     });
   });
 });

@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import {
   ICON_SIZES,
   getIconUrl,
@@ -19,7 +17,7 @@ describe('manifestUtils', () => {
       const protocol = 'https:';
       const host = 'localhost:8080';
       const result = getIconUrl(config, protocol, host, 32);
-      expect(result).to.equal('https://foo/bar/android-chrome-32x32.png');
+      expect(result).toBe('https://foo/bar/android-chrome-32x32.png');
     });
 
     it('should use config.URL.ASSET_URL and default iconPath', () => {
@@ -31,7 +29,7 @@ describe('manifestUtils', () => {
       const protocol = 'http:';
       const host = 'localhost:8080';
       const result = getIconUrl(config, protocol, host, 32);
-      expect(result).to.equal('https://foobar/icons/android-chrome-32x32.png');
+      expect(result).toBe('https://foobar/icons/android-chrome-32x32.png');
     });
 
     it('should use the current host as a fallback', () => {
@@ -42,7 +40,7 @@ describe('manifestUtils', () => {
       const protocol = 'https:';
       const host = 'foobar';
       const result = getIconUrl(config, protocol, host, 32);
-      expect(result).to.equal('https://foobar/baz/android-chrome-32x32.png');
+      expect(result).toBe('https://foobar/baz/android-chrome-32x32.png');
     });
 
     it('should use the given protocol', () => {
@@ -52,7 +50,7 @@ describe('manifestUtils', () => {
       const protocol = 'foobar:';
       const host = 'localhost:8080';
       const result = getIconUrl(config, protocol, host, 32);
-      expect(result).to.equal(
+      expect(result).toBe(
         'foobar://localhost:8080/icons/android-chrome-32x32.png',
       );
     });
@@ -66,7 +64,7 @@ describe('manifestUtils', () => {
       const protocol = 'https:';
       const host = 'localhost:8080';
       const result = generateManifestIcons(config, protocol, host);
-      expect(result.every(icon => icon.type === 'image/png')).to.equal(true);
+      expect(result.every(icon => icon.type === 'image/png')).toBe(true);
     });
 
     it('should return an array of icons with predefined sizes', () => {
@@ -108,16 +106,16 @@ describe('manifestUtils', () => {
         },
       };
       const manifest = generateManifest(config, emptyLocation);
-      expect(manifest.background_color).to.equal('foo');
-      expect(manifest.theme_color).to.equal('foo');
+      expect(manifest.background_color).toBe('foo');
+      expect(manifest.theme_color).toBe('foo');
     });
 
     it('should use the given title as name and short_name', () => {
       const manifest = generateManifest(emptyConfig, emptyLocation, {
         title: 'foo',
       });
-      expect(manifest.name).to.equal('foo');
-      expect(manifest.short_name).to.equal('foo');
+      expect(manifest.name).toBe('foo');
+      expect(manifest.short_name).toBe('foo');
     });
 
     it('should use the configured title as name and short_name', () => {
@@ -126,15 +124,15 @@ describe('manifestUtils', () => {
         title: 'foo',
       };
       const manifest = generateManifest(config, emptyLocation);
-      expect(manifest.name).to.equal('foo');
-      expect(manifest.short_name).to.equal('foo');
+      expect(manifest.name).toBe('foo');
+      expect(manifest.short_name).toBe('foo');
     });
 
     it('should use the given description as description', () => {
       const manifest = generateManifest(emptyConfig, emptyLocation, {
         description: 'foo',
       });
-      expect(manifest.description).to.equal('foo');
+      expect(manifest.description).toBe('foo');
     });
 
     it('should use the configured description as description', () => {
@@ -145,7 +143,7 @@ describe('manifestUtils', () => {
         },
       };
       const manifest = generateManifest(config, emptyLocation);
-      expect(manifest.description).to.equal('foo');
+      expect(manifest.description).toBe('foo');
     });
 
     it('should generate a start_url for the current location', () => {
@@ -155,9 +153,7 @@ describe('manifestUtils', () => {
         protocol: 'https:',
       };
       const manifest = generateManifest(emptyConfig, location);
-      expect(manifest.start_url).to.equal(
-        'https://localhost:8080/?homescreen=1',
-      );
+      expect(manifest.start_url).toBe('https://localhost:8080/?homescreen=1');
     });
   });
 });
