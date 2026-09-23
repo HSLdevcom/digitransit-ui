@@ -45,7 +45,7 @@ export default {
     'alternative-legs':
       'Också {leg1} kl. {startTime1} och {leg2} kl. {startTime2}',
     'alternative-legs-single': 'Också {leg1} kl. {startTime1}',
-    'alternative-name-rail': 'Tåg',
+    'alternative-name-rail': 'Närtåg',
     'aria-itinerary-summary':
       'Den totala restiden {duration}. Avgång {inFuture} klockan {departureTime}. Framme klockan {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
@@ -622,7 +622,7 @@ export default {
     price: 'Pris',
     print: 'Skriv ut',
     'print-timetable': 'Veckans tidtabell',
-    rail: 'Närtåg',
+    rail: 'Tåg',
     'read-more': 'Läs mer',
     realtime: 'Realtid',
     releases: 'Meddelanden',
