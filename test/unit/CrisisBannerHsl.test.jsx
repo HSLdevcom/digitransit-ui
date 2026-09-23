@@ -2,15 +2,16 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import { ConfigProvider } from '../../app/client/ConfigContext';
+import { createTestConfig } from './helpers/mock-context';
 import CrisisBannerHsl from '../../app/component/CrisisBannerHsl';
 
 const primaryBanner = { body: 'Primary alert', priority: 'Primary' };
 const secondaryBanner = { body: 'Secondary alert', priority: 'Secondary' };
 
-const baseConfig = {
+const baseConfig = createTestConfig({
   CONFIG: 'hsl',
   URL: { BANNERS: null },
-};
+});
 
 const renderWithBanners = (banners = []) => {
   const { container } = render(

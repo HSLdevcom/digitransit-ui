@@ -1,15 +1,15 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../helpers/mock-providers';
+import { createTestConfig } from '../../helpers/mock-context';
 import { FilterContextProvider } from '../../../../app/component/trafficnow/filters/FiltersContext';
 import DisruptionCard from '../../../../app/component/trafficnow/DisruptionCard';
 import * as trafficNowUtils from '../../../../app/component/trafficnow/utils';
 import { AlertSeverityLevelType } from '../../../../utils/shared/constants';
 
-const baseConfig = {
-  CONFIG: 'default',
+const baseConfig = createTestConfig({
   colors: { primary: '#007ac9' },
-};
+});
 
 // NOW_MS = 1 000 000 ms.  effectiveStartDate = 500 s (past), effectiveEndDate = 2 000 s (future).
 const NOW_MS = 1_000_000;

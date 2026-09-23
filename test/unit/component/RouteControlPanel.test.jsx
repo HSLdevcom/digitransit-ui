@@ -1,38 +1,23 @@
 import React from 'react';
 
 import { mockMatch } from '../helpers/mock-router';
+import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
+import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';
 import RouteControlPanel from '../../../app/component/routepage/RouteControlPanel';
 import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../utils/shared/path';
 
-const baseConfig = {
-  CONFIG: 'default',
+const baseConfig = createTestConfig({
   colors: { primary: '#00AFFF' },
   URL: {},
   itinerary: { serviceTimeRange: 60 },
   user: { sub: undefined },
-};
+});
 
 describe('<RouteControlPanel />', () => {
-  let savedConsoleError;
-  beforeEach(() => {
-    // Relax console.error for the known Relay fragment warning
-    // eslint-disable-next-line no-console
-    savedConsoleError = console.error;
-    // eslint-disable-next-line no-console
-    console.error = warning => {
-      if (String(warning).includes('RelayModernSelector')) {
-        return;
-      }
-      throw new Error(warning);
-    };
-  });
-
-  afterEach(() => {
-    // eslint-disable-next-line no-console
-    console.error = savedConsoleError;
-  });
+  // See ignoreRelayModernSelectorWarning's own comment for why this is needed.
+  ignoreRelayModernSelectorWarning();
 
   const renderView = (props, config = baseConfig, contextOverrides = {}) =>
     renderWithProviders(<RouteControlPanel {...props} />, {

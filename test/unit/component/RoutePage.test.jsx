@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { mockMatch, mockRouter } from '../helpers/mock-router';
+import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
+import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';
 import { Component as RoutePage } from '../../../app/component/routepage/RoutePage';
 import { PREFIX_DISRUPTION } from '../../../utils/shared/path';
 
@@ -30,8 +32,7 @@ const suppressUncaughtError = callback => {
 
 const currentTime = Math.floor(Date.now() / 1000);
 
-const baseConfig = {
-  CONFIG: 'default',
+const baseConfig = createTestConfig({
   title: 'Digitransit',
   colors: { primary: '#00AFFF', accessiblePrimary: '#000' },
   URL: {},
@@ -39,7 +40,7 @@ const baseConfig = {
   routeNotifications: [],
   user: { sub: undefined },
   itinerary: { serviceTimeRange: 60 },
-};
+});
 
 const baseRoute = {
   __typename: 'Route',
@@ -81,26 +82,9 @@ const baseProps = {
 };
 
 describe('<RoutePage />', () => {
-  // RoutePage's children are Relay fragment/refetch containers. With no real
-  // Relay store in the unit env they emit a harmless RelayModernSelector
-  // warning, which the global harness turns into a thrown error. Relax only
-  // that specific warning here so we can assert RoutePage's own behaviour.
-  let savedConsoleError;
-  beforeEach(() => {
-    // eslint-disable-next-line no-console
-    savedConsoleError = console.error;
-    // eslint-disable-next-line no-console
-    console.error = warning => {
-      if (String(warning).includes('RelayModernSelector')) {
-        return;
-      }
-      throw new Error(warning);
-    };
-  });
-  afterEach(() => {
-    // eslint-disable-next-line no-console
-    console.error = savedConsoleError;
-  });
+  // RoutePage's children are Relay fragment/refetch containers - see
+  // ignoreRelayModernSelectorWarning's own comment for why this is needed.
+  ignoreRelayModernSelectorWarning();
 
   const renderView = (props = {}, config = baseConfig) =>
     renderWithProviders(<RoutePage {...baseProps} {...props} />, {

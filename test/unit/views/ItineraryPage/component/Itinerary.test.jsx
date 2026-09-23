@@ -8,6 +8,7 @@ import {
 } from '../../../../../utils/shared/constants';
 import { mockContext } from '../../../helpers/mock-context';
 import { renderWithProviders } from '../../../helpers/mock-providers';
+import { ignoreRelayModernSelectorWarning } from '../../../helpers/relay-selector-warning';
 import dcw12 from '../../../test-data/dcw12';
 
 const defaultProps = {
@@ -46,25 +47,9 @@ const getLegTypes = container =>
   [...container.querySelectorAll('.itinerary-legs > *')].map(classifyLeg);
 
 describe('<Itinerary />', () => {
-  // Itinerary calls useFragment on plain leg data (no real Relay store in
-  // this unit env), which logs a harmless RelayModernSelector warning that
-  // the global harness would otherwise turn into a thrown error.
-  let savedConsoleError;
-  beforeEach(() => {
-    // eslint-disable-next-line no-console
-    savedConsoleError = console.error;
-    // eslint-disable-next-line no-console
-    console.error = warning => {
-      if (String(warning).includes('RelayModernSelector')) {
-        return;
-      }
-      throw new Error(warning);
-    };
-  });
-  afterEach(() => {
-    // eslint-disable-next-line no-console
-    console.error = savedConsoleError;
-  });
+  // Itinerary calls useFragment on plain leg data - see
+  // ignoreRelayModernSelectorWarning's own comment for why this is needed.
+  ignoreRelayModernSelectorWarning();
 
   const renderItinerary = (props, config, router) =>
     renderWithProviders(<Itinerary {...defaultProps} {...props} />, {

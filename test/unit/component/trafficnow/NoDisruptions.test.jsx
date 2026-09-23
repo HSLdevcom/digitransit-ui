@@ -1,13 +1,13 @@
 import React from 'react';
 import { renderWithProviders } from '../../helpers/mock-providers';
+import { createTestConfig } from '../../helpers/mock-context';
 import NoDisruptions from '../../../../app/component/trafficnow/components/NoDisruptions';
 import * as useLogo from '../../../../app/hooks/useLogo';
 
-const baseConfig = {
-  CONFIG: 'default',
+const baseConfig = createTestConfig({
   notFoundGraphic: null,
   colors: { primary: '#007ac9' },
-};
+});
 
 describe('<NoDisruptions />', () => {
   let logoStub;

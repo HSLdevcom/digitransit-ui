@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { renderWithProviders } from '../helpers/mock-providers';
+import { createTestConfig } from '../helpers/mock-context';
 import Disruption from '../../../app/component/Disruption';
 import { AlertEntityType } from '../../../utils/shared/constants';
 import {
@@ -10,10 +11,9 @@ import {
   PREFIX_DISRUPTION,
 } from '../../../utils/shared/path';
 
-const baseConfig = {
-  CONFIG: 'default',
+const baseConfig = createTestConfig({
   colors: { primary: '#007ac9' },
-};
+});
 
 const routeEntity = (overrides = {}) => ({
   __typename: AlertEntityType.Route,

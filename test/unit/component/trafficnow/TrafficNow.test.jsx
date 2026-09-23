@@ -10,18 +10,18 @@ import React from 'react';
 import relayHooks from 'react-relay/hooks';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { mockMatch } from '../../helpers/mock-router';
+import { createTestConfig } from '../../helpers/mock-context';
 import TrafficNow from '../../../../app/component/trafficnow/TrafficNow';
 import AlertsQuery from '../../../../app/component/trafficnow/queries/AlertsQuery';
 import CanceledTripsOverviewQuery from '../../../../app/component/trafficnow/queries/CanceledTripsOverviewQuery';
 import CanceledTripsForModeQuery from '../../../../app/component/trafficnow/queries/CanceledTripsForModeQuery';
 import * as withBreakpoint from '../../../../utils/client/withBreakpoint';
 
-const baseConfig = {
-  CONFIG: 'default',
+const baseConfig = createTestConfig({
   colors: { primary: '#007ac9' },
   feedIds: ['MATKA'],
   URL: { OTP: 'https://example.com/otp/' },
-};
+});
 
 // Minimal Relay query result fixtures. Only what each consuming component
 // (Disruptions / CanceledTripsContainer / DisruptionDetailsContainer)

@@ -1,5 +1,6 @@
 import React from 'react';
 import { renderWithProviders } from '../../helpers/mock-providers';
+import { createTestConfig } from '../../helpers/mock-context';
 import TrafficNowHeader from '../../../../app/component/trafficnow/TrafficNowHeader';
 import * as withBreakpoint from '../../../../utils/client/withBreakpoint';
 import * as useLogo from '../../../../app/hooks/useLogo';
@@ -7,15 +8,14 @@ import * as useLogo from '../../../../app/hooks/useLogo';
 // found's <Link> is globally stubbed (test/unit/helpers/vitest.setup.js) to render only
 // its children, with no wrapping <a>/href — so the "fallback to Link" branch of
 // the breadcrumb can only be asserted on by its rendered text, not by an href.
-const baseConfig = {
-  CONFIG: 'default',
+const baseConfig = createTestConfig({
   trafficNowHeaderGraphic: null,
   colors: { primary: '#007ac9' },
   URL: {
     HOLIDAYS_AND_EXCEPTIONS: { fi: 'https://example.com/holidays' },
   },
   language: 'fi',
-};
+});
 
 describe('<TrafficNowHeader />', () => {
   beforeEach(() => {

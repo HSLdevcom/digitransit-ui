@@ -1,15 +1,15 @@
 import React from 'react';
 import { renderWithProviders } from '../../helpers/mock-providers';
+import { createTestConfig } from '../../helpers/mock-context';
 import RouteBadges from '../../../../app/component/trafficnow/RouteBadges';
 import * as FiltersContext from '../../../../app/component/trafficnow/filters/FiltersContext';
 import * as trafficNowUtils from '../../../../app/component/trafficnow/utils';
 import { AlertEntityType } from '../../../../utils/shared/constants';
 
-const baseConfig = {
-  CONFIG: 'default',
+const baseConfig = createTestConfig({
   colors: { primary: '#007ac9' },
   trafficNowMaxRoutesPerCard: 5,
-};
+});
 
 const makeEntity = (type, gtfsId, overrides = {}) => ({
   __typename: type,

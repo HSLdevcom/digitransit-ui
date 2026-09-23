@@ -1,11 +1,11 @@
 import React from 'react';
 import { renderWithProviders } from './helpers/mock-providers';
+import { createTestConfig } from './helpers/mock-context';
 
 import TicketInformation from '../../app/component/itinerary/TicketInformation';
 import { getFaresFromLegs } from '../../utils/client/fareUtils';
 
-const defaultConfig = {
-  CONFIG: 'default',
+const defaultConfig = createTestConfig({
   showTicketInformation: true,
   showTicketPrice: true,
   fareMapping: fareId => fareId.replace('HSL:', ''),
@@ -30,7 +30,7 @@ const defaultConfig = {
       },
     },
   },
-};
+});
 
 describe('<TicketInformation />', () => {
   it('should show multiple ticket components (DT-2639)', () => {

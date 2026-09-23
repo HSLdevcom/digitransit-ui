@@ -1,14 +1,13 @@
 import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
-import { mockContext } from '../helpers/mock-context';
+import { createTestConfig } from '../helpers/mock-context';
 import BicycleLeg from '../../../app/component/itinerary/BicycleLeg';
 import { RentalNetworkType } from '../../../utils/shared/vehicleRentalUtils';
 
-const baseConfig = {
-  ...mockContext.config,
+const baseConfig = createTestConfig({
   defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
   defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
-};
+});
 
 describe('<BicycleLeg />', () => {
   it('should guide the user to rent a citybike', () => {

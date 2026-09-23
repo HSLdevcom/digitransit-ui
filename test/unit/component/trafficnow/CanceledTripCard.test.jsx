@@ -4,6 +4,7 @@ import { IntlProvider } from 'react-intl';
 import * as found from 'found';
 import translations from '../../../../app/translations/en';
 import { ConfigProvider } from '../../../../app/client/ConfigContext';
+import { createTestConfig } from '../../helpers/mock-context';
 import CanceledTripCard from '../../../../app/component/trafficnow/CanceledTripCard';
 import * as FiltersContext from '../../../../app/component/trafficnow/filters/FiltersContext';
 
@@ -70,11 +71,10 @@ const baseProps = {
   routes: [makeRouteSummary()],
 };
 
-const baseConfig = {
-  CONFIG: 'default',
+const baseConfig = createTestConfig({
   colors: { primary: '#007ac9' },
   trafficNowMaxRoutesPerCard: 5,
-};
+});
 
 describe('<CanceledTripCard />', () => {
   let router;

@@ -3,13 +3,13 @@ import { render } from '@testing-library/react';
 import { IntlProvider } from 'react-intl';
 import translations from '../../../../app/translations/en';
 import { ConfigProvider } from '../../../../app/client/ConfigContext';
+import { createTestConfig } from '../../helpers/mock-context';
 import DisruptionStatus from '../../../../app/component/trafficnow/components/DisruptionStatus';
 import * as timeUtils from '../../../../utils/client/timeUtils';
 
-const baseConfig = {
-  CONFIG: 'default',
+const baseConfig = createTestConfig({
   colors: { primary: '#007ac9' },
-};
+});
 
 // NOW_MS = 1 000 000 ms (= 1 000 s).
 // effectiveStartDate / effectiveEndDate are passed in seconds; the component

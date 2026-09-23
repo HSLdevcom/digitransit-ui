@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
+import { createTestConfig } from '../helpers/mock-context';
 import {
   Component as RoutePatternSelectContainer,
   getPatternOptions,
@@ -36,14 +37,13 @@ function makeTripForDate() {
   };
 }
 
-const baseConfig = {
-  CONFIG: 'default',
+const baseConfig = createTestConfig({
   timeZone: 'Europe/Helsinki',
   colors: { primary: '#3fa', accessiblePrimary: '#333' },
   itinerary: { serviceTimeRange: 30 },
   showSimilarRoutesOnRouteDropDown: false,
   showNewRoutePage: true,
-};
+});
 
 const baseMatch = {
   ...mockMatch,
