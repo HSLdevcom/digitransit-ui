@@ -1,4 +1,5 @@
 /* eslint-disable react/no-array-index-key */
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useRouter } from 'found';
@@ -326,8 +327,15 @@ export default function Legs({
 
   legs.push(<Profile itinerary={itinerary} />);
 
+  const hasCallAgencyLeg = itinerary.legs.some(leg => isCallAgencyLeg(leg));
+
   return (
-    <span className="itinerary-list-container" role="list">
+    <span
+      className={cx('itinerary-list-container', {
+        'has-call-agency-leg': hasCallAgencyLeg,
+      })}
+      role="list"
+    >
       {legs.map((item, idx) => (
         <span role="listitem" key={`leg_${idx}`}>
           {item}
