@@ -99,7 +99,6 @@ export default function LocationPopup({
         });
       },
     );
-    // Run only on mount, mirroring the previous componentDidMount.
   }, []);
 
   const { loading, location } = state;

@@ -30,7 +30,7 @@ const onlyUpdateCoordChanges = (prevProps, nextProps) =>
 
 const MapCont = memo(MapContainer, onlyUpdateCoordChanges);
 
-const getForcedLayersFromMapLayerOptions = mapLayerOptions => {
+export const getForcedLayersFromMapLayerOptions = mapLayerOptions => {
   const forcedLayers = {};
   Object.keys(mapLayerOptions).forEach(key => {
     const layer = mapLayerOptions[key];

@@ -13,6 +13,8 @@ export default {
     acknowledged: 'Klart',
     'add-favourite-bikeStation-failed-heading':
       'Kunde inte spara stadscykelstationen',
+    'add-favourite-personalization-failed-heading':
+      'Kunde inte spara dina personaliseringsinställningar',
     'add-favourite-place-failed-heading': 'Kunde inte spara platsen',
     'add-favourite-route-failed-heading': 'Kunde inte spara linjen',
     'add-favourite-station-failed-heading': 'Kunde inte spara stationen',
@@ -45,7 +47,7 @@ export default {
     'alternative-legs':
       'Också {leg1} kl. {startTime1} och {leg2} kl. {startTime2}',
     'alternative-legs-single': 'Också {leg1} kl. {startTime1}',
-    'alternative-name-rail': 'Tåg',
+    'alternative-name-rail': 'Närtåg',
     'aria-itinerary-summary':
       'Den totala restiden {duration}. Avgång {inFuture} klockan {departureTime}. Framme klockan {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
@@ -622,7 +624,7 @@ export default {
     price: 'Pris',
     print: 'Skriv ut',
     'print-timetable': 'Veckans tidtabell',
-    rail: 'Närtåg',
+    rail: 'Tåg',
     'read-more': 'Läs mer',
     realtime: 'Realtid',
     releases: 'Meddelanden',

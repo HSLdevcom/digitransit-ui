@@ -48,34 +48,32 @@ export default function LegMarker({
   const routeNumber = getLegRouteNumberHtml(mode, leg.name, displayRouteNumber);
 
   return (
-    <div>
-      <Marker
-        key={`${leg.name}_text`}
-        position={{
-          lat: leg.lat,
-          lng: leg.lon,
-        }}
-        interactive={false}
-        icon={L.divIcon({
-          html: `
-            <div class="${className}" style="--background-color: ${color}">
-            ${renderAsString(
-              <Icon img={iconName} className="map-route-icon" color={color} />,
-            )}
-              ${routeNumber}
-            </div>`,
-          className: cx(
-            style ? `arrow-${style}` : 'legmarker',
-            mode,
-            { 'only-icon': !displayRouteNumber },
-            appendClass,
-          ),
-          iconSize: null,
-        })}
-        zIndexOffset={zIndexOffset}
-        keyboard={false}
-      />
-    </div>
+    <Marker
+      key={`${leg.name}_text`}
+      position={{
+        lat: leg.lat,
+        lng: leg.lon,
+      }}
+      interactive={false}
+      icon={L.divIcon({
+        html: `
+          <div class="${className}" style="--background-color: ${color}">
+          ${renderAsString(
+            <Icon img={iconName} className="map-route-icon" color={color} />,
+          )}
+            ${routeNumber}
+          </div>`,
+        className: cx(
+          style ? `arrow-${style}` : 'legmarker',
+          mode,
+          { 'only-icon': !displayRouteNumber },
+          appendClass,
+        ),
+        iconSize: null,
+      })}
+      zIndexOffset={zIndexOffset}
+      keyboard={false}
+    />
   );
 }
 

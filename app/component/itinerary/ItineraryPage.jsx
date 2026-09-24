@@ -24,8 +24,6 @@ import {
   getGeolocationState,
   getLatestNavigatorItinerary,
   setDialogState,
-  getPersonalization,
-  setPersonalization,
 } from '../../../utils/client/localStorage';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { getWeatherData } from '../../../utils/client/apiUtils';
@@ -50,6 +48,10 @@ import { mapLayerOptionsShape, relayShape } from '../../../utils/client/shapes';
 import { epochToTime } from '../../../utils/client/timeUtils';
 import { getAllNetworksOfType } from '../../../utils/shared/vehicleRentalUtils';
 import { isPersonalizationEnabled } from '../../../utils/client/modeUtils';
+import {
+  useFavouriteActions,
+  usePersonalizationPreferences,
+} from '../../hooks/FavouriteContext';
 import DesktopView from '../DesktopView';
 import Loading from '../Loading';
 import MobileView from '../MobileView';
@@ -166,7 +168,23 @@ export default function ItineraryPage(props, context) {
   const mobileRef = useRef();
   const ariaRef = useRef('summary-page.title');
   const mapLayerRef = useRef();
-  const weights = useRef(getPersonalization().weights || {});
+  const { savePersonalizationPreferences } = useFavouriteActions();
+  const personalizationPreferences = usePersonalizationPreferences();
+  const weights = useRef(personalizationPreferences.weights || {});
+  // personalization weights may still be loading (e.g. fetched from the
+  // favourites backend) when this component mounts; hydrate the ref once
+  // real data arrives, but only until then, so in-session feedback isn't
+  // overwritten by a late-arriving fetch.
+  const weightsHydratedRef = useRef(
+    !!Object.keys(personalizationPreferences.weights || {}).length,
+  );
+  useEffect(() => {
+    const preferenceWeights = personalizationPreferences.weights || {};
+    if (!weightsHydratedRef.current && Object.keys(preferenceWeights).length) {
+      weights.current = preferenceWeights;
+      weightsHydratedRef.current = true;
+    }
+  }, [personalizationPreferences]);
   const recommendedItinerary = useRef(-1);
 
   const [mainState, setMainState] = useState({
@@ -1420,7 +1438,7 @@ export default function ItineraryPage(props, context) {
       feedback_location: 'reittiohje',
     });
     weights.current = applyFeedback(weights.current, itinerary, liked);
-    setPersonalization({ weights: weights.current }); // save to local storage
+    savePersonalizationPreferences({ weights: weights.current });
     const updated = { ...feedback };
     updated[i] = liked;
     setFeedback(updated);

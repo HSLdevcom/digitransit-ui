@@ -65,6 +65,9 @@ export const BreakpointProvider = Provider;
 
 /**
  * Extracts breakpoint information (can be one of: large, medium and small) from the context.
+ *
+ * @deprecated This package has no direct consumers and is unused. It will be
+ * removed in a future release.
  */
 export const BreakpointConsumer = Consumer;
 
@@ -91,6 +94,8 @@ function getDisplayName(Component) {
  *
  * @param {*} Component The component to extend with breakpoint handling
  * @param {boolean} forwardRef Whether any ref given to the HOC should be forwarded to the extended Component.
+ * @deprecated This package has no direct consumers and is unused. It will be
+ * removed in a future release.
  */
 function withBreakpoint(Component, { forwardRef } = { forwardRef: false }) {
   class WithBreakpoint extends React.Component {
