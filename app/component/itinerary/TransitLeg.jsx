@@ -518,31 +518,35 @@ export default function TransitLeg({
             })}
           >
             <div className="itinerary-leg-row">
-              <Link
-                aria-label={validatedFromLegName?.toLowerCase()}
-                onClick={e => {
-                  e.stopPropagation();
-                  addAnalyticsEvent({
-                    category: 'Itinerary',
-                    action: 'OpenRouteFromItinerary',
-                    name: mode,
-                  });
-                }}
-                to={stopPagePath(false, leg.from.stop.gtfsId)}
-              >
-                {validatedFromLegName}
-                {leg.from.viaLocationType && (
+              {isCallAgency ? (
+                <span>{validatedFromLegName}</span>
+              ) : (
+                <Link
+                  aria-label={validatedFromLegName?.toLowerCase()}
+                  onClick={e => {
+                    e.stopPropagation();
+                    addAnalyticsEvent({
+                      category: 'Itinerary',
+                      action: 'OpenRouteFromItinerary',
+                      name: mode,
+                    });
+                  }}
+                  to={stopPagePath(false, leg.from.stop.gtfsId)}
+                >
+                  {validatedFromLegName}
+                  {leg.from.viaLocationType && (
+                    <Icon
+                      img="icon_mapMarker"
+                      className="itinerary-mapmarker-icon"
+                    />
+                  )}
                   <Icon
-                    img="icon_mapMarker"
-                    className="itinerary-mapmarker-icon"
+                    img="icon_arrow-collapse--right"
+                    className="itinerary-arrow-icon"
+                    color={config.colors.primary}
                   />
-                )}
-                <Icon
-                  img="icon_arrow-collapse--right"
-                  className="itinerary-arrow-icon"
-                  color={config.colors.primary}
-                />
-              </Link>
+                </Link>
+              )}
 
               <ServiceAlertIcon
                 className="inline-icon"
