@@ -159,7 +159,7 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
       expect(futureRoutes[0].properties.origin.name).toBe('Myyrmäki');
     });
 
-    it('should update an existing route within five minutes', () => {
+    it('should remove an existing route updated to within five minutes', () => {
       const updatedTime = (new Date().getTime() / 1000 + 120).toFixed(0);
       const futureRoutes = addFutureRoute(
         {
@@ -169,11 +169,7 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
         getItemAsJson('digitransit-store-future-route-test'),
       );
 
-      expect(futureRoutes).toHaveLength(1);
-      expect(
-        futureRoutes.find(route => route.properties.origin.name === 'Myyrmäki')
-          .properties.time,
-      ).toBe(updatedTime);
+      expect(futureRoutes).toHaveLength(0);
     });
 
     it('should not add a new route within five minutes', () => {

@@ -75,7 +75,7 @@ function searchId(props) {
  * @param {number} item.time Unix timestamp (seconds) of the future trip.
  * @param {Object[]} [collection] The existing collection of future routes.
  * @returns {Object[]} The updated collection, sorted by time - or the original collection
- * (or an empty array) unchanged if item.time is in the past.
+ * (or an empty array) unchanged if item.time is within five minutes.
  * @example
  * const newRoute = {
  *   origin: { address: 'Pasila, Helsinki', coordinates: { lat: 60.198828, lon: 24.933514 } },
@@ -134,10 +134,7 @@ export function addFutureRoute(item, collection) {
           r => r.properties.time >= now && searchId(r.properties) !== newId,
         )
       : [];
-    const hasExistingRoute = collection?.some(
-      r => r.properties.time >= now && searchId(r.properties) === newId,
-    );
-    if (item.time <= now || (item.time <= now + 300 && !hasExistingRoute)) {
+    if (item.time <= now + 300) {
       return futureRoutes;
     }
     const sortedItems = sortBy(
