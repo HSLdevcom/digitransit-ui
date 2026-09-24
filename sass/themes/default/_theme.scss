@@ -160,3 +160,11 @@ $slide-up-down-fade: 0.8s ease-out forwards;
 $default-dotted-line: url('../default/default-dotted-line.svg');
 $indoor-dotted-line: url('../default/indoor-dotted-line.svg');
 $indoor-dotted-line-horizontal: url('../default/indoor-dotted-line-horizontal.svg');
+
+.theme-default {
+  display: block;
+}
+
+.theme-matka {
+  display: none;
+}
