@@ -135,13 +135,62 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
       expect(futureRoutes).toHaveLength(2);
     });
 
-    it('Save should not to add route in past as 3rd item', () => {
+    it('should remove a matching route when its updated time is in the past', () => {
       const futureRoutes = addFutureRoute(
         routeInPast,
         getItemAsJson('digitransit-store-future-route-test'),
       );
       setItem('digitransit-store-future-route-test', futureRoutes);
-      expect(futureRoutes).toHaveLength(2);
+      expect(futureRoutes).toHaveLength(1);
+      expect(futureRoutes[0].properties.origin.name).toBe('Myyrmäki');
+    });
+
+    it('should retain unrelated future routes when a route is updated to the past', () => {
+      const futureRoutes = addFutureRoute(
+        {
+          ...routeInPast,
+          origin: routeInFuture1.origin,
+          destination: routeInFuture1.destination,
+        },
+        getItemAsJson('digitransit-store-future-route-test'),
+      );
+
+      expect(futureRoutes).toHaveLength(1);
+      expect(futureRoutes[0].properties.origin.name).toBe('Myyrmäki');
+    });
+
+    it('should update an existing route within five minutes', () => {
+      const updatedTime = (new Date().getTime() / 1000 + 120).toFixed(0);
+      const futureRoutes = addFutureRoute(
+        {
+          ...routeInFuture3,
+          time: updatedTime,
+        },
+        getItemAsJson('digitransit-store-future-route-test'),
+      );
+
+      expect(futureRoutes).toHaveLength(1);
+      expect(
+        futureRoutes.find(route => route.properties.origin.name === 'Myyrmäki')
+          .properties.time,
+      ).toBe(updatedTime);
+    });
+
+    it('should not add a new route within five minutes', () => {
+      const updatedTime = (new Date().getTime() / 1000 + 120).toFixed(0);
+      const futureRoutes = addFutureRoute(
+        {
+          ...routeInPast,
+          destination: {
+            address: 'Leppävaara, Espoo',
+            coordinates: { lat: 60.218, lon: 24.813 },
+          },
+          time: updatedTime,
+        },
+        getItemAsJson('digitransit-store-future-route-test'),
+      );
+
+      expect(futureRoutes).toHaveLength(1);
     });
   });
 

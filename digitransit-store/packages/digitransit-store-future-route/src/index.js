@@ -87,7 +87,7 @@ function searchId(props) {
  */
 export function addFutureRoute(item, collection) {
   const now = new Date().getTime() / 1000;
-  if (item && item.time > now) {
+  if (item) {
     const originAddress = item.origin.address.split(', ');
     const originName = originAddress[0];
     originAddress.shift();
@@ -134,6 +134,12 @@ export function addFutureRoute(item, collection) {
           r => r.properties.time >= now && searchId(r.properties) !== newId,
         )
       : [];
+    const hasExistingRoute = collection?.some(
+      r => r.properties.time >= now && searchId(r.properties) === newId,
+    );
+    if (item.time <= now || (item.time <= now + 300 && !hasExistingRoute)) {
+      return futureRoutes;
+    }
     const sortedItems = sortBy(
       [...futureRoutes, routeToAdd],
       [

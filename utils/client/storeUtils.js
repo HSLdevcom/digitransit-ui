@@ -1,4 +1,5 @@
 import { addFutureRoute } from '@digitransit-store/digitransit-store-future-route';
+import isEqual from 'lodash/isEqual';
 import { getFutureRoutesStorage, setFutureRoutesStorage } from './localStorage';
 
 export const getPositions = context => {
@@ -22,9 +23,9 @@ export const getFutureRoutes = () => {
 };
 
 export const saveFutureRoute = itinSearch => {
-  if (itinSearch.time > new Date().getTime() / 1000 + 300) {
-    // saved search must be at least 5 minutes in future
-    const storage = addFutureRoute(itinSearch, getFutureRoutesStorage());
+  const previousStorage = getFutureRoutesStorage();
+  const storage = addFutureRoute(itinSearch, previousStorage);
+  if (!isEqual(storage, previousStorage)) {
     setFutureRoutesStorage(storage);
   }
 };
