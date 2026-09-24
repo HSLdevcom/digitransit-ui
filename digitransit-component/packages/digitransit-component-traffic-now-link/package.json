@@ -1,9 +1,10 @@
 {
   "name": "@digitransit-component/digitransit-component-traffic-now-link",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "digitransit-component traffic-now-link module",
   "type": "module",
   "main": "index.cjs",
+  "deprecated": "The component is no longer maintained or updated and is currently pending deletion from the project.",
   "module": "lib/index.js",
   "exports": {
     ".": {

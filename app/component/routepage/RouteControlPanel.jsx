@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
@@ -7,7 +6,7 @@ import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import { matchShape } from 'found';
-import { enrichPatterns } from '@digitransit-util/digitransit-util';
+import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
 import { useConfigContext } from '../../client/ConfigContext';
 import RoutePatternSelectContainer from './RoutePatternSelectContainer';
 import {
