@@ -67,7 +67,7 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
         coordinates: { lat: 60.261238, lon: 24.854782 },
       },
       arriveBy: false,
-      time: (new Date().getTime() / 1000 + 300).toFixed(0),
+      time: (new Date().getTime() / 1000 + 360).toFixed(0),
     };
 
     const routeInFuture2 = {
