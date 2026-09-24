@@ -78,7 +78,7 @@ function GenericMarker({
     <React.Fragment>
       {marker}
       {nameMarker}
-    </React.Fragment>
+    </>
   );
 }
 
