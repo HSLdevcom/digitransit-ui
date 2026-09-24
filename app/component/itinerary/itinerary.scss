@@ -1688,7 +1688,25 @@ $itinerary-tab-switch-height: 48px;
     color: $black;
     margin-bottom: 0.5em;
     flex-grow: 0;
+
+    // without this, the nowrap estimate label forces this flex item to grow past its
+    // column width instead of letting the overflow spill over visually
+    min-width: 0;
     top: 10px;
+
+    // tighten alignment for every leg's time in an itinerary that has a call agency leg,
+    // so times line up even on rows without their own estimate label
+    .itinerary-list-container.has-call-agency-leg & {
+      text-align: right;
+
+      // Foundation's grid-column gutter adds ~10-15px of padding-right, but estimate text needs more space.
+      padding-right: 4px;
+    }
+
+    &.has-estimate {
+      // Center estimate with location circle
+      padding-top: 15px;
+    }
 
     a {
       text-decoration: none;
@@ -1791,6 +1809,22 @@ $itinerary-tab-switch-height: 48px;
       span {
         position: relative;
       }
+    }
+
+    // sized only by the time (the estimate is taken out of flow below), so the estimate
+    // is anchored to the time's own right edge instead of the column's
+    .itinerary-time-column-time-group {
+      position: relative;
+      display: inline-block;
+    }
+
+    // pinned above and flush with the time's right edge; can only grow to the left,
+    // never past the time on the right, however wide the translation is
+    .itinerary-time-column-estimate {
+      position: absolute;
+      right: 0;
+      bottom: 100%;
+      white-space: nowrap;
     }
 
     .icon {

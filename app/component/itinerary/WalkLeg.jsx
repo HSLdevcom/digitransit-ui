@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
+import { Text } from '@hsl-fi/layout-primitives';
 import { legShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../client/ConfigContext';
 import {
@@ -156,14 +157,30 @@ function WalkLeg({
           }}
         />
       </span>
-      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        {previousLeg && isCallAgencyLeg(previousLeg) && (
-          <FormattedMessage id="estimate" />
-        )}
-        <div className="itinerary-time-column-time">
-          <span className={cx({ realtime: previousLeg?.realTime })}>
-            {leg.mode === 'WALK' ? legTimeStr(leg.start) : legTimeStr(leg.end)}
-          </span>
+      <div
+        className={cx('small-2', 'columns', 'itinerary-time-column', {
+          'has-estimate': previousLeg && isCallAgencyLeg(previousLeg),
+        })}
+        aria-hidden="true"
+      >
+        <div className="itinerary-time-column-time-group">
+          <div className="itinerary-time-column-time">
+            <span className={cx({ realtime: previousLeg?.realTime })}>
+              {leg.mode === 'WALK'
+                ? legTimeStr(leg.start)
+                : legTimeStr(leg.end)}
+            </span>
+          </div>
+          {previousLeg && isCallAgencyLeg(previousLeg) && (
+            <Text
+              as="span"
+              variant="routes-xxs"
+              color="weak"
+              className="itinerary-time-column-estimate"
+            >
+              <FormattedMessage id="estimate" />
+            </Text>
+          )}
         </div>
       </div>
       <ItineraryCircleLineWithIcon
