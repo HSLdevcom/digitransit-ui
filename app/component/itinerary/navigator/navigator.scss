@@ -300,10 +300,6 @@
     }
 
     .duration {
-      &.fade-out {
-        animation: fadeOut 3s forwards;
-      }
-
       font-size: $font-size-xsmall;
       font-weight: $font-weight-book;
       display: flex;
@@ -408,10 +404,6 @@
               fill: $to-color;
             }
 
-            &.bus-stop {
-              color: $bus-color;
-            }
-
             &.bus-express {
               color: $bus-express-color;
             }
@@ -424,32 +416,12 @@
               color: $replacement-bus-color;
             }
 
-            &.tram-stop {
-              color: $tram-color;
-            }
-
             &.subway-stop {
               color: $metro-color;
             }
 
-            &.rail-stop {
-              color: $rail-color;
-            }
-
-            &.ferry-stop {
-              color: $ferry-color;
-            }
-
-            &.ferry-external-stop {
-              color: $external-feed-color;
-            }
-
             &.funicular-stop {
               color: $funicular-color;
-            }
-
-            &.speedtram-stop {
-              color: $speedtram-color;
             }
           }
 
@@ -766,14 +738,6 @@
       align-items: flex-start;
       margin-left: 8px;
       margin-right: 8px;
-      width: 100%;
-    }
-
-    .navi-alert-content {
-      display: flex;
-      align-self: flex-start;
-      margin-left: var(--space-s, 8px);
-      margin-right: var(--space-m, 16px);
       width: 100%;
     }
 
