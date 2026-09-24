@@ -1,6 +1,5 @@
 import React from 'react';
-import { waitFor } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { waitFor, act } from '@testing-library/react';
 
 import {
   Component as MessageBar,

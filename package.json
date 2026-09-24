@@ -218,7 +218,6 @@
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "1.0.0",
     "@testing-library/react": "^12",
-    "@testing-library/react-hooks": "^8.0.1",
     "@vitejs/plugin-react": "4.7.0",
     "async": "^3.2.6",
     "autoprefixer": "^10.4.21",
