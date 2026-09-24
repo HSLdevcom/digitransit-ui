@@ -403,26 +403,6 @@
             &.place {
               fill: $to-color;
             }
-
-            &.bus-express {
-              color: $bus-express-color;
-            }
-
-            &.speedtram {
-              color: $speedtram-color;
-            }
-
-            &.replacement-bus {
-              color: $replacement-bus-color;
-            }
-
-            &.subway-stop {
-              color: $metro-color;
-            }
-
-            &.funicular-stop {
-              color: $funicular-color;
-            }
           }
 
           .destination {
