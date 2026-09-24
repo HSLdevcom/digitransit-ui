@@ -13,7 +13,8 @@ export function getFavourites() {
   return retryFetch('/api/user/favourites', 2, 200).then(res => res.json());
 }
 
-export function updateFavourites(data) {
+export function updateFavourites(data, type) {
+  const query = type ? `?type=${encodeURIComponent(type)}` : '';
   const options = {
     method: 'PUT',
     headers: {
@@ -21,7 +22,7 @@ export function updateFavourites(data) {
     },
     body: JSON.stringify(data),
   };
-  return retryFetch('/api/user/favourites', 0, 0, options).then(res =>
+  return retryFetch(`/api/user/favourites${query}`, 0, 0, options).then(res =>
     res.json(),
   );
 }
