@@ -224,8 +224,16 @@ div.leaflet-container {
   }
 }
 
+// This used to be a fixed height, tuned for the old full-page map picker
+// (which had no flex layout of its own) to leave extra room below the map
+// so mobile browsers' own bottom nav/toolbar chrome wouldn't cover the
+// confirm button. SelectFromMapModal's flex layout already sizes this
+// wrapper's flex slot to the true remaining space below its header, so
+// just fill that instead - a fixed height here fights that sizing and
+// pushes .select-from-map-confirm-button's bottom offset further down
+// than intended.
 .select-from-map {
-  height: calc(100vh - 36px);
+  height: 100%;
 }
 
 div.current-location-marker > span > svg.icon {
@@ -1426,6 +1434,26 @@ div.leaflet-control-scale.leaflet-control {
   cursor: grab;
 }
 
+// select-from-map picker (mobile & desktop): sit closer to the bottom-right
+// corner instead of reusing the stop/itinerary page spacing above, which
+// leaves it floating noticeably higher up and further from the edge in
+// this full-bleed view. Chained onto the wrapper's own 3 classes so this
+// beats the ".desktop .map.full" specificity above regardless of source order.
+.select-from-map.map.full .leaflet-control-scale.leaflet-control {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  cursor: grab;
+}
+
+// The control's own margin-bottom above is dwarfed by its container's own
+// offset from the bottom edge (".map .leaflet-bottom" and the ".mobile"
+// variant of it above), which were tuned for other views with a bottom
+// sheet/nav below the map. Flatten that here so the small margin above is
+// what actually determines the gap, matching margin-right's small gap.
+.select-from-map.map.full .leaflet-bottom {
+  bottom: 0;
+}
+
 .desktop .map {
   border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -1482,7 +1510,16 @@ div.leaflet-control-scale-line {
   height: 50px;
   width: 60%;
   border-radius: 25px;
-  bottom: 15%;
+
+  // 15% of the map's height was tuned for the old full-page picker, where
+  // the map area was itself shrunk to leave slack at the bottom for mobile
+  // browsers' own nav/toolbar chrome. Now that the map correctly fills its
+  // real (already-clipped-to-the-viewport) flex slot, that percentage is
+  // way too much empty space below the button. Use a small fixed offset
+  // instead (plus 20px extra clearance above Leaflet's own scale/measuring
+  // line control), padded out by the iOS/Android safe-area inset when
+  // present.
+  bottom: max(42px, calc(env(safe-area-inset-bottom, 0px) + 42px));
   background-color: var(--color);
   font-size: 18px;
   font-weight: $font-weight-medium;
