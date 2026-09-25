@@ -64,7 +64,7 @@ addFutureRoute(newRoute, existingFutureRoutes);
 ```
 
 Returns **[Array][5]<[Object][1]>** The updated collection, sorted by time - or the original collection
-(or an empty array) unchanged if item.time is in the past.
+(or an empty array) unchanged if item.time is within five minutes.
 
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 
