@@ -60,6 +60,20 @@ function searchId(props) {
   return `${props.origin.name}, ${props.origin.localadmin} - ${props.destination.name}, ${props.destination.localadmin}`;
 }
 
+function createRouteLocation(location) {
+  const address = location.address.split(', ');
+  const name = address.shift();
+
+  return {
+    name,
+    localadmin: address.length === 1 ? address[0] : address.join(', '),
+    coordinates: {
+      lat: location.coordinates.lat,
+      lon: location.coordinates.lon,
+    },
+  };
+}
+
 /**
  * Adds a future route to a collection of future routes, replacing any existing entry for the
  * same origin/destination pair and dropping entries whose time has already passed.
@@ -89,40 +103,12 @@ export function addFutureRoute(item, collection) {
   if (item) {
     const future = new Date().getTime() / 1000 + 300;
 
-    const originAddress = item.origin.address.split(', ');
-    const originName = originAddress[0];
-    originAddress.shift();
-    const originLocalAdmin =
-      originAddress.length === 1 ? originAddress[0] : originAddress.join(', ');
-
-    const destinationAddress = item.destination.address.split(', ');
-    const destinationName = destinationAddress[0];
-    destinationAddress.shift();
-    const destinationLocalAdmin =
-      destinationAddress.length === 1
-        ? destinationAddress[0]
-        : destinationAddress.join(', ');
-
     const routeToAdd = {
       type: 'FutureRoute',
       properties: {
         layer: 'futureRoute',
-        origin: {
-          name: originName,
-          localadmin: originLocalAdmin,
-          coordinates: {
-            lat: item.origin.coordinates.lat,
-            lon: item.origin.coordinates.lon,
-          },
-        },
-        destination: {
-          name: destinationName,
-          localadmin: destinationLocalAdmin,
-          coordinates: {
-            lat: item.destination.coordinates.lat,
-            lon: item.destination.coordinates.lon,
-          },
-        },
+        origin: createRouteLocation(item.origin),
+        destination: createRouteLocation(item.destination),
         arriveBy: item.arriveBy,
         time: item.time,
       },
