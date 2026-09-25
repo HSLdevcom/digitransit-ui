@@ -1,0 +1,96 @@
+// Full-bleed override for the "select location from map" modal, mobile
+// only. The design system's Modal is a compact, content-sized card
+// (centered, max-width 560px on desktop; a padded bottom sheet on mobile).
+// On mobile, the map picker needs to fill essentially the whole viewport
+// for usable marker placement, so these classnames (added onto the
+// overlay/scaler/content elements by SelectFromMapModal.jsx, since the
+// library exposes no prop for it) force full-viewport sizing instead.
+// Selectors are repeated to raise specificity above the library's own
+// same-origin rules, following the pattern already used for
+// .location-modal-content in nearyou.scss. On desktop (min-width: 500px,
+// the same breakpoint the library itself switches on from a bottom sheet
+// to a centered card, see @hsl-fi/dialog's ModalOverlayAndSheet), keep a
+// large-but-bounded centered card instead of taking over the full screen,
+// which was a deliberate design choice in the original implementation.
+.select-from-map-modal-overlay.select-from-map-modal-overlay {
+  padding: 0;
+  place-items: stretch;
+
+  @media (min-width: 500px) {
+    padding: var(--space-l);
+    place-items: center;
+  }
+}
+
+.select-from-map-modal-scaler.select-from-map-modal-scaler {
+  max-width: none;
+  width: 100%;
+  height: 100%;
+
+  @media (min-width: 500px) {
+    max-width: min(90vw, 960px);
+    width: min(90vw, 960px);
+    height: min(80vh, 800px);
+  }
+}
+
+.select-from-map-modal-content.select-from-map-modal-content {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  overflow: hidden;
+
+  @media (min-width: 500px) {
+    border-radius: var(--radius-l);
+  }
+
+  // The FlexColumn wrapping the (optional) illustration, header and our
+  // own children (see @hsl-fi/dialog's ModalContent) - stretch it to fill
+  // the modal and drop its padding/gap so the map isn't inset.
+  > :first-child {
+    height: 100%;
+    padding: 0;
+    gap: 0;
+
+    // Header (title) wrapper rendered by FocusToHeading, keep it padded.
+    // The design system's own title padding (space-fixed-m/s) is sized for
+    // a content-card modal and makes this toolbar-like bar noticeably
+    // taller than the picker's previous compact header. Tighten it to the
+    // close button's own footprint (space-fixed-s top + ~32px button)
+    // instead, so the bar hugs the title/close button rather than the
+    // card-modal spacing. Left/right padding are both space-fixed-xl (the
+    // close button's own top offset + size) so the reserved close-button
+    // clearance on the right is mirrored on the left, keeping the centered
+    // title (below) visually centered in the whole bar, not just its box.
+
+    // The top padding is chosen so the title's line box lands on the same
+    // vertical center as the (design system's own, absolutely positioned)
+    // close button, rather than reusing its own top offset directly: the
+    // button sits space-fixed-s (16px) from the top and is ~32px tall
+    // (CloseButton's space-fixed-xxs padding around a fixed 24px icon), so
+    // its center is 32px down; the title's line box is 24px tall (h5,
+    // fixedSize desktop), so it needs 20px of padding above it to center
+    // on that same 32px mark.
+    > :first-child {
+      padding: calc(var(--space-fixed-s) + 4px) var(--space-fixed-xl)
+        var(--space-fixed-xs) var(--space-fixed-xl);
+
+      h1 {
+        text-align: center;
+
+        // Drop the design system's own reserved close-button padding on
+        // the title itself now that it's redundant with the padding above.
+        > div {
+          padding-right: 0;
+        }
+      }
+    }
+
+    // Our own children (the map picker), let it fill the remaining space.
+    > :nth-child(2) {
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+  }
+}

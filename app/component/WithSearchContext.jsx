@@ -12,10 +12,8 @@ import {
   PREFIX_ROUTES,
 } from '../../utils/shared/path';
 import searchContext from '../data/SearchContext';
-import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMap from './map/SelectFromMap';
-import DTModal from './DTModal';
-import FromMapModal from './FromMapModal';
+import SelectFromMapModal from './SelectFromMapModal';
 import { removeSearch } from '../action/SearchActions';
 
 const PATH_OPTS = {
@@ -65,7 +63,6 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
       onGeolocationStart: PropTypes.func,
       fromMap: PropTypes.string,
       isMobile: PropTypes.bool,
-      favouriteContext: PropTypes.bool,
       showViapointControl: PropTypes.bool,
     };
 
@@ -74,7 +71,6 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
       fromMap: undefined,
       isMobile: false,
       showViapointControl: false,
-      favouriteContext: false,
     };
 
     constructor(props) {
@@ -296,27 +292,14 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
         titleId = 'select-from-map-viaPoint';
       }
 
-      if (!this.props.isMobile) {
-        return (
-          <FromMapModal
-            onClose={() => this.setState({ fromMap: undefined })}
-            titleId={titleId}
-            favouriteContext={this.props.favouriteContext}
-          >
-            <SelectFromMap type={id} onConfirm={this.confirmMapSelection} />
-          </FromMapModal>
-        );
-      }
-
       return (
-        <DTModal show>
-          <SelectFromMapHeader
-            titleId={titleId}
-            onBackBtnClick={() => this.setState({ fromMap: undefined })}
-            hideCloseBtn
-          />
+        <SelectFromMapModal
+          title={this.context.intl.formatMessage({ id: titleId })}
+          lang={this.context.config.language}
+          onClose={() => this.setState({ fromMap: undefined })}
+        >
           <SelectFromMap type={id} onConfirm={this.confirmMapSelection} />
-        </DTModal>
+        </SelectFromMapModal>
       );
     };
 

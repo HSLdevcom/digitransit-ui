@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import get from 'lodash/get';
 import { useRouter } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -44,10 +44,46 @@ function SelectFromMap({ breakpoint, language, type, onConfirm, mapLayers }) {
   const { match } = useRouter();
   const map = useRef(null);
   const [mapCenter, setMapCenter] = useState(undefined);
+  const [leafletMap, setLeafletMap] = useState(null);
+
+  const initialViewFixed = useRef(false);
 
   const setMapElementRef = element => {
-    map.current = get(element, 'leafletElement', null);
+    const leafletElement = get(element, 'leafletElement', null);
+    map.current = leafletElement;
+    setLeafletMap(leafletElement);
   };
+
+  // SelectFromMapModal (the HSL design system Modal it's rendered inside of)
+  // resizes its content to fill the viewport only after this component has
+  // already mounted and Leaflet has measured its (still small) initial
+  // container size, leaving the map stuck at that stale size. Watch the
+  // container and nudge Leaflet to re-measure whenever it actually changes.
+  useEffect(() => {
+    if (!leafletMap || typeof ResizeObserver === 'undefined') {
+      return undefined;
+    }
+    const container = leafletMap.getContainer();
+    const observer = new ResizeObserver(() => {
+      leafletMap.invalidateSize();
+      // On mobile, Map.jsx fits the initial center/zoom into bounds with a
+      // large fixed pixel padding (reserved for a bottom drawer that this
+      // view doesn't have). Leaflet computed that fit against the tiny,
+      // pre-CSS container size above, which - combined with that padding -
+      // produced a degenerate, far-too-zoomed-in view. invalidateSize()
+      // only fixes the pixel mapping, not that stale zoom, so re-apply the
+      // intended default view once the container has its real size.
+      if (!initialViewFixed.current) {
+        initialViewFixed.current = true;
+        leafletMap.setView(
+          [config.defaultEndpoint.lat, config.defaultEndpoint.lon],
+          12,
+        );
+      }
+    });
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [leafletMap, config.defaultEndpoint]);
 
   const setAddress = (lat, lon) => {
     const searchParams = {
@@ -252,6 +288,7 @@ function SelectFromMap({ breakpoint, language, type, onConfirm, mapLayers }) {
       mapLayers={mapLayers}
       locationPopup="none"
       mapRef={setMapElementRef}
+      showControls={false}
       {...eventHooks}
     />
   );
@@ -269,8 +306,22 @@ export default connectToStores(
   withBreakpoint(SelectFromMap),
   ['MapLayerStore'],
   ({ getStore }) => {
+    // This picker is only meant to help place a marker relative to
+    // terminals/stations (zones are always visible as part of the base map
+    // tiles, not a toggleable layer), so hide every other user-toggleable
+    // overlay regardless of the user's own layer selections, and force
+    // stations on even if the user had hidden them elsewhere.
     const mapLayers = getStore('MapLayerStore').getMapLayers({
-      notThese: ['vehicles'],
+      notThese: [
+        'citybike',
+        'parkAndRide',
+        'parkAndRideForBikes',
+        'vehicles',
+        'geoJson',
+        'scooter',
+        'stop',
+      ],
+      force: ['terminal'],
     });
     return { mapLayers };
   },
