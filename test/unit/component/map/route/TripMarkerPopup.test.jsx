@@ -1,0 +1,54 @@
+import React from 'react';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import { Component as TripMarkerPopup } from '../../../../../app/component/map/route/TripMarkerPopup';
+
+describe('<TripMarkerPopup />', () => {
+  it('should render popup', () => {
+    const props = {
+      addAsFavouriteRoute: () => {},
+      favourite: false,
+      id: 'OULU:12345',
+      message: {
+        direction: 0,
+        geoHash: ['64;25', '95', '10', '18'],
+        heading: undefined,
+        headsign: undefined,
+        id: 'OULU:12345',
+        lat: 64.91143,
+        long: 25.50852,
+        mode: 'bus',
+        next_stop: 'OULU:101590',
+        operatingDay: '',
+        route: 'OULU:15',
+        shortName: '15',
+        timestamp: 1573138253,
+        tripId: 'OULU:12345',
+        tripStartTime: undefined,
+      },
+      trip: {
+        pattern: {
+          code: 'OULU:15:0:01',
+          headsign: 'Keskusta (Kuvernööri)',
+          stops: [
+            {
+              name: 'Koulutie',
+            },
+            {
+              name: 'Kuvernööri',
+            },
+          ],
+        },
+        route: {
+          gtfsId: 'OULU:15',
+          longName: 'Koulutie - Kuvernööri',
+          mode: 'BUS',
+          shortName: '15',
+        },
+        gtfsId: 'OULU:12345',
+      },
+    };
+
+    const { container } = renderWithProviders(<TripMarkerPopup {...props} />);
+    expect(container.textContent).toContain('15');
+  });
+});

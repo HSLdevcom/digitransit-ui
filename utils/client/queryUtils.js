@@ -8,7 +8,6 @@ import {
   getPathWithEndpointObjects,
   PREFIX_ITINERARY_SUMMARY,
 } from '../shared/path';
-import { addViaPoint, deleteViaPoint } from '../../app/action/ViaPointActions';
 
 /**
  * Processes query so that empty arrays will be preserved in URL
@@ -107,17 +106,17 @@ export const onLocationPopup = (
   id,
   router,
   match,
-  executeAction,
+  viaPointActions,
   config,
 ) => {
   if (id === 'via') {
     const viaPoints = getIntermediatePlaces(match.location.query) || [];
     if (config.viaPointsMax && viaPoints.length >= config.viaPointsMax) {
       const lastViaPoint = viaPoints.pop();
-      executeAction(deleteViaPoint, lastViaPoint);
+      viaPointActions.deleteViaPoint(lastViaPoint);
     }
     viaPoints.push(item);
-    executeAction(addViaPoint, item);
+    viaPointActions.addViaPoint(item);
     setIntermediatePlaces(router, match, viaPoints.map(locationToOTP));
     return;
   }
