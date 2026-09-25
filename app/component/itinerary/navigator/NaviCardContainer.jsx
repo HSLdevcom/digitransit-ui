@@ -69,6 +69,13 @@ function NaviCardContainer(
     isAnyLegPropertyIdentical(prev, current, ['legId', 'mode']),
   );
   const focusRef = useRef(false);
+  // Tracks the pending "hide top card" timeout independently of the
+  // message-polling effect below (which re-runs on every realtime leg
+  // refetch, not just on real leg changes). Keeping it in a ref means an
+  // unrelated re-run of that effect can no longer cancel a still-pending
+  // timeout and leave legChanging stuck true (e.g. after the tab/screen
+  // was backgrounded and multiple updates land close together).
+  const legChangeTimeoutRef = useRef(undefined);
 
   const { match, router } = useRouter();
   const config = useConfigContext();
@@ -164,11 +171,11 @@ function NaviCardContainer(
         ),
       ]);
     }
-    let timeoutId;
     if (legChanged) {
       updateClient(getNaviTopics(), context, config);
       setLegChanging(true);
-      timeoutId = setTimeout(() => {
+      clearTimeout(legChangeTimeoutRef.current);
+      legChangeTimeoutRef.current = setTimeout(() => {
         setLegChanging(false);
       }, HIDE_TOPCARD_DURATION);
       if (currentLeg) {
@@ -204,9 +211,11 @@ function NaviCardContainer(
       }
       focusRef.current = true;
     }
-
-    return () => clearTimeout(timeoutId);
   }, [time, firstLeg]);
+
+  // Clear any pending "hide top card" timeout only on unmount, so it is
+  // never cancelled by an unrelated run of the effect above.
+  useEffect(() => () => clearTimeout(legChangeTimeoutRef.current), []);
 
   // LegChange fires animation, we need to keep the old data until card goes out of the view.
   const cardChanging = legChanged || legChanging;
