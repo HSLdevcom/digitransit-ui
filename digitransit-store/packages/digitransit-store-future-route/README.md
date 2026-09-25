@@ -48,7 +48,8 @@ same origin/destination pair and dropping entries whose time has already passed.
         *   `item.destination.address` **[string][2]** Comma-separated "name, localadmin" address.
         *   `item.destination.coordinates` **{lat: [number][3], lon: [number][3]}** 
     *   `item.arriveBy` **[boolean][4]?** 
-    *   `item.time` **[number][3]** Unix timestamp (seconds) of the future trip.
+    *   `item.time` **([number][3] | [string][2])** Unix timestamp (seconds, or a numeric string - e.g. as
+        received from a URL query parameter) of the future trip.
 *   `collection` **[Array][5]<[Object][1]>?** The existing collection of future routes.
 
 ### Examples
@@ -63,8 +64,11 @@ const newRoute = {
 addFutureRoute(newRoute, existingFutureRoutes);
 ```
 
-Returns **[Array][5]<[Object][1]>** The updated collection, sorted by time - or the original collection
-(or an empty array) unchanged if item.time is within five minutes.
+Returns **[Array][5]<[Object][1]>** The updated collection, sorted by time. If item.time is missing or
+cannot be parsed as a finite number, the collection is returned unchanged. If item.time is
+now or in the next five minutes, the item is not added - and any existing entry for the
+same origin/destination pair is removed - and the (possibly pruned) collection is returned
+instead.
 
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 
