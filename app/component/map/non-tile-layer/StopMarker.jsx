@@ -106,14 +106,16 @@ export const buildStopIconSvg = ({
   }
   return `
       <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
-        <circle class="stop ${appendClass}" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"${
+        <circle class="${cx(
+          'stop',
+          appendClass,
+        )}" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"${
           colorOverride ? ` color="${colorOverride}"` : ''
         } />
         ${
           inner > 7 && platformCode
             ? `<text x="${radius}" y="${radius}" text-anchor="middle" dominant-baseline="central"
             fill="#333" font-size="${1.2 * inner}px"
-            font-family="Gotham XNarrow A, Gotham Rounded A, Gotham Rounded B, Roboto Condensed, Roboto, Arial, sans-serif"
             >${platformCode}</text>`
             : ''
         }
