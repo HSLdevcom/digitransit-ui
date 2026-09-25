@@ -61,12 +61,14 @@ function searchId(props) {
 }
 
 function createRouteLocation(location) {
-  const address = location.address.split(', ');
-  const name = address.shift();
+  const [name, ...localadminParts] = location.address.split(', ');
 
   return {
     name,
-    localadmin: address.length === 1 ? address[0] : address.join(', '),
+    // Array.prototype.join() never inserts a separator for a single-element
+    // array, so this reconstructs the original localadmin string regardless
+    // of whether it itself contained a comma.
+    localadmin: localadminParts.join(', '),
     coordinates: {
       lat: location.coordinates.lat,
       lon: location.coordinates.lon,
@@ -86,10 +88,14 @@ function createRouteLocation(location) {
  * @param {string} item.destination.address Comma-separated "name, localadmin" address.
  * @param {{lat: number, lon: number}} item.destination.coordinates
  * @param {boolean} [item.arriveBy]
- * @param {number} item.time Unix timestamp (seconds) of the future trip.
+ * @param {number|string} item.time Unix timestamp (seconds, or a numeric string - e.g. as
+ * received from a URL query parameter) of the future trip.
  * @param {Object[]} [collection] The existing collection of future routes.
- * @returns {Object[]} The updated collection, sorted by time - or the original collection
- * (or an empty array) unchanged if item.time is within five minutes.
+ * @returns {Object[]} The updated collection, sorted by time. If item.time is missing or
+ * cannot be parsed as a finite number, the collection is returned unchanged. If item.time is
+ * now or in the next five minutes, the item is not added - and any existing entry for the
+ * same origin/destination pair is removed - and the (possibly pruned) collection is returned
+ * instead.
  * @example
  * const newRoute = {
  *   origin: { address: 'Pasila, Helsinki', coordinates: { lat: 60.198828, lon: 24.933514 } },
@@ -100,39 +106,48 @@ function createRouteLocation(location) {
  * addFutureRoute(newRoute, existingFutureRoutes);
  */
 export function addFutureRoute(item, collection) {
-  if (item) {
-    const future = new Date().getTime() / 1000 + 300;
-
-    const routeToAdd = {
-      type: 'FutureRoute',
-      properties: {
-        layer: 'futureRoute',
-        origin: createRouteLocation(item.origin),
-        destination: createRouteLocation(item.destination),
-        arriveBy: item.arriveBy,
-        time: item.time,
-      },
-    };
-
-    const newId = searchId(routeToAdd.properties);
-
-    const futureRoutes = collection
-      ? collection.filter(
-          r => r.properties.time >= future && searchId(r.properties) !== newId,
-        )
-      : [];
-    if (item.time <= future) {
-      return futureRoutes;
-    }
-    const sortedItems = sortBy(
-      [...futureRoutes, routeToAdd],
-      [
-        'properties.time',
-        'properties.origin.name',
-        'properties.destination.name',
-      ],
-    );
-    return sortedItems;
+  if (!item || item.time === undefined || item.time === null) {
+    return collection || [];
   }
-  return collection || [];
+  const time = Number(item.time);
+  if (!Number.isFinite(time)) {
+    // A malformed time isn't a valid "remove this route" signal either, so
+    // leave the collection untouched instead of guessing intent.
+    return collection || [];
+  }
+
+  const future = new Date().getTime() / 1000 + 300;
+
+  const routeToAdd = {
+    type: 'FutureRoute',
+    properties: {
+      layer: 'futureRoute',
+      origin: createRouteLocation(item.origin),
+      destination: createRouteLocation(item.destination),
+      arriveBy: item.arriveBy,
+      time: item.time,
+    },
+  };
+
+  const newId = searchId(routeToAdd.properties);
+
+  const futureRoutes = collection
+    ? collection.filter(
+        r =>
+          Number(r.properties.time) > future &&
+          searchId(r.properties) !== newId,
+      )
+    : [];
+  if (time <= future) {
+    return futureRoutes;
+  }
+  const sortedItems = sortBy(
+    [...futureRoutes, routeToAdd],
+    [
+      'properties.time',
+      'properties.origin.name',
+      'properties.destination.name',
+    ],
+  );
+  return sortedItems;
 }

@@ -1,15 +1,4 @@
 import { describe, it, expect } from 'vitest';
-// The extension below can't be dropped: the target package's package.json
-// "exports" map has an exact-string key "./src/index.js" (no wildcard), so
-// Node/Vitest's package-exports resolution requires an exact specifier
-// match here (unlike plain relative-path resolution elsewhere).
-import {
-  getItem,
-  getItemAsJson,
-  removeItem,
-  setItem,
-  // eslint-disable-next-line import/extensions
-} from '@digitransit-store/digitransit-store-common-functions/src/index.js';
 import { createUrl, addFutureRoute } from './src/index';
 import './mock-localstorage';
 
@@ -44,6 +33,9 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
   });
 
   describe('addFutureRoute(newRoute, routeCollection)', () => {
+    // Each test below passes an explicit `collection` array (rather than
+    // reading/writing a shared localStorage key) so tests stay independent
+    // of execution order.
     const routeInPast = {
       origin: {
         address: 'Pasila, Helsinki',
@@ -96,83 +88,70 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
       time: (new Date().getTime() / 1000 + 7200).toFixed(0),
     };
 
-    it('Save should not to add past route as 1st item', () => {
-      const futureRoutes = addFutureRoute(
-        routeInPast,
-        getItemAsJson('digitransit-store-future-route-test'),
-      );
-      setItem('digitransit-store-future-route-test', futureRoutes);
+    it('Save should not add a past route as the first item', () => {
+      const futureRoutes = addFutureRoute(routeInPast, []);
       expect(futureRoutes).toHaveLength(0);
     });
 
-    it('Save should add 1st route item', () => {
-      const futureRoutes = addFutureRoute(
-        routeInFuture1,
-        getItemAsJson('digitransit-store-future-route-test'),
-      );
-      setItem('digitransit-store-future-route-test', futureRoutes);
+    it('Save should add the first route item', () => {
+      const futureRoutes = addFutureRoute(routeInFuture1, []);
       expect(futureRoutes).toHaveLength(1);
+      expect(futureRoutes[0].properties.time).toBe(routeInFuture1.time);
     });
 
-    it('Save should not add 2nd route item (pair of origin and location already exists), only override timestamp', () => {
-      const beforeSave = getItemAsJson('digitransit-store-future-route-test');
-      const futureRoutes = addFutureRoute(
-        routeInFuture2,
-        getItemAsJson('digitransit-store-future-route-test'),
-      );
-      setItem('digitransit-store-future-route-test', futureRoutes);
-      const afterSave = getItemAsJson('digitransit-store-future-route-test');
-      expect(beforeSave).not.toBe(afterSave);
-      expect(afterSave).toHaveLength(1);
+    it('Save should not add a duplicate route item (same origin/destination pair), only override timestamp', () => {
+      const oneRouteCollection = addFutureRoute(routeInFuture1, []);
+      const futureRoutes = addFutureRoute(routeInFuture2, oneRouteCollection);
+      expect(futureRoutes).toHaveLength(1);
+      expect(futureRoutes[0].properties.time).toBe(routeInFuture2.time);
     });
 
-    it('Save should add 2nd route item (pair of origin and location not exists)', () => {
-      const futureRoutes = addFutureRoute(
-        routeInFuture3,
-        getItemAsJson('digitransit-store-future-route-test'),
-      );
-      setItem('digitransit-store-future-route-test', futureRoutes);
+    it('Save should add a second route item (different origin/destination pair)', () => {
+      const oneRouteCollection = addFutureRoute(routeInFuture1, []);
+      const futureRoutes = addFutureRoute(routeInFuture3, oneRouteCollection);
       expect(futureRoutes).toHaveLength(2);
     });
 
     it('should remove a matching route when its updated time is in the past', () => {
-      const futureRoutes = addFutureRoute(
-        routeInPast,
-        getItemAsJson('digitransit-store-future-route-test'),
+      const oneRouteCollection = addFutureRoute(routeInFuture1, []);
+      const twoRouteCollection = addFutureRoute(
+        routeInFuture3,
+        oneRouteCollection,
       );
-      setItem('digitransit-store-future-route-test', futureRoutes);
+      const futureRoutes = addFutureRoute(routeInPast, twoRouteCollection);
       expect(futureRoutes).toHaveLength(1);
       expect(futureRoutes[0].properties.origin.name).toBe('Myyrmäki');
     });
 
     it('should retain unrelated future routes when a route is updated to the past', () => {
+      const oneRouteCollection = addFutureRoute(routeInFuture3, []);
       const futureRoutes = addFutureRoute(
         {
           ...routeInPast,
           origin: routeInFuture1.origin,
           destination: routeInFuture1.destination,
         },
-        getItemAsJson('digitransit-store-future-route-test'),
+        oneRouteCollection,
       );
-
       expect(futureRoutes).toHaveLength(1);
       expect(futureRoutes[0].properties.origin.name).toBe('Myyrmäki');
     });
 
     it('should remove an existing route updated to within five minutes', () => {
+      const oneRouteCollection = addFutureRoute(routeInFuture3, []);
       const updatedTime = (new Date().getTime() / 1000 + 120).toFixed(0);
       const futureRoutes = addFutureRoute(
         {
           ...routeInFuture3,
           time: updatedTime,
         },
-        getItemAsJson('digitransit-store-future-route-test'),
+        oneRouteCollection,
       );
-
       expect(futureRoutes).toHaveLength(0);
     });
 
     it('should not add a new route within five minutes', () => {
+      const oneRouteCollection = addFutureRoute(routeInFuture3, []);
       const updatedTime = (new Date().getTime() / 1000 + 120).toFixed(0);
       const futureRoutes = addFutureRoute(
         {
@@ -183,18 +162,24 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
           },
           time: updatedTime,
         },
-        getItemAsJson('digitransit-store-future-route-test'),
+        oneRouteCollection,
       );
-
       expect(futureRoutes).toHaveLength(1);
     });
-  });
 
-  describe('clearFutureRoutes()', () => {
-    it("Clear should empty 'items'", () => {
-      removeItem('digitransit-store-future-route-test');
-      const item = getItem('digitransit-store-future-route-test');
-      expect(item).toBeNull();
+    it('should leave the collection unchanged when item.time is not a finite number', () => {
+      const oneRouteCollection = addFutureRoute(routeInFuture1, []);
+      [undefined, null, NaN, 'not-a-number', {}].forEach(invalidTime => {
+        const futureRoutes = addFutureRoute(
+          { ...routeInFuture3, time: invalidTime },
+          oneRouteCollection,
+        );
+        expect(futureRoutes).toBe(oneRouteCollection);
+      });
+    });
+
+    it('should return an empty array when item is missing and collection is undefined', () => {
+      expect(addFutureRoute(null, undefined)).toEqual([]);
     });
   });
 });
