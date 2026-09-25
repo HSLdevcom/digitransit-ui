@@ -60,6 +60,22 @@ function searchId(props) {
   return `${props.origin.name}, ${props.origin.localadmin} - ${props.destination.name}, ${props.destination.localadmin}`;
 }
 
+function createRouteLocation(location) {
+  const [name, ...localadminParts] = location.address.split(', ');
+
+  return {
+    name,
+    // Array.prototype.join() never inserts a separator for a single-element
+    // array, so this reconstructs the original localadmin string regardless
+    // of whether it itself contained a comma.
+    localadmin: localadminParts.join(', '),
+    coordinates: {
+      lat: location.coordinates.lat,
+      lon: location.coordinates.lon,
+    },
+  };
+}
+
 /**
  * Adds a future route to a collection of future routes, replacing any existing entry for the
  * same origin/destination pair and dropping entries whose time has already passed.
@@ -72,10 +88,14 @@ function searchId(props) {
  * @param {string} item.destination.address Comma-separated "name, localadmin" address.
  * @param {{lat: number, lon: number}} item.destination.coordinates
  * @param {boolean} [item.arriveBy]
- * @param {number} item.time Unix timestamp (seconds) of the future trip.
+ * @param {number|string} item.time Unix timestamp (seconds, or a numeric string - e.g. as
+ * received from a URL query parameter) of the future trip.
  * @param {Object[]} [collection] The existing collection of future routes.
- * @returns {Object[]} The updated collection, sorted by time - or the original collection
- * (or an empty array) unchanged if item.time is in the past.
+ * @returns {Object[]} The updated collection, sorted by time. If item.time is missing or
+ * cannot be parsed as a finite number, the collection is returned unchanged. If item.time is
+ * now or in the next five minutes, the item is not added - and any existing entry for the
+ * same origin/destination pair is removed - and the (possibly pruned) collection is returned
+ * instead.
  * @example
  * const newRoute = {
  *   origin: { address: 'Pasila, Helsinki', coordinates: { lat: 60.198828, lon: 24.933514 } },
@@ -86,63 +106,48 @@ function searchId(props) {
  * addFutureRoute(newRoute, existingFutureRoutes);
  */
 export function addFutureRoute(item, collection) {
-  const now = new Date().getTime() / 1000;
-  if (item && item.time > now) {
-    const originAddress = item.origin.address.split(', ');
-    const originName = originAddress[0];
-    originAddress.shift();
-    const originLocalAdmin =
-      originAddress.length === 1 ? originAddress[0] : originAddress.join(', ');
-
-    const destinationAddress = item.destination.address.split(', ');
-    const destinationName = destinationAddress[0];
-    destinationAddress.shift();
-    const destinationLocalAdmin =
-      destinationAddress.length === 1
-        ? destinationAddress[0]
-        : destinationAddress.join(', ');
-
-    const routeToAdd = {
-      type: 'FutureRoute',
-      properties: {
-        layer: 'futureRoute',
-        origin: {
-          name: originName,
-          localadmin: originLocalAdmin,
-          coordinates: {
-            lat: item.origin.coordinates.lat,
-            lon: item.origin.coordinates.lon,
-          },
-        },
-        destination: {
-          name: destinationName,
-          localadmin: destinationLocalAdmin,
-          coordinates: {
-            lat: item.destination.coordinates.lat,
-            lon: item.destination.coordinates.lon,
-          },
-        },
-        arriveBy: item.arriveBy,
-        time: item.time,
-      },
-    };
-
-    const newId = searchId(routeToAdd.properties);
-
-    const futureRoutes = collection
-      ? collection.filter(
-          r => r.properties.time >= now && searchId(r.properties) !== newId,
-        )
-      : [];
-    const sortedItems = sortBy(
-      [...futureRoutes, routeToAdd],
-      [
-        'properties.time',
-        'properties.origin.name',
-        'properties.destination.name',
-      ],
-    );
-    return sortedItems;
+  if (!item || item.time === undefined || item.time === null) {
+    return collection || [];
   }
-  return collection || [];
+  const time = Number(item.time);
+  if (!Number.isFinite(time)) {
+    // A malformed time isn't a valid "remove this route" signal either, so
+    // leave the collection untouched instead of guessing intent.
+    return collection || [];
+  }
+
+  const future = new Date().getTime() / 1000 + 300;
+
+  const routeToAdd = {
+    type: 'FutureRoute',
+    properties: {
+      layer: 'futureRoute',
+      origin: createRouteLocation(item.origin),
+      destination: createRouteLocation(item.destination),
+      arriveBy: item.arriveBy,
+      time: item.time,
+    },
+  };
+
+  const newId = searchId(routeToAdd.properties);
+
+  const futureRoutes = collection
+    ? collection.filter(
+        r =>
+          Number(r.properties.time) > future &&
+          searchId(r.properties) !== newId,
+      )
+    : [];
+  if (time <= future) {
+    return futureRoutes;
+  }
+  const sortedItems = sortBy(
+    [...futureRoutes, routeToAdd],
+    [
+      'properties.time',
+      'properties.origin.name',
+      'properties.destination.name',
+    ],
+  );
+  return sortedItems;
 }
