@@ -72,10 +72,6 @@
   color: $citybike-color;
 }
 
-.citybike-off {
-  color: $citybike-color;
-}
-
 .scooter {
   color: $scooter-color;
 }
@@ -108,10 +104,6 @@
   color: $to-color;
 }
 
-.viewpoint {
-  color: $viewpoint-marker-color;
-}
-
 .replacement-bus {
   color: $replacement-bus-color;
 }
@@ -135,18 +127,6 @@
 
 .right {
   float: right;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.text-right {
-  text-align: right;
-}
-
-.text-left {
-  text-align: left;
 }
 
 .inline-block {
@@ -181,10 +161,6 @@
   padding: 0.45em 1em;
 }
 
-.card-padding {
-  padding: 1em 1em 0.5em 1.5em;
-}
-
 .padding-normal {
   padding: 0.7em 1em;
 }
@@ -203,10 +179,6 @@
 
 .padding-horizontal-large {
   padding: 0 2em;
-}
-
-.no-padding {
-  padding: 0 !important;
 }
 
 .no-margin {
@@ -230,10 +202,6 @@
   }
 }
 
-.large-text {
-  font-size: 1.1em;
-}
-
 .uppercase {
   text-transform: uppercase;
 }
@@ -247,10 +215,6 @@
     opacity: 0.8;
     transition: 0.1s ease-in-out;
   }
-}
-
-.hide-dropdown {
-  background-image: none;
 }
 
 .large-icon {

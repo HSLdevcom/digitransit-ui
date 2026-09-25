@@ -33,12 +33,6 @@
   }
 }
 
-.stop-page-content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
 .stop-page.header {
   @include font-medium;
 
@@ -190,26 +184,6 @@
   }
 }
 
-.stop-page-content > .departure-list {
-  flex-basis: 0;
-  flex-grow: 20;
-  transition: flex-grow 300ms;
-
-  &.stop-page-content-enter,
-  &.stop-page-content-leave {
-    will-change: flex-grow;
-  }
-
-  &.stop-page-content-enter.stop-page-content-enter-active {
-    flex-grow: 20;
-  }
-
-  &.stop-page-content-enter,
-  &.stop-page-content-leave.stop-page-content-leave-active {
-    flex-grow: 0;
-  }
-}
-
 .stop-tab-container {
   height: 2.5em;
   min-height: 44px;
@@ -222,11 +196,6 @@
   @media print {
     display: none;
   }
-}
-
-.stop-tabs-fillerline {
-  height: 10px;
-  background: $white;
 }
 
 .stop-tab-singletab,
@@ -487,78 +456,9 @@
   }
 }
 
-.action-bar {
-  a.external-link {
-    font-size: $font-size-xxsmall;
-    color: $gray-blue;
-
-    svg.icon {
-      top: 3px;
-      font-size: 14px;
-      position: relative;
-    }
-  }
-
-  .external-link-icon-outer {
-    color: #eef1f3;
-  }
-
-  .external-link-icon {
-    color: $gray-blue;
-  }
-}
-
-.external-stop-link {
-  float: right;
-  margin-right: 14px;
-  margin-top: 14px;
-
-  a {
-    color: $link-color !important;
-    text-decoration: none;
-
-    @include font-medium;
-  }
-
-  .external-link-icon-outer {
-    color: white;
-  }
-
-  .external-link-icon {
-    color: $theme-primary-color;
-  }
-}
-
-.external-stop-link-font {
-  display: inline-block;
-  vertical-align: text-top;
-  color: blue;
-  font-size: $font-size-xxsmall;
-  text-decoration: none;
-}
-
-hr.action-bar {
-  margin: 0;
-  border: 0;
-  border-top: 1px solid #ddd;
-  width: 100%;
-  padding-bottom: 8px;
-}
-
 .desktop {
   #stop-page-action-bar {
     height: auto;
-  }
-
-  .action-bar {
-    a.external-link {
-      font-size: 14px;
-      line-height: 22px;
-
-      svg.icon {
-        font-size: 18px;
-      }
-    }
   }
 }
 
@@ -773,20 +673,12 @@ hr.action-bar {
     }
   }
 
-  .stop-tabs-fillerline {
-    height: 5px;
-  }
-
   .stop-page-departure-wrapper {
     padding: 0 16px 0 16px;
   }
 
   .routes-container {
     height: 100%;
-  }
-
-  .showroutes-header {
-    width: 41%;
   }
 
   .departure-list-header {

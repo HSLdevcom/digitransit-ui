@@ -113,18 +113,20 @@ package has actually used since the migration to Rollup). Instead:
 ## Testing
 
 Tests run on [Vitest](https://vitest.dev), configured from a single root
-`config/vitest.config.js` (one `test.projects` entry per family). `component`
+`vitest.config.js` (one `test.projects` entry per family, plus one for the
+main app suite — see `docs/Tests.md`). `component`
 runs under a jsdom environment, configured entirely in `vitest.config.js`
 (no setup file): `environmentOptions.jsdom.html` seeds a persistent
 `<div id="app">` for `@hsl-fi/modal`'s `appElement` prop, and `globals: true`
 makes `afterEach` a real global, which is all RTL's own automatic
 `cleanup()` needs to fire after each test. The other three families run
-under plain Node. `component` also loads
-`config/vitest.jsx-runtime-loader.js`, a Node ESM loader hook (wired in via
-`NODE_OPTIONS`, not a Vitest config option) that patches the extensionless
-`react/jsx-runtime` import and stubs `.css`/`.scss` — both needed for real,
-un-stubbed ESM `@hsl-fi/*` peer dependencies, which Node resolves natively
-rather than through Vite.
+under plain Node. `component`'s real, un-stubbed ESM `@hsl-fi/*` peer
+dependencies (and their own `@radix-ui`/`@floating-ui` dependencies) ship
+extensionless `react/jsx-runtime` imports that Node's own resolver can't
+match; `component`'s project config forces those through Vite's own (more
+lenient) resolver instead (`server.deps.inline`), with a small plugin
+unwrapping the handful of `@hsl-fi/*` packages that need a manual
+CJS/ESM default-export unwrap.
 
 Run everything from the repository root:
 
@@ -186,12 +188,6 @@ $ yarn docs
 # regenerate every package, in every family (run from the repository root)
 $ yarn workspace-packages-docs
 ```
-
-Each family's meta-package (`@digitransit-component/digitransit-component`,
-`@digitransit-util/digitransit-util` — the ones that re-export every
-sibling in the family) gets a README too, generated the same way;
-`search-util` and `store` don't have a meta-package, so their packages'
-READMEs don't mention installing one.
 
 CI enforces this: the `check-readmes` job in `.github/workflows/dev-pipeline.yml`
 regenerates every family and fails the build if that produces any diff
@@ -271,3 +267,32 @@ Because `nx.json`'s `build` target defines an explicit `inputs` list, any
 future shared build config file (beyond `config/rollup.config.js`/
 `config/babel.config.cjs`, already listed there) needs adding to that list
 too, or editing it won't invalidate every package's Nx build cache.
+
+## Deprecated
+
+These packages are marked deprecated — via a `@deprecated` JSDoc tag (which
+also shows up in the generated `README.md`) and a `"deprecated"` field in
+`package.json` (which npm surfaces on install/publish) — and are scheduled
+for removal in a future change. Don't add new code to them, and don't add
+any new dependents.
+
+- **`@digitransit-component/digitransit-component`** — this family's
+  meta-package, re-exporting every sibling component. No call site in
+  `app/**` used it; every consumer imports the specific
+  `@digitransit-component/digitransit-component-*` sub-package it needs
+  directly.
+- **`@digitransit-util/digitransit-util`** — this family's equivalent
+  meta-package. Same reasoning; import the specific
+  `@digitransit-util/digitransit-util-*` sub-package instead.
+- **`@digitransit-component/digitransit-component-abtesting`** — never
+  adopted, unused.
+- **`@digitransit-component/digitransit-component-traffic-now-link`** — no
+  longer maintained or used.
+- **`@digitransit-component/digitransit-component-with-breakpoint`** — no
+  direct consumers.
+- **`@digitransit-store/digitransit-store-common-functions`** — no real
+  consumers.
+- **`@digitransit-search-util/digitransit-search-util-execute-search-immidiate`**
+  — renamed due to a spelling fix; use
+  `@digitransit-search-util/digitransit-search-util-execute-search-immediate`
+  instead.

@@ -138,7 +138,6 @@ export default function NaviInstructions(
 
   if (legType === LEGTYPE.TRANSIT) {
     const rt = leg.realtimeState === 'UPDATED';
-    const t = legTime(leg.end);
 
     const destId = // eslint-disable-next-line no-nested-ternary
       leg.mode === 'FERRY'
@@ -148,17 +147,29 @@ export default function NaviInstructions(
           : 'navileg-at-stop';
     const stopOrStation = intl.formatMessage({ id: destId });
 
-    const remainingDuration = durationToString(intl, t - time);
+    const sameRouteInterline =
+      nextLeg?.interlineWithPreviousLeg &&
+      leg.route?.shortName === nextLeg.route?.shortName;
+    // eslint-disable-next-line no-nested-ternary
+    const translationId = nextLeg?.interlineWithPreviousLeg
+      ? sameRouteInterline
+        ? 'navileg-in-transit-interline-same-route'
+        : 'navileg-in-transit-interline'
+      : 'navileg-leave-at';
+
+    // Both messages are about reaching leg.to (the stop where either the
+    // traveler gets off, or waits onboard while the route number changes).
+    // The dedicated WAIT_IN_VEHICLE legType/card takes over with nextLeg's
+    // own resume time once actually there.
     const values2 = {
       stopOrStation,
       stop: leg.to.stop.name,
-      duration: withRealTime(rt, remainingDuration),
+      duration: withRealTime(
+        rt,
+        durationToString(intl, legTime(leg.end) - time),
+      ),
       legTime: withRealTime(rt, legTimeStr(leg.end)),
     };
-
-    const translationId = nextLeg?.interlineWithPreviousLeg
-      ? 'navileg-in-transit-interline'
-      : 'navileg-leave-at';
 
     return (
       <>

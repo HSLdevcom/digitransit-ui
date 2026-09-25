@@ -13,6 +13,8 @@ export default {
     acknowledged: 'Klart',
     'add-favourite-bikeStation-failed-heading':
       'Kunde inte spara stadscykelstationen',
+    'add-favourite-personalization-failed-heading':
+      'Kunde inte spara dina personaliseringsinställningar',
     'add-favourite-place-failed-heading': 'Kunde inte spara platsen',
     'add-favourite-route-failed-heading': 'Kunde inte spara linjen',
     'add-favourite-station-failed-heading': 'Kunde inte spara stationen',
@@ -45,7 +47,7 @@ export default {
     'alternative-legs':
       'Också {leg1} kl. {startTime1} och {leg2} kl. {startTime2}',
     'alternative-legs-single': 'Också {leg1} kl. {startTime1}',
-    'alternative-name-rail': 'Tåg',
+    'alternative-name-rail': 'Närtåg',
     'aria-itinerary-summary':
       'Den totala restiden {duration}. Avgång {inFuture} klockan {departureTime}. Framme klockan {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
@@ -433,6 +435,8 @@ export default {
       'Din resa fortsätter efter en väntetid på {duration}',
     'navigation-interline-wait':
       'Linjenummer {line} och destination {destination} ändras på hållplatsen',
+    'navigation-interline-wait-same-route':
+      'Destinationen {destination} ändras på hållplatsen',
     'navigation-intro-begin': 'Starta resa',
     'navigation-intro-help-body': 'Ta resan ett steg i taget',
     'navigation-intro-notifications-body': 'Håll koll på din resa',
@@ -467,7 +471,9 @@ export default {
     'navileg-hop-on': 'och stig på',
     'navileg-in-transit': 'med {mode}',
     'navileg-in-transit-interline':
-      'Din resa fortsätter om {duration} min klockan {legTime}. Vänta i fordonet',
+      'Linjen och destinationen byts vid {stop} {stopOrStation} om {duration} klockan {legTime}. Vänta i fordonet.',
+    'navileg-in-transit-interline-same-route':
+      'Destinationen byts vid {stop} {stopOrStation} om {duration} klockan {legTime}. Vänta i fordonet.',
     'navileg-intermediate-stops': '{stopCount} mellanhållplatser',
     'navileg-leave-at':
       'Stig av vid {stop} {stopOrStation} om {duration} klockan {legTime}',
@@ -618,7 +624,7 @@ export default {
     price: 'Pris',
     print: 'Skriv ut',
     'print-timetable': 'Veckans tidtabell',
-    rail: 'Närtåg',
+    rail: 'Tåg',
     'read-more': 'Läs mer',
     realtime: 'Realtid',
     releases: 'Meddelanden',
@@ -841,7 +847,7 @@ export default {
     'traffic-now_description':
       'Aktuell information om störningar och undantag. ',
     'traffic-now_description_see-also':
-      'Se även {amount, plural, =1 {{link1},} other {{link1} samt {link2},} } som du hittar mer information om på deras respektive sidor.',
+      'Se även {amount, plural, =1 {{link1},} other {{link1} samt {link2}} } för mer information.',
     'traffic-now_description_see-also--link1': 'helgdagar och undantag',
     'traffic-now_description_see-also--link2': 'större förändringar',
     'traffic-now_filters_entity-search': 'Sök linje eller hållplats',
@@ -850,10 +856,11 @@ export default {
     'traffic-now_filters_operator-select-legend':
       'Visa endast dessa operatörer',
     'traffic-now_filters_operator-select-placeholder': 'Välj en eller flera',
-    'traffic-now_filters_toggles--cancellations-only': 'Endast inställts',
-    'traffic-now_filters_toggles--favourites-only': 'Endast favoritter',
-    'traffic-now_filters_validity-period': 'Filtrera efter giltighetstid',
-    'traffic-now_filters_vehicle-mode': 'Filtrera efter fordonsläge',
+    'traffic-now_filters_toggles--cancellations-only': 'Endast inställda',
+    'traffic-now_filters_toggles--favourites-only':
+      'Endast mina linjer och hållplatser',
+    'traffic-now_filters_validity-period': 'Filtrera enligt giltighetstid',
+    'traffic-now_filters_vehicle-mode': 'Filtrera enligt trafikfordon',
     'traffic-now_filters_view-results': 'Visa resultat',
     'traffic-now_go-back': 'Gå tillbaka',
     'traffic-now_go-to-route-page': 'Visa linje',

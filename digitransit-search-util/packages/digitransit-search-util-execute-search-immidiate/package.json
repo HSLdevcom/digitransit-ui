@@ -1,14 +1,15 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-execute-search-immidiate",
-  "version": "3.3.12",
+  "version": "3.3.14",
   "description": "digitransit-search-util execute-search-immidiate module",
   "type": "module",
   "main": "index.js",
+  "deprecated": "Renamed due to a spelling fix — use @digitransit-search-util/digitransit-search-util-execute-search-immediate instead. This package will be removed in a future release.",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js"
   },
   "repository": {

@@ -141,13 +141,6 @@ h1 a {
   color: $gray;
 }
 
-.sub-header-h5 {
-  font-weight: $font-weight-book;
-  font-size: $font-size-xsmall;
-  margin: 0;
-  color: $gray;
-}
-
 .route-list {
   padding: 0 1em 0.25em;
 
@@ -214,13 +207,6 @@ body select {
 
 .color-palette {
   margin-bottom: -20px;
-}
-
-.sub-header {
-  font-weight: $font-weight-medium;
-  font-size: 20px;
-  text-transform: uppercase;
-  padding: 10px 0;
 }
 
 .leaflet-container a {

@@ -100,8 +100,7 @@ $btn-heigth: 17px;
   &.walk,
   &.bicycle,
   &.car,
-  &.car_park,
-  &.public_transport {
+  &.car_park {
     background-color: $btn-radio-checked-background-color;
 
     &:hover,
@@ -134,48 +133,6 @@ $btn-heigth: 17px;
 
   .icon {
     color: $btn-icon-color-inactive;
-  }
-}
-
-.btn-bar {
-  display: flex;
-  flex-direction: row;
-
-  .btn {
-    flex: 1;
-    border-radius: 0;
-    border-right: 1px solid $black;
-    padding: 0;
-
-    &:first-child {
-      border-top-left-radius: $border-radius;
-      border-bottom-left-radius: $border-radius;
-    }
-
-    &:last-child {
-      border-top-right-radius: $border-radius;
-      border-bottom-right-radius: $border-radius;
-    }
-  }
-
-  [class*='column'] + [class*='column']:last-child {
-    border-right: none;
-  }
-}
-
-.standalone-btn {
-  background-color: $standalone-btn-color;
-  padding: $padding-small $padding-medium;
-  border-radius: 20px;
-
-  .icon-holder {
-    padding: 0;
-    margin: 0;
-    margin-bottom: -4px;
-  }
-
-  &:hover {
-    background-color: $standalone-btn-hover-color;
   }
 }
 
@@ -220,71 +177,6 @@ $btn-heigth: 17px;
   .secondary-button {
     font-size: $font-size-small;
     padding: 0.85em 1em;
-  }
-
-  .popup-container {
-    min-width: 80%;
-  }
-}
-
-.first-btn {
-  border-top-left-radius: $border-radius;
-  border-bottom-left-radius: $border-radius;
-}
-
-.last-btn {
-  border-top-right-radius: $border-radius;
-  border-bottom-right-radius: $border-radius;
-}
-
-.popup-dark-overlay {
-  background-color: rgba(0, 0, 0, 0.23);
-  position: fixed;
-  width: 100%;
-  height: 100%;
-
-  // matches .top-bar so overlay + header agree on stacking level
-  z-index: global-z('top-bar');
-  top: 0;
-  left: 0;
-}
-
-.popup-container {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  max-width: 437px;
-  min-width: 320px;
-  background-color: #fff;
-  padding: 1em;
-  border-radius: 4pt;
-  transform: translate(-50%, -50%);
-
-  .close-popup {
-    button {
-      background: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .icon.close {
-      width: 1.4em;
-      height: 1.4em;
-      color: rgb(0, 122, 201);
-    }
-  }
-}
-
-.mode-filter {
-  width: 100%;
-  padding-top: 0;
-  padding-bottom: 0;
-  height: 53px;
-  text-align: center;
-  align-items: flex-start;
-
-  .btn {
-    height: 45px;
   }
 }
 

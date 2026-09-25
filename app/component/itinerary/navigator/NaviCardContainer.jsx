@@ -220,7 +220,11 @@ function NaviCardContainer(
   // LegChange fires animation, we need to keep the old data until card goes out of the view.
   const cardChanging = legChanged || legChanging;
   const l = cardChanging ? previousLeg : currentLeg;
-  const nl = cardChanging ? currentLeg : nextLeg;
+  // currentLeg is undefined while genuinely between legs (e.g. an interline
+  // dwell), so fall back to nextLeg - otherwise the still-showing previous
+  // leg would briefly lose its real nextLeg (and e.g. flash a "get off"
+  // message instead of the interline one) right as the gap starts.
+  const nl = cardChanging ? currentLeg || nextLeg : nextLeg;
   const legType = getLegType(l, firstLeg, time, nl?.interlineWithPreviousLeg);
 
   let className;
