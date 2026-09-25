@@ -29,7 +29,7 @@ import { getDefaultNetworks } from '../../utils/shared/vehicleRentalUtils';
  * Plain (non-Flux) singleton that acts both as the template/interface for,
  * and the concrete Digitransit implementation of, the "search context"
  * consumed by the framework-agnostic @digitransit-search-util packages
- * (most notably digitransit-search-util-execute-search-immidiate). Those
+ * (most notably digitransit-search-util-execute-search-immediate). Those
  * packages only rely on the shape of this object (fields/methods read off
  * it, all set up in init() below), so init() doubles as living
  * documentation of that contract.

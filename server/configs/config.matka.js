@@ -272,7 +272,6 @@ export default {
     'carpark',
     'bikepark',
   ],
-  useAlternativeNameForModes: ['RAIL'],
 
   showVehiclesOnStopPage: false,
   showVehiclesOnItineraryPage: true,

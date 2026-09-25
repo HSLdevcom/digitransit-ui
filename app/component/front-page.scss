@@ -21,17 +21,6 @@ $heading-color: #858585;
   margin-top: 35px;
 }
 
-.control-panel-separator-line {
-  display: block;
-  width: auto;
-  margin: 0 auto;
-  margin-left: 1em;
-  margin-right: 1em;
-  margin-top: 1em;
-  border-top: 1px solid #ddd;
-  background: $background-color-lighter;
-}
-
 .stops-near-you-text {
   h2 {
     margin: 0;
@@ -46,12 +35,6 @@ $heading-color: #858585;
 
 .stop-route-search-container {
   margin-bottom: 5px;
-}
-
-.map-container {
-  display: flex;
-  flex-basis: 50%;
-  min-height: 320px; // Stop near you/favorites tabs from taking up all the space
 }
 
 .flex-grow {

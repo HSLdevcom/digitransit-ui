@@ -102,18 +102,6 @@ $stop-modes: (
   float: right;
 }
 
-.text-center {
-  text-align: center;
-}
-
-.text-right {
-  text-align: right;
-}
-
-.text-left {
-  text-align: left;
-}
-
 .inline-block {
   display: inline-block;
 }
@@ -146,10 +134,6 @@ $stop-modes: (
   padding: 0.45em 1em;
 }
 
-.card-padding {
-  padding: 1em 1em 0.5em 1.5em;
-}
-
 .padding-normal {
   padding: 0.7em 1em;
 }
@@ -168,10 +152,6 @@ $stop-modes: (
 
 .padding-horizontal-large {
   padding: 0 2em;
-}
-
-.no-padding {
-  padding: 0 !important;
 }
 
 .no-margin {
@@ -195,10 +175,6 @@ $stop-modes: (
   }
 }
 
-.large-text {
-  font-size: 1.1em;
-}
-
 .uppercase {
   text-transform: uppercase;
 }
@@ -212,10 +188,6 @@ $stop-modes: (
     opacity: 0.8;
     transition: 0.1s ease-in-out;
   }
-}
-
-.hide-dropdown {
-  background-image: none;
 }
 
 .large-icon {

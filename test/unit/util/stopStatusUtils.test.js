@@ -1,6 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-
 import getStopStatus, {
   STOP_STATUS,
   getStopStatusFromStopData,
