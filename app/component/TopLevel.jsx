@@ -2,7 +2,6 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import some from 'lodash/some';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { matchShape, routerShape } from 'found';
 import { configShape, locationShape } from '../../utils/client/shapes';
 import {
@@ -21,6 +20,7 @@ import {
   addAnalyticsEvent,
   handleUserAnalytics,
 } from '../../utils/shared/analyticsUtils';
+import { useOrigin } from '../hooks/ItineraryLocationContext';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -211,6 +211,12 @@ class TopLevel extends React.Component {
   }
 }
 
-export default connectToStores(TopLevel, ['OriginStore'], ({ getStore }) => ({
-  origin: getStore('OriginStore').getOrigin(),
-}));
+// Small functional wrapper so the class component can keep receiving origin
+// as a prop (as it did via connectToStores/OriginStore), while the actual
+// value now comes from ItineraryLocationContext.
+function TopLevelWithOrigin(props) {
+  const origin = useOrigin();
+  return <TopLevel {...props} origin={origin} />;
+}
+
+export default TopLevelWithOrigin;

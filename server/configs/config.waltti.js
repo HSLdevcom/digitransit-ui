@@ -315,7 +315,6 @@ export default {
     },
   },
   showRouteDescNotification: isDevRunEnv(),
-  useAlternativeNameForModes: ['RAIL'],
   showStopStatusMarkers: true,
 
   trafficNowLink: true,

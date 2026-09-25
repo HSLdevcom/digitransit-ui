@@ -241,6 +241,9 @@ const stopLayers = ['stop', 'station'];
 /**
  * Executes the search
  *
+ * @deprecated Renamed due to a spelling fix — use
+ * `@digitransit-search-util/digitransit-search-util-execute-search-immediate`
+ * instead. This package will be removed in a future release.
  */
 export function getSearchResults(
   targets,

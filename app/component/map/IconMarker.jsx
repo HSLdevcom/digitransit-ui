@@ -1,16 +1,18 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { default as L } from 'leaflet';
 import Marker from 'react-leaflet/es/Marker';
 
-/* eslint-disable no-underscore-dangle */
-export default class IconMarker extends React.Component {
-  constructor(props, ...args) {
-    super(props, ...args);
-    const _this = this;
+export default function IconMarker({ icon, zIndexOffset, children, ...rest }) {
+  const [div, setDiv] = useState(undefined);
+  const hasMounted = useRef(false);
 
-    this.Icon = L.Icon.extend({
+  // The leaflet icon instance is created once and kept stable for the
+  // lifetime of the component; subsequent icon prop changes are applied via
+  // icon.initialize() below, mirroring the previous componentDidUpdate.
+  const iconInstance = useMemo(() => {
+    const DivIcon = L.Icon.extend({
       options: {
         // @section
         // @aka DivIcon options
@@ -27,16 +29,17 @@ export default class IconMarker extends React.Component {
       },
 
       createIcon(oldIcon) {
-        const div =
+        const newDiv =
           oldIcon && oldIcon.tagName === 'DIV'
             ? oldIcon
             : document.createElement('div');
 
-        _this.setState({ div });
+        setDiv(newDiv);
 
-        this._setIconStyles(div, 'icon');
+        // eslint-disable-next-line no-underscore-dangle
+        this._setIconStyles(newDiv, 'icon');
 
-        return div;
+        return newDiv;
       },
 
       createShadow() {
@@ -44,28 +47,30 @@ export default class IconMarker extends React.Component {
       },
     });
 
-    this.state = { icon: new this.Icon(props.icon) };
-  }
+    return new DivIcon(icon);
+    // Intentionally created only once (empty deps) - see comment above.
+  }, []);
 
-  componentDidUpdate() {
-    this.state.icon.initialize(this.props.icon);
-  }
+  useEffect(() => {
+    if (hasMounted.current) {
+      iconInstance.initialize(icon);
+    } else {
+      hasMounted.current = true;
+    }
+  }, [icon, iconInstance]);
 
-  render() {
-    return [
-      this.state.div &&
-        createPortal(this.props.icon.element, this.state.div, 'icon'),
-      <Marker
-        key="marker"
-        {...this.props}
-        icon={this.state.icon}
-        keyboard={false}
-        zIndexOffset={this.props.zIndexOffset}
-      >
-        {this.props.children}
-      </Marker>,
-    ];
-  }
+  return [
+    div && createPortal(icon.element, div, 'icon'),
+    <Marker
+      key="marker"
+      {...rest}
+      icon={iconInstance}
+      keyboard={false}
+      zIndexOffset={zIndexOffset}
+    >
+      {children}
+    </Marker>,
+  ];
 }
 
 IconMarker.propTypes = {
@@ -78,9 +83,4 @@ IconMarker.propTypes = {
   }).isRequired,
   zIndexOffset: PropTypes.number,
   children: PropTypes.node,
-};
-
-IconMarker.defaultProps = {
-  zIndexOffset: undefined,
-  children: undefined,
 };

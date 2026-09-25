@@ -103,16 +103,6 @@ $border-radius-rounded: 30px;
     height: 100%;
     max-height: calc(100% - 5em);
   }
-
-  .modal-top-nav {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5em;
-
-    h2 {
-      margin: $padding-xsmall 0;
-    }
-  }
 }
 
 /* ICONS */
@@ -197,70 +187,10 @@ $border-radius-rounded: 30px;
   &.expanded {
     top: -3em;
   }
-
-  &.routePage,
-  &.itineraryPage {
-    bottom: 1.5em;
-    top: auto;
-  }
-
-  &.stopPage {
-    bottom: 2em;
-    top: auto;
-
-    &.expanded {
-      bottom: 2em;
-      top: auto;
-    }
-  }
-}
-
-.smallscreen-toggle {
-  @extend .fullscreen-toggle;
-
-  bottom: -1px;
 }
 
 .prefix-icon {
   margin-right: 6px;
-}
-
-.dotted-link {
-  border-bottom: 2px dotted rgba(255, 255, 255, 0.5);
-}
-
-.overflow-fade {
-  overflow: hidden;
-  mask-image: linear-gradient(
-    to left,
-    transparent,
-    rgba(0, 0, 0, 0.2) 5px,
-    rgba(0, 0, 0, 1) 25px,
-    rgba(0, 0, 0, 1)
-  );
-}
-
-.overflow-fade-left {
-  overflow: hidden;
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    rgba(0, 0, 0, 0.2) 5px,
-    rgba(0, 0, 0, 1) 25px,
-    rgba(0, 0, 0, 1)
-  );
-}
-
-.double-overflow-fade {
-  overflow: hidden;
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    rgba(0, 0, 0, 0.2) 2%,
-    rgba(0, 0, 0, 1) 5%,
-    rgba(0, 0, 0, 1) 95%,
-    rgba(0, 0, 0, 0.2) 98%
-  );
 }
 
 @keyframes realtimeInnerArch {

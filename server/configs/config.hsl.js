@@ -768,8 +768,8 @@ export default {
   },
 
   showRouteDescNotification: isDevRunEnv(),
-  // Intentionally hidden regardless of environment; see "chore: hide personalization in dev".
-  personalization: isDevRunEnv(),
+  useAlternativeNameForModes: ['RAIL'],
+  personalization: true,
   personalizationSurveyLinks: {
     fi: 'https://surveys.crazyegg.com/s/303436/c50407d2-a31b-4336-a43b-149ac6639d78',
     sv: 'https://surveys.crazyegg.com/s/303436/7977162c-07a0-4316-82e0-ae2dee934edf',

@@ -21,6 +21,12 @@ Executes the search
 *   `pathOpts`  
 *   `refPoint`  
 
+**Meta**
+
+*   **deprecated**: Renamed due to a spelling fix — use
+    `@digitransit-search-util/digitransit-search-util-execute-search-immediate`
+    instead. This package will be removed in a future release.
+
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 ---
 

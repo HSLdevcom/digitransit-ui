@@ -30,12 +30,10 @@ import serve from './serve.js';
 // Node 24 `require()`s an ESM `config.*.js` graph directly (none use
 // top-level await), so the geoJson/citybike config sweeps below stay
 // synchronous instead of turning their promise executors async. Anchored
-// via `process.cwd()` rather than `import.meta.url`: a file containing
-// `import.meta` can't be transpiled to CommonJS by `@babel/register`, which
-// breaks the Mocha unit-test suite's require()-based module loading. Both
-// call sites below pass createRequire's returned function an already-fully-
-// absolute path (built from `configsDir`), so the anchor itself only needs
-// to be *some* valid absolute location, not this file's true location.
+// via `process.cwd()` rather than `import.meta.url` purely for simplicity -
+// both call sites below pass createRequire's returned function an already-
+// fully-absolute path (built from `configsDir`), so the anchor itself only
+// needs to be *some* valid absolute location, not this file's true location.
 const require = createRequire(path.join(process.cwd(), 'server/server.js'));
 
 process.on('unhandledRejection', (reason, p) => {

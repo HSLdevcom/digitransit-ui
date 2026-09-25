@@ -8,6 +8,11 @@ This package is used to ab test other components
 Use this by importing specific components by name.
 
 Currently unused
+
+**Meta**
+
+*   **deprecated**: This package was never adopted and is unused. It will be
+    removed in a future release.
 ---
 
 This module is part of the Digitransit-ui project. It is maintained in the

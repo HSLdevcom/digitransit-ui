@@ -4,7 +4,6 @@ import cx from 'classnames';
 import { useRouter } from 'found';
 import { default as L } from 'leaflet';
 import { stopShape } from '../../../../utils/client/shapes';
-import { useConfigContext } from '../../../client/ConfigContext';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
 import {
@@ -15,6 +14,7 @@ import {
 } from '../../../../utils/client/mapIconUtils';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { PREFIX_STOPS } from '../../../../utils/shared/path';
+import { useConfigContext } from '../../../client/ConfigContext';
 import {
   STOP_STATUS,
   STOP_STATUS_BADGE_IMGS,
@@ -43,7 +43,92 @@ export const getStopMarkerAnalytics = (pathname, indexPath, mode) => {
 export const getStopMarkerPath = gtfsId =>
   `/${PREFIX_STOPS}/${encodeURIComponent(gtfsId)}`;
 
-function StopMarker({
+// The functions below compute plain values (icon size, class names, SVG
+// markup) with no Leaflet dependency. They are exported for unit testing
+// and can be reused as-is if the underlying map engine changes.
+export const getModeIconSize = (zoom, config, selected) => {
+  if (zoom <= config.stopsSmallMaxZoom) {
+    return config.stopsIconSize.small;
+  }
+  if (selected) {
+    return config.stopsIconSize.selected;
+  }
+  return config.stopsIconSize.default;
+};
+
+export const getModeIconClassName = (
+  mode,
+  size,
+  config,
+  selected,
+  disableIconBorder,
+) =>
+  cx('cursor-pointer', mode, {
+    small: size === config.stopsIconSize.small,
+    selected,
+    'disable-icon-border': disableIconBorder,
+  });
+
+export const getStopIconRadii = (zoom, { limitZoom, transfer, selected }) => {
+  const scale = transfer || selected ? 1.5 : 1;
+
+  let calcZoom;
+  if (limitZoom) {
+    calcZoom = Math.min(zoom, limitZoom);
+  } else {
+    calcZoom =
+      transfer || selected
+        ? Math.max(zoom, STATUS_BADGE_ZOOM_THRESHOLD)
+        : zoom || STATUS_BADGE_ZOOM_THRESHOLD;
+  }
+
+  const radius = getCaseRadius(calcZoom) * scale;
+  const stopRadius = getStopRadius(calcZoom) * scale;
+  const hubRadius = getHubRadius(calcZoom) * scale;
+
+  const inner = (stopRadius + hubRadius) / 2;
+  const stroke = stopRadius - hubRadius;
+
+  return { radius, inner, stroke };
+};
+
+// see utils/client/mapIconUtils.js for the canvas version
+export const buildStopIconSvg = ({
+  radius,
+  inner,
+  stroke,
+  appendClass,
+  colorOverride,
+  platformCode,
+}) => {
+  if (radius === 0) {
+    return '';
+  }
+  return `
+      <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
+        <circle class="${cx(
+          'stop',
+          appendClass,
+        )}" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"${
+          colorOverride ? ` color="${colorOverride}"` : ''
+        } />
+        ${
+          inner > 7 && platformCode
+            ? `<text x="${radius}" y="${radius}" text-anchor="middle" dominant-baseline="central"
+            fill="#333" font-size="${1.2 * inner}px"
+            >${platformCode}</text>`
+            : ''
+        }
+      </svg>
+    `;
+};
+
+export const getStopIconClassName = (mode, disableIconBorder) =>
+  cx(mode, 'cursor-pointer', {
+    'disable-icon-border': disableIconBorder,
+  });
+
+export default function StopMarker({
   stop,
   mode,
   renderName = false,
@@ -72,81 +157,39 @@ function StopMarker({
 
   const getModeIcon = zoom => {
     const iconId = `icon_${mode}`;
-    let size;
-    if (zoom <= config.stopsSmallMaxZoom) {
-      size = config.stopsIconSize.small;
-    } else if (selected) {
-      size = config.stopsIconSize.selected;
-    } else {
-      size = config.stopsIconSize.default;
-    }
+    const size = getModeIconSize(zoom, config, selected);
 
     return L.divIcon({
       html: renderAsString(<Icon img={iconId} className="mode-icon" />),
       iconSize: [size, size],
-      className: cx('cursor-pointer', mode, {
-        small: size === config.stopsIconSize.small,
+      className: getModeIconClassName(
+        mode,
+        size,
+        config,
         selected,
-        'disable-icon-border': disableIconBorder,
-      }),
+        disableIconBorder,
+      ),
     });
   };
 
   const getIcon = zoom => {
-    const scale = stop.transfer || selected ? 1.5 : 1;
+    const { radius, inner, stroke } = getStopIconRadii(zoom, {
+      limitZoom,
+      transfer: stop.transfer,
+      selected,
+    });
 
-    let calcZoom;
-    if (limitZoom) {
-      calcZoom = Math.min(zoom, limitZoom);
-    } else {
-      calcZoom =
-        stop.transfer || selected
-          ? Math.max(zoom, STATUS_BADGE_ZOOM_THRESHOLD)
-          : zoom || STATUS_BADGE_ZOOM_THRESHOLD;
-    }
-
-    const radius = getCaseRadius(calcZoom) * scale;
-    const stopRadius = getStopRadius(calcZoom) * scale;
-    const hubRadius = getHubRadius(calcZoom) * scale;
-
-    const inner = (stopRadius + hubRadius) / 2;
-    const stroke = stopRadius - hubRadius;
-
-    // see utils/client/mapIconUtils.js for the canvas version
-    let iconSvg = `
-      <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
-        <circle class="${cx(
-          'stop',
-          appendClass,
-        )}" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}" color="${
-          colorOverride ?? ''
-        }" />
-        ${
-          inner > 7 && stop.platformCode
-            ? `<text x="${radius}" y="${radius}" text-anchor="middle" dominant-baseline="central"
-            fill="#333" font-size="${1.2 * inner}px"
-            font-family="Gotham XNarrow A, Gotham Rounded A, Gotham Rounded B, Roboto Condensed, Roboto, Arial, sans-serif"
-            >${stop.platformCode}</text>`
-            : ''
-        }
-      </svg>
-    `;
-
-    if (radius === 0) {
-      iconSvg = '';
-    } else if (stopStatus) {
+    if (stopStatus && radius !== 0) {
       const badgeImg = STOP_STATUS_BADGE_IMGS[stopStatus];
       if (badgeImg) {
         if (zoom < STATUS_BADGE_ZOOM_THRESHOLD) {
           const circleSize = radius * 3.5;
           const cr = circleSize / 2;
-          iconSvg = `<svg viewBox="0 0 ${circleSize} ${circleSize}" width="${circleSize}" height="${circleSize}"><circle class="stop-badge-${stopStatus}" cx="${cr}" cy="${cr}" r="${
-            cr - 1.5
-          }" stroke="#fff" stroke-width="2.5"/></svg>`;
           return L.divIcon({
-            html: iconSvg,
+            html: `<svg viewBox="0 0 ${circleSize} ${circleSize}" width="${circleSize}" height="${circleSize}"><circle class="stop-badge-${stopStatus}" cx="${cr}" cy="${cr}" r="${
+              cr - 1.5
+            }" stroke="#fff" stroke-width="2.5"/></svg>`,
             iconSize: [circleSize, circleSize],
-            // disable-icon-border prevents the global map.scss SVG border from doubling the stroke
             className: cx(mode, 'cursor-pointer', 'disable-icon-border'),
           });
         }
@@ -158,28 +201,29 @@ function StopMarker({
         const background = isAlertBadge
           ? ''
           : `<circle cx="${center}" cy="${center}" r="${center}" fill="#fff"/>`;
-        // map.scss clips leaflet-marker-icon svgs to a circle; override it so
-        // the non-circular triangle isn't cut off at its corners.
         const svgStyle = `filter:drop-shadow(0 1px 2px var(--color-shadow-strong));${
           isAlertBadge ? 'border-radius:0;' : ''
         }`;
         const viewBox = isAlertBadge ? '-8 -8 302.46 302.46' : '0 0 40 40';
-        iconSvg = `<svg width="${badgeSize}" height="${badgeSize}" style="${svgStyle}">${background}<svg x="${borderWidth}" y="${borderWidth}" width="${innerSize}" height="${innerSize}" viewBox="${viewBox}" ><use href="#${badgeImg}" width="100%" height="100%"/></svg></svg>`;
         return L.divIcon({
-          html: iconSvg,
+          html: `<svg width="${badgeSize}" height="${badgeSize}" style="${svgStyle}">${background}<svg x="${borderWidth}" y="${borderWidth}" width="${innerSize}" height="${innerSize}" viewBox="${viewBox}" ><use href="#${badgeImg}" width="100%" height="100%"/></svg></svg>`,
           iconSize: [badgeSize, badgeSize],
-          // disable-icon-border prevents map.scss from adding a second CSS border on the svg
           className: cx(mode, 'cursor-pointer', 'disable-icon-border'),
         });
       }
     }
 
     return L.divIcon({
-      html: iconSvg,
-      iconSize: [radius * 2, radius * 2],
-      className: cx(mode, 'cursor-pointer', {
-        'disable-icon-border': disableIconBorder,
+      html: buildStopIconSvg({
+        radius,
+        inner,
+        stroke,
+        appendClass,
+        colorOverride,
+        platformCode: stop.platformCode,
       }),
+      iconSize: [radius * 2, radius * 2],
+      className: getStopIconClassName(mode, disableIconBorder),
     });
   };
 
@@ -211,5 +255,3 @@ StopMarker.propTypes = {
   appendClass: PropTypes.string,
   stopStatus: PropTypes.string,
 };
-
-export default StopMarker;

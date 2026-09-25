@@ -13,6 +13,8 @@ export default {
     acknowledged: 'Selvä',
     'add-favourite-bikeStation-failed-heading':
       'Kaupunkipyöräaseman tallentaminen ei onnistunut',
+    'add-favourite-personalization-failed-heading':
+      'Personointiasetusten tallentaminen ei onnistunut',
     'add-favourite-place-failed-heading': 'Paikan tallentaminen ei onnistunut',
     'add-favourite-route-failed-heading': 'Linjan tallentaminen ei onnistunut',
     'add-favourite-station-failed-heading':
@@ -40,7 +42,7 @@ export default {
     'alternative-legs':
       'Myös {leg1} klo {startTime1} ja {leg2} klo {startTime2}',
     'alternative-legs-single': 'Myös {leg1} klo {startTime1}',
-    'alternative-name-rail': 'Juna',
+    'alternative-name-rail': 'Lähijuna',
     'aria-itinerary-summary':
       'Matkan kokonaiskesto {duration}. Lähtö {inFuture} kello {departureTime}. Perillä kello {arrivalTime}.',
     'aria-itinerary-summary-bike-distance':
@@ -427,6 +429,8 @@ export default {
     'navigation-interline-resume': 'Matka jatkuu {duration} odotuksen jälkeen',
     'navigation-interline-wait':
       'Linjatunnus {line} ja määränpää {destination} vaihtuvat pysäkillä',
+    'navigation-interline-wait-same-route':
+      'Määränpää {destination} vaihtuu pysäkillä',
     'navigation-intro-begin': 'Aloita matka',
     'navigation-intro-help-body': 'Matkusta vaihe kerrallaan',
     'navigation-intro-notifications-body':
@@ -462,7 +466,9 @@ export default {
     'navileg-hop-on': 'ja nouse kyytiin',
     'navileg-in-transit': '{mode}matka',
     'navileg-in-transit-interline':
-      'Matka jatkuu {duration} min päästä klo {legTime}. Odota kulkuneuvossa',
+      'Linjatunnus ja määränpää vaihtuvat {stopOrStation} {stop} {duration} päästä klo {legTime}. Odota kulkuneuvossa.',
+    'navileg-in-transit-interline-same-route':
+      'Määränpää vaihtuu {stopOrStation} {stop} {duration} päästä klo {legTime}. Odota kulkuneuvossa.',
     'navileg-intermediate-stops': '{stopCount} välipysäkkiä',
     'navileg-leave-at':
       'Jää pois {stopOrStation} {stop} {duration} päästä klo {legTime}',
@@ -611,7 +617,7 @@ export default {
     price: 'Hinta',
     print: 'Tulosta',
     'print-timetable': 'Viikkoaikataulu',
-    rail: 'Lähijuna',
+    rail: 'Juna',
     'read-more': 'Lue lisää',
     realtime: 'Reaaliaika',
     releases: 'Tiedotteet',
