@@ -847,7 +847,7 @@ export default {
     'traffic-now_description':
       'Aktuell information om störningar och undantag. ',
     'traffic-now_description_see-also':
-      'Se även {amount, plural, =1 {{link1},} other {{link1} samt {link2},} } som du hittar mer information om på deras respektive sidor.',
+      'Se även {amount, plural, =1 {{link1},} other {{link1} samt {link2}} } för mer information.',
     'traffic-now_description_see-also--link1': 'helgdagar och undantag',
     'traffic-now_description_see-also--link2': 'större förändringar',
     'traffic-now_filters_entity-search': 'Sök linje eller hållplats',
@@ -856,10 +856,11 @@ export default {
     'traffic-now_filters_operator-select-legend':
       'Visa endast dessa operatörer',
     'traffic-now_filters_operator-select-placeholder': 'Välj en eller flera',
-    'traffic-now_filters_toggles--cancellations-only': 'Endast inställts',
-    'traffic-now_filters_toggles--favourites-only': 'Endast favoritter',
-    'traffic-now_filters_validity-period': 'Filtrera efter giltighetstid',
-    'traffic-now_filters_vehicle-mode': 'Filtrera efter fordonsläge',
+    'traffic-now_filters_toggles--cancellations-only': 'Endast inställda',
+    'traffic-now_filters_toggles--favourites-only':
+      'Endast mina linjer och hållplatser',
+    'traffic-now_filters_validity-period': 'Filtrera enligt giltighetstid',
+    'traffic-now_filters_vehicle-mode': 'Filtrera enligt trafikfordon',
     'traffic-now_filters_view-results': 'Visa resultat',
     'traffic-now_go-back': 'Gå tillbaka',
     'traffic-now_go-to-route-page': 'Visa linje',
