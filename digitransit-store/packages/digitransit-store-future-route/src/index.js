@@ -86,8 +86,9 @@ function searchId(props) {
  * addFutureRoute(newRoute, existingFutureRoutes);
  */
 export function addFutureRoute(item, collection) {
-  const now = new Date().getTime() / 1000;
   if (item) {
+    const future = new Date().getTime() / 1000 + 300;
+
     const originAddress = item.origin.address.split(', ');
     const originName = originAddress[0];
     originAddress.shift();
@@ -131,10 +132,10 @@ export function addFutureRoute(item, collection) {
 
     const futureRoutes = collection
       ? collection.filter(
-          r => r.properties.time >= now && searchId(r.properties) !== newId,
+          r => r.properties.time >= future && searchId(r.properties) !== newId,
         )
       : [];
-    if (item.time <= now + 300) {
+    if (item.time <= future) {
       return futureRoutes;
     }
     const sortedItems = sortBy(
