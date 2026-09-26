@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { DateTime } from 'luxon';
 import legacyParamParser from '../../../../utils/shared/legacyParamParser';
 import defaultConfig from '../../../../server/configs/config.default';
@@ -19,7 +17,7 @@ const encodedFromTo =
 describe('legacyParamParser', () => {
   it('builds an itinerary summary redirect from legacy KKJ-coordinate from/to params', async () => {
     const url = await legacyParamParser({ from, to }, config);
-    expect(url).to.equal(`/${PREFIX_ITINERARY_SUMMARY}/${encodedFromTo}/`);
+    expect(url).toBe(`/${PREFIX_ITINERARY_SUMMARY}/${encodedFromTo}/`);
   });
 
   it('appends a "time" param when a recent daymonthyear/hour/minute is given', async () => {
@@ -31,7 +29,7 @@ describe('legacyParamParser', () => {
       config,
     );
 
-    expect(url).to.match(
+    expect(url).toMatch(
       new RegExp(
         `^/${PREFIX_ITINERARY_SUMMARY}/${encodedFromTo}/\\?time=\\d+$`,
       ),
@@ -54,7 +52,7 @@ describe('legacyParamParser', () => {
       config,
     );
 
-    expect(url).to.match(
+    expect(url).toMatch(
       new RegExp(
         `^/${PREFIX_ITINERARY_SUMMARY}/${encodedFromTo}/\\?time=\\d+&arriveBy=true$`,
       ),
@@ -63,6 +61,6 @@ describe('legacyParamParser', () => {
 
   it('falls back to the index-page redirect format when from/to are both missing', async () => {
     const url = await legacyParamParser({}, config);
-    expect(url).to.equal('/%20/%20/');
+    expect(url).toBe('/%20/%20/');
   });
 });

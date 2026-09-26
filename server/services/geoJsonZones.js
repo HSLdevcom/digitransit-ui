@@ -8,10 +8,8 @@ import { setAssembledZones } from '../configs/config.js';
 // Node 24 `require()`s an ESM `config.*.js` graph directly (none use
 // top-level await), so this stays synchronous instead of turning its
 // promise executor async. Anchored via `process.cwd()` rather than
-// `import.meta.url`: a file containing `import.meta` can't be transpiled to
-// CommonJS by `@babel/register`, which breaks the Mocha unit-test suite's
-// require()-based module loading. createRequire's returned function is
-// always called below with an already-fully-absolute path built from
+// `import.meta.url`, purely for simplicity - createRequire's returned function
+// is always called below with an already-fully-absolute path built from
 // `configsDir`, so the anchor itself only needs to be *some* valid absolute
 // location, not this file's true location.
 const require = createRequire(

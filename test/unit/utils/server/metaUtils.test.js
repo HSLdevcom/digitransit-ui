@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { buildStaticMetaData } from '../../../../utils/server/metaUtils';
 
 describe('buildStaticMetaData', () => {
@@ -11,9 +9,7 @@ describe('buildStaticMetaData', () => {
   it('interpolates manifestName into every icon href', () => {
     const { link } = buildStaticMetaData(config, 'icons-test-abc123');
     link.forEach(({ href }) => {
-      expect(href).to.equal(
-        `/assets/icons-test-abc123/${href.split('/').pop()}`,
-      );
+      expect(href).toBe(`/assets/icons-test-abc123/${href.split('/').pop()}`);
     });
   });
 
@@ -21,8 +17,8 @@ describe('buildStaticMetaData', () => {
     const { meta } = buildStaticMetaData(config, 'icons-test-abc123');
     const byName = name => meta.find(m => m.name === name).content;
 
-    expect(byName('apple-mobile-web-app-title')).to.equal('Test title');
-    expect(byName('application-name')).to.equal('Test title');
+    expect(byName('apple-mobile-web-app-title')).toBe('Test title');
+    expect(byName('application-name')).toBe('Test title');
   });
 
   it('uses colors.topBarColor for theme-color when set', () => {
@@ -32,13 +28,13 @@ describe('buildStaticMetaData', () => {
     );
     const themeColor = meta.find(m => m.name === 'theme-color').content;
 
-    expect(themeColor).to.equal('#ff0000');
+    expect(themeColor).toBe('#ff0000');
   });
 
   it('falls back to colors.primary for theme-color when topBarColor is unset', () => {
     const { meta } = buildStaticMetaData(config, 'icons-test-abc123');
     const themeColor = meta.find(m => m.name === 'theme-color').content;
 
-    expect(themeColor).to.equal('#000000');
+    expect(themeColor).toBe('#000000');
   });
 });

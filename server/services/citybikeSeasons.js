@@ -6,8 +6,7 @@ import { CosmosClient } from '@azure/cosmos';
 import { setAvailableCitybikeConfigurations } from '../configs/config.js';
 
 // See the matching comment in server/services/geoJsonZones.js: anchored via
-// `process.cwd()` rather than `import.meta.url` so this file stays loadable
-// by the Mocha unit-test suite's `@babel/register`-based require() loader.
+// `process.cwd()` rather than `import.meta.url`, purely for simplicity.
 const require = createRequire(
   path.join(process.cwd(), 'server/services/citybikeSeasons.js'),
 );

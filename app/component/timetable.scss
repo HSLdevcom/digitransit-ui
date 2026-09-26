@@ -70,13 +70,6 @@
     }
   }
 
-  .timetable-row-printing {
-    @media print {
-      display: flex;
-      flex: 50%;
-    }
-  }
-
   .timetable-content-container {
     margin: 0 48px 16px 64px;
   }
@@ -145,11 +138,6 @@
       }
     }
 
-    .line-name {
-      white-space: nowrap;
-      font-weight: $font-weight-medium;
-    }
-
     .timetable-rowcontainer {
       display: table-cell;
       width: 100%;
@@ -181,10 +169,6 @@
 
       span {
         font-size: 12px;
-
-        &.line-name {
-          font-weight: $font-weight-book;
-        }
       }
     }
   }

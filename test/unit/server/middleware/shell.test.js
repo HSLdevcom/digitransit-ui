@@ -1,6 +1,18 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { resolveLocale } from '../../../../server/middleware/shell';
+
+// server/middleware/shell.js imports server/html/assetManifest.js, which
+// reads manifest.json/stats.json from disk at *module load time* unless
+// NODE_ENV is 'development' - vi.hoisted forces that before this file's
+// static imports run, so no real webpack build is needed.
+const originalNodeEnv = vi.hoisted(() => {
+  const value = process.env.NODE_ENV;
+  process.env.NODE_ENV = 'development';
+  return value;
+});
+
+afterAll(() => {
+  process.env.NODE_ENV = originalNodeEnv;
+});
 
 // Plain-JS mocks rather than a mocking library: res only needs `cookie()`
 // tracked, req just carries `cookies`.
@@ -28,7 +40,7 @@ describe('resolveLocale', () => {
 
     const locale = resolveLocale({ ...config }, req, res);
 
-    expect(locale).to.equal('sv');
+    expect(locale).toBe('sv');
   });
 
   it('falls back to config.defaultLanguage when the cookie locale is missing', () => {
@@ -37,7 +49,7 @@ describe('resolveLocale', () => {
 
     const locale = resolveLocale({ ...config }, req, res);
 
-    expect(locale).to.equal('fi');
+    expect(locale).toBe('fi');
   });
 
   it('falls back to config.defaultLanguage when the cookie locale is invalid', () => {
@@ -46,7 +58,7 @@ describe('resolveLocale', () => {
 
     const locale = resolveLocale({ ...config }, req, res);
 
-    expect(locale).to.equal('fi');
+    expect(locale).toBe('fi');
   });
 
   it('sets the cookie only when the resolved locale differs from the current one', () => {
@@ -55,7 +67,7 @@ describe('resolveLocale', () => {
 
     resolveLocale({ ...config }, req, res);
 
-    expect(res.cookieCalls).to.deep.equal([['lang', 'fi']]);
+    expect(res.cookieCalls).toEqual([['lang', 'fi']]);
   });
 
   it('does not set the cookie when the resolved locale already matches', () => {
@@ -64,7 +76,7 @@ describe('resolveLocale', () => {
 
     resolveLocale({ ...config }, req, res);
 
-    expect(res.cookieCalls).to.deep.equal([]);
+    expect(res.cookieCalls).toEqual([]);
   });
 
   it('stamps the resolved locale onto config.language', () => {
@@ -74,6 +86,6 @@ describe('resolveLocale', () => {
 
     resolveLocale(mutableConfig, req, res);
 
-    expect(mutableConfig.language).to.equal('en');
+    expect(mutableConfig.language).toBe('en');
   });
 });

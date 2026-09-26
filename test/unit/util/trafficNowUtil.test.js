@@ -160,7 +160,7 @@ describe('trafficNowUtil', () => {
     const grouped = groupEntitiesByMode([mocks.busRoute, mocks.tramRoute], {
       useExtendedRouteTypes: false,
     });
-    expect(grouped).to.deep.equal(expected.routes);
+    expect(grouped).toEqual(expected.routes);
   });
 
   it('should group tram and bus stops and a rail platform under different groups', () => {
@@ -171,31 +171,35 @@ describe('trafficNowUtil', () => {
       },
     );
 
-    expect(grouped).to.deep.equal(expected.stops);
+    expect(grouped).toEqual(expected.stops);
   });
 
   it('should group tram route and tram stop under same mode but different isRoute', () => {
     const grouped = groupEntitiesByMode([mocks.tramStop, mocks.tramRoute], {
       useExtendedRouteTypes: false,
     });
-    expect(grouped).to.have.property('tram_stop');
-    expect(grouped).to.have.property('tram_route');
-    expect(grouped.tram_stop.entities).to.deep.include({
-      gtfsId: 'MATKA:3',
-      id: 'TRAM_STOP_1',
-      name: 'Raitsikkapysäkki',
-      url: stopPagePath(false, 'MATKA:3'),
-      isStop: true,
-      isStation: false,
-    });
-    expect(grouped.tram_route.entities).to.deep.include({
-      gtfsId: 'MATKA:1',
-      id: 'TRAM_9',
-      name: '9',
-      url: routePagePath('MATKA:1'),
-      isStop: false,
-      isStation: false,
-    });
+    expect(grouped).toHaveProperty('tram_stop');
+    expect(grouped).toHaveProperty('tram_route');
+    expect(grouped.tram_stop.entities).toContainEqual(
+      expect.objectContaining({
+        gtfsId: 'MATKA:3',
+        id: 'TRAM_STOP_1',
+        name: 'Raitsikkapysäkki',
+        url: stopPagePath(false, 'MATKA:3'),
+        isStop: true,
+        isStation: false,
+      }),
+    );
+    expect(grouped.tram_route.entities).toContainEqual(
+      expect.objectContaining({
+        gtfsId: 'MATKA:1',
+        id: 'TRAM_9',
+        name: '9',
+        url: routePagePath('MATKA:1'),
+        isStop: false,
+        isStation: false,
+      }),
+    );
   });
 
   it('should ignore entities with __typename Unknown', () => {
@@ -203,22 +207,24 @@ describe('trafficNowUtil', () => {
     const grouped = groupEntitiesByMode([unknownEntity, mocks.busRoute], {
       useExtendedRouteTypes: false,
     });
-    expect(grouped.bus_route.entities).to.deep.include({
-      gtfsId: 'MATKA:2',
-      id: 'BUS_1',
-      name: '1',
-      url: routePagePath('MATKA:2'),
-      isStop: false,
-      isStation: false,
-    });
-    expect(grouped).to.not.have.property('unknown');
+    expect(grouped.bus_route.entities).toContainEqual(
+      expect.objectContaining({
+        gtfsId: 'MATKA:2',
+        id: 'BUS_1',
+        name: '1',
+        url: routePagePath('MATKA:2'),
+        isStop: false,
+        isStation: false,
+      }),
+    );
+    expect(grouped).not.toHaveProperty('unknown');
   });
 
   it('should handle station entities correctly', () => {
     const grouped = groupEntitiesByMode([mocks.station], {
       useExtendedRouteTypes: false,
     });
-    expect(grouped.rail_stop.entities[0]).to.include({
+    expect(grouped.rail_stop.entities[0]).toMatchObject({
       id: 'STATION_1',
       name: 'Steissi',
       url: stopPagePath(true, 'MATKA:5'),
@@ -229,7 +235,7 @@ describe('trafficNowUtil', () => {
 
   it('should return empty object for empty input', () => {
     const grouped = groupEntitiesByMode([], { useExtendedRouteTypes: false });
-    expect(grouped).to.deep.equal({});
+    expect(grouped).toEqual({});
   });
 
   it('should handle entities with missing mode gracefully', () => {
@@ -243,7 +249,7 @@ describe('trafficNowUtil', () => {
     const grouped = groupEntitiesByMode([entity], {
       useExtendedRouteTypes: false,
     });
-    expect(grouped).to.be.an('object');
+    expect(grouped).toBeInstanceOf(Object);
   });
 });
 
@@ -286,8 +292,8 @@ describe('buildDisruptionCards vehicleModes filter with extended route types', (
       { vehicleModes: ['bus'] },
       extendedConfig,
     );
-    expect(cards).to.have.lengthOf(1);
-    expect(cards[0].mode).to.equal('bus-local');
+    expect(cards).toHaveLength(1);
+    expect(cards[0].mode).toBe('bus-local');
   });
 
   it('includes bus-express cards when bus filter is active', () => {
@@ -296,8 +302,8 @@ describe('buildDisruptionCards vehicleModes filter with extended route types', (
       { vehicleModes: ['bus'] },
       extendedConfig,
     );
-    expect(cards).to.have.lengthOf(1);
-    expect(cards[0].mode).to.equal('bus-express');
+    expect(cards).toHaveLength(1);
+    expect(cards[0].mode).toBe('bus-express');
   });
 
   it('includes replacement-bus cards when bus filter is active', () => {
@@ -306,8 +312,8 @@ describe('buildDisruptionCards vehicleModes filter with extended route types', (
       { vehicleModes: ['bus'] },
       extendedConfig,
     );
-    expect(cards).to.have.lengthOf(1);
-    expect(cards[0].mode).to.equal('replacement-bus');
+    expect(cards).toHaveLength(1);
+    expect(cards[0].mode).toBe('replacement-bus');
   });
 
   it('includes speedtram cards when tram filter is active', () => {
@@ -316,8 +322,8 @@ describe('buildDisruptionCards vehicleModes filter with extended route types', (
       { vehicleModes: ['tram'] },
       extendedConfig,
     );
-    expect(cards).to.have.lengthOf(1);
-    expect(cards[0].mode).to.equal('speedtram');
+    expect(cards).toHaveLength(1);
+    expect(cards[0].mode).toBe('speedtram');
   });
 
   it('excludes bus-local cards when only tram filter is active', () => {
@@ -326,6 +332,6 @@ describe('buildDisruptionCards vehicleModes filter with extended route types', (
       { vehicleModes: ['tram'] },
       extendedConfig,
     );
-    expect(cards).to.have.lengthOf(0);
+    expect(cards).toHaveLength(0);
   });
 });

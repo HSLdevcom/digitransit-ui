@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it, before, after, afterEach } from 'mocha';
 import request from 'supertest';
 import fs from 'fs';
 import path from 'path';
@@ -7,43 +5,37 @@ import createApp, { onError } from '../../../server/app';
 
 // server/app.js's import chain reaches server/html/assetManifest.js, which
 // reads manifest.json/stats.json from disk at *module load time* when
-// NODE_ENV isn't 'development' - test/unit/helpers/init.js temporarily
-// defaults it to 'development' during mocha's module-loading phase (and
-// restores it before any test runs) so this static import is safe without a
-// real webpack build present. server/middleware/shell.js's dev-mode branch
-// is also re-checked live on every request though, so this suite sets
-// NODE_ENV='development' again for its own test bodies specifically - it
-// still reads the region's sprite file from _static/ per request in dev
-// mode, hence the placeholder fixture below.
+// NODE_ENV isn't 'development'. vi.hoisted runs before this file's static
+// imports, so forcing 'development' here makes them safe without a real
+// webpack build present (restored in the afterAll hook below).
+// server/middleware/shell.js's dev-mode branch is also re-checked live on
+// every request though, so NODE_ENV stays 'development' for this suite's
+// test bodies too - it still reads the region's sprite file from _static/
+// per request in dev mode, hence the placeholder fixture below.
+const originalNodeEnv = vi.hoisted(() => {
+  const value = process.env.NODE_ENV;
+  process.env.NODE_ENV = 'development';
+  return value;
+});
+
 describe('server app', () => {
   const staticDir = path.join(process.cwd(), '_static', 'assets');
   const spriteFixturePath = path.join(staticDir, 'svg-sprite.default.svg');
   const staticDirPreexisted = fs.existsSync(
     path.join(process.cwd(), '_static'),
   );
-  let originalConfig;
-  let originalNodeEnv;
+  const originalConfig = process.env.CONFIG;
   let app;
 
-  before(() => {
-    // Captured here, not at describe-body scope: this file's top-level code
-    // runs during mocha's module-loading phase, while
-    // test/unit/helpers/init.js has NODE_ENV temporarily forced to
-    // 'development' - capturing "original" values that early would freeze
-    // in that temporary value instead of the real one, and leak it into
-    // every test file that runs after this suite's `after` hook below.
-    originalConfig = process.env.CONFIG;
-    originalNodeEnv = process.env.NODE_ENV;
-
+  beforeAll(() => {
     fs.mkdirSync(staticDir, { recursive: true });
     fs.writeFileSync(spriteFixturePath, '<svg></svg>');
 
     delete process.env.CONFIG;
-    process.env.NODE_ENV = 'development';
     ({ app } = createApp());
   });
 
-  after(() => {
+  afterAll(() => {
     process.env.NODE_ENV = originalNodeEnv;
     fs.rmSync(spriteFixturePath, { force: true });
     if (!staticDirPreexisted) {
@@ -65,18 +57,18 @@ describe('server app', () => {
   describe('asset requests', () => {
     it('short-circuits /js/**, /css/** and /assets/** with a 404 instead of serving the shell', async () => {
       const response = await request(app).get('/js/main.js');
-      expect(response.status).to.equal(404);
+      expect(response.status).toBe(404);
     });
   });
 
   describe('the HTML shell', () => {
     it('renders a 200 HTML document with the injected window.config script', async () => {
       const response = await request(app).get('/');
-      expect(response.status).to.equal(200);
-      expect(response.headers['content-type']).to.include('text/html');
-      expect(response.text).to.include('<!doctype html>');
-      expect(response.text).to.include('window.config=');
-      expect(response.text).to.include('<div id="app"');
+      expect(response.status).toBe(200);
+      expect(response.headers['content-type']).toContain('text/html');
+      expect(response.text).toContain('<!doctype html>');
+      expect(response.text).toContain('window.config=');
+      expect(response.text).toContain('<div id="app"');
     });
   });
 
@@ -84,8 +76,8 @@ describe('server app', () => {
     it('redirects /fi/ to /?locale=fi for a deployment with redirectReittiopasParams enabled', async () => {
       process.env.CONFIG = 'hsl';
       const response = await request(app).get('/fi/');
-      expect(response.status).to.equal(302);
-      expect(response.headers.location).to.equal('/?locale=fi');
+      expect(response.status).toBe(302);
+      expect(response.headers.location).toBe('/?locale=fi');
     });
   });
 });
@@ -115,12 +107,6 @@ function createMockRes({ headersSent = false } = {}) {
 }
 
 describe('onError', () => {
-  let originalNodeEnv;
-
-  before(() => {
-    originalNodeEnv = process.env.NODE_ENV;
-  });
-
   afterEach(() => {
     process.env.NODE_ENV = originalNodeEnv;
   });
@@ -132,8 +118,8 @@ describe('onError', () => {
 
     onError(err, {}, res, (...args) => nextCalls.push(args));
 
-    expect(nextCalls).to.deep.equal([[err]]);
-    expect(calls.status).to.deep.equal([]);
+    expect(nextCalls).toEqual([[err]]);
+    expect(calls.status).toEqual([]);
   });
 
   it('includes the error message and stack in development', () => {
@@ -143,9 +129,9 @@ describe('onError', () => {
 
     onError(err, {}, res, () => {});
 
-    expect(calls.status).to.deep.equal([[500]]);
-    expect(calls.type).to.deep.equal([['text/plain']]);
-    expect(calls.send).to.deep.equal([[`${err.message}\n${err.stack}`]]);
+    expect(calls.status).toEqual([[500]]);
+    expect(calls.type).toEqual([['text/plain']]);
+    expect(calls.send).toEqual([[`${err.message}\n${err.stack}`]]);
   });
 
   it('hides the error details behind a generic message outside development', () => {
@@ -155,6 +141,6 @@ describe('onError', () => {
 
     onError(err, {}, res, () => {});
 
-    expect(calls.send).to.deep.equal([['Internal server error']]);
+    expect(calls.send).toEqual([['Internal server error']]);
   });
 });

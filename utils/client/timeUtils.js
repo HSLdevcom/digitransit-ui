@@ -92,10 +92,12 @@ export function durationToString(intl, durationMs) {
  * Returns formatted date / time
  * @param {number} startTime milliseconds since 1970 UTC
  * @param {string} pattern format string using luxon tokens
+ * @param {string} [locale] locale to format the date/time in, e.g. 'fi'
  * @returns {string} formatted date
  */
-export function getFormattedTimeDate(startTime, pattern) {
-  return DateTime.fromMillis(startTime).toFormat(pattern);
+export function getFormattedTimeDate(startTime, pattern, locale) {
+  const dateTime = DateTime.fromMillis(startTime);
+  return (locale ? dateTime.setLocale(locale) : dateTime).toFormat(pattern);
 }
 
 /**
@@ -130,7 +132,7 @@ export function getFutureText(itineraryStart, intl) {
       id: 'tomorrow',
     });
   }
-  return getFormattedTimeDate(startTime, 'ccc d.L.');
+  return getFormattedTimeDate(startTime, 'ccc d.L.', intl.locale);
 }
 
 /**

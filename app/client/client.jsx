@@ -45,6 +45,7 @@ import { ConfigProvider } from './ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
 import { MessageProvider } from '../hooks/MessageContext';
 import { TimeProvider } from '../hooks/TimeContext';
+import { ItineraryLocationProvider } from '../hooks/ItineraryLocationContext';
 import { isPersonalizationEnabled } from '../../utils/client/modeUtils';
 import { getSettings } from '../../utils/client/planParamUtil';
 
@@ -76,6 +77,7 @@ const AppProviders = props => {
     [MessageProvider],
     [FavouriteProvider],
     [TimeProvider],
+    [ItineraryLocationProvider],
   ];
   return providers.reduceRight(
     (children, [Provider, value]) => <Provider {...value}>{children}</Provider>,

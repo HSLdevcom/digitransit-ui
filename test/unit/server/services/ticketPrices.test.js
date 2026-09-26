@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { processTicketTypeResult } from '../../../../server/services/ticketPrices';
 
 // Only the pure transform is tested here - the default export
@@ -21,7 +19,7 @@ describe('ticketPrices', () => {
 
       processTicketTypeResult(result, config);
 
-      expect(config.availableTickets.HSL).to.deep.equal({
+      expect(config.availableTickets.HSL).toEqual({
         'HSL:esim': { price: 2.8, zones: ['A', 'B'] },
         'HSL:toinen': { price: 5.7, zones: ['A', 'B', 'C'] },
       });
@@ -30,15 +28,13 @@ describe('ticketPrices', () => {
     it('does nothing when config has no availableTickets object', () => {
       const config = {};
       processTicketTypeResult({ data: { ticketTypes: [] } }, config);
-      expect(config.availableTickets).to.be.undefined; // eslint-disable-line no-unused-expressions
+      expect(config.availableTickets).toBeUndefined();
     });
 
     it('does not throw when the result payload is malformed', () => {
       const config = { availableTickets: {} };
-      expect(() =>
-        processTicketTypeResult({ data: {} }, config),
-      ).to.not.throw();
-      expect(config.availableTickets).to.deep.equal({});
+      expect(() => processTicketTypeResult({ data: {} }, config)).not.toThrow();
+      expect(config.availableTickets).toEqual({});
     });
   });
 });

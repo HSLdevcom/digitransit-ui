@@ -44,10 +44,6 @@ div.map {
   }
 }
 
-.below-map {
-  overflow: auto;
-}
-
 .mobile {
   .map {
     div.leaflet-control-scale.leaflet-control {
@@ -175,10 +171,6 @@ div.map.full {
   flex-basis: 0;
 }
 
-div.below-map {
-  height: calc(100% - #{$small-map-height});
-}
-
 div.leaflet-bottom.leaflet-right div.leaflet-control-zoom {
   width: 36px;
   height: 73px;
@@ -239,11 +231,6 @@ div.leaflet-container {
 div.current-location-marker > span > svg.icon {
   font-size: 40px;
   color: $current-location-color;
-}
-
-.tripMap div.leaflet-marker-icon.place,
-.summary-map div.leaflet-marker-icon.place {
-  display: none;
 }
 
 div.leaflet-marker-icon.from,
@@ -838,19 +825,6 @@ div.origin-popup {
     position: relative;
     left: 0;
     margin: 0 0;
-  }
-}
-
-.vehicle-number-container-v-map {
-  position: relative;
-  bottom: 40px;
-  left: 41px;
-
-  .vehicle-number-map {
-    margin-right: 1.5em;
-    margin-left: 0.3em;
-    mask-image: none;
-    max-width: none;
   }
 }
 

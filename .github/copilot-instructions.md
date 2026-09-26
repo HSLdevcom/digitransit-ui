@@ -54,7 +54,7 @@ right one by *who consumes the code*, not just by convenience.
     `timetableConfigUtils.js` — config-assembly helpers used only by `server/configs/*.js`.
   - `client/` — client-bundle-only, e.g. `localStorage.js`,
     plus its own `__generated__/` for Relay fragments used by utils.
-- `test/` — `unit/` (mocha, mirrors the `app/`/`server/`/`utils/` layout, e.g.
+- `test/` — `unit/` (Vitest, mirrors the `app/`/`server/`/`utils/` layout, e.g.
   `test/unit/utils/{shared,server,client}/`, `test/unit/server/configs/`) and `e2e/` (Jest +
   Playwright visual tests).
 - `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.js`, `build/contextHelper.js`,
@@ -64,7 +64,7 @@ right one by *who consumes the code*, not just by convenience.
   `digitransit-util/` — Yarn workspace packages, built separately (see below).
 - `sass/`, `static/` — global styles and static assets.
 - `config/` — build tooling config: `babel.config.cjs`, `rollup.config.js` (component-package
-  builds), `vitest.config.js`/`vitest.jsx-runtime-loader.js` (workspace-package tests, see
+  builds). The Vitest config itself (`vitest.config.js`) lives at the repo root, not here (see
   Tests below).
 - `schema/` — generated `schema.graphql` (GraphQL schema consumed by relay-compiler and
   graphql-eslint; regenerate with `scripts/generate-schema.js`, don't hand-edit).
@@ -107,17 +107,18 @@ right one by *who consumes the code*, not just by convenience.
 
 ## Tests (see `docs/Tests.md`)
 
-- Unit tests (mocha, files under `test/unit/**/*.test.js`) mirror the source structure where
+- Unit tests (Vitest, files under `test/unit/**/*.test.{js,jsx}`) mirror the source structure where
   the reorg has been applied, e.g. `test/unit/component/...`, `test/unit/store/...`,
   `test/unit/server/configs/...`, `test/unit/utils/{shared,server,client}/...` — a
-  `test/unit/util/` (old, singular) directory and some flat `test/unit/*.test.js` files remain
-  from before the reorg and don't yet mirror anything. This setup is currently under
+  `test/unit/util/` (old, singular) directory and some flat `test/unit/*.test.{js,jsx}` files
+  remain from before the reorg and don't yet mirror anything. This setup is currently under
   refactoring — verify commands against `package.json` if they seem out of date:
   - For new React component tests, prefer **React Testing Library** and test components from the
     user's perspective rather than relying on implementation details.
-  - Run all: `yarn test-unit` (runs the app suite plus the workspace `store`/`component`
-    package tests, the latter via **Vitest**, `config/vitest.config.js`).
-  - Run just the app suite: `yarn test-unit:app`.
+  - Run all: `yarn test-unit` (single **Vitest** invocation against the root `vitest.config.js`,
+    covering the app suite plus every workspace-package family as `test.projects` entries).
+  - Run just the app suite: `yarn test-unit:app` (`vitest run --config vitest.config.js --project
+    app`).
   - Run a single test by name (grep on describe/it or filename stem):
     `yarn test-single -g <pattern>` (this is `test-unit:app -g <pattern>`).
   - Watch mode: `yarn run test-unit -- --watch`.
@@ -172,7 +173,7 @@ Other structural notes:
 The repo is `"type": "module"`. Only a few entry points are loaded by Node **directly**, with no
 bundler/transpiler in between: `server/**`, `webpack.config.js`, `scripts/**`, `config/*.{js,cjs}`.
 Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by webpack
-(client) or run through Mocha's Babel-ESM loader (tests), both extension-agnostic.
+(client) or run through Vite/Vitest's own transform (tests), both extension-agnostic.
 
 - `server/**` never imports from `app/**` — only from `utils/shared/`, `utils/server/`, and
   itself. It renders the initial HTML shell (no React runs server-side) and serializes the merged
@@ -200,10 +201,9 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   is `singleQuote: true, trailingComma: 'all', arrowParens: 'avoid'`.
 - When removing `defaultProps`, use parameter defaults only for valid values; never default to
   `undefined`.
-- JSX-containing files use the `.jsx` extension; plain `.js` never contains JSX. The one
-  exception is `test/unit/**`, which still uses `.js` for JSX pending a separate Mocha→Vitest
-  migration. For the extension-required-vs-forbidden import policy, see "Server/client
-  boundary" above; `import/extensions` is not autofixable by `eslint --fix`.
+- JSX-containing files use the `.jsx` extension; plain `.js` never contains JSX. For the
+  extension-required-vs-forbidden import policy, see "Server/client boundary" above;
+  `import/extensions` is not autofixable by `eslint --fix`.
 - Avoid `Component.defaultProps` in function components (deprecated by React, and unsupported for
   function components in newer React versions). Declare defaults via destructuring in the
   function signature instead, e.g. `function Foo({ isMobile = false, children = null })`. This

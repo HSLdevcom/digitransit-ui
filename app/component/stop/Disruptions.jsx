@@ -124,6 +124,7 @@ const getCancelations = (stop, intl, config) => {
         },
       ],
       alertSeverityLevel: AlertSeverityLevelType.Warning,
+      alertEffect: 'CANCELLATION',
       effectiveStartDate: DateTime.fromISO(serviceDate).toSeconds(),
       effectiveEndDate: DateTime.fromISO(serviceDate)
         .plus({ days: 1 })

@@ -11,9 +11,7 @@ import { boundWithMinimumAreaSimple } from '../../utils/shared/geo-utils.js';
 // top-level await), so getNamedConfiguration's dynamic per-region require
 // below stays synchronous instead of turning every caller async. Anchored
 // via `process.cwd()` (this file already assumes cwd is the repo root, see
-// `appRoot` below) rather than `import.meta.url`: a file containing
-// `import.meta` can't be transpiled to CommonJS by `@babel/register`, which
-// breaks the Mocha unit-test suite's require()-based module loading.
+// `appRoot` below) rather than `import.meta.url`, purely for simplicity.
 const require = createRequire(
   path.join(process.cwd(), 'server/configs/config.js'),
 );

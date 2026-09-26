@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import getMetadata from '../../../../utils/shared/metaUtils';
 
 function createMockConfig(overrides = {}) {
@@ -31,9 +29,9 @@ describe('getMetadata', () => {
     const byName = key =>
       meta.find(m => m.name === key || m.property === key).content;
 
-    expect(byName('description')).to.equal('A test app');
-    expect(byName('og:title')).to.equal('Test app');
-    expect(byName('twitter:card')).to.equal('summary_large_image');
+    expect(byName('description')).toBe('A test app');
+    expect(byName('og:title')).toBe('Test app');
+    expect(byName('twitter:card')).toBe('summary_large_image');
   });
 
   it('concatenates config.metaData onto the base meta and link arrays', () => {
@@ -51,7 +49,7 @@ describe('getMetadata', () => {
       config,
     );
 
-    expect(meta.some(m => m.name === 'theme-color')).to.equal(true);
-    expect(link.some(l => l.rel === 'apple-touch-icon')).to.equal(true);
+    expect(meta.some(m => m.name === 'theme-color')).toBe(true);
+    expect(link.some(l => l.rel === 'apple-touch-icon')).toBe(true);
   });
 });

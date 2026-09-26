@@ -36,7 +36,9 @@ const vehicleModesFilter = ({ entities }, { vehicleModes }) => {
 };
 
 const entityFilter = ({ entities }, { entity }) =>
-  !entity || entities.some(e => e.gtfsId === entity.gtfsId);
+  !entity ||
+  entities.some(e => e.gtfsId === entity.gtfsId) ||
+  entities.some(e => e.parentStation?.gtfsId === entity.gtfsId);
 
 const favouriteFilter = ({ entities }, { favourites }) =>
   !favourites || entities.some(e => favourites.has(e.gtfsId));

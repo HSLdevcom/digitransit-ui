@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it, afterEach } from 'mocha';
 import collectGeoJsonZones, {
   getZoneUrl,
 } from '../../../../server/services/geoJsonZones';
@@ -16,7 +14,7 @@ describe('geoJsonZones', () => {
           },
         ],
       };
-      expect(getZoneUrl(json)).to.equal('https://example.com/zones');
+      expect(getZoneUrl(json)).toBe('https://example.com/zones');
     });
 
     it('returns undefined when noZoneSharing is set', () => {
@@ -26,14 +24,14 @@ describe('geoJsonZones', () => {
           { name: { fi: 'Vyöhykkeet' }, url: 'https://example.com/zones' },
         ],
       };
-      expect(getZoneUrl(json)).to.be.undefined; // eslint-disable-line no-unused-expressions
+      expect(getZoneUrl(json)).toBeUndefined();
     });
 
     it('returns undefined when no zone layer is present', () => {
       const json = {
         layers: [{ name: { fi: 'Muu' }, url: 'https://example.com/other' }],
       };
-      expect(getZoneUrl(json)).to.be.undefined; // eslint-disable-line no-unused-expressions
+      expect(getZoneUrl(json)).toBeUndefined();
     });
   });
 
@@ -47,7 +45,7 @@ describe('geoJsonZones', () => {
     it('resolves immediately without touching the network when ASSEMBLE_GEOJSON is unset', async () => {
       delete process.env.ASSEMBLE_GEOJSON;
       const result = await collectGeoJsonZones();
-      expect(result).to.be.undefined; // eslint-disable-line no-unused-expressions
+      expect(result).toBeUndefined();
     });
   });
 });

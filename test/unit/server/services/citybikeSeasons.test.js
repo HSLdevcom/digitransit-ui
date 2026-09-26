@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it, afterEach } from 'mocha';
 import fetchCitybikeConfigurations, {
   buildCitybikeConfig,
   handleCitybikeSeasonConfigurations,
@@ -15,7 +13,7 @@ describe('citybikeSeasons', () => {
         preSeason: '03-15',
         inSeason: '04.01-10.31',
       };
-      expect(buildCitybikeConfig(seasonDef)).to.deep.equal({
+      expect(buildCitybikeConfig(seasonDef)).toEqual({
         configName: 'hsl',
         networkName: 'helsinki',
         enabled: true,
@@ -47,8 +45,8 @@ describe('citybikeSeasons', () => {
         },
       ];
       const result = handleCitybikeSeasonConfigurations(schedules, 'hsl');
-      expect(result).to.have.lengthOf(1);
-      expect(result[0].networkName).to.equal('helsinki');
+      expect(result).toHaveLength(1);
+      expect(result[0].networkName).toBe('helsinki');
     });
   });
 
@@ -65,7 +63,7 @@ describe('citybikeSeasons', () => {
       delete process.env.CITYBIKE_DB_CONN_STRING;
       delete process.env.CITYBIKE_DATABASE;
       const result = await fetchCitybikeConfigurations();
-      expect(result).to.be.undefined; // eslint-disable-line no-unused-expressions
+      expect(result).toBeUndefined();
     });
   });
 });
