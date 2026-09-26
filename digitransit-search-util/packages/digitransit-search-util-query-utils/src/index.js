@@ -4,13 +4,13 @@ import flatten from 'lodash/flatten';
 import uniq from 'lodash/uniq';
 import compact from 'lodash/compact';
 import { fetchQuery, graphql } from 'react-relay';
-import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
 import {
-  mapRoute,
+  filterMatchingToInput,
+  getMatchScore,
   isStop,
-  match,
-} from '@digitransit-search-util/digitransit-search-util-helpers';
-import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
+  mapRoute,
+  routeNameCompare,
+} from '@digitransit-util/digitransit-util';
 import { isString, orderBy } from 'lodash';
 
 let relayEnvironment = null;
@@ -525,7 +525,7 @@ export function getRoutesQuery(input, feedIds, transportMode, pathOpts) {
       const normalizedTerm = !isString(input) ? '' : input.toLowerCase();
       const orderedResults = orderBy(
         results,
-        [result => match(normalizedTerm, result.properties)],
+        [result => getMatchScore(normalizedTerm, result.properties)],
         ['desc', 'desc'],
       );
       return take(orderedResults, 100);

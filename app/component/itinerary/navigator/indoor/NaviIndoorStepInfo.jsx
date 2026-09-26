@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { isKeyboardSelectionEvent } from '@digitransit-util/digitransit-util';
 import { configShape } from '../../../../../utils/client/shapes';
 import Icon from '../../../Icon';
 import {
@@ -12,7 +13,6 @@ import {
   VerticalDirection,
 } from '../../../../../utils/shared/constants';
 import ItineraryMapAction from '../../ItineraryMapAction';
-import { isKeyboardSelectionEvent } from '../../../../../utils/client/browser';
 
 function NaviIndoorStepInfo({
   focusAction,

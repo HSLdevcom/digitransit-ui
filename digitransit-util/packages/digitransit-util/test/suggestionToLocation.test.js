@@ -3,7 +3,7 @@ import suggestionToLocation, {
   getGtfsId,
 } from '../src/suggestionToLocation.js';
 
-describe('Testing @digitransit-search-util/digitransit-search-util-suggestion-to-location module', () => {
+describe('suggestionToLocation', () => {
   describe('getGtfsId(properties)', () => {
     it('returns the gtfsId field verbatim when present', () => {
       expect(getGtfsId({ gtfsId: 'HSL:1234' })).toBe('HSL:1234');

@@ -6,7 +6,7 @@ import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import { matchShape } from 'found';
-import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
+import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import { useConfigContext } from '../../client/ConfigContext';
 import RoutePatternSelectContainer from './RoutePatternSelectContainer';
 import {

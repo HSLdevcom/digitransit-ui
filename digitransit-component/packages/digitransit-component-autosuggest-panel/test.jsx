@@ -1,16 +1,16 @@
 import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import axios from 'axios';
 import DTAutosuggestPanel from './src/index';
 
 // searchContext's sources/targets being empty means "search all sources",
-// which includes a real geocoding lookup via axios - mock it so tests that
+// which includes a real geocoding lookup via fetch - stub it so tests that
 // type into a field don't fire an actual network request against the fake
 // URL_PELIAS host below.
-vi.mock('axios', () => ({
-  default: { get: vi.fn(() => Promise.resolve({ data: { features: [] } })) },
-}));
+const fetchMock = vi.fn(() =>
+  Promise.resolve({ json: () => Promise.resolve({ features: [] }) }),
+);
+vi.stubGlobal('fetch', fetchMock);
 
 // Minimal but complete searchContext stub - see
 // digitransit-search-util-execute-search-immediate/test.js for the equivalent
@@ -78,6 +78,6 @@ describe('Testing @digitransit-component/digitransit-component-autosuggest-panel
     expect(destination.value).toBe('Myyr');
     // Let the mocked geocoding search resolve and its resulting dispatch
     // land before the test ends and unmounts the component.
-    await waitFor(() => expect(axios.get).toHaveBeenCalled());
+    await waitFor(() => expect(fetchMock).toHaveBeenCalled());
   });
 });

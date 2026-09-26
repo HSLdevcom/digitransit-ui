@@ -2,7 +2,7 @@ import Store from 'fluxible/addons/BaseStore';
 import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import orderBy from 'lodash/orderBy';
-import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
+import { getNameLabel } from '@digitransit-util/digitransit-util';
 import { unixTime } from '../../utils/client/timeUtils';
 import {
   getOldSearchesStorage,

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import filterMatchingToInput from '../src/filterMatchingToInput.js';
 
-describe('Testing @digitransit-util/digitransit-util-filter-matching-to-input module', () => {
+describe('filterMatchingToInput', () => {
   it('Checking that true is true', () => {
     // const retValue = filterMatchingToInput(param1, param2);
     expect(true).toBe(true);

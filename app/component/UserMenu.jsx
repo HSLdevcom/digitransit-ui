@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
+import { isKeyboardSelectionEvent } from '@digitransit-util/digitransit-util';
 import Icon from './Icon';
-import { isKeyboardSelectionEvent } from '../../utils/client/browser';
 import { userShape } from '../../utils/client/shapes';
 
 const UserMenu = ({ menuItems, user }) => {

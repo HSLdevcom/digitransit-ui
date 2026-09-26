@@ -7,7 +7,10 @@ const { getJson, loadAllRawConfigurations, setAssembledZones } = vi.hoisted(
     setAssembledZones: vi.fn(),
   }),
 );
-vi.mock('../../../../utils/shared/xhrPromise', () => ({ getJson }));
+vi.mock('@digitransit-util/digitransit-util', async importOriginal => ({
+  ...(await importOriginal()),
+  getJson,
+}));
 vi.mock('../../../../server/configs/config', () => ({
   loadAllRawConfigurations,
   setAssembledZones,

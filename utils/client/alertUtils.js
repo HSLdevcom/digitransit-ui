@@ -1,5 +1,5 @@
 import isNumber from 'lodash/isNumber';
-import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
+import { routeNameCompare } from '@digitransit-util/digitransit-util';
 
 import {
   RealtimeStateType,

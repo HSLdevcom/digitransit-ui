@@ -1,22 +1,10 @@
 import {
+  getLabel,
   getNameLabel,
   getStopCode,
-} from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
-import { getStopName } from '@digitransit-search-util/digitransit-search-util-helpers';
-import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
+  getStopName,
+} from '@digitransit-util/digitransit-util';
 import { DateTime } from 'luxon';
-
-export const isKeyboardSelectionEvent = event => {
-  const space = [13, ' ', 'Spacebar'];
-  const enter = [32, 'Enter'];
-  const key = (event && (event.key || event.which || event.keyCode)) || '';
-
-  if (!key || !space.concat(enter).includes(key)) {
-    return false;
-  }
-  event.preventDefault();
-  return true;
-};
 
 export const isPOISearch = id =>
   id === 'origin' ||

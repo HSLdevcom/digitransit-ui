@@ -1,6 +1,6 @@
 // Parse from, to and time parameters from old reittiopas searches
 import { DateTime } from 'luxon';
-import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
+import { getGeocodingResults } from '@digitransit-util/digitransit-util';
 import { locationToOTP } from './otpStrings.js';
 import { kkj2ToWgs84 } from './geo-utils.js';
 import { PREFIX_ITINERARY_SUMMARY } from './path.js';

@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
+import { isKeyboardSelectionEvent } from '@digitransit-util/digitransit-util';
 import Icon from '../Icon';
 import routeCompare from '../../../utils/client/route-compare';
-import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
 import {
   getRouteMode,
   modeToTranslationId,

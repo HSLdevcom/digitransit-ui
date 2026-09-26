@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import isDuplicate from '../src/isDuplicate.js';
 
-describe('Testing @digitransit-util/digitransit-util-is-duplicate module', () => {
+describe('isDuplicate', () => {
   it('Checking that duplicate items returns true', () => {
     const param1 = {
       properties: {

@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { graphql, ReactRelayContext, QueryRenderer } from 'react-relay';
 import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import { distance } from '@digitransit-util/digitransit-util';
 import { relayShape, locationShape } from '../../../utils/client/shapes';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';

@@ -310,7 +310,7 @@ const testsForSunday = [
   },
 ];
 
-describe('Testing @digitransit-util/digitransit-util-day-range-allowed-diff', () => {
+describe('dayRangeAllowedDiff', () => {
   describe('When current day number is 1 (Monday)', () => {
     testsForMonday.forEach(function (test) {
       it(`should return "${

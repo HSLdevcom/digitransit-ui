@@ -1,4 +1,4 @@
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import { distance } from '@digitransit-util/digitransit-util';
 import cx from 'classnames';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';

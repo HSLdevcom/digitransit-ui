@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
+import { getJson, getLabel } from '@digitransit-util/digitransit-util';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import Loading from '../../Loading';
 import ZoneIcon from '../../ZoneIcon';
-import { getJson } from '../../../../utils/shared/xhrPromise';
 import { addAnalyticsEvent } from '../../../../utils/client/analyticsUtils';
 import { splitStringToAddressAndPlace } from '../../../../utils/shared/otpStrings';
 import getZoneId from '../../../../utils/client/zoneIconUtils';

@@ -8,7 +8,7 @@ import {
 } from 'react-relay';
 import sortBy from 'lodash/sortBy';
 import { matchShape } from 'found';
-import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
+import { enrichPatterns } from '@digitransit-util/digitransit-util';
 import cx from 'classnames';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useConfigContext } from '../../client/ConfigContext';

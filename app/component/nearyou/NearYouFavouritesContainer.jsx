@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, createFragmentContainer } from 'react-relay';
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import { distance } from '@digitransit-util/digitransit-util';
 import {
   stopShape,
   stationShape,

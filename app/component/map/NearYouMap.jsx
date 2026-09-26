@@ -5,7 +5,7 @@ import { fetchQuery } from 'react-relay';
 import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import { distance } from '@digitransit-util/digitransit-util';
 import BackButton from '../BackButton';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import Line from './Line';

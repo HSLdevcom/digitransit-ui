@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { getJson } from '@digitransit-util/digitransit-util';
 import { configShape } from '../../utils/client/shapes';
 import StopCode from './StopCode';
 import withBreakpoint from '../../utils/client/withBreakpoint';
 import BackButton from './BackButton';
-import { getJson } from '../../utils/shared/xhrPromise';
 import getZoneId from '../../utils/client/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
 import { hasVehicleRentalCode } from '../../utils/shared/vehicleRentalUtils';

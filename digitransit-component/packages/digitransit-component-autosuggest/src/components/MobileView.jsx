@@ -6,15 +6,12 @@ import Icon from '@digitransit-component/digitransit-component-icon';
 import hooks from '@hsl-fi/hooks';
 import { useTranslation } from 'react-i18next';
 import { useCombobox } from 'downshift';
+import { isKeyboardSelectionEvent } from '@digitransit-util/digitransit-util';
 import mobileStyles from './MobileSearch.scss';
 import mobileNoScrollStyles from './MobileNoScroll.scss';
 import { Suggestions } from './Suggestions';
 import { Input } from './Input';
-import {
-  isKeyboardSelectionEvent,
-  getSuggestionValue,
-  isPOISearch,
-} from '../utils/utils';
+import { getSuggestionValue, isPOISearch } from '../utils/utils';
 
 /**
  * @typedef AutosuggestState

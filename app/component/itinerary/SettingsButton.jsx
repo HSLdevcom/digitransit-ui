@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React, { useState, useCallback, useRef } from 'react';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { isKeyboardSelectionEvent } from '@digitransit-util/digitransit-util';
 import Icon from '../Icon';
-import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
 import {
   hasCustomizedSettings,
   getSettings,

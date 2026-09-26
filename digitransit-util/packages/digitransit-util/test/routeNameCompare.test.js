@@ -23,7 +23,7 @@ const c = {
     name: 'hsl',
   },
 };
-describe('Testing @digitransit-search-util/digitransit-search-util-route-name-compare module', () => {
+describe('routeNameCompare', () => {
   it('Checking that same routes returns 0 ', () => {
     const retValue = routeNameCompare(a, b);
     expect(0).toBe(retValue);

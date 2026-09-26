@@ -9,6 +9,7 @@ import Icon, {
   defaultColors,
 } from '@digitransit-component/digitransit-component-icon';
 import isEmpty from 'lodash/isEmpty';
+import { isKeyboardSelectionEvent } from '@digitransit-util/digitransit-util';
 import Select from './helpers/Select';
 import i18n from './helpers/i18n';
 import styles from './helpers/styles.scss';
@@ -67,17 +68,6 @@ const updateViaPointSlack = (
         value > updatedViaPointIndex ? value - 1 : value,
       )
     : activeViaPointSlacks;
-};
-
-const isKeyboardSelectionEvent = event => {
-  const space = [13, ' ', 'Spacebar'];
-  const enter = [32, 'Enter'];
-  const key = (event && (event.key || event.which || event.keyCode)) || '';
-  if (!key || !space.concat(enter).includes(key)) {
-    return false;
-  }
-  event.preventDefault();
-  return true;
 };
 
 const value = location =>

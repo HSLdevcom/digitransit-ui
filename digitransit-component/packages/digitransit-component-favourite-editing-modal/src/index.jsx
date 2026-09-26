@@ -14,22 +14,13 @@ import Icon, {
   defaultColors,
 } from '@digitransit-component/digitransit-component-icon';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
-import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
+import {
+  formatFavouritePlaceLabel,
+  isKeyboardSelectionEvent,
+} from '@digitransit-util/digitransit-util';
 import ModalContent from './helpers/ModalContent';
 import styles from './helpers/styles.scss';
 import i18n from './helpers/i18n';
-
-const isKeyboardSelectionEvent = event => {
-  const space = [13, ' ', 'Spacebar'];
-  const enter = [32, 'Enter'];
-  const key = (event && (event.key || event.which || event.keyCode)) || '';
-
-  if (!key || !space.concat(enter).includes(key)) {
-    return false;
-  }
-  event.preventDefault();
-  return true;
-};
 
 class FavouriteEditingModal extends React.Component {
   static propTypes = {

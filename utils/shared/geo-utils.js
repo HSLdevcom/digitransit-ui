@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import unzip from 'lodash/unzip.js';
 
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import { distance } from '@digitransit-util/digitransit-util';
 
 function toRad(deg) {
   return deg * (Math.PI / 180);

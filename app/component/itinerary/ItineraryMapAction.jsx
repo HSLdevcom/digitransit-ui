@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
+import { isKeyboardSelectionEvent } from '@digitransit-util/digitransit-util';
 import Icon from '../Icon';
 
 function ItineraryMapAction({ target, focusAction, ariaLabelId }) {

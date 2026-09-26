@@ -1,5 +1,5 @@
 import inside from 'point-in-polygon';
-import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import { distance } from '@digitransit-util/digitransit-util';
 import { PlannerMessageType } from '../../../utils/shared/constants';
 
 /**

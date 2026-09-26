@@ -3049,6 +3049,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   dependencies:
+    "@digitransit-util/digitransit-util": "workspace:^"
     "@testing-library/react": "npm:^12"
   peerDependencies:
     "@digitransit-component/digitransit-component-autosuggest": "workspace:^"
@@ -3071,8 +3072,7 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-execute-search-immediate": "workspace:^"
-    "@digitransit-search-util/digitransit-search-util-get-label": "workspace:^"
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
+    "@digitransit-util/digitransit-util": "workspace:^"
     "@hsl-fi/hooks": "npm:^1.2.4"
     "@testing-library/react": "npm:^12"
   peerDependencies:
@@ -3097,6 +3097,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel"
   dependencies:
+    "@digitransit-util/digitransit-util": "workspace:^"
     "@testing-library/react": "npm:^12"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": "workspace:^"
@@ -3149,7 +3150,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar"
   dependencies:
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
+    "@digitransit-util/digitransit-util": "workspace:^"
     "@testing-library/react": "npm:^12"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": "workspace:^"
@@ -3170,7 +3171,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal"
   dependencies:
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
+    "@digitransit-util/digitransit-util": "workspace:^"
     "@testing-library/react": "npm:^12"
     react-modal: "npm:~3.11.2"
   peerDependencies:
@@ -3303,10 +3304,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-execute-search-immediate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immediate"
   dependencies:
-    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "workspace:^"
-    "@digitransit-search-util/digitransit-search-util-get-geocoding-results": "workspace:^"
-    "@digitransit-search-util/digitransit-search-util-get-json": "workspace:^"
-    "@digitransit-search-util/digitransit-search-util-helpers": "workspace:^"
+    "@digitransit-util/digitransit-util": "workspace:^"
     lodash: "npm:4.18.1"
   languageName: unknown
   linkType: soft
@@ -3377,9 +3375,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-query-utils@workspace:digitransit-search-util/packages/digitransit-search-util-query-utils"
   dependencies:
-    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "workspace:^"
-    "@digitransit-search-util/digitransit-search-util-helpers": "workspace:^"
-    "@digitransit-search-util/digitransit-search-util-route-name-compare": "workspace:^"
+    "@digitransit-util/digitransit-util": "workspace:^"
     babel-plugin-relay: "npm:16.2.0"
     relay-compiler: "npm:16.2.0"
   peerDependencies:
@@ -3389,7 +3385,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-route-name-compare@workspace:^, @digitransit-search-util/digitransit-search-util-route-name-compare@workspace:digitransit-search-util/packages/digitransit-search-util-route-name-compare":
+"@digitransit-search-util/digitransit-search-util-route-name-compare@workspace:digitransit-search-util/packages/digitransit-search-util-route-name-compare":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-route-name-compare@workspace:digitransit-search-util/packages/digitransit-search-util-route-name-compare"
   languageName: unknown
@@ -3475,7 +3471,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-util/digitransit-util@workspace:digitransit-util/packages/digitransit-util":
+"@digitransit-util/digitransit-util@workspace:^, @digitransit-util/digitransit-util@workspace:digitransit-util/packages/digitransit-util":
   version: 0.0.0-use.local
   resolution: "@digitransit-util/digitransit-util@workspace:digitransit-util/packages/digitransit-util"
   dependencies:

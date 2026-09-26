@@ -3,9 +3,9 @@ import uniqueId from 'lodash/uniqueId';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { isKeyboardSelectionEvent } from '@digitransit-util/digitransit-util';
 import Message from './Message';
 
-import { isKeyboardSelectionEvent } from '../../utils/client/browser';
 import Icon from './Icon';
 
 const Checkbox = ({

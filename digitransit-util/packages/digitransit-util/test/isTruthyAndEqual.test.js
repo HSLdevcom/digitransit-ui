@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import isTruthyAndEqual from '../src/isTruthyAndEqual.js';
 
-describe('Testing @digitransit-util/digitransit-util-tru-eq module', () => {
+describe('isTruthyAndEqual', () => {
   it('Checking that true is true', () => {
     const retValue = isTruthyAndEqual(true, true);
     expect(true).toBe(retValue);

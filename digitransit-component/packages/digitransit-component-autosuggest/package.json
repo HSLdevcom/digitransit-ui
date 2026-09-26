@@ -44,8 +44,7 @@
   },
   "dependencies": {
     "@digitransit-search-util/digitransit-search-util-execute-search-immediate": "workspace:^",
-    "@digitransit-search-util/digitransit-search-util-get-label": "workspace:^",
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^",
+    "@digitransit-util/digitransit-util": "workspace:^",
     "@hsl-fi/hooks": "^1.2.4"
   },
   "peerDependencies": {

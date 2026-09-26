@@ -14,20 +14,12 @@ import SuggestionItem from '@digitransit-component/digitransit-component-suggest
 import Icon, {
   defaultColors,
 } from '@digitransit-component/digitransit-component-icon';
-import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
+import {
+  formatFavouritePlaceLabel,
+  isKeyboardSelectionEvent,
+} from '@digitransit-util/digitransit-util';
 import styles from './helpers/styles.scss';
 import i18n from './helpers/i18n';
-
-const isKeyboardSelectionEvent = event => {
-  const space = [13, ' ', 'Spacebar'];
-  const enter = [32, 'Enter'];
-  const key = (event && (event.key || event.which || event.keyCode)) || '';
-  if (!key || !space.concat(enter).includes(key)) {
-    return false;
-  }
-  event.preventDefault();
-  return true;
-};
 
 /**
  * Utility to format location [name, address] pair.

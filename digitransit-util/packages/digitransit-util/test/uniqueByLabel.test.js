@@ -45,7 +45,7 @@ const feature3 = {
     label: 'test',
   },
 };
-describe('Testing @digitransit-search-util/digitransit-search-util-uniq-by-label module', () => {
+describe('uniqueByLabel', () => {
   describe('uniqueByLabel()', () => {
     it('Checking that returns unique results by label', () => {
       const features = [feature1, feature2, feature3];

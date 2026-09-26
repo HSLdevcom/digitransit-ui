@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import Store from 'fluxible/addons/BaseStore';
 
-import { getJson } from '../../utils/shared/xhrPromise';
+import { getJson } from '@digitransit-util/digitransit-util';
 
 // these are metadata mappable properties
 const metaTags = ['textOnly', 'name', 'popupContent'];

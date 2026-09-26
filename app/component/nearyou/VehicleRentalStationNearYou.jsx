@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import { graphql, createRefetchContainer } from 'react-relay';
+import { isKeyboardSelectionEvent } from '@digitransit-util/digitransit-util';
 import VehicleRentalStation from '../VehicleRentalStation';
 import FavouriteVehicleRentalStationContainer from '../FavouriteVehicleRentalStationContainer';
 import { PREFIX_BIKESTATIONS } from '../../../utils/shared/path';
-import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
 import { hasVehicleRentalCode } from '../../../utils/shared/vehicleRentalUtils';
 import {
   vehicleRentalStationShape,

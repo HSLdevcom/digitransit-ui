@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { isKeyboardSelectionEvent } from '@digitransit-util/digitransit-util';
 import { ClearButton } from './ClearButton';
-import { isKeyboardSelectionEvent } from '../utils/utils';
 
 export function Input({
   id,

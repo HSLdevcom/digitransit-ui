@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
+import { isKeyboardSelectionEvent } from '@digitransit-util/digitransit-util';
 import { relayShape } from '../../utils/client/shapes';
 import { useConfigContext } from '../client/ConfigContext';
 import { withCurrentTime } from '../hooks/TimeContext';
@@ -17,7 +18,6 @@ import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
 import { getReadMessageIds } from '../../utils/client/localStorage';
 import { mapAlertSource } from '../../utils/client/alertUtils';
-import { isKeyboardSelectionEvent } from '../../utils/client/browser';
 import hashCode from '../../utils/client/hashUtil';
 
 /* Small version has constant height,

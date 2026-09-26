@@ -43,7 +43,7 @@
     "@testing-library/react": "^12"
   },
   "dependencies": {
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
+    "@digitransit-util/digitransit-util": "workspace:^"
   },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-icon": "workspace:^",

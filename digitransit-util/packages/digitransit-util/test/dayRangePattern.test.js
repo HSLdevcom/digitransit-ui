@@ -46,7 +46,7 @@ const tests = [
   },
 ];
 
-describe('Testing @digitransit-util/digitransit-util-day-range-pattern', () => {
+describe('dayRangePattern', () => {
   tests.forEach(function (test) {
     it(`should return pattern "${
       test.dayPattern

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
+import { isKeyboardSelectionEvent } from '@digitransit-util/digitransit-util';
 import { configShape } from '../../../utils/client/shapes';
-import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
 import Icon from '../Icon';
 
 export default function IndoorInfo(

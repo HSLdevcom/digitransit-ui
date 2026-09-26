@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'found';
 import { graphql, createRefetchContainer } from 'react-relay';
+import { isKeyboardSelectionEvent } from '@digitransit-util/digitransit-util';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../utils/shared/path';
-import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
 import { parkShape, relayShape } from '../../../utils/client/shapes';
 import ParkAndRideContent from '../ParkAndRideContent';
 

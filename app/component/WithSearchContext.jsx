@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
+import {
+  getJson,
+  suggestionToLocation,
+} from '@digitransit-util/digitransit-util';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { configShape, locationStateShape } from '../../utils/client/shapes';
-import { getJson } from '../../utils/shared/xhrPromise';
 import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
 import { useCitybikes } from '../../utils/client/modeUtils';
 import {

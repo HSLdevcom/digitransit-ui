@@ -4,7 +4,7 @@ import enrichPatterns from '../src/enrichPatterns.js';
 
 const DATE_FORMAT = 'yyyyLLdd';
 
-describe('Testing @digitransit-util/digitransit-util-enrich-patterns module', () => {
+describe('enrichPatterns', () => {
   const nextFridaysAndSaturdays = [];
   nextFridaysAndSaturdays.push(
     JSON.parse(

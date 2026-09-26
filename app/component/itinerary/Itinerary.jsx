@@ -4,6 +4,7 @@ import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
+import { isKeyboardSelectionEvent } from '@digitransit-util/digitransit-util';
 import { locationShape, itineraryShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import Feedback from './Feedback';
@@ -35,7 +36,6 @@ import {
   timeStr,
 } from '../../../utils/client/timeUtils';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
-import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
 import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import { getItineraryPagePath, streetHash } from '../../../utils/shared/path';
 import {

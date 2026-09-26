@@ -6,22 +6,11 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation, I18nextProvider } from 'react-i18next';
 import { defaultColors } from '@digitransit-component/digitransit-component-icon';
 import Shimmer from '@hsl-fi/shimmer';
+import { isKeyboardSelectionEvent } from '@digitransit-util/digitransit-util';
 import NearYouButton from './helpers/NearYouButton';
 import AllModesModal from './helpers/AllModesModal';
 import styles from './helpers/styles.scss';
 import i18n from './helpers/i18n';
-
-const isKeyboardSelectionEvent = event => {
-  const space = [13, ' ', 'Spacebar'];
-  const enter = [32, 'Enter'];
-  const key = (event && (event.key || event.which || event.keyCode)) || '';
-
-  if (!key || !space.concat(enter).includes(key)) {
-    return false;
-  }
-  event.preventDefault();
-  return true;
-};
 
 function SeparatorLine({ usePaddingBottom20 }) {
   const className = usePaddingBottom20

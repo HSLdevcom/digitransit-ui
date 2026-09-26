@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import getLabel from '../src/getLabel.js';
 
-describe('Testing @digitransit-search-util/digitransit-search-util-get-label module', () => {
+describe('getLabel', () => {
   it('joins name and address for a plain address suggestion', () => {
     const label = getLabel({
       layer: 'address',

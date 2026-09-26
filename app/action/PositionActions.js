@@ -1,5 +1,5 @@
 import debounce from 'lodash/debounce';
-import { getJson } from '../../utils/shared/xhrPromise';
+import { getJson } from '@digitransit-util/digitransit-util';
 import { geolocationMessages } from '../../utils/client/geolocationMessages';
 import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
 import { messageActions } from '../hooks/MessageContext';

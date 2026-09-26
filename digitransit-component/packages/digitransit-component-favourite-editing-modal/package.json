@@ -44,7 +44,7 @@
     "react-modal": "~3.11.2"
   },
   "dependencies": {
-    "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
+    "@digitransit-util/digitransit-util": "workspace:^"
   },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^",

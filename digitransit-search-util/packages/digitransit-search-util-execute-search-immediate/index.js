@@ -2,12 +2,12 @@ import debounce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
 import take from 'lodash/take';
 import {
-  sortSearchResults,
+  filterMatchingToInput,
+  getGeocodingResults,
+  getJson,
   isStop,
-} from '@digitransit-search-util/digitransit-search-util-helpers';
-import filterMatchingToInput from '@digitransit-search-util/digitransit-search-util-filter-matching-to-input';
-import getGeocodingResults from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
-import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
+  sortSearchResults,
+} from '@digitransit-util/digitransit-util';
 
 function getStopsFromGeocoding(stops, URL_PELIAS_PLACE) {
   if (!stops || stops.length < 1) {
@@ -69,7 +69,7 @@ function filterFavouriteLocations(favourites, input) {
     })),
   );
 }
-function selectPositionFomMap(input) {
+function selectPositionFromMap(input) {
   if (typeof input !== 'string' || input.length === 0) {
     return Promise.resolve([
       {
@@ -303,7 +303,7 @@ export function getSearchResults(
     searchComponents.push(getCurrentPositionIfEmpty(input, position));
   }
   if (allTargets || targets.includes('MapPosition')) {
-    searchComponents.push(selectPositionFomMap(input));
+    searchComponents.push(selectPositionFromMap(input));
   }
   if (targets.includes('FutureRoutes')) {
     const items = getFutureRoutes(context);

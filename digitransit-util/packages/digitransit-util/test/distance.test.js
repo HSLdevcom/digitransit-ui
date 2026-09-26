@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import distance from '../src/distance.js';
 
-describe('Testing @digitransit-util/digitransit-util-distance module', () => {
+describe('distance', () => {
   it('Checking that distance is calculated', () => {
     const latlon1 = {
       lat: 3,

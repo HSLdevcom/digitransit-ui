@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useRouter } from 'found';
+import { getJson } from '@digitransit-util/digitransit-util';
 import { stopShape, stationShape } from '../../../utils/client/shapes';
 import CardHeader from '../CardHeader';
-import { getJson } from '../../../utils/shared/xhrPromise';
 import { saveSearch } from '../../action/SearchActions';
 import { isIOS } from '../../../utils/client/browser';
 import FavouriteStopContainer from '../FavouriteStopContainer';
