@@ -8,6 +8,12 @@ import Link from 'found/Link';
 import relay from 'react-relay';
 import { Settings } from 'luxon';
 import { cleanup } from '@testing-library/react';
+// Loaded up front: on first load, @hsl-fi/modal's bundled style injector
+// schedules a 16 ms timer that reads `document`. If that first load happened
+// in a worker's last test file, the timer could fire after Vitest tears down
+// jsdom ("ReferenceError: document is not defined"). With `isolate: false`
+// this only loads once per worker.
+import '@hsl-fi/modal';
 import { initAnalyticsClientSide } from '../../../utils/client/analyticsUtils';
 
 // set up timezone in luxon
