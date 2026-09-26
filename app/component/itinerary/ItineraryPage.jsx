@@ -27,7 +27,7 @@ import {
 } from '../../../utils/client/localStorage';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { getWeatherData } from '../../../utils/client/apiUtils';
-import { isIOS } from '../../../utils/shared/browser';
+import { isIOS } from '../../../utils/client/browser';
 import {
   boundWithMinimumArea,
   GeodeticToEcef,

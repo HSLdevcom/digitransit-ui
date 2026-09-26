@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { displayDistance } from '../../../../utils/shared/geo-utils';
+import { displayDistance } from '../../../../utils/client/distanceUtils';
 import { legShape, configShape } from '../../../../utils/client/shapes';
 import {
   legDestination,

@@ -6,7 +6,7 @@ import { legShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { useConfigContext } from '../../client/ConfigContext';
-import { displayDistance } from '../../../utils/shared/geo-utils';
+import { displayDistance } from '../../../utils/client/distanceUtils';
 import { durationToString } from '../../../utils/client/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { legTimeStr, legDestination } from '../../../utils/client/legUtils';

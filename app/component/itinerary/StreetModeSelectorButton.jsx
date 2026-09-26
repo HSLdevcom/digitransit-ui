@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { useIntl } from 'react-intl';
 import { configShape, planShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
-import { displayDistance } from '../../../utils/shared/geo-utils';
+import { displayDistance } from '../../../utils/client/distanceUtils';
 import { durationToString } from '../../../utils/client/timeUtils';
 import {
   getTotalDistance,

@@ -4,7 +4,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { itineraryShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../client/ConfigContext';
-import { displayDistance } from '../../../utils/shared/geo-utils';
+import { displayDistance } from '../../../utils/client/distanceUtils';
 import { getTotalDistance } from '../../../utils/client/legUtils';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import SecondaryButton from '../SecondaryButton';

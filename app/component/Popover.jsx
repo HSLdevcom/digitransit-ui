@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { Text, Button, Spacer } from '@hsl-fi/layout-primitives';
 import Icon from './Icon';
-import { isKeyboardSelectionEvent } from '../../utils/shared/browser';
+import { isKeyboardSelectionEvent } from '../../utils/client/browser';
 
 export default function Popover({
   icon,

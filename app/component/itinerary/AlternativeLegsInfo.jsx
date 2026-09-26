@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import React from 'react';
 import Icon from '../Icon';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
+import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
 import { legShape } from '../../../utils/client/shapes';
 import { legTimeStr } from '../../../utils/client/legUtils';
 

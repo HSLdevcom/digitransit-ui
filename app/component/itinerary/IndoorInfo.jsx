@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { configShape } from '../../../utils/client/shapes';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
+import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
 import Icon from '../Icon';
 
 export default function IndoorInfo(

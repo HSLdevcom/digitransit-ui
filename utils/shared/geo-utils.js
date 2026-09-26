@@ -2,7 +2,6 @@
 import unzip from 'lodash/unzip.js';
 
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { isImperial } from './browser.js';
 
 function toRad(deg) {
   return deg * (Math.PI / 180);
@@ -50,83 +49,6 @@ export function getDistanceToNearestStop(lat, lon, stops) {
 
   return { stop: minStop, distance: minDist };
 }
-
-export function displayImperialDistance(meters) {
-  const feet = meters * 3.2808399;
-
-  /* eslint-disable yoda */
-
-  if (feet < 100) {
-    return `${Math.round(feet / 10) * 10} ft`; // Tens of feet
-  }
-  if (feet < 1000) {
-    return `${Math.round(feet / 50) * 50} ft`; // fifty feet
-  }
-  return `${Math.round(feet / 528) / 10} mi`; // tenth of a mile
-}
-
-/**
- * Returns distance with locale format (fraction digits is 1)
- * e.g. fi/sv - 20,1 km, en - 20.1 km
- * @param {*} meters
- * @param {*} formatNumber
- */
-function displayDistanceWithLocale(meters, formatNumber) {
-  const opts = {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
-  };
-  if (meters < 100) {
-    return `${formatNumber((Math.round(meters / 10) * 10).toFixed(1))} m`; // Tens of meters
-  }
-  if (meters < 975) {
-    return `${formatNumber((Math.round(meters / 50) * 50).toFixed(1))} m`; // fifty meters
-  }
-  if (meters < 10000) {
-    return `${formatNumber(
-      ((Math.round(meters / 100) * 100) / 1000).toFixed(1),
-      opts,
-    )} km`; // hudreds of meters
-  }
-  if (meters < 100000) {
-    return `${formatNumber(Math.round(meters / 1000).toFixed(1), opts)} km`; // kilometers
-  }
-  return `${formatNumber(
-    (Math.round(meters / 10000) * 10).toFixed(1),
-    opts,
-  )} km`; // tens of kilometers
-}
-
-export function displayDistance(meters, config, formatNumber) {
-  if (config.alwaysShowDistanceInKm) {
-    return `${(meters / 1000).toFixed(1)}  km`;
-  }
-  if (isImperial(config)) {
-    return displayImperialDistance(meters);
-  }
-  if (formatNumber) {
-    return displayDistanceWithLocale(meters, formatNumber);
-  }
-  if (meters < 100) {
-    return `${Math.round(meters / 10) * 10} m`; // Tens of meters
-  }
-  if (meters < 975) {
-    return `${Math.round(meters / 50) * 50} m`; // fifty meters
-  }
-  if (meters < 10000) {
-    return `${(Math.round(meters / 100) * 100) / 1000} km`; // hudreds of meters
-  }
-  if (meters < 100000) {
-    return `${Math.round(meters / 1000)} km`; // kilometers
-  }
-  return `${Math.round(meters / 10000) * 10} km`; // tens of kilometers
-}
-
-/* export function displayDistance2(meters) {
-  return `${(meters / 1000).toFixed(1)}  km`;
-}
- */
-/* eslint-enable yoda */
 
 // Return the bounding box of a latlon array of length > 0
 export function boundWithMinimumArea(points, maxZoom = 18) {

@@ -32,7 +32,7 @@ import {
   PREFIX_TIMETABLE,
 } from '../../../utils/shared/path';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import { isIOS } from '../../../utils/shared/browser';
+import { isIOS } from '../../../utils/client/browser';
 import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
 import { saveSearch } from '../../action/SearchActions';
 import Notification from './Notification';

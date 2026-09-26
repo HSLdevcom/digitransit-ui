@@ -5,7 +5,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { configShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import { durationToString } from '../../../utils/client/timeUtils';
-import { displayDistance } from '../../../utils/shared/geo-utils';
+import { displayDistance } from '../../../utils/client/distanceUtils';
 
 export default function StreetSummary(props, { config }) {
   const intl = useIntl();

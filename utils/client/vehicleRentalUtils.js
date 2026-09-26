@@ -1,6 +1,8 @@
 import without from 'lodash/without';
 import { getCustomizedSettings } from './localStorage';
 import { addAnalyticsEvent } from '../shared/analyticsUtils';
+import { getRentalNetworkName } from '../shared/vehicleRentalUtils';
+import { isAndroid, isIOS } from './browser';
 
 /**
  * Retrieves all chosen citybike networks from the
@@ -65,4 +67,31 @@ export const openDeepLink = (deepLink, fallBackAddress) => {
       window.location.href = fallBackAddress;
     }
   }, 500);
+};
+
+export const getRentalVehicleLink = (rentalVehicle, networkConfig) => {
+  if (!networkConfig || !rentalVehicle) {
+    return null;
+  }
+
+  const { ios, android, web } = rentalVehicle.rentalUris || {};
+  const networkName = getRentalNetworkName(networkConfig).toLowerCase();
+
+  if (isIOS && ios?.startsWith(`${networkName}://`)) {
+    return ios;
+  }
+
+  if (isAndroid && android?.startsWith(`${networkName}://`)) {
+    return android;
+  }
+
+  if (web?.includes(networkName)) {
+    return web;
+  }
+
+  if (rentalVehicle.rentalNetwork?.url?.includes(networkName)) {
+    return rentalVehicle.rentalNetwork.url;
+  }
+
+  return null;
 };

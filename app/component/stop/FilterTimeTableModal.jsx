@@ -4,7 +4,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import Icon from '../Icon';
 import routeCompare from '../../../utils/client/route-compare';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
+import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
 import {
   getRouteMode,
   modeToTranslationId,

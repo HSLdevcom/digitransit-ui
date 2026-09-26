@@ -5,7 +5,7 @@ import { stopShape, stationShape } from '../../../utils/client/shapes';
 import CardHeader from '../CardHeader';
 import { getJson } from '../../../utils/shared/xhrPromise';
 import { saveSearch } from '../../action/SearchActions';
-import { isIOS } from '../../../utils/shared/browser';
+import { isIOS } from '../../../utils/client/browser';
 import FavouriteStopContainer from '../FavouriteStopContainer';
 import { useConfigContext } from '../../client/ConfigContext';
 

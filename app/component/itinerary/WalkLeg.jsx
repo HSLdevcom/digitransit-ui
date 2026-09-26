@@ -26,7 +26,7 @@ import {
   RentalNetworkType,
   getRentalNetworkConfig,
 } from '../../../utils/shared/vehicleRentalUtils';
-import { displayDistance } from '../../../utils/shared/geo-utils';
+import { displayDistance } from '../../../utils/client/distanceUtils';
 import { durationToString } from '../../../utils/client/timeUtils';
 import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';

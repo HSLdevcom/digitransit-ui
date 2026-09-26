@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { Link } from 'found';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { displayDistance } from '../../../utils/shared/geo-utils';
+import { displayDistance } from '../../../utils/client/distanceUtils';
 import { legDestination, legTimeStr } from '../../../utils/client/legUtils';
 import { PREFIX_BIKEPARK } from '../../../utils/shared/path';
 import { configShape, legShape, parkShape } from '../../../utils/client/shapes';

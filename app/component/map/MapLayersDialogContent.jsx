@@ -4,7 +4,7 @@ import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 
 import { mapLayerOptionsShape } from '../../../utils/client/shapes';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
+import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
 import Icon from '../Icon';
 import Checkbox from '../Checkbox';
 import GeoJsonStore from '../../store/GeoJsonStore';

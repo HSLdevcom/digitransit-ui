@@ -5,9 +5,11 @@ import cx from 'classnames';
 import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
-  getRentalVehicleLink,
 } from '../../../utils/shared/vehicleRentalUtils';
-import { openDeepLink } from '../../../utils/client/vehicleRentalUtils';
+import {
+  getRentalVehicleLink,
+  openDeepLink,
+} from '../../../utils/client/vehicleRentalUtils';
 import { rentalVehicleShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../client/ConfigContext';
 import withBreakpoint from '../../../utils/client/withBreakpoint';

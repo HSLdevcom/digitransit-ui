@@ -6,7 +6,7 @@ import { graphql, createRefetchContainer } from 'react-relay';
 import VehicleRentalStation from '../VehicleRentalStation';
 import FavouriteVehicleRentalStationContainer from '../FavouriteVehicleRentalStationContainer';
 import { PREFIX_BIKESTATIONS } from '../../../utils/shared/path';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
+import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
 import { hasVehicleRentalCode } from '../../../utils/shared/vehicleRentalUtils';
 import {
   vehicleRentalStationShape,

@@ -1,6 +1,5 @@
 import isString from 'lodash/isString.js';
 import { networkIsActive } from './citybikeSeasonUtils.js';
-import { isAndroid, isIOS } from './browser.js';
 import { splitGtfsId } from './gtfs.js';
 
 export const BIKEAVL_UNKNOWN = 'No availability';
@@ -149,31 +148,4 @@ export const mapVehicleRentalToStore = vehicleRentalStation => {
   };
   delete newStation.network;
   return newStation;
-};
-
-export const getRentalVehicleLink = (rentalVehicle, networkConfig) => {
-  if (!networkConfig || !rentalVehicle) {
-    return null;
-  }
-
-  const { ios, android, web } = rentalVehicle.rentalUris || {};
-  const networkName = getRentalNetworkName(networkConfig).toLowerCase();
-
-  if (isIOS && ios?.startsWith(`${networkName}://`)) {
-    return ios;
-  }
-
-  if (isAndroid && android?.startsWith(`${networkName}://`)) {
-    return android;
-  }
-
-  if (web?.includes(networkName)) {
-    return web;
-  }
-
-  if (rentalVehicle.rentalNetwork?.url?.includes(networkName)) {
-    return rentalVehicle.rentalNetwork.url;
-  }
-
-  return null;
 };

@@ -5,8 +5,6 @@ const isChrome =
 
 export const isIOS =
   isBrowser && !!navigator.platform.match(/iPhone|iPod|iPad/);
-export const isLangMockEn =
-  isBrowser && window.location.search.indexOf('enmock') !== -1;
 export const isMobile =
   isBrowser && navigator.userAgent.match(/Mobile/) != null;
 export const isAndroid =
