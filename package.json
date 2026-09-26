@@ -47,7 +47,7 @@
     "workspace-packages-docs": "node scripts/workspace-packages/generate-readmes.js",
     "workspace-packages-watch": "lerna run watch --parallel --stream",
     "workspace-packages-build": "lerna run build",
-    "workspace-packages-test": "yarn workspace-packages-build && vitest run --project=!app --project=!server",
+    "workspace-packages-test": "vitest run --project=!app --project=!server",
     "workspace-packages-clean": "lerna run clean && rm -rf node_modules/.cache .nx",
     "workspace-packages-version-bump": "echo \"THIS SCRIPT WILL PUSH TO THE REMOTE AT THE END!\" && git fetch --tags && lerna version --include-merged-tags",
     "workspace-packages-version-check": "node scripts/workspace-packages/check-versions.js",
