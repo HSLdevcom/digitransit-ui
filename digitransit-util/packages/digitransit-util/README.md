@@ -4,13 +4,394 @@
 
 ## digitransit-util
 
-Digitransit-util is a util library for digitransit-ui written in JavaScript.
+Small, side-effect-free helpers shared by digitransit-ui and the
+digitransit-\* workspace packages. Import only what you need; bundlers drop
+the rest (`"sideEffects": false`).
 
-**Meta**
+## getLabel
 
-*   **deprecated**: This meta-package is deprecated — import the specific
-    `@digitransit-util/digitransit-util-*` sub-package you need instead. This
-    package will be removed in a future release.
+Returns label for properties
+
+### Parameters
+
+*   `properties` **any** object
+
+Returns **[Boolean][1]** true/false
+
+## isKeyboardSelectionEvent
+
+Returns true (and prevents the default action) when a keyboard event is a
+selection key press, i.e. Enter or Space.
+
+### Parameters
+
+*   `event` **[KeyboardEvent][2]** 
+
+Returns **[boolean][1]** 
+
+## dayRangePattern
+
+Finds the range pattern converted from array of pattern's unique active dates.
+
+### Parameters
+
+*   `arrayOfDayNumbers` **[Array][3]** Array of pattern's unique active dates as Day Of Week (ISO) (e.g. 5,6 = only Friday and Saturday)
+
+### Examples
+
+```javascript
+digitransit-util.dayRangePattern([5,6,5,6,5,6]);
+//='pe-la'
+```
+
+Returns **[string][4]** Range pattern
+
+## serialize
+
+Serializes objects
+
+### Parameters
+
+*   `obj` **[Object][5]** Object to be serialized
+*   `prefix` **Any** 
+
+### Examples
+
+```javascript
+digitransit-util.serialize(param1, param2);
+//=true
+```
+
+Returns **[String][4]** Serialized object
+
+## dayRangeAllowedDiff
+
+Finds the allowed diff days between current day and next active day. The result will be the number from 1 to 7.
+
+### Parameters
+
+*   `arrayOfDayNumbers` **[Array][3]** Array of all pattern's unique active dates as Day Of Week (ISO) (e.g. 5,6 = only Friday and Saturday)
+*   `currentDayNumber` **[number][6]** Current date's Day Of Week (ISO) (e.g. 3 = Wednesday)
+
+### Examples
+
+```javascript
+digitransit-util.dayRangeAllowedDiff([5,6,5,6,5,6], 3);
+//=2
+```
+
+Returns **[number][6]** Allowed diff days between current day and next service day
+
+## getGeocodingResults
+
+<DESCRIPTION>
+
+### Parameters
+
+*   `searchString` **[String][4]** 
+*   `searchParams` **[String][4]** (Optional) Parameters appended to url, basically box / polygon to restrict search area
+*   `lang` **[String][4]** (Optional) search language
+*   `focusPoint` **[Object][5]** (Optional) Own Position (PELIAS API)
+*   `sources` **[String][4]** (Optional) search sources (e.g OSM, GTFS..)
+*   `minimalRegexp` **[Object][5]** (Optional) Regexp for testing
+*   `geocodingLayers` **any** (Optional) Array of strings that is used to determine which layers is searched, e.g. \['venue', 'address', 'stop']
+
+### Examples
+
+```javascript
+digitransit-util.getGeocodingResults("result");
+//= e.g. {text:"result"}
+```
+
+Returns **[String][4]** Results in JSON form
+
+## distance
+
+Calculates distance between two points.
+
+### Parameters
+
+*   `latlon1` **[Object][5]** object containing lat, lon values
+*   `latlon2` **[Object][5]** object containing lat, lon values
+
+### Examples
+
+```javascript
+const latlon1 = {
+lat: 3,
+lon: 2,
+};
+const latlon2 = {
+lat: 4,
+lon: 1,
+};
+digitransit-util.distance(latlon1, latlon2);
+//=157105.77709637067
+```
+
+Returns **[Number][6]** distance between two points
+
+## filterMatchingToInput
+
+Function that filters list matching to input.
+
+### Parameters
+
+*   `list` **[Array][3]** List containing objects e.g(  {
+    type: 'Feature'
+    properties: {
+    label: 'testaddress4',
+    layer: 'address',
+    name: 'testaddress4',
+    },
+    geometry: { coordinates: \[lon, lat] },
+    },)
+*   `Input` **[String][4]** Input given for filtering the list
+*   `fields` **[Array][3]** List of fields that list is filtered by e.g (\[properties.label, properties.name])
+
+### Examples
+
+```javascript
+digitransit-util.filterMatchingToInput([{type: feature, properties { ... name: testaddress4 } ... }], 'testaddress4', 'properties.name');
+//= List containing object with given name.
+```
+
+Returns **[Array][3]** Filtered Array.
+
+## LayerType
+
+LayerType depicts the type of the point-of-interest.
+
+## getLocaladmin
+
+Location properties.
+
+Type: LocationProperties
+
+### Parameters
+
+*   `suggestion`  
+
+### Properties
+
+*   `layer` **[string][4]** Suggestion layer.
+*   `number` **lat?** 
+*   `number` **lon?** 
+*   `address` **[string][4]** Address.
+
+## getLocaladmin
+
+Returns localadmin (city name) for suggestions
+
+### Parameters
+
+*   `suggestion` **[Object][5]** suggestion's properties from geocoding or a favourite stop/station.
+    Expects last part of an address (after ',') to contain the city name of the suggestion location.
+
+Returns **[String][4]** City name or empty string
+
+## getJson
+
+Returns a promise for a JSON GET request, aborted after 10 seconds.
+
+### Parameters
+
+*   `url` **[string][4]** 
+*   `params` **[object][5]?** query parameters, serialized onto the url
+
+Returns **[Promise][7]<[object][5]>** the parsed response body
+
+## enrichPatterns
+
+<DESCRIPTION>
+
+### Parameters
+
+*   `patterns` **[object][5]** Array of patterns (result from GraphiQL query)
+*   `onlyInFuture` **[boolean][1]** Is filtered out today's past trips
+*   `serviceTimeRange` **[number][6]** How many days shows in UI
+
+### Examples
+
+```javascript
+digitransit-util.enrichPatterns([ { code: 'HSL:3002U:0:02', headsign: 'Kirkkonummi', stops: [{ name: 'Helsinki' }, { name: 'Kirkkonummi' }], tripsForDate: [], activeDates: [{ "day": [ "20200329" ] },{ "day": [ "20200329" ] },{ "day": [ "20200329" ] }, { "day": [ "20200329" ] }] } ], true, 30);
+//=[ { code: 'HSL:3002U:0:02', headsign: 'Kirkkonummi', stops: [{ name: 'Helsinki' }, { name: 'Kirkkonummi' }], tripsForDate: [], activeDates: ["20200221","20200222","20200228","20200229"],  } ]
+```
+
+Returns **[Object][5]** enriched pattern
+
+## isDuplicate
+
+Checks that is items duplicate
+
+### Parameters
+
+*   `item1` **[Object][5]** Object containing following attributes:
+    {
+    properties {
+    gtfsId: String
+    gid: String from geocoder
+    name: String
+    label: String
+    address: String
+    geometry {
+    coordinates \[Number lat, Number lon]
+    }
+    }
+    }
+*   `item2` **[Object][5]** Object with same attributes as item1
+
+### Examples
+
+```javascript
+digitransit-util.isDuplicate(param1, param2);
+//=true
+```
+
+Returns **[Boolean][1]** true/false
+
+## routeNameCompare
+
+Compares routenames
+
+### Parameters
+
+*   `a` **[Object][5]** {
+    shortName: String,
+    longName: String,
+    agency: {
+    name: String
+    }
+    }
+*   `b` **[Object][5]** Same as a
+
+### Examples
+
+```javascript
+const a = {
+ shortName: 'hki',
+ longName: 'Helsinki',
+ agency: {
+   name: 'hsl',
+ },
+};
+const b = {
+ shortName: 'hki',
+ longName: 'Helsinki',
+  agency: {
+    name: 'hsl',
+  },
+ };
+digitransit-util.routeNameCompare(a, b);
+//= 0
+```
+
+Returns **[Number][6]** 0 True -1 false
+
+## postJson
+
+Returns a promise for a JSON POST request, aborted after 10 seconds.
+
+### Parameters
+
+*   `url` **[string][4]** 
+*   `params` **[object][5]?** query parameters, serialized onto the url
+*   `payload` **[string][4]** the request body
+
+Returns **[Promise][7]<[object][5]>** the parsed response body
+
+## getNameLabel
+
+Format suggestion-pair \[name, address] by `suggestion.layer`.
+
+### Parameters
+
+*   `suggestion` **LocationProperties** 
+*   `plain` **[boolean][1]?** 
+
+Returns **[Array][3]<[string][4]>** Formatted label.
+
+## getMatchScore
+
+Tries to match the given search term against the collection of properties
+for a geocoding result (min: 0, max: 1.5). The best match will return a number of 1.5.
+Worse matches will return 0 or 0.5.
+
+### Parameters
+
+*   `normalizedTerm` **[string][4]** the normalized search term.
+*   `resultProperties` **any** the geocoding result's property collection.
+
+## getLayerRank
+
+Ranks the result based on its layer property.
+
+### Parameters
+
+*   `layer` **[string][4]** the layer property.
+*   `source` **[string][4]** the source property.
+
+## uniqueByLabel
+
+Checks that features are unique by label
+
+### Parameters
+
+*   `features` **[Array][3]** Array of features
+
+### Examples
+
+```javascript
+digitransit-util.uniqueByLabel(features);
+//= Array(2)
+```
+
+Returns **[Array][3]** Array of unique features
+
+## sortSearchResults
+
+Helper function to sort the results. Orders as follows:
+
+*   current position first for an empty search
+*   matching routes first
+*   otherwise by confidence, except that:
+    *   boost well matching stations (especially from GTFS)
+    *   rank stops lower as they tend to occupy most of the search results
+*   items with no confidence (old searches and favorites):
+    *   rank favourites better than ordinary old searches
+    *   rank full match better than partial match
+    *   rank match at middle word lower than match at the beginning
+    *   rank bike rental stations lower
+
+### Parameters
+
+*   `lineRegexp`  
+*   `results` **[Array][3]\<any>** The search results that were received
+*   `term` **[String][4]** The search term that was used (optional, default `''`)
+
+## getStopName
+
+Parses stop's name without stop code from a stop name from geocoding results
+
+### Parameters
+
+*   `name`  
+*   `stopCode` **[string][4]** stop code.
+*   `label` **[string][4]** stop's name from geocoding results.
+
+[1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+
+[2]: https://developer.mozilla.org/docs/Web/API/KeyboardEvent
+
+[3]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+
+[4]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[5]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[6]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+
+[7]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
 ---
 
 This module is part of the Digitransit-ui project. It is maintained in the

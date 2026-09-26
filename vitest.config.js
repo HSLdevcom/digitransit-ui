@@ -74,7 +74,10 @@ const nodeProject = name => ({
     // Caches transformed modules under node_modules/.vitest-cache to speed
     // up reruns; rides along with CI's whole-node_modules cache.
     fsModuleCache: true,
-    include: [`${name}/packages/*/test.js`],
+    include: [
+      `${name}/packages/*/test.js`,
+      `${name}/packages/*/test/*.test.js`,
+    ],
   },
 });
 

@@ -1,0 +1,116 @@
+import { describe, it, expect } from 'vitest';
+import uniqueByLabel, {
+  formatFavouritePlaceLabel,
+  getNameLabel,
+} from '../src/uniqueByLabel.js';
+
+const feature1 = {
+  properties: {
+    id: 1,
+    layer: 'route-BUS',
+    labelId: 'id',
+    address: 'address',
+    shortName: 'sht',
+    mode: 'moude',
+    longName: 'short',
+    agency: { name: 'test' },
+    label: 'test',
+  },
+};
+
+const feature2 = {
+  properties: {
+    id: 2,
+    layer: 'route-BUS',
+    labelId: 'id2',
+    address: 'address4',
+    shortName: 'shta',
+    mode: 'moudew',
+    longName: 'shorta',
+    agency: { name: 'test' },
+    label: 'teset',
+  },
+};
+
+const feature3 = {
+  properties: {
+    id: 1,
+    layer: 'route-BUS',
+    labelId: 'id',
+    address: 'address',
+    shortName: 'sht',
+    mode: 'moude',
+    longName: 'short',
+    agency: { name: 'test' },
+    label: 'test',
+  },
+};
+describe('Testing @digitransit-search-util/digitransit-search-util-uniq-by-label module', () => {
+  describe('uniqueByLabel()', () => {
+    it('Checking that returns unique results by label', () => {
+      const features = [feature1, feature2, feature3];
+      const retValue = uniqueByLabel(features);
+      expect(retValue.length).toBe(2);
+    });
+
+    it('Checking that returns only one result', () => {
+      const features = [feature1, feature3];
+      const retValue = uniqueByLabel(features);
+      expect(retValue.length).toBe(1);
+    });
+  });
+
+  describe('getNameLabel(', () => {
+    it('should format "favouritePlace" suggestion', () => {
+      // fixture data
+      const testSuggestionProps1 = {
+        layer: 'favouritePlace',
+        address: 'Vermonrinne 1, Espoo',
+        favouriteId: '752885cd-d095-4b48-9eb1-9ceaf89d3b3c',
+        gid: 'openstreetmap:address:way:962197579',
+        label: 'Koti',
+        lastUpdated: 1652881635,
+        lat: 60.188342,
+        lon: 24.803862,
+        selectedIconId: 'icon-icon_home',
+        name: 'Koti',
+        type: 'place',
+      };
+
+      const output = getNameLabel(testSuggestionProps1);
+      expect(output.length).toBe(2);
+      expect(output[0]).toBe('Koti');
+      expect(output[1]).toBe('Vermonrinne 1, Espoo');
+    });
+  });
+
+  describe('formatFavouritePlaceLabel(name, address)', () => {
+    it('should remove name from address word-wise', () => {
+      const output = formatFavouritePlaceLabel(
+        'Tietäjä',
+        'Tietäjäntie 11, Espoo',
+      );
+      expect(output.length).toBe(2);
+      expect(output[0]).toBe('Tietäjä');
+      expect(output[1]).toBe('Tietäjäntie 11, Espoo');
+    });
+
+    it('should remove trailing comma and space', () => {
+      const output1 = formatFavouritePlaceLabel(
+        'Tietäjäntie',
+        'Tietäjäntie 11, Espoo',
+      );
+      expect(output1.length).toBe(2);
+      expect(output1[0]).toBe('Tietäjäntie');
+      expect(output1[1]).toBe('11, Espoo');
+
+      const output2 = formatFavouritePlaceLabel(
+        'Tietäjäntie 11',
+        'Tietäjäntie 11, Espoo',
+      );
+      expect(output2.length).toBe(2);
+      expect(output2[0]).toBe('Tietäjäntie 11');
+      expect(output2[1]).toBe('Espoo');
+    });
+  });
+});

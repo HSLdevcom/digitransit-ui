@@ -111,7 +111,20 @@ async function generateReadme(packagePath) {
   // Don't advertise a meta-package as a "bundle" of itself.
   const metaPackage = rawMetaPackage === name ? null : rawMetaPackage;
 
-  const res = await build(entryPath, { shallow: true });
+  // A root index.js next to a src/ directory is a re-export barrel (the
+  // @digitransit-util/digitransit-util helpers package): document the
+  // modules it re-exports too, since shallow mode only reads the given files.
+  const srcDir = path.join(directory, 'src');
+  const extraFiles =
+    entryPath === path.join(directory, 'index.js') && fs.existsSync(srcDir)
+      ? fs
+          .readdirSync(srcDir)
+          .filter(file => file.endsWith('.js'))
+          .sort()
+          .map(file => path.join(srcDir, file))
+      : [];
+
+  const res = await build([entryPath, ...extraFiles], { shallow: true });
   if (res === undefined) {
     throw new Error(`documentation.js produced no output for ${entryPath}`);
   }

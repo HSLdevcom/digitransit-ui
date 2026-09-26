@@ -1,10 +1,20 @@
 {
   "name": "@digitransit-util/digitransit-util",
   "version": "4.1.8",
-  "description": "a JavaScript library for Digitransit",
+  "description": "Small, tree-shakeable helpers for Digitransit",
   "type": "module",
   "main": "index.js",
-  "deprecated": "This meta-package is deprecated — import the specific @digitransit-util/digitransit-util-* sub-package you need instead. This package will be removed in a future release.",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "files": [
+    "index.js",
+    "src",
+    "LICENSE-AGPL.txt",
+    "LICENSE-EUPL.txt"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/HSLdevcom/digitransit-ui.git"
@@ -15,13 +25,13 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "scripts": {
-    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.js\"",
+    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js"
   },
   "dependencies": {
-    "@digitransit-util/digitransit-util-day-range-allowed-diff": "workspace:^",
-    "@digitransit-util/digitransit-util-day-range-pattern": "workspace:^",
-    "@digitransit-util/digitransit-util-enrich-patterns": "workspace:^",
-    "@digitransit-util/digitransit-util-route-pattern-option-text": "workspace:^"
+    "lodash": "4.18.1"
+  },
+  "peerDependencies": {
+    "luxon": "^3.6.1"
   }
 }

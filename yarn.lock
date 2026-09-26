@@ -3451,7 +3451,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-util/digitransit-util-enrich-patterns@workspace:^, @digitransit-util/digitransit-util-enrich-patterns@workspace:digitransit-util/packages/digitransit-util-enrich-patterns":
+"@digitransit-util/digitransit-util-enrich-patterns@workspace:digitransit-util/packages/digitransit-util-enrich-patterns":
   version: 0.0.0-use.local
   resolution: "@digitransit-util/digitransit-util-enrich-patterns@workspace:digitransit-util/packages/digitransit-util-enrich-patterns"
   dependencies:
@@ -3464,7 +3464,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-util/digitransit-util-route-pattern-option-text@workspace:^, @digitransit-util/digitransit-util-route-pattern-option-text@workspace:digitransit-util/packages/digitransit-util-route-pattern-option-text":
+"@digitransit-util/digitransit-util-route-pattern-option-text@workspace:digitransit-util/packages/digitransit-util-route-pattern-option-text":
   version: 0.0.0-use.local
   resolution: "@digitransit-util/digitransit-util-route-pattern-option-text@workspace:digitransit-util/packages/digitransit-util-route-pattern-option-text"
   peerDependencies:
@@ -3479,10 +3479,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-util/digitransit-util@workspace:digitransit-util/packages/digitransit-util"
   dependencies:
-    "@digitransit-util/digitransit-util-day-range-allowed-diff": "workspace:^"
-    "@digitransit-util/digitransit-util-day-range-pattern": "workspace:^"
-    "@digitransit-util/digitransit-util-enrich-patterns": "workspace:^"
-    "@digitransit-util/digitransit-util-route-pattern-option-text": "workspace:^"
+    lodash: "npm:4.18.1"
+  peerDependencies:
+    luxon: ^3.6.1
   languageName: unknown
   linkType: soft
 

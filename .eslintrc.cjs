@@ -106,6 +106,7 @@ module.exports = {
         'server/**/*.js',
         'utils/shared/**/*.js',
         'utils/server/**/*.js',
+        'digitransit-util/packages/digitransit-util/**/*.js',
         'webpack.config.js',
         'scripts/**/*.js',
         'config/*.{js,cjs}',
