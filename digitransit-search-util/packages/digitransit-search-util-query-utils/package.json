@@ -4,9 +4,12 @@
   "description": "digitransit-search-util query-utils module",
   "type": "module",
   "main": "lib/index.cjs",
+  "module": "lib/index.js",
   "exports": {
     ".": {
       "digitransit-source": "./src/index.js",
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs",
       "default": "./lib/index.cjs"
     },
     "./package.json": "./package.json"
