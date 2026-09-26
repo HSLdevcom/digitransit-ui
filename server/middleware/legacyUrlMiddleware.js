@@ -1,4 +1,3 @@
-import isFinite from 'lodash/isFinite.js';
 import legacyParamParser from '../../utils/shared/legacyParamParser.js';
 import { LEGACY_LOCALES } from '../../utils/shared/constants.js';
 import { getConfiguration } from '../configs/config.js';
@@ -35,7 +34,10 @@ export function validateParams(req, config) {
 
   const numericParams = ['time'];
   Object.keys(req.query).forEach(key => {
-    if (numericParams.indexOf(key) > -1 && !isFinite(Number(req.query[key]))) {
+    if (
+      numericParams.indexOf(key) > -1 &&
+      !Number.isFinite(Number(req.query[key]))
+    ) {
       url = removeUrlParam(req, key);
     }
   });

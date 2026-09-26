@@ -3,7 +3,6 @@ import fs from 'fs';
 import express from 'express';
 import expressStaticGzip from 'express-static-gzip';
 import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
 import logger from 'morgan';
 import helmet from 'helmet';
 import proxy from 'express-http-proxy';
@@ -21,8 +20,8 @@ function setUpOpenId(app) {
   if (process.env.DEBUGLOGGING) {
     app.use(logger('dev'));
   }
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
   app.use(
     helmet({
       contentSecurityPolicy: false,
@@ -107,7 +106,7 @@ function setUpStaticFolders(app) {
 
 function setUpMiddleware(app) {
   app.use(cookieParser());
-  app.use(bodyParser.raw());
+  app.use(express.raw());
 
   if (process.env.NODE_ENV === 'development') {
     const hotloadPort = process.env.HOT_LOAD_PORT || 9000;
