@@ -46,7 +46,7 @@ right one by *who consumes the code*, not just by convenience.
   `config.<region>.js` per deployment.
 - `utils/` — helper modules split by consumer (see "Server/client boundary" below):
   - `shared/` — used by both server and client, e.g. `constants.js`, `metaUtils.js`,
-    `gtfs.js`, `path.js`, `xhrPromise.js`. Isomorphic only: a file (or a
+    `gtfs.js`, `path.js`, `legacyParamParser.js`. Isomorphic only: a file (or a
     function within a file, e.g. `vehicleRentalUtils.js`'s pure network/config helpers vs. its
     `client/` counterpart's `localStorage`/analytics-touching ones) belongs here only if it's
     safe to run on the server too — no `window`/`document`/`localStorage` access.
@@ -188,13 +188,17 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   + `utils/server/**` cannot import `app/**`/`utils/client/**`, the reverse is also forbidden, and
   `utils/shared/**` cannot import either `utils/client/**` or `utils/server/**` (it may only depend
   on other `utils/shared/**` code or external packages).
-- `utils/**` may import the `digitransit-*` workspace packages (e.g. `geo-utils.js` uses
-  `digitransit-search-util-distance`), never the reverse: the packages are published to npm and
+- `utils/**` may import the `digitransit-*` workspace packages (e.g. `geo-utils.js` imports
+  `distance` from `@digitransit-util/digitransit-util`), never the reverse: the packages are published to npm and
   must stay self-contained (also enforced by `import/no-restricted-paths`).
+- Small, pure helpers needed by both the app and the packages (e.g. `getJson`, `distance`,
+  `isKeyboardSelectionEvent`) live in `@digitransit-util/digitransit-util`, not in `utils/` or
+  in a new one-function package (see `docs/WorkspacePackages.md`).
 - `server/**`/`utils/shared/**`/`utils/server/**` relative imports **must** keep an explicit file
   extension — enforced by the `import/extensions: 'always'` override in `.eslintrc.cjs`.
-  Everywhere else (`app/**`, `utils/client/**`, tests, `digitransit-*` packages) extensions are
-  forbidden (`'never'`). The 4 `digitransit-*` workspace packages additionally need
+  The same applies to `@digitransit-util/digitransit-util`, which the server loads natively.
+  Everywhere else (`app/**`, `utils/client/**`, tests, other `digitransit-*` packages) extensions
+  are forbidden (`'never'`). The 4 `digitransit-*` workspace packages additionally need
   `resolve.fullySpecified: false` + `type: 'javascript/auto'` in `webpack.config.js` to follow the
   same extensionless policy.
 

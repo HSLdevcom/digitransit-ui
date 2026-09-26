@@ -29,8 +29,11 @@ dependency would.
   (`render`, `screen`, `fireEvent`); every other family uses Vitest's
   built-in `expect` against real input/output pairs — no placeholders, no
   commented-out tests.
-- Keep modules small and focused (one exported component/function per
-  package) and avoid large dependencies.
+- Keep modules small and focused and avoid large dependencies. Small, pure
+  helper functions don't get a package of their own: add them to
+  [`@digitransit-util/digitransit-util`](#helpers-package-digitransit-utildigitransit-util)
+  instead. Separate packages are for components and larger modules (e.g.
+  `digitransit-search-util-execute-search-immediate`).
 - `README.md` files are generated from source JSDoc — **never edit a
   package's `README.md` directly**; see [Documentation](#documentation-readme-generation).
 - Before submitting, run `yarn lint` and `yarn test-unit` from the repo root.
@@ -81,6 +84,35 @@ A `search-util`/`util` package is the same, but flat (no build step, no
 - `README.md` — generated, do not hand-edit (see below).
 - `LICENSE-*.txt` — copied from the repository root, do not hand-edit.
 
+### Helpers package (`@digitransit-util/digitransit-util`)
+
+The small, side-effect-free helpers shared by the app, the server and the
+other packages (e.g. `getJson`, `distance`, `uniqueByLabel`,
+`isKeyboardSelectionEvent`) live in one package instead of one package each:
+
+```
+digitransit-util
+│   index.js          (named re-exports only)
+│   package.json      ("sideEffects": false)
+├── src
+│   └── <helper>.js   (one file per helper or small group of helpers)
+└── test
+    └── <helper>.test.js
+```
+
+- Import only what you need (`import { getJson } from
+  '@digitransit-util/digitransit-util'`); `"sideEffects": false` lets
+  bundlers (webpack, and Rollup for the `component` packages, which list it
+  under `dependencies`) drop everything else.
+- The server imports it natively (e.g. `utils/shared/legacyParamParser.js`),
+  so relative and lodash imports keep an explicit `.js` extension
+  (`./fetchJson.js`, `lodash/get.js`), enforced by ESLint.
+- Nothing in it may run code at import time. Helpers with side effects or
+  heavy dependencies (e.g. `digitransit-util-route-pattern-option-text`,
+  which registers i18next bundles) stay separate packages.
+- Its README documents every `src/` module (the generator includes `src/`
+  for a root `index.js` barrel).
+
 ## Creating a New Module
 
 There's no scaffolding script (the old per-family `create-new-module`
@@ -107,8 +139,9 @@ package has actually used since the migration to Rollup). Instead:
    [Documentation](#documentation-readme-generation)).
 7. Add tests to CI simply by existing — `yarn workspace-packages-test` (part
    of `yarn test-unit`) discovers every package in every family
-   automatically via Vitest's `include` glob
-   (`digitransit-<family>/packages/*/test.js`).
+   automatically via Vitest's `include` globs
+   (`digitransit-<family>/packages/*/test.js` and
+   `digitransit-<family>/packages/*/test/*.test.js`).
 
 ## Testing
 
@@ -281,9 +314,6 @@ any new dependents.
   `app/**` used it; every consumer imports the specific
   `@digitransit-component/digitransit-component-*` sub-package it needs
   directly.
-- **`@digitransit-util/digitransit-util`** — this family's equivalent
-  meta-package. Same reasoning; import the specific
-  `@digitransit-util/digitransit-util-*` sub-package instead.
 - **`@digitransit-component/digitransit-component-abtesting`** — never
   adopted, unused.
 - **`@digitransit-component/digitransit-component-traffic-now-link`** — no
@@ -296,3 +326,30 @@ any new dependents.
   — renamed due to a spelling fix; use
   `@digitransit-search-util/digitransit-search-util-execute-search-immediate`
   instead.
+
+### Merged into `@digitransit-util/digitransit-util`
+
+These packages' helpers were copied into the
+[helpers package](#helpers-package-digitransit-utildigitransit-util); the
+old packages are frozen and will be removed later. Their `"deprecated"`
+message names what to import instead — a few exports were renamed on the
+way (`uniqByLabel` → `uniqueByLabel`, `getGTFSId` → `getGtfsId`, `match` →
+`getMatchScore`), and `truEq` became the internal, unexported
+`isTruthyAndEqual`.
+
+- `@digitransit-search-util/digitransit-search-util-distance`
+- `@digitransit-search-util/digitransit-search-util-filter-matching-to-input`
+- `@digitransit-search-util/digitransit-search-util-get-geocoding-results`
+- `@digitransit-search-util/digitransit-search-util-get-json` (now
+  `fetch`-based `getJson`, no longer `axios`)
+- `@digitransit-search-util/digitransit-search-util-get-label`
+- `@digitransit-search-util/digitransit-search-util-helpers`
+- `@digitransit-search-util/digitransit-search-util-is-duplicate`
+- `@digitransit-search-util/digitransit-search-util-route-name-compare`
+- `@digitransit-search-util/digitransit-search-util-serialize`
+- `@digitransit-search-util/digitransit-search-util-suggestion-to-location`
+- `@digitransit-search-util/digitransit-search-util-tru-eq`
+- `@digitransit-search-util/digitransit-search-util-uniq-by-label`
+- `@digitransit-util/digitransit-util-day-range-allowed-diff`
+- `@digitransit-util/digitransit-util-day-range-pattern`
+- `@digitransit-util/digitransit-util-enrich-patterns`
