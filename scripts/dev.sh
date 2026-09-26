@@ -93,7 +93,7 @@ fi
 yarn relay-watch &
 pids+=("$!")
 
-# query-utils has its own Relay config (artifacts in its lib/__generated__).
+# query-utils has its own Relay config (artifacts in its src/__generated__).
 yarn workspace @digitransit-search-util/digitransit-search-util-query-utils relay-watch &
 pids+=("$!")
 

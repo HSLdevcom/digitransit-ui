@@ -26,13 +26,12 @@ tags
 sessions/
 run*.sh
 
-# Relay-compiler generated GraphQL artifacts (main app)
+# Relay-compiler generated GraphQL artifacts (main app and query-utils)
 app/**/__generated__
 utils/**/__generated__
+digitransit-search-util/packages/digitransit-search-util-query-utils/src/__generated__
 
-# Rollup build output (see config/rollup.config.js). digitransit-search-util-
-# query-utils's relay.artifactDirectory (./lib/__generated__) always nests
-# generated GraphQL artifacts inside lib/, so this already covers them too.
+# Rollup build output (see config/rollup.config.js)
 digitransit-util/packages/**/lib
 digitransit-search-util/packages/**/lib
 digitransit-component/packages/**/lib

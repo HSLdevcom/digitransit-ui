@@ -1,6 +1,12 @@
 import path from 'path';
 import { createRequire } from 'module';
 import react from '@vitejs/plugin-react';
+import { defaultClientConditions } from 'vite';
+import {
+  WORKSPACE_SOURCE_CONDITION,
+  useWorkspacePackageSource,
+  workspacePackageSourceDir,
+} from './config/workspacePackageSource.config';
 
 const require = createRequire(import.meta.url);
 
@@ -60,13 +66,40 @@ const hslFiCjsInteropPlugin = () => ({
   },
 });
 
+/**
+ * rollup.config.js's postcss plugin treats every .scss import as a CSS
+ * module. Vitest's built-in CSS handling (`css: false`) only does that for
+ * `.module.<ext>` files, otherwise stubbing to a plain string - stub matching
+ * .scss imports as an object mapping every class name to itself instead
+ * (`order: 'post'` wins over Vitest's own post-transform).
+ *
+ * @param {(id: string) => boolean} [include]
+ * @returns {import('vite').Plugin}
+ */
+const cssModuleStubPlugin = (include = () => true) => ({
+  name: 'digitransit-component:css-module-stub',
+  enforce: 'post',
+  transform: {
+    order: 'post',
+    handler(_code, id) {
+      if (!/\.s?css$/.test(id) || !include(id)) {
+        return undefined;
+      }
+      return {
+        code: 'export default new Proxy(Object.create(null), { get: (_, prop) => prop });',
+      };
+    },
+  },
+});
+
 // Run by the `server` project below instead of the `app` project.
 const serverTestFiles = [
   'test/unit/server/**/*.test.js',
   'test/unit/utils/server/**/*.test.js',
 ];
 
-const nodeProject = name => ({
+const nodeProject = (name, plugins = []) => ({
+  plugins,
   test: {
     name,
     root: import.meta.dirname,
@@ -86,13 +119,33 @@ export default {
     projects: [
       {
         // The main app suite (test/unit/**, minus the server tests).
+        // Resolves the built workspace packages to their `src/` entry (see
+        // config/workspacePackageSource.config.js).
+        ...(useWorkspacePackageSource
+          ? {
+              resolve: {
+                conditions: [
+                  WORKSPACE_SOURCE_CONDITION,
+                  ...defaultClientConditions,
+                ],
+              },
+            }
+          : {}),
         plugins: [
           react({
             // babel.config.cjs only adds the `relay` plugin on top of
             // preset-env/preset-react (compiles `graphql`` tagged templates)
             // - everything else plugin-react already handles by default.
+            // Package sources also need their Rollup build's
+            // inline-react-svg.
             babel: {
               plugins: ['relay'],
+              overrides: [
+                {
+                  test: filename => workspacePackageSourceDir.test(filename),
+                  plugins: ['inline-react-svg'],
+                },
+              ],
             },
           }),
           // App code only ever side-effect-imports stylesheets (no CSS
@@ -108,6 +161,8 @@ export default {
               return { code: 'export default {};' };
             },
           },
+          // Workspace package sources use CSS Modules.
+          cssModuleStubPlugin(id => workspacePackageSourceDir.test(id)),
           hslFiCjsInteropPlugin(),
         ],
         test: {
@@ -201,27 +256,7 @@ export default {
             },
           }),
           hslFiCjsInteropPlugin(),
-          // rollup.config.js's postcss plugin treats every .scss import as
-          // a CSS module. Vitest's built-in CSS handling (`css: false`
-          // below) only does that for `.module.<ext>` files, otherwise
-          // stubbing to a plain string - stub every .scss import as an
-          // object here instead (`order: 'post'` wins over Vitest's own
-          // post-transform).
-          {
-            name: 'digitransit-component:css-module-stub',
-            enforce: 'post',
-            transform: {
-              order: 'post',
-              handler(_code, id) {
-                if (!/\.s?css$/.test(id)) {
-                  return undefined;
-                }
-                return {
-                  code: 'export default new Proxy(Object.create(null), { get: (_, prop) => prop });',
-                };
-              },
-            },
-          },
+          cssModuleStubPlugin(),
         ],
         test: {
           name: 'digitransit-component',
@@ -260,7 +295,10 @@ export default {
           include: ['digitransit-component/packages/*/test.{js,jsx}'],
         },
       },
-      nodeProject('digitransit-search-util'),
+      nodeProject('digitransit-search-util', [
+        // Compiles query-utils' `graphql`` tagged templates.
+        react({ babel: { plugins: ['relay'] } }),
+      ]),
       nodeProject('digitransit-store'),
       nodeProject('digitransit-util'),
     ],

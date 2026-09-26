@@ -1,12 +1,5 @@
 import { describe, it, expect, afterEach } from 'vitest';
-import QueryUtilsModule from './lib/index.cjs';
-
-// Unlike digitransit-component-icon/test.js's equivalent note: src/index.js
-// has no `export default`, so Rollup's UMD `exports` object has no `default`
-// key to unwrap - the whole-object default import (Node's CJS/ESM interop
-// binds a default import to the entire UMD `exports` object) already *is*
-// the named-exports bag.
-const {
+import {
   getModesWithAlerts,
   getStopAndStationsQuery,
   getAllVehicleRentalStations,
@@ -17,7 +10,7 @@ const {
   withCurrentTime,
   filterSearchResultsByMode,
   setRelayEnvironment,
-} = QueryUtilsModule;
+} from './src/index';
 
 describe('Testing @digitransit-search-util/digitransit-search-util-query-utils module', () => {
   // These functions all fetch through Relay - without a real Relay

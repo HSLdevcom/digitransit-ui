@@ -18,7 +18,6 @@ import {
   WORKSPACE_SOURCE_CONDITION,
   useWorkspacePackageSource,
   workspacePackageSourceDir,
-  workspacePackageBabelOverrides,
 } from './config/workspacePackageSource.config.js';
 
 const require = createRequire(import.meta.url);
@@ -303,7 +302,6 @@ export default {
               loader: 'babel-loader',
               options: {
                 configFile: path.join(rootDir, 'config/babel.config.cjs'),
-                overrides: workspacePackageBabelOverrides,
               },
             },
             {

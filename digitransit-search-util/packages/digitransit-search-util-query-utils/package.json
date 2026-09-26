@@ -16,11 +16,10 @@
   },
   "scripts": {
     "clean": "rm -rf lib ./node_modules",
-    "pretest": "yarn build",
     "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js",
-    "relay": "mkdir -p lib/__generated__ && relay-compiler && echo '{\"type\":\"commonjs\"}' > lib/package.json",
-    "relay-watch": "mkdir -p lib/__generated__ && echo '{\"type\":\"commonjs\"}' > lib/package.json && relay-compiler --watch",
+    "relay": "relay-compiler",
+    "relay-watch": "relay-compiler --watch",
     "watch": "yarn relay && NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "copy-schema": "mkdir -p lib/schema && cp ../../../schema/schema.graphql lib/schema/schema.graphql",
     "build": "yarn relay && yarn copy-schema && NODE_ENV=production rollup -c ../../../config/rollup.config.js"
@@ -29,7 +28,7 @@
     "src": "./src",
     "schema": "../../../schema/schema.graphql",
     "language": "javascript",
-    "artifactDirectory": "./lib/__generated__"
+    "eagerEsModules": true
   },
   "repository": {
     "type": "git",
