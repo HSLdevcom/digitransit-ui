@@ -105,7 +105,6 @@ function setUpStaticFolders(app) {
 }
 
 function setUpMiddleware(app) {
-  app.use(cookieParser());
   app.use(express.raw());
 
   if (process.env.NODE_ENV === 'development') {
@@ -147,6 +146,9 @@ export function onError(err, req, res, next) {
 export default function createApp() {
   const app = express();
 
+  // Registered first: both the OIDC routes (/login, /logout) and the
+  // legacy-URL/shell middleware read req.cookies.
+  app.use(cookieParser());
   const redisClient = process.env.OIDC_CLIENT_ID ? setUpOpenId(app) : undefined;
   setUpStaticFolders(app);
   setUpMiddleware(app);

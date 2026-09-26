@@ -14,6 +14,16 @@ import createApp, { onError } from '../../../server/app';
 // per request in dev mode, hence the placeholder fixture below.
 vi.hoisted(() => vi.stubEnv('NODE_ENV', 'development'));
 
+// Stands in for the real OIDC setup (which needs Redis and an OIDC
+// provider): registers a route that, like the real /login and /logout,
+// reads req.cookies.
+vi.mock('../../../server/passport-openid-connect/openidConnect', () => ({
+  default: app => {
+    app.get('/login', (req, res) => res.send(req.cookies.lang));
+    return undefined;
+  },
+}));
+
 afterAll(() => {
   vi.unstubAllEnvs();
 });
@@ -66,6 +76,13 @@ describe('server app', () => {
     });
   });
 
+  describe('the page language', () => {
+    it("serializes the request's cookie language into window.config", async () => {
+      const response = await request(app).get('/').set('Cookie', 'lang=sv');
+      expect(response.text).toContain('"language":"sv"');
+    });
+  });
+
   describe('legacy locale path redirects', () => {
     it('redirects /fi/ to /?locale=fi for a deployment with redirectReittiopasParams enabled', async () => {
       vi.stubEnv('CONFIG', 'hsl');
@@ -73,6 +90,22 @@ describe('server app', () => {
       expect(response.status).toBe(302);
       expect(response.headers.location).toBe('/?locale=fi');
     });
+  });
+});
+
+describe('OIDC routes', () => {
+  afterEach(() => {
+    vi.stubEnv('OIDC_CLIENT_ID', undefined);
+  });
+
+  it('can read cookies, since cookie parsing is registered before them', async () => {
+    vi.stubEnv('OIDC_CLIENT_ID', 'test-client');
+    const { app } = createApp();
+
+    const response = await request(app).get('/login').set('Cookie', 'lang=sv');
+
+    expect(response.status).toBe(200);
+    expect(response.text).toBe('sv');
   });
 });
 

@@ -18,8 +18,6 @@ export function resolveLocale(config, req, res) {
   if (req.cookies.lang !== locale) {
     res.cookie('lang', locale);
   }
-  // eslint-disable-next-line no-param-reassign
-  config.language = locale;
   return locale;
 }
 
@@ -154,8 +152,13 @@ function buildBody(config) {
 
 export default async function shell(req, res, next) {
   try {
-    const config = getConfiguration(req);
-    const locale = resolveLocale(config, req, res);
+    const sharedConfig = getConfiguration(req);
+    const locale = resolveLocale(sharedConfig, req, res);
+    // getConfiguration() returns a cached object shared by all requests, so
+    // the request's language goes on a copy: buildHead() awaits before
+    // serializing it, and a concurrent request could otherwise overwrite
+    // a language stamped onto the shared object in the meantime.
+    const config = { ...sharedConfig, language: locale };
 
     // Build the full HTML document as a string before writing anything to
     // `res`. If something above (or below) throws, `next(err)` still runs

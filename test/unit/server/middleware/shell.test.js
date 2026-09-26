@@ -75,13 +75,13 @@ describe('resolveLocale', () => {
     expect(res.cookieCalls).toEqual([]);
   });
 
-  it('stamps the resolved locale onto config.language', () => {
+  it('does not modify the (shared, cached) config object', () => {
     const req = createMockReq({ lang: 'en' });
     const res = createMockRes();
-    const mutableConfig = { ...config };
+    const sharedConfig = { ...config };
 
-    resolveLocale(mutableConfig, req, res);
+    resolveLocale(sharedConfig, req, res);
 
-    expect(mutableConfig.language).toBe('en');
+    expect(sharedConfig).toEqual(config);
   });
 });
