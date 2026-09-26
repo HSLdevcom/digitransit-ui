@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
-# Local development runner: runs Relay, the Express dev server (nodemon),
+# Local development runner: runs Relay, the Express dev server (node --watch),
 # webpack-dev-server and the Digitransit workspace watchers in parallel
 # until interrupted.
 #
 # `set -m` gives each backgrounded job its own process group. This allows
-# cleanup to terminate the whole process tree for tools such as nodemon and
-# webpack-dev-server instead of only killing the direct yarn process.
+# cleanup to terminate the whole process tree for tools such as `node --watch`
+# (which runs the server in a child process) and webpack-dev-server instead of
+# only killing the direct process.
 #
 # If any one job exits early (crash), we want to notice and clean up the
 # rest rather than leaving a partially-broken dev session running. That
@@ -96,7 +97,7 @@ yarn static
 # starting webpack-dev-server and the workspace watchers below. On a fresh
 # clone (or after `lib/` is removed/out of date) the packages' `lib/*.cjs`
 # outputs don't exist yet; webpack-dev-server's persistent filesystem cache
-# (see webpack.config.babel.js) doesn't reliably invalidate when those
+# (see webpack.config.js) doesn't reliably invalidate when those
 # outputs later appear via workspace-packages-watch's rollup watch, so it
 # can permanently cache a broken/missing module resolution. Building here
 # first ensures webpack-dev-server always sees valid output on its first
@@ -116,11 +117,11 @@ pids+=("$!")
 (cd digitransit-search-util/packages/digitransit-search-util-query-utils && yarn relay-watch) &
 pids+=("$!")
 
-yarn nodemon \
-  -e js,css,scss,html \
-  --watch ./server/ \
-  --watch ./app/ \
-  server/server.js &
+# Node's built-in watch mode restarts the server whenever any module in its
+# loaded import graph changes (server/**, utils/{shared,server}/**, region
+# configs). --watch-preserve-output keeps Node from clearing the terminal on
+# every restart, which would wipe the other processes' interleaved output.
+node --watch --watch-preserve-output server/server.js &
 pids+=("$!")
 
 yarn webpack-dev-server &

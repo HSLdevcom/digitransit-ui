@@ -76,7 +76,7 @@ right one by *who consumes the code*, not just by convenience.
 - Requires the Node version from `engines.node` and the Yarn version from `packageManager` in
   `package.json` (`corepack enable`). Also needs `watchman`.
 - `yarn install` — installs deps.
-- `yarn run dev` — dev server at http://localhost:8080 (webpack-dev-server + nodemon server +
+- `yarn run dev` — dev server at http://localhost:8080 (webpack-dev-server + `node --watch` server +
   relay-watch + component watch, run in parallel via one script). Runs against mock/no API keys.
 - `API_TYPE=development|production|local API_SUBSCRIPTION_TOKEN=<key> yarn run dev` — run the dev
   server against real APIs (map tiles, geocoding, etc.), handled inside `scripts/dev.sh`:

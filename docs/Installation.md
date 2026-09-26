@@ -26,7 +26,7 @@ generateHosts = false
 
 Previously, using Windows Subsystem for Linux required remapping `localhost` to the IPv6
 loopback address in `/etc/hosts`, because `webpack-dev-server` binds `::1` only
-(`webpack.config.babel.js`) and `server/server.js` used to proxy to it by the `localhost`
+(`webpack.config.js`) and `server/server.js` used to proxy to it by the `localhost`
 hostname — which on stock WSL resolves only to `127.0.0.1`, causing `ECONNREFUSED`.
 `server/app.js` now targets the literal `[::1]` address instead, so this is
 no longer required for `yarn run dev` to work. If you still hit other WSL networking issues, you may
@@ -63,7 +63,7 @@ or in some systems to build the binaries from code following
 - OSX / Linux: `yarn run dev`
 - open: http://localhost:8080
 
-`yarn run dev` runs `scripts/dev.sh`, which starts Relay, the Express dev server (nodemon),
+`yarn run dev` runs `scripts/dev.sh`, which starts Relay, the Express dev server (`node --watch`),
 webpack-dev-server and `yarn workspace-packages-watch` (`lerna run watch --parallel --stream`)
 in parallel. `workspace-packages-watch` builds every `digitransit-component`, `digitransit-store`
 and `digitransit-search-util` package once and then keeps watching/rebuilding them, so a manual
