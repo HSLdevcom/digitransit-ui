@@ -123,8 +123,9 @@ jobs:
         run: |
           yarn run relay
 
+      # Runs against the built workspace packages (what production ships)
       - name: Run unit tests
-        run: yarn run test-unit
+        run: yarn run test-unit:built
 
   generate-sbom:
     if: github.ref == 'refs/heads/next' || github.ref == 'refs/heads/v3'
