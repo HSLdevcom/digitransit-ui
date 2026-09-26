@@ -111,6 +111,13 @@ and output settings.
   and bind the whole `module.exports` instead of `.default`, crashing at
   render ("Element type is invalid"); `javascript/auto`'s lenient interop
   unwraps it correctly, same as the rest of the app.
+- **Workspace package `src/` (development only)** — `yarn dev` bundles the
+  built packages' sources directly (see `resolve.conditionNames` below and
+  `docs/WorkspacePackages.md`). Their `.js`/`.jsx` go through `babel-loader`
+  with `config/babel.config.cjs`, the same config as their Rollup build, and
+  their `.scss` through a CSS Modules `css-loader` rule, which the app's own
+  `.scss` rule then excludes. `USE_BUILT_WORKSPACE_PACKAGES=true` turns this
+  off.
 - **`.scss`** — `sass-loader` → `postcss-loader` → `css-loader` →
   `style-loader` (dev) / `MiniCssExtractPlugin.loader` (prod). Includes
   Foundation Sites' Sass path via `loadPaths` (Dart Sass's modern name for
@@ -261,7 +268,12 @@ when `process.env.NODE_ENV !== 'development'` (replacing
 ## `node` / `resolve` / `cache`
 
 - **`cache: { type: 'filesystem' }`** — webpack5's built-in persistent
-  build cache (replaces webpack4's memory-only `cache: true`).
+  build cache (replaces webpack4's memory-only `cache: true`). Its `name`
+  separates source vs built workspace packages, and `buildDependencies`
+  invalidates it when `webpack.config.js` (or anything it imports) changes.
+- **`resolve.conditionNames`** (development only) adds the
+  `"digitransit-source"` `exports` condition, resolving the built workspace
+  packages to their `src/` entry.
 - **`resolve.extensions`** adds `.mjs` ahead of the defaults so native-ESM
   entry points resolve.
 - **`resolve.mainFields`** prefers `browser`, then `module` (ESM), over

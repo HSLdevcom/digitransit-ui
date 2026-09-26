@@ -63,17 +63,18 @@ or in some systems to build the binaries from code following
 - OSX / Linux: `yarn run dev`
 - open: http://localhost:8080
 
-`yarn run dev` runs `scripts/dev.sh`, which starts Relay, the Express dev server (`node --watch`),
-webpack-dev-server and `yarn workspace-packages-watch` (`lerna run watch --parallel --stream`)
-in parallel. `workspace-packages-watch` builds every `digitransit-component`, `digitransit-store`
-and `digitransit-search-util` package once and then keeps watching/rebuilding them, so a manual
-`yarn setup`/`yarn workspace-packages-build` is not required beforehand.
+`yarn run dev` runs `scripts/dev.sh`, which starts the Relay watchers, the Express dev server
+(`node --watch`) and webpack-dev-server in parallel. webpack-dev-server bundles the
+`digitransit-component`, `digitransit-store` and `digitransit-search-util` packages' `src/`
+directly (see [Workspace Packages](WorkspacePackages.md#source-in-development-and-tests)), so a
+manual `yarn setup`/`yarn workspace-packages-build` is not required beforehand.
+`USE_BUILT_WORKSPACE_PACKAGES=true yarn run dev` uses their built `lib/` output instead, building
+the packages first and then rebuilding them on change with `yarn workspace-packages-watch`.
 
 There's also a lighter-weight `yarn dev-nowatch`, which only runs the Express dev server and
-webpack-dev-server (no Relay/workspace-package watchers). Since it skips `workspace-packages-watch`, on a
-fresh clone you must run `yarn workspace-packages-build` yourself first, or webpack fails with
-`Module not found` errors for `@digitransit-component/*`/`@digitransit-search-util/*`/
-`@digitransit-store/*` packages.
+webpack-dev-server (no Relay watchers). On a fresh clone, run `yarn relay` and
+`yarn workspace @digitransit-search-util/digitransit-search-util-query-utils relay` first, or
+webpack fails with `Module not found` errors for the missing Relay artifacts.
 
 ## Start production version
 - First run: `yarn run setup`, then `yarn run build`, then run: `yarn run start`
@@ -83,8 +84,8 @@ fresh clone you must run `yarn workspace-packages-build` yourself first, or webp
 
 While `yarn run dev` is running, changes to files in `digitransit-component`, `digitransit-store`
 and `digitransit-search-util` (including its query-utils Relay queries, which are also watched by
-a dedicated `relay-compiler --watch` in `scripts/dev.sh`) are picked up automatically by live
-watchers and rebuilt in the background — no manual rebuild step is needed.
+a dedicated `relay-compiler --watch` in `scripts/dev.sh`) are picked up by webpack-dev-server
+like app code — no manual rebuild step is needed.
 
 ## Analyse webpack bundle
 - run: `CONFIG=hsl NODE_ENV=production node node_modules/.bin/webpack --json > _static/digitransit.json`

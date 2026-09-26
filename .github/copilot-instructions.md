@@ -79,7 +79,9 @@ right one by *who consumes the code*, not just by convenience.
   `package.json` (`corepack enable`). Also needs `watchman`.
 - `yarn install` — installs deps.
 - `yarn run dev` — dev server at http://localhost:8080 (webpack-dev-server + `node --watch` server +
-  relay-watch + component watch, run in parallel via one script). Runs against mock/no API keys.
+  relay-watch, run in parallel via one script). Bundles the workspace packages' `src/` directly
+  (no package build; `USE_BUILT_WORKSPACE_PACKAGES=true` uses their built `lib/` instead). Runs
+  against mock/no API keys.
 - `API_TYPE=development|production|local API_SUBSCRIPTION_TOKEN=<key> yarn run dev` — run the dev
   server against real APIs (map tiles, geocoding, etc.), handled inside `scripts/dev.sh`:
   - `development` (default) — `dev-api.digitransit.fi`.
@@ -105,7 +107,8 @@ right one by *who consumes the code*, not just by convenience.
 - `yarn eslint` / `yarn eslint-fix` for JS only.
 - Husky git hooks: pre-commit runs `lint-staged` (eslint on staged JS, prettier+stylelint on
   staged scss) and blocks on unresolved merge-conflict markers; pre-push runs the full
-  `yarn run test-unit` suite, so pushes can be slow or rejected if unit tests fail.
+  `yarn run test-unit` suite (against package source), so pushes can be slow or rejected if unit
+  tests fail. CI runs `yarn run test-unit:built` (against built packages) instead.
 
 ## Tests (see `docs/Tests.md`)
 
@@ -118,7 +121,8 @@ right one by *who consumes the code*, not just by convenience.
   - For new React component tests, prefer **React Testing Library** and test components from the
     user's perspective rather than relying on implementation details.
   - Run all: `yarn test-unit` (single **Vitest** invocation against the root `vitest.config.js`,
-    covering the app suite plus every workspace-package family as `test.projects` entries).
+    covering the app suite plus every workspace-package family as `test.projects` entries). Runs
+    against the workspace packages' `src/`; `yarn test-unit:built` builds them and uses `lib/`.
   - Run just the app suite: `yarn test-unit:app` or just the server tests: `yarn test-unit:server`.
   - Run a single test file or test: `yarn test-unit:app <path-substring>` or
     `yarn test-unit:app -t "<describe/it name pattern>"` (`test-unit:server` for server tests).

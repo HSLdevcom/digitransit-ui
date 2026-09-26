@@ -46,7 +46,7 @@ Root-level commands covering all `digitransit-*` workspace packages at once
 
 - `yarn workspace-packages-build` — build every package
 - `yarn workspace-packages-test` — run every package's tests
-- `yarn workspace-packages-watch` — build, then rebuild on change
+- `yarn workspace-packages-watch` — build, then rebuild on change (only needed with `USE_BUILT_WORKSPACE_PACKAGES=true`; `yarn dev` otherwise uses package sources)
 - `yarn workspace-packages-clean` — remove build output + `node_modules`
 - `yarn workspace-packages-docs` — regenerate every package's README
 - `yarn workspace-packages-publish` — publish changed packages to npm (interactive)

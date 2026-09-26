@@ -55,6 +55,16 @@ yarn test-unit:app <path-substring>
 yarn test-unit:app -t "<name-pattern>"
 ```
 
+The app suite uses the workspace packages' `src/` (see
+`docs/WorkspacePackages.md`), so no package build is needed. To run every test
+against the packages' built `lib/` output instead:
+
+```sh
+yarn test-unit:built
+```
+
+CI runs `test-unit:built`, since the pre-push hook already runs `test-unit`.
+
 Using the continuous watch mode
 
 ```sh
