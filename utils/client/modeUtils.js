@@ -13,7 +13,7 @@ import {
   networkIsActive,
 } from '../shared/citybikeSeasonUtils';
 import { isDevRunEnv } from './envUtils';
-import { isExternalFeed } from '../shared/feedScopedIdUtils';
+import { isExternalFeed } from './feedScopedIdUtils';
 import { splitGtfsId } from '../shared/gtfs';
 
 export function isCitybikePreSeasonActive(season) {
