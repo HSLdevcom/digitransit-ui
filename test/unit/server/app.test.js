@@ -7,15 +7,15 @@ import createApp, { onError } from '../../../server/app';
 // reads manifest.json/stats.json from disk at *module load time* when
 // NODE_ENV isn't 'development'. vi.hoisted runs before this file's static
 // imports, so forcing 'development' here makes them safe without a real
-// webpack build present (restored in the afterAll hook below).
+// webpack build present (unstubbed in the afterAll hook below).
 // server/middleware/shell.js's dev-mode branch is also re-checked live on
 // every request though, so NODE_ENV stays 'development' for this suite's
 // test bodies too - it still reads the region's sprite file from _static/
 // per request in dev mode, hence the placeholder fixture below.
-const originalNodeEnv = vi.hoisted(() => {
-  const value = process.env.NODE_ENV;
-  process.env.NODE_ENV = 'development';
-  return value;
+vi.hoisted(() => vi.stubEnv('NODE_ENV', 'development'));
+
+afterAll(() => {
+  vi.unstubAllEnvs();
 });
 
 describe('server app', () => {
@@ -24,19 +24,17 @@ describe('server app', () => {
   const staticDirPreexisted = fs.existsSync(
     path.join(process.cwd(), '_static'),
   );
-  const originalConfig = process.env.CONFIG;
   let app;
 
   beforeAll(() => {
     fs.mkdirSync(staticDir, { recursive: true });
     fs.writeFileSync(spriteFixturePath, '<svg></svg>');
 
-    delete process.env.CONFIG;
+    vi.stubEnv('CONFIG', undefined);
     ({ app } = createApp());
   });
 
   afterAll(() => {
-    process.env.NODE_ENV = originalNodeEnv;
     fs.rmSync(spriteFixturePath, { force: true });
     if (!staticDirPreexisted) {
       fs.rmSync(path.join(process.cwd(), '_static'), {
@@ -47,11 +45,7 @@ describe('server app', () => {
   });
 
   afterEach(() => {
-    if (originalConfig === undefined) {
-      delete process.env.CONFIG;
-    } else {
-      process.env.CONFIG = originalConfig;
-    }
+    vi.stubEnv('CONFIG', undefined);
   });
 
   describe('asset requests', () => {
@@ -74,7 +68,7 @@ describe('server app', () => {
 
   describe('legacy locale path redirects', () => {
     it('redirects /fi/ to /?locale=fi for a deployment with redirectReittiopasParams enabled', async () => {
-      process.env.CONFIG = 'hsl';
+      vi.stubEnv('CONFIG', 'hsl');
       const response = await request(app).get('/fi/');
       expect(response.status).toBe(302);
       expect(response.headers.location).toBe('/?locale=fi');
@@ -107,10 +101,6 @@ function createMockRes({ headersSent = false } = {}) {
 }
 
 describe('onError', () => {
-  afterEach(() => {
-    process.env.NODE_ENV = originalNodeEnv;
-  });
-
   it('delegates to next(err) instead of responding again once headers are already sent', () => {
     const err = new Error('boom');
     const { res, calls } = createMockRes({ headersSent: true });
@@ -123,7 +113,7 @@ describe('onError', () => {
   });
 
   it('includes the error message and stack in development', () => {
-    process.env.NODE_ENV = 'development';
+    vi.stubEnv('NODE_ENV', 'development');
     const err = new Error('boom');
     const { res, calls } = createMockRes();
 
@@ -135,7 +125,7 @@ describe('onError', () => {
   });
 
   it('hides the error details behind a generic message outside development', () => {
-    process.env.NODE_ENV = 'production';
+    vi.stubEnv('NODE_ENV', 'production');
     const err = new Error('boom');
     const { res, calls } = createMockRes();
 

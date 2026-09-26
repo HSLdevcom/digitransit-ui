@@ -4,14 +4,10 @@ import { resolveLocale } from '../../../../server/middleware/shell';
 // reads manifest.json/stats.json from disk at *module load time* unless
 // NODE_ENV is 'development' - vi.hoisted forces that before this file's
 // static imports run, so no real webpack build is needed.
-const originalNodeEnv = vi.hoisted(() => {
-  const value = process.env.NODE_ENV;
-  process.env.NODE_ENV = 'development';
-  return value;
-});
+vi.hoisted(() => vi.stubEnv('NODE_ENV', 'development'));
 
 afterAll(() => {
-  process.env.NODE_ENV = originalNodeEnv;
+  vi.unstubAllEnvs();
 });
 
 // Plain-JS mocks rather than a mocking library: res only needs `cookie()`

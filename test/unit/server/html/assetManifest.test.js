@@ -10,15 +10,11 @@ import {
 // *module load time* when NODE_ENV isn't 'development' (mirrors the
 // production webpack-build-output it expects). vi.hoisted runs before this
 // file's static imports, so forcing 'development' here makes them safe
-// without a real build present (restored in the afterAll hook below). See
+// without a real build present (unstubbed in the afterAll hook below). See
 // server/html/assetManifest.js's own comment for why the read is eager
 // rather than lazily memoized (it makes a misconfigured deployment fail at
 // boot rather than on a user's first request).
-const originalNodeEnv = vi.hoisted(() => {
-  const value = process.env.NODE_ENV;
-  process.env.NODE_ENV = 'development';
-  return value;
-});
+vi.hoisted(() => vi.stubEnv('NODE_ENV', 'development'));
 
 describe('assetManifest', () => {
   const fixtureRelativePath = 'assetManifest.test-fixture.txt';
@@ -39,7 +35,7 @@ describe('assetManifest', () => {
   });
 
   afterAll(() => {
-    process.env.NODE_ENV = originalNodeEnv;
+    vi.unstubAllEnvs();
     fs.rmSync(fixtureAbsolutePath, { force: true });
     if (!staticDirPreexisted) {
       fs.rmdirSync(path.join(process.cwd(), '_static'));

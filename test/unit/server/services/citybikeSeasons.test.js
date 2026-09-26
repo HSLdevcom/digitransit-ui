@@ -3,6 +3,38 @@ import fetchCitybikeConfigurations, {
   handleCitybikeSeasonConfigurations,
 } from '../../../../server/services/citybikeSeasons';
 
+const {
+  fetchAll,
+  loadAllRawConfigurations,
+  setAvailableCitybikeConfigurations,
+} = vi.hoisted(() => ({
+  fetchAll: vi.fn(),
+  loadAllRawConfigurations: vi.fn(),
+  setAvailableCitybikeConfigurations: vi.fn(),
+}));
+vi.mock('@azure/cosmos', () => ({
+  CosmosClient: class {
+    // eslint-disable-next-line class-methods-use-this
+    database() {
+      return {
+        container: () => ({ items: { query: () => ({ fetchAll }) } }),
+      };
+    }
+  },
+}));
+vi.mock('../../../../server/configs/config', () => ({
+  loadAllRawConfigurations,
+  setAvailableCitybikeConfigurations,
+}));
+
+const schedule = (configName, networkName) => ({
+  configName,
+  networkName,
+  enabled: true,
+  preSeason: '03.15',
+  inSeason: '04.01-10.31',
+});
+
 describe('citybikeSeasons', () => {
   describe('buildCitybikeConfig', () => {
     it('splits the "start-end" inSeason string into a season object', () => {
@@ -51,19 +83,69 @@ describe('citybikeSeasons', () => {
   });
 
   describe('fetchCitybikeConfigurations (default export)', () => {
-    const originalConnString = process.env.CITYBIKE_DB_CONN_STRING;
-    const originalDatabase = process.env.CITYBIKE_DATABASE;
-
-    afterEach(() => {
-      process.env.CITYBIKE_DB_CONN_STRING = originalConnString;
-      process.env.CITYBIKE_DATABASE = originalDatabase;
+    beforeEach(() => {
+      vi.spyOn(console, 'log').mockImplementation(() => {});
     });
 
+    afterEach(() => {
+      vi.unstubAllEnvs();
+    });
+
+    const stubDatabaseEnv = () => {
+      vi.stubEnv('CITYBIKE_DB_CONN_STRING', 'AccountEndpoint=https://db/;');
+      vi.stubEnv('CITYBIKE_DATABASE', 'citybikes');
+    };
+
     it('resolves immediately without touching the database when unconfigured', async () => {
-      delete process.env.CITYBIKE_DB_CONN_STRING;
-      delete process.env.CITYBIKE_DATABASE;
-      const result = await fetchCitybikeConfigurations();
-      expect(result).toBeUndefined();
+      vi.stubEnv('CITYBIKE_DB_CONN_STRING', '');
+      vi.stubEnv('CITYBIKE_DATABASE', '');
+
+      await fetchCitybikeConfigurations();
+
+      expect(fetchAll).not.toHaveBeenCalled();
+    });
+
+    it('collects season definitions for regions with vehicle rental, without duplicate networks', async () => {
+      stubDatabaseEnv();
+      fetchAll.mockResolvedValue({
+        resources: [
+          {
+            schedules: [
+              schedule('hsl', 'smoove'),
+              schedule('tampere', 'inurba'),
+            ],
+          },
+          {
+            schedules: [
+              schedule('waltti', 'inurba'),
+              schedule('matka', 'matka-bikes'),
+            ],
+          },
+        ],
+      });
+      loadAllRawConfigurations.mockResolvedValue([
+        { CONFIG: 'hsl', vehicleRental: { networks: {} } },
+        { CONFIG: 'tampere', vehicleRental: { networks: {} } },
+        { CONFIG: 'waltti', vehicleRental: { networks: {} } },
+        { CONFIG: 'matka', vehicleRental: {} },
+      ]);
+
+      await fetchCitybikeConfigurations();
+
+      const [definitions] = setAvailableCitybikeConfigurations.mock.calls[0];
+      expect(definitions.map(def => def.networkName)).toEqual([
+        'smoove',
+        'inurba',
+      ]);
+    });
+
+    it('logs and resolves when the database query fails', async () => {
+      stubDatabaseEnv();
+      fetchAll.mockRejectedValue(new Error('down'));
+
+      await fetchCitybikeConfigurations();
+
+      expect(setAvailableCitybikeConfigurations).not.toHaveBeenCalled();
     });
   });
 });

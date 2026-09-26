@@ -23,7 +23,9 @@ E2E-tests are run with hsl, tampere and matka configs on github actions. Desktop
 ## Unit tests
 
 Unit tests can be run locally. This uses the [Vitest](https://vitest.dev/) test
-runner (`vitest.config.js`'s `app` project) with globals enabled, so `describe`/
+runner (`vitest.config.js`'s `app` project, plus a `server` project that runs
+`test/unit/server/**` and `test/unit/utils/server/**` in a plain Node environment
+instead of jsdom) with globals enabled, so `describe`/
 `it`/`expect`/`vi` are available without imports (imports are still used
 throughout the suite for clarity/lint compliance). The pattern being watched
 is `'test/unit/**/*.test.{js,jsx}'`. Assertions use Vitest's native `expect` API and
@@ -36,7 +38,16 @@ Using yarn
 yarn run test-unit
 ```
 
-Run a single test file (any part of its path) or tests by describe/it name
+Run only the app or only the server tests (`test/unit/server/**` and
+`test/unit/utils/server/**`)
+
+```sh
+yarn test-unit:app
+yarn test-unit:server
+```
+
+Run a single test file (any part of its path) or tests by describe/it name. Use
+`test-unit:server` instead for server tests.
 
 ```sh
 yarn test-unit:app <path-substring>

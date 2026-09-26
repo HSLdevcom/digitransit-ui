@@ -60,6 +60,12 @@ const hslFiCjsInteropPlugin = () => ({
   },
 });
 
+// Run by the `server` project below instead of the `app` project.
+const serverTestFiles = [
+  'test/unit/server/**/*.test.js',
+  'test/unit/utils/server/**/*.test.js',
+];
+
 const nodeProject = name => ({
   test: {
     name,
@@ -76,9 +82,7 @@ export default {
   test: {
     projects: [
       {
-        // The main app suite (test/unit/**). Run alone with `--project app`
-        // (see the `test-unit:app` script) - doesn't need
-        // `workspace-packages-build` first, unlike the projects below.
+        // The main app suite (test/unit/**, minus the server tests).
         plugins: [
           react({
             // babel.config.cjs only adds the `relay` plugin on top of
@@ -139,6 +143,28 @@ export default {
           // speed up reruns; rides along with CI's whole-node_modules cache.
           fsModuleCache: true,
           include: ['test/unit/**/*.test.{js,jsx}'],
+          exclude: serverTestFiles,
+        },
+      },
+      {
+        // Server-side tests (server/** and utils/server/**), run in plain
+        // Node rather than jsdom and without the app project's React/Relay
+        // setup file - they exercise native-ESM Node code only. Isolated per
+        // file (Vitest's default), since several server modules keep
+        // module-level state or read process.env at import time.
+        test: {
+          name: 'server',
+          root: import.meta.dirname,
+          environment: 'node',
+          globals: true,
+          // Restore vi.spyOn() spies and clear vi.fn() call history between
+          // tests, so module-level vi.mock() fns start each test fresh.
+          restoreMocks: true,
+          clearMocks: true,
+          // Caches transformed modules under node_modules/.vitest-cache to
+          // speed up reruns; rides along with CI's whole-node_modules cache.
+          fsModuleCache: true,
+          include: serverTestFiles,
         },
       },
       {
