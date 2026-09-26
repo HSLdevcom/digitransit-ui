@@ -1,19 +1,4 @@
-function serialize(obj, prefix) {
-  if (!obj) {
-    return '';
-  }
-
-  return Object.keys(obj)
-    .map(p => {
-      const k = prefix || p;
-      const v = obj[p];
-
-      return typeof v === 'object'
-        ? serialize(v, k)
-        : `${encodeURIComponent(k)}=${encodeURIComponent(v)}`;
-    })
-    .join('&');
-}
+import serialize from '@digitransit-search-util/digitransit-search-util-serialize';
 
 const REQUEST_TIMEOUT_MS = 10000;
 

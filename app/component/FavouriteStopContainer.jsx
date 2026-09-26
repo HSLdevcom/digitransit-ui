@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import { stopShape } from '../../utils/client/shapes';
+import { getJson } from '../../utils/shared/xhrPromise';
 import Favourite from './Favourite';
 import { isFavourite, getFavouriteByGtfsId } from '../data/FavouriteData';
 import {
