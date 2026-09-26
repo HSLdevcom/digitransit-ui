@@ -46,13 +46,15 @@ right one by *who consumes the code*, not just by convenience.
   `config.<region>.js` per deployment.
 - `utils/` — helper modules split by consumer (see "Server/client boundary" below):
   - `shared/` — used by both server and client, e.g. `constants.js`, `metaUtils.js`,
-    `analyticsUtils.js`, `gtfs.js`, `citybikeSeasonUtils.js`. Isomorphic only: a file (or a
+    `gtfs.js`, `path.js`, `xhrPromise.js`. Isomorphic only: a file (or a
     function within a file, e.g. `vehicleRentalUtils.js`'s pure network/config helpers vs. its
     `client/` counterpart's `localStorage`/analytics-touching ones) belongs here only if it's
     safe to run on the server too — no `window`/`document`/`localStorage` access.
   - `server/` — server-only, e.g. `configMerger.js`, `metaUtils.js`, `realtimeUtils.js`,
-    `timetableConfigUtils.js` — config-assembly helpers used only by `server/configs/*.js`.
-  - `client/` — client-bundle-only, e.g. `localStorage.js`,
+    `timetableConfigUtils.js` (config assembly for `server/configs/*.js`) and
+    `analyticsUtils.js` (analytics `<script>` tags for the HTML shell).
+  - `client/` — client-bundle-only, e.g. `localStorage.js`, `browser.js` (user-agent checks),
+    `analyticsUtils.js` (analytics events),
     plus its own `__generated__/` for Relay fragments used by utils.
 - `test/` — `unit/` (Vitest, mirrors the `app/`/`server/`/`utils/` layout, e.g.
   `test/unit/utils/{shared,server,client}/`, `test/unit/server/configs/`) and `e2e/` (Jest +
@@ -177,8 +179,8 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
 - `server/**` never imports from `app/**` — only from `utils/shared/`, `utils/server/`, and
   itself. It renders the initial HTML shell (no React runs server-side) and serializes the merged
   config onto `window.config`; the client bundle never re-reads `server/configs/*` directly.
-- `utils/shared/**` holds code genuinely imported by both sides (e.g. `gtfs.js`,
-  `citybikeSeasonUtils.js`, `analyticsUtils.js`). `envUtils.js` is split per-consumer instead:
+- `utils/shared/**` holds code genuinely imported by both sides, directly or through another
+  shared module (e.g. `gtfs.js`, `legacyParamParser.js`, `metaUtils.js`). `envUtils.js` is split per-consumer instead:
   `utils/server/envUtils.js` and `utils/client/envUtils.js` both contain a `isDevRunEnv` function.
 - `utils/server/**` and `utils/client/**` are single-consumer-only; don't add server-only helpers
   to `utils/client/` or vice versa.
@@ -186,6 +188,9 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   + `utils/server/**` cannot import `app/**`/`utils/client/**`, the reverse is also forbidden, and
   `utils/shared/**` cannot import either `utils/client/**` or `utils/server/**` (it may only depend
   on other `utils/shared/**` code or external packages).
+- `utils/**` may import the `digitransit-*` workspace packages (e.g. `geo-utils.js` uses
+  `digitransit-search-util-distance`), never the reverse: the packages are published to npm and
+  must stay self-contained (also enforced by `import/no-restricted-paths`).
 - `server/**`/`utils/shared/**`/`utils/server/**` relative imports **must** keep an explicit file
   extension — enforced by the `import/extensions: 'always'` override in `.eslintrc.cjs`.
   Everywhere else (`app/**`, `utils/client/**`, tests, `digitransit-*` packages) extensions are

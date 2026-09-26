@@ -39,6 +39,12 @@ module.exports = {
             message:
               'utils/shared/** must only depend on other utils/shared/** code (or external packages) so it stays safely importable by both server and client.',
           },
+          {
+            target: './digitransit-*/packages/**/*',
+            from: ['./app/**/*', './server/**/*', './utils/**/*'],
+            message:
+              'Workspace packages are published to npm and must stay self-contained: never import app/**, server/** or utils/** (the app may import packages, not the reverse).',
+          },
         ],
       },
     ],
