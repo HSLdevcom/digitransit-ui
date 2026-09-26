@@ -19,7 +19,7 @@ import { DesktopOrMobile } from '../../utils/client/withBreakpoint';
 import {
   addAnalyticsEvent,
   handleUserAnalytics,
-} from '../../utils/shared/analyticsUtils';
+} from '../../utils/client/analyticsUtils';
 import { useOrigin } from '../hooks/ItineraryLocationContext';
 
 class TopLevel extends React.Component {

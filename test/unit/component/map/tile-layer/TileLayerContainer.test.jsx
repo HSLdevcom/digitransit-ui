@@ -2,7 +2,7 @@ import React from 'react';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { mockContext } from '../../../helpers/mock-context';
 import { Component } from '../../../../../app/component/map/tile-layer/TileLayerContainer';
-import * as analytics from '../../../../../utils/shared/analyticsUtils';
+import * as analytics from '../../../../../utils/client/analyticsUtils';
 
 describe('<TileLayerContainer />', () => {
   const props = {

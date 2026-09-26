@@ -12,7 +12,7 @@ import {
   getHubRadius,
   renderAsString,
 } from '../../../../utils/client/mapIconUtils';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../utils/client/analyticsUtils';
 import { PREFIX_STOPS } from '../../../../utils/shared/path';
 import { useConfigContext } from '../../../client/ConfigContext';
 

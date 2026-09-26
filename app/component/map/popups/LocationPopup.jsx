@@ -7,7 +7,7 @@ import Card from '../../Card';
 import Loading from '../../Loading';
 import ZoneIcon from '../../ZoneIcon';
 import { getJson } from '../../../../utils/shared/xhrPromise';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../utils/client/analyticsUtils';
 import { splitStringToAddressAndPlace } from '../../../../utils/shared/otpStrings';
 import getZoneId from '../../../../utils/client/zoneIconUtils';
 import PopupHeader from '../PopupHeader';

@@ -1,6 +1,6 @@
 import without from 'lodash/without';
 import { getCustomizedSettings } from './localStorage';
-import { addAnalyticsEvent } from '../shared/analyticsUtils';
+import { addAnalyticsEvent } from './analyticsUtils';
 import { getRentalNetworkName } from '../shared/vehicleRentalUtils';
 import { isAndroid, isIOS } from './browser';
 

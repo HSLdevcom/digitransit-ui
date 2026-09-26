@@ -12,7 +12,7 @@ import {
   getUniqueAlerts,
 } from '../../../utils/client/alertUtils';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import { unixTime } from '../../../utils/client/timeUtils';
 import {
   PREFIX_DISRUPTION,

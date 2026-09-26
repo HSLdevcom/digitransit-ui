@@ -8,7 +8,7 @@ import { routePagePath, PREFIX_STOPS } from '../../../../utils/shared/path';
 
 import PopupHeader from './PopupHeader';
 
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../utils/client/analyticsUtils';
 
 function TripMarkerPopup({ trip, message }) {
   const patternPath = routePagePath(

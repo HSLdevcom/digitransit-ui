@@ -31,7 +31,7 @@ import {
   PREFIX_STOPS,
   PREFIX_TIMETABLE,
 } from '../../../utils/shared/path';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import { isIOS } from '../../../utils/client/browser';
 import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
 import { saveSearch } from '../../action/SearchActions';

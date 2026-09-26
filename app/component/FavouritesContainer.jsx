@@ -16,7 +16,7 @@ import {
   useFavouriteActions,
 } from '../hooks/FavouriteContext';
 import { STATUS_FETCHING_OR_UPDATING } from '../data/FavouriteData';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
 import { useConfigContext } from '../client/ConfigContext';
 
 const AutoSuggestWithSearchContext = withSearchContext(AutoSuggest);

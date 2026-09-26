@@ -12,7 +12,7 @@ import {
   PlannerMessageType,
   ExtendedRouteTypes,
 } from '../../../utils/shared/constants';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
 import {
   compressLegs,

@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { openDeepLink } from '../../../utils/client/vehicleRentalUtils';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import Icon from '../Icon';
 import ExternalLink from '../ExternalLink';
 

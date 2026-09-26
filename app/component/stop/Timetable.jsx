@@ -18,7 +18,7 @@ import {
   RealtimeStateType,
 } from '../../../utils/shared/constants';
 import SecondaryButton from '../SecondaryButton';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import DateSelect from './DateSelect';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { replaceQueryParams } from '../../../utils/client/queryUtils';

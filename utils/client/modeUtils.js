@@ -4,7 +4,7 @@ import xor from 'lodash/xor';
 import inside from 'point-in-polygon';
 import { getCustomizedSettings } from './localStorage';
 import { isInBoundingBox } from '../shared/geo-utils';
-import { addAnalyticsEvent } from '../shared/analyticsUtils';
+import { addAnalyticsEvent } from './analyticsUtils';
 import { ExtendedRouteTypes, TransportMode } from '../shared/constants';
 import {
   seasonMs,

@@ -3,7 +3,7 @@ import {
   IndoorStepType,
   VerticalDirection,
 } from '../shared/constants';
-import { addAnalyticsEvent } from '../shared/analyticsUtils';
+import { addAnalyticsEvent } from './analyticsUtils';
 
 export function subwayTransferUsesSameStation(previousLeg, nextLeg) {
   return (

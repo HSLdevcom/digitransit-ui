@@ -7,7 +7,7 @@ import {
   useFavouriteStatus,
   useFavouriteActions,
 } from '../hooks/FavouriteContext';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
 
 export default function FavouriteVehicleRentalStationContainer({
   vehicleRentalStation,

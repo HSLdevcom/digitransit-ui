@@ -25,7 +25,7 @@ import {
   getLatestNavigatorItinerary,
   setDialogState,
 } from '../../../utils/client/localStorage';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import { getWeatherData } from '../../../utils/client/apiUtils';
 import { isIOS } from '../../../utils/client/browser';
 import {

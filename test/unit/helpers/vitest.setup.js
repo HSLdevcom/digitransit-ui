@@ -8,7 +8,7 @@ import Link from 'found/Link';
 import relay from 'react-relay';
 import { Settings } from 'luxon';
 import { cleanup } from '@testing-library/react';
-import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
+import { initAnalyticsClientSide } from '../../../utils/client/analyticsUtils';
 
 // set up timezone in luxon
 Settings.defaultZone = 'Europe/Helsinki';

@@ -6,7 +6,7 @@ import {
   stopLocationWatch,
 } from '../../../action/PositionActions';
 import { useMessages } from '../../../hooks/MessageContext';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../utils/client/analyticsUtils';
 import { legTime, legTimeStr } from '../../../../utils/client/legUtils';
 import { relayShape } from '../../../../utils/client/shapes';
 import { useItineraryContext } from '../context/ItineraryContext';

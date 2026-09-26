@@ -7,7 +7,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import Icon from '../Icon';
 import { routePagePath } from '../../../utils/shared/path';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import { patternShape, routeShape } from '../../../utils/client/shapes';
 import { useBreakpoint } from '../../../utils/client/withBreakpoint';
 import { useConfigContext } from '../../client/ConfigContext';

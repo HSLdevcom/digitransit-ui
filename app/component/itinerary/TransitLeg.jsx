@@ -27,7 +27,7 @@ import {
   stopPagePath,
 } from '../../../utils/shared/path';
 import { durationToString } from '../../../utils/client/timeUtils';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import {
   getHeadsignFromRouteLongName,
   getStopHeadsignFromStoptimes,

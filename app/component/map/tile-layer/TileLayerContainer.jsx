@@ -20,7 +20,7 @@ import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../../utils/client/mapLayerUtils';
 import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../utils/client/analyticsUtils';
 import { getClientBreakpoint } from '../../../../utils/client/withBreakpoint';
 import {
   stopPagePath,

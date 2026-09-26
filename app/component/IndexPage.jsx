@@ -27,7 +27,7 @@ import {
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
 } from '../../utils/shared/path';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
 import withBreakpoint from '../../utils/client/withBreakpoint';
 import Geomover from './Geomover';
 import scrollTop from '../../utils/client/scroll';

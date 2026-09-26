@@ -4,7 +4,7 @@ import { useRouter } from 'found';
 import debounce from 'lodash/debounce';
 import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
 import { replaceQueryParams } from '../../utils/client/queryUtils';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
 import { useConfigContext } from '../client/ConfigContext';
 
 export default function DatetimepickerContainer({

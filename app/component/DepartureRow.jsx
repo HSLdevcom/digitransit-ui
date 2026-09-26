@@ -9,7 +9,7 @@ import {
   getAlertsForObject,
   isAlertValid,
 } from '../../utils/client/alertUtils';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
 import { getHeadsignFromRouteLongName } from '../../utils/client/legUtils';
 import { getRouteMode } from '../../utils/client/modeUtils';
 import { getCapacity } from '../../utils/client/occupancyUtil';

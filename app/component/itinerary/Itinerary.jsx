@@ -36,7 +36,7 @@ import {
 } from '../../../utils/client/timeUtils';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import { getItineraryPagePath, streetHash } from '../../../utils/shared/path';
 import {
   getRentalNetworkIcon,

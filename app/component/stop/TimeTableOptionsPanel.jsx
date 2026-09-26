@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import uniqBy from 'lodash/uniqBy';
 import Icon from '../Icon';
 import { ExtendedRouteTypes } from '../../../utils/shared/constants';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import { stopShape } from '../../../utils/client/shapes';
 
 const MAX_ROUTEFILTER_LEN = 13;

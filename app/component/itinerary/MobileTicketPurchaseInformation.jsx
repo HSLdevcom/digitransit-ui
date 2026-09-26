@@ -7,7 +7,7 @@ import {
   getAlternativeFares,
   formatFare,
 } from '../../../utils/client/fareUtils';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 
 export default function MobileTicketPurchaseInformation(
   { fares, zones },

@@ -10,7 +10,7 @@ import Checkbox from '../Checkbox';
 import GeoJsonStore from '../../store/GeoJsonStore';
 import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
 import { updateMapLayers } from '../../action/MapLayerActions';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import withGeojsonObjects from './withGeojsonObjects';
 import {
   getTransportModes,
