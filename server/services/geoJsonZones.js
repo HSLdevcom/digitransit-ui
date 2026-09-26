@@ -7,16 +7,10 @@ import { setAssembledZones } from '../configs/config.js';
 
 // Node 24 `require()`s an ESM `config.*.js` graph directly (none use
 // top-level await), so this stays synchronous instead of turning its
-// promise executor async. Anchored via `process.cwd()` rather than
-// `import.meta.url`, purely for simplicity - createRequire's returned function
-// is always called below with an already-fully-absolute path built from
-// `configsDir`, so the anchor itself only needs to be *some* valid absolute
-// location, not this file's true location.
-const require = createRequire(
-  path.join(process.cwd(), 'server/services/geoJsonZones.js'),
-);
+// promise executor async.
+const require = createRequire(import.meta.url);
 
-const configsDir = path.join(process.cwd(), 'server', 'configs');
+const configsDir = path.join(import.meta.dirname, '..', 'configs');
 const configFiles = fs
   .readdirSync(configsDir)
   // matches only the per-region `config.<name>.js` files, not the shared

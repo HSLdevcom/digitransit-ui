@@ -5,13 +5,10 @@ import { createRequire } from 'module';
 import { CosmosClient } from '@azure/cosmos';
 import { setAvailableCitybikeConfigurations } from '../configs/config.js';
 
-// See the matching comment in server/services/geoJsonZones.js: anchored via
-// `process.cwd()` rather than `import.meta.url`, purely for simplicity.
-const require = createRequire(
-  path.join(process.cwd(), 'server/services/citybikeSeasons.js'),
-);
+// See the matching comment in server/services/geoJsonZones.js.
+const require = createRequire(import.meta.url);
 
-const configsDir = path.join(process.cwd(), 'server', 'configs');
+const configsDir = path.join(import.meta.dirname, '..', 'configs');
 const configFiles = fs
   .readdirSync(configsDir)
   .filter(file => /^config\.\w+\.js$/.test(file));

@@ -9,12 +9,8 @@ import { boundWithMinimumAreaSimple } from '../../utils/shared/geo-utils.js';
 
 // Node 24 `require()`s an ESM `config.*.js` graph directly (none use
 // top-level await), so getNamedConfiguration's dynamic per-region require
-// below stays synchronous instead of turning every caller async. Anchored
-// via `process.cwd()` (this file already assumes cwd is the repo root, see
-// `appRoot` below) rather than `import.meta.url`, purely for simplicity.
-const require = createRequire(
-  path.join(process.cwd(), 'server/configs/config.js'),
-);
+// below stays synchronous instead of turning every caller async.
+const require = createRequire(import.meta.url);
 
 const configs = {}; // cache merged configs for speed
 const themeMap = {};
