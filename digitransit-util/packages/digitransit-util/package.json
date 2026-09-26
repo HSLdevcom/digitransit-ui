@@ -29,9 +29,7 @@
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js"
   },
   "dependencies": {
-    "lodash": "4.18.1"
-  },
-  "peerDependencies": {
+    "lodash": "4.18.1",
     "luxon": "^3.6.1"
   }
 }

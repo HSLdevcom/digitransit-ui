@@ -3476,8 +3476,7 @@ __metadata:
   resolution: "@digitransit-util/digitransit-util@workspace:digitransit-util/packages/digitransit-util"
   dependencies:
     lodash: "npm:4.18.1"
-  peerDependencies:
-    luxon: ^3.6.1
+    luxon: "npm:^3.6.1"
   languageName: unknown
   linkType: soft
 
