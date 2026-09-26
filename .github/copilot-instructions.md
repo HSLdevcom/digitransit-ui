@@ -196,7 +196,8 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
 ## Code conventions
 
 - ES2015+ transpiled with Babel; Airbnb JS/React style guide (`.eslintrc.cjs`) with project
-  overrides: prefer object spread over `Object.assign`; `no-console` is an error; Prettier config
+  overrides: prefer object spread over `Object.assign`; `no-console` is an error (except in
+  Node-only `server/**`, `utils/server/**`, `scripts/**`); Prettier config
   is `singleQuote: true, trailingComma: 'all', arrowParens: 'avoid'`.
 - When removing `defaultProps`, use parameter defaults only for valid values; never default to
   `undefined`.

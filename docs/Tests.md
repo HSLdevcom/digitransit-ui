@@ -29,8 +29,9 @@ instead of jsdom) with globals enabled, so `describe`/
 `it`/`expect`/`vi` are available without imports (imports are still used
 throughout the suite for clarity/lint compliance). The pattern being watched
 is `'test/unit/**/*.test.{js,jsx}'`. Assertions use Vitest's native `expect` API and
-mocking uses `vi.fn()`/`vi.spyOn()` — there is no dependency on
-mocha/chai/sinon.
+mocking uses `vi.fn()`/`vi.spyOn()`/`vi.mock()`. Set environment variables with `vi.stubEnv()`
+(undone by `vi.unstubAllEnvs()`) rather than assigning to `process.env`, which can't restore an
+originally unset variable.
 
 Using yarn
 
