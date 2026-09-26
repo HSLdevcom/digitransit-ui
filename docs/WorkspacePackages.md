@@ -10,11 +10,13 @@ npm package families, managed as yarn workspaces via [lerna](https://lernajs.io/
 | `digitransit-store`     | `@digitransit-store/*`     | `digitransit-store/packages/*`        | `src/index.js`                                                | Rollup (no JSX)                              |
 | `digitransit-util`      | `@digitransit-util/*`      | `digitransit-util/packages/*`         | `index.js`                                                    | none                                          |
 
-The production build consumes `component`/`store` (and `query-utils`) via
-their built Rollup output — real ESM (`lib/index.js`, via each package's
-`"module"`/`exports` fields, preferred by webpack for `import`) with a UMD
-`lib/index.cjs` (`"main"`) as the `require`/Node fallback — and
-`search-util`/`util` via raw source, using webpack's native ESM support.
+The production build consumes `component`/`store` via their built Rollup
+output — real ESM (`lib/index.js`, via each package's `"module"`/`exports`
+fields, preferred by webpack for `import`) with a UMD `lib/index.cjs`
+(`"main"`) as the `require`/Node fallback — `query-utils` via its UMD
+`lib/index.cjs` only (its ESM build isn't loadable by plain Node yet), and
+the other `search-util`/`util` packages via raw source, using webpack's
+native ESM support.
 `yarn dev` and the unit tests use the built packages' `src/` instead (see
 [Source in Development and Tests](#source-in-development-and-tests)), so
 neither needs a package build. Treat these packages like
