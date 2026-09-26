@@ -1,3 +1,9 @@
+/**
+ * @module digitransit-search-util-suggestion-to-location
+ * @deprecated Merged into `@digitransit-util/digitransit-util` - import
+ * suggestionToLocation, getGtfsId (was getGTFSId) from there instead. This package will be removed in a future
+ * release.
+ */
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 
 const getStopCode = ({ id, code }) => {

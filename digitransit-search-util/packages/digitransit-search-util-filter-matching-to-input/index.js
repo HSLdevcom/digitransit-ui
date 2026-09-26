@@ -1,3 +1,9 @@
+/**
+ * @module digitransit-search-util-filter-matching-to-input
+ * @deprecated Merged into `@digitransit-util/digitransit-util` - import
+ * filterMatchingToInput from there instead. This package will be removed in a future
+ * release.
+ */
 import get from 'lodash/get';
 
 /**

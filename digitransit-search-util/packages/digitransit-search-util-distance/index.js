@@ -1,4 +1,10 @@
 /**
+ * @module digitransit-search-util-distance
+ * @deprecated Merged into `@digitransit-util/digitransit-util` - import
+ * distance from there instead. This package will be removed in a future
+ * release.
+ */
+/**
  * Calculates distance between two points.
  *
  * @name distance

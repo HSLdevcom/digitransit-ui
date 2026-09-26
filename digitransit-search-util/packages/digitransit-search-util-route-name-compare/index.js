@@ -1,4 +1,10 @@
 /**
+ * @module digitransit-search-util-route-name-compare
+ * @deprecated Merged into `@digitransit-util/digitransit-util` - import
+ * routeNameCompare from there instead. This package will be removed in a future
+ * release.
+ */
+/**
  * Compares routenames
  *
  * @name routeNameCompare

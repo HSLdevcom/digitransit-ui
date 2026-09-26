@@ -4,6 +4,7 @@
   "description": "digitransit-search-util is-duplicate module",
   "type": "module",
   "main": "index.js",
+  "deprecated": "Merged into @digitransit-util/digitransit-util - import isDuplicate from there instead. This package will be removed in a future release.",
   "publishConfig": {
     "access": "public"
   },

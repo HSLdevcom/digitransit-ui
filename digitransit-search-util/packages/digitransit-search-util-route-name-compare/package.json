@@ -4,6 +4,7 @@
   "description": "digitransit-search-util route-name-compare module",
   "type": "module",
   "main": "index.js",
+  "deprecated": "Merged into @digitransit-util/digitransit-util - import routeNameCompare from there instead. This package will be removed in a future release.",
   "publishConfig": {
     "access": "public"
   },

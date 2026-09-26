@@ -4,6 +4,7 @@
   "description": "digitransit-util digitransit-util-day-range-allowed-diff module",
   "type": "module",
   "main": "index.js",
+  "deprecated": "Merged into @digitransit-util/digitransit-util - import dayRangeAllowedDiff from there instead. This package will be removed in a future release.",
   "scripts": {
     "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js"

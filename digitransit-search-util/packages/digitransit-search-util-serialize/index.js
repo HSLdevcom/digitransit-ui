@@ -1,4 +1,10 @@
 /**
+ * @module digitransit-search-util-serialize
+ * @deprecated Merged into `@digitransit-util/digitransit-util` - import
+ * serialize from there instead. This package will be removed in a future
+ * release.
+ */
+/**
  * Serializes objects
  *
  * @name serialize

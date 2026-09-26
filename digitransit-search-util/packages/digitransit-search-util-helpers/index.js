@@ -1,3 +1,9 @@
+/**
+ * @module digitransit-search-util-helpers
+ * @deprecated Merged into `@digitransit-util/digitransit-util` - import
+ * isStop, mapRoute, getMatchScore (was match), getLayerRank, sortSearchResults, getStopName from there instead. This package will be removed in a future
+ * release.
+ */
 import isString from 'lodash/isString';
 import orderBy from 'lodash/orderBy';
 import uniqWith from 'lodash/uniqWith';

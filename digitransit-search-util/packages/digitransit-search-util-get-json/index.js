@@ -1,3 +1,9 @@
+/**
+ * @module digitransit-search-util-get-json
+ * @deprecated Merged into `@digitransit-util/digitransit-util` - import
+ * getJson from there instead. This package will be removed in a future
+ * release.
+ */
 import axios from 'axios';
 import serialize from '@digitransit-search-util/digitransit-search-util-serialize';
 /**

@@ -1,4 +1,10 @@
 /**
+ * @module digitransit-util-day-range-allowed-diff
+ * @deprecated Merged into `@digitransit-util/digitransit-util` - import
+ * dayRangeAllowedDiff from there instead. This package will be removed in a future
+ * release.
+ */
+/**
  * Finds the allowed diff days between current day and next active day. The result will be the number from 1 to 7.
  *
  * @name dayRangeAllowedDiff

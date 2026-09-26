@@ -4,6 +4,7 @@
   "description": "digitransit-search-util get-json module",
   "type": "module",
   "main": "index.js",
+  "deprecated": "Merged into @digitransit-util/digitransit-util - import getJson from there instead. This package will be removed in a future release.",
   "publishConfig": {
     "access": "public"
   },

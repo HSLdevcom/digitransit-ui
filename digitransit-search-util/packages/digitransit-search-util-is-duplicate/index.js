@@ -1,3 +1,9 @@
+/**
+ * @module digitransit-search-util-is-duplicate
+ * @deprecated Merged into `@digitransit-util/digitransit-util` - import
+ * isDuplicate from there instead. This package will be removed in a future
+ * release.
+ */
 import truEq from '@digitransit-search-util/digitransit-search-util-tru-eq';
 /**
  * Checks that is items duplicate

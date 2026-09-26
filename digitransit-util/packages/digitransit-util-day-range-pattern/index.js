@@ -1,4 +1,10 @@
 /**
+ * @module digitransit-util-day-range-pattern
+ * @deprecated Merged into `@digitransit-util/digitransit-util` - import
+ * dayRangePattern from there instead. This package will be removed in a future
+ * release.
+ */
+/**
  * Finds the range pattern converted from array of pattern's unique active dates.
  *
  * @name dayRangePattern

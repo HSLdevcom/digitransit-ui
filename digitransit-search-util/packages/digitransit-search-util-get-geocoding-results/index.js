@@ -1,3 +1,9 @@
+/**
+ * @module digitransit-search-util-get-geocoding-results
+ * @deprecated Merged into `@digitransit-util/digitransit-util` - import
+ * getGeocodingResults from there instead. This package will be removed in a future
+ * release.
+ */
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 
 const DEFAULT_PELIAS_URL = 'https://api.digitransit.fi/geocoding/v1/search';

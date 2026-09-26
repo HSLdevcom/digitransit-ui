@@ -4,6 +4,7 @@
   "description": "digitransit-search-util tru-eq module",
   "type": "module",
   "main": "index.js",
+  "deprecated": "Merged into @digitransit-util/digitransit-util as isTruthyAndEqual, an internal helper that isn't exported. This package will be removed in a future release.",
   "publishConfig": {
     "access": "public"
   },

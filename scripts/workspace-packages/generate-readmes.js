@@ -34,10 +34,11 @@ function dirNameForPackage(pckg) {
 }
 
 // A family's meta-package (e.g. `@digitransit-component/digitransit-component`,
-// which re-exports every sibling in the family) lives at
-// `<dirName>/packages/<dirName>` - not every family has one (search-util and
-// store don't), so this is a filesystem check, not an assumption.
-function findMetaPackageName(dirName) {
+// which re-exports its siblings) lives at `<dirName>/packages/<dirName>` - not
+// every family has one (search-util and store don't), so this is a filesystem
+// check, not an assumption. It's only advertised in a sibling's README when it
+// actually depends on (i.e. bundles) that sibling.
+function findMetaPackageName(dirName, name) {
   const metaPackageJsonPath = path.join(
     repoRoot,
     dirName,
@@ -48,7 +49,12 @@ function findMetaPackageName(dirName) {
   if (!fs.existsSync(metaPackageJsonPath)) {
     return null;
   }
-  return readPackageJson(metaPackageJsonPath).name;
+  const metaPackage = readPackageJson(metaPackageJsonPath);
+  const bundled = {
+    ...metaPackage.dependencies,
+    ...metaPackage.peerDependencies,
+  };
+  return name in bundled ? metaPackage.name : null;
 }
 
 // Running from inside a single package's directory (every per-package
@@ -107,9 +113,7 @@ async function generateReadme(packagePath) {
   const { name } = pckg;
   const entryPath = findEntryPoint(directory);
   const dirName = dirNameForPackage(pckg);
-  const rawMetaPackage = findMetaPackageName(dirName);
-  // Don't advertise a meta-package as a "bundle" of itself.
-  const metaPackage = rawMetaPackage === name ? null : rawMetaPackage;
+  const metaPackage = findMetaPackageName(dirName, name);
 
   // A root index.js next to a src/ directory is a re-export barrel (the
   // @digitransit-util/digitransit-util helpers package): document the

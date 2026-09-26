@@ -1,3 +1,9 @@
+/**
+ * @module digitransit-search-util-uniq-by-label
+ * @deprecated Merged into `@digitransit-util/digitransit-util` - import
+ * uniqueByLabel (was uniqByLabel), getStopCode, formatFavouritePlaceLabel, getNameLabel from there instead. This package will be removed in a future
+ * release.
+ */
 import uniqWith from 'lodash/uniqWith';
 import isEqual from 'lodash/isEqual';
 import memoize from 'lodash/memoize';

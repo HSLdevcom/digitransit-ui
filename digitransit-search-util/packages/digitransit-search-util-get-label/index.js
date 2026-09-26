@@ -1,3 +1,9 @@
+/**
+ * @module digitransit-search-util-get-label
+ * @deprecated Merged into `@digitransit-util/digitransit-util` - import
+ * getLabel from there instead. This package will be removed in a future
+ * release.
+ */
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 /**
  * Returns label for properties

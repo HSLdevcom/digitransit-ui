@@ -39,9 +39,3 @@ Install this module individually:
 ```sh
 $ npm install @digitransit-util/digitransit-util-route-pattern-option-text
 ```
-
-Or install `@digitransit-util/digitransit-util`, which bundles every digitransit-util module:
-
-```sh
-$ npm install @digitransit-util/digitransit-util
-```

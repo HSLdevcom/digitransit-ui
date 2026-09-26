@@ -1,3 +1,9 @@
+/**
+ * @module digitransit-util-enrich-patterns
+ * @deprecated Merged into `@digitransit-util/digitransit-util` - import
+ * enrichPatterns from there instead. This package will be removed in a future
+ * release.
+ */
 /* eslint-disable no-bitwise */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable func-names */
