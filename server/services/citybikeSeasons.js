@@ -1,17 +1,9 @@
 /* eslint-disable no-console */
-import path from 'path';
-import fs from 'fs';
-import { createRequire } from 'module';
 import { CosmosClient } from '@azure/cosmos';
-import { setAvailableCitybikeConfigurations } from '../configs/config.js';
-
-// See the matching comment in server/services/geoJsonZones.js.
-const require = createRequire(import.meta.url);
-
-const configsDir = path.join(import.meta.dirname, '..', 'configs');
-const configFiles = fs
-  .readdirSync(configsDir)
-  .filter(file => /^config\.\w+\.js$/.test(file));
+import {
+  loadAllRawConfigurations,
+  setAvailableCitybikeConfigurations,
+} from '../configs/config.js';
 
 async function fetchCitybikeSeasons() {
   const client = new CosmosClient(process.env.CITYBIKE_DB_CONN_STRING);
@@ -51,56 +43,38 @@ export function handleCitybikeSeasonConfigurations(schedules, configName) {
   return configurations;
 }
 
-// Fetches citybike season definitions from CosmosDB and patches them into
-// the cached config objects via setAvailableCitybikeConfigurations(). Gated
-// behind CITYBIKE_DB_CONN_STRING/CITYBIKE_DATABASE.
-export default function fetchCitybikeConfigurations() {
+/**
+ * Fetches citybike season definitions from CosmosDB and patches them into
+ * the cached config objects via setAvailableCitybikeConfigurations(). Gated
+ * behind CITYBIKE_DB_CONN_STRING/CITYBIKE_DATABASE.
+ */
+export default async function fetchCitybikeConfigurations() {
   if (!process.env.CITYBIKE_DB_CONN_STRING || !process.env.CITYBIKE_DATABASE) {
-    return Promise.resolve();
+    return;
   }
 
-  return new Promise(mainResolve => {
-    const promises = [];
-
-    fetchCitybikeSeasons()
-      .then(r => {
-        const schedules = [];
-        r.forEach(seasonDef => schedules.push(...seasonDef.schedules));
-        configFiles.forEach(file => {
-          // eslint-disable-next-line import/no-dynamic-require
-          const conf = require(`${configsDir}/${file}`);
-          const configName = conf.default.CONFIG;
-          const { vehicleRental } = conf.default;
-          if (vehicleRental && Object.keys(vehicleRental).length > 0) {
-            promises.push(
-              new Promise(resolve => {
-                resolve(
-                  handleCitybikeSeasonConfigurations(schedules, configName),
-                );
-              }),
-            );
-          }
-        });
-        Promise.all(promises).then(definitions => {
-          // filter empty objects and duplicates
-          const seasonDefinitions = definitions
-            .filter(seasonDef => Object.keys(seasonDef).length > 0)
-            .flat()
-            .filter(
-              (v, i, a) =>
-                a.findIndex(v2 => v2.networkName === v.networkName) === i,
-            );
-          console.log(
-            `fetched: ${seasonDefinitions.length} citybike season configuration`,
-          );
-          console.log(seasonDefinitions);
-          setAvailableCitybikeConfigurations(seasonDefinitions);
-          mainResolve();
-        });
-      })
-      .catch(err => {
-        console.log('error fetching citybike season configurations', err);
-        mainResolve();
-      });
-  });
+  try {
+    const seasons = await fetchCitybikeSeasons();
+    const schedules = seasons.flatMap(seasonDef => seasonDef.schedules);
+    const configs = await loadAllRawConfigurations();
+    const seasonDefinitions = configs
+      .filter(
+        config =>
+          config.vehicleRental && Object.keys(config.vehicleRental).length > 0,
+      )
+      .flatMap(config =>
+        handleCitybikeSeasonConfigurations(schedules, config.CONFIG),
+      )
+      // drop duplicates
+      .filter(
+        (v, i, a) => a.findIndex(v2 => v2.networkName === v.networkName) === i,
+      );
+    console.log(
+      `fetched: ${seasonDefinitions.length} citybike season configuration`,
+    );
+    console.log(seasonDefinitions);
+    setAvailableCitybikeConfigurations(seasonDefinitions);
+  } catch (err) {
+    console.log('error fetching citybike season configurations', err);
+  }
 }

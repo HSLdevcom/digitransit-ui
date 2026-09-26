@@ -77,6 +77,20 @@ function mapGeoJsonPaths(url, config) {
   return typeof url === 'string' ? mapUrl(url) : url.map(u => mapUrl(u));
 }
 
+/**
+ * Loads the raw (unmerged) default export of every `config.<name>.js` file
+ * in this directory, for boot-time services that need to sweep all regions.
+ */
+export async function loadAllRawConfigurations() {
+  const files = fs
+    .readdirSync(import.meta.dirname)
+    // matches only the per-region `config.<name>.js` files, not this shared
+    // `config.js` module.
+    .filter(file => /^config\.\w+\.js$/.test(file));
+  const modules = await Promise.all(files.map(file => import(`./${file}`)));
+  return modules.map(module => module.default);
+}
+
 export function getNamedConfiguration(configName) {
   if (!configs[configName]) {
     let additionalConfig;

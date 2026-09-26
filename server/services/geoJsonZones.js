@@ -1,28 +1,16 @@
 /* eslint-disable no-console */
-import path from 'path';
-import fs from 'fs';
-import { createRequire } from 'module';
 import { getJson } from '../../utils/shared/xhrPromise.js';
-import { setAssembledZones } from '../configs/config.js';
-
-// Node 24 `require()`s an ESM `config.*.js` graph directly (none use
-// top-level await), so this stays synchronous instead of turning its
-// promise executor async.
-const require = createRequire(import.meta.url);
-
-const configsDir = path.join(import.meta.dirname, '..', 'configs');
-const configFiles = fs
-  .readdirSync(configsDir)
-  // matches only the per-region `config.<name>.js` files, not the shared
-  // `config.js` module that lives alongside them in this directory.
-  .filter(file => /^config\.\w+\.js$/.test(file));
+import {
+  loadAllRawConfigurations,
+  setAssembledZones,
+} from '../configs/config.js';
 
 let allZones;
 
 export function getZoneUrl(json) {
   const zoneLayer =
     !json?.noZoneSharing &&
-    json?.layers.find(
+    json?.layers?.find(
       layer => layer.name.fi === 'Vyöhykkeet' || layer.name.en === 'Zones',
     );
   if (zoneLayer && !allZones) {
@@ -42,46 +30,34 @@ async function fetchGeoJsonConfig(url) {
   }
 }
 
-// Assembles a combined geoJson zone layer across all region configs and
-// patches it into the cached config objects via setAssembledZones(). Gated
-// behind ASSEMBLE_GEOJSON.
-export default function collectGeoJsonZones() {
+/**
+ * Assembles a combined geoJson zone layer across all region configs and
+ * patches it into the cached config objects via setAssembledZones(). Gated
+ * behind ASSEMBLE_GEOJSON.
+ */
+export default async function collectGeoJsonZones() {
   if (!process.env.ASSEMBLE_GEOJSON) {
-    return Promise.resolve();
+    return;
   }
-  return new Promise(mainResolve => {
-    const promises = [];
-    configFiles.forEach(file => {
-      // eslint-disable-next-line import/no-dynamic-require
-      const conf = require(`${configsDir}/${file}`);
-      const { geoJson } = conf.default;
-      if (geoJson) {
-        if (geoJson.layerConfigUrl) {
-          promises.push(
-            new Promise(resolve => {
-              fetchGeoJsonConfig(geoJson.layerConfigUrl).then(data => {
-                resolve(getZoneUrl(data));
-              });
-            }),
-          );
-        } else {
-          promises.push(
-            new Promise(resolve => {
-              resolve(getZoneUrl(geoJson));
-            }),
-          );
-        }
-      }
-    });
+  const configs = await loadAllRawConfigurations();
+  // Inline geoJson configs are resolved synchronously here, before any
+  // remote layer config fetch completes, so getZoneUrl() picks the first
+  // inline zone layer (in config file order) to initialize allZones.
+  const urls = await Promise.all(
+    configs
+      .map(config => config.geoJson)
+      .filter(geoJson => geoJson)
+      .map(geoJson =>
+        geoJson.layerConfigUrl
+          ? fetchGeoJsonConfig(geoJson.layerConfigUrl).then(getZoneUrl)
+          : getZoneUrl(geoJson),
+      ),
+  );
 
-    Promise.all(promises).then(urls => {
-      if (allZones) {
-        // valid zone data was found
-        allZones.url = urls.filter(url => !!url); // drop invalid
-        console.log(`Assembled ${allZones.url.length} geoJson zones`);
-        setAssembledZones(allZones);
-      }
-      mainResolve();
-    });
-  });
+  if (allZones) {
+    // valid zone data was found
+    allZones.url = urls.filter(url => !!url); // drop invalid
+    console.log(`Assembled ${allZones.url.length} geoJson zones`);
+    setAssembledZones(allZones);
+  }
 }
