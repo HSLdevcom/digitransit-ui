@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { getJson } from '../../utils/shared/xhrPromise.js';
 import {
   loadAllRawConfigurations,

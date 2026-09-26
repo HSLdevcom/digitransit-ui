@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import express from 'express';
 import proxy from 'express-http-proxy';
 

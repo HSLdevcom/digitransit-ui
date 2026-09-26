@@ -1,4 +1,4 @@
-/* eslint-disable no-console, no-unused-vars, prefer-destructuring, consistent-return */
+/* eslint-disable no-unused-vars, consistent-return */
 
 import { Issuer, Strategy, custom } from 'openid-client';
 import util from 'util';

@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign, no-console */
+/* eslint-disable no-param-reassign */
 import { retryFetch } from '../../utils/shared/fetchUtils.js';
 import { splitGtfsId } from '../../utils/shared/gtfs.js';
 

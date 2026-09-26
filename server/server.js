@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { getConfiguration } from './configs/config.js';
 import createApp from './app.js';
 import fetchTicketPrices from './services/ticketPrices.js';

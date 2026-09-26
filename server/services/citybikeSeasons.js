@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { CosmosClient } from '@azure/cosmos';
 import {
   loadAllRawConfigurations,
