@@ -15,29 +15,41 @@ function serialize(obj, prefix) {
     .join('&');
 }
 
+const REQUEST_TIMEOUT_MS = 10000;
+
+// fetch() has no `timeout` option, so abort through an AbortController
+// instead. The timeout also covers reading the response body.
+// AbortSignal.timeout() would be shorter, but iOS Safari 15 (still within
+// this project's browserslist) doesn't support it.
+function fetchJsonWithTimeout(url, options) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  return fetch(url, { ...options, signal: controller.signal })
+    .then(res => res.json())
+    .finally(() => clearTimeout(timer));
+}
+
 // Return Promise for a url json get request
 export function getJson(url, params) {
-  return fetch(
+  return fetchJsonWithTimeout(
     encodeURI(url) +
       (params ? (url.search(/\?/) === -1 ? '?' : '&') + serialize(params) : ''),
     {
-      timeout: 10000,
       method: 'GET',
 
       headers: {
         Accept: 'application/json',
       },
     },
-  ).then(res => res.json());
+  );
 }
 
 // Return Promise for a json post request
 export function postJson(url, params, payload) {
-  return fetch(
+  return fetchJsonWithTimeout(
     encodeURI(url) +
       (params ? (url.search(/\?/) === -1 ? '?' : '&') + serialize(params) : ''),
     {
-      timeout: 10000,
       method: 'POST',
       body: payload,
 
@@ -46,7 +58,7 @@ export function postJson(url, params, payload) {
         'Content-Type': 'application/json',
       },
     },
-  ).then(res => res.json());
+  );
 }
 
 // Return Promise for array of json get requests
