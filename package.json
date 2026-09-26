@@ -25,7 +25,6 @@
     "test-accessibility": "./test/accessibility.sh",
     "test-unit": "yarn workspace-packages-build && vitest run",
     "test-unit:app": "vitest run --project app",
-    "test-single": "yarn test-unit:app -t",
     "test:e2e": "jest --runInBand --detectOpenHandles --config=./test/e2e/jest.config.cjs",
     "test:update-snapshots": "UPDATE_E2E=true jest --runInBand --detectOpenHandles --updateSnapshot --config=./test/e2e/jest.config.cjs",
     "test:update-all-desktop-snapshots": "CONFIG=hsl yarn test:update-snapshots && CONFIG=tampere yarn test:update-snapshots && CONFIG=matka yarn test:update-snapshots",

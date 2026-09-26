@@ -119,8 +119,8 @@ right one by *who consumes the code*, not just by convenience.
     covering the app suite plus every workspace-package family as `test.projects` entries).
   - Run just the app suite: `yarn test-unit:app` (`vitest run --config vitest.config.js --project
     app`).
-  - Run a single test by name (grep on describe/it or filename stem):
-    `yarn test-single -g <pattern>` (this is `test-unit:app -g <pattern>`).
+  - Run a single test file or test: `yarn test-unit:app <path-substring>` or
+    `yarn test-unit:app -t "<describe/it name pattern>"`.
   - Watch mode: `yarn run test-unit -- --watch`.
 - E2E/visual tests (Jest + Playwright, config under `test/e2e/jest.config.cjs`), require a prior
   `yarn build`:

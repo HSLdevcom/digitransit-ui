@@ -36,10 +36,11 @@ Using yarn
 yarn run test-unit
 ```
 
-Run a single test by name (grep on describe/it or filename stem)
+Run a single test file (any part of its path) or tests by describe/it name
 
 ```sh
-yarn test-single -g <pattern>
+yarn test-unit:app <path-substring>
+yarn test-unit:app -t "<name-pattern>"
 ```
 
 Using the continuous watch mode

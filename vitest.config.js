@@ -77,7 +77,7 @@ export default {
     projects: [
       {
         // The main app suite (test/unit/**). Run alone with `--project app`
-        // (see the `test-unit:app`/`test-single` scripts) - doesn't need
+        // (see the `test-unit:app` script) - doesn't need
         // `workspace-packages-build` first, unlike the projects below.
         plugins: [
           react({
