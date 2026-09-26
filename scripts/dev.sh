@@ -1,18 +1,12 @@
 #!/usr/bin/env bash
 
-# Local development runner: runs Relay, the Express dev server (node --watch),
-# webpack-dev-server and the Digitransit workspace watchers in parallel
-# until interrupted.
+# Local development runner: runs the Relay watchers, the Express server
+# (node --watch), webpack-dev-server and, with built packages, the package
+# watchers in parallel until interrupted. If any of them exits, the rest are
+# stopped too.
 #
-# `set -m` gives each backgrounded job its own process group. This allows
-# cleanup to terminate the whole process tree for tools such as `node --watch`
-# (which runs the server in a child process) and webpack-dev-server instead of
-# only killing the direct process.
-#
-# If any one job exits early (crash), we want to notice and clean up the
-# rest rather than leaving a partially-broken dev session running. That
-# needs a "wait for the first of several background jobs" mechanism; see
-# wait_any() below for how that is done in a mac/Linux-compatible way.
+# `set -m` gives each background job its own process group, so cleanup()
+# kills whole process trees (e.g. node --watch's child server process).
 
 cleanup() {
   trap - EXIT INT TERM
@@ -26,14 +20,8 @@ cleanup() {
   wait 2>/dev/null || true
 }
 
-# `wait -n` (wait for the first of several background jobs to exit) needs
-# bash >= 4.3. macOS ships bash 3.2, where `wait -n` errors with
-# "wait: -n: invalid option". Use the native form when available (as on
-# Linux and any newer bash), and fall back to a simple kill -0 liveness
-# poll loop otherwise, which works on any bash version. Either path
-# returns as soon as one tracked process exits, so the script falls off
-# the end, the EXIT trap fires, and cleanup() tears down the rest of the
-# process group.
+# Returns as soon as any tracked job exits. `wait -n` needs bash >= 4.3;
+# macOS ships bash 3.2, so fall back to polling with `kill -0` there.
 wait_any() {
   if (( BASH_VERSINFO[0] > 4 || (BASH_VERSINFO[0] == 4 && BASH_VERSINFO[1] >= 3) )); then
     wait -n
@@ -93,42 +81,35 @@ trap cleanup EXIT INT TERM
 
 yarn static
 
-# Build the digitransit-* workspace packages once, synchronously, before
-# starting webpack-dev-server and the workspace watchers below. On a fresh
-# clone (or after `lib/` is removed/out of date) the packages' `lib/*.cjs`
-# outputs don't exist yet; webpack-dev-server's persistent filesystem cache
-# (see webpack.config.js) doesn't reliably invalidate when those
-# outputs later appear via workspace-packages-watch's rollup watch, so it
-# can permanently cache a broken/missing module resolution. Building here
-# first ensures webpack-dev-server always sees valid output on its first
-# compile.
-yarn workspace-packages-build
+# webpack-dev-server bundles the workspace packages' src/ by default (see
+# config/workspacePackageSource.config.js). USE_BUILT_WORKSPACE_PACKAGES=true
+# uses their built lib/ instead, e.g. to debug a Rollup build. Build before
+# webpack-dev-server starts: its filesystem cache can keep a missing-module
+# resolution even after the watchers create lib/.
+if [ "$USE_BUILT_WORKSPACE_PACKAGES" = "true" ]; then
+  yarn workspace-packages-build
+fi
 
 yarn relay-watch &
 pids+=("$!")
 
-# digitransit-search-util-query-utils has its own relay-compiler config
-# (separate from the root app's) for the graphql`` tags in its src. Its
-# "watch" script only runs relay-compiler once before starting rollup -w,
-# so without this it wouldn't regenerate lib/__generated__ if one of its
-# queries is edited during a dev session. Its "relay-watch" script
-# mkdir -p's lib/__generated__ before starting relay-compiler --watch, so
-# this also works on a fresh clone where lib/ doesn't exist yet.
-(cd digitransit-search-util/packages/digitransit-search-util-query-utils && yarn relay-watch) &
+# query-utils has its own Relay config (artifacts in its lib/__generated__).
+yarn workspace @digitransit-search-util/digitransit-search-util-query-utils relay-watch &
 pids+=("$!")
 
-# Node's built-in watch mode restarts the server whenever any module in its
-# loaded import graph changes (server/**, utils/{shared,server}/**, region
-# configs). --watch-preserve-output keeps Node from clearing the terminal on
-# every restart, which would wipe the other processes' interleaved output.
+# Restarts the server when any module it imports changes. Without
+# --watch-preserve-output, each restart would clear the other processes'
+# output from the terminal.
 node --watch --watch-preserve-output server/server.js &
 pids+=("$!")
 
 yarn webpack-dev-server &
 pids+=("$!")
 
-yarn workspace-packages-watch &
-pids+=("$!")
+if [ "$USE_BUILT_WORKSPACE_PACKAGES" = "true" ]; then
+  yarn workspace-packages-watch &
+  pids+=("$!")
+fi
 
 # If any dev process exits, terminate the rest.
 wait_any

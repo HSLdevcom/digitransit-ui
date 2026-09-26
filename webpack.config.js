@@ -14,6 +14,12 @@ import { WebpackAssetsManifest } from 'webpack-assets-manifest';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { themeEntries, faviconPlugins } from './scripts/build/contextHelper.js';
 import { ASSET_URL_PLACEHOLDER } from './scripts/build/assetUrlPlaceholder.js';
+import {
+  WORKSPACE_SOURCE_CONDITION,
+  useWorkspacePackageSource,
+  workspacePackageSourceDir,
+  workspacePackageBabelOverrides,
+} from './config/workspacePackageSource.config.js';
 
 const require = createRequire(import.meta.url);
 const rootDir = import.meta.dirname;
@@ -21,6 +27,10 @@ const rootDir = import.meta.dirname;
 const mode = process.env.NODE_ENV;
 const isProduction = mode === 'production';
 const isDevelopment = !isProduction;
+// Dev bundles the digitransit-* workspace packages' `src/` directly (see
+// config/workspacePackageSource.config.js); production always bundles their
+// built `lib/`, i.e. exactly what gets published.
+const useSourcePackages = isDevelopment && useWorkspacePackageSource;
 
 const themeExpression = /sass[/\\]themes$/;
 const selectedTheme = new RegExp(
@@ -273,7 +283,7 @@ export default {
         // alone only changes CJS/ESM interop, not extension-resolution
         // strictness, so `resolve.fullySpecified: false` is needed too
         // (matching the `.mjs`/node_modules rule above) to fix problem 2.
-        test: /\.js$/,
+        test: /\.jsx?$/,
         include: [
           path.resolve(rootDir, 'digitransit-component'),
           path.resolve(rootDir, 'digitransit-search-util'),
@@ -283,8 +293,61 @@ export default {
         type: 'javascript/auto',
         resolve: { fullySpecified: false },
       },
+      ...(useSourcePackages
+        ? [
+            {
+              // Package sources get the same Babel config as their Rollup
+              // build (JSX, Relay, inline-react-svg for the icon SVGs).
+              test: /\.jsx?$/,
+              include: workspacePackageSourceDir,
+              loader: 'babel-loader',
+              options: {
+                configFile: path.join(rootDir, 'config/babel.config.cjs'),
+                overrides: workspacePackageBabelOverrides,
+              },
+            },
+            {
+              // Package stylesheets are CSS Modules (default-imported, as
+              // in their Rollup build). css-loader's hash covers the file
+              // path, which keeps class names unique across packages, like
+              // Rollup's per-package `hashPrefix`.
+              test: /\.scss$/,
+              include: workspacePackageSourceDir,
+              use: [
+                'style-loader',
+                {
+                  loader: 'css-loader',
+                  options: {
+                    modules: {
+                      namedExport: false,
+                      exportLocalsConvention: 'as-is',
+                      localIdentName: '[name]_[local]__[hash:base64:5]',
+                    },
+                  },
+                },
+                'postcss-loader',
+                {
+                  loader: 'sass-loader',
+                  options: {
+                    sassOptions: {
+                      quietDeps: true,
+                      silenceDeprecations: [
+                        'import',
+                        'global-builtin',
+                        'color-functions',
+                      ],
+                    },
+                  },
+                },
+              ],
+            },
+          ]
+        : []),
       {
         test: /\.scss$/,
+        // Package stylesheets only reach webpack as source (the built
+        // `lib/` inlines them), and then use the CSS Modules rule above.
+        ...(useSourcePackages ? { exclude: workspacePackageSourceDir } : {}),
         use: [
           isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
           'css-loader',
@@ -414,9 +477,20 @@ export default {
   performance: { hints: false },
   cache: {
     type: 'filesystem',
+    // Separate caches for source vs built workspace packages, so switching
+    // USE_BUILT_WORKSPACE_PACKAGES never reuses the other mode's resolutions.
+    name: `${mode}-${useSourcePackages ? 'source' : 'built'}-packages`,
+    // Invalidate the cache when this config (or anything it imports)
+    // changes.
+    buildDependencies: { config: [import.meta.filename] },
   },
   resolve: {
     extensions: ['.mjs', '.js', '.jsx', '.json'],
+    // Resolves the built workspace packages to their `src/` entry, via
+    // their `exports` maps. '...' keeps webpack's default conditions.
+    ...(useSourcePackages
+      ? { conditionNames: [WORKSPACE_SOURCE_CONDITION, '...'] }
+      : {}),
     mainFields: ['browser', 'module', 'main'],
     alias: {
       lodash: 'lodash-es',
