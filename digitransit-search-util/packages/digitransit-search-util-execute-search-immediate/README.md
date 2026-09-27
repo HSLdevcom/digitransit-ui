@@ -8,18 +8,18 @@ Executes the search
 
 ### Parameters
 
-*   `targets`
-*   `sources`
-*   `transportMode`
-*   `searchContext`
-*   `filterResults`
-*   `geocodingSize`
-*   `$6` **[Object][1]**
+*   `targets`  
+*   `sources`  
+*   `transportMode`  
+*   `searchContext`  
+*   `filterResults`  
+*   `geocodingSize`  
+*   `$6` **[Object][1]** 
 
-    *   `$6.input`
-*   `callback`
-*   `pathOpts`
-*   `refPoint`
+    *   `$6.input`  
+*   `callback`  
+*   `pathOpts`  
+*   `refPoint`  
 
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
 ---
