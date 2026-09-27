@@ -4,6 +4,11 @@
   "description": "digitransit-search-util query-utils module",
   "type": "module",
   "main": "lib/index.cjs",
+  "files": [
+    "/lib",
+    "LICENSE-AGPL.txt",
+    "LICENSE-EUPL.txt"
+  ],
   "publishConfig": {
     "access": "public"
   },
