@@ -4,13 +4,6 @@
   "description": "digitransit-search-util query-utils module",
   "type": "module",
   "main": "lib/index.cjs",
-  "exports": {
-    ".": {
-      "digitransit-source": "./src/index.js",
-      "default": "./lib/index.cjs"
-    },
-    "./package.json": "./package.json"
-  },
   "publishConfig": {
     "access": "public"
   },

@@ -15,8 +15,8 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { themeEntries, faviconPlugins } from './scripts/build/contextHelper.js';
 import { ASSET_URL_PLACEHOLDER } from './scripts/build/assetUrlPlaceholder.js';
 import {
-  WORKSPACE_SOURCE_CONDITION,
   useWorkspacePackageSource,
+  workspacePackageSourceEntries,
   workspacePackageSourceDir,
 } from './config/workspacePackageSource.config.js';
 
@@ -484,15 +484,20 @@ export default {
   },
   resolve: {
     extensions: ['.mjs', '.js', '.jsx', '.json'],
-    // Resolves the built workspace packages to their `src/` entry, via
-    // their `exports` maps. '...' keeps webpack's default conditions.
-    ...(useSourcePackages
-      ? { conditionNames: [WORKSPACE_SOURCE_CONDITION, '...'] }
-      : {}),
     mainFields: ['browser', 'module', 'main'],
     alias: {
       lodash: 'lodash-es',
       'lodash.merge': 'lodash-es/merge',
+      // Resolves each built workspace package's bare import (`$` = exact
+      // match) to its `src/` entry.
+      ...(useSourcePackages
+        ? Object.fromEntries(
+            workspacePackageSourceEntries.map(({ name, entry }) => [
+              `${name}$`,
+              entry,
+            ]),
+          )
+        : {}),
     },
     // webpack5 no longer auto-polyfills Node core modules. `net`/`tls`
     // are already stubbed to `false` by mqtt's own package.json `browser`

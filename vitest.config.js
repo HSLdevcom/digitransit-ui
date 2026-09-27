@@ -1,14 +1,21 @@
-import path from 'path';
 import { createRequire } from 'module';
 import react from '@vitejs/plugin-react';
-import { defaultClientConditions } from 'vite';
 import {
-  WORKSPACE_SOURCE_CONDITION,
   useWorkspacePackageSource,
+  workspacePackageSourceEntries,
   workspacePackageSourceDir,
 } from './config/workspacePackageSource.config';
 
 const require = createRequire(import.meta.url);
+
+// Aliases each built workspace package's bare import to its `src/` entry
+// (see config/workspacePackageSource.config.js).
+const workspacePackageSourceAliases = workspacePackageSourceEntries.map(
+  ({ name, entry }) => ({
+    find: new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`),
+    replacement: entry,
+  }),
+);
 
 // A couple of @hsl-fi/* packages ship old-style webpack UMD bundles whose
 // real default export sits one level deeper than a plain require()/import
@@ -122,14 +129,7 @@ export default {
         // Resolves the built workspace packages to their `src/` entry (see
         // config/workspacePackageSource.config.js).
         ...(useWorkspacePackageSource
-          ? {
-              resolve: {
-                conditions: [
-                  WORKSPACE_SOURCE_CONDITION,
-                  ...defaultClientConditions,
-                ],
-              },
-            }
+          ? { resolve: { alias: workspacePackageSourceAliases } }
           : {}),
         plugins: [
           react({
@@ -226,23 +226,11 @@ export default {
         },
       },
       {
-        // Sibling `@digitransit-component/*` imports resolve via
-        // node_modules to each package's built lib/index.cjs, a Rollup UMD
-        // bundle Vite doesn't auto-unwrap correctly (resolves to the whole
-        // exports object, not the default export). Alias every sibling
-        // specifier to that package's raw src/index.js instead, consistent
-        // with this project testing raw source rather than built output.
-        resolve: {
-          alias: [
-            {
-              find: /^@digitransit-component\/(digitransit-component-.+)$/,
-              replacement: path.join(
-                import.meta.dirname,
-                'digitransit-component/packages/$1/src/index',
-              ),
-            },
-          ],
-        },
+        // Sibling package imports would otherwise resolve to their built
+        // lib/index.cjs, a Rollup UMD bundle Vite doesn't auto-unwrap
+        // correctly (resolves to the whole exports object, not the default
+        // export), so this project always uses their source.
+        resolve: { alias: workspacePackageSourceAliases },
         // @vitejs/plugin-react already handles JSX; the only thing missing
         // versus Rollup's build is inline-react-svg, needed for
         // digitransit-component-icon's raw .svg imports.

@@ -112,7 +112,7 @@ and output settings.
   render ("Element type is invalid"); `javascript/auto`'s lenient interop
   unwraps it correctly, same as the rest of the app.
 - **Workspace package `src/` (development only)** — `yarn dev` bundles the
-  built packages' sources directly (see `resolve.conditionNames` below and
+  built packages' sources directly (see `resolve.alias` below and
   `docs/WorkspacePackages.md`). Their `.js`/`.jsx` go through `babel-loader`
   with `config/babel.config.cjs`, the same config as their Rollup build, and
   their `.scss` through a CSS Modules `css-loader` rule, which the app's own
@@ -271,16 +271,14 @@ when `process.env.NODE_ENV !== 'development'` (replacing
   build cache (replaces webpack4's memory-only `cache: true`). Its `name`
   separates source vs built workspace packages, and `buildDependencies`
   invalidates it when `webpack.config.js` (or anything it imports) changes.
-- **`resolve.conditionNames`** (development only) adds the
-  `"digitransit-source"` `exports` condition, resolving the built workspace
-  packages to their `src/` entry.
 - **`resolve.extensions`** adds `.mjs` ahead of the defaults so native-ESM
   entry points resolve.
 - **`resolve.mainFields`** prefers `browser`, then `module` (ESM), over
   `main` (CJS) — picks up tree-shakeable ESM builds when available.
 - **`resolve.alias`** forces `lodash`/`lodash.merge` (including transitive
   imports from dependencies) to `lodash-es`, since the plain CommonJS
-  `lodash` build can't be tree-shaken the same way.
+  `lodash` build can't be tree-shaken the same way. In development it also
+  aliases each built workspace package's bare import to its `src/` entry.
 - **`resolve.fallback: { url: require.resolve('url/') }`** — webpack5 no
   longer auto-polyfills Node core modules. `mqtt`'s own `package.json`
   `browser` field already stubs `net`/`tls` to `false`, but it also calls

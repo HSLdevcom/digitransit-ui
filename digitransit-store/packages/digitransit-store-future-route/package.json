@@ -7,7 +7,6 @@
   "module": "lib/index.js",
   "exports": {
     ".": {
-      "digitransit-source": "./src/index.js",
       "import": "./lib/index.js",
       "require": "./lib/index.cjs",
       "default": "./lib/index.cjs"

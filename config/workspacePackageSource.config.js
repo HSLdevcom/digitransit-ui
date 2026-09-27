@@ -2,13 +2,39 @@
 // the built digitransit-* workspace packages' raw `src/` directly, instead of
 // their Rollup `lib/` output, so that neither needs a package build first.
 // Production builds and published packages always use `lib/`.
+import fs from 'node:fs';
+import path from 'node:path';
+
+const root = path.resolve(import.meta.dirname, '..');
 
 /**
- * Custom `exports` condition pointing at each built package's `src/` entry.
- * Deliberately not a bare "source": `src/` isn't published, and a generic
- * name could be enabled by a consumer's own tooling.
+ * `{ name, entry }` for every non-deprecated package with a Rollup build,
+ * `entry` being the absolute path of its `src/index.{jsx,js}`. Used to alias
+ * each bare package import to its source.
  */
-export const WORKSPACE_SOURCE_CONDITION = 'digitransit-source';
+export const workspacePackageSourceEntries = [
+  'digitransit-component',
+  'digitransit-search-util',
+  'digitransit-store',
+].flatMap(family => {
+  const packagesDir = path.join(root, family, 'packages');
+  return fs.readdirSync(packagesDir).flatMap(dir => {
+    const pkgDir = path.join(packagesDir, dir);
+    const pkg = JSON.parse(
+      fs.readFileSync(path.join(pkgDir, 'package.json'), 'utf8'),
+    );
+    if (!pkg.scripts?.build || pkg.deprecated) {
+      return [];
+    }
+    const entry = ['src/index.jsx', 'src/index.js']
+      .map(file => path.join(pkgDir, file))
+      .find(file => fs.existsSync(file));
+    if (!entry) {
+      throw new Error(`${pkg.name} has no src/index.jsx or src/index.js`);
+    }
+    return [{ name: pkg.name, entry }];
+  });
+});
 
 /**
  * `USE_BUILT_WORKSPACE_PACKAGES=true` opts back into the built `lib/` output,
