@@ -5,7 +5,6 @@ import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserJsPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import { InjectManifest } from 'workbox-webpack-plugin';
 import CompressionPlugin from 'compression-webpack-plugin';
 // This package's `exports` map subpath types aren't understood by
 // eslint-plugin-import's resolver.
@@ -13,7 +12,6 @@ import CompressionPlugin from 'compression-webpack-plugin';
 import { WebpackAssetsManifest } from 'webpack-assets-manifest';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { themeEntries, faviconPlugins } from './scripts/build/contextHelper.js';
-import { ASSET_URL_PLACEHOLDER } from './scripts/build/assetUrlPlaceholder.js';
 
 const require = createRequire(import.meta.url);
 const rootDir = import.meta.dirname;
@@ -58,32 +56,6 @@ class EntrypointStatsPlugin {
 
 const productionPlugins = [
   ...faviconPlugins,
-  new InjectManifest({
-    swSrc: path.join(rootDir, 'app/client/serviceWorker.js'),
-    swDest: 'sw.js',
-    // Mirrors the previous offline-plugin `excludes` list: source maps,
-    // compressed variants, and the per-deployment theme/sprite chunks and
-    // icon assets are all left out of the eager precache manifest.
-    exclude: [
-      /\.map$/,
-      /\.gz$/,
-      /\.br$/,
-      /_theme\.[^/]+\.js$/,
-      /_sprite\.[^/]+\.js$/,
-      /assets\/iconstats-.*\.json$/,
-      /assets\/icons-[^/]+\//,
-      // PNG/SVG/GeoJSON/CSS are cached lazily at runtime instead (see
-      // app/client/serviceWorker.js) rather than eagerly precached, mirroring
-      // the previous "optional" (safeToUseOptionalCaches) cache group.
-      /\.png$/,
-      /\.svg$/,
-      /\.geojson$/,
-      /\.css$/,
-    ],
-    // Bake the ASSET_URL placeholder into every precached URL; replaced
-    // at request time in server/app.js. See scripts/build/assetUrlPlaceholder.js.
-    modifyURLPrefix: { '': ASSET_URL_PLACEHOLDER },
-  }),
   new MiniCssExtractPlugin({
     filename: 'css/[name].[contenthash].css',
     chunkFilename: 'css/[name].[contenthash].css',

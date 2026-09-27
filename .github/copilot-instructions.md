@@ -12,9 +12,8 @@ right one by *who consumes the code*, not just by convenience.
   - `client/` — client entry & top-level client-only modules: `client.jsx` (browser entry,
     farce/found router bootstrap), `app.js` (fluxible app/store wiring), `routes.jsx` /
     `routeRoutes.jsx` / `stopRoutes.jsx` (found + Relay route-tree definitions for the front page,
-    route pages, and stop pages), `i18n.js`, `buildInfo.js` (generated build stamp, don't
-    hand-edit), `ConfigContext.jsx` (React context provider for config), `images/` (regional logo
-    assets).
+    route pages, and stop pages), `i18n.js`, `ConfigContext.jsx` (React context provider for
+    config), `images/` (regional logo assets).
   - `component/` — topic subfolders for larger features: `itinerary/`, `map/`, `stop/`,
     `routepage/`, `nearyou/`, `trafficnow/` (has its own `README.md`), `embedded/`, `visual/`,
     `icon/`, and `__generated__/` (Relay codegen).

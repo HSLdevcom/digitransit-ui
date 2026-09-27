@@ -65,6 +65,18 @@ describe('server app', () => {
     });
   });
 
+  describe('/sw.js', () => {
+    it('serves an uncached script that unregisters the old service worker', async () => {
+      const response = await request(app).get('/sw.js');
+      expect(response.status).toBe(200);
+      expect(response.headers['content-type']).toContain(
+        'application/javascript',
+      );
+      expect(response.headers['cache-control']).toContain('max-age=0');
+      expect(response.text).toContain('self.registration.unregister()');
+    });
+  });
+
   describe('the HTML shell', () => {
     it('renders a 200 HTML document with the injected window.config script', async () => {
       const response = await request(app).get('/');

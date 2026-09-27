@@ -136,8 +136,6 @@ Development only gets `ContextReplacementPlugin` (see Entries above).
 Production gets:
 
 - **`faviconPlugins`** — see Entries above.
-- **`InjectManifest`** (`workbox-webpack-plugin`) — builds the production
-  service worker; see [Service worker](#service-worker) below.
 - **`MiniCssExtractPlugin`** — extracts CSS to hashed files (prod only;
   dev uses `style-loader`). `ignoreOrder` is deliberately left `false`
   (the default) rather than suppressed: the `digitransitComponents` cache
@@ -197,34 +195,17 @@ Both dev and prod also always get:
 
 ### Service worker
 
-Built from `app/client/serviceWorker.js` via Workbox's `InjectManifest`
-(bundles that file and injects the precache manifest — unlike
-`GenerateSW`, this keeps full control over the SW's own logic). That
-source file combines:
+There is none. The app used to register one (`offline-plugin`, later
+Workbox), originally for offline support and installability. Offline support
+was dropped in 2018 because cached HTML pointed at JS/CSS that later deploys
+had removed, and browsers no longer need a service worker to install a web app.
+What was left only duplicated the HTTP cache and precached every JS chunk
+up front.
 
-- `precacheAndRoute(self.__WB_MANIFEST)` + `cleanupOutdatedCaches()` — the
-  actual asset precaching.
-- Lazy `registerRoute`/`CacheFirst` runtime caching for images, CSS, and
-  external font URLs — caching them on demand instead of eagerly.
-- A verbatim `cloud.typography.com` fetch handler that counts
-  font-loading clicks (kept from the old `app/util/font-sw.js`, which this
-  file replaces; unrelated to caching).
-
-This all replaces the old, unmaintained, webpack5-incompatible
-`offline-plugin`.
-
-Build-time asset URLs baked into the precache manifest use a placeholder
-token (`ASSET_URL_PLACEHOLDER`, from `scripts/build/assetUrlPlaceholder.js`,
-shared between this config and `server/app.js`) via `InjectManifest`'s
-`modifyURLPrefix`, since the real CDN URL (`ASSET_URL` env var) isn't known
-at build time. `server/app.js`'s `/sw.js` route replaces that
-placeholder with the real `ASSET_URL` (or `''` if unset) at request time.
-This route only exists outside development (guarded by
-`process.env.NODE_ENV !== 'development'`, since `_static/sw.js` is only
-produced by a production build), matching `app/client.js`, which only ever
-registers the resulting service worker via `workbox-window`'s `Workbox` class
-when `process.env.NODE_ENV !== 'development'` (replacing
-`offline-plugin/runtime`).
+Browsers that installed the old worker keep it until `/sw.js` serves
+something new, so `server/app.js` serves a small self-unregistering worker
+there (`server/html/serviceWorkerRemoval.js`). It clears the old caches and
+unregisters itself, and can be removed once old registrations have aged out.
 
 ## Optimization
 

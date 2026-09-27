@@ -13,7 +13,6 @@ import {
   errorMiddleware,
   cacheMiddleware,
 } from 'react-relay-network-modern';
-import { Workbox } from 'workbox-window';
 import { Helmet } from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
 import { RelayEnvironmentProvider } from 'react-relay';
@@ -24,7 +23,6 @@ import { configShape } from '../../utils/client/shapes';
 import i18n from './i18n';
 import { historyMiddlewares, render } from './routes';
 import appCreator from './app';
-import { BUILD_TIME } from './buildInfo';
 import ErrorBoundary from '../component/ErrorBoundary';
 import legacyParamParser from '../../utils/shared/legacyParamParser';
 import { LEGACY_LOCALE_PATHS } from '../../utils/shared/constants';
@@ -241,18 +239,7 @@ async function init() {
   );
 
   const rootNode = document.getElementById('app');
-  ReactDOM.render(content, rootNode, () => {
-    if (process.env.NODE_ENV !== 'development' && BUILD_TIME !== 'unset') {
-      // The service worker itself calls `skipWaiting()`/`clients.claim()`
-      // (see app/client/serviceWorker.js) so new versions take over as soon
-      // as they finish installing - mirrors the previous
-      // `OfflinePlugin.install({ onUpdateReady: () =>
-      // OfflinePlugin.applyUpdate() })` behaviour, just with the
-      // "apply immediately" decision made service-worker-side instead of
-      // here.
-      new Workbox('/sw.js').register();
-    }
-  });
+  ReactDOM.render(content, rootNode);
 
   // Listen for Web App Install Banner events
   window.addEventListener('beforeinstallprompt', e => {
