@@ -21,6 +21,24 @@ digitransit-util.routePatternOptionText('fi', {"code":"HSL:3002U:0:02","headsign
 
 Returns **[String][1]** Option text for pattern's route
 
+**Meta**
+
+*   **deprecated**: This package is no longer used by digitransit-ui. It will be
+    removed in a future release.
+
+## getTranslatedDayString
+
+### Parameters
+
+*   `language`  
+*   `dayString`  
+*   `clean`  
+
+**Meta**
+
+*   **deprecated**: This package is no longer used by digitransit-ui. It will be
+    removed in a future release.
+
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
 
 [2]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
