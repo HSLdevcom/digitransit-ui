@@ -72,9 +72,8 @@ manual `yarn setup`/`yarn workspace-packages-build` is not required beforehand.
 the packages first and then rebuilding them on change with `yarn workspace-packages-watch`.
 
 There's also a lighter-weight `yarn dev-nowatch`, which only runs the Express dev server and
-webpack-dev-server (no Relay watchers). On a fresh clone, run `yarn relay` and
-`yarn workspace @digitransit-search-util/digitransit-search-util-query-utils relay` first, or
-webpack fails with `Module not found` errors for the missing Relay artifacts.
+webpack-dev-server (no Relay watchers). On a fresh clone, run `yarn relay` first, or webpack
+fails with `Module not found` errors for the missing Relay artifacts.
 
 ## Start production version
 - First run: `yarn run setup`, then `yarn run build`, then run: `yarn run start`

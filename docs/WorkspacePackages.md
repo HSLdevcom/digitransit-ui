@@ -172,9 +172,10 @@ $ yarn test-unit:built                          # builds, then runs every test a
 ```
 
 `query-utils`'s Relay artifacts are generated next to its source, in
-`src/__generated__` (gitignored), by its own `relay` script. `yarn dev`
-keeps them up to date with a dedicated `relay-compiler --watch`, and its
-build runs the same script first.
+`src/__generated__` (gitignored), by its own `relay` script, which the root
+`yarn relay` runs too. `yarn test-unit` and `yarn workspace-packages-test`
+run it first, `yarn dev` keeps the artifacts up to date with a dedicated
+`relay-compiler --watch`, and the package's build runs the script first.
 
 ## Testing
 

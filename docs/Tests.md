@@ -39,6 +39,9 @@ Using yarn
 yarn run test-unit
 ```
 
+It runs `yarn relay` first, so the generated Relay artifacts are always up to date (as do
+`test-unit:built` and `test-unit:app`).
+
 Run only the app or only the server tests (`test/unit/server/**` and
 `test/unit/utils/server/**`)
 

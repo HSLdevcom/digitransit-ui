@@ -9,7 +9,7 @@
   },
   "scripts": {
     "clean": "rm -rf lib ./node_modules",
-    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.js\"",
+    "test": "yarn relay && vitest run --config ../../../vitest.config.js \"$PWD/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js",
     "relay": "relay-compiler",
     "relay-watch": "relay-compiler --watch",
