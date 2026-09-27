@@ -72,25 +72,17 @@ function faviconPluginFromConfig(config) {
     // The name of the json containing all favicon information
     statsFilename: `assets/iconstats-${config.CONFIG}.json`,
     inject: false,
-    // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
-    // This matches the application background color
-    background: '#eef1f3',
-    theme_color: config.colors ? config.colors.primary : '#eef1f3',
-    // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
-    title: config.title,
-    appName: config.title,
-    appDescription: config.meta.description,
-    icons: {
-      android: true,
-      appleIcon: true,
-      appleStartup: false,
-      coast: false,
-      favicons: true,
-      firefox: true,
-      opengraph: false,
-      twitter: false,
-      yandex: false,
-      windows: false,
+    // Options for the `favicons` package itself. The plugin only reads them
+    // from here; at the top level they're silently ignored.
+    favicons: {
+      // Matches the `favicons` package default (and what actually took
+      // effect pre-fix, since these options were previously silently
+      // ignored at the top level).
+      background: '#fff',
+      theme_color: config.colors ? config.colors.primary : '#fff',
+      // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
+      appName: config.title,
+      appDescription: config.meta.description,
     },
   });
 }
