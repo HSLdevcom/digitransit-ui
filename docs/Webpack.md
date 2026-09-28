@@ -193,20 +193,6 @@ Both dev and prod also always get:
   per-deployment theming" above for how theme selection avoids needing
   that).
 
-### Service worker
-
-There is none. The app used to register one (`offline-plugin`, later
-Workbox), originally for offline support and installability. Offline support
-was dropped in 2018 because cached HTML pointed at JS/CSS that later deploys
-had removed, and browsers no longer need a service worker to install a web app.
-What was left only duplicated the HTTP cache and precached every JS chunk
-up front.
-
-Browsers that installed the old worker keep it until `/sw.js` serves
-something new, so `server/app.js` serves a small self-unregistering worker
-there (`server/html/serviceWorkerRemoval.js`). It clears the old caches and
-unregisters itself, and can be removed once old registrations have aged out.
-
 ## Optimization
 
 - **`TerserJsPlugin`** (`{ parallel: true }`) / **`CssMinimizerPlugin`** —
