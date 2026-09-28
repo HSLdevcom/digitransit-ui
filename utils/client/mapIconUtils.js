@@ -212,9 +212,6 @@ export const getMapIconScale = memoize(
 );
 
 function getImageFromSpriteSync(icon, width, height, fill) {
-  if (!document) {
-    return null;
-  }
   const symbol = document.getElementById(icon);
   if (!symbol) {
     return null;
@@ -243,19 +240,45 @@ function getImageFromSpriteSync(icon, width, height, fill) {
 
 function getImageFromSpriteAsync(icon, width, height, fill) {
   return new Promise(resolve => {
-    // TODO: check that icon exists using MutationObserver
     const image = getImageFromSpriteSync(icon, width, height, fill);
+    if (!image) {
+      resolve(null);
+      return;
+    }
     image.onload = () => resolve(image);
+    image.onerror = () => resolve(null);
   });
 }
 
+function getSpriteCacheKey(icon, w, h, fill) {
+  return `${icon}_${w}_${h}_${fill}`;
+}
+
 const getImageFromSpriteCache = memoize(
-  getImageFromSpriteAsync,
-  (icon, w, h, fill) => `${icon}_${w}_${h}_${fill}`,
+  (icon, w, h, fill) =>
+    getImageFromSpriteAsync(icon, w, h, fill).then(image => {
+      if (!image) {
+        getImageFromSpriteCache.cache.delete(
+          getSpriteCacheKey(icon, w, h, fill),
+        );
+      }
+      return image;
+    }),
+  getSpriteCacheKey,
 );
 
+// No-ops when image is falsy (e.g. the sprite symbol wasn't found), so
+// callers can skip drawing without repeating an `if (!image) return;` guard.
+function drawImageSafely(tile, image, ...args) {
+  if (!image) {
+    return;
+  }
+  tile.ctx.drawImage(image, ...args);
+}
+
 function drawIconImage(image, tile, geom, width, height) {
-  tile.ctx.drawImage(
+  drawImageSafely(
+    tile,
     image,
     geom.x / tile.ratio - width / 2,
     geom.y / tile.ratio - height / 2,
@@ -280,7 +303,8 @@ function drawIconImageBadge(
   badgeSize,
   scaleratio,
 ) {
-  tile.ctx.drawImage(
+  drawImageSafely(
+    tile,
     image,
     calculateIconBadgePosition(geom.x, tile, imageSize, badgeSize, scaleratio),
     calculateIconBadgePosition(geom.y, tile, imageSize, badgeSize, scaleratio),
@@ -297,7 +321,7 @@ function drawTopRightCornerIconBadge(
 ) {
   const badgeX = iconTopLeftCornerX + width / 2; // badge left corner placed at the horizontal center of the icon
   const badgeY = iconTopLeftCornerY - badgeSize / 3; // badge left corner placed a third above the icon
-  tile.ctx.drawImage(image, badgeX, badgeY);
+  drawImageSafely(tile, image, badgeX, badgeY);
 }
 
 function drawSelectionCircle(tile, x, y, zoom, radius) {
@@ -406,6 +430,9 @@ export function drawStopIcon(
       height,
       color,
     ).then(image => {
+      if (!image) {
+        return undefined;
+      }
       const { ctx } = tile;
       ctx.drawImage(image, x, y);
       // Snapshot coordinates before the platform-number block mutates x/y.
@@ -443,7 +470,8 @@ export function drawStopIcon(
     if (isHighlighted && (isFerryTerminal || mode === 'subway')) {
       getImageFromSpriteCache(`icon_station_highlight`, width, height).then(
         image => {
-          tile.ctx.drawImage(
+          drawImageSafely(
+            tile,
             image,
             x - 4 / tile.scaleratio,
             y - 4 / tile.scaleratio,
@@ -514,6 +542,9 @@ export function drawHybridStopIcon(
       width,
       height,
     ).then(image => {
+      if (!image) {
+        return undefined;
+      }
       const { ctx } = tile;
       ctx.drawImage(image, x, y);
       // Draw the selection ellipse before the badge so the badge paints on top.
@@ -619,7 +650,7 @@ export function drawScooterIcon(tile, geom, isHighlighted) {
     y = geom.y / tile.ratio - height;
     getImageFromSpriteCache('icon_scooter-lollipop', width, height, color).then(
       image => {
-        tile.ctx.drawImage(image, x, y);
+        drawImageSafely(tile, image, x, y);
       },
     );
     if (isHighlighted) {
@@ -673,6 +704,9 @@ export function drawCitybikeIcon(
   // Return the full draw chain so callers can await badge completion.
   const drawPromise = getImageFromSpriteCache(name, width, height, color).then(
     image => {
+      if (!image) {
+        return undefined;
+      }
       tile.ctx.drawImage(image, x, y);
       if (!operative || showAvailability) {
         let bcol = '#008855';
@@ -722,7 +756,8 @@ export function drawTerminalIcon(tile, geom, mode, isHighlighted, config) {
   const iconName = transitIconName(mode, false);
   const drawBase = getImageFromSpriteCache(iconName, width, height, color).then(
     image => {
-      tile.ctx.drawImage(
+      drawImageSafely(
+        tile,
         image,
         geom.x / tile.ratio - width / 2,
         geom.y / tile.ratio - height / 2,
@@ -736,7 +771,8 @@ export function drawTerminalIcon(tile, geom, mode, isHighlighted, config) {
   return drawBase.then(() =>
     getImageFromSpriteCache(`icon_station_highlight`, width, height).then(
       image => {
-        tile.ctx.drawImage(
+        drawImageSafely(
+          tile,
           image,
           geom.x / tile.ratio - width / 2 - 4 / tile.scaleratio,
           geom.y / tile.ratio - height / 2 - 4 / tile.scaleratio,
@@ -766,7 +802,8 @@ export function drawHybridStationIcon(tile, geom, isHighlighted) {
     width,
     height,
   ).then(image => {
-    tile.ctx.drawImage(
+    drawImageSafely(
+      tile,
       image,
       geom.x / tile.ratio - width / 2,
       geom.y / tile.ratio - height / 2,
@@ -782,7 +819,8 @@ export function drawHybridStationIcon(tile, geom, isHighlighted) {
       width,
       height,
     ).then(image => {
-      tile.ctx.drawImage(
+      drawImageSafely(
+        tile,
         image,
         geom.x / tile.ratio - width / 2 - 4 / tile.scaleratio,
         geom.y / tile.ratio - height / 2 - 4 / tile.scaleratio,
@@ -808,7 +846,8 @@ export function drawParkAndRideIcon(
   if (isHighlighted) {
     getImageFromSpriteCache(`icon_station_highlight`, width, height).then(
       image => {
-        tile.ctx.drawImage(
+        drawImageSafely(
+          tile,
           image,
           geom.x / tile.ratio - width / 2 - 4 / tile.scaleratio,
           geom.y / tile.ratio - height / 2 - 4 / tile.scaleratio,
