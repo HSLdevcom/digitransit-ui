@@ -50,6 +50,14 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      # Every digitransit-component-* package ships a root index.cjs dev/prod
+      # re-export shim (`require('./lib/index(.development).cjs')`), and
+      # digitransit-search-util-query-utils's test.js imports its built lib/
+      # output directly - eslint's import/no-unresolved resolves those paths
+      # on disk, so the workspace packages need to be built before linting.
+      - name: Build workspace packages
+        run: yarn workspace-packages-build
+
       - name: Run linters
         run: yarn lint
 #      - name: lint SVG sprites using xmllint
