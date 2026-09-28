@@ -419,8 +419,8 @@ function ItineraryLine({
               lat: leg.from.lat,
               lon: leg.from.lon,
               network: rentalNetwork,
-              vehiclesAvailable:
-                leg.from.vehicleRentalStation?.vehiclesAvailable,
+              availableVehicles:
+                leg.from.vehicleRentalStation?.availableVehicles,
             }}
             mode={leg.mode}
             transit
