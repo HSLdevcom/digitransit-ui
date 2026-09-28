@@ -153,6 +153,7 @@ function IndexPage({ fromMap, ...props }, context) {
         newLocation.query.time = Math.floor(Date.now() / 1000).toString();
       }
       delete newLocation.query.setTime;
+      delete newLocation.query.fromMap;
       router.push(newLocation);
     } else {
       const path = getPathWithEndpointObjects(
@@ -161,11 +162,14 @@ function IndexPage({ fromMap, ...props }, context) {
         config.indexPath,
       );
 
-      if (path !== location.pathname) {
+      if (path !== location.pathname || location.query.fromMap) {
+        // also replace when only the fromMap param needs to be dropped
         const newLocation = {
           ...location,
           pathname: path,
+          query: { ...location.query },
         };
+        delete newLocation.query.fromMap;
         router.replace(newLocation);
       }
     }
@@ -177,6 +181,17 @@ function IndexPage({ fromMap, ...props }, context) {
       search_action: 'route_or_stop',
     });
     router.push(getStopRoutePath(item));
+  };
+
+  // Removes the fromMap query parameter from the URL, if present.
+  const onFromMapClose = () => {
+    const { location } = match;
+    if (location.query.fromMap === undefined) {
+      return;
+    }
+    const query = { ...location.query };
+    delete query.fromMap;
+    router.replace({ ...location, query });
   };
 
   const onSelectLocation = (item, id) => {
@@ -316,6 +331,7 @@ function IndexPage({ fromMap, ...props }, context) {
     getAutoSuggestIcons: config.getAutoSuggestIcons,
     onGeolocationStart: onSelectLocation,
     fromMap,
+    onFromMapClose,
     fontWeights,
     colors,
     modeSet: iconModeSet,

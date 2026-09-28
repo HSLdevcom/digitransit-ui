@@ -62,6 +62,9 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
       locationState: locationStateShape.isRequired,
       onGeolocationStart: PropTypes.func,
       fromMap: PropTypes.string,
+      // Called when the SelectFromMap modal opened via the fromMap prop is
+      // closed without selecting a location.
+      onFromMapClose: PropTypes.func,
       isMobile: PropTypes.bool,
       showViapointControl: PropTypes.bool,
     };
@@ -69,6 +72,7 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
     static defaultProps = {
       onGeolocationStart: null,
       fromMap: undefined,
+      onFromMapClose: undefined,
       isMobile: false,
       showViapointControl: false,
     };
@@ -273,6 +277,8 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
     };
 
     confirmMapSelection = (type, mapLocation) => {
+      // onFromMapClose is not called here; it's only for closing the
+      // modal without selecting a location.
       this.setState({ fromMap: undefined }, () =>
         this.props.selectHandler(mapLocation, type),
       );
@@ -296,7 +302,12 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
         <SelectFromMapModal
           title={this.context.intl.formatMessage({ id: titleId })}
           lang={this.context.config.language}
-          onClose={() => this.setState({ fromMap: undefined })}
+          onClose={() => {
+            this.setState({ fromMap: undefined });
+            if (this.props.onFromMapClose) {
+              this.props.onFromMapClose();
+            }
+          }}
         >
           <SelectFromMap type={id} onConfirm={this.confirmMapSelection} />
         </SelectFromMapModal>
