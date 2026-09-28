@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { createUrl, addFutureRoute } from './src/index';
-import './mock-localstorage';
 
 describe('Testing @digitransit-store/digitransit-store-future-route module', () => {
   describe('createUrl(route)', () => {
@@ -169,13 +168,18 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
 
     it('should leave the collection unchanged when item.time is not a finite number', () => {
       const oneRouteCollection = addFutureRoute(routeInFuture1, []);
-      [undefined, null, NaN, 'not-a-number', {}].forEach(invalidTime => {
-        const futureRoutes = addFutureRoute(
-          { ...routeInFuture3, time: invalidTime },
-          oneRouteCollection,
-        );
-        expect(futureRoutes).toBe(oneRouteCollection);
-      });
+      // '', ' ' and [] all look "empty"/non-numeric, but Number() coerces
+      // them to 0 (a finite number) rather than NaN - so they're included
+      // here alongside more obviously invalid values to guard against that.
+      [undefined, null, NaN, 'not-a-number', {}, '', ' ', []].forEach(
+        invalidTime => {
+          const futureRoutes = addFutureRoute(
+            { ...routeInFuture3, time: invalidTime },
+            oneRouteCollection,
+          );
+          expect(futureRoutes).toBe(oneRouteCollection);
+        },
+      );
     });
 
     it('should return an empty array when item is missing and collection is undefined', () => {

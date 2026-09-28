@@ -109,7 +109,9 @@ export function addFutureRoute(item, collection) {
   if (!item || item.time === undefined || item.time === null) {
     return collection || [];
   }
-  const time = Number(item.time);
+  // parseFloat (unlike Number) correctly rejects non-numeric-ish values such
+  // as '', ' ' or [] as NaN instead of coercing them to 0.
+  const time = parseFloat(item.time);
   if (!Number.isFinite(time)) {
     // A malformed time isn't a valid "remove this route" signal either, so
     // leave the collection untouched instead of guessing intent.
