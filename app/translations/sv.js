@@ -847,7 +847,7 @@ export default {
     'traffic-now_description':
       'Aktuell information om störningar och undantag. ',
     'traffic-now_description_see-also':
-      'Se även {amount, plural, =1 {{link1},} other {{link1} samt {link2}} } för mer information.',
+      'Se även {link1} samt större förändringar för mer information.',
     'traffic-now_description_see-also--link1': 'helgdagar och undantag',
     'traffic-now_description_see-also--link2': 'större förändringar',
     'traffic-now_filters_entity-search': 'Sök linje eller hållplats',
