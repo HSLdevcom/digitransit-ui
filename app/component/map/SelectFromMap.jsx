@@ -289,6 +289,8 @@ function SelectFromMap({ breakpoint, language, type, onConfirm, mapLayers }) {
       locationPopup="none"
       mapRef={setMapElementRef}
       showControls={false}
+      // Map icons here are shown for context only and aren't selectable.
+      disableIconClick
       {...eventHooks}
     />
   );

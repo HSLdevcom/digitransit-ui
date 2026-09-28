@@ -51,6 +51,9 @@ class TileLayerContainer extends GridLayer {
     onSelectLocation: PropTypes.func,
     mergeStops: PropTypes.bool,
     mapLayers: mapLayerShape.isRequired,
+    // When true, clicks on map icons (stops, terminals, citybikes, etc.)
+    // are ignored instead of selecting/navigating to them.
+    disableIconClick: PropTypes.bool,
     leaflet: PropTypes.shape({
       map: PropTypes.shape({
         addLayer: PropTypes.func.isRequired,

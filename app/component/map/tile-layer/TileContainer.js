@@ -200,85 +200,91 @@ class TileContainer {
         (point[1] * this.scaleratio) % this.tileSize,
       ];
 
-      features = flatten(
-        this.layers.map(
-          layer =>
-            layer.features &&
-            layer.features.map(feature => ({
-              layer: layer.constructor.getName(),
-              feature,
-            })),
-        ),
-      );
-      features = projectedVehicles.concat(features);
+      // Skip icon hit-testing when icon clicks are disabled for this map.
+      if (this.props.disableIconClick) {
+        nearest = [];
+      } else {
+        features = flatten(
+          this.layers.map(
+            layer =>
+              layer.features &&
+              layer.features.map(feature => ({
+                layer: layer.constructor.getName(),
+                feature,
+              })),
+          ),
+        );
+        features = projectedVehicles.concat(features);
 
-      nearest = features.filter((feature, index) => {
-        if (!feature) {
-          return false;
-        }
-        const g = feature.feature.geom;
+        nearest = features.filter((feature, index) => {
+          if (!feature) {
+            return false;
+          }
+          const g = feature.feature.geom;
 
-        // collision check for stops and citybike stations is different for different icons which depend on zoom level
-        const featureX = g.x / this.ratio;
-        let featureY = g.y / this.ratio;
+          // collision check for stops and citybike stations is different for different icons which depend on zoom level
+          const featureX = g.x / this.ratio;
+          let featureY = g.y / this.ratio;
 
-        let isCombo = false;
-        let secondY;
-        if (
-          (feature.layer === 'stop' && !feature.feature.properties.stops) ||
-          feature.layer === 'citybike' ||
-          feature.layer === 'scooter'
-        ) {
-          const zoom = this.coords.z;
-          // hitbox is same for stop and citybike
-          const iconStyles = getStopIconStyles('stop', zoom);
-          if (iconStyles) {
-            const { style } = iconStyles;
-            let { height, width } = iconStyles;
-            width *= this.scaleratio;
-            height *= this.scaleratio;
-            const circleRadius = width / 2;
-            if (style === 'large' || feature.layer === 'realTimeVehicle') {
-              featureY -= height - circleRadius;
-            }
-            // combo stops have a larger hitbox that is not circular
-            // use two points for collision detection, lower and upper center of icon
-            // features array is sorted by y coord so combo stops should be next to each other
-            if (
-              index > 0 &&
-              features[index - 1]?.feature.properties.code ===
-                feature.feature.properties.code
-            ) {
-              isCombo = true;
-            }
-            if (
-              index < features.length - 1 &&
-              features[index + 1]?.feature.properties.code ===
-                feature.feature.properties.code
-            ) {
-              isCombo = true;
-            }
-            if (isCombo && style === 'large') {
-              secondY = featureY - width;
+          let isCombo = false;
+          let secondY;
+          if (
+            (feature.layer === 'stop' && !feature.feature.properties.stops) ||
+            feature.layer === 'citybike' ||
+            feature.layer === 'scooter'
+          ) {
+            const zoom = this.coords.z;
+            // hitbox is same for stop and citybike
+            const iconStyles = getStopIconStyles('stop', zoom);
+            if (iconStyles) {
+              const { style } = iconStyles;
+              let { height, width } = iconStyles;
+              width *= this.scaleratio;
+              height *= this.scaleratio;
+              const circleRadius = width / 2;
+              if (style === 'large' || feature.layer === 'realTimeVehicle') {
+                featureY -= height - circleRadius;
+              }
+              // combo stops have a larger hitbox that is not circular
+              // use two points for collision detection, lower and upper center of icon
+              // features array is sorted by y coord so combo stops should be next to each other
+              if (
+                index > 0 &&
+                features[index - 1]?.feature.properties.code ===
+                  feature.feature.properties.code
+              ) {
+                isCombo = true;
+              }
+              if (
+                index < features.length - 1 &&
+                features[index + 1]?.feature.properties.code ===
+                  feature.feature.properties.code
+              ) {
+                isCombo = true;
+              }
+              if (isCombo && style === 'large') {
+                secondY = featureY - width;
+              }
             }
           }
-        }
-        let dist = Math.sqrt(
-          (localPoint[0] - featureX) ** 2 + (localPoint[1] - featureY) ** 2,
-        );
-        if (isCombo) {
-          dist = Math.min(
-            dist,
-            Math.sqrt(
-              (localPoint[0] - featureX) ** 2 + (localPoint[1] - secondY) ** 2,
-            ),
+          let dist = Math.sqrt(
+            (localPoint[0] - featureX) ** 2 + (localPoint[1] - featureY) ** 2,
           );
-        }
-        if (dist < 22 * this.scaleratio) {
-          return true;
-        }
-        return false;
-      });
+          if (isCombo) {
+            dist = Math.min(
+              dist,
+              Math.sqrt(
+                (localPoint[0] - featureX) ** 2 +
+                  (localPoint[1] - secondY) ** 2,
+              ),
+            );
+          }
+          if (dist < 22 * this.scaleratio) {
+            return true;
+          }
+          return false;
+        });
+      }
 
       if (nearest.length === 0 && e.type === 'click') {
         // Must filter double clicks used for map navigation
