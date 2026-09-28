@@ -33,18 +33,24 @@ right one by *who consumes the code*, not just by convenience.
     `digitransit-component` packages ship their own i18next translation bundles instead, sorted/
     checked separately via `scripts/workspace-packages/sort-translations.js`.
   - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
-- `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint), `serve.js`
-  (renders the initial HTML shell — meta tags, config, asset preloads; no React runs server-side,
-  the client bundle does all component rendering), `reittiopasParameterMiddleware.js`,
-  `passport-openid-connect/`, `proxyTester.js`, and `configs/` — `config.js` (server-side config
-  resolution/merging by host) plus one `config.<region>.js` per deployment.
+- `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint: boot-time data
+  fetches via `services/`, `.listen()`, graceful shutdown), `app.js` (`createApp()` — builds the
+  configured Express app, including the dev-mode `/proxy/` passthrough to webpack-dev-server, no
+  `.listen()`, so it's directly testable with supertest), `middleware/` — `shell.js` (renders the
+  initial HTML shell — meta tags, config, asset preloads; no React runs server-side, the client
+  bundle does all component rendering), `legacyUrlMiddleware.js` (redirects legacy reittiopas-era
+  URLs), `services/` — boot-time integrations (`ticketPrices.js`, `geoJsonZones.js`,
+  `citybikeSeasons.js`), `html/` — HTML-shell helpers (`assetManifest.js` reads webpack's build
+  manifest, `polyfills.js` serves user-agent-specific polyfills), `passport-openid-connect/`, and
+  `configs/` — `config.js` (server-side config resolution/merging by host) plus one
+  `config.<region>.js` per deployment.
 - `utils/` — helper modules split by consumer (see "Server/client boundary" below):
-  - `shared/` — used by both server and client, e.g. `constants.js`, `meta.js`,
+  - `shared/` — used by both server and client, e.g. `constants.js`, `metaUtils.js`,
     `analyticsUtils.js`, `gtfs.js`, `citybikeSeasonUtils.js`. Isomorphic only: a file (or a
     function within a file, e.g. `vehicleRentalUtils.js`'s pure network/config helpers vs. its
     `client/` counterpart's `localStorage`/analytics-touching ones) belongs here only if it's
     safe to run on the server too — no `window`/`document`/`localStorage` access.
-  - `server/` — server-only, e.g. `configMerger.js`, `realtimeUtils.js`,
+  - `server/` — server-only, e.g. `configMerger.js`, `metaUtils.js`, `realtimeUtils.js`,
     `timetableConfigUtils.js` — config-assembly helpers used only by `server/configs/*.js`.
   - `client/` — client-bundle-only, e.g. `localStorage.js`,
     plus its own `__generated__/` for Relay fragments used by utils.
@@ -70,7 +76,7 @@ right one by *who consumes the code*, not just by convenience.
 - Requires the Node version from `engines.node` and the Yarn version from `packageManager` in
   `package.json` (`corepack enable`). Also needs `watchman`.
 - `yarn install` — installs deps.
-- `yarn run dev` — dev server at http://localhost:8080 (webpack-dev-server + nodemon server +
+- `yarn run dev` — dev server at http://localhost:8080 (webpack-dev-server + `node --watch` server +
   relay-watch + component watch, run in parallel via one script). Runs against mock/no API keys.
 - `API_TYPE=development|production|local API_SUBSCRIPTION_TOKEN=<key> yarn run dev` — run the dev
   server against real APIs (map tiles, geocoding, etc.), handled inside `scripts/dev.sh`:
@@ -111,10 +117,9 @@ right one by *who consumes the code*, not just by convenience.
     user's perspective rather than relying on implementation details.
   - Run all: `yarn test-unit` (single **Vitest** invocation against the root `vitest.config.js`,
     covering the app suite plus every workspace-package family as `test.projects` entries).
-  - Run just the app suite: `yarn test-unit:app` (`vitest run --config vitest.config.js --project
-    app`).
-  - Run a single test by name (grep on describe/it or filename stem):
-    `yarn test-single -g <pattern>` (this is `test-unit:app -g <pattern>`).
+  - Run just the app suite: `yarn test-unit:app` or just the server tests: `yarn test-unit:server`.
+  - Run a single test file or test: `yarn test-unit:app <path-substring>` or
+    `yarn test-unit:app -t "<describe/it name pattern>"` (`test-unit:server` for server tests).
   - Watch mode: `yarn run test-unit -- --watch`.
 - E2E/visual tests (Jest + Playwright, config under `test/e2e/jest.config.cjs`), require a prior
   `yarn build`:
@@ -191,7 +196,8 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
 ## Code conventions
 
 - ES2015+ transpiled with Babel; Airbnb JS/React style guide (`.eslintrc.cjs`) with project
-  overrides: prefer object spread over `Object.assign`; `no-console` is an error; Prettier config
+  overrides: prefer object spread over `Object.assign`; `no-console` is an error (except in
+  Node-only `server/**`, `utils/server/**`, `scripts/**`); Prettier config
   is `singleQuote: true, trailingComma: 'all', arrowParens: 'avoid'`.
 - When removing `defaultProps`, use parameter defaults only for valid values; never default to
   `undefined`.

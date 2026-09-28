@@ -41,7 +41,7 @@ Both are pure build/server-side helpers, required directly (not run standalone):
 - [`assetUrlPlaceholder.js`](/scripts/build/assetUrlPlaceholder.js) — exports the
   placeholder token baked into the service worker's precache manifest at build time
   (`webpack.config.js`) and substituted with the real `ASSET_URL` at request time
-  (`server/server.js`).
+  (`server/app.js`).
 
 ## Using `theme/add-theme.js`
 

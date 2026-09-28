@@ -1,17 +1,22 @@
 import {
   validateParams,
   dropPathLanguageAndFixLocaleParam,
-} from '../../server/reittiopasParameterMiddleware';
+} from '../../../../server/middleware/legacyUrlMiddleware';
 
-import config from '../../server/configs/config.default';
-import { PREFIX_ITINERARY_SUMMARY } from '../../utils/shared/path';
+import config from '../../../../server/configs/config.default';
+import {
+  LEGACY_LOCALES,
+  LEGACY_LOCALE_PATHS,
+} from '../../../../utils/shared/constants';
+import { PREFIX_ITINERARY_SUMMARY } from '../../../../utils/shared/path';
 
 // validateParams returns an url if it is modified and it removes invalid
 // parameteres from req.query => two ways to check if it did what it should
 
-describe('reittiopasParameterMiddleware', () => {
+describe('legacyUrlMiddleware', () => {
   describe('validateParams', () => {
     const req = {
+      path: `/${PREFIX_ITINERARY_SUMMARY}`,
       query: {
         minTransferTime: '60',
         modes: 'BUS,TRAM,RAIL,SUBWAY,FERRY,WALK,CITYBIKE',
@@ -29,8 +34,20 @@ describe('reittiopasParameterMiddleware', () => {
 
     it('should remove invalid time parameter', () => {
       req.query.time = 'test';
-      validateParams(req, config);
+      const url = validateParams(req, config);
       expect(req.query.time).toBeUndefined();
+      expect(url).toBe(
+        `/${PREFIX_ITINERARY_SUMMARY}?minTransferTime=60&modes=BUS,TRAM,RAIL,SUBWAY,FERRY,WALK,CITYBIKE&transferPenalty=0&walkBoardCost=540&walkReluctance=1.5&walkSpeed=1.5`,
+      );
+    });
+
+    it('should not leave a trailing "?" when removing the only query parameter', () => {
+      const emptyReq = {
+        path: `/${PREFIX_ITINERARY_SUMMARY}`,
+        query: { time: 'test' },
+      };
+      const url = validateParams(emptyReq, config);
+      expect(url).toBe(`/${PREFIX_ITINERARY_SUMMARY}`);
     });
   });
 
@@ -66,6 +83,27 @@ describe('reittiopasParameterMiddleware', () => {
       const relativeUrl = dropPathLanguageAndFixLocaleParam(req, 'en');
       expect(relativeUrl).toBe(
         `/${PREFIX_ITINERARY_SUMMARY}/Otaniemi,%20Espoo::60.187938,24.83182/Rautatientori,%20Asemanaukio%202,%20Helsinki::60.170384,24.939846?time=1565074800&arriveBy=false&locale=en`,
+      );
+    });
+
+    it('should drop the special "slangi" pseudo-locale to the "fi" query param', () => {
+      req.path = '/slangi/';
+      req.query = {};
+      const relativeUrl = dropPathLanguageAndFixLocaleParam(req, 'slangi');
+      expect(relativeUrl).toBe('/?locale=fi');
+    });
+  });
+
+  describe('LEGACY_LOCALES / LEGACY_LOCALE_PATHS', () => {
+    it('LEGACY_LOCALES is the single source of truth this middleware redirects on', () => {
+      expect(LEGACY_LOCALES).toEqual(
+        expect.arrayContaining(['fi', 'en', 'sv', 'ru', 'slangi']),
+      );
+    });
+
+    it('LEGACY_LOCALE_PATHS is derived from LEGACY_LOCALES', () => {
+      expect(LEGACY_LOCALE_PATHS).toEqual(
+        LEGACY_LOCALES.map(locale => `/${locale}/`),
       );
     });
   });

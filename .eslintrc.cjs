@@ -109,6 +109,15 @@ module.exports = {
       },
     },
     {
+      // Server-only code and dev scripts run in Node: logging to the console
+      // is legitimate there, and browser-compatibility checks don't apply.
+      files: ['server/**/*.js', 'utils/server/**/*.js', 'scripts/**/*.js'],
+      rules: {
+        'no-console': 'off',
+        'compat/compat': 'off',
+      },
+    },
+    {
       files: ['*.js', '*.jsx'],
       processor: '@graphql-eslint/graphql',
     },

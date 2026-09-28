@@ -1,7 +1,7 @@
 # macOS Finder metadata
 .DS_Store
 
-# Main app webpack build output (see webpack.config.babel.js)
+# Main app webpack build output (see webpack.config.js)
 _static
 npm-debug.log
 filesizes.html

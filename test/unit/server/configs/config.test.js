@@ -1,4 +1,7 @@
-import { getConfiguration } from '../../../../server/configs/config';
+import {
+  getConfiguration,
+  loadAllRawConfigurations,
+} from '../../../../server/configs/config';
 import defaultConfig from '../../../../server/configs/config.default';
 
 describe('config', () => {
@@ -63,6 +66,16 @@ describe('config', () => {
       const config = getConfiguration(request);
       expect(config.realTimePatch).toEqual({}); // eslint-disable-line no-unused-expressions
       expect(config.realTime.HSL.mqtt).toBe(defaultConfig.realTime.HSL.mqtt); // eslint-disable-line no-unused-expressions
+    });
+  });
+
+  describe('loadAllRawConfigurations', () => {
+    it('loads every region config file, but not the shared config.js module', async () => {
+      const configs = await loadAllRawConfigurations();
+      const names = configs.map(config => config.CONFIG);
+
+      expect(names).toEqual(expect.arrayContaining(['hsl', 'tampere']));
+      expect(configs.every(config => typeof config === 'object')).toBe(true);
     });
   });
 });
