@@ -6,6 +6,9 @@ import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 
 import { getNamedConfiguration } from '../../server/configs/config.js';
 
+// Configs that only serve as a runtime `BASE_CONFIG` merge base, never a deployable `CONFIG` value.
+const BASE_ONLY_CONFIGS = ['waltti'];
+
 function getAllConfigs() {
   if (process.env.CONFIG && process.env.CONFIG !== '') {
     return [getNamedConfiguration(process.env.CONFIG)];
@@ -15,10 +18,9 @@ function getAllConfigs() {
   return fs
     .readdirSync(srcDirectory)
     .filter(file => /^config\.\w+\.js$/.test(file))
-    .map(file => {
-      const theme = file.replace('config.', '').replace('.js', '');
-      return getNamedConfiguration(theme);
-    });
+    .map(file => file.replace('config.', '').replace('.js', ''))
+    .filter(theme => !BASE_ONLY_CONFIGS.includes(theme))
+    .map(theme => getNamedConfiguration(theme));
 }
 
 function getEntries(theme, sprites = null) {
