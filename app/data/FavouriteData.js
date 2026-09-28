@@ -266,7 +266,12 @@ class FavouriteData {
       updateFavourites(payload, favouriteType)
         .then(res => {
           if (favouriteType) {
-            const kept = mapToStore(newFavourites).filter(
+            // newFavourites is already in store form here (both current
+            // callers pass in the result of mapToStore()) - mapping it
+            // again would corrupt/throw on bikeStation favourites, since
+            // mapVehicleRentalToStore() isn't idempotent (e.g. it strips
+            // the feedId prefix from stationId on every call).
+            const kept = newFavourites.filter(
               favourite => favourite.type !== favouriteType,
             );
             this.set([...kept, ...res]);
