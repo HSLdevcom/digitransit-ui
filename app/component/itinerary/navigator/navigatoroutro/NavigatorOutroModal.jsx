@@ -1,16 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { configShape } from '../../../../../utils/client/shapes';
-import { useLogo } from '../../../../hooks/useLogo';
+import getAssetUrl from '../../../../client/assetUrl';
 import NavigatorModal from '../NavigatorModal';
 import NavigatorOutro from './NavigatorOutro';
 
 const NavigatorOutroModal = ({ onClose, destination }, { config }) => {
-  const { logo, loading } = useLogo(config.thumbsUpGraphic);
-
-  if (loading) {
-    return null;
-  }
+  const logo = getAssetUrl(config.thumbsUpGraphic);
 
   return (
     <NavigatorModal isOpen withBackdrop slideUp>

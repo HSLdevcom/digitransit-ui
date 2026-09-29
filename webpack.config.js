@@ -291,15 +291,11 @@ export default {
       },
       {
         test: /\.(eot|gif|png|ttf|woff|svg|jpeg|jpg)$/,
-        // Replaces file-loader (dev: always emit a separate file) /
-        // url-loader (prod: inline as a data URL when small) with
-        // webpack5's built-in asset modules. `parser.dataUrlCondition`
-        // only applies to `type: 'asset'`, so the dev/prod distinction is
-        // made by picking a different `type` outright.
-        type: isDevelopment ? 'asset/resource' : 'asset',
-        parser: isDevelopment
-          ? undefined
-          : { dataUrlCondition: { maxSize: 10000 } },
+        // webpack5 built-in asset modules, replacing file-loader/url-loader.
+        // Never inlines as a data URL: app/client/assetUrl.js makes every
+        // image under app/client/images/ reachable from the main chunk, and
+        // inlining the small ones would add ~130 kB of base64 to it.
+        type: 'asset/resource',
         generator: { filename: 'assets/[contenthash][ext]' },
       },
     ],

@@ -24,7 +24,9 @@ and are copied into the served `_static/` directory by `scripts/build/copyStatic
 A theme with no share image of its own inherits `assets/default/social-share.png` from
 `config.default.js`. Images that are bundled into the client instead of served per request —
 logos, favicons and illustrations — live in `app/client/images/<theme>/`, which follows the same
-per-theme naming, with `default/` holding the fallbacks.
+per-theme naming, with `default/` holding the fallbacks. A config names such an image by its path
+relative to that directory (e.g. `logo: 'hsl/reittiopas-logo.svg'`), which `app/client/assetUrl.js`
+resolves to the built URL.
 `test/unit/server/configs/staticAssets.test.js` verifies that each config's asset urls point at
 existing files and that no file under `static/assets/` is unreferenced.
 

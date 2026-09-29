@@ -18,6 +18,7 @@ import {
   getPathWithEndpointObjects,
   PREFIX_ITINERARY_SUMMARY,
 } from '../../../utils/shared/path';
+import getAssetUrl from '../../client/assetUrl';
 import Icon from '../Icon';
 import Loading from '../Loading';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
@@ -84,27 +85,13 @@ const EmbeddedSearch = (props, context) => {
 
   const buttonRef = useRef(null);
   const [ready, setReady] = useState(false);
-  const [logo, setLogo] = useState();
-  const [loading, setLoading] = useState(true);
+  const logo = getAssetUrl(config.secondaryLogo || config.logo);
 
   useEffect(() => {
     Object.keys(translations).forEach(l =>
       i18next.addResourceBundle(l, 'translation', translations[l], true),
     );
     i18next.changeLanguage(lang).then(() => setReady(true));
-
-    if (config.secondaryLogo || config.logo) {
-      import(
-        /* webpackChunkName: "embedded-search" */ `../../client/images/${
-          config.secondaryLogo || config.logo
-        }`
-      ).then(l => {
-        setLogo(l.default);
-        setLoading(false);
-      });
-    } else {
-      setLoading(false);
-    }
   }, []);
 
   const defaultOriginExists = query.lat1 && query.lon1;
@@ -304,7 +291,7 @@ const EmbeddedSearch = (props, context) => {
     }
   };
 
-  if (loading || !ready) {
+  if (!ready) {
     return <Loading />;
   }
 

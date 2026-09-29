@@ -154,8 +154,25 @@ below.
   else uses the default.
 - **Images/fonts** (`eot|gif|png|ttf|woff|svg|jpeg|jpg`) — webpack5 built-in
   asset modules, replacing `file-loader`/`url-loader`. `asset/resource` in
-  dev (always emits a real file); `asset` in prod with `maxSize: 10000`
-  (inlines files under 10 KB as data URIs, otherwise emits a file).
+  both dev and prod: always emits a real, content-hashed file and never
+  inlines as a data URI. `app/client/assetUrl.js` makes every image under
+  `app/client/images/` reachable from the main chunk (see below), so inlining
+  the small ones would add ~130 kB of base64 to it.
+
+## `import.meta.webpackContext`
+
+`app/client/assetUrl.js` is the only module bound to a webpack-specific API.
+It builds a compile-time map of every image under `app/client/images/` so a
+config-supplied path (`config.logo`, `config.thumbsUpGraphic`, ...) resolves
+to its content-hashed URL synchronously, with no dynamic `import()` and so no
+loading state or render flash.
+
+The call is guarded by a `typeof import.meta.webpackContext === 'function'`
+check, so outside a webpack build — in Vitest, which runs modules through Vite
+— the map is absent and every lookup returns `undefined`, exactly as it does
+for an image the build doesn't contain. Tests that need a URL stub the module's
+default export. Vite's own equivalent, should the bundler ever change, is
+`import.meta.glob('./images/**', { eager: true })`.
 
 ## `devtool`
 
