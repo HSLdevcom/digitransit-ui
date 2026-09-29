@@ -28,13 +28,13 @@ env:
   NPM_VERSION: 11.12.1
 
 jobs:
-  # install dependencies, build shared components, cache both for subsequent jobs
+  # install dependencies and cache them for subsequent jobs
   install:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Setup Node, install dependencies, build workspaces
+      - name: Setup Node, install dependencies
         uses: ./.github/actions/setup
         with:
           node-version: ${{ env.NODE_VERSION }}
@@ -45,10 +45,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Setup Node, install dependencies, build workspaces
+      - name: Setup Node, install dependencies
         uses: ./.github/actions/setup
         with:
           node-version: ${{ env.NODE_VERSION }}
+
+      # Every digitransit-component-* package ships a root index.cjs dev/prod
+      # re-export shim (`require('./lib/index(.development).cjs')`), and
+      # digitransit-search-util-query-utils's test.js imports its built lib/
+      # output directly - eslint's import/no-unresolved resolves those paths
+      # on disk, so the workspace packages need to be built before linting.
+      - name: Build workspace packages
+        run: yarn workspace-packages-build
 
       - name: Run linters
         run: yarn lint
@@ -70,11 +78,10 @@ jobs:
           # commit, so it needs full git history (not the default shallow
           # clone) to compute a merge-base.
           fetch-depth: '0'
-      - name: Setup Node, install dependencies, build workspaces
+      - name: Setup Node, install dependencies
         uses: ./.github/actions/setup
         with:
           node-version: ${{ env.NODE_VERSION }}
-          build-workspaces: 'false'
 
       - name: Check changed packages have version bumps
         env:
@@ -87,11 +94,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Setup Node, install dependencies, build workspaces
+      - name: Setup Node, install dependencies
         uses: ./.github/actions/setup
         with:
           node-version: ${{ env.NODE_VERSION }}
-          build-workspaces: 'false'
 
       - name: Regenerate workspace package READMEs
         run: yarn workspace-packages-docs
@@ -105,23 +111,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Setup Node, install dependencies, build workspaces
+      - name: Setup Node, install dependencies
         uses: ./.github/actions/setup
         with:
           node-version: ${{ env.NODE_VERSION }}
-
-      - name: Cache built Relay queries
-        id: cache-relay
-        uses: actions/cache@v5
-        with:
-          path: |
-            ./__generated__
-            **/__generated__
-          key: ${{ runner.os }}-relay-${{ github.sha }}
-      - name: Build Relay queries
-        if: steps.cache-relay.outputs.cache-hit != 'true'
-        run: |
-          yarn run relay
 
       - name: Run unit tests
         run: yarn run test-unit
@@ -147,23 +140,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Setup Node, install dependencies, build workspaces
+      - name: Setup Node, install dependencies
         uses: ./.github/actions/setup
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Cache built Relay queries
-        id: cache-relay
-        uses: actions/cache@v5
-        with:
-          path: |
-            ./__generated__
-            **/__generated__
-          key: ${{ runner.os }}-relay-${{ github.sha }}
-      - name: Build Relay queries
-        if: steps.cache-relay.outputs.cache-hit != 'true'
-        run: |
-          yarn run relay
+      - name: Build workspace packages
+        run: yarn workspace-packages-build
 
       - name: Update npm
         run: npm install -g npm@${{ env.NPM_VERSION }}
