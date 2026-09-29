@@ -15,7 +15,7 @@
   "scripts": {
     "setup": "yarn install && yarn workspace-packages-build",
     "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
-    "relay": "relay-compiler && yarn workspace @digitransit-search-util/digitransit-search-util-query-utils relay",
+    "relay": "relay-compiler",
     "relay-watch": "relay-compiler --watch",
     "prebuild": "yarn run static && yarn run relay",
     "build": "NODE_ENV=production sh -c 'yarn prebuild && node --max_old_space_size=4096 node_modules/.bin/webpack --progress --color'",
@@ -24,7 +24,7 @@
     "dev-nowatch": "RUN_ENV=development NODE_ENV=development sh -c 'node server/server.js & webpack-dev-server'",
     "test-accessibility": "./test/accessibility.sh",
     "test-unit": "yarn relay && yarn workspace-packages-build && vitest run",
-    "test-unit:app": "yarn relay && vitest run --project app",
+    "test-unit:app": "yarn relay && yarn workspace-packages-build && vitest run --project app",
     "test-unit:server": "vitest run --project server",
     "test:e2e": "jest --runInBand --detectOpenHandles --config=./test/e2e/jest.config.cjs",
     "test:update-snapshots": "UPDATE_E2E=true jest --runInBand --detectOpenHandles --updateSnapshot --config=./test/e2e/jest.config.cjs",
