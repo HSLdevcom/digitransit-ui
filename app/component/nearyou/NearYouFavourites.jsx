@@ -6,6 +6,8 @@ import { locationShape, relayShape } from '../../../utils/client/shapes';
 import NearYouFavouritesContainer from './NearYouFavouritesContainer';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import Loading from '../Loading';
+import mobileInstructionAnimation from '../../client/images/default/nearby-stop_animation.gif';
+import desktopInstructionAnimation from '../../client/images/default/nearby-stop_desktop-animation.gif';
 
 function NearYouFavourites({
   stopIds,
@@ -31,9 +33,11 @@ function NearYouFavourites({
         </div>
         <img
           className="instruction-image"
-          src={`/img/nearby-stop_${
-            breakpoint === 'large' ? 'desktop-' : ''
-          }animation.gif`}
+          src={
+            breakpoint === 'large'
+              ? desktopInstructionAnimation
+              : mobileInstructionAnimation
+          }
           alt="Käyttöohje"
         />
         <FormattedMessage id="nearest-favourites-browse-stops" />
