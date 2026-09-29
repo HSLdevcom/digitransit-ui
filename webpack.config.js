@@ -10,7 +10,6 @@ import CompressionPlugin from 'compression-webpack-plugin';
 // eslint-plugin-import's resolver.
 // eslint-disable-next-line import/no-unresolved
 import { WebpackAssetsManifest } from 'webpack-assets-manifest';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { themeEntries, faviconPlugins } from './scripts/build/contextHelper.js';
 
 const require = createRequire(import.meta.url);
@@ -79,17 +78,6 @@ const productionPlugins = [
     test: /\.(js|css|html|svg|ico)$/,
     minRatio: 0.95,
     algorithm: 'brotliCompress',
-  }),
-  new CopyWebpackPlugin({
-    patterns: [
-      {
-        from: path.join(rootDir, 'static/assets/geojson'),
-        transform: function minify(content) {
-          return JSON.stringify(JSON.parse(content.toString()));
-        },
-        to: path.join(rootDir, '_static/assets/geojson'),
-      },
-    ],
   }),
   new EntrypointStatsPlugin('../stats.json'),
   new WebpackAssetsManifest({ output: '../manifest.json' }),
@@ -302,7 +290,7 @@ export default {
         ],
       },
       {
-        test: /\.(eot|png|ttf|woff|svg|jpeg|jpg)$/,
+        test: /\.(eot|gif|png|ttf|woff|svg|jpeg|jpg)$/,
         // Replaces file-loader (dev: always emit a separate file) /
         // url-loader (prod: inline as a data URL when small) with
         // webpack5's built-in asset modules. `parser.dataUrlCondition`

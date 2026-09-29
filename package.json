@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "setup": "yarn install && yarn workspace-packages-build",
-    "static": "mkdir -p _static/js; mkdir -p _static/css; cp -r static/* _static",
+    "static": "node scripts/build/copyStatic.js",
     "relay": "relay-compiler",
     "relay-watch": "relay-compiler --watch",
     "prebuild": "yarn run static && yarn run relay",
@@ -223,7 +223,6 @@
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "base64-arraybuffer": "1.0.2",
     "compression-webpack-plugin": "^12.0.0",
-    "copy-webpack-plugin": "^14.0.0",
     "css-loader": "7.1.4",
     "css-minimizer-webpack-plugin": "^8.0.0",
     "documentation": "13.2.5",
