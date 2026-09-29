@@ -201,9 +201,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Create buildInfo.js file
-        run: |
-          echo -e "export const COMMIT_ID = \"${GITHUB_SHA}\";\nexport const BUILD_TIME = \"$(date -Iminutes -u)\";" >app/buildInfo.js
       - name: Configure Docker Buildx
         uses: docker/setup-buildx-action@v4
 

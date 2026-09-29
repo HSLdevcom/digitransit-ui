@@ -187,11 +187,7 @@
     "supercluster": "^7.1.5",
     "universal-cookie": "7.2.2",
     "url": "^0.11.4",
-    "uuid": "8.3.2",
-    "workbox-precaching": "^7.4.1",
-    "workbox-routing": "^7.4.1",
-    "workbox-strategies": "^7.4.1",
-    "workbox-window": "^7.4.1"
+    "uuid": "8.3.2"
   },
   "peerDependencies": {
     "@octokit/core": ">=3",
@@ -283,8 +279,7 @@
     "webpack-assets-manifest": "^6.5.2",
     "webpack-bundle-analyzer": "4.10.2",
     "webpack-cli": "7.2.2",
-    "webpack-dev-server": "^6.0.0",
-    "workbox-webpack-plugin": "^7.4.1"
+    "webpack-dev-server": "^6.0.0"
   },
   "resolutions": {
     "autoprefixer": "^10.4.21",

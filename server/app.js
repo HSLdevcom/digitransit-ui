@@ -1,16 +1,15 @@
 import path from 'path';
-import fs from 'fs';
 import express from 'express';
 import expressStaticGzip from 'express-static-gzip';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import helmet from 'helmet';
 import proxy from 'express-http-proxy';
-import { ASSET_URL_PLACEHOLDER } from '../scripts/build/assetUrlPlaceholder.js';
 import { getConfiguration } from './configs/config.js';
 import setUpOIDC from './passport-openid-connect/openidConnect.js';
 import legacyUrlMiddleware from './middleware/legacyUrlMiddleware.js';
 import shell from './middleware/shell.js';
+import { SERVICE_WORKER_REMOVAL_SCRIPT } from './html/serviceWorkerRemoval.js';
 import { LEGACY_LOCALE_PATHS } from '../utils/shared/constants.js';
 
 function setUpOpenId(app) {
@@ -52,33 +51,13 @@ function handleMissingAssetRequests(req, res, next) {
 }
 
 function setUpStaticFolders(app) {
-  // Serve /sw.js with the ASSET_URL placeholder (baked into the precache
-  // manifest at build time by workbox-webpack-plugin's InjectManifest -
-  // see webpack.config.js / app/client/serviceWorker.js) replaced by
-  // this deployment's actual CDN base URL - or stripped out entirely when
-  // ASSET_URL isn't set. Only production builds actually produce
-  // _static/sw.js (InjectManifest is production-only), and app/client.js
-  // only ever registers this service worker when
-  // `process.env.NODE_ENV !== 'development'`, so this route is skipped
-  // entirely in dev - mirrors server/middleware/shell.js's own
-  // `process.env.NODE_ENV !== 'development'` guard around its asset
-  // manifest reads.
-  if (process.env.NODE_ENV !== 'development') {
-    const swText = fs.readFileSync(
-      path.join(process.cwd(), '_static', 'sw.js'),
-      { encoding: 'utf8' },
-    );
-    const swTextInjected = swText.replace(
-      new RegExp(ASSET_URL_PLACEHOLDER, 'g'),
-      process.env.ASSET_URL || '',
-    );
-
-    app.get('/sw.js', (req, res) => {
-      res.setHeader('Cache-Control', 'public, max-age=0');
-      res.setHeader('Content-type', 'application/javascript; charset=UTF-8');
-      res.send(swTextInjected);
-    });
-  }
+  // Removes the old service worker from browsers that still have it
+  // registered - see server/html/serviceWorkerRemoval.js.
+  app.get('/sw.js', (req, res) => {
+    res.setHeader('Cache-Control', 'no-cache, max-age=0');
+    res.setHeader('Content-type', 'application/javascript; charset=UTF-8');
+    res.send(SERVICE_WORKER_REMOVAL_SCRIPT);
+  });
 
   const staticFolder = path.join(process.cwd(), '_static');
   // Sert cache for 1 week
@@ -89,13 +68,7 @@ function setUpStaticFolders(app) {
       enableBrotli: true,
       index: false,
       maxAge: 14 * oneDay,
-      setHeaders(res, reqPath) {
-        if (
-          reqPath.toLowerCase().includes('sw.js') ||
-          reqPath.toLowerCase().includes('appcache')
-        ) {
-          res.setHeader('Cache-Control', 'public, max-age=0');
-        }
+      setHeaders(res) {
         // Always set cors header
         res.header('Access-Control-Allow-Origin', '*');
       },

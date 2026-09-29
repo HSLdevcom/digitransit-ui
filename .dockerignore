@@ -59,8 +59,8 @@ utils/**/__generated__
 !sass
 !static
 
-# Only scripts/build/* (contextHelper.js, assetUrlPlaceholder.js) is actually
-# required, by webpack.config.js and server/server.js respectively - the
+# Only scripts/build/* (contextHelper.js) is actually required, by
+# webpack.config.js - the
 # rest of scripts/ (dev.sh, generate-schema.js, sort-translations.js, theme/,
 # workspace-packages/) is dev/tooling-only and never read by the image.
 !scripts/build
