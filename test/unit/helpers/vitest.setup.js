@@ -23,7 +23,7 @@ Object.defineProperty(window.navigator, 'userAgent', {
 // the old Mocha suite's @hsl-fi/* stubbing hack has been dropped - see
 // docs/Tests.md) requires an `appElement`/`#app` DOM node to exist for its
 // aria-hidden accessibility handling, mirroring the real `<div id="app">`
-// root element `server/serve.js` renders the app into.
+// root element `server/middleware/shell.js` renders the app into.
 const appRoot = document.createElement('div');
 appRoot.id = 'app';
 document.body.appendChild(appRoot);

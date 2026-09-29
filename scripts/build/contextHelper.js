@@ -6,6 +6,9 @@ import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 
 import { getNamedConfiguration } from '../../server/configs/config.js';
 
+// Configs that only serve as a runtime `BASE_CONFIG` merge base, never a deployable `CONFIG` value.
+const BASE_ONLY_CONFIGS = ['waltti'];
+
 function getAllConfigs() {
   if (process.env.CONFIG && process.env.CONFIG !== '') {
     return [getNamedConfiguration(process.env.CONFIG)];
@@ -15,10 +18,9 @@ function getAllConfigs() {
   return fs
     .readdirSync(srcDirectory)
     .filter(file => /^config\.\w+\.js$/.test(file))
-    .map(file => {
-      const theme = file.replace('config.', '').replace('.js', '');
-      return getNamedConfiguration(theme);
-    });
+    .map(file => file.replace('config.', '').replace('.js', ''))
+    .filter(theme => !BASE_ONLY_CONFIGS.includes(theme))
+    .map(theme => getNamedConfiguration(theme));
 }
 
 function getEntries(theme, sprites = null) {
@@ -72,25 +74,17 @@ function faviconPluginFromConfig(config) {
     // The name of the json containing all favicon information
     statsFilename: `assets/iconstats-${config.CONFIG}.json`,
     inject: false,
-    // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
-    // This matches the application background color
-    background: '#eef1f3',
-    theme_color: config.colors ? config.colors.primary : '#eef1f3',
-    // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
-    title: config.title,
-    appName: config.title,
-    appDescription: config.meta.description,
-    icons: {
-      android: true,
-      appleIcon: true,
-      appleStartup: false,
-      coast: false,
-      favicons: true,
-      firefox: true,
-      opengraph: false,
-      twitter: false,
-      yandex: false,
-      windows: false,
+    // Options for the `favicons` package itself. The plugin only reads them
+    // from here; at the top level they're silently ignored.
+    favicons: {
+      // Matches the `favicons` package default (and what actually took
+      // effect pre-fix, since these options were previously silently
+      // ignored at the top level).
+      background: '#fff',
+      theme_color: config.colors ? config.colors.primary : '#fff',
+      // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
+      appName: config.title,
+      appDescription: config.meta.description,
     },
   });
 }

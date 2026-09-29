@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import fs from 'fs';
 import http from 'https';
 import path from 'path';

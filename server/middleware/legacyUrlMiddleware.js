@@ -1,18 +1,17 @@
-import isFinite from 'lodash/isFinite.js';
-import oldParamParser from '../utils/shared/oldParamParser.js';
-import { getConfiguration } from './configs/config.js';
+import legacyParamParser from '../../utils/shared/legacyParamParser.js';
+import { LEGACY_LOCALES } from '../../utils/shared/constants.js';
+import { getConfiguration } from '../configs/config.js';
 
 function formatQuery(query) {
   const params = Object.keys(query)
     .map(k => `${k}=${query[k]}`)
     .join('&');
 
-  return `?${params}`;
+  return params ? `?${params}` : '';
 }
 
 function formatUrl(req) {
-  const query = formatQuery(req.query);
-  return `${req.path}?${query}`;
+  return `${req.path}${formatQuery(req.query)}`;
 }
 
 function removeUrlParam(req, param) {
@@ -35,7 +34,10 @@ export function validateParams(req, config) {
 
   const numericParams = ['time'];
   Object.keys(req.query).forEach(key => {
-    if (numericParams.indexOf(key) > -1 && !isFinite(Number(req.query[key]))) {
+    if (
+      numericParams.indexOf(key) > -1 &&
+      !Number.isFinite(Number(req.query[key]))
+    ) {
       url = removeUrlParam(req, key);
     }
   });
@@ -64,7 +66,7 @@ const fixLocaleParamAndRedirect = (req, res, lang) => {
   res.redirect(fixedUrl);
 };
 
-export default function reittiopasParameterMiddleware(req, res, next) {
+export default function legacyUrlMiddleware(req, res, next) {
   const config = getConfiguration(req);
   const newUrl = validateParams(req, config);
   if (newUrl) {
@@ -85,8 +87,8 @@ export default function reittiopasParameterMiddleware(req, res, next) {
       req.query.from_in ||
       req.query.to_in
     ) {
-      oldParamParser(req.query, config).then(url => res.redirect(url));
-    } else if (['fi', 'en', 'sv', 'ru', 'slangi'].includes(lang)) {
+      legacyParamParser(req.query, config).then(url => res.redirect(url));
+    } else if (LEGACY_LOCALES.includes(lang)) {
       dropPathLanguageAndRedirect(req, res, lang);
     } else {
       const { locale } = req.query;
