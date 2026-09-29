@@ -108,7 +108,7 @@ region, and because `ASSEMBLE_GEOJSON` deployments reference *every* region's
 zone layer.
 
 Only assets the server hands out per request belong in `static/`. Images
-that are bundled into the client live in `app/client/images/<CONFIG>/`
+that are bundled into the client live in `app/assets/images/<CONFIG>/`
 (`default/` holding the fallbacks) and go through the asset-module rule
 below.
 
@@ -155,14 +155,14 @@ below.
 - **Images/fonts** (`eot|gif|png|ttf|woff|svg|jpeg|jpg`) — webpack5 built-in
   asset modules, replacing `file-loader`/`url-loader`. `asset/resource` in
   both dev and prod: always emits a real, content-hashed file and never
-  inlines as a data URI. `app/client/assetUrl.js` makes every image under
-  `app/client/images/` reachable from the main chunk (see below), so inlining
+  inlines as a data URI. `app/assets/assetUrl.js` makes every image under
+  `app/assets/images/` reachable from the main chunk (see below), so inlining
   the small ones would add ~130 kB of base64 to it.
 
 ## `import.meta.webpackContext`
 
-`app/client/assetUrl.js` is the only module bound to a webpack-specific API.
-It builds a compile-time map of every image under `app/client/images/` so a
+`app/assets/assetUrl.js` is the only module bound to a webpack-specific API.
+It builds a compile-time map of every image under `app/assets/images/` so a
 config-supplied path (`config.logo`, `config.thumbsUpGraphic`, ...) resolves
 to its content-hashed URL synchronously, with no dynamic `import()` and so no
 loading state or render flash.

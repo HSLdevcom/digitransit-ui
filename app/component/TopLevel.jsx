@@ -11,7 +11,7 @@ import {
   PREFIX_TERMINALS,
   PREFIX_BIKESTATIONS,
 } from '../../utils/shared/path';
-import getAssetUrl from '../client/assetUrl';
+import getAssetUrl from '../assets/assetUrl';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';

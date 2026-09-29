@@ -18,7 +18,7 @@ import {
   getPathWithEndpointObjects,
   PREFIX_ITINERARY_SUMMARY,
 } from '../../../utils/shared/path';
-import getAssetUrl from '../../client/assetUrl';
+import getAssetUrl from '../../assets/assetUrl';
 import Icon from '../Icon';
 import Loading from '../Loading';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';

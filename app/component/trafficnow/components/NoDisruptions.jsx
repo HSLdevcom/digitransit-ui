@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
-import getAssetUrl from '../../../client/assetUrl';
+import getAssetUrl from '../../../assets/assetUrl';
 import { useConfigContext } from '../../../client/ConfigContext';
 
 export default function NoDisruptions() {

@@ -26,7 +26,7 @@ export default {
     },
   },
 
-  favicon: './app/client/images/default/default-favicon.png',
+  favicon: './app/assets/images/default/default-favicon.png',
   textLogo: true,
   logo: null,
   meta: {

@@ -13,7 +13,10 @@ right one by *who consumes the code*, not just by convenience.
     farce/found router bootstrap), `app.js` (fluxible app/store wiring), `routes.jsx` /
     `routeRoutes.jsx` / `stopRoutes.jsx` (found + Relay route-tree definitions for the front page,
     route pages, and stop pages), `i18n.js`, `ConfigContext.jsx` (React context provider for
-    config), `images/` (regional logo assets).
+    config).
+  - `assets/` — source art bundled into the client: `images/<theme>/` (logos, favicons,
+    illustrations; `default/` holds the fallbacks), plus `assetUrl.js` (`getAssetUrl`, resolves
+    config image paths to bundled URLs).
   - `component/` — topic subfolders for larger features: `itinerary/`, `map/`, `stop/`,
     `routepage/`, `nearyou/`, `trafficnow/` (has its own `README.md`), `embedded/`, `visual/`,
     `icon/`, and `__generated__/` (Relay codegen).

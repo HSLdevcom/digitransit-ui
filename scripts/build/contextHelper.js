@@ -59,9 +59,9 @@ function getAllThemeEntries() {
 function faviconPluginFromConfig(config) {
   let logo =
     config.favicon ||
-    `./app/client/images/${config.CONFIG}/${config.CONFIG}-favicon.png`;
+    `./app/assets/images/${config.CONFIG}/${config.CONFIG}-favicon.png`;
   if (!fs.existsSync(logo)) {
-    logo = './app/client/images/default/default-favicon.png';
+    logo = './app/assets/images/default/default-favicon.png';
   }
 
   return new FaviconsWebpackPlugin({

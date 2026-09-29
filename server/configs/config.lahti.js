@@ -42,7 +42,7 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/client/images/lahti/lahti-favicon.png',
+  favicon: './app/assets/images/lahti/lahti-favicon.png',
 
   // Navbar logo
   logo: 'lahti/lahti-logo.png',
