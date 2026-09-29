@@ -37,7 +37,9 @@ and output settings.
   otherwise every `server/configs/config.*.js` deployment does.
 - `faviconPlugins` (same file) generates one `favicons-webpack-plugin`
   instance per deployment, producing per-deployment favicons/app icons
-  under `assets/icons-<CONFIG>-[contenthash]/`.
+  under `assets/icons-<CONFIG>-[contenthash]/`. Apple startup images and
+  Windows tiles are turned off (`favicons.icons`), since nothing references
+  them and the startup images alone were ~35 MB per config.
 - In development, `webpack.ContextReplacementPlugin` narrows the dynamic
   `import` for `sass/themes` down to just the selected `CONFIG`'s
   `main.scss`, so the dev server doesn't build every theme.

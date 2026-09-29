@@ -86,6 +86,13 @@ function faviconPluginFromConfig(config) {
       // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
       appName: config.title,
       appDescription: config.meta.description,
+      // Merged over the package's defaults, which enable every platform.
+      // Nothing references Apple startup images (~35 MB per config) or
+      // Windows tiles, so only those are skipped.
+      icons: {
+        appleStartup: false,
+        windows: false,
+      },
     },
   });
 }
