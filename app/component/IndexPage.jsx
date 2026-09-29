@@ -11,8 +11,6 @@ import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import inside from 'point-in-polygon';
 import { locationShape } from '../../utils/client/shapes';
-import storeOrigin from '../action/originActions';
-import storeDestination from '../action/destinationActions';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
@@ -51,6 +49,11 @@ import {
 import { useFavourites, useFavouriteStatus } from '../hooks/FavouriteContext';
 import { useConfigContext } from '../client/ConfigContext';
 import { useCurrentTime } from '../hooks/TimeContext';
+import {
+  useOrigin,
+  useDestination,
+  useItineraryLocationActions,
+} from '../hooks/ItineraryLocationContext';
 import TrafficNowLink from './trafficnow/TrafficNowLink';
 
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
@@ -65,6 +68,7 @@ function IndexPage({ fromMap, ...props }, context) {
   const currentTime = useCurrentTime();
   const favourites = useFavourites();
   const favouriteStatus = useFavouriteStatus();
+  const { setOrigin, setDestination } = useItineraryLocationActions();
   const { colors, fontWeights, language, iconModeSet } = config;
   const { executeAction } = context;
 
@@ -76,12 +80,12 @@ function IndexPage({ fromMap, ...props }, context) {
 
     if (!sameLocations(props.origin, origin)) {
       pendingOriginRef.current = origin;
-      executeAction(storeOrigin, origin);
+      setOrigin(origin);
     }
 
     if (!sameLocations(props.destination, destination)) {
       pendingDestinationRef.current = destination;
-      executeAction(storeDestination, destination);
+      setDestination(destination);
     }
 
     if (config.startSearchFromUserLocation && !origin.lat) {
@@ -131,7 +135,7 @@ function IndexPage({ fromMap, ...props }, context) {
     if (currentLocation && !currentLocation.isReverseGeocodingInProgress) {
       const originPoint = [currentLocation.lon, currentLocation.lat];
       if (inside(originPoint, config.areaPolygon)) {
-        executeAction(storeOrigin, currentLocation);
+        setOrigin(currentLocation);
       }
     }
 
@@ -186,9 +190,9 @@ function IndexPage({ fromMap, ...props }, context) {
         createUrl(item, { itinerarySummaryPrefix: PREFIX_ITINERARY_SUMMARY }),
       );
     } else if (id === 'origin') {
-      executeAction(storeOrigin, item);
+      setOrigin(item);
     } else {
-      executeAction(storeDestination, item);
+      setDestination(item);
     }
   };
 
@@ -197,7 +201,7 @@ function IndexPage({ fromMap, ...props }, context) {
       event: 'favorite_press',
       favorite_type: 'place',
     });
-    executeAction(storeDestination, favourite);
+    setDestination(favourite);
   };
 
   const clickStopNearIcon = url => {
@@ -426,7 +430,6 @@ function IndexPage({ fromMap, ...props }, context) {
 
 IndexPage.contextTypes = {
   executeAction: PropTypes.func.isRequired,
-  getStore: PropTypes.func.isRequired,
 };
 
 IndexPage.propTypes = {
@@ -455,10 +458,8 @@ const IndexPageWithBreakpoint = withBreakpoint(Index);
 
 const IndexPageWithStores = connectToStores(
   IndexPageWithBreakpoint,
-  ['OriginStore', 'DestinationStore', 'PositionStore'],
+  ['PositionStore'],
   (context, props) => {
-    const origin = context.getStore('OriginStore').getOrigin();
-    const destination = context.getStore('DestinationStore').getDestination();
     const locationState = context.getStore('PositionStore').getLocationState();
     const { query } = props.match.location;
     const { fromMap } = query;
@@ -468,8 +469,6 @@ const IndexPageWithStores = connectToStores(
     if (fromMap === 'origin' || fromMap === 'destination') {
       newProps.fromMap = fromMap;
     }
-    newProps.origin = origin;
-    newProps.destination = destination;
     // define itinerary search time & arriveBy
     newProps.query = query;
 
@@ -482,6 +481,17 @@ IndexPageWithStores.contextTypes = {
   executeAction: PropTypes.func.isRequired,
 };
 
-const GeoIndexPage = Geomover(IndexPageWithStores);
+// Small functional wrapper that injects origin/destination as props from
+// ItineraryLocationContext (replacing OriginStore/DestinationStore),
+// keeping the memoized IndexPage's prop-based re-render comparison intact.
+function IndexPageWithLocation(props) {
+  const origin = useOrigin();
+  const destination = useDestination();
+  return (
+    <IndexPageWithStores {...props} origin={origin} destination={destination} />
+  );
+}
+
+const GeoIndexPage = Geomover(IndexPageWithLocation);
 
 export { GeoIndexPage as default, IndexPageWithBreakpoint as Component };

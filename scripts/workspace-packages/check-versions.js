@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /**
  * Runs two checks against the workspace packages:
  *

@@ -8,7 +8,7 @@ import lodashFilter from 'lodash/filter';
 import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
-import { matchShape, routerShape } from 'found';
+import { useRouter, routerShape } from 'found';
 import {
   relayShape,
   configShape,
@@ -31,6 +31,7 @@ import {
 } from '../../../../utils/shared/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import { withCurrentTime } from '../../../hooks/TimeContext';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 const initialState = {
   selectableTargets: undefined,
@@ -67,22 +68,13 @@ class TileLayerContainer extends GridLayer {
     objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     vehicles: PropTypes.objectOf(vehicleShape),
     currentTime: PropTypes.number.isRequired,
+    config: configShape.isRequired,
+    router: routerShape.isRequired,
   };
 
   static defaultProps = {
-    onSelectLocation: undefined,
-    locationPopup: undefined,
     objectsToHide: { vehicleRentalStations: [] },
-    highlightedStops: undefined,
-    stopsToShow: undefined,
-    vehicles: undefined,
     mergeStops: true,
-  };
-
-  static contextTypes = {
-    config: configShape.isRequired,
-    match: matchShape.isRequired,
-    router: routerShape.isRequired,
   };
 
   PopupOptions = {
@@ -102,8 +94,6 @@ class TileLayerContainer extends GridLayer {
 
   constructor(props, context) {
     super(props, context);
-    // Required as it is not passed upwards through the whole inherittance chain
-    this.context = context;
     this.state = {
       ...initialState,
     };
@@ -147,7 +137,7 @@ class TileLayerContainer extends GridLayer {
         tile.el.layers &&
         tile.el.layers.forEach(layer => {
           if (layer.onTimeChange) {
-            layer.onTimeChange(this.context.config.language);
+            layer.onTimeChange(this.props.config.language);
           }
         }),
     );
@@ -175,14 +165,14 @@ class TileLayerContainer extends GridLayer {
       tileCoords,
       done,
       this.props,
-      this.context.config,
+      this.props.config,
       this.props.mergeStops,
       this.props.relayEnvironment,
       this.props.highlightedStops,
       this.props.vehicles,
       this.props.stopsToShow,
       this.props.objectsToHide,
-      this.context.config.language,
+      this.props.config.language,
     );
     tile.onSelectableTargetClicked = (
       selectableTargets,
@@ -200,7 +190,7 @@ class TileLayerContainer extends GridLayer {
         selectableTargets.length === 1 &&
         selectableTargets[0].layer === 'citybike'
       ) {
-        this.context.router.push(
+        this.props.router.push(
           `/${PREFIX_BIKESTATIONS}/${encodeURIComponent(
             selectableTargets[0].feature.properties.id,
           )}`,
@@ -223,7 +213,7 @@ class TileLayerContainer extends GridLayer {
           ? cluster.feature.properties.scooterId
           : selectableTargets[0].feature.properties.id;
         // adding networks directs to scooter cluster view
-        this.context.router.push(
+        this.props.router.push(
           `/${PREFIX_RENTALVEHICLES}/${encodeURIComponent(id)}/${[
             ...networks,
           ]}`,
@@ -235,7 +225,7 @@ class TileLayerContainer extends GridLayer {
         selectableTargets.length === 1 &&
         selectableTargets[0].layer === 'stop'
       ) {
-        this.context.router.push(
+        this.props.router.push(
           stopPagePath(
             selectableTargets[0].feature.properties.stops,
             selectableTargets[0].feature.properties.gtfsId,
@@ -267,7 +257,7 @@ class TileLayerContainer extends GridLayer {
           parkingId = selectableTargets[0].feature.properties?.id;
         }
         if (parkingId) {
-          this.context.router.push(
+          this.props.router.push(
             `/${
               layer === 'parkAndRide' ? PREFIX_CARPARK : PREFIX_BIKEPARK
             }/${encodeURIComponent(parkingId)}`,
@@ -330,7 +320,7 @@ class TileLayerContainer extends GridLayer {
     }
     const pathPrefixMatch = window.location.pathname.match(/^\/([a-z]{2,})\//);
     const context =
-      pathPrefixMatch && pathPrefixMatch[1] !== this.context.config.indexPath
+      pathPrefixMatch && pathPrefixMatch[1] !== this.props.config.indexPath
         ? pathPrefixMatch[1]
         : 'index';
     addAnalyticsEvent({
@@ -401,7 +391,7 @@ class TileLayerContainer extends GridLayer {
         );
       } else if (this.state.selectableTargets.length > 1) {
         if (
-          !this.context.config.map.showStopMarkerPopupOnMobile &&
+          !this.props.config.map.showStopMarkerPopupOnMobile &&
           breakpoint === 'small'
         ) {
           showPopup = false;
@@ -423,7 +413,7 @@ class TileLayerContainer extends GridLayer {
         );
       } else if (this.state.selectableTargets.length === 0) {
         if (
-          !this.context.config.map.showStopMarkerPopupOnMobile &&
+          !this.props.config.map.showStopMarkerPopupOnMobile &&
           breakpoint === 'small'
         ) {
           showPopup = false;
@@ -453,15 +443,28 @@ class TileLayerContainer extends GridLayer {
   }
 }
 
+// Wraps the class component and supplies config/router via hooks instead of
+// legacy React context, since class components cannot use hooks directly.
+function TileLayerContainerWithContext(props) {
+  const config = useConfigContext();
+  const { router } = useRouter();
+  return (
+    <ReactRelayContext.Consumer>
+      {({ environment }) => (
+        <TileLayerContainer
+          {...props}
+          relayEnvironment={environment}
+          config={config}
+          router={router}
+        />
+      )}
+    </ReactRelayContext.Consumer>
+  );
+}
+
 const connectedComponent = withLeaflet(
   connectToStores(
-    withCurrentTime(props => (
-      <ReactRelayContext.Consumer>
-        {({ environment }) => (
-          <TileLayerContainer {...props} relayEnvironment={environment} />
-        )}
-      </ReactRelayContext.Consumer>
-    )),
+    withCurrentTime(TileLayerContainerWithContext),
     [RealTimeInformationStore],
     context => ({
       vehicles: context.getStore(RealTimeInformationStore).vehicles,

@@ -87,27 +87,9 @@
       }
     }
 
-    .routepage-button {
-      margin-top: var(--space-xs);
-
-      @media screen and (min-width: $bp-tablet-small) {
-        align-self: start;
-      }
-    }
-
     .separator {
-      &.horizontal {
-        &.padded-xs {
-          margin: var(--space-xs) 0;
-        }
-      }
-
       &.vertical {
         border-right: 1px solid $light-gray;
-
-        &.padded-xs {
-          margin: 0 var(--space-xs);
-        }
       }
     }
   }

@@ -1,6 +1,3 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach, afterEach } from 'mocha';
-import sinon from 'sinon';
 import * as modeUtils from '../../../../utils/client/modeUtils';
 import * as pathUtils from '../../../../utils/shared/path';
 import {
@@ -15,19 +12,9 @@ import {
 } from '../../../../app/component/trafficnow/utils';
 
 describe('TrafficNow utils', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('getAvailableModes', () => {
     it('returns modes that are available for selection and in TrafficNowTransportModes', () => {
-      sandbox.stub(modeUtils, 'getTransportModes').returns({
+      vi.spyOn(modeUtils, 'getTransportModes').mockReturnValue({
         BUS: { availableForSelection: true },
         TRAM: { availableForSelection: true },
         CITYBIKE: { availableForSelection: true },
@@ -35,16 +22,16 @@ describe('TrafficNow utils', () => {
       });
       const config = {};
       const modes = getAvailableModes(config);
-      expect(modes).to.include('BUS');
-      expect(modes).to.include('TRAM');
+      expect(modes).toContain('BUS');
+      expect(modes).toContain('TRAM');
       // CITYBIKE is not in TrafficNowTransportModes
-      expect(modes).to.not.include('CITYBIKE');
+      expect(modes).not.toContain('CITYBIKE');
       // FERRY is not availableForSelection
-      expect(modes).to.not.include('FERRY');
+      expect(modes).not.toContain('FERRY');
     });
 
     it('returns all five TrafficNow modes when all are available', () => {
-      sandbox.stub(modeUtils, 'getTransportModes').returns({
+      vi.spyOn(modeUtils, 'getTransportModes').mockReturnValue({
         bus: { availableForSelection: true },
         ferry: { availableForSelection: true },
         rail: { availableForSelection: true },
@@ -52,21 +39,21 @@ describe('TrafficNow utils', () => {
         tram: { availableForSelection: true },
       });
       const modes = getAvailableModes({});
-      expect(modes).to.deep.equal(['BUS', 'FERRY', 'RAIL', 'SUBWAY', 'TRAM']);
+      expect(modes).toEqual(['BUS', 'FERRY', 'RAIL', 'SUBWAY', 'TRAM']);
     });
 
     it('returns an empty array when no modes are available for selection', () => {
-      sandbox.stub(modeUtils, 'getTransportModes').returns({
+      vi.spyOn(modeUtils, 'getTransportModes').mockReturnValue({
         bus: { availableForSelection: false },
       });
       const modes = getAvailableModes({});
-      expect(modes).to.have.length(0);
+      expect(modes).toHaveLength(0);
     });
 
     it('returns an empty array when config has no transport modes', () => {
-      sandbox.stub(modeUtils, 'getTransportModes').returns({});
+      vi.spyOn(modeUtils, 'getTransportModes').mockReturnValue({});
       const modes = getAvailableModes({});
-      expect(modes).to.have.length(0);
+      expect(modes).toHaveLength(0);
     });
   });
 
@@ -77,15 +64,15 @@ describe('TrafficNow utils', () => {
     beforeEach(() => {
       // Return the entity's own mode field (lowercased) when present, mimicking
       // what getRouteMode does for route-shaped objects; return null for stops.
-      sandbox
-        .stub(modeUtils, 'getRouteMode')
-        .callsFake(entity => entity?.mode?.toLowerCase() || null);
-      sandbox
-        .stub(pathUtils, 'stopPagePath')
-        .callsFake((isStation, gtfsId) => `/stop/${gtfsId}`);
-      sandbox
-        .stub(pathUtils, 'routePagePath')
-        .callsFake(gtfsId => `/route/${gtfsId}`);
+      vi.spyOn(modeUtils, 'getRouteMode').mockImplementation(
+        entity => entity?.mode?.toLowerCase() || null,
+      );
+      vi.spyOn(pathUtils, 'stopPagePath').mockImplementation(
+        (isStation, gtfsId) => `/stop/${gtfsId}`,
+      );
+      vi.spyOn(pathUtils, 'routePagePath').mockImplementation(
+        gtfsId => `/route/${gtfsId}`,
+      );
     });
 
     it('groups StopOnRoute entities into both route and stop groups', () => {
@@ -105,7 +92,9 @@ describe('TrafficNow utils', () => {
       };
       const grouped = groupEntitiesByMode([entity], {});
       // StopOnRoute produces two groups: one for the route, one for the stop.
-      expect(grouped).to.include.keys('rail_route', 'rail_stop');
+      expect(Object.keys(grouped)).toEqual(
+        expect.arrayContaining(['rail_route', 'rail_stop']),
+      );
     });
 
     it('deduplicates entities with the same id in the same group', () => {
@@ -118,7 +107,7 @@ describe('TrafficNow utils', () => {
         name: 'Stop D',
       };
       const grouped = groupEntitiesByMode([entity, entity], {});
-      expect(grouped.bus_stop.entities).to.have.length(1);
+      expect(grouped.bus_stop.entities).toHaveLength(1);
     });
 
     it('sorts entities within a group alphanumerically by name', () => {
@@ -150,21 +139,21 @@ describe('TrafficNow utils', () => {
       ];
       const grouped = groupEntitiesByMode(entities, {});
       const names = grouped.bus_stop.entities.map(e => e.name);
-      expect(names).to.deep.equal(['Alpha stop', 'Middle stop', 'Zebra stop']);
+      expect(names).toEqual(['Alpha stop', 'Middle stop', 'Zebra stop']);
     });
   });
 
   describe('getAlertModes', () => {
     beforeEach(() => {
-      sandbox
-        .stub(modeUtils, 'getRouteMode')
-        .callsFake(entity => entity?.mode?.toLowerCase() || null);
-      sandbox
-        .stub(pathUtils, 'stopPagePath')
-        .callsFake((isStation, gtfsId) => `/stop/${gtfsId}`);
-      sandbox
-        .stub(pathUtils, 'routePagePath')
-        .callsFake(gtfsId => `/route/${gtfsId}`);
+      vi.spyOn(modeUtils, 'getRouteMode').mockImplementation(
+        entity => entity?.mode?.toLowerCase() || null,
+      );
+      vi.spyOn(pathUtils, 'stopPagePath').mockImplementation(
+        (isStation, gtfsId) => `/stop/${gtfsId}`,
+      );
+      vi.spyOn(pathUtils, 'routePagePath').mockImplementation(
+        gtfsId => `/route/${gtfsId}`,
+      );
     });
 
     it('returns each route mode once, ignoring stop groups of the same mode', () => {
@@ -192,7 +181,7 @@ describe('TrafficNow utils', () => {
           shortName: '4',
         },
       ];
-      expect(getAlertModes(entities, {})).to.deep.equal(['bus', 'tram']);
+      expect(getAlertModes(entities, {})).toEqual(['bus', 'tram']);
     });
 
     it('omits stop-only modes when the alert has any route information', () => {
@@ -213,7 +202,7 @@ describe('TrafficNow utils', () => {
           name: 'Stop A',
         },
       ];
-      expect(getAlertModes(entities, {})).to.deep.equal(['bus']);
+      expect(getAlertModes(entities, {})).toEqual(['bus']);
     });
 
     it('returns stop modes only when the alert has no routes at all', () => {
@@ -235,25 +224,25 @@ describe('TrafficNow utils', () => {
           name: 'Stop B',
         },
       ];
-      expect(getAlertModes(entities, {})).to.deep.equal(['bus', 'tram']);
+      expect(getAlertModes(entities, {})).toEqual(['bus', 'tram']);
     });
 
     it('returns an empty array when entities are null', () => {
-      expect(getAlertModes(null, {})).to.deep.equal([]);
+      expect(getAlertModes(null, {})).toEqual([]);
     });
   });
 
   describe('buildDisruptionCards', () => {
     beforeEach(() => {
-      sandbox
-        .stub(modeUtils, 'getRouteMode')
-        .callsFake(entity => entity?.mode?.toLowerCase() || null);
-      sandbox
-        .stub(pathUtils, 'stopPagePath')
-        .callsFake((isStation, gtfsId) => `/stop/${gtfsId}`);
-      sandbox
-        .stub(pathUtils, 'routePagePath')
-        .callsFake(gtfsId => `/route/${gtfsId}`);
+      vi.spyOn(modeUtils, 'getRouteMode').mockImplementation(
+        entity => entity?.mode?.toLowerCase() || null,
+      );
+      vi.spyOn(pathUtils, 'stopPagePath').mockImplementation(
+        (isStation, gtfsId) => `/stop/${gtfsId}`,
+      );
+      vi.spyOn(pathUtils, 'routePagePath').mockImplementation(
+        gtfsId => `/route/${gtfsId}`,
+      );
     });
 
     const makeAlert = (id, entityMode) => ({
@@ -292,9 +281,9 @@ describe('TrafficNow utils', () => {
         ],
       };
       const cards = buildDisruptionCards([alert], {}, {});
-      expect(cards).to.have.length(2);
-      expect(cards.map(c => c.mode)).to.deep.equal(['bus', 'tram']);
-      expect(cards.map(c => c.key)).to.deep.equal(['a1-bus', 'a1-tram']);
+      expect(cards).toHaveLength(2);
+      expect(cards.map(c => c.mode)).toEqual(['bus', 'tram']);
+      expect(cards.map(c => c.key)).toEqual(['a1-bus', 'a1-tram']);
     });
 
     it('keeps only the selected modes when vehicleModes filter is active', () => {
@@ -305,8 +294,8 @@ describe('TrafficNow utils', () => {
         { vehicleModes: ['bus'] },
         {},
       );
-      expect(cards).to.have.length(1);
-      expect(cards[0].mode).to.equal('bus');
+      expect(cards).toHaveLength(1);
+      expect(cards[0].mode).toBe('bus');
     });
 
     it('limits cards to the mode containing the selected entity', () => {
@@ -334,8 +323,8 @@ describe('TrafficNow utils', () => {
         { entity: { gtfsId: 'HSL:r1' } },
         {},
       );
-      expect(cards).to.have.length(1);
-      expect(cards[0].mode).to.equal('bus');
+      expect(cards).toHaveLength(1);
+      expect(cards[0].mode).toBe('bus');
     });
 
     it('limits cards to modes containing at least one favourite', () => {
@@ -363,15 +352,15 @@ describe('TrafficNow utils', () => {
         { favourites: new Set(['HSL:r2']) },
         {},
       );
-      expect(cards).to.have.length(1);
-      expect(cards[0].mode).to.equal('tram');
+      expect(cards).toHaveLength(1);
+      expect(cards[0].mode).toBe('tram');
     });
 
     it('produces a single card with mode=undefined for an alert with no recognised mode', () => {
       const alert = { id: 'a1', entities: [] };
       const cards = buildDisruptionCards([alert], {}, {});
-      expect(cards).to.have.length(1);
-      expect(cards[0]).to.deep.include({ key: 'a1', mode: undefined, alert });
+      expect(cards).toHaveLength(1);
+      expect(cards[0]).toMatchObject({ key: 'a1', mode: undefined, alert });
     });
 
     it('still produces a no-mode card even when a mode filter is active', () => {
@@ -381,12 +370,12 @@ describe('TrafficNow utils', () => {
         { vehicleModes: ['bus'] },
         {},
       );
-      expect(cards).to.have.length(1);
-      expect(cards[0].mode).to.equal(undefined);
+      expect(cards).toHaveLength(1);
+      expect(cards[0].mode).toBeUndefined();
     });
 
     it('returns an empty array when disruptions is empty', () => {
-      expect(buildDisruptionCards([], {}, {})).to.deep.equal([]);
+      expect(buildDisruptionCards([], {}, {})).toEqual([]);
     });
   });
 });

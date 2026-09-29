@@ -769,6 +769,7 @@ export default {
   },
 
   showRouteDescNotification: isDevRunEnv(),
+  useAlternativeNameForModes: ['RAIL'],
   personalization: false,
   personalizationSurveyLinks: {
     fi: 'https://surveys.crazyegg.com/s/303436/c50407d2-a31b-4336-a43b-149ac6639d78',

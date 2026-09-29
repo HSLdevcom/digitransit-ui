@@ -33,22 +33,28 @@ right one by *who consumes the code*, not just by convenience.
     `digitransit-component` packages ship their own i18next translation bundles instead, sorted/
     checked separately via `scripts/workspace-packages/sort-translations.js`.
   - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
-- `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint), `serve.js`
-  (renders the initial HTML shell — meta tags, config, asset preloads; no React runs server-side,
-  the client bundle does all component rendering), `reittiopasParameterMiddleware.js`,
-  `passport-openid-connect/`, `proxyTester.js`, and `configs/` — `config.js` (server-side config
-  resolution/merging by host) plus one `config.<region>.js` per deployment.
+- `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint: boot-time data
+  fetches via `services/`, `.listen()`, graceful shutdown), `app.js` (`createApp()` — builds the
+  configured Express app, including the dev-mode `/proxy/` passthrough to webpack-dev-server, no
+  `.listen()`, so it's directly testable with supertest), `middleware/` — `shell.js` (renders the
+  initial HTML shell — meta tags, config, asset preloads; no React runs server-side, the client
+  bundle does all component rendering), `legacyUrlMiddleware.js` (redirects legacy reittiopas-era
+  URLs), `services/` — boot-time integrations (`ticketPrices.js`, `geoJsonZones.js`,
+  `citybikeSeasons.js`), `html/` — HTML-shell helpers (`assetManifest.js` reads webpack's build
+  manifest, `polyfills.js` serves user-agent-specific polyfills), `passport-openid-connect/`, and
+  `configs/` — `config.js` (server-side config resolution/merging by host) plus one
+  `config.<region>.js` per deployment.
 - `utils/` — helper modules split by consumer (see "Server/client boundary" below):
-  - `shared/` — used by both server and client, e.g. `constants.js`, `meta.js`,
+  - `shared/` — used by both server and client, e.g. `constants.js`, `metaUtils.js`,
     `analyticsUtils.js`, `gtfs.js`, `citybikeSeasonUtils.js`. Isomorphic only: a file (or a
     function within a file, e.g. `vehicleRentalUtils.js`'s pure network/config helpers vs. its
     `client/` counterpart's `localStorage`/analytics-touching ones) belongs here only if it's
     safe to run on the server too — no `window`/`document`/`localStorage` access.
-  - `server/` — server-only, e.g. `configMerger.js`, `realtimeUtils.js`,
+  - `server/` — server-only, e.g. `configMerger.js`, `metaUtils.js`, `realtimeUtils.js`,
     `timetableConfigUtils.js` — config-assembly helpers used only by `server/configs/*.js`.
   - `client/` — client-bundle-only, e.g. `localStorage.js`,
     plus its own `__generated__/` for Relay fragments used by utils.
-- `test/` — `unit/` (mocha, mirrors the `app/`/`server/`/`utils/` layout, e.g.
+- `test/` — `unit/` (Vitest, mirrors the `app/`/`server/`/`utils/` layout, e.g.
   `test/unit/utils/{shared,server,client}/`, `test/unit/server/configs/`) and `e2e/` (Jest +
   Playwright visual tests).
 - `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.js`, `build/contextHelper.js`,
@@ -58,7 +64,7 @@ right one by *who consumes the code*, not just by convenience.
   `digitransit-util/` — Yarn workspace packages, built separately (see below).
 - `sass/`, `static/` — global styles and static assets.
 - `config/` — build tooling config: `babel.config.cjs`, `rollup.config.js` (component-package
-  builds), `vitest.config.js`/`vitest.jsx-runtime-loader.js` (workspace-package tests, see
+  builds). The Vitest config itself (`vitest.config.js`) lives at the repo root, not here (see
   Tests below).
 - `schema/` — generated `schema.graphql` (GraphQL schema consumed by relay-compiler and
   graphql-eslint; regenerate with `scripts/generate-schema.js`, don't hand-edit).
@@ -70,7 +76,7 @@ right one by *who consumes the code*, not just by convenience.
 - Requires the Node version from `engines.node` and the Yarn version from `packageManager` in
   `package.json` (`corepack enable`). Also needs `watchman`.
 - `yarn install` — installs deps.
-- `yarn run dev` — dev server at http://localhost:8080 (webpack-dev-server + nodemon server +
+- `yarn run dev` — dev server at http://localhost:8080 (webpack-dev-server + `node --watch` server +
   relay-watch + component watch, run in parallel via one script). Runs against mock/no API keys.
 - `API_TYPE=development|production|local API_SUBSCRIPTION_TOKEN=<key> yarn run dev` — run the dev
   server against real APIs (map tiles, geocoding, etc.), handled inside `scripts/dev.sh`:
@@ -101,19 +107,19 @@ right one by *who consumes the code*, not just by convenience.
 
 ## Tests (see `docs/Tests.md`)
 
-- Unit tests (mocha, files under `test/unit/**/*.test.js`) mirror the source structure where
+- Unit tests (Vitest, files under `test/unit/**/*.test.{js,jsx}`) mirror the source structure where
   the reorg has been applied, e.g. `test/unit/component/...`, `test/unit/store/...`,
   `test/unit/server/configs/...`, `test/unit/utils/{shared,server,client}/...` — a
-  `test/unit/util/` (old, singular) directory and some flat `test/unit/*.test.js` files remain
-  from before the reorg and don't yet mirror anything. This setup is currently under
+  `test/unit/util/` (old, singular) directory and some flat `test/unit/*.test.{js,jsx}` files
+  remain from before the reorg and don't yet mirror anything. This setup is currently under
   refactoring — verify commands against `package.json` if they seem out of date:
   - For new React component tests, prefer **React Testing Library** and test components from the
     user's perspective rather than relying on implementation details.
-  - Run all: `yarn test-unit` (runs the app suite plus the workspace `store`/`component`
-    package tests, the latter via **Vitest**, `config/vitest.config.js`).
-  - Run just the app suite: `yarn test-unit:app`.
-  - Run a single test by name (grep on describe/it or filename stem):
-    `yarn test-single -g <pattern>` (this is `test-unit:app -g <pattern>`).
+  - Run all: `yarn test-unit` (single **Vitest** invocation against the root `vitest.config.js`,
+    covering the app suite plus every workspace-package family as `test.projects` entries).
+  - Run just the app suite: `yarn test-unit:app` or just the server tests: `yarn test-unit:server`.
+  - Run a single test file or test: `yarn test-unit:app <path-substring>` or
+    `yarn test-unit:app -t "<describe/it name pattern>"` (`test-unit:server` for server tests).
   - Watch mode: `yarn run test-unit -- --watch`.
 - E2E/visual tests (Jest + Playwright, config under `test/e2e/jest.config.cjs`), require a prior
   `yarn build`:
@@ -166,7 +172,7 @@ Other structural notes:
 The repo is `"type": "module"`. Only a few entry points are loaded by Node **directly**, with no
 bundler/transpiler in between: `server/**`, `webpack.config.js`, `scripts/**`, `config/*.{js,cjs}`.
 Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by webpack
-(client) or run through Mocha's Babel-ESM loader (tests), both extension-agnostic.
+(client) or run through Vite/Vitest's own transform (tests), both extension-agnostic.
 
 - `server/**` never imports from `app/**` — only from `utils/shared/`, `utils/server/`, and
   itself. It renders the initial HTML shell (no React runs server-side) and serializes the merged
@@ -190,14 +196,14 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
 ## Code conventions
 
 - ES2015+ transpiled with Babel; Airbnb JS/React style guide (`.eslintrc.cjs`) with project
-  overrides: prefer object spread over `Object.assign`; `no-console` is an error; Prettier config
+  overrides: prefer object spread over `Object.assign`; `no-console` is an error (except in
+  Node-only `server/**`, `utils/server/**`, `scripts/**`); Prettier config
   is `singleQuote: true, trailingComma: 'all', arrowParens: 'avoid'`.
 - When removing `defaultProps`, use parameter defaults only for valid values; never default to
   `undefined`.
-- JSX-containing files use the `.jsx` extension; plain `.js` never contains JSX. The one
-  exception is `test/unit/**`, which still uses `.js` for JSX pending a separate Mocha→Vitest
-  migration. For the extension-required-vs-forbidden import policy, see "Server/client
-  boundary" above; `import/extensions` is not autofixable by `eslint --fix`.
+- JSX-containing files use the `.jsx` extension; plain `.js` never contains JSX. For the
+  extension-required-vs-forbidden import policy, see "Server/client boundary" above;
+  `import/extensions` is not autofixable by `eslint --fix`.
 - Avoid `Component.defaultProps` in function components (deprecated by React, and unsupported for
   function components in newer React versions). Declare defaults via destructuring in the
   function signature instead, e.g. `function Foo({ isMobile = false, children = null })`. This

@@ -13,6 +13,8 @@ export default {
     acknowledged: 'OK',
     'add-favourite-bikeStation-failed-heading':
       'Saving the citybike station failed',
+    'add-favourite-personalization-failed-heading':
+      'Saving your personalization settings failed',
     'add-favourite-place-failed-heading': 'Unable to save location',
     'add-favourite-route-failed-heading': 'Saving the route failed',
     'add-favourite-station-failed-heading': 'Saving the station failed.',
@@ -43,7 +45,7 @@ export default {
     'alternative-legs':
       'Also {leg1} at {startTime1} and {leg2} at {startTime2}',
     'alternative-legs-single': 'Also {leg1} at {startTime1}',
-    'alternative-name-rail': 'Train',
+    'alternative-name-rail': 'Commuter train',
     'aria-itinerary-summary':
       'Total journey time {duration}. Departing at {inFuture} {departureTime} and arriving at {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
@@ -630,7 +632,7 @@ export default {
     price: 'Price',
     print: 'Print',
     'print-timetable': 'Weekly timetable',
-    rail: 'Commuter train',
+    rail: 'Train',
     'read-more': 'Read more',
     realtime: 'Real-time',
     releases: 'Releases',

@@ -12,29 +12,6 @@
   }
 }
 
-.select-row {
-  display: flex;
-  flex-direction: row;
-  padding-right: 0.5em;
-}
-
-.select-row-icon {
-  width: 40px;
-  text-align: center;
-
-  .icon {
-    font-size: 24px;
-  }
-}
-
-.select-row-text {
-  flex: 1 0 0;
-
-  .vehicle-number {
-    padding: 0 2px;
-  }
-}
-
 .stop-popup-choose-header {
   font-size: 13px;
   font-weight: $font-weight-medium;

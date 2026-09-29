@@ -29,7 +29,6 @@ export default function ClusterNumberMarker({ position, number }, { config }) {
             dominant-baseline="middle"
             fill="#fff"
             font-size="${radius * 0.8}px"
-            font-family="Gotham XNarrow A, Gotham Rounded A, Gotham Rounded B, Roboto Condensed, Roboto, Arial, sans-serif"
           >
             ${number}
           </text>

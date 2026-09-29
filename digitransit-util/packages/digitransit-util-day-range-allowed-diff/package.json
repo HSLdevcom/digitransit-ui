@@ -1,11 +1,11 @@
 {
   "name": "@digitransit-util/digitransit-util-day-range-allowed-diff",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "digitransit-util digitransit-util-day-range-allowed-diff module",
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js"
   },
   "repository": {

@@ -1,20 +1,25 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useReducer } from 'react';
+import { useIntl } from 'react-intl';
 import { withLeaflet } from 'react-leaflet/es/context';
 import polyUtil from 'polyline-encoded';
-import { configShape, legShape } from '../../../../utils/client/shapes';
+import { legShape } from '../../../../utils/client/shapes';
 import { isLocalCallAgency, legTime } from '../../../../utils/client/legUtils';
 import { getMiddleOf } from '../../../../utils/shared/geo-utils';
 import LegMarker from './LegMarker';
 import SpeechBubble from '../SpeechBubble';
 import { durationToString } from '../../../../utils/client/timeUtils';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 const offsetNormal = { x: 22.5, y: 0 };
 const offsetArrow = { x: 55, y: 15 };
 const offsetSpeechBubble = { x: 15, y: 40 };
 const minDistanceToShow = 64;
 
-const doMarkersOverlap = (proposedPosition, existingPositions) => {
+// The functions below operate purely on plain pixel-position objects and
+// contain no Leaflet-specific logic, so they are exported for unit testing
+// and can be reused as-is if the underlying map engine changes.
+export const doMarkersOverlap = (proposedPosition, existingPositions) => {
   const l1 = proposedPosition.topLeft;
   const r1 = proposedPosition.bottomRight;
   for (let i = 0; i < existingPositions.length; i++) {
@@ -36,7 +41,7 @@ const doMarkersOverlap = (proposedPosition, existingPositions) => {
   return false;
 };
 
-const getArrowMarkerStyle = (leg, pixelPositions) => {
+export const getArrowMarkerStyle = (leg, pixelPositions) => {
   // Initial style is bottomLeft, try that
   const proposedPosition = {
     topLeft: leg.topLeft,
@@ -79,7 +84,7 @@ const getArrowMarkerStyle = (leg, pixelPositions) => {
   return { style: 'topLeft', pixelPosition: proposedPosition };
 };
 
-const getSpeechBubbleStyle = (position, pixelPositions) => {
+export const getSpeechBubbleStyle = (position, pixelPositions) => {
   const proposedPosition = { ...position };
   let overlap = doMarkersOverlap(proposedPosition, pixelPositions);
   // The area used to calculate overlaps excludes the arrow part for simplicity. This offset x and y are caused by the area that the arrow takes
@@ -113,30 +118,26 @@ const getSpeechBubbleStyle = (position, pixelPositions) => {
   return { style: 'bottomRight', position: proposedPosition };
 };
 
-class TransitLegMarkers extends React.Component {
-  static propTypes = {
-    transitLegs: PropTypes.arrayOf(legShape).isRequired,
-    leaflet: PropTypes.shape({
-      map: PropTypes.shape({
-        latLngToLayerPoint: PropTypes.func.isRequired,
-        on: PropTypes.func.isRequired,
-        off: PropTypes.func.isRequired,
-      }).isRequired,
-    }).isRequired,
-    realtimeTransfers: PropTypes.bool,
-  };
+function TransitLegMarkers({
+  transitLegs,
+  leaflet,
+  realtimeTransfers = false,
+}) {
+  const config = useConfigContext();
+  const intl = useIntl();
+  // Used only to force a re-render on zoomend, mirroring the previous
+  // onMapZoom -> this.forceUpdate().
+  const [, forceUpdate] = useReducer(count => count + 1, 0);
 
-  static defaultProps = {
-    realtimeTransfers: false,
-  };
+  useEffect(() => {
+    const { map } = leaflet;
+    map.on('zoomend', forceUpdate);
+    return () => map.off('zoomend', forceUpdate);
+  }, [leaflet]);
 
-  static contextTypes = {
-    config: configShape.isRequired,
-    intl: PropTypes.object.isRequired,
-  };
+  const { map } = leaflet;
 
-  getLegMarkerPixelPosition(leg) {
-    const { map } = this.props.leaflet;
+  function getLegMarkerPixelPosition(leg) {
     const p1 = map.latLngToLayerPoint(leg.from);
     const p2 = map.latLngToLayerPoint(leg.to);
     const middle = getMiddleOf(polyUtil.decode(leg.legGeometry.points));
@@ -171,8 +172,7 @@ class TransitLegMarkers extends React.Component {
     return truePixelPosition;
   }
 
-  getSpeechbubblePixelPosition({ lat, lon }) {
-    const { map } = this.props.leaflet;
+  function getSpeechbubblePixelPosition({ lat, lon }) {
     const leafletPixelPosition = {
       ...map.latLngToLayerPoint({ lat, lon }),
       width: 105,
@@ -199,139 +199,131 @@ class TransitLegMarkers extends React.Component {
     return truePixelPosition;
   }
 
-  getSpeechBubbleText(leg, nextLeg, realtime) {
+  function getSpeechBubbleText(leg, nextLeg, realtime) {
     const duration = durationToString(
-      this.context.intl,
+      intl,
       legTime(nextLeg.start) - legTime(leg.end),
     );
     const style = realtime ? 'color:#3b7f00' : '';
 
     return `<span>
-        ${this.context.intl.formatMessage({ id: 'transfer' })}:
+        ${intl.formatMessage({ id: 'transfer' })}:
         <span style="${style}">${duration}</span>
       </span>`;
   }
 
-  componentDidMount() {
-    this.props.leaflet.map.on('zoomend', this.onMapZoom);
-  }
+  const objs = [];
+  const pixelPositions = [];
+  const legsWithPositions = transitLegs.map(leg => ({
+    ...leg,
+    ...getLegMarkerPixelPosition(leg),
+  }));
 
-  componentWillUnmount() {
-    this.props.leaflet.map.off('zoomend', this.onMapZoom);
-  }
-
-  onMapZoom = () => {
-    this.forceUpdate();
-  };
-
-  render() {
-    const objs = [];
-    const pixelPositions = [];
-    const legsWithPositions = this.props.transitLegs.map(leg => ({
-      ...leg,
-      ...this.getLegMarkerPixelPosition(leg),
-    }));
-
-    // Draw regular legmarkers first, no tweaking needed
-    const legsRegular = legsWithPositions.filter(leg => leg.type === 'regular');
-    legsRegular.forEach(leg => {
-      objs.push(
-        <LegMarker
-          key={`${leg.index},${leg.mode}legmarker`}
-          disableModeIcons
-          renderName
-          wide={
-            leg.nextLeg?.interlineWithPreviousLeg &&
-            leg.interliningWithRoute !== leg.route.shortName
-          }
-          color={leg.route && leg.route.color ? `#${leg.route.color}` : null}
-          leg={{
-            from: leg.from,
-            to: leg.nextLeg?.interlineWithPreviousLeg ? leg.nextLeg.to : leg.to,
-            lat: leg.middle.lat,
-            lon: leg.middle.lon,
-            name: leg.legName,
-            gtfsId: leg.from.stop.gtfsId,
-            code: leg.from.stop.code,
-          }}
-          mode={leg.mode}
-          zIndexOffset={leg.zIndexOffset} // Make sure the LegMarker always stays above the StopMarkers
-          appendClass={
-            isLocalCallAgency(leg, this.context.config) ? 'call-local' : ''
-          }
-        />,
-      );
-      pixelPositions.push({
-        topLeft: leg.topLeft,
-        bottomRight: leg.bottomRight,
-      });
+  // Draw regular legmarkers first, no tweaking needed
+  const legsRegular = legsWithPositions.filter(leg => leg.type === 'regular');
+  legsRegular.forEach(leg => {
+    objs.push(
+      <LegMarker
+        key={`${leg.index},${leg.mode}legmarker`}
+        disableModeIcons
+        renderName
+        wide={
+          leg.nextLeg?.interlineWithPreviousLeg &&
+          leg.interliningWithRoute !== leg.route.shortName
+        }
+        color={leg.route && leg.route.color ? `#${leg.route.color}` : undefined}
+        leg={{
+          from: leg.from,
+          to: leg.nextLeg?.interlineWithPreviousLeg ? leg.nextLeg.to : leg.to,
+          lat: leg.middle.lat,
+          lon: leg.middle.lon,
+          name: leg.legName,
+          gtfsId: leg.from.stop.gtfsId,
+          code: leg.from.stop.code,
+        }}
+        mode={leg.mode}
+        zIndexOffset={leg.zIndexOffset} // Make sure the LegMarker always stays above the StopMarkers
+        appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
+      />,
+    );
+    pixelPositions.push({
+      topLeft: leg.topLeft,
+      bottomRight: leg.bottomRight,
     });
+  });
 
-    // Then, draw leg markers with arrows
-    const arrowLegs = legsWithPositions.filter(leg => leg.type === 'arrow');
-    arrowLegs.forEach(leg => {
-      // Find style that doesn't cause the marker to overlap with anything
-      const styleAndPosition = getArrowMarkerStyle(leg, pixelPositions);
-      objs.push(
-        <LegMarker
-          key={`${leg.index},${leg.mode}legmarker`}
-          disableModeIcons
-          renderName
-          style={styleAndPosition.style}
-          wide={
-            leg.nextLeg?.interlineWithPreviousLeg &&
-            leg.interliningWithRoute !== leg.route.shortName
-          }
-          color={leg.route && leg.route.color ? `#${leg.route.color}` : null}
-          leg={{
-            from: leg.from,
-            to: leg.nextLeg?.interlineWithPreviousLeg ? leg.nextLeg.to : leg.to,
-            lat: leg.middle.lat,
-            lon: leg.middle.lon,
-            name: leg.legName,
-            gtfsId: leg.from.stop.gtfsId,
-            code: leg.from.stop.code,
-          }}
-          mode={leg.mode}
-          zIndexOffset={leg.zIndexOffset} // Make sure the LegMarker always stays above the StopMarkers
-          appendClass={
-            isLocalCallAgency(leg, this.context.config) ? 'call-local' : ''
-          }
-        />,
-      );
-      pixelPositions.push(styleAndPosition.pixelPosition);
-    });
+  // Then, draw leg markers with arrows
+  const arrowLegs = legsWithPositions.filter(leg => leg.type === 'arrow');
+  arrowLegs.forEach(leg => {
+    // Find style that doesn't cause the marker to overlap with anything
+    const styleAndPosition = getArrowMarkerStyle(leg, pixelPositions);
+    objs.push(
+      <LegMarker
+        key={`${leg.index},${leg.mode}legmarker`}
+        disableModeIcons
+        renderName
+        style={styleAndPosition.style}
+        wide={
+          leg.nextLeg?.interlineWithPreviousLeg &&
+          leg.interliningWithRoute !== leg.route.shortName
+        }
+        color={leg.route && leg.route.color ? `#${leg.route.color}` : undefined}
+        leg={{
+          from: leg.from,
+          to: leg.nextLeg?.interlineWithPreviousLeg ? leg.nextLeg.to : leg.to,
+          lat: leg.middle.lat,
+          lon: leg.middle.lon,
+          name: leg.legName,
+          gtfsId: leg.from.stop.gtfsId,
+          code: leg.from.stop.code,
+        }}
+        mode={leg.mode}
+        zIndexOffset={leg.zIndexOffset} // Make sure the LegMarker always stays above the StopMarkers
+        appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
+      />,
+    );
+    pixelPositions.push(styleAndPosition.pixelPosition);
+  });
 
-    // Finally, draw transfer stop speechbubbles
-    const legsWithTransferStops = [...this.props.transitLegs];
-    legsWithTransferStops.pop(); // Excluding the finishing leg
-    legsWithTransferStops.forEach((leg, index) => {
-      const speechBubblePixelPosition = this.getSpeechbubblePixelPosition(
-        leg.to,
-      );
-      const styleAndPosition = getSpeechBubbleStyle(
-        speechBubblePixelPosition,
-        pixelPositions,
-      );
-      const text = this.getSpeechBubbleText(
-        leg,
-        this.props.transitLegs[index + 1],
-        this.props.realtimeTransfers,
-      );
-      objs.push(
-        <SpeechBubble
-          key={`speech_${leg.to.stop.gtfsId}`}
-          position={{ lat: leg.to.lat, lon: leg.to.lon }}
-          text={text}
-          speechBubbleStyle={styleAndPosition.style}
-          zIndexOffset={leg.zIndexOffset}
-        />,
-      );
-      pixelPositions.push(styleAndPosition.position);
-    });
+  // Finally, draw transfer stop speechbubbles
+  const legsWithTransferStops = [...transitLegs];
+  legsWithTransferStops.pop(); // Excluding the finishing leg
+  legsWithTransferStops.forEach((leg, index) => {
+    const speechBubblePixelPosition = getSpeechbubblePixelPosition(leg.to);
+    const styleAndPosition = getSpeechBubbleStyle(
+      speechBubblePixelPosition,
+      pixelPositions,
+    );
+    const text = getSpeechBubbleText(
+      leg,
+      transitLegs[index + 1],
+      realtimeTransfers,
+    );
+    objs.push(
+      <SpeechBubble
+        key={`speech_${leg.to.stop.gtfsId}`}
+        position={{ lat: leg.to.lat, lon: leg.to.lon }}
+        text={text}
+        speechBubbleStyle={styleAndPosition.style}
+        zIndexOffset={leg.zIndexOffset}
+      />,
+    );
+    pixelPositions.push(styleAndPosition.position);
+  });
 
-    return <div>{objs}</div>;
-  }
+  return <div>{objs}</div>;
 }
+
+TransitLegMarkers.propTypes = {
+  transitLegs: PropTypes.arrayOf(legShape).isRequired,
+  leaflet: PropTypes.shape({
+    map: PropTypes.shape({
+      latLngToLayerPoint: PropTypes.func.isRequired,
+      on: PropTypes.func.isRequired,
+      off: PropTypes.func.isRequired,
+    }).isRequired,
+  }).isRequired,
+  realtimeTransfers: PropTypes.bool,
+};
 
 export default withLeaflet(TransitLegMarkers);

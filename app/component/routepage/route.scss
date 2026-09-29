@@ -98,11 +98,6 @@ $margin-left-right: 21.3px;
     flex-basis: 0;
     flex-grow: 0;
   }
-
-  &.fullscreen-map {
-    flex-grow: 0;
-    flex-basis: 110px;
-  }
 }
 
 // ─── Mobile overrides ─────────────────────────────────────────────────────────
@@ -301,25 +296,6 @@ nav.top-bar .title .route-number {
       border-radius: $border-radius;
     }
   }
-}
-
-// ─── Nearby mode button ───────────────────────────────────────────────────────
-
-.mode-nearby {
-  &.btn {
-    background-color: $white;
-
-    .icon {
-      color: #79919d;
-    }
-  }
-}
-
-// ─── No-alerts state ──────────────────────────────────────────────────────────
-
-.no-alerts-message {
-  text-align: center;
-  margin-top: 50px;
 }
 
 // ─── SVG overrides ────────────────────────────────────────────────────────────

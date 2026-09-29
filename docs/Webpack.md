@@ -26,8 +26,8 @@ and output settings.
 
 ## Entries & per-deployment theming
 
-- `main` is the real app entry (`utils/client/publicPath` + `app/client/client`), plus
-  `utils/client/loadDevTheme` in development only (see below).
+- `main` is the real app entry (`app/client/publicPath` + `app/client/client`), plus
+  `app/client/loadDevTheme` in development only (see below).
 - In production, `scripts/build/contextHelper.js` adds one `<theme>_theme`
   entry per regional theme's `sass/themes/<theme>/main.scss`, plus a
   `<sprite>` entry for any config-declared SVG sprite sheet. With `CONFIG`
@@ -39,7 +39,7 @@ and output settings.
 - In development, `webpack.ContextReplacementPlugin` narrows the dynamic
   `import` for `sass/themes` down to just the selected `CONFIG`'s
   `main.scss`, so the dev server doesn't build every theme.
-- `utils/client/loadDevTheme.js` holds a dynamic, fire-and-forget
+- `app/client/loadDevTheme.js` holds a dynamic, fire-and-forget
   `import(`../../sass/themes/${window.config.CONFIG}/main.scss`)` that used
   to live inline in `app/client.js` as a `require(...)` behind an
   `if (process.env.NODE_ENV === 'development')` runtime check written as an
@@ -157,10 +157,10 @@ Production gets:
 - **`EntrypointStatsPlugin`** (defined at the top of this file) — small
   local stand-in for the unmaintained `stats-webpack-plugin`. Writes
   `../stats.json` with `entrypoints.<name>.assets` as a plain array of
-  filename strings (the old plugin's shape), because `server/serve.js`
-  reads this file to know which hashed asset filenames belong to the
-  `main` entrypoint, and expects that shape rather than webpack5's native
-  `{ name, size }` asset objects.
+  filename strings (the old plugin's shape), because
+  `server/html/assetManifest.js` reads this file to know which hashed
+  asset filenames belong to the `main` entrypoint, and expects that shape
+  rather than webpack5's native `{ name, size }` asset objects.
 - **`WebpackAssetsManifest`** — writes `../manifest.json`, a
   name→hashed-filename map, read the same way. Imported via its named
   export (`{ WebpackAssetsManifest }`); v6 changed it from a default
@@ -197,7 +197,7 @@ Both dev and prod also always get:
 
 ### Service worker
 
-Built from `utils/client/serviceWorker.js` via Workbox's `InjectManifest`
+Built from `app/client/serviceWorker.js` via Workbox's `InjectManifest`
 (bundles that file and injects the precache manifest — unlike
 `GenerateSW`, this keeps full control over the SW's own logic). That
 source file combines:
@@ -215,9 +215,9 @@ This all replaces the old, unmaintained, webpack5-incompatible
 
 Build-time asset URLs baked into the precache manifest use a placeholder
 token (`ASSET_URL_PLACEHOLDER`, from `scripts/build/assetUrlPlaceholder.js`,
-shared between this config and `server/server.js`) via `InjectManifest`'s
+shared between this config and `server/app.js`) via `InjectManifest`'s
 `modifyURLPrefix`, since the real CDN URL (`ASSET_URL` env var) isn't known
-at build time. `server/server.js`'s `/sw.js` route replaces that
+at build time. `server/app.js`'s `/sw.js` route replaces that
 placeholder with the real `ASSET_URL` (or `''` if unset) at request time.
 This route only exists outside development (guarded by
 `process.env.NODE_ENV !== 'development'`, since `_static/sw.js` is only
@@ -281,8 +281,8 @@ Only used by `webpack-dev-server` during `yarn run dev`. Notable:
 `publicPath: '/'` under `/proxy/` (matches `output.publicPath`), `hot:
 false` (full reload on change, no HMR), IPv6 loopback host (`::1`), and a
 permissive CORS header so the separately-running app server
-(`server/server.js`) can proxy asset requests to this dev server.
-Since `devServer.host` is IPv6-only, `server/server.js` targets the
+(`server/app.js`) can proxy asset requests to this dev server.
+Since `devServer.host` is IPv6-only, `server/app.js` targets the
 literal `[::1]` address rather than the `localhost` hostname when
 proxying — this avoids depending on how the machine's resolver orders
 `localhost`'s A/AAAA records (a resolver that prefers `127.0.0.1` would
@@ -324,7 +324,7 @@ IE version, matching the `< 55`/`< 11` exclusion style — IE11 was the
 last IE release, so excluding only the exact version left older ones
 technically permitted.
 
-Separately, `server/serve.js` uses `polyfill-library` to serve
+Separately, `server/html/polyfills.js` uses `polyfill-library` to serve
 user-agent-specific JS polyfills at runtime — intentional, documented
 architecture (see `docs/Architecture.md`), not controlled by this file,
 but relevant context for "old browser support" in this codebase overall.

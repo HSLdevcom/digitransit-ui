@@ -35,13 +35,6 @@
     border-left: none;
   }
 
-  &.cancelled-itinerary {
-    .itinerary-first-leg-start-time {
-      text-decoration: line-through;
-      color: $cancelation-red;
-    }
-  }
-
   h3,
   h4 {
     @include font-medium;

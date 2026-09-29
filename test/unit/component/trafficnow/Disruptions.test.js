@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import {
   buildAlertsFingerprint,
   getCanceledModes,
@@ -25,21 +23,19 @@ const makeRouteSummary = gtfsId => ({
 
 describe('buildAlertsFingerprint', () => {
   it('returns an empty string for an empty alert list', () => {
-    expect(buildAlertsFingerprint([])).to.equal('');
+    expect(buildAlertsFingerprint([])).toBe('');
   });
 
   it('produces the same fingerprint regardless of input order', () => {
     const a = makeAlert('a1', 1000, 2000, 'WARNING');
     const b = makeAlert('a2', 1001, 2001, 'SEVERE');
-    expect(buildAlertsFingerprint([a, b])).to.equal(
-      buildAlertsFingerprint([b, a]),
-    );
+    expect(buildAlertsFingerprint([a, b])).toBe(buildAlertsFingerprint([b, a]));
   });
 
   it('produces a different fingerprint when an alert is added', () => {
     const a = makeAlert('a1', 1000, 2000, 'WARNING');
     const b = makeAlert('a2', 1001, 2001, 'SEVERE');
-    expect(buildAlertsFingerprint([a])).to.not.equal(
+    expect(buildAlertsFingerprint([a])).not.toBe(
       buildAlertsFingerprint([a, b]),
     );
   });
@@ -47,7 +43,7 @@ describe('buildAlertsFingerprint', () => {
   it('produces a different fingerprint when severity changes', () => {
     const before = makeAlert('a1', 1000, 2000, 'WARNING');
     const after = makeAlert('a1', 1000, 2000, 'SEVERE');
-    expect(buildAlertsFingerprint([before])).to.not.equal(
+    expect(buildAlertsFingerprint([before])).not.toBe(
       buildAlertsFingerprint([after]),
     );
   });
@@ -55,7 +51,7 @@ describe('buildAlertsFingerprint', () => {
   it('produces a different fingerprint when effective dates change', () => {
     const before = makeAlert('a1', 1000, 2000, 'WARNING');
     const after = makeAlert('a1', 1000, 3000, 'WARNING');
-    expect(buildAlertsFingerprint([before])).to.not.equal(
+    expect(buildAlertsFingerprint([before])).not.toBe(
       buildAlertsFingerprint([after]),
     );
   });
@@ -75,7 +71,7 @@ describe('getCanceledModes', () => {
       ['HSL'],
     );
 
-    expect(canceledModes).to.deep.equal([
+    expect(canceledModes).toEqual([
       {
         key: 'bus',
         routes: [makeRouteSummary('HSL:1001')],
@@ -93,7 +89,7 @@ describe('getCanceledModes', () => {
       ['HSL'],
     );
 
-    expect(canceledModes).to.deep.equal([]);
+    expect(canceledModes).toEqual([]);
   });
 
   it('keeps modes with matching routes and drops modes without', () => {
@@ -105,7 +101,7 @@ describe('getCanceledModes', () => {
       ['HSL'],
     );
 
-    expect(canceledModes).to.deep.equal([
+    expect(canceledModes).toEqual([
       { key: 'bus', routes: [makeRouteSummary('HSL:1001')] },
     ]);
   });

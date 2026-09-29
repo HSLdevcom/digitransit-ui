@@ -17,14 +17,6 @@
       align-self: center;
     }
 
-    .login-tip {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      justify-content: center;
-      gap: var(--space-xs);
-    }
-
     .content {
       display: flex;
       flex-wrap: wrap;

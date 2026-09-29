@@ -1,10 +1,10 @@
 /* eslint-disable react/no-array-index-key */
-import { matchShape, routerShape } from 'found';
+import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { onLocationPopup } from '../../../utils/client/queryUtils';
+import { useConfigContext } from '../../client/ConfigContext';
 import {
-  configShape,
   itineraryShape,
   locationShape,
   planEdgeShape,
@@ -17,29 +17,30 @@ import ParkingAreaMarker from './non-tile-layer/ParkingAreaMarker';
 import MapWithTracking from './MapWithTracking';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import { isBikeParkLeg, isCarParkLeg } from '../../../utils/client/legUtils';
+import { useItineraryLocationActions } from '../../hooks/ItineraryLocationContext';
 
 const POINT_FOCUS_ZOOM = 17; // default
 
-const ItineraryPageMap = (
-  {
-    planEdges,
-    active,
-    showActiveOnly,
-    from,
-    to,
-    viaPoints,
-    breakpoint,
-    showVehicles,
-    topics,
-    showDurationBubble,
-    itinerary,
-    showBackButton,
-    isLocationPopupEnabled,
-    realtimeTransfers,
-    ...rest
-  },
-  { match, router, executeAction, config },
-) => {
+const ItineraryPageMap = ({
+  planEdges,
+  active,
+  showActiveOnly,
+  from,
+  to,
+  viaPoints,
+  breakpoint,
+  showVehicles,
+  topics,
+  showDurationBubble,
+  itinerary,
+  showBackButton,
+  isLocationPopupEnabled,
+  realtimeTransfers,
+  ...rest
+}) => {
+  const { match, router } = useRouter();
+  const config = useConfigContext();
+  const { addViaPoint, deleteViaPoint } = useItineraryLocationActions();
   const { hash } = match.params;
   const leafletObjs = [];
 
@@ -130,7 +131,14 @@ const ItineraryPageMap = (
   if (isLocationPopupEnabled) {
     locationPopup = config.viaPointsEnabled ? 'all' : 'origindestination';
     onSelectLocation = (item, id) =>
-      onLocationPopup(item, id, router, match, executeAction, config);
+      onLocationPopup(
+        item,
+        id,
+        router,
+        match,
+        { addViaPoint, deleteViaPoint },
+        config,
+      );
   }
 
   return (
@@ -183,13 +191,6 @@ ItineraryPageMap.defaultProps = {
   showBackButton: true,
   isLocationPopupEnabled: false,
   realtimeTransfers: false,
-};
-
-ItineraryPageMap.contextTypes = {
-  match: matchShape.isRequired,
-  router: routerShape.isRequired,
-  config: configShape,
-  executeAction: PropTypes.func.isRequired,
 };
 
 export default ItineraryPageMap;

@@ -5,82 +5,81 @@ import { withLeaflet } from 'react-leaflet/es/context';
 import { locationShape } from '../../../utils/client/shapes';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 
-class MarkerPopupBottom extends React.Component {
-  static displayName = 'MarkerPopupBottom';
-
-  static propTypes = {
-    location: locationShape.isRequired,
-    leaflet: PropTypes.shape({
-      map: PropTypes.shape({
-        closePopup: PropTypes.func.isRequired,
-      }).isRequired,
-    }).isRequired,
-    onSelectLocation: PropTypes.func.isRequired,
-    locationPopup: PropTypes.string,
-  };
-
-  static defaultProps = {
-    locationPopup: 'all', // show add via point by default
-  };
-
-  routeFrom = () => {
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+function MarkerPopupBottom({
+  location,
+  leaflet,
+  onSelectLocation,
+  locationPopup = 'all', // show add via point by default
+}) {
+  const routeFrom = () => {
     addAnalyticsEvent({
       action: 'EditJourneyStartPoint',
       category: 'ItinerarySettings',
       name: 'MapPopup',
     });
-    this.props.onSelectLocation(this.props.location, 'origin');
-    this.props.leaflet.map.closePopup();
+    onSelectLocation(location, 'origin');
+    leaflet.map.closePopup();
   };
 
-  routeTo = () => {
+  const routeTo = () => {
     addAnalyticsEvent({
       action: 'EditJourneyEndPoint',
       category: 'ItinerarySettings',
       name: 'MapPopup',
     });
-    this.props.onSelectLocation(this.props.location, 'destination');
-    this.props.leaflet.map.closePopup();
+    onSelectLocation(location, 'destination');
+    leaflet.map.closePopup();
   };
 
-  routeAddViaPoint = () => {
+  const routeAddViaPoint = () => {
     addAnalyticsEvent({
       action: 'AddJourneyViaPoint',
       category: 'ItinerarySettings',
       name: 'MapPopup',
     });
-    this.props.onSelectLocation(this.props.location, 'via');
-    this.props.leaflet.map.closePopup();
+    onSelectLocation(location, 'via');
+    leaflet.map.closePopup();
   };
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-  render() {
-    return (
-      <div className="bottom location">
-        <div onClick={() => this.routeFrom()} className="route cursor-pointer">
+  return (
+    <div className="bottom location">
+      <div onClick={() => routeFrom()} className="route cursor-pointer">
+        <FormattedMessage
+          id="route-from-here"
+          defaultMessage="Route from here"
+        />
+      </div>
+      {locationPopup === 'all' && (
+        <div
+          onClick={() => routeAddViaPoint()}
+          className="route cursor-pointer route-add-viapoint"
+        >
           <FormattedMessage
-            id="route-from-here"
-            defaultMessage="Route from here"
+            id="route-add-viapoint"
+            defaultMessage="Via point"
           />
         </div>
-        {this.props.locationPopup === 'all' && (
-          <div
-            onClick={() => this.routeAddViaPoint()}
-            className="route cursor-pointer route-add-viapoint"
-          >
-            <FormattedMessage
-              id="route-add-viapoint"
-              defaultMessage="Via point"
-            />
-          </div>
-        )}
-        <div onClick={() => this.routeTo()} className="route cursor-pointer">
-          <FormattedMessage id="route-here" defaultMessage="Route here" />
-        </div>
+      )}
+      <div onClick={() => routeTo()} className="route cursor-pointer">
+        <FormattedMessage id="route-here" defaultMessage="Route here" />
       </div>
-    );
-  }
+    </div>
+  );
 }
+
+MarkerPopupBottom.displayName = 'MarkerPopupBottom';
+
+MarkerPopupBottom.propTypes = {
+  location: locationShape.isRequired,
+  leaflet: PropTypes.shape({
+    map: PropTypes.shape({
+      closePopup: PropTypes.func.isRequired,
+    }).isRequired,
+  }).isRequired,
+  onSelectLocation: PropTypes.func.isRequired,
+  locationPopup: PropTypes.string,
+};
 
 const markerPopupBottomWithLeaflet = withLeaflet(MarkerPopupBottom);
 

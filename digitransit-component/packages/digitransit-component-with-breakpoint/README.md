@@ -6,6 +6,11 @@
 
 Extracts breakpoint information (can be one of: large, medium and small) from the context.
 
+**Meta**
+
+*   **deprecated**: This package has no direct consumers and is unused. It will be
+    removed in a future release.
+
 ## withBreakpoint
 
 Extends the given Component with breakpoint handling. The breakpoint is
@@ -17,6 +22,11 @@ extracted from context and given to the extended component as a property.
 *   `forwardRef` **[boolean][1]** Whether any ref given to the HOC should be forwarded to the extended Component. (optional, default `{forwardRef:false}`)
 
     *   `forwardRef.forwardRef`  
+
+**Meta**
+
+*   **deprecated**: This package has no direct consumers and is unused. It will be
+    removed in a future release.
 
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 ---

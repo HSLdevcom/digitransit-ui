@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { routerShape } from 'found';
+import { useRouter } from 'found';
 import { default as L } from 'leaflet';
 import { TransportMode } from '../../../../utils/shared/constants';
 import {
   vehicleRentalStationShape,
   rentalVehicleShape,
-  configShape,
 } from '../../../../utils/client/shapes';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
@@ -27,6 +26,7 @@ import {
 } from '../../../../utils/shared/path';
 import { renderAsString } from '../../../../utils/client/mapIconUtils';
 import IconBadge from '../../icon/IconBadge';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 // Small icon for zoom levels <= 15
 const smallIconSvg = `
@@ -35,34 +35,20 @@ const smallIconSvg = `
   </svg>
 `;
 
-export default class VehicleMarker extends React.Component {
-  static displayName = 'VehicleMarker';
+export default function VehicleMarker({
+  showBikeAvailability = false,
+  rental,
+  transit = false,
+  mode,
+}) {
+  const config = useConfigContext();
+  const { router } = useRouter();
 
-  static propTypes = {
-    showBikeAvailability: PropTypes.bool,
-    rental: PropTypes.oneOfType([vehicleRentalStationShape, rentalVehicleShape])
-      .isRequired,
-    transit: PropTypes.bool,
-    mode: PropTypes.string.isRequired,
+  const handleClick = (id, prefix) => {
+    router.push(`/${prefix}/${encodeURIComponent(id)}`);
   };
 
-  static contextTypes = {
-    config: configShape.isRequired,
-    router: routerShape.isRequired,
-  };
-
-  static defaultProps = {
-    showBikeAvailability: false,
-    transit: false,
-  };
-
-  handleClick = (id, prefix) => {
-    this.context.router.push(`/${prefix}/${encodeURIComponent(id)}`);
-  };
-
-  getIcon = zoom => {
-    const { showBikeAvailability, rental, transit } = this.props;
-    const { config } = this.context;
+  const getIcon = zoom => {
     const vehicleCapacity = getVehicleCapacity(config, rental?.network);
     const iconName = `${getRentalNetworkIcon(
       getRentalNetworkConfig(rental.network, config),
@@ -108,24 +94,32 @@ export default class VehicleMarker extends React.Component {
         });
   };
 
-  render() {
-    return (
-      <GenericMarker
-        position={{
-          lat: this.props.rental?.lat,
-          lon: this.props.rental?.lon,
-        }}
-        onClick={() =>
-          this.handleClick(
-            this.props.rental.id,
-            this.props.mode === TransportMode.Scooter
-              ? PREFIX_RENTALVEHICLES
-              : PREFIX_BIKESTATIONS,
-          )
-        }
-        getIcon={this.getIcon}
-        id={this.props.rental?.id}
-      />
-    );
-  }
+  return (
+    <GenericMarker
+      position={{
+        lat: rental?.lat,
+        lon: rental?.lon,
+      }}
+      onClick={() =>
+        handleClick(
+          rental.id,
+          mode === TransportMode.Scooter
+            ? PREFIX_RENTALVEHICLES
+            : PREFIX_BIKESTATIONS,
+        )
+      }
+      getIcon={getIcon}
+      id={rental?.id}
+    />
+  );
 }
+
+VehicleMarker.displayName = 'VehicleMarker';
+
+VehicleMarker.propTypes = {
+  showBikeAvailability: PropTypes.bool,
+  rental: PropTypes.oneOfType([vehicleRentalStationShape, rentalVehicleShape])
+    .isRequired,
+  transit: PropTypes.bool,
+  mode: PropTypes.string.isRequired,
+};

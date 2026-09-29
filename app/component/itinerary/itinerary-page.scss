@@ -16,14 +16,6 @@
   margin-top: 10%;
   padding: 1em;
 
-  .external-no-route .external-link-container {
-    margin-left: 0.5rem;
-
-    a.external-link {
-      color: $link-color;
-    }
-  }
-
   .no-route-icon {
     margin-right: 1em;
     margin-top: 0.5em;
@@ -38,234 +30,6 @@
 
   .info {
     fill: $gray-blue;
-  }
-}
-
-.time-selectors {
-  @include font-book;
-
-  font-size: $font-size-small;
-  background-color: $background-color-lighter;
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  max-height: 2.2em;
-  flex: 0 1 49.6%;
-
-  input[type='date'],
-  input[type='time'].time-selector,
-  input[type='text'],
-  input[type='tel'],
-  select,
-  .time-mui > input {
-    vertical-align: middle;
-    text-align: left;
-    margin: 0;
-    padding: 0 1rem 0 0.9em;
-    font-size: $font-size-xxsmall;
-    display: inline-block;
-    background-image: none;
-    background-color: $white;
-    color: $link-color;
-    border: none;
-    border-radius: $border-radius;
-    appearance: none;
-
-    @include font-book;
-
-    font-weight: $font-weight-medium;
-    height: 2.6em;
-
-    &:hover {
-      background-color: $white;
-    }
-
-    &:focus {
-      background-color: $white;
-    }
-
-    &.text-time-selector,
-    &.desktop {
-      padding: 0 0.5em 0 0.5em;
-      margin: 0 -0.5em 0 0;
-      text-align: center;
-    }
-  }
-
-  .select-wrapper {
-    display: flex;
-    flex: 0 1 14.5em;
-
-    > span {
-      margin-left: -1rem;
-      pointer-events: none;
-    }
-
-    select {
-      border-radius: 5px;
-      padding: 0 1.5rem 0 0.9em;
-    }
-  }
-
-  .time-box-shadow input {
-    box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
-
-    &:focus {
-      box-shadow: inset 1px 1px 3px 0 rgba(0, 0, 0, 0.43);
-    }
-  }
-
-  .fake-select-arrow {
-    font-size: 0.7rem;
-    color: $link-color;
-  }
-
-  .time-selector {
-    @include font-book;
-
-    text-align: left;
-    display: flex !important;
-    border: 1px solid #ddd;
-
-    &:hover {
-      border: 1px solid #007ac9;
-    }
-
-    input {
-      font-size: $font-size-xxsmall !important;
-    }
-
-    hr {
-      display: none;
-    }
-  }
-
-  .time-mui {
-    max-width: 4.5em;
-    padding-left: $padding-small;
-    height: 2.6em !important;
-    font-size: $font-size-xxsmall !important;
-  }
-
-  .arrive {
-    width: auto;
-    text-align: left;
-  }
-
-  .arrive,
-  .date,
-  input[type='time'].time-selector {
-    border: solid 1px $light-gray;
-    box-shadow: none;
-  }
-
-  select {
-    &:hover {
-      border: solid 1px $link-color;
-    }
-  }
-}
-
-.mobile .time-selectors {
-  flex: 0 1 85%;
-
-  .select-wrapper > span {
-    margin-left: -1.4rem;
-  }
-}
-
-.time-input-container {
-  form {
-    display: inherit;
-    margin-bottom: 0;
-  }
-
-  display: flex;
-  background: $white;
-  padding: 0 0.6em 0 0.2em;
-  border-radius: 5px;
-  margin-right: 0.6em;
-  flex: 0 0 3em;
-
-  .time-input-field {
-    width: 1.5em;
-    padding-right: 0 !important;
-    padding-left: 0 !important;
-    box-shadow: none;
-    background-color: transparent !important;
-
-    &:focus {
-      box-shadow: none !important;
-      border-color: transparent !important;
-    }
-
-    &#inputMinutes {
-      text-align: left;
-      padding-bottom: 0.2em;
-      color: rgb(51, 51, 51);
-      font-weight: $font-weight-medium;
-    }
-
-    &#inputHours {
-      text-align: right;
-      padding-bottom: 0.2em;
-      color: rgb(51, 51, 51);
-      font-weight: $font-weight-medium;
-    }
-  }
-
-  #timeinput-digit-separator {
-    margin: 0.25em 1px 0 1px;
-    color: rgb(51, 51, 51);
-  }
-}
-
-.mobile .time-input-container {
-  margin-right: 0;
-}
-
-.time-selector-settings-row {
-  background-color: $background-color-lighter;
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  flex-direction: initial;
-
-  .button-container {
-    position: relative;
-    margin-top: -3px;
-
-    .icon-holder {
-      left: 1.4em;
-      position: absolute;
-      z-index: 2;
-    }
-  }
-
-  button.secondary-button {
-    background: none;
-    border: none;
-    margin-bottom: 0;
-    padding: 0.6em;
-    padding-right: 0.8em;
-    outline: none;
-    font-weight: $font-weight-medium;
-    font-size: $font-size-xxsmall;
-
-    &.settings .icon {
-      font-size: 1.7em;
-      margin-top: -0.15em;
-    }
-
-    &.close {
-      .icon {
-        font-size: $font-size-small;
-      }
-
-      :first-child {
-        margin-left: 0.4em;
-      }
-    }
   }
 }
 
@@ -336,14 +100,6 @@
       display: block;
       height: auto;
     }
-  }
-}
-
-.summary-content {
-  height: 100%;
-
-  > section {
-    height: 100%;
   }
 }
 
@@ -462,14 +218,6 @@
     margin-top: 3px;
     margin-bottom: 0;
     font-size: $font-size-xsmall;
-  }
-
-  .change-settings {
-    color: $theme-primary-color;
-
-    #change-settings-button {
-      font-weight: $font-weight-bold;
-    }
   }
 }
 

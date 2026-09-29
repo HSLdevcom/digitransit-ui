@@ -1,9 +1,10 @@
 {
   "name": "@digitransit-store/digitransit-store-common-functions",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "digitransit-store common-functions module",
   "type": "module",
   "main": "lib/index.cjs",
+  "deprecated": "This package has no real consumers. It will be removed in a future release.",
   "module": "lib/index.js",
   "exports": {
     ".": {
@@ -25,7 +26,7 @@
   "scripts": {
     "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "clean": "rm -rf ./lib ./node_modules",
-    "test": "vitest run --config ../../../config/vitest.config.js \"$PWD/test.js\"",
+    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js",
     "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },

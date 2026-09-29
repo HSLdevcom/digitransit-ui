@@ -138,21 +138,6 @@ $content-background-color: $background-color;
   }
 }
 
-.navi-languages {
-  // desktop
-  #lang-select {
-    border-bottom: 0;
-
-    .lang.selected {
-      background: $selected-lang-background;
-    }
-  }
-}
-
-.right-border {
-  border-right: 1px solid rgba(0, 0, 0, 0.15);
-}
-
 .login-button-container {
   width: 100%;
 
@@ -166,11 +151,6 @@ $content-background-color: $background-color;
   .icon {
     font-size: 2em;
     color: $top-navigation-icon-color;
-
-    &.caution-topbar {
-      fill: $caution-icon-color;
-      color: $caution-icon-font-color;
-    }
   }
 }
 
@@ -275,21 +255,6 @@ $content-background-color: $background-color;
   .usermenu-list-item:hover {
     background: darken($theme-primary-color, 5%);
   }
-}
-
-.navi-icons {
-  .icon {
-    font-size: 1.8em;
-    color: $theme-primary-color;
-    fill: $top-navigation-icon-color;
-
-    &.caution-topbar {
-      fill: $caution-icon-color;
-      color: $caution-icon-font-color;
-    }
-  }
-
-  width: 50px;
 }
 
 .main-menu-toggle {
@@ -967,23 +932,6 @@ section.content {
   fill: $gray;
   height: 12px;
   width: 12px;
-}
-
-.external-top-bar {
-  .external-link-icon-outer {
-    color: $theme-primary-color;
-  }
-
-  .external-link-icon {
-    color: $primary-font-color;
-  }
-}
-
-.external-link-decoration {
-  position: absolute;
-  top: -1px;
-  right: -1px;
-  font-size: 7px;
 }
 
 .external-link-container {

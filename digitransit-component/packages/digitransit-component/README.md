@@ -5,6 +5,12 @@
 ## digitransit-component
 
 Digitransit-component is a component library for digitransit-ui written in JavaScript.
+
+**Meta**
+
+*   **deprecated**: This meta-package is deprecated — import the specific
+    `@digitransit-component/digitransit-component-*` sub-package you need
+    instead. This package will be removed in a future release.
 ---
 
 This module is part of the Digitransit-ui project. It is maintained in the
