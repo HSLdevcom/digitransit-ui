@@ -15,8 +15,10 @@ right one by *who consumes the code*, not just by convenience.
     route pages, and stop pages), `i18n.js`, `ConfigContext.jsx` (React context provider for
     config).
   - `assets/` — source art bundled into the client: `images/<theme>/` (logos, favicons,
-    illustrations; `default/` holds the fallbacks), plus `assetUrl.js` (`getAssetUrl`, resolves
-    config image paths to bundled URLs).
+    illustrations; `default/` holds the fallbacks), `icons/<theme>/` (one `<id>.svg` per icon;
+    `default/` has all of them, other themes only overrides — built into sprite sheets by
+    `scripts/build/buildSprites.js`, never edit a sprite by hand), plus `assetUrl.js`
+    (`getAssetUrl`, resolves config image paths to bundled URLs).
   - `component/` — topic subfolders for larger features: `itinerary/`, `map/`, `stop/`,
     `routepage/`, `nearyou/`, `trafficnow/` (has its own `README.md`), `embedded/`, `visual/`,
     `icon/`, and `__generated__/` (Relay codegen).

@@ -30,7 +30,9 @@ and output settings.
   `app/client/loadDevTheme` in development only (see below).
 - In production, `scripts/build/contextHelper.js` adds one `<theme>_theme`
   entry per regional theme's `sass/themes/<theme>/main.scss`, plus a
-  `<sprite>` entry for any config-declared SVG sprite sheet. With `CONFIG`
+  `<sprite>` entry for any config-declared SVG sprite sheet (`config.sprites`),
+  which content-hashes it into `manifest.json`. The sprite itself is
+  generated before webpack runs (see "SVG sprite sheets" below). With `CONFIG`
   set, only the `default` theme and the selected config's theme build;
   otherwise every `server/configs/config.*.js` deployment does.
 - `faviconPlugins` (same file) generates one `favicons-webpack-plugin`
@@ -100,6 +102,26 @@ The copy is deliberately bundler-agnostic (it replaced a
 assets keep working through a future bundler migration. Note that `_static`
 is populated once per `yarn dev` startup, so edits to `static/` made while
 the dev server runs aren't picked up — re-run `yarn static`.
+
+## SVG sprite sheets
+
+Icons live as one file per icon in `app/assets/icons/<theme>/<id>.svg`, and
+`scripts/build/buildSprites.js` (`yarn sprites`, run by `prebuild` and
+`scripts/dev.sh`) assembles them into `_static/assets/svg-sprite.<theme>.svg`.
+`default/` holds every icon; any other theme directory only holds the icons
+it adds or re-skins, layered on top of the default set. Each file's name is
+its symbol id, the key `<Icon img>` and `utils/client/mapIconUtils.js` use.
+Every file must be well-formed XML with an `<svg>` root, or the build fails.
+
+At runtime the sprite is inlined into the page (see `buildBody` in
+`server/middleware/shell.js`): in development it's read from `_static` on
+every request, in production it's fetched from its content-hashed URL.
+`yarn dev` also runs `yarn sprites --watch`, so an icon edit shows up on the
+next page refresh without a restart.
+
+The generator is bundler-agnostic, but the content hashing isn't: the sprite
+goes through webpack as an entry (see above). Under Vite, whose inputs must be
+JS or HTML, that would need a small plugin emitting the file instead.
 
 All configs' assets are copied regardless of `$CONFIG`, because a deployment
 with no `$CONFIG` set resolves its config per request from the `Host` header

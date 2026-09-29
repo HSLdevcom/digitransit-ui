@@ -15,9 +15,10 @@
   "scripts": {
     "setup": "yarn install && yarn workspace-packages-build",
     "static": "node scripts/build/copyStatic.js",
+    "sprites": "node scripts/build/buildSprites.js",
     "relay": "relay-compiler",
     "relay-watch": "relay-compiler --watch",
-    "prebuild": "yarn run static && yarn run relay",
+    "prebuild": "yarn run static && yarn run sprites && yarn run relay",
     "build": "NODE_ENV=production sh -c 'yarn prebuild && node --max_old_space_size=4096 node_modules/.bin/webpack --progress --color'",
     "start": "NODE_ENV=production node $NODE_OPTS server/server.js",
     "dev": "bash scripts/dev.sh",

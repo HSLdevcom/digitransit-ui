@@ -93,6 +93,8 @@ trap cleanup EXIT INT TERM
 
 yarn static
 
+yarn sprites
+
 # Build the digitransit-* workspace packages once, synchronously, before
 # starting webpack-dev-server and the workspace watchers below. On a fresh
 # clone (or after `lib/` is removed/out of date) the packages' `lib/*.cjs`
@@ -125,6 +127,9 @@ node --watch --watch-preserve-output server/server.js &
 pids+=("$!")
 
 yarn webpack-dev-server &
+pids+=("$!")
+
+yarn sprites --watch &
 pids+=("$!")
 
 yarn workspace-packages-watch &

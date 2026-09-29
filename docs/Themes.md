@@ -27,6 +27,10 @@ logos, favicons and illustrations — live in `app/assets/images/<theme>/`, whic
 per-theme naming, with `default/` holding the fallbacks. A config names such an image by its path
 relative to that directory (e.g. `logo: 'hsl/reittiopas-logo.svg'`), which `app/assets/assetUrl.js`
 resolves to the built URL.
+Icons are per-theme too: `app/assets/icons/default/` holds every icon as `<id>.svg`, and a theme
+overrides or adds icons by placing files with the same naming in `app/assets/icons/<theme>/`.
+`scripts/build/buildSprites.js` builds each theme's sprite sheet from these; a config selects one
+with `sprites: 'assets/svg-sprite.<theme>.svg'` (see `docs/Webpack.md`).
 `test/unit/server/configs/staticAssets.test.js` verifies that each config's asset urls point at
 existing files and that no file under `static/assets/` is unreferenced.
 
