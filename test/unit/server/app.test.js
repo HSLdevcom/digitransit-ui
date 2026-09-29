@@ -77,6 +77,30 @@ describe('server app', () => {
     });
   });
 
+  describe('/favicon.ico', () => {
+    // Configs are cached on first use, so the icon directory must exist
+    // before the first tampere request. A real build may have left one too,
+    // hence the pattern rather than the fixture's exact name.
+    const iconDir = path.join(staticDir, 'icons-tampere-fixture');
+
+    beforeAll(() => {
+      fs.mkdirSync(iconDir, { recursive: true });
+    });
+
+    afterAll(() => {
+      fs.rmSync(iconDir, { recursive: true, force: true });
+    });
+
+    it("redirects to the requesting config's generated favicon", async () => {
+      vi.stubEnv('CONFIG', 'tampere');
+      const response = await request(app).get('/favicon.ico');
+      expect(response.status).toBe(302);
+      expect(response.headers.location).toMatch(
+        /^\/assets\/icons-tampere-[^/]+\/favicon\.ico$/,
+      );
+    });
+  });
+
   describe('the HTML shell', () => {
     it('renders a 200 HTML document with the injected window.config script', async () => {
       const response = await request(app).get('/');
