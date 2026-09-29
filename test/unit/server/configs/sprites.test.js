@@ -35,6 +35,24 @@ describe('SVG sprites', () => {
     },
   );
 
+  it.each(listThemes())('%s only has icon files with id-safe names', theme => {
+    const invalid = fs
+      .readdirSync(path.join(iconsDir, theme))
+      .filter(file => !/^[\w-]+\.svg$/.test(file));
+    expect(invalid).toEqual([]);
+  });
+
+  // Every symbol ends up in the same page, so an id inside one icon (e.g. a
+  // design tool's `clip0`) that repeats in another makes one of them silently
+  // render with the other's clip path, mask or gradient.
+  it.each(listThemes())('%s has no id used twice', theme => {
+    const ids = [...buildSprite(theme).matchAll(/\sid="([^"]+)"/g)].map(
+      match => match[1],
+    );
+    const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
+    expect(duplicates).toEqual([]);
+  });
+
   it('uses a theme icon over the default icon of the same name', () => {
     const [id] = iconIds('hsl').filter(icon =>
       iconIds('default').includes(icon),

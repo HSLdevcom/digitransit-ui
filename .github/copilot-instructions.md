@@ -101,12 +101,13 @@ right one by *who consumes the code*, not just by convenience.
 ## Lint & format
 
 - `yarn lint` — eslint (Airbnb config + jsx-a11y + compat + prettier) + `prettier-styles` (scss
-  check) + `stylelint` + component-package translation parity check.
+  check) + `prettier-icons` (`app/assets/icons/**/*.svg`, via `@prettier/plugin-xml`) + `stylelint`
+  + component-package translation parity check.
 - `yarn format` — auto-fixes: sorts translations (app + component packages), `eslint --fix`,
-  prettier styles, stylelint fix.
+  prettier styles, prettier icons, stylelint fix.
 - `yarn eslint` / `yarn eslint-fix` for JS only.
 - Husky git hooks: pre-commit runs `lint-staged` (eslint on staged JS, prettier+stylelint on
-  staged scss) and blocks on unresolved merge-conflict markers; pre-push runs the full
+  staged scss, prettier on staged icon SVGs) and blocks on unresolved merge-conflict markers; pre-push runs the full
   `yarn run test-unit` suite, so pushes can be slow or rejected if unit tests fail.
 
 ## Tests (see `docs/Tests.md`)

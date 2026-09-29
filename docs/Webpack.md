@@ -112,6 +112,12 @@ Icons live as one file per icon in `app/assets/icons/<theme>/<id>.svg`, and
 it adds or re-skins, layered on top of the default set. Each file's name is
 its symbol id, the key `<Icon img>` and `utils/client/mapIconUtils.js` use.
 Every file must be well-formed XML with an `<svg>` root, or the build fails.
+`test/unit/server/configs/sprites.test.js` also requires id-safe filenames and
+that no `id` repeats within a sprite: all symbols share one page, so an
+internal id (e.g. a design tool's `clip0`) reused by two icons would make one
+of them render with the other's clip path, mask or gradient. Icon files are
+formatted with Prettier (`@prettier/plugin-xml`; `yarn prettier-icons`, fixed by
+`yarn format`).
 
 At runtime the sprite is inlined into the page (see `buildBody` in
 `server/middleware/shell.js`): in development it's read from `_static` on
