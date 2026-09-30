@@ -66,13 +66,6 @@ function SelectFromMap({ breakpoint, language, type, onConfirm, mapLayers }) {
     const container = leafletMap.getContainer();
     const observer = new ResizeObserver(() => {
       leafletMap.invalidateSize();
-      // On mobile, Map.jsx fits the initial center/zoom into bounds with a
-      // large fixed pixel padding (reserved for a bottom drawer that this
-      // view doesn't have). Leaflet computed that fit against the tiny,
-      // pre-CSS container size above, which - combined with that padding -
-      // produced a degenerate, far-too-zoomed-in view. invalidateSize()
-      // only fixes the pixel mapping, not that stale zoom, so re-apply the
-      // intended default view once the container has its real size.
       if (!initialViewFixed.current) {
         initialViewFixed.current = true;
         leafletMap.setView(
@@ -308,11 +301,6 @@ export default connectToStores(
   withBreakpoint(SelectFromMap),
   ['MapLayerStore'],
   ({ getStore }) => {
-    // This picker is only meant to help place a marker relative to
-    // terminals/stations (zones are always visible as part of the base map
-    // tiles, not a toggleable layer), so hide every other user-toggleable
-    // overlay regardless of the user's own layer selections, and force
-    // stations on even if the user had hidden them elsewhere.
     const mapLayers = getStore('MapLayerStore').getMapLayers({
       notThese: [
         'citybike',
