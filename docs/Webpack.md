@@ -79,6 +79,39 @@ and output settings.
 - `crossOriginLoading: 'anonymous'` — needed for real stack traces on
   cross-origin script chunks (used with source maps).
 
+Webpack isn't the only writer of `_static/`: `scripts/build/copyStatic.js`
+(run by the `static` script, which both `prebuild` and `scripts/dev.sh`
+invoke) copies `static/` into the same directory beforehand. It lives
+outside the bundler on purpose — see "Static assets outside the bundle"
+below.
+
+## Static assets outside the bundle
+
+Per-deployment, request-time assets (social-share images, GeoJSON zone
+layers) are **not** bundled. They live in `static/assets/<CONFIG>/`, where
+the directory name is the exact `CONFIG` value, and are copied to
+`_static/assets/<CONFIG>/` by `scripts/build/copyStatic.js`. That script
+also minifies `.geojson` files and writes `.gz`/`.br` siblings for them,
+since `CompressionPlugin` below only covers `js|css|html|svg|ico` and
+`express-static-gzip` serves a precompressed sibling when one exists.
+
+The copy is deliberately bundler-agnostic (it replaced a
+`copy-webpack-plugin` pattern that only ran in production builds) so the
+assets keep working through a future bundler migration. Note that `_static`
+is populated once per `yarn dev` startup, so edits to `static/` made while
+the dev server runs aren't picked up — re-run `yarn static`.
+
+All configs' assets are copied regardless of `$CONFIG`, because a deployment
+with no `$CONFIG` set resolves its config per request from the `Host` header
+(`getConfiguration` in `server/configs/config.js`) and so can serve any
+region, and because `ASSEMBLE_GEOJSON` deployments reference *every* region's
+zone layer.
+
+Only assets the server hands out per request belong in `static/`. Images
+that are bundled into the client live in `app/client/images/<CONFIG>/`
+(`default/` holding the fallbacks) and go through the asset-module rule
+below.
+
 ## Module rules (loaders)
 
 - **`app/**/*.js`** — `babel-loader`, config inline (`configFile: false`;
@@ -119,10 +152,27 @@ and output settings.
 - **`.css`** — split into two rules only so `@hsl-fi` package CSS can be
   marked `sideEffects: true` (so it isn't tree-shaken away); everything
   else uses the default.
-- **Images/fonts** (`eot|png|ttf|woff|svg|jpeg|jpg`) — webpack5 built-in
+- **Images/fonts** (`eot|gif|png|ttf|woff|svg|jpeg|jpg`) — webpack5 built-in
   asset modules, replacing `file-loader`/`url-loader`. `asset/resource` in
-  dev (always emits a real file); `asset` in prod with `maxSize: 10000`
-  (inlines files under 10 KB as data URIs, otherwise emits a file).
+  both dev and prod: always emits a real, content-hashed file and never
+  inlines as a data URI. `app/client/assetUrl.js` makes every image under
+  `app/client/images/` reachable from the main chunk (see below), so inlining
+  the small ones would add ~130 kB of base64 to it.
+
+## `import.meta.webpackContext`
+
+`app/client/assetUrl.js` is the only module bound to a webpack-specific API.
+It builds a compile-time map of every image under `app/client/images/` so a
+config-supplied path (`config.logo`, `config.thumbsUpGraphic`, ...) resolves
+to its content-hashed URL synchronously, with no dynamic `import()` and so no
+loading state or render flash.
+
+The call is wrapped in a `try`/`catch`: outside a webpack build — in Vitest,
+which runs modules through Vite — `import.meta.webpackContext` is
+`undefined`, the call throws, and every lookup returns `undefined`, exactly
+as it does for an image the build doesn't contain. Tests that need a URL stub
+the module's default export. Vite's own equivalent, should the bundler ever
+change, is `import.meta.glob('./images/**', { eager: true })`.
 
 ## `devtool`
 
@@ -150,8 +200,6 @@ Production gets:
 - **`CompressionPlugin`** (×2) — pre-generates `.gz` and `.br` (Brotli)
   copies of JS/CSS/HTML/SVG/ICO assets so the server can serve
   precompressed files instead of compressing on the fly.
-- **`CopyWebpackPlugin`** — copies + minifies the static GeoJSON assets
-  (`static/assets/geojson`) into the build output.
 - **`EntrypointStatsPlugin`** (defined at the top of this file) — small
   local stand-in for the unmaintained `stats-webpack-plugin`. Writes
   `../stats.json` with `entrypoints.<name>.assets` as a plain array of

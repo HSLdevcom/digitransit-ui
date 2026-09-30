@@ -176,7 +176,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/kotka_zone_lines_20250114.geojson',
+        url: '/assets/kotka/zone_lines_20250114.geojson',
       },
       {
         name: {

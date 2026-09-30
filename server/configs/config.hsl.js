@@ -204,7 +204,7 @@ export default {
     description: APP_DESCRIPTION,
 
     image: {
-      url: 'img/hsl-social-share.png',
+      url: 'assets/hsl/social-share.png',
       width: 400,
       height: 400,
     },
@@ -345,7 +345,7 @@ export default {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/hsl_zone_lines_20251013.geojson',
+        url: '/assets/hsl/zone_lines_20251013.geojson',
       },
     ],
   },

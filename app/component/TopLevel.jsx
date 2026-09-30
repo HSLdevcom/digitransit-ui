@@ -14,6 +14,7 @@ import {
   PREFIX_TERMINALS,
   PREFIX_BIKESTATIONS,
 } from '../../utils/shared/path';
+import getAssetUrl from '../client/assetUrl';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
@@ -53,17 +54,6 @@ class TopLevel extends React.Component {
     meta: undefined,
     selectFromMapHeader: undefined,
   };
-
-  componentDidMount() {
-    if (this.context.config.logo) {
-      // Logo is not mandatory
-      import(
-        /* webpackChunkName: "main" */ `../client/images/${this.context.config.logo}`
-      ).then(logo => {
-        this.setState({ logo: logo.default });
-      });
-    }
-  }
 
   componentDidUpdate(prevProps) {
     // send tracking calls when url changes
@@ -174,7 +164,7 @@ class TopLevel extends React.Component {
         {!this.topBarOptions.hidden && (
           <AppBarContainer
             {...this.topBarOptions}
-            {...this.state}
+            logo={getAssetUrl(this.context.config.logo)}
             homeUrl={homeUrl}
             style={this.context.config.appBarStyle}
           />

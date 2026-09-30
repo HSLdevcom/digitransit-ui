@@ -38,6 +38,22 @@ A pure build helper, imported directly (not run standalone):
 [`webpack.config.js`](/webpack.config.js) to compute webpack theme entries
 and favicon plugins for every configured deployment (or just `$CONFIG` if set).
 
+## Using `build/copyStatic.js`
+
+Populates the served `_static/` directory from `static/`, run via `yarn static` (which both
+`prebuild` and `dev.sh` invoke):
+
+```
+yarn static
+```
+
+It copies every config's assets regardless of `$CONFIG` (a deployment with no `$CONFIG` set
+picks its config per request from the `Host` header, and `ASSEMBLE_GEOJSON` deployments
+reference every region's zone layer), minifies `.geojson` files and writes precompressed
+`.gz`/`.br` siblings for them. Deliberately kept outside webpack so it survives a bundler
+migration; note that `_static` is populated once at startup, so `static/` edits during
+`yarn dev` need a re-run. See [`docs/Webpack.md`](/docs/Webpack.md).
+
 ## Using `theme/add-theme.js`
 
 Scaffolds a new theme: creates `sass/themes/<name>`, a config file at

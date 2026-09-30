@@ -43,7 +43,7 @@ export default configMerger(walttiConfig, {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     image: {
-      url: 'img/social-share-tampere.png',
+      url: 'assets/tampere/social-share.png',
       width: 400,
       height: 400,
     },
@@ -66,7 +66,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/tre_zone_lines_20250606.geojson',
+        url: '/assets/tampere/zone_lines_20250606.geojson',
         isOffByDefault: true,
       },
       {

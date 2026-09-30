@@ -6,6 +6,7 @@ import { locationShape, relayShape } from '../../../utils/client/shapes';
 import NearYouFavouritesContainer from './NearYouFavouritesContainer';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import Loading from '../Loading';
+import getAssetUrl from '../../client/assetUrl';
 
 function NearYouFavourites({
   stopIds,
@@ -14,8 +15,8 @@ function NearYouFavourites({
   relayEnvironment,
   searchPosition,
   breakpoint,
-  noFavourites,
-  isParentTabActive,
+  noFavourites = false,
+  isParentTabActive = false,
   currentTime,
 }) {
   if (noFavourites) {
@@ -31,9 +32,11 @@ function NearYouFavourites({
         </div>
         <img
           className="instruction-image"
-          src={`/img/nearby-stop_${
-            breakpoint === 'large' ? 'desktop-' : ''
-          }animation.gif`}
+          src={getAssetUrl(
+            breakpoint === 'large'
+              ? 'default/nearby-stop_desktop-animation.gif'
+              : 'default/nearby-stop_animation.gif',
+          )}
           alt="Käyttöohje"
         />
         <FormattedMessage id="nearest-favourites-browse-stops" />
@@ -93,12 +96,6 @@ NearYouFavourites.propTypes = {
   noFavourites: PropTypes.bool,
   isParentTabActive: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
-};
-
-NearYouFavourites.defaultProps = {
-  breakpoint: undefined,
-  noFavourites: false,
-  isParentTabActive: false,
 };
 
 const NearYouFavouritesWithBreakpoint = withBreakpoint(props => (

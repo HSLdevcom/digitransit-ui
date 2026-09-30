@@ -5,14 +5,14 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { configShape } from '../../../../utils/client/shapes';
 import Icon from '../../Icon';
-import { useLogo } from '../../../hooks/useLogo';
+import getAssetUrl from '../../../client/assetUrl';
 
 const NaviStarter = (
   { time, startItinerary, containerTopPosition, isPastStart },
   { config },
 ) => {
   const intl = useIntl();
-  const { logo } = useLogo(config.trafficLightGraphic);
+  const logo = getAssetUrl(config.trafficLightGraphic);
   const [isVisible, setIsVisible] = useState(!isPastStart);
   const [isDismissed, setIsDismissed] = useState(false);
 

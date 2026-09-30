@@ -56,7 +56,7 @@ export default configMerger(walttiConfig, {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     image: {
-      url: 'img/social-share-jyvaskyla.png',
+      url: 'assets/jyvaskyla/social-share.png',
       width: 443,
       height: 443,
     },
@@ -143,7 +143,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/jkl_zone_lines_20240531.geojson',
+        url: '/assets/jyvaskyla/zone_lines_20240531.geojson',
       },
       {
         name: {

@@ -42,7 +42,7 @@ export default configMerger(walttiConfig, {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     image: {
-      url: 'img/social-share-seutuplus.png',
+      url: 'assets/varely/social-share.png',
       width: 611,
       height: 225,
     },
