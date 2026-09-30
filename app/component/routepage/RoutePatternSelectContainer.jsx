@@ -7,12 +7,11 @@ import {
   ReactRelayContext,
 } from 'react-relay';
 import sortBy from 'lodash/sortBy';
-import { matchShape } from 'found';
 import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
 import cx from 'classnames';
 import { useIntl, FormattedMessage } from 'react-intl';
+import { matchShape, routeShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../client/ConfigContext';
-import { routeShape } from '../../../utils/client/shapes';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import RoutePatternSelect, { patternTextWithIcon } from './RoutePatternSelect';
 import RoutePatternHeader from './RoutePatternHeader';

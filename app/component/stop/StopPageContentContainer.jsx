@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { matchShape } from 'found';
 import {
+  matchShape,
   configShape,
   errorShape,
   relayShape,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import { routerShape, matchShape } from 'found';
+import { routerShape, matchShape } from '../../utils/client/shapes';
 import Icon from './Icon';
 import { useConfigContext } from '../client/ConfigContext';
 

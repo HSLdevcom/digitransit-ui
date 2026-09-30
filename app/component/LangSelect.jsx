@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { matchShape } from 'found';
 import { useIntl } from 'react-intl';
+import { matchShape } from '../../utils/client/shapes';
 import { useConfigContext } from '../client/ConfigContext';
 
 const Language = ({ lang }, { match }) => {

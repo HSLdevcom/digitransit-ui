@@ -1,7 +1,7 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
-import { matchShape } from 'found';
+import { matchShape } from '../../../utils/client/shapes';
 import { generateMetaData } from '../../../utils/client/metaUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 

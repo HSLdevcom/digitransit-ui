@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { matchShape } from 'found';
 import { FormattedMessage } from 'react-intl';
+import { matchShape, stopShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { parseLocation } from '../../../utils/shared/path';
 import { timeStr } from '../../../utils/client/timeUtils';
-import { stopShape } from '../../../utils/client/shapes';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function EndLeg(props, context) {

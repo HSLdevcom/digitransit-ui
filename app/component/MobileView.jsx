@@ -7,7 +7,7 @@ import React, {
   useImperativeHandle,
   useEffect,
 } from 'react';
-import { matchShape } from 'found';
+import { matchShape } from '../../utils/client/shapes';
 import MapBottomsheetContext from './map/MapBottomsheetContext';
 import MobileFooter from './MobileFooter';
 

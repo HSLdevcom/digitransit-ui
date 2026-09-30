@@ -1,9 +1,8 @@
 import cx from 'classnames';
 import React, { useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { matchShape } from 'found';
 import groupBy from 'lodash/groupBy';
-import { stopShape } from '../../../utils/client/shapes';
+import { matchShape, stopShape } from '../../../utils/client/shapes';
 import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 import {
   getAlertsForObject,

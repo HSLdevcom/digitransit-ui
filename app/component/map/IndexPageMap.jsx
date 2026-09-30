@@ -1,6 +1,6 @@
 import React from 'react';
 import { connectToStores } from 'fluxible-addons-react';
-import { matchShape } from 'found';
+import { matchShape } from '../../../utils/client/shapes';
 import MapWithTracking from './MapWithTracking';
 import { sameLocations } from '../../../utils/shared/path';
 import { useConfigContext } from '../../client/ConfigContext';

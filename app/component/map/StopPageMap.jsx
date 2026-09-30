@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useContext, useState, useRef } from 'react';
-import { matchShape, routerShape } from 'found';
 import { connectToStores } from 'fluxible-addons-react';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import {
+  matchShape,
+  routerShape,
   configShape,
   locationShape,
   mapLayerOptionsShape,

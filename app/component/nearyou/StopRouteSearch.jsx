@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { memo } from 'react';
-import { routerShape } from 'found';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import { filterSearchResultsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
+import { routerShape } from '../../../utils/client/shapes';
 import { withSearchContext } from '../WithSearchContext';
 import { getStopRoutePath } from '../../../utils/shared/path';
 import { useConfigContext } from '../../client/ConfigContext';

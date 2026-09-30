@@ -1,8 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { matchShape } from 'found';
 import { useIntl } from 'react-intl';
-import { configShape } from '../../../utils/client/shapes';
+import { matchShape, configShape } from '../../../utils/client/shapes';
 import { otpToLocation } from '../../../utils/shared/otpStrings';
 import { generateMetaData } from '../../../utils/client/metaUtils';
 

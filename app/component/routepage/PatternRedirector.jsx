@@ -2,12 +2,15 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import sortBy from 'lodash/sortBy';
-import { matchShape, routerShape } from 'found';
+import {
+  matchShape,
+  routerShape,
+  routeShape,
+} from '../../../utils/client/shapes';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import Error404 from '../404';
 import { saveSearchItems } from '../../action/SearchActions';
 import { getOldSearchItems } from '../../../utils/client/storeUtils';
-import { routeShape } from '../../../utils/client/shapes';
 
 const PatternRedirector = ({ router, match, route }, context) => {
   if (!route) {

@@ -1,11 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { matchShape } from 'found';
 import { fetchQuery } from 'react-relay';
 import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import {
+  matchShape,
+  locationShape,
+  relayShape,
+  configShape,
+  stopShape,
+} from '../../../utils/client/shapes';
 import BackButton from '../BackButton';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import Line from './Line';
@@ -21,12 +27,6 @@ import {
   sortNearYouStops,
 } from '../../../utils/client/sortUtils';
 import ItineraryLine from './ItineraryLine';
-import {
-  locationShape,
-  relayShape,
-  configShape,
-  stopShape,
-} from '../../../utils/client/shapes';
 import Loading from '../Loading';
 import { getRouteMode } from '../../../utils/client/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';

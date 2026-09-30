@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
-import { matchShape, routerShape } from 'found';
-
+import { matchShape, routerShape } from '../../../utils/client/shapes';
 import { mockRouter, mockMatch } from './mock-router';
 import PositionStore from '../../../app/store/PositionStore';
 import config from '../../../server/configs/config.default';

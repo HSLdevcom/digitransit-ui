@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { matchShape } from 'found';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import { routeShape } from '../../../utils/client/shapes';
+import { matchShape, routeShape } from '../../../utils/client/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import RouteControlPanel from './RouteControlPanel';

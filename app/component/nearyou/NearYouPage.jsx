@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { graphql, ReactRelayContext, QueryRenderer } from 'react-relay';
-import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import { relayShape, locationShape } from '../../../utils/client/shapes';
+import {
+  matchShape,
+  routerShape,
+  relayShape,
+  locationShape,
+} from '../../../utils/client/shapes';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';
 import withBreakpoint, {

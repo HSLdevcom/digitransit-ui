@@ -1,9 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { matchShape, routerShape } from 'found';
 import Modal from '@hsl-fi/modal';
-import { stopShape, configShape } from '../../utils/client/shapes';
+import {
+  matchShape,
+  routerShape,
+  stopShape,
+  configShape,
+} from '../../utils/client/shapes';
 import Icon from './Icon';
 import { locationToUri, locationToOTP } from '../../utils/shared/otpStrings';
 import {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { matchShape } from 'found';
 import { FormattedMessage } from 'react-intl';
+import { matchShape } from '../../../utils/client/shapes';
 
 export default function ItineraryPageTitle(props) {
   return (

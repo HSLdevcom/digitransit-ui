@@ -2,8 +2,12 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import some from 'lodash/some';
-import { matchShape, routerShape } from 'found';
-import { configShape, locationShape } from '../../utils/client/shapes';
+import {
+  matchShape,
+  routerShape,
+  configShape,
+  locationShape,
+} from '../../utils/client/shapes';
 import {
   getHomeUrl,
   PREFIX_STOPS,

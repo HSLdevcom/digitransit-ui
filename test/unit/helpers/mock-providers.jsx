@@ -1,14 +1,18 @@
 import React, { useMemo } from 'react';
-import { RouterContext, routerShape, matchShape } from 'found';
+import { RouterContext } from 'found';
 import { ReactRelayContext } from 'react-relay';
 import PropTypes from 'prop-types';
 import { IntlProvider, createIntl, createIntlCache } from 'react-intl';
 import { render } from '@testing-library/react';
+import {
+  routerShape,
+  matchShape,
+  configShape,
+} from '../../../utils/client/shapes';
 import { ConfigProvider } from '../../../app/client/ConfigContext';
 import { TimeProvider, TimeContext } from '../../../app/hooks/TimeContext';
 import translations from '../../../app/translations/en';
 import { mockContext } from './mock-context';
-import { configShape } from '../../../utils/client/shapes';
 
 const defaultMessages = translations.en || translations;
 const noop = () => {};

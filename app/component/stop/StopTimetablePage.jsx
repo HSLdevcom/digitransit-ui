@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createRefetchContainer, graphql } from 'react-relay';
-import { matchShape, routerShape } from 'found';
+import {
+  matchShape,
+  routerShape,
+  configShape,
+  relayShape,
+} from '../../../utils/client/shapes';
 import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
-import { configShape, relayShape } from '../../../utils/client/shapes';
 import { prepareServiceDay } from '../../../utils/client/dateParamUtils';
 import Timetable from './Timetable';
 

@@ -2,9 +2,13 @@ import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useFragment } from 'react-relay';
-import { matchShape } from 'found';
 import { DateTime } from 'luxon';
 import cx from 'classnames';
+import {
+  matchShape,
+  routeShape,
+  patternShape,
+} from '../../../../utils/client/shapes';
 import { SchedulePatternFragment } from './queries/SchedulePatternFragment';
 import { ScheduleRouteFragment } from './queries/ScheduleRouteFragment';
 import { ScheduleFirstDeparturesFragment } from './queries/ScheduleFirstDeparturesFragment';
@@ -20,7 +24,6 @@ import RouteControlPanel from '../RouteControlPanel';
 import ScrollableWrapper from '../../ScrollableWrapper';
 import { useConfigContext } from '../../../client/ConfigContext';
 import { getTripsList } from './scheduleTripsUtils';
-import { routeShape, patternShape } from '../../../../utils/client/shapes';
 import { calculateRedirectDecision } from './scheduleParamUtils';
 import { buildAvailableDates } from './scheduleDataUtils';
 import { splitGtfsId } from '../../../../utils/shared/gtfs';

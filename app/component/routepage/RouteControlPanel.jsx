@@ -5,8 +5,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
-import { matchShape } from 'found';
 import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
+import { matchShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../client/ConfigContext';
 import RoutePatternSelectContainer from './RoutePatternSelectContainer';
 import {

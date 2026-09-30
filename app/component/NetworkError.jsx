@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { matchShape } from 'found';
-
 import { FormattedMessage } from 'react-intl';
 import Link from 'found/Link';
+import { matchShape } from '../../utils/client/shapes';
 import Icon from './Icon';
 
 const NetworkError = ({ retry }, { match }) => (

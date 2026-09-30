@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
-import { matchShape } from 'found';
 import { FormattedMessage } from 'react-intl';
+import { matchShape } from '../../../utils/client/shapes';
 
 const ChangeDepartureTimeLink = ({ match }) => (
   <div>

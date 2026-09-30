@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import { routerShape } from 'found';
 import {
+  routerShape,
   vehicleRentalStationShape,
   errorShape,
 } from '../../utils/client/shapes';
