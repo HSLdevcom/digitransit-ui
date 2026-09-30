@@ -1,20 +1,14 @@
-name: 'Setup Node, install dependencies, build workspaces'
+name: 'Setup Node, install dependencies'
 description: >-
-  Sets up Node.js, restores/populates yarn + node_modules caches, and
-  optionally builds the shared digitransit-* workspace packages (backed by
-  a coarse whole-tree cache, falling back to Nx's own per-package cache on
-  a miss). The calling job must check out the repo itself first: GitHub
-  Actions has to resolve this action's own action.yml from disk before it
-  can run any of its steps (including a checkout step), so a checkout
-  cannot happen from inside a local composite action.
+  Sets up Node.js and restores/populates yarn + node_modules caches. The
+  calling job must check out the repo itself first: GitHub Actions has to
+  resolve this action's own action.yml from disk before it can run any of
+  its steps (including a checkout step), so a checkout cannot happen from
+  inside a local composite action.
 inputs:
   node-version:
     description: 'Node.js version to use'
     required: true
-  build-workspaces:
-    description: 'Whether to cache/build the shared digitransit-* workspace packages'
-    required: false
-    default: 'true'
 runs:
   using: 'composite'
   steps:
@@ -42,27 +36,3 @@ runs:
       if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
       shell: bash
       run: yarn install --immutable
-
-    - name: cache shared components
-      if: ${{ inputs.build-workspaces == 'true' }}
-      id: cache-shared-components
-      uses: actions/cache@v5
-      with:
-        path: 'digitransit-*'
-        key: ${{ runner.os }}-shared-components-${{ hashFiles('digitransit-*/**') }}
-    # Fallback for when the coarse cache above misses (e.g. a change in only
-    # one of the digitransit-* packages invalidates the whole-tree hash).
-    # Nx (which `yarn run workspace-packages-build` runs through via lerna) does its
-    # own per-package caching, so restoring its cache here lets unaffected
-    # packages be skipped instead of rebuilt from scratch.
-    - name: cache Nx
-      if: ${{ inputs.build-workspaces == 'true' && steps.cache-shared-components.outputs.cache-hit != 'true' }}
-      uses: actions/cache@v5
-      with:
-        path: '.nx/cache'
-        key: ${{ runner.os }}-nx-cache-${{ github.sha }}
-        restore-keys: ${{ runner.os }}-nx-cache-
-    - name: build shared components
-      if: ${{ inputs.build-workspaces == 'true' && steps.cache-shared-components.outputs.cache-hit != 'true' }}
-      shell: bash
-      run: yarn run workspace-packages-build

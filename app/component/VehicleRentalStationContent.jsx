@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import { routerShape } from 'found';
+import { useRouter } from 'found';
 import {
   vehicleRentalStationShape,
   errorShape,
@@ -19,10 +19,10 @@ import { useConfigContext } from '../client/ConfigContext';
 const VehicleRentalStationContent = ({
   vehicleRentalStation,
   breakpoint,
-  router,
   error,
 }) => {
   const config = useConfigContext();
+  const { router } = useRouter();
   // throw error when relay query fails
   if (error && !vehicleRentalStation) {
     throw error.message;
@@ -91,7 +91,6 @@ const VehicleRentalStationContent = ({
 VehicleRentalStationContent.propTypes = {
   vehicleRentalStation: vehicleRentalStationShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
-  router: routerShape.isRequired,
   error: errorShape,
 };
 

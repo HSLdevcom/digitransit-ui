@@ -2,8 +2,11 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import some from 'lodash/some';
-import { matchShape, routerShape } from 'found';
-import { configShape, locationShape } from '../../utils/client/shapes';
+import {
+  matchShape,
+  configShape,
+  locationShape,
+} from '../../utils/client/shapes';
 import {
   getHomeUrl,
   PREFIX_STOPS,
@@ -33,7 +36,6 @@ class TopLevel extends React.Component {
     meta: PropTypes.node,
     match: matchShape.isRequired,
     origin: locationShape,
-    router: routerShape.isRequired,
     selectFromMapHeader: PropTypes.node,
   };
 
@@ -52,18 +54,6 @@ class TopLevel extends React.Component {
     meta: undefined,
     selectFromMapHeader: undefined,
   };
-
-  static childContextTypes = {
-    router: routerShape,
-    match: matchShape,
-  };
-
-  getChildContext() {
-    return {
-      match: this.props.match,
-      router: this.props.router,
-    };
-  }
 
   componentDidUpdate(prevProps) {
     // send tracking calls when url changes
@@ -154,7 +144,6 @@ class TopLevel extends React.Component {
               content={this.props.content}
               header={this.props.header}
               selectFromMapHeader={this.props.selectFromMapHeader}
-              match={this.props.match}
             />
           )}
           desktop={() => (

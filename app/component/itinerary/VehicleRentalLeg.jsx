@@ -124,7 +124,7 @@ function VehicleRentalLeg({
                         : ''
                     }
                     badgeFill={returnBike ? null : availabilityIndicatorColor}
-                    badgeTextFill={returnBike ? null : availabilityTextColor}
+                    textFill={returnBike ? null : availabilityTextColor}
                   />
                 }
               />

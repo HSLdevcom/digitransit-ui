@@ -3,10 +3,16 @@ import legacyParamParser from '../../../../utils/shared/legacyParamParser';
 import defaultConfig from '../../../../server/configs/config.default';
 import { PREFIX_ITINERARY_SUMMARY } from '../../../../utils/shared/path';
 
-// legacyParamParser also supports free-text from/to, resolved via a real
-// geocoding network call - out of scope here, these tests stick to the
-// fully deterministic legacy `*label*kkjX*kkjY*` coordinate format and the
-// no-input fallback, neither of which touch the network.
+// legacyParamParser also supports free-text from/to, resolved via geocoding -
+// mocked below so no test touches the network.
+const { getGeocodingResults } = vi.hoisted(() => ({
+  getGeocodingResults: vi.fn(),
+}));
+vi.mock(
+  '@digitransit-search-util/digitransit-search-util-get-geocoding-results',
+  () => ({ default: getGeocodingResults }),
+);
+
 const config = { ...defaultConfig, queryMaxAgeDays: 30 };
 
 const from = 'Rautatientori*Rautatientori*3386000*6672000';
@@ -62,5 +68,34 @@ describe('legacyParamParser', () => {
   it('falls back to the index-page redirect format when from/to are both missing', async () => {
     const url = await legacyParamParser({}, config);
     expect(url).toBe('/%20/%20/');
+  });
+
+  it('geocodes free-text from_in/to_in against the configured Pelias URL', async () => {
+    getGeocodingResults.mockImplementation(text =>
+      Promise.resolve([
+        {
+          properties: { label: text },
+          geometry: { coordinates: [24.9, 60.2] },
+        },
+      ]),
+    );
+
+    const url = await legacyParamParser(
+      { from_in: 'Pasila', to_in: 'Kamppi' },
+      config,
+    );
+
+    expect(getGeocodingResults).toHaveBeenCalledWith(
+      'Pasila',
+      config.searchParams,
+      null,
+      null,
+      null,
+      config.URL.PELIAS,
+      config.search?.minimalRegexp ?? null,
+    );
+    expect(url).toBe(
+      `/${PREFIX_ITINERARY_SUMMARY}/Pasila%3A%3A60.2%2C24.9/Kamppi%3A%3A60.2%2C24.9/`,
+    );
   });
 });

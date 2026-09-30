@@ -2,18 +2,16 @@ import PropTypes from 'prop-types';
 import React, { useState, useRef, memo } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import cx from 'classnames';
-import { matchShape } from 'found';
 import debounce from 'lodash/debounce';
+import { routeShape } from '../../../utils/client/shapes';
 import RouteControlPanel from './RouteControlPanel';
 import { getStartTime } from '../../../utils/client/timeUtils';
 import TripStopListContainer from './TripStopListContainer';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import ScrollableWrapper from '../ScrollableWrapper';
-import { routeShape } from '../../../utils/client/shapes';
 
 const TripStopsContainer = memo(function TripStopsContainer({
   breakpoint,
-  match,
   trip,
   route,
 }) {
@@ -48,7 +46,6 @@ const TripStopsContainer = memo(function TripStopsContainer({
     >
       {route && route.patterns && (
         <RouteControlPanel
-          match={match}
           route={route}
           breakpoint={breakpoint}
           tripStartTime={tripStartTime}
@@ -73,7 +70,6 @@ TripStopsContainer.propTypes = {
       }).isRequired,
     ).isRequired,
   }),
-  match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   route: routeShape,
 };

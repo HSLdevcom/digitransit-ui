@@ -73,7 +73,7 @@ export default function VehicleMarker({
                         rental?.availableVehicles?.total,
                         config,
                       )}
-                      badgeTextFill={getVehicleAvailabilityTextColor(
+                      textFill={getVehicleAvailabilityTextColor(
                         rental?.availableVehicles?.total,
                         config,
                       )}

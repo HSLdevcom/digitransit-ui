@@ -18,11 +18,10 @@
 !.yarn/versions
 !.yarn/patches
 
-# Workspace packages (source only; `lib` build output - which, for
-# digitransit-search-util-query-utils, includes lib/__generated__ relay
-# artifacts (see its package.json "relay.artifactDirectory") - is rebuilt
-# fresh by `yarn run workspace-packages-build`). digitransit-util has no
-# "build" script in any of its packages today (ships raw source, no lib/
+# Workspace packages (source only; `lib` build output, and
+# digitransit-search-util-query-utils's src/__generated__ Relay artifacts, are
+# rebuilt fresh by `yarn run workspace-packages-build`). digitransit-util has
+# no "build" script in any of its packages today (ships raw source, no lib/
 # output), but the lib/ exclusion is kept here for future-proofing in case
 # that changes.
 !digitransit-util
@@ -30,6 +29,7 @@ digitransit-util/packages/**/lib
 
 !digitransit-search-util
 digitransit-search-util/packages/**/lib
+digitransit-search-util/packages/**/__generated__
 
 !digitransit-component
 digitransit-component/packages/**/lib
