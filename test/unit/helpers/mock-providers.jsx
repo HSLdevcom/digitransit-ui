@@ -78,6 +78,8 @@ export default function TestProviders({
   locale = 'en',
   messages = defaultMessages,
   currentTime,
+  getStore,
+  executeAction,
 }) {
   const routerCtx = useMemo(
     () => ({
@@ -87,7 +89,13 @@ export default function TestProviders({
     [match, router],
   );
   const inner = (
-    <LegacyContextProvider config={config} match={match} router={router}>
+    <LegacyContextProvider
+      config={config}
+      match={match}
+      router={router}
+      getStore={getStore}
+      executeAction={executeAction}
+    >
       <ReactRelayContext.Provider value={mockRelayContext}>
         <RouterContext.Provider value={routerCtx}>
           {children}
@@ -118,11 +126,13 @@ TestProviders.propTypes = {
   locale: PropTypes.string,
   messages: PropTypes.objectOf(PropTypes.string),
   currentTime: PropTypes.number,
+  getStore: PropTypes.func,
+  executeAction: PropTypes.func,
 };
 
 /**
  * @param {React.ReactElement} ui - Component under test
- * @param {{ config?: object, match?: object, router?: object, locale?: string, messages?: object }} opts
+ * @param {{ config?: object, match?: object, router?: object, locale?: string, messages?: object, currentTime?: number, getStore?: Function, executeAction?: Function }} opts
  */
 export function renderWithProviders(ui, opts = {}) {
   const {
@@ -132,6 +142,8 @@ export function renderWithProviders(ui, opts = {}) {
     locale,
     messages,
     currentTime,
+    getStore,
+    executeAction,
     ...renderOpts
   } = opts;
   const Wrapper = ({ children }) => (
@@ -142,6 +154,8 @@ export function renderWithProviders(ui, opts = {}) {
       locale={locale}
       messages={messages}
       currentTime={currentTime}
+      getStore={getStore}
+      executeAction={executeAction}
     >
       {children}
     </TestProviders>
