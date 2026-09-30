@@ -21,7 +21,7 @@ import { Settings } from 'luxon';
 import { IntlProvider } from 'react-intl';
 import { configShape } from '../../utils/client/shapes';
 import i18n from './i18n';
-import { historyMiddlewares, render } from './routes';
+import { historyMiddlewares, render } from '../routes/routes';
 import appCreator from './app';
 import ErrorBoundary from '../component/ErrorBoundary';
 import legacyParamParser from '../../utils/shared/legacyParamParser';

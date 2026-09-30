@@ -1,6 +1,6 @@
 import Fluxible from 'fluxible';
 
-import routes from './routes';
+import routes from '../routes/routes';
 import OldSearchesStore from '../store/OldSearchesStore';
 import PositionStore from '../store/PositionStore';
 import RealTimeInformationStore from '../store/RealTimeInformationStore';
