@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { RouterContext } from 'found';
 import { ReactRelayContext } from 'react-relay';
 import PropTypes from 'prop-types';
-import { IntlProvider } from 'react-intl';
+import { IntlProvider, createIntl, createIntlCache } from 'react-intl';
 import { render } from '@testing-library/react';
 import {
   routerShape,
@@ -14,7 +14,19 @@ import { TimeProvider, TimeContext } from '../../../app/hooks/TimeContext';
 import translations from '../../../app/translations/en';
 import { mockContext } from './mock-context';
 
-const defaultMessages = translations.en || translations;
+const defaultMessages = translations.en;
+const intlCache = createIntlCache();
+
+/**
+ * A real react-intl object for testing code that takes intl as a parameter.
+ * Uses the same default en messages as renderWithProviders.
+ */
+export function createTestIntl({
+  locale = 'en',
+  messages = defaultMessages,
+} = {}) {
+  return createIntl({ locale, messages }, intlCache);
+}
 const noop = () => {};
 const mockRelayEnvironment = {
   check: noop,
