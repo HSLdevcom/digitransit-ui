@@ -109,7 +109,13 @@ export default function NaviCard(
     instructions = `navileg-${leg.mode.toLowerCase()}`;
     iconName = iconMap[leg.mode] || iconMap.WALK;
   } else if (legType === LEGTYPE.WAIT) {
-    iconName = iconMap.WAIT;
+    if (nextLeg && !nextLeg.transitLeg) {
+      // No current leg to wait for a vehicle on; show walking-style instructions for the upcoming leg instead.
+      instructions = `navileg-${nextLeg.mode.toLowerCase()}`;
+      iconName = iconMap[nextLeg.mode] || iconMap.WALK;
+    } else {
+      iconName = iconMap.WAIT;
+    }
   } else if (legType === LEGTYPE.WAIT_IN_VEHICLE) {
     iconName = iconMap.WAIT_IN_VEHICLE;
   }
