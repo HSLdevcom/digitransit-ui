@@ -478,14 +478,6 @@ export default config => {
           ),
         }}
       </Route>
-      <Route path={config.indexPath === '' ? '/' : `/${config.indexPath}`}>
-        {indexPageComponents}
-      </Route>
-      <Route
-        path={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from`}
-      >
-        {indexPageComponents}
-      </Route>
       <Route
         path={`${
           config.indexPath === '' ? '' : `/${config.indexPath}`
@@ -496,6 +488,14 @@ export default config => {
       <Route
         path={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/-/:to`}
       >
+        {indexPageComponents}
+      </Route>
+      <Route
+        path={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from`}
+      >
+        {indexPageComponents}
+      </Route>
+      <Route path={config.indexPath === '' ? '/' : `/${config.indexPath}`}>
         {indexPageComponents}
       </Route>
       <Redirect

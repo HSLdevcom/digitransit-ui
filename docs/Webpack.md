@@ -197,12 +197,12 @@ config-supplied path (`config.logo`, `config.thumbsUpGraphic`, ...) resolves
 to its content-hashed URL synchronously, with no dynamic `import()` and so no
 loading state or render flash.
 
-The call is guarded by a `typeof import.meta.webpackContext === 'function'`
-check, so outside a webpack build — in Vitest, which runs modules through Vite
-— the map is absent and every lookup returns `undefined`, exactly as it does
-for an image the build doesn't contain. Tests that need a URL stub the module's
-default export. Vite's own equivalent, should the bundler ever change, is
-`import.meta.glob('./images/**', { eager: true })`.
+The call is wrapped in a `try`/`catch`: outside a webpack build — in Vitest,
+which runs modules through Vite — `import.meta.webpackContext` is
+`undefined`, the call throws, and every lookup returns `undefined`, exactly
+as it does for an image the build doesn't contain. Tests that need a URL stub
+the module's default export. Vite's own equivalent, should the bundler ever
+change, is `import.meta.glob('./images/**', { eager: true })`.
 
 ## `devtool`
 
