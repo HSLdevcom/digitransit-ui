@@ -162,7 +162,7 @@ class TopLevel extends React.Component {
         {!this.topBarOptions.hidden && (
           <AppBarContainer
             {...this.topBarOptions}
-            logo={getAssetUrl(this.context.config.logo)}
+            logo={getAssetUrl(this.props.config.logo)}
             homeUrl={homeUrl}
             style={this.props.config.appBarStyle}
           />
