@@ -128,14 +128,11 @@ describe('<ScheduleContainer />', () => {
   });
 
   const renderView = (props = {}, match = mockMatchWithRouter) =>
-    renderWithProviders(
-      <ScheduleContainer {...defaultProps} {...props} match={match} />,
-      {
-        config: mocks.config,
-        match,
-        router: mockRouter,
-      },
-    );
+    renderWithProviders(<ScheduleContainer {...defaultProps} {...props} />, {
+      config: mocks.config,
+      match,
+      router: match.router,
+    });
 
   it('should initialize from/to stops covering the whole pattern', () => {
     const { container } = renderView();

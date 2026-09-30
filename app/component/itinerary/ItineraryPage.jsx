@@ -1818,7 +1818,6 @@ export default function ItineraryPage(props, context) {
       settingsDrawer={settingsDrawer}
       map={map}
       ref={mobileRef}
-      match={match}
       enableBottomScroll={!naviMode}
     />
   );
