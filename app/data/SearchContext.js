@@ -53,11 +53,6 @@ class SearchContext {
       return;
     }
     this.initialized = true;
-    // Some @digitransit-search-util packages (e.g.
-    // digitransit-search-util-execute-search-immediate) still read
-    // searchContext.context directly, so keep exposing it even though our
-    // own getFavourite*() methods below no longer need it themselves.
-    this.context = config;
     this.isPeliasLocationAware = config.autoSuggest.locationAware;
     this.minimalRegexp = config.search
       ? config.search.minimalRegexp
