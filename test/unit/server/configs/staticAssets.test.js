@@ -6,6 +6,10 @@ const configsDir = path.join(process.cwd(), 'server', 'configs');
 const staticDir = path.join(process.cwd(), 'static');
 const assetsDir = path.join(staticDir, 'assets');
 
+// Hidden OS-generated files starting with dot or ending with tilde (e.g. macOS regenerates .DS_Store just by
+// browsing a folder in Finder) are never real config assets.
+const IGNORED_FILES = /(^\.)|(~$)/;
+
 const configNames = fs
   .readdirSync(configsDir)
   .filter(file => /^config\.\w+\.js$/.test(file))
@@ -50,7 +54,8 @@ describe('static asset references', () => {
           .relative(staticDir, path.join(entry.parentPath, entry.name))
           .split(path.sep)
           .join('/'),
-      );
+      )
+      .filter(file => !IGNORED_FILES.test(path.basename(file)));
 
     expect(files.filter(file => !referenced.has(file))).toEqual([]);
   });
