@@ -5,17 +5,20 @@
 // `import.meta.webpackContext` maps that directory at build time, so a path
 // resolves immediately - no dynamic import(), no loading state.
 //
-// This is the app's only webpack-specific API. The guard below keeps it
-// harmless elsewhere (Vitest runs modules through Vite, which has no such
-// API): the map is absent and every lookup misses.
-const images =
-  typeof import.meta.webpackContext === 'function'
-    ? import.meta.webpackContext('./images', {
-        mode: 'sync',
-        recursive: true,
-        regExp: /\.(gif|jpe?g|png|svg)$/,
-      })
-    : undefined;
+// This is the app's only webpack-specific API, so it's called directly and
+// try/caught: elsewhere (Vitest runs modules through Vite, which has no such
+// API) `import.meta.webpackContext` is `undefined`, calling it throws, and
+// every lookup misses.
+let images;
+try {
+  images = import.meta.webpackContext('./images', {
+    mode: 'sync',
+    recursive: true,
+    regExp: /\.(gif|jpe?g|png|svg)$/,
+  });
+} catch {
+  images = undefined;
+}
 
 /**
  * @param {?string} path path under app/client/images/, including the theme
@@ -31,5 +34,8 @@ export default function getAssetUrl(path) {
   const key = `./${path}`;
   // keys() rather than try/catch: a context throws on an unknown key, and a
   // missing image is an expected outcome for callers that fall back.
-  return images.keys().includes(key) ? images(key).default : undefined;
+  //
+  // `images(key)` is the raw URL string itself, not `.default` - it's a raw
+  // `__webpack_require__(id)`, not an ESM import, so there's no interop wrapper.
+  return images.keys().includes(key) ? images(key) : undefined;
 }
