@@ -1,4 +1,4 @@
-/* eslint-disable func-names, no-console */
+/* eslint-disable func-names */
 import passport from 'passport';
 import session from 'express-session';
 import redis from 'redis';

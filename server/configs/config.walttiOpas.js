@@ -39,7 +39,7 @@ export default configMerger(walttiConfig, {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     image: {
-      url: 'img/social-share-waltti.png',
+      url: 'assets/walttiOpas/social-share.png',
       width: 1795,
       height: 1313,
     },

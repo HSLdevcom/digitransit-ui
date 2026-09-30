@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { configShape } from '../../../../../utils/client/shapes';
-import { useLogo } from '../../../../hooks/useLogo';
+import getAssetUrl from '../../../../client/assetUrl';
 import NavigatorModal from '../NavigatorModal';
 import NavigatorIntro from './NavigatorIntro';
 
@@ -9,11 +9,7 @@ const NavigatorIntroModal = (
   { onPrimaryClick, onClose, onOpenGeolocationInfo },
   { config },
 ) => {
-  const { logo, loading } = useLogo(config.navigationLogo);
-
-  if (loading) {
-    return null;
-  }
+  const logo = getAssetUrl(config.navigationLogo);
 
   return (
     <NavigatorModal isOpen withBackdrop slideUp>

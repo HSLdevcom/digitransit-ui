@@ -1,10 +1,3 @@
-// The `server/configs/` require-chain reached from
-// `./scripts/build/contextHelper.js` (`server/configs/config.js` and
-// friends) is native ESM now - the repo is
-// `"type": "module"` - so this config no longer needs `@babel/register` to
-// load it. `import.meta.dirname` (as `rootDir`) replaces `__dirname`;
-// `createRequire` is kept only for the two `require.resolve(...)` polyfill
-// lookups below.
 import path from 'path';
 import fs from 'fs';
 import { createRequire } from 'module';
@@ -12,15 +5,12 @@ import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserJsPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import { InjectManifest } from 'workbox-webpack-plugin';
 import CompressionPlugin from 'compression-webpack-plugin';
 // This package's `exports` map subpath types aren't understood by
 // eslint-plugin-import's resolver.
 // eslint-disable-next-line import/no-unresolved
 import { WebpackAssetsManifest } from 'webpack-assets-manifest';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { themeEntries, faviconPlugins } from './scripts/build/contextHelper.js';
-import { ASSET_URL_PLACEHOLDER } from './scripts/build/assetUrlPlaceholder.js';
 
 const require = createRequire(import.meta.url);
 const rootDir = import.meta.dirname;
@@ -35,9 +25,9 @@ const selectedTheme = new RegExp(
 );
 
 // Small stand-in for the unmaintained `stats-webpack-plugin`: writes the
-// same trimmed-down stats shape that server/server.js's (via
-// server/serve.js) asset lookup reads to know which built JS/CSS files
-// belong to the `main` entrypoint. `server/serve.js` expects
+// same trimmed-down stats shape that server/middleware/shell.js's (via
+// server/html/assetManifest.js) asset lookup reads to know which built
+// JS/CSS files belong to the `main` entrypoint. It expects
 // `entrypoints.<name>.assets` to be an array of plain filename strings
 // (the shape `stats-webpack-plugin` used to produce), not webpack5's
 // native `{ name, size }` asset objects, so that shape is preserved here.
@@ -65,32 +55,6 @@ class EntrypointStatsPlugin {
 
 const productionPlugins = [
   ...faviconPlugins,
-  new InjectManifest({
-    swSrc: path.join(rootDir, 'utils/client/serviceWorker.js'),
-    swDest: 'sw.js',
-    // Mirrors the previous offline-plugin `excludes` list: source maps,
-    // compressed variants, and the per-deployment theme/sprite chunks and
-    // icon assets are all left out of the eager precache manifest.
-    exclude: [
-      /\.map$/,
-      /\.gz$/,
-      /\.br$/,
-      /_theme\.[^/]+\.js$/,
-      /_sprite\.[^/]+\.js$/,
-      /assets\/iconstats-.*\.json$/,
-      /assets\/icons-[^/]+\//,
-      // PNG/SVG/GeoJSON/CSS are cached lazily at runtime instead (see
-      // utils/client/serviceWorker.js) rather than eagerly precached, mirroring
-      // the previous "optional" (safeToUseOptionalCaches) cache group.
-      /\.png$/,
-      /\.svg$/,
-      /\.geojson$/,
-      /\.css$/,
-    ],
-    // Bake the ASSET_URL placeholder into every precached URL; replaced
-    // at request time in server/server.js. See scripts/build/assetUrlPlaceholder.js.
-    modifyURLPrefix: { '': ASSET_URL_PLACEHOLDER },
-  }),
   new MiniCssExtractPlugin({
     filename: 'css/[name].[contenthash].css',
     chunkFilename: 'css/[name].[contenthash].css',
@@ -115,17 +79,6 @@ const productionPlugins = [
     minRatio: 0.95,
     algorithm: 'brotliCompress',
   }),
-  new CopyWebpackPlugin({
-    patterns: [
-      {
-        from: path.join(rootDir, 'static/assets/geojson'),
-        transform: function minify(content) {
-          return JSON.stringify(JSON.parse(content.toString()));
-        },
-        to: path.join(rootDir, '_static/assets/geojson'),
-      },
-    ],
-  }),
   new EntrypointStatsPlugin('../stats.json'),
   new WebpackAssetsManifest({ output: '../manifest.json' }),
 ];
@@ -134,10 +87,10 @@ export default {
   mode,
   entry: {
     main: [
-      './utils/client/publicPath',
+      './app/client/publicPath',
       // Dev-only: loads the active theme's SCSS via a dynamic require.
       // Production themes are handled statically via `themeEntries` below.
-      ...(isDevelopment ? ['./utils/client/loadDevTheme'] : []),
+      ...(isDevelopment ? ['./app/client/loadDevTheme'] : []),
       './app/client/client',
     ],
     ...(isProduction ? themeEntries : {}),
@@ -337,16 +290,12 @@ export default {
         ],
       },
       {
-        test: /\.(eot|png|ttf|woff|svg|jpeg|jpg)$/,
-        // Replaces file-loader (dev: always emit a separate file) /
-        // url-loader (prod: inline as a data URL when small) with
-        // webpack5's built-in asset modules. `parser.dataUrlCondition`
-        // only applies to `type: 'asset'`, so the dev/prod distinction is
-        // made by picking a different `type` outright.
-        type: isDevelopment ? 'asset/resource' : 'asset',
-        parser: isDevelopment
-          ? undefined
-          : { dataUrlCondition: { maxSize: 10000 } },
+        test: /\.(eot|gif|png|ttf|woff|svg|jpeg|jpg)$/,
+        // webpack5 built-in asset modules, replacing file-loader/url-loader.
+        // Never inlines as a data URL: app/client/assetUrl.js makes every
+        // image under app/client/images/ reachable from the main chunk, and
+        // inlining the small ones would add ~130 kB of base64 to it.
+        type: 'asset/resource',
         generator: { filename: 'assets/[contenthash][ext]' },
       },
     ],

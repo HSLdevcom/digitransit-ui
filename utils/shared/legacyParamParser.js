@@ -19,7 +19,7 @@ function parseGeocodingResults(results) {
 }
 
 function parseLocation(location, input, config) {
-  const peliasUrl = config.URL.pelias;
+  const peliasUrl = config.URL.PELIAS;
   const minimalRegexp = config.search ? config.search.minimalRegexp : null;
   if (location) {
     const parsedFrom = placeParser.exec(location);
@@ -127,7 +127,7 @@ function parseTime(query, config) {
   return Promise.resolve(timeStr);
 }
 
-export default function oldParamParser(query, config) {
+export default function legacyParamParser(query, config) {
   return Promise.all([
     parseLocation(query.from, query.from_in, config),
     parseLocation(query.to, query.to_in, config),

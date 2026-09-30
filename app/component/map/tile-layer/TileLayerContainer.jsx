@@ -8,8 +8,9 @@ import lodashFilter from 'lodash/filter';
 import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { withLeaflet } from 'react-leaflet/es/context';
-import { useRouter, routerShape } from 'found';
+import { useRouter } from 'found';
 import {
+  routerShape,
   relayShape,
   configShape,
   vehicleShape,

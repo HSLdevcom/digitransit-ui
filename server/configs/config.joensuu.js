@@ -42,7 +42,7 @@ export default configMerger(walttiConfig, {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     image: {
-      url: 'img/social-share-joensuu.png',
+      url: 'assets/joensuu/social-share.png',
       width: 346,
       height: 80,
     },
@@ -165,7 +165,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/joensuu_zone_lines_20250402.geojson',
+        url: '/assets/joensuu/zone_lines_20250402.geojson',
       },
     ],
   },

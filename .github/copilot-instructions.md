@@ -9,12 +9,13 @@ Directories reflect a server/client/shared split (see "Server/client boundary" b
 right one by *who consumes the code*, not just by convenience.
 
 - `app/` — client-bundle-only React app (Views/Containers/Flux + route trees):
-  - `client/` — client entry & top-level client-only modules: `client.jsx` (browser entry,
-    farce/found router bootstrap), `app.js` (fluxible app/store wiring), `routes.jsx` /
-    `routeRoutes.jsx` / `stopRoutes.jsx` (found + Relay route-tree definitions for the front page,
-    route pages, and stop pages), `i18n.js`, `buildInfo.js` (generated build stamp, don't
-    hand-edit), `ConfigContext.jsx` (React context provider for config), `images/` (regional logo
-    assets).
+  - `client/` — browser entry & bootstrap: `client.jsx` (browser entry, farce/found router
+    bootstrap), `app.js` (Fluxible app/store wiring), `publicPath.js` / `loadDevTheme.js` (extra
+    webpack entry modules), `i18n.js`, `ConfigContext.jsx` (React context provider for config),
+    `images/` (regional logo assets).
+  - `routes/` — found + Relay route-tree definitions: `routes.jsx` (front page, top level),
+    `routeRoutes.jsx` (route pages), `stopRoutes.jsx` (stop pages); keep the filenames, Relay
+    query names are prefixed with them.
   - `component/` — topic subfolders for larger features: `itinerary/`, `map/`, `stop/`,
     `routepage/`, `nearyou/`, `trafficnow/` (has its own `README.md`), `embedded/`, `visual/`,
     `icon/`, and `__generated__/` (Relay codegen).
@@ -32,19 +33,24 @@ right one by *who consumes the code*, not just by convenience.
     key must also exist in `en.js`/`sv.js` (enforced by `test/unit/translations.test.js`). Some
     `digitransit-component` packages ship their own i18next translation bundles instead, sorted/
     checked separately via `scripts/workspace-packages/sort-translations.js`.
-  - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
-- `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint), `serve.js`
-  (renders the initial HTML shell — meta tags, config, asset preloads; no React runs server-side,
-  the client bundle does all component rendering), `reittiopasParameterMiddleware.js`,
-  `passport-openid-connect/`, `proxyTester.js`, and `configs/` — `config.js` (server-side config
-  resolution/merging by host) plus one `config.<region>.js` per deployment.
+- `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint: boot-time data
+  fetches via `services/`, `.listen()`, graceful shutdown), `app.js` (`createApp()` — builds the
+  configured Express app, including the dev-mode `/proxy/` passthrough to webpack-dev-server, no
+  `.listen()`, so it's directly testable with supertest), `middleware/` — `shell.js` (renders the
+  initial HTML shell — meta tags, config, asset preloads; no React runs server-side, the client
+  bundle does all component rendering), `legacyUrlMiddleware.js` (redirects legacy reittiopas-era
+  URLs), `services/` — boot-time integrations (`ticketPrices.js`, `geoJsonZones.js`,
+  `citybikeSeasons.js`), `html/` — HTML-shell helpers (`assetManifest.js` reads webpack's build
+  manifest, `polyfills.js` serves user-agent-specific polyfills), `passport-openid-connect/`, and
+  `configs/` — `config.js` (server-side config resolution/merging by host) plus one
+  `config.<region>.js` per deployment.
 - `utils/` — helper modules split by consumer (see "Server/client boundary" below):
-  - `shared/` — used by both server and client, e.g. `constants.js`, `meta.js`,
+  - `shared/` — used by both server and client, e.g. `constants.js`, `metaUtils.js`,
     `analyticsUtils.js`, `gtfs.js`, `citybikeSeasonUtils.js`. Isomorphic only: a file (or a
     function within a file, e.g. `vehicleRentalUtils.js`'s pure network/config helpers vs. its
     `client/` counterpart's `localStorage`/analytics-touching ones) belongs here only if it's
     safe to run on the server too — no `window`/`document`/`localStorage` access.
-  - `server/` — server-only, e.g. `configMerger.js`, `realtimeUtils.js`,
+  - `server/` — server-only, e.g. `configMerger.js`, `metaUtils.js`, `realtimeUtils.js`,
     `timetableConfigUtils.js` — config-assembly helpers used only by `server/configs/*.js`.
   - `client/` — client-bundle-only, e.g. `localStorage.js`,
     plus its own `__generated__/` for Relay fragments used by utils.
@@ -70,7 +76,7 @@ right one by *who consumes the code*, not just by convenience.
 - Requires the Node version from `engines.node` and the Yarn version from `packageManager` in
   `package.json` (`corepack enable`). Also needs `watchman`.
 - `yarn install` — installs deps.
-- `yarn run dev` — dev server at http://localhost:8080 (webpack-dev-server + nodemon server +
+- `yarn run dev` — dev server at http://localhost:8080 (webpack-dev-server + `node --watch` server +
   relay-watch + component watch, run in parallel via one script). Runs against mock/no API keys.
 - `API_TYPE=development|production|local API_SUBSCRIPTION_TOKEN=<key> yarn run dev` — run the dev
   server against real APIs (map tiles, geocoding, etc.), handled inside `scripts/dev.sh`:
@@ -82,7 +88,8 @@ right one by *who consumes the code*, not just by convenience.
   `matka`, etc., see `server/configs/config.*.js`) to select a regional config, and
   `API_URL=...` to point at a different OTP/geocoding backend.
 - If the OTP GraphQL schema changes: `node scripts/generate-schema.js` (regenerates
-  `schema/schema.graphql`; `relay-compiler` then regenerates `app/__generated__` on build/dev).
+  `schema/schema.graphql`; `relay-compiler` then regenerates the `__generated__/` folders on
+  build/dev).
 
 ## Docker (see `docs/Docker.md`)
 
@@ -111,10 +118,9 @@ right one by *who consumes the code*, not just by convenience.
     user's perspective rather than relying on implementation details.
   - Run all: `yarn test-unit` (single **Vitest** invocation against the root `vitest.config.js`,
     covering the app suite plus every workspace-package family as `test.projects` entries).
-  - Run just the app suite: `yarn test-unit:app` (`vitest run --config vitest.config.js --project
-    app`).
-  - Run a single test by name (grep on describe/it or filename stem):
-    `yarn test-single -g <pattern>` (this is `test-unit:app -g <pattern>`).
+  - Run just the app suite: `yarn test-unit:app` or just the server tests: `yarn test-unit:server`.
+  - Run a single test file or test: `yarn test-unit:app <path-substring>` or
+    `yarn test-unit:app -t "<describe/it name pattern>"` (`test-unit:server` for server tests).
   - Watch mode: `yarn run test-unit -- --watch`.
 - E2E/visual tests (Jest + Playwright, config under `test/e2e/jest.config.cjs`), require a prior
   `yarn build`:
@@ -133,9 +139,9 @@ Data flows into components via two separate mechanisms — know which one a piec
 from before touching it:
 
 - **GraphQL/Relay** — used for anything served by OpenTripPlanner (routes, stops, itineraries).
-  Fragments live alongside components/routes and generated artifacts land in `app/__generated__`
-  (do not hand-edit generated files; edit `.js`/route files and rerun relay-compiler via `yarn dev`
-  or `yarn relay`).
+  Fragments live alongside components/routes and generated artifacts land in a sibling
+  `__generated__/` folder, e.g. `app/routes/__generated__` (do not hand-edit generated files; edit
+  `.js`/route files and rerun relay-compiler via `yarn dev` or `yarn relay`).
 - **Flux (fluxible)** — legacy mechanism for everything else (app/UI state, favourites, position,
   search history). Actions in `app/action/*Actions.js`, stores in `app/store/*Store.js`;
   components read store state via `connectToStores` HOCs ("StoreConnectors", see below). Fluxible
@@ -191,7 +197,8 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
 ## Code conventions
 
 - ES2015+ transpiled with Babel; Airbnb JS/React style guide (`.eslintrc.cjs`) with project
-  overrides: prefer object spread over `Object.assign`; `no-console` is an error; Prettier config
+  overrides: prefer object spread over `Object.assign`; `no-console` is an error (except in
+  Node-only `server/**`, `utils/server/**`, `scripts/**`); Prettier config
   is `singleQuote: true, trailingComma: 'all', arrowParens: 'avoid'`.
 - When removing `defaultProps`, use parameter defaults only for valid values; never default to
   `undefined`.

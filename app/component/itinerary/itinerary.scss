@@ -2230,11 +2230,12 @@ $itinerary-tab-switch-height: 48px;
         .citybike-icon {
           margin: auto;
           float: left;
+          position: relative;
 
           &.small {
             .icon-badge {
-              top: 2.33em;
-              left: 1.66em;
+              left: 1em;
+              top: -0.8em;
             }
           }
 
@@ -2243,8 +2244,8 @@ $itinerary-tab-switch-height: 48px;
           .icon-badge {
             height: 1.34em;
             width: 1.34em;
-            top: 2.33em;
-            left: 1.66em;
+            left: 1em;
+            top: -0.8em;
             border-radius: 50%;
 
             .badge-text {

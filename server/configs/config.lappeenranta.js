@@ -33,7 +33,7 @@ export default configMerger(walttiConfig, {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     image: {
-      url: 'img/social-share-lappeenranta.jpg',
+      url: 'assets/lappeenranta/social-share.jpg',
       width: 591,
       height: 591,
     },
@@ -237,7 +237,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/lpr_zone_lines_20251009.geojson',
+        url: '/assets/lappeenranta/zone_lines_20251009.geojson',
       },
     ],
   },

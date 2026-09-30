@@ -45,7 +45,7 @@ export default {
     description: APP_DESCRIPTION,
     locale: 'fi_FI',
     image: {
-      url: 'img/social-share-matka.png',
+      url: 'assets/matka/social-share.png',
       width: 511,
       height: 511,
     },

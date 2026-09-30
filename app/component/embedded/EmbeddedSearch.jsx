@@ -1,11 +1,10 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect, useRef } from 'react';
-import { matchShape } from 'found';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import i18next from 'i18next';
-import { configShape } from '../../../utils/client/shapes';
+import { matchShape, configShape } from '../../../utils/client/shapes';
 import { getRefPoint } from '../../../utils/client/apiUtils';
 import {
   withSearchContext,
@@ -18,6 +17,7 @@ import {
   getPathWithEndpointObjects,
   PREFIX_ITINERARY_SUMMARY,
 } from '../../../utils/shared/path';
+import getAssetUrl from '../../client/assetUrl';
 import Icon from '../Icon';
 import Loading from '../Loading';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
@@ -84,27 +84,13 @@ const EmbeddedSearch = (props, context) => {
 
   const buttonRef = useRef(null);
   const [ready, setReady] = useState(false);
-  const [logo, setLogo] = useState();
-  const [loading, setLoading] = useState(true);
+  const logo = getAssetUrl(config.secondaryLogo || config.logo);
 
   useEffect(() => {
     Object.keys(translations).forEach(l =>
       i18next.addResourceBundle(l, 'translation', translations[l], true),
     );
     i18next.changeLanguage(lang).then(() => setReady(true));
-
-    if (config.secondaryLogo || config.logo) {
-      import(
-        /* webpackChunkName: "embedded-search" */ `../../client/images/${
-          config.secondaryLogo || config.logo
-        }`
-      ).then(l => {
-        setLogo(l.default);
-        setLoading(false);
-      });
-    } else {
-      setLoading(false);
-    }
   }, []);
 
   const defaultOriginExists = query.lat1 && query.lon1;
@@ -304,7 +290,7 @@ const EmbeddedSearch = (props, context) => {
     }
   };
 
-  if (loading || !ready) {
+  if (!ready) {
     return <Loading />;
   }
 

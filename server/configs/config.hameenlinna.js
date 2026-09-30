@@ -35,7 +35,7 @@ export default configMerger(walttiConfig, {
       site: '@hmlkaupunki',
     },
     image: {
-      url: 'img/social-share-hameenlinna.png',
+      url: 'assets/hameenlinna/social-share.png',
       width: 800,
       height: 352,
     },
@@ -60,7 +60,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/hml_zone_lines_20260417.geojson',
+        url: '/assets/hameenlinna/zone_lines_20260417.geojson',
       },
     ],
   },

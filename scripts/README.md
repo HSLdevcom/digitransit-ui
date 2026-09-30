@@ -31,17 +31,28 @@ map tiles and similar features):
 CONFIG=matka API_TYPE=local API_SUBSCRIPTION_TOKEN=<your_subscription_key> yarn run dev
 ```
 
-## Using `build/contextHelper.js` and `build/assetUrlPlaceholder.js`
+## Using `build/contextHelper.js`
 
-Both are pure build/server-side helpers, required directly (not run standalone):
+A pure build helper, imported directly (not run standalone):
+[`contextHelper.js`](/scripts/build/contextHelper.js) is used by
+[`webpack.config.js`](/webpack.config.js) to compute webpack theme entries
+and favicon plugins for every configured deployment (or just `$CONFIG` if set).
 
-- [`contextHelper.js`](/scripts/build/contextHelper.js) — used by
-  [`webpack.config.js`](/webpack.config.js) to compute webpack theme entries
-  and favicon plugins for every configured deployment (or just `$CONFIG` if set).
-- [`assetUrlPlaceholder.js`](/scripts/build/assetUrlPlaceholder.js) — exports the
-  placeholder token baked into the service worker's precache manifest at build time
-  (`webpack.config.js`) and substituted with the real `ASSET_URL` at request time
-  (`server/server.js`).
+## Using `build/copyStatic.js`
+
+Populates the served `_static/` directory from `static/`, run via `yarn static` (which both
+`prebuild` and `dev.sh` invoke):
+
+```
+yarn static
+```
+
+It copies every config's assets regardless of `$CONFIG` (a deployment with no `$CONFIG` set
+picks its config per request from the `Host` header, and `ASSEMBLE_GEOJSON` deployments
+reference every region's zone layer), minifies `.geojson` files and writes precompressed
+`.gz`/`.br` siblings for them. Deliberately kept outside webpack so it survives a bundler
+migration; note that `_static` is populated once at startup, so `static/` edits during
+`yarn dev` need a re-run. See [`docs/Webpack.md`](/docs/Webpack.md).
 
 ## Using `theme/add-theme.js`
 

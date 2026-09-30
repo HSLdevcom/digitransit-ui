@@ -82,7 +82,7 @@ export default configMerger(walttiConfig, {
       site: '@kouvolakaupunki',
     },
     image: {
-      url: 'img/social-share-kouvola.png',
+      url: 'assets/kouvola/social-share.png',
       width: 134,
       height: 134,
     },

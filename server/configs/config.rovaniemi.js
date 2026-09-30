@@ -36,7 +36,7 @@ export default configMerger(walttiConfig, {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     image: {
-      url: 'img/social-share-rovaniemi.png',
+      url: 'assets/rovaniemi/social-share.png',
       width: 504,
       height: 426,
     },
@@ -47,6 +47,18 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'rovaniemi/rovaniemi-logo.svg',
   feedIds: ['Rovaniemi'],
+
+  ticketLinkOperatorCode: 50237,
+  showTicketLinkOnlyWhenTesting: true,
+
+  useTicketIcons: true,
+  showTicketPrice: true,
+  showTicketInformation: true,
+  ticketLink: {
+    fi: 'https://linkkari.fi/Liput-ja-hinnasto',
+    sv: 'https://linkkari.fi/Liput-ja-hinnasto',
+    en: 'https://linkkari.fi/In-English/Tickets-and-fares',
+  },
 
   searchParams: {
     'boundary.rect.min_lat': minLat,

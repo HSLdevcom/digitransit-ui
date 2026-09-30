@@ -73,7 +73,7 @@ export default configMerger(walttiConfig, {
       site: '@Turkukaupunki',
     },
     image: {
-      url: 'img/social-share-foli.png',
+      url: 'assets/turku/social-share.png',
       width: 339,
       height: 78,
     },

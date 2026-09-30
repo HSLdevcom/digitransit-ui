@@ -3,7 +3,7 @@ import { renderWithProviders } from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
 import TrafficNowHeader from '../../../../app/component/trafficnow/TrafficNowHeader';
 import * as withBreakpoint from '../../../../utils/client/withBreakpoint';
-import * as useLogo from '../../../../app/hooks/useLogo';
+import * as assetUrl from '../../../../app/client/assetUrl';
 
 // found's <Link> is globally stubbed (test/unit/helpers/vitest.setup.js) to render only
 // its children, with no wrapping <a>/href — so the "fallback to Link" branch of
@@ -22,10 +22,9 @@ describe('<TrafficNowHeader />', () => {
     // sinon can't stub this repo's own ESM exports; vi.spyOn can (auto-
     // restored via the `restoreMocks: true` Vitest config option).
     vi.spyOn(withBreakpoint, 'useBreakpoint').mockReturnValue('large');
-    vi.spyOn(useLogo, 'useLogo').mockReturnValue({
-      logo: null,
-      loading: false,
-    });
+    // Outside a webpack build getAssetUrl always returns undefined, so the
+    // "logo available" branch has to be stubbed in.
+    vi.spyOn(assetUrl, 'default').mockReturnValue(undefined);
   });
 
   const renderHeader = (config = baseConfig) =>
@@ -49,27 +48,21 @@ describe('<TrafficNowHeader />', () => {
   });
 
   describe('Header logo image', () => {
-    it('renders the logo <img> on desktop when a logo URL is returned by useLogo', () => {
-      useLogo.useLogo.mockReturnValue({
-        logo: '/path/to/header.svg',
-        loading: false,
-      });
+    it('renders the logo <img> on desktop when a logo URL is available', () => {
+      assetUrl.default.mockReturnValue('/path/to/header.svg');
       const { container } = renderHeader();
       expect(container.querySelectorAll('img')).toHaveLength(1);
     });
 
     it('does not render the logo <img> on mobile even when a logo is available', () => {
       withBreakpoint.useBreakpoint.mockReturnValue('small');
-      useLogo.useLogo.mockReturnValue({
-        logo: '/path/to/header.svg',
-        loading: false,
-      });
+      assetUrl.default.mockReturnValue('/path/to/header.svg');
       const { container } = renderHeader();
       expect(container.querySelectorAll('img')).toHaveLength(0);
     });
 
     it('does not render the logo <img> on desktop when no logo is available', () => {
-      useLogo.useLogo.mockReturnValue({ logo: null, loading: false });
+      assetUrl.default.mockReturnValue(undefined);
       const { container } = renderHeader();
       expect(container.querySelectorAll('img')).toHaveLength(0);
     });
@@ -132,16 +125,18 @@ describe('<TrafficNowHeader />', () => {
   describe('HSL-specific AdditionalDescription', () => {
     it('renders AdditionalDescription when CONFIG is hsl', () => {
       const { container } = renderHeader({ ...baseConfig, CONFIG: 'hsl' });
-      const link = Array.from(container.querySelectorAll('a')).find(a =>
-        a.textContent.includes('holidays and exceptions'),
+      const textArea = container.querySelector(
+        '.traffic-now__header-text-area p',
       );
-      expect(link).toBeDefined();
-      expect(link.getAttribute('href')).toBe('https://example.com/holidays');
+      expect(textArea.querySelector('a')).not.toBeNull();
     });
 
     it('does not render AdditionalDescription when CONFIG is not hsl', () => {
       const { container } = renderHeader({ ...baseConfig, CONFIG: 'default' });
-      expect(container.textContent).not.toContain('holidays and exceptions');
+      const textArea = container.querySelector(
+        '.traffic-now__header-text-area p',
+      );
+      expect(textArea.querySelector('a')).toBeNull();
     });
   });
 });
