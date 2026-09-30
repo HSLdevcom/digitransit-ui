@@ -9,9 +9,9 @@ import { useMatch } from 'found';
 import {
   locationShape,
   relayShape,
-  configShape,
   stopShape,
 } from '../../../utils/client/shapes';
+import { useConfigContext } from '../../client/ConfigContext';
 import BackButton from '../BackButton';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import Line from './Line';
@@ -39,8 +39,8 @@ function getId(edge) {
   return place.gtfsId || place.stationId || place.id;
 }
 
-const getRealTimeSettings = (routes, context) => {
-  const { realTime } = context.config;
+const getRealTimeSettings = (routes, config) => {
+  const { realTime } = config;
 
   /* handle multiple feedid case by taking most popular feedid */
   const feeds = {};
@@ -70,10 +70,10 @@ const getRealTimeSettings = (routes, context) => {
   return null;
 };
 
-const startClient = (context, routes) => {
-  const config = getRealTimeSettings(routes, context);
-  if (config) {
-    context.executeAction(startRealTimeClient, config);
+const startClient = (context, config, routes) => {
+  const rtConfig = getRealTimeSettings(routes, config);
+  if (rtConfig) {
+    context.executeAction(startRealTimeClient, rtConfig);
   }
 };
 
@@ -84,13 +84,13 @@ const stopClient = context => {
   }
 };
 
-const updateClient = (context, topics) => {
+const updateClient = (context, config, topics) => {
   const { client } = context.getStore('RealTimeInformationStore');
-  const config = getRealTimeSettings(topics, context);
-  if (config) {
+  const rtConfig = getRealTimeSettings(topics, config);
+  if (rtConfig) {
     if (client) {
-      config.client = client;
-      context.executeAction(changeRealTimeClientTopics, config);
+      rtConfig.client = client;
+      context.executeAction(changeRealTimeClientTopics, rtConfig);
     }
   }
 };
@@ -159,7 +159,7 @@ function NearYouMap(
   }
 
   const { environment } = relay;
-  const { config } = context;
+  const config = useConfigContext();
   const isTransitMode = !nonTransit.includes(mode);
 
   const fetchPlan = node => {
@@ -282,10 +282,10 @@ function NearYouMap(
   useEffect(() => {
     if (uniqueRealtimeTopics.length > 0) {
       if (!clientOn.current) {
-        startClient(context, uniqueRealtimeTopics);
+        startClient(context, config, uniqueRealtimeTopics);
         clientOn.current = true;
       } else {
-        updateClient(context, uniqueRealtimeTopics);
+        updateClient(context, config, uniqueRealtimeTopics);
       }
     }
   }, [uniqueRealtimeTopics]);
@@ -421,7 +421,6 @@ NearYouMap.defaultProps = {
 };
 
 NearYouMap.contextTypes = {
-  config: configShape,
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
 };
