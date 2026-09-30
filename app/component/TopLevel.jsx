@@ -4,7 +4,6 @@ import React, { Fragment } from 'react';
 import some from 'lodash/some';
 import {
   matchShape,
-  routerShape,
   configShape,
   locationShape,
 } from '../../utils/client/shapes';
@@ -36,7 +35,6 @@ class TopLevel extends React.Component {
     meta: PropTypes.node,
     match: matchShape.isRequired,
     origin: locationShape,
-    router: routerShape.isRequired,
     selectFromMapHeader: PropTypes.node,
   };
 
@@ -55,18 +53,6 @@ class TopLevel extends React.Component {
     meta: undefined,
     selectFromMapHeader: undefined,
   };
-
-  static childContextTypes = {
-    router: routerShape,
-    match: matchShape,
-  };
-
-  getChildContext() {
-    return {
-      match: this.props.match,
-      router: this.props.router,
-    };
-  }
 
   componentDidMount() {
     if (this.context.config.logo) {

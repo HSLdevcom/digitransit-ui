@@ -1,23 +1,21 @@
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { matchShape, parkShape } from '../../utils/client/shapes';
+import { useMatch } from 'found';
+import { parkShape } from '../../utils/client/shapes';
 import StopPageMap from './map/StopPageMap';
 import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../utils/shared/path';
 
-function VehicleParkMapContainer({ vehicleParking }, context) {
+function VehicleParkMapContainer({ vehicleParking }) {
+  const match = useMatch();
   if (!vehicleParking) {
     return false;
   }
-  const type = context?.match.location.pathname.includes(PREFIX_BIKEPARK)
+  const type = match.location.pathname.includes(PREFIX_BIKEPARK)
     ? PREFIX_BIKEPARK
     : PREFIX_CARPARK;
 
   return <StopPageMap stop={vehicleParking} parkType={type} />;
 }
-
-VehicleParkMapContainer.contextTypes = {
-  match: matchShape.isRequired,
-};
 
 VehicleParkMapContainer.propTypes = { vehicleParking: parkShape };
 

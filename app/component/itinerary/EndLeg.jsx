@@ -2,15 +2,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import { matchShape, stopShape } from '../../../utils/client/shapes';
+import { useMatch } from 'found';
+import { stopShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { parseLocation } from '../../../utils/shared/path';
 import { timeStr } from '../../../utils/client/timeUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function EndLeg(props, context) {
-  const parsedAddress = parseLocation(context.match.params.to).address;
+function EndLeg(props) {
+  const match = useMatch();
+  const parsedAddress = parseLocation(match.params.to).address;
   const [address, place] = props.to.name.split(/, (.+)/);
   // Below check is needed for unit tests
   const [addressFromUrl, placeFromUrl] = !parsedAddress
@@ -67,10 +69,6 @@ EndLeg.propTypes = {
   to: stopShape.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
-};
-
-EndLeg.contextTypes = {
-  match: matchShape.isRequired,
 };
 
 export default EndLeg;

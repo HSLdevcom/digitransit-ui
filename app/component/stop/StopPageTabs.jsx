@@ -2,7 +2,8 @@ import cx from 'classnames';
 import React, { useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import groupBy from 'lodash/groupBy';
-import { matchShape, stopShape } from '../../../utils/client/shapes';
+import { useRouter } from 'found';
+import { stopShape } from '../../../utils/client/shapes';
 import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 import {
   getAlertsForObject,
@@ -36,8 +37,9 @@ const getActiveTab = pathname => {
   return Tab.RightNow;
 };
 
-function StopPageTabs({ stop }, { match }) {
-  const { router, location } = match;
+function StopPageTabs({ stop }) {
+  const { router, match } = useRouter();
+  const { location } = match;
   if (!stop || location.query.alertId) {
     return null;
   }
@@ -204,7 +206,6 @@ function StopPageTabs({ stop }, { match }) {
 
 StopPageTabs.propTypes = { stop: stopShape };
 StopPageTabs.defaultProps = { stop: undefined };
-StopPageTabs.contextTypes = { match: matchShape.isRequired };
 
 const componentWithBreakpoint = withBreakpoint(StopPageTabs);
 

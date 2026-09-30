@@ -1,45 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { createRefetchContainer, graphql } from 'react-relay';
-import {
-  matchShape,
-  routerShape,
-  configShape,
-  relayShape,
-} from '../../../utils/client/shapes';
+import { useMatch } from 'found';
+import { relayShape } from '../../../utils/client/shapes';
 import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
 import { prepareServiceDay } from '../../../utils/client/dateParamUtils';
+import { useConfigContext } from '../../client/ConfigContext';
 import Timetable from './Timetable';
 
-class TerminalTimetablePage extends React.Component {
-  static propTypes = {
-    station: PropTypes.shape({
-      url: PropTypes.string,
-    }).isRequired,
-    relay: relayShape.isRequired,
-  };
+function TerminalTimetablePage({ station, relay }) {
+  const config = useConfigContext();
+  const match = useMatch();
+  const [state, setState] = useState(prepareServiceDay({}));
 
-  static contextTypes = {
-    router: routerShape.isRequired,
-    match: matchShape.isRequired,
-    config: configShape.isRequired,
-  };
-
-  state = prepareServiceDay({});
-
-  componentDidMount() {
-    const { match } = this.context;
+  useEffect(() => {
     const { query } = match.location;
-
     const dateFromQuery = query.date;
     if (dateFromQuery) {
-      this.setState({ date: dateFromQuery });
+      setState(prevState => ({ ...prevState, date: dateFromQuery }));
     }
-  }
+    // Intentionally run only once on mount (mirrors the previous
+    // componentDidMount behavior): only the initial query date matters.
+  }, []);
 
-  onDateChange = value => {
-    this.setState({ date: value });
-    this.props.relay.refetch(
+  const onDateChange = value => {
+    setState(prevState => ({ ...prevState, date: value }));
+    relay.refetch(
       {
         date: value,
       },
@@ -47,17 +33,22 @@ class TerminalTimetablePage extends React.Component {
     );
   };
 
-  render() {
-    return (
-      <Timetable
-        stop={this.props.station}
-        date={this.state.date}
-        startDate={unixToYYYYMMDD(unixTime(), this.context.config)}
-        onDateChange={this.onDateChange}
-      />
-    );
-  }
+  return (
+    <Timetable
+      stop={station}
+      date={state.date}
+      startDate={unixToYYYYMMDD(unixTime(), config)}
+      onDateChange={onDateChange}
+    />
+  );
 }
+
+TerminalTimetablePage.propTypes = {
+  station: PropTypes.shape({
+    url: PropTypes.string,
+  }).isRequired,
+  relay: relayShape.isRequired,
+};
 
 export default createRefetchContainer(
   TerminalTimetablePage,

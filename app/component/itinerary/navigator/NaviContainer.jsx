@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { routerShape, relayShape } from '../../../../utils/client/shapes';
+import { useRouter } from 'found';
+import { relayShape } from '../../../../utils/client/shapes';
 import {
   startLocationWatch,
   stopLocationWatch,
@@ -32,8 +33,9 @@ function NaviContainer(
     mapLayerRef,
     settings,
   },
-  { executeAction, getStore, router },
+  { executeAction, getStore },
 ) {
+  const { router } = useRouter();
   const hasPosition = useRef(false);
   const prevPos = useRef(undefined);
   const posFrozen = useRef(0);
@@ -223,7 +225,6 @@ NaviContainer.propTypes = {
 NaviContainer.contextTypes = {
   executeAction: PropTypes.func,
   getStore: PropTypes.func.isRequired,
-  router: routerShape.isRequired,
 };
 
 NaviContainer.defaultProps = {

@@ -1,16 +1,16 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import { routerShape, matchShape } from '../../utils/client/shapes';
+import { useRouter } from 'found';
 import Icon from './Icon';
 import { useConfigContext } from '../client/ConfigContext';
 
-export default function BackButton(props, context) {
+export default function BackButton(props) {
   const config = useConfigContext();
   const intl = useIntl();
+  const { router, match } = useRouter();
 
   const goBack = url => {
-    const { router, match } = context;
     const { location } = match;
 
     if (
@@ -66,6 +66,5 @@ export default function BackButton(props, context) {
   );
 }
 
-BackButton.contextTypes = { router: routerShape, match: matchShape };
 BackButton.propTypes = { title: PropTypes.node, fallback: PropTypes.string };
 BackButton.defaultProps = { title: undefined, fallback: undefined };
