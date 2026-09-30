@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { matchShape, routeShape } from '../../../../utils/client/shapes';
+import { routeShape } from '../../../../utils/client/shapes';
 import RouteControlPanel from '../RouteControlPanel';
 
 /**
@@ -8,7 +8,6 @@ import RouteControlPanel from '../RouteControlPanel';
  */
 const ScheduleConstantOperation = ({
   constantOperationInfo,
-  match,
   route,
   breakpoint,
 }) => {
@@ -20,7 +19,6 @@ const ScheduleConstantOperation = ({
     >
       <div className="constant-operation-panel">
         <RouteControlPanel
-          match={match}
           route={route}
           breakpoint={breakpoint}
           noInitialServiceDay
@@ -48,7 +46,6 @@ ScheduleConstantOperation.propTypes = {
     text: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
   }).isRequired,
-  match: matchShape.isRequired,
   route: routeShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
 };

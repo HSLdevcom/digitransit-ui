@@ -5,8 +5,8 @@ import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import { useMatch } from 'found';
 import {
-  matchShape,
   locationShape,
   relayShape,
   configShape,
@@ -120,7 +120,6 @@ function NearYouMap(
   {
     breakpoint,
     stops,
-    match,
     loading,
     favouriteIds,
     relay,
@@ -138,6 +137,7 @@ function NearYouMap(
   const [walk, setWalk] = useState({ itinerary: null, stop: null });
   const clientOn = useRef(false);
   const mwtRef = useRef();
+  const match = useMatch();
   const { mode } = match.params;
   let streetRoutingLimit;
 
@@ -407,7 +407,6 @@ NearYouMap.propTypes = {
   // eslint-disable-next-line
   favouriteIds: PropTypes.object.isRequired,
   position: locationShape.isRequired,
-  match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   relay: relayShape.isRequired,
   loading: PropTypes.bool,

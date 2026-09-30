@@ -4,11 +4,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useFragment } from 'react-relay';
 import { DateTime } from 'luxon';
 import cx from 'classnames';
-import {
-  matchShape,
-  routeShape,
-  patternShape,
-} from '../../../../utils/client/shapes';
+import { useRouter } from 'found';
+import { routeShape, patternShape } from '../../../../utils/client/shapes';
 import { SchedulePatternFragment } from './queries/SchedulePatternFragment';
 import { ScheduleRouteFragment } from './queries/ScheduleRouteFragment';
 import { ScheduleFirstDeparturesFragment } from './queries/ScheduleFirstDeparturesFragment';
@@ -61,7 +58,6 @@ const ScheduleContainer = ({
   pattern: patternRef,
   route: routeRef,
   firstDepartures: firstDeparturesRef,
-  match,
 }) => {
   const breakpoint = useBreakpoint();
   const pattern = useFragment(SchedulePatternFragment, patternRef);
@@ -73,6 +69,7 @@ const ScheduleContainer = ({
 
   const intl = useIntl();
   const config = useConfigContext();
+  const { router, match } = useRouter();
 
   const [from, setFrom] = useState(0);
   const [to, setTo] = useState(Math.max((pattern.stops.length || 1) - 1, 0));
@@ -134,7 +131,7 @@ const ScheduleContainer = ({
         ? { ...match.location, pathname: redirectPath }
         : match.location;
 
-      match.router.replace({
+      router.replace({
         ...basePath,
         query: { ...basePath.query, ...redirectQuery },
       });
@@ -189,7 +186,7 @@ const ScheduleContainer = ({
         serviceDay: newServiceDay,
       },
     };
-    match.router.replace(newPath);
+    router.replace(newPath);
   };
 
   const formattedServiceDate = wantedDay.toFormat(DATE_FORMAT);
@@ -231,7 +228,6 @@ const ScheduleContainer = ({
       >
         <ScheduleConstantOperation
           constantOperationInfo={constantOperationInfo}
-          match={match}
           route={route}
           breakpoint={breakpoint}
         />
@@ -255,7 +251,6 @@ const ScheduleContainer = ({
       >
         {route.patterns && (
           <RouteControlPanel
-            match={match}
             route={route}
             breakpoint={breakpoint}
             noInitialServiceDay
@@ -326,7 +321,6 @@ ScheduleContainer.propTypes = {
   // firstDepartures is a Relay fragment with dynamic structure
   // eslint-disable-next-line react/forbid-prop-types
   firstDepartures: PropTypes.object.isRequired,
-  match: matchShape.isRequired,
 };
 
 ScheduleContainer.displayName = 'ScheduleContainer';

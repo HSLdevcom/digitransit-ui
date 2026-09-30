@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useMatch } from 'found';
 import {
-  matchShape,
   configShape,
   errorShape,
   relayShape,
@@ -13,9 +13,10 @@ import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { useCurrentTime } from '../../hooks/TimeContext';
 
-function StopPageContent({ stop, relay, error, match }, { config }) {
+function StopPageContent({ stop, relay, error }, { config }) {
   const intl = useIntl();
   const currentTime = useCurrentTime();
+  const match = useMatch();
   if (!stop && error) {
     throw error.message;
   }
@@ -76,7 +77,6 @@ StopPageContent.propTypes = {
   stop: stopShape.isRequired,
   relay: relayShape.isRequired,
   error: errorShape,
-  match: matchShape.isRequired,
 };
 
 StopPageContent.defaultProps = {

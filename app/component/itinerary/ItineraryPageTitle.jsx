@@ -1,11 +1,12 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { matchShape } from '../../../utils/client/shapes';
+import { useMatch } from 'found';
 
-export default function ItineraryPageTitle(props) {
+export default function ItineraryPageTitle() {
+  const match = useMatch();
   return (
     <span>
-      {props.match.params.hash == null ? (
+      {match.params.hash == null ? (
         <FormattedMessage
           id="summary-page.title"
           defaultMessage="Itinerary suggestions"
@@ -19,7 +20,3 @@ export default function ItineraryPageTitle(props) {
     </span>
   );
 }
-
-ItineraryPageTitle.propTypes = {
-  match: matchShape.isRequired,
-};

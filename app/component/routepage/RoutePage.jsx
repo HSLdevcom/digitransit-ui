@@ -3,11 +3,8 @@ import React, { useEffect, useRef } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
-import {
-  matchShape,
-  routeShape,
-  errorShape,
-} from '../../../utils/client/shapes';
+import { useRouter } from 'found';
+import { routeShape, errorShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from '../RouteNumber';
@@ -51,10 +48,11 @@ function resolveHeadsign(pattern) {
   return pattern.stops[pattern.stops.length - 1].name;
 }
 
-function RoutePage({ route, match, breakpoint, error = undefined }) {
+function RoutePage({ route, breakpoint, error = undefined }) {
   const intl = useIntl();
   const config = useConfigContext();
   const currentTime = useCurrentTime();
+  const { router, match } = useRouter();
 
   const headingRef = useRef(null);
   useEffect(() => {
@@ -72,7 +70,7 @@ function RoutePage({ route, match, breakpoint, error = undefined }) {
     /* In this case there is little we can do
      * There is no point continuing rendering as it can only
      * confuse user. Therefore redirect to Routes page */
-    match.router.replace(`/${PREFIX_ROUTES}`);
+    router.replace(`/${PREFIX_ROUTES}`);
     return null;
   }
   const mode = getRouteMode(route, config);
@@ -170,11 +168,7 @@ function RoutePage({ route, match, breakpoint, error = undefined }) {
         <RouteAgencyInfo route={route} />
       </div>
       {route.patterns && match.params.type === PREFIX_DISRUPTION && (
-        <RouteControlPanel
-          match={match}
-          route={route}
-          breakpoint={breakpoint}
-        />
+        <RouteControlPanel route={route} breakpoint={breakpoint} />
       )}
     </div>
   );
@@ -182,7 +176,6 @@ function RoutePage({ route, match, breakpoint, error = undefined }) {
 
 RoutePage.propTypes = {
   route: routeShape.isRequired,
-  match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   error: errorShape,
 };

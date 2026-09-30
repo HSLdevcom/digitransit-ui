@@ -10,7 +10,8 @@ import sortBy from 'lodash/sortBy';
 import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
 import cx from 'classnames';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { matchShape, routeShape } from '../../../utils/client/shapes';
+import { useRouter } from 'found';
+import { routeShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../client/ConfigContext';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import RoutePatternSelect, { patternTextWithIcon } from './RoutePatternSelect';
@@ -66,7 +67,6 @@ export function getPatternOptions(patterns, serviceTimeRange) {
 }
 
 function RoutePatternSelectContainer({
-  match,
   route,
   onSelectChange,
   gtfsId,
@@ -76,7 +76,8 @@ function RoutePatternSelectContainer({
   const intl = useIntl();
   const { environment: relayEnvironment } = useContext(ReactRelayContext);
 
-  const { params, router } = match;
+  const { router, match } = useRouter();
+  const { params } = match;
 
   const [similarRoutes, setSimilarRoutes] = useState([]);
   const [loadingSimilar, setLoadingSimilar] = useState(
@@ -299,7 +300,6 @@ function RoutePatternSelectContainer({
 }
 
 RoutePatternSelectContainer.propTypes = {
-  match: matchShape.isRequired,
   className: PropTypes.string.isRequired,
   route: routeShape.isRequired,
   onSelectChange: PropTypes.func.isRequired,

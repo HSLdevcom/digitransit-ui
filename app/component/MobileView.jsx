@@ -7,7 +7,7 @@ import React, {
   useImperativeHandle,
   useEffect,
 } from 'react';
-import { matchShape } from '../../utils/client/shapes';
+import { useMatch } from 'found';
 import MapBottomsheetContext from './map/MapBottomsheetContext';
 import MobileFooter from './MobileFooter';
 
@@ -74,7 +74,6 @@ const MobileView = forwardRef(
       settingsDrawer,
       selectFromMapHeader,
       searchBox,
-      match,
       enableBottomScroll,
     },
     ref,
@@ -84,6 +83,7 @@ const MobileView = forwardRef(
     }
     const contentRef = useRef();
     const scrollRef = useRef();
+    const match = useMatch();
     const pathParts = match.location.pathname.split('/');
     const pagePrefix = pathParts?.length > 1 ? pathParts[1] : undefined;
 
@@ -204,7 +204,6 @@ MobileView.propTypes = {
   settingsDrawer: PropTypes.node,
   selectFromMapHeader: PropTypes.node,
   searchBox: PropTypes.node,
-  match: matchShape.isRequired,
   enableBottomScroll: PropTypes.bool,
 };
 

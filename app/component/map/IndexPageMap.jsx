@@ -1,6 +1,6 @@
 import React from 'react';
 import { connectToStores } from 'fluxible-addons-react';
-import { matchShape } from '../../../utils/client/shapes';
+import { useMatch } from 'found';
 import MapWithTracking from './MapWithTracking';
 import { sameLocations } from '../../../utils/shared/path';
 import { useConfigContext } from '../../client/ConfigContext';
@@ -17,8 +17,9 @@ import {
 let focus = {};
 const mwtProps = {};
 
-function IndexPageMap({ match, mapLayers }) {
+function IndexPageMap({ mapLayers }) {
   const config = useConfigContext();
+  const match = useMatch();
   const origin = useOrigin();
   const destination = useDestination();
   const { setOrigin, setDestination } = useItineraryLocationActions();
@@ -96,7 +97,6 @@ function IndexPageMap({ match, mapLayers }) {
 }
 
 IndexPageMap.propTypes = {
-  match: matchShape.isRequired,
   mapLayers: mapLayerShape.isRequired,
 };
 

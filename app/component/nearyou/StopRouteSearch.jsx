@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { memo } from 'react';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import { filterSearchResultsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
-import { routerShape } from '../../../utils/client/shapes';
+import { useRouter } from 'found';
 import { withSearchContext } from '../WithSearchContext';
 import { getStopRoutePath } from '../../../utils/shared/path';
 import { useConfigContext } from '../../client/ConfigContext';
@@ -14,8 +14,9 @@ function parkFilter(parks, mode) {
   return parks.filter(p => p.properties?.layer === mode.toLowerCase());
 }
 
-function StopRouteSearch({ mode, router, ...rest }) {
+function StopRouteSearch({ mode, ...rest }) {
   const transportMode = `route-${mode}`;
+  const { router } = useRouter();
   const {
     getAutoSuggestIcons,
     colors,
@@ -74,7 +75,6 @@ function StopRouteSearch({ mode, router, ...rest }) {
 
 StopRouteSearch.propTypes = {
   mode: PropTypes.string.isRequired,
-  router: routerShape.isRequired,
 };
 
 export default memo(StopRouteSearch);
