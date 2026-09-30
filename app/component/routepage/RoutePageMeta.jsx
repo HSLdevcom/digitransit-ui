@@ -2,10 +2,12 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useFragment, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
-import { configShape, routeShape } from '../../../utils/client/shapes';
+import { routeShape } from '../../../utils/client/shapes';
 import { generateMetaData } from '../../../utils/client/metaUtils';
+import { useConfigContext } from '../../client/ConfigContext';
 
-function RoutePageMeta({ route: routeRef }, { config }) {
+function RoutePageMeta({ route: routeRef }) {
+  const config = useConfigContext();
   const route = useFragment(
     graphql`
       fragment RoutePageMeta_route on Route {
@@ -48,10 +50,6 @@ function RoutePageMeta({ route: routeRef }, { config }) {
 
 RoutePageMeta.propTypes = {
   route: routeShape.isRequired,
-};
-
-RoutePageMeta.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default RoutePageMeta;

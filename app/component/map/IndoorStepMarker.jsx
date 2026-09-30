@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { default as L } from 'leaflet';
 
 import cx from 'classnames';
-import { configShape, locationShape } from '../../../utils/client/shapes';
+import { locationShape } from '../../../utils/client/shapes';
 import GenericMarker from './GenericMarker';
 
 import Card from '../Card';
@@ -118,10 +118,6 @@ export default function IndoorStepMarker({ position, index, indoorSteps }) {
 
   return <div>{objs}</div>;
 }
-
-IndoorStepMarker.contextTypes = {
-  config: configShape.isRequired,
-};
 
 IndoorStepMarker.propTypes = {
   position: locationShape.isRequired,
