@@ -45,16 +45,19 @@ class SearchContext {
 
   /**
    * Initializes the singleton with the real Digitransit implementations,
-   * derived from the fluxible context/config. Safe to call more than once;
-   * only the first call has an effect.
+   * derived from config. Safe to call more than once; only the first call
+   * has an effect.
    */
-  init(context) {
+  init(config) {
     if (this.initialized) {
       return;
     }
     this.initialized = true;
-    this.context = context;
-    const { config } = context;
+    // Some @digitransit-search-util packages (e.g.
+    // digitransit-search-util-execute-search-immediate) still read
+    // searchContext.context directly, so keep exposing it even though our
+    // own getFavourite*() methods below no longer need it themselves.
+    this.context = config;
     this.isPeliasLocationAware = config.autoSuggest.locationAware;
     this.minimalRegexp = config.search
       ? config.search.minimalRegexp
