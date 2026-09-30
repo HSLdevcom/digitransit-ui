@@ -140,7 +140,9 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
       }
     };
 
-    // Finish a current location selection once positioning resolves
+    // Finish a current location selection once positioning resolves. Only
+    // locationState changes should trigger this, so onSuggestionSelected is
+    // deliberately left out of the dependencies.
     useEffect(() => {
       const pending = pendingLocationRef.current;
       if (!pending) {

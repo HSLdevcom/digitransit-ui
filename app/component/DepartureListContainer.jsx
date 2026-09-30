@@ -213,9 +213,7 @@ function DepartureListContainer(
     const { client, topics } = getStore('RealTimeInformationStore');
     if (client) {
       const clientConfig = getRealtimeClientConfig(
-        getUpcomingDepartures(stoptimes, isTerminal, currentTime).filter(
-          departure => departure.realtime,
-        ),
+        getUpcomingDepartures(stoptimes, isTerminal, currentTime),
         config,
       );
       if (clientConfig) {
