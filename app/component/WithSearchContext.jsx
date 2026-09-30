@@ -4,6 +4,7 @@ import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { configShape, locationStateShape } from '../../utils/client/shapes';
+import { withConfigContext } from '../client/ConfigContext';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { useCitybikes } from '../../utils/client/modeUtils';
 import {
@@ -53,7 +54,6 @@ export function getLocationSearchTargets(config, isMobile) {
 export function withSearchContext(WrappedComponent, embeddedSearch = false) {
   class ComponentWithSearchContext extends React.Component {
     static contextTypes = {
-      config: configShape.isRequired,
       intl: PropTypes.object.isRequired,
       executeAction: PropTypes.func.isRequired,
       getStore: PropTypes.func.isRequired,
@@ -67,6 +67,7 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
       isMobile: PropTypes.bool,
       favouriteContext: PropTypes.bool,
       showViapointControl: PropTypes.bool,
+      config: configShape.isRequired,
     };
 
     static defaultProps = {
@@ -234,7 +235,7 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
             this.onSuggestionSelected(item, id);
           });
       } else if (item.type === 'OldSearch' && item.properties.gid) {
-        getJson(this.context.config.URL.PELIAS_PLACE, {
+        getJson(this.props.config.URL.PELIAS_PLACE, {
           ids: item.properties.gid,
         })
           .then(res => {
@@ -350,5 +351,5 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
       locationState: context.getStore('PositionStore').getLocationState(),
     }),
   );
-  return componentWithPosition;
+  return withConfigContext(componentWithPosition);
 }

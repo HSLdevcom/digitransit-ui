@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import { stopTimeShape, configShape } from '../../utils/client/shapes';
+import { withConfigContext } from '../client/ConfigContext';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
 import {
@@ -84,6 +85,7 @@ class DepartureListContainer extends Component {
     className: PropTypes.string,
     isTerminal: PropTypes.bool,
     showVehicles: PropTypes.bool,
+    config: configShape.isRequired,
   };
 
   static defaultProps = {
@@ -117,7 +119,7 @@ class DepartureListContainer extends Component {
         }
       }, 100);
     }
-    if (this.context.config.showVehiclesOnStopPage && this.props.showVehicles) {
+    if (this.props.config.showVehiclesOnStopPage && this.props.showVehicles) {
       const departures = asDepartures(this.props.stoptimes)
         .filter(departure => !(this.props.isTerminal && departure.isArrival))
         .filter(departure => this.props.currentTime < departure.time);
@@ -126,7 +128,7 @@ class DepartureListContainer extends Component {
   }
 
   componentDidUpdate() {
-    if (this.context.config.showVehiclesOnStopPage && this.props.showVehicles) {
+    if (this.props.config.showVehiclesOnStopPage && this.props.showVehicles) {
       const departures = asDepartures(this.props.stoptimes)
         .filter(departure => !(this.props.isTerminal && departure.isArrival))
         .filter(departure => this.props.currentTime < departure.time)
@@ -137,7 +139,7 @@ class DepartureListContainer extends Component {
   }
 
   componentWillUnmount() {
-    if (this.context.config.showVehiclesOnStopPage && this.props.showVehicles) {
+    if (this.props.config.showVehiclesOnStopPage && this.props.showVehicles) {
       const { client } = this.context.getStore('RealTimeInformationStore');
       if (client) {
         this.context.executeAction(stopRealTimeClient, client);
@@ -158,7 +160,7 @@ class DepartureListContainer extends Component {
         tripId: splitGtfsId(departure.trip.gtfsId).entityId,
       }));
 
-    const { config } = this.context;
+    const { config } = this.props;
     const { realTime } = config;
     let feedId;
 
@@ -347,7 +349,7 @@ class DepartureListContainer extends Component {
         realtime: departure.realtime,
         bottomRow: dropoffMessage ? (
           <div className="drop-off-container">
-            <Icon img="icon_info" color={this.context.config.colors.primary} />
+            <Icon img="icon_info" color={this.props.config.colors.primary} />
             <FormattedMessage
               id={dropoffMessage}
               defaultMessage="Drop-off only"
@@ -427,7 +429,6 @@ class DepartureListContainer extends Component {
 DepartureListContainer.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   getStore: PropTypes.func.isRequired,
-  config: configShape.isRequired,
   intl: PropTypes.object.isRequired, // eslint-disable-line
 };
 
@@ -500,4 +501,9 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
   `,
 });
 
-export { containerComponent as default, DepartureListContainer as Component };
+const DepartureListContainerWithConfig = withConfigContext(containerComponent);
+
+export {
+  DepartureListContainerWithConfig as default,
+  DepartureListContainer as Component,
+};

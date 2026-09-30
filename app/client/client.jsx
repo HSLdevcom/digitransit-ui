@@ -19,7 +19,6 @@ import { RelayEnvironmentProvider } from 'react-relay';
 import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { Settings } from 'luxon';
 import { IntlProvider } from 'react-intl';
-import { configShape } from '../../utils/client/shapes';
 import i18n from './i18n';
 import { historyMiddlewares, render } from '../routes/routes';
 import appCreator from './app';
@@ -53,9 +52,7 @@ const { config } = window;
 const app = appCreator(config);
 const context = app.createContext({ config });
 
-const ContextProvider = provideContext(IntlProvider, {
-  config: configShape,
-});
+const ContextProvider = provideContext(IntlProvider, {});
 
 const AppProviders = props => {
   const providers = [

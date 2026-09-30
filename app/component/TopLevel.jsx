@@ -25,6 +25,7 @@ import {
   handleUserAnalytics,
 } from '../../utils/shared/analyticsUtils';
 import { useOrigin } from '../hooks/ItineraryLocationContext';
+import { useConfigContext } from '../client/ConfigContext';
 
 class TopLevel extends React.Component {
   static propTypes = {
@@ -37,10 +38,10 @@ class TopLevel extends React.Component {
     match: matchShape.isRequired,
     origin: locationShape,
     selectFromMapHeader: PropTypes.node,
+    config: configShape.isRequired,
   };
 
   static contextTypes = {
-    config: configShape.isRequired,
     executeAction: PropTypes.func.isRequired,
   };
 
@@ -61,7 +62,7 @@ class TopLevel extends React.Component {
     const oldLocation = prevProps.match.location.pathname;
     const newLocation = this.props.match.location.pathname;
     if (oldLocation && newLocation && oldLocation !== newLocation) {
-      handleUserAnalytics(this.context.config);
+      handleUserAnalytics(this.props.config);
       addAnalyticsEvent({
         event: 'Pageview',
         url: newLocation,
@@ -129,10 +130,7 @@ class TopLevel extends React.Component {
 
     let content;
 
-    const homeUrl = getHomeUrl(
-      this.props.origin,
-      this.context.config.indexPath,
-    );
+    const homeUrl = getHomeUrl(this.props.origin, this.props.config.indexPath);
     if (this.props.children || !(this.props.map || this.props.header)) {
       content = this.props.children || this.props.content;
     } else {
@@ -166,7 +164,7 @@ class TopLevel extends React.Component {
             {...this.topBarOptions}
             logo={getAssetUrl(this.context.config.logo)}
             homeUrl={homeUrl}
-            style={this.context.config.appBarStyle}
+            style={this.props.config.appBarStyle}
           />
         )}
         <section id="mainContent" className="content">
@@ -191,11 +189,13 @@ class TopLevel extends React.Component {
 }
 
 // Small functional wrapper so the class component can keep receiving origin
-// as a prop (as it did via connectToStores/OriginStore), while the actual
-// value now comes from ItineraryLocationContext.
+// and config as props (origin via connectToStores/OriginStore historically,
+// config via legacy React context historically), while the actual values now
+// come from ItineraryLocationContext / ConfigContext.
 function TopLevelWithOrigin(props) {
   const origin = useOrigin();
-  return <TopLevel {...props} origin={origin} />;
+  const config = useConfigContext();
+  return <TopLevel {...props} origin={origin} config={config} />;
 }
 
 export default TopLevelWithOrigin;
