@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
-import { matchShape } from 'found';
+import { useMatch } from 'found';
 import { relayShape, mapLayerOptionsShape } from '../../../utils/client/shapes';
 import NearYouMapContainer from './NearYouMapContainer';
 import NearYouFavouritesMapContainer from './NearYouFavouritesMapContainer';
@@ -11,7 +11,6 @@ import { useConfigContext } from '../../client/ConfigContext';
 const TransitStopModes = ['BUS', 'FERRY', 'RAIL', 'SUBWAY', 'TRAM'];
 
 export default function MapWrapper({
-  match,
   relayEnvironment,
   favouriteStopIds,
   favouriteStationIds,
@@ -23,8 +22,8 @@ export default function MapWrapper({
   ...rest
 }) {
   const { map } = useConfigContext();
+  const match = useMatch();
   const commonProps = {
-    match,
     onEndNavigation: setCenterOfMap,
     onMapTracking: setCenterOfMap,
   };
@@ -160,7 +159,6 @@ export default function MapWrapper({
 
 MapWrapper.propTypes = {
   relayEnvironment: relayShape.isRequired,
-  match: matchShape.isRequired,
   favouriteStopIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteVehicleStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,

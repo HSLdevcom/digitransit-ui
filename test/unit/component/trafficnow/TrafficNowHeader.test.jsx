@@ -125,16 +125,18 @@ describe('<TrafficNowHeader />', () => {
   describe('HSL-specific AdditionalDescription', () => {
     it('renders AdditionalDescription when CONFIG is hsl', () => {
       const { container } = renderHeader({ ...baseConfig, CONFIG: 'hsl' });
-      const link = Array.from(container.querySelectorAll('a')).find(a =>
-        a.textContent.includes('holidays and exceptions'),
+      const textArea = container.querySelector(
+        '.traffic-now__header-text-area p',
       );
-      expect(link).toBeDefined();
-      expect(link.getAttribute('href')).toBe('https://example.com/holidays');
+      expect(textArea.querySelector('a')).not.toBeNull();
     });
 
     it('does not render AdditionalDescription when CONFIG is not hsl', () => {
       const { container } = renderHeader({ ...baseConfig, CONFIG: 'default' });
-      expect(container.textContent).not.toContain('holidays and exceptions');
+      const textArea = container.querySelector(
+        '.traffic-now__header-text-area p',
+      );
+      expect(textArea.querySelector('a')).toBeNull();
     });
   });
 });

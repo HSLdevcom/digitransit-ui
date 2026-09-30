@@ -1,13 +1,14 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
-import { matchShape } from 'found';
+import { useMatch } from 'found';
 import { generateMetaData } from '../../../utils/client/metaUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 
-function NearYouPageMeta({ match }) {
+function NearYouPageMeta() {
   const config = useConfigContext();
   const intl = useIntl();
+  const match = useMatch();
   const { mode, place, origin } = match.params;
   const title = intl.formatMessage({
     id: 'stops-near-you.title',
@@ -31,9 +32,5 @@ function NearYouPageMeta({ match }) {
   );
   return <Helmet {...props} />;
 }
-
-NearYouPageMeta.propTypes = {
-  match: matchShape.isRequired,
-};
 
 export default NearYouPageMeta;

@@ -1,6 +1,7 @@
-import { routerShape } from 'found';
 import PropTypes from 'prop-types';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useRouter } from 'found';
+import { relayShape } from '../../../../utils/client/shapes';
 import {
   startLocationWatch,
   stopLocationWatch,
@@ -8,7 +9,6 @@ import {
 import { useMessages } from '../../../hooks/MessageContext';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { legTime, legTimeStr } from '../../../../utils/client/legUtils';
-import { relayShape } from '../../../../utils/client/shapes';
 import { useItineraryContext } from '../context/ItineraryContext';
 import { useRealtimeLegs } from './hooks/useRealtimeLegs';
 import NaviBottom from './NaviBottom';
@@ -33,8 +33,9 @@ function NaviContainer(
     mapLayerRef,
     settings,
   },
-  { executeAction, getStore, router },
+  { executeAction, getStore },
 ) {
+  const { router } = useRouter();
   const hasPosition = useRef(false);
   const prevPos = useRef(undefined);
   const posFrozen = useRef(0);
@@ -224,7 +225,6 @@ NaviContainer.propTypes = {
 NaviContainer.contextTypes = {
   executeAction: PropTypes.func,
   getStore: PropTypes.func.isRequired,
-  router: routerShape.isRequired,
 };
 
 NaviContainer.defaultProps = {

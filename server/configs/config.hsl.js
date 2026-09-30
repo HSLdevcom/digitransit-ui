@@ -82,7 +82,7 @@ export default {
     },
     HOLIDAYS_AND_EXCEPTIONS: {
       fi: 'https://www.hsl.fi/matkustaminen/juhlapyhat-ja-poikkeusaikataulut',
-      sv: 'https://www.hsl.fi/sv/att-resa/helger-och-avvikande-tidtabeller',
+      sv: 'https://www.hsl.fi/sv/att-resa/helg-och-undantagstidtabeller',
       en: 'https://www.hsl.fi/en/travelling/bank-holidays-and-changes-to-public-transport-services',
     },
     MAJOR_CHANGES: {

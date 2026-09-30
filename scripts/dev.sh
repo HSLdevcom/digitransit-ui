@@ -114,7 +114,7 @@ pids+=("$!")
 # queries is edited during a dev session. Its "relay-watch" script
 # mkdir -p's lib/__generated__ before starting relay-compiler --watch, so
 # this also works on a fresh clone where lib/ doesn't exist yet.
-(cd digitransit-search-util/packages/digitransit-search-util-query-utils && yarn relay-watch) &
+yarn workspace @digitransit-search-util/digitransit-search-util-query-utils relay-watch &
 pids+=("$!")
 
 # Node's built-in watch mode restarts the server whenever any module in its

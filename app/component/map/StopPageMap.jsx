@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useContext, useState, useRef } from 'react';
-import { matchShape, routerShape } from 'found';
 import { connectToStores } from 'fluxible-addons-react';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
+import { useMatch } from 'found';
 import {
   configShape,
   locationShape,
@@ -26,6 +26,7 @@ import MapRoutingButton from '../MapRoutingButton';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../../utils/shared/path';
 import { streetQuery } from './StreetQuery';
+import { useConfigContext } from '../../client/ConfigContext';
 
 const getModeFromProps = props => {
   if (props.citybike) {
@@ -46,10 +47,16 @@ const getModeFromProps = props => {
   return 'stop';
 };
 
-function StopPageMap(
-  { stop, breakpoint, locationState, mapLayers, mapLayerOptions, stopName },
-  { config, match },
-) {
+function StopPageMap({
+  stop,
+  breakpoint,
+  locationState,
+  mapLayers,
+  mapLayerOptions,
+  stopName,
+}) {
+  const config = useConfigContext();
+  const match = useMatch();
   if (!stop) {
     return false;
   }
@@ -179,13 +186,6 @@ function StopPageMap(
     </MapWithTracking>
   );
 }
-
-StopPageMap.contextTypes = {
-  config: configShape.isRequired,
-  match: matchShape.isRequired,
-  router: routerShape.isRequired,
-  getStore: PropTypes.func.isRequired,
-};
 
 StopPageMap.propTypes = {
   stop: PropTypes.shape({

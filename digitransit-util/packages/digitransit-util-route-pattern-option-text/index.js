@@ -40,6 +40,8 @@ if (!i18next.hasLoadedNamespace('translation')) {
  * @param {object} pattern JSON object of pattern
  * @param {boolean} isTogglable Determine what kind of component is shown (div or option)
  * @returns {String} Option text for pattern's route
+ * @deprecated This package is no longer used by digitransit-ui. It will be
+ * removed in a future release.
  * @example
  * digitransit-util.routePatternOptionText('fi', {"code":"HSL:3002U:0:02","headsign":"Kirkkonummi","stops":[{"name":"Helsinki"},{"name":"Kirkkonummi"}],"tripsForDate":[],"activeDates":["20200221","20200222","20200228","20200229","20200306","20200307"],"rangeFollowingDays":[["20200221","20200222"],["20200228","20200229"],["20200306","20200307"]],"dayDiff":[0,1,6,1,6,1],"dayString":"pe-la","allowedDiff":2,"fromDate":"20200221","untilDate":"-"}, true);
  * //=Kirkkonummi ➔ Helsinki
@@ -315,6 +317,10 @@ export default function routePatternOptionText(language, pattern, isTogglable) {
   return retValue;
 }
 
+/**
+ * @deprecated This package is no longer used by digitransit-ui. It will be
+ * removed in a future release.
+ */
 export function getTranslatedDayString(language, dayString, clean) {
   const splittedDayStr = dayString.split(',');
   let text = i18next.t(`route-pattern-select-range-${splittedDayStr[0]}`, {

@@ -19,7 +19,7 @@ function parseGeocodingResults(results) {
 }
 
 function parseLocation(location, input, config) {
-  const peliasUrl = config.URL.pelias;
+  const peliasUrl = config.URL.PELIAS;
   const minimalRegexp = config.search ? config.search.minimalRegexp : null;
   if (location) {
     const parsedFrom = placeParser.exec(location);
