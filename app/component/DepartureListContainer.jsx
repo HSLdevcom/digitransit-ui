@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { stopTimeShape, configShape } from '../../utils/client/shapes';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
@@ -84,6 +84,8 @@ class DepartureListContainer extends Component {
     className: PropTypes.string,
     isTerminal: PropTypes.bool,
     showVehicles: PropTypes.bool,
+    intl: PropTypes.shape({ formatMessage: PropTypes.func.isRequired })
+      .isRequired,
   };
 
   static defaultProps = {
@@ -95,10 +97,6 @@ class DepartureListContainer extends Component {
     mode: 'BUS',
   };
 
-  static contextTypes = {
-    intl: PropTypes.object.isRequired,
-  };
-
   constructor(props) {
     super(props);
     this.pageLoadedAlertRef = React.createRef();
@@ -106,11 +104,11 @@ class DepartureListContainer extends Component {
 
   componentDidMount() {
     if (this.pageLoadedAlertRef.current) {
-      this.pageLoadedAlertRef.current.innerHTML =
-        this.context.intl.formatMessage({
-          id: 'stop-page.right-now.loaded',
-          defaultMessage: 'Right now stop page loaded',
-        });
+      const { intl } = this.props;
+      this.pageLoadedAlertRef.current.innerHTML = intl.formatMessage({
+        id: 'stop-page.right-now.loaded',
+        defaultMessage: 'Right now stop page loaded',
+      });
       setTimeout(() => {
         if (this.pageLoadedAlertRef?.current) {
           this.pageLoadedAlertRef.current.innerHTML = null;
@@ -211,7 +209,7 @@ class DepartureListContainer extends Component {
 
   getHeadsign = departure => {
     if (departure.canceled && departure.isLastStop) {
-      return this.context.intl.formatMessage({
+      return this.props.intl.formatMessage({
         id: 'route-destination-endpoint',
         defaultMessage: 'Arrives / Terminus',
       });
@@ -219,14 +217,14 @@ class DepartureListContainer extends Component {
 
     if (departure.isArrival) {
       if (departure.isLastStop) {
-        return this.context.intl.formatMessage({
+        return this.props.intl.formatMessage({
           id: 'route-destination-endpoint',
           defaultMessage: 'Arrives / Terminus',
         });
       }
       return (
         departure.trip?.tripHeadsign ||
-        this.context.intl.formatMessage({
+        this.props.intl.formatMessage({
           id: 'route-destination-arrives',
           defaultMessage: 'Drop-off only',
         })
@@ -428,10 +426,11 @@ DepartureListContainer.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   getStore: PropTypes.func.isRequired,
   config: configShape.isRequired,
-  intl: PropTypes.object.isRequired, // eslint-disable-line
 };
 
-const containerComponent = createFragmentContainer(DepartureListContainer, {
+const DepartureListWithIntl = injectIntl(DepartureListContainer);
+
+const containerComponent = createFragmentContainer(DepartureListWithIntl, {
   stoptimes: graphql`
     fragment DepartureListContainer_stoptimes on Stoptime @relay(plural: true) {
       realtimeState

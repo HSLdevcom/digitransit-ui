@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { RouterContext } from 'found';
 import { ReactRelayContext } from 'react-relay';
 import PropTypes from 'prop-types';
-import { IntlProvider, createIntl, createIntlCache } from 'react-intl';
+import { IntlProvider } from 'react-intl';
 import { render } from '@testing-library/react';
 import {
   routerShape,
@@ -24,17 +24,11 @@ const mockRelayEnvironment = {
   subscribe: noop,
 };
 const mockRelayContext = { environment: mockRelayEnvironment, variables: {} };
-const intlCache = createIntlCache();
 
 // Remove when Fluxible is fully replaced
 class LegacyContextProvider extends React.Component {
   getChildContext() {
-    const intl = createIntl(
-      { locale: this.props.locale || 'en', messages: this.props.messages },
-      intlCache,
-    );
     const ctx = {
-      intl,
       getStore: this.props.getStore || mockContext.getStore,
       executeAction: this.props.executeAction || mockContext.executeAction,
     };
@@ -59,7 +53,6 @@ class LegacyContextProvider extends React.Component {
 
 LegacyContextProvider.childContextTypes = {
   config: PropTypes.object,
-  intl: PropTypes.object,
   match: matchShape,
   router: routerShape,
   getStore: PropTypes.func,
@@ -69,8 +62,6 @@ LegacyContextProvider.childContextTypes = {
 LegacyContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
   config: PropTypes.object,
-  locale: PropTypes.string,
-  messages: PropTypes.object,
   match: matchShape,
   router: routerShape,
   getStore: PropTypes.func,
@@ -96,13 +87,7 @@ export default function TestProviders({
     [match, router],
   );
   const inner = (
-    <LegacyContextProvider
-      config={config}
-      match={match}
-      router={router}
-      locale={locale}
-      messages={messages}
-    >
+    <LegacyContextProvider config={config} match={match} router={router}>
       <ReactRelayContext.Provider value={mockRelayContext}>
         <RouterContext.Provider value={routerCtx}>
           {children}

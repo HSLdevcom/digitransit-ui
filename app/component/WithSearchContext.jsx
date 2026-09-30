@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import connectToStores from 'fluxible-addons-react/connectToStores';
+import { injectIntl } from 'react-intl';
 import { configShape, locationStateShape } from '../../utils/client/shapes';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { useCitybikes } from '../../utils/client/modeUtils';
@@ -54,7 +55,6 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
   class ComponentWithSearchContext extends React.Component {
     static contextTypes = {
       config: configShape.isRequired,
-      intl: PropTypes.object.isRequired,
       executeAction: PropTypes.func.isRequired,
       getStore: PropTypes.func.isRequired,
     };
@@ -67,6 +67,8 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
       isMobile: PropTypes.bool,
       favouriteContext: PropTypes.bool,
       showViapointControl: PropTypes.bool,
+      intl: PropTypes.shape({ formatMessage: PropTypes.func.isRequired })
+        .isRequired,
     };
 
     static defaultProps = {
@@ -155,7 +157,7 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
               {
                 type: 'CurrentLocation',
                 status: 'no-location',
-                address: this.context.intl.formatMessage({
+                address: this.props.intl.formatMessage({
                   id: 'own-position',
                   defaultMessage: 'Own Location',
                 }),
@@ -182,7 +184,7 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
             return;
           }
           if (!location.address) {
-            location.address = this.context.intl.formatMessage({
+            location.address = this.props.intl.formatMessage({
               id: 'own-position',
               defaultMessage: 'Own Location',
             });
@@ -327,7 +329,9 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
         return this.renderSelectFromMapModal(fromMap);
       }
 
-      const viaProps = this.props.showViapointControl
+      // intl is only needed here, don't leak it to the wrapped component
+      const { intl, ...props } = this.props;
+      const viaProps = props.showViapointControl
         ? { handleViaPointLocationSelected: this.onSelect }
         : {};
       return (
@@ -336,7 +340,7 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
           searchContext={searchContext}
           addAnalyticsEvent={addAnalyticsEvent}
           onSelect={this.onSelect}
-          {...this.props}
+          {...props}
           {...viaProps}
           pathOpts={PATH_OPTS}
         />
@@ -344,7 +348,7 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
     }
   }
   const componentWithPosition = connectToStores(
-    ComponentWithSearchContext,
+    injectIntl(ComponentWithSearchContext),
     ['PositionStore'],
     context => ({
       locationState: context.getStore('PositionStore').getLocationState(),
