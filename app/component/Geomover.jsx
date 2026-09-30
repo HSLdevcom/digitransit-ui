@@ -15,7 +15,8 @@ import {
 // (replacing OriginStore/DestinationStore), so what used to run as a side
 // effect inside connectToStores' compute-props function now runs as a
 // regular effect instead.
-function useGeomoverSync({ locationState, executeAction, intl }) {
+function useGeomoverSync({ locationState, executeAction }) {
+  const intl = useIntl();
   const origin = useOrigin();
   const destination = useDestination();
   const { setOrigin, setDestination } = useItineraryLocationActions();
@@ -85,15 +86,14 @@ function useGeomoverSync({ locationState, executeAction, intl }) {
 // This container updates origin and destination if they are set to follow current location
 export default function withGeomover(WrappedComponent) {
   const GeomoverConnected = connectToStores(
-    ({ intl, locationState, executeAction, ...rest }) => {
-      useGeomoverSync({ locationState, executeAction, intl });
+    ({ locationState, executeAction, ...rest }) => {
+      useGeomoverSync({ locationState, executeAction });
       return <WrappedComponent {...rest} />;
     },
     ['PositionStore'],
-    (context, { intl }) => ({
+    context => ({
       locationState: context.getStore('PositionStore').getLocationState(),
       executeAction: context.executeAction,
-      intl,
     }),
   );
 
@@ -102,8 +102,5 @@ export default function withGeomover(WrappedComponent) {
     getStore: PropTypes.func.isRequired,
   };
 
-  return function Geomover(props) {
-    const intl = useIntl();
-    return <GeomoverConnected {...props} intl={intl} />;
-  };
+  return GeomoverConnected;
 }
