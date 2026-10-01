@@ -562,7 +562,7 @@ export const getItineraryAlerts = (
 
   if (canceled.length) {
     // only show the "search new itinerary" button pre-departure.
-    canceled.forEach(leg => {
+    canceled.forEach((leg, i) => {
       const { legId, mode, route } = leg;
       const id = `canceled-${legId}`;
       const lMode = getLocalizedMode(mode, intl, config);
@@ -572,7 +572,7 @@ export const getItineraryAlerts = (
         { name: routeName },
       );
       const jsxBody =
-        canceled.indexOf(leg) === 0
+        i === 0
           ? withNewSearchBtn(
               '',
               itinerarySearchCallback,
