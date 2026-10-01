@@ -14,30 +14,29 @@ import { getHeadsignFromRouteLongName } from '../../utils/client/legUtils';
 import { getRouteMode } from '../../utils/client/modeUtils';
 import { getCapacity } from '../../utils/client/occupancyUtil';
 import { routePagePath, PREFIX_STOPS } from '../../utils/shared/path';
-import { configShape, departureShape } from '../../utils/client/shapes';
+import { departureShape } from '../../utils/client/shapes';
 import { epochToTime } from '../../utils/client/timeUtils';
 import Icon from './Icon';
 import IconBackground from './icon/IconBackground';
 import PlatformNumber from './PlatformNumber';
+import { useConfigContext } from '../client/ConfigContext';
 
 const getMostSevereAlert = route => {
   const alerts = [...getAlertsForObject(route)];
   return alerts.sort(alertSeverityCompare)[0];
 };
 
-export default function DepartureRow(
-  {
-    departure,
-    departureTime,
-    showPlatformCode,
-    canceled,
-    onCapacityClick,
-    isParentTabActive,
-    platformUpdated,
-    ...props
-  },
-  { config },
-) {
+export default function DepartureRow({
+  departure,
+  departureTime,
+  showPlatformCode,
+  canceled,
+  onCapacityClick,
+  isParentTabActive,
+  platformUpdated,
+  ...props
+}) {
+  const config = useConfigContext();
   const intl = useIntl();
   const { trip, trip: { route } = {} } = departure;
   const mode = getRouteMode(route, config);
@@ -289,8 +288,4 @@ DepartureRow.defaultProps = {
   onCapacityClick: undefined,
   isParentTabActive: false,
   platformUpdated: false,
-};
-
-DepartureRow.contextTypes = {
-  config: configShape.isRequired,
 };

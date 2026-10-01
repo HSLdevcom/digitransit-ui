@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { configShape } from '../../../utils/client/shapes';
-import Icon from '../Icon';
 
-const StartNavi = ({ startNavigation }, context) => {
+import Icon from '../Icon';
+import { useConfigContext } from '../../client/ConfigContext';
+
+const StartNavi = ({ startNavigation }) => {
+  const config = useConfigContext();
   const intl = useIntl();
-  const { config } = context;
 
   return (
     <div className="navi-start-container">
@@ -35,10 +36,6 @@ const StartNavi = ({ startNavigation }, context) => {
 
 StartNavi.propTypes = {
   startNavigation: PropTypes.func.isRequired,
-};
-
-StartNavi.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default StartNavi;

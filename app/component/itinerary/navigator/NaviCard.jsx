@@ -9,7 +9,7 @@ import {
   getTripOrRouteMode,
   transitIconName,
 } from '../../../../utils/client/modeUtils';
-import { configShape, legShape } from '../../../../utils/client/shapes';
+import { legShape } from '../../../../utils/client/shapes';
 import Icon from '../../Icon';
 import NaviCardExtension from './NaviCardExtension';
 import NaviInstructions from './NaviInstructions';
@@ -20,6 +20,7 @@ import {
   NaviCardType,
 } from '../../../../utils/shared/constants';
 import { getIndoorLegType } from '../../../../utils/client/indoorUtils';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 const iconMap = {
   BICYCLE: 'icon_cyclist',
@@ -31,21 +32,19 @@ const iconMap = {
   WAIT_IN_VEHICLE: 'icon_wait_sitting',
 };
 
-export default function NaviCard(
-  {
-    focusToPoint,
-    previousLeg,
-    leg,
-    nextLeg,
-    legType,
-    time,
-    position,
-    tailLength,
-    cardAnimation,
-    platformUpdated,
-  },
-  { config },
-) {
+export default function NaviCard({
+  focusToPoint,
+  previousLeg,
+  leg,
+  nextLeg,
+  legType,
+  time,
+  position,
+  tailLength,
+  cardAnimation,
+  platformUpdated,
+}) {
+  const config = useConfigContext();
   const [cardExpanded, setCardExpanded] = useState(false);
   const [currentCard, setCurrentCard] = useState(NaviCardType.Default);
   const contentRef = useRef();
@@ -208,8 +207,4 @@ NaviCard.defaultProps = {
   nextLeg: undefined,
   position: undefined,
   platformUpdated: false,
-};
-
-NaviCard.contextTypes = {
-  config: configShape.isRequired,
 };

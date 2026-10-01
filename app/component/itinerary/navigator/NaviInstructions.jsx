@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { displayDistance } from '../../../../utils/shared/geo-utils';
-import { legShape, configShape } from '../../../../utils/client/shapes';
+import { legShape } from '../../../../utils/client/shapes';
 import {
   legDestination,
   legTimeStr,
@@ -19,6 +19,7 @@ import {
 import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
 import BoardingInfo from './BoardingInfo';
 import { durationToString } from '../../../../utils/client/timeUtils';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 function getBoardingParams(intl, leg, time, config) {
   if (!leg?.transitLeg) {
@@ -37,20 +38,18 @@ function getBoardingParams(intl, leg, time, config) {
   return { routeMode, route, hs, values };
 }
 
-export default function NaviInstructions(
-  {
-    leg,
-    nextLeg,
-    instructions,
-    legType,
-    time,
-    position,
-    tailLength,
-    showDestinationInfo,
-  },
-  { config },
-) {
+export default function NaviInstructions({
+  leg,
+  nextLeg,
+  instructions,
+  legType = '',
+  time,
+  position,
+  tailLength,
+  showDestinationInfo = false,
+}) {
   const intl = useIntl();
+  const config = useConfigContext();
   const { routeMode, route, hs, values } = getBoardingParams(
     intl,
     nextLeg,
@@ -220,15 +219,4 @@ NaviInstructions.propTypes = {
   }),
   tailLength: PropTypes.number.isRequired,
   showDestinationInfo: PropTypes.bool,
-};
-
-NaviInstructions.defaultProps = {
-  legType: '',
-  leg: undefined,
-  nextLeg: undefined,
-  position: undefined,
-  showDestinationInfo: false,
-};
-NaviInstructions.contextTypes = {
-  config: configShape.isRequired,
 };

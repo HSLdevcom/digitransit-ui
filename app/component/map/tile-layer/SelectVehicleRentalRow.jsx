@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { configShape } from '../../../../utils/client/shapes';
+
 import Icon from '../../Icon';
 import {
   getRentalNetworkConfig,
@@ -10,12 +10,11 @@ import {
   hasVehicleRentalCode,
 } from '../../../../utils/shared/vehicleRentalUtils';
 import { splitGtfsId } from '../../../../utils/shared/gtfs';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function SelectVehicleRentalRow(
-  { name, network, id, desc, prefix, icon },
-  { config },
-) {
+function SelectVehicleRentalRow({ name, network, id, desc, prefix, icon }) {
+  const config = useConfigContext();
   const iconName =
     icon ||
     `${getRentalNetworkIcon(getRentalNetworkConfig(network, config))}-lollipop`;
@@ -70,10 +69,6 @@ SelectVehicleRentalRow.defaultProps = {
   desc: undefined,
   name: undefined,
   icon: undefined,
-};
-
-SelectVehicleRentalRow.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default SelectVehicleRentalRow;
