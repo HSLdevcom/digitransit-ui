@@ -5,7 +5,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 
 import Icon from '../../Icon';
-import getAssetUrl from '../../../client/assetUrl';
+import getAssetUrl from '../../../assets/assetUrl';
 import { useConfigContext } from '../../../client/ConfigContext';
 
 const NaviStarter = ({

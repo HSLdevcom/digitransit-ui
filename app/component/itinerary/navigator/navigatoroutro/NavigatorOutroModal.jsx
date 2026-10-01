@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import getAssetUrl from '../../../../client/assetUrl';
+import getAssetUrl from '../../../../assets/assetUrl';
 import NavigatorModal from '../NavigatorModal';
 import NavigatorOutro from './NavigatorOutro';
 import { useConfigContext } from '../../../../client/ConfigContext';
