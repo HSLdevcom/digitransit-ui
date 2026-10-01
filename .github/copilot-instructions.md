@@ -11,11 +11,15 @@ right one by *who consumes the code*, not just by convenience.
 - `app/` — client-bundle-only React app (Views/Containers/Flux + route trees):
   - `client/` — browser entry & bootstrap: `client.jsx` (browser entry, farce/found router
     bootstrap), `app.js` (Fluxible app/store wiring), `publicPath.js` / `loadDevTheme.js` (extra
-    webpack entry modules), `i18n.js`, `ConfigContext.jsx` (React context provider for config),
-    `images/` (regional logo assets).
+    webpack entry modules), `i18n.js`, `ConfigContext.jsx` (React context provider for config).
   - `routes/` — found + Relay route-tree definitions: `routes.jsx` (front page, top level),
     `routeRoutes.jsx` (route pages), `stopRoutes.jsx` (stop pages); keep the filenames, Relay
     query names are prefixed with them.
+  - `assets/` — source art bundled into the client: `images/<theme>/` (logos, favicons,
+    illustrations; `default/` holds the fallbacks), `icons/<theme>/` (one `<id>.svg` per icon;
+    `default/` has all of them, other themes only overrides — built into sprite sheets by
+    `scripts/build/buildSprites.js`, never edit a sprite by hand), plus `assetUrl.js`
+    (`getAssetUrl`, resolves config image paths to bundled URLs).
   - `component/` — topic subfolders for larger features: `itinerary/`, `map/`, `stop/`,
     `routepage/`, `nearyou/`, `trafficnow/` (has its own `README.md`), `embedded/`, `visual/`,
     `icon/`, and `__generated__/` (Relay codegen).
@@ -98,12 +102,13 @@ right one by *who consumes the code*, not just by convenience.
 ## Lint & format
 
 - `yarn lint` — eslint (Airbnb config + jsx-a11y + compat + prettier) + `prettier-styles` (scss
-  check) + `stylelint` + component-package translation parity check.
+  check) + `prettier-icons` (`app/assets/icons/**/*.svg`, via `@prettier/plugin-xml`) + `stylelint`
+  + component-package translation parity check.
 - `yarn format` — auto-fixes: sorts translations (app + component packages), `eslint --fix`,
-  prettier styles, stylelint fix.
+  prettier styles, prettier icons, stylelint fix.
 - `yarn eslint` / `yarn eslint-fix` for JS only.
 - Husky git hooks: pre-commit runs `lint-staged` (eslint on staged JS, prettier+stylelint on
-  staged scss) and blocks on unresolved merge-conflict markers; pre-push runs the full
+  staged scss, prettier on staged icon SVGs) and blocks on unresolved merge-conflict markers; pre-push runs the full
   `yarn run test-unit` suite, so pushes can be slow or rejected if unit tests fail.
 
 ## Tests (see `docs/Tests.md`)

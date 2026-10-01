@@ -44,7 +44,7 @@ export default configMerger(walttiConfig, {
   logo: 'lappeenranta/logo.png',
   secondaryLogo: 'lappeenranta/secondary-logo.png',
 
-  favicon: './app/client/images/lappeenranta/lappeenranta-favicon.jpg',
+  favicon: './app/assets/images/lappeenranta/lappeenranta-favicon.jpg',
 
   vehicleRental: {
     networks: {

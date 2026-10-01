@@ -6,9 +6,9 @@ const configsDir = path.join(process.cwd(), 'server', 'configs');
 const staticDir = path.join(process.cwd(), 'static');
 const assetsDir = path.join(staticDir, 'assets');
 
-// Sprite sheets are webpack entries (see scripts/build/contextHelper.js) rather
-// than per-config static assets, so they're outside this audit.
-const NON_CONFIG_ASSETS = /^svg-sprite\..*\.svg$/;
+// Hidden OS-generated files starting with dot or ending with tilde (e.g. macOS regenerates .DS_Store just by
+// browsing a folder in Finder) are never real config assets.
+const IGNORED_FILES = /(^\.)|(~$)/;
 
 const configNames = fs
   .readdirSync(configsDir)
@@ -55,7 +55,7 @@ describe('static asset references', () => {
           .split(path.sep)
           .join('/'),
       )
-      .filter(file => !NON_CONFIG_ASSETS.test(path.basename(file)));
+      .filter(file => !IGNORED_FILES.test(path.basename(file)));
 
     expect(files.filter(file => !referenced.has(file))).toEqual([]);
   });

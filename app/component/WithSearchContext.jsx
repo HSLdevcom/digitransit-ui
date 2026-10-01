@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import { configShape, locationStateShape } from '../../utils/client/shapes';
-import { withConfigContext } from '../client/ConfigContext';
+import { useIntl } from 'react-intl';
+import { locationStateShape } from '../../utils/client/shapes';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { useCitybikes } from '../../utils/client/modeUtils';
 import {
@@ -13,6 +13,7 @@ import {
   PREFIX_ROUTES,
 } from '../../utils/shared/path';
 import searchContext from '../data/SearchContext';
+import { useConfigContext } from '../client/ConfigContext';
 import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMap from './map/SelectFromMap';
 import DTModal from './DTModal';
@@ -52,82 +53,27 @@ export function getLocationSearchTargets(config, isMobile) {
 }
 
 export function withSearchContext(WrappedComponent, embeddedSearch = false) {
-  class ComponentWithSearchContext extends React.Component {
-    static contextTypes = {
-      intl: PropTypes.object.isRequired,
-      executeAction: PropTypes.func.isRequired,
-      getStore: PropTypes.func.isRequired,
-    };
+  function ComponentWithSearchContext(
+    {
+      selectHandler,
+      locationState,
+      onGeolocationStart = null,
+      fromMap: initialFromMap,
+      isMobile = false,
+      favouriteContext = false,
+      showViapointControl = false,
+      ...rest
+    },
+    { executeAction },
+  ) {
+    const intl = useIntl();
+    const config = useConfigContext();
+    const [fromMap, setFromMap] = useState(initialFromMap);
+    // { id } of the search field waiting for geolocation, or null. An object
+    // because id can be a via point index 0.
+    const pendingLocationRef = useRef(null);
 
-    static propTypes = {
-      selectHandler: PropTypes.func.isRequired,
-      locationState: locationStateShape.isRequired,
-      onGeolocationStart: PropTypes.func,
-      fromMap: PropTypes.string,
-      isMobile: PropTypes.bool,
-      favouriteContext: PropTypes.bool,
-      showViapointControl: PropTypes.bool,
-      config: configShape.isRequired,
-    };
-
-    static defaultProps = {
-      onGeolocationStart: null,
-      fromMap: undefined,
-      isMobile: false,
-      showViapointControl: false,
-      favouriteContext: false,
-    };
-
-    constructor(props) {
-      super(props);
-      this.state = {
-        // eslint-disable-next-line react/no-unused-state
-        pendingCurrentLocation: false,
-        isInitialized: false,
-        positioningSelectedFrom: '',
-        fromMap: this.props.fromMap,
-      };
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-      if (prevState.isInitialized) {
-        const locState = nextProps.locationState;
-        if (
-          (prevState.pendingCurrentLocation &&
-            locState.status === 'found-address') ||
-          locState.locationingFailed
-        ) {
-          return {
-            pendingCurrentLocation: false,
-            positioningSelectedFrom: null,
-          };
-        }
-      }
-      return null;
-    }
-
-    componentDidMount() {
-      if (!this.state.isInitialized) {
-        this.setState({ isInitialized: true });
-      }
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-      if (
-        prevState.pendingCurrentLocation !== this.state.pendingCurrentLocation
-      ) {
-        const locState = this.props.locationState;
-
-        if (locState.status === 'found-address') {
-          this.onSuggestionSelected(
-            locState,
-            prevState.positioningSelectedFrom,
-          );
-        }
-      }
-    }
-
-    saveOldSearch = (item, type, id) => {
+    const saveOldSearch = (item, type, id) => {
       if (
         item.type !== 'FutureRoute' &&
         item.type !== 'CurrentLocation' &&
@@ -138,25 +84,25 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
           !item.properties.layer ||
           item.properties.layer.indexOf('favourite') === -1)
       ) {
-        this.context.executeAction(searchContext.saveSearch, {
+        executeAction(searchContext.saveSearch, {
           item,
           type,
         });
       }
     };
 
-    onSuggestionSelected = (item, id) => {
+    const onSuggestionSelected = (item, id) => {
       if (item.type === 'SelectFromMap') {
-        this.setState({ fromMap: id });
+        setFromMap(id);
       } else if (id !== 'stop-route-station' && item.type !== 'FutureRoute') {
         let location;
         if (item.type === 'CurrentLocation') {
           if (embeddedSearch) {
-            this.props.selectHandler(
+            selectHandler(
               {
                 type: 'CurrentLocation',
                 status: 'no-location',
-                address: this.context.intl.formatMessage({
+                address: intl.formatMessage({
                   id: 'own-position',
                   defaultMessage: 'Own Location',
                 }),
@@ -172,18 +118,15 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
             item.properties.layer === 'currentPosition' &&
             !item.properties.lat
           ) {
-            // eslint-disable-next-line react/no-unused-state
-            this.setState(
-              { pendingCurrentLocation: true, positioningSelectedFrom: id },
-              this.context.executeAction(searchContext.startLocationWatch),
-            );
-            if (this.props.onGeolocationStart) {
-              this.props.onGeolocationStart(item, id);
+            pendingLocationRef.current = { id };
+            executeAction(searchContext.startLocationWatch);
+            if (onGeolocationStart) {
+              onGeolocationStart(item, id);
             }
             return;
           }
           if (!location.address) {
-            location.address = this.context.intl.formatMessage({
+            location.address = intl.formatMessage({
               id: 'own-position',
               defaultMessage: 'Own Location',
             });
@@ -191,14 +134,28 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
         } else {
           location = suggestionToLocation(item);
         }
-        this.props.selectHandler(location, id);
+        selectHandler(location, id);
       } else {
-        this.props.selectHandler(item, id);
+        selectHandler(item, id);
       }
     };
 
+    // Finish a current location selection once positioning resolves.
+    useEffect(() => {
+      const pending = pendingLocationRef.current;
+      if (!pending) {
+        return;
+      }
+      if (locationState.status === 'found-address') {
+        pendingLocationRef.current = null;
+        onSuggestionSelected(locationState, pending.id);
+      } else if (locationState.locationingFailed) {
+        pendingLocationRef.current = null;
+      }
+    }, [locationState]);
+
     // top level onSelect callback manages search history
-    onSelect = (item, id) => {
+    const onSelect = (item, id) => {
       // type for storing old searches. 'endpoint' types are available in itinerary search
       let type = 'endpoint';
       switch (item.type) {
@@ -222,20 +179,20 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
           .then(routes => {
             if (routes.length > 0) {
               const refreshed = { ...item, ...routes[0], type: item.type };
-              this.saveOldSearch(refreshed, type, id);
-              this.onSuggestionSelected(refreshed, id);
+              saveOldSearch(refreshed, type, id);
+              onSuggestionSelected(refreshed, id);
             } else {
               // route no longer exists; drop the stale saved search entirely
-              this.context.executeAction(removeSearch, { item, type });
-              this.onSuggestionSelected(item, id);
+              executeAction(removeSearch, { item, type });
+              onSuggestionSelected(item, id);
             }
           })
           .catch(() => {
-            this.saveOldSearch(item, type, id);
-            this.onSuggestionSelected(item, id);
+            saveOldSearch(item, type, id);
+            onSuggestionSelected(item, id);
           });
       } else if (item.type === 'OldSearch' && item.properties.gid) {
-        getJson(this.props.config.URL.PELIAS_PLACE, {
+        getJson(config.URL.PELIAS_PLACE, {
           ids: item.properties.gid,
         })
           .then(res => {
@@ -258,53 +215,52 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
               }
             }
             if (canSave) {
-              this.saveOldSearch(newItem, type, id);
+              saveOldSearch(newItem, type, id);
             } else {
-              this.context.executeAction(removeSearch, {
+              executeAction(removeSearch, {
                 item: newItem,
                 type,
               });
             }
-            this.onSuggestionSelected(item, id);
+            onSuggestionSelected(item, id);
           })
           .catch(() => {
-            this.saveOldSearch(item, type, id);
-            this.onSuggestionSelected(item, id);
+            saveOldSearch(item, type, id);
+            onSuggestionSelected(item, id);
           });
       } else {
-        this.saveOldSearch(item, type, id);
-        this.onSuggestionSelected(item, id);
+        saveOldSearch(item, type, id);
+        onSuggestionSelected(item, id);
       }
     };
 
-    confirmMapSelection = (type, mapLocation) => {
-      this.setState({ fromMap: undefined }, () =>
-        this.props.selectHandler(mapLocation, type),
-      );
+    const confirmMapSelection = (type, mapLocation) => {
+      setFromMap(undefined);
+      selectHandler(mapLocation, type);
     };
 
-    renderSelectFromMapModal = id => {
+    if (fromMap !== undefined) {
       let titleId = '';
 
-      if (id === 'origin') {
+      if (fromMap === 'origin') {
         titleId = 'select-from-map-origin';
-      } else if (id === 'destination') {
+      } else if (fromMap === 'destination') {
         titleId = 'select-from-map-destination';
-      } else if (id === 'favourite') {
+      } else if (fromMap === 'favourite') {
         titleId = 'select-from-map-favourite';
-      } else if (id === parseInt(id, 10)) {
+      } else if (fromMap === parseInt(fromMap, 10)) {
         // id = via point index
         titleId = 'select-from-map-viaPoint';
       }
 
-      if (!this.props.isMobile) {
+      if (!isMobile) {
         return (
           <FromMapModal
-            onClose={() => this.setState({ fromMap: undefined })}
+            onClose={() => setFromMap(undefined)}
             titleId={titleId}
-            favouriteContext={this.props.favouriteContext}
+            favouriteContext={favouriteContext}
           >
-            <SelectFromMap type={id} onConfirm={this.confirmMapSelection} />
+            <SelectFromMap type={fromMap} onConfirm={confirmMapSelection} />
           </FromMapModal>
         );
       }
@@ -313,37 +269,51 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
         <DTModal show>
           <SelectFromMapHeader
             titleId={titleId}
-            onBackBtnClick={() => this.setState({ fromMap: undefined })}
+            onBackBtnClick={() => setFromMap(undefined)}
             hideCloseBtn
           />
-          <SelectFromMap type={id} onConfirm={this.confirmMapSelection} />
+          <SelectFromMap type={fromMap} onConfirm={confirmMapSelection} />
         </DTModal>
       );
-    };
-
-    render() {
-      const { fromMap } = this.state;
-
-      if (fromMap !== undefined) {
-        return this.renderSelectFromMapModal(fromMap);
-      }
-
-      const viaProps = this.props.showViapointControl
-        ? { handleViaPointLocationSelected: this.onSelect }
-        : {};
-      return (
-        <WrappedComponent
-          appElement="#app"
-          searchContext={searchContext}
-          addAnalyticsEvent={addAnalyticsEvent}
-          onSelect={this.onSelect}
-          {...this.props}
-          {...viaProps}
-          pathOpts={PATH_OPTS}
-        />
-      );
     }
+
+    const viaProps = showViapointControl
+      ? { handleViaPointLocationSelected: onSelect }
+      : {};
+    return (
+      <WrappedComponent
+        appElement="#app"
+        searchContext={searchContext}
+        addAnalyticsEvent={addAnalyticsEvent}
+        onSelect={onSelect}
+        selectHandler={selectHandler}
+        locationState={locationState}
+        onGeolocationStart={onGeolocationStart}
+        fromMap={initialFromMap}
+        isMobile={isMobile}
+        favouriteContext={favouriteContext}
+        showViapointControl={showViapointControl}
+        {...rest}
+        {...viaProps}
+        pathOpts={PATH_OPTS}
+      />
+    );
   }
+
+  ComponentWithSearchContext.contextTypes = {
+    executeAction: PropTypes.func.isRequired,
+  };
+
+  ComponentWithSearchContext.propTypes = {
+    selectHandler: PropTypes.func.isRequired,
+    locationState: locationStateShape.isRequired,
+    onGeolocationStart: PropTypes.func,
+    fromMap: PropTypes.string,
+    isMobile: PropTypes.bool,
+    favouriteContext: PropTypes.bool,
+    showViapointControl: PropTypes.bool,
+  };
+
   const componentWithPosition = connectToStores(
     ComponentWithSearchContext,
     ['PositionStore'],
@@ -351,5 +321,5 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
       locationState: context.getStore('PositionStore').getLocationState(),
     }),
   );
-  return withConfigContext(componentWithPosition);
+  return componentWithPosition;
 }

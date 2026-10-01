@@ -20,7 +20,7 @@ cleanup() {
   echo "Stopping development processes..."
 
   for pid in "${pids[@]}"; do
-    kill -- "-$pid" 2>/dev/null || true
+    kill -INT -- "-$pid" 2>/dev/null || true
   done
 
   wait 2>/dev/null || true
@@ -59,7 +59,6 @@ export API_SUBSCRIPTION_QUERY_PARAMETER_NAME="${API_SUBSCRIPTION_QUERY_PARAMETER
 export API_SUBSCRIPTION_HEADER_NAME="${API_SUBSCRIPTION_HEADER_NAME:-digitransit-subscription-key}"
 export API_SUBSCRIPTION_TOKEN="${API_SUBSCRIPTION_TOKEN:-}"
 
-export API_TYPE="${API_TYPE:-development}"
 export RUN_ENV="${RUN_ENV:-development}"
 export NODE_ENV="${NODE_ENV:-development}"
 
@@ -69,16 +68,23 @@ if [ -z "$API_SUBSCRIPTION_TOKEN" ]; then
 fi
 
 case "$API_TYPE" in
+  "")
+    export API_URL="${API_URL:-https://dev-api.digitransit.fi}"
+    echo "Using API_URL=$API_URL"
+    ;;
   development)
     # This is the default in config.default.js
-    echo "Using API_URL=https://dev-api.digitransit.fi"
+    export API_URL="https://dev-api.digitransit.fi"
+    echo "Using API_URL=$API_URL"
     ;;
   production)
     export API_URL="https://api.digitransit.fi"
     echo "Using API_URL=$API_URL"
     ;;
   local)
+    export API_URL="https://dev-api.digitransit.fi"
     export OTP_URL="http://localhost:9080/otp/"
+    echo "Using API_URL=$API_URL"
     echo "Setting OTP_URL=$OTP_URL"
     ;;
   *)
@@ -92,6 +98,8 @@ pids=()
 trap cleanup EXIT INT TERM
 
 yarn static
+
+yarn sprites
 
 # Build the digitransit-* workspace packages once, synchronously, before
 # starting webpack-dev-server and the workspace watchers below. On a fresh
@@ -125,6 +133,9 @@ node --watch --watch-preserve-output server/server.js &
 pids+=("$!")
 
 yarn webpack-dev-server &
+pids+=("$!")
+
+yarn sprites --watch &
 pids+=("$!")
 
 yarn workspace-packages-watch &
