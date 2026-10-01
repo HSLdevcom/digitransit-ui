@@ -6,9 +6,9 @@ import ServiceAlertIcon from '../ServiceAlertIcon';
 
 export default function ItineraryListHeader({
   translationId,
-  defaultMessage,
-  showBikeBoardingInfo,
-  showCarBoardingInfo,
+  defaultMessage = '',
+  showBikeBoardingInfo = false,
+  showCarBoardingInfo = false,
 }) {
   return (
     <div className="itinerary-summary-subtitle-container">
@@ -56,10 +56,4 @@ ItineraryListHeader.propTypes = {
   defaultMessage: PropTypes.string,
   showBikeBoardingInfo: PropTypes.bool,
   showCarBoardingInfo: PropTypes.bool,
-};
-
-ItineraryListHeader.defaultProps = {
-  defaultMessage: '',
-  showBikeBoardingInfo: false,
-  showCarBoardingInfo: false,
 };

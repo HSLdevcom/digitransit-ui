@@ -6,9 +6,17 @@ import RouteNumber from '../RouteNumber';
 import { legShape } from '../../../utils/client/shapes';
 import { ViaLocationType } from '../../../utils/shared/constants';
 
-const ItineraryCircleLineLong = props => {
+const ItineraryCircleLineLong = ({
+  index,
+  color,
+  renderBottomMarker = false,
+  modeClassName,
+  boardingLeg,
+  viaType = null,
+  isStop = false,
+}) => {
   const isFirstChild = () => {
-    return props.index === 0;
+    return index === 0;
   };
 
   const getMarker = top => {
@@ -22,7 +30,7 @@ const ItineraryCircleLineLong = props => {
         </div>
       );
     }
-    if (props.viaType === ViaLocationType.Visit && !props.isStop) {
+    if (viaType === ViaLocationType.Visit && !isStop) {
       return (
         <div className="itinerary-icon-container">
           <Icon img="icon_mapMarker" className="itinerary-icon via via-it" />
@@ -35,34 +43,31 @@ const ItineraryCircleLineLong = props => {
   let firstModeClassName;
   let secondModeClassName;
   let positionRelativeToTransit;
-  if (
-    props.boardingLeg.to.stop !== null &&
-    props.boardingLeg.from.stop !== null
-  ) {
+  if (boardingLeg.to.stop !== null && boardingLeg.from.stop !== null) {
     positionRelativeToTransit = 'between-transit';
-    firstModeClassName = props.boardingLeg.mode.toLowerCase();
-    secondModeClassName = props.modeClassName.toLowerCase();
-  } else if (props.boardingLeg.to.stop !== null) {
+    firstModeClassName = boardingLeg.mode.toLowerCase();
+    secondModeClassName = modeClassName.toLowerCase();
+  } else if (boardingLeg.to.stop !== null) {
     positionRelativeToTransit = 'before-transit';
-    firstModeClassName = props.modeClassName.toLowerCase();
-    secondModeClassName = props.boardingLeg.mode.toLowerCase();
+    firstModeClassName = modeClassName.toLowerCase();
+    secondModeClassName = boardingLeg.mode.toLowerCase();
   } else {
-    // props.boardingLeg.from.stop !== undefined
+    // boardingLeg.from.stop !== undefined
     positionRelativeToTransit = 'after-transit';
-    firstModeClassName = props.boardingLeg.mode.toLowerCase();
-    secondModeClassName = props.modeClassName.toLowerCase();
+    firstModeClassName = boardingLeg.mode.toLowerCase();
+    secondModeClassName = modeClassName.toLowerCase();
   }
 
   const topMarker = getMarker(true);
   const bottomMarker = getMarker(false);
-  const legBeforeLineStyle = { color: props.color };
+  const legBeforeLineStyle = { color };
   const carBoardingRouteNumber = (
     <RouteNumber mode="car" icon="icon_car" vertical />
   );
   return (
     <div
-      className={cx('leg-before long', props.modeClassName, {
-        first: props.index === 0,
+      className={cx('leg-before long', modeClassName, {
+        first: index === 0,
       })}
       aria-hidden="true"
     >
@@ -83,7 +88,7 @@ const ItineraryCircleLineLong = props => {
           positionRelativeToTransit,
         )}
       >
-        {props.modeClassName === 'bicycle' ? (
+        {modeClassName === 'bicycle' ? (
           <RouteNumber mode={firstModeClassName} vertical />
         ) : (
           positionRelativeToTransit === 'before-transit' &&
@@ -95,7 +100,7 @@ const ItineraryCircleLineLong = props => {
         className={cx(
           'leg-before-line middle',
           positionRelativeToTransit,
-          props.modeClassName,
+          modeClassName,
           'default-dotted-line',
         )}
       />
@@ -106,7 +111,7 @@ const ItineraryCircleLineLong = props => {
           positionRelativeToTransit,
         )}
       >
-        {props.modeClassName === 'bicycle' ? (
+        {modeClassName === 'bicycle' ? (
           <RouteNumber mode={secondModeClassName} vertical />
         ) : (
           (positionRelativeToTransit === 'after-transit' ||
@@ -120,13 +125,13 @@ const ItineraryCircleLineLong = props => {
           className={cx(
             'leg-before-line second-middle',
             positionRelativeToTransit,
-            props.modeClassName,
+            modeClassName,
             'default-dotted-line',
           )}
         />
       )}
       {positionRelativeToTransit === 'between-transit' &&
-        props.modeClassName === 'bicycle' && (
+        modeClassName === 'bicycle' && (
           <div
             className={cx(
               'itinerary-route-number',
@@ -149,7 +154,7 @@ const ItineraryCircleLineLong = props => {
           'default-dotted-line',
         )}
       />
-      {props.renderBottomMarker && bottomMarker}
+      {renderBottomMarker && bottomMarker}
     </div>
   );
 };
@@ -162,13 +167,6 @@ ItineraryCircleLineLong.propTypes = {
   boardingLeg: legShape.isRequired,
   viaType: PropTypes.string,
   isStop: PropTypes.bool,
-};
-
-ItineraryCircleLineLong.defaultProps = {
-  color: undefined,
-  renderBottomMarker: false,
-  viaType: null,
-  isStop: false,
 };
 
 export default ItineraryCircleLineLong;
