@@ -37,7 +37,6 @@ class TopLevel extends React.Component {
     meta: PropTypes.node,
     match: matchShape.isRequired,
     origin: locationShape,
-    selectFromMapHeader: PropTypes.node,
     config: configShape.isRequired,
   };
 
@@ -53,7 +52,6 @@ class TopLevel extends React.Component {
     content: undefined,
     title: undefined,
     meta: undefined,
-    selectFromMapHeader: undefined,
   };
 
   componentDidUpdate(prevProps) {
@@ -141,7 +139,6 @@ class TopLevel extends React.Component {
               map={this.disableMapOnMobile ? null : this.props.map}
               content={this.props.content}
               header={this.props.header}
-              selectFromMapHeader={this.props.selectFromMapHeader}
             />
           )}
           desktop={() => (

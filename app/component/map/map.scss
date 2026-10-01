@@ -225,7 +225,7 @@ div.leaflet-container {
 }
 
 .select-from-map {
-  height: calc(100vh - 36px);
+  height: 100%;
 }
 
 div.current-location-marker > span > svg.icon {
@@ -1426,6 +1426,16 @@ div.leaflet-control-scale.leaflet-control {
   cursor: grab;
 }
 
+.select-from-map.map.full .leaflet-control-scale.leaflet-control {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  cursor: grab;
+}
+
+.select-from-map.map.full .leaflet-bottom {
+  bottom: 0;
+}
+
 .desktop .map {
   border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -1482,7 +1492,7 @@ div.leaflet-control-scale-line {
   height: 50px;
   width: 60%;
   border-radius: 25px;
-  bottom: 15%;
+  bottom: max(42px, calc(env(safe-area-inset-bottom, 0px) + 42px));
   background-color: var(--color);
   font-size: 18px;
   font-weight: $font-weight-medium;
