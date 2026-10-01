@@ -1,5 +1,4 @@
 import memoize from 'lodash/memoize';
-import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 import glfun from './glfun';
 import { transitIconName } from './modeUtils';
@@ -882,11 +881,7 @@ export function renderAsString(children) {
     return ReactDOMServer.renderToString(children);
   }
 
-  const div = document.createElement('div');
-  ReactDOM.render(children, div);
-  const html = div.firstElementChild?.outerHTML || div.innerHTML;
-  ReactDOM.unmountComponentAtNode(div);
-  return html;
+  return ReactDOMServer.renderToStaticMarkup(children);
 }
 
 export function getIndexedIconFields(zoom, index) {

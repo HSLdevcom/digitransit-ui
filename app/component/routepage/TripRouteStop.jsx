@@ -70,7 +70,6 @@ const TripRouteStop = (props, { config }) => {
     const linkProps = {
       stopName: vehicleState === 'arriving' ? prevStop?.name : stop.name,
       nextStopName: vehicleState === 'arriving' ? stop?.name : nextStop?.name,
-      key: vehicle.id,
       mode,
       pattern: props.pattern,
       route: props.route,
