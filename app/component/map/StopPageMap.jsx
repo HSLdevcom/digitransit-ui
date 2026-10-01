@@ -208,7 +208,7 @@ StopPageMap.defaultProps = {
 
 const componentWithBreakpoint = withBreakpoint(StopPageMap);
 
-const StopPageMapConnected = connectToStores(
+const StopPageMapWithStores = connectToStores(
   componentWithBreakpoint,
   [PositionStore, MapLayerStore],
   ({ getStore }, props) => {
@@ -237,12 +237,12 @@ const StopPageMapConnected = connectToStores(
 );
 
 // config comes from ConfigContext, not from the legacy Fluxible context
-function StopPageMapWithStores(props) {
+function StopPageMapWithConfig(props) {
   const config = useConfigContext();
-  return <StopPageMapConnected {...props} config={config} />;
+  return <StopPageMapWithStores {...props} config={config} />;
 }
 
 export {
-  StopPageMapWithStores as default,
+  StopPageMapWithConfig as default,
   componentWithBreakpoint as Component,
 };
