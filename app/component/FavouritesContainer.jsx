@@ -236,7 +236,6 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
             required
             colors={config.colors}
             modeSet={config.iconModeSet}
-            favouriteContext
           />
         }
       />

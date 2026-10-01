@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import get from 'lodash/get';
 import { useRouter } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
@@ -44,10 +44,39 @@ function SelectFromMap({ breakpoint, language, type, onConfirm, mapLayers }) {
   const { match } = useRouter();
   const map = useRef(null);
   const [mapCenter, setMapCenter] = useState(undefined);
+  const [leafletMap, setLeafletMap] = useState(null);
+
+  const initialViewFixed = useRef(false);
 
   const setMapElementRef = element => {
-    map.current = get(element, 'leafletElement', null);
+    const leafletElement = get(element, 'leafletElement', null);
+    map.current = leafletElement;
+    setLeafletMap(leafletElement);
   };
+
+  // SelectFromMapModal (the HSL design system Modal it's rendered inside of)
+  // resizes its content to fill the viewport only after this component has
+  // already mounted and Leaflet has measured its (still small) initial
+  // container size, leaving the map stuck at that stale size. Watch the
+  // container and nudge Leaflet to re-measure whenever it actually changes.
+  useEffect(() => {
+    if (!leafletMap || typeof ResizeObserver === 'undefined') {
+      return undefined;
+    }
+    const container = leafletMap.getContainer();
+    const observer = new ResizeObserver(() => {
+      leafletMap.invalidateSize();
+      if (!initialViewFixed.current) {
+        initialViewFixed.current = true;
+        leafletMap.setView(
+          [config.defaultEndpoint.lat, config.defaultEndpoint.lon],
+          12,
+        );
+      }
+    });
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [leafletMap]);
 
   const setAddress = (lat, lon) => {
     const searchParams = {
@@ -252,6 +281,9 @@ function SelectFromMap({ breakpoint, language, type, onConfirm, mapLayers }) {
       mapLayers={mapLayers}
       locationPopup="none"
       mapRef={setMapElementRef}
+      showControls={false}
+      // Map icons here are shown for context only and aren't selectable.
+      disableIconClick
       {...eventHooks}
     />
   );
@@ -270,7 +302,16 @@ export default connectToStores(
   ['MapLayerStore'],
   ({ getStore }) => {
     const mapLayers = getStore('MapLayerStore').getMapLayers({
-      notThese: ['vehicles'],
+      notThese: [
+        'citybike',
+        'parkAndRide',
+        'parkAndRideForBikes',
+        'vehicles',
+        'geoJson',
+        'scooter',
+        'stop',
+      ],
+      force: ['terminal'],
     });
     return { mapLayers };
   },
