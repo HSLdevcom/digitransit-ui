@@ -168,6 +168,7 @@ export default {
     disclaimer:
       'Tulokset perustuvat arvioituihin ajoaikoihin. Ehdotetun yhteyden toteutumista ei voida taata.',
     disruption: 'Häiriö',
+    'disruption-badge-accessibility_issue': 'Esteettömyysongelma',
     'disruption-badge-additional_service': 'Lisävuoroja',
     'disruption-badge-cancellation': 'Peruutus',
     'disruption-badge-detour': 'Poikkeusreitti',
