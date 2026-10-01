@@ -54,6 +54,22 @@ reference every region's zone layer), minifies `.geojson` files and writes preco
 migration; note that `_static` is populated once at startup, so `static/` edits during
 `yarn dev` need a re-run. See [`docs/Webpack.md`](/docs/Webpack.md).
 
+## Using `build/buildSprites.js`
+
+Builds the SVG sprite sheets `_static/assets/svg-sprite.<theme>.svg` from the per-icon files in
+[`app/assets/icons/`](/app/assets/icons), run via `yarn sprites` (which both `prebuild` and
+`dev.sh` invoke):
+
+```
+yarn sprites
+yarn sprites --watch
+```
+
+`default/` holds every icon and other theme directories hold only their overrides and additions;
+each file's name becomes its symbol id. A malformed icon file fails the build. `--watch` (used by
+`dev.sh`) rebuilds on every change under `app/assets/icons/` and only logs errors, so a
+half-saved file doesn't stop `yarn dev`. See [`docs/Webpack.md`](/docs/Webpack.md).
+
 ## Using `theme/add-theme.js`
 
 Scaffolds a new theme: creates `sass/themes/<name>`, a config file at

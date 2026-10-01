@@ -6,7 +6,7 @@ import { locationShape, relayShape } from '../../../utils/client/shapes';
 import NearYouFavouritesContainer from './NearYouFavouritesContainer';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import Loading from '../Loading';
-import getAssetUrl from '../../client/assetUrl';
+import getAssetUrl from '../../assets/assetUrl';
 
 function NearYouFavourites({
   stopIds,

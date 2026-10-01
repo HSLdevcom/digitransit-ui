@@ -2,7 +2,7 @@ import React from 'react';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
 import NoDisruptions from '../../../../app/component/trafficnow/components/NoDisruptions';
-import * as assetUrl from '../../../../app/client/assetUrl';
+import * as assetUrl from '../../../../app/assets/assetUrl';
 
 const baseConfig = createTestConfig({
   notFoundGraphic: null,

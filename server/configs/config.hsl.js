@@ -101,7 +101,7 @@ export default {
   },
   passLanguageToRootLink: true,
 
-  favicon: './app/client/images/hsl/hsl-favicon.png',
+  favicon: './app/assets/images/hsl/hsl-favicon.png',
 
   // Navbar logo
   logo: 'hsl/reittiopas-logo.svg',
