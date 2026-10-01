@@ -184,7 +184,7 @@ async function init() {
 
   // fetch Userdata and favourites
   favouriteStore.init(config);
-  searchContext.init(config);
+  searchContext.init(context.getComponentContext(), config);
   if (config.allowLogin) {
     getUser()
       .then(user => {
