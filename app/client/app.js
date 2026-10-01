@@ -22,10 +22,6 @@ export default config => {
     name: 'extra-context-plugin',
     plugContext: () => {
       return {
-        plugComponentContext: componentContext => {
-          // eslint-disable-next-line no-param-reassign
-          componentContext.config = config;
-        },
         plugActionContext: actionContext => {
           // eslint-disable-next-line no-param-reassign
           actionContext.config = config;

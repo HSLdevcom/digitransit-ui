@@ -14,7 +14,7 @@ import {
   isCallAgencyLeg,
 } from '../../../../utils/client/legUtils';
 import ZoneIcon from '../../ZoneIcon';
-import { legShape, configShape } from '../../../../utils/client/shapes';
+import { legShape } from '../../../../utils/client/shapes';
 import { getDestinationProperties, LEGTYPE, withRealTime } from './NaviUtils';
 import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
 import { durationToString } from '../../../../utils/client/timeUtils';
@@ -28,21 +28,20 @@ import {
   NaviCardType,
 } from '../../../../utils/shared/constants';
 import { getIndoorLegType } from '../../../../utils/client/indoorUtils';
+import { useConfigContext } from '../../../client/ConfigContext';
 
-const NaviCardExtension = (
-  {
-    focusToPoint,
-    legType,
-    previousLeg,
-    leg,
-    nextLeg,
-    time,
-    platformUpdated,
-    currentCard,
-    setCurrentCard,
-  },
-  { config },
-) => {
+const NaviCardExtension = ({
+  focusToPoint,
+  legType,
+  previousLeg,
+  leg,
+  nextLeg,
+  time,
+  platformUpdated,
+  currentCard,
+  setCurrentCard,
+}) => {
+  const config = useConfigContext();
   const intl = useIntl();
   const { stop, name, rentalVehicle, vehicleParking, vehicleRentalStation } =
     leg ? leg.to : nextLeg.from;
@@ -259,10 +258,6 @@ NaviCardExtension.defaultProps = {
   nextLeg: undefined,
   platformUpdated: false,
   currentCard: NaviCardType.Default,
-};
-
-NaviCardExtension.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default NaviCardExtension;

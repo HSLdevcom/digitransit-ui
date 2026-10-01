@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { configShape } from '../../../../../utils/client/shapes';
 import getAssetUrl from '../../../../assets/assetUrl';
 import NavigatorModal from '../NavigatorModal';
 import NavigatorOutro from './NavigatorOutro';
+import { useConfigContext } from '../../../../client/ConfigContext';
 
-const NavigatorOutroModal = ({ onClose, destination }, { config }) => {
+const NavigatorOutroModal = ({ onClose, destination }) => {
+  const config = useConfigContext();
   const logo = getAssetUrl(config.thumbsUpGraphic);
 
   return (
@@ -18,10 +19,6 @@ const NavigatorOutroModal = ({ onClose, destination }, { config }) => {
 NavigatorOutroModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   destination: PropTypes.string.isRequired,
-};
-
-NavigatorOutroModal.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default NavigatorOutroModal;

@@ -1,25 +1,34 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { tripShape, routeShape, configShape } from '../../utils/client/shapes';
+import { tripShape, routeShape } from '../../utils/client/shapes';
 import { getTripOrRouteText } from '../../utils/client/legUtils';
 import RouteNumber from './RouteNumber';
+import { useConfigContext } from '../client/ConfigContext';
 
-const RouteNumberContainer = (
-  { interliningWithRoute, trip, route, mode, hideText, ...props },
-  { config },
-) =>
-  route && (
-    <RouteNumber
-      color={route.color ? `#${route.color}` : null}
-      mode={mode !== undefined ? mode : route.mode}
-      text={
-        hideText
-          ? ''
-          : getTripOrRouteText(trip, route, config, interliningWithRoute)
-      }
-      {...props}
-    />
+const RouteNumberContainer = ({
+  interliningWithRoute,
+  trip,
+  route,
+  mode,
+  hideText,
+  ...props
+}) => {
+  const config = useConfigContext();
+  return (
+    route && (
+      <RouteNumber
+        color={route.color ? `#${route.color}` : null}
+        mode={mode !== undefined ? mode : route.mode}
+        text={
+          hideText
+            ? ''
+            : getTripOrRouteText(trip, route, config, interliningWithRoute)
+        }
+        {...props}
+      />
+    )
   );
+};
 
 RouteNumberContainer.propTypes = {
   trip: tripShape,
@@ -34,10 +43,6 @@ RouteNumberContainer.defaultProps = {
   interliningWithRoute: undefined,
   mode: undefined,
   hideText: false,
-};
-
-RouteNumberContainer.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default RouteNumberContainer;

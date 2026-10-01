@@ -1,8 +1,9 @@
 import React from 'react';
-import { configShape } from '../../utils/client/shapes';
+import { useConfigContext } from '../client/ConfigContext';
 
-const TitleComponent = (props, { config: { title } }) => <span>{title}</span>;
+const Title = () => {
+  const { title } = useConfigContext();
+  return <span>{title}</span>;
+};
 
-TitleComponent.contextTypes = { config: configShape.isRequired };
-
-export default TitleComponent;
+export default Title;

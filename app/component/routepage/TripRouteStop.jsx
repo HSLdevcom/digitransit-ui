@@ -3,11 +3,7 @@ import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-import {
-  alertShape,
-  configShape,
-  vehicleShape,
-} from '../../../utils/client/shapes';
+import { alertShape, vehicleShape } from '../../../utils/client/shapes';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
 import AddressRow from '../AddressRow';
@@ -21,8 +17,10 @@ import { getZoneLabel } from '../../../utils/client/legUtils';
 import getVehicleState from '../../../utils/client/vehicleStateUtils';
 import { ensureColorAccessibleOnWhite } from '../../../utils/shared/colorUtils';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { useConfigContext } from '../../client/ConfigContext';
 
-const TripRouteStop = (props, { config }) => {
+const TripRouteStop = props => {
+  const config = useConfigContext();
   const {
     className,
     color,
@@ -232,10 +230,6 @@ TripRouteStop.defaultProps = {
   prevStop: null,
   shortName: undefined,
   selectedVehicle: undefined,
-};
-
-TripRouteStop.contextTypes = {
-  config: configShape.isRequired,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';

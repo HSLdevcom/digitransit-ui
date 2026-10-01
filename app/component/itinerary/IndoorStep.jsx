@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
-import { configShape } from '../../../utils/client/shapes';
+
 import Icon from '../Icon';
 import {
   getIndoorTranslationId,
@@ -110,10 +110,6 @@ IndoorStep.defaultProps = {
   isLastPlace: false,
   onlyOneStep: false,
   indoorLegType: IndoorLegType.NoStepsInside,
-};
-
-IndoorStep.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default IndoorStep;
