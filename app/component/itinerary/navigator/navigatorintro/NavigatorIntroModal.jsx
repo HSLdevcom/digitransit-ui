@@ -1,14 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { configShape } from '../../../../../utils/client/shapes';
 import getAssetUrl from '../../../../assets/assetUrl';
 import NavigatorModal from '../NavigatorModal';
 import NavigatorIntro from './NavigatorIntro';
+import { useConfigContext } from '../../../../client/ConfigContext';
 
-const NavigatorIntroModal = (
-  { onPrimaryClick, onClose, onOpenGeolocationInfo },
-  { config },
-) => {
+const NavigatorIntroModal = ({
+  onPrimaryClick,
+  onClose,
+  onOpenGeolocationInfo,
+}) => {
+  const config = useConfigContext();
   const logo = getAssetUrl(config.navigationLogo);
 
   return (
@@ -27,14 +29,6 @@ NavigatorIntroModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onPrimaryClick: PropTypes.func,
   onOpenGeolocationInfo: PropTypes.func.isRequired,
-};
-
-NavigatorIntroModal.defaultProps = {
-  onPrimaryClick: undefined,
-};
-
-NavigatorIntroModal.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default NavigatorIntroModal;

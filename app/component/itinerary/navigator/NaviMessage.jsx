@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { configShape } from '../../../../utils/client/shapes';
-
 import Icon from '../../Icon';
+import { useConfigContext } from '../../../client/ConfigContext';
 
-function NaviMessage(
-  { severity, children, index, handleRemove, hideClose, cardAnimation },
-  { config },
-) {
+function NaviMessage({
+  severity,
+  children,
+  index,
+  handleRemove,
+  hideClose = false,
+  cardAnimation,
+}) {
+  const config = useConfigContext();
   const [removingIndex, setRemovingIndex] = useState(null);
 
   const handleRemoveClick = () => {
@@ -73,14 +77,6 @@ NaviMessage.propTypes = {
   handleRemove: PropTypes.func.isRequired,
   hideClose: PropTypes.bool,
   cardAnimation: PropTypes.string.isRequired,
-};
-
-NaviMessage.defaultProps = {
-  hideClose: false,
-};
-
-NaviMessage.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default NaviMessage;
