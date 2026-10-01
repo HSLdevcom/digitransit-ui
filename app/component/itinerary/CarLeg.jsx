@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
-import { legShape, configShape } from '../../../utils/client/shapes';
+import { useConfigContext } from '../../client/ConfigContext';
+import { legShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../../../utils/shared/geo-utils';
@@ -12,8 +13,9 @@ import { legTimeStr, legDestination } from '../../../utils/client/legUtils';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
 import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
 
-export default function CarLeg(props, { config }) {
+export default function CarLeg(props) {
   const intl = useIntl();
+  const config = useConfigContext();
   const distance = displayDistance(
     parseInt(props.leg.distance, 10),
     config,
@@ -171,10 +173,4 @@ CarLeg.propTypes = {
   focusToLeg: PropTypes.func.isRequired,
   children: PropTypes.node,
   carBoardingLeg: legShape,
-};
-
-CarLeg.defaultProps = { children: undefined, carBoardingLeg: undefined };
-
-CarLeg.contextTypes = {
-  config: configShape.isRequired,
 };
