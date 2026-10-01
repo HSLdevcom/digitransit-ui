@@ -18,6 +18,11 @@ describe('TileContainer', () => {
     constructor: { getName: () => 'stop' },
   };
 
+  beforeEach(() => {
+    // jsdom does not implement canvas
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({});
+  });
+
   function createTileContainer(props) {
     return new TileContainer(
       { x: 1, y: 2, z: 15 },
