@@ -166,8 +166,6 @@ function DepartureListContainer(
   const isMounted = useRef(false);
   const vehiclesEnabled = config.showVehiclesOnStopPage && showVehicles;
 
-  // config, getStore and executeAction never change, so they are omitted from
-  // the dependency arrays below.
   useEffect(() => {
     let alertTimeout;
     if (pageLoadedAlertRef.current) {
