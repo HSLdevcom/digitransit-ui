@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { useIntl } from 'react-intl';
-import { configShape, planShape } from '../../../utils/client/shapes';
+import { planShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import { displayDistance } from '../../../utils/shared/geo-utils';
 import { durationToString } from '../../../utils/client/timeUtils';
@@ -14,11 +14,15 @@ import {
 } from '../../../utils/client/legUtils';
 import { streetHash } from '../../../utils/shared/path';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
+import { useConfigContext } from '../../client/ConfigContext';
 
-export default function StreetModeSelectorButton(
-  { icon, name, plan, onClick },
-  { config },
-) {
+export default function StreetModeSelectorButton({
+  icon,
+  name,
+  plan,
+  onClick,
+}) {
+  const config = useConfigContext();
   const intl = useIntl();
   const itinerary = plan?.edges?.[0]?.node;
   if (!itinerary) {
@@ -151,8 +155,4 @@ StreetModeSelectorButton.propTypes = {
   name: PropTypes.string.isRequired,
   plan: planShape.isRequired,
   onClick: PropTypes.func.isRequired,
-};
-
-StreetModeSelectorButton.contextTypes = {
-  config: configShape.isRequired,
 };

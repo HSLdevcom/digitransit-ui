@@ -1,26 +1,25 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { configShape, planShape } from '../../../utils/client/shapes';
+import { planShape } from '../../../utils/client/shapes';
 import StreetModeSelectorButton from './StreetModeSelectorButton';
 import StreetModeSelectorWeather from './StreetModeSelectorWeather';
 import StreetModeSelectorShimmer from './StreetModeSelectorShimmer';
 import { streetHash } from '../../../utils/shared/path';
+import { useConfigContext } from '../../client/ConfigContext';
 
-export default function AlternativeItineraryBar(
-  {
-    selectStreetMode,
-    weatherData,
-    walkPlan,
-    bikePlan,
-    bikePublicPlan,
-    carPlan,
-    carPublicPlan,
-    parkRidePlan,
-    loading,
-  },
-  { config },
-) {
+export default function AlternativeItineraryBar({
+  selectStreetMode,
+  weatherData,
+  walkPlan,
+  bikePlan,
+  bikePublicPlan,
+  carPlan,
+  carPublicPlan,
+  parkRidePlan,
+  loading,
+}) {
+  const config = useConfigContext();
   return (
     <div className="street-mode-selector-container">
       <StreetModeSelectorShimmer loading={loading} />
@@ -117,8 +116,4 @@ AlternativeItineraryBar.defaultProps = {
   carPlan: undefined,
   carPublicPlan: undefined,
   loading: undefined,
-};
-
-AlternativeItineraryBar.contextTypes = {
-  config: configShape,
 };

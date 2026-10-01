@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import i18next from 'i18next';
-import { matchShape, configShape } from '../../../utils/client/shapes';
+import { matchShape } from '../../../utils/client/shapes';
 import { getRefPoint } from '../../../utils/client/apiUtils';
 import {
   withSearchContext,
@@ -23,6 +23,7 @@ import Loading from '../Loading';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import useUTMCampaignParams from './hooks/useUTMCampaignParams';
 import { locationToOTP } from '../../../utils/shared/otpStrings';
+import { useConfigContext } from '../../client/ConfigContext';
 
 const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
 
@@ -70,9 +71,9 @@ const translations = {
  *  optimized for widths 320px, 360px and  640px, and height 250px.
  *
  */
-const EmbeddedSearch = (props, context) => {
+const EmbeddedSearch = props => {
+  const config = useConfigContext();
   const { query } = props.match.location;
-  const { config } = context;
   const { colors, fontWeights } = config;
   const bikeOnly = query?.bikeOnly;
   const walkOnly = query?.walkOnly;
@@ -337,10 +338,6 @@ const EmbeddedSearch = (props, context) => {
       </div>
     </div>
   );
-};
-
-EmbeddedSearch.contextTypes = {
-  config: configShape.isRequired,
 };
 
 EmbeddedSearch.propTypes = {

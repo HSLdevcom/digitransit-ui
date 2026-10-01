@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { configShape } from '../../utils/client/shapes';
 import StopCode from './StopCode';
-import withBreakpoint from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../utils/client/withBreakpoint';
 import BackButton from './BackButton';
 import { getJson } from '../../utils/shared/xhrPromise';
 import getZoneId from '../../utils/client/zoneIconUtils';
@@ -11,11 +10,16 @@ import ZoneIcon from './ZoneIcon';
 import { hasVehicleRentalCode } from '../../utils/shared/vehicleRentalUtils';
 import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
 import { splitGtfsId } from '../../utils/shared/gtfs';
+import { useConfigContext } from '../client/ConfigContext';
 
-const ParkOrBikeStationHeader = (
-  { parkOrStation, breakpoint, parkType, backButton, withSeparator },
-  { config },
-) => {
+const ParkOrBikeStationHeader = ({
+  parkOrStation,
+  parkType,
+  backButton = true,
+  withSeparator = true,
+}) => {
+  const breakpoint = useBreakpoint();
+  const config = useConfigContext();
   const [zoneId, setZoneId] = useState(undefined);
   useEffect(() => {
     const searchParams = {
@@ -83,22 +87,7 @@ ParkOrBikeStationHeader.propTypes = {
     lon: PropTypes.number.isRequired,
   }).isRequired,
   parkType: PropTypes.string,
-  breakpoint: PropTypes.string.isRequired,
   withSeparator: PropTypes.bool,
 };
 
-ParkOrBikeStationHeader.defaultProps = {
-  parkType: undefined,
-  backButton: true,
-  withSeparator: true,
-};
-
-ParkOrBikeStationHeader.contextTypes = {
-  config: configShape.isRequired,
-};
-
-const ParkOrBikeStationHeaderWithBreakpoint = withBreakpoint(
-  ParkOrBikeStationHeader,
-);
-
-export default ParkOrBikeStationHeaderWithBreakpoint;
+export default ParkOrBikeStationHeader;

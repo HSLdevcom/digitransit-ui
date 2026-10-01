@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { configShape } from '../../../../../utils/client/shapes';
 import {
   IndoorStepType,
   VerticalDirection,
@@ -69,10 +68,6 @@ NaviIndoorContainer.propTypes = {
 
 NaviIndoorContainer.defaultProps = {
   indoorSteps: [],
-};
-
-NaviIndoorContainer.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default NaviIndoorContainer;

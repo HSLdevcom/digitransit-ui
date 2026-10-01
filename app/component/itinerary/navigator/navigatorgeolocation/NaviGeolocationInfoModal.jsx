@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { configShape } from '../../../../../utils/client/shapes';
 import getAssetUrl from '../../../../assets/assetUrl';
 import NavigatorModal from '../NavigatorModal';
 import NaviGeolocationInfo from './NaviGeolocationInfo';
+import { useConfigContext } from '../../../../client/ConfigContext';
 
-const NaviGeolocationInfoModal = ({ onClose }, { config }) => {
+const NaviGeolocationInfoModal = ({ onClose }) => {
+  const config = useConfigContext();
   const logo = getAssetUrl(config.naviGeolocationGraphic);
 
   return (
@@ -17,10 +18,6 @@ const NaviGeolocationInfoModal = ({ onClose }, { config }) => {
 
 NaviGeolocationInfoModal.propTypes = {
   onClose: PropTypes.func.isRequired,
-};
-
-NaviGeolocationInfoModal.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default NaviGeolocationInfoModal;

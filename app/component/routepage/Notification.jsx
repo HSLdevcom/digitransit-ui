@@ -1,16 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { configShape } from '../../../utils/client/shapes';
 import {
   getDialogState,
   setDialogState,
 } from '../../../utils/client/localStorage';
 
 import Icon from '../Icon';
+import { useConfigContext } from '../../client/ConfigContext';
 
-const RouteNotification = ({ notification, lang }, context) => {
+const RouteNotification = ({ notification, lang }) => {
   const intl = useIntl();
+  const config = useConfigContext();
   const id = { notification };
   const [hideNote, setHideNote] = useState(() => getDialogState(id) || false);
 
@@ -30,7 +31,7 @@ const RouteNotification = ({ notification, lang }, context) => {
         <Icon
           img="icon_info"
           className="route-notification-icon"
-          color={context.config.colors.primary}
+          color={config.colors.primary}
         />
       </div>
       <div className="right-block">
@@ -84,7 +85,7 @@ const RouteNotification = ({ notification, lang }, context) => {
         >
           <Icon
             img="icon_arrow-dropdown"
-            color={context.config.colors.primary}
+            color={config.colors.primary}
             className={`route-notification-collapse-icon ${
               !hideNote ? 'inverted' : ''
             }`}
@@ -105,10 +106,6 @@ RouteNotification.propTypes = {
     closeButtonLabel: PropTypes.objectOf(PropTypes.string),
   }).isRequired,
   lang: PropTypes.string.isRequired,
-};
-
-RouteNotification.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default RouteNotification;

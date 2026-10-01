@@ -4,21 +4,29 @@ import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
 import { stopPagePath } from '../../../../utils/shared/path';
-import { configShape } from '../../../../utils/client/shapes';
+
 import {
   getStopMode,
   transitIconName,
 } from '../../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../../utils/shared/colorUtils';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 function isNull(val) {
   return val === 'null' || val === undefined || val === null;
 }
 
-function SelectStopRow(
-  { code, type, desc, gtfsId, name, terminal, routes, platform },
-  { config },
-) {
+function SelectStopRow({
+  code,
+  type,
+  desc,
+  gtfsId,
+  name,
+  terminal,
+  routes,
+  platform,
+}) {
+  const config = useConfigContext();
   const mode = getStopMode(type, routes, code, config, terminal);
   const iconOptions = {};
   iconOptions.iconId = transitIconName(
@@ -90,7 +98,5 @@ SelectStopRow.defaultProps = {
   terminal: undefined,
   platform: undefined,
 };
-
-SelectStopRow.contextTypes = { config: configShape.isRequired };
 
 export default SelectStopRow;

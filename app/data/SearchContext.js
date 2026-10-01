@@ -45,16 +45,24 @@ class SearchContext {
 
   /**
    * Initializes the singleton with the real Digitransit implementations,
-   * derived from the fluxible context/config. Safe to call more than once;
-   * only the first call has an effect.
+   * derived from config. Safe to call more than once; only the first call
+   * has an effect.
+   *
+   * @param {Object} context The Fluxible (component) context, used by some
+   *   @digitransit-search-util packages (e.g.
+   *   digitransit-search-util-execute-search-immediate) to read store state
+   *   via context.getStore(...).
+   * @param {Object} config The resolved app config.
    */
-  init(context) {
+  init(context, config) {
     if (this.initialized) {
       return;
     }
     this.initialized = true;
-    this.context = context;
-    const { config } = context;
+    this.context = {
+      ...context,
+      config,
+    };
     this.isPeliasLocationAware = config.autoSuggest.locationAware;
     this.minimalRegexp = config.search
       ? config.search.minimalRegexp

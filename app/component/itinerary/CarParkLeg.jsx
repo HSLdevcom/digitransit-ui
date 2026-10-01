@@ -3,7 +3,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { Link } from 'found';
-import { legShape, parkShape, configShape } from '../../../utils/client/shapes';
+import { legShape, parkShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../../../utils/shared/geo-utils';
@@ -12,8 +12,10 @@ import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { PREFIX_CARPARK } from '../../../utils/shared/path';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { legTimeStr, legDestination } from '../../../utils/client/legUtils';
+import { useConfigContext } from '../../client/ConfigContext';
 
-function CarParkLeg(props, { config }) {
+function CarParkLeg(props) {
+  const config = useConfigContext();
   const intl = useIntl();
   const distance = displayDistance(
     parseInt(props.leg.distance, 10),
@@ -134,10 +136,6 @@ CarParkLeg.propTypes = {
 CarParkLeg.defaultProps = {
   children: undefined,
   noWalk: false,
-};
-
-CarParkLeg.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default CarParkLeg;

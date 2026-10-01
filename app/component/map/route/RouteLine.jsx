@@ -7,11 +7,8 @@ import LocationMarker from '../LocationMarker';
 import Line from '../Line';
 import { getClosestPoint } from '../../../../utils/shared/geo-utils';
 import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
-import {
-  patternShape,
-  configShape,
-  tripShape,
-} from '../../../../utils/client/shapes';
+import { patternShape, tripShape } from '../../../../utils/client/shapes';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 /**
  * Split the array points in two at the given position. Return index to split at
@@ -43,17 +40,14 @@ function getSplitIndex(points, position) {
   return bestIndex + 1;
 }
 
-function RouteLine(props, context) {
+function RouteLine(props) {
+  const config = useConfigContext();
   if (!props.pattern) {
     return false;
   }
 
   const objs = [];
-  const modeClass = getTripOrRouteMode(
-    props.trip,
-    props.pattern.route,
-    context.config,
-  );
+  const modeClass = getTripOrRouteMode(props.trip, props.pattern.route, config);
 
   if (!props.thin) {
     // We are drawing a background line under an itinerary line,
@@ -195,10 +189,6 @@ RouteLine.defaultProps = {
   trip: null,
   filteredStops: [],
   vehiclePosition: null,
-};
-
-RouteLine.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default createFragmentContainer(RouteLine, {
