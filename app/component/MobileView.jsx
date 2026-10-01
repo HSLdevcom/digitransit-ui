@@ -67,15 +67,7 @@ Math.easeInOutQuad = function easeInOutQuad(a, b, c, d) {
 
 const MobileView = forwardRef(
   (
-    {
-      header,
-      map,
-      content,
-      settingsDrawer,
-      selectFromMapHeader,
-      searchBox,
-      enableBottomScroll,
-    },
+    { header, map, content, settingsDrawer, searchBox, enableBottomScroll },
     ref,
   ) => {
     if (settingsDrawer) {
@@ -154,7 +146,6 @@ const MobileView = forwardRef(
 
     return (
       <div className="mobile">
-        {selectFromMapHeader}
         {searchBox}
         {map ? (
           <>
@@ -202,7 +193,6 @@ MobileView.propTypes = {
   map: PropTypes.node,
   content: PropTypes.node,
   settingsDrawer: PropTypes.node,
-  selectFromMapHeader: PropTypes.node,
   searchBox: PropTypes.node,
   enableBottomScroll: PropTypes.bool,
 };
@@ -212,7 +202,6 @@ MobileView.defaultProps = {
   map: undefined,
   content: undefined,
   settingsDrawer: undefined,
-  selectFromMapHeader: undefined,
   searchBox: undefined,
   enableBottomScroll: true,
 };

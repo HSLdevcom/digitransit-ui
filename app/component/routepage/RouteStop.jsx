@@ -5,7 +5,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import {
   alertShape,
-  configShape,
   vehicleShape,
   stopTimeShape,
 } from '../../../utils/client/shapes';
@@ -28,6 +27,7 @@ import {
   getStopStatusFromStopData,
   STOP_STATUS_BADGE_IMGS,
 } from '../../../utils/client/stopStatusUtils';
+import { useConfigContext } from '../../client/ConfigContext';
 
 function getDepartureTime(stoptime) {
   return (
@@ -38,26 +38,24 @@ function getDepartureTime(stoptime) {
   );
 }
 
-const RouteStop = (
-  {
-    className,
-    color,
-    currentTime,
-    first,
-    last,
-    mode,
-    stop,
-    nextStop,
-    vehicle,
-    displayNextDeparture,
-    shortName,
-    prevStop,
-    hideDepartures,
-    loop,
-    singleLoop,
-  },
-  { config },
-) => {
+const RouteStop = ({
+  className,
+  color,
+  currentTime,
+  first,
+  last,
+  mode,
+  stop,
+  nextStop,
+  vehicle,
+  displayNextDeparture,
+  shortName,
+  prevStop,
+  hideDepartures,
+  loop,
+  singleLoop,
+}) => {
+  const config = useConfigContext();
   const intl = useIntl();
   const stopStatus = getStopStatusFromStopData({
     stop,
@@ -412,10 +410,6 @@ RouteStop.defaultProps = {
   hideDepartures: false,
   loop: false,
   singleLoop: false,
-};
-
-RouteStop.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default RouteStop;

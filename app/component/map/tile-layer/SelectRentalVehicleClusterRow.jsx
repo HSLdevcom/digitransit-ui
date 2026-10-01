@@ -2,16 +2,22 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { configShape } from '../../../../utils/client/shapes';
+
 import Icon from '../../Icon';
 import { hasVehicleRentalCode } from '../../../../utils/shared/vehicleRentalUtils';
 import { splitGtfsId } from '../../../../utils/shared/gtfs';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function SelectVehicleRentalClusterRow(
-  { name, id, desc, prefix, networks: networksInCluster, isScooter },
-  { config },
-) {
+function SelectVehicleRentalClusterRow({
+  name,
+  id,
+  desc,
+  prefix,
+  networks: networksInCluster,
+  isScooter,
+}) {
+  const config = useConfigContext();
   const img = isScooter ? 'icon_scooter-lollipop' : 'icon_citybike-lollipop';
   const color = config.colors[isScooter ? 'scooter' : 'citybike'];
   const linkAddress = `/${prefix}/${encodeURIComponent(id)}/${[
@@ -57,10 +63,6 @@ SelectVehicleRentalClusterRow.defaultProps = {
   desc: undefined,
   name: undefined,
   isScooter: false,
-};
-
-SelectVehicleRentalClusterRow.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default SelectVehicleRentalClusterRow;

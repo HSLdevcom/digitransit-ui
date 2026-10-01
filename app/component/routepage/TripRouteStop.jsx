@@ -3,11 +3,7 @@ import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-import {
-  alertShape,
-  configShape,
-  vehicleShape,
-} from '../../../utils/client/shapes';
+import { alertShape, vehicleShape } from '../../../utils/client/shapes';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
 import AddressRow from '../AddressRow';
@@ -26,8 +22,10 @@ import {
   getStopStatusFromStopData,
   STOP_STATUS_BADGE_IMGS,
 } from '../../../utils/client/stopStatusUtils';
+import { useConfigContext } from '../../client/ConfigContext';
 
-const TripRouteStop = (props, { config }) => {
+const TripRouteStop = props => {
+  const config = useConfigContext();
   const {
     className,
     color,
@@ -258,10 +256,6 @@ TripRouteStop.defaultProps = {
   prevStop: null,
   shortName: undefined,
   selectedVehicle: undefined,
-};
-
-TripRouteStop.contextTypes = {
-  config: configShape.isRequired,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';

@@ -6,7 +6,6 @@ import { fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import { useMatch } from 'found';
 import {
-  configShape,
   locationShape,
   mapLayerOptionsShape,
 } from '../../../utils/client/shapes';
@@ -216,7 +215,8 @@ const componentWithBreakpoint = withBreakpoint(StopPageMap);
 const StopPageMapWithStores = connectToStores(
   componentWithBreakpoint,
   [PositionStore, MapLayerStore],
-  ({ config, getStore }, props) => {
+  ({ getStore }, props) => {
+    const { config } = props;
     const locationState = getStore(PositionStore).getLocationState();
     const ml = config.showVehiclesOnStopPage ? { notThese: ['vehicles'] } : {};
     if (props.citybike) {
@@ -238,12 +238,15 @@ const StopPageMapWithStores = connectToStores(
       mapLayerOptions,
     };
   },
-  {
-    config: configShape,
-  },
 );
 
+// config comes from ConfigContext, not from the legacy Fluxible context
+function StopPageMapWithConfig(props) {
+  const config = useConfigContext();
+  return <StopPageMapWithStores {...props} config={config} />;
+}
+
 export {
-  StopPageMapWithStores as default,
+  StopPageMapWithConfig as default,
   componentWithBreakpoint as Component,
 };

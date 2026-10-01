@@ -293,28 +293,6 @@ $content-background-color: $background-color;
   }
 }
 
-.select-from-map-nav-container {
-  display: flex;
-  align-items: center;
-  height: 55px;
-  background-color: #fff;
-}
-
-.select-from-map-nav-title {
-  flex-grow: 1;
-  font-size: 18px;
-  font-weight: $font-weight-medium;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: -0.6;
-  text-align: center;
-  vertical-align: text-top;
-  color: #333;
-  position: relative;
-  white-space: nowrap;
-}
-
 .select-from-map-confirm-button-container {
   display: flex;
   width: 100%;
