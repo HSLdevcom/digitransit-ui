@@ -14,7 +14,19 @@ import { TimeProvider, TimeContext } from '../../../app/hooks/TimeContext';
 import translations from '../../../app/translations/en';
 import { mockContext } from './mock-context';
 
-const defaultMessages = translations.en || translations;
+const defaultMessages = translations.en;
+const intlCache = createIntlCache();
+
+/**
+ * A real react-intl object for testing code that takes intl as a parameter.
+ * Uses the same default en messages as renderWithProviders.
+ */
+export function createTestIntl({
+  locale = 'en',
+  messages = defaultMessages,
+} = {}) {
+  return createIntl({ locale, messages }, intlCache);
+}
 const noop = () => {};
 const mockRelayEnvironment = {
   check: noop,
@@ -24,17 +36,11 @@ const mockRelayEnvironment = {
   subscribe: noop,
 };
 const mockRelayContext = { environment: mockRelayEnvironment, variables: {} };
-const intlCache = createIntlCache();
 
 // Remove when Fluxible is fully replaced
 class LegacyContextProvider extends React.Component {
   getChildContext() {
-    const intl = createIntl(
-      { locale: this.props.locale || 'en', messages: this.props.messages },
-      intlCache,
-    );
     const ctx = {
-      intl,
       getStore: this.props.getStore || mockContext.getStore,
       executeAction: this.props.executeAction || mockContext.executeAction,
     };
@@ -59,7 +65,6 @@ class LegacyContextProvider extends React.Component {
 
 LegacyContextProvider.childContextTypes = {
   config: PropTypes.object,
-  intl: PropTypes.object,
   match: matchShape,
   router: routerShape,
   getStore: PropTypes.func,
@@ -69,8 +74,6 @@ LegacyContextProvider.childContextTypes = {
 LegacyContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
   config: PropTypes.object,
-  locale: PropTypes.string,
-  messages: PropTypes.object,
   match: matchShape,
   router: routerShape,
   getStore: PropTypes.func,
@@ -87,6 +90,8 @@ export default function TestProviders({
   locale = 'en',
   messages = defaultMessages,
   currentTime,
+  getStore,
+  executeAction,
 }) {
   const routerCtx = useMemo(
     () => ({
@@ -100,8 +105,8 @@ export default function TestProviders({
       config={config}
       match={match}
       router={router}
-      locale={locale}
-      messages={messages}
+      getStore={getStore}
+      executeAction={executeAction}
     >
       <ReactRelayContext.Provider value={mockRelayContext}>
         <RouterContext.Provider value={routerCtx}>
@@ -133,11 +138,13 @@ TestProviders.propTypes = {
   locale: PropTypes.string,
   messages: PropTypes.objectOf(PropTypes.string),
   currentTime: PropTypes.number,
+  getStore: PropTypes.func,
+  executeAction: PropTypes.func,
 };
 
 /**
  * @param {React.ReactElement} ui - Component under test
- * @param {{ config?: object, match?: object, router?: object, locale?: string, messages?: object }} opts
+ * @param {{ config?: object, match?: object, router?: object, locale?: string, messages?: object, currentTime?: number, getStore?: Function, executeAction?: Function }} opts
  */
 export function renderWithProviders(ui, opts = {}) {
   const {
@@ -147,6 +154,8 @@ export function renderWithProviders(ui, opts = {}) {
     locale,
     messages,
     currentTime,
+    getStore,
+    executeAction,
     ...renderOpts
   } = opts;
   const Wrapper = ({ children }) => (
@@ -157,6 +166,8 @@ export function renderWithProviders(ui, opts = {}) {
       locale={locale}
       messages={messages}
       currentTime={currentTime}
+      getStore={getStore}
+      executeAction={executeAction}
     >
       {children}
     </TestProviders>

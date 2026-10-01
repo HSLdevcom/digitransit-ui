@@ -1,8 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { IntlProvider } from 'react-intl';
-import translations from '../../../../app/translations/en';
-import { ConfigProvider } from '../../../../app/client/ConfigContext';
+import { renderWithProviders } from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
 import DisruptionStatus from '../../../../app/component/trafficnow/components/DisruptionStatus';
 import * as timeUtils from '../../../../utils/client/timeUtils';
@@ -22,13 +19,9 @@ describe('<DisruptionStatus />', () => {
   });
 
   const renderDisruptionStatus = props => {
-    const { container } = render(
-      <IntlProvider locale="en" messages={translations.en}>
-        <ConfigProvider value={baseConfig}>
-          <DisruptionStatus {...props} />
-        </ConfigProvider>
-      </IntlProvider>,
-    );
+    const { container } = renderWithProviders(<DisruptionStatus {...props} />, {
+      config: baseConfig,
+    });
     return container;
   };
 

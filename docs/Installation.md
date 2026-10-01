@@ -64,7 +64,7 @@ or in some systems to build the binaries from code following
 - open: http://localhost:8080
 
 `yarn run dev` runs `scripts/dev.sh`, which starts Relay, the Express dev server (`node --watch`),
-webpack-dev-server and `yarn workspace-packages-watch` (`lerna run watch --parallel --stream`)
+webpack-dev-server, the SVG sprite watcher (`yarn sprites --watch`) and `yarn workspace-packages-watch` (`lerna run watch --parallel --stream`)
 in parallel. `workspace-packages-watch` builds every `digitransit-component`, `digitransit-store`
 and `digitransit-search-util` package once and then keeps watching/rebuilding them, so a manual
 `yarn setup`/`yarn workspace-packages-build` is not required beforehand.
@@ -73,7 +73,8 @@ There's also a lighter-weight `yarn dev-nowatch`, which only runs the Express de
 webpack-dev-server (no Relay/workspace-package watchers). Since it skips `workspace-packages-watch`, on a
 fresh clone you must run `yarn workspace-packages-build` yourself first, or webpack fails with
 `Module not found` errors for `@digitransit-component/*`/`@digitransit-search-util/*`/
-`@digitransit-store/*` packages.
+`@digitransit-store/*` packages. It also doesn't populate `_static`, so run `yarn static` and
+`yarn sprites` first too.
 
 ## Start production version
 - First run: `yarn run setup`, then `yarn run build`, then run: `yarn run start`

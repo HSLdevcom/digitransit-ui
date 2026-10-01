@@ -27,7 +27,6 @@ import ErrorBoundary from '../component/ErrorBoundary';
 import legacyParamParser from '../../utils/shared/legacyParamParser';
 import { LEGACY_LOCALE_PATHS } from '../../utils/shared/constants';
 import { ClientProvider as ClientBreakpointProvider } from '../../utils/client/withBreakpoint';
-import IntlBridge from '../../utils/client/IntlBridge';
 import getMetadata from '../../utils/shared/metaUtils';
 import {
   initAnalyticsClientSide,
@@ -70,7 +69,6 @@ const AppProviders = props => {
         textComponent: 'span',
       },
     ],
-    [IntlBridge],
     [RelayEnvironmentProvider, { environment: props.environment }],
     [MessageProvider],
     [FavouriteProvider],

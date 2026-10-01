@@ -62,11 +62,8 @@ function TerminalPageContent({ station, relay, error }) {
           mode={mode}
           key="departures"
           className="stop-page"
-          infiniteScroll
           isTerminal
           currentTime={currentTime}
-          showPlatformCodes
-          isTerminalPage
         />
       </div>
     </ScrollableWrapper>

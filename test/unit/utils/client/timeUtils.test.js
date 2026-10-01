@@ -8,6 +8,7 @@ import {
   isToday,
   getFutureText,
 } from '../../../../utils/client/timeUtils';
+import { createTestIntl } from '../../helpers/mock-providers';
 
 const now = DateTime.now();
 
@@ -128,7 +129,7 @@ describe('timeUtils', () => {
   describe('getFutureText', () => {
     it('should format the weekday using the given intl locale', () => {
       const startTime = now.plus({ days: 2 }).toISO();
-      const intl = { locale: 'fi', formatMessage: () => '' };
+      const intl = createTestIntl({ locale: 'fi' });
       const finnishText = getFutureText(startTime, intl);
       expect(finnishText).toBe(
         DateTime.fromISO(startTime).setLocale('fi').toFormat('ccc d.L.'),

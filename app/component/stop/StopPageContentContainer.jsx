@@ -65,7 +65,6 @@ function StopPageContent({ stop, relay, error }, { config }) {
           stoptimes={stoptimes}
           key="departures"
           className="stop-page momentum-scroll"
-          infiniteScroll
           currentTime={currentTime}
           showVehicles
         />

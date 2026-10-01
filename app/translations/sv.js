@@ -172,6 +172,7 @@ export default {
     disclaimer:
       'Resultaten baserar sig på beräknade körtider. Vi kan inte garantera att den förslagna förbindelsen kan förverkligas.',
     disruption: 'Störning',
+    'disruption-badge-accessibility_issue': 'Tillgänglighetsproblem',
     'disruption-badge-additional_service': 'Ytterligare rutter',
     'disruption-badge-cancellation': 'Inställt',
     'disruption-badge-detour': 'Omväg',
