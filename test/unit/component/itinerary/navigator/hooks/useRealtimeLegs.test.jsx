@@ -128,3 +128,68 @@ describe('useRealtimeLegs', () => {
     clearIntervalSpy.mockRestore();
   });
 });
+
+describe('useRealtimeLegs startItinerary', () => {
+  let unmount;
+
+  afterEach(() => {
+    if (unmount) {
+      unmount();
+      unmount = null;
+    }
+  });
+
+  function renderProbe() {
+    const controlRef = { current: null };
+    const result = render(
+      <ItineraryContextProvider>
+        <Probe vehicles={{}} controlRef={controlRef} />
+      </ItineraryContextProvider>,
+    );
+    unmount = result.unmount;
+    return controlRef;
+  }
+
+  it('marks a transit-first leg as force-started instead of rewriting its time', () => {
+    setLatestNavigatorItinerary({
+      itinerary: {
+        legs: [
+          {
+            legId: 'transit-1',
+            mode: 'BUS',
+            transitLeg: true,
+            start: { scheduledTime: epochToIso(NOW + 5 * 60000) },
+            end: { scheduledTime: epochToIso(NOW + 10 * 60000) },
+          },
+        ],
+      },
+      params: { origin: { lat: 60.1699, lon: 24.9384 }, updatedAt: NOW },
+    });
+    const controlRef = renderProbe();
+
+    act(() => {
+      controlRef.current.startItinerary(NOW);
+    });
+
+    expect(controlRef.current.firstLeg.forceStart).toBe(true);
+    // the scheduled start time itself is left untouched for a transit leg.
+    expect(controlRef.current.firstLeg.start.scheduledTime).toBe(
+      epochToIso(NOW + 5 * 60000),
+    );
+  });
+
+  it('does nothing when the given start time is not earlier than the planned start', () => {
+    setLatestNavigatorItinerary({
+      itinerary: { legs: buildLegs() },
+      params: { origin: { lat: 60.1699, lon: 24.9384 }, updatedAt: NOW },
+    });
+    const controlRef = renderProbe();
+    const originalStart = controlRef.current.firstLeg.start.scheduledTime;
+
+    act(() => {
+      controlRef.current.startItinerary(NOW + 30 * 60000);
+    });
+
+    expect(controlRef.current.firstLeg.start.scheduledTime).toBe(originalStart);
+  });
+});
