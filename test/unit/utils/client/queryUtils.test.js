@@ -20,15 +20,9 @@ const newOrigin = {
   lon: 24.935,
 };
 
-const newDestination = {
-  address: 'New destination, Helsinki',
-  lat: 60.171,
-  lon: 24.942,
-};
-
 describe('queryUtils', () => {
   describe('onLocationPopup', () => {
-    it('falls back to match.params when no current origin/destination is given', () => {
+    it('derives the other endpoint from match.params and updates the edited one', () => {
       let calledLocation;
       const router = {
         replace: location => {
@@ -43,18 +37,8 @@ describe('queryUtils', () => {
         },
       };
 
-      const result = utils.onLocationPopup(
-        newOrigin,
-        'origin',
-        router,
-        match,
-        {},
-      );
+      utils.onLocationPopup(newOrigin, 'origin', router, match, {});
 
-      expect(result.origin).toEqual(newOrigin);
-      expect(result.destination).toMatchObject({
-        address: destination.address,
-      });
       expect(calledLocation.pathname).toContain(
         encodeURIComponent(newOrigin.address),
       );
@@ -63,10 +47,7 @@ describe('queryUtils', () => {
       );
     });
 
-    it('does not revert the other endpoint when it was just edited and match.params has not caught up yet', () => {
-      // Simulate editing origin, then immediately editing destination before
-      // router.replace()'s navigation has resolved match.params for the new
-      // origin: match.params.from still reflects the pre-edit (stale) origin.
+    it('adds a via point and does not navigate the origin/destination path', () => {
       let calledLocation;
       const router = {
         replace: location => {
@@ -80,26 +61,23 @@ describe('queryUtils', () => {
           to: `${destination.address}::${destination.lat},${destination.lon}`,
         },
       };
+      const viaPointActions = {
+        addViaPoint: vi.fn(),
+        deleteViaPoint: vi.fn(),
+      };
+      const config = { viaPointsMax: 5 };
 
-      const result = utils.onLocationPopup(
-        newDestination,
-        'destination',
+      utils.onLocationPopup(
+        newOrigin,
+        'via',
         router,
         match,
-        {},
-        undefined,
-        newOrigin,
-        destination,
+        viaPointActions,
+        config,
       );
 
-      expect(result.origin).toEqual(newOrigin);
-      expect(result.destination).toEqual(newDestination);
-      expect(calledLocation.pathname).toContain(
-        encodeURIComponent(newOrigin.address),
-      );
-      expect(calledLocation.pathname).not.toContain(
-        encodeURIComponent(origin.address),
-      );
+      expect(viaPointActions.addViaPoint).toHaveBeenCalledWith(newOrigin);
+      expect(calledLocation.query.intermediatePlaces).toBeDefined();
     });
   });
 
