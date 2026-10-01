@@ -82,7 +82,7 @@ export default configMerger(walttiConfig, {
       site: '@kouvolakaupunki',
     },
     image: {
-      url: 'img/social-share-kouvola.png',
+      url: 'assets/kouvola/social-share.png',
       width: 134,
       height: 134,
     },
@@ -94,7 +94,7 @@ export default configMerger(walttiConfig, {
   logo: 'kouvola/logo.png',
   secondaryLogo: 'kouvola/secondary-logo.png',
 
-  favicon: './app/client/images/kouvola/kouvola-favicon.png',
+  favicon: './app/assets/images/kouvola/kouvola-favicon.png',
 
   feedIds: ['Kouvola'],
 

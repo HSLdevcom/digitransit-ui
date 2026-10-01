@@ -2,8 +2,11 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import some from 'lodash/some';
-import { matchShape, routerShape } from 'found';
-import { configShape, locationShape } from '../../utils/client/shapes';
+import {
+  matchShape,
+  configShape,
+  locationShape,
+} from '../../utils/client/shapes';
 import {
   getHomeUrl,
   PREFIX_STOPS,
@@ -11,6 +14,7 @@ import {
   PREFIX_TERMINALS,
   PREFIX_BIKESTATIONS,
 } from '../../utils/shared/path';
+import getAssetUrl from '../assets/assetUrl';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
@@ -32,7 +36,6 @@ class TopLevel extends React.Component {
     meta: PropTypes.node,
     match: matchShape.isRequired,
     origin: locationShape,
-    router: routerShape.isRequired,
     selectFromMapHeader: PropTypes.node,
   };
 
@@ -51,29 +54,6 @@ class TopLevel extends React.Component {
     meta: undefined,
     selectFromMapHeader: undefined,
   };
-
-  static childContextTypes = {
-    router: routerShape,
-    match: matchShape,
-  };
-
-  getChildContext() {
-    return {
-      match: this.props.match,
-      router: this.props.router,
-    };
-  }
-
-  componentDidMount() {
-    if (this.context.config.logo) {
-      // Logo is not mandatory
-      import(
-        /* webpackChunkName: "main" */ `../client/images/${this.context.config.logo}`
-      ).then(logo => {
-        this.setState({ logo: logo.default });
-      });
-    }
-  }
 
   componentDidUpdate(prevProps) {
     // send tracking calls when url changes
@@ -164,7 +144,6 @@ class TopLevel extends React.Component {
               content={this.props.content}
               header={this.props.header}
               selectFromMapHeader={this.props.selectFromMapHeader}
-              match={this.props.match}
             />
           )}
           desktop={() => (
@@ -185,7 +164,7 @@ class TopLevel extends React.Component {
         {!this.topBarOptions.hidden && (
           <AppBarContainer
             {...this.topBarOptions}
-            {...this.state}
+            logo={getAssetUrl(this.context.config.logo)}
             homeUrl={homeUrl}
             style={this.context.config.appBarStyle}
           />

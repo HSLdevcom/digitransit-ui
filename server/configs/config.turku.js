@@ -102,7 +102,7 @@ export default configMerger(walttiConfig, {
       site: '@Turkukaupunki',
     },
     image: {
-      url: 'img/social-share-foli.png',
+      url: 'assets/turku/social-share.png',
       width: 339,
       height: 78,
     },
@@ -114,7 +114,7 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/client/images/turku/turku-favicon.png',
+  favicon: './app/assets/images/turku/turku-favicon.png',
 
   // Navbar logo
   logo: 'turku/foli-logo.png',

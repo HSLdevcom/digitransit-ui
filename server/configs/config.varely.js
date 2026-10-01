@@ -43,7 +43,7 @@ export default configMerger(walttiConfig, {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     image: {
-      url: 'img/social-share-seutuplus.png',
+      url: 'assets/varely/social-share.png',
       width: 611,
       height: 225,
     },
@@ -57,7 +57,7 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'varely/seutuplus-logo-white.svg',
-  favicon: './app/client/images/varely/varely-favicon.png',
+  favicon: './app/assets/images/varely/varely-favicon.png',
 
   transportModes: {
     bus: {

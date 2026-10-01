@@ -1,16 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { configShape } from '../../../../../utils/client/shapes';
-import { useLogo } from '../../../../hooks/useLogo';
+import getAssetUrl from '../../../../assets/assetUrl';
 import NavigatorModal from '../NavigatorModal';
 import NaviGeolocationInfo from './NaviGeolocationInfo';
 
 const NaviGeolocationInfoModal = ({ onClose }, { config }) => {
-  const { logo, loading } = useLogo(config.naviGeolocationGraphic);
-
-  if (loading) {
-    return null;
-  }
+  const logo = getAssetUrl(config.naviGeolocationGraphic);
 
   return (
     <NavigatorModal isOpen withBackdrop slideUp>

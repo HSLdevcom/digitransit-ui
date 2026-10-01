@@ -10,7 +10,6 @@ import CompressionPlugin from 'compression-webpack-plugin';
 // eslint-plugin-import's resolver.
 // eslint-disable-next-line import/no-unresolved
 import { WebpackAssetsManifest } from 'webpack-assets-manifest';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { themeEntries, faviconPlugins } from './scripts/build/contextHelper.js';
 
 const require = createRequire(import.meta.url);
@@ -79,17 +78,6 @@ const productionPlugins = [
     test: /\.(js|css|html|svg|ico)$/,
     minRatio: 0.95,
     algorithm: 'brotliCompress',
-  }),
-  new CopyWebpackPlugin({
-    patterns: [
-      {
-        from: path.join(rootDir, 'static/assets/geojson'),
-        transform: function minify(content) {
-          return JSON.stringify(JSON.parse(content.toString()));
-        },
-        to: path.join(rootDir, '_static/assets/geojson'),
-      },
-    ],
   }),
   new EntrypointStatsPlugin('../stats.json'),
   new WebpackAssetsManifest({ output: '../manifest.json' }),
@@ -302,16 +290,12 @@ export default {
         ],
       },
       {
-        test: /\.(eot|png|ttf|woff|svg|jpeg|jpg)$/,
-        // Replaces file-loader (dev: always emit a separate file) /
-        // url-loader (prod: inline as a data URL when small) with
-        // webpack5's built-in asset modules. `parser.dataUrlCondition`
-        // only applies to `type: 'asset'`, so the dev/prod distinction is
-        // made by picking a different `type` outright.
-        type: isDevelopment ? 'asset/resource' : 'asset',
-        parser: isDevelopment
-          ? undefined
-          : { dataUrlCondition: { maxSize: 10000 } },
+        test: /\.(eot|gif|png|ttf|woff|svg|jpeg|jpg)$/,
+        // webpack5 built-in asset modules, replacing file-loader/url-loader.
+        // Never inlines as a data URL: app/client/assetUrl.js makes every
+        // image under app/assets/images/ reachable from the main chunk, and
+        // inlining the small ones would add ~130 kB of base64 to it.
+        type: 'asset/resource',
         generator: { filename: 'assets/[contenthash][ext]' },
       },
     ],

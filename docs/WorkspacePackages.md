@@ -292,6 +292,9 @@ any new dependents.
   direct consumers.
 - **`@digitransit-store/digitransit-store-common-functions`** — no real
   consumers.
+- **`@digitransit-util/digitransit-util-route-pattern-option-text`** — no
+  longer used by the app; route pattern option texts are built in
+  `app/component/routepage/` instead.
 - **`@digitransit-search-util/digitransit-search-util-execute-search-immidiate`**
   — renamed due to a spelling fix; use
   `@digitransit-search-util/digitransit-search-util-execute-search-immediate`

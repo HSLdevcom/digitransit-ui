@@ -9,11 +9,17 @@ Directories reflect a server/client/shared split (see "Server/client boundary" b
 right one by *who consumes the code*, not just by convenience.
 
 - `app/` — client-bundle-only React app (Views/Containers/Flux + route trees):
-  - `client/` — client entry & top-level client-only modules: `client.jsx` (browser entry,
-    farce/found router bootstrap), `app.js` (fluxible app/store wiring), `routes.jsx` /
-    `routeRoutes.jsx` / `stopRoutes.jsx` (found + Relay route-tree definitions for the front page,
-    route pages, and stop pages), `i18n.js`, `ConfigContext.jsx` (React context provider for
-    config), `images/` (regional logo assets).
+  - `client/` — browser entry & bootstrap: `client.jsx` (browser entry, farce/found router
+    bootstrap), `app.js` (Fluxible app/store wiring), `publicPath.js` / `loadDevTheme.js` (extra
+    webpack entry modules), `i18n.js`, `ConfigContext.jsx` (React context provider for config).
+  - `routes/` — found + Relay route-tree definitions: `routes.jsx` (front page, top level),
+    `routeRoutes.jsx` (route pages), `stopRoutes.jsx` (stop pages); keep the filenames, Relay
+    query names are prefixed with them.
+  - `assets/` — source art bundled into the client: `images/<theme>/` (logos, favicons,
+    illustrations; `default/` holds the fallbacks), `icons/<theme>/` (one `<id>.svg` per icon;
+    `default/` has all of them, other themes only overrides — built into sprite sheets by
+    `scripts/build/buildSprites.js`, never edit a sprite by hand), plus `assetUrl.js`
+    (`getAssetUrl`, resolves config image paths to bundled URLs).
   - `component/` — topic subfolders for larger features: `itinerary/`, `map/`, `stop/`,
     `routepage/`, `nearyou/`, `trafficnow/` (has its own `README.md`), `embedded/`, `visual/`,
     `icon/`, and `__generated__/` (Relay codegen).
@@ -31,7 +37,6 @@ right one by *who consumes the code*, not just by convenience.
     key must also exist in `en.js`/`sv.js` (enforced by `test/unit/translations.test.js`). Some
     `digitransit-component` packages ship their own i18next translation bundles instead, sorted/
     checked separately via `scripts/workspace-packages/sort-translations.js`.
-  - `__generated__/` — Relay codegen for the top-level route query definitions, don't hand-edit.
 - `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint: boot-time data
   fetches via `services/`, `.listen()`, graceful shutdown), `app.js` (`createApp()` — builds the
   configured Express app, including the dev-mode `/proxy/` passthrough to webpack-dev-server, no
@@ -87,7 +92,8 @@ right one by *who consumes the code*, not just by convenience.
   `matka`, etc., see `server/configs/config.*.js`) to select a regional config, and
   `API_URL=...` to point at a different OTP/geocoding backend.
 - If the OTP GraphQL schema changes: `node scripts/generate-schema.js` (regenerates
-  `schema/schema.graphql`; `relay-compiler` then regenerates `app/__generated__` on build/dev).
+  `schema/schema.graphql`; `relay-compiler` then regenerates the `__generated__/` folders on
+  build/dev).
 
 ## Docker (see `docs/Docker.md`)
 
@@ -96,12 +102,13 @@ right one by *who consumes the code*, not just by convenience.
 ## Lint & format
 
 - `yarn lint` — eslint (Airbnb config + jsx-a11y + compat + prettier) + `prettier-styles` (scss
-  check) + `stylelint` + component-package translation parity check.
+  check) + `prettier-icons` (`app/assets/icons/**/*.svg`, via `@prettier/plugin-xml`) + `stylelint`
+  + component-package translation parity check.
 - `yarn format` — auto-fixes: sorts translations (app + component packages), `eslint --fix`,
-  prettier styles, stylelint fix.
+  prettier styles, prettier icons, stylelint fix.
 - `yarn eslint` / `yarn eslint-fix` for JS only.
 - Husky git hooks: pre-commit runs `lint-staged` (eslint on staged JS, prettier+stylelint on
-  staged scss) and blocks on unresolved merge-conflict markers; pre-push runs the full
+  staged scss, prettier on staged icon SVGs) and blocks on unresolved merge-conflict markers; pre-push runs the full
   `yarn run test-unit` suite, so pushes can be slow or rejected if unit tests fail.
 
 ## Tests (see `docs/Tests.md`)
@@ -137,9 +144,9 @@ Data flows into components via two separate mechanisms — know which one a piec
 from before touching it:
 
 - **GraphQL/Relay** — used for anything served by OpenTripPlanner (routes, stops, itineraries).
-  Fragments live alongside components/routes and generated artifacts land in `app/__generated__`
-  (do not hand-edit generated files; edit `.js`/route files and rerun relay-compiler via `yarn dev`
-  or `yarn relay`).
+  Fragments live alongside components/routes and generated artifacts land in a sibling
+  `__generated__/` folder, e.g. `app/routes/__generated__` (do not hand-edit generated files; edit
+  `.js`/route files and rerun relay-compiler via `yarn dev` or `yarn relay`).
 - **Flux (fluxible)** — legacy mechanism for everything else (app/UI state, favourites, position,
   search history). Actions in `app/action/*Actions.js`, stores in `app/store/*Store.js`;
   components read store state via `connectToStores` HOCs ("StoreConnectors", see below). Fluxible

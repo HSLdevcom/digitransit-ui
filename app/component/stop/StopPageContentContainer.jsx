@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
-import { matchShape } from 'found';
+import { useMatch } from 'found';
 import {
   errorShape,
   relayShape,
@@ -15,11 +15,11 @@ import StopServiceStatusBanner from './StopServiceStatusBanner';
 import { useConfigContext } from '../../client/ConfigContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
 
-function StopPageContent({ stop, relay, error, match }) {
+function StopPageContent({ stop, relay, error }) {
   const intl = useIntl();
   const config = useConfigContext();
   const currentTime = useCurrentTime();
-
+  const match = useMatch();
   if (!stop && error) {
     throw error.message;
   }
@@ -86,7 +86,6 @@ function StopPageContent({ stop, relay, error, match }) {
           stoptimes={stoptimes}
           key="departures"
           className="stop-page momentum-scroll"
-          infiniteScroll
           currentTime={currentTime}
           showVehicles
         />
@@ -98,7 +97,6 @@ StopPageContent.propTypes = {
   stop: stopShape.isRequired,
   relay: relayShape.isRequired,
   error: errorShape,
-  match: matchShape.isRequired,
 };
 
 const containerComponent = createRefetchContainer(

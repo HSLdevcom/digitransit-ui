@@ -172,6 +172,7 @@ export default {
     disclaimer:
       'Resultaten baserar sig på beräknade körtider. Vi kan inte garantera att den förslagna förbindelsen kan förverkligas.',
     disruption: 'Störning',
+    'disruption-badge-accessibility_issue': 'Tillgänglighetsproblem',
     'disruption-badge-additional_service': 'Ytterligare rutter',
     'disruption-badge-cancellation': 'Inställt',
     'disruption-badge-detour': 'Omväg',
@@ -851,7 +852,7 @@ export default {
     'traffic-now_description':
       'Aktuell information om störningar och undantag. ',
     'traffic-now_description_see-also':
-      'Se även {amount, plural, =1 {{link1},} other {{link1} samt {link2}} } för mer information.',
+      'Se även {link1} samt större förändringar för mer information.',
     'traffic-now_description_see-also--link1': 'helgdagar och undantag',
     'traffic-now_description_see-also--link2': 'större förändringar',
     'traffic-now_filters_entity-search': 'Sök linje eller hållplats',

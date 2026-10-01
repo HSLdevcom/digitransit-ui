@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { graphql, ReactRelayContext, QueryRenderer } from 'react-relay';
-import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import { useRouter } from 'found';
 import { relayShape, locationShape } from '../../../utils/client/shapes';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';
@@ -94,17 +94,16 @@ function NearYouPage(
     breakpoint,
     relayEnvironment,
     position,
-    match,
     favourites,
     favouriteStopIds,
     favouriteStationIds,
     favouriteVehicleStationIds,
     mapLayers,
     favouritesFetched = false,
-    router,
   },
   { executeAction },
 ) {
+  const { router, match } = useRouter();
   const { mode } = match.params;
   const config = useConfigContext();
   const currentTime = useCurrentTime();
@@ -422,7 +421,6 @@ function NearYouPage(
                       mode={tabMode}
                       isMobile={breakpoint !== 'large'}
                       refPoint={searchPosition}
-                      router={router}
                     />
                   )}
                   {tabMode === 'CITYBIKE' && <CityBikeInfo />}
@@ -518,7 +516,6 @@ function NearYouPage(
       favouriteVehicleStationIds={favouriteVehicleStationIds}
       relayEnvironment={relayEnvironment}
       position={searchPosition}
-      match={match}
       setCenterOfMap={setCenterOfMap}
       showWalkRoute={PH_READY.includes(phase)}
       mapLayers={mapLayers}
@@ -607,7 +604,6 @@ function NearYouPage(
       content={renderContent()}
       map={renderMap()}
       searchBox={mapSearch()}
-      match={match}
     />
   );
 
@@ -625,14 +621,12 @@ NearYouPage.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   relayEnvironment: relayShape.isRequired,
   position: locationShape.isRequired,
-  match: matchShape.isRequired,
   favouriteStopIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteVehicleStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favourites: PropTypes.array, // eslint-disable-line
   mapLayers: mapLayerShape.isRequired,
   favouritesFetched: PropTypes.bool,
-  router: routerShape.isRequired,
 };
 
 const NearYouPageWithBreakpoint = withBreakpoint(props => (

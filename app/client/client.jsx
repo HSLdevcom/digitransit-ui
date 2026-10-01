@@ -21,13 +21,12 @@ import { Settings } from 'luxon';
 import { IntlProvider } from 'react-intl';
 import { configShape } from '../../utils/client/shapes';
 import i18n from './i18n';
-import { historyMiddlewares, render } from './routes';
+import { historyMiddlewares, render } from '../routes/routes';
 import appCreator from './app';
 import ErrorBoundary from '../component/ErrorBoundary';
 import legacyParamParser from '../../utils/shared/legacyParamParser';
 import { LEGACY_LOCALE_PATHS } from '../../utils/shared/constants';
 import { ClientProvider as ClientBreakpointProvider } from '../../utils/client/withBreakpoint';
-import IntlBridge from '../../utils/client/IntlBridge';
 import getMetadata from '../../utils/shared/metaUtils';
 import {
   initAnalyticsClientSide,
@@ -70,7 +69,6 @@ const AppProviders = props => {
         textComponent: 'span',
       },
     ],
-    [IntlBridge],
     [RelayEnvironmentProvider, { environment: props.environment }],
     [MessageProvider],
     [FavouriteProvider],

@@ -31,6 +31,19 @@ function setUpOpenId(app) {
   return setUpOIDC(app, PORT, indexPath, hostnames);
 }
 
+// The page's icon links are only added client-side (react-helmet, from
+// config.metaData), so clients that don't run the bundle - crawlers, link
+// previews - fall back to /favicon.ico. Send them the config's own icon.
+function redirectFavicon(req, res) {
+  const { iconPath } = getConfiguration(req);
+  if (!iconPath) {
+    res.setHeader('Cache-Control', 'no-store, max-age=0');
+    res.setHeader('Cloudflare-CDN-Cache-Control', 'no-store');
+    return res.status(404).type('text/plain').send('Static asset not found');
+  }
+  return res.redirect(`/${iconPath}favicon.ico`);
+}
+
 function isAssetRequest(req) {
   // Path starts with /js/, /css/ or /assets/
   return /^\/(js|css|assets)\//.test(req.path);
@@ -58,6 +71,7 @@ function setUpStaticFolders(app) {
     res.setHeader('Content-type', 'application/javascript; charset=UTF-8');
     res.send(SERVICE_WORKER_REMOVAL_SCRIPT);
   });
+  app.get('/favicon.ico', redirectFavicon);
 
   const staticFolder = path.join(process.cwd(), '_static');
   // Sert cache for 1 week

@@ -43,7 +43,7 @@ export default configMerger(walttiConfig, {
       site: '@oulunkaupunki',
     },
     image: {
-      url: 'img/social-share-oulu.png',
+      url: 'assets/oulu/social-share.png',
       width: 1181,
       height: 472,
     },
@@ -51,7 +51,7 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/client/images/oulu/oulu-favicon.png',
+  favicon: './app/assets/images/oulu/oulu-favicon.png',
 
   // Navbar logo
   logo: 'oulu/oulu-logo.png',
@@ -119,7 +119,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/oulu_zone_lines_20241011.geojson',
+        url: '/assets/oulu/zone_lines_20241011.geojson',
       },
       {
         name: {

@@ -38,6 +38,38 @@ A pure build helper, imported directly (not run standalone):
 [`webpack.config.js`](/webpack.config.js) to compute webpack theme entries
 and favicon plugins for every configured deployment (or just `$CONFIG` if set).
 
+## Using `build/copyStatic.js`
+
+Populates the served `_static/` directory from `static/`, run via `yarn static` (which both
+`prebuild` and `dev.sh` invoke):
+
+```
+yarn static
+```
+
+It copies every config's assets regardless of `$CONFIG` (a deployment with no `$CONFIG` set
+picks its config per request from the `Host` header, and `ASSEMBLE_GEOJSON` deployments
+reference every region's zone layer), minifies `.geojson` files and writes precompressed
+`.gz`/`.br` siblings for them. Deliberately kept outside webpack so it survives a bundler
+migration; note that `_static` is populated once at startup, so `static/` edits during
+`yarn dev` need a re-run. See [`docs/Webpack.md`](/docs/Webpack.md).
+
+## Using `build/buildSprites.js`
+
+Builds the SVG sprite sheets `_static/assets/svg-sprite.<theme>.svg` from the per-icon files in
+[`app/assets/icons/`](/app/assets/icons), run via `yarn sprites` (which both `prebuild` and
+`dev.sh` invoke):
+
+```
+yarn sprites
+yarn sprites --watch
+```
+
+`default/` holds every icon and other theme directories hold only their overrides and additions;
+each file's name becomes its symbol id. A malformed icon file fails the build. `--watch` (used by
+`dev.sh`) rebuilds on every change under `app/assets/icons/` and only logs errors, so a
+half-saved file doesn't stop `yarn dev`. See [`docs/Webpack.md`](/docs/Webpack.md).
+
 ## Using `theme/add-theme.js`
 
 Scaffolds a new theme: creates `sass/themes/<name>`, a config file at

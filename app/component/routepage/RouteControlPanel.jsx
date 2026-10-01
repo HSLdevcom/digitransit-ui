@@ -5,8 +5,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
-import { matchShape } from 'found';
 import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
+import { useRouter } from 'found';
 import { useConfigContext } from '../../client/ConfigContext';
 import RoutePatternSelectContainer from './RoutePatternSelectContainer';
 import {
@@ -72,23 +72,19 @@ const TAB_ANALYTICS_ACTIONS = {
 };
 
 function RouteControlPanel(
-  {
-    route,
-    match,
-    breakpoint,
-    noInitialServiceDay = false,
-    tripStartTime = undefined,
-  },
+  { route, breakpoint, noInitialServiceDay = false, tripStartTime = undefined },
   { getStore, executeAction },
 ) {
+  const config = useConfigContext();
+  const intl = useIntl();
+  const { router, match } = useRouter();
+  const { location, params } = match;
+
   // If disruption details are opened, hide controlpanel
   if (match.location.query.alertId) {
     return null;
   }
 
-  const config = useConfigContext();
-  const intl = useIntl();
-  const { location, params, router } = match;
   const { patternId } = params;
 
   const [focusedTab, setFocusedTab] = useState(getActiveTab(location.pathname));
@@ -115,8 +111,6 @@ function RouteControlPanel(
   }
 
   const activeTab = getActiveTab(match.location.pathname);
-
-  // const activeTab = getActiveTab(location.pathname);
 
   // Focus the active tab on mount for correct screen-reader cursor placement
   // after SPA tab navigation (per WCAG APG roving tabindex pattern).
@@ -423,7 +417,6 @@ function RouteControlPanel(
           <>
             {patternId && (
               <RoutePatternSelectContainer
-                match={match}
                 route={route}
                 onSelectChange={onPatternChange}
                 gtfsId={route.gtfsId}
@@ -517,7 +510,6 @@ RouteControlPanel.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   noInitialServiceDay: PropTypes.bool,
   tripStartTime: PropTypes.string,

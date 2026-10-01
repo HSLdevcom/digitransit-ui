@@ -101,7 +101,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/mikkeli_zone_lines_20260122.geojson',
+        url: '/assets/mikkeli/zone_lines_20260122.geojson',
       },
     ],
   },

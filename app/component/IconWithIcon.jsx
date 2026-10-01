@@ -32,7 +32,7 @@ const IconWithIcon = ({
               <IconBadge
                 badgeFill={badgeFill}
                 badgeText={badgeText}
-                badgeTextFill={badgeTextFill}
+                textFill={badgeTextFill}
               />
             )
           }

@@ -39,7 +39,7 @@ export default configMerger(walttiConfig, {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     image: {
-      url: 'img/social-share-waltti.png',
+      url: 'assets/walttiOpas/social-share.png',
       width: 1795,
       height: 1313,
     },
@@ -50,7 +50,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'walttiOpas/waltti-logo.png',
   secondaryLogo: 'walttiOpas/waltti-logo-secondary.png',
-  favicon: './app/client/images/walttiOpas/walttiOpas-favicon.png',
+  favicon: './app/assets/images/walttiOpas/walttiOpas-favicon.png',
 
   feedIds: ['Salo', 'Kajaani'],
 

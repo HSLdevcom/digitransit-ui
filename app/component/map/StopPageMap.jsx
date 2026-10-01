@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useContext, useState, useRef } from 'react';
-import { useRouter } from 'found';
 import { connectToStores } from 'fluxible-addons-react';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
+import { useMatch } from 'found';
 import {
   configShape,
   locationShape,
@@ -59,8 +59,7 @@ function StopPageMap({
   stopAlertEffects = undefined,
 }) {
   const config = useConfigContext();
-  const { match } = useRouter();
-
+  const match = useMatch();
   if (!stop) {
     return false;
   }

@@ -6,7 +6,7 @@ import { Text } from '@hsl-fi/layout-primitives';
 import { Icon, ArrowRightS } from '@hsl-fi/icons';
 import { useBreakpoint } from '../../../utils/client/withBreakpoint';
 import { useConfigContext } from '../../client/ConfigContext';
-import { useLogo } from '../../hooks/useLogo';
+import getAssetUrl from '../../assets/assetUrl';
 
 const AdditionalDescription = () => {
   const intl = useIntl();
@@ -66,7 +66,7 @@ export default function TrafficNowHeader() {
   } = useConfigContext();
   const { formatMessage } = useIntl();
 
-  const { logo } = useLogo(trafficNowHeaderGraphic);
+  const logo = getAssetUrl(trafficNowHeaderGraphic);
   const desktop = breakpoint === 'large';
   const localizedRootPath = trafficNowRootPath && trafficNowRootPath[language];
   const breadcrumbHref = localizedRootPath

@@ -31,7 +31,7 @@ export default configMerger(walttiConfig, {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     image: {
-      url: 'img/social-share-raasepori.png',
+      url: 'assets/raasepori/social-share.png',
       width: 1528,
       height: 650,
     },
@@ -42,7 +42,7 @@ export default configMerger(walttiConfig, {
   // Navbar logo
   logo: 'raasepori/raasepori_logo_valkoinen.png',
   secondaryLogo: 'raasepori/raasepori_logo_musta.png',
-  favicon: './app/client/images/raasepori/raasepori-favicon.png',
+  favicon: './app/assets/images/raasepori/raasepori-favicon.png',
 
   useSearchPolygon: true,
 

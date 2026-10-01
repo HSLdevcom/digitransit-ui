@@ -34,7 +34,7 @@ export default configMerger(walttiConfig, {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     image: {
-      url: 'img/social-share-kuopio.png',
+      url: 'assets/kuopio/social-share.png',
       width: 760,
       height: 224,
     },
@@ -42,7 +42,7 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/client/images/kuopio/kuopio-favicon.png',
+  favicon: './app/assets/images/kuopio/kuopio-favicon.png',
 
   // Navbar logo
   logo: 'kuopio/logo.png',
@@ -182,7 +182,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/kuopio_zone_lines_20240508.geojson',
+        url: '/assets/kuopio/zone_lines_20240508.geojson',
       },
     ],
   },

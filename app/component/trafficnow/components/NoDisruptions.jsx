@@ -1,12 +1,12 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
-import { useLogo } from '../../../hooks/useLogo';
+import getAssetUrl from '../../../assets/assetUrl';
 import { useConfigContext } from '../../../client/ConfigContext';
 
 export default function NoDisruptions() {
   const { notFoundGraphic, colors } = useConfigContext();
-  const { logo } = useLogo(notFoundGraphic);
+  const logo = getAssetUrl(notFoundGraphic);
   return (
     <div className="disruptions-empty">
       {logo ? (
