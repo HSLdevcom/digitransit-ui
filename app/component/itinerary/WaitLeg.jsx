@@ -24,7 +24,7 @@ function WaitLeg({
   focusAction,
   index,
   icon,
-  hasPreviousTransitLeg,
+  hasPreviousTransitLeg = false,
 }) {
   const intl = useIntl();
   const modeClassName = 'wait';
@@ -108,12 +108,6 @@ WaitLeg.propTypes = {
   leg: legShape.isRequired,
   icon: PropTypes.string,
   hasPreviousTransitLeg: PropTypes.bool,
-};
-
-WaitLeg.defaultProps = {
-  children: undefined,
-  icon: undefined,
-  hasPreviousTransitLeg: false,
 };
 
 export default WaitLeg;

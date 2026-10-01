@@ -2,26 +2,33 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { configShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import { durationToString } from '../../../utils/client/timeUtils';
 import { displayDistance } from '../../../utils/shared/geo-utils';
+import { useConfigContext } from '../../client/ConfigContext';
 
-export default function StreetSummary(props, { config }) {
+export default function StreetSummary({
+  distance: legDistance,
+  icon,
+  className = '',
+  duration: legDuration,
+  mode,
+}) {
+  const config = useConfigContext();
   const intl = useIntl();
-  const distance = displayDistance(props.distance, config, intl.formatNumber);
-  const icon = props.icon || 'icon_walk';
-  const duration = durationToString(intl, props.duration * 1000);
+  const distance = displayDistance(legDistance, config, intl.formatNumber);
+  const resolvedIcon = icon || 'icon_walk';
+  const duration = durationToString(intl, legDuration * 1000);
   return (
-    <span className={cx(props.className)} style={{ whiteSpace: 'nowrap' }}>
+    <span className={cx(className)} style={{ whiteSpace: 'nowrap' }}>
       <span className="sr-only">
         <FormattedMessage
-          id={`aria-itinerary-summary-${props.mode}-distance`}
+          id={`aria-itinerary-summary-${mode}-distance`}
           values={{ distance, duration }}
         />
       </span>
-      <Icon img={icon} className={cx(props.mode)} />
-      {!(config.hideCarSuggestionDuration && props.mode === 'car') ? (
+      <Icon img={resolvedIcon} className={cx(mode)} />
+      {!(config.hideCarSuggestionDuration && mode === 'car') ? (
         <span aria-hidden className="walk-distance">
           {duration}
           <span data-text={distance} />
@@ -41,10 +48,4 @@ StreetSummary.propTypes = {
   className: PropTypes.string,
   duration: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
-};
-
-StreetSummary.defaultProps = { className: '', icon: undefined };
-
-StreetSummary.contextTypes = {
-  config: configShape.isRequired,
 };
