@@ -76,7 +76,7 @@ function SelectFromMap({ breakpoint, language, type, onConfirm, mapLayers }) {
     });
     observer.observe(container);
     return () => observer.disconnect();
-  }, [leafletMap, config.defaultEndpoint]);
+  }, [leafletMap]);
 
   const setAddress = (lat, lon) => {
     const searchParams = {

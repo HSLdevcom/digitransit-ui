@@ -1,5 +1,4 @@
-// Full-bleed override for the "select location from map" modal, mobile
-// only. The design system's Modal is a compact, content-sized card
+// The design system's Modal is a compact, content-sized card
 // (centered, max-width 560px on desktop; a padded bottom sheet on mobile).
 // On mobile, the map picker needs to fill essentially the whole viewport
 // for usable marker placement, so these classnames (added onto the
@@ -9,9 +8,8 @@
 // same-origin rules, following the pattern already used for
 // .location-modal-content in nearyou.scss. On desktop (min-width: 500px,
 // the same breakpoint the library itself switches on from a bottom sheet
-// to a centered card, see @hsl-fi/dialog's ModalOverlayAndSheet), keep a
-// large-but-bounded centered card instead of taking over the full screen,
-// which was a deliberate design choice in the original implementation.
+// to a centered card, see @hsl-fi/dialog's ModalOverlayAndSheet).
+
 .select-from-map-modal-overlay.select-from-map-modal-overlay {
   padding: 0;
   place-items: stretch;
