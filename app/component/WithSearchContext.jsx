@@ -92,6 +92,14 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
     };
 
     const onSuggestionSelected = (item, id) => {
+      // Cancel a stale pending "use current location" resolution for this
+      // field if the user has since picked something else for it (a fresh
+      // current-location request re-arms pendingLocationRef below). Without
+      // this, a slow-resolving geolocation lookup could land later and
+      // silently overwrite a location the user has already changed manually.
+      if (pendingLocationRef.current && pendingLocationRef.current.id === id) {
+        pendingLocationRef.current = null;
+      }
       if (item.type === 'SelectFromMap') {
         setFromMap(id);
       } else if (id !== 'stop-route-station' && item.type !== 'FutureRoute') {

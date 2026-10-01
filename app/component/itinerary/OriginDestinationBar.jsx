@@ -43,6 +43,22 @@ function OriginDestinationBar({
   const config = useConfigContext();
   const { match, router } = useRouter();
   const mountedRef = useRef(false);
+  // Track the most recently selected origin/destination synchronously, since
+  // router.replace() navigation (and therefore match.params) can lag behind
+  // user actions. Without this, selecting origin then quickly selecting
+  // destination (or vice versa) could re-derive "the other" endpoint from a
+  // stale match.params and revert the first edit.
+  const pendingOriginRef = useRef(origin);
+  const pendingDestinationRef = useRef(destination);
+
+  useEffect(() => {
+    pendingOriginRef.current = origin;
+  }, [origin]);
+
+  useEffect(() => {
+    pendingDestinationRef.current = destination;
+  }, [destination]);
+
   const favourites = useFavourites();
   const showFavourites = countLocations(favourites) > 0;
   const viaPoints = useViaPoints();
@@ -78,7 +94,12 @@ function OriginDestinationBar({
       location.query.intermediatePlaces.reverse();
     }
 
-    updateItinerarySearch(destination, origin, router, location);
+    const swappedOrigin = pendingDestinationRef.current;
+    const swappedDestination = pendingOriginRef.current;
+    pendingOriginRef.current = swappedOrigin;
+    pendingDestinationRef.current = swappedDestination;
+
+    updateItinerarySearch(swappedOrigin, swappedDestination, router, location);
   };
 
   const onLocationSelect = (item, id) => {
@@ -93,7 +114,20 @@ function OriginDestinationBar({
     } else {
       action =
         id === 'origin' ? 'EditJourneyStartPoint' : 'EditJourneyEndPoint';
-      onLocationPopup(item, id, router, match, viaPointActions);
+      const result = onLocationPopup(
+        item,
+        id,
+        router,
+        match,
+        viaPointActions,
+        config,
+        pendingOriginRef.current,
+        pendingDestinationRef.current,
+      );
+      if (result) {
+        pendingOriginRef.current = result.origin;
+        pendingDestinationRef.current = result.destination;
+      }
     }
 
     addAnalyticsEvent({

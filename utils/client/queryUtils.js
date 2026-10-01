@@ -108,6 +108,8 @@ export const onLocationPopup = (
   match,
   viaPointActions,
   config,
+  currentOrigin,
+  currentDestination,
 ) => {
   if (id === 'via') {
     const viaPoints = getIntermediatePlaces(match.location.query) || [];
@@ -118,14 +120,15 @@ export const onLocationPopup = (
     viaPoints.push(item);
     viaPointActions.addViaPoint(item);
     setIntermediatePlaces(router, match, viaPoints.map(locationToOTP));
-    return;
+    return undefined;
   }
-  let origin = otpToLocation(match.params.from);
-  let destination = otpToLocation(match.params.to);
+  let origin = currentOrigin || otpToLocation(match.params.from);
+  let destination = currentDestination || otpToLocation(match.params.to);
   if (id === 'origin') {
     origin = item;
   } else {
     destination = item;
   }
   updateItinerarySearch(origin, destination, router, match.location);
+  return { origin, destination };
 };

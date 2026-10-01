@@ -2,7 +2,107 @@ import { mockMatch } from '../../helpers/mock-router';
 
 import * as utils from '../../../../utils/client/queryUtils';
 
+const origin = {
+  address: 'Origin, Helsinki',
+  lat: 60.199,
+  lon: 24.934,
+};
+
+const destination = {
+  address: 'Destination, Helsinki',
+  lat: 60.17,
+  lon: 24.941,
+};
+
+const newOrigin = {
+  address: 'New origin, Helsinki',
+  lat: 60.201,
+  lon: 24.935,
+};
+
+const newDestination = {
+  address: 'New destination, Helsinki',
+  lat: 60.171,
+  lon: 24.942,
+};
+
 describe('queryUtils', () => {
+  describe('onLocationPopup', () => {
+    it('falls back to match.params when no current origin/destination is given', () => {
+      let calledLocation;
+      const router = {
+        replace: location => {
+          calledLocation = location;
+        },
+      };
+      const match = {
+        ...mockMatch,
+        params: {
+          from: `${origin.address}::${origin.lat},${origin.lon}`,
+          to: `${destination.address}::${destination.lat},${destination.lon}`,
+        },
+      };
+
+      const result = utils.onLocationPopup(
+        newOrigin,
+        'origin',
+        router,
+        match,
+        {},
+      );
+
+      expect(result.origin).toEqual(newOrigin);
+      expect(result.destination).toMatchObject({
+        address: destination.address,
+      });
+      expect(calledLocation.pathname).toContain(
+        encodeURIComponent(newOrigin.address),
+      );
+      expect(calledLocation.pathname).toContain(
+        encodeURIComponent(destination.address),
+      );
+    });
+
+    it('does not revert the other endpoint when it was just edited and match.params has not caught up yet', () => {
+      // Simulate editing origin, then immediately editing destination before
+      // router.replace()'s navigation has resolved match.params for the new
+      // origin: match.params.from still reflects the pre-edit (stale) origin.
+      let calledLocation;
+      const router = {
+        replace: location => {
+          calledLocation = location;
+        },
+      };
+      const match = {
+        ...mockMatch,
+        params: {
+          from: `${origin.address}::${origin.lat},${origin.lon}`,
+          to: `${destination.address}::${destination.lat},${destination.lon}`,
+        },
+      };
+
+      const result = utils.onLocationPopup(
+        newDestination,
+        'destination',
+        router,
+        match,
+        {},
+        undefined,
+        newOrigin,
+        destination,
+      );
+
+      expect(result.origin).toEqual(newOrigin);
+      expect(result.destination).toEqual(newDestination);
+      expect(calledLocation.pathname).toContain(
+        encodeURIComponent(newOrigin.address),
+      );
+      expect(calledLocation.pathname).not.toContain(
+        encodeURIComponent(origin.address),
+      );
+    });
+  });
+
   describe('setIntermediatePlaces', () => {
     it('should not modify the query if the parameter is neither a string nor an array', () => {
       let callParams;
