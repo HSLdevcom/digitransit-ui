@@ -89,26 +89,41 @@ export default function NaviInstructions(
     );
   }
 
-  if (legType === LEGTYPE.WAIT && nextLeg?.transitLeg) {
-    const { mode } = nextLeg;
-    return (
-      <>
-        <div className="notification-header">
-          <FormattedMessage
-            id="navigation-get-mode"
-            values={{ mode: getToLocalizedMode(mode, intl) }}
-            defaultMessage="Get on the {mode}"
+  if (legType === LEGTYPE.WAIT) {
+    if (nextLeg?.transitLeg) {
+      const { mode } = nextLeg;
+      return (
+        <>
+          <div className="notification-header">
+            <FormattedMessage
+              id="navigation-get-mode"
+              values={{ mode: getToLocalizedMode(mode, intl) }}
+              defaultMessage="Get on the {mode}"
+            />
+          </div>
+          <BoardingInfo
+            route={route}
+            mode={routeMode}
+            headsign={hs}
+            translationValues={values}
+            appendClass={appendClass}
           />
+        </>
+      );
+    }
+    // Defensive fallback: real-time leg re-syncing (matchLegEnds in
+    // realtimeLegUtils.js) could in principle still leave a gap where no
+    // leg covers "now". Show walking-style instructions for the upcoming leg instead of nothing.
+    if (nextLeg && showDestinationInfo) {
+      return (
+        <div className="notification-header navi-header-chain">
+          <FormattedMessage id={instructions} defaultMessage="Go to" />
+          &nbsp;
+          {legDestination(intl, nextLeg)}
         </div>
-        <BoardingInfo
-          route={route}
-          mode={routeMode}
-          headsign={hs}
-          translationValues={values}
-          appendClass={appendClass}
-        />
-      </>
-    );
+      );
+    }
+    return null;
   }
 
   if (legType === LEGTYPE.WAIT_IN_VEHICLE) {

@@ -63,6 +63,20 @@ export default function NaviCard(
     setCurrentCard(NaviCardType.Default);
   }
 
+  // Must run unconditionally (before the early return below) so hook order
+  // stays stable across PENDING/END <-> normal leg transitions.
+  useEffect(() => {
+    const element = contentRef.current;
+    if (!element) {
+      return;
+    }
+
+    // Resize card when card size changes.
+    if (cardExpanded || currentCard === NaviCardType.Indoor) {
+      element.style.maxHeight = `${element.scrollHeight}px`;
+    }
+  }, [cardExpanded, currentCard]);
+
   if (
     (!leg && !nextLeg) ||
     legType === LEGTYPE.PENDING ||
@@ -95,7 +109,13 @@ export default function NaviCard(
     instructions = `navileg-${leg.mode.toLowerCase()}`;
     iconName = iconMap[leg.mode] || iconMap.WALK;
   } else if (legType === LEGTYPE.WAIT) {
-    iconName = iconMap.WAIT;
+    if (nextLeg && !nextLeg.transitLeg) {
+      // No current leg to wait for a vehicle on; show walking-style instructions for the upcoming leg instead.
+      instructions = `navileg-${nextLeg.mode.toLowerCase()}`;
+      iconName = iconMap[nextLeg.mode] || iconMap.WALK;
+    } else {
+      iconName = iconMap.WAIT;
+    }
   } else if (legType === LEGTYPE.WAIT_IN_VEHICLE) {
     iconName = iconMap.WAIT_IN_VEHICLE;
   }
@@ -103,18 +123,6 @@ export default function NaviCard(
   const maxHeight = cardExpanded
     ? `${contentRef.current?.scrollHeight}px`
     : '0px';
-
-  useEffect(() => {
-    const element = contentRef.current;
-    if (!element) {
-      return;
-    }
-
-    // Resize card when card size changes.
-    if (cardExpanded || currentCard === NaviCardType.Indoor) {
-      element.style.maxHeight = `${element.scrollHeight}px`;
-    }
-  }, [cardExpanded, currentCard]);
 
   return (
     <button

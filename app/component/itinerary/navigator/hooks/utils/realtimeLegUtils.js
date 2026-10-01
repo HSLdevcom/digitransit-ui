@@ -91,8 +91,11 @@ function matchLegEnds(legs) {
     }
   }
 
-  // shift transfers and legs after transit end
-  while (transit > 0) {
+  // Shift transfers and legs after transit end. Use `>= 0` (not `> 0`) since
+  // nextTransitIndex can legitimately return 0 when the itinerary's very
+  // first leg is transit - `> 0` would misread that as "not found" (-1) and
+  // skip re-syncing every leg after it.
+  while (transit >= 0) {
     const walk = transit + 1; // first leg after transit
     const nextTransit = nextTransitIndex(legs, walk);
     const shiftEnd = nextTransit > 0 ? nextTransit - 1 : legs.length - 1;
