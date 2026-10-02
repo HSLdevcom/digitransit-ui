@@ -1,14 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import MapBottomsheetContext from './MapBottomsheetContext';
-import withGeojsonObjects from './withGeojsonObjects';
 import Map from './Map';
+import { useConfigContext } from '../../client/ConfigContext';
+import useGeoJsonObjects from '../../hooks/useGeoJsonObjects';
 
-function MapContainer({ className, children, ...props }) {
+function MapContainer({ className = '', children = null, ...props }) {
   const contextPadding = useContext(MapBottomsheetContext);
+  const config = useConfigContext();
+  const geoJson = useGeoJsonObjects(config.geoJson);
   return (
     <div className={`map ${className}`}>
-      <Map {...props} bottomPadding={contextPadding} />
+      <Map {...props} bottomPadding={contextPadding} geoJson={geoJson} />
       {children}
     </div>
   );
@@ -19,9 +22,4 @@ MapContainer.propTypes = {
   children: PropTypes.node,
 };
 
-MapContainer.defaultProps = {
-  className: '',
-  children: undefined,
-};
-
-export default withGeojsonObjects(MapContainer);
+export default MapContainer;
