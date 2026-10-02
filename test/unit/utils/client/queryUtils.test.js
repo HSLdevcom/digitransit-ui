@@ -22,29 +22,77 @@ const newOrigin = {
 
 describe('queryUtils', () => {
   describe('onLocationPopup', () => {
-    it('derives the other endpoint from match.params and updates the edited one', () => {
+    const createLocationActions = () => ({
+      setOrigin: vi.fn(),
+      setDestination: vi.fn(),
+      addViaPoint: vi.fn(),
+      deleteViaPoint: vi.fn(),
+    });
+
+    it('derives the other endpoint from the passed-in origin/destination and updates the edited one', () => {
       let calledLocation;
       const router = {
         replace: location => {
           calledLocation = location;
         },
       };
-      const match = {
-        ...mockMatch,
-        params: {
-          from: `${origin.address}::${origin.lat},${origin.lon}`,
-          to: `${destination.address}::${destination.lat},${destination.lon}`,
-        },
-      };
+      const locationActions = createLocationActions();
 
-      utils.onLocationPopup(newOrigin, 'origin', router, match, {});
+      utils.onLocationPopup(
+        newOrigin,
+        'origin',
+        router,
+        mockMatch,
+        origin,
+        destination,
+        locationActions,
+        {},
+      );
 
+      expect(locationActions.setOrigin).toHaveBeenCalledWith(newOrigin);
+      expect(locationActions.setDestination).not.toHaveBeenCalled();
       expect(calledLocation.pathname).toContain(
         encodeURIComponent(newOrigin.address),
       );
       expect(calledLocation.pathname).toContain(
         encodeURIComponent(destination.address),
       );
+    });
+
+    it('does not revert the other endpoint when match.params is stale (race regression)', () => {
+      // match.params still reflects an older navigation that hasn't resolved
+      // yet, but `destination` (from ItineraryLocationContext) already holds
+      // the latest, just-edited value. The stale match.params must be ignored.
+      let calledLocation;
+      const router = {
+        replace: location => {
+          calledLocation = location;
+        },
+      };
+      const staleMatch = {
+        ...mockMatch,
+        params: {
+          from: `${origin.address}::${origin.lat},${origin.lon}`,
+          to: 'Stale destination::60.0,24.0',
+        },
+      };
+      const locationActions = createLocationActions();
+
+      utils.onLocationPopup(
+        newOrigin,
+        'origin',
+        router,
+        staleMatch,
+        origin,
+        destination,
+        locationActions,
+        {},
+      );
+
+      expect(calledLocation.pathname).toContain(
+        encodeURIComponent(destination.address),
+      );
+      expect(calledLocation.pathname).not.toContain('Stale');
     });
 
     it('adds a via point and does not navigate the origin/destination path', () => {
@@ -61,10 +109,7 @@ describe('queryUtils', () => {
           to: `${destination.address}::${destination.lat},${destination.lon}`,
         },
       };
-      const viaPointActions = {
-        addViaPoint: vi.fn(),
-        deleteViaPoint: vi.fn(),
-      };
+      const locationActions = createLocationActions();
       const config = { viaPointsMax: 5 };
 
       utils.onLocationPopup(
@@ -72,11 +117,13 @@ describe('queryUtils', () => {
         'via',
         router,
         match,
-        viaPointActions,
+        origin,
+        destination,
+        locationActions,
         config,
       );
 
-      expect(viaPointActions.addViaPoint).toHaveBeenCalledWith(newOrigin);
+      expect(locationActions.addViaPoint).toHaveBeenCalledWith(newOrigin);
       expect(calledLocation.query.intermediatePlaces).toBeDefined();
     });
   });

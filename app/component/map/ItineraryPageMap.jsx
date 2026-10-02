@@ -17,7 +17,11 @@ import ParkingAreaMarker from './non-tile-layer/ParkingAreaMarker';
 import MapWithTracking from './MapWithTracking';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import { isBikeParkLeg, isCarParkLeg } from '../../../utils/client/legUtils';
-import { useItineraryLocationActions } from '../../hooks/ItineraryLocationContext';
+import {
+  useOrigin,
+  useDestination,
+  useItineraryLocationActions,
+} from '../../hooks/ItineraryLocationContext';
 
 const POINT_FOCUS_ZOOM = 17; // default
 
@@ -40,7 +44,9 @@ const ItineraryPageMap = ({
 }) => {
   const { match, router } = useRouter();
   const config = useConfigContext();
-  const { addViaPoint, deleteViaPoint } = useItineraryLocationActions();
+  const origin = useOrigin();
+  const destination = useDestination();
+  const locationActions = useItineraryLocationActions();
   const { hash } = match.params;
   const leafletObjs = [];
 
@@ -136,7 +142,9 @@ const ItineraryPageMap = ({
         id,
         router,
         match,
-        { addViaPoint, deleteViaPoint },
+        origin,
+        destination,
+        locationActions,
         config,
       );
   }
