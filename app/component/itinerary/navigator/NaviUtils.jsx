@@ -561,35 +561,33 @@ export const getItineraryAlerts = (
   );
 
   if (canceled.length) {
-    // show new itinerary search button only for first canceled leg
-    canceled.forEach((leg, i) => {
+    // only show the "search new itinerary" button pre-departure.
+    canceled.forEach(leg => {
       const { legId, mode, route } = leg;
       const id = `canceled-${legId}`;
-      if (!messages.get(id)) {
-        const lMode = getLocalizedMode(mode, intl, config);
-        const routeName = `${lMode} ${route.shortName}`;
-        const title = intl.formatMessage(
-          { id: 'navigation-mode-canceled' },
-          { name: routeName },
-        );
-        const jsxBody =
-          i === 0
-            ? withNewSearchBtn(
-                '',
-                itinerarySearchCallback,
-                `canceled_${route.shortName}${mode.toLowerCase()}`,
-              )
-            : undefined;
-        alerts.push({
-          severity: 'ALERT',
-          id,
-          hideClose: true,
-          expiresOn: alert.effectiveEndDate * 1000,
-          title,
-          body: '',
-          jsxBody,
-        });
-      }
+      const lMode = getLocalizedMode(mode, intl, config);
+      const routeName = `${lMode} ${route.shortName}`;
+      const title = intl.formatMessage(
+        { id: 'navigation-mode-canceled' },
+        { name: routeName },
+      );
+      const jsxBody =
+        canceled.indexOf(leg) === 0
+          ? withNewSearchBtn(
+              '',
+              itinerarySearchCallback,
+              `canceled_${route.shortName}${mode.toLowerCase()}`,
+            )
+          : undefined;
+      alerts.push({
+        severity: 'ALERT',
+        id,
+        hideClose: true,
+        expiresOn: legTime(leg.start),
+        title,
+        body: '',
+        jsxBody,
+      });
     });
   } else {
     const transfers = findTransferProblems(
