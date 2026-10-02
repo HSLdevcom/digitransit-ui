@@ -205,6 +205,8 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   overrides: prefer object spread over `Object.assign`; `no-console` is an error (except in
   Node-only `server/**`, `utils/server/**`, `scripts/**`); Prettier config
   is `singleQuote: true, trailingComma: 'all', arrowParens: 'avoid'`.
+- Keep comments and explanations concise, describing the current state rather than how it was
+  reached; prefer one-line comments.
 - When removing `defaultProps`, use parameter defaults only for valid values; never default to
   `undefined`.
 - JSX-containing files use the `.jsx` extension; plain `.js` never contains JSX. For the
@@ -215,13 +217,14 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   function signature instead, e.g. `function Foo({ isMobile = false, children = null })`. This
   applies to new code and to any component touched during refactors; existing untouched
   components may still use `defaultProps` until they're otherwise modified.
+- To avoid unnecessary re-renders, define non-primitive default parameter values (objects,
+  arrays, functions) as module-level constants instead of inline literals.
 - Never bump package versions manually; the `workspace-packages-version-bump` script is run after
   a PR is approved but before merging by the author.
 - The project does not enable `eslint-plugin-react-hooks`'s `exhaustive-deps` rule, and top-level
   app values such as `config` (`useConfigContext()`) and the Fluxible `context`/`executeAction`
   bridge are set once at app init and never change identity for the app's lifetime. It's fine to
   omit such stable values from `useEffect`/`useCallback`/`useMemo` dependency arrays — prefer this
-  over padding dependency arrays with values that never actually change, and add a short comment
-  noting why the value is omitted.
+  over padding dependency arrays with values that never actually change.
 - SCSS under `sass/`, `app/**/*.scss`, `digitransit-component/**/*.scss` — must pass
   `prettier --check` and `stylelint`.

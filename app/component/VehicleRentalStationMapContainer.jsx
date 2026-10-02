@@ -1,9 +1,21 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { graphql, useFragment } from 'react-relay';
 import StopPageMap from './map/StopPageMap';
 
-const VehicleRentalStationMapContainer = ({ vehicleRentalStation }) => {
+const VehicleRentalStationMapContainer = ({
+  vehicleRentalStation: vehicleRentalStationRef,
+}) => {
+  const vehicleRentalStation = useFragment(
+    graphql`
+      fragment VehicleRentalStationMapContainer_vehicleRentalStation on VehicleRentalStation {
+        lat
+        lon
+        name
+      }
+    `,
+    vehicleRentalStationRef,
+  );
   if (!vehicleRentalStation) {
     return false;
   }
@@ -18,20 +30,4 @@ VehicleRentalStationMapContainer.propTypes = {
   }),
 };
 
-const containerComponent = createFragmentContainer(
-  VehicleRentalStationMapContainer,
-  {
-    vehicleRentalStation: graphql`
-      fragment VehicleRentalStationMapContainer_vehicleRentalStation on VehicleRentalStation {
-        lat
-        lon
-        name
-      }
-    `,
-  },
-);
-
-export {
-  containerComponent as default,
-  VehicleRentalStationMapContainer as Component,
-};
+export default VehicleRentalStationMapContainer;

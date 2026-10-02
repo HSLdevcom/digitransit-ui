@@ -14,10 +14,8 @@ import {
 } from '../../utils/shared/path';
 import searchContext from '../data/SearchContext';
 import { useConfigContext } from '../client/ConfigContext';
-import SelectFromMapHeader from './SelectFromMapHeader';
 import SelectFromMap from './map/SelectFromMap';
-import DTModal from './DTModal';
-import FromMapModal from './FromMapModal';
+import SelectFromMapModal from './SelectFromMapModal';
 import { removeSearch } from '../action/SearchActions';
 
 const PATH_OPTS = {
@@ -60,7 +58,9 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
       onGeolocationStart = null,
       fromMap: initialFromMap,
       isMobile = false,
-      favouriteContext = false,
+      // Called when the SelectFromMap modal opened via the fromMap prop is
+      // closed without selecting a location.
+      onFromMapClose = undefined,
       showViapointControl = false,
       ...rest
     },
@@ -92,6 +92,11 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
     };
 
     const onSuggestionSelected = (item, id) => {
+      // Cancel a stale pending "use current location" resolution for this field so a slow geolocation
+      // lookup can't later overwrite a location the user has since picked manually.
+      if (pendingLocationRef.current && pendingLocationRef.current.id === id) {
+        pendingLocationRef.current = null;
+      }
       if (item.type === 'SelectFromMap') {
         setFromMap(id);
       } else if (id !== 'stop-route-station' && item.type !== 'FutureRoute') {
@@ -235,6 +240,8 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
     };
 
     const confirmMapSelection = (type, mapLocation) => {
+      // onFromMapClose is not called here; it's only for closing the
+      // modal without selecting a location.
       setFromMap(undefined);
       selectHandler(mapLocation, type);
     };
@@ -253,27 +260,19 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
         titleId = 'select-from-map-viaPoint';
       }
 
-      if (!isMobile) {
-        return (
-          <FromMapModal
-            onClose={() => setFromMap(undefined)}
-            titleId={titleId}
-            favouriteContext={favouriteContext}
-          >
-            <SelectFromMap type={fromMap} onConfirm={confirmMapSelection} />
-          </FromMapModal>
-        );
-      }
-
       return (
-        <DTModal show>
-          <SelectFromMapHeader
-            titleId={titleId}
-            onBackBtnClick={() => setFromMap(undefined)}
-            hideCloseBtn
-          />
+        <SelectFromMapModal
+          title={intl.formatMessage({ id: titleId })}
+          lang={config.language}
+          onClose={() => {
+            setFromMap(undefined);
+            if (onFromMapClose) {
+              onFromMapClose();
+            }
+          }}
+        >
           <SelectFromMap type={fromMap} onConfirm={confirmMapSelection} />
-        </DTModal>
+        </SelectFromMapModal>
       );
     }
 
@@ -291,7 +290,6 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
         onGeolocationStart={onGeolocationStart}
         fromMap={initialFromMap}
         isMobile={isMobile}
-        favouriteContext={favouriteContext}
         showViapointControl={showViapointControl}
         {...rest}
         {...viaProps}
@@ -310,7 +308,9 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
     onGeolocationStart: PropTypes.func,
     fromMap: PropTypes.string,
     isMobile: PropTypes.bool,
-    favouriteContext: PropTypes.bool,
+    // Called when the SelectFromMap modal opened via the fromMap prop is
+    // closed without selecting a location.
+    onFromMapClose: PropTypes.func,
     showViapointControl: PropTypes.bool,
   };
 

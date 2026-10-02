@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
-import { useConfigContext } from '../../client/ConfigContext';
 import { legShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
@@ -12,6 +11,7 @@ import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { legTimeStr, legDestination } from '../../../utils/client/legUtils';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
 import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
+import { useConfigContext } from '../../client/ConfigContext';
 
 export default function CarLeg({
   leg,

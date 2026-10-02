@@ -48,8 +48,8 @@ export default function NaviInstructions({
   tailLength,
   showDestinationInfo = false,
 }) {
-  const config = useConfigContext();
   const intl = useIntl();
+  const config = useConfigContext();
   const { routeMode, route, hs, values } = getBoardingParams(
     intl,
     nextLeg,

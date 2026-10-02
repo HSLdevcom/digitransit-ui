@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import StopCode from './StopCode';
-import withBreakpoint from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../utils/client/withBreakpoint';
 import BackButton from './BackButton';
 import { getJson } from '../../utils/shared/xhrPromise';
 import getZoneId from '../../utils/client/zoneIconUtils';
@@ -14,11 +14,11 @@ import { useConfigContext } from '../client/ConfigContext';
 
 const ParkOrBikeStationHeader = ({
   parkOrStation,
-  breakpoint,
   parkType,
   backButton = true,
   withSeparator = true,
 }) => {
+  const breakpoint = useBreakpoint();
   const config = useConfigContext();
   const [zoneId, setZoneId] = useState(undefined);
   useEffect(() => {
@@ -87,12 +87,7 @@ ParkOrBikeStationHeader.propTypes = {
     lon: PropTypes.number.isRequired,
   }).isRequired,
   parkType: PropTypes.string,
-  breakpoint: PropTypes.string.isRequired,
   withSeparator: PropTypes.bool,
 };
 
-const ParkOrBikeStationHeaderWithBreakpoint = withBreakpoint(
-  ParkOrBikeStationHeader,
-);
-
-export default ParkOrBikeStationHeaderWithBreakpoint;
+export default ParkOrBikeStationHeader;

@@ -24,7 +24,6 @@ describe('<ParkOrStationHeader />', () => {
     renderWithProviders(
       <ParkOrStationHeader
         parkOrStation={{ name: 'Test park', lat: 60.1, lon: 24.9 }}
-        breakpoint="large"
       />,
       { config },
     );

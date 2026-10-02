@@ -72,7 +72,6 @@ const MobileView = forwardRef(
       map,
       content,
       settingsDrawer,
-      selectFromMapHeader,
       searchBox,
       enableBottomScroll = true,
     },
@@ -154,7 +153,6 @@ const MobileView = forwardRef(
 
     return (
       <div className="mobile">
-        {selectFromMapHeader}
         {searchBox}
         {map ? (
           <>
@@ -202,7 +200,6 @@ MobileView.propTypes = {
   map: PropTypes.node,
   content: PropTypes.node,
   settingsDrawer: PropTypes.node,
-  selectFromMapHeader: PropTypes.node,
   searchBox: PropTypes.node,
   enableBottomScroll: PropTypes.bool,
 };

@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Popup from 'react-leaflet/es/Popup';
-import { configShape } from '../../../../utils/client/shapes';
+import { useConfigContext } from '../../../client/ConfigContext';
 
-export default function SelectedStopPopup({ lat, lon, children }, { config }) {
+export default function SelectedStopPopup({ lat, lon, children }) {
+  const config = useConfigContext();
   return (
     <Popup
       position={{ lat: lat + 0.0001, lng: lon }}
@@ -21,10 +22,6 @@ SelectedStopPopup.propTypes = {
   lat: PropTypes.number.isRequired,
   lon: PropTypes.number.isRequired,
   children: PropTypes.node.isRequired,
-};
-
-SelectedStopPopup.contextTypes = {
-  config: configShape.isRequired,
 };
 
 SelectedStopPopup.displayName = 'SelectedStopLabel';
