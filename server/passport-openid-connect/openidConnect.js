@@ -269,7 +269,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       }
       req.session.ssoToken = req.query['sso-token'];
       req.session.ssoValidTo =
-        Number(req.query['sso-validity']) * 60 * 1000 +
+        Number(req.query['sso-validity']) * 60 +
         Math.floor(new Date().getTime() / 1000);
       res.send();
     }
