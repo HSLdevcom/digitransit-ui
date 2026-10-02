@@ -3,7 +3,6 @@ import { createRefetchContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useMatch } from 'found';
 import {
-  configShape,
   errorShape,
   relayShape,
   stopShape,
@@ -12,8 +11,10 @@ import DepartureListContainer from '../DepartureListContainer';
 import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { useCurrentTime } from '../../hooks/TimeContext';
+import { useConfigContext } from '../../client/ConfigContext';
 
-function StopPageContent({ stop, relay, error }, { config }) {
+function StopPageContent({ stop, relay, error }) {
+  const config = useConfigContext();
   const intl = useIntl();
   const currentTime = useCurrentTime();
   const match = useMatch();
@@ -76,14 +77,6 @@ StopPageContent.propTypes = {
   stop: stopShape.isRequired,
   relay: relayShape.isRequired,
   error: errorShape,
-};
-
-StopPageContent.defaultProps = {
-  error: undefined,
-};
-
-StopPageContent.contextTypes = {
-  config: configShape.isRequired,
 };
 
 const containerComponent = createRefetchContainer(

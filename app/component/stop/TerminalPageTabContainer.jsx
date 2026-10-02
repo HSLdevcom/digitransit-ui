@@ -34,10 +34,6 @@ TerminalPageTabContainer.propTypes = {
   }),
 };
 
-TerminalPageTabContainer.defaultProps = {
-  station: undefined,
-};
-
 const containerComponent = createFragmentContainer(TerminalPageTabContainer, {
   station: graphql`
     fragment TerminalPageTabContainer_station on Stop

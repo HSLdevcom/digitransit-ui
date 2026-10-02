@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { configShape } from '../../../utils/client/shapes';
 import StopPageMap from '../map/StopPageMap';
 
 const TerminalPageMapContainer = ({ station }) => {
@@ -12,20 +11,12 @@ const TerminalPageMapContainer = ({ station }) => {
   return <StopPageMap stop={station} />;
 };
 
-TerminalPageMapContainer.contextTypes = {
-  config: configShape.isRequired,
-};
-
 TerminalPageMapContainer.propTypes = {
   station: PropTypes.shape({
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
     platformCode: PropTypes.string,
   }),
-};
-
-TerminalPageMapContainer.defaultProps = {
-  station: undefined,
 };
 
 const containerComponent = createFragmentContainer(TerminalPageMapContainer, {
