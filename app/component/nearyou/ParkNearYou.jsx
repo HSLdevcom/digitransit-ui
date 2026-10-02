@@ -7,7 +7,13 @@ import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import { parkShape, relayShape } from '../../../utils/client/shapes';
 import ParkAndRideContent from '../ParkAndRideContent';
 
-const ParkNearYou = ({ park, relay, currentTime, isParentTabActive, mode }) => {
+const ParkNearYou = ({
+  park,
+  relay,
+  currentTime,
+  isParentTabActive = false,
+  mode,
+}) => {
   const timeRef = useRef(currentTime);
 
   useEffect(() => {
@@ -63,11 +69,6 @@ ParkNearYou.propTypes = {
   isParentTabActive: PropTypes.bool,
   relay: relayShape.isRequired,
   mode: PropTypes.string.isRequired,
-};
-
-ParkNearYou.defaultProps = {
-  currentTime: undefined,
-  isParentTabActive: false,
 };
 
 const containerComponent = createRefetchContainer(
