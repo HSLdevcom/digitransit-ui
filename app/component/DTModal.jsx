@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DTModal = ({ show, children }) => {
+const EMPTY_CHILDREN = [];
+
+const DTModal = ({ show, children = EMPTY_CHILDREN }) => {
   const showClassname = show ? 'dtmodal display-block' : 'modal display-none';
 
   return (
@@ -14,10 +16,6 @@ const DTModal = ({ show, children }) => {
 DTModal.propTypes = {
   show: PropTypes.bool.isRequired,
   children: PropTypes.node,
-};
-
-DTModal.defaultProps = {
-  children: [],
 };
 
 export default DTModal;

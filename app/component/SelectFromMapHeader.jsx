@@ -4,17 +4,23 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from './Icon';
 import { useConfigContext } from '../client/ConfigContext';
 
-export default function SelectFromMapHeader(props) {
+export default function SelectFromMapHeader({
+  titleId,
+  onBackBtnClick,
+  onCloseBtnClick,
+  hideBackBtn = false,
+  hideCloseBtn = false,
+}) {
   const { colors } = useConfigContext();
   const intl = useIntl();
 
   return (
     <div className="select-from-map-nav-container">
-      {!props.hideBackBtn && (
+      {!hideBackBtn && (
         <button
           type="button"
           className="from-map-modal-nav-button"
-          onClick={props.hideBackBtn ? undefined : props.onBackBtnClick}
+          onClick={hideBackBtn ? undefined : onBackBtnClick}
           aria-label={intl.formatMessage({
             id: 'back-button-title',
             defaultMessage: 'Go back to previous page',
@@ -24,13 +30,13 @@ export default function SelectFromMapHeader(props) {
         </button>
       )}
       <div className="select-from-map-nav-title">
-        <FormattedMessage id={props.titleId} />
+        <FormattedMessage id={titleId} />
       </div>
-      {!props.hideCloseBtn && (
+      {!hideCloseBtn && (
         <button
           type="button"
           className="from-map-modal-nav-button"
-          onClick={props.hideCloseBtn ? undefined : props.onCloseBtnClick}
+          onClick={hideCloseBtn ? undefined : onCloseBtnClick}
           aria-label={intl.formatMessage({
             id: 'back-button-title',
             defaultMessage: 'Go back to previous page',
@@ -49,11 +55,4 @@ SelectFromMapHeader.propTypes = {
   onCloseBtnClick: PropTypes.func,
   hideBackBtn: PropTypes.bool,
   hideCloseBtn: PropTypes.bool,
-};
-
-SelectFromMapHeader.defaultProps = {
-  onBackBtnClick: PropTypes.func,
-  onCloseBtnClick: PropTypes.func,
-  hideBackBtn: false,
-  hideCloseBtn: false,
 };

@@ -74,7 +74,7 @@ const MobileView = forwardRef(
       settingsDrawer,
       selectFromMapHeader,
       searchBox,
-      enableBottomScroll,
+      enableBottomScroll = true,
     },
     ref,
   ) => {
@@ -205,16 +205,6 @@ MobileView.propTypes = {
   selectFromMapHeader: PropTypes.node,
   searchBox: PropTypes.node,
   enableBottomScroll: PropTypes.bool,
-};
-
-MobileView.defaultProps = {
-  header: undefined,
-  map: undefined,
-  content: undefined,
-  settingsDrawer: undefined,
-  selectFromMapHeader: undefined,
-  searchBox: undefined,
-  enableBottomScroll: true,
 };
 
 export default MobileView;

@@ -14,46 +14,43 @@ import { getHeadsignFromRouteLongName } from '../../utils/client/legUtils';
 import { getRouteMode } from '../../utils/client/modeUtils';
 import { getCapacity } from '../../utils/client/occupancyUtil';
 import { routePagePath, PREFIX_STOPS } from '../../utils/shared/path';
-import { configShape, departureShape } from '../../utils/client/shapes';
+import { departureShape } from '../../utils/client/shapes';
 import { epochToTime } from '../../utils/client/timeUtils';
 import Icon from './Icon';
 import IconBackground from './icon/IconBackground';
 import PlatformNumber from './PlatformNumber';
+import { useConfigContext } from '../client/ConfigContext';
 
 const getMostSevereAlert = route => {
   const alerts = [...getAlertsForObject(route)];
   return alerts.sort(alertSeverityCompare)[0];
 };
 
-export default function DepartureRow(
-  {
-    departure,
-    departureTime,
-    showPlatformCode,
-    canceled,
-    onCapacityClick,
-    isParentTabActive,
-    platformUpdated,
-    ...props
-  },
-  { config },
-) {
+export default function DepartureRow({
+  departure,
+  departureTime,
+  currentTime,
+  showPlatformCode = false,
+  canceled = false,
+  className = '',
+  onCapacityClick,
+  isParentTabActive = false,
+  platformUpdated = false,
+}) {
+  const config = useConfigContext();
   const intl = useIntl();
   const { trip, trip: { route } = {} } = departure;
   const mode = getRouteMode(route, config);
   const departureTimeMs = departureTime * 1000;
   const time = epochToTime(departureTimeMs, config);
-  const timeDiffInMinutes = Math.floor(
-    (departureTime - props.currentTime) / 60,
-  );
+  const timeDiffInMinutes = Math.floor((departureTime - currentTime) / 60);
   let icon;
   let iconColor;
   let background;
   let backgroundClass;
   let sr;
   if (
-    route.alerts?.filter(alert => isAlertValid(alert, props.currentTime))
-      ?.length > 0
+    route.alerts?.filter(alert => isAlertValid(alert, currentTime))?.length > 0
   ) {
     const alert = getMostSevereAlert(route);
     sr = (
@@ -159,7 +156,7 @@ export default function DepartureRow(
         'clickable',
         mode,
         departure.bottomRow ? 'bottom' : '',
-        props.className,
+        className,
       )}
       key={trip.gtfsId}
     >
@@ -280,17 +277,4 @@ DepartureRow.propTypes = {
   onCapacityClick: PropTypes.func,
   isParentTabActive: PropTypes.bool,
   platformUpdated: PropTypes.bool,
-};
-
-DepartureRow.defaultProps = {
-  showPlatformCode: false,
-  canceled: false,
-  className: '',
-  onCapacityClick: undefined,
-  isParentTabActive: false,
-  platformUpdated: false,
-};
-
-DepartureRow.contextTypes = {
-  config: configShape.isRequired,
 };
