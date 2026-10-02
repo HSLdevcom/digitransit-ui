@@ -11,7 +11,11 @@ import {
 import { WheelchairBoarding } from '../../../utils/shared/constants';
 import Icon from '../Icon';
 
-export default function EntranceMarker({ position, code, entranceAccessible }) {
+export default function EntranceMarker({
+  position,
+  code,
+  entranceAccessible = WheelchairBoarding.NoInformation,
+}) {
   const objs = [];
 
   const codeIndex = entranceAccessible === WheelchairBoarding.Possible ? 1 : 0;
@@ -80,9 +84,4 @@ EntranceMarker.propTypes = {
   position: locationShape.isRequired,
   code: PropTypes.string,
   entranceAccessible: PropTypes.oneOf(Object.values(WheelchairBoarding)),
-};
-
-EntranceMarker.defaultProps = {
-  code: undefined,
-  entranceAccessible: WheelchairBoarding.NoInformation,
 };

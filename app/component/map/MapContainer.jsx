@@ -4,7 +4,7 @@ import MapBottomsheetContext from './MapBottomsheetContext';
 import withGeojsonObjects from './withGeojsonObjects';
 import Map from './Map';
 
-function MapContainer({ className, children, ...props }) {
+function MapContainer({ className = '', children, ...props }) {
   const contextPadding = useContext(MapBottomsheetContext);
   return (
     <div className={`map ${className}`}>
@@ -17,11 +17,6 @@ function MapContainer({ className, children, ...props }) {
 MapContainer.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
-};
-
-MapContainer.defaultProps = {
-  className: '',
-  children: undefined,
 };
 
 export default withGeojsonObjects(MapContainer);

@@ -3,10 +3,18 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { otpToLocation } from '../../../utils/shared/otpStrings';
 
-const ConfirmLocationFromMapButton = props => {
+const ConfirmLocationFromMapButton = ({
+  address,
+  isEnabled = false,
+  title,
+  type,
+  onConfirm,
+  color,
+  hoverColor,
+}) => {
   const redirect = () => {
-    if (props.address) {
-      props.onConfirm(props.type, otpToLocation(props.address));
+    if (address) {
+      onConfirm(type, otpToLocation(address));
     }
   };
 
@@ -14,18 +22,18 @@ const ConfirmLocationFromMapButton = props => {
     <div className={cx('select-from-map-confirm-button-container')}>
       <button
         type="button"
-        disabled={!props.isEnabled}
-        onClick={props.isEnabled ? redirect : undefined}
+        disabled={!isEnabled}
+        onClick={isEnabled ? redirect : undefined}
         className={cx('select-from-map-confirm-button', {
-          disabled: !props.isEnabled,
+          disabled: !isEnabled,
         })}
         style={{
-          '--color': `${props.color}`,
-          '--hover-color': `${props.hoverColor}`,
+          '--color': `${color}`,
+          '--hover-color': `${hoverColor}`,
         }}
         key="confirmLocation"
       >
-        {props.title}
+        {title}
       </button>
     </div>
   );
@@ -39,11 +47,6 @@ ConfirmLocationFromMapButton.propTypes = {
   onConfirm: PropTypes.func.isRequired,
   color: PropTypes.string.isRequired,
   hoverColor: PropTypes.string.isRequired,
-};
-
-ConfirmLocationFromMapButton.defaultProps = {
-  address: undefined,
-  isEnabled: false,
 };
 
 export default ConfirmLocationFromMapButton;

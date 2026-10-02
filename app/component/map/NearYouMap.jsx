@@ -116,16 +116,18 @@ const handleBounds = (location, edges) => {
 
 const nonTransit = ['CITYBIKE', 'BIKEPARK', 'CARPARK'];
 
+const EMPTY_ARRAY = [];
+
 function NearYouMap(
   {
     breakpoint,
-    stops,
-    loading,
+    stops = EMPTY_ARRAY,
+    loading = false,
     favouriteIds,
     relay,
     position,
-    showWalkRoute,
-    prioritizedStops,
+    showWalkRoute = false,
+    prioritizedStops = EMPTY_ARRAY,
     ...rest
   },
   context,
@@ -411,13 +413,6 @@ NearYouMap.propTypes = {
   relay: relayShape.isRequired,
   loading: PropTypes.bool,
   showWalkRoute: PropTypes.bool,
-};
-
-NearYouMap.defaultProps = {
-  stops: [],
-  showWalkRoute: false,
-  loading: false,
-  prioritizedStops: [],
 };
 
 NearYouMap.contextTypes = {

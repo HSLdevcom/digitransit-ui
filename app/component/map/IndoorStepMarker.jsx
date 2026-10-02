@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { default as L } from 'leaflet';
 
 import cx from 'classnames';
-import { configShape, locationShape } from '../../../utils/client/shapes';
+import { locationShape } from '../../../utils/client/shapes';
 import GenericMarker from './GenericMarker';
 
 import Card from '../Card';
@@ -18,7 +18,13 @@ import {
 } from '../../../utils/shared/constants';
 import { getVerticalTransportationUseIconId } from '../../../utils/client/indoorUtils';
 
-export default function IndoorStepMarker({ position, index, indoorSteps }) {
+const EMPTY_INDOOR_STEPS = [];
+
+export default function IndoorStepMarker({
+  position,
+  index,
+  indoorSteps = EMPTY_INDOOR_STEPS,
+}) {
   const intl = useIntl();
   const objs = [];
 
@@ -119,10 +125,6 @@ export default function IndoorStepMarker({ position, index, indoorSteps }) {
   return <div>{objs}</div>;
 }
 
-IndoorStepMarker.contextTypes = {
-  config: configShape.isRequired,
-};
-
 IndoorStepMarker.propTypes = {
   position: locationShape.isRequired,
   index: PropTypes.number.isRequired,
@@ -134,8 +136,4 @@ IndoorStepMarker.propTypes = {
       }),
     }),
   ),
-};
-
-IndoorStepMarker.defaultProps = {
-  indoorSteps: [],
 };

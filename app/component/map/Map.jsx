@@ -52,9 +52,11 @@ const startClient = context => {
 
 const onPopupopen = () => events.emit('popupOpened');
 
+const DEFAULT_MAP_LAYERS = { geoJson: {} };
+
 export default function Map(
   {
-    animate,
+    animate = true,
     lat,
     lon,
     zoom,
@@ -67,7 +69,7 @@ export default function Map(
     bottomButtons,
     topButtons,
     geoJson,
-    mapLayers,
+    mapLayers = DEFAULT_MAP_LAYERS,
     breakpoint,
     locationPopup,
     onSelectLocation,
@@ -320,26 +322,6 @@ Map.propTypes = {
   breakpoint: PropTypes.string,
   locationPopup: PropTypes.string,
   onSelectLocation: PropTypes.func,
-};
-
-Map.defaultProps = {
-  animate: true,
-  mapLayerRef: null,
-  leafletMapRef: null,
-  lat: undefined,
-  lon: undefined,
-  zoom: undefined,
-  bounds: undefined,
-  bottomPadding: undefined,
-  bottomButtons: null,
-  topButtons: null,
-  mapLayers: { geoJson: {} },
-  geoJson: undefined,
-  leafletEvents: undefined,
-  leafletObjs: undefined,
-  breakpoint: undefined,
-  locationPopup: undefined,
-  onSelectLocation: undefined,
 };
 
 Map.contextTypes = {

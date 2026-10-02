@@ -12,6 +12,13 @@ ReactModal.setAppElement(document.querySelector('#app'));
 
 const baseConfig = createTestConfig();
 
+// react-modal's aria-hider can leave aria-hidden stuck on document.body across
+// files sharing this worker's jsdom instance (vitest.config.js's isolate: false) -
+// guard against leaking that into unrelated test files.
+afterEach(() => {
+  document.body.removeAttribute('aria-hidden');
+});
+
 describe('<NavigatorIntroModal />', () => {
   it('renders the navigator intro content', () => {
     renderWithProviders(

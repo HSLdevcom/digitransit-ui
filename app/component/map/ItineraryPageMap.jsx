@@ -24,18 +24,18 @@ const POINT_FOCUS_ZOOM = 17; // default
 const ItineraryPageMap = ({
   planEdges,
   active,
-  showActiveOnly,
+  showActiveOnly = false,
   from,
   to,
   viaPoints,
   breakpoint,
-  showVehicles,
+  showVehicles = false,
   topics,
-  showDurationBubble,
+  showDurationBubble = false,
   itinerary,
-  showBackButton,
-  isLocationPopupEnabled,
-  realtimeTransfers,
+  showBackButton = true,
+  isLocationPopupEnabled = false,
+  realtimeTransfers = false,
   ...rest
 }) => {
   const { match, router } = useRouter();
@@ -180,17 +180,6 @@ ItineraryPageMap.propTypes = {
   showBackButton: PropTypes.bool,
   isLocationPopupEnabled: PropTypes.bool,
   realtimeTransfers: PropTypes.bool,
-};
-
-ItineraryPageMap.defaultProps = {
-  topics: undefined,
-  showActiveOnly: false,
-  showVehicles: false,
-  showDurationBubble: false,
-  itinerary: undefined,
-  showBackButton: true,
-  isLocationPopupEnabled: false,
-  realtimeTransfers: false,
 };
 
 export default ItineraryPageMap;
