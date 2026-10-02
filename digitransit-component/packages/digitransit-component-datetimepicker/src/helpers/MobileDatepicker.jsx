@@ -91,7 +91,7 @@ function MobileDatepicker({
   id,
   label,
   icon,
-  timeZone,
+  timeZone = 'Europe/Helsinki',
 }) {
   Settings.defaultZone = timeZone;
   const dateChoices = Array(itemCount)
@@ -148,11 +148,6 @@ MobileDatepicker.propTypes = {
   label: PropTypes.string.isRequired,
   icon: PropTypes.node,
   timeZone: PropTypes.string,
-};
-
-MobileDatepicker.defaultProps = {
-  icon: null,
-  timeZone: 'Europe/Helsinki',
 };
 
 export default MobileDatepicker;

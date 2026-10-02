@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import styles from './desktop.scss';
 
+const noop = () => ({});
+
 const DesktopModal = ({
   headerText,
   autosuggestComponent,
@@ -15,9 +17,9 @@ const DesktopModal = ({
   saveFavourite,
   saveText,
   canSave,
-  isEdit,
+  isEdit = false,
   cancelText,
-  cancelSelected,
+  cancelSelected = noop,
   color,
   hoverColor,
   savePlaceText,
@@ -116,11 +118,6 @@ DesktopModal.propTypes = {
   fontWeights: PropTypes.shape({
     medium: PropTypes.number.isRequired,
   }).isRequired,
-};
-
-DesktopModal.defaultProps = {
-  isEdit: false,
-  cancelSelected: () => ({}),
 };
 
 export default DesktopModal;
