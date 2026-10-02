@@ -19,7 +19,10 @@ describe('<ParkOrStationHeader />', () => {
     const config = createTestConfig({
       searchParams: { 'boundary.country': 'FI' },
     });
-    fetchMock.get('*', { features: [] });
+    const peliasMatcher = {
+      url: `begin:${config.URL.PELIAS_REVERSE_GEOCODER}`,
+    };
+    fetchMock.get(peliasMatcher, { features: [] });
 
     renderWithProviders(
       <ParkOrStationHeader
@@ -28,8 +31,13 @@ describe('<ParkOrStationHeader />', () => {
       { config },
     );
 
-    await waitFor(() => expect(fetchMock.callHistory.called()).toBe(true));
-    const { url } = fetchMock.callHistory.calls()[0];
+    // Match on the Pelias URL specifically, not "any" fetch call - under
+    // isolate: false a stray fetch from an unrelated test file sharing this
+    // worker can otherwise be the first entry in the global call history.
+    await waitFor(() =>
+      expect(fetchMock.callHistory.called(peliasMatcher)).toBe(true),
+    );
+    const { url } = fetchMock.callHistory.calls(peliasMatcher)[0];
     expect(url).toContain(config.URL.PELIAS_REVERSE_GEOCODER);
     expect(url).toContain('boundary.country=FI');
   });
