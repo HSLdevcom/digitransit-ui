@@ -17,7 +17,7 @@ A banner with blue caution Icon and arrow mark, original purpose is to act as a 
     *   `$0.lang`  
     *   `$0.handleClick`  
     *   `$0.href`  
-    *   `$0.fontWeights`  
+    *   `$0.fontWeights`   (optional, default `DEFAULT_FONT_WEIGHTS`)
 
 ### Examples
 
