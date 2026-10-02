@@ -5,7 +5,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import {
   alertShape,
-  configShape,
   vehicleShape,
   stopTimeShape,
 } from '../../../utils/client/shapes';
@@ -24,6 +23,7 @@ import getVehicleState from '../../../utils/client/vehicleStateUtils';
 import Icon from '../Icon';
 import { ensureColorAccessibleOnWhite } from '../../../utils/shared/colorUtils';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { useConfigContext } from '../../client/ConfigContext';
 
 function getDepartureTime(stoptime) {
   return (
@@ -34,26 +34,24 @@ function getDepartureTime(stoptime) {
   );
 }
 
-const RouteStop = (
-  {
-    className,
-    color,
-    currentTime,
-    first,
-    last,
-    mode,
-    stop,
-    nextStop,
-    vehicle,
-    displayNextDeparture,
-    shortName,
-    prevStop,
-    hideDepartures,
-    loop,
-    singleLoop,
-  },
-  { config },
-) => {
+const RouteStop = ({
+  className,
+  color,
+  currentTime,
+  first = false,
+  last = false,
+  mode,
+  stop,
+  nextStop,
+  vehicle,
+  displayNextDeparture = true,
+  shortName,
+  prevStop,
+  hideDepartures = false,
+  loop = false,
+  singleLoop = false,
+}) => {
+  const config = useConfigContext();
   const intl = useIntl();
   let firstDeparture;
   let nextDeparture;
@@ -372,26 +370,6 @@ RouteStop.propTypes = {
   hideDepartures: PropTypes.bool,
   loop: PropTypes.bool,
   singleLoop: PropTypes.bool,
-};
-
-RouteStop.defaultProps = {
-  className: undefined,
-  color: null,
-  displayNextDeparture: true,
-  first: false,
-  last: false,
-  mode: undefined,
-  nextStop: null,
-  prevStop: null,
-  shortName: undefined,
-  vehicle: undefined,
-  hideDepartures: false,
-  loop: false,
-  singleLoop: false,
-};
-
-RouteStop.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default RouteStop;
