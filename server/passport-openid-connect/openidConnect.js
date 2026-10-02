@@ -5,7 +5,7 @@ import redis from 'redis';
 import axios from 'axios';
 import connectRedis from 'connect-redis';
 import { Strategy as LoginStrategy } from './Strategy.js';
-import { audit, privateNoStore } from './authAudit.js';
+import { audit, hash, privateNoStore } from './authAudit.js';
 
 const RedisStore = connectRedis(session);
 
@@ -225,6 +225,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     };
     const logoutUrl = oic.client.endSessionUrl(params);
 
+    audit('logout', req);
     req.session.userId = req.user.data.sub;
     if (debugLogging) {
       console.log(`logout for user ${req.user.data.name} to ${logoutUrl}`);
@@ -267,6 +268,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       if (debugLogging) {
         console.log('GET sso/auth -> updating token');
       }
+      audit('sso_set', req);
       req.session.ssoToken = req.query['sso-token'];
       req.session.ssoValidTo =
         Number(req.query['sso-validity']) * 60 +
@@ -306,12 +308,29 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       })
       .then(function (response) {
         if (response && response.status && response.data) {
+          const sessionSub = req.user?.data?.sub;
+          const match = response.data.sub === sessionSub;
+          audit('api_user', req, {
+            idpSub: hash(response.data.sub),
+            match,
+          });
+          if (!match) {
+            console.error(
+              `AUTH_AUDIT_MISMATCH sid=${hash(req.sessionID)} sessionSub=${hash(
+                sessionSub,
+              )} idpSub=${hash(response.data.sub)}`,
+            );
+          }
           res.status(response.status).send(response.data);
         } else {
           errorHandler(res);
         }
       })
       .catch(function (err) {
+        audit('api_user_failed', req, {
+          status: err?.response?.status,
+          error: err?.message,
+        });
         errorHandler(res, err);
       });
   });
