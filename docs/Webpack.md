@@ -79,7 +79,22 @@ and output settings.
   graph, which can shift even when that chunk's own content didn't) —
   this is webpack5's own documented best practice for long-term caching,
   and matches the `[contenthash]` already used for CSS output below.
-- `publicPath`: `/proxy/` in dev (see `devServer` below), `/` in prod.
+- `publicPath`: `/proxy/` in dev (see `devServer` below), `/` in prod. This
+  `/` only matters for webpack's own JS-runtime asset resolution (chunk/
+  script loading, images imported from `.jsx`), which `app/client/
+  publicPath.js` overrides at runtime from `window.ASSET_URL` (the actual
+  CDN base path) before anything else runs. It does **not** reach `url()`
+  references baked into compiled CSS (background images, e.g. the
+  `.scss`-defined spinner/dotted-line assets) — those are static text,
+  resolved by the browser directly against the CSS file's own URL, with no
+  JS involved. `MiniCssExtractPlugin.loader`'s own `publicPath: 'auto'`
+  option (set on every `.scss`/`.css` rule below) is what fixes *that*
+  case, making such `url()`s relative to the emitted CSS file instead of
+  inheriting this `/`. Without it, those paths are emitted as absolute
+  `/assets/...` — fine when the HTML and static assets share an origin
+  (true in dev), but broken wherever production serves bundled assets from
+  a separate CDN host (`dev-cdn.digitransit.fi/...`) than the HTML shell
+  (`dev.reittiopas.fi`).
 - `crossOriginLoading: 'anonymous'` — needed for real stack traces on
   cross-origin script chunks (used with source maps).
 
@@ -182,6 +197,11 @@ below.
 - **`.css`** — split into two rules only so `@hsl-fi` package CSS can be
   marked `sideEffects: true` (so it isn't tree-shaken away); everything
   else uses the default.
+- All three `MiniCssExtractPlugin.loader` uses above (`.scss` and both
+  `.css` rules) pass `publicPath: 'auto'`, so any asset `url()` emitted
+  into these CSS files resolves relative to that CSS file's own location,
+  not to `output.publicPath` (see "Output" above for why that distinction
+  matters for CSS specifically).
 - **Images/fonts** (`eot|gif|png|ttf|woff|svg|jpeg|jpg`) — webpack5 built-in
   asset modules, replacing `file-loader`/`url-loader`. `asset/resource` in
   both dev and prod: always emits a real, content-hashed file and never

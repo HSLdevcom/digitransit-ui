@@ -29,12 +29,13 @@ const getMostSevereAlert = route => {
 export default function DepartureRow({
   departure,
   departureTime,
-  showPlatformCode,
-  canceled,
+  currentTime,
+  showPlatformCode = false,
+  canceled = false,
+  className = '',
   onCapacityClick,
-  isParentTabActive,
-  platformUpdated,
-  ...props
+  isParentTabActive = false,
+  platformUpdated = false,
 }) {
   const config = useConfigContext();
   const intl = useIntl();
@@ -42,17 +43,14 @@ export default function DepartureRow({
   const mode = getRouteMode(route, config);
   const departureTimeMs = departureTime * 1000;
   const time = epochToTime(departureTimeMs, config);
-  const timeDiffInMinutes = Math.floor(
-    (departureTime - props.currentTime) / 60,
-  );
+  const timeDiffInMinutes = Math.floor((departureTime - currentTime) / 60);
   let icon;
   let iconColor;
   let background;
   let backgroundClass;
   let sr;
   if (
-    route.alerts?.filter(alert => isAlertValid(alert, props.currentTime))
-      ?.length > 0
+    route.alerts?.filter(alert => isAlertValid(alert, currentTime))?.length > 0
   ) {
     const alert = getMostSevereAlert(route);
     sr = (
@@ -158,7 +156,7 @@ export default function DepartureRow({
         'clickable',
         mode,
         departure.bottomRow ? 'bottom' : '',
-        props.className,
+        className,
       )}
       key={trip.gtfsId}
     >
@@ -279,13 +277,4 @@ DepartureRow.propTypes = {
   onCapacityClick: PropTypes.func,
   isParentTabActive: PropTypes.bool,
   platformUpdated: PropTypes.bool,
-};
-
-DepartureRow.defaultProps = {
-  showPlatformCode: false,
-  canceled: false,
-  className: '',
-  onCapacityClick: undefined,
-  isParentTabActive: false,
-  platformUpdated: false,
 };

@@ -28,7 +28,7 @@ function NaviContainer(
     focusToPoint,
     relayEnvironment,
     setNavigation,
-    isNavigatorIntroDismissed,
+    isNavigatorIntroDismissed = false,
     mapRef,
     mapLayerRef,
     settings,
@@ -225,11 +225,6 @@ NaviContainer.propTypes = {
 NaviContainer.contextTypes = {
   executeAction: PropTypes.func,
   getStore: PropTypes.func.isRequired,
-};
-
-NaviContainer.defaultProps = {
-  mapRef: undefined,
-  isNavigatorIntroDismissed: false,
 };
 
 export default NaviContainer;

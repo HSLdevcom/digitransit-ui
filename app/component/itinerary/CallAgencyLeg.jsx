@@ -68,10 +68,5 @@ CallAgencyLeg.propTypes = {
   breakpoint: PropTypes.string,
 };
 
-CallAgencyLeg.defaultProps = {
-  showRouteDescNotification: false,
-  breakpoint: undefined,
-};
-
 export { CallAgencyLeg as Component };
 export default withBreakpoint(CallAgencyLeg);

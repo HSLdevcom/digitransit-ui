@@ -9,11 +9,11 @@ const defaultMessage = (
   </span>
 );
 
-export default function Loading(props) {
+export default function Loading({ children }) {
   return (
     <div className="loading-spinner-container">
       <Spinner />
-      {props?.children || defaultMessage}
+      {children || defaultMessage}
     </div>
   );
 }
@@ -21,4 +21,3 @@ export default function Loading(props) {
 Loading.displayName = 'Loading';
 
 Loading.propTypes = { children: PropTypes.node };
-Loading.defaultProps = { children: undefined };

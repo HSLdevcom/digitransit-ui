@@ -205,7 +205,6 @@ function StopPageTabs({ stop }) {
 }
 
 StopPageTabs.propTypes = { stop: stopShape };
-StopPageTabs.defaultProps = { stop: undefined };
 
 const componentWithBreakpoint = withBreakpoint(StopPageTabs);
 

@@ -12,7 +12,7 @@ import { useConfigContext } from '../../client/ConfigContext';
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
-function Search({ onMap, ...rest }) {
+function Search({ onMap = false, ...rest }) {
   const config = useConfigContext();
   const intl = useIntl();
   const favourites = useFavourites();
@@ -47,6 +47,5 @@ function Search({ onMap, ...rest }) {
 }
 
 Search.propTypes = { onMap: PropTypes.bool };
-Search.defaultProps = { onMap: false };
 
 export default memo(Search);

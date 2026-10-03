@@ -7,7 +7,7 @@ const TruncatedMessage = ({
   lines,
   message,
   className,
-  truncate,
+  truncate = false,
   onShowMore,
   onTruncate = () => {},
 }) => {
@@ -58,12 +58,6 @@ TruncatedMessage.propTypes = {
   truncate: PropTypes.bool,
   onShowMore: PropTypes.func.isRequired,
   onTruncate: PropTypes.func,
-};
-
-TruncatedMessage.defaultProps = {
-  className: PropTypes.string.isRequired,
-  truncate: false,
-  onTruncate: () => {},
 };
 
 export default TruncatedMessage;

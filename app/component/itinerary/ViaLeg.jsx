@@ -44,47 +44,45 @@ const getDescription = (mode, distance, duration) => {
   );
 };
 
-function ViaLeg(props) {
+function ViaLeg({ leg, arrival, index, children, focusAction, focusToLeg }) {
   const config = useConfigContext();
   const intl = useIntl();
   const distance = displayDistance(
-    parseInt(props.leg.distance, 10),
+    parseInt(leg.distance, 10),
     config,
     intl.formatNumber,
   );
-  const [name, place] = splitStringToAddressAndPlace(props.leg.from.name);
+  const [name, place] = splitStringToAddressAndPlace(leg.from.name);
   const address =
-    props.leg.from.viaLocationType && props.leg.viaAddress
-      ? props.leg.viaAddress
-      : name;
-  const startTime = legTimeStr(props.leg.start);
-  const arrivalMs = legTime(props.arrival);
-  const arrivalTime = legTimeStr(props.arrival);
-  const duration = durationToString(intl, props.leg.duration * 1000);
-  const stayDuration = legTime(props.leg.start) - arrivalMs;
+    leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
+  const startTime = legTimeStr(leg.start);
+  const arrivalMs = legTime(arrival);
+  const arrivalTime = legTimeStr(arrival);
+  const duration = durationToString(intl, leg.duration * 1000);
+  const stayDuration = legTime(leg.start) - arrivalMs;
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
-    <div key={props.index} className="row itinerary-row">
+    <div key={index} className="row itinerary-row">
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.via-leg"
           defaultMessage="{arrivalTime} saavu välipisteeseen {viaPoint}. {leaveAction}"
           values={{
             arrivalTime,
-            viaPoint: props.leg.from.name,
+            viaPoint: leg.from.name,
             leaveAction: (
               <FormattedMessage
                 id={
-                  props.leg.mode === 'BICYCLE'
+                  leg.mode === 'BICYCLE'
                     ? 'itinerary-details.biking-leg'
                     : 'itinerary-details.walk-leg'
                 }
                 values={{
                   time: startTime,
-                  to: legDestination(intl, props.leg),
+                  to: legDestination(intl, leg),
                   distance,
-                  origin: props.leg.from ? props.leg.from.name : '',
-                  destination: props.leg.to ? props.leg.to.name : '',
+                  origin: leg.from ? leg.from.name : '',
+                  destination: leg.to ? leg.to.name : '',
                   duration,
                 }}
               />
@@ -107,16 +105,16 @@ function ViaLeg(props) {
         </div>
       </div>
       <ItineraryCircleLineWithIcon
-        viaType={props.leg.from.viaLocationType}
-        isStop={!!props.leg.from.stop}
-        index={props.index}
-        modeClassName={props.leg.mode.toLowerCase()}
+        viaType={leg.from.viaLocationType}
+        isStop={!!leg.from.stop}
+        index={index}
+        modeClassName={leg.mode.toLowerCase()}
       />
       <div className="small-9 columns itinerary-instruction-column via">
         <span className="sr-only">
           <FormattedMessage
             id="itinerary-summary.show-on-map"
-            values={{ target: props.leg.from.name || '' }}
+            values={{ target: leg.from.name || '' }}
           />
         </span>
         <div className="itinerary-leg-first-row via">
@@ -136,16 +134,16 @@ function ViaLeg(props) {
                 />
               </div>
             )}
-            {props.children}
+            {children}
           </div>
           <ItineraryMapAction
-            target={props.leg.from.name || ''}
-            focusAction={props.focusAction}
+            target={leg.from.name || ''}
+            focusAction={focusAction}
           />
         </div>
         <div className="itinerary-leg-action itinerary-leg-action-content">
-          {getDescription(props.leg.mode, distance, duration)}
-          <ItineraryMapAction target="" focusAction={props.focusToLeg} />
+          {getDescription(leg.mode, distance, duration)}
+          <ItineraryMapAction target="" focusAction={focusToLeg} />
         </div>
       </div>
     </div>
@@ -159,10 +157,6 @@ ViaLeg.propTypes = {
   focusAction: PropTypes.func.isRequired,
   focusToLeg: PropTypes.func.isRequired,
   children: PropTypes.node,
-};
-
-ViaLeg.defaultProps = {
-  children: undefined,
 };
 
 export default ViaLeg;

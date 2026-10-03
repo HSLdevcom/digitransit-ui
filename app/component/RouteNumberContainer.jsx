@@ -10,7 +10,7 @@ const RouteNumberContainer = ({
   trip,
   route,
   mode,
-  hideText,
+  hideText = false,
   ...props
 }) => {
   const config = useConfigContext();
@@ -36,13 +36,6 @@ RouteNumberContainer.propTypes = {
   interliningWithRoute: PropTypes.string,
   mode: PropTypes.string,
   hideText: PropTypes.bool,
-};
-
-RouteNumberContainer.defaultProps = {
-  trip: undefined,
-  interliningWithRoute: undefined,
-  mode: undefined,
-  hideText: false,
 };
 
 export default RouteNumberContainer;

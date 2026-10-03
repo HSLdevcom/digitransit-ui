@@ -12,7 +12,16 @@ import {
 } from '../../../utils/client/fareUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 
-export default function TicketInformation({ fares, zones, legs, ticketLink }) {
+const EMPTY_FARES = [];
+const EMPTY_ZONES = [];
+const EMPTY_LEGS = [];
+
+export default function TicketInformation({
+  fares = EMPTY_FARES,
+  zones = EMPTY_ZONES,
+  legs = EMPTY_LEGS,
+  ticketLink,
+}) {
   const config = useConfigContext();
   const intl = useIntl();
   if (fares.length === 0) {
@@ -105,13 +114,6 @@ TicketInformation.propTypes = {
   fares: PropTypes.arrayOf(fareShape),
   zones: PropTypes.arrayOf(PropTypes.string),
   ticketLink: PropTypes.string,
-};
-
-TicketInformation.defaultProps = {
-  fares: [],
-  zones: [],
-  legs: [],
-  ticketLink: null,
 };
 
 TicketInformation.displayName = 'TicketInformation';

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { legTime } from '../../../../../utils/client/legUtils';
 import { useItineraryContext } from '../../context/ItineraryContext';
 import { REDUCER_ACTION_TYPES } from '../../context/useItineraryReducer';
@@ -71,11 +71,23 @@ const useRealtimeLegs = (
     }
   };
 
+  // fetchAndSetRealtimeLegs is recreated whenever processLegs changes
+  // identity (e.g. on every real-time vehicle message, since processLegs
+  // depends on `vehicles`). Keep the latest version in a ref instead of the
+  // interval's dependency array, so the 10 s poll is a stable heartbeat that
+  // is never torn down/restarted - otherwise a steady stream of vehicle
+  // updates can prevent the interval from ever completing a full 10 s
+  // period, stalling real-time leg updates.
+  const fetchAndSetRealtimeLegsRef = useRef(fetchAndSetRealtimeLegs);
+  useEffect(() => {
+    fetchAndSetRealtimeLegsRef.current = fetchAndSetRealtimeLegs;
+  }, [fetchAndSetRealtimeLegs]);
+
   useEffect(() => {
     setLoading(false);
-    const id = setInterval(() => fetchAndSetRealtimeLegs(), 10000);
+    const id = setInterval(() => fetchAndSetRealtimeLegsRef.current(), 10000);
     return () => clearInterval(id);
-  }, [fetchAndSetRealtimeLegs]);
+  }, []);
 
   const { firstLeg, lastLeg, currentLeg, nextLeg, previousLeg } =
     getLegsOfInterest(itinerary.legs, params.updatedAt);

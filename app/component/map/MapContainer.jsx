@@ -5,7 +5,7 @@ import Map from './Map';
 import { useConfigContext } from '../../client/ConfigContext';
 import useGeoJsonObjects from '../../hooks/useGeoJsonObjects';
 
-function MapContainer({ className = '', children, ...props }) {
+export default function MapContainer({ className = '', children, ...props }) {
   const contextPadding = useContext(MapBottomsheetContext);
   const config = useConfigContext();
   const geoJson = useGeoJsonObjects(config.geoJson);
@@ -21,5 +21,3 @@ MapContainer.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
 };
-
-export default MapContainer;

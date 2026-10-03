@@ -29,7 +29,7 @@ const FavouriteIconIdToNameMap = {
 
 const FavouriteIconTableButton = ({
   value,
-  selectedIconId,
+  selectedIconId = '',
   handleClick,
   color,
   lang,
@@ -66,10 +66,6 @@ FavouriteIconTableButton.propTypes = {
   selectedIconId: PropTypes.string,
   color: PropTypes.string.isRequired,
   lang: PropTypes.string.isRequired,
-};
-
-FavouriteIconTableButton.defaultProps = {
-  selectedIconId: '',
 };
 
 const FavouriteIconTable = ({ favouriteIconIds, ...rest }) => {

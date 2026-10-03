@@ -38,18 +38,18 @@ const RouteStop = ({
   className,
   color,
   currentTime,
-  first,
-  last,
+  first = false,
+  last = false,
   mode,
   stop,
   nextStop,
   vehicle,
-  displayNextDeparture,
+  displayNextDeparture = true,
   shortName,
   prevStop,
-  hideDepartures,
-  loop,
-  singleLoop,
+  hideDepartures = false,
+  loop = false,
+  singleLoop = false,
 }) => {
   const config = useConfigContext();
   const intl = useIntl();
@@ -370,22 +370,6 @@ RouteStop.propTypes = {
   hideDepartures: PropTypes.bool,
   loop: PropTypes.bool,
   singleLoop: PropTypes.bool,
-};
-
-RouteStop.defaultProps = {
-  className: undefined,
-  color: null,
-  displayNextDeparture: true,
-  first: false,
-  last: false,
-  mode: undefined,
-  nextStop: null,
-  prevStop: null,
-  shortName: undefined,
-  vehicle: undefined,
-  hideDepartures: false,
-  loop: false,
-  singleLoop: false,
 };
 
 export default RouteStop;
