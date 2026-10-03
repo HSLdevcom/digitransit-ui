@@ -7,17 +7,16 @@ import { mapLayerOptionsShape } from '../../../utils/client/shapes';
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import Icon from '../Icon';
 import Checkbox from '../Checkbox';
-import GeoJsonStore from '../../store/GeoJsonStore';
 import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
 import { updateMapLayers } from '../../action/MapLayerActions';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import withGeojsonObjects from './withGeojsonObjects';
 import {
   getTransportModes,
   showRentalVehiclesOfType,
 } from '../../../utils/client/modeUtils';
 import { TransportMode } from '../../../utils/shared/constants';
 import { useConfigContext } from '../../client/ConfigContext';
+import useGeoJsonObjects from '../../hooks/useGeoJsonObjects';
 
 const sendLayerChangeAnalytic = (name, enable) => {
   const action = enable ? 'ShowMapLayer' : 'HideMapLayer';
@@ -33,9 +32,9 @@ function MapLayersDialogContent({
   mapLayerOptions,
   setOpen,
   updateLayers,
-  geoJson,
 }) {
   const config = useConfigContext();
+  const geoJson = useGeoJsonObjects(config.geoJson);
   const transportModes = getTransportModes(config);
 
   const arr = geoJson
@@ -252,24 +251,11 @@ MapLayersDialogContent.propTypes = {
   mapLayerOptions: mapLayerOptionsShape,
   setOpen: PropTypes.func.isRequired,
   updateLayers: PropTypes.func.isRequired,
-  geoJson: PropTypes.object /* eslint-disable-line */,
-};
-
-export const getGeoJsonLayersOrDefault = (
-  config,
-  store,
-  defaultValue = undefined,
-) => {
-  return (
-    (Array.isArray(config.geoJson?.layers) && config.geoJson.layers) ||
-    (store && Array.isArray(store.layers) && store.layers) ||
-    defaultValue
-  );
 };
 
 const connectedComponent = connectToStores(
-  withGeojsonObjects(MapLayersDialogContent),
-  [GeoJsonStore, MapLayerStore],
+  MapLayersDialogContent,
+  [MapLayerStore],
   ({ executeAction }) => ({
     updateLayers: mapLayers => executeAction(updateMapLayers, { ...mapLayers }),
   }),
