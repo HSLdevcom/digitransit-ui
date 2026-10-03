@@ -21,10 +21,10 @@ function NearYouContainer({
   currentTime,
   relay,
   position,
-  withSeparator,
+  withSeparator = false,
   prioritizedStops,
   mode,
-  isParentTabActive,
+  isParentTabActive = false,
   favouriteIds,
 }) {
   const config = useConfigContext();
@@ -227,12 +227,6 @@ NearYouContainer.propTypes = {
   isParentTabActive: PropTypes.bool,
   // eslint-disable-next-line
   favouriteIds: PropTypes.object,
-};
-
-NearYouContainer.defaultProps = {
-  places: undefined,
-  withSeparator: false,
-  isParentTabActive: false,
 };
 
 const NearYouContainerWithBreakpoint = withBreakpoint(NearYouContainer);

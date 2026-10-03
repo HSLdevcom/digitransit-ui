@@ -26,7 +26,7 @@ import {
 import ScrollableWrapper from '../../ScrollableWrapper';
 import { useConfigContext } from '../../../client/ConfigContext';
 
-export default function CustomizeSearch({ onToggleClick, mobile }) {
+export default function CustomizeSearch({ onToggleClick, mobile = false }) {
   const config = useConfigContext();
   const intl = useIntl();
   const [settings, setSettings] = useState(getSettings(config));
@@ -143,5 +143,3 @@ CustomizeSearch.propTypes = {
   onToggleClick: PropTypes.func.isRequired,
   mobile: PropTypes.bool,
 };
-
-CustomizeSearch.defaultProps = { mobile: false };

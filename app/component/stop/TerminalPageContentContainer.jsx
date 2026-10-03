@@ -76,10 +76,6 @@ TerminalPageContent.propTypes = {
   error: errorShape,
 };
 
-TerminalPageContent.defaultProps = {
-  error: undefined,
-};
-
 const containerComponent = createRefetchContainer(
   TerminalPageContent,
   {

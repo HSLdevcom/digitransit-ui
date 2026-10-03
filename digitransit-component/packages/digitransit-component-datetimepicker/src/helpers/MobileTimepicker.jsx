@@ -15,7 +15,7 @@ function MobileTimepicker({
   id,
   label,
   icon,
-  timeZone,
+  timeZone = 'Europe/Helsinki',
 }) {
   const [inputValue, changeInputValue] = useState(getDisplay(value));
   const [isValidInput, setValidInput] = useState(true);
@@ -76,11 +76,6 @@ MobileTimepicker.propTypes = {
   label: PropTypes.string.isRequired,
   icon: PropTypes.node,
   timeZone: PropTypes.string,
-};
-
-MobileTimepicker.defaultProps = {
-  icon: null,
-  timeZone: 'Europe/Helsinki',
 };
 
 export default MobileTimepicker;

@@ -37,9 +37,9 @@ export const getIconMarkerOptions = ({
 export default function LocationMarker({
   position,
   className,
-  isLarge,
-  type,
-  disabled,
+  isLarge = false,
+  type = 'via',
+  disabled = false,
 }) {
   const {
     className: markerClassName,
@@ -70,12 +70,4 @@ LocationMarker.propTypes = {
   isLarge: PropTypes.bool,
   type: PropTypes.oneOf(['from', 'via', 'to', 'favourite']),
   disabled: PropTypes.bool,
-};
-
-LocationMarker.defaultProps = {
-  position: undefined,
-  className: undefined,
-  isLarge: false,
-  type: 'via',
-  disabled: false,
 };

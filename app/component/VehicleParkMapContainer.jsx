@@ -19,10 +19,6 @@ function VehicleParkMapContainer({ vehicleParking }) {
 
 VehicleParkMapContainer.propTypes = { vehicleParking: parkShape };
 
-VehicleParkMapContainer.defaultProps = {
-  vehicleParking: undefined,
-};
-
 const containerComponent = createFragmentContainer(VehicleParkMapContainer, {
   vehicleParking: graphql`
     fragment VehicleParkMapContainer_vehiclePark on VehicleParking {

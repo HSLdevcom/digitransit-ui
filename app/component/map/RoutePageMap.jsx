@@ -170,13 +170,6 @@ RoutePageMap.propTypes = {
   error: errorShape,
 };
 
-RoutePageMap.defaultProps = {
-  trip: null,
-  lat: undefined,
-  lon: undefined,
-  error: undefined,
-};
-
 const RoutePageMapWithVehicles = connectToStores(
   withBreakpoint(RoutePageMap),
   ['RealTimeInformationStore', 'MapLayerStore'],

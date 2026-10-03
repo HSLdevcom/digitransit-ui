@@ -120,6 +120,29 @@ describe('<NaviCard />', () => {
     expect(container.textContent).toContain('55');
   });
 
+  it('applies the configured fallback color for the transit mode icon', () => {
+    const { container } = renderCard({
+      legType: LEGTYPE.TRANSIT,
+      leg: {
+        legId: 'transit-color-check',
+        mode: 'BUS',
+        transitLeg: true,
+        route: { shortName: '55', mode: 'BUS' },
+        trip: { tripHeadsign: 'Keskusta' },
+        start: at(NOW),
+        end: at(NOW + 8 * 60000),
+        from: {
+          stop: { name: 'Bus stop', parentStation: null, vehicleMode: 'BUS' },
+        },
+        to: { stop: { name: 'Center stop', vehicleMode: 'BUS' } },
+      },
+      nextLeg: undefined,
+    });
+    expect(container.querySelector('.mode')?.style.fill).toBe(
+      config.colors.bus,
+    );
+  });
+
   it('collapses an expanded card back to the default view once the current leg changes', () => {
     const walkLeg = {
       legId: 'walk-1',

@@ -4,7 +4,6 @@ import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
 import { stopPagePath } from '../../../../utils/shared/path';
-
 import {
   getStopMode,
   transitIconName,
@@ -89,14 +88,6 @@ SelectStopRow.propTypes = {
   desc: PropTypes.string,
   terminal: PropTypes.bool,
   platform: PropTypes.string,
-};
-
-SelectStopRow.defaultProps = {
-  routes: undefined,
-  code: undefined,
-  desc: undefined,
-  terminal: undefined,
-  platform: undefined,
 };
 
 export default SelectStopRow;

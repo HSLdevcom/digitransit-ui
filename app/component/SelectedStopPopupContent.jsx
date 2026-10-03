@@ -26,10 +26,6 @@ SelectedStopPopupContent.propTypes = {
   name: PropTypes.node,
 };
 
-SelectedStopPopupContent.defaultProps = {
-  name: undefined,
-};
-
 SelectedStopPopupContent.displayName = 'SelectedStopPopupContent';
 
 export default SelectedStopPopupContent;

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-
 import Icon from '../../../Icon';
 import {
   getIndoorTranslationId,
@@ -55,11 +54,6 @@ NaviIndoorStepInfo.propTypes = {
   type: PropTypes.oneOf(Object.values(IndoorStepType)).isRequired,
   verticalDirection: PropTypes.oneOf(Object.values(VerticalDirection)),
   toLevelName: PropTypes.string,
-};
-
-NaviIndoorStepInfo.defaultProps = {
-  verticalDirection: undefined,
-  toLevelName: undefined,
 };
 
 export default NaviIndoorStepInfo;

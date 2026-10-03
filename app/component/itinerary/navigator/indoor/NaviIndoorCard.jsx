@@ -47,10 +47,4 @@ NaviIndoorCard.propTypes = {
   nextLeg: legShape,
 };
 
-NaviIndoorCard.defaultProps = {
-  previousLeg: undefined,
-  leg: undefined,
-  nextLeg: undefined,
-};
-
 export default NaviIndoorCard;
