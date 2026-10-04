@@ -10,14 +10,14 @@ const IconWithIcon = ({
   badgeFill,
   badgeText,
   badgeTextFill,
-  className,
+  className = '',
   color,
-  id,
+  id = '',
   img,
-  subIcon,
-  subIconClassName,
+  subIcon = '',
+  subIconClassName = '',
   subIconShape,
-  omitViewBox,
+  omitViewBox = false,
   backgroundShape,
 }) => {
   const intl = useIntl();
@@ -78,20 +78,6 @@ IconWithIcon.propTypes = {
   subIconShape: PropTypes.string,
   omitViewBox: PropTypes.bool,
   backgroundShape: PropTypes.string,
-};
-
-IconWithIcon.defaultProps = {
-  badgeFill: undefined,
-  badgeText: undefined,
-  badgeTextFill: undefined,
-  className: '',
-  id: '',
-  subIcon: '',
-  subIconClassName: '',
-  subIconShape: undefined,
-  color: undefined,
-  omitViewBox: false,
-  backgroundShape: undefined,
 };
 
 export default IconWithIcon;

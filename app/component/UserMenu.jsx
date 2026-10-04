@@ -7,7 +7,9 @@ import Icon from './Icon';
 import { isKeyboardSelectionEvent } from '../../utils/shared/browser';
 import { userShape } from '../../utils/client/shapes';
 
-const UserMenu = ({ menuItems, user }) => {
+const EMPTY_USER = {};
+
+const UserMenu = ({ menuItems, user = EMPTY_USER }) => {
   const intl = useIntl();
   const [menuOpen, setMenuOpen] = useState(false);
   const useMenuRef = useRef(null);
@@ -93,10 +95,6 @@ UserMenu.propTypes = {
     }),
   ).isRequired,
   user: userShape,
-};
-
-UserMenu.defaultProps = {
-  user: {},
 };
 
 export default UserMenu;

@@ -10,7 +10,13 @@ import {
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 
-export default function MobileTicketPurchaseInformation({ fares, zones }) {
+const EMPTY_FARES = [];
+const EMPTY_ZONES = [];
+
+export default function MobileTicketPurchaseInformation({
+  fares = EMPTY_FARES,
+  zones = EMPTY_ZONES,
+}) {
   const config = useConfigContext();
   const intl = useIntl();
   const fare = fares[0]; // Show buy option only if there is single ticket available
@@ -75,11 +81,6 @@ export default function MobileTicketPurchaseInformation({ fares, zones }) {
 MobileTicketPurchaseInformation.propTypes = {
   fares: PropTypes.arrayOf(fareShape),
   zones: PropTypes.arrayOf(PropTypes.string),
-};
-
-MobileTicketPurchaseInformation.defaultProps = {
-  fares: [],
-  zones: [],
 };
 
 MobileTicketPurchaseInformation.displayName = 'TicketInformation';

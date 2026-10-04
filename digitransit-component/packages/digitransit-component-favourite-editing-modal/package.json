@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-favourite-editing-modal",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "description": "digitransit-component favourite-editing-modal module",
   "type": "module",
   "main": "index.cjs",

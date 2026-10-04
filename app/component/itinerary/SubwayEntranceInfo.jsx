@@ -6,8 +6,8 @@ import { WheelchairBoarding } from '../../../utils/shared/constants';
 
 export default function SubwayEntranceInfo({
   type, // exit / entrance
-  entranceName,
-  entranceAccessible,
+  entranceName = '',
+  entranceAccessible = WheelchairBoarding.NoInformation,
 }) {
   return (
     <div
@@ -49,9 +49,4 @@ SubwayEntranceInfo.propTypes = {
   type: PropTypes.string.isRequired,
   entranceName: PropTypes.string,
   entranceAccessible: PropTypes.oneOf(Object.values(WheelchairBoarding)),
-};
-
-SubwayEntranceInfo.defaultProps = {
-  entranceName: '',
-  entranceAccessible: WheelchairBoarding.NoInformation,
 };

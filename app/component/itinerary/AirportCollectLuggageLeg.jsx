@@ -11,21 +11,18 @@ import { stopPagePath } from '../../../utils/shared/path';
 import { useConfigContext } from '../../client/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function AirportCollectLuggageLeg(props) {
+function AirportCollectLuggageLeg({ index, leg, focusAction, children }) {
   const config = useConfigContext();
   const modeClassName = 'airport-wait';
-  const { name } = props.leg.to;
-  const { focusAction } = props;
+  const { name } = leg.to;
   return (
     <div className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
-        <div className="itinerary-time-column-time">
-          {legTimeStr(props.leg.end)}
-        </div>
+        <div className="itinerary-time-column-time">{legTimeStr(leg.end)}</div>
       </div>
-      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
+      <ItineraryCircleLine index={index} modeClassName={modeClassName} />
       <div
-        onClick={props.focusAction}
+        onClick={focusAction}
         className="small-9 columns itinerary-instruction-column airport-wait"
       >
         <div className="itinerary-leg-first-row">
@@ -34,7 +31,7 @@ function AirportCollectLuggageLeg(props) {
               onClick={e => {
                 e.stopPropagation();
               }}
-              to={stopPagePath(false, props.leg.to.stop.gtfsId)}
+              to={stopPagePath(false, leg.to.stop.gtfsId)}
             >
               {name}
               <Icon
@@ -43,7 +40,7 @@ function AirportCollectLuggageLeg(props) {
                 color={config.colors.primary}
               />
             </Link>
-            <div className="stop-code-container">{props.children}</div>
+            <div className="stop-code-container">{children}</div>
           </div>
           <ItineraryMapAction target={name || ''} focusAction={focusAction} />
         </div>
@@ -65,10 +62,6 @@ AirportCollectLuggageLeg.propTypes = {
   leg: legShape.isRequired,
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node,
-};
-
-AirportCollectLuggageLeg.defaultProps = {
-  children: undefined,
 };
 
 export default AirportCollectLuggageLeg;

@@ -7,8 +7,9 @@ export default function StopNearYouDepartureRowContainer({
   stopTimes,
   mode,
   openCapacityModal,
-  isParentTabActive,
-  ...props
+  isParentTabActive = false,
+  currentTime,
+  isStation,
 }) {
   const sortedStopTimes = stopTimes
     .slice()
@@ -26,8 +27,8 @@ export default function StopNearYouDepartureRowContainer({
         key={key}
         departure={row}
         departureTime={departureTime}
-        currentTime={props.currentTime}
-        showPlatformCode={props.isStation}
+        currentTime={currentTime}
+        showPlatformCode={isStation}
         showLink
         onCapacityClick={openCapacityModal}
         isParentTabActive={isParentTabActive}
@@ -71,8 +72,4 @@ StopNearYouDepartureRowContainer.propTypes = {
   currentTime: PropTypes.number.isRequired,
   openCapacityModal: PropTypes.func.isRequired,
   isParentTabActive: PropTypes.bool,
-};
-
-StopNearYouDepartureRowContainer.defaultProps = {
-  isParentTabActive: false,
 };

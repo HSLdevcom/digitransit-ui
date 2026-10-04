@@ -106,14 +106,3 @@ AlternativeItineraryBar.propTypes = {
   }),
   loading: PropTypes.bool,
 };
-
-AlternativeItineraryBar.defaultProps = {
-  weatherData: undefined,
-  walkPlan: undefined,
-  bikePlan: undefined,
-  bikePublicPlan: undefined,
-  parkRidePlan: undefined,
-  carPlan: undefined,
-  carPublicPlan: undefined,
-  loading: undefined,
-};

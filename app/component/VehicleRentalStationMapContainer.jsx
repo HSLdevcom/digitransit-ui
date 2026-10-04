@@ -30,8 +30,4 @@ VehicleRentalStationMapContainer.propTypes = {
   }),
 };
 
-VehicleRentalStationMapContainer.defaultProps = {
-  vehicleRentalStation: undefined,
-};
-
 export default VehicleRentalStationMapContainer;

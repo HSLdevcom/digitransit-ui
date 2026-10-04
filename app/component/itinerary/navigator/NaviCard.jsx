@@ -42,7 +42,7 @@ export default function NaviCard({
   position,
   tailLength,
   cardAnimation,
-  platformUpdated,
+  platformUpdated = false,
 }) {
   const config = useConfigContext();
   const [cardExpanded, setCardExpanded] = useState(false);
@@ -200,11 +200,4 @@ NaviCard.propTypes = {
   tailLength: PropTypes.number.isRequired,
   cardAnimation: PropTypes.string.isRequired,
   platformUpdated: PropTypes.bool,
-};
-NaviCard.defaultProps = {
-  previousLeg: undefined,
-  leg: undefined,
-  nextLeg: undefined,
-  position: undefined,
-  platformUpdated: false,
 };

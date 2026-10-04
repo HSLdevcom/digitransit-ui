@@ -9,10 +9,10 @@ import Icon from '../../Icon';
 const BoardingInfo = ({
   route,
   mode,
-  headsign,
+  headsign = '',
   translationValues,
-  withExpandIcon,
-  compact,
+  withExpandIcon = false,
+  compact = false,
   appendClass,
 }) => {
   return (
@@ -66,12 +66,6 @@ BoardingInfo.propTypes = {
   withExpandIcon: PropTypes.bool,
   compact: PropTypes.bool,
   appendClass: PropTypes.string,
-};
-BoardingInfo.defaultProps = {
-  withExpandIcon: false,
-  compact: false,
-  appendClass: undefined,
-  headsign: '',
 };
 
 export default BoardingInfo;

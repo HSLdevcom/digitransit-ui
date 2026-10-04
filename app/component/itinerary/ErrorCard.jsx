@@ -10,6 +10,8 @@ export const ICON_INFO = 'icon_info';
 export const ICON_TYPE_CAUTION = 'caution';
 export const ICON_TYPE_INFO = 'info';
 
+const EMPTY_CHILDREN = [];
+
 const Title = ({ msgId }) => (
   <div className="in-the-past">
     <FormattedMessage id={msgId} defaultMessage="" />
@@ -21,9 +23,9 @@ Title.propTypes = {
 const ErrorCard = ({
   msgId,
   titleId,
-  iconImg,
+  iconImg = ICON_CAUTION,
   iconType = ICON_TYPE_CAUTION,
-  children,
+  children = EMPTY_CHILDREN,
 }) => {
   const background = iconImg.replace('icon_', '');
 
@@ -61,14 +63,6 @@ ErrorCard.propTypes = {
   iconImg: PropTypes.string,
   iconType: PropTypes.string,
   children: childrenShape,
-};
-
-ErrorCard.defaultProps = {
-  msgId: null,
-  titleId: null,
-  iconImg: ICON_CAUTION,
-  iconType: ICON_TYPE_CAUTION,
-  children: [],
 };
 
 export default ErrorCard;

@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { stylesShape } from '../../utils/client/shapes';
 
+const EMPTY_STYLE = {};
+
 const Gutterer = ({
   children,
   className,
-  containerStyles,
-  leftGutterStyles,
-  rightGutterStyles,
-  contentStyles,
+  containerStyles = EMPTY_STYLE,
+  leftGutterStyles = EMPTY_STYLE,
+  rightGutterStyles = EMPTY_STYLE,
+  contentStyles = EMPTY_STYLE,
   maxWidth,
 }) => {
   const contentStylesWithMaxWidth = {
@@ -38,14 +40,6 @@ Gutterer.propTypes = {
   leftGutterStyles: stylesShape,
   rightGutterStyles: stylesShape,
   contentStyles: stylesShape,
-};
-
-Gutterer.defaultProps = {
-  className: undefined,
-  containerStyles: {},
-  leftGutterStyles: {},
-  rightGutterStyles: {},
-  contentStyles: {},
 };
 
 export default Gutterer;

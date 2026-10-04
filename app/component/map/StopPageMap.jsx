@@ -200,12 +200,6 @@ StopPageMap.propTypes = {
   stopName: PropTypes.node,
 };
 
-StopPageMap.defaultProps = {
-  stop: undefined,
-  parkType: undefined,
-  stopName: undefined,
-};
-
 const componentWithBreakpoint = withBreakpoint(StopPageMap);
 
 const StopPageMapWithStores = connectToStores(

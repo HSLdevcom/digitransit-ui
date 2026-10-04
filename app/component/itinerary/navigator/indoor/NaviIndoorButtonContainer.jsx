@@ -11,7 +11,7 @@ import NaviIndoorButton from './NaviIndoorButton';
 import { NaviCardType } from '../../../../../utils/shared/constants';
 
 export default function NaviIndoorButtonContainer({
-  currentCard,
+  currentCard = NaviCardType.Default,
   setCurrentCard,
   previousLeg,
   leg,
@@ -59,11 +59,4 @@ NaviIndoorButtonContainer.propTypes = {
   leg: legShape,
   nextLeg: legShape,
   focusToPoint: PropTypes.func.isRequired,
-};
-
-NaviIndoorButtonContainer.defaultProps = {
-  currentCard: NaviCardType.Default,
-  previousLeg: undefined,
-  leg: undefined,
-  nextLeg: undefined,
 };

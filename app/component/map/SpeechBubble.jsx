@@ -5,9 +5,9 @@ import Marker from 'react-leaflet/es/Marker';
 
 export default function SpeechBubble({
   position,
-  text,
-  zIndexOffset,
-  speechBubbleStyle,
+  text = '',
+  zIndexOffset = 400,
+  speechBubbleStyle = 'topRight',
 }) {
   return (
     <Marker
@@ -36,10 +36,4 @@ SpeechBubble.propTypes = {
   text: PropTypes.string,
   speechBubbleStyle: PropTypes.string,
   zIndexOffset: PropTypes.number,
-};
-
-SpeechBubble.defaultProps = {
-  speechBubbleStyle: 'topRight',
-  text: '',
-  zIndexOffset: 400,
 };

@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 import Icon from '../Icon';
 import { openDeepLink } from '../../../utils/client/vehicleRentalUtils';
 
+const EMPTY_VALUES = {};
+
 export default function CallAgencyDisclaimer({
   textId,
   text,
-  values,
+  values = EMPTY_VALUES,
   href,
   linkText,
   header,
@@ -48,13 +50,4 @@ CallAgencyDisclaimer.propTypes = {
   href: PropTypes.string,
   linkText: PropTypes.string,
   header: PropTypes.string,
-};
-
-CallAgencyDisclaimer.defaultProps = {
-  textId: null,
-  text: null,
-  values: {},
-  href: null,
-  linkText: null,
-  header: null,
 };

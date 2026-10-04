@@ -58,6 +58,20 @@ function isFavourite(item) {
   return item.type?.includes('Favourite');
 }
 
+const noop = () => {};
+
+const DEFAULT_FONT_WEIGHTS = { medium: 500 };
+
+const DEFAULT_AUTO_SUGGEST_ICONS = {
+  citybikes: station => {
+    const name =
+      station.properties.source === 'citybikesvantaa'
+        ? 'citybike-stop-hsl-secondary'
+        : 'citybike-stop-hsl';
+    return [name, defaultColors.citybike];
+  },
+};
+
 function getAriaDescription(ariaContentArray) {
   const description = ariaContentArray
     .filter(part => part !== undefined && part !== null && part !== '')
@@ -160,14 +174,14 @@ const SuggestionItem = memo(
   ({
     item,
     content,
-    loading,
-    isMobile,
-    ariaFavouriteString,
-    fillInput,
-    fontWeights,
+    loading = false,
+    isMobile = false,
+    ariaFavouriteString = '',
+    fillInput = noop,
+    fontWeights = DEFAULT_FONT_WEIGHTS,
     colors,
-    getAutoSuggestIcons,
-    modeSet,
+    getAutoSuggestIcons = DEFAULT_AUTO_SUGGEST_ICONS,
+    modeSet = 'hsl',
   }) => {
     const [suggestionType, name, label, stopCode, modes, platform] =
       content || ['', item.name, item.address];
@@ -431,27 +445,6 @@ SuggestionItem.propTypes = {
   getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
   colors: PropTypes.objectOf(PropTypes.string),
   modeSet: PropTypes.string,
-};
-
-SuggestionItem.defaultProps = {
-  loading: false,
-  ariaFavouriteString: '',
-  fillInput: () => {},
-  isMobile: false,
-  fontWeights: {
-    medium: 500,
-  },
-  colors: undefined,
-  getAutoSuggestIcons: {
-    citybikes: station => {
-      const name =
-        station.properties.source === 'citybikesvantaa'
-          ? 'citybike-stop-hsl-secondary'
-          : 'citybike-stop-hsl';
-      return [name, defaultColors.citybike];
-    },
-  },
-  modeSet: 'hsl',
 };
 
 export default SuggestionItem;

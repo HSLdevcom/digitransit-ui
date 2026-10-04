@@ -79,10 +79,6 @@ StopPageContent.propTypes = {
   error: errorShape,
 };
 
-StopPageContent.defaultProps = {
-  error: undefined,
-};
-
 const containerComponent = createRefetchContainer(
   StopPageContent,
   {

@@ -31,8 +31,4 @@ NavigatorIntroModal.propTypes = {
   onOpenGeolocationInfo: PropTypes.func.isRequired,
 };
 
-NavigatorIntroModal.defaultProps = {
-  onPrimaryClick: undefined,
-};
-
 export default NavigatorIntroModal;

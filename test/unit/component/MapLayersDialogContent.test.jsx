@@ -1,12 +1,10 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
+import fetchMock from 'fetch-mock';
 
 import { renderWithProviders } from '../helpers/mock-providers';
 
-import {
-  Component as MapLayersDialogContent,
-  getGeoJsonLayersOrDefault,
-} from '../../../app/component/map/MapLayersDialogContent';
+import { Component as MapLayersDialogContent } from '../../../app/component/map/MapLayersDialogContent';
 
 const testConfig = { CONFIG: 'default', language: 'fi' };
 
@@ -16,6 +14,15 @@ const renderMapLayersDialogContent = (props, config = testConfig) =>
   });
 
 describe('<MapLayersDialogContent />', () => {
+  beforeAll(() => fetchMock.mockGlobal());
+
+  afterEach(() => {
+    fetchMock.removeRoutes();
+    fetchMock.clearHistory();
+  });
+
+  afterAll(() => fetchMock.unmockGlobal());
+
   it('should render', () => {
     const props = {
       setOpen: () => {},
@@ -236,14 +243,14 @@ describe('<MapLayersDialogContent />', () => {
     expect(mapLayers.parkAndRide).toBe(true);
   });
 
-  it('should include geoJson layers', () => {
+  it('should include geoJson layers', async () => {
     let mapLayers = {
       terminal: {},
       s: {},
       stop: {},
       geoJson: {
-        somejson: true,
-        morejson: false,
+        'https://localhost/somejson': true,
+        'https://localhost/morejson': false,
       },
     };
     const props = {
@@ -252,23 +259,15 @@ describe('<MapLayersDialogContent />', () => {
       updateLayers: layers => {
         mapLayers = { ...layers };
       },
-      geoJson: {
-        somejson: {
-          name: {
-            fi: 'testi',
-            sv: 'test',
-            en: 'test',
-          },
-        },
-        morejson: {
-          name: {
-            fi: 'nimi',
-            sv: 'namn',
-            en: 'name',
-          },
-        },
-      },
     };
+    fetchMock.get('https://localhost/somejson', {
+      type: 'FeatureCollection',
+      features: [],
+    });
+    fetchMock.get('https://localhost/morejson', {
+      type: 'FeatureCollection',
+      features: [],
+    });
     const { container } = renderMapLayersDialogContent(props, {
       geoJson: {
         layers: [
@@ -278,7 +277,7 @@ describe('<MapLayersDialogContent />', () => {
               sv: 'test',
               en: 'test',
             },
-            url: 'somejson',
+            url: 'https://localhost/somejson',
           },
           {
             name: {
@@ -286,62 +285,22 @@ describe('<MapLayersDialogContent />', () => {
               sv: 'namn',
               en: 'name',
             },
-            url: 'morejson',
+            url: 'https://localhost/morejson',
           },
         ],
       },
     });
+    await waitFor(() => {
+      expect(
+        container.querySelectorAll('.option-checkbox.large input'),
+      ).toHaveLength(2);
+    });
     const checkboxes = container.querySelectorAll(
       '.option-checkbox.large input',
     );
-    expect(checkboxes.length).toBe(2);
 
     fireEvent.click(checkboxes[1]);
 
-    expect(mapLayers.geoJson.morejson).toBe(true);
-  });
-
-  describe('getGeoJsonLayersOrDefault', () => {
-    it('should return the layers from the configuration', () => {
-      const config = {
-        ...testConfig,
-        geoJson: {
-          layers: [
-            {
-              foo: 'bar',
-            },
-          ],
-        },
-      };
-      const store = { layers: undefined };
-      expect(getGeoJsonLayersOrDefault(config, store)).toBe(
-        config.geoJson.layers,
-      );
-    });
-
-    it('should return the layers from the store', () => {
-      const config = {
-        ...testConfig,
-        geoJson: {
-          layerConfigUrl: 'foobar',
-        },
-      };
-      const store = {
-        layers: [
-          {
-            foo: 'bar',
-          },
-        ],
-      };
-      expect(getGeoJsonLayersOrDefault(config, store)).toBe(store.layers);
-    });
-
-    it('should return the defaultValue', () => {
-      const store = {};
-      const defaultValue = [];
-      expect(getGeoJsonLayersOrDefault(testConfig, store, defaultValue)).toBe(
-        defaultValue,
-      );
-    });
+    expect(mapLayers.geoJson['https://localhost/morejson']).toBe(true);
   });
 });
