@@ -2,6 +2,10 @@ import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import isEmpty from 'lodash/isEmpty';
 import { v4 as uuid } from 'uuid';
+import {
+  getStopAndStationsQuery,
+  getFavouriteVehicleRentalStationsQuery,
+} from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { unixTime } from '../../utils/client/timeUtils';
 import {
   clearFavouriteStorage,
@@ -17,6 +21,7 @@ import {
   mapVehicleRentalFromStore,
   mapVehicleRentalToStore,
 } from '../../utils/shared/vehicleRentalUtils';
+import { networkIsActive } from '../../utils/shared/citybikeSeasonUtils';
 
 // internal data model for vehicle rental stations has changed
 // however, data is stored in old form for compatibility
@@ -37,6 +42,24 @@ function mapToStore(favourites) {
 }
 
 const locationTypes = ['station', 'stop', 'place', 'bikeStation'];
+
+// Location favourite types resolved through OTP; 'place' favourites are self-contained.
+const otpLocationTypes = ['stop', 'station', 'bikeStation'];
+
+const getOtpLocationKey = favourite =>
+  `${favourite.type}:${favourite.gtfsId || favourite.stationId}`;
+
+export function isAvailableOtpLocationFavourite(favourite, config) {
+  if (!otpLocationTypes.includes(favourite.type)) {
+    return false;
+  }
+  if (favourite.type !== 'bikeStation') {
+    return true;
+  }
+  const network =
+    config.vehicleRental?.networks?.[favourite.network?.toLowerCase()];
+  return network?.type === 'citybike' && networkIsActive(network);
+}
 
 export const STATUS_FETCHING_OR_UPDATING = 'fetching';
 
@@ -135,6 +158,12 @@ export function getPersonalizationPreferences(favourites) {
  * standalone functions rather than methods on this class, so callers always
  * pass the favourites array they actually have (e.g. from useFavourites())
  * instead of implicitly reaching into this singleton's internal state.
+ *
+ * In addition to the raw favourites, this store also tracks
+ * hasOtpLocationFavourites: whether any stop/station/bikeStation favourite
+ * still resolves through OTP and, for bike stations, belongs to an active
+ * citybike network. Resolved identities are cached so availability checks
+ * and local deletions do not require another query.
  */
 class FavouriteData {
   favourites = [];
@@ -142,6 +171,8 @@ class FavouriteData {
   config = {};
 
   status = null;
+
+  resolvedOtpLocationKeys = new Set();
 
   listeners = [];
 
@@ -160,8 +191,8 @@ class FavouriteData {
     this.initialized = true;
     this.config = config;
     if (!config.allowLogin) {
-      this.favourites = mapFromStore(getFavouriteStorage());
-      this.status = STATUS_HAS_DATA;
+      this.fetchingOrUpdating();
+      this.set(getFavouriteStorage(), true);
     } else {
       this.status = STATUS_FETCHING_OR_UPDATING;
     }
@@ -194,8 +225,109 @@ class FavouriteData {
     this.emitChange();
   }
 
-  set(favs) {
+  getHasOtpLocationFavourites() {
+    return this.getAvailableOtpLocationFavourites().some(favourite =>
+      this.resolvedOtpLocationKeys.has(getOtpLocationKey(favourite)),
+    );
+  }
+
+  getAvailableOtpLocationFavourites() {
+    return this.favourites.filter(favourite =>
+      isAvailableOtpLocationFavourite(favourite, this.config),
+    );
+  }
+
+  /**
+   * Validates available OTP location favourites on fresh backend/localStorage
+   * loads, keeping the fetching status until validation completes. Bike
+   * stations in disabled or out-of-season networks are excluded.
+   */
+  validateOtpLocationFavourites() {
+    const { favourites } = this;
+    const candidates = this.getAvailableOtpLocationFavourites();
+    if (!candidates.length) {
+      this.resolvedOtpLocationKeys = new Set();
+      this.fetchComplete();
+      return;
+    }
+    const stopsAndStations = candidates.filter(
+      favourite => favourite.type !== 'bikeStation',
+    );
+    const bikeStations = candidates.filter(
+      favourite => favourite.type === 'bikeStation',
+    );
+    Promise.all([
+      getStopAndStationsQuery(stopsAndStations),
+      getFavouriteVehicleRentalStationsQuery(bikeStations, ''),
+    ])
+      .then(([resolvedStops, resolvedBikeStations]) => {
+        if (this.favourites !== favourites) {
+          return;
+        }
+        const stopIds = new Set(resolvedStops.map(stop => stop.gtfsId));
+        const bikeStationIds = new Set(
+          resolvedBikeStations.map(station => station.properties.labelId),
+        );
+        this.resolvedOtpLocationKeys = new Set(
+          candidates
+            .filter(favourite =>
+              favourite.type === 'bikeStation'
+                ? bikeStationIds.has(favourite.stationId)
+                : stopIds.has(favourite.gtfsId),
+            )
+            .map(getOtpLocationKey),
+        );
+      })
+      .catch(() => {
+        if (this.favourites !== favourites) {
+          return;
+        }
+        // Query failed (e.g. a network error) - trust the locally saved
+        // eligible favourites rather than treating them as stale.
+        this.resolvedOtpLocationKeys = new Set(
+          candidates.map(getOtpLocationKey),
+        );
+      })
+      .finally(() => {
+        if (this.favourites === favourites) {
+          this.fetchComplete();
+        }
+      });
+  }
+
+  /**
+   * Cheaply updates hasOtpLocationFavourites after a local edit (save/update/
+   * delete), without re-querying live data for every small change.
+   */
+  updateHasOtpLocationFavouritesAfterLocalEdit(previousFavourites) {
+    const previousKeys = new Set(previousFavourites.map(getOtpLocationKey));
+    // Newly added locations come from live pages; retain validation for
+    // existing locations and discard removed ones.
+    this.resolvedOtpLocationKeys = new Set(
+      this.getAvailableOtpLocationFavourites()
+        .map(getOtpLocationKey)
+        .filter(
+          key =>
+            this.resolvedOtpLocationKeys.has(key) || !previousKeys.has(key),
+        ),
+    );
+  }
+
+  /**
+   * @param {*} favs new favourites array (in backend/localStorage form)
+   * @param {*} revalidate when true, re-checks hasOtpLocationFavourites against
+   *   live data (see validateOtpLocationFavourites()); use this only for a
+   *   fresh batch of favourites from the backend/localStorage, not for
+   *   local edits.
+   */
+  set(favs, revalidate = false) {
+    const previousFavourites = this.favourites;
     this.favourites = mapFromStore(favs);
+    if (revalidate) {
+      this.validateOtpLocationFavourites();
+      return;
+    }
+    this.updateHasOtpLocationFavouritesAfterLocalEdit(previousFavourites);
     this.fetchComplete();
   }
 
@@ -206,12 +338,12 @@ class FavouriteData {
         if (this.config.allowFavouritesFromLocalstorage) {
           this.mergeWithLocalstorage(res);
         } else {
-          this.set(res);
+          this.set(res, true);
         }
       })
       .catch(() => {
         if (this.config.allowFavouritesFromLocalstorage) {
-          this.set(getFavouriteStorage());
+          this.set(getFavouriteStorage(), true);
         } else {
           this.fetchFailed();
         }
@@ -225,6 +357,7 @@ class FavouriteData {
   clearFavourites() {
     clearFavouriteStorage();
     this.favourites = [];
+    this.resolvedOtpLocationKeys = new Set();
     setFavouriteStorage([]);
     this.emitChange();
   }
@@ -348,17 +481,17 @@ class FavouriteData {
   mergeWithLocalstorage(arrayOfFavourites) {
     const storage = getFavouriteStorage();
     if (isEmpty(storage)) {
-      this.set(arrayOfFavourites);
+      this.set(arrayOfFavourites, true);
       return;
     }
 
     updateFavourites(storage)
       .then(res => {
-        this.set(res);
+        this.set(res, true);
         clearFavouriteStorage();
       })
       .catch(() => {
-        this.set(arrayOfFavourites);
+        this.set(arrayOfFavourites, true);
       });
   }
 

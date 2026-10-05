@@ -75,25 +75,21 @@ export function showRentalVehiclesOfType(networks, type, config) {
   );
 }
 
-const nearYouStopTypes = ['stop', 'station'];
-
-export function getNearYouModes(config, favourites) {
-  let modes = config.nearYouModes;
-  let cityBikesActive = config.nearYouModes.includes('citybike');
-  if (cityBikesActive && !useCitybikes(config.vehicleRental.networks, config)) {
-    modes = modes.filter(mode => mode !== 'citybike');
-    cityBikesActive = false;
-  }
-  const nearFavs = favourites.filter(f => {
-    return (
-      nearYouStopTypes.includes(f.type) ||
-      (f.type === 'bikeStation' && cityBikesActive)
-    );
+/**
+ * @param {*} hasOtpLocationFavourites whether any stop/station/bikeStation
+ *   favourite is available, including citybike network/season eligibility.
+ */
+export function getNearYouModes(config, hasOtpLocationFavourites) {
+  const citybikesActive = useCitybikes(config.vehicleRental?.networks, config);
+  return config.nearYouModes.filter(mode => {
+    if (mode === 'citybike') {
+      return citybikesActive;
+    }
+    if (mode === 'favorite') {
+      return hasOtpLocationFavourites;
+    }
+    return true;
   });
-  if (!nearFavs.length) {
-    modes = modes.filter(mode => mode !== 'favorite');
-  }
-  return modes;
 }
 
 export function getTransportModes(config) {

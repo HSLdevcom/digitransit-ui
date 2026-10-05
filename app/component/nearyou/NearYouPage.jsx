@@ -37,16 +37,17 @@ import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import {
   getTransportModes,
   getNearYouModes,
-  useCitybikes,
 } from '../../../utils/client/modeUtils';
 import {
   getFavouriteStopsAndStations,
   getFavouriteVehicleRentalStations,
+  isAvailableOtpLocationFavourite,
   STATUS_FETCHING_OR_UPDATING,
 } from '../../data/FavouriteData';
 import {
   useFavourites,
   useFavouriteStatus,
+  useHasOtpLocationFavourites,
 } from '../../hooks/FavouriteContext';
 import { useConfigContext } from '../../client/ConfigContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
@@ -63,9 +64,9 @@ const PH_USEMAPCENTER = 'usemapcenter';
 const PH_SHOWSEARCH = [PH_SEARCH, PH_SEARCH_GEOLOCATION]; // show modal
 const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION, PH_USEMAPCENTER]; // render the actual page
 
-function getModes(config, favourites) {
+function getModes(config, hasOtpLocationFavourites) {
   const transportModes = getTransportModes(config);
-  const nearYouModes = getNearYouModes(config, favourites);
+  const nearYouModes = getNearYouModes(config, hasOtpLocationFavourites);
   const modes = nearYouModes.length
     ? nearYouModes
     : Object.keys(transportModes).filter(
@@ -94,10 +95,10 @@ function NearYouPage(
     breakpoint,
     relayEnvironment,
     position,
-    favourites,
     favouriteStopIds,
     favouriteStationIds,
     favouriteVehicleStationIds,
+    hasOtpLocationFavourites = true,
     mapLayers,
     favouritesFetched = false,
   },
@@ -109,7 +110,7 @@ function NearYouPage(
   const currentTime = useCurrentTime();
   const centerOfMap = useRef({});
   const [modes, setModes] = useState(
-    extendModes(getModes(config, favourites), mode),
+    extendModes(getModes(config, hasOtpLocationFavourites), mode),
   );
   const [phase, setPhase] = useState(PH_START);
   const [centerOfMapChanged, setCenterOfMapChanged] = useState(false);
@@ -185,9 +186,9 @@ function NearYouPage(
   }, []);
 
   useEffect(() => {
-    // update tab list when favourites have been fetched
-    setModes(extendModes(getModes(config, favourites), mode));
-  }, [favouritesFetched]);
+    // Keep tabs in sync with favourite availability and the current mode.
+    setModes(extendModes(getModes(config, hasOtpLocationFavourites), mode));
+  }, [favouritesFetched, hasOtpLocationFavourites, mode]);
 
   useEffect(() => {
     updateMapLayerOptions();
@@ -317,10 +318,7 @@ function NearYouPage(
     setCenterOfMapChanged(false);
   };
 
-  const noFavourites = () =>
-    !favouriteStopIds.length &&
-    !favouriteStationIds.length &&
-    !favouriteVehicleStationIds.length;
+  const noFavourites = !hasOtpLocationFavourites;
 
   const renderContent = () => {
     const index = modes.indexOf(mode);
@@ -330,15 +328,13 @@ function NearYouPage(
       const isActive = tabMode === mode;
 
       if (tabMode === 'FAVORITE') {
-        const noFavs = noFavourites();
-
         return (
           <div
             key={tabMode}
             className={`near-you-page swipeable-tab ${!isActive && 'inactive'}`}
             aria-hidden={!isActive}
           >
-            {centerOfMapChanged && !noFavs && (
+            {centerOfMapChanged && !noFavourites && (
               <UpdateLocationButton mode={tabMode} onClick={updateLocation} />
             )}
             {favouritesFetched ? (
@@ -347,7 +343,7 @@ function NearYouPage(
                 stationIds={favouriteStationIds}
                 vehicleRentalStationIds={favouriteVehicleStationIds}
                 searchPosition={searchPosition}
-                noFavourites={noFavs}
+                noFavourites={noFavourites}
                 isParentTabActive={isActive}
                 currentTime={currentTime}
               />
@@ -624,7 +620,7 @@ NearYouPage.propTypes = {
   favouriteStopIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteVehicleStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  favourites: PropTypes.array, // eslint-disable-line
+  hasOtpLocationFavourites: PropTypes.bool,
   mapLayers: mapLayerShape.isRequired,
   favouritesFetched: PropTypes.bool,
 };
@@ -653,6 +649,7 @@ function NearYouPageWithFavourites(props) {
   const config = useConfigContext();
   const favourites = useFavourites();
   const favouriteStatus = useFavouriteStatus();
+  const hasOtpLocationFavourites = useHasOtpLocationFavourites();
   const stopsAndStations = getFavouriteStopsAndStations(favourites);
   const favouriteStopIds = stopsAndStations
     .filter(stop => stop.type === 'stop')
@@ -660,22 +657,19 @@ function NearYouPageWithFavourites(props) {
   const favouriteStationIds = stopsAndStations
     .filter(stop => stop.type === 'station')
     .map(stop => stop.gtfsId);
-  const favouriteVehicleStationIds = useCitybikes(
-    config.vehicleRental?.networks,
-    config,
+  const favouriteVehicleStationIds = getFavouriteVehicleRentalStations(
+    favourites,
   )
-    ? getFavouriteVehicleRentalStations(favourites).map(
-        station => station.stationId,
-      )
-    : [];
+    .filter(station => isAvailableOtpLocationFavourite(station, config))
+    .map(station => station.stationId);
 
   return (
     <PositioningWrapper
       {...props}
-      favourites={favourites}
       favouriteStopIds={favouriteStopIds}
       favouriteStationIds={favouriteStationIds}
       favouriteVehicleStationIds={favouriteVehicleStationIds}
+      hasOtpLocationFavourites={hasOtpLocationFavourites}
       favouritesFetched={favouriteStatus !== STATUS_FETCHING_OR_UPDATING}
     />
   );

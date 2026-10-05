@@ -56,10 +56,8 @@ function NearYouFavouritesContainer({
       }),
   );
   stopList.sort((a, b) => a.distance - b.distance);
-  // All saved favourites may still exist locally but no longer resolve
-  // against live data (e.g. a discontinued citybike station or a removed
-  // stop). Show the same guidance as having no favourites at all instead of
-  // an empty list.
+  // Fall back to guidance if the display query resolves no favourites,
+  // even when the cached OTP validation indicated some were available.
   if (!stopList.length) {
     return <NoFavourites breakpoint={breakpoint} />;
   }
