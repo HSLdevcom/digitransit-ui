@@ -17,7 +17,7 @@ import {
   getComponentOrNullRenderer,
   getComponentOrLoadingRenderer,
   getComponentOrLoadingRendererWithRequired,
-} from '../../utils/client/routerUtils';
+} from './routerUtils';
 import { prepareServiceDay } from '../../utils/client/dateParamUtils';
 import {
   prepareScheduleParamsWithFiveWeeks,
