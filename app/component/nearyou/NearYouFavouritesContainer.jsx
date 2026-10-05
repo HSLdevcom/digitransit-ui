@@ -10,6 +10,7 @@ import {
 } from '../../../utils/client/shapes';
 import StopNearYouContainer from './StopNearYouContainer';
 import VehicleRentalStationNearYou from './VehicleRentalStationNearYou';
+import NoFavourites from './NoFavourites';
 
 function NearYouFavouritesContainer({
   stops,
@@ -18,6 +19,7 @@ function NearYouFavouritesContainer({
   searchPosition,
   isParentTabActive,
   currentTime,
+  breakpoint,
 }) {
   const stopList = [];
   stopList.push(
@@ -54,6 +56,13 @@ function NearYouFavouritesContainer({
       }),
   );
   stopList.sort((a, b) => a.distance - b.distance);
+  // All saved favourites may still exist locally but no longer resolve
+  // against live data (e.g. a discontinued citybike station or a removed
+  // stop). Show the same guidance as having no favourites at all instead of
+  // an empty list.
+  if (!stopList.length) {
+    return <NoFavourites breakpoint={breakpoint} />;
+  }
   const stopElements = stopList.map(stop => {
     switch (stop.type) {
       case 'stop':
@@ -89,6 +98,7 @@ NearYouFavouritesContainer.propTypes = {
   searchPosition: locationShape,
   isParentTabActive: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
+  breakpoint: PropTypes.string,
 };
 
 const refetchContainer = createFragmentContainer(NearYouFavouritesContainer, {
