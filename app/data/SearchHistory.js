@@ -114,18 +114,6 @@ export const removeSearch = search => {
   }
 };
 
-export const getOldSearches = type => {
-  const { items } = getStorageObject();
-  const timestamp = unixTime();
-  return items
-    .filter(
-      item =>
-        (type ? item.type === type : true) &&
-        (item.lastUpdated ? timestamp - item.lastUpdated < STORE_PERIOD : true),
-    )
-    .map(item => item.item);
-};
-
 export const clearOldSearches = () => {
   const storage = {
     version: STORE_VERSION,
@@ -140,6 +128,12 @@ export const getOldSearchItems = () => {
   return items.filter(item =>
     item.lastUpdated ? timestamp - item.lastUpdated < STORE_PERIOD : true,
   );
+};
+
+export const getOldSearches = type => {
+  return getOldSearchItems()
+    .filter(item => (type ? item.type === type : true))
+    .map(item => item.item);
 };
 
 export const saveOldSearchItems = items => {

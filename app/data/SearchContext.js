@@ -8,9 +8,7 @@ import {
 } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import {
   getPositions,
-  getOldSearches,
   getLanguage,
-  clearOldSearches,
   getFutureRoutes,
   clearFutureRoutes,
 } from '../../utils/client/storeUtils';
@@ -21,7 +19,7 @@ import favouriteStore, {
   getFavouriteVehicleRentalStations,
 } from './FavouriteData';
 import { startLocationWatch } from '../action/PositionActions';
-import { saveSearch } from './SearchHistory';
+import { saveSearch, getOldSearches, clearOldSearches } from './SearchHistory';
 import { useCitybikes } from '../../utils/client/modeUtils';
 import { getDefaultNetworks } from '../../utils/shared/vehicleRentalUtils';
 
