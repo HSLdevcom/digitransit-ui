@@ -108,8 +108,11 @@ export default function TransitLeg({
   const isRouteConstantOperation =
     config.constantOperationRoutes?.[leg.route.gtfsId];
 
+  const isCallAgency = mode === 'call';
+
   const displayAlternativeLegs =
     config.showAlternativeLegs &&
+    !isCallAgency &&
     filterNextLegs(leg).length > 0 &&
     !isRouteConstantOperation;
 
@@ -430,7 +433,6 @@ export default function TransitLeg({
   );
 
   const routeNotifications = [];
-  const isCallAgency = mode === 'call';
 
   if (config.routeNotifications && config.routeNotifications.length > 0) {
     for (let i = 0; i < config.routeNotifications.length; i++) {
@@ -591,7 +593,7 @@ export default function TransitLeg({
             !isRouteConstantOperation &&
             leg.nextLegs.map(l => (
               <LegInfo
-                key={l.route.shortName + legTime(l.start)}
+                key={`${l.trip.gtfsId}-${legTime(l.start)}`}
                 leg={l}
                 hasNoShortName={hasNoShortName}
                 headsign={l.trip.tripHeadsign}
