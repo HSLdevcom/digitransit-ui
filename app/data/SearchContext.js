@@ -21,7 +21,7 @@ import favouriteStore, {
   getFavouriteVehicleRentalStations,
 } from './FavouriteData';
 import { startLocationWatch } from '../action/PositionActions';
-import { saveSearch } from '../action/SearchActions';
+import { saveSearch } from './SearchHistory';
 import { useCitybikes } from '../../utils/client/modeUtils';
 import { getDefaultNetworks } from '../../utils/shared/vehicleRentalUtils';
 

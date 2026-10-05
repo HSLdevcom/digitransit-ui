@@ -13,10 +13,10 @@ import {
   PREFIX_ROUTES,
 } from '../../utils/shared/path';
 import searchContext from '../data/SearchContext';
+import { removeSearch, saveSearch } from '../data/SearchHistory';
 import { useConfigContext } from '../client/ConfigContext';
 import SelectFromMap from './map/SelectFromMap';
 import SelectFromMapModal from './SelectFromMapModal';
-import { removeSearch } from '../action/SearchActions';
 
 const PATH_OPTS = {
   stopsPrefix: PREFIX_STOPS,
@@ -84,7 +84,7 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
           !item.properties.layer ||
           item.properties.layer.indexOf('favourite') === -1)
       ) {
-        executeAction(searchContext.saveSearch, {
+        saveSearch({
           item,
           type,
         });
@@ -188,7 +188,7 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
               onSuggestionSelected(refreshed, id);
             } else {
               // route no longer exists; drop the stale saved search entirely
-              executeAction(removeSearch, { item, type });
+              removeSearch({ item, type });
               onSuggestionSelected(item, id);
             }
           })
@@ -222,7 +222,7 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
             if (canSave) {
               saveOldSearch(newItem, type, id);
             } else {
-              executeAction(removeSearch, {
+              removeSearch({
                 item: newItem,
                 type,
               });

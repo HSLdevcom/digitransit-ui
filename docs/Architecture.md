@@ -52,6 +52,10 @@ GeoJSON fetching uses `useGeoJsonObjects` in
 `app/hooks/useGeoJsonObjects.js`. It loads configured layers from a hook and
 shares fetch promises across map and dialog consumers. Layer visibility
 settings remain in the legacy `MapLayerStore`.
+Old-searches history (the former Fluxible `OldSearchesStore`) is managed by
+named functions in `app/data/SearchHistory.js`, which read/write
+`localStorage` directly. Unlike favourites, nothing reactively subscribes to
+this data, so it has no Context/hook layer.
 
 ![Architecture](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/architecture.png)
 
