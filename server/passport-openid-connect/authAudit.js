@@ -3,10 +3,9 @@ import crypto from 'crypto';
 
 // Auth audit logging. Never logs tokens; session ids and user ids are
 // HMAC-hashed so that events can be correlated without exposing identities.
-// Lifecycle events (login, refresh, failures) are always logged; per-request
-// events are only logged when AUTH_AUDIT=true.
+// Disabled by default; set AUTH_AUDIT=true to turn all of it on.
 const key = process.env.SESSION_SECRET || 'reittiopas_secret';
-const verbose = process.env.AUTH_AUDIT === 'true';
+const enabled = process.env.AUTH_AUDIT === 'true';
 
 export const hash = value =>
   value
@@ -28,8 +27,8 @@ const coarseIp = req => {
   return ip ? `${ip.split('.').slice(0, 2).join('.')}.0.0/16` : '-';
 };
 
-export function audit(event, req, extra = {}, alwaysLog = true) {
-  if (!alwaysLog && !verbose) {
+export function audit(event, req, extra = {}) {
+  if (!enabled) {
     return;
   }
   console.log(

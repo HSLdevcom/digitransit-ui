@@ -280,7 +280,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
   // Tokens are refreshed only for API calls, so that Set-Cookie is never
   // sent on HTML or static responses that a shared cache might store
   app.use('/api', privateNoStore, refreshTokens, function (req, res, next) {
-    audit('api', req, {}, false);
+    audit('api', req);
     if (req.isAuthenticated()) {
       next();
     } else {
