@@ -19,7 +19,13 @@ function NearYouFavouritesMapContainer({
   position,
   ...rest
 }) {
-  const favs = [...stops, ...stations, ...vehicleStations];
+  // Default params only cover undefined; Relay's plural fragment containers
+  // can pass null when there's no data, so guard against that too.
+  const favs = [
+    ...(stops || EMPTY_ARRAY),
+    ...(stations || EMPTY_ARRAY),
+    ...(vehicleStations || EMPTY_ARRAY),
+  ];
   const edges = favs
     .filter(s => s)
     .map(stop => {
