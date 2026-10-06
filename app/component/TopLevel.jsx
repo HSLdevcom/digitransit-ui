@@ -56,11 +56,11 @@ export default function TopLevel({
     }
 
     // send tracking calls when visiting a new stop or route
-    const newContext = newLocation.slice(1, newLocation.indexOf('/', 1));
-    switch (newContext) {
+    const pageName = newLocation.slice(1, newLocation.indexOf('/', 1));
+    switch (pageName) {
       case PREFIX_ROUTES:
         if (
-          oldLocation.indexOf(newContext) !== 1 ||
+          oldLocation.indexOf(pageName) !== 1 ||
           (prevMatch.params.routeId &&
             match.params.routeId &&
             prevMatch.params.routeId !== match.params.routeId)
@@ -77,7 +77,7 @@ export default function TopLevel({
       case PREFIX_TERMINALS:
       case PREFIX_BIKESTATIONS:
         if (
-          oldLocation.indexOf(newContext) !== 1 ||
+          oldLocation.indexOf(pageName) !== 1 ||
           (prevMatch.params.stopId &&
             match.params.stopId &&
             prevMatch.params.stopId !== match.params.stopId) ||
