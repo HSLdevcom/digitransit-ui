@@ -27,8 +27,8 @@ export default function CapacityModal({ onClose }) {
         description={intl.formatMessage({ id: 'capacity-modal.subheading' })}
         lang={config.language}
       >
-        <FlexColumn gap="s">
-          <Text variant="heading-xs">
+        <FlexColumn gap="s" style={{ marginTop: 'var(--space-fixed-xs)' }}>
+          <Text variant="label">
             {intl.formatMessage({ id: 'capacity-modal.legend' })}
           </Text>
           {CAPACITY_LEGEND.map(([icon, messageId]) => (
