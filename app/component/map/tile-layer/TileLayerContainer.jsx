@@ -32,10 +32,20 @@ import {
   PREFIX_RENTALVEHICLES,
 } from '../../../../utils/shared/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
-import { withCurrentTime } from '../../../hooks/TimeContext';
+import { useCurrentTime } from '../../../hooks/TimeContext';
 import { useConfigContext } from '../../../client/ConfigContext';
 
 const DEFAULT_OBJECTS_TO_HIDE = { vehicleRentalStations: [] };
+
+const PARKING_LAYERS = ['parkAndRide', 'parkAndRideForBikes'];
+
+// A hub is a single map feature with several nested parking lots. Returns the
+// lots relevant for the target's layer, or undefined if the target is not a hub.
+function getHubParking({ layer, feature }) {
+  return feature.properties?.vehicleParking?.filter(parking =>
+    layer === 'parkAndRide' ? parking.carPlaces : parking.bicyclePlaces,
+  );
+}
 
 const POPUP_OPTIONS = {
   offset: [0, 0],
@@ -67,10 +77,8 @@ export function sendSelectionAnalytics(selectableTargets, config) {
     name = 'multiple';
   }
   const pathPrefixMatch = window.location.pathname.match(/^\/([a-z]{2,})\//);
-  const context =
-    pathPrefixMatch && pathPrefixMatch[1] !== config.indexPath
-      ? pathPrefixMatch[1]
-      : 'index';
+  const prefix = pathPrefixMatch?.[1];
+  const context = prefix && prefix !== config.indexPath ? prefix : 'index';
   addAnalyticsEvent({
     action: 'SelectMapPoint',
     category: 'Map',
@@ -101,21 +109,18 @@ function onSelectableTargetClicked(
   } = latest.current;
   const prevCoords = selection?.coords;
   const popup = map._popup; // eslint-disable-line no-underscore-dangle
+  const single = selectableTargets.length === 1 ? selectableTargets[0] : null;
   // navigate to citybike stop page if single stop is clicked
-  if (
-    selectableTargets.length === 1 &&
-    selectableTargets[0].layer === 'citybike'
-  ) {
+  if (single?.layer === 'citybike') {
     router.push(
       `/${PREFIX_BIKESTATIONS}/${encodeURIComponent(
-        selectableTargets[0].feature.properties.id,
+        single.feature.properties.id,
       )}`,
     );
     return;
   }
   if (
-    (selectableTargets.length === 1 &&
-      selectableTargets[0].layer === 'scooter') ||
+    single?.layer === 'scooter' ||
     (selectableTargets.length > 1 &&
       selectableTargets.every(target => target.layer === 'scooter'))
     // scooters are not shown in the selection popup as there can be too many.
@@ -124,7 +129,7 @@ function onSelectableTargetClicked(
     const cluster = selectableTargets.find(
       target => target.feature.properties.cluster,
     );
-    const networks = cluster ? cluster.feature.properties.networks : '';
+    const networks = cluster?.feature.properties.networks ?? '';
     const id = cluster
       ? cluster.feature.properties.scooterId
       : selectableTargets[0].feature.properties.id;
@@ -135,51 +140,37 @@ function onSelectableTargetClicked(
     return;
   }
   // ... Or to stop page
-  if (selectableTargets.length === 1 && selectableTargets[0].layer === 'stop') {
+  if (single?.layer === 'stop') {
     router.push(
       stopPagePath(
-        selectableTargets[0].feature.properties.stops,
-        selectableTargets[0].feature.properties.gtfsId,
+        single.feature.properties.stops,
+        single.feature.properties.gtfsId,
       ),
     );
     return;
   }
 
-  if (
-    selectableTargets.length === 1 &&
-    (selectableTargets[0].layer === 'parkAndRide' ||
-      selectableTargets[0].layer === 'parkAndRideForBikes')
-  ) {
-    const { layer } = selectableTargets[0];
+  if (PARKING_LAYERS.includes(single?.layer)) {
+    const hubParking = getHubParking(single);
     let parkingId;
-    // hubs have nested vehicleParking
-    if (selectableTargets[0].feature.properties?.vehicleParking) {
-      const parksInHub =
-        selectableTargets[0].feature.properties?.vehicleParking?.filter(
-          parking =>
-            layer === 'parkAndRide' ? parking.carPlaces : parking.bicyclePlaces,
-        );
-      if (parksInHub.length === 1) {
-        parkingId = parksInHub[0].id;
+    if (hubParking) {
+      if (hubParking.length === 1) {
+        parkingId = hubParking[0].id;
       }
     } else {
-      parkingId = selectableTargets[0].feature.properties?.id;
+      parkingId = single.feature.properties?.id;
     }
     if (parkingId) {
       router.push(
         `/${
-          layer === 'parkAndRide' ? PREFIX_CARPARK : PREFIX_BIKEPARK
+          single.layer === 'parkAndRide' ? PREFIX_CARPARK : PREFIX_BIKEPARK
         }/${encodeURIComponent(parkingId)}`,
       );
       return;
     }
   }
 
-  if (
-    popup &&
-    popup.isOpen() &&
-    (!forceOpen || (coords && coords.equals(prevCoords)))
-  ) {
+  if (popup?.isOpen() && (!forceOpen || coords?.equals(prevCoords))) {
     map.closePopup();
     return;
   }
@@ -241,8 +232,8 @@ function TileLayerContainer(props) {
     mapLayers,
     highlightedStops,
     vehicles,
-    currentTime,
   } = props;
+  const currentTime = useCurrentTime();
   const config = useConfigContext();
   const { router } = useRouter();
   const { environment: relayEnvironment } = useContext(ReactRelayContext);
@@ -317,14 +308,8 @@ function TileLayerContainer(props) {
     }
     if (prev.currentTime !== currentTime) {
       /* eslint-disable no-underscore-dangle */
-      lodashFilter(layer._tiles, tile => tile.active).forEach(
-        tile =>
-          tile.el.layers &&
-          tile.el.layers.forEach(l => {
-            if (l.onTimeChange) {
-              l.onTimeChange(config.language);
-            }
-          }),
+      lodashFilter(layer._tiles, tile => tile.active).forEach(tile =>
+        tile.el.layers?.forEach(l => l.onTimeChange?.(config.language)),
       );
       /* eslint-enable no-underscore-dangle */
     }
@@ -360,22 +345,19 @@ function TileLayerContainer(props) {
 
   if (selectableTargets.length === 1) {
     const target = selectableTargets[0];
-    const nestedParking = target.feature.properties?.vehicleParking;
     let id;
     let contents;
     let latlng = coords;
-    let isVehicle = false;
+    const isVehicle = target.layer === 'realTimeVehicle';
     if (
-      (target.layer === 'parkAndRide' &&
-        nestedParking?.filter(parking => parking.carPlaces).length > 1) ||
-      (target.layer === 'parkAndRideForBikes' &&
-        nestedParking?.filter(parking => parking.bicyclePlaces).length > 1)
+      PARKING_LAYERS.includes(target.layer) &&
+      getHubParking(target)?.length > 1
     ) {
-      id = `parkAndRide_${nestedParking[0].id}`;
+      id = `parkAndRide_${target.feature.properties.vehicleParking[0].id}`;
       contents = (
         <MarkerSelectPopup selectRow={selectRow} options={selectableTargets} />
       );
-    } else if (target.layer === 'realTimeVehicle') {
+    } else if (isVehicle) {
       const { vehicle } = target.feature;
       const realTimeInfoVehicle = vehicles[vehicle.id];
       if (realTimeInfoVehicle) {
@@ -384,7 +366,6 @@ function TileLayerContainer(props) {
           lng: realTimeInfoVehicle.long,
         };
       }
-      isVehicle = true;
       contents = <SelectVehicleContainer vehicle={vehicle} />;
     }
     return (
@@ -461,11 +442,10 @@ TileLayerContainer.propTypes = {
   stopsToShow: PropTypes.arrayOf(PropTypes.string),
   objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
   vehicles: PropTypes.objectOf(vehicleShape),
-  currentTime: PropTypes.number.isRequired,
 };
 
 const connectedComponent = connectToStores(
-  withCurrentTime(TileLayerContainer),
+  TileLayerContainer,
   [RealTimeInformationStore],
   context => ({
     vehicles: context.getStore(RealTimeInformationStore).vehicles,

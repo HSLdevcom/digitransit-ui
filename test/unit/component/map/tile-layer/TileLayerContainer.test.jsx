@@ -8,6 +8,7 @@ import {
   sendSelectionAnalytics,
 } from '../../../../../app/component/map/tile-layer/TileLayerContainer';
 import * as analytics from '../../../../../utils/shared/analyticsUtils';
+import { TimeContext } from '../../../../../app/hooks/TimeContext';
 
 describe('<TileLayerContainer />', () => {
   const config = { ...mockContext.config, vehicleRental: {} };
@@ -25,19 +26,22 @@ describe('<TileLayerContainer />', () => {
     tileSize: 1,
     zoomOffset: 1,
     mapLayers: { stop: {}, terminal: {} },
-    currentTime: 123457890,
   };
+  const initialTime = 123457890;
 
-  const renderLayer = (map, props = {}) => {
-    const element = p => (
-      <LeafletProvider value={{ map }}>
-        <Component {...baseProps} {...p} />
-      </LeafletProvider>
+  const renderLayer = (map, props = {}, currentTime = initialTime) => {
+    const element = (p, time) => (
+      <TimeContext.Provider value={time}>
+        <LeafletProvider value={{ map }}>
+          <Component {...baseProps} {...p} />
+        </LeafletProvider>
+      </TimeContext.Provider>
     );
-    const result = renderWithProviders(element(props), { config });
+    const result = renderWithProviders(element(props, currentTime), { config });
     return {
       ...result,
-      update: p => result.rerender(element({ ...props, ...p })),
+      update: (p, time = currentTime) =>
+        result.rerender(element({ ...props, ...p }, time)),
     };
   };
 
@@ -123,7 +127,7 @@ describe('<TileLayerContainer />', () => {
         a: { active: true, el: { layers: [{ onTimeChange }] } },
         b: { active: false, el: { layers: [{ onTimeChange }] } },
       };
-      update({ currentTime: baseProps.currentTime + 1 });
+      update({}, initialTime + 1);
       expect(onTimeChange).toHaveBeenCalledTimes(1);
       expect(onTimeChange).toHaveBeenCalledWith(config.language);
     });
