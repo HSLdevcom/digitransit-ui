@@ -75,7 +75,7 @@ function NaviCardContainer(
   // unrelated re-run of that effect can no longer cancel a still-pending
   // timeout and leave legChanging stuck true (e.g. after the tab/screen
   // was backgrounded and multiple updates land close together).
-  const legChangeTimeoutRef = useRef(undefined);
+  const legChangeTimeoutRef = useRef();
 
   const { match, router } = useRouter();
   const config = useConfigContext();

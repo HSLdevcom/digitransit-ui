@@ -539,11 +539,11 @@ export const getItineraryAlerts = (
   // they happened to be shown under - a manual close should stick even if
   // a different (or later) leg would otherwise surface the same alert
   const closedAlertKeys = new Set();
-  for (const m of messages.values()) {
+  messages.forEach(m => {
     if (m.closed && m.alertKey) {
-      closedAlertKeys.add(m);
+      closedAlertKeys.add(m.alertKey);
     }
-  }
+  });
   legs.forEach(leg => {
     if (leg.transitLeg && legTime(leg.end) > time) {
       const id = `alert-${leg.legId}`; // allow only one alert per leg
