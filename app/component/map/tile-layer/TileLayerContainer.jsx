@@ -47,6 +47,11 @@ function getHubParking({ layer, feature }) {
   );
 }
 
+// Leaflet fades a closed popup out for 200 ms; its content must stay mounted meanwhile.
+const POPUP_FADE_OUT_MS = 250;
+
+let selectionCounter = 0;
+
 const POPUP_OPTIONS = {
   offset: [0, 0],
   autoPanPaddingTopLeft: [5, 125],
@@ -175,7 +180,10 @@ function onSelectableTargetClicked(
     return;
   }
 
+  selectionCounter += 1;
   setSelection({
+    // a new id remounts the popup, so one still fading out is never reused
+    id: selectionCounter,
     selectableTargets: selectableTargets.filter(
       target =>
         target.layer === 'realTimeVehicle' ||
@@ -315,7 +323,16 @@ function TileLayerContainer(props) {
     }
   });
 
-  const closePopup = useCallback(() => setSelection(null), []);
+  const closeTimer = useRef();
+  useEffect(() => () => clearTimeout(closeTimer.current), []);
+  const closePopup = useCallback(() => {
+    const closing = latest.current.selection;
+    clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(
+      () => setSelection(current => (current === closing ? null : current)),
+      POPUP_FADE_OUT_MS,
+    );
+  }, []);
   const onPopupOpen = useCallback(
     () =>
       sendSelectionAnalytics(
@@ -371,7 +388,7 @@ function TileLayerContainer(props) {
     return (
       <Popup
         {...popupOptions}
-        key={id}
+        key={`${selection.id}:${id ?? 'single'}`}
         position={latlng}
         className={
           isVehicle ? 'vehicle-popup single-popup' : 'popup choice-popup'
@@ -389,7 +406,7 @@ function TileLayerContainer(props) {
   if (selectableTargets.length > 1) {
     return (
       <Popup
-        key={coords.toString()}
+        key={`${selection.id}:multi`}
         {...popupOptions}
         position={coords}
         maxWidth="300px"
@@ -409,7 +426,7 @@ function TileLayerContainer(props) {
   }
   return (
     <Popup
-      key={coords.toString()}
+      key={`${selection.id}:location`}
       {...popupOptions}
       maxHeight={220}
       maxWidth="auto"
