@@ -4,24 +4,21 @@ import { useRouter } from 'found';
 import { stopShape, stationShape } from '../../../utils/client/shapes';
 import CardHeader from '../CardHeader';
 import { getJson } from '../../../utils/shared/xhrPromise';
-import { saveSearch } from '../../action/SearchActions';
+import { saveSearch } from '../../data/SearchHistory';
 import { isIOS } from '../../../utils/shared/browser';
 import FavouriteStopContainer from '../FavouriteStopContainer';
 import { useConfigContext } from '../../client/ConfigContext';
 
-function StopCardHeader(
-  {
-    stop,
-    distance,
-    className,
-    headingStyle,
-    icons,
-    isPopUp = false,
-    breakpoint,
-    isTerminal = false,
-  },
-  { executeAction },
-) {
+function StopCardHeader({
+  stop,
+  distance,
+  className,
+  headingStyle,
+  icons,
+  isPopUp = false,
+  breakpoint,
+  isTerminal = false,
+}) {
   const config = useConfigContext();
   const { match } = useRouter();
   const headerConfig = config.stopCard?.header || {};
@@ -55,7 +52,7 @@ function StopCardHeader(
           const feat = data.features[0].properties;
           const city = feat.localadmin;
 
-          executeAction(saveSearch, {
+          saveSearch({
             item: {
               geometry: { coordinates: [stop.lon, stop.lat] },
               properties: {
@@ -119,11 +116,6 @@ StopCardHeader.propTypes = {
   isPopUp: PropTypes.bool,
   breakpoint: PropTypes.string,
   isTerminal: PropTypes.bool,
-};
-
-// executeAction stays on legacy contextTypes until Fluxible is replaced with React context / or executeAction is moved to react context.
-StopCardHeader.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
 };
 
 StopCardHeader.displayName = 'StopCardHeader';

@@ -26,7 +26,7 @@ import {
   errorLoading,
   getComponentOrLoadingRenderer,
   getComponentOrNullRenderer,
-} from '../../utils/client/routerUtils';
+} from './routerUtils';
 
 import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';

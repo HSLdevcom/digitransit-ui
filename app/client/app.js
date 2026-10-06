@@ -1,7 +1,6 @@
 import Fluxible from 'fluxible';
 
 import routes from '../routes/routes';
-import OldSearchesStore from '../store/OldSearchesStore';
 import PositionStore from '../store/PositionStore';
 import RealTimeInformationStore from '../store/RealTimeInformationStore';
 import MapLayerStore from '../store/MapLayerStore';
@@ -11,7 +10,6 @@ export default config => {
     component: routes(config),
   });
 
-  app.registerStore(OldSearchesStore);
   app.registerStore(PositionStore);
   app.registerStore(RealTimeInformationStore);
   app.registerStore(MapLayerStore);
