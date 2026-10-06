@@ -31,7 +31,7 @@ const useRealtimeLegs = (
 
   // The poll must always work on the latest legs, not on the legs of the
   // render in which the callback happened to be created.
-  const legsRef = useRef(itinerary.legs);
+  const legsRef = useRef();
   legsRef.current = itinerary.legs;
   const mountedRef = useRef(false);
   const fetchingRef = useRef(false);
