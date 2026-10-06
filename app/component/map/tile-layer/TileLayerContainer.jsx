@@ -1,20 +1,21 @@
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { ReactRelayContext } from 'react-relay';
-import GridLayer from 'react-leaflet/es/GridLayer';
+import L from 'leaflet';
 import SphericalMercator from '@mapbox/sphericalmercator';
 import lodashFilter from 'lodash/filter';
 import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
-import { withLeaflet } from 'react-leaflet/es/context';
+import { useLeaflet } from 'react-leaflet/es/context';
 import { useRouter } from 'found';
-import {
-  routerShape,
-  relayShape,
-  configShape,
-  vehicleShape,
-} from '../../../../utils/client/shapes';
+import { vehicleShape } from '../../../../utils/client/shapes';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import LocationPopup from '../popups/LocationPopup';
@@ -34,446 +35,441 @@ import SelectVehicleContainer from './SelectVehicleContainer';
 import { withCurrentTime } from '../../../hooks/TimeContext';
 import { useConfigContext } from '../../../client/ConfigContext';
 
-const initialState = {
-  selectableTargets: undefined,
-  coords: undefined,
-  showSpinner: true,
-  zoom: undefined,
+const DEFAULT_OBJECTS_TO_HIDE = { vehicleRentalStations: [] };
+
+const POPUP_OPTIONS = {
+  offset: [0, 0],
+  autoPanPaddingTopLeft: [5, 125],
+  autoPan: false,
 };
 
-// TODO eslint doesn't know that TileLayerContainer is a react component,
-//      because it doesn't inherit it directly. This will force the detection
-/** @extends React.Component */
-class TileLayerContainer extends GridLayer {
-  static propTypes = {
-    tileSize: PropTypes.number.isRequired,
-    zoomOffset: PropTypes.number.isRequired,
-    locationPopup: PropTypes.string, // all, none, reversegeocoding, origindestination
-    onSelectLocation: PropTypes.func,
-    mergeStops: PropTypes.bool,
-    mapLayers: mapLayerShape.isRequired,
-    // When true, clicks on map icons (stops, terminals, citybikes, etc.)
-    // are ignored instead of selecting/navigating to them.
-    disableIconClick: PropTypes.bool,
-    leaflet: PropTypes.shape({
-      map: PropTypes.shape({
-        addLayer: PropTypes.func.isRequired,
-        addEventParent: PropTypes.func.isRequired,
-        closePopup: PropTypes.func.isRequired,
-        removeEventParent: PropTypes.func.isRequired,
-        _popup: PropTypes.shape({
-          isOpen: PropTypes.func,
-        }),
-      }).isRequired,
-    }).isRequired,
-    relayEnvironment: relayShape.isRequired,
-    highlightedStops: PropTypes.arrayOf(PropTypes.string),
-    stopsToShow: PropTypes.arrayOf(PropTypes.string),
-    objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
-    vehicles: PropTypes.objectOf(vehicleShape),
-    currentTime: PropTypes.number.isRequired,
-    config: configShape.isRequired,
-    router: routerShape.isRequired,
-  };
-
-  static defaultProps = {
-    objectsToHide: { vehicleRentalStations: [] },
-    mergeStops: true,
-  };
-
-  PopupOptions = {
-    offset: [0, 0],
-    autoPanPaddingTopLeft: [5, 125],
-    className: 'popup',
-    ref: 'popup',
-    onClose: () => this.setState({ ...initialState }),
-    autoPan: false,
-    onOpen: () => this.sendAnalytics(),
-    relayEnvironment: relayShape.isRequired,
-  };
-
-  merc = new SphericalMercator({
-    size: this.props.tileSize || 256,
+/**
+ * Send an analytics event on opening popup
+ */
+export function sendSelectionAnalytics(selectableTargets, config) {
+  if (!selectableTargets || selectableTargets.length === 0) {
+    // event for clicking somewhere else on the map will be handled in LocationPopup
+    return;
+  }
+  let name = null;
+  let type = null;
+  if (selectableTargets.length === 1) {
+    const target = selectableTargets[0];
+    const { properties } = target.feature;
+    name = target.layer;
+    if (name === 'stop') {
+      ({ type } = properties);
+      if (properties.stops) {
+        type += '_TERMINAL';
+      }
+    }
+  } else {
+    name = 'multiple';
+  }
+  const pathPrefixMatch = window.location.pathname.match(/^\/([a-z]{2,})\//);
+  const context =
+    pathPrefixMatch && pathPrefixMatch[1] !== config.indexPath
+      ? pathPrefixMatch[1]
+      : 'index';
+  addAnalyticsEvent({
+    action: 'SelectMapPoint',
+    category: 'Map',
+    name,
+    type,
+    source: context,
   });
-
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      ...initialState,
-    };
-    this.leafletElement.createTile = this.createTile;
-  }
-
-  componentDidMount() {
-    super.componentDidMount();
-    this.props.leaflet.map.addEventParent(this.leafletElement);
-    this.leafletElement.on('click contextmenu', this.onClick);
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.context.popupContainer != null) {
-      this.context.popupContainer.openPopup();
-    }
-    if (!isEqual(prevProps.mapLayers, this.props.mapLayers)) {
-      this.leafletElement.redraw();
-    }
-    if (!isEqual(prevProps.highlightedStops, this.props.highlightedStops)) {
-      this.leafletElement.redraw();
-    }
-    if (prevProps.currentTime !== this.props.currentTime) {
-      this.onTimeChange();
-    }
-  }
-
-  componentWillUnmount() {
-    this.leafletElement.off('click contextmenu', this.onClick);
-  }
-
-  onTimeChange = () => {
-    /* eslint-disable no-underscore-dangle */
-    const activeTiles = lodashFilter(
-      this.leafletElement._tiles,
-      tile => tile.active,
-    );
-    /* eslint-enable no-underscore-dangle */
-    activeTiles.forEach(
-      tile =>
-        tile.el.layers &&
-        tile.el.layers.forEach(layer => {
-          if (layer.onTimeChange) {
-            layer.onTimeChange(this.props.config.language);
-          }
-        }),
-    );
-  };
-
-  onClick = e => {
-    /* eslint-disable no-underscore-dangle */
-    Object.keys(this.leafletElement._tiles)
-      .filter(key => this.leafletElement._tiles[key].active)
-      .filter(key => this.leafletElement._keyToBounds(key).contains(e.latlng))
-      .forEach(key =>
-        this.leafletElement._tiles[key].el.onMapClick(
-          e,
-          this.merc.px(
-            [e.latlng.lng, e.latlng.lat],
-            Number(key.split(':')[2]) + this.props.zoomOffset,
-          ),
-        ),
-      );
-    /* eslint-enable no-underscore-dangle */
-  };
-
-  createTile = (tileCoords, done) => {
-    const tile = new TileContainer(
-      tileCoords,
-      done,
-      this.props,
-      this.props.config,
-      this.props.mergeStops,
-      this.props.relayEnvironment,
-      this.props.highlightedStops,
-      this.props.vehicles,
-      this.props.stopsToShow,
-      this.props.objectsToHide,
-      this.props.config.language,
-    );
-    tile.onSelectableTargetClicked = (
-      selectableTargets,
-      coords,
-      forceOpen = false,
-    ) => {
-      const {
-        leaflet: { map },
-        mapLayers,
-      } = this.props;
-      const { coords: prevCoords } = this.state;
-      const popup = map._popup; // eslint-disable-line no-underscore-dangle
-      // navigate to citybike stop page if single stop is clicked
-      if (
-        selectableTargets.length === 1 &&
-        selectableTargets[0].layer === 'citybike'
-      ) {
-        this.props.router.push(
-          `/${PREFIX_BIKESTATIONS}/${encodeURIComponent(
-            selectableTargets[0].feature.properties.id,
-          )}`,
-        );
-        return;
-      }
-      if (
-        (selectableTargets.length === 1 &&
-          selectableTargets[0].layer === 'scooter') ||
-        (selectableTargets.length > 1 &&
-          selectableTargets.every(target => target.layer === 'scooter'))
-        // scooters are not shown in the selection popup as there can be too many.
-        // Instead, the user is directed to the scooter cluster view or the first one in a group of singles.
-      ) {
-        const cluster = selectableTargets.find(
-          target => target.feature.properties.cluster,
-        );
-        const networks = cluster ? cluster.feature.properties.networks : '';
-        const id = cluster
-          ? cluster.feature.properties.scooterId
-          : selectableTargets[0].feature.properties.id;
-        // adding networks directs to scooter cluster view
-        this.props.router.push(
-          `/${PREFIX_RENTALVEHICLES}/${encodeURIComponent(id)}/${[
-            ...networks,
-          ]}`,
-        );
-        return;
-      }
-      // ... Or to stop page
-      if (
-        selectableTargets.length === 1 &&
-        selectableTargets[0].layer === 'stop'
-      ) {
-        this.props.router.push(
-          stopPagePath(
-            selectableTargets[0].feature.properties.stops,
-            selectableTargets[0].feature.properties.gtfsId,
-          ),
-        );
-        return;
-      }
-
-      if (
-        selectableTargets.length === 1 &&
-        (selectableTargets[0].layer === 'parkAndRide' ||
-          selectableTargets[0].layer === 'parkAndRideForBikes')
-      ) {
-        const { layer } = selectableTargets[0];
-        let parkingId;
-        // hubs have nested vehicleParking
-        if (selectableTargets[0].feature.properties?.vehicleParking) {
-          const parksInHub =
-            selectableTargets[0].feature.properties?.vehicleParking?.filter(
-              parking =>
-                layer === 'parkAndRide'
-                  ? parking.carPlaces
-                  : parking.bicyclePlaces,
-            );
-          if (parksInHub.length === 1) {
-            parkingId = parksInHub[0].id;
-          }
-        } else {
-          parkingId = selectableTargets[0].feature.properties?.id;
-        }
-        if (parkingId) {
-          this.props.router.push(
-            `/${
-              layer === 'parkAndRide' ? PREFIX_CARPARK : PREFIX_BIKEPARK
-            }/${encodeURIComponent(parkingId)}`,
-          );
-          return;
-        }
-      }
-
-      if (
-        popup &&
-        popup.isOpen() &&
-        (!forceOpen || (coords && coords.equals(prevCoords)))
-      ) {
-        map.closePopup();
-        return;
-      }
-
-      this.setState({
-        selectableTargets: selectableTargets.filter(
-          target =>
-            target.layer === 'realTimeVehicle' ||
-            isFeatureLayerEnabled(target.feature, target.layer, mapLayers),
-        ),
-        coords,
-        zoom: tile.coords.z,
-      });
-    };
-
-    return tile.el;
-  };
-
-  selectRow = option => this.setState({ selectableTargets: [option] });
-
-  /**
-   * Send an analytics event on opening popup
-   */
-  sendAnalytics() {
-    let name = null;
-    let type = null;
-    if (this.state.selectableTargets.length === 0) {
-      return;
-      // event for clicking somewhere else on the map will be handled in LocationPopup
-    }
-    if (this.state.selectableTargets.length === 1) {
-      const target = this.state.selectableTargets[0];
-      const { properties } = target.feature;
-      name = target.layer;
-      switch (name) {
-        case 'stop':
-          ({ type } = properties);
-          if (properties.stops) {
-            type += '_TERMINAL';
-          }
-          break;
-        default:
-          break;
-      }
-    } else {
-      name = 'multiple';
-    }
-    const pathPrefixMatch = window.location.pathname.match(/^\/([a-z]{2,})\//);
-    const context =
-      pathPrefixMatch && pathPrefixMatch[1] !== this.props.config.indexPath
-        ? pathPrefixMatch[1]
-        : 'index';
-    addAnalyticsEvent({
-      action: 'SelectMapPoint',
-      category: 'Map',
-      name,
-      type,
-      source: context,
-    });
-  }
-
-  render() {
-    let popup = null;
-    let latlng = this.state.coords;
-    let contents;
-    const breakpoint = getClientBreakpoint();
-    let showPopup = true;
-    const { locationPopup } = this.props;
-
-    if (typeof this.state.selectableTargets !== 'undefined') {
-      if (this.state.selectableTargets.length === 1) {
-        let id;
-        if (
-          (this.state.selectableTargets[0].layer === 'parkAndRide' &&
-            this.state.selectableTargets[0].feature.properties.vehicleParking?.filter(
-              parking => parking.carPlaces,
-            ).length > 1) ||
-          (this.state.selectableTargets[0].layer === 'parkAndRideForBikes' &&
-            this.state.selectableTargets[0].feature.properties.vehicleParking?.filter(
-              parking => parking.bicyclePlaces,
-            ).length > 1)
-        ) {
-          id = `parkAndRide_${this.state.selectableTargets[0].feature.properties.vehicleParking[0].id}`;
-          contents = (
-            <MarkerSelectPopup
-              selectRow={this.selectRow}
-              options={this.state.selectableTargets}
-            />
-          );
-        } else if (
-          this.state.selectableTargets[0].layer === 'realTimeVehicle'
-        ) {
-          const { vehicle } = this.state.selectableTargets[0].feature;
-          const realTimeInfoVehicle = this.props.vehicles[vehicle.id];
-          if (realTimeInfoVehicle) {
-            latlng = {
-              lat: realTimeInfoVehicle.lat,
-              lng: realTimeInfoVehicle.long,
-            };
-          }
-          this.PopupOptions.className = 'vehicle-popup';
-
-          contents = <SelectVehicleContainer vehicle={vehicle} />;
-        }
-        popup = (
-          <Popup
-            {...this.PopupOptions}
-            key={id}
-            position={latlng}
-            className={`${this.PopupOptions.className} ${
-              this.PopupOptions.className === 'vehicle-popup'
-                ? 'single-popup'
-                : 'choice-popup'
-            }`}
-          >
-            {contents}
-          </Popup>
-        );
-      } else if (this.state.selectableTargets.length > 1) {
-        if (
-          !this.props.config.map.showStopMarkerPopupOnMobile &&
-          breakpoint === 'small'
-        ) {
-          showPopup = false;
-        }
-        popup = (
-          <Popup
-            key={this.state.coords.toString()}
-            {...this.PopupOptions}
-            position={this.state.coords}
-            maxWidth="300px"
-            className={`${this.PopupOptions.className} choice-popup`}
-          >
-            <MarkerSelectPopup
-              selectRow={this.selectRow}
-              options={this.state.selectableTargets}
-              zoom={this.state.zoom}
-            />
-          </Popup>
-        );
-      } else if (this.state.selectableTargets.length === 0) {
-        if (
-          !this.props.config.map.showStopMarkerPopupOnMobile &&
-          breakpoint === 'small'
-        ) {
-          showPopup = false;
-        }
-        popup = locationPopup !== 'none' && (
-          <Popup
-            key={this.state.coords.toString()}
-            {...this.PopupOptions}
-            maxHeight={220}
-            maxWidth="auto"
-            position={this.state.coords}
-            className={`${this.PopupOptions.className} ${
-              locationPopup === 'all' ? 'single-popup' : 'narrow-popup'
-            }`}
-          >
-            <LocationPopup
-              lat={this.state.coords.lat}
-              lon={this.state.coords.lng}
-              onSelectLocation={this.props.onSelectLocation}
-              locationPopup={locationPopup}
-            />
-          </Popup>
-        );
-      }
-    }
-    return showPopup ? popup : null;
-  }
 }
 
-// Wraps the class component and supplies config/router via hooks instead of
-// legacy React context, since class components cannot use hooks directly.
-function TileLayerContainerWithContext(props) {
+/**
+ * Handles a click on a tile. Navigates directly for single targets that have
+ * their own page, otherwise toggles the selection popup. Reads the latest
+ * props/state via ref, because tiles outlive the render that created them.
+ */
+function onSelectableTargetClicked(
+  latest,
+  setSelection,
+  tile,
+  selectableTargets,
+  coords,
+  forceOpen = false,
+) {
+  const {
+    props: { mapLayers },
+    leaflet: { map },
+    router,
+    selection,
+  } = latest.current;
+  const prevCoords = selection?.coords;
+  const popup = map._popup; // eslint-disable-line no-underscore-dangle
+  // navigate to citybike stop page if single stop is clicked
+  if (
+    selectableTargets.length === 1 &&
+    selectableTargets[0].layer === 'citybike'
+  ) {
+    router.push(
+      `/${PREFIX_BIKESTATIONS}/${encodeURIComponent(
+        selectableTargets[0].feature.properties.id,
+      )}`,
+    );
+    return;
+  }
+  if (
+    (selectableTargets.length === 1 &&
+      selectableTargets[0].layer === 'scooter') ||
+    (selectableTargets.length > 1 &&
+      selectableTargets.every(target => target.layer === 'scooter'))
+    // scooters are not shown in the selection popup as there can be too many.
+    // Instead, the user is directed to the scooter cluster view or the first one in a group of singles.
+  ) {
+    const cluster = selectableTargets.find(
+      target => target.feature.properties.cluster,
+    );
+    const networks = cluster ? cluster.feature.properties.networks : '';
+    const id = cluster
+      ? cluster.feature.properties.scooterId
+      : selectableTargets[0].feature.properties.id;
+    // adding networks directs to scooter cluster view
+    router.push(
+      `/${PREFIX_RENTALVEHICLES}/${encodeURIComponent(id)}/${[...networks]}`,
+    );
+    return;
+  }
+  // ... Or to stop page
+  if (selectableTargets.length === 1 && selectableTargets[0].layer === 'stop') {
+    router.push(
+      stopPagePath(
+        selectableTargets[0].feature.properties.stops,
+        selectableTargets[0].feature.properties.gtfsId,
+      ),
+    );
+    return;
+  }
+
+  if (
+    selectableTargets.length === 1 &&
+    (selectableTargets[0].layer === 'parkAndRide' ||
+      selectableTargets[0].layer === 'parkAndRideForBikes')
+  ) {
+    const { layer } = selectableTargets[0];
+    let parkingId;
+    // hubs have nested vehicleParking
+    if (selectableTargets[0].feature.properties?.vehicleParking) {
+      const parksInHub =
+        selectableTargets[0].feature.properties?.vehicleParking?.filter(
+          parking =>
+            layer === 'parkAndRide' ? parking.carPlaces : parking.bicyclePlaces,
+        );
+      if (parksInHub.length === 1) {
+        parkingId = parksInHub[0].id;
+      }
+    } else {
+      parkingId = selectableTargets[0].feature.properties?.id;
+    }
+    if (parkingId) {
+      router.push(
+        `/${
+          layer === 'parkAndRide' ? PREFIX_CARPARK : PREFIX_BIKEPARK
+        }/${encodeURIComponent(parkingId)}`,
+      );
+      return;
+    }
+  }
+
+  if (
+    popup &&
+    popup.isOpen() &&
+    (!forceOpen || (coords && coords.equals(prevCoords)))
+  ) {
+    map.closePopup();
+    return;
+  }
+
+  setSelection({
+    selectableTargets: selectableTargets.filter(
+      target =>
+        target.layer === 'realTimeVehicle' ||
+        isFeatureLayerEnabled(target.feature, target.layer, mapLayers),
+    ),
+    coords,
+    zoom: tile.coords.z,
+  });
+}
+
+function createTile(tileCoords, done, latest, setSelection) {
+  const { props, config, relayEnvironment } = latest.current;
+  const tile = new TileContainer(
+    tileCoords,
+    done,
+    props,
+    config,
+    props.mergeStops,
+    relayEnvironment,
+    props.highlightedStops,
+    props.vehicles,
+    props.stopsToShow,
+    props.objectsToHide,
+    config.language,
+  );
+  tile.onSelectableTargetClicked = (...args) =>
+    onSelectableTargetClicked(latest, setSelection, tile, ...args);
+  return tile.el;
+}
+
+function getLayerOptions(props, leaflet) {
+  const { map } = leaflet;
+  const options = {
+    tileSize: props.tileSize,
+    zoomOffset: props.zoomOffset,
+  };
+  const pane = props.pane ?? leaflet.pane;
+  if (pane != null) {
+    options.pane = pane;
+  }
+  if (map?.options?.maxZoom != null) {
+    options.maxZoom = map.options.maxZoom;
+  }
+  if (map?.options?.minZoom != null) {
+    options.minZoom = map.options.minZoom;
+  }
+  return options;
+}
+
+function TileLayerContainer(props) {
+  const {
+    locationPopup,
+    onSelectLocation,
+    mapLayers,
+    highlightedStops,
+    vehicles,
+    currentTime,
+  } = props;
   const config = useConfigContext();
   const { router } = useRouter();
-  return (
-    <ReactRelayContext.Consumer>
-      {({ environment }) => (
-        <TileLayerContainer
-          {...props}
-          relayEnvironment={environment}
-          config={config}
-          router={router}
+  const { environment: relayEnvironment } = useContext(ReactRelayContext);
+  const leaflet = useLeaflet();
+  const [selection, setSelection] = useState(null);
+
+  // Tile callbacks outlive renders, so they read current values through this ref.
+  const latest = useRef();
+  latest.current = {
+    props: {
+      ...props,
+      mergeStops: props.mergeStops ?? true,
+      objectsToHide: props.objectsToHide ?? DEFAULT_OBJECTS_TO_HIDE,
+    },
+    config,
+    router,
+    relayEnvironment,
+    leaflet,
+    selection,
+  };
+
+  const instance = useRef(null);
+  if (instance.current === null) {
+    const layer = new L.GridLayer(getLayerOptions(props, leaflet));
+    layer.createTile = (tileCoords, done) =>
+      createTile(tileCoords, done, latest, setSelection);
+    instance.current = {
+      layer,
+      merc: new SphericalMercator({ size: props.tileSize || 256 }),
+    };
+  }
+  const { layer, merc } = instance.current;
+
+  useEffect(() => {
+    const { map, layerContainer } = leaflet;
+    const container = layerContainer || map;
+    /* eslint-disable no-underscore-dangle */
+    const onClick = e => {
+      Object.keys(layer._tiles)
+        .filter(key => layer._tiles[key].active)
+        .filter(key => layer._keyToBounds(key).contains(e.latlng))
+        .forEach(key =>
+          layer._tiles[key].el.onMapClick(
+            e,
+            merc.px(
+              [e.latlng.lng, e.latlng.lat],
+              Number(key.split(':')[2]) + latest.current.props.zoomOffset,
+            ),
+          ),
+        );
+    };
+    /* eslint-enable no-underscore-dangle */
+    container.addLayer(layer);
+    map.addEventParent(layer);
+    layer.on('click contextmenu', onClick);
+    return () => {
+      layer.off('click contextmenu', onClick);
+      map.removeEventParent(layer);
+      container.removeLayer(layer);
+    };
+  }, []);
+
+  const previous = useRef({ mapLayers, highlightedStops, currentTime });
+  useEffect(() => {
+    const prev = previous.current;
+    previous.current = { mapLayers, highlightedStops, currentTime };
+    if (
+      !isEqual(prev.mapLayers, mapLayers) ||
+      !isEqual(prev.highlightedStops, highlightedStops)
+    ) {
+      layer.redraw();
+    }
+    if (prev.currentTime !== currentTime) {
+      /* eslint-disable no-underscore-dangle */
+      lodashFilter(layer._tiles, tile => tile.active).forEach(
+        tile =>
+          tile.el.layers &&
+          tile.el.layers.forEach(l => {
+            if (l.onTimeChange) {
+              l.onTimeChange(config.language);
+            }
+          }),
+      );
+      /* eslint-enable no-underscore-dangle */
+    }
+  });
+
+  const closePopup = useCallback(() => setSelection(null), []);
+  const onPopupOpen = useCallback(
+    () =>
+      sendSelectionAnalytics(
+        latest.current.selection?.selectableTargets,
+        latest.current.config,
+      ),
+    [],
+  );
+  const selectRow = useCallback(
+    option => setSelection(prev => ({ ...prev, selectableTargets: [option] })),
+    [],
+  );
+
+  if (!selection) {
+    return null;
+  }
+
+  const { selectableTargets, coords, zoom } = selection;
+  const popupOptions = {
+    ...POPUP_OPTIONS,
+    onClose: closePopup,
+    onOpen: onPopupOpen,
+  };
+  const smallScreenPopupHidden =
+    !config.map.showStopMarkerPopupOnMobile &&
+    getClientBreakpoint() === 'small';
+
+  if (selectableTargets.length === 1) {
+    const target = selectableTargets[0];
+    const nestedParking = target.feature.properties?.vehicleParking;
+    let id;
+    let contents;
+    let latlng = coords;
+    let isVehicle = false;
+    if (
+      (target.layer === 'parkAndRide' &&
+        nestedParking?.filter(parking => parking.carPlaces).length > 1) ||
+      (target.layer === 'parkAndRideForBikes' &&
+        nestedParking?.filter(parking => parking.bicyclePlaces).length > 1)
+    ) {
+      id = `parkAndRide_${nestedParking[0].id}`;
+      contents = (
+        <MarkerSelectPopup selectRow={selectRow} options={selectableTargets} />
+      );
+    } else if (target.layer === 'realTimeVehicle') {
+      const { vehicle } = target.feature;
+      const realTimeInfoVehicle = vehicles[vehicle.id];
+      if (realTimeInfoVehicle) {
+        latlng = {
+          lat: realTimeInfoVehicle.lat,
+          lng: realTimeInfoVehicle.long,
+        };
+      }
+      isVehicle = true;
+      contents = <SelectVehicleContainer vehicle={vehicle} />;
+    }
+    return (
+      <Popup
+        {...popupOptions}
+        key={id}
+        position={latlng}
+        className={
+          isVehicle ? 'vehicle-popup single-popup' : 'popup choice-popup'
+        }
+      >
+        {contents}
+      </Popup>
+    );
+  }
+
+  if (smallScreenPopupHidden) {
+    return null;
+  }
+
+  if (selectableTargets.length > 1) {
+    return (
+      <Popup
+        key={coords.toString()}
+        {...popupOptions}
+        position={coords}
+        maxWidth="300px"
+        className="popup choice-popup"
+      >
+        <MarkerSelectPopup
+          selectRow={selectRow}
+          options={selectableTargets}
+          zoom={zoom}
         />
-      )}
-    </ReactRelayContext.Consumer>
+      </Popup>
+    );
+  }
+
+  if (locationPopup === 'none') {
+    return null;
+  }
+  return (
+    <Popup
+      key={coords.toString()}
+      {...popupOptions}
+      maxHeight={220}
+      maxWidth="auto"
+      position={coords}
+      className={`popup ${
+        locationPopup === 'all' ? 'single-popup' : 'narrow-popup'
+      }`}
+    >
+      <LocationPopup
+        lat={coords.lat}
+        lon={coords.lng}
+        onSelectLocation={onSelectLocation}
+        locationPopup={locationPopup}
+      />
+    </Popup>
   );
 }
 
-const connectedComponent = withLeaflet(
-  connectToStores(
-    withCurrentTime(TileLayerContainerWithContext),
-    [RealTimeInformationStore],
-    context => ({
-      vehicles: context.getStore(RealTimeInformationStore).vehicles,
-    }),
-  ),
+TileLayerContainer.propTypes = {
+  tileSize: PropTypes.number.isRequired,
+  zoomOffset: PropTypes.number.isRequired,
+  locationPopup: PropTypes.string, // all, none, reversegeocoding, origindestination
+  onSelectLocation: PropTypes.func,
+  mergeStops: PropTypes.bool,
+  mapLayers: mapLayerShape.isRequired,
+  // When true, clicks on map icons (stops, terminals, citybikes, etc.)
+  // are ignored instead of selecting/navigating to them.
+  disableIconClick: PropTypes.bool,
+  highlightedStops: PropTypes.arrayOf(PropTypes.string),
+  stopsToShow: PropTypes.arrayOf(PropTypes.string),
+  objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
+  vehicles: PropTypes.objectOf(vehicleShape),
+  currentTime: PropTypes.number.isRequired,
+};
+
+const connectedComponent = connectToStores(
+  withCurrentTime(TileLayerContainer),
+  [RealTimeInformationStore],
+  context => ({
+    vehicles: context.getStore(RealTimeInformationStore).vehicles,
+  }),
 );
 
 export { connectedComponent as default, TileLayerContainer as Component };
