@@ -249,5 +249,4 @@ MapLayersDialogContent.propTypes = {
   setOpen: PropTypes.func.isRequired,
 };
 
-export { MapLayersDialogContent as Component };
 export default MapLayersDialogContent;

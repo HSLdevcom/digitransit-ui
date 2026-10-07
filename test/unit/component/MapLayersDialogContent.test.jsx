@@ -4,7 +4,7 @@ import fetchMock from 'fetch-mock';
 
 import { renderWithProviders } from '../helpers/mock-providers';
 
-import { Component as MapLayersDialogContent } from '../../../app/component/map/MapLayersDialogContent';
+import MapLayersDialogContent from '../../../app/component/map/MapLayersDialogContent';
 
 const testConfig = { CONFIG: 'default', language: 'fi' };
 

@@ -3,8 +3,12 @@ import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import { useMatch } from 'found';
 import { relayShape, mapLayerOptionsShape } from '../../../utils/client/shapes';
+import { useConfigContext } from '../../client/ConfigContext';
+import { useMapLayers } from '../../hooks/MapLayerContext';
 import NearYouMapContainer from './NearYouMapContainer';
 import NearYouFavouritesMapContainer from './NearYouFavouritesMapContainer';
+
+const TransitStopModes = ['BUS', 'FERRY', 'RAIL', 'SUBWAY', 'TRAM'];
 
 export default function MapWrapper({
   relayEnvironment,
@@ -16,7 +20,9 @@ export default function MapWrapper({
   variables,
   ...rest
 }) {
+  const { map } = useConfigContext();
   const match = useMatch();
+  const { mapLayers } = useMapLayers({ notThese: ['vehicles', 'scooter'] });
   const commonProps = {
     onEndNavigation: setCenterOfMap,
     onMapTracking: setCenterOfMap,
@@ -55,6 +61,7 @@ export default function MapWrapper({
           };
           return (
             <NearYouFavouritesMapContainer
+              mapLayers={mapLayers}
               favouriteIds={
                 new Set([
                   ...favouriteStopIds,
@@ -70,6 +77,20 @@ export default function MapWrapper({
         }}
       />
     );
+  }
+
+  const filteredMapLayers = {
+    ...mapLayers,
+    parkAndRide: mode === 'CARPARK',
+    parkAndRideForBikes: mode === 'BIKEPARK',
+    citybike: mode === 'CITYBIKE',
+    citybikeOverrideMinZoom: mode === 'CITYBIKE',
+  };
+  if (!map.showLayerSelector) {
+    filteredMapLayers.stop = {};
+    if (TransitStopModes.includes(mode)) {
+      filteredMapLayers.stop[mode.toLowerCase()] = true;
+    }
   }
 
   let favouriteIds;
@@ -124,6 +145,7 @@ export default function MapWrapper({
         const mapProps = props || { stops: null, prioritizedStops: null };
         return (
           <NearYouMapContainer
+            mapLayers={filteredMapLayers}
             mapLayerOptions={mapLayerOptions}
             favouriteIds={favouriteIds}
             {...commonProps}

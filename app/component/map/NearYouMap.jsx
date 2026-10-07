@@ -33,7 +33,6 @@ import CookieSettingsButton from '../CookieSettingsButton';
 import { streetQuery } from './StreetQuery';
 import LocationMarker from './LocationMarker';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
-import { useMapLayers } from '../../hooks/MapLayerContext';
 
 function getId(edge) {
   const { place } = edge.node;
@@ -144,25 +143,6 @@ function NearYouMap(
   const { mode } = match.params;
   const config = useConfigContext();
   let streetRoutingLimit;
-  const { mapLayers: baseMapLayers } = useMapLayers({
-    notThese: ['vehicles', 'scooter'],
-  });
-  const mapLayers =
-    mode === 'FAVORITE'
-      ? baseMapLayers
-      : {
-          ...baseMapLayers,
-          parkAndRide: mode === 'CARPARK',
-          parkAndRideForBikes: mode === 'BIKEPARK',
-          citybike: mode === 'CITYBIKE',
-          citybikeOverrideMinZoom: mode === 'CITYBIKE',
-        };
-  if (mode !== 'FAVORITE' && !config.map.showLayerSelector) {
-    mapLayers.stop = {};
-    if (['BUS', 'FERRY', 'RAIL', 'SUBWAY', 'TRAM'].includes(mode)) {
-      mapLayers.stop[mode.toLowerCase()] = true;
-    }
-  }
 
   switch (mode) {
     case 'RAIL':
@@ -389,7 +369,6 @@ function NearYouMap(
   }
 
   const mapProps = {
-    ...rest,
     stopsToShow: mode === 'FAVORITE' ? Array.from(favouriteIds) : undefined,
     highlightedStops: sortedStopEdges.length ? [getId(sortedStopEdges[0])] : [],
     mergeStops: false,
@@ -397,7 +376,7 @@ function NearYouMap(
     leafletObjs,
     breakpoint,
     setMWTRef,
-    mapLayers,
+    ...rest,
   };
 
   if (breakpoint === 'large') {
