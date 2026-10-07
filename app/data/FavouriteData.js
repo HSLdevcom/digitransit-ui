@@ -43,6 +43,21 @@ function mapToStore(favourites) {
 
 const locationTypes = ['station', 'stop', 'place', 'bikeStation'];
 
+// Upper bound for validateOtpLocationFavourites()'s backend round-trip: the
+// underlying Relay fetchQuery() calls have no built-in timeout, so without
+// this a stalled/hung request would never resolve or reject, leaving the
+// favourites shimmer (STATUS_FETCHING_OR_UPDATING) stuck forever.
+const OTP_LOCATION_VALIDATION_TIMEOUT_MS = 15000;
+
+function rejectAfter(ms) {
+  return new Promise((_resolve, reject) => {
+    setTimeout(
+      () => reject(new Error('OTP location validation timed out')),
+      ms,
+    );
+  });
+}
+
 // Location favourite types resolved through OTP; 'place' favourites are self-contained.
 const otpLocationTypes = ['stop', 'station', 'bikeStation'];
 
@@ -226,9 +241,7 @@ class FavouriteData {
   }
 
   getHasOtpLocationFavourites() {
-    return this.getAvailableOtpLocationFavourites().some(favourite =>
-      this.resolvedOtpLocationKeys.has(getOtpLocationKey(favourite)),
-    );
+    return this.resolvedOtpLocationKeys.size > 0;
   }
 
   getAvailableOtpLocationFavourites() {
@@ -256,9 +269,12 @@ class FavouriteData {
     const bikeStations = candidates.filter(
       favourite => favourite.type === 'bikeStation',
     );
-    Promise.all([
-      getStopAndStationsQuery(stopsAndStations),
-      getFavouriteVehicleRentalStationsQuery(bikeStations, ''),
+    Promise.race([
+      Promise.all([
+        getStopAndStationsQuery(stopsAndStations),
+        getFavouriteVehicleRentalStationsQuery(bikeStations, ''),
+      ]),
+      rejectAfter(OTP_LOCATION_VALIDATION_TIMEOUT_MS),
     ])
       .then(([resolvedStops, resolvedBikeStations]) => {
         if (this.favourites !== favourites) {

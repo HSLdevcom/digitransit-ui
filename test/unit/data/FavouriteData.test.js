@@ -141,7 +141,7 @@ describe('FavouriteData', () => {
       expect(favouriteStore.getHasOtpLocationFavourites()).toBe(true);
     });
 
-    it('applies season dates when reading cached bike-station availability', async () => {
+    it('re-applies season dates on the next revalidate', async () => {
       favouriteStore.config.vehicleRental.networks.foo.season = {
         start: '1.2.2026',
         end: '28.2.2026',
@@ -157,7 +157,12 @@ describe('FavouriteData', () => {
       await flushPromises();
       expect(favouriteStore.getHasOtpLocationFavourites()).toBe(true);
 
+      // Season availability is re-checked on the next revalidate (e.g. a
+      // fresh fetch/favourite edit), not on every read of the cached
+      // result.
       now.mockReturnValue(new Date(2026, 2, 2).valueOf());
+      favouriteStore.set([bikeFavourite], true);
+      await flushPromises();
 
       expect(favouriteStore.getHasOtpLocationFavourites()).toBe(false);
       expect(getFavouriteVehicleRentalStationsQuery).toHaveBeenCalledTimes(1);
