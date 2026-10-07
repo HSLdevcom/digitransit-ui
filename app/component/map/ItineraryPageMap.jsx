@@ -16,17 +16,12 @@ import LocationMarker from './LocationMarker';
 import ParkingAreaMarker from './non-tile-layer/ParkingAreaMarker';
 import MapWithTracking from './MapWithTracking';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
-import {
-  isBikeParkLeg,
-  isCallAgencyLeg,
-  isCarParkLeg,
-} from '../../../utils/client/legUtils';
+import { isBikeParkLeg, isCarParkLeg } from '../../../utils/client/legUtils';
 import {
   useOrigin,
   useDestination,
   useItineraryLocationActions,
 } from '../../hooks/ItineraryLocationContext';
-import { useMapLayers } from '../../hooks/MapLayerContext';
 
 const POINT_FOCUS_ZOOM = 17; // default
 
@@ -49,20 +44,6 @@ const ItineraryPageMap = ({
 }) => {
   const { match, router } = useRouter();
   const config = useConfigContext();
-  const { mapLayers: baseMapLayers } = useMapLayers({
-    notThese: ['stop', 'citybike', 'vehicles', 'scooter'],
-  });
-  const flexLeg = planEdges?.[active]?.node.legs.find(leg =>
-    isCallAgencyLeg(leg),
-  );
-  const flexRouteGtfsId = flexLeg?.route?.gtfsId.split(':')[0];
-  const isFlexBus = config.flex.internal.agencies.find(
-    agency => agency.split(':')[0] === flexRouteGtfsId,
-  );
-  const mapLayers = { ...baseMapLayers };
-  if (isFlexBus && flexRouteGtfsId) {
-    mapLayers.areaStop = { routeGtfsId: flexRouteGtfsId };
-  }
   const origin = useOrigin();
   const destination = useDestination();
   const locationActions = useItineraryLocationActions();
@@ -174,7 +155,6 @@ const ItineraryPageMap = ({
       locationPopup={locationPopup}
       onSelectLocation={onSelectLocation}
       zoom={POINT_FOCUS_ZOOM}
-      mapLayers={mapLayers}
       {...rest}
     >
       {showBackButton && breakpoint !== 'large' && (

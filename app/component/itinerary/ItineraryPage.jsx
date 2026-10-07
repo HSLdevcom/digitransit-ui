@@ -104,8 +104,9 @@ import NaviContainer from './navigator/NaviContainer';
 import NaviGeolocationInfoModal from './navigator/navigatorgeolocation/NaviGeolocationInfoModal';
 import NavigatorIntroModal from './navigator/navigatorintro/NavigatorIntroModal';
 import { planConnection } from './queries/PlanConnection';
-import { hasTaxiLegs } from '../../../utils/client/legUtils';
+import { hasTaxiLegs, isCallAgencyLeg } from '../../../utils/client/legUtils';
 import { useConfigContext } from '../../client/ConfigContext';
+import { useMapLayers } from '../../hooks/MapLayerContext';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
 
@@ -176,6 +177,9 @@ function ItineraryPageContent(props, context) {
   }
   const match = lastValidMatchRef.current;
   const config = useConfigContext();
+  const { mapLayers } = useMapLayers({
+    notThese: ['stop', 'citybike', 'vehicles', 'scooter'],
+  });
   const favouriteRoutes = getFavouriteRouteGtfsIds(useFavourites());
   const defaultMapLayerOptions = DEFAULT_LAYER_OPTIONS;
   const headerRef = useRef(null);
@@ -1478,6 +1482,18 @@ function ItineraryPageContent(props, context) {
       ? addBikeStationMapForRentalVehicleItineraries(planEdges)
       : defaultMapLayerOptions;
 
+    const flexLeg = planEdges?.[activeIndex]?.node.legs.find(leg =>
+      isCallAgencyLeg(leg),
+    );
+    const flexRouteGtfsId = flexLeg?.route?.gtfsId.split(':')[0];
+    const isFlexBus = config.flex.internal.agencies.find(
+      agency => agency.split(':')[0] === flexRouteGtfsId,
+    );
+    const updatedMapLayers = { ...mapLayers };
+    if (isFlexBus && flexRouteGtfsId) {
+      updatedMapLayers.areaStop = { routeGtfsId: flexRouteGtfsId };
+    }
+
     const objectsToHide = getRentalStationsToHideOnMap(
       itineraryContainsDepartureFromVehicleRentalStation,
       planEdges?.[activeIndex]?.node,
@@ -1494,6 +1510,7 @@ function ItineraryPageContent(props, context) {
         from={from}
         to={to}
         viaPoints={viaPoints}
+        mapLayers={updatedMapLayers}
         mapLayerOptions={mapLayerOptions}
         setMWTRef={setMWTRef}
         mapLayerRef={mapLayerRef}
