@@ -135,8 +135,18 @@ export function getFavouriteStopsAndStations(favourites) {
   );
 }
 
-export function getFavouriteVehicleRentalStations(favourites) {
-  return favourites.filter(favourite => favourite.type === 'bikeStation');
+/**
+ * Returns the bikeStation favourites that are currently enabled per config
+ * (e.g. citybike network season dates). No caller wants the raw, unfiltered
+ * list, so the filtering lives here instead of being repeated at every call
+ * site.
+ */
+export function getFavouriteVehicleRentalStations(favourites, config) {
+  return favourites.filter(
+    favourite =>
+      favourite.type === 'bikeStation' &&
+      isAvailableOtpLocationFavourite(favourite, config),
+  );
 }
 
 export function getFavouritePlaces(favourites) {

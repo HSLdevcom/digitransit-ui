@@ -93,9 +93,17 @@ class SearchContext {
     this.getFavouriteRoutesQuery = getFavouriteRoutesQuery;
     this.getRoutesByIds = getRoutesByIds;
     this.getFavouriteVehicleRentalStations = () =>
-      getFavouriteVehicleRentalStations(favouriteStore.getFavourites());
+      getFavouriteVehicleRentalStations(favouriteStore.getFavourites(), config);
     this.getFavouriteVehicleRentalStationsQuery =
       getFavouriteVehicleRentalStationsQuery;
+    // Backend-validated (not just season-config-based) truth: whether any
+    // stop/station/bikeStation favourite is currently resolvable through
+    // OTP. Used to gate the "select from own locations" suggestion so it
+    // isn't offered for favourites that only *look* available locally (e.g.
+    // a citybike network whose season dates are stale/misconfigured) but
+    // that OTP itself no longer serves.
+    this.getHasOtpLocationFavourites = () =>
+      favouriteStore.getHasOtpLocationFavourites();
     this.startLocationWatch = startLocationWatch;
     this.saveSearch = saveSearch;
     this.clearOldSearches = clearOldSearches;

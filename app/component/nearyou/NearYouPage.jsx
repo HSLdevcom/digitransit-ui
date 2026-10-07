@@ -42,7 +42,6 @@ import {
 import {
   getFavouriteStopsAndStations,
   getFavouriteVehicleRentalStations,
-  isAvailableOtpLocationFavourite,
   STATUS_FETCHING_OR_UPDATING,
 } from '../../data/FavouriteData';
 import {
@@ -111,9 +110,8 @@ function NearYouPage({ position, mapLayers }, { executeAction }) {
     .map(stop => stop.gtfsId);
   const favouriteVehicleStationIds = getFavouriteVehicleRentalStations(
     favourites,
-  )
-    .filter(station => isAvailableOtpLocationFavourite(station, config))
-    .map(station => station.stationId);
+    config,
+  ).map(station => station.stationId);
   const centerOfMap = useRef({});
   const [modes, setModes] = useState(
     extendModes(getModes(config, hasOtpLocationFavourites), mode),
