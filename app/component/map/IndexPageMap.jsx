@@ -1,11 +1,9 @@
 import React from 'react';
-import { connectToStores } from 'fluxible-addons-react';
 import { useMatch } from 'found';
 import MapWithTracking from './MapWithTracking';
 import { sameLocations } from '../../../utils/shared/path';
 import { useConfigContext } from '../../client/ConfigContext';
-// eslint-disable-next-line import/no-named-as-default
-import { mapLayerShape } from '../../store/MapLayerStore';
+import { useMapLayers } from '../../hooks/MapLayerContext';
 import CookieSettingsButton from '../CookieSettingsButton';
 import LocationMarker from './LocationMarker';
 import {
@@ -17,8 +15,9 @@ import {
 let focus = {};
 const mwtProps = {};
 
-function IndexPageMap({ mapLayers }) {
+function IndexPageMap() {
   const config = useConfigContext();
+  const { mapLayers } = useMapLayers();
   const match = useMatch();
   const origin = useOrigin();
   const destination = useDestination();
@@ -96,16 +95,4 @@ function IndexPageMap({ mapLayers }) {
   );
 }
 
-IndexPageMap.propTypes = {
-  mapLayers: mapLayerShape.isRequired,
-};
-
-const IndexPageMapWithStores = connectToStores(
-  IndexPageMap,
-  ['MapLayerStore'],
-  ({ getStore }) => ({
-    mapLayers: getStore('MapLayerStore').getMapLayers(),
-  }),
-);
-
-export { IndexPageMapWithStores as default, IndexPageMap as Component };
+export default IndexPageMap;

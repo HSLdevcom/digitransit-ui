@@ -31,7 +31,6 @@ import { PREFIX_NEARYOU } from '../../../utils/shared/path';
 import NearYouContainer from './NearYouContainer';
 import SwipeableTabs, { setFocusables } from '../SwipeableTabs';
 import NearYouFavourites from './NearYouFavourites';
-import { mapLayerShape } from '../../store/MapLayerStore';
 import { getDefaultNetworks } from '../../../utils/shared/vehicleRentalUtils';
 import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import {
@@ -98,7 +97,6 @@ function NearYouPage(
     favouriteStopIds,
     favouriteStationIds,
     favouriteVehicleStationIds,
-    mapLayers,
     favouritesFetched = false,
   },
   { executeAction },
@@ -518,7 +516,6 @@ function NearYouPage(
       position={searchPosition}
       setCenterOfMap={setCenterOfMap}
       showWalkRoute={PH_READY.includes(phase)}
-      mapLayers={mapLayers}
       mapLayerOptions={mapLayerOptions}
       breakpoint={breakpoint}
       variables={getQueryVariables(mode)}
@@ -625,7 +622,6 @@ NearYouPage.propTypes = {
   favouriteStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteVehicleStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favourites: PropTypes.array, // eslint-disable-line
-  mapLayers: mapLayerShape.isRequired,
   favouritesFetched: PropTypes.bool,
 };
 
@@ -639,13 +635,10 @@ const NearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   NearYouPageWithBreakpoint,
-  ['PositionStore', 'MapLayerStore'],
+  ['PositionStore'],
   (context, props) => ({
     ...props,
     position: context.getStore('PositionStore').getLocationState(),
-    mapLayers: context
-      .getStore('MapLayerStore')
-      .getMapLayers({ notThese: ['vehicles', 'scooter'] }),
   }),
 );
 

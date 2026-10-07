@@ -5,10 +5,6 @@ import { useMatch } from 'found';
 import { relayShape, mapLayerOptionsShape } from '../../../utils/client/shapes';
 import NearYouMapContainer from './NearYouMapContainer';
 import NearYouFavouritesMapContainer from './NearYouFavouritesMapContainer';
-import { mapLayerShape } from '../../store/MapLayerStore';
-import { useConfigContext } from '../../client/ConfigContext';
-
-const TransitStopModes = ['BUS', 'FERRY', 'RAIL', 'SUBWAY', 'TRAM'];
 
 export default function MapWrapper({
   relayEnvironment,
@@ -16,12 +12,10 @@ export default function MapWrapper({
   favouriteStationIds,
   favouriteVehicleStationIds,
   setCenterOfMap,
-  mapLayers,
   mapLayerOptions,
   variables,
   ...rest
 }) {
-  const { map } = useConfigContext();
   const match = useMatch();
   const commonProps = {
     onEndNavigation: setCenterOfMap,
@@ -61,7 +55,6 @@ export default function MapWrapper({
           };
           return (
             <NearYouFavouritesMapContainer
-              mapLayers={mapLayers}
               favouriteIds={
                 new Set([
                   ...favouriteStopIds,
@@ -79,19 +72,6 @@ export default function MapWrapper({
     );
   }
 
-  const filteredMapLayers = {
-    ...mapLayers,
-    parkAndRide: mode === 'CARPARK',
-    parkAndRideForBikes: mode === 'BIKEPARK',
-    citybike: mode === 'CITYBIKE',
-    citybikeOverrideMinZoom: mode === 'CITYBIKE',
-  };
-  if (!map.showLayerSelector) {
-    filteredMapLayers.stop = {};
-    if (TransitStopModes.includes(mode)) {
-      filteredMapLayers.stop[mode.toLowerCase()] = true;
-    }
-  }
   let favouriteIds;
   switch (mode) {
     case 'CITYBIKE':
@@ -144,7 +124,6 @@ export default function MapWrapper({
         const mapProps = props || { stops: null, prioritizedStops: null };
         return (
           <NearYouMapContainer
-            mapLayers={filteredMapLayers}
             mapLayerOptions={mapLayerOptions}
             favouriteIds={favouriteIds}
             {...commonProps}
@@ -163,7 +142,6 @@ MapWrapper.propTypes = {
   favouriteStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteVehicleStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   setCenterOfMap: PropTypes.func.isRequired,
-  mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,
   // eslint-disable-next-line
   variables: PropTypes.object.isRequired,

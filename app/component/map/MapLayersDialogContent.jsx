@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { FormattedMessage } from 'react-intl';
 
-import { mapLayerOptionsShape } from '../../../utils/client/shapes';
+import {
+  mapLayerOptionsShape,
+  mapLayerShape,
+} from '../../../utils/client/shapes';
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import Icon from '../Icon';
 import Checkbox from '../Checkbox';
-import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
-import { updateMapLayers } from '../../action/MapLayerActions';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import {
   getTransportModes,
@@ -17,6 +17,7 @@ import {
 import { TransportMode } from '../../../utils/shared/constants';
 import { useConfigContext } from '../../client/ConfigContext';
 import useGeoJsonObjects from '../../hooks/useGeoJsonObjects';
+import { useMapLayers } from '../../hooks/MapLayerContext';
 
 const sendLayerChangeAnalytic = (name, enable) => {
   const action = enable ? 'ShowMapLayer' : 'HideMapLayer';
@@ -27,13 +28,9 @@ const sendLayerChangeAnalytic = (name, enable) => {
   });
 };
 
-function MapLayersDialogContent({
-  mapLayers,
-  mapLayerOptions,
-  setOpen,
-  updateLayers,
-}) {
+function MapLayersDialogContent({ mapLayers, mapLayerOptions, setOpen }) {
   const config = useConfigContext();
+  const { updateMapLayers } = useMapLayers();
   const geoJson = useGeoJsonObjects(config.geoJson);
   const transportModes = getTransportModes(config);
 
@@ -78,7 +75,7 @@ function MapLayersDialogContent({
             defaultMessage="Moving vehicles"
             labelId="map-layer-vehicles"
             onChange={e => {
-              updateLayers({ vehicles: e.target.checked });
+              updateMapLayers({ vehicles: e.target.checked });
               sendLayerChangeAnalytic('Vehicles', e.target.checked);
             }}
           />
@@ -94,7 +91,7 @@ function MapLayersDialogContent({
             defaultMessage="Bus stop"
             labelId="map-layer-stop-bus"
             onChange={e => {
-              updateLayers({ stop: { bus: e.target.checked } });
+              updateMapLayers({ stop: { bus: e.target.checked } });
               sendLayerChangeAnalytic('BusStop', e.target.checked);
             }}
           />
@@ -108,7 +105,7 @@ function MapLayersDialogContent({
             defaultMessage="Tram stop"
             labelId="map-layer-stop-tram"
             onChange={e => {
-              updateLayers({ stop: { tram: e.target.checked } });
+              updateMapLayers({ stop: { tram: e.target.checked } });
               sendLayerChangeAnalytic('TramStop', e.target.checked);
             }}
           />
@@ -122,7 +119,7 @@ function MapLayersDialogContent({
             defaultMessage="Ferry"
             labelId="map-layer-stop-ferry"
             onChange={e => {
-              updateLayers({ stop: { ferry: e.target.checked } });
+              updateMapLayers({ stop: { ferry: e.target.checked } });
               sendLayerChangeAnalytic('FerryStop', e.target.checked);
             }}
           />
@@ -140,7 +137,7 @@ function MapLayersDialogContent({
             defaultMessage="Citybike station"
             labelId="map-layer-citybike"
             onChange={e => {
-              updateLayers({ citybike: e.target.checked });
+              updateMapLayers({ citybike: e.target.checked });
               sendLayerChangeAnalytic('Citybike', e.target.checked);
             }}
           />
@@ -158,7 +155,7 @@ function MapLayersDialogContent({
             defaultMessage="Scooters"
             labelId="map-layer-scooter"
             onChange={e => {
-              updateLayers({ scooter: e.target.checked });
+              updateMapLayers({ scooter: e.target.checked });
               sendLayerChangeAnalytic('Scooter', e.target.checked);
             }}
           />
@@ -172,7 +169,7 @@ function MapLayersDialogContent({
             defaultMessage="Funicular"
             labelId="map-layer-stop-funicular"
             onChange={e => {
-              updateLayers({ stop: { funicular: e.target.checked } });
+              updateMapLayers({ stop: { funicular: e.target.checked } });
               sendLayerChangeAnalytic('FunicularStop', e.target.checked);
             }}
           />
@@ -186,7 +183,7 @@ function MapLayersDialogContent({
             defaultMessage="Airport"
             labelId="map-layer-stop-airplane"
             onChange={e => {
-              updateLayers({ stop: { airplane: e.target.checked } });
+              updateMapLayers({ stop: { airplane: e.target.checked } });
               sendLayerChangeAnalytic('AirplaneStop', e.target.checked);
             }}
           />
@@ -200,7 +197,7 @@ function MapLayersDialogContent({
             defaultMessage="Park &amp; ride"
             labelId="map-layer-park-and-ride"
             onChange={e => {
-              updateLayers({ parkAndRide: e.target.checked });
+              updateMapLayers({ parkAndRide: e.target.checked });
               sendLayerChangeAnalytic('ParkAndRide', e.target.checked);
             }}
           />
@@ -214,7 +211,7 @@ function MapLayersDialogContent({
             defaultMessage="Park &amp; ride bike parking"
             labelId="map-layer-park-and-ride-bike"
             onChange={e => {
-              updateLayers({ parkAndRideForBikes: e.target.checked });
+              updateMapLayers({ parkAndRideForBikes: e.target.checked });
               sendLayerChangeAnalytic('ParkAndRideForBikes', e.target.checked);
             }}
           />
@@ -235,7 +232,7 @@ function MapLayersDialogContent({
               onChange={e => {
                 const newSetting = {};
                 newSetting[gj.url] = e.target.checked;
-                updateLayers({ geoJson: newSetting });
+                updateMapLayers({ geoJson: newSetting });
                 sendLayerChangeAnalytic('Zones', e.target.checked);
               }}
             />
@@ -250,18 +247,7 @@ MapLayersDialogContent.propTypes = {
   mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape,
   setOpen: PropTypes.func.isRequired,
-  updateLayers: PropTypes.func.isRequired,
 };
 
-const connectedComponent = connectToStores(
-  MapLayersDialogContent,
-  [MapLayerStore],
-  ({ executeAction }) => ({
-    updateLayers: mapLayers => executeAction(updateMapLayers, { ...mapLayers }),
-  }),
-  {
-    executeAction: PropTypes.func,
-  },
-);
-
-export { connectedComponent as default, MapLayersDialogContent as Component };
+export { MapLayersDialogContent as Component };
+export default MapLayersDialogContent;

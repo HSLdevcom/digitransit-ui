@@ -2,15 +2,14 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import get from 'lodash/get';
 import { useRouter } from 'found';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { useIntl } from 'react-intl';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import LocationMarker from './LocationMarker';
 import MapWithTracking from './MapWithTracking';
 import { otpToLocation } from '../../../utils/shared/otpStrings';
 import { getJson } from '../../../utils/shared/xhrPromise';
-import { mapLayerShape } from '../../store/MapLayerStore';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useMapLayers } from '../../hooks/MapLayerContext';
+import { useBreakpoint } from '../../../utils/client/withBreakpoint';
 import LocationMarkerWithPermanentTooltip from './LocationMarkerWithPermanentTooltip';
 import ConfirmLocationFromMapButton from './ConfirmLocationFromMapButton';
 import { useConfigContext } from '../../client/ConfigContext';
@@ -38,8 +37,21 @@ const markLocation = (markerType, position) => {
   return null;
 };
 
-function SelectFromMap({ breakpoint, language, type, onConfirm, mapLayers }) {
+function SelectFromMap({ language, type, onConfirm }) {
   const config = useConfigContext();
+  const breakpoint = useBreakpoint();
+  const { mapLayers } = useMapLayers({
+    notThese: [
+      'citybike',
+      'parkAndRide',
+      'parkAndRideForBikes',
+      'vehicles',
+      'geoJson',
+      'scooter',
+      'stop',
+    ],
+    force: ['terminal'],
+  });
   const intl = useIntl();
   const { match } = useRouter();
   const map = useRef(null);
@@ -290,29 +302,9 @@ function SelectFromMap({ breakpoint, language, type, onConfirm, mapLayers }) {
 }
 
 SelectFromMap.propTypes = {
-  breakpoint: PropTypes.string,
   language: PropTypes.string,
   type: PropTypes.string.isRequired,
   onConfirm: PropTypes.func.isRequired,
-  mapLayers: mapLayerShape.isRequired,
 };
 
-export default connectToStores(
-  withBreakpoint(SelectFromMap),
-  ['MapLayerStore'],
-  ({ getStore }) => {
-    const mapLayers = getStore('MapLayerStore').getMapLayers({
-      notThese: [
-        'citybike',
-        'parkAndRide',
-        'parkAndRideForBikes',
-        'vehicles',
-        'geoJson',
-        'scooter',
-        'stop',
-      ],
-      force: ['terminal'],
-    });
-    return { mapLayers };
-  },
-);
+export default SelectFromMap;

@@ -6,18 +6,19 @@ import PropTypes from 'prop-types';
 import React, {
   cloneElement,
   useEffect,
+  useContext,
   useMemo,
   useRef,
   useState,
 } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { fetchQuery } from 'react-relay';
+import { fetchQuery, ReactRelayContext } from 'react-relay';
 import { useRouter } from 'found';
+import { useBreakpoint } from '../../../utils/client/withBreakpoint';
 import { saveFutureRoute } from '../../../utils/client/storeUtils';
 import { startLocationWatch } from '../../action/PositionActions';
 import { saveSearch } from '../../data/SearchHistory';
 import { TransportMode } from '../../../utils/shared/constants';
-import { mapLayerShape } from '../../store/MapLayerStore';
 import {
   clearLatestNavigatorItinerary,
   getDialogState,
@@ -44,14 +45,16 @@ import {
   planQueryNeeded,
   PLANTYPE,
 } from '../../../utils/client/planParamUtil';
-import { mapLayerOptionsShape, relayShape } from '../../../utils/client/shapes';
 import { epochToTime } from '../../../utils/client/timeUtils';
+import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import { getAllNetworksOfType } from '../../../utils/shared/vehicleRentalUtils';
 import { isPersonalizationEnabled } from '../../../utils/client/modeUtils';
 import {
   useFavouriteActions,
+  useFavourites,
   usePersonalizationPreferences,
 } from '../../hooks/FavouriteContext';
+import { getFavouriteRouteGtfsIds } from '../../data/FavouriteData';
 import DesktopView from '../DesktopView';
 import Loading from '../Loading';
 import MobileView from '../MobileView';
@@ -92,13 +95,16 @@ import {
   applyFeedback,
 } from './ItineraryPageUtils';
 import ItineraryTabs from './ItineraryTabs';
-import { useItineraryContext } from './context/ItineraryContext';
+import {
+  ItineraryContextProvider,
+  useItineraryContext,
+} from './context/ItineraryContext';
 import { REDUCER_ACTION_TYPES } from './context/useItineraryReducer';
 import NaviContainer from './navigator/NaviContainer';
 import NaviGeolocationInfoModal from './navigator/navigatorgeolocation/NaviGeolocationInfoModal';
 import NavigatorIntroModal from './navigator/navigatorintro/NavigatorIntroModal';
 import { planConnection } from './queries/PlanConnection';
-import { isCallAgencyLeg, hasTaxiLegs } from '../../../utils/client/legUtils';
+import { hasTaxiLegs } from '../../../utils/client/legUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
@@ -147,8 +153,15 @@ const unset = { plan: {}, loading: LOADSTATE.UNSET };
 
 const noFocus = { center: undefined, zoom: undefined, bounds: undefined };
 
-export default function ItineraryPage(props, context) {
+const DEFAULT_LAYER_OPTIONS = getMapLayerOptions({
+  lockedMapLayers: ['vehicles', 'citybike', 'stop'],
+  selectedMapLayers: ['vehicles'],
+});
+
+function ItineraryPageContent(props, context) {
   const { match: routerMatch, router } = useRouter();
+  const { environment: relayEnvironment } = useContext(ReactRelayContext);
+  const breakpoint = useBreakpoint();
   // found's useRouter() exposes the globally current match. While navigating
   // away to an unrelated, paramless route (e.g. the embedded search generator
   // from MainMenu), the router context can update to the new route's match
@@ -163,6 +176,8 @@ export default function ItineraryPage(props, context) {
   }
   const match = lastValidMatchRef.current;
   const config = useConfigContext();
+  const favouriteRoutes = getFavouriteRouteGtfsIds(useFavourites());
+  const defaultMapLayerOptions = DEFAULT_LAYER_OPTIONS;
   const headerRef = useRef(null);
   const mwtRef = useRef();
   const mobileRef = useRef();
@@ -236,7 +251,6 @@ export default function ItineraryPage(props, context) {
   const itineraryContext = useItineraryContext();
 
   const { executeAction } = context;
-  const { breakpoint } = props;
   const { params, location } = match;
   const { hash, secondHash } = params;
   const { query } = location;
@@ -384,7 +398,7 @@ export default function ItineraryPage(props, context) {
     for (let i = 0; i < trials; i++) {
       // eslint-disable-next-line no-await-in-loop
       const result = await fetchQuery(
-        props.relayEnvironment,
+        relayEnvironment,
         planConnection,
         planParams,
         {
@@ -1242,7 +1256,7 @@ export default function ItineraryPage(props, context) {
         recommendedItinerary.current = rateItineraries(
           plan.edges,
           weights.current,
-          props.favouriteRoutes,
+          favouriteRoutes,
         );
       }
       setCombinedMainState({ plan, loading: LOADSTATE.DONE });
@@ -1462,19 +1476,7 @@ export default function ItineraryPage(props, context) {
 
     const mapLayerOptions = itineraryContainsDepartureFromVehicleRentalStation
       ? addBikeStationMapForRentalVehicleItineraries(planEdges)
-      : props.mapLayerOptions;
-
-    const flexLeg = planEdges?.[activeIndex]?.node.legs.find(leg =>
-      isCallAgencyLeg(leg),
-    );
-    const updatedMapLayers = { ...props.mapLayers };
-    const flexRouteGtfsId = flexLeg?.route?.gtfsId.split(':')[0];
-    const isFlexBus = config.flex.internal.agencies.find(
-      agency => agency.split(':')[0] === flexRouteGtfsId,
-    );
-    if (isFlexBus && flexRouteGtfsId) {
-      updatedMapLayers.areaStop = { routeGtfsId: flexRouteGtfsId };
-    }
+      : defaultMapLayerOptions;
 
     const objectsToHide = getRentalStationsToHideOnMap(
       itineraryContainsDepartureFromVehicleRentalStation,
@@ -1492,7 +1494,6 @@ export default function ItineraryPage(props, context) {
         from={from}
         to={to}
         viaPoints={viaPoints}
-        mapLayers={updatedMapLayers}
         mapLayerOptions={mapLayerOptions}
         setMWTRef={setMWTRef}
         mapLayerRef={mapLayerRef}
@@ -1649,7 +1650,7 @@ export default function ItineraryPage(props, context) {
             <NaviContainer
               focusToLeg={focusToLeg}
               focusToPoint={focusToPoint}
-              relayEnvironment={props.relayEnvironment}
+              relayEnvironment={relayEnvironment}
               setNavigation={setNavigation}
               mapRef={mwtRef.current}
               mapLayerRef={mapLayerRef}
@@ -1689,7 +1690,7 @@ export default function ItineraryPage(props, context) {
           bikePublicItineraryCount={bikePublicPlan.bikePublicItineraryCount}
           carPublicItineraryCount={carPublicPlan.carPublicItineraryCount}
           openSettings={showSettingsPanel}
-          relayEnvironment={props.relayEnvironment}
+          relayEnvironment={relayEnvironment}
           startNavigation={navigateHook}
         />
       );
@@ -1823,17 +1824,20 @@ export default function ItineraryPage(props, context) {
   );
 }
 
-ItineraryPage.contextTypes = {
+ItineraryPageContent.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   getStore: PropTypes.func,
 };
 
-ItineraryPage.propTypes = {
+ItineraryPageContent.propTypes = {
   content: PropTypes.node,
   map: PropTypes.shape({ type: PropTypes.func.isRequired }),
-  breakpoint: PropTypes.string.isRequired,
-  relayEnvironment: relayShape.isRequired,
-  mapLayers: mapLayerShape.isRequired,
-  mapLayerOptions: mapLayerOptionsShape.isRequired,
-  favouriteRoutes: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
+
+export default function ItineraryPage(props) {
+  return (
+    <ItineraryContextProvider>
+      <ItineraryPageContent {...props} />
+    </ItineraryContextProvider>
+  );
+}
