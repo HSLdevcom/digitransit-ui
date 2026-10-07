@@ -18,14 +18,15 @@ import { splitGtfsId } from '../../../utils/shared/gtfs';
 import { useConfigContext } from '../../client/ConfigContext';
 import { useMapLayers } from '../../hooks/MapLayerContext';
 
+const mapLayerOptions = getMapLayerOptions({
+  lockedMapLayers: ['vehicles', 'stop', 'citybike', 'scooter'],
+  selectedMapLayers: ['vehicles'],
+});
+
 function RoutePageMap({ pattern, lat, lon, breakpoint, trip, error, ...rest }) {
   const config = useConfigContext();
   const { mapLayers: baseMapLayers } = useMapLayers({
     notThese: ['stop', 'citybike', 'vehicles', 'scooter'],
-  });
-  const mapLayerOptions = getMapLayerOptions({
-    lockedMapLayers: ['vehicles', 'stop', 'citybike', 'scooter'],
-    selectedMapLayers: ['vehicles'],
   });
   const tripId = trip?.gtfsId;
   const [trackVehicle, setTrackVehicle] = useState(!!tripId);
