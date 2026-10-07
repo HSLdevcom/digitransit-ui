@@ -2,15 +2,16 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { graphql, ReactRelayContext, QueryRenderer } from 'react-relay';
+import { graphql, QueryRenderer, useRelayEnvironment } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { useRouter } from 'found';
-import { relayShape, locationShape } from '../../../utils/client/shapes';
+import { locationShape } from '../../../utils/client/shapes';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';
-import withBreakpoint, {
+import {
   DesktopOrMobile,
+  useBreakpoint,
 } from '../../../utils/client/withBreakpoint';
 import { otpToLocation, locationToUri } from '../../../utils/shared/otpStrings';
 import Loading from '../Loading';
@@ -90,24 +91,29 @@ function extendModes(modes, currentMode) {
   return modes;
 }
 
-function NearYouPage(
-  {
-    breakpoint,
-    relayEnvironment,
-    position,
-    favouriteStopIds,
-    favouriteStationIds,
-    favouriteVehicleStationIds,
-    hasOtpLocationFavourites = true,
-    mapLayers,
-    favouritesFetched = false,
-  },
-  { executeAction },
-) {
+function NearYouPage({ position, mapLayers }, { executeAction }) {
   const { router, match } = useRouter();
   const { mode } = match.params;
   const config = useConfigContext();
   const currentTime = useCurrentTime();
+  const breakpoint = useBreakpoint();
+  const relayEnvironment = useRelayEnvironment();
+  const favourites = useFavourites();
+  const favouriteStatus = useFavouriteStatus();
+  const hasOtpLocationFavourites = useHasOtpLocationFavourites();
+  const favouritesFetched = favouriteStatus !== STATUS_FETCHING_OR_UPDATING;
+  const stopsAndStations = getFavouriteStopsAndStations(favourites);
+  const favouriteStopIds = stopsAndStations
+    .filter(stop => stop.type === 'stop')
+    .map(stop => stop.gtfsId);
+  const favouriteStationIds = stopsAndStations
+    .filter(stop => stop.type === 'station')
+    .map(stop => stop.gtfsId);
+  const favouriteVehicleStationIds = getFavouriteVehicleRentalStations(
+    favourites,
+  )
+    .filter(station => isAvailableOtpLocationFavourite(station, config))
+    .map(station => station.stationId);
   const centerOfMap = useRef({});
   const [modes, setModes] = useState(
     extendModes(getModes(config, hasOtpLocationFavourites), mode),
@@ -614,27 +620,12 @@ NearYouPage.contextTypes = {
 };
 
 NearYouPage.propTypes = {
-  breakpoint: PropTypes.string.isRequired,
-  relayEnvironment: relayShape.isRequired,
   position: locationShape.isRequired,
-  favouriteStopIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  favouriteStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  favouriteVehicleStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  hasOtpLocationFavourites: PropTypes.bool,
   mapLayers: mapLayerShape.isRequired,
-  favouritesFetched: PropTypes.bool,
 };
 
-const NearYouPageWithBreakpoint = withBreakpoint(props => (
-  <ReactRelayContext.Consumer>
-    {({ environment }) => (
-      <NearYouPage {...props} relayEnvironment={environment} />
-    )}
-  </ReactRelayContext.Consumer>
-));
-
 const PositioningWrapper = connectToStores(
-  NearYouPageWithBreakpoint,
+  NearYouPage,
   ['PositionStore', 'MapLayerStore'],
   (context, props) => ({
     ...props,
@@ -645,41 +636,8 @@ const PositioningWrapper = connectToStores(
   }),
 );
 
-function NearYouPageWithFavourites(props) {
-  const config = useConfigContext();
-  const favourites = useFavourites();
-  const favouriteStatus = useFavouriteStatus();
-  const hasOtpLocationFavourites = useHasOtpLocationFavourites();
-  const stopsAndStations = getFavouriteStopsAndStations(favourites);
-  const favouriteStopIds = stopsAndStations
-    .filter(stop => stop.type === 'stop')
-    .map(stop => stop.gtfsId);
-  const favouriteStationIds = stopsAndStations
-    .filter(stop => stop.type === 'station')
-    .map(stop => stop.gtfsId);
-  const favouriteVehicleStationIds = getFavouriteVehicleRentalStations(
-    favourites,
-  )
-    .filter(station => isAvailableOtpLocationFavourite(station, config))
-    .map(station => station.stationId);
-
-  return (
-    <PositioningWrapper
-      {...props}
-      favouriteStopIds={favouriteStopIds}
-      favouriteStationIds={favouriteStationIds}
-      favouriteVehicleStationIds={favouriteVehicleStationIds}
-      hasOtpLocationFavourites={hasOtpLocationFavourites}
-      favouritesFetched={favouriteStatus !== STATUS_FETCHING_OR_UPDATING}
-    />
-  );
-}
-
 PositioningWrapper.contextTypes = {
   getStore: PropTypes.func.isRequired,
 };
 
-export {
-  NearYouPageWithFavourites as default,
-  NearYouPageWithBreakpoint as Component,
-};
+export { PositioningWrapper as default, NearYouPage as Component };
