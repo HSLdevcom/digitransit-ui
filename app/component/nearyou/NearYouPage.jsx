@@ -2,15 +2,16 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { graphql, ReactRelayContext, QueryRenderer } from 'react-relay';
+import { graphql, QueryRenderer, useRelayEnvironment } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { useRouter } from 'found';
-import { relayShape, locationShape } from '../../../utils/client/shapes';
+import { locationShape } from '../../../utils/client/shapes';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';
-import withBreakpoint, {
+import {
   DesktopOrMobile,
+  useBreakpoint,
 } from '../../../utils/client/withBreakpoint';
 import { otpToLocation, locationToUri } from '../../../utils/shared/otpStrings';
 import Loading from '../Loading';
@@ -37,7 +38,6 @@ import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import {
   getTransportModes,
   getNearYouModes,
-  useCitybikes,
 } from '../../../utils/client/modeUtils';
 import {
   getFavouriteStopsAndStations,
@@ -47,6 +47,7 @@ import {
 import {
   useFavourites,
   useFavouriteStatus,
+  useHasOtpLocationFavourites,
 } from '../../hooks/FavouriteContext';
 import { useConfigContext } from '../../client/ConfigContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
@@ -63,9 +64,9 @@ const PH_USEMAPCENTER = 'usemapcenter';
 const PH_SHOWSEARCH = [PH_SEARCH, PH_SEARCH_GEOLOCATION]; // show modal
 const PH_READY = [PH_USEDEFAULTPOS, PH_USEGEOLOCATION, PH_USEMAPCENTER]; // render the actual page
 
-function getModes(config, favourites) {
+function getModes(config, hasOtpLocationFavourites) {
   const transportModes = getTransportModes(config);
-  const nearYouModes = getNearYouModes(config, favourites);
+  const nearYouModes = getNearYouModes(config, hasOtpLocationFavourites);
   const modes = nearYouModes.length
     ? nearYouModes
     : Object.keys(transportModes).filter(
@@ -89,27 +90,31 @@ function extendModes(modes, currentMode) {
   return modes;
 }
 
-function NearYouPage(
-  {
-    breakpoint,
-    relayEnvironment,
-    position,
-    favourites,
-    favouriteStopIds,
-    favouriteStationIds,
-    favouriteVehicleStationIds,
-    mapLayers,
-    favouritesFetched = false,
-  },
-  { executeAction },
-) {
+function NearYouPage({ position, mapLayers }, { executeAction }) {
   const { router, match } = useRouter();
   const { mode } = match.params;
   const config = useConfigContext();
   const currentTime = useCurrentTime();
+  const breakpoint = useBreakpoint();
+  const relayEnvironment = useRelayEnvironment();
+  const favourites = useFavourites();
+  const favouriteStatus = useFavouriteStatus();
+  const hasOtpLocationFavourites = useHasOtpLocationFavourites();
+  const favouritesFetched = favouriteStatus !== STATUS_FETCHING_OR_UPDATING;
+  const stopsAndStations = getFavouriteStopsAndStations(favourites);
+  const favouriteStopIds = stopsAndStations
+    .filter(stop => stop.type === 'stop')
+    .map(stop => stop.gtfsId);
+  const favouriteStationIds = stopsAndStations
+    .filter(stop => stop.type === 'station')
+    .map(stop => stop.gtfsId);
+  const favouriteVehicleStationIds = getFavouriteVehicleRentalStations(
+    favourites,
+    config,
+  ).map(station => station.stationId);
   const centerOfMap = useRef({});
   const [modes, setModes] = useState(
-    extendModes(getModes(config, favourites), mode),
+    extendModes(getModes(config, hasOtpLocationFavourites), mode),
   );
   const [phase, setPhase] = useState(PH_START);
   const [centerOfMapChanged, setCenterOfMapChanged] = useState(false);
@@ -185,9 +190,9 @@ function NearYouPage(
   }, []);
 
   useEffect(() => {
-    // update tab list when favourites have been fetched
-    setModes(extendModes(getModes(config, favourites), mode));
-  }, [favouritesFetched]);
+    // Keep tabs in sync with favourite availability and the current mode.
+    setModes(extendModes(getModes(config, hasOtpLocationFavourites), mode));
+  }, [favouritesFetched, hasOtpLocationFavourites, mode]);
 
   useEffect(() => {
     updateMapLayerOptions();
@@ -317,10 +322,7 @@ function NearYouPage(
     setCenterOfMapChanged(false);
   };
 
-  const noFavourites = () =>
-    !favouriteStopIds.length &&
-    !favouriteStationIds.length &&
-    !favouriteVehicleStationIds.length;
+  const noFavourites = !hasOtpLocationFavourites;
 
   const renderContent = () => {
     const index = modes.indexOf(mode);
@@ -330,15 +332,13 @@ function NearYouPage(
       const isActive = tabMode === mode;
 
       if (tabMode === 'FAVORITE') {
-        const noFavs = noFavourites();
-
         return (
           <div
             key={tabMode}
             className={`near-you-page swipeable-tab ${!isActive && 'inactive'}`}
             aria-hidden={!isActive}
           >
-            {centerOfMapChanged && !noFavs && (
+            {centerOfMapChanged && !noFavourites && (
               <UpdateLocationButton mode={tabMode} onClick={updateLocation} />
             )}
             {favouritesFetched ? (
@@ -347,7 +347,7 @@ function NearYouPage(
                 stationIds={favouriteStationIds}
                 vehicleRentalStationIds={favouriteVehicleStationIds}
                 searchPosition={searchPosition}
-                noFavourites={noFavs}
+                noFavourites={noFavourites}
                 isParentTabActive={isActive}
                 currentTime={currentTime}
               />
@@ -618,27 +618,12 @@ NearYouPage.contextTypes = {
 };
 
 NearYouPage.propTypes = {
-  breakpoint: PropTypes.string.isRequired,
-  relayEnvironment: relayShape.isRequired,
   position: locationShape.isRequired,
-  favouriteStopIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  favouriteStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  favouriteVehicleStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  favourites: PropTypes.array, // eslint-disable-line
   mapLayers: mapLayerShape.isRequired,
-  favouritesFetched: PropTypes.bool,
 };
 
-const NearYouPageWithBreakpoint = withBreakpoint(props => (
-  <ReactRelayContext.Consumer>
-    {({ environment }) => (
-      <NearYouPage {...props} relayEnvironment={environment} />
-    )}
-  </ReactRelayContext.Consumer>
-));
-
 const PositioningWrapper = connectToStores(
-  NearYouPageWithBreakpoint,
+  NearYouPage,
   ['PositionStore', 'MapLayerStore'],
   (context, props) => ({
     ...props,
@@ -649,43 +634,8 @@ const PositioningWrapper = connectToStores(
   }),
 );
 
-function NearYouPageWithFavourites(props) {
-  const config = useConfigContext();
-  const favourites = useFavourites();
-  const favouriteStatus = useFavouriteStatus();
-  const stopsAndStations = getFavouriteStopsAndStations(favourites);
-  const favouriteStopIds = stopsAndStations
-    .filter(stop => stop.type === 'stop')
-    .map(stop => stop.gtfsId);
-  const favouriteStationIds = stopsAndStations
-    .filter(stop => stop.type === 'station')
-    .map(stop => stop.gtfsId);
-  const favouriteVehicleStationIds = useCitybikes(
-    config.vehicleRental?.networks,
-    config,
-  )
-    ? getFavouriteVehicleRentalStations(favourites).map(
-        station => station.stationId,
-      )
-    : [];
-
-  return (
-    <PositioningWrapper
-      {...props}
-      favourites={favourites}
-      favouriteStopIds={favouriteStopIds}
-      favouriteStationIds={favouriteStationIds}
-      favouriteVehicleStationIds={favouriteVehicleStationIds}
-      favouritesFetched={favouriteStatus !== STATUS_FETCHING_OR_UPDATING}
-    />
-  );
-}
-
 PositioningWrapper.contextTypes = {
   getStore: PropTypes.func.isRequired,
 };
 
-export {
-  NearYouPageWithFavourites as default,
-  NearYouPageWithBreakpoint as Component,
-};
+export { PositioningWrapper as default, NearYouPage as Component };
