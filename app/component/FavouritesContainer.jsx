@@ -68,6 +68,8 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
   const setLocationProperties = item => {
     setFavourite(previousFavourite => ({
       ...item,
+      // Keep the identity of an edited favourite so that saving updates it
+      favouriteId: previousFavourite?.favouriteId,
       name: previousFavourite?.name || '',
       selectedIconId: previousFavourite?.selectedIconId,
       defaultName: item.name || item.address,
