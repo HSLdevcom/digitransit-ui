@@ -19,7 +19,6 @@ import { RelayEnvironmentProvider } from 'react-relay';
 import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { Settings } from 'luxon';
 import { IntlProvider } from 'react-intl';
-import { configShape } from '../../utils/client/shapes';
 import i18n from './i18n';
 import { historyMiddlewares, render } from '../routes/routes';
 import appCreator from './app';
@@ -27,7 +26,6 @@ import ErrorBoundary from '../component/ErrorBoundary';
 import legacyParamParser from '../../utils/shared/legacyParamParser';
 import { LEGACY_LOCALE_PATHS } from '../../utils/shared/constants';
 import { ClientProvider as ClientBreakpointProvider } from '../../utils/client/withBreakpoint';
-import IntlBridge from '../../utils/client/IntlBridge';
 import getMetadata from '../../utils/shared/metaUtils';
 import {
   initAnalyticsClientSide,
@@ -53,9 +51,7 @@ const { config } = window;
 const app = appCreator(config);
 const context = app.createContext({ config });
 
-const ContextProvider = provideContext(IntlProvider, {
-  config: configShape,
-});
+const ContextProvider = provideContext(IntlProvider, {});
 
 const AppProviders = props => {
   const providers = [
@@ -70,7 +66,6 @@ const AppProviders = props => {
         textComponent: 'span',
       },
     ],
-    [IntlBridge],
     [RelayEnvironmentProvider, { environment: props.environment }],
     [MessageProvider],
     [FavouriteProvider],
@@ -189,7 +184,7 @@ async function init() {
 
   // fetch Userdata and favourites
   favouriteStore.init(config);
-  searchContext.init(context.getComponentContext());
+  searchContext.init(context.getComponentContext(), config);
   if (config.allowLogin) {
     getUser()
       .then(user => {

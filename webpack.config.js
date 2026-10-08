@@ -246,7 +246,12 @@ export default {
       {
         test: /\.scss$/,
         use: [
-          isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+          isDevelopment
+            ? 'style-loader'
+            : {
+                loader: MiniCssExtractPlugin.loader,
+                options: { publicPath: 'auto' },
+              },
           'css-loader',
           'postcss-loader',
           {
@@ -275,7 +280,12 @@ export default {
         include: /node_modules\/@hsl-fi/,
         sideEffects: true,
         use: [
-          isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+          isDevelopment
+            ? 'style-loader'
+            : {
+                loader: MiniCssExtractPlugin.loader,
+                options: { publicPath: 'auto' },
+              },
           'css-loader',
           'postcss-loader',
         ],
@@ -284,7 +294,12 @@ export default {
         test: /\.css$/,
         exclude: /node_modules\/@hsl-fi/,
         use: [
-          isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+          isDevelopment
+            ? 'style-loader'
+            : {
+                loader: MiniCssExtractPlugin.loader,
+                options: { publicPath: 'auto' },
+              },
           'css-loader',
           'postcss-loader',
         ],
@@ -293,7 +308,7 @@ export default {
         test: /\.(eot|gif|png|ttf|woff|svg|jpeg|jpg)$/,
         // webpack5 built-in asset modules, replacing file-loader/url-loader.
         // Never inlines as a data URL: app/client/assetUrl.js makes every
-        // image under app/client/images/ reachable from the main chunk, and
+        // image under app/assets/images/ reachable from the main chunk, and
         // inlining the small ones would add ~130 kB of base64 to it.
         type: 'asset/resource',
         generator: { filename: 'assets/[contenthash][ext]' },

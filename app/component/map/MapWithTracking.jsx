@@ -73,6 +73,7 @@ function MapWithTrackingStateHandler(
     leafletEvents = {},
     breakpoint,
     topButtons = null,
+    showControls = true,
     ...rest
   },
   context,
@@ -293,38 +294,40 @@ function MapWithTrackingStateHandler(
         leafletMapRef={setMapElementRef}
         breakpoint={breakpoint}
         bottomButtons={
-          <div className={btnClassName}>
-            {config.map.showLayerSelector && (
+          showControls && (
+            <div className={btnClassName}>
+              {config.map.showLayerSelector && (
+                <MapControlButton
+                  img="icon_map-layers"
+                  handleClick={toggleSettingsOpen}
+                  color={config.colors.primary}
+                  ariaLabel={intl.formatMessage({
+                    id: 'maplayers',
+                  })}
+                />
+              )}
+              {renderCustomButtons && renderCustomButtons()}
               <MapControlButton
-                img="icon_map-layers"
-                handleClick={toggleSettingsOpen}
-                color={config.colors.primary}
-                ariaLabel={intl.formatMessage({
-                  id: 'maplayers',
-                })}
+                img={img}
+                color={color}
+                ariaLabel={ariaLabel}
+                handleClick={() => {
+                  if (mapTrackingState) {
+                    disableMapTracking();
+                  } else {
+                    enableMapTracking();
+                  }
+                }}
               />
-            )}
-            {renderCustomButtons && renderCustomButtons()}
-            <MapControlButton
-              img={img}
-              color={color}
-              ariaLabel={ariaLabel}
-              handleClick={() => {
-                if (mapTrackingState) {
-                  disableMapTracking();
-                } else {
-                  enableMapTracking();
-                }
-              }}
-            />
-          </div>
+            </div>
+          )
         }
         topButtons={topButtons}
         mapLayers={mergedMapLayers}
       >
         {children}
       </MapCont>
-      {config.map.showLayerSelector && (
+      {showControls && config.map.showLayerSelector && (
         <MenuDrawer
           open={settingsOpen}
           onRequestChange={toggleSettingsOpen}
@@ -384,6 +387,7 @@ MapWithTrackingStateHandler.propTypes = {
   leafletEvents: PropTypes.object,
   breakpoint: PropTypes.string.isRequired,
   topButtons: PropTypes.node,
+  showControls: PropTypes.bool,
 };
 
 const MapWithTrackingStateHandlerapWithBreakpoint = withBreakpoint(

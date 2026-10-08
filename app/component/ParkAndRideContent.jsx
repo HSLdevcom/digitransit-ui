@@ -46,9 +46,9 @@ function ParkAndRideContent({
   vehicleParking,
   error,
   mode,
-  showInfo,
-  showDetails,
-  backButton,
+  showInfo = true,
+  showDetails = true,
+  backButton = true,
 }) {
   // throw error when relay query fails
   if (error) {
@@ -223,15 +223,6 @@ ParkAndRideContent.propTypes = {
   showInfo: PropTypes.bool,
   showDetails: PropTypes.bool,
   backButton: PropTypes.bool,
-};
-
-ParkAndRideContent.defaultProps = {
-  vehicleParking: undefined,
-  error: undefined,
-  mode: undefined,
-  showInfo: true,
-  showDetails: true,
-  backButton: true,
 };
 
 export default ParkAndRideContent;

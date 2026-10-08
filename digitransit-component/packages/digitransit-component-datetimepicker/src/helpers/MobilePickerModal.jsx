@@ -31,8 +31,8 @@ function MobilePickerModal({
   departureOrArrival,
   onNowClick,
   lang,
-  color,
-  timeZone,
+  color = '#007ac9',
+  timeZone = 'Europe/Helsinki',
   onSubmit,
   onCancel,
   timestamp,
@@ -219,11 +219,6 @@ MobilePickerModal.propTypes = {
   fontWeights: PropTypes.shape({
     medium: PropTypes.number.isRequired,
   }).isRequired,
-};
-
-MobilePickerModal.defaultProps = {
-  color: '#007ac9',
-  timeZone: 'Europe/Helsinki',
 };
 
 export default MobilePickerModal;

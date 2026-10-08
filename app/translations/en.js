@@ -174,6 +174,7 @@ export default {
     disclaimer:
       'Please note that the results are based on estimated travel times. The suggested transport connections cannot be guaranteed.',
     disruption: 'Disruption',
+    'disruption-badge-accessibility_issue': 'Accessibility issue',
     'disruption-badge-additional_service': 'Additional routes',
     'disruption-badge-cancellation': 'Canceled',
     'disruption-badge-detour': 'Diversion',

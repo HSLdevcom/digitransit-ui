@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
-import { legShape, configShape } from '../../../utils/client/shapes';
+import { legShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../../../utils/shared/geo-utils';
@@ -11,76 +11,83 @@ import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { legTimeStr, legDestination } from '../../../utils/client/legUtils';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
 import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
+import { useConfigContext } from '../../client/ConfigContext';
 
-export default function CarLeg(props, { config }) {
+export default function CarLeg({
+  leg,
+  index,
+  focusAction,
+  focusToLeg,
+  children,
+  carBoardingLeg,
+}) {
   const intl = useIntl();
+  const config = useConfigContext();
   const distance = displayDistance(
-    parseInt(props.leg.distance, 10),
+    parseInt(leg.distance, 10),
     config,
     intl.formatNumber,
   );
-  const duration = durationToString(intl, props.leg.duration * 1000);
-  const firstLegClassName = props.index === 0 ? 'first' : '';
+  const duration = durationToString(intl, leg.duration * 1000);
+  const firstLegClassName = index === 0 ? 'first' : '';
   const modeClassName = 'car';
 
-  const circleLine = props.carBoardingLeg ? (
+  const circleLine = carBoardingLeg ? (
     <ItineraryCircleLineLong
-      index={props.index}
+      index={index}
       modeClassName={modeClassName}
-      boardingLeg={props.carBoardingLeg}
-      viaType={props.leg.from.viaLocationType}
+      boardingLeg={carBoardingLeg}
+      viaType={leg.from.viaLocationType}
     />
   ) : (
     <ItineraryCircleLineWithIcon
-      index={props.index}
+      index={index}
       modeClassName={modeClassName}
       icon="icon_car"
-      viaType={props.leg.from.viaLocationType}
+      viaType={leg.from.viaLocationType}
     />
   );
 
-  const [name, place] = splitStringToAddressAndPlace(props.leg.from.name);
+  const [name, place] = splitStringToAddressAndPlace(leg.from.name);
   const address =
-    props.leg.from.viaLocationType && props.leg.viaAddress
-      ? props.leg.viaAddress
-      : name;
+    leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
-    <div key={props.index} className="row itinerary-row">
+    <div key={index} className="row itinerary-row">
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.car-leg"
           values={{
-            time: legTimeStr(props.leg.start),
+            time: legTimeStr(leg.start),
             distance,
-            to: legDestination(intl, props.leg),
-            origin: props.leg.from ? props.leg.from.name : '',
-            destination: props.leg.to ? props.leg.to.name : '',
+            to: legDestination(intl, leg),
+            origin: leg.from ? leg.from.name : '',
+            destination: leg.to ? leg.to.name : '',
             duration,
           }}
         />
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {legTimeStr(props.leg.start)}
+          {legTimeStr(leg.start)}
         </div>
       </div>
       {circleLine}
       <div
-        className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
+        className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${leg.mode.toLowerCase()}`}
       >
         <div className={`itinerary-leg-first-row ${firstLegClassName}`}>
           <div className="address-container">
             <div className="address">
               {address}
-              {props.leg.isViaPoint && (
+              {leg.isViaPoint && (
                 <Icon
                   img="icon_mapMarker"
                   className="itinerary-mapmarker-icon"
                 />
               )}
-              {props.leg.from.stop && (
+              {leg.from.stop && (
                 <Icon
                   img="icon_arrow-collapse--right"
                   className="itinerary-arrow-icon"
@@ -90,13 +97,13 @@ export default function CarLeg(props, { config }) {
             </div>
             <div className="place">{place}</div>
           </div>
-          <div>{props.children}</div>
+          <div>{children}</div>
           <ItineraryMapAction
-            target={props.leg.from.name || ''}
-            focusAction={props.focusAction}
+            target={leg.from.name || ''}
+            focusAction={focusAction}
           />
         </div>
-        {props.carBoardingLeg?.from.stop && (
+        {carBoardingLeg?.from.stop && (
           <div
             className={cx(
               'itinerary-leg-action',
@@ -109,14 +116,14 @@ export default function CarLeg(props, { config }) {
               values={{
                 transportMode: (
                   <FormattedMessage
-                    id={`from-${props.carBoardingLeg.from.stop.vehicleMode.toLowerCase()}`}
+                    id={`from-${carBoardingLeg.from.stop.vehicleMode.toLowerCase()}`}
                   />
                 ),
               }}
             />
             <ItineraryMapAction
-              target={props.leg.from.name || ''}
-              focusAction={props.focusAction}
+              target={leg.from.name || ''}
+              focusAction={focusAction}
             />
           </div>
         )}
@@ -131,11 +138,11 @@ export default function CarLeg(props, { config }) {
             defaultMessage="Drive {distance} ({duration})}"
           />
           <ItineraryMapAction
-            target={props.leg.from.name || ''}
-            focusAction={props.focusToLeg}
+            target={leg.from.name || ''}
+            focusAction={focusToLeg}
           />
         </div>
-        {props.carBoardingLeg?.to.stop && (
+        {carBoardingLeg?.to.stop && (
           <div
             className={cx(
               'itinerary-leg-action',
@@ -148,14 +155,14 @@ export default function CarLeg(props, { config }) {
               values={{
                 transportMode: (
                   <FormattedMessage
-                    id={`to-${props.carBoardingLeg.to.stop?.vehicleMode.toLowerCase()}`}
+                    id={`to-${carBoardingLeg.to.stop?.vehicleMode.toLowerCase()}`}
                   />
                 ),
               }}
             />
             <ItineraryMapAction
-              target={props.leg.from.name || ''}
-              focusAction={props.focusAction}
+              target={leg.from.name || ''}
+              focusAction={focusAction}
             />
           </div>
         )}
@@ -171,10 +178,4 @@ CarLeg.propTypes = {
   focusToLeg: PropTypes.func.isRequired,
   children: PropTypes.node,
   carBoardingLeg: legShape,
-};
-
-CarLeg.defaultProps = { children: undefined, carBoardingLeg: undefined };
-
-CarLeg.contextTypes = {
-  config: configShape.isRequired,
 };

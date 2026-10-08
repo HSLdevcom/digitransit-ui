@@ -16,7 +16,7 @@ import {
   errorLoading,
   getComponentOrNullRenderer,
   getComponentOrLoadingRenderer,
-} from '../../utils/client/routerUtils';
+} from './routerUtils';
 import { prepareDatesForStops } from '../../utils/client/dateParamUtils';
 import { DATE_FORMAT } from '../../utils/shared/constants';
 

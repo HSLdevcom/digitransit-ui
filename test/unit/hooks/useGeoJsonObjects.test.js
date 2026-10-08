@@ -1,0 +1,293 @@
+import fetchMock from 'fetch-mock';
+import cloneDeep from 'lodash/cloneDeep';
+
+import {
+  getGeoJsonConfig,
+  getGeoJsonData,
+  mapGeoJsonMetadata as MapJSON,
+  styleGeoJsonFeatures as styleFeatures,
+} from '../../../app/hooks/useGeoJsonObjects';
+
+describe('GeoJSON hook helpers', () => {
+  beforeAll(() => fetchMock.mockGlobal());
+
+  afterEach(() => {
+    fetchMock.removeRoutes();
+    fetchMock.clearHistory();
+  });
+
+  afterAll(() => fetchMock.unmockGlobal());
+
+  describe('getGeoJsonConfig', () => {
+    it('should return undefined if the url is falsey', async () => {
+      expect(await getGeoJsonConfig(undefined)).toBeUndefined();
+    });
+
+    it('should retrieve the configuration from the given url', async () => {
+      const url = 'https://localhost/config/geojson';
+      const response = { geoJson: { layers: [{ name: { en: 'Test' } }] } };
+      fetchMock.get(url, response);
+
+      const result = await getGeoJsonConfig(url);
+      expect(result).toEqual(response.geoJson.layers);
+    });
+
+    it('should support lowercase naming', async () => {
+      const url = 'https://localhost/config/lowercase';
+      const response = { geojson: { layers: [{ name: { en: 'Test' } }] } };
+      fetchMock.get(url, response);
+
+      const result = await getGeoJsonConfig(url);
+      expect(result).toEqual(response.geojson.layers);
+    });
+
+    it('should retrieve the configuration only once', async () => {
+      const url = 'https://localhost/config/cache';
+      const response = { geoJson: { layers: [{ name: { en: 'Test' } }] } };
+      fetchMock.get(url, response);
+
+      const result1 = await getGeoJsonConfig(url);
+      const result2 = await getGeoJsonConfig(url);
+      expect(fetchMock.callHistory.calls().length).toBe(1);
+      expect(result1).toBe(result2);
+    });
+
+    it('should ignore a missing configuration', async () => {
+      const url = 'https://localhost/config/missing';
+      const response = {};
+      fetchMock.get(url, response);
+
+      const result = await getGeoJsonConfig(url);
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('getGeoJsonData', () => {
+    it('should return undefined if the url is falsey', async () => {
+      expect(await getGeoJsonData(undefined, 'foo', {})).toBeUndefined();
+    });
+
+    it('should retrieve the data only once', async () => {
+      const url = 'https://localhost/data/cache';
+      const response = {
+        type: 'FeatureCollection',
+        features: [],
+      };
+      fetchMock.get(url, response);
+
+      const result1 = await getGeoJsonData(url, undefined, undefined);
+      const result2 = await getGeoJsonData(url, undefined, undefined);
+      expect(fetchMock.callHistory.calls().length).toBe(1);
+      expect(result1).toEqual(result2);
+    });
+
+    it('should use the given name as the dataset name', async () => {
+      const url = 'https://localhost/data/name';
+      const response = {
+        type: 'FeatureCollection',
+        features: [],
+      };
+      fetchMock.get(url, response);
+
+      const result = await getGeoJsonData(url, 'foo', undefined);
+      expect(result.name).toBe('foo');
+    });
+
+    it('should use the url as the dataset name', async () => {
+      const url = 'https://localhost/data/url-name';
+      const response = {
+        type: 'FeatureCollection',
+        features: [],
+      };
+      fetchMock.get(url, response);
+
+      const result = await getGeoJsonData(url, undefined, undefined);
+      expect(result.name).toBe(url);
+    });
+
+    it('should apply metadata mapping', async () => {
+      const url = 'https://localhost/data/metadata';
+      const response = {
+        type: 'FeatureCollection',
+        features: [
+          {
+            type: 'Feature',
+            properties: {
+              foo: 'bar',
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [60, 25],
+            },
+          },
+        ],
+      };
+      fetchMock.get(url, response);
+
+      const result = await getGeoJsonData(url, undefined, { name: 'foo' });
+      expect(result.data.features[0].properties.name).toBe(
+        response.features[0].properties.foo,
+      );
+    });
+  });
+
+  describe('MapJSON', () => {
+    it('should return the given data if no metadata exists', () => {
+      const data = {
+        type: 'FeatureCollection',
+        features: [
+          {
+            type: 'Feature',
+            properties: {
+              tekstielementti: 'this-text-is-visible',
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [24, 60],
+            },
+          },
+          {
+            type: 'Feature',
+            properties: {
+              tiedot: 'ponnahdusvalikko',
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [24.5, 60.1],
+            },
+          },
+        ],
+      };
+      const dataClone = cloneDeep(data);
+
+      MapJSON(data, undefined);
+      expect(data).toEqual(dataClone);
+
+      MapJSON(data, {});
+      expect(data).toEqual(dataClone);
+    });
+
+    it('can map custom properties to known properties', () => {
+      const geoJsonSource = [
+        {
+          name: {
+            en: 'external map data source',
+          },
+          url: '/home.com',
+          metadata: {
+            // renders point as a plain text element if 'tekstielementti' contains a string
+            textOnly: 'tekstielementti',
+            // the visible label comes from 'tekstielementti' too
+            name: 'tekstielementti',
+            // add a popup if feature has 'tiedot'
+            popupContent: 'tiedot',
+          },
+        },
+      ];
+
+      const geoJsonResponse = {
+        type: 'FeatureCollection',
+        features: [
+          {
+            type: 'Feature',
+            properties: {
+              tekstielementti: 'this-text-is-visible',
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [24, 60],
+            },
+          },
+          {
+            type: 'Feature',
+            properties: {
+              tiedot: 'ponnahdusvalikko',
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [24.5, 60.1],
+            },
+          },
+        ],
+      };
+      MapJSON(geoJsonResponse, geoJsonSource[0].metadata);
+      const p0 = geoJsonResponse.features[0].properties;
+      const p1 = geoJsonResponse.features[1].properties;
+
+      expect(p0.textOnly).toBe('this-text-is-visible');
+      expect(p0.name).toBe('this-text-is-visible');
+      expect(p1.popupContent).toBe('ponnahdusvalikko');
+    });
+  });
+
+  describe('styleFeatures', () => {
+    it('should duplicate features with different style properties if the original feature has a styles array', () => {
+      const input = {
+        type: 'FeatureCollection',
+        features: [
+          {
+            geometry: {
+              coordinates: [
+                [1, 1],
+                [2, 2],
+                [3, 3],
+                [4, 4],
+              ],
+              type: 'LineString',
+            },
+            styles: [
+              {
+                color: 'black',
+                weight: 1,
+              },
+              {
+                color: 'gray',
+                weight: 5,
+              },
+            ],
+            type: 'Feature',
+          },
+          {
+            style: {
+              color: 'green',
+              weight: 4,
+            },
+          },
+        ],
+      };
+
+      const output = styleFeatures(input);
+      expect(output).not.toBe(input);
+      expect(output.features.length).toBe(3);
+      expect(output.features.filter(feature => feature.styles)).toHaveLength(0);
+      expect(output.features[0].geometry).toEqual(output.features[1].geometry);
+      expect(output.features[0].style).toEqual({
+        color: 'black',
+        type: 'line',
+        weight: 1,
+      });
+      expect(output.features[1].style).toEqual({
+        color: 'gray',
+        type: 'halo',
+        weight: 5,
+      });
+      expect(output.features[0]).not.toBe(output.features[1]);
+    });
+
+    it('should return the same array if no styles exist', () => {
+      const input = {
+        type: 'FeatureCollection',
+        features: [
+          {
+            style: {
+              color: 'green',
+              weight: 4,
+            },
+          },
+        ],
+      };
+      const output = styleFeatures(input);
+      expect(output).toBe(input);
+    });
+  });
+});

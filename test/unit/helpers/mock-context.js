@@ -1,6 +1,4 @@
 import { DateTime } from 'luxon';
-import PropTypes from 'prop-types';
-import { matchShape, routerShape } from '../../../utils/client/shapes';
 import { mockRouter, mockMatch } from './mock-router';
 import PositionStore from '../../../app/store/PositionStore';
 import config from '../../../server/configs/config.default';
@@ -31,8 +29,6 @@ export const mockContext = {
     }),
     getMessages: () => [],
     getDuplicateMessageCounter: () => 0,
-    getGeoJsonConfig: () => [],
-    getGeoJsonData: () => null,
     getViaPoints: () => [],
     removeListener: noop,
     getRoutingSettings: () => ({}),
@@ -43,17 +39,6 @@ export const mockContext = {
   }),
   match: mockMatch,
   router: mockRouter,
-};
-
-/**
- * The mockChildContextTypes reflects the contents of mockContext.
- */
-export const mockChildContextTypes = {
-  config: PropTypes.object,
-  executeAction: PropTypes.func,
-  getStore: PropTypes.func,
-  router: routerShape,
-  match: matchShape,
 };
 
 /**

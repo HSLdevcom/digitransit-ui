@@ -3,18 +3,26 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { v4 as uuid } from 'uuid';
-import { configShape, fareShape, legShape } from '../../../utils/client/shapes';
+import { fareShape, legShape } from '../../../utils/client/shapes';
 import { renderZoneTicket } from './ZoneTicket';
 import Icon from '../Icon';
 import {
   getAlternativeFares,
   formatFare,
 } from '../../../utils/client/fareUtils';
+import { useConfigContext } from '../../client/ConfigContext';
 
-export default function TicketInformation(
-  { fares, zones, legs, ticketLink },
-  { config },
-) {
+const EMPTY_FARES = [];
+const EMPTY_ZONES = [];
+const EMPTY_LEGS = [];
+
+export default function TicketInformation({
+  fares = EMPTY_FARES,
+  zones = EMPTY_ZONES,
+  legs = EMPTY_LEGS,
+  ticketLink,
+}) {
+  const config = useConfigContext();
   const intl = useIntl();
   if (fares.length === 0) {
     return null;
@@ -106,17 +114,6 @@ TicketInformation.propTypes = {
   fares: PropTypes.arrayOf(fareShape),
   zones: PropTypes.arrayOf(PropTypes.string),
   ticketLink: PropTypes.string,
-};
-
-TicketInformation.defaultProps = {
-  fares: [],
-  zones: [],
-  legs: [],
-  ticketLink: null,
-};
-
-TicketInformation.contextTypes = {
-  config: configShape,
 };
 
 TicketInformation.displayName = 'TicketInformation';

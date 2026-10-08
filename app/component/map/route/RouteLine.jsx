@@ -7,11 +7,8 @@ import LocationMarker from '../LocationMarker';
 import Line from '../Line';
 import { getClosestPoint } from '../../../../utils/shared/geo-utils';
 import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
-import {
-  patternShape,
-  configShape,
-  tripShape,
-} from '../../../../utils/client/shapes';
+import { patternShape, tripShape } from '../../../../utils/client/shapes';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 /**
  * Split the array points in two at the given position. Return index to split at
@@ -43,54 +40,55 @@ function getSplitIndex(points, position) {
   return bestIndex + 1;
 }
 
-function RouteLine(props, context) {
-  if (!props.pattern) {
+const EMPTY_FILTERED_STOPS = [];
+
+function RouteLine({
+  pattern,
+  trip,
+  thin = false,
+  filteredStops = EMPTY_FILTERED_STOPS,
+  vehiclePosition,
+}) {
+  const config = useConfigContext();
+  if (!pattern) {
     return false;
   }
 
   const objs = [];
-  const modeClass = getTripOrRouteMode(
-    props.trip,
-    props.pattern.route,
-    context.config,
-  );
+  const modeClass = getTripOrRouteMode(trip, pattern.route, config);
 
-  if (!props.thin) {
+  if (!thin) {
     // We are drawing a background line under an itinerary line,
     // so we don't want many markers cluttering the map
     objs.push(
-      <LocationMarker
-        key="from"
-        position={props.pattern.stops[0]}
-        type="from"
-      />,
+      <LocationMarker key="from" position={pattern.stops[0]} type="from" />,
     );
 
     objs.push(
       <LocationMarker
         key="to"
-        position={props.pattern.stops[props.pattern.stops.length - 1]}
+        position={pattern.stops[pattern.stops.length - 1]}
         type="to"
       />,
     );
   }
 
-  const filteredIds = props.filteredStops
-    ? props.filteredStops.map(stop => stop.stopId)
+  const filteredIds = filteredStops
+    ? filteredStops.map(stop => stop.stopId)
     : [];
 
-  if (!props.vehiclePosition) {
-    const markers = props.pattern
-      ? props.pattern.stops
+  if (!vehiclePosition) {
+    const markers = pattern
+      ? pattern.stops
           .filter(stop => !filteredIds.includes(stop.gtfsId))
           .map((stop, i) => (
             <StopMarker
               stop={stop}
-              key={`${stop.gtfsId}-${props.pattern.code}${
-                i === props.pattern.stops.length - 1 && '-last'
+              key={`${stop.gtfsId}-${pattern.code}${
+                i === pattern.stops.length - 1 && '-last'
               }`}
-              mode={modeClass + (props.thin ? ' thin' : '')}
-              thin={props.thin}
+              mode={modeClass + (thin ? ' thin' : '')}
+              thin={thin}
             />
           ))
       : false;
@@ -100,12 +98,10 @@ function RouteLine(props, context) {
         {objs}
         <Line
           key="line"
-          color={
-            props.pattern.route.color ? `#${props.pattern.route.color}` : null
-          }
-          geometry={props.pattern.geometry || props.pattern.stops}
+          color={pattern.route.color ? `#${pattern.route.color}` : null}
+          geometry={pattern.geometry || pattern.stops}
           mode={modeClass}
-          thin={props.thin}
+          thin={thin}
         />
         {markers}
       </div>
@@ -114,11 +110,11 @@ function RouteLine(props, context) {
 
   // if vehicle position is known, split into two lines: before and after vehicle
   const beforeSplitColor = '#888888';
-  const stops = props.pattern.geometry || props.pattern.stops;
+  const stops = pattern.geometry || pattern.stops;
   const filteredPoints = stops.filter(
     point => point.lat !== null && point.lon !== null,
   );
-  const lineSplitIndex = getSplitIndex(filteredPoints, props.vehiclePosition);
+  const lineSplitIndex = getSplitIndex(filteredPoints, vehiclePosition);
 
   const beforeSplit = filteredPoints.slice(0, lineSplitIndex);
   const afterSplit = filteredPoints.slice(lineSplitIndex);
@@ -129,28 +125,25 @@ function RouteLine(props, context) {
     const projectedPoint = getClosestPoint(
       lastBefore,
       firstAfter,
-      props.vehiclePosition,
+      vehiclePosition,
     );
     beforeSplit.push(projectedPoint);
     afterSplit.unshift(projectedPoint);
   }
   // split stops markers into two in the same way
-  const markerSplitIndex = getSplitIndex(
-    props.pattern.stops,
-    props.vehiclePosition,
-  );
-  const markers = props.pattern
-    ? props.pattern.stops
+  const markerSplitIndex = getSplitIndex(pattern.stops, vehiclePosition);
+  const markers = pattern
+    ? pattern.stops
         .filter(stop => !filteredIds.includes(stop.gtfsId))
         .map((stop, i) => (
           <StopMarker
             stop={stop}
-            key={`${stop.gtfsId}-${props.pattern.code}${
-              i === props.pattern.stops.length - 1 && '-last'
+            key={`${stop.gtfsId}-${pattern.code}${
+              i === pattern.stops.length - 1 && '-last'
             }`}
-            mode={modeClass + (props.thin ? ' thin' : '')}
+            mode={modeClass + (thin ? ' thin' : '')}
             colorOverride={i < markerSplitIndex ? beforeSplitColor : null}
-            thin={props.thin}
+            thin={thin}
           />
         ))
     : false;
@@ -163,16 +156,14 @@ function RouteLine(props, context) {
         color={beforeSplitColor}
         geometry={beforeSplit}
         mode={modeClass}
-        thin={props.thin}
+        thin={thin}
       />
       <Line
         key="line_after"
-        color={
-          props.pattern.route.color ? `#${props.pattern.route.color}` : null
-        }
+        color={pattern.route.color ? `#${pattern.route.color}` : null}
         geometry={afterSplit}
         mode={modeClass}
-        thin={props.thin}
+        thin={thin}
       />
       {markers}
     </div>
@@ -188,17 +179,6 @@ RouteLine.propTypes = {
     lat: PropTypes.number,
     lon: PropTypes.number,
   }),
-};
-
-RouteLine.defaultProps = {
-  thin: false,
-  trip: null,
-  filteredStops: [],
-  vehiclePosition: null,
-};
-
-RouteLine.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default createFragmentContainer(RouteLine, {

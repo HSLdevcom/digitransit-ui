@@ -5,15 +5,17 @@ import TimeSummary from './TimeSummary';
 import StreetSummary from './StreetSummary';
 import { itineraryShape } from '../../../utils/client/shapes';
 
+const EMPTY_SUMMARY = {};
+
 function ItinerarySummary({
   itinerary,
-  walking,
-  biking,
-  driving,
-  futureText,
-  isMultiRow,
-  isMobile,
-  hideBottomDivider,
+  walking = EMPTY_SUMMARY,
+  biking = EMPTY_SUMMARY,
+  driving = EMPTY_SUMMARY,
+  futureText = '',
+  isMultiRow = false,
+  isMobile = false,
+  hideBottomDivider = false,
 }) {
   return (
     <div className="itinerary-summary">
@@ -74,16 +76,6 @@ ItinerarySummary.propTypes = {
   isMultiRow: PropTypes.bool,
   isMobile: PropTypes.bool,
   hideBottomDivider: PropTypes.bool,
-};
-
-ItinerarySummary.defaultProps = {
-  walking: {},
-  biking: {},
-  driving: {},
-  futureText: '',
-  isMultiRow: false,
-  isMobile: false,
-  hideBottomDivider: false,
 };
 
 ItinerarySummary.displayName = 'ItinerarySummary';

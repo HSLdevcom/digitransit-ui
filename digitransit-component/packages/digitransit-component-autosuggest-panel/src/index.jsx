@@ -31,7 +31,7 @@ const ItinerarySearchControl = ({
   enabled,
   onClick,
   onKeyPress,
-  wide,
+  wide = false,
   ...rest
 }) => (
   <div
@@ -107,11 +107,6 @@ ItinerarySearchControl.propTypes = {
   onClick: PropTypes.func.isRequired,
   onKeyPress: PropTypes.func.isRequired,
   wide: PropTypes.bool,
-};
-
-ItinerarySearchControl.defaultProps = {
-  children: undefined,
-  wide: false,
 };
 
 /**

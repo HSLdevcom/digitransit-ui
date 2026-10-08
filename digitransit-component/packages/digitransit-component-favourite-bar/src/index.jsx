@@ -44,7 +44,7 @@ const FavouriteLocation = ({
   iconId,
   text,
   label,
-  isLoading,
+  isLoading = false,
   color,
   lang,
 }) => {
@@ -83,10 +83,6 @@ FavouriteLocation.propTypes = {
   isLoading: PropTypes.bool,
   color: PropTypes.string.isRequired,
   lang: PropTypes.string.isRequired,
-};
-
-FavouriteLocation.defaultProps = {
-  isLoading: false,
 };
 
 /**

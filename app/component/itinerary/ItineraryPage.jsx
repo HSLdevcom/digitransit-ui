@@ -15,7 +15,7 @@ import { fetchQuery } from 'react-relay';
 import { useRouter } from 'found';
 import { saveFutureRoute } from '../../../utils/client/storeUtils';
 import { startLocationWatch } from '../../action/PositionActions';
-import { saveSearch } from '../../action/SearchActions';
+import { saveSearch } from '../../data/SearchHistory';
 import { TransportMode } from '../../../utils/shared/constants';
 import { mapLayerShape } from '../../store/MapLayerStore';
 import {
@@ -974,7 +974,7 @@ export default function ItineraryPage(props, context) {
     const layer =
       /\d/.test(names[0]) && names[0].indexOf(' ') >= 0 ? 'address' : 'venue';
 
-    executeAction(saveSearch, {
+    saveSearch({
       item: {
         geometry: { coordinates: [ll.lon, ll.lat] },
         properties: {

@@ -74,11 +74,6 @@ TripStopsContainer.propTypes = {
   route: routeShape,
 };
 
-TripStopsContainer.defaultProps = {
-  trip: undefined,
-  route: undefined,
-};
-
 const componentWithBreakpoint = withBreakpoint(TripStopsContainer);
 const containerComponent = createFragmentContainer(componentWithBreakpoint, {
   trip: graphql`

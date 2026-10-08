@@ -11,11 +11,15 @@ right one by *who consumes the code*, not just by convenience.
 - `app/` — client-bundle-only React app (Views/Containers/Flux + route trees):
   - `client/` — browser entry & bootstrap: `client.jsx` (browser entry, farce/found router
     bootstrap), `app.js` (Fluxible app/store wiring), `publicPath.js` / `loadDevTheme.js` (extra
-    webpack entry modules), `i18n.js`, `ConfigContext.jsx` (React context provider for config),
-    `images/` (regional logo assets).
+    webpack entry modules), `i18n.js`, `ConfigContext.jsx` (React context provider for config).
   - `routes/` — found + Relay route-tree definitions: `routes.jsx` (front page, top level),
     `routeRoutes.jsx` (route pages), `stopRoutes.jsx` (stop pages); keep the filenames, Relay
     query names are prefixed with them.
+  - `assets/` — source art bundled into the client: `images/<theme>/` (logos, favicons,
+    illustrations; `default/` holds the fallbacks), `icons/<theme>/` (one `<id>.svg` per icon;
+    `default/` has all of them, other themes only overrides — built into sprite sheets by
+    `scripts/build/buildSprites.js`, never edit a sprite by hand), plus `assetUrl.js`
+    (`getAssetUrl`, resolves config image paths to bundled URLs).
   - `component/` — topic subfolders for larger features: `itinerary/`, `map/`, `stop/`,
     `routepage/`, `nearyou/`, `trafficnow/` (has its own `README.md`), `embedded/`, `visual/`,
     `icon/`, and `__generated__/` (Relay codegen).
@@ -98,12 +102,13 @@ right one by *who consumes the code*, not just by convenience.
 ## Lint & format
 
 - `yarn lint` — eslint (Airbnb config + jsx-a11y + compat + prettier) + `prettier-styles` (scss
-  check) + `stylelint` + component-package translation parity check.
+  check) + `prettier-icons` (`app/assets/icons/**/*.svg`, via `@prettier/plugin-xml`) + `stylelint`
+  + component-package translation parity check.
 - `yarn format` — auto-fixes: sorts translations (app + component packages), `eslint --fix`,
-  prettier styles, stylelint fix.
+  prettier styles, prettier icons, stylelint fix.
 - `yarn eslint` / `yarn eslint-fix` for JS only.
 - Husky git hooks: pre-commit runs `lint-staged` (eslint on staged JS, prettier+stylelint on
-  staged scss) and blocks on unresolved merge-conflict markers; pre-push runs the full
+  staged scss, prettier on staged icon SVGs) and blocks on unresolved merge-conflict markers; pre-push runs the full
   `yarn run test-unit` suite, so pushes can be slow or rejected if unit tests fail.
 
 ## Tests (see `docs/Tests.md`)
@@ -200,6 +205,8 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   overrides: prefer object spread over `Object.assign`; `no-console` is an error (except in
   Node-only `server/**`, `utils/server/**`, `scripts/**`); Prettier config
   is `singleQuote: true, trailingComma: 'all', arrowParens: 'avoid'`.
+- Keep comments and explanations concise, describing the current state rather than how it was
+  reached; prefer one-line comments.
 - When removing `defaultProps`, use parameter defaults only for valid values; never default to
   `undefined`.
 - JSX-containing files use the `.jsx` extension; plain `.js` never contains JSX. For the
@@ -210,13 +217,14 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   function signature instead, e.g. `function Foo({ isMobile = false, children = null })`. This
   applies to new code and to any component touched during refactors; existing untouched
   components may still use `defaultProps` until they're otherwise modified.
+- To avoid unnecessary re-renders, define non-primitive default parameter values (objects,
+  arrays, functions) as module-level constants instead of inline literals.
 - Never bump package versions manually; the `workspace-packages-version-bump` script is run after
   a PR is approved but before merging by the author.
 - The project does not enable `eslint-plugin-react-hooks`'s `exhaustive-deps` rule, and top-level
   app values such as `config` (`useConfigContext()`) and the Fluxible `context`/`executeAction`
   bridge are set once at app init and never change identity for the app's lifetime. It's fine to
   omit such stable values from `useEffect`/`useCallback`/`useMemo` dependency arrays — prefer this
-  over padding dependency arrays with values that never actually change, and add a short comment
-  noting why the value is omitted.
+  over padding dependency arrays with values that never actually change.
 - SCSS under `sass/`, `app/**/*.scss`, `digitransit-component/**/*.scss` — must pass
   `prettier --check` and `stylelint`.

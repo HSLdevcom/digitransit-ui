@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { configShape, legShape } from '../../../../../utils/client/shapes';
+import { legShape } from '../../../../../utils/client/shapes';
 import { getIndoorStepsWithVerticalTransportation } from '../../../../../utils/client/indoorUtils';
 import NaviIndoorButton from './NaviIndoorButton';
 import NaviIndoorContainer from './NaviIndoorContainer';
@@ -45,16 +45,6 @@ NaviIndoorCard.propTypes = {
   previousLeg: legShape,
   leg: legShape,
   nextLeg: legShape,
-};
-
-NaviIndoorCard.defaultProps = {
-  previousLeg: undefined,
-  leg: undefined,
-  nextLeg: undefined,
-};
-
-NaviIndoorCard.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default NaviIndoorCard;

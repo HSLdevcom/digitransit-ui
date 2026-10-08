@@ -5,6 +5,7 @@ import redis from 'redis';
 import axios from 'axios';
 import connectRedis from 'connect-redis';
 import { Strategy as LoginStrategy } from './Strategy.js';
+import { audit, hash, privateNoStore } from './authAudit.js';
 
 const RedisStore = connectRedis(session);
 
@@ -120,6 +121,8 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
           JSON.stringify(ssoToken),
         );
       }
+      res.set('Cache-Control', 'private, no-store');
+      res.vary('Cookie');
       res.redirect(`/login?${params}&url=${req.path}`);
     } else {
       next();
@@ -139,7 +142,6 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       return passport.authenticate('passport-openid-connect', {
         refresh: true,
         keepSessionInfo: true,
-        failureRedirect: `/${indexPath}`,
       })(req, res, next);
     }
     return next();
@@ -174,12 +176,11 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
   passport.deserializeUser(LoginStrategy.deserializeUser);
 
   app.use(redirectToLogin);
-  app.use(refreshTokens);
 
   // Initiates an authentication request
   // users will be redirected to hsl.id and once authenticated
   // they will be returned to the callback handler below
-  app.get('/login', function (req, res, next) {
+  app.get('/login', privateNoStore, function (req, res, next) {
     const { returnTo } = req.query;
     const fallbackReturnTo = `/${indexPath}`;
 
@@ -202,6 +203,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
   // Callback handler that will redirect back to application after successfull authentication
   app.get(
     callbackPath,
+    privateNoStore,
     passport.authenticate('passport-openid-connect', {
       callback: true,
       keepSessionInfo: true,
@@ -210,7 +212,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     }),
   );
 
-  app.get('/logout', function (req, res) {
+  app.get('/logout', privateNoStore, function (req, res) {
     const cookieLang = req.cookies.lang || 'fi';
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     const postLogoutRedirectUri = req.secure
@@ -223,6 +225,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     };
     const logoutUrl = oic.client.endSessionUrl(params);
 
+    audit('logout', req);
     req.session.userId = req.user.data.sub;
     if (debugLogging) {
       console.log(`logout for user ${req.user.data.name} to ${logoutUrl}`);
@@ -230,7 +233,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     res.redirect(logoutUrl);
   });
 
-  app.get('/logout/callback', function (req, res) {
+  app.get('/logout/callback', privateNoStore, function (req, res) {
     if (debugLogging) {
       console.log(`logout callback for userId ${req.session.userId}`);
     }
@@ -252,7 +255,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     });
   });
 
-  app.get('/sso/auth', function (req, res, next) {
+  app.get('/sso/auth', privateNoStore, function (req, res, next) {
     if (debugLogging) {
       console.log(`GET sso/auth, token=${req.query['sso-token']}`);
     }
@@ -265,16 +268,19 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       if (debugLogging) {
         console.log('GET sso/auth -> updating token');
       }
+      audit('sso_set', req);
       req.session.ssoToken = req.query['sso-token'];
       req.session.ssoValidTo =
-        Number(req.query['sso-validity']) * 60 * 1000 +
+        Number(req.query['sso-validity']) * 60 +
         Math.floor(new Date().getTime() / 1000);
       res.send();
     }
   });
 
-  app.use('/api', function (req, res, next) {
-    res.set('Cache-Control', 'no-store');
+  // Tokens are refreshed only for API calls, so that Set-Cookie is never
+  // sent on HTML or static responses that a shared cache might store
+  app.use('/api', privateNoStore, refreshTokens, function (req, res, next) {
+    audit('api', req);
     if (req.isAuthenticated()) {
       next();
     } else {
@@ -302,12 +308,29 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       })
       .then(function (response) {
         if (response && response.status && response.data) {
+          const sessionSub = req.user?.data?.sub;
+          const match = response.data.sub === sessionSub;
+          audit('api_user', req, {
+            idpSub: hash(response.data.sub),
+            match,
+          });
+          if (!match) {
+            console.error(
+              `AUTH_AUDIT_MISMATCH sid=${hash(req.sessionID)} sessionSub=${hash(
+                sessionSub,
+              )} idpSub=${hash(response.data.sub)}`,
+            );
+          }
           res.status(response.status).send(response.data);
         } else {
           errorHandler(res);
         }
       })
       .catch(function (err) {
+        audit('api_user_failed', req, {
+          status: err?.response?.status,
+          error: err?.message,
+        });
         errorHandler(res, err);
       });
   });

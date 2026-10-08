@@ -30,12 +30,16 @@ and output settings.
   `app/client/loadDevTheme` in development only (see below).
 - In production, `scripts/build/contextHelper.js` adds one `<theme>_theme`
   entry per regional theme's `sass/themes/<theme>/main.scss`, plus a
-  `<sprite>` entry for any config-declared SVG sprite sheet. With `CONFIG`
+  `<sprite>` entry for any config-declared SVG sprite sheet (`config.sprites`),
+  which content-hashes it into `manifest.json`. The sprite itself is
+  generated before webpack runs (see "SVG sprite sheets" below). With `CONFIG`
   set, only the `default` theme and the selected config's theme build;
   otherwise every `server/configs/config.*.js` deployment does.
 - `faviconPlugins` (same file) generates one `favicons-webpack-plugin`
   instance per deployment, producing per-deployment favicons/app icons
-  under `assets/icons-<CONFIG>-[contenthash]/`.
+  under `assets/icons-<CONFIG>-[contenthash]/`. Apple startup images and
+  Windows tiles are turned off (`favicons.icons`), since nothing references
+  them and the startup images alone were ~35 MB per config.
 - In development, `webpack.ContextReplacementPlugin` narrows the dynamic
   `import` for `sass/themes` down to just the selected `CONFIG`'s
   `main.scss`, so the dev server doesn't build every theme.
@@ -75,7 +79,22 @@ and output settings.
   graph, which can shift even when that chunk's own content didn't) —
   this is webpack5's own documented best practice for long-term caching,
   and matches the `[contenthash]` already used for CSS output below.
-- `publicPath`: `/proxy/` in dev (see `devServer` below), `/` in prod.
+- `publicPath`: `/proxy/` in dev (see `devServer` below), `/` in prod. This
+  `/` only matters for webpack's own JS-runtime asset resolution (chunk/
+  script loading, images imported from `.jsx`), which `app/client/
+  publicPath.js` overrides at runtime from `window.ASSET_URL` (the actual
+  CDN base path) before anything else runs. It does **not** reach `url()`
+  references baked into compiled CSS (background images, e.g. the
+  `.scss`-defined spinner/dotted-line assets) — those are static text,
+  resolved by the browser directly against the CSS file's own URL, with no
+  JS involved. `MiniCssExtractPlugin.loader`'s own `publicPath: 'auto'`
+  option (set on every `.scss`/`.css` rule below) is what fixes *that*
+  case, making such `url()`s relative to the emitted CSS file instead of
+  inheriting this `/`. Without it, those paths are emitted as absolute
+  `/assets/...` — fine when the HTML and static assets share an origin
+  (true in dev), but broken wherever production serves bundled assets from
+  a separate CDN host (`dev-cdn.digitransit.fi/...`) than the HTML shell
+  (`dev.reittiopas.fi`).
 - `crossOriginLoading: 'anonymous'` — needed for real stack traces on
   cross-origin script chunks (used with source maps).
 
@@ -101,6 +120,32 @@ assets keep working through a future bundler migration. Note that `_static`
 is populated once per `yarn dev` startup, so edits to `static/` made while
 the dev server runs aren't picked up — re-run `yarn static`.
 
+## SVG sprite sheets
+
+Icons live as one file per icon in `app/assets/icons/<theme>/<id>.svg`, and
+`scripts/build/buildSprites.js` (`yarn sprites`, run by `prebuild` and
+`scripts/dev.sh`) assembles them into `_static/assets/svg-sprite.<theme>.svg`.
+`default/` holds every icon; any other theme directory only holds the icons
+it adds or re-skins, layered on top of the default set. Each file's name is
+its symbol id, the key `<Icon img>` and `utils/client/mapIconUtils.js` use.
+Every file must be well-formed XML with an `<svg>` root, or the build fails.
+`test/unit/server/configs/sprites.test.js` also requires id-safe filenames and
+that no `id` repeats within a sprite: all symbols share one page, so an
+internal id (e.g. a design tool's `clip0`) reused by two icons would make one
+of them render with the other's clip path, mask or gradient. Icon files are
+formatted with Prettier (`@prettier/plugin-xml`; `yarn prettier-icons`, fixed by
+`yarn format`).
+
+At runtime the sprite is inlined into the page (see `buildBody` in
+`server/middleware/shell.js`): in development it's read from `_static` on
+every request, in production it's fetched from its content-hashed URL.
+`yarn dev` also runs `yarn sprites --watch`, so an icon edit shows up on the
+next page refresh without a restart.
+
+The generator is bundler-agnostic, but the content hashing isn't: the sprite
+goes through webpack as an entry (see above). Under Vite, whose inputs must be
+JS or HTML, that would need a small plugin emitting the file instead.
+
 All configs' assets are copied regardless of `$CONFIG`, because a deployment
 with no `$CONFIG` set resolves its config per request from the `Host` header
 (`getConfiguration` in `server/configs/config.js`) and so can serve any
@@ -108,7 +153,7 @@ region, and because `ASSEMBLE_GEOJSON` deployments reference *every* region's
 zone layer.
 
 Only assets the server hands out per request belong in `static/`. Images
-that are bundled into the client live in `app/client/images/<CONFIG>/`
+that are bundled into the client live in `app/assets/images/<CONFIG>/`
 (`default/` holding the fallbacks) and go through the asset-module rule
 below.
 
@@ -152,17 +197,22 @@ below.
 - **`.css`** — split into two rules only so `@hsl-fi` package CSS can be
   marked `sideEffects: true` (so it isn't tree-shaken away); everything
   else uses the default.
+- All three `MiniCssExtractPlugin.loader` uses above (`.scss` and both
+  `.css` rules) pass `publicPath: 'auto'`, so any asset `url()` emitted
+  into these CSS files resolves relative to that CSS file's own location,
+  not to `output.publicPath` (see "Output" above for why that distinction
+  matters for CSS specifically).
 - **Images/fonts** (`eot|gif|png|ttf|woff|svg|jpeg|jpg`) — webpack5 built-in
   asset modules, replacing `file-loader`/`url-loader`. `asset/resource` in
   both dev and prod: always emits a real, content-hashed file and never
-  inlines as a data URI. `app/client/assetUrl.js` makes every image under
-  `app/client/images/` reachable from the main chunk (see below), so inlining
+  inlines as a data URI. `app/assets/assetUrl.js` makes every image under
+  `app/assets/images/` reachable from the main chunk (see below), so inlining
   the small ones would add ~130 kB of base64 to it.
 
 ## `import.meta.webpackContext`
 
-`app/client/assetUrl.js` is the only module bound to a webpack-specific API.
-It builds a compile-time map of every image under `app/client/images/` so a
+`app/assets/assetUrl.js` is the only module bound to a webpack-specific API.
+It builds a compile-time map of every image under `app/assets/images/` so a
 config-supplied path (`config.logo`, `config.thumbsUpGraphic`, ...) resolves
 to its content-hashed URL synchronously, with no dynamic `import()` and so no
 loading state or render flash.

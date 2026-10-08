@@ -2,14 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import { configShape } from '../../../utils/client/shapes';
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import Icon from '../Icon';
+import { useConfigContext } from '../../client/ConfigContext';
 
-export default function IndoorInfo(
-  { intermediateStepCount, showIntermediateSteps, toggleFunction },
-  { config },
-) {
+export default function IndoorInfo({
+  intermediateStepCount,
+  showIntermediateSteps = false,
+  toggleFunction,
+}) {
+  const config = useConfigContext();
   const message = (showIntermediateSteps && (
     <FormattedMessage
       id="itinerary-hide-indoor-route"
@@ -63,16 +65,8 @@ export default function IndoorInfo(
   );
 }
 
-IndoorInfo.contextTypes = {
-  config: configShape.isRequired,
-};
-
 IndoorInfo.propTypes = {
   intermediateStepCount: PropTypes.number.isRequired,
   toggleFunction: PropTypes.func.isRequired,
   showIntermediateSteps: PropTypes.bool,
-};
-
-IndoorInfo.defaultProps = {
-  showIntermediateSteps: false,
 };

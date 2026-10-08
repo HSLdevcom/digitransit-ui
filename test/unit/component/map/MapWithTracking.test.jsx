@@ -7,8 +7,6 @@ import {
 } from '../../../../app/component/map/MapWithTracking';
 
 const defaultProps = {
-  getGeoJsonConfig: () => {},
-  getGeoJsonData: () => {},
   position: {
     hasLocation: false,
     isLocationingInProgress: false,

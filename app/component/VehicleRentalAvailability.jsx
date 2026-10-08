@@ -5,12 +5,12 @@ import { FormattedMessage } from 'react-intl';
 import Availability from './Availability';
 
 const VehicleRentalAvailability = ({
-  disabled,
+  disabled = false,
   vehiclesAvailable,
   totalSpaces,
   fewAvailableCount,
   fewerAvailableCount,
-  type,
+  type = 'citybike',
   useSpacesAvailable,
 }) => {
   const total = Number.isNaN(totalSpaces) ? 0 : totalSpaces;
@@ -67,10 +67,6 @@ VehicleRentalAvailability.propTypes = {
   fewerAvailableCount: PropTypes.number.isRequired,
   type: PropTypes.string,
   useSpacesAvailable: PropTypes.bool.isRequired,
-};
-VehicleRentalAvailability.defaultProps = {
-  disabled: false,
-  type: 'citybike',
 };
 
 export default VehicleRentalAvailability;

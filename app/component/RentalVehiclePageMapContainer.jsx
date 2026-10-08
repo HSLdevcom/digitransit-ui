@@ -8,21 +8,17 @@ const RentalVehiclePageMapContainer = ({ rentalVehicle }) => {
   if (!rentalVehicle) {
     return false;
   }
-  const stopName = (
-    <FormattedMessage
-      id={rentalVehicle.name.toLowerCase() === 'scooter' && 'e-scooter'}
-      defaultMessage={rentalVehicle.name}
-    />
-  );
+  const stopName =
+    rentalVehicle.name.toLowerCase() === 'scooter' ? (
+      <FormattedMessage id="e-scooter" defaultMessage={rentalVehicle.name} />
+    ) : (
+      rentalVehicle.name
+    );
   return <StopPageMap stop={rentalVehicle} stopName={stopName} scooter />;
 };
 
 RentalVehiclePageMapContainer.propTypes = {
   rentalVehicle: rentalVehicleShape,
-};
-
-RentalVehiclePageMapContainer.defaultProps = {
-  rentalVehicle: undefined,
 };
 
 const containerComponent = createFragmentContainer(

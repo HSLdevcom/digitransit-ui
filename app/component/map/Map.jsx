@@ -10,7 +10,6 @@ import L from 'leaflet';
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 import isEmpty from 'lodash/isEmpty';
-import { configShape } from '../../../utils/client/shapes';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import {
   startRealTimeClient,
@@ -23,38 +22,41 @@ import events from '../../../utils/client/events';
 import { getLayerBaseUrl } from '../../../utils/client/mapLayerUtils';
 import GeoJSON from './GeoJSON';
 import { mapLayerShape } from '../../store/MapLayerStore';
+import { useConfigContext } from '../../client/ConfigContext';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon_minus"/></svg>`;
 const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon_plus"/></svg>`;
 const EXTRA_PADDING = 100;
 
-const startClient = context => {
-  const { realTime } = context.config;
+const startClient = (context, config) => {
+  const { realTime } = config;
   let feedId;
   /* handle multiple feedid case */
-  context.config.feedIds.forEach(f => {
+  config.feedIds.forEach(f => {
     if (!feedId && realTime[f]) {
       feedId = f;
     }
   });
   const source = feedId && realTime[feedId];
   if (source && source.active) {
-    const config = {
+    const rtConfig = {
       ...source,
       feedId,
-      options: context.config.feedIds
+      options: config.feedIds
         .filter(f => realTime[f]?.active)
         .map(f => ({ feedId: f })),
     };
-    context.executeAction(startRealTimeClient, config);
+    context.executeAction(startRealTimeClient, rtConfig);
   }
 };
 
 const onPopupopen = () => events.emit('popupOpened');
 
+const DEFAULT_MAP_LAYERS = { geoJson: {} };
+
 export default function Map(
   {
-    animate,
+    animate = true,
     lat,
     lon,
     zoom,
@@ -67,7 +69,7 @@ export default function Map(
     bottomButtons,
     topButtons,
     geoJson,
-    mapLayers,
+    mapLayers = DEFAULT_MAP_LAYERS,
     breakpoint,
     locationPopup,
     onSelectLocation,
@@ -75,7 +77,7 @@ export default function Map(
   },
   context,
 ) {
-  const { config } = context;
+  const config = useConfigContext();
   const intl = useIntl();
 
   const [ownZoom, setOwnZoom] = useState(14);
@@ -104,7 +106,7 @@ export default function Map(
   useEffect(() => {
     updateZoom();
     if (mapLayers.vehicles) {
-      startClient(context);
+      startClient(context, config);
     } else {
       const { client } = context.getStore('RealTimeInformationStore');
       if (client) {
@@ -322,28 +324,7 @@ Map.propTypes = {
   onSelectLocation: PropTypes.func,
 };
 
-Map.defaultProps = {
-  animate: true,
-  mapLayerRef: null,
-  leafletMapRef: null,
-  lat: undefined,
-  lon: undefined,
-  zoom: undefined,
-  bounds: undefined,
-  bottomPadding: undefined,
-  bottomButtons: null,
-  topButtons: null,
-  mapLayers: { geoJson: {} },
-  geoJson: undefined,
-  leafletEvents: undefined,
-  leafletObjs: undefined,
-  breakpoint: undefined,
-  locationPopup: undefined,
-  onSelectLocation: undefined,
-};
-
 Map.contextTypes = {
   executeAction: PropTypes.func.isRequired,
   getStore: PropTypes.func,
-  config: configShape.isRequired,
 };

@@ -517,9 +517,3 @@ BicycleLeg.propTypes = {
   nextLegMode: PropTypes.string,
   relayEnvironment: relayShape,
 };
-
-BicycleLeg.defaultProps = {
-  bicycleWalkLeg: undefined,
-  nextLegMode: undefined,
-  relayEnvironment: undefined,
-};

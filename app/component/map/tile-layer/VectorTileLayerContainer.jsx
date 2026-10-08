@@ -1,5 +1,4 @@
 import React from 'react';
-import { configShape } from '../../../../utils/client/shapes';
 import TileLayerContainer from './TileLayerContainer';
 import VehicleRentalStations from './VehicleRentalStations';
 import Stops from './Stops';
@@ -8,11 +7,10 @@ import ParkAndRideForBikes from './ParkAndRideForBikes';
 import { mapLayerShape } from '../../../store/MapLayerStore';
 import RentalVehicles from './RentalVehicles';
 import AreaStops from './AreaStops';
+import { useConfigContext } from '../../../client/ConfigContext';
 
-export default function VectorTileLayerContainer(
-  { mapLayers, ...rest },
-  { config },
-) {
+export default function VectorTileLayerContainer({ mapLayers, ...rest }) {
+  const config = useConfigContext();
   const layers = [];
 
   layers.push(Stops);
@@ -47,8 +45,4 @@ export default function VectorTileLayerContainer(
 
 VectorTileLayerContainer.propTypes = {
   mapLayers: mapLayerShape.isRequired,
-};
-
-VectorTileLayerContainer.contextTypes = {
-  config: configShape.isRequired,
 };
