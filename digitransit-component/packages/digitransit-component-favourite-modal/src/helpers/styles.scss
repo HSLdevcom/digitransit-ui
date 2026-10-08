@@ -1,89 +1,126 @@
-@import '~@hsl-fi/sass/colors';
-@import '~@hsl-fi/sass/mixins/screen';
-@import '~@hsl-fi/sass/mixins/text';
+// Colors, radii and spacing come from the HSL design-system tokens, so the
+// modal follows the active deployment's theme. The fallbacks only matter
+// when the tokens are not loaded by the host application.
+$icon-size-large: 24px;
+$icon-size-medium: 20px;
+$icon-size-small: 18px;
 
-$favourite-icon-column-border-color: #ddd;
-$favourite-icon-border-radius: 5px;
-$selected-icon-font-color: #fff;
-$selected-icon-background-color: #333;
-$not-selected-icon-background-color: #fff;
+.modalContent.modalContent {
+  // The sheet itself receives programmatic focus; it is not a control.
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
 
-.generic-table > .row {
+  // The dialog sheet clips its content on desktop, which would cut off the
+  // autosuggest dropdown. The doubled selector wins regardless of CSS load order.
+  @media (min-width: 500px) {
+    overflow: visible;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+
+  // Separator under the dialog header on narrow screens
+  @media (max-width: 499px) {
+    margin-top: 24px;
+    border-top: 1px solid var(--color-border-weak, #ddd);
+    padding-top: 30px;
+  }
+}
+
+.search {
+  margin-bottom: var(--space-s, 8px);
+}
+
+.iconFieldset {
+  border: 0;
+  margin: var(--space-m, 24px) 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.legend {
+  padding: 0;
+  margin-bottom: var(--space-xs, 8px);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-text-default, #000);
+}
+
+.srOnly:not(:focus, :active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.iconTable {
   display: flex;
 }
 
-.generic-table__label-container {
-  font-size: 0.8rem;
-  margin-top: 3px;
-  color: #666;
-  height: 16px;
-  max-width: 62.5rem;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.favourite-icon-table-column {
-  cursor: pointer;
+.iconButton {
   flex: 1;
-  align-items: center;
-  padding: 0;
-  background: $not-selected-icon-background-color;
-  float: left;
   height: 50px;
   margin: 0;
-  line-height: 1;
-  text-align: center;
-  font-size: 17px;
-  border-top: solid 1px $favourite-icon-column-border-color;
-  border-bottom: solid 1px $favourite-icon-column-border-color;
-  border-right: solid 1px $favourite-icon-column-border-color;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--color-surface-default, #fff);
+  color: var(--color-icon-accent, #0074bf);
+  border: solid 1px var(--color-border-weak, #ddd);
   border-left: none;
+  transition: var(
+    --touchable-background-color-transition,
+    background-color 0.2s ease
+  );
 
-  &.place {
-    svg {
-      width: 24px;
-      height: 24px;
-    }
+  &:first-child {
+    border-left: solid 1px var(--color-border-weak, #ddd);
+    border-top-left-radius: var(--radius-s, 4px);
+    border-bottom-left-radius: var(--radius-s, 4px);
   }
 
-  &.work {
-    svg {
-      width: 20px;
-      height: 20px;
-    }
+  &:last-child {
+    border-top-right-radius: var(--radius-s, 4px);
+    border-bottom-right-radius: var(--radius-s, 4px);
   }
 
-  &.home,
-  &.school,
-  &.sport,
-  &.shopping {
-    svg {
-      width: 18px;
-      height: 18px;
-    }
-  }
-
-  &:active,
   &:hover,
-  &:focus,
-  .selected-icon {
-    background: $selected-icon-background-color;
-    color: $selected-icon-font-color;
+  &:focus-visible,
+  &.selected {
+    background: var(--color-surface-invert, #000);
+    color: var(--color-text-invert, #fff);
+  }
+
+  &.place svg {
+    width: $icon-size-large;
+    height: $icon-size-large;
+  }
+
+  &.work svg {
+    width: $icon-size-medium;
+    height: $icon-size-medium;
+  }
+
+  &.home svg,
+  &.school svg,
+  &.sport svg,
+  &.shopping svg {
+    width: $icon-size-small;
+    height: $icon-size-small;
   }
 }
 
-.favourite-icon-table-column:first-child {
-  border-left: solid 1px $favourite-icon-column-border-color;
-  border-top-left-radius: $favourite-icon-border-radius;
-  border-bottom-left-radius: $favourite-icon-border-radius;
-}
-
-.favourite-icon-table-column:last-child {
-  border-top-right-radius: $favourite-icon-border-radius;
-  border-bottom-right-radius: $favourite-icon-border-radius;
-}
-
-.favourite-icon-table-column.selected-icon {
-  background: $selected-icon-background-color;
-  color: $selected-icon-font-color;
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, 8px);
 }

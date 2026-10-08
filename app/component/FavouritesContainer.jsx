@@ -69,6 +69,7 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
     setFavourite(previousFavourite => ({
       ...item,
       name: previousFavourite?.name || '',
+      selectedIconId: previousFavourite?.selectedIconId,
       defaultName: item.name || item.address,
     }));
   };
@@ -209,16 +210,12 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
       />
 
       <FavouriteModal
-        appElement="#app"
         isModalOpen={addModalOpen}
         handleClose={() => closeModal(true)}
         saveFavourite={saveSelectedFavourite}
         cancelSelected={cancelSelected}
         favourite={favourite}
         lang={lang}
-        isMobile={isMobile}
-        fontWeights={fontWeights}
-        colors={config.colors}
         autosuggestComponent={
           <AutoSuggestWithSearchContext
             appElement="#app"
