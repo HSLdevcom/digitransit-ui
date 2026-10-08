@@ -79,6 +79,11 @@ function tabHandler(e) {
   }
 }
 
+const PARKING_MODE_LAYERS = {
+  CARPARK: 'parkAndRide',
+  BIKEPARK: 'parkAndRideForBikes',
+};
+
 // temp solution to force fav near you tab for hsl.fi
 // entering the tab should not be  possible if favourites do not exist
 function extendModes(modes, currentMode) {
@@ -119,8 +124,18 @@ function NearYouPage(
   const updateMapLayerOptions = () => {
     if (config.map.showLayerSelector) {
       const options = getMapLayerOptions({
-        lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-        selectedMapLayers: ['vehicles', mode.toLowerCase()],
+        lockedMapLayers: [
+          'vehicles',
+          'citybike',
+          'stop',
+          'parkAndRide',
+          'parkAndRideForBikes',
+        ],
+        selectedMapLayers: [
+          PARKING_MODE_LAYERS[mode] ? null : 'vehicles',
+          mode.toLowerCase(),
+          ...(PARKING_MODE_LAYERS[mode] ? [PARKING_MODE_LAYERS[mode]] : []),
+        ],
       });
       setMapLayerOptions(options);
     }
