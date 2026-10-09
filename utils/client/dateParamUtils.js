@@ -12,6 +12,16 @@ export const prepareServiceDay = params => {
   };
 };
 
+// Seconds are dropped so that tab clicks within a minute reuse cached data.
+export const prepareDatesForStopTabs = params => {
+  const now = DateTime.now().startOf('minute');
+  return {
+    ...params,
+    cancelationStartDate: now.toISO(),
+    cancelationEndDate: now.plus({ days: 7 }).toISO(),
+  };
+};
+
 export const prepareDatesForStops = params => {
   const now = DateTime.now();
   return {

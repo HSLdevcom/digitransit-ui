@@ -15,9 +15,13 @@ import {
   getDefault,
   errorLoading,
   getComponentOrNullRenderer,
+  getComponentOrPendingRenderer,
   getComponentOrLoadingRenderer,
 } from './routerUtils';
-import { prepareDatesForStops } from '../../utils/client/dateParamUtils';
+import {
+  prepareDatesForStops,
+  prepareDatesForStopTabs,
+} from '../../utils/client/dateParamUtils';
 import { DATE_FORMAT } from '../../utils/shared/constants';
 
 const queries = {
@@ -214,8 +218,8 @@ export default function getStopRoutes(isTerminal = false) {
                     ).then(getDefault);
               }}
               query={queryMap.pageTab}
-              prepareVariables={prepareDatesForStops}
-              render={getComponentOrNullRenderer}
+              prepareVariables={prepareDatesForStopTabs}
+              render={getComponentOrPendingRenderer}
             >
               <Route
                 getComponent={() => {

@@ -37,6 +37,11 @@ export function getComponentOrNullRenderer({ Component, props }) {
   return Component && props ? <Component {...props} /> : null;
 }
 
+// Returning undefined keeps the previous view on screen until the data arrives
+export function getComponentOrPendingRenderer({ Component, props }) {
+  return Component && props ? <Component {...props} /> : undefined;
+}
+
 /**
  * Like getComponentOrLoadingRenderer but treats any null value in `requiredKeys`
  * as a missing/invalid backend node and renders <Error404 /> instead of passing
