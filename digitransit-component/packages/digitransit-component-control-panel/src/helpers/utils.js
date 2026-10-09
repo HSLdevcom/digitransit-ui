@@ -44,7 +44,7 @@ export function getModeUrl({
     urlStart = urlParts.join('/');
   }
   const position =
-    origin.lat && origin.lon
+    origin?.lat && origin?.lon
       ? `/POS/${encodeURIComponent(origin.address)}::${origin.lat},${
           origin.lon
         }`

@@ -51,6 +51,22 @@ describe('Testing @digitransit-component/digitransit-component-control-panel mod
       expect(clicks).toEqual(['/en/nearyou/BUS/POS/Pasila::60.2,24.9']);
     });
 
+    it('works without an origin', () => {
+      const clicks = [];
+      render(
+        <CtrlPanel position="left">
+          <CtrlPanel.NearStopsAndRoutes
+            modeArray={['bus']}
+            language="en"
+            onClick={url => clicks.push(url)}
+            urlPrefix="/nearyou"
+          />
+        </CtrlPanel>,
+      );
+      screen.getByRole('link').click();
+      expect(clicks).toEqual(['/en/nearyou/BUS/POS']);
+    });
+
     it('activates a mode link with the Enter key but ignores other keys', () => {
       const clicks = [];
       render(

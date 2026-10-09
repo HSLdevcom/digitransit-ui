@@ -126,7 +126,7 @@ NearStopsAndRoutes.propTypes = {
     address: PropTypes.string,
     lat: PropTypes.number,
     lon: PropTypes.number,
-  }).isRequired,
+  }),
   onClick: PropTypes.func.isRequired,
   colors: PropTypes.objectOf(PropTypes.string),
   modeSet: PropTypes.string,
