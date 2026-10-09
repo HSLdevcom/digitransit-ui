@@ -15,7 +15,7 @@ import {
   getDefault,
   errorLoading,
   getComponentOrNullRenderer,
-  getComponentOrPendingRenderer,
+  createStickyRenderer,
   getComponentOrLoadingRenderer,
 } from './routerUtils';
 import {
@@ -168,6 +168,7 @@ const queries = {
 };
 
 export default function getStopRoutes(isTerminal = false) {
+  const renderTabContainer = createStickyRenderer();
   const queryMap = isTerminal ? queries.station : queries.stop;
   return (
     <Route path={`/${isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS}`}>
@@ -219,7 +220,7 @@ export default function getStopRoutes(isTerminal = false) {
               }}
               query={queryMap.pageTab}
               prepareVariables={prepareDatesForStopTabs}
-              render={getComponentOrPendingRenderer}
+              render={renderTabContainer}
             >
               <Route
                 getComponent={() => {

@@ -37,9 +37,25 @@ export function getComponentOrNullRenderer({ Component, props }) {
   return Component && props ? <Component {...props} /> : null;
 }
 
-// Returning undefined keeps the previous view on screen until the data arrives
-export function getComponentOrPendingRenderer({ Component, props }) {
-  return Component && props ? <Component {...props} /> : undefined;
+/**
+ * Like getComponentOrNullRenderer but, while a refetch is in flight for the same
+ * route params, keeps rendering the last props to avoid a flash of empty content.
+ * Unlike returning undefined, this does not keep the previous page mounted when
+ * navigating to a different page.
+ */
+export function createStickyRenderer() {
+  let last = null;
+  return function renderSticky({ Component, props, match }) {
+    const key = JSON.stringify(match.params);
+    if (Component && props) {
+      last = { key, Component, props };
+      return <Component {...props} />;
+    }
+    if (last && last.key === key) {
+      return <last.Component {...last.props} />;
+    }
+    return null;
+  };
 }
 
 /**
