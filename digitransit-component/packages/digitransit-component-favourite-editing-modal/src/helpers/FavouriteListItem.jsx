@@ -63,7 +63,7 @@ function FavouriteListItem({
           <Icon img={iconId} color="currentColor" />
         </span>
       </div>
-      <FlexColumn flex="1" className={styles.text}>
+      <FlexColumn className={styles.text}>
         <Text variant="text-xs-bold" as="p" className={styles.name}>
           {name}
         </Text>
