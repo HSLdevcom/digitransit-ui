@@ -1,212 +1,149 @@
-@import '~@hsl-fi/sass/colors';
-@import '~@hsl-fi/sass/mixins/screen';
-@import '~@hsl-fi/sass/mixins/text';
+// Colors, radii and spacing come from the HSL design-system tokens, so the
+// modal follows the active deployment's theme. The fallbacks only matter
+// when the tokens are not loaded by the host application.
+$icon-size-medium: 20px;
+$icon-size-small: 18px;
 
-.favourite-edit-list-container {
-  display: flex;
+.modalContent.modalContent {
+  // The sheet itself receives programmatic focus; it is not a control.
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.listContainer {
   position: relative;
   width: 100%;
 
-  @include min-width(tablet) {
+  // Separator under the dialog header on narrow screens
+  @media (max-width: 499px) {
+    margin-top: 24px;
+    border-top: 1px solid var(--color-border-weak, #ddd);
+    padding-top: 30px;
+  }
+
+  @media (min-width: 500px) {
     min-height: 286px;
   }
+}
 
-  .favourite-edit-list {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, 8px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
-    .favourite-edit-list-item:not(:first-child) {
-      margin-top: 9px;
-    }
+.item {
+  display: flex;
+  align-items: center;
+  min-height: 50px;
+  background: var(--color-surface-default, #fff);
+  border: 1px solid var(--color-border-weak, #ddd);
+  border-radius: var(--radius-s, 4px);
+  box-sizing: border-box;
+}
 
-    .favourite-edit-list-item {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      background: white;
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      min-height: 50px;
-      border-radius: 5px;
-      border: solid 1px #ddd;
-      list-style: none;
-      box-sizing: border-box;
+.dragHandle {
+  display: flex;
+  align-items: center;
+  flex: none;
+  align-self: stretch;
+  cursor: move;
+  color: var(--color-icon-accent, #0074bf);
+}
 
-      .favourite-edit-list-item-left {
-        display: flex;
-        min-width: 69px;
-        height: 100%;
-        align-items: center;
+.ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 37px;
+  color: var(--color-icon-weakest, #888);
 
-        .favourite-edit-list-arrow-hidden {
-          z-index: -999;
-          opacity: 0;
-          width: 0;
-          padding: 0;
-          border: 0;
-        }
+  svg {
+    height: 20px;
+    transform: rotate(90deg);
+  }
+}
 
-        .favourite-edit-list-arrow-hidden:focus {
-          font-weight: bold;
-          z-index: 10;
-          opacity: 1;
-        }
+.placeIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  margin-right: var(--space-xs, 8px);
 
-        .favourite-edit-list-item-drag {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          min-width: 37px;
-          height: 100%;
-          cursor: move;
+  svg {
+    width: $icon-size-medium;
+    height: $icon-size-medium;
+  }
+}
 
-          .favourite-edit-list-item-ellipsis {
-            height: 20px;
+// Keyboard alternative to dragging: visible only while focused
+.arrow:not(:focus, :active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
 
-            svg {
-              fill: #888;
-              height: 20px;
-              transform: rotate(90deg);
-            }
-          }
-        }
+.arrow {
+  font-weight: var(--font-weight-medium, 500);
+}
 
-        .favourite-edit-list-item-icon {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100%;
-          min-width: 24px;
+.text {
+  flex: 1 1 0;
+  min-width: 0;
+  padding-left: var(--space-xs, 8px);
+}
 
-          svg {
-            position: relative;
-            left: -3px;
-            top: -1px;
-            fill: var(--color);
-            width: 22px;
-            height: 22px;
-          }
+.name,
+.address {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-          &.place {
-            svg {
-              fill: var(--color);
-              width: 24px;
-              height: 24px;
-            }
-          }
+.address:empty {
+  display: none;
+}
 
-          &.home,
-          &.school,
-          &.sport,
-          &.shopping {
-            svg {
-              fill: var(--color);
-              width: 18px;
-              height: 18px;
-            }
-          }
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 48px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--color-icon-weakest, #888);
 
-          &.work {
-            svg {
-              fill: var(--color);
-              width: 20px;
-              height: 20px;
-            }
-          }
-        }
-      }
-
-      .favourite-edit-list-item-content {
-        display: flex;
-        flex-direction: column;
-        width: calc(100% - 69px - 86px);
-
-        .favourite-edit-list-item-name {
-          margin: 0;
-          font-weight: var(--font-weight-medium);
-          color: #333;
-          font-size: 15px;
-          line-height: 1;
-          letter-spacing: -0.6px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .favourite-edit-list-item-address {
-          margin: 3px 0 0;
-          color: #666;
-          font-size: 12px;
-          font-weight: 400;
-          line-height: 1;
-          letter-spacing: -0.48px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-
-          &:empty {
-            margin-top: 0;
-          }
-        }
-      }
-
-      .favourite-edit-list-item-right {
-        display: flex;
-        min-width: 86px;
-        align-items: center;
-        justify-content: space-evenly;
-
-        .favourite-edit-list-item-edit {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 22px;
-          height: 48px;
-          cursor: pointer;
-
-          svg {
-            fill: #888;
-            width: 22px;
-            height: 22px;
-          }
-        }
-
-        .favourite-edit-list-item-remove {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          cursor: pointer;
-          width: 18px;
-          height: 48px;
-
-          svg {
-            fill: #888;
-            width: 18px;
-            height: 20px;
-          }
-        }
-      }
-    }
+  &:hover,
+  &:focus-visible {
+    color: var(--color-icon-accent, #0074bf);
   }
 
-  & > div {
-    width: 100%;
+  svg {
+    width: $icon-size-small;
+    height: $icon-size-small;
   }
+}
 
-  .favourite-edit-list-overlay {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: #fff;
-  }
+.overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  inset: 0;
+  background: var(--color-surface-default, #fff);
 }

@@ -2256,13 +2256,12 @@ __metadata:
   dependencies:
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
     "@testing-library/react": "npm:^12"
-    react-modal: "npm:~3.11.2"
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^"
     "@digitransit-component/digitransit-component-icon": "workspace:^"
+    "@hsl-fi/dialog": ^3.1.3
+    "@hsl-fi/layout-primitives": ^4.9.0
     "@hsl-fi/loading-indicators": ^2.0.0
-    "@hsl-fi/modal": ^0.3.2
-    "@hsl-fi/sass": 1.0.0
     i18next: ^22.5.1
     prop-types: ^15.8.1
     react: ^16.13.0
@@ -2276,15 +2275,13 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-favourite-modal@workspace:digitransit-component/packages/digitransit-component-favourite-modal"
   dependencies:
     "@testing-library/react": "npm:^12"
-    react-modal: "npm:~3.11.2"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": "workspace:^"
-    "@hsl-fi/modal": ^0.3.2
-    "@hsl-fi/sass": 1.0.0
+    "@hsl-fi/dialog": ^3.1.3
+    "@hsl-fi/form": ^5.0.4
+    "@hsl-fi/layout-primitives": ^4.9.0
     classnames: 2.5.1
     i18next: ^22.5.1
-    lodash: 4.18.1
-    lodash-es: 4.18.1
     prop-types: ^15.8.1
     react: ^16.13.0
     react-i18next: ^12.3.1
@@ -3421,16 +3418,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hsl-fi/animated-spinner@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@hsl-fi/animated-spinner@npm:0.3.0"
-  dependencies:
-    "@hsl-fi/icons": "npm:^1.0.6"
-    "@hsl-fi/sass": "npm:^0.2.0"
-  checksum: 10/12fab8bf588db324507b0354f6b88f5830a06126f7f6ac5d114d2490bd011f2d8278839845656c33572fbfe9a0a888d43060792d9129cf2017b5bdc9f734280f
-  languageName: node
-  linkType: hard
-
 "@hsl-fi/animations@npm:^1.11.0":
   version: 1.11.0
   resolution: "@hsl-fi/animations@npm:1.11.0"
@@ -3481,17 +3468,6 @@ __metadata:
     "@hsl-fi/sass": "npm:^0.2.0"
     "@hsl-fi/utilities": "npm:^0.3.2"
   checksum: 10/d32d8b60fb8ccf3c7ee6fcfe9a8c60f15ad14520c788182901280106fd4987b97f5c197e8e1a6bd388e87c1fda572a749a586691ebb5b7e50eb03ca3a214270e
-  languageName: node
-  linkType: hard
-
-"@hsl-fi/container-spinner@npm:0.3.2":
-  version: 0.3.2
-  resolution: "@hsl-fi/container-spinner@npm:0.3.2"
-  dependencies:
-    "@hsl-fi/animated-spinner": "npm:^0.3.0"
-    "@hsl-fi/sass": "npm:^0.2.0"
-    "@hsl-fi/utilities": "npm:^0.3.2"
-  checksum: 10/24e1a67d1634e6f4ec17d9205f9ebec445f832c532971b14f9b669d8263befe3e7967d8c49f6cbd1b79345711b0bd70b17ccc9c1b2b0b8bb18583bfc23f5de86
   languageName: node
   linkType: hard
 
@@ -11828,15 +11804,14 @@ __metadata:
     "@babel/preset-react": "npm:7.26.3"
     "@babel/runtime": "npm:7.27.0"
     "@graphql-eslint/eslint-plugin": "npm:3.20.1"
-    "@hsl-fi/assets": "npm:^2.1.0"
     "@hsl-fi/button": "npm:^1.2.4"
-    "@hsl-fi/container-spinner": "npm:0.3.2"
     "@hsl-fi/design-system-core": "npm:^2.7.1"
     "@hsl-fi/design-tokens": "npm:^1.25.0"
     "@hsl-fi/dialog": "npm:^3.1.3"
     "@hsl-fi/form": "npm:^5.0.4"
     "@hsl-fi/icons": "npm:^2.3.0"
     "@hsl-fi/layout-primitives": "npm:^4.9.0"
+    "@hsl-fi/loading-indicators": "npm:^2.0.0"
     "@hsl-fi/modal": "npm:^0.3.2"
     "@hsl-fi/navigation": "npm:^3.3.0"
     "@hsl-fi/notifications": "npm:^4.1.0"
@@ -22197,7 +22172,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:15.8.1, prop-types@npm:^15.5.10, prop-types@npm:^15.5.8, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:15.8.1, prop-types@npm:^15.5.8, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -22668,21 +22643,6 @@ __metadata:
     react: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18 || ^19
     react-dom: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18 || ^19
   checksum: 10/2882ced4ede7af4c1e8bab5b556b61c05525639200e3d332b001c7a97b9e9e0db9129fc9d93761b32c8351a3a474490904584bac9e5a84f068596c620d22a209
-  languageName: node
-  linkType: hard
-
-"react-modal@npm:~3.11.2":
-  version: 3.11.2
-  resolution: "react-modal@npm:3.11.2"
-  dependencies:
-    exenv: "npm:^1.2.0"
-    prop-types: "npm:^15.5.10"
-    react-lifecycles-compat: "npm:^3.0.0"
-    warning: "npm:^4.0.3"
-  peerDependencies:
-    react: ^0.14.0 || ^15.0.0 || ^16
-    react-dom: ^0.14.0 || ^15.0.0 || ^16
-  checksum: 10/c806de9672db326c4a4e029696e24b70aa348682a1d9daad7ebeb9a6b335130ddcb3407ae413cef697cc007969a9d3106d2ccef6ba6c269da81acdf6606ed39c
   languageName: node
   linkType: hard
 

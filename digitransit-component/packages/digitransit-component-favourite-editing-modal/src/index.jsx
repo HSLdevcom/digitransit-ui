@@ -1,368 +1,211 @@
-/* eslint react/forbid-prop-types: 0 */
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
-import { I18nextProvider, withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { ReactSortable } from 'react-sortablejs';
-import cx from 'classnames';
-import differenceWith from 'lodash/differenceWith';
-import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 import { Spinner } from '@hsl-fi/loading-indicators';
-import Modal from '@hsl-fi/modal';
-import Icon, {
-  defaultColors,
-} from '@digitransit-component/digitransit-component-icon';
+import { Modal, ModalContent } from '@hsl-fi/dialog';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
-import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
-import ModalContent from './helpers/ModalContent';
-import styles from './helpers/styles.scss';
+import FavouriteListItem, {
+  DRAG_HANDLE_CLASS,
+} from './helpers/FavouriteListItem';
 import i18n from './helpers/i18n';
+import styles from './helpers/styles.scss';
 
-const isKeyboardSelectionEvent = event => {
-  const space = [13, ' ', 'Spacebar'];
-  const enter = [32, 'Enter'];
-  const key = (event && (event.key || event.which || event.keyCode)) || '';
+/**
+ * A dialog for reordering, editing and deleting favourite places, built on
+ * the HSL design system's Modal. Colors, typography and the mobile/desktop
+ * layout are handled by the design system, so the dialog follows the active
+ * deployment's theme.
+ *
+ * @example
+ * <FavouriteEditingModal
+ *   isModalOpen={modalOpen}
+ *   handleClose={handleClose}
+ *   favourites={favourites}
+ *   updateFavourites={onUpdateFavourites}
+ *   deleteFavourite={onDeleteFavourite}
+ *   onEditSelected={onEditSelected}
+ *   isLoading={false}
+ *   lang="fi"
+ * />
+ */
+function FavouriteEditingModal({
+  isModalOpen,
+  handleClose,
+  updateFavourites,
+  deleteFavourite,
+  onEditSelected,
+  favourites,
+  isLoading,
+  lang = 'fi',
+}) {
+  const { t } = useTranslation('translation', { i18n });
+  const [source, setSource] = useState(favourites);
+  const [reordered, setReordered] = useState(null);
+  const [selectedFavourite, setSelectedFavourite] = useState(null);
+  const previousFavourites = useRef(favourites);
 
-  if (!key || !space.concat(enter).includes(key)) {
-    return false;
+  // Drop the local order when the favourites change from outside
+  if (!isEqual(source, favourites)) {
+    setSource(favourites);
+    setReordered(null);
   }
-  event.preventDefault();
-  return true;
-};
+  const items = reordered || favourites;
 
-class FavouriteEditingModal extends React.Component {
-  static propTypes = {
-    /** Required. Close modal.
-     * @type {function} */
-    handleClose: PropTypes.func.isRequired,
-    /** Required.
-     * @type {function} */
-    updateFavourites: PropTypes.func.isRequired,
-    /** Required.
-     * @type {function} */
-    deleteFavourite: PropTypes.func.isRequired,
-    /** Required. Function that takes selected favourite object as parameter.
-     * @type {function} */
-    onEditSelected: PropTypes.func.isRequired,
-    /** Required.
-     * @type {array<object>}
-     * @property {string} type
-     * @property {string} address
-     * @property {string} gtfsId
-     * @property {string} gid
-     * @property {number} lat
-     * @property {number} lon
-     * @property {string} name
-     * @property {string} selectedIconId
-     * @property {string} favouriteId
-     * @property {string} layer
-     */
-    favourites: PropTypes.arrayOf(
-      PropTypes.shape({
-        type: PropTypes.string,
-        address: PropTypes.string,
-        gtfsId: PropTypes.string,
-        gid: PropTypes.string,
-        lat: PropTypes.number,
-        lon: PropTypes.number,
-        name: PropTypes.string,
-        selectedIconId: PropTypes.string,
-        favouriteId: PropTypes.string,
-        layer: PropTypes.string,
-      }),
-    ).isRequired,
-    lang: PropTypes.string,
-    t: PropTypes.func.isRequired,
-    appElement: PropTypes.string.isRequired,
-    isModalOpen: PropTypes.bool.isRequired,
-    isMobile: PropTypes.bool,
-    isLoading: PropTypes.bool.isRequired,
-    colors: PropTypes.objectOf(PropTypes.string),
-    /** Optional. */
-    fontWeights: PropTypes.shape({
-      /** Default value is 500. */
-      medium: PropTypes.number,
-    }),
-  };
-
-  static defaultProps = {
-    lang: 'fi',
-    isMobile: false,
-    colors: defaultColors,
-    fontWeights: {
-      medium: 500,
-    },
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      favourites: props.favourites,
-      showDeletePlaceModal: false,
-      selectedFavourite: null,
-    };
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const nextFavourites = nextProps.favourites;
-    const prevFavourites = prevState.favourites;
+  useEffect(() => {
     if (
-      !isEmpty(differenceWith(nextFavourites, prevFavourites, isEqual)) ||
-      !isEmpty(differenceWith(prevFavourites, nextFavourites, isEqual))
+      previousFavourites.current !== favourites &&
+      !isEqual(previousFavourites.current, favourites) &&
+      isEmpty(favourites)
     ) {
-      if (isEmpty(nextFavourites)) {
-        nextProps.handleClose();
-      }
-      return {
-        favourites: nextFavourites,
-      };
+      handleClose();
     }
-    return null;
-  }
+    previousFavourites.current = favourites;
+  }, [favourites, handleClose]);
 
-  translate = (id, options) => {
-    return this.props.t(id, {
-      lng: this.props.lang,
-      ...options,
-    });
+  const move = (index, direction) => {
+    const copy = [...items];
+    [copy[index], copy[index + direction]] = [
+      copy[index + direction],
+      copy[index],
+    ];
+    setReordered(copy);
   };
 
-  moveFavourite = (i, direction) => {
-    const { favourites } = this.state;
-    // Edit copy of the favourites to avoid changing the props.favourites used for state initialization
-    const favouritesCopy = [...favourites];
-
-    const tmp = favouritesCopy[i + direction];
-    favouritesCopy[i + direction] = favouritesCopy[i];
-    favouritesCopy[i] = tmp;
-
-    this.setState({ favourites: favouritesCopy });
-  };
-
-  renderFavouriteListItem = (favourite, index) => {
-    let iconId = 'place';
-    if (favourite.selectedIconId) {
-      const prefixPos = favourite.selectedIconId.indexOf('icon_');
-      if (prefixPos > 0) {
-        iconId = favourite.selectedIconId.substring(prefixPos + 5);
-      }
+  const closeModal = () => {
+    handleClose();
+    const omitted = items.map(item => omit(item, ['chosen', 'selected']));
+    if (!isEqual(omitted, favourites)) {
+      updateFavourites(omitted);
     }
-    const [name, address] = formatFavouritePlaceLabel(
-      favourite.name,
-      favourite.address,
-    );
-
-    return (
-      <li
-        className={cx(styles['favourite-edit-list-item'])}
-        key={favourite.favouriteId}
-      >
-        <div className={styles['favourite-edit-list-item-left']}>
-          {index > 0 && (
-            <button
-              className={styles['favourite-edit-list-arrow-hidden']}
-              type="button"
-              aria-label={this.translate('up')}
-              onClick={() => {
-                this.moveFavourite(index, -1);
-              }}
-            >
-              &uarr;
-            </button>
-          )}
-          {index < this.state.favourites.length - 1 && (
-            <button
-              className={styles['favourite-edit-list-arrow-hidden']}
-              type="button"
-              aria-label={this.translate('down')}
-              onClick={() => {
-                this.moveFavourite(index, 1);
-              }}
-            >
-              &darr;
-            </button>
-          )}
-          <div className={styles['favourite-edit-list-item-drag']}>
-            <div className={styles['favourite-edit-list-item-ellipsis']}>
-              <Icon img="ellipsis" />
-            </div>
-          </div>
-          <div
-            className={cx(
-              styles['favourite-edit-list-item-icon'],
-              styles[iconId],
-            )}
-          >
-            <Icon img={iconId} color={this.props.colors.primary} />
-          </div>
-        </div>
-        <div className={styles['favourite-edit-list-item-content']}>
-          <p className={styles['favourite-edit-list-item-name']}>{name}</p>
-          <p className={styles['favourite-edit-list-item-address']}>
-            {address}
-          </p>
-        </div>
-        <div className={styles['favourite-edit-list-item-right']}>
-          <div
-            role="button"
-            tabIndex="0"
-            aria-label={this.translate('edit-place-name', {
-              favourite,
-            })}
-            className={styles['favourite-edit-list-item-edit']}
-            onClick={() => this.props.onEditSelected(favourite)}
-            onKeyDown={e => {
-              if (isKeyboardSelectionEvent(e)) {
-                this.props.onEditSelected(favourite);
-              }
-            }}
-          >
-            <Icon img="edit" />
-          </div>
-          <div
-            role="button"
-            tabIndex="0"
-            aria-label={this.translate('delete-place-name', {
-              favourite,
-            })}
-            className={styles['favourite-edit-list-item-remove']}
-            onClick={() =>
-              this.setState({
-                selectedFavourite: favourite,
-                showDeletePlaceModal: true,
-              })
-            }
-            onKeyDown={e => {
-              if (isKeyboardSelectionEvent(e)) {
-                this.setState({
-                  selectedFavourite: favourite,
-                  showDeletePlaceModal: true,
-                });
-              }
-            }}
-          >
-            <Icon img="trash" />
-          </div>
-        </div>
-      </li>
-    );
   };
 
-  renderFavouriteList = () => {
-    const { isLoading } = this.props;
-    const { favourites } = this.state;
-    return (
-      <div className={styles['favourite-edit-list-container']}>
-        <ReactSortable
-          className={styles['favourite-edit-list']}
-          tag="ul"
-          list={favourites}
-          setList={items => this.setState({ favourites: items })}
-          animation={200}
-          handle={`.${styles['favourite-edit-list-item-left']}`}
-        >
-          {favourites.map((favourite, index) => {
-            return this.renderFavouriteListItem(favourite, index);
-          })}
-        </ReactSortable>
-        {isLoading && (
-          <div className={styles['favourite-edit-list-overlay']}>
-            <Spinner />
-          </div>
-        )}
-      </div>
-    );
-  };
+  const closeDeleteDialog = () => setSelectedFavourite(null);
 
-  renderDeleteFavouriteModal = favourite => {
-    return (
+  return (
+    <>
       <DialogModal
-        headerText={this.translate('delete-place-header')}
-        handleClose={() =>
-          this.setState(
-            { selectedFavourite: null, showDeletePlaceModal: false },
-            () => this.props.handleClose(),
-          )
-        }
-        isModalOpen={this.state.showDeletePlaceModal}
-        dialogContent={
-          favourite ? `${favourite.name}: ${favourite.address}` : ''
-        }
-        primaryButtonText={this.translate('delete')}
-        primaryButtonOnClick={() => {
-          this.props.deleteFavourite(favourite);
-          this.setState({
-            selectedFavourite: null,
-            showDeletePlaceModal: false,
-          });
+        headerText={t('delete-place-header', { lng: lang })}
+        handleClose={() => {
+          closeDeleteDialog();
+          handleClose();
         }}
-        secondaryButtonText={this.translate('cancel')}
-        secondaryButtonOnClick={() =>
-          this.setState({
-            selectedFavourite: null,
-            showDeletePlaceModal: false,
-          })
+        isModalOpen={selectedFavourite !== null}
+        dialogContent={
+          selectedFavourite
+            ? `${selectedFavourite.name}: ${selectedFavourite.address}`
+            : ''
         }
-        lang={this.props.lang}
+        primaryButtonText={t('delete', { lng: lang })}
+        primaryButtonOnClick={() => {
+          deleteFavourite(selectedFavourite);
+          closeDeleteDialog();
+        }}
+        secondaryButtonText={t('cancel', { lng: lang })}
+        secondaryButtonOnClick={closeDeleteDialog}
+        lang={lang}
       />
-    );
-  };
-
-  closeModal = () => {
-    this.props.handleClose();
-    const omittedFavourites = this.state.favourites.map(item =>
-      omit(item, ['chosen', 'selected']),
-    );
-    if (!isEqual(omittedFavourites, this.props.favourites)) {
-      this.props.updateFavourites(omittedFavourites);
-    }
-  };
-
-  renderModalContent = () => {
-    const { fontWeights } = this.props;
-    const { primary, hover } = this.props.colors;
-    const modalProps = {
-      headerText: this.translate('edit-places'),
-      renderList: this.renderFavouriteList,
-    };
-    const style = {
-      '--color': primary,
-      '--hover-color': hover,
-      '--font-weight-medium': fontWeights.medium,
-    };
-    return (
-      <div style={style}>
-        <ModalContent {...modalProps} />
-      </div>
-    );
-  };
-
-  render() {
-    const { isMobile } = this.props;
-    const { showDeletePlaceModal, selectedFavourite } = this.state;
-    return (
       <Modal
-        appElement={this.props.appElement}
-        contentLabel={this.translate('edit-modal-on-open')}
-        closeButtonLabel={this.translate('close-modal')}
-        variant={isMobile ? 'large' : 'small'}
-        isOpen={this.props.isModalOpen}
-        onCrossClick={this.closeModal}
+        open={isModalOpen && selectedFavourite === null}
+        onOpenChange={open => {
+          if (!open) {
+            closeModal();
+          }
+        }}
       >
-        {this.renderDeleteFavouriteModal(selectedFavourite)}
-        {!showDeletePlaceModal && this.renderModalContent()}
+        <ModalContent
+          lang={lang}
+          title={t('edit-places', { lng: lang })}
+          className={styles.modalContent}
+          aria-describedby={undefined}
+        >
+          <div className={styles.listContainer}>
+            <ReactSortable
+              className={styles.list}
+              tag="ul"
+              list={items}
+              setList={setReordered}
+              animation={200}
+              handle={`.${DRAG_HANDLE_CLASS}`}
+            >
+              {items.map((favourite, index) => (
+                <FavouriteListItem
+                  key={favourite.favouriteId}
+                  favourite={favourite}
+                  lang={lang}
+                  onMoveUp={index > 0 ? () => move(index, -1) : null}
+                  onMoveDown={
+                    index < items.length - 1 ? () => move(index, 1) : null
+                  }
+                  onEdit={() => onEditSelected(favourite)}
+                  onDelete={() => setSelectedFavourite(favourite)}
+                />
+              ))}
+            </ReactSortable>
+            {isLoading && (
+              <div className={styles.overlay}>
+                <Spinner />
+              </div>
+            )}
+          </div>
+        </ModalContent>
       </Modal>
-    );
-  }
+    </>
+  );
 }
 
-const FavouriteEditingModalWithTranslation = withTranslation()(
-  FavouriteEditingModal,
-);
+FavouriteEditingModal.propTypes = {
+  /** Required. Whether the dialog is open.
+   * @type {boolean} */
+  isModalOpen: PropTypes.bool.isRequired,
+  /** Required. Close modal.
+   * @type {function} */
+  handleClose: PropTypes.func.isRequired,
+  /** Required. Called with the reordered favourites when the dialog is closed.
+   * @type {function} */
+  updateFavourites: PropTypes.func.isRequired,
+  /** Required. Called with the favourite the user confirmed deleting.
+   * @type {function} */
+  deleteFavourite: PropTypes.func.isRequired,
+  /** Required. Function that takes selected favourite object as parameter.
+   * @type {function} */
+  onEditSelected: PropTypes.func.isRequired,
+  /** Required. Whether a save is in progress; shows a spinner over the list.
+   * @type {boolean} */
+  isLoading: PropTypes.bool.isRequired,
+  /** Required.
+   * @type {array<object>}
+   * @property {string} type
+   * @property {string} address
+   * @property {string} gtfsId
+   * @property {string} gid
+   * @property {number} lat
+   * @property {number} lon
+   * @property {string} name
+   * @property {string} selectedIconId
+   * @property {string} favouriteId
+   * @property {string} layer
+   */
+  favourites: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string,
+      address: PropTypes.string,
+      gtfsId: PropTypes.string,
+      gid: PropTypes.string,
+      lat: PropTypes.number,
+      lon: PropTypes.number,
+      name: PropTypes.string,
+      selectedIconId: PropTypes.string,
+      favouriteId: PropTypes.string,
+      layer: PropTypes.string,
+    }),
+  ).isRequired,
+  /** Optional. Language, fi, en or sv. Defaults to fi.
+   * @type {string} */
+  lang: PropTypes.string,
+};
 
-export default props => (
-  <I18nextProvider i18n={i18n}>
-    <FavouriteEditingModalWithTranslation {...props} />
-  </I18nextProvider>
-);
+export default FavouriteEditingModal;
