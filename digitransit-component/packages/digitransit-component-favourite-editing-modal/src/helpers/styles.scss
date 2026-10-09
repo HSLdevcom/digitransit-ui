@@ -98,41 +98,19 @@ $icon-size-small: 18px;
 }
 
 .text {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
   min-width: 0;
 }
 
 .name,
 .address {
   margin: 0;
-  line-height: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.name {
-  font-size: 15px;
-  font-weight: var(--font-weight-medium, 500);
-  color: var(--color-text-default, #333);
-}
-
-.address {
-  margin-top: 3px;
-  font-size: 12px;
-  color: var(--color-text-weak, #666);
-
-  &:empty {
-    margin-top: 0;
-  }
-}
-
-.actions {
-  display: flex;
-  flex: none;
-  align-items: center;
+.address:empty {
+  display: none;
 }
 
 .actionButton {

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { FlexColumn, FlexRow, Text } from '@hsl-fi/layout-primitives';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import styles from './styles.scss';
@@ -62,11 +63,15 @@ function FavouriteListItem({
           <Icon img={iconId} color="currentColor" />
         </span>
       </div>
-      <div className={styles.text}>
-        <p className={styles.name}>{name}</p>
-        <p className={styles.address}>{address}</p>
-      </div>
-      <div className={styles.actions}>
+      <FlexColumn flex="1" className={styles.text}>
+        <Text variant="text-xs-bold" as="p" className={styles.name}>
+          {name}
+        </Text>
+        <Text variant="text-xs" as="p" color="weak" className={styles.address}>
+          {address}
+        </Text>
+      </FlexColumn>
+      <FlexRow alignItems="center" flexShrink={0}>
         <button
           type="button"
           className={styles.actionButton}
@@ -83,7 +88,7 @@ function FavouriteListItem({
         >
           <Icon img="trash" color="currentColor" />
         </button>
-      </div>
+      </FlexRow>
     </li>
   );
 }
