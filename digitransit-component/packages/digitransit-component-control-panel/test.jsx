@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import CtrlPanel from './src/index';
 
 describe('Testing @digitransit-component/digitransit-component-control-panel module', () => {
@@ -51,6 +51,27 @@ describe('Testing @digitransit-component/digitransit-component-control-panel mod
       );
       screen.getByRole('link').click();
       expect(clicks).toEqual(['/en/nearyou/BUS/POS/Pasila::60.2,24.9']);
+    });
+
+    it('activates a mode link with the Enter key but ignores other keys', () => {
+      const clicks = [];
+      render(
+        <CtrlPanel position="left">
+          <CtrlPanel.NearStopsAndRoutes
+            appElement="#app"
+            modeArray={['bus']}
+            language="en"
+            origin={{}}
+            onClick={url => clicks.push(url)}
+            urlPrefix="/nearyou"
+          />
+        </CtrlPanel>,
+      );
+      const link = screen.getByRole('link');
+      fireEvent.keyDown(link, { key: 'a' });
+      expect(clicks).toEqual([]);
+      fireEvent.keyDown(link, { key: 'Enter' });
+      expect(clicks).toEqual(['/en/nearyou/BUS/POS']);
     });
   });
 });

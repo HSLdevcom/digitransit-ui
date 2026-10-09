@@ -1,6 +1,3 @@
-/* eslint-disable dot-notation */
-/* eslint no-console: ["error", { allow: ["warn", "error"] }] */
-/* eslint react/forbid-prop-types: 0 */
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useTranslation, I18nextProvider } from 'react-i18next';
@@ -12,13 +9,12 @@ import styles from './helpers/styles.scss';
 import i18n from './helpers/i18n';
 
 const DEFAULT_FONT_WEIGHTS = { medium: 500 };
+const DEFAULT_CHILDREN = [];
+
+const SELECTION_KEYS = ['Enter', ' ', 'Spacebar'];
 
 const isKeyboardSelectionEvent = event => {
-  const space = [13, ' ', 'Spacebar'];
-  const enter = [32, 'Enter'];
-  const key = (event && (event.key || event.which || event.keyCode)) || '';
-
-  if (!key || !space.concat(enter).includes(key)) {
+  if (!SELECTION_KEYS.includes(event?.key)) {
     return false;
   }
   event.preventDefault();
@@ -141,7 +137,7 @@ function NearStopsAndRoutes({
   // line between buttons
   const separator = (
     <div
-      className={styles['separator']}
+      className={styles.separator}
       style={{
         '--margin': isMobile ? '0' : '-5%',
         '--width': isMobile ? '100%' : '110%',
@@ -313,43 +309,34 @@ NearStopsAndRoutes.propTypes = {
  *    />
  *  </CtrlPanel>
  */
-class CtrlPanel extends React.Component {
-  static NearStopsAndRoutes = NearStopsAndRoutes;
-
-  static SeparatorLine = SeparatorLine;
-
-  static propTypes = {
-    children: PropTypes.node,
-    position: PropTypes.string.isRequired,
-    fontWeights: PropTypes.shape({
-      medium: PropTypes.number,
-    }),
-  };
-
-  static defaultProps = {
-    children: [],
-    fontWeights: {
-      medium: 500,
-    },
-  };
-
-  render() {
-    const className =
-      this.props.position === 'bottom'
-        ? styles['main-bottom']
-        : styles['main-left'];
-    return (
-      <I18nextProvider i18n={i18n}>
-        <div
-          key="main"
-          className={className}
-          style={{ '--font-weight': this.props.fontWeights.medium }}
-        >
-          {this.props.children}
-        </div>
-      </I18nextProvider>
-    );
-  }
+function CtrlPanel({
+  children = DEFAULT_CHILDREN,
+  position,
+  fontWeights = DEFAULT_FONT_WEIGHTS,
+}) {
+  const className =
+    position === 'bottom' ? styles['main-bottom'] : styles['main-left'];
+  return (
+    <I18nextProvider i18n={i18n}>
+      <div
+        className={className}
+        style={{ '--font-weight': fontWeights.medium }}
+      >
+        {children}
+      </div>
+    </I18nextProvider>
+  );
 }
+
+CtrlPanel.NearStopsAndRoutes = NearStopsAndRoutes;
+CtrlPanel.SeparatorLine = SeparatorLine;
+
+CtrlPanel.propTypes = {
+  children: PropTypes.node,
+  position: PropTypes.string.isRequired,
+  fontWeights: PropTypes.shape({
+    medium: PropTypes.number,
+  }),
+};
 
 export default CtrlPanel;

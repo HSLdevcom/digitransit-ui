@@ -19,7 +19,7 @@ export default function AllModesModal({
   return (
     <Modal
       appElement={appElement}
-      closeButtonLabel={(t('close'), { lng: language })}
+      closeButtonLabel={t('close', { lng: language })}
       variant={isMobile ? 'large' : 'small'}
       isOpen={modalOpen}
       onCrossClick={closeModal}
