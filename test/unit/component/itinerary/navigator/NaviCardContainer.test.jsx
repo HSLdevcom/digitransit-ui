@@ -226,6 +226,59 @@ describe('<NaviCardContainer />', () => {
       expect(cardContainer().className).toContain('show-card');
     });
 
+    it('still shows the card again when a time update arrives during the hide window', () => {
+      const legs = buildLegs();
+      const [walk1, transit] = legs;
+      const props = {
+        ...baseProps(legs),
+        nextLeg: transit,
+        firstLeg: walk1,
+        lastLeg: legs[2],
+      };
+
+      const { container, rerender } = renderWithProviders(
+        <NaviCardContainer
+          {...props}
+          time={NOW + 1 * 60000}
+          currentLeg={walk1}
+          previousLeg={undefined}
+        />,
+        { config },
+      );
+      const cardContainer = () =>
+        container.querySelector('.navi-card-container');
+
+      act(() => {
+        rerender(
+          <NaviCardContainer
+            {...props}
+            time={NOW + 3 * 60000}
+            currentLeg={undefined}
+            previousLeg={walk1}
+          />,
+        );
+      });
+      expect(cardContainer().className).toContain('hide-card');
+
+      // a realtime poll lands while the hide timeout is pending; it must not
+      // cancel the timeout and leave the card hidden forever
+      act(() => {
+        vi.advanceTimersByTime(500);
+        rerender(
+          <NaviCardContainer
+            {...props}
+            time={NOW + 3 * 60000 + 500}
+            currentLeg={undefined}
+            previousLeg={walk1}
+          />,
+        );
+      });
+      act(() => {
+        vi.advanceTimersByTime(5000);
+      });
+      expect(cardContainer().className).toContain('show-card');
+    });
+
     it('ends up showing the latest leg, not a stale one, when legs change faster than the hide window', () => {
       const legs = buildLegs();
       const [walk1, transit, walk2] = legs;
