@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
+import { Text } from '@hsl-fi/layout-primitives';
 import styles from './styles.scss';
 
 export default function AllModesModal({
@@ -27,7 +28,13 @@ export default function AllModesModal({
       <ModalContent
         lang={language}
         title={t('title', { lng: language })}
-        description={isMobile ? undefined : t('description', { lng: language })}
+        description={
+          isMobile ? undefined : (
+            <Text variant="paragraph-small" fixedSize="desktop" color="default">
+              {t('description', { lng: language })}
+            </Text>
+          )
+        }
         buttons={[
           {
             children: t('close', { lng: language }),
