@@ -8,6 +8,7 @@ export default function AllModesModal({
   modalOpen,
   closeModal,
   language,
+  isMobile,
   fontWeights,
   children,
 }) {
@@ -26,7 +27,7 @@ export default function AllModesModal({
       <ModalContent
         lang={language}
         title={t('title', { lng: language })}
-        description={t('description', { lng: language })}
+        description={isMobile ? undefined : t('description', { lng: language })}
         buttons={[
           {
             children: t('close', { lng: language }),
@@ -50,6 +51,7 @@ export default function AllModesModal({
 
 AllModesModal.propTypes = {
   language: PropTypes.string.isRequired,
+  isMobile: PropTypes.bool.isRequired,
   modalOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
   fontWeights: PropTypes.shape({ medium: PropTypes.number }).isRequired,

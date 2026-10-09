@@ -81,6 +81,7 @@ export default function NearStopsAndRoutes({
       {useModal && (
         <AllModesModal
           language={language}
+          isMobile={isMobile}
           modalOpen={modalOpen}
           fontWeights={fontWeights}
           closeModal={() => setModalOpen(false)}
