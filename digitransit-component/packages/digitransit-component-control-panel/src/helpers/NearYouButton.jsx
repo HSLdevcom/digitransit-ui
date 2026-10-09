@@ -2,13 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './styles.scss';
+import { getIconName } from './utils';
 
 export default function NearYouButton({
   mode,
   modeSet,
   colors,
-  getIconName,
   title = '',
+  titleWeight = 500,
   withAlert = false,
   boxed = false,
   withBorder = false,
@@ -65,7 +66,14 @@ export default function NearYouButton({
           </span>
         )}
       </span>
-      {title}
+      {title && (
+        <span
+          className={styles['transport-mode-title']}
+          style={{ '--font-weight': titleWeight }}
+        >
+          {title}
+        </span>
+      )}
       {withArrow && (
         <div className={styles['near-you-button-caret']}>
           <Icon img="arrow" color={colors.primary} width={0.9} height={0.9} />
@@ -79,8 +87,8 @@ NearYouButton.propTypes = {
   mode: PropTypes.string.isRequired,
   modeSet: PropTypes.string.isRequired,
   colors: PropTypes.objectOf(PropTypes.string).isRequired,
-  getIconName: PropTypes.func.isRequired,
-  title: PropTypes.node,
+  title: PropTypes.string,
+  titleWeight: PropTypes.number,
   withAlert: PropTypes.bool,
   boxed: PropTypes.bool,
   withBorder: PropTypes.bool,
