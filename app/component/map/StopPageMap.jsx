@@ -25,49 +25,51 @@ import CookieSettingsButton from '../CookieSettingsButton';
 import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../../utils/shared/path';
 import { streetQuery } from './StreetQuery';
 
-const getModeFromProps = props => {
-  if (props.citybike) {
+const getMode = (stop, citybike, parkType, scooter) => {
+  if (citybike) {
     return 'citybike';
   }
-  if (props.parkType === PREFIX_BIKEPARK) {
+  if (parkType === PREFIX_BIKEPARK) {
     return 'parkAndRideForBikes';
   }
-  if (props.parkType === PREFIX_CARPARK) {
+  if (parkType === PREFIX_CARPARK) {
     return 'parkAndRide';
   }
-  if (props.stop.vehicleMode) {
-    return props.stop.vehicleMode.toLowerCase();
+  if (stop.vehicleMode) {
+    return stop.vehicleMode.toLowerCase();
   }
-  if (props.scooter) {
+  if (scooter) {
     return 'scooter';
   }
   return 'stop';
 };
 
-function StopPageMap(props) {
-  const {
-    stop,
-    breakpoint,
-    locationState,
-    stopName,
-    stopStatus,
-    stopAlertEffects,
-  } = props;
+function StopPageMap({
+  stop,
+  breakpoint,
+  locationState,
+  stopName,
+  stopStatus = null,
+  stopAlertEffects = null,
+  citybike = false,
+  scooter = false,
+  parkType = null,
+}) {
   const config = useConfigContext();
   // if the stop is not a gtfs transit stop, disable vehicles
   const shouldShowVehicles = config.showVehiclesOnStopPage && stop.gtfsId;
   const mapLayerOverrides = shouldShowVehicles
     ? { notThese: ['vehicles'] }
     : {};
-  if (props.citybike) {
+  if (citybike) {
     mapLayerOverrides.force = ['citybike'];
-  } else if (props.scooter) {
+  } else if (scooter) {
     mapLayerOverrides.force = ['scooter'];
   } else {
     mapLayerOverrides.force = ['terminal'];
   }
   const { mapLayers } = useMapLayers(mapLayerOverrides);
-  const mode = stop ? getModeFromProps(props) : 'stop';
+  const mode = stop ? getMode(stop, citybike, parkType, scooter) : 'stop';
   const mapLayerOptions = getMapLayerOptions({
     lockedMapLayers: ['vehicles', mode],
     selectedMapLayers: [shouldShowVehicles && 'vehicles', mode],
