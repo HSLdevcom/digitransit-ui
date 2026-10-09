@@ -15,9 +15,13 @@ import {
   getDefault,
   errorLoading,
   getComponentOrNullRenderer,
+  createStickyRenderer,
   getComponentOrLoadingRenderer,
 } from './routerUtils';
-import { prepareDatesForStops } from '../../utils/client/dateParamUtils';
+import {
+  prepareDatesForStops,
+  prepareDatesForStopTabs,
+} from '../../utils/client/dateParamUtils';
 import { DATE_FORMAT } from '../../utils/shared/constants';
 
 // Future window (90 days) used to detect whether the stop has any upcoming
@@ -198,6 +202,7 @@ const queries = {
 };
 
 export default function getStopRoutes(isTerminal = false) {
+  const renderTabContainer = createStickyRenderer();
   const queryMap = isTerminal ? queries.station : queries.stop;
   return (
     <Route path={`/${isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS}`}>
@@ -248,8 +253,8 @@ export default function getStopRoutes(isTerminal = false) {
                     ).then(getDefault);
               }}
               query={queryMap.pageTab}
-              prepareVariables={prepareDatesForStops}
-              render={getComponentOrNullRenderer}
+              prepareVariables={prepareDatesForStopTabs}
+              render={renderTabContainer}
             >
               <Route
                 getComponent={() => {
