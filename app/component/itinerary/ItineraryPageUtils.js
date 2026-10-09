@@ -261,7 +261,12 @@ export function stopClient(context) {
 export function startClient(itineraryTopics, context, config) {
   if (!isEmpty(itineraryTopics)) {
     const clientConfig = configClient(itineraryTopics, config);
-    context.executeAction(startRealTimeClient, clientConfig);
+    // clientConfig is null e.g. when the itinerary's feed isn't configured
+    // for realtime, or the realtime source isn't active (routes without a
+    // fixed schedule) - don't start a client in that case.
+    if (clientConfig) {
+      context.executeAction(startRealTimeClient, clientConfig);
+    }
   }
 }
 

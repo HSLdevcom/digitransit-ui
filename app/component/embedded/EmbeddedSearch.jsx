@@ -85,7 +85,7 @@ const EmbeddedSearch = props => {
 
   const buttonRef = useRef(null);
   const [ready, setReady] = useState(false);
-  const logo = getAssetUrl(config.secondaryLogo || config.logo);
+  const logo = config.secondaryLogo && getAssetUrl(config.secondaryLogo);
 
   useEffect(() => {
     Object.keys(translations).forEach(l =>
@@ -316,14 +316,12 @@ const EmbeddedSearch = props => {
           </span>
           <LocationSearch {...locationSearchProps} />
           <div className="embedded-search-button-container">
-            {logo ? (
+            {logo && (
               <img
                 src={logo}
                 className="brand-logo"
                 alt={`${config.title} logo`}
               />
-            ) : (
-              <span className="brand-logo">{config.title}</span>
             )}
             <button
               ref={buttonRef}
