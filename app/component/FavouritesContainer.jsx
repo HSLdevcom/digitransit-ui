@@ -240,19 +240,14 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
       />
 
       <FavouriteEditModal
-        appElement="#app"
         isModalOpen={editModalOpen}
         favourites={favouritePlaces}
         updateFavourites={updateFavouriteOrder}
         handleClose={() => closeModal(false)}
-        saveFavourite={saveSelectedFavourite}
         deleteFavourite={deleteSelectedFavourite}
         onEditSelected={editSelectedFavourite}
         lang={lang}
-        isMobile={isMobile}
         isLoading={isLoading}
-        colors={config.colors}
-        fontWeights={fontWeights}
       />
 
       <LoginPrompt

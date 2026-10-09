@@ -40,8 +40,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "devDependencies": {
-    "@testing-library/react": "^12",
-    "react-modal": "~3.11.2"
+    "@testing-library/react": "^12"
   },
   "dependencies": {
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
@@ -49,9 +48,8 @@
   "peerDependencies": {
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^",
     "@digitransit-component/digitransit-component-icon": "workspace:^",
+    "@hsl-fi/dialog": "^3.1.3",
     "@hsl-fi/loading-indicators": "^2.0.0",
-    "@hsl-fi/modal": "^0.3.2",
-    "@hsl-fi/sass": "1.0.0",
     "i18next": "^22.5.1",
     "prop-types": "^15.8.1",
     "react": "^16.13.0",

@@ -1,35 +1,7 @@
-import { describe, it, expect, afterEach, vi } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
-import ReactModal from 'react-modal';
-// Import from the "pure" entry point instead of the package root: the root
-// entry auto-registers an `afterEach(cleanup)` that unmounts with real
-// timers, racing @hsl-fi/modal's react-modal, which schedules its portal
-// removal via `setTimeout(removePortal, closeTimeoutMS)` on unmount (see
-// react-modal's Modal.js componentWillUnmount) instead of removing it
-// synchronously. That timer can still be pending when this test file's
-// jsdom environment is torn down, so it later fires against a
-// `document` that no longer exists, surfacing as an unhandled
-// "ReferenceError: document is not defined" - flaky since it depends on
-// how quickly the environment teardown happens relative to the timeout.
-// Cleaning up manually with fake timers (below) flushes that timeout
-// synchronously while the environment is still alive.
-import { render, screen, within, cleanup } from '@testing-library/react/pure';
+import { render, screen, within, fireEvent } from '@testing-library/react';
 import FavouriteEditingModal from './src/index';
-
-afterEach(() => {
-  vi.useFakeTimers();
-  cleanup();
-  vi.runAllTimers();
-  vi.useRealTimers();
-});
-
-// @hsl-fi/modal's own useEffect calls Modal.setAppElement(appElement) on
-// mount, but only after react-modal's own componentDidMount already ran
-// (child effects fire before the parent's) - so on the very first render
-// with isModalOpen already true, react-modal warns before that effect has
-// had a chance to run. Set it upfront, same as the real app does once in
-// app/component/trafficnow/TrafficNow.js.
-ReactModal.setAppElement(document.querySelector('#app'));
 
 const favourites = [
   {
@@ -46,27 +18,35 @@ const favourites = [
   },
 ];
 
-function renderModal(props) {
-  return render(
+function renderModal(props = {}) {
+  const handlers = {
+    handleClose: vi.fn(),
+    updateFavourites: vi.fn(),
+    deleteFavourite: vi.fn(),
+    onEditSelected: vi.fn(),
+  };
+  const view = render(
     <FavouriteEditingModal
-      handleClose={() => {}}
-      updateFavourites={() => {}}
-      deleteFavourite={() => {}}
-      onEditSelected={() => {}}
       favourites={favourites}
-      appElement="#app"
       isModalOpen
       isLoading={false}
       lang="en"
+      {...handlers}
       {...props}
     />,
   );
+  return { ...handlers, ...view };
 }
 
 describe('Testing @digitransit-component/digitransit-component-favourite-editing-modal module', () => {
+  it('renders nothing when closed', () => {
+    renderModal({ isModalOpen: false });
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
+
   it('lists every favourite with its name and address', () => {
     renderModal();
-    expect(screen.getByText('Edit places')).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Edit places' })).toBeTruthy();
     expect(screen.getByText('Home')).toBeTruthy();
     expect(screen.getByText('Kotikatu 1, Helsinki')).toBeTruthy();
     expect(screen.getByText('Work')).toBeTruthy();
@@ -74,29 +54,71 @@ describe('Testing @digitransit-component/digitransit-component-favourite-editing
   });
 
   it('calls onEditSelected with the chosen favourite when its edit control is clicked', () => {
-    const edited = [];
-    renderModal({ onEditSelected: favourite => edited.push(favourite) });
-    screen.getByLabelText('Edit place: Home').click();
-    expect(edited).toHaveLength(1);
-    expect(edited[0]).toMatchObject({ favouriteId: 'fav1', name: 'Home' });
+    const { onEditSelected } = renderModal();
+    fireEvent.click(screen.getByLabelText('Edit place: Home'));
+    expect(onEditSelected).toHaveBeenCalledTimes(1);
+    expect(onEditSelected.mock.calls[0][0]).toMatchObject({
+      favouriteId: 'fav1',
+      name: 'Home',
+    });
   });
 
-  it('reorders the list when the move-down/move-up controls are used', () => {
+  it('reorders the list when the move-down control is used', () => {
     renderModal();
     const itemsBefore = screen.getAllByRole('listitem');
     expect(within(itemsBefore[0]).getByText('Home')).toBeTruthy();
 
-    screen.getByLabelText('Move favourite down').click();
+    fireEvent.click(screen.getByLabelText('Move favourite down'));
 
     const itemsAfter = screen.getAllByRole('listitem');
     expect(within(itemsAfter[0]).getByText('Work')).toBeTruthy();
     expect(within(itemsAfter[1]).getByText('Home')).toBeTruthy();
   });
 
-  it('hides the list and shows the delete confirmation when a delete control is clicked', () => {
-    renderModal();
-    expect(screen.getByText('Edit places')).toBeTruthy();
-    screen.getByLabelText('Delete place: Home').click();
+  it('saves the new order when the dialog is closed', () => {
+    const { handleClose, updateFavourites } = renderModal();
+    fireEvent.click(screen.getByLabelText('Move favourite down'));
+    fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape' });
+
+    expect(handleClose).toHaveBeenCalledTimes(1);
+    expect(updateFavourites).toHaveBeenCalledTimes(1);
+    expect(updateFavourites.mock.calls[0][0].map(f => f.favouriteId)).toEqual([
+      'fav2',
+      'fav1',
+    ]);
+  });
+
+  it('does not save when the order is unchanged', () => {
+    const { handleClose, updateFavourites } = renderModal();
+    fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape' });
+
+    expect(handleClose).toHaveBeenCalledTimes(1);
+    expect(updateFavourites).not.toHaveBeenCalled();
+  });
+
+  it('asks for confirmation instead of the list when a delete control is clicked', () => {
+    const { deleteFavourite } = renderModal();
+    fireEvent.click(screen.getByLabelText('Delete place: Home'));
+
     expect(screen.queryByText('Edit places')).toBeNull();
+    expect(screen.getByText('Do you want to delete the place?')).toBeTruthy();
+    expect(deleteFavourite).not.toHaveBeenCalled();
+
+    const [deleteButton] = screen.getAllByRole('button', { name: 'Delete' });
+    fireEvent.click(deleteButton);
+    expect(deleteFavourite).toHaveBeenCalledTimes(1);
+    expect(deleteFavourite.mock.calls[0][0]).toMatchObject({
+      favouriteId: 'fav1',
+    });
+  });
+
+  it('returns to the list when deleting is cancelled', () => {
+    const { deleteFavourite } = renderModal();
+    fireEvent.click(screen.getByLabelText('Delete place: Home'));
+    const [cancelButton] = screen.getAllByRole('button', { name: 'Cancel' });
+    fireEvent.click(cancelButton);
+
+    expect(deleteFavourite).not.toHaveBeenCalled();
+    expect(screen.getByRole('heading', { name: 'Edit places' })).toBeTruthy();
   });
 });
