@@ -30,8 +30,8 @@ import { withRouteContext } from '../../utils/client/RouteContext';
 export default function routeRoutes(config) {
   const showTenWeeks = config.showTenWeeksOnRouteSchedule || false;
   // Keeps the tabs and pattern selector visible while another tab loads
-  const sticky = createStickyRendererFactory(({ params }) =>
-    [params.routeId, params.patternId, params.tripId].join('|'),
+  const sticky = createStickyRendererFactory(
+    ({ params }) => `${params.routeId}|${params.patternId}`,
   );
   // The header stays mounted while switching tabs within the same route
   const renderHeader = createStickyRenderer({
