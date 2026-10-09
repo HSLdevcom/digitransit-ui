@@ -6,14 +6,6 @@ export const getPositions = context => {
   return context.getStore('PositionStore').getLocationState();
 };
 
-export const getOldSearches = (context, type) => {
-  return context.getStore('OldSearchesStore').getOldSearches(type);
-};
-
-export const clearOldSearches = context => {
-  return context.getStore('OldSearchesStore').clearOldSearches();
-};
-
 export const getLanguage = context => {
   return context.config.language;
 };
@@ -32,8 +24,4 @@ export const saveFutureRoute = itinSearch => {
 
 export const clearFutureRoutes = () => {
   setFutureRoutesStorage([]);
-};
-
-export const getOldSearchItems = context => {
-  return context.getStore('OldSearchesStore').getOldSearchItems();
 };

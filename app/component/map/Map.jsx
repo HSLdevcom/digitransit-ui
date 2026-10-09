@@ -21,8 +21,8 @@ import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
 import events from '../../../utils/client/events';
 import { getLayerBaseUrl } from '../../../utils/client/mapLayerUtils';
 import GeoJSON from './GeoJSON';
-import { mapLayerShape } from '../../store/MapLayerStore';
 import { useConfigContext } from '../../client/ConfigContext';
+import { mapLayerShape } from '../../../utils/client/shapes';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon_minus"/></svg>`;
 const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon_plus"/></svg>`;
@@ -52,9 +52,11 @@ const startClient = (context, config) => {
 
 const onPopupopen = () => events.emit('popupOpened');
 
+const DEFAULT_MAP_LAYERS = { geoJson: {} };
+
 export default function Map(
   {
-    animate,
+    animate = true,
     lat,
     lon,
     zoom,
@@ -67,7 +69,7 @@ export default function Map(
     bottomButtons,
     topButtons,
     geoJson,
-    mapLayers,
+    mapLayers = DEFAULT_MAP_LAYERS,
     breakpoint,
     locationPopup,
     onSelectLocation,
@@ -320,26 +322,6 @@ Map.propTypes = {
   breakpoint: PropTypes.string,
   locationPopup: PropTypes.string,
   onSelectLocation: PropTypes.func,
-};
-
-Map.defaultProps = {
-  animate: true,
-  mapLayerRef: null,
-  leafletMapRef: null,
-  lat: undefined,
-  lon: undefined,
-  zoom: undefined,
-  bounds: undefined,
-  bottomPadding: undefined,
-  bottomButtons: null,
-  topButtons: null,
-  mapLayers: { geoJson: {} },
-  geoJson: undefined,
-  leafletEvents: undefined,
-  leafletObjs: undefined,
-  breakpoint: undefined,
-  locationPopup: undefined,
-  onSelectLocation: undefined,
 };
 
 Map.contextTypes = {

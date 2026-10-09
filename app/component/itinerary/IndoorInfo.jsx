@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import Icon from '../Icon';
 import { useConfigContext } from '../../client/ConfigContext';
 
 export default function IndoorInfo({
   intermediateStepCount,
-  showIntermediateSteps,
+  showIntermediateSteps = false,
   toggleFunction,
 }) {
   const config = useConfigContext();
@@ -70,8 +69,4 @@ IndoorInfo.propTypes = {
   intermediateStepCount: PropTypes.number.isRequired,
   toggleFunction: PropTypes.func.isRequired,
   showIntermediateSteps: PropTypes.bool,
-};
-
-IndoorInfo.defaultProps = {
-  showIntermediateSteps: false,
 };

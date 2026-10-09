@@ -347,7 +347,7 @@ export function getSearchResults(
       );
     }
     if (allSources || sources.includes('History')) {
-      const locationHistory = getOldSearches(context, 'endpoint');
+      const locationHistory = getOldSearches('endpoint');
       const dropLayers = ['bikestation'];
       dropLayers.push(...stopLayers);
       dropLayers.push(...routeLayers);
@@ -384,7 +384,7 @@ export function getSearchResults(
       );
     }
     if (allSources || sources.includes('History')) {
-      const history = getOldSearches(context);
+      const history = getOldSearches();
       const dropLayers = ['bikestation'];
       dropLayers.push(...stopLayers);
       dropLayers.push(...routeLayers);
@@ -465,7 +465,7 @@ export function getSearchResults(
       );
     }
     if (allSources || sources.includes('History')) {
-      const stopHistory = getOldSearches(context).filter(item => {
+      const stopHistory = getOldSearches().filter(item => {
         if (item.properties.gid) {
           return item.properties.gid.includes('GTFS:');
         }
@@ -510,7 +510,7 @@ export function getSearchResults(
       ),
     );
     if (allSources || sources.includes('History')) {
-      const routeHistory = getOldSearches(context);
+      const routeHistory = getOldSearches();
       const dropLayers = ['bikestation'];
       if (transportMode) {
         dropLayers.push(...routeLayers.filter(i => !(i === transportMode)));
@@ -560,7 +560,7 @@ export function getSearchResults(
       );
     }
     if (allSources || sources.includes('History')) {
-      const history = getOldSearches(context);
+      const history = getOldSearches();
       const dropLayers = [...stopLayers];
       dropLayers.push(...routeLayers);
       dropLayers.push(...locationLayers);

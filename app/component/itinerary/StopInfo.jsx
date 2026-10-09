@@ -11,7 +11,7 @@ export default function StopInfo({
   intermediateStopCount,
   toggleFunction,
   duration,
-  showIntermediateStops,
+  showIntermediateStops = false,
 }) {
   const config = useConfigContext();
   const intl = useIntl();
@@ -76,8 +76,4 @@ StopInfo.propTypes = {
   toggleFunction: PropTypes.func.isRequired,
   duration: PropTypes.number.isRequired,
   showIntermediateStops: PropTypes.bool,
-};
-
-StopInfo.defaultProps = {
-  showIntermediateStops: false,
 };

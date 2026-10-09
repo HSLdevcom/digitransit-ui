@@ -11,13 +11,13 @@ import {
   PREFIX_RENTALVEHICLES,
 } from '../../../../utils/shared/path';
 
-function MarkerSelectPopup(props) {
+function MarkerSelectPopup({ options, zoom }) {
   const intl = useIntl();
   const hasStop = () =>
-    props.options.find(option => option.layer !== 'realTimeVehicle');
+    options.find(option => option.layer !== 'realTimeVehicle');
 
   const hasVehicle = () =>
-    props.options.find(option => option.layer === 'realTimeVehicle');
+    options.find(option => option.layer === 'realTimeVehicle');
 
   const getRowForParking = (parking, layer) =>
     ((layer === 'parkAndRide' && parking.carPlaces) ||
@@ -30,7 +30,7 @@ function MarkerSelectPopup(props) {
       />
     );
 
-  const rows = props.options.map(option => {
+  const rows = options.map(option => {
     if (option.layer === 'stop') {
       return (
         <SelectStopRow
@@ -69,7 +69,7 @@ function MarkerSelectPopup(props) {
         );
       }
       // Too many scooter markers when zoomed in
-      if (props.zoom < 18) {
+      if (zoom < 18) {
         return (
           <SelectVehicleRentalRow
             {...option.feature.properties}
@@ -146,10 +146,6 @@ MarkerSelectPopup.propTypes = {
   ).isRequired,
   selectRow: PropTypes.func.isRequired,
   zoom: PropTypes.number,
-};
-
-MarkerSelectPopup.defaultProps = {
-  zoom: undefined,
 };
 
 export default MarkerSelectPopup;

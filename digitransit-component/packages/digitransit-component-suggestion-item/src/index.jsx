@@ -119,6 +119,20 @@ export function getStopBadge(item) {
   return null;
 }
 
+const noop = () => {};
+
+const DEFAULT_FONT_WEIGHTS = { medium: 500 };
+
+const DEFAULT_AUTO_SUGGEST_ICONS = {
+  citybikes: station => {
+    const name =
+      station.properties.source === 'citybikesvantaa'
+        ? 'citybike-stop-hsl-secondary'
+        : 'citybike-stop-hsl';
+    return [name, defaultColors.citybike];
+  },
+};
+
 function getAriaDescription(ariaContentArray) {
   const description = ariaContentArray
     .filter(part => part !== undefined && part !== null && part !== '')
@@ -225,18 +239,10 @@ const SuggestionItem = memo(
     loading = false,
     isMobile = false,
     ariaFavouriteString = '',
-    fillInput = () => {},
-    fontWeights = { medium: 500 },
+    fillInput = noop,
+    fontWeights = DEFAULT_FONT_WEIGHTS,
     colors,
-    getAutoSuggestIcons = {
-      citybikes: station => {
-        const name =
-          station.properties.source === 'citybikesvantaa'
-            ? 'citybike-stop-hsl-secondary'
-            : 'citybike-stop-hsl';
-        return [name, defaultColors.citybike];
-      },
-    },
+    getAutoSuggestIcons = DEFAULT_AUTO_SUGGEST_ICONS,
     modeSet = 'hsl',
     showStopStatusMarkers = false,
   }) => {

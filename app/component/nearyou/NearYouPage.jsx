@@ -31,7 +31,6 @@ import { PREFIX_NEARYOU } from '../../../utils/shared/path';
 import NearYouContainer from './NearYouContainer';
 import SwipeableTabs, { setFocusables } from '../SwipeableTabs';
 import NearYouFavourites from './NearYouFavourites';
-import { mapLayerShape } from '../../store/MapLayerStore';
 import { getDefaultNetworks } from '../../../utils/shared/vehicleRentalUtils';
 import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import {
@@ -80,6 +79,12 @@ function tabHandler(e) {
   }
 }
 
+const PARKING_MODE_LAYERS = {
+  CARPARK: 'parkAndRide',
+  BIKEPARK: 'parkAndRideForBikes',
+  CITYBIKE: 'citybike',
+};
+
 // temp solution to force fav near you tab for hsl.fi
 // entering the tab should not be  possible if favourites do not exist
 function extendModes(modes, currentMode) {
@@ -98,7 +103,6 @@ function NearYouPage(
     favouriteStopIds,
     favouriteStationIds,
     favouriteVehicleStationIds,
-    mapLayers,
     favouritesFetched = false,
   },
   { executeAction },
@@ -121,8 +125,18 @@ function NearYouPage(
   const updateMapLayerOptions = () => {
     if (config.map.showLayerSelector) {
       const options = getMapLayerOptions({
-        lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-        selectedMapLayers: ['vehicles', mode.toLowerCase()],
+        lockedMapLayers: [
+          'vehicles',
+          'citybike',
+          'stop',
+          'parkAndRide',
+          'parkAndRideForBikes',
+        ],
+        selectedMapLayers: [
+          PARKING_MODE_LAYERS[mode] ? null : 'vehicles',
+          mode.toLowerCase(),
+          ...(PARKING_MODE_LAYERS[mode] ? [PARKING_MODE_LAYERS[mode]] : []),
+        ],
       });
       setMapLayerOptions(options);
     }
@@ -518,7 +532,6 @@ function NearYouPage(
       position={searchPosition}
       setCenterOfMap={setCenterOfMap}
       showWalkRoute={PH_READY.includes(phase)}
-      mapLayers={mapLayers}
       mapLayerOptions={mapLayerOptions}
       breakpoint={breakpoint}
       variables={getQueryVariables(mode)}
@@ -625,7 +638,6 @@ NearYouPage.propTypes = {
   favouriteStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteVehicleStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favourites: PropTypes.array, // eslint-disable-line
-  mapLayers: mapLayerShape.isRequired,
   favouritesFetched: PropTypes.bool,
 };
 
@@ -639,13 +651,10 @@ const NearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   NearYouPageWithBreakpoint,
-  ['PositionStore', 'MapLayerStore'],
+  ['PositionStore'],
   (context, props) => ({
     ...props,
     position: context.getStore('PositionStore').getLocationState(),
-    mapLayers: context
-      .getStore('MapLayerStore')
-      .getMapLayers({ notThese: ['vehicles', 'scooter'] }),
   }),
 );
 

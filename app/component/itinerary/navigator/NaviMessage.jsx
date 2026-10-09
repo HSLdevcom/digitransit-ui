@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { useConfigContext } from '../../../client/ConfigContext';
-
 import Icon from '../../Icon';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 function NaviMessage({
   severity,
   children,
   index,
   handleRemove,
-  hideClose,
+  hideClose = false,
   cardAnimation,
 }) {
   const config = useConfigContext();
@@ -78,10 +77,6 @@ NaviMessage.propTypes = {
   handleRemove: PropTypes.func.isRequired,
   hideClose: PropTypes.bool,
   cardAnimation: PropTypes.string.isRequired,
-};
-
-NaviMessage.defaultProps = {
-  hideClose: false,
 };
 
 export default NaviMessage;

@@ -34,7 +34,7 @@ import {
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { isIOS } from '../../../utils/shared/browser';
 import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
-import { saveSearch } from '../../action/SearchActions';
+import { saveSearch } from '../../data/SearchHistory';
 import Notification from './Notification';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 
@@ -131,7 +131,7 @@ function RouteControlPanel(
   useEffect(() => {
     if (route?.patterns && !noInitialServiceDay) {
       if (isIOS && location.query?.save) {
-        executeAction(saveSearch, {
+        saveSearch({
           item: {
             properties: {
               mode: route.mode,

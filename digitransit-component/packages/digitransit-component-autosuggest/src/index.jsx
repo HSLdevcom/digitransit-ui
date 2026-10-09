@@ -646,11 +646,11 @@ function DTAutosuggest({
   });
 
   const mobileClearOldSearches = () => {
-    const { context, clearOldSearches, clearFutureRoutes } = searchContext;
-    if (context && clearOldSearches) {
-      clearOldSearches(context);
+    const { clearOldSearches, clearFutureRoutes } = searchContext;
+    if (clearOldSearches) {
+      clearOldSearches();
       if (clearFutureRoutes) {
-        clearFutureRoutes(context);
+        clearFutureRoutes();
       }
       fetchSuggestions(state.value);
     }

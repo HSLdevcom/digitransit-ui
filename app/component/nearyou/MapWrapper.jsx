@@ -3,10 +3,10 @@ import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import { useMatch } from 'found';
 import { relayShape, mapLayerOptionsShape } from '../../../utils/client/shapes';
+import { useConfigContext } from '../../client/ConfigContext';
+import { useMapLayers } from '../../hooks/MapLayerContext';
 import NearYouMapContainer from './NearYouMapContainer';
 import NearYouFavouritesMapContainer from './NearYouFavouritesMapContainer';
-import { mapLayerShape } from '../../store/MapLayerStore';
-import { useConfigContext } from '../../client/ConfigContext';
 
 const TransitStopModes = ['BUS', 'FERRY', 'RAIL', 'SUBWAY', 'TRAM'];
 
@@ -16,13 +16,13 @@ export default function MapWrapper({
   favouriteStationIds,
   favouriteVehicleStationIds,
   setCenterOfMap,
-  mapLayers,
   mapLayerOptions,
   variables,
   ...rest
 }) {
   const { map } = useConfigContext();
   const match = useMatch();
+  const { mapLayers } = useMapLayers({ notThese: ['vehicles', 'scooter'] });
   const commonProps = {
     onEndNavigation: setCenterOfMap,
     onMapTracking: setCenterOfMap,
@@ -92,6 +92,7 @@ export default function MapWrapper({
       filteredMapLayers.stop[mode.toLowerCase()] = true;
     }
   }
+
   let favouriteIds;
   switch (mode) {
     case 'CITYBIKE':
@@ -163,7 +164,6 @@ MapWrapper.propTypes = {
   favouriteStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteVehicleStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   setCenterOfMap: PropTypes.func.isRequired,
-  mapLayers: mapLayerShape.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,
   // eslint-disable-next-line
   variables: PropTypes.object.isRequired,

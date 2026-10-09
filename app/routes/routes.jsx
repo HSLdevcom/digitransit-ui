@@ -26,7 +26,7 @@ import {
   errorLoading,
   getComponentOrLoadingRenderer,
   getComponentOrNullRenderer,
-} from '../../utils/client/routerUtils';
+} from './routerUtils';
 
 import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';
@@ -329,7 +329,7 @@ export default config => {
             <Route
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ '../component/itinerary/ItineraryPageContainer'
+                  /* webpackChunkName: "itinerary" */ '../component/itinerary/ItineraryPage'
                 ).then(getDefault)
               }
             />

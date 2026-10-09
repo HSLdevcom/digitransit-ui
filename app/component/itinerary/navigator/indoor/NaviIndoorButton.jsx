@@ -6,7 +6,10 @@ import Icon from '../../../Icon';
 import { isKeyboardSelectionEvent } from '../../../../../utils/shared/browser';
 import { NaviCardType } from '../../../../../utils/shared/constants';
 
-export default function NaviIndoorButton({ currentCard, setCurrentCard }) {
+export default function NaviIndoorButton({
+  currentCard = NaviCardType.Default,
+  setCurrentCard,
+}) {
   return (
     <div
       role="button"
@@ -63,7 +66,4 @@ export default function NaviIndoorButton({ currentCard, setCurrentCard }) {
 NaviIndoorButton.propTypes = {
   currentCard: PropTypes.oneOf(Object.values(NaviCardType)),
   setCurrentCard: PropTypes.func.isRequired,
-};
-NaviIndoorButton.defaultProps = {
-  currentCard: NaviCardType.Default,
 };

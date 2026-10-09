@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-
 import Icon from '../../Icon';
 import getAssetUrl from '../../../assets/assetUrl';
 import { useConfigContext } from '../../../client/ConfigContext';
@@ -11,8 +10,8 @@ import { useConfigContext } from '../../../client/ConfigContext';
 const NaviStarter = ({
   time,
   startItinerary,
-  containerTopPosition,
-  isPastStart,
+  containerTopPosition = 0,
+  isPastStart = true,
 }) => {
   const config = useConfigContext();
   const intl = useIntl();
@@ -89,11 +88,6 @@ NaviStarter.propTypes = {
   startItinerary: PropTypes.func.isRequired,
   containerTopPosition: PropTypes.number,
   isPastStart: PropTypes.bool,
-};
-
-NaviStarter.defaultProps = {
-  containerTopPosition: 0,
-  isPastStart: true,
 };
 
 export default NaviStarter;

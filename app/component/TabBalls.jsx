@@ -151,8 +151,4 @@ TabBalls.propTypes = {
   ariaRole: PropTypes.string.isRequired,
 };
 
-TabBalls.defaultProps = {
-  reactSwipeEl: undefined,
-};
-
 export default TabBalls;

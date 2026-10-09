@@ -22,8 +22,4 @@ NaviGeolocationInfo.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-NaviGeolocationInfo.defaultProps = {
-  logo: undefined,
-};
-
 export default NaviGeolocationInfo;

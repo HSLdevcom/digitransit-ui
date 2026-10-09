@@ -2,14 +2,14 @@
 import MockDate from 'mockdate';
 import { DateTime } from 'luxon';
 
-import OldSearchesStore, {
-  STORE_VERSION,
-} from '../../app/store/OldSearchesStore';
+import * as oldSearchesData from '../../../app/data/SearchHistory';
 import {
   getOldSearchesStorage,
   setOldSearchesStorage,
-} from '../../utils/client/localStorage';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../../utils/shared/path';
+} from '../../../utils/client/localStorage';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../utils/shared/path';
+
+const { STORE_VERSION } = oldSearchesData;
 
 const mockData = {
   old: {
@@ -80,7 +80,7 @@ const mockData = {
   },
 };
 
-describe('OldSearchesStore', () => {
+describe('SearchHistory', () => {
   afterEach(() => {
     MockDate.reset();
   });
@@ -97,7 +97,7 @@ describe('OldSearchesStore', () => {
         ],
       });
 
-      const store = new OldSearchesStore();
+      const store = oldSearchesData;
       store.getStorageObject();
 
       const { items, version } = getOldSearchesStorage();
@@ -125,7 +125,7 @@ describe('OldSearchesStore', () => {
         ],
       });
 
-      const store = new OldSearchesStore();
+      const store = oldSearchesData;
       store.getStorageObject();
 
       const { items } = getOldSearchesStorage();
@@ -143,7 +143,7 @@ describe('OldSearchesStore', () => {
         ],
       });
 
-      const store = new OldSearchesStore();
+      const store = oldSearchesData;
       store.getStorageObject();
 
       const { items } = getOldSearchesStorage();
@@ -154,13 +154,13 @@ describe('OldSearchesStore', () => {
 
   describe('getOldSearches(type)', () => {
     it('should return an empty array for missing parameters', () => {
-      const store = new OldSearchesStore();
+      const store = oldSearchesData;
       const oldSearches = store.getOldSearches();
       expect(Object.keys(oldSearches)).toHaveLength(0);
     });
 
     it('should return an empty array when no matches are found', () => {
-      const store = new OldSearchesStore();
+      const store = oldSearchesData;
       const oldSearches = store.getOldSearches('invalid');
       expect(Object.keys(oldSearches)).toHaveLength(0);
     });
@@ -176,7 +176,7 @@ describe('OldSearchesStore', () => {
         ],
       });
 
-      const store = new OldSearchesStore();
+      const store = oldSearchesData;
       const oldSearches = store.getOldSearches();
       expect(Object.keys(oldSearches)).toHaveLength(0);
     });
@@ -190,7 +190,7 @@ describe('OldSearchesStore', () => {
           { item: { properties: { label: 'C' } }, type: 'endpoint' },
         ],
       });
-      const store = new OldSearchesStore();
+      const store = oldSearchesData;
       const oldSearches = store.getOldSearches('endpoint');
       expect(Object.keys(oldSearches)).not.toHaveLength(0);
       expect(oldSearches.length).toBe(2);
@@ -236,7 +236,7 @@ describe('OldSearchesStore', () => {
         ],
       });
 
-      const store = new OldSearchesStore();
+      const store = oldSearchesData;
       const oldSearches = store.getOldSearches();
       expect(Object.keys(oldSearches)).not.toHaveLength(0);
       expect(oldSearches.length).toBe(3);
@@ -254,7 +254,7 @@ describe('OldSearchesStore', () => {
         items: [{ item: { properties: { label: 'foo' } } }],
       });
 
-      const store = new OldSearchesStore();
+      const store = oldSearchesData;
       const oldSearches = store.getOldSearches();
       expect(Object.keys(oldSearches)).not.toHaveLength(0);
       expect(oldSearches.length).toBe(1);
@@ -263,7 +263,7 @@ describe('OldSearchesStore', () => {
 
   describe('saveSearch(destination)', () => {
     it("should update the item's properties if found from store", () => {
-      const store = new OldSearchesStore();
+      const store = oldSearchesData;
       const oldDestination = mockData.old;
       store.saveSearch(oldDestination);
       const storedOldDestination = store.getOldSearches()[0];
@@ -279,7 +279,7 @@ describe('OldSearchesStore', () => {
       const timestamp = DateTime.local(2018, 2, 18);
       MockDate.set(timestamp);
 
-      const store = new OldSearchesStore();
+      const store = oldSearchesData;
       store.saveSearch(mockData.updated);
       const storedDestination = getOldSearchesStorage().items[0];
       expect(storedDestination.lastUpdated).toBe(timestamp.toUnixInteger());
@@ -342,7 +342,7 @@ describe('OldSearchesStore', () => {
         },
         type: 'search',
       };
-      const store = new OldSearchesStore();
+      const store = oldSearchesData;
       store.saveSearch(oldData);
       store.saveSearch(newData);
 
@@ -377,7 +377,7 @@ describe('OldSearchesStore', () => {
         ],
       });
 
-      const store = new OldSearchesStore();
+      const store = oldSearchesData;
       store.saveSearch({
         type: 'search',
         item: {
@@ -437,7 +437,7 @@ describe('OldSearchesStore', () => {
         ],
       });
 
-      const store = new OldSearchesStore();
+      const store = oldSearchesData;
       store.saveSearch({
         type: 'search',
         item: {

@@ -13,7 +13,7 @@ const currentLocationIcon = L.divIcon({
   iconSize: [40, 40],
 });
 
-function PositionMarker({ coordinates }) {
+function PositionMarker({ coordinates = null }) {
   if (coordinates === null) {
     return null;
   }
@@ -30,10 +30,6 @@ function PositionMarker({ coordinates }) {
 
 PositionMarker.propTypes = {
   coordinates: locationShape,
-};
-
-PositionMarker.defaultProps = {
-  coordinates: null,
 };
 
 export default connectToStores(PositionMarker, ['PositionStore'], context => {

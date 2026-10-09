@@ -41,11 +41,13 @@ function getSplitIndex(points, position) {
   return bestIndex + 1;
 }
 
+const EMPTY_FILTERED_STOPS = [];
+
 function RouteLine({
   pattern,
   trip = null,
   thin = false,
-  filteredStops = [],
+  filteredStops = EMPTY_FILTERED_STOPS,
   vehiclePosition = null,
 }) {
   const config = useConfigContext();

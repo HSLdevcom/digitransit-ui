@@ -3,7 +3,12 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const NavigatorModal = ({ withBackdrop, isOpen, children, slideUp }) => {
+const NavigatorModal = ({
+  withBackdrop = false,
+  isOpen = false,
+  children,
+  slideUp = false,
+}) => {
   const overlayClass = cx('navigator-modal-container', {
     'navigator-modal-backdrop': withBackdrop,
   });
@@ -29,13 +34,6 @@ NavigatorModal.propTypes = {
   withBackdrop: PropTypes.bool,
   isOpen: PropTypes.bool,
   slideUp: PropTypes.bool,
-};
-
-NavigatorModal.defaultProps = {
-  children: undefined,
-  withBackdrop: false,
-  isOpen: false,
-  slideUp: false,
 };
 
 export default NavigatorModal;
