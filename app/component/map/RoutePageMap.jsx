@@ -19,14 +19,28 @@ import { useConfigContext } from '../../client/ConfigContext';
 import { useMapLayers } from '../../hooks/MapLayerContext';
 
 const mapLayerOptions = getMapLayerOptions({
-  lockedMapLayers: ['vehicles', 'stop', 'citybike', 'scooter'],
+  lockedMapLayers: [
+    'vehicles',
+    'stop',
+    'citybike',
+    'scooter',
+    'parkAndRideForBikes',
+    'parkAndRide',
+  ],
   selectedMapLayers: ['vehicles'],
 });
 
 function RoutePageMap({ pattern, lat, lon, breakpoint, trip, error, ...rest }) {
   const config = useConfigContext();
   const { mapLayers: baseMapLayers } = useMapLayers({
-    notThese: ['stop', 'citybike', 'vehicles', 'scooter'],
+    notThese: [
+      'stop',
+      'citybike',
+      'vehicles',
+      'scooter',
+      'parkAndRide',
+      'parkAndRideForBikes',
+    ],
   });
   const tripId = trip?.gtfsId;
   const [trackVehicle, setTrackVehicle] = useState(!!tripId);

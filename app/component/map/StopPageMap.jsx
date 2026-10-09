@@ -46,7 +46,9 @@ const getModeFromProps = props => {
 function StopPageMap(props) {
   const { stop, breakpoint, locationState, stopName } = props;
   const config = useConfigContext();
-  const mapLayerOverrides = config.showVehiclesOnStopPage
+  // if the stop is not a gtfs transit stop, disable vehicles
+  const shouldShowVehicles = config.showVehiclesOnStopPage && stop.gtfsId;
+  const mapLayerOverrides = shouldShowVehicles
     ? { notThese: ['vehicles'] }
     : {};
   if (props.citybike) {
@@ -60,7 +62,7 @@ function StopPageMap(props) {
   const mode = stop ? getModeFromProps(props) : 'stop';
   const mapLayerOptions = getMapLayerOptions({
     lockedMapLayers: ['vehicles', mode],
-    selectedMapLayers: ['vehicles', mode],
+    selectedMapLayers: [shouldShowVehicles && 'vehicles', mode],
   });
   const match = useMatch();
 
@@ -200,6 +202,7 @@ StopPageMap.propTypes = {
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
     platformCode: PropTypes.string,
+    gtfsId: PropTypes.string,
   }),
   breakpoint: PropTypes.string.isRequired,
   locationState: locationShape.isRequired,

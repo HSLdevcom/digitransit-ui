@@ -82,6 +82,7 @@ function tabHandler(e) {
 const PARKING_MODE_LAYERS = {
   CARPARK: 'parkAndRide',
   BIKEPARK: 'parkAndRideForBikes',
+  CITYBIKE: 'citybike',
 };
 
 // temp solution to force fav near you tab for hsl.fi
