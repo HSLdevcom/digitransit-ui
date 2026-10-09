@@ -44,7 +44,7 @@ export default function AllModesModal({
         ]}
       >
         <div
-          className={styles['near-you-container']}
+          className={`${styles['near-you-container']} ${styles['modal-rows']}`}
           style={{ '--font-weight': fontWeights.medium }}
         >
           <div className={styles['near-you-buttons-container-wide']}>

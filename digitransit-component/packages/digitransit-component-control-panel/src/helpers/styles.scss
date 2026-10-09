@@ -78,6 +78,13 @@
   }
 }
 
+.modal-rows {
+  @media (min-width: 500px) {
+    // the footer line is as close to the last row as separators are to each other
+    margin-bottom: calc(-1 * var(--space-fixed-m));
+  }
+}
+
 .near-you-container {
   font-size: 16px;
 
