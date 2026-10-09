@@ -70,10 +70,14 @@
 
 .separator {
   background-color: #ccc;
-  width: var(--width);
-  margin-left: var(--margin);
-  margin-right: var(--margin);
   height: 1px;
+
+  // extend over the dialog content padding to the edges of the dialog
+  margin: 0 calc(-1 * var(--space-fixed-m));
+
+  @media (min-width: 500px) {
+    margin: 0 calc(-1 * var(--space-fixed-l));
+  }
 }
 
 .near-you-container {

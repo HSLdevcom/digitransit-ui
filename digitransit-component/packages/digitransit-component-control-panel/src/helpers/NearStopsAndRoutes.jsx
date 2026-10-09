@@ -68,11 +68,6 @@ export default function NearStopsAndRoutes({
     />
   );
 
-  const separatorStyle = {
-    '--margin': isMobile ? '0' : '-5%',
-    '--width': isMobile ? '100%' : '110%',
-  };
-
   return (
     <div
       className={styles['near-you-container']}
@@ -89,9 +84,7 @@ export default function NearStopsAndRoutes({
           {modes.map((mode, i) => (
             <div key={mode}>
               {renderButton(mode, true)}
-              {i < modes.length - 1 && (
-                <div className={styles.separator} style={separatorStyle} />
-              )}
+              {i < modes.length - 1 && <div className={styles.separator} />}
             </div>
           ))}
         </AllModesModal>
