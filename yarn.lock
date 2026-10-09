@@ -11837,6 +11837,7 @@ __metadata:
     "@hsl-fi/form": "npm:^5.0.4"
     "@hsl-fi/icons": "npm:^2.3.0"
     "@hsl-fi/layout-primitives": "npm:^4.9.0"
+    "@hsl-fi/loading-indicators": "npm:^2.0.0"
     "@hsl-fi/modal": "npm:^0.3.2"
     "@hsl-fi/navigation": "npm:^3.3.0"
     "@hsl-fi/notifications": "npm:^4.1.0"
