@@ -42,17 +42,25 @@ export function getComponentOrNullRenderer({ Component, props }) {
  * route params, keeps rendering the last props to avoid a flash of empty content.
  * Unlike returning undefined, this does not keep the previous page mounted when
  * navigating to a different page.
+ *
+ * @param {Object} [options]
+ * @param {Function} [options.getKey] derives the identity of the page from the match
+ * @param {boolean} [options.passMatch] also pass the current match to the component
  */
-export function createStickyRenderer() {
+export function createStickyRenderer({
+  getKey = match => JSON.stringify(match.params),
+  passMatch = false,
+} = {}) {
   let last = null;
-  return function renderSticky({ Component, props, match }) {
-    const key = JSON.stringify(match.params);
-    if (Component && props) {
+  return function renderSticky({ Component, props, error, match }) {
+    const key = getKey(match);
+    const extra = passMatch ? { match, error } : null;
+    if (Component && (props || error)) {
       last = { key, Component, props };
-      return <Component {...props} />;
+      return <Component {...props} {...extra} />;
     }
     if (last && last.key === key) {
-      return <last.Component {...last.props} />;
+      return <last.Component {...last.props} {...extra} />;
     }
     return null;
   };

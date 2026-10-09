@@ -15,6 +15,7 @@ import {
 import {
   getDefault,
   getComponentOrNullRenderer,
+  createStickyRenderer,
   getComponentOrLoadingRenderer,
   getComponentOrLoadingRendererWithRequired,
 } from './routerUtils';
@@ -27,6 +28,11 @@ import { withRouteContext } from '../../utils/client/RouteContext';
 
 export default function routeRoutes(config) {
   const showTenWeeks = config.showTenWeeksOnRouteSchedule || false;
+  // The header stays mounted while switching tabs within the same route
+  const renderHeader = createStickyRenderer({
+    getKey: match => match.params.routeId,
+    passMatch: true,
+  });
   return (
     <Route path={`/${PREFIX_ROUTES}`}>
       <Route Component={Error404} />
@@ -114,12 +120,7 @@ export default function routeRoutes(config) {
                 }
               `}
               prepareVariables={prepareServiceDay}
-              render={({ Component, props, error, match }) => {
-                if (Component && (props || error)) {
-                  return <Component {...props} match={match} error={error} />;
-                }
-                return null;
-              }}
+              render={renderHeader}
             />
           ),
           map: [
