@@ -76,7 +76,7 @@ const Filters = ({ onApplyClick = undefined, onResetClick = () => {} }) => {
   );
 
   return mobile ? (
-    <div>
+    <div className="traffic-now__filters-modal-content">
       <form className="traffic-now__filters traffic-now__filters-mobile">
         {components.map(({ id, Component }) => (
           <Component key={id} filterId={id} />
