@@ -11,21 +11,21 @@ import { splitGtfsId } from '../../../utils/shared/gtfs';
 import { useConfigContext } from '../../client/ConfigContext';
 
 function IntermediateLeg({
-  placesCount,
+  placesCount = 0,
   color,
   mode,
   name,
   arrival,
-  realTime,
+  realTime = false,
   gtfsId,
-  showCurrentZoneDelimiter,
-  showZoneLimits,
+  showCurrentZoneDelimiter = false,
+  showZoneLimits = false,
   previousZoneId,
   currentZoneId,
   nextZoneId,
-  isViaPoint,
-  isCanceled,
-  isLastPlace,
+  isViaPoint = false,
+  isCanceled = false,
+  isLastPlace = false,
 }) {
   const config = useConfigContext();
   const { feedIds, colors } = config;
@@ -195,21 +195,6 @@ IntermediateLeg.propTypes = {
   isLastPlace: PropTypes.bool,
   gtfsId: PropTypes.string,
   isCanceled: PropTypes.bool,
-};
-
-IntermediateLeg.defaultProps = {
-  placesCount: 0,
-  showCurrentZoneDelimiter: false,
-  showZoneLimits: false,
-  previousZoneId: undefined,
-  currentZoneId: undefined,
-  nextZoneId: undefined,
-  isCanceled: false,
-  realTime: false,
-  isLastPlace: false,
-  isViaPoint: false,
-  gtfsId: undefined,
-  color: undefined,
 };
 
 export default IntermediateLeg;

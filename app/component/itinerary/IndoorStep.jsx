@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
-
 import Icon from '../Icon';
 import {
   getIndoorTranslationId,
@@ -20,9 +19,9 @@ function IndoorStep({
   type,
   verticalDirection,
   toLevelName,
-  isLastPlace,
-  onlyOneStep,
-  indoorLegType,
+  isLastPlace = false,
+  onlyOneStep = false,
+  indoorLegType = IndoorLegType.NoStepsInside,
 }) {
   const indoorTranslationId = getIndoorTranslationId(
     type,
@@ -102,14 +101,6 @@ IndoorStep.propTypes = {
   isLastPlace: PropTypes.bool,
   onlyOneStep: PropTypes.bool,
   indoorLegType: PropTypes.oneOf(Object.values(IndoorLegType)),
-};
-
-IndoorStep.defaultProps = {
-  verticalDirection: undefined,
-  toLevelName: undefined,
-  isLastPlace: false,
-  onlyOneStep: false,
-  indoorLegType: IndoorLegType.NoStepsInside,
 };
 
 export default IndoorStep;

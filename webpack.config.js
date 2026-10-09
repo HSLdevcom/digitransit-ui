@@ -246,7 +246,12 @@ export default {
       {
         test: /\.scss$/,
         use: [
-          isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+          isDevelopment
+            ? 'style-loader'
+            : {
+                loader: MiniCssExtractPlugin.loader,
+                options: { publicPath: 'auto' },
+              },
           'css-loader',
           'postcss-loader',
           {
@@ -275,7 +280,12 @@ export default {
         include: /node_modules\/@hsl-fi/,
         sideEffects: true,
         use: [
-          isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+          isDevelopment
+            ? 'style-loader'
+            : {
+                loader: MiniCssExtractPlugin.loader,
+                options: { publicPath: 'auto' },
+              },
           'css-loader',
           'postcss-loader',
         ],
@@ -284,7 +294,12 @@ export default {
         test: /\.css$/,
         exclude: /node_modules\/@hsl-fi/,
         use: [
-          isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+          isDevelopment
+            ? 'style-loader'
+            : {
+                loader: MiniCssExtractPlugin.loader,
+                options: { publicPath: 'auto' },
+              },
           'css-loader',
           'postcss-loader',
         ],

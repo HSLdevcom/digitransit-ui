@@ -555,74 +555,26 @@
   }
 }
 
-.filter-stop-modal {
-  font-size: $font-size-small;
-  font-weight: $font-weight-medium;
+.routes-container {
+  // Widen the design-system's default gaps (--space-fixed-xs, 8px) both
+  // between the checkbox box and its label, and between list items, to
+  // match the roomier spacing used before the design-system refactor.
+  --space-fixed-xs: 16px;
 
-  .all-routes-header {
+  padding-bottom: 4px;
+  overflow-y: scroll;
+
+  .route-title {
     display: flex;
-    margin-top: 1em;
     align-items: center;
-  }
-
-  .checkbox-container {
-    display: flex;
-    margin-right: 2em;
-    position: relative;
-
-    & input[type='checkbox'] {
-      opacity: 0;
-      width: 2em;
-      height: 2em;
-      margin: 0;
-    }
-
-    & label {
-      width: 2.3em;
-      height: 2.3em;
-      border: 1px solid #78909c;
-      border-radius: 4px;
-      background-color: $white;
-      cursor: pointer;
-      position: absolute;
-      top: -0.3em;
-      left: 0;
-      color: $theme-primary-color;
-
-      & .checkbox-icon {
-        width: 2.3em;
-        height: 2.3em;
-      }
-
-      &.checked {
-        border: none;
-      }
-    }
-
-    input[type='checkbox']:focus + label {
-      outline: black solid 1px;
-    }
-  }
-
-  .routes-container {
-    margin-top: 1em;
-    overflow-y: scroll;
-    border-radius: 0 0 8px 8px;
-  }
-
-  .route-row {
-    display: flex;
-    padding-top: 0.75em;
-    padding-bottom: 0.3em;
-  }
-
-  .route-mode {
-    display: flex;
-    margin-right: 4px;
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
 
     svg {
       width: 1.6em;
       height: 1.6em;
+      margin-right: 4px;
+      vertical-align: middle;
     }
   }
 

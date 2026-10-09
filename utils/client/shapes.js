@@ -414,6 +414,31 @@ const MapLayerOptionStopOrTerminalShape = PropTypes.shape({
   funicular: PropTypes.shape(MapLayerOptionShape),
 });
 
+const mapLayerStopsShape = PropTypes.shape({
+  bus: PropTypes.bool,
+  ferry: PropTypes.bool,
+  rail: PropTypes.bool,
+  subway: PropTypes.bool,
+  tram: PropTypes.bool,
+  funicular: PropTypes.bool,
+  airplane: PropTypes.bool,
+});
+
+export const mapLayerShape = PropTypes.shape({
+  citybike: PropTypes.bool,
+  citybikeOverrideMinZoom: PropTypes.bool,
+  parkAndRide: PropTypes.bool,
+  parkAndRideForBikes: PropTypes.bool,
+  stop: mapLayerStopsShape,
+  terminal: mapLayerStopsShape,
+  vehicles: PropTypes.bool,
+  geoJson: PropTypes.objectOf(PropTypes.bool),
+  scooter: PropTypes.bool,
+  areaStop: PropTypes.shape({
+    routeGtfsId: PropTypes.string,
+  }),
+});
+
 export const mapLayerOptionsShape = PropTypes.shape({
   parkAndRide: PropTypes.oneOfType([
     PropTypes.shape(MapLayerOptionShape),

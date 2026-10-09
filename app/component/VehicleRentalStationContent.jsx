@@ -94,10 +94,6 @@ VehicleRentalStationContent.propTypes = {
   error: errorShape,
 };
 
-VehicleRentalStationContent.defaultProps = {
-  error: undefined,
-};
-
 const VRCWithBreakpoint = withBreakpoint(VehicleRentalStationContent);
 
 const containerComponent = createFragmentContainer(VRCWithBreakpoint, {

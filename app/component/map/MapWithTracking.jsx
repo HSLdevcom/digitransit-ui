@@ -5,12 +5,14 @@ import { useIntl } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import { mapLayerOptionsShape } from '../../../utils/client/shapes';
+import {
+  mapLayerOptionsShape,
+  mapLayerShape,
+} from '../../../utils/client/shapes';
 import { startLocationWatch } from '../../action/PositionActions';
 import MapContainer from './MapContainer';
 import MapControlButton from './MapControlButton';
 import PositionStore from '../../store/PositionStore';
-import { mapLayerShape } from '../../store/MapLayerStore';
 import MapLayersDialogContent from './MapLayersDialogContent';
 import MenuDrawer from '../MenuDrawer';
 import withBreakpoint from '../../../utils/client/withBreakpoint';

@@ -18,7 +18,13 @@ import {
 } from '../../../utils/shared/constants';
 import { getVerticalTransportationUseIconId } from '../../../utils/client/indoorUtils';
 
-export default function IndoorStepMarker({ position, index, indoorSteps }) {
+const EMPTY_INDOOR_STEPS = [];
+
+export default function IndoorStepMarker({
+  position,
+  index,
+  indoorSteps = EMPTY_INDOOR_STEPS,
+}) {
   const intl = useIntl();
   const objs = [];
 
@@ -130,8 +136,4 @@ IndoorStepMarker.propTypes = {
       }),
     }),
   ),
-};
-
-IndoorStepMarker.defaultProps = {
-  indoorSteps: [],
 };

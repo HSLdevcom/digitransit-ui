@@ -32,13 +32,13 @@ import { useConfigContext } from '../../../client/ConfigContext';
 
 const NaviCardExtension = ({
   focusToPoint,
-  legType,
+  legType = '',
   previousLeg,
   leg,
   nextLeg,
   time,
-  platformUpdated,
-  currentCard,
+  platformUpdated = false,
+  currentCard = NaviCardType.Default,
   setCurrentCard,
 }) => {
   const config = useConfigContext();
@@ -249,15 +249,6 @@ NaviCardExtension.propTypes = {
   platformUpdated: PropTypes.bool,
   currentCard: PropTypes.oneOf(Object.values(NaviCardType)),
   setCurrentCard: PropTypes.func.isRequired,
-};
-
-NaviCardExtension.defaultProps = {
-  legType: '',
-  previousLeg: undefined,
-  leg: undefined,
-  nextLeg: undefined,
-  platformUpdated: false,
-  currentCard: NaviCardType.Default,
 };
 
 export default NaviCardExtension;

@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-
 import Icon from '../../Icon';
 import {
   getRentalNetworkConfig,
@@ -63,12 +62,6 @@ SelectVehicleRentalRow.propTypes = {
   desc: PropTypes.string,
   prefix: PropTypes.string.isRequired,
   icon: PropTypes.string,
-};
-
-SelectVehicleRentalRow.defaultProps = {
-  desc: undefined,
-  name: undefined,
-  icon: undefined,
 };
 
 export default SelectVehicleRentalRow;

@@ -52,8 +52,4 @@ NavigatorOutro.propTypes = {
   logo: PropTypes.string,
 };
 
-NavigatorOutro.defaultProps = {
-  logo: undefined,
-};
-
 export default NavigatorOutro;

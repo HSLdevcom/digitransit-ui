@@ -11,21 +11,24 @@ import { stopPagePath } from '../../../utils/shared/path';
 import { useConfigContext } from '../../client/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-export default function AirportCheckInLeg(props) {
+export default function AirportCheckInLeg({
+  leg,
+  start,
+  focusAction,
+  index,
+  children,
+}) {
   const config = useConfigContext();
   const modeClassName = 'airport-wait';
-  const { name } = props.leg.from;
-  const { focusAction } = props;
+  const { name } = leg.from;
   return (
     <div className="row itinerary-row">
       <div className="small-2 columns itinerary-time-column">
-        <div className="itinerary-time-column-time">
-          {legTimeStr(props.start)}
-        </div>
+        <div className="itinerary-time-column-time">{legTimeStr(start)}</div>
       </div>
-      <ItineraryCircleLine index={props.index} modeClassName={modeClassName} />
+      <ItineraryCircleLine index={index} modeClassName={modeClassName} />
       <div
-        onClick={props.focusAction}
+        onClick={focusAction}
         className="small-9 columns itinerary-instruction-column airport-wait"
       >
         <div className="itinerary-leg-first-row">
@@ -34,7 +37,7 @@ export default function AirportCheckInLeg(props) {
               onClick={e => {
                 e.stopPropagation();
               }}
-              to={stopPagePath(false, props.leg.from.stop.gtfsId)}
+              to={stopPagePath(false, leg.from.stop.gtfsId)}
             >
               {name}
               <Icon
@@ -43,7 +46,7 @@ export default function AirportCheckInLeg(props) {
                 color={config.colors.primary}
               />
             </Link>
-            <div className="stop-code-container">{props.children}</div>
+            <div className="stop-code-container">{children}</div>
           </div>
           <ItineraryMapAction target={name || ''} focusAction={focusAction} />
         </div>
@@ -52,7 +55,7 @@ export default function AirportCheckInLeg(props) {
           <Icon img="icon_info" />
           <FormattedMessage
             id="airport-check-in"
-            values={{ agency: props.leg.agency && props.leg.agency.name }}
+            values={{ agency: leg.agency && leg.agency.name }}
             defaultMessage="Check-in at the {agency} desk"
           />
         </div>
@@ -74,8 +77,4 @@ AirportCheckInLeg.propTypes = {
   focusAction: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   children: PropTypes.node,
-};
-
-AirportCheckInLeg.defaultProps = {
-  children: undefined,
 };

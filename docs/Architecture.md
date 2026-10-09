@@ -19,7 +19,7 @@ Digitransit-ui is a React based web application. The following bullet points des
       - i.e. no references to containers
     - Views should preferably be created using stateless functional components
     - Views mustn't hold any state
-      - If state is needed you should either store it using fluxible or in a container
+      - State should use React hooks and context; existing Fluxible stores are legacy
   - RelayConnector
     - Data from server should be fetched by adding a relay fragment and wrapping it with `Relay.createContainer`
     - The file should have the pure view as default export and the <View>RelayConnector as named export
@@ -33,7 +33,7 @@ Digitransit-ui is a React based web application. The following bullet points des
         - i.e. no DOM components
       - Continers must include `Container` in their name
     - StoreConnectors
-      - Data from stores should be loaded using fluxible connectToStores
+      - Legacy Fluxible store data is loaded using fluxible connectToStores
       - Higher order component that wraps another component to provide store state to other component props
       - Must include StoreConnector in their name
     - Containers should include unit tests either testing their functions separately or by testing their rendering using React Testing Library
@@ -44,8 +44,18 @@ React components can access data in two different ways:
 
 Basically, division between alternatives is:
 - GraphQL is used to fetch data from server
-- If server endpoint does not support GraphQL, flux can be used to retrieve that data
-- Flux stores are mainly used to store application state
+- Non-GraphQL requests may use a focused data helper or React context
+- Existing Flux stores remain for state not yet migrated
+
+New application state should use React hooks and context rather than Fluxible.
+GeoJSON fetching uses `useGeoJsonObjects` in
+`app/hooks/useGeoJsonObjects.js`. It loads configured layers from a hook and
+shares fetch promises across map and dialog consumers. Layer visibility
+settings remain in the legacy `MapLayerStore`.
+Old-searches history (the former Fluxible `OldSearchesStore`) is managed by
+named functions in `app/data/SearchHistory.js`, which read/write
+`localStorage` directly. Unlike favourites, nothing reactively subscribes to
+this data, so it has no Context/hook layer.
 
 ![Architecture](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/architecture.png)
 

@@ -17,30 +17,36 @@ import ParkingAreaMarker from './non-tile-layer/ParkingAreaMarker';
 import MapWithTracking from './MapWithTracking';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import { isBikeParkLeg, isCarParkLeg } from '../../../utils/client/legUtils';
-import { useItineraryLocationActions } from '../../hooks/ItineraryLocationContext';
+import {
+  useOrigin,
+  useDestination,
+  useItineraryLocationActions,
+} from '../../hooks/ItineraryLocationContext';
 
 const POINT_FOCUS_ZOOM = 17; // default
 
 const ItineraryPageMap = ({
   planEdges,
   active,
-  showActiveOnly,
+  showActiveOnly = false,
   from,
   to,
   viaPoints,
   breakpoint,
-  showVehicles,
+  showVehicles = false,
   topics,
-  showDurationBubble,
+  showDurationBubble = false,
   itinerary,
-  showBackButton,
-  isLocationPopupEnabled,
-  realtimeTransfers,
+  showBackButton = true,
+  isLocationPopupEnabled = false,
+  realtimeTransfers = false,
   ...rest
 }) => {
   const { match, router } = useRouter();
   const config = useConfigContext();
-  const { addViaPoint, deleteViaPoint } = useItineraryLocationActions();
+  const origin = useOrigin();
+  const destination = useDestination();
+  const locationActions = useItineraryLocationActions();
   const { hash } = match.params;
   const leafletObjs = [];
 
@@ -136,7 +142,9 @@ const ItineraryPageMap = ({
         id,
         router,
         match,
-        { addViaPoint, deleteViaPoint },
+        origin,
+        destination,
+        locationActions,
         config,
       );
   }
@@ -180,17 +188,6 @@ ItineraryPageMap.propTypes = {
   showBackButton: PropTypes.bool,
   isLocationPopupEnabled: PropTypes.bool,
   realtimeTransfers: PropTypes.bool,
-};
-
-ItineraryPageMap.defaultProps = {
-  topics: undefined,
-  showActiveOnly: false,
-  showVehicles: false,
-  showDurationBubble: false,
-  itinerary: undefined,
-  showBackButton: true,
-  isLocationPopupEnabled: false,
-  realtimeTransfers: false,
 };
 
 export default ItineraryPageMap;

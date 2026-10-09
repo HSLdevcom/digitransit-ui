@@ -25,10 +25,4 @@ PopupHeader.propTypes = {
   children: PropTypes.node,
 };
 
-PopupHeader.defaultProps = {
-  header: undefined,
-  subHeader: undefined,
-  children: undefined,
-};
-
 export default PopupHeader;

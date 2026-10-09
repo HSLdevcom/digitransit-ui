@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-
 import Icon from '../../Icon';
 import { hasVehicleRentalCode } from '../../../../utils/shared/vehicleRentalUtils';
 import { splitGtfsId } from '../../../../utils/shared/gtfs';
@@ -15,7 +14,7 @@ function SelectVehicleRentalClusterRow({
   desc,
   prefix,
   networks: networksInCluster,
-  isScooter,
+  isScooter = false,
 }) {
   const config = useConfigContext();
   const img = isScooter ? 'icon_scooter-lollipop' : 'icon_citybike-lollipop';
@@ -57,12 +56,6 @@ SelectVehicleRentalClusterRow.propTypes = {
   prefix: PropTypes.string.isRequired,
   networks: PropTypes.arrayOf(PropTypes.string).isRequired,
   isScooter: PropTypes.bool,
-};
-
-SelectVehicleRentalClusterRow.defaultProps = {
-  desc: undefined,
-  name: undefined,
-  isScooter: false,
 };
 
 export default SelectVehicleRentalClusterRow;

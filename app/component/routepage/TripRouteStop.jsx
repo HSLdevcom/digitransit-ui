@@ -24,24 +24,29 @@ import {
 } from '../../../utils/client/stopStatusUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 
-const TripRouteStop = props => {
+const EMPTY_VEHICLES = [];
+
+const TripRouteStop = ({
+  className,
+  color,
+  currentTime,
+  mode,
+  stop,
+  nextStop,
+  stopPassed,
+  stoptime,
+  shortName,
+  setHumanScrolling,
+  keepTracking = false,
+  first = false,
+  last = false,
+  prevStop,
+  vehicles = EMPTY_VEHICLES,
+  pattern,
+  route,
+  selectedVehicle,
+}) => {
   const config = useConfigContext();
-  const {
-    className,
-    color,
-    currentTime,
-    mode,
-    stop,
-    nextStop,
-    stopPassed,
-    stoptime,
-    shortName,
-    setHumanScrolling,
-    keepTracking,
-    first,
-    last,
-    prevStop,
-  } = props;
 
   const getVehiclePatternLink = vehicle => {
     const maxDistance = vehicle.mode === 'rail' ? 100 : 50;
@@ -75,10 +80,10 @@ const TripRouteStop = props => {
       nextStopName: vehicleState === 'arriving' ? stop?.name : nextStop?.name,
       key: vehicle.id,
       mode,
-      pattern: props.pattern,
-      route: props.route,
+      pattern,
+      route,
       vehicleNumber: vehicleWithParsedShortname.shortName || shortName,
-      selected: props.selectedVehicle?.id === vehicle.id,
+      selected: selectedVehicle?.id === vehicle.id,
       color: !stopPassed ? vehicle.color : '',
       setHumanScrolling,
       keepTracking,
@@ -112,12 +117,9 @@ const TripRouteStop = props => {
   });
   const badgeImg = stopStatus && STOP_STATUS_BADGE_IMGS[stopStatus];
 
-  const vehicles =
-    props.vehicles &&
-    props.vehicles.map(
-      vehicle =>
-        vehicle.route === props.route && getVehiclePatternLink(vehicle),
-    );
+  const vehicleLinks = vehicles.map(
+    vehicle => vehicle.route === route && getVehiclePatternLink(vehicle),
+  );
   return (
     <div
       className={cx(
@@ -126,7 +128,7 @@ const TripRouteStop = props => {
         className,
       )}
     >
-      {vehicles}
+      {vehicleLinks}
       <div className={cx('route-stop-now_circleline', mode)}>
         {badgeImg ? (
           <Icon img={badgeImg} className="route-stop-status-badge" />
@@ -243,19 +245,6 @@ TripRouteStop.propTypes = {
   keepTracking: PropTypes.bool,
   first: PropTypes.bool,
   last: PropTypes.bool,
-};
-
-TripRouteStop.defaultProps = {
-  keepTracking: false,
-  className: undefined,
-  color: null,
-  first: false,
-  last: false,
-  vehicles: [],
-  nextStop: null,
-  prevStop: null,
-  shortName: undefined,
-  selectedVehicle: undefined,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';
