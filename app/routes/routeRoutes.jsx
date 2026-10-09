@@ -16,6 +16,7 @@ import {
   getDefault,
   getComponentOrNullRenderer,
   createStickyRenderer,
+  createStickyRendererFactory,
   getComponentOrLoadingRenderer,
   getComponentOrLoadingRendererWithRequired,
 } from './routerUtils';
@@ -28,6 +29,10 @@ import { withRouteContext } from '../../utils/client/RouteContext';
 
 export default function routeRoutes(config) {
   const showTenWeeks = config.showTenWeeksOnRouteSchedule || false;
+  // Keeps the tabs and pattern selector visible while another tab loads
+  const sticky = createStickyRendererFactory(({ params }) =>
+    [params.routeId, params.patternId, params.tripId].join('|'),
+  );
   // The header stays mounted while switching tabs within the same route
   const renderHeader = createStickyRenderer({
     getKey: match => match.params.routeId,
@@ -206,7 +211,7 @@ export default function routeRoutes(config) {
                   }
                 `}
                 prepareVariables={prepareServiceDay}
-                render={getComponentOrLoadingRenderer}
+                render={sticky(getComponentOrLoadingRenderer)}
               />
               <Route
                 path=":patternId/:tripId"
@@ -241,7 +246,7 @@ export default function routeRoutes(config) {
                   }
                 `}
                 prepareVariables={prepareServiceDay}
-                render={getComponentOrLoadingRenderer}
+                render={sticky(getComponentOrLoadingRenderer)}
               />
             </Route>,
             <Route
@@ -426,11 +431,13 @@ export default function routeRoutes(config) {
                   ? prepareScheduleParamsWithTenWeeks
                   : prepareScheduleParamsWithFiveWeeks
               }
-              render={getComponentOrLoadingRendererWithRequired([
-                'pattern',
-                'route',
-                'firstDepartures',
-              ])}
+              render={sticky(
+                getComponentOrLoadingRendererWithRequired([
+                  'pattern',
+                  'route',
+                  'firstDepartures',
+                ]),
+              )}
             />,
             <Route
               path={`${PREFIX_DISRUPTION}/:patternId`}

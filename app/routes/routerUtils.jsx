@@ -67,6 +67,30 @@ export function createStickyRenderer({
 }
 
 /**
+ * Creates a function that wraps route renderers so that, while a route is still
+ * loading, the previously rendered element is kept if `getKey` yields the same
+ * key for both matches. Wrapped renderers share the same memory, so switching
+ * between sibling routes (e.g. tabs) does not replace the page with a loader.
+ *
+ * @param {Function} getKey derives the identity of the page from the match
+ */
+export function createStickyRendererFactory(getKey) {
+  let last = null;
+  return render => args => {
+    const { Component, props, error, match } = args;
+    const key = getKey(match);
+    if (Component && (props || error)) {
+      last = { key, element: render(args) };
+      return last.element;
+    }
+    if (last && last.key === key) {
+      return last.element;
+    }
+    return render(args);
+  };
+}
+
+/**
  * Like getComponentOrLoadingRenderer but treats any null value in `requiredKeys`
  * as a missing/invalid backend node and renders <Error404 /> instead of passing
  * null props into a component that requires them.
