@@ -72,10 +72,8 @@
   background-color: #ccc;
   height: 1px;
 
-  // extend over the dialog content padding to the edges of the dialog
-  margin: 0 calc(-1 * var(--space-fixed-m));
-
   @media (min-width: 500px) {
+    // extend over the dialog content padding to the edges of the dialog
     margin: 0 calc(-1 * var(--space-fixed-l));
   }
 }
