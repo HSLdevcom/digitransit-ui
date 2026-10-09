@@ -61,7 +61,7 @@ $icon-size-small: 18px;
   align-items: center;
   justify-content: center;
   width: 37px;
-  color: var(--color-icon-default, #888);
+  color: var(--color-icon-weakest, #888);
 
   svg {
     height: 20px;
@@ -144,7 +144,7 @@ $icon-size-small: 18px;
   border: 0;
   background: none;
   cursor: pointer;
-  color: var(--color-icon-default, #888);
+  color: var(--color-icon-weakest, #888);
 
   &:hover,
   &:focus-visible {
