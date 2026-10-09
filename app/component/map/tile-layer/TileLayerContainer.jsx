@@ -14,8 +14,8 @@ import {
   relayShape,
   configShape,
   vehicleShape,
+  mapLayerShape,
 } from '../../../../utils/client/shapes';
-import { mapLayerShape } from '../../../store/MapLayerStore';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
