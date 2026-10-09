@@ -40,6 +40,12 @@ export default configMerger(walttiConfig, {
       height: 352,
     },
   },
+  transportModes: {
+    rail: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
+  },
 
   title: APP_TITLE,
 
@@ -49,7 +55,9 @@ export default configMerger(walttiConfig, {
   logo: 'hameenlinna/hameenlinna-logo.png',
   secondaryLogo: 'hameenlinna/secondary-logo.png',
 
-  feedIds: ['Hameenlinna'],
+  feedIds: ['Hameenlinna', 'digitraffic'],
+
+  nearYouModes: ['bus', 'rail'],
 
   geoJson: {
     noZoneSharing: true,
