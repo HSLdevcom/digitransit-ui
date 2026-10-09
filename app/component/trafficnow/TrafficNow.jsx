@@ -64,6 +64,7 @@ const TrafficNow = ({ dateTime }) => {
       )}
       <Gutterer
         maxWidth="1440px"
+        className={mobile ? 'traffic-now__content--mobile' : undefined}
         leftGutterStyles={{
           backgroundColor: 'var(--white)',
         }}
