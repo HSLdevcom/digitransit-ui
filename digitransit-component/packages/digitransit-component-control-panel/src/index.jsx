@@ -87,7 +87,6 @@ function getIconName(mode, modeSet, boxed) {
 const MAX_VISIBLE_MODES = 7;
 
 function NearStopsAndRoutes({
-  appElement,
   horizontal = true,
   modeArray,
   language = 'fi',
@@ -242,13 +241,10 @@ function NearStopsAndRoutes({
     >
       {useModal && (
         <AllModesModal
-          appElement={appElement}
-          isMobile={isMobile}
           language={language}
           modalOpen={modalOpen}
           fontWeights={fontWeights}
           closeModal={() => setModalOpen(false)}
-          colors={colors}
         >
           {renderButtons(modes, true)}
         </AllModesModal>
@@ -271,7 +267,6 @@ function NearStopsAndRoutes({
 
 NearStopsAndRoutes.propTypes = {
   loading: PropTypes.bool,
-  appElement: PropTypes.string.isRequired,
   modeArray: PropTypes.arrayOf(PropTypes.string).isRequired,
   title: PropTypes.objectOf(PropTypes.string),
   language: PropTypes.string,
