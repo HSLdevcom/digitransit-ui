@@ -22,6 +22,9 @@
 
   .control-panel-container > div:first-of-type {
     max-width: 100%;
+
+    // let the background graphics show through the panel
+    background: transparent;
   }
 
   .embedded-search-button-container {
