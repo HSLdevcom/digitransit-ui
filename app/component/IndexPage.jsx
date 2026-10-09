@@ -254,7 +254,6 @@ function IndexPage({ fromMap, ...props }, context) {
 
     return config.showNearYouButtons ? (
       <CtrlPanel.NearStopsAndRoutes
-        appElement="#app"
         modeArray={modeArray}
         loading={favouriteStatus === STATUS_FETCHING_OR_UPDATING}
         modeSet={iconModeSet}
