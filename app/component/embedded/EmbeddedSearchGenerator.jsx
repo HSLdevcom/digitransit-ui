@@ -114,7 +114,11 @@ const EmbeddedSearchGenerator = ({ breakpoint = undefined }) => {
     mode[searchModeRestriction.substring(0, searchModeRestriction.length - 2)] =
       'true';
     const searchMatch = {
-      location: { query: { ...mode, ...locData, lang: searchLang } },
+      location: {
+        pathname: EMBEDDED_SEARCH_PATH,
+        query: { ...mode, ...locData, lang: searchLang },
+      },
+      params: {},
     };
     return <EmbeddedSearch match={searchMatch} />;
   };
