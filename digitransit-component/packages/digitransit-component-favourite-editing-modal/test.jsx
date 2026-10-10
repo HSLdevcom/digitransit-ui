@@ -13,7 +13,13 @@ import ReactModal from 'react-modal';
 // how quickly the environment teardown happens relative to the timeout.
 // Cleaning up manually with fake timers (below) flushes that timeout
 // synchronously while the environment is still alive.
-import { render, screen, within, cleanup } from '@testing-library/react/pure';
+import {
+  fireEvent,
+  render,
+  screen,
+  within,
+  cleanup,
+} from '@testing-library/react/pure';
 import FavouriteEditingModal from './src/index';
 
 afterEach(() => {
@@ -76,7 +82,7 @@ describe('Testing @digitransit-component/digitransit-component-favourite-editing
   it('calls onEditSelected with the chosen favourite when its edit control is clicked', () => {
     const edited = [];
     renderModal({ onEditSelected: favourite => edited.push(favourite) });
-    screen.getByLabelText('Edit place: Home').click();
+    fireEvent.click(screen.getByLabelText('Edit place: Home'));
     expect(edited).toHaveLength(1);
     expect(edited[0]).toMatchObject({ favouriteId: 'fav1', name: 'Home' });
   });
@@ -86,7 +92,7 @@ describe('Testing @digitransit-component/digitransit-component-favourite-editing
     const itemsBefore = screen.getAllByRole('listitem');
     expect(within(itemsBefore[0]).getByText('Home')).toBeTruthy();
 
-    screen.getByLabelText('Move favourite down').click();
+    fireEvent.click(screen.getByLabelText('Move favourite down'));
 
     const itemsAfter = screen.getAllByRole('listitem');
     expect(within(itemsAfter[0]).getByText('Work')).toBeTruthy();
@@ -96,7 +102,7 @@ describe('Testing @digitransit-component/digitransit-component-favourite-editing
   it('hides the list and shows the delete confirmation when a delete control is clicked', () => {
     renderModal();
     expect(screen.getByText('Edit places')).toBeTruthy();
-    screen.getByLabelText('Delete place: Home').click();
+    fireEvent.click(screen.getByLabelText('Delete place: Home'));
     expect(screen.queryByText('Edit places')).toBeNull();
   });
 });

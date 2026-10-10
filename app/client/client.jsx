@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import BrowserProtocol from 'farce/BrowserProtocol';
 import createFarceRouter from 'found/createFarceRouter';
 import makeRouteConfig from 'found/makeRouteConfig';
@@ -236,7 +236,7 @@ async function init() {
   );
 
   const rootNode = document.getElementById('app');
-  ReactDOM.render(content, rootNode);
+  createRoot(rootNode).render(content);
 
   // Listen for Web App Install Banner events
   window.addEventListener('beforeinstallprompt', e => {

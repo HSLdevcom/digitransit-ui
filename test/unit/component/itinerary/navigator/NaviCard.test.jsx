@@ -1,4 +1,5 @@
 import React from 'react';
+import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import NaviCard from '../../../../../app/component/itinerary/navigator/NaviCard';
 import { LEGTYPE } from '../../../../../app/component/itinerary/navigator/NaviUtils';
@@ -166,7 +167,7 @@ describe('<NaviCard />', () => {
     });
 
     const button = container.querySelector('.navi-top-card');
-    button.click();
+    fireEvent.click(button);
     expect(button.getAttribute('aria-expanded')).toBe('true');
 
     rerender(
