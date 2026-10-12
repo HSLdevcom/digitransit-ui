@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { memo, useEffect, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEqual from 'lodash/isEqual';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
@@ -39,10 +38,6 @@ import {
   useCitybikes,
 } from '../../utils/client/modeUtils';
 import {
-  checkPositioningPermission,
-  startLocationWatch,
-} from '../action/PositionActions';
-import {
   countLocations,
   STATUS_FETCHING_OR_UPDATING,
 } from '../data/FavouriteData';
@@ -52,6 +47,7 @@ import {
   useHasOtpLocationFavourites,
 } from '../hooks/FavouriteContext';
 import { useConfigContext } from '../client/ConfigContext';
+import { usePosition, usePositionActions } from '../hooks/PositionContext';
 import { useCurrentTime } from '../hooks/TimeContext';
 import {
   useOrigin,
@@ -63,7 +59,7 @@ import TrafficNowLink from './trafficnow/TrafficNowLink';
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
 
-function IndexPage({ fromMap, ...props }, context) {
+function IndexPage({ fromMap, ...props }) {
   const pendingOriginRef = useRef(null);
   const pendingDestinationRef = useRef(null);
   const intl = useIntl();
@@ -74,8 +70,9 @@ function IndexPage({ fromMap, ...props }, context) {
   const favouriteStatus = useFavouriteStatus();
   const hasOtpLocationFavourites = useHasOtpLocationFavourites();
   const { setOrigin, setDestination } = useItineraryLocationActions();
+  const { checkPositioningPermission, startLocationWatch } =
+    usePositionActions();
   const { colors, fontWeights, language, iconModeSet } = config;
-  const { executeAction } = context;
 
   useEffect(() => {
     const { from, to } = match.params;
@@ -99,7 +96,7 @@ function IndexPage({ fromMap, ...props }, context) {
           permission.state === 'granted' &&
           props.locationState.status === 'no-location'
         ) {
-          executeAction(startLocationWatch);
+          startLocationWatch();
         }
       });
     }
@@ -447,10 +444,6 @@ function IndexPage({ fromMap, ...props }, context) {
   );
 }
 
-IndexPage.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-};
-
 IndexPage.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   origin: locationShape.isRequired,
@@ -475,29 +468,26 @@ const Index = memo(
 
 const IndexPageWithBreakpoint = withBreakpoint(Index);
 
-const IndexPageWithStores = connectToStores(
-  IndexPageWithBreakpoint,
-  ['PositionStore'],
-  (context, props) => {
-    const locationState = context.getStore('PositionStore').getLocationState();
-    const { query } = props.match.location;
-    const { fromMap } = query;
+function IndexPageWithPosition(props) {
+  const locationState = usePosition();
+  const { query } = props.match.location;
+  const { fromMap } = query;
 
-    const newProps = {};
-    newProps.locationState = locationState;
-    if (fromMap === 'origin' || fromMap === 'destination') {
-      newProps.fromMap = fromMap;
-    }
-    // define itinerary search time & arriveBy
-    newProps.query = query;
+  return (
+    <IndexPageWithBreakpoint
+      {...props}
+      locationState={locationState}
+      {...(fromMap === 'origin' || fromMap === 'destination'
+        ? { fromMap }
+        : {})}
+      query={query}
+    />
+  );
+}
 
-    return newProps;
-  },
-);
-
-IndexPageWithStores.contextTypes = {
-  ...IndexPageWithStores.contextTypes,
-  executeAction: PropTypes.func.isRequired,
+IndexPageWithPosition.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  match: PropTypes.object.isRequired,
 };
 
 // Small functional wrapper that injects origin/destination as props from
@@ -507,7 +497,11 @@ function IndexPageWithLocation(props) {
   const origin = useOrigin();
   const destination = useDestination();
   return (
-    <IndexPageWithStores {...props} origin={origin} destination={destination} />
+    <IndexPageWithPosition
+      {...props}
+      origin={origin}
+      destination={destination}
+    />
   );
 }
 

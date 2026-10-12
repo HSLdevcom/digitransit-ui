@@ -1,22 +1,24 @@
-import { showGeolocationDeniedMessage } from '../../../app/action/PositionActions';
+import { createPositionService } from '../../../app/data/PositionService';
 import { messageActions } from '../../../app/hooks/MessageContext';
 import { geolocationMessages } from '../../../utils/client/geolocationMessages';
 
-describe('PositionActions', () => {
+describe('PositionService', () => {
   describe('showGeolocationDeniedMessage', () => {
     it('posts the denied message and marks other geolocation messages read via messageActions', () => {
-      // Geolocation permission/timeout messages can't be posted through
-      // useMessageActions() since PositionActions is a plain Fluxible
-      // action module, not a React component/hook. It must go through the
-      // messageActions bridge exported by MessageContext instead of the
-      // legacy actionContext.dispatch('AddMessage'/'MarkMessageAsRead', ...)
-      // calls, which no longer have any listener now that the Flux
-      // MessageStore has been replaced by MessageContext.
+      // Geolocation messages are posted through the messageActions bridge
+      // because this service runs outside React components.
       const addMessage = vi.spyOn(messageActions, 'addMessage');
       const markMessageAsRead = vi.spyOn(messageActions, 'markMessageAsRead');
-      const actionContext = { dispatch: vi.fn() };
-
-      showGeolocationDeniedMessage(actionContext);
+      const dispatch = vi.fn();
+      const service = createPositionService(
+        { searchParams: {}, URL: {} },
+        dispatch,
+        () => ({ hasLocation: false }),
+      );
+      service.showGeolocationDeniedMessage();
+      expect(dispatch).toHaveBeenCalledWith({
+        type: 'geolocation-denied',
+      });
 
       expect(
         addMessage.mock.calls.some(
