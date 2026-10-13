@@ -2,6 +2,14 @@ import { vi } from 'vitest';
 
 const getStopAndStationsQuery = vi.fn();
 const getFavouriteVehicleRentalStationsQuery = vi.fn();
+const updateFavouritesRequest = vi.fn();
+const deleteFavouritesRequest = vi.fn();
+
+vi.mock('../../../utils/client/apiUtils', async importOriginal => ({
+  ...(await importOriginal()),
+  updateFavourites: (...args) => updateFavouritesRequest(...args),
+  deleteFavourites: (...args) => deleteFavouritesRequest(...args),
+}));
 
 vi.mock('@digitransit-search-util/digitransit-search-util-query-utils', () => ({
   getStopAndStationsQuery: (...args) => getStopAndStationsQuery(...args),
@@ -52,6 +60,8 @@ describe('FavouriteData', () => {
   beforeEach(async () => {
     getStopAndStationsQuery.mockReset();
     getFavouriteVehicleRentalStationsQuery.mockReset();
+    updateFavouritesRequest.mockReset();
+    deleteFavouritesRequest.mockReset();
     // FavouriteData's default export is a module-level singleton, and this
     // worker's test files share one module registry (see vitest.config.js
     // `isolate: false`). Reset modules and re-import for every test so each
@@ -295,6 +305,53 @@ describe('FavouriteData', () => {
       favouriteStore.clearFavourites();
 
       expect(favouriteStore.getHasOtpLocationFavourites()).toBe(false);
+    });
+  });
+
+  describe('queued backend updates', () => {
+    it('does not lose a favourite saved while a previous save is pending', async () => {
+      let resolveFirst;
+      updateFavouritesRequest
+        .mockImplementationOnce(
+          payload =>
+            new Promise(resolve => {
+              resolveFirst = () => resolve(payload);
+            }),
+        )
+        .mockImplementation(payload => Promise.resolve(payload));
+      getStopAndStationsQuery.mockResolvedValue([]);
+      getFavouriteVehicleRentalStationsQuery.mockResolvedValue([]);
+
+      favouriteStore.saveFavourite(placeFavourite, vi.fn());
+      favouriteStore.saveFavourite(
+        { ...placeFavourite, favouriteId: 'place-2' },
+        vi.fn(),
+      );
+      await flushPromises();
+      expect(updateFavouritesRequest).toHaveBeenCalledTimes(1);
+
+      resolveFirst();
+      await flushPromises();
+
+      expect(updateFavouritesRequest).toHaveBeenCalledTimes(2);
+      const secondPayload = updateFavouritesRequest.mock.calls[1][0];
+      expect(secondPayload).toHaveLength(2);
+      expect(favouriteStore.getFavourites()).toHaveLength(2);
+    });
+
+    it('continues with later updates after a failed one', async () => {
+      updateFavouritesRequest
+        .mockRejectedValueOnce(new Error('network error'))
+        .mockImplementation(payload => Promise.resolve(payload));
+
+      favouriteStore.saveFavourite(placeFavourite, vi.fn());
+      favouriteStore.saveFavourite(
+        { ...placeFavourite, favouriteId: 'place-2' },
+        vi.fn(),
+      );
+      await flushPromises();
+
+      expect(updateFavouritesRequest).toHaveBeenCalledTimes(2);
     });
   });
 });

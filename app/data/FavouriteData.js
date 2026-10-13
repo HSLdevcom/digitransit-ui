@@ -203,6 +203,23 @@ class FavouriteData {
 
   initialized = false;
 
+  pendingUpdate = Promise.resolve();
+
+  /**
+   * Runs a favourites mutation after earlier backend updates have finished,
+   * so that each one is computed from the latest favourites instead of a
+   * state that is missing still-pending changes. `task` must handle its own
+   * errors. Without login updates are synchronous and run immediately.
+   */
+  enqueueUpdate(task) {
+    if (!this.config.allowLogin) {
+      task();
+      return;
+    }
+    // Also run after a failed task; its error stays visible as a rejection
+    this.pendingUpdate = this.pendingUpdate.then(task, task);
+  }
+
   /**
    * Initializes the store with the current config. Called once during app
    * bootstrap in client.js, before anything renders (mirrors
@@ -279,6 +296,8 @@ class FavouriteData {
     const bikeStations = candidates.filter(
       favourite => favourite.type === 'bikeStation',
     );
+    // Only query failures (e.g. network error or timeout) resolve to null;
+    // errors thrown while processing the results are not swallowed.
     Promise.race([
       Promise.all([
         getStopAndStationsQuery(stopsAndStations),
@@ -286,10 +305,20 @@ class FavouriteData {
       ]),
       rejectAfter(OTP_LOCATION_VALIDATION_TIMEOUT_MS),
     ])
-      .then(([resolvedStops, resolvedBikeStations]) => {
+      .catch(() => null)
+      .then(result => {
         if (this.favourites !== favourites) {
           return;
         }
+        if (!result) {
+          // Trust the locally saved eligible favourites rather than
+          // treating them as stale.
+          this.resolvedOtpLocationKeys = new Set(
+            candidates.map(getOtpLocationKey),
+          );
+          return;
+        }
+        const [resolvedStops, resolvedBikeStations] = result;
         const stopIds = new Set(resolvedStops.map(stop => stop.gtfsId));
         const bikeStationIds = new Set(
           resolvedBikeStations.map(station => station.properties.labelId),
@@ -302,16 +331,6 @@ class FavouriteData {
                 : stopIds.has(favourite.gtfsId),
             )
             .map(getOtpLocationKey),
-        );
-      })
-      .catch(() => {
-        if (this.favourites !== favourites) {
-          return;
-        }
-        // Query failed (e.g. a network error) - trust the locally saved
-        // eligible favourites rather than treating them as stale.
-        this.resolvedOtpLocationKeys = new Set(
-          candidates.map(getOtpLocationKey),
         );
       })
       .finally(() => {
@@ -422,7 +441,7 @@ class FavouriteData {
   persistFavourites(newFavourites, payload, onFail, favouriteType) {
     this.fetchingOrUpdating();
     if (this.config.allowLogin) {
-      updateFavourites(payload, favouriteType)
+      return updateFavourites(payload, favouriteType)
         .then(res => {
           if (favouriteType) {
             // newFavourites is already in store form here (both current
@@ -446,10 +465,10 @@ class FavouriteData {
           }
           this.fetchComplete();
         });
-    } else {
-      this.set(newFavourites);
-      setFavouriteStorage(newFavourites);
     }
+    this.set(newFavourites);
+    setFavouriteStorage(newFavourites);
+    return Promise.resolve();
   }
 
   /**
@@ -470,33 +489,35 @@ class FavouriteData {
    * @param {*} onFail callback invoked if storing the favourite fails
    */
   savePersonalizationPreferences(preferences, onFail) {
-    const existing = find(
-      this.favourites,
-      favourite => favourite.type === 'personalization',
-    );
-    const favourite = {
-      ...existing,
-      type: 'personalization',
-      ...preferences,
-      lastUpdated: unixTime(),
-      favouriteId: existing?.favouriteId || uuid(),
-    };
-    const newFavourites = mapToStore(this.favourites);
-    const editIndex = findIndex(
-      newFavourites,
-      item => item.favouriteId === favourite.favouriteId,
-    );
-    if (editIndex >= 0) {
-      newFavourites[editIndex] = favourite;
-    } else {
-      newFavourites.push(favourite);
-    }
-    this.persistFavourites(
-      newFavourites,
-      [favourite],
-      onFail,
-      'personalization',
-    );
+    this.enqueueUpdate(() => {
+      const existing = find(
+        this.favourites,
+        favourite => favourite.type === 'personalization',
+      );
+      const favourite = {
+        ...existing,
+        type: 'personalization',
+        ...preferences,
+        lastUpdated: unixTime(),
+        favouriteId: existing?.favouriteId || uuid(),
+      };
+      const newFavourites = mapToStore(this.favourites);
+      const editIndex = findIndex(
+        newFavourites,
+        item => item.favouriteId === favourite.favouriteId,
+      );
+      if (editIndex >= 0) {
+        newFavourites[editIndex] = favourite;
+      } else {
+        newFavourites.push(favourite);
+      }
+      return this.persistFavourites(
+        newFavourites,
+        [favourite],
+        onFail,
+        'personalization',
+      );
+    });
   }
 
   /**
@@ -541,24 +562,26 @@ class FavouriteData {
     if (favourite.type === 'bikeStation') {
       favourite = mapVehicleRentalToStore(favourite);
     }
-    const newFavourites = mapToStore(this.favourites);
-    const editIndex = findIndex(
-      newFavourites,
-      item => favourite.favouriteId === item.favouriteId,
-    );
-    if (editIndex >= 0) {
-      newFavourites[editIndex] = {
-        ...favourite,
-        lastUpdated: unixTime(),
-      };
-    } else {
-      newFavourites.push({
-        ...favourite,
-        lastUpdated: unixTime(),
-        favouriteId: uuid(),
-      });
-    }
-    this.persistFavourites(newFavourites, newFavourites, onFail);
+    this.enqueueUpdate(() => {
+      const newFavourites = mapToStore(this.favourites);
+      const editIndex = findIndex(
+        newFavourites,
+        item => favourite.favouriteId === item.favouriteId,
+      );
+      if (editIndex >= 0) {
+        newFavourites[editIndex] = {
+          ...favourite,
+          lastUpdated: unixTime(),
+        };
+      } else {
+        newFavourites.push({
+          ...favourite,
+          lastUpdated: unixTime(),
+          favouriteId: uuid(),
+        });
+      }
+      return this.persistFavourites(newFavourites, newFavourites, onFail);
+    });
   }
 
   /**
@@ -575,25 +598,7 @@ class FavouriteData {
       );
     }
     const mapped = mapToStore(newFavourites);
-    this.fetchingOrUpdating();
-    if (this.config.allowLogin) {
-      // Update favourites to backend service
-      updateFavourites(mapped)
-        .then(res => {
-          this.set(res);
-        })
-        .catch(() => {
-          onFail();
-          if (this.config.allowFavouritesFromLocalstorage) {
-            this.set(mapped);
-            setFavouriteStorage(mapped);
-          }
-          this.fetchComplete();
-        });
-    } else {
-      this.set(mapped);
-      setFavouriteStorage(mapped);
-    }
+    this.enqueueUpdate(() => this.persistFavourites(mapped, mapped, onFail));
   }
 
   /**
@@ -607,13 +612,18 @@ class FavouriteData {
       onFail();
       throw new Error(`Favourite is not an object:${JSON.stringify(data)}`);
     }
-    this.fetchingOrUpdating();
-    const newFavourites = mapToStore(this.favourites).filter(
-      favourite => favourite.favouriteId !== data.favouriteId,
-    );
-    if (this.config.allowLogin) {
+    this.enqueueUpdate(() => {
+      this.fetchingOrUpdating();
+      const newFavourites = mapToStore(this.favourites).filter(
+        favourite => favourite.favouriteId !== data.favouriteId,
+      );
+      if (!this.config.allowLogin) {
+        this.set(newFavourites);
+        setFavouriteStorage(newFavourites);
+        return Promise.resolve();
+      }
       // Delete favourite from backend service
-      deleteFavourites([data.favouriteId])
+      return deleteFavourites([data.favouriteId])
         .then(res => {
           this.set(res);
         })
@@ -625,10 +635,7 @@ class FavouriteData {
           }
           this.fetchComplete();
         });
-    } else {
-      this.set(newFavourites);
-      setFavouriteStorage(newFavourites);
-    }
+    });
   }
 }
 

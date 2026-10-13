@@ -24,7 +24,7 @@ function NoFavourites({ breakpoint = undefined }) {
             ? 'default/nearby-stop_desktop-animation.gif'
             : 'default/nearby-stop_animation.gif',
         )}
-        alt="Käyttöohje"
+        alt=""
       />
       <FormattedMessage id="nearest-favourites-browse-stops" />
     </div>
