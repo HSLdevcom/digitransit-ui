@@ -135,6 +135,10 @@ export default configMerger(walttiConfig, {
     itinerary: true,
   },
 
+  defaultSettings: {
+    minTransferTime: 5 * 60,
+  },
+
   transportModes: {
     citybike: {
       availableForSelection: true,
