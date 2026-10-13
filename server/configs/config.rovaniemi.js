@@ -46,6 +46,7 @@ export default configMerger(walttiConfig, {
   favicon: './app/assets/images/rovaniemi/rovaniemi-favicon.png',
   // Navbar logo
   logo: 'rovaniemi/rovaniemi-logo.svg',
+  secondaryLogo: 'rovaniemi/rovaniemi-logo.svg',
   feedIds: ['Rovaniemi'],
 
   ticketLinkOperatorCode: 50237,
