@@ -105,6 +105,7 @@ export default {
 
   // Navbar logo
   logo: 'hsl/reittiopas-logo.svg',
+  secondaryLogo: 'hsl/reittiopas-logo.svg',
 
   useCookiesPrompt: true,
   copyrightText: '© Copyright HSL',

@@ -64,14 +64,16 @@ function FavouriteForm({
 
   return (
     <div className={styles.content}>
-      <div className={styles.search}>{autosuggestComponent}</div>
-      <TextInput
-        label={namePlaceholder}
-        hideLabel
-        placeholder={namePlaceholder}
-        value={current.name || ''}
-        onChange={specifyName}
-      />
+      <div className={styles.inputs}>
+        <div>{autosuggestComponent}</div>
+        <TextInput
+          label={namePlaceholder}
+          hideLabel
+          placeholder={namePlaceholder}
+          value={current.name || ''}
+          onChange={specifyName}
+        />
+      </div>
       <fieldset className={styles.iconFieldset}>
         <legend className={styles.legend}>
           {t('choose-icon', { lng: lang })}
@@ -100,11 +102,14 @@ function FavouriteForm({
         >
           {t('save', { lng: lang })}
         </Button>
-        {isEdit && (
-          <Button variant="secondary" size="l" expand onClick={cancelSelected}>
-            {t('cancel', { lng: lang })}
-          </Button>
-        )}
+        <Button
+          variant="secondary"
+          size="l"
+          expand
+          onClick={isEdit ? cancelSelected : handleClose}
+        >
+          {t('cancel', { lng: lang })}
+        </Button>
       </div>
     </div>
   );

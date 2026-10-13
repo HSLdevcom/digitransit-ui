@@ -7,7 +7,7 @@ import NetworkError from './NetworkError';
 import isRelayNetworkError from '../../utils/client/relayUtils';
 
 export default class ErrorBoundary extends React.Component {
-  static propTypes = { children: PropTypes.node.isRequired };
+  static propTypes = { children: PropTypes.node };
 
   state = { error: null, hasRetried: false };
 
