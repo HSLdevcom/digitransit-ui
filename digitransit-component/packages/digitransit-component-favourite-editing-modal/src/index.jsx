@@ -140,6 +140,9 @@ function FavouriteEditingModal({
               setList={setList}
               animation={200}
               handle={`.${DRAG_HANDLE_CLASS}`}
+              forceFallback
+              ghostClass={styles.ghost}
+              fallbackClass={styles.fallback}
             >
               {items.map((favourite, index) => (
                 <FavouriteListItem
