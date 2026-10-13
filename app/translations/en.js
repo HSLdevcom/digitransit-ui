@@ -535,8 +535,6 @@ export default {
     'no-route-start': 'Please select origin',
     'no-route-start-end': 'Please select origin and destination',
     'no-trips-found': 'No journeys found for the selected date {selectedDate}.',
-    'notification-minimize': 'Close message',
-    'notification-open': 'Open message',
     'number-of-intermediate-stops':
       '{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }',
     'number-of-spaces': 'Number of spaces',
@@ -662,7 +660,6 @@ export default {
       '{mode} {shortName} is between the {stopName} stop and the {nextStopName} stop.',
     'route-page-vehicle-selected': 'Current selection.',
     'route-page.alternative-routes': 'Alternative routes',
-    'route-page.choose-direction': 'Choose direction and route',
     'route-page.description': 'Route {shortName} - {longName}',
     'route-page.future-routes': 'Future routes',
     'route-page.main-routes': 'Directions',
