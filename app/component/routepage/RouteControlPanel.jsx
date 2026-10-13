@@ -35,7 +35,6 @@ import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { isIOS } from '../../../utils/shared/browser';
 import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
 import { saveSearch } from '../../data/SearchHistory';
-import Notification from './Notification';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 
 const Tab = {
@@ -91,18 +90,6 @@ function RouteControlPanel(
     [Tab.Timetable]: timetableTabRef,
     [Tab.Disruptions]: disruptionTabRef,
   };
-
-  const routeNotifications = [];
-  if (config.routeNotifications && config.routeNotifications.length > 0) {
-    for (let i = 0; i < config.routeNotifications.length; i++) {
-      const n = config.routeNotifications[i];
-      if (n.showForRoute?.(route)) {
-        routeNotifications.push(
-          <Notification notification={n} lang={intl.locale} key={n.id} />,
-        );
-      }
-    }
-  }
 
   const activeTab = getActiveTab(location.pathname);
 
@@ -406,7 +393,6 @@ function RouteControlPanel(
           'bp-large': breakpoint === 'large',
         })}
       >
-        {!config.showNewRoutePage && routeNotifications}
         {showStandardControls(route) && (
           <>
             {patternId && (
