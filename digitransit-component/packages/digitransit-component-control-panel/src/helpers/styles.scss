@@ -69,7 +69,7 @@
 }
 
 .separator {
-  background-color: #ccc;
+  background-color: var(--color-border-weak);
   height: 1px;
 
   @media (min-width: 500px) {
@@ -79,9 +79,16 @@
 }
 
 .modal-rows {
+  // extra air before the first row on top of the dialog's header gap
+  margin-top: var(--space-fixed-xs);
+
   @media (min-width: 500px) {
-    // the footer line is as close to the last row as separators are to each other
-    margin-bottom: calc(-1 * var(--space-fixed-m));
+    margin-top: 0;
+
+    // mirrors the gap below the description, plus the description's line-height whitespace
+    margin-bottom: calc(
+      var(--space-s) + var(--space-fixed-xxs) - var(--space-fixed-m)
+    );
   }
 }
 

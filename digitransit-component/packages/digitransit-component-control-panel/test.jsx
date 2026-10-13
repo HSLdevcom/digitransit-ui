@@ -115,34 +115,25 @@ describe('Testing @digitransit-component/digitransit-component-control-panel mod
       expect(screen.getAllByRole('link').length).toBeGreaterThan(7);
     });
 
-    it('shows the all-modes description only on desktop', () => {
-      const props = {
-        modeArray: [
-          'favorite',
-          'bus',
-          'tram',
-          'rail',
-          'subway',
-          'ferry',
-          'citybike',
-          'carpark',
-        ],
-        language: 'en',
-        origin: {},
-        onClick: () => {},
-        urlPrefix: '/nearyou',
-      };
-      const { unmount } = render(
-        <CtrlPanel position="left">
-          <CtrlPanel.NearStopsAndRoutes {...props} isMobile />
-        </CtrlPanel>,
-      );
-      screen.getAllByRole('link')[6].click();
-      expect(screen.queryByText(/shows all stops and routes/i)).toBeNull();
-      unmount();
+    it('shows the all-modes description in the dialog', () => {
       render(
         <CtrlPanel position="left">
-          <CtrlPanel.NearStopsAndRoutes {...props} />
+          <CtrlPanel.NearStopsAndRoutes
+            modeArray={[
+              'favorite',
+              'bus',
+              'tram',
+              'rail',
+              'subway',
+              'ferry',
+              'citybike',
+              'carpark',
+            ]}
+            language="en"
+            origin={{}}
+            onClick={() => {}}
+            urlPrefix="/nearyou"
+          />
         </CtrlPanel>,
       );
       screen.getAllByRole('link')[6].click();

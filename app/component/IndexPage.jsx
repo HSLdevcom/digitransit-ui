@@ -267,7 +267,6 @@ function IndexPage({ fromMap, ...props }, context) {
         colors={colors}
         fontWeights={fontWeights}
         {...directionProps}
-        isMobile={props.breakpoint !== 'large'}
       />
     ) : (
       <div className="stops-near-you-text">

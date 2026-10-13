@@ -23,7 +23,6 @@ export default function NearStopsAndRoutes({
   modeSet = 'hsl',
   colors = defaultColors,
   fontWeights = DEFAULT_FONT_WEIGHTS,
-  isMobile = false,
   urlPrefix,
   omitLanguageUrl = false,
   loading = true,
@@ -76,7 +75,6 @@ export default function NearStopsAndRoutes({
       {useModal && (
         <AllModesModal
           language={language}
-          isMobile={isMobile}
           modalOpen={modalOpen}
           fontWeights={fontWeights}
           closeModal={() => setModalOpen(false)}
@@ -127,7 +125,6 @@ NearStopsAndRoutes.propTypes = {
   fontWeights: PropTypes.shape({
     medium: PropTypes.number,
   }),
-  isMobile: PropTypes.bool,
   urlPrefix: PropTypes.string.isRequired,
   omitLanguageUrl: PropTypes.bool,
 };
