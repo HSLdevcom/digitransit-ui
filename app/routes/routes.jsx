@@ -329,7 +329,7 @@ export default config => {
             <Route
               getComponent={() =>
                 import(
-                  /* webpackChunkName: "itinerary" */ '../component/itinerary/ItineraryPageContainer'
+                  /* webpackChunkName: "itinerary" */ '../component/itinerary/ItineraryPage'
                 ).then(getDefault)
               }
             />

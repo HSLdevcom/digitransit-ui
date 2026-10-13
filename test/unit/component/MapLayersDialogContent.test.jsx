@@ -4,14 +4,27 @@ import fetchMock from 'fetch-mock';
 
 import { renderWithProviders } from '../helpers/mock-providers';
 
-import { Component as MapLayersDialogContent } from '../../../app/component/map/MapLayersDialogContent';
+import MapLayersDialogContent from '../../../app/component/map/MapLayersDialogContent';
 
 const testConfig = { CONFIG: 'default', language: 'fi' };
 
-const renderMapLayersDialogContent = (props, config = testConfig) =>
-  renderWithProviders(<MapLayersDialogContent {...props} />, {
-    config: { ...testConfig, ...config },
-  });
+const renderMapLayersDialogContent = (props, config = testConfig) => {
+  window.localStorage.setItem(
+    'map-layers',
+    JSON.stringify(props.storedMapLayers || props.mapLayers || {}),
+  );
+  return renderWithProviders(
+    <MapLayersDialogContent
+      mapLayers={props.mapLayers}
+      mapLayerOptions={props.mapLayerOptions}
+      setOpen={props.setOpen}
+    />,
+    { config: { ...testConfig, ...config } },
+  );
+};
+
+const getStoredMapLayers = () =>
+  JSON.parse(window.localStorage.getItem('map-layers'));
 
 describe('<MapLayersDialogContent />', () => {
   beforeAll(() => fetchMock.mockGlobal());
@@ -30,7 +43,6 @@ describe('<MapLayersDialogContent />', () => {
         stop: {},
         terminal: {},
       },
-      updateLayers: () => {},
     };
     const { container } = renderMapLayersDialogContent(props);
 
@@ -38,7 +50,7 @@ describe('<MapLayersDialogContent />', () => {
   });
 
   it('should update the vehicles layer', () => {
-    let mapLayers = {
+    const mapLayers = {
       showAllBusses: false,
       stop: {},
       terminal: {},
@@ -46,9 +58,6 @@ describe('<MapLayersDialogContent />', () => {
     const props = {
       setOpen: () => {},
       mapLayers,
-      updateLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
     const { container } = renderMapLayersDialogContent(props, {
       vehicles: true,
@@ -58,11 +67,11 @@ describe('<MapLayersDialogContent />', () => {
     )[0];
     fireEvent.click(checkbox);
 
-    expect(mapLayers.vehicles).toBe(true);
+    expect(getStoredMapLayers().vehicles).toBe(true);
   });
 
   it('should update the bus stop layer', () => {
-    let mapLayers = {
+    const mapLayers = {
       stop: {
         bus: false,
       },
@@ -71,9 +80,6 @@ describe('<MapLayersDialogContent />', () => {
     const props = {
       setOpen: () => {},
       mapLayers,
-      updateLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
     const { container } = renderMapLayersDialogContent(props, {
       transportModes: {
@@ -85,11 +91,44 @@ describe('<MapLayersDialogContent />', () => {
     const checkbox = container.querySelector('.option-checkbox.large input');
     fireEvent.click(checkbox);
 
-    expect(mapLayers.stop.bus).toBe(true);
+    expect(getStoredMapLayers().stop.bus).toBe(true);
+  });
+
+  it('should show the passed effective state of a locked stop layer', () => {
+    const props = {
+      setOpen: () => {},
+      mapLayers: {
+        stop: { bus: false },
+        terminal: {},
+      },
+      storedMapLayers: {
+        stop: { bus: true },
+        terminal: {},
+      },
+      mapLayerOptions: {
+        stop: {
+          bus: {
+            isLocked: true,
+            isSelected: false,
+          },
+        },
+      },
+    };
+    const { container } = renderMapLayersDialogContent(props, {
+      transportModes: {
+        bus: {
+          availableForSelection: true,
+        },
+      },
+    });
+    const checkbox = container.querySelector('.option-checkbox.large input');
+
+    expect(checkbox.checked).toBe(false);
+    expect(checkbox.disabled).toBe(true);
   });
 
   it('should update the tram stop layer', () => {
-    let mapLayers = {
+    const mapLayers = {
       stop: {
         tram: false,
       },
@@ -98,9 +137,6 @@ describe('<MapLayersDialogContent />', () => {
     const props = {
       setOpen: () => {},
       mapLayers,
-      updateLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
     const { container } = renderMapLayersDialogContent(props, {
       transportModes: {
@@ -112,11 +148,11 @@ describe('<MapLayersDialogContent />', () => {
     const checkbox = container.querySelector('.option-checkbox.large input');
     fireEvent.click(checkbox);
 
-    expect(mapLayers.stop.tram).toBe(true);
+    expect(getStoredMapLayers().stop.tram).toBe(true);
   });
 
   it('should update the ferry stop layer', () => {
-    let mapLayers = {
+    const mapLayers = {
       stop: {
         ferry: false,
       },
@@ -125,9 +161,6 @@ describe('<MapLayersDialogContent />', () => {
     const props = {
       setOpen: () => {},
       mapLayers,
-      updateLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
     const { container } = renderMapLayersDialogContent(props, {
       transportModes: {
@@ -139,11 +172,11 @@ describe('<MapLayersDialogContent />', () => {
     const checkbox = container.querySelector('.option-checkbox.large input');
     fireEvent.click(checkbox);
 
-    expect(mapLayers.stop.ferry).toBe(true);
+    expect(getStoredMapLayers().stop.ferry).toBe(true);
   });
 
   it('should update the airplane stop layer', () => {
-    let mapLayers = {
+    const mapLayers = {
       stop: {
         airplane: false,
       },
@@ -152,9 +185,6 @@ describe('<MapLayersDialogContent />', () => {
     const props = {
       setOpen: () => {},
       mapLayers,
-      updateLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
     const { container } = renderMapLayersDialogContent(props, {
       transportModes: {
@@ -166,7 +196,7 @@ describe('<MapLayersDialogContent />', () => {
     const checkbox = container.querySelector('.option-checkbox.large input');
     fireEvent.click(checkbox);
 
-    expect(mapLayers.stop.airplane).toBe(true);
+    expect(getStoredMapLayers().stop.airplane).toBe(true);
   });
 
   it('should update the citybike layer', () => {
@@ -175,7 +205,7 @@ describe('<MapLayersDialogContent />', () => {
     const tomorrow = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     tomorrow.setDate(tomorrow.getDate() + 1);
-    let mapLayers = {
+    const mapLayers = {
       citybike: false,
       stop: {},
       terminal: {},
@@ -183,9 +213,6 @@ describe('<MapLayersDialogContent />', () => {
     const props = {
       setOpen: () => {},
       mapLayers,
-      updateLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
     const { container } = renderMapLayersDialogContent(props, {
       vehicleRental: {
@@ -216,11 +243,11 @@ describe('<MapLayersDialogContent />', () => {
     const checkbox = container.querySelector('.option-checkbox.large input');
     fireEvent.click(checkbox);
 
-    expect(mapLayers.citybike).toBe(true);
+    expect(getStoredMapLayers().citybike).toBe(true);
   });
 
   it('should update the park&ride layer', () => {
-    let mapLayers = {
+    const mapLayers = {
       parkAndRide: false,
       stop: {},
       terminal: {},
@@ -228,9 +255,6 @@ describe('<MapLayersDialogContent />', () => {
     const props = {
       setOpen: () => {},
       mapLayers,
-      updateLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
     const { container } = renderMapLayersDialogContent(props, {
       parkAndRide: {
@@ -240,11 +264,11 @@ describe('<MapLayersDialogContent />', () => {
     const checkbox = container.querySelector('.option-checkbox.large input');
     fireEvent.click(checkbox);
 
-    expect(mapLayers.parkAndRide).toBe(true);
+    expect(getStoredMapLayers().parkAndRide).toBe(true);
   });
 
   it('should include geoJson layers', async () => {
-    let mapLayers = {
+    const mapLayers = {
       terminal: {},
       s: {},
       stop: {},
@@ -256,9 +280,6 @@ describe('<MapLayersDialogContent />', () => {
     const props = {
       setOpen: () => {},
       mapLayers,
-      updateLayers: layers => {
-        mapLayers = { ...layers };
-      },
     };
     fetchMock.get('https://localhost/somejson', {
       type: 'FeatureCollection',
@@ -301,6 +322,8 @@ describe('<MapLayersDialogContent />', () => {
 
     fireEvent.click(checkboxes[1]);
 
-    expect(mapLayers.geoJson['https://localhost/morejson']).toBe(true);
+    expect(getStoredMapLayers().geoJson['https://localhost/morejson']).toBe(
+      true,
+    );
   });
 });

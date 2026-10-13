@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'found';
-import Modal from '@hsl-fi/modal';
 import { stopShape, relayShape } from '../../../utils/client/shapes';
 import { hasEntitiesOfType } from '../../../utils/client/alertUtils';
 import { stopPagePath } from '../../../utils/shared/path';
@@ -101,16 +100,9 @@ const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
           </>
         )}
       </div>
-      <Modal
-        appElement="#app"
-        contentLabel="Capacity modal"
-        closeButtonLabel="Close"
-        variant="small"
-        isOpen={capacityModalOpen}
-        onCrossClick={() => setCapacityModalOpen(false)}
-      >
-        <CapacityModal config={config} />
-      </Modal>
+      {capacityModalOpen && (
+        <CapacityModal onClose={() => setCapacityModalOpen(false)} />
+      )}
     </span>
   );
 };

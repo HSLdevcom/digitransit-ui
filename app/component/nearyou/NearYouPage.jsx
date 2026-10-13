@@ -32,7 +32,6 @@ import { PREFIX_NEARYOU } from '../../../utils/shared/path';
 import NearYouContainer from './NearYouContainer';
 import SwipeableTabs, { setFocusables } from '../SwipeableTabs';
 import NearYouFavourites from './NearYouFavourites';
-import { mapLayerShape } from '../../store/MapLayerStore';
 import { getDefaultNetworks } from '../../../utils/shared/vehicleRentalUtils';
 import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import {
@@ -81,6 +80,12 @@ function tabHandler(e) {
   }
 }
 
+const PARKING_MODE_LAYERS = {
+  CARPARK: 'parkAndRide',
+  BIKEPARK: 'parkAndRideForBikes',
+  CITYBIKE: 'citybike',
+};
+
 // temp solution to force fav near you tab for hsl.fi
 // entering the tab should not be  possible if favourites do not exist
 function extendModes(modes, currentMode) {
@@ -90,7 +95,7 @@ function extendModes(modes, currentMode) {
   return modes;
 }
 
-function NearYouPage({ position, mapLayers }, { executeAction }) {
+function NearYouPage({ position }, { executeAction }) {
   const { router, match } = useRouter();
   const { mode } = match.params;
   const config = useConfigContext();
@@ -126,8 +131,18 @@ function NearYouPage({ position, mapLayers }, { executeAction }) {
   const updateMapLayerOptions = () => {
     if (config.map.showLayerSelector) {
       const options = getMapLayerOptions({
-        lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-        selectedMapLayers: ['vehicles', mode.toLowerCase()],
+        lockedMapLayers: [
+          'vehicles',
+          'citybike',
+          'stop',
+          'parkAndRide',
+          'parkAndRideForBikes',
+        ],
+        selectedMapLayers: [
+          PARKING_MODE_LAYERS[mode] ? null : 'vehicles',
+          mode.toLowerCase(),
+          ...(PARKING_MODE_LAYERS[mode] ? [PARKING_MODE_LAYERS[mode]] : []),
+        ],
       });
       setMapLayerOptions(options);
     }
@@ -518,7 +533,6 @@ function NearYouPage({ position, mapLayers }, { executeAction }) {
       position={searchPosition}
       setCenterOfMap={setCenterOfMap}
       showWalkRoute={PH_READY.includes(phase)}
-      mapLayers={mapLayers}
       mapLayerOptions={mapLayerOptions}
       breakpoint={breakpoint}
       variables={getQueryVariables(mode)}
@@ -619,18 +633,14 @@ NearYouPage.contextTypes = {
 
 NearYouPage.propTypes = {
   position: locationShape.isRequired,
-  mapLayers: mapLayerShape.isRequired,
 };
 
 const PositioningWrapper = connectToStores(
   NearYouPage,
-  ['PositionStore', 'MapLayerStore'],
+  ['PositionStore'],
   (context, props) => ({
     ...props,
     position: context.getStore('PositionStore').getLocationState(),
-    mapLayers: context
-      .getStore('MapLayerStore')
-      .getMapLayers({ notThese: ['vehicles', 'scooter'] }),
   }),
 );
 

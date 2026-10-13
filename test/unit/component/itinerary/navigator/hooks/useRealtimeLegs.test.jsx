@@ -6,6 +6,13 @@ import { ItineraryContextProvider } from '../../../../../../app/component/itiner
 import { setLatestNavigatorItinerary } from '../../../../../../utils/client/localStorage';
 import { epochToIso } from '../../../../../../utils/client/timeUtils';
 
+const { queryMock } = vi.hoisted(() => ({ queryMock: vi.fn() }));
+
+vi.mock(
+  '../../../../../../app/component/itinerary/navigator/hooks/useQueryRealtimeLegs',
+  () => ({ default: () => queryMock }),
+);
+
 const NOW = Date.parse('2024-05-01T12:00:00Z');
 
 // A single, non-transit leg is enough here: it needs no relay/GraphQL
@@ -44,6 +51,8 @@ describe('useRealtimeLegs', () => {
   let unmount;
 
   beforeEach(() => {
+    queryMock.mockReset();
+    queryMock.mockResolvedValue({});
     setLatestNavigatorItinerary({
       itinerary: { legs: buildLegs() },
       params: { origin: { lat: 60.1699, lon: 24.9384 }, updatedAt: NOW },
@@ -126,6 +135,106 @@ describe('useRealtimeLegs', () => {
 
     setIntervalSpy.mockRestore();
     clearIntervalSpy.mockRestore();
+  });
+});
+
+describe('useRealtimeLegs polling robustness', () => {
+  let unmount;
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(NOW);
+    queryMock.mockReset();
+    queryMock.mockResolvedValue({});
+    setLatestNavigatorItinerary({
+      itinerary: { legs: buildLegs() },
+      params: { origin: { lat: 60.1699, lon: 24.9384 }, updatedAt: NOW },
+    });
+  });
+
+  afterEach(() => {
+    if (unmount) {
+      unmount();
+      unmount = null;
+    }
+    vi.useRealTimers();
+  });
+
+  function renderProbe() {
+    const stableVehicles = {};
+    const controlRef = { current: null };
+    const result = render(
+      <ItineraryContextProvider>
+        <Probe vehicles={stableVehicles} controlRef={controlRef} />
+      </ItineraryContextProvider>,
+    );
+    unmount = result.unmount;
+    return controlRef;
+  }
+
+  it('always polls using the latest legs, not the legs of an earlier render', async () => {
+    const controlRef = renderProbe();
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(10000);
+    });
+    const legsAfterFirstPoll = controlRef.current.firstLeg;
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(10000);
+    });
+
+    expect(queryMock).toHaveBeenCalledTimes(2);
+    // vehicles did not change, so a stale closure would query the initial legs again
+    expect(queryMock.mock.calls[1][0][0]).toBe(legsAfterFirstPoll);
+  });
+
+  it('does not start a new poll while the previous one is still in flight', async () => {
+    let resolveQuery;
+    queryMock.mockImplementation(
+      () =>
+        new Promise(resolve => {
+          resolveQuery = resolve;
+        }),
+    );
+    renderProbe();
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(30000);
+    });
+    expect(queryMock).toHaveBeenCalledTimes(1);
+
+    await act(async () => {
+      resolveQuery({});
+      await vi.advanceTimersByTimeAsync(10000);
+    });
+    expect(queryMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('does not update state when a poll finishes after unmount', async () => {
+    const errorSpy = vi.spyOn(console, 'error');
+    let resolveQuery;
+    queryMock.mockImplementation(
+      () =>
+        new Promise(resolve => {
+          resolveQuery = resolve;
+        }),
+    );
+    renderProbe();
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(10000);
+    });
+    unmount();
+    unmount = null;
+
+    await act(async () => {
+      resolveQuery({});
+      await vi.advanceTimersByTimeAsync(0);
+    });
+
+    expect(errorSpy).not.toHaveBeenCalled();
+    errorSpy.mockRestore();
   });
 });
 

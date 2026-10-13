@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
+import { CheckboxGroup } from '@hsl-fi/form';
 import Icon from '../Icon';
 import routeCompare from '../../../utils/client/route-compare';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import {
   getRouteMode,
   modeToTranslationId,
@@ -24,22 +24,9 @@ export default function FilterTimeTableModal({
   const [showRoutes, setShowRoutes] = useState(showRoutesList);
   const [allRoutes, setAllRoutes] = useState(showRoutesList.length === 0);
 
-  const updateParent = newOptions => {
-    setRoutes({
-      showRoutes: newOptions.showRoutes,
-    });
-  };
-
   const toggleAllRoutes = () => {
-    if (allRoutes) {
-      setAllRoutes(false);
-      setShowRoutes([]);
-      updateParent({ showRoutes: [] });
-    } else {
-      setAllRoutes(true);
-      setShowRoutes([]);
-      updateParent({ showRoutes: [] });
-    }
+    setAllRoutes(true);
+    setShowRoutes([]);
   };
 
   const handleCheckbox = routesToAdd => {
@@ -51,22 +38,17 @@ export default function FilterTimeTableModal({
         ? chosenRoutes.concat([routesToAdd])
         : chosenRoutes.filter(o => o !== routesToAdd);
 
-    if (newChosenRoutes.length === 0) {
-      updateParent({ showRoutes: newChosenRoutes, allRoutes: true });
-      setShowRoutes(newChosenRoutes);
-      setAllRoutes(true);
-    } else {
-      updateParent({ showRoutes: newChosenRoutes });
-      setShowRoutes(newChosenRoutes);
-      setAllRoutes(false);
-    }
+    setShowRoutes(newChosenRoutes);
+    setAllRoutes(newChosenRoutes.length === 0);
   };
 
+  // Only apply the selection (which updates the URL and can trigger a
+  // parent re-render) once the modal is closed, instead of on every
+  // checkbox toggle, so the dialog can't get dismissed by its own update.
   const closeModal = () => {
+    setRoutes({ showRoutes });
     showFilterModal(false);
   };
-
-  const routeDivs = [];
 
   // Find out which departures are ARRIVING to their final stop,
   // not real departures, then remove them
@@ -91,58 +73,53 @@ export default function FilterTimeTableModal({
         self.map(itm => itm.code).indexOf(pattern.code) === index,
     );
 
-  routesWithStopTimes.forEach(o => {
-    const mode = getRouteMode(o);
-    const checked = showRoutes.includes(o.code);
-    const label = o.shortName || o.agency || '';
-
-    routeDivs.push(
-      <div key={o.code} className="route-row">
-        <div className="checkbox-container">
-          <input
-            type="checkbox"
-            aria-label={intl.formatMessage(
-              {
-                id: 'select-route',
-                defaultMessage: 'Select {mode} route {shortName} to {headsign}',
-              },
-              {
-                mode: intl.formatMessage({
-                  id: modeToTranslationId(mode, config),
-                }),
-                shortName: o.shortName,
-                headsign: o.headsign,
-              },
-            )}
-            checked={checked}
-            aria-checked={checked}
-            id={`input-${o.code}`}
-            onChange={() => handleCheckbox(o.code)}
-            onKeyDown={e => {
-              if (isKeyboardSelectionEvent(e)) {
-                handleCheckbox(o.code);
-              }
-            }}
-          />
-          <label
-            htmlFor={`input-${o.code}`}
-            className={checked ? 'checked' : ''}
-          >
-            {checked && (
-              <Icon img="icon_box-checked" className="checkbox-icon" />
-            )}
-          </label>
-        </div>
-        <div className="route-mode">
-          <Icon className={mode} img={`icon_${mode}`} />
-        </div>
-        <div className="route-label">
-          <span className={mode}> {label} </span>
-        </div>
-        <div className="route-headsign">{o.headsign}</div>
-      </div>,
-    );
-  });
+  const checkboxItems = [
+    {
+      name: 'all-routes',
+      id: 'input-all-routes',
+      checked: allRoutes,
+      ariaLabel: intl.formatMessage({
+        id: 'select-all-routes',
+        defaultMessage: 'Select all routes',
+      }),
+      title: (
+        <span className="route-title">
+          <FormattedMessage id="all-routes" defaultMessage="All lines" />
+        </span>
+      ),
+      onChange: toggleAllRoutes,
+    },
+    ...routesWithStopTimes.map(o => {
+      const mode = getRouteMode(o);
+      const label = o.shortName || o.agency || '';
+      return {
+        name: o.code,
+        id: `input-${o.code}`,
+        checked: showRoutes.includes(o.code),
+        ariaLabel: intl.formatMessage(
+          {
+            id: 'select-route',
+            defaultMessage: 'Select {mode} route {shortName} to {headsign}',
+          },
+          {
+            mode: intl.formatMessage({
+              id: modeToTranslationId(mode, config),
+            }),
+            shortName: o.shortName,
+            headsign: o.headsign,
+          },
+        ),
+        title: (
+          <span className="route-title">
+            <Icon className={mode} img={`icon_${mode}`} />
+            <span className={`route-label ${mode}`}>{label}</span>
+            <span className="route-headsign">{o.headsign}</span>
+          </span>
+        ),
+        onChange: () => handleCheckbox(o.code),
+      };
+    }),
+  ];
 
   return (
     <Modal lang={config.language} onOpenChange={closeModal} open>
@@ -150,43 +127,15 @@ export default function FilterTimeTableModal({
         title={intl.formatMessage({ id: 'show-routes' })}
         lang={config.language}
       >
-        <div className="filter-stop-modal">
-          <div className="all-routes-header">
-            <div className="checkbox-container">
-              <input
-                type="checkbox"
-                id="input-all-routes"
-                aria-label={intl.formatMessage({
-                  id: 'select-all-routes',
-                  defaultMessage: 'Select all routes',
-                })}
-                checked={allRoutes}
-                aria-checked={allRoutes}
-                onClick={e => allRoutes === true && e.preventDefault()}
-                onKeyDown={e => {
-                  if (isKeyboardSelectionEvent(e)) {
-                    toggleAllRoutes(e);
-                  }
-                }}
-                onChange={() => {
-                  toggleAllRoutes();
-                }}
-              />
-              <label
-                htmlFor="input-all-routes"
-                className={allRoutes ? 'checked' : ''}
-              >
-                {allRoutes ? (
-                  <Icon img="icon_box-checked" className="checkbox-icon" />
-                ) : null}
-              </label>
-            </div>
-            <FormattedMessage id="all-routes" defaultMessage="All lines" />
-          </div>
-
-          <div className="routes-container">
-            {routeDivs.length > 0 ? routeDivs : null}
-          </div>
+        <div className="routes-container">
+          <CheckboxGroup
+            label={
+              <span className="sr-only">
+                {intl.formatMessage({ id: 'show-routes' })}
+              </span>
+            }
+            items={checkboxItems}
+          />
         </div>
       </ModalContent>
     </Modal>

@@ -141,6 +141,7 @@ function NearYouMap(
   const mwtRef = useRef();
   const match = useMatch();
   const { mode } = match.params;
+  const config = useConfigContext();
   let streetRoutingLimit;
 
   switch (mode) {
@@ -161,7 +162,6 @@ function NearYouMap(
   }
 
   const { environment } = relay;
-  const config = useConfigContext();
   const isTransitMode = !nonTransit.includes(mode);
 
   const fetchPlan = node => {
