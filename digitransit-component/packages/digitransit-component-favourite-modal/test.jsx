@@ -177,8 +177,11 @@ describe('Testing @digitransit-component/digitransit-component-favourite-modal m
     });
   });
 
-  it('does not show a cancel button when adding a new favourite', () => {
-    renderModal();
-    expect(screen.queryByText('Cancel')).toBeNull();
+  it('closes the dialog without saving when cancel is pressed while adding', () => {
+    const { saveFavourite, cancelSelected, handleClose } = renderModal();
+    fireEvent.click(screen.getByText('Cancel'));
+    expect(handleClose).toHaveBeenCalledTimes(1);
+    expect(cancelSelected).not.toHaveBeenCalled();
+    expect(saveFavourite).not.toHaveBeenCalled();
   });
 });
