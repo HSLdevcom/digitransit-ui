@@ -75,6 +75,16 @@ function FavouriteEditingModal({
     setReordered(copy);
   };
 
+  // ReactSortable also calls setList on mount and on selection changes without reordering
+  const setList = newList => {
+    const sameOrder =
+      newList.length === items.length &&
+      newList.every((item, i) => item.favouriteId === items[i].favouriteId);
+    if (!sameOrder) {
+      setReordered(newList);
+    }
+  };
+
   const closeModal = () => {
     handleClose();
     const omitted = items.map(item => omit(item, ['chosen', 'selected']));
@@ -127,7 +137,7 @@ function FavouriteEditingModal({
               className={styles.list}
               tag="ul"
               list={items}
-              setList={setReordered}
+              setList={setList}
               animation={200}
               handle={`.${DRAG_HANDLE_CLASS}`}
             >
