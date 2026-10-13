@@ -49,13 +49,15 @@ const locationTypes = ['station', 'stop', 'place', 'bikeStation'];
 // favourites shimmer (STATUS_FETCHING_OR_UPDATING) stuck forever.
 const OTP_LOCATION_VALIDATION_TIMEOUT_MS = 15000;
 
-function rejectAfter(ms) {
-  return new Promise((_resolve, reject) => {
-    setTimeout(
+function withTimeout(promise, ms) {
+  let timer;
+  const timeout = new Promise((_resolve, reject) => {
+    timer = setTimeout(
       () => reject(new Error('OTP location validation timed out')),
       ms,
     );
   });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
 }
 
 // Location favourite types resolved through OTP; 'place' favourites are self-contained.
@@ -298,13 +300,17 @@ class FavouriteData {
     );
     // Only query failures (e.g. network error or timeout) resolve to null;
     // errors thrown while processing the results are not swallowed.
-    Promise.race([
+    // The query helpers mutate the favourites they receive, so pass copies.
+    withTimeout(
       Promise.all([
-        getStopAndStationsQuery(stopsAndStations),
-        getFavouriteVehicleRentalStationsQuery(bikeStations, ''),
+        getStopAndStationsQuery(stopsAndStations.map(f => ({ ...f }))),
+        getFavouriteVehicleRentalStationsQuery(
+          bikeStations.map(f => ({ ...f })),
+          '',
+        ),
       ]),
-      rejectAfter(OTP_LOCATION_VALIDATION_TIMEOUT_MS),
-    ])
+      OTP_LOCATION_VALIDATION_TIMEOUT_MS,
+    )
       .catch(() => null)
       .then(result => {
         if (this.favourites !== favourites) {

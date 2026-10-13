@@ -13,6 +13,7 @@ describe('<NearYouFavouritesContainer />', () => {
         vehicleStations={[null]}
         searchPosition={searchPosition}
         isParentTabActive
+        breakpoint="large"
         currentTime={0}
       />,
     );
@@ -27,6 +28,7 @@ describe('<NearYouFavouritesContainer />', () => {
         vehicleStations={[]}
         searchPosition={searchPosition}
         isParentTabActive
+        breakpoint="large"
         currentTime={0}
       />,
     );

@@ -6,7 +6,7 @@ import getAssetUrl from '../../assets/assetUrl';
 // Shown both when the user has no saved favourites and when all of the
 // saved stop/station/citybike favourites no longer resolve (e.g. a citybike
 // station whose operator has discontinued the service).
-function NoFavourites({ breakpoint = undefined }) {
+function NoFavourites({ breakpoint }) {
   return (
     <div className="no-favourites-container">
       {breakpoint !== 'large' && (
@@ -32,7 +32,7 @@ function NoFavourites({ breakpoint = undefined }) {
 }
 
 NoFavourites.propTypes = {
-  breakpoint: PropTypes.string,
+  breakpoint: PropTypes.string.isRequired,
 };
 
 export default NoFavourites;
