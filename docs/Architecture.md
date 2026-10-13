@@ -60,11 +60,11 @@ this data, so it has no Context/hook layer.
 ![Architecture](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/architecture.png)
 
 Links:
-* https://facebook.github.io/flux/docs/overview.html
-* http://facebook.github.io/react/
+* https://github.com/facebookarchive/flux
+* https://react.dev/
 * https://github.com/relay-tools/found-relay/
-* https://facebook.github.io/relay/
-* https://facebook.github.io/graphql/
+* https://relay.dev/
+* https://graphql.org/
 
 # CSS (or styles in general)
   - Modular CSS

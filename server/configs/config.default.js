@@ -829,6 +829,5 @@ export default {
     showBothDirectAndTransitResults: false,
   },
   personalization: false,
-  showNewRoutePage: true,
   user: {},
 };
