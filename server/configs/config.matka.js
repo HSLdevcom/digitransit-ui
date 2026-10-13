@@ -55,6 +55,7 @@ export default {
 
   // Navbar logo
   logo: 'matka/matka-logo.svg',
+  secondaryLogo: 'matka/matka-logo-secondary.svg',
 
   favicon: './app/assets/images/matka/matka-favicon.svg',
 

@@ -118,6 +118,7 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'turku/foli-logo.png',
+  secondaryLogo: 'turku/foli-logo.png',
 
   vehicleRental: {
     networks: {

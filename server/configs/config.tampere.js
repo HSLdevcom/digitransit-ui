@@ -86,6 +86,7 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'tampere/tampere-logo.png',
+  secondaryLogo: 'tampere/tampere-favicon.png',
 
   favicon: './app/assets/images/tampere/tampere-favicon.png',
 

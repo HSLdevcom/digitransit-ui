@@ -46,6 +46,7 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'pori/pori_logo.svg',
+  secondaryLogo: 'pori/pori_logo.svg',
 
   searchParams: {
     'boundary.rect.min_lat': 61.38,

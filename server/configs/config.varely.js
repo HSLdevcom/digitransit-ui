@@ -57,6 +57,7 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'varely/seutuplus-logo-white.svg',
+  secondaryLogo: 'varely/seutuplus-logo.svg',
   favicon: './app/assets/images/varely/varely-favicon.png',
 
   transportModes: {
