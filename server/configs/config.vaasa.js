@@ -161,14 +161,14 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/vaasa/zone_lines_20231220.geojson',
+        url: '/assets/vaasa/zone_lines_20261013.geojson',
       },
     ],
   },
   zoneIdMapping: {
     1: 'A',
-    2: 'B',
-    3: 'C',
+    2: 'A',
+    3: 'A',
   },
   zones: {
     stops: true,
