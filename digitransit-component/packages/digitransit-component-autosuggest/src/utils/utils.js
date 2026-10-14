@@ -60,7 +60,7 @@ export function getSuggestionContent(item, lng, t) {
       item.properties.layer.toLowerCase().includes('bikerental') ||
       item.properties.layer.toLowerCase().includes('bikestation')
     ) {
-      suggestionType = t('vehiclerentalstation', { lng });
+      suggestionType = t('bikerentalstation', { lng });
       const stopCode = item.properties.labelId;
       return [suggestionType, name, undefined, stopCode];
     }

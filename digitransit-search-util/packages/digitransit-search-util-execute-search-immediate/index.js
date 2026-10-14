@@ -216,6 +216,15 @@ function hasFavourites(searchContext) {
     return true;
   }
 
+  // Prefer the backend-validated signal when available: a stop/station/
+  // bikeStation favourite may look locally available (e.g. a citybike
+  // network whose season config is stale) while no longer being served by
+  // OTP at all, which would otherwise offer a "favourites" suggestion that
+  // opens to an empty list.
+  if (typeof searchContext.getHasOtpLocationFavourites === 'function') {
+    return !!searchContext.getHasOtpLocationFavourites(searchContext.context);
+  }
+
   const favouriteVehicleRentalStations =
     searchContext.getFavouriteVehicleRentalStations(searchContext.context);
   if (favouriteVehicleRentalStations?.length > 0) {
