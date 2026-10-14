@@ -532,6 +532,18 @@ export const getItineraryAlerts = (
 ) => {
   const alerts = [];
   const slack = settings.minTransferTime * 1000;
+  // track alert identities already assigned to an (earlier) leg this pass,
+  // so the same alert doesn't also get a separate card on a later leg
+  const shownAlertKeys = new Set();
+  // alerts the user has already dismissed, regardless of which leg's slot
+  // they happened to be shown under - a manual close should stick even if
+  // a different (or later) leg would otherwise surface the same alert
+  const closedAlertKeys = new Set();
+  messages.forEach(m => {
+    if (m.closed && m.alertKey) {
+      closedAlertKeys.add(m.alertKey);
+    }
+  });
   legs.forEach(leg => {
     if (leg.transitLeg && legTime(leg.end) > time) {
       const id = `alert-${leg.legId}`; // allow only one alert per leg
@@ -545,12 +557,16 @@ export const getItineraryAlerts = (
           );
         });
         if (alert) {
-          alerts.push({
-            severity: 'ALERT',
-            id,
-            title: alert.alertHeaderText,
-            body: '',
-          });
+          if (!shownAlertKeys.has(alert.id) && !closedAlertKeys.has(alert.id)) {
+            shownAlertKeys.add(alert.id);
+            alerts.push({
+              severity: 'ALERT',
+              id,
+              alertKey: alert.id,
+              title: alert.alertHeaderText,
+              body: '',
+            });
+          }
         }
       }
     }
@@ -561,35 +577,33 @@ export const getItineraryAlerts = (
   );
 
   if (canceled.length) {
-    // show new itinerary search button only for first canceled leg
+    // only show the "search new itinerary" button pre-departure.
     canceled.forEach((leg, i) => {
       const { legId, mode, route } = leg;
       const id = `canceled-${legId}`;
-      if (!messages.get(id)) {
-        const lMode = getLocalizedMode(mode, intl, config);
-        const routeName = `${lMode} ${route.shortName}`;
-        const title = intl.formatMessage(
-          { id: 'navigation-mode-canceled' },
-          { name: routeName },
-        );
-        const jsxBody =
-          i === 0
-            ? withNewSearchBtn(
-                '',
-                itinerarySearchCallback,
-                `canceled_${route.shortName}${mode.toLowerCase()}`,
-              )
-            : undefined;
-        alerts.push({
-          severity: 'ALERT',
-          id,
-          hideClose: true,
-          expiresOn: alert.effectiveEndDate * 1000,
-          title,
-          body: '',
-          jsxBody,
-        });
-      }
+      const lMode = getLocalizedMode(mode, intl, config);
+      const routeName = `${lMode} ${route.shortName}`;
+      const title = intl.formatMessage(
+        { id: 'navigation-mode-canceled' },
+        { name: routeName },
+      );
+      const jsxBody =
+        i === 0
+          ? withNewSearchBtn(
+              '',
+              itinerarySearchCallback,
+              `canceled_${route.shortName}${mode.toLowerCase()}`,
+            )
+          : undefined;
+      alerts.push({
+        severity: 'ALERT',
+        id,
+        hideClose: true,
+        expiresOn: legTime(leg.start),
+        title,
+        body: '',
+        jsxBody,
+      });
     });
   } else {
     const transfers = findTransferProblems(

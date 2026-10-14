@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import cx from 'classnames';
-import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immidiate';
+import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immediate';
 import { useCombobox } from 'downshift';
 import Icon, {
   defaultColors,
@@ -644,11 +644,11 @@ function DTAutosuggest({
   });
 
   const mobileClearOldSearches = () => {
-    const { context, clearOldSearches, clearFutureRoutes } = searchContext;
-    if (context && clearOldSearches) {
-      clearOldSearches(context);
+    const { clearOldSearches, clearFutureRoutes } = searchContext;
+    if (clearOldSearches) {
+      clearOldSearches();
       if (clearFutureRoutes) {
-        clearFutureRoutes(context);
+        clearFutureRoutes();
       }
       fetchSuggestions(state.value);
     }

@@ -1,12 +1,13 @@
 import React from 'react';
-import { configShape } from '../../utils/client/shapes';
 import CookieSettingsButton from './CookieSettingsButton';
+import { useConfigContext } from '../client/ConfigContext';
 
-const MobileFooter = (props, { config }) => {
-  return config.useCookiesPrompt ? (
+const MobileFooter = () => {
+  const { useCookiesPrompt, copyrightText } = useConfigContext();
+  return useCookiesPrompt ? (
     <div className="mobile-footer">
       <div style={{ margin: '15px' }}>
-        <div>{config.copyrightText || ''}</div>
+        <div>{copyrightText || ''}</div>
         <div>
           <CookieSettingsButton isMobile />
         </div>
@@ -16,10 +17,6 @@ const MobileFooter = (props, { config }) => {
       </div>
     </div>
   ) : null;
-};
-
-MobileFooter.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default MobileFooter;

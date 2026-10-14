@@ -52,7 +52,7 @@ function WalkLeg({
   leg,
   previousLeg,
   nextLeg,
-  useOriginAddress,
+  useOriginAddress = false,
 }) {
   const intl = useIntl();
   const config = useConfigContext();
@@ -420,13 +420,6 @@ WalkLeg.propTypes = {
   focusToLeg: PropTypes.func.isRequired,
   focusToPoint: PropTypes.func.isRequired,
   useOriginAddress: PropTypes.bool,
-};
-
-WalkLeg.defaultProps = {
-  previousLeg: undefined,
-  nextLeg: undefined,
-  children: undefined,
-  useOriginAddress: false,
 };
 
 export default WalkLeg;

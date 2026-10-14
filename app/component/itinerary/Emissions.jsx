@@ -83,8 +83,3 @@ Emissions.propTypes = {
   carEmissions: PropTypes.number,
   emissionsInfolink: PropTypes.string,
 };
-
-Emissions.defaultProps = {
-  carEmissions: undefined,
-  emissionsInfolink: undefined,
-};

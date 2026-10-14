@@ -20,9 +20,3 @@ ItineraryNotification.propTypes = {
   bodyId: PropTypes.string,
   iconId: PropTypes.string,
 };
-
-ItineraryNotification.defaultProps = {
-  headerId: undefined,
-  bodyId: undefined,
-  iconId: undefined,
-};

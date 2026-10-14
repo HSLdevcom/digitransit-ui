@@ -57,24 +57,24 @@ const fuzzyQuery = graphql`
   }
 `;
 
-function SelectVehicleContainer(props) {
+function SelectVehicleContainer({ rowView = false, vehicle }) {
   const { environment } = useContext(ReactRelayContext);
-  if (!props.vehicle) {
+  if (!vehicle) {
     return null;
   }
-  return props.vehicle.tripId ? (
+  return vehicle.tripId ? (
     <QueryRenderer
-      query={props.rowView ? rowQuery : query}
+      query={rowView ? rowQuery : query}
       variables={{
-        tripId: props.vehicle.tripId,
+        tripId: vehicle.tripId,
       }}
       environment={environment}
       render={results => {
         if (results.props?.trip) {
-          const content = props.rowView ? (
-            <SelectVehicleRow {...results.props} message={props.vehicle} />
+          const content = rowView ? (
+            <SelectVehicleRow {...results.props} message={vehicle} />
           ) : (
-            <TripMarkerPopup {...results.props} message={props.vehicle} />
+            <TripMarkerPopup {...results.props} message={vehicle} />
           );
           return content;
         }
@@ -83,22 +83,22 @@ function SelectVehicleContainer(props) {
     />
   ) : (
     <QueryRenderer
-      query={props.rowView ? fuzzyRowQuery : fuzzyQuery}
+      query={rowView ? fuzzyRowQuery : fuzzyQuery}
       variables={{
-        routeId: props.vehicle.route,
-        direction: props.vehicle.direction,
-        date: props.vehicle.operatingDay,
+        routeId: vehicle.route,
+        direction: vehicle.direction,
+        date: vehicle.operatingDay,
         time:
-          props.vehicle.tripStartTime.substring(0, 2) * 60 * 60 +
-          props.vehicle.tripStartTime.substring(2, 4) * 60,
+          vehicle.tripStartTime.substring(0, 2) * 60 * 60 +
+          vehicle.tripStartTime.substring(2, 4) * 60,
       }}
       environment={environment}
       render={results => {
         if (results.props?.trip) {
-          const content = props.rowView ? (
-            <SelectVehicleRow {...results.props} message={props.vehicle} />
+          const content = rowView ? (
+            <SelectVehicleRow {...results.props} message={vehicle} />
           ) : (
-            <TripMarkerPopup {...results.props} message={props.vehicle} />
+            <TripMarkerPopup {...results.props} message={vehicle} />
           );
           return content;
         }
@@ -113,10 +113,6 @@ SelectVehicleContainer.displayName = 'SelectVehicleContainer';
 SelectVehicleContainer.propTypes = {
   rowView: PropTypes.bool,
   vehicle: vehicleShape.isRequired,
-};
-
-SelectVehicleContainer.defaultProps = {
-  rowView: false,
 };
 
 export default SelectVehicleContainer;

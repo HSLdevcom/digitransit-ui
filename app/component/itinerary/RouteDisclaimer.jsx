@@ -3,10 +3,12 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
 
+const EMPTY_VALUES = {};
+
 export default function RouteDisclaimer({
   textId,
   text,
-  values,
+  values = EMPTY_VALUES,
   href,
   linkText,
   header,
@@ -44,13 +46,4 @@ RouteDisclaimer.propTypes = {
   href: PropTypes.string,
   linkText: PropTypes.string,
   header: PropTypes.string,
-};
-
-RouteDisclaimer.defaultProps = {
-  textId: null,
-  text: null,
-  values: {},
-  href: null,
-  linkText: null,
-  header: null,
 };

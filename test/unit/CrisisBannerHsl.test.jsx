@@ -1,7 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { IntlProvider } from 'react-intl';
-import { ConfigProvider } from '../../app/client/ConfigContext';
+import { renderWithProviders } from './helpers/mock-providers';
 import { createTestConfig } from './helpers/mock-context';
 import CrisisBannerHsl from '../../app/component/CrisisBannerHsl';
 
@@ -14,12 +12,9 @@ const baseConfig = createTestConfig({
 });
 
 const renderWithBanners = (banners = []) => {
-  const { container } = render(
-    <IntlProvider locale="fi" messages={{}}>
-      <ConfigProvider value={baseConfig}>
-        <CrisisBannerHsl initialBanners={banners} />
-      </ConfigProvider>
-    </IntlProvider>,
+  const { container } = renderWithProviders(
+    <CrisisBannerHsl initialBanners={banners} />,
+    { config: baseConfig, locale: 'fi', messages: {} },
   );
   return container;
 };

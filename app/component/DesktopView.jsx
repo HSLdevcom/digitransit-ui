@@ -10,8 +10,8 @@ export default function DesktopView({
   map,
   content,
   settingsDrawer,
-  scrollable,
-  bckBtnVisible,
+  scrollable = false,
+  bckBtnVisible = true,
   bckBtnFallback,
 }) {
   return (
@@ -44,15 +44,4 @@ DesktopView.propTypes = {
   scrollable: PropTypes.bool,
   bckBtnVisible: PropTypes.bool,
   bckBtnFallback: PropTypes.string,
-};
-
-DesktopView.defaultProps = {
-  title: undefined,
-  header: undefined,
-  map: undefined,
-  content: undefined,
-  settingsDrawer: undefined,
-  scrollable: false,
-  bckBtnVisible: true,
-  bckBtnFallback: undefined,
 };

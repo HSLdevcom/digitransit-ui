@@ -36,8 +36,8 @@ export default function SwipeableTabs({
   tabIndex,
   tabs,
   onSwipe,
-  hideArrows,
-  navigationOnBottom,
+  hideArrows = false,
+  navigationOnBottom = false,
   classname,
   ariaRole,
 }) {
@@ -238,10 +238,4 @@ SwipeableTabs.propTypes = {
   navigationOnBottom: PropTypes.bool,
   classname: PropTypes.string,
   ariaRole: PropTypes.string.isRequired,
-};
-
-SwipeableTabs.defaultProps = {
-  hideArrows: false,
-  navigationOnBottom: false,
-  classname: undefined,
 };

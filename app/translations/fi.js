@@ -13,6 +13,8 @@ export default {
     acknowledged: 'Selvä',
     'add-favourite-bikeStation-failed-heading':
       'Kaupunkipyöräaseman tallentaminen ei onnistunut',
+    'add-favourite-personalization-failed-heading':
+      'Personointiasetusten tallentaminen ei onnistunut',
     'add-favourite-place-failed-heading': 'Paikan tallentaminen ei onnistunut',
     'add-favourite-route-failed-heading': 'Linjan tallentaminen ei onnistunut',
     'add-favourite-station-failed-heading':
@@ -40,7 +42,7 @@ export default {
     'alternative-legs':
       'Myös {leg1} klo {startTime1} ja {leg2} klo {startTime2}',
     'alternative-legs-single': 'Myös {leg1} klo {startTime1}',
-    'alternative-name-rail': 'Juna',
+    'alternative-name-rail': 'Lähijuna',
     'aria-itinerary-summary':
       'Matkan kokonaiskesto {duration}. Lähtö {inFuture} kello {departureTime}. Perillä kello {arrivalTime}.',
     'aria-itinerary-summary-bike-distance':
@@ -166,6 +168,7 @@ export default {
     disclaimer:
       'Tulokset perustuvat arvioituihin ajoaikoihin. Ehdotetun yhteyden toteutumista ei voida taata.',
     disruption: 'Häiriö',
+    'disruption-badge-accessibility_issue': 'Esteettömyysongelma',
     'disruption-badge-additional_service': 'Lisävuoroja',
     'disruption-badge-cancellation': 'Peruutus',
     'disruption-badge-detour': 'Poikkeusreitti',
@@ -521,8 +524,6 @@ export default {
     'no-route-start': 'Syötä vielä lähtöpaikka',
     'no-route-start-end': 'Syötä lähtöpaikka ja määränpää',
     'no-trips-found': 'Valitulle päivälle {selectedDate} ei löydy matkoja.',
-    'notification-minimize': 'Sulje ilmoitus',
-    'notification-open': 'Avaa ilmoitus',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
     'number-of-spaces': 'Paikkoja',
@@ -615,7 +616,7 @@ export default {
     price: 'Hinta',
     print: 'Tulosta',
     'print-timetable': 'Viikkoaikataulu',
-    rail: 'Lähijuna',
+    rail: 'Juna',
     'read-more': 'Lue lisää',
     realtime: 'Reaaliaika',
     releases: 'Tiedotteet',
@@ -643,7 +644,6 @@ export default {
       '{mode} {shortName} on pysäkin {stopName} ja pysäkin {nextStopName} välissä.',
     'route-page-vehicle-selected': 'Tämänhetkinen valinta.',
     'route-page.alternative-routes': 'Vaihtoehtoista reittiä',
-    'route-page.choose-direction': 'Valitse suunta ja reitti',
     'route-page.description': 'Linja {shortName}, {longName}',
     'route-page.future-routes': 'Tulevat reitit',
     'route-page.main-routes': 'Kulkusuunnat',

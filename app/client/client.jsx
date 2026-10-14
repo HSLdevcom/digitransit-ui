@@ -13,23 +13,20 @@ import {
   errorMiddleware,
   cacheMiddleware,
 } from 'react-relay-network-modern';
-import { Workbox } from 'workbox-window';
 import { Helmet } from 'react-helmet';
 import { Environment, RecordSource, Store } from 'relay-runtime';
 import { RelayEnvironmentProvider } from 'react-relay';
 import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { Settings } from 'luxon';
 import { IntlProvider } from 'react-intl';
-import { configShape } from '../../utils/client/shapes';
 import i18n from './i18n';
-import { historyMiddlewares, render } from './routes';
+import { historyMiddlewares, render } from '../routes/routes';
 import appCreator from './app';
-import { BUILD_TIME } from './buildInfo';
 import ErrorBoundary from '../component/ErrorBoundary';
-import oldParamParser from '../../utils/shared/oldParamParser';
+import legacyParamParser from '../../utils/shared/legacyParamParser';
+import { LEGACY_LOCALE_PATHS } from '../../utils/shared/constants';
 import { ClientProvider as ClientBreakpointProvider } from '../../utils/client/withBreakpoint';
-import IntlBridge from '../../utils/client/IntlBridge';
-import meta from '../../utils/shared/meta';
+import getMetadata from '../../utils/shared/metaUtils';
 import {
   initAnalyticsClientSide,
   addAnalyticsEvent,
@@ -42,8 +39,10 @@ import favouriteStore from '../data/FavouriteData';
 import searchContext from '../data/SearchContext';
 import { ConfigProvider } from './ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
+import { MapLayerProvider } from '../hooks/MapLayerContext';
 import { MessageProvider } from '../hooks/MessageContext';
 import { TimeProvider } from '../hooks/TimeContext';
+import { ItineraryLocationProvider } from '../hooks/ItineraryLocationContext';
 import { isPersonalizationEnabled } from '../../utils/client/modeUtils';
 import { getSettings } from '../../utils/client/planParamUtil';
 
@@ -53,9 +52,7 @@ const { config } = window;
 const app = appCreator(config);
 const context = app.createContext({ config });
 
-const ContextProvider = provideContext(IntlProvider, {
-  config: configShape,
-});
+const ContextProvider = provideContext(IntlProvider, {});
 
 const AppProviders = props => {
   const providers = [
@@ -70,11 +67,12 @@ const AppProviders = props => {
         textComponent: 'span',
       },
     ],
-    [IntlBridge],
     [RelayEnvironmentProvider, { environment: props.environment }],
     [MessageProvider],
     [FavouriteProvider],
+    [MapLayerProvider],
     [TimeProvider],
+    [ItineraryLocationProvider],
   ];
   return providers.reduceRight(
     (children, [Provider, value]) => <Provider {...value}>{children}</Provider>,
@@ -172,10 +170,10 @@ async function init() {
     const query = getParams(window.location.search);
 
     if (query.from || query.to || query.from_in || query.to_in) {
-      oldParamParser(query, config).then(redirectUrl =>
+      legacyParamParser(query, config).then(redirectUrl =>
         window.location.replace(redirectUrl),
       );
-    } else if (['/fi/', '/en/', '/sv/', '/ru/', '/slangi/'].includes(path)) {
+    } else if (LEGACY_LOCALE_PATHS.includes(path)) {
       window.location.replace('/');
     }
   }
@@ -188,7 +186,7 @@ async function init() {
 
   // fetch Userdata and favourites
   favouriteStore.init(config);
-  searchContext.init(context.getComponentContext());
+  searchContext.init(context.getComponentContext(), config);
   if (config.allowLogin) {
     getUser()
       .then(user => {
@@ -224,7 +222,7 @@ async function init() {
       <ErrorBoundary>
         <React.Fragment>
           <Helmet
-            {...meta(
+            {...getMetadata(
               language,
               window.location.host,
               window.location.href,
@@ -238,18 +236,7 @@ async function init() {
   );
 
   const rootNode = document.getElementById('app');
-  ReactDOM.render(content, rootNode, () => {
-    if (process.env.NODE_ENV !== 'development' && BUILD_TIME !== 'unset') {
-      // The service worker itself calls `skipWaiting()`/`clients.claim()`
-      // (see utils/client/serviceWorker.js) so new versions take over as soon
-      // as they finish installing - mirrors the previous
-      // `OfflinePlugin.install({ onUpdateReady: () =>
-      // OfflinePlugin.applyUpdate() })` behaviour, just with the
-      // "apply immediately" decision made service-worker-side instead of
-      // here.
-      new Workbox('/sw.js').register();
-    }
-  });
+  ReactDOM.render(content, rootNode);
 
   // Listen for Web App Install Banner events
   window.addEventListener('beforeinstallprompt', e => {

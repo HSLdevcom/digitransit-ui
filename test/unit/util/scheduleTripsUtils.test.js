@@ -5,6 +5,7 @@ import {
   getTripsList,
 } from '../../../app/component/routepage/schedule/scheduleTripsUtils';
 import { DATE_FORMAT } from '../../../utils/shared/constants';
+import { createTestIntl } from '../helpers/mock-providers';
 
 describe('scheduleTripsUtils', () => {
   describe('sortTrips', () => {
@@ -127,20 +128,7 @@ describe('scheduleTripsUtils', () => {
   });
 
   describe('getTripsList', () => {
-    let mockIntl;
-
-    beforeEach(() => {
-      mockIntl = {
-        formatMessage: ({ id, defaultMessage }, values) => {
-          if (id === 'no-trips-found') {
-            return `No journeys found for the selected date ${
-              values?.selectedDate || ''
-            }`;
-          }
-          return defaultMessage;
-        },
-      };
-    });
+    const intl = createTestIntl();
 
     it('should return message when no trips are found', () => {
       const pattern = {
@@ -152,7 +140,7 @@ describe('scheduleTripsUtils', () => {
       const result = getTripsList({
         patternWithTrips: pattern,
         wantedDay,
-        intl: mockIntl,
+        intl,
       });
 
       expect(result.trips).toBeNull();
@@ -177,7 +165,7 @@ describe('scheduleTripsUtils', () => {
 
       const result = getTripsList({
         patternWithTrips: pattern,
-        intl: mockIntl,
+        intl,
       });
 
       expect(result.trips).toHaveLength(2);
@@ -189,7 +177,7 @@ describe('scheduleTripsUtils', () => {
     it('should return null for pattern when pattern is null', () => {
       const result = getTripsList({
         patternWithTrips: null,
-        intl: mockIntl,
+        intl,
       });
 
       expect(result.trips).toBeNull();
@@ -198,7 +186,7 @@ describe('scheduleTripsUtils', () => {
     it('should return null for pattern when pattern is undefined', () => {
       const result = getTripsList({
         patternWithTrips: undefined,
-        intl: mockIntl,
+        intl,
       });
 
       expect(result.trips).toBeNull();
@@ -213,7 +201,7 @@ describe('scheduleTripsUtils', () => {
 
       const result = getTripsList({
         patternWithTrips: pattern,
-        intl: mockIntl,
+        intl,
         wantedDay,
       });
 
@@ -228,7 +216,7 @@ describe('scheduleTripsUtils', () => {
 
       const result = getTripsList({
         patternWithTrips: pattern,
-        intl: mockIntl,
+        intl,
       });
 
       expect(result.trips).toBeNull();
@@ -245,7 +233,7 @@ describe('scheduleTripsUtils', () => {
 
         const result = getTripsList({
           patternWithTrips: pattern,
-          intl: mockIntl,
+          intl,
         });
 
         expect(result.trips).toBeNull();
@@ -272,7 +260,7 @@ describe('scheduleTripsUtils', () => {
 
         const result = getTripsList({
           patternWithTrips: pattern,
-          intl: mockIntl,
+          intl,
         });
 
         expect(result.trips).toHaveLength(3);
@@ -289,7 +277,7 @@ describe('scheduleTripsUtils', () => {
 
         const result = getTripsList({
           patternWithTrips: pattern,
-          intl: mockIntl,
+          intl,
           wantedDay: undefined,
         });
 
@@ -311,7 +299,7 @@ describe('scheduleTripsUtils', () => {
 
         const result = getTripsList({
           patternWithTrips: pattern,
-          intl: mockIntl,
+          intl,
         });
 
         expect(result).toHaveProperty('trips');

@@ -2,10 +2,12 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useFragment, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
-import { configShape, stopShape } from '../../../utils/client/shapes';
+import { stopShape } from '../../../utils/client/shapes';
 import { generateMetaData } from '../../../utils/client/metaUtils';
+import { useConfigContext } from '../../client/ConfigContext';
 
-function StopPageMeta({ stop: stopRef }, { config }) {
+function StopPageMeta({ stop: stopRef }) {
+  const config = useConfigContext();
   const stop = useFragment(
     graphql`
       fragment StopPageMeta_stop on Stop {
@@ -47,10 +49,6 @@ function StopPageMeta({ stop: stopRef }, { config }) {
 }
 StopPageMeta.propTypes = {
   stop: stopShape.isRequired,
-};
-
-StopPageMeta.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default StopPageMeta;

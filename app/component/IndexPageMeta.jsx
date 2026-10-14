@@ -1,9 +1,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { configShape } from '../../utils/client/shapes';
 import { generateManifestUrl } from '../../utils/client/manifestUtils';
+import { useConfigContext } from '../client/ConfigContext';
 
-function IndexPageMeta(_, { config }) {
+function IndexPageMeta() {
+  const config = useConfigContext();
   const link = [
     {
       rel: 'manifest',
@@ -15,9 +16,5 @@ function IndexPageMeta(_, { config }) {
 
   return <Helmet link={link} />;
 }
-
-IndexPageMeta.contextTypes = {
-  config: configShape.isRequired,
-};
 
 export default IndexPageMeta;

@@ -91,7 +91,7 @@ describe('<Disruption />', () => {
     });
     const badge = container.querySelector('.badge.warning');
     expect(badge).not.toBeNull();
-    expect(badge.textContent).toBe('Reduced routes');
+    expect(badge.textContent).toBe('Reduced service');
   });
 
   it('should render mode icon and link for route entity', () => {

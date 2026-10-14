@@ -47,7 +47,7 @@ Settings.defaultLocale = 'en';
  * />
  */
 function Datetimepicker({
-  timestamp,
+  timestamp = null,
   onTimeChange,
   onDateChange,
   departureOrArrival,
@@ -57,8 +57,8 @@ function Datetimepicker({
   embedWhenClosed,
   embedWhenOpen,
   lang,
-  color,
-  timeZone,
+  color = '#007ac9',
+  timeZone = 'Europe/Helsinki',
   onModalSubmit,
   fontWeights,
   serviceTimeRange,
@@ -518,17 +518,6 @@ Datetimepicker.propTypes = {
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   openPicker: PropTypes.bool,
-};
-
-Datetimepicker.defaultProps = {
-  timestamp: null,
-  embedWhenClosed: null,
-  embedWhenOpen: null,
-  color: '#007ac9',
-  timeZone: 'Europe/Helsinki',
-  onOpen: null,
-  onClose: null,
-  openPicker: undefined,
 };
 
 export default Datetimepicker;

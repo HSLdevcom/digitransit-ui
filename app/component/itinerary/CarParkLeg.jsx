@@ -3,7 +3,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { Link } from 'found';
-import { legShape, parkShape, configShape } from '../../../utils/client/shapes';
+import { legShape, parkShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../../../utils/shared/geo-utils';
@@ -12,30 +12,39 @@ import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { PREFIX_CARPARK } from '../../../utils/shared/path';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { legTimeStr, legDestination } from '../../../utils/client/legUtils';
+import { useConfigContext } from '../../client/ConfigContext';
 
-function CarParkLeg(props, { config }) {
+function CarParkLeg({
+  leg,
+  index,
+  focusAction,
+  children,
+  carPark,
+  noWalk = false,
+}) {
+  const config = useConfigContext();
   const intl = useIntl();
   const distance = displayDistance(
-    parseInt(props.leg.distance, 10),
+    parseInt(leg.distance, 10),
     config,
     intl.formatNumber,
   );
-  const duration = durationToString(intl, props.leg.duration * 1000);
-  const firstLegClassName = props.index === 0 ? 'first' : '';
+  const duration = durationToString(intl, leg.duration * 1000);
+  const firstLegClassName = index === 0 ? 'first' : '';
 
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
-    <div key={props.index} className="row itinerary-row">
+    <div key={index} className="row itinerary-row">
       <span className="sr-only">
-        {!props.noWalk && (
+        {!noWalk && (
           <FormattedMessage
             id="itinerary-details.walk-leg"
             values={{
-              time: legTimeStr(props.leg.start),
+              time: legTimeStr(leg.start),
               distance,
-              to: legDestination(intl, props.leg),
-              origin: props.leg.from ? props.leg.from.name : '',
-              destination: props.leg.to ? props.leg.to.name : '',
+              to: legDestination(intl, leg),
+              origin: leg.from ? leg.from.name : '',
+              destination: leg.to ? leg.to.name : '',
               duration,
             }}
           />
@@ -43,27 +52,27 @@ function CarParkLeg(props, { config }) {
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">
-          {legTimeStr(props.leg.start)}
+          {legTimeStr(leg.start)}
         </div>
       </div>
-      {props.noWalk ? (
+      {noWalk ? (
         <ItineraryCircleLine
-          index={props.index}
+          index={index}
           modeClassName="car-park-walk"
           carPark
-          viaType={props.leg.from.viaLocationType}
+          viaType={leg.from.viaLocationType}
         />
       ) : (
         <ItineraryCircleLineWithIcon
-          index={props.index}
+          index={index}
           modeClassName="walk"
           carPark
-          viaType={props.leg.from.viaLocationType}
+          viaType={leg.from.viaLocationType}
         />
       )}
 
       <div
-        className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${props.leg.mode.toLowerCase()}`}
+        className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${leg.mode.toLowerCase()}`}
       >
         <div className={`itinerary-leg-first-row ${firstLegClassName}`}>
           <div className="address-container">
@@ -71,17 +80,17 @@ function CarParkLeg(props, { config }) {
               onClick={e => {
                 e.stopPropagation();
               }}
-              to={`/${PREFIX_CARPARK}/${props.carPark.vehicleParkingId}`}
+              to={`/${PREFIX_CARPARK}/${carPark.vehicleParkingId}`}
             >
               <div className="address">
                 <FormattedMessage id="car-park" defaultMessage="Park & Ride" />
-                {props.leg.isViaPoint && (
+                {leg.isViaPoint && (
                   <Icon
                     img="icon_mapMarker"
                     className="itinerary-mapmarker-icon"
                   />
                 )}
-                {props.carPark && (
+                {carPark && (
                   <Icon
                     img="icon_arrow-collapse--right"
                     className="itinerary-arrow-icon"
@@ -90,15 +99,15 @@ function CarParkLeg(props, { config }) {
                 )}
               </div>
             </Link>
-            <div className="place">{props.carPark.name}</div>
+            <div className="place">{carPark.name}</div>
           </div>
-          <div>{props.children}</div>
+          <div>{children}</div>
           <ItineraryMapAction
-            target={props.leg.from.name || ''}
-            focusAction={props.focusAction}
+            target={leg.from.name || ''}
+            focusAction={focusAction}
           />
         </div>
-        {!props.noWalk && (
+        {!noWalk && (
           <div
             className={cx(
               'itinerary-leg-action',
@@ -112,8 +121,8 @@ function CarParkLeg(props, { config }) {
               defaultMessage="Walk {distance} ({duration})"
             />
             <ItineraryMapAction
-              target={props.leg.from.name || ''}
-              focusAction={props.focusAction}
+              target={leg.from.name || ''}
+              focusAction={focusAction}
             />
           </div>
         )}
@@ -129,15 +138,6 @@ CarParkLeg.propTypes = {
   children: PropTypes.node,
   carPark: parkShape.isRequired,
   noWalk: PropTypes.bool,
-};
-
-CarParkLeg.defaultProps = {
-  children: undefined,
-  noWalk: false,
-};
-
-CarParkLeg.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default CarParkLeg;

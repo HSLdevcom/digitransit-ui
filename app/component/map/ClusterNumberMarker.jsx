@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { default as L } from 'leaflet';
+import { useConfigContext } from '../../client/ConfigContext';
 
-import { configShape, locationShape } from '../../../utils/client/shapes';
+import { locationShape } from '../../../utils/client/shapes';
 import GenericMarker from './GenericMarker';
 
-export default function ClusterNumberMarker({ position, number }, { config }) {
+export default function ClusterNumberMarker({ position, number }) {
+  const config = useConfigContext();
   const objs = [];
 
   const getIcon = () => {
@@ -29,7 +31,6 @@ export default function ClusterNumberMarker({ position, number }, { config }) {
             dominant-baseline="middle"
             fill="#fff"
             font-size="${radius * 0.8}px"
-            font-family="Gotham XNarrow A, Gotham Rounded A, Gotham Rounded B, Roboto Condensed, Roboto, Arial, sans-serif"
           >
             ${number}
           </text>
@@ -53,10 +54,6 @@ export default function ClusterNumberMarker({ position, number }, { config }) {
 
   return <div>{objs}</div>;
 }
-
-ClusterNumberMarker.contextTypes = {
-  config: configShape.isRequired,
-};
 
 ClusterNumberMarker.propTypes = {
   position: locationShape.isRequired,

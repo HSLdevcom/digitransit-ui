@@ -9,7 +9,7 @@ $citybike-not-available-color: $light-gray;
   width: 18px;
   height: 18px;
   top: -15px;
-  left: 19px;
+  left: 24px;
 
   .badge-circle {
     stroke-width: 1px;
@@ -63,29 +63,5 @@ $citybike-not-available-color: $light-gray;
       border-top-right-radius: $border-radius;
       border-bottom-right-radius: $border-radius;
     }
-  }
-}
-
-.city-bike-use-container {
-  padding-top: 10px;
-  margin-top: 10px;
-  border-top: 1px solid;
-  border-color: $light-gray;
-  text-align: center;
-
-  .use-bike-button {
-    text-align: center;
-    border-radius: 30px;
-    background: $gray-blue;
-    color: #fff;
-
-    @include font-medium;
-
-    font-size: $font-size-small;
-    width: 80%;
-    height: 30px;
-    margin-top: 10px;
-    margin-bottom: 0;
-    padding: 0;
   }
 }

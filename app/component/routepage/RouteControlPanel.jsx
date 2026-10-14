@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
@@ -6,8 +5,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
-import { matchShape } from 'found';
-import { enrichPatterns } from '@digitransit-util/digitransit-util';
+import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
+import { useRouter } from 'found';
 import { useConfigContext } from '../../client/ConfigContext';
 import RoutePatternSelectContainer from './RoutePatternSelectContainer';
 import {
@@ -35,8 +34,7 @@ import {
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { isIOS } from '../../../utils/shared/browser';
 import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
-import { saveSearch } from '../../action/SearchActions';
-import Notification from './Notification';
+import { saveSearch } from '../../data/SearchHistory';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 
 const Tab = {
@@ -73,18 +71,13 @@ const TAB_ANALYTICS_ACTIONS = {
 };
 
 function RouteControlPanel(
-  {
-    route,
-    match,
-    breakpoint,
-    noInitialServiceDay = false,
-    tripStartTime = undefined,
-  },
+  { route, breakpoint, noInitialServiceDay = false, tripStartTime = undefined },
   { getStore, executeAction },
 ) {
   const config = useConfigContext();
   const intl = useIntl();
-  const { location, params, router } = match;
+  const { router, match } = useRouter();
+  const { location, params } = match;
   const { patternId } = params;
 
   const [focusedTab, setFocusedTab] = useState(getActiveTab(location.pathname));
@@ -97,18 +90,6 @@ function RouteControlPanel(
     [Tab.Timetable]: timetableTabRef,
     [Tab.Disruptions]: disruptionTabRef,
   };
-
-  const routeNotifications = [];
-  if (config.routeNotifications && config.routeNotifications.length > 0) {
-    for (let i = 0; i < config.routeNotifications.length; i++) {
-      const n = config.routeNotifications[i];
-      if (n.showForRoute?.(route)) {
-        routeNotifications.push(
-          <Notification notification={n} lang={intl.locale} key={n.id} />,
-        );
-      }
-    }
-  }
 
   const activeTab = getActiveTab(location.pathname);
 
@@ -131,7 +112,7 @@ function RouteControlPanel(
   useEffect(() => {
     if (route?.patterns && !noInitialServiceDay) {
       if (isIOS && location.query?.save) {
-        executeAction(saveSearch, {
+        saveSearch({
           item: {
             properties: {
               mode: route.mode,
@@ -412,12 +393,10 @@ function RouteControlPanel(
           'bp-large': breakpoint === 'large',
         })}
       >
-        {!config.showNewRoutePage && routeNotifications}
         {showStandardControls(route) && (
           <>
             {patternId && (
               <RoutePatternSelectContainer
-                match={match}
                 route={route}
                 onSelectChange={onPatternChange}
                 gtfsId={route.gtfsId}
@@ -511,7 +490,6 @@ RouteControlPanel.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   noInitialServiceDay: PropTypes.bool,
   tripStartTime: PropTypes.string,

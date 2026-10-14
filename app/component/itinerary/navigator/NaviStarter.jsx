@@ -3,16 +3,19 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-import { configShape } from '../../../../utils/client/shapes';
 import Icon from '../../Icon';
-import { useLogo } from '../../../hooks/useLogo';
+import getAssetUrl from '../../../assets/assetUrl';
+import { useConfigContext } from '../../../client/ConfigContext';
 
-const NaviStarter = (
-  { time, startItinerary, containerTopPosition, isPastStart },
-  { config },
-) => {
+const NaviStarter = ({
+  time,
+  startItinerary,
+  containerTopPosition = 0,
+  isPastStart = true,
+}) => {
+  const config = useConfigContext();
   const intl = useIntl();
-  const { logo } = useLogo(config.trafficLightGraphic);
+  const logo = getAssetUrl(config.trafficLightGraphic);
   const [isVisible, setIsVisible] = useState(!isPastStart);
   const [isDismissed, setIsDismissed] = useState(false);
 
@@ -85,15 +88,6 @@ NaviStarter.propTypes = {
   startItinerary: PropTypes.func.isRequired,
   containerTopPosition: PropTypes.number,
   isPastStart: PropTypes.bool,
-};
-
-NaviStarter.defaultProps = {
-  containerTopPosition: 0,
-  isPastStart: true,
-};
-
-NaviStarter.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default NaviStarter;

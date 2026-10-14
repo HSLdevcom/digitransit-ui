@@ -45,7 +45,7 @@ export default {
     description: APP_DESCRIPTION,
     locale: 'fi_FI',
     image: {
-      url: 'img/social-share-matka.png',
+      url: 'assets/matka/social-share.png',
       width: 511,
       height: 511,
     },
@@ -55,8 +55,9 @@ export default {
 
   // Navbar logo
   logo: 'matka/matka-logo.svg',
+  secondaryLogo: 'matka/matka-logo-secondary.svg',
 
-  favicon: './app/client/images/matka/matka-favicon.svg',
+  favicon: './app/assets/images/matka/matka-favicon.svg',
 
   colors: {
     primary: '#000',
@@ -269,7 +270,6 @@ export default {
     'citybike',
     'airplane',
   ],
-  useAlternativeNameForModes: ['RAIL'],
 
   showVehiclesOnStopPage: false,
   showVehiclesOnItineraryPage: true,

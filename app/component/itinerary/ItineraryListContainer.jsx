@@ -17,7 +17,7 @@ function ItineraryListContainer({
   focusToHeader,
   onLater,
   onEarlier,
-  settingsNotification,
+  settingsNotification = false,
   topNote,
   bottomNote,
   ...rest
@@ -127,12 +127,6 @@ ItineraryListContainer.propTypes = {
   settingsNotification: PropTypes.bool,
   topNote: PropTypes.string,
   bottomNote: PropTypes.string,
-};
-
-ItineraryListContainer.defaultProps = {
-  settingsNotification: false,
-  topNote: undefined,
-  bottomNote: undefined,
 };
 
 export default ItineraryListContainer;

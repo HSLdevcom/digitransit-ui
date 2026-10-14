@@ -13,6 +13,8 @@ export default {
     acknowledged: 'OK',
     'add-favourite-bikeStation-failed-heading':
       'Saving the citybike station failed',
+    'add-favourite-personalization-failed-heading':
+      'Saving your personalization settings failed',
     'add-favourite-place-failed-heading': 'Unable to save location',
     'add-favourite-route-failed-heading': 'Saving the route failed',
     'add-favourite-station-failed-heading': 'Saving the station failed.',
@@ -43,7 +45,7 @@ export default {
     'alternative-legs':
       'Also {leg1} at {startTime1} and {leg2} at {startTime2}',
     'alternative-legs-single': 'Also {leg1} at {startTime1}',
-    'alternative-name-rail': 'Train',
+    'alternative-name-rail': 'Commuter train',
     'aria-itinerary-summary':
       'Total journey time {duration}. Departing at {inFuture} {departureTime} and arriving at {arrivalTime}',
     'aria-itinerary-summary-bike-distance':
@@ -172,14 +174,15 @@ export default {
     disclaimer:
       'Please note that the results are based on estimated travel times. The suggested transport connections cannot be guaranteed.',
     disruption: 'Disruption',
+    'disruption-badge-accessibility_issue': 'Accessibility issue',
     'disruption-badge-additional_service': 'Additional routes',
     'disruption-badge-cancellation': 'Canceled',
-    'disruption-badge-detour': 'Detour',
-    'disruption-badge-modified_service': 'Service modifications',
+    'disruption-badge-detour': 'Diversion',
+    'disruption-badge-modified_service': 'Service change',
     'disruption-badge-no_effect': 'No effect',
     'disruption-badge-no_service': 'No service',
     'disruption-badge-other_effect': 'Other',
-    'disruption-badge-reduced_service': 'Reduced routes',
+    'disruption-badge-reduced_service': 'Reduced service',
     'disruption-badge-significant_delays': 'Delay',
     'disruption-badge-stop_moved': 'Stop moved',
     'disruption-badge-unknown_effect': 'Unknown',
@@ -199,7 +202,7 @@ export default {
     'disruptions-and-diversions': 'Disruptions and diversions',
     'disruptions-change-filters': 'Please try again with different filters',
     'disruptions-found-amount':
-      '{amount, plural, =0 {No disruptions found} one {Found 1 disruption} other {Found {amount} disruptions} }',
+      '{amount, plural, =0 {No disruptions found} one {1 disruption found} other {{amount} disruptions found} }',
     'disruptions-refresh': 'Load page',
     'disruptions-tab.sr-disruptions': 'One or more known disruptions',
     'disruptions-tab.sr-no-disruptions': 'No known disruptions',
@@ -532,8 +535,6 @@ export default {
     'no-route-start': 'Please select origin',
     'no-route-start-end': 'Please select origin and destination',
     'no-trips-found': 'No journeys found for the selected date {selectedDate}.',
-    'notification-minimize': 'Close message',
-    'notification-open': 'Open message',
     'number-of-intermediate-stops':
       '{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }',
     'number-of-spaces': 'Number of spaces',
@@ -630,7 +631,7 @@ export default {
     price: 'Price',
     print: 'Print',
     'print-timetable': 'Weekly timetable',
-    rail: 'Commuter train',
+    rail: 'Train',
     'read-more': 'Read more',
     realtime: 'Real-time',
     releases: 'Releases',
@@ -659,7 +660,6 @@ export default {
       '{mode} {shortName} is between the {stopName} stop and the {nextStopName} stop.',
     'route-page-vehicle-selected': 'Current selection.',
     'route-page.alternative-routes': 'Alternative routes',
-    'route-page.choose-direction': 'Choose direction and route',
     'route-page.description': 'Route {shortName} - {longName}',
     'route-page.future-routes': 'Future routes',
     'route-page.main-routes': 'Directions',
@@ -850,19 +850,20 @@ export default {
       'Listing {amount} of {totalAmount} routes',
     'traffic-now_canceled-trips--simple': '{amount} cancellations',
     'traffic-now_description':
-      'Up-to-date information on disruptions and exceptions. ',
+      'Up-to-date information on disruptions and changes. ',
     'traffic-now_description_see-also':
-      'See also {amount, plural, =1 {{link1},} other {{link1} as well as {link2},} } which you will find in detail on its own page.',
-    'traffic-now_description_see-also--link1': 'holidays and exceptions',
+      'You can also also find detailed information about major upcoming service changes and {link1} on their respective pages.',
+    'traffic-now_description_see-also--link1':
+      'Bank holidays and changes to public transport services',
     'traffic-now_description_see-also--link2': 'major changes',
     'traffic-now_filters_entity-search': 'Search for individual route or stop',
     'traffic-now_filters_entity-search--placeholder': 'Route, stop or station',
     'traffic-now_filters_operator-select-legend': 'Show only these operators',
     'traffic-now_filters_operator-select-placeholder': 'Select one or more',
     'traffic-now_filters_toggles--cancellations-only': 'Cancellations only',
-    'traffic-now_filters_toggles--favourites-only': 'Favourites only',
-    'traffic-now_filters_validity-period': 'Filter by validity period',
-    'traffic-now_filters_vehicle-mode': 'Filter by vehicle mode',
+    'traffic-now_filters_toggles--favourites-only': 'Favorites only',
+    'traffic-now_filters_validity-period': 'Filter by validity',
+    'traffic-now_filters_vehicle-mode': 'Filter by mode of transport',
     'traffic-now_filters_view-results': 'View results',
     'traffic-now_go-back': 'Go back',
     'traffic-now_go-to-route-page': 'View route',

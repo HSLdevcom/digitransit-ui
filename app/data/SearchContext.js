@@ -8,9 +8,7 @@ import {
 } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import {
   getPositions,
-  getOldSearches,
   getLanguage,
-  clearOldSearches,
   getFutureRoutes,
   clearFutureRoutes,
 } from '../../utils/client/storeUtils';
@@ -21,7 +19,7 @@ import favouriteStore, {
   getFavouriteVehicleRentalStations,
 } from './FavouriteData';
 import { startLocationWatch } from '../action/PositionActions';
-import { saveSearch } from '../action/SearchActions';
+import { saveSearch, getOldSearches, clearOldSearches } from './SearchHistory';
 import { useCitybikes } from '../../utils/client/modeUtils';
 import { getDefaultNetworks } from '../../utils/shared/vehicleRentalUtils';
 
@@ -29,7 +27,7 @@ import { getDefaultNetworks } from '../../utils/shared/vehicleRentalUtils';
  * Plain (non-Flux) singleton that acts both as the template/interface for,
  * and the concrete Digitransit implementation of, the "search context"
  * consumed by the framework-agnostic @digitransit-search-util packages
- * (most notably digitransit-search-util-execute-search-immidiate). Those
+ * (most notably digitransit-search-util-execute-search-immediate). Those
  * packages only rely on the shape of this object (fields/methods read off
  * it, all set up in init() below), so init() doubles as living
  * documentation of that contract.
@@ -45,16 +43,24 @@ class SearchContext {
 
   /**
    * Initializes the singleton with the real Digitransit implementations,
-   * derived from the fluxible context/config. Safe to call more than once;
-   * only the first call has an effect.
+   * derived from config. Safe to call more than once; only the first call
+   * has an effect.
+   *
+   * @param {Object} context The Fluxible (component) context, used by some
+   *   @digitransit-search-util packages (e.g.
+   *   digitransit-search-util-execute-search-immediate) to read store state
+   *   via context.getStore(...).
+   * @param {Object} config The resolved app config.
    */
-  init(context) {
+  init(context, config) {
     if (this.initialized) {
       return;
     }
     this.initialized = true;
-    this.context = context;
-    const { config } = context;
+    this.context = {
+      ...context,
+      config,
+    };
     this.isPeliasLocationAware = config.autoSuggest.locationAware;
     this.minimalRegexp = config.search
       ? config.search.minimalRegexp

@@ -3,6 +3,9 @@
  *
  * @module digitransit-component
  * @summary Component library for Digitransit-ui
+ * @deprecated This meta-package is deprecated — import the specific
+ * `@digitransit-component/digitransit-component-*` sub-package you need
+ * instead. This package will be removed in a future release.
  */
 export { default as DTAutosuggest } from '@digitransit-component/digitransit-component-autosuggest';
 export { default as DTAutosuggestPanel } from '@digitransit-component/digitransit-component-autosuggest-panel';

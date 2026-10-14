@@ -2,7 +2,7 @@ import React from 'react';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
 import NoDisruptions from '../../../../app/component/trafficnow/components/NoDisruptions';
-import * as useLogo from '../../../../app/hooks/useLogo';
+import * as assetUrl from '../../../../app/assets/assetUrl';
 
 const baseConfig = createTestConfig({
   notFoundGraphic: null,
@@ -13,9 +13,9 @@ describe('<NoDisruptions />', () => {
   let logoStub;
 
   beforeEach(() => {
-    logoStub = vi
-      .spyOn(useLogo, 'useLogo')
-      .mockReturnValue({ logo: null, loading: false });
+    // Outside a webpack build getAssetUrl always returns undefined, so the
+    // "logo available" branch has to be stubbed in.
+    logoStub = vi.spyOn(assetUrl, 'default').mockReturnValue(undefined);
   });
 
   describe('Graphic rendering', () => {
@@ -28,10 +28,7 @@ describe('<NoDisruptions />', () => {
     });
 
     it('renders an img tag when a logo URL is available', () => {
-      logoStub.mockReturnValue({
-        logo: '/path/to/some-graphic.svg',
-        loading: false,
-      });
+      logoStub.mockReturnValue('/path/to/some-graphic.svg');
       const { container } = renderWithProviders(<NoDisruptions />, {
         config: { ...baseConfig, notFoundGraphic: 'some-graphic.svg' },
       });

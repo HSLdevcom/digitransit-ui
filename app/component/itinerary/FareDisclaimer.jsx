@@ -3,10 +3,12 @@ import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
 
+const EMPTY_VALUES = {};
+
 export default function FareDisclaimer({
   textId,
   text,
-  values,
+  values = EMPTY_VALUES,
   href,
   linkText,
 }) {
@@ -32,12 +34,4 @@ FareDisclaimer.propTypes = {
   values: PropTypes.objectOf(PropTypes.string),
   href: PropTypes.string,
   linkText: PropTypes.string,
-};
-
-FareDisclaimer.defaultProps = {
-  textId: null,
-  text: null,
-  values: {},
-  href: null,
-  linkText: null,
 };

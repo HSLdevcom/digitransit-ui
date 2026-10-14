@@ -16,8 +16,3 @@ Message.propTypes = {
   labelId: PropTypes.string,
   defaultMessage: PropTypes.string,
 };
-
-Message.defaultProps = {
-  labelId: undefined,
-  defaultMessage: undefined,
-};

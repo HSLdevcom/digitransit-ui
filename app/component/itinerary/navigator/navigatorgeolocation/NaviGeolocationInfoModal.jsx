@@ -1,16 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { configShape } from '../../../../../utils/client/shapes';
-import { useLogo } from '../../../../hooks/useLogo';
+import getAssetUrl from '../../../../assets/assetUrl';
 import NavigatorModal from '../NavigatorModal';
 import NaviGeolocationInfo from './NaviGeolocationInfo';
+import { useConfigContext } from '../../../../client/ConfigContext';
 
-const NaviGeolocationInfoModal = ({ onClose }, { config }) => {
-  const { logo, loading } = useLogo(config.naviGeolocationGraphic);
-
-  if (loading) {
-    return null;
-  }
+const NaviGeolocationInfoModal = ({ onClose }) => {
+  const config = useConfigContext();
+  const logo = getAssetUrl(config.naviGeolocationGraphic);
 
   return (
     <NavigatorModal isOpen withBackdrop slideUp>
@@ -21,10 +18,6 @@ const NaviGeolocationInfoModal = ({ onClose }, { config }) => {
 
 NaviGeolocationInfoModal.propTypes = {
   onClose: PropTypes.func.isRequired,
-};
-
-NaviGeolocationInfoModal.contextTypes = {
-  config: configShape.isRequired,
 };
 
 export default NaviGeolocationInfoModal;

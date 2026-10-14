@@ -4,7 +4,11 @@ import { useIntl } from 'react-intl';
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import Icon from '../Icon';
 
-function ItineraryMapAction({ target, focusAction, ariaLabelId }) {
+function ItineraryMapAction({
+  target,
+  focusAction,
+  ariaLabelId = 'itinerary-summary.show-on-map',
+}) {
   const intl = useIntl();
   /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
@@ -25,10 +29,6 @@ ItineraryMapAction.propTypes = {
   focusAction: PropTypes.func.isRequired,
   target: PropTypes.string.isRequired,
   ariaLabelId: PropTypes.string,
-};
-
-ItineraryMapAction.defaultProps = {
-  ariaLabelId: 'itinerary-summary.show-on-map',
 };
 
 export default ItineraryMapAction;

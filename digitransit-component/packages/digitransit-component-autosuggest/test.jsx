@@ -13,7 +13,7 @@ vi.mock('axios', () => ({
 }));
 
 // Minimal but complete searchContext stub - see
-// digitransit-search-util-execute-search-immidiate/test.js for the equivalent
+// digitransit-search-util-execute-search-immediate/test.js for the equivalent
 // note on why every field needs to be something callable/iterable.
 const searchContext = {
   getPositions: () => ({}),

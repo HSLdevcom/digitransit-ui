@@ -340,22 +340,6 @@
   max-width: 7em;
 }
 
-// ─── Nearby stop ────────────────────────────────────────────────────────────
-
-.nearest-route-stop {
-  @include font-narrow-book;
-
-  color: $gray;
-
-  .walk-distance {
-    font-size: $font-size-small;
-  }
-}
-
-.nearest-route-stop > span > svg.icon {
-  transform: translate(0, 3px);
-}
-
 // ─── Details upper row layout ────────────────────────────────────────────────
 
 .route-details-upper-row {

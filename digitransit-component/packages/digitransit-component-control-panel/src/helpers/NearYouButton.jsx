@@ -8,14 +8,14 @@ export default function NearYouButton({
   modeSet,
   colors,
   getIconName,
-  title,
-  withAlert,
-  boxed,
-  withBorder,
-  withArrow,
-  margin,
-  padding,
-  iconSize,
+  title = '',
+  withAlert = false,
+  boxed = false,
+  withBorder = false,
+  withArrow = false,
+  margin = '8px',
+  padding = '8px',
+  iconSize = '30px',
 }) {
   let iconProps;
 
@@ -88,15 +88,4 @@ NearYouButton.propTypes = {
   margin: PropTypes.string,
   padding: PropTypes.string,
   iconSize: PropTypes.string,
-};
-
-NearYouButton.defaultProps = {
-  title: '',
-  withAlert: false,
-  boxed: false,
-  withBorder: false,
-  withArrow: false,
-  margin: '8px',
-  padding: '8px',
-  iconSize: '30px',
 };

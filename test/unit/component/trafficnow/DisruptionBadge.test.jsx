@@ -1,7 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { IntlProvider } from 'react-intl';
-import translations from '../../../../app/translations/en';
+import { renderWithProviders } from '../../helpers/mock-providers';
 import DisruptionBadge from '../../../../app/component/trafficnow/DisruptionBadge';
 import { AlertSeverityLevelType } from '../../../../utils/shared/constants';
 
@@ -9,11 +7,7 @@ import { AlertSeverityLevelType } from '../../../../utils/shared/constants';
 // stubbed @hsl-fi/icons one), which emits an <svg><use xlink:href="#..." />.
 // Assertions query that instead of the enzyme wrapper.find(Icon).prop('img').
 const renderBadge = props => {
-  const { container } = render(
-    <IntlProvider locale="en" messages={translations.en}>
-      <DisruptionBadge {...props} />
-    </IntlProvider>,
-  );
+  const { container } = renderWithProviders(<DisruptionBadge {...props} />);
   return container;
 };
 

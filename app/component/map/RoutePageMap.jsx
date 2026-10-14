@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import connectToStores from 'fluxible-addons-react/connectToStores';
-import {
-  configShape,
-  patternShape,
-  errorShape,
-} from '../../../utils/client/shapes';
+import { patternShape, errorShape } from '../../../utils/client/shapes';
 import MapWithTracking from './MapWithTracking';
 import RouteLine from './route/RouteLine';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
@@ -19,11 +15,33 @@ import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
 import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { useConfigContext } from '../../client/ConfigContext';
+import { useMapLayers } from '../../hooks/MapLayerContext';
 
-function RoutePageMap(
-  { pattern, lat, lon, breakpoint, trip, error, ...rest },
-  { config },
-) {
+const mapLayerOptions = getMapLayerOptions({
+  lockedMapLayers: [
+    'vehicles',
+    'stop',
+    'citybike',
+    'scooter',
+    'parkAndRideForBikes',
+    'parkAndRide',
+  ],
+  selectedMapLayers: ['vehicles'],
+});
+
+function RoutePageMap({ pattern, lat, lon, breakpoint, trip, error, ...rest }) {
+  const config = useConfigContext();
+  const { mapLayers: baseMapLayers } = useMapLayers({
+    notThese: [
+      'stop',
+      'citybike',
+      'vehicles',
+      'scooter',
+      'parkAndRide',
+      'parkAndRideForBikes',
+    ],
+  });
   const tripId = trip?.gtfsId;
   const [trackVehicle, setTrackVehicle] = useState(!!tripId);
   const tripIdRef = useRef();
@@ -40,10 +58,6 @@ function RoutePageMap(
     }
   }, []);
 
-  if (!pattern) {
-    return null;
-  }
-
   useEffect(() => {
     if (tripId !== tripIdRef.current) {
       setTrackVehicle(!!tripId);
@@ -52,10 +66,10 @@ function RoutePageMap(
   }, [tripId]);
 
   useEffect(() => {
-    if (pattern.code !== code.current) {
+    if (pattern?.code !== code.current) {
       mwtRef.current?.disableMapTracking();
     }
-  }, [pattern.code]);
+  }, [pattern?.code]);
 
   const setMWTRef = ref => {
     mwtRef.current = ref;
@@ -80,8 +94,12 @@ function RoutePageMap(
   const isFlexRoute = flexAgencies.includes(routeId);
 
   const mapLayers = isFlexRoute
-    ? { ...rest.mapLayers, areaStop: { routeGtfsId: routeId } }
-    : rest.mapLayers;
+    ? { ...baseMapLayers, areaStop: { routeGtfsId: routeId } }
+    : baseMapLayers;
+
+  if (!pattern) {
+    return null;
+  }
 
   const mwtProps = {};
   if (tripId && lat && lon) {
@@ -154,6 +172,7 @@ function RoutePageMap(
       setMWTRef={setMWTRef}
       {...rest}
       mapLayers={mapLayers}
+      mapLayerOptions={mapLayerOptions}
     >
       {breakpoint !== 'large' && (
         <BackButton
@@ -175,26 +194,10 @@ RoutePageMap.propTypes = {
   error: errorShape,
 };
 
-RoutePageMap.defaultProps = {
-  trip: null,
-  lat: undefined,
-  lon: undefined,
-  error: undefined,
-};
-
-RoutePageMap.contextTypes = { config: configShape.isRequired };
-
 const RoutePageMapWithVehicles = connectToStores(
   withBreakpoint(RoutePageMap),
-  ['RealTimeInformationStore', 'MapLayerStore'],
+  ['RealTimeInformationStore'],
   ({ getStore }, { trip }) => {
-    const mapLayers = getStore('MapLayerStore').getMapLayers({
-      notThese: ['stop', 'citybike', 'vehicles', 'scooter'],
-    });
-    const mapLayerOptions = getMapLayerOptions({
-      lockedMapLayers: ['vehicles', 'stop', 'citybike', 'scooter'],
-      selectedMapLayers: ['vehicles'],
-    });
     if (trip) {
       const { vehicles } = getStore('RealTimeInformationStore');
       const tripStart = getStartTime(
@@ -211,17 +214,15 @@ const RoutePageMapWithVehicles = connectToStores(
         );
 
       if (!matchingVehicles.length) {
-        return { mapLayers, mapLayerOptions };
+        return {};
       }
       const selectedVehicle = matchingVehicles[0];
       return {
         lat: selectedVehicle.lat,
         lon: selectedVehicle.long,
-        mapLayers,
-        mapLayerOptions,
       };
     }
-    return { mapLayers, mapLayerOptions };
+    return {};
   },
 );
 

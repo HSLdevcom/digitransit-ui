@@ -1,10 +1,24 @@
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { graphql, useFragment } from 'react-relay';
 import get from 'lodash/get';
-import { routeShape, configShape } from '../../../utils/client/shapes';
+import { routeShape } from '../../../utils/client/shapes';
 import AgencyInfo from '../AgencyInfo';
+import { useConfigContext } from '../../client/ConfigContext';
 
-function RouteAgencyInfo({ route }, { config }) {
+function RouteAgencyInfo({ route: routeRef }) {
+  const config = useConfigContext();
+  const route = useFragment(
+    graphql`
+      fragment RouteAgencyInfo_route on Route {
+        agency {
+          name
+          url
+          fareUrl
+        }
+      }
+    `,
+    routeRef,
+  );
   const agencyName = get(route, 'agency.name');
   const url = get(route, 'agency.fareUrl') || get(route, 'agency.url');
   const show = get(config, 'agency.show', false);
@@ -19,22 +33,8 @@ function RouteAgencyInfo({ route }, { config }) {
   return null;
 }
 
-RouteAgencyInfo.contextTypes = {
-  config: configShape.isRequired,
-};
-
 RouteAgencyInfo.propTypes = {
   route: routeShape.isRequired,
 };
 
-export default createFragmentContainer(RouteAgencyInfo, {
-  route: graphql`
-    fragment RouteAgencyInfo_route on Route {
-      agency {
-        name
-        url
-        fareUrl
-      }
-    }
-  `,
-});
+export default RouteAgencyInfo;

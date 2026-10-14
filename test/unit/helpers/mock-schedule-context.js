@@ -1,9 +1,4 @@
 import { vi } from 'vitest';
-// react-intl is CommonJS - importing its default export (the real, mutable
-// `module.exports` object) rather than `* as` (which Vite wraps in a frozen
-// ES module namespace object even for CJS deps) is what makes stubbing it
-// below possible.
-import ReactIntl from 'react-intl';
 import * as ConfigContext from '../../../app/client/ConfigContext';
 import * as scheduleParamUtils from '../../../app/component/routepage/schedule/scheduleParamUtils';
 import * as scheduleDataUtils from '../../../app/component/routepage/schedule/scheduleDataUtils';
@@ -17,7 +12,6 @@ import { mockContext } from './mock-context';
  * option (vitest.config.js's `app` project) - no manual sandbox/restore needed.
  *
  * @param {Object} overrides - Optional overrides for mock data
- * @param {Object} overrides.intl - Override intl mock
  * @param {Object} overrides.config - Override config mock
  * @param {Object} overrides.redirectDecision - Override redirect decision
  * @param {Array} overrides.availableDates - Override available dates
@@ -28,14 +22,6 @@ import { mockContext } from './mock-context';
 export const createScheduleTestContext = (overrides = {}) => {
   // Create mock objects
   const mocks = {
-    intl: {
-      formatMessage: vi.fn().mockReturnValue('translated text'),
-      formatDate: vi.fn().mockReturnValue('formatted date'),
-      formatTime: vi.fn().mockReturnValue('formatted time'),
-      formatNumber: vi.fn().mockReturnValue('formatted number'),
-      locale: 'en',
-      ...overrides.intl,
-    },
     config: {
       ...mockContext.config,
       URL: { ROUTE_TIMETABLES: {} },
@@ -78,7 +64,6 @@ export const createScheduleTestContext = (overrides = {}) => {
   // already stubs react-relay's useFragment globally with the same
   // pass-through behavior.
   const stubs = {
-    useIntl: vi.spyOn(ReactIntl, 'useIntl').mockReturnValue(mocks.intl),
     useConfigContext: vi
       .spyOn(ConfigContext, 'useConfigContext')
       .mockReturnValue(mocks.config),

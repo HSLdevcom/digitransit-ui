@@ -1,4 +1,5 @@
 import * as utils from '../../../../utils/client/legUtils';
+import { createTestIntl } from '../../helpers/mock-providers';
 
 describe('legUtils', () => {
   describe('getLegMode', () => {
@@ -663,6 +664,25 @@ describe('legUtils', () => {
       };
       const duration = utils.getTotalBikingDuration(itinerary);
       expect(duration).toBe(120);
+    });
+  });
+
+  describe('getValidatedLegName', () => {
+    it('should replace an OTP street corner name', () => {
+      const intl = createTestIntl();
+      const name = 'corner of Mannerheimintie and Kaivokatu';
+      expect(utils.getValidatedLegName(name, intl, true)).toBe('Origin');
+      expect(utils.getValidatedLegName(name, intl, false)).toBe('End point');
+    });
+
+    it('should keep other names', () => {
+      const intl = createTestIntl();
+      expect(utils.getValidatedLegName('Kamppi', intl, true)).toBe('Kamppi');
+    });
+
+    it('should keep the name for a locale without a corner pattern', () => {
+      const intl = createTestIntl({ locale: 'de' });
+      expect(utils.getValidatedLegName('Kamppi', intl, true)).toBe('Kamppi');
     });
   });
 });

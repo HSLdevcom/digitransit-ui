@@ -1,18 +1,23 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { configShape, fareShape } from '../../../utils/client/shapes';
+import { fareShape } from '../../../utils/client/shapes';
 import { renderZoneTicket } from './ZoneTicket';
 import {
   getAlternativeFares,
   formatFare,
 } from '../../../utils/client/fareUtils';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { useConfigContext } from '../../client/ConfigContext';
 
-export default function MobileTicketPurchaseInformation(
-  { fares, zones },
-  { config },
-) {
+const EMPTY_FARES = [];
+const EMPTY_ZONES = [];
+
+export default function MobileTicketPurchaseInformation({
+  fares = EMPTY_FARES,
+  zones = EMPTY_ZONES,
+}) {
+  const config = useConfigContext();
   const intl = useIntl();
   const fare = fares[0]; // Show buy option only if there is single ticket available
   const alternativeFares = getAlternativeFares(
@@ -76,15 +81,6 @@ export default function MobileTicketPurchaseInformation(
 MobileTicketPurchaseInformation.propTypes = {
   fares: PropTypes.arrayOf(fareShape),
   zones: PropTypes.arrayOf(PropTypes.string),
-};
-
-MobileTicketPurchaseInformation.defaultProps = {
-  fares: [],
-  zones: [],
-};
-
-MobileTicketPurchaseInformation.contextTypes = {
-  config: configShape,
 };
 
 MobileTicketPurchaseInformation.displayName = 'TicketInformation';

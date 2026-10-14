@@ -6,8 +6,8 @@ import IconBackground from '../../../icon/IconBackground';
 
 const NavigatorIntroFeature = ({
   icon,
-  iconColor,
-  iconBackgroundColor,
+  iconColor = 'black',
+  iconBackgroundColor = 'transparent',
   header,
   body,
 }) => {
@@ -41,12 +41,6 @@ NavigatorIntroFeature.propTypes = {
   icon: PropTypes.string,
   iconColor: PropTypes.string,
   iconBackgroundColor: PropTypes.string,
-};
-
-NavigatorIntroFeature.defaultProps = {
-  icon: undefined,
-  iconColor: 'black',
-  iconBackgroundColor: 'transparent',
 };
 
 export default NavigatorIntroFeature;

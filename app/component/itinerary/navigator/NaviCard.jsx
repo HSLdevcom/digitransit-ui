@@ -9,7 +9,7 @@ import {
   getTripOrRouteMode,
   transitIconName,
 } from '../../../../utils/client/modeUtils';
-import { configShape, legShape } from '../../../../utils/client/shapes';
+import { legShape } from '../../../../utils/client/shapes';
 import Icon from '../../Icon';
 import NaviCardExtension from './NaviCardExtension';
 import NaviInstructions from './NaviInstructions';
@@ -20,6 +20,7 @@ import {
   NaviCardType,
 } from '../../../../utils/shared/constants';
 import { getIndoorLegType } from '../../../../utils/client/indoorUtils';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 const iconMap = {
   BICYCLE: 'icon_cyclist',
@@ -31,21 +32,19 @@ const iconMap = {
   WAIT_IN_VEHICLE: 'icon_wait_sitting',
 };
 
-export default function NaviCard(
-  {
-    focusToPoint,
-    previousLeg,
-    leg,
-    nextLeg,
-    legType,
-    time,
-    position,
-    tailLength,
-    cardAnimation,
-    platformUpdated,
-  },
-  { config },
-) {
+export default function NaviCard({
+  focusToPoint,
+  previousLeg,
+  leg,
+  nextLeg,
+  legType,
+  time,
+  position,
+  tailLength,
+  cardAnimation,
+  platformUpdated = false,
+}) {
+  const config = useConfigContext();
   const [cardExpanded, setCardExpanded] = useState(false);
   const [currentCard, setCurrentCard] = useState(NaviCardType.Default);
   const contentRef = useRef();
@@ -62,6 +61,20 @@ export default function NaviCard(
     setCardExpanded(false);
     setCurrentCard(NaviCardType.Default);
   }
+
+  // Must run unconditionally (before the early return below) so hook order
+  // stays stable across PENDING/END <-> normal leg transitions.
+  useEffect(() => {
+    const element = contentRef.current;
+    if (!element) {
+      return;
+    }
+
+    // Resize card when card size changes.
+    if (cardExpanded || currentCard === NaviCardType.Indoor) {
+      element.style.maxHeight = `${element.scrollHeight}px`;
+    }
+  }, [cardExpanded, currentCard]);
 
   if (
     (!leg && !nextLeg) ||
@@ -95,7 +108,13 @@ export default function NaviCard(
     instructions = `navileg-${leg.mode.toLowerCase()}`;
     iconName = iconMap[leg.mode] || iconMap.WALK;
   } else if (legType === LEGTYPE.WAIT) {
-    iconName = iconMap.WAIT;
+    if (nextLeg && !nextLeg.transitLeg) {
+      // No current leg to wait for a vehicle on; show walking-style instructions for the upcoming leg instead.
+      instructions = `navileg-${nextLeg.mode.toLowerCase()}`;
+      iconName = iconMap[nextLeg.mode] || iconMap.WALK;
+    } else {
+      iconName = iconMap.WAIT;
+    }
   } else if (legType === LEGTYPE.WAIT_IN_VEHICLE) {
     iconName = iconMap.WAIT_IN_VEHICLE;
   }
@@ -103,18 +122,6 @@ export default function NaviCard(
   const maxHeight = cardExpanded
     ? `${contentRef.current?.scrollHeight}px`
     : '0px';
-
-  useEffect(() => {
-    const element = contentRef.current;
-    if (!element) {
-      return;
-    }
-
-    // Resize card when card size changes.
-    if (cardExpanded || currentCard === NaviCardType.Indoor) {
-      element.style.maxHeight = `${element.scrollHeight}px`;
-    }
-  }, [cardExpanded, currentCard]);
 
   return (
     <button
@@ -193,15 +200,4 @@ NaviCard.propTypes = {
   tailLength: PropTypes.number.isRequired,
   cardAnimation: PropTypes.string.isRequired,
   platformUpdated: PropTypes.bool,
-};
-NaviCard.defaultProps = {
-  previousLeg: undefined,
-  leg: undefined,
-  nextLeg: undefined,
-  position: undefined,
-  platformUpdated: false,
-};
-
-NaviCard.contextTypes = {
-  config: configShape.isRequired,
 };

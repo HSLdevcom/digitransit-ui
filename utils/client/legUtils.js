@@ -996,7 +996,6 @@ export const isPlatformChanged = leg => {
  *
  * @param {string} name - Original leg name.
  * @param {object} intl - react-intl context.
- * @param {string} language - Current language code.
  * @param {boolean} start - Whether this is the starting point.
  * @returns {string} - The validated or replaced leg name.
  */
@@ -1009,7 +1008,7 @@ export function getValidatedLegName(name, intl, start) {
     id: 'origin',
     defaultMessage: 'Origin',
   });
-  if (OtpCornerNamingPattern[intl.locale].test(name)) {
+  if (OtpCornerNamingPattern[intl.locale]?.test(name)) {
     return start ? originName : terminusName;
   }
   return name;

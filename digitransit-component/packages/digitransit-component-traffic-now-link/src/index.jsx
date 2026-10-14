@@ -6,6 +6,8 @@ import Icon from '@digitransit-component/digitransit-component-icon';
 import i18n from './helpers/i18n';
 import styles from './helpers/styles.scss';
 
+const DEFAULT_FONT_WEIGHTS = { medium: 500 };
+
 /**
  * A banner with blue caution Icon and arrow mark, original purpose is to act as a link to a page about current traffic information.
  *
@@ -19,7 +21,12 @@ import styles from './helpers/styles.scss';
   const lang = "fi"
  * <TrafficNowLink lang={lang} handleClick={this.handleClick}/>
  */
-const TrafficNowLink = ({ lang, handleClick, href, fontWeights }) => {
+const TrafficNowLink = ({
+  lang,
+  handleClick,
+  href,
+  fontWeights = DEFAULT_FONT_WEIGHTS,
+}) => {
   const [t] = useTranslation();
   const handleKeyDown = e => {
     if (e.keyCode === 32 || e.keyCode === 13) {
@@ -68,13 +75,6 @@ TrafficNowLink.propTypes = {
     /** Default value is 500. */
     medium: PropTypes.number,
   }),
-};
-
-TrafficNowLink.defaultProps = {
-  href: undefined,
-  fontWeights: {
-    medium: 500,
-  },
 };
 
 export default props => (

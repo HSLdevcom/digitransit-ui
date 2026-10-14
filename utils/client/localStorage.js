@@ -158,14 +158,6 @@ export const setCountries = countries => {
   setItem('countries', countries);
 };
 
-export function getPersonalization() {
-  return getItemAsJson('personalization', '{}');
-}
-
-export function setPersonalization(data) {
-  setItem('personalization', data);
-}
-
 export const getCountries = () => getItemAsJson('countries', '{}');
 
 /**

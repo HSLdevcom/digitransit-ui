@@ -1,10 +1,8 @@
 /* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useRef } from 'react';
 import some from 'lodash/some';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-import { matchShape, routerShape } from 'found';
-import { configShape, locationShape } from '../../utils/client/shapes';
+import { matchShape } from '../../utils/client/shapes';
 import {
   getHomeUrl,
   PREFIX_STOPS,
@@ -12,6 +10,7 @@ import {
   PREFIX_TERMINALS,
   PREFIX_BIKESTATIONS,
 } from '../../utils/shared/path';
+import getAssetUrl from '../assets/assetUrl';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
@@ -21,67 +20,35 @@ import {
   addAnalyticsEvent,
   handleUserAnalytics,
 } from '../../utils/shared/analyticsUtils';
+import { useOrigin } from '../hooks/ItineraryLocationContext';
+import { useConfigContext } from '../client/ConfigContext';
 
-class TopLevel extends React.Component {
-  static propTypes = {
-    children: PropTypes.node,
-    header: PropTypes.node,
-    map: PropTypes.node,
-    content: PropTypes.node,
-    title: PropTypes.node,
-    meta: PropTypes.node,
-    match: matchShape.isRequired,
-    origin: locationShape,
-    router: routerShape.isRequired,
-    selectFromMapHeader: PropTypes.node,
-  };
+export default function TopLevel({
+  children,
+  header,
+  map,
+  content,
+  title,
+  meta,
+  match,
+}) {
+  const origin = useOrigin();
+  const config = useConfigContext();
+  const prevMatchRef = useRef(match);
 
-  static contextTypes = {
-    config: configShape.isRequired,
-    executeAction: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    origin: {},
-    children: undefined,
-    header: undefined,
-    map: undefined,
-    content: undefined,
-    title: undefined,
-    meta: undefined,
-    selectFromMapHeader: undefined,
-  };
-
-  static childContextTypes = {
-    router: routerShape,
-    match: matchShape,
-  };
-
-  getChildContext() {
-    return {
-      match: this.props.match,
-      router: this.props.router,
-    };
-  }
-
-  componentDidMount() {
-    if (this.context.config.logo) {
-      // Logo is not mandatory
-      import(
-        /* webpackChunkName: "main" */ `../client/images/${this.context.config.logo}`
-      ).then(logo => {
-        this.setState({ logo: logo.default });
-      });
+  useEffect(() => {
+    const prevMatch = prevMatchRef.current;
+    prevMatchRef.current = match;
+    if (prevMatch === match) {
+      return;
     }
-  }
 
-  componentDidUpdate(prevProps) {
     // send tracking calls when url changes
     // listen for this here instead of in router directly to get access to old location as well
-    const oldLocation = prevProps.match.location.pathname;
-    const newLocation = this.props.match.location.pathname;
+    const oldLocation = prevMatch.location.pathname;
+    const newLocation = match.location.pathname;
     if (oldLocation && newLocation && oldLocation !== newLocation) {
-      handleUserAnalytics(this.context.config);
+      handleUserAnalytics(config);
       addAnalyticsEvent({
         event: 'Pageview',
         url: newLocation,
@@ -89,19 +56,19 @@ class TopLevel extends React.Component {
     }
 
     // send tracking calls when visiting a new stop or route
-    const newContext = newLocation.slice(1, newLocation.indexOf('/', 1));
-    switch (newContext) {
+    const pageName = newLocation.slice(1, newLocation.indexOf('/', 1));
+    switch (pageName) {
       case PREFIX_ROUTES:
         if (
-          oldLocation.indexOf(newContext) !== 1 ||
-          (prevProps.match.params.routeId &&
-            this.props.match.params.routeId &&
-            prevProps.match.params.routeId !== this.props.match.params.routeId)
+          oldLocation.indexOf(pageName) !== 1 ||
+          (prevMatch.params.routeId &&
+            match.params.routeId &&
+            prevMatch.params.routeId !== match.params.routeId)
         ) {
           addAnalyticsEvent({
             category: 'Route',
             action: 'OpenRoute',
-            name: this.props.match.params.routeId,
+            name: match.params.routeId,
           });
         }
         break;
@@ -110,107 +77,102 @@ class TopLevel extends React.Component {
       case PREFIX_TERMINALS:
       case PREFIX_BIKESTATIONS:
         if (
-          oldLocation.indexOf(newContext) !== 1 ||
-          (prevProps.match.params.stopId &&
-            this.props.match.params.stopId &&
-            prevProps.match.params.stopId !== this.props.match.params.stopId) ||
-          (prevProps.match.params.terminalId &&
-            this.props.match.params.terminalId &&
-            prevProps.match.params.terminalId !==
-              this.props.match.params.terminalId) ||
-          (prevProps.match.params.id &&
-            this.props.match.params.id &&
-            prevProps.match.params.id !== this.props.match.params.id)
+          oldLocation.indexOf(pageName) !== 1 ||
+          (prevMatch.params.stopId &&
+            match.params.stopId &&
+            prevMatch.params.stopId !== match.params.stopId) ||
+          (prevMatch.params.terminalId &&
+            match.params.terminalId &&
+            prevMatch.params.terminalId !== match.params.terminalId) ||
+          (prevMatch.params.id &&
+            match.params.id &&
+            prevMatch.params.id !== match.params.id)
         ) {
           addAnalyticsEvent({
             category: 'Stop',
             action: 'OpenStop',
             name:
-              this.props.match.params.stopId ||
-              this.props.match.params.terminalId ||
-              this.props.match.params.id,
+              match.params.stopId || match.params.terminalId || match.params.id,
           });
         }
         break;
       default:
         break;
     }
-  }
+  }, [match]);
 
-  render() {
-    this.topBarOptions = Object.assign(
-      {},
-      ...this.props.match.routes.map(route => route.topBarOptions),
-    );
-    this.disableMapOnMobile = some(
-      this.props.match.routes,
-      route => route.disableMapOnMobile,
-    );
+  const topBarOptions = Object.assign(
+    {},
+    ...match.routes.map(route => route.topBarOptions),
+  );
+  const disableMapOnMobile = some(
+    match.routes,
+    route => route.disableMapOnMobile,
+  );
 
-    let content;
+  let renderedContent;
 
-    const homeUrl = getHomeUrl(
-      this.props.origin,
-      this.context.config.indexPath,
-    );
-    if (this.props.children || !(this.props.map || this.props.header)) {
-      content = this.props.children || this.props.content;
-    } else {
-      content = (
-        <DesktopOrMobile
-          mobile={() => (
-            <MobileView
-              map={this.disableMapOnMobile ? null : this.props.map}
-              content={this.props.content}
-              header={this.props.header}
-              selectFromMapHeader={this.props.selectFromMapHeader}
-              match={this.props.match}
-            />
-          )}
-          desktop={() => (
-            <DesktopView
-              title={this.props.title}
-              map={this.props.map}
-              content={this.props.content}
-              header={this.props.header}
-              bckBtnVisible={false}
-            />
-          )}
-        />
-      );
-    }
-
-    return (
-      <Fragment>
-        {!this.topBarOptions.hidden && (
-          <AppBarContainer
-            {...this.topBarOptions}
-            {...this.state}
-            homeUrl={homeUrl}
-            style={this.context.config.appBarStyle}
+  const homeUrl = getHomeUrl(origin, config.indexPath);
+  if (children || !(map || header)) {
+    renderedContent = children || content;
+  } else {
+    renderedContent = (
+      <DesktopOrMobile
+        mobile={() => (
+          <MobileView
+            map={disableMapOnMobile ? null : map}
+            content={content}
+            header={header}
           />
         )}
-        <section id="mainContent" className="content">
-          {this.props.meta}
-          <noscript>This page requires JavaScript to run.</noscript>
-          {content && (
-            <ErrorBoundary
-              key={
-                this.props.match.location.state &&
-                this.props.match.location.state.errorBoundaryKey
-                  ? this.props.match.location.state.errorBoundaryKey
-                  : 0
-              }
-            >
-              {content}
-            </ErrorBoundary>
-          )}
-        </section>
-      </Fragment>
+        desktop={() => (
+          <DesktopView
+            title={title}
+            map={map}
+            content={content}
+            header={header}
+            bckBtnVisible={false}
+          />
+        )}
+      />
     );
   }
+
+  return (
+    <Fragment>
+      {!topBarOptions.hidden && (
+        <AppBarContainer
+          {...topBarOptions}
+          logo={getAssetUrl(config.logo)}
+          homeUrl={homeUrl}
+          style={config.appBarStyle}
+        />
+      )}
+      <section id="mainContent" className="content">
+        {meta}
+        <noscript>This page requires JavaScript to run.</noscript>
+        {renderedContent && (
+          <ErrorBoundary
+            key={
+              match.location.state && match.location.state.errorBoundaryKey
+                ? match.location.state.errorBoundaryKey
+                : 0
+            }
+          >
+            {renderedContent}
+          </ErrorBoundary>
+        )}
+      </section>
+    </Fragment>
+  );
 }
 
-export default connectToStores(TopLevel, ['OriginStore'], ({ getStore }) => ({
-  origin: getStore('OriginStore').getOrigin(),
-}));
+TopLevel.propTypes = {
+  children: PropTypes.node,
+  header: PropTypes.node,
+  map: PropTypes.node,
+  content: PropTypes.node,
+  title: PropTypes.node,
+  meta: PropTypes.node,
+  match: matchShape.isRequired,
+};

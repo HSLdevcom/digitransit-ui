@@ -1,17 +1,18 @@
 import React from 'react';
-import { routerShape } from 'found';
 import { default as L } from 'leaflet';
 import PropTypes from 'prop-types';
+import { useRouter } from 'found';
+import { locationShape } from '../../../../utils/client/shapes';
 import {
   getCaseRadius,
   renderAsString,
 } from '../../../../utils/client/mapIconUtils';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../../utils/shared/path';
-import { locationShape } from '../../../../utils/client/shapes';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 
-const ParkingAreaMarker = ({ position, type, liipiId }, { router }) => {
+const ParkingAreaMarker = ({ position, type, liipiId }) => {
+  const { router } = useRouter();
   const getIcon = zoom => {
     const iconSize = Math.max(getCaseRadius(zoom) * 3, 18);
 
@@ -45,10 +46,6 @@ ParkingAreaMarker.propTypes = {
   position: locationShape.isRequired,
   type: PropTypes.oneOf(['bike', 'car']).isRequired,
   liipiId: PropTypes.string.isRequired,
-};
-
-ParkingAreaMarker.contextTypes = {
-  router: routerShape.isRequired,
 };
 
 export default ParkingAreaMarker;

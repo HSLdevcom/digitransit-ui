@@ -1,11 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { matchShape } from 'found';
 import { fetchQuery } from 'react-relay';
 import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import { useMatch } from 'found';
+import {
+  locationShape,
+  relayShape,
+  stopShape,
+} from '../../../utils/client/shapes';
+import { useConfigContext } from '../../client/ConfigContext';
 import BackButton from '../BackButton';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import Line from './Line';
@@ -21,12 +27,6 @@ import {
   sortNearYouStops,
 } from '../../../utils/client/sortUtils';
 import ItineraryLine from './ItineraryLine';
-import {
-  locationShape,
-  relayShape,
-  configShape,
-  stopShape,
-} from '../../../utils/client/shapes';
 import Loading from '../Loading';
 import { getRouteMode } from '../../../utils/client/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
@@ -39,8 +39,8 @@ function getId(edge) {
   return place.gtfsId || place.stationId || place.id;
 }
 
-const getRealTimeSettings = (routes, context) => {
-  const { realTime } = context.config;
+const getRealTimeSettings = (routes, config) => {
+  const { realTime } = config;
 
   /* handle multiple feedid case by taking most popular feedid */
   const feeds = {};
@@ -70,10 +70,10 @@ const getRealTimeSettings = (routes, context) => {
   return null;
 };
 
-const startClient = (context, routes) => {
-  const config = getRealTimeSettings(routes, context);
-  if (config) {
-    context.executeAction(startRealTimeClient, config);
+const startClient = (context, config, routes) => {
+  const rtConfig = getRealTimeSettings(routes, config);
+  if (rtConfig) {
+    context.executeAction(startRealTimeClient, rtConfig);
   }
 };
 
@@ -84,13 +84,13 @@ const stopClient = context => {
   }
 };
 
-const updateClient = (context, topics) => {
+const updateClient = (context, config, topics) => {
   const { client } = context.getStore('RealTimeInformationStore');
-  const config = getRealTimeSettings(topics, context);
-  if (config) {
+  const rtConfig = getRealTimeSettings(topics, config);
+  if (rtConfig) {
     if (client) {
-      config.client = client;
-      context.executeAction(changeRealTimeClientTopics, config);
+      rtConfig.client = client;
+      context.executeAction(changeRealTimeClientTopics, rtConfig);
     }
   }
 };
@@ -116,17 +116,18 @@ const handleBounds = (location, edges) => {
 
 const nonTransit = ['CITYBIKE', 'BIKEPARK', 'CARPARK'];
 
+const EMPTY_ARRAY = [];
+
 function NearYouMap(
   {
     breakpoint,
-    stops,
-    match,
-    loading,
+    stops = EMPTY_ARRAY,
+    loading = false,
     favouriteIds,
     relay,
     position,
-    showWalkRoute,
-    prioritizedStops,
+    showWalkRoute = false,
+    prioritizedStops = EMPTY_ARRAY,
     ...rest
   },
   context,
@@ -138,7 +139,9 @@ function NearYouMap(
   const [walk, setWalk] = useState({ itinerary: null, stop: null });
   const clientOn = useRef(false);
   const mwtRef = useRef();
+  const match = useMatch();
   const { mode } = match.params;
+  const config = useConfigContext();
   let streetRoutingLimit;
 
   switch (mode) {
@@ -159,7 +162,6 @@ function NearYouMap(
   }
 
   const { environment } = relay;
-  const { config } = context;
   const isTransitMode = !nonTransit.includes(mode);
 
   const fetchPlan = node => {
@@ -282,10 +284,10 @@ function NearYouMap(
   useEffect(() => {
     if (uniqueRealtimeTopics.length > 0) {
       if (!clientOn.current) {
-        startClient(context, uniqueRealtimeTopics);
+        startClient(context, config, uniqueRealtimeTopics);
         clientOn.current = true;
       } else {
-        updateClient(context, uniqueRealtimeTopics);
+        updateClient(context, config, uniqueRealtimeTopics);
       }
     }
   }, [uniqueRealtimeTopics]);
@@ -407,22 +409,13 @@ NearYouMap.propTypes = {
   // eslint-disable-next-line
   favouriteIds: PropTypes.object.isRequired,
   position: locationShape.isRequired,
-  match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   relay: relayShape.isRequired,
   loading: PropTypes.bool,
   showWalkRoute: PropTypes.bool,
 };
 
-NearYouMap.defaultProps = {
-  stops: [],
-  showWalkRoute: false,
-  loading: false,
-  prioritizedStops: [],
-};
-
 NearYouMap.contextTypes = {
-  config: configShape,
   executeAction: PropTypes.func,
   getStore: PropTypes.func,
 };

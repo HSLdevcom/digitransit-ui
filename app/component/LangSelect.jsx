@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { matchShape } from 'found';
 import { useIntl } from 'react-intl';
+import { useMatch } from 'found';
 import { useConfigContext } from '../client/ConfigContext';
 
-const Language = ({ lang }, { match }) => {
+const Language = ({ lang }) => {
   const { language } = useConfigContext();
   const intl = useIntl();
+  const match = useMatch();
   const highlight = lang === language;
 
   const aria = highlight
@@ -28,10 +29,9 @@ const Language = ({ lang }, { match }) => {
   );
 };
 
-Language.contextTypes = { match: matchShape.isRequired };
 Language.propTypes = { lang: PropTypes.string.isRequired };
 
-const LanguageSelect = ({}, { match }) => { // eslint-disable-line
+const LanguageSelect = () => {
   const { availableLanguages } = useConfigContext();
   return (
     <div key="lang-select" id="lang-select">

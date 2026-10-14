@@ -4,7 +4,7 @@ import { useRouter } from 'found';
 import { FormattedMessage } from 'react-intl';
 import OriginDestinationBar from './OriginDestinationBar';
 import SearchSettings from './SearchSettings';
-import { parseLocation, streetHash } from '../../../utils/shared/path';
+import { streetHash } from '../../../utils/shared/path';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import BackButton from '../BackButton';
 
@@ -41,11 +41,7 @@ function ItineraryPageControls({ breakpoint, toggleSettings }) {
         />
       </span>
 
-      <OriginDestinationBar
-        origin={parseLocation(params.from)}
-        destination={parseLocation(params.to)}
-        isMobile={isMobile}
-      />
+      <OriginDestinationBar isMobile={isMobile} />
 
       <SearchSettings toggleSettings={toggleSettings} />
     </div>

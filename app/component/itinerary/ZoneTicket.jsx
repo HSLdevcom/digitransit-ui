@@ -38,7 +38,7 @@ export const renderZoneTicket = (fareId, alternativeFares, hasPurchaseLink) => {
   return <ZoneTicket ticketType={fareId} hasPurchaseLink={hasPurchaseLink} />;
 };
 
-const ZoneTicket = ({ ticketType, hasPurchaseLink }) =>
+const ZoneTicket = ({ ticketType, hasPurchaseLink = false }) =>
   ticketType ? (
     <span
       className={cx('zone-ticket', {
@@ -52,9 +52,5 @@ const ZoneTicket = ({ ticketType, hasPurchaseLink }) =>
 ZoneTicket.propTypes = {
   ticketType: PropTypes.string.isRequired,
   hasPurchaseLink: PropTypes.bool,
-};
-
-ZoneTicket.defaultProps = {
-  hasPurchaseLink: false,
 };
 export default ZoneTicket;

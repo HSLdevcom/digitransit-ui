@@ -39,6 +39,12 @@ module.exports = {
             message:
               'utils/shared/** must only depend on other utils/shared/** code (or external packages) so it stays safely importable by both server and client.',
           },
+          {
+            target: './utils/**/*',
+            from: './app/**/*',
+            message:
+              'utils/** must not import app/**; keep dependencies flowing from app to reusable utilities.',
+          },
         ],
       },
     ],
@@ -106,6 +112,15 @@ module.exports = {
       ],
       rules: {
         'import/extensions': ['error', 'always', { ignorePackages: true }],
+      },
+    },
+    {
+      // Server-only code and dev scripts run in Node: logging to the console
+      // is legitimate there, and browser-compatibility checks don't apply.
+      files: ['server/**/*.js', 'utils/server/**/*.js', 'scripts/**/*.js'],
+      rules: {
+        'no-console': 'off',
+        'compat/compat': 'off',
       },
     },
     {

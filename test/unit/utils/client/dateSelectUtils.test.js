@@ -7,28 +7,15 @@ import {
   generateDateRange,
   extractSelectedValue,
 } from '../../../../utils/client/dateSelectUtils';
+import { createTestIntl } from '../../helpers/mock-providers';
 
 describe('dateSelectUtils', () => {
   const dateFormat = 'yyyyLLdd';
-  let mockIntl;
+  const intl = createTestIntl();
 
   beforeEach(() => {
     Settings.now = () => new Date('2024-01-15T10:00:00Z').getTime();
     Settings.defaultZone = 'UTC';
-
-    mockIntl = {
-      formatMessage: ({ id, defaultMessage }, values) => {
-        const messages = {
-          today: 'Today',
-          tomorrow: 'Tomorrow',
-          'this-week': 'This week',
-          'next-week': 'Next week',
-          'week-number': `Week ${values?.number || ''}`,
-        };
-        return messages[id] || defaultMessage;
-      },
-      locale: 'en',
-    };
   });
 
   afterEach(() => {
@@ -43,7 +30,7 @@ describe('dateSelectUtils', () => {
       const tomorrow = today.plus({ days: 1 });
       const date = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
 
-      const result = formatDateLabel(date, today, tomorrow, mockIntl);
+      const result = formatDateLabel(date, today, tomorrow, intl);
 
       expect(result).toBe('Today');
     });
@@ -53,7 +40,7 @@ describe('dateSelectUtils', () => {
       const tomorrow = today.plus({ days: 1 });
       const date = DateTime.fromISO('2024-01-16', { zone: 'UTC' });
 
-      const result = formatDateLabel(date, today, tomorrow, mockIntl);
+      const result = formatDateLabel(date, today, tomorrow, intl);
 
       expect(result).toBe('Tomorrow');
     });
@@ -63,7 +50,7 @@ describe('dateSelectUtils', () => {
       const tomorrow = today.plus({ days: 1 });
       const date = DateTime.fromISO('2024-01-20', { zone: 'UTC' });
 
-      const result = formatDateLabel(date, today, tomorrow, mockIntl);
+      const result = formatDateLabel(date, today, tomorrow, intl);
 
       expect(result).toBe('Sat 20.1.');
     });
@@ -74,7 +61,7 @@ describe('dateSelectUtils', () => {
       const currentWeek = 3;
       const weekNum = 3;
 
-      const result = formatWeekLabel(weekNum, currentWeek, mockIntl);
+      const result = formatWeekLabel(weekNum, currentWeek, intl);
 
       expect(result).toBe('This week');
     });
@@ -83,7 +70,7 @@ describe('dateSelectUtils', () => {
       const currentWeek = 3;
       const weekNum = 4;
 
-      const result = formatWeekLabel(weekNum, currentWeek, mockIntl);
+      const result = formatWeekLabel(weekNum, currentWeek, intl);
 
       expect(result).toBe('Next week');
     });
@@ -92,7 +79,7 @@ describe('dateSelectUtils', () => {
       const currentWeek = 3;
       const weekNum = 5;
 
-      const result = formatWeekLabel(weekNum, currentWeek, mockIntl);
+      const result = formatWeekLabel(weekNum, currentWeek, intl);
 
       expect(result).toBe('Week 5');
     });
@@ -108,7 +95,7 @@ describe('dateSelectUtils', () => {
         DateTime.fromISO('2024-01-17', { zone: 'UTC' }),
       ];
 
-      const result = processDates(dates, today, tomorrow, dateFormat, mockIntl);
+      const result = processDates(dates, today, tomorrow, dateFormat, intl);
 
       expect(result).toHaveLength(3);
       expect(result[0].textLabel).toBe('Today');
@@ -123,7 +110,7 @@ describe('dateSelectUtils', () => {
       const tomorrow = today.plus({ days: 1 });
       const dates = [DateTime.fromISO('2024-01-15', { zone: 'UTC' })];
 
-      const result = processDates(dates, today, tomorrow, dateFormat, mockIntl);
+      const result = processDates(dates, today, tomorrow, dateFormat, intl);
 
       expect(result[0]).toHaveProperty('dateObj');
       expect(result[0]).toHaveProperty('weekNumber');
@@ -157,7 +144,7 @@ describe('dateSelectUtils', () => {
         },
       ];
 
-      const result = groupDatesByWeek(processedDates, 3, mockIntl);
+      const result = groupDatesByWeek(processedDates, 3, intl);
 
       expect(result).toHaveLength(2);
       expect(result[0].label).toBe('This week');
@@ -177,7 +164,7 @@ describe('dateSelectUtils', () => {
         },
       ];
 
-      const result = groupDatesByWeek(processedDates, 3, mockIntl);
+      const result = groupDatesByWeek(processedDates, 3, intl);
 
       expect(result[0].options[0]).toHaveProperty('ariaLabel');
       expect(result[0].options[0].ariaLabel).toBe('Monday 15.1.');
@@ -208,7 +195,7 @@ describe('dateSelectUtils', () => {
         },
       ];
 
-      const result = groupDatesByWeek(processedDates, 3, mockIntl);
+      const result = groupDatesByWeek(processedDates, 3, intl);
 
       expect(result).toHaveLength(3);
       expect(result[0].label).toBe('This week');

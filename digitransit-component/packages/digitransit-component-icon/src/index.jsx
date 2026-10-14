@@ -204,11 +204,4 @@ Icon.propTypes = {
   rotate: PropTypes.number,
 };
 
-Icon.defaultProps = {
-  color: undefined,
-  width: undefined,
-  height: undefined,
-  rotate: undefined,
-};
-
 export default Icon;

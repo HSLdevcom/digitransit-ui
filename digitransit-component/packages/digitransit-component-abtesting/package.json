@@ -1,9 +1,10 @@
 {
   "name": "@digitransit-component/digitransit-component-abtesting",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "digitransit-component abtesting module",
   "type": "module",
   "main": "index.cjs",
+  "deprecated": "This package was never adopted and is unused. It will be removed in a future release.",
   "module": "lib/index.js",
   "exports": {
     ".": {

@@ -1,14 +1,9 @@
 import isString from 'lodash/isString';
-import {
-  locationToOTP,
-  otpToLocation,
-  getIntermediatePlaces,
-} from '../shared/otpStrings';
+import { locationToOTP, getIntermediatePlaces } from '../shared/otpStrings';
 import {
   getPathWithEndpointObjects,
   PREFIX_ITINERARY_SUMMARY,
 } from '../shared/path';
-import { addViaPoint, deleteViaPoint } from '../../app/action/ViaPointActions';
 
 /**
  * Processes query so that empty arrays will be preserved in URL
@@ -107,26 +102,28 @@ export const onLocationPopup = (
   id,
   router,
   match,
-  executeAction,
+  origin,
+  destination,
+  locationActions,
   config,
 ) => {
   if (id === 'via') {
     const viaPoints = getIntermediatePlaces(match.location.query) || [];
     if (config.viaPointsMax && viaPoints.length >= config.viaPointsMax) {
       const lastViaPoint = viaPoints.pop();
-      executeAction(deleteViaPoint, lastViaPoint);
+      locationActions.deleteViaPoint(lastViaPoint);
     }
     viaPoints.push(item);
-    executeAction(addViaPoint, item);
+    locationActions.addViaPoint(item);
     setIntermediatePlaces(router, match, viaPoints.map(locationToOTP));
     return;
   }
-  let origin = otpToLocation(match.params.from);
-  let destination = otpToLocation(match.params.to);
+
   if (id === 'origin') {
-    origin = item;
+    locationActions.setOrigin(item);
+    updateItinerarySearch(item, destination, router, match.location);
   } else {
-    destination = item;
+    locationActions.setDestination(item);
+    updateItinerarySearch(origin, item, router, match.location);
   }
-  updateItinerarySearch(origin, destination, router, match.location);
 };

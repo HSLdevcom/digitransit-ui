@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { displayDistance } from '../../../../utils/shared/geo-utils';
-import { legShape, configShape } from '../../../../utils/client/shapes';
+import { legShape } from '../../../../utils/client/shapes';
 import {
   legDestination,
   legTimeStr,
@@ -19,6 +19,7 @@ import {
 import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
 import BoardingInfo from './BoardingInfo';
 import { durationToString } from '../../../../utils/client/timeUtils';
+import { useConfigContext } from '../../../client/ConfigContext';
 
 function getBoardingParams(intl, leg, time, config) {
   if (!leg?.transitLeg) {
@@ -37,20 +38,18 @@ function getBoardingParams(intl, leg, time, config) {
   return { routeMode, route, hs, values };
 }
 
-export default function NaviInstructions(
-  {
-    leg,
-    nextLeg,
-    instructions,
-    legType,
-    time,
-    position,
-    tailLength,
-    showDestinationInfo,
-  },
-  { config },
-) {
+export default function NaviInstructions({
+  leg,
+  nextLeg,
+  instructions,
+  legType = '',
+  time,
+  position,
+  tailLength,
+  showDestinationInfo = false,
+}) {
   const intl = useIntl();
+  const config = useConfigContext();
   const { routeMode, route, hs, values } = getBoardingParams(
     intl,
     nextLeg,
@@ -89,26 +88,41 @@ export default function NaviInstructions(
     );
   }
 
-  if (legType === LEGTYPE.WAIT && nextLeg?.transitLeg) {
-    const { mode } = nextLeg;
-    return (
-      <>
-        <div className="notification-header">
-          <FormattedMessage
-            id="navigation-get-mode"
-            values={{ mode: getToLocalizedMode(mode, intl) }}
-            defaultMessage="Get on the {mode}"
+  if (legType === LEGTYPE.WAIT) {
+    if (nextLeg?.transitLeg) {
+      const { mode } = nextLeg;
+      return (
+        <>
+          <div className="notification-header">
+            <FormattedMessage
+              id="navigation-get-mode"
+              values={{ mode: getToLocalizedMode(mode, intl) }}
+              defaultMessage="Get on the {mode}"
+            />
+          </div>
+          <BoardingInfo
+            route={route}
+            mode={routeMode}
+            headsign={hs}
+            translationValues={values}
+            appendClass={appendClass}
           />
+        </>
+      );
+    }
+    // Defensive fallback: real-time leg re-syncing (matchLegEnds in
+    // realtimeLegUtils.js) could in principle still leave a gap where no
+    // leg covers "now". Show walking-style instructions for the upcoming leg instead of nothing.
+    if (nextLeg && showDestinationInfo) {
+      return (
+        <div className="notification-header navi-header-chain">
+          <FormattedMessage id={instructions} defaultMessage="Go to" />
+          &nbsp;
+          {legDestination(intl, nextLeg)}
         </div>
-        <BoardingInfo
-          route={route}
-          mode={routeMode}
-          headsign={hs}
-          translationValues={values}
-          appendClass={appendClass}
-        />
-      </>
-    );
+      );
+    }
+    return null;
   }
 
   if (legType === LEGTYPE.WAIT_IN_VEHICLE) {
@@ -205,15 +219,4 @@ NaviInstructions.propTypes = {
   }),
   tailLength: PropTypes.number.isRequired,
   showDestinationInfo: PropTypes.bool,
-};
-
-NaviInstructions.defaultProps = {
-  legType: '',
-  leg: undefined,
-  nextLeg: undefined,
-  position: undefined,
-  showDestinationInfo: false,
-};
-NaviInstructions.contextTypes = {
-  config: configShape.isRequired,
 };

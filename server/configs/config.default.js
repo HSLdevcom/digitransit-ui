@@ -392,7 +392,7 @@ export default {
     locale: 'en_US',
 
     image: {
-      url: 'img/default-social-share.png',
+      url: 'assets/default/social-share.png',
       width: 2400,
       height: 1260,
     },
@@ -829,6 +829,5 @@ export default {
     showBothDirectAndTransitResults: false,
   },
   personalization: false,
-  showNewRoutePage: true,
   user: {},
 };

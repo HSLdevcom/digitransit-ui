@@ -10,7 +10,7 @@ This component renders an input to choose a date and time. Renders separate inpu
 
 *   `props` **[Object][1]** 
 
-    *   `props.realtime` **[boolean][2]** Determine if selected time should be updated in realtime when 'now' is selected.
+    *   `props.realtime` **[boolean][2]** Determine if selected time should be updated in realtime when 'now' is selected. (optional, default `false`)
     *   `props.initialArriveBy` **[boolean][2]** Initial value for arriveBy. Determines if picker is in arrival mode (true) or departure mode (false). Correct value is kept in component state even if this is not updated. Changing this will also trigger change in the component.
     *   `props.initialTimestamp` **[Number][3]** Initial value for selected time. Unix timestamp in seconds. Updating this will change timepicker value but the correct value is kept in component state even if this is not updated.
     *   `props.onDepartureClick` **[function][4]** Called with (time) when "departure" button is clicked. time is current input value in seconds
@@ -20,14 +20,14 @@ This component renders an input to choose a date and time. Renders separate inpu
     *   `props.onNowClick` **[function][4]** Called when "depart now" button is clicked. time is current input value in seconds
     *   `props.embedWhenClosed` **[node][5]** JSX element to render in the corner when input is closed
     *   `props.embedWhenOpen` **[node][5]** JSX element to render when input is open
-    *   `props.lang` **[string][6]** Language selection. Default 'en'
-    *   `props.serviceTimeRange` **[number][3]** Determine number of days shown in timepicker. Optional. default is 30.
+    *   `props.lang` **[string][6]** Language selection. Default 'en' (optional, default `'en'`)
+    *   `props.serviceTimeRange` **[number][3]** Determine number of days shown in timepicker. Optional. default is 30. (optional, default `30`)
     *   `props.onOpen` **[function][4]** Determine what to do when timepicker is open. Optional. no default implementation.
     *   `props.onClose` **[function][4]** Determine what to do when timepicker is closed. Optional. no default implementation.
     *   `props.openPicker` **[function][4]** Determine if timepicker should be open in intial render. Optional. Default is undefined.
-    *   `props.color`  
-    *   `props.timeZone`  
-    *   `props.fontWeights`  
+    *   `props.color`   (optional, default `'#007ac9'`)
+    *   `props.timeZone`   (optional, default `'Europe/Helsinki'`)
+    *   `props.fontWeights`   (optional, default `DEFAULT_FONT_WEIGHTS`)
 
 ### Examples
 

@@ -1,17 +1,19 @@
-import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import sortBy from 'lodash/sortBy';
-import { matchShape, routerShape } from 'found';
+import { useRouter } from 'found';
+import { routeShape } from '../../../utils/client/shapes';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import Error404 from '../404';
-import { saveSearchItems } from '../../action/SearchActions';
-import { getOldSearchItems } from '../../../utils/client/storeUtils';
-import { routeShape } from '../../../utils/client/shapes';
+import {
+  getOldSearchItems,
+  saveOldSearchItems,
+} from '../../data/SearchHistory';
 
-const PatternRedirector = ({ router, match, route }, context) => {
+const PatternRedirector = ({ route }) => {
+  const { router, match } = useRouter();
   if (!route) {
-    const oldSearchItems = getOldSearchItems(context);
+    const oldSearchItems = getOldSearchItems();
     const oldItem = oldSearchItems.filter(
       s =>
         s.item.properties.layer.startsWith('route-') &&
@@ -25,10 +27,7 @@ const PatternRedirector = ({ router, match, route }, context) => {
           longName: oldItem[0].item.properties.longName,
         },
       };
-      context.executeAction(
-        saveSearchItems,
-        oldSearchItems.filter(s => s !== oldItem[0]),
-      );
+      saveOldSearchItems(oldSearchItems.filter(s => s !== oldItem[0]));
       return <Error404 error={error} />;
     }
     return <Error404 />;
@@ -68,18 +67,9 @@ const PatternRedirector = ({ router, match, route }, context) => {
   return null;
 };
 
-PatternRedirector.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-  getStore: PropTypes.func.isRequired,
-};
-
 PatternRedirector.propTypes = {
-  router: routerShape.isRequired,
-  match: matchShape.isRequired,
   route: routeShape,
 };
-
-PatternRedirector.defaultProps = { route: undefined };
 
 const containerComponent = createFragmentContainer(PatternRedirector, {
   route: graphql`

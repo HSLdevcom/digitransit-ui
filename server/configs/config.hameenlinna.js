@@ -35,7 +35,7 @@ export default configMerger(walttiConfig, {
       site: '@hmlkaupunki',
     },
     image: {
-      url: 'img/social-share-hameenlinna.png',
+      url: 'assets/hameenlinna/social-share.png',
       width: 800,
       height: 352,
     },
@@ -43,11 +43,11 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/client/images/hameenlinna/hameenlinna-favicon.png',
+  favicon: './app/assets/images/hameenlinna/hameenlinna-favicon.png',
 
   // Navbar logo
   logo: 'hameenlinna/hameenlinna-logo.png',
-  secondaryLogo: 'hameenlinna/secondary-logo.png',
+  secondaryLogo: 'hameenlinna/hameenlinna-logo.png',
 
   feedIds: ['Hameenlinna'],
 
@@ -60,7 +60,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/hml_zone_lines_20260417.geojson',
+        url: '/assets/hameenlinna/zone_lines_20260417.geojson',
       },
     ],
   },

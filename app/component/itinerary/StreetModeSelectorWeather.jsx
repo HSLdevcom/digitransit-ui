@@ -6,7 +6,11 @@ import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
 import WeatherDetailsPopup from './WeatherDetailsPopup';
 
-export default function StreetModeSelectorWeather({ weatherData }) {
+const EMPTY_WEATHER_DATA = {};
+
+export default function StreetModeSelectorWeather({
+  weatherData = EMPTY_WEATHER_DATA,
+}) {
   const [popupOpen, changeOpen] = useState(false);
   if (typeof weatherData.temperature === 'number') {
     const { temperature, iconId } = weatherData;
@@ -54,8 +58,4 @@ StreetModeSelectorWeather.propTypes = {
       iconId: PropTypes.number.isRequired,
     }),
   ]),
-};
-
-StreetModeSelectorWeather.defaultProps = {
-  weatherData: {},
 };

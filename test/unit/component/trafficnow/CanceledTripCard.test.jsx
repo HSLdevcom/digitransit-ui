@@ -1,10 +1,8 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { IntlProvider } from 'react-intl';
+import { fireEvent } from '@testing-library/react';
 import * as found from 'found';
-import translations from '../../../../app/translations/en';
-import { ConfigProvider } from '../../../../app/client/ConfigContext';
 import { createTestConfig } from '../../helpers/mock-context';
+import { renderWithProviders } from '../../helpers/mock-providers';
 import CanceledTripCard from '../../../../app/component/trafficnow/CanceledTripCard';
 import * as FiltersContext from '../../../../app/component/trafficnow/filters/FiltersContext';
 
@@ -91,12 +89,9 @@ describe('<CanceledTripCard />', () => {
   });
 
   const renderCanceledTripCard = (props, config = baseConfig) => {
-    const { container } = render(
-      <IntlProvider locale="en" messages={translations.en}>
-        <ConfigProvider value={config}>
-          <CanceledTripCard {...baseProps} {...props} />
-        </ConfigProvider>
-      </IntlProvider>,
+    const { container } = renderWithProviders(
+      <CanceledTripCard {...baseProps} {...props} />,
+      { config },
     );
     return container;
   };

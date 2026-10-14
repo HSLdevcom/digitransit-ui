@@ -42,7 +42,7 @@ export default configMerger(walttiConfig, {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     image: {
-      url: 'img/social-share-vaasa.png',
+      url: 'assets/vaasa/social-share.png',
       width: 1280,
       height: 400,
     },
@@ -161,7 +161,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/vaasa_zone_lines_20231220.geojson',
+        url: '/assets/vaasa/zone_lines_20231220.geojson',
       },
     ],
   },

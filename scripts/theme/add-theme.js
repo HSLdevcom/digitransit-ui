@@ -53,7 +53,7 @@ let textLogo;
 let logo;
 if (logoPath) {
   logo = path.basename(logoPath);
-  const imageDir = 'app/client/images/' + theme;
+  const imageDir = 'app/assets/images/' + theme;
   if(!fs.existsSync(imageDir)) {
     fs.mkdirSync(imageDir);
   }

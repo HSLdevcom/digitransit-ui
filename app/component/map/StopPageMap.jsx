@@ -1,18 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useContext, useState, useRef } from 'react';
-import { matchShape, routerShape } from 'found';
 import { connectToStores } from 'fluxible-addons-react';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
-import {
-  configShape,
-  locationShape,
-  mapLayerOptionsShape,
-} from '../../../utils/client/shapes';
+import { useMatch } from 'found';
+import { locationShape } from '../../../utils/client/shapes';
 import { getSettings } from '../../../utils/client/planParamUtil';
 import PositionStore from '../../store/PositionStore';
-import MapLayerStore, { mapLayerShape } from '../../store/MapLayerStore';
+import { useMapLayers } from '../../hooks/MapLayerContext';
 import MapWithTracking from './MapWithTracking';
 import SelectedStopPopup from './popups/SelectedStopPopup';
 import SelectedStopPopupContent from '../SelectedStopPopupContent';
@@ -26,6 +22,7 @@ import MapRoutingButton from '../MapRoutingButton';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../../utils/shared/path';
 import { streetQuery } from './StreetQuery';
+import { useConfigContext } from '../../client/ConfigContext';
 
 const getModeFromProps = props => {
   if (props.citybike) {
@@ -46,13 +43,28 @@ const getModeFromProps = props => {
   return 'stop';
 };
 
-function StopPageMap(
-  { stop, breakpoint, locationState, mapLayers, mapLayerOptions, stopName },
-  { config, match },
-) {
-  if (!stop) {
-    return false;
+function StopPageMap(props) {
+  const { stop, breakpoint, locationState, stopName } = props;
+  const config = useConfigContext();
+  // if the stop is not a gtfs transit stop, disable vehicles
+  const shouldShowVehicles = config.showVehiclesOnStopPage && stop.gtfsId;
+  const mapLayerOverrides = shouldShowVehicles
+    ? { notThese: ['vehicles'] }
+    : {};
+  if (props.citybike) {
+    mapLayerOverrides.force = ['citybike'];
+  } else if (props.scooter) {
+    mapLayerOverrides.force = ['scooter'];
+  } else {
+    mapLayerOverrides.force = ['terminal'];
   }
+  const { mapLayers } = useMapLayers(mapLayerOverrides);
+  const mode = stop ? getModeFromProps(props) : 'stop';
+  const mapLayerOptions = getMapLayerOptions({
+    lockedMapLayers: ['vehicles', mode],
+    selectedMapLayers: [shouldShowVehicles && 'vehicles', mode],
+  });
+  const match = useMatch();
 
   const maxShowRouteDistance = breakpoint === 'large' ? 900 : 470;
   const { environment } = useContext(ReactRelayContext);
@@ -107,6 +119,7 @@ function StopPageMap(
       fetchWalk(stop);
     }
     if (
+      stop &&
       locationState.lat &&
       locationState.lon &&
       distance(locationState, stop) < maxShowRouteDistance
@@ -120,6 +133,10 @@ function StopPageMap(
       ]);
     }
   }, [stop, locationState.status]);
+
+  if (!stop) {
+    return false;
+  }
 
   if (locationState.loadingPosition) {
     return <Loading />;
@@ -180,63 +197,29 @@ function StopPageMap(
   );
 }
 
-StopPageMap.contextTypes = {
-  config: configShape.isRequired,
-  match: matchShape.isRequired,
-  router: routerShape.isRequired,
-  getStore: PropTypes.func.isRequired,
-};
-
 StopPageMap.propTypes = {
   stop: PropTypes.shape({
     lat: PropTypes.number.isRequired,
     lon: PropTypes.number.isRequired,
     platformCode: PropTypes.string,
+    gtfsId: PropTypes.string,
   }),
   breakpoint: PropTypes.string.isRequired,
   locationState: locationShape.isRequired,
-  mapLayers: mapLayerShape.isRequired,
-  mapLayerOptions: mapLayerOptionsShape.isRequired,
+  citybike: PropTypes.bool,
   parkType: PropTypes.string,
+  scooter: PropTypes.bool,
   stopName: PropTypes.node,
-};
-
-StopPageMap.defaultProps = {
-  stop: undefined,
-  parkType: undefined,
-  stopName: undefined,
 };
 
 const componentWithBreakpoint = withBreakpoint(StopPageMap);
 
 const StopPageMapWithStores = connectToStores(
   componentWithBreakpoint,
-  [PositionStore, MapLayerStore],
-  ({ config, getStore }, props) => {
-    const locationState = getStore(PositionStore).getLocationState();
-    const ml = config.showVehiclesOnStopPage ? { notThese: ['vehicles'] } : {};
-    if (props.citybike) {
-      ml.force = ['citybike']; // show always
-    } else if (props.scooter) {
-      ml.force = ['scooter']; // show always
-    } else {
-      ml.force = ['terminal'];
-    }
-    const mapLayers = getStore(MapLayerStore).getMapLayers(ml);
-    const mode = getModeFromProps(props);
-    const mapLayerOptions = getMapLayerOptions({
-      lockedMapLayers: ['vehicles', mode],
-      selectedMapLayers: ['vehicles', mode],
-    });
-    return {
-      locationState,
-      mapLayers,
-      mapLayerOptions,
-    };
-  },
-  {
-    config: configShape,
-  },
+  [PositionStore],
+  ({ getStore }) => ({
+    locationState: getStore(PositionStore).getLocationState(),
+  }),
 );
 
 export {

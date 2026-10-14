@@ -42,7 +42,6 @@ const baseConfig = createTestConfig({
   colors: { primary: '#3fa', accessiblePrimary: '#333' },
   itinerary: { serviceTimeRange: 30 },
   showSimilarRoutesOnRouteDropDown: false,
-  showNewRoutePage: true,
 });
 
 const baseMatch = {
@@ -51,7 +50,6 @@ const baseMatch = {
 };
 
 const baseProps = {
-  match: baseMatch,
   className: 'bp-large',
   onSelectChange: () => {},
   gtfsId: 'ROUTE:1',
@@ -76,7 +74,7 @@ describe('<RoutePatternSelectContainer />', () => {
         {...baseProps}
         route={makeTwoDirectionRoute()}
       />,
-      { config: baseConfig },
+      { config: baseConfig, match: baseMatch },
     );
     expect(
       container.querySelector('.route-pattern-swap-button'),
@@ -96,7 +94,7 @@ describe('<RoutePatternSelectContainer />', () => {
         }}
         route={makeTwoDirectionRoute()}
       />,
-      { config: baseConfig },
+      { config: baseConfig, match: baseMatch },
     );
     fireEvent.click(container.querySelector('.route-pattern-swap-button'));
     expect(selectedCode).toBe('ROUTE:1:1:01');
@@ -108,7 +106,7 @@ describe('<RoutePatternSelectContainer />', () => {
         {...baseProps}
         route={{ shortName: '1', mode: 'BUS', gtfsId: 'ROUTE:1', patterns: [] }}
       />,
-      { config: baseConfig },
+      { config: baseConfig, match: baseMatch },
     );
     expect(container.innerHTML).toBe('');
   });
@@ -144,10 +142,9 @@ describe('<RoutePatternSelectContainer />', () => {
     renderWithProviders(
       <RoutePatternSelectContainer
         {...baseProps}
-        match={match}
         route={makeTwoDirectionRoute()}
       />,
-      { config: baseConfig },
+      { config: baseConfig, match, router: match.router },
     );
     expect(replacedUrl).toBe(
       routePagePath('ROUTE:1', PREFIX_STOPS, 'ROUTE:1:0:01'),
@@ -169,10 +166,9 @@ describe('<RoutePatternSelectContainer />', () => {
     renderWithProviders(
       <RoutePatternSelectContainer
         {...baseProps}
-        match={match}
         route={makeTwoDirectionRoute()}
       />,
-      { config: baseConfig },
+      { config: baseConfig, match, router: match.router },
     );
     expect(replacedUrl).toBeUndefined();
   });
@@ -190,7 +186,7 @@ describe('<RoutePatternSelectContainer />', () => {
           ],
         }}
       />,
-      { config: baseConfig },
+      { config: baseConfig, match: baseMatch },
     );
     expect(container.innerHTML).not.toBe('');
     expect(container.querySelector('.route-pattern-swap-button')).toBeNull();
@@ -213,7 +209,7 @@ describe('<RoutePatternSelectContainer />', () => {
           ],
         }}
       />,
-      { config: baseConfig },
+      { config: baseConfig, match: baseMatch },
     );
     expect(callCount).toBe(0);
   });
@@ -233,7 +229,7 @@ describe('<RoutePatternSelectContainer />', () => {
           ],
         }}
       />,
-      { config: baseConfig },
+      { config: baseConfig, match: baseMatch },
     );
     expect(container.innerHTML).not.toBe('');
     expect(container.querySelector('.route-pattern-swap-button')).toBeNull();

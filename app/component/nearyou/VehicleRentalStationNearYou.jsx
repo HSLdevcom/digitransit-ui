@@ -18,7 +18,7 @@ const VehicleRentalStationNearYou = ({
   station,
   relay,
   currentTime,
-  isParentTabActive,
+  isParentTabActive = false,
 }) => {
   const timeRef = useRef(currentTime);
 
@@ -82,11 +82,6 @@ VehicleRentalStationNearYou.propTypes = {
   currentTime: PropTypes.number,
   isParentTabActive: PropTypes.bool,
   relay: relayShape.isRequired,
-};
-
-VehicleRentalStationNearYou.defaultProps = {
-  currentTime: undefined,
-  isParentTabActive: false,
 };
 
 const containerComponent = createRefetchContainer(

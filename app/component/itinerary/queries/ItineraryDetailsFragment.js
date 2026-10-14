@@ -90,6 +90,9 @@ export const ItineraryDetailsFragment = graphql`
         mode
         distance
         route {
+          agency {
+            gtfsId
+          }
           alerts {
             alertSeverityLevel
             effectiveStartDate

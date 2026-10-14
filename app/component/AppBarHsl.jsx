@@ -5,23 +5,21 @@ import { useRouter } from 'found';
 import { Helmet } from 'react-helmet';
 import { SiteHeader, UserMenu, QuickSearch } from '@hsl-fi/site-header';
 import { favouriteShape } from '../../utils/client/shapes';
-import {
-  clearOldSearches,
-  clearFutureRoutes,
-} from '../../utils/client/storeUtils';
+import { clearFutureRoutes } from '../../utils/client/storeUtils';
+import { clearOldSearches } from '../data/SearchHistory';
 import { getJson } from '../../utils/shared/xhrPromise';
 import { useConfigContext } from '../client/ConfigContext';
 import { useFavouriteActions } from '../hooks/FavouriteContext';
 
-const clearStorages = (context, clearFavourites) => {
-  clearOldSearches(context);
+const clearStorages = clearFavourites => {
+  clearOldSearches();
   clearFutureRoutes();
   clearFavourites();
 };
 
 const notificationAPI = '/api/user/notifications';
 
-const AppBarHsl = ({ favourites = [] }, context) => {
+const AppBarHsl = ({ favourites = [] }) => {
   const config = useConfigContext();
   const { clearFavourites } = useFavouriteActions();
   const { user, language } = config;
@@ -168,7 +166,7 @@ const AppBarHsl = ({ favourites = [] }, context) => {
         loginLink={{ href: `/login?returnTo=${encodeURIComponent(returnTo)}` }}
         logoutLink={{
           href: '/logout',
-          onClick: () => clearStorages(context, clearFavourites),
+          onClick: () => clearStorages(clearFavourites),
         }}
         name={{ givenName: given_name, familyName: family_name }}
         userNotifications={userNotifications}
@@ -227,10 +225,6 @@ const AppBarHsl = ({ favourites = [] }, context) => {
       )}
     </>
   );
-};
-
-AppBarHsl.contextTypes = {
-  getStore: PropTypes.func.isRequired,
 };
 
 AppBarHsl.propTypes = {

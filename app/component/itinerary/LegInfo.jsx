@@ -3,7 +3,6 @@ import cx from 'classnames';
 import Link from 'found/Link';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import Modal from '@hsl-fi/modal';
 import { legShape } from '../../../utils/client/shapes';
 import { legTimeStr, isLocalCallAgency } from '../../../utils/client/legUtils';
 import {
@@ -170,23 +169,18 @@ export default function LegInfo({
           </span>
         </>
       )}
-      <Modal
-        appElement="#app"
-        contentLabel="Capacity modal"
-        closeButtonLabel="Close"
-        variant="small"
-        isOpen={capacityModalOpen}
-        onCrossClick={() => {
-          setCapacityModalOpen(false);
-          if (changeHash) {
-            setTimeout(() => {
-              changeHash(tabIndex);
-            }, 500);
-          }
-        }}
-      >
-        <CapacityModal config={config} />
-      </Modal>
+      {capacityModalOpen && (
+        <CapacityModal
+          onClose={() => {
+            setCapacityModalOpen(false);
+            if (changeHash) {
+              setTimeout(() => {
+                changeHash(tabIndex);
+              }, 500);
+            }
+          }}
+        />
+      )}
     </div>
   );
 }

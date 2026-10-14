@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from './Icon';
 import {
@@ -6,8 +5,10 @@ import {
   getRentalNetworkConfig,
 } from '../../utils/shared/vehicleRentalUtils';
 import { rentalVehicleShape } from '../../utils/client/shapes';
+import { useConfigContext } from '../client/ConfigContext';
 
-const RentalVehicle = ({ rentalVehicle }, { config }) => {
+const RentalVehicle = ({ rentalVehicle }) => {
+  const config = useConfigContext();
   const vehicleIcon = getRentalNetworkIcon(
     getRentalNetworkConfig(rentalVehicle.rentalNetwork.networkId, config),
   );
@@ -18,11 +19,6 @@ const RentalVehicle = ({ rentalVehicle }, { config }) => {
   );
 };
 
-RentalVehicle.contextTypes = {
-  config: PropTypes.shape({
-    vehicleRental: { networks: PropTypes.arrayOf(PropTypes.string.isRequired) },
-  }).isRequired,
-};
 RentalVehicle.propTypes = {
   rentalVehicle: rentalVehicleShape.isRequired,
 };

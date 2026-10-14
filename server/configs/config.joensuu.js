@@ -27,10 +27,11 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/client/images/joensuu/joensuu-favicon.png',
+  favicon: './app/assets/images/joensuu/joensuu-favicon.png',
 
   // Navbar logo
   logo: 'joensuu/jojo-logo.png',
+  secondaryLogo: 'joensuu/jojo-logo-secondary.svg',
 
   colors: {
     primary: '#5c4696',
@@ -42,7 +43,7 @@ export default configMerger(walttiConfig, {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     image: {
-      url: 'img/social-share-joensuu.png',
+      url: 'assets/joensuu/social-share.png',
       width: 346,
       height: 80,
     },
@@ -165,7 +166,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/joensuu_zone_lines_20250402.geojson',
+        url: '/assets/joensuu/zone_lines_20250402.geojson',
       },
     ],
   },

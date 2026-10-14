@@ -75,7 +75,3 @@ TaxiLinkContainer.propTypes = {
   bookingUrl: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
 };
-
-TaxiLinkContainer.defaultProps = {
-  infoUrl: undefined,
-};

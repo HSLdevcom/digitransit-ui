@@ -7,6 +7,8 @@ import cx from 'classnames';
 import { parseTypedTime, validateInput, getTs } from './utils';
 import styles from './styles.scss';
 
+const DEFAULT_TRANSLATION_SETTINGS = { lng: 'fi' };
+
 /**
  * Component to display a date or time input on desktop.
  *
@@ -40,10 +42,10 @@ function DesktopDatetimepicker({
   id,
   label,
   icon,
-  disableTyping,
-  timeZone,
-  datePicker,
-  translationSettings,
+  disableTyping = false,
+  timeZone = 'Europe/Helsinki',
+  datePicker = false,
+  translationSettings = DEFAULT_TRANSLATION_SETTINGS,
 }) {
   Settings.defaultZone = timeZone;
   const [t] = useTranslation();
@@ -288,13 +290,6 @@ DesktopDatetimepicker.propTypes = {
   timeZone: PropTypes.string,
   datePicker: PropTypes.bool,
   translationSettings: PropTypes.shape({ lng: PropTypes.string.isRequired }),
-};
-
-DesktopDatetimepicker.defaultProps = {
-  disableTyping: false,
-  timeZone: 'Europe/Helsinki',
-  datePicker: false,
-  translationSettings: { lng: 'fi' },
 };
 
 export default DesktopDatetimepicker;

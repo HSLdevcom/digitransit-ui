@@ -6,13 +6,15 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { displayDistance } from '../../../utils/shared/geo-utils';
 import { legDestination, legTimeStr } from '../../../utils/client/legUtils';
 import { PREFIX_BIKEPARK } from '../../../utils/shared/path';
-import { configShape, legShape, parkShape } from '../../../utils/client/shapes';
+import { legShape, parkShape } from '../../../utils/client/shapes';
 import { durationToString } from '../../../utils/client/timeUtils';
 import Icon from '../Icon';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import ItineraryMapAction from './ItineraryMapAction';
+import { useConfigContext } from '../../client/ConfigContext';
 
-const BikeParkLeg = ({ leg, index, focusAction, bikePark }, { config }) => {
+const BikeParkLeg = ({ leg, index, focusAction, bikePark }) => {
+  const config = useConfigContext();
   const intl = useIntl();
   const distance = displayDistance(
     parseInt(leg.distance, 10),
@@ -99,9 +101,6 @@ const BikeParkLeg = ({ leg, index, focusAction, bikePark }, { config }) => {
       </div>
     </div>
   );
-};
-BikeParkLeg.contextTypes = {
-  config: configShape.isRequired,
 };
 
 BikeParkLeg.propTypes = {

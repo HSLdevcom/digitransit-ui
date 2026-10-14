@@ -26,20 +26,24 @@ and output settings.
 
 ## Entries & per-deployment theming
 
-- `main` is the real app entry (`utils/client/publicPath` + `app/client/client`), plus
-  `utils/client/loadDevTheme` in development only (see below).
+- `main` is the real app entry (`app/client/publicPath` + `app/client/client`), plus
+  `app/client/loadDevTheme` in development only (see below).
 - In production, `scripts/build/contextHelper.js` adds one `<theme>_theme`
   entry per regional theme's `sass/themes/<theme>/main.scss`, plus a
-  `<sprite>` entry for any config-declared SVG sprite sheet. With `CONFIG`
+  `<sprite>` entry for any config-declared SVG sprite sheet (`config.sprites`),
+  which content-hashes it into `manifest.json`. The sprite itself is
+  generated before webpack runs (see "SVG sprite sheets" below). With `CONFIG`
   set, only the `default` theme and the selected config's theme build;
   otherwise every `server/configs/config.*.js` deployment does.
 - `faviconPlugins` (same file) generates one `favicons-webpack-plugin`
   instance per deployment, producing per-deployment favicons/app icons
-  under `assets/icons-<CONFIG>-[contenthash]/`.
+  under `assets/icons-<CONFIG>-[contenthash]/`. Apple startup images and
+  Windows tiles are turned off (`favicons.icons`), since nothing references
+  them and the startup images alone were ~35 MB per config.
 - In development, `webpack.ContextReplacementPlugin` narrows the dynamic
   `import` for `sass/themes` down to just the selected `CONFIG`'s
   `main.scss`, so the dev server doesn't build every theme.
-- `utils/client/loadDevTheme.js` holds a dynamic, fire-and-forget
+- `app/client/loadDevTheme.js` holds a dynamic, fire-and-forget
   `import(`../../sass/themes/${window.config.CONFIG}/main.scss`)` that used
   to live inline in `app/client.js` as a `require(...)` behind an
   `if (process.env.NODE_ENV === 'development')` runtime check written as an
@@ -75,9 +79,83 @@ and output settings.
   graph, which can shift even when that chunk's own content didn't) —
   this is webpack5's own documented best practice for long-term caching,
   and matches the `[contenthash]` already used for CSS output below.
-- `publicPath`: `/proxy/` in dev (see `devServer` below), `/` in prod.
+- `publicPath`: `/proxy/` in dev (see `devServer` below), `/` in prod. This
+  `/` only matters for webpack's own JS-runtime asset resolution (chunk/
+  script loading, images imported from `.jsx`), which `app/client/
+  publicPath.js` overrides at runtime from `window.ASSET_URL` (the actual
+  CDN base path) before anything else runs. It does **not** reach `url()`
+  references baked into compiled CSS (background images, e.g. the
+  `.scss`-defined spinner/dotted-line assets) — those are static text,
+  resolved by the browser directly against the CSS file's own URL, with no
+  JS involved. `MiniCssExtractPlugin.loader`'s own `publicPath: 'auto'`
+  option (set on every `.scss`/`.css` rule below) is what fixes *that*
+  case, making such `url()`s relative to the emitted CSS file instead of
+  inheriting this `/`. Without it, those paths are emitted as absolute
+  `/assets/...` — fine when the HTML and static assets share an origin
+  (true in dev), but broken wherever production serves bundled assets from
+  a separate CDN host (`dev-cdn.digitransit.fi/...`) than the HTML shell
+  (`dev.reittiopas.fi`).
 - `crossOriginLoading: 'anonymous'` — needed for real stack traces on
   cross-origin script chunks (used with source maps).
+
+Webpack isn't the only writer of `_static/`: `scripts/build/copyStatic.js`
+(run by the `static` script, which both `prebuild` and `scripts/dev.sh`
+invoke) copies `static/` into the same directory beforehand. It lives
+outside the bundler on purpose — see "Static assets outside the bundle"
+below.
+
+## Static assets outside the bundle
+
+Per-deployment, request-time assets (social-share images, GeoJSON zone
+layers) are **not** bundled. They live in `static/assets/<CONFIG>/`, where
+the directory name is the exact `CONFIG` value, and are copied to
+`_static/assets/<CONFIG>/` by `scripts/build/copyStatic.js`. That script
+also minifies `.geojson` files and writes `.gz`/`.br` siblings for them,
+since `CompressionPlugin` below only covers `js|css|html|svg|ico` and
+`express-static-gzip` serves a precompressed sibling when one exists.
+
+The copy is deliberately bundler-agnostic (it replaced a
+`copy-webpack-plugin` pattern that only ran in production builds) so the
+assets keep working through a future bundler migration. Note that `_static`
+is populated once per `yarn dev` startup, so edits to `static/` made while
+the dev server runs aren't picked up — re-run `yarn static`.
+
+## SVG sprite sheets
+
+Icons live as one file per icon in `app/assets/icons/<theme>/<id>.svg`, and
+`scripts/build/buildSprites.js` (`yarn sprites`, run by `prebuild` and
+`scripts/dev.sh`) assembles them into `_static/assets/svg-sprite.<theme>.svg`.
+`default/` holds every icon; any other theme directory only holds the icons
+it adds or re-skins, layered on top of the default set. Each file's name is
+its symbol id, the key `<Icon img>` and `utils/client/mapIconUtils.js` use.
+Every file must be well-formed XML with an `<svg>` root, or the build fails.
+`test/unit/server/configs/sprites.test.js` also requires id-safe filenames and
+that no `id` repeats within a sprite: all symbols share one page, so an
+internal id (e.g. a design tool's `clip0`) reused by two icons would make one
+of them render with the other's clip path, mask or gradient. Icon files are
+formatted with Prettier (`@prettier/plugin-xml`; `yarn prettier-icons`, fixed by
+`yarn format`).
+
+At runtime the sprite is inlined into the page (see `buildBody` in
+`server/middleware/shell.js`): in development it's read from `_static` on
+every request, in production it's fetched from its content-hashed URL.
+`yarn dev` also runs `yarn sprites --watch`, so an icon edit shows up on the
+next page refresh without a restart.
+
+The generator is bundler-agnostic, but the content hashing isn't: the sprite
+goes through webpack as an entry (see above). Under Vite, whose inputs must be
+JS or HTML, that would need a small plugin emitting the file instead.
+
+All configs' assets are copied regardless of `$CONFIG`, because a deployment
+with no `$CONFIG` set resolves its config per request from the `Host` header
+(`getConfiguration` in `server/configs/config.js`) and so can serve any
+region, and because `ASSEMBLE_GEOJSON` deployments reference *every* region's
+zone layer.
+
+Only assets the server hands out per request belong in `static/`. Images
+that are bundled into the client live in `app/assets/images/<CONFIG>/`
+(`default/` holding the fallbacks) and go through the asset-module rule
+below.
 
 ## Module rules (loaders)
 
@@ -119,10 +197,32 @@ and output settings.
 - **`.css`** — split into two rules only so `@hsl-fi` package CSS can be
   marked `sideEffects: true` (so it isn't tree-shaken away); everything
   else uses the default.
-- **Images/fonts** (`eot|png|ttf|woff|svg|jpeg|jpg`) — webpack5 built-in
+- All three `MiniCssExtractPlugin.loader` uses above (`.scss` and both
+  `.css` rules) pass `publicPath: 'auto'`, so any asset `url()` emitted
+  into these CSS files resolves relative to that CSS file's own location,
+  not to `output.publicPath` (see "Output" above for why that distinction
+  matters for CSS specifically).
+- **Images/fonts** (`eot|gif|png|ttf|woff|svg|jpeg|jpg`) — webpack5 built-in
   asset modules, replacing `file-loader`/`url-loader`. `asset/resource` in
-  dev (always emits a real file); `asset` in prod with `maxSize: 10000`
-  (inlines files under 10 KB as data URIs, otherwise emits a file).
+  both dev and prod: always emits a real, content-hashed file and never
+  inlines as a data URI. `app/assets/assetUrl.js` makes every image under
+  `app/assets/images/` reachable from the main chunk (see below), so inlining
+  the small ones would add ~130 kB of base64 to it.
+
+## `import.meta.webpackContext`
+
+`app/assets/assetUrl.js` is the only module bound to a webpack-specific API.
+It builds a compile-time map of every image under `app/assets/images/` so a
+config-supplied path (`config.logo`, `config.thumbsUpGraphic`, ...) resolves
+to its content-hashed URL synchronously, with no dynamic `import()` and so no
+loading state or render flash.
+
+The call is wrapped in a `try`/`catch`: outside a webpack build — in Vitest,
+which runs modules through Vite — `import.meta.webpackContext` is
+`undefined`, the call throws, and every lookup returns `undefined`, exactly
+as it does for an image the build doesn't contain. Tests that need a URL stub
+the module's default export. Vite's own equivalent, should the bundler ever
+change, is `import.meta.glob('./images/**', { eager: true })`.
 
 ## `devtool`
 
@@ -136,8 +236,6 @@ Development only gets `ContextReplacementPlugin` (see Entries above).
 Production gets:
 
 - **`faviconPlugins`** — see Entries above.
-- **`InjectManifest`** (`workbox-webpack-plugin`) — builds the production
-  service worker; see [Service worker](#service-worker) below.
 - **`MiniCssExtractPlugin`** — extracts CSS to hashed files (prod only;
   dev uses `style-loader`). `ignoreOrder` is deliberately left `false`
   (the default) rather than suppressed: the `digitransitComponents` cache
@@ -152,15 +250,13 @@ Production gets:
 - **`CompressionPlugin`** (×2) — pre-generates `.gz` and `.br` (Brotli)
   copies of JS/CSS/HTML/SVG/ICO assets so the server can serve
   precompressed files instead of compressing on the fly.
-- **`CopyWebpackPlugin`** — copies + minifies the static GeoJSON assets
-  (`static/assets/geojson`) into the build output.
 - **`EntrypointStatsPlugin`** (defined at the top of this file) — small
   local stand-in for the unmaintained `stats-webpack-plugin`. Writes
   `../stats.json` with `entrypoints.<name>.assets` as a plain array of
-  filename strings (the old plugin's shape), because `server/serve.js`
-  reads this file to know which hashed asset filenames belong to the
-  `main` entrypoint, and expects that shape rather than webpack5's native
-  `{ name, size }` asset objects.
+  filename strings (the old plugin's shape), because
+  `server/html/assetManifest.js` reads this file to know which hashed
+  asset filenames belong to the `main` entrypoint, and expects that shape
+  rather than webpack5's native `{ name, size }` asset objects.
 - **`WebpackAssetsManifest`** — writes `../manifest.json`, a
   name→hashed-filename map, read the same way. Imported via its named
   export (`{ WebpackAssetsManifest }`); v6 changed it from a default
@@ -194,37 +290,6 @@ Both dev and prod also always get:
   expose real build-time env var values to the browser (see "Entries &
   per-deployment theming" above for how theme selection avoids needing
   that).
-
-### Service worker
-
-Built from `utils/client/serviceWorker.js` via Workbox's `InjectManifest`
-(bundles that file and injects the precache manifest — unlike
-`GenerateSW`, this keeps full control over the SW's own logic). That
-source file combines:
-
-- `precacheAndRoute(self.__WB_MANIFEST)` + `cleanupOutdatedCaches()` — the
-  actual asset precaching.
-- Lazy `registerRoute`/`CacheFirst` runtime caching for images, CSS, and
-  external font URLs — caching them on demand instead of eagerly.
-- A verbatim `cloud.typography.com` fetch handler that counts
-  font-loading clicks (kept from the old `app/util/font-sw.js`, which this
-  file replaces; unrelated to caching).
-
-This all replaces the old, unmaintained, webpack5-incompatible
-`offline-plugin`.
-
-Build-time asset URLs baked into the precache manifest use a placeholder
-token (`ASSET_URL_PLACEHOLDER`, from `scripts/build/assetUrlPlaceholder.js`,
-shared between this config and `server/server.js`) via `InjectManifest`'s
-`modifyURLPrefix`, since the real CDN URL (`ASSET_URL` env var) isn't known
-at build time. `server/server.js`'s `/sw.js` route replaces that
-placeholder with the real `ASSET_URL` (or `''` if unset) at request time.
-This route only exists outside development (guarded by
-`process.env.NODE_ENV !== 'development'`, since `_static/sw.js` is only
-produced by a production build), matching `app/client.js`, which only ever
-registers the resulting service worker via `workbox-window`'s `Workbox` class
-when `process.env.NODE_ENV !== 'development'` (replacing
-`offline-plugin/runtime`).
 
 ## Optimization
 
@@ -281,8 +346,8 @@ Only used by `webpack-dev-server` during `yarn run dev`. Notable:
 `publicPath: '/'` under `/proxy/` (matches `output.publicPath`), `hot:
 false` (full reload on change, no HMR), IPv6 loopback host (`::1`), and a
 permissive CORS header so the separately-running app server
-(`server/server.js`) can proxy asset requests to this dev server.
-Since `devServer.host` is IPv6-only, `server/server.js` targets the
+(`server/app.js`) can proxy asset requests to this dev server.
+Since `devServer.host` is IPv6-only, `server/app.js` targets the
 literal `[::1]` address rather than the `localhost` hostname when
 proxying — this avoids depending on how the machine's resolver orders
 `localhost`'s A/AAAA records (a resolver that prefers `127.0.0.1` would
@@ -324,7 +389,7 @@ IE version, matching the `< 55`/`< 11` exclusion style — IE11 was the
 last IE release, so excluding only the exact version left older ones
 technically permitted.
 
-Separately, `server/serve.js` uses `polyfill-library` to serve
+Separately, `server/html/polyfills.js` uses `polyfill-library` to serve
 user-agent-specific JS polyfills at runtime — intentional, documented
 architecture (see `docs/Architecture.md`), not controlled by this file,
 but relevant context for "old browser support" in this codebase overall.

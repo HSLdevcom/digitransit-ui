@@ -9,15 +9,15 @@ function TripLinkWithScroll({
   mode,
   pattern,
   route,
-  vehicleNumber,
+  vehicleNumber = '',
   selected = false,
   setHumanScrolling,
-  color,
-  keepTracking,
-  stopName,
-  nextStopName,
-  tripId,
-  vehicleState,
+  color = '',
+  keepTracking = false,
+  stopName = '',
+  nextStopName = '',
+  tripId = '',
+  vehicleState = '',
 }) {
   const trackedVehicleRef = useRef();
   const shouldUpdate = useRef(true);
@@ -122,17 +122,6 @@ TripLinkWithScroll.propTypes = {
   nextStopName: PropTypes.string,
   tripId: PropTypes.string,
   vehicleState: PropTypes.string,
-};
-
-TripLinkWithScroll.defaultProps = {
-  vehicleState: '',
-  tripId: '',
-  keepTracking: false,
-  color: '',
-  selected: false,
-  vehicleNumber: '',
-  nextStopName: '',
-  stopName: '',
 };
 
 export default TripLinkWithScroll;

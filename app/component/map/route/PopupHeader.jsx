@@ -10,7 +10,7 @@ import { getRouteMode } from '../../../../utils/client/modeUtils';
 export default function PopupHeader({
   route,
   pattern,
-  card,
+  card = false,
   startTime,
   className,
 }) {
@@ -62,11 +62,4 @@ PopupHeader.propTypes = {
   pattern: PropTypes.shape({ code: PropTypes.string.isRequired }),
   className: PropTypes.string,
   card: PropTypes.bool,
-};
-
-PopupHeader.defaultProps = {
-  startTime: undefined,
-  pattern: undefined,
-  className: undefined,
-  card: false,
 };

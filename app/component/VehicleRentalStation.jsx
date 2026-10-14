@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  configShape,
-  vehicleRentalStationShape,
-} from '../../utils/client/shapes';
+import { vehicleRentalStationShape } from '../../utils/client/shapes';
 import VehicleRentalAvailability from './VehicleRentalAvailability';
 import Icon from './Icon';
 import {
@@ -12,8 +9,10 @@ import {
   BIKEAVL_UNKNOWN,
   BIKEAVL_WITHMAX,
 } from '../../utils/shared/vehicleRentalUtils';
+import { useConfigContext } from '../client/ConfigContext';
 
-const VehicleRentalStation = ({ vehicleRentalStation }, { config }) => {
+const VehicleRentalStation = ({ vehicleRentalStation }) => {
+  const config = useConfigContext();
   const vehicleCapacity = getVehicleCapacity(
     config,
     vehicleRentalStation.rentalNetwork.networkId,
@@ -55,9 +54,6 @@ const VehicleRentalStation = ({ vehicleRentalStation }, { config }) => {
   );
 };
 
-VehicleRentalStation.contextTypes = {
-  config: configShape.isRequired,
-};
 VehicleRentalStation.propTypes = {
   vehicleRentalStation: vehicleRentalStationShape.isRequired,
 };

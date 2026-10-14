@@ -116,6 +116,10 @@ export const shouldShowFareInfo = (config, legs, fares) => {
   }
 
   return (
+    (!config.showTicketLinkOnlyWhenTesting ||
+      window.localStorage
+        .getItem('favouriteStore')
+        ?.includes('Lippulinkkitestaus2025')) &&
     config.showTicketInformation &&
     config.availableTickets &&
     Array.isArray(config.feedIds) &&
@@ -134,10 +138,6 @@ export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
   }
 
   return (
-    (!config.showTicketLinkOnlyWhenTesting ||
-      window.localStorage
-        .getItem('favouriteStore')
-        ?.includes('Lippulinkkitestaus2025')) &&
     !unknownFares &&
     fares?.length === 1 &&
     config.ticketPurchaseLink &&

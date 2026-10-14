@@ -10,12 +10,21 @@ import {
   locationShape,
 } from '../../../utils/client/shapes';
 
-function NearYouFavouritesMapContainer(props) {
-  const { stops, stations, vehicleStations, position } = props;
+const EMPTY_ARRAY = [];
+
+function NearYouFavouritesMapContainer({
+  stops = EMPTY_ARRAY,
+  stations = EMPTY_ARRAY,
+  vehicleStations = EMPTY_ARRAY,
+  position,
+  ...rest
+}) {
+  // Default params only cover undefined; Relay's plural fragment containers
+  // can pass null when there's no data, so guard against that too.
   const favs = [
-    ...(stops || []),
-    ...(stations || []),
-    ...(vehicleStations || []),
+    ...(stops || EMPTY_ARRAY),
+    ...(stations || EMPTY_ARRAY),
+    ...(vehicleStations || EMPTY_ARRAY),
   ];
   const edges = favs
     .filter(s => s)
@@ -29,7 +38,15 @@ function NearYouFavouritesMapContainer(props) {
     })
     .sort((a, b) => a.node.distance - b.node.distance);
 
-  return <NearYouMap {...props} stops={edges} />;
+  return (
+    <NearYouMap
+      {...rest}
+      stops={edges}
+      stations={stations}
+      vehicleStations={vehicleStations}
+      position={position}
+    />
+  );
 }
 
 NearYouFavouritesMapContainer.propTypes = {
@@ -37,12 +54,6 @@ NearYouFavouritesMapContainer.propTypes = {
   stations: PropTypes.arrayOf(stationShape),
   vehicleStations: PropTypes.arrayOf(vehicleRentalStationShape),
   position: locationShape.isRequired,
-};
-
-NearYouFavouritesMapContainer.defaultProps = {
-  stops: [],
-  stations: [],
-  vehicleStations: [],
 };
 
 const containerComponent = createFragmentContainer(

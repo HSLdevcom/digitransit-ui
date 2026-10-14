@@ -41,9 +41,13 @@ export default configMerger(walttiConfig, {
       availableForSelection: true,
       defaultValue: true,
     },
+    rail: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
   },
 
-  nearYouModes: ['bus', 'ferry', 'citybike'],
+  nearYouModes: ['bus', 'ferry', 'citybike', 'rail'],
 
   vehicleRental: {
     networks: {
@@ -93,8 +97,9 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'kotka/kotka.png',
+  secondaryLogo: 'kotka/kotka.png',
 
-  feedIds: ['Kotka', 'KotkaLautat'],
+  feedIds: ['Kotka', 'KotkaLautat', 'digitraffic'],
   feedIdFiltering: true,
 
   useSearchPolygon: true,
@@ -176,7 +181,7 @@ export default configMerger(walttiConfig, {
           sv: 'Zoner',
           en: 'Zones',
         },
-        url: '/assets/geojson/kotka_zone_lines_20250114.geojson',
+        url: '/assets/kotka/zone_lines_20250114.geojson',
       },
       {
         name: {

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { matchShape } from 'found';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
+import { useRouter } from 'found';
 import { routeShape } from '../../../utils/client/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
@@ -14,14 +14,15 @@ import ScrollableWrapper from '../ScrollableWrapper';
 import { ExtendedRouteTypes } from '../../../utils/shared/constants';
 import { useConfigContext } from '../../client/ConfigContext';
 
-function PatternStopsContainer({ pattern, match, breakpoint, route }) {
+function PatternStopsContainer({ pattern, breakpoint, route }) {
   const intl = useIntl();
   const config = useConfigContext();
+  const { router } = useRouter();
 
   const routeId = route?.gtfsId;
   if (!pattern) {
     if (routeId) {
-      match.router.replace(routePagePath(routeId));
+      router.replace(routePagePath(routeId));
     } else {
       return <Error404 />;
     }
@@ -38,11 +39,7 @@ function PatternStopsContainer({ pattern, match, breakpoint, route }) {
       })}
     >
       {route?.patterns && (
-        <RouteControlPanel
-          match={match}
-          route={route}
-          breakpoint={breakpoint}
-        />
+        <RouteControlPanel route={route} breakpoint={breakpoint} />
       )}
       {routeId && constantOperationRoutes[routeId] && (
         <div className="stop-constant-operation-container bottom-padding">
@@ -76,7 +73,6 @@ PatternStopsContainer.propTypes = {
   pattern: PropTypes.shape({
     code: PropTypes.string.isRequired,
   }),
-  match: matchShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
   route: routeShape.isRequired,
 };

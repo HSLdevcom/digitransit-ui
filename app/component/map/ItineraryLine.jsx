@@ -13,6 +13,7 @@ import {
   LegMode,
   isLocalCallAgency,
   isTaxiLeg,
+  isCallAgencyLeg,
 } from '../../../utils/client/legUtils';
 import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import { legShape } from '../../../utils/client/shapes';
@@ -418,14 +419,15 @@ function ItineraryLine({
               lat: leg.from.lat,
               lon: leg.from.lon,
               network: rentalNetwork,
-              vehiclesAvailable:
-                leg.from.vehicleRentalStation?.vehiclesAvailable,
+              availableVehicles:
+                leg.from.vehicleRentalStation?.availableVehicles,
             }}
             mode={leg.mode}
             transit
           />,
         );
-      } else if (leg.transitLeg && !isTaxiLeg(leg)) {
+      } else if (leg.transitLeg && !isTaxiLeg(leg) && !isCallAgencyLeg(leg)) {
+        // Call agency legs don't have stops, so they can't be rendered as clickable stop markers
         const name = getTripOrRouteText(
           leg.trip,
           leg.route,

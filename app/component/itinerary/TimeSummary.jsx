@@ -5,40 +5,47 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from '../Icon';
 import { durationToString, timeStr } from '../../../utils/client/timeUtils';
 
-export default function TimeSummary(props) {
+export default function TimeSummary({
+  duration,
+  className = '',
+  startTime,
+  endTime,
+  futureText = '',
+  multiRow = false,
+}) {
   const intl = useIntl();
-  const duration = durationToString(intl, props.duration * 1000);
-  const startTime = timeStr(props.startTime);
-  const endTime = timeStr(props.endTime);
-  const futureText = props.futureText
-    ? props.futureText.charAt(0).toUpperCase() + props.futureText.slice(1)
+  const durationStr = durationToString(intl, duration * 1000);
+  const startTimeStr = timeStr(startTime);
+  const endTimeStr = timeStr(endTime);
+  const futureTextStr = futureText
+    ? futureText.charAt(0).toUpperCase() + futureText.slice(1)
     : '';
 
-  const departureTime = futureText ? `${futureText}, ${startTime}` : startTime;
+  const departureTime = futureTextStr
+    ? `${futureTextStr}, ${startTimeStr}`
+    : startTimeStr;
   return (
-    <span className={cx(props.className)}>
+    <span className={cx(className)}>
       <span className="sr-only">
         <FormattedMessage
           id="aria-itinerary-summary"
           values={{
-            duration,
-            inFuture: futureText,
+            duration: durationStr,
+            inFuture: futureTextStr,
             departureTime,
-            arrivalTime: endTime,
+            arrivalTime: endTimeStr,
           }}
         />{' '}
       </span>
       <Icon img="icon_clock" className="clock" />
       <span className="duration" aria-hidden>
-        {duration}
-        {props.futureText !== '' && props.multiRow && (
-          <span data-text={futureText} />
-        )}
+        {durationStr}
+        {futureText !== '' && multiRow && <span data-text={futureTextStr} />}
         <span
           data-text={
-            props.multiRow && props.futureText !== ''
-              ? `${startTime} - ${endTime}`
-              : `${futureText} ${startTime} - ${endTime}`
+            multiRow && futureText !== ''
+              ? `${startTimeStr} - ${endTimeStr}`
+              : `${futureTextStr} ${startTimeStr} - ${endTimeStr}`
           }
         />
       </span>
@@ -53,10 +60,4 @@ TimeSummary.propTypes = {
   endTime: PropTypes.string.isRequired,
   futureText: PropTypes.string,
   multiRow: PropTypes.bool,
-};
-
-TimeSummary.defaultProps = {
-  className: '',
-  futureText: '',
-  multiRow: false,
 };

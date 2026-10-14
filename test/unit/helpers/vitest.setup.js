@@ -23,7 +23,7 @@ Object.defineProperty(window.navigator, 'userAgent', {
 // the old Mocha suite's @hsl-fi/* stubbing hack has been dropped - see
 // docs/Tests.md) requires an `appElement`/`#app` DOM node to exist for its
 // aria-hidden accessibility handling, mirroring the real `<div id="app">`
-// root element `server/serve.js` renders the app into.
+// root element `server/middleware/shell.js` renders the app into.
 const appRoot = document.createElement('div');
 appRoot.id = 'app';
 document.body.appendChild(appRoot);
@@ -66,6 +66,10 @@ afterAll(() => {
 // make sure the local and session storage stays clear for each test
 afterEach(() => {
   cleanup();
+  // react-modal hides its app element (body in some tests) and only restores
+  // it after closeTimeoutMS; the files share one jsdom (isolate: false), so
+  // a leftover aria-hidden would make later getByRole queries fail.
+  document.body.removeAttribute('aria-hidden');
   // `restoreMocks: true` (vitest.config.js's `app` project) only restores
   // vi.fn()/vi.spyOn() mocks right before the *next* test starts, so a
   // test-scoped mock (e.g. one replacing the window.localStorage getter)

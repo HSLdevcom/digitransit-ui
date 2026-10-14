@@ -29,10 +29,6 @@ RouteTitle.propTypes = {
   breakpoint: PropTypes.string,
 };
 
-RouteTitle.defaultProps = {
-  breakpoint: undefined,
-};
-
 export default createFragmentContainer(withBreakpoint(RouteTitle), {
   route: graphql`
     fragment RouteTitle_route on Route {

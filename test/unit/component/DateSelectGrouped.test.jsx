@@ -1,6 +1,6 @@
 import React from 'react';
 import { DateTime, Settings } from 'luxon';
-import { renderWithProviders } from '../helpers/mock-providers';
+import { createTestIntl, renderWithProviders } from '../helpers/mock-providers';
 import DateSelectGrouped, {
   handleDateSelectChange,
 } from '../../../app/component/stop/DateSelectGrouped';
@@ -16,9 +16,7 @@ describe('<DateSelectGrouped />', () => {
   const dateFormat = 'yyyyLLdd';
   const today = DateTime.fromISO('2019-01-01', { zone: 'UTC' });
   const tomorrow = today.plus({ days: 1 });
-  const intl = {
-    formatMessage: ({ defaultMessage }) => defaultMessage,
-  };
+  const intl = createTestIntl();
 
   beforeEach(() => {
     Settings.now = () => today.toMillis();

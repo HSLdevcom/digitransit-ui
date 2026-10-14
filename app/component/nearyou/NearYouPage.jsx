@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { graphql, ReactRelayContext, QueryRenderer } from 'react-relay';
-import { matchShape, routerShape } from 'found';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
+import { useRouter } from 'found';
 import { relayShape, locationShape } from '../../../utils/client/shapes';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';
@@ -31,7 +31,6 @@ import { PREFIX_NEARYOU } from '../../../utils/shared/path';
 import NearYouContainer from './NearYouContainer';
 import SwipeableTabs, { setFocusables } from '../SwipeableTabs';
 import NearYouFavourites from './NearYouFavourites';
-import { mapLayerShape } from '../../store/MapLayerStore';
 import { getDefaultNetworks } from '../../../utils/shared/vehicleRentalUtils';
 import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import {
@@ -80,6 +79,12 @@ function tabHandler(e) {
   }
 }
 
+const PARKING_MODE_LAYERS = {
+  CARPARK: 'parkAndRide',
+  BIKEPARK: 'parkAndRideForBikes',
+  CITYBIKE: 'citybike',
+};
+
 // temp solution to force fav near you tab for hsl.fi
 // entering the tab should not be  possible if favourites do not exist
 function extendModes(modes, currentMode) {
@@ -94,17 +99,15 @@ function NearYouPage(
     breakpoint,
     relayEnvironment,
     position,
-    match,
     favourites,
     favouriteStopIds,
     favouriteStationIds,
     favouriteVehicleStationIds,
-    mapLayers,
     favouritesFetched = false,
-    router,
   },
   { executeAction },
 ) {
+  const { router, match } = useRouter();
   const { mode } = match.params;
   const config = useConfigContext();
   const currentTime = useCurrentTime();
@@ -122,8 +125,18 @@ function NearYouPage(
   const updateMapLayerOptions = () => {
     if (config.map.showLayerSelector) {
       const options = getMapLayerOptions({
-        lockedMapLayers: ['vehicles', 'citybike', 'stop'],
-        selectedMapLayers: ['vehicles', mode.toLowerCase()],
+        lockedMapLayers: [
+          'vehicles',
+          'citybike',
+          'stop',
+          'parkAndRide',
+          'parkAndRideForBikes',
+        ],
+        selectedMapLayers: [
+          PARKING_MODE_LAYERS[mode] ? null : 'vehicles',
+          mode.toLowerCase(),
+          ...(PARKING_MODE_LAYERS[mode] ? [PARKING_MODE_LAYERS[mode]] : []),
+        ],
       });
       setMapLayerOptions(options);
     }
@@ -422,7 +435,6 @@ function NearYouPage(
                       mode={tabMode}
                       isMobile={breakpoint !== 'large'}
                       refPoint={searchPosition}
-                      router={router}
                     />
                   )}
                   {tabMode === 'CITYBIKE' && <CityBikeInfo />}
@@ -518,10 +530,8 @@ function NearYouPage(
       favouriteVehicleStationIds={favouriteVehicleStationIds}
       relayEnvironment={relayEnvironment}
       position={searchPosition}
-      match={match}
       setCenterOfMap={setCenterOfMap}
       showWalkRoute={PH_READY.includes(phase)}
-      mapLayers={mapLayers}
       mapLayerOptions={mapLayerOptions}
       breakpoint={breakpoint}
       variables={getQueryVariables(mode)}
@@ -607,7 +617,6 @@ function NearYouPage(
       content={renderContent()}
       map={renderMap()}
       searchBox={mapSearch()}
-      match={match}
     />
   );
 
@@ -625,14 +634,11 @@ NearYouPage.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   relayEnvironment: relayShape.isRequired,
   position: locationShape.isRequired,
-  match: matchShape.isRequired,
   favouriteStopIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favouriteVehicleStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   favourites: PropTypes.array, // eslint-disable-line
-  mapLayers: mapLayerShape.isRequired,
   favouritesFetched: PropTypes.bool,
-  router: routerShape.isRequired,
 };
 
 const NearYouPageWithBreakpoint = withBreakpoint(props => (
@@ -645,13 +651,10 @@ const NearYouPageWithBreakpoint = withBreakpoint(props => (
 
 const PositioningWrapper = connectToStores(
   NearYouPageWithBreakpoint,
-  ['PositionStore', 'MapLayerStore'],
+  ['PositionStore'],
   (context, props) => ({
     ...props,
     position: context.getStore('PositionStore').getLocationState(),
-    mapLayers: context
-      .getStore('MapLayerStore')
-      .getMapLayers({ notThese: ['vehicles', 'scooter'] }),
   }),
 );
 

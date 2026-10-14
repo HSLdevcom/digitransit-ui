@@ -66,7 +66,6 @@ function NoItinerariesNote({
 
   const linkCompProps = {
     nationalServiceLink,
-    match,
   };
 
   return (

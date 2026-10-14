@@ -1,5 +1,8 @@
 import React from 'react';
-import { renderWithProviders } from '../../helpers/mock-providers';
+import {
+  createTestIntl,
+  renderWithProviders,
+} from '../../helpers/mock-providers';
 import ScheduleDropdown, {
   handleScheduleDropdownChange,
 } from '../../../../app/component/routepage/schedule/ScheduleDropdown';
@@ -93,16 +96,12 @@ describe('scheduleDropdownUtils', () => {
   });
 
   it('should create the accessibility message handlers', () => {
-    const intl = {
-      formatMessage: ({ id }) =>
-        id === 'route-page.pattern-chosen' ? 'Selected:' : id,
-    };
-    const messages = getAriaMessages(intl);
+    const messages = getAriaMessages(createTestIntl());
     expect(Object.keys(messages)).toEqual(
       expect.arrayContaining(['guidance', 'onChange', 'onFilter', 'onFocus']),
     );
-    expect(messages.onChange({ value: { label: 'Test Stop' } })).toContain(
-      'Selected:',
+    expect(messages.onChange({ value: { label: 'Test Stop' } })).toBe(
+      'Selected Test Stop',
     );
   });
 });

@@ -110,8 +110,11 @@ export default function TransitLeg({
   const isRouteConstantOperation =
     config.constantOperationRoutes?.[leg.route.gtfsId];
 
+  const isCallAgency = mode === 'call';
+
   const displayAlternativeLegs =
     config.showAlternativeLegs &&
+    !isCallAgency &&
     filterNextLegs(leg).length > 0 &&
     !isRouteConstantOperation;
 
@@ -432,7 +435,6 @@ export default function TransitLeg({
   );
 
   const routeNotifications = [];
-  const isCallAgency = mode === 'call';
   const isFlexOrigin = isCallAgency && index === 0;
   const [flexOriginAddress, flexOriginPlace] = splitStringToAddressAndPlace(
     validatedFromLegName || '',
@@ -539,53 +541,52 @@ export default function TransitLeg({
             })}
           >
             <div className="itinerary-leg-row">
-              <Link
-                aria-label={validatedFromLegName?.toLowerCase()}
-                onClick={e => {
-                  e.stopPropagation();
-                  addAnalyticsEvent({
-                    category: 'Itinerary',
-                    action: 'OpenRouteFromItinerary',
-                    name: mode,
-                  });
-                }}
-                to={stopPagePath(false, leg.from.stop.gtfsId)}
-              >
-                {isFlexOrigin ? (
-                  <div className="address-container">
-                    <div className="address">
-                      {flexOriginAddress}
-                      {leg.from.viaLocationType && (
-                        <Icon
-                          img="icon_mapMarker"
-                          className="itinerary-mapmarker-icon"
-                        />
-                      )}
-                      <Icon
-                        img="icon_arrow-collapse--right"
-                        className="itinerary-arrow-icon"
-                        color={config.colors.primary}
-                      />
+              {isCallAgency ? (
+                <span>
+                  {isFlexOrigin ? (
+                    <div className="address-container">
+                      <div className="address">
+                        {flexOriginAddress}
+                        {leg.from.viaLocationType && (
+                          <Icon
+                            img="icon_mapMarker"
+                            className="itinerary-mapmarker-icon"
+                          />
+                        )}
+                      </div>
+                      <div className="place">{flexOriginPlace}</div>
                     </div>
-                    <div className="place">{flexOriginPlace}</div>
-                  </div>
-                ) : (
-                  <>
-                    {validatedFromLegName}
-                    {leg.from.viaLocationType && (
-                      <Icon
-                        img="icon_mapMarker"
-                        className="itinerary-mapmarker-icon"
-                      />
-                    )}
+                  ) : (
+                    validatedFromLegName
+                  )}
+                </span>
+              ) : (
+                <Link
+                  aria-label={validatedFromLegName?.toLowerCase()}
+                  onClick={e => {
+                    e.stopPropagation();
+                    addAnalyticsEvent({
+                      category: 'Itinerary',
+                      action: 'OpenRouteFromItinerary',
+                      name: mode,
+                    });
+                  }}
+                  to={stopPagePath(false, leg.from.stop.gtfsId)}
+                >
+                  {validatedFromLegName}
+                  {leg.from.viaLocationType && (
                     <Icon
-                      img="icon_arrow-collapse--right"
-                      className="itinerary-arrow-icon"
-                      color={config.colors.primary}
+                      img="icon_mapMarker"
+                      className="itinerary-mapmarker-icon"
                     />
-                  </>
-                )}
-              </Link>
+                  )}
+                  <Icon
+                    img="icon_arrow-collapse--right"
+                    className="itinerary-arrow-icon"
+                    color={config.colors.primary}
+                  />
+                </Link>
+              )}
 
               <ServiceAlertIcon
                 className="inline-icon"
@@ -630,7 +631,7 @@ export default function TransitLeg({
             !isRouteConstantOperation &&
             leg.nextLegs.map(l => (
               <LegInfo
-                key={l.route.shortName + legTime(l.start)}
+                key={`${l.trip.gtfsId}-${legTime(l.start)}`}
                 leg={l}
                 hasNoShortName={hasNoShortName}
                 headsign={l.trip.tripHeadsign}

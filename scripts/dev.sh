@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
-# Local development runner: runs Relay, the SSR dev server (nodemon),
+# Local development runner: runs Relay, the Express dev server (node --watch),
 # webpack-dev-server and the Digitransit workspace watchers in parallel
 # until interrupted.
 #
 # `set -m` gives each backgrounded job its own process group. This allows
-# cleanup to terminate the whole process tree for tools such as nodemon and
-# webpack-dev-server instead of only killing the direct yarn process.
+# cleanup to terminate the whole process tree for tools such as `node --watch`
+# (which runs the server in a child process) and webpack-dev-server instead of
+# only killing the direct process.
 #
 # If any one job exits early (crash), we want to notice and clean up the
 # rest rather than leaving a partially-broken dev session running. That
@@ -19,7 +20,7 @@ cleanup() {
   echo "Stopping development processes..."
 
   for pid in "${pids[@]}"; do
-    kill -- "-$pid" 2>/dev/null || true
+    kill -INT -- "-$pid" 2>/dev/null || true
   done
 
   wait 2>/dev/null || true
@@ -58,7 +59,6 @@ export API_SUBSCRIPTION_QUERY_PARAMETER_NAME="${API_SUBSCRIPTION_QUERY_PARAMETER
 export API_SUBSCRIPTION_HEADER_NAME="${API_SUBSCRIPTION_HEADER_NAME:-digitransit-subscription-key}"
 export API_SUBSCRIPTION_TOKEN="${API_SUBSCRIPTION_TOKEN:-}"
 
-export API_TYPE="${API_TYPE:-development}"
 export RUN_ENV="${RUN_ENV:-development}"
 export NODE_ENV="${NODE_ENV:-development}"
 
@@ -68,16 +68,23 @@ if [ -z "$API_SUBSCRIPTION_TOKEN" ]; then
 fi
 
 case "$API_TYPE" in
+  "")
+    export API_URL="${API_URL:-https://dev-api.digitransit.fi}"
+    echo "Using API_URL=$API_URL"
+    ;;
   development)
     # This is the default in config.default.js
-    echo "Using API_URL=https://dev-api.digitransit.fi"
+    export API_URL="https://dev-api.digitransit.fi"
+    echo "Using API_URL=$API_URL"
     ;;
   production)
     export API_URL="https://api.digitransit.fi"
     echo "Using API_URL=$API_URL"
     ;;
   local)
+    export API_URL="https://dev-api.digitransit.fi"
     export OTP_URL="http://localhost:9080/otp/"
+    echo "Using API_URL=$API_URL"
     echo "Setting OTP_URL=$OTP_URL"
     ;;
   *)
@@ -92,11 +99,13 @@ trap cleanup EXIT INT TERM
 
 yarn static
 
+yarn sprites
+
 # Build the digitransit-* workspace packages once, synchronously, before
 # starting webpack-dev-server and the workspace watchers below. On a fresh
 # clone (or after `lib/` is removed/out of date) the packages' `lib/*.cjs`
 # outputs don't exist yet; webpack-dev-server's persistent filesystem cache
-# (see webpack.config.babel.js) doesn't reliably invalidate when those
+# (see webpack.config.js) doesn't reliably invalidate when those
 # outputs later appear via workspace-packages-watch's rollup watch, so it
 # can permanently cache a broken/missing module resolution. Building here
 # first ensures webpack-dev-server always sees valid output on its first
@@ -113,17 +122,20 @@ pids+=("$!")
 # queries is edited during a dev session. Its "relay-watch" script
 # mkdir -p's lib/__generated__ before starting relay-compiler --watch, so
 # this also works on a fresh clone where lib/ doesn't exist yet.
-(cd digitransit-search-util/packages/digitransit-search-util-query-utils && yarn relay-watch) &
+yarn workspace @digitransit-search-util/digitransit-search-util-query-utils relay-watch &
 pids+=("$!")
 
-yarn nodemon \
-  -e js,css,scss,html \
-  --watch ./server/ \
-  --watch ./app/ \
-  server/server.js &
+# Node's built-in watch mode restarts the server whenever any module in its
+# loaded import graph changes (server/**, utils/{shared,server}/**, region
+# configs). --watch-preserve-output keeps Node from clearing the terminal on
+# every restart, which would wipe the other processes' interleaved output.
+node --watch --watch-preserve-output server/server.js &
 pids+=("$!")
 
 yarn webpack-dev-server &
+pids+=("$!")
+
+yarn sprites --watch &
 pids+=("$!")
 
 yarn workspace-packages-watch &

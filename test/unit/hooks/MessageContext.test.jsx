@@ -1,8 +1,7 @@
 import fetchMock from 'fetch-mock';
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { render } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { render, act } from '@testing-library/react';
 import { ConfigProvider } from '../../../app/client/ConfigContext';
 import {
   MessageProvider,

@@ -3,11 +3,7 @@ import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-import {
-  alertShape,
-  configShape,
-  vehicleShape,
-} from '../../../utils/client/shapes';
+import { alertShape, vehicleShape } from '../../../utils/client/shapes';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
 import AddressRow from '../AddressRow';
@@ -21,24 +17,31 @@ import { getZoneLabel } from '../../../utils/client/legUtils';
 import getVehicleState from '../../../utils/client/vehicleStateUtils';
 import { ensureColorAccessibleOnWhite } from '../../../utils/shared/colorUtils';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { useConfigContext } from '../../client/ConfigContext';
 
-const TripRouteStop = (props, { config }) => {
-  const {
-    className,
-    color,
-    currentTime,
-    mode,
-    stop,
-    nextStop,
-    stopPassed,
-    stoptime,
-    shortName,
-    setHumanScrolling,
-    keepTracking,
-    first,
-    last,
-    prevStop,
-  } = props;
+const EMPTY_VEHICLES = [];
+
+const TripRouteStop = ({
+  className,
+  color,
+  currentTime,
+  mode,
+  stop,
+  nextStop,
+  stopPassed,
+  stoptime,
+  shortName,
+  setHumanScrolling,
+  keepTracking = false,
+  first = false,
+  last = false,
+  prevStop,
+  vehicles = EMPTY_VEHICLES,
+  pattern,
+  route,
+  selectedVehicle,
+}) => {
+  const config = useConfigContext();
 
   const getVehiclePatternLink = vehicle => {
     const maxDistance = vehicle.mode === 'rail' ? 100 : 50;
@@ -72,10 +75,10 @@ const TripRouteStop = (props, { config }) => {
       nextStopName: vehicleState === 'arriving' ? stop?.name : nextStop?.name,
       key: vehicle.id,
       mode,
-      pattern: props.pattern,
-      route: props.route,
+      pattern,
+      route,
       vehicleNumber: vehicleWithParsedShortname.shortName || shortName,
-      selected: props.selectedVehicle?.id === vehicle.id,
+      selected: selectedVehicle?.id === vehicle.id,
       color: !stopPassed ? vehicle.color : '',
       setHumanScrolling,
       keepTracking,
@@ -100,12 +103,9 @@ const TripRouteStop = (props, { config }) => {
       </div>
     );
   };
-  const vehicles =
-    props.vehicles &&
-    props.vehicles.map(
-      vehicle =>
-        vehicle.route === props.route && getVehiclePatternLink(vehicle),
-    );
+  const vehicleLinks = vehicles.map(
+    vehicle => vehicle.route === route && getVehiclePatternLink(vehicle),
+  );
   return (
     <div
       className={cx(
@@ -114,7 +114,7 @@ const TripRouteStop = (props, { config }) => {
         className,
       )}
     >
-      {vehicles}
+      {vehicleLinks}
       <div className={cx('route-stop-now_circleline', mode)}>
         <svg
           width="16"
@@ -219,23 +219,6 @@ TripRouteStop.propTypes = {
   keepTracking: PropTypes.bool,
   first: PropTypes.bool,
   last: PropTypes.bool,
-};
-
-TripRouteStop.defaultProps = {
-  keepTracking: false,
-  className: undefined,
-  color: null,
-  first: false,
-  last: false,
-  vehicles: [],
-  nextStop: null,
-  prevStop: null,
-  shortName: undefined,
-  selectedVehicle: undefined,
-};
-
-TripRouteStop.contextTypes = {
-  config: configShape.isRequired,
 };
 
 TripRouteStop.displayName = 'TripRouteStop';

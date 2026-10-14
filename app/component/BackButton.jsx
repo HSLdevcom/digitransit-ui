@@ -1,28 +1,25 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import { routerShape, matchShape } from 'found';
+import { useRouter } from 'found';
 import Icon from './Icon';
 import { useConfigContext } from '../client/ConfigContext';
 
-export default function BackButton(props, context) {
+export default function BackButton({ title, fallback }) {
   const config = useConfigContext();
   const intl = useIntl();
+  const { router, match } = useRouter();
 
   const goBack = url => {
-    const { router, match } = context;
     const { location } = match;
 
     if (
       location.index > 0 ||
       // eslint-disable-next-line no-restricted-globals
-      (history.length > 1 && props.fallback === 'back')
+      (history.length > 1 && fallback === 'back')
     ) {
       router.go(-1);
-    } else if (
-      props.fallback === 'pop' &&
-      location.pathname.split('/').length > 1
-    ) {
+    } else if (fallback === 'pop' && location.pathname.split('/').length > 1) {
       const parts = location.pathname.split('/');
       parts.pop();
       const newLoc = {
@@ -48,7 +45,7 @@ export default function BackButton(props, context) {
   }
   return (
     <div className="back-button">
-      {props.title && <h1>{props.title}</h1>}
+      {title && <h1>{title}</h1>}
       <button
         type="button"
         className="icon-holder noborder cursor-pointer"
@@ -66,6 +63,4 @@ export default function BackButton(props, context) {
   );
 }
 
-BackButton.contextTypes = { router: routerShape, match: matchShape };
 BackButton.propTypes = { title: PropTypes.node, fallback: PropTypes.string };
-BackButton.defaultProps = { title: undefined, fallback: undefined };

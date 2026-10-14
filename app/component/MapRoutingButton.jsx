@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { matchShape, routerShape } from 'found';
 import Modal from '@hsl-fi/modal';
-import { stopShape, configShape } from '../../utils/client/shapes';
+import { useRouter } from 'found';
+import { stopShape } from '../../utils/client/shapes';
 import Icon from './Icon';
 import { locationToUri, locationToOTP } from '../../utils/shared/otpStrings';
 import {
@@ -11,9 +10,12 @@ import {
   getItineraryPagePath,
   PREFIX_ITINERARY_SUMMARY,
 } from '../../utils/shared/path';
+import { useConfigContext } from '../client/ConfigContext';
 
-export default function MapRoutingButton({ stop }, { router, match, config }) {
+export default function MapRoutingButton({ stop }) {
   const intl = useIntl();
+  const config = useConfigContext();
+  const { router, match } = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [buttonText, setButtonText] = useState(null);
   useEffect(() => {
@@ -150,10 +152,3 @@ export default function MapRoutingButton({ stop }, { router, match, config }) {
 }
 
 MapRoutingButton.propTypes = { stop: stopShape.isRequired };
-
-MapRoutingButton.contextTypes = {
-  config: configShape.isRequired,
-  executeAction: PropTypes.func.isRequired,
-  router: routerShape.isRequired,
-  match: matchShape.isRequired,
-};

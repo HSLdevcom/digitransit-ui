@@ -34,7 +34,7 @@ export default configMerger(walttiConfig, {
       site: '@LSL_fi',
     },
     image: {
-      url: 'img/social-share-lahti.png',
+      url: 'assets/lahti/social-share.png',
       width: 751,
       height: 301,
     },
@@ -42,7 +42,7 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/client/images/lahti/lahti-favicon.png',
+  favicon: './app/assets/images/lahti/lahti-favicon.png',
 
   // Navbar logo
   logo: 'lahti/lahti-logo.png',

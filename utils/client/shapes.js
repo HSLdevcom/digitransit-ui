@@ -338,6 +338,37 @@ export const locationShape = PropTypes.shape({
   name: PropTypes.string,
 });
 
+// found (as of 1.x) no longer exports routerShape/matchShape/matcherShape, so these are
+// redefined locally, matching found's own (pre-1.x) shape definitions, for PropTypes validation
+// of found's match/router objects.
+export const matchShape = PropTypes.shape({
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    query: PropTypes.object.isRequired,
+  }).isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  params: PropTypes.object.isRequired,
+});
+
+const matcherShape = PropTypes.shape({
+  match: PropTypes.func.isRequired,
+  getRoutes: PropTypes.func.isRequired,
+  isActive: PropTypes.func.isRequired,
+  format: PropTypes.func.isRequired,
+});
+
+export const routerShape = PropTypes.shape({
+  push: PropTypes.func.isRequired,
+  replace: PropTypes.func.isRequired,
+  go: PropTypes.func.isRequired,
+  createHref: PropTypes.func.isRequired,
+  createLocation: PropTypes.func.isRequired,
+  isActive: PropTypes.func.isRequired,
+  matcher: matcherShape.isRequired,
+  addNavigationListener: PropTypes.func.isRequired,
+});
+
 const StatusPropType = PropTypes.oneOf([
   'no-location',
   'searching-location',
@@ -379,6 +410,31 @@ const MapLayerOptionStopOrTerminalShape = PropTypes.shape({
   subway: PropTypes.shape(MapLayerOptionShape),
   ferry: PropTypes.shape(MapLayerOptionShape),
   funicular: PropTypes.shape(MapLayerOptionShape),
+});
+
+const mapLayerStopsShape = PropTypes.shape({
+  bus: PropTypes.bool,
+  ferry: PropTypes.bool,
+  rail: PropTypes.bool,
+  subway: PropTypes.bool,
+  tram: PropTypes.bool,
+  funicular: PropTypes.bool,
+  airplane: PropTypes.bool,
+});
+
+export const mapLayerShape = PropTypes.shape({
+  citybike: PropTypes.bool,
+  citybikeOverrideMinZoom: PropTypes.bool,
+  parkAndRide: PropTypes.bool,
+  parkAndRideForBikes: PropTypes.bool,
+  stop: mapLayerStopsShape,
+  terminal: mapLayerStopsShape,
+  vehicles: PropTypes.bool,
+  geoJson: PropTypes.objectOf(PropTypes.bool),
+  scooter: PropTypes.bool,
+  areaStop: PropTypes.shape({
+    routeGtfsId: PropTypes.string,
+  }),
 });
 
 export const mapLayerOptionsShape = PropTypes.shape({

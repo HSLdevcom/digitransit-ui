@@ -11,6 +11,8 @@ import AllModesModal from './helpers/AllModesModal';
 import styles from './helpers/styles.scss';
 import i18n from './helpers/i18n';
 
+const DEFAULT_FONT_WEIGHTS = { medium: 500 };
+
 const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
   const enter = [32, 'Enter'];
@@ -23,7 +25,7 @@ const isKeyboardSelectionEvent = event => {
   return true;
 };
 
-function SeparatorLine({ usePaddingBottom20 }) {
+function SeparatorLine({ usePaddingBottom20 = false }) {
   const className = usePaddingBottom20
     ? styles['separator-div2']
     : styles['separator-div'];
@@ -36,10 +38,6 @@ function SeparatorLine({ usePaddingBottom20 }) {
 
 SeparatorLine.propTypes = {
   usePaddingBottom20: PropTypes.bool,
-};
-
-SeparatorLine.defaultProps = {
-  usePaddingBottom20: false,
 };
 
 /**
@@ -94,20 +92,20 @@ const MAX_VISIBLE_MODES = 7;
 
 function NearStopsAndRoutes({
   appElement,
-  horizontal,
+  horizontal = true,
   modeArray,
-  language,
+  language = 'fi',
   title,
   alertsContext,
   origin,
   onClick,
-  modeSet,
-  colors,
-  fontWeights,
-  isMobile,
+  modeSet = 'hsl',
+  colors = defaultColors,
+  fontWeights = DEFAULT_FONT_WEIGHTS,
+  isMobile = false,
   urlPrefix,
-  omitLanguageUrl,
-  loading,
+  omitLanguageUrl = false,
+  loading = true,
 }) {
   const [modesWithAlerts, setModesWithAlerts] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -301,20 +299,6 @@ NearStopsAndRoutes.propTypes = {
   isMobile: PropTypes.bool,
   urlPrefix: PropTypes.string.isRequired,
   omitLanguageUrl: PropTypes.bool,
-};
-
-NearStopsAndRoutes.defaultProps = {
-  loading: true,
-  horizontal: true,
-  language: 'fi',
-  origin: undefined,
-  alertsContext: undefined,
-  title: undefined,
-  colors: defaultColors,
-  modeSet: 'hsl',
-  fontWeights: { medium: 500 },
-  isMobile: false,
-  omitLanguageUrl: false,
 };
 
 /**

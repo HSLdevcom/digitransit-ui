@@ -2,15 +2,17 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
+const noop = () => {};
+
 /**
  * Handle styling for when element is scrolled
  */
 export default function ScrollableWrapper({
-  scrollable,
+  scrollable = true,
   children,
-  className,
-  id,
-  onScroll,
+  className = '',
+  id = '',
+  onScroll = noop,
 }) {
   const [scrolledState, changeScroll] = useState(false);
   function handleScroll(e) {
@@ -55,12 +57,4 @@ ScrollableWrapper.propTypes = {
   className: PropTypes.string,
   id: PropTypes.string,
   onScroll: PropTypes.func,
-};
-
-ScrollableWrapper.defaultProps = {
-  scrollable: true,
-  children: null,
-  className: '',
-  id: '',
-  onScroll: () => {},
 };

@@ -65,9 +65,4 @@ Availability.propTypes = {
   showStatusBar: PropTypes.bool.isRequired,
 };
 
-Availability.defaultProps = {
-  fewAvailableCount: undefined,
-  fewerAvailableCount: undefined,
-};
-
 export default Availability;

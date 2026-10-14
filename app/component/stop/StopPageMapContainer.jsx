@@ -19,10 +19,6 @@ StopPageMapContainer.propTypes = {
   }),
 };
 
-StopPageMapContainer.defaultProps = {
-  stop: undefined,
-};
-
 const containerComponent = createFragmentContainer(StopPageMapContainer, {
   stop: graphql`
     fragment StopPageMapContainer_stop on Stop {
