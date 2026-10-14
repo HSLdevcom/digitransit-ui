@@ -93,9 +93,6 @@ module.exports = {
     browser: true,
   },
   plugins: ['react', 'compat', 'prettier', 'jsx-a11y'],
-  settings: {
-    polyfills: ['fetch', 'promises'],
-  },
   overrides: [
     {
       // These files/directories are loaded by Node directly as native ESM
