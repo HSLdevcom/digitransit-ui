@@ -11916,6 +11916,7 @@ __metadata:
     react-i18next: "npm:^12.3.1"
     react-intl: "npm:3.12.1"
     react-leaflet: "npm:2.7.0"
+    react-modal: "npm:^3.11.2"
     react-relay: "npm:16.2.0"
     react-relay-network-modern: "npm:6.2.2"
     react-select: "npm:4.3.1"
