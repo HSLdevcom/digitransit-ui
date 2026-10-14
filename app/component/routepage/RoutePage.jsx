@@ -141,15 +141,14 @@ function RoutePage({ route, breakpoint, error = undefined }) {
           </div>
           {!tripId && (
             <div className="route-header-actions">
-              {config.showNewRoutePage &&
-                matchingNotification?.closeButtonLabel?.[intl.locale] && (
-                  <>
-                    <RouteNotificationButton
-                      notification={matchingNotification}
-                    />
-                    <span className="route-header-divider" aria-hidden="true" />
-                  </>
-                )}
+              {matchingNotification?.closeButtonLabel?.[intl.locale] && (
+                <>
+                  <RouteNotificationButton
+                    notification={matchingNotification}
+                  />
+                  <span className="route-header-divider" aria-hidden="true" />
+                </>
+              )}
               <FavouriteRouteContainer
                 className="route-page-header"
                 gtfsId={route.gtfsId}

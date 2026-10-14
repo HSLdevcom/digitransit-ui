@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactModal from '@hsl-fi/modal/node_modules/react-modal';
+import ReactModal from 'react-modal';
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../../../helpers/mock-providers';
 import { createTestConfig } from '../../../../helpers/mock-context';
