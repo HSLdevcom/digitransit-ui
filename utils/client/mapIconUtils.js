@@ -221,8 +221,7 @@ function getImageFromSpriteSync(icon, width, height, fill) {
   const vb = symbol.viewBox.baseVal;
   svg.setAttribute('viewBox', `${vb.x} ${vb.y} ${vb.width} ${vb.height}`);
 
-  // TODO: Simplify after https://github.com/Financial-Times/polyfill-service/pull/722 is merged
-  Array.prototype.forEach.call(symbol.childNodes, node => {
+  symbol.childNodes.forEach(node => {
     const child = node.cloneNode(true);
     if (node.style && !child.attributes.fill) {
       child.style.fill = fill || window.getComputedStyle(node).color;
