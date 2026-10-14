@@ -4,7 +4,7 @@ Digitransit-ui is a React based web application. The following bullet points des
  - Front-end is written using modern JavaScript (ES2015)
  - Use Babel to transpile it into ES5
  - We could provide a different bundle for modern browsers using widely-supported ES6 syntax
- - Use polyfills for older browsers by polyfill-service
+ - Use polyfills for older browsers by @mrhenry/polyfill-library
  - React + JSX
  - Airbnb styleguide for ES6 and React
 

@@ -389,7 +389,7 @@ IE version, matching the `< 55`/`< 11` exclusion style — IE11 was the
 last IE release, so excluding only the exact version left older ones
 technically permitted.
 
-Separately, `server/html/polyfills.js` uses `polyfill-library` to serve
+Separately, `server/html/polyfills.js` uses `@mrhenry/polyfill-library` to serve
 user-agent-specific JS polyfills at runtime — intentional, documented
 architecture (see `docs/Architecture.md`), not controlled by this file,
 but relevant context for "old browser support" in this codebase overall.
