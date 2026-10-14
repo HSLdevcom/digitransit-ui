@@ -140,8 +140,6 @@ export default {
                 // single source of truth for supported browsers across
                 // both this config and other tooling (postcss/autoprefixer).
                 modules: false,
-                useBuiltIns: 'usage',
-                corejs: { version: '3.50' },
               },
             ],
             [
