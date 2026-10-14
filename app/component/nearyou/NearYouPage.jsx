@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unstable-nested-components */
-import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { graphql, QueryRenderer, useRelayEnvironment } from 'react-relay';
@@ -96,6 +95,9 @@ export default function NearYouPage() {
   const config = useConfigContext();
   const currentTime = useCurrentTime();
   const breakpoint = useBreakpoint();
+  const position = usePosition();
+  const { checkPositioningPermission, startLocationWatch } =
+    usePositionActions();
   const relayEnvironment = useRelayEnvironment();
   const favourites = useFavourites();
   const favouriteStatus = useFavouriteStatus();
@@ -122,10 +124,6 @@ export default function NearYouPage() {
   const [mapLayerOptions, setMapLayerOptions] = useState({});
   // eslint-disable-next-line
   const [resultsLoaded, setResultsLoaded] = useState(0);
-
-  const position = usePosition();
-  const { checkPositioningPermission, startLocationWatch } =
-    usePositionActions();
 
   const updateMapLayerOptions = () => {
     if (config.map.showLayerSelector) {
