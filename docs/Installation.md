@@ -133,5 +133,7 @@ If you want to specify different URL (not just base URL) for individual services
 - `yarn run build`
 - `GEOCODING_BASE_URL=https://api.digitransit.fi/geocoding/v1 OTP_URL=https://api.digitransit.fi/routing/v2/finland/ yarn run start`
 
+These are API endpoint base URLs rather than web pages, and require an API key. See the [Digitransit API documentation](https://digitransit.fi/en/developers/apis/).
+
 ### Configuring static message URL with env variable
 - `STATIC_MESSAGE_URL=https://dev-yleisviesti.digitransit.fi yarn run start`

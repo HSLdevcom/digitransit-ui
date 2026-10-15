@@ -10,6 +10,7 @@ import {
   configShape,
 } from '../../../utils/client/shapes';
 import { ConfigProvider } from '../../../app/client/ConfigContext';
+import { MapLayerProvider } from '../../../app/hooks/MapLayerContext';
 import { TimeProvider, TimeContext } from '../../../app/hooks/TimeContext';
 import translations from '../../../app/translations/en';
 import { mockContext } from './mock-context';
@@ -118,13 +119,15 @@ export default function TestProviders({
   return (
     <IntlProvider locale={locale} messages={messages}>
       <ConfigProvider value={config || mockContext.config}>
-        {currentTime !== undefined ? (
-          <TimeContext.Provider value={currentTime}>
-            {inner}
-          </TimeContext.Provider>
-        ) : (
-          <TimeProvider>{inner}</TimeProvider>
-        )}
+        <MapLayerProvider>
+          {currentTime !== undefined ? (
+            <TimeContext.Provider value={currentTime}>
+              {inner}
+            </TimeContext.Provider>
+          ) : (
+            <TimeProvider>{inner}</TimeProvider>
+          )}
+        </MapLayerProvider>
       </ConfigProvider>
     </IntlProvider>
   );

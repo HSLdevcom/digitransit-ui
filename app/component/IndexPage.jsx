@@ -46,7 +46,11 @@ import {
   countLocations,
   STATUS_FETCHING_OR_UPDATING,
 } from '../data/FavouriteData';
-import { useFavourites, useFavouriteStatus } from '../hooks/FavouriteContext';
+import {
+  useFavourites,
+  useFavouriteStatus,
+  useHasOtpLocationFavourites,
+} from '../hooks/FavouriteContext';
 import { useConfigContext } from '../client/ConfigContext';
 import { useCurrentTime } from '../hooks/TimeContext';
 import {
@@ -68,6 +72,7 @@ function IndexPage({ fromMap, ...props }, context) {
   const currentTime = useCurrentTime();
   const favourites = useFavourites();
   const favouriteStatus = useFavouriteStatus();
+  const hasOtpLocationFavourites = useHasOtpLocationFavourites();
   const { setOrigin, setDestination } = useItineraryLocationActions();
   const { colors, fontWeights, language, iconModeSet } = config;
   const { executeAction } = context;
@@ -229,7 +234,7 @@ function IndexPage({ fromMap, ...props }, context) {
   };
 
   const renderNearStops = () => {
-    const nearYouModes = getNearYouModes(config, favourites);
+    const nearYouModes = getNearYouModes(config, hasOtpLocationFavourites);
     // If nearYouModes is configured, display those. Otherwise, display all configured transport modes
     const modeArray =
       nearYouModes.length > 0
@@ -254,7 +259,6 @@ function IndexPage({ fromMap, ...props }, context) {
 
     return config.showNearYouButtons ? (
       <CtrlPanel.NearStopsAndRoutes
-        appElement="#app"
         modeArray={modeArray}
         loading={favouriteStatus === STATUS_FETCHING_OR_UPDATING}
         modeSet={iconModeSet}
@@ -268,7 +272,6 @@ function IndexPage({ fromMap, ...props }, context) {
         colors={colors}
         fontWeights={fontWeights}
         {...directionProps}
-        isMobile={props.breakpoint !== 'large'}
       />
     ) : (
       <div className="stops-near-you-text">

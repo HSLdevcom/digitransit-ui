@@ -55,6 +55,7 @@ export default {
 
   // Navbar logo
   logo: 'matka/matka-logo.svg',
+  secondaryLogo: 'matka/matka-logo-secondary.svg',
 
   favicon: './app/assets/images/matka/matka-favicon.svg',
 
@@ -442,15 +443,8 @@ export default {
   ],
   navigation: true,
 
-  // TODO: flex + transit disabled for now, proper configuration coming in the future
+  // TODO: flex call agency buses disabled for now, proper configuration coming in the future
   /* flex: {
-    external: {
-      enabled: true,
-      transit: true,
-      direct: true,
-      agencies: ['02Taksi:02_taksi'],
-      showBothDirectAndTransitResults: true,
-    },
     internal: {
       enabled: true,
       transit: true,
@@ -459,14 +453,12 @@ export default {
     },
     infoLanguage: 'fi',
   }, */
-  flex: {
-    external: {
-      enabled: true,
-      transit: false,
-      direct: true,
-      agencies: ['02Taksi:02_taksi'],
-    },
-    infoLanguage: 'fi',
+
+  taxiZone: {
+    enabled: true,
+    transit: true,
+    direct: true,
+    showBothDirectAndTransitResults: true,
   },
 
   devAnalytics: true,

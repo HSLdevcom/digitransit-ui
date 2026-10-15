@@ -20,6 +20,7 @@ import { useConfigContext } from '../client/ConfigContext';
 const FavouriteContext = createContext({
   favourites: [],
   favouriteStatus: null,
+  hasOtpLocationFavourites: false,
   actions: {
     saveFavourite: () => {},
     updateFavourites: () => {},
@@ -34,6 +35,16 @@ export const useFavourites = () => useContext(FavouriteContext).favourites;
 
 export const useFavouriteStatus = () =>
   useContext(FavouriteContext).favouriteStatus;
+
+/**
+ * Whether any current stop/station/bikeStation favourite is available
+ * through OTP, with bike stations restricted to active
+ * citybike networks (including season eligibility).
+ * Only meaningful once useFavouriteStatus() is no longer
+ * STATUS_FETCHING_OR_UPDATING.
+ */
+export const useHasOtpLocationFavourites = () =>
+  useContext(FavouriteContext).hasOtpLocationFavourites;
 
 export const useFavouriteActions = () => useContext(FavouriteContext).actions;
 
@@ -59,6 +70,9 @@ export function FavouriteProvider({ children = null }) {
   const [favouriteStatus, setFavouriteStatus] = useState(
     favouriteStore.getStatus(),
   );
+  const [hasOtpLocationFavourites, setHasOtpLocationFavourites] = useState(
+    favouriteStore.getHasOtpLocationFavourites(),
+  );
 
   // config is stable for the app's lifetime (set once at app init in
   // client.js), so it's intentionally omitted from dependency arrays below.
@@ -68,6 +82,7 @@ export function FavouriteProvider({ children = null }) {
     const onChange = () => {
       setFavourites(favouriteStore.getFavourites());
       setFavouriteStatus(favouriteStore.getStatus());
+      setHasOtpLocationFavourites(favouriteStore.getHasOtpLocationFavourites());
     };
     onChange();
     favouriteStore.addChangeListener(onChange);
@@ -111,8 +126,8 @@ export function FavouriteProvider({ children = null }) {
   );
 
   const value = useMemo(
-    () => ({ favourites, favouriteStatus, actions }),
-    [favourites, favouriteStatus, actions],
+    () => ({ favourites, favouriteStatus, hasOtpLocationFavourites, actions }),
+    [favourites, favouriteStatus, hasOtpLocationFavourites, actions],
   );
 
   return (

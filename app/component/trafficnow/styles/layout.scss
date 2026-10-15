@@ -36,6 +36,10 @@
     position: relative;
   }
 
+  &__content--mobile {
+    flex: 1;
+  }
+
   &__header {
     display: flex;
     flex-direction: column;
@@ -121,6 +125,8 @@
       }
 
       &--mobile {
+        min-height: calc(100vh - 320px);
+
         .disruptions__scroll {
           margin-top: var(--space-l);
           padding: 0 var(--space-m);

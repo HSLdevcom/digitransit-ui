@@ -56,6 +56,7 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'varely/seutuplus-logo-white.svg',
+  secondaryLogo: 'varely/seutuplus-logo.svg',
   favicon: './app/assets/images/varely/varely-favicon.png',
 
   transportModes: {
@@ -151,17 +152,6 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-
-  // TODO: flex disabled for now, proper configuration coming in the future
-  /* flex: {
-    external: {
-      enabled: true,
-      transit: true,
-      direct: false,
-      agencies: ['02Taksi:02_taksi'],
-    },
-    infoLanguage: 'fi',
-  }, */
 
   sourceForAlertsAndDisruptions: {
     VARELY: {

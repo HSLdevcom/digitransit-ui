@@ -105,6 +105,7 @@ export default {
 
   // Navbar logo
   logo: 'hsl/reittiopas-logo.svg',
+  secondaryLogo: 'hsl/reittiopas-logo.svg',
 
   useCookiesPrompt: true,
   copyrightText: '© Copyright HSL',
@@ -756,7 +757,7 @@ export default {
       direct: false,
       agencies: ['Uber:agency-mog2skf5-1'],
     },
-    // TODO add when enabling flex call agencies
+    // TODO: flex call agency buses disabled for now, proper configuration coming in the future
     /* internal: {
       enabled: true,
       transit: true,

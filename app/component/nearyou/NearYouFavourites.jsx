@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
-import { FormattedMessage } from 'react-intl';
 import { locationShape, relayShape } from '../../../utils/client/shapes';
 import NearYouFavouritesContainer from './NearYouFavouritesContainer';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import Loading from '../Loading';
-import getAssetUrl from '../../assets/assetUrl';
+import NoFavourites from './NoFavourites';
 
 function NearYouFavourites({
   stopIds,
@@ -20,28 +19,7 @@ function NearYouFavourites({
   currentTime,
 }) {
   if (noFavourites) {
-    return (
-      <div className="no-favourites-container">
-        {breakpoint !== 'large' && (
-          <div className="no-favourites-header">
-            <FormattedMessage id="nearest-favourites" />
-          </div>
-        )}
-        <div className="no-favourites-content">
-          <FormattedMessage id="nearest-favourites-no-favourites" />
-        </div>
-        <img
-          className="instruction-image"
-          src={getAssetUrl(
-            breakpoint === 'large'
-              ? 'default/nearby-stop_desktop-animation.gif'
-              : 'default/nearby-stop_animation.gif',
-          )}
-          alt="Käyttöohje"
-        />
-        <FormattedMessage id="nearest-favourites-browse-stops" />
-      </div>
-    );
+    return <NoFavourites breakpoint={breakpoint} />;
   }
   return (
     <QueryRenderer
@@ -77,6 +55,7 @@ function NearYouFavourites({
               searchPosition={searchPosition}
               isParentTabActive={isParentTabActive}
               currentTime={currentTime}
+              breakpoint={breakpoint}
               {...props}
             />
           );

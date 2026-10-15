@@ -39,6 +39,7 @@ import favouriteStore from '../data/FavouriteData';
 import searchContext from '../data/SearchContext';
 import { ConfigProvider } from './ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
+import { MapLayerProvider } from '../hooks/MapLayerContext';
 import { MessageProvider } from '../hooks/MessageContext';
 import { TimeProvider } from '../hooks/TimeContext';
 import { ItineraryLocationProvider } from '../hooks/ItineraryLocationContext';
@@ -69,6 +70,7 @@ const AppProviders = props => {
     [RelayEnvironmentProvider, { environment: props.environment }],
     [MessageProvider],
     [FavouriteProvider],
+    [MapLayerProvider],
     [TimeProvider],
     [ItineraryLocationProvider],
   ];

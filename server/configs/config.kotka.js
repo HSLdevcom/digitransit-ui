@@ -41,9 +41,13 @@ export default configMerger(walttiConfig, {
       availableForSelection: true,
       defaultValue: true,
     },
+    rail: {
+      availableForSelection: true,
+      defaultValue: true,
+    },
   },
 
-  nearYouModes: ['bus', 'ferry', 'citybike'],
+  nearYouModes: ['bus', 'ferry', 'citybike', 'rail'],
 
   vehicleRental: {
     networks: {
@@ -93,8 +97,9 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'kotka/kotka.png',
+  secondaryLogo: 'kotka/kotka.png',
 
-  feedIds: ['Kotka', 'KotkaLautat'],
+  feedIds: ['Kotka', 'KotkaLautat', 'digitraffic'],
   feedIdFiltering: true,
 
   useSearchPolygon: true,

@@ -16,9 +16,32 @@ import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 import { useConfigContext } from '../../client/ConfigContext';
+import { useMapLayers } from '../../hooks/MapLayerContext';
+
+const mapLayerOptions = getMapLayerOptions({
+  lockedMapLayers: [
+    'vehicles',
+    'stop',
+    'citybike',
+    'scooter',
+    'parkAndRideForBikes',
+    'parkAndRide',
+  ],
+  selectedMapLayers: ['vehicles'],
+});
 
 function RoutePageMap({ pattern, lat, lon, breakpoint, trip, error, ...rest }) {
   const config = useConfigContext();
+  const { mapLayers: baseMapLayers } = useMapLayers({
+    notThese: [
+      'stop',
+      'citybike',
+      'vehicles',
+      'scooter',
+      'parkAndRide',
+      'parkAndRideForBikes',
+    ],
+  });
   const tripId = trip?.gtfsId;
   const [trackVehicle, setTrackVehicle] = useState(!!tripId);
   const tripIdRef = useRef();
@@ -35,10 +58,6 @@ function RoutePageMap({ pattern, lat, lon, breakpoint, trip, error, ...rest }) {
     }
   }, []);
 
-  if (!pattern) {
-    return null;
-  }
-
   useEffect(() => {
     if (tripId !== tripIdRef.current) {
       setTrackVehicle(!!tripId);
@@ -47,10 +66,10 @@ function RoutePageMap({ pattern, lat, lon, breakpoint, trip, error, ...rest }) {
   }, [tripId]);
 
   useEffect(() => {
-    if (pattern.code !== code.current) {
+    if (pattern?.code !== code.current) {
       mwtRef.current?.disableMapTracking();
     }
-  }, [pattern.code]);
+  }, [pattern?.code]);
 
   const setMWTRef = ref => {
     mwtRef.current = ref;
@@ -75,8 +94,12 @@ function RoutePageMap({ pattern, lat, lon, breakpoint, trip, error, ...rest }) {
   const isFlexRoute = flexAgencies.includes(routeId);
 
   const mapLayers = isFlexRoute
-    ? { ...rest.mapLayers, areaStop: { routeGtfsId: routeId } }
-    : rest.mapLayers;
+    ? { ...baseMapLayers, areaStop: { routeGtfsId: routeId } }
+    : baseMapLayers;
+
+  if (!pattern) {
+    return null;
+  }
 
   const mwtProps = {};
   if (tripId && lat && lon) {
@@ -149,6 +172,7 @@ function RoutePageMap({ pattern, lat, lon, breakpoint, trip, error, ...rest }) {
       setMWTRef={setMWTRef}
       {...rest}
       mapLayers={mapLayers}
+      mapLayerOptions={mapLayerOptions}
     >
       {breakpoint !== 'large' && (
         <BackButton
@@ -172,15 +196,8 @@ RoutePageMap.propTypes = {
 
 const RoutePageMapWithVehicles = connectToStores(
   withBreakpoint(RoutePageMap),
-  ['RealTimeInformationStore', 'MapLayerStore'],
+  ['RealTimeInformationStore'],
   ({ getStore }, { trip }) => {
-    const mapLayers = getStore('MapLayerStore').getMapLayers({
-      notThese: ['stop', 'citybike', 'vehicles', 'scooter'],
-    });
-    const mapLayerOptions = getMapLayerOptions({
-      lockedMapLayers: ['vehicles', 'stop', 'citybike', 'scooter'],
-      selectedMapLayers: ['vehicles'],
-    });
     if (trip) {
       const { vehicles } = getStore('RealTimeInformationStore');
       const tripStart = getStartTime(
@@ -197,17 +214,15 @@ const RoutePageMapWithVehicles = connectToStores(
         );
 
       if (!matchingVehicles.length) {
-        return { mapLayers, mapLayerOptions };
+        return {};
       }
       const selectedVehicle = matchingVehicles[0];
       return {
         lat: selectedVehicle.lat,
         lon: selectedVehicle.long,
-        mapLayers,
-        mapLayerOptions,
       };
     }
-    return { mapLayers, mapLayerOptions };
+    return {};
   },
 );
 

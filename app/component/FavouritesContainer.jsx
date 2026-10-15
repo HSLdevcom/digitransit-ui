@@ -68,7 +68,10 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
   const setLocationProperties = item => {
     setFavourite(previousFavourite => ({
       ...item,
+      // Keep the identity of an edited favourite so that saving updates it
+      favouriteId: previousFavourite?.favouriteId,
       name: previousFavourite?.name || '',
+      selectedIconId: previousFavourite?.selectedIconId,
       defaultName: item.name || item.address,
     }));
   };
@@ -209,16 +212,12 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
       />
 
       <FavouriteModal
-        appElement="#app"
         isModalOpen={addModalOpen}
         handleClose={() => closeModal(true)}
         saveFavourite={saveSelectedFavourite}
         cancelSelected={cancelSelected}
         favourite={favourite}
         lang={lang}
-        isMobile={isMobile}
-        fontWeights={fontWeights}
-        colors={config.colors}
         autosuggestComponent={
           <AutoSuggestWithSearchContext
             appElement="#app"
@@ -241,19 +240,14 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
       />
 
       <FavouriteEditModal
-        appElement="#app"
         isModalOpen={editModalOpen}
         favourites={favouritePlaces}
         updateFavourites={updateFavouriteOrder}
         handleClose={() => closeModal(false)}
-        saveFavourite={saveSelectedFavourite}
         deleteFavourite={deleteSelectedFavourite}
         onEditSelected={editSelectedFavourite}
         lang={lang}
-        isMobile={isMobile}
         isLoading={isLoading}
-        colors={config.colors}
-        fontWeights={fontWeights}
       />
 
       <LoginPrompt

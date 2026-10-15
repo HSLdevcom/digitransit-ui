@@ -129,8 +129,9 @@ class TileContainer {
       );
 
     this.el.layers = this.layers.map(layer => omit(layer, 'tile'));
-    Promise.all(this.layers.map(layer => layer.getPromise(lang))).then(() =>
-      done(null, this.el),
+    Promise.all(this.layers.map(layer => layer.getPromise(lang))).then(
+      () => done(null, this.el),
+      () => done(null, this.el),
     );
   }
 

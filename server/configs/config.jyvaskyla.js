@@ -68,6 +68,7 @@ export default configMerger(walttiConfig, {
 
   // Navbar logo
   logo: 'jyvaskyla/jyvaskyla-favicon.png',
+  secondaryLogo: 'jyvaskyla/jyvaskyla-favicon.png',
 
   mainMenu: {
     stopMonitor: {
