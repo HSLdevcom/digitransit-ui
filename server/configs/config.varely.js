@@ -153,17 +153,6 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  // TODO: flex disabled for now, proper configuration coming in the future
-  /* flex: {
-    external: {
-      enabled: true,
-      transit: true,
-      direct: false,
-      agencies: ['02Taksi:02_taksi'],
-    },
-    infoLanguage: 'fi',
-  }, */
-
   sourceForAlertsAndDisruptions: {
     VARELY: {
       fi: 'Varsinais-Suomi',
