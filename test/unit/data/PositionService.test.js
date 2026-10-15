@@ -1,8 +1,44 @@
+import { onTestFinished } from 'vitest';
 import { createPositionService } from '../../../app/data/PositionService';
 import { messageActions } from '../../../app/hooks/MessageContext';
 import { geolocationMessages } from '../../../utils/client/geolocationMessages';
 
 describe('PositionService', () => {
+  it('can be reactivated after disposal', () => {
+    const permissionsDescriptor = Object.getOwnPropertyDescriptor(
+      navigator,
+      'permissions',
+    );
+    const query = vi.fn().mockResolvedValue({ state: 'denied' });
+    let service;
+    Object.defineProperty(navigator, 'permissions', {
+      configurable: true,
+      value: { query },
+    });
+    onTestFinished(() => {
+      service.dispose();
+      if (permissionsDescriptor) {
+        Object.defineProperty(navigator, 'permissions', permissionsDescriptor);
+      } else {
+        delete navigator.permissions;
+      }
+    });
+
+    service = createPositionService(
+      { searchParams: {}, URL: {} },
+      vi.fn(),
+      () => ({ hasLocation: false }),
+    );
+    service.dispose();
+    service.startLocationWatch();
+    expect(query).not.toHaveBeenCalled();
+
+    service.activate();
+    service.startLocationWatch();
+    expect(query).toHaveBeenCalledOnce();
+    service.dispose();
+  });
+
   describe('showGeolocationDeniedMessage', () => {
     it('posts the denied message and marks other geolocation messages read via messageActions', () => {
       // Geolocation messages are posted through the messageActions bridge

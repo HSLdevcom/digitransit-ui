@@ -203,7 +203,7 @@ export function PositionProvider({ children = null }) {
         updatePosition,
         () => stateRef.current.position,
       ),
-    [config, updatePosition],
+    [],
   );
   const actions = useMemo(
     () => ({
@@ -212,17 +212,17 @@ export function PositionProvider({ children = null }) {
       checkPositioningPermission: service.checkPositioningPermission,
       showGeolocationDeniedMessage: service.showGeolocationDeniedMessage,
     }),
-    [service],
+    [],
   );
 
-  searchContext.setPositionGetter(() => stateRef.current.position);
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    service.activate();
+    searchContext.setPositionGetter(() => stateRef.current.position);
+    return () => {
       searchContext.setPositionGetter(null);
       service.dispose();
-    },
-    [service],
-  );
+    };
+  }, []);
 
   return (
     <PositionActionsContext.Provider value={actions}>

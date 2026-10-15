@@ -264,12 +264,17 @@ export function createPositionService(config, dispatch, getPosition) {
     debouncedReverseGeocoding.cancel();
   }
 
+  function activate() {
+    disposed = false;
+  }
+
   function showGeolocationDeniedMessage() {
     dispatch({ type: 'geolocation-denied' });
     updateGeolocationMessage('denied');
   }
 
   return {
+    activate,
     checkPositioningPermission,
     dispose,
     showGeolocationDeniedMessage,
