@@ -144,7 +144,7 @@ export default {
             ],
             [
               '@babel/preset-react',
-              { development: isDevelopment, useBuiltIns: true },
+              { development: isDevelopment, runtime: 'automatic' },
             ],
           ],
           plugins: [

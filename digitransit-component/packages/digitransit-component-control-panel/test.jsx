@@ -47,7 +47,7 @@ describe('Testing @digitransit-component/digitransit-component-control-panel mod
           />
         </CtrlPanel>,
       );
-      screen.getByRole('link').click();
+      fireEvent.click(screen.getByRole('link'));
       expect(clicks).toEqual(['/en/nearyou/BUS/POS/Pasila::60.2,24.9']);
     });
 
@@ -63,7 +63,7 @@ describe('Testing @digitransit-component/digitransit-component-control-panel mod
           />
         </CtrlPanel>,
       );
-      screen.getByRole('link').click();
+      fireEvent.click(screen.getByRole('link'));
       expect(clicks).toEqual(['/en/nearyou/BUS/POS']);
     });
 
@@ -110,7 +110,7 @@ describe('Testing @digitransit-component/digitransit-component-control-panel mod
       );
       expect(screen.getAllByRole('link')).toHaveLength(7);
       expect(screen.queryByRole('dialog')).toBeNull();
-      screen.getAllByRole('link')[6].click();
+      fireEvent.click(screen.getAllByRole('link')[6]);
       expect(screen.getByRole('dialog')).toBeTruthy();
       expect(screen.getAllByRole('link').length).toBeGreaterThan(7);
     });
@@ -136,7 +136,7 @@ describe('Testing @digitransit-component/digitransit-component-control-panel mod
           />
         </CtrlPanel>,
       );
-      screen.getAllByRole('link')[6].click();
+      fireEvent.click(screen.getAllByRole('link')[6]);
       expect(screen.getByText(/shows all stops and routes/i)).toBeTruthy();
     });
   });

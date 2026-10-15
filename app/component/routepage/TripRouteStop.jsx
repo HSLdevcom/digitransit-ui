@@ -73,7 +73,6 @@ const TripRouteStop = ({
     const linkProps = {
       stopName: vehicleState === 'arriving' ? prevStop?.name : stop.name,
       nextStopName: vehicleState === 'arriving' ? stop?.name : nextStop?.name,
-      key: vehicle.id,
       mode,
       pattern,
       route,

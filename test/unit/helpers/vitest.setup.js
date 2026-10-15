@@ -45,8 +45,29 @@ const originalConsoleError = console.error;
 const originalLinkRender = Link.render;
 const originalUseFragment = relay.useFragment;
 
+// React 18 bump (React 18 upgrade plan, Phase 1): these two deprecation
+// warnings now surface here because @testing-library/react's `render` uses
+// `createRoot`, which reports them via `onRecoverableError`/console.error
+// where React 16's legacy root didn't. Both are pre-existing, known,
+// deliberately-deferred cleanup (legacy contextTypes/getChildContext and
+// function-component defaultProps - see Phase 4 of the React 18 upgrade plan),
+// not new bugs introduced by the bump, so they're allow-listed here instead
+// of escalated to a thrown error like every other warning.
+const allowedDeprecationWarnings = [
+  'uses the legacy childContextTypes API',
+  'uses the legacy contextTypes API',
+  'Support for defaultProps will be removed from',
+  // fluxible-addons-react's connectToStores.js uses a string ref internally;
+  // we can't fix third-party code, and it's moot once Fluxible is removed.
+  'contains the string ref',
+];
+
 beforeAll(() => {
   console.error = warning => {
+    const message = String(warning);
+    if (allowedDeprecationWarnings.some(allowed => message.includes(allowed))) {
+      return;
+    }
     throw new Error(warning);
   };
   Link.render = MockLink;
