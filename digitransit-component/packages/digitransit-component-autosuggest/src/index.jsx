@@ -16,7 +16,11 @@ import Icon, {
 } from '@digitransit-component/digitransit-component-icon';
 import i18n from './utils/i18n';
 import styles from './components/styles.scss';
-import { getSuggestionValue, suggestionAsAriaContent } from './utils/utils';
+import {
+  getSuggestionValue,
+  scrollItemIntoView,
+  suggestionAsAriaContent,
+} from './utils/utils';
 import MobileView from './components/MobileView';
 import { Input } from './components/Input';
 import { Suggestions } from './components/Suggestions';
@@ -484,6 +488,7 @@ function DTAutosuggest({
   } = useCombobox({
     inputId: id,
     inputValue: state.value,
+    scrollIntoView: scrollItemIntoView,
     defaultHighlightedIndex: 0,
     // Typing is dispatched synchronously by Input. Downshift reports it from an
     // effect a render late, which would overwrite newer keystrokes.
