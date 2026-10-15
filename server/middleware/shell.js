@@ -8,7 +8,6 @@ import {
   getAssetPath,
   readStaticFile,
 } from '../html/assetManifest.js';
-import getPolyfills from '../html/polyfills.js';
 
 export function resolveLocale(config, req, res) {
   let locale = req.cookies.lang || config.defaultLanguage;
@@ -28,8 +27,7 @@ function getAssetContext() {
   };
 }
 
-async function buildHead(config, req, locale) {
-  const polyfills = await getPolyfills(req.headers['user-agent'], config);
+function buildHead(config, req, locale) {
   const metadata = getMetadata(
     locale,
     req.hostname,
@@ -101,7 +99,6 @@ async function buildHead(config, req, locale) {
   html.push(
     `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
   );
-  html.push(`<script>\n${polyfills}\n</script>\n`);
   html.push(`<script>\nwindow.config=${serialize(config)};\n</script>\n`);
 
   html.push('</head>\n');
@@ -155,9 +152,8 @@ export default async function shell(req, res, next) {
     const sharedConfig = getConfiguration(req);
     const locale = resolveLocale(sharedConfig, req, res);
     // getConfiguration() returns a cached object shared by all requests, so
-    // the request's language goes on a copy: buildHead() awaits before
-    // serializing it, and a concurrent request could otherwise overwrite
-    // a language stamped onto the shared object in the meantime.
+    // the request's language goes on a copy: a language stamped onto the
+    // shared object would leak into concurrent requests.
     const config = { ...sharedConfig, language: locale };
 
     // Build the full HTML document as a string before writing anything to
@@ -168,7 +164,7 @@ export default async function shell(req, res, next) {
     const html = [
       '<!doctype html>\n',
       `<html lang="${locale}">\n`,
-      await buildHead(config, req, locale),
+      buildHead(config, req, locale),
       buildBody(config),
       '</html>\n',
     ];

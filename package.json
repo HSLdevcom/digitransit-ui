@@ -70,11 +70,8 @@
     "node": ">=24.14.1"
   },
   "browserslist": [
-    "> 0.2% in FI",
-    "not op_mini all",
-    "not ie <= 11",
-    "not chrome < 55",
-    "not safari < 11"
+    "defaults and fully supports es6-module",
+    "> 0.2% in FI and fully supports es6-module"
   ],
   "prettier": {
     "arrowParens": "avoid",
@@ -158,6 +155,7 @@
     "classnames": "2.5.1",
     "connect-redis": "5.0.0",
     "cookie-parser": "1.4.7",
+    "core-js": "3.50.0",
     "debug": "4.3.4",
     "downshift": "^9.4.0",
     "express": "4.21.2",
@@ -184,7 +182,6 @@
     "passport": "0.7.0",
     "pbf": "3.2.1",
     "point-in-polygon": "1.0.1",
-    "polyfill-library": "4.8.0",
     "polyline-encoded": "0.0.9",
     "process": "^0.11.10",
     "prop-types": "15.8.1",
