@@ -1,9 +1,70 @@
 import React from 'react';
+import Link from 'found/Link';
 import { renderWithProviders } from './helpers/mock-providers';
+import { mockRouter } from './helpers/mock-router';
 import WalkLeg from '../../app/component/itinerary/WalkLeg';
-import { AlertSeverityLevelType } from '../../utils/shared/constants';
+import {
+  AlertSeverityLevelType,
+  ExtendedRouteTypes,
+} from '../../utils/shared/constants';
+
+const renderLink = Link.render;
 
 describe('<WalkLeg />', () => {
+  beforeEach(() => {
+    vi.spyOn(Link, 'render').mockImplementation(renderLink);
+  });
+
+  it.each(['WALK', 'BUS'])(
+    'should render a flex arrival as an address without a stop link (%s)',
+    mode => {
+      const focusAction = vi.fn();
+      const flexLeg = {
+        mode: 'BUS',
+        route: { type: ExtendedRouteTypes.CallAgency },
+        from: { name: 'Origin', stop: { gtfsId: 'HSL:origin' } },
+        to: {
+          name: 'Testikatu 12, Helsinki',
+          stop: { gtfsId: 'HSL:flex-area', vehicleMode: 'BUS' },
+        },
+        start: { scheduledTime: '2026-10-15T09:00:00Z' },
+        end: { scheduledTime: '2026-10-15T09:15:00Z' },
+        distance: 100,
+        duration: 900,
+      };
+      const leg =
+        mode === 'WALK'
+          ? {
+              ...flexLeg,
+              mode,
+              route: null,
+              from: flexLeg.to,
+              to: { name: 'Destination', stop: null },
+            }
+          : flexLeg;
+      const { container, getByRole } = renderWithProviders(
+        <WalkLeg
+          leg={leg}
+          previousLeg={flexLeg}
+          index={1}
+          focusAction={focusAction}
+          focusToLeg={() => {}}
+          focusToPoint={() => {}}
+        />,
+        { router: { ...mockRouter, createHref: to => to } },
+      );
+
+      expect(container.querySelector('.address').textContent).toBe(
+        'Testikatu 12',
+      );
+      expect(container.querySelector('.place').textContent).toBe('Helsinki');
+      expect(container.querySelector('a')).toBeNull();
+      expect(container.querySelector('.itinerary-arrow-icon')).toBeNull();
+      getByRole('button', { name: /Testikatu 12, Helsinki/ }).click();
+      expect(focusAction).toHaveBeenCalledOnce();
+    },
+  );
+
   it('should show the leg starting point name', () => {
     const props = {
       focusAction: () => {},

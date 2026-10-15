@@ -11,7 +11,9 @@ import { PREFIX_STOPS } from '../../../utils/shared/path';
 import {
   legTimeStr,
   getValidatedLegName,
+  isCallAgencyLeg,
 } from '../../../utils/client/legUtils';
+import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
 import { ViaLocationType } from '../../../utils/shared/constants';
 import { useConfigContext } from '../../client/ConfigContext';
 
@@ -30,6 +32,7 @@ function WaitLeg({
   const modeClassName = 'wait';
   const { colors } = useConfigContext();
   const legName = getValidatedLegName(leg.to.name, intl, true);
+  const [address, place] = splitStringToAddressAndPlace(legName);
 
   return (
     <div className="row itinerary-row">
@@ -60,25 +63,32 @@ function WaitLeg({
         </span>
         <div className="itinerary-leg-first-row wait">
           <div className="itinerary-leg-row">
-            <Link
-              onClick={e => {
-                e.stopPropagation();
-              }}
-              to={`/${PREFIX_STOPS}/${leg.to.stop.gtfsId}`}
-            >
-              {legName}
-              {leg.from.viaLocationType === ViaLocationType.PassThrough && (
+            {isCallAgencyLeg(leg) ? (
+              <div className="address-container">
+                <div className="address">{address}</div>
+                <div className="place">{place}</div>
+              </div>
+            ) : (
+              <Link
+                onClick={e => {
+                  e.stopPropagation();
+                }}
+                to={`/${PREFIX_STOPS}/${leg.to.stop.gtfsId}`}
+              >
+                {legName}
+                {leg.from.viaLocationType === ViaLocationType.PassThrough && (
+                  <Icon
+                    img="icon_mapMarker"
+                    className="itinerary-mapmarker-icon"
+                  />
+                )}
                 <Icon
-                  img="icon_mapMarker"
-                  className="itinerary-mapmarker-icon"
+                  img="icon_arrow-collapse--right"
+                  className="itinerary-arrow-icon"
+                  color={colors.primary}
                 />
-              )}
-              <Icon
-                img="icon_arrow-collapse--right"
-                className="itinerary-arrow-icon"
-                color={colors.primary}
-              />
-            </Link>
+              </Link>
+            )}
             <div className="stop-code-container">{children}</div>
           </div>
           <ItineraryMapAction
