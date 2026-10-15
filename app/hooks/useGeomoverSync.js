@@ -1,19 +1,18 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { coordsDiff } from '../../utils/shared/path';
-import { usePosition, usePositionActions } from '../hooks/PositionContext';
 import {
   useOrigin,
   useDestination,
   useItineraryLocationActions,
-} from '../hooks/ItineraryLocationContext';
+} from './ItineraryLocationContext';
 
 // Updates the origin or destination if it's currently set to follow the
 // current location. Origin/destination now live in ItineraryLocationContext
 // (replacing OriginStore/DestinationStore), so what used to run as a side
 // effect inside connectToStores' compute-props function now runs as a
 // regular effect instead.
-function useGeomoverSync({ locationState, startLocationWatch }) {
+export default function useGeomoverSync({ locationState, startLocationWatch }) {
   const intl = useIntl();
   const origin = useOrigin();
   const destination = useDestination();
@@ -79,16 +78,4 @@ function useGeomoverSync({ locationState, startLocationWatch }) {
     // lifetime; only origin/destination/locationState changes should
     // re-trigger this sync.
   }, [origin, destination, locationState]);
-}
-
-// This container updates origin and destination if they are set to follow current location
-export default function withGeomover(WrappedComponent) {
-  function GeomoverConnected(props) {
-    const locationState = usePosition();
-    const { startLocationWatch } = usePositionActions();
-    useGeomoverSync({ locationState, startLocationWatch });
-    return <WrappedComponent {...props} />;
-  }
-
-  return GeomoverConnected;
 }

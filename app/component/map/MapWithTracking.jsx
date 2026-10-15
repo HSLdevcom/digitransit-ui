@@ -50,7 +50,7 @@ export const getForcedLayersFromMapLayerOptions = mapLayerOptions => {
   return forcedLayers;
 };
 
-function MapWithTrackingStateHandler({
+export default function MapWithTracking({
   lat,
   lon,
   zoom,
@@ -353,7 +353,7 @@ function MapWithTrackingStateHandler({
   );
 }
 
-MapWithTrackingStateHandler.propTypes = {
+MapWithTracking.propTypes = {
   lat: PropTypes.number,
   lon: PropTypes.number,
   zoom: PropTypes.number,
@@ -376,5 +376,3 @@ MapWithTrackingStateHandler.propTypes = {
   topButtons: PropTypes.node,
   showControls: PropTypes.bool,
 };
-
-export default MapWithTrackingStateHandler;
