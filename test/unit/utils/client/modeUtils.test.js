@@ -379,6 +379,48 @@ describe('modeUtils', () => {
     });
   });
 
+  describe('getNearYouModes', () => {
+    const nearYouConfig = {
+      nearYouModes: ['favorite', 'citybike'],
+      vehicleRental: {
+        networks: {
+          foo: {
+            enabled: true,
+            type: 'citybike',
+            season: { alwaysOn: true },
+          },
+        },
+      },
+    };
+    it('keeps favorite and citybike modes when both are available', () => {
+      const modes = utils.getNearYouModes(nearYouConfig, true);
+      expect(modes).toContain('favorite');
+      expect(modes).toContain('citybike');
+    });
+
+    it('drops favorite when no available OTP location favourites remain', () => {
+      const modes = utils.getNearYouModes(nearYouConfig, false);
+      expect(modes).not.toContain('favorite');
+      expect(modes).toContain('citybike');
+    });
+
+    it('keeps favorite independently of whether citybike mode is configured', () => {
+      const modes = utils.getNearYouModes(
+        { ...nearYouConfig, nearYouModes: ['favorite', 'bus'] },
+        true,
+      );
+      expect(modes).toEqual(['favorite', 'bus']);
+    });
+
+    it('drops citybike outside the season without hiding valid stop favourites', () => {
+      const modes = utils.getNearYouModes(
+        { ...nearYouConfig, vehicleRental: { networks: {} } },
+        true,
+      );
+      expect(modes).toEqual(['favorite']);
+    });
+  });
+
   describe('getDefaultTransportModes', () => {
     it('should include only modes that are both available and default', () => {
       const modeConfig = {

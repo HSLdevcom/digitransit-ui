@@ -655,7 +655,7 @@ const Itinerary = ({
                   </div>
                 )}
                 <div className="itinerary-duration">
-                  {hasCallAgencyLeg && <FormattedMessage id="estimate" />}{' '}
+                  {hasCallAgencyLeg && '~'}
                   {durationToString(intl, duration)}
                 </div>
               </div>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
+import { Text } from '@hsl-fi/layout-primitives';
 import LegAgencyInfo from './LegAgencyInfo';
 import Icon from '../Icon';
 import IntermediateLeg from './IntermediateLeg';
@@ -41,6 +42,7 @@ import {
   isLocalCallAgency,
 } from '../../../utils/client/legUtils';
 import { shouldShowFareInfo } from '../../../utils/client/fareUtils';
+import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
 import {
   AlertEntityType,
   AlertSeverityLevelType,
@@ -433,6 +435,10 @@ export default function TransitLeg({
   );
 
   const routeNotifications = [];
+  const isFlexOrigin = isCallAgency && index === 0;
+  const [flexOriginAddress, flexOriginPlace] = splitStringToAddressAndPlace(
+    validatedFromLegName || '',
+  );
 
   if (config.routeNotifications && config.routeNotifications.length > 0) {
     for (let i = 0; i < config.routeNotifications.length; i++) {
@@ -467,16 +473,31 @@ export default function TransitLeg({
     <>
       <div key={index} className="row itinerary-row">
         <span className="sr-only">{textVersionBeforeLink}</span>
-        <div className="small-2 columns itinerary-time-column">
+        <div
+          className={cx('small-2', 'columns', 'itinerary-time-column', {
+            'has-estimate': isCallAgency,
+          })}
+        >
           <span className="sr-only">
             {`${intl.formatMessage({
               id: modeToTranslationId(mode, config),
             })} ${leg.route?.shortName || ''} ${leg.trip?.tripHeadsign || ''}`}
           </span>
           <span aria-hidden="true">
-            <div className="itinerary-time-column-time">
-              {isCallAgency && <FormattedMessage id="estimate" />}{' '}
-              <span className={cx({ realtime: leg.realTime })}>{time}</span>
+            <div className="itinerary-time-column-time-group">
+              <div className="itinerary-time-column-time">
+                <span className={cx({ realtime: leg.realTime })}>{time}</span>
+              </div>
+              {isCallAgency && (
+                <Text
+                  as="span"
+                  variant="routes-xxs"
+                  color="weak"
+                  className="itinerary-time-column-estimate"
+                >
+                  <FormattedMessage id="estimate" />
+                </Text>
+              )}
             </div>
             {zoneIcons}
           </span>
@@ -521,7 +542,24 @@ export default function TransitLeg({
           >
             <div className="itinerary-leg-row">
               {isCallAgency ? (
-                <span>{validatedFromLegName}</span>
+                <span>
+                  {isFlexOrigin ? (
+                    <div className="address-container">
+                      <div className="address">
+                        {flexOriginAddress}
+                        {leg.from.viaLocationType && (
+                          <Icon
+                            img="icon_mapMarker"
+                            className="itinerary-mapmarker-icon"
+                          />
+                        )}
+                      </div>
+                      <div className="place">{flexOriginPlace}</div>
+                    </div>
+                  ) : (
+                    validatedFromLegName
+                  )}
+                </span>
               ) : (
                 <Link
                   aria-label={validatedFromLegName?.toLowerCase()}
