@@ -134,6 +134,7 @@ ItinerarySearchControl.propTypes = {
  *   getFavouriteRoutesQuery: () => ({}),  // Function that returns query for fetching favourite routes.
  *   getFavouriteVehicleRentalStations: () => ({}),  // Function that returns favourite bike rental station.
  *   getFavouriteVehicleRentalStationsQuery: () => ({}), // Function that returns query for fetching favourite bike rental stations.
+ *   getHasOtpLocationFavourites: () => ({}), // Optional. Function that returns whether any OTP-backed favourite is currently available.
  *   startLocationWatch: () => ({}),       // Function that locates users geolocation.
  *   saveSearch: () => ({}),               // Function that saves search to old searches store.
  *   clearOldSearches: () => ({}),         // Function that clears old searches store.

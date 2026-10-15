@@ -698,8 +698,11 @@ describe('<Itinerary />', () => {
     const { container } = renderItinerary(props);
 
     expect(
-      container.querySelector('.itinerary-duration').textContent,
+      container.querySelector('.itinerary-start-time-and-end-time').textContent,
     ).toContain('Estimate');
+    expect(container.querySelector('.itinerary-duration').textContent).toMatch(
+      /^~/,
+    );
     expect(container.textContent).toContain('Dial-a-ride service');
   });
 
