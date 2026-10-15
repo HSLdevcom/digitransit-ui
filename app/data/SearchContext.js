@@ -101,7 +101,6 @@ class SearchContext {
     // that OTP itself no longer serves.
     this.getHasOtpLocationFavourites = () =>
       favouriteStore.getHasOtpLocationFavourites();
-    this.startLocationWatch = startLocationWatch;
     this.saveSearch = saveSearch;
     this.clearOldSearches = clearOldSearches;
     this.getFutureRoutes = getFutureRoutes;
