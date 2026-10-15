@@ -524,8 +524,6 @@ export default {
     'no-route-start': 'Syötä vielä lähtöpaikka',
     'no-route-start-end': 'Syötä lähtöpaikka ja määränpää',
     'no-trips-found': 'Valitulle päivälle {selectedDate} ei löydy matkoja.',
-    'notification-minimize': 'Sulje ilmoitus',
-    'notification-open': 'Avaa ilmoitus',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Ei pysähdyksiä} one {1 pysäkki} other {{number} pysäkkiä} }',
     'number-of-spaces': 'Paikkoja',
@@ -646,7 +644,6 @@ export default {
       '{mode} {shortName} on pysäkin {stopName} ja pysäkin {nextStopName} välissä.',
     'route-page-vehicle-selected': 'Tämänhetkinen valinta.',
     'route-page.alternative-routes': 'Vaihtoehtoista reittiä',
-    'route-page.choose-direction': 'Valitse suunta ja reitti',
     'route-page.description': 'Linja {shortName}, {longName}',
     'route-page.future-routes': 'Tulevat reitit',
     'route-page.main-routes': 'Kulkusuunnat',

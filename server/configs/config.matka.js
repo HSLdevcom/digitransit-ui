@@ -459,9 +459,9 @@ export default {
   },
 
   taxiZone: {
-    enabled: isDevRunEnv(),
-    transit: isDevRunEnv(),
-    direct: isDevRunEnv(),
+    enabled: true,
+    transit: true,
+    direct: true,
     showBothDirectAndTransitResults: true,
   },
 
