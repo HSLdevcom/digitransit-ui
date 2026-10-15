@@ -58,7 +58,7 @@ const translations = {
       citybike_short: 'Kaupunkipyörä',
       close: 'Sulje',
       description:
-        'Lähelläsi -näkymä näyttää yhdellä kertaa pysäkit ja linjat lähelläsi',
+        'Lähelläsi-näkymä näyttää yhdellä kertaa pysäkit ja linjat lähelläsi',
       favorite: 'Lähimmät suosikit',
       favorite_short: 'Suosikit',
       ferry: 'Lähimmät lauttalaiturit',

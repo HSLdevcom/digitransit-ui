@@ -324,6 +324,8 @@ function DTAutosuggest({
   // not something that should itself trigger a render or round-trip through
   // another dispatch.
   const pendingEnterRef = useRef(false);
+  // Identifies the latest search so results of superseded searches are ignored.
+  const searchIdRef = useRef(0);
   useEffect(() => {
     if (storeRef) {
       storeRef(inputRef.current);
@@ -351,6 +353,8 @@ function DTAutosuggest({
             isMobile,
         )
       : state.sources;
+    searchIdRef.current += 1;
+    const searchId = searchIdRef.current;
     executeSearch(
       newTargets,
       newSources,
@@ -362,6 +366,9 @@ function DTAutosuggest({
         input: state.value || '',
       },
       searchResult => {
+        if (searchId !== searchIdRef.current) {
+          return;
+        }
         if (searchResult == null) {
           dispatch({
             type: 'FETCH_SUGGESTIONS',

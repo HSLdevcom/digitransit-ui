@@ -98,10 +98,9 @@ function OnDemandInfo({
           <div className={`on-demand-info-container ${mobile ? 'mobile' : ''}`}>
             <div className="route-header">
               {routeNumber}
-              <FavouriteRouteContainer
-                className="on-demand-route-page-header"
-                gtfsId={route.gtfsId}
-              />
+              <div className="route-header-actions">
+                <FavouriteRouteContainer gtfsId={route.gtfsId} />
+              </div>
             </div>
             <div className="divider top" />
             <div className="on-demand-info-headline">

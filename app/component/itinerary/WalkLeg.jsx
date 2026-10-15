@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
+import { Text } from '@hsl-fi/layout-primitives';
 import { legShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../client/ConfigContext';
 import {
@@ -74,6 +75,8 @@ function WalkLeg({
   const startMs = legTime(leg.start);
   // If mode is not WALK, WalkLeg should get information from "to". If useOriginAddress is true, force WalkLeg to get information from "from".
   const toOrFrom = leg.mode !== 'WALK' && !useOriginAddress ? 'to' : 'from';
+  const isFlexArrival =
+    isCallAgencyLeg(leg) || (previousLeg && isCallAgencyLeg(previousLeg));
   const modeClassName = 'walk';
   const fromMode = (leg[toOrFrom].stop && leg[toOrFrom].stop.vehicleMode) || '';
   const isFirstLeg = i => i === 0;
@@ -156,14 +159,30 @@ function WalkLeg({
           }}
         />
       </span>
-      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        {previousLeg && isCallAgencyLeg(previousLeg) && (
-          <FormattedMessage id="estimate" />
-        )}
-        <div className="itinerary-time-column-time">
-          <span className={cx({ realtime: previousLeg?.realTime })}>
-            {leg.mode === 'WALK' ? legTimeStr(leg.start) : legTimeStr(leg.end)}
-          </span>
+      <div
+        className={cx('small-2', 'columns', 'itinerary-time-column', {
+          'has-estimate': previousLeg && isCallAgencyLeg(previousLeg),
+        })}
+        aria-hidden="true"
+      >
+        <div className="itinerary-time-column-time-group">
+          <div className="itinerary-time-column-time">
+            <span className={cx({ realtime: previousLeg?.realTime })}>
+              {leg.mode === 'WALK'
+                ? legTimeStr(leg.start)
+                : legTimeStr(leg.end)}
+            </span>
+          </div>
+          {previousLeg && isCallAgencyLeg(previousLeg) && (
+            <Text
+              as="span"
+              variant="routes-xxs"
+              color="weak"
+              className="itinerary-time-column-estimate"
+            >
+              <FormattedMessage id="estimate" />
+            </Text>
+          )}
         </div>
       </div>
       <ItineraryCircleLineWithIcon
@@ -190,7 +209,7 @@ function WalkLeg({
             <div className="address-container">
               <div className="address">
                 {address}
-                {leg[toOrFrom].stop && (
+                {leg[toOrFrom].stop && !isFlexArrival && (
                   <Icon
                     img="icon_arrow-collapse--right"
                     className="itinerary-arrow-icon"
@@ -216,7 +235,7 @@ function WalkLeg({
             )}
           >
             <div className="itinerary-leg-row">
-              {leg[toOrFrom].stop && !alightNotice ? (
+              {leg[toOrFrom].stop && !alightNotice && !isFlexArrival ? (
                 <Link
                   onClick={e => {
                     e.stopPropagation();
@@ -252,6 +271,12 @@ function WalkLeg({
                 </Link>
               ) : (
                 <div>
+                  {isFlexArrival && (
+                    <div className="address-container">
+                      <div className="address">{address}</div>
+                      <div className="place">{place}</div>
+                    </div>
+                  )}
                   {returnNotice && (
                     <>
                       <div className="divider" />
@@ -276,8 +301,9 @@ function WalkLeg({
                   )}
                   {!returnNotice &&
                     !alightNotice &&
+                    !isFlexArrival &&
                     (leg.viaAddress || validatedLegName)}
-                  {leg[toOrFrom].stop && !alightNotice && (
+                  {leg[toOrFrom].stop && !alightNotice && !isFlexArrival && (
                     <Icon
                       img="icon_arrow-collapse--right"
                       className="itinerary-arrow-icon"

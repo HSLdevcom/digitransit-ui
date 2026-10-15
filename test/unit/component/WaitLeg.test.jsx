@@ -1,7 +1,13 @@
 import React from 'react';
+import Link from 'found/Link';
 
 import { renderWithProviders } from '../helpers/mock-providers';
+import { mockRouter } from '../helpers/mock-router';
 import WaitLeg from '../../../app/component/itinerary/WaitLeg';
+import { ExtendedRouteTypes } from '../../../utils/shared/constants';
+import { PREFIX_STOPS } from '../../../utils/shared/path';
+
+const renderLink = Link.render;
 
 const defaultProps = {
   index: 1,
@@ -15,6 +21,10 @@ const defaultProps = {
 };
 
 describe('<WaitLeg />', () => {
+  beforeEach(() => {
+    vi.spyOn(Link, 'render').mockImplementation(renderLink);
+  });
+
   describe('transit-leg marker behavior', () => {
     it('should suppress the top circle when preceded by a transit leg', () => {
       const { container } = renderWithProviders(
@@ -41,6 +51,38 @@ describe('<WaitLeg />', () => {
   });
 
   describe('rendering', () => {
+    it('should render a flex destination as an address without a stop link', () => {
+      const { container } = renderWithProviders(
+        <WaitLeg
+          {...defaultProps}
+          leg={{
+            ...defaultProps.leg,
+            route: { type: ExtendedRouteTypes.CallAgency },
+            to: {
+              name: 'Testikatu 12, Helsinki',
+              stop: { gtfsId: 'HSL:flex-area' },
+            },
+          }}
+        />,
+        { router: { ...mockRouter, createHref: to => to } },
+      );
+      expect(container.querySelector('.address').textContent).toBe(
+        'Testikatu 12',
+      );
+      expect(container.querySelector('.place').textContent).toBe('Helsinki');
+      expect(container.querySelector('a')).toBeNull();
+      expect(container.querySelector('.itinerary-arrow-icon')).toBeNull();
+    });
+
+    it('should preserve the stop link for an ordinary transit destination', () => {
+      const { getByRole } = renderWithProviders(<WaitLeg {...defaultProps} />, {
+        router: { ...mockRouter, createHref: to => to },
+      });
+      expect(getByRole('link', { name: 'Stop B' }).getAttribute('href')).toBe(
+        `/${PREFIX_STOPS}/HSL:1234`,
+      );
+    });
+
     it('should render with wait styling', () => {
       const { container } = renderWithProviders(<WaitLeg {...defaultProps} />);
       expect(container.querySelector('.leg-before.wait')).not.toBeNull();

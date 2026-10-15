@@ -288,17 +288,6 @@ export default {
 
   navigation: true,
 
-  // TODO: flex disabled for now, proper configuration coming in the future
-  /* flex: {
-    external: {
-      enabled: true,
-      transit: true,
-      direct: false,
-      agencies: ['02Taksi:02_taksi'],
-    },
-    infoLanguage: 'fi',
-  }, */
-
   replacementBusNotification: {
     // Header is displayed via translation key 'replacement-bus'.
     content: {
