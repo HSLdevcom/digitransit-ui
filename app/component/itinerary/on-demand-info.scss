@@ -98,7 +98,7 @@
         height: 2em;
         width: 2em;
         margin: 0 0 2px 1px;
-        fill: $call-agency-color;
+        fill: currentcolor;
 
         .call {
           top: 50%;
@@ -108,8 +108,10 @@
       }
     }
 
-    .on-demand-route-page-header {
-      padding-top: 34px;
+    // Center the 30px star on the route bar (bar center is ~59px from header top)
+    .route-header-actions {
+      align-self: flex-start;
+      margin-top: 44px;
     }
   }
 

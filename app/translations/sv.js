@@ -221,7 +221,7 @@ export default {
     'embedded-search.form-heading': 'Inbäddningsverktyg',
     engine_ignition_aid: 'Starthjälp',
     english: 'Engelsk',
-    estimate: 'Uppskattning',
+    estimate: 'Cirka',
     explanations: 'Förklaringar',
     'extra-info': 'Mer info',
     'favourite-failed-text': 'Försök på nytt senare.',
