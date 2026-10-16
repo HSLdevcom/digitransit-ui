@@ -229,7 +229,7 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
 - Polyfills are build-time only: `import 'core-js/stable'` in `app/client/client.jsx` plus
   `@babel/preset-env` (`useBuiltIns: 'entry'`) driven by the `browserslist` in `package.json`;
   don't add runtime/UA-based polyfill services. Keep `corejs.version` in `webpack.config.js` (the
-  `app/` loader, which ignores `config/babel.config.cjs`) and `config/babel.config.cjs` in sync
-  with the installed core-js minor.
+  `app/` loader, which ignores `config/babel.config.cjs`) in sync with the installed core-js
+  minor.
 - SCSS under `sass/`, `app/**/*.scss`, `digitransit-component/**/*.scss` — must pass
   `prettier --check` and `stylelint`.
