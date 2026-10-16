@@ -12,30 +12,6 @@ Utility to format location \[name, address] pair.
 
 Returns **[Array][1]<[string][2]>** 
 
-## FavouriteBar
-
-**Extends React.Component**
-
-FavouriteBar renders favourites. FavouriteBar displays the first two favourites, the rest are shown in a list.
-
-### Parameters
-
-*   `props`  
-
-### Examples
-
-```javascript
-<FavouriteBar
-  favourites={favourites}
-  onClickFavourite={onClickFavourite}
-  onAddPlace={this.addPlace}
-  onAddHome={this.addHome}
-  onAddWork={this.addWork}
-  lang={this.props.lang}
-  isLoading={this.props.isLoading}
-/>
-```
-
 ## favourites
 
 Required. Array of favourites, favourite object contains following properties.
@@ -55,23 +31,23 @@ Type: [Array][1]<[object][3]>
 
 ## onClickFavourite
 
-Optional. Function for clicking favourites.
+Required. Function for clicking favourites.
 
 ## onAddPlace
 
-Optional. Function for selecting "Add place" from suggestions.
+Required. Function for selecting "Add place" from suggestions.
 
 ## onEdit
 
-Optional. Function for selected "Edit" from suggestions.
+Required. Function for selected "Edit" from suggestions.
 
 ## onAddHome
 
-Optional. Function for "Add home" button.
+Required. Function for "Add home" button.
 
 ## onAddWork
 
-Optional. Function for "Add work" button.
+Required. Function for "Add work" button.
 
 ## lang
 
@@ -85,17 +61,42 @@ Optional. Whether to show loading animation, true or false.
 
 Optional color palette
 
-## fontWeights
+## FavouriteBar
+
+FavouriteBar renders favourites. FavouriteBar displays the first two favourites, the rest are shown in a list.
+
+### Parameters
+
+*   `$0` **[Object][3]** 
+
+    *   `$0.favourites`  
+    *   `$0.onClickFavourite`  
+    *   `$0.onAddPlace`  
+    *   `$0.onEdit`  
+    *   `$0.onAddHome`  
+    *   `$0.onAddWork`  
+    *   `$0.lang`   (optional, default `'fi'`)
+    *   `$0.isLoading`   (optional, default `false`)
+    *   `$0.colors`   (optional, default `defaultColors`)
+
+### Examples
+
+```javascript
+<FavouriteBar
+  favourites={favourites}
+  onClickFavourite={onClickFavourite}
+  onAddPlace={onAddPlace}
+  onEdit={onEdit}
+  onAddHome={onAddHome}
+  onAddWork={onAddWork}
+  lang={lang}
+  isLoading={isLoading}
+/>
+```
+
+##
 
 Optional.
-
-## medium
-
-Default value is 500.
-
-## t
-
-Translation function
 
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 

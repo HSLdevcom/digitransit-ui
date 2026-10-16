@@ -173,9 +173,6 @@ export default {
     },
   },
   iconModeSet: 'hsl',
-  fontWeights: {
-    medium: 500,
-  },
 
   sprites: 'assets/svg-sprite.hsl.svg',
 

@@ -52,7 +52,7 @@ li:last-child > div.suggestion-item-container.mobile {
 
     .suggestion-name {
       margin: 0;
-      font-weight: var(--font-weight-medium);
+      font-weight: var(--font-weight-medium, 500);
       color: #333;
       font-size: 15px !important;
       letter-spacing: -0.5px;
@@ -106,7 +106,7 @@ li:last-child > div.suggestion-item-container.mobile {
         font-size: 9px;
         line-height: 9px;
         padding: 1px 2px 1px;
-        font-weight: var(--font-weight-medium);
+        font-weight: var(--font-weight-medium, 500);
         border: 1px solid #ddd;
         margin: 0 4px;
         vertical-align: middle;

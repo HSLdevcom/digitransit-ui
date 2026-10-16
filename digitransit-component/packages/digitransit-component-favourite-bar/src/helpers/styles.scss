@@ -117,7 +117,7 @@ $favourite-highlight-background-color: #f2f5f7;
         font-family: inherit;
         font-size: 15px;
         margin-right: 6px;
-        font-weight: var(--font-weight-medium);
+        font-weight: var(--font-weight-medium, 500);
         font-stretch: normal;
         font-style: normal;
         letter-spacing: -0.6px;
@@ -218,7 +218,7 @@ $favourite-highlight-background-color: #f2f5f7;
   .favourite-suggestion-item {
     &.custom {
       font-size: 15px;
-      font-weight: var(--font-weight-medium);
+      font-weight: var(--font-weight-medium, 500);
       letter-spacing: -0.5;
     }
   }
