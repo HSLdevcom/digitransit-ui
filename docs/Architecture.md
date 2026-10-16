@@ -48,6 +48,13 @@ Basically, division between alternatives is:
 - Existing Flux stores remain for state not yet migrated
 
 New application state should use React hooks and context rather than Fluxible.
+Realtime vehicle information is owned by `RealTimeInformationProvider` in
+`app/hooks/RealTimeInformationContext.jsx`. `useRealTimeInformation` subscribes
+to vehicle snapshots, published at most once per second. `useRealTimeActions`
+provides stable connection and subscription controls without subscribing to
+vehicle updates. The provider closes MQTT clients and cancels pending updates
+on unmount; MQTT helpers deliver messages through callbacks rather than Flux
+actions.
 GeoJSON fetching uses `useGeoJsonObjects` in
 `app/hooks/useGeoJsonObjects.js`. It loads configured layers from a hook and
 shares fetch promises across map and dialog consumers. Layer visibility

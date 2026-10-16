@@ -7,6 +7,7 @@ import {
   stopLocationWatch,
 } from '../../../action/PositionActions';
 import { useMessages } from '../../../hooks/MessageContext';
+import { useRealTimeInformation } from '../../../hooks/RealTimeInformationContext';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { legTime, legTimeStr } from '../../../../utils/client/legUtils';
 import { useItineraryContext } from '../context/ItineraryContext';
@@ -48,7 +49,7 @@ function NaviContainer(
   } else {
     hasPosition.current = true;
   }
-  const { vehicles } = getStore('RealTimeInformationStore');
+  const { vehicles } = useRealTimeInformation();
 
   const { itinerary, params } = useItineraryContext();
 

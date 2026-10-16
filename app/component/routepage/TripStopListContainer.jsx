@@ -2,28 +2,28 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import cx from 'classnames';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
-import { tripShape, vehicleShape } from '../../../utils/client/shapes';
+import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
+import { tripShape } from '../../../utils/client/shapes';
 import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import TripRouteStop from './TripRouteStop';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../utils/client/withBreakpoint';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import { useConfigContext } from '../../client/ConfigContext';
 
 function TripStopListContainer({
   trip,
   className = undefined,
-  vehicles = {},
   tripStart,
-  breakpoint,
   keepTracking = false,
   setHumanScrolling = () => {},
 }) {
   const config = useConfigContext();
   const currentTime = useCurrentTime();
+  const breakpoint = useBreakpoint();
+  const { vehicles } = useRealTimeInformation();
 
   const mode = getTripOrRouteMode(trip, trip.route, config);
 
@@ -120,62 +120,51 @@ function TripStopListContainer({
 TripStopListContainer.propTypes = {
   trip: tripShape.isRequired,
   className: PropTypes.string,
-  vehicles: PropTypes.objectOf(vehicleShape),
   tripStart: PropTypes.string.isRequired,
-  breakpoint: PropTypes.string.isRequired,
   keepTracking: PropTypes.bool,
   setHumanScrolling: PropTypes.func,
 };
 
-const connectedComponent = createFragmentContainer(
-  connectToStores(
-    withBreakpoint(TripStopListContainer),
-    ['RealTimeInformationStore', 'PositionStore'],
-    ({ getStore }) => ({
-      vehicles: getStore('RealTimeInformationStore').vehicles,
-    }),
-  ),
-  {
-    trip: graphql`
-      fragment TripStopListContainer_trip on Trip {
-        route {
-          mode
-          type
-          gtfsId
-          color
-          shortName
-        }
-        pattern {
-          code
-          directionId
-        }
-        stoptimesForDate {
-          stop {
-            gtfsId
-            name
-            desc
-            code
-            lat
-            lon
-            zoneId
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
-          }
-          realtimeArrival
-          realtimeDeparture
-          realtime
-          scheduledDeparture
-          serviceDay
-          realtimeState
-        }
-        isReplacement
+const connectedComponent = createFragmentContainer(TripStopListContainer, {
+  trip: graphql`
+    fragment TripStopListContainer_trip on Trip {
+      route {
+        mode
+        type
         gtfsId
+        color
+        shortName
       }
-    `,
-  },
-);
+      pattern {
+        code
+        directionId
+      }
+      stoptimesForDate {
+        stop {
+          gtfsId
+          name
+          desc
+          code
+          lat
+          lon
+          zoneId
+          alerts {
+            alertSeverityLevel
+            effectiveEndDate
+            effectiveStartDate
+          }
+        }
+        realtimeArrival
+        realtimeDeparture
+        realtime
+        scheduledDeparture
+        serviceDay
+        realtimeState
+      }
+      isReplacement
+      gtfsId
+    }
+  `,
+});
 
 export { connectedComponent as default, TripStopListContainer as Component };

@@ -15,6 +15,7 @@ import { FormattedMessage } from 'react-intl';
 import { fetchQuery, ReactRelayContext } from 'react-relay';
 import { useRouter } from 'found';
 import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import { saveFutureRoute } from '../../../utils/client/storeUtils';
 import { startLocationWatch } from '../../action/PositionActions';
 import { saveSearch } from '../../data/SearchHistory';
@@ -160,6 +161,7 @@ const DEFAULT_LAYER_OPTIONS = getMapLayerOptions({
 });
 
 function ItineraryPageContent(props, context) {
+  const realTime = useRealTimeActions();
   const { match: routerMatch, router } = useRouter();
   const { environment: relayEnvironment } = useContext(ReactRelayContext);
   const breakpoint = useBreakpoint();
@@ -275,7 +277,7 @@ function ItineraryPageContent(props, context) {
   }
 
   function stopClientAndUpdateTopics() {
-    stopClient(context);
+    stopClient(realTime);
     setTopicsState(null);
   }
 
@@ -1075,7 +1077,7 @@ function ItineraryPageContent(props, context) {
 
     return () => {
       if (showVehicles()) {
-        stopClient(context);
+        stopClient(realTime);
       }
     };
   }, []);
@@ -1152,10 +1154,10 @@ function ItineraryPageContent(props, context) {
         : null;
 
       const itineraryTopics = getTopics(selected?.node.legs, config);
-      const { client } = context.getStore('RealTimeInformationStore');
+      const { client } = realTime;
       // Client may not be initialized yet if there was an client before ComponentDidMount
       if (!naviMode && (!isEqual(itineraryTopics, topicsState) || !client)) {
-        updateClient(itineraryTopics, context, config);
+        updateClient(itineraryTopics, realTime, config);
       }
       if (!isEqual(itineraryTopics, topicsState) && !naviMode) {
         // eslint-disable-next-line react/no-did-update-set-state

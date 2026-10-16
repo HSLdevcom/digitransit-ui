@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import connectToStores from 'fluxible-addons-react/connectToStores';
+import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
 import { patternShape, errorShape } from '../../../utils/client/shapes';
 import MapWithTracking from './MapWithTracking';
 import RouteLine from './route/RouteLine';
@@ -194,37 +194,45 @@ RoutePageMap.propTypes = {
   error: errorShape,
 };
 
-const RoutePageMapWithVehicles = connectToStores(
-  withBreakpoint(RoutePageMap),
-  ['RealTimeInformationStore'],
-  ({ getStore }, { trip }) => {
-    if (trip) {
-      const { vehicles } = getStore('RealTimeInformationStore');
-      const tripStart = getStartTime(
-        trip.stoptimesForDate[0].scheduledDeparture,
-      );
-      const matchingVehicles = Object.keys(vehicles)
-        .map(key => vehicles[key])
-        .filter(
-          v =>
-            (v.tripStartTime === undefined || v.tripStartTime === tripStart) &&
-            (v.tripId === undefined || v.tripId === trip.gtfsId) &&
-            (v.direction === undefined ||
-              v.direction === Number(trip.directionId)),
-        );
+const RoutePageMapWithBreakpoint = withBreakpoint(RoutePageMap);
 
-      if (!matchingVehicles.length) {
-        return {};
-      }
-      const selectedVehicle = matchingVehicles[0];
-      return {
-        lat: selectedVehicle.lat,
-        lon: selectedVehicle.long,
-      };
-    }
-    return {};
-  },
-);
+function RoutePageMapWithVehicles(props) {
+  const { vehicles } = useRealTimeInformation();
+  const { trip } = props;
+  let selectedVehicle;
+
+  if (trip) {
+    const tripStart = getStartTime(trip.stoptimesForDate[0].scheduledDeparture);
+    selectedVehicle = Object.values(vehicles).find(
+      vehicle =>
+        (vehicle.tripStartTime === undefined ||
+          vehicle.tripStartTime === tripStart) &&
+        (vehicle.tripId === undefined || vehicle.tripId === trip.gtfsId) &&
+        (vehicle.direction === undefined ||
+          vehicle.direction === Number(trip.directionId)),
+    );
+  }
+
+  return (
+    <RoutePageMapWithBreakpoint
+      {...props}
+      lat={selectedVehicle?.lat}
+      lon={selectedVehicle?.long}
+    />
+  );
+}
+
+RoutePageMapWithVehicles.propTypes = {
+  trip: PropTypes.shape({
+    gtfsId: PropTypes.string.isRequired,
+    directionId: PropTypes.string,
+    stoptimesForDate: PropTypes.arrayOf(
+      PropTypes.shape({
+        scheduledDeparture: PropTypes.number.isRequired,
+      }),
+    ).isRequired,
+  }),
+};
 
 export default createFragmentContainer(RoutePageMapWithVehicles, {
   pattern: graphql`
