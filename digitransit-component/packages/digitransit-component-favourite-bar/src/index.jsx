@@ -85,6 +85,9 @@ FavouriteLocation.propTypes = {
   lang: PropTypes.string.isRequired,
 };
 
+const LIST_BOTTOM_MARGIN = 16;
+const MIN_LIST_HEIGHT = 120;
+
 /**
  * FavouriteBar renders favourites. FavouriteBar displays the first two favourites, the rest are shown in a list.
  * @example
@@ -182,6 +185,7 @@ class FavouriteBar extends React.Component {
       secondFavourite: props.favourites[1] || null,
       favourites: props.favourites.slice(2, props.favourites.length),
       timestamp: 0,
+      listMaxHeight: null,
     };
     this.expandListRef = React.createRef();
     this.suggestionListRef = React.createRef();
@@ -190,6 +194,7 @@ class FavouriteBar extends React.Component {
 
   componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside);
+    window.addEventListener('resize', this.updateListMaxHeight);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -212,7 +217,21 @@ class FavouriteBar extends React.Component {
 
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutside);
+    window.removeEventListener('resize', this.updateListMaxHeight);
   }
+
+  // Let the list grow down to the bottom edge of the viewport
+  updateListMaxHeight = () => {
+    const list = this.suggestionListRef.current;
+    if (list) {
+      const { top } = list.getBoundingClientRect();
+      const listMaxHeight = Math.max(
+        window.innerHeight - top - LIST_BOTTOM_MARGIN,
+        MIN_LIST_HEIGHT,
+      );
+      this.setState({ listMaxHeight });
+    }
+  };
 
   toggleList = () => {
     const eventDiff = new Date().getTime() - this.state.timestamp;
@@ -224,6 +243,7 @@ class FavouriteBar extends React.Component {
         }),
         () => {
           if (this.state.listOpen) {
+            this.updateListMaxHeight();
             this.firstItemRef.current?.focus();
           } else {
             this.expandListRef.current?.focus();
@@ -335,8 +355,13 @@ class FavouriteBar extends React.Component {
   render() {
     const { onClickFavourite, isLoading, fontWeights } = this.props;
     const { primary } = this.props.colors;
-    const { listOpen, favourites, firstFavourite, secondFavourite } =
-      this.state;
+    const {
+      listOpen,
+      favourites,
+      firstFavourite,
+      secondFavourite,
+      listMaxHeight,
+    } = this.state;
     const expandIcon = this.props.favourites.length === 0 ? 'plus' : 'arrow';
 
     const [name1, address1] = formatFavourite(firstFavourite);
@@ -407,6 +432,7 @@ class FavouriteBar extends React.Component {
             <ul
               className={styles['favourite-suggestion-list']}
               id="favourite-suggestion-list"
+              style={listMaxHeight ? { maxHeight: listMaxHeight } : undefined}
               ref={this.suggestionListRef}
               aria-label={this.translate('favourites-list')}
             >
