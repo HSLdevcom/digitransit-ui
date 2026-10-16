@@ -61,4 +61,17 @@ describe('PositionContext', () => {
     state = positionReducer(state, { type: 'geolocation-denied' });
     expect(state.position.locationingFailed).toBe(true);
   });
+
+  it('keeps state identity when an action changes nothing', () => {
+    let state = positionReducer(createInitialPositionState(), {
+      type: 'reverse-geocoding-started',
+    });
+    expect(positionReducer(state, { type: 'reverse-geocoding-started' })).toBe(
+      state,
+    );
+
+    const address = { type: 'address-found', location: { address: 'Foo 1' } };
+    state = positionReducer(state, address);
+    expect(positionReducer(state, address)).toBe(state);
+  });
 });

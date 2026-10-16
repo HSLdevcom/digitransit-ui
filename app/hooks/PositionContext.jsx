@@ -157,6 +157,9 @@ export function positionReducer(state, action) {
     default:
       return state;
   }
+  if (Object.keys(fields).every(key => fields[key] === state.fields[key])) {
+    return state;
+  }
   return { fields, position: createLocationState(fields) };
 }
 
