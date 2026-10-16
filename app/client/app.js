@@ -12,21 +12,5 @@ export default config => {
   app.registerStore(PositionStore);
   app.registerStore(RealTimeInformationStore);
 
-  app.plug({
-    name: 'extra-context-plugin',
-    plugContext: () => {
-      return {
-        plugActionContext: actionContext => {
-          // eslint-disable-next-line no-param-reassign
-          actionContext.config = config;
-        },
-        plugStoreContext: storeContext => {
-          // eslint-disable-next-line no-param-reassign
-          storeContext.config = config;
-        },
-      };
-    },
-  });
-
   return app;
 };

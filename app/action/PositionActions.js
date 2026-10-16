@@ -1,42 +1,26 @@
 import debounce from 'lodash/debounce';
-import { getJson } from '../../utils/shared/xhrPromise';
+import { reverseGeocode } from '../../utils/client/geocodingUtils';
 import { geolocationMessages } from '../../utils/client/geolocationMessages';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { messageActions } from '../hooks/MessageContext';
 
 const MOCKPOS = false;
 let geoWatchId;
+let config;
+
+// Must be called once at bootstrap, before any location watch is started.
+// TODO: remove when PositionStore is replaced by a context that can read config via hook
+export function initPositionActions(appConfig) {
+  config = appConfig;
+}
 
 function reverseGeocodeAddress(actionContext, coords) {
-  const { language } = actionContext.config;
-
-  const searchParams = {
-    'point.lat': coords.latitude,
-    'point.lon': coords.longitude,
-    lang: language,
-    size: 1,
-    layers: 'address',
-  };
-
-  if (actionContext.config.searchParams['boundary.country']) {
-    searchParams['boundary.country'] =
-      actionContext.config.searchParams['boundary.country'];
+  if (!config) {
+    throw new Error('initPositionActions must be called before geocoding');
   }
-
-  getJson(actionContext.config.URL.PELIAS_REVERSE_GEOCODER, searchParams)
-    .then(data => {
-      if (data.features != null && data.features.length > 0) {
-        const match = data.features[0].properties;
-        actionContext.dispatch('AddressFound', {
-          address: match.name,
-          gid: match.gid,
-          name: match.name,
-          layer: match.layer,
-          city: match.localadmin || match.locality,
-        });
-      } else {
-        actionContext.dispatch('AddressFound', {});
-      }
+  reverseGeocode(config, coords)
+    .then(address => {
+      actionContext.dispatch('AddressFound', address);
     })
     .catch(() => {
       actionContext.dispatch('AddressFound', {});
