@@ -38,6 +38,7 @@ import { configureCountry } from '../../utils/client/configureCountry';
 import { getUser } from '../../utils/client/apiUtils';
 import favouriteStore from '../data/FavouriteData';
 import searchContext from '../data/SearchContext';
+import { initPositionActions } from '../action/PositionActions';
 import { ConfigProvider } from './ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
 import { MapLayerProvider } from '../hooks/MapLayerContext';
@@ -51,7 +52,7 @@ window.debug = debug; // Allow _debug.enable('*') in browser console
 
 const { config } = window;
 const app = appCreator(config);
-const context = app.createContext({ config });
+const context = app.createContext();
 
 const ContextProvider = provideContext(IntlProvider, {});
 
@@ -188,6 +189,7 @@ async function init() {
   // fetch Userdata and favourites
   favouriteStore.init(config);
   searchContext.init(context.getComponentContext(), config);
+  initPositionActions(config);
   if (config.allowLogin) {
     getUser()
       .then(user => {

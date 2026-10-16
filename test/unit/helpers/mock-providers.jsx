@@ -45,11 +45,8 @@ class LegacyContextProvider extends React.Component {
       getStore: this.props.getStore || mockContext.getStore,
       executeAction: this.props.executeAction || mockContext.executeAction,
     };
-    // Only provide config/match when explicitly set, so the legacy
+    // Only provide match/router when explicitly set, so the legacy
     // context isn't shadowed for components that read it directly.
-    if (this.props.config) {
-      ctx.config = this.props.config;
-    }
     if (this.props.match) {
       ctx.match = this.props.match;
     }
@@ -65,7 +62,6 @@ class LegacyContextProvider extends React.Component {
 }
 
 LegacyContextProvider.childContextTypes = {
-  config: PropTypes.object,
   match: matchShape,
   router: routerShape,
   getStore: PropTypes.func,
@@ -74,7 +70,6 @@ LegacyContextProvider.childContextTypes = {
 
 LegacyContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
-  config: PropTypes.object,
   match: matchShape,
   router: routerShape,
   getStore: PropTypes.func,
@@ -103,7 +98,6 @@ export default function TestProviders({
   );
   const inner = (
     <LegacyContextProvider
-      config={config}
       match={match}
       router={router}
       getStore={getStore}
