@@ -36,7 +36,6 @@ export default function ModeButton({
     buttonProps.titleWeight = MODAL_FONT_WEIGHT;
     buttonProps.withArrow = true;
     buttonProps.margin = '0';
-    buttonProps.iconSize = '35px';
     buttonProps.padding = '6px';
   } else {
     buttonProps.withBorder = true;

@@ -82,7 +82,11 @@
   // extra air before the first row on top of the dialog's header gap
   margin-top: var(--space-fixed-xs);
 
+  --iconSize: 24px;
+
   @media (min-width: 500px) {
+    --iconSize: 32px;
+
     margin-top: 0;
 
     // mirrors the gap below the description, plus the description's line-height whitespace
@@ -206,11 +210,18 @@
         margin-left: var(--iconMargin);
         border-radius: var(--borderRadius);
         background-color: var(--bckColor);
-        height: var(--iconSize);
-        width: var(--iconSize);
+        height: var(--iconSize, 30px);
+        width: var(--iconSize, 30px);
+        flex-shrink: 0;
         align-items: center;
         align-self: center;
         justify-content: center;
+
+        // viewBox-only svgs collapse to zero size as flex items in iOS Safari
+        & > svg {
+          width: 100%;
+          height: 100%;
+        }
 
         span.transport-mode-alert-icon {
           position: absolute;

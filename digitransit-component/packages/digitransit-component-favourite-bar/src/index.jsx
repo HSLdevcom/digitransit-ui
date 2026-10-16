@@ -12,6 +12,8 @@ import styles from './helpers/styles.scss';
 import i18n from './helpers/i18n';
 
 const TOGGLE_DEBOUNCE_MS = 200;
+const LIST_BOTTOM_MARGIN = 16;
+const MIN_LIST_HEIGHT = 120;
 
 const FAVOURITE_ICON_ID_TO_NAME = {
   'icon-icon_place': 'place',
@@ -119,6 +121,7 @@ function FavouriteBar({
 }) {
   const [t] = useTranslation('translation', { i18n });
   const [listOpen, setListOpen] = useState(false);
+  const [listMaxHeight, setListMaxHeight] = useState(null);
   const expandListRef = useRef(null);
   const suggestionListRef = useRef(null);
   const firstItemRef = useRef(null);
@@ -145,6 +148,28 @@ function FavouriteBar({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Let the list grow down to the bottom edge of the viewport
+  useEffect(() => {
+    if (!listOpen) {
+      return undefined;
+    }
+    const updateListMaxHeight = () => {
+      const list = suggestionListRef.current;
+      if (list) {
+        const { top } = list.getBoundingClientRect();
+        setListMaxHeight(
+          Math.max(
+            window.innerHeight - top - LIST_BOTTOM_MARGIN,
+            MIN_LIST_HEIGHT,
+          ),
+        );
+      }
+    };
+    updateListMaxHeight();
+    window.addEventListener('resize', updateListMaxHeight);
+    return () => window.removeEventListener('resize', updateListMaxHeight);
+  }, [listOpen]);
 
   // Move focus only after a toggle, not when the list is closed by other means
   useEffect(() => {
@@ -306,6 +331,7 @@ function FavouriteBar({
           <ul
             className={styles['favourite-suggestion-list']}
             id="favourite-suggestion-list"
+            style={listMaxHeight ? { maxHeight: listMaxHeight } : undefined}
             ref={suggestionListRef}
             aria-label={translate('favourites-list')}
           >
