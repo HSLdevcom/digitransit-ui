@@ -112,7 +112,7 @@ export function parseMessage(topic, message, defaultFeedId) {
   return undefined;
 }
 
-export function changeTopics(settings, actionContext) {
+export function changeTopics(settings, onTopicsChanged) {
   const { client, oldTopics } = settings;
 
   if (Array.isArray(oldTopics) && oldTopics.length > 0) {
@@ -131,11 +131,11 @@ export function changeTopics(settings, actionContext) {
     topics.push(topicString);
   });
   // set new topic to store
-  actionContext.dispatch('RealTimeClientNewTopics', { topics, topicsByRoute });
+  onTopicsChanged({ topics, topicsByRoute });
   client.subscribe(topics);
 }
 
-export function startMqttClient(settings, actionContext) {
+export function startMqttClient(settings, onMessage) {
   const options = settings.options || [{}];
   const topics = options.map(option => getTopic(option, settings));
 
@@ -151,7 +151,7 @@ export function startMqttClient(settings, actionContext) {
           client.on('message', (topic, messages) => {
             const parsedMessages = parseFeedMQTT(feedReader, messages, topic);
             parsedMessages.forEach(message => {
-              actionContext.dispatch('RealTimeClientMessage', message);
+              onMessage(message);
             });
           });
 
@@ -162,10 +162,7 @@ export function startMqttClient(settings, actionContext) {
     const client = mqtt.default.connect(settings.mqtt);
     client.on('connect', () => client.subscribe(topics));
     client.on('message', (topic, message) =>
-      actionContext.dispatch(
-        'RealTimeClientMessage',
-        parseMessage(topic, message, settings.feedId),
-      ),
+      onMessage(parseMessage(topic, message, settings.feedId)),
     );
     return { client, topics };
   });
