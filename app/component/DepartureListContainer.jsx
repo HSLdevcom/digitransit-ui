@@ -8,11 +8,7 @@ import { stopTimeShape } from '../../utils/client/shapes';
 import { useConfigContext } from '../client/ConfigContext';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
-import {
-  stopRealTimeClient,
-  startRealTimeClient,
-  changeRealTimeClientTopics,
-} from '../action/realTimeClientAction';
+import { useRealTimeActions } from '../hooks/RealTimeInformationContext';
 import {
   getHeadsignFromRouteLongName,
   isPlatformChanged,
@@ -148,20 +144,18 @@ const getRealtimeClientConfig = (departures, config) => {
   return null;
 };
 
-function DepartureListContainer(
-  {
-    stoptimes,
-    currentTime,
-    mode = 'BUS',
-    limit,
-    className,
-    isTerminal = false,
-    showVehicles = false,
-  },
-  { getStore, executeAction },
-) {
+function DepartureListContainer({
+  stoptimes,
+  currentTime,
+  mode = 'BUS',
+  limit,
+  className,
+  isTerminal = false,
+  showVehicles = false,
+}) {
   const intl = useIntl();
   const config = useConfigContext();
+  const realTime = useRealTimeActions();
   const pageLoadedAlertRef = useRef(null);
   const isMounted = useRef(false);
   const vehiclesEnabled = config.showVehiclesOnStopPage && showVehicles;
@@ -185,16 +179,13 @@ function DepartureListContainer(
         config,
       );
       if (clientConfig) {
-        executeAction(startRealTimeClient, clientConfig);
+        realTime.start(clientConfig);
       }
     }
     return () => {
       clearTimeout(alertTimeout);
       if (vehiclesEnabled) {
-        const { client } = getStore('RealTimeInformationStore');
-        if (client) {
-          executeAction(stopRealTimeClient, client);
-        }
+        realTime.stop();
       }
     };
   }, []);
@@ -208,14 +199,14 @@ function DepartureListContainer(
     if (!vehiclesEnabled) {
       return;
     }
-    const { client, topics } = getStore('RealTimeInformationStore');
+    const { client, topics } = realTime;
     if (client) {
       const clientConfig = getRealtimeClientConfig(
         getUpcomingDepartures(stoptimes, isTerminal, currentTime),
         config,
       );
       if (clientConfig) {
-        executeAction(changeRealTimeClientTopics, {
+        realTime.changeTopics({
           ...clientConfig,
           client,
           oldTopics: topics,
@@ -397,11 +388,6 @@ DepartureListContainer.propTypes = {
   className: PropTypes.string,
   isTerminal: PropTypes.bool,
   showVehicles: PropTypes.bool,
-};
-
-DepartureListContainer.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-  getStore: PropTypes.func.isRequired,
 };
 
 const containerComponent = createFragmentContainer(DepartureListContainer, {
