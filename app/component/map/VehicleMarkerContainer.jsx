@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import connectToStores from 'fluxible-addons-react/connectToStores';
+import React, { useEffect } from 'react';
+import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
 import { ExtendedRouteTypes } from '../../../utils/shared/constants';
 import VehicleIcon from '../VehicleIcon';
 import IconMarker from './IconMarker';
@@ -78,7 +78,6 @@ function VehicleMarkerContainer({
   vehicles,
 }) {
   const config = useConfigContext();
-  // TODO: move vehicle filtering logic to RealtimeInformationStore
   const visibleVehicles = Object.entries(vehicles).filter(([, message]) => {
     const { feedId, entityId: routeId } = splitGtfsId(message.route);
     const { ignoreHeadsign } = config.realTime[feedId];
@@ -93,7 +92,9 @@ function VehicleMarkerContainer({
     );
   });
   const visibleVehicleIds = visibleVehicles.map(([id]) => id);
-  setVisibleVehicles(visibleVehicleIds);
+  useEffect(() => {
+    setVisibleVehicles(visibleVehicleIds);
+  }, [vehicles, direction, headsign, pattern, topics, setVisibleVehicles]);
 
   return visibleVehicles.map(([id, message]) => {
     const { entityId: routeId } = splitGtfsId(message.route);
@@ -157,37 +158,37 @@ VehicleMarkerContainer.propTypes = {
   mode: PropTypes.string,
 };
 
-const connectedComponent = connectToStores(
-  VehicleMarkerContainer,
-  ['RealTimeInformationStore'],
-  (context, props) => {
-    const store = context.getStore('RealTimeInformationStore');
-    const { vehicles } = store;
-    let vehiclesFiltered = vehicles;
-    if (props.mode) {
-      const filtered = Object.entries(vehicles).filter(
-        ([, message]) =>
-          message.mode.toLowerCase() === props.mode.toLowerCase(),
-      );
-      vehiclesFiltered = Object.fromEntries(filtered);
-    }
-    // if you keep the UI open for a long time then trips that have finsished accumulated on the screen
-    // this removes anything that hasn't had an update in 3 minutes
-    const vehiclesWithRecentUpdates = Object.entries(vehiclesFiltered).filter(
-      ([, message]) => {
-        return message.receivedAt > Date.now() / 1000 - 180;
-      },
+function ConnectedVehicleMarkerContainer(props) {
+  const { vehicles, actions } = useRealTimeInformation();
+  let vehiclesFiltered = vehicles;
+  if (props.mode) {
+    const filtered = Object.entries(vehicles).filter(
+      ([, message]) => message.mode.toLowerCase() === props.mode.toLowerCase(),
     );
-    return {
-      ...props,
-      vehicles: Object.fromEntries(vehiclesWithRecentUpdates),
-      setVisibleVehicles: store.setVisibleVehicles.bind(store),
-    };
-  },
-);
+    vehiclesFiltered = Object.fromEntries(filtered);
+  }
+  // if you keep the UI open for a long time then trips that have finsished accumulated on the screen
+  // this removes anything that hasn't had an update in 3 minutes
+  const vehiclesWithRecentUpdates = Object.entries(vehiclesFiltered).filter(
+    ([, message]) => {
+      return message.receivedAt > Date.now() / 1000 - 180;
+    },
+  );
+  return (
+    <VehicleMarkerContainer
+      {...props}
+      vehicles={Object.fromEntries(vehiclesWithRecentUpdates)}
+      setVisibleVehicles={actions.setVisibleVehicles}
+    />
+  );
+}
+
+ConnectedVehicleMarkerContainer.propTypes = {
+  mode: PropTypes.string,
+};
 
 export {
-  connectedComponent as default,
+  ConnectedVehicleMarkerContainer as default,
   VehicleMarkerContainer as Component,
   shouldShowVehicle,
   getVehicleIcon,

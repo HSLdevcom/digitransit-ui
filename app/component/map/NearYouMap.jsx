@@ -17,11 +17,7 @@ import VehicleMarkerContainer from './VehicleMarkerContainer';
 import Line from './Line';
 import MapWithTracking from './MapWithTracking';
 import { getSettings } from '../../../utils/client/planParamUtil';
-import {
-  startRealTimeClient,
-  stopRealTimeClient,
-  changeRealTimeClientTopics,
-} from '../../action/realTimeClientAction';
+import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import {
   sortNearYouRentalStations,
   sortNearYouStops,
@@ -70,27 +66,25 @@ const getRealTimeSettings = (routes, config) => {
   return null;
 };
 
-const startClient = (context, config, routes) => {
+const startClient = (actions, config, routes) => {
   const rtConfig = getRealTimeSettings(routes, config);
   if (rtConfig) {
-    context.executeAction(startRealTimeClient, rtConfig);
+    actions.start(rtConfig);
   }
 };
 
-const stopClient = context => {
-  const { client } = context.getStore('RealTimeInformationStore');
-  if (client) {
-    context.executeAction(stopRealTimeClient, client);
-  }
+const stopClient = actions => {
+  actions.stop();
 };
 
-const updateClient = (context, config, topics) => {
-  const { client } = context.getStore('RealTimeInformationStore');
+const updateClient = (actions, config, topics) => {
+  const { client, topics: oldTopics } = actions;
   const rtConfig = getRealTimeSettings(topics, config);
   if (rtConfig) {
     if (client) {
       rtConfig.client = client;
-      context.executeAction(changeRealTimeClientTopics, rtConfig);
+      rtConfig.oldTopics = oldTopics;
+      actions.changeTopics(rtConfig);
     }
   }
 };
@@ -118,20 +112,18 @@ const nonTransit = ['CITYBIKE', 'BIKEPARK', 'CARPARK'];
 
 const EMPTY_ARRAY = [];
 
-function NearYouMap(
-  {
-    breakpoint,
-    stops = EMPTY_ARRAY,
-    loading = false,
-    favouriteIds,
-    relay,
-    position,
-    showWalkRoute = false,
-    prioritizedStops = EMPTY_ARRAY,
-    ...rest
-  },
-  context,
-) {
+function NearYouMap({
+  breakpoint,
+  stops = EMPTY_ARRAY,
+  loading = false,
+  favouriteIds,
+  relay,
+  position,
+  showWalkRoute = false,
+  prioritizedStops = EMPTY_ARRAY,
+  ...rest
+}) {
+  const realTime = useRealTimeActions();
   const [sortedStopEdges, setSortedStopEdges] = useState([]);
   const [uniqueRealtimeTopics, setUniqueRealtimeTopics] = useState([]);
   const [routeLines, setRouteLines] = useState([]);
@@ -234,7 +226,7 @@ function NearYouMap(
 
   useEffect(() => {
     return function cleanup() {
-      stopClient(context);
+      stopClient(realTime);
     };
   }, []);
 
@@ -284,10 +276,10 @@ function NearYouMap(
   useEffect(() => {
     if (uniqueRealtimeTopics.length > 0) {
       if (!clientOn.current) {
-        startClient(context, config, uniqueRealtimeTopics);
+        startClient(realTime, config, uniqueRealtimeTopics);
         clientOn.current = true;
       } else {
-        updateClient(context, config, uniqueRealtimeTopics);
+        updateClient(realTime, config, uniqueRealtimeTopics);
       }
     }
   }, [uniqueRealtimeTopics]);
@@ -413,11 +405,6 @@ NearYouMap.propTypes = {
   relay: relayShape.isRequired,
   loading: PropTypes.bool,
   showWalkRoute: PropTypes.bool,
-};
-
-NearYouMap.contextTypes = {
-  executeAction: PropTypes.func,
-  getStore: PropTypes.func,
 };
 
 export default NearYouMap;
