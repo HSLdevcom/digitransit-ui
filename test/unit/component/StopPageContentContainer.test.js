@@ -17,7 +17,6 @@ const baseConfig = {
 };
 
 const baseProps = {
-  currentTime: 1000,
   relay: { refetch: () => {}, environment: {} },
   match: { ...mockMatch, params: { stopId: 'HSL:1234' } },
 };
@@ -35,9 +34,10 @@ describe('<StopPageContentContainer />', () => {
   it('renders StopServiceStatusBanner in no-departures mode when stoptimes is empty', () => {
     const wrapper = render({});
     expect(wrapper.find(StopServiceStatusBanner)).to.have.lengthOf(1);
-    expect(
-      wrapper.find(StopServiceStatusBanner).prop('stoptimes'),
-    ).to.deep.equal([]);
+    expect(wrapper.find(StopServiceStatusBanner).prop('stoptimes'), {
+      context: { config: { CONFIG: 'default' } },
+      currentTime: 0,
+    }).to.deep.equal([]);
   });
 
   it('passes servicesRunningInFuture=false when futureStoptimes is empty', () => {
