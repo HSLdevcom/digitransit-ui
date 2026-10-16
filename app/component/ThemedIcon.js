@@ -1,6 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon as HslFiIconWrapper, Question } from '@hsl-fi/icons';
+import {
+  BusStop,
+  CitybikeStation,
+  Metro,
+  Question,
+  Scooter,
+  SpeedtramStop,
+  Stop,
+  TrainStop,
+  TramStop,
+} from '@hsl-fi/icons';
 import { useConfigContext } from '../configurations/ConfigContext';
 import SvgIcon from './Icon';
 
@@ -11,6 +21,24 @@ import SvgIcon from './Icon';
  */
 const ICON_MAP = {
   Question: { hslFiIcon: Question, fallbackImg: 'icon_info' },
+  BusStop: { hslFiIcon: BusStop, fallbackImg: 'icon_bus-lollipop' },
+  TramStop: { hslFiIcon: TramStop, fallbackImg: 'icon_tram-lollipop' },
+  TrainStop: { hslFiIcon: TrainStop, fallbackImg: 'icon_rail-lollipop' },
+  MetroStop: { hslFiIcon: Metro, fallbackImg: 'icon_subway' },
+  // TODO: use @hsl-fi/icons once it exports FerryStop
+  FerryStop: { fallbackImg: 'icon_ferry-stop' },
+  // TODO: use @hsl-fi/icons once it exports FerryExternalStop
+  FerryExternalStop: { fallbackImg: 'icon_ferry-external-stop' },
+  CitybikeStation: {
+    hslFiIcon: CitybikeStation,
+    fallbackImg: 'icon_citybike-lollipop',
+  },
+  ScooterStop: { hslFiIcon: Scooter, fallbackImg: 'icon_scooter-lollipop' },
+  SpeedtramStop: {
+    hslFiIcon: SpeedtramStop,
+    fallbackImg: 'icon_tram-lollipop',
+  },
+  GenericStop: { hslFiIcon: Stop, fallbackImg: 'icon_bus-lollipop' },
 };
 
 const ICON_NAMES = Object.keys(ICON_MAP);
@@ -23,20 +51,40 @@ const ICON_NAMES = Object.keys(ICON_MAP);
  * This component is the single place responsible for @hsl-fi/icons imports.
  * Usage sites should never import from @hsl-fi/icons directly.
  */
-function ThemedIcon({ name, ...rest }) {
+function ThemedIcon({ name, customColor, style, ...rest }) {
   const config = useConfigContext();
   const { hslFiIcon, fallbackImg } = ICON_MAP[name];
 
-  if (config.iconModeSet === 'hsl') {
-    return <HslFiIconWrapper icon={hslFiIcon} {...rest} />;
+  if (config.iconModeSet === 'hsl' && hslFiIcon) {
+    const HslIcon = hslFiIcon;
+    return (
+      <HslIcon
+        color={customColor ? 'custom' : undefined}
+        style={
+          customColor ? { '--color-icon-custom': customColor, ...style } : style
+        }
+        {...rest}
+      />
+    );
   }
 
-  return <SvgIcon img={fallbackImg} {...rest} />;
+  return <SvgIcon img={fallbackImg} color={customColor} {...rest} />;
 }
 
 ThemedIcon.propTypes = {
   /** Logical icon name — must exist in ICON_MAP */
   name: PropTypes.oneOf(ICON_NAMES).isRequired,
+  /** CSS color overriding the default icon color */
+  customColor: PropTypes.string,
+  /** Inline style, applied only to @hsl-fi/icons */
+  style: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  ),
+};
+
+ThemedIcon.defaultProps = {
+  customColor: undefined,
+  style: undefined,
 };
 
 export default ThemedIcon;

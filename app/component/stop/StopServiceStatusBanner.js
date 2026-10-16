@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl';
 import {
   BusStop,
   CitybikeStation,
-  Ferry,
   Metro,
   Scooter,
   SpeedtramStop,
@@ -34,7 +33,9 @@ function getModeStopIcon(mode) {
     case 'metro':
       return Metro;
     case 'ferry':
-      return Ferry;
+      return 'FerryStop';
+    case 'ferry-external':
+      return 'FerryExternalStop';
     case 'citybike':
       return CitybikeStation;
     case 'scooter':
