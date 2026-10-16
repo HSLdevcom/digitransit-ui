@@ -212,6 +212,12 @@
         align-self: center;
         justify-content: center;
 
+        // viewBox-only svgs collapse to zero size as flex items in iOS Safari
+        & > svg {
+          width: 100%;
+          height: 100%;
+        }
+
         span.transport-mode-alert-icon {
           position: absolute;
           top: 28px;
