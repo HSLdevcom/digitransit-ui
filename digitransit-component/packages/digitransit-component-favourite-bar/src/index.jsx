@@ -11,7 +11,6 @@ import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-
 import styles from './helpers/styles.scss';
 import i18n from './helpers/i18n';
 
-const DEFAULT_FONT_WEIGHTS = { medium: 500 };
 const TOGGLE_DEBOUNCE_MS = 200;
 
 const FAVOURITE_ICON_ID_TO_NAME = {
@@ -117,7 +116,6 @@ function FavouriteBar({
   lang = 'fi',
   isLoading = false,
   colors = defaultColors,
-  fontWeights = DEFAULT_FONT_WEIGHTS,
 }) {
   const [t] = useTranslation('translation', { i18n });
   const [listOpen, setListOpen] = useState(false);
@@ -239,11 +237,7 @@ function FavouriteBar({
             item?.address || ''
           } ${ariaLabelSuffix}`}
         >
-          <SuggestionItem
-            item={item}
-            colors={colors}
-            fontWeights={fontWeights}
-          />
+          <SuggestionItem item={item} colors={colors} />
         </div>
       </li>
     );
@@ -256,7 +250,7 @@ function FavouriteBar({
   const [name2, address2] = formatFavourite(secondFavourite);
 
   return (
-    <div style={{ '--font-weight-medium': fontWeights.medium }}>
+    <div>
       <div className={styles['favourite-container']}>
         <FavouriteLocation
           text={name1 || translate('add-home')}
@@ -385,10 +379,6 @@ FavouriteBar.propTypes = {
   /** Optional color palette */
   colors: PropTypes.objectOf(PropTypes.string),
   /** Optional. */
-  fontWeights: PropTypes.shape({
-    /** Default value is 500. */
-    medium: PropTypes.number,
-  }),
 };
 
 export default FavouriteBar;

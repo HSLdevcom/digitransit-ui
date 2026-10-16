@@ -61,14 +61,6 @@ Optional. Whether to show loading animation, true or false.
 
 Optional color palette
 
-## fontWeights
-
-Optional.
-
-### medium
-
-Default value is 500.
-
 ## FavouriteBar
 
 FavouriteBar renders favourites. FavouriteBar displays the first two favourites, the rest are shown in a list.
@@ -86,7 +78,6 @@ FavouriteBar renders favourites. FavouriteBar displays the first two favourites,
     *   `$0.lang`   (optional, default `'fi'`)
     *   `$0.isLoading`   (optional, default `false`)
     *   `$0.colors`   (optional, default `defaultColors`)
-    *   `$0.fontWeights`   (optional, default `DEFAULT_FONT_WEIGHTS`)
 
 ### Examples
 
@@ -102,6 +93,10 @@ FavouriteBar renders favourites. FavouriteBar displays the first two favourites,
   isLoading={isLoading}
 />
 ```
+
+##
+
+Optional.
 
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 

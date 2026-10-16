@@ -205,7 +205,6 @@ const locationShape = PropTypes.shape({
 
 const EMPTY_LIST = [];
 const noop = () => {};
-const DEFAULT_FONT_WEIGHTS = { medium: 500 };
 
 function DTAutosuggestPanel({
   appElement,
@@ -234,7 +233,6 @@ function DTAutosuggestPanel({
   modeSet,
   colors = defaultColors,
   getAutoSuggestIcons,
-  fontWeights = DEFAULT_FONT_WEIGHTS,
   showScroll = false,
   onFocusChange,
   isEmbedded = false,
@@ -345,7 +343,6 @@ function DTAutosuggestPanel({
       className={cx([styles['autosuggest-panel'], { small: isMobile }])}
       style={{
         '--color': primary,
-        '--font-weight-medium': fontWeights.medium,
       }}
     >
       {' '}
@@ -381,7 +378,6 @@ function DTAutosuggestPanel({
           isMobile={isMobile}
           colors={colors}
           mobileLabel={originMobileLabel}
-          fontWeights={fontWeights}
           modeSet={modeSet}
           showScroll={showScroll}
           isEmbedded={isEmbedded}
@@ -465,7 +461,6 @@ function DTAutosuggestPanel({
                     filterResults={filterResults}
                     getAutoSuggestIcons={getAutoSuggestIcons}
                     isMobile={isMobile}
-                    fontWeights={fontWeights}
                     modeSet={modeSet}
                     colors={colors}
                     showScroll={showScroll}
@@ -568,7 +563,6 @@ function DTAutosuggestPanel({
           filterResults={filterResults}
           isMobile={isMobile}
           mobileLabel={destinationMobileLabel}
-          fontWeights={fontWeights}
           modeSet={modeSet}
           colors={colors}
           showScroll={showScroll}
@@ -623,9 +617,6 @@ DTAutosuggestPanel.propTypes = {
   modeSet: PropTypes.string,
   colors: PropTypes.objectOf(PropTypes.string),
   getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
-  fontWeights: PropTypes.shape({
-    medium: PropTypes.number,
-  }),
   showScroll: PropTypes.bool,
   onFocusChange: PropTypes.func,
   isEmbedded: PropTypes.bool,

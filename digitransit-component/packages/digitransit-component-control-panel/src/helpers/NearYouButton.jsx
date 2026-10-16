@@ -9,7 +9,7 @@ export default function NearYouButton({
   modeSet,
   colors,
   title = '',
-  titleWeight = 500,
+  titleWeight,
   withAlert = false,
   boxed = false,
   withBorder = false,
@@ -69,7 +69,7 @@ export default function NearYouButton({
       {title && (
         <span
           className={styles['transport-mode-title']}
-          style={{ '--font-weight': titleWeight }}
+          style={titleWeight ? { '--font-weight': titleWeight } : undefined}
         >
           {title}
         </span>

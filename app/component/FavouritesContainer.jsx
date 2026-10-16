@@ -44,7 +44,6 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
   }, []);
 
   const lang = config.language;
-  const { fontWeights } = config;
 
   const enabled =
     config.allowFavouritesFromLocalstorage || config.user?.sub !== undefined;
@@ -208,7 +207,6 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
         lang={lang}
         isLoading={isLoading}
         colors={config.colors}
-        fontWeights={fontWeights}
       />
 
       <FavouriteModal
@@ -231,7 +229,6 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
             getAutoSuggestIcons={config.getAutoSuggestIcons}
             lang={lang}
             isMobile={isMobile}
-            fontWeights={fontWeights}
             required
             colors={config.colors}
             modeSet={config.iconModeSet}

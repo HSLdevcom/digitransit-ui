@@ -97,7 +97,7 @@
 
   .near-you-title {
     font-family: inherit;
-    font-weight: var(--font-weight);
+    font-weight: var(--font-weight-medium, 500);
     line-height: normal;
     letter-spacing: -0.67px;
     color: #333;
@@ -232,7 +232,7 @@
       .transport-mode-title {
         cursor: pointer;
         font-style: normal;
-        font-weight: var(--font-weight);
+        font-weight: var(--font-weight, var(--font-weight-medium, 500));
         font-size: 15px;
         line-height: 18px;
         margin-left: 9px;
