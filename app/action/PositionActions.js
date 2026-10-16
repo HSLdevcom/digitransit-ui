@@ -1,13 +1,14 @@
 import debounce from 'lodash/debounce';
-import { getJson } from '../util/xhrPromise';
-import { geolocationMessages } from '../util/geolocationMessages';
-import { addAnalyticsEvent } from '../util/analyticsUtils';
+import { getJson } from '../../utils/shared/xhrPromise';
+import { geolocationMessages } from '../../utils/client/geolocationMessages';
+import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { messageActions } from '../hooks/MessageContext';
 
 const MOCKPOS = false;
 let geoWatchId;
 
 function reverseGeocodeAddress(actionContext, coords) {
-  const language = actionContext.getStore('PreferencesStore').getLanguage();
+  const { language } = actionContext.config;
 
   const searchParams = {
     'point.lat': coords.latitude,
@@ -62,12 +63,12 @@ function geoCallback(actionContext, pos) {
 function updateGeolocationMessage(actionContext, newId) {
   Object.keys(geolocationMessages).forEach(id => {
     if (id !== newId) {
-      actionContext.dispatch('MarkMessageAsRead', geolocationMessages[id].id);
+      messageActions.markMessageAsRead(geolocationMessages[id].id);
     }
   });
 
   if (newId) {
-    actionContext.dispatch('AddMessage', geolocationMessages[newId]);
+    messageActions.addMessage(geolocationMessages[newId]);
   }
 }
 

@@ -1,12 +1,33 @@
 import { graphql } from 'react-relay';
-import './CanceledTripsPaginationFragment';
+import './CanceledTripsPatternFragment';
 
 export default graphql`
   query CanceledTripsForModeQuery(
-    $first: Int!
-    $after: String
     $mode: TransitMode!
+    $runningTimeRanges: [OffsetDateTimeRangeInput!]
   ) {
-    ...CanceledTripsPaginationFragment
+    canceledTripsSummary(
+      filters: {
+        include: { modes: [$mode], runningTimeRanges: $runningTimeRanges }
+      }
+    ) {
+      routes {
+        cancellationCount
+        route {
+          id
+          gtfsId
+          shortName
+          mode
+        }
+        patterns {
+          cancellationCount
+          pattern {
+            code
+            ...CanceledTripsPatternFragment
+              @arguments(runningTimeRanges: $runningTimeRanges)
+          }
+        }
+      }
+    }
   }
 `;

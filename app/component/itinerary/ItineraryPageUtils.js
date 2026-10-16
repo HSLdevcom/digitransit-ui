@@ -8,18 +8,24 @@ import {
   startRealTimeClient,
   stopRealTimeClient,
 } from '../../action/realTimeClientAction';
-import { PlannerMessageType, ExtendedRouteTypes } from '../../constants';
-import { addAnalyticsEvent } from '../../util/analyticsUtils';
-import { boundWithMinimumArea } from '../../util/geo-utils';
+import {
+  PlannerMessageType,
+  ExtendedRouteTypes,
+} from '../../../utils/shared/constants';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
 import {
   compressLegs,
   getTotalBikingDistance,
   isDirectItineraryWithAllowedRouteTypes,
-} from '../../util/legUtils';
-import { getMapLayerOptions } from '../../util/mapLayerUtils';
-import { getDefaultSettings, getSettings } from '../../util/planParamUtil';
-import { getStartTimeWithColon } from '../../util/timeUtils';
-import { splitGtfsId } from '../../util/gtfs';
+} from '../../../utils/client/legUtils';
+import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
+import {
+  getDefaultSettings,
+  getSettings,
+} from '../../../utils/client/planParamUtil';
+import { getStartTimeWithColon } from '../../../utils/client/timeUtils';
+import { splitGtfsId } from '../../../utils/shared/gtfs';
 
 /**
  * Returns the index of selected itinerary. Attempts to look for
@@ -210,7 +216,7 @@ export function settingsLimitRouting(config) {
 }
 
 export function setCurrentTimeToURL(config, match) {
-  if (process.env.NODE_ENV !== 'test' && !match.location?.query?.time) {
+  if (!match.location?.query?.time) {
     const newLocation = {
       ...match.location,
       query: {
@@ -255,7 +261,12 @@ export function stopClient(context) {
 export function startClient(itineraryTopics, context, config) {
   if (!isEmpty(itineraryTopics)) {
     const clientConfig = configClient(itineraryTopics, config);
-    context.executeAction(startRealTimeClient, clientConfig);
+    // clientConfig is null e.g. when the itinerary's feed isn't configured
+    // for realtime, or the realtime source isn't active (routes without a
+    // fixed schedule) - don't start a client in that case.
+    if (clientConfig) {
+      context.executeAction(startRealTimeClient, clientConfig);
+    }
   }
 }
 
@@ -613,21 +624,21 @@ export function mergeInternalFlexPlan(
   return sortAndMergePlans(selectedInternalFlexEdges, plan, arriveBy);
 }
 
-/** Combine a car pickup zone taxi plan with the main transit plan. */
-export function mergeCarPickupZonePlan(
-  carPickupZonePlan,
+/** Combine a taxi zone plan with the main transit plan. */
+export function mergeTaxiZonePlan(
+  taxiZonePlan,
   transitPlan,
   arriveBy,
   showBothDirectAndTransitResults,
-  allowedCarPickupZoneRouteTypes,
+  allowedTaxiZoneRouteTypes,
 ) {
   const filteredEdges = filterItinerariesByRouteType(
-    carPickupZonePlan.edges,
-    allowedCarPickupZoneRouteTypes,
+    taxiZonePlan.edges,
+    allowedTaxiZoneRouteTypes,
   );
   const selectedEdges = selectEdgesWithAllowedRouteTypes(
     filteredEdges,
-    allowedCarPickupZoneRouteTypes,
+    allowedTaxiZoneRouteTypes,
     showBothDirectAndTransitResults,
   );
   return sortAndMergePlans(selectedEdges, transitPlan, arriveBy);

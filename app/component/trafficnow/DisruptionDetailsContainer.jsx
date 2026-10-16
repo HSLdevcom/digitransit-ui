@@ -1,0 +1,147 @@
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
+import { ButtonLink, Text } from '@hsl-fi/layout-primitives';
+import { useRouter } from 'found';
+import { useLazyLoadQuery } from 'react-relay/hooks';
+import { useConfigContext } from '../../client/ConfigContext';
+import Card from '../Card';
+import DisruptionBadge from './DisruptionBadge';
+import DisruptionStatus from './components/DisruptionStatus';
+import RouteBadges from './RouteBadges';
+import AlertsQuery from './queries/AlertsQuery';
+import { AlertSeverityLevelType } from '../../../utils/shared/constants';
+import CTAContainer from './components/CTAContainer';
+
+const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {
+  const config = useConfigContext();
+  const { formatMessage } = useIntl();
+  const { router } = useRouter();
+  const { alerts } = useLazyLoadQuery(AlertsQuery, {
+    feedIds: config.feedIds,
+  });
+
+  const alert = alerts?.find(a => a.id === alertId);
+
+  useEffect(() => {
+    if (!alert) {
+      router.replace('/liikenne');
+    }
+  }, [alert, router]);
+
+  if (!alert) {
+    return null;
+  }
+
+  const {
+    alertSeverityLevel,
+    alertEffect,
+    alertHeaderText,
+    alertDescriptionText,
+    effectiveStartDate,
+    effectiveEndDate,
+    alertUrl,
+    entities,
+  } = alert;
+
+  const checkedUrl =
+    alertUrl &&
+    (alertUrl.match(/^[a-zA-Z]+:\/\//) ? alertUrl : `http://${alertUrl}`);
+
+  const content = (
+    <>
+      <div className="disruption-details__header">
+        <DisruptionBadge
+          showIcon
+          variant={alertSeverityLevel}
+          label={alertEffect}
+        />
+        {isMobile && (
+          <div className="disruption-details__header-validity">
+            <div className="separator vertical" />
+            <DisruptionStatus
+              effectiveStartDate={effectiveStartDate}
+              effectiveEndDate={effectiveEndDate}
+              showDates={false}
+            />
+          </div>
+        )}
+        {!isMobile && (
+          <DisruptionStatus
+            effectiveStartDate={effectiveStartDate}
+            effectiveEndDate={effectiveEndDate}
+            variant="routes-s-bold"
+            showDates={alertSeverityLevel !== AlertSeverityLevelType.Info}
+          />
+        )}
+      </div>
+      <div className="disruption-details__content">
+        {entities && (
+          <div className="disruption-details__routes">
+            <RouteBadges entities={entities} />
+          </div>
+        )}
+        <Text
+          variant="heading-xs"
+          as="h2"
+          className="disruption-details__title"
+        >
+          {alertHeaderText}
+        </Text>
+        <Text
+          variant="text-m"
+          as="p"
+          className="disruption-details__description"
+        >
+          {alertDescriptionText}
+        </Text>
+        {checkedUrl && (
+          <div className="disruption-details__link">
+            <ButtonLink
+              size="s"
+              href={checkedUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="secondary"
+              style={{
+                minWidth: isMobile ? '100%' : 'none',
+              }}
+            >
+              {formatMessage({
+                id: 'extra-info',
+                defaultMessage: 'More info',
+              })}
+            </ButtonLink>
+          </div>
+        )}
+      </div>
+    </>
+  );
+
+  if (isMobile) {
+    return (
+      <>
+        <CTAContainer isMobile />
+        <div className="disruption-details disruption-details--mobile">
+          {content}
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <CTAContainer />
+      <div className="disruption-details__container">
+        <Card>{content}</Card>
+      </div>
+    </>
+  );
+};
+
+DisruptionDetailsContainer.propTypes = {
+  alertId: PropTypes.string.isRequired,
+  isMobile: PropTypes.bool,
+};
+
+export default DisruptionDetailsContainer;

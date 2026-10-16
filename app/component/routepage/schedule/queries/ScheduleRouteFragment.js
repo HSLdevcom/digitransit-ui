@@ -5,6 +5,8 @@ export const ScheduleRouteFragment = graphql`
   @argumentDefinitions(
     date: { type: "String" }
     serviceDate: { type: "String" }
+    cancelationStartDate: { type: "OffsetDateTime!" }
+    cancelationEndDate: { type: "OffsetDateTime!" }
   ) {
     gtfsId
     color
@@ -44,6 +46,19 @@ export const ScheduleRouteFragment = graphql`
       activeDates: trips {
         serviceId
         day: activeDates
+      }
+      canceledTrips(
+        runningTimeRanges: [
+          { start: $cancelationStartDate, end: $cancelationEndDate }
+        ]
+      ) {
+        serviceDate
+        trip {
+          pattern {
+            code
+          }
+          gtfsId
+        }
       }
     }
   }

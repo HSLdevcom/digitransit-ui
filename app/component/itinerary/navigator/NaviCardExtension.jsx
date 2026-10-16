@@ -1,0 +1,254 @@
+import React from 'react';
+import cx from 'classnames';
+import PropTypes from 'prop-types';
+import { FormattedMessage, useIntl } from 'react-intl';
+import Icon from '../../Icon';
+import StopCode from '../../StopCode';
+import PlatformNumber from '../../PlatformNumber';
+import {
+  getZoneLabel,
+  getHeadsignFromRouteLongName,
+  legTime,
+  legTimeStr,
+  isLocalCallAgency,
+  isCallAgencyLeg,
+} from '../../../../utils/client/legUtils';
+import ZoneIcon from '../../ZoneIcon';
+import { legShape } from '../../../../utils/client/shapes';
+import { getDestinationProperties, LEGTYPE, withRealTime } from './NaviUtils';
+import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
+import { durationToString } from '../../../../utils/client/timeUtils';
+import RouteNumberContainer from '../../RouteNumberContainer';
+import BoardingInfo from './BoardingInfo';
+import { getModeIconColor } from '../../../../utils/shared/colorUtils';
+import NaviIndoorButtonContainer from './indoor/NaviIndoorButtonContainer';
+import NaviIndoorCard from './indoor/NaviIndoorCard';
+import {
+  IndoorLegType,
+  NaviCardType,
+} from '../../../../utils/shared/constants';
+import { getIndoorLegType } from '../../../../utils/client/indoorUtils';
+import { useConfigContext } from '../../../client/ConfigContext';
+
+const NaviCardExtension = ({
+  focusToPoint,
+  legType = '',
+  previousLeg,
+  leg,
+  nextLeg,
+  time,
+  platformUpdated = false,
+  currentCard = NaviCardType.Default,
+  setCurrentCard,
+}) => {
+  const config = useConfigContext();
+  const intl = useIntl();
+  const { stop, name, rentalVehicle, vehicleParking, vehicleRentalStation } =
+    leg ? leg.to : nextLeg.from;
+  const { code, platformCode, zoneId, vehicleMode } = stop || {};
+  const [place, address] = name?.split(/, (.+)/) || [];
+
+  const isLocalCall = isLocalCallAgency(nextLeg, config);
+  const appendClass = isLocalCall ? 'call-local' : '';
+  const callAgencyDestination =
+    nextLeg && (isLocalCall || isCallAgencyLeg(nextLeg));
+
+  let destination = {};
+  if (stop && !callAgencyDestination) {
+    destination = getDestinationProperties(
+      rentalVehicle,
+      vehicleParking,
+      vehicleRentalStation,
+      stop,
+      config,
+    );
+  } else {
+    destination.iconId = 'icon_mapMarker';
+    destination.className = 'place';
+    destination.name = place;
+  }
+
+  if (currentCard === NaviCardType.Indoor) {
+    return (
+      <NaviIndoorCard
+        setCurrentCard={setCurrentCard}
+        previousLeg={previousLeg}
+        leg={leg}
+        nextLeg={nextLeg}
+        focusToPoint={focusToPoint}
+      />
+    );
+  }
+
+  if (legType === LEGTYPE.TRANSIT) {
+    const { headsign, trip, route } = leg;
+    const intermediateCount = leg.stopCalls ? leg.stopCalls.length - 2 : 0;
+    const hs = headsign || trip.tripHeadsign;
+    const stopCount = <span className="bold">{intermediateCount}</span>;
+    const translationId =
+      intermediateCount === 1
+        ? 'navileg-one-intermediate-stop'
+        : 'navileg-intermediate-stops';
+    const mode = getTripOrRouteMode(trip, route, config);
+    const iconColor = getModeIconColor(config, mode) || leg.route.color;
+    return (
+      <div className="extension">
+        <div className="extension-routenumber">
+          <RouteNumberContainer
+            className={cx('line', mode)}
+            route={route}
+            mode={mode}
+            appendClass={appendClass}
+            isTransitLeg
+            vertical
+            withBar
+          />
+          <div className="headsign">{hs}</div>
+        </div>
+        <div className="extension-divider" />
+        <div className="stop-count">
+          <Icon img="navi-intermediatestops" color={iconColor} omitViewBox />
+          <FormattedMessage
+            id={translationId}
+            values={{ stopCount }}
+            defaultMessage="{nrStopsRemaining} stops remaining"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  const stopInformation = (expandIcon = false) => {
+    return (
+      <div className="extension-walk">
+        <div className="destination-container">
+          {expandIcon && <Icon img="navi-expand" className="icon-expand" />}
+          <Icon
+            img={destination.iconId}
+            height={2}
+            width={2}
+            className={`destination-icon ${destination.className}`}
+            color={destination.iconColor}
+          />
+          <div className="destination">
+            {destination.name}
+            <div className="details">
+              {!stop && address && <div className="address">{address}</div>}
+              {code && <StopCode code={code} />}
+              {platformCode && (
+                <PlatformNumber
+                  number={platformCode}
+                  short
+                  mode={vehicleMode}
+                  updated={platformUpdated}
+                />
+              )}
+              <ZoneIcon
+                zoneId={getZoneLabel(zoneId, config)}
+                showUnknown={false}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  if (legType === LEGTYPE.WAIT_IN_VEHICLE) {
+    const { route, trip } = nextLeg;
+    const sameRouteInterline =
+      previousLeg?.route?.shortName === route.shortName;
+    return (
+      <div className="extension">
+        <div className="extension-divider" />
+        <div className="wait-in-vehicle">
+          <FormattedMessage
+            id={
+              sameRouteInterline
+                ? 'navigation-interline-wait-same-route'
+                : 'navigation-interline-wait'
+            }
+            values={{
+              line: <span className="bold">{route.shortName}</span>,
+              destination: (
+                <span className="bold">
+                  {trip.tripHeadsign || getHeadsignFromRouteLongName(route)}
+                </span>
+              ),
+            }}
+          />
+        </div>
+        {stopInformation(true)}
+      </div>
+    );
+  }
+
+  if (legType === LEGTYPE.MOVE && nextLeg?.transitLeg) {
+    const { headsign, trip, route, start } = nextLeg;
+    const hs = headsign || nextLeg.trip?.tripHeadsign;
+    const remainingDuration = durationToString(intl, legTime(start) - time);
+    const rt = nextLeg.realtimeState === 'UPDATED';
+    const values = {
+      duration: withRealTime(rt, remainingDuration),
+      legTime: withRealTime(rt, legTimeStr(start)),
+    };
+    const routeMode = getTripOrRouteMode(trip, route, config);
+    return (
+      <div className={cx('extension', 'no-vertical-margin')}>
+        <div className="extension-divider" />
+        {stopInformation(false)}
+        <NaviIndoorButtonContainer
+          currentCard={currentCard}
+          setCurrentCard={setCurrentCard}
+          previousLeg={previousLeg}
+          leg={leg}
+          nextLeg={nextLeg}
+          focusToPoint={focusToPoint}
+        />
+        <div className="extension-divider" />
+        <BoardingInfo
+          route={route}
+          mode={routeMode}
+          headsign={hs}
+          translationValues={values}
+          appendClass={appendClass}
+          withExpandIcon
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="extension">
+      {getIndoorLegType(previousLeg, leg, nextLeg) ===
+        IndoorLegType.StepsBeforeEntranceInside && (
+        <>
+          <div className="extension-divider" />
+          <NaviIndoorButtonContainer
+            currentCard={currentCard}
+            setCurrentCard={setCurrentCard}
+            previousLeg={previousLeg}
+            leg={leg}
+            nextLeg={nextLeg}
+            focusToPoint={focusToPoint}
+          />
+        </>
+      )}
+      <div className="extension-divider" />
+      {stopInformation(true)}
+    </div>
+  );
+};
+NaviCardExtension.propTypes = {
+  focusToPoint: PropTypes.func.isRequired,
+  previousLeg: legShape,
+  leg: legShape,
+  nextLeg: legShape,
+  legType: PropTypes.string,
+  time: PropTypes.number.isRequired,
+  platformUpdated: PropTypes.bool,
+  currentCard: PropTypes.oneOf(Object.values(NaviCardType)),
+  setCurrentCard: PropTypes.func.isRequired,
+};
+
+export default NaviCardExtension;

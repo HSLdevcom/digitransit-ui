@@ -14,16 +14,25 @@ You also need a C compiler:
 - OS X: Xcode 5.0 or later
 
 ### WSL
-To use Windows Subsystem for Linux in digitransit-ui development you may need to do at least the following
-1. Add the following to your `/etc/hosts`. This is because the project uses ipv6 compliant `::1` instead of ipv4 style `0.0.0.0`:
-```
-::1     ip6-localhost ip6-loopback localhost
-```
-2. Add the following to your `/etc/wsl.conf` if not yet present. This prevents WSL from regenerating the `/etc/hosts` as well as the `/etc/resolv.conf`:
+
+Add the following to your `/etc/wsl.conf` if not yet present. This prevents WSL from regenerating the `/etc/hosts` as well as the `/etc/resolv.conf`:
 ```
 [network]
 generateResolvConf=false
 generateHosts = false
+```
+
+#### Fixed issues
+
+Previously, using Windows Subsystem for Linux required remapping `localhost` to the IPv6
+loopback address in `/etc/hosts`, because `webpack-dev-server` binds `::1` only
+(`webpack.config.js`) and `server/server.js` used to proxy to it by the `localhost`
+hostname — which on stock WSL resolves only to `127.0.0.1`, causing `ECONNREFUSED`.
+`server/app.js` now targets the literal `[::1]` address instead, so this is
+no longer required for `yarn run dev` to work. If you still hit other WSL networking issues, you may
+need to add the following to your `/etc/hosts`:
+```
+::1     ip6-localhost ip6-loopback localhost
 ```
 
 ## Install watchman
@@ -47,28 +56,40 @@ or in some systems to build the binaries from code following
 [these instructions](https://facebook.github.io/watchman/docs/install.html#-building-from-source).
 
 ## Installation
-- `yarn install && yarn setup`
+- `yarn install`
 
 ## Start development version
 
 - OSX / Linux: `yarn run dev`
 - open: http://localhost:8080
 
+`yarn run dev` runs `scripts/dev.sh`, which starts Relay, the Express dev server (`node --watch`),
+webpack-dev-server, the SVG sprite watcher (`yarn sprites --watch`) and `yarn workspace-packages-watch` (`lerna run watch --parallel --stream`)
+in parallel. `workspace-packages-watch` builds every `digitransit-component`, `digitransit-store`
+and `digitransit-search-util` package once and then keeps watching/rebuilding them, so a manual
+`yarn setup`/`yarn workspace-packages-build` is not required beforehand.
+
+There's also a lighter-weight `yarn dev-nowatch`, which only runs the Express dev server and
+webpack-dev-server (no Relay/workspace-package watchers). Since it skips `workspace-packages-watch`, on a
+fresh clone you must run `yarn workspace-packages-build` yourself first, or webpack fails with
+`Module not found` errors for `@digitransit-component/*`/`@digitransit-search-util/*`/
+`@digitransit-store/*` packages. It also doesn't populate `_static`, so run `yarn static` and
+`yarn sprites` first too.
+
 ## Start production version
-- First run: `yarn run build`, then run: `yarn run start`
+- First run: `yarn run setup`, then `yarn run build`, then run: `yarn run start`
 - open: http://localhost:8080
 
 ## Modifying sub-modules and components
 
-After you have changed the files in `digitransit-components` you have to re-run `yarn setup` to build those modules
-and apply the changes.
+While `yarn run dev` is running, changes to files in `digitransit-component`, `digitransit-store`
+and `digitransit-search-util` (including its query-utils Relay queries, which are also watched by
+a dedicated `relay-compiler --watch` in `scripts/dev.sh`) are picked up automatically by live
+watchers and rebuilt in the background — no manual rebuild step is needed.
 
 ## Analyse webpack bundle
-- run: `webpack -p --json > digitransit.json`
-- Upload `digitransit.json` to `http://webpack.github.io/analyse/`
-
-Or you can also use this:
-- https://github.com/robertknight/webpack-bundle-size-analyzer
+- run: `CONFIG=hsl NODE_ENV=production node node_modules/.bin/webpack --json > _static/digitransit.json`
+- run: `yarn webpack-bundle-analyzer _static/digitransit.json`
 
 ## Using Git Hooks
 Husky (npm-package) is used for setting up the git hooks (`.git/hooks/`) that will allow custom scripts to be run on the repository.
@@ -81,6 +102,18 @@ Digitransit ui can be configured in multiple ways. You can
 - Switch API backend using `API_URL` parameter
 
 Note that you can combine multiple configuration parameters.
+
+### Run environment vs. build mode
+
+- **`RUN_ENV`** (`development` / `production`) — deployment tier. Server-only env var; read during
+  config assembly to pick dev vs prod backends and mirrored into `window.config` for the client.
+  Check it via `isDevRunEnv(config)` (`utils/shared/envUtils.js`, see its JSDoc for details).
+  `yarn dev` sets `RUN_ENV=development`; deployments set it via Kubernetes / `-e RUN_ENV=…`.
+- **`NODE_ENV`** (`development` / `production`) — build mode; `'development'` only for the local
+  `yarn dev` server / a dev bundle. Not the deployment tier — one production bundle runs on every
+  tier; use `RUN_ENV`/`isDevRunEnv` for that. Always check it via a literal
+  `process.env.NODE_ENV` comparison written inline (`=== 'development'`, `!== 'production'`,
+  etc.), not through an imported/computed constant — see `docs/Webpack.md` for why.
 
 ### Changing National/Regional version (optional)
 Start national version
@@ -99,6 +132,8 @@ By default digitransit-ui uses services from https://dev-api.digitransit.fi but 
 If you want to specify different URL (not just base URL) for individual services, you can define variables OTP_URL, MAP_URL and/or GEOCODING_BASE_URL (URL path before /search or /reverse).
 - `yarn run build`
 - `GEOCODING_BASE_URL=https://api.digitransit.fi/geocoding/v1 OTP_URL=https://api.digitransit.fi/routing/v2/finland/ yarn run start`
+
+These are API endpoint base URLs rather than web pages, and require an API key. See the [Digitransit API documentation](https://digitransit.fi/en/developers/apis/).
 
 ### Configuring static message URL with env variable
 - `STATIC_MESSAGE_URL=https://dev-yleisviesti.digitransit.fi yarn run start`

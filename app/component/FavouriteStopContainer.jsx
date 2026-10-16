@@ -1,0 +1,96 @@
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
+import { stopShape } from '../../utils/client/shapes';
+import Favourite from './Favourite';
+import { isFavourite, getFavouriteByGtfsId } from '../data/FavouriteData';
+import {
+  useFavourites,
+  useFavouriteStatus,
+  useFavouriteActions,
+} from '../hooks/FavouriteContext';
+import { useMessageActions } from '../hooks/MessageContext';
+import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { failedFavouriteMessage } from '../../utils/client/messageUtils';
+import { useConfigContext } from '../client/ConfigContext';
+
+export default function FavouriteStopContainer({
+  stop,
+  isTerminal = false,
+  ...rest
+}) {
+  const [isFetching, setIsFetching] = useState(false);
+  const config = useConfigContext();
+  const favourites = useFavourites();
+  const favouriteStatus = useFavouriteStatus();
+  const { saveFavourite, deleteFavourite } = useFavouriteActions();
+  const { addMessage } = useMessageActions();
+
+  const favouriteType = isTerminal ? 'station' : 'stop';
+  const favourite = isFavourite(stop.gtfsId, favouriteType, favourites);
+
+  return (
+    <Favourite
+      {...rest}
+      favourite={favourite}
+      isFetching={isFetching || favouriteStatus === 'fetching'}
+      addFavourite={() => {
+        setIsFetching(true);
+        let gid = `gtfs${stop.gtfsId
+          .split(':')[0]
+          .toLowerCase()}:${favouriteType}:GTFS:${stop.gtfsId}`;
+        if (stop.code) {
+          gid += `#${stop.code}`;
+        }
+
+        getJson(config.URL.PELIAS_PLACE, { ids: gid })
+          .then(res => {
+            if (Array.isArray(res.features) && res.features.length > 0) {
+              const stopOrStation = res.features[0];
+              const { label } = stopOrStation.properties;
+              saveFavourite({
+                address: label,
+                code: stop.code,
+                gid,
+                gtfsId: stop.gtfsId,
+                lat: stop.lat,
+                lon: stop.lon,
+                type: favouriteType,
+              });
+              addAnalyticsEvent({
+                category: 'Stop',
+                action: 'MarkStopAsFavourite',
+                name: !favourite,
+              });
+              setIsFetching(false);
+            } else {
+              addMessage(failedFavouriteMessage(favouriteType, true));
+              setIsFetching(false);
+            }
+          })
+          .catch(() => {
+            addMessage(failedFavouriteMessage(favouriteType, true));
+            setIsFetching(false);
+          });
+      }}
+      delFavourite={() => {
+        const stopToDelete = getFavouriteByGtfsId(
+          stop.gtfsId,
+          favouriteType,
+          favourites,
+        );
+        deleteFavourite(stopToDelete);
+        addAnalyticsEvent({
+          category: 'Stop',
+          action: 'MarkStopAsFavourite',
+          name: !favourite,
+        });
+      }}
+    />
+  );
+}
+
+FavouriteStopContainer.propTypes = {
+  stop: stopShape.isRequired,
+  isTerminal: PropTypes.bool,
+};

@@ -1,17 +1,34 @@
 {
   "name": "@digitransit-store/digitransit-store-common-functions",
-  "version": "0.1.0",
+  "version": "1.0.3",
   "description": "digitransit-store common-functions module",
-  "main": "lib/index.js",
+  "type": "module",
+  "main": "lib/index.cjs",
+  "deprecated": "This package has no real consumers. It will be removed in a future release.",
+  "module": "lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs",
+      "default": "./lib/index.cjs"
+    },
+    "./src/index.js": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "/lib",
+    "LICENSE-AGPL.txt",
+    "LICENSE-EUPL.txt"
+  ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-transform-class-properties,@babel/plugin-transform-numeric-separator --out-file test.generated",
-    "watch": "ENV=development webpack --watch --config webpack.config.babel.js",
+    "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
     "clean": "rm -rf ./lib ./node_modules",
-    "test": "mocha -r esm test.generated",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.js\"",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.js",
+    "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
   "repository": {
     "type": "git",

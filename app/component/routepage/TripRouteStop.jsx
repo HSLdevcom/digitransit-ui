@@ -1,0 +1,226 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+import Link from 'found/Link';
+import cx from 'classnames';
+import isEmpty from 'lodash/isEmpty';
+import { alertShape, vehicleShape } from '../../../utils/client/shapes';
+import TripLink from './TripLink';
+import FuzzyTripLink from './FuzzyTripLink';
+import AddressRow from '../AddressRow';
+import ServiceAlertIcon from '../ServiceAlertIcon';
+import { fromStopTime } from './DepartureTime';
+import { stopPagePath } from '../../../utils/shared/path';
+import { getActiveAlertSeverityLevel } from '../../../utils/client/alertUtils';
+import { estimateItineraryDistance } from '../../../utils/shared/geo-utils';
+import ZoneIcon from '../ZoneIcon';
+import { getZoneLabel } from '../../../utils/client/legUtils';
+import getVehicleState from '../../../utils/client/vehicleStateUtils';
+import { ensureColorAccessibleOnWhite } from '../../../utils/shared/colorUtils';
+import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { useConfigContext } from '../../client/ConfigContext';
+
+const EMPTY_VEHICLES = [];
+
+const TripRouteStop = ({
+  className,
+  color,
+  currentTime,
+  mode,
+  stop,
+  nextStop,
+  stopPassed,
+  stoptime,
+  shortName,
+  setHumanScrolling,
+  keepTracking = false,
+  first = false,
+  last = false,
+  prevStop,
+  vehicles = EMPTY_VEHICLES,
+  pattern,
+  route,
+  selectedVehicle,
+}) => {
+  const config = useConfigContext();
+
+  const getVehiclePatternLink = vehicle => {
+    const maxDistance = vehicle.mode === 'rail' ? 100 : 50;
+    const { realtimeDeparture, realtimeArrival, serviceDay } = stoptime;
+    const arrivalTimeToStop = (serviceDay + realtimeArrival) * 1000;
+    const departureTimeFromStop = (serviceDay + realtimeDeparture) * 1000;
+    const vehicleTime = vehicle.timestamp * 1000;
+    const distanceToStop = estimateItineraryDistance(stop, {
+      lat: vehicle.lat,
+      lon: vehicle.long,
+    });
+
+    const vehicleState = getVehicleState(
+      distanceToStop,
+      maxDistance,
+      vehicleTime,
+      arrivalTimeToStop,
+      departureTimeFromStop,
+      first,
+      last,
+    );
+    const { feedId } = splitGtfsId(vehicle.route);
+    const vehicleWithParsedShortname = {
+      ...vehicle,
+      shortName:
+        vehicle.shortName &&
+        config.realTime[feedId].vehicleNumberParser(vehicle.shortName),
+    };
+    const linkProps = {
+      stopName: vehicleState === 'arriving' ? prevStop?.name : stop.name,
+      nextStopName: vehicleState === 'arriving' ? stop?.name : nextStop?.name,
+      key: vehicle.id,
+      mode,
+      pattern,
+      route,
+      vehicleNumber: vehicleWithParsedShortname.shortName || shortName,
+      selected: selectedVehicle?.id === vehicle.id,
+      color: !stopPassed ? vehicle.color : '',
+      setHumanScrolling,
+      keepTracking,
+      vehicleState,
+    };
+    return (
+      <div className={cx('route-stop-now', vehicleState)} key={vehicle.id}>
+        {vehicle.tripId ? (
+          <TripLink
+            key={vehicle.id}
+            shortName={shortName}
+            vehicle={vehicleWithParsedShortname}
+            {...linkProps}
+          />
+        ) : (
+          <FuzzyTripLink
+            key={vehicle.id}
+            vehicle={vehicleWithParsedShortname}
+            {...linkProps}
+          />
+        )}
+      </div>
+    );
+  };
+  const vehicleLinks = vehicles.map(
+    vehicle => vehicle.route === route && getVehiclePatternLink(vehicle),
+  );
+  return (
+    <div
+      className={cx(
+        'route-stop location-details_container',
+        { passed: stopPassed },
+        className,
+      )}
+    >
+      {vehicleLinks}
+      <div className={cx('route-stop-now_circleline', mode)}>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{
+            fill: !stopPassed ? color : null,
+            stroke: !stopPassed ? color : null,
+          }}
+        >
+          <circle
+            cx="8"
+            cy="8"
+            r="6"
+            fill="white"
+            stroke={(!stopPassed && color) || 'currentColor'}
+            strokeWidth="4"
+          />
+        </svg>
+        <div
+          className={cx('route-stop-now_line', mode)}
+          style={{ backgroundColor: !stopPassed ? color : null }}
+        />
+      </div>
+      <div className="route-stop-row_content-container">
+        <Link as="button" type="button" to={stopPagePath(false, stop.gtfsId)}>
+          <div>
+            <div className="route-details-upper-row">
+              <div className={`route-details_container ${mode}`}>
+                <div
+                  className="route-stop-name"
+                  style={{ color: ensureColorAccessibleOnWhite(color) }}
+                >
+                  <span>{stop.name}</span>
+                  <ServiceAlertIcon
+                    className="inline-icon"
+                    severityLevel={getActiveAlertSeverityLevel(
+                      stop.alerts,
+                      currentTime,
+                    )}
+                  />
+                </div>
+              </div>
+              <div className="departure-times-container">
+                <div className="route-stop-time">
+                  {!isEmpty(stoptime) && fromStopTime(stoptime, currentTime)}
+                </div>
+              </div>
+            </div>
+            <div className="route-details-bottom-row">
+              <AddressRow desc={stop.desc} code={stop.code} />
+              {config.zones.stops && stop.zoneId ? (
+                <ZoneIcon
+                  className="itinerary-zone-icon"
+                  zoneId={getZoneLabel(stop.zoneId, config)}
+                  showUnknown={false}
+                />
+              ) : (
+                <div className="itinerary-zone-icon" />
+              )}
+            </div>
+          </div>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+TripRouteStop.propTypes = {
+  vehicles: PropTypes.arrayOf(vehicleShape),
+  mode: PropTypes.string.isRequired,
+  color: PropTypes.string,
+  stopPassed: PropTypes.bool.isRequired,
+  stop: PropTypes.shape({
+    code: PropTypes.string,
+    name: PropTypes.string,
+    desc: PropTypes.string,
+    gtfsId: PropTypes.string,
+    alerts: PropTypes.arrayOf(alertShape),
+    zoneId: PropTypes.string,
+  }).isRequired,
+  nextStop: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+  prevStop: PropTypes.shape({
+    name: PropTypes.string,
+  }),
+  stoptime: PropTypes.shape({
+    realtimeDeparture: PropTypes.number,
+    realtimeArrival: PropTypes.number,
+    serviceDay: PropTypes.number,
+  }).isRequired,
+  currentTime: PropTypes.number.isRequired,
+  pattern: PropTypes.string.isRequired,
+  route: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  selectedVehicle: vehicleShape,
+  shortName: PropTypes.string,
+  setHumanScrolling: PropTypes.func.isRequired,
+  keepTracking: PropTypes.bool,
+  first: PropTypes.bool,
+  last: PropTypes.bool,
+};
+
+TripRouteStop.displayName = 'TripRouteStop';
+
+export default TripRouteStop;

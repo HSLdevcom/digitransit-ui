@@ -36,7 +36,9 @@ const vehicleModesFilter = ({ entities }, { vehicleModes }) => {
 };
 
 const entityFilter = ({ entities }, { entity }) =>
-  !entity || entities.some(e => e.gtfsId === entity.gtfsId);
+  !entity ||
+  entities.some(e => e.gtfsId === entity.gtfsId) ||
+  entities.some(e => e.parentStation?.gtfsId === entity.gtfsId);
 
 const favouriteFilter = ({ entities }, { favourites }) =>
   !favourites || entities.some(e => favourites.has(e.gtfsId));
@@ -55,6 +57,9 @@ const noEffectFilter = (alert, { noEffect }) => alert.alertEffect !== noEffect;
 const pastFilter = ({ effectiveEndDate }, { now }) =>
   now < effectiveEndDate * 1000;
 
+const feedIdFilter = ({ feed }, { selectedFeeds = [] }) =>
+  !selectedFeeds.length || selectedFeeds.includes(feed);
+
 export function filterAndSortAlerts(alerts, selectedFilters) {
   const filterFns = [
     pastFilter,
@@ -63,10 +68,20 @@ export function filterAndSortAlerts(alerts, selectedFilters) {
     vehicleModesFilter,
     entityFilter,
     favouriteFilter,
+    feedIdFilter,
     cancellationsFilter,
   ];
 
   return alerts
     .filter(alert => filterFns.every(fn => fn(alert, selectedFilters)))
     .sort((a, b) => a.effectiveStartDate - b.effectiveStartDate);
+}
+
+export function filterCanceledModes(canceledModes, selectedFilters) {
+  const filterFns = [entityFilter, favouriteFilter];
+  return canceledModes.filter(({ routes }) =>
+    filterFns.every(fn =>
+      fn({ entities: routes.map(r => r.route) }, selectedFilters),
+    ),
+  );
 }

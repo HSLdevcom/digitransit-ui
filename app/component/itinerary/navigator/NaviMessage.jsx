@@ -1,0 +1,82 @@
+import React, { useState } from 'react';
+import cx from 'classnames';
+import PropTypes from 'prop-types';
+import Icon from '../../Icon';
+import { useConfigContext } from '../../../client/ConfigContext';
+
+function NaviMessage({
+  severity,
+  children,
+  index,
+  handleRemove,
+  hideClose = false,
+  cardAnimation,
+}) {
+  const config = useConfigContext();
+  const [removingIndex, setRemovingIndex] = useState(null);
+
+  const handleRemoveClick = () => {
+    setRemovingIndex(index);
+  };
+
+  const handleAnimationEnd = ({ target }) => {
+    if (target.classList.contains('slide-out-right')) {
+      handleRemove(index);
+    }
+  };
+
+  let iconId;
+  let color;
+  switch (severity) {
+    case 'WARNING':
+      iconId = 'icon_attention';
+      color = '#FED100';
+      break;
+    case 'ALERT':
+      iconId = 'icon_caution_white_exclamation';
+      color = config.colors.caution;
+      break;
+    default:
+      iconId = 'notification-bell';
+      color = config.colors.primary;
+  }
+  return (
+    <div
+      className={cx(
+        'info-stack-item',
+        removingIndex === index ? 'slide-out-right' : cardAnimation,
+        `${severity.toLowerCase()}`,
+      )}
+      onAnimationEnd={handleAnimationEnd}
+      aria-live={severity === 'ALERT' ? 'assertive' : 'polite'}
+      role="alert"
+    >
+      <Icon img={iconId} height={1.4} width={1.4} color={color} />
+      {children}
+      {!hideClose && (
+        <button
+          type="button"
+          className="info-close"
+          onClick={() => handleRemoveClick()}
+        >
+          <Icon
+            img="notification-close"
+            className="notification-close"
+            color={config.colors.primary}
+          />
+        </button>
+      )}
+    </div>
+  );
+}
+
+NaviMessage.propTypes = {
+  severity: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  index: PropTypes.number.isRequired,
+  handleRemove: PropTypes.func.isRequired,
+  hideClose: PropTypes.bool,
+  cardAnimation: PropTypes.string.isRequired,
+};
+
+export default NaviMessage;

@@ -1,6 +1,6 @@
 /* eslint-disable compat/compat */
 /* eslint-disable no-undef */
-import StopPageMockData from './mock-data/StopPageContenQueryResponse.json';
+import StopPageMockData from './mock-data/StopPageContenQueryResponse';
 import getConfig from './helpers/image-snapshot-config';
 
 const config = process.env.CONFIG || 'hsl';

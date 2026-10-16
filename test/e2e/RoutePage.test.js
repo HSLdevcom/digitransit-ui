@@ -1,7 +1,7 @@
 /* eslint-disable compat/compat */
 /* eslint-disable no-undef */
-import RoutePageStopListMockData from './mock-data/RoutePageStopListQueryResponse.json';
-import RoutePageStopListTampereMockData from './mock-data/RoutePageStopListTampereResponse.json';
+import RoutePageStopListMockData from './mock-data/RoutePageStopListQueryResponse';
+import RoutePageStopListTampereMockData from './mock-data/RoutePageStopListTampereResponse';
 import getConfig from './helpers/image-snapshot-config';
 
 const config = process.env.CONFIG || 'hsl';

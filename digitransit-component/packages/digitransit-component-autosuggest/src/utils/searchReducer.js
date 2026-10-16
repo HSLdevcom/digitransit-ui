@@ -6,11 +6,13 @@ export const searchReducer = (state, action) => {
         value: action.value,
       };
     case 'FETCH_SUGGESTIONS':
-      return {
-        ...state,
-        loading: action.loading,
-        suggestions: action.suggestions || state.suggestions,
-      };
+      return action.loading === state.loading && !action.suggestions
+        ? state
+        : {
+            ...state,
+            loading: action.loading,
+            suggestions: action.suggestions || state.suggestions,
+          };
     case 'CLEAR_SUGGESTIONS':
       return {
         ...state,
@@ -46,12 +48,6 @@ export const searchReducer = (state, action) => {
     }
     case 'RESET': {
       return action.initialState;
-    }
-    case 'PENDING_ENTER': {
-      return {
-        ...state,
-        enterPending: action.enterPending,
-      };
     }
     case 'TOGGLE_MENU': {
       if (action.isMobile) {

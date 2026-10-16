@@ -1,11 +1,10 @@
-/* eslint-disable no-console, strict, no-unused-vars, prefer-destructuring, consistent-return */
+/* eslint-disable no-unused-vars, consistent-return */
 
-'use strict';
-
-const { Issuer, Strategy, custom } = require('openid-client');
-const util = require('util');
-const process = require('process');
-const User = require('./User').User;
+import { Issuer, Strategy, TokenSet, custom } from 'openid-client';
+import util from 'util';
+import process from 'process';
+import { User } from './User.js';
+import { audit, hash } from './authAudit.js';
 
 const debugLogging = process.env.DEBUGLOGGING;
 const callbackPath = '/oid_callback';
@@ -14,7 +13,6 @@ const OICStrategy = function strategy(config) {
   this.name = 'passport-openid-connect';
   this.config = config || {};
   this.client = null;
-  this.tokenSet = null;
   this.init().then(() => {
     console.log(
       'Initialization of OpenID Connect discovery process completed.',
@@ -70,15 +68,21 @@ OICStrategy.prototype.authenticate = function auth(req, opts) {
   this.redirect(authurl);
 };
 
-OICStrategy.prototype.getUserInfo = function getuinfo() {
+// NOTE: tokenSet/userinfo must never be stored on `this` (the strategy
+// instance is a singleton shared by every concurrent request). Doing so
+// previously caused a race condition where one user's async callback could
+// read back another user's tokenSet/userinfo, logging them in as the wrong
+// person. Always thread these values through the promise chain as local
+// arguments instead.
+OICStrategy.prototype.getUserInfo = function getuinfo(tokenSet) {
   if (debugLogging) {
     console.log('passport getUserInfo');
   }
-  return this.client.userinfo(this.tokenSet.access_token).then(userinfo => {
-    this.userinfo = userinfo;
+  return this.client.userinfo(tokenSet.access_token).then(userinfo => {
     if (debugLogging) {
       console.log(`got userInfo: ${JSON.stringify(userinfo)}`);
     }
+    return userinfo;
   });
 };
 
@@ -94,26 +98,30 @@ OICStrategy.prototype.callback = function cb(req, opts) {
     .then(tokenSet => {
       req.session.ssoToken = null;
       req.session.ssoValidTo = null;
-      this.tokenSet = tokenSet;
       if (debugLogging) {
         console.log(`got tokenSet: ${JSON.stringify(tokenSet)}`);
       }
-      return this.getUserInfo();
+      return this.getUserInfo(tokenSet).then(userinfo => ({
+        tokenSet,
+        userinfo,
+      }));
     })
-    .then(() => {
-      const user = new User(this.userinfo);
-      user.token = this.tokenSet;
-      user.idtoken = this.tokenSet.claims;
+    .then(({ tokenSet, userinfo }) => {
+      const user = new User(userinfo);
+      user.token = tokenSet;
+      user.idtoken = tokenSet.claims;
       if (debugLogging) {
         console.log(`set user: ${JSON.stringify(user)}`);
       }
       if (this.config.sessionCallback) {
         this.config.sessionCallback(user.data.sub, req.session.id);
       }
+      audit('login', req, { newSub: hash(user.data.sub) });
       this.success(user);
     })
     .catch(err => {
       console.error('Error processing callback', err);
+      audit('login_failed', req, { error: err?.message });
       req.session.ssoToken = null;
       req.session.ssoValidTo = null;
       this.fail(err);
@@ -124,26 +132,45 @@ OICStrategy.prototype.refresh = function refresh(req) {
   if (debugLogging) {
     console.log('Refreshing tokens');
   }
+  const oldToken = req.user.token;
+  const oldSub = req.user.data?.sub;
   return this.client
-    .refresh(req.user.token.refresh_token)
-    .then(tokenSet => {
-      this.tokenSet = tokenSet;
-      if (debugLogging) {
-        console.log(`got tokenSet: ${JSON.stringify(tokenSet)}`);
-      }
-      return this.getUserInfo();
+    .refresh(oldToken.refresh_token)
+    .then(refreshed => {
+      // The IdP may omit these in the refresh response; keep the old ones
+      // so that the session can be refreshed and logged out later.
+      const flags = {
+        gotRefreshToken: !!refreshed.refresh_token,
+        gotIdToken: !!refreshed.id_token,
+        expiresIn: refreshed.expires_in,
+      };
+      const tokenSet = new TokenSet({
+        ...refreshed,
+        refresh_token: refreshed.refresh_token || oldToken.refresh_token,
+        id_token: refreshed.id_token || oldToken.id_token,
+      });
+      return this.getUserInfo(tokenSet).then(userinfo => ({
+        tokenSet,
+        userinfo,
+        flags,
+      }));
     })
-    .then(() => {
-      const user = new User(this.userinfo);
-      user.token = this.tokenSet;
-      user.idtoken = this.tokenSet.claims;
-      if (debugLogging) {
-        console.log(`set user: ${JSON.stringify(user)}`);
+    .then(({ tokenSet, userinfo, flags }) => {
+      if (!oldSub || userinfo.sub !== oldSub) {
+        audit('refresh_sub_mismatch', req, { newSub: hash(userinfo.sub) });
+        throw new Error('Refreshed user does not match session user');
       }
+      const user = new User(userinfo);
+      user.token = tokenSet;
+      user.idtoken = tokenSet.claims;
+      audit('refresh', req, flags);
       this.success(user);
     })
     .catch(err => {
       console.error('Error refreshing tokens', err);
+      audit('refresh_failed', req, {
+        error: err?.error || err?.message,
+      });
       req.logout({}, () => {
         req.session.destroy();
         this.fail(err);
@@ -192,4 +219,4 @@ OICStrategy.deserializeUser = function deserializeUser(packed, cb) {
   cb(null, User.unserialize(packed));
 };
 
-exports.Strategy = OICStrategy;
+export { OICStrategy as Strategy };

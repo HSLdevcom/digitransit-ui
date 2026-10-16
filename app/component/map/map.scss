@@ -44,10 +44,6 @@ div.map {
   }
 }
 
-.below-map {
-  overflow: auto;
-}
-
 .mobile {
   .map {
     div.leaflet-control-scale.leaflet-control {
@@ -100,6 +96,7 @@ div.map {
       .content-container {
         position: relative;
         top: -15px;
+        margin-bottom: -15px;
         box-shadow: 0 -10px 10px -10px rgba(0, 0, 0, 0.3);
         border-radius: 15px 15px 0 0;
         padding-top: 15px;
@@ -174,10 +171,6 @@ div.map.full {
   flex-basis: 0;
 }
 
-div.below-map {
-  height: calc(100% - #{$small-map-height});
-}
-
 div.leaflet-bottom.leaflet-right div.leaflet-control-zoom {
   width: 36px;
   height: 73px;
@@ -232,17 +225,12 @@ div.leaflet-container {
 }
 
 .select-from-map {
-  height: calc(100vh - 36px);
+  height: 100%;
 }
 
 div.current-location-marker > span > svg.icon {
   font-size: 40px;
   color: $current-location-color;
-}
-
-.tripMap div.leaflet-marker-icon.place,
-.summary-map div.leaflet-marker-icon.place {
-  display: none;
 }
 
 div.leaflet-marker-icon.from,
@@ -317,8 +305,13 @@ div.leaflet-marker-icon.vehicle-icon {
 }
 
 .map-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  line-height: 0;
   background-color: $white;
-  padding: 4px 6px;
   margin-top: 8px;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -835,19 +828,6 @@ div.origin-popup {
     position: relative;
     left: 0;
     margin: 0 0;
-  }
-}
-
-.vehicle-number-container-v-map {
-  position: relative;
-  bottom: 40px;
-  left: 41px;
-
-  .vehicle-number-map {
-    margin-right: 1.5em;
-    margin-left: 0.3em;
-    mask-image: none;
-    max-width: none;
   }
 }
 
@@ -1389,7 +1369,7 @@ div.origin-popup {
 }
 
 .map-line.taxi-external.leg {
-  color: $external-feed-map-color;
+  color: $taxi-external-map-color;
 }
 
 .map-line.scooter.leg {
@@ -1425,7 +1405,7 @@ div.map-click-prevent-overlay {
   top: 0;
   height: 100%;
   width: 100%;
-  z-index: 801;
+  z-index: global-z('map-click-prevent-overlay');
 }
 
 div.leaflet-control-scale.leaflet-control {
@@ -1447,6 +1427,16 @@ div.leaflet-control-scale.leaflet-control {
   margin-right: 20px;
   margin-bottom: 20px;
   cursor: grab;
+}
+
+.select-from-map.map.full .leaflet-control-scale.leaflet-control {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  cursor: grab;
+}
+
+.select-from-map.map.full .leaflet-bottom {
+  bottom: 0;
 }
 
 .desktop .map {
@@ -1505,7 +1495,7 @@ div.leaflet-control-scale-line {
   height: 50px;
   width: 60%;
   border-radius: 25px;
-  bottom: 15%;
+  bottom: max(42px, calc(env(safe-area-inset-bottom, 0px) + 42px));
   background-color: var(--color);
   font-size: 18px;
   font-weight: $font-weight-medium;

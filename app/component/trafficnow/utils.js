@@ -3,13 +3,13 @@ import {
   getTransportModes,
   getRouteMode,
   getBaseTransportMode,
-} from '../../util/modeUtils';
+} from '../../../utils/client/modeUtils';
 import {
   AlertEntityType,
   LocationTypes,
   TrafficNowTransportModes,
-} from '../../constants';
-import { stopPagePath, routePagePath } from '../../util/path';
+} from '../../../utils/shared/constants';
+import { stopPagePath, routePagePath } from '../../../utils/shared/path';
 
 const sortAlphaNumeric = (a, b) => {
   const first = typeof a === 'string' ? a.toLowerCase() : a.toString();
@@ -176,9 +176,26 @@ const buildDisruptionCards = (disruptions, selectedFilters, config) =>
     }));
   });
 
+// Sort routes by shortName, favourites, search entity
+const sortRoutes = (routes, favRoutes, highlightedGtfsId) =>
+  routes
+    .slice()
+    .sort((a, b) => `${a.route.shortName}`.localeCompare(b.route.shortName))
+    .sort(
+      (a, b) =>
+        Number(favRoutes.includes(b.route.gtfsId)) -
+        Number(favRoutes.includes(a.route.gtfsId)),
+    )
+    .sort(
+      (a, b) =>
+        Number(b.route.gtfsId === highlightedGtfsId) -
+        Number(a.route.gtfsId === highlightedGtfsId),
+    );
+
 export {
   getAvailableModes,
   groupEntitiesByMode,
   getAlertModes,
   buildDisruptionCards,
+  sortRoutes,
 };

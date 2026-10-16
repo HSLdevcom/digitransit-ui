@@ -1,0 +1,93 @@
+import { Button } from '@hsl-fi/layout-primitives';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import Icon from '../../Icon';
+import getAssetUrl from '../../../assets/assetUrl';
+import { useConfigContext } from '../../../client/ConfigContext';
+
+const NaviStarter = ({
+  time,
+  startItinerary,
+  containerTopPosition = 0,
+  isPastStart = true,
+}) => {
+  const config = useConfigContext();
+  const intl = useIntl();
+  const logo = getAssetUrl(config.trafficLightGraphic);
+  const [isVisible, setIsVisible] = useState(!isPastStart);
+  const [isDismissed, setIsDismissed] = useState(false);
+
+  const initializerCardRef = useRef(null);
+
+  useEffect(() => {
+    if (initializerCardRef.current) {
+      initializerCardRef.current.focus();
+    }
+    setIsDismissed(isPastStart);
+  }, [isPastStart]);
+
+  const handleClick = () => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      event: 'navigator',
+      action: 'start_navigation_manual',
+    });
+    setIsDismissed(true);
+  };
+
+  const handleAnimationEnd = () => {
+    setIsVisible(false);
+    startItinerary(Date.now());
+  };
+
+  if (!isVisible) {
+    return null;
+  }
+
+  return (
+    <div
+      className={`navi-initializer-container ${isDismissed && 'slide-out'}`}
+      onAnimationEnd={handleAnimationEnd}
+      style={{ top: containerTopPosition }}
+    >
+      <div
+        className="navi-initializer-card"
+        aria-live="polite"
+        role="status"
+        ref={initializerCardRef}
+        tabIndex="-1"
+      >
+        {logo ? (
+          <img src={logo} aria-hidden="true" alt="navigator logo" />
+        ) : (
+          <Icon
+            aria-hidden="true"
+            img="icon_wait_standing"
+            className="mode"
+            height={2}
+            width={2}
+          />
+        )}
+        <FormattedMessage id="navigation-journey-start" />
+        <h3>{time}</h3>
+      </div>
+      <div className="navi-initializer-card success">
+        <FormattedMessage id="navigation-journey-start-early-prompt" />
+        <Button size="s" variant="success" onClick={handleClick}>
+          {intl.formatMessage({ id: 'navigation-intro-begin' })}
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+NaviStarter.propTypes = {
+  time: PropTypes.string.isRequired,
+  startItinerary: PropTypes.func.isRequired,
+  containerTopPosition: PropTypes.number,
+  isPastStart: PropTypes.bool,
+};
+
+export default NaviStarter;

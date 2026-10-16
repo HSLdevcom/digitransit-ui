@@ -1,0 +1,193 @@
+/* eslint-disable react/no-array-index-key */
+import { useRouter } from 'found';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { onLocationPopup } from '../../../utils/client/queryUtils';
+import { useConfigContext } from '../../client/ConfigContext';
+import {
+  itineraryShape,
+  locationShape,
+  planEdgeShape,
+} from '../../../utils/client/shapes';
+import BackButton from '../BackButton';
+import CookieSettingsButton from '../CookieSettingsButton';
+import ItineraryLine from './ItineraryLine';
+import LocationMarker from './LocationMarker';
+import ParkingAreaMarker from './non-tile-layer/ParkingAreaMarker';
+import MapWithTracking from './MapWithTracking';
+import VehicleMarkerContainer from './VehicleMarkerContainer';
+import { isBikeParkLeg, isCarParkLeg } from '../../../utils/client/legUtils';
+import {
+  useOrigin,
+  useDestination,
+  useItineraryLocationActions,
+} from '../../hooks/ItineraryLocationContext';
+
+const POINT_FOCUS_ZOOM = 17; // default
+
+const ItineraryPageMap = ({
+  planEdges,
+  active,
+  showActiveOnly = false,
+  from,
+  to,
+  viaPoints,
+  breakpoint,
+  showVehicles = false,
+  topics,
+  showDurationBubble = false,
+  itinerary,
+  showBackButton = true,
+  isLocationPopupEnabled = false,
+  realtimeTransfers = false,
+  ...rest
+}) => {
+  const { match, router } = useRouter();
+  const config = useConfigContext();
+  const origin = useOrigin();
+  const destination = useDestination();
+  const locationActions = useItineraryLocationActions();
+  const { hash } = match.params;
+  const leafletObjs = [];
+
+  if (showVehicles) {
+    leafletObjs.push(
+      <VehicleMarkerContainer key="vehicles" useLargeIcon topics={topics} />,
+    );
+  }
+
+  if (itinerary) {
+    leafletObjs.push(
+      <ItineraryLine
+        key={`line_${active}`}
+        hash={active}
+        streetMode={hash}
+        legs={itinerary.legs}
+        showIntermediateStops
+        showDurationBubble={showDurationBubble}
+        realtimeTransfers={realtimeTransfers}
+      />,
+    );
+  } else {
+    if (!showActiveOnly) {
+      planEdges.forEach((edge, i) => {
+        if (i !== active) {
+          leafletObjs.push(
+            <ItineraryLine
+              key={`line_${i}`}
+              hash={i}
+              legs={edge.node.legs}
+              passive
+            />,
+          );
+        }
+      });
+    }
+    if (active < planEdges.length) {
+      leafletObjs.push(
+        <ItineraryLine
+          key={`line_${active}`}
+          hash={active}
+          streetMode={hash}
+          legs={planEdges[active].node.legs}
+          showIntermediateStops
+          showDurationBubble={showDurationBubble}
+          realtimeTransfers={realtimeTransfers}
+        />,
+      );
+      planEdges[active].node.legs.filter(isBikeParkLeg).forEach(leg => {
+        leafletObjs.push(
+          <ParkingAreaMarker
+            key={`parking-${leg.to.lat + leg.to.lon}`}
+            position={leg.to}
+            type="bike"
+            liipiId={leg.to.vehicleParking.vehicleParkingId}
+          />,
+        );
+      });
+
+      planEdges[active].node.legs.filter(isCarParkLeg).forEach(leg => {
+        leafletObjs.push(
+          <ParkingAreaMarker
+            key={`parking-${leg.to.lat + leg.to.lon}`}
+            position={leg.to}
+            type="car"
+            liipiId={leg.to.vehicleParking.vehicleParkingId}
+          />,
+        );
+      });
+    }
+  }
+
+  if (from.lat && from.lon) {
+    leafletObjs.push(
+      <LocationMarker key="fromMarker" position={from} type="from" />,
+    );
+  }
+  if (to.lat && to.lon) {
+    leafletObjs.push(<LocationMarker key="toMarker" position={to} type="to" />);
+  }
+  viaPoints.forEach((via, i) => {
+    leafletObjs.push(<LocationMarker key={`via_${i}`} position={via} />);
+  });
+
+  let locationPopup = 'none';
+  let onSelectLocation;
+
+  if (isLocationPopupEnabled) {
+    locationPopup = config.viaPointsEnabled ? 'all' : 'origindestination';
+    onSelectLocation = (item, id) =>
+      onLocationPopup(
+        item,
+        id,
+        router,
+        match,
+        origin,
+        destination,
+        locationActions,
+        config,
+      );
+  }
+
+  return (
+    <MapWithTracking
+      leafletObjs={leafletObjs}
+      locationPopup={locationPopup}
+      onSelectLocation={onSelectLocation}
+      zoom={POINT_FOCUS_ZOOM}
+      {...rest}
+    >
+      {showBackButton && breakpoint !== 'large' && (
+        <BackButton fallback="pop" />
+      )}
+      {breakpoint === 'large' && config.useCookiesPrompt && (
+        <CookieSettingsButton />
+      )}
+    </MapWithTracking>
+  );
+};
+
+ItineraryPageMap.propTypes = {
+  planEdges: PropTypes.arrayOf(planEdgeShape).isRequired,
+  topics: PropTypes.arrayOf(
+    PropTypes.shape({
+      feedId: PropTypes.string.isRequired,
+      mode: PropTypes.string,
+      direction: PropTypes.number,
+    }),
+  ),
+  active: PropTypes.number.isRequired,
+  showActiveOnly: PropTypes.bool,
+  breakpoint: PropTypes.string.isRequired,
+  showVehicles: PropTypes.bool,
+  from: locationShape.isRequired,
+  to: locationShape.isRequired,
+  viaPoints: PropTypes.arrayOf(locationShape).isRequired,
+  showDurationBubble: PropTypes.bool,
+  itinerary: itineraryShape,
+  showBackButton: PropTypes.bool,
+  isLocationPopupEnabled: PropTypes.bool,
+  realtimeTransfers: PropTypes.bool,
+};
+
+export default ItineraryPageMap;

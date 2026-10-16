@@ -33,9 +33,9 @@ describe('itineraryPageUtils', () => {
     });
 
     it('should return true for equal params', () => {
-      expect(
-        isStoredItineraryRelevant(mockStoredItinerary, mockMatch),
-      ).to.equal(true);
+      expect(isStoredItineraryRelevant(mockStoredItinerary, mockMatch)).toBe(
+        true,
+      );
     });
 
     it('should return true if stored index matches secondHash', () => {
@@ -45,7 +45,7 @@ describe('itineraryPageUtils', () => {
           hash: 'other',
           secondHash: INDEX,
         }),
-      ).to.equal(true);
+      ).toBe(true);
     });
 
     it('should return true if arriveBy is undefined for both', () => {
@@ -59,7 +59,7 @@ describe('itineraryPageUtils', () => {
           itineraryWithoutArriveBy,
           matchWithoutArriveBy,
         ),
-      ).to.equal(true);
+      ).toBe(true);
     });
 
     it('should return false for past itinerary', () => {
@@ -75,7 +75,7 @@ describe('itineraryPageUtils', () => {
           },
           mockMatch,
         ),
-      ).to.equal(true);
+      ).toBe(true);
     });
 
     it('should return false on index and hash mismatch if secondHash is undefined', () => {
@@ -85,7 +85,7 @@ describe('itineraryPageUtils', () => {
 
       expect(
         isStoredItineraryRelevant(mockStoredItinerary, matchWithDifferentHash),
-      ).to.equal(false);
+      ).toBe(false);
     });
 
     it('should return false on index and hash mismatch if hash and secondHash are undefined', () => {
@@ -95,20 +95,18 @@ describe('itineraryPageUtils', () => {
 
       expect(
         isStoredItineraryRelevant(mockStoredItinerary, matchWithDifferentHash),
-      ).to.equal(false);
+      ).toBe(false);
     });
 
     it('should throw error if match is undefined', () => {
       expect(() =>
         isStoredItineraryRelevant(mockStoredItinerary, undefined),
-      ).to.throw(Error);
+      ).toThrow(Error);
     });
 
     it('should not throw error if stored itinerary is empty object', () => {
-      expect(() => isStoredItineraryRelevant({}, mockMatch)).to.not.throw(
-        Error,
-      );
-      expect(isStoredItineraryRelevant({}, mockMatch)).to.equal(false);
+      expect(() => isStoredItineraryRelevant({}, mockMatch)).not.toThrow(Error);
+      expect(isStoredItineraryRelevant({}, mockMatch)).toBe(false);
     });
 
     it('should not throw error if stored itinerary is missing itinerary field', () => {
@@ -117,13 +115,13 @@ describe('itineraryPageUtils', () => {
           { ...mockStoredItinerary, itinerary: undefined },
           mockMatch,
         ),
-      ).to.not.throw(Error);
+      ).not.toThrow(Error);
       expect(
         isStoredItineraryRelevant(
           { ...mockStoredItinerary, itinerary: undefined },
           mockMatch,
         ),
-      ).to.equal(false);
+      ).toBe(false);
     });
 
     it('should not throw error if stored itinerary is missing itinerary field', () => {
@@ -132,13 +130,13 @@ describe('itineraryPageUtils', () => {
           { ...mockStoredItinerary, params: undefined },
           mockMatch,
         ),
-      ).to.not.throw(Error);
+      ).not.toThrow(Error);
       expect(
         isStoredItineraryRelevant(
           { ...mockStoredItinerary, params: undefined },
           mockMatch,
         ),
-      ).to.equal(false);
+      ).toBe(false);
     });
   });
 });

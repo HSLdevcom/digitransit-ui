@@ -2,36 +2,13 @@
   margin: 0;
 
   .card-row {
-    max-height: 150px;
+    max-height: 165px;
   }
 
   .select-scroll-container {
     min-width: max-content;
     overflow-y: auto;
     overflow-x: hidden;
-  }
-}
-
-.select-row {
-  display: flex;
-  flex-direction: row;
-  padding-right: 0.5em;
-}
-
-.select-row-icon {
-  width: 40px;
-  text-align: center;
-
-  .icon {
-    font-size: 24px;
-  }
-}
-
-.select-row-text {
-  flex: 1 0 0;
-
-  .vehicle-number {
-    padding: 0 2px;
   }
 }
 
@@ -100,7 +77,10 @@
   }
 
   .choose-row-number {
-    margin-left: 5px;
+    &:not(:first-child) {
+      margin-left: 5px;
+    }
+
     border-radius: 3px;
     border: solid 1px #ddd;
     font-size: 11px;
@@ -133,7 +113,7 @@
 
 .choose-row-info-row {
   &.small-margin {
-    margin-top: -3px;
+    margin-top: 2px;
   }
 
   &:last-child {

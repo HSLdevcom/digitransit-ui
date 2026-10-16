@@ -1,0 +1,101 @@
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import isEmpty from 'lodash/isEmpty';
+import { alertShape } from '../../utils/client/shapes';
+import { isAlertValid } from '../../utils/client/alertUtils';
+import DisruptionBannerAlert from './DisruptionBannerAlert';
+import SwipeableTabs from './SwipeableTabs';
+import withBreakpoint from '../../utils/client/withBreakpoint';
+import { AlertEntityType } from '../../utils/shared/constants';
+import { useCurrentTime } from '../hooks/TimeContext';
+
+const DisruptionBanner = ({ alerts, mode, breakpoint }) => {
+  const currentTime = useCurrentTime();
+  const [allAlertsOpen, setAllAlertsOpen] = useState(false);
+  const [tabIndex, setTabIndex] = useState(0);
+  const [isOpen, setIsOpen] = useState(true);
+
+  const openAllAlerts = () => {
+    setAllAlertsOpen(true);
+  };
+
+  const onSwipe = i => {
+    setTabIndex(i);
+  };
+
+  const getAlerts = () => {
+    const activeAlerts = [];
+    alerts.forEach(alert => {
+      if (
+        alert?.entities.some(
+          e =>
+            // eslint-disable-next-line no-underscore-dangle
+            e.__typename === AlertEntityType.Route && e.mode === mode,
+        ) &&
+        !isEmpty(alert.alertDescriptionText) &&
+        isAlertValid(alert, currentTime)
+      ) {
+        if (
+          !activeAlerts.find(
+            activeAlert =>
+              activeAlert.alertDescriptionText === alert.alertDescriptionText,
+          )
+        ) {
+          activeAlerts.push(alert);
+        }
+      }
+    });
+    return activeAlerts;
+  };
+
+  const renderAlert = alert => {
+    return (
+      <div key={alert.id}>
+        <DisruptionBannerAlert
+          alert={alert}
+          truncate={!allAlertsOpen}
+          openAllAlerts={openAllAlerts}
+          onClose={() => setIsOpen(false)}
+        />
+      </div>
+    );
+  };
+
+  const activeAlerts = getAlerts();
+
+  if (!activeAlerts.length || !isOpen) {
+    return null;
+  }
+  const tabs = activeAlerts.map(alert => renderAlert(alert));
+
+  return (
+    <div className="disruption-banner-container">
+      {tabs.length > 1 ? (
+        <SwipeableTabs
+          tabs={tabs}
+          tabIndex={tabIndex}
+          onSwipe={onSwipe}
+          classname="disruption-banner"
+          hideArrows={breakpoint !== 'large'}
+          navigationOnBottom
+          ariaRole="swipe-disruption-info-tab"
+        />
+      ) : (
+        renderAlert(activeAlerts[0])
+      )}
+    </div>
+  );
+};
+
+DisruptionBanner.propTypes = {
+  alerts: PropTypes.arrayOf(alertShape).isRequired,
+  mode: PropTypes.string.isRequired,
+  breakpoint: PropTypes.string.isRequired,
+};
+
+const DisruptionBannerWithBreakpoint = withBreakpoint(DisruptionBanner);
+
+export {
+  DisruptionBannerWithBreakpoint as default,
+  DisruptionBanner as Component,
+};

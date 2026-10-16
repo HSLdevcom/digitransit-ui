@@ -1,0 +1,103 @@
+import PropTypes from 'prop-types';
+import React, { Fragment } from 'react';
+import cx from 'classnames';
+import { stopShape } from '../../utils/client/shapes';
+import AddressRow from './AddressRow';
+import Icon from './Icon';
+import ZoneIcon from './ZoneIcon';
+import SplitBars from './SplitBars';
+import BackButton from './BackButton';
+import { getZoneLabel } from '../../utils/client/legUtils';
+import { splitGtfsId } from '../../utils/shared/gtfs';
+import { useConfigContext } from '../client/ConfigContext';
+
+export default function CardHeader({
+  className = '',
+  children,
+  headerIcon,
+  headingStyle,
+  name,
+  stop,
+  description,
+  code,
+  externalLink,
+  icon,
+  icons,
+  unlinked = false,
+  showBackButton = false,
+  favouriteContainer,
+  isTerminal = false,
+}) {
+  const config = useConfigContext();
+  const headerTitle = stop.name ? stop.name : name;
+  // Station query does not return zoneId, so dig it up from child stops
+  const zoneId =
+    isTerminal && stop.stops.length ? stop.stops[0].zoneId : stop.zoneId;
+  return (
+    <Fragment>
+      <div className={cx('card-header', className)}>
+        {showBackButton && <BackButton />}
+        <div className="card-header-content">
+          {icon ? (
+            <div
+              className="left"
+              style={{ fontSize: 32, paddingRight: 10, height: 32 }}
+            >
+              <Icon img={icon} color={config.colors.primary} />
+            </div>
+          ) : null}
+          <div className="card-header-wrapper">
+            <h1 className={headingStyle}>
+              {headerTitle !== description || headingStyle ? headerTitle : ''}
+              {externalLink || null}
+              {headerIcon}
+              {unlinked ? null : <span className="link-arrow"> ›</span>}
+            </h1>
+            <div className="card-sub-header">
+              <div className="card-name-container">
+                <AddressRow
+                  desc={description}
+                  code={code}
+                  isTerminal={isTerminal}
+                  vehicleMode={stop.vehicleMode}
+                />
+              </div>
+              {config.zones?.stops &&
+                zoneId &&
+                stop.gtfsId &&
+                config.feedIds.includes(splitGtfsId(stop.gtfsId).feedId) && (
+                  <ZoneIcon
+                    zoneId={getZoneLabel(zoneId, config)}
+                    showUnknown={false}
+                  />
+                )}
+            </div>
+          </div>
+          {icons && icons.length ? <SplitBars>{icons}</SplitBars> : null}
+          {favouriteContainer}
+        </div>
+      </div>
+      {children}
+    </Fragment>
+  );
+}
+
+CardHeader.displayName = 'CardHeader';
+
+CardHeader.propTypes = {
+  className: PropTypes.string,
+  headerIcon: PropTypes.node,
+  headingStyle: PropTypes.string,
+  stop: stopShape.isRequired,
+  description: PropTypes.string,
+  code: PropTypes.string,
+  externalLink: PropTypes.node,
+  icon: PropTypes.string,
+  icons: PropTypes.arrayOf(PropTypes.node),
+  children: PropTypes.node,
+  unlinked: PropTypes.bool,
+  showBackButton: PropTypes.bool,
+  favouriteContainer: PropTypes.element,
+  name: PropTypes.string,
+  isTerminal: PropTypes.bool,
+};

@@ -1,19 +1,33 @@
 {
   "name": "@digitransit-component/digitransit-component-with-breakpoint",
-  "version": "1.0.1",
+  "version": "2.0.3",
   "description": "digitransit-component with-breakpoint module",
-  "main": "lib/index.js",
+  "type": "module",
+  "main": "lib/index.cjs",
+  "deprecated": "This package has no direct consumers and is unused. It will be removed in a future release.",
+  "module": "lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs",
+      "default": "./lib/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
-    "/lib"
+    "/lib",
+    "LICENSE-AGPL.txt",
+    "LICENSE-EUPL.txt"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build:index": "ENV=production NAME=digitransit-component--with-breakpoint webpack --config ../webpack.config.babel.js && yarn run docs",
-    "build:test": "babel test.js --presets=@babel/preset-react,@babel/preset-env --plugins=@babel/plugin-transform-class-properties --out-file test.generated",
-    "test": "mocha -r esm test.generated",
-    "docs": "node -r esm ../../scripts/generate-readmes"
+    "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
+    "clean": "rm -rf ./lib ./node_modules",
+    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.jsx\"",
+    "docs": "node ../../../scripts/workspace-packages/generate-readmes.js",
+    "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +39,9 @@
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "devDependencies": {
+    "@testing-library/react": "^12"
+  },
   "peerDependencies": {
     "hoist-non-react-statics": "2.5.4",
     "lodash": "4.18.1",

@@ -1,0 +1,165 @@
+import PropTypes from 'prop-types';
+import React, { useState, useRef, memo } from 'react';
+import { createFragmentContainer, graphql } from 'react-relay';
+import cx from 'classnames';
+import debounce from 'lodash/debounce';
+import { routeShape } from '../../../utils/client/shapes';
+import RouteControlPanel from './RouteControlPanel';
+import { getStartTime } from '../../../utils/client/timeUtils';
+import TripStopListContainer from './TripStopListContainer';
+import withBreakpoint from '../../../utils/client/withBreakpoint';
+import ScrollableWrapper from '../ScrollableWrapper';
+
+const TripStopsContainer = memo(function TripStopsContainer({
+  breakpoint,
+  trip,
+  route,
+}) {
+  const [keepTracking, setTracking] = useState(true);
+  const humanScrolling = useRef(true);
+
+  const setHumanScrolling = boolVal => {
+    humanScrolling.current = boolVal;
+  };
+
+  if (!trip) {
+    return null;
+  }
+
+  const tripStartTime = getStartTime(
+    trip.stoptimesForDate[0].scheduledDeparture,
+  );
+
+  const handleScroll = () => {
+    if (humanScrolling.current && keepTracking) {
+      setTracking(false);
+    }
+  };
+
+  return (
+    <ScrollableWrapper
+      className={cx('route-page-content', {
+        'bp-large': breakpoint === 'large',
+      })}
+      id="trip-route-page-content"
+      onScroll={debounce(handleScroll, 100, { leading: true })}
+    >
+      {route && route.patterns && (
+        <RouteControlPanel
+          route={route}
+          breakpoint={breakpoint}
+          tripStartTime={tripStartTime}
+        />
+      )}
+      <TripStopListContainer
+        key="list"
+        trip={trip}
+        tripStart={tripStartTime}
+        keepTracking={keepTracking}
+        setHumanScrolling={setHumanScrolling}
+      />
+    </ScrollableWrapper>
+  );
+});
+
+TripStopsContainer.propTypes = {
+  trip: PropTypes.shape({
+    stoptimesForDate: PropTypes.arrayOf(
+      PropTypes.shape({
+        scheduledDeparture: PropTypes.number.isRequired,
+      }).isRequired,
+    ).isRequired,
+  }),
+  breakpoint: PropTypes.string.isRequired,
+  route: routeShape,
+};
+
+const componentWithBreakpoint = withBreakpoint(TripStopsContainer);
+const containerComponent = createFragmentContainer(componentWithBreakpoint, {
+  trip: graphql`
+    fragment TripStopsContainer_trip on Trip {
+      stoptimesForDate {
+        scheduledDeparture
+      }
+      ...TripStopListContainer_trip
+    }
+  `,
+  pattern: graphql`
+    fragment TripStopsContainer_pattern on Pattern {
+      id
+    }
+  `,
+  route: graphql`
+    fragment TripStopsContainer_route on Route
+    @argumentDefinitions(
+      date: { type: "String" }
+      cancelationStartDate: { type: "OffsetDateTime!" }
+      cancelationEndDate: { type: "OffsetDateTime!" }
+    ) {
+      gtfsId
+      color
+      shortName
+      longName
+      mode
+      type
+      ...RouteAgencyInfo_route
+      ...RoutePatternSelectContainer_route @arguments(date: $date)
+      agency {
+        phone
+        name
+      }
+      patterns {
+        alerts(types: [ROUTE, STOPS_ON_PATTERN]) {
+          id
+          alertSeverityLevel
+          effectiveEndDate
+          effectiveStartDate
+        }
+        headsign
+        code
+        stops {
+          id
+          gtfsId
+          code
+          alerts {
+            id
+            alertDescriptionText
+            alertHash
+            alertHeaderText
+            alertSeverityLevel
+            alertUrl
+            effectiveEndDate
+            effectiveStartDate
+          }
+        }
+        trips: tripsForDate(serviceDate: $date) {
+          stoptimes: stoptimesForDate(serviceDate: $date) {
+            realtimeState
+            scheduledArrival
+            scheduledDeparture
+            serviceDay
+          }
+        }
+        activeDates: trips {
+          serviceId
+          day: activeDates
+        }
+        canceledTrips(
+          runningTimeRanges: [
+            { start: $cancelationStartDate, end: $cancelationEndDate }
+          ]
+        ) {
+          serviceDate
+          trip {
+            pattern {
+              code
+            }
+            gtfsId
+          }
+        }
+      }
+    }
+  `,
+});
+
+export { containerComponent as default, TripStopsContainer as Component };

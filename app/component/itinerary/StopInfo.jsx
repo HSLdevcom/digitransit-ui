@@ -1,0 +1,79 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import cx from 'classnames';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { durationToString } from '../../../utils/client/timeUtils';
+import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
+import Icon from '../Icon';
+import { useConfigContext } from '../../client/ConfigContext';
+
+export default function StopInfo({
+  intermediateStopCount,
+  toggleFunction,
+  duration,
+  showIntermediateStops = false,
+}) {
+  const config = useConfigContext();
+  const intl = useIntl();
+  const message = (showIntermediateStops && (
+    <FormattedMessage id="itinerary-hide-stops" defaultMessage="Hide stops" />
+  )) || (
+    <FormattedMessage
+      id="number-of-intermediate-stops"
+      values={{
+        number: intermediateStopCount,
+      }}
+      defaultMessage="{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }"
+    />
+  );
+  return (
+    <div
+      role="button"
+      tabIndex="0"
+      className={cx('intermediate-stops-clickable', {
+        'cursor-pointer': intermediateStopCount > 0,
+      })}
+      onClick={e => {
+        e.stopPropagation();
+        if (intermediateStopCount > 0) {
+          toggleFunction();
+        }
+      }}
+      onKeyPress={e => {
+        if (isKeyboardSelectionEvent(e)) {
+          e.stopPropagation();
+          toggleFunction();
+        }
+      }}
+    >
+      <div
+        className={cx('intermediate-stop-info-container', {
+          open: showIntermediateStops,
+        })}
+      >
+        {intermediateStopCount === 0 ? (
+          <span className="intermediate-stop-no-stops">{message}</span>
+        ) : (
+          <span className="intermediate-stops-amount">{message}</span>
+        )}{' '}
+        <span className="intermediate-stops-duration" aria-hidden="true">
+          ({durationToString(intl, duration)})
+        </span>
+        {intermediateStopCount !== 0 && (
+          <Icon
+            img="icon_arrow-collapse--right"
+            className="itinerary-search-icon"
+            color={config.colors.primary}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+StopInfo.propTypes = {
+  intermediateStopCount: PropTypes.number.isRequired,
+  toggleFunction: PropTypes.func.isRequired,
+  duration: PropTypes.number.isRequired,
+  showIntermediateStops: PropTypes.bool,
+};

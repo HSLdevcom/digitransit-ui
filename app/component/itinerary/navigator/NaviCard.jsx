@@ -1,0 +1,203 @@
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+import cx from 'classnames';
+import {
+  isAnyLegPropertyIdentical,
+  isRental,
+} from '../../../../utils/client/legUtils';
+import {
+  getTripOrRouteMode,
+  transitIconName,
+} from '../../../../utils/client/modeUtils';
+import { legShape } from '../../../../utils/client/shapes';
+import Icon from '../../Icon';
+import NaviCardExtension from './NaviCardExtension';
+import NaviInstructions from './NaviInstructions';
+import { LEGTYPE } from './NaviUtils';
+import usePrevious from './hooks/usePrevious';
+import {
+  IndoorLegType,
+  NaviCardType,
+} from '../../../../utils/shared/constants';
+import { getIndoorLegType } from '../../../../utils/client/indoorUtils';
+import { useConfigContext } from '../../../client/ConfigContext';
+
+const iconMap = {
+  BICYCLE: 'icon_cyclist',
+  CAR: 'icon_car',
+  SCOOTER: 'icon_scooter_rider',
+  WALK: 'icon_walk',
+  WAIT: 'icon_wait_standing',
+  CALL: 'icon_call',
+  WAIT_IN_VEHICLE: 'icon_wait_sitting',
+};
+
+export default function NaviCard({
+  focusToPoint,
+  previousLeg,
+  leg,
+  nextLeg,
+  legType,
+  time,
+  position,
+  tailLength,
+  cardAnimation,
+  platformUpdated = false,
+}) {
+  const config = useConfigContext();
+  const [cardExpanded, setCardExpanded] = useState(false);
+  const [currentCard, setCurrentCard] = useState(NaviCardType.Default);
+  const contentRef = useRef();
+  const { isEqual: legChanged } = usePrevious(leg, (prev, current) =>
+    isAnyLegPropertyIdentical(prev, current, ['legId', 'mode']),
+  );
+
+  const handleClick = () => {
+    setCardExpanded(prev => !prev);
+    setCurrentCard(NaviCardType.Default);
+  };
+
+  if (legChanged) {
+    setCardExpanded(false);
+    setCurrentCard(NaviCardType.Default);
+  }
+
+  // Must run unconditionally (before the early return below) so hook order
+  // stays stable across PENDING/END <-> normal leg transitions.
+  useEffect(() => {
+    const element = contentRef.current;
+    if (!element) {
+      return;
+    }
+
+    // Resize card when card size changes.
+    if (cardExpanded || currentCard === NaviCardType.Indoor) {
+      element.style.maxHeight = `${element.scrollHeight}px`;
+    }
+  }, [cardExpanded, currentCard]);
+
+  if (
+    (!leg && !nextLeg) ||
+    legType === LEGTYPE.PENDING ||
+    legType === LEGTYPE.END
+  ) {
+    return null;
+  }
+
+  let iconColor = 'currentColor';
+  let iconName;
+  let instructions = '';
+
+  if (legType === LEGTYPE.TRANSIT) {
+    const m = getTripOrRouteMode(leg.trip, leg.route, config);
+    iconColor = config.colors[m] || leg.route.color;
+    iconName = transitIconName(m, false);
+    instructions = `navileg-in-transit`;
+  } else if (
+    legType !== LEGTYPE.WAIT &&
+    legType !== LEGTYPE.WAIT_IN_VEHICLE &&
+    isRental(leg, nextLeg)
+  ) {
+    if (leg.mode === 'WALK' && nextLeg?.mode === 'SCOOTER') {
+      instructions = `navileg-rent-scooter`;
+    } else {
+      instructions = 'navileg-rent-cycle';
+    }
+    iconName = iconMap[leg.mode];
+  } else if (legType === LEGTYPE.MOVE) {
+    instructions = `navileg-${leg.mode.toLowerCase()}`;
+    iconName = iconMap[leg.mode] || iconMap.WALK;
+  } else if (legType === LEGTYPE.WAIT) {
+    if (nextLeg && !nextLeg.transitLeg) {
+      // No current leg to wait for a vehicle on; show walking-style instructions for the upcoming leg instead.
+      instructions = `navileg-${nextLeg.mode.toLowerCase()}`;
+      iconName = iconMap[nextLeg.mode] || iconMap.WALK;
+    } else {
+      iconName = iconMap.WAIT;
+    }
+  } else if (legType === LEGTYPE.WAIT_IN_VEHICLE) {
+    iconName = iconMap.WAIT_IN_VEHICLE;
+  }
+
+  const maxHeight = cardExpanded
+    ? `${contentRef.current?.scrollHeight}px`
+    : '0px';
+
+  return (
+    <button
+      type="button"
+      className={`navi-top-card ${cardAnimation}`}
+      onClick={handleClick}
+      aria-expanded={cardExpanded}
+      aria-controls={`navi-card-content-${leg?.legId}`}
+    >
+      <div
+        className={cx('main-card', `${currentCard.toLowerCase()}-card-type`)}
+      >
+        <div className="content">
+          <Icon img={iconName} className="mode" color={iconColor} omitViewBox />
+          <div className={`instructions ${cardExpanded ? 'expanded' : ''}`}>
+            <NaviInstructions
+              leg={leg}
+              nextLeg={nextLeg}
+              instructions={instructions}
+              legType={legType}
+              time={time}
+              position={position}
+              tailLength={tailLength}
+              showDestinationInfo={
+                currentCard === NaviCardType.Default ||
+                (currentCard === NaviCardType.Indoor &&
+                  getIndoorLegType(previousLeg, leg, nextLeg) ===
+                    IndoorLegType.StepsBeforeEntranceInside)
+              }
+            />
+          </div>
+          <div type="button" className="navi-top-card-arrow">
+            <Icon
+              img="icon_arrow-collapse"
+              className={`cursor-pointer ${cardExpanded ? 'inverted' : ''}`}
+            />
+          </div>
+        </div>
+        <div
+          id={`navi-card-content-${leg?.legId}`}
+          className="extension-container"
+          style={{
+            maxHeight,
+          }}
+          ref={contentRef}
+          aria-hidden={!cardExpanded}
+        >
+          <NaviCardExtension
+            focusToPoint={focusToPoint}
+            legType={legType}
+            previousLeg={previousLeg}
+            leg={leg}
+            nextLeg={nextLeg}
+            time={time}
+            platformUpdated={platformUpdated}
+            currentCard={currentCard}
+            setCurrentCard={setCurrentCard}
+          />
+        </div>
+      </div>
+    </button>
+  );
+}
+
+NaviCard.propTypes = {
+  focusToPoint: PropTypes.func.isRequired,
+  previousLeg: legShape,
+  leg: legShape,
+  nextLeg: legShape,
+  legType: PropTypes.string.isRequired,
+  time: PropTypes.number.isRequired,
+  position: PropTypes.shape({
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+  }),
+  tailLength: PropTypes.number.isRequired,
+  cardAnimation: PropTypes.string.isRequired,
+  platformUpdated: PropTypes.bool,
+};

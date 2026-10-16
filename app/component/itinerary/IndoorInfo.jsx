@@ -1,0 +1,72 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import cx from 'classnames';
+import { FormattedMessage } from 'react-intl';
+import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
+import Icon from '../Icon';
+import { useConfigContext } from '../../client/ConfigContext';
+
+export default function IndoorInfo({
+  intermediateStepCount,
+  showIntermediateSteps = false,
+  toggleFunction,
+}) {
+  const config = useConfigContext();
+  const message = (showIntermediateSteps && (
+    <FormattedMessage
+      id="itinerary-hide-indoor-route"
+      defaultMessage="Hide indoor route"
+    />
+  )) || (
+    <FormattedMessage
+      id="itinerary-indoor-route"
+      defaultMessage="Indoor route"
+    />
+  );
+  return (
+    <div
+      role="button"
+      tabIndex="0"
+      className={cx('intermediate-steps-clickable', {
+        'cursor-pointer': intermediateStepCount > 0,
+      })}
+      onClick={e => {
+        e.stopPropagation();
+        if (intermediateStepCount > 0) {
+          toggleFunction();
+        }
+      }}
+      onKeyPress={e => {
+        if (isKeyboardSelectionEvent(e)) {
+          e.stopPropagation();
+          toggleFunction();
+        }
+      }}
+    >
+      <div
+        className={cx('intermediate-step-info-container', {
+          open: showIntermediateSteps,
+        })}
+      >
+        {intermediateStepCount === 0 ? (
+          <span className="intermediate-steps-message-no-steps">{message}</span>
+        ) : (
+          <span className="intermediate-steps-message">{message}</span>
+        )}{' '}
+        {intermediateStepCount !== 0 && (
+          <Icon
+            img="icon_arrow-collapse--right"
+            className="itinerary-search-icon"
+            color={config.colors.primary}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+IndoorInfo.propTypes = {
+  intermediateStepCount: PropTypes.number.isRequired,
+  toggleFunction: PropTypes.func.isRequired,
+  showIntermediateSteps: PropTypes.bool,
+};

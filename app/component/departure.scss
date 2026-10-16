@@ -28,19 +28,6 @@
     flex: 1;
     padding-left: 0.5em;
   }
-
-  .departure-canceled {
-    color: $cancelation-red;
-
-    .icon-container {
-      padding-right: $padding-xsmall;
-
-      .icon {
-        color: white;
-        fill: $cancelation-red;
-      }
-    }
-  }
 }
 
 .route-detail-text {
@@ -58,10 +45,7 @@
 
 .time,
 .vehicle-number,
-.destination,
-.bicycle-rental-station,
-.city-bike-station-name,
-.city-bike-station-availability {
+.destination {
   display: inline-block;
 }
 
@@ -268,39 +252,6 @@
 
   & .route-number {
     width: 100px;
-  }
-}
-
-.capacity-information-modal {
-  .capacity-info-row {
-    display: flex;
-    margin-top: 8px;
-
-    h4 {
-      text-transform: none;
-      margin-top: 0;
-      padding-top: 0;
-      padding-left: 20px;
-      font-size: 15px;
-    }
-  }
-
-  .capacity-info-explanation {
-    margin: 0;
-    margin-left: 36px;
-    font-size: 13px;
-  }
-
-  .explanations-heading {
-    font-size: 15px;
-  }
-
-  .capacity-heading {
-    margin-bottom: 5px;
-  }
-
-  .capacity-text {
-    margin-top: 0;
   }
 }
 

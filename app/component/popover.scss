@@ -80,6 +80,7 @@
   }
 
   .icon-area {
+    margin-top: 4px;
     min-width: 6px;
   }
 
@@ -88,63 +89,36 @@
     flex-direction: column;
     align-items: flex-start;
     align-self: stretch;
-    padding-top: 4px;
+    padding-top: 8px;
+    color: $black;
 
-    .message {
-      display: flex;
-      font-size: $font-size-small;
-      letter-spacing: -0.5px;
-      text-align: left;
-
-      span {
-        display: block;
-        color: $black;
-        text-align: left;
-        font-weight: $font-weight-book;
-      }
-
-      .popover-header {
-        span {
-          display: block;
-          color: $black;
-          text-align: left;
-          font-weight: $font-weight-medium;
-        }
-
-        margin-bottom: 6px;
-      }
+    .button-label {
+      color: $white;
     }
   }
 
   .popover-close-button {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     justify-content: center;
     align-items: center;
     border-radius: 999px;
     flex-shrink: 0;
+    background: var(--color-ui-background);
+
+    &:hover {
+      background-color: var(--color-ui-background);
+    }
 
     .icon {
-      width: 16px;
-      height: 16px;
+      width: 12px;
+      height: 12px;
       color: $theme-primary-color;
-    }
-  }
 
-  .popover-acknowledge-button {
-    display: flex;
-    height: 28px;
-    min-width: 80px;
-    margin-top: 12px;
-    padding: 0 12px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 999px;
-    border: 1px solid $control-border-color;
-    background: #fff;
-    font-weight: $font-weight-book;
-    color: $theme-primary-color;
-    white-space: nowrap;
+      &:hover {
+        color: $black;
+      }
+    }
   }
 
   .icon-container {

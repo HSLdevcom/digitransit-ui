@@ -1,0 +1,47 @@
+import React from 'react';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+import Marker from 'react-leaflet/es/Marker';
+import { default as L } from 'leaflet';
+import { renderAsString } from '../../../utils/client/mapIconUtils';
+
+import Icon from '../Icon';
+import { locationShape } from '../../../utils/client/shapes';
+
+const currentLocationIcon = L.divIcon({
+  html: renderAsString(<Icon img="icon_current-location" />),
+  className: 'current-location-marker',
+  iconSize: [40, 40],
+});
+
+function PositionMarker({ coordinates = null }) {
+  if (coordinates === null) {
+    return null;
+  }
+
+  return (
+    <Marker
+      keyboard={false}
+      zIndexOffset={20000}
+      position={[coordinates.lat, coordinates.lon]}
+      icon={currentLocationIcon}
+    />
+  );
+}
+
+PositionMarker.propTypes = {
+  coordinates: locationShape,
+};
+
+export default connectToStores(PositionMarker, ['PositionStore'], context => {
+  const coordinates = context.getStore('PositionStore').getLocationState();
+
+  return {
+    coordinates: coordinates.hasLocation
+      ? {
+          lat: coordinates.lat,
+          lon: coordinates.lon,
+          address: coordinates.address,
+        }
+      : null,
+  };
+});

@@ -41,6 +41,25 @@ The format for an external geojson configuration url is the following:
 
 Note that these configuration methods are mutually exclusive meaning that only one method is supported at a time. Should both methods be used, the behaviour of the software is undefined.
 
+## Locally hosted GeoJSON files
+
+A layer's `url` may also point at a file this app serves itself. Such files live in `static/assets/<CONFIG>/`, where the directory name is the exact `CONFIG` value the file belongs to, and are referenced by an absolute url:
+
+```
+  geoJson: {
+    layers: [
+      {
+        name: { fi: 'Vyöhykkeet', sv: 'Zoner', en: 'Zones' },
+        url: '/assets/tampere/zone_lines_20250606.geojson',
+      },
+    ]
+  }
+```
+
+`scripts/build/copyStatic.js` copies these into the served `_static/` directory, minifying them and writing precompressed `.gz`/`.br` siblings on the way. All configs' files are always copied, because `ASSEMBLE_GEOJSON` deployments (see `server/services/geoJsonZones.js`) combine the zone layers of *every* region config into one layer.
+
+A unit test (`test/unit/server/configs/staticAssets.test.js`) checks that every locally hosted layer url resolves to an existing file and that no file under `static/assets/` is left unreferenced, so keep the config and the file in sync when adding or updating a zone layer.
+
 ## Feature handling and styling depending on type
 
 If all the geojson features in the data retrieved from a single source are of type `Point`, they will be displayed on the map as if they were generic stops. When clicked, a popup appears on the map and the value of the `name` property is shown as the header and the values of the `address` and `city` properties are shown as the description.
