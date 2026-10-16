@@ -129,6 +129,15 @@ export function positionReducer(state, action) {
     }
     case 'address-found': {
       const { location } = action;
+      fields.reverseGeocodingStatus = REVERSE_GEOCODING_STATUS.READY;
+      // a late reverse geocoding result must not override a newer status
+      // such as a timeout, or attach an address to a new search
+      if (
+        fields.status !== POSITION_STATUS.FOUND_LOCATION &&
+        fields.status !== POSITION_STATUS.FOUND_ADDRESS
+      ) {
+        break;
+      }
       if (location.address) {
         fields.address = location.city
           ? `${location.address}, ${location.city}`
@@ -141,7 +150,6 @@ export function positionReducer(state, action) {
       fields.gid = location.gid;
       fields.name = location.name;
       fields.layer = location.layer;
-      fields.reverseGeocodingStatus = REVERSE_GEOCODING_STATUS.READY;
       fields.status = POSITION_STATUS.FOUND_ADDRESS;
       break;
     }
