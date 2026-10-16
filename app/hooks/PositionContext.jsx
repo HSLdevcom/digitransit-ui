@@ -1,6 +1,5 @@
 import React, {
   createContext,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -31,15 +30,6 @@ export const POSITION_STATUS = {
 export const REVERSE_GEOCODING_STATUS = {
   READY: 'reverse-geocoding-ready',
   IN_PROGRESS: 'reverse-geocoding-in-progress',
-};
-
-const SAVED_POSITION_STATES = {
-  'geolocation-search': 'searching',
-  'geolocation-not-supported': 'failed',
-  'geolocation-denied': 'denied',
-  'geolocation-timeout': 'timeout',
-  'geolocation-watch-timeout': 'timeout',
-  'geolocation-prompt': 'prompt',
 };
 
 function createLocationState(fields) {
@@ -119,9 +109,7 @@ export function positionReducer(state, action) {
       break;
     case 'geolocation-found': {
       const { location } = action;
-      if (fields.savedState !== 'granted') {
-        fields.savedState = 'granted';
-      }
+      fields.savedState = 'granted';
       if (
         location &&
         location.disableFiltering !== true &&
@@ -185,24 +173,15 @@ export function PositionProvider({ children = null }) {
   const stateRef = useRef(state);
   stateRef.current = state;
 
-  const updatePosition = useCallback(action => {
-    if (action.type === 'geolocation-found') {
-      if (stateRef.current.fields.savedState !== 'granted') {
-        setGeolocationState('granted');
-      }
-    } else if (SAVED_POSITION_STATES[action.type]) {
-      setGeolocationState(SAVED_POSITION_STATES[action.type]);
+  useEffect(() => {
+    if (getGeolocationState() !== state.fields.savedState) {
+      setGeolocationState(state.fields.savedState);
     }
-    dispatch(action);
-  }, []);
+  }, [state.fields.savedState]);
 
   const service = useMemo(
     () =>
-      createPositionService(
-        config,
-        updatePosition,
-        () => stateRef.current.position,
-      ),
+      createPositionService(config, dispatch, () => stateRef.current.position),
     [],
   );
   const actions = useMemo(
