@@ -130,7 +130,7 @@ TripStopListContainer.propTypes = {
 const connectedComponent = createFragmentContainer(
   connectToStores(
     withBreakpoint(TripStopListContainer),
-    ['RealTimeInformationStore', 'PositionStore'],
+    ['RealTimeInformationStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,
     }),

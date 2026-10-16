@@ -1,12 +1,9 @@
 /* eslint-disable react/no-unstable-nested-components */
-import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { graphql, QueryRenderer, useRelayEnvironment } from 'react-relay';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { useRouter } from 'found';
-import { locationShape } from '../../../utils/client/shapes';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';
 import {
@@ -21,10 +18,6 @@ import MapWrapper from './MapWrapper';
 import LocationModal from './LocationModal';
 import CityBikeInfo from './CityBikeInfo';
 import ParkInfo from './ParkInfo';
-import {
-  checkPositioningPermission,
-  startLocationWatch,
-} from '../../action/PositionActions';
 import Search from './Search';
 import StopRouteSearch from './StopRouteSearch';
 import { getGeolocationState } from '../../../utils/client/localStorage';
@@ -50,6 +43,7 @@ import {
 } from '../../hooks/FavouriteContext';
 import { useConfigContext } from '../../client/ConfigContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
+import { usePosition, usePositionActions } from '../../hooks/PositionContext';
 
 // component initialization phases
 const PH_START = 'start';
@@ -95,12 +89,15 @@ function extendModes(modes, currentMode) {
   return modes;
 }
 
-function NearYouPage({ position }, { executeAction }) {
+export default function NearYouPage() {
   const { router, match } = useRouter();
   const { mode } = match.params;
   const config = useConfigContext();
   const currentTime = useCurrentTime();
   const breakpoint = useBreakpoint();
+  const position = usePosition();
+  const { checkPositioningPermission, startLocationWatch } =
+    usePositionActions();
   const relayEnvironment = useRelayEnvironment();
   const favourites = useFavourites();
   const favouriteStatus = useFavouriteStatus();
@@ -176,7 +173,7 @@ function NearYouPage({ position }, { executeAction }) {
       ) {
         // reason to expect that geolocation will work
         newPhase = PH_GEOLOCATIONING;
-        executeAction(startLocationWatch);
+        startLocationWatch();
       } else if (matchParamsOrigin) {
         newPhase = PH_USEDEFAULTPOS;
       } else if (state === 'error') {
@@ -542,7 +539,7 @@ function NearYouPage({ position }, { executeAction }) {
   const handleClose = () => setPhase(PH_USEDEFAULTPOS);
 
   const handleStartGeolocation = () => {
-    executeAction(startLocationWatch);
+    startLocationWatch();
     setPhase(PH_GEOLOCATIONING);
   };
 
@@ -626,26 +623,3 @@ function NearYouPage({ position }, { executeAction }) {
   }
   return <Loading />;
 }
-
-NearYouPage.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-};
-
-NearYouPage.propTypes = {
-  position: locationShape.isRequired,
-};
-
-const PositioningWrapper = connectToStores(
-  NearYouPage,
-  ['PositionStore'],
-  (context, props) => ({
-    ...props,
-    position: context.getStore('PositionStore').getLocationState(),
-  }),
-);
-
-PositioningWrapper.contextTypes = {
-  getStore: PropTypes.func.isRequired,
-};
-
-export { PositioningWrapper as default, NearYouPage as Component };

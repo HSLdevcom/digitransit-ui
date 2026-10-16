@@ -120,7 +120,7 @@ RouteStopListContainer.propTypes = {
 const containerComponent = createRefetchContainer(
   connectToStores(
     withBreakpoint(RouteStopListContainer),
-    ['RealTimeInformationStore', 'PositionStore'],
+    ['RealTimeInformationStore'],
     ({ getStore }) => ({
       vehicles: getStore('RealTimeInformationStore').vehicles,
     }),
