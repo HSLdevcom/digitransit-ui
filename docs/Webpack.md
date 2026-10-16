@@ -377,8 +377,9 @@ update-browserslist-db@latest` (builds warn once it is ~6 months old).
 
 Polyfills are added at build time, driven by the browserslist above.
 `app/client/client.jsx` starts with `import 'core-js/stable'`, and
-`@babel/preset-env` (`useBuiltIns: 'entry'`, `corejs` in
-`config/babel.config.cjs`) rewrites that import into only the core-js
+`@babel/preset-env` (`useBuiltIns: 'entry'`, `corejs` in the `app/` loader
+rule of `webpack.config.js`, mirrored in `config/babel.config.cjs` for
+tooling) rewrites that import into only the core-js
 modules the targets lack. The polyfills are global, so they also cover
 third-party `node_modules` code that Babel does not process. Keep
 `corejs.version` in sync with the installed core-js minor (a direct
