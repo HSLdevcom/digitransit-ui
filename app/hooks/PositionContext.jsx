@@ -1,6 +1,5 @@
 import React, {
   createContext,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -31,15 +30,6 @@ export const POSITION_STATUS = {
 export const REVERSE_GEOCODING_STATUS = {
   READY: 'reverse-geocoding-ready',
   IN_PROGRESS: 'reverse-geocoding-in-progress',
-};
-
-const SAVED_POSITION_STATES = {
-  'geolocation-search': 'searching',
-  'geolocation-not-supported': 'failed',
-  'geolocation-denied': 'denied',
-  'geolocation-timeout': 'timeout',
-  'geolocation-watch-timeout': 'timeout',
-  'geolocation-prompt': 'prompt',
 };
 
 function createLocationState(fields) {
@@ -119,9 +109,7 @@ export function positionReducer(state, action) {
       break;
     case 'geolocation-found': {
       const { location } = action;
-      if (fields.savedState !== 'granted') {
-        fields.savedState = 'granted';
-      }
+      fields.savedState = 'granted';
       if (
         location &&
         location.disableFiltering !== true &&
@@ -141,6 +129,15 @@ export function positionReducer(state, action) {
     }
     case 'address-found': {
       const { location } = action;
+      fields.reverseGeocodingStatus = REVERSE_GEOCODING_STATUS.READY;
+      // a late reverse geocoding result must not override a newer status
+      // such as a timeout, or attach an address to a new search
+      if (
+        fields.status !== POSITION_STATUS.FOUND_LOCATION &&
+        fields.status !== POSITION_STATUS.FOUND_ADDRESS
+      ) {
+        break;
+      }
       if (location.address) {
         fields.address = location.city
           ? `${location.address}, ${location.city}`
@@ -153,7 +150,6 @@ export function positionReducer(state, action) {
       fields.gid = location.gid;
       fields.name = location.name;
       fields.layer = location.layer;
-      fields.reverseGeocodingStatus = REVERSE_GEOCODING_STATUS.READY;
       fields.status = POSITION_STATUS.FOUND_ADDRESS;
       break;
     }
@@ -168,6 +164,9 @@ export function positionReducer(state, action) {
       break;
     default:
       return state;
+  }
+  if (Object.keys(fields).every(key => fields[key] === state.fields[key])) {
+    return state;
   }
   return { fields, position: createLocationState(fields) };
 }
@@ -185,24 +184,15 @@ export function PositionProvider({ children = null }) {
   const stateRef = useRef(state);
   stateRef.current = state;
 
-  const updatePosition = useCallback(action => {
-    if (action.type === 'geolocation-found') {
-      if (stateRef.current.fields.savedState !== 'granted') {
-        setGeolocationState('granted');
-      }
-    } else if (SAVED_POSITION_STATES[action.type]) {
-      setGeolocationState(SAVED_POSITION_STATES[action.type]);
+  useEffect(() => {
+    if (getGeolocationState() !== state.fields.savedState) {
+      setGeolocationState(state.fields.savedState);
     }
-    dispatch(action);
-  }, []);
+  }, [state.fields.savedState]);
 
   const service = useMemo(
     () =>
-      createPositionService(
-        config,
-        updatePosition,
-        () => stateRef.current.position,
-      ),
+      createPositionService(config, dispatch, () => stateRef.current.position),
     [],
   );
   const actions = useMemo(

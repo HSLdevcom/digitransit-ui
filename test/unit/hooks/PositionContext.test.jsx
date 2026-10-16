@@ -61,4 +61,36 @@ describe('PositionContext', () => {
     state = positionReducer(state, { type: 'geolocation-denied' });
     expect(state.position.locationingFailed).toBe(true);
   });
+
+  it('keeps state identity when an action changes nothing', () => {
+    let state = positionReducer(createInitialPositionState(), {
+      type: 'geolocation-found',
+      location: { lat: 60.17, lon: 24.94 },
+    });
+    state = positionReducer(state, { type: 'reverse-geocoding-started' });
+    expect(positionReducer(state, { type: 'reverse-geocoding-started' })).toBe(
+      state,
+    );
+
+    const address = { type: 'address-found', location: { address: 'Foo 1' } };
+    state = positionReducer(state, address);
+    expect(positionReducer(state, address)).toBe(state);
+  });
+
+  it('ignores a late address result after the position was lost', () => {
+    let state = positionReducer(createInitialPositionState(), {
+      type: 'geolocation-found',
+      location: { lat: 60.17, lon: 24.94 },
+    });
+    state = positionReducer(state, { type: 'reverse-geocoding-started' });
+    state = positionReducer(state, { type: 'geolocation-watch-timeout' });
+    state = positionReducer(state, {
+      type: 'address-found',
+      location: { address: 'Foo 1' },
+    });
+
+    expect(state.position.status).toBe('geolocation-watch-timeout');
+    expect(state.position.address).toBeUndefined();
+    expect(state.position.isReverseGeocodingInProgress).toBe(false);
+  });
 });

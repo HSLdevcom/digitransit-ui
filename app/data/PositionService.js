@@ -199,7 +199,8 @@ export function createPositionService(config, dispatch, getPosition) {
             /* eslint-enable no-param-reassign */
           }
           resolve(permissionStatus);
-        });
+        })
+        .catch(() => resolve({ state: 'error' }));
     });
   }
 
