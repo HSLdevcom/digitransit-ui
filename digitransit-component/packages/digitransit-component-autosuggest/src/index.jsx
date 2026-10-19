@@ -628,6 +628,7 @@ function DTAutosuggest({
       getAutoSuggestIcons,
       colors,
       modeSet,
+      showStopStatusMarkers: !!searchContext.showStopStatusMarkers,
     }),
     [
       state.loading,
@@ -638,6 +639,7 @@ function DTAutosuggest({
       getAutoSuggestIcons,
       colors,
       modeSet,
+      searchContext.showStopStatusMarkers,
     ],
   );
 

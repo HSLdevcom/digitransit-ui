@@ -214,6 +214,12 @@ export default createFragmentContainer(RouteLine, {
         gtfsId
         platformCode
         code
+        alerts {
+          alertEffect
+          alertSeverityLevel
+          effectiveEndDate
+          effectiveStartDate
+        }
         ...StopCardHeaderContainer_stop
       }
     }
