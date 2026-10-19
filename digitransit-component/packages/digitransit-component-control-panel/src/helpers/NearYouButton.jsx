@@ -16,7 +16,7 @@ export default function NearYouButton({
   withArrow = false,
   margin = '8px',
   padding = '8px',
-  iconSize = '30px',
+  iconSize,
 }) {
   let iconProps;
 
@@ -44,7 +44,10 @@ export default function NearYouButton({
     };
   }
   const buttonStyle = { '--margin': margin, '--padding': padding };
-  let iconContainerStyle = { '--iconSize': iconSize, '--iconMargin': padding };
+  let iconContainerStyle = { '--iconMargin': padding };
+  if (iconSize) {
+    iconContainerStyle['--iconSize'] = iconSize;
+  }
   if (!boxed) {
     iconContainerStyle = {
       ...iconContainerStyle,

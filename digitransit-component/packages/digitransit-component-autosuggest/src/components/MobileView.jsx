@@ -14,6 +14,7 @@ import {
   isKeyboardSelectionEvent,
   getSuggestionValue,
   isPOISearch,
+  scrollItemIntoView,
 } from '../utils/utils';
 
 /**
@@ -103,6 +104,7 @@ const MobileView = ({
     items: state.suggestions,
     inputValue: value,
     isOpen: true,
+    scrollIntoView: scrollItemIntoView,
     onSelectedItemChange: changes => {
       onSelectedItemChange(changes);
       dispatch({ type: 'TOGGLE_MENU', isMobile: true });

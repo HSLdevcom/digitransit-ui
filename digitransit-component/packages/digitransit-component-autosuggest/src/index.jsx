@@ -16,7 +16,11 @@ import Icon, {
 } from '@digitransit-component/digitransit-component-icon';
 import i18n from './utils/i18n';
 import styles from './components/styles.scss';
-import { getSuggestionValue, suggestionAsAriaContent } from './utils/utils';
+import {
+  getSuggestionValue,
+  scrollItemIntoView,
+  suggestionAsAriaContent,
+} from './utils/utils';
 import MobileView from './components/MobileView';
 import { Input } from './components/Input';
 import { Suggestions } from './components/Suggestions';
@@ -320,6 +324,8 @@ function DTAutosuggest({
   // not something that should itself trigger a render or round-trip through
   // another dispatch.
   const pendingEnterRef = useRef(false);
+  // Identifies the latest search so results of superseded searches are ignored.
+  const searchIdRef = useRef(0);
   useEffect(() => {
     if (storeRef) {
       storeRef(inputRef.current);
@@ -347,6 +353,8 @@ function DTAutosuggest({
             isMobile,
         )
       : state.sources;
+    searchIdRef.current += 1;
+    const searchId = searchIdRef.current;
     executeSearch(
       newTargets,
       newSources,
@@ -358,6 +366,9 @@ function DTAutosuggest({
         input: state.value || '',
       },
       searchResult => {
+        if (searchId !== searchIdRef.current) {
+          return;
+        }
         if (searchResult == null) {
           dispatch({
             type: 'FETCH_SUGGESTIONS',
@@ -478,6 +489,7 @@ function DTAutosuggest({
   } = useCombobox({
     inputId: id,
     inputValue: state.value,
+    scrollIntoView: scrollItemIntoView,
     defaultHighlightedIndex: 0,
     // Typing is dispatched synchronously by Input. Downshift reports it from an
     // effect a render late, which would overwrite newer keystrokes.

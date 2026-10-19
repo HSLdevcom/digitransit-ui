@@ -6,6 +6,10 @@ import { getStopName } from '@digitransit-search-util/digitransit-search-util-he
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import { DateTime } from 'luxon';
 
+// The scrolling element is the menu's wrapper, outside downshift's menu node.
+export const scrollItemIntoView = node =>
+  node.scrollIntoView({ block: 'nearest' });
+
 export const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
   const enter = [32, 'Enter'];

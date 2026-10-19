@@ -358,41 +358,33 @@ webpack-dev-server is up).
 
 ```json
 "browserslist": [
-  "> 0.2% in FI",
-  "not op_mini all",
-  "not ie <= 11",
-  "not chrome < 55",
-  "not safari < 11"
+  "defaults and fully supports es6-module",
+  "> 0.2% in FI and fully supports es6-module"
 ]
 ```
 
-`"> 0.2% in FI"` is usage-share-driven, not a fixed version list — it
-resolves to whatever clears 0.2% real-world usage share in Finland,
-refreshed whenever `caniuse-lite` data is updated (`npx
-update-browserslist-db@latest`; do this periodically — builds warn once
-the data is more than ~6 months old).
+The second query adds browsers with real usage share in Finland that
+`defaults` would drop (e.g. older iOS Safari), so they still get
+transpiling and polyfills.
 
-`"not chrome < 55"` / `"not safari < 11"` exclude browser versions old
-enough to predate native `async`/`await`. Without them, the usage-share
-query alone still matched Chrome 52 (almost certainly legacy embedded
-WebViews/kiosks, not real updatable browsers), forcing `@babel/preset-env`
-to transpile every `async`/`await` down to generator+`regeneratorRuntime`
-form. With the exclusion, the resolved Chrome floor moves to the 90s+
-range; every other resolved browser/version is unaffected. This also lets
-`preset-env` drop the `class-properties`/`optional-chaining`/
-`nullish-coalescing`/`json-strings` transforms, which is why the
-equivalent plugins used to be listed explicitly in this config — they're
-redundant now and have been removed.
+`defaults` is browserslist's maintained default set (> 0.5% global usage,
+last 2 versions, not dead); `fully supports es6-module` drops browsers
+without native ES modules, which also excludes IE and pre-`async`/`await`
+browsers. Refresh the data periodically with `npx
+update-browserslist-db@latest` (builds warn once it is ~6 months old).
 
-`"not ie <= 11"` (not just `"not IE 11"`) excludes IE11 *and* any older
-IE version, matching the `< 55`/`< 11` exclusion style — IE11 was the
-last IE release, so excluding only the exact version left older ones
-technically permitted.
+## Polyfills
 
-Separately, `server/html/polyfills.js` uses `polyfill-library` to serve
-user-agent-specific JS polyfills at runtime — intentional, documented
-architecture (see `docs/Architecture.md`), not controlled by this file,
-but relevant context for "old browser support" in this codebase overall.
+Polyfills are added at build time, driven by the browserslist above.
+`app/client/client.jsx` starts with `import 'core-js/stable'`, and
+`@babel/preset-env` (`useBuiltIns: 'entry'`, `corejs` in the `app/` loader
+rule of `webpack.config.js`) rewrites that import into only the core-js
+modules the targets lack. The workspace packages (built with
+`config/babel.config.cjs`) do not polyfill themselves. The polyfills are global, so they also cover
+third-party `node_modules` code that Babel does not process. Keep
+`corejs.version` in sync with the installed core-js minor (a direct
+dependency). There is no runtime/user-agent-based polyfill service, and no
+Intl polyfill: all targets have native `Intl`.
 
 ## `postcss.config.cjs`
 
