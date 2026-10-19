@@ -224,10 +224,12 @@ the versions actually present — this runs in CI on every push/PR.
 
 ### Schema changes
 
-`schema/` is a private workspace package, a `devDependency` of
-`digitransit-search-util-query-utils` (which ships the schema in its build).
-This makes schema edits visible to change detection, so a schema update needs
-a query-utils version bump (enforced by `workspace-packages-version-check`).
+`digitransit-search-util-query-utils` ships `schema/schema.graphql` in its
+build, so `schema/` is a private workspace package that query-utils lists as a
+`devDependency`. This lets change detection see schema edits: after changing
+the schema, bump both the schema package and query-utils.
+`workspace-packages-version-bump` does this, and
+`workspace-packages-version-check` enforces it.
 
 ### Changelogs
 
