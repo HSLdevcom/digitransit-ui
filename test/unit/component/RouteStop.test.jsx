@@ -94,8 +94,7 @@ describe('<RouteStop />', () => {
       color: '',
       stop: {
         alerts: [],
-        serviceToday: [],
-        stoptimesWithoutPatterns: [],
+        firstDeparture: [],
       },
     };
     const { container } = renderWithProviders(<RouteStop {...props} />, {

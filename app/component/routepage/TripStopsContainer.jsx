@@ -79,14 +79,17 @@ const containerComponent = createFragmentContainer(componentWithBreakpoint, {
   trip: graphql`
     fragment TripStopsContainer_trip on Trip
     @argumentDefinitions(
-      currentTime: { type: "Long!", defaultValue: 0 }
       startOfDay: { type: "Long!", defaultValue: 0 }
+      showStopStatusMarkers: { type: "Boolean!", defaultValue: false }
     ) {
       stoptimesForDate {
         scheduledDeparture
       }
       ...TripStopListContainer_trip
-        @arguments(currentTime: $currentTime, startOfDay: $startOfDay)
+        @arguments(
+          startOfDay: $startOfDay
+          showStopStatusMarkers: $showStopStatusMarkers
+        )
     }
   `,
   pattern: graphql`

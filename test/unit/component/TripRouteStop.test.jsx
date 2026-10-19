@@ -71,7 +71,7 @@ describe('<TripRouteStop />', () => {
   });
 
   it('should render the status badge icon instead of the SVG circle when the stop has no service', () => {
-    const stop = { alerts: [], serviceToday: [], stoptimesWithoutPatterns: [] };
+    const stop = { alerts: [], firstDeparture: [] };
     const { container } = renderWithProviders(
       <TripRouteStop {...statusProps} stop={stop} />,
       { config: statusConfig },

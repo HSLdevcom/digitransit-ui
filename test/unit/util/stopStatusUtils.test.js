@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import getStopStatus, {
   STOP_STATUS,
   getStopStatusFromStopData,
@@ -5,6 +6,7 @@ import getStopStatus, {
   combineStopStatuses,
   resolveNoDeparturesBadge,
   getStopAlertEffects,
+  getServiceAvailability,
 } from '../../../utils/client/stopStatusUtils';
 
 describe('stopStatusUtils', () => {
@@ -328,6 +330,49 @@ describe('stopStatusUtils', () => {
     it('returns NO_SERVICE_TODAY when servicesRunningInFuture is undefined (data unavailable)', () => {
       const result = resolveNoDeparturesBadge([], NOW, true, undefined);
       expect(result.stopStatus).toBe(STOP_STATUS.NO_SERVICE_TODAY);
+    });
+  });
+
+  describe('getServiceAvailability', () => {
+    const NOW = 1_700_000_000;
+    const startOfDay = DateTime.fromSeconds(NOW).startOf('day').toUnixInteger();
+
+    it('returns no flags when the departure data was not fetched', () => {
+      expect(getServiceAvailability(undefined, NOW)).toEqual({});
+    });
+
+    it('reports no service at all when there is no departure', () => {
+      expect(getServiceAvailability([], NOW)).toEqual({
+        servicesRunningOnServiceDate: false,
+        servicesRunningInFuture: false,
+      });
+    });
+
+    it('reports service today when the first departure is within the current day', () => {
+      const result = getServiceAvailability(
+        [{ serviceDay: startOfDay, realtimeDeparture: 3600 }],
+        NOW,
+      );
+      expect(result.servicesRunningOnServiceDate).toBe(true);
+    });
+
+    it('reports service only in the future when the first departure is on a later day', () => {
+      const result = getServiceAvailability(
+        [{ serviceDay: startOfDay + 2 * 86400, realtimeDeparture: 3600 }],
+        NOW,
+      );
+      expect(result).toEqual({
+        servicesRunningOnServiceDate: false,
+        servicesRunningInFuture: true,
+      });
+    });
+
+    it('counts an after-midnight departure of the previous service day as today', () => {
+      const result = getServiceAvailability(
+        [{ serviceDay: startOfDay - 86400, realtimeDeparture: 86400 + 1800 }],
+        NOW,
+      );
+      expect(result.servicesRunningOnServiceDate).toBe(true);
     });
   });
 

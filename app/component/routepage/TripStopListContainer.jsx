@@ -139,8 +139,8 @@ const connectedComponent = createFragmentContainer(
     trip: graphql`
       fragment TripStopListContainer_trip on Trip
       @argumentDefinitions(
-        currentTime: { type: "Long!", defaultValue: 0 }
         startOfDay: { type: "Long!", defaultValue: 0 }
+        showStopStatusMarkers: { type: "Boolean!", defaultValue: false }
       ) {
         route {
           mode
@@ -168,21 +168,14 @@ const connectedComponent = createFragmentContainer(
               effectiveEndDate
               effectiveStartDate
             }
-            serviceToday: stoptimesWithoutPatterns(
+            firstDeparture: stoptimesWithoutPatterns(
               startTime: $startOfDay
-              timeRange: 86400
+              timeRange: 7776000 # 90 days in seconds
               numberOfDepartures: 1
               omitCanceled: true
-            ) {
+            ) @include(if: $showStopStatusMarkers) {
               serviceDay
-            }
-            stoptimesWithoutPatterns(
-              startTime: $currentTime
-              timeRange: 7776000
-              numberOfDepartures: 1
-              omitCanceled: true
-            ) {
-              serviceDay
+              realtimeDeparture
             }
           }
           realtimeArrival

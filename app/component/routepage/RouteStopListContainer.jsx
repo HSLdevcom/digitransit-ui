@@ -42,7 +42,12 @@ function RouteStopListContainer({
       .startOf('day')
       .toUnixInteger();
     relay.refetch(
-      { currentTime, patternId: match.params.patternId, startOfDay },
+      {
+        currentTime,
+        patternId: match.params.patternId,
+        startOfDay,
+        showStopStatusMarkers: !!config.showStopStatusMarkers,
+      },
       null,
     );
   }, [currentTime]);
@@ -139,6 +144,7 @@ const containerComponent = createRefetchContainer(
         currentTime: { type: "Long!", defaultValue: 0 }
         patternId: { type: "String!", defaultValue: "0" }
         startOfDay: { type: "Long!", defaultValue: 0 }
+        showStopStatusMarkers: { type: "Boolean!", defaultValue: false }
       ) {
         directionId
         route {
@@ -155,21 +161,14 @@ const containerComponent = createRefetchContainer(
             effectiveEndDate
             effectiveStartDate
           }
-          serviceToday: stoptimesWithoutPatterns(
+          firstDeparture: stoptimesWithoutPatterns(
             startTime: $startOfDay
-            timeRange: 86400
+            timeRange: 7776000 # 90 days in seconds
             numberOfDepartures: 1
             omitCanceled: true
-          ) {
+          ) @include(if: $showStopStatusMarkers) {
             serviceDay
-          }
-          stoptimesWithoutPatterns(
-            startTime: $currentTime
-            timeRange: 7776000
-            numberOfDepartures: 1
-            omitCanceled: true
-          ) {
-            serviceDay
+            realtimeDeparture
           }
           stopTimesForPattern(id: $patternId, startTime: $currentTime) {
             realtime
@@ -200,6 +199,7 @@ const containerComponent = createRefetchContainer(
       $patternId: String!
       $currentTime: Long!
       $startOfDay: Long!
+      $showStopStatusMarkers: Boolean!
     ) {
       pattern(id: $patternId) {
         ...RouteStopListContainer_pattern
@@ -207,6 +207,7 @@ const containerComponent = createRefetchContainer(
             currentTime: $currentTime
             patternId: $patternId
             startOfDay: $startOfDay
+            showStopStatusMarkers: $showStopStatusMarkers
           )
       }
     }
