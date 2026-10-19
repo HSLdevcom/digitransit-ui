@@ -20,7 +20,10 @@ import {
   STOP_STATUS_BADGE_IMGS,
 } from '../../../../utils/client/stopStatusUtils';
 
+// Below this zoom the status badge is drawn as a plain colored dot.
 const STATUS_BADGE_ZOOM_THRESHOLD = 15;
+// Zoom level assumed for icon sizing when the map zoom is unknown or the stop is emphasized.
+const MIN_ICON_SIZE_ZOOM = 15;
 
 export const getStopMarkerAnalytics = (pathname, indexPath, mode) => {
   if (pathname.includes('bike') || pathname.includes('walk')) {
@@ -78,8 +81,8 @@ export const getStopIconRadii = (zoom, { limitZoom, transfer, selected }) => {
   } else {
     calcZoom =
       transfer || selected
-        ? Math.max(zoom, STATUS_BADGE_ZOOM_THRESHOLD)
-        : zoom || STATUS_BADGE_ZOOM_THRESHOLD;
+        ? Math.max(zoom, MIN_ICON_SIZE_ZOOM)
+        : zoom || MIN_ICON_SIZE_ZOOM;
   }
 
   const radius = getCaseRadius(calcZoom) * scale;
