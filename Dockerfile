@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.27.0
-FROM node:24.14.1-alpine as builder
+FROM node:24.14.1-alpine AS builder
 
 WORKDIR /opt/digitransit-ui
 
@@ -15,6 +15,7 @@ ENV \
 # packages, only invalidating on a real dependency change.
 COPY .yarnrc.yml package.json yarn.lock lerna.json ./
 COPY .yarn ./.yarn
+COPY schema/package.json ./schema/package.json
 COPY --parents digitransit-util/packages/*/package.json ./
 COPY --parents digitransit-search-util/packages/*/package.json ./
 COPY --parents digitransit-component/packages/*/package.json ./
@@ -64,13 +65,14 @@ RUN \
 # Once this finishes, nothing later needs Yarn/Lerna/Nx again (the final image
 # doesn't invoke any of them - see its CMD), so their toolchain/config files
 # are removed here too, alongside the build-only rollup/babel/relay-schema
-# config (only read by `yarn run workspace-packages-build` above) and `static`
+# config (only read by `yarn run workspace-packages-build` above), the dangling
+# `schema` workspace link in node_modules, and `static`
 # (source assets consumed by CopyWebpackPlugin, see webpack.config.js, already
 # copied into `_static` by the build above).
 RUN \
   yarn workspaces focus --all --production \
   && yarn cache clean --all \
-  && rm -rf .yarn .yarnrc.yml yarn.lock lerna.json nx.json config schema static
+  && rm -rf .yarn .yarnrc.yml yarn.lock lerna.json nx.json config schema node_modules/@digitransit-ui static
 
 FROM node:24.14.1-alpine
 LABEL org.opencontainers.image.title="digitransit-ui"
