@@ -87,7 +87,7 @@ export default function getStopStatus({
 
 /** Returns true when any active alert closes the stop entirely. */
 export function isClosedByServiceAlert(activeAlerts) {
-  return activeAlerts.some(a => a.alertEffect === 'NO_SERVICE');
+  return activeAlerts.some(a => a?.alertEffect === 'NO_SERVICE');
 }
 
 /**
@@ -199,7 +199,9 @@ export function resolveNoDeparturesBadge(
   if (!showStopStatusMarkers) {
     return { stopStatus: null, badgeImg: null, alertEffects: null };
   }
-  const activeAlerts = (alerts || []).filter(a => isAlertValid(a, currentTime));
+  const activeAlerts = (alerts || []).filter(
+    a => a && isAlertValid(a, currentTime),
+  );
   if (isClosedByServiceAlert(activeAlerts)) {
     return {
       stopStatus: STOP_STATUS.OUT_OF_SERVICE,
