@@ -17,6 +17,8 @@ vi.mock('react-relay', async importOriginal => {
   return {
     ...actual,
     ...actual.default,
+    // The shared setup replaces this hook before each test file runs.
+    useFragment: (...args) => actual.default.useFragment(...args),
     fetchQuery: vi.fn(),
   };
 });
