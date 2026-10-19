@@ -48,16 +48,5 @@
     flex-direction: column;
     width: 100%;
     gap: var(--space-s);
-
-    .close-button {
-      background-color: $realtime-color;
-      border: none;
-
-      &:hover,
-      &:active {
-        background-color: #316a00;
-        border: none;
-      }
-    }
   }
 }

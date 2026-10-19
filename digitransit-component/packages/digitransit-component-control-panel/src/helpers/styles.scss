@@ -69,54 +69,35 @@
 }
 
 .separator {
-  background-color: #ccc;
-  width: var(--width);
-  margin-left: var(--margin);
-  margin-right: var(--margin);
+  background-color: var(--color-border-weak);
   height: 1px;
+
+  @media (min-width: 500px) {
+    // reach slightly beyond the content width
+    margin: 0 -8px;
+  }
+}
+
+.modal-rows {
+  // extra air before the first row on top of the dialog's header gap
+  margin-top: var(--space-fixed-xs);
+
+  --iconSize: 24px;
+
+  @media (min-width: 500px) {
+    --iconSize: 32px;
+
+    margin-top: 0;
+
+    // mirrors the gap below the description, plus the description's line-height whitespace
+    margin-bottom: calc(
+      var(--space-s) + var(--space-fixed-xxs) - var(--space-fixed-m)
+    );
+  }
 }
 
 .near-you-container {
   font-size: 16px;
-
-  .modal-desc {
-    font-weight: 325;
-  }
-
-  .close-container {
-    display: flex;
-    width: 100%;
-    height: 42px;
-    justify-content: right;
-  }
-
-  .close,
-  .close-mobile {
-    display: flex;
-    height: 40px;
-    color: var(--color);
-    font-size: 16px;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 20px;
-    background-color: white;
-    border-color: #888;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-  }
-
-  .close {
-    width: 86px;
-
-    &:hover {
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    }
-  }
-
-  .close-mobile {
-    width: 100%;
-  }
 
   .near-you-title {
     font-family: inherit;
@@ -229,11 +210,17 @@
         margin-left: var(--iconMargin);
         border-radius: var(--borderRadius);
         background-color: var(--bckColor);
-        height: var(--iconSize);
-        width: var(--iconSize);
+        height: var(--iconSize, 30px);
+        width: var(--iconSize, 30px);
         align-items: center;
         align-self: center;
         justify-content: center;
+
+        // viewBox-only svgs collapse to zero size as flex items in iOS Safari
+        & > svg {
+          width: 100%;
+          height: 100%;
+        }
 
         span.transport-mode-alert-icon {
           position: absolute;

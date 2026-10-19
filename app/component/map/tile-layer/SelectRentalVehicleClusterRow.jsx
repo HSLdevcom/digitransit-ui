@@ -1,0 +1,61 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+import Link from 'found/Link';
+import { FormattedMessage } from 'react-intl';
+import Icon from '../../Icon';
+import { hasVehicleRentalCode } from '../../../../utils/shared/vehicleRentalUtils';
+import { splitGtfsId } from '../../../../utils/shared/gtfs';
+import { useConfigContext } from '../../../client/ConfigContext';
+
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+function SelectVehicleRentalClusterRow({
+  name,
+  id,
+  desc,
+  prefix,
+  networks: networksInCluster,
+  isScooter = false,
+}) {
+  const config = useConfigContext();
+  const img = isScooter ? 'icon_scooter-lollipop' : 'icon_citybike-lollipop';
+  const color = config.colors[isScooter ? 'scooter' : 'citybike'];
+  const linkAddress = `/${prefix}/${encodeURIComponent(id)}/${[
+    ...networksInCluster,
+  ]}`;
+
+  const address = desc || <FormattedMessage id="citybike-station-no-id" />;
+  return (
+    <Link className="stop-popup-choose-row" to={linkAddress}>
+      <span className="choose-row-left-column" aria-hidden="true">
+        <Icon img={img} color={color} />
+      </span>
+      <span className="choose-row-center-column">
+        <h5 className="choose-row-header">{name}</h5>
+        <span className="choose-row-text">
+          <span className="choose-row-address">{address}</span>
+          {hasVehicleRentalCode(id) && (
+            <span className="choose-row-number">
+              {splitGtfsId(id).entityId}
+            </span>
+          )}
+        </span>
+      </span>
+      <span className="choose-row-right-column">
+        <Icon img="icon_arrow-collapse--right" />
+      </span>
+    </Link>
+  );
+}
+
+SelectVehicleRentalClusterRow.displayName = 'SelectVehicleRentalRow';
+
+SelectVehicleRentalClusterRow.propTypes = {
+  name: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  desc: PropTypes.string,
+  prefix: PropTypes.string.isRequired,
+  networks: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isScooter: PropTypes.bool,
+};
+
+export default SelectVehicleRentalClusterRow;

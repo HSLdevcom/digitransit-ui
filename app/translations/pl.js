@@ -189,7 +189,7 @@ export default {
     'from-tram': 'tramwaj',
     frontpage: 'Strona główna',
     funicular: 'Kolej liniowa',
-    'generic-cancelation': '{mode} {route} {headsign} at {time} is cancelled.',
+    'generic-cancelation': '{mode} {route} {headsign} is cancelled at {times}.',
     'generic-error': 'Wystąpił błąd',
     'geolocation-denied-heading': 'Odmówiono dostępu do geolokalizacji',
     'geolocation-denied-text':
@@ -362,8 +362,6 @@ export default {
       'No route suggestions were found with the your settings. However, we found the following route options:',
     'no-route-start': 'Wybierz punkt początkowy',
     'no-route-start-end': 'Wybierz punkt początkowy i cel',
-    'notification-minimize': 'Zamknij wiadomość',
-    'notification-open': 'Otwórz wiadomość',
     'number-of-intermediate-stops':
       '{number, plural, =0 {Brak przystanków} one {1 przystanek} few {{number} przystanki} other {{number} przystanków} }',
     'number-of-spaces': 'Number of spaces',

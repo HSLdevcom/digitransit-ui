@@ -1,0 +1,55 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import SettingsToggle from './SettingsToggle';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { settingsShape } from '../../../../utils/client/shapes';
+import Icon from '../../Icon';
+import { useConfigContext } from '../../../client/ConfigContext';
+
+export default function TaxiOptions({ settings, updateSettings }) {
+  const config = useConfigContext();
+  const taxiLabelId =
+    config.flex.settingLabelOverride || 'taxis-and-ride-hailing';
+  const taxiRoutingState = settings.includeTaxiSuggestions
+    ? 'Disable'
+    : 'Enable';
+  const onToggle = () => {
+    updateSettings({
+      includeTaxiSuggestions: !settings.includeTaxiSuggestions,
+    });
+    addAnalyticsEvent({
+      category: 'ItinerarySettings',
+      action: `Settings${taxiRoutingState}Taxis`,
+      name: 'includeTaxiSuggestions',
+    });
+  };
+
+  return (
+    <>
+      <div className="section-header">
+        <FormattedMessage id={taxiLabelId} />
+      </div>
+      <SettingsToggle
+        id="settings-toggle-taxi"
+        labelId={taxiLabelId}
+        labelStyle="mode-label"
+        leftElement={
+          <Icon
+            className="taxi-icon"
+            img="icon_taxi-external"
+            height={2}
+            width={2}
+          />
+        }
+        toggled={!!settings.includeTaxiSuggestions}
+        onToggle={onToggle}
+      />
+    </>
+  );
+}
+
+TaxiOptions.propTypes = {
+  settings: settingsShape.isRequired,
+  updateSettings: PropTypes.func.isRequired,
+};

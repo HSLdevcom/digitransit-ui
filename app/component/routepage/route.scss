@@ -98,11 +98,6 @@ $margin-left-right: 21.3px;
     flex-basis: 0;
     flex-grow: 0;
   }
-
-  &.fullscreen-map {
-    flex-grow: 0;
-    flex-basis: 110px;
-  }
 }
 
 // ─── Mobile overrides ─────────────────────────────────────────────────────────
@@ -163,80 +158,6 @@ $margin-left-right: 21.3px;
   .icon.small-vehicle-icon {
     transform: scale(1);
   }
-}
-
-// ─── Route notification (inline alert ribbon) ─────────────────────────────────
-
-.route-notification {
-  display: flex;
-  background: $infobox-color-generic-blue;
-  border-radius: 5px;
-  margin: 10px 0;
-  padding: 16px 16px 8px 8px;
-
-  .left-block {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .right-block {
-    flex: 1;
-  }
-
-  .button-block {
-    display: flex;
-    margin-left: 24px;
-
-    label {
-      color: $theme-primary-color;
-      font-weight: $font-weight-bold;
-      margin-right: 10px;
-    }
-
-    .route-notification-collapse-button {
-      max-height: 25px;
-
-      .route-notification-collapse-icon {
-        width: 10px;
-        height: 10px;
-      }
-
-      .inverted {
-        transform: rotate(180deg);
-      }
-    }
-  }
-
-  h3 {
-    margin-top: 1px;
-    font-size: $font-size-xsmall;
-    font-weight: $font-weight-bold;
-  }
-
-  ul {
-    margin: 3px 0 0 20px;
-    font-size: $font-size-xsmall;
-    font-weight: $font-weight-book;
-    padding-inline-start: 0;
-    line-height: 16px;
-  }
-
-  .content {
-    margin: 3px 0 0;
-    font-size: $font-size-xsmall;
-    font-weight: $font-weight-book;
-    line-height: 16px;
-  }
-
-  .route-notification-link {
-    font-size: $font-size-xsmall;
-    text-decoration: none;
-  }
-}
-
-.route-notification.minimized {
-  min-height: 25px;
-  padding-bottom: 0;
 }
 
 // ─── Route agency info ────────────────────────────────────────────────────────
@@ -301,25 +222,6 @@ nav.top-bar .title .route-number {
       border-radius: $border-radius;
     }
   }
-}
-
-// ─── Nearby mode button ───────────────────────────────────────────────────────
-
-.mode-nearby {
-  &.btn {
-    background-color: $white;
-
-    .icon {
-      color: #79919d;
-    }
-  }
-}
-
-// ─── No-alerts state ──────────────────────────────────────────────────────────
-
-.no-alerts-message {
-  text-align: center;
-  margin-top: 50px;
 }
 
 // ─── SVG overrides ────────────────────────────────────────────────────────────

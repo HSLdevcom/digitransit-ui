@@ -1,0 +1,291 @@
+import React, { useMemo, useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import cx from 'classnames';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useRouter } from 'found';
+import { useLazyLoadQuery } from 'react-relay/hooks';
+import { Text } from '@hsl-fi/layout-primitives';
+import { useConfigContext } from '../../client/ConfigContext';
+import { TransportMode } from '../../../utils/shared/constants';
+import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import Icon from '../Icon';
+import CanceledTripCard from './CanceledTripCard';
+import DisruptionCard from './DisruptionCard';
+import NoDisruptions from './components/NoDisruptions';
+import { useFilterContext } from './filters/FiltersContext';
+import {
+  filterAndSortAlerts,
+  filterCanceledModes,
+} from './filters/filterUtils';
+import AlertsQuery from './queries/AlertsQuery';
+import CanceledTripsOverviewQuery from './queries/CanceledTripsOverviewQuery';
+import { buildDisruptionCards } from './utils';
+import { TRAFFICNOW } from '../../../utils/shared/path';
+import { splitGtfsId } from '../../../utils/shared/gtfs';
+
+const POLL_INTERVAL_MS = 60 * 1000;
+
+export const buildAlertsFingerprint = alerts =>
+  alerts
+    .map(
+      a =>
+        `${a.id}|${a.effectiveStartDate}|${a.effectiveEndDate}|${a.alertSeverityLevel}`,
+    )
+    .sort()
+    .join(';');
+
+// filters out routes with non relevant feedId:s and modes without any routes
+export function getCanceledModes(
+  cancelationsByMode,
+  feedIds,
+  selectedFeeds = [],
+) {
+  return Object.entries(cancelationsByMode)
+    .map(([key, value]) => ({
+      key,
+      ...value,
+      routes: value.routes.filter(
+        ({ route }) =>
+          feedIds.includes(splitGtfsId(route.gtfsId).feedId) &&
+          (!selectedFeeds.length ||
+            selectedFeeds.includes(splitGtfsId(route.gtfsId).feedId)),
+      ),
+    }))
+    .filter(({ routes }) => routes.length);
+}
+
+export default function Disruptions({ dateTime }) {
+  const breakpoint = useBreakpoint();
+  const mobile = breakpoint !== 'large';
+  const config = useConfigContext();
+  const { router } = useRouter();
+  const { selectedFilters } = useFilterContext();
+  const { formatMessage } = useIntl();
+
+  const [hasUpdates, setHasUpdates] = useState(null);
+  const [fetchKey, setFetchKey] = useState(0);
+  const displayedFingerprintRef = useRef(null);
+  const scrollRef = useRef(null);
+  const isInitialFiltersRender = useRef(true);
+
+  const {
+    URL: { OTP: otpUrl },
+    feedIds,
+    hasAPISubscriptionQueryParameter,
+    API_SUBSCRIPTION_QUERY_PARAMETER_NAME: subParamName,
+    API_SUBSCRIPTION_TOKEN: subToken,
+  } = config;
+
+  const disruptionCardOnClick = id => {
+    router.push(`/${TRAFFICNOW}/hairio/${id}`);
+  };
+
+  const { alerts } = useLazyLoadQuery(
+    AlertsQuery,
+    { feedIds },
+    { fetchKey, fetchPolicy: 'network-only' },
+  );
+
+  // If no modes are selected, fetch cancelations for all
+  const modesToFetch =
+    selectedFilters.vehicleModes.length === 0
+      ? [
+          TransportMode.Bus,
+          TransportMode.Tram,
+          TransportMode.Rail,
+          TransportMode.Subway,
+          TransportMode.Ferry,
+        ]
+      : selectedFilters.vehicleModes.map(mode => mode.toUpperCase());
+
+  // Memoized so the query variables stay stable across re-renders.
+  const canceledTripsVars = useMemo(
+    () => ({
+      runningTimeRanges: [
+        {
+          start: dateTime,
+          end: null,
+        },
+      ],
+      fetchBus: modesToFetch.includes(TransportMode.Bus),
+      fetchTram: modesToFetch.includes(TransportMode.Tram),
+      fetchRail: modesToFetch.includes(TransportMode.Rail),
+      fetchSubway: modesToFetch.includes(TransportMode.Subway),
+      fetchFerry: modesToFetch.includes(TransportMode.Ferry),
+    }),
+    [dateTime, selectedFilters.vehicleModes.join(',')],
+  );
+
+  const cancelationsByMode = useLazyLoadQuery(
+    CanceledTripsOverviewQuery,
+    canceledTripsVars,
+    { fetchKey },
+  );
+
+  const canceledModes = getCanceledModes(
+    cancelationsByMode,
+    config.feedIds,
+    selectedFilters.selectedFeeds,
+  );
+
+  // Capture fingerprint of the currently displayed alerts after each (re)load
+  useEffect(() => {
+    displayedFingerprintRef.current = buildAlertsFingerprint(alerts);
+    setHasUpdates(null);
+  }, [fetchKey]);
+
+  // Changing filters can shrink or empty the visible results while the user
+  // is scrolled down (in the list's own scroll container and/or the window),
+  // which would otherwise leave the viewport showing whatever now sits at the
+  // old scroll position (e.g. the page footer) instead of the new content.
+  // Scroll the results back to their own top whenever the filters change.
+  const scrollResultsToTop = () => {
+    if (mobile) {
+      // On mobile the whole window scrolls (there's no independent scroll
+      // container), and the filters button above the list is `position:
+      // sticky`. Scrolling only the list's own top into view would leave
+      // that button "stuck" over the top of the (now shorter) list, hiding
+      // part of its content. Scrolling the window fully to the top avoids
+      // that overlap by keeping the button in its normal, unstuck position.
+      window.scrollTo(0, 0);
+    } else if (scrollRef.current) {
+      scrollRef.current.scrollTop = 0;
+      scrollRef.current.scrollIntoView({ block: 'start' });
+    }
+  };
+
+  useEffect(() => {
+    if (isInitialFiltersRender.current) {
+      isInitialFiltersRender.current = false;
+      return;
+    }
+    scrollResultsToTop();
+  }, [selectedFilters]);
+
+  // Poll for server-side changes without updating the Relay store
+  useEffect(() => {
+    const queryParam = hasAPISubscriptionQueryParameter
+      ? `?${subParamName}=${encodeURIComponent(subToken)}`
+      : '';
+    const endpoint = `${otpUrl}gtfs/v1${queryParam}`;
+
+    const checkForUpdates = async () => {
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            query:
+              'query DisruptionsPoll($feedIds:[String!]){alerts(feeds:$feedIds){id effectiveStartDate effectiveEndDate alertSeverityLevel}}',
+            variables: { feedIds },
+          }),
+        });
+        if (!res.ok) {
+          return;
+        }
+        const json = await res.json();
+        if (!json?.data?.alerts) {
+          return;
+        }
+        if (
+          buildAlertsFingerprint(json.data.alerts) !==
+          displayedFingerprintRef.current
+        ) {
+          setHasUpdates(true);
+        }
+      } catch {
+        // ignore network errors silently
+      }
+    };
+
+    const intervalId = setInterval(checkForUpdates, POLL_INTERVAL_MS);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  const handleRefresh = () => {
+    setFetchKey(k => k + 1);
+  };
+
+  const canceledModesFiltered =
+    selectedFilters.validityPeriod === 'UPCOMING'
+      ? []
+      : filterCanceledModes(canceledModes, selectedFilters);
+
+  const disruptions = filterAndSortAlerts(alerts, selectedFilters);
+
+  const disruptionCards = buildDisruptionCards(
+    disruptions,
+    selectedFilters,
+    config,
+  );
+
+  const resultAmount = canceledModesFiltered.length + disruptionCards.length;
+
+  return (
+    <div
+      className={cx('disruptions', {
+        'disruptions--mobile': mobile,
+      })}
+    >
+      {hasUpdates && (
+        <div className="disruptions-update-banner-anchor">
+          <div className="disruptions-update-banner" role="status">
+            <span className="disruptions-update-banner__text">
+              <Icon img="icon_update" />
+              <FormattedMessage id="disruptions-update-available" />
+            </span>
+            <button
+              type="button"
+              className="disruptions-update-banner__action"
+              onClick={handleRefresh}
+            >
+              <FormattedMessage id="disruptions-refresh" />
+            </button>
+          </div>
+        </div>
+      )}
+      <div className="disruptions__scroll" ref={scrollRef}>
+        {!resultAmount ? (
+          <NoDisruptions />
+        ) : (
+          <>
+            <Text variant="heading-xs" as="h3">
+              {formatMessage(
+                {
+                  id: 'disruptions-found-amount',
+                  defaultMessage: 'No disruptions found',
+                },
+                { amount: resultAmount },
+              )}
+            </Text>
+            <div className="disruptions-list">
+              {canceledModesFiltered.map(({ key, routes }) => (
+                <CanceledTripCard
+                  isMobile={mobile}
+                  key={key}
+                  mode={key}
+                  routes={routes}
+                />
+              ))}
+              {disruptionCards.map(({ key, alert, mode }) => (
+                <DisruptionCard
+                  key={key}
+                  alert={alert}
+                  mode={mode}
+                  onClick={disruptionCardOnClick}
+                  isMobile={mobile}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+Disruptions.propTypes = {
+  dateTime: PropTypes.string.isRequired,
+};

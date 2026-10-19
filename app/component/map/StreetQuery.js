@@ -146,13 +146,15 @@ const streetQuery = graphql`
                 vehicleMode
               }
             }
-            intermediatePlaces {
-              stop {
-                gtfsId
-                lat
-                lon
-                name
-                platformCode
+            stopCalls {
+              stopLocation {
+                ... on Stop {
+                  gtfsId
+                  lat
+                  lon
+                  name
+                  platformCode
+                }
               }
             }
           }

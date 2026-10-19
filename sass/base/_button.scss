@@ -51,3 +51,13 @@ button {
 button[class*='closeButton'] {
   border-radius: 100%;
 }
+
+// Same conflict as above, this time with @hsl-fi/layout-primitives' Button
+// and ButtonLink, whose shared hashed class (e.g. `_button_2tgzp_1`) sets
+// `border-radius: 48px`. Foundation's `[type='submit']`/`[type='button']`
+// reset can win the specificity tie and squares them off, so restore the
+// pill shape via their (equally version-independent) `variant-*` class.
+button[class*='variant-'],
+a[class*='variant-'] {
+  border-radius: 48px;
+}

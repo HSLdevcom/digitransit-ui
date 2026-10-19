@@ -1,6 +1,14 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { getCanceledModes } from '../../../../app/component/trafficnow/Disruptions';
+import {
+  buildAlertsFingerprint,
+  getCanceledModes,
+} from '../../../../app/component/trafficnow/Disruptions';
+
+const makeAlert = (id, start, end, severity) => ({
+  id,
+  effectiveStartDate: start,
+  effectiveEndDate: end,
+  alertSeverityLevel: severity,
+});
 
 const makeRouteSummary = gtfsId => ({
   route: {
@@ -11,6 +19,42 @@ const makeRouteSummary = gtfsId => ({
   },
   cancellationCount: 1,
   patterns: [],
+});
+
+describe('buildAlertsFingerprint', () => {
+  it('returns an empty string for an empty alert list', () => {
+    expect(buildAlertsFingerprint([])).toBe('');
+  });
+
+  it('produces the same fingerprint regardless of input order', () => {
+    const a = makeAlert('a1', 1000, 2000, 'WARNING');
+    const b = makeAlert('a2', 1001, 2001, 'SEVERE');
+    expect(buildAlertsFingerprint([a, b])).toBe(buildAlertsFingerprint([b, a]));
+  });
+
+  it('produces a different fingerprint when an alert is added', () => {
+    const a = makeAlert('a1', 1000, 2000, 'WARNING');
+    const b = makeAlert('a2', 1001, 2001, 'SEVERE');
+    expect(buildAlertsFingerprint([a])).not.toBe(
+      buildAlertsFingerprint([a, b]),
+    );
+  });
+
+  it('produces a different fingerprint when severity changes', () => {
+    const before = makeAlert('a1', 1000, 2000, 'WARNING');
+    const after = makeAlert('a1', 1000, 2000, 'SEVERE');
+    expect(buildAlertsFingerprint([before])).not.toBe(
+      buildAlertsFingerprint([after]),
+    );
+  });
+
+  it('produces a different fingerprint when effective dates change', () => {
+    const before = makeAlert('a1', 1000, 2000, 'WARNING');
+    const after = makeAlert('a1', 1000, 3000, 'WARNING');
+    expect(buildAlertsFingerprint([before])).not.toBe(
+      buildAlertsFingerprint([after]),
+    );
+  });
 });
 
 describe('getCanceledModes', () => {
@@ -27,7 +71,7 @@ describe('getCanceledModes', () => {
       ['HSL'],
     );
 
-    expect(canceledModes).to.deep.equal([
+    expect(canceledModes).toEqual([
       {
         key: 'bus',
         routes: [makeRouteSummary('HSL:1001')],
@@ -45,6 +89,20 @@ describe('getCanceledModes', () => {
       ['HSL'],
     );
 
-    expect(canceledModes).to.deep.equal([]);
+    expect(canceledModes).toEqual([]);
+  });
+
+  it('keeps modes with matching routes and drops modes without', () => {
+    const canceledModes = getCanceledModes(
+      {
+        bus: { routes: [makeRouteSummary('HSL:1001')] },
+        tram: { routes: [makeRouteSummary('MATKA:2001')] },
+      },
+      ['HSL'],
+    );
+
+    expect(canceledModes).toEqual([
+      { key: 'bus', routes: [makeRouteSummary('HSL:1001')] },
+    ]);
   });
 });

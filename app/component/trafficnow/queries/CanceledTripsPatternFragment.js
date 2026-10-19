@@ -3,7 +3,9 @@ import './CanceledDeparturesFragment';
 
 export default graphql`
   fragment CanceledTripsPatternFragment on Pattern
-  @argumentDefinitions(serviceDateRanges: { type: "[LocalDateRangeInput!]" }) {
+  @argumentDefinitions(
+    runningTimeRanges: { type: "[OffsetDateTimeRangeInput!]" }
+  ) {
     id
     code
     headsign
@@ -11,6 +13,6 @@ export default graphql`
       name
     }
     ...CanceledDeparturesFragment
-      @arguments(serviceDateRanges: $serviceDateRanges)
+      @arguments(runningTimeRanges: $runningTimeRanges)
   }
 `;

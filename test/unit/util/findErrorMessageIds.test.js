@@ -1,14 +1,12 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import findErrorMessageIds from '../../../app/component/itinerary/findErrorMessageIds';
 
 const expectSingleValue = (arr, expected) => {
-  expect(arr.length).to.equal(1);
-  expect(arr[0]).to.equal(expected);
+  expect(arr.length).toBe(1);
+  expect(arr[0]).toBe(expected);
 };
 
 const expectToContain = (arr, expected) => {
-  expect(arr.indexOf(expected) >= 0).to.equal(true);
+  expect(arr.indexOf(expected) >= 0).toBe(true);
 };
 
 describe('findErrorMessageIds', () => {
@@ -55,7 +53,7 @@ describe('findErrorMessageIds', () => {
         { code: 'NO_STOPS_IN_RANGE', inputField: 'TO' },
       ]);
 
-      expect(msgIds.length).to.equal(2);
+      expect(msgIds.length).toBe(2);
       expectToContain(msgIds, 'outside-bounds-2');
       expectToContain(msgIds, 'no-stops-in-range-1');
     });
@@ -95,7 +93,7 @@ describe('findErrorMessageIds', () => {
           },
         },
       );
-      expect(msgIds2).to.not.equal('no-route-already-at-destination');
+      expect(msgIds2).not.toBe('no-route-already-at-destination');
     });
 
     it('should return no-route-origin-same-as-destination', () => {

@@ -1,0 +1,84 @@
+import { Button } from '@hsl-fi/layout-primitives';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import NavigatorIntroFeature from './NavigatorIntroFeature';
+import Icon from '../../../Icon';
+import { useConfigContext } from '../../../../client/ConfigContext';
+
+const NavigatorIntro = ({
+  logo,
+  onPrimaryClick,
+  onClose,
+  onOpenGeolocationInfo,
+}) => {
+  const intl = useIntl();
+  const config = useConfigContext();
+
+  const primaryColor = config.colors.accessiblePrimary;
+
+  return (
+    <>
+      <div className="intro-body">
+        {logo && <img src={logo} aria-hidden="true" alt="navigator logo" />}
+        <FormattedMessage id="navi-more-guidance">
+          {msg => <h2 role="presentation">{msg}</h2>}
+        </FormattedMessage>
+        <div className="content">
+          <NavigatorIntroFeature
+            icon="icon_future-route"
+            iconColor={primaryColor}
+            iconBackgroundColor={config.colors?.backgroundInfo}
+            header="navi-support"
+            body="navigation-intro-help-body"
+          />
+          <NavigatorIntroFeature
+            icon="icon_comment"
+            iconColor={primaryColor}
+            iconBackgroundColor={config.colors?.backgroundInfo}
+            header="navi-change-info"
+            body="navigation-intro-notifications-body"
+          />
+        </div>
+      </div>
+      <div className="navi-geolocation-purpose">
+        <Icon img="icon_info" color={primaryColor} />
+        <div className="info-content">
+          <FormattedMessage tagName="p" id="navi-geolocation-purpose" />
+          <button
+            type="button"
+            onClick={e => {
+              e.stopPropagation();
+              onOpenGeolocationInfo();
+            }}
+            style={{ color: primaryColor }}
+          >
+            <FormattedMessage id="read-more" />
+          </button>
+        </div>
+      </div>
+      <div className="intro-buttons">
+        <Button
+          size="l"
+          expand
+          variant="primary"
+          onClick={onPrimaryClick || onClose}
+        >
+          {intl.formatMessage({ id: 'navigation-intro-begin' })}
+        </Button>
+        <Button size="l" expand variant="plain" onClick={onClose}>
+          {intl.formatMessage({ id: 'cancel' })}
+        </Button>
+      </div>
+    </>
+  );
+};
+
+NavigatorIntro.propTypes = {
+  logo: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
+  onPrimaryClick: PropTypes.func,
+  onOpenGeolocationInfo: PropTypes.func.isRequired,
+};
+
+export default NavigatorIntro;

@@ -1,0 +1,45 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
+import { useMatch } from 'found';
+import { useConfigContext } from '../client/ConfigContext';
+
+const Language = ({ lang }) => {
+  const { language } = useConfigContext();
+  const intl = useIntl();
+  const match = useMatch();
+  const highlight = lang === language;
+
+  const aria = highlight
+    ? intl.formatMessage(
+        { id: 'search-current-suggestion' },
+        { selection: lang },
+      )
+    : intl.formatMessage({ id: 'language-selection' }, { language: lang });
+  return (
+    <a
+      id={`lang-${lang}`}
+      aria-label={aria}
+      key={lang}
+      href={`/${lang}${match.location.pathname}${match.location.search}`}
+      className={`${(highlight && 'selected') || ''} noborder lang`}
+    >
+      {lang}
+    </a>
+  );
+};
+
+Language.propTypes = { lang: PropTypes.string.isRequired };
+
+const LanguageSelect = () => {
+  const { availableLanguages } = useConfigContext();
+  return (
+    <div key="lang-select" id="lang-select">
+      {availableLanguages.map(lang => (
+        <Language key={lang} lang={lang} />
+      ))}
+    </div>
+  );
+};
+
+export default LanguageSelect;

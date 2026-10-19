@@ -1,0 +1,113 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import uniqBy from 'lodash/uniqBy';
+import Icon from '../Icon';
+import { ExtendedRouteTypes } from '../../../utils/shared/constants';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { stopShape } from '../../../utils/client/shapes';
+
+const MAX_ROUTEFILTER_LEN = 13;
+
+function getRouteNames(stop, routes) {
+  const arr = [];
+  stop.stoptimesForServiceDate.forEach(o => {
+    if (routes.filter(v => v === o.pattern.code).length > 0) {
+      arr.push({
+        id: o.pattern.code,
+        shortName: o.pattern.route.shortName,
+        agencyName: o.pattern.route.agency.name,
+      });
+    }
+  });
+  return uniqBy(arr, key =>
+    key.shortName === null ? key.agencyName : key.shortName,
+  );
+}
+
+/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+export default function TimeTableOptionsPanel({
+  stop,
+  showRoutes,
+  showFilterModal,
+}) {
+  if (!stop) {
+    throw Error('Empty stop');
+  }
+  const routeNames = getRouteNames(stop, showRoutes);
+  const showRoutesDiv = [];
+  for (let i = 0; i < routeNames.length; i++) {
+    const o = routeNames[i];
+    showRoutesDiv[i] = `${o.shortName ? o.shortName : o.agencyName}${
+      i === routeNames.length - 1 ? '' : ', '
+    }`;
+    if (showRoutesDiv.join().length > MAX_ROUTEFILTER_LEN) {
+      if (i > 0) {
+        showRoutesDiv[i] = '\u{02026}';
+      } else {
+        showRoutesDiv[0] = `${showRoutesDiv[0].substr(
+          0,
+          MAX_ROUTEFILTER_LEN - 1,
+        )}\u{02026}`;
+      }
+      break;
+    }
+  }
+  // If stop/station is cancelled, or it has no departures from some other reason, stop.stoptimesForServiceDate length is 0.
+  // This check prevents UI from crashing
+  const len = stop.stoptimesForServiceDate.length;
+  let stopVehicle = len
+    ? stop.stoptimesForServiceDate[0].pattern?.route.mode.toLowerCase()
+    : null;
+  if (stopVehicle === 'bus') {
+    stopVehicle = stop.stoptimesForServiceDate.some(
+      stopTime => stopTime.pattern.route.type === ExtendedRouteTypes.BusExpress,
+    )
+      ? 'bus-express'
+      : stopVehicle;
+  }
+  return (
+    <label
+      className="timetable-showroutes combobox-container"
+      htmlFor="timetable-showroutes-button"
+    >
+      <span className="left-column">
+        <span className="combobox-label">
+          <FormattedMessage
+            id="selected-routes"
+            defaultMessage="Selected lines"
+          />
+        </span>
+        <button
+          type="button"
+          id="timetable-showroutes-button"
+          className="combobox-selected-value"
+          onClick={() => {
+            showFilterModal(true);
+            addAnalyticsEvent({
+              category: 'Stop',
+              action: 'ChooseTimetableRoutes',
+              name: null,
+            });
+          }}
+        >
+          <span className="showroutes-list">
+            {showRoutesDiv.length > 0 && showRoutesDiv}
+            {showRoutesDiv.length === 0 && (
+              <FormattedMessage id="all-routes" defaultMessage="All Lines" />
+            )}
+          </span>
+        </button>
+      </span>
+      <div className={`showroutes-icon ${stopVehicle}`}>
+        <Icon img={`icon_${stopVehicle}`} className="showroutes-icon-svg" />
+      </div>
+    </label>
+  );
+}
+
+TimeTableOptionsPanel.propTypes = {
+  stop: stopShape.isRequired,
+  showRoutes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  showFilterModal: PropTypes.func.isRequired,
+};

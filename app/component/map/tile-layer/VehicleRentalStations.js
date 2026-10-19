@@ -7,17 +7,17 @@ import {
   getMapIconScale,
   drawCitybikeIcon,
   drawSmallVehicleRentalMarker,
-} from '../../../util/mapIconUtils';
-import { showCitybikeNetwork } from '../../../util/modeUtils';
+} from '../../../../utils/client/mapIconUtils';
+import { showCitybikeNetwork } from '../../../../utils/client/modeUtils';
 
 import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   getVehicleCapacity,
   BIKEAVL_UNKNOWN,
-} from '../../../util/vehicleRentalUtils';
-import { fetchWithLanguageAndSubscription } from '../../../util/fetchUtils';
-import { getLayerBaseUrl } from '../../../util/mapLayerUtils';
+} from '../../../../utils/shared/vehicleRentalUtils';
+import { fetchWithLanguageAndSubscription } from '../../../../utils/shared/fetchUtils';
+import { getLayerBaseUrl } from '../../../../utils/client/mapLayerUtils';
 
 const query = graphql`
   query VehicleRentalStationsQuery($id: String!) {
@@ -208,7 +208,10 @@ class VehicleRentalStations {
       this.config.vehicleRental.networks[network].showRentalStations) &&
     (!this.tile.stopsToShow || this.tile.stopsToShow.includes(id)) &&
     !this.tile.objectsToHide.vehicleRentalStations.includes(id) &&
-    showCitybikeNetwork(this.config.vehicleRental.networks[network]);
+    showCitybikeNetwork(
+      this.config.vehicleRental.networks[network],
+      this.config,
+    );
 
   static getName = () => 'citybike';
 }

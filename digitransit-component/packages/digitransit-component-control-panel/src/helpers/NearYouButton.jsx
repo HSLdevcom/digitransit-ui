@@ -1,0 +1,102 @@
+import PropTypes from 'prop-types';
+import React from 'react';
+import Icon from '@digitransit-component/digitransit-component-icon';
+import styles from './styles.scss';
+import { getIconName } from './utils';
+
+export default function NearYouButton({
+  mode,
+  modeSet,
+  colors,
+  title = '',
+  titleWeight = 500,
+  withAlert = false,
+  boxed = false,
+  withBorder = false,
+  withArrow = false,
+  margin = '8px',
+  padding = '8px',
+  iconSize,
+}) {
+  let iconProps;
+
+  if (mode === 'favorite') {
+    iconProps = { img: 'star' };
+  } else if (mode === 'more') {
+    iconProps = {
+      img: 'arrow',
+      color: colors.primary,
+      width: 1.2,
+      height: 1.2,
+    };
+  } else {
+    iconProps = {
+      img: getIconName(mode, modeSet, boxed),
+      color: colors[mode],
+    };
+  }
+
+  if (!boxed) {
+    iconProps = {
+      ...iconProps,
+      width: 1.4,
+      height: 1.4,
+    };
+  }
+  const buttonStyle = { '--margin': margin, '--padding': padding };
+  let iconContainerStyle = { '--iconMargin': padding };
+  if (iconSize) {
+    iconContainerStyle['--iconSize'] = iconSize;
+  }
+  if (!boxed) {
+    iconContainerStyle = {
+      ...iconContainerStyle,
+      '--bckColor': colors[mode],
+      '--borderRadius': '50%',
+      '--iconMargin': '17px',
+    };
+  }
+  const buttonClass = withBorder
+    ? 'near-you-button-with-border'
+    : 'near-you-button';
+  return (
+    <div aria-hidden="true" className={styles[buttonClass]} style={buttonStyle}>
+      <span className={styles['icon-container']} style={iconContainerStyle}>
+        <Icon {...iconProps} />
+        {withAlert && (
+          <span className={styles['transport-mode-alert-icon']}>
+            <Icon img="caution" color={colors.caution} />
+          </span>
+        )}
+      </span>
+      {title && (
+        <span
+          className={styles['transport-mode-title']}
+          style={{ '--font-weight': titleWeight }}
+        >
+          {title}
+        </span>
+      )}
+      {withArrow && (
+        <div className={styles['near-you-button-caret']}>
+          <Icon img="arrow" color={colors.primary} width={0.9} height={0.9} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+NearYouButton.propTypes = {
+  mode: PropTypes.string.isRequired,
+  modeSet: PropTypes.string.isRequired,
+  colors: PropTypes.objectOf(PropTypes.string).isRequired,
+  title: PropTypes.string,
+  titleWeight: PropTypes.number,
+  withAlert: PropTypes.bool,
+  boxed: PropTypes.bool,
+  withBorder: PropTypes.bool,
+  withArrow: PropTypes.bool,
+  margin: PropTypes.string,
+  padding: PropTypes.string,
+  iconSize: PropTypes.string,
+};

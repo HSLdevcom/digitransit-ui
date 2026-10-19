@@ -1,0 +1,87 @@
+import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
+import React from 'react';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import SearchSettingsDropdown from './SearchSettingsDropdown';
+import SettingsToggle from './SettingsToggle';
+import { findNearestOption } from '../../../../utils/client/planParamUtil';
+import { settingsShape } from '../../../../utils/client/shapes';
+import { useConfigContext } from '../../../client/ConfigContext';
+
+const roundToOneDecimal = number => {
+  const rounded = Math.round(number * 10) / 10;
+  return rounded.toFixed(1).replace('.', ',');
+};
+
+const title = [
+  'option-least',
+  'option-less',
+  'option-default',
+  'option-more',
+  'option-most',
+];
+
+export default function WalkingOptions({ settings, updateSettings }) {
+  const { defaultOptions, defaultSettings } = useConfigContext();
+  const intl = useIntl();
+
+  const options = defaultOptions.walkSpeed.map((s, i) => ({
+    title: intl.formatMessage({ id: title[i] }),
+    value: s,
+    kmhValue: `${roundToOneDecimal(s * 3.6)} km/h`,
+  }));
+
+  const currentWalkSelection =
+    options.find(option => option.value === settings.walkSpeed) ||
+    options.find(
+      option =>
+        option.value ===
+        findNearestOption(settings.walkSpeed, defaultOptions.walkSpeed),
+    );
+  const onToggle = () => {
+    const newValue =
+      settings.walkReluctance !== defaultOptions.highWalkReluctance
+        ? defaultOptions.highWalkReluctance
+        : defaultSettings.walkReluctance;
+    updateSettings({ walkReluctance: newValue });
+    addAnalyticsEvent({
+      category: 'ItinerarySettings',
+      action: 'ChangeAmountOfWalking',
+      name:
+        newValue === defaultOptions.highWalkReluctance ? 'avoid' : 'default',
+    });
+  };
+
+  return (
+    <>
+      <SearchSettingsDropdown
+        currentSelection={currentWalkSelection}
+        onOptionSelected={value => {
+          updateSettings({
+            walkSpeed: value,
+          });
+          addAnalyticsEvent({
+            category: 'ItinerarySettings',
+            action: 'ChangeWalkingSpeed',
+            name: value,
+          });
+        }}
+        options={options}
+        labelId="walking-speed"
+        name="walkspeed"
+      />
+      <SettingsToggle
+        id="settings-toggle-avoid-walking"
+        labelId="avoid-walking"
+        toggled={settings.walkReluctance === defaultOptions.highWalkReluctance}
+        onToggle={onToggle}
+        borderStyle="top-border"
+      />
+    </>
+  );
+}
+
+WalkingOptions.propTypes = {
+  settings: settingsShape.isRequired,
+  updateSettings: PropTypes.func.isRequired,
+};

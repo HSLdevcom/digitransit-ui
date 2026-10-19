@@ -12,6 +12,7 @@ export default graphql`
       effectiveStartDate
       effectiveEndDate
       alertUrl
+      feed
       entities {
         __typename
         ... on Stop {
@@ -22,6 +23,9 @@ export default graphql`
           locationType
           vehicleMode
           platformCode
+          parentStation {
+            gtfsId
+          }
         }
         ... on Route {
           gtfsId

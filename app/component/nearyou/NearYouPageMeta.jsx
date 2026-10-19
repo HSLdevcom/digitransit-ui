@@ -1,0 +1,36 @@
+import React from 'react';
+import { useIntl } from 'react-intl';
+import { Helmet } from 'react-helmet';
+import { useMatch } from 'found';
+import { generateMetaData } from '../../../utils/client/metaUtils';
+import { useConfigContext } from '../../client/ConfigContext';
+
+function NearYouPageMeta() {
+  const config = useConfigContext();
+  const intl = useIntl();
+  const match = useMatch();
+  const { mode, place, origin } = match.params;
+  const title = intl.formatMessage({
+    id: 'stops-near-you.title',
+    defaultMessage: 'Lähipysäkkien aikataulut',
+  });
+  const description = intl.formatMessage({
+    id: 'stops-near-you.description',
+    defaultMessage: 'Lähialueesi pysäkkiaikataulut ja ajoneuvot kartalla.',
+  });
+  const props = generateMetaData(
+    {
+      description,
+      title,
+    },
+    config,
+    {
+      pathname: `/${encodeURIComponent(mode)}/${encodeURIComponent(
+        place,
+      )}/${encodeURIComponent(origin)}/`,
+    },
+  );
+  return <Helmet {...props} />;
+}
+
+export default NearYouPageMeta;

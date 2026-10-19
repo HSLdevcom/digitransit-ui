@@ -1,3 +1,12 @@
+/**
+ * LocalStorage helper functions (getItem, setItem, removeItem, getItemAsJson)
+ * with browser/security-error guards.
+ *
+ * @module digitransit-store-common-functions
+ * @deprecated This package has no real consumers. It will be removed in a
+ * future release.
+ */
+
 function isBrowser() {
   return typeof window !== 'undefined' && window !== null;
 }

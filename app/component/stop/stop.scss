@@ -4,6 +4,17 @@
   }
 }
 
+.alert-circle {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  font-size: 0.8rem;
+  margin-right: 3px;
+  border-radius: 999em;
+  color: white;
+  background-color: $disruption-color;
+}
+
 .stop-page-content-wrapper {
   min-height: 0;
   display: flex;
@@ -20,12 +31,6 @@
   .route-tabs {
     margin: var(--space-s) 48px var(--space-s) 48px;
   }
-}
-
-.stop-page-content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
 }
 
 .stop-page.header {
@@ -103,7 +108,23 @@
   }
 }
 
-.no-alerts-container,
+.no-alerts-container {
+  background-color: $background-color-lighter;
+  align-items: center;
+  display: flex;
+  flex: 1 0 6em;
+  flex-direction: column;
+  padding-top: 20px;
+  font-weight: 325;
+  font-size: 18px;
+  min-height: 400px;
+
+  .icon {
+    width: auto;
+    height: auto;
+  }
+}
+
 .stop-constant-operation-container,
 .stop-no-departures-container {
   align-items: center;
@@ -204,7 +225,7 @@
     font-weight: $font-weight-medium;
     font-stretch: normal;
     font-style: normal;
-    line-height: normal;
+    line-height: 27px;
     letter-spacing: -0.8px;
   }
 
@@ -256,58 +277,34 @@
   }
 }
 
-.stop-page-content > .departure-list {
-  flex-basis: 0;
-  flex-grow: 20;
-  transition: flex-grow 300ms;
-
-  &.stop-page-content-enter,
-  &.stop-page-content-leave {
-    will-change: flex-grow;
-  }
-
-  &.stop-page-content-enter.stop-page-content-enter-active {
-    flex-grow: 20;
-  }
-
-  &.stop-page-content-enter,
-  &.stop-page-content-leave.stop-page-content-leave-active {
-    flex-grow: 0;
-  }
-}
-
 .stop-tab-container {
+  height: 2.5em;
+  min-height: 44px;
   display: flex;
   background-color: #ddd;
-  border-radius: 5px;
-  margin: 8px 64px 16px 64px;
-  position: relative;
+  border-radius: 999em;
+  margin: var(--space-s) 48px var(--space-s) 48px;
+  padding: var(--space-xxs);
 
   @media print {
     display: none;
   }
 }
 
-.stop-tabs-fillerline {
-  height: 10px;
-  background: $white;
-}
-
 .stop-tab-singletab,
 .stop-tab-singletab:hover {
   display: flex;
   align-items: center;
-  min-height: 3em;
   flex-grow: 1;
   font-size: $font-size-xxsmall;
-  border-radius: 3px;
+  border-radius: 30px;
   cursor: pointer;
   color: #333;
   text-align: center;
   transition: 0.1s all ease-in;
   padding-top: 0;
-  margin: 2px;
   padding-left: 0.5em;
+  margin: 2px;
   padding-right: 0.5em;
   text-decoration: none;
   font-weight: $font-weight-book;
@@ -320,29 +317,6 @@
   &.active:hover {
     background-color: $white;
     font-weight: $font-weight-medium;
-  }
-
-  .active-disruption-alert {
-    .icon-container {
-      vertical-align: middle;
-      margin-right: 5px;
-
-      .icon {
-        width: 0.85em;
-        height: 0.95em;
-      }
-    }
-  }
-
-  .active-service-alert {
-    .icon-container {
-      vertical-align: middle;
-      margin-right: 5px;
-    }
-
-    .service-alert-icon {
-      fill: rgba(136, 136, 136, 1);
-    }
   }
 
   .no-alerts span {
@@ -575,149 +549,32 @@
   }
 }
 
-.action-bar {
-  a.external-link {
-    font-size: $font-size-xxsmall;
-    color: $gray-blue;
-
-    svg.icon {
-      top: 3px;
-      font-size: 14px;
-      position: relative;
-    }
-  }
-
-  .external-link-icon-outer {
-    color: #eef1f3;
-  }
-
-  .external-link-icon {
-    color: $gray-blue;
-  }
-}
-
-.external-stop-link {
-  float: right;
-  margin-right: 14px;
-  margin-top: 14px;
-
-  a {
-    color: $link-color !important;
-    text-decoration: none;
-
-    @include font-medium;
-  }
-
-  .external-link-icon-outer {
-    color: white;
-  }
-
-  .external-link-icon {
-    color: $theme-primary-color;
-  }
-}
-
-.external-stop-link-font {
-  display: inline-block;
-  vertical-align: text-top;
-  color: blue;
-  font-size: $font-size-xxsmall;
-  text-decoration: none;
-}
-
-hr.action-bar {
-  margin: 0;
-  border: 0;
-  border-top: 1px solid #ddd;
-  width: 100%;
-  padding-bottom: 8px;
-}
-
 .desktop {
   #stop-page-action-bar {
     height: auto;
   }
-
-  .action-bar {
-    a.external-link {
-      font-size: 14px;
-      line-height: 22px;
-
-      svg.icon {
-        font-size: 18px;
-      }
-    }
-  }
 }
 
-.filter-stop-modal {
-  font-size: $font-size-small;
-  font-weight: $font-weight-medium;
+.routes-container {
+  // Widen the design-system's default gaps (--space-fixed-xs, 8px) both
+  // between the checkbox box and its label, and between list items, to
+  // match the roomier spacing used before the design-system refactor.
+  --space-fixed-xs: 16px;
 
-  .all-routes-header {
+  padding-bottom: 4px;
+  overflow-y: scroll;
+
+  .route-title {
     display: flex;
-    margin-top: 1em;
     align-items: center;
-  }
-
-  .checkbox-container {
-    display: flex;
-    margin-right: 2em;
-    position: relative;
-
-    & input[type='checkbox'] {
-      opacity: 0;
-      width: 2em;
-      height: 2em;
-      margin: 0;
-    }
-
-    & label {
-      width: 2.3em;
-      height: 2.3em;
-      border: 1px solid #78909c;
-      border-radius: 4px;
-      background-color: $white;
-      cursor: pointer;
-      position: absolute;
-      top: -0.3em;
-      left: 0;
-      color: $theme-primary-color;
-
-      & .checkbox-icon {
-        width: 2.3em;
-        height: 2.3em;
-      }
-
-      &.checked {
-        border: none;
-      }
-    }
-
-    input[type='checkbox']:focus + label {
-      outline: black solid 1px;
-    }
-  }
-
-  .routes-container {
-    margin-top: 1em;
-    overflow-y: scroll;
-    border-radius: 0 0 8px 8px;
-  }
-
-  .route-row {
-    display: flex;
-    padding-top: 0.75em;
-    padding-bottom: 0.3em;
-  }
-
-  .route-mode {
-    display: flex;
-    margin-right: 4px;
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
 
     svg {
       width: 1.6em;
       height: 1.6em;
+      margin-right: 4px;
+      vertical-align: middle;
     }
   }
 
@@ -861,20 +718,12 @@ hr.action-bar {
     }
   }
 
-  .stop-tabs-fillerline {
-    height: 5px;
-  }
-
   .stop-page-departure-wrapper {
     padding: 0 16px 0 16px;
   }
 
   .routes-container {
     height: 100%;
-  }
-
-  .showroutes-header {
-    width: 41%;
   }
 
   .departure-list-header {

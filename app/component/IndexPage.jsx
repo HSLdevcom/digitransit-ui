@@ -1,0 +1,516 @@
+import PropTypes from 'prop-types';
+import React, { memo, useEffect, useRef } from 'react';
+import { useIntl, FormattedMessage } from 'react-intl';
+import { useRouter } from 'found';
+import connectToStores from 'fluxible-addons-react/connectToStores';
+import isEqual from 'lodash/isEqual';
+import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
+import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
+import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
+import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
+import { createUrl } from '@digitransit-store/digitransit-store-future-route';
+import inside from 'point-in-polygon';
+import { locationShape } from '../../utils/client/shapes';
+import OverlayWithSpinner from './visual/OverlayWithSpinner';
+import FavouritesContainer from './FavouritesContainer';
+import DatetimepickerContainer from './DatetimepickerContainer';
+import {
+  withSearchContext,
+  getLocationSearchTargets,
+} from './WithSearchContext';
+import {
+  getPathWithEndpointObjects,
+  getStopRoutePath,
+  parseLocation,
+  sameLocations,
+  definesItinerarySearch,
+  PREFIX_NEARYOU,
+  PREFIX_ITINERARY_SUMMARY,
+} from '../../utils/shared/path';
+import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import withBreakpoint from '../../utils/client/withBreakpoint';
+import Geomover from './Geomover';
+import scrollTop from '../../utils/client/scroll';
+import { getRefPoint } from '../../utils/client/apiUtils';
+import { filterObject } from '../../utils/client/filterUtils';
+import {
+  getTransportModes,
+  getNearYouModes,
+  useCitybikes,
+} from '../../utils/client/modeUtils';
+import {
+  checkPositioningPermission,
+  startLocationWatch,
+} from '../action/PositionActions';
+import {
+  countLocations,
+  STATUS_FETCHING_OR_UPDATING,
+} from '../data/FavouriteData';
+import {
+  useFavourites,
+  useFavouriteStatus,
+  useHasOtpLocationFavourites,
+} from '../hooks/FavouriteContext';
+import { useConfigContext } from '../client/ConfigContext';
+import { useCurrentTime } from '../hooks/TimeContext';
+import {
+  useOrigin,
+  useDestination,
+  useItineraryLocationActions,
+} from '../hooks/ItineraryLocationContext';
+import TrafficNowLink from './trafficnow/TrafficNowLink';
+
+const StopRouteSearch = withSearchContext(DTAutoSuggest);
+const LocationSearch = withSearchContext(DTAutosuggestPanel);
+
+function IndexPage({ fromMap, ...props }, context) {
+  const pendingOriginRef = useRef(null);
+  const pendingDestinationRef = useRef(null);
+  const intl = useIntl();
+  const { match, router } = useRouter();
+  const config = useConfigContext();
+  const currentTime = useCurrentTime();
+  const favourites = useFavourites();
+  const favouriteStatus = useFavouriteStatus();
+  const hasOtpLocationFavourites = useHasOtpLocationFavourites();
+  const { setOrigin, setDestination } = useItineraryLocationActions();
+  const { colors, fontWeights, language, iconModeSet } = config;
+  const { executeAction } = context;
+
+  useEffect(() => {
+    const { from, to } = match.params;
+
+    const origin = parseLocation(from);
+    const destination = parseLocation(to);
+
+    if (!sameLocations(props.origin, origin)) {
+      pendingOriginRef.current = origin;
+      setOrigin(origin);
+    }
+
+    if (!sameLocations(props.destination, destination)) {
+      pendingDestinationRef.current = destination;
+      setDestination(destination);
+    }
+
+    if (config.startSearchFromUserLocation && !origin.lat) {
+      checkPositioningPermission().then(permission => {
+        if (
+          permission.state === 'granted' &&
+          props.locationState.status === 'no-location'
+        ) {
+          executeAction(startLocationWatch);
+        }
+      });
+    }
+
+    scrollTop();
+  }, []);
+
+  useEffect(() => {
+    const { origin, destination, locationState } = props;
+
+    if (pendingOriginRef.current && isEqual(pendingOriginRef.current, origin)) {
+      pendingOriginRef.current = null;
+    }
+
+    if (
+      pendingDestinationRef.current &&
+      isEqual(pendingDestinationRef.current, destination)
+    ) {
+      pendingDestinationRef.current = null;
+    }
+
+    if (pendingOriginRef.current || pendingDestinationRef.current) {
+      // not ready for navigation yet
+      return;
+    }
+
+    const { location } = match;
+
+    // assign locationState conditionally, but never as a stand-in origin
+    // when the destination is already the user's own current location
+    const currentLocation =
+      config.startSearchFromUserLocation &&
+      !origin.address &&
+      destination.type !== 'CurrentLocation' &&
+      locationState?.hasLocation &&
+      locationState;
+
+    if (currentLocation && !currentLocation.isReverseGeocodingInProgress) {
+      const originPoint = [currentLocation.lon, currentLocation.lat];
+      if (inside(originPoint, config.areaPolygon)) {
+        setOrigin(currentLocation);
+      }
+    }
+
+    if (definesItinerarySearch(origin, destination)) {
+      const newLocation = {
+        ...location,
+        pathname: getPathWithEndpointObjects(
+          origin,
+          destination,
+          PREFIX_ITINERARY_SUMMARY,
+        ),
+      };
+
+      if (newLocation.query.time === undefined) {
+        newLocation.query.time = Math.floor(Date.now() / 1000).toString();
+      }
+      delete newLocation.query.setTime;
+      delete newLocation.query.fromMap;
+      router.push(newLocation);
+    } else {
+      const path = getPathWithEndpointObjects(
+        origin,
+        destination,
+        config.indexPath,
+      );
+
+      if (path !== location.pathname || location.query.fromMap) {
+        // also replace when only the fromMap param needs to be dropped
+        const newLocation = {
+          ...location,
+          pathname: path,
+          query: { ...location.query },
+        };
+        delete newLocation.query.fromMap;
+        router.replace(newLocation);
+      }
+    }
+  }, [props.origin, props.destination, props.locationState]);
+
+  const onSelectStopRoute = item => {
+    addAnalyticsEvent({
+      event: 'route_search',
+      search_action: 'route_or_stop',
+    });
+    router.push(getStopRoutePath(item));
+  };
+
+  // Removes the fromMap query parameter from the URL, if present.
+  const onFromMapClose = () => {
+    const { location } = match;
+    if (location.query.fromMap === undefined) {
+      return;
+    }
+    const query = { ...location.query };
+    delete query.fromMap;
+    router.replace({ ...location, query });
+  };
+
+  const onSelectLocation = (item, id) => {
+    addAnalyticsEvent({
+      event: 'itinerary_search',
+      search_action: item.type,
+    });
+
+    if (item.type === 'FutureRoute') {
+      router.push(
+        createUrl(item, { itinerarySummaryPrefix: PREFIX_ITINERARY_SUMMARY }),
+      );
+    } else if (id === 'origin') {
+      setOrigin(item);
+    } else {
+      setDestination(item);
+    }
+  };
+
+  const clickFavourite = favourite => {
+    addAnalyticsEvent({
+      event: 'favorite_press',
+      favorite_type: 'place',
+    });
+    setDestination(favourite);
+  };
+
+  const clickStopNearIcon = url => {
+    addAnalyticsEvent({
+      event: 'sendMatomoEvent',
+      category: 'nearbyStops',
+      stop_type: url.split('/')[2].toLowerCase(),
+    });
+    router.push(url);
+  };
+
+  const renderNearStops = () => {
+    const nearYouModes = getNearYouModes(config, hasOtpLocationFavourites);
+    // If nearYouModes is configured, display those. Otherwise, display all configured transport modes
+    const modeArray =
+      nearYouModes.length > 0
+        ? nearYouModes
+        : Object.keys(
+            filterObject(
+              getTransportModes(config),
+              'availableForSelection',
+              true,
+            ),
+          );
+
+    const alertsContext = {
+      currentTime,
+      getModesWithAlerts,
+      feedIds: config.feedIds,
+    };
+
+    const directionProps = config.narrowNearYouButtons
+      ? {}
+      : { horizontal: false };
+
+    return config.showNearYouButtons ? (
+      <CtrlPanel.NearStopsAndRoutes
+        modeArray={modeArray}
+        loading={favouriteStatus === STATUS_FETCHING_OR_UPDATING}
+        modeSet={iconModeSet}
+        urlPrefix={`/${PREFIX_NEARYOU}`}
+        language={language}
+        title={config.nearYouTitle}
+        alertsContext={alertsContext}
+        origin={props.origin}
+        omitLanguageUrl
+        onClick={clickStopNearIcon}
+        colors={colors}
+        fontWeights={fontWeights}
+        {...directionProps}
+      />
+    ) : (
+      <div className="stops-near-you-text">
+        <h2>
+          {intl.formatMessage({
+            id: 'near-you-search',
+            defaultMessage: 'Search stops and routes',
+          })}
+        </h2>
+      </div>
+    );
+  };
+
+  const { breakpoint } = props;
+
+  const origin = pendingOriginRef.current || props.origin;
+  const destination = pendingDestinationRef.current || props.destination;
+
+  const locationSources = ['History', 'Datasource'];
+  const sources = ['Favourite', 'History', 'Datasource'];
+  const stopAndRouteSearchTargets = ['Stations', 'Stops', 'Routes'];
+  const targets = getLocationSearchTargets(config, breakpoint !== 'large');
+
+  targets.push('FutureRoutes');
+
+  if (countLocations(favourites)) {
+    locationSources.push('Favourite');
+  }
+
+  if (!config.targetsFromOTP) {
+    if (useCitybikes(config.vehicleRental?.networks, config)) {
+      stopAndRouteSearchTargets.push('VehicleRentalStations');
+    }
+    if (config.includeParkAndRideSuggestions) {
+      stopAndRouteSearchTargets.push('ParkingAreas');
+    }
+  }
+
+  const showSpinner =
+    (origin.type === 'CurrentLocation' && !origin.address) ||
+    (destination.type === 'CurrentLocation' && !destination.address);
+
+  const refPoint = getRefPoint(origin, destination, props.locationState);
+
+  const locationSearchProps = {
+    appElement: '#app',
+    origin,
+    destination,
+    lang: language,
+    sources: locationSources,
+    targets,
+    refPoint,
+    searchPanelText: intl.formatMessage({
+      id: 'where',
+      defaultMessage: 'Where to?',
+    }),
+    originPlaceHolder: 'search-origin-index',
+    destinationPlaceHolder: 'search-destination-index',
+    selectHandler: onSelectLocation,
+    getAutoSuggestIcons: config.getAutoSuggestIcons,
+    onGeolocationStart: onSelectLocation,
+    fromMap,
+    onFromMapClose,
+    fontWeights,
+    colors,
+    modeSet: iconModeSet,
+  };
+
+  const stopRouteSearchProps = {
+    appElement: '#app',
+    icon: 'search',
+    id: 'stop-route-station',
+    className: 'destination',
+    placeholder: 'stop-near-you',
+    selectHandler: onSelectStopRoute,
+    getAutoSuggestIcons: config.getAutoSuggestIcons,
+    value: '',
+    lang: language,
+    sources,
+    targets: stopAndRouteSearchTargets,
+    fontWeights,
+    colors,
+    modeSet: iconModeSet,
+    geocodingSize: 25,
+  };
+
+  if (config.stopSearchFilter) {
+    stopRouteSearchProps.filterResults = results =>
+      results.filter(config.stopSearchFilter);
+    // increase size to compensate filtering
+    stopRouteSearchProps.geocodingSize = 40;
+    locationSearchProps.filterResults = results =>
+      results.filter(config.stopSearchFilter);
+  }
+
+  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+  return breakpoint === 'large' ? (
+    <div
+      className={`front-page flex-vertical ${
+        showSpinner && `blurred`
+      } fullscreen bp-${breakpoint}`}
+    >
+      <div
+        style={{ display: 'block' }}
+        className="scrollable-content-wrapper momentum-scroll"
+      >
+        <h1 className="sr-only">
+          <FormattedMessage id="index.title" default="Journey Planner" />
+        </h1>
+        <CtrlPanel position="left" fontWeights={fontWeights}>
+          <span className="sr-only">
+            <FormattedMessage
+              id="search-fields.sr-instructions"
+              defaultMessage="The search is triggered automatically when origin and destination are set. Changing any search parameters triggers a new search"
+            />
+          </span>
+          <LocationSearch {...locationSearchProps} />
+          <DatetimepickerContainer realtime />
+          {!config.hideFavourites && (
+            <>
+              <FavouritesContainer
+                onClickFavourite={clickFavourite}
+                lang={language}
+              />
+              <CtrlPanel.SeparatorLine usePaddingBottom20 />
+            </>
+          )}
+
+          {!config.hideStopRouteSearch && (
+            <>
+              <>{renderNearStops()}</>
+              <StopRouteSearch {...stopRouteSearchProps} />
+              <CtrlPanel.SeparatorLine />
+            </>
+          )}
+
+          <TrafficNowLink />
+        </CtrlPanel>
+      </div>
+      {(showSpinner && <OverlayWithSpinner />) || null}
+    </div>
+  ) : (
+    <div
+      className={`front-page flex-vertical ${
+        showSpinner && `blurred`
+      } bp-${breakpoint}`}
+    >
+      {(showSpinner && <OverlayWithSpinner />) || null}
+      <div
+        style={{
+          display: 'block',
+          backgroundColor: '#ffffff',
+        }}
+      >
+        <CtrlPanel position="bottom" fontWeights={fontWeights}>
+          <LocationSearch disableAutoFocus isMobile {...locationSearchProps} />
+          <DatetimepickerContainer realtime />
+          <FavouritesContainer
+            onClickFavourite={clickFavourite}
+            lang={language}
+            isMobile
+          />
+          <CtrlPanel.SeparatorLine />
+          <>{renderNearStops()}</>
+          <div className="stop-route-search-container">
+            <StopRouteSearch isMobile {...stopRouteSearchProps} />
+          </div>
+          <CtrlPanel.SeparatorLine usePaddingBottom20 />
+          <TrafficNowLink />
+        </CtrlPanel>
+      </div>
+    </div>
+  );
+}
+
+IndexPage.contextTypes = {
+  executeAction: PropTypes.func.isRequired,
+};
+
+IndexPage.propTypes = {
+  breakpoint: PropTypes.string.isRequired,
+  origin: locationShape.isRequired,
+  destination: locationShape.isRequired,
+  query: PropTypes.object.isRequired, // eslint-disable-line
+  fromMap: PropTypes.string,
+  locationState: locationShape.isRequired,
+};
+
+// update only when origin/destination/breakpoint or language changes
+// (favourites and favourite status are read via context and trigger their
+// own re-renders independently of this memo comparison)
+const Index = memo(
+  IndexPage,
+  (props, nextProps) =>
+    isEqual(nextProps.origin, props.origin) &&
+    isEqual(nextProps.destination, props.destination) &&
+    isEqual(nextProps.breakpoint, props.breakpoint) &&
+    isEqual(nextProps.query, props.query) &&
+    isEqual(nextProps.locationState, props.locationState),
+);
+
+const IndexPageWithBreakpoint = withBreakpoint(Index);
+
+const IndexPageWithStores = connectToStores(
+  IndexPageWithBreakpoint,
+  ['PositionStore'],
+  (context, props) => {
+    const locationState = context.getStore('PositionStore').getLocationState();
+    const { query } = props.match.location;
+    const { fromMap } = query;
+
+    const newProps = {};
+    newProps.locationState = locationState;
+    if (fromMap === 'origin' || fromMap === 'destination') {
+      newProps.fromMap = fromMap;
+    }
+    // define itinerary search time & arriveBy
+    newProps.query = query;
+
+    return newProps;
+  },
+);
+
+IndexPageWithStores.contextTypes = {
+  ...IndexPageWithStores.contextTypes,
+  executeAction: PropTypes.func.isRequired,
+};
+
+// Small functional wrapper that injects origin/destination as props from
+// ItineraryLocationContext (replacing OriginStore/DestinationStore),
+// keeping the memoized IndexPage's prop-based re-render comparison intact.
+function IndexPageWithLocation(props) {
+  const origin = useOrigin();
+  const destination = useDestination();
+  return (
+    <IndexPageWithStores {...props} origin={origin} destination={destination} />
+  );
+}
+
+const GeoIndexPage = Geomover(IndexPageWithLocation);
+
+export { GeoIndexPage as default, IndexPageWithBreakpoint as Component };

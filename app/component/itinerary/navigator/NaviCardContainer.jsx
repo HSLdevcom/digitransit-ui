@@ -1,0 +1,299 @@
+import { useRouter } from 'found';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import {
+  isAnyLegPropertyIdentical,
+  legTime,
+  getPlatformChangeStatus,
+  PLATFORM_STATUS,
+} from '../../../../utils/client/legUtils';
+import { legShape } from '../../../../utils/client/shapes';
+import { getTopics, updateClient } from '../ItineraryPageUtils';
+import NaviCard from './NaviCard';
+import NaviStack from './NaviStack';
+import {
+  getAdditionalMessages,
+  getItineraryAlerts,
+  getTransitLegState,
+  itinerarySearchPath,
+  LEGTYPE,
+} from './NaviUtils';
+import usePrevious from './hooks/usePrevious';
+import { useConfigContext } from '../../../client/ConfigContext';
+
+const HIDE_TOPCARD_DURATION = 2000; // milliseconds
+
+const getLegType = (leg, firstLeg, time, interlineWithPreviousLeg) => {
+  let legType;
+  if (time < legTime(firstLeg.start)) {
+    if (!firstLeg.forceStart) {
+      legType = LEGTYPE.PENDING;
+    } else {
+      legType = LEGTYPE.WAIT;
+    }
+  } else if (leg) {
+    legType = leg.transitLeg ? LEGTYPE.TRANSIT : LEGTYPE.MOVE;
+  } else {
+    legType = interlineWithPreviousLeg ? LEGTYPE.WAIT_IN_VEHICLE : LEGTYPE.WAIT;
+  }
+  return legType;
+};
+
+function NaviCardContainer(
+  {
+    focusToLeg,
+    focusToPoint,
+    time,
+    legs,
+    position,
+    tailLength,
+    currentLeg,
+    nextLeg,
+    firstLeg,
+    lastLeg,
+    previousLeg,
+    isJourneyCompleted,
+    containerTopPosition,
+    settings,
+  },
+  context,
+) {
+  // All notifications including those user has dismissed.
+  const [messages, setMessages] = useState(new Map());
+  // notifications that are shown to the user.
+  const [activeMessages, setActiveMessages] = useState([]);
+  const [legChanging, setLegChanging] = useState(false);
+  const { isEqual: legChanged } = usePrevious(currentLeg, (prev, current) =>
+    isAnyLegPropertyIdentical(prev, current, ['legId', 'mode']),
+  );
+  const focusRef = useRef(false);
+  // Tracks the pending "hide top card" timeout independently of the
+  // message-polling effect below (which re-runs on every realtime leg
+  // refetch, not just on real leg changes). Keeping it in a ref means an
+  // unrelated re-run of that effect can no longer cancel a still-pending
+  // timeout and leave legChanging stuck true (e.g. after the tab/screen
+  // was backgrounded and multiple updates land close together).
+  const legChangeTimeoutRef = useRef();
+
+  const { match, router } = useRouter();
+  const config = useConfigContext();
+  const intl = useIntl();
+  const platformRef = useRef();
+
+  if (legChanged) {
+    platformRef.current = undefined;
+  }
+  let platformStatus = PLATFORM_STATUS.NORMAL;
+  if (nextLeg?.transitLeg) {
+    platformStatus = getPlatformChangeStatus(nextLeg, platformRef.current);
+    if (platformStatus === PLATFORM_STATUS.CHANGED) {
+      platformRef.current = nextLeg.from.stop.platformCode;
+    }
+  }
+
+  const handleRemove = index => {
+    const msg = messages.get(activeMessages[index].id);
+    msg.closed = true; // remember closing action
+    setActiveMessages(activeMessages.filter((_, i) => i !== index));
+  };
+
+  function addMessages(incomingMessages, newMessages) {
+    newMessages.forEach(m => {
+      incomingMessages.set(m.id, m);
+    });
+  }
+
+  // track only relevant vehicles for the journey.
+  // add 20 s buffer so that vehicle location is available
+  // for leg validation long enough
+  const getNaviTopics = () =>
+    getTopics(
+      legs.filter(leg => legTime(leg.end) >= time - 20000),
+      config,
+    );
+
+  const makeNewItinerarySearch = () => {
+    const path = itinerarySearchPath(
+      time,
+      currentLeg,
+      nextLeg,
+      position,
+      match.params.to,
+    );
+    router.push(path);
+  };
+
+  useEffect(() => {
+    addAnalyticsEvent({
+      category: 'Itinerary',
+      event: 'navigator',
+      action: 'start_navigation',
+    });
+    updateClient(getNaviTopics(), context, config);
+  }, []);
+
+  useEffect(() => {
+    const incomingMessages = new Map();
+
+    // Alerts for NaviStack
+    addMessages(
+      incomingMessages,
+      getItineraryAlerts(
+        legs,
+        time,
+        position,
+        tailLength,
+        intl,
+        messages,
+        makeNewItinerarySearch,
+        config,
+        settings,
+        nextLeg,
+        platformStatus,
+      ),
+    );
+
+    if (nextLeg?.transitLeg) {
+      // Messages for NaviStack.
+      addMessages(incomingMessages, [
+        ...getTransitLegState(nextLeg, intl, messages, time, settings, config),
+        ...getAdditionalMessages(
+          currentLeg,
+          nextLeg,
+          firstLeg,
+          time,
+          config,
+          messages,
+          intl,
+          legs,
+        ),
+      ]);
+    }
+    if (legChanged) {
+      updateClient(getNaviTopics(), context, config);
+      setLegChanging(true);
+      clearTimeout(legChangeTimeoutRef.current);
+      legChangeTimeoutRef.current = setTimeout(() => {
+        setLegChanging(false);
+      }, HIDE_TOPCARD_DURATION);
+      if (currentLeg) {
+        focusToLeg?.(currentLeg);
+      }
+    }
+
+    // Update messages if there are changes
+    const expired = activeMessages.find(m => m.expiresOn < time);
+    if (incomingMessages.size || expired) {
+      // Current active messages. Filter away expired messages.
+      const previousValidMessages = expired
+        ? activeMessages.filter(m => !m.expiresOn || m.expiresOn > time)
+        : activeMessages;
+
+      // handle messages that are updated.
+      const keptMessages = previousValidMessages.filter(
+        msg => !incomingMessages.get(msg.id),
+      );
+      const newMessages = Array.from(incomingMessages.values());
+      setActiveMessages([...keptMessages, ...newMessages]);
+      setMessages(new Map([...messages, ...incomingMessages]));
+    }
+
+    if (!focusRef.current && focusToLeg) {
+      // handle initial focus when not tracking
+      if (currentLeg) {
+        focusToLeg(currentLeg);
+      } else if (time < legTime(firstLeg.start)) {
+        focusToLeg(firstLeg);
+      } else {
+        focusToLeg(nextLeg || lastLeg);
+      }
+      focusRef.current = true;
+    }
+  }, [time, firstLeg]);
+
+  // Clear any pending "hide top card" timeout only on unmount, so it is
+  // never cancelled by an unrelated run of the effect above.
+  useEffect(() => () => clearTimeout(legChangeTimeoutRef.current), []);
+
+  // LegChange fires animation, we need to keep the old data until card goes out of the view.
+  const cardChanging = legChanged || legChanging;
+  const l = cardChanging ? previousLeg : currentLeg;
+  // currentLeg is undefined while genuinely between legs (e.g. an interline
+  // dwell), so fall back to nextLeg - otherwise the still-showing previous
+  // leg would briefly lose its real nextLeg (and e.g. flash a "get off"
+  // message instead of the interline one) right as the gap starts.
+  const nl = cardChanging ? currentLeg || nextLeg : nextLeg;
+  const legType = getLegType(l, firstLeg, time, nl?.interlineWithPreviousLeg);
+
+  let className;
+  if (isJourneyCompleted || cardChanging) {
+    className = 'hide-card';
+  } else {
+    className = 'show-card';
+  }
+  return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+    <div
+      className={`navi-card-container ${className}`}
+      style={{ top: containerTopPosition }}
+      aria-live={legChanging ? undefined : 'polite'}
+      aria-hidden={legChanging ? 'true' : 'false'}
+    >
+      <NaviCard
+        focusToPoint={focusToPoint}
+        previousLeg={previousLeg}
+        leg={l}
+        nextLeg={nl}
+        legType={legType}
+        time={time}
+        position={position}
+        tailLength={tailLength}
+        cardAnimation={className}
+        platformUpdated={
+          platformStatus === PLATFORM_STATUS.CHANGED ||
+          platformStatus === PLATFORM_STATUS.RESTORED
+        }
+      />
+      {activeMessages.length > 0 && (
+        <NaviStack
+          messages={activeMessages}
+          handleRemove={handleRemove}
+          cardAnimation={className}
+        />
+      )}
+    </div>
+  );
+}
+
+NaviCardContainer.propTypes = {
+  focusToLeg: PropTypes.func,
+  focusToPoint: PropTypes.func.isRequired,
+  time: PropTypes.number.isRequired,
+  legs: PropTypes.arrayOf(legShape).isRequired,
+  position: PropTypes.shape({
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+    status: PropTypes.string,
+    locationCount: PropTypes.number,
+    watchId: PropTypes.number,
+  }),
+  tailLength: PropTypes.number.isRequired,
+  containerTopPosition: PropTypes.number.isRequired,
+  currentLeg: legShape,
+  nextLeg: legShape,
+  firstLeg: legShape,
+  lastLeg: legShape,
+  previousLeg: legShape,
+  isJourneyCompleted: PropTypes.bool,
+  // eslint-disable-next-line
+  settings: PropTypes.object.isRequired,
+};
+
+NaviCardContainer.contextTypes = {
+  executeAction: PropTypes.func.isRequired,
+  getStore: PropTypes.func.isRequired,
+};
+
+export default NaviCardContainer;

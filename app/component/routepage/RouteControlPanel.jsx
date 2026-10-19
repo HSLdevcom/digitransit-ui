@@ -1,0 +1,503 @@
+import { DateTime } from 'luxon';
+import PropTypes from 'prop-types';
+import React, { useState, useEffect, useRef } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import cx from 'classnames';
+import sortBy from 'lodash/sortBy';
+import groupBy from 'lodash/groupBy';
+import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
+import { useRouter } from 'found';
+import { useConfigContext } from '../../client/ConfigContext';
+import RoutePatternSelectContainer from './RoutePatternSelectContainer';
+import {
+  DATE_FORMAT,
+  ExtendedRouteTypes,
+} from '../../../utils/shared/constants';
+import {
+  startRealTimeClient,
+  stopRealTimeClient,
+  changeRealTimeClientTopics,
+} from '../../action/realTimeClientAction';
+import {
+  getCancelationsForRoute,
+  getAlertsForObject,
+  checkActiveDisruptions,
+  getActiveAlertSeverityLevel,
+} from '../../../utils/client/alertUtils';
+import { isActiveDate } from '../../../utils/client/patternUtils';
+import {
+  routePagePath,
+  PREFIX_DISRUPTION,
+  PREFIX_STOPS,
+  PREFIX_TIMETABLE,
+} from '../../../utils/shared/path';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { isIOS } from '../../../utils/shared/browser';
+import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
+import { saveSearch } from '../../data/SearchHistory';
+import { splitGtfsId } from '../../../utils/shared/gtfs';
+
+const Tab = {
+  Disruptions: PREFIX_DISRUPTION,
+  Stops: PREFIX_STOPS,
+  Timetable: PREFIX_TIMETABLE,
+};
+
+/**
+ * Determines if a route supports full control panel features
+ * (pattern selection, timetables, stops tabs).
+ */
+const showStandardControls = route => {
+  return route.type !== ExtendedRouteTypes.CallAgency;
+};
+
+const getActiveTab = pathname => {
+  if (pathname.indexOf(`/${Tab.Disruptions}`) > -1) {
+    return Tab.Disruptions;
+  }
+  if (pathname.indexOf(`/${Tab.Stops}`) > -1) {
+    return Tab.Stops;
+  }
+  if (pathname.indexOf(`/${Tab.Timetable}`) > -1) {
+    return Tab.Timetable;
+  }
+  return undefined;
+};
+
+const TAB_ANALYTICS_ACTIONS = {
+  [PREFIX_TIMETABLE]: 'OpenTimetableTab',
+  [PREFIX_STOPS]: 'OpenStopsTab',
+  [PREFIX_DISRUPTION]: 'OpenDisruptionsTab',
+};
+
+function RouteControlPanel(
+  { route, breakpoint, noInitialServiceDay = false, tripStartTime = undefined },
+  { getStore, executeAction },
+) {
+  const config = useConfigContext();
+  const intl = useIntl();
+  const { router, match } = useRouter();
+  const { location, params } = match;
+  const { patternId } = params;
+
+  const [focusedTab, setFocusedTab] = useState(getActiveTab(location.pathname));
+
+  const stopTabRef = useRef(null);
+  const timetableTabRef = useRef(null);
+  const disruptionTabRef = useRef(null);
+  const tabRefMap = {
+    [Tab.Stops]: stopTabRef,
+    [Tab.Timetable]: timetableTabRef,
+    [Tab.Disruptions]: disruptionTabRef,
+  };
+
+  const activeTab = getActiveTab(location.pathname);
+
+  // Focus the active tab on mount for correct screen-reader cursor placement
+  // after SPA tab navigation (per WCAG APG roving tabindex pattern).
+  // Skip when RoutePage has already moved focus to the page heading (initial
+  // page load): in that case activeElement is the heading, not document.body.
+  // After a tab switch the old tab button is removed from the DOM, so the
+  // browser resets focus to document.body — that is when we take over.
+  useEffect(() => {
+    if (document.activeElement && document.activeElement !== document.body) {
+      return;
+    }
+    const activeRef = activeTab && tabRefMap[activeTab];
+    if (activeRef?.current) {
+      activeRef.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (route?.patterns && !noInitialServiceDay) {
+      if (isIOS && location.query?.save) {
+        saveSearch({
+          item: {
+            properties: {
+              mode: route.mode,
+              gtfsId: route.gtfsId,
+              longName: route.longName,
+              shortName: route.shortName,
+              layer: `route-${route.mode}`,
+              link: location.pathname,
+              agency: { name: route.agency.name },
+            },
+            type: 'Route',
+          },
+          type: 'search',
+        });
+      }
+
+      // Sort by most trips descending; for equal trip counts, sort by code descending as tiebreak.
+      const sortedPatternsByCountOfTrips =
+        'trips' in route.patterns[0]
+          ? sortBy(
+              sortBy(route.patterns, 'code').reverse(),
+              'trips.length',
+            ).reverse()
+          : undefined;
+
+      const selectedPattern =
+        sortedPatternsByCountOfTrips?.find(
+          sorted => sorted.code === patternId,
+        ) ?? route.patterns.find(({ code }) => code === patternId);
+
+      if (selectedPattern) {
+        if (params.type === PREFIX_TIMETABLE) {
+          const enrichedPattern = enrichPatterns(
+            [selectedPattern],
+            false,
+            config.itinerary.serviceTimeRange,
+          );
+          const isSameWeek = DateTime.fromFormat(
+            enrichedPattern[0].minAndMaxDate[0],
+            DATE_FORMAT,
+          ).hasSame(DateTime.now(), 'week');
+          if (
+            location.search.indexOf('serviceDay') === -1 ||
+            (location.query.serviceDay &&
+              Number(location.query.serviceDay) <
+                Number(enrichedPattern[0].minAndMaxDate[0]))
+          ) {
+            const serviceDay = isSameWeek
+              ? enrichedPattern[0].minAndMaxDate[0]
+              : enrichedPattern[0].activeDates[0];
+            router.replace(
+              `${decodeURIComponent(
+                location.pathname,
+              )}?serviceDay=${serviceDay}`,
+            );
+          }
+        }
+
+        const { realTime } = config;
+        if (realTime) {
+          const { feedId, entityId } = splitGtfsId(route.gtfsId);
+          const source = realTime[feedId];
+          if (source?.active && isActiveDate(selectedPattern)) {
+            const id = source.routeSelector({ route, match, tripStartTime });
+            const patternIdSplit = patternId.split(':');
+            const direction = patternIdSplit[patternIdSplit.length - 2];
+            executeAction(startRealTimeClient, {
+              ...source,
+              feedId,
+              options: [
+                {
+                  route: id,
+                  feedId,
+                  mode: route.mode.toLowerCase(),
+                  gtfsId: entityId,
+                  headsign: selectedPattern?.headsign,
+                  direction,
+                  tripStartTime,
+                },
+              ],
+            });
+          }
+        }
+      }
+    }
+
+    return () => {
+      const { client } = getStore('RealTimeInformationStore');
+      if (client) {
+        executeAction(stopRealTimeClient, client);
+      }
+    };
+  }, []);
+
+  const onPatternChange = newPattern => {
+    addAnalyticsEvent({
+      category: 'Route',
+      action: 'ToggleDirection',
+      name: null,
+    });
+    const { client, topics } = getStore('RealTimeInformationStore');
+    const { type } = params;
+
+    const pattern =
+      type === PREFIX_TIMETABLE
+        ? enrichPatterns(
+            route.patterns.filter(x => x.code === newPattern),
+            false,
+            config.itinerary.serviceTimeRange,
+          )
+        : route.patterns.filter(x => x.code === newPattern);
+    const isActivePattern = isActiveDate(pattern[0]);
+
+    const { feedId, entityId: routeId } = splitGtfsId(route.gtfsId);
+    // if config contains mqtt feed and old client has not been removed
+    if (client) {
+      const { realTime } = config;
+      const source = realTime[feedId];
+
+      if (isActivePattern) {
+        const id = source.routeSelector({ route, match, tripStartTime });
+        executeAction(changeRealTimeClientTopics, {
+          ...source,
+          feedId,
+          options: [
+            {
+              route: id,
+              feedId,
+              mode: route.mode.toLowerCase(),
+              gtfsId: routeId,
+              headsign: pattern[0].headsign,
+            },
+          ],
+          oldTopics: topics,
+          client,
+        });
+      } else {
+        // Close MQTT — we don't want to show vehicles when pattern is in future / past
+        executeAction(stopRealTimeClient, client);
+      }
+    } else if (isActivePattern) {
+      const { realTime } = config;
+      if (realTime) {
+        const source = realTime[feedId];
+        if (source?.active) {
+          const id =
+            pattern[0].code !== patternId
+              ? routeId
+              : source.routeSelector({ route, match, tripStartTime });
+          const patternIdSplit = patternId.split(':');
+          const direction = patternIdSplit[patternIdSplit.length - 2];
+          executeAction(startRealTimeClient, {
+            ...source,
+            feedId,
+            options: [
+              {
+                route: id,
+                feedId,
+                mode: route.mode.toLowerCase(),
+                gtfsId: routeId,
+                headsign: pattern[0].headsign,
+                direction,
+                tripStartTime,
+              },
+            ],
+          });
+        }
+      }
+    }
+
+    let newPath = routePagePath(route.gtfsId, type || PREFIX_STOPS, newPattern);
+    if (type === PREFIX_TIMETABLE) {
+      const today = unixToYYYYMMDD(unixTime(), config);
+      if (location.query?.serviceDay) {
+        newPath += `?serviceDay=${location.query.serviceDay}`;
+      } else if (
+        pattern[0].minAndMaxDate &&
+        today < pattern[0].minAndMaxDate[0]
+      ) {
+        newPath += `?serviceDay=${pattern[0].minAndMaxDate[0]}`;
+      }
+    }
+    router.replace(newPath);
+  };
+
+  const changeTab = tab => {
+    const path = routePagePath(route.gtfsId, tab, patternId);
+    router.replace(path);
+    addAnalyticsEvent({
+      category: 'Route',
+      action: TAB_ANALYTICS_ACTIONS[tab] ?? 'Unknown',
+      name: null,
+    });
+  };
+
+  const handleTabKeyDown = e => {
+    const tabs = [Tab.Stops, Tab.Timetable, Tab.Disruptions];
+    const currentIndex = tabs.indexOf(focusedTab);
+    let nextTab;
+    switch (e.nativeEvent.code) {
+      case 'ArrowLeft':
+        nextTab = tabs[(currentIndex - 1 + tabs.length) % tabs.length];
+        break;
+      case 'ArrowRight':
+        nextTab = tabs[(currentIndex + 1) % tabs.length];
+        break;
+      default:
+        return;
+    }
+    tabRefMap[nextTab].current.focus();
+    setFocusedTab(nextTab);
+  };
+
+  const currentTime = unixTime();
+  const selectedPattern = route?.patterns?.find(
+    pattern => pattern.code === patternId,
+  );
+
+  const hasActiveAlert = checkActiveDisruptions(
+    currentTime,
+    getCancelationsForRoute(
+      route,
+      patternId,
+      currentTime,
+      config.routeCancelationAlertValidity,
+    ),
+    getAlertsForObject(selectedPattern),
+  );
+
+  const canceledTripsByDate = groupBy(
+    selectedPattern?.canceledTrips || [],
+    ({ serviceDate }) => serviceDate,
+  );
+  const alerts = getAlertsForObject(selectedPattern);
+
+  const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
+    alerts,
+    currentTime,
+  );
+
+  // if the pattern has cancelations, add one to alert count
+  const alertsCount = alerts.length + Object.keys(canceledTripsByDate).length;
+
+  const disruptionClassName =
+    ((hasActiveAlert || Object.keys(canceledTripsByDate).length) &&
+      'active-disruption-alert') ||
+    (hasActiveServiceAlerts && 'active-service-alert');
+
+  const countOfButtons = 3;
+
+  let disruptionIcon;
+  if (disruptionClassName === 'active-disruption-alert') {
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
+  } else if (disruptionClassName === 'active-service-alert') {
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
+  }
+
+  // If disruption details are opened, hide controlpanel
+  if (location.query?.alertId) {
+    return null;
+  }
+
+  return (
+    <div
+      className={cx('route-page-control-panel-container', activeTab, {
+        'bp-large': breakpoint === 'large',
+      })}
+    >
+      <div className="header-for-printing">
+        <h1>
+          {config.title}
+          {` - `}
+          <FormattedMessage id="route-guide" defaultMessage="Route guide" />
+        </h1>
+      </div>
+      <div
+        className={cx('route-control-panel', {
+          'bp-large': breakpoint === 'large',
+        })}
+      >
+        {showStandardControls(route) && (
+          <>
+            {patternId && (
+              <RoutePatternSelectContainer
+                route={route}
+                onSelectChange={onPatternChange}
+                gtfsId={route.gtfsId}
+                className={cx({ 'bp-large': breakpoint === 'large' })}
+              />
+            )}
+            <div className="route-tabs" role="tablist">
+              <button
+                type="button"
+                className={cx({ 'is-active': activeTab === Tab.Stops })}
+                onClick={() => changeTab(Tab.Stops)}
+                onKeyDown={handleTabKeyDown}
+                tabIndex={activeTab === Tab.Stops ? 0 : -1}
+                role="tab"
+                id="route-stop-tab"
+                ref={stopTabRef}
+                aria-selected={activeTab === Tab.Stops}
+                style={{ '--totalCount': `${countOfButtons}` }}
+              >
+                <div>
+                  <FormattedMessage id="stops" defaultMessage="Stops" />
+                </div>
+              </button>
+              <button
+                type="button"
+                className={cx({ 'is-active': activeTab === Tab.Timetable })}
+                onClick={() => changeTab(Tab.Timetable)}
+                onKeyDown={handleTabKeyDown}
+                tabIndex={activeTab === Tab.Timetable ? 0 : -1}
+                role="tab"
+                id="route-timetable-tab"
+                ref={timetableTabRef}
+                aria-selected={activeTab === Tab.Timetable}
+                style={{ '--totalCount': `${countOfButtons}` }}
+              >
+                <div>
+                  <FormattedMessage id="timetable" defaultMessage="Timetable" />
+                </div>
+              </button>
+              <button
+                type="button"
+                className={cx({
+                  activeAlert: hasActiveAlert,
+                  'is-active': activeTab === Tab.Disruptions,
+                })}
+                onClick={() => changeTab(Tab.Disruptions)}
+                onKeyDown={handleTabKeyDown}
+                tabIndex={activeTab === Tab.Disruptions ? 0 : -1}
+                role="tab"
+                id="route-disruption-tab"
+                ref={disruptionTabRef}
+                aria-selected={activeTab === Tab.Disruptions}
+                aria-label={`${intl.formatMessage({
+                  id: 'disruptions',
+                })}: ${intl.formatMessage({
+                  id: disruptionClassName
+                    ? 'disruptions-tab.sr-disruptions'
+                    : 'disruptions-tab.sr-no-disruptions',
+                })}`}
+                style={{ '--totalCount': `${countOfButtons}` }}
+              >
+                <div
+                  className={`tab-route-disruption ${
+                    disruptionClassName || `no-alerts`
+                  }`}
+                >
+                  {disruptionIcon}
+                  <FormattedMessage
+                    id="disruptions"
+                    defaultMessage="Disruptions"
+                  />
+                </div>
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+RouteControlPanel.propTypes = {
+  route: PropTypes.shape({
+    mode: PropTypes.string.isRequired,
+    gtfsId: PropTypes.string.isRequired,
+    longName: PropTypes.string,
+    shortName: PropTypes.string,
+    patterns: PropTypes.arrayOf(PropTypes.shape({})),
+    type: PropTypes.number,
+    agency: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  breakpoint: PropTypes.string.isRequired,
+  noInitialServiceDay: PropTypes.bool,
+  tripStartTime: PropTypes.string,
+};
+
+RouteControlPanel.contextTypes = {
+  getStore: PropTypes.func.isRequired,
+  executeAction: PropTypes.func.isRequired,
+};
+
+export default RouteControlPanel;

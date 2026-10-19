@@ -2,8 +2,10 @@
 
 /* initialize a skeleton for a new theme */
 /* For example: npm run add-theme juupajoki 0x80CCAA */
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+
+const rootDir = import.meta.dirname;
 
 const theme = process.argv[2];
 const color = process.argv[3] || '$livi-blue';
@@ -51,7 +53,7 @@ let textLogo;
 let logo;
 if (logoPath) {
   logo = path.basename(logoPath);
-  const imageDir = 'app/configurations/images/' + theme;
+  const imageDir = 'app/assets/images/' + theme;
   if(!fs.existsSync(imageDir)) {
     fs.mkdirSync(imageDir);
   }
@@ -73,7 +75,7 @@ const regexName = new RegExp('__Theme__', 'g');
 const regexLogo = new RegExp('__textlogo__,', 'g');
 
 let conf = fs.readFileSync(
-  path.join(__dirname, 'template.waltti.js'),
+  path.join(rootDir, 'template.waltti.js'),
   'utf-8',
 );
 conf = conf.replace(regexColor, color).replace(regexTheme, theme)
@@ -84,10 +86,10 @@ if (textLogo === 'true') {
   conf = conf.replace(regexLogo, `false,\n\n  logo: '${theme}/${logo}',`);
 }
 
-fs.writeFileSync('app/configurations/config.' + theme + '.js', conf);
+fs.writeFileSync('server/configs/config.' + theme + '.js', conf);
 
 // update host name mapping
-const defaultConfName = 'app/configurations/config.default.js';
+const defaultConfName = 'server/configs/config.default.js';
 const appendAfter = `matka: 'matka',`;
 
 conf = fs.readFileSync(defaultConfName, 'utf-8');

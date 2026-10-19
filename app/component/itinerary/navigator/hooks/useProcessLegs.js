@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { useCallback, useRef } from 'react';
-import { legTime } from '../../../../util/legUtils';
+import { legTime } from '../../../../../utils/client/legUtils';
 import {
   fakeDelay,
   matchLegEnds,
@@ -55,12 +55,12 @@ const useProcessLegs = (
       }
 
       // Match leg ends to ensure continuity
-      matchLegEnds(newRtLegs, now);
+      matchLegEnds(newRtLegs);
 
       // Apply geolocation shifts if enabled
       if (GEOLOCATED_LEGS) {
         shiftLegsByGeolocation(newRtLegs, now, vehicles, position, origin);
-        matchLegEnds(newRtLegs, now); // Re-match after geolocation shifts
+        matchLegEnds(newRtLegs); // Re-match after geolocation shifts
       }
 
       // Freeze legs that have started or ended in the past

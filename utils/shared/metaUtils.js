@@ -1,0 +1,106 @@
+export default function getMetadata(lang, host, url, config) {
+  const root = config.URL.ASSET_URL || '';
+  const path = config.iconPath || 'icons';
+  const iconPath = `${root}/${path}`;
+  const imageHost = config.URL.ASSET_URL || `https://${host}`;
+
+  const baseData = {
+    title: config.title,
+
+    meta: [
+      {
+        name: 'charset',
+        content: 'utf-8',
+      },
+      {
+        name: 'description',
+        content: config.meta.description,
+      },
+      {
+        name: 'keywords',
+        content: config.meta.keywords,
+      },
+      {
+        name: 'viewport',
+        content:
+          'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no, minimal-ui',
+      },
+      {
+        name: 'referrer',
+        content: 'origin',
+      },
+      {
+        property: 'og:url',
+        content: url,
+      },
+      {
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        property: 'og:title',
+        content: config.socialMedia.title,
+      },
+      {
+        property: 'og:site_name',
+        content: config.socialMedia.title,
+      },
+      {
+        property: 'og:description',
+        content: config.socialMedia.description,
+      },
+      {
+        property: 'og:image',
+        content: `${imageHost}/${config.socialMedia.image.url}`,
+      },
+      {
+        property: 'og:image:width',
+        content: config.socialMedia.image.width,
+      },
+      {
+        property: 'og:image:height',
+        content: config.socialMedia.image.height,
+      },
+      {
+        property: 'og:locale',
+        content: config.socialMedia.locale,
+      },
+      {
+        property: 'twitter:card',
+        content: config.socialMedia.twitter.card,
+      },
+      {
+        property: 'twitter:site',
+        content: config.socialMedia.twitter.site,
+      },
+      {
+        property: 'twitter:title',
+        content: config.socialMedia.title,
+      },
+      {
+        property: 'twitter:description',
+        content: config.socialMedia.description,
+      },
+      {
+        property: 'twitter:image',
+        content: `${imageHost}/${config.socialMedia.image.url}`,
+      },
+    ],
+    link: [
+      {
+        rel: 'yandex-tableau-widget',
+        href: `${iconPath}yandex-browser-manifest.json`,
+      },
+    ],
+  };
+
+  if (config.metaData) {
+    return {
+      meta: baseData.meta.concat(config.metaData.meta),
+      link: baseData.link.concat(config.metaData.link),
+      title: config.title,
+    };
+  }
+
+  return baseData;
+}

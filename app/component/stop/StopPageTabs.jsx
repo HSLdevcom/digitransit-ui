@@ -1,0 +1,211 @@
+import cx from 'classnames';
+import React, { useState, useRef } from 'react';
+import { FormattedMessage } from 'react-intl';
+import groupBy from 'lodash/groupBy';
+import { useRouter } from 'found';
+import { stopShape } from '../../../utils/client/shapes';
+import { AlertSeverityLevelType } from '../../../utils/shared/constants';
+import {
+  getAlertsForObject,
+  getServiceAlertsForStation,
+  getActiveAlertSeverityLevel,
+  getUniqueAlerts,
+} from '../../../utils/client/alertUtils';
+import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { unixTime } from '../../../utils/client/timeUtils';
+import {
+  PREFIX_DISRUPTION,
+  PREFIX_TIMETABLE,
+  stopPagePath,
+} from '../../../utils/shared/path';
+import { filterCanceledCalls } from './Disruptions';
+
+const Tab = {
+  RightNow: 1,
+  Timetable: 2,
+  Disruptions: 3,
+};
+
+const getActiveTab = pathname => {
+  if (pathname.indexOf(PREFIX_DISRUPTION) > -1) {
+    return Tab.Disruptions;
+  }
+  if (pathname.indexOf(PREFIX_TIMETABLE) > -1) {
+    return Tab.Timetable;
+  }
+  return Tab.RightNow;
+};
+
+function StopPageTabs({ stop }) {
+  const { router, match } = useRouter();
+  const { location } = match;
+  if (!stop || location.query.alertId) {
+    return null;
+  }
+  const activeTab = getActiveTab(match.location.pathname);
+  const { search } = match.location;
+
+  const [focusedTab, changeFocusedTab] = useState(activeTab);
+  const rightNowTabRef = useRef();
+  const timetableTabRef = useRef();
+  const disruptionTabRef = useRef();
+  const tabRefs = [rightNowTabRef, timetableTabRef, disruptionTabRef];
+
+  const isTerminal = match.params.terminalId != null;
+  const currentTime = unixTime();
+  const maxAlertSeverity = getActiveAlertSeverityLevel(
+    isTerminal ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
+    currentTime,
+  );
+
+  const alerts = isTerminal
+    ? getServiceAlertsForStation(stop)
+    : getAlertsForObject(stop);
+
+  const canceledCalls = filterCanceledCalls(
+    stop.canceledCalls,
+    stop.stops ? stop.stops.map(({ gtfsId }) => gtfsId) : [stop.gtfsId],
+  );
+
+  const canceledCallsByPattern = groupBy(
+    canceledCalls,
+    ({ tripOnServiceDate }) =>
+      tripOnServiceDate.trip.pattern.code + tripOnServiceDate.serviceDate,
+  );
+
+  const alertsCount =
+    getUniqueAlerts(alerts).length + Object.keys(canceledCallsByPattern).length;
+
+  let disruptionClassName;
+  let disruptionIcon;
+  if (
+    canceledCalls.length > 0 ||
+    maxAlertSeverity === AlertSeverityLevelType.Severe ||
+    maxAlertSeverity === AlertSeverityLevelType.Warning ||
+    maxAlertSeverity === AlertSeverityLevelType.Unknown
+  ) {
+    disruptionClassName = 'active-disruption-alert';
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
+  } else if (maxAlertSeverity === AlertSeverityLevelType.Info) {
+    disruptionClassName = 'active-service-alert';
+    disruptionIcon = <span className="alert-circle">{alertsCount}</span>;
+  } else {
+    disruptionClassName = 'no-alerts';
+  }
+
+  return (
+    <div>
+      {/* eslint-disable jsx-a11y/interactive-supports-focus */}
+      <div
+        className="route-tabs"
+        role="tablist"
+        onKeyDown={e => {
+          const tabs = [Tab.RightNow, Tab.Timetable, Tab.Disruptions];
+          const tabCount = tabs.length;
+          const activeIndex = tabs.indexOf(focusedTab);
+          let index;
+          switch (e.nativeEvent.code) {
+            case 'ArrowLeft':
+              index = (activeIndex - 1 + tabCount) % tabCount;
+              tabRefs[index].current.focus();
+              changeFocusedTab(tabs[index]);
+              break;
+            case 'ArrowRight':
+              index = (activeIndex + 1) % tabCount;
+              tabRefs[index].current.focus();
+              changeFocusedTab(tabs[index]);
+              break;
+            default:
+              break;
+          }
+        }}
+      >
+        {/* eslint-enable jsx-a11y/interactive-supports-focus */}
+        <button
+          type="button"
+          className={cx({ 'is-active': activeTab === Tab.RightNow })}
+          onClick={() => {
+            router.replace(stopPagePath(isTerminal, stop.gtfsId, null, search));
+            addAnalyticsEvent({
+              category: 'Stop',
+              action: 'OpenRightNowTab',
+              name: null,
+            });
+          }}
+          role="tab"
+          ref={rightNowTabRef}
+          tabIndex={focusedTab === Tab.RightNow ? 0 : -1}
+          aria-selected={activeTab === Tab.RightNow}
+          style={{ '--totalCount': '3' }}
+        >
+          <div>
+            <FormattedMessage id="right-now" defaultMessage="right now" />
+          </div>
+        </button>
+        <button
+          type="button"
+          className={cx({ 'is-active': activeTab === Tab.Timetable })}
+          onClick={() => {
+            router.replace(
+              stopPagePath(isTerminal, stop.gtfsId, PREFIX_TIMETABLE, search),
+            );
+            addAnalyticsEvent({
+              category: 'Stop',
+              action: 'OpenTimetableTab',
+              name: null,
+            });
+          }}
+          role="tab"
+          ref={timetableTabRef}
+          tabIndex={focusedTab === Tab.Timetable ? 0 : -1}
+          aria-selected={activeTab === Tab.Timetable}
+          style={{ '--totalCount': '3' }}
+        >
+          <div>
+            <FormattedMessage id="timetable" defaultMessage="timetable" />
+          </div>
+        </button>
+        <button
+          type="button"
+          className={cx({
+            'is-active': activeTab === Tab.Disruptions,
+            'alert-active': disruptionClassName === 'active-disruption-alert',
+            'service-alert-active':
+              disruptionClassName === 'active-service-alert',
+          })}
+          onClick={() => {
+            router.replace(
+              stopPagePath(isTerminal, stop.gtfsId, PREFIX_DISRUPTION, search),
+            );
+            addAnalyticsEvent({
+              category: 'Stop',
+              action: 'OpenDisruptionsTab',
+              name: null,
+            });
+          }}
+          role="tab"
+          ref={disruptionTabRef}
+          tabIndex={focusedTab === Tab.Disruptions ? 0 : -1}
+          aria-selected={activeTab === Tab.Disruptions}
+          style={{ '--totalCount': '3' }}
+        >
+          <div
+            className={`tab-route-disruption ${
+              disruptionClassName || 'no-alerts'
+            }`}
+          >
+            {disruptionIcon}
+            <FormattedMessage id="disruptions" />
+          </div>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+StopPageTabs.propTypes = { stop: stopShape };
+
+const componentWithBreakpoint = withBreakpoint(StopPageTabs);
+
+export { componentWithBreakpoint as default, StopPageTabs as Component };
