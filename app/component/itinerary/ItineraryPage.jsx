@@ -1121,9 +1121,7 @@ function ItineraryPageContent(props, context) {
     }
 
     return () => {
-      if (showVehicles()) {
-        stopClient(context);
-      }
+      stopClient(context);
     };
   }, []);
 

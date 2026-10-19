@@ -7,7 +7,10 @@ import TestProviders from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
 import { mockMatch, mockRouter } from '../../helpers/mock-router';
 import { PLANTYPE } from '../../../../utils/client/planParamUtil';
-import { quitIteration } from '../../../../app/component/itinerary/ItineraryPageUtils';
+import {
+  quitIteration,
+  stopClient,
+} from '../../../../app/component/itinerary/ItineraryPageUtils';
 
 vi.mock('react-relay', async importOriginal => {
   const actual = await importOriginal();
@@ -45,6 +48,7 @@ vi.mock(
   async importOriginal => ({
     ...(await importOriginal()),
     quitIteration: vi.fn(() => true),
+    stopClient: vi.fn(),
     settingsLimitRouting: () => false,
   }),
 );
@@ -131,11 +135,12 @@ function plan(id) {
   };
 }
 
-describe('ItineraryPage search ordering', () => {
+describe('ItineraryPage lifecycle', () => {
   let requests;
 
   beforeEach(() => {
     requests = [];
+    stopClient.mockClear();
     quitIteration.mockReturnValue(true);
     fetchQuery.mockImplementation((_environment, _query, variables) => ({
       toPromise: () =>
@@ -158,6 +163,15 @@ describe('ItineraryPage search ordering', () => {
         });
     });
   }
+
+  it('stops MQTT on unmount even when itinerary vehicle display is disabled', () => {
+    const { unmount } = render(page('Savukoski'));
+
+    expect(stopClient).not.toHaveBeenCalled();
+    unmount();
+
+    expect(stopClient).toHaveBeenCalledTimes(1);
+  });
 
   it('keeps the latest main and alternative plans when older results arrive', async () => {
     const { rerender } = render(page('Savukoski'));

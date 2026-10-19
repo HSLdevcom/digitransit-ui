@@ -9,6 +9,9 @@ search. Late results and errors must not update the view or trigger further
 query iterations. This also applies to alternative plans and earlier/later
 requests, and pending results are ignored when the itinerary page unmounts.
 
+Unmounting the itinerary page always stops its MQTT client, including subscriptions
+started by the navigator, regardless of whether itinerary vehicles are displayed.
+
 ## Application view hierarchy
 
 ![Hierarchy](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/hierarchy.png)
