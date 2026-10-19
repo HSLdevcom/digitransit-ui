@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+  Icon as HslFiIconWrapper,
   BusStop,
   CitybikeStation,
   Metro,
@@ -51,14 +52,27 @@ const ICON_NAMES = Object.keys(ICON_MAP);
  * This component is the single place responsible for @hsl-fi/icons imports.
  * Usage sites should never import from @hsl-fi/icons directly.
  */
-function ThemedIcon({ name, customColor, style, ...rest }) {
+function ThemedIcon({ name, size, customColor, className, style, ...rest }) {
   const config = useConfigContext();
   const { hslFiIcon, fallbackImg } = ICON_MAP[name];
 
   if (config.iconModeSet === 'hsl' && hslFiIcon) {
+    // The sized wrapper only supports design-token colors, so custom-colored
+    // or CSS-sized icons render the bare icon.
+    if (size && !customColor) {
+      return (
+        <HslFiIconWrapper
+          icon={hslFiIcon}
+          size={size}
+          iconProps={{ className, style }}
+          {...rest}
+        />
+      );
+    }
     const HslIcon = hslFiIcon;
     return (
       <HslIcon
+        className={className}
         color={customColor ? 'custom' : undefined}
         style={
           customColor ? { '--color-icon-custom': customColor, ...style } : style
@@ -68,14 +82,24 @@ function ThemedIcon({ name, customColor, style, ...rest }) {
     );
   }
 
-  return <SvgIcon img={fallbackImg} color={customColor} {...rest} />;
+  return (
+    <SvgIcon
+      img={fallbackImg}
+      color={customColor}
+      className={className}
+      {...rest}
+    />
+  );
 }
 
 ThemedIcon.propTypes = {
   /** Logical icon name — must exist in ICON_MAP */
   name: PropTypes.oneOf(ICON_NAMES).isRequired,
+  /** Token size for the @hsl-fi/icons wrapper; omit to size the icon with CSS */
+  size: PropTypes.oneOf(['s', 'm', 'l', 'xl']),
   /** CSS color overriding the default icon color */
   customColor: PropTypes.string,
+  className: PropTypes.string,
   /** Inline style, applied only to @hsl-fi/icons */
   style: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
