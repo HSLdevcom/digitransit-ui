@@ -15,6 +15,7 @@ ENV \
 # packages, only invalidating on a real dependency change.
 COPY .yarnrc.yml package.json yarn.lock lerna.json ./
 COPY .yarn ./.yarn
+COPY schema/package.json ./schema/package.json
 COPY --parents digitransit-util/packages/*/package.json ./
 COPY --parents digitransit-search-util/packages/*/package.json ./
 COPY --parents digitransit-component/packages/*/package.json ./

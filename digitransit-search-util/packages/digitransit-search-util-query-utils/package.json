@@ -45,6 +45,7 @@
     "react-relay": "16.2.0"
   },
   "devDependencies": {
+    "@digitransit-ui/schema": "workspace:^",
     "babel-plugin-relay": "16.2.0",
     "relay-compiler": "16.2.0"
   },

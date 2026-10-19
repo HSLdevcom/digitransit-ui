@@ -222,6 +222,13 @@ another branch pending merge.
 `@digitransit-*` dependency range across all four families is satisfied by
 the versions actually present — this runs in CI on every push/PR.
 
+### Schema changes
+
+`schema/` is a private workspace package, a `devDependency` of
+`digitransit-search-util-query-utils` (which ships the schema in its build).
+This makes schema edits visible to change detection, so a schema update needs
+a query-utils version bump (enforced by `workspace-packages-version-check`).
+
 ### Changelogs
 
 `lerna.json`'s `command.publish.conventionalCommits` is deliberately `false`
