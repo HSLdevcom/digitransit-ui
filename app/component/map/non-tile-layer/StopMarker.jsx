@@ -100,12 +100,22 @@ export const buildStopIconSvg = ({
   appendClass,
   colorOverride,
   platformCode,
+  withHalo = false,
 }) => {
   if (radius === 0) {
     return '';
   }
+  // 1px white outline hugging the outer edge of the stop ring, may extend past the icon bounds
+  const haloRadius = inner + stroke / 2 + 1;
   return `
-      <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
+      <svg viewBox="0 0 ${radius * 2} ${radius * 2}"${
+        withHalo ? ' style="overflow:visible"' : ''
+      }>
+        ${
+          withHalo
+            ? `<circle class="stop-halo" cx="${radius}" cy="${radius}" r="${haloRadius}" />`
+            : ''
+        }
         <circle class="stop ${appendClass}" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"${
           colorOverride ? ` color="${colorOverride}"` : ''
         } />
@@ -217,12 +227,13 @@ export default function StopMarker({
       appendClass,
       colorOverride,
       platformCode: stop.platformCode,
+      withHalo: !disableIconBorder,
     });
 
     return L.divIcon({
       html: iconSvg,
       iconSize: [radius * 2, radius * 2],
-      className: getStopIconClassName(mode, disableIconBorder),
+      className: getStopIconClassName(mode, true),
     });
   };
 
