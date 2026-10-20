@@ -404,7 +404,6 @@ FavouriteBar.propTypes = {
   isLoading: PropTypes.bool,
   /** Optional color palette */
   colors: PropTypes.objectOf(PropTypes.string),
-  /** Optional. */
 };
 
 export default FavouriteBar;
