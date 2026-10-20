@@ -455,4 +455,4 @@ TileLayerContainer.propTypes = {
   objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
 };
 
-export { TileLayerContainer as default, TileLayerContainer as Component };
+export default TileLayerContainer;
