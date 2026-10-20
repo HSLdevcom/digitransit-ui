@@ -94,10 +94,6 @@ FavouriteBar renders favourites. FavouriteBar displays the first two favourites,
 />
 ```
 
-##
-
-Optional.
-
 [1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 
 [2]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
