@@ -65,15 +65,24 @@
     top: 12px;
   }
 
-  .checkbox-grouping + .checkbox-grouping {
-    margin-top: 2.7em;
+  // Design system checkboxes have no vertical spacing of their own.
+  .checkbox-grouping > div {
+    margin: 1em 0;
+  }
 
-    &::before {
-      border-top: 1px solid $light-gray;
-      content: '';
-      margin-top: -1.92em;
-      display: block;
-      position: relative;
+  // The design system's checked style overrides its disabled style.
+  .checkbox-grouping div:has(> input[type='checkbox']:disabled) {
+    background-color: $light-gray;
+    border-color: #78909c;
+    opacity: 1;
+
+    svg path {
+      fill: #888;
     }
+  }
+
+  // The checkbox margins above and below the line keep it centered.
+  .checkbox-grouping + .checkbox-grouping {
+    border-top: 1px solid $light-gray;
   }
 }

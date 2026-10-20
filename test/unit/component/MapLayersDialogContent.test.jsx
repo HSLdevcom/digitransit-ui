@@ -62,9 +62,7 @@ describe('<MapLayersDialogContent />', () => {
     const { container } = renderMapLayersDialogContent(props, {
       vehicles: true,
     });
-    const checkbox = container.querySelectorAll(
-      '.option-checkbox.large input',
-    )[0];
+    const checkbox = container.querySelectorAll('input[type="checkbox"]')[0];
     fireEvent.click(checkbox);
 
     expect(getStoredMapLayers().vehicles).toBe(true);
@@ -88,7 +86,7 @@ describe('<MapLayersDialogContent />', () => {
         },
       },
     });
-    const checkbox = container.querySelector('.option-checkbox.large input');
+    const checkbox = container.querySelector('input[type="checkbox"]');
     fireEvent.click(checkbox);
 
     expect(getStoredMapLayers().stop.bus).toBe(true);
@@ -121,7 +119,7 @@ describe('<MapLayersDialogContent />', () => {
         },
       },
     });
-    const checkbox = container.querySelector('.option-checkbox.large input');
+    const checkbox = container.querySelector('input[type="checkbox"]');
 
     expect(checkbox.checked).toBe(false);
     expect(checkbox.disabled).toBe(true);
@@ -145,7 +143,7 @@ describe('<MapLayersDialogContent />', () => {
         },
       },
     });
-    const checkbox = container.querySelector('.option-checkbox.large input');
+    const checkbox = container.querySelector('input[type="checkbox"]');
     fireEvent.click(checkbox);
 
     expect(getStoredMapLayers().stop.tram).toBe(true);
@@ -169,7 +167,7 @@ describe('<MapLayersDialogContent />', () => {
         },
       },
     });
-    const checkbox = container.querySelector('.option-checkbox.large input');
+    const checkbox = container.querySelector('input[type="checkbox"]');
     fireEvent.click(checkbox);
 
     expect(getStoredMapLayers().stop.ferry).toBe(true);
@@ -193,7 +191,7 @@ describe('<MapLayersDialogContent />', () => {
         },
       },
     });
-    const checkbox = container.querySelector('.option-checkbox.large input');
+    const checkbox = container.querySelector('input[type="checkbox"]');
     fireEvent.click(checkbox);
 
     expect(getStoredMapLayers().stop.airplane).toBe(true);
@@ -240,7 +238,7 @@ describe('<MapLayersDialogContent />', () => {
         },
       },
     });
-    const checkbox = container.querySelector('.option-checkbox.large input');
+    const checkbox = container.querySelector('input[type="checkbox"]');
     fireEvent.click(checkbox);
 
     expect(getStoredMapLayers().citybike).toBe(true);
@@ -261,7 +259,7 @@ describe('<MapLayersDialogContent />', () => {
         showParkAndRide: true,
       },
     });
-    const checkbox = container.querySelector('.option-checkbox.large input');
+    const checkbox = container.querySelector('input[type="checkbox"]');
     fireEvent.click(checkbox);
 
     expect(getStoredMapLayers().parkAndRide).toBe(true);
@@ -312,13 +310,11 @@ describe('<MapLayersDialogContent />', () => {
       },
     });
     await waitFor(() => {
-      expect(
-        container.querySelectorAll('.option-checkbox.large input'),
-      ).toHaveLength(2);
+      expect(container.querySelectorAll('input[type="checkbox"]')).toHaveLength(
+        2,
+      );
     });
-    const checkboxes = container.querySelectorAll(
-      '.option-checkbox.large input',
-    );
+    const checkboxes = container.querySelectorAll('input[type="checkbox"]');
 
     fireEvent.click(checkboxes[1]);
 
