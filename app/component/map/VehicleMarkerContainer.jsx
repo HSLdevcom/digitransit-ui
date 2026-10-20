@@ -72,13 +72,21 @@ function VehicleMarkerContainer({
   direction,
   headsign,
   pattern,
-  setVisibleVehicles,
   topics,
   useLargeIcon = true,
-  vehicles,
+  mode,
 }) {
   const config = useConfigContext();
-  const visibleVehicles = Object.entries(vehicles).filter(([, message]) => {
+  const { vehicles, actions } = useRealTimeInformation();
+  // if you keep the UI open for a long time then trips that have finsished accumulated on the screen
+  // this removes anything that hasn't had an update in 3 minutes
+  const vehiclesFiltered = Object.entries(vehicles).filter(([, message]) => {
+    const matchesMode =
+      !mode || message.mode.toLowerCase() === mode.toLowerCase();
+    const isRecent = message.receivedAt > Date.now() / 1000 - 180;
+    return matchesMode && isRecent;
+  });
+  const visibleVehicles = vehiclesFiltered.filter(([, message]) => {
     const { feedId, entityId: routeId } = splitGtfsId(message.route);
     const { ignoreHeadsign } = config.realTime[feedId];
     const desc = routeId ? topics?.find(t => t.route === routeId) : undefined;
@@ -92,27 +100,28 @@ function VehicleMarkerContainer({
     );
   });
   const visibleVehicleIds = visibleVehicles.map(([id]) => id);
+
   useEffect(() => {
-    setVisibleVehicles(visibleVehicleIds);
-  }, [vehicles, direction, headsign, pattern, topics, setVisibleVehicles]);
+    actions.setVisibleVehicles(visibleVehicleIds);
+  }, [vehicles, direction, headsign, pattern, topics, actions, mode]);
 
   return visibleVehicles.map(([id, message]) => {
     const { entityId: routeId } = splitGtfsId(message.route);
     const type = topics?.find(
       t => t.shortName === message.shortName || t.route === routeId,
     )?.type;
-    let mode;
+    let vehicleMode;
     if (type === ExtendedRouteTypes.BusExpress) {
-      mode = 'bus-express';
+      vehicleMode = 'bus-express';
     } else if (type === ExtendedRouteTypes.SpeedTram) {
-      mode = 'speedtram';
+      vehicleMode = 'speedtram';
     } else if (
       type === ExtendedRouteTypes.ReplacementBus ||
       config.replacementBusRoutes?.includes(message.route)
     ) {
-      mode = 'replacement-bus';
+      vehicleMode = 'replacement-bus';
     } else {
-      mode = message.mode;
+      vehicleMode = message.mode;
     }
     const { feedId } = splitGtfsId(message.route);
     let vehicleNumber = message.shortName
@@ -129,7 +138,7 @@ function VehicleMarkerContainer({
         }}
         zIndexOffset={10000}
         icon={getVehicleIcon(
-          mode,
+          vehicleMode,
           message.heading,
           vehicleNumber,
           message.color,
@@ -143,52 +152,12 @@ function VehicleMarkerContainer({
 VehicleMarkerContainer.propTypes = {
   headsign: PropTypes.string,
   direction: PropTypes.number,
-  vehicles: PropTypes.objectOf(
-    PropTypes.shape({
-      direction: PropTypes.number,
-      tripStartTime: PropTypes.string,
-      mode: PropTypes.string.isRequired,
-      shortName: PropTypes.string,
-      heading: PropTypes.number,
-      lat: PropTypes.number.isRequired,
-      long: PropTypes.number.isRequired,
-    }).isRequired,
-  ).isRequired,
   useLargeIcon: PropTypes.bool,
   mode: PropTypes.string,
 };
 
-function ConnectedVehicleMarkerContainer(props) {
-  const { vehicles, actions } = useRealTimeInformation();
-  let vehiclesFiltered = vehicles;
-  if (props.mode) {
-    const filtered = Object.entries(vehicles).filter(
-      ([, message]) => message.mode.toLowerCase() === props.mode.toLowerCase(),
-    );
-    vehiclesFiltered = Object.fromEntries(filtered);
-  }
-  // if you keep the UI open for a long time then trips that have finsished accumulated on the screen
-  // this removes anything that hasn't had an update in 3 minutes
-  const vehiclesWithRecentUpdates = Object.entries(vehiclesFiltered).filter(
-    ([, message]) => {
-      return message.receivedAt > Date.now() / 1000 - 180;
-    },
-  );
-  return (
-    <VehicleMarkerContainer
-      {...props}
-      vehicles={Object.fromEntries(vehiclesWithRecentUpdates)}
-      setVisibleVehicles={actions.setVisibleVehicles}
-    />
-  );
-}
-
-ConnectedVehicleMarkerContainer.propTypes = {
-  mode: PropTypes.string,
-};
-
 export {
-  ConnectedVehicleMarkerContainer as default,
+  VehicleMarkerContainer as default,
   VehicleMarkerContainer as Component,
   shouldShowVehicle,
   getVehicleIcon,

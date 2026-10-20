@@ -16,23 +16,7 @@ const defaultProps = {
   pattern: 'tampere:2:0:02',
   headsign: 'Pyynikintori',
   tripStart: undefined,
-  vehicles: {
-    tampereBus: {
-      direction: 0,
-      heading: 180,
-      headsign: 'Pyynikintori',
-      id: 'tampereBus',
-      lat: 61.50639,
-      long: 23.77416,
-      mode: 'bus',
-      next_stop: undefined,
-      operationDay: '20190322',
-      route: 'tampere:2',
-      timestamp: 1553260781,
-      tripStartTime: '1514',
-    },
-  },
-  setVisibleVehicles: () => {},
+  mode: undefined,
 };
 
 describe('<VehicleMarkerContainer />', () => {
@@ -50,6 +34,22 @@ describe('<VehicleMarkerContainer />', () => {
             ...mockContext.config,
             realTime: {
               tampere: {},
+            },
+          },
+          vehicles: {
+            tampereBus: {
+              direction: 0,
+              heading: 180,
+              headsign: 'Pyynikintori',
+              id: 'tampereBus',
+              lat: 61.50639,
+              long: 23.77416,
+              mode: 'bus',
+              next_stop: undefined,
+              operationDay: '20190322',
+              route: 'tampere:2',
+              timestamp: 1553260781,
+              tripStartTime: '1514',
             },
           },
         },
