@@ -14,8 +14,6 @@ module.exports = function bbl(api) {
       '@babel/preset-env',
       {
         bugfixes: true,
-        useBuiltIns: 'entry',
-        corejs: { version: '3.50' },
         modules: 'auto',
       },
     ],
