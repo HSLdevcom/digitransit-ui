@@ -68,7 +68,7 @@ function shouldShowVehicle(
   );
 }
 
-function VehicleMarkerContainer({
+export default function VehicleMarkerContainer({
   direction,
   headsign,
   pattern,
@@ -156,9 +156,4 @@ VehicleMarkerContainer.propTypes = {
   mode: PropTypes.string,
 };
 
-export {
-  VehicleMarkerContainer as default,
-  VehicleMarkerContainer as Component,
-  shouldShowVehicle,
-  getVehicleIcon,
-};
+export { shouldShowVehicle, getVehicleIcon };

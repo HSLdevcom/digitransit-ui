@@ -4,8 +4,7 @@ import { render } from '@testing-library/react';
 import { LeafletProvider } from 'react-leaflet/es/context';
 
 import { renderWithProviders } from '../../helpers/mock-providers';
-import {
-  Component as VehicleMarkerContainer,
+import VehicleMarkerContainer, {
   shouldShowVehicle,
   getVehicleIcon,
 } from '../../../../app/component/map/VehicleMarkerContainer';
