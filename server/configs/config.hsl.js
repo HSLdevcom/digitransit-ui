@@ -87,8 +87,8 @@ export default {
     },
     MAJOR_CHANGES: {
       fi: 'https://www.hsl.fi/hsl/uutiset/teemat/merkittavat-liikenteen-muutokset',
-      sv: 'https://www.hsl.fi/hsl/uutiset/teemat/merkittavat-liikenteen-muutokset',
-      en: 'https://www.hsl.fi/hsl/uutiset/teemat/merkittavat-liikenteen-muutokset',
+      sv: 'https://www.hsl.fi/sv/hrt/nyheter/teman/stora-andringar-i-trafiken',
+      en: 'https://www.hsl.fi/en/hsl/news/themes/major-public-transport-changes-in-the-near-future',
     },
   },
 
