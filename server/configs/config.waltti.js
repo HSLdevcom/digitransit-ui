@@ -316,6 +316,4 @@ export default {
   },
   showRouteDescNotification: isDevRunEnv(),
   showStopStatusMarkers: true,
-
-  trafficNowLink: true,
 };
