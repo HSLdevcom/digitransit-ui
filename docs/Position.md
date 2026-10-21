@@ -13,19 +13,19 @@ Note that in this context "Position" is not the same thing as "Location" (see be
 
 ![Position](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/position.png)
 
-Position state is tracked in `app/store/PositionStore.js` via the `status` property:
+Position state is tracked in `PositionContext` (`app/hooks/PositionContext.jsx`) via the `status` property:
 
-|State (`PositionStore` constant)|Description|
+|State (`POSITION_STATUS` constant)|Description|
 |--------|-------|
-|**no-location** (`STATUS_NO_LOCATION`)|Application has no idea where the user currently is|
-|**searching-location** (`STATUS_SEARCHING_LOCATION`)|Browser is trying to find out the user's geolocation|
-|**prompt** (`STATUS_GEOLOCATION_PROMPT`)|Browser is showing the permission prompt to the user|
-|**found-location** (`STATUS_FOUND_LOCATION`)|User's position is found and is being tracked by the application|
-|**found-address** (`STATUS_FOUND_ADDRESS`)|Position was found and reverse-geocoded to a street address|
-|**geolocation-denied** (`STATUS_GEOLOCATION_DENIED`)|ERROR: User has denied positioning on this page|
-|**geolocation-timeout** (`STATUS_GEOLOCATION_TIMEOUT`)|ERROR: Browser didn't find the user's position within the timeout|
-|**geolocation-watch-timeout** (`STATUS_GEOLOCATION_WATCH_TIMEOUT`)|ERROR: Position tracking (watch) timed out|
-|**geolocation-not-supported** (`STATUS_GEOLOCATION_NOT_SUPPORTED`)|ERROR: Browser does not support HTML5 geolocation or it's unavailable on the device|
+|**no-location** (`POSITION_STATUS.NO_LOCATION`)|Application has no idea where the user currently is|
+|**searching-location** (`POSITION_STATUS.SEARCHING_LOCATION`)|Browser is trying to find out the user's geolocation|
+|**prompt** (`POSITION_STATUS.GEOLOCATION_PROMPT`)|Browser is showing the permission prompt to the user|
+|**found-location** (`POSITION_STATUS.FOUND_LOCATION`)|User's position is found and is being tracked by the application|
+|**found-address** (`POSITION_STATUS.FOUND_ADDRESS`)|Position was found and reverse-geocoded to a street address|
+|**geolocation-denied** (`POSITION_STATUS.GEOLOCATION_DENIED`)|ERROR: User has denied positioning on this page|
+|**geolocation-timeout** (`POSITION_STATUS.GEOLOCATION_TIMEOUT`)|ERROR: Browser didn't find the user's position within the timeout|
+|**geolocation-watch-timeout** (`POSITION_STATUS.GEOLOCATION_WATCH_TIMEOUT`)|ERROR: Position tracking (watch) timed out|
+|**geolocation-not-supported** (`POSITION_STATUS.GEOLOCATION_NOT_SUPPORTED`)|ERROR: Browser does not support HTML5 geolocation or it's unavailable on the device|
 
 ## Location
 

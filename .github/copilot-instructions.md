@@ -1,6 +1,6 @@
 # Digitransit-ui Copilot Instructions
 
-Digitransit-ui is a React (Flux + Relay/GraphQL) journey-planning web app used by multiple
+Digitransit-ui is a React (Relay/GraphQL) journey-planning web app used by multiple
 regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `CONFIG` env var.
 
 ## Directory structure
@@ -8,10 +8,10 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 Directories reflect a server/client/shared split (see "Server/client boundary" below) — pick the
 right one by *who consumes the code*, not just by convenience.
 
-- `app/` — client-bundle-only React app (Views/Containers/Flux + route trees):
+- `app/` — client-bundle-only React app (React components + route trees):
   - `client/` — browser entry & bootstrap: `client.jsx` (browser entry, farce/found router
-    bootstrap), `app.js` (Fluxible app/store wiring), `publicPath.js` / `loadDevTheme.js` (extra
-    webpack entry modules), `i18n.js`, `ConfigContext.jsx` (React context provider for config).
+    bootstrap, `AppProviders`), `publicPath.js` / `loadDevTheme.js` (extra webpack entry
+    modules), `i18n.js`, `ConfigContext.jsx` (`useConfigContext` for config).
   - `routes/` — found + Relay route-tree definitions: `routes.jsx` (front page, top level),
     `routeRoutes.jsx` (route pages), `stopRoutes.jsx` (stop pages); keep the filenames, Relay
     query names are prefixed with them.
@@ -23,15 +23,11 @@ right one by *who consumes the code*, not just by convenience.
   - `component/` — topic subfolders for larger features: `itinerary/`, `map/`, `stop/`,
     `routepage/`, `nearyou/`, `trafficnow/` (has its own `README.md`), `embedded/`, `visual/`,
     `icon/`, and `__generated__/` (Relay codegen).
-  - `action/` — Flux action creators (one file per domain, e.g. `FavouriteActions.js`).
-  - `store/` — Flux stores (one file per domain, mirrors `action/`), plus `sessionStorage.js`
-    persistence helper.
-  - `data/` — plain (non-Flux) client-side singleton stores: `FavouriteData.js` (user
-    favourites, synced via API + `localStorage`) and `SearchContext.js` (bridges the
-    framework-agnostic `digitransit-search-util` packages), both instantiated once in
-    `app/client/client.jsx`.
-  - `hooks/` — shared React hooks; small today but growing, since new code should prefer
-    hooks-based state over Flux (see Architecture below).
+  - `data/` — plain (non-React) client-side modules (favourites, position, search) behind the
+    providers in `hooks/`; components should use the hooks rather than these directly.
+  - `hooks/` — app state as React Context providers + hooks, mounted in `AppProviders`
+    (`app/client/client.jsx`). Add new providers there (and to
+    `test/unit/helpers/mock-providers.jsx` if tests need it).
   - `translations/` — one file per locale (`fi.js`, `en.js`, `sv.js`, ...); `fi.js` is the source
     of truth, keep sorted via `scripts/sort-translations.js` (`yarn format` runs this), and every
     key must also exist in `en.js`/`sv.js` (enforced by `test/unit/translations.test.js`). Some
@@ -115,13 +111,16 @@ right one by *who consumes the code*, not just by convenience.
 ## Tests (see `docs/Tests.md`)
 
 - Unit tests (Vitest, files under `test/unit/**/*.test.{js,jsx}`) mirror the source structure where
-  the reorg has been applied, e.g. `test/unit/component/...`, `test/unit/store/...`,
-  `test/unit/server/configs/...`, `test/unit/utils/{shared,server,client}/...` — a
+  the reorg has been applied, e.g. `test/unit/component/...`, `test/unit/hooks/...`,
+  `test/unit/data/...`, `test/unit/server/configs/...`,
+  `test/unit/utils/{shared,server,client}/...` — a
   `test/unit/util/` (old, singular) directory and some flat `test/unit/*.test.{js,jsx}` files
   remain from before the reorg and don't yet mirror anything. This setup is currently under
   refactoring — verify commands against `package.json` if they seem out of date:
   - For new React component tests, prefer **React Testing Library** and test components from the
-    user's perspective rather than relying on implementation details.
+    user's perspective rather than relying on implementation details. Use
+    `renderWithProviders` / `TestProviders` from `test/unit/helpers/mock-providers.jsx` to supply
+    config, intl and context providers.
   - Run all: `yarn test-unit` (single **Vitest** invocation against the root `vitest.config.js`,
     covering the app suite plus every workspace-package family as `test.projects` entries).
   - Run just the app suite: `yarn test-unit:app` or just the server tests: `yarn test-unit:server`.
@@ -148,23 +147,12 @@ from before touching it:
   Fragments live alongside components/routes and generated artifacts land in a sibling
   `__generated__/` folder, e.g. `app/routes/__generated__` (do not hand-edit generated files; edit
   `.js`/route files and rerun relay-compiler via `yarn dev` or `yarn relay`).
-- **Flux (fluxible)** — legacy mechanism for everything else (app/UI state, favourites, position,
-  search history). Actions in `app/action/*Actions.js`, stores in `app/store/*Store.js`;
-  components read store state via `connectToStores` HOCs ("StoreConnectors", see below). Fluxible
-  is being phased out and should not be used for new code — use newer hooks-based alternatives
-  instead, which many functional components already use to fetch/manage this kind of state
-  directly.
+- **React Context + hooks** — everything else (config, app/UI state, favourites, position, ...),
+  with providers in `app/hooks/`.
 
-Three component categories (naming is meaningful, not just style — follow it for new files):
-
-- **Views** — stateless, props-in/JSX-out, only render DOM elements or other Views. No store or
-  relay references, no internal state.
-- **RelayConnectors** — wrap a pure view with a Relay container/fragment. Convention: default
-  export is the pure view, named export is `<View>RelayConnector` (or split into two files); the
-  view itself should fall back to rendering without `props.relay` if relay data isn't present.
-- **Containers** — compose Views/other Containers only (no raw DOM), doing data transformation.
-  Name must include `Container`. **StoreConnectors** are a container subtype: HOCs using
-  `connectToStores` to map Flux store state to props; name must include `StoreConnector`.
+Some components are still split into views and `*Container` components wrapped with Relay HOCs
+(`createFragmentContainer` etc.). We are moving away from this: prefer function components that
+fetch data and manage state with hooks.
 
 Other structural notes:
 
@@ -223,10 +211,10 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
 - Never bump package versions manually; the `workspace-packages-version-bump` script is run after
   a PR is approved but before merging by the author.
 - The project does not enable `eslint-plugin-react-hooks`'s `exhaustive-deps` rule, and top-level
-  app values such as `config` (`useConfigContext()`) and the Fluxible `context`/`executeAction`
-  bridge are set once at app init and never change identity for the app's lifetime. It's fine to
-  omit such stable values from `useEffect`/`useCallback`/`useMemo` dependency arrays — prefer this
-  over padding dependency arrays with values that never actually change.
+  app values such as `config` (`useConfigContext()`) and provider action helpers (e.g.
+  `messageActions`) are set once at app init and never change identity for the app's lifetime.
+  It's fine to omit such stable values from `useEffect`/`useCallback`/`useMemo` dependency
+  arrays — prefer this over padding dependency arrays with values that never actually change.
 - Polyfills are build-time only: `import 'core-js/stable'` in `app/client/client.jsx` plus
   `@babel/preset-env` (`useBuiltIns: 'entry'`) driven by the `browserslist` in `package.json`;
   don't add runtime/UA-based polyfill services. Keep `corejs.version` in `webpack.config.js` (the

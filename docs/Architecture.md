@@ -12,26 +12,9 @@ Digitransit-ui is a React based web application. The following bullet points des
  - Use object property spread instead of `Object.assign` when creating new objects: *not* `Object.assign({}, {state}, {a: 1, b: 2})`, but *instead* `{...state, a: 1, b: 2}`
 
 ## Components
-  - Three types of components
-  - Views
-    - Simple views that transform props to JSX
-    - Views must contain only DOM elements and other Views
-      - i.e. no references to containers
-    - Views should preferably be created using stateless functional components
-    - Views mustn't hold any state
-      - State should use React hooks and context
-  - RelayConnector
-    - Data from server should be fetched by adding a relay fragment and wrapping it with `Relay.createContainer`
-    - The file should have the pure view as default export and the <View>RelayConnector as named export
-      - Alternatively both components can be placed in separate files
-    - The view should use RelayContainers in its render method if `props.relay` is defined. If `props.relay` is not defined, then the pure view should be used instead.
-  - Containers
-    - "Traditional" containers
-      - Containers are components that do complex transformations of props data in order to show one or more views or containers
-      - Containers should only contain only other containers and views
-        - i.e. no DOM components
-      - Continers must include `Container` in their name
-    - Containers should include unit tests either testing their functions separately or by testing their rendering using React Testing Library
+  - Components are function components that fetch data and manage state with hooks
+  - Some components are still split into views and `*Container` components wrapped with Relay HOCs (`createFragmentContainer` etc.), but we are moving away from this pattern
+  - Components should include unit tests, preferably using React Testing Library
 
 React components can access data in two different ways:
 - OpenTripPlanner GraphQL queries with Relay
@@ -60,7 +43,6 @@ this data, so it has no Context/hook layer.
 ![Architecture](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/architecture.png)
 
 Links:
-* https://github.com/facebookarchive/flux
 * https://react.dev/
 * https://github.com/relay-tools/found-relay/
 * https://relay.dev/
