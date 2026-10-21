@@ -106,7 +106,6 @@ export default function DatetimepickerContainer({
       color={config.colors.primary}
       timeZone={config.timeZone}
       serviceTimeRange={config.itinerary.serviceTimeRange}
-      fontWeights={config.fontWeights}
       onOpen={onOpen}
       onClose={onClose}
       openPicker={openPicker}

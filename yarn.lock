@@ -2462,6 +2462,7 @@ __metadata:
     "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "workspace:^"
     "@digitransit-search-util/digitransit-search-util-helpers": "workspace:^"
     "@digitransit-search-util/digitransit-search-util-route-name-compare": "workspace:^"
+    "@digitransit-ui/schema": "workspace:^"
     babel-plugin-relay: "npm:16.2.0"
     relay-compiler: "npm:16.2.0"
   peerDependencies:
@@ -2518,6 +2519,12 @@ __metadata:
   peerDependencies:
     lodash: 4.17.21
     lodash-es: 4.17.21
+  languageName: unknown
+  linkType: soft
+
+"@digitransit-ui/schema@workspace:^, @digitransit-ui/schema@workspace:schema":
+  version: 0.0.0-use.local
+  resolution: "@digitransit-ui/schema@workspace:schema"
   languageName: unknown
   linkType: soft
 

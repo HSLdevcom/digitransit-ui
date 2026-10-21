@@ -8,7 +8,6 @@ import styles from './styles.scss';
 import useModesWithAlerts from './useModesWithAlerts';
 import { VALID_NEAR_YOU_MODES, getModeUrl } from './utils';
 
-const DEFAULT_FONT_WEIGHTS = { medium: 500 };
 const MAX_VISIBLE_MODES = 7;
 const MORE = 'more';
 
@@ -22,7 +21,6 @@ export default function NearStopsAndRoutes({
   onClick,
   modeSet = 'hsl',
   colors = defaultColors,
-  fontWeights = DEFAULT_FONT_WEIGHTS,
   urlPrefix,
   omitLanguageUrl = false,
   loading = true,
@@ -44,7 +42,6 @@ export default function NearStopsAndRoutes({
       language={language}
       modeSet={modeSet}
       colors={colors}
-      fontWeights={fontWeights}
       withAlert={modesWithAlerts.includes(mode.toUpperCase())}
       loading={loading}
       horizontal={horizontal}
@@ -68,15 +65,11 @@ export default function NearStopsAndRoutes({
   );
 
   return (
-    <div
-      className={styles['near-you-container']}
-      style={{ '--font-weight': fontWeights.medium }}
-    >
+    <div className={styles['near-you-container']}>
       {useModal && (
         <AllModesModal
           language={language}
           modalOpen={modalOpen}
-          fontWeights={fontWeights}
           closeModal={() => setModalOpen(false)}
         >
           {modes.map((mode, i) => (
@@ -122,9 +115,6 @@ NearStopsAndRoutes.propTypes = {
   onClick: PropTypes.func.isRequired,
   colors: PropTypes.objectOf(PropTypes.string),
   modeSet: PropTypes.string,
-  fontWeights: PropTypes.shape({
-    medium: PropTypes.number,
-  }),
   urlPrefix: PropTypes.string.isRequired,
   omitLanguageUrl: PropTypes.bool,
 };
