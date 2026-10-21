@@ -309,4 +309,5 @@ export default {
     },
   },
   showRouteDescNotification: isDevRunEnv(),
+  showStopStatusMarkers: true,
 };

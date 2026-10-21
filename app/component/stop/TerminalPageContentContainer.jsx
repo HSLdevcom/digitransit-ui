@@ -2,13 +2,16 @@ import React, { useEffect } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DepartureListContainer from '../DepartureListContainer';
-import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
 import {
   stationShape,
   errorShape,
   relayShape,
 } from '../../../utils/client/shapes';
+import { getPrimaryStopMode } from '../../../utils/client/modeUtils';
+import { getModeIconColor } from '../../../utils/shared/colorUtils';
+import StopServiceStatusBanner from './StopServiceStatusBanner';
+import { useConfigContext } from '../../client/ConfigContext';
 import { getTrackOrPierOrPlatformText } from '../../../utils/client/localeUtils';
 import { useCurrentTime } from '../../hooks/TimeContext';
 
@@ -26,20 +29,42 @@ function TerminalPageContent({ station, relay, error }) {
   }, [currentTime, relay]);
 
   const intl = useIntl();
+  const config = useConfigContext();
   const { stoptimes } = station;
-  const mode = station.vehicleMode || 'BUS';
+  const vehicleMode = station.vehicleMode || 'BUS';
+  // `mode` is the icon mode (derived from routes, may differ from vehicleMode for multi-mode stops).
+  // `vehicleMode` is used for track text and the departure list.
+  const mode = getPrimaryStopMode(
+    station.routes,
+    vehicleMode,
+    station.code,
+    config,
+    true,
+  );
+  const modeColor = getModeIconColor(config, mode);
   if (!stoptimes || stoptimes.length === 0) {
     return (
-      <div className="stop-no-departures-container">
-        <Icon img="icon_station" />
-        <FormattedMessage id="no-departures" defaultMessage="No departures" />
-      </div>
+      <StopServiceStatusBanner
+        mode={mode}
+        modeColor={modeColor}
+        stoptimes={stoptimes || []}
+        currentTime={currentTime}
+        alerts={station.alerts}
+        servicesRunningInFuture={(station.futureStoptimes || []).length > 0}
+      />
     );
   }
 
   return (
     <ScrollableWrapper>
       <div className="stop-page-departure-wrapper stop-scroll-container">
+        <StopServiceStatusBanner
+          mode={mode}
+          modeColor={modeColor}
+          stoptimes={stoptimes}
+          currentTime={currentTime}
+          alerts={station.alerts}
+        />
         <div
           className="departure-list-header row padding-vertical-normal"
           aria-hidden="true"
@@ -54,12 +79,12 @@ function TerminalPageContent({ station, relay, error }) {
             <FormattedMessage id="leaving-at" defaultMessage="Leaves" />
           </span>
           <span className="track-header">
-            {getTrackOrPierOrPlatformText(intl, mode)}
+            {getTrackOrPierOrPlatformText(intl, vehicleMode)}
           </span>
         </div>
         <DepartureListContainer
           stoptimes={stoptimes}
-          mode={mode}
+          mode={vehicleMode}
           key="departures"
           className="stop-page"
           isTerminal
@@ -87,7 +112,27 @@ const containerComponent = createRefetchContainer(
         numberOfDepartures: { type: "Int!", defaultValue: 100 }
       ) {
         vehicleMode
+        code
         url
+        routes {
+          gtfsId
+          mode
+          type
+        }
+        alerts(types: [STOP, ROUTES]) {
+          alertEffect
+          alertSeverityLevel
+          effectiveStartDate
+          effectiveEndDate
+        }
+        futureStoptimes: stoptimesWithoutPatterns(
+          startTime: $startTime
+          timeRange: 7776000 # 90 days in seconds
+          numberOfDepartures: 1
+          omitCanceled: true
+        ) {
+          serviceDay
+        }
         stops {
           patterns {
             route {
@@ -101,6 +146,7 @@ const containerComponent = createRefetchContainer(
           numberOfDepartures: $numberOfDepartures
           omitCanceled: false
         ) {
+          serviceDay
           ...DepartureListContainer_stoptimes
         }
       }
@@ -125,4 +171,4 @@ const containerComponent = createRefetchContainer(
   `,
 );
 
-export default containerComponent;
+export { containerComponent as default, TerminalPageContent as Component };

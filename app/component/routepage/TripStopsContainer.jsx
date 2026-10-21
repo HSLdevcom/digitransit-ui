@@ -77,11 +77,19 @@ TripStopsContainer.propTypes = {
 const componentWithBreakpoint = withBreakpoint(TripStopsContainer);
 const containerComponent = createFragmentContainer(componentWithBreakpoint, {
   trip: graphql`
-    fragment TripStopsContainer_trip on Trip {
+    fragment TripStopsContainer_trip on Trip
+    @argumentDefinitions(
+      startOfDay: { type: "Long!", defaultValue: 0 }
+      showStopStatusMarkers: { type: "Boolean!", defaultValue: false }
+    ) {
       stoptimesForDate {
         scheduledDeparture
       }
       ...TripStopListContainer_trip
+        @arguments(
+          startOfDay: $startOfDay
+          showStopStatusMarkers: $showStopStatusMarkers
+        )
     }
   `,
   pattern: graphql`

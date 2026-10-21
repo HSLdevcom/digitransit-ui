@@ -109,6 +109,7 @@ class SearchContext {
     this.clearOldSearches = clearOldSearches;
     this.getFutureRoutes = getFutureRoutes;
     this.clearFutureRoutes = clearFutureRoutes;
+    this.showStopStatusMarkers = !!config.showStopStatusMarkers;
   }
 }
 

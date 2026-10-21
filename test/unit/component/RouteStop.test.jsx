@@ -63,4 +63,51 @@ describe('<RouteStop />', () => {
     });
     expect(container.querySelector('.caution')).toBeNull();
   });
+
+  it('should not render a service alert icon when showStopStatusMarkers is enabled', () => {
+    const props = {
+      currentTime: 1471515614,
+      color: '',
+      stop: {
+        alerts: [
+          {
+            alertSeverityLevel: AlertSeverityLevelType.Warning,
+            effectiveStartDate: 1471515600,
+          },
+        ],
+      },
+    };
+    const { container } = renderWithProviders(<RouteStop {...props} />, {
+      config: {
+        ...mockContext.config,
+        minutesToDepartureLimit: 0,
+        zones: { stops: true },
+        showStopStatusMarkers: true,
+      },
+    });
+    expect(container.querySelector('.caution')).toBeNull();
+  });
+
+  it('should render the status badge icon instead of the SVG circle when the stop has no service', () => {
+    const props = {
+      currentTime: 1471515614,
+      color: '',
+      stop: {
+        alerts: [],
+        firstDeparture: [],
+      },
+    };
+    const { container } = renderWithProviders(<RouteStop {...props} />, {
+      config: {
+        ...mockContext.config,
+        minutesToDepartureLimit: 0,
+        zones: { stops: true },
+        showStopStatusMarkers: true,
+      },
+    });
+    expect(container.querySelector('.route-stop-status-badge')).not.toBeNull();
+    expect(
+      container.querySelector('.route-stop-now_circleline circle'),
+    ).toBeNull();
+  });
 });

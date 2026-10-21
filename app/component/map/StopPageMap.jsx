@@ -23,6 +23,7 @@ import CookieSettingsButton from '../CookieSettingsButton';
 import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../../utils/shared/path';
 import { streetQuery } from './StreetQuery';
 import { useConfigContext } from '../../client/ConfigContext';
+import { STOP_STATUS } from '../../../utils/client/stopStatusUtils';
 
 const getModeFromProps = props => {
   if (props.citybike) {
@@ -44,7 +45,14 @@ const getModeFromProps = props => {
 };
 
 function StopPageMap(props) {
-  const { stop, breakpoint, locationState, stopName } = props;
+  const {
+    stop,
+    breakpoint,
+    locationState,
+    stopName,
+    stopStatus,
+    stopAlertEffects,
+  } = props;
   const config = useConfigContext();
   // if the stop is not a gtfs transit stop, disable vehicles
   const shouldShowVehicles = config.showVehiclesOnStopPage && stop.gtfsId;
@@ -151,7 +159,12 @@ function StopPageMap(props) {
   if (breakpoint === 'large') {
     leafletObjs.push(
       <SelectedStopPopup lat={stop.lat} lon={stop.lon} key="SelectedStopPopup">
-        <SelectedStopPopupContent stop={stop} name={stopName} />
+        <SelectedStopPopupContent
+          stop={stop}
+          name={stopName}
+          status={stopStatus}
+          alertEffects={stopAlertEffects}
+        />
       </SelectedStopPopup>,
     );
     if (config.useCookiesPrompt) {
@@ -210,6 +223,8 @@ StopPageMap.propTypes = {
   parkType: PropTypes.string,
   scooter: PropTypes.bool,
   stopName: PropTypes.node,
+  stopStatus: PropTypes.oneOf(Object.values(STOP_STATUS)),
+  stopAlertEffects: PropTypes.arrayOf(PropTypes.string),
 };
 
 const componentWithBreakpoint = withBreakpoint(StopPageMap);
