@@ -74,7 +74,7 @@ function IndexPage({ fromMap, ...props }, context) {
   const favouriteStatus = useFavouriteStatus();
   const hasOtpLocationFavourites = useHasOtpLocationFavourites();
   const { setOrigin, setDestination } = useItineraryLocationActions();
-  const { colors, fontWeights, language, iconModeSet } = config;
+  const { colors, language, iconModeSet } = config;
   const { executeAction } = context;
 
   useEffect(() => {
@@ -270,7 +270,6 @@ function IndexPage({ fromMap, ...props }, context) {
         omitLanguageUrl
         onClick={clickStopNearIcon}
         colors={colors}
-        fontWeights={fontWeights}
         {...directionProps}
       />
     ) : (
@@ -335,7 +334,6 @@ function IndexPage({ fromMap, ...props }, context) {
     onGeolocationStart: onSelectLocation,
     fromMap,
     onFromMapClose,
-    fontWeights,
     colors,
     modeSet: iconModeSet,
   };
@@ -352,7 +350,6 @@ function IndexPage({ fromMap, ...props }, context) {
     lang: language,
     sources,
     targets: stopAndRouteSearchTargets,
-    fontWeights,
     colors,
     modeSet: iconModeSet,
     geocodingSize: 25,
@@ -381,7 +378,7 @@ function IndexPage({ fromMap, ...props }, context) {
         <h1 className="sr-only">
           <FormattedMessage id="index.title" default="Journey Planner" />
         </h1>
-        <CtrlPanel position="left" fontWeights={fontWeights}>
+        <CtrlPanel position="left">
           <span className="sr-only">
             <FormattedMessage
               id="search-fields.sr-instructions"
@@ -426,7 +423,7 @@ function IndexPage({ fromMap, ...props }, context) {
           backgroundColor: '#ffffff',
         }}
       >
-        <CtrlPanel position="bottom" fontWeights={fontWeights}>
+        <CtrlPanel position="bottom">
           <LocationSearch disableAutoFocus isMobile {...locationSearchProps} />
           <DatetimepickerContainer realtime />
           <FavouritesContainer

@@ -36,7 +36,6 @@ import { searchReducer } from './utils/searchReducer';
 const DEFAULT_SOURCES = [];
 const DEFAULT_PATH_OPTS = { routesPrefix: 'linjat', stopsPrefix: 'pysakit' };
 const DEFAULT_REF_POINT = {};
-const DEFAULT_FONT_WEIGHTS = { medium: 500 };
 
 const getAriaProps = ({
   id,
@@ -246,7 +245,6 @@ const getNewTargets = ({
  * @property {string} [inputClassName]
  * @property {string} [translatedPlaceholder]
  * @property {boolean} [required]
- * @property {Object} [fontWeights]
  * @property {Object} [colors]
  * @property {string} [modeSet]
  * @property {boolean} [showScroll]
@@ -264,7 +262,6 @@ const getNewTargets = ({
  * @param {string[]} [props.sources=[]]
  * @param {Object} [props.pathOpts={routesPrefix: 'linjat', stopsPrefix: 'pysakit'}]
  * @param {Object} [props.refPoint={}]
- * @param {Object} [props.fontWeights={medium: 500}]
  * @returns {JSX.Element}
  */
 function DTAutosuggest({
@@ -286,7 +283,6 @@ function DTAutosuggest({
   translatedPlaceholder,
   required = false,
   ariaLabel,
-  fontWeights = DEFAULT_FONT_WEIGHTS,
   colors = defaultColors,
   modeSet,
   showScroll = false,
@@ -623,21 +619,11 @@ function DTAutosuggest({
       loading: state.loading,
       isMobile,
       ariaFavouriteString: t('favourite', { lng }),
-      fontWeights,
       getAutoSuggestIcons,
       colors,
       modeSet,
     }),
-    [
-      state.loading,
-      isMobile,
-      t,
-      lng,
-      fontWeights,
-      getAutoSuggestIcons,
-      colors,
-      modeSet,
-    ],
+    [state.loading, isMobile, t, lng, getAutoSuggestIcons, colors, modeSet],
   );
 
   const {
@@ -678,7 +664,6 @@ function DTAutosuggest({
       {isMobile && (
         <MobileView
           placeholder={t(placeholder, { lng })}
-          fontWeights={fontWeights}
           clearOldSearches={mobileClearOldSearches}
           appElement={appElement}
           mobileLabel={mobileLabel || t(id, { lng })}
@@ -810,9 +795,6 @@ DTAutosuggest.propTypes = {
     lon: PropTypes.number,
   }),
   inputClassName: PropTypes.string,
-  fontWeights: PropTypes.shape({
-    medium: PropTypes.number,
-  }),
   colors: PropTypes.objectOf(PropTypes.string),
   getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
   required: PropTypes.bool,

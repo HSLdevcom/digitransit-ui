@@ -60,7 +60,6 @@ function Datetimepicker({
   color = '#007ac9',
   timeZone = 'Europe/Helsinki',
   onModalSubmit,
-  fontWeights,
   serviceTimeRange,
   onOpen,
   onClose,
@@ -257,7 +256,6 @@ function Datetimepicker({
             getDateDisplay={getDateDisplay}
             dateSelectItemCount={serviceTimeRange}
             getDisplay={getTimeDisplay}
-            fontWeights={fontWeights}
           />
         )
       );
@@ -444,7 +442,6 @@ function Datetimepicker({
       id={`${htmlId}-root`}
       style={{
         '--color': `${color}`,
-        '--font-weight-medium': fontWeights.medium,
       }}
     >
       <legend className={styles['sr-only']}>
@@ -511,9 +508,6 @@ Datetimepicker.propTypes = {
   lang: PropTypes.string.isRequired,
   color: PropTypes.string,
   onModalSubmit: PropTypes.func.isRequired,
-  fontWeights: PropTypes.shape({
-    medium: PropTypes.number.isRequired,
-  }).isRequired,
   serviceTimeRange: PropTypes.number.isRequired,
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
