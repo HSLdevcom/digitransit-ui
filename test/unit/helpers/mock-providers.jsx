@@ -58,49 +58,6 @@ TestRealTimeVehicles.propTypes = {
   vehicles: PropTypes.objectOf(vehicleShape).isRequired,
 };
 
-// Remove when Fluxible is fully replaced
-class LegacyContextProvider extends React.Component {
-  getChildContext() {
-    const ctx = {
-      getStore: this.props.getStore || mockContext.getStore,
-      executeAction: this.props.executeAction || mockContext.executeAction,
-    };
-    // Only provide config/match when explicitly set, so the legacy
-    // context isn't shadowed for components that read it directly.
-    if (this.props.config) {
-      ctx.config = this.props.config;
-    }
-    if (this.props.match) {
-      ctx.match = this.props.match;
-    }
-    if (this.props.router) {
-      ctx.router = this.props.router;
-    }
-    return ctx;
-  }
-
-  render() {
-    return this.props.children;
-  }
-}
-
-LegacyContextProvider.childContextTypes = {
-  config: configShape,
-  match: matchShape,
-  router: routerShape,
-  getStore: PropTypes.func,
-  executeAction: PropTypes.func,
-};
-
-LegacyContextProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-  config: configShape,
-  match: matchShape,
-  router: routerShape,
-  getStore: PropTypes.func,
-  executeAction: PropTypes.func,
-};
-
 // Wraps the component under test with the intl, config, relay and router
 // context providers used by renderWithProviders below.
 export default function TestProviders({
@@ -113,8 +70,6 @@ export default function TestProviders({
   currentTime,
   breakpoint = 'large',
   vehicles,
-  getStore,
-  executeAction,
 }) {
   const routerCtx = useMemo(
     () => ({
@@ -124,28 +79,20 @@ export default function TestProviders({
     [match, router],
   );
   const inner = (
-    <LegacyContextProvider
-      config={config}
-      match={match}
-      router={router}
-      getStore={getStore}
-      executeAction={executeAction}
-    >
-      <ReactRelayContext.Provider value={mockRelayContext}>
-        <RouterContext.Provider value={routerCtx}>
-          <BreakpointContext.Provider value={breakpoint}>
-            <PositionProvider>
-              <RealTimeInformationProvider>
-                {vehicles !== undefined && (
-                  <TestRealTimeVehicles vehicles={vehicles} />
-                )}
-                {children}
-              </RealTimeInformationProvider>
-            </PositionProvider>
-          </BreakpointContext.Provider>
-        </RouterContext.Provider>
-      </ReactRelayContext.Provider>
-    </LegacyContextProvider>
+    <ReactRelayContext.Provider value={mockRelayContext}>
+      <RouterContext.Provider value={routerCtx}>
+        <BreakpointContext.Provider value={breakpoint}>
+          <PositionProvider>
+            <RealTimeInformationProvider>
+              {vehicles !== undefined && (
+                <TestRealTimeVehicles vehicles={vehicles} />
+              )}
+              {children}
+            </RealTimeInformationProvider>
+          </PositionProvider>
+        </BreakpointContext.Provider>
+      </RouterContext.Provider>
+    </ReactRelayContext.Provider>
   );
   return (
     <IntlProvider locale={locale} messages={messages}>
@@ -174,13 +121,11 @@ TestProviders.propTypes = {
   currentTime: PropTypes.number,
   breakpoint: PropTypes.oneOf(['small', 'medium', 'large']),
   vehicles: PropTypes.objectOf(vehicleShape),
-  getStore: PropTypes.func,
-  executeAction: PropTypes.func,
 };
 
 /**
  * @param {React.ReactElement} ui - Component under test
- * @param {{ config?: object, match?: object, router?: object, locale?: string, messages?: object, currentTime?: number, breakpoint?: string, vehicles?: object, getStore?: Function, executeAction?: Function }} opts
+ * @param {{ config?: object, match?: object, router?: object, locale?: string, messages?: object, currentTime?: number, breakpoint?: string, vehicles?: object }} opts
  */
 export function renderWithProviders(ui, opts = {}) {
   const {
@@ -192,8 +137,6 @@ export function renderWithProviders(ui, opts = {}) {
     currentTime,
     breakpoint,
     vehicles,
-    getStore,
-    executeAction,
     ...renderOpts
   } = opts;
   const Wrapper = ({ children }) => (
@@ -206,8 +149,6 @@ export function renderWithProviders(ui, opts = {}) {
       currentTime={currentTime}
       breakpoint={breakpoint}
       vehicles={vehicles}
-      getStore={getStore}
-      executeAction={executeAction}
     >
       {children}
     </TestProviders>

@@ -1,8 +1,5 @@
-import { DateTime } from 'luxon';
 import { mockRouter, mockMatch } from './mock-router';
 import config from '../../../server/configs/config.default';
-
-const noop = () => {};
 
 /**
  * The mockContext can be used as a starting point for building a useful
@@ -11,31 +8,6 @@ const noop = () => {};
  */
 export const mockContext = {
   config: { ...config, language: config.defaultLanguage || 'en' },
-  executeAction: noop,
-  getStore: () => ({
-    on: noop,
-    getCurrentTime: () => DateTime.now(),
-    getLanguage: () => 'en',
-    getLocationState: () => ({
-      type: 'CurrentLocation',
-      lat: undefined,
-      lon: undefined,
-      address: '',
-      status: 'no-location',
-      hasLocation: false,
-      isLocationingInProgress: false,
-      locationingFailed: false,
-    }),
-    getMessages: () => [],
-    getDuplicateMessageCounter: () => 0,
-    getViaPoints: () => [],
-    removeListener: noop,
-    getRoutingSettings: () => ({}),
-    isFavourite: noop,
-    getStatus: () => 'ready',
-    getUser: () => ({}),
-    storeFavourites: noop,
-  }),
   match: mockMatch,
   router: mockRouter,
 };
