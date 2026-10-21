@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { CloseButton, Text } from '@hsl-fi/layout-primitives';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { Button, CloseButton, Text } from '@hsl-fi/layout-primitives';
 
 import {
   mapLayerOptionsShape,
@@ -28,6 +28,7 @@ const sendLayerChangeAnalytic = (name, enable) => {
 };
 
 function MapLayersDialogContent({ mapLayers, mapLayerOptions, setOpen }) {
+  const intl = useIntl();
   const config = useConfigContext();
   const { updateMapLayers } = useMapLayers();
   const geoJson = useGeoJsonObjects(config.geoJson);
@@ -235,6 +236,12 @@ function MapLayersDialogContent({ mapLayers, mapLayerOptions, setOpen }) {
           ))}
         </div>
       )}
+
+      <div className="map-layers-close">
+        <Button variant="primary" size="l" expand onClick={setOpen}>
+          {intl.formatMessage({ id: 'close', defaultMessage: 'Close' })}
+        </Button>
+      </div>
     </Fragment>
   );
 }

@@ -49,7 +49,7 @@ describe('<MapLayersDialogContent />', () => {
     expect(container.querySelector('.map-layer-header')).not.toBeNull();
   });
 
-  it('should call setOpen when the close button is clicked', () => {
+  it('should call setOpen when a close button is clicked', () => {
     const setOpen = vi.fn();
     const { container } = renderMapLayersDialogContent({
       setOpen,
@@ -57,7 +57,8 @@ describe('<MapLayersDialogContent />', () => {
     });
 
     fireEvent.click(container.querySelector('button.panel-close'));
-    expect(setOpen).toHaveBeenCalledTimes(1);
+    fireEvent.click(container.querySelector('.map-layers-close button'));
+    expect(setOpen).toHaveBeenCalledTimes(2);
   });
 
   it('should update the vehicles layer', () => {
