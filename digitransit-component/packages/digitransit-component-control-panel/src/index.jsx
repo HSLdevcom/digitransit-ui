@@ -5,7 +5,6 @@ import NearStopsAndRoutes from './helpers/NearStopsAndRoutes';
 import styles from './helpers/styles.scss';
 import i18n from './helpers/i18n';
 
-const DEFAULT_FONT_WEIGHTS = { medium: 500 };
 const DEFAULT_CHILDREN = [];
 
 function SeparatorLine({ usePaddingBottom20 = false }) {
@@ -28,7 +27,6 @@ SeparatorLine.propTypes = {
  *
  * @param {Object} props
  * @param {string} props.position - 'left' or 'bottom'
- * @param {Object} props.fontWeights - font weights, e.g. { medium: 500 }
  * @param {node} props.children - panel content
  * @example
  * <CtrlPanel language="fi" position="left">
@@ -39,21 +37,12 @@ SeparatorLine.propTypes = {
  *    />
  *  </CtrlPanel>
  */
-function CtrlPanel({
-  children = DEFAULT_CHILDREN,
-  position,
-  fontWeights = DEFAULT_FONT_WEIGHTS,
-}) {
+function CtrlPanel({ children = DEFAULT_CHILDREN, position }) {
   const className =
     position === 'bottom' ? styles['main-bottom'] : styles['main-left'];
   return (
     <I18nextProvider i18n={i18n}>
-      <div
-        className={className}
-        style={{ '--font-weight': fontWeights.medium }}
-      >
-        {children}
-      </div>
+      <div className={className}>{children}</div>
     </I18nextProvider>
   );
 }
@@ -93,9 +82,6 @@ CtrlPanel.SeparatorLine = SeparatorLine;
 CtrlPanel.propTypes = {
   children: PropTypes.node,
   position: PropTypes.string.isRequired,
-  fontWeights: PropTypes.shape({
-    medium: PropTypes.number,
-  }),
 };
 
 export default CtrlPanel;

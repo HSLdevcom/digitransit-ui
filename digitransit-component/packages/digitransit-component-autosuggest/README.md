@@ -26,7 +26,6 @@ An autosuggest search input for finding locations, stops, stations, routes and v
 
 *   `props` **DTAutosuggestProps** 
 
-    *   `props.fontWeights` **[Object][1]**  (optional, default `{medium:500}`)
     *   `props.sources` **[Array][2]<[string][3]>**  (optional, default `[]`)
     *   `props.pathOpts` **[Object][1]**  (optional, default `{routesPrefix:'linjat',stopsPrefix:'pysakit'}`)
     *   `props.refPoint` **[Object][1]**  (optional, default `{}`)
@@ -77,7 +76,6 @@ An autosuggest search input for finding locations, stops, stations, routes and v
 *   `inputClassName` **[string][3]?** 
 *   `translatedPlaceholder` **[string][3]?** 
 *   `required` **[boolean][4]?** 
-*   `fontWeights` **[Object][1]?** 
 *   `colors` **[Object][1]?** 
 *   `modeSet` **[string][3]?** 
 *   `showScroll` **[boolean][4]?** 

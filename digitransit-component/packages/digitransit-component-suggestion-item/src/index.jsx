@@ -60,8 +60,6 @@ function isFavourite(item) {
 
 const noop = () => {};
 
-const DEFAULT_FONT_WEIGHTS = { medium: 500 };
-
 const DEFAULT_AUTO_SUGGEST_ICONS = {
   citybikes: station => {
     const name =
@@ -178,7 +176,6 @@ const SuggestionItem = memo(
     isMobile = false,
     ariaFavouriteString = '',
     fillInput = noop,
-    fontWeights = DEFAULT_FONT_WEIGHTS,
     colors,
     getAutoSuggestIcons = DEFAULT_AUTO_SUGGEST_ICONS,
     modeSet = 'hsl',
@@ -399,7 +396,6 @@ const SuggestionItem = memo(
             [styles.futureroute]: isFutureRoute,
           },
         )}
-        style={{ '--font-weight-medium': fontWeights.medium }}
       >
         {acri}
         {ri}
@@ -439,9 +435,6 @@ SuggestionItem.propTypes = {
   ariaFavouriteString: PropTypes.string,
   loading: PropTypes.bool,
   fillInput: PropTypes.func,
-  fontWeights: PropTypes.shape({
-    medium: PropTypes.number,
-  }),
   getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
   colors: PropTypes.objectOf(PropTypes.string),
   modeSet: PropTypes.string,

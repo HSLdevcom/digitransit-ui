@@ -6,8 +6,6 @@ import debounce from 'lodash/debounce';
 import Datetimepicker from './helpers/Datetimepicker';
 import i18n from './helpers/i18n';
 
-const DEFAULT_FONT_WEIGHTS = { medium: 500 };
-
 /**
  * This component renders an input to choose a date and time. Renders separate input fields for date and time selection. Values for timestamp and arriveBy correspond to Digitransit query params time and arriveBy. This component will display a native date input on mobile and a custom one for desktop. Mobile detection is done by parsing user agent.
  *
@@ -59,7 +57,6 @@ function DatetimepickerStateContainer({
   lang = 'en',
   color = '#007ac9',
   timeZone = 'Europe/Helsinki',
-  fontWeights = DEFAULT_FONT_WEIGHTS,
   serviceTimeRange = 30,
   onOpen,
   onClose,
@@ -185,7 +182,6 @@ function DatetimepickerStateContainer({
         color={color}
         timeZone={timeZone}
         onModalSubmit={onModalSubmit}
-        fontWeights={fontWeights}
         serviceTimeRange={serviceTimeRange}
         onOpen={onOpen}
         onClose={onClose}
@@ -209,9 +205,6 @@ DatetimepickerStateContainer.propTypes = {
   lang: PropTypes.string,
   color: PropTypes.string,
   timeZone: PropTypes.string,
-  fontWeights: PropTypes.shape({
-    medium: PropTypes.number,
-  }),
   serviceTimeRange: PropTypes.number,
   onOpen: PropTypes.func,
   onClose: PropTypes.func,

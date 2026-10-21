@@ -2,7 +2,7 @@
  * Runs two checks against the workspace packages:
  *
  * 1. checkInternalDependencyRanges(): for every workspace package, verifies
- *    that each of its @digitransit-* dependencies/peerDependencies that refers
+ *    that each of its @digitransit-* dependencies/peerDependencies/devDependencies that refers
  *    to another workspace package is declared as exactly "workspace:^".
  *    `lerna version` only rewrites/cascades an internal cross-reference when it
  *    uses the workspace: protocol (see getLocalDependency in lerna's source);
@@ -68,9 +68,9 @@ function lernaLs(extraArgs) {
 const REQUIRED_INTERNAL_SPEC = 'workspace:^';
 
 // Checks that every workspace package references its sibling @digitransit-*
-// workspace packages via exactly "workspace:^" in dependencies/peerDependencies.
-// devDependencies are intentionally excluded: they don't affect published
-// consumers, and lerna doesn't cascade through them.
+// workspace packages via exactly "workspace:^" in dependencies/peerDependencies/
+// devDependencies. devDependencies are included because query-utils relies on
+// its devDependency on the private schema package to be bumped with the schema.
 function checkInternalDependencyRanges() {
   const allPackages = lernaLs([]);
   const workspacePackageNames = new Set(allPackages.map(pkg => pkg.name));
@@ -82,28 +82,30 @@ function checkInternalDependencyRanges() {
     const packageJsonPath = join(packageDir, 'package.json');
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
 
-    ['dependencies', 'peerDependencies'].forEach(depField => {
-      const deps = packageJson[depField] || {};
+    ['dependencies', 'peerDependencies', 'devDependencies'].forEach(
+      depField => {
+        const deps = packageJson[depField] || {};
 
-      Object.entries(deps).forEach(([depName, spec]) => {
-        // Only sibling workspace packages are relevant. An external scoped
-        // dependency that merely shares the @digitransit- prefix is skipped.
-        if (!workspacePackageNames.has(depName)) {
-          return;
-        }
+        Object.entries(deps).forEach(([depName, spec]) => {
+          // Only sibling workspace packages are relevant. An external scoped
+          // dependency that merely shares the @digitransit- prefix is skipped.
+          if (!workspacePackageNames.has(depName)) {
+            return;
+          }
 
-        if (spec !== REQUIRED_INTERNAL_SPEC) {
-          failures.push({ name: pkg.name, depField, depName, spec });
+          if (spec !== REQUIRED_INTERNAL_SPEC) {
+            failures.push({ name: pkg.name, depField, depName, spec });
 
-          console.error(
-            red(
-              `✗ ${pkg.name}: ${depField} "${depName}": "${spec}" must be ` +
-                `"${REQUIRED_INTERNAL_SPEC}"`,
-            ),
-          );
-        }
-      });
-    });
+            console.error(
+              red(
+                `✗ ${pkg.name}: ${depField} "${depName}": "${spec}" must be ` +
+                  `"${REQUIRED_INTERNAL_SPEC}"`,
+              ),
+            );
+          }
+        });
+      },
+    );
   });
 
   if (failures.length > 0) {
@@ -177,12 +179,6 @@ function checkOwnVersionBumps(base) {
     const packageJsonPath = join(packageDir, 'package.json');
 
     const currentPackage = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
-
-    // Optional: don't require bumps for private packages
-    if (currentPackage.private) {
-      console.log(green(`✓ ${pkg.name}: private package, skipping`));
-      return;
-    }
 
     const previousPackageJson = gitShow(base, packageJsonPath);
 

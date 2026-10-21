@@ -2,6 +2,16 @@
 
 Navigation in digitransit-ui should, whenever possible, adhere to the [Material Design guidelines](https://material.io/guidelines/patterns/navigation.html#navigation-up-back-buttons). Read that document first to get an idea of the concept and terminology.
 
+## Itinerary search lifecycle
+
+Changing itinerary search inputs invalidates pending requests from the previous
+search. Late results and errors must not update the view or trigger further
+query iterations. This also applies to alternative plans and earlier/later
+requests, and pending results are ignored when the itinerary page unmounts.
+
+Unmounting the itinerary page always stops its MQTT client, including subscriptions
+started by the navigator, regardless of whether itinerary vehicles are displayed.
+
 ## Application view hierarchy
 
 ![Hierarchy](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/hierarchy.png)

@@ -80,4 +80,49 @@ describe('Testing @digitransit-component/digitransit-component-autosuggest-panel
     // land before the test ends and unmounts the component.
     await waitFor(() => expect(axios.get).toHaveBeenCalled());
   });
+
+  describe('via points', () => {
+    const viaPoint = { address: 'Kamppi, Helsinki', lat: 60.17, lon: 24.93 };
+
+    it('shows a placeholder field when a via point is added', () => {
+      renderPanel({ showViapointControl: true, viaPoints: [] });
+      expect(document.getElementById('via-point')).toBeNull();
+
+      fireEvent.click(screen.getByRole('button', { name: 'Add via point' }));
+
+      expect(document.getElementById('via-point')).not.toBeNull();
+    });
+
+    it('notifies the parent when a via point is removed', () => {
+      const updateViaPoints = vi.fn();
+      renderPanel({
+        showViapointControl: true,
+        showSlackControl: true,
+        viaPoints: [{ ...viaPoint }],
+        updateViaPoints,
+      });
+
+      fireEvent.click(
+        screen.getByRole('button', { name: 'Remove via point 1' }),
+      );
+
+      expect(updateViaPoints).toHaveBeenCalledWith([]);
+    });
+
+    it('reverses the via points and calls swapOrder', () => {
+      const swapOrder = vi.fn();
+      const viaPoints = [viaPoint, { ...viaPoint, address: 'Pasila' }];
+      renderPanel({ showSwapControl: true, viaPoints, swapOrder });
+
+      fireEvent.click(
+        screen.getByRole('button', { name: 'Reverse origin and destination' }),
+      );
+
+      expect(swapOrder).toHaveBeenCalledOnce();
+      expect(viaPoints.map(vp => vp.address)).toEqual([
+        'Pasila',
+        'Kamppi, Helsinki',
+      ]);
+    });
+  });
 });

@@ -55,6 +55,44 @@ describe('<VehicleMarkerContainer />', () => {
       );
       expect(addLayer.mock.calls.length).toBe(1);
     });
+
+    it.each([0, 1])('filters vehicles for direction %i', direction => {
+      const addLayer = vi.fn();
+      const setVisibleVehicles = vi.fn();
+      renderWithProviders(
+        <LeafletProvider
+          value={{ layerContainer: { addLayer, removeLayer: () => {} } }}
+        >
+          <VehicleMarkerContainer
+            {...defaultProps}
+            direction={direction}
+            topics={[{ gtfsId: 'tampere:2' }]}
+            vehicles={{
+              ...defaultProps.vehicles,
+              reverseBus: {
+                ...defaultProps.vehicles.tampereBus,
+                id: 'reverseBus',
+                direction: 1,
+              },
+            }}
+            setVisibleVehicles={setVisibleVehicles}
+          />
+        </LeafletProvider>,
+        {
+          config: {
+            ...mockContext.config,
+            realTime: {
+              tampere: {},
+            },
+          },
+        },
+      );
+
+      expect(addLayer).toHaveBeenCalledTimes(1);
+      expect(setVisibleVehicles).toHaveBeenCalledWith([
+        direction === 0 ? 'tampereBus' : 'reverseBus',
+      ]);
+    });
   });
 
   describe('shouldShowVehicle', () => {

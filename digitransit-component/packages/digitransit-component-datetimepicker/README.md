@@ -27,7 +27,6 @@ This component renders an input to choose a date and time. Renders separate inpu
     *   `props.openPicker` **[function][4]** Determine if timepicker should be open in intial render. Optional. Default is undefined.
     *   `props.color`   (optional, default `'#007ac9'`)
     *   `props.timeZone`   (optional, default `'Europe/Helsinki'`)
-    *   `props.fontWeights`   (optional, default `DEFAULT_FONT_WEIGHTS`)
 
 ### Examples
 

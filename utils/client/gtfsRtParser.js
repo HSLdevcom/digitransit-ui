@@ -20,13 +20,7 @@ export const parseFeedMQTT = (feedParser, data, topic) => {
     tripId,
     stopId,
     startTime,
-    vehicleId,
-    geoHashDeg1,
-    geoHashDeg2,
-    geoHashDeg3,
-    geoHashDeg4,
-    shortName,
-    color,
+    ...vehicleAndSuffix
   ] = topic.split('/');
   const messages = [];
   feed.entity.forEach(entity => {
@@ -34,6 +28,24 @@ export const parseFeedMQTT = (feedParser, data, topic) => {
     if (vehiclePos) {
       const { trip, position } = vehiclePos;
       if (trip && position) {
+        // A vehicle ID may span several MQTT levels, e.g. Matka's "50/325".
+        const vehicleIdParts = vehiclePos.vehicle?.id?.split('/') || [];
+        const vehicleIdLength =
+          vehicleIdParts.length > 0 &&
+          vehicleIdParts.every(
+            (part, index) => vehicleAndSuffix[index] === part,
+          )
+            ? vehicleIdParts.length
+            : 1;
+        const vehicleId = vehicleAndSuffix.slice(0, vehicleIdLength).join('/');
+        const [
+          geoHashDeg1,
+          geoHashDeg2,
+          geoHashDeg3,
+          geoHashDeg4,
+          shortName,
+          color,
+        ] = vehicleAndSuffix.slice(vehicleIdLength);
         const message = {
           id: `${feedId}:${vehicleId}`,
           route: `${feedId}:${routeId}`,

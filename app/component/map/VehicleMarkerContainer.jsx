@@ -92,7 +92,7 @@ export default function VehicleMarkerContainer({
     const desc = routeId ? topics?.find(t => t.route === routeId) : undefined;
     return shouldShowVehicle(
       message,
-      direction || desc?.direction,
+      direction ?? desc?.direction,
       desc?.tripStart,
       pattern,
       ignoreHeadsign ? undefined : headsign,
