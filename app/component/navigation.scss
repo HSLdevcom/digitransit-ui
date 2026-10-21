@@ -303,9 +303,7 @@ $content-background-color: $background-color;
 
 .main-menu {
   outline: none;
-  padding: 0;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 56px 20px 0;
   color: $theme-primary-color;
   height: 100%;
   overflow-y: auto;
@@ -358,12 +356,6 @@ $content-background-color: $background-color;
     }
   }
 
-  .close-button {
-    padding: 15px 0;
-    float: right;
-    background: none;
-  }
-
   button.noborder {
     @include font-medium;
   }
@@ -398,16 +390,6 @@ $content-background-color: $background-color;
     font-weight: $font-weight-book;
     color: black;
     margin-top: 30px;
-  }
-
-  .main-menu-top-section {
-    display: flex;
-    float: right;
-    margin-top: 1em;
-
-    .noborder {
-      margin-right: 10px;
-    }
   }
 }
 
@@ -445,6 +427,13 @@ $content-background-color: $background-color;
     rgba(0, 0, 0, 0.23) 0 3px 10px;
   transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1);
   transform: translate(100%, 0);
+}
+
+.menu-drawer-close {
+  position: absolute;
+  right: 20px;
+  top: 12px;
+  z-index: 1;
 }
 
 .menu-content-close {

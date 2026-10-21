@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Button, CloseButton, Text } from '@hsl-fi/layout-primitives';
+import { Button, Text } from '@hsl-fi/layout-primitives';
 
 import {
   mapLayerOptionsShape,
@@ -46,12 +46,6 @@ function MapLayersDialogContent({ mapLayers, mapLayerOptions, setOpen }) {
 
   return (
     <Fragment>
-      <CloseButton
-        className="panel-close"
-        lang={config.language}
-        onClick={setOpen}
-      />
-
       <Text variant="heading-s" as="h2" className="map-layer-header">
         <FormattedMessage id="select-map-layers-header" />
       </Text>

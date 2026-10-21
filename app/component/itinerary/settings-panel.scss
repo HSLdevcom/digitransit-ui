@@ -14,14 +14,6 @@
     margin-top: 50px;
   }
 
-  // Keeps the button above the full-width header so it receives hover.
-  .panel-close {
-    z-index: 1;
-    position: absolute;
-    right: 20px;
-    top: 12px;
-  }
-
   // Design system checkboxes have no vertical spacing of their own.
   .checkbox-grouping > div {
     margin: 1em 0;
