@@ -37,13 +37,22 @@ const PatternRedirector = ({ route }) => {
   const path = routePagePath(
     routeId,
     type || PREFIX_STOPS,
-    pattern.code || `${routeId}:0:01`,
+    pattern?.code || `${routeId}:0:01`,
   );
 
   useEffect(() => {
     router.replace(path);
   }, [router, path]);
 
+  return null;
+};
+
+PatternRedirector.propTypes = {
+  route: routeShape.isRequired,
+};
+
+const PatternRedirectorGuard = ({ route = null }) => {
+  const { match } = useRouter();
   if (!route) {
     const oldSearchItems = getOldSearchItems();
     const oldItem = oldSearchItems.filter(
@@ -64,14 +73,14 @@ const PatternRedirector = ({ route }) => {
     }
     return <Error404 />;
   }
-  return null;
+  return <PatternRedirector route={route} />;
 };
 
-PatternRedirector.propTypes = {
+PatternRedirectorGuard.propTypes = {
   route: routeShape,
 };
 
-const containerComponent = createFragmentContainer(PatternRedirector, {
+const containerComponent = createFragmentContainer(PatternRedirectorGuard, {
   route: graphql`
     fragment PatternRedirector_route on Route
     @argumentDefinitions(date: { type: "String" }) {
