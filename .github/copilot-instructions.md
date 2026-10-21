@@ -1,6 +1,6 @@
 # Digitransit-ui Copilot Instructions
 
-Digitransit-ui is a React (Context/hooks + Relay/GraphQL) journey-planning web app used by multiple
+Digitransit-ui is a React (Relay/GraphQL) journey-planning web app used by multiple
 regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `CONFIG` env var.
 
 ## Directory structure
@@ -8,7 +8,7 @@ regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `C
 Directories reflect a server/client/shared split (see "Server/client boundary" below) — pick the
 right one by *who consumes the code*, not just by convenience.
 
-- `app/` — client-bundle-only React app (Views/Containers + route trees):
+- `app/` — client-bundle-only React app (React components + route trees):
   - `client/` — browser entry & bootstrap: `client.jsx` (browser entry, farce/found router
     bootstrap, `AppProviders`), `publicPath.js` / `loadDevTheme.js` (extra webpack entry
     modules), `i18n.js`, `ConfigContext.jsx` (`useConfigContext` for config).
@@ -148,18 +148,11 @@ from before touching it:
   `__generated__/` folder, e.g. `app/routes/__generated__` (do not hand-edit generated files; edit
   `.js`/route files and rerun relay-compiler via `yarn dev` or `yarn relay`).
 - **React Context + hooks** — everything else (config, app/UI state, favourites, position, ...),
-  with providers in `app/hooks/`. Fluxible has been removed — don't reintroduce Flux-style
-  stores/actions or `connectToStores` HOCs.
+  with providers in `app/hooks/`.
 
-Three component categories (naming is meaningful, not just style — follow it for new files):
-
-- **Views** — stateless, props-in/JSX-out, only render DOM elements or other Views. No store or
-  relay references, no internal state.
-- **RelayConnectors** — wrap a pure view with a Relay container/fragment. Convention: default
-  export is the pure view, named export is `<View>RelayConnector` (or split into two files); the
-  view itself should fall back to rendering without `props.relay` if relay data isn't present.
-- **Containers** — compose Views/other Containers only (no raw DOM), doing data transformation.
-  Name must include `Container`.
+Some components still follow a View / RelayConnector / Container split (files named
+`*Container`, `<View>RelayConnector` exports). We are moving away from this pattern: prefer
+function components that fetch data and manage state with hooks.
 
 Other structural notes:
 
