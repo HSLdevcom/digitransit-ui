@@ -64,7 +64,6 @@ class SearchContext {
       ? config.search.minimalRegexp
       : undefined;
     this.lineRegexp = config.search ? config.search.lineRegexp : undefined;
-    this.showStopStatusMarkers = !!config.showStopStatusMarkers;
     this.URL_PELIAS = config.URL.PELIAS;
     this.URL_PELIAS_PLACE = config.URL.PELIAS_PLACE;
     // FeedId's like  [HSL, HSLLautta]
