@@ -41,6 +41,7 @@ import searchContext from '../data/SearchContext';
 import { ConfigProvider } from './ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
 import { MapLayerProvider } from '../hooks/MapLayerContext';
+import { PositionProvider } from '../hooks/PositionContext';
 import { MessageProvider } from '../hooks/MessageContext';
 import { TimeProvider } from '../hooks/TimeContext';
 import { ItineraryLocationProvider } from '../hooks/ItineraryLocationContext';
@@ -72,6 +73,7 @@ const AppProviders = props => {
     [MessageProvider],
     [FavouriteProvider],
     [MapLayerProvider],
+    [PositionProvider],
     [TimeProvider],
     [ItineraryLocationProvider],
   ];
@@ -187,7 +189,7 @@ async function init() {
 
   // fetch Userdata and favourites
   favouriteStore.init(config);
-  searchContext.init(context.getComponentContext(), config);
+  searchContext.init(config);
   if (config.allowLogin) {
     getUser()
       .then(user => {

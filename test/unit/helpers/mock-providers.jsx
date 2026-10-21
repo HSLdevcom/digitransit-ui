@@ -11,6 +11,7 @@ import {
 } from '../../../utils/client/shapes';
 import { ConfigProvider } from '../../../app/client/ConfigContext';
 import { MapLayerProvider } from '../../../app/hooks/MapLayerContext';
+import { PositionProvider } from '../../../app/hooks/PositionContext';
 import { TimeProvider, TimeContext } from '../../../app/hooks/TimeContext';
 import translations from '../../../app/translations/en';
 import { mockContext } from './mock-context';
@@ -111,7 +112,7 @@ export default function TestProviders({
     >
       <ReactRelayContext.Provider value={mockRelayContext}>
         <RouterContext.Provider value={routerCtx}>
-          {children}
+          <PositionProvider>{children}</PositionProvider>
         </RouterContext.Provider>
       </ReactRelayContext.Provider>
     </LegacyContextProvider>

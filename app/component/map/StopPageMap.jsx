@@ -1,18 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useContext, useState, useRef } from 'react';
-import { connectToStores } from 'fluxible-addons-react';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import { useMatch } from 'found';
-import { locationShape } from '../../../utils/client/shapes';
 import { getSettings } from '../../../utils/client/planParamUtil';
-import PositionStore from '../../store/PositionStore';
 import { useMapLayers } from '../../hooks/MapLayerContext';
+import { usePosition } from '../../hooks/PositionContext';
 import MapWithTracking from './MapWithTracking';
 import SelectedStopPopup from './popups/SelectedStopPopup';
 import SelectedStopPopupContent from '../SelectedStopPopupContent';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import BackButton from '../BackButton';
 import ItineraryLine from './ItineraryLine';
@@ -23,6 +20,7 @@ import CookieSettingsButton from '../CookieSettingsButton';
 import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../../utils/shared/path';
 import { streetQuery } from './StreetQuery';
 import { useConfigContext } from '../../client/ConfigContext';
+import { useBreakpoint } from '../../../utils/client/withBreakpoint';
 import { STOP_STATUS } from '../../../utils/client/stopStatusUtils';
 
 const getModeFromProps = props => {
@@ -45,15 +43,10 @@ const getModeFromProps = props => {
 };
 
 function StopPageMap(props) {
-  const {
-    stop,
-    breakpoint,
-    locationState,
-    stopName,
-    stopStatus,
-    stopAlertEffects,
-  } = props;
+  const { stop, stopName, stopStatus, stopAlertEffects } = props;
   const config = useConfigContext();
+  const locationState = usePosition();
+  const breakpoint = useBreakpoint();
   // if the stop is not a gtfs transit stop, disable vehicles
   const shouldShowVehicles = config.showVehiclesOnStopPage && stop.gtfsId;
   const mapLayerOverrides = shouldShowVehicles
@@ -217,8 +210,6 @@ StopPageMap.propTypes = {
     platformCode: PropTypes.string,
     gtfsId: PropTypes.string,
   }),
-  breakpoint: PropTypes.string.isRequired,
-  locationState: locationShape.isRequired,
   citybike: PropTypes.bool,
   parkType: PropTypes.string,
   scooter: PropTypes.bool,
@@ -227,17 +218,4 @@ StopPageMap.propTypes = {
   stopAlertEffects: PropTypes.arrayOf(PropTypes.string),
 };
 
-const componentWithBreakpoint = withBreakpoint(StopPageMap);
-
-const StopPageMapWithStores = connectToStores(
-  componentWithBreakpoint,
-  [PositionStore],
-  ({ getStore }) => ({
-    locationState: getStore(PositionStore).getLocationState(),
-  }),
-);
-
-export {
-  StopPageMapWithStores as default,
-  componentWithBreakpoint as Component,
-};
+export default StopPageMap;

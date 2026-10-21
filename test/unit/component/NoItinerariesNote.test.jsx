@@ -3,7 +3,7 @@ import React from 'react';
 import { mockContext } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
 import translations from '../../../app/translations/en';
-import { Component as NoItinerariesNote } from '../../../app/component/itinerary/NoItinerariesNote';
+import NoItinerariesNote from '../../../app/component/itinerary/NoItinerariesNote';
 import { PlannerMessageType } from '../../../utils/shared/constants';
 
 const TestLocation = {
@@ -60,16 +60,6 @@ mockContext.config = {
 };
 
 const defaultProps = {
-  locationState: {
-    type: 'CurrentLocation',
-    lat: 0,
-    lon: 0,
-    status: 'no-location',
-    hasLocation: false,
-    isLocationingInProgress: false,
-    isReverseGeocodingInProgress: false,
-    locationingFailed: false,
-  },
   error: undefined,
   from: {},
   to: {},
