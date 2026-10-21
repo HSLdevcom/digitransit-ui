@@ -58,9 +58,68 @@ function isFavourite(item) {
   return item.type?.includes('Favourite');
 }
 
-const noop = () => {};
+export const STOP_STATUS = {
+  OUT_OF_SERVICE: 'out-of-service',
+  NO_SERVICE_TODAY: 'no-service-today',
+  ALERT: 'alert',
+  INFO: 'info',
+};
 
-const DEFAULT_FONT_WEIGHTS = { medium: 500 };
+/** Maps each STOP_STATUS value to the sprite id of its corner badge icon. */
+export const STOP_STATUS_BADGE_IMGS = {
+  [STOP_STATUS.OUT_OF_SERVICE]: 'icon_stop-closed-badge',
+  [STOP_STATUS.ALERT]: 'icon_caution-badge',
+  [STOP_STATUS.INFO]: 'icon_info-circled-badge',
+  [STOP_STATUS.NO_SERVICE_TODAY]: 'icon_stop-temporarily-closed-badge',
+};
+
+// Layers eligible for a stop status badge in search suggestions.
+const STATUS_LAYERS = new Set([
+  'stop',
+  'favouriteStop',
+  'station',
+  'favouriteStation',
+]);
+
+function hasGtfsId(item) {
+  return !!(
+    item.properties?.gtfsId ||
+    item.gtfsId ||
+    item.properties?.gid?.includes('GTFS:')
+  );
+}
+
+/**
+ * Resolves the sprite id of the stop status badge shown on a suggestion's
+ * icon, based on the item's geocoding `addendum.GTFS` metadata.
+ *
+ * @param {object} item a search suggestion item
+ * @returns {string|null} a badge sprite id, or null when no badge applies
+ */
+export function getStopBadge(item) {
+  if (!STATUS_LAYERS.has(item.properties?.layer)) {
+    return null;
+  }
+  if (!hasGtfsId(item)) {
+    return null;
+  }
+  const gtfs = item.properties?.addendum?.GTFS;
+  if (gtfs?.noService) {
+    return STOP_STATUS_BADGE_IMGS[STOP_STATUS.OUT_OF_SERVICE];
+  }
+  if (gtfs?.noServiceToday) {
+    return STOP_STATUS_BADGE_IMGS[STOP_STATUS.NO_SERVICE_TODAY];
+  }
+  if (
+    gtfs?.alertSeverity === STOP_STATUS.ALERT ||
+    gtfs?.alertSeverity === STOP_STATUS.INFO
+  ) {
+    return STOP_STATUS_BADGE_IMGS[gtfs.alertSeverity];
+  }
+  return null;
+}
+
+const noop = () => {};
 
 const DEFAULT_AUTO_SUGGEST_ICONS = {
   citybikes: station => {
@@ -168,6 +227,7 @@ function hasVehicleStationCode(stationId) {
  *    item={suggestionObject}
  *    content={['Pysäkki', 'Kuusitie', 'Helsinki', 'H1923']}
  *    loading={false}
+ *    showStopStatusMarkers={true}
  * />
  */
 const SuggestionItem = memo(
@@ -178,10 +238,10 @@ const SuggestionItem = memo(
     isMobile = false,
     ariaFavouriteString = '',
     fillInput = noop,
-    fontWeights = DEFAULT_FONT_WEIGHTS,
     colors,
     getAutoSuggestIcons = DEFAULT_AUTO_SUGGEST_ICONS,
     modeSet = 'hsl',
+    showStopStatusMarkers = false,
   }) => {
     const [suggestionType, name, label, stopCode, modes, platform] =
       content || ['', item.name, item.address];
@@ -211,9 +271,18 @@ const SuggestionItem = memo(
     // It fills the input field.
     const [arrowClicked, setArrowClicked] = useState(false);
 
+    const stopStatusBadge = showStopStatusMarkers ? getStopBadge(item) : null;
     const icon = (
-      <span className={styles[iconId]}>
+      <span
+        className={`${styles['suggestion-icon-wrapper']} ${styles[iconId]}`}
+      >
         <Icon color={iconColor} img={iconId} />
+        {stopStatusBadge && (
+          <Icon
+            img={stopStatusBadge}
+            className={styles['suggestion-status-badge']}
+          />
+        )}
       </span>
     );
     let ariaParts;
@@ -399,7 +468,6 @@ const SuggestionItem = memo(
             [styles.futureroute]: isFutureRoute,
           },
         )}
-        style={{ '--font-weight-medium': fontWeights.medium }}
       >
         {acri}
         {ri}
@@ -439,12 +507,10 @@ SuggestionItem.propTypes = {
   ariaFavouriteString: PropTypes.string,
   loading: PropTypes.bool,
   fillInput: PropTypes.func,
-  fontWeights: PropTypes.shape({
-    medium: PropTypes.number,
-  }),
   getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
   colors: PropTypes.objectOf(PropTypes.string),
   modeSet: PropTypes.string,
+  showStopStatusMarkers: PropTypes.bool,
 };
 
 export default SuggestionItem;

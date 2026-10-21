@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { memo, useEffect, useRef, useState } from 'react';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { useIntl } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
@@ -9,14 +8,13 @@ import {
   mapLayerOptionsShape,
   mapLayerShape,
 } from '../../../utils/client/shapes';
-import { startLocationWatch } from '../../action/PositionActions';
 import MapContainer from './MapContainer';
 import MapControlButton from './MapControlButton';
-import PositionStore from '../../store/PositionStore';
 import MapLayersDialogContent from './MapLayersDialogContent';
 import MenuDrawer from '../MenuDrawer';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../utils/client/withBreakpoint';
 import { useConfigContext } from '../../client/ConfigContext';
+import { usePosition, usePositionActions } from '../../hooks/PositionContext';
 
 const onlyUpdateCoordChanges = (prevProps, nextProps) =>
   prevProps.lat === nextProps.lat &&
@@ -52,38 +50,36 @@ export const getForcedLayersFromMapLayerOptions = mapLayerOptions => {
   return forcedLayers;
 };
 
-function MapWithTrackingStateHandler(
-  {
-    lat,
-    lon,
-    zoom,
-    position,
-    bounds,
-    children,
-    renderCustomButtons,
-    mapLayers,
-    mapLayerOptions = null,
-    mapTracking,
-    locationPopup,
-    onSelectLocation = () => null,
-    onStartNavigation,
-    onEndNavigation,
-    onMapTracking,
-    setMWTRef,
-    mapRef,
-    // eslint-disable-next-line react/prop-types
-    leafletEvents = {},
-    breakpoint,
-    topButtons = null,
-    showControls = true,
-    ...rest
-  },
-  context,
-) {
+export default function MapWithTracking({
+  lat,
+  lon,
+  zoom,
+  bounds,
+  children,
+  renderCustomButtons,
+  mapLayers,
+  mapLayerOptions = null,
+  mapTracking,
+  locationPopup,
+  onSelectLocation = () => null,
+  onStartNavigation,
+  onEndNavigation,
+  onMapTracking,
+  setMWTRef,
+  mapRef,
+  // eslint-disable-next-line react/prop-types
+  leafletEvents = {},
+  topButtons = null,
+  showControls = true,
+  ...rest
+}) {
   const config = useConfigContext();
   const intl = useIntl();
   const [mapTrackingState, setMapTrackingState] = useState(mapTracking);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const position = usePosition();
+  const { startLocationWatch } = usePositionActions();
+  const breakpoint = useBreakpoint();
 
   // Mutable, render-time-only bookkeeping that previously lived on the class
   // instance. These do not need to trigger re-renders when changed.
@@ -115,7 +111,7 @@ function MapWithTrackingStateHandler(
 
   const enableMapTracking = () => {
     if (!position.hasLocation) {
-      context.executeAction(startLocationWatch);
+      startLocationWatch();
     }
     if (!mapTrackingState) {
       // enabling tracking will trigger same navigation events as user navigation
@@ -347,20 +343,10 @@ function MapWithTrackingStateHandler(
   );
 }
 
-MapWithTrackingStateHandler.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-};
-
-MapWithTrackingStateHandler.propTypes = {
+MapWithTracking.propTypes = {
   lat: PropTypes.number,
   lon: PropTypes.number,
   zoom: PropTypes.number,
-  position: PropTypes.shape({
-    hasLocation: PropTypes.bool.isRequired,
-    locationingFailed: PropTypes.bool,
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
-  }).isRequired,
   bounds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   children: PropTypes.arrayOf(PropTypes.node),
   leafletObjs: PropTypes.arrayOf(PropTypes.node),
@@ -377,21 +363,6 @@ MapWithTrackingStateHandler.propTypes = {
   mapRef: PropTypes.func,
   // eslint-disable-next-line
   leafletEvents: PropTypes.object,
-  breakpoint: PropTypes.string.isRequired,
   topButtons: PropTypes.node,
   showControls: PropTypes.bool,
 };
-
-const MapWithTrackingStateHandlerapWithBreakpoint = withBreakpoint(
-  MapWithTrackingStateHandler,
-);
-
-const MapWithTracking = connectToStores(
-  MapWithTrackingStateHandlerapWithBreakpoint,
-  [PositionStore],
-  ({ getStore }) => ({
-    position: getStore(PositionStore).getLocationState(),
-  }),
-);
-
-export { MapWithTracking as default, MapWithTrackingStateHandler as Component };

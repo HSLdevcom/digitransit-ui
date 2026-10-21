@@ -11,10 +11,7 @@ import get from 'lodash/get';
 import isString from 'lodash/isString';
 import isEmpty from 'lodash/isEmpty';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
-import {
-  startRealTimeClient,
-  stopRealTimeClient,
-} from '../../action/realTimeClientAction';
+import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
 import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
@@ -28,7 +25,7 @@ const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/
 const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon_plus"/></svg>`;
 const EXTRA_PADDING = 100;
 
-const startClient = (context, config) => {
+const startClient = (actions, config) => {
   const { realTime } = config;
   let feedId;
   /* handle multiple feedid case */
@@ -46,7 +43,7 @@ const startClient = (context, config) => {
         .filter(f => realTime[f]?.active)
         .map(f => ({ feedId: f })),
     };
-    context.executeAction(startRealTimeClient, rtConfig);
+    actions.start(rtConfig);
   }
 };
 
@@ -54,30 +51,28 @@ const onPopupopen = () => events.emit('popupOpened');
 
 const DEFAULT_MAP_LAYERS = { geoJson: {} };
 
-export default function Map(
-  {
-    animate = true,
-    lat,
-    lon,
-    zoom,
-    bounds,
-    leafletEvents,
-    leafletObjs,
-    leafletMapRef,
-    mapLayerRef,
-    bottomPadding,
-    bottomButtons,
-    topButtons,
-    geoJson,
-    mapLayers = DEFAULT_MAP_LAYERS,
-    breakpoint,
-    locationPopup,
-    onSelectLocation,
-    ...rest
-  },
-  context,
-) {
+export default function Map({
+  animate = true,
+  lat,
+  lon,
+  zoom,
+  bounds,
+  leafletEvents,
+  leafletObjs,
+  leafletMapRef,
+  mapLayerRef,
+  bottomPadding,
+  bottomButtons,
+  topButtons,
+  geoJson,
+  mapLayers = DEFAULT_MAP_LAYERS,
+  breakpoint,
+  locationPopup,
+  onSelectLocation,
+  ...rest
+}) {
   const config = useConfigContext();
+  const realTime = useRealTimeActions();
   const intl = useIntl();
 
   const [ownZoom, setOwnZoom] = useState(14);
@@ -106,19 +101,10 @@ export default function Map(
   useEffect(() => {
     updateZoom();
     if (mapLayers.vehicles) {
-      startClient(context, config);
-    } else {
-      const { client } = context.getStore('RealTimeInformationStore');
-      if (client) {
-        context.executeAction(stopRealTimeClient, client);
-      }
+      startClient(realTime, config);
+      return () => realTime.stop();
     }
-    return () => {
-      const { client } = context.getStore('RealTimeInformationStore');
-      if (client) {
-        context.executeAction(stopRealTimeClient, client);
-      }
-    };
+    return undefined;
   }, [mapLayers.vehicles]);
 
   useEffect(() => {
@@ -322,9 +308,4 @@ Map.propTypes = {
   breakpoint: PropTypes.string,
   locationPopup: PropTypes.string,
   onSelectLocation: PropTypes.func,
-};
-
-Map.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-  getStore: PropTypes.func,
 };

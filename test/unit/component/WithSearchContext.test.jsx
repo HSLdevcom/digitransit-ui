@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { onTestFinished } from 'vitest';
-import { act, fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { withSearchContext } from '../../../app/component/WithSearchContext';
-import searchContext from '../../../app/data/SearchContext';
 import { renderWithProviders } from '../helpers/mock-providers';
 
 function Stub({ onSelect, item }) {
@@ -18,9 +17,6 @@ Stub.propTypes = {
   item: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-// Stub exposing two separate selections for the same ('origin') field, so a
-// test can trigger a geolocation lookup and then pick a different, manual
-// location for that field before the lookup resolves.
 function TwoChoiceStub({ onSelect, geolocationItem, manualItem }) {
   return (
     <>
@@ -39,22 +35,78 @@ TwoChoiceStub.propTypes = {
   manualItem: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
-// Minimal PositionStore whose change listener can be fired from the test
-const createPositionStore = () => {
-  let listener;
-  let locationState = { type: 'CurrentLocation', status: 'no-location' };
-  return {
-    on: (event, cb) => {
-      listener = cb;
+function mockGeolocation() {
+  let positionCallback;
+  const permissionsDescriptor = Object.getOwnPropertyDescriptor(
+    navigator,
+    'permissions',
+  );
+  const geolocationDescriptor = Object.getOwnPropertyDescriptor(
+    navigator,
+    'geolocation',
+  );
+  const watchPosition = vi.fn(callback => {
+    positionCallback = callback;
+    return 1;
+  });
+
+  Object.defineProperty(navigator, 'permissions', {
+    configurable: true,
+    value: {
+      query: vi.fn().mockResolvedValue({ state: 'prompt' }),
     },
-    removeListener: () => {},
-    getLocationState: () => locationState,
-    emit: newState => {
-      locationState = newState;
-      act(() => listener());
+  });
+  Object.defineProperty(navigator, 'geolocation', {
+    configurable: true,
+    value: {
+      watchPosition,
+      clearWatch: vi.fn(),
+    },
+  });
+  vi.stubGlobal(
+    'fetch',
+    vi.fn().mockResolvedValue({
+      json: () => ({
+        features: [
+          {
+            properties: {
+              name: 'Kamppi',
+              gid: 'address-id',
+              layer: 'address',
+              localadmin: 'Helsinki',
+            },
+          },
+        ],
+      }),
+    }),
+  );
+  onTestFinished(() => {
+    if (permissionsDescriptor) {
+      Object.defineProperty(navigator, 'permissions', permissionsDescriptor);
+    } else {
+      delete navigator.permissions;
+    }
+    if (geolocationDescriptor) {
+      Object.defineProperty(navigator, 'geolocation', geolocationDescriptor);
+    } else {
+      delete navigator.geolocation;
+    }
+    vi.unstubAllGlobals();
+  });
+
+  return {
+    watchPosition,
+    emitPosition: async () => {
+      await act(async () => {
+        positionCallback({
+          coords: { latitude: 60.17, longitude: 24.94 },
+        });
+        await Promise.resolve();
+        await Promise.resolve();
+      });
     },
   };
-};
+}
 
 describe('withSearchContext', () => {
   it('labels an embedded current location selection with a translated text', () => {
@@ -78,18 +130,10 @@ describe('withSearchContext', () => {
     );
   });
 
-  it('selects the current location once positioning resolves', () => {
-    // SearchContext is only initialized by the client bootstrap
-    const startLocationWatch = () => {};
-    const original = searchContext.startLocationWatch;
-    searchContext.startLocationWatch = startLocationWatch;
-    onTestFinished(() => {
-      searchContext.startLocationWatch = original;
-    });
+  it('selects the current location once positioning resolves', async () => {
+    const { watchPosition, emitPosition } = mockGeolocation();
     const Component = withSearchContext(Stub);
     const selectHandler = vi.fn();
-    const executeAction = vi.fn();
-    const positionStore = createPositionStore();
     renderWithProviders(
       <Component
         selectHandler={selectHandler}
@@ -98,37 +142,30 @@ describe('withSearchContext', () => {
           properties: { layer: 'currentPosition' },
         }}
       />,
-      { executeAction, getStore: () => positionStore },
     );
 
     fireEvent.click(screen.getByRole('button'));
-    expect(executeAction).toHaveBeenCalledWith(startLocationWatch);
+    await waitFor(() => expect(watchPosition).toHaveBeenCalledTimes(1));
     expect(selectHandler).not.toHaveBeenCalled();
 
-    const found = {
-      type: 'CurrentLocation',
-      status: 'found-address',
-      lat: 60.17,
-      lon: 24.94,
-      address: 'Kamppi',
-    };
-    positionStore.emit(found);
-
-    expect(selectHandler).toHaveBeenCalledTimes(1);
-    expect(selectHandler).toHaveBeenCalledWith(found, 'origin');
+    await emitPosition();
+    await waitFor(() =>
+      expect(selectHandler).toHaveBeenCalledWith(
+        expect.objectContaining({
+          status: 'found-address',
+          lat: 60.17,
+          lon: 24.94,
+          address: 'Kamppi, Helsinki',
+        }),
+        'origin',
+      ),
+    );
   });
 
-  it('does not let a late geolocation result overwrite a location manually picked for the same field in the meantime', () => {
-    const startLocationWatch = () => {};
-    const original = searchContext.startLocationWatch;
-    searchContext.startLocationWatch = startLocationWatch;
-    onTestFinished(() => {
-      searchContext.startLocationWatch = original;
-    });
+  it('does not let a late geolocation result overwrite a manual selection', async () => {
+    const { watchPosition, emitPosition } = mockGeolocation();
     const Component = withSearchContext(TwoChoiceStub);
     const selectHandler = vi.fn();
-    const executeAction = vi.fn();
-    const positionStore = createPositionStore();
     const manualItem = {
       type: 'Point',
       properties: { name: 'Manual address', label: 'Manual address' },
@@ -143,15 +180,12 @@ describe('withSearchContext', () => {
         }}
         manualItem={manualItem}
       />,
-      { executeAction, getStore: () => positionStore },
     );
 
-    // Start a geolocation lookup for origin.
     fireEvent.click(screen.getByText('use current location'));
-    expect(executeAction).toHaveBeenCalledWith(startLocationWatch);
+    await waitFor(() => expect(watchPosition).toHaveBeenCalledTimes(1));
     expect(selectHandler).not.toHaveBeenCalled();
 
-    // Before it resolves, the user picks a different origin manually.
     fireEvent.click(screen.getByText('select manual address'));
     expect(selectHandler).toHaveBeenCalledTimes(1);
     expect(selectHandler).toHaveBeenLastCalledWith(
@@ -159,17 +193,7 @@ describe('withSearchContext', () => {
       'origin',
     );
 
-    // The original geolocation lookup resolves afterwards.
-    const found = {
-      type: 'CurrentLocation',
-      status: 'found-address',
-      lat: 60.17,
-      lon: 24.94,
-      address: 'Kamppi',
-    };
-    positionStore.emit(found);
-
-    // It must not overwrite the manually picked origin.
+    await emitPosition();
     expect(selectHandler).toHaveBeenCalledTimes(1);
   });
 });

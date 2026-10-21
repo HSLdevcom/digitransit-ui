@@ -151,6 +151,12 @@
       top: 0.2em;
       z-index: 3;
     }
+
+    // Status badge icon replaces the default circle when a stop has a status.
+    .route-stop-status-badge {
+      width: 16px;
+      height: 16px;
+    }
   }
 
   .route-stop-row_content-container {

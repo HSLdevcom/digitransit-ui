@@ -83,10 +83,17 @@ export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
     @argumentDefinitions(
       currentTime: { type: "Long!", defaultValue: 0 }
       patternId: { type: "String!", defaultValue: "0" }
+      startOfDay: { type: "Long!", defaultValue: 0 }
+      showStopStatusMarkers: { type: "Boolean!", defaultValue: false }
     ) {
       code
       ...RouteStopListContainer_pattern
-        @arguments(currentTime: $currentTime, patternId: $patternId)
+        @arguments(
+          currentTime: $currentTime
+          patternId: $patternId
+          startOfDay: $startOfDay
+          showStopStatusMarkers: $showStopStatusMarkers
+        )
     }
   `,
   route: graphql`

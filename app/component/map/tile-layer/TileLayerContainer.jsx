@@ -1,4 +1,3 @@
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import PropTypes from 'prop-types';
 import React, {
   useCallback,
@@ -15,12 +14,12 @@ import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { useLeaflet } from 'react-leaflet/es/context';
 import { useRouter } from 'found';
-import { vehicleShape, mapLayerShape } from '../../../../utils/client/shapes';
+import { mapLayerShape } from '../../../../utils/client/shapes';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../../utils/client/mapLayerUtils';
-import RealTimeInformationStore from '../../../store/RealTimeInformationStore';
+import { useRealTimeInformation } from '../../../hooks/RealTimeInformationContext';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { getClientBreakpoint } from '../../../../utils/client/withBreakpoint';
 import {
@@ -233,13 +232,9 @@ function getLayerOptions(props, leaflet) {
 }
 
 function TileLayerContainer(props) {
-  const {
-    locationPopup,
-    onSelectLocation,
-    mapLayers,
-    highlightedStops,
-    vehicles,
-  } = props;
+  const { locationPopup, onSelectLocation, mapLayers, highlightedStops } =
+    props;
+  const { vehicles } = useRealTimeInformation();
   const currentTime = useCurrentTime();
   const config = useConfigContext();
   const { router } = useRouter();
@@ -254,6 +249,7 @@ function TileLayerContainer(props) {
       ...props,
       mergeStops: props.mergeStops ?? true,
       objectsToHide: props.objectsToHide ?? DEFAULT_OBJECTS_TO_HIDE,
+      vehicles,
     },
     config,
     router,
@@ -457,15 +453,6 @@ TileLayerContainer.propTypes = {
   highlightedStops: PropTypes.arrayOf(PropTypes.string),
   stopsToShow: PropTypes.arrayOf(PropTypes.string),
   objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
-  vehicles: PropTypes.objectOf(vehicleShape),
 };
 
-const connectedComponent = connectToStores(
-  TileLayerContainer,
-  [RealTimeInformationStore],
-  context => ({
-    vehicles: context.getStore(RealTimeInformationStore).vehicles,
-  }),
-);
-
-export { connectedComponent as default, TileLayerContainer as Component };
+export default TileLayerContainer;

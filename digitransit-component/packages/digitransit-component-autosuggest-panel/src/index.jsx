@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
-import { I18nextProvider, withTranslation } from 'react-i18next';
+import React, { useReducer, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ReactSortable } from 'react-sortablejs';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import Icon, {
@@ -58,15 +58,12 @@ const updateViaPointSlack = (
   updatedViaPointIndex,
   viaPointRemoved = false,
 ) => {
-  const foundAtIndex = activeViaPointSlacks.indexOf(updatedViaPointIndex);
-  if (foundAtIndex > -1) {
-    activeViaPointSlacks.splice(foundAtIndex, 1);
-  }
+  const remaining = activeViaPointSlacks.filter(
+    index => index !== updatedViaPointIndex,
+  );
   return viaPointRemoved
-    ? activeViaPointSlacks.map(value =>
-        value > updatedViaPointIndex ? value - 1 : value,
-      )
-    : activeViaPointSlacks;
+    ? remaining.map(index => (index > updatedViaPointIndex ? index - 1 : index))
+    : remaining;
 };
 
 const isKeyboardSelectionEvent = event => {
@@ -206,496 +203,426 @@ const locationShape = PropTypes.shape({
   locationSlack: PropTypes.number,
 });
 
-class DTAutosuggestPanel extends React.Component {
-  static propTypes = {
-    appElement: PropTypes.string.isRequired,
-    origin: locationShape,
-    destination: locationShape,
-    originPlaceHolder: PropTypes.string,
-    destinationPlaceHolder: PropTypes.string,
-    viaPoints: PropTypes.arrayOf(locationShape),
-    updateViaPoints: PropTypes.func,
-    handleViaPointLocationSelected: PropTypes.func,
-    swapOrder: PropTypes.func,
-    searchPanelText: PropTypes.string,
-    searchContext: PropTypes.shape({
-      URL_PELIAS: PropTypes.string,
-    }).isRequired,
-    onSelect: PropTypes.func.isRequired,
-    onClear: PropTypes.func,
-    addAnalyticsEvent: PropTypes.func,
-    lang: PropTypes.string.isRequired,
-    disableAutoFocus: PropTypes.bool,
-    sources: PropTypes.arrayOf(PropTypes.string),
-    targets: PropTypes.arrayOf(PropTypes.string),
-    filterResults: PropTypes.func,
-    isMobile: PropTypes.bool,
-    originMobileLabel: PropTypes.string,
-    destinationMobileLabel: PropTypes.string,
-    refPoint: locationShape,
-    modeSet: PropTypes.string,
-    colors: PropTypes.objectOf(PropTypes.string),
-    getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
-    fontWeights: PropTypes.shape({
-      medium: PropTypes.number,
-    }),
-    showScroll: PropTypes.bool,
-    onFocusChange: PropTypes.func,
-    isEmbedded: PropTypes.bool,
-    showSwapControl: PropTypes.bool,
-    showViapointControl: PropTypes.bool,
-    showSlackControl: PropTypes.bool,
-    t: PropTypes.func.isRequired,
+const EMPTY_LIST = [];
+const noop = () => {};
+
+function DTAutosuggestPanel({
+  appElement,
+  origin,
+  destination,
+  originPlaceHolder = 'give-origin',
+  destinationPlaceHolder = 'give-destination',
+  viaPoints: viaPointsProp = null,
+  updateViaPoints = noop,
+  handleViaPointLocationSelected,
+  swapOrder,
+  searchPanelText,
+  searchContext,
+  onSelect,
+  onClear,
+  addAnalyticsEvent,
+  lang,
+  disableAutoFocus = false,
+  sources = EMPTY_LIST,
+  targets = EMPTY_LIST,
+  filterResults,
+  isMobile = false,
+  originMobileLabel = null,
+  destinationMobileLabel = null,
+  refPoint,
+  modeSet,
+  colors = defaultColors,
+  getAutoSuggestIcons,
+  showScroll = false,
+  onFocusChange,
+  isEmbedded = false,
+  showSwapControl = false,
+  showViapointControl = false,
+  showSlackControl = false,
+}) {
+  const [t] = useTranslation('translation', { i18n });
+  const [activeSlackInputs, setActiveSlackInputs] = useState([]);
+  const [, forceUpdate] = useReducer(count => count + 1, 0);
+  const destinationInputRef = useRef(null);
+  // viaPoints is edited in place and the parent is notified afterwards, so a
+  // missing prop needs an instance-local array instead of a shared default
+  const fallbackViaPoints = useRef([]);
+  const viaPoints = viaPointsProp || fallbackViaPoints.current;
+  const { primary } = colors;
+  const lng = lang;
+
+  const storeDestinationRef = ref => {
+    destinationInputRef.current = ref;
   };
 
-  static defaultProps = {
-    origin: undefined,
-    destination: undefined,
-    viaPoints: [],
-    originPlaceHolder: 'give-origin',
-    destinationPlaceHolder: 'give-destination',
-    swapOrder: undefined,
-    updateViaPoints: () => {},
-    searchPanelText: undefined,
-    sources: [],
-    targets: [],
-    filterResults: undefined,
-    onClear: undefined,
-    getAutoSuggestIcons: undefined,
-    refPoint: undefined,
-    addAnalyticsEvent: undefined,
-    disableAutoFocus: false,
-    isMobile: false,
-    handleViaPointLocationSelected: undefined,
-    originMobileLabel: null,
-    destinationMobileLabel: null,
-    modeSet: undefined,
-    colors: defaultColors,
-    fontWeights: {
-      medium: 500,
-    },
-    showScroll: false,
-    onFocusChange: undefined,
-    isEmbedded: false,
-    showSwapControl: false,
-    showViapointControl: false,
-    showSlackControl: false,
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeSlackInputs: [],
-      refs: [],
-    };
-  }
-
-  storeReference = ref => {
-    this.setState(prevState => ({ refs: [...prevState.refs, ref] }));
-  };
-
-  handleFocusChange = () => {
-    const { destination } = this.props;
+  const handleFocusChange = () => {
     if (!destination || !destination.lat) {
-      this.state.refs[1].focus();
+      destinationInputRef.current.focus();
     }
   };
 
-  updateViaPoints = viaPoints => {
-    if (viaPoints.length === 0) {
-      this.props.updateViaPoints([]);
+  const updateViaPointList = points => {
+    if (points.length === 0) {
+      updateViaPoints([]);
       return;
     }
-    this.props.updateViaPoints(viaPoints.filter(vp => !isViaPointEmpty(vp)));
+    updateViaPoints(points.filter(vp => !isViaPointEmpty(vp)));
   };
 
-  handleToggleViaPointSlackClick = viaPointIndex => {
-    const { activeSlackInputs } = this.state;
-    this.setState({
-      activeSlackInputs: activeSlackInputs.includes(viaPointIndex)
+  const handleToggleViaPointSlackClick = viaPointIndex => {
+    setActiveSlackInputs(
+      activeSlackInputs.includes(viaPointIndex)
         ? updateViaPointSlack(activeSlackInputs, viaPointIndex)
         : activeSlackInputs.concat([viaPointIndex]),
-    });
+    );
   };
 
-  handleViaPointSlackTimeSelected = (slackTimeInSeconds, i) => {
-    if (this.props.addAnalyticsEvent) {
-      this.props.addAnalyticsEvent({
+  const handleViaPointSlackTimeSelected = (slackTimeInSeconds, i) => {
+    if (addAnalyticsEvent) {
+      addAnalyticsEvent({
         action: 'EditViaPointStopDuration',
         category: 'ItinerarySettings',
         name: slackTimeInSeconds / 60,
       });
     }
-    const { viaPoints } = this.props;
     viaPoints[i].locationSlack = Number.parseInt(slackTimeInSeconds, 10);
-    this.updateViaPoints(viaPoints);
+    updateViaPointList(viaPoints);
   };
 
-  handleViaPointLocationSelected = (viaPointLocation, i) => {
-    this.props.handleViaPointLocationSelected(viaPointLocation, i);
-  };
-
-  handleRemoveViaPointClick = viaPointIndex => {
-    if (this.props.addAnalyticsEvent) {
-      this.props.addAnalyticsEvent({
+  const handleRemoveViaPointClick = viaPointIndex => {
+    if (addAnalyticsEvent) {
+      addAnalyticsEvent({
         action: 'RemoveJourneyViaPoint',
         category: 'ItinerarySettings',
         name: null,
       });
     }
-    const { activeSlackInputs } = this.state;
-    const { viaPoints } = this.props;
     viaPoints.splice(viaPointIndex, 1);
-    this.setState(
-      {
-        activeSlackInputs: updateViaPointSlack(
-          activeSlackInputs,
-          viaPointIndex,
-          true,
-        ),
-      },
-      () => this.updateViaPoints(viaPoints),
+    setActiveSlackInputs(
+      updateViaPointSlack(activeSlackInputs, viaPointIndex, true),
     );
+    updateViaPointList(viaPoints);
   };
 
-  handleAddViaPointClick = () => {
-    if (this.props.addAnalyticsEvent) {
-      this.props.addAnalyticsEvent({
+  const handleAddViaPointClick = () => {
+    if (addAnalyticsEvent) {
+      addAnalyticsEvent({
         action: 'AddJourneyViaPoint',
         category: 'ItinerarySettings',
         name: 'QuickSettingsButton',
       });
     }
-    const { viaPoints } = this.props;
     viaPoints.push(getEmptyViaPointPlaceHolder());
-    // We need to update the state so that placeHolder will show up in panel.
-    // eslint-disable-next-line react/no-access-state-in-setstate
-    this.setState(this.state);
+    // re-render so that the placeholder shows up in the panel
+    forceUpdate();
   };
 
-  handleSwapOrderClick = () => {
-    if (this.props.addAnalyticsEvent) {
-      this.props.addAnalyticsEvent({
+  const handleSwapOrderClick = () => {
+    if (addAnalyticsEvent) {
+      addAnalyticsEvent({
         action: 'SwitchJourneyStartAndEndPointOrder',
         category: 'ItinerarySettings',
         name: null,
       });
     }
-    const { viaPoints } = this.props;
     viaPoints.reverse();
-    this.props.swapOrder();
+    swapOrder();
   };
 
-  getSlackDisplay = slackInSeconds =>
-    `${slackInSeconds / 60} ${this.props.t('minute-short', {
-      lng: this.props.lang,
-    })}`;
+  const getSlackDisplay = slackInSeconds =>
+    `${slackInSeconds / 60} ${t('minute-short', { lng })}`;
 
-  render() {
-    const {
-      origin,
-      searchPanelText,
-      searchContext,
-      disableAutoFocus,
-      viaPoints,
-      originMobileLabel,
-      destinationMobileLabel,
-      fontWeights,
-      onFocusChange,
-      showSwapControl,
-      showViapointControl,
-      t,
-      lang: lng,
-    } = this.props;
-    const { primary } = this.props.colors;
-    const { activeSlackInputs } = this.state;
-    const slackTime = getSlackTimeOptions(t);
-    const defaultSlackTimeValue = 0;
-    const getViaPointSlackTimeOrDefault = (
-      viaPoint,
-      defaultValue = defaultSlackTimeValue,
-    ) => (viaPoint && viaPoint.locationSlack) || defaultValue;
-    const isViaPointSlackTimeInputActive = index =>
-      activeSlackInputs.includes(index);
-    return (
-      <div
-        className={cx([
-          styles['autosuggest-panel'],
-          {
-            small: this.props.isMobile,
-          },
-        ])}
-        style={{
-          '--color': primary,
-          '--font-weight-medium': fontWeights.medium,
+  const slackTime = getSlackTimeOptions(t);
+  const getViaPointSlackTimeOrDefault = (viaPoint, defaultValue = 0) =>
+    (viaPoint && viaPoint.locationSlack) || defaultValue;
+  const isViaPointSlackTimeInputActive = index =>
+    activeSlackInputs.includes(index);
+
+  return (
+    <div
+      className={cx([styles['autosuggest-panel'], { small: isMobile }])}
+      style={{
+        '--color': primary,
+      }}
+    >
+      {' '}
+      {searchPanelText ? (
+        <div>
+          <h1 className={styles['autosuggest-searchpanel-text']}>
+            {' '}
+            {searchPanelText}
+          </h1>
+        </div>
+      ) : null}
+      <div className={styles['origin-input-container']}>
+        <DTAutoSuggest
+          appElement={appElement}
+          icon="originEllipse"
+          id="origin"
+          autoFocus={
+            disableAutoFocus === true ? false : !isMobile && !origin?.lat
+          }
+          refPoint={refPoint}
+          className={getLocationType(origin)}
+          placeholder={originPlaceHolder}
+          value={value(origin)}
+          searchContext={searchContext}
+          getAutoSuggestIcons={getAutoSuggestIcons}
+          onSelect={onSelect}
+          onClear={onClear}
+          focusChange={onFocusChange || handleFocusChange}
+          lang={lang}
+          sources={sources}
+          targets={targets}
+          filterResults={filterResults}
+          isMobile={isMobile}
+          colors={colors}
+          mobileLabel={originMobileLabel}
+          modeSet={modeSet}
+          showScroll={showScroll}
+          isEmbedded={isEmbedded}
+        />
+        {(showSwapControl || showViapointControl) && (
+          <ItinerarySearchControl
+            className={styles.opposite}
+            enabled={showSwapControl}
+            onClick={() => handleSwapOrderClick()}
+            onKeyPress={e =>
+              isKeyboardSelectionEvent(e) && handleSwapOrderClick()
+            }
+            aria-label={t('swap-order-button-label', { lng })}
+          >
+            <Icon img="opposite" color={primary} />
+          </ItinerarySearchControl>
+        )}
+      </div>
+      {viaPoints.length === 0 && (
+        <div className={styles['rectangle-container']}>
+          <div className={styles.rectangle} />
+        </div>
+      )}
+      <ReactSortable
+        className={styles['viapoints-container']}
+        list={viaPoints}
+        handle={`.${styles['viapoint-before']}`}
+        animation={200}
+        disabled={viaPoints.length <= 1}
+        setList={items => {
+          const newViaPoints = items.filter(vp => !isViaPointEmpty(vp));
+          if (newViaPoints.length > 0) {
+            updateViaPoints(newViaPoints);
+          }
         }}
       >
-        {' '}
-        {searchPanelText ? (
-          <div>
-            <h1 className={styles['autosuggest-searchpanel-text']}>
-              {' '}
-              {searchPanelText}
-            </h1>
-          </div>
-        ) : null}
-        <div className={styles['origin-input-container']}>
-          <DTAutoSuggest
-            appElement={this.props.appElement}
-            icon="originEllipse"
-            id="origin"
-            autoFocus={
-              disableAutoFocus === true
-                ? false
-                : !this.props.isMobile && !origin?.lat
-            }
-            storeRef={this.storeReference}
-            refPoint={this.props.refPoint}
-            className={getLocationType(origin)}
-            placeholder={this.props.originPlaceHolder}
-            value={value(origin)}
-            searchContext={searchContext}
-            getAutoSuggestIcons={this.props.getAutoSuggestIcons}
-            onSelect={this.props.onSelect}
-            onClear={this.props.onClear}
-            focusChange={onFocusChange || this.handleFocusChange}
-            lang={this.props.lang}
-            sources={this.props.sources}
-            targets={this.props.targets}
-            filterResults={this.props.filterResults}
-            isMobile={this.props.isMobile}
-            colors={this.props.colors}
-            mobileLabel={originMobileLabel}
-            fontWeights={this.props.fontWeights}
-            modeSet={this.props.modeSet}
-            showScroll={this.props.showScroll}
-            isEmbedded={this.props.isEmbedded}
-          />
-          {(showSwapControl || showViapointControl) && (
-            <ItinerarySearchControl
-              className={styles.opposite}
-              enabled={showSwapControl}
-              onClick={() => this.handleSwapOrderClick()}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && this.handleSwapOrderClick()
-              }
-              aria-label={t('swap-order-button-label', { lng })}
-            >
-              <Icon img="opposite" color={primary} />
-            </ItinerarySearchControl>
-          )}
-        </div>
-        {viaPoints.length === 0 && (
-          <div className={styles['rectangle-container']}>
-            <div className={styles.rectangle} />
-          </div>
-        )}
-        <ReactSortable
-          className={styles['viapoints-container']}
-          list={viaPoints}
-          handle={`.${styles['viapoint-before']}`}
-          animation={200}
-          disabled={viaPoints.length <= 1}
-          setList={items => {
-            const newViaPoints = items.filter(vp => !isViaPointEmpty(vp));
-            if (newViaPoints.length > 0) {
-              this.props.updateViaPoints(newViaPoints);
-            }
-          }}
-        >
-          {viaPoints.map((o, i) => (
-            <div
-              className={cx(styles['viapoint-container'])}
-              key={`viapoint-${i}`} // eslint-disable-line
-            >
-              <div className={styles['light-gray-background']}>
-                <div className={styles.row}>
-                  <div
-                    className={styles['viapoint-before']}
-                    style={viaPoints.length > 1 ? { cursor: 'move' } : {}}
-                  >
-                    {viaPoints.length > 1 && (
-                      <Icon img="ellipsis" rotate={90} color={primary} />
-                    )}
-                  </div>
-                  <div
-                    className={cx(
-                      `${styles['viapoint-input-container']} ${
-                        styles[`viapoint-${i + 1}`]
-                      }`,
-                    )}
-                  >
-                    <DTAutoSuggest
-                      appElement={this.props.appElement}
-                      icon="mapMarker"
-                      id="via-point"
-                      ariaLabel={t('via-point-index', {
-                        index: i + 1,
-                        lng,
-                      })}
-                      autoFocus={
-                        disableAutoFocus === true ? false : !this.props.isMobile
-                      }
-                      placeholder="via-point"
-                      className="viapoint"
-                      searchContext={searchContext}
-                      refPoint={this.props.refPoint}
-                      value={(o && o.address) || ''}
-                      onSelect={this.props.onSelect}
-                      onClear={this.props.onClear}
-                      handleViaPoints={item =>
-                        this.handleViaPointLocationSelected(item, i)
-                      }
-                      lang={this.props.lang}
-                      sources={this.props.sources}
-                      targets={this.props.targets}
-                      filterResults={this.props.filterResults}
-                      getAutoSuggestIcons={this.props.getAutoSuggestIcons}
-                      isMobile={this.props.isMobile}
-                      fontWeights={this.props.fontWeights}
-                      modeSet={this.props.modeSet}
-                      colors={this.props.colors}
-                      showScroll={this.props.showScroll}
-                    />
-                  </div>
-                  {this.props.showSlackControl && (
-                    <ItinerarySearchControl
-                      className={styles['add-via-point-slack']}
-                      enabled={this.props.showViapointControl}
-                      onClick={() => this.handleToggleViaPointSlackClick(i)}
-                      onKeyPress={e =>
-                        isKeyboardSelectionEvent(e) &&
-                        this.handleToggleViaPointSlackClick(i)
-                      }
-                      aria-label={t(
-                        isViaPointSlackTimeInputActive(i)
-                          ? 'add-via-duration-button-label-open'
-                          : 'add-via-duration-button-label-close',
-                        { index: i + 1, lng },
-                      )}
-                      wide
-                    >
-                      <Icon img="time" color={primary} />
-                    </ItinerarySearchControl>
-                  )}
-                </div>
-                {!isViaPointSlackTimeInputActive(i) &&
-                  viaPoints[i] &&
-                  viaPoints[i].locationSlack > 0 && (
-                    <span className={styles['viapoint-slack-time']}>{`${t(
-                      'viapoint-slack-amount',
-                      {
-                        lng,
-                      },
-                    )}: ${this.getSlackDisplay(
-                      viaPoints[i].locationSlack,
-                    )}`}</span>
-                  )}
+        {viaPoints.map((o, i) => (
+          <div
+            className={cx(styles['viapoint-container'])}
+            key={`viapoint-${i}`} // eslint-disable-line
+          >
+            <div className={styles['light-gray-background']}>
+              <div className={styles.row}>
                 <div
-                  className={cx(styles['input-viapoint-slack-container'], {
-                    collapsed: !isViaPointSlackTimeInputActive(i),
-                  })}
+                  className={styles['viapoint-before']}
+                  style={viaPoints.length > 1 ? { cursor: 'move' } : {}}
                 >
-                  <div className={styles['select-wrapper']}>
-                    <Select
-                      id={`viapoint-slack-${i}`}
-                      label={t('viapoint-slack-amount', { lng })}
-                      options={slackTime}
-                      value={getViaPointSlackTimeOrDefault(viaPoints[i])}
-                      viaPointIndex={i}
-                      icon={
-                        <span
-                          className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
-                        >
-                          <Icon img="time" color={primary} />
-                        </span>
-                      }
-                      onSlackTimeSelected={this.handleViaPointSlackTimeSelected}
-                    />
-                  </div>
+                  {viaPoints.length > 1 && (
+                    <Icon img="ellipsis" rotate={90} color={primary} />
+                  )}
                 </div>
+                <div
+                  className={cx(
+                    `${styles['viapoint-input-container']} ${
+                      styles[`viapoint-${i + 1}`]
+                    }`,
+                  )}
+                >
+                  <DTAutoSuggest
+                    appElement={appElement}
+                    icon="mapMarker"
+                    id="via-point"
+                    ariaLabel={t('via-point-index', {
+                      index: i + 1,
+                      lng,
+                    })}
+                    autoFocus={disableAutoFocus === true ? false : !isMobile}
+                    placeholder="via-point"
+                    className="viapoint"
+                    searchContext={searchContext}
+                    refPoint={refPoint}
+                    value={(o && o.address) || ''}
+                    onSelect={onSelect}
+                    onClear={onClear}
+                    handleViaPoints={item =>
+                      handleViaPointLocationSelected(item, i)
+                    }
+                    lang={lang}
+                    sources={sources}
+                    targets={targets}
+                    filterResults={filterResults}
+                    getAutoSuggestIcons={getAutoSuggestIcons}
+                    isMobile={isMobile}
+                    modeSet={modeSet}
+                    colors={colors}
+                    showScroll={showScroll}
+                  />
+                </div>
+                {showSlackControl && (
+                  <ItinerarySearchControl
+                    className={styles['add-via-point-slack']}
+                    enabled={showViapointControl}
+                    onClick={() => handleToggleViaPointSlackClick(i)}
+                    onKeyPress={e =>
+                      isKeyboardSelectionEvent(e) &&
+                      handleToggleViaPointSlackClick(i)
+                    }
+                    aria-label={t(
+                      isViaPointSlackTimeInputActive(i)
+                        ? 'add-via-duration-button-label-open'
+                        : 'add-via-duration-button-label-close',
+                      { index: i + 1, lng },
+                    )}
+                    wide
+                  >
+                    <Icon img="time" color={primary} />
+                  </ItinerarySearchControl>
+                )}
               </div>
-              <ItinerarySearchControl
-                className={styles['remove-via-point']}
-                enabled={this.props.showViapointControl}
-                onClick={() => this.handleRemoveViaPointClick(i)}
-                onKeyPress={e =>
-                  isKeyboardSelectionEvent(e) &&
-                  this.handleRemoveViaPointClick(i)
-                }
-                aria-label={t('remove-via-button-label', {
-                  index: i + 1,
-                  lng,
+              {!isViaPointSlackTimeInputActive(i) &&
+                viaPoints[i] &&
+                viaPoints[i].locationSlack > 0 && (
+                  <span className={styles['viapoint-slack-time']}>{`${t(
+                    'viapoint-slack-amount',
+                    {
+                      lng,
+                    },
+                  )}: ${getSlackDisplay(viaPoints[i].locationSlack)}`}</span>
+                )}
+              <div
+                className={cx(styles['input-viapoint-slack-container'], {
+                  collapsed: !isViaPointSlackTimeInputActive(i),
                 })}
               >
-                <Icon img="trash" color={primary} />
-              </ItinerarySearchControl>
+                <div className={styles['select-wrapper']}>
+                  <Select
+                    id={`viapoint-slack-${i}`}
+                    label={t('viapoint-slack-amount', { lng })}
+                    options={slackTime}
+                    value={getViaPointSlackTimeOrDefault(viaPoints[i])}
+                    viaPointIndex={i}
+                    icon={
+                      <span
+                        className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
+                      >
+                        <Icon img="time" color={primary} />
+                      </span>
+                    }
+                    onSlackTimeSelected={handleViaPointSlackTimeSelected}
+                  />
+                </div>
+              </div>
             </div>
-          ))}
-        </ReactSortable>
-        <div className={styles['destination-input-container']}>
-          <DTAutoSuggest
-            appElement={this.props.appElement}
-            icon="mapMarker"
-            id="destination"
-            autoFocus={
-              disableAutoFocus === true
-                ? false
-                : !this.props.isMobile && !Number.isNaN(origin?.lat)
-            }
-            storeRef={this.storeReference}
-            placeholder={this.props.destinationPlaceHolder}
-            className={getLocationType(this.props.destination)}
-            getAutoSuggestIcons={this.props.getAutoSuggestIcons}
-            searchContext={searchContext}
-            onSelect={this.props.onSelect}
-            onClear={this.props.onClear}
-            refPoint={this.props.refPoint}
-            value={value(this.props.destination)}
-            lang={this.props.lang}
-            sources={this.props.sources}
-            targets={this.props.targets}
-            filterResults={this.props.filterResults}
-            isMobile={this.props.isMobile}
-            mobileLabel={destinationMobileLabel}
-            fontWeights={this.props.fontWeights}
-            modeSet={this.props.modeSet}
-            colors={this.props.colors}
-            showScroll={this.props.showScroll}
-            isEmbedded={this.props.isEmbedded}
-          />
-          {(showSwapControl || showViapointControl) && (
             <ItinerarySearchControl
-              className={cx(styles['add-via-point'], styles.more, {
-                collapsed: viaPoints.length > 4,
-              })}
-              enabled={showViapointControl && viaPoints.length === 0}
-              onClick={() => this.handleAddViaPointClick()}
+              className={styles['remove-via-point']}
+              enabled={showViapointControl}
+              onClick={() => handleRemoveViaPointClick(i)}
               onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && this.handleAddViaPointClick()
+                isKeyboardSelectionEvent(e) && handleRemoveViaPointClick(i)
               }
-              aria-label={t('add-via-button-label', { lng })}
+              aria-label={t('remove-via-button-label', {
+                index: i + 1,
+                lng,
+              })}
             >
-              <Icon
-                img="viapoint"
-                width={1.25}
-                height={1.375}
-                color={primary}
-              />
+              <Icon img="trash" color={primary} />
             </ItinerarySearchControl>
-          )}
-        </div>
+          </div>
+        ))}
+      </ReactSortable>
+      <div className={styles['destination-input-container']}>
+        <DTAutoSuggest
+          appElement={appElement}
+          icon="mapMarker"
+          id="destination"
+          autoFocus={
+            disableAutoFocus === true
+              ? false
+              : !isMobile && !Number.isNaN(origin?.lat)
+          }
+          storeRef={storeDestinationRef}
+          placeholder={destinationPlaceHolder}
+          className={getLocationType(destination)}
+          getAutoSuggestIcons={getAutoSuggestIcons}
+          searchContext={searchContext}
+          onSelect={onSelect}
+          onClear={onClear}
+          refPoint={refPoint}
+          value={value(destination)}
+          lang={lang}
+          sources={sources}
+          targets={targets}
+          filterResults={filterResults}
+          isMobile={isMobile}
+          mobileLabel={destinationMobileLabel}
+          modeSet={modeSet}
+          colors={colors}
+          showScroll={showScroll}
+          isEmbedded={isEmbedded}
+        />
+        {(showSwapControl || showViapointControl) && (
+          <ItinerarySearchControl
+            className={cx(styles['add-via-point'], styles.more, {
+              collapsed: viaPoints.length > 4,
+            })}
+            enabled={showViapointControl && viaPoints.length === 0}
+            onClick={() => handleAddViaPointClick()}
+            onKeyPress={e =>
+              isKeyboardSelectionEvent(e) && handleAddViaPointClick()
+            }
+            aria-label={t('add-via-button-label', { lng })}
+          >
+            <Icon img="viapoint" width={1.25} height={1.375} color={primary} />
+          </ItinerarySearchControl>
+        )}
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-const DTAutosuggestPanelWithTranslation = withTranslation()(DTAutosuggestPanel);
-
-export default props => {
-  return (
-    <I18nextProvider i18n={i18n}>
-      <DTAutosuggestPanelWithTranslation {...props} />
-    </I18nextProvider>
-  );
+DTAutosuggestPanel.propTypes = {
+  appElement: PropTypes.string.isRequired,
+  origin: locationShape,
+  destination: locationShape,
+  originPlaceHolder: PropTypes.string,
+  destinationPlaceHolder: PropTypes.string,
+  viaPoints: PropTypes.arrayOf(locationShape),
+  updateViaPoints: PropTypes.func,
+  handleViaPointLocationSelected: PropTypes.func,
+  swapOrder: PropTypes.func,
+  searchPanelText: PropTypes.string,
+  searchContext: PropTypes.shape({
+    URL_PELIAS: PropTypes.string,
+  }).isRequired,
+  onSelect: PropTypes.func.isRequired,
+  onClear: PropTypes.func,
+  addAnalyticsEvent: PropTypes.func,
+  lang: PropTypes.string.isRequired,
+  disableAutoFocus: PropTypes.bool,
+  sources: PropTypes.arrayOf(PropTypes.string),
+  targets: PropTypes.arrayOf(PropTypes.string),
+  filterResults: PropTypes.func,
+  isMobile: PropTypes.bool,
+  originMobileLabel: PropTypes.string,
+  destinationMobileLabel: PropTypes.string,
+  refPoint: locationShape,
+  modeSet: PropTypes.string,
+  colors: PropTypes.objectOf(PropTypes.string),
+  getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
+  showScroll: PropTypes.bool,
+  onFocusChange: PropTypes.func,
+  isEmbedded: PropTypes.bool,
+  showSwapControl: PropTypes.bool,
+  showViapointControl: PropTypes.bool,
+  showSlackControl: PropTypes.bool,
 };
+
+export default DTAutosuggestPanel;
