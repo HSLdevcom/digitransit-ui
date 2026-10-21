@@ -12,26 +12,6 @@ import {
 
 const PatternRedirector = ({ route }) => {
   const { router, match } = useRouter();
-  if (!route) {
-    const oldSearchItems = getOldSearchItems();
-    const oldItem = oldSearchItems.filter(
-      s =>
-        s.item.properties.layer.startsWith('route-') &&
-        s.item.properties.link === match.location.pathname,
-    );
-    if (oldItem && oldItem.length !== 0) {
-      const error = {
-        id: 'no-route-found',
-        values: {
-          shortName: oldItem[0].item.properties.shortName,
-          longName: oldItem[0].item.properties.longName,
-        },
-      };
-      saveOldSearchItems(oldSearchItems.filter(s => s !== oldItem[0]));
-      return <Error404 error={error} />;
-    }
-    return <Error404 />;
-  }
   let sortedPatternsByCountOfTrips;
   const tripsExists = route.patterns ? 'trips' in route.patterns[0] : false;
   if (tripsExists) {
@@ -64,6 +44,26 @@ const PatternRedirector = ({ route }) => {
     router.replace(path);
   }, [router, path]);
 
+  if (!route) {
+    const oldSearchItems = getOldSearchItems();
+    const oldItem = oldSearchItems.filter(
+      s =>
+        s.item.properties.layer.startsWith('route-') &&
+        s.item.properties.link === match.location.pathname,
+    );
+    if (oldItem && oldItem.length !== 0) {
+      const error = {
+        id: 'no-route-found',
+        values: {
+          shortName: oldItem[0].item.properties.shortName,
+          longName: oldItem[0].item.properties.longName,
+        },
+      };
+      saveOldSearchItems(oldSearchItems.filter(s => s !== oldItem[0]));
+      return <Error404 error={error} />;
+    }
+    return <Error404 />;
+  }
   return null;
 };
 

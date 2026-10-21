@@ -55,9 +55,6 @@ export default function Disruption({
   const { match } = useRouter();
   const intl = useIntl();
   const hasCancelations = canceledDepartures.length > 0;
-  if (!alertDescriptionText && !alertHeaderText) {
-    return null;
-  }
 
   // group entities by type and mode, used to display badges
   const groupedEntities = useMemo(
@@ -78,6 +75,10 @@ export default function Disruption({
       }, {}),
     [entities],
   );
+
+  if (!alertDescriptionText && !alertHeaderText) {
+    return null;
+  }
 
   // if startDate not defined, assume the alert is active
   const active =

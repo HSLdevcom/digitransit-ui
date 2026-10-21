@@ -77,9 +77,6 @@ const MobileView = forwardRef(
     },
     ref,
   ) => {
-    if (settingsDrawer) {
-      return <div className="mobile">{settingsDrawer}</div>;
-    }
     const contentRef = useRef();
     const scrollRef = useRef();
     const match = useMatch();
@@ -151,6 +148,9 @@ const MobileView = forwardRef(
       }
     });
 
+    if (settingsDrawer) {
+      return <div className="mobile">{settingsDrawer}</div>;
+    }
     return (
       <div className="mobile">
         {searchBox}
