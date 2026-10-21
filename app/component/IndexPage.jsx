@@ -79,7 +79,7 @@ export default function IndexPage() {
     query.fromMap === 'origin' || query.fromMap === 'destination'
       ? query.fromMap
       : undefined;
-  const { colors, fontWeights, language, iconModeSet } = config;
+  const { colors, language, iconModeSet } = config;
 
   useGeomoverSync({ locationState, startLocationWatch });
 
@@ -274,7 +274,6 @@ export default function IndexPage() {
         omitLanguageUrl
         onClick={clickStopNearIcon}
         colors={colors}
-        fontWeights={fontWeights}
         {...directionProps}
       />
     ) : (
@@ -342,7 +341,6 @@ export default function IndexPage() {
     onGeolocationStart: onSelectLocation,
     fromMap,
     onFromMapClose,
-    fontWeights,
     colors,
     modeSet: iconModeSet,
   };
@@ -359,7 +357,6 @@ export default function IndexPage() {
     lang: language,
     sources,
     targets: stopAndRouteSearchTargets,
-    fontWeights,
     colors,
     modeSet: iconModeSet,
     geocodingSize: 25,
@@ -388,7 +385,7 @@ export default function IndexPage() {
         <h1 className="sr-only">
           <FormattedMessage id="index.title" default="Journey Planner" />
         </h1>
-        <CtrlPanel position="left" fontWeights={fontWeights}>
+        <CtrlPanel position="left">
           <span className="sr-only">
             <FormattedMessage
               id="search-fields.sr-instructions"
@@ -433,7 +430,7 @@ export default function IndexPage() {
           backgroundColor: '#ffffff',
         }}
       >
-        <CtrlPanel position="bottom" fontWeights={fontWeights}>
+        <CtrlPanel position="bottom">
           <LocationSearch disableAutoFocus isMobile {...locationSearchProps} />
           <DatetimepickerContainer realtime />
           <FavouritesContainer

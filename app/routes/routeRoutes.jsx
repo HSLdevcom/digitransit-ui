@@ -20,7 +20,10 @@ import {
   getComponentOrLoadingRenderer,
   getComponentOrLoadingRendererWithRequired,
 } from './routerUtils';
-import { prepareServiceDay } from '../../utils/client/dateParamUtils';
+import {
+  prepareServiceDay,
+  preparePatternStopsVariables,
+} from '../../utils/client/dateParamUtils';
 import {
   prepareScheduleParamsWithFiveWeeks,
   prepareScheduleParamsWithTenWeeks,
@@ -29,6 +32,11 @@ import { withRouteContext } from '../../utils/client/RouteContext';
 
 export default function routeRoutes(config) {
   const showTenWeeks = config.showTenWeeksOnRouteSchedule || false;
+  const showStopStatusMarkers = !!config.showStopStatusMarkers;
+  const prepareStopListVariables = params => ({
+    ...preparePatternStopsVariables(params),
+    showStopStatusMarkers,
+  });
   // Keeps the tabs and pattern selector visible while another tab loads
   const sticky = createStickyRendererFactory(
     ({ params }) => `${params.routeId}|${params.patternId}`,
@@ -193,12 +201,20 @@ export default function routeRoutes(config) {
                     $patternId: String!
                     $routeId: String!
                     $date: String!
+                    $currentTime: Long!
+                    $startOfDay: Long!
+                    $showStopStatusMarkers: Boolean!
                     $cancelationStartDate: OffsetDateTime!
                     $cancelationEndDate: OffsetDateTime!
                   ) {
                     pattern(id: $patternId) {
                       ...PatternStopsContainer_pattern
-                        @arguments(patternId: $patternId)
+                        @arguments(
+                          patternId: $patternId
+                          currentTime: $currentTime
+                          startOfDay: $startOfDay
+                          showStopStatusMarkers: $showStopStatusMarkers
+                        )
                     }
                     route(id: $routeId) {
                       ...PatternStopsContainer_route
@@ -210,7 +226,7 @@ export default function routeRoutes(config) {
                     }
                   }
                 `}
-                prepareVariables={prepareServiceDay}
+                prepareVariables={prepareStopListVariables}
                 render={sticky(getComponentOrLoadingRenderer)}
               />
               <Route
@@ -226,6 +242,8 @@ export default function routeRoutes(config) {
                     $tripId: String!
                     $routeId: String!
                     $date: String!
+                    $startOfDay: Long!
+                    $showStopStatusMarkers: Boolean!
                     $cancelationStartDate: OffsetDateTime!
                     $cancelationEndDate: OffsetDateTime!
                   ) {
@@ -234,6 +252,10 @@ export default function routeRoutes(config) {
                     }
                     trip(id: $tripId) {
                       ...TripStopsContainer_trip
+                        @arguments(
+                          startOfDay: $startOfDay
+                          showStopStatusMarkers: $showStopStatusMarkers
+                        )
                     }
                     route(id: $routeId) {
                       ...TripStopsContainer_route
@@ -245,7 +267,7 @@ export default function routeRoutes(config) {
                     }
                   }
                 `}
-                prepareVariables={prepareServiceDay}
+                prepareVariables={prepareStopListVariables}
                 render={sticky(getComponentOrLoadingRenderer)}
               />
             </Route>,

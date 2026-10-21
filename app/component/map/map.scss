@@ -763,7 +763,7 @@ div.leaflet-marker-icon.vehicle-icon {
 }
 
 div.origin-popup {
-  font-size: $font-size-xxsmall;
+  font-size: $font-size-normal;
   cursor: pointer;
   min-width: 15em;
   left: -21px !important;
@@ -771,7 +771,6 @@ div.origin-popup {
   .origin-popup-header {
     @include font-medium;
 
-    text-transform: uppercase;
     color: $link-color;
     width: 90%;
     margin-bottom: 3px;
@@ -821,6 +820,10 @@ div.origin-popup {
     top: 2em;
   }
 
+  .selected-stop-status {
+    margin-top: var(--space-xs);
+  }
+
   .leaflet-popup-tip-container {
     position: relative;
     left: 0;
@@ -845,6 +848,16 @@ div.origin-popup {
 .map .stop-halo {
   fill: #fff;
   fill-opacity: 1;
+}
+
+.map .stop-badge-out-of-service,
+.map .stop-badge-alert {
+  fill: $cancelation-red;
+}
+
+.map .stop-badge-info,
+.map .stop-badge-no-service-today {
+  fill: $muted-gray;
 }
 
 .map .stop {

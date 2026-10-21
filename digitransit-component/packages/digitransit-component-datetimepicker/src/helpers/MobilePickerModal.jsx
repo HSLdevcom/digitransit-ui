@@ -24,7 +24,6 @@ Settings.defaultLocale = 'en';
  * @param {function} props.getTimeDisplay Called to get the display string for a given timestamp
  * @param {number} props.dateSelectItemCount Determines how many date options are shown in the date picker
  * @param {function} props.getDateDisplay Called to get the display string for a given date
- * @param {object} props.fontWeights Font weights used in the component styles
  * @returns {JSX.Element}
  */
 function MobilePickerModal({
@@ -39,7 +38,6 @@ function MobilePickerModal({
   getTimeDisplay,
   dateSelectItemCount,
   getDateDisplay,
-  fontWeights,
   onAfterClose,
 }) {
   Settings.defaultZone = timeZone;
@@ -81,7 +79,6 @@ function MobilePickerModal({
         id="digitransit-mobile-datetime"
         style={{
           '--color': `${color}`,
-          '--font-weight-medium': fontWeights.medium,
         }}
       >
         <div className={styles['top-row']}>
@@ -216,9 +213,6 @@ MobilePickerModal.propTypes = {
   getTimeDisplay: PropTypes.func.isRequired,
   dateSelectItemCount: PropTypes.number.isRequired,
   getDateDisplay: PropTypes.func.isRequired,
-  fontWeights: PropTypes.shape({
-    medium: PropTypes.number.isRequired,
-  }).isRequired,
 };
 
 export default MobilePickerModal;

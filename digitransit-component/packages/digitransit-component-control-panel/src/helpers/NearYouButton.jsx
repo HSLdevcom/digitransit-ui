@@ -9,14 +9,14 @@ export default function NearYouButton({
   modeSet,
   colors,
   title = '',
-  titleWeight = 500,
+  titleWeight,
   withAlert = false,
   boxed = false,
   withBorder = false,
   withArrow = false,
   margin = '8px',
   padding = '8px',
-  iconSize = '30px',
+  iconSize,
 }) {
   let iconProps;
 
@@ -44,7 +44,10 @@ export default function NearYouButton({
     };
   }
   const buttonStyle = { '--margin': margin, '--padding': padding };
-  let iconContainerStyle = { '--iconSize': iconSize, '--iconMargin': padding };
+  let iconContainerStyle = { '--iconMargin': padding };
+  if (iconSize) {
+    iconContainerStyle['--iconSize'] = iconSize;
+  }
   if (!boxed) {
     iconContainerStyle = {
       ...iconContainerStyle,
@@ -69,7 +72,7 @@ export default function NearYouButton({
       {title && (
         <span
           className={styles['transport-mode-title']}
-          style={{ '--font-weight': titleWeight }}
+          style={titleWeight ? { '--font-weight': titleWeight } : undefined}
         >
           {title}
         </span>

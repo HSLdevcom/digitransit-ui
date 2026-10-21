@@ -21,6 +21,7 @@ import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../../utils/shared/path';
 import { streetQuery } from './StreetQuery';
 import { useConfigContext } from '../../client/ConfigContext';
 import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { STOP_STATUS } from '../../../utils/client/stopStatusUtils';
 
 const getModeFromProps = props => {
   if (props.citybike) {
@@ -42,7 +43,7 @@ const getModeFromProps = props => {
 };
 
 function StopPageMap(props) {
-  const { stop, stopName } = props;
+  const { stop, stopName, stopStatus, stopAlertEffects } = props;
   const config = useConfigContext();
   const locationState = usePosition();
   const breakpoint = useBreakpoint();
@@ -151,7 +152,12 @@ function StopPageMap(props) {
   if (breakpoint === 'large') {
     leafletObjs.push(
       <SelectedStopPopup lat={stop.lat} lon={stop.lon} key="SelectedStopPopup">
-        <SelectedStopPopupContent stop={stop} name={stopName} />
+        <SelectedStopPopupContent
+          stop={stop}
+          name={stopName}
+          status={stopStatus}
+          alertEffects={stopAlertEffects}
+        />
       </SelectedStopPopup>,
     );
     if (config.useCookiesPrompt) {
@@ -208,6 +214,8 @@ StopPageMap.propTypes = {
   parkType: PropTypes.string,
   scooter: PropTypes.bool,
   stopName: PropTypes.node,
+  stopStatus: PropTypes.oneOf(Object.values(STOP_STATUS)),
+  stopAlertEffects: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default StopPageMap;

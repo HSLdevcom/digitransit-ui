@@ -33,4 +33,52 @@ describe('<TripRouteStop />', () => {
     });
     expect(container.querySelector('.caution')).toBeNull();
   });
+
+  const statusProps = {
+    currentTime: 1471515614,
+    shortName: '',
+    distance: false,
+    mode: 'bus',
+    pattern: 'HSL:4444T:0:02',
+    route: 'HSL:4444T',
+    selectedVehicle: {},
+    color: '#000000',
+    stoptime: {},
+    stopPassed: false,
+    vehicles: [],
+    setHumanScrolling: () => {},
+  };
+  const statusConfig = {
+    ...mockContext.config,
+    zones: { stops: true },
+    showStopStatusMarkers: true,
+  };
+
+  it('should not render a service alert icon when showStopStatusMarkers is enabled', () => {
+    const stop = {
+      alerts: [
+        {
+          alertSeverityLevel: AlertSeverityLevelType.Warning,
+          effectiveStartDate: 1471515600,
+        },
+      ],
+    };
+    const { container } = renderWithProviders(
+      <TripRouteStop {...statusProps} stop={stop} />,
+      { config: statusConfig },
+    );
+    expect(container.querySelector('.caution')).toBeNull();
+  });
+
+  it('should render the status badge icon instead of the SVG circle when the stop has no service', () => {
+    const stop = { alerts: [], firstDeparture: [] };
+    const { container } = renderWithProviders(
+      <TripRouteStop {...statusProps} stop={stop} />,
+      { config: statusConfig },
+    );
+    expect(container.querySelector('.route-stop-status-badge')).not.toBeNull();
+    expect(
+      container.querySelector('.route-stop-now_circleline circle'),
+    ).toBeNull();
+  });
 });

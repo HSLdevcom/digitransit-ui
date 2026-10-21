@@ -15,6 +15,15 @@ import {
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { PREFIX_STOPS } from '../../../../utils/shared/path';
 import { useConfigContext } from '../../../client/ConfigContext';
+import {
+  STOP_STATUS,
+  STOP_STATUS_BADGE_IMGS,
+} from '../../../../utils/client/stopStatusUtils';
+
+// Below this zoom the status badge is drawn as a plain colored dot.
+const STATUS_BADGE_ZOOM_THRESHOLD = 15;
+// Zoom level assumed for icon sizing when the map zoom is unknown or the stop is emphasized.
+const MIN_ICON_SIZE_ZOOM = 15;
 
 export const getStopMarkerAnalytics = (pathname, indexPath, mode) => {
   if (pathname.includes('bike') || pathname.includes('walk')) {
@@ -70,7 +79,10 @@ export const getStopIconRadii = (zoom, { limitZoom, transfer, selected }) => {
   if (limitZoom) {
     calcZoom = Math.min(zoom, limitZoom);
   } else {
-    calcZoom = transfer || selected ? Math.max(zoom, 15) : zoom || 15;
+    calcZoom =
+      transfer || selected
+        ? Math.max(zoom, MIN_ICON_SIZE_ZOOM)
+        : zoom || MIN_ICON_SIZE_ZOOM;
   }
 
   const radius = getCaseRadius(calcZoom) * scale;
@@ -91,12 +103,22 @@ export const buildStopIconSvg = ({
   appendClass,
   colorOverride,
   platformCode,
+  withHalo = false,
 }) => {
   if (radius === 0) {
     return '';
   }
+  // 1px white outline hugging the outer edge of the stop ring, may extend past the icon bounds
+  const haloRadius = inner + stroke / 2 + 1;
   return `
-      <svg viewBox="0 0 ${radius * 2} ${radius * 2}">
+      <svg viewBox="0 0 ${radius * 2} ${radius * 2}"${
+        withHalo ? ' style="overflow:visible"' : ''
+      }>
+        ${
+          withHalo
+            ? `<circle class="stop-halo" cx="${radius}" cy="${radius}" r="${haloRadius}" />`
+            : ''
+        }
         <circle class="stop ${appendClass}" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"${
           colorOverride ? ` color="${colorOverride}"` : ''
         } />
@@ -126,6 +148,7 @@ export default function StopMarker({
   selected = false,
   colorOverride,
   appendClass,
+  stopStatus,
 }) {
   const config = useConfigContext();
   const { router } = useRouter();
@@ -166,6 +189,40 @@ export default function StopMarker({
       selected,
     });
 
+    const badgeImg = radius > 0 && STOP_STATUS_BADGE_IMGS[stopStatus];
+    if (badgeImg) {
+      const badgeSize = radius * 3.5;
+      if (zoom < STATUS_BADGE_ZOOM_THRESHOLD) {
+        const cr = badgeSize / 2;
+        return L.divIcon({
+          html: `<svg viewBox="0 0 ${badgeSize} ${badgeSize}" width="${badgeSize}" height="${badgeSize}"><circle class="stop-badge-${stopStatus}" cx="${cr}" cy="${cr}" r="${
+            cr - 1.5
+          }" stroke="#fff" stroke-width="2.5"/></svg>`,
+          iconSize: [badgeSize, badgeSize],
+          // disable-icon-border prevents the global map.scss SVG border from doubling the stroke
+          className: getStopIconClassName(mode, true),
+        });
+      }
+      const borderWidth = 0.5;
+      const innerSize = badgeSize - borderWidth * 2;
+      const center = badgeSize / 2;
+      const isAlertBadge = stopStatus === STOP_STATUS.ALERT;
+      const background = isAlertBadge
+        ? ''
+        : `<circle cx="${center}" cy="${center}" r="${center}" fill="#fff"/>`;
+      // map.scss clips leaflet-marker-icon svgs to a circle; override it so
+      // the non-circular triangle isn't cut off at its corners.
+      const svgStyle = `filter:drop-shadow(0 1px 2px var(--color-shadow-strong));${
+        isAlertBadge ? 'border-radius:0;' : ''
+      }`;
+      const viewBox = isAlertBadge ? '-8 -8 302.46 302.46' : '0 0 40 40';
+      return L.divIcon({
+        html: `<svg width="${badgeSize}" height="${badgeSize}" style="${svgStyle}">${background}<svg x="${borderWidth}" y="${borderWidth}" width="${innerSize}" height="${innerSize}" viewBox="${viewBox}" ><use href="#${badgeImg}" width="100%" height="100%"/></svg></svg>`,
+        iconSize: [badgeSize, badgeSize],
+        className: getStopIconClassName(mode, true),
+      });
+    }
+
     const iconSvg = buildStopIconSvg({
       radius,
       inner,
@@ -173,12 +230,13 @@ export default function StopMarker({
       appendClass,
       colorOverride,
       platformCode: stop.platformCode,
+      withHalo: !disableIconBorder,
     });
 
     return L.divIcon({
       html: iconSvg,
       iconSize: [radius * 2, radius * 2],
-      className: getStopIconClassName(mode, disableIconBorder),
+      className: getStopIconClassName(mode, true),
     });
   };
 
@@ -211,4 +269,5 @@ StopMarker.propTypes = {
   selected: PropTypes.bool,
   colorOverride: PropTypes.string,
   appendClass: PropTypes.string,
+  stopStatus: PropTypes.string,
 };

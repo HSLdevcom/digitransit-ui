@@ -1,7 +1,22 @@
 import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import FavouriteBar from './src/index';
+import FavouriteBarComponent from './src/index';
+
+const noop = () => {};
+
+function FavouriteBar(props) {
+  return (
+    <FavouriteBarComponent
+      onClickFavourite={noop}
+      onAddPlace={noop}
+      onEdit={noop}
+      onAddHome={noop}
+      onAddWork={noop}
+      {...props}
+    />
+  );
+}
 
 const favourites = [
   { name: 'Home', address: 'Kotikatu 1, Helsinki', favouriteId: 'fav1' },
@@ -52,6 +67,35 @@ describe('Testing @digitransit-component/digitransit-component-favourite-bar mod
     );
     fireEvent.click(screen.getByText('Home'));
     expect(clicked).toEqual(['fav1']);
+  });
+
+  it('moves focus to the first list item on open and closes on outside click', () => {
+    render(<FavouriteBar favourites={favourites} lang="en" />);
+    fireEvent.click(screen.getByLabelText('Open favourites'));
+    expect(document.activeElement.id).toBe('favourite-suggestion-list--item-0');
+    fireEvent.mouseDown(document.body);
+    expect(screen.queryByText('Gym')).toBeNull();
+  });
+
+  it('calls onAddPlace when selecting the add place item with keyboard', () => {
+    let addPlaceCalled = false;
+    render(
+      <FavouriteBar
+        favourites={favourites}
+        lang="en"
+        onAddPlace={() => {
+          addPlaceCalled = true;
+        }}
+      />,
+    );
+    fireEvent.click(screen.getByLabelText('Open favourites'));
+    fireEvent.keyDown(
+      document.getElementById('favourite-suggestion-list--item-1'),
+      {
+        key: 'Enter',
+      },
+    );
+    expect(addPlaceCalled).toBe(true);
   });
 
   it('calls onAddHome when there is no first favourite yet', () => {
