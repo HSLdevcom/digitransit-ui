@@ -105,9 +105,10 @@ describe('<RouteStopListContainer />', () => {
         environment: {},
       },
     };
+    const { vehicles, breakpoint, ...componentProps } = props;
     const { container } = renderWithProviders(
-      <RouteStopListContainer {...props} />,
-      { currentTime: 1573135114 },
+      <RouteStopListContainer {...componentProps} />,
+      { currentTime: 1573135114, vehicles, breakpoint },
     );
     expect(container.querySelectorAll('.route-stop-list')).toHaveLength(1);
   });

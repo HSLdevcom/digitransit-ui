@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { useMatch } from 'found';
 import {
   errorShape,
@@ -8,16 +8,19 @@ import {
   stopShape,
 } from '../../../utils/client/shapes';
 import DepartureListContainer from '../DepartureListContainer';
-import Icon from '../Icon';
 import ScrollableWrapper from '../ScrollableWrapper';
+import { getPrimaryStopMode } from '../../../utils/client/modeUtils';
+import { getModeIconColor } from '../../../utils/shared/colorUtils';
+import StopServiceStatusBanner from './StopServiceStatusBanner';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import { useConfigContext } from '../../client/ConfigContext';
 
 function StopPageContent({ stop, relay, error }) {
-  const config = useConfigContext();
   const intl = useIntl();
+  const config = useConfigContext();
   const currentTime = useCurrentTime();
   const match = useMatch();
+
   if (!stop && error) {
     throw error.message;
   }
@@ -51,17 +54,35 @@ function StopPageContent({ stop, relay, error }) {
       </div>
     );
   }
+  const mode = getPrimaryStopMode(
+    stop.routes,
+    stop.vehicleMode || 'BUS',
+    stop.code,
+    config,
+  );
+  const modeColor = getModeIconColor(config, mode);
   if (!stoptimes || stoptimes.length === 0) {
     return (
-      <div className="stop-no-departures-container">
-        <Icon img="icon_station" />
-        <FormattedMessage id="no-departures" defaultMessage="No departures" />
-      </div>
+      <StopServiceStatusBanner
+        mode={mode}
+        modeColor={modeColor}
+        stoptimes={stoptimes || []}
+        currentTime={currentTime}
+        alerts={stop.alerts}
+        servicesRunningInFuture={(stop.futureStoptimes || []).length > 0}
+      />
     );
   }
   return (
     <ScrollableWrapper>
       <div className="stop-page-departure-wrapper stop-scroll-container">
+        <StopServiceStatusBanner
+          mode={mode}
+          modeColor={modeColor}
+          stoptimes={stoptimes}
+          currentTime={currentTime}
+          alerts={stop.alerts}
+        />
         <DepartureListContainer
           stoptimes={stoptimes}
           key="departures"
@@ -89,13 +110,35 @@ const containerComponent = createRefetchContainer(
         timeRange: { type: "Int!", defaultValue: 864000 }
         numberOfDepartures: { type: "Int!", defaultValue: 100 }
       ) {
+        vehicleMode
+        code
         url
+        routes {
+          gtfsId
+          mode
+          type
+        }
+        alerts(types: [STOP, ROUTES]) {
+          alertEffect
+          alertSeverityLevel
+          effectiveStartDate
+          effectiveEndDate
+        }
+        futureStoptimes: stoptimesWithoutPatterns(
+          startTime: $startTime
+          timeRange: 7776000 # 90 days in seconds
+          numberOfDepartures: 1
+          omitCanceled: true
+        ) {
+          serviceDay
+        }
         stoptimes: stoptimesWithoutPatterns(
           startTime: $startTime
           timeRange: $timeRange
           numberOfDepartures: $numberOfDepartures
           omitCanceled: false
         ) {
+          serviceDay
           ...DepartureListContainer_stoptimes
         }
       }

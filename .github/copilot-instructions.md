@@ -71,7 +71,8 @@ right one by *who consumes the code*, not just by convenience.
   builds). The Vitest config itself (`vitest.config.js`) lives at the repo root, not here (see
   Tests below).
 - `schema/` — generated `schema.graphql` (GraphQL schema consumed by relay-compiler and
-  graphql-eslint; regenerate with `scripts/generate-schema.js`, don't hand-edit).
+  graphql-eslint; regenerate with `scripts/generate-schema.js`, don't hand-edit). Also a private
+  workspace package (devDependency of query-utils).
 - `docs/` — architecture/testing/etc. docs; **treat as potentially stale** — when a change
   affects what a `docs/*` file describes, update that doc in the same change.
 
@@ -228,7 +229,8 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   over padding dependency arrays with values that never actually change.
 - Polyfills are build-time only: `import 'core-js/stable'` in `app/client/client.jsx` plus
   `@babel/preset-env` (`useBuiltIns: 'entry'`) driven by the `browserslist` in `package.json`;
-  don't add runtime/UA-based polyfill services. Keep `corejs.version` in `config/babel.config.cjs`
-  in sync with the installed core-js minor.
+  don't add runtime/UA-based polyfill services. Keep `corejs.version` in `webpack.config.js` (the
+  `app/` loader, which ignores `config/babel.config.cjs`) in sync with the installed core-js
+  minor.
 - SCSS under `sass/`, `app/**/*.scss`, `digitransit-component/**/*.scss` — must pass
   `prettier --check` and `stylelint`.

@@ -36,6 +36,7 @@ function MarkerSelectPopup({ options, zoom }) {
         <SelectStopRow
           terminal={!!option.feature.properties.stops}
           {...option.feature.properties}
+          hybridSiblingProperties={option.feature.hybridSiblingProperties}
           key={option.feature.properties.gtfsId}
           routes={option.feature.properties.routes}
           platform={option.feature.properties.platform}

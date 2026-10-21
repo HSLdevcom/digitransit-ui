@@ -10,7 +10,8 @@
     "digitransit-util/packages/*",
     "digitransit-search-util/packages/*",
     "digitransit-component/packages/*",
-    "digitransit-store/packages/*"
+    "digitransit-store/packages/*",
+    "schema"
   ],
   "scripts": {
     "setup": "yarn install && yarn workspace-packages-build",

@@ -1,6 +1,5 @@
 import { DateTime } from 'luxon';
 import { mockRouter, mockMatch } from './mock-router';
-import PositionStore from '../../../app/store/PositionStore';
 import config from '../../../server/configs/config.default';
 
 const noop = () => {};
@@ -22,7 +21,7 @@ export const mockContext = {
       lat: undefined,
       lon: undefined,
       address: '',
-      status: PositionStore.STATUS_NO_LOCATION,
+      status: 'no-location',
       hasLocation: false,
       isLocationingInProgress: false,
       locationingFailed: false,

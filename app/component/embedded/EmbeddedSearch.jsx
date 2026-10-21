@@ -74,7 +74,7 @@ const translations = {
 const EmbeddedSearch = props => {
   const config = useConfigContext();
   const { query } = props.match.location;
-  const { colors, fontWeights } = config;
+  const { colors } = config;
   const bikeOnly = query?.bikeOnly;
   const walkOnly = query?.walkOnly;
   const lang = query.lang || 'fi';
@@ -213,7 +213,6 @@ const EmbeddedSearch = props => {
     destinationPlaceHolder: 'search-destination-index',
     selectHandler: onSelectLocation,
     onGeolocationStart: onSelectLocation,
-    fontWeights,
     colors,
     modeSet: config.iconModeSet,
     isMobile: true,
@@ -309,7 +308,6 @@ const EmbeddedSearch = props => {
           language={lang}
           origin={origin}
           position="left"
-          fontWeights={fontWeights}
         >
           <span className="sr-only">
             {i18next.t('search-fields-sr-instructions')}

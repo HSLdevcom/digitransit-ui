@@ -764,6 +764,8 @@ export default {
     stop: 'Stop',
     'stop-departure-time-future': 'Departure time is in {minutes} minutes',
     'stop-departure-time-past': 'Departure time was',
+    'stop-has-alert': 'Service alert at stop',
+    'stop-has-info': 'Notice at stop',
     'stop-list-update.sr-instructions':
       'Departure times for each stop will update in real time.',
     'stop-near-you': 'Search stops and routes near you',
@@ -774,6 +776,8 @@ export default {
     'stop-near-you-modal-info':
       'Using the nearby stops function requires location access.',
     'stop-near-you-update-alert': 'Nearest stops updated',
+    'stop-no-service-today': 'No departures today',
+    'stop-out-of-service': 'Stop out of service',
     'stop-page.description': 'Stop {name} - {code}',
     'stop-page.right-now.loaded': 'stop page loaded',
     'stop-page.title': 'Stop {name} - {code}',
@@ -843,7 +847,7 @@ export default {
     'tracking-button-off': 'tracking off',
     'tracking-button-offline': 'tracking failed',
     'tracking-button-on': 'tracking on',
-    'traffic-now': 'Traffic now',
+    'traffic-now': 'Services now',
     'traffic-now-long': 'Services now',
     'traffic-now_bread': 'Travelling',
     'traffic-now_canceled-trips--amount':
@@ -852,10 +856,10 @@ export default {
     'traffic-now_description':
       'Up-to-date information on disruptions and changes. ',
     'traffic-now_description_see-also':
-      'You can also also find detailed information about major upcoming service changes and {link1} on their respective pages.',
+      'You can also find detailed information about {amount, plural, =1 {{link1}} other {{link2} and {link1}}} on their respective pages.',
     'traffic-now_description_see-also--link1':
       'Bank holidays and changes to public transport services',
-    'traffic-now_description_see-also--link2': 'major changes',
+    'traffic-now_description_see-also--link2': 'major upcoming service changes',
     'traffic-now_filters_entity-search': 'Search for individual route or stop',
     'traffic-now_filters_entity-search--placeholder': 'Route, stop or station',
     'traffic-now_filters_operator-select-legend': 'Show only these operators',

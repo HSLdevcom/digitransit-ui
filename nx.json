@@ -10,8 +10,7 @@
         "default",
         "^default",
         "{workspaceRoot}/config/rollup.config.js",
-        "{workspaceRoot}/config/babel.config.cjs",
-        "{workspaceRoot}/schema/schema.graphql"
+        "{workspaceRoot}/config/babel.config.cjs"
       ],
       "outputs": ["{projectRoot}/lib"],
       "cache": true

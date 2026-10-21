@@ -7,7 +7,7 @@ import {
   ItineraryLocationProvider,
   useItineraryLocationActions,
 } from '../../../../app/hooks/ItineraryLocationContext';
-import { Component as OriginDestinationBar } from '../../../../app/component/itinerary/OriginDestinationBar';
+import OriginDestinationBar from '../../../../app/component/itinerary/OriginDestinationBar';
 
 const origin = {
   address: 'Origin, Helsinki',
@@ -85,10 +85,7 @@ describe('OriginDestinationBar', () => {
       <TestProviders match={match} router={router}>
         <ItineraryLocationProvider>
           <ActionsDriver controlRef={controlRef} />
-          <OriginDestinationBar
-            isMobile={false}
-            locationState={mockContext.getStore().getLocationState()}
-          />
+          <OriginDestinationBar isMobile={false} />
         </ItineraryLocationProvider>
       </TestProviders>,
     );
@@ -137,10 +134,7 @@ describe('OriginDestinationBar', () => {
       <TestProviders match={match} router={router}>
         <ItineraryLocationProvider>
           <ActionsDriver controlRef={controlRef} />
-          <OriginDestinationBar
-            isMobile={false}
-            locationState={mockContext.getStore().getLocationState()}
-          />
+          <OriginDestinationBar isMobile={false} />
         </ItineraryLocationProvider>
       </TestProviders>,
     );

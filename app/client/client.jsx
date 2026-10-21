@@ -38,12 +38,13 @@ import { configureCountry } from '../../utils/client/configureCountry';
 import { getUser } from '../../utils/client/apiUtils';
 import favouriteStore from '../data/FavouriteData';
 import searchContext from '../data/SearchContext';
-import { initPositionActions } from '../action/PositionActions';
 import { ConfigProvider } from './ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
 import { MapLayerProvider } from '../hooks/MapLayerContext';
+import { PositionProvider } from '../hooks/PositionContext';
 import { MessageProvider } from '../hooks/MessageContext';
 import { TimeProvider } from '../hooks/TimeContext';
+import { RealTimeInformationProvider } from '../hooks/RealTimeInformationContext';
 import { ItineraryLocationProvider } from '../hooks/ItineraryLocationContext';
 import { isPersonalizationEnabled } from '../../utils/client/modeUtils';
 import { getSettings } from '../../utils/client/planParamUtil';
@@ -73,7 +74,9 @@ const AppProviders = props => {
     [MessageProvider],
     [FavouriteProvider],
     [MapLayerProvider],
+    [PositionProvider],
     [TimeProvider],
+    [RealTimeInformationProvider],
     [ItineraryLocationProvider],
   ];
   return providers.reduceRight(
@@ -188,8 +191,7 @@ async function init() {
 
   // fetch Userdata and favourites
   favouriteStore.init(config);
-  searchContext.init(context.getComponentContext(), config);
-  initPositionActions(config);
+  searchContext.init(config);
   if (config.allowLogin) {
     getUser()
       .then(user => {

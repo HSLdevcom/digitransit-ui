@@ -26,7 +26,7 @@ const languages = [
 const EmbeddedSearchGenerator = ({ breakpoint = undefined }) => {
   const intl = useIntl();
   const config = useConfigContext();
-  const { colors, fontWeights, language: lang } = config;
+  const { colors, language: lang } = config;
   const MIN_WIDTH = 360;
   const MAX_WIDTH = 640;
 
@@ -77,7 +77,6 @@ const EmbeddedSearchGenerator = ({ breakpoint = undefined }) => {
     sources,
     targets: getLocationSearchTargets(config, false),
     isMobile: breakpoint !== 'large',
-    fontWeights,
     modeSet: config.iconModeSet,
     colors,
     selectHandler: onSelectLocation,

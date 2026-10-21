@@ -13,11 +13,7 @@ import {
   DATE_FORMAT,
   ExtendedRouteTypes,
 } from '../../../utils/shared/constants';
-import {
-  startRealTimeClient,
-  stopRealTimeClient,
-  changeRealTimeClientTopics,
-} from '../../action/realTimeClientAction';
+import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import {
   getCancelationsForRoute,
   getAlertsForObject,
@@ -70,11 +66,14 @@ const TAB_ANALYTICS_ACTIONS = {
   [PREFIX_DISRUPTION]: 'OpenDisruptionsTab',
 };
 
-function RouteControlPanel(
-  { route, breakpoint, noInitialServiceDay = false, tripStartTime = undefined },
-  { getStore, executeAction },
-) {
+function RouteControlPanel({
+  route,
+  breakpoint,
+  noInitialServiceDay = false,
+  tripStartTime = undefined,
+}) {
   const config = useConfigContext();
+  const realTimeClient = useRealTimeActions();
   const intl = useIntl();
   const { router, match } = useRouter();
   const { location, params } = match;
@@ -179,7 +178,7 @@ function RouteControlPanel(
             const id = source.routeSelector({ route, match, tripStartTime });
             const patternIdSplit = patternId.split(':');
             const direction = patternIdSplit[patternIdSplit.length - 2];
-            executeAction(startRealTimeClient, {
+            realTimeClient.start({
               ...source,
               feedId,
               options: [
@@ -200,10 +199,7 @@ function RouteControlPanel(
     }
 
     return () => {
-      const { client } = getStore('RealTimeInformationStore');
-      if (client) {
-        executeAction(stopRealTimeClient, client);
-      }
+      realTimeClient.stop();
     };
   }, []);
 
@@ -213,7 +209,7 @@ function RouteControlPanel(
       action: 'ToggleDirection',
       name: null,
     });
-    const { client, topics } = getStore('RealTimeInformationStore');
+    const { client, topics } = realTimeClient;
     const { type } = params;
 
     const pattern =
@@ -234,7 +230,7 @@ function RouteControlPanel(
 
       if (isActivePattern) {
         const id = source.routeSelector({ route, match, tripStartTime });
-        executeAction(changeRealTimeClientTopics, {
+        realTimeClient.changeTopics({
           ...source,
           feedId,
           options: [
@@ -251,7 +247,7 @@ function RouteControlPanel(
         });
       } else {
         // Close MQTT — we don't want to show vehicles when pattern is in future / past
-        executeAction(stopRealTimeClient, client);
+        realTimeClient.stop();
       }
     } else if (isActivePattern) {
       const { realTime } = config;
@@ -264,7 +260,7 @@ function RouteControlPanel(
               : source.routeSelector({ route, match, tripStartTime });
           const patternIdSplit = patternId.split(':');
           const direction = patternIdSplit[patternIdSplit.length - 2];
-          executeAction(startRealTimeClient, {
+          realTimeClient.start({
             ...source,
             feedId,
             options: [
@@ -493,11 +489,6 @@ RouteControlPanel.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   noInitialServiceDay: PropTypes.bool,
   tripStartTime: PropTypes.string,
-};
-
-RouteControlPanel.contextTypes = {
-  getStore: PropTypes.func.isRequired,
-  executeAction: PropTypes.func.isRequired,
 };
 
 export default RouteControlPanel;
