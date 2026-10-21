@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import { alertShape } from '../../utils/client/shapes';
@@ -7,7 +7,6 @@ import { useConfigContext } from '../client/ConfigContext';
 import Icon from './Icon';
 import TruncatedMessage from './TruncatedMessage';
 import { mapAlertSource } from '../../utils/client/alertUtils';
-import { TRAFFICNOW } from '../../utils/shared/path';
 
 const DisruptionBannerAlert = ({
   alert,
@@ -18,7 +17,6 @@ const DisruptionBannerAlert = ({
   const intl = useIntl();
   const config = useConfigContext();
   const { language } = config;
-  const [renderLink, setRenderLink] = useState(false);
 
   let header = alert.alertHeaderText;
   let message = alert.alertDescriptionText;
@@ -42,49 +40,18 @@ const DisruptionBannerAlert = ({
         <Icon img="icon_disruption-banner-alert" />
       </div>
       <div className="disruption-info-container">
-        {(!config.URL.ROOTLINK || !config.trafficNowLink) && (
-          <>
-            <div className="disruption-source-label">
-              {mapAlertSource(config, language, alert.feed)}
-            </div>
-            <div className="disruption-message-font">
-              <TruncatedMessage
-                className="disruption-show-more"
-                lines={3}
-                message={message}
-                truncate={truncate}
-                onShowMore={openAllAlerts}
-              />
-            </div>
-          </>
-        )}
-        {config.URL.ROOTLINK &&
-          config.trafficNowLink &&
-          (truncate && !renderLink ? (
-            <>
-              <div className="disruption-source-label">
-                {mapAlertSource(config, language, alert.feed)}
-              </div>
-              <div className="disruption-message-font">
-                <TruncatedMessage
-                  className="disruption-show-more"
-                  lines={3}
-                  message={message}
-                  truncate={truncate}
-                  onShowMore={openAllAlerts}
-                  onTruncate={i => setRenderLink(i)}
-                />
-              </div>
-            </>
-          ) : (
-            <a
-              className="disruption-info-content"
-              onClick={e => e.stopPropagation()}
-              href={`/${TRAFFICNOW}`}
-            >
-              {message}
-            </a>
-          ))}
+        <div className="disruption-source-label">
+          {mapAlertSource(config, language, alert.feed)}
+        </div>
+        <div className="disruption-message-font">
+          <TruncatedMessage
+            className="disruption-show-more"
+            lines={3}
+            message={message}
+            truncate={truncate}
+            onShowMore={openAllAlerts}
+          />
+        </div>
       </div>
       <button
         title={intl.formatMessage({

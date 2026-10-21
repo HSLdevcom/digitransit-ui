@@ -659,8 +659,6 @@ export default {
   vehicles: false,
   showVehiclesOnStopPage: false,
   showVehiclesOnItineraryPage: false,
-  // link disruption banner alerts to the Traffic now page; requires URL.ROOTLINK
-  trafficNowLink: false,
   // per-language path appended to URL.ROOTLINK used as the TrafficNowHeader
   // breadcrumb link target; falls back to the index page when not defined,
   // e.g. { fi: '/matkustaminen', sv: '/sv/att-resa', en: '/en/travelling' }
