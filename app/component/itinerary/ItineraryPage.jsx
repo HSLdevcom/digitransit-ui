@@ -17,7 +17,6 @@ import { useRouter } from 'found';
 import { useBreakpoint } from '../../../utils/client/withBreakpoint';
 import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import { saveFutureRoute } from '../../../utils/client/storeUtils';
-import { startLocationWatch } from '../../action/PositionActions';
 import { saveSearch } from '../../data/SearchHistory';
 import { TransportMode } from '../../../utils/shared/constants';
 import {
@@ -108,6 +107,7 @@ import { planConnection } from './queries/PlanConnection';
 import { hasTaxiLegs, isCallAgencyLeg } from '../../../utils/client/legUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 import { useMapLayers } from '../../hooks/MapLayerContext';
+import { usePositionActions } from '../../hooks/PositionContext';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
 
@@ -160,7 +160,7 @@ const DEFAULT_LAYER_OPTIONS = getMapLayerOptions({
   selectedMapLayers: ['vehicles'],
 });
 
-function ItineraryPageContent(props, context) {
+function ItineraryPageContent(props) {
   const realTime = useRealTimeActions();
   const { match: routerMatch, router } = useRouter();
   const { environment: relayEnvironment } = useContext(ReactRelayContext);
@@ -190,6 +190,7 @@ function ItineraryPageContent(props, context) {
   const ariaRef = useRef('summary-page.title');
   const mapLayerRef = useRef();
   const { savePersonalizationPreferences } = useFavouriteActions();
+  const { startLocationWatch } = usePositionActions();
   const personalizationPreferences = usePersonalizationPreferences();
   const weights = useRef(personalizationPreferences.weights || {});
   // personalization weights may still be loading (e.g. fetched from the
@@ -257,7 +258,6 @@ function ItineraryPageContent(props, context) {
 
   const itineraryContext = useItineraryContext();
 
-  const { executeAction } = context;
   const { params, location } = match;
   const { hash, secondHash } = params;
   const { query } = location;
@@ -1012,7 +1012,7 @@ function ItineraryPageContent(props, context) {
       setNavigation(true);
     } else if (isNavigatorIntroDismissed) {
       // trigger location permission check before navigator.
-      executeAction(startLocationWatch);
+      startLocationWatch();
       setLocationPermissionsLoadState(LOADSTATE.LOADING);
     }
   };
@@ -1591,7 +1591,7 @@ function ItineraryPageContent(props, context) {
   const toggleNavigatorIntro = () => {
     setDialogState('navi-intro');
     setNavigatorIntroDismissed(true);
-    executeAction(startLocationWatch);
+    startLocationWatch();
     setLocationPermissionsLoadState(LOADSTATE.LOADING);
   };
 
@@ -1890,11 +1890,6 @@ function ItineraryPageContent(props, context) {
     />
   );
 }
-
-ItineraryPageContent.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-  getStore: PropTypes.func,
-};
 
 ItineraryPageContent.propTypes = {
   content: PropTypes.node,

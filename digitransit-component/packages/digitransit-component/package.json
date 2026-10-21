@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component",
-  "version": "6.0.7",
+  "version": "6.0.8",
   "description": "a JavaScript library for Digitransit",
   "type": "module",
   "main": "index.js",

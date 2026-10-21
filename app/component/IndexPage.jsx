@@ -1,8 +1,6 @@
-import PropTypes from 'prop-types';
-import React, { memo, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import isEqual from 'lodash/isEqual';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
@@ -10,7 +8,6 @@ import CtrlPanel from '@digitransit-component/digitransit-component-control-pane
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
 import inside from 'point-in-polygon';
-import { locationShape } from '../../utils/client/shapes';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
@@ -28,8 +25,8 @@ import {
   PREFIX_ITINERARY_SUMMARY,
 } from '../../utils/shared/path';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
-import withBreakpoint from '../../utils/client/withBreakpoint';
-import Geomover from './Geomover';
+import { useBreakpoint } from '../../utils/client/withBreakpoint';
+import useGeomoverSync from '../hooks/useGeomoverSync';
 import scrollTop from '../../utils/client/scroll';
 import { getRefPoint } from '../../utils/client/apiUtils';
 import { filterObject } from '../../utils/client/filterUtils';
@@ -38,10 +35,6 @@ import {
   getNearYouModes,
   useCitybikes,
 } from '../../utils/client/modeUtils';
-import {
-  checkPositioningPermission,
-  startLocationWatch,
-} from '../action/PositionActions';
 import {
   countLocations,
   STATUS_FETCHING_OR_UPDATING,
@@ -52,6 +45,7 @@ import {
   useHasOtpLocationFavourites,
 } from '../hooks/FavouriteContext';
 import { useConfigContext } from '../client/ConfigContext';
+import { usePosition, usePositionActions } from '../hooks/PositionContext';
 import { useCurrentTime } from '../hooks/TimeContext';
 import {
   useOrigin,
@@ -63,43 +57,55 @@ import TrafficNowLink from './trafficnow/TrafficNowLink';
 const StopRouteSearch = withSearchContext(DTAutoSuggest);
 const LocationSearch = withSearchContext(DTAutosuggestPanel);
 
-function IndexPage({ fromMap, ...props }, context) {
+export default function IndexPage() {
   const pendingOriginRef = useRef(null);
   const pendingDestinationRef = useRef(null);
   const intl = useIntl();
   const { match, router } = useRouter();
+  const breakpoint = useBreakpoint();
   const config = useConfigContext();
   const currentTime = useCurrentTime();
+  const locationState = usePosition();
+  const { checkPositioningPermission, startLocationWatch } =
+    usePositionActions();
+  const origin = useOrigin();
+  const destination = useDestination();
+  const { setOrigin, setDestination } = useItineraryLocationActions();
   const favourites = useFavourites();
   const favouriteStatus = useFavouriteStatus();
   const hasOtpLocationFavourites = useHasOtpLocationFavourites();
-  const { setOrigin, setDestination } = useItineraryLocationActions();
+  const { query } = match.location;
+  const fromMap =
+    query.fromMap === 'origin' || query.fromMap === 'destination'
+      ? query.fromMap
+      : undefined;
   const { colors, language, iconModeSet } = config;
-  const { executeAction } = context;
+
+  useGeomoverSync({ locationState, startLocationWatch });
 
   useEffect(() => {
     const { from, to } = match.params;
 
-    const origin = parseLocation(from);
-    const destination = parseLocation(to);
+    const parsedOrigin = parseLocation(from);
+    const parsedDestination = parseLocation(to);
 
-    if (!sameLocations(props.origin, origin)) {
-      pendingOriginRef.current = origin;
-      setOrigin(origin);
+    if (!sameLocations(origin, parsedOrigin)) {
+      pendingOriginRef.current = parsedOrigin;
+      setOrigin(parsedOrigin);
     }
 
-    if (!sameLocations(props.destination, destination)) {
-      pendingDestinationRef.current = destination;
-      setDestination(destination);
+    if (!sameLocations(destination, parsedDestination)) {
+      pendingDestinationRef.current = parsedDestination;
+      setDestination(parsedDestination);
     }
 
-    if (config.startSearchFromUserLocation && !origin.lat) {
+    if (config.startSearchFromUserLocation && !parsedOrigin.lat) {
       checkPositioningPermission().then(permission => {
         if (
           permission.state === 'granted' &&
-          props.locationState.status === 'no-location'
+          locationState.status === 'no-location'
         ) {
-          executeAction(startLocationWatch);
+          startLocationWatch();
         }
       });
     }
@@ -108,8 +114,6 @@ function IndexPage({ fromMap, ...props }, context) {
   }, []);
 
   useEffect(() => {
-    const { origin, destination, locationState } = props;
-
     if (pendingOriginRef.current && isEqual(pendingOriginRef.current, origin)) {
       pendingOriginRef.current = null;
     }
@@ -178,7 +182,7 @@ function IndexPage({ fromMap, ...props }, context) {
         router.replace(newLocation);
       }
     }
-  }, [props.origin, props.destination, props.locationState]);
+  }, [origin, destination, locationState]);
 
   const onSelectStopRoute = item => {
     addAnalyticsEvent({
@@ -194,9 +198,9 @@ function IndexPage({ fromMap, ...props }, context) {
     if (location.query.fromMap === undefined) {
       return;
     }
-    const query = { ...location.query };
-    delete query.fromMap;
-    router.replace({ ...location, query });
+    const nextQuery = { ...location.query };
+    delete nextQuery.fromMap;
+    router.replace({ ...location, query: nextQuery });
   };
 
   const onSelectLocation = (item, id) => {
@@ -266,7 +270,7 @@ function IndexPage({ fromMap, ...props }, context) {
         language={language}
         title={config.nearYouTitle}
         alertsContext={alertsContext}
-        origin={props.origin}
+        origin={origin}
         omitLanguageUrl
         onClick={clickStopNearIcon}
         colors={colors}
@@ -284,10 +288,8 @@ function IndexPage({ fromMap, ...props }, context) {
     );
   };
 
-  const { breakpoint } = props;
-
-  const origin = pendingOriginRef.current || props.origin;
-  const destination = pendingDestinationRef.current || props.destination;
+  const visibleOrigin = pendingOriginRef.current || origin;
+  const visibleDestination = pendingDestinationRef.current || destination;
 
   const locationSources = ['History', 'Datasource'];
   const sources = ['Favourite', 'History', 'Datasource'];
@@ -310,15 +312,20 @@ function IndexPage({ fromMap, ...props }, context) {
   }
 
   const showSpinner =
-    (origin.type === 'CurrentLocation' && !origin.address) ||
-    (destination.type === 'CurrentLocation' && !destination.address);
+    (visibleOrigin.type === 'CurrentLocation' && !visibleOrigin.address) ||
+    (visibleDestination.type === 'CurrentLocation' &&
+      !visibleDestination.address);
 
-  const refPoint = getRefPoint(origin, destination, props.locationState);
+  const refPoint = getRefPoint(
+    visibleOrigin,
+    visibleDestination,
+    locationState,
+  );
 
   const locationSearchProps = {
     appElement: '#app',
-    origin,
-    destination,
+    origin: visibleOrigin,
+    destination: visibleDestination,
     lang: language,
     sources: locationSources,
     targets,
@@ -443,71 +450,3 @@ function IndexPage({ fromMap, ...props }, context) {
     </div>
   );
 }
-
-IndexPage.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-};
-
-IndexPage.propTypes = {
-  breakpoint: PropTypes.string.isRequired,
-  origin: locationShape.isRequired,
-  destination: locationShape.isRequired,
-  query: PropTypes.object.isRequired, // eslint-disable-line
-  fromMap: PropTypes.string,
-  locationState: locationShape.isRequired,
-};
-
-// update only when origin/destination/breakpoint or language changes
-// (favourites and favourite status are read via context and trigger their
-// own re-renders independently of this memo comparison)
-const Index = memo(
-  IndexPage,
-  (props, nextProps) =>
-    isEqual(nextProps.origin, props.origin) &&
-    isEqual(nextProps.destination, props.destination) &&
-    isEqual(nextProps.breakpoint, props.breakpoint) &&
-    isEqual(nextProps.query, props.query) &&
-    isEqual(nextProps.locationState, props.locationState),
-);
-
-const IndexPageWithBreakpoint = withBreakpoint(Index);
-
-const IndexPageWithStores = connectToStores(
-  IndexPageWithBreakpoint,
-  ['PositionStore'],
-  (context, props) => {
-    const locationState = context.getStore('PositionStore').getLocationState();
-    const { query } = props.match.location;
-    const { fromMap } = query;
-
-    const newProps = {};
-    newProps.locationState = locationState;
-    if (fromMap === 'origin' || fromMap === 'destination') {
-      newProps.fromMap = fromMap;
-    }
-    // define itinerary search time & arriveBy
-    newProps.query = query;
-
-    return newProps;
-  },
-);
-
-IndexPageWithStores.contextTypes = {
-  ...IndexPageWithStores.contextTypes,
-  executeAction: PropTypes.func.isRequired,
-};
-
-// Small functional wrapper that injects origin/destination as props from
-// ItineraryLocationContext (replacing OriginStore/DestinationStore),
-// keeping the memoized IndexPage's prop-based re-render comparison intact.
-function IndexPageWithLocation(props) {
-  const origin = useOrigin();
-  const destination = useDestination();
-  return (
-    <IndexPageWithStores {...props} origin={origin} destination={destination} />
-  );
-}
-
-const GeoIndexPage = Geomover(IndexPageWithLocation);
-
-export { GeoIndexPage as default, IndexPageWithBreakpoint as Component };

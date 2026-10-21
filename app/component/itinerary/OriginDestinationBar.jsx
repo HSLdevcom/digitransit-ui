@@ -1,10 +1,8 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { useRouter } from 'found';
-import { locationStateShape } from '../../../utils/client/shapes';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import {
   withSearchContext,
@@ -21,6 +19,7 @@ import {
 import { parseLocation, sameLocations } from '../../../utils/shared/path';
 import { getRefPoint } from '../../../utils/client/apiUtils';
 import { useConfigContext } from '../../client/ConfigContext';
+import { usePosition } from '../../hooks/PositionContext';
 import { useFavourites } from '../../hooks/FavouriteContext';
 import { countLocations } from '../../data/FavouriteData';
 import {
@@ -33,7 +32,7 @@ import {
 const DTAutosuggestPanelWithSearchContext =
   withSearchContext(DTAutosuggestPanel);
 
-function OriginDestinationBar({ isMobile = false, locationState }) {
+function OriginDestinationBar({ isMobile = false }) {
   const config = useConfigContext();
   const { match, router } = useRouter();
   const mountedRef = useRef(false);
@@ -42,6 +41,7 @@ function OriginDestinationBar({ isMobile = false, locationState }) {
   const favourites = useFavourites();
   const showFavourites = countLocations(favourites) > 0;
   const viaPoints = useViaPoints();
+  const locationState = usePosition();
   const itineraryLocationActions = useItineraryLocationActions();
   const { setOrigin, setDestination, setViaPoints } = itineraryLocationActions;
 
@@ -183,15 +183,6 @@ function OriginDestinationBar({ isMobile = false, locationState }) {
 
 OriginDestinationBar.propTypes = {
   isMobile: PropTypes.bool,
-  locationState: locationStateShape.isRequired,
 };
 
-const connectedComponent = connectToStores(
-  OriginDestinationBar,
-  ['PositionStore'],
-  ({ getStore }) => ({
-    locationState: getStore('PositionStore').getLocationState(),
-  }),
-);
-
-export { connectedComponent as default, OriginDestinationBar as Component };
+export default OriginDestinationBar;

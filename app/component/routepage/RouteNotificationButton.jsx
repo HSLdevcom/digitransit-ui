@@ -57,7 +57,7 @@ function RouteNotificationButton({ notification }) {
         aria-haspopup="dialog"
       >
         <span>{closeButtonLabel}</span>
-        <ThemedIcon name="Question" />
+        <ThemedIcon name="Question" size="s" />
       </button>
       <Modal open={open} onOpenChange={setOpen}>
         <ModalContent

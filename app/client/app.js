@@ -1,14 +1,11 @@
 import Fluxible from 'fluxible';
 
 import routes from '../routes/routes';
-import PositionStore from '../store/PositionStore';
 
 export default config => {
   const app = new Fluxible({
     component: routes(config),
   });
-
-  app.registerStore(PositionStore);
 
   app.plug({
     name: 'extra-context-plugin',

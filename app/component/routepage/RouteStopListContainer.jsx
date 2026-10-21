@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
+import { DateTime } from 'luxon';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { useRouter } from 'found';
 import groupBy from 'lodash/groupBy';
@@ -33,7 +34,18 @@ function RouteStopListContainer({
       isMountRef.current = false;
       return;
     }
-    relay.refetch({ currentTime, patternId: match.params.patternId }, null);
+    const startOfDay = DateTime.fromSeconds(currentTime)
+      .startOf('day')
+      .toUnixInteger();
+    relay.refetch(
+      {
+        currentTime,
+        patternId: match.params.patternId,
+        startOfDay,
+        showStopStatusMarkers: !!config.showStopStatusMarkers,
+      },
+      null,
+    );
   }, [currentTime]);
 
   const { stops } = pattern;
@@ -119,6 +131,8 @@ const containerComponent = createRefetchContainer(
       @argumentDefinitions(
         currentTime: { type: "Long!", defaultValue: 0 }
         patternId: { type: "String!", defaultValue: "0" }
+        startOfDay: { type: "Long!", defaultValue: 0 }
+        showStopStatusMarkers: { type: "Boolean!", defaultValue: false }
       ) {
         directionId
         route {
@@ -130,9 +144,19 @@ const containerComponent = createRefetchContainer(
         }
         stops {
           alerts {
+            alertEffect
             alertSeverityLevel
             effectiveEndDate
             effectiveStartDate
+          }
+          firstDeparture: stoptimesWithoutPatterns(
+            startTime: $startOfDay
+            timeRange: 7776000 # 90 days in seconds
+            numberOfDepartures: 1
+            omitCanceled: true
+          ) @include(if: $showStopStatusMarkers) {
+            serviceDay
+            realtimeDeparture
           }
           stopTimesForPattern(id: $patternId, startTime: $currentTime) {
             realtime
@@ -162,10 +186,17 @@ const containerComponent = createRefetchContainer(
     query RouteStopListContainerQuery(
       $patternId: String!
       $currentTime: Long!
+      $startOfDay: Long!
+      $showStopStatusMarkers: Boolean!
     ) {
       pattern(id: $patternId) {
         ...RouteStopListContainer_pattern
-          @arguments(currentTime: $currentTime, patternId: $patternId)
+          @arguments(
+            currentTime: $currentTime
+            patternId: $patternId
+            startOfDay: $startOfDay
+            showStopStatusMarkers: $showStopStatusMarkers
+          )
       }
     }
   `,

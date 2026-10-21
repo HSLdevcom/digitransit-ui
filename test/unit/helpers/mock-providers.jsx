@@ -12,6 +12,7 @@ import {
 } from '../../../utils/client/shapes';
 import { ConfigProvider } from '../../../app/client/ConfigContext';
 import { MapLayerProvider } from '../../../app/hooks/MapLayerContext';
+import { PositionProvider } from '../../../app/hooks/PositionContext';
 import { TimeProvider, TimeContext } from '../../../app/hooks/TimeContext';
 import {
   RealTimeInformationProvider,
@@ -133,12 +134,14 @@ export default function TestProviders({
       <ReactRelayContext.Provider value={mockRelayContext}>
         <RouterContext.Provider value={routerCtx}>
           <BreakpointContext.Provider value={breakpoint}>
-            <RealTimeInformationProvider>
-              {vehicles !== undefined && (
-                <TestRealTimeVehicles vehicles={vehicles} />
-              )}
-              {children}
-            </RealTimeInformationProvider>
+            <PositionProvider>
+              <RealTimeInformationProvider>
+                {vehicles !== undefined && (
+                  <TestRealTimeVehicles vehicles={vehicles} />
+                )}
+                {children}
+              </RealTimeInformationProvider>
+            </PositionProvider>
           </BreakpointContext.Provider>
         </RouterContext.Provider>
       </ReactRelayContext.Provider>

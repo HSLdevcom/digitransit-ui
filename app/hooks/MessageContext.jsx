@@ -75,7 +75,7 @@ function messagesReducer(state, action) {
       // Always return a new state/messages reference, even if none of the
       // ids were tracked in state.messages. Some message-bar items (live
       // service alerts fetched directly by MessageBar, geolocation
-      // permission messages from PositionActions) are dismissed via this
+      // permission messages from PositionService) are dismissed via this
       // same markMessageAsRead call but never went through ADD_MESSAGE, so
       // they're never present in state.messages. Bailing out with the same
       // state reference in that case (as before) meant the context value
@@ -102,7 +102,7 @@ const MessageContext = createContext({
 });
 
 // Bridge for plain (non-React) modules that still need to add/dismiss
-// messages but can't call hooks, e.g. app/action/PositionActions.js's
+// messages but can't call hooks, e.g. app/data/PositionService.js's
 // Fluxible action creators (geolocation permission/timeout messages).
 // MessageProvider fills these in with its real, stable (useCallback with no
 // deps) action functions once it mounts; there's only ever one

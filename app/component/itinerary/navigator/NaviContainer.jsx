@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useRouter } from 'found';
 import { relayShape } from '../../../../utils/client/shapes';
-import {
-  startLocationWatch,
-  stopLocationWatch,
-} from '../../../action/PositionActions';
 import { useMessages } from '../../../hooks/MessageContext';
 import { useRealTimeInformation } from '../../../hooks/RealTimeInformationContext';
+import {
+  usePosition,
+  usePositionActions,
+} from '../../../hooks/PositionContext';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { legTime, legTimeStr } from '../../../../utils/client/legUtils';
 import { useItineraryContext } from '../context/ItineraryContext';
@@ -23,27 +23,27 @@ const LEGLOG = false;
 const TOPBAR_PADDING = 8; // pixels
 const START_BUFFER = 120000; // 2 min in ms
 
-function NaviContainer(
-  {
-    focusToLeg,
-    focusToPoint,
-    relayEnvironment,
-    setNavigation,
-    isNavigatorIntroDismissed = false,
-    mapRef,
-    mapLayerRef,
-    settings,
-  },
-  { executeAction, getStore },
-) {
+function NaviContainer({
+  focusToLeg,
+  focusToPoint,
+  relayEnvironment,
+  setNavigation,
+  isNavigatorIntroDismissed = false,
+  mapRef,
+  mapLayerRef,
+  settings,
+}) {
   const { router } = useRouter();
+  const locationState = usePosition();
+  const { startLocationWatch, stopLocationWatch } = usePositionActions();
   const hasPosition = useRef(false);
   const prevPos = useRef(undefined);
   const posFrozen = useRef(0);
+  const restartTimeout = useRef(undefined);
   const [starterReady, setStarterReady] = useState(false);
   const [containerTopPosition, setContainerTopPosition] = useState(0);
 
-  let position = getStore('PositionStore').getLocationState();
+  let position = locationState;
   if (!position.hasLocation) {
     position = null;
   } else {
@@ -98,6 +98,8 @@ function NaviContainer(
     setTimeout(() => mapRef?.enableMapTracking(), 10); // try always, shows annoying notifier
   }, [mapRef, hasPosition.current]);
 
+  useEffect(() => () => clearTimeout(restartTimeout.current), []);
+
   useEffect(() => {
     if (position && prevPos.current) {
       if (
@@ -106,8 +108,8 @@ function NaviContainer(
       ) {
         posFrozen.current += 1;
         if (posFrozen.current === 3) {
-          executeAction(stopLocationWatch);
-          setTimeout(() => executeAction(startLocationWatch), 10);
+          stopLocationWatch();
+          restartTimeout.current = setTimeout(() => startLocationWatch(), 10);
         }
       } else {
         posFrozen.current = 0;
@@ -221,11 +223,6 @@ NaviContainer.propTypes = {
     .isRequired,
   // eslint-disable-next-line
   settings: PropTypes.object.isRequired,
-};
-
-NaviContainer.contextTypes = {
-  executeAction: PropTypes.func,
-  getStore: PropTypes.func.isRequired,
 };
 
 export default NaviContainer;
