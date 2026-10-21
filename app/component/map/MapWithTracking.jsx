@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { memo, useEffect, useRef, useState } from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 import { useIntl } from 'react-intl';
+import { Button } from '@hsl-fi/layout-primitives';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
@@ -341,16 +342,19 @@ function MapWithTrackingStateHandler(
             mapLayerOptions={mapLayerOptions}
             mapLayers={mergedMapLayers}
           />
-          <button
-            type="button"
-            className="desktop-button"
-            onClick={toggleSettingsOpen}
-          >
-            {intl.formatMessage({
-              id: 'close',
-              defaultMessage: 'Close',
-            })}
-          </button>
+          <div className="map-layers-close">
+            <Button
+              variant="primary"
+              size="l"
+              expand
+              onClick={toggleSettingsOpen}
+            >
+              {intl.formatMessage({
+                id: 'close',
+                defaultMessage: 'Close',
+              })}
+            </Button>
+          </div>
         </MenuDrawer>
       )}
     </>

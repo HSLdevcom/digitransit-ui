@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { CloseButton, Text } from '@hsl-fi/layout-primitives';
 
 import {
   mapLayerOptionsShape,
   mapLayerShape,
 } from '../../../utils/client/shapes';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
-import Icon from '../Icon';
 import Checkbox from '../Checkbox';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import {
@@ -46,18 +45,15 @@ function MapLayersDialogContent({ mapLayers, mapLayerOptions, setOpen }) {
 
   return (
     <Fragment>
-      <button
+      <CloseButton
         className="panel-close"
+        lang={config.language}
         onClick={setOpen}
-        onKeyDown={e => isKeyboardSelectionEvent(e) && setOpen()}
-        type="button"
-      >
-        <Icon img="icon_close" />
-      </button>
+      />
 
-      <span className="map-layer-header">
+      <Text variant="heading-s" as="h2" className="map-layer-header">
         <FormattedMessage id="select-map-layers-header" />
-      </span>
+      </Text>
 
       <div className="checkbox-grouping" />
 
