@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { RouterContext } from 'found';
 import { ReactRelayContext } from 'react-relay';
 import PropTypes from 'prop-types';
@@ -8,13 +8,19 @@ import {
   routerShape,
   matchShape,
   configShape,
+  vehicleShape,
 } from '../../../utils/client/shapes';
 import { ConfigProvider } from '../../../app/client/ConfigContext';
 import { MapLayerProvider } from '../../../app/hooks/MapLayerContext';
 import { PositionProvider } from '../../../app/hooks/PositionContext';
 import { TimeProvider, TimeContext } from '../../../app/hooks/TimeContext';
+import {
+  RealTimeInformationProvider,
+  useRealTimeActions,
+} from '../../../app/hooks/RealTimeInformationContext';
 import translations from '../../../app/translations/en';
 import { mockContext } from './mock-context';
+import { BreakpointContext } from '../../../utils/client/withBreakpoint';
 
 const defaultMessages = translations.en;
 const intlCache = createIntlCache();
@@ -38,6 +44,19 @@ const mockRelayEnvironment = {
   subscribe: noop,
 };
 const mockRelayContext = { environment: mockRelayEnvironment, variables: {} };
+
+function TestRealTimeVehicles({ vehicles }) {
+  const actions = useRealTimeActions();
+  useEffect(() => {
+    actions.reset();
+    actions.handleMessage(Object.values(vehicles));
+  }, [actions, vehicles]);
+  return null;
+}
+
+TestRealTimeVehicles.propTypes = {
+  vehicles: PropTypes.objectOf(vehicleShape).isRequired,
+};
 
 // Remove when Fluxible is fully replaced
 class LegacyContextProvider extends React.Component {
@@ -66,7 +85,7 @@ class LegacyContextProvider extends React.Component {
 }
 
 LegacyContextProvider.childContextTypes = {
-  config: PropTypes.object,
+  config: configShape,
   match: matchShape,
   router: routerShape,
   getStore: PropTypes.func,
@@ -75,7 +94,7 @@ LegacyContextProvider.childContextTypes = {
 
 LegacyContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
-  config: PropTypes.object,
+  config: configShape,
   match: matchShape,
   router: routerShape,
   getStore: PropTypes.func,
@@ -92,6 +111,8 @@ export default function TestProviders({
   locale = 'en',
   messages = defaultMessages,
   currentTime,
+  breakpoint = 'large',
+  vehicles,
   getStore,
   executeAction,
 }) {
@@ -112,7 +133,16 @@ export default function TestProviders({
     >
       <ReactRelayContext.Provider value={mockRelayContext}>
         <RouterContext.Provider value={routerCtx}>
-          <PositionProvider>{children}</PositionProvider>
+          <BreakpointContext.Provider value={breakpoint}>
+            <PositionProvider>
+              <RealTimeInformationProvider>
+                {vehicles !== undefined && (
+                  <TestRealTimeVehicles vehicles={vehicles} />
+                )}
+                {children}
+              </RealTimeInformationProvider>
+            </PositionProvider>
+          </BreakpointContext.Provider>
         </RouterContext.Provider>
       </ReactRelayContext.Provider>
     </LegacyContextProvider>
@@ -142,13 +172,15 @@ TestProviders.propTypes = {
   locale: PropTypes.string,
   messages: PropTypes.objectOf(PropTypes.string),
   currentTime: PropTypes.number,
+  breakpoint: PropTypes.oneOf(['small', 'medium', 'large']),
+  vehicles: PropTypes.objectOf(vehicleShape),
   getStore: PropTypes.func,
   executeAction: PropTypes.func,
 };
 
 /**
  * @param {React.ReactElement} ui - Component under test
- * @param {{ config?: object, match?: object, router?: object, locale?: string, messages?: object, currentTime?: number, getStore?: Function, executeAction?: Function }} opts
+ * @param {{ config?: object, match?: object, router?: object, locale?: string, messages?: object, currentTime?: number, breakpoint?: string, vehicles?: object, getStore?: Function, executeAction?: Function }} opts
  */
 export function renderWithProviders(ui, opts = {}) {
   const {
@@ -158,6 +190,8 @@ export function renderWithProviders(ui, opts = {}) {
     locale,
     messages,
     currentTime,
+    breakpoint,
+    vehicles,
     getStore,
     executeAction,
     ...renderOpts
@@ -170,6 +204,8 @@ export function renderWithProviders(ui, opts = {}) {
       locale={locale}
       messages={messages}
       currentTime={currentTime}
+      breakpoint={breakpoint}
+      vehicles={vehicles}
       getStore={getStore}
       executeAction={executeAction}
     >

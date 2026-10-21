@@ -44,6 +44,7 @@ import { MapLayerProvider } from '../hooks/MapLayerContext';
 import { PositionProvider } from '../hooks/PositionContext';
 import { MessageProvider } from '../hooks/MessageContext';
 import { TimeProvider } from '../hooks/TimeContext';
+import { RealTimeInformationProvider } from '../hooks/RealTimeInformationContext';
 import { ItineraryLocationProvider } from '../hooks/ItineraryLocationContext';
 import { isPersonalizationEnabled } from '../../utils/client/modeUtils';
 import { getSettings } from '../../utils/client/planParamUtil';
@@ -75,6 +76,7 @@ const AppProviders = props => {
     [MapLayerProvider],
     [PositionProvider],
     [TimeProvider],
+    [RealTimeInformationProvider],
     [ItineraryLocationProvider],
   ];
   return providers.reduceRight(

@@ -1,14 +1,11 @@
 import Fluxible from 'fluxible';
 
 import routes from '../routes/routes';
-import RealTimeInformationStore from '../store/RealTimeInformationStore';
 
 export default config => {
   const app = new Fluxible({
     component: routes(config),
   });
-
-  app.registerStore(RealTimeInformationStore);
 
   app.plug({
     name: 'extra-context-plugin',

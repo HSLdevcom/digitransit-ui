@@ -1,6 +1,30 @@
-import { parseMessage } from '../../../../utils/client/mqttClient';
+import {
+  changeTopics,
+  parseMessage,
+} from '../../../../utils/client/mqttClient';
 
 describe('mqttClient', () => {
+  it('unsubscribes old topics and reports new topics through a callback', () => {
+    const client = { subscribe: vi.fn(), unsubscribe: vi.fn() };
+    const onTopicsChanged = vi.fn();
+    changeTopics(
+      {
+        client,
+        oldTopics: ['old'],
+        options: [{ route: '1' }, { tripId: 'trip2' }],
+        mqttTopicResolver: (route, direction, time, headsign, feedId, tripId) =>
+          `${route}/${tripId}`,
+      },
+      onTopicsChanged,
+    );
+    expect(client.unsubscribe).toHaveBeenCalledWith(['old']);
+    expect(onTopicsChanged).toHaveBeenCalledWith({
+      topics: ['1/+', '+/trip2'],
+      topicsByRoute: { 1: '1/+' },
+    });
+    expect(client.subscribe).toHaveBeenCalledWith(['1/+', '+/trip2']);
+  });
+
   const testMessage = {
     VP: {
       lat: 123.123456,

@@ -3,6 +3,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useRouter } from 'found';
 import { relayShape } from '../../../../utils/client/shapes';
 import { useMessages } from '../../../hooks/MessageContext';
+import { useRealTimeInformation } from '../../../hooks/RealTimeInformationContext';
 import {
   usePosition,
   usePositionActions,
@@ -22,19 +23,16 @@ const LEGLOG = false;
 const TOPBAR_PADDING = 8; // pixels
 const START_BUFFER = 120000; // 2 min in ms
 
-function NaviContainer(
-  {
-    focusToLeg,
-    focusToPoint,
-    relayEnvironment,
-    setNavigation,
-    isNavigatorIntroDismissed = false,
-    mapRef,
-    mapLayerRef,
-    settings,
-  },
-  { getStore },
-) {
+function NaviContainer({
+  focusToLeg,
+  focusToPoint,
+  relayEnvironment,
+  setNavigation,
+  isNavigatorIntroDismissed = false,
+  mapRef,
+  mapLayerRef,
+  settings,
+}) {
   const { router } = useRouter();
   const locationState = usePosition();
   const { startLocationWatch, stopLocationWatch } = usePositionActions();
@@ -51,7 +49,7 @@ function NaviContainer(
   } else {
     hasPosition.current = true;
   }
-  const { vehicles } = getStore('RealTimeInformationStore');
+  const { vehicles } = useRealTimeInformation();
 
   const { itinerary, params } = useItineraryContext();
 
@@ -225,10 +223,6 @@ NaviContainer.propTypes = {
     .isRequired,
   // eslint-disable-next-line
   settings: PropTypes.object.isRequired,
-};
-
-NaviContainer.contextTypes = {
-  getStore: PropTypes.func.isRequired,
 };
 
 export default NaviContainer;

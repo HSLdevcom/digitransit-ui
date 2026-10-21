@@ -4,10 +4,11 @@
 // (vitest.config.js's `app` project) already provides window/document/navigator/
 // localStorage/sessionStorage globally, so this file doesn't need to
 // construct a JSDOM instance or copy its properties onto `global` by hand.
-import Link from 'found/Link';
-import relay from 'react-relay';
-import { Settings } from 'luxon';
 import { cleanup } from '@testing-library/react';
+import Link from 'found/Link';
+import { Settings } from 'luxon';
+import ReactModal from 'react-modal';
+import relay from 'react-relay';
 import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
 
 // set up timezone in luxon
@@ -46,6 +47,7 @@ const originalLinkRender = Link.render;
 const originalUseFragment = relay.useFragment;
 
 beforeAll(() => {
+  ReactModal.setAppElement(appRoot);
   console.error = warning => {
     throw new Error(warning);
   };

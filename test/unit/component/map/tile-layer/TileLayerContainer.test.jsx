@@ -3,8 +3,7 @@ import L from 'leaflet';
 import { LeafletProvider } from 'react-leaflet/es/context';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { mockContext } from '../../../helpers/mock-context';
-import {
-  Component,
+import TileLayerContainer, {
   sendSelectionAnalytics,
 } from '../../../../../app/component/map/tile-layer/TileLayerContainer';
 import * as analytics from '../../../../../utils/shared/analyticsUtils';
@@ -33,7 +32,7 @@ describe('<TileLayerContainer />', () => {
     const element = (p, time) => (
       <TimeContext.Provider value={time}>
         <LeafletProvider value={{ map }}>
-          <Component {...baseProps} {...p} />
+          <TileLayerContainer {...baseProps} {...p} />
         </LeafletProvider>
       </TimeContext.Provider>
     );

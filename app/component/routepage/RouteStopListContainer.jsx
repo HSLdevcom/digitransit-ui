@@ -3,18 +3,14 @@ import React, { useEffect, useRef } from 'react';
 import { DateTime } from 'luxon';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { useRouter } from 'found';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import {
-  relayShape,
-  vehicleShape,
-  patternShape,
-} from '../../../utils/client/shapes';
+import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
+import { relayShape, patternShape } from '../../../utils/client/shapes';
 import RouteStop from './RouteStop';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../utils/client/withBreakpoint';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import { getRouteMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
@@ -23,15 +19,15 @@ import { useConfigContext } from '../../client/ConfigContext';
 function RouteStopListContainer({
   pattern,
   className = undefined,
-  vehicles = [],
   relay,
-  breakpoint,
   hideDepartures = false,
 }) {
   const config = useConfigContext();
   const currentTime = useCurrentTime();
   const { match } = useRouter();
   const isMountRef = useRef(true);
+  const breakpoint = useBreakpoint();
+  const { vehicles } = useRealTimeInformation();
 
   useEffect(() => {
     if (isMountRef.current) {
@@ -123,20 +119,12 @@ function RouteStopListContainer({
 RouteStopListContainer.propTypes = {
   pattern: patternShape.isRequired,
   className: PropTypes.string,
-  vehicles: PropTypes.objectOf(vehicleShape),
   relay: relayShape.isRequired,
-  breakpoint: PropTypes.string.isRequired,
   hideDepartures: PropTypes.bool,
 };
 
 const containerComponent = createRefetchContainer(
-  connectToStores(
-    withBreakpoint(RouteStopListContainer),
-    ['RealTimeInformationStore'],
-    ({ getStore }) => ({
-      vehicles: getStore('RealTimeInformationStore').vehicles,
-    }),
-  ),
+  RouteStopListContainer,
   {
     pattern: graphql`
       fragment RouteStopListContainer_pattern on Pattern

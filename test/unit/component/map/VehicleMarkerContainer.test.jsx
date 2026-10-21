@@ -4,39 +4,44 @@ import { render } from '@testing-library/react';
 import { LeafletProvider } from 'react-leaflet/es/context';
 
 import { renderWithProviders } from '../../helpers/mock-providers';
-import {
-  Component as VehicleMarkerContainer,
+import VehicleMarkerContainer, {
   shouldShowVehicle,
   getVehicleIcon,
 } from '../../../../app/component/map/VehicleMarkerContainer';
 import { mockContext } from '../../helpers/mock-context';
+import events from '../../../../utils/client/events';
 
 const defaultProps = {
   direction: 0,
   pattern: 'tampere:2:0:02',
   headsign: 'Pyynikintori',
   tripStart: undefined,
-  vehicles: {
-    tampereBus: {
-      direction: 0,
-      heading: 180,
-      headsign: 'Pyynikintori',
-      id: 'tampereBus',
-      lat: 61.50639,
-      long: 23.77416,
-      mode: 'bus',
-      next_stop: undefined,
-      operationDay: '20190322',
-      route: 'tampere:2',
-      timestamp: 1553260781,
-      tripStartTime: '1514',
-    },
+  mode: undefined,
+};
+
+const vehicles = {
+  tampereBus: {
+    direction: 0,
+    heading: 180,
+    headsign: 'Pyynikintori',
+    id: 'tampereBus',
+    lat: 61.50639,
+    long: 23.77416,
+    mode: 'bus',
+    next_stop: undefined,
+    operationDay: '20190322',
+    route: 'tampere:2',
+    timestamp: 1553260781,
+    tripStartTime: '1514',
   },
-  setVisibleVehicles: () => {},
 };
 
 describe('<VehicleMarkerContainer />', () => {
   describe('VehicleMarkerContainer', () => {
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
     it('should render', () => {
       const addLayer = vi.fn();
       renderWithProviders(
@@ -52,48 +57,60 @@ describe('<VehicleMarkerContainer />', () => {
               tampere: {},
             },
           },
+          vehicles,
         },
       );
       expect(addLayer.mock.calls.length).toBe(1);
     });
 
-    it.each([0, 1])('filters vehicles for direction %i', direction => {
-      const addLayer = vi.fn();
-      const setVisibleVehicles = vi.fn();
-      renderWithProviders(
-        <LeafletProvider
-          value={{ layerContainer: { addLayer, removeLayer: () => {} } }}
-        >
-          <VehicleMarkerContainer
-            {...defaultProps}
-            direction={direction}
-            topics={[{ gtfsId: 'tampere:2' }]}
-            vehicles={{
-              ...defaultProps.vehicles,
+    it.each([
+      [0, 1],
+      [1, 0],
+      [undefined, 0],
+      [undefined, 1],
+    ])(
+      'filters vehicles for direction prop %s and topic direction %i',
+      (direction, topicDirection) => {
+        const addLayer = vi.fn();
+        const emit = vi.spyOn(events, 'emit');
+        renderWithProviders(
+          <LeafletProvider
+            value={{ layerContainer: { addLayer, removeLayer: () => {} } }}
+          >
+            <VehicleMarkerContainer
+              {...defaultProps}
+              direction={direction}
+              topics={[{ route: '2', direction: topicDirection }]}
+            />
+          </LeafletProvider>,
+          {
+            config: {
+              ...mockContext.config,
+              realTime: {
+                tampere: {},
+              },
+            },
+            vehicles: {
+              ...vehicles,
               reverseBus: {
-                ...defaultProps.vehicles.tampereBus,
+                ...vehicles.tampereBus,
                 id: 'reverseBus',
                 direction: 1,
               },
-            }}
-            setVisibleVehicles={setVisibleVehicles}
-          />
-        </LeafletProvider>,
-        {
-          config: {
-            ...mockContext.config,
-            realTime: {
-              tampere: {},
             },
           },
-        },
-      );
+        );
 
-      expect(addLayer).toHaveBeenCalledTimes(1);
-      expect(setVisibleVehicles).toHaveBeenCalledWith([
-        direction === 0 ? 'tampereBus' : 'reverseBus',
-      ]);
-    });
+        expect(addLayer).toHaveBeenCalledTimes(1);
+        expect(emit).toHaveBeenLastCalledWith('vehiclesChanged', [
+          expect.objectContaining({
+            id:
+              (direction ?? topicDirection) === 0 ? 'tampereBus' : 'reverseBus',
+            visible: true,
+          }),
+        ]);
+      },
+    );
   });
 
   describe('shouldShowVehicle', () => {
@@ -215,7 +232,7 @@ describe('<VehicleMarkerContainer />', () => {
 
       const shouldShow = shouldShowVehicle(
         message,
-        2,
+        1,
         '1514',
         'tampere:2:0:02',
         'Pyynikintori',

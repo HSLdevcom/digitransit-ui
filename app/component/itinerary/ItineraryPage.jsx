@@ -15,6 +15,7 @@ import { FormattedMessage } from 'react-intl';
 import { fetchQuery, ReactRelayContext } from 'react-relay';
 import { useRouter } from 'found';
 import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import { saveFutureRoute } from '../../../utils/client/storeUtils';
 import { saveSearch } from '../../data/SearchHistory';
 import { TransportMode } from '../../../utils/shared/constants';
@@ -159,7 +160,8 @@ const DEFAULT_LAYER_OPTIONS = getMapLayerOptions({
   selectedMapLayers: ['vehicles'],
 });
 
-function ItineraryPageContent(props, context) {
+function ItineraryPageContent(props) {
+  const realTime = useRealTimeActions();
   const { match: routerMatch, router } = useRouter();
   const { environment: relayEnvironment } = useContext(ReactRelayContext);
   const breakpoint = useBreakpoint();
@@ -276,7 +278,7 @@ function ItineraryPageContent(props, context) {
   }
 
   function stopClientAndUpdateTopics() {
-    stopClient(context);
+    stopClient(realTime);
     setTopicsState(null);
   }
 
@@ -1121,7 +1123,7 @@ function ItineraryPageContent(props, context) {
     }
 
     return () => {
-      stopClient(context);
+      stopClient(realTime);
     };
   }, []);
 
@@ -1200,10 +1202,10 @@ function ItineraryPageContent(props, context) {
         : null;
 
       const itineraryTopics = getTopics(selected?.node.legs, config);
-      const { client } = context.getStore('RealTimeInformationStore');
+      const { client } = realTime;
       // Client may not be initialized yet if there was an client before ComponentDidMount
       if (!naviMode && (!isEqual(itineraryTopics, topicsState) || !client)) {
-        updateClient(itineraryTopics, context, config);
+        updateClient(itineraryTopics, realTime, config);
       }
       if (!isEqual(itineraryTopics, topicsState) && !naviMode) {
         // eslint-disable-next-line react/no-did-update-set-state
@@ -1888,11 +1890,6 @@ function ItineraryPageContent(props, context) {
     />
   );
 }
-
-ItineraryPageContent.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-  getStore: PropTypes.func,
-};
 
 ItineraryPageContent.propTypes = {
   content: PropTypes.node,
