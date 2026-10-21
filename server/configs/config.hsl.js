@@ -381,7 +381,6 @@ export default {
   },
   ticketButtonTextId: 'open-app',
 
-  trafficNowLink: true,
   trafficNowRootPath: {
     fi: '/matkustaminen',
     sv: '/sv/att-resa',
