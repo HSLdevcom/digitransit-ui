@@ -376,9 +376,6 @@ export default {
     carpark: '#007ac9',
   },
   iconModeSet: 'digitransit',
-  fontWeights: {
-    medium: 700,
-  },
 
   sprites: 'assets/svg-sprite.default.svg',
 

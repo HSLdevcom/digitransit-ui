@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import {
   errorShape,
   RoutingerrorShape,
-  locationStateShape,
   locationShape,
 } from '../../../utils/client/shapes';
 import ErrorCard from './ErrorCard';
 import findErrorMessageIds from './findErrorMessageIds';
 import errorCardProps from './errorCardProperties';
 import { useConfigContext } from '../../client/ConfigContext';
+import { usePosition } from '../../hooks/PositionContext';
 
 /**
  * Get error message visual properties.
@@ -35,11 +34,11 @@ function NoItinerariesNote({
   driving = false,
   error = '',
   routingErrors = [],
-  locationState,
   searchTime,
 }) {
   const { match } = useRouter();
   const config = useConfigContext();
+  const locationState = usePosition();
   const { areaPolygon, minDistanceBetweenFromAndTo, nationalServiceLink } =
     config;
   const { hash } = match.params;
@@ -83,7 +82,6 @@ function NoItinerariesNote({
 NoItinerariesNote.propTypes = {
   from: locationShape.isRequired,
   to: locationShape.isRequired,
-  locationState: locationStateShape,
   searchTime: PropTypes.number.isRequired,
   walking: PropTypes.bool,
   biking: PropTypes.bool,
@@ -92,12 +90,4 @@ NoItinerariesNote.propTypes = {
   routingErrors: PropTypes.arrayOf(RoutingerrorShape),
 };
 
-const connectedComponent = connectToStores(
-  NoItinerariesNote,
-  ['PositionStore'],
-  context => ({
-    locationState: context.getStore('PositionStore').getLocationState(),
-  }),
-);
-
-export { connectedComponent as default, NoItinerariesNote as Component };
+export default NoItinerariesNote;

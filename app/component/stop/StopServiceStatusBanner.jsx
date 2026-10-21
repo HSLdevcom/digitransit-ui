@@ -8,7 +8,7 @@ import { alertShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../client/ConfigContext';
 import StopScheduleStatus from './StopScheduleStatus';
 
-function getModeStopIconName(mode) {
+function getModeStopIcon(mode) {
   switch (mode) {
     case 'bus':
     case 'bus-express':
@@ -74,7 +74,7 @@ export default function StopServiceStatusBanner({
     >
       <div className="stop-no-departures-icon-wrapper">
         <ThemedIcon
-          name={getModeStopIconName(mode)}
+          name={getModeStopIcon(mode)}
           className="stop-no-departures-icon"
           customColor={modeColor}
         />

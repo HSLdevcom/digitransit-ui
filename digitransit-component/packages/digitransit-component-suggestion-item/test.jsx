@@ -73,159 +73,110 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
     expect(screen.getByText('Coming Friday')).toBeTruthy();
   });
 
-  const stopItem = {
-    properties: {
-      layer: 'stop',
-      gtfsId: 'HSL:1234567',
-      addendum: { GTFS: { noService: true } },
-    },
-  };
-  const content = ['Pysäkki', 'Rautatientori', 'Helsinki', '1234'];
+  describe('stop status badge', () => {
+    const makeStopItem = gtfs => ({
+      type: 'Stop',
+      properties: {
+        layer: 'stop',
+        gtfsId: 'HSL:1234567',
+        addendum: { GTFS: gtfs },
+      },
+    });
+    const content = ['Pysäkki', 'Rautatientori', 'Helsinki', '1234'];
 
-  it('does not render a badge when showStopStatusMarkers is false', () => {
-    const { container } = render(
-      <SuggestionItem item={stopItem} content={content} />,
-    );
-    expect(container.querySelector('.suggestion-status-badge')).toBeNull();
-  });
+    const countSvgs = props => {
+      const { container, unmount } = render(
+        <SuggestionItem
+          item={makeStopItem({ noService: true })}
+          content={content}
+          {...props}
+        />,
+      );
+      const count = container.querySelectorAll('svg').length;
+      unmount();
+      return count;
+    };
 
-  it('renders a badge when showStopStatusMarkers is true and a badge applies', () => {
-    const { container } = render(
-      <SuggestionItem
-        item={stopItem}
-        content={content}
-        showStopStatusMarkers
-      />,
-    );
-    expect(container.querySelector('.suggestion-status-badge')).toBeTruthy();
-    expect(getStopBadge(stopItem)).toBe(
-      STOP_STATUS_BADGE_IMGS['out-of-service'],
-    );
-  });
+    it('renders an extra badge icon only when showStopStatusMarkers is true and a badge applies', () => {
+      expect(countSvgs({ showStopStatusMarkers: true })).toBe(
+        countSvgs({ showStopStatusMarkers: false }) + 1,
+      );
+    });
 
-  describe('getStopBadge', () => {
-    it('returns null for layers that are not stops or stations', () => {
-      const nonStopItem = {
-        properties: {
-          layer: 'address',
-          gtfsId: 'HSL:1234567',
-          addendum: { GTFS: { noService: true } },
+    describe('getStopBadge', () => {
+      it('returns null for layers that are not stops or stations', () => {
+        const item = makeStopItem({ noService: true });
+        item.properties.layer = 'address';
+        expect(getStopBadge(item)).toBeNull();
+      });
+
+      it('returns null when item.properties is missing entirely', () => {
+        expect(getStopBadge({})).toBeNull();
+      });
+
+      ['stop', 'favouriteStop', 'station', 'favouriteStation'].forEach(
+        layer => {
+          it(`considers the "${layer}" layer eligible for a badge`, () => {
+            const item = makeStopItem({ noService: true });
+            item.properties.layer = layer;
+            expect(getStopBadge(item)).toBe(
+              STOP_STATUS_BADGE_IMGS['out-of-service'],
+            );
+          });
         },
-      };
-      expect(getStopBadge(nonStopItem)).toBe(null);
-    });
+      );
 
-    it('returns null when item.properties is missing entirely', () => {
-      expect(getStopBadge({})).toBe(null);
-    });
+      it('returns null when no gtfsId can be resolved', () => {
+        const item = makeStopItem({ noService: true });
+        delete item.properties.gtfsId;
+        item.properties.gid = 'whosonfirst:venue:1234';
+        expect(getStopBadge(item)).toBeNull();
+      });
 
-    ['stop', 'favouriteStop', 'station', 'favouriteStation'].forEach(layer => {
-      it(`considers the "${layer}" layer eligible for a badge`, () => {
-        const layerItem = {
-          properties: {
-            layer,
-            gtfsId: 'HSL:1234567',
-            addendum: { GTFS: { noService: true } },
-          },
-        };
-        expect(getStopBadge(layerItem)).toBe(
+      it('extracts the gtfsId from item.properties.gid', () => {
+        const item = makeStopItem({ noService: true });
+        delete item.properties.gtfsId;
+        item.properties.gid = 'GTFS:HSL:1234567#0';
+        expect(getStopBadge(item)).toBe(
           STOP_STATUS_BADGE_IMGS['out-of-service'],
         );
       });
-    });
 
-    it('returns null when no gtfsId can be resolved', () => {
-      const noIdItem = {
-        properties: {
-          layer: 'stop',
-          gid: 'whosonfirst:venue:1234',
-          addendum: { GTFS: { noService: true } },
-        },
-      };
-      expect(getStopBadge(noIdItem)).toBe(null);
-    });
+      it('prioritises noService over noServiceToday and alertSeverity', () => {
+        const item = makeStopItem({
+          noService: true,
+          noServiceToday: true,
+          alertSeverity: 'alert',
+        });
+        expect(getStopBadge(item)).toBe(
+          STOP_STATUS_BADGE_IMGS['out-of-service'],
+        );
+      });
 
-    it('extracts the gtfsId from item.properties.gid', () => {
-      const gidItem = {
-        properties: {
-          layer: 'stop',
-          gid: 'GTFS:HSL:1234567#0',
-          addendum: { GTFS: { noService: true } },
-        },
-      };
-      expect(getStopBadge(gidItem)).toBe(
-        STOP_STATUS_BADGE_IMGS['out-of-service'],
-      );
-    });
+      it('prioritises noServiceToday over alertSeverity', () => {
+        const item = makeStopItem({
+          noServiceToday: true,
+          alertSeverity: 'alert',
+        });
+        expect(getStopBadge(item)).toBe(
+          STOP_STATUS_BADGE_IMGS['no-service-today'],
+        );
+      });
 
-    it('prioritises noService over noServiceToday and alertSeverity', () => {
-      const priorityItem = {
-        properties: {
-          layer: 'stop',
-          gtfsId: 'HSL:1234567',
-          addendum: {
-            GTFS: {
-              noService: true,
-              noServiceToday: true,
-              alertSeverity: 'alert',
-            },
-          },
-        },
-      };
-      expect(getStopBadge(priorityItem)).toBe(
-        STOP_STATUS_BADGE_IMGS['out-of-service'],
-      );
-    });
+      it('returns the alert badge for an "alert" severity', () => {
+        const item = makeStopItem({ alertSeverity: 'alert' });
+        expect(getStopBadge(item)).toBe(STOP_STATUS_BADGE_IMGS.alert);
+      });
 
-    it('prioritises noServiceToday over alertSeverity', () => {
-      const noServiceTodayItem = {
-        properties: {
-          layer: 'stop',
-          gtfsId: 'HSL:1234567',
-          addendum: {
-            GTFS: {
-              noServiceToday: true,
-              alertSeverity: 'alert',
-            },
-          },
-        },
-      };
-      expect(getStopBadge(noServiceTodayItem)).toBe(
-        STOP_STATUS_BADGE_IMGS['no-service-today'],
-      );
-    });
+      it('returns the info badge for an "info" severity', () => {
+        const item = makeStopItem({ alertSeverity: 'info' });
+        expect(getStopBadge(item)).toBe(STOP_STATUS_BADGE_IMGS.info);
+      });
 
-    it('returns the alert badge for an "alert" severity', () => {
-      const alertItem = {
-        properties: {
-          layer: 'station',
-          gtfsId: 'HSL:1234567',
-          addendum: { GTFS: { alertSeverity: 'alert' } },
-        },
-      };
-      expect(getStopBadge(alertItem)).toBe(STOP_STATUS_BADGE_IMGS.alert);
-    });
-
-    it('returns the info badge for an "info" severity', () => {
-      const infoItem = {
-        properties: {
-          layer: 'station',
-          gtfsId: 'HSL:1234567',
-          addendum: { GTFS: { alertSeverity: 'info' } },
-        },
-      };
-      expect(getStopBadge(infoItem)).toBe(STOP_STATUS_BADGE_IMGS.info);
-    });
-
-    it('returns null for an unrecognized alert severity', () => {
-      const unknownSeverityItem = {
-        properties: {
-          layer: 'station',
-          gtfsId: 'HSL:1234567',
-          addendum: { GTFS: { alertSeverity: 'unknown' } },
-        },
-      };
-      expect(getStopBadge(unknownSeverityItem)).toBe(null);
+      it('returns null for an unrecognized alert severity', () => {
+        const item = makeStopItem({ alertSeverity: 'unknown' });
+        expect(getStopBadge(item)).toBeNull();
+      });
     });
   });
 });

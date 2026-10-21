@@ -22,6 +22,7 @@ import {
 } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
 import { useConfigContext } from '../../../client/ConfigContext';
+import { useRealTimeActions } from '../../../hooks/RealTimeInformationContext';
 
 const HIDE_TOPCARD_DURATION = 2000; // milliseconds
 
@@ -41,25 +42,23 @@ const getLegType = (leg, firstLeg, time, interlineWithPreviousLeg) => {
   return legType;
 };
 
-function NaviCardContainer(
-  {
-    focusToLeg,
-    focusToPoint,
-    time,
-    legs,
-    position,
-    tailLength,
-    currentLeg,
-    nextLeg,
-    firstLeg,
-    lastLeg,
-    previousLeg,
-    isJourneyCompleted,
-    containerTopPosition,
-    settings,
-  },
-  context,
-) {
+function NaviCardContainer({
+  focusToLeg,
+  focusToPoint,
+  time,
+  legs,
+  position,
+  tailLength,
+  currentLeg,
+  nextLeg,
+  firstLeg,
+  lastLeg,
+  previousLeg,
+  isJourneyCompleted,
+  containerTopPosition,
+  settings,
+}) {
+  const realTime = useRealTimeActions();
   // All notifications including those user has dismissed.
   const [messages, setMessages] = useState(new Map());
   // notifications that are shown to the user.
@@ -131,7 +130,7 @@ function NaviCardContainer(
       event: 'navigator',
       action: 'start_navigation',
     });
-    updateClient(getNaviTopics(), context, config);
+    updateClient(getNaviTopics(), realTime, config);
   }, []);
 
   useEffect(() => {
@@ -172,7 +171,7 @@ function NaviCardContainer(
       ]);
     }
     if (legChanged) {
-      updateClient(getNaviTopics(), context, config);
+      updateClient(getNaviTopics(), realTime, config);
       setLegChanging(true);
       clearTimeout(legChangeTimeoutRef.current);
       legChangeTimeoutRef.current = setTimeout(() => {
@@ -289,11 +288,6 @@ NaviCardContainer.propTypes = {
   isJourneyCompleted: PropTypes.bool,
   // eslint-disable-next-line
   settings: PropTypes.object.isRequired,
-};
-
-NaviCardContainer.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-  getStore: PropTypes.func.isRequired,
 };
 
 export default NaviCardContainer;

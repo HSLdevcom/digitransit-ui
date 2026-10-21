@@ -205,7 +205,7 @@ function ItineraryLine({
       leg.stopCalls
         .slice(1, -1)
         .filter(sc => sc.stopLocation)
-        .forEach(sc => {
+        .forEach(sc =>
           objs.push(
             <StopMarker
               disableModeIcons
@@ -215,8 +215,8 @@ function ItineraryLine({
               mode={mode}
               thin
             />,
-          );
-        });
+          ),
+        );
     }
   }
 

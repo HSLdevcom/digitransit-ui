@@ -61,7 +61,7 @@ input[type='text'] {
   position: relative;
   top: -2px;
   font-size: 12px;
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium, 500);
   letter-spacing: -0.2px;
   color: #333;
 }
@@ -188,7 +188,7 @@ button.clear-input {
   background: #f2f5f7;
   color: var(--accessible-primary-color);
   font-size: 15px;
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium, 500);
   letter-spacing: -0.42px;
   border: none;
   border-top: 1px solid #ddd;

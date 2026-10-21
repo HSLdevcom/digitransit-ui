@@ -7,7 +7,6 @@ import {
   // getAllVehicleRentalStations,  // Bike stations are fetched from Geocoding
 } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import {
-  getPositions,
   getLanguage,
   getFutureRoutes,
   clearFutureRoutes,
@@ -18,7 +17,6 @@ import favouriteStore, {
   getFavouriteRouteGtfsIds,
   getFavouriteVehicleRentalStations,
 } from './FavouriteData';
-import { startLocationWatch } from '../action/PositionActions';
 import { saveSearch, getOldSearches, clearOldSearches } from './SearchHistory';
 import { useCitybikes } from '../../utils/client/modeUtils';
 import { getDefaultNetworks } from '../../utils/shared/vehicleRentalUtils';
@@ -41,26 +39,26 @@ import { getDefaultNetworks } from '../../utils/shared/vehicleRentalUtils';
 class SearchContext {
   initialized = false;
 
+  getPositions = () => {
+    if (!this.positionGetter) {
+      throw new Error('SearchContext position getter is not connected');
+    }
+    return this.positionGetter();
+  };
+
   /**
    * Initializes the singleton with the real Digitransit implementations,
    * derived from config. Safe to call more than once; only the first call
    * has an effect.
    *
-   * @param {Object} context The Fluxible (component) context, used by some
-   *   @digitransit-search-util packages (e.g.
-   *   digitransit-search-util-execute-search-immediate) to read store state
-   *   via context.getStore(...).
    * @param {Object} config The resolved app config.
    */
-  init(context, config) {
+  init(config) {
     if (this.initialized) {
       return;
     }
     this.initialized = true;
-    this.context = {
-      ...context,
-      config,
-    };
+    this.context = { config };
     this.isPeliasLocationAware = config.autoSuggest.locationAware;
     this.minimalRegexp = config.search
       ? config.search.minimalRegexp
@@ -88,7 +86,6 @@ class SearchContext {
     this.getLanguage = getLanguage;
     this.getFavouriteRoutes = () =>
       getFavouriteRouteGtfsIds(favouriteStore.getFavourites());
-    this.getPositions = getPositions;
     this.getRoutesQuery = getRoutesQuery;
     this.getStopAndStationsQuery = getStopAndStationsQuery;
     this.getFavouriteRoutesQuery = getFavouriteRoutesQuery;
@@ -105,11 +102,15 @@ class SearchContext {
     // that OTP itself no longer serves.
     this.getHasOtpLocationFavourites = () =>
       favouriteStore.getHasOtpLocationFavourites();
-    this.startLocationWatch = startLocationWatch;
     this.saveSearch = saveSearch;
     this.clearOldSearches = clearOldSearches;
     this.getFutureRoutes = getFutureRoutes;
     this.clearFutureRoutes = clearFutureRoutes;
+    this.showStopStatusMarkers = !!config.showStopStatusMarkers;
+  }
+
+  setPositionGetter(getter) {
+    this.positionGetter = getter;
   }
 }
 

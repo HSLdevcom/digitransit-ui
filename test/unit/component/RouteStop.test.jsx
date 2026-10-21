@@ -85,7 +85,7 @@ describe('<RouteStop />', () => {
         showStopStatusMarkers: true,
       },
     });
-    expect(container.querySelector('.caution')).to.equal(null);
+    expect(container.querySelector('.caution')).toBeNull();
   });
 
   it('should render the status badge icon instead of the SVG circle when the stop has no service', () => {
@@ -94,8 +94,7 @@ describe('<RouteStop />', () => {
       color: '',
       stop: {
         alerts: [],
-        serviceToday: [],
-        stoptimesWithoutPatterns: [],
+        firstDeparture: [],
       },
     };
     const { container } = renderWithProviders(<RouteStop {...props} />, {
@@ -106,11 +105,9 @@ describe('<RouteStop />', () => {
         showStopStatusMarkers: true,
       },
     });
+    expect(container.querySelector('.route-stop-status-badge')).not.toBeNull();
     expect(
-      container.querySelectorAll('.route-stop-status-badge'),
-    ).to.have.lengthOf(1);
-    expect(
-      container.querySelectorAll('.route-stop-now_circleline circle'),
-    ).to.have.lengthOf(0);
+      container.querySelector('.route-stop-now_circleline circle'),
+    ).toBeNull();
   });
 });

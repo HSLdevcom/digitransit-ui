@@ -37,12 +37,9 @@ export const prepareDatesForStops = params => {
 export const preparePatternStopsVariables = params => {
   const now = DateTime.now();
   return {
-    ...params,
-    date: now.toFormat(DATE_FORMAT),
+    ...prepareServiceDay(params),
     currentTime: now.toUnixInteger(),
     startOfDay: now.startOf('day').toUnixInteger(),
-    cancelationStartDate: now.toISO(),
-    cancelationEndDate: now.plus({ days: 7 }).toISO(),
   };
 };
 

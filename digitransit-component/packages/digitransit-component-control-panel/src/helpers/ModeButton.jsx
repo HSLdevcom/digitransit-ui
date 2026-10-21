@@ -13,7 +13,6 @@ export default function ModeButton({
   language,
   modeSet,
   colors,
-  fontWeights,
   withAlert,
   loading,
   horizontal,
@@ -42,7 +41,6 @@ export default function ModeButton({
     buttonProps.withBorder = true;
     if (!horizontal) {
       buttonProps.title = t(mode, { lng: language });
-      buttonProps.titleWeight = fontWeights.medium;
     }
   }
 
@@ -70,7 +68,6 @@ ModeButton.propTypes = {
   language: PropTypes.string.isRequired,
   modeSet: PropTypes.string.isRequired,
   colors: PropTypes.objectOf(PropTypes.string).isRequired,
-  fontWeights: PropTypes.shape({ medium: PropTypes.number }).isRequired,
   withAlert: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   horizontal: PropTypes.bool.isRequired,

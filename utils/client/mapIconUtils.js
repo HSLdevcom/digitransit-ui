@@ -437,8 +437,10 @@ export function drawStopIcon(
       // Snapshot coordinates before the platform-number block mutates x/y.
       const iconX = x;
       const iconY = y;
-      // Draw the selection circle before the badge so the badge paints on top.
-      if (isHighlighted && !isFerryTerminal && mode !== 'subway') {
+      const hasStationHighlight =
+        isHighlighted && (isFerryTerminal || mode === 'subway');
+      // Highlights are drawn before the badge so the badge paints on top.
+      if (isHighlighted && !hasStationHighlight) {
         drawSelectionCircle(tile, iconX, iconY, zoom, radius);
       }
       if (drawNumber && platformNumber) {
@@ -456,30 +458,26 @@ export function drawStopIcon(
         ctx.textBaseline = 'middle';
         ctx.fillText(platformNumber, x, y);
       }
-      // Return badge promise so callers can await the full draw cycle (icon - selection circle - badge).
-      return drawStopStatusBadgeForStatus(
-        tile,
-        iconX,
-        iconY,
-        width,
-        stopStatus,
-      );
-    });
-
-    if (isHighlighted && (isFerryTerminal || mode === 'subway')) {
-      getImageFromSpriteCache(`icon_station_highlight`, width, height).then(
-        image => {
+      const drawBadge = () =>
+        drawStopStatusBadgeForStatus(tile, iconX, iconY, width, stopStatus);
+      if (!hasStationHighlight) {
+        // Return the promise so callers can await the full draw cycle.
+        return drawBadge();
+      }
+      return getImageFromSpriteCache(`icon_station_highlight`, width, height)
+        .then(highlight => {
           drawImageSafely(
             tile,
-            image,
-            x - 4 / tile.scaleratio,
-            y - 4 / tile.scaleratio,
+            highlight,
+            iconX - 4 / tile.scaleratio,
+            iconY - 4 / tile.scaleratio,
             width + 8 / tile.scaleratio,
             height + 8 / tile.scaleratio,
           );
-        },
-      );
-    }
+        })
+        .then(drawBadge);
+    });
+
     return mainDraw;
   }
   return Promise.resolve();
