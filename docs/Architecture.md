@@ -13,7 +13,7 @@ Digitransit-ui is a React based web application. The following bullet points des
 
 ## Components
   - Components are function components that fetch data and manage state with hooks
-  - Some components still follow the older View / RelayConnector / Container split (files named `*Container`, `<View>RelayConnector` exports), but we are moving away from this pattern
+  - Some components are still split into views and `*Container` components wrapped with Relay HOCs (`createFragmentContainer` etc.), but we are moving away from this pattern
   - Components should include unit tests, preferably using React Testing Library
 
 React components can access data in two different ways:

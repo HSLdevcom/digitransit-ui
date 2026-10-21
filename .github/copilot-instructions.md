@@ -150,9 +150,9 @@ from before touching it:
 - **React Context + hooks** — everything else (config, app/UI state, favourites, position, ...),
   with providers in `app/hooks/`.
 
-Some components still follow a View / RelayConnector / Container split (files named
-`*Container`, `<View>RelayConnector` exports). We are moving away from this pattern: prefer
-function components that fetch data and manage state with hooks.
+Some components are still split into views and `*Container` components wrapped with Relay HOCs
+(`createFragmentContainer` etc.). We are moving away from this: prefer function components that
+fetch data and manage state with hooks.
 
 Other structural notes:
 
