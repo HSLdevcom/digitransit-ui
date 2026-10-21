@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'found';
 import { stopShape, relayShape } from '../../../utils/client/shapes';
-import { hasEntitiesOfType } from '../../../utils/client/alertUtils';
+import {
+  hasEntitiesOfType,
+  isAlertValid,
+} from '../../../utils/client/alertUtils';
 import { stopPagePath } from '../../../utils/shared/path';
 import { AlertEntityType } from '../../../utils/shared/constants';
 import NearYouHeader from './NearYouHeader';
@@ -36,8 +39,10 @@ const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
   const { constantOperationStops } = config;
   const { locale } = intl;
   const isConstantOperation = constantOperationStops[gtfsId];
-  const filteredAlerts = stop.alerts.filter(alert =>
-    hasEntitiesOfType(alert, AlertEntityType.Stop),
+  const filteredAlerts = stop.alerts.filter(
+    alert =>
+      hasEntitiesOfType(alert, AlertEntityType.Stop) &&
+      isAlertValid(alert, currentTime),
   );
 
   return (
