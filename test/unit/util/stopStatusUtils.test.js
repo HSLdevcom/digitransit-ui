@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import getStopStatus, {
   STOP_STATUS,
   getStopStatusFromStopData,
@@ -5,6 +6,7 @@ import getStopStatus, {
   combineStopStatuses,
   resolveNoDeparturesBadge,
   getStopAlertEffects,
+  getServiceAvailability,
 } from '../../../utils/client/stopStatusUtils';
 
 describe('stopStatusUtils', () => {
@@ -16,7 +18,7 @@ describe('stopStatusUtils', () => {
         servicesRunningOnServiceDate: false,
         servicesRunningInFuture: false,
       });
-      expect(result).to.equal(null);
+      expect(result).toBe(null);
     });
 
     it('returns OUT_OF_SERVICE when the stop is closed by a service alert', () => {
@@ -26,7 +28,7 @@ describe('stopStatusUtils', () => {
         servicesRunningOnServiceDate: true,
         servicesRunningInFuture: true,
       });
-      expect(result).to.equal(STOP_STATUS.OUT_OF_SERVICE);
+      expect(result).toBe(STOP_STATUS.OUT_OF_SERVICE);
     });
 
     it('returns OUT_OF_SERVICE when no services run today or in the future', () => {
@@ -36,7 +38,7 @@ describe('stopStatusUtils', () => {
         servicesRunningOnServiceDate: false,
         servicesRunningInFuture: false,
       });
-      expect(result).to.equal(STOP_STATUS.OUT_OF_SERVICE);
+      expect(result).toBe(STOP_STATUS.OUT_OF_SERVICE);
     });
 
     it('returns NO_SERVICE_TODAY when no services run today but services run in the future', () => {
@@ -46,7 +48,7 @@ describe('stopStatusUtils', () => {
         servicesRunningOnServiceDate: false,
         servicesRunningInFuture: true,
       });
-      expect(result).to.equal(STOP_STATUS.NO_SERVICE_TODAY);
+      expect(result).toBe(STOP_STATUS.NO_SERVICE_TODAY);
     });
 
     it('returns null when services run today', () => {
@@ -56,7 +58,7 @@ describe('stopStatusUtils', () => {
         servicesRunningOnServiceDate: true,
         servicesRunningInFuture: true,
       });
-      expect(result).to.equal(null);
+      expect(result).toBe(null);
     });
 
     it('returns ALERT for a warning-level alert when services run normally', () => {
@@ -67,7 +69,7 @@ describe('stopStatusUtils', () => {
         servicesRunningInFuture: true,
         alertSeverityLevel: 'WARNING',
       });
-      expect(result).to.equal(STOP_STATUS.ALERT);
+      expect(result).toBe(STOP_STATUS.ALERT);
     });
 
     it('prioritises no-service-today over an active alert', () => {
@@ -78,21 +80,21 @@ describe('stopStatusUtils', () => {
         servicesRunningInFuture: true,
         alertSeverityLevel: 'WARNING',
       });
-      expect(result).to.equal(STOP_STATUS.NO_SERVICE_TODAY);
+      expect(result).toBe(STOP_STATUS.NO_SERVICE_TODAY);
     });
   });
 
   describe('severityToStatus', () => {
     it('maps INFO to the INFO status', () => {
-      expect(severityToStatus('INFO')).to.equal(STOP_STATUS.INFO);
+      expect(severityToStatus('INFO')).toBe(STOP_STATUS.INFO);
     });
 
     it('maps non-info levels to the ALERT status', () => {
-      expect(severityToStatus('WARNING')).to.equal(STOP_STATUS.ALERT);
+      expect(severityToStatus('WARNING')).toBe(STOP_STATUS.ALERT);
     });
 
     it('returns null when there is no severity level', () => {
-      expect(severityToStatus(undefined)).to.equal(null);
+      expect(severityToStatus(undefined)).toBe(null);
     });
   });
 
@@ -103,13 +105,13 @@ describe('stopStatusUtils', () => {
           STOP_STATUS.NO_SERVICE_TODAY,
           STOP_STATUS.NO_SERVICE_TODAY,
         ),
-      ).to.equal(STOP_STATUS.NO_SERVICE_TODAY);
+      ).toBe(STOP_STATUS.NO_SERVICE_TODAY);
     });
 
     it('returns ALERT when the statuses differ but both are red-level', () => {
       expect(
         combineStopStatuses(STOP_STATUS.OUT_OF_SERVICE, STOP_STATUS.ALERT),
-      ).to.equal(STOP_STATUS.ALERT);
+      ).toBe(STOP_STATUS.ALERT);
     });
 
     it('returns INFO when the statuses differ and are not both red-level', () => {
@@ -118,20 +120,20 @@ describe('stopStatusUtils', () => {
           STOP_STATUS.OUT_OF_SERVICE,
           STOP_STATUS.NO_SERVICE_TODAY,
         ),
-      ).to.equal(STOP_STATUS.INFO);
+      ).toBe(STOP_STATUS.INFO);
     });
 
     it('returns the non-null status when only one stop has a status', () => {
-      expect(combineStopStatuses(STOP_STATUS.OUT_OF_SERVICE, null)).to.equal(
+      expect(combineStopStatuses(STOP_STATUS.OUT_OF_SERVICE, null)).toBe(
         STOP_STATUS.OUT_OF_SERVICE,
       );
-      expect(combineStopStatuses(null, STOP_STATUS.ALERT)).to.equal(
+      expect(combineStopStatuses(null, STOP_STATUS.ALERT)).toBe(
         STOP_STATUS.ALERT,
       );
     });
 
     it('returns null when both stops have no status', () => {
-      expect(combineStopStatuses(null, null)).to.equal(null);
+      expect(combineStopStatuses(null, null)).toBe(null);
     });
   });
 
@@ -146,7 +148,7 @@ describe('stopStatusUtils', () => {
         servicesRunningOnServiceDate: false,
         servicesRunningInFuture: false,
       });
-      expect(result).to.equal(null);
+      expect(result).toBe(null);
     });
 
     it('returns a null status when stop data is missing', () => {
@@ -157,7 +159,7 @@ describe('stopStatusUtils', () => {
         servicesRunningOnServiceDate: false,
         servicesRunningInFuture: false,
       });
-      expect(result).to.equal(null);
+      expect(result).toBe(null);
     });
 
     it('returns OUT_OF_SERVICE when a valid NO_SERVICE alert is active', () => {
@@ -176,7 +178,7 @@ describe('stopStatusUtils', () => {
         servicesRunningOnServiceDate: true,
         servicesRunningInFuture: true,
       });
-      expect(result).to.equal(STOP_STATUS.OUT_OF_SERVICE);
+      expect(result).toBe(STOP_STATUS.OUT_OF_SERVICE);
     });
 
     it('ignores an expired NO_SERVICE alert', () => {
@@ -195,7 +197,7 @@ describe('stopStatusUtils', () => {
         servicesRunningOnServiceDate: true,
         servicesRunningInFuture: true,
       });
-      expect(result).to.equal(null);
+      expect(result).toBe(null);
     });
 
     it('returns OUT_OF_SERVICE when there are no departures today or in the future', () => {
@@ -206,7 +208,7 @@ describe('stopStatusUtils', () => {
         servicesRunningOnServiceDate: false,
         servicesRunningInFuture: false,
       });
-      expect(result).to.equal(STOP_STATUS.OUT_OF_SERVICE);
+      expect(result).toBe(STOP_STATUS.OUT_OF_SERVICE);
     });
 
     it('returns NO_SERVICE_TODAY when there are no departures today but some in the future', () => {
@@ -217,7 +219,7 @@ describe('stopStatusUtils', () => {
         servicesRunningOnServiceDate: false,
         servicesRunningInFuture: true,
       });
-      expect(result).to.equal(STOP_STATUS.NO_SERVICE_TODAY);
+      expect(result).toBe(STOP_STATUS.NO_SERVICE_TODAY);
     });
 
     it('returns ALERT for an active warning alert', () => {
@@ -237,7 +239,7 @@ describe('stopStatusUtils', () => {
         servicesRunningOnServiceDate: true,
         servicesRunningInFuture: true,
       });
-      expect(result).to.equal(STOP_STATUS.ALERT);
+      expect(result).toBe(STOP_STATUS.ALERT);
     });
 
     it('returns a null status when departures run today even if none run in the future', () => {
@@ -248,7 +250,7 @@ describe('stopStatusUtils', () => {
         servicesRunningOnServiceDate: true,
         servicesRunningInFuture: false,
       });
-      expect(result).to.equal(null);
+      expect(result).toBe(null);
     });
   });
 
@@ -263,7 +265,7 @@ describe('stopStatusUtils', () => {
 
     it('returns all nulls when showStopStatusMarkers is false', () => {
       const result = resolveNoDeparturesBadge([], NOW, false, false);
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         stopStatus: null,
         badgeImg: null,
         alertEffects: null,
@@ -277,8 +279,8 @@ describe('stopStatusUtils', () => {
         true,
         true,
       );
-      expect(result.stopStatus).to.equal(STOP_STATUS.OUT_OF_SERVICE);
-      expect(result.alertEffects).to.equal(null);
+      expect(result.stopStatus).toBe(STOP_STATUS.OUT_OF_SERVICE);
+      expect(result.alertEffects).toBe(null);
     });
 
     it('returns OUT_OF_SERVICE when a non-NO_SERVICE alert is active and no future service exists', () => {
@@ -288,8 +290,8 @@ describe('stopStatusUtils', () => {
         true,
         false,
       );
-      expect(result.stopStatus).to.equal(STOP_STATUS.OUT_OF_SERVICE);
-      expect(result.alertEffects).to.equal(null);
+      expect(result.stopStatus).toBe(STOP_STATUS.OUT_OF_SERVICE);
+      expect(result.alertEffects).toBe(null);
     });
 
     it('returns ALERT with severity-filtered effects when an ALERT-tier alert is active and future service exists', () => {
@@ -299,8 +301,8 @@ describe('stopStatusUtils', () => {
         true,
         true,
       );
-      expect(result.stopStatus).to.equal(STOP_STATUS.ALERT);
-      expect(result.alertEffects).to.deep.equal(['DETOUR']);
+      expect(result.stopStatus).toBe(STOP_STATUS.ALERT);
+      expect(result.alertEffects).toEqual(['DETOUR']);
     });
 
     it('returns NO_SERVICE_TODAY when only an INFO alert is active and future service exists', () => {
@@ -310,24 +312,67 @@ describe('stopStatusUtils', () => {
         true,
         true,
       );
-      expect(result.stopStatus).to.equal(STOP_STATUS.NO_SERVICE_TODAY);
-      expect(result.alertEffects).to.equal(null);
+      expect(result.stopStatus).toBe(STOP_STATUS.NO_SERVICE_TODAY);
+      expect(result.alertEffects).toBe(null);
     });
 
     it('returns OUT_OF_SERVICE when no alerts and no future service', () => {
       const result = resolveNoDeparturesBadge([], NOW, true, false);
-      expect(result.stopStatus).to.equal(STOP_STATUS.OUT_OF_SERVICE);
-      expect(result.alertEffects).to.equal(null);
+      expect(result.stopStatus).toBe(STOP_STATUS.OUT_OF_SERVICE);
+      expect(result.alertEffects).toBe(null);
     });
 
     it('returns NO_SERVICE_TODAY when no alerts but future service exists', () => {
       const result = resolveNoDeparturesBadge([], NOW, true, true);
-      expect(result.stopStatus).to.equal(STOP_STATUS.NO_SERVICE_TODAY);
+      expect(result.stopStatus).toBe(STOP_STATUS.NO_SERVICE_TODAY);
     });
 
     it('returns NO_SERVICE_TODAY when servicesRunningInFuture is undefined (data unavailable)', () => {
       const result = resolveNoDeparturesBadge([], NOW, true, undefined);
-      expect(result.stopStatus).to.equal(STOP_STATUS.NO_SERVICE_TODAY);
+      expect(result.stopStatus).toBe(STOP_STATUS.NO_SERVICE_TODAY);
+    });
+  });
+
+  describe('getServiceAvailability', () => {
+    const NOW = 1_700_000_000;
+    const startOfDay = DateTime.fromSeconds(NOW).startOf('day').toUnixInteger();
+
+    it('returns no flags when the departure data was not fetched', () => {
+      expect(getServiceAvailability(undefined, NOW)).toEqual({});
+    });
+
+    it('reports no service at all when there is no departure', () => {
+      expect(getServiceAvailability([], NOW)).toEqual({
+        servicesRunningOnServiceDate: false,
+        servicesRunningInFuture: false,
+      });
+    });
+
+    it('reports service today when the first departure is within the current day', () => {
+      const result = getServiceAvailability(
+        [{ serviceDay: startOfDay, realtimeDeparture: 3600 }],
+        NOW,
+      );
+      expect(result.servicesRunningOnServiceDate).toBe(true);
+    });
+
+    it('reports service only in the future when the first departure is on a later day', () => {
+      const result = getServiceAvailability(
+        [{ serviceDay: startOfDay + 2 * 86400, realtimeDeparture: 3600 }],
+        NOW,
+      );
+      expect(result).toEqual({
+        servicesRunningOnServiceDate: false,
+        servicesRunningInFuture: true,
+      });
+    });
+
+    it('counts an after-midnight departure of the previous service day as today', () => {
+      const result = getServiceAvailability(
+        [{ serviceDay: startOfDay - 86400, realtimeDeparture: 86400 + 1800 }],
+        NOW,
+      );
+      expect(result.servicesRunningOnServiceDate).toBe(true);
     });
   });
 
@@ -342,7 +387,7 @@ describe('stopStatusUtils', () => {
 
     it('returns effects from all alerts when only INFO alerts are present', () => {
       const alerts = [makeAlert('INFO', 'OTHER_EFFECT')];
-      expect(getStopAlertEffects(alerts, NOW)).to.deep.equal(['OTHER_EFFECT']);
+      expect(getStopAlertEffects(alerts, NOW)).toEqual(['OTHER_EFFECT']);
     });
 
     it('excludes INFO-level effects when ALERT-tier alerts are also present', () => {
@@ -350,7 +395,7 @@ describe('stopStatusUtils', () => {
         makeAlert('WARNING', 'DETOUR'),
         makeAlert('INFO', 'OTHER_EFFECT'),
       ];
-      expect(getStopAlertEffects(alerts, NOW)).to.deep.equal(['DETOUR']);
+      expect(getStopAlertEffects(alerts, NOW)).toEqual(['DETOUR']);
     });
 
     it('returns effects from all ALERT-tier alerts when no INFO alerts are present', () => {
@@ -358,7 +403,7 @@ describe('stopStatusUtils', () => {
         makeAlert('SEVERE', 'DETOUR'),
         makeAlert('WARNING', 'REDUCED_SERVICE'),
       ];
-      expect(getStopAlertEffects(alerts, NOW)).to.deep.equal([
+      expect(getStopAlertEffects(alerts, NOW)).toEqual([
         'DETOUR',
         'REDUCED_SERVICE',
       ]);

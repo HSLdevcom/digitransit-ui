@@ -21,7 +21,6 @@ $mode-colors: (
   car: $car-color,
   citybike: $citybike-color,
   citybike_walk: $citybike-color,
-  citybike-off: $citybike-color,
   scooter: $scooter-color,
   walk: $walk-color,
   bicycle: $bicycle-color,
@@ -30,34 +29,9 @@ $mode-colors: (
   call-local: $bus-color,
 );
 
-// Modes that should have a -stop variant
-$stop-modes: (
-  bus,
-  bus-local,
-  bus-express,
-  speedtram,
-  tram,
-  subway,
-  rail,
-  ferry,
-  ferry-external,
-  citybike,
-  funicular
-);
-
 @each $mode, $color in $mode-colors {
   .#{$mode} {
     color: $color;
-
-    @if index($stop-modes, $mode) {
-      &-stop {
-        color: $color;
-      }
-
-      &-station {
-        color: $color;
-      }
-    }
   }
 }
 
@@ -75,10 +49,6 @@ $stop-modes: (
 
 .to {
   color: $to-color;
-}
-
-.viewpoint {
-  color: $viewpoint-marker-color;
 }
 
 .gray {

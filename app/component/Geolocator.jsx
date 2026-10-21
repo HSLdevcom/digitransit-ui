@@ -1,24 +1,20 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-import { startLocationWatch } from '../action/PositionActions';
+import React, { useEffect } from 'react';
 import Loading from './Loading';
 import { locationToUri } from '../../utils/shared/otpStrings';
+import { usePosition, usePositionActions } from '../hooks/PositionContext';
 
-const Geolocator = () => <Loading />;
+function Geolocator({ createReturnPath, path, match, router }) {
+  const locationState = usePosition();
+  const { startLocationWatch } = usePositionActions();
+  const { from, to, hash, secondHash } = match.params;
+  const { query } = match.location;
 
-const GeolocatorWithPosition = connectToStores(
-  Geolocator,
-  ['PositionStore'],
-  (context, props) => {
-    const locationState = context.getStore('PositionStore').getLocationState();
-    const { createReturnPath, path } = props;
-    const { from, to, hash, secondHash } = props.match.params;
-
+  useEffect(() => {
     const redirect = () => {
       const locationForUrl = locationToUri(locationState);
       const newFrom = from === undefined ? locationForUrl : from;
-      let { save } = props.match.location.query;
+      let { save } = query;
       let newTo;
       if (to === 'POS' || (from !== undefined && to === undefined)) {
         newTo = locationForUrl;
@@ -45,13 +41,13 @@ const GeolocatorWithPosition = connectToStores(
       );
 
       const newLocation = {
-        ...props.match.location,
+        ...match.location,
         pathname: returnPath,
       };
       if (save) {
         newLocation.query.save = save;
       }
-      props.router.replace(newLocation);
+      router.replace(newLocation);
     };
 
     if (locationState.locationingFailed) {
@@ -62,7 +58,7 @@ const GeolocatorWithPosition = connectToStores(
         !locationState.isLocationingInProgress &&
         locationState.status === 'no-location'
       ) {
-        context.executeAction(startLocationWatch);
+        startLocationWatch();
       }
     } else if (
       locationState.hasLocation &&
@@ -70,17 +66,27 @@ const GeolocatorWithPosition = connectToStores(
     ) {
       redirect();
     }
-    return {};
-  },
-);
+  }, [
+    createReturnPath,
+    from,
+    hash,
+    locationState,
+    match.location,
+    path,
+    query,
+    router,
+    secondHash,
+    to,
+  ]);
 
-GeolocatorWithPosition.contextTypes = {
-  ...GeolocatorWithPosition.contextTypes,
-  executeAction: PropTypes.func.isRequired,
-};
-GeolocatorWithPosition.propTypes = {
+  return <Loading />;
+}
+
+Geolocator.propTypes = {
+  match: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  router: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   path: PropTypes.string.isRequired,
   createReturnPath: PropTypes.func.isRequired,
 };
 
-export default GeolocatorWithPosition;
+export default Geolocator;

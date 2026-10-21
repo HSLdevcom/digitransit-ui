@@ -24,6 +24,7 @@ import Icon from '../Icon';
 import { ensureColorAccessibleOnWhite } from '../../../utils/shared/colorUtils';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 import {
+  getServiceAvailability,
   getStopStatusFromStopData,
   STOP_STATUS_BADGE_IMGS,
 } from '../../../utils/client/stopStatusUtils';
@@ -61,8 +62,8 @@ const RouteStop = ({
     stop,
     nowUnixTime: currentTime,
     showStopStatusMarkers: config.showStopStatusMarkers,
-    servicesRunningOnServiceDate: (stop.serviceToday || []).length > 0,
-    servicesRunningInFuture: (stop.stoptimesWithoutPatterns || []).length > 0,
+    ...(config.showStopStatusMarkers &&
+      getServiceAvailability(stop.firstDeparture, currentTime)),
   });
   const badgeImg = stopStatus && STOP_STATUS_BADGE_IMGS[stopStatus];
   let firstDeparture;
@@ -370,11 +371,11 @@ RouteStop.propTypes = {
     platformCode: PropTypes.string,
     alerts: PropTypes.arrayOf(alertShape),
     stopTimesForPattern: PropTypes.arrayOf(stopTimeShape),
-    serviceToday: PropTypes.arrayOf(
-      PropTypes.shape({ serviceDay: PropTypes.number }),
-    ),
-    stoptimesWithoutPatterns: PropTypes.arrayOf(
-      PropTypes.shape({ serviceDay: PropTypes.number }),
+    firstDeparture: PropTypes.arrayOf(
+      PropTypes.shape({
+        serviceDay: PropTypes.number,
+        realtimeDeparture: PropTypes.number,
+      }),
     ),
   }).isRequired,
   nextStop: PropTypes.shape({

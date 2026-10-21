@@ -3,18 +3,14 @@ import React, { useEffect, useRef } from 'react';
 import { DateTime } from 'luxon';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { useRouter } from 'found';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import {
-  relayShape,
-  vehicleShape,
-  patternShape,
-} from '../../../utils/client/shapes';
+import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
+import { relayShape, patternShape } from '../../../utils/client/shapes';
 import RouteStop from './RouteStop';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../utils/client/withBreakpoint';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import { getRouteMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
@@ -23,15 +19,15 @@ import { useConfigContext } from '../../client/ConfigContext';
 function RouteStopListContainer({
   pattern,
   className = undefined,
-  vehicles = [],
   relay,
-  breakpoint,
   hideDepartures = false,
 }) {
   const config = useConfigContext();
   const currentTime = useCurrentTime();
   const { match } = useRouter();
   const isMountRef = useRef(true);
+  const breakpoint = useBreakpoint();
+  const { vehicles } = useRealTimeInformation();
 
   useEffect(() => {
     if (isMountRef.current) {
@@ -42,7 +38,12 @@ function RouteStopListContainer({
       .startOf('day')
       .toUnixInteger();
     relay.refetch(
-      { currentTime, patternId: match.params.patternId, startOfDay },
+      {
+        currentTime,
+        patternId: match.params.patternId,
+        startOfDay,
+        showStopStatusMarkers: !!config.showStopStatusMarkers,
+      },
       null,
     );
   }, [currentTime]);
@@ -118,20 +119,12 @@ function RouteStopListContainer({
 RouteStopListContainer.propTypes = {
   pattern: patternShape.isRequired,
   className: PropTypes.string,
-  vehicles: PropTypes.objectOf(vehicleShape),
   relay: relayShape.isRequired,
-  breakpoint: PropTypes.string.isRequired,
   hideDepartures: PropTypes.bool,
 };
 
 const containerComponent = createRefetchContainer(
-  connectToStores(
-    withBreakpoint(RouteStopListContainer),
-    ['RealTimeInformationStore', 'PositionStore'],
-    ({ getStore }) => ({
-      vehicles: getStore('RealTimeInformationStore').vehicles,
-    }),
-  ),
+  RouteStopListContainer,
   {
     pattern: graphql`
       fragment RouteStopListContainer_pattern on Pattern
@@ -139,6 +132,7 @@ const containerComponent = createRefetchContainer(
         currentTime: { type: "Long!", defaultValue: 0 }
         patternId: { type: "String!", defaultValue: "0" }
         startOfDay: { type: "Long!", defaultValue: 0 }
+        showStopStatusMarkers: { type: "Boolean!", defaultValue: false }
       ) {
         directionId
         route {
@@ -155,21 +149,14 @@ const containerComponent = createRefetchContainer(
             effectiveEndDate
             effectiveStartDate
           }
-          serviceToday: stoptimesWithoutPatterns(
+          firstDeparture: stoptimesWithoutPatterns(
             startTime: $startOfDay
-            timeRange: 86400
+            timeRange: 7776000 # 90 days in seconds
             numberOfDepartures: 1
             omitCanceled: true
-          ) {
+          ) @include(if: $showStopStatusMarkers) {
             serviceDay
-          }
-          stoptimesWithoutPatterns(
-            startTime: $currentTime
-            timeRange: 7776000
-            numberOfDepartures: 1
-            omitCanceled: true
-          ) {
-            serviceDay
+            realtimeDeparture
           }
           stopTimesForPattern(id: $patternId, startTime: $currentTime) {
             realtime
@@ -200,6 +187,7 @@ const containerComponent = createRefetchContainer(
       $patternId: String!
       $currentTime: Long!
       $startOfDay: Long!
+      $showStopStatusMarkers: Boolean!
     ) {
       pattern(id: $patternId) {
         ...RouteStopListContainer_pattern
@@ -207,6 +195,7 @@ const containerComponent = createRefetchContainer(
             currentTime: $currentTime
             patternId: $patternId
             startOfDay: $startOfDay
+            showStopStatusMarkers: $showStopStatusMarkers
           )
       }
     }

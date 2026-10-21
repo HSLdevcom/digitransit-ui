@@ -2,6 +2,7 @@ import {
   STOP_STATUS,
   STOP_STATUS_BADGE_IMGS,
 } from '@digitransit-component/digitransit-component-suggestion-item';
+import { DateTime } from 'luxon';
 import { isAlertValid, getMaximumAlertSeverityLevel } from './alertUtils';
 import { AlertSeverityLevelType } from '../shared/constants';
 
@@ -87,7 +88,7 @@ export default function getStopStatus({
 
 /** Returns true when any active alert closes the stop entirely. */
 export function isClosedByServiceAlert(activeAlerts) {
-  return activeAlerts.some(a => a.alertEffect === 'NO_SERVICE');
+  return activeAlerts.some(a => a?.alertEffect === 'NO_SERVICE');
 }
 
 /**
@@ -199,7 +200,9 @@ export function resolveNoDeparturesBadge(
   if (!showStopStatusMarkers) {
     return { stopStatus: null, badgeImg: null, alertEffects: null };
   }
-  const activeAlerts = (alerts || []).filter(a => isAlertValid(a, currentTime));
+  const activeAlerts = (alerts || []).filter(
+    a => a && isAlertValid(a, currentTime),
+  );
   if (isClosedByServiceAlert(activeAlerts)) {
     return {
       stopStatus: STOP_STATUS.OUT_OF_SERVICE,
@@ -234,6 +237,41 @@ export function resolveNoDeparturesBadge(
     stopStatus: STOP_STATUS.NO_SERVICE_TODAY,
     badgeImg: STOP_STATUS_BADGE_IMGS[STOP_STATUS.NO_SERVICE_TODAY],
     alertEffects: null,
+  };
+}
+
+const DAY_SECONDS = 24 * 60 * 60;
+
+/**
+ * Derives service availability from a stop's earliest non-canceled departure
+ * at or after the start of the current day, fetched with a single 90-day
+ * `stoptimesWithoutPatterns(numberOfDepartures: 1)` query.
+ *
+ * @param {Array} firstDeparture list with at most one stoptime (`serviceDay`, `realtimeDeparture`)
+ * @param {number} nowUnixTime reference unix time (seconds) used to resolve the current day
+ * @returns {{ servicesRunningOnServiceDate?: boolean, servicesRunningInFuture?: boolean }}
+ *   Empty when the departure data was not fetched. `servicesRunningInFuture`
+ *   is only meaningful when no service runs today.
+ */
+export function getServiceAvailability(firstDeparture, nowUnixTime) {
+  if (!Array.isArray(firstDeparture)) {
+    return {};
+  }
+  const stoptime = firstDeparture?.[0];
+  if (!stoptime) {
+    return {
+      servicesRunningOnServiceDate: false,
+      servicesRunningInFuture: false,
+    };
+  }
+  const startOfDay = DateTime.fromSeconds(nowUnixTime)
+    .startOf('day')
+    .toUnixInteger();
+  return {
+    servicesRunningOnServiceDate:
+      stoptime.serviceDay + stoptime.realtimeDeparture <
+      startOfDay + DAY_SECONDS,
+    servicesRunningInFuture: true,
   };
 }
 

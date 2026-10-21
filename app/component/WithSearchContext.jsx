@@ -2,9 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
-import connectToStores from 'fluxible-addons-react/connectToStores';
 import { useIntl } from 'react-intl';
-import { locationStateShape } from '../../utils/client/shapes';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { useCitybikes } from '../../utils/client/modeUtils';
 import {
@@ -15,6 +13,7 @@ import {
 import searchContext from '../data/SearchContext';
 import { removeSearch, saveSearch } from '../data/SearchHistory';
 import { useConfigContext } from '../client/ConfigContext';
+import { usePosition, usePositionActions } from '../hooks/PositionContext';
 import SelectFromMap from './map/SelectFromMap';
 import SelectFromMapModal from './SelectFromMapModal';
 
@@ -51,23 +50,21 @@ export function getLocationSearchTargets(config, isMobile) {
 }
 
 export function withSearchContext(WrappedComponent, embeddedSearch = false) {
-  function ComponentWithSearchContext(
-    {
-      selectHandler,
-      locationState,
-      onGeolocationStart = null,
-      fromMap: initialFromMap,
-      isMobile = false,
-      // Called when the SelectFromMap modal opened via the fromMap prop is
-      // closed without selecting a location.
-      onFromMapClose = undefined,
-      showViapointControl = false,
-      ...rest
-    },
-    { executeAction },
-  ) {
+  function ComponentWithSearchContext({
+    selectHandler,
+    onGeolocationStart = null,
+    fromMap: initialFromMap,
+    isMobile = false,
+    // Called when the SelectFromMap modal opened via the fromMap prop is
+    // closed without selecting a location.
+    onFromMapClose = undefined,
+    showViapointControl = false,
+    ...rest
+  }) {
     const intl = useIntl();
     const config = useConfigContext();
+    const locationState = usePosition();
+    const { startLocationWatch } = usePositionActions();
     const [fromMap, setFromMap] = useState(initialFromMap);
     // { id } of the search field waiting for geolocation, or null. An object
     // because id can be a via point index 0.
@@ -124,7 +121,7 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
             !item.properties.lat
           ) {
             pendingLocationRef.current = { id };
-            executeAction(searchContext.startLocationWatch);
+            startLocationWatch();
             if (onGeolocationStart) {
               onGeolocationStart(item, id);
             }
@@ -298,13 +295,8 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
     );
   }
 
-  ComponentWithSearchContext.contextTypes = {
-    executeAction: PropTypes.func.isRequired,
-  };
-
   ComponentWithSearchContext.propTypes = {
     selectHandler: PropTypes.func.isRequired,
-    locationState: locationStateShape.isRequired,
     onGeolocationStart: PropTypes.func,
     fromMap: PropTypes.string,
     isMobile: PropTypes.bool,
@@ -314,12 +306,5 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
     showViapointControl: PropTypes.bool,
   };
 
-  const componentWithPosition = connectToStores(
-    ComponentWithSearchContext,
-    ['PositionStore'],
-    context => ({
-      locationState: context.getStore('PositionStore').getLocationState(),
-    }),
-  );
-  return componentWithPosition;
+  return ComponentWithSearchContext;
 }

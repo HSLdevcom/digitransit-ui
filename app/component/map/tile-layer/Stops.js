@@ -54,6 +54,12 @@ function getStopStatusForProperties(properties, showStopStatusMarkers) {
   });
 }
 
+// A failing draw must not prevent later draws or tile completion.
+const safely = draw => () =>
+  Promise.resolve()
+    .then(draw)
+    .catch(err => console.log(err)); // eslint-disable-line no-console
+
 const shouldRenderTerminalIcon = (mode, path, vehicles) => {
   const modesWithoutIcon = ['SUBWAY'];
   const viewsWithoutIcon = [PREFIX_ITINERARY_SUMMARY];
@@ -300,8 +306,10 @@ class Stops {
                   } else {
                     const { coords } = this.tile;
                     const { stopsMinZoom } = this.config;
-                    drawChain = drawChain.then(() =>
-                      this.drawStop(f, !!hybridId, coords.z, stopsMinZoom),
+                    drawChain = drawChain.then(
+                      safely(() =>
+                        this.drawStop(f, !!hybridId, coords.z, stopsMinZoom),
+                      ),
                     );
                   }
                 }
@@ -348,12 +356,14 @@ class Stops {
                       isHybrid: true,
                     });
                   } else {
-                    drawChain = drawChain.then(() =>
-                      drawHybridStationIcon(
-                        this.tile,
-                        geom,
-                        false,
-                        this.config,
+                    drawChain = drawChain.then(
+                      safely(() =>
+                        drawHybridStationIcon(
+                          this.tile,
+                          geom,
+                          false,
+                          this.config,
+                        ),
                       ),
                     );
                   }
@@ -380,13 +390,15 @@ class Stops {
                   if (isHighlighted) {
                     this.highlightedStationEntries.push({ geom, mode });
                   } else {
-                    drawChain = drawChain.then(() =>
-                      drawTerminalIcon(
-                        this.tile,
-                        geom,
-                        mode,
-                        false,
-                        this.config,
+                    drawChain = drawChain.then(
+                      safely(() =>
+                        drawTerminalIcon(
+                          this.tile,
+                          geom,
+                          mode,
+                          false,
+                          this.config,
+                        ),
                       ),
                     );
                   }
@@ -405,12 +417,14 @@ class Stops {
     const stopChain = this.highlightedEntries?.length
       ? this.highlightedEntries.reduce(
           (chain, { f, hybridId }) =>
-            chain.then(() =>
-              this.drawStop(
-                f,
-                !!hybridId,
-                this.tile.coords.z,
-                this.config.stopsMinZoom,
+            chain.then(
+              safely(() =>
+                this.drawStop(
+                  f,
+                  !!hybridId,
+                  this.tile.coords.z,
+                  this.config.stopsMinZoom,
+                ),
               ),
             ),
           Promise.resolve(),
@@ -419,10 +433,12 @@ class Stops {
     return this.highlightedStationEntries?.length
       ? this.highlightedStationEntries.reduce(
           (chain, { geom, mode, isHybrid }) =>
-            chain.then(() =>
-              isHybrid
-                ? drawHybridStationIcon(this.tile, geom, true, this.config)
-                : drawTerminalIcon(this.tile, geom, mode, true, this.config),
+            chain.then(
+              safely(() =>
+                isHybrid
+                  ? drawHybridStationIcon(this.tile, geom, true, this.config)
+                  : drawTerminalIcon(this.tile, geom, mode, true, this.config),
+              ),
             ),
           stopChain,
         )

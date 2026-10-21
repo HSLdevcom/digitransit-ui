@@ -32,6 +32,11 @@ import { withRouteContext } from '../../utils/client/RouteContext';
 
 export default function routeRoutes(config) {
   const showTenWeeks = config.showTenWeeksOnRouteSchedule || false;
+  const showStopStatusMarkers = !!config.showStopStatusMarkers;
+  const prepareStopListVariables = params => ({
+    ...preparePatternStopsVariables(params),
+    showStopStatusMarkers,
+  });
   // Keeps the tabs and pattern selector visible while another tab loads
   const sticky = createStickyRendererFactory(
     ({ params }) => `${params.routeId}|${params.patternId}`,
@@ -198,6 +203,7 @@ export default function routeRoutes(config) {
                     $date: String!
                     $currentTime: Long!
                     $startOfDay: Long!
+                    $showStopStatusMarkers: Boolean!
                     $cancelationStartDate: OffsetDateTime!
                     $cancelationEndDate: OffsetDateTime!
                   ) {
@@ -207,6 +213,7 @@ export default function routeRoutes(config) {
                           patternId: $patternId
                           currentTime: $currentTime
                           startOfDay: $startOfDay
+                          showStopStatusMarkers: $showStopStatusMarkers
                         )
                     }
                     route(id: $routeId) {
@@ -219,7 +226,7 @@ export default function routeRoutes(config) {
                     }
                   }
                 `}
-                prepareVariables={preparePatternStopsVariables}
+                prepareVariables={prepareStopListVariables}
                 render={sticky(getComponentOrLoadingRenderer)}
               />
               <Route
@@ -235,8 +242,8 @@ export default function routeRoutes(config) {
                     $tripId: String!
                     $routeId: String!
                     $date: String!
-                    $currentTime: Long!
                     $startOfDay: Long!
+                    $showStopStatusMarkers: Boolean!
                     $cancelationStartDate: OffsetDateTime!
                     $cancelationEndDate: OffsetDateTime!
                   ) {
@@ -246,8 +253,8 @@ export default function routeRoutes(config) {
                     trip(id: $tripId) {
                       ...TripStopsContainer_trip
                         @arguments(
-                          currentTime: $currentTime
                           startOfDay: $startOfDay
+                          showStopStatusMarkers: $showStopStatusMarkers
                         )
                     }
                     route(id: $routeId) {
@@ -260,7 +267,7 @@ export default function routeRoutes(config) {
                     }
                   }
                 `}
-                prepareVariables={preparePatternStopsVariables}
+                prepareVariables={prepareStopListVariables}
                 render={sticky(getComponentOrLoadingRenderer)}
               />
             </Route>,

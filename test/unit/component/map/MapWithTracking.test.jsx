@@ -1,25 +1,35 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { mockContext } from '../../helpers/mock-context';
+import { usePositionActions } from '../../../../app/hooks/PositionContext';
 import {
-  Component as MapWithTracking,
+  default as MapWithTracking,
   getForcedLayersFromMapLayerOptions,
 } from '../../../../app/component/map/MapWithTracking';
 
 const defaultProps = {
-  position: {
-    hasLocation: false,
-    isLocationingInProgress: false,
-    lat: 60,
-    lon: 25,
-  },
   lat: 60,
   lon: 25,
   zoom: 12,
   leafletObjs: [],
   mapLayers: { stop: {}, terminal: {} },
-  breakpoint: 'large',
   lang: 'fi',
+};
+
+function DenyLocationButton({ children }) {
+  const { showGeolocationDeniedMessage } = usePositionActions();
+  return (
+    <>
+      <button type="button" onClick={showGeolocationDeniedMessage}>
+        deny location
+      </button>
+      {children}
+    </>
+  );
+}
+DenyLocationButton.propTypes = {
+  children: PropTypes.node,
 };
 
 describe('<MapWithTracking />', () => {
@@ -97,10 +107,9 @@ describe('<MapWithTracking />', () => {
 
   it('should show a failed location label when locationing fails', () => {
     const { getByRole } = renderWithProviders(
-      <MapWithTracking
-        {...defaultProps}
-        position={{ ...defaultProps.position, locationingFailed: true }}
-      />,
+      <DenyLocationButton>
+        <MapWithTracking {...defaultProps} />
+      </DenyLocationButton>,
       {
         config: {
           ...mockContext.config,
@@ -109,6 +118,7 @@ describe('<MapWithTracking />', () => {
       },
     );
 
+    getByRole('button', { name: 'deny location' }).click();
     expect(getByRole('button', { name: 'tracking failed' })).not.to.equal(null);
   });
 });

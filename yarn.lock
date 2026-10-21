@@ -11836,8 +11836,6 @@ __metadata:
     favicons: "npm:^7.2.0"
     favicons-webpack-plugin: "npm:^6.0.1"
     fetch-mock: "npm:^12.0.2"
-    fluxible: "npm:1.4.2"
-    fluxible-addons-react: "npm:0.2.17"
     found: "npm:1.3.0"
     found-relay: "npm:1.0.2"
     foundation-sites: "npm:6.9.0"
@@ -11933,16 +11931,6 @@ __metadata:
   dependencies:
     path-type: "npm:^4.0.0"
   checksum: 10/fa05e18324510d7283f55862f3161c6759a3f2f8dbce491a2fc14c8324c498286c54282c1f0e933cb930da8419b30679389499b919122952a4f8592362ef4615
-  languageName: node
-  linkType: hard
-
-"dispatchr@npm:^1.0.0":
-  version: 1.3.0
-  resolution: "dispatchr@npm:1.3.0"
-  dependencies:
-    eventemitter3: "npm:^4.0.7"
-    inherits: "npm:^2.0.4"
-  checksum: 10/aaf5cce024df6c8efd38649e3e96ff4f3db0f60a3a2a01e21942e0a62d569fbf32042752d3156b12bf575dc64b6fbdb883afc67a8baff629fcf83392f86bcaa6
   languageName: node
   linkType: hard
 
@@ -13142,7 +13130,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eventemitter3@npm:^4.0.4, eventemitter3@npm:^4.0.7":
+"eventemitter3@npm:^4.0.4":
   version: 4.0.7
   resolution: "eventemitter3@npm:4.0.7"
   checksum: 10/8030029382404942c01d0037079f1b1bc8fed524b5849c237b80549b01e2fc49709e1d0c557fa65ca4498fc9e24cff1475ef7b855121fcc15f9d61f93e282346
@@ -13986,32 +13974,6 @@ __metadata:
     inherits: "npm:^2.0.3"
     readable-stream: "npm:^2.3.6"
   checksum: 10/649dae597c1ab6292eae1ce103cfe5a2d46317b21c9a14a1900d285227869a6181b32aca51b78660191884059732849db41694807e28bf07f61233fd2d5309f5
-  languageName: node
-  linkType: hard
-
-"fluxible-addons-react@npm:0.2.17":
-  version: 0.2.17
-  resolution: "fluxible-addons-react@npm:0.2.17"
-  dependencies:
-    hoist-non-react-statics: "npm:^3.0.1"
-    inherits: "npm:^2.0.1"
-    prop-types: "npm:^15.5.8"
-  peerDependencies:
-    fluxible: ">=1.0.0"
-    react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
-    react-dom: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
-  checksum: 10/00f4804ec782fb7da5c5c7fbef04145a2ff7b163daa0e03229f5642970fc03b216368089bbe555ac5c98c162ff5c986fd7dd82663e548ea7d1170cd27406c3b9
-  languageName: node
-  linkType: hard
-
-"fluxible@npm:1.4.2":
-  version: 1.4.2
-  resolution: "fluxible@npm:1.4.2"
-  dependencies:
-    dispatchr: "npm:^1.0.0"
-    is-promise: "npm:^2.0.0"
-    setimmediate: "npm:^1.0.2"
-  checksum: 10/273cc7e7cc8d486398ccfbacda8e48697694756df75252c555fbcf41ddd0f3377b151ea6dfd5291f5757150d5a9639b96b16f442bacb138d199ccadd6063fa36
   languageName: node
   linkType: hard
 
@@ -15144,7 +15106,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hoist-non-react-statics@npm:^3.0.1, hoist-non-react-statics@npm:^3.3.0, hoist-non-react-statics@npm:^3.3.1, hoist-non-react-statics@npm:^3.3.2":
+"hoist-non-react-statics@npm:^3.3.0, hoist-non-react-statics@npm:^3.3.1, hoist-non-react-statics@npm:^3.3.2":
   version: 3.3.2
   resolution: "hoist-non-react-statics@npm:3.3.2"
   dependencies:
@@ -16238,13 +16200,6 @@ __metadata:
   version: 1.0.1
   resolution: "is-potential-custom-element-name@npm:1.0.1"
   checksum: 10/ced7bbbb6433a5b684af581872afe0e1767e2d1146b2207ca0068a648fb5cab9d898495d1ac0583524faaf24ca98176a7d9876363097c2d14fee6dd324f3a1ab
-  languageName: node
-  linkType: hard
-
-"is-promise@npm:^2.0.0":
-  version: 2.2.2
-  resolution: "is-promise@npm:2.2.2"
-  checksum: 10/18bf7d1c59953e0ad82a1ed963fb3dc0d135c8f299a14f89a17af312fc918373136e56028e8831700e1933519630cc2fd4179a777030330fde20d34e96f40c78
   languageName: node
   linkType: hard
 
@@ -24299,7 +24254,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"setimmediate@npm:^1.0.2, setimmediate@npm:^1.0.5":
+"setimmediate@npm:^1.0.5":
   version: 1.0.5
   resolution: "setimmediate@npm:1.0.5"
   checksum: 10/76e3f5d7f4b581b6100ff819761f04a984fa3f3990e72a6554b57188ded53efce2d3d6c0932c10f810b7c59414f85e2ab3c11521877d1dea1ce0b56dc906f485

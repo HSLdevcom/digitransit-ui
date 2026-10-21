@@ -31,7 +31,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
   padding: 0;
   margin: 0;
   font-size: 15px;
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium, 500);
 
   button,
   label {
@@ -315,7 +315,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
         color: #333;
         font-family: inherit;
         font-size: 15px;
-        font-weight: var(--font-weight-medium);
+        font-weight: var(--font-weight-medium, 500);
 
         &:focus {
           box-shadow: none;
@@ -393,7 +393,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
     margin-bottom: 21px;
 
     .modal-title {
-      font-weight: var(--font-weight-medium);
+      font-weight: var(--font-weight-medium, 500);
       font-size: 20px;
       line-height: 18px;
       letter-spacing: -0.5px;
@@ -407,7 +407,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
       padding: 5px 15px;
       border: 1px solid #888;
       border-radius: 50px;
-      font-weight: var(--font-weight-medium);
+      font-weight: var(--font-weight-medium, 500);
       font-size: 15px;
       line-height: 18px;
       letter-spacing: -0.02em;
@@ -434,7 +434,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
       color: #333;
 
       &.active {
-        font-weight: var(--font-weight-medium);
+        font-weight: var(--font-weight-medium, 500);
         background-color: #fff;
       }
     }
@@ -504,7 +504,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
         font-size: 18px;
         letter-spacing: -0.5px;
         line-height: 20px;
-        font-weight: var(--font-weight-medium);
+        font-weight: var(--font-weight-medium, 500);
         border: none;
         outline: none;
         background: none;
@@ -528,7 +528,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
         background: inherit;
         box-shadow: none;
         font-family: inherit;
-        font-weight: var(--font-weight-medium);
+        font-weight: var(--font-weight-medium, 500);
         font-stretch: normal;
         font-style: normal;
         font-size: 16px;
@@ -608,7 +608,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
           border: none;
           background: none;
           font-size: 16px;
-          font-weight: var(--font-weight-medium);
+          font-weight: var(--font-weight-medium, 500);
           height: 25px;
           display: inline-block;
           font-family: inherit;
@@ -629,12 +629,12 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
     display: flex;
     flex-direction: column;
     font-size: 16px;
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-medium, 500);
 
     button {
       background-color: white;
       font-family: inherit;
-      font-weight: var(--font-weight-medium);
+      font-weight: var(--font-weight-medium, 500);
       font-size: 16px;
       letter-spacing: -0.02em;
       width: 100%;

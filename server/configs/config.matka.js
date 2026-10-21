@@ -172,8 +172,6 @@ export default {
 
   suggestBikeMaxDistance: 2000000,
 
-  trafficNowLink: true,
-
   vehicleRental: {
     useAllSeasons: true,
     networks: {
