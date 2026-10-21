@@ -714,7 +714,7 @@ export default {
   parkAndRide: {
     showParkAndRide: false,
     showParkAndRideForBikes: false,
-    parkAndRideMinZoom: 14,
+    parkAndRideMinZoom: 13,
     resolver: prUtils.liipi,
   },
   parkingAreaSources: ['liipi'],

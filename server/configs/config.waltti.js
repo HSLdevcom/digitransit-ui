@@ -174,6 +174,8 @@ export default {
   includeParkAndRideSuggestions: true,
   showBikeAndParkItineraries: true,
 
+  parkAndRide: { parkAndRideMinZoom: 14 },
+
   hostnames: [
     // DEV hostnames
     'https://dev-hameenlinna.digitransit.fi',
