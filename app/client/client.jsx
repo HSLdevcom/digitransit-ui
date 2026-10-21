@@ -5,7 +5,6 @@ import BrowserProtocol from 'farce/BrowserProtocol';
 import createFarceRouter from 'found/createFarceRouter';
 import makeRouteConfig from 'found/makeRouteConfig';
 import { Resolver } from 'found-relay';
-import provideContext from 'fluxible-addons-react/provideContext';
 import debug from 'debug';
 import {
   RelayNetworkLayer,
@@ -21,8 +20,7 @@ import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search
 import { Settings } from 'luxon';
 import { IntlProvider } from 'react-intl';
 import i18n from './i18n';
-import { historyMiddlewares, render } from '../routes/routes';
-import appCreator from './app';
+import routes, { historyMiddlewares, render } from '../routes/routes';
 import ErrorBoundary from '../component/ErrorBoundary';
 import legacyParamParser from '../../utils/shared/legacyParamParser';
 import { LEGACY_LOCALE_PATHS } from '../../utils/shared/constants';
@@ -52,21 +50,16 @@ import { getSettings } from '../../utils/client/planParamUtil';
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
 const { config } = window;
-const app = appCreator(config);
-const context = app.createContext();
-
-const ContextProvider = provideContext(IntlProvider, {});
 
 const AppProviders = props => {
   const providers = [
     [ConfigProvider, { value: props.config }],
     [ClientBreakpointProvider],
     [
-      ContextProvider,
+      IntlProvider,
       {
         locale: props.language,
         messages: props.messages,
-        context: props.context,
         textComponent: 'span',
       },
     ],
@@ -110,8 +103,6 @@ async function init() {
   // For Google Tag Manager
   initAnalyticsClientSide(config);
 
-  window.context = context;
-
   // Query parameter is used instead of header because browsers send
   // OPTIONS queries where you can't define headers
   const queryParameters = config.hasAPISubscriptionQueryParameter
@@ -151,7 +142,7 @@ async function init() {
 
   const resolver = new Resolver(environment);
 
-  const routeConfig = makeRouteConfig(app.getComponent());
+  const routeConfig = makeRouteConfig(routes(config));
 
   const historyProtocol = new BrowserProtocol();
 
@@ -221,7 +212,6 @@ async function init() {
       config={config}
       language={language}
       messages={translations.default[language]}
-      context={context.getComponentContext()}
       environment={environment}
     >
       <ErrorBoundary>
