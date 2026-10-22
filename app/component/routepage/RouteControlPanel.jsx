@@ -77,7 +77,6 @@ function RouteControlPanel({
   const intl = useIntl();
   const { router, match } = useRouter();
   const { location, params } = match;
-
   const { patternId } = params;
 
   const [focusedTab, setFocusedTab] = useState(getActiveTab(location.pathname));
