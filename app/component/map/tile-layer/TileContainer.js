@@ -139,7 +139,10 @@ class TileContainer {
             .map(l => l.drawHighlightedOnTop()),
         ),
       )
-      .then(() => done(null, this.el));
+      .then(
+        () => done(null, this.el),
+        () => done(null, this.el),
+      );
   }
 
   onVehiclesChange = vehicles => {

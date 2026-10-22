@@ -18,11 +18,13 @@ describe(`Front page with ${config} config`, () => {
     const response = await page.goto(`http://localhost:8080${path}`);
 
     expect(response.status()).toBe(200);
+    await page.waitForSelector('#mainContent', { timeout });
 
     let image;
     if (!isMobile) {
-      const mainContent = await page.$(
+      const mainContent = await page.waitForSelector(
         '#mainContent > .desktop > .main-content',
+        { timeout },
       );
       image = await mainContent.screenshot({
         timeout,

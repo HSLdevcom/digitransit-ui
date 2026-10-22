@@ -21,7 +21,7 @@ module.exports = function bbl(api) {
       '@babel/preset-react',
       {
         development: process.env.NODE_ENV === 'development',
-        useBuiltIns: true,
+        runtime: 'automatic',
       },
     ],
   ];
