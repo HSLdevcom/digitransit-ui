@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { mockContext } from '../../helpers/mock-context';
 import { usePositionActions } from '../../../../app/hooks/PositionContext';
@@ -105,8 +106,8 @@ describe('<MapWithTracking />', () => {
     expect(getByRole('button', { name: 'tracking on' })).not.to.equal(null);
   });
 
-  it('should show a failed location label when locationing fails', () => {
-    const { getByRole } = renderWithProviders(
+  it('should show a failed location label when locationing fails', async () => {
+    const { getByRole, findByRole } = renderWithProviders(
       <DenyLocationButton>
         <MapWithTracking {...defaultProps} />
       </DenyLocationButton>,
@@ -118,7 +119,9 @@ describe('<MapWithTracking />', () => {
       },
     );
 
-    getByRole('button', { name: 'deny location' }).click();
-    expect(getByRole('button', { name: 'tracking failed' })).not.to.equal(null);
+    fireEvent.click(getByRole('button', { name: 'deny location' }));
+    expect(
+      await findByRole('button', { name: 'tracking failed' }),
+    ).not.to.equal(null);
   });
 });
