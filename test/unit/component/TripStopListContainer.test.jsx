@@ -40,9 +40,7 @@ describe('<TripStopListContainer />', () => {
           },
         ],
       },
-      vehicles: {},
       tripStart: '',
-      breakpoint: 'large',
     };
     const { container } = renderWithProviders(
       <TripStopListContainer {...props} />,
@@ -91,29 +89,29 @@ describe('<TripStopListContainer />', () => {
         ],
       },
       tripStart: '1005',
-      vehicles: {
-        HSL_00875: {
-          id: 'HSL_00875',
-          route: 'HSL:6172',
-          direction: 0,
-          tripStartTime: '1005',
-          operatingDay: '2019-04-10',
-          mode: 'bus',
-          shortName: '875',
-          next_stop: 'HSL:2314219',
-          timestamp: 1554881822,
-          lat: 60.12307,
-          long: 24.41071,
-          heading: 140,
-        },
+    };
+    const vehicles = {
+      HSL_00875: {
+        id: 'HSL_00875',
+        route: 'HSL:6172',
+        direction: 0,
+        tripStartTime: '1005',
+        operatingDay: '2019-04-10',
+        mode: 'bus',
+        shortName: '875',
+        next_stop: 'HSL:2314219',
+        timestamp: 1554881822,
+        lat: 60.12307,
+        long: 24.41071,
+        heading: 140,
       },
-      breakpoint: 'large',
     };
     const { container } = renderWithProviders(
       <TripStopListContainer {...props} />,
       {
         config: { ...mockContext.config, colors: { primary: '#007AC9' } },
         currentTime: 1554882006,
+        vehicles,
       },
     );
     expect(container.querySelectorAll('.route-stop')).toHaveLength(1);

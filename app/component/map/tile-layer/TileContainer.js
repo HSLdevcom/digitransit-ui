@@ -129,10 +129,20 @@ class TileContainer {
       );
 
     this.el.layers = this.layers.map(layer => omit(layer, 'tile'));
-    Promise.all(this.layers.map(layer => layer.getPromise(lang))).then(
-      () => done(null, this.el),
-      () => done(null, this.el),
-    );
+    // After all layers' async drawing (including citybike badges) completes,
+    // repaint highlighted transit stops on top.
+    Promise.all(this.layers.map(layer => layer.getPromise(lang)))
+      .then(() =>
+        Promise.all(
+          this.layers
+            .filter(l => l.drawHighlightedOnTop)
+            .map(l => l.drawHighlightedOnTop()),
+        ),
+      )
+      .then(
+        () => done(null, this.el),
+        () => done(null, this.el),
+      );
   }
 
   onVehiclesChange = vehicles => {

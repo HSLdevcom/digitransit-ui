@@ -4,7 +4,7 @@ Digitransit-ui is a React based web application. The following bullet points des
  - Front-end is written using modern JavaScript (ES2015)
  - Use Babel to transpile it into ES5
  - We could provide a different bundle for modern browsers using widely-supported ES6 syntax
- - Use polyfills for older browsers by polyfill-service
+ - Polyfills are injected at build time by `@babel/preset-env` (`useBuiltIns: 'entry'`, core-js 3) via a single `import 'core-js/stable'` in `app/client/client.jsx` based on the `browserslist` targets
  - React + JSX
  - Airbnb styleguide for ES6 and React
 
@@ -12,47 +12,30 @@ Digitransit-ui is a React based web application. The following bullet points des
  - Use object property spread instead of `Object.assign` when creating new objects: *not* `Object.assign({}, {state}, {a: 1, b: 2})`, but *instead* `{...state, a: 1, b: 2}`
 
 ## Components
-  - Three types of components
-  - Views
-    - Simple views that transform props to JSX
-    - Views must contain only DOM elements and other Views
-      - i.e. no references to containers
-    - Views should preferably be created using stateless functional components
-    - Views mustn't hold any state
-      - State should use React hooks and context; existing Fluxible stores are legacy
-  - RelayConnector
-    - Data from server should be fetched by adding a relay fragment and wrapping it with `Relay.createContainer`
-    - The file should have the pure view as default export and the <View>RelayConnector as named export
-      - Alternatively both components can be placed in separate files
-    - The view should use RelayContainers in its render method if `props.relay` is defined. If `props.relay` is not defined, then the pure view should be used instead.
-  - Containers
-    - Two types of containers
-    - "Traditional" containers
-      - Containers are components that do complex transformations of props data in order to show one or more views or containers
-      - Containers should only contain only other containers and views
-        - i.e. no DOM components
-      - Continers must include `Container` in their name
-    - StoreConnectors
-      - Legacy Fluxible store data is loaded using fluxible connectToStores
-      - Higher order component that wraps another component to provide store state to other component props
-      - Must include StoreConnector in their name
-    - Containers should include unit tests either testing their functions separately or by testing their rendering using React Testing Library
+  - Components are function components that fetch data and manage state with hooks
+  - Some components are still split into views and `*Container` components wrapped with Relay HOCs (`createFragmentContainer` etc.), but we are moving away from this pattern
+  - Components should include unit tests, preferably using React Testing Library
 
 React components can access data in two different ways:
 - OpenTripPlanner GraphQL queries with Relay
-- Other querys with Flux model
+- Other state with React hooks and context
 
 Basically, division between alternatives is:
 - GraphQL is used to fetch data from server
 - Non-GraphQL requests may use a focused data helper or React context
-- Existing Flux stores remain for state not yet migrated
 
-New application state should use React hooks and context rather than Fluxible.
+Realtime vehicle information is owned by `RealTimeInformationProvider` in
+`app/hooks/RealTimeInformationContext.jsx`. `useRealTimeInformation` subscribes
+to vehicle snapshots, published at most once per second. `useRealTimeActions`
+provides stable connection and subscription controls without subscribing to
+vehicle updates. The provider closes MQTT clients and cancels pending updates
+on unmount; MQTT helpers deliver messages through callbacks rather than
+actions.
 GeoJSON fetching uses `useGeoJsonObjects` in
 `app/hooks/useGeoJsonObjects.js`. It loads configured layers from a hook and
 shares fetch promises across map and dialog consumers. Layer visibility
-settings remain in the legacy `MapLayerStore`.
-Old-searches history (the former Fluxible `OldSearchesStore`) is managed by
+settings are in `MapLayerContext` (`app/hooks/MapLayerContext.jsx`).
+Old-searches history is managed by
 named functions in `app/data/SearchHistory.js`, which read/write
 `localStorage` directly. Unlike favourites, nothing reactively subscribes to
 this data, so it has no Context/hook layer.
@@ -60,7 +43,6 @@ this data, so it has no Context/hook layer.
 ![Architecture](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/architecture.png)
 
 Links:
-* https://github.com/facebookarchive/flux
 * https://react.dev/
 * https://github.com/relay-tools/found-relay/
 * https://relay.dev/

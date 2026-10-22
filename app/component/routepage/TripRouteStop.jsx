@@ -15,8 +15,14 @@ import { estimateItineraryDistance } from '../../../utils/shared/geo-utils';
 import ZoneIcon from '../ZoneIcon';
 import { getZoneLabel } from '../../../utils/client/legUtils';
 import getVehicleState from '../../../utils/client/vehicleStateUtils';
+import Icon from '../Icon';
 import { ensureColorAccessibleOnWhite } from '../../../utils/shared/colorUtils';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
+import {
+  getServiceAvailability,
+  getStopStatusFromStopData,
+  STOP_STATUS_BADGE_IMGS,
+} from '../../../utils/client/stopStatusUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 
 const EMPTY_VEHICLES = [];
@@ -102,6 +108,15 @@ const TripRouteStop = ({
       </div>
     );
   };
+  const stopStatus = getStopStatusFromStopData({
+    stop,
+    nowUnixTime: currentTime,
+    showStopStatusMarkers: config.showStopStatusMarkers,
+    ...(config.showStopStatusMarkers &&
+      getServiceAvailability(stop.firstDeparture, currentTime)),
+  });
+  const badgeImg = stopStatus && STOP_STATUS_BADGE_IMGS[stopStatus];
+
   const vehicleLinks = vehicles.map(
     vehicle => vehicle.route === route && getVehiclePatternLink(vehicle),
   );
@@ -115,26 +130,30 @@ const TripRouteStop = ({
     >
       {vehicleLinks}
       <div className={cx('route-stop-now_circleline', mode)}>
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{
-            fill: !stopPassed ? color : null,
-            stroke: !stopPassed ? color : null,
-          }}
-        >
-          <circle
-            cx="8"
-            cy="8"
-            r="6"
-            fill="white"
-            stroke={(!stopPassed && color) || 'currentColor'}
-            strokeWidth="4"
-          />
-        </svg>
+        {badgeImg ? (
+          <Icon img={badgeImg} className="route-stop-status-badge" />
+        ) : (
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{
+              fill: !stopPassed ? color : null,
+              stroke: !stopPassed ? color : null,
+            }}
+          >
+            <circle
+              cx="8"
+              cy="8"
+              r="6"
+              fill="white"
+              stroke={(!stopPassed && color) || 'currentColor'}
+              strokeWidth="4"
+            />
+          </svg>
+        )}
         <div
           className={cx('route-stop-now_line', mode)}
           style={{ backgroundColor: !stopPassed ? color : null }}
@@ -150,13 +169,15 @@ const TripRouteStop = ({
                   style={{ color: ensureColorAccessibleOnWhite(color) }}
                 >
                   <span>{stop.name}</span>
-                  <ServiceAlertIcon
-                    className="inline-icon"
-                    severityLevel={getActiveAlertSeverityLevel(
-                      stop.alerts,
-                      currentTime,
-                    )}
-                  />
+                  {!config.showStopStatusMarkers && (
+                    <ServiceAlertIcon
+                      className="inline-icon"
+                      severityLevel={getActiveAlertSeverityLevel(
+                        stop.alerts,
+                        currentTime,
+                      )}
+                    />
+                  )}
                 </div>
               </div>
               <div className="departure-times-container">
@@ -196,6 +217,12 @@ TripRouteStop.propTypes = {
     gtfsId: PropTypes.string,
     alerts: PropTypes.arrayOf(alertShape),
     zoneId: PropTypes.string,
+    firstDeparture: PropTypes.arrayOf(
+      PropTypes.shape({
+        serviceDay: PropTypes.number,
+        realtimeDeparture: PropTypes.number,
+      }),
+    ),
   }).isRequired,
   nextStop: PropTypes.shape({
     name: PropTypes.string,

@@ -1,10 +1,7 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import { Component as DepartureListContainer } from '../../../app/component/DepartureListContainer';
-import {
-  startRealTimeClient,
-  stopRealTimeClient,
-} from '../../../app/action/realTimeClientAction';
+import * as mqttClient from '../../../utils/client/mqttClient';
 import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
 
@@ -70,9 +67,11 @@ describe('<DepartureListContainer />', () => {
     expect(screen.getByText('Arrives / Terminus')).toBeTruthy();
   });
 
-  it('starts the realtime client on mount and stops it on unmount', () => {
-    const executeAction = vi.fn();
-    const client = {};
+  it('starts the realtime client on mount and stops it on unmount', async () => {
+    const client = { end: vi.fn() };
+    const start = vi
+      .spyOn(mqttClient, 'startMqttClient')
+      .mockResolvedValue({ client, topics: [] });
     const config = createTestConfig({
       showVehiclesOnStopPage: true,
       feedIds: ['HSL'],
@@ -87,19 +86,18 @@ describe('<DepartureListContainer />', () => {
       {
         config,
         currentTime,
-        executeAction,
-        getStore: () => ({ client, topics: [] }),
       },
     );
-    expect(executeAction).toHaveBeenCalledWith(
-      startRealTimeClient,
+    await act(async () => {});
+    expect(start).toHaveBeenCalledWith(
       expect.objectContaining({
         feedId: 'HSL',
         options: [{ tripId: 'a' }],
       }),
+      expect.any(Function),
     );
 
     unmount();
-    expect(executeAction).toHaveBeenCalledWith(stopRealTimeClient, client);
+    expect(client.end).toHaveBeenCalledTimes(1);
   });
 });

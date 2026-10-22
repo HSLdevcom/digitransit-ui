@@ -15,8 +15,8 @@ import { FormattedMessage } from 'react-intl';
 import { fetchQuery, ReactRelayContext } from 'react-relay';
 import { useRouter } from 'found';
 import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import { saveFutureRoute } from '../../../utils/client/storeUtils';
-import { startLocationWatch } from '../../action/PositionActions';
 import { saveSearch } from '../../data/SearchHistory';
 import { TransportMode } from '../../../utils/shared/constants';
 import {
@@ -107,6 +107,7 @@ import { planConnection } from './queries/PlanConnection';
 import { hasTaxiLegs, isCallAgencyLeg } from '../../../utils/client/legUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 import { useMapLayers } from '../../hooks/MapLayerContext';
+import { usePositionActions } from '../../hooks/PositionContext';
 
 const MAX_QUERY_COUNT = 4; // number of attempts to collect enough itineraries
 
@@ -159,7 +160,8 @@ const DEFAULT_LAYER_OPTIONS = getMapLayerOptions({
   selectedMapLayers: ['vehicles'],
 });
 
-function ItineraryPageContent(props, context) {
+function ItineraryPageContent(props) {
+  const realTime = useRealTimeActions();
   const { match: routerMatch, router } = useRouter();
   const { environment: relayEnvironment } = useContext(ReactRelayContext);
   const breakpoint = useBreakpoint();
@@ -188,6 +190,7 @@ function ItineraryPageContent(props, context) {
   const ariaRef = useRef('summary-page.title');
   const mapLayerRef = useRef();
   const { savePersonalizationPreferences } = useFavouriteActions();
+  const { startLocationWatch } = usePositionActions();
   const personalizationPreferences = usePersonalizationPreferences();
   const weights = useRef(personalizationPreferences.weights || {});
   // personalization weights may still be loading (e.g. fetched from the
@@ -205,6 +208,7 @@ function ItineraryPageContent(props, context) {
     }
   }, [personalizationPreferences]);
   const recommendedItinerary = useRef(-1);
+  const searchGeneration = useRef(0);
 
   const [mainState, setMainState] = useState({
     ...emptyState,
@@ -254,7 +258,6 @@ function ItineraryPageContent(props, context) {
 
   const itineraryContext = useItineraryContext();
 
-  const { executeAction } = context;
   const { params, location } = match;
   const { hash, secondHash } = params;
   const { query } = location;
@@ -275,7 +278,7 @@ function ItineraryPageContent(props, context) {
   }
 
   function stopClientAndUpdateTopics() {
-    stopClient(context);
+    stopClient(realTime);
     setTopicsState(null);
   }
 
@@ -395,20 +398,33 @@ function ItineraryPageContent(props, context) {
   }
 
   async function iterateQuery(planParams, reps) {
+    const generation = searchGeneration.current;
     let plan;
     const trials = reps || (planParams.modes.directOnly ? 1 : MAX_QUERY_COUNT);
     const arriveBy = !!planParams.datetime.latestArrival;
     const startTime = Date.now();
     for (let i = 0; i < trials; i++) {
-      // eslint-disable-next-line no-await-in-loop
-      const result = await fetchQuery(
-        relayEnvironment,
-        planConnection,
-        planParams,
-        {
-          force: true,
-        },
-      ).toPromise();
+      let result;
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        result = await fetchQuery(
+          relayEnvironment,
+          planConnection,
+          planParams,
+          {
+            force: true,
+          },
+        ).toPromise();
+      } catch (error) {
+        if (generation !== searchGeneration.current) {
+          return null;
+        }
+        throw error;
+      }
+      // A null plan tells callers to ignore superseded searches, including pagination.
+      if (generation !== searchGeneration.current) {
+        return null;
+      }
       if (!plan) {
         plan = result.plan;
       } else if (arriveBy) {
@@ -463,6 +479,9 @@ function ItineraryPageContent(props, context) {
         planParams,
         planParams.maxQueryIterations,
       );
+      if (plan === null) {
+        return;
+      }
       altState[1]({ plan, loading: LOADSTATE.DONE });
     } catch (error) {
       altState[1](emptyPlan);
@@ -481,6 +500,9 @@ function ItineraryPageContent(props, context) {
         planParams,
         planParams.maxQueryIterations,
       );
+      if (plan === null) {
+        return;
+      }
       setRelaxMainState({ plan, loading: LOADSTATE.DONE });
     } catch (error) {
       setRelaxMainState(emptyPlan);
@@ -503,6 +525,9 @@ function ItineraryPageContent(props, context) {
         planParams,
         planParams.maxQueryIterations,
       );
+      if (plan === null) {
+        return;
+      }
       setMainState({ ...emptyState, plan, loading: LOADSTATE.DONE });
       ariaRef.current = 'itinerary-page.itineraries-loaded';
     } catch (error) {
@@ -530,6 +555,9 @@ function ItineraryPageContent(props, context) {
         planParams,
         planParams.maxQueryIterations,
       );
+      if (plan === null) {
+        return;
+      }
       setScooterState({ plan, loading: LOADSTATE.DONE });
     } catch (error) {
       reportError(error);
@@ -565,6 +593,9 @@ function ItineraryPageContent(props, context) {
         tunedParams,
         tunedParams.maxQueryIterations,
       );
+      if (plan === null) {
+        return;
+      }
       const scooterPlan = { edges: filterScooterEdges(plan.edges) };
       setRelaxScooterState({ plan: scooterPlan, loading: LOADSTATE.DONE });
     } catch (error) {
@@ -586,6 +617,9 @@ function ItineraryPageContent(props, context) {
     );
     try {
       const plan = await iterateQuery(planParams);
+      if (plan === null) {
+        return;
+      }
       setInternalFlexState({ plan, loading: LOADSTATE.DONE });
     } catch (error) {
       reportError(error);
@@ -608,6 +642,9 @@ function ItineraryPageContent(props, context) {
 
     try {
       const plan = await iterateQuery(planParams);
+      if (plan === null) {
+        return;
+      }
       setExternalFlexState({ plan, loading: LOADSTATE.DONE });
     } catch (error) {
       reportError(error);
@@ -637,6 +674,9 @@ function ItineraryPageContent(props, context) {
         tunedParams,
         tunedParams.maxQueryIterations,
       );
+      if (plan === null) {
+        return;
+      }
       const flexPlan = {
         edges: filterItinerariesByRouteType(
           plan.edges,
@@ -663,6 +703,9 @@ function ItineraryPageContent(props, context) {
     );
     try {
       const plan = await iterateQuery(planParams);
+      if (plan === null) {
+        return;
+      }
       setTaxiZoneState({ plan, loading: LOADSTATE.DONE });
     } catch (error) {
       reportError(error);
@@ -707,6 +750,9 @@ function ItineraryPageContent(props, context) {
       plan = await iterateQuery(planParams, 1);
     } catch (error) {
       setMainState({ ...mainState, loadingMore: undefined });
+      return;
+    }
+    if (plan === null) {
       return;
     }
     const edges = getSortedEdges(plan.edges, arriveBy);
@@ -795,6 +841,9 @@ function ItineraryPageContent(props, context) {
       plan = await iterateQuery(planParams, 1);
     } catch (error) {
       setMainState({ ...mainState, loadingMore: undefined });
+      return;
+    }
+    if (plan === null) {
       return;
     }
     const edges = getSortedEdges(plan.edges, arriveBy);
@@ -963,7 +1012,7 @@ function ItineraryPageContent(props, context) {
       setNavigation(true);
     } else if (isNavigatorIntroDismissed) {
       // trigger location permission check before navigator.
-      executeAction(startLocationWatch);
+      startLocationWatch();
       setLocationPermissionsLoadState(LOADSTATE.LOADING);
     }
   };
@@ -1074,9 +1123,7 @@ function ItineraryPageContent(props, context) {
     }
 
     return () => {
-      if (showVehicles()) {
-        stopClient(context);
-      }
+      stopClient(realTime);
     };
   }, []);
 
@@ -1113,6 +1160,9 @@ function ItineraryPageContent(props, context) {
       makeRelaxedScooterQuery();
       makeRelaxedFlexQuery();
     }
+    return () => {
+      searchGeneration.current += 1;
+    };
   }, [
     settingsState.settingsChanged,
     params.from,
@@ -1152,10 +1202,10 @@ function ItineraryPageContent(props, context) {
         : null;
 
       const itineraryTopics = getTopics(selected?.node.legs, config);
-      const { client } = context.getStore('RealTimeInformationStore');
+      const { client } = realTime;
       // Client may not be initialized yet if there was an client before ComponentDidMount
       if (!naviMode && (!isEqual(itineraryTopics, topicsState) || !client)) {
-        updateClient(itineraryTopics, context, config);
+        updateClient(itineraryTopics, realTime, config);
       }
       if (!isEqual(itineraryTopics, topicsState) && !naviMode) {
         // eslint-disable-next-line react/no-did-update-set-state
@@ -1541,7 +1591,7 @@ function ItineraryPageContent(props, context) {
   const toggleNavigatorIntro = () => {
     setDialogState('navi-intro');
     setNavigatorIntroDismissed(true);
-    executeAction(startLocationWatch);
+    startLocationWatch();
     setLocationPermissionsLoadState(LOADSTATE.LOADING);
   };
 
@@ -1840,11 +1890,6 @@ function ItineraryPageContent(props, context) {
     />
   );
 }
-
-ItineraryPageContent.contextTypes = {
-  executeAction: PropTypes.func.isRequired,
-  getStore: PropTypes.func,
-};
 
 ItineraryPageContent.propTypes = {
   content: PropTypes.node,

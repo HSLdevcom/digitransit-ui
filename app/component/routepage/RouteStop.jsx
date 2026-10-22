@@ -23,6 +23,11 @@ import getVehicleState from '../../../utils/client/vehicleStateUtils';
 import Icon from '../Icon';
 import { ensureColorAccessibleOnWhite } from '../../../utils/shared/colorUtils';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
+import {
+  getServiceAvailability,
+  getStopStatusFromStopData,
+  STOP_STATUS_BADGE_IMGS,
+} from '../../../utils/client/stopStatusUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 
 function getDepartureTime(stoptime) {
@@ -53,6 +58,14 @@ const RouteStop = ({
 }) => {
   const config = useConfigContext();
   const intl = useIntl();
+  const stopStatus = getStopStatusFromStopData({
+    stop,
+    nowUnixTime: currentTime,
+    showStopStatusMarkers: config.showStopStatusMarkers,
+    ...(config.showStopStatusMarkers &&
+      getServiceAvailability(stop.firstDeparture, currentTime)),
+  });
+  const badgeImg = stopStatus && STOP_STATUS_BADGE_IMGS[stopStatus];
   let firstDeparture;
   let nextDeparture;
 
@@ -229,22 +242,26 @@ const RouteStop = ({
     <li className={cx('route-stop location-details_container ', className)}>
       {getVehicleTripLink()}
       <div className={cx('route-stop-now_circleline', mode)} aria-hidden="true">
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="8"
-            cy="8"
-            r="6"
-            fill="white"
-            stroke={color || 'currentColor'}
-            strokeWidth="4"
-          />
-        </svg>
+        {badgeImg ? (
+          <Icon img={badgeImg} className="route-stop-status-badge" />
+        ) : (
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="8"
+              cy="8"
+              r="6"
+              fill="white"
+              stroke={color || 'currentColor'}
+              strokeWidth="4"
+            />
+          </svg>
+        )}
         <div
           className={cx('route-stop-now_line', mode)}
           style={{ backgroundColor: color }}
@@ -272,13 +289,15 @@ const RouteStop = ({
                   style={{ color: ensureColorAccessibleOnWhite(color) }}
                 >
                   <span>{stop.name}</span>
-                  <ServiceAlertIcon
-                    className="inline-icon"
-                    severityLevel={getActiveAlertSeverityLevel(
-                      stop.alerts,
-                      currentTime,
-                    )}
-                  />
+                  {!config.showStopStatusMarkers && (
+                    <ServiceAlertIcon
+                      className="inline-icon"
+                      severityLevel={getActiveAlertSeverityLevel(
+                        stop.alerts,
+                        currentTime,
+                      )}
+                    />
+                  )}
                 </div>
                 <div className="platform-number-container">
                   <div
@@ -352,6 +371,12 @@ RouteStop.propTypes = {
     platformCode: PropTypes.string,
     alerts: PropTypes.arrayOf(alertShape),
     stopTimesForPattern: PropTypes.arrayOf(stopTimeShape),
+    firstDeparture: PropTypes.arrayOf(
+      PropTypes.shape({
+        serviceDay: PropTypes.number,
+        realtimeDeparture: PropTypes.number,
+      }),
+    ),
   }).isRequired,
   nextStop: PropTypes.shape({
     name: PropTypes.string,

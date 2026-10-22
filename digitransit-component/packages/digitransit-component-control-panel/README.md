@@ -12,7 +12,6 @@ CtrlPanel gathers multiple components to same area (desktop-size: left or mobile
 
     *   `props.children` **[node][2]** panel content (optional, default `DEFAULT_CHILDREN`)
     *   `props.position` **[string][3]** 'left' or 'bottom'
-    *   `props.fontWeights` **[Object][1]** font weights, e.g. { medium: 500 } (optional, default `DEFAULT_FONT_WEIGHTS`)
 
 ### Examples
 

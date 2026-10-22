@@ -34,6 +34,15 @@ export const prepareDatesForStops = params => {
   };
 };
 
+export const preparePatternStopsVariables = params => {
+  const now = DateTime.now();
+  return {
+    ...prepareServiceDay(params),
+    currentTime: now.toUnixInteger(),
+    startOfDay: now.startOf('day').toUnixInteger(),
+  };
+};
+
 /**
  * prepares weekdays for the current week
  * @param {*} params

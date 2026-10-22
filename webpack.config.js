@@ -140,6 +140,11 @@ export default {
                 // single source of truth for supported browsers across
                 // both this config and other tooling (postcss/autoprefixer).
                 modules: false,
+                // Expands `import 'core-js/stable'` in app/client/client.jsx
+                // to the modules the targets lack. Keep the corejs version
+                // in sync with the installed core-js minor.
+                useBuiltIns: 'entry',
+                corejs: { version: '3.50' },
               },
             ],
             [

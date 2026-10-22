@@ -9,12 +9,7 @@ import Icon from '../Icon';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from '../RouteNumber';
 import RouteControlPanel from './RouteControlPanel';
-import { useCurrentTime } from '../../hooks/TimeContext';
-import {
-  PREFIX_ROUTES,
-  PREFIX_DISRUPTION,
-  routePagePath,
-} from '../../../utils/shared/path';
+import { PREFIX_ROUTES, PREFIX_DISRUPTION } from '../../../utils/shared/path';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import BackButton from '../BackButton';
 import {
@@ -25,13 +20,6 @@ import {
   getModeIconColor,
   ensureColorAccessibleOnWhite,
 } from '../../../utils/shared/colorUtils';
-import AlertBanner from '../AlertBanner';
-import {
-  hasEntitiesOfType,
-  hasMeaningfulData,
-  isAlertValid,
-} from '../../../utils/client/alertUtils';
-import { AlertEntityType } from '../../../utils/shared/constants';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RouteNotificationButton from './RouteNotificationButton';
 import { useConfigContext } from '../../client/ConfigContext';
@@ -51,7 +39,6 @@ function resolveHeadsign(pattern) {
 function RoutePage({ route, breakpoint, error = undefined }) {
   const intl = useIntl();
   const config = useConfigContext();
-  const currentTime = useCurrentTime();
   const { router, match } = useRouter();
 
   const headingRef = useRef(null);
@@ -64,7 +51,7 @@ function RoutePage({ route, breakpoint, error = undefined }) {
     throw error.message;
   }
 
-  const { tripId, patternId, routeId } = match.params;
+  const { tripId, patternId } = match.params;
 
   if (route == null) {
     /* In this case there is little we can do
@@ -82,9 +69,6 @@ function RoutePage({ route, breakpoint, error = undefined }) {
   const selectedPattern =
     patternId && route.patterns.find(p => p.code === patternId);
   const headsign = resolveHeadsign(selectedPattern || null);
-  const filteredAlerts = selectedPattern?.alerts
-    ?.filter(alert => hasEntitiesOfType(alert, AlertEntityType.Route))
-    .filter(alert => isAlertValid(alert, currentTime));
   const matchingNotification = config.routeNotifications?.find(n =>
     n.showForRoute?.(route),
   );
@@ -156,14 +140,6 @@ function RoutePage({ route, breakpoint, error = undefined }) {
             </div>
           )}
         </div>
-        {tripId && hasMeaningfulData(filteredAlerts) && (
-          <div className="trip-page-alert-container">
-            <AlertBanner
-              alerts={filteredAlerts}
-              linkAddress={routePagePath(routeId, PREFIX_DISRUPTION, patternId)}
-            />
-          </div>
-        )}
         <RouteAgencyInfo route={route} />
       </div>
       {route.patterns && match.params.type === PREFIX_DISRUPTION && (

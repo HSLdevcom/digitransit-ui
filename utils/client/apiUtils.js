@@ -9,12 +9,26 @@ export function getUser() {
   return retryFetch('/api/user', 2, 200, options).then(res => res.json());
 }
 
+// fav-service does not return the singleton 'personalization' favourite
+// unless it is requested by type, so calls that handle the whole favourites
+// array must list the default types explicitly together with it.
+const ALL_FAVOURITE_TYPES = [
+  'route',
+  'stop',
+  'station',
+  'place',
+  'bikeStation',
+  'personalization',
+].join(',');
+
+const favouritesUrl = (type = ALL_FAVOURITE_TYPES) =>
+  `/api/user/favourites?type=${encodeURIComponent(type)}`;
+
 export function getFavourites() {
-  return retryFetch('/api/user/favourites', 2, 200).then(res => res.json());
+  return retryFetch(favouritesUrl(), 2, 200).then(res => res.json());
 }
 
 export function updateFavourites(data, type) {
-  const query = type ? `?type=${encodeURIComponent(type)}` : '';
   const options = {
     method: 'PUT',
     headers: {
@@ -22,9 +36,7 @@ export function updateFavourites(data, type) {
     },
     body: JSON.stringify(data),
   };
-  return retryFetch(`/api/user/favourites${query}`, 0, 0, options).then(res =>
-    res.json(),
-  );
+  return retryFetch(favouritesUrl(type), 0, 0, options).then(res => res.json());
 }
 
 export function deleteFavourites(data) {
@@ -35,9 +47,7 @@ export function deleteFavourites(data) {
     },
     body: JSON.stringify(data),
   };
-  return retryFetch('/api/user/favourites', 0, 0, options).then(res =>
-    res.json(),
-  );
+  return retryFetch(favouritesUrl(), 0, 0, options).then(res => res.json());
 }
 
 const fiveMinMs = 1000 * 5 * 60;

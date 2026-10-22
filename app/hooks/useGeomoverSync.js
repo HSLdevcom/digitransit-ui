@@ -1,21 +1,18 @@
-import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import connectToStores from 'fluxible-addons-react/connectToStores';
-import { startLocationWatch } from '../action/PositionActions';
 import { coordsDiff } from '../../utils/shared/path';
 import {
   useOrigin,
   useDestination,
   useItineraryLocationActions,
-} from '../hooks/ItineraryLocationContext';
+} from './ItineraryLocationContext';
 
 // Updates the origin or destination if it's currently set to follow the
 // current location. Origin/destination now live in ItineraryLocationContext
 // (replacing OriginStore/DestinationStore), so what used to run as a side
 // effect inside connectToStores' compute-props function now runs as a
 // regular effect instead.
-function useGeomoverSync({ locationState, executeAction }) {
+export default function useGeomoverSync({ locationState, startLocationWatch }) {
   const intl = useIntl();
   const origin = useOrigin();
   const destination = useDestination();
@@ -52,7 +49,7 @@ function useGeomoverSync({ locationState, executeAction }) {
         !locationState.isLocationingInProgress &&
         locationState.status === 'no-location'
       ) {
-        executeAction(startLocationWatch);
+        startLocationWatch();
       }
     } else if (
       locationState.hasLocation &&
@@ -77,30 +74,8 @@ function useGeomoverSync({ locationState, executeAction }) {
         setTarget(target);
       }
     }
-    // setOrigin/setDestination/executeAction/intl are stable for the app's
+    // setOrigin/setDestination/startLocationWatch/intl are stable for the app's
     // lifetime; only origin/destination/locationState changes should
     // re-trigger this sync.
   }, [origin, destination, locationState]);
-}
-
-// This container updates origin and destination if they are set to follow current location
-export default function withGeomover(WrappedComponent) {
-  const GeomoverConnected = connectToStores(
-    ({ locationState, executeAction, ...rest }) => {
-      useGeomoverSync({ locationState, executeAction });
-      return <WrappedComponent {...rest} />;
-    },
-    ['PositionStore'],
-    context => ({
-      locationState: context.getStore('PositionStore').getLocationState(),
-      executeAction: context.executeAction,
-    }),
-  );
-
-  GeomoverConnected.contextTypes = {
-    executeAction: PropTypes.func.isRequired,
-    getStore: PropTypes.func.isRequired,
-  };
-
-  return GeomoverConnected;
 }

@@ -1,10 +1,10 @@
+import 'core-js/stable';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import BrowserProtocol from 'farce/BrowserProtocol';
 import createFarceRouter from 'found/createFarceRouter';
 import makeRouteConfig from 'found/makeRouteConfig';
 import { Resolver } from 'found-relay';
-import provideContext from 'fluxible-addons-react/provideContext';
 import debug from 'debug';
 import {
   RelayNetworkLayer,
@@ -20,8 +20,7 @@ import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search
 import { Settings } from 'luxon';
 import { IntlProvider } from 'react-intl';
 import i18n from './i18n';
-import { historyMiddlewares, render } from '../routes/routes';
-import appCreator from './app';
+import routes, { historyMiddlewares, render } from '../routes/routes';
 import ErrorBoundary from '../component/ErrorBoundary';
 import legacyParamParser from '../../utils/shared/legacyParamParser';
 import { LEGACY_LOCALE_PATHS } from '../../utils/shared/constants';
@@ -40,8 +39,10 @@ import searchContext from '../data/SearchContext';
 import { ConfigProvider } from './ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
 import { MapLayerProvider } from '../hooks/MapLayerContext';
+import { PositionProvider } from '../hooks/PositionContext';
 import { MessageProvider } from '../hooks/MessageContext';
 import { TimeProvider } from '../hooks/TimeContext';
+import { RealTimeInformationProvider } from '../hooks/RealTimeInformationContext';
 import { ItineraryLocationProvider } from '../hooks/ItineraryLocationContext';
 import { isPersonalizationEnabled } from '../../utils/client/modeUtils';
 import { getSettings } from '../../utils/client/planParamUtil';
@@ -49,21 +50,16 @@ import { getSettings } from '../../utils/client/planParamUtil';
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
 const { config } = window;
-const app = appCreator(config);
-const context = app.createContext({ config });
-
-const ContextProvider = provideContext(IntlProvider, {});
 
 const AppProviders = props => {
   const providers = [
     [ConfigProvider, { value: props.config }],
     [ClientBreakpointProvider],
     [
-      ContextProvider,
+      IntlProvider,
       {
         locale: props.language,
         messages: props.messages,
-        context: props.context,
         textComponent: 'span',
       },
     ],
@@ -71,7 +67,9 @@ const AppProviders = props => {
     [MessageProvider],
     [FavouriteProvider],
     [MapLayerProvider],
+    [PositionProvider],
     [TimeProvider],
+    [RealTimeInformationProvider],
     [ItineraryLocationProvider],
   ];
   return providers.reduceRight(
@@ -104,8 +102,6 @@ async function init() {
 
   // For Google Tag Manager
   initAnalyticsClientSide(config);
-
-  window.context = context;
 
   // Query parameter is used instead of header because browsers send
   // OPTIONS queries where you can't define headers
@@ -146,7 +142,7 @@ async function init() {
 
   const resolver = new Resolver(environment);
 
-  const routeConfig = makeRouteConfig(app.getComponent());
+  const routeConfig = makeRouteConfig(routes(config));
 
   const historyProtocol = new BrowserProtocol();
 
@@ -186,7 +182,7 @@ async function init() {
 
   // fetch Userdata and favourites
   favouriteStore.init(config);
-  searchContext.init(context.getComponentContext(), config);
+  searchContext.init(config);
   if (config.allowLogin) {
     getUser()
       .then(user => {
@@ -216,7 +212,6 @@ async function init() {
       config={config}
       language={language}
       messages={translations.default[language]}
-      context={context.getComponentContext()}
       environment={environment}
     >
       <ErrorBoundary>

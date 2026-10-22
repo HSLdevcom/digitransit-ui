@@ -14,7 +14,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
 
 .autosuggest-searchpanel-text {
   font-size: 24px;
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium, 500);
   letter-spacing: -0.8px;
   color: #333;
   line-height: 1;

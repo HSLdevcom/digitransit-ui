@@ -9,7 +9,6 @@ export default function AllModesModal({
   modalOpen,
   closeModal,
   language,
-  fontWeights,
   children,
 }) {
   const [t] = useTranslation();
@@ -42,7 +41,6 @@ export default function AllModesModal({
       >
         <div
           className={`${styles['near-you-container']} ${styles['modal-rows']}`}
-          style={{ '--font-weight': fontWeights.medium }}
         >
           <div className={styles['near-you-buttons-container-wide']}>
             {children}
@@ -57,6 +55,5 @@ AllModesModal.propTypes = {
   language: PropTypes.string.isRequired,
   modalOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
-  fontWeights: PropTypes.shape({ medium: PropTypes.number }).isRequired,
   children: PropTypes.arrayOf(PropTypes.node).isRequired,
 };

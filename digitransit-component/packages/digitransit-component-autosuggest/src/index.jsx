@@ -16,7 +16,11 @@ import Icon, {
 } from '@digitransit-component/digitransit-component-icon';
 import i18n from './utils/i18n';
 import styles from './components/styles.scss';
-import { getSuggestionValue, suggestionAsAriaContent } from './utils/utils';
+import {
+  getSuggestionValue,
+  scrollItemIntoView,
+  suggestionAsAriaContent,
+} from './utils/utils';
 import MobileView from './components/MobileView';
 import { Input } from './components/Input';
 import { Suggestions } from './components/Suggestions';
@@ -32,7 +36,6 @@ import { searchReducer } from './utils/searchReducer';
 const DEFAULT_SOURCES = [];
 const DEFAULT_PATH_OPTS = { routesPrefix: 'linjat', stopsPrefix: 'pysakit' };
 const DEFAULT_REF_POINT = {};
-const DEFAULT_FONT_WEIGHTS = { medium: 500 };
 
 const getAriaProps = ({
   id,
@@ -242,7 +245,6 @@ const getNewTargets = ({
  * @property {string} [inputClassName]
  * @property {string} [translatedPlaceholder]
  * @property {boolean} [required]
- * @property {Object} [fontWeights]
  * @property {Object} [colors]
  * @property {string} [modeSet]
  * @property {boolean} [showScroll]
@@ -260,7 +262,6 @@ const getNewTargets = ({
  * @param {string[]} [props.sources=[]]
  * @param {Object} [props.pathOpts={routesPrefix: 'linjat', stopsPrefix: 'pysakit'}]
  * @param {Object} [props.refPoint={}]
- * @param {Object} [props.fontWeights={medium: 500}]
  * @returns {JSX.Element}
  */
 function DTAutosuggest({
@@ -282,7 +283,6 @@ function DTAutosuggest({
   translatedPlaceholder,
   required = false,
   ariaLabel,
-  fontWeights = DEFAULT_FONT_WEIGHTS,
   colors = defaultColors,
   modeSet,
   showScroll = false,
@@ -320,6 +320,8 @@ function DTAutosuggest({
   // not something that should itself trigger a render or round-trip through
   // another dispatch.
   const pendingEnterRef = useRef(false);
+  // Identifies the latest search so results of superseded searches are ignored.
+  const searchIdRef = useRef(0);
   useEffect(() => {
     if (storeRef) {
       storeRef(inputRef.current);
@@ -347,6 +349,8 @@ function DTAutosuggest({
             isMobile,
         )
       : state.sources;
+    searchIdRef.current += 1;
+    const searchId = searchIdRef.current;
     executeSearch(
       newTargets,
       newSources,
@@ -358,6 +362,9 @@ function DTAutosuggest({
         input: state.value || '',
       },
       searchResult => {
+        if (searchId !== searchIdRef.current) {
+          return;
+        }
         if (searchResult == null) {
           dispatch({
             type: 'FETCH_SUGGESTIONS',
@@ -389,6 +396,7 @@ function DTAutosuggest({
             }
             return suggestion;
           });
+
         dispatch({
           type: 'FETCH_SUGGESTIONS',
           loading: false,
@@ -477,6 +485,7 @@ function DTAutosuggest({
   } = useCombobox({
     inputId: id,
     inputValue: state.value,
+    scrollIntoView: scrollItemIntoView,
     defaultHighlightedIndex: 0,
     // Typing is dispatched synchronously by Input. Downshift reports it from an
     // effect a render late, which would overwrite newer keystrokes.
@@ -611,20 +620,20 @@ function DTAutosuggest({
       loading: state.loading,
       isMobile,
       ariaFavouriteString: t('favourite', { lng }),
-      fontWeights,
       getAutoSuggestIcons,
       colors,
       modeSet,
+      showStopStatusMarkers: !!searchContext.showStopStatusMarkers,
     }),
     [
       state.loading,
       isMobile,
       t,
       lng,
-      fontWeights,
       getAutoSuggestIcons,
       colors,
       modeSet,
+      searchContext.showStopStatusMarkers,
     ],
   );
 
@@ -666,7 +675,6 @@ function DTAutosuggest({
       {isMobile && (
         <MobileView
           placeholder={t(placeholder, { lng })}
-          fontWeights={fontWeights}
           clearOldSearches={mobileClearOldSearches}
           appElement={appElement}
           mobileLabel={mobileLabel || t(id, { lng })}
@@ -776,6 +784,7 @@ DTAutosuggest.propTypes = {
     context: PropTypes.object,
     clearOldSearches: PropTypes.func,
     clearFutureRoutes: PropTypes.func,
+    showStopStatusMarkers: PropTypes.bool,
   }).isRequired,
   sources: PropTypes.arrayOf(PropTypes.string),
   targets: PropTypes.arrayOf(PropTypes.string),
@@ -798,9 +807,6 @@ DTAutosuggest.propTypes = {
     lon: PropTypes.number,
   }),
   inputClassName: PropTypes.string,
-  fontWeights: PropTypes.shape({
-    medium: PropTypes.number,
-  }),
   colors: PropTypes.objectOf(PropTypes.string),
   getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
   required: PropTypes.bool,

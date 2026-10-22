@@ -14,6 +14,7 @@ import {
   isKeyboardSelectionEvent,
   getSuggestionValue,
   isPOISearch,
+  scrollItemIntoView,
 } from '../utils/utils';
 
 /**
@@ -27,7 +28,6 @@ import {
  * @property {string} placeholder
  * @property {function} clearInput
  * @property {function} onSelectedItemChange
- * @property {object} fontWeights
  * @property {function} clearOldSearches
  * @property {object} suggestionProps
  * @property {object} colors
@@ -53,7 +53,6 @@ const MobileView = ({
   placeholder,
   clearInput,
   onSelectedItemChange,
-  fontWeights,
   clearOldSearches,
   suggestionProps,
   lng,
@@ -103,6 +102,7 @@ const MobileView = ({
     items: state.suggestions,
     inputValue: value,
     isOpen: true,
+    scrollIntoView: scrollItemIntoView,
     onSelectedItemChange: changes => {
       onSelectedItemChange(changes);
       dispatch({ type: 'TOGGLE_MENU', isMobile: true });
@@ -182,7 +182,6 @@ const MobileView = ({
           '--color': colors.primary,
           '--accessible-primary-color': colors.accessiblePrimary,
           '--hover-color': colors.hover,
-          '--font-weight-medium': fontWeights.medium,
         }}
       >
         <div className={styles['combobox-container']} htmlFor={inputId}>
@@ -276,9 +275,6 @@ MobileView.propTypes = {
   onSelectedItemChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
   colors: PropTypes.objectOf(PropTypes.string).isRequired,
-  fontWeights: PropTypes.shape({
-    medium: PropTypes.number.isRequired,
-  }).isRequired,
   suggestionProps: PropTypes.shape({}).isRequired,
   ariaProps: PropTypes.shape({
     ariaRequiredText: PropTypes.string.isRequired,

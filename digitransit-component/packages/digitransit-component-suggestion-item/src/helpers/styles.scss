@@ -52,7 +52,7 @@ li:last-child > div.suggestion-item-container.mobile {
 
     .suggestion-name {
       margin: 0;
-      font-weight: var(--font-weight-medium);
+      font-weight: var(--font-weight-medium, 500);
       color: #333;
       font-size: 15px !important;
       letter-spacing: -0.5px;
@@ -106,7 +106,7 @@ li:last-child > div.suggestion-item-container.mobile {
         font-size: 9px;
         line-height: 9px;
         padding: 1px 2px 1px;
-        font-weight: var(--font-weight-medium);
+        font-weight: var(--font-weight-medium, 500);
         border: 1px solid #ddd;
         margin: 0 4px;
         vertical-align: middle;
@@ -171,8 +171,8 @@ li:last-child > div.suggestion-item-container.mobile {
   text-align: center;
   padding-top: 6px;
 
-  // Default size
-  svg {
+  // Default size — badge SVG is excluded so its own rule wins.
+  svg:not(.suggestion-status-badge) {
     width: 22px;
     height: 22px;
   }
@@ -180,7 +180,7 @@ li:last-child > div.suggestion-item-container.mobile {
   .place,
   .busstop,
   .select-from-map {
-    svg {
+    svg:not(.suggestion-status-badge) {
       width: 24px;
       height: 24px;
     }
@@ -188,7 +188,7 @@ li:last-child > div.suggestion-item-container.mobile {
 
   .locate,
   .edit {
-    svg {
+    svg:not(.suggestion-status-badge) {
       width: 22px;
       height: 22px;
     }
@@ -196,7 +196,7 @@ li:last-child > div.suggestion-item-container.mobile {
 
   .star,
   .work {
-    svg {
+    svg:not(.suggestion-status-badge) {
       width: 20px;
       height: 20px;
     }
@@ -205,14 +205,14 @@ li:last-child > div.suggestion-item-container.mobile {
   .school,
   .sport,
   .shopping {
-    svg {
+    svg:not(.suggestion-status-badge) {
       width: 18px;
       height: 18px;
     }
   }
 
   .arrow {
-    svg {
+    svg:not(.suggestion-status-badge) {
       width: 17px;
       height: 17px;
       transform: rotate(180deg);
@@ -220,7 +220,7 @@ li:last-child > div.suggestion-item-container.mobile {
   }
 
   .future-route {
-    svg {
+    svg:not(.suggestion-status-badge) {
       width: 32px;
       height: 32px;
       position: relative;
@@ -229,7 +229,7 @@ li:last-child > div.suggestion-item-container.mobile {
   }
 
   .station {
-    svg {
+    svg:not(.suggestion-status-badge) {
       width: 25px;
       height: 24px;
     }
@@ -244,4 +244,21 @@ li:last-child > div.suggestion-item-container.mobile {
   position: absolute;
   white-space: nowrap;
   width: 1px;
+}
+
+.suggestion-icon-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.suggestion-status-badge {
+  position: absolute;
+
+  // Aligns the badge over the top-right corner of the 22px mode icon.
+  bottom: 13px;
+  right: -5px;
+  width: 13px;
+  height: 13px;
 }

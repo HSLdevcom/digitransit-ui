@@ -223,7 +223,7 @@ describe('MessageContext', () => {
 
   describe('messageActions bridge', () => {
     it('allows plain (non-React) modules to add and dismiss messages', () => {
-      // Mirrors how app/action/PositionActions.js posts geolocation
+      // Mirrors how app/data/PositionService.js posts geolocation
       // permission/timeout messages: it can't call hooks, so it goes
       // through the messageActions bridge instead of useMessageActions().
       setReadMessageIds([]);

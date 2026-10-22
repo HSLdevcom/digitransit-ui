@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { RouterContext } from 'found';
 import { ReactRelayContext } from 'react-relay';
 import PropTypes from 'prop-types';
@@ -8,12 +8,19 @@ import {
   routerShape,
   matchShape,
   configShape,
+  vehicleShape,
 } from '../../../utils/client/shapes';
 import { ConfigProvider } from '../../../app/client/ConfigContext';
 import { MapLayerProvider } from '../../../app/hooks/MapLayerContext';
+import { PositionProvider } from '../../../app/hooks/PositionContext';
 import { TimeProvider, TimeContext } from '../../../app/hooks/TimeContext';
+import {
+  RealTimeInformationProvider,
+  useRealTimeActions,
+} from '../../../app/hooks/RealTimeInformationContext';
 import translations from '../../../app/translations/en';
 import { mockContext } from './mock-context';
+import { BreakpointContext } from '../../../utils/client/withBreakpoint';
 
 const defaultMessages = translations.en;
 const intlCache = createIntlCache();
@@ -38,47 +45,17 @@ const mockRelayEnvironment = {
 };
 const mockRelayContext = { environment: mockRelayEnvironment, variables: {} };
 
-// Remove when Fluxible is fully replaced
-class LegacyContextProvider extends React.Component {
-  getChildContext() {
-    const ctx = {
-      getStore: this.props.getStore || mockContext.getStore,
-      executeAction: this.props.executeAction || mockContext.executeAction,
-    };
-    // Only provide config/match when explicitly set, so the legacy
-    // context isn't shadowed for components that read it directly.
-    if (this.props.config) {
-      ctx.config = this.props.config;
-    }
-    if (this.props.match) {
-      ctx.match = this.props.match;
-    }
-    if (this.props.router) {
-      ctx.router = this.props.router;
-    }
-    return ctx;
-  }
-
-  render() {
-    return this.props.children;
-  }
+function TestRealTimeVehicles({ vehicles }) {
+  const actions = useRealTimeActions();
+  useEffect(() => {
+    actions.reset();
+    actions.handleMessage(Object.values(vehicles));
+  }, [actions, vehicles]);
+  return null;
 }
 
-LegacyContextProvider.childContextTypes = {
-  config: PropTypes.object,
-  match: matchShape,
-  router: routerShape,
-  getStore: PropTypes.func,
-  executeAction: PropTypes.func,
-};
-
-LegacyContextProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-  config: PropTypes.object,
-  match: matchShape,
-  router: routerShape,
-  getStore: PropTypes.func,
-  executeAction: PropTypes.func,
+TestRealTimeVehicles.propTypes = {
+  vehicles: PropTypes.objectOf(vehicleShape).isRequired,
 };
 
 // Wraps the component under test with the intl, config, relay and router
@@ -91,8 +68,8 @@ export default function TestProviders({
   locale = 'en',
   messages = defaultMessages,
   currentTime,
-  getStore,
-  executeAction,
+  breakpoint = 'large',
+  vehicles,
 }) {
   const routerCtx = useMemo(
     () => ({
@@ -102,19 +79,20 @@ export default function TestProviders({
     [match, router],
   );
   const inner = (
-    <LegacyContextProvider
-      config={config}
-      match={match}
-      router={router}
-      getStore={getStore}
-      executeAction={executeAction}
-    >
-      <ReactRelayContext.Provider value={mockRelayContext}>
-        <RouterContext.Provider value={routerCtx}>
-          {children}
-        </RouterContext.Provider>
-      </ReactRelayContext.Provider>
-    </LegacyContextProvider>
+    <ReactRelayContext.Provider value={mockRelayContext}>
+      <RouterContext.Provider value={routerCtx}>
+        <BreakpointContext.Provider value={breakpoint}>
+          <PositionProvider>
+            <RealTimeInformationProvider>
+              {vehicles !== undefined && (
+                <TestRealTimeVehicles vehicles={vehicles} />
+              )}
+              {children}
+            </RealTimeInformationProvider>
+          </PositionProvider>
+        </BreakpointContext.Provider>
+      </RouterContext.Provider>
+    </ReactRelayContext.Provider>
   );
   return (
     <IntlProvider locale={locale} messages={messages}>
@@ -141,13 +119,13 @@ TestProviders.propTypes = {
   locale: PropTypes.string,
   messages: PropTypes.objectOf(PropTypes.string),
   currentTime: PropTypes.number,
-  getStore: PropTypes.func,
-  executeAction: PropTypes.func,
+  breakpoint: PropTypes.oneOf(['small', 'medium', 'large']),
+  vehicles: PropTypes.objectOf(vehicleShape),
 };
 
 /**
  * @param {React.ReactElement} ui - Component under test
- * @param {{ config?: object, match?: object, router?: object, locale?: string, messages?: object, currentTime?: number, getStore?: Function, executeAction?: Function }} opts
+ * @param {{ config?: object, match?: object, router?: object, locale?: string, messages?: object, currentTime?: number, breakpoint?: string, vehicles?: object }} opts
  */
 export function renderWithProviders(ui, opts = {}) {
   const {
@@ -157,8 +135,8 @@ export function renderWithProviders(ui, opts = {}) {
     locale,
     messages,
     currentTime,
-    getStore,
-    executeAction,
+    breakpoint,
+    vehicles,
     ...renderOpts
   } = opts;
   const Wrapper = ({ children }) => (
@@ -169,8 +147,8 @@ export function renderWithProviders(ui, opts = {}) {
       locale={locale}
       messages={messages}
       currentTime={currentTime}
-      getStore={getStore}
-      executeAction={executeAction}
+      breakpoint={breakpoint}
+      vehicles={vehicles}
     >
       {children}
     </TestProviders>

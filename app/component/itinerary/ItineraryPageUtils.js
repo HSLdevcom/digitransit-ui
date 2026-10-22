@@ -4,11 +4,6 @@ import pick from 'lodash/pick';
 import polyline from 'polyline-encoded';
 import SunCalc from 'suncalc';
 import {
-  changeRealTimeClientTopics,
-  startRealTimeClient,
-  stopRealTimeClient,
-} from '../../action/realTimeClientAction';
-import {
   PlannerMessageType,
   ExtendedRouteTypes,
 } from '../../../utils/shared/constants';
@@ -251,45 +246,39 @@ function configClient(itineraryTopics, config) {
   return null;
 }
 
-export function stopClient(context) {
-  const { client } = context.getStore('RealTimeInformationStore');
-  if (client) {
-    context.executeAction(stopRealTimeClient, client);
-  }
+export function stopClient(actions) {
+  actions.stop();
 }
 
-export function startClient(itineraryTopics, context, config) {
+export function startClient(itineraryTopics, actions, config) {
   if (!isEmpty(itineraryTopics)) {
     const clientConfig = configClient(itineraryTopics, config);
-    // clientConfig is null e.g. when the itinerary's feed isn't configured
-    // for realtime, or the realtime source isn't active (routes without a
-    // fixed schedule) - don't start a client in that case.
     if (clientConfig) {
-      context.executeAction(startRealTimeClient, clientConfig);
+      actions.start(clientConfig);
     }
   }
 }
 
-export function updateClient(itineraryTopics, context, config) {
-  const { client, topics } = context.getStore('RealTimeInformationStore');
+export function updateClient(itineraryTopics, actions, config) {
+  const { client, topics } = actions;
 
   if (isEmpty(itineraryTopics)) {
-    stopClient(context);
+    stopClient(actions);
     return;
   }
   if (client) {
     const clientConfig = configClient(itineraryTopics, config);
     if (clientConfig) {
-      context.executeAction(changeRealTimeClientTopics, {
+      actions.changeTopics({
         ...clientConfig,
         client,
         oldTopics: topics,
       });
       return;
     }
-    stopClient(context);
+    stopClient(actions);
   }
-  startClient(itineraryTopics, context, config);
+  startClient(itineraryTopics, actions, config);
 }
 
 export function addBikeStationMapForRentalVehicleItineraries() {
