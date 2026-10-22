@@ -7,6 +7,7 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
+    'react-hooks/rules-of-hooks': 'error',
     curly: ['error', 'all'],
     'lines-between-class-members': 'warn',
     'no-else-return': 'warn',
@@ -54,6 +55,7 @@ module.exports = {
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx'] }],
     'react/jsx-fragments': 'off',
     'react/jsx-key': 'error',
+    'react/react-in-jsx-scope': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/forbid-prop-types': ['warn', { forbid: ['any', 'array', 'object'] }],
     'react/require-default-props': 'off',
@@ -92,7 +94,7 @@ module.exports = {
   env: {
     browser: true,
   },
-  plugins: ['react', 'compat', 'prettier', 'jsx-a11y'],
+  plugins: ['react', 'react-hooks', 'compat', 'prettier', 'jsx-a11y'],
   overrides: [
     {
       // These files/directories are loaded by Node directly as native ESM

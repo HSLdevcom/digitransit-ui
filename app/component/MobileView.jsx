@@ -66,20 +66,7 @@ Math.easeInOutQuad = function easeInOutQuad(a, b, c, d) {
 };
 
 const MobileView = forwardRef(
-  (
-    {
-      header,
-      map,
-      content,
-      settingsDrawer,
-      searchBox,
-      enableBottomScroll = true,
-    },
-    ref,
-  ) => {
-    if (settingsDrawer) {
-      return <div className="mobile">{settingsDrawer}</div>;
-    }
+  ({ header, map, content, searchBox, enableBottomScroll = true }, ref) => {
     const contentRef = useRef();
     const scrollRef = useRef();
     const match = useMatch();
@@ -199,7 +186,6 @@ MobileView.propTypes = {
   header: PropTypes.node,
   map: PropTypes.node,
   content: PropTypes.node,
-  settingsDrawer: PropTypes.node,
   searchBox: PropTypes.node,
   enableBottomScroll: PropTypes.bool,
 };

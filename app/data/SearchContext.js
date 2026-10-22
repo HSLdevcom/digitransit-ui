@@ -18,7 +18,7 @@ import favouriteStore, {
   getFavouriteVehicleRentalStations,
 } from './FavouriteData';
 import { saveSearch, getOldSearches, clearOldSearches } from './SearchHistory';
-import { useCitybikes } from '../../utils/client/modeUtils';
+import { hasCitybikes } from '../../utils/client/modeUtils';
 import { getDefaultNetworks } from '../../utils/shared/vehicleRentalUtils';
 
 /**
@@ -68,7 +68,7 @@ class SearchContext {
     this.URL_PELIAS_PLACE = config.URL.PELIAS_PLACE;
     // FeedId's like  [HSL, HSLLautta]
     this.feedIDs = config.feedIds;
-    this.cityBikeNetworks = useCitybikes(config.vehicleRental.networks, config)
+    this.cityBikeNetworks = hasCitybikes(config.vehicleRental.networks, config)
       ? getDefaultNetworks(config).map(t => `citybikes${t}`)
       : [];
     // searchSources e.g. [oa,osm,nlsfi.]

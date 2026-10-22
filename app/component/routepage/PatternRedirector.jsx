@@ -12,26 +12,6 @@ import {
 
 const PatternRedirector = ({ route }) => {
   const { router, match } = useRouter();
-  if (!route) {
-    const oldSearchItems = getOldSearchItems();
-    const oldItem = oldSearchItems.filter(
-      s =>
-        s.item.properties.layer.startsWith('route-') &&
-        s.item.properties.link === match.location.pathname,
-    );
-    if (oldItem && oldItem.length !== 0) {
-      const error = {
-        id: 'no-route-found',
-        values: {
-          shortName: oldItem[0].item.properties.shortName,
-          longName: oldItem[0].item.properties.longName,
-        },
-      };
-      saveOldSearchItems(oldSearchItems.filter(s => s !== oldItem[0]));
-      return <Error404 error={error} />;
-    }
-    return <Error404 />;
-  }
   let sortedPatternsByCountOfTrips;
   const tripsExists = route.patterns ? 'trips' in route.patterns[0] : false;
   if (tripsExists) {
@@ -57,7 +37,7 @@ const PatternRedirector = ({ route }) => {
   const path = routePagePath(
     routeId,
     type || PREFIX_STOPS,
-    pattern.code || `${routeId}:0:01`,
+    pattern?.code || `${routeId}:0:01`,
   );
 
   useEffect(() => {
@@ -68,10 +48,39 @@ const PatternRedirector = ({ route }) => {
 };
 
 PatternRedirector.propTypes = {
+  route: routeShape.isRequired,
+};
+
+const PatternRedirectorGuard = ({ route = null }) => {
+  const { match } = useRouter();
+  if (!route) {
+    const oldSearchItems = getOldSearchItems();
+    const oldItem = oldSearchItems.filter(
+      s =>
+        s.item.properties.layer.startsWith('route-') &&
+        s.item.properties.link === match.location.pathname,
+    );
+    if (oldItem && oldItem.length !== 0) {
+      const error = {
+        id: 'no-route-found',
+        values: {
+          shortName: oldItem[0].item.properties.shortName,
+          longName: oldItem[0].item.properties.longName,
+        },
+      };
+      saveOldSearchItems(oldSearchItems.filter(s => s !== oldItem[0]));
+      return <Error404 error={error} />;
+    }
+    return <Error404 />;
+  }
+  return <PatternRedirector route={route} />;
+};
+
+PatternRedirectorGuard.propTypes = {
   route: routeShape,
 };
 
-const containerComponent = createFragmentContainer(PatternRedirector, {
+const containerComponent = createFragmentContainer(PatternRedirectorGuard, {
   route: graphql`
     fragment PatternRedirector_route on Route
     @argumentDefinitions(date: { type: "String" }) {

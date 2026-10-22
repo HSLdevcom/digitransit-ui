@@ -212,7 +212,7 @@ function RoutePatternSelectContainer({
           canSwapDirection ? () => onSelectChange(otherPattern.code) : undefined
         }
       />
-      {optionArray.length > 0 && hasExtraPatternOptions && (
+      {currentPattern && optionArray.length > 0 && hasExtraPatternOptions && (
         <RoutePatternSelect
           currentPattern={currentPattern}
           optionArray={optionArray}

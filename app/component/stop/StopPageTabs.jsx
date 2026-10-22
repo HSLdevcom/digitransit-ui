@@ -11,7 +11,6 @@ import {
   getActiveAlertSeverityLevel,
   getUniqueAlerts,
 } from '../../../utils/client/alertUtils';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { unixTime } from '../../../utils/client/timeUtils';
 import {
@@ -39,10 +38,6 @@ const getActiveTab = pathname => {
 
 function StopPageTabs({ stop }) {
   const { router, match } = useRouter();
-  const { location } = match;
-  if (!stop || location.query.alertId) {
-    return null;
-  }
   const activeTab = getActiveTab(match.location.pathname);
   const { search } = match.location;
 
@@ -204,8 +199,16 @@ function StopPageTabs({ stop }) {
   );
 }
 
-StopPageTabs.propTypes = { stop: stopShape };
+StopPageTabs.propTypes = { stop: stopShape.isRequired };
 
-const componentWithBreakpoint = withBreakpoint(StopPageTabs);
+function StopPageTabsGuard({ stop = null }) {
+  const { match } = useRouter();
+  if (!stop || match.location.query.alertId) {
+    return null;
+  }
+  return <StopPageTabs stop={stop} />;
+}
 
-export { componentWithBreakpoint as default, StopPageTabs as Component };
+StopPageTabsGuard.propTypes = { stop: stopShape };
+
+export default StopPageTabsGuard;
