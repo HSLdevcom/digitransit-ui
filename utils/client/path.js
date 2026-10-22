@@ -1,24 +1,18 @@
-import get from 'lodash/get.js';
-import trimEnd from 'lodash/trimEnd.js';
-import trimStart from 'lodash/trimStart.js';
-import toPairs from 'lodash/toPairs.js';
-import { otpToLocation, locationToOTP, locationToUri } from './otpStrings.js';
-
-export const TAB_NEARBY = 'lahellasi';
-export const TAB_FAVOURITES = 'suosikit';
-export const PREFIX_ROUTES = 'linjat';
-export const PREFIX_NEARYOU = TAB_NEARBY;
-export const PREFIX_STOPS = 'pysakit';
-export const PREFIX_BIKESTATIONS = 'pyoraasemat';
-export const PREFIX_BIKEPARK = 'pyoraparkit';
-export const PREFIX_CARPARK = 'autoparkit';
-export const PREFIX_TERMINALS = 'terminaalit';
-export const PREFIX_ITINERARY_SUMMARY = 'reitti';
-export const PREFIX_DISRUPTION = 'hairiot';
-export const PREFIX_TIMETABLE = 'aikataulu';
-export const EMBEDDED_SEARCH_PATH = '/haku';
-export const PREFIX_RENTALVEHICLES = 'skuutit';
-export const TRAFFICNOW = 'liikenne';
+import get from 'lodash/get';
+import trimEnd from 'lodash/trimEnd';
+import trimStart from 'lodash/trimStart';
+import toPairs from 'lodash/toPairs';
+import { otpToLocation, locationToOTP } from '../shared/otpStrings';
+import { locationToUri } from './otpStrings';
+import {
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_BIKESTATIONS,
+  PREFIX_BIKEPARK,
+  PREFIX_CARPARK,
+  PREFIX_TERMINALS,
+  PREFIX_ITINERARY_SUMMARY,
+} from '../shared/path';
 
 /**
  * Join argument with slash separator.

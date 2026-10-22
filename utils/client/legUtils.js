@@ -1,10 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { getTripOrRouteMode } from './modeUtils';
 import { BIKEAVL_UNKNOWN } from '../shared/vehicleRentalUtils';
-import {
-  ExtendedRouteTypes,
-  OtpCornerNamingPattern,
-} from '../shared/constants';
+import { ExtendedRouteTypes, OtpCornerNamingPattern } from './constants';
 import { stopCallTime } from './timeUtils';
 
 /**

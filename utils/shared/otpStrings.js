@@ -1,7 +1,3 @@
-import isEmpty from 'lodash/isEmpty.js';
-import isString from 'lodash/isString.js';
-import trim from 'lodash/trim.js';
-
 // Convert between location objects (address, lat, lon)
 // and string format OpenTripPlanner uses in many places
 
@@ -42,23 +38,6 @@ export function otpToLocation(otpString) {
   return location;
 }
 
-export function locationToUri(location) {
-  if (
-    location.type === 'CurrentLocation' &&
-    location.status === 'no-location'
-  ) {
-    return 'POS';
-  }
-  if (!location.lat) {
-    return '-';
-  }
-  let address = location.address || location.name || '';
-  if (location.gtfsId) {
-    address = `${address}**${location.gtfsId}`;
-  }
-  return `${encodeURIComponent(address)}::${location.lat},${location.lon}`;
-}
-
 export function locationToOTP(location) {
   if (location.lat) {
     const address = location.address || '';
@@ -73,42 +52,3 @@ export function locationToOTP(location) {
   }
   return '-';
 }
-
-/**
- * Extracts the location information from the intermediatePlaces
- * query parameter, if available. The locations will be returned in
- * non-OTP mode (i.e. mapped to lat?, lon? and address).
- *
- * @typedef Query
- * @prop {String|String[]} intermediatePlaces
- *
- * @param {Query} query The query to extract the information from.
- * @returns an array of locations if available, or an empty array otherwise
- */
-export function getIntermediatePlaces(query) {
-  if (!query) {
-    return [];
-  }
-  const { intermediatePlaces } = query;
-  if (!intermediatePlaces) {
-    return [];
-  }
-  if (Array.isArray(intermediatePlaces)) {
-    return intermediatePlaces.map(otpToLocation);
-  }
-  if (isString(intermediatePlaces)) {
-    if (isEmpty(trim(intermediatePlaces))) {
-      return [];
-    }
-    return [otpToLocation(intermediatePlaces)];
-  }
-  return [];
-}
-
-/**
- * Splits the name-string to two parts from the first occurance of ', '
- * @param {*} string String to split, e.g 'Ristolantie 15, Helsinki'
- */
-export const splitStringToAddressAndPlace = string => {
-  return string.split(/, (.+)/);
-};

@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { DATE_FORMAT } from '../shared/constants';
+import { DATE_FORMAT } from './constants';
 
 // Seconds are dropped so that tab clicks within a minute reuse cached data.
 export const prepareServiceDay = params => {

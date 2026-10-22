@@ -4,7 +4,7 @@ import {
 } from '@digitransit-component/digitransit-component-suggestion-item';
 import { DateTime } from 'luxon';
 import { isAlertValid, getMaximumAlertSeverityLevel } from './alertUtils';
-import { AlertSeverityLevelType } from '../shared/constants';
+import { AlertSeverityLevelType } from './constants';
 
 export { STOP_STATUS, STOP_STATUS_BADGE_IMGS };
 

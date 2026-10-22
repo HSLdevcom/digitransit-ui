@@ -4,7 +4,7 @@ import {
   RealtimeStateType,
   AlertSeverityLevelType,
   AlertEntityType,
-} from '../shared/constants';
+} from './constants';
 
 import { legTime } from './legUtils';
 

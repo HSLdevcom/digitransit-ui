@@ -1,4 +1,4 @@
-import { TransportMode } from '../shared/constants';
+import { TransportMode } from './constants';
 import {
   isBikeOrScooterRentalLeg,
   isPlatformChanged,
