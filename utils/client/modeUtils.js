@@ -38,7 +38,7 @@ export function showCitybikeNetwork(networkConfig, config) {
   );
 }
 
-export function useCitybikes(networks, config) {
+export function hasCitybikes(networks, config) {
   if (!networks) {
     return false;
   }
@@ -49,7 +49,7 @@ export function useCitybikes(networks, config) {
   );
 }
 
-export function useScooters(config) {
+export function hasScooters(config) {
   if (!config.transportModes?.scooter?.availableForSelection) {
     return false;
   }
@@ -80,7 +80,7 @@ export function showRentalVehiclesOfType(networks, type, config) {
  *   favourite is available, including citybike network/season eligibility.
  */
 export function getNearYouModes(config, hasOtpLocationFavourites) {
-  const citybikesActive = useCitybikes(config.vehicleRental?.networks, config);
+  const citybikesActive = hasCitybikes(config.vehicleRental?.networks, config);
   return config.nearYouModes.filter(mode => {
     if (mode === 'citybike') {
       return citybikesActive;
@@ -96,10 +96,10 @@ export function getTransportModes(config) {
   let citybikeConfig = {};
   let scooterConfig = {};
   if (config.vehicleRental?.networks) {
-    if (!useCitybikes(config.vehicleRental.networks, config)) {
+    if (!hasCitybikes(config.vehicleRental.networks, config)) {
       citybikeConfig = { citybike: { availableForSelection: false } };
     }
-    if (!useScooters(config)) {
+    if (!hasScooters(config)) {
       scooterConfig = { scooter: { availableForSelection: false } };
     }
   }

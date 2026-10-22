@@ -21,6 +21,8 @@ const containerComponent = createRefetchContainer(
           alertSeverityLevel
           alertDescriptionText
           alertHeaderText
+          effectiveStartDate
+          effectiveEndDate
           entities {
             __typename
           }

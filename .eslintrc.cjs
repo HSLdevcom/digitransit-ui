@@ -7,6 +7,7 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
+    'react-hooks/rules-of-hooks': 'error',
     curly: ['error', 'all'],
     'lines-between-class-members': 'warn',
     'no-else-return': 'warn',
@@ -93,7 +94,7 @@ module.exports = {
   env: {
     browser: true,
   },
-  plugins: ['react', 'compat', 'prettier', 'jsx-a11y'],
+  plugins: ['react', 'react-hooks', 'compat', 'prettier', 'jsx-a11y'],
   overrides: [
     {
       // These files/directories are loaded by Node directly as native ESM

@@ -101,13 +101,13 @@ function ItineraryDetails({
   giveFeedback,
 }) {
   const itinerary = useFragment(ItineraryDetailsFragment, itineraryRef);
-  if (!itinerary?.legs[0]) {
-    return null;
-  }
   const { match } = useRouter();
   const config = useConfigContext();
   const { language } = config;
   const intl = useIntl();
+  if (!itinerary?.legs[0]) {
+    return null;
+  }
 
   const shouldShowDisclaimer =
     config.showDisclaimer &&

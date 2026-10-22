@@ -4,7 +4,7 @@ import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import { useIntl } from 'react-intl';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
-import { useCitybikes } from '../../utils/client/modeUtils';
+import { hasCitybikes } from '../../utils/client/modeUtils';
 import {
   PREFIX_ITINERARY_SUMMARY,
   PREFIX_STOPS,
@@ -36,7 +36,7 @@ export function getLocationSearchTargets(config, isMobile) {
     // default setup
     locationSearchTargets.push('Stations');
     locationSearchTargets.push('Stops');
-    if (useCitybikes(config.vehicleRental?.networks, config)) {
+    if (hasCitybikes(config.vehicleRental?.networks, config)) {
       locationSearchTargets.push('VehicleRentalStations');
     }
     if (config.includeParkAndRideSuggestions) {

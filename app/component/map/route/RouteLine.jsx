@@ -45,12 +45,13 @@ const EMPTY_FILTERED_STOPS = [];
 
 function RouteLine({
   pattern,
-  trip,
+  trip = null,
   thin = false,
   filteredStops = EMPTY_FILTERED_STOPS,
-  vehiclePosition,
+  vehiclePosition = null,
 }) {
   const config = useConfigContext();
+
   if (!pattern) {
     return false;
   }
@@ -75,30 +76,26 @@ function RouteLine({
     );
   }
 
-  const filteredIds = filteredStops
-    ? filteredStops.map(stop => stop.stopId)
-    : [];
+  const filteredIds = filteredStops.map(stop => stop.stopId);
 
   if (!vehiclePosition) {
-    const markers = pattern
-      ? pattern.stops
-          .filter(stop => !filteredIds.includes(stop.gtfsId))
-          .map((stop, i) => (
-            <StopMarker
-              stop={stop}
-              key={`${stop.gtfsId}-${pattern.code}${
-                i === pattern.stops.length - 1 && '-last'
-              }`}
-              mode={modeClass + (thin ? ' thin' : '')}
-              thin={thin}
-              stopStatus={getStopStatusFromStopData({
-                stop,
-                nowUnixTime,
-                showStopStatusMarkers: config.showStopStatusMarkers,
-              })}
-            />
-          ))
-      : false;
+    const markers = pattern.stops
+      .filter(stop => !filteredIds.includes(stop.gtfsId))
+      .map((stop, i) => (
+        <StopMarker
+          stop={stop}
+          key={`${stop.gtfsId}-${pattern.code}${
+            i === pattern.stops.length - 1 && '-last'
+          }`}
+          mode={modeClass + (thin ? ' thin' : '')}
+          thin={thin}
+          stopStatus={getStopStatusFromStopData({
+            stop,
+            nowUnixTime,
+            showStopStatusMarkers: config.showStopStatusMarkers,
+          })}
+        />
+      ));
 
     return (
       <div style={{ display: 'none' }}>
@@ -139,26 +136,24 @@ function RouteLine({
   }
   // split stops markers into two in the same way
   const markerSplitIndex = getSplitIndex(pattern.stops, vehiclePosition);
-  const markers = pattern
-    ? pattern.stops
-        .filter(stop => !filteredIds.includes(stop.gtfsId))
-        .map((stop, i) => (
-          <StopMarker
-            stop={stop}
-            key={`${stop.gtfsId}-${pattern.code}${
-              i === pattern.stops.length - 1 && '-last'
-            }`}
-            mode={modeClass + (thin ? ' thin' : '')}
-            colorOverride={i < markerSplitIndex ? beforeSplitColor : null}
-            thin={thin}
-            stopStatus={getStopStatusFromStopData({
-              stop,
-              nowUnixTime,
-              showStopStatusMarkers: config.showStopStatusMarkers,
-            })}
-          />
-        ))
-    : false;
+  const markers = pattern.stops
+    .filter(stop => !filteredIds.includes(stop.gtfsId))
+    .map((stop, i) => (
+      <StopMarker
+        stop={stop}
+        key={`${stop.gtfsId}-${pattern.code}${
+          i === pattern.stops.length - 1 && '-last'
+        }`}
+        mode={modeClass + (thin ? ' thin' : '')}
+        colorOverride={i < markerSplitIndex ? beforeSplitColor : null}
+        thin={thin}
+        stopStatus={getStopStatusFromStopData({
+          stop,
+          nowUnixTime,
+          showStopStatusMarkers: config.showStopStatusMarkers,
+        })}
+      />
+    ));
 
   return (
     <div style={{ display: 'none' }}>
@@ -217,8 +212,8 @@ export default createFragmentContainer(RouteLine, {
         alerts {
           alertEffect
           alertSeverityLevel
-          effectiveEndDate
           effectiveStartDate
+          effectiveEndDate
         }
         ...StopCardHeaderContainer_stop
       }

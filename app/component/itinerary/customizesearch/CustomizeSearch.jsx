@@ -15,8 +15,8 @@ import TaxiOptions from './TaxiOptions';
 import RestoreDefaultSettings from './RestoreDefaultSettings';
 import {
   showModeSettings,
-  useCitybikes,
-  useScooters,
+  hasCitybikes,
+  hasScooters,
 } from '../../../../utils/client/modeUtils';
 import { getSettings } from '../../../../utils/client/planParamUtil';
 import {
@@ -102,7 +102,7 @@ export default function CustomizeSearch({ onToggleClick, mobile = false }) {
             updateSettings={updateSettings}
           />
         </div>
-        {useCitybikes(config.vehicleRental?.networks, config) && (
+        {hasCitybikes(config.vehicleRental?.networks, config) && (
           <div className="settings-section">
             <CityBikes updateSettings={updateSettings} />
           </div>
@@ -119,7 +119,7 @@ export default function CustomizeSearch({ onToggleClick, mobile = false }) {
             updateSettings={updateSettings}
           />
         </div>
-        {useScooters(config) && (
+        {hasScooters(config) && (
           <div className="settings-section">
             <Scooters updateSettings={updateSettings} />
           </div>
