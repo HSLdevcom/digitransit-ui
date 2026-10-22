@@ -260,7 +260,9 @@ in `package.json` as:
   never needs at runtime. Test tooling shared across packages (`vitest`,
   `@testing-library/*`, `react-dom`, ...) is *not* repeated here: tests run
   through the root Vitest config and resolve it from the root
-  `devDependencies`.
+  `devDependencies`. Package scripts call such root tooling via
+  `yarn run -T <bin>` (e.g. `yarn run -T vitest`, `yarn run -T rollup`), since
+  Yarn won't run a binary the workspace doesn't declare itself.
 
 ## CSS Modules
 

@@ -8,7 +8,7 @@
     "access": "public"
   },
   "scripts": {
-    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.js\"",
+    "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js"
   },
   "repository": {

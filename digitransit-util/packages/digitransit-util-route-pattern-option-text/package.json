@@ -6,7 +6,7 @@
   "main": "index.js",
   "deprecated": "This package is no longer used by digitransit-ui. It will be removed in a future release.",
   "scripts": {
-    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.js\"",
+    "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js"
   },
   "repository": {
