@@ -119,7 +119,10 @@ export const buildStopIconSvg = ({
             ? `<circle class="stop-halo" cx="${radius}" cy="${radius}" r="${haloRadius}" />`
             : ''
         }
-        <circle class="stop ${appendClass}" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"${
+        <circle class="${cx(
+          'stop',
+          appendClass,
+        )}" cx="${radius}" cy="${radius}" r="${inner}" stroke-width="${stroke}"${
           colorOverride ? ` color="${colorOverride}"` : ''
         } />
         ${
