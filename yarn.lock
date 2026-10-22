@@ -2120,26 +2120,17 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-abtesting@workspace:digitransit-component/packages/digitransit-component-abtesting"
   dependencies:
     "@marvelapp/react-ab-test": "npm:2.3.0"
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@marvelapp/react-ab-test": 2.3.0
     i18next: ^22.5.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
   languageName: unknown
   linkType: soft
 
 "@digitransit-component/digitransit-component-autosuggest-panel@workspace:^, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-autosuggest": "workspace:^"
     "@digitransit-component/digitransit-component-icon": "workspace:^"
@@ -2150,7 +2141,7 @@ __metadata:
     lodash: 4.18.1
     lodash-es: 4.18.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
     react-i18next: ^12.3.1
     react-sortablejs: 2.0.11
   languageName: unknown
@@ -2164,10 +2155,6 @@ __metadata:
     "@digitransit-search-util/digitransit-search-util-get-label": "workspace:^"
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
     "@hsl-fi/hooks": "npm:^1.2.4"
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^"
     "@digitransit-component/digitransit-component-icon": "workspace:^"
@@ -2180,7 +2167,7 @@ __metadata:
     lodash-es: 4.18.1
     luxon: ^3.6.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
     react-i18next: ^12.3.1
     react-modal: ~3.11.2
   languageName: unknown
@@ -2189,11 +2176,6 @@ __metadata:
 "@digitransit-component/digitransit-component-control-panel@workspace:^, @digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": "workspace:^"
     "@hsl-fi/dialog": ^3.1.3
@@ -2203,7 +2185,7 @@ __metadata:
     classnames: 2.5.1
     i18next: ^22.5.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
     react-i18next: ^12.3.1
   languageName: unknown
   linkType: soft
@@ -2211,11 +2193,6 @@ __metadata:
 "@digitransit-component/digitransit-component-datetimepicker@workspace:digitransit-component/packages/digitransit-component-datetimepicker":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-datetimepicker@workspace:digitransit-component/packages/digitransit-component-datetimepicker"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": "workspace:^"
     "@hsl-fi/sass": 1.0.0
@@ -2226,7 +2203,7 @@ __metadata:
     lodash-es: 4.18.1
     luxon: ^3.6.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
     react-i18next: ^12.3.1
     react-modal: ~3.11.2
     react-select: ^4.3.1
@@ -2236,15 +2213,10 @@ __metadata:
 "@digitransit-component/digitransit-component-dialog-modal@workspace:digitransit-component/packages/digitransit-component-dialog-modal":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-dialog-modal@workspace:digitransit-component/packages/digitransit-component-dialog-modal"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@hsl-fi/dialog": ^3.1.3
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
   languageName: unknown
   linkType: soft
 
@@ -2253,10 +2225,6 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": "workspace:^"
     "@digitransit-component/digitransit-component-suggestion-item": "workspace:^"
@@ -2267,7 +2235,7 @@ __metadata:
     lodash: 4.18.1
     lodash-es: 4.18.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
     react-i18next: ^12.3.1
   languageName: unknown
   linkType: soft
@@ -2277,10 +2245,6 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^"
     "@digitransit-component/digitransit-component-icon": "workspace:^"
@@ -2289,7 +2253,7 @@ __metadata:
     "@hsl-fi/loading-indicators": ^2.0.0
     i18next: ^22.5.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
     react-i18next: ^12.3.1
     react-sortablejs: 2.0.11
   languageName: unknown
@@ -2298,11 +2262,6 @@ __metadata:
 "@digitransit-component/digitransit-component-favourite-modal@workspace:^, @digitransit-component/digitransit-component-favourite-modal@workspace:digitransit-component/packages/digitransit-component-favourite-modal":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-modal@workspace:digitransit-component/packages/digitransit-component-favourite-modal"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": "workspace:^"
     "@hsl-fi/dialog": ^3.1.3
@@ -2311,7 +2270,7 @@ __metadata:
     classnames: 2.5.1
     i18next: ^22.5.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
     react-i18next: ^12.3.1
   languageName: unknown
   linkType: soft
@@ -2319,65 +2278,45 @@ __metadata:
 "@digitransit-component/digitransit-component-icon@workspace:^, @digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
   languageName: unknown
   linkType: soft
 
 "@digitransit-component/digitransit-component-suggestion-item@workspace:^, @digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": "workspace:^"
-    "@hsl-fi/sass": " 1.0.0"
+    "@hsl-fi/sass": 1.0.0
     classnames: 2.5.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
   languageName: unknown
   linkType: soft
 
 "@digitransit-component/digitransit-component-traffic-now-link@workspace:digitransit-component/packages/digitransit-component-traffic-now-link":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-traffic-now-link@workspace:digitransit-component/packages/digitransit-component-traffic-now-link"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": "workspace:^"
     "@hsl-fi/sass": 1.0.0
     i18next: ^22.5.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
-    react-i18next: ^12.3.2
+    react: ^18.3.1
+    react-i18next: ^12.3.1
   languageName: unknown
   linkType: soft
 
 "@digitransit-component/digitransit-component-with-breakpoint@workspace:^, @digitransit-component/digitransit-component-with-breakpoint@workspace:digitransit-component/packages/digitransit-component-with-breakpoint":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-with-breakpoint@workspace:digitransit-component/packages/digitransit-component-with-breakpoint"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     hoist-non-react-statics: 2.5.4
     lodash: 4.18.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
   languageName: unknown
   linkType: soft
 
@@ -2408,7 +2347,7 @@ __metadata:
     lodash-es: 4.18.1
     luxon: ^3.6.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
     react-modal: ~3.11.2
     react-sortablejs: 2.0.11
   languageName: unknown
@@ -2556,8 +2495,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-store/digitransit-store-future-route@workspace:digitransit-store/packages/digitransit-store-future-route"
   peerDependencies:
-    lodash: 4.17.21
-    lodash-es: 4.17.21
+    lodash: 4.18.1
+    lodash-es: 4.18.1
   languageName: unknown
   linkType: soft
 
@@ -2586,8 +2525,8 @@ __metadata:
     "@digitransit-util/digitransit-util-day-range-allowed-diff": "workspace:^"
     "@digitransit-util/digitransit-util-day-range-pattern": "workspace:^"
   peerDependencies:
-    lodash: 4.17.21
-    lodash-es: 4.17.21
+    lodash: 4.18.1
+    lodash-es: 4.18.1
     luxon: ^3.6.1
   languageName: unknown
   linkType: soft
@@ -2597,8 +2536,8 @@ __metadata:
   resolution: "@digitransit-util/digitransit-util-route-pattern-option-text@workspace:digitransit-util/packages/digitransit-util-route-pattern-option-text"
   peerDependencies:
     i18next: ^22.5.1
-    lodash: 4.17.21
-    lodash-es: 4.17.21
+    lodash: 4.18.1
+    lodash-es: 4.18.1
     luxon: ^3.6.1
   languageName: unknown
   linkType: soft

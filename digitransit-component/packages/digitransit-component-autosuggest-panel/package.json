@@ -39,12 +39,6 @@
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
-  "devDependencies": {
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/react": "^16.0.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
-  },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-autosuggest": "workspace:^",
     "@digitransit-component/digitransit-component-icon": "workspace:^",
@@ -55,7 +49,7 @@
     "lodash": "4.18.1",
     "lodash-es": "4.18.1",
     "prop-types": "^15.8.1",
-    "react": "^16.13.0 || ^17.0.0 || ^18.0.0",
+    "react": "^18.3.1",
     "react-i18next": "^12.3.1",
     "react-sortablejs": "2.0.11"
   }

@@ -37,8 +37,8 @@
     "FutureRoute"
   ],
   "peerDependencies": {
-    "lodash": "4.17.21",
-    "lodash-es": "4.17.21"
+    "lodash": "4.18.1",
+    "lodash-es": "4.18.1"
   },
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)"
