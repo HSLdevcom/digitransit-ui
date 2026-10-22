@@ -23,27 +23,34 @@ import { useConfigContext } from '../../client/ConfigContext';
 import { useBreakpoint } from '../../../utils/client/withBreakpoint';
 import { STOP_STATUS } from '../../../utils/client/stopStatusUtils';
 
-const getModeFromProps = props => {
-  if (props.citybike) {
+const getMode = (stop, citybike, parkType, scooter) => {
+  if (citybike) {
     return 'citybike';
   }
-  if (props.parkType === PREFIX_BIKEPARK) {
+  if (parkType === PREFIX_BIKEPARK) {
     return 'parkAndRideForBikes';
   }
-  if (props.parkType === PREFIX_CARPARK) {
+  if (parkType === PREFIX_CARPARK) {
     return 'parkAndRide';
   }
-  if (props.stop.vehicleMode) {
-    return props.stop.vehicleMode.toLowerCase();
+  if (stop.vehicleMode) {
+    return stop.vehicleMode.toLowerCase();
   }
-  if (props.scooter) {
+  if (scooter) {
     return 'scooter';
   }
   return 'stop';
 };
 
-function StopPageMap(props) {
-  const { stop, stopName, stopStatus, stopAlertEffects } = props;
+function StopPageMap({
+  stop,
+  stopName,
+  stopStatus = null,
+  stopAlertEffects = null,
+  citybike = false,
+  scooter = false,
+  parkType = null,
+}) {
   const config = useConfigContext();
   const locationState = usePosition();
   const breakpoint = useBreakpoint();
@@ -52,15 +59,15 @@ function StopPageMap(props) {
   const mapLayerOverrides = shouldShowVehicles
     ? { notThese: ['vehicles'] }
     : {};
-  if (props.citybike) {
+  if (citybike) {
     mapLayerOverrides.force = ['citybike'];
-  } else if (props.scooter) {
+  } else if (scooter) {
     mapLayerOverrides.force = ['scooter'];
   } else {
     mapLayerOverrides.force = ['terminal'];
   }
   const { mapLayers } = useMapLayers(mapLayerOverrides);
-  const mode = stop ? getModeFromProps(props) : 'stop';
+  const mode = stop ? getMode(stop, citybike, parkType, scooter) : 'stop';
   const mapLayerOptions = getMapLayerOptions({
     lockedMapLayers: ['vehicles', mode],
     selectedMapLayers: [shouldShowVehicles && 'vehicles', mode],
