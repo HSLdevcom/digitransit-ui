@@ -333,7 +333,8 @@ Both dev and prod also always get:
   `main` (CJS) — picks up tree-shakeable ESM builds when available.
 - **`resolve.alias`** forces `lodash`/`lodash.merge` (including transitive
   imports from dependencies) to `lodash-es`, since the plain CommonJS
-  `lodash` build can't be tree-shaken the same way.
+  `lodash` build can't be tree-shaken the same way. `lodash-es` is therefore
+  a root `dependency` even though no source file imports it directly.
 - **`resolve.fallback: { url: require.resolve('url/') }`** — webpack5 no
   longer auto-polyfills Node core modules. `mqtt`'s own `package.json`
   `browser` field already stubs `net`/`tls` to `false`, but it also calls

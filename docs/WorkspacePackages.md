@@ -76,8 +76,9 @@ A `search-util`/`util` package is the same, but flat (no build step, no
   literal JSX.
 - `package.json` — runtime imports go under `dependencies`; anything the
   *host app* must also provide goes under `peerDependencies` instead (see
-  [Dependency classification](#dependency-classification)); build/compile-only
-  tooling goes under `devDependencies`.
+  [Dependency classification](#dependency-classification)); only
+  package-specific build tooling goes under `devDependencies` (shared tooling
+  comes from the root).
 - `README.md` — generated, do not hand-edit (see below).
 - `LICENSE-*.txt` — copied from the repository root, do not hand-edit.
 
