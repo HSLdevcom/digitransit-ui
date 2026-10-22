@@ -270,6 +270,9 @@ in `package.json` as:
   `yarn run -T <bin>` (e.g. `yarn run -T vitest`, `yarn run -T rollup`), since
   Yarn won't run a binary the workspace doesn't declare itself.
 
+These rules (for `dependencies`/`peerDependencies`) are enforced by
+`yarn workspace-packages-dependencies-check`, part of `yarn lint`.
+
 ## CSS Modules
 
 `component`/`store` packages using SCSS (e.g. `src/helpers/styles.scss`) get

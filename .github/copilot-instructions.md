@@ -100,7 +100,8 @@ right one by *who consumes the code*, not just by convenience.
 
 - `yarn lint` — eslint (Airbnb config + jsx-a11y + compat + prettier) + `prettier-styles` (scss
   check) + `prettier-icons` (`app/assets/icons/**/*.svg`, via `@prettier/plugin-xml`) + `stylelint`
-  + component-package translation parity check.
+  + component-package translation parity check + workspace-package dependency check
+  (`yarn workspace-packages-dependencies-check`).
 - `yarn format` — auto-fixes: sorts translations (app + component packages), `eslint --fix`,
   prettier styles, prettier icons, stylelint fix.
 - `yarn eslint` / `yarn eslint-fix` for JS only.
