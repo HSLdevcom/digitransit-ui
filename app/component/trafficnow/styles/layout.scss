@@ -350,20 +350,6 @@
     &-toggle {
       &--container {
         gap: var(--space-s);
-
-        .toggle {
-          display: flex;
-          height: $form-input-size;
-
-          .slider {
-            width: $toggle-slider-width;
-
-            &::before {
-              height: $toggle-slider-thumb-size;
-              width: $toggle-slider-thumb-size;
-            }
-          }
-        }
       }
     }
 

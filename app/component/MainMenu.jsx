@@ -3,12 +3,12 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
 import { useRouter } from 'found';
+import { Toggle } from '@hsl-fi/form';
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
 import Icon from './Icon';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
-import Toggle from './Toggle';
 import { getCountries, setCountries } from '../../utils/client/localStorage';
 import { TRAFFICNOW } from '../../utils/shared/path';
 import { useConfigContext } from '../client/ConfigContext';
@@ -93,18 +93,17 @@ export default function MainMenu({ closeMenu, homeUrl }) {
           </div>
         )}
         {config.mainMenu.countrySelection?.map(country => (
-          <div key={country} className="offcanvas-section">
+          <div key={country} className="offcanvas-section country-toggle">
             <FormattedMessage
               id={`include-${country}`}
               defaultMessage={`include-${country}`}
             />
-            <div style={{ float: 'right', display: 'inline-block' }}>
+            <div>
               {/* eslint-disable jsx-a11y/label-has-associated-control */}
-              <label key={country} htmlFor={`toggle-${country}`}>
+              <label key={country}>
                 <Toggle
-                  id={`toggle-${country}`}
-                  toggled={!!countries[country]}
-                  onToggle={() => {
+                  checked={!!countries[country]}
+                  onChange={() => {
                     const newCountries = {
                       ...countries,
                       [country]: !countries[country],

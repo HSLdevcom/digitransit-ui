@@ -331,11 +331,6 @@ $content-background-color: $background-color;
     line-height: inherit;
     display: flex;
     justify-content: space-between;
-
-    .option-toggle-container {
-      display: flex;
-      align-self: center;
-    }
   }
 
   span {
@@ -464,6 +459,12 @@ $content-background-color: $background-color;
 .offcanvas-section {
   line-height: 35px;
   padding: 0.5em 0;
+
+  &.country-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   .menu-item {
     margin: 0;

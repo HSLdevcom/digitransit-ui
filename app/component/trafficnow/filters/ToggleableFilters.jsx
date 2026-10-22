@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Toggle from '../../Toggle';
+import { Toggle } from '@hsl-fi/form';
 import { useFilterContext } from './FiltersContext';
 import { useFavourites } from '../../../hooks/FavouriteContext';
 
@@ -33,11 +33,10 @@ const ToggleableFilters = () => {
     <fieldset className="traffic-now__filters-toggle--container">
       {TOGGLEABLE_FILTERS.map(f => (
         <div key={f.id} className={`traffic-now__filters-toggle--${f.id}`}>
-          <label htmlFor={f.id}>
+          <label>
             <Toggle
-              id={f.id}
-              toggled={!!selectedFilters[f.id]}
-              onToggle={() => handleToggle(f)}
+              checked={!!selectedFilters[f.id]}
+              onChange={() => handleToggle(f)}
             />
             <FormattedMessage id={f.label}>
               {msg => <span className="input-label bold">{msg}</span>}

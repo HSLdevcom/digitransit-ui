@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 import React, { forwardRef } from 'react';
 import { FormattedMessage } from 'react-intl';
-import Toggle from '../../Toggle';
+import { Toggle } from '@hsl-fi/form';
 
 const SettingsToggle = forwardRef(function SettingsToggle(
   {
-    id,
     label = '',
     labelId,
     labelStyle = '',
@@ -17,7 +16,7 @@ const SettingsToggle = forwardRef(function SettingsToggle(
   ref,
 ) {
   return (
-    <label htmlFor={id} className={`toggle-container ${borderStyle}`}>
+    <label className={`toggle-container ${borderStyle}`}>
       <div className="toggle-left">
         {leftElement}
         <span className={labelStyle}>
@@ -25,13 +24,12 @@ const SettingsToggle = forwardRef(function SettingsToggle(
           {label}
         </span>
       </div>
-      <Toggle ref={ref} id={id} toggled={toggled} onToggle={onToggle} />
+      <Toggle ref={ref} checked={toggled} onChange={onToggle} />
     </label>
   );
 });
 
 SettingsToggle.propTypes = {
-  id: PropTypes.string.isRequired,
   label: PropTypes.string,
   labelId: PropTypes.string,
   labelStyle: PropTypes.string,

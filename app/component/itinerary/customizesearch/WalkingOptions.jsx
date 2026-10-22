@@ -71,7 +71,6 @@ export default function WalkingOptions({ settings, updateSettings }) {
         name="walkspeed"
       />
       <SettingsToggle
-        id="settings-toggle-avoid-walking"
         labelId="avoid-walking"
         toggled={settings.walkReluctance === defaultOptions.highWalkReluctance}
         onToggle={onToggle}
