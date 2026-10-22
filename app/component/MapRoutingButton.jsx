@@ -4,8 +4,7 @@ import Modal from '@hsl-fi/modal';
 import { useRouter } from 'found';
 import { stopShape } from '../../utils/client/shapes';
 import Icon from './Icon';
-import { locationToUri } from '../../utils/client/otpStrings';
-import { locationToOTP } from '../../utils/shared/otpStrings';
+import { locationToUri, locationToOTP } from '../../utils/shared/otpStrings';
 import {
   getPathWithEndpointObjects,
   getItineraryPagePath,

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import Loading from './Loading';
-import { locationToUri } from '../../utils/client/otpStrings';
+import { locationToUri } from '../../utils/shared/otpStrings';
 import { usePosition, usePositionActions } from '../hooks/PositionContext';
 
 function Geolocator({ createReturnPath, path, match, router }) {

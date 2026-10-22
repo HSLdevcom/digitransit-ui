@@ -19,7 +19,7 @@ import {
   PREFIX_ROUTES,
 } from '../../../../utils/shared/path';
 import { splitGtfsId } from '../../../../utils/shared/gtfs';
-import { fetchWithLanguageAndSubscription } from '../../../../utils/client/fetchUtils';
+import { fetchWithLanguageAndSubscription } from '../../../../utils/shared/fetchUtils';
 import getStopStatus, {
   combineStopStatuses,
 } from '../../../../utils/client/stopStatusUtils';

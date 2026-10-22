@@ -3,23 +3,6 @@ import isString from 'lodash/isString';
 import trim from 'lodash/trim';
 import { otpToLocation } from '../shared/otpStrings';
 
-export function locationToUri(location) {
-  if (
-    location.type === 'CurrentLocation' &&
-    location.status === 'no-location'
-  ) {
-    return 'POS';
-  }
-  if (!location.lat) {
-    return '-';
-  }
-  let address = location.address || location.name || '';
-  if (location.gtfsId) {
-    address = `${address}**${location.gtfsId}`;
-  }
-  return `${encodeURIComponent(address)}::${location.lat},${location.lon}`;
-}
-
 /**
  * Extracts the location information from the intermediatePlaces
  * query parameter, if available. The locations will be returned in

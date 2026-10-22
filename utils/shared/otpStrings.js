@@ -38,6 +38,23 @@ export function otpToLocation(otpString) {
   return location;
 }
 
+export function locationToUri(location) {
+  if (
+    location.type === 'CurrentLocation' &&
+    location.status === 'no-location'
+  ) {
+    return 'POS';
+  }
+  if (!location.lat) {
+    return '-';
+  }
+  let address = location.address || location.name || '';
+  if (location.gtfsId) {
+    address = `${address}**${location.gtfsId}`;
+  }
+  return `${encodeURIComponent(address)}::${location.lat},${location.lon}`;
+}
+
 export function locationToOTP(location) {
   if (location.lat) {
     const address = location.address || '';

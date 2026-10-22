@@ -2,8 +2,11 @@ import get from 'lodash/get';
 import trimEnd from 'lodash/trimEnd';
 import trimStart from 'lodash/trimStart';
 import toPairs from 'lodash/toPairs';
-import { otpToLocation, locationToOTP } from '../shared/otpStrings';
-import { locationToUri } from './otpStrings';
+import {
+  otpToLocation,
+  locationToOTP,
+  locationToUri,
+} from '../shared/otpStrings';
 import {
   PREFIX_ROUTES,
   PREFIX_STOPS,

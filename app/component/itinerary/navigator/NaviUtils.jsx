@@ -20,7 +20,7 @@ import {
   getTrackOrPierOrPlatformChangeText,
   getTrackOrPierOrPlatformChangeDetailsText,
 } from '../../../../utils/client/localeUtils';
-import { locationToUri } from '../../../../utils/client/otpStrings';
+import { locationToUri } from '../../../../utils/shared/otpStrings';
 import { getItineraryPagePath } from '../../../../utils/client/path';
 import {
   durationToString,

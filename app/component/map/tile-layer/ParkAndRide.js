@@ -3,7 +3,7 @@ import pick from 'lodash/pick';
 import Protobuf from 'pbf';
 
 import { drawParkAndRideIcon } from '../../../../utils/client/mapIconUtils';
-import { fetchWithLanguageAndSubscription } from '../../../../utils/client/fetchUtils';
+import { fetchWithLanguageAndSubscription } from '../../../../utils/shared/fetchUtils';
 import { ParkTypes } from '../../../../utils/client/constants';
 import { getLayerBaseUrl } from '../../../../utils/client/mapLayerUtils';
 
