@@ -64,6 +64,30 @@ describe('<StopNearYou /> alert banner', () => {
     expect(container.querySelector('.alert-container')).toBeNull();
   });
 
+  it('hides the banner when the only stop alert has expired', () => {
+    const { container } = renderView([
+      makeAlert({ effectiveStartDate: 100, effectiveEndDate: 500 }),
+    ]);
+    expect(container.querySelector('.alert-container')).toBeNull();
+  });
+
+  it('shows only the currently valid alert among expired ones', () => {
+    const { container } = renderView([
+      makeAlert({
+        alertHeaderText: 'Expired',
+        alertSeverityLevel: 'SEVERE',
+        effectiveStartDate: 100,
+        effectiveEndDate: 500,
+      }),
+      makeAlert({
+        alertHeaderText: 'Ongoing',
+        effectiveStartDate: 900,
+        effectiveEndDate: 2000,
+      }),
+    ]);
+    expect(container.querySelector('.alert-text').textContent).toBe('Ongoing');
+  });
+
   it('hides the banner when alerts have no Stop entity', () => {
     const { container } = renderView([
       makeAlert({ entities: [{ __typename: 'Route' }] }),
