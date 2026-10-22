@@ -89,14 +89,32 @@ export default function VehicleMarkerContainer({
   const visibleVehicles = vehiclesFiltered.filter(([, message]) => {
     const { feedId, entityId: routeId } = splitGtfsId(message.route);
     const { ignoreHeadsign } = config.realTime[feedId];
-    const desc = routeId ? topics?.find(t => t.route === routeId) : undefined;
-    return shouldShowVehicle(
-      message,
-      direction ?? desc?.direction,
-      desc?.tripStart,
-      pattern,
-      ignoreHeadsign ? undefined : headsign,
-      desc?.tripId,
+    const routeTopics = routeId
+      ? topics?.filter(t => t.route === routeId)
+      : undefined;
+
+    // If there are no topics for this route,
+    // fall back to showing the vehicle based on the message alone
+    if (!routeTopics?.length) {
+      return shouldShowVehicle(
+        message,
+        direction,
+        undefined,
+        pattern,
+        ignoreHeadsign ? undefined : headsign,
+        undefined,
+      );
+    }
+    // the vehicle must belong to one of the selected trips of its route
+    return routeTopics.some(desc =>
+      shouldShowVehicle(
+        message,
+        direction ?? desc.direction,
+        desc.tripStartTime?.replace(/:/g, ''),
+        pattern,
+        ignoreHeadsign ? undefined : headsign,
+        desc.tripId,
+      ),
     );
   });
   const visibleVehicleIds = visibleVehicles.map(([id]) => id);

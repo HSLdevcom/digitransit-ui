@@ -111,6 +111,41 @@ describe('<VehicleMarkerContainer />', () => {
         ]);
       },
     );
+    it('shows only the vehicle of the topic trip when the route has several trips', () => {
+      const addLayer = vi.fn();
+      const emit = vi.spyOn(events, 'emit');
+      renderWithProviders(
+        <LeafletProvider
+          value={{ layerContainer: { addLayer, removeLayer: () => {} } }}
+        >
+          <VehicleMarkerContainer
+            direction={undefined}
+            topics={[{ route: '2', direction: 0, tripStartTime: '15:14' }]}
+          />
+        </LeafletProvider>,
+        {
+          config: {
+            ...mockContext.config,
+            realTime: {
+              tampere: {},
+            },
+          },
+          vehicles: {
+            ...vehicles,
+            otherTrip: {
+              ...vehicles.tampereBus,
+              id: 'otherTrip',
+              tripStartTime: '1544',
+            },
+          },
+        },
+      );
+
+      expect(addLayer).toHaveBeenCalledTimes(1);
+      expect(emit).toHaveBeenLastCalledWith('vehiclesChanged', [
+        expect.objectContaining({ id: 'tampereBus', visible: true }),
+      ]);
+    });
   });
 
   describe('shouldShowVehicle', () => {
