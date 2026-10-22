@@ -78,11 +78,6 @@ function RouteControlPanel({
   const { router, match } = useRouter();
   const { location, params } = match;
 
-  // If disruption details are opened, hide controlpanel
-  if (match.location.query.alertId) {
-    return null;
-  }
-
   const { patternId } = params;
 
   const [focusedTab, setFocusedTab] = useState(getActiveTab(location.pathname));
