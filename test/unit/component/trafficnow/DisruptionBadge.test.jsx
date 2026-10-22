@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import DisruptionBadge from '../../../../app/component/trafficnow/DisruptionBadge';
-import { AlertSeverityLevelType } from '../../../../utils/shared/constants';
+import { AlertSeverityLevelType } from '../../../../utils/client/constants';
 
 // DisruptionBadge renders the real app Icon component (not the globally
 // stubbed @hsl-fi/icons one), which emits an <svg><use xlink:href="#..." />.

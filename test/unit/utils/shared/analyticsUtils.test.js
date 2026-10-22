@@ -2,11 +2,13 @@ import Cookies from 'universal-cookie';
 
 import {
   addAnalyticsEvent,
-  buildCrazyEggSurveyScript,
-  getAnalyticsInitCode,
   initAnalyticsClientSide,
   handleUserAnalytics,
-} from '../../../../utils/shared/analyticsUtils';
+} from '../../../../utils/client/analyticsUtils';
+import {
+  buildCrazyEggSurveyScript,
+  getAnalyticsInitCode,
+} from '../../../../utils/server/analyticsUtils';
 
 afterEach(() => {
   window.dataLayer = undefined;

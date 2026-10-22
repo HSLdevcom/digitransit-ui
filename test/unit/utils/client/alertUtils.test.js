@@ -2,7 +2,7 @@ import {
   AlertSeverityLevelType,
   RealtimeStateType,
   AlertEntityType,
-} from '../../../../utils/shared/constants';
+} from '../../../../utils/client/constants';
 import * as utils from '../../../../utils/client/alertUtils';
 
 describe('alertUtils', () => {

@@ -2,7 +2,7 @@ import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../utils/client/analyticsUtils';
 import Icon from '../../Icon';
 import getAssetUrl from '../../../assets/assetUrl';
 import { useConfigContext } from '../../../client/ConfigContext';

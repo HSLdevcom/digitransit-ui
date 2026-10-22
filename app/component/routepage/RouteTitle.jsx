@@ -3,7 +3,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { routePagePath } from '../../../utils/shared/path';
+import { routePagePath } from '../../../utils/client/path';
 import { routeShape } from '../../../utils/client/shapes';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 

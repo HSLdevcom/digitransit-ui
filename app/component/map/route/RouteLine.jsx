@@ -5,7 +5,7 @@ import distance from '@digitransit-search-util/digitransit-search-util-distance'
 import StopMarker from '../non-tile-layer/StopMarker';
 import LocationMarker from '../LocationMarker';
 import Line from '../Line';
-import { getClosestPoint } from '../../../../utils/shared/geo-utils';
+import { getClosestPoint } from '../../../../utils/client/geo-utils';
 import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
 import { patternShape, tripShape } from '../../../../utils/client/shapes';
 import { useConfigContext } from '../../../client/ConfigContext';

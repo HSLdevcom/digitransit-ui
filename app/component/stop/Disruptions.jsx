@@ -19,7 +19,7 @@ import { stopShape, stationShape } from '../../../utils/client/shapes';
 import {
   AlertSeverityLevelType,
   AlertEntityType,
-} from '../../../utils/shared/constants';
+} from '../../../utils/client/constants';
 import { DisruptionsFragment } from './queries/DisruptionsFragment';
 import { patternTextWithIcon } from '../routepage/RoutePatternSelect';
 import { useConfigContext } from '../../client/ConfigContext';

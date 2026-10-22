@@ -7,8 +7,9 @@ import cx from 'classnames';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import VehicleIcon from '../VehicleIcon';
 import TripLinkWithScroll from './TripLinkWithScroll';
-import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { routePagePath } from '../../../utils/client/path';
+import { PREFIX_STOPS } from '../../../utils/shared/path';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import { vehicleShape, tripShape } from '../../../utils/client/shapes';
 
 function FuzzyTripLink({ vehicle, stopName, nextStopName, ...rest }) {

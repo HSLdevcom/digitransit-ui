@@ -8,7 +8,7 @@ import withBreakpoint from '../../utils/client/withBreakpoint';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
-} from '../../utils/shared/vehicleRentalUtils';
+} from '../../utils/client/vehicleRentalUtils';
 import { PREFIX_RENTALVEHICLES } from '../../utils/shared/path';
 import VehicleRentalLeg from './itinerary/VehicleRentalLeg';
 import BackButton from './BackButton';

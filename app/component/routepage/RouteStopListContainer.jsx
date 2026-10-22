@@ -13,7 +13,7 @@ import RouteStop from './RouteStop';
 import { useBreakpoint } from '../../../utils/client/withBreakpoint';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import { getRouteMode } from '../../../utils/client/modeUtils';
-import { getModeIconColor } from '../../../utils/shared/colorUtils';
+import { getModeIconColor } from '../../../utils/client/colorUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 
 function RouteStopListContainer({

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { useRouter } from 'found';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import {
   withSearchContext,
   getLocationSearchTargets,
@@ -12,11 +12,9 @@ import {
   setIntermediatePlaces,
   updateItinerarySearch,
 } from '../../../utils/client/queryUtils';
-import {
-  getIntermediatePlaces,
-  locationToOTP,
-} from '../../../utils/shared/otpStrings';
-import { parseLocation, sameLocations } from '../../../utils/shared/path';
+import { getIntermediatePlaces } from '../../../utils/client/otpStrings';
+import { locationToOTP } from '../../../utils/shared/otpStrings';
+import { parseLocation, sameLocations } from '../../../utils/client/path';
 import { getRefPoint } from '../../../utils/client/apiUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 import { usePosition } from '../../hooks/PositionContext';

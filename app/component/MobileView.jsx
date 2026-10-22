@@ -13,8 +13,8 @@ import MobileFooter from './MobileFooter';
 
 import {
   PREFIX_ROUTES,
-  PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
+  PREFIX_NEARYOU,
 } from '../../utils/shared/path';
 
 const noBottomSheetResetAtContentChange = [

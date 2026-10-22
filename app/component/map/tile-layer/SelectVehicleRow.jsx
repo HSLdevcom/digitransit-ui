@@ -3,7 +3,8 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 
 import Link from 'found/Link';
-import { routePagePath, PREFIX_STOPS } from '../../../../utils/shared/path';
+import { routePagePath } from '../../../../utils/client/path';
+import { PREFIX_STOPS } from '../../../../utils/shared/path';
 import { getRouteMode } from '../../../../utils/client/modeUtils';
 import Icon from '../../Icon';
 

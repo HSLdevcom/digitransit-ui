@@ -14,9 +14,9 @@ import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   getVehicleCapacity,
-  BIKEAVL_UNKNOWN,
-} from '../../../../utils/shared/vehicleRentalUtils';
-import { fetchWithLanguageAndSubscription } from '../../../../utils/shared/fetchUtils';
+} from '../../../../utils/client/vehicleRentalUtils';
+import { BIKEAVL_UNKNOWN } from '../../../../utils/shared/vehicleRentalUtils';
+import { fetchWithLanguageAndSubscription } from '../../../../utils/client/fetchUtils';
 import { getLayerBaseUrl } from '../../../../utils/client/mapLayerUtils';
 
 const query = graphql`

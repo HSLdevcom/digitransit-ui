@@ -2,19 +2,19 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useRouter } from 'found';
 import { default as L } from 'leaflet';
-import { TransportMode } from '../../../../utils/shared/constants';
+import { TransportMode } from '../../../../utils/client/constants';
 import {
   vehicleRentalStationShape,
   rentalVehicleShape,
 } from '../../../../utils/client/shapes';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
+import { BIKEAVL_UNKNOWN } from '../../../../utils/shared/vehicleRentalUtils';
 import {
-  BIKEAVL_UNKNOWN,
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   getVehicleCapacity,
-} from '../../../../utils/shared/vehicleRentalUtils';
+} from '../../../../utils/client/vehicleRentalUtils';
 import {
   getVehicleAvailabilityIndicatorColor,
   getVehicleAvailabilityTextColor,

@@ -6,7 +6,7 @@ import WalkLeg from '../../app/component/itinerary/WalkLeg';
 import {
   AlertSeverityLevelType,
   ExtendedRouteTypes,
-} from '../../utils/shared/constants';
+} from '../../utils/client/constants';
 
 const renderLink = Link.render;
 

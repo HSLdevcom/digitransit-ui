@@ -3,7 +3,7 @@ import React from 'react';
 import {
   IndoorStepType,
   VerticalDirection,
-} from '../../../../../utils/shared/constants';
+} from '../../../../../utils/client/constants';
 import NaviIndoorStepInfo from './NaviIndoorStepInfo';
 import { getStepFocusAction } from '../../../../../utils/client/indoorUtils';
 

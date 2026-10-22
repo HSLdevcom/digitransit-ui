@@ -16,7 +16,7 @@ import {
 import {
   AlertSeverityLevelType,
   AlertEntityType,
-} from '../../../utils/shared/constants';
+} from '../../../utils/client/constants';
 import { patternTextWithIcon } from './RoutePatternSelect';
 import { RouteAlertsContainerFragment } from './queries/RouteAlertsContainerFragment';
 

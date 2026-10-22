@@ -9,14 +9,14 @@ import FuzzyTripLink from './FuzzyTripLink';
 import AddressRow from '../AddressRow';
 import ServiceAlertIcon from '../ServiceAlertIcon';
 import { fromStopTime } from './DepartureTime';
-import { stopPagePath } from '../../../utils/shared/path';
+import { stopPagePath } from '../../../utils/client/path';
 import { getActiveAlertSeverityLevel } from '../../../utils/client/alertUtils';
-import { estimateItineraryDistance } from '../../../utils/shared/geo-utils';
+import { estimateItineraryDistance } from '../../../utils/client/geo-utils';
 import ZoneIcon from '../ZoneIcon';
 import { getZoneLabel } from '../../../utils/client/legUtils';
 import getVehicleState from '../../../utils/client/vehicleStateUtils';
 import Icon from '../Icon';
-import { ensureColorAccessibleOnWhite } from '../../../utils/shared/colorUtils';
+import { ensureColorAccessibleOnWhite } from '../../../utils/client/colorUtils';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 import {
   getServiceAvailability,

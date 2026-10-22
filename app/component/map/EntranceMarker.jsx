@@ -8,7 +8,7 @@ import {
   renderAsString,
   getIndexedIconFields,
 } from '../../../utils/client/mapIconUtils';
-import { WheelchairBoarding } from '../../../utils/shared/constants';
+import { WheelchairBoarding } from '../../../utils/client/constants';
 import Icon from '../Icon';
 
 export default function EntranceMarker({

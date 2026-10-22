@@ -9,11 +9,12 @@ import {
   getAlertsForObject,
   isAlertValid,
 } from '../../utils/client/alertUtils';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
 import { getHeadsignFromRouteLongName } from '../../utils/client/legUtils';
 import { getRouteMode } from '../../utils/client/modeUtils';
 import { getCapacity } from '../../utils/client/occupancyUtil';
-import { routePagePath, PREFIX_STOPS } from '../../utils/shared/path';
+import { routePagePath } from '../../utils/client/path';
+import { PREFIX_STOPS } from '../../utils/shared/path';
 import { departureShape } from '../../utils/client/shapes';
 import { epochToTime } from '../../utils/client/timeUtils';
 import Icon from './Icon';

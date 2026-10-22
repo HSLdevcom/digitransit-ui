@@ -15,7 +15,7 @@ import Icon from '../Icon';
 import {
   IndoorStepType,
   VerticalDirection,
-} from '../../../utils/shared/constants';
+} from '../../../utils/client/constants';
 import { getVerticalTransportationUseIconId } from '../../../utils/client/indoorUtils';
 
 const EMPTY_INDOOR_STEPS = [];

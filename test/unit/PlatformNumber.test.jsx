@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithProviders } from './helpers/mock-providers';
 import PlatformNumber from '../../app/component/PlatformNumber';
-import { TransportMode } from '../../utils/shared/constants';
+import { TransportMode } from '../../utils/client/constants';
 
 const opts = {
   messages: {

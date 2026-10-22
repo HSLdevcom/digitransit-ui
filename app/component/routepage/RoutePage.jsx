@@ -19,7 +19,7 @@ import {
 import {
   getModeIconColor,
   ensureColorAccessibleOnWhite,
-} from '../../../utils/shared/colorUtils';
+} from '../../../utils/client/colorUtils';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RouteNotificationButton from './RouteNotificationButton';
 import { useConfigContext } from '../../client/ConfigContext';

@@ -5,7 +5,7 @@ import ItineraryCircleLineWithIcon from '../../../app/component/itinerary/Itiner
 import {
   ViaLocationType,
   IndoorLegType,
-} from '../../../utils/shared/constants';
+} from '../../../utils/client/constants';
 
 const defaultProps = {
   index: 1,

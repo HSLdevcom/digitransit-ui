@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FavouriteRouteContainer from '../../routepage/FavouriteRouteContainer';
-import { PREFIX_TIMETABLE, routePagePath } from '../../../../utils/shared/path';
+import { PREFIX_TIMETABLE } from '../../../../utils/shared/path';
+import { routePagePath } from '../../../../utils/client/path';
 import PatternWithCancellations from './PatternWithCancellations';
 import RouteBadgeGroup from './RouteBadgeGroup';
 import DisruptionBadge from '../DisruptionBadge';

@@ -7,7 +7,7 @@ import BackButton from './BackButton';
 import { getJson } from '../../utils/shared/xhrPromise';
 import getZoneId from '../../utils/client/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
-import { hasVehicleRentalCode } from '../../utils/shared/vehicleRentalUtils';
+import { hasVehicleRentalCode } from '../../utils/client/vehicleRentalUtils';
 import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
 import { splitGtfsId } from '../../utils/shared/gtfs';
 import { useConfigContext } from '../client/ConfigContext';

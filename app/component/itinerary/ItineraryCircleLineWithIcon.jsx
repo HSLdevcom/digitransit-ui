@@ -6,7 +6,7 @@ import RouteNumber from '../RouteNumber';
 import {
   ViaLocationType,
   IndoorLegType,
-} from '../../../utils/shared/constants';
+} from '../../../utils/client/constants';
 
 function ItineraryCircleLineWithIcon({
   index,

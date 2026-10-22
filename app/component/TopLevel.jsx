@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import React, { Fragment, useEffect, useRef } from 'react';
 import some from 'lodash/some';
 import { matchShape } from '../../utils/client/shapes';
+import { getHomeUrl } from '../../utils/client/path';
 import {
-  getHomeUrl,
   PREFIX_STOPS,
-  PREFIX_ROUTES,
   PREFIX_TERMINALS,
   PREFIX_BIKESTATIONS,
+  PREFIX_ROUTES,
 } from '../../utils/shared/path';
 import getAssetUrl from '../assets/assetUrl';
 import AppBarContainer from './AppBarContainer';
@@ -19,7 +19,7 @@ import { DesktopOrMobile } from '../../utils/client/withBreakpoint';
 import {
   addAnalyticsEvent,
   handleUserAnalytics,
-} from '../../utils/shared/analyticsUtils';
+} from '../../utils/client/analyticsUtils';
 import { useOrigin } from '../hooks/ItineraryLocationContext';
 import { useConfigContext } from '../client/ConfigContext';
 

@@ -4,12 +4,13 @@ import Modal from '@hsl-fi/modal';
 import { useRouter } from 'found';
 import { stopShape } from '../../utils/client/shapes';
 import Icon from './Icon';
-import { locationToUri, locationToOTP } from '../../utils/shared/otpStrings';
+import { locationToUri } from '../../utils/client/otpStrings';
+import { locationToOTP } from '../../utils/shared/otpStrings';
 import {
   getPathWithEndpointObjects,
   getItineraryPagePath,
-  PREFIX_ITINERARY_SUMMARY,
-} from '../../utils/shared/path';
+} from '../../utils/client/path';
+import { PREFIX_ITINERARY_SUMMARY } from '../../utils/shared/path';
 import { useConfigContext } from '../client/ConfigContext';
 
 export default function MapRoutingButton({ stop }) {

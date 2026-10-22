@@ -8,9 +8,9 @@ import { DateTime } from 'luxon';
 import Error404 from '../component/404';
 import {
   PREFIX_DISRUPTION,
-  PREFIX_ROUTES,
   PREFIX_STOPS,
   PREFIX_TIMETABLE,
+  PREFIX_ROUTES,
 } from '../../utils/shared/path';
 import {
   getDefault,

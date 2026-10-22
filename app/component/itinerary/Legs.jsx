@@ -31,10 +31,10 @@ import {
   getBoardingLeg,
 } from '../../../utils/client/legUtils';
 import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import Profile from './Profile';
 import BikeParkLeg from './BikeParkLeg';
-import { getIntermediatePlaces } from '../../../utils/shared/otpStrings';
+import { getIntermediatePlaces } from '../../../utils/client/otpStrings';
 import { useConfigContext } from '../../client/ConfigContext';
 
 const stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;

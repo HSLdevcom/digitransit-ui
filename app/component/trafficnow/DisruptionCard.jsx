@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ArrowLinkButton } from '@hsl-fi/navigation';
 import { Text } from '@hsl-fi/layout-primitives';
-import { AlertSeverityLevelType } from '../../../utils/shared/constants';
+import { AlertSeverityLevelType } from '../../../utils/client/constants';
 import { alertShape } from '../../../utils/client/shapes';
 import Card from '../Card';
 import DisruptionBadge from './DisruptionBadge';

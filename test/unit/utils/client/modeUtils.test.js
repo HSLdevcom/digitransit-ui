@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import { StreetMode, TransportMode } from '../../../../utils/shared/constants';
+import { StreetMode, TransportMode } from '../../../../utils/client/constants';
 import * as utils from '../../../../utils/client/modeUtils';
 import { setCustomizedSettings } from '../../../../utils/client/localStorage';
 

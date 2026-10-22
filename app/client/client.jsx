@@ -28,7 +28,7 @@ import {
   initAnalyticsClientSide,
   addAnalyticsEvent,
   handleUserAnalytics,
-} from '../../utils/shared/analyticsUtils';
+} from '../../utils/client/analyticsUtils';
 import { getCountries } from '../../utils/client/localStorage';
 import { configureCountry } from '../../utils/client/configureCountry';
 import { getUser } from '../../utils/client/apiUtils';

@@ -26,10 +26,10 @@ import { PREFIX_STOPS } from '../../../utils/shared/path';
 import {
   RentalNetworkType,
   getRentalNetworkConfig,
-} from '../../../utils/shared/vehicleRentalUtils';
-import { displayDistance } from '../../../utils/shared/geo-utils';
+} from '../../../utils/client/vehicleRentalUtils';
+import { displayDistance } from '../../../utils/client/geo-utils';
 import { durationToString } from '../../../utils/client/timeUtils';
-import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
+import { splitStringToAddressAndPlace } from '../../../utils/client/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 import IndoorInfo from './IndoorInfo';
 import {
@@ -41,7 +41,7 @@ import {
   getEntranceName,
 } from '../../../utils/client/indoorUtils';
 import IndoorStep from './IndoorStep';
-import { IndoorLegType } from '../../../utils/shared/constants';
+import { IndoorLegType } from '../../../utils/client/constants';
 
 function WalkLeg({
   children,

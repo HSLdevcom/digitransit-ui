@@ -7,8 +7,8 @@ import {
   hasEntitiesOfType,
   isAlertValid,
 } from '../../../utils/client/alertUtils';
-import { stopPagePath } from '../../../utils/shared/path';
-import { AlertEntityType } from '../../../utils/shared/constants';
+import { stopPagePath } from '../../../utils/client/path';
+import { AlertEntityType } from '../../../utils/client/constants';
 import NearYouHeader from './NearYouHeader';
 import AlertBanner from '../AlertBanner';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';

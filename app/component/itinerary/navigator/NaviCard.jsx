@@ -18,7 +18,7 @@ import usePrevious from './hooks/usePrevious';
 import {
   IndoorLegType,
   NaviCardType,
-} from '../../../../utils/shared/constants';
+} from '../../../../utils/client/constants';
 import { getIndoorLegType } from '../../../../utils/client/indoorUtils';
 import { useConfigContext } from '../../../client/ConfigContext';
 

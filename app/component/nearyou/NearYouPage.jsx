@@ -10,7 +10,8 @@ import {
   DesktopOrMobile,
   useBreakpoint,
 } from '../../../utils/client/withBreakpoint';
-import { otpToLocation, locationToUri } from '../../../utils/shared/otpStrings';
+import { otpToLocation } from '../../../utils/shared/otpStrings';
+import { locationToUri } from '../../../utils/client/otpStrings';
 import Loading from '../Loading';
 import StopNearYouContainer from './StopNearYouContainer';
 import UpdateLocationButton from './UpdateLocationButton';
@@ -25,7 +26,7 @@ import { PREFIX_NEARYOU } from '../../../utils/shared/path';
 import NearYouContainer from './NearYouContainer';
 import SwipeableTabs, { setFocusables } from '../SwipeableTabs';
 import NearYouFavourites from './NearYouFavourites';
-import { getDefaultNetworks } from '../../../utils/shared/vehicleRentalUtils';
+import { getDefaultNetworks } from '../../../utils/client/vehicleRentalUtils';
 import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import {
   getTransportModes,

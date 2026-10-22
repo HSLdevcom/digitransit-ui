@@ -7,7 +7,7 @@ import config from '../../../../server/configs/config.default';
 import {
   LEGACY_LOCALES,
   LEGACY_LOCALE_PATHS,
-} from '../../../../utils/shared/constants';
+} from '../../../../utils/server/constants';
 import { PREFIX_ITINERARY_SUMMARY } from '../../../../utils/shared/path';
 
 // validateParams returns an url if it is modified and it removes invalid

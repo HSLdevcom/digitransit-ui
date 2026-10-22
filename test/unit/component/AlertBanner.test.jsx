@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'found/Link';
 import { renderWithProviders } from '../helpers/mock-providers';
 import AlertBanner from '../../../app/component/AlertBanner';
-import { AlertSeverityLevelType } from '../../../utils/shared/constants';
+import { AlertSeverityLevelType } from '../../../utils/client/constants';
 
 // jsdom has no layout, so truncation would cut the text
 vi.mock('react-truncate-markup', () => ({

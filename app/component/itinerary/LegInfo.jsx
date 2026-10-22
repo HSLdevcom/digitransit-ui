@@ -10,7 +10,8 @@ import {
   modeToTranslationId,
 } from '../../../utils/client/modeUtils';
 import RouteNumber from '../RouteNumber';
-import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
+import { routePagePath } from '../../../utils/client/path';
+import { PREFIX_STOPS } from '../../../utils/shared/path';
 import {
   getCapacityForLeg,
   capacityToTranslationId,

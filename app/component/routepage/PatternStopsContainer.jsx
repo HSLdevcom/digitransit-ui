@@ -8,10 +8,10 @@ import { routeShape } from '../../../utils/client/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import RouteControlPanel from './RouteControlPanel';
-import { routePagePath } from '../../../utils/shared/path';
+import { routePagePath } from '../../../utils/client/path';
 import Error404 from '../404';
 import ScrollableWrapper from '../ScrollableWrapper';
-import { ExtendedRouteTypes } from '../../../utils/shared/constants';
+import { ExtendedRouteTypes } from '../../../utils/client/constants';
 import { useConfigContext } from '../../client/ConfigContext';
 
 function PatternStopsContainer({ pattern, breakpoint, route }) {

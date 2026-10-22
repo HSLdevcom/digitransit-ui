@@ -11,7 +11,7 @@ import { getStartTime } from '../../../utils/client/timeUtils';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import BackButton from '../BackButton';
 import { isActiveDate } from '../../../utils/client/patternUtils';
-import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
+import { boundWithMinimumArea } from '../../../utils/client/geo-utils';
 import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { splitGtfsId } from '../../../utils/shared/gtfs';

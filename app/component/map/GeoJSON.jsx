@@ -7,7 +7,7 @@ import { geoJsonFeatureShape } from '../../../utils/client/shapes';
 import {
   isMultiPointTypeGeometry,
   isPointTypeGeometry,
-} from '../../../utils/shared/geo-utils';
+} from '../../../utils/client/geo-utils';
 import { useConfigContext } from '../../client/ConfigContext';
 
 /**

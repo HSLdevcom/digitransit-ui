@@ -4,8 +4,8 @@ import { createRequire } from 'module';
 import defaultConfig from './config.default.js';
 import configMerger from '../../utils/server/configMerger.js';
 import { buildStaticMetaData } from '../../utils/server/metaUtils.js';
-import { LightenDarkenColor } from '../../utils/shared/colorUtils.js';
-import { boundWithMinimumAreaSimple } from '../../utils/shared/geo-utils.js';
+import { LightenDarkenColor } from '../../utils/server/colorUtils.js';
+import { boundWithMinimumAreaSimple } from '../../utils/server/geo-utils.js';
 
 // Node 24 `require()`s an ESM `config.*.js` graph directly (none use
 // top-level await), so getNamedConfiguration's dynamic per-region require

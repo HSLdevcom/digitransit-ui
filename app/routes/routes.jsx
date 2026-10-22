@@ -15,12 +15,12 @@ import {
   PREFIX_BIKEPARK,
   PREFIX_CARPARK,
   PREFIX_RENTALVEHICLES,
-  createReturnPath,
   TAB_NEARBY,
   TAB_FAVOURITES,
   EMBEDDED_SEARCH_PATH,
   TRAFFICNOW,
 } from '../../utils/shared/path';
+import { createReturnPath } from '../../utils/client/path';
 import {
   getDefault,
   errorLoading,

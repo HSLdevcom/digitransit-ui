@@ -4,7 +4,7 @@ import React from 'react';
 import Card from '../Card';
 import GenericMarker from './GenericMarker';
 import MarkerPopupBottom from './MarkerPopupBottom';
-import { isPointTypeGeometry } from '../../../utils/shared/geo-utils';
+import { isPointTypeGeometry } from '../../../utils/client/geo-utils';
 import {
   getCaseRadius,
   getStopRadius,

@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
-import { hasVehicleRentalCode } from '../../../../utils/shared/vehicleRentalUtils';
+import { hasVehicleRentalCode } from '../../../../utils/client/vehicleRentalUtils';
 import { splitGtfsId } from '../../../../utils/shared/gtfs';
 import { useConfigContext } from '../../../client/ConfigContext';
 

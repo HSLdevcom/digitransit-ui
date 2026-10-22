@@ -8,7 +8,7 @@ import {
   usePosition,
   usePositionActions,
 } from '../../../hooks/PositionContext';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../utils/client/analyticsUtils';
 import { legTime, legTimeStr } from '../../../../utils/client/legUtils';
 import { useItineraryContext } from '../context/ItineraryContext';
 import { useRealtimeLegs } from './hooks/useRealtimeLegs';

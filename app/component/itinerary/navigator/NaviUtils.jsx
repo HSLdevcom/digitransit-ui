@@ -2,8 +2,8 @@ import distance from '@digitransit-search-util/digitransit-search-util-distance'
 import cx from 'classnames';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-import { GeodeticToEnu } from '../../../../utils/shared/geo-utils';
+import { addAnalyticsEvent } from '../../../../utils/client/analyticsUtils';
+import { GeodeticToEnu } from '../../../../utils/client/geo-utils';
 import {
   legTime,
   legTimeAcc,
@@ -20,8 +20,8 @@ import {
   getTrackOrPierOrPlatformChangeText,
   getTrackOrPierOrPlatformChangeDetailsText,
 } from '../../../../utils/client/localeUtils';
-import { locationToUri } from '../../../../utils/shared/otpStrings';
-import { getItineraryPagePath } from '../../../../utils/shared/path';
+import { locationToUri } from '../../../../utils/client/otpStrings';
+import { getItineraryPagePath } from '../../../../utils/client/path';
 import {
   durationToString,
   epochToIso,
@@ -29,7 +29,7 @@ import {
   timeStr,
 } from '../../../../utils/client/timeUtils';
 import Icon from '../../Icon';
-import { getModeIconColor } from '../../../../utils/shared/colorUtils';
+import { getModeIconColor } from '../../../../utils/client/colorUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
 import {
   formatFare,

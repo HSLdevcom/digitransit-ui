@@ -5,7 +5,7 @@ import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';
 import RouteControlPanel from '../../../app/component/routepage/RouteControlPanel';
-import { AlertSeverityLevelType } from '../../../utils/shared/constants';
+import { AlertSeverityLevelType } from '../../../utils/client/constants';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../utils/shared/path';
 
 const baseConfig = createTestConfig({

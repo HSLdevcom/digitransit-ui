@@ -3,9 +3,9 @@ import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { createTestConfig } from '../helpers/mock-context';
 import Disruption from '../../../app/component/Disruption';
-import { AlertEntityType } from '../../../utils/shared/constants';
+import { AlertEntityType } from '../../../utils/client/constants';
+import { routePagePath } from '../../../utils/client/path';
 import {
-  routePagePath,
   PREFIX_STOPS,
   PREFIX_TERMINALS,
   PREFIX_DISRUPTION,

@@ -4,7 +4,7 @@ import Link from 'found/Link';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { mockRouter } from '../helpers/mock-router';
 import WaitLeg from '../../../app/component/itinerary/WaitLeg';
-import { ExtendedRouteTypes } from '../../../utils/shared/constants';
+import { ExtendedRouteTypes } from '../../../utils/client/constants';
 import { PREFIX_STOPS } from '../../../utils/shared/path';
 
 const renderLink = Link.render;
