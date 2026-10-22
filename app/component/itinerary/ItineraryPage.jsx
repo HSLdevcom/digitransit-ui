@@ -1879,11 +1879,12 @@ function ItineraryPageContent(props) {
     );
   }
 
-  return (
+  return settingsDrawer ? (
+    <div className="mobile">{settingsDrawer}</div>
+  ) : (
     <MobileView
       header={header}
       content={content}
-      settingsDrawer={settingsDrawer}
       map={map}
       ref={mobileRef}
       enableBottomScroll={!naviMode}

@@ -18,9 +18,6 @@ import { useConfigContext } from '../../client/ConfigContext';
 const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
   const config = useConfigContext();
   const intl = useIntl();
-  if (!stop.stoptimesWithoutPatterns) {
-    return null;
-  }
   const timeRef = useRef(currentTime);
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
   const { gtfsId, vehicleMode } = stop;
@@ -33,6 +30,9 @@ const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
       timeRef.current = currentTime;
     }
   }, [currentTime, isParentTabActive]);
+  if (!stop.stoptimesWithoutPatterns) {
+    return null;
+  }
 
   const isStation = stop.locationType === 'STATION';
   const linkAddress = stopPagePath(isStation, gtfsId);

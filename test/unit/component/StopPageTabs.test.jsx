@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
-import { Component as StopPageTabs } from '../../../app/component/stop/StopPageTabs';
+import StopPageTabs from '../../../app/component/stop/StopPageTabs';
 
 describe('<StopPageTabs />', () => {
   it('should render empty if stop information is missing', () => {

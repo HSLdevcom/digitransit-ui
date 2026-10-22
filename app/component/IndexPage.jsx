@@ -33,7 +33,7 @@ import { filterObject } from '../../utils/client/filterUtils';
 import {
   getTransportModes,
   getNearYouModes,
-  useCitybikes,
+  hasCitybikes,
 } from '../../utils/client/modeUtils';
 import {
   countLocations,
@@ -303,7 +303,7 @@ export default function IndexPage() {
   }
 
   if (!config.targetsFromOTP) {
-    if (useCitybikes(config.vehicleRental?.networks, config)) {
+    if (hasCitybikes(config.vehicleRental?.networks, config)) {
       stopAndRouteSearchTargets.push('VehicleRentalStations');
     }
     if (config.includeParkAndRideSuggestions) {
