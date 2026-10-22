@@ -15,7 +15,7 @@ import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import ErrorBoundary from './ErrorBoundary';
-import { DesktopOrMobile } from '../../utils/client/withBreakpoint';
+import { DesktopOrMobile } from '../hooks/withBreakpoint';
 import {
   addAnalyticsEvent,
   handleUserAnalytics,

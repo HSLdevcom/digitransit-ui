@@ -3,7 +3,7 @@ import React from 'react';
 import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
 import { locationShape, relayShape } from '../../../utils/client/shapes';
 import NearYouFavouritesContainer from './NearYouFavouritesContainer';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import withBreakpoint from '../../hooks/withBreakpoint';
 import Loading from '../Loading';
 import NoFavourites from './NoFavourites';
 

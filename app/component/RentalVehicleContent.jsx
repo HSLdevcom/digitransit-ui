@@ -4,7 +4,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
 import Icon from './Icon';
-import withBreakpoint from '../../utils/client/withBreakpoint';
+import withBreakpoint from '../hooks/withBreakpoint';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,

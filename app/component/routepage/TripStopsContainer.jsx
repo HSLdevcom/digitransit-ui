@@ -7,7 +7,7 @@ import { routeShape } from '../../../utils/client/shapes';
 import RouteControlPanel from './RouteControlPanel';
 import { getStartTime } from '../../../utils/client/timeUtils';
 import TripStopListContainer from './TripStopListContainer';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import withBreakpoint from '../../hooks/withBreakpoint';
 import ScrollableWrapper from '../ScrollableWrapper';
 
 const TripStopsContainer = memo(function TripStopsContainer({

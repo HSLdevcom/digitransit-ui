@@ -5,7 +5,7 @@ import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import { routePagePath } from '../../../utils/client/path';
 import { routeShape } from '../../../utils/client/shapes';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import withBreakpoint from '../../hooks/withBreakpoint';
 
 import RouteNumberContainer from '../RouteNumberContainer';
 

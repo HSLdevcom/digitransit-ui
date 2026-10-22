@@ -15,7 +15,7 @@ import {
   getRentalNetworkIcon,
   hasVehicleRentalCode,
 } from '../../../utils/client/vehicleRentalUtils';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import withBreakpoint from '../../hooks/withBreakpoint';
 import Icon from '../Icon';
 import { PREFIX_BIKESTATIONS } from '../../../utils/shared/path';
 import {

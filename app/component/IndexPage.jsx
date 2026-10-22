@@ -27,7 +27,7 @@ import {
   PREFIX_ITINERARY_SUMMARY,
 } from '../../utils/shared/path';
 import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
-import { useBreakpoint } from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../hooks/withBreakpoint';
 import useGeomoverSync from '../hooks/useGeomoverSync';
 import scrollTop from '../../utils/client/scroll';
 import { getRefPoint } from '../../utils/client/apiUtils';

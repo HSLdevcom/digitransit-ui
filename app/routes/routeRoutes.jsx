@@ -28,7 +28,7 @@ import {
   prepareScheduleParamsWithFiveWeeks,
   prepareScheduleParamsWithTenWeeks,
 } from '../component/routepage/schedule/scheduleParamUtils';
-import { withRouteContext } from '../../utils/client/RouteContext';
+import { withRouteContext } from '../hooks/RouteContext';
 
 export default function routeRoutes(config) {
   const showTenWeeks = config.showTenWeeksOnRouteSchedule || false;

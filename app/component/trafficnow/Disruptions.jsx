@@ -7,7 +7,7 @@ import { useLazyLoadQuery } from 'react-relay/hooks';
 import { Text } from '@hsl-fi/layout-primitives';
 import { useConfigContext } from '../../client/ConfigContext';
 import { TransportMode } from '../../../utils/client/constants';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/withBreakpoint';
 import Icon from '../Icon';
 import CanceledTripCard from './CanceledTripCard';
 import DisruptionCard from './DisruptionCard';

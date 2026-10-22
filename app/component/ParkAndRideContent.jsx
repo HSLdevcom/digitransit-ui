@@ -10,7 +10,7 @@ import Icon from './Icon';
 import Disclaimer from './Disclaimer';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../utils/shared/path';
 import { useConfigContext } from '../client/ConfigContext';
-import { useBreakpoint } from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../hooks/withBreakpoint';
 
 function parkLabel(id) {
   return (

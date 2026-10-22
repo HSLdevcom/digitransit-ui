@@ -21,7 +21,7 @@ import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../../utils/client/mapLayerUtils';
 import { useRealTimeInformation } from '../../../hooks/RealTimeInformationContext';
 import { addAnalyticsEvent } from '../../../../utils/client/analyticsUtils';
-import { getClientBreakpoint } from '../../../../utils/client/withBreakpoint';
+import { getClientBreakpoint } from '../../../hooks/withBreakpoint';
 import { stopPagePath } from '../../../../utils/client/path';
 import {
   PREFIX_BIKESTATIONS,

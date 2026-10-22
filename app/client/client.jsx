@@ -22,7 +22,7 @@ import { IntlProvider } from 'react-intl';
 import i18n from './i18n';
 import routes, { historyMiddlewares, render } from '../routes/routes';
 import ErrorBoundary from '../component/ErrorBoundary';
-import { ClientProvider as ClientBreakpointProvider } from '../../utils/client/withBreakpoint';
+import { ClientProvider as ClientBreakpointProvider } from '../hooks/withBreakpoint';
 import getMetadata from '../../utils/shared/metaUtils';
 import {
   initAnalyticsClientSide,

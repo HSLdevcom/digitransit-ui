@@ -6,7 +6,7 @@ import cx from 'classnames';
 import { useRouter } from 'found';
 import { routeShape } from '../../../utils/client/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import withBreakpoint from '../../hooks/withBreakpoint';
 import RouteControlPanel from './RouteControlPanel';
 import { routePagePath } from '../../../utils/client/path';
 import Error404 from '../404';

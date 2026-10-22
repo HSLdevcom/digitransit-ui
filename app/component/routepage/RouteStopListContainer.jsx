@@ -10,7 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
 import { relayShape, patternShape } from '../../../utils/client/shapes';
 import RouteStop from './RouteStop';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/withBreakpoint';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import { getRouteMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/client/colorUtils';

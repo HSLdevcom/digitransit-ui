@@ -9,7 +9,7 @@ import Icon from '../Icon';
 import { routePagePath } from '../../../utils/client/path';
 import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import { patternShape, routeShape } from '../../../utils/client/shapes';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/withBreakpoint';
 
 export function patternOptionText(pattern) {
   if (!pattern) {

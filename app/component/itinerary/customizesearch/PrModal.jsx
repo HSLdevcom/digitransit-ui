@@ -7,7 +7,7 @@ import { ButtonLink, Spacer, Text } from '@hsl-fi/layout-primitives';
 import { ArrowLink } from '@hsl-fi/navigation';
 import Icon from '../../Icon';
 import { useConfigContext } from '../../../client/ConfigContext';
-import { useBreakpoint } from '../../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../hooks/withBreakpoint';
 
 export default function PrModal({ closeModal }) {
   const config = useConfigContext();

@@ -5,7 +5,7 @@ import { legShape } from '../../../utils/client/shapes';
 import TransitLeg from './TransitLeg';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
 import RouteNumberContainer from '../RouteNumber';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import withBreakpoint from '../../hooks/withBreakpoint';
 import { isLocalCallAgency } from '../../../utils/client/legUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 

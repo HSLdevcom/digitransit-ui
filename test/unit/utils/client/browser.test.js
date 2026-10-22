@@ -1,4 +1,4 @@
-import * as utils from '../../utils/client/browser';
+import * as utils from '../../../../utils/client/browser';
 
 const noop = () => {};
 
