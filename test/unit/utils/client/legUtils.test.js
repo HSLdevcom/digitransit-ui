@@ -685,4 +685,18 @@ describe('legUtils', () => {
       expect(utils.getValidatedLegName('Kamppi', intl, true)).toBe('Kamppi');
     });
   });
+
+  describe('getTripOrRouteText', () => {
+    it('should combine the route and interlining route names', () => {
+      expect(utils.getTripOrRouteText({}, { shortName: '1' }, {}, '2')).toBe(
+        '1 / 2',
+      );
+    });
+
+    it('should fall back to the trip short name when interlining', () => {
+      expect(
+        utils.getTripOrRouteText({ tripShortName: 'T1' }, {}, {}, '2'),
+      ).toBe('T1 / 2');
+    });
+  });
 });

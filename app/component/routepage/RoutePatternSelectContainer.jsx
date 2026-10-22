@@ -88,7 +88,7 @@ function RoutePatternSelectContainer({
     let cancelled = false;
 
     if (config.showSimilarRoutesOnRouteDropDown) {
-      const firstChar = route.shortName[0] ?? '';
+      const firstChar = route.shortName?.[0] ?? '';
       const isNumericRoute = firstChar >= '0' && firstChar <= '9';
 
       if (!isNumericRoute) {
