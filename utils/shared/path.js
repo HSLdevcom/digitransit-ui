@@ -16,7 +16,6 @@ export const PREFIX_TERMINALS = 'terminaalit';
 export const PREFIX_ITINERARY_SUMMARY = 'reitti';
 export const PREFIX_DISRUPTION = 'hairiot';
 export const PREFIX_TIMETABLE = 'aikataulu';
-export const stopUrl = id => id;
 export const EMBEDDED_SEARCH_PATH = '/haku';
 export const PREFIX_RENTALVEHICLES = 'skuutit';
 export const TRAFFICNOW = 'liikenne';
@@ -88,13 +87,6 @@ export const createReturnPath = (
   }
   return parts.join('/');
 };
-
-export const getNearYouPath = (place, mode) =>
-  [
-    `/${PREFIX_NEARYOU}`,
-    encodeURIComponent(decodeURIComponent(mode)),
-    encodeURIComponent(decodeURIComponent(place)),
-  ].join('/');
 
 export const getItineraryPagePath = (origin, destination) =>
   [

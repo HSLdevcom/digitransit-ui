@@ -733,30 +733,6 @@ export function getZones(legs) {
   return Object.keys(zones).sort();
 }
 
-export function getRoutes(legs) {
-  if (!Array.isArray(legs)) {
-    return [];
-  }
-
-  const routes = {};
-  legs.forEach(leg => {
-    if (leg.route && leg.route.agency && leg.transitLeg) {
-      const { route } = leg;
-      const { agency } = route;
-      routes[route.gtfsId] = {
-        agency: {
-          fareUrl: agency.fareUrl,
-          gtfsId: agency.gtfsId,
-          name: agency.name,
-        },
-        gtfsId: route.gtfsId,
-        longName: route.longName,
-      };
-    }
-  });
-  return Object.keys(routes).map(key => ({ ...routes[key] }));
-}
-
 export function getHeadsignFromRouteLongName(route) {
   const { longName, shortName } = route;
   let headsign = longName;
