@@ -45,13 +45,14 @@ right one by *who consumes the code*, not just by convenience.
   `configs/` — `config.js` (server-side config resolution/merging by host) plus one
   `config.<region>.js` per deployment.
 - `utils/` — helper modules split by consumer (see "Server/client boundary" below):
-  - `shared/` — used by both server and client, e.g. `constants.js`, `metaUtils.js`,
-    `analyticsUtils.js`, `gtfs.js`, `citybikeSeasonUtils.js`. Isomorphic only: a file (or a
-    function within a file, e.g. `vehicleRentalUtils.js`'s pure network/config helpers vs. its
-    `client/` counterpart's `localStorage`/analytics-touching ones) belongs here only if it's
-    safe to run on the server too — no `window`/`document`/`localStorage` access.
-  - `server/` — server-only, e.g. `configMerger.js`, `metaUtils.js`, `realtimeUtils.js`,
-    `timetableConfigUtils.js` — config-assembly helpers used only by `server/configs/*.js`.
+  - `shared/` — only what both server and client actually import, e.g. `gtfs.js`,
+    `metaUtils.js`, `geo-utils.js` (`toRad`/`toDeg`), `vehicleRentalUtils.js` (`BIKEAVL_*`).
+    Split per cohesive unit (a set of constants, an encode/decode pair, sibling helpers), not per
+    function: a unit used by both sides lives here as a whole, e.g. all route constants in
+    `shared/path.js`, while the URL-building functions are in `client/path.js`. Isomorphic only —
+    no `window`/`document`/`localStorage` access.
+  - `server/` — server-only, e.g. `configMerger.js`, `metaUtils.js`, `legacyParamParser.js`,
+    `analyticsUtils.js` (the inline analytics init script), `timetableConfigUtils.js`.
   - `client/` — client-bundle-only, e.g. `localStorage.js`,
     plus its own `__generated__/` for Relay fragments used by utils.
 - `test/` — `unit/` (Vitest, mirrors the `app/`/`server/`/`utils/` layout, e.g.
@@ -173,7 +174,7 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   itself. It renders the initial HTML shell (no React runs server-side) and serializes the merged
   config onto `window.config`; the client bundle never re-reads `server/configs/*` directly.
 - `utils/shared/**` holds code genuinely imported by both sides (e.g. `gtfs.js`,
-  `citybikeSeasonUtils.js`, `analyticsUtils.js`). `envUtils.js` is split per-consumer instead:
+  `metaUtils.js`). `envUtils.js` is split per-consumer instead:
   `utils/server/envUtils.js` and `utils/client/envUtils.js` both contain a `isDevRunEnv` function.
 - `utils/server/**` and `utils/client/**` are single-consumer-only; don't add server-only helpers
   to `utils/client/` or vice versa.
