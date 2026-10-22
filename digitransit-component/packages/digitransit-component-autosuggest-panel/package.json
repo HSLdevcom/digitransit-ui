@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-autosuggest-panel",
-  "version": "11.0.1",
+  "version": "12.0.0",
   "description": "digitransit-component autosuggest-panel module",
   "type": "module",
   "main": "index.cjs",
