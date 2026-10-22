@@ -41,8 +41,8 @@
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
     "@digitransit-component/digitransit-component-icon": "workspace:^",
-    "@hsl-fi/sass": "1.0.0",
-    "classnames": "2.5.1",
+    "@hsl-fi/sass": "^1.0.0",
+    "classnames": "^2.5.1",
     "prop-types": "^15.8.1",
     "react": "^18.3.1"
   }

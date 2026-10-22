@@ -249,11 +249,16 @@ in `package.json` as:
   already provide a single shared instance of. This includes `react`,
   `react-dom`, and **every `@hsl-fi/*` package** — regardless of whether it's
   imported directly or only used in an SCSS `@import` (e.g. `@hsl-fi/sass`).
-  Keep the version range in sync with what the root `package.json` actually
-  installs; a stale/wrong peer range (too narrow, or naming a major version
-  the host doesn't ship) is a bug even if it happens to install locally.
-  E.g. `react` mirrors the root's range exactly (`^18.3.1`): the bundles use
-  the automatic JSX runtime and are only ever tested against that version.
+  The one exception is `@hsl-fi/hooks`, a stateless helper with no peers of
+  its own, which `autosuggest` keeps as a plain `dependency`.
+  Use a caret range of the version the root `package.json` installs (e.g.
+  `"^2.5.1"` for a root `"2.5.1"`), never an exact or `~` pin; a stale/wrong
+  peer range (too narrow, or naming a major version the host doesn't ship) is
+  a bug even if it happens to install locally. E.g. `react` mirrors the
+  root's range exactly (`^18.3.1`): the bundles use the automatic JSX runtime
+  and are only ever tested against that version. The deprecated
+  `digitransit-component`/`digitransit-util` bundle packages re-declare the
+  union of their sub-packages' peers.
 - **`devDependencies`** — anything needed only to build, test, or generate
   docs for the package itself (e.g. `babel-plugin-relay` for
   `query-utils`'s own relay-compiler step) but that the published bundle

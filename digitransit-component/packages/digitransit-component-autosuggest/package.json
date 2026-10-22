@@ -42,6 +42,7 @@
   "dependencies": {
     "@digitransit-search-util/digitransit-search-util-execute-search-immediate": "workspace:^",
     "@digitransit-search-util/digitransit-search-util-get-label": "workspace:^",
+    "@digitransit-search-util/digitransit-search-util-helpers": "workspace:^",
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^",
     "@hsl-fi/hooks": "^1.2.4"
   },
@@ -49,16 +50,14 @@
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^",
     "@digitransit-component/digitransit-component-icon": "workspace:^",
     "@digitransit-component/digitransit-component-suggestion-item": "workspace:^",
-    "@hsl-fi/sass": "1.0.0",
-    "classnames": "2.5.1",
-    "downshift": "9.4.0",
+    "@hsl-fi/sass": "^1.0.0",
+    "classnames": "^2.5.1",
+    "downshift": "^9.4.0",
     "i18next": "^22.5.1",
-    "lodash": "4.18.1",
-    "lodash-es": "4.18.1",
     "luxon": "^3.6.1",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-i18next": "^12.3.1",
-    "react-modal": "~3.11.2"
+    "react-modal": "^3.11.2"
   }
 }

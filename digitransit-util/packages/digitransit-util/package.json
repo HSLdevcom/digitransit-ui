@@ -23,5 +23,10 @@
     "@digitransit-util/digitransit-util-day-range-pattern": "workspace:^",
     "@digitransit-util/digitransit-util-enrich-patterns": "workspace:^",
     "@digitransit-util/digitransit-util-route-pattern-option-text": "workspace:^"
+  },
+  "peerDependencies": {
+    "i18next": "^22.5.1",
+    "lodash": "^4.18.1",
+    "luxon": "^3.6.1"
   }
 }

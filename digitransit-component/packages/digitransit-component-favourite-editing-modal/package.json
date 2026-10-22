@@ -49,9 +49,10 @@
     "@hsl-fi/layout-primitives": "^4.9.0",
     "@hsl-fi/loading-indicators": "^2.0.0",
     "i18next": "^22.5.1",
+    "lodash": "^4.18.1",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-i18next": "^12.3.1",
-    "react-sortablejs": "2.0.11"
+    "react-sortablejs": "^2.0.11"
   }
 }
