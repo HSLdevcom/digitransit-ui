@@ -25,10 +25,6 @@ const config = {
       defaultValue: false,
     },
   },
-
-  modePolygons: {},
-
-  modeBoundingBoxes: {},
 };
 
 describe('modeUtils', () => {

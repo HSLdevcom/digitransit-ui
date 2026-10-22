@@ -1,25 +1,6 @@
 /* eslint-disable camelcase */
 import { toRad, toDeg } from '../shared/geo-utils.js';
 
-// Simpler version of boundWithMinimumArea that uses lonlat array
-// No checks for null values and assumes box is large enough
-export function boundWithMinimumAreaSimple(points) {
-  const lons = [];
-  const lats = [];
-  points.forEach(coordinatePair => {
-    lons.push(coordinatePair[0]);
-    lats.push(coordinatePair[1]);
-  });
-  const minlat = Math.min(...lats);
-  const minlon = Math.min(...lons);
-  const maxlat = Math.max(...lats);
-  const maxlon = Math.max(...lons);
-  return [
-    [minlat, minlon],
-    [maxlat, maxlon],
-  ];
-}
-
 function calculateEllipsoidParams(ellipsoid) {
   const { a, f } = ellipsoid;
   const extEllipsoid = { ...ellipsoid };
@@ -134,7 +115,7 @@ export function kkj2ToWgs84(coords) {
     }
     const Nwgs = a_2 / Math.sqrt(1.0 - e2 * Math.sin(wgsLat) ** 2.0);
     const h =
-      Math.abs(la0) < Math.pi / 4.0
+      Math.abs(la0) < Math.PI / 4.0
         ? X2Y2 / Math.cos(wgsLat) - Nwgs
         : Z2 / Math.sin(wgsLat) - Nwgs * (1.0 - e2);
     const nla = Math.atan(Z2 / (X2Y2 * (1.0 - (Nwgs * e2) / (Nwgs + h))));

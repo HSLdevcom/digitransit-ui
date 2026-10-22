@@ -1,17 +1,10 @@
-const isBrowser = typeof window !== 'undefined' && window !== null;
-const isEdge = isBrowser && navigator.userAgent.match(/Edge/) != null;
-const isChrome =
-  isBrowser && !isEdge && navigator.userAgent.match(/Chrome/) != null;
+const isEdge = navigator.userAgent.match(/Edge/) != null;
+const isChrome = !isEdge && navigator.userAgent.match(/Chrome/) != null;
 
-export const isIOS =
-  isBrowser && !!navigator.platform.match(/iPhone|iPod|iPad/);
-export const isAndroid =
-  isBrowser && navigator.userAgent.match(/Android/) != null;
+export const isIOS = !!navigator.platform.match(/iPhone|iPod|iPad/);
+export const isAndroid = navigator.userAgent.match(/Android/) != null;
 export const isSafari =
-  isBrowser &&
-  !isChrome &&
-  !isEdge &&
-  navigator.userAgent.match(/Safari/) != null;
+  !isChrome && !isEdge && navigator.userAgent.match(/Safari/) != null;
 export const isImperial = config => {
   if (
     config.imperialEnabled &&

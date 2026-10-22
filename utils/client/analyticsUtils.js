@@ -1,9 +1,6 @@
 import Cookies from 'universal-cookie';
 
-/**
- * This file contains functions for UI analytics.
- * Contains code used in both client and server
- */
+// Client-side UI analytics: dataLayer events and cookie-consent handling.
 
 /**
  * Add an analytics event to be sent to analytics server
