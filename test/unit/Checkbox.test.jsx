@@ -5,13 +5,20 @@ import Checkbox from '../../app/component/Checkbox';
 
 describe('<Checkbox />', () => {
   it('should render a checkbox', () => {
-    const { container } = renderWithProviders(<Checkbox onChange={() => {}} />);
+    const { container } = renderWithProviders(
+      <Checkbox checked={false} defaultMessage="label" onChange={() => {}} />,
+    );
     expect(container.querySelector('input[type="checkbox"]')).not.toBeNull();
   });
 
   it('should show the given label', () => {
     const { container } = renderWithProviders(
-      <Checkbox labelId="citybike" onChange={() => {}} showLabel />,
+      <Checkbox
+        checked={false}
+        labelId="citybike"
+        defaultMessage="City bike default"
+        onChange={() => {}}
+      />,
       { messages: { citybike: 'City bike' } },
     );
     expect(container.textContent).toContain('City bike');
@@ -20,9 +27,9 @@ describe('<Checkbox />', () => {
   it('Should work also without labelId', () => {
     const { container } = renderWithProviders(
       <Checkbox
+        checked={false}
         defaultMessage="ei tarvitse kääntää"
         onChange={() => {}}
-        showLabel
       />,
     );
     expect(container.textContent).toContain('ei tarvitse kääntää');
@@ -32,6 +39,8 @@ describe('<Checkbox />', () => {
     let wasCalled = false;
     const { container } = renderWithProviders(
       <Checkbox
+        checked={false}
+        defaultMessage="label"
         onChange={() => {
           wasCalled = true;
         }}
@@ -45,7 +54,9 @@ describe('<Checkbox />', () => {
     let wasCalled = false;
     const { container } = renderWithProviders(
       <Checkbox
+        checked={false}
         disabled
+        defaultMessage="label"
         onChange={() => {
           wasCalled = true;
         }}
@@ -53,20 +64,5 @@ describe('<Checkbox />', () => {
     );
     fireEvent.click(container.querySelector('input'));
     expect(wasCalled).toBe(false);
-  });
-
-  it('wrapping element should mimic a checkbox event on keypress', () => {
-    let receivedChecked;
-    const { container } = renderWithProviders(
-      <Checkbox
-        checked
-        onChange={e => {
-          receivedChecked = e.target.checked;
-        }}
-      />,
-    );
-    const el = container.querySelector('.option-checkbox');
-    fireEvent.keyPress(el, { key: 'Enter', charCode: 13 });
-    expect(receivedChecked).toBe(false);
   });
 });

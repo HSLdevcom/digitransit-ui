@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import Modal from 'react-modal';
+import { CloseButton } from '@hsl-fi/layout-primitives';
+import { useConfigContext } from '../client/ConfigContext';
 
 export default function MenuDrawer({
   open,
@@ -8,7 +10,9 @@ export default function MenuDrawer({
   onRequestChange,
   breakpoint,
   className = '',
+  closeLabel = '',
 }) {
+  const config = useConfigContext();
   useEffect(() => Modal.setAppElement(document.querySelector('#app')), []);
   const classNames = {
     base: `${className} ${breakpoint !== 'large' ? 'mobile' : ''} menu-content`,
@@ -29,6 +33,12 @@ export default function MenuDrawer({
       onRequestClose={onRequestChange}
       shouldFocusAfterRender={false}
     >
+      <CloseButton
+        className="menu-drawer-close"
+        lang={config.language}
+        {...(closeLabel && { 'aria-label': closeLabel })}
+        onClick={onRequestChange}
+      />
       {children}
     </Modal>
   );
@@ -40,4 +50,5 @@ MenuDrawer.propTypes = {
   onRequestChange: PropTypes.func.isRequired,
   breakpoint: PropTypes.string.isRequired,
   className: PropTypes.string,
+  closeLabel: PropTypes.string,
 };
