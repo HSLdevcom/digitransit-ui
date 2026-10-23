@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-with-breakpoint",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "digitransit-component with-breakpoint module",
   "type": "module",
   "main": "lib/index.cjs",
@@ -23,11 +23,11 @@
     "access": "public"
   },
   "scripts": {
-    "watch": "NODE_ENV=development rollup -w -c ../../../config/rollup.config.js",
+    "watch": "NODE_ENV=development yarn run -T rollup -w -c ../../../config/rollup.config.js",
     "clean": "rm -rf ./lib ./node_modules",
-    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.jsx\"",
+    "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.jsx\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js",
-    "build": "NODE_ENV=production rollup -c ../../../config/rollup.config.js"
+    "build": "NODE_ENV=production yarn run -T rollup -c ../../../config/rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -39,16 +39,10 @@
   ],
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
-  "devDependencies": {
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/react": "^16.0.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
-  },
   "peerDependencies": {
-    "hoist-non-react-statics": "2.5.4",
-    "lodash": "4.18.1",
+    "hoist-non-react-statics": "^2.5.5",
+    "lodash": "^4.18.1",
     "prop-types": "^15.8.1",
-    "react": "^16.13.0 || ^17.0.0 || ^18.0.0"
+    "react": "^18.3.1"
   }
 }

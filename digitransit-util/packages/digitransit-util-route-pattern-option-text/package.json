@@ -1,12 +1,12 @@
 {
   "name": "@digitransit-util/digitransit-util-route-pattern-option-text",
-  "version": "4.1.7",
+  "version": "4.1.8",
   "description": "digitransit-util route-pattern-option-text module",
   "type": "module",
   "main": "index.js",
   "deprecated": "This package is no longer used by digitransit-ui. It will be removed in a future release.",
   "scripts": {
-    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.js\"",
+    "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js"
   },
   "repository": {
@@ -21,8 +21,6 @@
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "peerDependencies": {
     "i18next": "^22.5.1",
-    "lodash": "4.17.21",
-    "lodash-es": "4.17.21",
     "luxon": "^3.6.1"
   }
 }
