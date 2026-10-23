@@ -19,7 +19,6 @@ import {
   getActiveLegAlertSeverityLevel,
   getMaximumAlertSeverityLevel,
   hasEntitiesOfType,
-  tripHasCancelationForStop,
 } from '../../../utils/client/alertUtils';
 import { modeToTranslationId } from '../../../utils/client/modeUtils';
 import {
@@ -60,6 +59,7 @@ import {
 } from '../../../utils/client/localeUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
+import useCanceledStopIds from './useCanceledStopIds';
 
 const stopCode = code => code && <StopCode code={code} />;
 
@@ -104,6 +104,11 @@ export default function TransitLeg({
     }
     return leg.intermediatePlaces.length < 2;
   });
+
+  const canceledStopIds = useCanceledStopIds(
+    [leg, ...interliningLegs],
+    showIntermediateStops,
+  );
 
   const [showAlternativeLegs, setShowAlternativeLegs] = useState(false);
 
@@ -190,7 +195,7 @@ export default function TransitLeg({
       const stopList = places.map((place, i, array) => {
         const isFirstPlace = i === 0;
         const isLastPlace = i === array.length - 1;
-        const isCanceled = tripHasCancelationForStop(leg.trip, place.stop);
+        const isCanceled = canceledStopIds.has(place.stop.gtfsId);
 
         const previousZoneId =
           (array[i - 1] && array[i - 1].stop.zoneId) ||
