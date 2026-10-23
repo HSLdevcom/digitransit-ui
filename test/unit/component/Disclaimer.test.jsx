@@ -20,6 +20,23 @@ describe('<Disclaimer />', () => {
     expect(link.getAttribute('target')).toBe('_blank');
   });
 
+  it('renders translated texts with node values, as in the scooter settings', () => {
+    renderWithProviders(
+      <Disclaimer
+        headerId="settings-e-scooter-routes"
+        textId="settings-e-scooter"
+        values={{ paymentInfo: <b>payment info</b> }}
+        href="https://example.com"
+        linkLabelId="read-more"
+      />,
+    );
+    expect(
+      screen.getByText('Make electric scooters part of your routes!'),
+    ).toBeTruthy();
+    expect(screen.getByText('payment info')).toBeTruthy();
+    expect(screen.getByText('Read more').closest('a')).toBeTruthy();
+  });
+
   it('does not render a close button unless closable', () => {
     renderWithProviders(<Disclaimer text="Some text" />);
     expect(screen.queryByRole('button')).toBeNull();
