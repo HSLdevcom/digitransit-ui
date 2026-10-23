@@ -26,8 +26,7 @@
     "@digitransit-component/digitransit-component-favourite-editing-modal": "workspace:^",
     "@digitransit-component/digitransit-component-favourite-modal": "workspace:^",
     "@digitransit-component/digitransit-component-icon": "workspace:^",
-    "@digitransit-component/digitransit-component-suggestion-item": "workspace:^",
-    "@digitransit-component/digitransit-component-with-breakpoint": "workspace:^"
+    "@digitransit-component/digitransit-component-suggestion-item": "workspace:^"
   },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^",

@@ -9,8 +9,6 @@ import {
   getClientBreakpoint,
   useBreakpoint,
 } from '../../../../utils/client/BreakpointContext';
-import * as breakpointContext from '../../../../utils/client/BreakpointContext';
-import * as legacyBreakpoint from '../../../../utils/client/withBreakpoint';
 
 function BreakpointLabel({ onRender }) {
   const breakpoint = useBreakpoint();
@@ -256,10 +254,4 @@ describe('breakpoint context', () => {
       expect(mobile).toHaveBeenCalledTimes(breakpoint === 'large' ? 0 : 1);
     },
   );
-
-  it('re-exports the original utilities without creating another context', () => {
-    Object.keys(breakpointContext).forEach(name => {
-      expect(legacyBreakpoint[name]).toBe(breakpointContext[name]);
-    });
-  });
 });

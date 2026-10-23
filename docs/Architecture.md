@@ -47,9 +47,6 @@ Functional consumers use `useBreakpoint()` from that module. Breakpoints are
 `DesktopOrMobile` calls only the selected render callback (`large` uses
 `desktop`; both other values use `mobile`). The raw `BreakpointContext.Provider` accepts
 an explicit value, for example in tests; it does not observe viewport changes.
-`utils/client/withBreakpoint.jsx` remains a deprecated compatibility HOC and
-re-exports the same context utilities. Existing named prop-driven view exports
-remain available alongside their hook-based connectors.
 
 ![Architecture](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/architecture.png)
 

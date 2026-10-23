@@ -313,8 +313,6 @@ any new dependents.
   adopted, unused.
 - **`@digitransit-component/digitransit-component-traffic-now-link`** — no
   longer maintained or used.
-- **`@digitransit-component/digitransit-component-with-breakpoint`** — no
-  direct consumers.
 - **`@digitransit-store/digitransit-store-common-functions`** — no real
   consumers.
 - **`@digitransit-util/digitransit-util-route-pattern-option-text`** — no
