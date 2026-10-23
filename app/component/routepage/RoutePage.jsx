@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -10,7 +9,7 @@ import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from '../RouteNumber';
 import RouteControlPanel from './RouteControlPanel';
 import { PREFIX_ROUTES, PREFIX_DISRUPTION } from '../../../utils/shared/path';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../utils/client/BreakpointContext';
 import BackButton from '../BackButton';
 import {
   getRouteMode,
@@ -36,10 +35,11 @@ function resolveHeadsign(pattern) {
   return pattern.stops[pattern.stops.length - 1].name;
 }
 
-function RoutePage({ route, breakpoint, error = undefined }) {
+function RoutePage({ route, error = undefined }) {
   const intl = useIntl();
   const config = useConfigContext();
   const { router, match } = useRouter();
+  const breakpoint = useBreakpoint();
 
   const headingRef = useRef(null);
   useEffect(() => {
@@ -151,11 +151,10 @@ function RoutePage({ route, breakpoint, error = undefined }) {
 
 RoutePage.propTypes = {
   route: routeShape.isRequired,
-  breakpoint: PropTypes.string.isRequired,
   error: errorShape,
 };
 
-const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
+const containerComponent = createFragmentContainer(RoutePage, {
   route: graphql`
     fragment RoutePage_route on Route
     @argumentDefinitions(

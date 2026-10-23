@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from './Icon';
-import withBreakpoint from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../utils/client/BreakpointContext';
 import { useConfigContext } from '../client/ConfigContext';
 
 /**
@@ -20,8 +20,8 @@ const Snackbar = ({
   onClose,
   iconImg = 'icon_checkmark-circled',
   className,
-  breakpoint,
 }) => {
+  const breakpoint = useBreakpoint();
   const intl = useIntl();
   const config = useConfigContext();
   const content = (
@@ -96,7 +96,6 @@ Snackbar.propTypes = {
   onClose: PropTypes.func.isRequired,
   iconImg: PropTypes.string,
   className: PropTypes.string,
-  breakpoint: PropTypes.string.isRequired,
 };
 
-export default withBreakpoint(Snackbar);
+export default Snackbar;

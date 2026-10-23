@@ -75,8 +75,6 @@ const baseMatch = {
 
 const baseProps = {
   route: baseRoute,
-  match: baseMatch,
-  breakpoint: 'large',
 };
 
 describe('<RoutePage />', () => {
@@ -84,11 +82,16 @@ describe('<RoutePage />', () => {
   // ignoreRelayModernSelectorWarning's own comment for why this is needed.
   ignoreRelayModernSelectorWarning();
 
-  const renderView = (props = {}, config = baseConfig) =>
+  const renderView = (
+    { match = baseMatch, ...props } = {},
+    config = baseConfig,
+    breakpoint = 'large',
+  ) =>
     renderWithProviders(<RoutePage {...baseProps} {...props} />, {
       config,
-      match: props.match || baseMatch,
-      router: props.match?.router || baseMatch.router,
+      match,
+      router: match.router || baseMatch.router,
+      breakpoint,
     });
 
   describe('Redirect when route is missing', () => {
@@ -209,17 +212,17 @@ describe('<RoutePage />', () => {
 
   describe('BackButton visibility', () => {
     it('renders BackButton on large breakpoint', () => {
-      const { container } = renderView({ breakpoint: 'large' });
+      const { container } = renderView({}, baseConfig, 'large');
       expect(container.querySelector('.back-button')).not.toBeNull();
     });
 
     it('does not render BackButton on small breakpoint', () => {
-      const { container } = renderView({ breakpoint: 'small' });
+      const { container } = renderView({}, baseConfig, 'small');
       expect(container.querySelector('.back-button')).toBeNull();
     });
 
     it('does not render BackButton on medium breakpoint', () => {
-      const { container } = renderView({ breakpoint: 'medium' });
+      const { container } = renderView({}, baseConfig, 'medium');
       expect(container.querySelector('.back-button')).toBeNull();
     });
   });

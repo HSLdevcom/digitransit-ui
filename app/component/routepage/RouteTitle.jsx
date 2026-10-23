@@ -1,16 +1,16 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import { routePagePath } from '../../../utils/shared/path';
 import { routeShape } from '../../../utils/client/shapes';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../utils/client/BreakpointContext';
 
 import RouteNumberContainer from '../RouteNumberContainer';
 
-const RouteTitle = ({ route, breakpoint }) =>
-  breakpoint === 'large' || !route || !route.mode ? (
+const RouteTitle = ({ route }) => {
+  const breakpoint = useBreakpoint();
+  return breakpoint === 'large' || !route || !route.mode ? (
     <FormattedMessage id="route-page.title-short" defaultMessage="Route" />
   ) : (
     <Link to={routePagePath(route.gtfsId)}>
@@ -23,13 +23,13 @@ const RouteTitle = ({ route, breakpoint }) =>
       />
     </Link>
   );
+};
 
 RouteTitle.propTypes = {
   route: routeShape.isRequired,
-  breakpoint: PropTypes.string,
 };
 
-export default createFragmentContainer(withBreakpoint(RouteTitle), {
+export default createFragmentContainer(RouteTitle, {
   route: graphql`
     fragment RouteTitle_route on Route {
       gtfsId

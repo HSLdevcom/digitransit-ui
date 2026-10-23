@@ -5,13 +5,14 @@ import { legShape } from '../../../utils/client/shapes';
 import TransitLeg from './TransitLeg';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
 import RouteNumberContainer from '../RouteNumber';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../utils/client/BreakpointContext';
 import { isLocalCallAgency } from '../../../utils/client/legUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 
-const CallAgencyLeg = ({ leg, breakpoint, ...props }) => {
+const CallAgencyLeg = ({ leg, ...props }) => {
   const intl = useIntl();
   const config = useConfigContext();
+  const breakpoint = useBreakpoint();
   const modeClassName = 'call';
   const { route } = leg;
   const mobile = breakpoint === 'small' || breakpoint === 'medium';
@@ -68,5 +69,4 @@ CallAgencyLeg.propTypes = {
   breakpoint: PropTypes.string,
 };
 
-export { CallAgencyLeg as Component };
-export default withBreakpoint(CallAgencyLeg);
+export default CallAgencyLeg;

@@ -4,7 +4,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
 import Icon from './Icon';
-import withBreakpoint from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../utils/client/BreakpointContext';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
@@ -15,11 +15,8 @@ import BackButton from './BackButton';
 import { rentalVehicleShape } from '../../utils/client/shapes';
 import { useConfigContext } from '../client/ConfigContext';
 
-function RentalVehicleContent({
-  rentalVehicle,
-  breakpoint,
-  error = undefined,
-}) {
+function RentalVehicleContent({ rentalVehicle, error = undefined }) {
+  const breakpoint = useBreakpoint();
   const [isClient, setClient] = useState(false);
   const config = useConfigContext();
   const { match, router } = useRouter();
@@ -112,35 +109,29 @@ function RentalVehicleContent({
 
 RentalVehicleContent.propTypes = {
   rentalVehicle: rentalVehicleShape,
-  breakpoint: PropTypes.string.isRequired,
   error: PropTypes.shape({
     message: PropTypes.string,
   }),
 };
 
-const RentalVehicleContentWithBreakpoint = withBreakpoint(RentalVehicleContent);
-
-const containerComponent = createFragmentContainer(
-  RentalVehicleContentWithBreakpoint,
-  {
-    rentalVehicle: graphql`
-      fragment RentalVehicleContent_rentalVehicle on RentalVehicle {
-        lat
-        lon
-        name
-        vehicleId
-        rentalUris {
-          android
-          ios
-          web
-        }
-        rentalNetwork {
-          networkId
-          url
-        }
+const containerComponent = createFragmentContainer(RentalVehicleContent, {
+  rentalVehicle: graphql`
+    fragment RentalVehicleContent_rentalVehicle on RentalVehicle {
+      lat
+      lon
+      name
+      vehicleId
+      rentalUris {
+        android
+        ios
+        web
       }
-    `,
-  },
-);
+      rentalNetwork {
+        networkId
+        url
+      }
+    }
+  `,
+});
 
 export default containerComponent;

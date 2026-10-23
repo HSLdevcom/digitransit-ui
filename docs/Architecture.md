@@ -40,6 +40,17 @@ named functions in `app/data/SearchHistory.js`, which read/write
 `localStorage` directly. Unlike favourites, nothing reactively subscribes to
 this data, so it has no Context/hook layer.
 
+Responsive layout state is owned by `BreakpointProvider` in
+`utils/client/BreakpointContext.jsx`, mounted in `app/client/client.jsx`.
+Functional consumers use `useBreakpoint()` from that module. Breakpoints are
+`small` below 400px, `medium` from 400px to below 900px, and `large` from 900px.
+`DesktopOrMobile` calls only the selected render callback (`large` uses
+`desktop`; both other values use `mobile`). The raw `BreakpointContext.Provider` accepts
+an explicit value, for example in tests; it does not observe viewport changes.
+`utils/client/withBreakpoint.jsx` remains a deprecated compatibility HOC and
+re-exports the same context utilities. Existing named prop-driven view exports
+remain available alongside their hook-based connectors.
+
 ![Architecture](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/architecture.png)
 
 Links:
@@ -52,7 +63,7 @@ Links:
   - Modular CSS
     - how to implement is still a good question
     - Prefer flexbox based layouts if it simplifies the layouting process
-    - We should provide information about layout (mobile/tablet/desktop) in the context by using matchMedia or browser sniffing in order for the containers to be able to render different contents depending on the device
+    - Containers read responsive layout state through `useBreakpoint()`; the client provider observes viewport width changes through a throttled resize listener
 
  - How to get there
     - Still a uncertain process

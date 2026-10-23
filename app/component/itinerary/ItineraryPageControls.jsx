@@ -5,10 +5,11 @@ import { FormattedMessage } from 'react-intl';
 import OriginDestinationBar from './OriginDestinationBar';
 import SearchSettings from './SearchSettings';
 import { streetHash } from '../../../utils/shared/path';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../utils/client/BreakpointContext';
 import BackButton from '../BackButton';
 
-function ItineraryPageControls({ breakpoint, toggleSettings }) {
+function ItineraryPageControls({ toggleSettings }) {
+  const breakpoint = useBreakpoint();
   const { match } = useRouter();
   const { params } = match;
 
@@ -49,8 +50,7 @@ function ItineraryPageControls({ breakpoint, toggleSettings }) {
 }
 
 ItineraryPageControls.propTypes = {
-  breakpoint: PropTypes.string.isRequired,
   toggleSettings: PropTypes.func.isRequired,
 };
 
-export default withBreakpoint(ItineraryPageControls);
+export default ItineraryPageControls;
