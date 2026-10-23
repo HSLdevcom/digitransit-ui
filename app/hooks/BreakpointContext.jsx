@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp */
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 
@@ -22,46 +22,39 @@ export function getClientBreakpoint(width) {
   return 'large';
 }
 
-export class BreakpointProvider extends React.Component {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-  };
+export function BreakpointProvider({ children }) {
+  const [breakpoint, setBreakpoint] = useState(() => getClientBreakpoint());
 
-  state = {
-    breakpoint: getClientBreakpoint(),
-  };
-
-  componentDidMount() {
+  useEffect(() => {
     if (typeof window === 'undefined') {
-      return;
+      return undefined;
     }
 
-    this.updateBreakpoint = throttle(() => {
+    const browserWindow = window;
+    const updateBreakpoint = throttle(() => {
       const nextBreakpoint = getClientBreakpoint();
-      this.setState(({ breakpoint }) =>
-        nextBreakpoint !== breakpoint ? { breakpoint: nextBreakpoint } : null,
+      setBreakpoint(currentBreakpoint =>
+        nextBreakpoint !== currentBreakpoint
+          ? nextBreakpoint
+          : currentBreakpoint,
       );
     }, 100);
-    this.updateBreakpoint();
-    window.addEventListener('resize', this.updateBreakpoint);
-  }
 
-  componentWillUnmount() {
-    this.updateBreakpoint?.cancel();
-    if (
-      typeof window !== 'undefined' &&
-      typeof this.updateBreakpoint === 'function'
-    ) {
-      window.removeEventListener('resize', this.updateBreakpoint);
-    }
-  }
+    updateBreakpoint();
+    browserWindow.addEventListener('resize', updateBreakpoint);
 
-  render() {
-    return (
-      <Provider value={this.state.breakpoint}>{this.props.children}</Provider>
-    );
-  }
+    return () => {
+      updateBreakpoint.cancel();
+      browserWindow.removeEventListener('resize', updateBreakpoint);
+    };
+  }, []);
+
+  return <Provider value={breakpoint}>{children}</Provider>;
 }
+
+BreakpointProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export const BreakpointConsumer = Consumer;
 

@@ -8,7 +8,7 @@ import {
   DesktopOrMobile,
   getClientBreakpoint,
   useBreakpoint,
-} from '../../../../utils/client/BreakpointContext';
+} from '../../../../app/hooks/BreakpointContext';
 
 function BreakpointLabel({ onRender }) {
   const breakpoint = useBreakpoint();
@@ -24,8 +24,8 @@ describe('breakpoint context', () => {
   const originalWidth = window.innerWidth;
 
   afterEach(() => {
-    vi.unstubAllGlobals();
     cleanup();
+    vi.unstubAllGlobals();
     vi.clearAllTimers();
     vi.useRealTimers();
     window.innerWidth = originalWidth;
@@ -68,50 +68,32 @@ describe('breakpoint context', () => {
     ).toContain('large');
   });
 
-  it('skips browser lifecycle work without window', () => {
-    vi.stubGlobal('window', undefined);
-    const provider = new BreakpointProvider({ children: null });
-    provider.setState = vi.fn();
-
-    provider.componentDidMount();
-    provider.componentWillUnmount();
-
-    expect(provider.setState).not.toHaveBeenCalled();
-  });
-
-  it('skips listener removal when mounting returned before assigning a listener', () => {
-    const removeEventListener = vi.fn();
-    vi.stubGlobal('window', undefined);
-    const provider = new BreakpointProvider({ children: null });
-
-    provider.componentDidMount();
-    vi.stubGlobal('window', { removeEventListener });
-    provider.componentWillUnmount();
-
-    expect(removeEventListener).not.toHaveBeenCalled();
-  });
-
   it('reads the viewport once per throttled update', () => {
     vi.useFakeTimers();
-    const readWidth = vi.fn(() => 399);
-    vi.stubGlobal('window', {
-      get innerWidth() {
-        return readWidth();
-      },
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-    });
-    const provider = new BreakpointProvider({ children: null });
-    provider.setState = vi.fn(update => update({ breakpoint: 'large' }));
+    const readWidth = vi
+      .spyOn(window, 'innerWidth', 'get')
+      .mockReturnValue(399);
+    const addEventListener = vi.spyOn(window, 'addEventListener');
+    const { getByText, unmount } = render(
+      <BreakpointProvider>
+        <BreakpointLabel />
+      </BreakpointProvider>,
+    );
+
+    expect(getByText('small')).toBeTruthy();
+    expect(readWidth).toHaveBeenCalledTimes(2);
     readWidth.mockClear();
-
-    provider.componentDidMount();
-
-    expect(readWidth).toHaveBeenCalledTimes(1);
-    expect(provider.setState.mock.results[0].value).toEqual({
-      breakpoint: 'small',
+    const resizeListener = addEventListener.mock.calls.find(
+      ([eventName]) => eventName === 'resize',
+    )[1];
+    act(() => {
+      resizeListener();
+      vi.advanceTimersByTime(100);
     });
-    provider.componentWillUnmount();
+    expect(readWidth).toHaveBeenCalledTimes(1);
+    unmount();
+    readWidth.mockRestore();
+    addEventListener.mockRestore();
   });
 
   it('defaults to large without a provider', () => {
@@ -216,13 +198,13 @@ describe('breakpoint context', () => {
   it('cancels a pending trailing resize update on unmount', () => {
     vi.useFakeTimers();
     window.innerWidth = 1000;
-    const ref = React.createRef();
+    const onRender = vi.fn();
     const { unmount } = render(
-      <BreakpointProvider ref={ref}>
-        <BreakpointLabel />
+      <BreakpointProvider>
+        <BreakpointLabel onRender={onRender} />
       </BreakpointProvider>,
     );
-    const setState = vi.spyOn(ref.current, 'setState');
+    onRender.mockClear();
 
     window.innerWidth = 399;
     fireEvent(window, new Event('resize'));
@@ -233,8 +215,7 @@ describe('breakpoint context', () => {
     act(() => {
       vi.advanceTimersByTime(100);
     });
-    expect(setState).not.toHaveBeenCalled();
-    setState.mockRestore();
+    expect(onRender).not.toHaveBeenCalled();
   });
 
   it.each(['large', 'medium', 'small'])(
