@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { useRouter } from 'found';
-import { routeShape, errorShape } from '../../../utils/client/shapes';
+import { errorShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from '../RouteNumber';
 import RouteControlPanel from './RouteControlPanel';
 import { PREFIX_ROUTES, PREFIX_DISRUPTION } from '../../../utils/shared/path';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../utils/client/withBreakpoint';
 import BackButton from '../BackButton';
 import {
   getRouteMode,
@@ -24,6 +24,7 @@ import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RouteNotificationButton from './RouteNotificationButton';
 import { useConfigContext } from '../../client/ConfigContext';
 import { isLocalCallAgency } from '../../../utils/client/legUtils';
+import { RoutePageFragment } from './queries/RoutePageFragment';
 
 function resolveHeadsign(pattern) {
   if (!pattern) {
@@ -36,10 +37,12 @@ function resolveHeadsign(pattern) {
   return pattern.stops[pattern.stops.length - 1].name;
 }
 
-function RoutePage({ route, breakpoint, error = undefined }) {
+function RoutePage({ route: routeRef = null, error = undefined }) {
   const intl = useIntl();
   const config = useConfigContext();
   const { router, match } = useRouter();
+  const breakpoint = useBreakpoint();
+  const route = useFragment(RoutePageFragment, routeRef);
 
   const headingRef = useRef(null);
   useEffect(() => {
@@ -150,92 +153,8 @@ function RoutePage({ route, breakpoint, error = undefined }) {
 }
 
 RoutePage.propTypes = {
-  route: routeShape.isRequired,
-  breakpoint: PropTypes.string.isRequired,
+  route: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   error: errorShape,
 };
 
-const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
-  route: graphql`
-    fragment RoutePage_route on Route
-    @argumentDefinitions(
-      date: { type: "String" }
-      cancelationStartDate: { type: "OffsetDateTime!" }
-      cancelationEndDate: { type: "OffsetDateTime!" }
-    ) {
-      gtfsId
-      color
-      shortName
-      longName
-      mode
-      type
-      ...RouteAgencyInfo_route
-      ...RoutePatternSelectContainer_route @arguments(date: $date)
-      agency {
-        name
-        phone
-        gtfsId
-      }
-      patterns {
-        alerts(types: [ROUTE, STOPS_ON_PATTERN]) {
-          id
-          alertDescriptionText
-          alertHash
-          alertHeaderText
-          alertSeverityLevel
-          alertUrl
-          effectiveEndDate
-          effectiveStartDate
-          entities {
-            __typename
-            ... on Route {
-              color
-              type
-              mode
-              shortName
-              gtfsId
-            }
-            ... on Stop {
-              name
-              code
-              vehicleMode
-              gtfsId
-            }
-          }
-        }
-        headsign
-        code
-        stops {
-          name
-        }
-        trips: tripsForDate(serviceDate: $date) {
-          stoptimes: stoptimesForDate(serviceDate: $date) {
-            realtimeState
-            scheduledArrival
-            scheduledDeparture
-            serviceDay
-          }
-        }
-        canceledTrips(
-          runningTimeRanges: [
-            { start: $cancelationStartDate, end: $cancelationEndDate }
-          ]
-        ) {
-          serviceDate
-          trip {
-            pattern {
-              code
-            }
-            gtfsId
-          }
-        }
-        activeDates: trips {
-          serviceId
-          day: activeDates
-        }
-      }
-    }
-  `,
-});
-
-export { containerComponent as default, RoutePage as Component };
+export { RoutePage as default, RoutePage as Component };

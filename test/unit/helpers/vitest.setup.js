@@ -8,8 +8,19 @@ import { cleanup } from '@testing-library/react';
 import Link from 'found/Link';
 import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
-import relay from 'react-relay';
 import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
+
+// Stub useFragment globally so components can be tested by passing in
+// complete, already-resolved data as props instead of a real Relay fragment
+// reference/store.
+vi.mock('react-relay', async importOriginal => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    ...actual.default,
+    useFragment: (_fragment, fragmentRef) => fragmentRef,
+  };
+});
 
 // set up timezone in luxon
 Settings.defaultZone = 'Europe/Helsinki';
@@ -44,7 +55,6 @@ const MockLink = ({ children }) => children;
 // which would undo a vi-based stub here after the very first test.
 const originalConsoleError = console.error;
 const originalLinkRender = Link.render;
-const originalUseFragment = relay.useFragment;
 
 // React 18 bump (React 18 upgrade plan, Phase 1): these two deprecation
 // warnings now surface here because @testing-library/react's `render` uses
@@ -73,9 +83,6 @@ beforeAll(() => {
     throw new Error(warning);
   };
   Link.render = MockLink;
-  // stub useFragment hook to return referenced object
-  // this assumes that a component is given complete data as props
-  relay.useFragment = (query, ref) => ref;
   // TODO this could be renabled when dependencies don't throw warnings
   // console.warn = callback;
 });
@@ -83,7 +90,6 @@ beforeAll(() => {
 afterAll(() => {
   console.error = originalConsoleError;
   Link.render = originalLinkRender;
-  relay.useFragment = originalUseFragment;
 });
 
 // make sure the local and session storage stays clear for each test
