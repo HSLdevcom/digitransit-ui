@@ -11,7 +11,7 @@ import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import Toggle from './Toggle';
 import { getCountries, setCountries } from '../../utils/client/localStorage';
 import { TRAFFICNOW } from '../../utils/shared/path';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function MainMenu({ closeMenu, homeUrl }) {
   const intl = useIntl();

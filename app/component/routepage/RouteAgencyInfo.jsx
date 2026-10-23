@@ -3,7 +3,7 @@ import { graphql, useFragment } from 'react-relay';
 import get from 'lodash/get';
 import { routeShape } from '../../../utils/client/shapes';
 import AgencyInfo from '../AgencyInfo';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 function RouteAgencyInfo({ route: routeRef }) {
   const config = useConfigContext();

@@ -3,7 +3,7 @@ import React from 'react';
 import getAssetUrl from '../../../../assets/assetUrl';
 import NavigatorModal from '../NavigatorModal';
 import NavigatorIntro from './NavigatorIntro';
-import { useConfigContext } from '../../../../client/ConfigContext';
+import { useConfigContext } from '../../../../hooks/ConfigContext';
 
 const NavigatorIntroModal = ({
   onPrimaryClick,

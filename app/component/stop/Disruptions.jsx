@@ -22,7 +22,7 @@ import {
 } from '../../../utils/shared/constants';
 import { DisruptionsFragment } from './queries/DisruptionsFragment';
 import { patternTextWithIcon } from '../routepage/RoutePatternSelect';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 export const isRelevantEntity = (entity, stopIds, routeIds) =>
   // eslint-disable-next-line no-underscore-dangle

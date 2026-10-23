@@ -11,7 +11,7 @@ import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
 } from '../../../utils/shared/vehicleRentalUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function StreetBar({
   leg,

@@ -9,7 +9,7 @@ import { getMiddleOf } from '../../../../utils/shared/geo-utils';
 import LegMarker from './LegMarker';
 import SpeechBubble from '../SpeechBubble';
 import { durationToString } from '../../../../utils/client/timeUtils';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 const offsetNormal = { x: 22.5, y: 0 };
 const offsetArrow = { x: 55, y: 15 };

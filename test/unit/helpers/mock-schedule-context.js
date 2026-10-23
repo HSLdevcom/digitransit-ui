@@ -1,5 +1,5 @@
 import { vi } from 'vitest';
-import * as ConfigContext from '../../../app/client/ConfigContext';
+import * as ConfigContext from '../../../app/hooks/ConfigContext';
 import * as scheduleParamUtils from '../../../app/component/routepage/schedule/scheduleParamUtils';
 import * as scheduleDataUtils from '../../../app/component/routepage/schedule/scheduleDataUtils';
 import * as scheduleTripsUtils from '../../../app/component/routepage/schedule/scheduleTripsUtils';

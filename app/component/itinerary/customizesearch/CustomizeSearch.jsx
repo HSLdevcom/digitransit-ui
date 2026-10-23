@@ -25,7 +25,7 @@ import {
   setCustomizedSettings,
 } from '../../../../utils/client/localStorage';
 import ScrollableWrapper from '../../ScrollableWrapper';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function CustomizeSearch({ onToggleClick, mobile = false }) {
   const config = useConfigContext();

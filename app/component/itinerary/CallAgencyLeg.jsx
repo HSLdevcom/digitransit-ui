@@ -7,7 +7,7 @@ import CallAgencyDisclaimer from './CallAgencyDisclaimer';
 import RouteNumberContainer from '../RouteNumber';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import { isLocalCallAgency } from '../../../utils/client/legUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const CallAgencyLeg = ({ leg, breakpoint, ...props }) => {
   const intl = useIntl();
