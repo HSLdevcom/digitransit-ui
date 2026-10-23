@@ -466,6 +466,20 @@ describe('alertUtils', () => {
     });
   });
 
+  describe('getAlertsForObject', () => {
+    it('should return an empty array if the object or its alerts are missing', () => {
+      expect(utils.getAlertsForObject(undefined)).toEqual([]);
+      expect(utils.getAlertsForObject({})).toEqual([]);
+    });
+
+    it('should leave out falsy alerts', () => {
+      const alert = { alertSeverityLevel: AlertSeverityLevelType.Info };
+      expect(
+        utils.getAlertsForObject({ alerts: [null, alert, undefined] }),
+      ).toEqual([alert]);
+    });
+  });
+
   describe('getCancelationsForStop', () => {
     it('should return an empty array if stop is missing', () => {
       expect(utils.getCancelationsForStop(undefined)).toEqual([]);
@@ -663,6 +677,283 @@ describe('alertUtils', () => {
       expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(
         AlertSeverityLevelType.Info,
       );
+    });
+
+    describe('with mixed and timed alerts', () => {
+      const legStartSec = 1553769600;
+      const legEndSec = legStartSec + 1800;
+      const iso = sec => new Date(sec * 1000).toISOString();
+      const makeLeg = (overrides = {}) => ({
+        start: { scheduledTime: iso(legStartSec) },
+        end: { scheduledTime: iso(legEndSec) },
+        route: { alerts: [] },
+        from: { stop: { alerts: [] } },
+        to: { stop: { alerts: [] } },
+        ...overrides,
+      });
+      const alertAt = (level, startOffset, endOffset) => ({
+        alertSeverityLevel: level,
+        effectiveStartDate: legStartSec + startOffset,
+        effectiveEndDate: legStartSec + endOffset,
+      });
+
+      it.each([
+        AlertSeverityLevelType.Info,
+        AlertSeverityLevelType.Warning,
+        AlertSeverityLevelType.Severe,
+        AlertSeverityLevelType.Unknown,
+      ])('should return %s for an active route alert', level => {
+        const leg = makeLeg({ route: { alerts: [alertAt(level, -60, 60)] } });
+        expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(level);
+      });
+
+      it('should return the highest severity among route and stop alerts', () => {
+        const leg = makeLeg({
+          route: { alerts: [alertAt(AlertSeverityLevelType.Info, -60, 60)] },
+          from: {
+            stop: {
+              alerts: [alertAt(AlertSeverityLevelType.Warning, -60, 60)],
+            },
+          },
+          to: {
+            stop: {
+              alerts: [alertAt(AlertSeverityLevelType.Severe, -60, 60)],
+            },
+          },
+        });
+        expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(
+          AlertSeverityLevelType.Severe,
+        );
+      });
+
+      it('should not let an expired severe alert hide an active lower one', () => {
+        const leg = makeLeg({
+          route: {
+            alerts: [
+              alertAt(AlertSeverityLevelType.Severe, -600, -60),
+              alertAt(AlertSeverityLevelType.Info, -60, 60),
+            ],
+          },
+        });
+        expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(
+          AlertSeverityLevelType.Info,
+        );
+      });
+
+      it('should return the severity of an alert that starts during the leg', () => {
+        const leg = makeLeg({
+          to: {
+            stop: {
+              alerts: [alertAt(AlertSeverityLevelType.Warning, 600, 7200)],
+            },
+          },
+        });
+        expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(
+          AlertSeverityLevelType.Warning,
+        );
+      });
+
+      it('should ignore an alert that starts after the leg has ended', () => {
+        const leg = makeLeg({
+          route: {
+            alerts: [alertAt(AlertSeverityLevelType.Warning, 3600, 7200)],
+          },
+        });
+        expect(utils.getActiveLegAlertSeverityLevel(leg)).toBeUndefined();
+      });
+
+      it('should return the severity of an alert without effective dates', () => {
+        const leg = makeLeg({
+          route: {
+            alerts: [{ alertSeverityLevel: AlertSeverityLevelType.Warning }],
+          },
+        });
+        expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(
+          AlertSeverityLevelType.Warning,
+        );
+      });
+
+      it('should return the severity of an open-ended alert that has just started', () => {
+        const leg = makeLeg({
+          route: {
+            alerts: [
+              {
+                alertSeverityLevel: AlertSeverityLevelType.Warning,
+                effectiveStartDate: legStartSec - 60,
+              },
+            ],
+          },
+        });
+        expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(
+          AlertSeverityLevelType.Warning,
+        );
+      });
+
+      it('should ignore falsy alerts and tolerate missing places and stops', () => {
+        const leg = makeLeg({
+          route: { alerts: [undefined, null] },
+          from: {},
+          to: {
+            stop: { alerts: [alertAt(AlertSeverityLevelType.Info, -60, 60)] },
+          },
+        });
+        expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(
+          AlertSeverityLevelType.Info,
+        );
+      });
+
+      it('should tolerate a leg without places', () => {
+        const leg = makeLeg({ from: undefined, to: undefined });
+        expect(utils.getActiveLegAlertSeverityLevel(leg)).toBeUndefined();
+      });
+
+      it('should prefer a cancelation over an active info alert', () => {
+        const leg = makeLeg({
+          realtimeState: RealtimeStateType.Canceled,
+          route: { alerts: [alertAt(AlertSeverityLevelType.Info, -60, 60)] },
+        });
+        expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(
+          AlertSeverityLevelType.Warning,
+        );
+      });
+
+      it('should use the estimated start time when available', () => {
+        const leg = makeLeg({
+          start: {
+            scheduledTime: iso(legStartSec),
+            estimated: { time: iso(legStartSec + 7200) },
+          },
+          end: { scheduledTime: iso(legStartSec + 9000) },
+          route: {
+            alerts: [alertAt(AlertSeverityLevelType.Warning, 0, 1800)],
+          },
+        });
+        expect(utils.getActiveLegAlertSeverityLevel(leg)).toBeUndefined();
+      });
+
+      it('should agree with getActiveLegAlerts on whether an alert is present', () => {
+        const leg = makeLeg({
+          from: {
+            stop: {
+              alerts: [alertAt(AlertSeverityLevelType.Info, -60, 60)],
+            },
+          },
+          route: {
+            alerts: [alertAt(AlertSeverityLevelType.Warning, -600, -60)],
+          },
+        });
+        const alerts = utils.getActiveLegAlerts(leg, legStartSec);
+        expect(alerts).toHaveLength(1);
+        expect(utils.getActiveLegAlertSeverityLevel(leg)).toBe(
+          utils.getMaximumAlertSeverityLevel(alerts),
+        );
+      });
+    });
+  });
+
+  describe('getActiveLegAlerts', () => {
+    const startSec = 1553769600;
+    const alert = (level, extra = {}) => ({
+      alertSeverityLevel: level,
+      effectiveStartDate: startSec - 60,
+      effectiveEndDate: startSec + 60,
+      ...extra,
+    });
+
+    it('should return undefined if the leg is falsy', () => {
+      expect(utils.getActiveLegAlerts(undefined, startSec)).toBeUndefined();
+    });
+
+    it('should return an empty array for a leg without alerts or stops', () => {
+      expect(utils.getActiveLegAlerts({}, startSec)).toEqual([]);
+    });
+
+    it('should collect route, from stop and to stop alerts', () => {
+      const leg = {
+        route: { alerts: [alert(AlertSeverityLevelType.Info)] },
+        from: { stop: { alerts: [alert(AlertSeverityLevelType.Warning)] } },
+        to: { stop: { alerts: [alert(AlertSeverityLevelType.Severe)] } },
+      };
+      expect(
+        utils.getActiveLegAlerts(leg, startSec).map(a => a.alertSeverityLevel),
+      ).toEqual([
+        AlertSeverityLevelType.Info,
+        AlertSeverityLevelType.Warning,
+        AlertSeverityLevelType.Severe,
+      ]);
+    });
+
+    it('should keep only entities of the matching type for route and stop alerts', () => {
+      const entities = [
+        { __typename: AlertEntityType.Route, gtfsId: 'r' },
+        { __typename: AlertEntityType.Stop, gtfsId: 's' },
+      ];
+      const leg = {
+        route: { alerts: [alert(AlertSeverityLevelType.Info, { entities })] },
+        from: {
+          stop: { alerts: [alert(AlertSeverityLevelType.Info, { entities })] },
+        },
+      };
+      const [routeAlert, stopAlert] = utils.getActiveLegAlerts(leg, startSec);
+      expect(routeAlert.entities).toEqual([entities[0]]);
+      expect(stopAlert.entities).toEqual([entities[1]]);
+    });
+
+    it('should narrow entities to the leg route and from/to stops', () => {
+      const entities = [
+        { __typename: AlertEntityType.Route, gtfsId: 'other-route' },
+        { __typename: AlertEntityType.Route, gtfsId: 'r' },
+        { __typename: AlertEntityType.Stop, gtfsId: 'other-stop' },
+        { __typename: AlertEntityType.Stop, gtfsId: 'from' },
+        { __typename: AlertEntityType.Stop, gtfsId: 'to' },
+      ];
+      const withAlert = extra => ({
+        ...extra,
+        alerts: [alert(AlertSeverityLevelType.Info, { entities })],
+      });
+      const leg = {
+        route: withAlert({ gtfsId: 'r' }),
+        from: { stop: withAlert({ gtfsId: 'from' }) },
+        to: { stop: withAlert({ gtfsId: 'to' }) },
+      };
+      const [routeAlert, fromAlert, toAlert] = utils.getActiveLegAlerts(
+        leg,
+        startSec,
+      );
+      expect(routeAlert.entities).toEqual([entities[1]]);
+      expect(fromAlert.entities).toEqual([entities[3]]);
+      expect(toAlert.entities).toEqual([entities[4]]);
+    });
+
+    it('should fall back to all entities of the type when none match the leg', () => {
+      const entities = [
+        { __typename: AlertEntityType.Stop, gtfsId: 'station' },
+        { __typename: AlertEntityType.Route, gtfsId: 'r' },
+      ];
+      const leg = {
+        from: {
+          stop: {
+            gtfsId: 'from',
+            alerts: [alert(AlertSeverityLevelType.Info, { entities })],
+          },
+        },
+      };
+      const [stopAlert] = utils.getActiveLegAlerts(leg, startSec);
+      expect(stopAlert.entities).toEqual([entities[0]]);
+    });
+
+    it('should filter out expired alerts', () => {
+      const leg = {
+        route: {
+          alerts: [
+            alert(AlertSeverityLevelType.Warning, {
+              effectiveStartDate: startSec - 600,
+              effectiveEndDate: startSec - 60,
+            }),
+          ],
+        },
+      };
+      expect(utils.getActiveLegAlerts(leg, startSec)).toEqual([]);
     });
   });
 
