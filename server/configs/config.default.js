@@ -632,7 +632,7 @@ export default {
     matka: '(matka|^dev.digitransit)',
     vaasa: 'vaasa',
     walttiOpas: 'waltti',
-    rovaniemi: 'rovaniemi',
+    rovaniemi: '(rovaniemi|linkkari)',
     kouvola: 'kouvola',
     tampere: 'tampere',
     mikkeli: 'mikkeli',

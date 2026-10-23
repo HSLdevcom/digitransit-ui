@@ -210,6 +210,7 @@ export default {
     'https://mikkeli.digitransit.fi',
     'https://reittiopas.osl.fi',
     'https://pori.digitransit.fi',
+    'https://reittiopas.linkkari.fi',
     'https://rovaniemi.digitransit.fi',
     'https://reittiopas.tampere.fi',
     'https://repa.tampere.fi',
