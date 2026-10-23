@@ -8,6 +8,7 @@ import { cleanup } from '@testing-library/react';
 import Link from 'found/Link';
 import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
+import relayHooks from 'react-relay/hooks';
 import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
 
 // Stub useFragment/useRefetchableFragment globally so components can be
@@ -32,6 +33,23 @@ vi.mock('react-relay', async importOriginal => {
     useFragment: (_fragment, fragmentRef) => fragmentRef,
     useRefetchableFragment: (_fragment, fragmentRef) => [fragmentRef, vi.fn()],
   };
+});
+
+// Stub useLazyLoadQuery globally for the same reason, defaulting to an empty
+// result so standalone-query components (TripLink, FuzzyTripLink, and the
+// trafficnow/ components) render their "no data yet" state without needing a
+// real Relay environment/network response. This is done via vi.spyOn in a
+// beforeEach below (run after Vitest's own `restoreMocks` autouse hook
+// resets it) rather than vi.mock like useFragment/useRefetchableFragment
+// above: components call useLazyLoadQuery via a direct
+// `import { useLazyLoadQuery } from 'react-relay/hooks'` (the existing
+// trafficnow/ convention) and tests needing a resolved-data branch already
+// override it with their own `vi.spyOn(relayHooks, 'useLazyLoadQuery')...`
+// call (see test/unit/component/trafficnow/TrafficNow.test.jsx) - a
+// competing vi.mock of the same specifier interferes with that spy's
+// visibility to the component's own named import.
+beforeEach(() => {
+  vi.spyOn(relayHooks, 'useLazyLoadQuery').mockReturnValue({});
 });
 
 // set up timezone in luxon
