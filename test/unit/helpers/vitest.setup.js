@@ -10,15 +10,27 @@ import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
 import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
 
-// Stub useFragment globally so components can be tested by passing in
-// complete, already-resolved data as props instead of a real Relay fragment
-// reference/store.
+// Stub useFragment/useRefetchableFragment globally so components can be
+// tested by passing in complete, already-resolved data as props instead of
+// a real Relay fragment reference/store. This has to be done via vi.mock
+// (which replaces the module itself) rather than reassigning a property on
+// the default export - `import { useFragment } from 'react-relay'` (used
+// throughout app/component/**) gets a snapshot of the named export under
+// Vite/Vitest's CJS interop, so it doesn't see a later
+// `relay.useFragment = ...` reassignment; only
+// `import relay from 'react-relay'; relay.useFragment` call sites would.
+// vi.mock avoids that distinction since both import forms resolve to the
+// same mocked module. useRefetchableFragment's refetch function is a no-op
+// by default; a test asserting refetch behaviour can assert on it directly
+// via its own local vi.mock override (see below), which takes precedence
+// over this one for that file.
 vi.mock('react-relay', async importOriginal => {
   const actual = await importOriginal();
   return {
     ...actual,
     ...actual.default,
     useFragment: (_fragment, fragmentRef) => fragmentRef,
+    useRefetchableFragment: (_fragment, fragmentRef) => [fragmentRef, vi.fn()],
   };
 });
 

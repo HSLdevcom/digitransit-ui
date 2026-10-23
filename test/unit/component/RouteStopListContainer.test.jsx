@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
-import { Component as RouteStopListContainer } from '../../../app/component/routepage/RouteStopListContainer';
+import RouteStopListContainer from '../../../app/component/routepage/RouteStopListContainer';
 
 describe('<RouteStopListContainer />', () => {
   it('should render route stop list', () => {
@@ -100,10 +100,6 @@ describe('<RouteStopListContainer />', () => {
       },
       patternId: 'HSL:1055:0:01',
       breakpoint: 'large',
-      relay: {
-        refetch: () => {},
-        environment: {},
-      },
     };
     const { vehicles, breakpoint, ...componentProps } = props;
     const { container } = renderWithProviders(
