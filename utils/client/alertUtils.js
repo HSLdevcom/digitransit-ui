@@ -210,6 +210,7 @@ export const getCancelationsForStop = stop => {
 
 /**
  * Retrieves Service Alerts from the given object (or an empty list if no alerts exist).
+ * Falsy alerts are left out.
  *
  * @param {Object.<string,*>} object should contain alerts key.
  */
@@ -218,7 +219,7 @@ export const getAlertsForObject = object => {
     return [];
   }
 
-  return object.alerts;
+  return object.alerts.filter(alert => !!alert);
 };
 
 /**
@@ -428,26 +429,6 @@ export const mapAlertSource = (config, lang, feedName) => {
 };
 
 /**
- * Returns entities of only the given entity type.
- *
- * @param {*} entities the entities to filter.
- * @param {String} entityType the entity type.
- */
-export const getEntitiesOfType = (entities, entityType) =>
-  // eslint-disable-next-line no-underscore-dangle
-  entities?.filter(entity => entity.__typename === entityType);
-
-/**
- * Returns entities of only the given entity type from an alert.
- *
- * @param {*} alert the alert which can contain entities.
- * @param {String} entityType the entity type.
- */
-export const getEntitiesOfTypeFromAlert = (alert, entityType) =>
-  // eslint-disable-next-line no-underscore-dangle
-  alert?.entities?.filter(entity => entity.__typename === entityType);
-
-/**
  * Checks if the alert has at least one entity of the given entity type.
  *
  * @param {*} alert the alert which can contain entities.
@@ -489,6 +470,18 @@ const isAlertValidDuringLeg = (alert, legStartTime, legEndTime) =>
   !(isNumber(legEndTime) && alert.effectiveStartDate > legEndTime);
 
 /**
+ * Narrows the entities of the alert to the given route/stop so that links built
+ * from the first entity point to it. Falls back to all entities of the type
+ * when none match, e.g. an alert that targets the parent station.
+ */
+const withEntitiesOf = (entityType, gtfsId) => alert => {
+  // eslint-disable-next-line no-underscore-dangle
+  const ofType = alert.entities?.filter(e => e.__typename === entityType);
+  const matching = ofType?.filter(entity => entity.gtfsId === gtfsId);
+  return { ...alert, entities: matching?.length ? matching : ofType };
+};
+
+/**
  * Returns an array of currently active alerts of the leg: alerts of its route
  * and origin/destination stops.
  *
@@ -501,20 +494,16 @@ export const getActiveLegAlerts = (leg, legStartTime) => {
   }
 
   const legEndTime = leg.end ? legTime(leg.end) / 1000 : undefined;
-  const withEntitiesOfType = entityType => alert => ({
-    ...alert,
-    entities: getEntitiesOfTypeFromAlert(alert, entityType),
-  });
-  const validAlertsOf = object =>
-    getAlertsForObject(object).filter(alert => !!alert);
 
   return [
-    ...validAlertsOf(leg.route).map(withEntitiesOfType(AlertEntityType.Route)),
-    ...validAlertsOf(leg.from?.stop).map(
-      withEntitiesOfType(AlertEntityType.Stop),
+    ...getAlertsForObject(leg.route).map(
+      withEntitiesOf(AlertEntityType.Route, leg.route?.gtfsId),
     ),
-    ...validAlertsOf(leg.to?.stop).map(
-      withEntitiesOfType(AlertEntityType.Stop),
+    ...getAlertsForObject(leg.from?.stop).map(
+      withEntitiesOf(AlertEntityType.Stop, leg.from?.stop?.gtfsId),
+    ),
+    ...getAlertsForObject(leg.to?.stop).map(
+      withEntitiesOf(AlertEntityType.Stop, leg.to?.stop?.gtfsId),
     ),
   ].filter(alert => isAlertValidDuringLeg(alert, legStartTime, legEndTime));
 };

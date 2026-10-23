@@ -466,6 +466,20 @@ describe('alertUtils', () => {
     });
   });
 
+  describe('getAlertsForObject', () => {
+    it('should return an empty array if the object or its alerts are missing', () => {
+      expect(utils.getAlertsForObject(undefined)).toEqual([]);
+      expect(utils.getAlertsForObject({})).toEqual([]);
+    });
+
+    it('should leave out falsy alerts', () => {
+      const alert = { alertSeverityLevel: AlertSeverityLevelType.Info };
+      expect(
+        utils.getAlertsForObject({ alerts: [null, alert, undefined] }),
+      ).toEqual([alert]);
+    });
+  });
+
   describe('getCancelationsForStop', () => {
     it('should return an empty array if stop is missing', () => {
       expect(utils.getCancelationsForStop(undefined)).toEqual([]);
@@ -883,6 +897,49 @@ describe('alertUtils', () => {
       const [routeAlert, stopAlert] = utils.getActiveLegAlerts(leg, startSec);
       expect(routeAlert.entities).toEqual([entities[0]]);
       expect(stopAlert.entities).toEqual([entities[1]]);
+    });
+
+    it('should narrow entities to the leg route and from/to stops', () => {
+      const entities = [
+        { __typename: AlertEntityType.Route, gtfsId: 'other-route' },
+        { __typename: AlertEntityType.Route, gtfsId: 'r' },
+        { __typename: AlertEntityType.Stop, gtfsId: 'other-stop' },
+        { __typename: AlertEntityType.Stop, gtfsId: 'from' },
+        { __typename: AlertEntityType.Stop, gtfsId: 'to' },
+      ];
+      const withAlert = extra => ({
+        ...extra,
+        alerts: [alert(AlertSeverityLevelType.Info, { entities })],
+      });
+      const leg = {
+        route: withAlert({ gtfsId: 'r' }),
+        from: { stop: withAlert({ gtfsId: 'from' }) },
+        to: { stop: withAlert({ gtfsId: 'to' }) },
+      };
+      const [routeAlert, fromAlert, toAlert] = utils.getActiveLegAlerts(
+        leg,
+        startSec,
+      );
+      expect(routeAlert.entities).toEqual([entities[1]]);
+      expect(fromAlert.entities).toEqual([entities[3]]);
+      expect(toAlert.entities).toEqual([entities[4]]);
+    });
+
+    it('should fall back to all entities of the type when none match the leg', () => {
+      const entities = [
+        { __typename: AlertEntityType.Stop, gtfsId: 'station' },
+        { __typename: AlertEntityType.Route, gtfsId: 'r' },
+      ];
+      const leg = {
+        from: {
+          stop: {
+            gtfsId: 'from',
+            alerts: [alert(AlertSeverityLevelType.Info, { entities })],
+          },
+        },
+      };
+      const [stopAlert] = utils.getActiveLegAlerts(leg, startSec);
+      expect(stopAlert.entities).toEqual([entities[0]]);
     });
 
     it('should filter out expired alerts', () => {
