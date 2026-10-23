@@ -14,7 +14,7 @@ import React, {
 import { FormattedMessage } from 'react-intl';
 import { fetchQuery, ReactRelayContext } from 'react-relay';
 import { useRouter } from 'found';
-import { useBreakpoint } from '../../../utils/client/BreakpointContext';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import { saveFutureRoute } from '../../../utils/client/storeUtils';
 import { saveSearch } from '../../data/SearchHistory';

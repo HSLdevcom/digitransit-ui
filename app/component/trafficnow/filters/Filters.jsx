@@ -4,7 +4,7 @@ import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import ValidityPeriodFilter from './ValidityPeriodFilter';
 import { useFilterContext } from './FiltersContext';
-import { useBreakpoint } from '../../../../utils/client/BreakpointContext';
+import { useBreakpoint } from '../../../hooks/BreakpointContext';
 import VehicleModesFilter from './VehicleModesFilter';
 import EntitySearch from './EntitySearch';
 import ToggleableFilters from './ToggleableFilters';

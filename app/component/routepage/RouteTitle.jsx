@@ -4,7 +4,7 @@ import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import { routePagePath } from '../../../utils/shared/path';
 import { routeShape } from '../../../utils/client/shapes';
-import { useBreakpoint } from '../../../utils/client/BreakpointContext';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 
 import RouteNumberContainer from '../RouteNumberContainer';
 

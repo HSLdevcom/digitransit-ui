@@ -8,7 +8,7 @@ import MapWithTracking from './MapWithTracking';
 import RouteLine from './route/RouteLine';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import { getStartTime } from '../../../utils/client/timeUtils';
-import { useBreakpoint } from '../../../utils/client/BreakpointContext';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import BackButton from '../BackButton';
 import { isActiveDate } from '../../../utils/client/patternUtils';
 import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';

@@ -24,7 +24,7 @@ import routes, { historyMiddlewares, render } from '../routes/routes';
 import ErrorBoundary from '../component/ErrorBoundary';
 import legacyParamParser from '../../utils/shared/legacyParamParser';
 import { LEGACY_LOCALE_PATHS } from '../../utils/shared/constants';
-import { BreakpointProvider } from '../../utils/client/BreakpointContext';
+import { BreakpointProvider } from '../hooks/BreakpointContext';
 import getMetadata from '../../utils/shared/metaUtils';
 import {
   initAnalyticsClientSide,

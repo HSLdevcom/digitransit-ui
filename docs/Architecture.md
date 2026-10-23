@@ -41,7 +41,7 @@ named functions in `app/data/SearchHistory.js`, which read/write
 this data, so it has no Context/hook layer.
 
 Responsive layout state is owned by `BreakpointProvider` in
-`utils/client/BreakpointContext.jsx`, mounted in `app/client/client.jsx`.
+`app/hooks/BreakpointContext.jsx`, mounted in `app/client/client.jsx`.
 Functional consumers use `useBreakpoint()` from that module. Breakpoints are
 `small` below 400px, `medium` from 400px to below 900px, and `large` from 900px.
 `DesktopOrMobile` calls only the selected render callback (`large` uses

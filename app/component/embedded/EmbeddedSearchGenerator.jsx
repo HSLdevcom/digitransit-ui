@@ -5,7 +5,7 @@ import { useConfigContext } from '../../client/ConfigContext';
 import EmbeddedSearch from './EmbeddedSearch';
 import { EMBEDDED_SEARCH_PATH } from '../../../utils/shared/path';
 import { getRefPoint } from '../../../utils/client/apiUtils';
-import { useBreakpoint } from '../../../utils/client/BreakpointContext';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import {
   withSearchContext,
   getLocationSearchTargets,

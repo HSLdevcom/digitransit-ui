@@ -7,7 +7,7 @@ import { useConfigContext } from '../../../client/ConfigContext';
 import { getTransportModes } from '../../../../utils/client/modeUtils';
 import { TrafficNowTransportModes } from '../../../../utils/shared/constants';
 import Icon from '../../Icon';
-import { useBreakpoint } from '../../../../utils/client/BreakpointContext';
+import { useBreakpoint } from '../../../hooks/BreakpointContext';
 
 const VehicleModesFilter = ({ filterId }) => {
   const config = useConfigContext();

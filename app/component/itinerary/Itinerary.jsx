@@ -34,7 +34,7 @@ import {
   isTomorrow,
   timeStr,
 } from '../../../utils/client/timeUtils';
-import { useBreakpoint } from '../../../utils/client/BreakpointContext';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { getItineraryPagePath, streetHash } from '../../../utils/shared/path';

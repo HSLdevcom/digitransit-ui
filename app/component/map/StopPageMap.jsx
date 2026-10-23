@@ -20,7 +20,7 @@ import CookieSettingsButton from '../CookieSettingsButton';
 import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../../utils/shared/path';
 import { streetQuery } from './StreetQuery';
 import { useConfigContext } from '../../client/ConfigContext';
-import { useBreakpoint } from '../../../utils/client/BreakpointContext';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { STOP_STATUS } from '../../../utils/client/stopStatusUtils';
 
 const getMode = (stop, citybike, parkType, scooter) => {

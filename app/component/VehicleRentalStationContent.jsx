@@ -9,7 +9,7 @@ import {
 import VehicleRentalStation from './VehicleRentalStation';
 import Disclaimer from './Disclaimer';
 import ParkOrStationHeader from './ParkOrStationHeader';
-import { useBreakpoint } from '../../utils/client/BreakpointContext';
+import { useBreakpoint } from '../hooks/BreakpointContext';
 import { getRentalNetworkConfig } from '../../utils/shared/vehicleRentalUtils';
 import { PREFIX_BIKESTATIONS } from '../../utils/shared/path';
 import { TransportMode } from '../../utils/shared/constants';

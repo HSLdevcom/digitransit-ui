@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import Snackbar from '../../../app/component/Snackbar';
-import { BreakpointContext } from '../../../utils/client/BreakpointContext';
+import { BreakpointContext } from '../../../app/hooks/BreakpointContext';
 import { renderWithProviders } from '../helpers/mock-providers';
 
 describe('<Snackbar />', () => {

@@ -15,7 +15,7 @@ import TrafficNow from '../../../../app/component/trafficnow/TrafficNow';
 import AlertsQuery from '../../../../app/component/trafficnow/queries/AlertsQuery';
 import CanceledTripsOverviewQuery from '../../../../app/component/trafficnow/queries/CanceledTripsOverviewQuery';
 import CanceledTripsForModeQuery from '../../../../app/component/trafficnow/queries/CanceledTripsForModeQuery';
-import * as breakpointContext from '../../../../utils/client/BreakpointContext';
+import * as breakpointContext from '../../../../app/hooks/BreakpointContext';
 
 const baseConfig = createTestConfig({
   colors: { primary: '#007ac9' },

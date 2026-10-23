@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import OriginDestinationBar from './OriginDestinationBar';
 import SearchSettings from './SearchSettings';
 import { streetHash } from '../../../utils/shared/path';
-import { useBreakpoint } from '../../../utils/client/BreakpointContext';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import BackButton from '../BackButton';
 
 function ItineraryPageControls({ toggleSettings }) {
