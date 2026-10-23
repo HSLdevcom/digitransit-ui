@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-util/digitransit-util-day-range-allowed-diff",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "digitransit-util digitransit-util-day-range-allowed-diff module",
   "type": "module",
   "main": "index.js",
