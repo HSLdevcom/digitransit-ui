@@ -34,7 +34,7 @@ const ParkInfo = ({ mode }) => {
         closable
         onClose={handleClose}
       />
-      <div style={{ height: '8px' }} />
+      <div style={{ height: '22px' }} />
     </>
   );
 };
