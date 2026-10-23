@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
@@ -10,17 +9,14 @@ import {
 import VehicleRentalStation from './VehicleRentalStation';
 import Disclaimer from './Disclaimer';
 import ParkOrStationHeader from './ParkOrStationHeader';
-import withBreakpoint from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../hooks/BreakpointContext';
 import { getRentalNetworkConfig } from '../../utils/shared/vehicleRentalUtils';
 import { PREFIX_BIKESTATIONS } from '../../utils/shared/path';
 import { TransportMode } from '../../utils/shared/constants';
 import { useConfigContext } from '../client/ConfigContext';
 
-const VehicleRentalStationContent = ({
-  vehicleRentalStation,
-  breakpoint,
-  error,
-}) => {
+const VehicleRentalStationContent = ({ vehicleRentalStation, error }) => {
+  const breakpoint = useBreakpoint();
   const config = useConfigContext();
   const { router } = useRouter();
   // throw error when relay query fails
@@ -90,32 +86,35 @@ const VehicleRentalStationContent = ({
 
 VehicleRentalStationContent.propTypes = {
   vehicleRentalStation: vehicleRentalStationShape.isRequired,
-  breakpoint: PropTypes.string.isRequired,
   error: errorShape,
 };
 
-const VRCWithBreakpoint = withBreakpoint(VehicleRentalStationContent);
+const containerComponent = createFragmentContainer(
+  VehicleRentalStationContent,
+  {
+    vehicleRentalStation: graphql`
+      fragment VehicleRentalStationContent_vehicleRentalStation on VehicleRentalStation {
+        lat
+        lon
+        name
+        availableVehicles {
+          total
+        }
+        availableSpaces {
+          total
+        }
+        capacity
+        rentalNetwork {
+          networkId
+        }
+        stationId
+        operative
+      }
+    `,
+  },
+);
 
-const containerComponent = createFragmentContainer(VRCWithBreakpoint, {
-  vehicleRentalStation: graphql`
-    fragment VehicleRentalStationContent_vehicleRentalStation on VehicleRentalStation {
-      lat
-      lon
-      name
-      availableVehicles {
-        total
-      }
-      availableSpaces {
-        total
-      }
-      capacity
-      rentalNetwork {
-        networkId
-      }
-      stationId
-      operative
-    }
-  `,
-});
-
-export { containerComponent as default, VRCWithBreakpoint as Component };
+export {
+  containerComponent as default,
+  VehicleRentalStationContent as Component,
+};

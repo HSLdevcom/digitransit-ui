@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import StopCode from './StopCode';
-import { useBreakpoint } from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../hooks/BreakpointContext';
 import BackButton from './BackButton';
 import { getJson } from '../../utils/shared/xhrPromise';
 import getZoneId from '../../utils/client/zoneIconUtils';

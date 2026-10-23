@@ -4,7 +4,6 @@ import { createPaginationContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { relayShape } from '../../../utils/client/shapes';
 import StopNearYouContainer from './StopNearYouContainer';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
 import {
   sortNearYouRentalStations,
   sortNearYouStops,
@@ -229,10 +228,8 @@ NearYouContainer.propTypes = {
   favouriteIds: PropTypes.object,
 };
 
-const NearYouContainerWithBreakpoint = withBreakpoint(NearYouContainer);
-
 const refetchContainer = createPaginationContainer(
-  NearYouContainerWithBreakpoint,
+  NearYouContainer,
   {
     places: graphql`
       fragment NearYouContainer_places on QueryType

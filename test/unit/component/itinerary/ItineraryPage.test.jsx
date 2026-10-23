@@ -23,7 +23,7 @@ vi.mock('react-relay', async importOriginal => {
   };
 });
 
-vi.mock('../../../../utils/client/withBreakpoint', async importOriginal => ({
+vi.mock('../../../../app/hooks/BreakpointContext', async importOriginal => ({
   ...(await importOriginal()),
   useBreakpoint: () => 'large',
 }));

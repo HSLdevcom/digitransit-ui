@@ -2297,17 +2297,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-with-breakpoint@workspace:^, @digitransit-component/digitransit-component-with-breakpoint@workspace:digitransit-component/packages/digitransit-component-with-breakpoint":
-  version: 0.0.0-use.local
-  resolution: "@digitransit-component/digitransit-component-with-breakpoint@workspace:digitransit-component/packages/digitransit-component-with-breakpoint"
-  peerDependencies:
-    hoist-non-react-statics: ^2.5.5
-    lodash: ^4.18.1
-    prop-types: ^15.8.1
-    react: ^18.3.1
-  languageName: unknown
-  linkType: soft
-
 "@digitransit-component/digitransit-component@workspace:digitransit-component/packages/digitransit-component":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component@workspace:digitransit-component/packages/digitransit-component"
@@ -2320,7 +2309,6 @@ __metadata:
     "@digitransit-component/digitransit-component-favourite-modal": "workspace:^"
     "@digitransit-component/digitransit-component-icon": "workspace:^"
     "@digitransit-component/digitransit-component-suggestion-item": "workspace:^"
-    "@digitransit-component/digitransit-component-with-breakpoint": "workspace:^"
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^"
     "@hsl-fi/dialog": ^3.1.3
@@ -2331,7 +2319,6 @@ __metadata:
     "@hsl-fi/shimmer": ^0.1.2
     classnames: ^2.5.1
     downshift: ^9.4.0
-    hoist-non-react-statics: ^2.5.5
     i18next: ^22.5.1
     lodash: ^4.18.1
     luxon: ^3.6.1

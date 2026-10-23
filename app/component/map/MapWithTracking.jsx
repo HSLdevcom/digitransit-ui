@@ -12,7 +12,7 @@ import MapContainer from './MapContainer';
 import MapControlButton from './MapControlButton';
 import MapLayersDialogContent from './MapLayersDialogContent';
 import MenuDrawer from '../MenuDrawer';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { useConfigContext } from '../../client/ConfigContext';
 import { usePosition, usePositionActions } from '../../hooks/PositionContext';
 

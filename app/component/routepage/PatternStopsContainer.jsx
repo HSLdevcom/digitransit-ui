@@ -6,7 +6,7 @@ import cx from 'classnames';
 import { useRouter } from 'found';
 import { routeShape } from '../../../utils/client/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import RouteControlPanel from './RouteControlPanel';
 import { routePagePath } from '../../../utils/shared/path';
 import Error404 from '../404';
@@ -14,7 +14,8 @@ import ScrollableWrapper from '../ScrollableWrapper';
 import { ExtendedRouteTypes } from '../../../utils/shared/constants';
 import { useConfigContext } from '../../client/ConfigContext';
 
-function PatternStopsContainer({ pattern, breakpoint, route }) {
+function PatternStopsContainer({ pattern, route }) {
+  const breakpoint = useBreakpoint();
   const intl = useIntl();
   const config = useConfigContext();
   const { router } = useRouter();
@@ -73,11 +74,10 @@ PatternStopsContainer.propTypes = {
   pattern: PropTypes.shape({
     code: PropTypes.string.isRequired,
   }),
-  breakpoint: PropTypes.string.isRequired,
   route: routeShape.isRequired,
 };
 
-export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
+export default createFragmentContainer(PatternStopsContainer, {
   pattern: graphql`
     fragment PatternStopsContainer_pattern on Pattern
     @argumentDefinitions(

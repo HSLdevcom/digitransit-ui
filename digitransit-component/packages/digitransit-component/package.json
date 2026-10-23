@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component",
-  "version": "8.0.0",
+  "version": "8.1.0",
   "description": "a JavaScript library for Digitransit",
   "type": "module",
   "main": "index.js",
@@ -26,8 +26,7 @@
     "@digitransit-component/digitransit-component-favourite-editing-modal": "workspace:^",
     "@digitransit-component/digitransit-component-favourite-modal": "workspace:^",
     "@digitransit-component/digitransit-component-icon": "workspace:^",
-    "@digitransit-component/digitransit-component-suggestion-item": "workspace:^",
-    "@digitransit-component/digitransit-component-with-breakpoint": "workspace:^"
+    "@digitransit-component/digitransit-component-suggestion-item": "workspace:^"
   },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^",
@@ -39,7 +38,6 @@
     "@hsl-fi/shimmer": "^0.1.2",
     "classnames": "^2.5.1",
     "downshift": "^9.4.0",
-    "hoist-non-react-statics": "^2.5.5",
     "i18next": "^22.5.1",
     "lodash": "^4.18.1",
     "luxon": "^3.6.1",
