@@ -3,7 +3,7 @@ import { renderWithProviders } from '../../../helpers/mock-providers';
 import { createTestConfig } from '../../../helpers/mock-context';
 import NaviCardExtension from '../../../../../app/component/itinerary/navigator/NaviCardExtension';
 import { LEGTYPE } from '../../../../../app/component/itinerary/navigator/NaviUtils';
-import { NaviCardType } from '../../../../../utils/shared/constants';
+import { NaviCardType } from '../../../../../utils/client/constants';
 import { config, tram2, tram3, interlineTime } from './fixtures/interlineLegs';
 
 const baseConfig = createTestConfig();

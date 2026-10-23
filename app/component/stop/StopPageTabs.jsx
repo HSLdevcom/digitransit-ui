@@ -4,20 +4,20 @@ import { FormattedMessage } from 'react-intl';
 import groupBy from 'lodash/groupBy';
 import { useRouter } from 'found';
 import { stopShape } from '../../../utils/client/shapes';
-import { AlertSeverityLevelType } from '../../../utils/shared/constants';
+import { AlertSeverityLevelType } from '../../../utils/client/constants';
 import {
   getAlertsForObject,
   getServiceAlertsForStation,
   getActiveAlertSeverityLevel,
   getUniqueAlerts,
 } from '../../../utils/client/alertUtils';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import { unixTime } from '../../../utils/client/timeUtils';
 import {
   PREFIX_DISRUPTION,
   PREFIX_TIMETABLE,
-  stopPagePath,
 } from '../../../utils/shared/path';
+import { stopPagePath } from '../../../utils/client/path';
 import { filterCanceledCalls } from './Disruptions';
 
 const Tab = {

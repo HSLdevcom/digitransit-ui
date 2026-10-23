@@ -11,7 +11,7 @@ import {
 
 import { fetchWithLanguageAndSubscription } from '../../../../utils/shared/fetchUtils';
 import { getLayerBaseUrl } from '../../../../utils/client/mapLayerUtils';
-import { TransportMode } from '../../../../utils/shared/constants';
+import { TransportMode } from '../../../../utils/client/constants';
 import { getSettings } from '../../../../utils/client/planParamUtil';
 import { createFeatureObjects } from '../../../../utils/client/clusterUtils';
 

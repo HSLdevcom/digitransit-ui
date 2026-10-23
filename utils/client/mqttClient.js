@@ -2,7 +2,7 @@ import ceil from 'lodash/ceil';
 import { DateTime } from 'luxon';
 import { parseFeedMQTT } from './gtfsRtParser';
 import { convertTo24HourFormat } from './timeUtils';
-import { DATE_FORMAT_MQTT } from '../shared/constants';
+import { DATE_FORMAT_MQTT } from './constants';
 
 const standardModes = ['bus', 'tram', 'ferry'];
 

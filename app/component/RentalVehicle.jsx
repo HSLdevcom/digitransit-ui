@@ -3,7 +3,7 @@ import Icon from './Icon';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
-} from '../../utils/shared/vehicleRentalUtils';
+} from '../../utils/client/vehicleRentalUtils';
 import { rentalVehicleShape } from '../../utils/client/shapes';
 import { useConfigContext } from '../client/ConfigContext';
 

@@ -1,10 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { getTripOrRouteMode } from './modeUtils';
 import { BIKEAVL_UNKNOWN } from '../shared/vehicleRentalUtils';
-import {
-  ExtendedRouteTypes,
-  OtpCornerNamingPattern,
-} from '../shared/constants';
+import { ExtendedRouteTypes, OtpCornerNamingPattern } from './constants';
 import { stopCallTime } from './timeUtils';
 
 /**
@@ -731,30 +728,6 @@ export function getZones(legs) {
     }
   }
   return Object.keys(zones).sort();
-}
-
-export function getRoutes(legs) {
-  if (!Array.isArray(legs)) {
-    return [];
-  }
-
-  const routes = {};
-  legs.forEach(leg => {
-    if (leg.route && leg.route.agency && leg.transitLeg) {
-      const { route } = leg;
-      const { agency } = route;
-      routes[route.gtfsId] = {
-        agency: {
-          fareUrl: agency.fareUrl,
-          gtfsId: agency.gtfsId,
-          name: agency.name,
-        },
-        gtfsId: route.gtfsId,
-        longName: route.longName,
-      };
-    }
-  });
-  return Object.keys(routes).map(key => ({ ...routes[key] }));
 }
 
 export function getHeadsignFromRouteLongName(route) {

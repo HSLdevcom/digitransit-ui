@@ -3,7 +3,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import SettingsToggle from './SettingsToggle';
 import Icon from '../../Icon';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../utils/client/analyticsUtils';
 import { settingsShape } from '../../../../utils/client/shapes';
 
 export default function AccessibilityOptions({ settings, updateSettings }) {

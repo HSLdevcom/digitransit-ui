@@ -9,7 +9,7 @@ import Link from 'found/Link';
 import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
 import relay from 'react-relay';
-import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
+import { initAnalyticsClientSide } from '../../../utils/client/analyticsUtils';
 
 // set up timezone in luxon
 Settings.defaultZone = 'Europe/Helsinki';

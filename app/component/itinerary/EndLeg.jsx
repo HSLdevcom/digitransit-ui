@@ -6,7 +6,7 @@ import { useMatch } from 'found';
 import { stopShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { parseLocation } from '../../../utils/shared/path';
+import { parseLocation } from '../../../utils/client/path';
 import { timeStr } from '../../../utils/client/timeUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */

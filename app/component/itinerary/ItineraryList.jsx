@@ -15,8 +15,8 @@ import {
 import ItineraryListHeader from './ItineraryListHeader';
 import ItinerariesNotFound from './ItinerariesNotFound';
 import Loading from '../Loading';
-import { streetHash } from '../../../utils/shared/path';
-import { getIntermediatePlaces } from '../../../utils/shared/otpStrings';
+import { streetHash } from '../../../utils/client/path';
+import { getIntermediatePlaces } from '../../../utils/client/otpStrings';
 import { ItineraryListPlanEdges } from './queries/ItineraryListPlanEdges';
 import { useConfigContext } from '../../client/ConfigContext';
 

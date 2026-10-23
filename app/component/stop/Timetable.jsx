@@ -16,9 +16,9 @@ import TimetableRow from './TimetableRow';
 import {
   DATE_FORMAT,
   RealtimeStateType,
-} from '../../../utils/shared/constants';
+} from '../../../utils/client/constants';
 import SecondaryButton from '../SecondaryButton';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import DateSelect from './DateSelect';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { replaceQueryParams } from '../../../utils/client/queryUtils';

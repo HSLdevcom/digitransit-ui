@@ -6,6 +6,8 @@ import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
   getVehicleCapacity,
+} from '../../utils/client/vehicleRentalUtils';
+import {
   BIKEAVL_UNKNOWN,
   BIKEAVL_WITHMAX,
 } from '../../utils/shared/vehicleRentalUtils';

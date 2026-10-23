@@ -4,7 +4,7 @@ import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
 import { legShape } from '../../../utils/client/shapes';
-import { ViaLocationType } from '../../../utils/shared/constants';
+import { ViaLocationType } from '../../../utils/client/constants';
 
 const ItineraryCircleLineLong = ({
   index,

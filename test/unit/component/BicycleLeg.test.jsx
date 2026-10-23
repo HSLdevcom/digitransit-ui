@@ -2,7 +2,7 @@ import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { createTestConfig } from '../helpers/mock-context';
 import BicycleLeg from '../../../app/component/itinerary/BicycleLeg';
-import { RentalNetworkType } from '../../../utils/shared/vehicleRentalUtils';
+import { RentalNetworkType } from '../../../utils/client/vehicleRentalUtils';
 
 const baseConfig = createTestConfig({
   defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },

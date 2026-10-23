@@ -2,7 +2,7 @@ import {
   getClosestPoint,
   isMultiPointTypeGeometry,
   isPointTypeGeometry,
-} from '../../../../utils/shared/geo-utils';
+} from '../../../../utils/client/geo-utils';
 
 describe('geo-utils', () => {
   describe('isMultiPointTypeGeometry', () => {

@@ -7,7 +7,7 @@ import { useConfigContext } from '../../client/ConfigContext';
 import {
   getRentalNetworkConfig,
   getRentalNetworkId,
-} from '../../../utils/shared/vehicleRentalUtils';
+} from '../../../utils/client/vehicleRentalUtils';
 import Disclaimer from '../Disclaimer';
 
 const CityBikeInfo = () => {

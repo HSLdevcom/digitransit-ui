@@ -34,19 +34,19 @@ import {
   isTomorrow,
   timeStr,
 } from '../../../utils/client/timeUtils';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import { getItineraryPagePath, streetHash } from '../../../utils/shared/path';
+import withBreakpoint from '../../hooks/withBreakpoint';
+import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
+import { getItineraryPagePath, streetHash } from '../../../utils/client/path';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
-} from '../../../utils/shared/vehicleRentalUtils';
+} from '../../../utils/client/vehicleRentalUtils';
 import { getSummaryDescriptionText } from '../../../utils/client/localeUtils';
 import getCo2Value from '../../../utils/client/emissions';
 import { ItineraryFragment } from './queries/ItineraryFragment';
 import { getTicketString } from '../../../utils/client/fareUtils';
-import { ViaLocationType } from '../../../utils/shared/constants';
+import { ViaLocationType } from '../../../utils/client/constants';
 import { useConfigContext } from '../../client/ConfigContext';
 import FirstLegStartTime from './FirstLegStartTime';
 import { normalizeLegLengths } from './itineraryLegProcessor';

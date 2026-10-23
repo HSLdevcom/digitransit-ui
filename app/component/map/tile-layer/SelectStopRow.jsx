@@ -4,12 +4,12 @@ import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
 import StopScheduleStatus from '../../stop/StopScheduleStatus';
-import { stopPagePath } from '../../../../utils/shared/path';
+import { stopPagePath } from '../../../../utils/client/path';
 import {
   getStopMode,
   transitIconName,
 } from '../../../../utils/client/modeUtils';
-import { getModeIconColor } from '../../../../utils/shared/colorUtils';
+import { getModeIconColor } from '../../../../utils/client/colorUtils';
 import getStopStatus, {
   combineStopStatuses,
 } from '../../../../utils/client/stopStatusUtils';

@@ -8,7 +8,7 @@ import {
 import { mockContext } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { setReadMessageIds } from '../../../utils/client/localStorage';
-import { AlertSeverityLevelType } from '../../../utils/shared/constants';
+import { AlertSeverityLevelType } from '../../../utils/client/constants';
 
 const defaultProps = {
   getServiceAlertsAsync: async () => [],

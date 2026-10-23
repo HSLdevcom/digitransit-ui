@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import { useIntl } from 'react-intl';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
 import { hasCitybikes } from '../../utils/client/modeUtils';
 import {
   PREFIX_ITINERARY_SUMMARY,
-  PREFIX_STOPS,
   PREFIX_ROUTES,
+  PREFIX_STOPS,
 } from '../../utils/shared/path';
 import searchContext from '../data/SearchContext';
 import { removeSearch, saveSearch } from '../data/SearchHistory';

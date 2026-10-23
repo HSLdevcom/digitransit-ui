@@ -5,7 +5,7 @@ import { renderWithProviders } from '../helpers/mock-providers';
 import {
   AlertSeverityLevelType,
   AlertEntityType,
-} from '../../../utils/shared/constants';
+} from '../../../utils/client/constants';
 import Disruptions from '../../../app/component/stop/Disruptions';
 
 const renderDisruptions = props =>

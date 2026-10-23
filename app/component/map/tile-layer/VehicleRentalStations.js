@@ -14,8 +14,8 @@ import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   getVehicleCapacity,
-  BIKEAVL_UNKNOWN,
-} from '../../../../utils/shared/vehicleRentalUtils';
+} from '../../../../utils/client/vehicleRentalUtils';
+import { BIKEAVL_UNKNOWN } from '../../../../utils/shared/vehicleRentalUtils';
 import { fetchWithLanguageAndSubscription } from '../../../../utils/shared/fetchUtils';
 import { getLayerBaseUrl } from '../../../../utils/client/mapLayerUtils';
 

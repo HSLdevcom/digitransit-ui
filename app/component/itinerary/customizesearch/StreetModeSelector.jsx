@@ -5,7 +5,7 @@ import { settingsShape } from '../../../../utils/client/shapes';
 import SettingsToggle from './SettingsToggle';
 import Icon from '../../Icon';
 import BikingSpeed from './BikingSpeed';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../utils/client/analyticsUtils';
 import { useConfigContext } from '../../../client/ConfigContext';
 
 export default function StreetModeSelector({ settings, updateSettings }) {

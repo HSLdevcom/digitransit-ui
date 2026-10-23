@@ -10,7 +10,7 @@ import {
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
-} from '../../../utils/shared/vehicleRentalUtils';
+} from '../../../utils/client/vehicleRentalUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 
 export default function StreetBar({

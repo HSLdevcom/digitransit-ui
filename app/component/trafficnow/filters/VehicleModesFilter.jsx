@@ -5,9 +5,9 @@ import cx from 'classnames';
 import { useFilterContext } from './FiltersContext';
 import { useConfigContext } from '../../../client/ConfigContext';
 import { getTransportModes } from '../../../../utils/client/modeUtils';
-import { TrafficNowTransportModes } from '../../../../utils/shared/constants';
+import { TrafficNowTransportModes } from '../../../../utils/client/constants';
 import Icon from '../../Icon';
-import { useBreakpoint } from '../../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../hooks/withBreakpoint';
 
 const VehicleModesFilter = ({ filterId }) => {
   const config = useConfigContext();

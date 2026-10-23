@@ -11,7 +11,7 @@ import {
   IndoorLegType,
   IndoorStepType,
   VerticalDirection,
-} from '../../../utils/shared/constants';
+} from '../../../utils/client/constants';
 import ItineraryMapAction from './ItineraryMapAction';
 
 function IndoorStep({

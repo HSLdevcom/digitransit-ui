@@ -7,7 +7,7 @@ import {
   getReadMessageIds,
   setReadMessageId,
 } from '../../../../utils/client/localStorage';
-import { TransportMode } from '../../../../utils/shared/constants';
+import { TransportMode } from '../../../../utils/client/constants';
 import { useConfigContext } from '../../../client/ConfigContext';
 
 export default function Scooters({ updateSettings }) {

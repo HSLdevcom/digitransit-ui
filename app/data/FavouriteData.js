@@ -20,8 +20,8 @@ import {
 import {
   mapVehicleRentalFromStore,
   mapVehicleRentalToStore,
-} from '../../utils/shared/vehicleRentalUtils';
-import { networkIsActive } from '../../utils/shared/citybikeSeasonUtils';
+} from '../../utils/client/vehicleRentalUtils';
+import { networkIsActive } from '../../utils/client/citybikeSeasonUtils';
 
 // internal data model for vehicle rental stations has changed
 // however, data is stored in old form for compatibility

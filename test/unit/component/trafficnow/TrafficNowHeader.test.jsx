@@ -2,7 +2,7 @@ import React from 'react';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
 import TrafficNowHeader from '../../../../app/component/trafficnow/TrafficNowHeader';
-import * as withBreakpoint from '../../../../utils/client/withBreakpoint';
+import * as withBreakpoint from '../../../../app/hooks/withBreakpoint';
 import * as assetUrl from '../../../../app/assets/assetUrl';
 
 // found's <Link> is globally stubbed (test/unit/helpers/vitest.setup.js) to render only

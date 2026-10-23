@@ -4,7 +4,7 @@ import { createPaginationContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { relayShape } from '../../../utils/client/shapes';
 import StopNearYouContainer from './StopNearYouContainer';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import withBreakpoint from '../../hooks/withBreakpoint';
 import {
   sortNearYouRentalStations,
   sortNearYouStops,

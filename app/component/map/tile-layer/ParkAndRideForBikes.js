@@ -1,5 +1,5 @@
 import ParkAndRide from './ParkAndRide';
-import { ParkTypes } from '../../../../utils/shared/constants';
+import { ParkTypes } from '../../../../utils/client/constants';
 
 export default class ParkAndRideForBikes extends ParkAndRide {
   constructor(tile, config, mapLayers, relayEnvironment, lang) {

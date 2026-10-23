@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { coordsDiff } from '../../utils/shared/path';
+import { coordsDiff } from '../../utils/client/path';
 import {
   useOrigin,
   useDestination,

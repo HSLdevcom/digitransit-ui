@@ -7,7 +7,7 @@ import PersonalizeAgainModal from './PersonalizeAgainModal';
 import Snackbar from '../../Snackbar';
 import LoginPrompt from '../../LoginPrompt';
 import Icon from '../../Icon';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../utils/client/analyticsUtils';
 import { isPersonalizationEnabled } from '../../../../utils/client/modeUtils';
 import { settingsShape } from '../../../../utils/client/shapes';
 import { useConfigContext } from '../../../client/ConfigContext';

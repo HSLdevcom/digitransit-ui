@@ -22,7 +22,7 @@ import {
   prepareDatesForStops,
   prepareDatesForStopTabs,
 } from '../../utils/client/dateParamUtils';
-import { DATE_FORMAT } from '../../utils/shared/constants';
+import { DATE_FORMAT } from '../../utils/client/constants';
 
 // Future window (90 days) used to detect whether the stop has any upcoming
 // departures for the schedule-status badge shown on the stop page map.

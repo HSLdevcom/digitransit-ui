@@ -4,7 +4,7 @@ import Protobuf from 'pbf';
 
 import { drawParkAndRideIcon } from '../../../../utils/client/mapIconUtils';
 import { fetchWithLanguageAndSubscription } from '../../../../utils/shared/fetchUtils';
-import { ParkTypes } from '../../../../utils/shared/constants';
+import { ParkTypes } from '../../../../utils/client/constants';
 import { getLayerBaseUrl } from '../../../../utils/client/mapLayerUtils';
 
 const showParking = 15;

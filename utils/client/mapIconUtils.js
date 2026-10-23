@@ -2,9 +2,9 @@ import memoize from 'lodash/memoize';
 import ReactDOMServer from 'react-dom/server';
 import glfun from './glfun';
 import { transitIconName } from './modeUtils';
-import { getModeIconColor } from '../shared/colorUtils';
+import { getModeIconColor } from './colorUtils';
 import { STOP_STATUS_BADGE_IMGS } from './stopStatusUtils';
-import { ParkTypes, TransportMode } from '../shared/constants';
+import { ParkTypes, TransportMode } from './constants';
 
 /**
  * Corresponds to an arc forming a full circle (Math.PI * 2).
@@ -280,32 +280,6 @@ function drawIconImage(image, tile, geom, width, height) {
     image,
     geom.x / tile.ratio - width / 2,
     geom.y / tile.ratio - height / 2,
-  );
-}
-
-function calculateIconBadgePosition(
-  coord,
-  tile,
-  imageSize,
-  badgeSize,
-  scaleratio,
-) {
-  return coord / tile.ratio - imageSize / 2 - badgeSize / 2 + 2 * scaleratio;
-}
-
-function drawIconImageBadge(
-  image,
-  tile,
-  geom,
-  imageSize,
-  badgeSize,
-  scaleratio,
-) {
-  drawImageSafely(
-    tile,
-    image,
-    calculateIconBadgePosition(geom.x, tile, imageSize, badgeSize, scaleratio),
-    calculateIconBadgePosition(geom.y, tile, imageSize, badgeSize, scaleratio),
   );
 }
 
@@ -853,37 +827,6 @@ export function drawParkAndRideIcon(
       },
     );
   }
-}
-
-export function drawAvailabilityBadge(
-  availability,
-  tile,
-  geom,
-  imageSize,
-  badgeSize,
-  scaleratio,
-) {
-  if (
-    availability !== 'good' &&
-    availability !== 'poor' &&
-    availability !== 'no'
-  ) {
-    throw Error("Supported badges are 'good', 'poor', and 'no'");
-  }
-
-  getImageFromSpriteCache(
-    `icon_${availability}-availability`,
-    badgeSize,
-    badgeSize,
-  ).then(image => {
-    drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio);
-  });
-}
-
-export function drawIcon(icon, tile, geom, imageSize) {
-  return getImageFromSpriteCache(icon, imageSize, imageSize).then(image => {
-    drawIconImage(image, tile, geom, imageSize, imageSize);
-  });
 }
 
 export function renderAsString(children) {

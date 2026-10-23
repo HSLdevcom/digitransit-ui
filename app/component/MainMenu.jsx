@@ -6,7 +6,7 @@ import { useRouter } from 'found';
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
 import Toggle from './Toggle';
 import { getCountries, setCountries } from '../../utils/client/localStorage';
 import { TRAFFICNOW } from '../../utils/shared/path';

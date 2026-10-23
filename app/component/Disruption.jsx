@@ -7,11 +7,8 @@ import cx from 'classnames';
 import Icon from './Icon';
 import DisruptionBadge from './trafficnow/DisruptionBadge';
 import { useConfigContext } from '../client/ConfigContext';
-import {
-  PREFIX_DISRUPTION,
-  routePagePath,
-  stopPagePath,
-} from '../../utils/shared/path';
+import { PREFIX_DISRUPTION } from '../../utils/shared/path';
+import { routePagePath, stopPagePath } from '../../utils/client/path';
 import IconBackground from './icon/IconBackground';
 import { getRouteMode, transitIconName } from '../../utils/client/modeUtils';
 import {
@@ -23,7 +20,7 @@ import {
   AlertEntityType,
   AlertSeverityLevelType,
   LocationTypes,
-} from '../../utils/shared/constants';
+} from '../../utils/client/constants';
 
 const statusText = (effectiveStartDate, intl) => {
   if (!effectiveStartDate) {

@@ -6,7 +6,7 @@ import { mockContext } from '../../../helpers/mock-context';
 import TileLayerContainer, {
   sendSelectionAnalytics,
 } from '../../../../../app/component/map/tile-layer/TileLayerContainer';
-import * as analytics from '../../../../../utils/shared/analyticsUtils';
+import * as analytics from '../../../../../utils/client/analyticsUtils';
 import { TimeContext } from '../../../../../app/hooks/TimeContext';
 
 describe('<TileLayerContainer />', () => {

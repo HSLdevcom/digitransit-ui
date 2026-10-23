@@ -20,10 +20,10 @@ import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../../utils/client/mapLayerUtils';
 import { useRealTimeInformation } from '../../../hooks/RealTimeInformationContext';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-import { getClientBreakpoint } from '../../../../utils/client/withBreakpoint';
+import { addAnalyticsEvent } from '../../../../utils/client/analyticsUtils';
+import { getClientBreakpoint } from '../../../hooks/withBreakpoint';
+import { stopPagePath } from '../../../../utils/client/path';
 import {
-  stopPagePath,
   PREFIX_BIKESTATIONS,
   PREFIX_CARPARK,
   PREFIX_BIKEPARK,

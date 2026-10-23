@@ -5,7 +5,7 @@ import { createTestConfig } from '../../helpers/mock-context';
 import { FilterContextProvider } from '../../../../app/component/trafficnow/filters/FiltersContext';
 import DisruptionCard from '../../../../app/component/trafficnow/DisruptionCard';
 import * as trafficNowUtils from '../../../../app/component/trafficnow/utils';
-import { AlertSeverityLevelType } from '../../../../utils/shared/constants';
+import { AlertSeverityLevelType } from '../../../../utils/client/constants';
 
 const baseConfig = createTestConfig({
   colors: { primary: '#007ac9' },

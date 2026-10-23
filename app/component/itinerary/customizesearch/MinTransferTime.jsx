@@ -4,7 +4,7 @@ import {
   settingsShape,
   minTransferTimeShape,
 } from '../../../../utils/client/shapes';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../utils/client/analyticsUtils';
 import SearchSettingsDropdown from './SearchSettingsDropdown';
 
 export default function MinTransferTime({

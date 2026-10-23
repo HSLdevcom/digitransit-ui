@@ -8,9 +8,9 @@ import { DateTime } from 'luxon';
 import Error404 from '../component/404';
 import {
   PREFIX_DISRUPTION,
-  PREFIX_ROUTES,
   PREFIX_STOPS,
   PREFIX_TIMETABLE,
+  PREFIX_ROUTES,
 } from '../../utils/shared/path';
 import {
   getDefault,
@@ -28,7 +28,7 @@ import {
   prepareScheduleParamsWithFiveWeeks,
   prepareScheduleParamsWithTenWeeks,
 } from '../component/routepage/schedule/scheduleParamUtils';
-import { withRouteContext } from '../../utils/client/RouteContext';
+import { withRouteContext } from '../hooks/RouteContext';
 
 export default function routeRoutes(config) {
   const showTenWeeks = config.showTenWeeksOnRouteSchedule || false;

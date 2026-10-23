@@ -5,8 +5,8 @@ import { alertShape } from '../../utils/client/shapes';
 import { isAlertValid } from '../../utils/client/alertUtils';
 import DisruptionBannerAlert from './DisruptionBannerAlert';
 import SwipeableTabs from './SwipeableTabs';
-import withBreakpoint from '../../utils/client/withBreakpoint';
-import { AlertEntityType } from '../../utils/shared/constants';
+import withBreakpoint from '../hooks/withBreakpoint';
+import { AlertEntityType } from '../../utils/client/constants';
 import { useCurrentTime } from '../hooks/TimeContext';
 
 const DisruptionBanner = ({ alerts, mode, breakpoint }) => {

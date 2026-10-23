@@ -3,7 +3,7 @@ import { renderWithProviders } from '../helpers/mock-providers';
 import DepartureTime, {
   fromStopTime,
 } from '../../../app/component/routepage/DepartureTime';
-import { RealtimeStateType } from '../../../utils/shared/constants';
+import { RealtimeStateType } from '../../../utils/client/constants';
 
 describe('<DepartureTime />', () => {
   describe('fromStopTime', () => {

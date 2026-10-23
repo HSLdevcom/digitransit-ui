@@ -22,13 +22,10 @@ import {
   tripHasCancelationForStop,
 } from '../../../utils/client/alertUtils';
 import { modeToTranslationId } from '../../../utils/client/modeUtils';
-import {
-  PREFIX_DISRUPTION,
-  routePagePath,
-  stopPagePath,
-} from '../../../utils/shared/path';
+import { PREFIX_DISRUPTION } from '../../../utils/shared/path';
+import { routePagePath, stopPagePath } from '../../../utils/client/path';
 import { durationToString } from '../../../utils/client/timeUtils';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import {
   getHeadsignFromRouteLongName,
   getStopHeadsignFromStoptimes,
@@ -42,11 +39,11 @@ import {
   isLocalCallAgency,
 } from '../../../utils/client/legUtils';
 import { shouldShowFareInfo } from '../../../utils/client/fareUtils';
-import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
+import { splitStringToAddressAndPlace } from '../../../utils/client/otpStrings';
 import {
   AlertEntityType,
   AlertSeverityLevelType,
-} from '../../../utils/shared/constants';
+} from '../../../utils/client/constants';
 import { legShape } from '../../../utils/client/shapes';
 import ZoneIcon from '../ZoneIcon';
 import StopInfo from './StopInfo';

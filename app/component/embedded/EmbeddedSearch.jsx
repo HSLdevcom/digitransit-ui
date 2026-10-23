@@ -15,12 +15,12 @@ import {
   buildURL,
   getIndexPath,
   getPathWithEndpointObjects,
-  PREFIX_ITINERARY_SUMMARY,
-} from '../../../utils/shared/path';
+} from '../../../utils/client/path';
+import { PREFIX_ITINERARY_SUMMARY } from '../../../utils/shared/path';
 import getAssetUrl from '../../assets/assetUrl';
 import Icon from '../Icon';
 import Loading from '../Loading';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import useUTMCampaignParams from './hooks/useUTMCampaignParams';
 import { locationToOTP } from '../../../utils/shared/otpStrings';
 import { useConfigContext } from '../../client/ConfigContext';

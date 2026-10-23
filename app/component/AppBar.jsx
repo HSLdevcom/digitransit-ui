@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import Icon from './Icon';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
 import MainMenuContainer from './MainMenuContainer';
 import MessageBar from './MessageBar';
 import LogoSmall from './LogoSmall';

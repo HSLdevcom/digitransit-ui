@@ -3,7 +3,8 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import sortBy from 'lodash/sortBy';
 import { useRouter } from 'found';
 import { routeShape } from '../../../utils/client/shapes';
-import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
+import { routePagePath } from '../../../utils/client/path';
+import { PREFIX_STOPS } from '../../../utils/shared/path';
 import Error404 from '../404';
 import {
   getOldSearchItems,

@@ -4,7 +4,7 @@ import DTAutoSuggest from '@digitransit-component/digitransit-component-autosugg
 import { filterSearchResultsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { useRouter } from 'found';
 import { withSearchContext } from '../WithSearchContext';
-import { getStopRoutePath } from '../../../utils/shared/path';
+import { getStopRoutePath } from '../../../utils/client/path';
 import { useConfigContext } from '../../client/ConfigContext';
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);

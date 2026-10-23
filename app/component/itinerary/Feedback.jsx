@@ -7,7 +7,7 @@ import { Text } from '@hsl-fi/layout-primitives';
 import { ArrowLink } from '@hsl-fi/navigation';
 import Icon from '../Icon';
 import { useConfigContext } from '../../client/ConfigContext';
-import { getLoginPath } from '../../../utils/shared/path';
+import { getLoginPath } from '../../../utils/client/path';
 
 const ANIMATION_MS = 1200;
 

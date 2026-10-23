@@ -8,7 +8,7 @@ import {
 } from '../../../../../utils/client/indoorUtils';
 import NaviIndoorStepInfo from './NaviIndoorStepInfo';
 import NaviIndoorButton from './NaviIndoorButton';
-import { NaviCardType } from '../../../../../utils/shared/constants';
+import { NaviCardType } from '../../../../../utils/client/constants';
 
 export default function NaviIndoorButtonContainer({
   currentCard = NaviCardType.Default,

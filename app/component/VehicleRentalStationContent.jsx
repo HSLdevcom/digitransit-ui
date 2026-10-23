@@ -10,10 +10,10 @@ import {
 import VehicleRentalStation from './VehicleRentalStation';
 import Disclaimer from './Disclaimer';
 import ParkOrStationHeader from './ParkOrStationHeader';
-import withBreakpoint from '../../utils/client/withBreakpoint';
-import { getRentalNetworkConfig } from '../../utils/shared/vehicleRentalUtils';
+import withBreakpoint from '../hooks/withBreakpoint';
+import { getRentalNetworkConfig } from '../../utils/client/vehicleRentalUtils';
 import { PREFIX_BIKESTATIONS } from '../../utils/shared/path';
-import { TransportMode } from '../../utils/shared/constants';
+import { TransportMode } from '../../utils/client/constants';
 import { useConfigContext } from '../client/ConfigContext';
 
 const VehicleRentalStationContent = ({

@@ -21,11 +21,13 @@ import {
   parseLocation,
   sameLocations,
   definesItinerarySearch,
+} from '../../utils/client/path';
+import {
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
 } from '../../utils/shared/path';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
-import { useBreakpoint } from '../../utils/client/withBreakpoint';
+import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
+import { useBreakpoint } from '../hooks/withBreakpoint';
 import useGeomoverSync from '../hooks/useGeomoverSync';
 import scrollTop from '../../utils/client/scroll';
 import { getRefPoint } from '../../utils/client/apiUtils';

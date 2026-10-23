@@ -5,7 +5,7 @@ import { component as Itinerary } from '../../../../../app/component/itinerary/I
 import {
   AlertSeverityLevelType,
   ExtendedRouteTypes,
-} from '../../../../../utils/shared/constants';
+} from '../../../../../utils/client/constants';
 import { mockContext } from '../../../helpers/mock-context';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { ignoreRelayModernSelectorWarning } from '../../../helpers/relay-selector-warning';

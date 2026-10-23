@@ -13,8 +13,8 @@ import {
   getValidatedLegName,
   isCallAgencyLeg,
 } from '../../../utils/client/legUtils';
-import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
-import { ViaLocationType } from '../../../utils/shared/constants';
+import { splitStringToAddressAndPlace } from '../../../utils/client/otpStrings';
+import { ViaLocationType } from '../../../utils/client/constants';
 import { useConfigContext } from '../../client/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */

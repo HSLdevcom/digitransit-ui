@@ -12,7 +12,7 @@ import {
   setMapLayerSettings,
 } from '../../utils/client/localStorage';
 import { showRentalVehiclesOfType } from '../../utils/client/modeUtils';
-import { TransportMode } from '../../utils/shared/constants';
+import { TransportMode } from '../../utils/client/constants';
 import { useConfigContext } from '../client/ConfigContext';
 
 const MapLayerContext = createContext(null);

@@ -1,4 +1,4 @@
-import { pathJoin } from '../../../../utils/shared/path';
+import { pathJoin } from '../../../../utils/client/path';
 
 describe('path', () => {
   describe('pathJoin()', () => {

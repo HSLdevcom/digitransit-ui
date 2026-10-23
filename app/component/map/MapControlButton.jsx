@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Icon from '../Icon';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
+import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
 
 export default function MapControlButton({
   handleClick,

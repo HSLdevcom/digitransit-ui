@@ -7,9 +7,9 @@ import values from 'lodash/values';
 import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
 import { tripShape } from '../../../utils/client/shapes';
 import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
-import { getModeIconColor } from '../../../utils/shared/colorUtils';
+import { getModeIconColor } from '../../../utils/client/colorUtils';
 import TripRouteStop from './TripRouteStop';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/withBreakpoint';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import { useConfigContext } from '../../client/ConfigContext';
 

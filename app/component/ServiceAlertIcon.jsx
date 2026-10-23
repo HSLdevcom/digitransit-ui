@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Icon from './Icon';
-import { AlertSeverityLevelType } from '../../utils/shared/constants';
+import { AlertSeverityLevelType } from '../../utils/client/constants';
 
 const ServiceAlertIcon = ({ className, severityLevel, color }) => {
   if (!severityLevel) {

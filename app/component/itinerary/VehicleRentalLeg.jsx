@@ -8,14 +8,14 @@ import {
   vehicleRentalStationShape,
   rentalVehicleShape,
 } from '../../../utils/client/shapes';
+import { BIKEAVL_UNKNOWN } from '../../../utils/shared/vehicleRentalUtils';
 import {
-  BIKEAVL_UNKNOWN,
   getVehicleCapacity,
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   hasVehicleRentalCode,
-} from '../../../utils/shared/vehicleRentalUtils';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+} from '../../../utils/client/vehicleRentalUtils';
+import withBreakpoint from '../../hooks/withBreakpoint';
 import Icon from '../Icon';
 import { PREFIX_BIKESTATIONS } from '../../../utils/shared/path';
 import {

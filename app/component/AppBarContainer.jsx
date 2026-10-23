@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useRouter } from 'found';
 import { FormattedMessage } from 'react-intl';
-import withBreakpoint from '../../utils/client/withBreakpoint';
+import withBreakpoint from '../hooks/withBreakpoint';
 import { useFavourites } from '../hooks/FavouriteContext';
 import AppBar from './AppBar';
 import AppBarHsl from './AppBarHsl';

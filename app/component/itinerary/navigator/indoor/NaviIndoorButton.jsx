@@ -3,8 +3,8 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import Icon from '../../../Icon';
-import { isKeyboardSelectionEvent } from '../../../../../utils/shared/browser';
-import { NaviCardType } from '../../../../../utils/shared/constants';
+import { isKeyboardSelectionEvent } from '../../../../../utils/client/browser';
+import { NaviCardType } from '../../../../../utils/client/constants';
 
 export default function NaviIndoorButton({
   currentCard = NaviCardType.Default,

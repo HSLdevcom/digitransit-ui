@@ -12,7 +12,7 @@ import RoutePatternSelectContainer from './RoutePatternSelectContainer';
 import {
   DATE_FORMAT,
   ExtendedRouteTypes,
-} from '../../../utils/shared/constants';
+} from '../../../utils/client/constants';
 import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import {
   getCancelationsForRoute,
@@ -21,14 +21,14 @@ import {
   getActiveAlertSeverityLevel,
 } from '../../../utils/client/alertUtils';
 import { isActiveDate } from '../../../utils/client/patternUtils';
+import { routePagePath } from '../../../utils/client/path';
 import {
-  routePagePath,
   PREFIX_DISRUPTION,
   PREFIX_STOPS,
   PREFIX_TIMETABLE,
 } from '../../../utils/shared/path';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import { isIOS } from '../../../utils/shared/browser';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
+import { isIOS } from '../../../utils/client/browser';
 import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
 import { saveSearch } from '../../data/SearchHistory';
 import { splitGtfsId } from '../../../utils/shared/gtfs';

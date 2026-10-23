@@ -10,7 +10,7 @@ import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from '../RouteNumber';
 import RouteControlPanel from './RouteControlPanel';
 import { PREFIX_ROUTES, PREFIX_DISRUPTION } from '../../../utils/shared/path';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import withBreakpoint from '../../hooks/withBreakpoint';
 import BackButton from '../BackButton';
 import {
   getRouteMode,
@@ -19,7 +19,7 @@ import {
 import {
   getModeIconColor,
   ensureColorAccessibleOnWhite,
-} from '../../../utils/shared/colorUtils';
+} from '../../../utils/client/colorUtils';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RouteNotificationButton from './RouteNotificationButton';
 import { useConfigContext } from '../../client/ConfigContext';

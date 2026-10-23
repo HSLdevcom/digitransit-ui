@@ -4,7 +4,7 @@ import { createTestConfig } from '../../helpers/mock-context';
 import RouteBadges from '../../../../app/component/trafficnow/RouteBadges';
 import * as FiltersContext from '../../../../app/component/trafficnow/filters/FiltersContext';
 import * as trafficNowUtils from '../../../../app/component/trafficnow/utils';
-import { AlertEntityType } from '../../../../utils/shared/constants';
+import { AlertEntityType } from '../../../../utils/client/constants';
 
 const baseConfig = createTestConfig({
   colors: { primary: '#007ac9' },

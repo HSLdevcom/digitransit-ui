@@ -6,10 +6,7 @@ import distance from '@digitransit-search-util/digitransit-search-util-distance'
 import { useRouter } from 'found';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';
-import {
-  DesktopOrMobile,
-  useBreakpoint,
-} from '../../../utils/client/withBreakpoint';
+import { DesktopOrMobile, useBreakpoint } from '../../hooks/withBreakpoint';
 import { otpToLocation, locationToUri } from '../../../utils/shared/otpStrings';
 import Loading from '../Loading';
 import StopNearYouContainer from './StopNearYouContainer';
@@ -25,7 +22,7 @@ import { PREFIX_NEARYOU } from '../../../utils/shared/path';
 import NearYouContainer from './NearYouContainer';
 import SwipeableTabs, { setFocusables } from '../SwipeableTabs';
 import NearYouFavourites from './NearYouFavourites';
-import { getDefaultNetworks } from '../../../utils/shared/vehicleRentalUtils';
+import { getDefaultNetworks } from '../../../utils/client/vehicleRentalUtils';
 import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import {
   getTransportModes,

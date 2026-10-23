@@ -5,7 +5,7 @@ import Link from 'found/Link';
 import { legTimeShape } from '../../../utils/client/shapes';
 import { legTimeStr } from '../../../utils/client/legUtils';
 import ZoneIcon from '../ZoneIcon';
-import { stopPagePath } from '../../../utils/shared/path';
+import { stopPagePath } from '../../../utils/client/path';
 import Icon from '../Icon';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 import { useConfigContext } from '../../client/ConfigContext';

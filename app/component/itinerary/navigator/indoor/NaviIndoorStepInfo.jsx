@@ -9,9 +9,9 @@ import {
 import {
   IndoorStepType,
   VerticalDirection,
-} from '../../../../../utils/shared/constants';
+} from '../../../../../utils/client/constants';
 import ItineraryMapAction from '../../ItineraryMapAction';
-import { isKeyboardSelectionEvent } from '../../../../../utils/shared/browser';
+import { isKeyboardSelectionEvent } from '../../../../../utils/client/browser';
 
 function NaviIndoorStepInfo({
   focusAction,

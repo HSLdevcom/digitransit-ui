@@ -10,7 +10,7 @@ import {
   useFavouriteActions,
 } from '../hooks/FavouriteContext';
 import { useMessageActions } from '../hooks/MessageContext';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
 import { failedFavouriteMessage } from '../../utils/client/messageUtils';
 import { useConfigContext } from '../client/ConfigContext';
 

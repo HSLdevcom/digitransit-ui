@@ -7,7 +7,7 @@ import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   hasVehicleRentalCode,
-} from '../../../../utils/shared/vehicleRentalUtils';
+} from '../../../../utils/client/vehicleRentalUtils';
 import { splitGtfsId } from '../../../../utils/shared/gtfs';
 import { useConfigContext } from '../../../client/ConfigContext';
 

@@ -6,7 +6,7 @@ import { withLeaflet } from 'react-leaflet';
 import polyUtil from 'polyline-encoded';
 import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { getMiddleOf } from '../../../utils/shared/geo-utils';
+import { getMiddleOf } from '../../../utils/client/geo-utils';
 import {
   getInterliningLegs,
   getTripOrRouteText,
@@ -32,7 +32,7 @@ import {
   IndoorStepType,
   IndoorLegType,
   WheelchairBoarding,
-} from '../../../utils/shared/constants';
+} from '../../../utils/client/constants';
 import {
   getEntranceObject,
   getEntranceWheelchairAccessibility,

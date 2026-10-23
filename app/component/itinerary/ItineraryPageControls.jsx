@@ -4,8 +4,8 @@ import { useRouter } from 'found';
 import { FormattedMessage } from 'react-intl';
 import OriginDestinationBar from './OriginDestinationBar';
 import SearchSettings from './SearchSettings';
-import { streetHash } from '../../../utils/shared/path';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { streetHash } from '../../../utils/client/path';
+import withBreakpoint from '../../hooks/withBreakpoint';
 import BackButton from '../BackButton';
 
 function ItineraryPageControls({ breakpoint, toggleSettings }) {

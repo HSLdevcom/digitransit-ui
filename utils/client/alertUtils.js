@@ -1,11 +1,10 @@
 import isNumber from 'lodash/isNumber';
-import routeNameCompare from '@digitransit-search-util/digitransit-search-util-route-name-compare';
 
 import {
   RealtimeStateType,
   AlertSeverityLevelType,
   AlertEntityType,
-} from '../shared/constants';
+} from './constants';
 
 import { legTime } from './legUtils';
 
@@ -197,18 +196,6 @@ export const getCancelationsForRoute = (
 };
 
 /**
- * Retrieves canceled stoptimes for the given stop.
- *
- * @param {*} stop the stop to get cancelations for.
- */
-export const getCancelationsForStop = stop => {
-  if (!stop || !Array.isArray(stop.stoptimes)) {
-    return [];
-  }
-  return stop.stoptimes.filter(stoptimeHasCancelation);
-};
-
-/**
  * Retrieves Service Alerts from the given object (or an empty list if no alerts exist).
  * Falsy alerts are left out.
  *
@@ -329,27 +316,6 @@ export const checkActiveDisruptions = (
 };
 
 /**
- * Compares the given alert entities in order to sort them based route shortName
- * or the stop name (and code).
- *
- * @param {*} entityA the first entity to compare.
- * @param {*} entityB the second entity to compare.
- */
-export const entityCompare = (entityA, entityB) => {
-  if (entityA.shortName) {
-    return routeNameCompare(entityA, entityB);
-  }
-  const nameCompare = `${entityA.name}`.localeCompare(entityB.name);
-  if (nameCompare !== 0) {
-    return nameCompare;
-  }
-  if (entityA.code && entityB.code) {
-    return `${entityA.code}`.localeCompare(entityB.code);
-  }
-  return nameCompare;
-};
-
-/**
  * Compares the given alerts in order to sort them based on severity level.
  * The most severe alerts are sorted first.
  *
@@ -370,57 +336,6 @@ export const alertSeverityCompare = (a, b) => {
   return severityLevelDifference;
 };
 
-/**
- * Compares the given alerts in order to sort them based on the severity,
- * entities and the validity period (in that order).
- *
- * @param {*} alertA the first alert to compare.
- * @param {*} alertB the second alert to compare.
- */
-export const alertCompare = (alertA, alertB) => {
-  const severityScore = alertSeverityCompare(alertA, alertB);
-  if (severityScore !== 0) {
-    return severityScore;
-  }
-
-  if (!alertA.entities && alertA.entities.length > 0) {
-    return 1;
-  }
-  if (!alertB.entities && alertB.entities.length > 0) {
-    return -1;
-  }
-  const aEntitiesSorted = [...alertA.entities].sort(entityCompare);
-  const bEntitiesSorted = [...alertB.entities].sort(entityCompare);
-  const bestEntitiesCompared = entityCompare(
-    aEntitiesSorted[0],
-    bEntitiesSorted[0],
-  );
-  return bestEntitiesCompared === 0
-    ? alertA.effectiveStartDate - alertB.effectiveStartDate
-    : bestEntitiesCompared;
-};
-
-/**
- * Checks whether the alert to be displayed has meaningful data (header or description) or not.
- * Used to decide whether to render the box for the alert or not.
- * @param {*} alerts list of alerts.
- */
-export const hasMeaningfulData = alerts => {
-  if (!isValidArray(alerts)) {
-    return false;
-  }
-  const alertForDisplaying = [...alerts].sort(alertSeverityCompare)[0];
-  const header = alertForDisplaying.alertHeaderText;
-  const description = alertForDisplaying.alertDescriptionText;
-  if (
-    (header && header.length > 0) ||
-    (description && description.length > 0)
-  ) {
-    return true;
-  }
-  return false;
-};
-
 export const mapAlertSource = (config, lang, feedName) => {
   if (config.sourceForAlertsAndDisruptions?.[feedName]) {
     return config.sourceForAlertsAndDisruptions[feedName][lang].concat(': ');
@@ -437,19 +352,6 @@ export const mapAlertSource = (config, lang, feedName) => {
 export const hasEntitiesOfType = (alert, entityType) =>
   // eslint-disable-next-line no-underscore-dangle
   alert?.entities?.some(entity => entity.__typename === entityType);
-
-/**
- * Checks if the alert has at least one entity of the given entity type.
- *
- * @param {*} alert the alert which can contain entities.
- * @param {Array.<String>} entityTypes the entity type of which at least one
- *                                     should exist in the alert.
- */
-export const hasEntitiesOfTypes = (alert, entityTypes) =>
-  alert?.entities?.some(entity =>
-    // eslint-disable-next-line no-underscore-dangle
-    entityTypes.includes(entity.__typename),
-  );
 
 /**
  * Sets the given entity to be the only entity on an alert.

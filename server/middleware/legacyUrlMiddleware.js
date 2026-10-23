@@ -1,5 +1,5 @@
-import legacyParamParser from '../../utils/shared/legacyParamParser.js';
-import { LEGACY_LOCALES } from '../../utils/shared/constants.js';
+import legacyParamParser from '../../utils/server/legacyParamParser.js';
+import { LEGACY_LOCALES } from '../../utils/server/constants.js';
 import { getConfiguration } from '../configs/config.js';
 
 function formatQuery(query) {

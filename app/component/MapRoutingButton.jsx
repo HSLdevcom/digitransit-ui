@@ -8,8 +8,8 @@ import { locationToUri, locationToOTP } from '../../utils/shared/otpStrings';
 import {
   getPathWithEndpointObjects,
   getItineraryPagePath,
-  PREFIX_ITINERARY_SUMMARY,
-} from '../../utils/shared/path';
+} from '../../utils/client/path';
+import { PREFIX_ITINERARY_SUMMARY } from '../../utils/shared/path';
 import { useConfigContext } from '../client/ConfigContext';
 
 export default function MapRoutingButton({ stop }) {

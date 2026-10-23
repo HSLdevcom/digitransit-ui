@@ -1,7 +1,7 @@
 import debounce from 'lodash/debounce';
-import { getJson } from '../../utils/shared/xhrPromise';
+import { reverseGeocode } from '../../utils/client/geocodingUtils';
 import { geolocationMessages } from '../../utils/client/geolocationMessages';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
 import { messageActions } from '../hooks/MessageContext';
 
 const MOCKPOS = false;
@@ -27,40 +27,9 @@ export function createPositionService(config, dispatch, getPosition) {
   let disposed = false;
 
   function reverseGeocodeAddress(coords) {
-    const searchParams = {
-      'point.lat': coords.latitude,
-      'point.lon': coords.longitude,
-      lang: config.language,
-      size: 1,
-      layers: 'address',
-    };
-
-    if (config.searchParams['boundary.country']) {
-      searchParams['boundary.country'] =
-        config.searchParams['boundary.country'];
-    }
-
-    getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams)
-      .then(data => {
-        if (data.features != null && data.features.length > 0) {
-          const match = data.features[0].properties;
-          dispatch({
-            type: 'address-found',
-            location: {
-              address: match.name,
-              gid: match.gid,
-              name: match.name,
-              layer: match.layer,
-              city: match.localadmin || match.locality,
-            },
-          });
-        } else {
-          dispatch({ type: 'address-found', location: {} });
-        }
-      })
-      .catch(() => {
-        dispatch({ type: 'address-found', location: {} });
-      });
+    reverseGeocode(config, coords)
+      .then(location => dispatch({ type: 'address-found', location }))
+      .catch(() => dispatch({ type: 'address-found', location: {} }));
   }
 
   const debouncedReverseGeocoding = debounce(reverseGeocodeAddress, 10000, {

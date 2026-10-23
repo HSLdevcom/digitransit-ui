@@ -10,7 +10,7 @@ import {
 import DepartureListContainer from '../DepartureListContainer';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { getPrimaryStopMode } from '../../../utils/client/modeUtils';
-import { getModeIconColor } from '../../../utils/shared/colorUtils';
+import { getModeIconColor } from '../../../utils/client/colorUtils';
 import StopServiceStatusBanner from './StopServiceStatusBanner';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import { useConfigContext } from '../../client/ConfigContext';

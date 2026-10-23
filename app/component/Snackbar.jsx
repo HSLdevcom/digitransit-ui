@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from './Icon';
-import withBreakpoint from '../../utils/client/withBreakpoint';
+import withBreakpoint from '../hooks/withBreakpoint';
 import { useConfigContext } from '../client/ConfigContext';
 
 /**

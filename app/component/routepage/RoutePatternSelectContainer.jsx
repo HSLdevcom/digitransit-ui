@@ -13,13 +13,14 @@ import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import { routeShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../client/ConfigContext';
-import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
+import { routePagePath } from '../../../utils/client/path';
+import { PREFIX_STOPS } from '../../../utils/shared/path';
 import RoutePatternSelect from './RoutePatternSelect';
 import RoutePatternHeader from './RoutePatternHeader';
 import {
   getModeIconColor,
   ensureColorAccessibleOnWhite,
-} from '../../../utils/shared/colorUtils';
+} from '../../../utils/client/colorUtils';
 import { getRouteMode } from '../../../utils/client/modeUtils';
 
 function filterSimilarRoutes(routes, currentRoute) {

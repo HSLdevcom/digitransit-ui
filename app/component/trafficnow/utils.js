@@ -8,8 +8,8 @@ import {
   AlertEntityType,
   LocationTypes,
   TrafficNowTransportModes,
-} from '../../../utils/shared/constants';
-import { stopPagePath, routePagePath } from '../../../utils/shared/path';
+} from '../../../utils/client/constants';
+import { stopPagePath, routePagePath } from '../../../utils/client/path';
 
 const sortAlphaNumeric = (a, b) => {
   const first = typeof a === 'string' ? a.toLowerCase() : a.toString();

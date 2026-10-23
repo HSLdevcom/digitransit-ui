@@ -8,12 +8,12 @@ import {
   mapLayerShape,
 } from '../../../utils/client/shapes';
 import Checkbox from '../Checkbox';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import {
   getTransportModes,
   showRentalVehiclesOfType,
 } from '../../../utils/client/modeUtils';
-import { TransportMode } from '../../../utils/shared/constants';
+import { TransportMode } from '../../../utils/client/constants';
 import { useConfigContext } from '../../client/ConfigContext';
 import useGeoJsonObjects from '../../hooks/useGeoJsonObjects';
 import { useMapLayers } from '../../hooks/MapLayerContext';

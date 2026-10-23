@@ -1,9 +1,9 @@
 import * as modeUtils from '../../../../utils/client/modeUtils';
-import * as pathUtils from '../../../../utils/shared/path';
+import * as pathUtils from '../../../../utils/client/path';
 import {
   AlertEntityType,
   LocationTypes,
-} from '../../../../utils/shared/constants';
+} from '../../../../utils/client/constants';
 import {
   getAvailableModes,
   groupEntitiesByMode,
