@@ -1,14 +1,16 @@
+import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { useFragment } from 'react-relay';
 import sortBy from 'lodash/sortBy';
 import { useRouter } from 'found';
-import { routeShape } from '../../../utils/client/shapes';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import Error404 from '../404';
 import {
   getOldSearchItems,
   saveOldSearchItems,
 } from '../../data/SearchHistory';
+import { routeShape } from '../../../utils/client/shapes';
+import PatternRedirectorFragment from './queries/PatternRedirectorFragment';
 
 const PatternRedirector = ({ route }) => {
   const { router, match } = useRouter();
@@ -51,8 +53,9 @@ PatternRedirector.propTypes = {
   route: routeShape.isRequired,
 };
 
-const PatternRedirectorGuard = ({ route = null }) => {
+const PatternRedirectorGuard = ({ route: routeRef = null }) => {
   const { match } = useRouter();
+  const route = useFragment(PatternRedirectorFragment, routeRef);
   if (!route) {
     const oldSearchItems = getOldSearchItems();
     const oldItem = oldSearchItems.filter(
@@ -77,21 +80,7 @@ const PatternRedirectorGuard = ({ route = null }) => {
 };
 
 PatternRedirectorGuard.propTypes = {
-  route: routeShape,
+  route: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
-const containerComponent = createFragmentContainer(PatternRedirectorGuard, {
-  route: graphql`
-    fragment PatternRedirector_route on Route
-    @argumentDefinitions(date: { type: "String" }) {
-      patterns {
-        code
-        trips: tripsForDate(serviceDate: $date) {
-          gtfsId
-        }
-      }
-    }
-  `,
-});
-
-export default containerComponent;
+export default PatternRedirectorGuard;

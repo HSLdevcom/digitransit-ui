@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useContext } from 'react';
 import {
-  createRefetchContainer,
+  useFragment,
   fetchQuery,
   graphql,
   ReactRelayContext,
@@ -11,7 +11,6 @@ import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
 import cx from 'classnames';
 import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
-import { routeShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../client/ConfigContext';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import RoutePatternSelect from './RoutePatternSelect';
@@ -21,6 +20,7 @@ import {
   ensureColorAccessibleOnWhite,
 } from '../../../utils/shared/colorUtils';
 import { getRouteMode } from '../../../utils/client/modeUtils';
+import RoutePatternSelectContainerFragment from './queries/RoutePatternSelectContainerFragment';
 
 function filterSimilarRoutes(routes, currentRoute) {
   const withoutCurrent = routes.filter(
@@ -66,7 +66,7 @@ export function getPatternOptions(patterns, serviceTimeRange) {
 }
 
 function RoutePatternSelectContainer({
-  route,
+  route: routeRef,
   onSelectChange,
   gtfsId,
   className,
@@ -74,6 +74,7 @@ function RoutePatternSelectContainer({
   const config = useConfigContext();
   const intl = useIntl();
   const { environment: relayEnvironment } = useContext(ReactRelayContext);
+  const route = useFragment(RoutePatternSelectContainerFragment, routeRef);
 
   const { router, match } = useRouter();
   const { params } = match;
@@ -228,50 +229,9 @@ function RoutePatternSelectContainer({
 
 RoutePatternSelectContainer.propTypes = {
   className: PropTypes.string.isRequired,
-  route: routeShape.isRequired,
+  route: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onSelectChange: PropTypes.func.isRequired,
   gtfsId: PropTypes.string.isRequired,
 };
 
-const withStore = createRefetchContainer(
-  RoutePatternSelectContainer,
-  {
-    route: graphql`
-      fragment RoutePatternSelectContainer_route on Route
-      @argumentDefinitions(date: { type: "String" }) {
-        shortName
-        mode
-        type
-        color
-        gtfsId
-        patterns {
-          code
-          directionId
-          headsign
-          stops {
-            name
-          }
-          activeDates: trips {
-            serviceId
-            day: activeDates
-          }
-          tripsForDate: tripsForDate(serviceDate: $date) {
-            stoptimes: stoptimesForDate(serviceDate: $date) {
-              scheduledDeparture
-              serviceDay
-            }
-          }
-        }
-      }
-    `,
-  },
-  graphql`
-    query RoutePatternSelectContainerQuery($routeId: String!, $date: String!) {
-      route(id: $routeId) {
-        ...RoutePatternSelectContainer_route @arguments(date: $date)
-      }
-    }
-  `,
-);
-
-export { withStore as default, RoutePatternSelectContainer as Component };
+export default RoutePatternSelectContainer;

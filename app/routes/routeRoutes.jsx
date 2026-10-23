@@ -62,7 +62,7 @@ export default function routeRoutes(config) {
             $date: String!
           ) {
             route(id: $routeId) {
-              ...PatternRedirector_route @arguments(date: $date)
+              ...PatternRedirectorFragment_route @arguments(date: $date)
             }
           }
         `}
@@ -82,7 +82,7 @@ export default function routeRoutes(config) {
               query={graphql`
                 query routeRoutes_RouteTitle_Query($routeId: String!) {
                   route(id: $routeId) {
-                    ...RouteTitle_route
+                    ...RouteTitleFragment_route
                   }
                 }
               `}
@@ -123,7 +123,7 @@ export default function routeRoutes(config) {
                   $cancelationEndDate: OffsetDateTime!
                 ) {
                   route(id: $routeId) {
-                    ...RoutePage_route
+                    ...RoutePageFragment_route
                       @arguments(
                         date: $date
                         cancelationStartDate: $cancelationStartDate
@@ -208,7 +208,7 @@ export default function routeRoutes(config) {
                     $cancelationEndDate: OffsetDateTime!
                   ) {
                     pattern(id: $patternId) {
-                      ...PatternStopsContainer_pattern
+                      ...PatternStopsContainerFragment_pattern
                         @arguments(
                           patternId: $patternId
                           currentTime: $currentTime
@@ -217,7 +217,7 @@ export default function routeRoutes(config) {
                         )
                     }
                     route(id: $routeId) {
-                      ...PatternStopsContainer_route
+                      ...PatternStopsContainerFragment_route
                         @arguments(
                           date: $date
                           cancelationStartDate: $cancelationStartDate
@@ -248,17 +248,17 @@ export default function routeRoutes(config) {
                     $cancelationEndDate: OffsetDateTime!
                   ) {
                     pattern(id: $patternId) {
-                      ...TripStopsContainer_pattern
+                      ...TripStopsContainerFragment_pattern
                     }
                     trip(id: $tripId) {
-                      ...TripStopsContainer_trip
+                      ...TripStopsContainerFragment_trip
                         @arguments(
                           startOfDay: $startOfDay
                           showStopStatusMarkers: $showStopStatusMarkers
                         )
                     }
                     route(id: $routeId) {
-                      ...TripStopsContainer_route
+                      ...TripStopsContainerFragment_route
                         @arguments(
                           date: $date
                           cancelationStartDate: $cancelationStartDate

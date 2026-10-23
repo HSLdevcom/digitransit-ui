@@ -1,17 +1,32 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
-import { QueryRenderer, graphql } from 'react-relay';
+import React, { Suspense } from 'react';
+import { graphql } from 'react-relay';
+import { useLazyLoadQuery } from 'react-relay/hooks';
 import Link from 'found/Link';
 import cx from 'classnames';
-import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import VehicleIcon from '../VehicleIcon';
 import TripLinkWithScroll from './TripLinkWithScroll';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { vehicleShape } from '../../../utils/client/shapes';
 
-function TripLink({ vehicleState, vehicle, shortName, ...rest }) {
-  const { environment } = useContext(ReactRelayContext);
+function TripLinkQuery({ vehicleState, vehicle, shortName, ...rest }) {
+  const { trip } = useLazyLoadQuery(
+    graphql`
+      query TripLinkQuery($id: String!) {
+        trip: trip(id: $id) {
+          gtfsId
+          pattern {
+            code
+          }
+          route {
+            gtfsId
+          }
+        }
+      }
+    `,
+    { id: vehicle.tripId },
+  );
   const icon = (
     <VehicleIcon
       className={cx(vehicle.mode, 'tail-icon')}
@@ -22,72 +37,68 @@ function TripLink({ vehicleState, vehicle, shortName, ...rest }) {
       color={vehicle.color}
     />
   );
-  return (
-    <QueryRenderer
-      query={graphql`
-        query TripLinkQuery($id: String!) {
-          trip: trip(id: $id) {
-            gtfsId
-            pattern {
-              code
-            }
-            route {
-              gtfsId
-            }
-          }
-        }
-      `}
-      variables={{
-        id: vehicle.tripId,
-      }}
-      environment={environment}
-      render={({ props }) => {
-        if (!props?.trip) {
-          return <span className="route-now-content">{icon}</span>;
-        }
-        if (rest.setHumanScrolling) {
-          return (
-            <TripLinkWithScroll
-              {...rest}
-              vehicleState={vehicleState}
-              tripId={props.trip.gtfsId}
-            />
-          );
-        }
 
-        const route = props.trip.route.gtfsId;
-        const pattern = props.trip.pattern.code;
-        const trip = props.trip.gtfsId;
-        return (
-          <Link
-            to={routePagePath(route, PREFIX_STOPS, pattern, trip)}
-            className="route-now-content"
-            onClick={() => {
-              addAnalyticsEvent({
-                category: 'Route',
-                action: 'OpenTripInformation',
-                name: vehicle.mode.toUpperCase(),
-              });
-            }}
-          >
-            {icon}
-          </Link>
-        );
+  if (!trip) {
+    return <span className="route-now-content">{icon}</span>;
+  }
+  if (rest.setHumanScrolling) {
+    return (
+      <TripLinkWithScroll
+        {...rest}
+        vehicleState={vehicleState}
+        tripId={trip.gtfsId}
+      />
+    );
+  }
+
+  const route = trip.route.gtfsId;
+  const pattern = trip.pattern.code;
+  const tripId = trip.gtfsId;
+  return (
+    <Link
+      to={routePagePath(route, PREFIX_STOPS, pattern, tripId)}
+      className="route-now-content"
+      onClick={() => {
+        addAnalyticsEvent({
+          category: 'Route',
+          action: 'OpenTripInformation',
+          name: vehicle.mode.toUpperCase(),
+        });
       }}
+    >
+      {icon}
+    </Link>
+  );
+}
+
+TripLinkQuery.propTypes = {
+  vehicle: vehicleShape.isRequired,
+  shortName: PropTypes.string,
+  vehicleState: PropTypes.string,
+};
+
+function TripLink(props) {
+  const { vehicle, shortName } = props;
+  const fallbackIcon = (
+    <VehicleIcon
+      className={cx(vehicle.mode, 'tail-icon')}
+      mode={vehicle.mode}
+      rotate={180}
+      vehicleNumber={vehicle.shortName || shortName}
+      useLargeIcon
+      color={vehicle.color}
     />
+  );
+  return (
+    <Suspense
+      fallback={<span className="route-now-content">{fallbackIcon}</span>}
+    >
+      <TripLinkQuery {...props} />
+    </Suspense>
   );
 }
 
 TripLink.propTypes = {
-  trip: PropTypes.shape({
-    gtfsId: PropTypes.string,
-    route: PropTypes.shape({
-      gtfsId: PropTypes.string,
-    }),
-    pattern: PropTypes.shape({
-      code: PropTypes.string,
-    }),
-  }),
   vehicle: vehicleShape.isRequired,
   shortName: PropTypes.string,
   vehicleState: PropTypes.string,
