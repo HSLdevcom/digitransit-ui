@@ -101,7 +101,8 @@ right one by *who consumes the code*, not just by convenience.
 
 - `yarn lint` — eslint (Airbnb config + jsx-a11y + compat + prettier) + `prettier-styles` (scss
   check) + `prettier-icons` (`app/assets/icons/**/*.svg`, via `@prettier/plugin-xml`) + `stylelint`
-  + component-package translation parity check.
+  + component-package translation parity check + workspace-package dependency check
+  (`yarn workspace-packages-dependencies-check`).
 - `yarn format` — auto-fixes: sorts translations (app + component packages), `eslint --fix`,
   prettier styles, prettier icons, stylelint fix.
 - `yarn eslint` / `yarn eslint-fix` for JS only.
@@ -162,6 +163,9 @@ Other structural notes:
 - The `digitransit-*` workspace packages are consumed by the main app but built/versioned
   independently — treat them like semi-external dependencies. See `docs/WorkspacePackages.md`
   for how they're structured, tested, documented, and published.
+  - Their peer ranges are caret ranges of the root's version (e.g. `react` `^18.3.1`). Shared
+    test/build tooling lives only in the root `devDependencies`; package scripts call it via
+    `yarn run -T <bin>`. See "Dependency Classification" in `docs/WorkspacePackages.md`.
 
 ## Server/client boundary
 

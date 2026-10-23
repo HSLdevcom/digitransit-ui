@@ -197,6 +197,7 @@ export const getCancelationsForRoute = (
 
 /**
  * Retrieves Service Alerts from the given object (or an empty list if no alerts exist).
+ * Falsy alerts are left out.
  *
  * @param {Object.<string,*>} object should contain alerts key.
  */
@@ -205,7 +206,7 @@ export const getAlertsForObject = object => {
     return [];
   }
 
-  return object.alerts;
+  return object.alerts.filter(alert => !!alert);
 };
 
 /**
@@ -315,35 +316,6 @@ export const checkActiveDisruptions = (
 };
 
 /**
- * Checks whether the given leg has an active cancelation or an active
- * service alert.
- *
- * @param {Object.<string.*>} leg the itinerary leg to check.
- */
-export const getActiveLegAlertSeverityLevel = leg => {
-  if (!leg) {
-    return undefined;
-  }
-
-  if (legHasCancelation(leg)) {
-    return AlertSeverityLevelType.Warning;
-  }
-
-  const { route } = leg;
-
-  const serviceAlerts = [
-    ...getAlertsForObject(route),
-    ...getAlertsForObject(leg?.from?.stop),
-    ...getAlertsForObject(leg?.to?.stop),
-  ];
-
-  return getActiveAlertSeverityLevel(
-    serviceAlerts,
-    legTime(leg.start) / 1000, // this field is in ms format
-  );
-};
-
-/**
  * Compares the given alerts in order to sort them based on severity level.
  * The most severe alerts are sorted first.
  *
@@ -372,16 +344,6 @@ export const mapAlertSource = (config, lang, feedName) => {
 };
 
 /**
- * Returns entities of only the given entity type from an alert.
- *
- * @param {*} alert the alert which can contain entities.
- * @param {String} entityType the entity type.
- */
-export const getEntitiesOfTypeFromAlert = (alert, entityType) =>
-  // eslint-disable-next-line no-underscore-dangle
-  alert?.entities?.filter(entity => entity.__typename === entityType);
-
-/**
  * Checks if the alert has at least one entity of the given entity type.
  *
  * @param {*} alert the alert which can contain entities.
@@ -402,49 +364,68 @@ export const setEntityForAlert = (alert, entity) => {
 };
 
 /**
- * Returns an array of currently active alerts for the legs' route and origin/destination stops
+ * Checks if the alert is in effect at any point between the given leg start
+ * and end times. Alerts that start during the leg count as well.
+ */
+const isAlertValidDuringLeg = (alert, legStartTime, legEndTime) =>
+  isAlertValid(alert, legStartTime, { isFutureValid: true }) &&
+  !(isNumber(legEndTime) && alert.effectiveStartDate > legEndTime);
+
+/**
+ * Narrows the entities of the alert to the given route/stop so that links built
+ * from the first entity point to it. Falls back to all entities of the type
+ * when none match, e.g. an alert that targets the parent station.
+ */
+const withEntitiesOf = (entityType, gtfsId) => alert => {
+  // eslint-disable-next-line no-underscore-dangle
+  const ofType = alert.entities?.filter(e => e.__typename === entityType);
+  const matching = ofType?.filter(entity => entity.gtfsId === gtfsId);
+  return { ...alert, entities: matching?.length ? matching : ofType };
+};
+
+/**
+ * Returns an array of currently active alerts of the leg: alerts of its route
+ * and origin/destination stops.
  *
  * @param {*} leg the itinerary leg to check.
- * @param {*} legStartTime the reference unix time stamp (in seconds).
+ * @param {*} legStartTime the leg start unix time stamp (in seconds).
  */
 export const getActiveLegAlerts = (leg, legStartTime) => {
   if (!leg) {
     return undefined;
   }
 
-  const { route } = leg;
+  const legEndTime = leg.end ? legTime(leg.end) / 1000 : undefined;
 
-  const serviceAlerts = [
-    ...getAlertsForObject(route).map(alert => {
-      return {
-        ...alert,
-        entities: getEntitiesOfTypeFromAlert(
-          alert,
-          AlertEntityType.Route,
-          entity => entity.gtfsId === route.gtfsId,
-        ),
-      };
-    }),
-    ...getAlertsForObject(leg?.from.stop).map(alert => {
-      return {
-        ...alert,
-        entities: getEntitiesOfTypeFromAlert(
-          alert,
-          AlertEntityType.Stop,
-          entity => entity.gtfsId === leg?.from.stop.gtfsId,
-        ),
-      };
-    }),
-    ...getAlertsForObject(leg?.to.stop).map(alert => {
-      return {
-        ...alert,
-        entities: getEntitiesOfTypeFromAlert(
-          alert,
-          AlertEntityType.Stop,
-          entity => entity.gtfsId === leg?.to.stop.gtfsId,
-        ),
-      };
-    }),
-  ].filter(alert => isAlertValid(alert, legStartTime));
-  return serviceAlerts;
+  return [
+    ...getAlertsForObject(leg.route).map(
+      withEntitiesOf(AlertEntityType.Route, leg.route?.gtfsId),
+    ),
+    ...getAlertsForObject(leg.from?.stop).map(
+      withEntitiesOf(AlertEntityType.Stop, leg.from?.stop?.gtfsId),
+    ),
+    ...getAlertsForObject(leg.to?.stop).map(
+      withEntitiesOf(AlertEntityType.Stop, leg.to?.stop?.gtfsId),
+    ),
+  ].filter(alert => isAlertValidDuringLeg(alert, legStartTime, legEndTime));
+};
+
+/**
+ * Returns the highest severity level of the leg's active alerts. A canceled
+ * leg is always a warning. Used for the alert badge of the leg in the
+ * itinerary list.
+ *
+ * @param {Object.<string.*>} leg the itinerary leg to check.
+ */
+export const getActiveLegAlertSeverityLevel = leg => {
+  if (!leg) {
+    return undefined;
+  }
+
+  if (legHasCancelation(leg)) {
+    return AlertSeverityLevelType.Warning;
+  }
+
+  const startTime = legTime(leg.start) / 1000; // legTime is in ms
+  return getMaximumAlertSeverityLevel(getActiveLegAlerts(leg, startTime));
 };

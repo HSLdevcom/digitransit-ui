@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Link from 'found/Link';
 import { useRouter } from 'found';
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
-import Icon from './Icon';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 import { addAnalyticsEvent } from '../../utils/client/analyticsUtils';
@@ -14,7 +13,6 @@ import { TRAFFICNOW } from '../../utils/shared/path';
 import { useConfigContext } from '../client/ConfigContext';
 
 export default function MainMenu({ closeMenu, homeUrl }) {
-  const intl = useIntl();
   const config = useConfigContext();
   const { router } = useRouter();
   const countries = getCountries();
@@ -23,19 +21,6 @@ export default function MainMenu({ closeMenu, homeUrl }) {
 
   return (
     <div className="main-menu no-select" tabIndex={-1}>
-      <div className="main-menu-top-section">
-        <button
-          type="button"
-          onClick={closeMenu}
-          className="close-button cursor-pointer"
-          aria-label={intl.formatMessage({
-            id: 'main-menu-label-close',
-            defaultMessage: 'Close the main menu',
-          })}
-        >
-          <Icon img="icon_close" className="medium" />
-        </button>
-      </div>
       <section className="menu-section">
         <LangSelect />
       </section>

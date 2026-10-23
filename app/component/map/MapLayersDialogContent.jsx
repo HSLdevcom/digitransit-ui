@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { Button, Text } from '@hsl-fi/layout-primitives';
 
 import {
   mapLayerOptionsShape,
   mapLayerShape,
 } from '../../../utils/client/shapes';
-import { isKeyboardSelectionEvent } from '../../../utils/client/browser';
-import Icon from '../Icon';
 import Checkbox from '../Checkbox';
 import { addAnalyticsEvent } from '../../../utils/client/analyticsUtils';
 import {
@@ -29,6 +28,7 @@ const sendLayerChangeAnalytic = (name, enable) => {
 };
 
 function MapLayersDialogContent({ mapLayers, mapLayerOptions, setOpen }) {
+  const intl = useIntl();
   const config = useConfigContext();
   const { updateMapLayers } = useMapLayers();
   const geoJson = useGeoJsonObjects(config.geoJson);
@@ -46,18 +46,9 @@ function MapLayersDialogContent({ mapLayers, mapLayerOptions, setOpen }) {
 
   return (
     <Fragment>
-      <button
-        className="panel-close"
-        onClick={setOpen}
-        onKeyDown={e => isKeyboardSelectionEvent(e) && setOpen()}
-        type="button"
-      >
-        <Icon img="icon_close" />
-      </button>
-
-      <span className="map-layer-header">
+      <Text variant="heading-s" as="h2" className="map-layer-header">
         <FormattedMessage id="select-map-layers-header" />
-      </span>
+      </Text>
 
       <div className="checkbox-grouping" />
 
@@ -239,6 +230,12 @@ function MapLayersDialogContent({ mapLayers, mapLayerOptions, setOpen }) {
           ))}
         </div>
       )}
+
+      <div className="map-layers-close">
+        <Button variant="primary" size="l" expand onClick={setOpen}>
+          {intl.formatMessage({ id: 'close', defaultMessage: 'Close' })}
+        </Button>
+      </div>
     </Fragment>
   );
 }

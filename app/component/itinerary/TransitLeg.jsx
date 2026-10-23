@@ -633,10 +633,7 @@ export default function TransitLeg({
                 hasNoShortName={hasNoShortName}
                 headsign={l.trip.tripHeadsign}
                 isAlternativeLeg
-                alertSeverityLevel={getActiveLegAlertSeverityLevel(
-                  l,
-                  l.start / 1000,
-                )}
+                alertSeverityLevel={getActiveLegAlertSeverityLevel(l)}
                 displayTime
                 isCallAgency={isCallAgency}
                 mobile={mobile}

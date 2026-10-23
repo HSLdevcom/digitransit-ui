@@ -337,16 +337,6 @@ export default function MapWithTracking({
             mapLayerOptions={mapLayerOptions}
             mapLayers={mergedMapLayers}
           />
-          <button
-            type="button"
-            className="desktop-button"
-            onClick={toggleSettingsOpen}
-          >
-            {intl.formatMessage({
-              id: 'close',
-              defaultMessage: 'Close',
-            })}
-          </button>
         </MenuDrawer>
       )}
     </>
