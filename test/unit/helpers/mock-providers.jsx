@@ -20,7 +20,7 @@ import {
 } from '../../../app/hooks/RealTimeInformationContext';
 import translations from '../../../app/translations/en';
 import { mockContext } from './mock-context';
-import { BreakpointContext } from '../../../utils/client/withBreakpoint';
+import { BreakpointContext } from '../../../utils/client/BreakpointContext';
 
 const defaultMessages = translations.en;
 const intlCache = createIntlCache();

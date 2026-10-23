@@ -24,7 +24,7 @@ import routes, { historyMiddlewares, render } from '../routes/routes';
 import ErrorBoundary from '../component/ErrorBoundary';
 import legacyParamParser from '../../utils/shared/legacyParamParser';
 import { LEGACY_LOCALE_PATHS } from '../../utils/shared/constants';
-import { ClientProvider as ClientBreakpointProvider } from '../../utils/client/withBreakpoint';
+import { BreakpointProvider } from '../../utils/client/BreakpointContext';
 import getMetadata from '../../utils/shared/metaUtils';
 import {
   initAnalyticsClientSide,
@@ -54,7 +54,7 @@ const { config } = window;
 const AppProviders = props => {
   const providers = [
     [ConfigProvider, { value: props.config }],
-    [ClientBreakpointProvider],
+    [BreakpointProvider],
     [
       IntlProvider,
       {
