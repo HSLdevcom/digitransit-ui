@@ -4,7 +4,7 @@ import Link from 'found/Link';
 import cx from 'classnames';
 import { Text } from '@hsl-fi/layout-primitives';
 import { Icon, ArrowRightS } from '@hsl-fi/icons';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../utils/client/BreakpointContext';
 import { useConfigContext } from '../../client/ConfigContext';
 import getAssetUrl from '../../assets/assetUrl';
 

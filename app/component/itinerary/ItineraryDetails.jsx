@@ -31,7 +31,7 @@ import {
 import { streetHash } from '../../../utils/shared/path';
 import { itineraryShape, relayShape } from '../../../utils/client/shapes';
 import { getFutureText } from '../../../utils/client/timeUtils';
-import { BreakpointConsumer } from '../../../utils/client/withBreakpoint';
+import { BreakpointConsumer } from '../../../utils/client/BreakpointContext';
 import { getSettings } from '../../../utils/client/planParamUtil';
 import BackButton from '../BackButton';
 import Emissions from './Emissions';

@@ -2,7 +2,7 @@ import React from 'react';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
 import TrafficNowHeader from '../../../../app/component/trafficnow/TrafficNowHeader';
-import * as withBreakpoint from '../../../../utils/client/withBreakpoint';
+import * as breakpointContext from '../../../../utils/client/BreakpointContext';
 import * as assetUrl from '../../../../app/assets/assetUrl';
 
 // found's <Link> is globally stubbed (test/unit/helpers/vitest.setup.js) to render only
@@ -21,7 +21,7 @@ describe('<TrafficNowHeader />', () => {
   beforeEach(() => {
     // sinon can't stub this repo's own ESM exports; vi.spyOn can (auto-
     // restored via the `restoreMocks: true` Vitest config option).
-    vi.spyOn(withBreakpoint, 'useBreakpoint').mockReturnValue('large');
+    vi.spyOn(breakpointContext, 'useBreakpoint').mockReturnValue('large');
     // Outside a webpack build getAssetUrl always returns undefined, so the
     // "logo available" branch has to be stubbed in.
     vi.spyOn(assetUrl, 'default').mockReturnValue(undefined);
@@ -39,7 +39,7 @@ describe('<TrafficNowHeader />', () => {
     });
 
     it('applies --mobile modifier on small breakpoint', () => {
-      withBreakpoint.useBreakpoint.mockReturnValue('small');
+      breakpointContext.useBreakpoint.mockReturnValue('small');
       const { container } = renderHeader();
       expect(
         container.querySelector('.traffic-now__header--mobile'),
@@ -55,7 +55,7 @@ describe('<TrafficNowHeader />', () => {
     });
 
     it('does not render the logo <img> on mobile even when a logo is available', () => {
-      withBreakpoint.useBreakpoint.mockReturnValue('small');
+      breakpointContext.useBreakpoint.mockReturnValue('small');
       assetUrl.default.mockReturnValue('/path/to/header.svg');
       const { container } = renderHeader();
       expect(container.querySelectorAll('img')).toHaveLength(0);

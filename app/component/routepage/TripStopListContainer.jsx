@@ -9,7 +9,7 @@ import { tripShape } from '../../../utils/client/shapes';
 import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import TripRouteStop from './TripRouteStop';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../utils/client/BreakpointContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import { useConfigContext } from '../../client/ConfigContext';
 

@@ -9,7 +9,7 @@ import MobileView from '../MobileView';
 import {
   DesktopOrMobile,
   useBreakpoint,
-} from '../../../utils/client/withBreakpoint';
+} from '../../../utils/client/BreakpointContext';
 import { otpToLocation, locationToUri } from '../../../utils/shared/otpStrings';
 import Loading from '../Loading';
 import StopNearYouContainer from './StopNearYouContainer';

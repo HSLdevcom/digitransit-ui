@@ -9,7 +9,7 @@ import MapWithTracking from './MapWithTracking';
 import { otpToLocation } from '../../../utils/shared/otpStrings';
 import { getJson } from '../../../utils/shared/xhrPromise';
 import { useMapLayers } from '../../hooks/MapLayerContext';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../utils/client/BreakpointContext';
 import LocationMarkerWithPermanentTooltip from './LocationMarkerWithPermanentTooltip';
 import ConfirmLocationFromMapButton from './ConfirmLocationFromMapButton';
 import { useConfigContext } from '../../client/ConfigContext';
