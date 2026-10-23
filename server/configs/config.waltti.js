@@ -204,7 +204,7 @@ export default {
     'https://jyvaskyla.digitransit.fi',
     'https://kotka.digitransit.fi',
     'https://kouvola.digitransit.fi',
-    'https://kuopio.digitransit.fi',
+    'https://reittiopas.kuopio.fi',
     'https://lahti.digitransit.fi',
     'https://lappeenranta.digitransit.fi',
     'https://mikkeli.digitransit.fi',
