@@ -80,7 +80,7 @@ const PatternRedirectorGuard = ({ route: routeRef = null }) => {
 };
 
 PatternRedirectorGuard.propTypes = {
-  route: PropTypes.object,
+  route: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
 export default PatternRedirectorGuard;
