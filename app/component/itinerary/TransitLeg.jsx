@@ -58,7 +58,7 @@ import {
   getBoardingInformationText,
   getTrackOrPierOrPlatformChangeText,
 } from '../../../utils/client/localeUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 
 const stopCode = code => code && <StopCode code={code} />;

@@ -11,7 +11,7 @@ right one by *who consumes the code*, not just by convenience.
 - `app/` — client-bundle-only React app (React components + route trees):
   - `client/` — browser entry & bootstrap: `client.jsx` (browser entry, farce/found router
     bootstrap, `AppProviders`), `publicPath.js` / `loadDevTheme.js` (extra webpack entry
-    modules), `i18n.js`, `ConfigContext.jsx` (`useConfigContext` for config).
+    modules), `i18n.js`.
   - `routes/` — found + Relay route-tree definitions: `routes.jsx` (front page, top level),
     `routeRoutes.jsx` (route pages), `stopRoutes.jsx` (stop pages); keep the filenames, Relay
     query names are prefixed with them.
@@ -26,7 +26,8 @@ right one by *who consumes the code*, not just by convenience.
   - `data/` — plain (non-React) client-side modules (favourites, position, search) behind the
     providers in `hooks/`; components should use the hooks rather than these directly.
   - `hooks/` — app state as React Context providers + hooks, mounted in `AppProviders`
-    (`app/client/client.jsx`). Add new providers there (and to
+    (`app/client/client.jsx`), including `ConfigContext.jsx` (`useConfigContext` for config).
+    Add new providers there (and to
     `test/unit/helpers/mock-providers.jsx` if tests need it).
   - `translations/` — one file per locale (`fi.js`, `en.js`, `sv.js`, ...); `fi.js` is the source
     of truth, keep sorted via `scripts/sort-translations.js` (`yarn format` runs this), and every

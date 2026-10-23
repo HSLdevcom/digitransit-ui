@@ -12,7 +12,7 @@ import {
 } from '../../utils/shared/path';
 import searchContext from '../data/SearchContext';
 import { removeSearch, saveSearch } from '../data/SearchHistory';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 import { usePosition, usePositionActions } from '../hooks/PositionContext';
 import SelectFromMap from './map/SelectFromMap';
 import SelectFromMapModal from './SelectFromMapModal';

@@ -36,7 +36,7 @@ import { configureCountry } from '../../utils/client/configureCountry';
 import { getUser } from '../../utils/client/apiUtils';
 import favouriteStore from '../data/FavouriteData';
 import searchContext from '../data/SearchContext';
-import { ConfigProvider } from './ConfigContext';
+import { ConfigProvider } from '../hooks/ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
 import { MapLayerProvider } from '../hooks/MapLayerContext';
 import { PositionProvider } from '../hooks/PositionContext';
