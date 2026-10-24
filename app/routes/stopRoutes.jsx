@@ -325,7 +325,7 @@ export default function getStopRoutes(isTerminal = false) {
                 }
                 query={queryMap.pageAlerts}
                 prepareVariables={prepareDatesForStops}
-                render={getComponentOrNullRenderer}
+                render={getComponentOrLoadingRenderer}
               />
             </Route>
           ),
