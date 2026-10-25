@@ -2,6 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import { createRequire } from 'module';
 import webpack from 'webpack';
+import browserslist from 'browserslist';
+import { browserslistToTargets, Features } from 'lightningcss';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserJsPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
@@ -138,7 +140,7 @@ export default {
                 // No explicit `targets` here: this intentionally inherits
                 // the `browserslist` key from package.json, which is the
                 // single source of truth for supported browsers across
-                // both this config and other tooling (postcss/autoprefixer).
+                // both this config and the Lightning CSS minimizer below.
                 modules: false,
                 bugfixes: true,
                 // Expands `import 'core-js/stable'` in app/client/client.jsx
@@ -262,7 +264,6 @@ export default {
                 options: { publicPath: 'auto' },
               },
           'css-loader',
-          'postcss-loader',
           {
             loader: 'sass-loader',
             options: {
@@ -272,6 +273,9 @@ export default {
                 loadPaths: [
                   path.join(rootDir, 'node_modules/foundation-sites/scss'),
                 ],
+                // No BOM/@charset: Sass adds one to non-ASCII output, and a
+                // BOM mid-bundle invalidates the selector that follows it.
+                charset: false,
                 quietDeps: true,
                 silenceDeprecations: [
                   'import',
@@ -296,7 +300,6 @@ export default {
                 options: { publicPath: 'auto' },
               },
           'css-loader',
-          'postcss-loader',
         ],
       },
       {
@@ -310,7 +313,6 @@ export default {
                 options: { publicPath: 'auto' },
               },
           'css-loader',
-          'postcss-loader',
         ],
       },
       {
@@ -361,7 +363,21 @@ export default {
       new TerserJsPlugin({
         parallel: true,
       }),
-      new CssMinimizerPlugin(),
+      new CssMinimizerPlugin({
+        minify: CssMinimizerPlugin.lightningCssMinify,
+        minimizerOptions: {
+          // Drops rules Lightning CSS can't parse instead of failing; today
+          // that's only foundation-sites' IE9/10 `(min-width:0\\0)` hack.
+          errorRecovery: true,
+          // Keep `min-width`/`max-width` media queries instead of range
+          // syntax (`width>=…`): browsers older than the targets (and the
+          // e2e suite's Chromium) would otherwise get the mobile layout.
+          include: Features.MediaRangeSyntax,
+          targets: browserslistToTargets(
+            browserslist(undefined, { path: rootDir }),
+          ),
+        },
+      }),
     ],
     // 'named' module/chunk IDs give readable debugging output, but they
     // bake full literal `node_modules/...` file paths into the bundle -
@@ -401,7 +417,6 @@ export default {
       config: [
         import.meta.filename,
         path.join(rootDir, 'scripts/build/contextHelper.js'),
-        path.join(rootDir, 'postcss.config.cjs'),
       ],
     },
   },

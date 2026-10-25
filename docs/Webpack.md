@@ -167,7 +167,7 @@ below.
   project's long-standing extensionless import style.
   `@babel/preset-env` has no explicit `targets` — it inherits the
   `browserslist` key in `package.json`, the single source of truth for
-  supported browsers shared with `postcss.config.cjs`/autoprefixer. Also:
+  supported browsers shared with the Lightning CSS minimizer. Also:
   `@babel/preset-react`, Relay's babel plugin, and
   `@babel/plugin-transform-runtime` (dedupes/shares Babel helper functions
   across files instead of inlining a copy per file; only `helpers` — every
@@ -193,11 +193,19 @@ below.
   and bind the whole `module.exports` instead of `.default`, crashing at
   render ("Element type is invalid"); `javascript/auto`'s lenient interop
   unwraps it correctly, same as the rest of the app.
-- **`.scss`** — `sass-loader` → `postcss-loader` → `css-loader` →
+- **`.scss`** — `sass-loader` → `css-loader` →
   `style-loader` (dev) / `MiniCssExtractPlugin.loader` (prod). Includes
   Foundation Sites' Sass path via `loadPaths` (Dart Sass's modern name for
   `includePaths`) and silences deprecation warnings for constructs still
   in use (`@import`, global built-ins, color functions, `if()`).
+  `charset: false` stops Sass from prefixing non-ASCII output with a BOM,
+  which would land mid-bundle once CSS modules are concatenated and
+  invalidate the selector after it.
+- There is no PostCSS step: vendor prefixing happens in the Lightning CSS
+  minimizer (see "Optimization"), from the same `browserslist` targets.
+  `postcss-flexbugs-fixes` was dropped with it: it only worked around
+  IE10/11 flexbox bugs, and rewrote authored values such as
+  `flex: 1 0 0` to `1 0 0%`.
 - **`.css`** — split into two rules only so `@hsl-fi` package CSS can be
   marked `sideEffects: true` (so it isn't tree-shaken away); everything
   else uses the default.
@@ -297,11 +305,24 @@ Both dev and prod also always get:
 
 ## Optimization
 
-- **`TerserJsPlugin`** (`{ parallel: true }`) / **`CssMinimizerPlugin`** —
-  JS/CSS minimizers, set explicitly because a custom `minimizer` array
-  replaces webpack's default (JS-only) one, so CSS minimization needs
-  adding back manually. `CssMinimizerPlugin` replaced the unmaintained
-  `optimize-css-assets-webpack-plugin`.
+- **`TerserJsPlugin`** / **`CssMinimizerPlugin`** — JS/CSS minimizers, set
+  explicitly because a custom `minimizer` array replaces webpack's default
+  (JS-only) one, so CSS minimization needs adding back manually.
+  - JS uses Terser (the plugin's default). Faster minifiers were measured:
+    esbuild's output was 5–23% larger (brotli); SWC's was on par but only
+    saved ~2 s per build, not worth an extra native dependency.
+  - CSS uses the `lightningCssMinify` adapter (`lightningcss`), with
+    targets from `browserslist` via `browserslistToTargets`, so it both
+    adds the vendor prefixes the targets need and drops the ones they
+    don't (replacing the former `postcss-loader` + autoprefixer step).
+    `errorRecovery: true` drops rules it can't parse instead of failing
+    the build; currently only foundation-sites' IE9/10 `(min-width:0\0)`
+    hack.
+    `include: Features.MediaRangeSyntax` keeps `min-width`/`max-width`
+    media queries rather than converting them to range syntax
+    (`width>=…`, Chrome 104+): browsers older than the targets, and the
+    e2e suite's Playwright Chromium (97), would otherwise never match
+    them and get the mobile layout everywhere.
 - **`moduleIds`/`chunkIds`**: `'named'` in dev (readable IDs for
   debugging), `'deterministic'` in prod (webpack5's own default). These
   used to be hardcoded `'named'` everywhere, which baked full literal
@@ -332,8 +353,8 @@ Both dev and prod also always get:
 - **`cache: { type: 'filesystem' }`** — webpack5's built-in persistent
   build cache (replaces webpack4's memory-only `cache: true`).
   `buildDependencies.config` lists `webpack.config.js`,
-  `scripts/build/contextHelper.js` and `postcss.config.cjs`, so editing
-  any of them invalidates the cache. `version` is keyed on `CONFIG`, since
+  and `scripts/build/contextHelper.js`, so editing either invalidates
+  the cache. `version` is keyed on `CONFIG`, since
   that decides which theme entries and favicons get built.
 - **`resolve.extensions`** adds `.mjs` ahead of the defaults so native-ESM
   entry points resolve.
@@ -394,18 +415,6 @@ third-party `node_modules` code that Babel does not process. Keep
 `corejs.version` in sync with the installed core-js minor (a direct
 dependency). There is no runtime/user-agent-based polyfill service, and no
 Intl polyfill: all targets have native `Intl`.
-
-## `postcss.config.cjs`
-
-Small file outside this config, consumed by its `postcss-loader` step:
-runs `autoprefixer` + `postcss-flexbugs-fixes` in production only. Still
-necessary, not dead weight — `autoprefixer` still adds real vendor
-prefixes today (e.g. `-webkit-user-select`, `-webkit-backdrop-filter`)
-even against the current, fairly modern browserslist target; some CSS
-features still need `-webkit-` fallbacks on the latest Safari regardless.
-`postcss-flexbugs-fixes` isn't browserslist-driven at all — it applies a
-fixed set of structural rewrites for known flexbox interop bugs
-unconditionally.
 
 ## Notes on things that look suspicious but aren't
 
