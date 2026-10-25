@@ -391,11 +391,13 @@ export default {
     type: 'filesystem',
     // `CONFIG` decides which theme entries and favicons get built.
     version: process.env.CONFIG || 'all',
-    // Invalidate the cache when the build config itself changes.
+    // Invalidate the cache when the build config itself changes, including
+    // package.json's `browserslist` (Babel and Lightning CSS targets).
     buildDependencies: {
       config: [
         import.meta.filename,
         path.join(rootDir, 'scripts/build/contextHelper.js'),
+        path.join(rootDir, 'package.json'),
       ],
     },
   },

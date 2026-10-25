@@ -356,8 +356,9 @@ Both dev and prod also always get:
 - **`cache: { type: 'filesystem' }`** — webpack5's built-in persistent
   build cache (replaces webpack4's memory-only `cache: true`).
   `buildDependencies.config` lists `webpack.config.js`,
-  and `scripts/build/contextHelper.js`, so editing either invalidates
-  the cache. `version` is keyed on `CONFIG`, since
+  `scripts/build/contextHelper.js` and `package.json` (whose
+  `browserslist` drives the Babel and Lightning CSS targets), so editing
+  any of them invalidates the cache. `version` is keyed on `CONFIG`, since
   that decides which theme entries and favicons get built.
 - **`resolve.extensions`** adds `.mjs` ahead of the defaults so native-ESM
   entry points resolve.
