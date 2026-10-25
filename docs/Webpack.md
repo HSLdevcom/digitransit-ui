@@ -170,7 +170,11 @@ below.
   supported browsers shared with `postcss.config.cjs`/autoprefixer. Also:
   `@babel/preset-react`, Relay's babel plugin, and
   `@babel/plugin-transform-runtime` (dedupes/shares Babel helper functions
-  across files instead of inlining a copy per file).
+  across files instead of inlining a copy per file; only `helpers` — every
+  target runs generators/async natively, so no regenerator). In production,
+  `transform-react-remove-prop-types` strips `propTypes` definitions and
+  their now-unused `prop-types` imports. Every `@babel/preset-env` block
+  (here and in the `node_modules` rules below) sets `bugfixes: true`.
 - **`@hsl-fi`/`@radix-ui`/`@floating-ui` under `node_modules`** — these
   ship untranspiled modern syntax (ES2018+/ESM), so they get the same
   `@babel/preset-env` pass normally reserved for `app/**` (all other
@@ -327,6 +331,10 @@ Both dev and prod also always get:
 
 - **`cache: { type: 'filesystem' }`** — webpack5's built-in persistent
   build cache (replaces webpack4's memory-only `cache: true`).
+  `buildDependencies.config` lists `webpack.config.js`,
+  `scripts/build/contextHelper.js` and `postcss.config.cjs`, so editing
+  any of them invalidates the cache. `version` is keyed on `CONFIG`, since
+  that decides which theme entries and favicons get built.
 - **`resolve.extensions`** adds `.mjs` ahead of the defaults so native-ESM
   entry points resolve.
 - **`resolve.mainFields`** prefers `browser`, then `module` (ESM), over

@@ -140,6 +140,7 @@ export default {
                 // single source of truth for supported browsers across
                 // both this config and other tooling (postcss/autoprefixer).
                 modules: false,
+                bugfixes: true,
                 // Expands `import 'core-js/stable'` in app/client/client.jsx
                 // to the modules the targets lack. Keep the corejs version
                 // in sync with the installed core-js minor.
@@ -154,14 +155,15 @@ export default {
           ],
           plugins: [
             'relay',
-            [
-              '@babel/plugin-transform-runtime',
-              {
-                helpers: true,
-                regenerator: true,
-                useESModules: true,
-              },
-            ],
+            ['@babel/plugin-transform-runtime', { helpers: true }],
+            ...(isProduction
+              ? [
+                  [
+                    'transform-react-remove-prop-types',
+                    { mode: 'remove', removeImport: true },
+                  ],
+                ]
+              : []),
           ],
         },
       },
@@ -182,6 +184,7 @@ export default {
               '@babel/preset-env',
               {
                 modules: false,
+                bugfixes: true,
               },
             ],
           ],
@@ -205,6 +208,7 @@ export default {
                 '@babel/preset-env',
                 {
                   modules: false,
+                  bugfixes: true,
                 },
               ],
             ],
@@ -390,6 +394,16 @@ export default {
   performance: { hints: false },
   cache: {
     type: 'filesystem',
+    // `CONFIG` decides which theme entries and favicons get built.
+    version: process.env.CONFIG || 'all',
+    // Invalidate the cache when the build config itself changes.
+    buildDependencies: {
+      config: [
+        import.meta.filename,
+        path.join(rootDir, 'scripts/build/contextHelper.js'),
+        path.join(rootDir, 'postcss.config.cjs'),
+      ],
+    },
   },
   resolve: {
     extensions: ['.mjs', '.js', '.jsx', '.json'],
