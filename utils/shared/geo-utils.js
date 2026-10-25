@@ -12,45 +12,6 @@ function toDeg(rad) {
   return rad * (180 / Math.PI);
 }
 
-export function getBearing(lat1, lng1, lat2, lng2) {
-  const lonScale = Math.cos(toRad((lat1 + lat2) / 2));
-  const dy = lat2 - lat1;
-  const dx = (lng2 - lng1) * lonScale;
-  return (toDeg(Math.atan2(dx, dy)) + 360) % 360;
-}
-
-// const RADIUS = 6371000;
-
-// export function distance(latlon1, latlon2) {
-//   const rad = Math.PI / 180;
-//   const lat1 = latlon1.lat * rad;
-//   const lat2 = latlon2.lat * rad;
-//   const sinDLat = Math.sin((latlon2.lat - latlon1.lat) * rad / 2);
-//   const sinDLon = Math.sin((latlon2.lon - latlon1.lon) * rad / 2);
-//   const a =
-//     sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLon * sinDLon;
-//   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//   return RADIUS * c;
-// }
-
-export function getDistanceToNearestStop(lat, lon, stops) {
-  const myPos = { lat, lon };
-  let minDist = Number.MAX_VALUE;
-  let minStop = null;
-
-  stops.forEach(stop => {
-    const stopPos = { lat: stop.lat, lon: stop.lon };
-    const dist = distance(myPos, stopPos);
-
-    if (dist < minDist) {
-      minDist = dist;
-      minStop = stop;
-    }
-  });
-
-  return { stop: minStop, distance: minDist };
-}
-
 export function displayImperialDistance(meters) {
   const feet = meters * 3.2808399;
 
@@ -167,16 +128,6 @@ export function boundWithMinimumAreaSimple(points) {
     [minlat, minlon],
     [maxlat, maxlon],
   ];
-}
-
-// Checks if lat and lon are inside of [[minlat, minlon], [maxlat, maxlon]] bounding box
-export function isInBoundingBox(boundingBox, lat, lon) {
-  return (
-    boundingBox[0][0] <= lat &&
-    boundingBox[0][1] <= lon &&
-    boundingBox[1][0] >= lat &&
-    boundingBox[1][1] >= lon
-  );
 }
 
 function getLengthOf(geometry) {
