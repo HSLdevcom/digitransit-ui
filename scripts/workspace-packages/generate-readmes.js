@@ -27,30 +27,6 @@ function findEntryPoint(directory) {
   return found || path.join(directory, 'index.js');
 }
 
-// The npm scope is always the same as the family's directory name, e.g.
-// `@digitransit-component/digitransit-component-icon` -> `digitransit-component`.
-function dirNameForPackage(pckg) {
-  return pckg.name.split('/')[0].slice(1);
-}
-
-// A family's meta-package (e.g. `@digitransit-component/digitransit-component`,
-// which re-exports every sibling in the family) lives at
-// `<dirName>/packages/<dirName>` - not every family has one (search-util and
-// store don't), so this is a filesystem check, not an assumption.
-function findMetaPackageName(dirName) {
-  const metaPackageJsonPath = path.join(
-    repoRoot,
-    dirName,
-    'packages',
-    dirName,
-    'package.json',
-  );
-  if (!fs.existsSync(metaPackageJsonPath)) {
-    return null;
-  }
-  return readPackageJson(metaPackageJsonPath).name;
-}
-
 // Running from inside a single package's directory (every per-package
 // "docs" script does this) regenerates just that package; running from
 // anywhere else (e.g. the repo root, via `yarn workspace-packages-docs`)
@@ -82,10 +58,7 @@ function findPackagePaths() {
     });
 }
 
-function installationSection(name, metaPackage, dirName) {
-  const bundle = metaPackage
-    ? `\n\nOr install \`${metaPackage}\`, which bundles every ${dirName} module:\n\n\`\`\`sh\n$ npm install ${metaPackage}\n\`\`\`\n`
-    : '\n';
+function installationSection(name) {
   return `---
 
 This module is part of the Digitransit-ui project. It is maintained in the
@@ -98,7 +71,8 @@ Install this module individually:
 
 \`\`\`sh
 $ npm install ${name}
-\`\`\`${bundle}`;
+\`\`\`
+`;
 }
 
 async function generateReadme(packagePath) {
@@ -106,10 +80,6 @@ async function generateReadme(packagePath) {
   const pckg = readPackageJson(packagePath);
   const { name } = pckg;
   const entryPath = findEntryPoint(directory);
-  const dirName = dirNameForPackage(pckg);
-  const rawMetaPackage = findMetaPackageName(dirName);
-  // Don't advertise a meta-package as a "bundle" of itself.
-  const metaPackage = rawMetaPackage === name ? null : rawMetaPackage;
 
   const res = await build(entryPath, { shallow: true });
   if (res === undefined) {
@@ -118,11 +88,7 @@ async function generateReadme(packagePath) {
   console.log(`Building docs: ${name}`);
 
   const markdown = await formats.md(res);
-  const readme = `# ${name}\n\n${markdown}${installationSection(
-    name,
-    metaPackage,
-    dirName,
-  )}`;
+  const readme = `# ${name}\n\n${markdown}${installationSection(name)}`;
   fs.writeFileSync(path.join(directory, 'README.md'), readme);
 }
 

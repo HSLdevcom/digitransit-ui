@@ -193,9 +193,3 @@ Install this module individually:
 ```sh
 $ npm install @digitransit-component/digitransit-component-autosuggest
 ```
-
-Or install `@digitransit-component/digitransit-component`, which bundles every digitransit-component module:
-
-```sh
-$ npm install @digitransit-component/digitransit-component
-```

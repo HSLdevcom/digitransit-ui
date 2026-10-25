@@ -2115,13 +2115,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@digitransit-component/digitransit-component-abtesting@workspace:digitransit-component/packages/digitransit-component-abtesting":
-  version: 0.0.0-use.local
-  resolution: "@digitransit-component/digitransit-component-abtesting@workspace:digitransit-component/packages/digitransit-component-abtesting"
-  languageName: unknown
-  linkType: soft
-
-"@digitransit-component/digitransit-component-autosuggest-panel@workspace:^, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
+"@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
   peerDependencies:
@@ -2139,7 +2133,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest@workspace:^, @digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
+"@digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest@workspace:digitransit-component/packages/digitransit-component-autosuggest"
   dependencies:
@@ -2164,7 +2158,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-control-panel@workspace:^, @digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel":
+"@digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel"
   peerDependencies:
@@ -2209,7 +2203,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-bar@workspace:^, @digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar":
+"@digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar"
   dependencies:
@@ -2227,7 +2221,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-editing-modal@workspace:^, @digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
+"@digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal"
   dependencies:
@@ -2247,7 +2241,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-modal@workspace:^, @digitransit-component/digitransit-component-favourite-modal@workspace:digitransit-component/packages/digitransit-component-favourite-modal":
+"@digitransit-component/digitransit-component-favourite-modal@workspace:digitransit-component/packages/digitransit-component-favourite-modal":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-modal@workspace:digitransit-component/packages/digitransit-component-favourite-modal"
   peerDependencies:
@@ -2263,7 +2257,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-icon@workspace:^, @digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon":
+"@digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon"
   peerDependencies:
@@ -2272,7 +2266,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-suggestion-item@workspace:^, @digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item":
+"@digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item"
   peerDependencies:
@@ -2281,65 +2275,6 @@ __metadata:
     classnames: ^2.5.1
     prop-types: ^15.8.1
     react: ^18.3.1
-  languageName: unknown
-  linkType: soft
-
-"@digitransit-component/digitransit-component-traffic-now-link@workspace:digitransit-component/packages/digitransit-component-traffic-now-link":
-  version: 0.0.0-use.local
-  resolution: "@digitransit-component/digitransit-component-traffic-now-link@workspace:digitransit-component/packages/digitransit-component-traffic-now-link"
-  peerDependencies:
-    "@digitransit-component/digitransit-component-icon": "workspace:^"
-    "@hsl-fi/sass": ^1.0.0
-    i18next: ^22.5.1
-    prop-types: ^15.8.1
-    react: ^18.3.1
-    react-i18next: ^12.3.1
-  languageName: unknown
-  linkType: soft
-
-"@digitransit-component/digitransit-component-with-breakpoint@workspace:^, @digitransit-component/digitransit-component-with-breakpoint@workspace:digitransit-component/packages/digitransit-component-with-breakpoint":
-  version: 0.0.0-use.local
-  resolution: "@digitransit-component/digitransit-component-with-breakpoint@workspace:digitransit-component/packages/digitransit-component-with-breakpoint"
-  peerDependencies:
-    hoist-non-react-statics: ^2.5.5
-    lodash: ^4.18.1
-    prop-types: ^15.8.1
-    react: ^18.3.1
-  languageName: unknown
-  linkType: soft
-
-"@digitransit-component/digitransit-component@workspace:digitransit-component/packages/digitransit-component":
-  version: 0.0.0-use.local
-  resolution: "@digitransit-component/digitransit-component@workspace:digitransit-component/packages/digitransit-component"
-  dependencies:
-    "@digitransit-component/digitransit-component-autosuggest": "workspace:^"
-    "@digitransit-component/digitransit-component-autosuggest-panel": "workspace:^"
-    "@digitransit-component/digitransit-component-control-panel": "workspace:^"
-    "@digitransit-component/digitransit-component-favourite-bar": "workspace:^"
-    "@digitransit-component/digitransit-component-favourite-editing-modal": "workspace:^"
-    "@digitransit-component/digitransit-component-favourite-modal": "workspace:^"
-    "@digitransit-component/digitransit-component-icon": "workspace:^"
-    "@digitransit-component/digitransit-component-suggestion-item": "workspace:^"
-    "@digitransit-component/digitransit-component-with-breakpoint": "workspace:^"
-  peerDependencies:
-    "@digitransit-component/digitransit-component-dialog-modal": "workspace:^"
-    "@hsl-fi/dialog": ^3.1.3
-    "@hsl-fi/form": ^5.0.4
-    "@hsl-fi/layout-primitives": ^4.9.0
-    "@hsl-fi/loading-indicators": ^2.0.0
-    "@hsl-fi/sass": ^1.0.0
-    "@hsl-fi/shimmer": ^0.1.2
-    classnames: ^2.5.1
-    downshift: ^9.4.0
-    hoist-non-react-statics: ^2.5.5
-    i18next: ^22.5.1
-    lodash: ^4.18.1
-    luxon: ^3.6.1
-    prop-types: ^15.8.1
-    react: ^18.3.1
-    react-i18next: ^12.3.1
-    react-modal: ^3.11.2
-    react-sortablejs: ^2.0.11
   languageName: unknown
   linkType: soft
 
@@ -2352,18 +2287,6 @@ __metadata:
 "@digitransit-search-util/digitransit-search-util-execute-search-immediate@workspace:^, @digitransit-search-util/digitransit-search-util-execute-search-immediate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immediate":
   version: 0.0.0-use.local
   resolution: "@digitransit-search-util/digitransit-search-util-execute-search-immediate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immediate"
-  dependencies:
-    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "workspace:^"
-    "@digitransit-search-util/digitransit-search-util-get-geocoding-results": "workspace:^"
-    "@digitransit-search-util/digitransit-search-util-get-json": "workspace:^"
-    "@digitransit-search-util/digitransit-search-util-helpers": "workspace:^"
-    lodash: "npm:4.18.1"
-  languageName: unknown
-  linkType: soft
-
-"@digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate":
-  version: 0.0.0-use.local
-  resolution: "@digitransit-search-util/digitransit-search-util-execute-search-immidiate@workspace:digitransit-search-util/packages/digitransit-search-util-execute-search-immidiate"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "workspace:^"
     "@digitransit-search-util/digitransit-search-util-get-geocoding-results": "workspace:^"
@@ -2473,12 +2396,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-store/digitransit-store-common-functions@workspace:digitransit-store/packages/digitransit-store-common-functions":
-  version: 0.0.0-use.local
-  resolution: "@digitransit-store/digitransit-store-common-functions@workspace:digitransit-store/packages/digitransit-store-common-functions"
-  languageName: unknown
-  linkType: soft
-
 "@digitransit-store/digitransit-store-future-route@workspace:digitransit-store/packages/digitransit-store-future-route":
   version: 0.0.0-use.local
   resolution: "@digitransit-store/digitransit-store-future-route@workspace:digitransit-store/packages/digitransit-store-future-route"
@@ -2505,37 +2422,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-util/digitransit-util-enrich-patterns@workspace:^, @digitransit-util/digitransit-util-enrich-patterns@workspace:digitransit-util/packages/digitransit-util-enrich-patterns":
+"@digitransit-util/digitransit-util-enrich-patterns@workspace:digitransit-util/packages/digitransit-util-enrich-patterns":
   version: 0.0.0-use.local
   resolution: "@digitransit-util/digitransit-util-enrich-patterns@workspace:digitransit-util/packages/digitransit-util-enrich-patterns"
   dependencies:
     "@digitransit-util/digitransit-util-day-range-allowed-diff": "workspace:^"
     "@digitransit-util/digitransit-util-day-range-pattern": "workspace:^"
   peerDependencies:
-    lodash: ^4.18.1
-    luxon: ^3.6.1
-  languageName: unknown
-  linkType: soft
-
-"@digitransit-util/digitransit-util-route-pattern-option-text@workspace:^, @digitransit-util/digitransit-util-route-pattern-option-text@workspace:digitransit-util/packages/digitransit-util-route-pattern-option-text":
-  version: 0.0.0-use.local
-  resolution: "@digitransit-util/digitransit-util-route-pattern-option-text@workspace:digitransit-util/packages/digitransit-util-route-pattern-option-text"
-  peerDependencies:
-    i18next: ^22.5.1
-    luxon: ^3.6.1
-  languageName: unknown
-  linkType: soft
-
-"@digitransit-util/digitransit-util@workspace:digitransit-util/packages/digitransit-util":
-  version: 0.0.0-use.local
-  resolution: "@digitransit-util/digitransit-util@workspace:digitransit-util/packages/digitransit-util"
-  dependencies:
-    "@digitransit-util/digitransit-util-day-range-allowed-diff": "workspace:^"
-    "@digitransit-util/digitransit-util-day-range-pattern": "workspace:^"
-    "@digitransit-util/digitransit-util-enrich-patterns": "workspace:^"
-    "@digitransit-util/digitransit-util-route-pattern-option-text": "workspace:^"
-  peerDependencies:
-    i18next: ^22.5.1
     lodash: ^4.18.1
     luxon: ^3.6.1
   languageName: unknown
