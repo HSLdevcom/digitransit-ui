@@ -97,6 +97,12 @@ and output settings.
   (`dev.reittiopas.fi`).
 - `crossOriginLoading: 'anonymous'` — needed for real stack traces on
   cross-origin script chunks (used with source maps).
+- `clean` empties stale build output (old hashed chunks, favicon folders)
+  on every build. Its `keep` callback (`isPrebuiltStaticFile`) spares what
+  webpack doesn't emit: anything with a counterpart in `static/` (as
+  copied by `copyStatic.js`, including its `.gz`/`.br` siblings) and the
+  `assets/svg-sprite.*.svg` sheets `buildSprites.js` generates as entry
+  inputs.
 
 Webpack isn't the only writer of `_static/`: `scripts/build/copyStatic.js`
 (run by the `static` script, which both `prebuild` and `scripts/dev.sh`
@@ -262,17 +268,14 @@ Production gets:
 - **`CompressionPlugin`** (×2) — pre-generates `.gz` and `.br` (Brotli)
   copies of JS/CSS/HTML/SVG/ICO assets so the server can serve
   precompressed files instead of compressing on the fly.
-- **`EntrypointStatsPlugin`** (defined at the top of this file) — small
-  local stand-in for the unmaintained `stats-webpack-plugin`. Writes
-  `../stats.json` with `entrypoints.<name>.assets` as a plain array of
-  filename strings (the old plugin's shape), because
-  `server/html/assetManifest.js` reads this file to know which hashed
-  asset filenames belong to the `main` entrypoint, and expects that shape
-  rather than webpack5's native `{ name, size }` asset objects.
-- **`WebpackAssetsManifest`** — writes `../manifest.json`, a
-  name→hashed-filename map, read the same way. Imported via its named
-  export (`{ WebpackAssetsManifest }`); v6 changed it from a default
-  export.
+- **`WebpackAssetsManifest`** — writes `../manifest.json`: a
+  name→hashed-filename map, plus (`entrypoints: true`) an `entrypoints`
+  key listing each entry's files grouped by extension, in load order
+  (`entrypoints.main.assets.{js,css}`). `server/html/assetManifest.js`
+  reads both: the map for theme CSS/sprite lookups, `entrypoints.main` for
+  which hashed JS/CSS files to preload/link and which runtime chunk to
+  inline. Imported via its named export (`{ WebpackAssetsManifest }`); v6
+  changed it from a default export.
 
 Both dev and prod also always get:
 

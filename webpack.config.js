@@ -26,34 +26,13 @@ const selectedTheme = new RegExp(
   `^./(${process.env.CONFIG || 'default'})/main.scss$`,
 );
 
-// Small stand-in for the unmaintained `stats-webpack-plugin`: writes the
-// same trimmed-down stats shape that server/middleware/shell.js's (via
-// server/html/assetManifest.js) asset lookup reads to know which built
-// JS/CSS files belong to the `main` entrypoint. It expects
-// `entrypoints.<name>.assets` to be an array of plain filename strings
-// (the shape `stats-webpack-plugin` used to produce), not webpack5's
-// native `{ name, size }` asset objects, so that shape is preserved here.
-class EntrypointStatsPlugin {
-  constructor(destination) {
-    this.destination = destination;
-  }
-
-  apply(compiler) {
-    compiler.hooks.done.tap('EntrypointStatsPlugin', stats => {
-      const { entrypoints } = stats.toJson({ all: false, entrypoints: true });
-      const json = {
-        entrypoints: Object.fromEntries(
-          Object.entries(entrypoints).map(([name, entrypoint]) => [
-            name,
-            { ...entrypoint, assets: entrypoint.assets.map(a => a.name) },
-          ]),
-        ),
-      };
-      const outputPath = path.join(compiler.outputPath, this.destination);
-      fs.writeFileSync(outputPath, JSON.stringify(json));
-    });
-  }
-}
+// Files in `_static` that webpack doesn't emit, so `output.clean` keeps
+// them: `static/` as copied by scripts/build/copyStatic.js (plus its
+// `.gz`/`.br` siblings), and the sprite sheets scripts/build/buildSprites.js
+// writes as entry inputs.
+const isPrebuiltStaticFile = asset =>
+  /^assets\/svg-sprite\.[^/]+\.svg$/.test(asset) ||
+  fs.existsSync(path.join(rootDir, 'static', asset.replace(/\.(gz|br)$/, '')));
 
 const productionPlugins = [
   ...faviconPlugins,
@@ -81,8 +60,7 @@ const productionPlugins = [
     minRatio: 0.95,
     algorithm: 'brotliCompress',
   }),
-  new EntrypointStatsPlugin('../stats.json'),
-  new WebpackAssetsManifest({ output: '../manifest.json' }),
+  new WebpackAssetsManifest({ output: '../manifest.json', entrypoints: true }),
 ];
 
 export default {
@@ -103,6 +81,7 @@ export default {
     chunkFilename: 'js/[contenthash].js',
     publicPath: isDevelopment ? '/proxy/' : '/',
     crossOriginLoading: 'anonymous',
+    clean: { keep: isPrebuiltStaticFile },
   },
   module: {
     rules: [
