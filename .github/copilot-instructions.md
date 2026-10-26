@@ -212,6 +212,9 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   components may still use `defaultProps` until they're otherwise modified.
 - To avoid unnecessary re-renders, define non-primitive default parameter values (objects,
   arrays, functions) as module-level constants instead of inline literals.
+- Declare `dependencies`/`devDependencies` in `package.json` files with exact versions (e.g.
+  `"2.5.1"`), never `^` or `~`. The only exception is workspace-package `peerDependencies`, which
+  are caret ranges of the root's version (enforced by `yarn workspace-packages-dependencies-check`).
 - Never bump package versions manually; the `workspace-packages-version-bump` script is run after
   a PR is approved but before merging by the author.
 - The project does not enable `eslint-plugin-react-hooks`'s `exhaustive-deps` rule, and top-level
