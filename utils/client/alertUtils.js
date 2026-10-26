@@ -21,31 +21,6 @@ export const stoptimeHasCancelation = stoptime => {
 };
 
 /**
- * Checks if the trip has a cancelation for the given stop.
- *
- * @param {*} trip the trip object to check.
- * @param {*} stop the stop object to look a cancelation for.
- */
-export const tripHasCancelationForStop = (trip, stop) => {
-  if (
-    !trip ||
-    (!Array.isArray(trip.stoptimes) && !Array.isArray(trip.stoptimesForDate)) ||
-    !stop ||
-    !stop.gtfsId
-  ) {
-    return false;
-  }
-  if (Array.isArray(trip.stoptimesForDate)) {
-    return trip.stoptimesForDate
-      .filter(stoptimeHasCancelation)
-      .some(st => st.stop && st.stop.gtfsId === stop.gtfsId);
-  }
-  return trip.stoptimes
-    .filter(stoptimeHasCancelation)
-    .some(st => st.stop && st.stop.gtfsId === stop.gtfsId);
-};
-
-/**
  * Checks if the trip has a cancelation.
  *
  * @param {*} trip the trip object to check.
