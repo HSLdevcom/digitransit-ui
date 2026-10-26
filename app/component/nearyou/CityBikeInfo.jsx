@@ -49,7 +49,7 @@ const CityBikeInfo = () => {
         closable
         onClose={handleClose}
       />
-      <div style={{ height: '8px' }} />
+      <div style={{ height: '22px' }} />
     </>
   );
 };
