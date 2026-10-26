@@ -4,7 +4,7 @@ import path from 'path';
 import createApp, { onError } from '../../../server/app';
 
 // server/app.js's import chain reaches server/html/assetManifest.js, which
-// reads manifest.json/stats.json from disk at *module load time* when
+// reads manifest.json from disk at *module load time* when
 // NODE_ENV isn't 'development'. vi.hoisted runs before this file's static
 // imports, so forcing 'development' here makes them safe without a real
 // webpack build present (unstubbed in the afterAll hook below).
