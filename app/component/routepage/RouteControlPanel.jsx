@@ -7,7 +7,7 @@ import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
 import { useRouter } from 'found';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import RoutePatternSelectContainer from './RoutePatternSelectContainer';
 import {
   DATE_FORMAT,

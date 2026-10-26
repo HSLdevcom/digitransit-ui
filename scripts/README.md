@@ -105,6 +105,26 @@ pull requests.
 BASE_SHA=<git ref> yarn workspace-packages-version-check
 ```
 
+## Using `workspace-packages/check-dependencies.js`
+
+Checks each workspace package's `dependencies`/`peerDependencies` against the code it publishes
+(the module graph reachable from its build entry point, parsed with Babel, so tests don't count;
+a relative import that doesn't resolve fails the check). Wired into `yarn lint`; the rules are
+documented in `docs/WorkspacePackages.md` ("Dependency Classification"):
+
+1. Every imported package (JS/JSX, and `~`-prefixed SCSS imports) is declared.
+2. Every declared dependency/peer is imported, except peers passed through for a sibling
+   `@digitransit-*` dependency's own peers (the bundle packages).
+3. Every peer of a sibling `@digitransit-*` dependency is declared too (passed through).
+4. Nothing is both a dependency and a peer.
+5. Every non-`workspace:` peer is exactly `^<version the root package.json's dependencies
+   declare>`.
+6. `@hsl-fi/*` packages are peers (`@hsl-fi/hooks` is the one allowed exception).
+
+```
+yarn workspace-packages-dependencies-check
+```
+
 ## Using `workspace-packages/generate-readmes.js`
 
 Regenerates a workspace package's `README.md` from its JSDoc via

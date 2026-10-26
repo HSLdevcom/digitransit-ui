@@ -76,8 +76,9 @@ A `search-util`/`util` package is the same, but flat (no build step, no
   literal JSX.
 - `package.json` — runtime imports go under `dependencies`; anything the
   *host app* must also provide goes under `peerDependencies` instead (see
-  [Dependency classification](#dependency-classification)); build/compile-only
-  tooling goes under `devDependencies`.
+  [Dependency classification](#dependency-classification)); only
+  package-specific build tooling goes under `devDependencies` (shared tooling
+  comes from the root).
 - `README.md` — generated, do not hand-edit (see below).
 - `LICENSE-*.txt` — copied from the repository root, do not hand-edit.
 
@@ -249,13 +250,28 @@ in `package.json` as:
   already provide a single shared instance of. This includes `react`,
   `react-dom`, and **every `@hsl-fi/*` package** — regardless of whether it's
   imported directly or only used in an SCSS `@import` (e.g. `@hsl-fi/sass`).
-  Keep the version range in sync with what the root `package.json` actually
-  installs; a stale/wrong peer range (too narrow, or naming a major version
-  the host doesn't ship) is a bug even if it happens to install locally.
+  The one exception is `@hsl-fi/hooks`, a stateless helper with no peers of
+  its own, which `autosuggest` keeps as a plain `dependency`.
+  Use a caret range of the version the root `package.json` installs (e.g.
+  `"^2.5.1"` for a root `"2.5.1"`), never an exact or `~` pin; a stale/wrong
+  peer range (too narrow, or naming a major version the host doesn't ship) is
+  a bug even if it happens to install locally. E.g. `react` mirrors the
+  root's range exactly (`^18.3.1`): the bundles use the automatic JSX runtime
+  and are only ever tested against that version. The deprecated
+  `digitransit-component`/`digitransit-util` bundle packages re-declare the
+  union of their sub-packages' peers.
 - **`devDependencies`** — anything needed only to build, test, or generate
   docs for the package itself (e.g. `babel-plugin-relay` for
   `query-utils`'s own relay-compiler step) but that the published bundle
-  never needs at runtime.
+  never needs at runtime. Test tooling shared across packages (`vitest`,
+  `@testing-library/*`, `react-dom`, ...) is *not* repeated here: tests run
+  through the root Vitest config and resolve it from the root
+  `devDependencies`. Package scripts call such root tooling via
+  `yarn run -T <bin>` (e.g. `yarn run -T vitest`, `yarn run -T rollup`), since
+  Yarn won't run a binary the workspace doesn't declare itself.
+
+These rules (for `dependencies`/`peerDependencies`) are enforced by
+`yarn workspace-packages-dependencies-check`, part of `yarn lint`.
 
 ## CSS Modules
 

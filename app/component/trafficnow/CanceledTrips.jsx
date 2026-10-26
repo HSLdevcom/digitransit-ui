@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Text } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import Card from '../Card';
 import CancellationContainer from './components/CancellationContainer';
 import ResultsProgressBar from './components/ResultsProgressBar';

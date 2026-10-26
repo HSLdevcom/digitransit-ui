@@ -9,7 +9,7 @@ import {
   BIKEAVL_UNKNOWN,
   BIKEAVL_WITHMAX,
 } from '../../utils/shared/vehicleRentalUtils';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 const VehicleRentalStation = ({ vehicleRentalStation }) => {
   const config = useConfigContext();

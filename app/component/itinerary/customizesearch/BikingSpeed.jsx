@@ -3,7 +3,7 @@ import React from 'react';
 import SearchSettingsDropdown, { valueShape } from './SearchSettingsDropdown';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { findNearestOption } from '../../../../utils/client/planParamUtil';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function BikingSpeed({ bikeSpeed, updateSettings }) {
   const config = useConfigContext();

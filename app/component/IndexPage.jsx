@@ -44,7 +44,7 @@ import {
   useFavouriteStatus,
   useHasOtpLocationFavourites,
 } from '../hooks/FavouriteContext';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 import { usePosition, usePositionActions } from '../hooks/PositionContext';
 import { useCurrentTime } from '../hooks/TimeContext';
 import {

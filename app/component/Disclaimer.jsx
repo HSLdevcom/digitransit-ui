@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import Icon from './Icon';
 import { openDeepLink } from '../../utils/client/vehicleRentalUtils';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function Disclaimer({
   header,

@@ -105,7 +105,7 @@ import NaviGeolocationInfoModal from './navigator/navigatorgeolocation/NaviGeolo
 import NavigatorIntroModal from './navigator/navigatorintro/NavigatorIntroModal';
 import { planConnection } from './queries/PlanConnection';
 import { hasTaxiLegs, isCallAgencyLeg } from '../../../utils/client/legUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { useMapLayers } from '../../hooks/MapLayerContext';
 import { usePositionActions } from '../../hooks/PositionContext';
 

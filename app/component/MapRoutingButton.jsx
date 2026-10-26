@@ -10,7 +10,7 @@ import {
   getItineraryPagePath,
   PREFIX_ITINERARY_SUMMARY,
 } from '../../utils/shared/path';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function MapRoutingButton({ stop }) {
   const intl = useIntl();

@@ -8,7 +8,7 @@ import Icon from '../Icon';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryMapAction from './ItineraryMapAction';
 import { stopPagePath } from '../../../utils/shared/path';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function AirportCollectLuggageLeg({ index, leg, focusAction, children }) {

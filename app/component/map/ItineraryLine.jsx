@@ -18,7 +18,7 @@ import {
 import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import { legShape } from '../../../utils/client/shapes';
 import { durationToString } from '../../../utils/client/timeUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import Line from './Line';
 import StopMarker from './non-tile-layer/StopMarker';
 import TransitLegMarkers from './non-tile-layer/TransitLegMarkers';

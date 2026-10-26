@@ -13,7 +13,7 @@ import { getModeIconColor } from '../../../../utils/shared/colorUtils';
 import getStopStatus, {
   combineStopStatuses,
 } from '../../../../utils/client/stopStatusUtils';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 function isNull(val) {
   return val === 'null' || val === undefined || val === null;

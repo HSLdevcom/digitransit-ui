@@ -5,7 +5,7 @@ import TruncateMarkup from 'react-truncate-markup';
 import { alertShape } from '../../utils/client/shapes';
 import Icon from './Icon';
 import { alertSeverityCompare } from '../../utils/client/alertUtils';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function AlertBanner({ alerts, linkAddress }) {
   const { colors } = useConfigContext();

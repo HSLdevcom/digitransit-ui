@@ -51,8 +51,6 @@ export class ClientProvider extends React.Component {
   }
 }
 
-export const BreakpointProvider = Provider;
-
 /**
  * Extracts breakpoint information (can be one of: large, medium and small) from the context.
  */
