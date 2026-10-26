@@ -5,7 +5,8 @@
 .route-page-control-panel-container {
   padding-bottom: 28px;
 
-  &.hairiot {
+  // the header hosts the panel on desktop, outside the padded content area
+  .route-page-container > &.bp-large {
     margin: 0 56px;
   }
 

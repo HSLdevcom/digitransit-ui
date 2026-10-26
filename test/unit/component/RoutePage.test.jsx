@@ -6,7 +6,11 @@ import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';
 import { Component as RoutePage } from '../../../app/component/routepage/RoutePage';
-import { PREFIX_DISRUPTION } from '../../../utils/shared/path';
+import {
+  PREFIX_DISRUPTION,
+  PREFIX_STOPS,
+  PREFIX_TIMETABLE,
+} from '../../../utils/shared/path';
 
 // React's dev-mode error logging re-dispatches a render error a second time,
 // asynchronously, via a simulated DOM event (`invokeGuardedCallbackDev`,
@@ -376,16 +380,31 @@ describe('<RoutePage />', () => {
   });
 
   describe('RouteControlPanel', () => {
-    it('renders RouteControlPanel when type param equals PREFIX_DISRUPTION', () => {
+    it.each([PREFIX_STOPS, PREFIX_TIMETABLE, PREFIX_DISRUPTION])(
+      'renders RouteControlPanel when type param is %s',
+      type => {
+        const { container } = renderView({
+          match: {
+            ...baseMatch,
+            params: { ...baseMatch.params, type },
+          },
+        });
+        expect(
+          container.querySelector('.route-page-control-panel-container'),
+        ).not.toBeNull();
+      },
+    );
+
+    it('does not render RouteControlPanel on a trip page', () => {
       const { container } = renderView({
         match: {
           ...baseMatch,
-          params: { ...baseMatch.params, type: PREFIX_DISRUPTION },
+          params: { ...baseMatch.params, type: PREFIX_STOPS, tripId: 'HSL:t1' },
         },
       });
       expect(
         container.querySelector('.route-page-control-panel-container'),
-      ).not.toBeNull();
+      ).toBeNull();
     });
 
     it('does not render RouteControlPanel when type param is absent', () => {
@@ -397,7 +416,7 @@ describe('<RoutePage />', () => {
       ).toBeNull();
     });
 
-    it('does not render RouteControlPanel when type param is not PREFIX_DISRUPTION', () => {
+    it('does not render RouteControlPanel when type param is unknown', () => {
       const { container } = renderView({
         match: {
           ...baseMatch,

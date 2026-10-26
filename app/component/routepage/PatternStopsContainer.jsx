@@ -7,7 +7,6 @@ import { useRouter } from 'found';
 import { routeShape } from '../../../utils/client/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
-import RouteControlPanel from './RouteControlPanel';
 import { routePagePath } from '../../../utils/shared/path';
 import Error404 from '../404';
 import ScrollableWrapper from '../ScrollableWrapper';
@@ -38,9 +37,6 @@ function PatternStopsContainer({ pattern, breakpoint, route }) {
         'bp-large': breakpoint === 'large',
       })}
     >
-      {route?.patterns && (
-        <RouteControlPanel route={route} breakpoint={breakpoint} />
-      )}
       {routeId && constantOperationRoutes[routeId] && (
         <div className="stop-constant-operation-container bottom-padding">
           <div style={{ width: '95%' }}>

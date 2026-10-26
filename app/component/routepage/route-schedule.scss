@@ -10,9 +10,22 @@
   flex: 1 0;
 }
 
+.route-tab-loading {
+  position: relative;
+  min-height: 200px;
+}
+
 // tall enough for the bottom sheet to stay where it is when switching tabs
-.mobile .route-disruption-panel {
+.mobile .route-timetable-panel,
+.mobile .route-disruption-panel,
+.mobile .route-tab-loading {
   min-height: calc(100vh - 64px);
+}
+
+// the placeholder is taller than the visible sheet, so keep the spinner near the top
+.mobile .route-tab-loading .loading-spinner-container {
+  align-items: flex-start;
+  padding-top: 64px;
 }
 
 // ─── Schedule container (scroll root) ───────────────────────────────────────
