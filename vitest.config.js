@@ -115,12 +115,6 @@ export default {
           // Files that still `import { expect } from 'chai'` are unaffected
           // (a local import shadows a global).
           globals: true,
-          // Shares one jsdom environment/module registry per worker instead
-          // of recreating it per test file - jsdom env creation is the
-          // biggest chunk of this project's test time. Safe here because
-          // vitest.setup.js's afterEach already resets shared state (RTL
-          // cleanup, localStorage/sessionStorage, mocks via restoreMocks).
-          isolate: false,
           // Auto-restores vi.fn()/vi.spyOn() mocks between tests. Needed
           // because a handful of tests use vi.spyOn to stub this repo's own
           // ESM exports, which sinon can't do.
