@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import MapBottomsheetContext from './MapBottomsheetContext';
 import Map from './Map';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import useGeoJsonObjects from '../../hooks/useGeoJsonObjects';
 
 export default function MapContainer({ className = '', children, ...props }) {

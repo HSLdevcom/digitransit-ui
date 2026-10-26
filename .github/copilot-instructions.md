@@ -11,7 +11,7 @@ right one by *who consumes the code*, not just by convenience.
 - `app/` — client-bundle-only React app (React components + route trees):
   - `client/` — browser entry & bootstrap: `client.jsx` (browser entry, farce/found router
     bootstrap, `AppProviders`), `publicPath.js` / `loadDevTheme.js` (extra webpack entry
-    modules), `i18n.js`, `ConfigContext.jsx` (`useConfigContext` for config).
+    modules), `i18n.js`.
   - `routes/` — found + Relay route-tree definitions: `routes.jsx` (front page, top level),
     `routeRoutes.jsx` (route pages), `stopRoutes.jsx` (stop pages); keep the filenames, Relay
     query names are prefixed with them.

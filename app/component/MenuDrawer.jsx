@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import Modal from 'react-modal';
 import { CloseButton } from '@hsl-fi/layout-primitives';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function MenuDrawer({
   open,

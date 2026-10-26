@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
 import { relayShape } from '../../utils/client/shapes';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 import { withCurrentTime } from '../hooks/TimeContext';
 import {
   useMessages,

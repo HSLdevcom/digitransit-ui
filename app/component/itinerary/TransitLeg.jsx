@@ -57,7 +57,7 @@ import {
   getBoardingInformationText,
   getTrackOrPierOrPlatformChangeText,
 } from '../../../utils/client/localeUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 import useCanceledStopIds from './useCanceledStopIds';
 

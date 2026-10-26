@@ -10,7 +10,7 @@ import {
   getAlternativeFares,
   formatFare,
 } from '../../../utils/client/fareUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const EMPTY_FARES = [];
 const EMPTY_ZONES = [];

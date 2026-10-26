@@ -18,7 +18,7 @@ import Loading from '../Loading';
 import { streetHash } from '../../../utils/shared/path';
 import { getIntermediatePlaces } from '../../../utils/shared/otpStrings';
 import { ItineraryListPlanEdges } from './queries/ItineraryListPlanEdges';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const spinnerPosition = {
   top: 'top',

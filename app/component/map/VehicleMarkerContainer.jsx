@@ -5,7 +5,7 @@ import { ExtendedRouteTypes } from '../../../utils/shared/constants';
 import VehicleIcon from '../VehicleIcon';
 import IconMarker from './IconMarker';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const MODES_WITH_ICONS = [
   'bus',

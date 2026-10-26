@@ -19,7 +19,7 @@ import { useBreakpoint } from '../../../../utils/client/withBreakpoint';
 import DateSelectGrouped from '../../stop/DateSelectGrouped';
 import RouteControlPanel from '../RouteControlPanel';
 import ScrollableWrapper from '../../ScrollableWrapper';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 import { getTripsList } from './scheduleTripsUtils';
 import { calculateRedirectDecision } from './scheduleParamUtils';
 import { buildAvailableDates } from './scheduleDataUtils';

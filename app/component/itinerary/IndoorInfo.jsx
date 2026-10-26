@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import Icon from '../Icon';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function IndoorInfo({
   intermediateStepCount,

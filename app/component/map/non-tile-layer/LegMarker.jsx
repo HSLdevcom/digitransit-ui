@@ -6,7 +6,7 @@ import cx from 'classnames';
 import Icon from '../../Icon';
 import { legShape } from '../../../../utils/client/shapes';
 import { renderAsString } from '../../../../utils/client/mapIconUtils';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 // The functions below compute plain values (icon name, route number markup,
 // visibility) with no Leaflet dependency. They are exported for unit testing

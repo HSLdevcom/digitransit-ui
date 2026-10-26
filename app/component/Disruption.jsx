@@ -6,7 +6,7 @@ import { DateTime } from 'luxon';
 import cx from 'classnames';
 import Icon from './Icon';
 import DisruptionBadge from './trafficnow/DisruptionBadge';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 import {
   PREFIX_DISRUPTION,
   routePagePath,

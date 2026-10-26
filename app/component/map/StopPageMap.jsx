@@ -19,7 +19,7 @@ import MapRoutingButton from '../MapRoutingButton';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../../utils/shared/path';
 import { streetQuery } from './StreetQuery';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { useBreakpoint } from '../../../utils/client/withBreakpoint';
 import { STOP_STATUS } from '../../../utils/client/stopStatusUtils';
 

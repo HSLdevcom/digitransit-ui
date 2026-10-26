@@ -10,7 +10,7 @@ import ZoneIcon from './ZoneIcon';
 import { hasVehicleRentalCode } from '../../utils/shared/vehicleRentalUtils';
 import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
 import { splitGtfsId } from '../../utils/shared/gtfs';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 const ParkOrBikeStationHeader = ({
   parkOrStation,

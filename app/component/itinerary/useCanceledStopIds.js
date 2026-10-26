@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { fetchQuery, ReactRelayContext } from 'react-relay';
 import { DateTime } from 'luxon';
 import { stoptimeHasCancelation } from '../../../utils/client/alertUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { tripStopCancelationsQuery } from './queries/TripStopCancelationsQuery';
 
 const NO_CANCELATIONS = new Set();
