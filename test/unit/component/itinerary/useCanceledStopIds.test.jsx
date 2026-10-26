@@ -69,9 +69,7 @@ describe('useCanceledStopIds', () => {
     );
     const legs = [leg('20261023', '20261024')];
     const { result } = renderHook(() => useCanceledStopIds(legs), { wrapper });
-    await waitFor(() => expect(result.current.has('HSL:3')).toBe(true), {
-      timeout: 5000,
-    });
+    await waitFor(() => expect(result.current.has('HSL:3')).toBe(true));
     expect(result.current.has('HSL:1')).toBe(false);
     expect(mockFetchQuery).toHaveBeenCalledWith(
       expect.anything(),
@@ -92,9 +90,7 @@ describe('useCanceledStopIds', () => {
       },
     ];
     const { result } = renderHook(() => useCanceledStopIds(legs), { wrapper });
-    await waitFor(() => expect(result.current.has('HSL:3')).toBe(true), {
-      timeout: 5000,
-    });
+    await waitFor(() => expect(result.current.has('HSL:3')).toBe(true));
   });
 
   it('does not refetch when the stop chain is toggled', async () => {
@@ -106,9 +102,7 @@ describe('useCanceledStopIds', () => {
       ({ enabled }) => useCanceledStopIds(legs, enabled),
       { wrapper, initialProps: { enabled: true } },
     );
-    await waitFor(() => expect(result.current.has('HSL:3')).toBe(true), {
-      timeout: 5000,
-    });
+    await waitFor(() => expect(result.current.has('HSL:3')).toBe(true));
     rerender({ enabled: false });
     rerender({ enabled: true });
     expect(result.current.has('HSL:3')).toBe(true);
