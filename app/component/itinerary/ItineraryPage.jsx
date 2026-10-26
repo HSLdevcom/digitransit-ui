@@ -209,6 +209,7 @@ function ItineraryPageContent(props) {
   }, [personalizationPreferences]);
   const recommendedItinerary = useRef(-1);
   const searchGeneration = useRef(0);
+  const activePlanRequests = useRef(new Set());
 
   const [mainState, setMainState] = useState({
     ...emptyState,
@@ -397,6 +398,41 @@ function ItineraryPageContent(props) {
       });
   }
 
+  // Resolves with the query result, or null if cancelled via cancelPlanRequests
+  function fetchPlan(planParams) {
+    return new Promise((resolve, reject) => {
+      const request = {};
+      const finish = () => activePlanRequests.current.delete(request);
+      request.cancel = () => {
+        finish();
+        // unsubscribing aborts the underlying fetch
+        request.subscription?.unsubscribe();
+        resolve(null);
+      };
+      activePlanRequests.current.add(request);
+      fetchQuery(relayEnvironment, planConnection, planParams, {
+        force: true,
+      }).subscribe({
+        start: subscription => {
+          request.subscription = subscription;
+        },
+        next: data => resolve(data),
+        error: error => {
+          finish();
+          reject(error);
+        },
+        complete: () => {
+          finish();
+          resolve(null);
+        },
+      });
+    });
+  }
+
+  function cancelPlanRequests() {
+    [...activePlanRequests.current].forEach(request => request.cancel());
+  }
+
   async function iterateQuery(planParams, reps) {
     const generation = searchGeneration.current;
     let plan;
@@ -407,14 +443,7 @@ function ItineraryPageContent(props) {
       let result;
       try {
         // eslint-disable-next-line no-await-in-loop
-        result = await fetchQuery(
-          relayEnvironment,
-          planConnection,
-          planParams,
-          {
-            force: true,
-          },
-        ).toPromise();
+        result = await fetchPlan(planParams);
       } catch (error) {
         if (generation !== searchGeneration.current) {
           return null;
@@ -1162,6 +1191,7 @@ function ItineraryPageContent(props) {
     }
     return () => {
       searchGeneration.current += 1;
+      cancelPlanRequests();
     };
   }, [
     settingsState.settingsChanged,
