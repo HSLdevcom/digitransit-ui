@@ -1,9 +1,5 @@
-import isString from 'lodash/isString';
-import sortedUniq from 'lodash/sortedUniq';
 import xor from 'lodash/xor';
-import inside from 'point-in-polygon';
 import { getCustomizedSettings } from './localStorage';
-import { isInBoundingBox } from '../shared/geo-utils';
 import { addAnalyticsEvent } from '../shared/analyticsUtils';
 import { ExtendedRouteTypes, TransportMode } from '../shared/constants';
 import {
@@ -306,66 +302,6 @@ export function getAvailableTransportModes(config) {
  */
 export function isTransportModeAvailable(config, mode) {
   return getAvailableTransportModes(config).includes(mode.toUpperCase());
-}
-
-/**
- * Checks if mode does not exist in config's modePolygons or
- * at least one of the given coordinates is inside any of the polygons defined for a mode
- *
- * @param {*} config The configuration for the software installation
- * @param {String} mode The mode to check
- * @param {*} places
- */
-export function isModeAvailableInsidePolygons(config, mode, places) {
-  if (mode in config.modePolygons && places.length > 0) {
-    for (let i = 0; i < places.length; i++) {
-      const { lat, lon } = places[i];
-      for (let j = 0; j < config.modeBoundingBoxes[mode].length; j++) {
-        const boundingBox = config.modeBoundingBoxes[mode][j];
-        if (
-          isInBoundingBox(boundingBox, lat, lon) &&
-          inside([lon, lat], config.modePolygons[mode][j])
-        ) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-  return true;
-}
-
-/**
- * Maps the given modes (either a string array or a comma-separated string of values)
- * to their OTP counterparts. Any modes with no counterpart available will be dropped
- * from the output.
- *
- * @param {*} config The configuration for the software installation
- * @param {String[]|String} modes The modes to filter
- * @returns The filtered modes, or an empty string
- */
-export function filterModes(config, modes, from, to, intermediatePlaces) {
-  if (!modes) {
-    return [];
-  }
-  const modesStr = modes instanceof Array ? modes.join(',') : modes;
-  if (!isString(modesStr)) {
-    return [];
-  }
-  return sortedUniq(
-    modesStr
-      .split(',')
-      .filter(mode => isTransportModeAvailable(config, mode))
-      .filter(mode =>
-        isModeAvailableInsidePolygons(config, mode, [
-          from,
-          to,
-          ...intermediatePlaces,
-        ]),
-      )
-      .filter(mode => !!mode)
-      .sort(),
-  );
 }
 
 /**

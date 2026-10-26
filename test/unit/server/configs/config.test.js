@@ -49,16 +49,6 @@ describe('config', () => {
       ).toBeLessThanOrEqual(62);
     });
     /* eslint-disable no-unused-expressions */
-    it('should return default configuration with empty modePolygons object and no modeBoundingBoxes when using no headers', () => {
-      const request = {
-        headers: {},
-      };
-      const config = getConfiguration(request);
-      expect(config.modePolygons).toEqual({}); // eslint-disable-line no-unused-expressions
-      expect(config.modeBoundingBoxes).toBeUndefined(); // eslint-disable-line no-unused-expressions
-    });
-
-    /* eslint-disable no-unused-expressions */
     it('should return default configuration with empty realTimePatch and unchanged realTime.HSL', () => {
       const request = {
         headers: {},
