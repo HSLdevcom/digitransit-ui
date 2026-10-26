@@ -2135,7 +2135,7 @@ __metadata:
     prop-types: ^15.8.1
     react: ^18.3.1
     react-i18next: ^12.3.1
-    react-sortablejs: ^2.0.11
+    react-sortablejs: ^6.1.4
   languageName: unknown
   linkType: soft
 
@@ -2243,7 +2243,7 @@ __metadata:
     prop-types: ^15.8.1
     react: ^18.3.1
     react-i18next: ^12.3.1
-    react-sortablejs: ^2.0.11
+    react-sortablejs: ^6.1.4
   languageName: unknown
   linkType: soft
 
@@ -2339,7 +2339,7 @@ __metadata:
     react: ^18.3.1
     react-i18next: ^12.3.1
     react-modal: ^3.11.2
-    react-sortablejs: ^2.0.11
+    react-sortablejs: ^6.1.4
   languageName: unknown
   linkType: soft
 
@@ -7725,7 +7725,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sortablejs@npm:^1.10.0":
+"@types/sortablejs@npm:1.15.9":
   version: 1.15.9
   resolution: "@types/sortablejs@npm:1.15.9"
   checksum: 10/9e0d6ef1cdcd30acab7af74cab5cbf56685e2de47c6f254357f7dde2626e9b49b8668c43f92761202cf4e10f2e3fd3d7baa6a83a39c3d342fc45ce66e87bd5aa
@@ -9801,7 +9801,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:2.5.1, classnames@npm:^2.2.6, classnames@npm:^2.3.2, classnames@npm:^2.5.1":
+"classnames@npm:2.3.1":
+  version: 2.3.1
+  resolution: "classnames@npm:2.3.1"
+  checksum: 10/28fec94a815d5f570fa6cb4baaa4a7ae1466db3c8f704802f1330180db45d3b85ef8ae612f521fb37ce2cab1c3040d1d78061697b62987bc2909f26d1ad4321f
+  languageName: node
+  linkType: hard
+
+"classnames@npm:2.5.1, classnames@npm:^2.3.2, classnames@npm:^2.5.1":
   version: 2.5.1
   resolution: "classnames@npm:2.5.1"
   checksum: 10/58eb394e8817021b153bb6e7d782cfb667e4ab390cb2e9dac2fc7c6b979d1cc2b2a733093955fc5c94aa79ef5c8c89f11ab77780894509be6afbb91dddd79d15
@@ -11669,6 +11676,7 @@ __metadata:
     "@rollup/plugin-terser": "npm:1.0.0"
     "@testing-library/dom": "npm:^10.4.0"
     "@testing-library/react": "npm:^16.0.1"
+    "@types/sortablejs": "npm:1.15.9"
     "@vitejs/plugin-react": "npm:4.7.0"
     async: "npm:^3.2.6"
     autoprefixer: "npm:^10.4.21"
@@ -11760,7 +11768,7 @@ __metadata:
     react-relay: "npm:16.2.0"
     react-relay-network-modern: "npm:6.2.2"
     react-select: "npm:4.3.1"
-    react-sortablejs: "npm:2.0.11"
+    react-sortablejs: "npm:6.1.4"
     react-swipe: "npm:6.0.4"
     react-truncate-markup: "npm:5.1.2"
     redis: "npm:2.8.0"
@@ -11774,6 +11782,7 @@ __metadata:
     selenium-webdriver: "npm:4.0.0-alpha.1"
     semver: "npm:^7.8.5"
     serialize-javascript: "npm:7.0.5"
+    sortablejs: "npm:1.15.7"
     style-loader: "npm:^4.0.0"
     stylelint: "npm:15.11.0"
     stylelint-config-standard-scss: "npm:11.1.0"
@@ -22499,18 +22508,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-sortablejs@npm:2.0.11":
-  version: 2.0.11
-  resolution: "react-sortablejs@npm:2.0.11"
+"react-sortablejs@npm:6.1.4":
+  version: 6.1.4
+  resolution: "react-sortablejs@npm:6.1.4"
   dependencies:
-    "@types/sortablejs": "npm:^1.10.0"
-    classnames: "npm:^2.2.6"
-    sortablejs: "npm:1.10.1"
-    tiny-invariant: "npm:^1.0.6"
+    classnames: "npm:2.3.1"
+    tiny-invariant: "npm:1.2.0"
   peerDependencies:
-    react: ^16.9.0
-    react-dom: ^16.9.0
-  checksum: 10/8ae550abaff9180dc2d155e9a85bcfa3ab1cf0992be57ef860828eb5ac51ae5eabbb4e2abcc751e8ee4146dffa2fccec056f6047112f0fd76fa23827c5b30f85
+    "@types/sortablejs": 1
+    react: ">=16.9.0"
+    react-dom: ">=16.9.0"
+    sortablejs: 1
+  checksum: 10/44e7ed04b437ab1f3636070ed65bcca237c0a4f6425a9c6cb5a0aa2d2a9a82b8e5e66d3d9995834adb49a65c828d86fca9a9909436f15be039aa0a09c2ae31b3
   languageName: node
   linkType: hard
 
@@ -24485,10 +24494,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sortablejs@npm:1.10.1":
-  version: 1.10.1
-  resolution: "sortablejs@npm:1.10.1"
-  checksum: 10/7c3d16260004015e7286058b5a4b3749f7422aa753080ca7e2360df6118f57b2c17d5b54eab2cc186122f0885e5b9e97181647b8258f624454682b98e2fa61af
+"sortablejs@npm:1.15.7":
+  version: 1.15.7
+  resolution: "sortablejs@npm:1.15.7"
+  checksum: 10/4ef195ec8512c48ba536c65fc8ab8ecf0bd05a918dc79d64213428edf12c8d5a6c18ff40f822d69d4716b764d860e0fdf8a467cf7ab6386f613aa4ea99ac5d42
   languageName: node
   linkType: hard
 
@@ -25606,10 +25615,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-invariant@npm:^1.0.6":
-  version: 1.3.3
-  resolution: "tiny-invariant@npm:1.3.3"
-  checksum: 10/5e185c8cc2266967984ce3b352a4e57cb89dad5a8abb0dea21468a6ecaa67cd5bb47a3b7a85d08041008644af4f667fb8b6575ba38ba5fb00b3b5068306e59fe
+"tiny-invariant@npm:1.2.0":
+  version: 1.2.0
+  resolution: "tiny-invariant@npm:1.2.0"
+  checksum: 10/e09a718a7c4a499ba592cdac61f015d87427a0867ca07f50c11fd9b623f90cdba18937b515d4a5e4f43dac92370498d7bdaee0d0e7a377a61095e02c4a92eade
   languageName: node
   linkType: hard
 

@@ -403,7 +403,8 @@ function DTAutosuggestPanel({
       )}
       <ReactSortable
         className={styles['viapoints-container']}
-        list={viaPoints}
+        // ReactSortable mutates its list items
+        list={viaPoints.map(vp => ({ ...vp }))}
         handle={`.${styles['viapoint-before']}`}
         animation={200}
         disabled={viaPoints.length <= 1}

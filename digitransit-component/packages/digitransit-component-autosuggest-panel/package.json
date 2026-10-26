@@ -50,6 +50,6 @@
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-i18next": "^12.3.1",
-    "react-sortablejs": "^2.0.11"
+    "react-sortablejs": "^6.1.4"
   }
 }

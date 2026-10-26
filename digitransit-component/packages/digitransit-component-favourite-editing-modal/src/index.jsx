@@ -136,7 +136,8 @@ function FavouriteEditingModal({
             <ReactSortable
               className={styles.list}
               tag="ul"
-              list={items}
+              // ReactSortable mutates its list items
+              list={items.map(item => ({ ...item }))}
               setList={setList}
               animation={200}
               handle={`.${DRAG_HANDLE_CLASS}`}
