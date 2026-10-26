@@ -84,6 +84,7 @@ import {
   mergeTaxiZonePlan,
   parseCarTransitPlan,
   quitIteration,
+  removeDuplicateEdges,
   reportError,
   filterScooterEdges,
   setCurrentTimeToURL,
@@ -713,6 +714,28 @@ function ItineraryPageContent(props) {
     }
   }
 
+  // Returns sorted edges of a fetched plan that are not already shown.
+  // If the page had only duplicates, advances the cursor and returns null.
+  const getNewEdges = (plan, origPlan, arriveBy, cursorName) => {
+    const edges = getSortedEdges(
+      removeDuplicateEdges(plan.edges, [
+        ...origPlan.edges,
+        ...mainState.earlierEdges,
+        ...mainState.laterEdges,
+      ]),
+      arriveBy,
+    );
+    if (edges.length === 0 && plan.edges.length > 0) {
+      setMainState({
+        ...mainState,
+        loadingMore: undefined,
+        [cursorName]: plan.pageInfo[cursorName],
+      });
+      return null;
+    }
+    return edges;
+  };
+
   const onLater = async () => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -755,7 +778,10 @@ function ItineraryPageContent(props) {
     if (plan === null) {
       return;
     }
-    const edges = getSortedEdges(plan.edges, arriveBy);
+    const edges = getNewEdges(plan, origPlan, arriveBy, 'endCursor');
+    if (!edges) {
+      return;
+    }
     if (edges.length === 0) {
       const newState = arriveBy
         ? { topNote: 'no-more-route-msg' }
@@ -846,7 +872,10 @@ function ItineraryPageContent(props) {
     if (plan === null) {
       return;
     }
-    const edges = getSortedEdges(plan.edges, arriveBy);
+    const edges = getNewEdges(plan, origPlan, arriveBy, 'startCursor');
+    if (!edges) {
+      return;
+    }
     if (edges.length === 0) {
       const newState = arriveBy
         ? { bottomNote: 'no-more-route-msg' }
