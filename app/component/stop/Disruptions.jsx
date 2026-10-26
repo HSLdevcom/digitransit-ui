@@ -89,12 +89,13 @@ const getCancelations = (stop, intl, config) => {
               time: { departure },
             },
           },
-        }) => ({
-          scheduledDeparture:
-            (DateTime.fromISO(departure) -
-              DateTime.fromISO(departure).startOf('day')) /
-            1000,
-        }),
+        }) => {
+          // wall-clock seconds since midnight, correct also on DST change days
+          const dt = DateTime.fromISO(departure);
+          return {
+            scheduledDeparture: dt.hour * 3600 + dt.minute * 60 + dt.second,
+          };
+        },
       )
       .sort((a, b) => a.scheduledDeparture - b.scheduledDeparture);
     const { trip, serviceDate } = canceledCalls[0].tripOnServiceDate;
