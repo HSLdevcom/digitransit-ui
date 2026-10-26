@@ -298,30 +298,30 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
       margin: 0 0 0 47px;
     }
 
-    :global .datetimepicker-select__input {
+    // the input has inline font/color/background styles, so typography is set on its container
+    :global .datetimepicker-select__input-container {
       background: inherit;
       position: relative;
-      margin-left: 40px;
-      margin-top: -4px;
+      padding: 0;
+      margin: 0 0 0 42px;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.33;
+      color: #333;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: var(--font-weight-medium, 500);
+    }
 
-      input {
-        opacity: 1 !important; // TODO
-        background: inherit;
+    :global .datetimepicker-select__input {
+      opacity: 1 !important; // TODO
+      box-shadow: none;
+      letter-spacing: -0.5px; // inputs do not inherit letter-spacing
+
+      &:focus {
         box-shadow: none;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.33;
-        letter-spacing: -0.5px;
-        color: #333;
-        font-family: inherit;
-        font-size: 15px;
-        font-weight: var(--font-weight-medium, 500);
-
-        &:focus {
-          box-shadow: none;
-          outline: none;
-          border: none;
-        }
+        outline: none;
+        border: none;
       }
     }
 
