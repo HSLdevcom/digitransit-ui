@@ -5,7 +5,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
 import { Text } from '@hsl-fi/layout-primitives';
 import { legShape } from '../../../utils/client/shapes';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import {
   legTime,
   legTimeStr,

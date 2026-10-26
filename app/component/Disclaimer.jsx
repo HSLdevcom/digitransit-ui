@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Note } from '@hsl-fi/notifications';
 import { Text } from '@hsl-fi/layout-primitives';
 import { ArrowLink } from '@hsl-fi/navigation';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 const EMPTY_VALUES = {};
 

@@ -24,6 +24,10 @@ Basically, division between alternatives is:
 - GraphQL is used to fetch data from server
 - Non-GraphQL requests may use a focused data helper or React context
 
+Configuration is exposed by `ConfigProvider` and `useConfigContext` in
+`app/hooks/ConfigContext.jsx`. The provider wraps the other app providers in
+`app/client/client.jsx` so they can also access configuration.
+
 Realtime vehicle information is owned by `RealTimeInformationProvider` in
 `app/hooks/RealTimeInformationContext.jsx`. `useRealTimeInformation` subscribes
 to vehicle snapshots, published at most once per second. `useRealTimeActions`

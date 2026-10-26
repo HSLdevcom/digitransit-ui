@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useFilterContext } from './FiltersContext';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 import { getTransportModes } from '../../../../utils/client/modeUtils';
 import { TrafficNowTransportModes } from '../../../../utils/shared/constants';
 import Icon from '../../Icon';

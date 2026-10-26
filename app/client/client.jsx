@@ -22,8 +22,6 @@ import { IntlProvider } from 'react-intl';
 import i18n from './i18n';
 import routes, { historyMiddlewares, render } from '../routes/routes';
 import ErrorBoundary from '../component/ErrorBoundary';
-import legacyParamParser from '../../utils/shared/legacyParamParser';
-import { LEGACY_LOCALE_PATHS } from '../../utils/shared/constants';
 import { ClientProvider as ClientBreakpointProvider } from '../../utils/client/withBreakpoint';
 import getMetadata from '../../utils/shared/metaUtils';
 import {
@@ -36,7 +34,7 @@ import { configureCountry } from '../../utils/client/configureCountry';
 import { getUser } from '../../utils/client/apiUtils';
 import favouriteStore from '../data/FavouriteData';
 import searchContext from '../data/SearchContext';
-import { ConfigProvider } from './ConfigContext';
+import { ConfigProvider } from '../hooks/ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
 import { MapLayerProvider } from '../hooks/MapLayerContext';
 import { PositionProvider } from '../hooks/PositionContext';
@@ -76,22 +74,6 @@ const AppProviders = props => {
     (children, [Provider, value]) => <Provider {...value}>{children}</Provider>,
     props.children,
   );
-};
-
-const getParams = query => {
-  if (!query) {
-    return {};
-  }
-
-  return query
-    .substring(1)
-    .split('&')
-    .map(v => v.split('='))
-    .reduce((params, [key, value]) => {
-      const newParam = {};
-      newParam[key] = decodeURIComponent(value);
-      return { ...params, ...newParam };
-    }, {});
 };
 
 async function init() {
@@ -162,17 +144,6 @@ async function init() {
 
   const path = window.location.pathname;
 
-  if (config.redirectReittiopasParams) {
-    const query = getParams(window.location.search);
-
-    if (query.from || query.to || query.from_in || query.to_in) {
-      legacyParamParser(query, config).then(redirectUrl =>
-        window.location.replace(redirectUrl),
-      );
-    } else if (LEGACY_LOCALE_PATHS.includes(path)) {
-      window.location.replace('/');
-    }
-  }
   // send tracking call for initial page load.
   // tracking page changes is done in TopLevel component
   addAnalyticsEvent({

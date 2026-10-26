@@ -2118,41 +2118,24 @@ __metadata:
 "@digitransit-component/digitransit-component-abtesting@workspace:digitransit-component/packages/digitransit-component-abtesting":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-abtesting@workspace:digitransit-component/packages/digitransit-component-abtesting"
-  dependencies:
-    "@marvelapp/react-ab-test": "npm:2.3.0"
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
-  peerDependencies:
-    "@marvelapp/react-ab-test": 2.3.0
-    i18next: ^22.5.1
-    prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
 "@digitransit-component/digitransit-component-autosuggest-panel@workspace:^, @digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:digitransit-component/packages/digitransit-component-autosuggest-panel"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-autosuggest": "workspace:^"
     "@digitransit-component/digitransit-component-icon": "workspace:^"
-    "@hsl-fi/sass": 1.0.0
-    classnames: 2.5.1
-    downshift: 9.4.0
+    "@hsl-fi/sass": ^1.0.0
+    classnames: ^2.5.1
+    downshift: ^9.4.0
     i18next: ^22.5.1
-    lodash: 4.18.1
-    lodash-es: 4.18.1
+    lodash: ^4.18.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
     react-i18next: ^12.3.1
-    react-sortablejs: 2.0.11
+    react-sortablejs: ^2.0.11
   languageName: unknown
   linkType: soft
 
@@ -2162,48 +2145,37 @@ __metadata:
   dependencies:
     "@digitransit-search-util/digitransit-search-util-execute-search-immediate": "workspace:^"
     "@digitransit-search-util/digitransit-search-util-get-label": "workspace:^"
+    "@digitransit-search-util/digitransit-search-util-helpers": "workspace:^"
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
     "@hsl-fi/hooks": "npm:^1.2.4"
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^"
     "@digitransit-component/digitransit-component-icon": "workspace:^"
     "@digitransit-component/digitransit-component-suggestion-item": "workspace:^"
-    "@hsl-fi/sass": 1.0.0
-    classnames: 2.5.1
-    downshift: 9.4.0
+    "@hsl-fi/sass": ^1.0.0
+    classnames: ^2.5.1
+    downshift: ^9.4.0
     i18next: ^22.5.1
-    lodash: 4.18.1
-    lodash-es: 4.18.1
     luxon: ^3.6.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
     react-i18next: ^12.3.1
-    react-modal: ~3.11.2
+    react-modal: ^3.11.2
   languageName: unknown
   linkType: soft
 
 "@digitransit-component/digitransit-component-control-panel@workspace:^, @digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-control-panel@workspace:digitransit-component/packages/digitransit-component-control-panel"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": "workspace:^"
     "@hsl-fi/dialog": ^3.1.3
     "@hsl-fi/layout-primitives": ^4.9.0
-    "@hsl-fi/sass": 1.0.0
-    "@hsl-fi/shimmer": 0.1.2
-    classnames: 2.5.1
+    "@hsl-fi/sass": ^1.0.0
+    "@hsl-fi/shimmer": ^0.1.2
     i18next: ^22.5.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
     react-i18next: ^12.3.1
   languageName: unknown
   linkType: soft
@@ -2211,24 +2183,18 @@ __metadata:
 "@digitransit-component/digitransit-component-datetimepicker@workspace:digitransit-component/packages/digitransit-component-datetimepicker":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-datetimepicker@workspace:digitransit-component/packages/digitransit-component-datetimepicker"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": "workspace:^"
-    "@hsl-fi/sass": 1.0.0
-    classnames: 2.5.1
-    downshift: 9.4.0
+    "@hsl-fi/sass": ^1.0.0
+    classnames: ^2.5.1
+    downshift: ^9.4.0
     i18next: ^22.5.1
-    lodash: 4.18.1
-    lodash-es: 4.18.1
+    lodash: ^4.18.1
     luxon: ^3.6.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
     react-i18next: ^12.3.1
-    react-modal: ~3.11.2
+    react-modal: ^3.11.2
     react-select: ^4.3.1
   languageName: unknown
   linkType: soft
@@ -2236,15 +2202,10 @@ __metadata:
 "@digitransit-component/digitransit-component-dialog-modal@workspace:digitransit-component/packages/digitransit-component-dialog-modal":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-dialog-modal@workspace:digitransit-component/packages/digitransit-component-dialog-modal"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@hsl-fi/dialog": ^3.1.3
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
   languageName: unknown
   linkType: soft
 
@@ -2253,21 +2214,15 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-favourite-bar@workspace:digitransit-component/packages/digitransit-component-favourite-bar"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": "workspace:^"
     "@digitransit-component/digitransit-component-suggestion-item": "workspace:^"
-    "@hsl-fi/sass": 1.0.0
-    "@hsl-fi/shimmer": 0.1.2
-    classnames: 2.5.1
+    "@hsl-fi/sass": ^1.0.0
+    "@hsl-fi/shimmer": ^0.1.2
+    classnames: ^2.5.1
     i18next: ^22.5.1
-    lodash: 4.18.1
-    lodash-es: 4.18.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
     react-i18next: ^12.3.1
   languageName: unknown
   linkType: soft
@@ -2277,10 +2232,6 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-favourite-editing-modal@workspace:digitransit-component/packages/digitransit-component-favourite-editing-modal"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^"
     "@digitransit-component/digitransit-component-icon": "workspace:^"
@@ -2288,30 +2239,26 @@ __metadata:
     "@hsl-fi/layout-primitives": ^4.9.0
     "@hsl-fi/loading-indicators": ^2.0.0
     i18next: ^22.5.1
+    lodash: ^4.18.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
     react-i18next: ^12.3.1
-    react-sortablejs: 2.0.11
+    react-sortablejs: ^2.0.11
   languageName: unknown
   linkType: soft
 
 "@digitransit-component/digitransit-component-favourite-modal@workspace:^, @digitransit-component/digitransit-component-favourite-modal@workspace:digitransit-component/packages/digitransit-component-favourite-modal":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-favourite-modal@workspace:digitransit-component/packages/digitransit-component-favourite-modal"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": "workspace:^"
     "@hsl-fi/dialog": ^3.1.3
     "@hsl-fi/form": ^5.0.4
     "@hsl-fi/layout-primitives": ^4.9.0
-    classnames: 2.5.1
+    classnames: ^2.5.1
     i18next: ^22.5.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
     react-i18next: ^12.3.1
   languageName: unknown
   linkType: soft
@@ -2319,65 +2266,45 @@ __metadata:
 "@digitransit-component/digitransit-component-icon@workspace:^, @digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-icon@workspace:digitransit-component/packages/digitransit-component-icon"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
   languageName: unknown
   linkType: soft
 
 "@digitransit-component/digitransit-component-suggestion-item@workspace:^, @digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-suggestion-item@workspace:digitransit-component/packages/digitransit-component-suggestion-item"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": "workspace:^"
-    "@hsl-fi/sass": " 1.0.0"
-    classnames: 2.5.1
+    "@hsl-fi/sass": ^1.0.0
+    classnames: ^2.5.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
   languageName: unknown
   linkType: soft
 
 "@digitransit-component/digitransit-component-traffic-now-link@workspace:digitransit-component/packages/digitransit-component-traffic-now-link":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-traffic-now-link@workspace:digitransit-component/packages/digitransit-component-traffic-now-link"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
     "@digitransit-component/digitransit-component-icon": "workspace:^"
-    "@hsl-fi/sass": 1.0.0
+    "@hsl-fi/sass": ^1.0.0
     i18next: ^22.5.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
-    react-i18next: ^12.3.2
+    react: ^18.3.1
+    react-i18next: ^12.3.1
   languageName: unknown
   linkType: soft
 
 "@digitransit-component/digitransit-component-with-breakpoint@workspace:^, @digitransit-component/digitransit-component-with-breakpoint@workspace:digitransit-component/packages/digitransit-component-with-breakpoint":
   version: 0.0.0-use.local
   resolution: "@digitransit-component/digitransit-component-with-breakpoint@workspace:digitransit-component/packages/digitransit-component-with-breakpoint"
-  dependencies:
-    "@testing-library/dom": "npm:^10.4.0"
-    "@testing-library/react": "npm:^16.0.1"
-    react: "npm:^18.3.1"
-    react-dom: "npm:^18.3.1"
   peerDependencies:
-    hoist-non-react-statics: 2.5.4
-    lodash: 4.18.1
+    hoist-non-react-statics: ^2.5.5
+    lodash: ^4.18.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
+    react: ^18.3.1
   languageName: unknown
   linkType: soft
 
@@ -2396,21 +2323,23 @@ __metadata:
     "@digitransit-component/digitransit-component-with-breakpoint": "workspace:^"
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^"
+    "@hsl-fi/dialog": ^3.1.3
+    "@hsl-fi/form": ^5.0.4
+    "@hsl-fi/layout-primitives": ^4.9.0
     "@hsl-fi/loading-indicators": ^2.0.0
-    "@hsl-fi/modal": ^0.3.2
-    "@hsl-fi/sass": 1.0.0
-    "@hsl-fi/shimmer": 0.1.2
-    classnames: 2.5.1
-    downshift: 9.4.0
-    hoist-non-react-statics: 2.5.4
+    "@hsl-fi/sass": ^1.0.0
+    "@hsl-fi/shimmer": ^0.1.2
+    classnames: ^2.5.1
+    downshift: ^9.4.0
+    hoist-non-react-statics: ^2.5.5
     i18next: ^22.5.1
-    lodash: 4.18.1
-    lodash-es: 4.18.1
+    lodash: ^4.18.1
     luxon: ^3.6.1
     prop-types: ^15.8.1
-    react: ^16.13.0 || ^17.0.0 || ^18.0.0
-    react-modal: ~3.11.2
-    react-sortablejs: 2.0.11
+    react: ^18.3.1
+    react-i18next: ^12.3.1
+    react-modal: ^3.11.2
+    react-sortablejs: ^2.0.11
   languageName: unknown
   linkType: soft
 
@@ -2505,9 +2434,8 @@ __metadata:
     babel-plugin-relay: "npm:16.2.0"
     relay-compiler: "npm:16.2.0"
   peerDependencies:
-    graphql: 16.8.1
-    lodash: 4.18.1
-    react-relay: 16.2.0
+    lodash: ^4.18.1
+    react-relay: ^16.2.0
   languageName: unknown
   linkType: soft
 
@@ -2542,7 +2470,6 @@ __metadata:
   resolution: "@digitransit-search-util/digitransit-search-util-uniq-by-label@workspace:digitransit-search-util/packages/digitransit-search-util-uniq-by-label"
   dependencies:
     lodash: "npm:4.18.1"
-    lodash-es: "npm:4.18.1"
   languageName: unknown
   linkType: soft
 
@@ -2556,8 +2483,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@digitransit-store/digitransit-store-future-route@workspace:digitransit-store/packages/digitransit-store-future-route"
   peerDependencies:
-    lodash: 4.17.21
-    lodash-es: 4.17.21
+    lodash: ^4.18.1
   languageName: unknown
   linkType: soft
 
@@ -2586,8 +2512,7 @@ __metadata:
     "@digitransit-util/digitransit-util-day-range-allowed-diff": "workspace:^"
     "@digitransit-util/digitransit-util-day-range-pattern": "workspace:^"
   peerDependencies:
-    lodash: 4.17.21
-    lodash-es: 4.17.21
+    lodash: ^4.18.1
     luxon: ^3.6.1
   languageName: unknown
   linkType: soft
@@ -2597,8 +2522,6 @@ __metadata:
   resolution: "@digitransit-util/digitransit-util-route-pattern-option-text@workspace:digitransit-util/packages/digitransit-util-route-pattern-option-text"
   peerDependencies:
     i18next: ^22.5.1
-    lodash: 4.17.21
-    lodash-es: 4.17.21
     luxon: ^3.6.1
   languageName: unknown
   linkType: soft
@@ -2611,6 +2534,10 @@ __metadata:
     "@digitransit-util/digitransit-util-day-range-pattern": "workspace:^"
     "@digitransit-util/digitransit-util-enrich-patterns": "workspace:^"
     "@digitransit-util/digitransit-util-route-pattern-option-text": "workspace:^"
+  peerDependencies:
+    i18next: ^22.5.1
+    lodash: ^4.18.1
+    luxon: ^3.6.1
   languageName: unknown
   linkType: soft
 
@@ -3072,46 +2999,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/intl-displaynames@npm:^1.2.0":
-  version: 1.2.10
-  resolution: "@formatjs/intl-displaynames@npm:1.2.10"
-  dependencies:
-    "@formatjs/intl-utils": "npm:^2.3.0"
-  checksum: 10/c4a417e5530a8d6854502cd85219d40a28f32db9e8df92db58f4d63fb99f36c74cf639175843985ac3ddb2397bafe00c3078b428e43b8afeba250f5ba19e312a
+"@formatjs/fast-memoize@npm:3.1.7":
+  version: 3.1.7
+  resolution: "@formatjs/fast-memoize@npm:3.1.7"
+  checksum: 10/2d7ead48684539764ecb8a52178719169186595e830d9d6941eff12bec1ae31e20642a9cfd197007c48a8cc7e965bf61445ffcccc0fd77281341271d00e7b8fb
   languageName: node
   linkType: hard
 
-"@formatjs/intl-listformat@npm:^1.4.1":
-  version: 1.4.8
-  resolution: "@formatjs/intl-listformat@npm:1.4.8"
+"@formatjs/icu-messageformat-parser@npm:3.5.21":
+  version: 3.5.21
+  resolution: "@formatjs/icu-messageformat-parser@npm:3.5.21"
   dependencies:
-    "@formatjs/intl-utils": "npm:^2.3.0"
-  checksum: 10/edcf42361451c8abe1e71a6956af43470a181a0e989843c352c14318f71e4ba0aef1e64e4fb57a529a1c3bfc5930bce121ec950abd7e8dbdca1443b3b02fba77
+    "@formatjs/icu-skeleton-parser": "npm:2.1.12"
+  checksum: 10/bc3e06c0b97aefac8d885e7200136ea46d059e9f81b1586fb8e052a3334ea6e6b82930f72032bccd32a7ec7da088d453df1de1db7154a2cec80d7915ab87bc98
   languageName: node
   linkType: hard
 
-"@formatjs/intl-relativetimeformat@npm:^4.5.9":
-  version: 4.5.16
-  resolution: "@formatjs/intl-relativetimeformat@npm:4.5.16"
-  dependencies:
-    "@formatjs/intl-utils": "npm:^2.3.0"
-  checksum: 10/07623e8940e24b1f087d8f81e9ab37c35d7afe6ee3f5952bb05942738973d88b7e47f2a0f3fac2f23ea5212a6e4cbe6d827cb9234ae0209578eb5bdb87e93400
+"@formatjs/icu-skeleton-parser@npm:2.1.12":
+  version: 2.1.12
+  resolution: "@formatjs/icu-skeleton-parser@npm:2.1.12"
+  checksum: 10/c45951202390de86e239b2ec37589a5c1ae90eb6777f9e7e4e3ee85466a2e1004128cdfe52ff4643fbc1d4117d56fa4c60450d93a79934a6d64a387b5fd100b0
   languageName: node
   linkType: hard
 
-"@formatjs/intl-unified-numberformat@npm:^3.2.0":
-  version: 3.3.7
-  resolution: "@formatjs/intl-unified-numberformat@npm:3.3.7"
+"@formatjs/intl@npm:6.1.3":
+  version: 6.1.3
+  resolution: "@formatjs/intl@npm:6.1.3"
   dependencies:
-    "@formatjs/intl-utils": "npm:^2.3.0"
-  checksum: 10/d722ca3e021727aeb55cd72fd6f44b9f949a21c0ade53ca1f90d8f1783f7c315d0c52ed25a949802383dc2ccca0c6940a28339fb35e65fe146a3ff37d0da9443
-  languageName: node
-  linkType: hard
-
-"@formatjs/intl-utils@npm:^2.2.0, @formatjs/intl-utils@npm:^2.3.0":
-  version: 2.3.0
-  resolution: "@formatjs/intl-utils@npm:2.3.0"
-  checksum: 10/206542dd2f0ac8a648a0a7ff09503ae1ed40b160057a837b509498b14f49cd989570a8ee7f9caf12fe57e2ace8effdc5004ffb98a45b9c7978786a78b1e1ec83
+    "@formatjs/fast-memoize": "npm:3.1.7"
+    "@formatjs/icu-messageformat-parser": "npm:3.5.21"
+    intl-messageformat: "npm:12.1.3"
+  checksum: 10/734f92d59f0e15e867ea16d7d0571895a14038f68af6a2dd2c44164b503dc14cff91ead8afed78cc85cc52d9dcdadb065801ef8a50b1e4ba216f43af400201de
   languageName: node
   linkType: hard
 
@@ -4997,19 +4915,6 @@ __metadata:
   dependencies:
     "@mapbox/point-geometry": "npm:~0.1.0"
   checksum: 10/ed31eeef0d593befde76b5b4edf0472709a2ba66dd6b32fad5671caa245fdac976e23ff385facf36e297f14a53c905bfde8911599e8aa690354d52b22bc4cfc5
-  languageName: node
-  linkType: hard
-
-"@marvelapp/react-ab-test@npm:2.3.0":
-  version: 2.3.0
-  resolution: "@marvelapp/react-ab-test@npm:2.3.0"
-  dependencies:
-    fbemitter: "npm:^2.0.2"
-    fbjs: "npm:^0.8.0"
-    prop-types: "npm:^15.6.0"
-  peerDependencies:
-    react: ">=0.14.0 <17.0.0"
-  checksum: 10/68739c0f2346425a38502c933dca0fb25fe0e03bea27ac6688dbe458e0d8d82a762a22ee570b33cfb59888f06714378d0cc3e63c23bb1dcbe6dd396bb5d5a085
   languageName: node
   linkType: hard
 
@@ -7650,13 +7555,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/invariant@npm:^2.2.31":
-  version: 2.2.37
-  resolution: "@types/invariant@npm:2.2.37"
-  checksum: 10/dd6ee07af8516d21c868f95fd96c601c50a231e69c2df69360cb491b5858c76cf9b5a646df166cb4197b5078ca824da3dd90d6142d01a3cefc1176c57278b129
-  languageName: node
-  linkType: hard
-
 "@types/istanbul-lib-coverage@npm:*, @types/istanbul-lib-coverage@npm:^2.0.0, @types/istanbul-lib-coverage@npm:^2.0.1, @types/istanbul-lib-coverage@npm:^2.0.6":
   version: 2.0.6
   resolution: "@types/istanbul-lib-coverage@npm:2.0.6"
@@ -9418,7 +9316,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:^4.0.0, browserslist@npm:^4.21.10, browserslist@npm:^4.21.4, browserslist@npm:^4.24.0, browserslist@npm:^4.28.1":
+"browserslist@npm:4.28.1, browserslist@npm:^4.0.0, browserslist@npm:^4.21.10, browserslist@npm:^4.21.4, browserslist@npm:^4.24.0, browserslist@npm:^4.28.1":
   version: 4.28.1
   resolution: "browserslist@npm:4.28.1"
   dependencies:
@@ -10813,13 +10711,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^1.0.0":
-  version: 1.2.7
-  resolution: "core-js@npm:1.2.7"
-  checksum: 10/834f3398eb587af52e0731d44ae3ead0d331a10fb253c8358c801cac9c1788d96faba8d83c4e8e53270b560969f512596dfdeca875ae626e8af2c901598706fc
-  languageName: node
-  linkType: hard
-
 "core-js@npm:^3.29.0":
   version: 3.48.0
   resolution: "core-js@npm:3.48.0"
@@ -10915,23 +10806,6 @@ __metadata:
     typescript:
       optional: true
   checksum: 10/91d082baca0f33b1c085bf010f9ded4af43cbedacba8821da0fb5667184d0a848addc52c31fadd080007f904a555319c238cf5f4c03e6d58ece2e4876b2e73d6
-  languageName: node
-  linkType: hard
-
-"cosmiconfig@npm:^9.0.0":
-  version: 9.0.2
-  resolution: "cosmiconfig@npm:9.0.2"
-  dependencies:
-    env-paths: "npm:^2.2.1"
-    import-fresh: "npm:^3.3.0"
-    js-yaml: "npm:^4.1.0"
-    parse-json: "npm:^5.2.0"
-  peerDependencies:
-    typescript: ">=4.9.5"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 10/e7b08c9c6ed862852bf0ed88c8fa49c57276d976901c9332c87d831926f332c32df3f5ff6a87f3823c3b7c5d6f857a7fd34336e0c2c596fa2d73e6cccbb7bf58
   languageName: node
   linkType: hard
 
@@ -11806,6 +11680,7 @@ __metadata:
     babel-plugin-relay: "npm:16.2.0"
     babel-plugin-transform-react-remove-prop-types: "npm:0.4.24"
     base64-arraybuffer: "npm:1.0.2"
+    browserslist: "npm:4.28.1"
     buffer: "npm:^5.7.1"
     classnames: "npm:2.5.1"
     compression-webpack-plugin: "npm:^12.0.0"
@@ -11853,8 +11728,10 @@ __metadata:
     jsdom: "npm:26.0.0"
     leaflet: "npm:1.6.0"
     lerna: "npm:10.0.1"
+    lightningcss: "npm:1.33.0"
     lint-staged: "npm:10.3.0"
     lodash: "npm:4.18.1"
+    lodash-es: "npm:4.18.1"
     lru-cache: "npm:6.0.0"
     luxon: "npm:^3.6.1"
     mini-css-extract-plugin: "npm:^2.10.2"
@@ -11870,8 +11747,6 @@ __metadata:
     point-in-polygon: "npm:1.0.1"
     polyline-encoded: "npm:0.0.9"
     postcss: "npm:^8.4.49"
-    postcss-flexbugs-fixes: "npm:5.0.2"
-    postcss-loader: "npm:^8.2.1"
     prettier: "npm:3.1.1"
     process: "npm:^0.11.10"
     prop-types: "npm:15.8.1"
@@ -11879,7 +11754,7 @@ __metadata:
     react-dom: "npm:^18.3.1"
     react-helmet: "npm:6.1.0"
     react-i18next: "npm:^12.3.1"
-    react-intl: "npm:3.12.1"
+    react-intl: "npm:^12.1.4"
     react-leaflet: "npm:2.7.0"
     react-modal: "npm:^3.11.2"
     react-relay: "npm:16.2.0"
@@ -12338,7 +12213,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"encoding@npm:^0.1.11, encoding@npm:^0.1.13":
+"encoding@npm:^0.1.13":
   version: 0.1.13
   resolution: "encoding@npm:0.1.13"
   dependencies:
@@ -13653,34 +13528,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fbemitter@npm:^2.0.2":
-  version: 2.1.1
-  resolution: "fbemitter@npm:2.1.1"
-  dependencies:
-    fbjs: "npm:^0.8.4"
-  checksum: 10/fa4ae479299c415be2e9965583a9e5f679ba8e3de53cbc8386bad2ec71123668052b78121d53b67d833b7125437734cdae21ddc9829c4e9ff137b31113782f2d
-  languageName: node
-  linkType: hard
-
 "fbjs-css-vars@npm:^1.0.0":
   version: 1.0.2
   resolution: "fbjs-css-vars@npm:1.0.2"
   checksum: 10/72baf6d22c45b75109118b4daecb6c8016d4c83c8c0f23f683f22e9d7c21f32fff6201d288df46eb561e3c7d4bb4489b8ad140b7f56444c453ba407e8bd28511
-  languageName: node
-  linkType: hard
-
-"fbjs@npm:^0.8.0, fbjs@npm:^0.8.4":
-  version: 0.8.18
-  resolution: "fbjs@npm:0.8.18"
-  dependencies:
-    core-js: "npm:^1.0.0"
-    isomorphic-fetch: "npm:^2.1.1"
-    loose-envify: "npm:^1.0.0"
-    object-assign: "npm:^4.1.0"
-    promise: "npm:^7.1.1"
-    setimmediate: "npm:^1.0.5"
-    ua-parser-js: "npm:^0.7.30"
-  checksum: 10/80e855a89b956071676681c9481f399f2356435dc1745d47bd609ce9bd1dda1c487b18c8ffc58423f96452dab6932811ef70758ec8a875dac9ff319c0a5f9adc
   languageName: node
   linkType: hard
 
@@ -15686,29 +15537,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"intl-format-cache@npm:^4.2.21":
-  version: 4.3.1
-  resolution: "intl-format-cache@npm:4.3.1"
-  checksum: 10/d55581edaba0d083a3ff26a46e2ed953c434420918e61991db78140e3e0a7db14f924f195fcd0c01cf3de65cb18dda0c549d35f683e01dd8f062d27fe0524fae
-  languageName: node
-  linkType: hard
-
-"intl-messageformat-parser@npm:^3.6.4":
-  version: 3.6.4
-  resolution: "intl-messageformat-parser@npm:3.6.4"
+"intl-messageformat@npm:12.1.3":
+  version: 12.1.3
+  resolution: "intl-messageformat@npm:12.1.3"
   dependencies:
-    "@formatjs/intl-unified-numberformat": "npm:^3.2.0"
-  checksum: 10/0dcc21da19dd98ebf31e2689824de9d3f0281f19ac05833f3ad8525d43224852dc030f5e9a4ac5b5c422d1ef6cfef468269275b790b0105c6b5a64acc7da3448
-  languageName: node
-  linkType: hard
-
-"intl-messageformat@npm:^7.8.4":
-  version: 7.8.4
-  resolution: "intl-messageformat@npm:7.8.4"
-  dependencies:
-    intl-format-cache: "npm:^4.2.21"
-    intl-messageformat-parser: "npm:^3.6.4"
-  checksum: 10/7037f9eb980b9b722f381c4d75762c0bcd96ee7269011dd48ad58467b708be6f416a45301ec702bf6083596e509f769533736e5e44621ed4a0f7242c6bce2cbc
+    "@formatjs/fast-memoize": "npm:3.1.7"
+    "@formatjs/icu-messageformat-parser": "npm:3.5.21"
+  checksum: 10/164e91d6d87f931cb43823e5ba90bf7f57d396d70d4d3b9224686cd646e7dae613acbe9f6a086b8185eb4a4a32b76e32f6277d55c9712bdbb947effc44be2cb6
   languageName: node
   linkType: hard
 
@@ -16244,13 +16079,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-stream@npm:^1.0.1":
-  version: 1.1.0
-  resolution: "is-stream@npm:1.1.0"
-  checksum: 10/351aa77c543323c4e111204482808cfad68d2e940515949e31ccd0b010fc13d5fba4b9c230e4887fd24284713040f43e542332fbf172f6b9944b7d62e389c0ec
-  languageName: node
-  linkType: hard
-
 "is-stream@npm:^2.0.0":
   version: 2.0.1
   resolution: "is-stream@npm:2.0.1"
@@ -16447,16 +16275,6 @@ __metadata:
   version: 3.0.1
   resolution: "isobject@npm:3.0.1"
   checksum: 10/db85c4c970ce30693676487cca0e61da2ca34e8d4967c2e1309143ff910c207133a969f9e4ddb2dc6aba670aabce4e0e307146c310350b298e74a31f7d464703
-  languageName: node
-  linkType: hard
-
-"isomorphic-fetch@npm:^2.1.1":
-  version: 2.2.1
-  resolution: "isomorphic-fetch@npm:2.2.1"
-  dependencies:
-    node-fetch: "npm:^1.0.1"
-    whatwg-fetch: "npm:>=0.10.0"
-  checksum: 10/bb5daa7c3785d6742f4379a81e55b549a469503f7c9bf9411b48592e86632cf5e8fe8ea878dba185c0f33eb7c510c23abdeb55aebfdf5d3c70f031ced68c5424
   languageName: node
   linkType: hard
 
@@ -17143,15 +16961,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jiti@npm:^2.5.1":
-  version: 2.7.0
-  resolution: "jiti@npm:2.7.0"
-  bin:
-    jiti: lib/jiti-cli.mjs
-  checksum: 10/6d75a8dbd61dbee031aa0937fabb748ff8ddf370b971958cc704f5cf26b4c5bdc9dcd0563059b2627a2bd41d946fa0bc64f912fdc8981ca7945a9d63c74ad0f9
-  languageName: node
-  linkType: hard
-
 "joi@npm:^17.11.0":
   version: 17.13.3
   resolution: "joi@npm:17.13.3"
@@ -17672,6 +17481,126 @@ __metadata:
   dependencies:
     immediate: "npm:~3.0.5"
   checksum: 10/f335ce67fe221af496185d7ce39c8321304adb701e122942c495f4f72dcee8803f9315ee572f5f8e8b08b9e8d7195da91b9fad776e8864746ba8b5e910adf76e
+  languageName: node
+  linkType: hard
+
+"lightningcss-android-arm64@npm:1.33.0":
+  version: 1.33.0
+  resolution: "lightningcss-android-arm64@npm:1.33.0"
+  conditions: os=android & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lightningcss-darwin-arm64@npm:1.33.0":
+  version: 1.33.0
+  resolution: "lightningcss-darwin-arm64@npm:1.33.0"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lightningcss-darwin-x64@npm:1.33.0":
+  version: 1.33.0
+  resolution: "lightningcss-darwin-x64@npm:1.33.0"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lightningcss-freebsd-x64@npm:1.33.0":
+  version: 1.33.0
+  resolution: "lightningcss-freebsd-x64@npm:1.33.0"
+  conditions: os=freebsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lightningcss-linux-arm-gnueabihf@npm:1.33.0":
+  version: 1.33.0
+  resolution: "lightningcss-linux-arm-gnueabihf@npm:1.33.0"
+  conditions: os=linux & cpu=arm
+  languageName: node
+  linkType: hard
+
+"lightningcss-linux-arm64-gnu@npm:1.33.0":
+  version: 1.33.0
+  resolution: "lightningcss-linux-arm64-gnu@npm:1.33.0"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"lightningcss-linux-arm64-musl@npm:1.33.0":
+  version: 1.33.0
+  resolution: "lightningcss-linux-arm64-musl@npm:1.33.0"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"lightningcss-linux-x64-gnu@npm:1.33.0":
+  version: 1.33.0
+  resolution: "lightningcss-linux-x64-gnu@npm:1.33.0"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"lightningcss-linux-x64-musl@npm:1.33.0":
+  version: 1.33.0
+  resolution: "lightningcss-linux-x64-musl@npm:1.33.0"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"lightningcss-win32-arm64-msvc@npm:1.33.0":
+  version: 1.33.0
+  resolution: "lightningcss-win32-arm64-msvc@npm:1.33.0"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"lightningcss-win32-x64-msvc@npm:1.33.0":
+  version: 1.33.0
+  resolution: "lightningcss-win32-x64-msvc@npm:1.33.0"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"lightningcss@npm:1.33.0":
+  version: 1.33.0
+  resolution: "lightningcss@npm:1.33.0"
+  dependencies:
+    detect-libc: "npm:^2.0.3"
+    lightningcss-android-arm64: "npm:1.33.0"
+    lightningcss-darwin-arm64: "npm:1.33.0"
+    lightningcss-darwin-x64: "npm:1.33.0"
+    lightningcss-freebsd-x64: "npm:1.33.0"
+    lightningcss-linux-arm-gnueabihf: "npm:1.33.0"
+    lightningcss-linux-arm64-gnu: "npm:1.33.0"
+    lightningcss-linux-arm64-musl: "npm:1.33.0"
+    lightningcss-linux-x64-gnu: "npm:1.33.0"
+    lightningcss-linux-x64-musl: "npm:1.33.0"
+    lightningcss-win32-arm64-msvc: "npm:1.33.0"
+    lightningcss-win32-x64-msvc: "npm:1.33.0"
+  dependenciesMeta:
+    lightningcss-android-arm64:
+      optional: true
+    lightningcss-darwin-arm64:
+      optional: true
+    lightningcss-darwin-x64:
+      optional: true
+    lightningcss-freebsd-x64:
+      optional: true
+    lightningcss-linux-arm-gnueabihf:
+      optional: true
+    lightningcss-linux-arm64-gnu:
+      optional: true
+    lightningcss-linux-arm64-musl:
+      optional: true
+    lightningcss-linux-x64-gnu:
+      optional: true
+    lightningcss-linux-x64-musl:
+      optional: true
+    lightningcss-win32-arm64-msvc:
+      optional: true
+    lightningcss-win32-x64-msvc:
+      optional: true
+  checksum: 10/9b3b5db404af352fe5861926b9909281d29bede175539035c1a01e1ad4dcee8bb6f871e8e3d01a67a85e9e1cd18a63e52871a48cf62feab4d1aa868d4f2c3c2e
   languageName: node
   linkType: hard
 
@@ -19149,16 +19078,6 @@ __metadata:
     object.entries: "npm:^1.1.9"
     semver: "npm:^6.3.1"
   checksum: 10/0a1667d535f499ac1fe6c6d22f8146bc8b68abc76fa355856219202f6cf5f386027e0ff054e66a22d08be02acbc63fcdc9f98d0fbc97993f5eabc66408fdadad
-  languageName: node
-  linkType: hard
-
-"node-fetch@npm:^1.0.1":
-  version: 1.7.3
-  resolution: "node-fetch@npm:1.7.3"
-  dependencies:
-    encoding: "npm:^0.1.11"
-    is-stream: "npm:^1.0.1"
-  checksum: 10/17be1a182eec37ba43c1b02673329ab1fa1c2e3ddbdf9b5f62d5157aa118c253dcd42f338eb1b6fe84fb0689c4dd8eb5aaebf46a9b5a066fae88c74e36522688
   languageName: node
   linkType: hard
 
@@ -21130,15 +21049,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-flexbugs-fixes@npm:5.0.2":
-  version: 5.0.2
-  resolution: "postcss-flexbugs-fixes@npm:5.0.2"
-  peerDependencies:
-    postcss: ^8.1.4
-  checksum: 10/022ddbcca8987303b9be75ff259e9de81b98643adac87a5fc6b52a0fcbbf95e1ac9fd508c4ed67cad76ac5d039b7123de8a0832329481b3c626f5d63f7a28f47
-  languageName: node
-  linkType: hard
-
 "postcss-load-config@npm:^3.0.0":
   version: 3.1.4
   resolution: "postcss-load-config@npm:3.1.4"
@@ -21154,26 +21064,6 @@ __metadata:
     ts-node:
       optional: true
   checksum: 10/75fa409d77b96e6f53e99f680c550f25ca8922c1150d3d368ded1f6bd8e0d4d67a615fe1f1c5d409aefb6e66fb4b5e48e86856d581329913de84578def078b19
-  languageName: node
-  linkType: hard
-
-"postcss-loader@npm:^8.2.1":
-  version: 8.2.1
-  resolution: "postcss-loader@npm:8.2.1"
-  dependencies:
-    cosmiconfig: "npm:^9.0.0"
-    jiti: "npm:^2.5.1"
-    semver: "npm:^7.6.2"
-  peerDependencies:
-    "@rspack/core": 0.x || ^1.0.0 || ^2.0.0-0
-    postcss: ^7.0.0 || ^8.0.1
-    webpack: ^5.0.0
-  peerDependenciesMeta:
-    "@rspack/core":
-      optional: true
-    webpack:
-      optional: true
-  checksum: 10/e8fbae55198fc3baa859a1b504621fe01918510f6b21bd124f6d4467687e5efcbe2f5eaa530377c8fd68c8fda93823592e9d6f7295daa3a5ef4d124c012192e2
   languageName: node
   linkType: hard
 
@@ -22391,25 +22281,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-intl@npm:3.12.1":
-  version: 3.12.1
-  resolution: "react-intl@npm:3.12.1"
+"react-intl@npm:^12.1.4":
+  version: 12.1.4
+  resolution: "react-intl@npm:12.1.4"
   dependencies:
-    "@formatjs/intl-displaynames": "npm:^1.2.0"
-    "@formatjs/intl-listformat": "npm:^1.4.1"
-    "@formatjs/intl-relativetimeformat": "npm:^4.5.9"
-    "@formatjs/intl-unified-numberformat": "npm:^3.2.0"
-    "@formatjs/intl-utils": "npm:^2.2.0"
-    "@types/hoist-non-react-statics": "npm:^3.3.1"
-    "@types/invariant": "npm:^2.2.31"
-    hoist-non-react-statics: "npm:^3.3.2"
-    intl-format-cache: "npm:^4.2.21"
-    intl-messageformat: "npm:^7.8.4"
-    intl-messageformat-parser: "npm:^3.6.4"
-    shallow-equal: "npm:^1.2.1"
+    "@formatjs/icu-messageformat-parser": "npm:3.5.21"
+    "@formatjs/intl": "npm:6.1.3"
+    intl-messageformat: "npm:12.1.3"
   peerDependencies:
-    react: ^16.3.0
-  checksum: 10/af27ed9feeaf78bc9cc0e0952cf6fc415d87fbdbe2339cf75ace28297df82245cf397340609aa5fca2e26b89add7fe0dc41b54102da940ea19e40e7c5268b8c5
+    "@types/react": ">=18.0.0"
+    react: ">=18.0.0"
+  checksum: 10/d7df64b3d988120be614577f7106f9c31468cc8053cc3fbdd06238e4691231d3e2568af80ff6a8b0f89b6670f8b6efdcb812e3d58055fe5e11a90fa33421e978
   languageName: node
   linkType: hard
 
@@ -24020,7 +23902,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.5.2, semver@npm:^7.6.2, semver@npm:^7.8.5":
+"semver@npm:^7.5.2, semver@npm:^7.8.5":
   version: 7.8.5
   resolution: "semver@npm:7.8.5"
   bin:
@@ -24231,13 +24113,6 @@ __metadata:
   dependencies:
     kind-of: "npm:^6.0.2"
   checksum: 10/e066bd540cfec5e1b0f78134853e0d892d1c8945fb9a926a579946052e7cb0c70ca4fc34f875a8083aa7910d751805d36ae64af250a6de6f3d28f9fa7be6c21b
-  languageName: node
-  linkType: hard
-
-"shallow-equal@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "shallow-equal@npm:1.2.1"
-  checksum: 10/4f1645cc516e7754c4438db687e1da439a5f29a7dba2ba90c5f88e5708aeb17bc4355ba45cad805b0e95dc898e37d8bf6d77d854919c7512f89939986cff8cd1
   languageName: node
   linkType: hard
 
@@ -26207,15 +26082,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ua-parser-js@npm:^0.7.30":
-  version: 0.7.41
-  resolution: "ua-parser-js@npm:0.7.41"
-  bin:
-    ua-parser-js: script/cli.js
-  checksum: 10/e41306332d8ace098d51a644a3ba95522ddfc04243727a3c0419efcdf486c8f868c3af8e6a56f6aa86bdc26e6b893abb0b2bde0c9e1a1625a183dfdf839cac82
-  languageName: node
-  linkType: hard
-
 "ua-parser-js@npm:^1.0.35":
   version: 1.0.41
   resolution: "ua-parser-js@npm:1.0.41"
@@ -27230,13 +27096,6 @@ __metadata:
   dependencies:
     iconv-lite: "npm:0.6.3"
   checksum: 10/bbef815eb67f91487c7f2ef96329743f5fd8357d7d62b1119237d25d41c7e452dff8197235b2d3c031365a17f61d3bb73ca49d0ed1582475aa4a670815e79534
-  languageName: node
-  linkType: hard
-
-"whatwg-fetch@npm:>=0.10.0":
-  version: 3.6.20
-  resolution: "whatwg-fetch@npm:3.6.20"
-  checksum: 10/2b4ed92acd6a7ad4f626a6cb18b14ec982bbcaf1093e6fe903b131a9c6decd14d7f9c9ca3532663c2759d1bdf01d004c77a0adfb2716a5105465c20755a8c57c
   languageName: node
   linkType: hard
 

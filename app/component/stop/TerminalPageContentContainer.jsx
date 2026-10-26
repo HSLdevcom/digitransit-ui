@@ -11,7 +11,7 @@ import {
 import { getPrimaryStopMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import StopServiceStatusBanner from './StopServiceStatusBanner';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { getTrackOrPierOrPlatformText } from '../../../utils/client/localeUtils';
 import { useCurrentTime } from '../../hooks/TimeContext';
 

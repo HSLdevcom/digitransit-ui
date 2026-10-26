@@ -514,11 +514,6 @@ export default {
   // if distance is less than this.
   minDistanceBetweenFromAndTo: 20,
 
-  // If certain mode(s) only exist in limited number of areas, listing the areas as a list of polygons for
-  // selected mode key will remove the mode(s) from queries if no coordinates in the query are within the polygon(s).
-  // This reduces complexity in finding routes for the query.
-  modePolygons: {},
-
   menu: {
     copyright: { label: `© Digitransit ${YEAR}` },
     content: [
@@ -632,7 +627,7 @@ export default {
     matka: '(matka|^dev.digitransit)',
     vaasa: 'vaasa',
     walttiOpas: 'waltti',
-    rovaniemi: 'rovaniemi',
+    rovaniemi: '(rovaniemi|linkkari)',
     kouvola: 'kouvola',
     tampere: 'tampere',
     mikkeli: 'mikkeli',

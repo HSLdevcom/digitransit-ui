@@ -8,7 +8,7 @@ import {
   formatFare,
 } from '../../../utils/client/fareUtils';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const EMPTY_FARES = [];
 const EMPTY_ZONES = [];

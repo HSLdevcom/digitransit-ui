@@ -9,7 +9,7 @@ import {
 import { getCustomizedSettings } from '../../../../utils/client/localStorage';
 import Icon from '../../Icon';
 import Snackbar from '../../Snackbar';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function RestoreDefaultSettings({ updateSettings }) {
   const config = useConfigContext();
