@@ -488,14 +488,15 @@ export default function routeRoutes(config) {
                 }
               `}
               prepareVariables={params => {
-                const now = DateTime.now();
+                // Seconds are dropped so that tab clicks reuse cached data.
+                const now = DateTime.now().startOf('minute');
                 return {
                   ...params,
                   cancelationStartDate: now.toISO(),
                   cancelationEndDate: now.plus({ days: 7 }).toISO(),
                 };
               }}
-              render={withRouteContext()}
+              render={sticky(withRouteContext())}
             />,
           ],
         }}

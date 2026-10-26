@@ -10,6 +10,11 @@
   flex: 1 0;
 }
 
+// tall enough for the bottom sheet to stay where it is when switching tabs
+.mobile .route-disruption-panel {
+  min-height: calc(100vh - 64px);
+}
+
 // ─── Schedule container (scroll root) ───────────────────────────────────────
 
 .route-schedule-container {
