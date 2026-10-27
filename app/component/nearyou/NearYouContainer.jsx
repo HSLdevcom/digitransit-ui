@@ -14,7 +14,7 @@ import ParkNearYou from './ParkNearYou';
 import Loading from '../Loading';
 import Icon from '../Icon';
 import DisruptionBanner from '../DisruptionBanner';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 function NearYouContainer({
   places,

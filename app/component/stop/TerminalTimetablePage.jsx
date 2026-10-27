@@ -5,7 +5,7 @@ import { useMatch } from 'found';
 import { relayShape } from '../../../utils/client/shapes';
 import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
 import { prepareServiceDay } from '../../../utils/client/dateParamUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import Timetable from './Timetable';
 
 function TerminalTimetablePage({ station, relay }) {

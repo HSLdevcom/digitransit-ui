@@ -3,7 +3,7 @@ import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { DateTime } from 'luxon';
 import StopPageMap from '../map/StopPageMap';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import {
   STOP_STATUS,
   getStopStatusFromStopData,

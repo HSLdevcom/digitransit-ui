@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-import Icon from './Icon';
-import { openDeepLink } from '../../utils/client/vehicleRentalUtils';
-import { useConfigContext } from '../client/ConfigContext';
+import { Note } from '@hsl-fi/notifications';
+import { Text } from '@hsl-fi/layout-primitives';
+import { ArrowLink } from '@hsl-fi/navigation';
+import { useConfigContext } from '../hooks/ConfigContext';
+
+const EMPTY_VALUES = {};
 
 export default function Disclaimer({
   header,
@@ -12,16 +15,17 @@ export default function Disclaimer({
   textId,
   linkLabel,
   linkLabelId,
-  values = {},
+  values = EMPTY_VALUES,
   href,
-  useLinkButton,
   closable,
   onClose, // hook e.g. for remembering closing
 }) {
-  const { colors } = useConfigContext();
-  const intl = useIntl();
-
+  const { language } = useConfigContext();
   const [showCard, setShowCard] = useState(true);
+
+  if (!showCard) {
+    return null;
+  }
 
   const handleClose = () => {
     setShowCard(false);
@@ -30,70 +34,48 @@ export default function Disclaimer({
     }
   };
 
-  const onClick = href?.startsWith('http')
-    ? () => {
-        window.open(href, '_blank', 'noopener,noreferrer');
-      }
-    : () => openDeepLink(href, window.location.href);
-
-  if (!showCard) {
-    return null;
-  }
-  const hdr = headerId ? (
+  const title = headerId ? (
     <FormattedMessage id={headerId} values={values} />
   ) : (
     header
   );
-  const txt = textId ? <FormattedMessage id={textId} values={values} /> : text;
+  const content = textId ? (
+    <FormattedMessage id={textId} values={values} />
+  ) : (
+    text
+  );
   const label = linkLabelId ? (
     <FormattedMessage id={linkLabelId} values={values} />
   ) : (
     linkLabel
   );
 
+  // Note's link prop cannot open a new tab, so the link is part of the description
+  const description = (
+    <>
+      {content && (
+        <Text variant="text-xs" color="default">
+          {content}
+        </Text>
+      )}
+      {href && (
+        <ArrowLink href={href} target="_blank" rel="noreferrer">
+          {label}
+        </ArrowLink>
+      )}
+    </>
+  );
+
   return (
-    <div className="disclaimer-container">
-      <Icon className="info" img="icon_info" />
-      <div className="disclaimer">
-        <div className="disclaimer-header">
-          {hdr && <h3>{hdr}</h3>}
-          {closable && (
-            <button
-              className="disclaimer-close"
-              aria-label={intl.formatMessage({ id: 'close' })}
-              onClick={handleClose}
-              type="button"
-            >
-              <Icon color={colors.primary} img="icon_close" />
-            </button>
-          )}
-        </div>
-        {txt}
-        {href && useLinkButton && (
-          <button
-            type="button"
-            className="external-link-button"
-            onClick={e => {
-              e.stopPropagation();
-              onClick(e);
-            }}
-          >
-            {label}
-          </button>
-        )}
-        {href && !useLinkButton && (
-          <a
-            className="external-link"
-            href={href}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {label}
-            <Icon className="arrow" img="icon_arrow-collapse--right" />
-          </a>
-        )}
-      </div>
-    </div>
+    <Note
+      level="info"
+      variant="note"
+      title={title}
+      titleLevel={3}
+      description={description}
+      lang={language}
+      onClose={closable ? handleClose : undefined}
+    />
   );
 }
 
@@ -104,9 +86,10 @@ Disclaimer.propTypes = {
   textId: PropTypes.string,
   linkLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   linkLabelId: PropTypes.string,
-  values: PropTypes.objectOf(PropTypes.string),
+  values: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  ),
   href: PropTypes.string,
-  useLinkButton: PropTypes.bool,
   closable: PropTypes.bool,
   onClose: PropTypes.func,
 };

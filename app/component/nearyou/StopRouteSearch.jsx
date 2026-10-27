@@ -5,7 +5,7 @@ import { filterSearchResultsByMode } from '@digitransit-search-util/digitransit-
 import { useRouter } from 'found';
 import { withSearchContext } from '../WithSearchContext';
 import { getStopRoutePath } from '../../../utils/shared/path';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 const searchSources = ['Favourite', 'History', 'Datasource'];

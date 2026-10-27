@@ -47,7 +47,7 @@ import getCo2Value from '../../../utils/client/emissions';
 import { ItineraryFragment } from './queries/ItineraryFragment';
 import { getTicketString } from '../../../utils/client/fareUtils';
 import { ViaLocationType } from '../../../utils/shared/constants';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import FirstLegStartTime from './FirstLegStartTime';
 import { normalizeLegLengths } from './itineraryLegProcessor';
 

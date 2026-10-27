@@ -18,7 +18,7 @@ import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
 import events from '../../../utils/client/events';
 import { getLayerBaseUrl } from '../../../utils/client/mapLayerUtils';
 import GeoJSON from './GeoJSON';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { mapLayerShape } from '../../../utils/client/shapes';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon_minus"/></svg>`;

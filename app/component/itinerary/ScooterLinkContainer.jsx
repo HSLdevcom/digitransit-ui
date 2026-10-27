@@ -9,7 +9,7 @@ import {
 } from '../../../utils/shared/vehicleRentalUtils';
 import { openDeepLink } from '../../../utils/client/vehicleRentalUtils';
 import { rentalVehicleShape } from '../../../utils/client/shapes';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import Icon from '../Icon';
 import ExternalLink from '../ExternalLink';

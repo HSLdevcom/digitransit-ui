@@ -11,7 +11,7 @@ import { durationToString } from '../../../utils/client/timeUtils';
 import Icon from '../Icon';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const BikeParkLeg = ({ leg, index, focusAction, bikePark }) => {
   const config = useConfigContext();
