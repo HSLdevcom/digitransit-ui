@@ -5,7 +5,11 @@ import cx from 'classnames';
 import Link from 'found/Link';
 import { fetchQuery } from 'react-relay';
 import { legShape, relayShape } from '../../../utils/client/shapes';
-import { legTimeStr, legDestination } from '../../../utils/client/legUtils';
+import {
+  legTimeStr,
+  legDestination,
+  getValidatedLegName,
+} from '../../../utils/client/legUtils';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../../../utils/shared/geo-utils';
@@ -52,7 +56,9 @@ export default function BicycleLeg({
   let legDescription = <span>{leg.from ? leg.from.name : ''}</span>;
   const firstLegClassName = index === 0 ? 'start' : '';
   let modeClassName = 'bicycle';
-  const [name, place] = splitStringToAddressAndPlace(leg.from.name);
+  const [name, place] = splitStringToAddressAndPlace(
+    getValidatedLegName(leg.from.name, intl, true),
+  );
   const address = (leg.from.viaLocationType && leg.viaAddress) || name;
   const rentalVehicleNetwork =
     leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
