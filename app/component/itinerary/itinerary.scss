@@ -3002,7 +3002,19 @@ div.itinerary-container-content {
 }
 
 @media print {
+  // Swipe.js positions slides with inline pixel widths, left offsets and
+  // transforms, which would push the active slide out of view once the
+  // inactive ones are hidden.
+  .swipe-scroll-container > div > div {
+    width: auto !important;
+  }
+
   .swipeable-tab {
+    float: none !important;
+    width: auto !important;
+    left: 0 !important;
+    transform: none !important;
+
     &.inactive {
       display: none;
     }
