@@ -378,6 +378,10 @@ $itinerary-tab-switch-height: 48px;
   max-width: 350px;
   line-height: 16px;
 
+  @media print {
+    max-width: none;
+  }
+
   .icon-container {
     flex: 0;
 
@@ -2998,15 +3002,21 @@ div.itinerary-container-content {
 }
 
 @media print {
-  .swipeable-tab {
-    &.inactive > .itinerary-tab {
-      > .itinerary-tabs__scroll {
-        display: none;
-      }
+  // Swipe.js positions slides with inline pixel widths, left offsets and
+  // transforms, which would push the active slide out of view once the
+  // inactive ones are hidden.
+  .swipe-scroll-container > div > div {
+    width: auto !important;
+  }
 
-      > .itinerary-summary-container > .itinerary-summary {
-        display: none;
-      }
+  .swipeable-tab {
+    float: none !important;
+    width: auto !important;
+    left: 0 !important;
+    transform: none !important;
+
+    &.inactive {
+      display: none;
     }
 
     &.false > .itinerary-tab {

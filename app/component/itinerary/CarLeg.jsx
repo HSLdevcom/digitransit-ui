@@ -8,7 +8,11 @@ import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../../../utils/shared/geo-utils';
 import { durationToString } from '../../../utils/client/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { legTimeStr, legDestination } from '../../../utils/client/legUtils';
+import {
+  legTimeStr,
+  legDestination,
+  getValidatedLegName,
+} from '../../../utils/client/legUtils';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
 import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
@@ -48,7 +52,9 @@ export default function CarLeg({
     />
   );
 
-  const [name, place] = splitStringToAddressAndPlace(leg.from.name);
+  const [name, place] = splitStringToAddressAndPlace(
+    getValidatedLegName(leg.from.name, intl, true),
+  );
   const address =
     leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
 
