@@ -19,7 +19,7 @@ import {
 import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
 import BoardingInfo from './BoardingInfo';
 import { durationToString } from '../../../../utils/client/timeUtils';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 function getBoardingParams(intl, leg, time, config) {
   if (!leg?.transitLeg) {

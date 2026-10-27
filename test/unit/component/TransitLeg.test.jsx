@@ -4,10 +4,14 @@ import { renderWithProviders } from '../helpers/mock-providers';
 import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';
 import TransitLeg from '../../../app/component/itinerary/TransitLeg';
 import {
-  RealtimeStateType,
   AlertSeverityLevelType,
   AlertEntityType,
 } from '../../../utils/shared/constants';
+
+const mockCanceledStopIds = vi.hoisted(() => vi.fn());
+vi.mock('../../../app/component/itinerary/useCanceledStopIds', () => ({
+  default: mockCanceledStopIds,
+}));
 
 const defaultProps = {
   children: <div />,
@@ -30,6 +34,10 @@ describe('<TransitLeg />', () => {
   // LegAgencyInfo calls useFragment on a plain leg object - see
   // ignoreRelayModernSelectorWarning's own comment for why this is needed.
   ignoreRelayModernSelectorWarning();
+
+  beforeEach(() => {
+    mockCanceledStopIds.mockReturnValue(new Set());
+  });
 
   const renderLeg = (props, legConfig = config) =>
     renderWithProviders(<TransitLeg {...defaultProps} {...props} />, {
@@ -222,18 +230,13 @@ describe('<TransitLeg />', () => {
           pattern: {
             code: 'A',
           },
-          stoptimes: [
-            {
-              realtimeState: RealtimeStateType.Canceled,
-              stop: { gtfsId: 'stop1' },
-            },
-          ],
           tripHeadsign: 'foo - bar',
         },
         interlineWithPreviousLeg: false,
       },
       mode: 'rail',
     };
+    mockCanceledStopIds.mockReturnValue(new Set(['stop1']));
     const { container } = renderLeg(props);
     expect(
       container.querySelector('.itinerary-intermediate-stop-name .canceled'),

@@ -10,7 +10,7 @@ import {
   configShape,
   vehicleShape,
 } from '../../../utils/client/shapes';
-import { ConfigProvider } from '../../../app/client/ConfigContext';
+import { ConfigProvider } from '../../../app/hooks/ConfigContext';
 import { MapLayerProvider } from '../../../app/hooks/MapLayerContext';
 import { PositionProvider } from '../../../app/hooks/PositionContext';
 import { TimeProvider, TimeContext } from '../../../app/hooks/TimeContext';

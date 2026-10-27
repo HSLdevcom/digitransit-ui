@@ -56,70 +56,6 @@ describe('alertUtils', () => {
     });
   });
 
-  describe('tripHasCancelationForStop', () => {
-    it('should return false if trip is undefined', () => {
-      expect(
-        utils.tripHasCancelationForStop(undefined, { gtfsId: 'foo' }),
-      ).toBe(false);
-    });
-
-    it('should return false if trip has no array "stoptimes"', () => {
-      expect(utils.tripHasCancelationForStop({}, { gtfsId: 'foo' })).toBe(
-        false,
-      );
-    });
-
-    it('should return false if stop is undefined', () => {
-      expect(
-        utils.tripHasCancelationForStop(
-          {
-            stoptimes: [
-              {
-                realtimeState: RealtimeStateType.Canceled,
-                stop: { gtfsId: 'foo' },
-              },
-            ],
-          },
-          undefined,
-        ),
-      ).toBe(false);
-    });
-
-    it('should return false if stop has no gtfsId', () => {
-      expect(
-        utils.tripHasCancelationForStop(
-          {
-            stoptimes: [
-              {
-                realtimeState: RealtimeStateType.Canceled,
-                stop: { gtfsId: 'foo' },
-              },
-            ],
-          },
-          {},
-        ),
-      ).toBe(false);
-    });
-
-    it('should return true when there is a cancelation for the given stop', () => {
-      expect(
-        utils.tripHasCancelationForStop(
-          {
-            stoptimes: [
-              {
-                realtimeState: RealtimeStateType.Canceled,
-                stop: { gtfsId: 'foo' },
-              },
-            ],
-          },
-          {
-            gtfsId: 'foo',
-          },
-        ),
-      ).toBe(true);
-    });
-  });
-
   describe('legHasCancelation', () => {
     it('should return false if leg is falsy', () => {
       expect(utils.legHasCancelation(undefined)).toBe(false);
@@ -477,41 +413,6 @@ describe('alertUtils', () => {
       expect(
         utils.getAlertsForObject({ alerts: [null, alert, undefined] }),
       ).toEqual([alert]);
-    });
-  });
-
-  describe('getCancelationsForStop', () => {
-    it('should return an empty array if stop is missing', () => {
-      expect(utils.getCancelationsForStop(undefined)).toEqual([]);
-    });
-
-    it('should return an empty array if stop has no array "stoptimes"', () => {
-      expect(utils.getCancelationsForStop({ stoptimes: undefined })).toEqual(
-        [],
-      );
-    });
-
-    it('should return only canceled stoptimes', () => {
-      const stop = {
-        stoptimes: [
-          {
-            realtimeState: RealtimeStateType.Canceled,
-          },
-          {
-            realtimeState: RealtimeStateType.Scheduled,
-          },
-          {
-            realtimeState: RealtimeStateType.Updated,
-          },
-          {
-            realtimeState: RealtimeStateType.Modified,
-          },
-          {
-            realtimeState: undefined,
-          },
-        ],
-      };
-      expect(utils.getCancelationsForStop(stop)).toHaveLength(1);
     });
   });
 
@@ -1028,44 +929,6 @@ describe('alertUtils', () => {
       expect(sortedAlerts[0].alertSeverityLevel).toBe(
         AlertSeverityLevelType.Warning,
       );
-    });
-  });
-
-  describe('hasMeaningfulData', () => {
-    it('should return false if there are no alerts', () => {
-      const alerts = [];
-      expect(utils.hasMeaningfulData(alerts)).toBe(false);
-    });
-    it('should return true if header or description present', () => {
-      const alerts = [
-        { alertSeverityLevel: AlertSeverityLevelType.Warning },
-        {
-          alertSeverityLevel: AlertSeverityLevelType.Severe,
-          alertDescriptionText: 'foo',
-        },
-      ];
-      expect(utils.hasMeaningfulData(alerts)).toBe(true);
-    });
-    it('should return false if neither header or description are present', () => {
-      const alerts = [
-        { alertSeverityLevel: AlertSeverityLevelType.Warning },
-        { alertSeverityLevel: AlertSeverityLevelType.Severe },
-      ];
-      expect(utils.hasMeaningfulData(alerts)).toBe(false);
-    });
-    it('should return false if no meaningful data is included in header or description fields', () => {
-      const alerts = [
-        {
-          alertSeverityLevel: AlertSeverityLevelType.Warning,
-          alertDescriptionText: 'meaningful but not priority',
-        },
-        {
-          alertSeverityLevel: AlertSeverityLevelType.Severe,
-          alertDescriptionText: '',
-          alertHeaderText: '',
-        },
-      ];
-      expect(utils.hasMeaningfulData(alerts)).toBe(false);
     });
   });
 });
