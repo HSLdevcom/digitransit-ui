@@ -215,6 +215,9 @@ function ItineraryPageContent(props) {
     ...emptyState,
     loading: LOADSTATE.UNSET,
   });
+  // latest committed state for use after awaits, where closure values are stale
+  const mainStateRef = useRef(mainState);
+  mainStateRef.current = mainState;
   const [combinedMainState, setCombinedMainState] = useState(emptyPlan);
   const [relaxMainState, setRelaxMainState] = useState(emptyPlan);
   const [relaxScooterState, setRelaxScooterState] = useState(emptyPlan);
@@ -720,14 +723,14 @@ function ItineraryPageContent(props) {
     const edges = getSortedEdges(
       removeDuplicateEdges(plan.edges, [
         ...origPlan.edges,
-        ...mainState.earlierEdges,
-        ...mainState.laterEdges,
+        ...mainStateRef.current.earlierEdges,
+        ...mainStateRef.current.laterEdges,
       ]),
       arriveBy,
     );
     if (edges.length === 0 && plan.edges.length > 0) {
       setMainState({
-        ...mainState,
+        ...mainStateRef.current,
         loadingMore: undefined,
         [cursorName]: plan.pageInfo[cursorName],
       });
@@ -772,7 +775,7 @@ function ItineraryPageContent(props) {
     try {
       plan = await iterateQuery(planParams, 1);
     } catch (error) {
-      setMainState({ ...mainState, loadingMore: undefined });
+      setMainState({ ...mainStateRef.current, loadingMore: undefined });
       return;
     }
     if (plan === null) {
@@ -786,13 +789,17 @@ function ItineraryPageContent(props) {
       const newState = arriveBy
         ? { topNote: 'no-more-route-msg' }
         : { bottomNote: 'no-more-route-msg' };
-      setMainState({ ...mainState, ...newState, loadingMore: undefined });
+      setMainState({
+        ...mainStateRef.current,
+        ...newState,
+        loadingMore: undefined,
+      });
       return;
     }
     ariaRef.current = 'itinerary-page.itineraries-loaded';
 
     const newState = {
-      ...mainState,
+      ...mainStateRef.current,
       loadingMore: undefined,
       endCursor: plan.pageInfo.endCursor,
     };
@@ -801,17 +808,17 @@ function ItineraryPageContent(props) {
     // set a separator line there and clicks below the list move feedback button down
     if (arriveBy) {
       // user clicked button above itinerary list
-      const separators = mainState.separator1
+      const separators = mainStateRef.current.separator1
         ? {
             separator2: edges.length,
-            separator1: mainState.separator1 + edges.length,
+            separator1: mainStateRef.current.separator1 + edges.length,
           }
         : { separator1: edges.length };
       shiftFeedback(edges.length);
       setMainState({
         ...newState,
         ...separators,
-        earlierEdges: [...edges, ...mainState.earlierEdges],
+        earlierEdges: [...edges, ...mainStateRef.current.earlierEdges],
       });
     } else {
       // user clicked button below itinerary list
@@ -819,9 +826,9 @@ function ItineraryPageContent(props) {
         ...newState,
         separator1:
           origPlan.edges.length +
-          mainState.earlierEdges.length +
-          mainState.laterEdges.length,
-        laterEdges: [...mainState.laterEdges, ...edges],
+          mainStateRef.current.earlierEdges.length +
+          mainStateRef.current.laterEdges.length,
+        laterEdges: [...mainStateRef.current.laterEdges, ...edges],
       });
     }
     if (arriveBy) {
@@ -866,7 +873,7 @@ function ItineraryPageContent(props) {
     try {
       plan = await iterateQuery(planParams, 1);
     } catch (error) {
-      setMainState({ ...mainState, loadingMore: undefined });
+      setMainState({ ...mainStateRef.current, loadingMore: undefined });
       return;
     }
     if (plan === null) {
@@ -880,12 +887,16 @@ function ItineraryPageContent(props) {
       const newState = arriveBy
         ? { bottomNote: 'no-more-route-msg' }
         : { topNote: 'no-more-route-msg' };
-      setMainState({ ...mainState, ...newState, loadingMore: undefined });
+      setMainState({
+        ...mainStateRef.current,
+        ...newState,
+        loadingMore: undefined,
+      });
       return;
     }
     ariaRef.current = 'itinerary-page.itineraries-loaded';
     const newState = {
-      ...mainState,
+      ...mainStateRef.current,
       loadingMore: undefined,
       startCursor: plan.pageInfo.startCursor,
     };
@@ -895,16 +906,16 @@ function ItineraryPageContent(props) {
         ...newState,
         separator1:
           origPlan.edges.length +
-          mainState.earlierEdges.length +
-          mainState.laterEdges.length,
-        laterEdges: [...mainState.laterEdges, ...edges],
+          mainStateRef.current.earlierEdges.length +
+          mainStateRef.current.laterEdges.length,
+        laterEdges: [...mainStateRef.current.laterEdges, ...edges],
       });
     } else {
       // user clicked button above itinerary list
-      const separators = mainState.separator1
+      const separators = mainStateRef.current.separator1
         ? {
             separator2: edges.length,
-            separator1: mainState.separator1 + edges.length,
+            separator1: mainStateRef.current.separator1 + edges.length,
           }
         : { separator1: edges.length };
 
@@ -912,7 +923,7 @@ function ItineraryPageContent(props) {
       setMainState({
         ...newState,
         ...separators,
-        earlierEdges: [...edges, ...mainState.earlierEdges],
+        earlierEdges: [...edges, ...mainStateRef.current.earlierEdges],
       });
     }
     if (!arriveBy) {
