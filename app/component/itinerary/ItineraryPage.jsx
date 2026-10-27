@@ -281,6 +281,7 @@ function ItineraryPageContent(props) {
       setFavouritesReady(true);
     }
   }, [favouriteStatus]);
+  const ratingReady = !personalization || favouritesReady;
 
   function altLoading() {
     return Object.values(altStates).some(
@@ -1286,7 +1287,7 @@ function ItineraryPageContent(props) {
       externalFlexState.loading === LOADSTATE.DONE &&
       internalFlexState.loading === LOADSTATE.DONE &&
       taxiZoneState.loading === LOADSTATE.DONE &&
-      (!personalization || favouritesReady)
+      ratingReady
     ) {
       let plan = mergeScooterTransitPlan(
         scooterState.plan,
@@ -1340,7 +1341,7 @@ function ItineraryPageContent(props) {
     externalFlexState.plan,
     internalFlexState.plan,
     taxiZoneState.plan,
-    favouritesReady,
+    ratingReady,
   ]);
 
   // merge the relaxed scooter plan and the relaxed flex plan into one
