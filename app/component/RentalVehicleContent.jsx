@@ -13,7 +13,7 @@ import { PREFIX_RENTALVEHICLES } from '../../utils/shared/path';
 import VehicleRentalLeg from './itinerary/VehicleRentalLeg';
 import BackButton from './BackButton';
 import { rentalVehicleShape } from '../../utils/client/shapes';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 function RentalVehicleContent({ rentalVehicle, error = undefined }) {
   const breakpoint = useBreakpoint();

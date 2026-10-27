@@ -31,7 +31,7 @@ import {
 } from '../../../../utils/shared/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import { useCurrentTime } from '../../../hooks/TimeContext';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 const DEFAULT_OBJECTS_TO_HIDE = { vehicleRentalStations: [] };
 

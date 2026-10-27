@@ -12,7 +12,7 @@ import { useMapLayers } from '../../hooks/MapLayerContext';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import LocationMarkerWithPermanentTooltip from './LocationMarkerWithPermanentTooltip';
 import ConfirmLocationFromMapButton from './ConfirmLocationFromMapButton';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const DESKTOP_BREAKPOINT = 'large';
 

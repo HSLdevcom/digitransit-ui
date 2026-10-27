@@ -3,7 +3,7 @@ import React from 'react';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { getLoginPath } from '../../utils/shared/path';
 

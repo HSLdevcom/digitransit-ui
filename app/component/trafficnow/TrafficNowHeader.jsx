@@ -5,7 +5,7 @@ import cx from 'classnames';
 import { Text } from '@hsl-fi/layout-primitives';
 import { Icon, ArrowRightS } from '@hsl-fi/icons';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import getAssetUrl from '../../assets/assetUrl';
 
 const AdditionalDescription = () => {

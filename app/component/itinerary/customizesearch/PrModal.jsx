@@ -6,7 +6,7 @@ import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { ButtonLink, Spacer, Text } from '@hsl-fi/layout-primitives';
 import { ArrowLink } from '@hsl-fi/navigation';
 import Icon from '../../Icon';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 import { useBreakpoint } from '../../../hooks/BreakpointContext';
 
 export default function PrModal({ closeModal }) {

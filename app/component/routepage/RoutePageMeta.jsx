@@ -4,7 +4,7 @@ import { useFragment, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
 import { routeShape } from '../../../utils/client/shapes';
 import { generateMetaData } from '../../../utils/client/metaUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 function RoutePageMeta({ route: routeRef }) {
   const config = useConfigContext();

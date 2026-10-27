@@ -19,7 +19,7 @@ import { epochToTime } from '../../utils/client/timeUtils';
 import Icon from './Icon';
 import IconBackground from './icon/IconBackground';
 import PlatformNumber from './PlatformNumber';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 const getMostSevereAlert = route => {
   const alerts = [...getAlertsForObject(route)];

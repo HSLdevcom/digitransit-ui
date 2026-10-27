@@ -21,7 +21,7 @@ import {
 } from '../../../utils/shared/colorUtils';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RouteNotificationButton from './RouteNotificationButton';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { isLocalCallAgency } from '../../../utils/client/legUtils';
 
 function resolveHeadsign(pattern) {

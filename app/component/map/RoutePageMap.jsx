@@ -15,7 +15,7 @@ import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
 import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { useMapLayers } from '../../hooks/MapLayerContext';
 
 const mapLayerOptions = getMapLayerOptions({

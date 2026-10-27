@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DTAutosuggest from '@digitransit-component/digitransit-component-autosuggest';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import EmbeddedSearch from './EmbeddedSearch';
 import { EMBEDDED_SEARCH_PATH } from '../../../utils/shared/path';
 import { getRefPoint } from '../../../utils/client/apiUtils';

@@ -1,7 +1,7 @@
 import { resolveLocale } from '../../../../server/middleware/shell';
 
 // server/middleware/shell.js imports server/html/assetManifest.js, which
-// reads manifest.json/stats.json from disk at *module load time* unless
+// reads manifest.json from disk at *module load time* unless
 // NODE_ENV is 'development' - vi.hoisted forces that before this file's
 // static imports run, so no real webpack build is needed.
 vi.hoisted(() => vi.stubEnv('NODE_ENV', 'development'));

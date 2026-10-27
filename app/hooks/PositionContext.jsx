@@ -11,7 +11,7 @@ import {
   getGeolocationState,
   setGeolocationState,
 } from '../../utils/client/localStorage';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from './ConfigContext';
 import { createPositionService } from '../data/PositionService';
 import searchContext from '../data/SearchContext';
 

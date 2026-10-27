@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import { legShape } from '../../../utils/client/shapes';
 import AgencyInfo from '../AgencyInfo';
 import { LegAgencyInfoFragment } from './queries/LegAgencyInfoFragment';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 function LegAgencyInfo({ leg: legRef }) {
   const config = useConfigContext();

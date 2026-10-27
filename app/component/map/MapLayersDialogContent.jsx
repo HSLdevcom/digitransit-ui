@@ -14,7 +14,7 @@ import {
   showRentalVehiclesOfType,
 } from '../../../utils/client/modeUtils';
 import { TransportMode } from '../../../utils/shared/constants';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import useGeoJsonObjects from '../../hooks/useGeoJsonObjects';
 import { useMapLayers } from '../../hooks/MapLayerContext';
 

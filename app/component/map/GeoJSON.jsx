@@ -8,7 +8,7 @@ import {
   isMultiPointTypeGeometry,
   isPointTypeGeometry,
 } from '../../../utils/shared/geo-utils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 /**
  * Extracts svg-formatted icon data from the given features' properties.

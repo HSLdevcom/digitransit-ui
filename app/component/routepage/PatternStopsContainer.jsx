@@ -12,7 +12,7 @@ import { routePagePath } from '../../../utils/shared/path';
 import Error404 from '../404';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { ExtendedRouteTypes } from '../../../utils/shared/constants';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 function PatternStopsContainer({ pattern, route }) {
   const breakpoint = useBreakpoint();

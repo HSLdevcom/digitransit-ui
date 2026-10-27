@@ -21,7 +21,7 @@ import {
   handleUserAnalytics,
 } from '../../utils/shared/analyticsUtils';
 import { useOrigin } from '../hooks/ItineraryLocationContext';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function TopLevel({
   children,

@@ -5,7 +5,7 @@ import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from './Icon';
 import { useBreakpoint } from '../hooks/BreakpointContext';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 /**
  * A generic snackbar notification.
