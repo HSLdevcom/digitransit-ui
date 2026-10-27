@@ -9,7 +9,12 @@ import Icon from '../Icon';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from '../RouteNumber';
 import RouteControlPanel from './RouteControlPanel';
-import { PREFIX_ROUTES, PREFIX_DISRUPTION } from '../../../utils/shared/path';
+import {
+  PREFIX_ROUTES,
+  PREFIX_DISRUPTION,
+  PREFIX_STOPS,
+  PREFIX_TIMETABLE,
+} from '../../../utils/shared/path';
 import withBreakpoint from '../../../utils/client/withBreakpoint';
 import BackButton from '../BackButton';
 import {
@@ -35,6 +40,8 @@ function resolveHeadsign(pattern) {
   }
   return pattern.stops[pattern.stops.length - 1].name;
 }
+
+const TABS = [PREFIX_STOPS, PREFIX_TIMETABLE, PREFIX_DISRUPTION];
 
 function RoutePage({ route, breakpoint, error = undefined }) {
   const intl = useIntl();
@@ -142,7 +149,7 @@ function RoutePage({ route, breakpoint, error = undefined }) {
         </div>
         <RouteAgencyInfo route={route} />
       </div>
-      {route.patterns && match.params.type === PREFIX_DISRUPTION && (
+      {route.patterns && !tripId && TABS.includes(match.params.type) && (
         <RouteControlPanel route={route} breakpoint={breakpoint} />
       )}
     </div>

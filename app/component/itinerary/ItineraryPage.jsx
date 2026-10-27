@@ -51,10 +51,14 @@ import { getAllNetworksOfType } from '../../../utils/shared/vehicleRentalUtils';
 import { isPersonalizationEnabled } from '../../../utils/client/modeUtils';
 import {
   useFavouriteActions,
+  useFavouriteStatus,
   useFavourites,
   usePersonalizationPreferences,
 } from '../../hooks/FavouriteContext';
-import { getFavouriteRouteGtfsIds } from '../../data/FavouriteData';
+import {
+  STATUS_FETCHING_OR_UPDATING,
+  getFavouriteRouteGtfsIds,
+} from '../../data/FavouriteData';
 import DesktopView from '../DesktopView';
 import Loading from '../Loading';
 import MobileView from '../MobileView';
@@ -84,6 +88,7 @@ import {
   mergeTaxiZonePlan,
   parseCarTransitPlan,
   quitIteration,
+  removeDuplicateEdges,
   reportError,
   filterScooterEdges,
   setCurrentTimeToURL,
@@ -264,6 +269,20 @@ function ItineraryPageContent(props) {
   const detailView = altTransitHash.includes(hash) ? secondHash : hash;
   const settings = getSettings(config);
   const personalization = isPersonalizationEnabled(config, settings);
+
+  // Itineraries are rated with the personalization weights, so the first
+  // rating waits until the initial favourites load has finished. Later
+  // favourite updates (e.g. saving feedback) must not re-trigger rating.
+  const favouriteStatus = useFavouriteStatus();
+  const [favouritesReady, setFavouritesReady] = useState(
+    favouriteStatus !== STATUS_FETCHING_OR_UPDATING,
+  );
+  useEffect(() => {
+    if (favouriteStatus !== STATUS_FETCHING_OR_UPDATING) {
+      setFavouritesReady(true);
+    }
+  }, [favouriteStatus]);
+  const ratingReady = !personalization || favouritesReady;
 
   function altLoading() {
     return Object.values(altStates).some(
@@ -713,6 +732,28 @@ function ItineraryPageContent(props) {
     }
   }
 
+  // Returns sorted edges of a fetched plan that are not already shown.
+  // If the page had only duplicates, advances the cursor and returns null.
+  const getNewEdges = (plan, origPlan, arriveBy, cursorName) => {
+    const edges = getSortedEdges(
+      removeDuplicateEdges(plan.edges, [
+        ...origPlan.edges,
+        ...mainState.earlierEdges,
+        ...mainState.laterEdges,
+      ]),
+      arriveBy,
+    );
+    if (edges.length === 0 && plan.edges.length > 0) {
+      setMainState({
+        ...mainState,
+        loadingMore: undefined,
+        [cursorName]: plan.pageInfo[cursorName],
+      });
+      return null;
+    }
+    return edges;
+  };
+
   const onLater = async () => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -755,7 +796,10 @@ function ItineraryPageContent(props) {
     if (plan === null) {
       return;
     }
-    const edges = getSortedEdges(plan.edges, arriveBy);
+    const edges = getNewEdges(plan, origPlan, arriveBy, 'endCursor');
+    if (!edges) {
+      return;
+    }
     if (edges.length === 0) {
       const newState = arriveBy
         ? { topNote: 'no-more-route-msg' }
@@ -846,7 +890,10 @@ function ItineraryPageContent(props) {
     if (plan === null) {
       return;
     }
-    const edges = getSortedEdges(plan.edges, arriveBy);
+    const edges = getNewEdges(plan, origPlan, arriveBy, 'startCursor');
+    if (!edges) {
+      return;
+    }
     if (edges.length === 0) {
       const newState = arriveBy
         ? { bottomNote: 'no-more-route-msg' }
@@ -1268,7 +1315,8 @@ function ItineraryPageContent(props) {
       scooterState.loading === LOADSTATE.DONE &&
       externalFlexState.loading === LOADSTATE.DONE &&
       internalFlexState.loading === LOADSTATE.DONE &&
-      taxiZoneState.loading === LOADSTATE.DONE
+      taxiZoneState.loading === LOADSTATE.DONE &&
+      ratingReady
     ) {
       let plan = mergeScooterTransitPlan(
         scooterState.plan,
@@ -1322,6 +1370,7 @@ function ItineraryPageContent(props) {
     externalFlexState.plan,
     internalFlexState.plan,
     taxiZoneState.plan,
+    ratingReady,
   ]);
 
   // merge the relaxed scooter plan and the relaxed flex plan into one

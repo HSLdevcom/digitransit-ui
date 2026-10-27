@@ -36,9 +36,3 @@ Install this module individually:
 ```sh
 $ npm install @digitransit-util/digitransit-util-day-range-allowed-diff
 ```
-
-Or install `@digitransit-util/digitransit-util`, which bundles every digitransit-util module:
-
-```sh
-$ npm install @digitransit-util/digitransit-util
-```

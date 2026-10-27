@@ -668,11 +668,17 @@ describe('legUtils', () => {
   });
 
   describe('getValidatedLegName', () => {
-    it('should replace an OTP street corner name', () => {
-      const intl = createTestIntl();
-      const name = 'corner of Mannerheimintie and Kaivokatu';
-      expect(utils.getValidatedLegName(name, intl, true)).toBe('Origin');
-      expect(utils.getValidatedLegName(name, intl, false)).toBe('End point');
+    it.each([
+      ['fi', 'katujen Mannerheimintie ja Kaivokatu kulma'],
+      ['sv', 'hörnet av Mannerheimvägen och Kajvägen'],
+      ['en', 'corner of Mannerheimintie and Kaivokatu'],
+    ])('should replace an OTP street corner name in %s: %s', (locale, name) => {
+      const intl = createTestIntl({
+        locale,
+        messages: { terminus: 'TERMINUS', origin: 'ORIGIN' },
+      });
+      expect(utils.getValidatedLegName(name, intl, true)).toBe('ORIGIN');
+      expect(utils.getValidatedLegName(name, intl, false)).toBe('TERMINUS');
     });
 
     it('should keep other names', () => {

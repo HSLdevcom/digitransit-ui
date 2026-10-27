@@ -80,9 +80,6 @@ function WalkLeg({
   const modeClassName = 'walk';
   const fromMode = (leg[toOrFrom].stop && leg[toOrFrom].stop.vehicleMode) || '';
   const isFirstLeg = i => i === 0;
-  const [name, place] = splitStringToAddressAndPlace(leg[toOrFrom].name);
-  const address =
-    leg[toOrFrom].viaLocationType && leg.viaAddress ? leg.viaAddress : name;
   const network =
     previousLeg?.[toOrFrom]?.vehicleRentalStation?.rentalNetwork.networkId ||
     previousLeg?.[toOrFrom]?.rentalVehicle?.rentalNetwork.networkId;
@@ -91,6 +88,9 @@ function WalkLeg({
     intl,
     toOrFrom === 'to',
   );
+  const [name, place] = splitStringToAddressAndPlace(validatedLegName);
+  const address =
+    leg[toOrFrom].viaLocationType && leg.viaAddress ? leg.viaAddress : name;
   const networkType = getRentalNetworkConfig(
     isBikeOrScooterRentalLeg(previousLeg) && network,
     config,
