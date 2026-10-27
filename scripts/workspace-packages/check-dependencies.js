@@ -7,8 +7,7 @@
  *
  * 1. Every imported package is declared in dependencies/peerDependencies.
  * 2. Every declared dependency/peerDependency is imported, except peers
- *    passed through for a sibling @digitransit-* dependency's own peers
- *    (the deprecated bundle packages).
+ *    passed through for a sibling @digitransit-* dependency's own peers.
  * 3. Every peer of a sibling @digitransit-* dependency is passed through,
  *    i.e. declared by the depending package too.
  * 4. Nothing is declared as both a dependency and a peerDependency.

@@ -139,7 +139,7 @@ function DesktopDatetimepicker({
         ariaLiveMessages={{
           guidance: context => {
             // When user types invalid value, isDisabled becomes undefined instead of false
-            if (context.isDisabled === undefined && invalidInput) {
+            if (context.isDisabled == null && invalidInput) {
               return ariaError;
             }
             return '.'; // this can't be empty for some reason
