@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -15,7 +14,7 @@ import {
   PREFIX_STOPS,
   PREFIX_TIMETABLE,
 } from '../../../utils/shared/path';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import BackButton from '../BackButton';
 import {
   getRouteMode,
@@ -43,10 +42,11 @@ function resolveHeadsign(pattern) {
 
 const TABS = [PREFIX_STOPS, PREFIX_TIMETABLE, PREFIX_DISRUPTION];
 
-function RoutePage({ route, breakpoint, error = undefined }) {
+function RoutePage({ route, error = undefined }) {
   const intl = useIntl();
   const config = useConfigContext();
   const { router, match } = useRouter();
+  const breakpoint = useBreakpoint();
 
   const headingRef = useRef(null);
   useEffect(() => {
@@ -158,11 +158,10 @@ function RoutePage({ route, breakpoint, error = undefined }) {
 
 RoutePage.propTypes = {
   route: routeShape.isRequired,
-  breakpoint: PropTypes.string.isRequired,
   error: errorShape,
 };
 
-const containerComponent = createFragmentContainer(withBreakpoint(RoutePage), {
+const containerComponent = createFragmentContainer(RoutePage, {
   route: graphql`
     fragment RoutePage_route on Route
     @argumentDefinitions(

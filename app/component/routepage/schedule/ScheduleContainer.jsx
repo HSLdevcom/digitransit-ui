@@ -15,7 +15,7 @@ import ScheduleConstantOperation from './ScheduleConstantOperation';
 import SecondaryButton from '../../SecondaryButton';
 import { DATE_FORMAT } from '../../../../utils/shared/constants';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-import { useBreakpoint } from '../../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../hooks/BreakpointContext';
 import DateSelectGrouped from '../../stop/DateSelectGrouped';
 import ScrollableWrapper from '../../ScrollableWrapper';
 import { useConfigContext } from '../../../hooks/ConfigContext';

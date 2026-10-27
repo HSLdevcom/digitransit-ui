@@ -7,16 +7,13 @@ import { routeShape } from '../../../utils/client/shapes';
 import RouteControlPanel from './RouteControlPanel';
 import { getStartTime } from '../../../utils/client/timeUtils';
 import TripStopListContainer from './TripStopListContainer';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import ScrollableWrapper from '../ScrollableWrapper';
 
-const TripStopsContainer = memo(function TripStopsContainer({
-  breakpoint,
-  trip,
-  route,
-}) {
+const TripStopsContainer = memo(function TripStopsContainer({ trip, route }) {
   const [keepTracking, setTracking] = useState(true);
   const humanScrolling = useRef(true);
+  const breakpoint = useBreakpoint();
 
   const setHumanScrolling = boolVal => {
     humanScrolling.current = boolVal;
@@ -70,12 +67,10 @@ TripStopsContainer.propTypes = {
       }).isRequired,
     ).isRequired,
   }),
-  breakpoint: PropTypes.string.isRequired,
   route: routeShape,
 };
 
-const componentWithBreakpoint = withBreakpoint(TripStopsContainer);
-const containerComponent = createFragmentContainer(componentWithBreakpoint, {
+const containerComponent = createFragmentContainer(TripStopsContainer, {
   trip: graphql`
     fragment TripStopsContainer_trip on Trip
     @argumentDefinitions(

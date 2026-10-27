@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { component as Itinerary } from '../../../../../app/component/itinerary/Itinerary';
+import Itinerary from '../../../../../app/component/itinerary/Itinerary';
 import Legs from '../../../../../app/component/itinerary/Legs';
 import { AlertSeverityLevelType } from '../../../../../utils/shared/constants';
 import { renderWithProviders } from '../../../helpers/mock-providers';

@@ -22,7 +22,7 @@ import { IntlProvider } from 'react-intl';
 import i18n from './i18n';
 import routes, { historyMiddlewares, render } from '../routes/routes';
 import ErrorBoundary from '../component/ErrorBoundary';
-import { ClientProvider as ClientBreakpointProvider } from '../../utils/client/withBreakpoint';
+import { BreakpointProvider } from '../hooks/BreakpointContext';
 import getMetadata from '../../utils/shared/metaUtils';
 import {
   initAnalyticsClientSide,
@@ -52,7 +52,7 @@ const { config } = window;
 const AppProviders = props => {
   const providers = [
     [ConfigProvider, { value: props.config }],
-    [ClientBreakpointProvider],
+    [BreakpointProvider],
     [
       IntlProvider,
       {

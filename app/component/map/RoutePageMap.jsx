@@ -8,7 +8,7 @@ import MapWithTracking from './MapWithTracking';
 import RouteLine from './route/RouteLine';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import { getStartTime } from '../../../utils/client/timeUtils';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import BackButton from '../BackButton';
 import { isActiveDate } from '../../../utils/client/patternUtils';
 import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
@@ -30,7 +30,8 @@ const mapLayerOptions = getMapLayerOptions({
   selectedMapLayers: ['vehicles'],
 });
 
-function RoutePageMap({ pattern, lat, lon, breakpoint, trip, error, ...rest }) {
+function RoutePageMap({ pattern, lat, lon, trip, error, ...rest }) {
+  const breakpoint = useBreakpoint();
   const config = useConfigContext();
   const { mapLayers: baseMapLayers } = useMapLayers({
     notThese: [
@@ -189,12 +190,9 @@ RoutePageMap.propTypes = {
   pattern: patternShape.isRequired,
   lat: PropTypes.number,
   lon: PropTypes.number,
-  breakpoint: PropTypes.string.isRequired,
   trip: PropTypes.shape({ gtfsId: PropTypes.string }),
   error: errorShape,
 };
-
-const RoutePageMapWithBreakpoint = withBreakpoint(RoutePageMap);
 
 function RoutePageMapWithVehicles(props) {
   const { vehicles } = useRealTimeInformation();
@@ -214,7 +212,7 @@ function RoutePageMapWithVehicles(props) {
   }
 
   return (
-    <RoutePageMapWithBreakpoint
+    <RoutePageMap
       {...props}
       lat={selectedVehicle?.lat}
       lon={selectedVehicle?.long}

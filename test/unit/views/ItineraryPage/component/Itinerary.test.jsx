@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 
-import { component as Itinerary } from '../../../../../app/component/itinerary/Itinerary';
+import Itinerary from '../../../../../app/component/itinerary/Itinerary';
 import {
   AlertSeverityLevelType,
   ExtendedRouteTypes,
@@ -12,7 +12,6 @@ import { ignoreRelayModernSelectorWarning } from '../../../helpers/relay-selecto
 import dcw12 from '../../../test-data/dcw12';
 
 const defaultProps = {
-  breakpoint: 'large',
   hash: 1,
   focusToHeader: () => {},
   refTime: 0,
@@ -51,8 +50,9 @@ describe('<Itinerary />', () => {
   // ignoreRelayModernSelectorWarning's own comment for why this is needed.
   ignoreRelayModernSelectorWarning();
 
-  const renderItinerary = (props, config, router) =>
+  const renderItinerary = (props, config, router, breakpoint = 'large') =>
     renderWithProviders(<Itinerary {...defaultProps} {...props} />, {
+      breakpoint,
       ...(config ? { config } : {}),
       ...(router ? { router } : {}),
     });
@@ -957,7 +957,6 @@ describe('<Itinerary />', () => {
       const focusToHeader = vi.fn();
       const props = buildProps({
         passive: true,
-        breakpoint: 'large',
         focusToHeader,
       });
       const { container } = renderItinerary(props, undefined, {
@@ -978,14 +977,18 @@ describe('<Itinerary />', () => {
       const focusToHeader = vi.fn();
       const props = buildProps({
         passive: true,
-        breakpoint: 'small',
         focusToHeader,
       });
-      const { container } = renderItinerary(props, undefined, {
-        ...mockContext.router,
-        replace,
-        push,
-      });
+      const { container } = renderItinerary(
+        props,
+        undefined,
+        {
+          ...mockContext.router,
+          replace,
+          push,
+        },
+        'small',
+      );
       fireEvent.click(container.querySelector('.summary-clickable-area'));
       expect(push.mock.calls.length).toBe(1);
       expect(focusToHeader.mock.calls.length).toBe(1);
