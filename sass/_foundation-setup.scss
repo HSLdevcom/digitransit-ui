@@ -1,6 +1,8 @@
 /* stylelint-disable no-invalid-position-at-import-rule */
 $global-flexbox: false; // Use float grid like Foundation 5
 $xy-grid: false; // Disable XY grid
+$print-transparent-backgrounds: false; // Keep leg colors and dotted lines in print
+$print-hrefs: false; // Long link URLs would stretch the printed layout
 
 @import 'foundation';
 @include foundation-global-styles;

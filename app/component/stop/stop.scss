@@ -148,12 +148,9 @@
   &.bottom-padding {
     flex: none;
     min-height: 0;
+    padding-top: var(--space-fixed-m);
     padding-bottom: 20px;
   }
-}
-
-.constant-operation-panel {
-  padding-bottom: 28px;
 }
 
 .constant-operation-content {
@@ -713,6 +710,9 @@
   }
 
   .stop-page-content-wrapper {
+    // tall enough for the bottom sheet to stay where it is when switching tabs
+    min-height: calc(100vh - 64px);
+
     .route-tabs {
       margin: 12px 16px 16px;
     }

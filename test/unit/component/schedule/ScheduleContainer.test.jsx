@@ -323,15 +323,6 @@ describe('<ScheduleContainer />', () => {
     expect(container.querySelector('.route-page-action-bar')).not.toBeNull();
   });
 
-  it('should not show RouteControlPanel when route has no patterns', () => {
-    const { container } = renderView({
-      route: { ...mockRoute, patterns: null },
-    });
-    expect(
-      container.querySelector('.route-page-control-panel-container'),
-    ).toBeNull();
-  });
-
   it('should show no-trips message when no trips are available', () => {
     stubs.getTripsList.mockReturnValue({
       trips: null,

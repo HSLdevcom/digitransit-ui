@@ -26,7 +26,7 @@ const AppBarContainer = ({ homeUrl, logo, style, ...args }) => {
         />
       </a>
       {style === 'hsl' ? (
-        <div className="hsl-header-container" style={{ display: 'block' }}>
+        <div className="hsl-header-container">
           <CrisisBannerHsl />
           <AppBarHsl favourites={favourites} />
           <MessageBar breakpoint={breakpoint} />
