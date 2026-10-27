@@ -7,6 +7,7 @@ import postcss from 'rollup-plugin-postcss';
 import { babel } from '@rollup/plugin-babel';
 import json from '@rollup/plugin-json';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import svgr from '@svgr/rollup';
 import terser from '@rollup/plugin-terser';
 
 const rootDir = import.meta.dirname;
@@ -154,6 +155,12 @@ export default () => {
       nodeResolve({
         browser: true,
         extensions: ['.mjs', '.js', '.jsx', '.json', '.node'],
+      }),
+      svgr({
+        svgo: false,
+        ref: false,
+        titleProp: false,
+        jsxRuntime: 'classic',
       }),
       babel({
         babelHelpers: 'runtime',
