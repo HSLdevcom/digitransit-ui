@@ -2121,6 +2121,7 @@ __metadata:
   peerDependencies:
     "@digitransit-component/digitransit-component-autosuggest": "workspace:^"
     "@digitransit-component/digitransit-component-icon": "workspace:^"
+    "@dnd-kit/react": ^0.5.1
     "@hsl-fi/sass": ^1.0.0
     classnames: ^2.5.1
     downshift: ^9.4.0
@@ -2129,7 +2130,6 @@ __metadata:
     prop-types: ^15.8.1
     react: ^18.3.1
     react-i18next: ^12.3.1
-    react-sortablejs: ^6.1.4
   languageName: unknown
   linkType: soft
 
@@ -7730,13 +7730,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/sortablejs@npm:1.15.9":
-  version: 1.15.9
-  resolution: "@types/sortablejs@npm:1.15.9"
-  checksum: 10/9e0d6ef1cdcd30acab7af74cab5cbf56685e2de47c6f254357f7dde2626e9b49b8668c43f92761202cf4e10f2e3fd3d7baa6a83a39c3d342fc45ce66e87bd5aa
-  languageName: node
-  linkType: hard
-
 "@types/stack-utils@npm:^2.0.0":
   version: 2.0.3
   resolution: "@types/stack-utils@npm:2.0.3"
@@ -9806,13 +9799,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:2.3.1":
-  version: 2.3.1
-  resolution: "classnames@npm:2.3.1"
-  checksum: 10/28fec94a815d5f570fa6cb4baaa4a7ae1466db3c8f704802f1330180db45d3b85ef8ae612f521fb37ce2cab1c3040d1d78061697b62987bc2909f26d1ad4321f
-  languageName: node
-  linkType: hard
-
 "classnames@npm:2.5.1, classnames@npm:^2.3.2, classnames@npm:^2.5.1":
   version: 2.5.1
   resolution: "classnames@npm:2.5.1"
@@ -11682,7 +11668,6 @@ __metadata:
     "@rollup/plugin-terser": "npm:1.0.0"
     "@testing-library/dom": "npm:^10.4.0"
     "@testing-library/react": "npm:^16.0.1"
-    "@types/sortablejs": "npm:1.15.9"
     "@vitejs/plugin-react": "npm:4.7.0"
     async: "npm:^3.2.6"
     autoprefixer: "npm:^10.4.21"
@@ -11774,7 +11759,6 @@ __metadata:
     react-relay: "npm:16.2.0"
     react-relay-network-modern: "npm:6.2.2"
     react-select: "npm:5.10.2"
-    react-sortablejs: "npm:6.1.4"
     react-swipe: "npm:6.0.4"
     react-truncate-markup: "npm:5.1.2"
     redis: "npm:2.8.0"
@@ -11788,7 +11772,6 @@ __metadata:
     selenium-webdriver: "npm:4.0.0-alpha.1"
     semver: "npm:^7.8.5"
     serialize-javascript: "npm:7.0.5"
-    sortablejs: "npm:1.15.7"
     style-loader: "npm:^4.0.0"
     stylelint: "npm:15.11.0"
     stylelint-config-standard-scss: "npm:11.1.0"
@@ -22512,21 +22495,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-sortablejs@npm:6.1.4":
-  version: 6.1.4
-  resolution: "react-sortablejs@npm:6.1.4"
-  dependencies:
-    classnames: "npm:2.3.1"
-    tiny-invariant: "npm:1.2.0"
-  peerDependencies:
-    "@types/sortablejs": 1
-    react: ">=16.9.0"
-    react-dom: ">=16.9.0"
-    sortablejs: 1
-  checksum: 10/44e7ed04b437ab1f3636070ed65bcca237c0a4f6425a9c6cb5a0aa2d2a9a82b8e5e66d3d9995834adb49a65c828d86fca9a9909436f15be039aa0a09c2ae31b3
-  languageName: node
-  linkType: hard
-
 "react-style-singleton@npm:^2.2.2, react-style-singleton@npm:^2.2.3":
   version: 2.2.3
   resolution: "react-style-singleton@npm:2.2.3"
@@ -24498,13 +24466,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sortablejs@npm:1.15.7":
-  version: 1.15.7
-  resolution: "sortablejs@npm:1.15.7"
-  checksum: 10/4ef195ec8512c48ba536c65fc8ab8ecf0bd05a918dc79d64213428edf12c8d5a6c18ff40f822d69d4716b764d860e0fdf8a467cf7ab6386f613aa4ea99ac5d42
-  languageName: node
-  linkType: hard
-
 "source-map-js@npm:>=0.6.2 <2.0.0, source-map-js@npm:^1.0.1, source-map-js@npm:^1.2.1":
   version: 1.2.1
   resolution: "source-map-js@npm:1.2.1"
@@ -25616,13 +25577,6 @@ __metadata:
   version: 1.1.0
   resolution: "thunky@npm:1.1.0"
   checksum: 10/825e3bd07ab3c9fd6f753c457a60957c628cacba5dd0656fd93b037c445e2828b43cf0805a9f2b16b0c5f5a10fd561206271acddb568df4f867f0aea0eb2772f
-  languageName: node
-  linkType: hard
-
-"tiny-invariant@npm:1.2.0":
-  version: 1.2.0
-  resolution: "tiny-invariant@npm:1.2.0"
-  checksum: 10/e09a718a7c4a499ba592cdac61f015d87427a0867ca07f50c11fd9b623f90cdba18937b515d4a5e4f43dac92370498d7bdaee0d0e7a377a61095e02c4a92eade
   languageName: node
   linkType: hard
 
