@@ -8,11 +8,12 @@ import {
   legTime,
   legTimeStr,
   legDestination,
+  getValidatedLegName,
 } from '../../../utils/client/legUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const getDescription = (mode, distance, duration) => {
   if (mode === 'BICYCLE_WALK') {
@@ -52,7 +53,9 @@ function ViaLeg({ leg, arrival, index, children, focusAction, focusToLeg }) {
     config,
     intl.formatNumber,
   );
-  const [name, place] = splitStringToAddressAndPlace(leg.from.name);
+  const [name, place] = splitStringToAddressAndPlace(
+    getValidatedLegName(leg.from.name, intl, true),
+  );
   const address =
     leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
   const startTime = legTimeStr(leg.start);

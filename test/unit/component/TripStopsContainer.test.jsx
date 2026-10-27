@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { mockMatch } from '../helpers/mock-router';
-import { Component as TripStopsContainer } from '../../../app/component/routepage/TripStopsContainer';
+import TripStopsContainer from '../../../app/component/routepage/TripStopsContainer';
 
 describe('<TripStopsContainer />', () => {
   it('should render empty if trip information is missing', () => {

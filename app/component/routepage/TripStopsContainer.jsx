@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 import RouteControlPanel from './RouteControlPanel';
 import { getStartTime } from '../../../utils/client/timeUtils';
 import TripStopListContainer from './TripStopListContainer';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { TripStopsContainerFragment } from './queries/TripStopsContainerFragment';
 

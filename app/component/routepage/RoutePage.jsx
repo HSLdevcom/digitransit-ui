@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
@@ -9,8 +9,13 @@ import Icon from '../Icon';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from '../RouteNumber';
 import RouteControlPanel from './RouteControlPanel';
-import { PREFIX_ROUTES, PREFIX_DISRUPTION } from '../../../utils/shared/path';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import {
+  PREFIX_ROUTES,
+  PREFIX_DISRUPTION,
+  PREFIX_STOPS,
+  PREFIX_TIMETABLE,
+} from '../../../utils/shared/path';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import BackButton from '../BackButton';
 import {
   getRouteMode,
@@ -22,7 +27,7 @@ import {
 } from '../../../utils/shared/colorUtils';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RouteNotificationButton from './RouteNotificationButton';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { isLocalCallAgency } from '../../../utils/client/legUtils';
 import { RoutePageFragment } from './queries/RoutePageFragment';
 
@@ -38,6 +43,7 @@ function resolveHeadsign(pattern) {
 }
 
 function RoutePage({ route: routeRef = null, error = undefined }) {
+  const TABS = [PREFIX_STOPS, PREFIX_TIMETABLE, PREFIX_DISRUPTION];
   const intl = useIntl();
   const config = useConfigContext();
   const { router, match } = useRouter();
@@ -145,7 +151,7 @@ function RoutePage({ route: routeRef = null, error = undefined }) {
         </div>
         <RouteAgencyInfo route={route} />
       </div>
-      {route.patterns && match.params.type === PREFIX_DISRUPTION && (
+      {route.patterns && !tripId && TABS.includes(match.params.type) && (
         <RouteControlPanel route={route} breakpoint={breakpoint} />
       )}
     </div>
@@ -157,4 +163,4 @@ RoutePage.propTypes = {
   error: errorShape,
 };
 
-export { RoutePage as default, RoutePage as Component };
+export default RoutePage;

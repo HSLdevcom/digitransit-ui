@@ -3,7 +3,7 @@ import {
   getReadMessageIds,
   setReadMessageId,
 } from '../../../utils/client/localStorage';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import {
   getRentalNetworkConfig,
   getRentalNetworkId,
@@ -49,7 +49,7 @@ const CityBikeInfo = () => {
         closable
         onClose={handleClose}
       />
-      <div style={{ height: '8px' }} />
+      <div style={{ height: '22px' }} />
     </>
   );
 };

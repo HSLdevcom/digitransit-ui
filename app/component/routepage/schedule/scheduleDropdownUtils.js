@@ -1,12 +1,16 @@
 /**
  * Generate aria-live messages for react-select dropdowns.
- * @param {Object} intl - Internationalization object (react-intl v2)
+ * @param {Object} intl - Internationalization object
  * @returns {Object} Aria message configuration object
  */
 export const getAriaMessages = intl => ({
   guidance: () => '.', // react-select requires non-empty string for aria-live regions
-  onChange: ({ value }) =>
-    `${intl.formatMessage({ id: 'route-page.pattern-chosen' })} ${value.label}`,
+  onChange: ({ action, value }) =>
+    action === 'select-option' && value
+      ? `${intl.formatMessage({ id: 'route-page.pattern-chosen' })} ${
+          value.label
+        }`
+      : '',
   onFilter: () => '',
   onFocus: ({ context: itemContext, focused }) => {
     if (itemContext === 'menu') {

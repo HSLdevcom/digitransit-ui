@@ -5,21 +5,20 @@ import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import { useRouter } from 'found';
 import RouteStopListContainer from './RouteStopListContainer';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
-import RouteControlPanel from './RouteControlPanel';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { routePagePath } from '../../../utils/shared/path';
 import Error404 from '../404';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { ExtendedRouteTypes } from '../../../utils/shared/constants';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { PatternStopsContainerFragment } from './queries/PatternStopsContainerFragment';
 
 function PatternStopsContainer({
   pattern: patternRef = null,
   route: routeRef = null,
 }) {
-  const intl = useIntl();
   const breakpoint = useBreakpoint();
+  const intl = useIntl();
   const pattern = useFragment(
     PatternStopsContainerFragment.pattern,
     patternRef,
@@ -47,9 +46,6 @@ function PatternStopsContainer({
         'bp-large': breakpoint === 'large',
       })}
     >
-      {route?.patterns && (
-        <RouteControlPanel route={route} breakpoint={breakpoint} />
-      )}
       {routeId && constantOperationRoutes[routeId] && (
         <div className="stop-constant-operation-container bottom-padding">
           <div style={{ width: '95%' }}>

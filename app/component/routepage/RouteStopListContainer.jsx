@@ -9,12 +9,12 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
 import RouteStop from './RouteStop';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import { getRouteMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
-import { useConfigContext } from '../../client/ConfigContext';
 import RouteStopListContainerFragment from './queries/RouteStopListContainerFragment';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 function RouteStopListContainer({
   pattern: patternRef,

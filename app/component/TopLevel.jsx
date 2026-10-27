@@ -15,13 +15,13 @@ import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import ErrorBoundary from './ErrorBoundary';
-import { DesktopOrMobile } from '../../utils/client/withBreakpoint';
+import { DesktopOrMobile } from '../hooks/BreakpointContext';
 import {
   addAnalyticsEvent,
   handleUserAnalytics,
 } from '../../utils/shared/analyticsUtils';
 import { useOrigin } from '../hooks/ItineraryLocationContext';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function TopLevel({
   children,

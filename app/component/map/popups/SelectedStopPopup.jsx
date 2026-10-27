@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Popup from 'react-leaflet/es/Popup';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function SelectedStopPopup({ lat, lon, children }) {
   const config = useConfigContext();

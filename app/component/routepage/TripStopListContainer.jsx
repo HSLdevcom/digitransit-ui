@@ -8,10 +8,10 @@ import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
 import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import TripRouteStop from './TripRouteStop';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
-import { useConfigContext } from '../../client/ConfigContext';
 import TripStopListContainerFragment from './queries/TripStopListContainerFragment';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 function TripStopListContainer({
   trip: tripRef,
@@ -126,4 +126,4 @@ TripStopListContainer.propTypes = {
   setHumanScrolling: PropTypes.func,
 };
 
-export { TripStopListContainer as default, TripStopListContainer as Component };
+export default TripStopListContainer;

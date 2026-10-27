@@ -1,19 +1,25 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useMatch } from 'found';
 import { stopShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { parseLocation } from '../../../utils/shared/path';
 import { timeStr } from '../../../utils/client/timeUtils';
+import { getValidatedLegName } from '../../../utils/client/legUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function EndLeg(props) {
   const match = useMatch();
+  const intl = useIntl();
   const parsedAddress = parseLocation(match.params.to).address;
-  const [address, place] = props.to.name.split(/, (.+)/);
+  const [address, place] = getValidatedLegName(
+    props.to.name,
+    intl,
+    false,
+  ).split(/, (.+)/);
   // Below check is needed for unit tests
   const [addressFromUrl, placeFromUrl] = !parsedAddress
     ? [address, place]

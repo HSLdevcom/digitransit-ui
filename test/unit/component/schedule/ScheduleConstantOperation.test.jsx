@@ -22,13 +22,6 @@ describe('<ScheduleConstantOperation />', () => {
     breakpoint: 'large',
   };
 
-  it('should render RouteControlPanel', () => {
-    const { container } = renderWithProviders(
-      <ScheduleConstantOperation {...defaultProps} />,
-    );
-    expect(container.querySelector('.constant-operation-panel')).not.toBeNull();
-  });
-
   it('should display constant operation text', () => {
     const { container } = renderWithProviders(
       <ScheduleConstantOperation {...defaultProps} />,

@@ -11,7 +11,7 @@ right one by *who consumes the code*, not just by convenience.
 - `app/` — client-bundle-only React app (React components + route trees):
   - `client/` — browser entry & bootstrap: `client.jsx` (browser entry, farce/found router
     bootstrap, `AppProviders`), `publicPath.js` / `loadDevTheme.js` (extra webpack entry
-    modules), `i18n.js`, `ConfigContext.jsx` (`useConfigContext` for config).
+    modules), `i18n.js`.
   - `routes/` — found + Relay route-tree definitions: `routes.jsx` (front page, top level),
     `routeRoutes.jsx` (route pages), `stopRoutes.jsx` (stop pages); keep the filenames, Relay
     query names are prefixed with them.
@@ -100,7 +100,8 @@ right one by *who consumes the code*, not just by convenience.
 
 - `yarn lint` — eslint (Airbnb config + jsx-a11y + compat + prettier) + `prettier-styles` (scss
   check) + `prettier-icons` (`app/assets/icons/**/*.svg`, via `@prettier/plugin-xml`) + `stylelint`
-  + component-package translation parity check.
+  + component-package translation parity check + workspace-package dependency check
+  (`yarn workspace-packages-dependencies-check`).
 - `yarn format` — auto-fixes: sorts translations (app + component packages), `eslint --fix`,
   prettier styles, prettier icons, stylelint fix.
 - `yarn eslint` / `yarn eslint-fix` for JS only.
@@ -161,6 +162,9 @@ Other structural notes:
 - The `digitransit-*` workspace packages are consumed by the main app but built/versioned
   independently — treat them like semi-external dependencies. See `docs/WorkspacePackages.md`
   for how they're structured, tested, documented, and published.
+  - Their peer ranges are caret ranges of the root's version (e.g. `react` `^18.3.1`). Shared
+    test/build tooling lives only in the root `devDependencies`; package scripts call it via
+    `yarn run -T <bin>`. See "Dependency Classification" in `docs/WorkspacePackages.md`.
 
 ## Server/client boundary
 
@@ -208,6 +212,9 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   components may still use `defaultProps` until they're otherwise modified.
 - To avoid unnecessary re-renders, define non-primitive default parameter values (objects,
   arrays, functions) as module-level constants instead of inline literals.
+- Declare `dependencies`/`devDependencies` in `package.json` files with exact versions (e.g.
+  `"2.5.1"`), never `^` or `~`. The only exception is workspace-package `peerDependencies`, which
+  are caret ranges of the root's version (enforced by `yarn workspace-packages-dependencies-check`).
 - Never bump package versions manually; the `workspace-packages-version-bump` script is run after
   a PR is approved but before merging by the author.
 - The project does not enable `eslint-plugin-react-hooks`'s `exhaustive-deps` rule, and top-level

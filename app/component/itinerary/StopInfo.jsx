@@ -5,7 +5,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { durationToString } from '../../../utils/client/timeUtils';
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import Icon from '../Icon';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function StopInfo({
   intermediateStopCount,

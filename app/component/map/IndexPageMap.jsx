@@ -2,7 +2,7 @@ import React from 'react';
 import { useMatch } from 'found';
 import MapWithTracking from './MapWithTracking';
 import { sameLocations } from '../../../utils/shared/path';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { useMapLayers } from '../../hooks/MapLayerContext';
 import CookieSettingsButton from '../CookieSettingsButton';
 import LocationMarker from './LocationMarker';

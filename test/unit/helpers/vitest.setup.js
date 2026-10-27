@@ -126,8 +126,8 @@ afterAll(() => {
 afterEach(() => {
   cleanup();
   // react-modal hides its app element (body in some tests) and only restores
-  // it after closeTimeoutMS; the files share one jsdom (isolate: false), so
-  // a leftover aria-hidden would make later getByRole queries fail.
+  // it after closeTimeoutMS; a leftover aria-hidden would make later
+  // getByRole queries in the same file fail.
   document.body.removeAttribute('aria-hidden');
   // `restoreMocks: true` (vitest.config.js's `app` project) only restores
   // vi.fn()/vi.spyOn() mocks right before the *next* test starts, so a

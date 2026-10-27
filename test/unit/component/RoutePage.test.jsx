@@ -4,8 +4,12 @@ import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';
-import { Component as RoutePage } from '../../../app/component/routepage/RoutePage';
-import { PREFIX_DISRUPTION } from '../../../utils/shared/path';
+import RoutePage from '../../../app/component/routepage/RoutePage';
+import {
+  PREFIX_DISRUPTION,
+  PREFIX_STOPS,
+  PREFIX_TIMETABLE,
+} from '../../../utils/shared/path';
 
 // React's dev-mode error logging re-dispatches a render error a second time,
 // asynchronously, via a simulated DOM event (`invokeGuardedCallbackDev`,
@@ -74,8 +78,6 @@ const baseMatch = {
 
 const baseProps = {
   route: baseRoute,
-  match: baseMatch,
-  breakpoint: 'large',
 };
 
 describe('<RoutePage />', () => {
@@ -83,12 +85,16 @@ describe('<RoutePage />', () => {
   // ignoreRelayModernSelectorWarning's comment for why this is needed.
   ignoreRelayModernSelectorWarning();
 
-  const renderView = (props = {}, config = baseConfig) =>
+  const renderView = (
+    { match = baseMatch, ...props } = {},
+    config = baseConfig,
+    breakpoint = 'large',
+  ) =>
     renderWithProviders(<RoutePage {...baseProps} {...props} />, {
       config,
-      breakpoint: props.breakpoint || baseProps.breakpoint,
-      match: props.match || baseMatch,
-      router: props.match?.router || baseMatch.router,
+      match,
+      router: match.router || baseMatch.router,
+      breakpoint,
     });
 
   describe('Redirect when route is missing', () => {
@@ -208,17 +214,17 @@ describe('<RoutePage />', () => {
 
   describe('BackButton visibility', () => {
     it('renders BackButton on large breakpoint', () => {
-      const { container } = renderView({ breakpoint: 'large' });
+      const { container } = renderView({}, baseConfig, 'large');
       expect(container.querySelector('.back-button')).not.toBeNull();
     });
 
     it('does not render BackButton on small breakpoint', () => {
-      const { container } = renderView({ breakpoint: 'small' });
+      const { container } = renderView({}, baseConfig, 'small');
       expect(container.querySelector('.back-button')).toBeNull();
     });
 
     it('does not render BackButton on medium breakpoint', () => {
-      const { container } = renderView({ breakpoint: 'medium' });
+      const { container } = renderView({}, baseConfig, 'medium');
       expect(container.querySelector('.back-button')).toBeNull();
     });
   });
@@ -375,16 +381,31 @@ describe('<RoutePage />', () => {
   });
 
   describe('RouteControlPanel', () => {
-    it('renders RouteControlPanel when type param equals PREFIX_DISRUPTION', () => {
+    it.each([PREFIX_STOPS, PREFIX_TIMETABLE, PREFIX_DISRUPTION])(
+      'renders RouteControlPanel when type param is %s',
+      type => {
+        const { container } = renderView({
+          match: {
+            ...baseMatch,
+            params: { ...baseMatch.params, type },
+          },
+        });
+        expect(
+          container.querySelector('.route-page-control-panel-container'),
+        ).not.toBeNull();
+      },
+    );
+
+    it('does not render RouteControlPanel on a trip page', () => {
       const { container } = renderView({
         match: {
           ...baseMatch,
-          params: { ...baseMatch.params, type: PREFIX_DISRUPTION },
+          params: { ...baseMatch.params, type: PREFIX_STOPS, tripId: 'HSL:t1' },
         },
       });
       expect(
         container.querySelector('.route-page-control-panel-container'),
-      ).not.toBeNull();
+      ).toBeNull();
     });
 
     it('does not render RouteControlPanel when type param is absent', () => {
@@ -396,7 +417,7 @@ describe('<RoutePage />', () => {
       ).toBeNull();
     });
 
-    it('does not render RouteControlPanel when type param is not PREFIX_DISRUPTION', () => {
+    it('does not render RouteControlPanel when type param is unknown', () => {
       const { container } = renderView({
         match: {
           ...baseMatch,

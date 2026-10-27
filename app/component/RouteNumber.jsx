@@ -10,7 +10,7 @@ import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import Icon from './Icon';
 import { TransportMode } from '../../utils/shared/constants';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 const LONG_ROUTE_NUMBER_LENGTH = 6;
 

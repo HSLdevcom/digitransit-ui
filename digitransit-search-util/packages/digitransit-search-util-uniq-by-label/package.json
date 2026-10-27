@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-uniq-by-label",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "digitransit-search-util uniq-by-label module",
   "type": "module",
   "main": "index.js",
@@ -8,7 +8,7 @@
     "access": "public"
   },
   "scripts": {
-    "test": "vitest run --config ../../../vitest.config.js \"$PWD/test.js\"",
+    "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.js\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js"
   },
   "repository": {
@@ -22,7 +22,6 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
-    "lodash": "4.18.1",
-    "lodash-es": "4.18.1"
+    "lodash": "4.18.1"
   }
 }

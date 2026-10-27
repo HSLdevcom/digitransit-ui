@@ -15,11 +15,10 @@ import ScheduleConstantOperation from './ScheduleConstantOperation';
 import SecondaryButton from '../../SecondaryButton';
 import { DATE_FORMAT } from '../../../../utils/shared/constants';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-import { useBreakpoint } from '../../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../hooks/BreakpointContext';
 import DateSelectGrouped from '../../stop/DateSelectGrouped';
-import RouteControlPanel from '../RouteControlPanel';
 import ScrollableWrapper from '../../ScrollableWrapper';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 import { getTripsList } from './scheduleTripsUtils';
 import { calculateRedirectDecision } from './scheduleParamUtils';
 import { buildAvailableDates } from './scheduleDataUtils';
@@ -228,7 +227,6 @@ const ScheduleContainer = ({
       >
         <ScheduleConstantOperation
           constantOperationInfo={constantOperationInfo}
-          route={route}
           breakpoint={breakpoint}
         />
       </div>
@@ -249,13 +247,6 @@ const ScheduleContainer = ({
           mobile: breakpoint !== 'large',
         })}
       >
-        {route.patterns && (
-          <RouteControlPanel
-            route={route}
-            breakpoint={breakpoint}
-            noInitialServiceDay
-          />
-        )}
         <div className="route-schedule-grouped-date-select">
           <DateSelectGrouped
             dateFormat={DATE_FORMAT}

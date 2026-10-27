@@ -21,7 +21,7 @@ import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../../utils/client/mapLayerUtils';
 import { useRealTimeInformation } from '../../../hooks/RealTimeInformationContext';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-import { getClientBreakpoint } from '../../../../utils/client/withBreakpoint';
+import { getClientBreakpoint } from '../../../hooks/BreakpointContext';
 import {
   stopPagePath,
   PREFIX_BIKESTATIONS,
@@ -31,7 +31,7 @@ import {
 } from '../../../../utils/shared/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import { useCurrentTime } from '../../../hooks/TimeContext';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 const DEFAULT_OBJECTS_TO_HIDE = { vehicleRentalStations: [] };
 

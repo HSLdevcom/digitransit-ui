@@ -67,7 +67,6 @@ utils/**/__generated__
 
 # Root-level build config.
 !webpack.config.js
-!postcss.config.cjs
 
 # Kept for compliance/legal visibility even though not functionally required:
 # digitransit-ui is dual AGPL-3.0/EUPL-1.2 licensed.

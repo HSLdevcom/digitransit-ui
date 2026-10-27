@@ -34,7 +34,7 @@ import {
   isTomorrow,
   timeStr,
 } from '../../../utils/client/timeUtils';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { getItineraryPagePath, streetHash } from '../../../utils/shared/path';
@@ -47,7 +47,7 @@ import getCo2Value from '../../../utils/client/emissions';
 import { ItineraryFragment } from './queries/ItineraryFragment';
 import { getTicketString } from '../../../utils/client/fareUtils';
 import { ViaLocationType } from '../../../utils/shared/constants';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import FirstLegStartTime from './FirstLegStartTime';
 import { normalizeLegLengths } from './itineraryLegProcessor';
 
@@ -71,7 +71,6 @@ const getBikeParkedIndex = legs => {
 
 const Itinerary = ({
   itinerary: itineraryRef,
-  breakpoint,
   intermediatePlaces = [],
   hideSelectionIndicator = true,
   lowestCo2value = 0,
@@ -84,6 +83,7 @@ const Itinerary = ({
   const { formatMessage } = intl;
   const itinerary = useFragment(ItineraryFragment, itineraryRef);
   const { router, match } = useRouter();
+  const breakpoint = useBreakpoint();
 
   const onSelectImmediately = () => {
     const modesWithSubpath = [
@@ -773,7 +773,6 @@ Itinerary.propTypes = {
   passive: PropTypes.bool,
   focusToHeader: PropTypes.func.isRequired,
   hash: PropTypes.number.isRequired,
-  breakpoint: PropTypes.string.isRequired,
   intermediatePlaces: PropTypes.arrayOf(locationShape),
   hideSelectionIndicator: PropTypes.bool,
   lowestCo2value: PropTypes.number,
@@ -783,6 +782,4 @@ Itinerary.propTypes = {
   giveFeedback: PropTypes.func,
 };
 
-const ItineraryWithBreakpoint = withBreakpoint(Itinerary);
-
-export { ItineraryWithBreakpoint as default, Itinerary as component };
+export default Itinerary;

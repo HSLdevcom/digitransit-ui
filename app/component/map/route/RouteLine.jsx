@@ -8,7 +8,7 @@ import Line from '../Line';
 import { getClosestPoint } from '../../../../utils/shared/geo-utils';
 import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
 import { patternShape, tripShape } from '../../../../utils/client/shapes';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 import { getStopStatusFromStopData } from '../../../../utils/client/stopStatusUtils';
 
 /**

@@ -15,7 +15,7 @@ import {
   getRentalNetworkIcon,
   hasVehicleRentalCode,
 } from '../../../utils/shared/vehicleRentalUtils';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import Icon from '../Icon';
 import { PREFIX_BIKESTATIONS } from '../../../utils/shared/path';
 import {
@@ -24,7 +24,7 @@ import {
 } from '../../../utils/client/legUtils';
 import ScooterLinkContainer from './ScooterLinkContainer';
 import IconBadge from '../icon/IconBadge';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 
 function VehicleRentalLeg({
@@ -32,11 +32,11 @@ function VehicleRentalLeg({
   isScooter = false,
   vehicleRentalStation,
   returnBike = false,
-  breakpoint,
   rentalVehicle,
   nextLegMode,
   nearestScooters = [],
 }) {
+  const breakpoint = useBreakpoint();
   const intl = useIntl();
   const config = useConfigContext();
   const { language } = config;
@@ -191,10 +191,9 @@ VehicleRentalLeg.propTypes = {
   stationName: PropTypes.string,
   isScooter: PropTypes.bool,
   returnBike: PropTypes.bool,
-  breakpoint: PropTypes.string,
   rentalVehicle: rentalVehicleShape,
   nextLegMode: PropTypes.string,
   nearestScooters: PropTypes.arrayOf(rentalVehicleShape),
 };
 
-export default withBreakpoint(VehicleRentalLeg);
+export default VehicleRentalLeg;

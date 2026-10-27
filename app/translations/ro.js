@@ -147,7 +147,7 @@ export default {
       'Nu s-a găsit nicio rută conform selecției. Schimbați plecarea, destinația sau parametrii introduși ca preferințe.',
     'no-route-start-end': 'Selectați punctele de plecare și destinație.',
     'number-of-intermediate-stops':
-      '{number, plural, =0 {Nicio stație intermediară} O {1 stație} altă {{number} opriri} }',
+      '{number, plural, =0 {Nicio stație intermediară} one {1 stație} other {{number} opriri} }',
     'option-default': 'Implicit',
     'option-least': 'Cel mai puțin',
     'option-less': 'Mai puțin',
