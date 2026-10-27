@@ -1,6 +1,6 @@
 import { graphql } from 'react-relay';
 
-export const PatternStopsContainerFragment = {
+export default {
   pattern: graphql`
     fragment PatternStopsContainerFragment_pattern on Pattern
     @argumentDefinitions(

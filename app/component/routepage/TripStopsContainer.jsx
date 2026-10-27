@@ -8,7 +8,7 @@ import { getStartTime } from '../../../utils/client/timeUtils';
 import TripStopListContainer from './TripStopListContainer';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import ScrollableWrapper from '../ScrollableWrapper';
-import { TripStopsContainerFragment } from './queries/TripStopsContainerFragment';
+import TripStopsContainerFragment from './queries/TripStopsContainerFragment';
 
 const TripStopsContainer = memo(function TripStopsContainer({
   trip: tripRef,

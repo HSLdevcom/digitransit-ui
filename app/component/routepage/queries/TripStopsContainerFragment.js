@@ -1,6 +1,6 @@
 import { graphql } from 'react-relay';
 
-export const TripStopsContainerFragment = {
+export default {
   trip: graphql`
     fragment TripStopsContainerFragment_trip on Trip
     @argumentDefinitions(

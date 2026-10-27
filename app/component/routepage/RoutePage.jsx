@@ -29,7 +29,7 @@ import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RouteNotificationButton from './RouteNotificationButton';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { isLocalCallAgency } from '../../../utils/client/legUtils';
-import { RoutePageFragment } from './queries/RoutePageFragment';
+import RoutePageFragment from './queries/RoutePageFragment';
 
 function resolveHeadsign(pattern) {
   if (!pattern) {

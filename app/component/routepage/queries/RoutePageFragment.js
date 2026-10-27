@@ -1,6 +1,6 @@
 import { graphql } from 'react-relay';
 
-export const RoutePageFragment = graphql`
+export default graphql`
   fragment RoutePageFragment_route on Route
   @argumentDefinitions(
     date: { type: "String" }

@@ -18,7 +18,7 @@ import {
   AlertEntityType,
 } from '../../../utils/shared/constants';
 import { patternTextWithIcon } from './RoutePatternSelect';
-import { RouteAlertsContainerFragment } from './queries/RouteAlertsContainerFragment';
+import RouteAlertsContainerFragment from './queries/RouteAlertsContainerFragment';
 
 const getCancelations = (route, pattern, entity, intl) => {
   if (!pattern.canceledTrips) {

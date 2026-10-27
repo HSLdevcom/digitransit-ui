@@ -11,7 +11,7 @@ import Error404 from '../404';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { ExtendedRouteTypes } from '../../../utils/shared/constants';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { PatternStopsContainerFragment } from './queries/PatternStopsContainerFragment';
+import PatternStopsContainerFragment from './queries/PatternStopsContainerFragment';
 
 function PatternStopsContainer({
   pattern: patternRef = null,
