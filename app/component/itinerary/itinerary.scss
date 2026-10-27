@@ -378,6 +378,10 @@ $itinerary-tab-switch-height: 48px;
   max-width: 350px;
   line-height: 16px;
 
+  @media print {
+    max-width: none;
+  }
+
   .icon-container {
     flex: 0;
 
@@ -2999,14 +3003,8 @@ div.itinerary-container-content {
 
 @media print {
   .swipeable-tab {
-    &.inactive > .itinerary-tab {
-      > .itinerary-tabs__scroll {
-        display: none;
-      }
-
-      > .itinerary-summary-container > .itinerary-summary {
-        display: none;
-      }
+    &.inactive {
+      display: none;
     }
 
     &.false > .itinerary-tab {
