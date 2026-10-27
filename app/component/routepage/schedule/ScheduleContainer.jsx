@@ -17,7 +17,6 @@ import { DATE_FORMAT } from '../../../../utils/shared/constants';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { useBreakpoint } from '../../../../utils/client/withBreakpoint';
 import DateSelectGrouped from '../../stop/DateSelectGrouped';
-import RouteControlPanel from '../RouteControlPanel';
 import ScrollableWrapper from '../../ScrollableWrapper';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 import { getTripsList } from './scheduleTripsUtils';
@@ -228,7 +227,6 @@ const ScheduleContainer = ({
       >
         <ScheduleConstantOperation
           constantOperationInfo={constantOperationInfo}
-          route={route}
           breakpoint={breakpoint}
         />
       </div>
@@ -249,13 +247,6 @@ const ScheduleContainer = ({
           mobile: breakpoint !== 'large',
         })}
       >
-        {route.patterns && (
-          <RouteControlPanel
-            route={route}
-            breakpoint={breakpoint}
-            noInitialServiceDay
-          />
-        )}
         <div className="route-schedule-grouped-date-select">
           <DateSelectGrouped
             dateFormat={DATE_FORMAT}

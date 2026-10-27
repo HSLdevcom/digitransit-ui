@@ -233,7 +233,10 @@ export default function Map({
           className={`z${ownZoom}`}
           keyboard={false}
           ref={el => {
-            map.current = el;
+            // inline ref is detached and reattached on each render; zoomend can fire in between
+            if (el) {
+              map.current = el;
+            }
             if (leafletMapRef) {
               leafletMapRef(el);
             }

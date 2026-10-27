@@ -23,8 +23,9 @@ export const prepareDatesForStopTabs = params => {
   };
 };
 
+// Seconds are dropped so that tab clicks within a minute reuse cached data.
 export const prepareDatesForStops = params => {
-  const now = DateTime.now();
+  const now = DateTime.now().startOf('minute');
   return {
     ...params,
     startTime: now.toUnixInteger() - 60 * 5, // 5 mins in the past
