@@ -66,7 +66,6 @@ CallAgencyLeg.propTypes = {
   leg: legShape.isRequired,
   index: PropTypes.number.isRequired,
   showRouteDescNotification: PropTypes.bool,
-  breakpoint: PropTypes.string,
 };
 
 export default CallAgencyLeg;
