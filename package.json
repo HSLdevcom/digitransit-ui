@@ -135,6 +135,7 @@
   },
   "dependencies": {
     "@azure/cosmos": "^4.0.0",
+    "@dnd-kit/react": "0.5.1",
     "@hsl-fi/button": "^1.2.4",
     "@hsl-fi/design-system-core": "^2.7.1",
     "@hsl-fi/design-tokens": "^1.25.0",

@@ -20,6 +20,8 @@ const globals = {
   i18next: 'i18next',
   'react-i18next': 'reactI18next',
   'react-sortablejs': 'reactSortablejs',
+  '@dnd-kit/react': 'dndKitReact',
+  '@dnd-kit/react/sortable': 'dndKitReactSortable',
   'react-modal': 'ReactModal',
   '@hsl-fi/modal': 'Modal',
   '@hsl-fi/shimmer': 'Shimmer',
