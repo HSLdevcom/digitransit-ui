@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import React, {
   useRef,
   useLayoutEffect,
@@ -15,6 +16,9 @@ import {
   PREFIX_ROUTES,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
+  PREFIX_BIKESTATIONS,
+  PREFIX_BIKEPARK,
+  PREFIX_CARPARK,
 } from '../../utils/shared/path';
 
 const noBottomSheetResetAtContentChange = [
@@ -22,6 +26,9 @@ const noBottomSheetResetAtContentChange = [
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
 ];
+
+// short content: sheet height fits the content instead of the default minimum
+const fitContentPages = [PREFIX_BIKESTATIONS, PREFIX_BIKEPARK, PREFIX_CARPARK];
 
 const BOTTOM_SHEET_OFFSET = 20;
 const topBarHeight = 64;
@@ -154,9 +161,10 @@ const MobileView = forwardRef(
             >
               <div className="drawer-padding" />
               <div
-                className={`drawer-content ${
-                  !enableBottomScroll && 'fit-content'
-                }`}
+                className={cx('drawer-content', {
+                  'fit-content':
+                    !enableBottomScroll || fitContentPages.includes(pagePrefix),
+                })}
                 ref={contentRef}
               >
                 {enableBottomScroll && <div className="drag-line" />}
