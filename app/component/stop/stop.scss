@@ -148,6 +148,7 @@
   &.bottom-padding {
     flex: none;
     min-height: 0;
+    padding-top: var(--space-fixed-m);
     padding-bottom: 20px;
   }
 }
