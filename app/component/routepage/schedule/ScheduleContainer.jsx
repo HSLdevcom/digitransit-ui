@@ -1,14 +1,13 @@
-import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useFragment } from 'react-relay';
 import { DateTime } from 'luxon';
 import cx from 'classnames';
 import { useRouter } from 'found';
-import { routeShape, patternShape } from '../../../../utils/client/shapes';
-import { SchedulePatternFragment } from './queries/SchedulePatternFragment';
-import { ScheduleRouteFragment } from './queries/ScheduleRouteFragment';
-import { ScheduleFirstDeparturesFragment } from './queries/ScheduleFirstDeparturesFragment';
+import { fragmentRefShape } from '../../../../utils/client/shapes';
+import SchedulePatternFragment from './queries/SchedulePatternFragment';
+import ScheduleRouteFragment from './queries/ScheduleRouteFragment';
+import ScheduleFirstDeparturesFragment from './queries/ScheduleFirstDeparturesFragment';
 import ScheduleHeader from './ScheduleHeader';
 import ScheduleTripList from './ScheduleTripList';
 import ScheduleConstantOperation from './ScheduleConstantOperation';
@@ -307,11 +306,9 @@ const ScheduleContainer = ({
 };
 
 ScheduleContainer.propTypes = {
-  pattern: patternShape.isRequired,
-  route: routeShape.isRequired,
-  // firstDepartures is a Relay fragment with dynamic structure
-  // eslint-disable-next-line react/forbid-prop-types
-  firstDepartures: PropTypes.object.isRequired,
+  pattern: fragmentRefShape.isRequired,
+  route: fragmentRefShape.isRequired,
+  firstDepartures: fragmentRefShape.isRequired,
 };
 
 ScheduleContainer.displayName = 'ScheduleContainer';

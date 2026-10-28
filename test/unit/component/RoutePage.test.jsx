@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';
-import { Component as RoutePage } from '../../../app/component/routepage/RoutePage';
+import RoutePage from '../../../app/component/routepage/RoutePage';
 import {
   PREFIX_DISRUPTION,
   PREFIX_STOPS,
@@ -82,8 +81,8 @@ const baseProps = {
 };
 
 describe('<RoutePage />', () => {
-  // RoutePage's children are Relay fragment/refetch containers - see
-  // ignoreRelayModernSelectorWarning's own comment for why this is needed.
+  // RoutePage's children include Relay fragment containers; see
+  // ignoreRelayModernSelectorWarning's comment for why this is needed.
   ignoreRelayModernSelectorWarning();
 
   const renderView = (
@@ -100,83 +99,82 @@ describe('<RoutePage />', () => {
 
   describe('Redirect when route is missing', () => {
     it('calls router.replace to routes page and renders nothing when route is null and no error', () => {
-      // eslint-disable-next-line react/forbid-foreign-prop-types
-      const originalPropTypes = RoutePage.propTypes;
-      // eslint-disable-next-line react/forbid-foreign-prop-types
-      RoutePage.propTypes = {
-        ...originalPropTypes,
-        route: PropTypes.shape({}),
-      };
       const replaceSpy = vi.fn();
-      let container;
-      try {
-        const result = renderView({
-          route: null,
-          match: {
-            ...baseMatch,
-            router: { ...mockRouter, replace: replaceSpy },
-          },
-        });
-        container = result.container;
-      } finally {
-        RoutePage.propTypes = originalPropTypes;
-      }
+      const { container } = renderView({
+        route: null,
+        match: {
+          ...baseMatch,
+          router: { ...mockRouter, replace: replaceSpy },
+        },
+      });
       expect(replaceSpy.mock.calls.length).toBe(1);
       expect(container.firstChild).toBeNull();
     });
 
     it('does not redirect when route is null but error is present', () => {
       const replaceSpy = vi.fn();
-      suppressUncaughtError(() => {
-        try {
-          expect(() =>
-            renderView({
-              route: null,
-              error: { message: 'relay error' },
-              match: {
-                ...baseMatch,
-                router: { ...mockRouter, replace: replaceSpy },
-              },
-            }),
-          ).toThrow();
-        } catch (_e) {
-          // expected: component throws the relay error
-        }
-      });
+      // React dev mode re-logs the thrown render error a second time via
+      // console.error (see the "Error handling" test below); suppress that
+      // too, since the global harness's console.error otherwise throws on
+      // it, causing an uncaught exception outside this test's call stack.
+      // eslint-disable-next-line no-console
+      const savedConsoleError = console.error;
+      // eslint-disable-next-line no-console
+      console.error = () => {};
+      try {
+        suppressUncaughtError(() => {
+          try {
+            expect(() =>
+              renderView({
+                route: null,
+                error: { message: 'relay error' },
+                match: {
+                  ...baseMatch,
+                  router: { ...mockRouter, replace: replaceSpy },
+                },
+              }),
+            ).toThrow();
+          } catch (_e) {
+            // expected: component throws the relay error
+          }
+        });
+      } finally {
+        // eslint-disable-next-line no-console
+        console.error = savedConsoleError;
+      }
       expect(replaceSpy.mock.calls.length > 0).toBe(false);
     });
   });
 
   describe('Error handling', () => {
     it('throws a relay error without redirecting when route is missing', () => {
-      // eslint-disable-next-line react/forbid-foreign-prop-types
-      const originalPropTypes = RoutePage.propTypes;
       const replaceSpy = vi.fn();
-      // eslint-disable-next-line react/forbid-foreign-prop-types
-      RoutePage.propTypes = {
-        ...originalPropTypes,
-        route: PropTypes.shape({}),
-      };
-      // Swallow the React error-boundary console noise from the intentional throw.
+      // Swallow the React error-boundary console noise from the intentional
+      // throw (including its async dev-mode re-log, see the test above).
+      // eslint-disable-next-line no-console
+      const savedConsoleError = console.error;
       // eslint-disable-next-line no-console
       console.error = () => {};
       let thrown;
-      suppressUncaughtError(() => {
-        try {
-          renderView({
-            route: null,
-            error: { message: 'Relay fetch failed' },
-            match: {
-              ...baseMatch,
-              router: { ...mockRouter, replace: replaceSpy },
-            },
-          });
-        } catch (e) {
-          thrown = e;
-        } finally {
-          RoutePage.propTypes = originalPropTypes;
-        }
-      });
+      try {
+        suppressUncaughtError(() => {
+          try {
+            renderView({
+              route: null,
+              error: { message: 'Relay fetch failed' },
+              match: {
+                ...baseMatch,
+                router: { ...mockRouter, replace: replaceSpy },
+              },
+            });
+          } catch (e) {
+            thrown = e;
+          }
+        });
+      } finally {
+        // eslint-disable-next-line no-console
+        console.error = savedConsoleError;
+      }
       expect(thrown).toBe('Relay fetch failed');
       expect(replaceSpy.mock.calls.length > 0).toBe(false);
     });

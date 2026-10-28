@@ -1,9 +1,13 @@
 import React from 'react';
-import { Component as TripStopListContainer } from '../../../app/component/routepage/TripStopListContainer';
+import TripStopListContainer from '../../../app/component/routepage/TripStopListContainer';
 import { renderWithProviders } from '../helpers/mock-providers';
+import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';
 import { mockContext } from '../helpers/mock-context';
 
 describe('<TripStopListContainer />', () => {
+  // useFragment is called on plain trip data
+  ignoreRelayModernSelectorWarning();
+
   it('should properly mark passed stops when vehicle information is missing', () => {
     const serviceDay = 1551650400;
     const props = {

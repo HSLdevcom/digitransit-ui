@@ -1,19 +1,24 @@
-import PropTypes from 'prop-types';
 import React, { useState, useRef, memo } from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { useFragment } from 'react-relay';
 import cx from 'classnames';
 import debounce from 'lodash/debounce';
-import { routeShape } from '../../../utils/client/shapes';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import RouteControlPanel from './RouteControlPanel';
 import { getStartTime } from '../../../utils/client/timeUtils';
 import TripStopListContainer from './TripStopListContainer';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import ScrollableWrapper from '../ScrollableWrapper';
+import TripStopsContainerFragment from './queries/TripStopsContainerFragment';
 
-const TripStopsContainer = memo(function TripStopsContainer({ trip, route }) {
+const TripStopsContainer = memo(function TripStopsContainer({
+  trip: tripRef,
+  route: routeRef,
+}) {
+  const breakpoint = useBreakpoint();
+  const trip = useFragment(TripStopsContainerFragment.trip, tripRef);
+  const route = useFragment(TripStopsContainerFragment.route, routeRef);
   const [keepTracking, setTracking] = useState(true);
   const humanScrolling = useRef(true);
-  const breakpoint = useBreakpoint();
 
   const setHumanScrolling = boolVal => {
     humanScrolling.current = boolVal;
@@ -60,109 +65,9 @@ const TripStopsContainer = memo(function TripStopsContainer({ trip, route }) {
 });
 
 TripStopsContainer.propTypes = {
-  trip: PropTypes.shape({
-    stoptimesForDate: PropTypes.arrayOf(
-      PropTypes.shape({
-        scheduledDeparture: PropTypes.number.isRequired,
-      }).isRequired,
-    ).isRequired,
-  }),
-  route: routeShape,
+  trip: fragmentRefShape,
+  route: fragmentRefShape,
 };
 
-const containerComponent = createFragmentContainer(TripStopsContainer, {
-  trip: graphql`
-    fragment TripStopsContainer_trip on Trip
-    @argumentDefinitions(
-      startOfDay: { type: "Long!", defaultValue: 0 }
-      showStopStatusMarkers: { type: "Boolean!", defaultValue: false }
-    ) {
-      stoptimesForDate {
-        scheduledDeparture
-      }
-      ...TripStopListContainer_trip
-        @arguments(
-          startOfDay: $startOfDay
-          showStopStatusMarkers: $showStopStatusMarkers
-        )
-    }
-  `,
-  pattern: graphql`
-    fragment TripStopsContainer_pattern on Pattern {
-      id
-    }
-  `,
-  route: graphql`
-    fragment TripStopsContainer_route on Route
-    @argumentDefinitions(
-      date: { type: "String" }
-      cancelationStartDate: { type: "OffsetDateTime!" }
-      cancelationEndDate: { type: "OffsetDateTime!" }
-    ) {
-      gtfsId
-      color
-      shortName
-      longName
-      mode
-      type
-      ...RouteAgencyInfo_route
-      ...RoutePatternSelectContainer_route @arguments(date: $date)
-      agency {
-        phone
-        name
-      }
-      patterns {
-        alerts(types: [ROUTE, STOPS_ON_PATTERN]) {
-          id
-          alertSeverityLevel
-          effectiveEndDate
-          effectiveStartDate
-        }
-        headsign
-        code
-        stops {
-          id
-          gtfsId
-          code
-          alerts {
-            id
-            alertDescriptionText
-            alertHash
-            alertHeaderText
-            alertSeverityLevel
-            alertUrl
-            effectiveEndDate
-            effectiveStartDate
-          }
-        }
-        trips: tripsForDate(serviceDate: $date) {
-          stoptimes: stoptimesForDate(serviceDate: $date) {
-            realtimeState
-            scheduledArrival
-            scheduledDeparture
-            serviceDay
-          }
-        }
-        activeDates: trips {
-          serviceId
-          day: activeDates
-        }
-        canceledTrips(
-          runningTimeRanges: [
-            { start: $cancelationStartDate, end: $cancelationEndDate }
-          ]
-        ) {
-          serviceDate
-          trip {
-            pattern {
-              code
-            }
-            gtfsId
-          }
-        }
-      }
-    }
-  `,
-});
-
-export { containerComponent as default, TripStopsContainer as Component };
+export default TripStopsContainer;
+export { TripStopsContainer as Component };

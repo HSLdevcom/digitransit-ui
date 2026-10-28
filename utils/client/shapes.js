@@ -446,6 +446,13 @@ export const relayShape = PropTypes.shape({
   environment: PropTypes.object,
 });
 
+// Opaque Relay fragment reference passed to useFragment
+export const fragmentRefShape = PropTypes.shape({
+  __id: PropTypes.string,
+  __fragments: PropTypes.shape({}),
+  __fragmentOwner: PropTypes.shape({}),
+});
+
 const ROUTER_ERROR_CODES = Object.values(PlannerMessageType);
 
 export const RoutingerrorShape = PropTypes.shape({
