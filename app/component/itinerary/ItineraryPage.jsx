@@ -444,6 +444,11 @@ function ItineraryPageContent(props) {
     const arriveBy = !!planParams.datetime.latestArrival;
     const startTime = Date.now();
     for (let i = 0; i < trials; i++) {
+      // Cancelling covers only requests in flight, so don't start a new one
+      // when the search was superseded between iterations.
+      if (generation !== searchGeneration.current) {
+        return null;
+      }
       let result;
       try {
         // eslint-disable-next-line no-await-in-loop
