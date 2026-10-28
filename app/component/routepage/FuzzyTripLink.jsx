@@ -10,6 +10,7 @@ import TripLinkWithScroll from './TripLinkWithScroll';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { vehicleShape } from '../../../utils/client/shapes';
+import ErrorBoundary from '../ErrorBoundary';
 
 function FuzzyTripLinkQuery({ vehicle, stopName, nextStopName, ...rest }) {
   const intl = useIntl();
@@ -142,12 +143,13 @@ function FuzzyTripLink(props) {
       color={vehicle.color}
     />
   );
+  const fallback = <span className="route-now-content">{fallbackIcon}</span>;
   return (
-    <Suspense
-      fallback={<span className="route-now-content">{fallbackIcon}</span>}
-    >
-      <FuzzyTripLinkQuery {...props} />
-    </Suspense>
+    <ErrorBoundary fallback={fallback}>
+      <Suspense fallback={fallback}>
+        <FuzzyTripLinkQuery {...props} />
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 
