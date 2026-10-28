@@ -7,23 +7,33 @@ import NetworkError from './NetworkError';
 import isRelayNetworkError from '../../utils/client/relayUtils';
 
 export default class ErrorBoundary extends React.Component {
-  static propTypes = { children: PropTypes.node };
+  static propTypes = {
+    children: PropTypes.node,
+    // Rendered instead of the error page. With a fallback the boundary never
+    // retries or reloads the window, so use it for non-essential content.
+    fallback: PropTypes.node,
+  };
 
   state = { error: null, hasRetried: false };
 
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+
   resetState = () => this.setState({ error: null, hasRetried: true });
 
-  componentDidCatch(error) {
-    if (this.state.hasRetried) {
+  componentDidCatch() {
+    if (this.props.fallback === undefined && this.state.hasRetried) {
       // Did retry, didn't help
       window.location.reload();
-      return;
     }
-    this.setState({ error });
   }
 
   render() {
     if (this.state.error) {
+      if (this.props.fallback !== undefined) {
+        return this.props.fallback;
+      }
       if (isRelayNetworkError(this.state.error)) {
         return <NetworkError retry={this.resetState} />;
       }
