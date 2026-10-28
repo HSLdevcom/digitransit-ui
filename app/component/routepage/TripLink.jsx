@@ -9,6 +9,7 @@ import TripLinkWithScroll from './TripLinkWithScroll';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { vehicleShape } from '../../../utils/client/shapes';
+import ErrorBoundary from '../ErrorBoundary';
 
 function TripLinkQuery({ vehicleState, vehicle, shortName, ...rest }) {
   const { trip } = useLazyLoadQuery(
@@ -89,12 +90,13 @@ function TripLink(props) {
       color={vehicle.color}
     />
   );
+  const fallback = <span className="route-now-content">{fallbackIcon}</span>;
   return (
-    <Suspense
-      fallback={<span className="route-now-content">{fallbackIcon}</span>}
-    >
-      <TripLinkQuery {...props} />
-    </Suspense>
+    <ErrorBoundary fallback={fallback}>
+      <Suspense fallback={fallback}>
+        <TripLinkQuery {...props} />
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 
