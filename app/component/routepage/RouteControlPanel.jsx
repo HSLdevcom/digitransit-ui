@@ -342,13 +342,6 @@ function RouteControlPanel({ route, breakpoint, tripStartTime = undefined }) {
         'bp-large': breakpoint === 'large',
       })}
     >
-      <div className="header-for-printing">
-        <h1>
-          {config.title}
-          {` - `}
-          <FormattedMessage id="route-guide" defaultMessage="Route guide" />
-        </h1>
-      </div>
       <div
         className={cx('route-control-panel', {
           'bp-large': breakpoint === 'large',
