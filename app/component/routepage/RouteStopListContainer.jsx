@@ -7,6 +7,7 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
 import RouteStop from './RouteStop';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
@@ -117,7 +118,7 @@ function RouteStopListContainer({
 }
 
 RouteStopListContainer.propTypes = {
-  pattern: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  pattern: fragmentRefShape,
   className: PropTypes.string,
   hideDepartures: PropTypes.bool,
 };

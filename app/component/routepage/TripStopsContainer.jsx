@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
 import React, { useState, useRef, memo } from 'react';
 import { useFragment } from 'react-relay';
 import cx from 'classnames';
 import debounce from 'lodash/debounce';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import RouteControlPanel from './RouteControlPanel';
 import { getStartTime } from '../../../utils/client/timeUtils';
 import TripStopListContainer from './TripStopListContainer';
@@ -65,8 +65,8 @@ const TripStopsContainer = memo(function TripStopsContainer({
 });
 
 TripStopsContainer.propTypes = {
-  trip: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  route: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  trip: fragmentRefShape,
+  route: fragmentRefShape,
 };
 
 export default TripStopsContainer;

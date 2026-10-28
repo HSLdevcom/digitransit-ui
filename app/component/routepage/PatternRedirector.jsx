@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useFragment } from 'react-relay';
 import sortBy from 'lodash/sortBy';
@@ -9,7 +8,7 @@ import {
   getOldSearchItems,
   saveOldSearchItems,
 } from '../../data/SearchHistory';
-import { routeShape } from '../../../utils/client/shapes';
+import { fragmentRefShape, routeShape } from '../../../utils/client/shapes';
 import PatternRedirectorFragment from './queries/PatternRedirectorFragment';
 
 const PatternRedirector = ({ route }) => {
@@ -80,7 +79,7 @@ const PatternRedirectorGuard = ({ route: routeRef = null }) => {
 };
 
 PatternRedirectorGuard.propTypes = {
-  route: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  route: fragmentRefShape,
 };
 
 export default PatternRedirectorGuard;

@@ -4,6 +4,7 @@ import { useFragment } from 'react-relay';
 import cx from 'classnames';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
 import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
@@ -119,7 +120,7 @@ function TripStopListContainer({
 }
 
 TripStopListContainer.propTypes = {
-  trip: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  trip: fragmentRefShape.isRequired,
   className: PropTypes.string,
   tripStart: PropTypes.string.isRequired,
   keepTracking: PropTypes.bool,

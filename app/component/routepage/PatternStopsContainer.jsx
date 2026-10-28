@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { useFragment } from 'react-relay';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import { useRouter } from 'found';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { routePagePath } from '../../../utils/shared/path';
@@ -75,8 +75,8 @@ function PatternStopsContainer({
 }
 
 PatternStopsContainer.propTypes = {
-  pattern: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  route: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  pattern: fragmentRefShape,
+  route: fragmentRefShape,
 };
 
 export default PatternStopsContainer;

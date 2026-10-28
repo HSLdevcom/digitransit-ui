@@ -11,6 +11,7 @@ import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
 import cx from 'classnames';
 import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import RoutePatternSelect from './RoutePatternSelect';
@@ -229,7 +230,7 @@ function RoutePatternSelectContainer({
 
 RoutePatternSelectContainer.propTypes = {
   className: PropTypes.string.isRequired,
-  route: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  route: fragmentRefShape,
   onSelectChange: PropTypes.func.isRequired,
   gtfsId: PropTypes.string.isRequired,
 };

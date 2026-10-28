@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useFragment } from 'react-relay';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import { routePagePath } from '../../../utils/shared/path';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 
@@ -28,7 +28,7 @@ function RouteTitle({ route: routeRef = null }) {
 }
 
 RouteTitle.propTypes = {
-  route: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  route: fragmentRefShape,
 };
 
 export default RouteTitle;

@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { useFragment } from 'react-relay';
 import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
 import groupBy from 'lodash/groupBy';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import DisruptionList from '../DisruptionList';
 import {
   getAlertsForObject,
@@ -107,8 +107,8 @@ function RouteAlertsContainer({ route: routeRef, pattern: patternRef }) {
 }
 
 RouteAlertsContainer.propTypes = {
-  route: PropTypes.shape({}).isRequired,
-  pattern: PropTypes.shape({}).isRequired,
+  route: fragmentRefShape.isRequired,
+  pattern: fragmentRefShape.isRequired,
 };
 
 export default RouteAlertsContainer;

@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { useRouter } from 'found';
-import { errorShape } from '../../../utils/client/shapes';
+import { errorShape, fragmentRefShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from '../RouteNumber';
@@ -159,7 +158,7 @@ function RoutePage({ route: routeRef = null, error = undefined }) {
 }
 
 RoutePage.propTypes = {
-  route: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  route: fragmentRefShape,
   error: errorShape,
 };
 
