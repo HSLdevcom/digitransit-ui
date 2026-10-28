@@ -17,6 +17,7 @@ const props = {
         pattern: {
           code: 'HSL:1070:1:01',
           headsign: 'Kamppi',
+          stops: [{ gtfsId: `HSL:${stopIdNumber}` }, { gtfsId: 'HSL:last' }],
           route: {
             agency: {
               name: 'Helsingin seudun liikenne',

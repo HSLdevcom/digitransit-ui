@@ -33,16 +33,15 @@ const mapStopTimes = stoptimesObject =>
       stoptime.stoptimes
         .filter(
           st =>
-            st.pickupType !== 'NONE' ||
-            st.stop.gtfsId !==
-              stoptime.pattern.stops[stoptime.pattern.stops.length - 1].gtfsId,
+            st.pickupType !== 'NONE' &&
+            st.stop.gtfsId !== stoptime.pattern.stops?.at(-1)?.gtfsId,
         )
         .map(st => ({
           id: stoptime.pattern.code,
           name: stoptime.pattern.route.shortName || stoptime.pattern.headsign,
           scheduledDeparture: st.scheduledDeparture,
           serviceDay: st.serviceDay,
-          headsign: stoptime.pattern.headsign,
+          headsign: st.headsign || stoptime.pattern.headsign,
           longName: stoptime.pattern.route.longName,
           isCanceled: st.realtimeState === RealtimeStateType.Canceled,
           mode: stoptime.pattern.route.mode,

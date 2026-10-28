@@ -92,6 +92,7 @@ const getHeadsign = (departure, intl) => {
       });
     }
     return (
+      departure.headsign ||
       departure.trip?.tripHeadsign ||
       intl.formatMessage({
         id: 'route-destination-arrives',
