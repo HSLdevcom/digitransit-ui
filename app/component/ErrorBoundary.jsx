@@ -11,6 +11,7 @@ export default class ErrorBoundary extends React.Component {
     children: PropTypes.node,
     // Rendered instead of the error page. With a fallback the boundary never
     // retries or reloads the window, so use it for non-essential content.
+    // Pass an empty fragment to render nothing; a null fallback is ignored.
     fallback: PropTypes.node,
   };
 
@@ -23,7 +24,7 @@ export default class ErrorBoundary extends React.Component {
   resetState = () => this.setState({ error: null, hasRetried: true });
 
   componentDidCatch() {
-    if (this.props.fallback === undefined && this.state.hasRetried) {
+    if (!this.props.fallback && this.state.hasRetried) {
       // Did retry, didn't help
       window.location.reload();
     }
@@ -31,7 +32,7 @@ export default class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.error) {
-      if (this.props.fallback !== undefined) {
+      if (this.props.fallback) {
         return this.props.fallback;
       }
       if (isRelayNetworkError(this.state.error)) {

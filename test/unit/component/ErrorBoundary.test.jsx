@@ -40,4 +40,13 @@ describe('<ErrorBoundary />', () => {
     expect(screen.queryByText('fallback')).not.toBeNull();
     expect(screen.queryByRole('button')).toBeNull();
   });
+
+  it('should render the error page when the fallback is null', () => {
+    renderWithProviders(
+      <ErrorBoundary fallback={null}>
+        <Broken />
+      </ErrorBoundary>,
+    );
+    expect(screen.queryByRole('button')).not.toBeNull();
+  });
 });
