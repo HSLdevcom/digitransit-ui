@@ -2,12 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { FlexColumn, FlexRow, Text } from '@hsl-fi/layout-primitives';
+import { useSortable } from '@dnd-kit/react/sortable';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import styles from './styles.scss';
 import i18n from './i18n';
-
-export const DRAG_HANDLE_CLASS = styles.dragHandle;
 
 const getIconId = selectedIconId => {
   const prefixPos = selectedIconId ? selectedIconId.indexOf('icon_') : -1;
@@ -25,8 +24,10 @@ function FavouriteListItem({
   onMoveDown = null,
   onEdit,
   onDelete,
+  index,
 }) {
   const { t } = useTranslation('translation', { i18n });
+  const { ref } = useSortable({ id: favourite.favouriteId, index });
   const iconId = getIconId(favourite.selectedIconId);
   const [name, address] = formatFavouritePlaceLabel(
     favourite.name,
@@ -34,7 +35,7 @@ function FavouriteListItem({
   );
 
   return (
-    <li className={styles.item}>
+    <li ref={ref} className={styles.item}>
       <div className={styles.dragHandle}>
         {onMoveUp && (
           <button
@@ -95,6 +96,7 @@ function FavouriteListItem({
 
 FavouriteListItem.propTypes = {
   favourite: PropTypes.shape({
+    favouriteId: PropTypes.string,
     name: PropTypes.string,
     address: PropTypes.string,
     selectedIconId: PropTypes.string,
@@ -104,6 +106,7 @@ FavouriteListItem.propTypes = {
   onDelete: PropTypes.func.isRequired,
   onMoveUp: PropTypes.func,
   onMoveDown: PropTypes.func,
+  index: PropTypes.number.isRequired,
 };
 
 export default FavouriteListItem;

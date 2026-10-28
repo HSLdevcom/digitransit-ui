@@ -135,6 +135,7 @@
   },
   "dependencies": {
     "@azure/cosmos": "^4.0.0",
+    "@dnd-kit/react": "0.5.1",
     "@hsl-fi/button": "^1.2.4",
     "@hsl-fi/design-system-core": "^2.7.1",
     "@hsl-fi/design-tokens": "^1.25.0",
@@ -196,7 +197,6 @@
     "react-relay": "16.2.0",
     "react-relay-network-modern": "6.2.2",
     "react-select": "5.10.2",
-    "react-sortablejs": "2.0.11",
     "react-swipe": "6.0.4",
     "react-truncate-markup": "5.1.2",
     "redis": "2.8.0",
