@@ -59,6 +59,48 @@ describe('<Timetable />', () => {
     ).toHaveLength(1);
   });
 
+  it('uses stoptime headsigns and hides drop-off-only and last-stop times', () => {
+    const makeStoptime = (
+      headsign,
+      scheduledDeparture,
+      pickupType,
+      stopId,
+    ) => ({
+      headsign,
+      pickupType,
+      realtimeState: 'SCHEDULED',
+      scheduledDeparture,
+      serviceDay: 1547071200,
+      stop: { gtfsId: stopId || `HSL:${stopIdNumber}` },
+    });
+    const [base] = props.stop.stoptimesForServiceDate;
+    const stop = {
+      ...props.stop,
+      stoptimesForServiceDate: [
+        {
+          ...base,
+          stoptimes: [
+            makeStoptime('Tuorsniemi', 32460, 'SCHEDULED'),
+            makeStoptime('Leppäkorpi', 36060, 'SCHEDULED'),
+            makeStoptime('Leppäkorpi', 39660, 'NONE'),
+            makeStoptime('Kamppi', 43260, 'SCHEDULED', 'HSL:last'),
+          ],
+        },
+      ],
+    };
+    const { container } = renderWithProviders(
+      <Timetable {...props} stop={stop} />,
+      { config: { CONFIG: 'default', URL: {} } },
+    );
+    expect(container.querySelectorAll('.timetablerow-linetime')).toHaveLength(
+      2,
+    );
+    const text = container.textContent;
+    expect(text).toContain('70* = Tuorsniemi');
+    expect(text).toContain('70** = Leppäkorpi');
+    expect(text).not.toContain('Kamppi');
+  });
+
   it('should set valid stopPDFURL for StopPageActionBar', () => {
     const baseTimetableURL = 'https://timetabletest.com/stops/';
     const { container } = renderWithProviders(<Timetable {...props} />, {
