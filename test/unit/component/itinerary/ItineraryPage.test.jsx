@@ -17,13 +17,15 @@ vi.mock('react-relay', async importOriginal => {
   return {
     ...actual,
     ...actual.default,
-    // The shared setup replaces this hook before each test file runs.
-    useFragment: (...args) => actual.default.useFragment(...args),
+    // This file-level mock overrides the shared setup's react-relay mock
+    // (needed here only for the fetchQuery override below), so it has to
+    // restate the useFragment stub too.
+    useFragment: (_fragment, fragmentRef) => fragmentRef,
     fetchQuery: vi.fn(),
   };
 });
 
-vi.mock('../../../../utils/client/withBreakpoint', async importOriginal => ({
+vi.mock('../../../../app/hooks/BreakpointContext', async importOriginal => ({
   ...(await importOriginal()),
   useBreakpoint: () => 'large',
 }));

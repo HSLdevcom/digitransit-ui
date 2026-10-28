@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { useState, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DTAutosuggest from '@digitransit-component/digitransit-component-autosuggest';
@@ -6,7 +5,7 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 import EmbeddedSearch from './EmbeddedSearch';
 import { EMBEDDED_SEARCH_PATH } from '../../../utils/shared/path';
 import { getRefPoint } from '../../../utils/client/apiUtils';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import {
   withSearchContext,
   getLocationSearchTargets,
@@ -23,7 +22,8 @@ const languages = [
   { id: 'pl', name: 'polish', defaultMessage: 'Polish' },
 ];
 
-const EmbeddedSearchGenerator = ({ breakpoint = undefined }) => {
+const EmbeddedSearchGenerator = () => {
+  const breakpoint = useBreakpoint();
   const intl = useIntl();
   const config = useConfigContext();
   const { colors, language: lang } = config;
@@ -466,8 +466,4 @@ const EmbeddedSearchGenerator = ({ breakpoint = undefined }) => {
   );
 };
 
-EmbeddedSearchGenerator.propTypes = {
-  breakpoint: PropTypes.string,
-};
-
-export default withBreakpoint(EmbeddedSearchGenerator);
+export default EmbeddedSearchGenerator;

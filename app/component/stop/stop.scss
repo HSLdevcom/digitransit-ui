@@ -30,6 +30,10 @@
 
   .route-tabs {
     margin: var(--space-s) 48px var(--space-s) 48px;
+
+    @media print {
+      display: none;
+    }
   }
 }
 

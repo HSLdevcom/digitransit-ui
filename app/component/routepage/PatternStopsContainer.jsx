@@ -1,20 +1,29 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { useFragment } from 'react-relay';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import { useRouter } from 'found';
-import { routeShape } from '../../../utils/client/shapes';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { routePagePath } from '../../../utils/shared/path';
 import Error404 from '../404';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { ExtendedRouteTypes } from '../../../utils/shared/constants';
 import { useConfigContext } from '../../hooks/ConfigContext';
+import PatternStopsContainerFragment from './queries/PatternStopsContainerFragment';
 
-function PatternStopsContainer({ pattern, breakpoint, route }) {
+function PatternStopsContainer({
+  pattern: patternRef = null,
+  route: routeRef = null,
+}) {
+  const breakpoint = useBreakpoint();
   const intl = useIntl();
+  const pattern = useFragment(
+    PatternStopsContainerFragment.pattern,
+    patternRef,
+  );
+  const route = useFragment(PatternStopsContainerFragment.route, routeRef);
   const config = useConfigContext();
   const { router } = useRouter();
 
@@ -66,86 +75,8 @@ function PatternStopsContainer({ pattern, breakpoint, route }) {
 }
 
 PatternStopsContainer.propTypes = {
-  pattern: PropTypes.shape({
-    code: PropTypes.string.isRequired,
-  }),
-  breakpoint: PropTypes.string.isRequired,
-  route: routeShape.isRequired,
+  pattern: fragmentRefShape,
+  route: fragmentRefShape,
 };
 
-export default createFragmentContainer(withBreakpoint(PatternStopsContainer), {
-  pattern: graphql`
-    fragment PatternStopsContainer_pattern on Pattern
-    @argumentDefinitions(
-      currentTime: { type: "Long!", defaultValue: 0 }
-      patternId: { type: "String!", defaultValue: "0" }
-      startOfDay: { type: "Long!", defaultValue: 0 }
-      showStopStatusMarkers: { type: "Boolean!", defaultValue: false }
-    ) {
-      code
-      ...RouteStopListContainer_pattern
-        @arguments(
-          currentTime: $currentTime
-          patternId: $patternId
-          startOfDay: $startOfDay
-          showStopStatusMarkers: $showStopStatusMarkers
-        )
-    }
-  `,
-  route: graphql`
-    fragment PatternStopsContainer_route on Route
-    @argumentDefinitions(
-      date: { type: "String" }
-      cancelationStartDate: { type: "OffsetDateTime!" }
-      cancelationEndDate: { type: "OffsetDateTime!" }
-    ) {
-      gtfsId
-      color
-      shortName
-      longName
-      mode
-      type
-      ...RouteAgencyInfo_route
-      ...RoutePatternSelectContainer_route @arguments(date: $date)
-      agency {
-        phone
-        name
-      }
-      patterns {
-        alerts(types: [ROUTE, STOPS_ON_PATTERN]) {
-          id
-          alertSeverityLevel
-          effectiveEndDate
-          effectiveStartDate
-        }
-        headsign
-        code
-        trips: tripsForDate(serviceDate: $date) {
-          stoptimes: stoptimesForDate(serviceDate: $date) {
-            realtimeState
-            scheduledArrival
-            scheduledDeparture
-            serviceDay
-          }
-        }
-        activeDates: trips {
-          serviceId
-          day: activeDates
-        }
-        canceledTrips(
-          runningTimeRanges: [
-            { start: $cancelationStartDate, end: $cancelationEndDate }
-          ]
-        ) {
-          serviceDate
-          trip {
-            pattern {
-              code
-            }
-            gtfsId
-          }
-        }
-      }
-    }
-  `,
-});
+export default PatternStopsContainer;

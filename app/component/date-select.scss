@@ -1,11 +1,13 @@
 .combobox-container {
+  background-color: #fff;
+  border: solid #888 1px;
+  display: flex;
+
+  // must follow the display declaration above to override it
   @media print {
     display: none;
   }
 
-  background-color: #fff;
-  border: solid #888 1px;
-  display: flex;
   align-items: center;
   border-radius: 5px;
   height: 3.125rem;
@@ -88,10 +90,6 @@
 }
 
 .date-select {
-  @media print {
-    display: none;
-  }
-
   .icon-container {
     height: 100%;
     display: flex;
@@ -113,6 +111,12 @@
   background-color: #fff;
   border: solid #888 1px;
   display: flex;
+
+  // must follow the display declaration above to override it
+  @media print {
+    display: none;
+  }
+
   align-items: center;
   border-radius: 5px;
   height: 3.125rem;

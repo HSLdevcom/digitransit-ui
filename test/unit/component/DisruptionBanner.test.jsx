@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
-import { Component as DisruptionBanner } from '../../../app/component/DisruptionBanner';
+import DisruptionBanner from '../../../app/component/DisruptionBanner';
 import {
   AlertSeverityLevelType,
   AlertEntityType,

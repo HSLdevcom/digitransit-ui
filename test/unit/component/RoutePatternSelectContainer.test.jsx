@@ -4,8 +4,7 @@ import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { createTestConfig } from '../helpers/mock-context';
-import {
-  Component as RoutePatternSelectContainer,
+import RoutePatternSelectContainer, {
   getPatternOptions,
 } from '../../../app/component/routepage/RoutePatternSelectContainer';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';

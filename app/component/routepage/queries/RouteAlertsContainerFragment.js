@@ -1,6 +1,6 @@
 import { graphql } from 'react-relay';
 
-export const RouteAlertsContainerFragment = {
+export default {
   route: graphql`
     fragment RouteAlertsContainerFragment_route on Route {
       color

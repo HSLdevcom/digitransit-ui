@@ -1,6 +1,7 @@
 import path from 'path';
 import { createRequire } from 'module';
 import react from '@vitejs/plugin-react';
+import svgr from 'vite-plugin-svgr';
 
 const require = createRequire(import.meta.url);
 
@@ -180,17 +181,14 @@ export default {
           ],
         },
         // @vitejs/plugin-react already handles JSX; the only thing missing
-        // versus Rollup's build is inline-react-svg, needed for
+        // versus Rollup's build is SVGR, needed for
         // digitransit-component-icon's raw .svg imports.
         plugins: [
-          react({
-            // Custom babel plugins opt out of plugin-react's automatic JSX
-            // handling, so its JSX preset needs listing explicitly too.
-            babel: {
-              presets: ['@babel/preset-react'],
-              plugins: ['inline-react-svg'],
-            },
+          svgr({
+            include: '**/*.svg',
+            svgrOptions: { svgo: false, ref: false, titleProp: false },
           }),
+          react(),
           hslFiCjsInteropPlugin(),
           // rollup.config.js's postcss plugin treats every .scss import as
           // a CSS module. Vitest's built-in CSS handling (`css: false`
