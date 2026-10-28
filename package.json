@@ -218,7 +218,7 @@
     "@axe-core/webdriverjs": "^4.10.1",
     "@azure/storage-blob": "^12.8.0",
     "@babel/cli": "7.27.0",
-    "@babel/core": "7.26.10",
+    "@babel/core": "7.29.6",
     "@babel/eslint-parser": "7.27.0",
     "@babel/plugin-transform-runtime": "7.26.10",
     "@babel/preset-env": "7.26.9",
