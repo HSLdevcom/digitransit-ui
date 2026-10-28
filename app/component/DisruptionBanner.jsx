@@ -5,12 +5,13 @@ import { alertShape } from '../../utils/client/shapes';
 import { isAlertValid } from '../../utils/client/alertUtils';
 import DisruptionBannerAlert from './DisruptionBannerAlert';
 import SwipeableTabs from './SwipeableTabs';
-import withBreakpoint from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../hooks/BreakpointContext';
 import { AlertEntityType } from '../../utils/shared/constants';
 import { useCurrentTime } from '../hooks/TimeContext';
 
-const DisruptionBanner = ({ alerts, mode, breakpoint }) => {
+const DisruptionBanner = ({ alerts, mode }) => {
   const currentTime = useCurrentTime();
+  const breakpoint = useBreakpoint();
   const [allAlertsOpen, setAllAlertsOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(true);
@@ -90,12 +91,6 @@ const DisruptionBanner = ({ alerts, mode, breakpoint }) => {
 DisruptionBanner.propTypes = {
   alerts: PropTypes.arrayOf(alertShape).isRequired,
   mode: PropTypes.string.isRequired,
-  breakpoint: PropTypes.string.isRequired,
 };
 
-const DisruptionBannerWithBreakpoint = withBreakpoint(DisruptionBanner);
-
-export {
-  DisruptionBannerWithBreakpoint as default,
-  DisruptionBanner as Component,
-};
+export default DisruptionBanner;

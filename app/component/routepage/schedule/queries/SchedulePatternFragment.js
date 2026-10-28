@@ -1,6 +1,6 @@
 import { graphql } from 'react-relay';
 
-export const SchedulePatternFragment = graphql`
+export default graphql`
   fragment SchedulePatternFragment on Pattern {
     id
     code

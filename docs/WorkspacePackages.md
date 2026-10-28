@@ -257,9 +257,7 @@ in `package.json` as:
   peer range (too narrow, or naming a major version the host doesn't ship) is
   a bug even if it happens to install locally. E.g. `react` mirrors the
   root's range exactly (`^18.3.1`): the bundles use the automatic JSX runtime
-  and are only ever tested against that version. The deprecated
-  `digitransit-component`/`digitransit-util` bundle packages re-declare the
-  union of their sub-packages' peers.
+  and are only ever tested against that version.
 - **`devDependencies`** — anything needed only to build, test, or generate
   docs for the package itself (e.g. `babel-plugin-relay` for
   `query-utils`'s own relay-compiler step) but that the published bundle
@@ -295,11 +293,14 @@ too, or editing it won't invalidate every package's Nx build cache.
 
 ## Deprecated
 
-These packages are marked deprecated — via a `@deprecated` JSDoc tag (which
-also shows up in the generated `README.md`) and a `"deprecated"` field in
-`package.json` (which npm surfaces on install/publish) — and are scheduled
-for removal in a future change. Don't add new code to them, and don't add
-any new dependents.
+Packages are marked deprecated via a `@deprecated` JSDoc tag (which also
+shows up in the generated `README.md`) and a `"deprecated"` field in
+`package.json` (which npm surfaces on install/publish). Don't add new code
+to them, and don't add any new dependents.
+
+### Removed from the repository
+
+Their published versions remain on npm.
 
 - **`@digitransit-component/digitransit-component`** — this family's
   meta-package, re-exporting every sibling component. No call site in
@@ -313,8 +314,6 @@ any new dependents.
   adopted, unused.
 - **`@digitransit-component/digitransit-component-traffic-now-link`** — no
   longer maintained or used.
-- **`@digitransit-component/digitransit-component-with-breakpoint`** — no
-  direct consumers.
 - **`@digitransit-store/digitransit-store-common-functions`** — no real
   consumers.
 - **`@digitransit-util/digitransit-util-route-pattern-option-text`** — no

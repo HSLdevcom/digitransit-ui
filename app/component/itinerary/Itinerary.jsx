@@ -34,7 +34,7 @@ import {
   isTomorrow,
   timeStr,
 } from '../../../utils/client/timeUtils';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { getItineraryPagePath, streetHash } from '../../../utils/shared/path';
@@ -52,6 +52,9 @@ import FirstLegStartTime from './FirstLegStartTime';
 import { normalizeLegLengths } from './itineraryLegProcessor';
 
 const NAME_LENGTH_THRESHOLD = 65; // for truncating long short names
+
+const stationId = place =>
+  place.stop?.parentStation?.gtfsId || place.stop?.gtfsId;
 
 export const ViaLeg = () => (
   <div className="leg via">
@@ -71,7 +74,6 @@ const getBikeParkedIndex = legs => {
 
 const Itinerary = ({
   itinerary: itineraryRef,
-  breakpoint,
   intermediatePlaces = [],
   hideSelectionIndicator = true,
   lowestCo2value = 0,
@@ -84,6 +86,7 @@ const Itinerary = ({
   const { formatMessage } = intl;
   const itinerary = useFragment(ItineraryFragment, itineraryRef);
   const { router, match } = useRouter();
+  const breakpoint = useBreakpoint();
 
   const onSelectImmediately = () => {
     const modesWithSubpath = [
@@ -223,6 +226,15 @@ const Itinerary = ({
   const citybikeNetworks = new Set();
   let citybikeicon;
 
+  // Station of the latest via icon. Prevents a second icon when the next leg,
+  // possibly after a transfer walk, starts at another platform of that station.
+  let markedStationId;
+  const addViaIcon = (place, key) => {
+    markedStationId = stationId(place);
+    onlyIconLegCount += 1;
+    legs.push(<ViaLeg key={key} />);
+  };
+
   normalizedLegs.forEach(processedLeg => {
     if (processedLeg.skipped) {
       return;
@@ -243,11 +255,20 @@ const Itinerary = ({
       leg.route && getTripOrRouteText(leg.trip, leg.route, config);
     const longName = !routeName || routeName.length > 5;
 
+    const viaKey = `via_${leg.mode}_${startMs}`;
+    const startsAtMarkedStation =
+      !!markedStationId && stationId(leg.from) === markedStationId;
+    if (!isWalkOrBicycleWalkLeg(leg)) {
+      markedStationId = undefined;
+    }
+
     let viaPointAdded = false;
-    if (leg.from.viaLocationType === ViaLocationType.Visit) {
+    if (
+      leg.from.viaLocationType === ViaLocationType.Visit &&
+      !startsAtMarkedStation
+    ) {
       viaPointAdded = true;
-      onlyIconLegCount += 1;
-      legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
+      addViaIcon(leg.from, viaKey);
     }
     if (isWalkOrBicycleWalkLeg(leg) && renderBar) {
       const walkingTime = Math.floor(leg.duration / 60);
@@ -412,12 +433,11 @@ const Itinerary = ({
         usingOwnCarWholeTrip &&
         config.carBoardingModes[leg.route.mode] !== undefined;
       if (
-        leg.from.viaLocationType === ViaLocationType.PassThrough ||
-        (leg.viaStopCall && !viaPointAdded)
+        !startsAtMarkedStation &&
+        (leg.from.viaLocationType === ViaLocationType.PassThrough ||
+          (leg.viaStopCall && !viaPointAdded))
       ) {
-        viaPointAdded = true;
-        onlyIconLegCount += 1;
-        legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
+        addViaIcon(leg.from, viaKey);
       }
       if (!isTaxiLeg(leg)) {
         const renderRouteNumberForALongLeg =
@@ -448,10 +468,13 @@ const Itinerary = ({
       stopNames.push(leg.from.name);
       if (
         leg.to.viaLocationType === ViaLocationType.PassThrough &&
-        !(nextLeg.transitLeg && nextLeg.from.viaLocationType)
+        !(
+          nextLeg?.transitLeg &&
+          !nextLeg.interlineWithPreviousLeg &&
+          (nextLeg.from.viaLocationType || nextLeg.viaStopCall)
+        )
       ) {
-        onlyIconLegCount += 1;
-        legs.push(<ViaLeg key={`via_${leg.mode}_${startMs}`} />);
+        addViaIcon(leg.to, viaKey);
       }
     }
 
@@ -773,7 +796,6 @@ Itinerary.propTypes = {
   passive: PropTypes.bool,
   focusToHeader: PropTypes.func.isRequired,
   hash: PropTypes.number.isRequired,
-  breakpoint: PropTypes.string.isRequired,
   intermediatePlaces: PropTypes.arrayOf(locationShape),
   hideSelectionIndicator: PropTypes.bool,
   lowestCo2value: PropTypes.number,
@@ -783,6 +805,4 @@ Itinerary.propTypes = {
   giveFeedback: PropTypes.func,
 };
 
-const ItineraryWithBreakpoint = withBreakpoint(Itinerary);
-
-export { ItineraryWithBreakpoint as default, Itinerary as component };
+export default Itinerary;

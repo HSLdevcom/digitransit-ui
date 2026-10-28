@@ -6,10 +6,7 @@ import distance from '@digitransit-search-util/digitransit-search-util-distance'
 import { useRouter } from 'found';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';
-import {
-  DesktopOrMobile,
-  useBreakpoint,
-} from '../../../utils/client/withBreakpoint';
+import { DesktopOrMobile, useBreakpoint } from '../../hooks/BreakpointContext';
 import { otpToLocation, locationToUri } from '../../../utils/shared/otpStrings';
 import Loading from '../Loading';
 import StopNearYouContainer from './StopNearYouContainer';

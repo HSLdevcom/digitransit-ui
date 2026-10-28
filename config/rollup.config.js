@@ -7,12 +7,15 @@ import postcss from 'rollup-plugin-postcss';
 import { babel } from '@rollup/plugin-babel';
 import json from '@rollup/plugin-json';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import svgr from '@svgr/rollup';
 import terser from '@rollup/plugin-terser';
 
 const rootDir = import.meta.dirname;
 
 const globals = {
   react: 'React',
+  'react/jsx-runtime': 'jsxRuntime',
+  'react/jsx-dev-runtime': 'jsxDevRuntime',
   'react-dom': 'ReactDOM',
   classnames: 'cx',
   'prop-types': 'PropTypes',
@@ -25,11 +28,17 @@ const globals = {
   '@hsl-fi/shimmer': 'Shimmer',
   '@hsl-fi/loading-indicators': 'LoadingIndicators',
   '@hsl-fi/hooks': 'hooks',
+  '@hsl-fi/dialog': 'dialog',
+  '@hsl-fi/form': 'form',
+  '@hsl-fi/layout-primitives': 'layoutPrimitives',
   '@digitransit-component/digitransit-component-icon': 'Icon',
   '@digitransit-component/digitransit-component-autosuggest': 'DTAutosuggest',
   '@digitransit-component/digitransit-component-dialog-modal': 'DialogModal',
   '@digitransit-component/digitransit-component-suggestion-item':
     'SuggestionItem',
+  lodash: 'lodash',
+  'lodash/omit': 'omit',
+  'lodash/sortBy': 'sortBy',
   'lodash/isEmpty': 'isEmpty',
   'lodash/isEqual': 'isEqual',
   'lodash/debounce': 'debounce',
@@ -154,6 +163,12 @@ export default () => {
       nodeResolve({
         browser: true,
         extensions: ['.mjs', '.js', '.jsx', '.json', '.node'],
+      }),
+      svgr({
+        svgo: false,
+        ref: false,
+        titleProp: false,
+        jsxRuntime: 'classic',
       }),
       babel({
         babelHelpers: 'runtime',

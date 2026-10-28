@@ -672,10 +672,6 @@ section.content {
 }
 
 .message-bar {
-  @media print {
-    display: none;
-  }
-
   @keyframes fadein {
     from {
       opacity: 0;
@@ -691,6 +687,11 @@ section.content {
   z-index: 802;
   width: 100%;
   display: block;
+
+  // must follow the display declaration above to override it
+  @media print {
+    display: none;
+  }
 
   @include font-book;
 

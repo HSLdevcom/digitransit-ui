@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -9,10 +8,7 @@ import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
 import { useRouter } from 'found';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import RoutePatternSelectContainer from './RoutePatternSelectContainer';
-import {
-  DATE_FORMAT,
-  ExtendedRouteTypes,
-} from '../../../utils/shared/constants';
+import { ExtendedRouteTypes } from '../../../utils/shared/constants';
 import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import {
   getCancelationsForRoute,
@@ -66,12 +62,7 @@ const TAB_ANALYTICS_ACTIONS = {
   [PREFIX_DISRUPTION]: 'OpenDisruptionsTab',
 };
 
-function RouteControlPanel({
-  route,
-  breakpoint,
-  noInitialServiceDay = false,
-  tripStartTime = undefined,
-}) {
+function RouteControlPanel({ route, breakpoint, tripStartTime = undefined }) {
   const config = useConfigContext();
   const realTimeClient = useRealTimeActions();
   const intl = useIntl();
@@ -109,7 +100,7 @@ function RouteControlPanel({
   }, []);
 
   useEffect(() => {
-    if (route?.patterns && !noInitialServiceDay) {
+    if (route?.patterns && params.type !== PREFIX_TIMETABLE) {
       if (isIOS && location.query?.save) {
         saveSearch({
           item: {
@@ -143,33 +134,6 @@ function RouteControlPanel({
         ) ?? route.patterns.find(({ code }) => code === patternId);
 
       if (selectedPattern) {
-        if (params.type === PREFIX_TIMETABLE) {
-          const enrichedPattern = enrichPatterns(
-            [selectedPattern],
-            false,
-            config.itinerary.serviceTimeRange,
-          );
-          const isSameWeek = DateTime.fromFormat(
-            enrichedPattern[0].minAndMaxDate[0],
-            DATE_FORMAT,
-          ).hasSame(DateTime.now(), 'week');
-          if (
-            location.search.indexOf('serviceDay') === -1 ||
-            (location.query.serviceDay &&
-              Number(location.query.serviceDay) <
-                Number(enrichedPattern[0].minAndMaxDate[0]))
-          ) {
-            const serviceDay = isSameWeek
-              ? enrichedPattern[0].minAndMaxDate[0]
-              : enrichedPattern[0].activeDates[0];
-            router.replace(
-              `${decodeURIComponent(
-                location.pathname,
-              )}?serviceDay=${serviceDay}`,
-            );
-          }
-        }
-
         const { realTime } = config;
         if (realTime) {
           const { feedId, entityId } = splitGtfsId(route.gtfsId);
@@ -201,7 +165,7 @@ function RouteControlPanel({
     return () => {
       realTimeClient.stop();
     };
-  }, []);
+  }, [params.type]);
 
   const onPatternChange = newPattern => {
     addAnalyticsEvent({
@@ -295,6 +259,7 @@ function RouteControlPanel({
   };
 
   const changeTab = tab => {
+    setFocusedTab(tab);
     const path = routePagePath(route.gtfsId, tab, patternId);
     router.replace(path);
     addAnalyticsEvent({
@@ -377,13 +342,6 @@ function RouteControlPanel({
         'bp-large': breakpoint === 'large',
       })}
     >
-      <div className="header-for-printing">
-        <h1>
-          {config.title}
-          {` - `}
-          <FormattedMessage id="route-guide" defaultMessage="Route guide" />
-        </h1>
-      </div>
       <div
         className={cx('route-control-panel', {
           'bp-large': breakpoint === 'large',
@@ -487,7 +445,6 @@ RouteControlPanel.propTypes = {
     }).isRequired,
   }).isRequired,
   breakpoint: PropTypes.string.isRequired,
-  noInitialServiceDay: PropTypes.bool,
   tripStartTime: PropTypes.string,
 };
 

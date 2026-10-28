@@ -14,7 +14,7 @@ import React, {
 import { FormattedMessage } from 'react-intl';
 import { fetchQuery, ReactRelayContext } from 'react-relay';
 import { useRouter } from 'found';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import { saveFutureRoute } from '../../../utils/client/storeUtils';
 import { saveSearch } from '../../data/SearchHistory';
@@ -51,10 +51,14 @@ import { getAllNetworksOfType } from '../../../utils/shared/vehicleRentalUtils';
 import { isPersonalizationEnabled } from '../../../utils/client/modeUtils';
 import {
   useFavouriteActions,
+  useFavouriteStatus,
   useFavourites,
   usePersonalizationPreferences,
 } from '../../hooks/FavouriteContext';
-import { getFavouriteRouteGtfsIds } from '../../data/FavouriteData';
+import {
+  STATUS_FETCHING_OR_UPDATING,
+  getFavouriteRouteGtfsIds,
+} from '../../data/FavouriteData';
 import DesktopView from '../DesktopView';
 import Loading from '../Loading';
 import MobileView from '../MobileView';
@@ -269,6 +273,20 @@ function ItineraryPageContent(props) {
   const detailView = altTransitHash.includes(hash) ? secondHash : hash;
   const settings = getSettings(config);
   const personalization = isPersonalizationEnabled(config, settings);
+
+  // Itineraries are rated with the personalization weights, so the first
+  // rating waits until the initial favourites load has finished. Later
+  // favourite updates (e.g. saving feedback) must not re-trigger rating.
+  const favouriteStatus = useFavouriteStatus();
+  const [favouritesReady, setFavouritesReady] = useState(
+    favouriteStatus !== STATUS_FETCHING_OR_UPDATING,
+  );
+  useEffect(() => {
+    if (favouriteStatus !== STATUS_FETCHING_OR_UPDATING) {
+      setFavouritesReady(true);
+    }
+  }, [favouriteStatus]);
+  const ratingReady = !personalization || favouritesReady;
 
   function altLoading() {
     return Object.values(altStates).some(
@@ -1343,7 +1361,8 @@ function ItineraryPageContent(props) {
       scooterState.loading === LOADSTATE.DONE &&
       externalFlexState.loading === LOADSTATE.DONE &&
       internalFlexState.loading === LOADSTATE.DONE &&
-      taxiZoneState.loading === LOADSTATE.DONE
+      taxiZoneState.loading === LOADSTATE.DONE &&
+      ratingReady
     ) {
       let plan = mergeScooterTransitPlan(
         scooterState.plan,
@@ -1397,6 +1416,7 @@ function ItineraryPageContent(props) {
     externalFlexState.plan,
     internalFlexState.plan,
     taxiZoneState.plan,
+    ratingReady,
   ]);
 
   // merge the relaxed scooter plan and the relaxed flex plan into one

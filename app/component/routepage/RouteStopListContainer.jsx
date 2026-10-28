@@ -1,25 +1,25 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
 import { DateTime } from 'luxon';
-import { createRefetchContainer, graphql } from 'react-relay';
+import { useRefetchableFragment } from 'react-relay';
 import { useRouter } from 'found';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
-import { relayShape, patternShape } from '../../../utils/client/shapes';
 import RouteStop from './RouteStop';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import { getRouteMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
+import RouteStopListContainerFragment from './queries/RouteStopListContainerFragment';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 function RouteStopListContainer({
-  pattern,
+  pattern: patternRef,
   className = undefined,
-  relay,
   hideDepartures = false,
 }) {
   const config = useConfigContext();
@@ -28,6 +28,10 @@ function RouteStopListContainer({
   const isMountRef = useRef(true);
   const breakpoint = useBreakpoint();
   const { vehicles } = useRealTimeInformation();
+  const [pattern, refetch] = useRefetchableFragment(
+    RouteStopListContainerFragment,
+    patternRef,
+  );
 
   useEffect(() => {
     if (isMountRef.current) {
@@ -37,15 +41,12 @@ function RouteStopListContainer({
     const startOfDay = DateTime.fromSeconds(currentTime)
       .startOf('day')
       .toUnixInteger();
-    relay.refetch(
-      {
-        currentTime,
-        patternId: match.params.patternId,
-        startOfDay,
-        showStopStatusMarkers: !!config.showStopStatusMarkers,
-      },
-      null,
-    );
+    refetch({
+      currentTime,
+      patternId: match.params.patternId,
+      startOfDay,
+      showStopStatusMarkers: !!config.showStopStatusMarkers,
+    });
   }, [currentTime]);
 
   const { stops } = pattern;
@@ -117,89 +118,9 @@ function RouteStopListContainer({
 }
 
 RouteStopListContainer.propTypes = {
-  pattern: patternShape.isRequired,
+  pattern: fragmentRefShape,
   className: PropTypes.string,
-  relay: relayShape.isRequired,
   hideDepartures: PropTypes.bool,
 };
 
-const containerComponent = createRefetchContainer(
-  RouteStopListContainer,
-  {
-    pattern: graphql`
-      fragment RouteStopListContainer_pattern on Pattern
-      @argumentDefinitions(
-        currentTime: { type: "Long!", defaultValue: 0 }
-        patternId: { type: "String!", defaultValue: "0" }
-        startOfDay: { type: "Long!", defaultValue: 0 }
-        showStopStatusMarkers: { type: "Boolean!", defaultValue: false }
-      ) {
-        directionId
-        route {
-          mode
-          color
-          shortName
-          type
-          gtfsId
-        }
-        stops {
-          alerts {
-            alertEffect
-            alertSeverityLevel
-            effectiveEndDate
-            effectiveStartDate
-          }
-          firstDeparture: stoptimesWithoutPatterns(
-            startTime: $startOfDay
-            timeRange: 7776000 # 90 days in seconds
-            numberOfDepartures: 1
-            omitCanceled: true
-          ) @include(if: $showStopStatusMarkers) {
-            serviceDay
-            realtimeDeparture
-          }
-          stopTimesForPattern(id: $patternId, startTime: $currentTime) {
-            realtime
-            realtimeState
-            realtimeArrival
-            realtimeDeparture
-            serviceDay
-            scheduledDeparture
-            pickupType
-            stop {
-              platformCode
-            }
-          }
-          gtfsId
-          lat
-          lon
-          name
-          desc
-          code
-          platformCode
-          zoneId
-        }
-      }
-    `,
-  },
-  graphql`
-    query RouteStopListContainerQuery(
-      $patternId: String!
-      $currentTime: Long!
-      $startOfDay: Long!
-      $showStopStatusMarkers: Boolean!
-    ) {
-      pattern(id: $patternId) {
-        ...RouteStopListContainer_pattern
-          @arguments(
-            currentTime: $currentTime
-            patternId: $patternId
-            startOfDay: $startOfDay
-            showStopStatusMarkers: $showStopStatusMarkers
-          )
-      }
-    }
-  `,
-);
-
-export { containerComponent as default, RouteStopListContainer as Component };
+export default RouteStopListContainer;
