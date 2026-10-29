@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import cx from 'classnames';
 
 const isBadgeTextLong = badgeText => badgeText.length > 1 || badgeText > 9;

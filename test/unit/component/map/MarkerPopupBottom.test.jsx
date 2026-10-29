@@ -1,4 +1,3 @@
-import React from 'react';
 import { LeafletProvider } from 'react-leaflet/es/context';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import MarkerPopupBottom from '../../../../app/component/map/MarkerPopupBottom';

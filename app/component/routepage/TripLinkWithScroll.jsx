@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import Link from 'found/Link';
 import VehicleIcon from '../VehicleIcon';

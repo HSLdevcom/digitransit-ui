@@ -1,6 +1,5 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 import Link from 'found/Link';
 import { legTimeShape } from '../../../utils/client/shapes';
 import { legTimeStr } from '../../../utils/client/legUtils';

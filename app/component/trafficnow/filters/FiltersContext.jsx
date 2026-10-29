@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useMemo, useState, createContext, useContext } from 'react';
+import { useMemo, useState, createContext, useContext } from 'react';
 
 const FilterContext = createContext();
 

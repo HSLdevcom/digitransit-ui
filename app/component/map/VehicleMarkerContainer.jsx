@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
 import { ExtendedRouteTypes } from '../../../utils/shared/constants';
 import VehicleIcon from '../VehicleIcon';

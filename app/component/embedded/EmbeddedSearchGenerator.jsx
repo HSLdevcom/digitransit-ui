@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DTAutosuggest from '@digitransit-component/digitransit-component-autosuggest';
 import { useConfigContext } from '../../hooks/ConfigContext';

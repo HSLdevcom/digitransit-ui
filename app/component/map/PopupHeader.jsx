@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useIntl } from 'react-intl';
 
 const PopupHeader = ({ header, subHeader, children }) => {

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { Modal, ConfirmationModalContent } from '@hsl-fi/dialog';
 
 /**

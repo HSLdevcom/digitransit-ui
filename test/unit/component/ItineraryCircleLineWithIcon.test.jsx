@@ -1,4 +1,3 @@
-import React from 'react';
 import { renderWithProviders as render } from '../helpers/mock-providers';
 
 import ItineraryCircleLineWithIcon from '../../../app/component/itinerary/ItineraryCircleLineWithIcon';

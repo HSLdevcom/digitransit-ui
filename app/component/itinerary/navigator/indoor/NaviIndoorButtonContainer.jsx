@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import Icon from '../../../Icon';
 import { legShape } from '../../../../../utils/client/shapes';
 import {

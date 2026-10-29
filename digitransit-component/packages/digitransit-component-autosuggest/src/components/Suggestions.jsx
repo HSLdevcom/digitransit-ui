@@ -1,5 +1,5 @@
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
-import React, { memo } from 'react';
+import { memo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import cx from 'classnames';

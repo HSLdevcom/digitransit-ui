@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import ScheduleDropdown from './ScheduleDropdown';
 import PrintableStopHeader from './PrintableStopHeader';
 import { stopShape } from '../../../../utils/client/shapes';

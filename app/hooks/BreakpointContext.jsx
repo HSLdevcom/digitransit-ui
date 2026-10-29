@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp */
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 

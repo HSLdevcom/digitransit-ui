@@ -56,6 +56,7 @@ module.exports = {
     'react/jsx-fragments': 'off',
     'react/jsx-key': 'error',
     'react/react-in-jsx-scope': 'off',
+    'react/jsx-uses-react': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/forbid-prop-types': ['warn', { forbid: ['any', 'array', 'object'] }],
     'react/require-default-props': 'off',

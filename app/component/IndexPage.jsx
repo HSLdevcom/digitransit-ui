@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
 import isEqual from 'lodash/isEqual';

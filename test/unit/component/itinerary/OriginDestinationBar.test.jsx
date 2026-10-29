@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { render, act } from '@testing-library/react';
 import TestProviders from '../../helpers/mock-providers';

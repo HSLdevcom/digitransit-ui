@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Button, Text } from '@hsl-fi/layout-primitives';
 

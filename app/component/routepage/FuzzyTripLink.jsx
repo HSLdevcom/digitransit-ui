@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import { useIntl } from 'react-intl';
 import { graphql } from 'react-relay';
 import { useLazyLoadQuery } from 'react-relay/hooks';

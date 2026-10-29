@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useSortable } from '@dnd-kit/react/sortable';
 
 /** Sortable via point row; children is called with the drag handle ref. */

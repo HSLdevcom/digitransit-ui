@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useTranslation } from 'react-i18next';

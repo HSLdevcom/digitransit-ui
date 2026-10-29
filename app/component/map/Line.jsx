@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import cx from 'classnames';
 import Polyline from 'react-leaflet/es/Polyline';
 import { useConfigContext } from '../../hooks/ConfigContext';

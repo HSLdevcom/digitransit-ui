@@ -1,7 +1,7 @@
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useEffect, Suspense, useState } from 'react';
+import { useEffect, Suspense, useState } from 'react';
 import { Button } from '@hsl-fi/layout-primitives';
 import { useRouter } from 'found';
 import ReactModal from 'react-modal';

@@ -1,6 +1,6 @@
 import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import Icon from '../../Icon';

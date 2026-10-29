@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types';
-import React, { useCallback, useState, useRef, useEffect } from 'react';
+import { useCallback, useState, useRef, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import Icon from './Icon';

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { createContext, useContext, useMemo } from 'react';
+import { createContext, useContext, useMemo } from 'react';
 import useItineraryReducer from './useItineraryReducer';
 
 const ItineraryContext = createContext();

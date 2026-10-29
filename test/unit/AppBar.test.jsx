@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactModal from 'react-modal';
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from './helpers/mock-providers';

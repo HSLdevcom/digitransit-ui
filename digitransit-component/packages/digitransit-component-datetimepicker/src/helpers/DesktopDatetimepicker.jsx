@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { DateTime, Settings } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import Icon from '../../../app/component/Icon';
 import IconBackground from '../../../app/component/icon/IconBackground';

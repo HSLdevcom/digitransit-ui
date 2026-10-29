@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'found';
 import { Helmet } from 'react-helmet';
 import { SiteHeader, UserMenu, QuickSearch } from '@hsl-fi/site-header';

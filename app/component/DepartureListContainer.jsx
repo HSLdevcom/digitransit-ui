@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { stopTimeShape } from '../../utils/client/shapes';

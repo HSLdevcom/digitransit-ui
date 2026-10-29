@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { useRouter } from 'found';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';

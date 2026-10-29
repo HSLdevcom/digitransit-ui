@@ -1,4 +1,3 @@
-import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { mockMatch } from '../helpers/mock-router';
 import TripStopsContainer from '../../../app/component/routepage/TripStopsContainer';

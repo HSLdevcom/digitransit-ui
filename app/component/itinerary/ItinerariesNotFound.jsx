@@ -1,4 +1,3 @@
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import NoItinerariesNote from './NoItinerariesNote';
 import { locationShape } from '../../../utils/client/shapes';

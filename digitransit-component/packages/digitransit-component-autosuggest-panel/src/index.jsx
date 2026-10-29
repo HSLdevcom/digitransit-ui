@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useReducer, useRef, useState } from 'react';
+import { useReducer, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DragDropProvider } from '@dnd-kit/react';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';

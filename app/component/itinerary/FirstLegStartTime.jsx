@@ -1,6 +1,5 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { legTimeStr } from '../../../utils/client/legUtils';
 import {

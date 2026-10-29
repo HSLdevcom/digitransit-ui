@@ -1,5 +1,5 @@
 import 'core-js/stable';
-import React from 'react';
+import { Fragment } from 'react';
 import { createRoot } from 'react-dom/client';
 import BrowserProtocol from 'farce/BrowserProtocol';
 import createFarceRouter from 'found/createFarceRouter';
@@ -187,7 +187,7 @@ async function init() {
       environment={environment}
     >
       <ErrorBoundary>
-        <React.Fragment>
+        <Fragment>
           <Helmet
             {...getMetadata(
               language,
@@ -197,7 +197,7 @@ async function init() {
             )}
           />
           <Router resolver={resolver} />
-        </React.Fragment>
+        </Fragment>
       </ErrorBoundary>
     </AppProviders>
   );
