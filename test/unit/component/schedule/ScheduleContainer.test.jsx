@@ -147,6 +147,13 @@ describe('<ScheduleContainer />', () => {
     });
     fireEvent.click(getByRole('option', { name }));
   };
+  const selectDate = ({ container, getByRole }, name) => {
+    fireEvent.keyDown(
+      container.querySelector('#aria-input-route-schedule-grouped-datepicker'),
+      { key: 'Enter' },
+    );
+    fireEvent.click(getByRole('option', { name }));
+  };
   const triggerText = (container, id) =>
     container.querySelector(`#aria-input-${id}`).textContent;
 
@@ -214,19 +221,8 @@ describe('<ScheduleContainer />', () => {
       router: { ...mockRouter, replace: routerReplaceSpy },
     };
 
-    const { container } = renderView({}, matchWithSpy);
-    const dateInput = container.querySelector(
-      '#aria-input-route-schedule-grouped-datepicker',
-    );
-
-    fireEvent.focus(dateInput);
-    fireEvent.mouseDown(dateInput);
-    // The two stubbed available dates (2024-01-01, 2024-01-02) fall in a
-    // single group; the wanted day (today) doesn't match either option, so
-    // the menu opens with the first option (2024-01-01) already focused.
-    // A single ArrowDown moves focus to 2024-01-02.
-    fireEvent.keyDown(dateInput, { key: 'ArrowDown' });
-    fireEvent.keyDown(dateInput, { key: 'Enter' });
+    const view = renderView({}, matchWithSpy);
+    selectDate(view, /2\.1\./);
 
     expect(routerReplaceSpy.mock.calls.length).toBe(1);
     expect(routerReplaceSpy.mock.calls[0][0].query.serviceDay).toBe('20240102');
@@ -243,17 +239,8 @@ describe('<ScheduleContainer />', () => {
       router: { ...mockRouter, replace: routerReplaceSpy },
     };
 
-    const { container } = renderView({}, matchWithQuery);
-    const dateInput = container.querySelector(
-      '#aria-input-route-schedule-grouped-datepicker',
-    );
-
-    fireEvent.focus(dateInput);
-    fireEvent.mouseDown(dateInput);
-    // See the identical scenario above: the menu opens with 2024-01-01
-    // already focused, so a single ArrowDown reaches 2024-01-02.
-    fireEvent.keyDown(dateInput, { key: 'ArrowDown' });
-    fireEvent.keyDown(dateInput, { key: 'Enter' });
+    const view = renderView({}, matchWithQuery);
+    selectDate(view, /2\.1\./);
 
     const callArgs = routerReplaceSpy.mock.calls[0][0];
     expect(callArgs.query.serviceDay).toBe('20240102');
@@ -282,10 +269,10 @@ describe('<ScheduleContainer />', () => {
 
     const { container } = renderView();
     const selectedDay = container.querySelector(
-      '.route-schedule-grouped__single-value',
+      '#aria-input-route-schedule-grouped-datepicker',
     );
 
-    expect(selectedDay).not.toBeNull();
+    expect(selectedDay.textContent).not.toBe('');
   });
 
   it('should show constant operation view instead of timetable when route has constant operation', () => {

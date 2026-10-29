@@ -1,0 +1,11 @@
+// The Radix select menu is portaled to body and copies its z-index from this
+// element; without it the menu opens behind the mobile drawer.
+div[role='listbox'][data-side] {
+  z-index: global-z('dropdown-menu');
+
+  // The design system check mark sits at the top of its line box, so make the
+  // wrapper a flex container to center it vertically.
+  [role='option'] > div > span[aria-hidden='true'] {
+    display: flex;
+  }
+}

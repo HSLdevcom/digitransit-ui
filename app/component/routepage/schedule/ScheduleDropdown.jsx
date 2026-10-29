@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import { Select, SelectOption } from '@hsl-fi/form';
+import { DsSelect, SelectOption } from '../../DsSelect';
 import { truncateLabel } from '../../../../utils/client/stringUtils';
 
 /**
@@ -32,9 +32,8 @@ function ScheduleDropdown({
         {intl.formatMessage({ id })}
       </label>
       <div className={cx('dd-select', { 'align-right': alignRight })}>
-        <Select
+        <DsSelect
           id={inputId}
-          triggerVariant="input"
           value={selectedOption ? String(selectedOption.value) : ''}
           valueLabel={truncateLabel(selectedOption?.label ?? title)}
           placeholder={truncateLabel(title)}
@@ -47,7 +46,7 @@ function ScheduleDropdown({
               label={option.label}
             />
           ))}
-        </Select>
+        </DsSelect>
       </div>
     </div>
   );
