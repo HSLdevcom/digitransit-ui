@@ -26,27 +26,22 @@ import { PREFIX_STOPS } from '../../../utils/shared/path';
 import { TimetableFragment } from './queries/TimetableFragment';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { getDepartureStoptimes } from './timetableUtils';
 
 const mapStopTimes = stoptimesObject =>
   stoptimesObject
     .map(stoptime =>
-      stoptime.stoptimes
-        .filter(
-          st =>
-            st.pickupType !== 'NONE' &&
-            st.stop.gtfsId !== stoptime.pattern.stops?.at(-1)?.gtfsId,
-        )
-        .map(st => ({
-          id: stoptime.pattern.code,
-          name: stoptime.pattern.route.shortName || stoptime.pattern.headsign,
-          scheduledDeparture: st.scheduledDeparture,
-          serviceDay: st.serviceDay,
-          headsign: st.headsign || stoptime.pattern.headsign,
-          longName: stoptime.pattern.route.longName,
-          isCanceled: st.realtimeState === RealtimeStateType.Canceled,
-          mode: stoptime.pattern.route.mode,
-          gtfsId: st.stop.gtfsId,
-        })),
+      getDepartureStoptimes(stoptime).map(st => ({
+        id: stoptime.pattern.code,
+        name: stoptime.pattern.route.shortName || stoptime.pattern.headsign,
+        scheduledDeparture: st.scheduledDeparture,
+        serviceDay: st.serviceDay,
+        headsign: st.headsign || stoptime.pattern.headsign,
+        longName: stoptime.pattern.route.longName,
+        isCanceled: st.realtimeState === RealtimeStateType.Canceled,
+        mode: stoptime.pattern.route.mode,
+        gtfsId: st.stop.gtfsId,
+      })),
     )
     .reduce((acc, val) => acc.concat(val), []);
 
