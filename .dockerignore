@@ -28,11 +28,6 @@
 packages/*/*/lib
 packages/*/*/**/__generated__
 
-# Build tooling config consumed by workspace-package builds (config/rollup.config.js,
-# config/babel.config.cjs). The GraphQL schema read by relay-compiler lives in
-# packages/private/schema.
-!config
-
 # Main app source (relay-compiler regenerates app/**/__generated__ fresh).
 !app
 app/**/__generated__

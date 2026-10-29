@@ -31,10 +31,8 @@ app/**/__generated__
 utils/**/__generated__
 packages/*/*/**/__generated__
 
-# Rollup build output (see config/rollup.config.js).
+# Rollup build output (see packages/private/rollup-config).
 packages/*/*/lib
-
-# Rollup build output (see config/rollup.config.js)
 yarn-error.log
 dump.rdb
 

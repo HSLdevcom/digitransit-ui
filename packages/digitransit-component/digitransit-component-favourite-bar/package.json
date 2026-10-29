@@ -23,11 +23,11 @@
     "access": "public"
   },
   "scripts": {
-    "watch": "NODE_ENV=development yarn run -T rollup -w -c ../../../config/rollup.config.js",
+    "watch": "NODE_ENV=development yarn run -T rollup -w -c",
     "clean": "rm -rf ./lib ./node_modules",
     "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.jsx\"",
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js",
-    "build": "NODE_ENV=production yarn run -T rollup -c ../../../config/rollup.config.js"
+    "build": "NODE_ENV=production yarn run -T rollup -c"
   },
   "repository": {
     "type": "git",
@@ -41,6 +41,9 @@
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "dependencies": {
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
+  },
+  "devDependencies": {
+    "@digitransit-ui/rollup-config": "workspace:^"
   },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-icon": "workspace:^",

@@ -19,9 +19,9 @@
     "docs": "node ../../../scripts/workspace-packages/generate-readmes.js",
     "relay": "relay-compiler",
     "relay-watch": "relay-compiler --watch",
-    "watch": "yarn relay && NODE_ENV=development yarn run -T rollup -w -c ../../../config/rollup.config.js",
+    "watch": "yarn relay && NODE_ENV=development yarn run -T rollup -w -c",
     "copy-schema": "mkdir -p lib/schema && cp ../../private/schema/schema.graphql lib/schema/schema.graphql",
-    "build": "yarn relay && yarn copy-schema && NODE_ENV=production yarn run -T rollup -c ../../../config/rollup.config.js"
+    "build": "yarn relay && yarn copy-schema && NODE_ENV=production yarn run -T rollup -c"
   },
   "relay": {
     "src": "./src",
@@ -44,6 +44,7 @@
     "react-relay": "^16.2.0"
   },
   "devDependencies": {
+    "@digitransit-ui/rollup-config": "workspace:^",
     "@digitransit-ui/schema": "workspace:^",
     "babel-plugin-relay": "16.2.0",
     "relay-compiler": "16.2.0"

@@ -22,11 +22,10 @@ RUN \
   export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
   && yarn install --immutable --inline-builds
 
-# Deliberately scoped to config and the workspace packages' full
+# Deliberately scoped to the workspace packages' full
 # source (rather than folded into the `COPY . .` + `yarn run build` step
 # below): this keeps the RUN below cacheable by Docker's layer cache
 # whenever only app/server files change.
-COPY config ./config
 COPY packages ./packages
 RUN \
   yarn run workspace-packages-build
@@ -58,14 +57,14 @@ RUN \
 # doesn't invoke any of them - see its CMD), so their toolchain/config files
 # are removed here too, alongside the build-only rollup/babel/relay-schema
 # config (only read by `yarn run workspace-packages-build` above), the
-# `packages/private` workspaces (the schema), the dangling private-workspace
+# `packages/private` workspaces (rollup config, schema), the dangling private-workspace
 # links in node_modules, and `static`
 # (source assets consumed by CopyWebpackPlugin, see webpack.config.js, already
 # copied into `_static` by the build above).
 RUN \
   yarn workspaces focus --all --production \
   && yarn cache clean --all \
-  && rm -rf .yarn .yarnrc.yml yarn.lock lerna.json nx.json config packages/private node_modules/@digitransit-ui static
+  && rm -rf .yarn .yarnrc.yml yarn.lock lerna.json nx.json packages/private node_modules/@digitransit-ui static
 
 FROM node:24.14.1-alpine
 LABEL org.opencontainers.image.title="digitransit-ui"

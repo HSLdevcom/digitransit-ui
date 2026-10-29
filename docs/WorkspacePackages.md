@@ -54,6 +54,7 @@ A `component`/`store` package looks like:
 ```
 digitransit-<family>-<module>
 │   package.json
+│   rollup.config.js
 │   README.md
 │   test.js
 │   LICENSE-AGPL.txt
@@ -78,7 +79,11 @@ A `search-util`/`util` package is the same, but flat (no build step, no
   *host app* must also provide goes under `peerDependencies` instead (see
   [Dependency classification](#dependency-classification)); only
   package-specific build tooling goes under `devDependencies` (shared tooling
-  comes from the root).
+  comes from the root). Buildable packages also declare the private
+  `@digitransit-ui/rollup-config` as a `devDependency`.
+- `rollup.config.js` — a one-line re-export of the shared
+  [build config](#shared-build-config) (`component`/`store` only; not
+  published, since `files` whitelists the published content).
 - `README.md` — generated, do not hand-edit (see below).
 - `LICENSE-*.txt` — copied from the repository root, do not hand-edit.
 
@@ -275,7 +280,7 @@ These rules (for `dependencies`/`peerDependencies`) are enforced by
 ## CSS Modules
 
 `component`/`store` packages using SCSS (e.g. `src/helpers/styles.scss`) get
-it compiled as a CSS Module by the shared `config/rollup.config.js`, which
+it compiled as a CSS Module by the shared `@digitransit-ui/rollup-config`, which
 runs once per package with `cwd` set to that package's own directory. Since
 many packages share the same relative file path (e.g.
 `src/helpers/styles.scss`), the config passes a per-package `hashPrefix`
@@ -285,12 +290,23 @@ to the same scoped class name and leak styles into each other once bundled
 into the app — don't remove `hashPrefix`/`autoModules: false` from that
 config without preserving this.
 
+## Shared build config
+
+`packages/private/rollup-config` (`@digitransit-ui/rollup-config`, private) holds the
+Rollup config and the inline Babel options used to build every
+`component`/`store` package and query-utils. Each of them has a
+`rollup.config.js` re-exporting it, so they build with a plain `rollup -c` and can
+override it locally. The rollup/babel tooling itself is owned by the root
+`devDependencies` (see [Dependency classification](#dependency-classification)),
+so the config package declares none. Because it is a `devDependency` of every
+buildable package, changing it requires bumping all of them
+(`workspace-packages-version-check` enforces this). The root `babel.config.cjs`
+is unrelated: it only serves tooling (eslint parser, Jest e2e).
+
 ## Build Caching
 
-Because `nx.json`'s `build` target defines an explicit `inputs` list, any
-future shared build config file (beyond `config/rollup.config.js`/
-`config/babel.config.cjs`, already listed there) needs adding to that list
-too, or editing it won't invalidate every package's Nx build cache.
+`nx.json`'s `build` target `inputs` include `^default`, so editing the shared
+build config invalidates the Nx build cache of every package depending on it.
 
 ## Deprecated
 

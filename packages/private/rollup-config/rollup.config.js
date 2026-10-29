@@ -10,7 +10,37 @@ import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import svgr from '@svgr/rollup';
 import terser from '@rollup/plugin-terser';
 
-const rootDir = import.meta.dirname;
+const isProduction = process.env.NODE_ENV === 'production';
+
+const babelPresets = [
+  ['@babel/preset-env', { bugfixes: true, modules: 'auto' }],
+  [
+    '@babel/preset-react',
+    {
+      development: process.env.NODE_ENV === 'development',
+      runtime: 'automatic',
+    },
+  ],
+];
+
+const babelPlugins = [
+  'relay',
+  'babel-plugin-optimize-clsx',
+  '@babel/plugin-transform-class-properties',
+  '@babel/plugin-transform-object-rest-spread',
+  [
+    '@babel/plugin-transform-runtime',
+    { helpers: true, regenerator: true, useESModules: true },
+  ],
+  ...(isProduction
+    ? [
+        [
+          'babel-plugin-transform-react-remove-prop-types',
+          { mode: 'unsafe-wrap' },
+        ],
+      ]
+    : []),
+];
 
 const globals = {
   react: 'React',
@@ -67,7 +97,8 @@ const globals = {
  * This config builds a single package: the one whose directory is the
  * current working directory. It's designed to be run per-package via
  * `lerna run build --scope ...` (each package's own "build" script invokes
- * `rollup -c <path-to-this-file>` from within its own directory), so that
+ * `rollup -c`, whose local rollup.config.js re-exports this file, from within
+ * its own directory), so that
  * Lerna's Nx-powered task pipeline (see nx.json) can order/parallelize/
  * cache builds across packages instead of this config looping over all of
  * them in one process.
@@ -173,10 +204,10 @@ export default () => {
       }),
       babel({
         babelHelpers: 'runtime',
-        // Absolute path: this config now runs with cwd set to the
-        // package being built, not the repo root, so a relative path
-        // here would no longer resolve correctly.
-        configFile: path.join(rootDir, 'babel.config.cjs'),
+        configFile: false,
+        babelrc: false,
+        presets: babelPresets,
+        plugins: babelPlugins,
         exclude: /node_modules/,
       }),
       commonjs({

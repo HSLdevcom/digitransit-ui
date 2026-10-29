@@ -37,7 +37,7 @@ const green = text => (colorsEnabled ? `\x1b[32m${text}\x1b[0m` : text);
 
 const readJson = file => JSON.parse(fs.readFileSync(file, 'utf8'));
 
-// Same candidate order as config/rollup.config.js's build input.
+// Same candidate order as packages/private/rollup-config's build input.
 function findEntryPoint(directory) {
   return ['src/index.js', 'src/index.jsx', 'index.js', 'index.jsx']
     .map(candidate => path.join(directory, candidate))

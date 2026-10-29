@@ -108,7 +108,6 @@ module.exports = {
         'utils/server/**/*.js',
         'webpack.config.js',
         'scripts/**/*.js',
-        'config/*.{js,cjs}',
       ],
       rules: {
         'import/extensions': ['error', 'always', { ignorePackages: true }],

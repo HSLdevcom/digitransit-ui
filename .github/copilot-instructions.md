@@ -42,7 +42,7 @@ right one by *who consumes the code*, not just by convenience.
   URLs), `services/` — boot-time integrations (`ticketPrices.js`, `geoJsonZones.js`,
   `citybikeSeasons.js`), `html/` — HTML-shell helpers (`assetManifest.js` reads webpack's build
   manifest), `passport-openid-connect/`, and
-  `configs/` — `config.js` (server-side config resolution/merging by host) plus one
+  `configs/` — `config.js` (server-side config resolution/merging by host header via `BASE_CONFIG`) plus one
   `config.<region>.js` per deployment.
 - `utils/` — helper modules split by consumer (see "Server/client boundary" below):
   - `shared/` — used by both server and client, e.g. `constants.js`, `metaUtils.js`,
@@ -60,15 +60,19 @@ right one by *who consumes the code*, not just by convenience.
 - `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.js`, `build/contextHelper.js`,
   `generate-schema.js`, `theme/` theme-scaffolding scripts, `workspace-packages/` (readme
   generation, version checks, translation sort/check); see `scripts/README.md`).
-- `packages/` — Yarn workspace packages, built separately (see below): one family dir per scope,
-  `packages/digitransit-{component,search-util,store,util}/<package>/`.
+- `packages/` — Yarn workspace packages, consumed by the app but built/versioned independently, so
+  treat them like semi-external dependencies (see `docs/WorkspacePackages.md`):
+  - `digitransit-{component,search-util,store,util}/<package>/` — the published packages.
+  - `private/` — unpublished: `schema/` (generated `schema.graphql` for relay-compiler and
+    graphql-eslint; regenerate with `scripts/generate-schema.js`, don't hand-edit; a devDependency
+    of query-utils) and `rollup-config/` (shared rollup/babel build config, re-exported by each
+    buildable package's `rollup.config.js`).
+  - Peer ranges are caret ranges of the root's version (e.g. `react` `^18.3.1`). Shared
+    test/build tooling lives only in the root `devDependencies`; package scripts call it via
+    `yarn run -T <bin>`. See "Dependency Classification" in `docs/WorkspacePackages.md`.
+  - Never bump package versions manually; the `workspace-packages-version-bump` script is run after
+    a PR is approved but before merging by the author.
 - `sass/`, `static/` — global styles and static assets.
-- `config/` — build tooling config: `babel.config.cjs`, `rollup.config.js` (component-package
-  builds). The Vitest config itself (`vitest.config.js`) lives at the repo root, not here (see
-  Tests below).
-- `packages/private/` — unpublished workspace packages. `schema/` has the generated `schema.graphql`
-  (consumed by relay-compiler and graphql-eslint; regenerate with `scripts/generate-schema.js`,
-  don't hand-edit); it is a devDependency of query-utils.
 - `docs/` — architecture/testing/etc. docs; **treat as potentially stale** — when a change
   affects what a `docs/*` file describes, update that doc in the same change.
 
@@ -122,8 +126,7 @@ right one by *who consumes the code*, not just by convenience.
     user's perspective rather than relying on implementation details. Use
     `renderWithProviders` / `TestProviders` from `test/unit/helpers/mock-providers.jsx` to supply
     config, intl and context providers.
-  - Run all: `yarn test-unit` (single **Vitest** invocation against the root `vitest.config.js`,
-    covering the app suite plus every workspace-package family as `test.projects` entries).
+  - Run all: `yarn test-unit` (**Vitest**, root `vitest.config.js`).
   - Run just the app suite: `yarn test-unit:app` or just the server tests: `yarn test-unit:server`.
   - Run a single test file or test: `yarn test-unit:app <path-substring>` or
     `yarn test-unit:app -t "<describe/it name pattern>"` (`test-unit:server` for server tests).
@@ -154,17 +157,6 @@ from before touching it:
 Some components are still split into views and `*Container` components wrapped with Relay HOCs
 (`createFragmentContainer` etc.). We are moving away from this: prefer function components that
 fetch data and manage state with hooks.
-
-Other structural notes:
-
-- `server/` also handles config-merging by host header via `BASE_CONFIG` (see
-  `server/configs/config.js`).
-- The `digitransit-*` workspace packages are consumed by the main app but built/versioned
-  independently — treat them like semi-external dependencies. See `docs/WorkspacePackages.md`
-  for how they're structured, tested, documented, and published.
-  - Their peer ranges are caret ranges of the root's version (e.g. `react` `^18.3.1`). Shared
-    test/build tooling lives only in the root `devDependencies`; package scripts call it via
-    `yarn run -T <bin>`. See "Dependency Classification" in `docs/WorkspacePackages.md`.
 
 ## Server/client boundary
 
@@ -215,8 +207,6 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
 - Declare `dependencies`/`devDependencies` in `package.json` files with exact versions (e.g.
   `"2.5.1"`), never `^` or `~`. The only exception is workspace-package `peerDependencies`, which
   are caret ranges of the root's version (enforced by `yarn workspace-packages-dependencies-check`).
-- Never bump package versions manually; the `workspace-packages-version-bump` script is run after
-  a PR is approved but before merging by the author.
 - The project does not enable `eslint-plugin-react-hooks`'s `exhaustive-deps` rule, and top-level
   app values such as `config` (`useConfigContext()`) and provider action helpers (e.g.
   `messageActions`) are set once at app init and never change identity for the app's lifetime.
@@ -225,7 +215,7 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
 - Polyfills are build-time only: `import 'core-js/stable'` in `app/client/client.jsx` plus
   `@babel/preset-env` (`useBuiltIns: 'entry'`) driven by the `browserslist` in `package.json`;
   don't add runtime/UA-based polyfill services. Keep `corejs.version` in `webpack.config.js` (the
-  `app/` loader, which ignores `config/babel.config.cjs`) in sync with the installed core-js
+  `app/` loader, which ignores the root `babel.config.cjs`) in sync with the installed core-js
   minor.
 - SCSS under `sass/`, `app/**/*.scss`, `packages/digitransit-component/**/*.scss` — must pass
   `prettier --check` and `stylelint`.
