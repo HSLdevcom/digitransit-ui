@@ -225,9 +225,10 @@ the versions actually present — this runs in CI on every push/PR.
 
 ### Schema changes
 
-`digitransit-search-util-query-utils` ships `schema/schema.graphql` in its
-build, so `schema/` is a private workspace package that query-utils lists as a
-`devDependency`. This lets change detection see schema edits: after changing
+`digitransit-search-util-query-utils` ships `schema.graphql` in its build, so
+the schema is a private workspace package (`packages/private/schema`; `private/`
+holds the unpublished workspace packages) that query-utils lists as a
+`devDependency`. The root app's relay-compiler and eslint read the same file. This lets change detection see schema edits: after changing
 the schema, bump both the schema package and query-utils.
 `workspace-packages-version-bump` does this, and
 `workspace-packages-version-check` enforces it.

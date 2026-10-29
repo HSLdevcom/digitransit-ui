@@ -7,8 +7,7 @@
   "private": true,
   "packageManager": "yarn@4.13.0",
   "workspaces": [
-    "packages/*/*",
-    "schema"
+    "packages/*/*"
   ],
   "scripts": {
     "setup": "yarn install && yarn workspace-packages-build",
@@ -126,7 +125,7 @@
   },
   "relay": {
     "src": "./app",
-    "schema": "./schema/schema.graphql",
+    "schema": "./packages/private/schema/schema.graphql",
     "language": "javascript",
     "eagerEsModules": true
   },

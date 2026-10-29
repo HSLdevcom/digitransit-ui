@@ -66,9 +66,9 @@ right one by *who consumes the code*, not just by convenience.
 - `config/` — build tooling config: `babel.config.cjs`, `rollup.config.js` (component-package
   builds). The Vitest config itself (`vitest.config.js`) lives at the repo root, not here (see
   Tests below).
-- `schema/` — generated `schema.graphql` (GraphQL schema consumed by relay-compiler and
-  graphql-eslint; regenerate with `scripts/generate-schema.js`, don't hand-edit). Also a private
-  workspace package (devDependency of query-utils).
+- `packages/private/` — unpublished workspace packages. `schema/` has the generated `schema.graphql`
+  (consumed by relay-compiler and graphql-eslint; regenerate with `scripts/generate-schema.js`,
+  don't hand-edit); it is a devDependency of query-utils.
 - `docs/` — architecture/testing/etc. docs; **treat as potentially stale** — when a change
   affects what a `docs/*` file describes, update that doc in the same change.
 
@@ -89,7 +89,7 @@ right one by *who consumes the code*, not just by convenience.
   `matka`, etc., see `server/configs/config.*.js`) to select a regional config, and
   `API_URL=...` to point at a different OTP/geocoding backend.
 - If the OTP GraphQL schema changes: `node scripts/generate-schema.js` (regenerates
-  `schema/schema.graphql`; `relay-compiler` then regenerates the `__generated__/` folders on
+  `packages/private/schema/schema.graphql`; `relay-compiler` then regenerates the `__generated__/` folders on
   build/dev).
 
 ## Docker (see `docs/Docker.md`)

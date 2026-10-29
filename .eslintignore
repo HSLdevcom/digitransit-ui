@@ -1,5 +1,5 @@
 node_modules
 _static
 static
-schema/schema.graphql
+packages/private/schema/schema.graphql
 packages/*/*/lib

@@ -20,12 +20,12 @@
     "relay": "relay-compiler",
     "relay-watch": "relay-compiler --watch",
     "watch": "yarn relay && NODE_ENV=development yarn run -T rollup -w -c ../../../config/rollup.config.js",
-    "copy-schema": "mkdir -p lib/schema && cp ../../../schema/schema.graphql lib/schema/schema.graphql",
+    "copy-schema": "mkdir -p lib/schema && cp ../../private/schema/schema.graphql lib/schema/schema.graphql",
     "build": "yarn relay && yarn copy-schema && NODE_ENV=production yarn run -T rollup -c ../../../config/rollup.config.js"
   },
   "relay": {
     "src": "./src",
-    "schema": "../../../schema/schema.graphql",
+    "schema": "../../private/schema/schema.graphql",
     "language": "javascript",
     "eagerEsModules": true
   },
