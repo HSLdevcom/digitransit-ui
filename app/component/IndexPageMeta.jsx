@@ -1,4 +1,3 @@
-import React from 'react';
 import { Helmet } from 'react-helmet';
 import { generateManifestUrl } from '../../utils/client/manifestUtils';
 import { useConfigContext } from '../client/ConfigContext';

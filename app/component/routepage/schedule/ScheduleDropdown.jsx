@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import Select from 'react-select';
 import Icon from '@digitransit-component/digitransit-component-icon';

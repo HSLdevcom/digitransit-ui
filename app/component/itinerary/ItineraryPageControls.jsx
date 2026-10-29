@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useRouter } from 'found';
 import { FormattedMessage } from 'react-intl';
 import OriginDestinationBar from './OriginDestinationBar';

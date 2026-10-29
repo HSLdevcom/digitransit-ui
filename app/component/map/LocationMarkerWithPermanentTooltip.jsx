@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 import { Marker, Tooltip } from 'react-leaflet';

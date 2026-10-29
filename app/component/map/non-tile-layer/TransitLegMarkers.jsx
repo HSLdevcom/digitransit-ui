@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import { useIntl } from 'react-intl';
 import { withLeaflet } from 'react-leaflet/es/context';
 import polyUtil from 'polyline-encoded';

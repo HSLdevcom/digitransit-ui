@@ -1,4 +1,3 @@
-import React from 'react';
 import { useConfigContext } from '../client/ConfigContext';
 
 const Title = () => {

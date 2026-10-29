@@ -1,5 +1,4 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import { useConfigContext } from '../client/ConfigContext';

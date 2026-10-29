@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import { Component } from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import NetworkError from './NetworkError';
 import isRelayNetworkError from '../../utils/client/relayUtils';
 
-export default class ErrorBoundary extends React.Component {
+export default class ErrorBoundary extends Component {
   static propTypes = { children: PropTypes.node };
 
   state = { error: null, hasRetried: false };

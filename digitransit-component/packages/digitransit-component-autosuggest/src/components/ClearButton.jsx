@@ -1,4 +1,3 @@
-import React from 'react';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';

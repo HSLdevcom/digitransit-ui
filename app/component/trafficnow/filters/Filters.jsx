@@ -1,4 +1,3 @@
-import React from 'react';
 import { useIntl } from 'react-intl';
 import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';

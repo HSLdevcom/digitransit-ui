@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import { useMatch } from 'found';
 import { relayShape, mapLayerOptionsShape } from '../../../utils/client/shapes';

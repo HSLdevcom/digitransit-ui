@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DepartureListContainer from '../DepartureListContainer';

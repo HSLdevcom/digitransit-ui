@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { I18nextProvider } from 'react-i18next';
 import NearStopsAndRoutes from './helpers/NearStopsAndRoutes';
 import styles from './helpers/styles.scss';

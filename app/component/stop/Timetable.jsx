@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { DateTime } from 'luxon';
 import uniqBy from 'lodash/uniqBy';
 import sortBy from 'lodash/sortBy';

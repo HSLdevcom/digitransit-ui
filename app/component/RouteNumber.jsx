@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import {
@@ -87,7 +87,7 @@ export default function RouteNumber({
 
     if (hasDisruption || !!alertSeverityLevel) {
       return (
-        <React.Fragment>
+        <Fragment>
           <IconWithBigCaution
             alertSeverityLevel={alertSeverityLevel}
             color={color}
@@ -104,11 +104,11 @@ export default function RouteNumber({
           {withCar && (
             <Icon img="icon_car" className="itinerary-icon_with-car" />
           )}
-        </React.Fragment>
+        </Fragment>
       );
     }
     return (
-      <React.Fragment>
+      <Fragment>
         <IconWithIcon
           badgeFill={badgeFill}
           badgeText={badgeText}
@@ -135,7 +135,7 @@ export default function RouteNumber({
           />
         )}
         {withCar && <Icon img="icon_car" className="itinerary-icon_with-car" />}
-      </React.Fragment>
+      </Fragment>
     );
   };
 

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { CloseButton } from '@hsl-fi/layout-primitives';
 import Icon from '../../Icon';
 import StreetModeSelector from './StreetModeSelector';

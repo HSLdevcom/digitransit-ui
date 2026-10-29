@@ -193,7 +193,7 @@ export default {
             // Custom babel plugins opt out of plugin-react's automatic JSX
             // handling, so its JSX preset needs listing explicitly too.
             babel: {
-              presets: ['@babel/preset-react'],
+              presets: [['@babel/preset-react', { runtime: 'automatic' }]],
               plugins: ['inline-react-svg'],
             },
           }),

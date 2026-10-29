@@ -1,4 +1,3 @@
-import React from 'react';
 import { graphql, useFragment } from 'react-relay';
 import get from 'lodash/get';
 import { routeShape } from '../../../utils/client/shapes';

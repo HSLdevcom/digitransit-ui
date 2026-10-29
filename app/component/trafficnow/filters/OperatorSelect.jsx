@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import cx from 'classnames';
 import { useSelect, useTagGroup } from 'downshift';
 import { useIntl } from 'react-intl';

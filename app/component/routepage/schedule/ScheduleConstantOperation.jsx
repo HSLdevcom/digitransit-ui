@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { routeShape } from '../../../../utils/client/shapes';
 import RouteControlPanel from '../RouteControlPanel';
 

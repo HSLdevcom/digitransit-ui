@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import SettingsButton from './SettingsButton';
 import DatetimepickerContainer from '../DatetimepickerContainer';
 import { useConfigContext } from '../../client/ConfigContext';

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useMemo, useCallback, useRef } from 'react';
+import { useState, useMemo, useCallback, useRef } from 'react';
 import { DateTime } from 'luxon';
 
 import Select, { components as RSComponents } from 'react-select';

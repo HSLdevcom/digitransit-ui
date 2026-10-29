@@ -1,4 +1,3 @@
-import React from 'react';
 import Timetable from '../../../app/component/stop/Timetable';
 import { renderWithProviders } from '../helpers/mock-providers';
 import * as timetables from '../../../utils/server/timetableConfigUtils';

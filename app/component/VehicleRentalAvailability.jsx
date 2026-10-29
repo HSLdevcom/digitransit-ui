@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import { Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import Availability from './Availability';
@@ -48,7 +48,7 @@ const VehicleRentalAvailability = ({
             />
             {'\u00a0'}
             <span className="available-bikes">{available}</span>
-            {useSpacesAvailable && <React.Fragment>/{total}</React.Fragment>}
+            {useSpacesAvailable && <Fragment>/{total}</Fragment>}
           </p>
         ),
         showStatusBar: useSpacesAvailable,

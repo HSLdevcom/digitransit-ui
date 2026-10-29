@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { useIntl } from 'react-intl';
 import { useRouter } from 'found';

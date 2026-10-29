@@ -1,5 +1,4 @@
 import { FormattedMessage } from 'react-intl';
-import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {

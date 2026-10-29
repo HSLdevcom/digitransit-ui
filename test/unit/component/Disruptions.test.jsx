@@ -1,4 +1,3 @@
-import React from 'react';
 import { DateTime } from 'luxon';
 
 import { renderWithProviders } from '../helpers/mock-providers';

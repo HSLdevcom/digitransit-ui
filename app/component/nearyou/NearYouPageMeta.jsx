@@ -1,4 +1,3 @@
-import React from 'react';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { useMatch } from 'found';

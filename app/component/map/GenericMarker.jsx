@@ -1,6 +1,6 @@
 import isFunction from 'lodash/isFunction';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { withLeaflet } from 'react-leaflet/es/context';
 import Marker from 'react-leaflet/es/Marker';
 import Popup from 'react-leaflet/es/Popup';

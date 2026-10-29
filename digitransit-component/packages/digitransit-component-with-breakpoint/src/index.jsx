@@ -1,6 +1,10 @@
 /* eslint-disable max-classes-per-file */
 /* eslint-disable react/no-multi-comp */
-import React, { createContext } from 'react';
+import {
+  createContext,
+  Component as ReactComponent,
+  forwardRef as reactForwardRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import hoistNonReactStatics from 'hoist-non-react-statics';
@@ -24,7 +28,7 @@ export function getServerBreakpoint(userAgent) {
     : 'large';
 }
 
-export class ClientProvider extends React.Component {
+export class ClientProvider extends ReactComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     serverGuessedBreakpoint: PropTypes.string,
@@ -98,7 +102,7 @@ function getDisplayName(Component) {
  * removed in a future release.
  */
 function withBreakpoint(Component, { forwardRef } = { forwardRef: false }) {
-  class WithBreakpoint extends React.Component {
+  class WithBreakpoint extends ReactComponent {
     render() {
       // eslint-disable-next-line react/prop-types
       const { breakpoint, forwardedRef, ...rest } = this.props;
@@ -109,7 +113,7 @@ function withBreakpoint(Component, { forwardRef } = { forwardRef: false }) {
   hoistNonReactStatics(WithBreakpoint, Component);
 
   return forwardRef
-    ? React.forwardRef((props, ref) => (
+    ? reactForwardRef((props, ref) => (
         <Consumer>
           {breakpoint => (
             <WithBreakpoint

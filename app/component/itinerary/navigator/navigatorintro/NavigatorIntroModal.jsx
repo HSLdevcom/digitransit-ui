@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import getAssetUrl from '../../../../assets/assetUrl';
 import NavigatorModal from '../NavigatorModal';
 import NavigatorIntro from './NavigatorIntro';

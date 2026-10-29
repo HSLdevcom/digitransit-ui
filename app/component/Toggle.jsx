@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const Toggle = forwardRef(function Toggle(
   { toggled = true, title, onToggle, id },

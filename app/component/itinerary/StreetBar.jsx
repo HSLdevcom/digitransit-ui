@@ -1,6 +1,5 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { legShape } from '../../../utils/client/shapes';
 import RouteNumber from '../RouteNumber';
 import {

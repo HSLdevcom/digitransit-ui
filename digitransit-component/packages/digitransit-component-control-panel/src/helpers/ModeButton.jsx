@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Shimmer from '@hsl-fi/shimmer';
 import NearYouButton from './NearYouButton';

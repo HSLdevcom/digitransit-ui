@@ -1,7 +1,6 @@
 import Modal from '@hsl-fi/modal';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 const NavigatorModal = ({
   withBackdrop = false,

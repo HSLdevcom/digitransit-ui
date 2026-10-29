@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import MapBottomsheetContext from './MapBottomsheetContext';
 import Map from './Map';
 import { useConfigContext } from '../../client/ConfigContext';

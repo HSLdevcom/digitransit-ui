@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent } from '@testing-library/react';
 
 import { component as Itinerary } from '../../../../../app/component/itinerary/Itinerary';

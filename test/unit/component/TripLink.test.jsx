@@ -1,4 +1,3 @@
-import React from 'react';
 import { ReactRelayContext } from 'react-relay';
 import { renderWithProviders } from '../helpers/mock-providers';
 import TripLink from '../../../app/component/routepage/TripLink';

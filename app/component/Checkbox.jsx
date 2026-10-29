@@ -1,7 +1,6 @@
 import cx from 'classnames';
 import uniqueId from 'lodash/uniqueId';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useIntl } from 'react-intl';
 import Message from './Message';
 

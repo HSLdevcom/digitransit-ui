@@ -1,4 +1,3 @@
-import React from 'react';
 import { vehicleRentalStationShape } from '../../utils/client/shapes';
 import VehicleRentalAvailability from './VehicleRentalAvailability';
 import Icon from './Icon';

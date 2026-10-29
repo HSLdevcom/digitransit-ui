@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Supercluster from 'supercluster';
 import { withLeaflet } from 'react-leaflet';
 import polyUtil from 'polyline-encoded';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { getMiddleOf } from '../../../utils/shared/geo-utils';
 import {

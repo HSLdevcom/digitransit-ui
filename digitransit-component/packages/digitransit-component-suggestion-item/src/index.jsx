@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
-import React, { useState, memo } from 'react';
+import { useState, memo } from 'react';
 import cx from 'classnames';
 import Icon, {
   defaultColors,

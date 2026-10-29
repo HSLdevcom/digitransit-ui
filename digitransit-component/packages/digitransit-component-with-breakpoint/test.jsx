@@ -1,5 +1,4 @@
 import { describe, it, expect, afterEach } from 'vitest';
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import withBreakpoint, {
   getClientBreakpoint,

@@ -2,7 +2,6 @@
 import cx from 'classnames';
 import { Link } from 'found';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useIntl } from 'react-intl';
 import {
   alertSeverityCompare,

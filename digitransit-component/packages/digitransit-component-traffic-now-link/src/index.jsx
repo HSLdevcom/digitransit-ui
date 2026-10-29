@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useTranslation, I18nextProvider } from 'react-i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import i18n from './helpers/i18n';

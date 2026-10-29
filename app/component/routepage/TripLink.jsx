@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { QueryRenderer, graphql } from 'react-relay';
 import Link from 'found/Link';
 import cx from 'classnames';

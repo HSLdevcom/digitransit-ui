@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { useRouter } from 'found';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { onLocationPopup } from '../../../utils/client/queryUtils';
 import { useConfigContext } from '../../client/ConfigContext';
 import {

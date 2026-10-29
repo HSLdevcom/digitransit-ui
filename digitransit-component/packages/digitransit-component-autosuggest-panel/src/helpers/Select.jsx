@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import React from 'react';
 import { useSelect } from 'downshift';
 import styles from './select.scss';
 

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import get from 'lodash/get';
 import { useRouter } from 'found';
 import { useIntl } from 'react-intl';

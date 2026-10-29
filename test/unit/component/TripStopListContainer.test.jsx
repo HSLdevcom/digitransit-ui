@@ -1,4 +1,3 @@
-import React from 'react';
 import { Component as TripStopListContainer } from '../../../app/component/routepage/TripStopListContainer';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { mockContext } from '../helpers/mock-context';

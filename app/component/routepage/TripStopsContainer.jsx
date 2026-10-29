@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useRef, memo } from 'react';
+import { useState, useRef, memo } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import cx from 'classnames';
 import debounce from 'lodash/debounce';

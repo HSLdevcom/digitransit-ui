@@ -1,4 +1,3 @@
-import React from 'react';
 import { waitFor, act } from '@testing-library/react';
 
 import {

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import cx from 'classnames';
 import groupBy from 'lodash/groupBy';

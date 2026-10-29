@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import StopCode from './StopCode';
 import { useBreakpoint } from '../../utils/client/withBreakpoint';

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { DateTime } from 'luxon';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { useRouter } from 'found';

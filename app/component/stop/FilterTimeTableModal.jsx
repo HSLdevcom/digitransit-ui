@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { CheckboxGroup } from '@hsl-fi/form';

@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { default as L } from 'leaflet';
 import { useConfigContext } from '../../client/ConfigContext';

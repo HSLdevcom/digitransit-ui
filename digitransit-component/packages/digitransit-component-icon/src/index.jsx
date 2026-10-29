@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import Arrow from './assets/arrow.svg';
 import Check from './assets/check.svg';
 import City from './assets/city.svg';

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import sortBy from 'lodash/sortBy';
 import { useRouter } from 'found';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { renderWithProviders } from '../helpers/mock-providers';
 import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';
 import TransitLeg from '../../../app/component/itinerary/TransitLeg';

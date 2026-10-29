@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
 import { relayShape } from '../../utils/client/shapes';

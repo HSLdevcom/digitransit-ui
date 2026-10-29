@@ -1,4 +1,3 @@
-import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import CardHeader from '../../../app/component/CardHeader';
 import ExternalLink from '../../../app/component/ExternalLink';

@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
 import { useIntl } from 'react-intl';

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import DisruptionInfoButton from './DisruptionInfoButton';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useIntl } from 'react-intl';
 import { uniq } from 'lodash';
 import groupBy from 'lodash/groupBy';
