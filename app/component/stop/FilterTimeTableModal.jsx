@@ -11,7 +11,10 @@ import {
 } from '../../../utils/client/modeUtils';
 import { stopShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { getDepartureHeadsigns, getDepartureStoptimes } from './timetableUtils';
+import {
+  getDepartureHeadsigns,
+  getDepartureStoptimes,
+} from '../../../utils/client/patternUtils';
 
 export default function FilterTimeTableModal({
   stop,

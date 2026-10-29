@@ -26,7 +26,7 @@ import { PREFIX_STOPS } from '../../../utils/shared/path';
 import { TimetableFragment } from './queries/TimetableFragment';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
-import { getDepartureStoptimes } from './timetableUtils';
+import { getDepartureStoptimes } from '../../../utils/client/patternUtils';
 
 const mapStopTimes = stoptimesObject =>
   stoptimesObject

@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   getDepartureHeadsigns,
   getDepartureStoptimes,
-} from '../../../app/component/stop/timetableUtils';
+} from '../../../../utils/client/patternUtils';
 
 const st = (headsign, pickupType, stopPositionInPattern = 0) => ({
   headsign,
@@ -10,7 +10,7 @@ const st = (headsign, pickupType, stopPositionInPattern = 0) => ({
   stopPositionInPattern,
 });
 
-describe('timetableUtils', () => {
+describe('patternUtils', () => {
   const pattern = {
     headsign: 'Kauppatori',
     stops: [{ gtfsId: 'X:1' }, { gtfsId: 'X:2' }],
