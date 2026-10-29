@@ -114,8 +114,6 @@ export default function VehicleMarker({
   );
 }
 
-VehicleMarker.displayName = 'VehicleMarker';
-
 VehicleMarker.propTypes = {
   showBikeAvailability: PropTypes.bool,
   rental: PropTypes.oneOfType([vehicleRentalStationShape, rentalVehicleShape])

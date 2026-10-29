@@ -52,11 +52,11 @@ const printRouteTimetable = e => {
  * It handles data fetching and state management for the schedule,
  * and renders the header, trip list, date selector, and action buttons.
  */
-const ScheduleContainer = ({
+export default function ScheduleContainer({
   pattern: patternRef,
   route: routeRef,
   firstDepartures: firstDeparturesRef,
-}) => {
+}) {
   const breakpoint = useBreakpoint();
   const pattern = useFragment(SchedulePatternFragment, patternRef);
   const route = useFragment(ScheduleRouteFragment, routeRef);
@@ -303,7 +303,7 @@ const ScheduleContainer = ({
       </div>
     </div>
   );
-};
+}
 
 ScheduleContainer.propTypes = {
   pattern: fragmentRefShape.isRequired,
@@ -311,7 +311,4 @@ ScheduleContainer.propTypes = {
   firstDepartures: fragmentRefShape.isRequired,
 };
 
-ScheduleContainer.displayName = 'ScheduleContainer';
-
 export { ScheduleContainer as Component };
-export default ScheduleContainer;

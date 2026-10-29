@@ -39,7 +39,7 @@ function getDepartureTime(stoptime) {
   );
 }
 
-const RouteStop = ({
+export default function RouteStop({
   className,
   color,
   currentTime,
@@ -55,7 +55,7 @@ const RouteStop = ({
   hideDepartures = false,
   loop = false,
   singleLoop = false,
-}) => {
+}) {
   const config = useConfigContext();
   const intl = useIntl();
   const stopStatus = getStopStatusFromStopData({
@@ -356,7 +356,7 @@ const RouteStop = ({
       </div>
     </li>
   );
-};
+}
 
 RouteStop.propTypes = {
   color: PropTypes.string,
@@ -396,5 +396,3 @@ RouteStop.propTypes = {
   loop: PropTypes.bool,
   singleLoop: PropTypes.bool,
 };
-
-export default RouteStop;

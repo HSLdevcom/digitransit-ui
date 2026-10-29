@@ -3,7 +3,7 @@ import { VectorTile } from '@mapbox/vector-tile';
 import { fetchWithLanguageAndSubscription } from '../../../../utils/shared/fetchUtils';
 import { getLayerBaseUrl } from '../../../../utils/client/mapLayerUtils';
 
-class AreaStops {
+export default class AreaStops {
   constructor(tile, config, mapLayers, relayEnvironment) {
     this.tile = tile;
     this.config = config;
@@ -82,5 +82,3 @@ class AreaStops {
     });
   }
 }
-
-export default AreaStops;

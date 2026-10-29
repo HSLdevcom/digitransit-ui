@@ -9,6 +9,10 @@ describe('<Icon />', () => {
   const id = 'foo_id';
   const img = 'icon_bus';
 
+  it('preserves the React display label through its function name', () => {
+    expect(Icon.displayName || Icon.name).toBe('Icon');
+  });
+
   it('should include a circle as part of the svg render', () => {
     const { container } = render(
       <Icon

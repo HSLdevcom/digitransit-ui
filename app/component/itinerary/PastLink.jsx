@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { useMatch } from 'found';
 
-const PastLink = () => {
+export default function PastLink() {
   const match = useMatch();
   return (
     <div>
@@ -15,6 +15,4 @@ const PastLink = () => {
       </a>
     </div>
   );
-};
-
-export default PastLink;
+}

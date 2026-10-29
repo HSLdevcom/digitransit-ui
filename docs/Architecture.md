@@ -10,6 +10,8 @@ Digitransit-ui is a React based web application. The following bullet points des
 
 ## Additions to Airbnb style guide
  - Use object property spread instead of `Object.assign` when creating new objects: *not* `Object.assign({}, {state}, {a: 1, b: 2})`, but *instead* `{...state, a: 1, b: 2}`
+ - Prefer named default function and class declarations (`export default function Component()`) over separate trailing default exports. Keep separate exports when needed for wrappers, singleton instances, or other values.
+ - Omit redundant React `displayName` assignments when the function name already provides the same label. Keep names needed for anonymous wrappers and intentional aliases.
 
 ## Components
   - Components are function components that fetch data and manage state with hooks

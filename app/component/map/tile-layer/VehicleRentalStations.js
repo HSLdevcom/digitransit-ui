@@ -32,7 +32,7 @@ const query = graphql`
 
 const REALTIME_REFETCH_FREQUENCY = 60000; // 60 seconds
 
-class VehicleRentalStations {
+export default class VehicleRentalStations {
   constructor(tile, config, mapLayers, relayEnvironment) {
     this.tile = tile;
     this.config = config;
@@ -215,5 +215,3 @@ class VehicleRentalStations {
 
   static getName = () => 'citybike';
 }
-
-export default VehicleRentalStations;

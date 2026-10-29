@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
-function Availability({
+export default function Availability({
   total,
   available,
   fewAvailableCount,
@@ -54,8 +54,6 @@ function Availability({
   );
 }
 
-Availability.displayName = 'Availability';
-
 Availability.propTypes = {
   available: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
@@ -64,5 +62,3 @@ Availability.propTypes = {
   text: PropTypes.node.isRequired,
   showStatusBar: PropTypes.bool.isRequired,
 };
-
-export default Availability;

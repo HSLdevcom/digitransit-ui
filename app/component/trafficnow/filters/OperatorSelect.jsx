@@ -171,7 +171,7 @@ OperatorSelectDropdown.propTypes = {
   itemToString: PropTypes.func.isRequired,
 };
 
-function OperatorSelect() {
+export default function OperatorSelect() {
   const { feedIds = [], sourceForAlertsAndDisruptions = {} } =
     useConfigContext();
   const { locale } = useIntl();
@@ -197,5 +197,3 @@ function OperatorSelect() {
     )
   );
 }
-
-export default OperatorSelect;

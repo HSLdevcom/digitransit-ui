@@ -11,7 +11,7 @@ import { legShape } from '../../../utils/client/shapes';
  * @param {Object} props.leg - The transit leg object.
  * @return {React.Element|null} The boarding information element or null if no platform code.
  */
-function BoardingInformation({ leg }) {
+export default function BoardingInformation({ leg }) {
   const platformChanged = isPlatformChanged(leg);
   const platformCode = leg?.from?.stop?.platformCode;
   if (platformCode) {
@@ -40,5 +40,3 @@ function BoardingInformation({ leg }) {
 BoardingInformation.propTypes = {
   leg: legShape.isRequired,
 };
-
-export default BoardingInformation;

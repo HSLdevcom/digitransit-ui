@@ -7,7 +7,7 @@ import NaviIndoorButton from './NaviIndoorButton';
 import NaviIndoorContainer from './NaviIndoorContainer';
 import { NaviCardType } from '../../../../../utils/shared/constants';
 
-function NaviIndoorCard({
+export default function NaviIndoorCard({
   setCurrentCard,
   previousLeg,
   leg,
@@ -46,5 +46,3 @@ NaviIndoorCard.propTypes = {
   leg: legShape,
   nextLeg: legShape,
 };
-
-export default NaviIndoorCard;

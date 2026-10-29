@@ -30,7 +30,7 @@ import {
 import { getIndoorLegType } from '../../../../utils/client/indoorUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
-const NaviCardExtension = ({
+export default function NaviCardExtension({
   focusToPoint,
   legType = '',
   previousLeg,
@@ -40,7 +40,7 @@ const NaviCardExtension = ({
   platformUpdated = false,
   currentCard = NaviCardType.Default,
   setCurrentCard,
-}) => {
+}) {
   const config = useConfigContext();
   const intl = useIntl();
   const { stop, name, rentalVehicle, vehicleParking, vehicleRentalStation } =
@@ -238,7 +238,7 @@ const NaviCardExtension = ({
       {stopInformation(true)}
     </div>
   );
-};
+}
 NaviCardExtension.propTypes = {
   focusToPoint: PropTypes.func.isRequired,
   previousLeg: legShape,
@@ -250,5 +250,3 @@ NaviCardExtension.propTypes = {
   currentCard: PropTypes.oneOf(Object.values(NaviCardType)),
   setCurrentCard: PropTypes.func.isRequired,
 };
-
-export default NaviCardExtension;

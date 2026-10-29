@@ -52,7 +52,14 @@ const ICON_NAMES = Object.keys(ICON_MAP);
  * This component is the single place responsible for @hsl-fi/icons imports.
  * Usage sites should never import from @hsl-fi/icons directly.
  */
-function ThemedIcon({ name, size, customColor, className, style, ...rest }) {
+export default function ThemedIcon({
+  name,
+  size,
+  customColor,
+  className,
+  style,
+  ...rest
+}) {
   const config = useConfigContext();
   const { hslFiIcon, fallbackImg } = ICON_MAP[name];
 
@@ -105,5 +112,3 @@ ThemedIcon.propTypes = {
     PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   ),
 };
-
-export default ThemedIcon;

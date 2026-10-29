@@ -71,7 +71,7 @@ const translations = {
  *  optimized for widths 320px, 360px and  640px, and height 250px.
  *
  */
-const EmbeddedSearch = props => {
+export default function EmbeddedSearch(props) {
   const config = useConfigContext();
   const { query } = props.match.location;
   const { colors } = config;
@@ -334,10 +334,8 @@ const EmbeddedSearch = props => {
       </div>
     </div>
   );
-};
+}
 
 EmbeddedSearch.propTypes = {
   match: matchShape.isRequired,
 };
-
-export default EmbeddedSearch;

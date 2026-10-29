@@ -3,7 +3,7 @@
  *
  * @return {boolean}
  */
-function dateTimeInputIsSupported() {
+export default function dateTimeInputIsSupported() {
   if (typeof window === 'undefined' || window === null) {
     return false;
   }
@@ -18,5 +18,3 @@ function dateTimeInputIsSupported() {
   }
   return true;
 }
-
-export default dateTimeInputIsSupported;

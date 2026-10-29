@@ -42,7 +42,7 @@ function renderOpeningHours(s, dotted) {
   return translated;
 }
 
-function ParkAndRideContent({
+export default function ParkAndRideContent({
   vehicleParking,
   error,
   mode,
@@ -224,5 +224,3 @@ ParkAndRideContent.propTypes = {
   showDetails: PropTypes.bool,
   backButton: PropTypes.bool,
 };
-
-export default ParkAndRideContent;

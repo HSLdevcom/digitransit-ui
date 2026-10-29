@@ -37,7 +37,7 @@ const markLocation = (markerType, position) => {
   return null;
 };
 
-function SelectFromMap({ language, type, onConfirm }) {
+export default function SelectFromMap({ language, type, onConfirm }) {
   const config = useConfigContext();
   const breakpoint = useBreakpoint();
   const { mapLayers } = useMapLayers({
@@ -306,5 +306,3 @@ SelectFromMap.propTypes = {
   type: PropTypes.string.isRequired,
   onConfirm: PropTypes.func.isRequired,
 };
-
-export default SelectFromMap;

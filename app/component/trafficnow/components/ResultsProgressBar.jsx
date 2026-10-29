@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ResultsProgressBar = ({ currentAmount, totalAmount }) => {
+export default function ResultsProgressBar({ currentAmount, totalAmount }) {
   const percentage =
     totalAmount > 0 ? Math.min((currentAmount / totalAmount) * 100, 100) : 0;
 
@@ -30,11 +30,9 @@ const ResultsProgressBar = ({ currentAmount, totalAmount }) => {
       />
     </div>
   );
-};
+}
 
 ResultsProgressBar.propTypes = {
   currentAmount: PropTypes.number.isRequired,
   totalAmount: PropTypes.number.isRequired,
 };
-
-export default ResultsProgressBar;

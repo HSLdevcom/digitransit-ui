@@ -52,7 +52,7 @@ PatternRedirector.propTypes = {
   route: routeShape.isRequired,
 };
 
-const PatternRedirectorGuard = ({ route: routeRef = null }) => {
+export default function PatternRedirectorGuard({ route: routeRef = null }) {
   const { match } = useRouter();
   const route = useFragment(PatternRedirectorFragment, routeRef);
   if (!route) {
@@ -76,10 +76,8 @@ const PatternRedirectorGuard = ({ route: routeRef = null }) => {
     return <Error404 />;
   }
   return <PatternRedirector route={route} />;
-};
+}
 
 PatternRedirectorGuard.propTypes = {
   route: fragmentRefShape,
 };
-
-export default PatternRedirectorGuard;

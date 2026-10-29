@@ -4,7 +4,12 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
 
-const TimetableRow = ({ title, stoptimes, showRoutes = [], timerows = [] }) => {
+export default function TimetableRow({
+  title,
+  stoptimes,
+  showRoutes = [],
+  timerows = [],
+}) {
   const intl = useIntl();
   return (
     <div
@@ -60,7 +65,7 @@ const TimetableRow = ({ title, stoptimes, showRoutes = [], timerows = [] }) => {
       </div>
     </div>
   );
-};
+}
 
 TimetableRow.propTypes = {
   title: PropTypes.string.isRequired,
@@ -75,5 +80,3 @@ TimetableRow.propTypes = {
   showRoutes: PropTypes.arrayOf(PropTypes.string),
   timerows: PropTypes.arrayOf(PropTypes.string),
 };
-
-export default TimetableRow;

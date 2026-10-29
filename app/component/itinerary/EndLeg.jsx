@@ -11,7 +11,7 @@ import { timeStr } from '../../../utils/client/timeUtils';
 import { getValidatedLegName } from '../../../utils/client/legUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function EndLeg(props) {
+export default function EndLeg(props) {
   const match = useMatch();
   const intl = useIntl();
   const parsedAddress = parseLocation(match.params.to).address;
@@ -76,5 +76,3 @@ EndLeg.propTypes = {
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
 };
-
-export default EndLeg;

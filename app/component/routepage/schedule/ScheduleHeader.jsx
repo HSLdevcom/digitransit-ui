@@ -20,7 +20,7 @@ export const getScheduleHeaderOptions = (stops, from, to) => {
  * Header component for route schedules with origin/destination selection.
  * Includes printable stop headers for the print view.
  */
-function ScheduleHeader({
+export default function ScheduleHeader({
   stops,
   from,
   to,
@@ -64,7 +64,3 @@ ScheduleHeader.propTypes = {
   onFromSelectChange: PropTypes.func.isRequired,
   onToSelectChange: PropTypes.func.isRequired,
 };
-
-ScheduleHeader.displayName = 'ScheduleHeader';
-
-export default ScheduleHeader;

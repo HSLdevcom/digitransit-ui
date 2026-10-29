@@ -8,7 +8,7 @@ import { default as L } from 'leaflet';
 import { locationShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-function GenericMarker({
+export default function GenericMarker({
   shouldRender = () => true,
   position,
   getIcon,
@@ -82,8 +82,6 @@ function GenericMarker({
   );
 }
 
-GenericMarker.displayName = 'GenericMarker';
-
 GenericMarker.propTypes = {
   shouldRender: PropTypes.func,
   position: locationShape.isRequired,
@@ -96,5 +94,3 @@ GenericMarker.propTypes = {
   onClick: PropTypes.func,
   zIndexOffset: PropTypes.number,
 };
-
-export default GenericMarker;

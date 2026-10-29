@@ -7,7 +7,7 @@ import { itineraryShape } from '../../../utils/client/shapes';
 
 const EMPTY_SUMMARY = {};
 
-function ItinerarySummary({
+export default function ItinerarySummary({
   itinerary,
   walking = EMPTY_SUMMARY,
   biking = EMPTY_SUMMARY,
@@ -77,7 +77,3 @@ ItinerarySummary.propTypes = {
   isMobile: PropTypes.bool,
   hideBottomDivider: PropTypes.bool,
 };
-
-ItinerarySummary.displayName = 'ItinerarySummary';
-
-export default ItinerarySummary;

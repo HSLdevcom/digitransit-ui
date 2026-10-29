@@ -4,7 +4,10 @@ import React from 'react';
 /**
  * Shown for routes that operate 24/7 instead of a timetable list.
  */
-const ScheduleConstantOperation = ({ constantOperationInfo, breakpoint }) => {
+export default function ScheduleConstantOperation({
+  constantOperationInfo,
+  breakpoint,
+}) {
   return (
     <div
       className={`route-schedule-container ${
@@ -26,7 +29,7 @@ const ScheduleConstantOperation = ({ constantOperationInfo, breakpoint }) => {
       </div>
     </div>
   );
-};
+}
 
 ScheduleConstantOperation.propTypes = {
   constantOperationInfo: PropTypes.shape({
@@ -35,5 +38,3 @@ ScheduleConstantOperation.propTypes = {
   }).isRequired,
   breakpoint: PropTypes.string.isRequired,
 };
-
-export default ScheduleConstantOperation;

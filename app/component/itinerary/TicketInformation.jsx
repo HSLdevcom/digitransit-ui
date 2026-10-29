@@ -115,5 +115,3 @@ TicketInformation.propTypes = {
   zones: PropTypes.arrayOf(PropTypes.string),
   ticketLink: PropTypes.string,
 };
-
-TicketInformation.displayName = 'TicketInformation';

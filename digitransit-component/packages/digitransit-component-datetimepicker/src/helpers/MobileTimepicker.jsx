@@ -8,7 +8,7 @@ import { parseTypedTime, getTs, validateInput } from './utils';
 /**
  * Component to display a time input on mobile
  */
-function MobileTimepicker({
+export default function MobileTimepicker({
   value,
   getDisplay,
   onChange,
@@ -77,5 +77,3 @@ MobileTimepicker.propTypes = {
   icon: PropTypes.node,
   timeZone: PropTypes.string,
 };
-
-export default MobileTimepicker;

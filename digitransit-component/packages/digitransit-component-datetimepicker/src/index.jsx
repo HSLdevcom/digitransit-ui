@@ -43,7 +43,7 @@ import i18n from './helpers/i18n';
  *   serviceTimeRange={15}
  * />
  */
-function DatetimepickerStateContainer({
+export default function DatetimepickerStateContainer({
   realtime = false,
   initialArriveBy,
   initialTimestamp,
@@ -210,5 +210,3 @@ DatetimepickerStateContainer.propTypes = {
   onClose: PropTypes.func,
   openPicker: PropTypes.bool,
 };
-
-export default DatetimepickerStateContainer;

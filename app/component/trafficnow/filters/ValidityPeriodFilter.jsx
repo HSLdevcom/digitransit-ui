@@ -9,7 +9,7 @@ const FILTER_OPTIONS = [
   { value: 'UPCOMING', labelId: 'upcoming' },
 ];
 
-const ValidityPeriodFilter = ({ filterId }) => {
+export default function ValidityPeriodFilter({ filterId }) {
   const { selectedFilters, setFilter } = useFilterContext();
 
   return (
@@ -39,10 +39,8 @@ const ValidityPeriodFilter = ({ filterId }) => {
       ))}
     </fieldset>
   );
-};
+}
 
 ValidityPeriodFilter.propTypes = {
   filterId: PropTypes.string.isRequired,
 };
-
-export default ValidityPeriodFilter;

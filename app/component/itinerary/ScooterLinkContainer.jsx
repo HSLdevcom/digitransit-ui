@@ -13,7 +13,10 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 import Icon from '../Icon';
 import ExternalLink from '../ExternalLink';
 
-function ScooterLinkContainer({ rentalVehicle, mobileReturn = false }) {
+export default function ScooterLinkContainer({
+  rentalVehicle,
+  mobileReturn = false,
+}) {
   const config = useConfigContext();
   const { language } = config;
 
@@ -86,5 +89,3 @@ ScooterLinkContainer.propTypes = {
   rentalVehicle: rentalVehicleShape.isRequired,
   mobileReturn: PropTypes.bool,
 };
-
-export default ScooterLinkContainer;

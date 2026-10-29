@@ -9,7 +9,7 @@ import AppBarHsl from './AppBarHsl';
 import CrisisBannerHsl from './CrisisBannerHsl';
 import MessageBar from './MessageBar';
 
-const AppBarContainer = ({ homeUrl, logo, style, ...args }) => {
+export default function AppBarContainer({ homeUrl, logo, style, ...args }) {
   const breakpoint = useBreakpoint();
   const { match, router } = useRouter();
   const favourites = useFavourites();
@@ -55,12 +55,10 @@ const AppBarContainer = ({ homeUrl, logo, style, ...args }) => {
       )}
     </>
   );
-};
+}
 
 AppBarContainer.propTypes = {
   homeUrl: PropTypes.string.isRequired,
   logo: PropTypes.string,
   style: PropTypes.string.isRequired,
 };
-
-export default AppBarContainer;

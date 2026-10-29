@@ -21,7 +21,10 @@ import { useConfigContext } from '../hooks/ConfigContext';
 
 const AutoSuggestWithSearchContext = withSearchContext(AutoSuggest);
 
-function FavouritesContainer({ onClickFavourite, isMobile = false }) {
+export default function FavouritesContainer({
+  onClickFavourite,
+  isMobile = false,
+}) {
   const intl = useIntl();
   const config = useConfigContext();
   const favourites = useFavourites();
@@ -259,5 +262,3 @@ FavouritesContainer.propTypes = {
   onClickFavourite: PropTypes.func.isRequired,
   isMobile: PropTypes.bool,
 };
-
-export default FavouritesContainer;

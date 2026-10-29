@@ -26,7 +26,7 @@ Settings.defaultLocale = 'en';
  * @param {function} props.getDateDisplay Called to get the display string for a given date
  * @returns {JSX.Element}
  */
-function MobilePickerModal({
+export default function MobilePickerModal({
   departureOrArrival,
   onNowClick,
   lang,
@@ -214,5 +214,3 @@ MobilePickerModal.propTypes = {
   dateSelectItemCount: PropTypes.number.isRequired,
   getDateDisplay: PropTypes.func.isRequired,
 };
-
-export default MobilePickerModal;

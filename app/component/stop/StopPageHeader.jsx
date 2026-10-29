@@ -4,7 +4,7 @@ import StopCardHeaderContainer from './StopCardHeaderContainer';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { stopShape, stationShape } from '../../../utils/client/shapes';
 
-function StopPageHeader({ stop, station, isTerminal = false }) {
+export default function StopPageHeader({ stop, station, isTerminal = false }) {
   const breakpoint = useBreakpoint();
   const props = {
     stop: stop || station,
@@ -22,5 +22,3 @@ StopPageHeader.propTypes = {
   station: stationShape,
   isTerminal: PropTypes.bool,
 };
-
-export default StopPageHeader;

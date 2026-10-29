@@ -4,7 +4,7 @@ import Loading from './Loading';
 import { locationToUri } from '../../utils/shared/otpStrings';
 import { usePosition, usePositionActions } from '../hooks/PositionContext';
 
-function Geolocator({ createReturnPath, path, match, router }) {
+export default function Geolocator({ createReturnPath, path, match, router }) {
   const locationState = usePosition();
   const { startLocationWatch } = usePositionActions();
   const { from, to, hash, secondHash } = match.params;
@@ -88,5 +88,3 @@ Geolocator.propTypes = {
   path: PropTypes.string.isRequired,
   createReturnPath: PropTypes.func.isRequired,
 };
-
-export default Geolocator;

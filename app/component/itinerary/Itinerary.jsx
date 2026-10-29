@@ -72,7 +72,7 @@ const getBikeParkedIndex = legs => {
   return legs.length;
 };
 
-const Itinerary = ({
+export default function Itinerary({
   itinerary: itineraryRef,
   intermediatePlaces = [],
   hideSelectionIndicator = true,
@@ -80,7 +80,7 @@ const Itinerary = ({
   passive = false,
   focusToHeader,
   ...props
-}) => {
+}) {
   const intl = useIntl();
   const config = useConfigContext();
   const { formatMessage } = intl;
@@ -788,7 +788,7 @@ const Itinerary = ({
       </div>
     </div>
   );
-};
+}
 
 Itinerary.propTypes = {
   itinerary: itineraryShape.isRequired,
@@ -804,5 +804,3 @@ Itinerary.propTypes = {
   feedback: PropTypes.bool,
   giveFeedback: PropTypes.func,
 };
-
-export default Itinerary;

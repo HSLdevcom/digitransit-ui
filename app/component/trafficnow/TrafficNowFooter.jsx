@@ -210,7 +210,7 @@ const buildFooterData = (rootLink, lang) => ({
   },
 });
 
-const TrafficNowFooter = () => {
+export default function TrafficNowFooter() {
   const {
     CONFIG,
     language,
@@ -235,6 +235,4 @@ const TrafficNowFooter = () => {
       // variant="compact" // use the simple bottom bar footer without link columns and app promotion
     />
   );
-};
-
-export default TrafficNowFooter;
+}

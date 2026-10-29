@@ -6,7 +6,7 @@ import { stopShape } from '../../../utils/client/shapes';
 import { generateMetaData } from '../../../utils/client/metaUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-function StopPageMeta({ stop: stopRef }) {
+export default function StopPageMeta({ stop: stopRef }) {
   const config = useConfigContext();
   const stop = useFragment(
     graphql`
@@ -50,5 +50,3 @@ function StopPageMeta({ stop: stopRef }) {
 StopPageMeta.propTypes = {
   stop: stopShape.isRequired,
 };
-
-export default StopPageMeta;

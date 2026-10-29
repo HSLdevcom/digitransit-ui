@@ -15,7 +15,7 @@ import {
 let focus = {};
 const mwtProps = {};
 
-function IndexPageMap() {
+export default function IndexPageMap() {
   const config = useConfigContext();
   const { mapLayers } = useMapLayers();
   const match = useMatch();
@@ -94,5 +94,3 @@ function IndexPageMap() {
     </>
   );
 }
-
-export default IndexPageMap;

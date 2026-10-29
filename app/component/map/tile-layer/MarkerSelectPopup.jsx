@@ -11,7 +11,7 @@ import {
   PREFIX_RENTALVEHICLES,
 } from '../../../../utils/shared/path';
 
-function MarkerSelectPopup({ options, zoom }) {
+export default function MarkerSelectPopup({ options, zoom }) {
   const intl = useIntl();
   const hasStop = () =>
     options.find(option => option.layer !== 'realTimeVehicle');
@@ -147,5 +147,3 @@ MarkerSelectPopup.propTypes = {
   selectRow: PropTypes.func.isRequired,
   zoom: PropTypes.number,
 };
-
-export default MarkerSelectPopup;

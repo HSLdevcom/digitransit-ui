@@ -23,7 +23,7 @@ const LEGLOG = false;
 const TOPBAR_PADDING = 8; // pixels
 const START_BUFFER = 120000; // 2 min in ms
 
-function NaviContainer({
+export default function NaviContainer({
   focusToLeg,
   focusToPoint,
   relayEnvironment,
@@ -224,5 +224,3 @@ NaviContainer.propTypes = {
   // eslint-disable-next-line
   settings: PropTypes.object.isRequired,
 };
-
-export default NaviContainer;

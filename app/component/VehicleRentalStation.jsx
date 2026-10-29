@@ -11,7 +11,7 @@ import {
 } from '../../utils/shared/vehicleRentalUtils';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-const VehicleRentalStation = ({ vehicleRentalStation }) => {
+export default function VehicleRentalStation({ vehicleRentalStation }) {
   const config = useConfigContext();
   const vehicleCapacity = getVehicleCapacity(
     config,
@@ -52,9 +52,8 @@ const VehicleRentalStation = ({ vehicleRentalStation }) => {
       />
     </div>
   );
-};
+}
 
 VehicleRentalStation.propTypes = {
   vehicleRentalStation: vehicleRentalStationShape.isRequired,
 };
-export default VehicleRentalStation;

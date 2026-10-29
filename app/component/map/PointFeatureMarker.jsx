@@ -115,14 +115,14 @@ export const getPopupHeaderValues = (feature, language) => {
   };
 };
 
-const PointFeatureMarker = ({
+export default function PointFeatureMarker({
   feature,
   icons = {},
   language,
   locationPopup,
   onSelectLocation,
   size = CUSTOM_ICON_SIZE,
-}) => {
+}) {
   const { geometry, properties } = feature;
   if (!isPointTypeGeometry(geometry)) {
     return null;
@@ -166,7 +166,7 @@ const PointFeatureMarker = ({
       </Card>
     </GenericMarker>
   );
-};
+}
 
 PointFeatureMarker.propTypes = {
   feature: PropTypes.shape({
@@ -192,5 +192,3 @@ PointFeatureMarker.propTypes = {
   onSelectLocation: PropTypes.func,
   size: PropTypes.number,
 };
-
-export default PointFeatureMarker;

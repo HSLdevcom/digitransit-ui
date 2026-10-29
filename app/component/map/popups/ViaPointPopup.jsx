@@ -17,7 +17,7 @@ const filterViaPoint = (allPoints, pointToRemove) => {
   );
 };
 
-function ViaPointPopup({ lat, lon }) {
+export default function ViaPointPopup({ lat, lon }) {
   const { router, match } = useRouter();
   const viaPoints = useViaPoints();
   const { setViaPoints } = useItineraryLocationActions();
@@ -66,5 +66,3 @@ ViaPointPopup.propTypes = {
   lat: PropTypes.number.isRequired,
   lon: PropTypes.number.isRequired,
 };
-
-export default ViaPointPopup;

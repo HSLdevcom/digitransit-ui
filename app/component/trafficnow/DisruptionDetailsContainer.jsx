@@ -13,7 +13,10 @@ import AlertsQuery from './queries/AlertsQuery';
 import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 import CTAContainer from './components/CTAContainer';
 
-const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {
+export default function DisruptionDetailsContainer({
+  alertId,
+  isMobile = false,
+}) {
   const config = useConfigContext();
   const { formatMessage } = useIntl();
   const { router } = useRouter();
@@ -137,11 +140,9 @@ const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {
       </div>
     </>
   );
-};
+}
 
 DisruptionDetailsContainer.propTypes = {
   alertId: PropTypes.string.isRequired,
   isMobile: PropTypes.bool,
 };
-
-export default DisruptionDetailsContainer;

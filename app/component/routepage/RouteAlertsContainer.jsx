@@ -66,7 +66,10 @@ const getCancelations = (route, pattern, entity, intl) => {
   });
 };
 
-function RouteAlertsContainer({ route: routeRef, pattern: patternRef }) {
+export default function RouteAlertsContainer({
+  route: routeRef,
+  pattern: patternRef,
+}) {
   const intl = useIntl();
 
   const route = useFragment(RouteAlertsContainerFragment.route, routeRef);
@@ -110,5 +113,3 @@ RouteAlertsContainer.propTypes = {
   route: fragmentRefShape.isRequired,
   pattern: fragmentRefShape.isRequired,
 };
-
-export default RouteAlertsContainer;
