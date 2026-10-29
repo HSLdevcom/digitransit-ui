@@ -117,7 +117,8 @@ async function init() {
 
   const environment = new Environment({
     network,
-    store: new Store(new RecordSource()),
+    // Default buffer of 10 evicts stop page data during normal browsing
+    store: new Store(new RecordSource(), { gcReleaseBufferSize: 100 }),
   });
 
   setRelayEnvironment(environment);
