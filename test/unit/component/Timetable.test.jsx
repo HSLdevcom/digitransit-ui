@@ -64,14 +64,15 @@ describe('<Timetable />', () => {
       headsign,
       scheduledDeparture,
       pickupType,
-      stopId,
+      position = 0,
     ) => ({
       headsign,
       pickupType,
+      stopPositionInPattern: position,
       realtimeState: 'SCHEDULED',
       scheduledDeparture,
       serviceDay: 1547071200,
-      stop: { gtfsId: stopId || `HSL:${stopIdNumber}` },
+      stop: { gtfsId: `HSL:${stopIdNumber}` },
     });
     const [base] = props.stop.stoptimesForServiceDate;
     const stop = {
@@ -83,7 +84,7 @@ describe('<Timetable />', () => {
             makeStoptime('Tuorsniemi', 32460, 'SCHEDULED'),
             makeStoptime('Leppäkorpi', 36060, 'SCHEDULED'),
             makeStoptime('Leppäkorpi', 39660, 'NONE'),
-            makeStoptime('Kamppi', 43260, 'SCHEDULED', 'HSL:last'),
+            makeStoptime('Kamppi', 43260, 'SCHEDULED', 1),
           ],
         },
       ],

@@ -4,10 +4,10 @@ import {
   getDepartureStoptimes,
 } from '../../../app/component/stop/timetableUtils';
 
-const st = (headsign, pickupType, gtfsId = 'X:1') => ({
+const st = (headsign, pickupType, stopPositionInPattern = 0) => ({
   headsign,
   pickupType,
-  stop: { gtfsId },
+  stopPositionInPattern,
 });
 
 describe('timetableUtils', () => {
@@ -20,11 +20,21 @@ describe('timetableUtils', () => {
     const times = [
       st('A', 'SCHEDULED'),
       st('B', 'NONE'),
-      st('C', 'SCHEDULED', 'X:2'),
+      st('C', 'SCHEDULED', 1),
     ];
     expect(getDepartureStoptimes({ pattern, stoptimes: times })).toEqual([
       times[0],
     ]);
+  });
+
+  it('keeps departures from a stop that is both first and last on a loop line', () => {
+    const loop = {
+      pattern: {
+        stops: [{ gtfsId: 'X:1' }, { gtfsId: 'X:2' }, { gtfsId: 'X:1' }],
+      },
+      stoptimes: [st('A', 'SCHEDULED', 0), st('A', 'SCHEDULED', 2)],
+    };
+    expect(getDepartureStoptimes(loop)).toEqual([loop.stoptimes[0]]);
   });
 
   it('lists distinct stop time headsigns, falling back to the pattern', () => {
