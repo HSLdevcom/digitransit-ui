@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import Popup from 'react-leaflet/es/Popup';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 // See test/unit/component/trafficnow/TrafficNow.test.jsx for why a default
 // import of 'react-relay/hooks' is used to get a stubbable live reference to
 // useLazyLoadQuery (shared with the 'react-relay' import TripLink uses).

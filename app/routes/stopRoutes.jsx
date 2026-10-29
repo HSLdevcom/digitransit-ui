@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, RedirectException } from 'found';
 import { graphql } from 'react-relay';
 

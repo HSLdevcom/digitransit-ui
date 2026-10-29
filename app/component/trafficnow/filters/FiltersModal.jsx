@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Modal from '@hsl-fi/modal';
 import { CloseButton } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';

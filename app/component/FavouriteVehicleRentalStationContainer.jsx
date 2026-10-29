@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import Favourite from './Favourite';
 import { getFavouriteByStationIdAndNetworks } from '../data/FavouriteData';

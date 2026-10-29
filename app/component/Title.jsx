@@ -1,4 +1,3 @@
-import React from 'react';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 const Title = () => {

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, cloneElement } from 'react';
 import ReactSwipe from 'react-swipe';
 import cx from 'classnames';
 import Icon from './Icon';
@@ -89,7 +89,7 @@ export default function SwipeableTabs({
 
   const disabled = tabs.length < 2;
   const tabsWithId = tabs.map((tab, i) =>
-    React.cloneElement(tab, {
+    cloneElement(tab, {
       id: `tabpanel-${i}`,
       role: 'tabpanel',
       'aria-labelledby': `tab-${i}`,

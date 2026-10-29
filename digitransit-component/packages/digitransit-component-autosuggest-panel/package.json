@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-autosuggest-panel",
-  "version": "13.0.1",
+  "version": "14.0.1",
   "description": "digitransit-component autosuggest-panel module",
   "type": "module",
   "main": "index.cjs",
@@ -42,6 +42,7 @@
   "peerDependencies": {
     "@digitransit-component/digitransit-component-autosuggest": "workspace:^",
     "@digitransit-component/digitransit-component-icon": "workspace:^",
+    "@dnd-kit/react": "^0.5.1",
     "@hsl-fi/sass": "^1.0.0",
     "classnames": "^2.5.1",
     "downshift": "^9.4.0",
@@ -49,7 +50,6 @@
     "lodash": "^4.18.1",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
-    "react-i18next": "^12.3.1",
-    "react-sortablejs": "^2.0.11"
+    "react-i18next": "^12.3.1"
   }
 }

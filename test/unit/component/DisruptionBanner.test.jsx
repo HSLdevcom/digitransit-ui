@@ -1,4 +1,3 @@
-import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import DisruptionBanner from '../../../app/component/DisruptionBanner';
 import {

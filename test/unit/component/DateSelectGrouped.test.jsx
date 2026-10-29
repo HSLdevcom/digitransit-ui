@@ -1,4 +1,3 @@
-import React from 'react';
 import { DateTime, Settings } from 'luxon';
 import { createTestIntl, renderWithProviders } from '../helpers/mock-providers';
 import DateSelectGrouped, {

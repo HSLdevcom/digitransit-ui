@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import ReactModal from 'react-modal';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
@@ -73,7 +73,7 @@ const MobileView = ({
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const inputRef = React.useRef();
+  const inputRef = useRef();
 
   useEffect(() => {
     ReactModal.setAppElement(appElement);

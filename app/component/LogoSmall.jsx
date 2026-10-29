@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 const LogoSmall = ({ logo }) => {

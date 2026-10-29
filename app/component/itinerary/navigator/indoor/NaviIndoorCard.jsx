@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import cx from 'classnames';
 import { legShape } from '../../../../../utils/client/shapes';
 import { getIndoorStepsWithVerticalTransportation } from '../../../../../utils/client/indoorUtils';

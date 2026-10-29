@@ -1,4 +1,3 @@
-import React from 'react';
 import { act, screen } from '@testing-library/react';
 import { Component as DepartureListContainer } from '../../../app/component/DepartureListContainer';
 import * as mqttClient from '../../../utils/client/mqttClient';

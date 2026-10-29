@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import IconWithIcon from './IconWithIcon';
 import { AlertSeverityLevelType } from '../../utils/shared/constants';
 

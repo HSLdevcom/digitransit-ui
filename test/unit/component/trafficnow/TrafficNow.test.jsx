@@ -1,4 +1,3 @@
-import React from 'react';
 // react-relay's CJS build (unlike this repo's own Babel-ESM output) has no
 // `__esModule` marker, so `import * as X` gets a one-off *copied* namespace
 // object from Babel's interop helper instead of the live module.exports —

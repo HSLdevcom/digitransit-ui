@@ -67,10 +67,14 @@ function packageName(specifier) {
 }
 
 // Collects string sources of import/export declarations, import() and
-// require() calls anywhere in the AST.
+// require() calls anywhere in the AST. JSX counts as an import of
+// `react/jsx-runtime` (automatic runtime).
 function collectJsSpecifiers(node, specifiers) {
   if (!node || typeof node.type !== 'string') {
     return;
+  }
+  if (node.type === 'JSXElement' || node.type === 'JSXFragment') {
+    specifiers.push('react/jsx-runtime');
   }
   if (node.source?.type === 'StringLiteral') {
     specifiers.push(node.source.value);

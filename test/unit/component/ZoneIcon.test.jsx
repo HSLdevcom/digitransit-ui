@@ -1,4 +1,3 @@
-import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import ZoneIcon from '../../../app/component/ZoneIcon';
 

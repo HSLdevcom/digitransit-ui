@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Text } from '@hsl-fi/layout-primitives';

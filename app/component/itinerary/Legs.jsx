@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useRouter } from 'found';
 import {
   fareShape,

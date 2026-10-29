@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { ArrowLinkButton } from '@hsl-fi/navigation';
 import { Text } from '@hsl-fi/layout-primitives';

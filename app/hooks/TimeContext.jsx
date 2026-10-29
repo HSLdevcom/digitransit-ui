@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // Refresh interval for the current time, in milliseconds.
@@ -43,18 +43,3 @@ export function useCurrentTime() {
 TimeProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-/**
- * Injects the current time as a `currentTime` prop, replacing the old
- * `connectToStores(Component, ['TimeStore'], ...)` pattern.
- */
-export function withCurrentTime(Component) {
-  function WithCurrentTime(props) {
-    const currentTime = useCurrentTime();
-    return <Component {...props} currentTime={currentTime} />;
-  }
-  WithCurrentTime.displayName = `WithCurrentTime(${
-    Component.displayName || Component.name || 'Component'
-  })`;
-  return WithCurrentTime;
-}

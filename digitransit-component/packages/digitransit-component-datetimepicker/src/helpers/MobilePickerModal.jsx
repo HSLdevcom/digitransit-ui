@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { DateTime, Settings } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import uniqueId from 'lodash/uniqueId';

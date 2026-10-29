@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import React, {
+import {
   useRef,
   useLayoutEffect,
   useState,

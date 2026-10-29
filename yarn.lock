@@ -3170,6 +3170,7 @@ __metadata:
   peerDependencies:
     "@digitransit-component/digitransit-component-autosuggest": "workspace:^"
     "@digitransit-component/digitransit-component-icon": "workspace:^"
+    "@dnd-kit/react": ^0.5.1
     "@hsl-fi/sass": ^1.0.0
     classnames: ^2.5.1
     downshift: ^9.4.0
@@ -3178,7 +3179,6 @@ __metadata:
     prop-types: ^15.8.1
     react: ^18.3.1
     react-i18next: ^12.3.1
-    react-sortablejs: ^2.0.11
   languageName: unknown
   linkType: soft
 
@@ -3278,6 +3278,7 @@ __metadata:
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^"
     "@digitransit-component/digitransit-component-icon": "workspace:^"
+    "@dnd-kit/react": ^0.5.1
     "@hsl-fi/dialog": ^3.1.3
     "@hsl-fi/layout-primitives": ^4.9.0
     "@hsl-fi/loading-indicators": ^2.0.0
@@ -3286,7 +3287,6 @@ __metadata:
     prop-types: ^15.8.1
     react: ^18.3.1
     react-i18next: ^12.3.1
-    react-sortablejs: ^2.0.11
   languageName: unknown
   linkType: soft
 
@@ -3494,6 +3494,76 @@ __metadata:
   version: 1.1.0
   resolution: "@discoveryjs/json-ext@npm:1.1.0"
   checksum: 10/c941e41fcfa0d40bfd0b12e5cd5995b609328adb5fa881b1e8bebcae57784d505ccb92ae5d470055336802197a664d3856decccfd09a59c8feef2bf214591ff5
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/abstract@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "@dnd-kit/abstract@npm:0.5.1"
+  dependencies:
+    "@dnd-kit/geometry": "npm:^0.5.1"
+    "@dnd-kit/state": "npm:^0.5.1"
+    tslib: "npm:^2.6.2"
+  checksum: 10/997e821fe46d6ff65ffad10ad542e5eb1c6f57f5d693bbff1e64a8e42492ad8058456d50f62a4207c66816725e65e17b69f4a2b2eea5941e83314be79912df75
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/collision@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "@dnd-kit/collision@npm:0.5.1"
+  dependencies:
+    "@dnd-kit/abstract": "npm:^0.5.1"
+    "@dnd-kit/geometry": "npm:^0.5.1"
+    tslib: "npm:^2.6.2"
+  checksum: 10/da49b9f6a03e9f7df25ed6e44e76e9988cb417cf1e1f276b992f448bc6b933c3f3c95ae1dbfba4e1c89ab20e6a253cbcbd9dcb7bdecc193ac7429c5d054b90c6
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/dom@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "@dnd-kit/dom@npm:0.5.1"
+  dependencies:
+    "@dnd-kit/abstract": "npm:^0.5.1"
+    "@dnd-kit/collision": "npm:^0.5.1"
+    "@dnd-kit/geometry": "npm:^0.5.1"
+    "@dnd-kit/state": "npm:^0.5.1"
+    tslib: "npm:^2.6.2"
+  checksum: 10/b7c34bd39d943f59f5bf872971d3b213482f1f2aec7a15112688ac6cd94ff197c6a27826482fe2d413f02d8564427e6f4bd2a85d1a23661c6e93072e9aec751b
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/geometry@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "@dnd-kit/geometry@npm:0.5.1"
+  dependencies:
+    "@dnd-kit/state": "npm:^0.5.1"
+    tslib: "npm:^2.6.2"
+  checksum: 10/832264cd174a27f96d5c621f9b216624330c6c67adef2b1450a33d57c39c8f70c55339449f05e1d3f48c177e255a4daa3b302753542265a68f6f8eb816ca5cd4
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/react@npm:0.5.1":
+  version: 0.5.1
+  resolution: "@dnd-kit/react@npm:0.5.1"
+  dependencies:
+    "@dnd-kit/abstract": "npm:^0.5.1"
+    "@dnd-kit/dom": "npm:^0.5.1"
+    "@dnd-kit/state": "npm:^0.5.1"
+    tslib: "npm:^2.6.2"
+  peerDependencies:
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  checksum: 10/b7a3d0bd35093e6bf11a7ba4d6c85594051874a9eee11ce3462c7d33b6655394a5aa13952d1d21322a9d5b20a317ccb5cb484952d911df1fb432ac3ad6b1aff2
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/state@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "@dnd-kit/state@npm:0.5.1"
+  dependencies:
+    "@preact/signals-core": "npm:^1.10.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10/905b82b41cb1ce61d16d2a3d47fffbc5f78fcb27236e303741560d66f800087e46c1b5e159c833b32c5e83548c72a220280b23a275c0a868b6cc08ddbd74d231
   languageName: node
   linkType: hard
 
@@ -6890,6 +6960,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@preact/signals-core@npm:^1.10.0":
+  version: 1.14.4
+  resolution: "@preact/signals-core@npm:1.14.4"
+  checksum: 10/11b948fd5c1420100bacbf384cd27fd3e55db093075b370f15b3029ce29921b2f7bd60b31ed19a8a6dbbba6ce2fa27ec2f2de5ef6335635f3c04ac3b753bf39c
+  languageName: node
+  linkType: hard
+
 "@prettier/plugin-xml@npm:3.4.2":
   version: 3.4.2
   resolution: "@prettier/plugin-xml@npm:3.4.2"
@@ -8856,13 +8933,6 @@ __metadata:
     "@types/http-errors": "npm:*"
     "@types/node": "npm:*"
   checksum: 10/f2bad1304c7d0d3b7221faff3e490c40129d3803f4fb1b2fb84f31f561071c5e6a4b876c41bbbe82d5645034eea936e946bcaaf993dac1093ce68b56effad6e0
-  languageName: node
-  linkType: hard
-
-"@types/sortablejs@npm:^1.10.0":
-  version: 1.15.9
-  resolution: "@types/sortablejs@npm:1.15.9"
-  checksum: 10/9e0d6ef1cdcd30acab7af74cab5cbf56685e2de47c6f254357f7dde2626e9b49b8668c43f92761202cf4e10f2e3fd3d7baa6a83a39c3d342fc45ce66e87bd5aa
   languageName: node
   linkType: hard
 
@@ -10987,7 +11057,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:2.5.1, classnames@npm:^2.2.6, classnames@npm:^2.3.2, classnames@npm:^2.5.1":
+"classnames@npm:2.5.1, classnames@npm:^2.3.2, classnames@npm:^2.5.1":
   version: 2.5.1
   resolution: "classnames@npm:2.5.1"
   checksum: 10/58eb394e8817021b153bb6e7d782cfb667e4ab390cb2e9dac2fc7c6b979d1cc2b2a733093955fc5c94aa79ef5c8c89f11ab77780894509be6afbb91dddd79d15
@@ -12851,6 +12921,7 @@ __metadata:
     "@babel/preset-env": "npm:7.26.9"
     "@babel/preset-react": "npm:7.26.3"
     "@babel/runtime": "npm:7.27.0"
+    "@dnd-kit/react": "npm:0.5.1"
     "@graphql-eslint/eslint-plugin": "npm:3.20.1"
     "@hsl-fi/button": "npm:^1.2.4"
     "@hsl-fi/design-system-core": "npm:^2.7.1"
@@ -12968,7 +13039,6 @@ __metadata:
     react-relay: "npm:16.2.0"
     react-relay-network-modern: "npm:6.2.2"
     react-select: "npm:5.10.2"
-    react-sortablejs: "npm:2.0.11"
     react-swipe: "npm:6.0.4"
     react-truncate-markup: "npm:5.1.2"
     redis: "npm:2.8.0"
@@ -23713,21 +23783,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-sortablejs@npm:2.0.11":
-  version: 2.0.11
-  resolution: "react-sortablejs@npm:2.0.11"
-  dependencies:
-    "@types/sortablejs": "npm:^1.10.0"
-    classnames: "npm:^2.2.6"
-    sortablejs: "npm:1.10.1"
-    tiny-invariant: "npm:^1.0.6"
-  peerDependencies:
-    react: ^16.9.0
-    react-dom: ^16.9.0
-  checksum: 10/8ae550abaff9180dc2d155e9a85bcfa3ab1cf0992be57ef860828eb5ac51ae5eabbb4e2abcc751e8ee4146dffa2fccec056f6047112f0fd76fa23827c5b30f85
-  languageName: node
-  linkType: hard
-
 "react-style-singleton@npm:^2.2.2, react-style-singleton@npm:^2.2.3":
   version: 2.2.3
   resolution: "react-style-singleton@npm:2.2.3"
@@ -25739,13 +25794,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sortablejs@npm:1.10.1":
-  version: 1.10.1
-  resolution: "sortablejs@npm:1.10.1"
-  checksum: 10/7c3d16260004015e7286058b5a4b3749f7422aa753080ca7e2360df6118f57b2c17d5b54eab2cc186122f0885e5b9e97181647b8258f624454682b98e2fa61af
-  languageName: node
-  linkType: hard
-
 "source-map-js@npm:>=0.6.2 <2.0.0, source-map-js@npm:^1.0.1, source-map-js@npm:^1.2.1":
   version: 1.2.1
   resolution: "source-map-js@npm:1.2.1"
@@ -26881,13 +26929,6 @@ __metadata:
   version: 1.1.0
   resolution: "thunky@npm:1.1.0"
   checksum: 10/825e3bd07ab3c9fd6f753c457a60957c628cacba5dd0656fd93b037c445e2828b43cf0805a9f2b16b0c5f5a10fd561206271acddb568df4f867f0aea0eb2772f
-  languageName: node
-  linkType: hard
-
-"tiny-invariant@npm:^1.0.6":
-  version: 1.3.3
-  resolution: "tiny-invariant@npm:1.3.3"
-  checksum: 10/5e185c8cc2266967984ce3b352a4e57cb89dad5a8abb0dea21468a6ecaa67cd5bb47a3b7a85d08041008644af4f667fb8b6575ba38ba5fb00b3b5068306e59fe
   languageName: node
   linkType: hard
 

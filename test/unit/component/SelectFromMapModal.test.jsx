@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import SelectFromMapModal from '../../../app/component/SelectFromMapModal';

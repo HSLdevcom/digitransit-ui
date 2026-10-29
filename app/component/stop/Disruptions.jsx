@@ -1,4 +1,3 @@
-import React from 'react';
 import { useIntl } from 'react-intl';
 import { uniq } from 'lodash';
 import groupBy from 'lodash/groupBy';
@@ -56,12 +55,15 @@ export const filterAlertEntities = (stop, alerts) => {
     .filter(alert => alert.entities.length > 0);
 };
 
+// Relay may garbage-collect canceledCalls records while the stop record lives
+// on, so the field can be undefined or contain nulls until it is refetched.
 export const filterCanceledCalls = (canceledCalls, relevantStopIds) =>
-  canceledCalls.filter(
-    ({ stopCall, tripOnServiceDate }) =>
-      relevantStopIds.includes(stopCall.stopLocation.gtfsId) &&
+  (canceledCalls || []).filter(
+    call =>
+      call &&
+      relevantStopIds.includes(call.stopCall.stopLocation.gtfsId) &&
       !relevantStopIds.includes(
-        tripOnServiceDate.trip.pattern.stops.at(-1).gtfsId,
+        call.tripOnServiceDate.trip.pattern.stops.at(-1).gtfsId,
       ),
   );
 

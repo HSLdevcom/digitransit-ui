@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'found';
 import { Text } from '@hsl-fi/layout-primitives';
 import { Icon, ArrowLeft } from '@hsl-fi/icons';

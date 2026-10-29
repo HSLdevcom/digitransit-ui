@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import cx from 'classnames';
 
 const Card = forwardRef(({ className = undefined, children, ...rest }, ref) => {

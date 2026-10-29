@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import ResultsProgressBar from '../../../../app/component/trafficnow/components/ResultsProgressBar';
 
