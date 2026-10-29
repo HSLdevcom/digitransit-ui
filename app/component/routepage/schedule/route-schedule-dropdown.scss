@@ -3,16 +3,6 @@
   flex-basis: 10rem;
 }
 
-.dd-header {
-  display: flex;
-
-  svg {
-    position: relative;
-    top: 4px;
-    margin-left: 6px;
-  }
-}
-
 .dd-header-title {
   position: relative;
   font-style: normal;
@@ -21,148 +11,30 @@
   line-height: 16px;
   letter-spacing: -0.03em;
   color: $gray;
+  display: block;
+  margin-bottom: 4px;
 
   &.align-right {
     text-align: right;
     right: 0;
   }
-
-  &.sr-only {
-    display: none;
-  }
 }
 
 .dd-select {
-  width: 100%;
+  display: flex;
 
-  .dd__control,
-  .dd-right__control,
-  .dd-timerange__control {
-    border-style: none;
-    max-height: 24px;
-    min-height: 24px;
-    box-shadow: none;
-
-    &:focus-within {
-      outline: 2px auto $black !important;
-    }
-  }
-
-  .dd-timerange__control {
-    top: -1px;
-  }
-
-  .dd__control--menu-is-open,
-  .dd-right__control--menu-is-open,
-  .dd-timerange__control--menu-is-open {
-    border-style: none;
-
-    svg {
-      transform: rotate(-180deg);
-    }
-  }
-
-  .dd__value-container {
-    max-height: 24px;
-    padding: 0;
-  }
-
-  .dd-right__value-container,
-  .dd-timerange__value-container {
-    display: flex;
+  &.align-right {
     justify-content: flex-end;
-    max-height: 24px;
-    padding: 0;
   }
 
-  .dd__placeholder,
-  .dd-right__placeholder,
-  .dd-timerange__placeholder,
-  .dd__value-container--has-value,
-  .dd-right__value-container--has-value,
-  .dd-timerange__value-container--has-value,
-  .dd__single-value,
-  .dd-right__single-value,
-  .dd-timerange__single-value {
-    font-style: normal;
-    font-weight: $font-weight-medium;
-    font-size: 15px;
-    line-height: 18px;
-    letter-spacing: -0.03em;
-    color: $theme-primary-color;
-    white-space: nowrap;
-    margin: 0;
-
-    svg {
-      margin-left: 5px;
-    }
+  // Compact the design system input-style trigger (default min-height 48px)
+  button {
+    min-height: 32px;
   }
+}
 
-  .dd__placeholder,
-  .dd-right__placeholder,
-  .dd-timerange__placeholder {
-    padding: 0;
-    margin: 0;
-  }
-
-  .dd__menu,
-  .dd-right__menu,
-  .dd-timerange__menu {
-    width: calc(100% + 85px + 32px - 2rem);
-    max-height: 44vh;
-    border-radius: 4px;
-    box-shadow: 0 4px 13px rgba(0, 0, 0, 0.15);
-    border: solid 1px $light-gray;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    background-color: $white;
-    position: absolute;
-    top: 21px;
-    text-align: left;
-  }
-
-  .dd__menu {
-    left: -2px;
-  }
-
-  .dd-right__menu {
-    right: -2px;
-  }
-
-  .dd-timerange__menu {
-    width: calc(100% + 20px);
-    right: -2px;
-  }
-
-  .dd__option,
-  .dd-right__option,
-  .dd-timerange__option {
-    font-style: normal;
-    font-weight: $font-weight-book;
-    font-size: 15px;
-    line-height: 18px;
-    letter-spacing: -0.03em;
-    color: $black;
-    white-space: nowrap;
-
-    &:not(:last-child) {
-      border-bottom: 1px solid $light-gray;
-    }
-
-    &:hover,
-    &:focus {
-      background-color: $background-color-lighter;
-    }
-
-    &--is-selected,
-    &--is-focused {
-      background-color: $background-color-lighter;
-    }
-
-    svg {
-      position: absolute;
-      right: 5px;
-      margin-left: 5px;
-    }
-  }
+// The Radix select menu is portaled to body and copies its z-index from this
+// element; without it the menu opens behind the mobile drawer.
+div[role='listbox'][data-side] {
+  z-index: global-z('dropdown-menu');
 }

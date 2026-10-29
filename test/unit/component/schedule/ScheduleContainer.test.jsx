@@ -141,44 +141,29 @@ describe('<ScheduleContainer />', () => {
     expect(container.querySelectorAll('.trip-column')).toHaveLength(1);
   });
 
-  it('should update the trip list when the destination stop changes', () => {
-    const { container } = renderView({ pattern: patternWithFourStops });
-    const destinationInput = container.querySelector('#aria-input-destination');
+  const selectStop = ({ container, getByRole }, id, name) => {
+    fireEvent.keyDown(container.querySelector(`#aria-input-${id}`), {
+      key: 'Enter',
+    });
+    fireEvent.click(getByRole('option', { name }));
+  };
+  const triggerText = (container, id) =>
+    container.querySelector(`#aria-input-${id}`).textContent;
 
-    fireEvent.focus(destinationInput);
-    fireEvent.mouseDown(destinationInput);
-    // Destination options start after the origin (stop1): [Stop2, Stop3,
-    // Stop4]. The current destination (Stop4) matches an option, so the menu
-    // opens with it already focused; two ArrowUp presses land on 'Stop 2'.
-    fireEvent.keyDown(destinationInput, { key: 'ArrowUp' });
-    fireEvent.keyDown(destinationInput, { key: 'ArrowUp' });
-    fireEvent.keyDown(destinationInput, { key: 'Enter' });
+  it('should update the selected destination stop', () => {
+    const view = renderView({ pattern: patternWithFourStops });
 
-    expect(
-      container.querySelector('.dd-right__single-value').textContent,
-    ).toContain('Stop 2');
+    selectStop(view, 'destination', 'Stop 2');
+
+    expect(triggerText(view.container, 'destination')).toContain('Stop 2');
   });
 
-  it('should auto-adjust the destination when the origin moves past it', () => {
-    const { container } = renderView({ pattern: patternWithFourStops });
-    const originInput = container.querySelector('#aria-input-origin');
+  it('should keep the destination when the origin changes', () => {
+    const view = renderView({ pattern: patternWithFourStops });
+    selectStop(view, 'origin', 'Stop 3');
 
-    fireEvent.focus(originInput);
-    fireEvent.mouseDown(originInput);
-    // Origin options are [Stop1, Stop2, Stop3]; the current origin (Stop1)
-    // matches an option, so the menu opens with it already focused. Two
-    // ArrowDown presses land on 'Stop 3', which is past the current
-    // destination ('Stop 2') and should push it forward.
-    fireEvent.keyDown(originInput, { key: 'ArrowDown' });
-    fireEvent.keyDown(originInput, { key: 'ArrowDown' });
-    fireEvent.keyDown(originInput, { key: 'Enter' });
-
-    expect(container.querySelector('.dd__single-value').textContent).toContain(
-      'Stop 3',
-    );
-    expect(
-      container.querySelector('.dd-right__single-value').textContent,
-    ).toContain('Stop 4');
+    expect(triggerText(view.container, 'origin')).toContain('Stop 3');
+    expect(triggerText(view.container, 'destination')).toContain('Stop 4');
   });
 
   it('should render all trips returned by the trip-list utility', () => {
