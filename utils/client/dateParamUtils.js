@@ -39,7 +39,8 @@ export const preparePatternStopsVariables = params => {
   const now = DateTime.now();
   return {
     ...prepareServiceDay(params),
-    currentTime: now.toUnixInteger(),
+    // Seconds are dropped so that tab clicks within a minute reuse cached data.
+    currentTime: now.startOf('minute').toUnixInteger(),
     startOfDay: now.startOf('day').toUnixInteger(),
   };
 };

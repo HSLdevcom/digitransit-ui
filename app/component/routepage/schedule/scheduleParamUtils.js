@@ -6,6 +6,8 @@ const populateData = (params, match, noOfWeeks) => {
   const { query } = match.location;
 
   const now = DateTime.now();
+  // Seconds are dropped so that tab clicks within a minute reuse cached data.
+  const minute = now.startOf('minute');
   const startOfWeek = now.startOf('week');
   const date = query.serviceDay
     ? DateTime.fromFormat(query.serviceDay, DATE_FORMAT)
@@ -29,8 +31,8 @@ const populateData = (params, match, noOfWeeks) => {
     ...params,
     serviceDate: serviceDay.toFormat(DATE_FORMAT),
     date: now.toFormat(DATE_FORMAT),
-    cancelationStartDate: now.toISO(),
-    cancelationEndDate: now.plus({ days: 7 }).toISO(),
+    cancelationStartDate: minute.toISO(),
+    cancelationEndDate: minute.plus({ days: 7 }).toISO(),
     showTenWeeks: noOfWeeks === 10,
     ...weeks,
   };
