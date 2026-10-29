@@ -3,14 +3,14 @@ import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import TruncateMarkup from 'react-truncate-markup';
 
-const TruncatedMessage = ({
+export default function TruncatedMessage({
   lines,
   message,
   className,
   truncate = false,
   onShowMore,
   onTruncate = () => {},
-}) => {
+}) {
   const intl = useIntl();
   const [isTruncated, setTruncated] = useState(true);
 
@@ -49,7 +49,7 @@ const TruncatedMessage = ({
     );
   }
   return message;
-};
+}
 
 TruncatedMessage.propTypes = {
   lines: PropTypes.number.isRequired,
@@ -59,5 +59,3 @@ TruncatedMessage.propTypes = {
   onShowMore: PropTypes.func.isRequired,
   onTruncate: PropTypes.func,
 };
-
-export default TruncatedMessage;

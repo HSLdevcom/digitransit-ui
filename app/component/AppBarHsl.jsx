@@ -19,7 +19,7 @@ const clearStorages = clearFavourites => {
 
 const notificationAPI = '/api/user/notifications';
 
-const AppBarHsl = ({ favourites = [] }) => {
+export default function AppBarHsl({ favourites = [] }) {
   const config = useConfigContext();
   const { clearFavourites } = useFavouriteActions();
   const { user, language } = config;
@@ -225,10 +225,10 @@ const AppBarHsl = ({ favourites = [] }) => {
       )}
     </>
   );
-};
+}
 
 AppBarHsl.propTypes = {
   favourites: PropTypes.arrayOf(favouriteShape),
 };
 
-export { AppBarHsl as default, AppBarHsl as Component };
+export { AppBarHsl as Component };

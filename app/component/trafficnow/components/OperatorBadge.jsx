@@ -5,7 +5,7 @@ import { Icon, MapLocation } from '@hsl-fi/icons';
 import { Text } from '@hsl-fi/layout-primitives';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
-function OperatorBadge({ feed }) {
+export default function OperatorBadge({ feed }) {
   const { sourceForAlertsAndDisruptions } = useConfigContext();
   const { locale } = useIntl();
   const area = sourceForAlertsAndDisruptions?.[feed]
@@ -25,5 +25,3 @@ function OperatorBadge({ feed }) {
 OperatorBadge.propTypes = {
   feed: PropTypes.string,
 };
-
-export default OperatorBadge;

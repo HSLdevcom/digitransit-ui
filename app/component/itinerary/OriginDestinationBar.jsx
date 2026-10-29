@@ -32,7 +32,7 @@ import {
 const DTAutosuggestPanelWithSearchContext =
   withSearchContext(DTAutosuggestPanel);
 
-function OriginDestinationBar({ isMobile = false }) {
+export default function OriginDestinationBar({ isMobile = false }) {
   const config = useConfigContext();
   const { match, router } = useRouter();
   const mountedRef = useRef(false);
@@ -184,5 +184,3 @@ function OriginDestinationBar({ isMobile = false }) {
 OriginDestinationBar.propTypes = {
   isMobile: PropTypes.bool,
 };
-
-export default OriginDestinationBar;

@@ -13,7 +13,7 @@ import { ExtendedRouteTypes } from '../../../utils/shared/constants';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import PatternStopsContainerFragment from './queries/PatternStopsContainerFragment';
 
-function PatternStopsContainer({
+export default function PatternStopsContainer({
   pattern: patternRef = null,
   route: routeRef = null,
 }) {
@@ -78,5 +78,3 @@ PatternStopsContainer.propTypes = {
   pattern: fragmentRefShape,
   route: fragmentRefShape,
 };
-
-export default PatternStopsContainer;

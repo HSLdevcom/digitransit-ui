@@ -21,7 +21,7 @@ export const handleScheduleDropdownChange = (
 /**
  * Generic dropdown used on the schedule page for stop selection.
  */
-function ScheduleDropdown({
+export default function ScheduleDropdown({
   alignRight = false,
   id,
   list,
@@ -130,7 +130,3 @@ ScheduleDropdown.propTypes = {
   title: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
-
-ScheduleDropdown.displayName = 'ScheduleDropdown';
-
-export default ScheduleDropdown;

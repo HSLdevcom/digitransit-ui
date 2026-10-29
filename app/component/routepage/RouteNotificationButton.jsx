@@ -6,7 +6,7 @@ import { ArrowLink } from '@hsl-fi/navigation';
 import { useIntl } from 'react-intl';
 import ThemedIcon from '../ThemedIcon';
 
-function RouteNotificationButton({ notification }) {
+export default function RouteNotificationButton({ notification }) {
   const intl = useIntl();
   const [open, setOpen] = useState(false);
 
@@ -77,5 +77,3 @@ RouteNotificationButton.propTypes = {
     link: PropTypes.objectOf(PropTypes.string),
   }).isRequired,
 };
-
-export default RouteNotificationButton;

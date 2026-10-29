@@ -18,7 +18,11 @@ export const FAVOURITE_ICON_NAMES = [
 export const toFavouriteIconId = name => `icon-icon_${name}`;
 
 /** Icon picker: one toggle button per favourite icon. */
-function FavouriteIconTable({ selectedIconId = '', onSelect, lang }) {
+export default function FavouriteIconTable({
+  selectedIconId = '',
+  onSelect,
+  lang,
+}) {
   const { t } = useTranslation('translation', { i18n });
 
   return (
@@ -49,5 +53,3 @@ FavouriteIconTable.propTypes = {
   lang: PropTypes.string.isRequired,
   selectedIconId: PropTypes.string,
 };
-
-export default FavouriteIconTable;

@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-const usePrevious = (value, comparingFunc) => {
+export default function usePrevious(value, comparingFunc) {
   const ref = useRef({
     value,
     prev: null,
@@ -22,6 +22,4 @@ const usePrevious = (value, comparingFunc) => {
   }
 
   return { previous: ref.current.prev, isEqual };
-};
-
-export default usePrevious;
+}

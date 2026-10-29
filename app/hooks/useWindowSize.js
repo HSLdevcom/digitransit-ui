@@ -25,7 +25,7 @@ const getSize = window => ({
  *
  * @returns {WindowSize}
  */
-const useWindowSize = () => {
+export default function useWindowSize() {
   const [size, setSize] = useState(getSize(window));
 
   useEffect(() => {
@@ -37,6 +37,4 @@ const useWindowSize = () => {
   }, []);
 
   return size;
-};
-
-export default useWindowSize;
+}

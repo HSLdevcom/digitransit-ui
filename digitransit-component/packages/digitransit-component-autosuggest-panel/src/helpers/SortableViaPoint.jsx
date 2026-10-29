@@ -3,7 +3,13 @@ import React from 'react';
 import { useSortable } from '@dnd-kit/react/sortable';
 
 /** Sortable via point row; children is called with the drag handle ref. */
-function SortableViaPoint({ id, index, disabled, className, children }) {
+export default function SortableViaPoint({
+  id,
+  index,
+  disabled,
+  className,
+  children,
+}) {
   const { ref, handleRef } = useSortable({ id, index, disabled });
   return (
     <div ref={ref} className={className}>
@@ -19,5 +25,3 @@ SortableViaPoint.propTypes = {
   className: PropTypes.string.isRequired,
   children: PropTypes.func.isRequired,
 };
-
-export default SortableViaPoint;

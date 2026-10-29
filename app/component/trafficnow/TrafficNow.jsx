@@ -21,7 +21,7 @@ import FiltersModal from './filters/FiltersModal';
 // defines the scroll position at which a drop shadow is applied to the header button on mobile
 const HEADER_HEIGHT = 320;
 
-const TrafficNow = ({ dateTime }) => {
+export default function TrafficNow({ dateTime }) {
   const {
     match: {
       params: { mode, alertId },
@@ -136,9 +136,7 @@ const TrafficNow = ({ dateTime }) => {
       <TrafficNowFooter />
     </div>
   );
-};
-
-export default TrafficNow;
+}
 
 TrafficNow.propTypes = {
   dateTime: PropTypes.string.isRequired,

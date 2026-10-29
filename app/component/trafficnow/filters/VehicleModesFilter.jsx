@@ -9,7 +9,7 @@ import { TrafficNowTransportModes } from '../../../../utils/shared/constants';
 import Icon from '../../Icon';
 import { useBreakpoint } from '../../../hooks/BreakpointContext';
 
-const VehicleModesFilter = ({ filterId }) => {
+export default function VehicleModesFilter({ filterId }) {
   const config = useConfigContext();
   const intl = useIntl();
   const { selectedFilters, setFilter } = useFilterContext();
@@ -89,10 +89,8 @@ const VehicleModesFilter = ({ filterId }) => {
       ))}
     </fieldset>
   );
-};
+}
 
 VehicleModesFilter.propTypes = {
   filterId: PropTypes.string.isRequired,
 };
-
-export default VehicleModesFilter;

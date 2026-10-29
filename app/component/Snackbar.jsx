@@ -12,7 +12,7 @@ import { useConfigContext } from '../hooks/ConfigContext';
  * The caller is responsible for managing the `show` state transitions and
  * for providing a `liveRegionMessage` for screen-reader announcements.
  */
-const Snackbar = ({
+export default function Snackbar({
   show,
   messageId,
   defaultMessage,
@@ -20,7 +20,7 @@ const Snackbar = ({
   onClose,
   iconImg = 'icon_checkmark-circled',
   className,
-}) => {
+}) {
   const breakpoint = useBreakpoint();
   const intl = useIntl();
   const config = useConfigContext();
@@ -85,7 +85,7 @@ const Snackbar = ({
   return typeof document !== 'undefined'
     ? ReactDOM.createPortal(content, document.body)
     : content;
-};
+}
 
 Snackbar.propTypes = {
   /** null = hidden, true = slide in, false = slide out */
@@ -97,5 +97,3 @@ Snackbar.propTypes = {
   iconImg: PropTypes.string,
   className: PropTypes.string,
 };
-
-export default Snackbar;

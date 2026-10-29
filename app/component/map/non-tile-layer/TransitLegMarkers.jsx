@@ -118,7 +118,10 @@ export const getSpeechBubbleStyle = (position, pixelPositions) => {
   return { style: 'bottomRight', position: proposedPosition };
 };
 
-function TransitLegMarkers({ transitLegs, realtimeTransfers = false }) {
+export default function TransitLegMarkers({
+  transitLegs,
+  realtimeTransfers = false,
+}) {
   const leaflet = useLeaflet();
   const config = useConfigContext();
   const intl = useIntl();
@@ -315,5 +318,3 @@ TransitLegMarkers.propTypes = {
   transitLegs: PropTypes.arrayOf(legShape).isRequired,
   realtimeTransfers: PropTypes.bool,
 };
-
-export default TransitLegMarkers;

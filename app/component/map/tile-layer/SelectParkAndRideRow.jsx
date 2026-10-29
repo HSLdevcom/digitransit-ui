@@ -5,7 +5,11 @@ import Icon from '../../Icon';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../../utils/shared/path';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function SelectParkAndRideRow({ name = '', bikeParkId, carParkId }) {
+export default function SelectParkAndRideRow({
+  name = '',
+  bikeParkId,
+  carParkId,
+}) {
   const id = bikeParkId || carParkId;
   const img = carParkId ? 'icon_car-park' : 'icon_bike-park';
   const PREFIX = carParkId ? PREFIX_CARPARK : PREFIX_BIKEPARK;
@@ -27,12 +31,8 @@ function SelectParkAndRideRow({ name = '', bikeParkId, carParkId }) {
   );
 }
 
-SelectParkAndRideRow.displayName = 'SelectParkAndRideRow';
-
 SelectParkAndRideRow.propTypes = {
   bikeParkId: PropTypes.string,
   carParkId: PropTypes.string,
   name: PropTypes.string,
 };
-
-export default SelectParkAndRideRow;

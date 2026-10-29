@@ -62,7 +62,7 @@ const getSvgContent = (rotate, useLargeIcon) => {
   );
 };
 
-const VehicleIcon = ({
+export default function VehicleIcon({
   className,
   id,
   rotate,
@@ -71,41 +71,41 @@ const VehicleIcon = ({
   vehicleNumber,
   useLargeIcon = false,
   color,
-}) => (
-  <span>
-    {useLargeIcon ? (
-      <svg
-        id={id}
-        viewBox="0 0 80 80"
-        style={{ color: color ? `#${color}` : null }}
-        className={cx('icon', 'large-vehicle-icon', className, mode)}
-        ref={el => scrollIntoView && el && el.scrollIntoView()}
-      >
-        {getSvgContent(rotate, useLargeIcon)}
-        <text
-          textAnchor="middle"
-          fontSize={getFontSize(vehicleNumber.length)}
-          fontStyle="condensed"
+}) {
+  return (
+    <span>
+      {useLargeIcon ? (
+        <svg
+          id={id}
+          viewBox="0 0 80 80"
+          style={{ color: color ? `#${color}` : null }}
+          className={cx('icon', 'large-vehicle-icon', className, mode)}
+          ref={el => scrollIntoView && el && el.scrollIntoView()}
         >
-          <tspan x="40" y={35 + getTextOffSet(vehicleNumber.length)}>
-            {vehicleNumber}
-          </tspan>
-        </text>
-      </svg>
-    ) : (
-      <svg
-        id={id}
-        viewBox="0 0 120 120"
-        className={cx('icon', 'small-vehicle-icon', className)}
-        ref={el => scrollIntoView && el && el.scrollIntoView()}
-      >
-        {getSvgContent(rotate, useLargeIcon)}
-      </svg>
-    )}
-  </span>
-);
-
-VehicleIcon.displayName = 'VehicleIcon';
+          {getSvgContent(rotate, useLargeIcon)}
+          <text
+            textAnchor="middle"
+            fontSize={getFontSize(vehicleNumber.length)}
+            fontStyle="condensed"
+          >
+            <tspan x="40" y={35 + getTextOffSet(vehicleNumber.length)}>
+              {vehicleNumber}
+            </tspan>
+          </text>
+        </svg>
+      ) : (
+        <svg
+          id={id}
+          viewBox="0 0 120 120"
+          className={cx('icon', 'small-vehicle-icon', className)}
+          ref={el => scrollIntoView && el && el.scrollIntoView()}
+        >
+          {getSvgContent(rotate, useLargeIcon)}
+        </svg>
+      )}
+    </span>
+  );
+}
 
 VehicleIcon.propTypes = {
   id: PropTypes.string,
@@ -117,5 +117,3 @@ VehicleIcon.propTypes = {
   useLargeIcon: PropTypes.bool,
   color: PropTypes.string,
 };
-
-export default VehicleIcon;

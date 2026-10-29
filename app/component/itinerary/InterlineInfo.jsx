@@ -9,7 +9,7 @@ import {
 import Icon from '../Icon';
 import { legShape } from '../../../utils/client/shapes';
 
-const InterlineInfo = ({ legs, leg, usingOwnCarWholeTrip }) => {
+export default function InterlineInfo({ legs, leg, usingOwnCarWholeTrip }) {
   const intl = useIntl();
   let totalWait = 0;
   const allLegs = [leg, ...legs];
@@ -82,11 +82,10 @@ const InterlineInfo = ({ legs, leg, usingOwnCarWholeTrip }) => {
       )}
     </div>
   );
-};
+}
 
 InterlineInfo.propTypes = {
   leg: legShape.isRequired,
   legs: PropTypes.arrayOf(legShape).isRequired,
   usingOwnCarWholeTrip: PropTypes.bool.isRequired,
 };
-export default InterlineInfo;

@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const StopCode = ({ code }) =>
-  code && <span className="itinerary-stop-code">{code}</span>;
-
-StopCode.displayName = 'StopCode';
+export default function StopCode({ code }) {
+  return code && <span className="itinerary-stop-code">{code}</span>;
+}
 StopCode.propTypes = {
   code: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
 };
-export default StopCode;

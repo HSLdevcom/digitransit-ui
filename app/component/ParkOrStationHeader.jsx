@@ -12,12 +12,12 @@ import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStat
 import { splitGtfsId } from '../../utils/shared/gtfs';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-const ParkOrBikeStationHeader = ({
+export default function ParkOrBikeStationHeader({
   parkOrStation,
   parkType,
   backButton = true,
   withSeparator = true,
-}) => {
+}) {
   const breakpoint = useBreakpoint();
   const config = useConfigContext();
   const [zoneId, setZoneId] = useState(undefined);
@@ -76,7 +76,7 @@ const ParkOrBikeStationHeader = ({
       )}
     </div>
   );
-};
+}
 
 ParkOrBikeStationHeader.propTypes = {
   backButton: PropTypes.bool,
@@ -89,5 +89,3 @@ ParkOrBikeStationHeader.propTypes = {
   parkType: PropTypes.string,
   withSeparator: PropTypes.bool,
 };
-
-export default ParkOrBikeStationHeader;

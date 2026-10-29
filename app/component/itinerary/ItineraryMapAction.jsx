@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import Icon from '../Icon';
 
-function ItineraryMapAction({
+export default function ItineraryMapAction({
   target,
   focusAction,
   ariaLabelId = 'itinerary-summary.show-on-map',
@@ -30,5 +30,3 @@ ItineraryMapAction.propTypes = {
   target: PropTypes.string.isRequired,
   ariaLabelId: PropTypes.string,
 };
-
-export default ItineraryMapAction;

@@ -7,7 +7,7 @@ import {
 import { useConfigContext } from '../../hooks/ConfigContext';
 import Disclaimer from '../Disclaimer';
 
-const ParkInfo = ({ mode }) => {
+export default function ParkInfo({ mode }) {
   const { language, parkAndRide } = useConfigContext();
   const key = `${mode}_info`;
   const prefix = mode === 'CARPARK' ? 'car' : 'bike';
@@ -37,8 +37,6 @@ const ParkInfo = ({ mode }) => {
       <div style={{ height: '22px' }} />
     </>
   );
-};
+}
 
 ParkInfo.propTypes = { mode: PropTypes.string.isRequired };
-
-export default ParkInfo;

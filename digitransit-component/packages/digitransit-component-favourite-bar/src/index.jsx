@@ -108,7 +108,7 @@ FavouriteLocation.propTypes = {
  *   isLoading={isLoading}
  * />
  */
-function FavouriteBar({
+export default function FavouriteBar({
   favourites,
   onClickFavourite,
   onAddPlace,
@@ -405,5 +405,3 @@ FavouriteBar.propTypes = {
   /** Optional color palette */
   colors: PropTypes.objectOf(PropTypes.string),
 };
-
-export default FavouriteBar;

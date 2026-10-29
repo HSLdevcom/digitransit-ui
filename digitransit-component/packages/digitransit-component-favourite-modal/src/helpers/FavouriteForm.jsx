@@ -13,7 +13,7 @@ const NO_EDITS = {};
  * Form body of the modal. It lives inside the dialog content, so the user's
  * edits are discarded when the dialog closes.
  */
-function FavouriteForm({
+export default function FavouriteForm({
   favourite,
   isEdit,
   lang,
@@ -130,5 +130,3 @@ FavouriteForm.propTypes = {
     lon: PropTypes.number,
   }),
 };
-
-export default FavouriteForm;

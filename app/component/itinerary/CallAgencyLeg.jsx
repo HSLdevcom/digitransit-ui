@@ -9,7 +9,7 @@ import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { isLocalCallAgency } from '../../../utils/client/legUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-const CallAgencyLeg = ({ leg, ...props }) => {
+export default function CallAgencyLeg({ leg, ...props }) {
   const intl = useIntl();
   const config = useConfigContext();
   const breakpoint = useBreakpoint();
@@ -60,12 +60,10 @@ const CallAgencyLeg = ({ leg, ...props }) => {
       />
     </TransitLeg>
   );
-};
+}
 
 CallAgencyLeg.propTypes = {
   leg: legShape.isRequired,
   index: PropTypes.number.isRequired,
   showRouteDescNotification: PropTypes.bool,
 };
-
-export default CallAgencyLeg;

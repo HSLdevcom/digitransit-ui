@@ -27,7 +27,7 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 
 const EMPTY_VEHICLES = [];
 
-const TripRouteStop = ({
+export default function TripRouteStop({
   className,
   color,
   currentTime,
@@ -46,7 +46,7 @@ const TripRouteStop = ({
   pattern,
   route,
   selectedVehicle,
-}) => {
+}) {
   const config = useConfigContext();
 
   const getVehiclePatternLink = vehicle => {
@@ -203,7 +203,7 @@ const TripRouteStop = ({
       </div>
     </div>
   );
-};
+}
 
 TripRouteStop.propTypes = {
   vehicles: PropTypes.arrayOf(vehicleShape),
@@ -246,7 +246,3 @@ TripRouteStop.propTypes = {
   first: PropTypes.bool,
   last: PropTypes.bool,
 };
-
-TripRouteStop.displayName = 'TripRouteStop';
-
-export default TripRouteStop;

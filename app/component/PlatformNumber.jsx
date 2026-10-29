@@ -8,7 +8,7 @@ import {
   getTrackOrPierOrPlatformTextShort,
 } from '../../utils/client/localeUtils';
 
-function PlatformNumber({
+export default function PlatformNumber({
   number,
   short = true,
   mode,
@@ -68,7 +68,3 @@ PlatformNumber.propTypes = {
   withText: PropTypes.bool,
   plain: PropTypes.bool,
 };
-
-PlatformNumber.displayName = 'PlatformNumber';
-
-export default PlatformNumber;

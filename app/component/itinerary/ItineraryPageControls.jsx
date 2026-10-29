@@ -8,7 +8,7 @@ import { streetHash } from '../../../utils/shared/path';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import BackButton from '../BackButton';
 
-function ItineraryPageControls({ toggleSettings }) {
+export default function ItineraryPageControls({ toggleSettings }) {
   const breakpoint = useBreakpoint();
   const { match } = useRouter();
   const { params } = match;
@@ -52,5 +52,3 @@ function ItineraryPageControls({ toggleSettings }) {
 ItineraryPageControls.propTypes = {
   toggleSettings: PropTypes.func.isRequired,
 };
-
-export default ItineraryPageControls;

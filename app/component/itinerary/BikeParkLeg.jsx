@@ -13,7 +13,7 @@ import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-const BikeParkLeg = ({ leg, index, focusAction, bikePark }) => {
+export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
   const config = useConfigContext();
   const intl = useIntl();
   const distance = displayDistance(
@@ -101,7 +101,7 @@ const BikeParkLeg = ({ leg, index, focusAction, bikePark }) => {
       </div>
     </div>
   );
-};
+}
 
 BikeParkLeg.propTypes = {
   index: PropTypes.number.isRequired,
@@ -109,5 +109,3 @@ BikeParkLeg.propTypes = {
   bikePark: parkShape.isRequired,
   leg: legShape.isRequired,
 };
-
-export default BikeParkLeg;

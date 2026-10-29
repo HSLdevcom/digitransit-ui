@@ -41,7 +41,7 @@ import {
   isVerticalTransportationUse,
 } from '../../../utils/client/indoorUtils';
 
-function ItineraryLine({
+export default function ItineraryLine({
   legs,
   passive = false,
   hash = 0,
@@ -498,5 +498,3 @@ ItineraryLine.propTypes = {
   streetMode: PropTypes.string,
   realtimeTransfers: PropTypes.bool,
 };
-
-export default ItineraryLine;

@@ -57,7 +57,7 @@ const fuzzyQuery = graphql`
   }
 `;
 
-function SelectVehicleContainer({ rowView = false, vehicle }) {
+export default function SelectVehicleContainer({ rowView = false, vehicle }) {
   const { environment } = useContext(ReactRelayContext);
   if (!vehicle) {
     return null;
@@ -108,11 +108,7 @@ function SelectVehicleContainer({ rowView = false, vehicle }) {
   );
 }
 
-SelectVehicleContainer.displayName = 'SelectVehicleContainer';
-
 SelectVehicleContainer.propTypes = {
   rowView: PropTypes.bool,
   vehicle: vehicleShape.isRequired,
 };
-
-export default SelectVehicleContainer;

@@ -43,7 +43,7 @@ import {
 import IndoorStep from './IndoorStep';
 import { IndoorLegType } from '../../../utils/shared/constants';
 
-function WalkLeg({
+export default function WalkLeg({
   children,
   focusAction,
   focusToLeg,
@@ -430,5 +430,3 @@ WalkLeg.propTypes = {
   focusToPoint: PropTypes.func.isRequired,
   useOriginAddress: PropTypes.bool,
 };
-
-export default WalkLeg;

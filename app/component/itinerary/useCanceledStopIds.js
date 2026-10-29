@@ -39,7 +39,7 @@ const hasStoptimesForServiceDate = (leg, timeZone) => {
  * @param {boolean} enabled whether fetching other days' cancelations is needed.
  * @returns {Set<string>} gtfsIds of stops with a canceled call.
  */
-const useCanceledStopIds = (legs, enabled = true) => {
+export default function useCanceledStopIds(legs, enabled = true) {
   const { environment } = useContext(ReactRelayContext);
   const { timeZone } = useConfigContext();
   const [fetched, setFetched] = useState({ key: '', ids: NO_CANCELATIONS });
@@ -99,6 +99,4 @@ const useCanceledStopIds = (legs, enabled = true) => {
     }
     return new Set([...loadedIds, ...fetchedIds]);
   }, [loadedKey, fetchKey, fetched]);
-};
-
-export default useCanceledStopIds;
+}

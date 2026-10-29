@@ -46,7 +46,7 @@ Settings.defaultLocale = 'en';
  *   serviceTimeRange={15}
  * />
  */
-function Datetimepicker({
+export default function Datetimepicker({
   timestamp = null,
   onTimeChange,
   onDateChange,
@@ -513,5 +513,3 @@ Datetimepicker.propTypes = {
   onClose: PropTypes.func,
   openPicker: PropTypes.bool,
 };
-
-export default Datetimepicker;

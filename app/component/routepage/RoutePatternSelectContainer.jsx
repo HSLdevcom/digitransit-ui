@@ -66,7 +66,7 @@ export function getPatternOptions(patterns, serviceTimeRange) {
   ).reverse();
 }
 
-function RoutePatternSelectContainer({
+export default function RoutePatternSelectContainer({
   route: routeRef,
   onSelectChange,
   gtfsId,
@@ -234,5 +234,3 @@ RoutePatternSelectContainer.propTypes = {
   onSelectChange: PropTypes.func.isRequired,
   gtfsId: PropTypes.string.isRequired,
 };
-
-export default RoutePatternSelectContainer;

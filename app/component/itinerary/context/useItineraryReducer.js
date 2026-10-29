@@ -9,7 +9,7 @@ import {
   updateLatestNavigatorItineraryParams,
 } from '../../../../utils/client/localStorage';
 
-const REDUCER_ACTION_TYPES = {
+export const REDUCER_ACTION_TYPES = {
   INIT_NAVIGATOR_ITINERARY: 'INIT_NAVIGATOR_ITINERARY',
   SET_ITINERARY_LEGS_AND_PARAMS: 'SET_ITINERARY_LEGS_AND_PARAMS',
   SET_ITINERARY_LEGS_AND_UPDATE_PARAMS: 'SET_ITINERARY_LEGS_AND_UPDATE_PARAMS',
@@ -60,13 +60,11 @@ const itineraryReducer = (state, { type, payload }) => {
   }
 };
 
-const useItineraryReducer = () => {
+export default function useItineraryReducer() {
   const [itinerary, dispatch] = useReducer(
     itineraryReducer,
     getLatestNavigatorItinerary(),
   );
 
   return [itinerary, dispatch];
-};
-
-export { useItineraryReducer as default, REDUCER_ACTION_TYPES };
+}

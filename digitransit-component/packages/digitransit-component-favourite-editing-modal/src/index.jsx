@@ -30,7 +30,7 @@ import styles from './helpers/styles.scss';
  *   lang="fi"
  * />
  */
-function FavouriteEditingModal({
+export default function FavouriteEditingModal({
   isModalOpen,
   handleClose,
   updateFavourites,
@@ -215,5 +215,3 @@ FavouriteEditingModal.propTypes = {
    * @type {string} */
   lang: PropTypes.string,
 };
-
-export default FavouriteEditingModal;

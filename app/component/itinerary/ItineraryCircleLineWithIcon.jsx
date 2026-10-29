@@ -8,7 +8,7 @@ import {
   IndoorLegType,
 } from '../../../utils/shared/constants';
 
-function ItineraryCircleLineWithIcon({
+export default function ItineraryCircleLineWithIcon({
   index,
   modeClassName,
   viaType = null,
@@ -169,5 +169,3 @@ ItineraryCircleLineWithIcon.propTypes = {
   hasPreviousTransitLeg: PropTypes.bool,
   indoorStepsLength: PropTypes.number,
 };
-
-export default ItineraryCircleLineWithIcon;

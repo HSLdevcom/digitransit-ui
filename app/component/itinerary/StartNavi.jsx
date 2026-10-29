@@ -5,7 +5,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from '../Icon';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-const StartNavi = ({ startNavigation }) => {
+export default function StartNavi({ startNavigation }) {
   const config = useConfigContext();
   const intl = useIntl();
 
@@ -32,10 +32,8 @@ const StartNavi = ({ startNavigation }) => {
       </button>
     </div>
   );
-};
+}
 
 StartNavi.propTypes = {
   startNavigation: PropTypes.func.isRequired,
 };
-
-export default StartNavi;

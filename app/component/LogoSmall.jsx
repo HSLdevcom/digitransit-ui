@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-const LogoSmall = ({ logo }) => {
+export default function LogoSmall({ logo }) {
   const config = useConfigContext();
   const { title } = config;
   if (config.textLogo && !logo) {
@@ -25,10 +25,8 @@ const LogoSmall = ({ logo }) => {
       )}
     </div>
   );
-};
+}
 
 LogoSmall.propTypes = {
   logo: PropTypes.string,
 };
-
-export default LogoSmall;

@@ -15,7 +15,7 @@ import { TransportMode } from '../../../../utils/shared/constants';
 import { getSettings } from '../../../../utils/client/planParamUtil';
 import { createFeatureObjects } from '../../../../utils/client/clusterUtils';
 
-class RentalVehicles {
+export default class RentalVehicles {
   constructor(tile, config, mapLayers, relayEnvironment) {
     this.tile = tile;
     this.config = config;
@@ -202,5 +202,3 @@ class RentalVehicles {
     };
   };
 }
-
-export default RentalVehicles;

@@ -6,7 +6,7 @@ import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-const CTAContainer = ({ isMobile = false }) => {
+export default function CTAContainer({ isMobile = false }) {
   const { formatMessage } = useIntl();
   return (
     <div
@@ -23,10 +23,8 @@ const CTAContainer = ({ isMobile = false }) => {
       </Link>
     </div>
   );
-};
+}
 
 CTAContainer.propTypes = {
   isMobile: PropTypes.bool,
 };
-
-export default CTAContainer;
