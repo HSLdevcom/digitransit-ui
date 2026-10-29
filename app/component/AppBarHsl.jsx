@@ -8,7 +8,7 @@ import { favouriteShape } from '../../utils/client/shapes';
 import { clearFutureRoutes } from '../../utils/client/storeUtils';
 import { clearOldSearches } from '../data/SearchHistory';
 import { getJson } from '../../utils/shared/xhrPromise';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 import { useFavouriteActions } from '../hooks/FavouriteContext';
 
 const clearStorages = clearFavourites => {

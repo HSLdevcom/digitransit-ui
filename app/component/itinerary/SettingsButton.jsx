@@ -14,7 +14,7 @@ import {
   getDialogState,
   setDialogState,
 } from '../../../utils/client/localStorage';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function SettingsButton({ onToggleClick }) {
   const { formatMessage } = useIntl();

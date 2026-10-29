@@ -1,4 +1,4 @@
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 const Title = () => {
   const { title } = useConfigContext();

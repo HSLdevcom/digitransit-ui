@@ -5,7 +5,7 @@ import SettingsToggle from './SettingsToggle';
 import Icon from '../../Icon';
 import BikingSpeed from './BikingSpeed';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function StreetModeSelector({ settings, updateSettings }) {
   const config = useConfigContext();

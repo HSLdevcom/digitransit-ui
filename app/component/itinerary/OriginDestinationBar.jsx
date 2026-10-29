@@ -18,7 +18,7 @@ import {
 } from '../../../utils/shared/otpStrings';
 import { parseLocation, sameLocations } from '../../../utils/shared/path';
 import { getRefPoint } from '../../../utils/client/apiUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { usePosition } from '../../hooks/PositionContext';
 import { useFavourites } from '../../hooks/FavouriteContext';
 import { countLocations } from '../../data/FavouriteData';

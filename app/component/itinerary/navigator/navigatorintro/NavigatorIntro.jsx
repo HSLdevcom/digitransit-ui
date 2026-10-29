@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import NavigatorIntroFeature from './NavigatorIntroFeature';
 import Icon from '../../../Icon';
-import { useConfigContext } from '../../../../client/ConfigContext';
+import { useConfigContext } from '../../../../hooks/ConfigContext';
 
 const NavigatorIntro = ({
   logo,

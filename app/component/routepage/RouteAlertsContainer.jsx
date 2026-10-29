@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
 import { useFragment } from 'react-relay';
 import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
 import groupBy from 'lodash/groupBy';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import DisruptionList from '../DisruptionList';
 import {
   getAlertsForObject,
@@ -17,7 +17,7 @@ import {
   AlertEntityType,
 } from '../../../utils/shared/constants';
 import { patternTextWithIcon } from './RoutePatternSelect';
-import { RouteAlertsContainerFragment } from './queries/RouteAlertsContainerFragment';
+import RouteAlertsContainerFragment from './queries/RouteAlertsContainerFragment';
 
 const getCancelations = (route, pattern, entity, intl) => {
   if (!pattern.canceledTrips) {
@@ -106,8 +106,8 @@ function RouteAlertsContainer({ route: routeRef, pattern: patternRef }) {
 }
 
 RouteAlertsContainer.propTypes = {
-  route: PropTypes.shape({}).isRequired,
-  pattern: PropTypes.shape({}).isRequired,
+  route: fragmentRefShape.isRequired,
+  pattern: fragmentRefShape.isRequired,
 };
 
 export default RouteAlertsContainer;

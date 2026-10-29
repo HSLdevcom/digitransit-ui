@@ -2,7 +2,7 @@
 import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import { onLocationPopup } from '../../../utils/client/queryUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import {
   itineraryShape,
   locationShape,

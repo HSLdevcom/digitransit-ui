@@ -2,7 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { itineraryShape } from '../../../utils/client/shapes';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { displayDistance } from '../../../utils/shared/geo-utils';
 import { getTotalDistance } from '../../../utils/client/legUtils';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';

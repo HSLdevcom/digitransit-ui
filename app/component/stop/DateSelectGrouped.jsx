@@ -187,10 +187,12 @@ function DateSelectGrouped({
         aria-label={selectAriaLabel}
         ariaLiveMessages={{
           guidance: () => '.',
-          onChange: ({ label, dateObj }) => {
+          onChange: ({ action, label, value }) => {
+            if (action !== 'select-option') {
+              return '';
+            }
             const msg = formatMessage({ id: 'route-page.pattern-chosen' });
-            const dateLabel = dateObj?.textLabel || label;
-            return `${msg} ${dateLabel}`;
+            return `${msg} ${value?.textLabel || label}`;
           },
           onFilter: () => '',
           onFocus: ({ context: itemContext, focused }) => {

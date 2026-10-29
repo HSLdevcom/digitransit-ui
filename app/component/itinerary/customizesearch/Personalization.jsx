@@ -10,7 +10,7 @@ import Icon from '../../Icon';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { isPersonalizationEnabled } from '../../../../utils/client/modeUtils';
 import { settingsShape } from '../../../../utils/client/shapes';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 import { usePersonalizationPreferences } from '../../../hooks/FavouriteContext';
 
 export default function Personalization({ settings, updateSettings }) {

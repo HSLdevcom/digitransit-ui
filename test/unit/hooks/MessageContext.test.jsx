@@ -2,7 +2,7 @@ import fetchMock from 'fetch-mock';
 import { useEffect, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { render, act } from '@testing-library/react';
-import { ConfigProvider } from '../../../app/client/ConfigContext';
+import { ConfigProvider } from '../../../app/hooks/ConfigContext';
 import {
   MessageProvider,
   processStaticMessages,

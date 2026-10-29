@@ -30,7 +30,7 @@ import {
 import { streetHash } from '../../../utils/shared/path';
 import { itineraryShape, relayShape } from '../../../utils/client/shapes';
 import { getFutureText } from '../../../utils/client/timeUtils';
-import { BreakpointConsumer } from '../../../utils/client/withBreakpoint';
+import { BreakpointConsumer } from '../../hooks/BreakpointContext';
 import { getSettings } from '../../../utils/client/planParamUtil';
 import BackButton from '../BackButton';
 import Emissions from './Emissions';
@@ -45,7 +45,7 @@ import StartNavi from './StartNavi';
 import TicketInformation from './TicketInformation';
 import VehicleRentalDurationInfo from './VehicleRentalDurationInfo';
 import { ItineraryDetailsFragment } from './queries/ItineraryDetailsFragment';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 function getExtraProps(itinerary, intl) {
   const compressedItinerary = {

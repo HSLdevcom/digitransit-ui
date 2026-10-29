@@ -1,5 +1,5 @@
 import { SiteFooter } from '@hsl-fi/site-footer';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const SUPPORTED_LANGS = ['fi', 'sv', 'en'];
 

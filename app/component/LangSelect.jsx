@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { useMatch } from 'found';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 const Language = ({ lang }) => {
   const { language } = useConfigContext();

@@ -5,6 +5,7 @@ import { graphql } from 'react-relay';
 import { DateTime } from 'luxon';
 
 import Error404 from '../component/404';
+import Loading from '../component/Loading';
 import {
   PREFIX_DISRUPTION,
   PREFIX_ROUTES,
@@ -15,7 +16,6 @@ import {
   getDefault,
   getComponentOrNullRenderer,
   createStickyRenderer,
-  createStickyRendererFactory,
   getComponentOrLoadingRenderer,
   getComponentOrLoadingRendererWithRequired,
 } from './routerUtils';
@@ -36,12 +36,23 @@ export default function routeRoutes(config) {
     ...preparePatternStopsVariables(params),
     showStopStatusMarkers,
   });
-  // Keeps the tabs and pattern selector visible while another tab loads
-  const sticky = createStickyRendererFactory(
-    ({ params }) => `${params.routeId}|${params.patternId}`,
-  );
+  // Shows a spinner in a placeholder tall enough to keep the mobile sheet in place
+  const tabContent = render => args =>
+    args.Component && (args.props || args.error) ? (
+      render(args)
+    ) : (
+      <div className="route-tab-loading">
+        <Loading />
+      </div>
+    );
   // The header stays mounted while switching tabs within the same route
   const renderHeader = createStickyRenderer({
+    getKey: match => match.params.routeId,
+    passMatch: true,
+  });
+  // Keeps the map mounted while another pattern's map loads, so the mobile
+  // sheet is not reset
+  const renderMap = createStickyRenderer({
     getKey: match => match.params.routeId,
     passMatch: true,
   });
@@ -61,7 +72,7 @@ export default function routeRoutes(config) {
             $date: String!
           ) {
             route(id: $routeId) {
-              ...PatternRedirector_route @arguments(date: $date)
+              ...PatternRedirectorFragment_route @arguments(date: $date)
             }
           }
         `}
@@ -81,7 +92,7 @@ export default function routeRoutes(config) {
               query={graphql`
                 query routeRoutes_RouteTitle_Query($routeId: String!) {
                   route(id: $routeId) {
-                    ...RouteTitle_route
+                    ...RouteTitleFragment_route
                   }
                 }
               `}
@@ -122,7 +133,7 @@ export default function routeRoutes(config) {
                   $cancelationEndDate: OffsetDateTime!
                 ) {
                   route(id: $routeId) {
-                    ...RoutePage_route
+                    ...RoutePageFragment_route
                       @arguments(
                         date: $date
                         cancelationStartDate: $cancelationStartDate
@@ -156,12 +167,7 @@ export default function routeRoutes(config) {
                   }
                 }
               `}
-              render={({ Component, props, error }) => {
-                if (Component && (props || error)) {
-                  return <Component {...props} error={error} />;
-                }
-                return null;
-              }}
+              render={renderMap}
             />,
             <Route
               path=":type/:patternId/(.*)?"
@@ -177,12 +183,12 @@ export default function routeRoutes(config) {
                   }
                 }
               `}
-              render={({ Component, props, error }) => {
-                if (Component && (props || error)) {
-                  return <Component {...props} error={error} trip={null} />;
-                }
-                return null;
-              }}
+              render={args =>
+                renderMap({
+                  ...args,
+                  props: args.props && { ...args.props, trip: null },
+                })
+              }
             />,
             <Route path="(.?)*" />,
           ],
@@ -207,7 +213,7 @@ export default function routeRoutes(config) {
                     $cancelationEndDate: OffsetDateTime!
                   ) {
                     pattern(id: $patternId) {
-                      ...PatternStopsContainer_pattern
+                      ...PatternStopsContainerFragment_pattern
                         @arguments(
                           patternId: $patternId
                           currentTime: $currentTime
@@ -216,7 +222,7 @@ export default function routeRoutes(config) {
                         )
                     }
                     route(id: $routeId) {
-                      ...PatternStopsContainer_route
+                      ...PatternStopsContainerFragment_route
                         @arguments(
                           date: $date
                           cancelationStartDate: $cancelationStartDate
@@ -226,7 +232,7 @@ export default function routeRoutes(config) {
                   }
                 `}
                 prepareVariables={prepareStopListVariables}
-                render={sticky(getComponentOrLoadingRenderer)}
+                render={tabContent(getComponentOrLoadingRenderer)}
               />
               <Route
                 path=":patternId/:tripId"
@@ -247,17 +253,17 @@ export default function routeRoutes(config) {
                     $cancelationEndDate: OffsetDateTime!
                   ) {
                     pattern(id: $patternId) {
-                      ...TripStopsContainer_pattern
+                      ...TripStopsContainerFragment_pattern
                     }
                     trip(id: $tripId) {
-                      ...TripStopsContainer_trip
+                      ...TripStopsContainerFragment_trip
                         @arguments(
                           startOfDay: $startOfDay
                           showStopStatusMarkers: $showStopStatusMarkers
                         )
                     }
                     route(id: $routeId) {
-                      ...TripStopsContainer_route
+                      ...TripStopsContainerFragment_route
                         @arguments(
                           date: $date
                           cancelationStartDate: $cancelationStartDate
@@ -267,7 +273,7 @@ export default function routeRoutes(config) {
                   }
                 `}
                 prepareVariables={prepareStopListVariables}
-                render={sticky(getComponentOrLoadingRenderer)}
+                render={tabContent(getComponentOrLoadingRenderer)}
               />
             </Route>,
             <Route
@@ -452,7 +458,7 @@ export default function routeRoutes(config) {
                   ? prepareScheduleParamsWithTenWeeks
                   : prepareScheduleParamsWithFiveWeeks
               }
-              render={sticky(
+              render={tabContent(
                 getComponentOrLoadingRendererWithRequired([
                   'pattern',
                   'route',
@@ -487,14 +493,15 @@ export default function routeRoutes(config) {
                 }
               `}
               prepareVariables={params => {
-                const now = DateTime.now();
+                // Seconds are dropped so that tab clicks reuse cached data.
+                const now = DateTime.now().startOf('minute');
                 return {
                   ...params,
                   cancelationStartDate: now.toISO(),
                   cancelationEndDate: now.plus({ days: 7 }).toISO(),
                 };
               }}
-              render={withRouteContext()}
+              render={tabContent(withRouteContext())}
             />,
           ],
         }}

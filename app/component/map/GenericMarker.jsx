@@ -1,12 +1,12 @@
 import isFunction from 'lodash/isFunction';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { withLeaflet } from 'react-leaflet/es/context';
+import { useLeaflet } from 'react-leaflet/es/context';
 import Marker from 'react-leaflet/es/Marker';
 import Popup from 'react-leaflet/es/Popup';
 import { default as L } from 'leaflet';
 import { locationShape } from '../../../utils/client/shapes';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 function GenericMarker({
   shouldRender = () => true,
@@ -17,10 +17,10 @@ function GenericMarker({
   maxWidth,
   minWidth,
   children,
-  leaflet,
   onClick = () => {},
   zIndexOffset,
 }) {
+  const leaflet = useLeaflet();
   const config = useConfigContext();
   const [zoom, setZoom] = useState(() => leaflet.map.getZoom());
 
@@ -93,16 +93,8 @@ GenericMarker.propTypes = {
   maxWidth: PropTypes.number,
   minWidth: PropTypes.number,
   children: PropTypes.node,
-  leaflet: PropTypes.shape({
-    map: PropTypes.shape({
-      getZoom: PropTypes.func.isRequired,
-      on: PropTypes.func.isRequired,
-      off: PropTypes.func.isRequired,
-    }).isRequired,
-  }).isRequired,
   onClick: PropTypes.func,
   zIndexOffset: PropTypes.number,
 };
 
-const leafletComponent = withLeaflet(GenericMarker);
-export { leafletComponent as default, GenericMarker as Component };
+export default GenericMarker;

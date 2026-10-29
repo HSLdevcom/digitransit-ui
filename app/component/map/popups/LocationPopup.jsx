@@ -11,7 +11,7 @@ import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { splitStringToAddressAndPlace } from '../../../../utils/shared/otpStrings';
 import getZoneId from '../../../../utils/client/zoneIconUtils';
 import PopupHeader from '../PopupHeader';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function LocationPopup({
   lat,

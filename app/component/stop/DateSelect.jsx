@@ -68,10 +68,12 @@ function DateSelect(props) {
       aria-labelledby={`aria-label-${id}`}
       ariaLiveMessages={{
         guidance: () => '.', // this can't be empty for some reason
-        onChange: ({ value }) =>
-          `${intl.formatMessage({
-            id: 'route-page.pattern-chosen',
-          })} ${value.textLabel}`,
+        onChange: ({ action, value }) =>
+          action === 'select-option' && value
+            ? `${intl.formatMessage({
+                id: 'route-page.pattern-chosen',
+              })} ${value.textLabel}`
+            : '',
         onFilter: () => '',
         onFocus: ({ context: itemContext, focused }) => {
           if (itemContext === 'menu') {

@@ -4,7 +4,7 @@ import { graphql, QueryRenderer } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import DisruptionInfoButton from './DisruptionInfoButton';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 function DisruptionInfoButtonContainer({ onClick = () => {} }) {
   const { feedIds } = useConfigContext();

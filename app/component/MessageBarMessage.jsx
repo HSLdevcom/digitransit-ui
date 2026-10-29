@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import TruncatedMessage from './TruncatedMessage';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function MessageBarMessage({
   content,

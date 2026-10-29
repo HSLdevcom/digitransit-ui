@@ -5,7 +5,7 @@ import { useEffect, Suspense, useState } from 'react';
 import { Button } from '@hsl-fi/layout-primitives';
 import { useRouter } from 'found';
 import ReactModal from 'react-modal';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import scrollTop from '../../../utils/client/scroll';
 import Gutterer from '../Gutterer';
 import Loading from '../Loading';

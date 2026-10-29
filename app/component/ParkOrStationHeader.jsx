@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import StopCode from './StopCode';
-import { useBreakpoint } from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../hooks/BreakpointContext';
 import BackButton from './BackButton';
 import { getJson } from '../../utils/shared/xhrPromise';
 import getZoneId from '../../utils/client/zoneIconUtils';
@@ -10,7 +10,7 @@ import ZoneIcon from './ZoneIcon';
 import { hasVehicleRentalCode } from '../../utils/shared/vehicleRentalUtils';
 import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
 import { splitGtfsId } from '../../utils/shared/gtfs';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 const ParkOrBikeStationHeader = ({
   parkOrStation,

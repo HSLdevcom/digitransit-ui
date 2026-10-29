@@ -24,7 +24,7 @@ import ScrollableWrapper from '../ScrollableWrapper';
 import { replaceQueryParams } from '../../../utils/client/queryUtils';
 import { PREFIX_STOPS } from '../../../utils/shared/path';
 import { TimetableFragment } from './queries/TimetableFragment';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 
 const mapStopTimes = stoptimesObject =>

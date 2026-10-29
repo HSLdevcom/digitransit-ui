@@ -21,7 +21,7 @@ import {
   LEGTYPE,
 } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 import { useRealTimeActions } from '../../../hooks/RealTimeInformationContext';
 
 const HIDE_TOPCARD_DURATION = 2000; // milliseconds

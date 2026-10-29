@@ -1,19 +1,20 @@
 import PropTypes from 'prop-types';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { useFragment } from 'react-relay';
 import cx from 'classnames';
 import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
-import { tripShape } from '../../../utils/client/shapes';
 import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import TripRouteStop from './TripRouteStop';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
-import { useConfigContext } from '../../client/ConfigContext';
+import TripStopListContainerFragment from './queries/TripStopListContainerFragment';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 function TripStopListContainer({
-  trip,
+  trip: tripRef,
   className = undefined,
   tripStart,
   keepTracking = false,
@@ -23,6 +24,7 @@ function TripStopListContainer({
   const currentTime = useCurrentTime();
   const breakpoint = useBreakpoint();
   const { vehicles } = useRealTimeInformation();
+  const trip = useFragment(TripStopListContainerFragment, tripRef);
 
   const mode = getTripOrRouteMode(trip, trip.route, config);
 
@@ -117,67 +119,11 @@ function TripStopListContainer({
 }
 
 TripStopListContainer.propTypes = {
-  trip: tripShape.isRequired,
+  trip: fragmentRefShape.isRequired,
   className: PropTypes.string,
   tripStart: PropTypes.string.isRequired,
   keepTracking: PropTypes.bool,
   setHumanScrolling: PropTypes.func,
 };
 
-const connectedComponent = createFragmentContainer(TripStopListContainer, {
-  trip: graphql`
-    fragment TripStopListContainer_trip on Trip
-    @argumentDefinitions(
-      startOfDay: { type: "Long!", defaultValue: 0 }
-      showStopStatusMarkers: { type: "Boolean!", defaultValue: false }
-    ) {
-      route {
-        mode
-        type
-        gtfsId
-        color
-        shortName
-      }
-      pattern {
-        code
-        directionId
-      }
-      stoptimesForDate {
-        stop {
-          gtfsId
-          name
-          desc
-          code
-          lat
-          lon
-          zoneId
-          alerts {
-            alertEffect
-            alertSeverityLevel
-            effectiveEndDate
-            effectiveStartDate
-          }
-          firstDeparture: stoptimesWithoutPatterns(
-            startTime: $startOfDay
-            timeRange: 7776000 # 90 days in seconds
-            numberOfDepartures: 1
-            omitCanceled: true
-          ) @include(if: $showStopStatusMarkers) {
-            serviceDay
-            realtimeDeparture
-          }
-        }
-        realtimeArrival
-        realtimeDeparture
-        realtime
-        scheduledDeparture
-        serviceDay
-        realtimeState
-      }
-      isReplacement
-      gtfsId
-    }
-  `,
-});
-
-export { connectedComponent as default, TripStopListContainer as Component };
+export default TripStopListContainer;

@@ -8,7 +8,7 @@ import {
   setReadMessageId,
 } from '../../../../utils/client/localStorage';
 import { TransportMode } from '../../../../utils/shared/constants';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function Scooters({ updateSettings }) {
   const config = useConfigContext();

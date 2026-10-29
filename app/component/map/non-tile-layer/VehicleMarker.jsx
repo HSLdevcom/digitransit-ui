@@ -25,7 +25,7 @@ import {
 } from '../../../../utils/shared/path';
 import { renderAsString } from '../../../../utils/client/mapIconUtils';
 import IconBadge from '../../icon/IconBadge';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 // Small icon for zoom levels <= 15
 const smallIconSvg = `

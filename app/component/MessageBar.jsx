@@ -1,12 +1,11 @@
 import cx from 'classnames';
 import uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
-import { relayShape } from '../../utils/client/shapes';
-import { useConfigContext } from '../client/ConfigContext';
-import { withCurrentTime } from '../hooks/TimeContext';
+import { useConfigContext } from '../hooks/ConfigContext';
+import { useCurrentTime } from '../hooks/TimeContext';
 import {
   useMessages,
   useDuplicateMessageCounter,
@@ -116,18 +115,18 @@ const hasContent = (el, lang) => {
   return Array.isArray(resolved) && resolved.length > 0 && resolved[0].content;
 };
 
-function MessageBar({
-  currentTime,
+export default function MessageBar({
   getServiceAlertsAsync = fetchServiceAlerts,
-  lang,
-  messages,
-  relayEnvironment,
-  duplicateMessageCounter,
   breakpoint,
-  markMessageAsRead = () => {},
 }) {
+  const currentTime = useCurrentTime();
   const intl = useIntl();
   const config = useConfigContext();
+  const { environment: relayEnvironment } = useContext(ReactRelayContext);
+  const messages = useMessages();
+  const duplicateMessageCounter = useDuplicateMessageCounter();
+  const { markMessageAsRead } = useMessageActions();
+  const { language: lang } = config;
   const [slideIndex, setSlideIndex] = useState(0);
   const [allAlertsOpen, setAllAlertsOpen] = useState(false);
   const [ready, setReady] = useState(false);
@@ -149,9 +148,7 @@ function MessageBar({
     setAllAlertsOpen(true);
   };
 
-  // Runs once on mount, mirroring the previous class component's
-  // componentDidMount; currentTime/getServiceAlertsAsync/relayEnvironment/
-  // config are treated as stable for the lifetime of a single mount here.
+  // Runs once on mount; alert filtering captures the mount-time currentTime.
   useEffect(() => {
     const feedIds =
       Array.isArray(config.feedIds) && config.feedIds.length > 0
@@ -319,42 +316,6 @@ function MessageBar({
 }
 
 MessageBar.propTypes = {
-  currentTime: PropTypes.number.isRequired,
   getServiceAlertsAsync: PropTypes.func,
-  lang: PropTypes.string.isRequired,
-  // eslint-disable-next-line
-  messages: PropTypes.arrayOf(PropTypes.object).isRequired,
-  relayEnvironment: relayShape.isRequired,
-  duplicateMessageCounter: PropTypes.number.isRequired,
   breakpoint: PropTypes.string,
-  markMessageAsRead: PropTypes.func,
 };
-
-const MessageBarWithConfig = props => {
-  const { language: lang } = useConfigContext();
-  return (
-    <ReactRelayContext.Consumer>
-      {({ environment }) => (
-        <MessageBar {...props} lang={lang} relayEnvironment={environment} />
-      )}
-    </ReactRelayContext.Consumer>
-  );
-};
-
-const MessageBarWithTime = withCurrentTime(MessageBarWithConfig);
-
-const ConnectedMessageBar = props => {
-  const messages = useMessages();
-  const duplicateMessageCounter = useDuplicateMessageCounter();
-  const { markMessageAsRead } = useMessageActions();
-  return (
-    <MessageBarWithTime
-      {...props}
-      messages={messages}
-      duplicateMessageCounter={duplicateMessageCounter}
-      markMessageAsRead={markMessageAsRead}
-    />
-  );
-};
-
-export { ConnectedMessageBar as default, MessageBar as Component };

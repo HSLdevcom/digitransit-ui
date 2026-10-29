@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import getAssetUrl from '../../../../assets/assetUrl';
 import NavigatorModal from '../NavigatorModal';
 import NavigatorOutro from './NavigatorOutro';
-import { useConfigContext } from '../../../../client/ConfigContext';
+import { useConfigContext } from '../../../../hooks/ConfigContext';
 
 const NavigatorOutroModal = ({ onClose, destination }) => {
   const config = useConfigContext();

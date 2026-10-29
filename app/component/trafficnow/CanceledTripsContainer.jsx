@@ -6,7 +6,7 @@ import { sortRoutes } from './utils';
 import { useFilterContext } from './filters/FiltersContext';
 import { useFavourites } from '../../hooks/FavouriteContext';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const CanceledTripsContainer = ({ mode, isMobile, dateTime }) => {
   const { canceledTripsSummary } = useLazyLoadQuery(CanceledTripsForModeQuery, {

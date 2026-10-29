@@ -4,7 +4,7 @@ import { useMatch } from 'found';
 
 import { otpToLocation } from '../../../utils/shared/otpStrings';
 import { generateMetaData } from '../../../utils/client/metaUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 function ItineraryPageMeta() {
   const config = useConfigContext();

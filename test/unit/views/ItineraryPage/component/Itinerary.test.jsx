@@ -1,6 +1,6 @@
 import { fireEvent } from '@testing-library/react';
 
-import { component as Itinerary } from '../../../../../app/component/itinerary/Itinerary';
+import Itinerary from '../../../../../app/component/itinerary/Itinerary';
 import {
   AlertSeverityLevelType,
   ExtendedRouteTypes,
@@ -11,7 +11,6 @@ import { ignoreRelayModernSelectorWarning } from '../../../helpers/relay-selecto
 import dcw12 from '../../../test-data/dcw12';
 
 const defaultProps = {
-  breakpoint: 'large',
   hash: 1,
   focusToHeader: () => {},
   refTime: 0,
@@ -50,8 +49,9 @@ describe('<Itinerary />', () => {
   // ignoreRelayModernSelectorWarning's own comment for why this is needed.
   ignoreRelayModernSelectorWarning();
 
-  const renderItinerary = (props, config, router) =>
+  const renderItinerary = (props, config, router, breakpoint = 'large') =>
     renderWithProviders(<Itinerary {...defaultProps} {...props} />, {
+      breakpoint,
       ...(config ? { config } : {}),
       ...(router ? { router } : {}),
     });
@@ -415,6 +415,225 @@ describe('<Itinerary />', () => {
     expect(container.querySelector('.subicon-caution')).toBeNull();
   });
 
+  describe('alert badge in the summary view', () => {
+    const startMs = 1553769600000;
+    const iso = ms => new Date(ms).toISOString();
+    const alertOf = (level, extra = {}) => ({
+      alertSeverityLevel: level,
+      effectiveStartDate: startMs / 1000 - 600,
+      effectiveEndDate: startMs / 1000 + 6000,
+      ...extra,
+    });
+    const transitLeg = (offsetMs, overrides = {}) => ({
+      from: {},
+      to: {},
+      mode: 'RAIL',
+      route: { alerts: [], mode: 'RAIL' },
+      start: { scheduledTime: iso(startMs + offsetMs) },
+      end: { scheduledTime: iso(startMs + offsetMs + 600000) },
+      ...overrides,
+    });
+    const itineraryOf = (...legs) => ({
+      itinerary: {
+        start: iso(startMs),
+        end: iso(startMs + 3600000),
+        legs,
+      },
+    });
+
+    it.each([AlertSeverityLevelType.Severe, AlertSeverityLevelType.Unknown])(
+      'should show a caution badge for a %s alert',
+      level => {
+        const { container } = renderItinerary(
+          itineraryOf(
+            transitLeg(0, {
+              route: { alerts: [alertOf(level)], mode: 'RAIL' },
+            }),
+          ),
+        );
+        expect(container.querySelector('.subicon-caution')).not.toBeNull();
+      },
+    );
+
+    it('should show an info badge instead of a caution badge for an info alert', () => {
+      const { container } = renderItinerary(
+        itineraryOf(
+          transitLeg(0, {
+            route: {
+              alerts: [alertOf(AlertSeverityLevelType.Info)],
+              mode: 'RAIL',
+            },
+          }),
+        ),
+      );
+      expect(container.querySelector('.subicon-info')).not.toBeNull();
+      expect(container.querySelector('.subicon-caution')).toBeNull();
+    });
+
+    it('should show the caution badge when info and warning alerts are combined', () => {
+      const { container } = renderItinerary(
+        itineraryOf(
+          transitLeg(0, {
+            route: {
+              alerts: [alertOf(AlertSeverityLevelType.Info)],
+              mode: 'RAIL',
+            },
+            from: {
+              stop: { alerts: [alertOf(AlertSeverityLevelType.Warning)] },
+            },
+          }),
+        ),
+      );
+      expect(container.querySelector('.subicon-caution')).not.toBeNull();
+      expect(container.querySelector('.subicon-info')).toBeNull();
+    });
+
+    it('should show a badge for a stop alert that starts while the leg is under way', () => {
+      const { container } = renderItinerary(
+        itineraryOf(
+          transitLeg(0, {
+            to: {
+              stop: {
+                alerts: [
+                  alertOf(AlertSeverityLevelType.Warning, {
+                    effectiveStartDate: startMs / 1000 + 300,
+                    effectiveEndDate: startMs / 1000 + 6000,
+                  }),
+                ],
+              },
+            },
+          }),
+        ),
+      );
+      expect(container.querySelector('.subicon-caution')).not.toBeNull();
+    });
+
+    it('should not show a badge for an alert that only starts after the leg has ended', () => {
+      const { container } = renderItinerary(
+        itineraryOf(
+          transitLeg(0, {
+            route: {
+              alerts: [
+                alertOf(AlertSeverityLevelType.Warning, {
+                  effectiveStartDate: startMs / 1000 + 7200,
+                  effectiveEndDate: startMs / 1000 + 9000,
+                }),
+              ],
+              mode: 'RAIL',
+            },
+          }),
+        ),
+      );
+      expect(container.querySelector('.subicon-caution')).toBeNull();
+    });
+
+    it('should show a caution badge for a canceled leg', () => {
+      const { container } = renderItinerary(
+        itineraryOf(transitLeg(0, { realtimeState: 'CANCELED' })),
+      );
+      expect(container.querySelector('.subicon-caution')).not.toBeNull();
+    });
+
+    it.each([
+      ['from', 'from'],
+      ['to', 'to'],
+    ])(
+      'should show an info badge for an info alert at the "%s" stop',
+      place => {
+        const { container } = renderItinerary(
+          itineraryOf(
+            transitLeg(0, {
+              [place]: {
+                stop: { alerts: [alertOf(AlertSeverityLevelType.Info)] },
+              },
+            }),
+          ),
+        );
+        expect(container.querySelector('.subicon-info')).not.toBeNull();
+        expect(container.querySelector('.subicon-caution')).toBeNull();
+      },
+    );
+
+    it('should ignore an alert that expired before the leg started', () => {
+      const { container } = renderItinerary(
+        itineraryOf(
+          transitLeg(0, {
+            route: {
+              alerts: [
+                alertOf(AlertSeverityLevelType.Severe, {
+                  effectiveStartDate: startMs / 1000 - 7200,
+                  effectiveEndDate: startMs / 1000 - 600,
+                }),
+              ],
+              mode: 'RAIL',
+            },
+          }),
+        ),
+      );
+      expect(container.querySelector('.subicon-caution')).toBeNull();
+    });
+
+    it('should use the estimated start time when deciding if an alert is active', () => {
+      const { container } = renderItinerary(
+        itineraryOf(
+          transitLeg(0, {
+            start: {
+              scheduledTime: iso(startMs),
+              estimated: { time: iso(startMs + 7200000) },
+            },
+            end: { scheduledTime: iso(startMs + 7800000) },
+            route: {
+              alerts: [alertOf(AlertSeverityLevelType.Warning)],
+              mode: 'RAIL',
+            },
+          }),
+        ),
+      );
+      expect(container.querySelector('.subicon-caution')).toBeNull();
+    });
+
+    it('should badge each of several alerted legs separately', () => {
+      const warn = mode => ({
+        mode,
+        route: { alerts: [alertOf(AlertSeverityLevelType.Warning)], mode },
+      });
+      const info = mode => ({
+        mode,
+        route: { alerts: [alertOf(AlertSeverityLevelType.Info)], mode },
+      });
+      const { container } = renderItinerary(
+        itineraryOf(
+          transitLeg(0, warn('RAIL')),
+          transitLeg(1800000, info('BUS')),
+        ),
+      );
+      expect(
+        container.querySelector('.leg.rail .subicon-caution'),
+      ).not.toBeNull();
+      expect(container.querySelector('.leg.bus .subicon-info')).not.toBeNull();
+    });
+
+    it('should badge only the leg that has the alert in a multi-leg itinerary', () => {
+      const { container } = renderItinerary(
+        itineraryOf(
+          transitLeg(0),
+          transitLeg(1800000, {
+            mode: 'BUS',
+            route: {
+              alerts: [alertOf(AlertSeverityLevelType.Warning)],
+              mode: 'BUS',
+            },
+          }),
+        ),
+      );
+      expect(container.querySelectorAll('.subicon-caution')).toHaveLength(1);
+      expect(container.querySelector('.leg.rail .subicon-caution')).toBeNull();
+      expect(
+        container.querySelector('.leg.bus .subicon-caution'),
+      ).not.toBeNull();
+    });
+  });
+
   it('should render a CAR leg with the car icon and a park-and-ride indicator', () => {
     const props = {
       itinerary: {
@@ -737,7 +956,6 @@ describe('<Itinerary />', () => {
       const focusToHeader = vi.fn();
       const props = buildProps({
         passive: true,
-        breakpoint: 'large',
         focusToHeader,
       });
       const { container } = renderItinerary(props, undefined, {
@@ -758,14 +976,18 @@ describe('<Itinerary />', () => {
       const focusToHeader = vi.fn();
       const props = buildProps({
         passive: true,
-        breakpoint: 'small',
         focusToHeader,
       });
-      const { container } = renderItinerary(props, undefined, {
-        ...mockContext.router,
-        replace,
-        push,
-      });
+      const { container } = renderItinerary(
+        props,
+        undefined,
+        {
+          ...mockContext.router,
+          replace,
+          push,
+        },
+        'small',
+      );
       fireEvent.click(container.querySelector('.summary-clickable-area'));
       expect(push.mock.calls.length).toBe(1);
       expect(focusToHeader.mock.calls.length).toBe(1);

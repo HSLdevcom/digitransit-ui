@@ -1,15 +1,17 @@
-import PropTypes from 'prop-types';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { useFragment } from 'react-relay';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import { routePagePath } from '../../../utils/shared/path';
-import { routeShape } from '../../../utils/client/shapes';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 
 import RouteNumberContainer from '../RouteNumberContainer';
+import RouteTitleFragment from './queries/RouteTitleFragment';
 
-const RouteTitle = ({ route, breakpoint }) =>
-  breakpoint === 'large' || !route || !route.mode ? (
+function RouteTitle({ route: routeRef = null }) {
+  const breakpoint = useBreakpoint();
+  const route = useFragment(RouteTitleFragment, routeRef);
+  return breakpoint === 'large' || !route || !route.mode ? (
     <FormattedMessage id="route-page.title-short" defaultMessage="Route" />
   ) : (
     <Link to={routePagePath(route.gtfsId)}>
@@ -22,20 +24,10 @@ const RouteTitle = ({ route, breakpoint }) =>
       />
     </Link>
   );
+}
 
 RouteTitle.propTypes = {
-  route: routeShape.isRequired,
-  breakpoint: PropTypes.string,
+  route: fragmentRefShape,
 };
 
-export default createFragmentContainer(withBreakpoint(RouteTitle), {
-  route: graphql`
-    fragment RouteTitle_route on Route {
-      gtfsId
-      shortName
-      color
-      mode
-      type
-    }
-  `,
-});
+export default RouteTitle;

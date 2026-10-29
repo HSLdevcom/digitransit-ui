@@ -12,7 +12,7 @@ import {
   getCitybikeNetworks,
 } from '../../../../utils/client/vehicleRentalUtils';
 import { TransportMode } from '../../../../utils/shared/constants';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function NetworkSelector({ type, updateSettings }) {
   const config = useConfigContext();

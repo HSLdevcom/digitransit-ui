@@ -16,9 +16,9 @@ import {
 import { alertShape } from '../../utils/client/shapes';
 import { useCurrentTime } from '../hooks/TimeContext';
 import { PREFIX_DISRUPTION, PREFIX_TIMETABLE } from '../../utils/shared/path';
-import { useBreakpoint } from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../hooks/BreakpointContext';
 import Icon from './Icon';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 import { isToday } from '../../utils/client/timeUtils';
 
 export const EmptyDisruptions = () => {

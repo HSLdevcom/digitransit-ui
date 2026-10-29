@@ -1,16 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { ReactSortable } from 'react-sortablejs';
+import { DragDropProvider } from '@dnd-kit/react';
 import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 import { Spinner } from '@hsl-fi/loading-indicators';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
-import FavouriteListItem, {
-  DRAG_HANDLE_CLASS,
-} from './helpers/FavouriteListItem';
+import FavouriteListItem from './helpers/FavouriteListItem';
 import i18n from './helpers/i18n';
 import styles from './helpers/styles.scss';
 
@@ -75,14 +73,18 @@ function FavouriteEditingModal({
     setReordered(copy);
   };
 
-  // ReactSortable also calls setList on mount and on selection changes without reordering
-  const setList = newList => {
-    const sameOrder =
-      newList.length === items.length &&
-      newList.every((item, i) => item.favouriteId === items[i].favouriteId);
-    if (!sameOrder) {
-      setReordered(newList);
+  const onDragEnd = event => {
+    if (event.canceled) {
+      return;
     }
+    const { initialIndex, index } = event.operation.source?.sortable || {};
+    if (initialIndex === undefined || initialIndex === index) {
+      return;
+    }
+    const copy = [...items];
+    const [moved] = copy.splice(initialIndex, 1);
+    copy.splice(index, 0, moved);
+    setReordered(copy);
   };
 
   const closeModal = () => {
@@ -133,31 +135,24 @@ function FavouriteEditingModal({
           aria-describedby={undefined}
         >
           <div className={styles.listContainer}>
-            <ReactSortable
-              className={styles.list}
-              tag="ul"
-              list={items}
-              setList={setList}
-              animation={200}
-              handle={`.${DRAG_HANDLE_CLASS}`}
-              forceFallback
-              ghostClass={styles.ghost}
-              fallbackClass={styles.fallback}
-            >
-              {items.map((favourite, index) => (
-                <FavouriteListItem
-                  key={favourite.favouriteId}
-                  favourite={favourite}
-                  lang={lang}
-                  onMoveUp={index > 0 ? () => move(index, -1) : null}
-                  onMoveDown={
-                    index < items.length - 1 ? () => move(index, 1) : null
-                  }
-                  onEdit={() => onEditSelected(favourite)}
-                  onDelete={() => setSelectedFavourite(favourite)}
-                />
-              ))}
-            </ReactSortable>
+            <DragDropProvider onDragEnd={onDragEnd}>
+              <ul className={styles.list}>
+                {items.map((favourite, index) => (
+                  <FavouriteListItem
+                    key={favourite.favouriteId}
+                    index={index}
+                    favourite={favourite}
+                    lang={lang}
+                    onMoveUp={index > 0 ? () => move(index, -1) : null}
+                    onMoveDown={
+                      index < items.length - 1 ? () => move(index, 1) : null
+                    }
+                    onEdit={() => onEditSelected(favourite)}
+                    onDelete={() => setSelectedFavourite(favourite)}
+                  />
+                ))}
+              </ul>
+            </DragDropProvider>
             {isLoading && (
               <div className={styles.overlay}>
                 <Spinner />

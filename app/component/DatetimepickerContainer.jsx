@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
 import { replaceQueryParams } from '../../utils/client/queryUtils';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function DatetimepickerContainer({
   realtime,

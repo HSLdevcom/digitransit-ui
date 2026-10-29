@@ -12,7 +12,7 @@ import {
 import { useMessageActions } from '../hooks/MessageContext';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { failedFavouriteMessage } from '../../utils/client/messageUtils';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function FavouriteStopContainer({
   stop,

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { Icon, MapLocation } from '@hsl-fi/icons';
 import { Text } from '@hsl-fi/layout-primitives';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 function OperatorBadge({ feed }) {
   const { sourceForAlertsAndDisruptions } = useConfigContext();

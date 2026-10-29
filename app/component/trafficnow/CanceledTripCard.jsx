@@ -2,7 +2,7 @@ import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { ArrowLinkButton } from '@hsl-fi/navigation';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { useFavourites } from '../../hooks/FavouriteContext';
 import { TRAFFICNOW, routePagePath } from '../../../utils/shared/path';
 import Card from '../Card';

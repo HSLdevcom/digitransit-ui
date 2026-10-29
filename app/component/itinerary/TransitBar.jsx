@@ -6,7 +6,7 @@ import { getActiveLegAlertSeverityLevel } from '../../../utils/client/alertUtils
 import { isLocalCallAgency } from '../../../utils/client/legUtils';
 import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import { getCapacityForLeg } from '../../../utils/client/occupancyUtil';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function TransitBar({
   leg,

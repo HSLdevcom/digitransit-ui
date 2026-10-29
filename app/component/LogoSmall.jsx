@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 const LogoSmall = ({ logo }) => {
   const config = useConfigContext();

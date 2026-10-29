@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { fireEvent } from '@testing-library/react';
 
-import { Component as ScheduleContainer } from '../../../../app/component/routepage/schedule/ScheduleContainer';
+import ScheduleContainer from '../../../../app/component/routepage/schedule/ScheduleContainer';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { mockMatch, mockRouter } from '../../helpers/mock-router';
 import { createScheduleTestContext } from '../../helpers/mock-schedule-context';
@@ -320,15 +320,6 @@ describe('<ScheduleContainer />', () => {
     const { container } = renderView();
     expect(container.querySelector('.route-schedule-header')).not.toBeNull();
     expect(container.querySelector('.route-page-action-bar')).not.toBeNull();
-  });
-
-  it('should not show RouteControlPanel when route has no patterns', () => {
-    const { container } = renderView({
-      route: { ...mockRoute, patterns: null },
-    });
-    expect(
-      container.querySelector('.route-page-control-panel-container'),
-    ).toBeNull();
   });
 
   it('should show no-trips message when no trips are available', () => {

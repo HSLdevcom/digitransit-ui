@@ -9,7 +9,7 @@ import MessageBar from './MessageBar';
 import LogoSmall from './LogoSmall';
 import LoginButton from './LoginButton';
 import UserMenu from './UserMenu';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function AppBar({
   showLogo = false,

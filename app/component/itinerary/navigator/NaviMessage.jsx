@@ -2,7 +2,7 @@ import { useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Icon from '../../Icon';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 function NaviMessage({
   severity,

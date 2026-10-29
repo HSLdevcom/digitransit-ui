@@ -10,7 +10,7 @@ import {
   modeToTranslationId,
 } from '../../../utils/client/modeUtils';
 import { stopShape } from '../../../utils/client/shapes';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function FilterTimeTableModal({
   stop,

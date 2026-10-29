@@ -1,20 +1,19 @@
+import { LeafletProvider } from 'react-leaflet/es/context';
 import { renderWithProviders } from '../../helpers/mock-providers';
-import { Component as MarkerPopupBottomWithoutLeaflet } from '../../../../app/component/map/MarkerPopupBottom';
+import MarkerPopupBottom from '../../../../app/component/map/MarkerPopupBottom';
 
 describe('<MarkerPopupBottom />', () => {
   it('should render a viapoint button when asked so', () => {
     const props = {
       location: {},
-      leaflet: {
-        map: {
-          closePopup: () => {},
-        },
-      },
       locationPopup: 'all',
       onSelectLocation: () => null,
     };
+    const map = { closePopup: () => {} };
     const { container } = renderWithProviders(
-      <MarkerPopupBottomWithoutLeaflet {...props} />,
+      <LeafletProvider value={{ map }}>
+        <MarkerPopupBottom {...props} />
+      </LeafletProvider>,
     );
     expect(container.querySelector('.route-add-viapoint')).not.toBeNull();
   });

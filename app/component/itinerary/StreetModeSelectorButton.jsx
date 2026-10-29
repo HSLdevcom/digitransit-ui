@@ -13,7 +13,7 @@ import {
 } from '../../../utils/client/legUtils';
 import { streetHash } from '../../../utils/shared/path';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function StreetModeSelectorButton({
   icon,

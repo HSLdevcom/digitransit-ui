@@ -51,6 +51,10 @@ div.map {
     }
 
     z-index: index($zindex, map-container);
+
+    @media print {
+      display: none;
+    }
   }
 
   .drawer-container {
@@ -62,11 +66,23 @@ div.map {
     position: absolute;
     width: 100%;
 
+    // print the whole content instead of the visible part of the bottom sheet
+    @media print {
+      display: block;
+      overflow: visible;
+      height: auto;
+      position: static;
+    }
+
     .drawer-padding {
       flex-grow: 1;
       flex-shrink: 0;
       flex-basis: 90%;
       width: 0;
+
+      @media print {
+        display: none;
+      }
     }
 
     .drawer-content {
@@ -91,6 +107,10 @@ div.map {
         margin: auto;
         position: relative;
         top: -5px;
+
+        @media print {
+          display: none;
+        }
       }
 
       .content-container {

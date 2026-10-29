@@ -8,8 +8,49 @@ import { cleanup } from '@testing-library/react';
 import Link from 'found/Link';
 import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
-import relay from 'react-relay';
+import relayHooks from 'react-relay/hooks';
 import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
+
+// Stub useFragment/useRefetchableFragment globally so components can be
+// tested by passing in complete, already-resolved data as props instead of
+// a real Relay fragment reference/store. This has to be done via vi.mock
+// (which replaces the module itself) rather than reassigning a property on
+// the default export - `import { useFragment } from 'react-relay'` (used
+// throughout app/component/**) gets a snapshot of the named export under
+// Vite/Vitest's CJS interop, so it doesn't see a later
+// `relay.useFragment = ...` reassignment; only
+// `import relay from 'react-relay'; relay.useFragment` call sites would.
+// vi.mock avoids that distinction since both import forms resolve to the
+// same mocked module. useRefetchableFragment's refetch function is a no-op
+// by default; a test asserting refetch behaviour can assert on it directly
+// via its own local vi.mock override (see below), which takes precedence
+// over this one for that file.
+vi.mock('react-relay', async importOriginal => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    ...actual.default,
+    useFragment: (_fragment, fragmentRef) => fragmentRef,
+    useRefetchableFragment: (_fragment, fragmentRef) => [fragmentRef, vi.fn()],
+  };
+});
+
+// Stub useLazyLoadQuery globally for the same reason, defaulting to an empty
+// result so standalone-query components (TripLink, FuzzyTripLink, and the
+// trafficnow/ components) render their "no data yet" state without needing a
+// real Relay environment/network response. This is done via vi.spyOn in a
+// beforeEach below (run after Vitest's own `restoreMocks` autouse hook
+// resets it) rather than vi.mock like useFragment/useRefetchableFragment
+// above: components call useLazyLoadQuery via a direct
+// `import { useLazyLoadQuery } from 'react-relay/hooks'` (the existing
+// trafficnow/ convention) and tests needing a resolved-data branch already
+// override it with their own `vi.spyOn(relayHooks, 'useLazyLoadQuery')...`
+// call (see test/unit/component/trafficnow/TrafficNow.test.jsx) - a
+// competing vi.mock of the same specifier interferes with that spy's
+// visibility to the component's own named import.
+beforeEach(() => {
+  vi.spyOn(relayHooks, 'useLazyLoadQuery').mockReturnValue({});
+});
 
 // set up timezone in luxon
 Settings.defaultZone = 'Europe/Helsinki';
@@ -44,7 +85,6 @@ const MockLink = ({ children }) => children;
 // which would undo a vi-based stub here after the very first test.
 const originalConsoleError = console.error;
 const originalLinkRender = Link.render;
-const originalUseFragment = relay.useFragment;
 
 // React 18 bump (React 18 upgrade plan, Phase 1): these two deprecation
 // warnings now surface here because @testing-library/react's `render` uses
@@ -73,9 +113,6 @@ beforeAll(() => {
     throw new Error(warning);
   };
   Link.render = MockLink;
-  // stub useFragment hook to return referenced object
-  // this assumes that a component is given complete data as props
-  relay.useFragment = (query, ref) => ref;
   // TODO this could be renabled when dependencies don't throw warnings
   // console.warn = callback;
 });
@@ -83,15 +120,14 @@ beforeAll(() => {
 afterAll(() => {
   console.error = originalConsoleError;
   Link.render = originalLinkRender;
-  relay.useFragment = originalUseFragment;
 });
 
 // make sure the local and session storage stays clear for each test
 afterEach(() => {
   cleanup();
   // react-modal hides its app element (body in some tests) and only restores
-  // it after closeTimeoutMS; the files share one jsdom (isolate: false), so
-  // a leftover aria-hidden would make later getByRole queries fail.
+  // it after closeTimeoutMS; a leftover aria-hidden would make later
+  // getByRole queries in the same file fail.
   document.body.removeAttribute('aria-hidden');
   // `restoreMocks: true` (vitest.config.js's `app` project) only restores
   // vi.fn()/vi.spyOn() mocks right before the *next* test starts, so a

@@ -3,7 +3,7 @@ import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import { alertShape } from '../../utils/client/shapes';
 import Icon from './Icon';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 function DisruptionInfoButton({
   openDisruptionInfo = () => {},

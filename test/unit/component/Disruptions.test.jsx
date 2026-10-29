@@ -5,7 +5,9 @@ import {
   AlertSeverityLevelType,
   AlertEntityType,
 } from '../../../utils/shared/constants';
-import Disruptions from '../../../app/component/stop/Disruptions';
+import Disruptions, {
+  filterCanceledCalls,
+} from '../../../app/component/stop/Disruptions';
 
 const renderDisruptions = props =>
   renderWithProviders(<Disruptions {...props} />).container;
@@ -261,5 +263,9 @@ describe('<Disruptions />', () => {
     };
     const container = renderDisruptions(props);
     expect(container.querySelectorAll('.alert-row')).toHaveLength(1);
+  });
+
+  it('should treat missing canceled calls as empty', () => {
+    expect(filterCanceledCalls(undefined, ['feed:bar'])).toEqual([]);
   });
 });

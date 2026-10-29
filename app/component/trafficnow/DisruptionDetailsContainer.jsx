@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { ButtonLink, Text } from '@hsl-fi/layout-primitives';
 import { useRouter } from 'found';
 import { useLazyLoadQuery } from 'react-relay/hooks';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import Card from '../Card';
 import DisruptionBadge from './DisruptionBadge';
 import DisruptionStatus from './components/DisruptionStatus';

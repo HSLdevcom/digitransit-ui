@@ -13,7 +13,7 @@ import {
 } from '../../utils/client/localStorage';
 import { showRentalVehiclesOfType } from '../../utils/client/modeUtils';
 import { TransportMode } from '../../utils/shared/constants';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from './ConfigContext';
 
 const MapLayerContext = createContext(null);
 

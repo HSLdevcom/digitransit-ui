@@ -23,7 +23,7 @@ import Loading from '../Loading';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import useUTMCampaignParams from './hooks/useUTMCampaignParams';
 import { locationToOTP } from '../../../utils/shared/otpStrings';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
 

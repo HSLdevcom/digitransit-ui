@@ -7,7 +7,7 @@ import { getJson } from '../../../utils/shared/xhrPromise';
 import { saveSearch } from '../../data/SearchHistory';
 import { isIOS } from '../../../utils/shared/browser';
 import FavouriteStopContainer from '../FavouriteStopContainer';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 function StopCardHeader({
   stop,

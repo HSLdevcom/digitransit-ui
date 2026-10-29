@@ -99,8 +99,18 @@ describe('scheduleDropdownUtils', () => {
     expect(Object.keys(messages)).toEqual(
       expect.arrayContaining(['guidance', 'onChange', 'onFilter', 'onFocus']),
     );
-    expect(messages.onChange({ value: { label: 'Test Stop' } })).toBe(
-      'Selected Test Stop',
-    );
+    expect(
+      messages.onChange({
+        action: 'select-option',
+        value: { label: 'Test Stop' },
+      }),
+    ).toBe('Selected Test Stop');
+  });
+
+  it('should not announce a change on initial focus without a value', () => {
+    const messages = getAriaMessages(createTestIntl());
+    expect(
+      messages.onChange({ action: 'initial-input-focus', value: null }),
+    ).toBe('');
   });
 });

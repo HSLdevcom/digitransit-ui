@@ -1,6 +1,7 @@
 import path from 'path';
 import { createRequire } from 'module';
 import react from '@vitejs/plugin-react';
+import svgr from 'vite-plugin-svgr';
 
 const require = createRequire(import.meta.url);
 
@@ -115,12 +116,6 @@ export default {
           // Files that still `import { expect } from 'chai'` are unaffected
           // (a local import shadows a global).
           globals: true,
-          // Shares one jsdom environment/module registry per worker instead
-          // of recreating it per test file - jsdom env creation is the
-          // biggest chunk of this project's test time. Safe here because
-          // vitest.setup.js's afterEach already resets shared state (RTL
-          // cleanup, localStorage/sessionStorage, mocks via restoreMocks).
-          isolate: false,
           // Auto-restores vi.fn()/vi.spyOn() mocks between tests. Needed
           // because a handful of tests use vi.spyOn to stub this repo's own
           // ESM exports, which sinon can't do.
@@ -186,17 +181,14 @@ export default {
           ],
         },
         // @vitejs/plugin-react already handles JSX; the only thing missing
-        // versus Rollup's build is inline-react-svg, needed for
+        // versus Rollup's build is SVGR, needed for
         // digitransit-component-icon's raw .svg imports.
         plugins: [
-          react({
-            // Custom babel plugins opt out of plugin-react's automatic JSX
-            // handling, so its JSX preset needs listing explicitly too.
-            babel: {
-              presets: [['@babel/preset-react', { runtime: 'automatic' }]],
-              plugins: ['inline-react-svg'],
-            },
+          svgr({
+            include: '**/*.svg',
+            svgrOptions: { svgo: false, ref: false, titleProp: false },
           }),
+          react(),
           hslFiCjsInteropPlugin(),
           // rollup.config.js's postcss plugin treats every .scss import as
           // a CSS module. Vitest's built-in CSS handling (`css: false`

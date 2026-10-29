@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { stopTimeShape } from '../../utils/client/shapes';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
 import { useRealTimeActions } from '../hooks/RealTimeInformationContext';

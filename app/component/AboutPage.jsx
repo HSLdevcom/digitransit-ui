@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function AboutPage() {
   const config = useConfigContext();

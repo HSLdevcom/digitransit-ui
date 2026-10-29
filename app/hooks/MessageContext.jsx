@@ -11,7 +11,7 @@ import {
   setReadMessageIds,
   getReadMessageIds,
 } from '../../utils/client/localStorage';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from './ConfigContext';
 
 export const processStaticMessages = (root, callback) => {
   const { staticMessages } = root;

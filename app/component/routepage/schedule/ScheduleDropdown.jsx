@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Select from 'react-select';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import { truncateLabel } from '../../../../utils/client/stringUtils';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 import { getAriaMessages, getClassNamePrefix } from './scheduleDropdownUtils';
 
 export const handleScheduleDropdownChange = (

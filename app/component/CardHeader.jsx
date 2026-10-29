@@ -9,7 +9,7 @@ import SplitBars from './SplitBars';
 import BackButton from './BackButton';
 import { getZoneLabel } from '../../utils/client/legUtils';
 import { splitGtfsId } from '../../utils/shared/gtfs';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function CardHeader({
   className = '',

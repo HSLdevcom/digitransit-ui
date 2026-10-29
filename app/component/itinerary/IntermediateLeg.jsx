@@ -7,7 +7,7 @@ import ZoneIcon from '../ZoneIcon';
 import { stopPagePath } from '../../../utils/shared/path';
 import Icon from '../Icon';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 function IntermediateLeg({
   placesCount = 0,

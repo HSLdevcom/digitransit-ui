@@ -4,7 +4,7 @@ import {
   getRentalNetworkConfig,
 } from '../../utils/shared/vehicleRentalUtils';
 import { rentalVehicleShape } from '../../utils/client/shapes';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 const RentalVehicle = ({ rentalVehicle }) => {
   const config = useConfigContext();

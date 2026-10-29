@@ -4,7 +4,7 @@ import SettingsToggle from './SettingsToggle';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { settingsShape } from '../../../../utils/client/shapes';
 import Icon from '../../Icon';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function TaxiOptions({ settings, updateSettings }) {
   const config = useConfigContext();

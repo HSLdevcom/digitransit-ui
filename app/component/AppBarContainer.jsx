@@ -1,14 +1,15 @@
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
 import { FormattedMessage } from 'react-intl';
-import withBreakpoint from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../hooks/BreakpointContext';
 import { useFavourites } from '../hooks/FavouriteContext';
 import AppBar from './AppBar';
 import AppBarHsl from './AppBarHsl';
 import CrisisBannerHsl from './CrisisBannerHsl';
 import MessageBar from './MessageBar';
 
-const AppBarContainer = ({ homeUrl, logo, style, breakpoint, ...args }) => {
+const AppBarContainer = ({ homeUrl, logo, style, ...args }) => {
+  const breakpoint = useBreakpoint();
   const { match, router } = useRouter();
   const favourites = useFavourites();
   return (
@@ -24,7 +25,7 @@ const AppBarContainer = ({ homeUrl, logo, style, breakpoint, ...args }) => {
         />
       </a>
       {style === 'hsl' ? (
-        <div className="hsl-header-container" style={{ display: 'block' }}>
+        <div className="hsl-header-container">
           <CrisisBannerHsl />
           <AppBarHsl favourites={favourites} />
           <MessageBar breakpoint={breakpoint} />
@@ -59,9 +60,6 @@ AppBarContainer.propTypes = {
   homeUrl: PropTypes.string.isRequired,
   logo: PropTypes.string,
   style: PropTypes.string.isRequired,
-  breakpoint: PropTypes.string.isRequired,
 };
 
-const AppBarContainerWithBreakpoint = withBreakpoint(AppBarContainer);
-
-export default AppBarContainerWithBreakpoint;
+export default AppBarContainer;

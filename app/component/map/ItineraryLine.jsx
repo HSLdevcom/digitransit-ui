@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 /* eslint-disable react/no-array-index-key */
 
 import Supercluster from 'supercluster';
-import { withLeaflet } from 'react-leaflet';
+import { useLeaflet } from 'react-leaflet/es/context';
 import polyUtil from 'polyline-encoded';
 import { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
@@ -18,7 +18,7 @@ import {
 import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import { legShape } from '../../../utils/client/shapes';
 import { durationToString } from '../../../utils/client/timeUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import Line from './Line';
 import StopMarker from './non-tile-layer/StopMarker';
 import TransitLegMarkers from './non-tile-layer/TransitLegMarkers';
@@ -49,8 +49,8 @@ function ItineraryLine({
   showDurationBubble = false,
   streetMode,
   realtimeTransfers = false,
-  leaflet,
 }) {
+  const leaflet = useLeaflet();
   const config = useConfigContext();
   const intl = useIntl();
   const [zoom, setZoom] = useState(() => leaflet.map.getZoom());
@@ -497,13 +497,6 @@ ItineraryLine.propTypes = {
   showDurationBubble: PropTypes.bool,
   streetMode: PropTypes.string,
   realtimeTransfers: PropTypes.bool,
-  leaflet: PropTypes.shape({
-    map: PropTypes.shape({
-      getZoom: PropTypes.func.isRequired,
-      on: PropTypes.func.isRequired,
-      off: PropTypes.func.isRequired,
-    }).isRequired,
-  }).isRequired,
 };
 
-export default withLeaflet(ItineraryLine);
+export default ItineraryLine;

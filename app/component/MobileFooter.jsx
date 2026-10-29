@@ -1,5 +1,5 @@
 import CookieSettingsButton from './CookieSettingsButton';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 const MobileFooter = () => {
   const { useCookiesPrompt, copyrightText } = useConfigContext();

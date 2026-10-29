@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { withLeaflet } from 'react-leaflet/es/context';
+import { useLeaflet } from 'react-leaflet/es/context';
 import { locationShape } from '../../../utils/client/shapes';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 function MarkerPopupBottom({
   location,
-  leaflet,
   onSelectLocation,
   locationPopup = 'all', // show add via point by default
 }) {
+  const leaflet = useLeaflet();
   const routeFrom = () => {
     addAnalyticsEvent({
       action: 'EditJourneyStartPoint',
@@ -71,18 +71,8 @@ MarkerPopupBottom.displayName = 'MarkerPopupBottom';
 
 MarkerPopupBottom.propTypes = {
   location: locationShape.isRequired,
-  leaflet: PropTypes.shape({
-    map: PropTypes.shape({
-      closePopup: PropTypes.func.isRequired,
-    }).isRequired,
-  }).isRequired,
   onSelectLocation: PropTypes.func.isRequired,
   locationPopup: PropTypes.string,
 };
 
-const markerPopupBottomWithLeaflet = withLeaflet(MarkerPopupBottom);
-
-export {
-  markerPopupBottomWithLeaflet as default,
-  MarkerPopupBottom as Component,
-};
+export default MarkerPopupBottom;

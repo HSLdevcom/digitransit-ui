@@ -21,7 +21,7 @@ import {
 } from '../../../utils/shared/constants';
 import { DisruptionsFragment } from './queries/DisruptionsFragment';
 import { patternTextWithIcon } from '../routepage/RoutePatternSelect';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 export const isRelevantEntity = (entity, stopIds, routeIds) =>
   // eslint-disable-next-line no-underscore-dangle
@@ -55,12 +55,15 @@ export const filterAlertEntities = (stop, alerts) => {
     .filter(alert => alert.entities.length > 0);
 };
 
+// Relay may garbage-collect canceledCalls records while the stop record lives
+// on, so the field can be undefined or contain nulls until it is refetched.
 export const filterCanceledCalls = (canceledCalls, relevantStopIds) =>
-  canceledCalls.filter(
-    ({ stopCall, tripOnServiceDate }) =>
-      relevantStopIds.includes(stopCall.stopLocation.gtfsId) &&
+  (canceledCalls || []).filter(
+    call =>
+      call &&
+      relevantStopIds.includes(call.stopCall.stopLocation.gtfsId) &&
       !relevantStopIds.includes(
-        tripOnServiceDate.trip.pattern.stops.at(-1).gtfsId,
+        call.tripOnServiceDate.trip.pattern.stops.at(-1).gtfsId,
       ),
   );
 
@@ -88,12 +91,13 @@ const getCancelations = (stop, intl, config) => {
               time: { departure },
             },
           },
-        }) => ({
-          scheduledDeparture:
-            (DateTime.fromISO(departure) -
-              DateTime.fromISO(departure).startOf('day')) /
-            1000,
-        }),
+        }) => {
+          // wall-clock seconds since midnight, correct also on DST change days
+          const dt = DateTime.fromISO(departure);
+          return {
+            scheduledDeparture: dt.hour * 3600 + dt.minute * 60 + dt.second,
+          };
+        },
       )
       .sort((a, b) => a.scheduledDeparture - b.scheduledDeparture);
     const { trip, serviceDate } = canceledCalls[0].tripOnServiceDate;

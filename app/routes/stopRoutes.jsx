@@ -27,12 +27,16 @@ import { DATE_FORMAT } from '../../utils/shared/constants';
 // departures for the schedule-status badge shown on the stop page map.
 const STOP_STATUS_TIME_RANGE = 90 * 24 * 60 * 60;
 
+// Rounded so that tab switches reuse the cached map query instead of refetching.
+const START_TIME_STEP = 5 * 60;
+
 const prepareMapVariables = params => {
   const now = DateTime.now();
+  const nowSeconds = now.toUnixInteger();
   return {
     ...params,
     startOfDay: now.startOf('day').toUnixInteger(),
-    startTime: now.toUnixInteger(),
+    startTime: nowSeconds - (nowSeconds % START_TIME_STEP),
     timeRange: STOP_STATUS_TIME_RANGE,
   };
 };
@@ -202,6 +206,7 @@ const queries = {
 
 export default function getStopRoutes(isTerminal = false) {
   const renderTabContainer = createStickyRenderer();
+  const renderMap = createStickyRenderer();
   const queryMap = isTerminal ? queries.station : queries.stop;
   return (
     <Route path={`/${isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS}`}>
@@ -319,7 +324,7 @@ export default function getStopRoutes(isTerminal = false) {
                 }
                 query={queryMap.pageAlerts}
                 prepareVariables={prepareDatesForStops}
-                render={getComponentOrNullRenderer}
+                render={getComponentOrLoadingRenderer}
               />
             </Route>
           ),
@@ -338,7 +343,7 @@ export default function getStopRoutes(isTerminal = false) {
               }}
               query={queryMap.pageMap}
               prepareVariables={prepareMapVariables}
-              render={getComponentOrNullRenderer}
+              render={renderMap}
             />
           ),
           meta: (
