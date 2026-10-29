@@ -29,13 +29,10 @@ run*.sh
 # Relay-compiler generated GraphQL artifacts (main app and query-utils)
 app/**/__generated__
 utils/**/__generated__
-digitransit-search-util/packages/digitransit-search-util-query-utils/src/__generated__
+packages/*/*/**/__generated__
 
 # Rollup build output (see config/rollup.config.js).
-digitransit-util/packages/**/lib
-digitransit-search-util/packages/**/lib
-digitransit-component/packages/**/lib
-digitransit-store/packages/**/lib
+packages/*/*/lib
 
 # Rollup build output (see config/rollup.config.js)
 yarn-error.log

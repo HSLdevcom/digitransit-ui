@@ -24,18 +24,9 @@
 # no "build" script in any of its packages today (ships raw source, no lib/
 # output), but the lib/ exclusion is kept here for future-proofing in case
 # that changes.
-!digitransit-util
-digitransit-util/packages/**/lib
-
-!digitransit-search-util
-digitransit-search-util/packages/**/lib
-digitransit-search-util/packages/**/__generated__
-
-!digitransit-component
-digitransit-component/packages/**/lib
-
-!digitransit-store
-digitransit-store/packages/**/lib
+!packages
+packages/*/*/lib
+packages/*/*/**/__generated__
 
 # Build tooling config consumed by workspace-package builds (config/rollup.config.js,
 # config/babel.config.cjs) and by relay-compiler (schema/schema.graphql).

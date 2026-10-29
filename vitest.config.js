@@ -75,7 +75,7 @@ const nodeProject = name => ({
     // Caches transformed modules under node_modules/.vitest-cache to speed
     // up reruns; rides along with CI's whole-node_modules cache.
     fsModuleCache: true,
-    include: [`${name}/packages/*/test.js`],
+    include: [`packages/${name}/*/test.js`],
   },
 });
 
@@ -175,7 +175,7 @@ export default {
               find: /^@digitransit-component\/(digitransit-component-.+)$/,
               replacement: path.join(
                 import.meta.dirname,
-                'digitransit-component/packages/$1/src/index',
+                'packages/digitransit-component/$1/src/index',
               ),
             },
           ],
@@ -246,7 +246,7 @@ export default {
           // Caches transformed modules under node_modules/.vitest-cache to
           // speed up reruns; rides along with CI's whole-node_modules cache.
           fsModuleCache: true,
-          include: ['digitransit-component/packages/*/test.{js,jsx}'],
+          include: ['packages/digitransit-component/*/test.{js,jsx}'],
         },
       },
       nodeProject('digitransit-search-util'),

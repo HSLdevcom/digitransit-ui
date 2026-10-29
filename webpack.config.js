@@ -224,12 +224,7 @@ export default {
         // strictness, so `resolve.fullySpecified: false` is needed too
         // (matching the `.mjs`/node_modules rule above) to fix problem 2.
         test: /\.js$/,
-        include: [
-          path.resolve(rootDir, 'digitransit-component'),
-          path.resolve(rootDir, 'digitransit-search-util'),
-          path.resolve(rootDir, 'digitransit-store'),
-          path.resolve(rootDir, 'digitransit-util'),
-        ],
+        include: [path.resolve(rootDir, 'packages')],
         type: 'javascript/auto',
         resolve: { fullySpecified: false },
       },

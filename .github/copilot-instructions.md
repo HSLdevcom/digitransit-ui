@@ -60,8 +60,8 @@ right one by *who consumes the code*, not just by convenience.
 - `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.js`, `build/contextHelper.js`,
   `generate-schema.js`, `theme/` theme-scaffolding scripts, `workspace-packages/` (readme
   generation, version checks, translation sort/check); see `scripts/README.md`).
-- `digitransit-component/`, `digitransit-search-util/`, `digitransit-store/`,
-  `digitransit-util/` — Yarn workspace packages, built separately (see below).
+- `packages/` — Yarn workspace packages, built separately (see below): one family dir per scope,
+  `packages/digitransit-{component,search-util,store,util}/<package>/`.
 - `sass/`, `static/` — global styles and static assets.
 - `config/` — build tooling config: `babel.config.cjs`, `rollup.config.js` (component-package
   builds). The Vitest config itself (`vitest.config.js`) lives at the repo root, not here (see
@@ -227,5 +227,5 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   don't add runtime/UA-based polyfill services. Keep `corejs.version` in `webpack.config.js` (the
   `app/` loader, which ignores `config/babel.config.cjs`) in sync with the installed core-js
   minor.
-- SCSS under `sass/`, `app/**/*.scss`, `digitransit-component/**/*.scss` — must pass
+- SCSS under `sass/`, `app/**/*.scss`, `packages/digitransit-component/**/*.scss` — must pass
   `prettier --check` and `stylelint`.

@@ -29,7 +29,7 @@ import fs from 'fs';
 import path from 'path';
 
 const repoRoot = path.resolve(import.meta.dirname, '..', '..');
-const PACKAGES_DIR = path.join(repoRoot, 'digitransit-component/packages');
+const PACKAGES_DIR = path.join(repoRoot, 'packages/digitransit-component');
 const PRINT_WIDTH = 80;
 const SORT_KEYS_PRAGMA = '/* eslint sort-keys: "error" */';
 

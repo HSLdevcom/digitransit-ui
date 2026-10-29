@@ -5,10 +5,10 @@ npm package families, managed as yarn workspaces via [lerna](https://lernajs.io/
 
 | Family                 | npm scope                 | Packages directory                   | Entry point                                                 | Build step                                  |
 | ----------------------- | -------------------------- | ------------------------------------- | ------------------------------------------------------------ | -------------------------------------------- |
-| `digitransit-component` | `@digitransit-component/*` | `digitransit-component/packages/*`    | `src/index.js`                                                | [Rollup](https://rollupjs.org) (compiles JSX) |
-| `digitransit-search-util` | `@digitransit-search-util/*` | `digitransit-search-util/packages/*` | `index.js` (except `digitransit-search-util-query-utils`, which has a build step and uses `src/index.js`) | none, except `query-utils` (relay-compiler)  |
-| `digitransit-store`     | `@digitransit-store/*`     | `digitransit-store/packages/*`        | `src/index.js`                                                | Rollup (no JSX)                              |
-| `digitransit-util`      | `@digitransit-util/*`      | `digitransit-util/packages/*`         | `index.js`                                                    | none                                          |
+| `digitransit-component` | `@digitransit-component/*` | `packages/digitransit-component/*`    | `src/index.js`                                                | [Rollup](https://rollupjs.org) (compiles JSX) |
+| `digitransit-search-util` | `@digitransit-search-util/*` | `packages/digitransit-search-util/*` | `index.js` (except `digitransit-search-util-query-utils`, which has a build step and uses `src/index.js`) | none, except `query-utils` (relay-compiler)  |
+| `digitransit-store`     | `@digitransit-store/*`     | `packages/digitransit-store/*`        | `src/index.js`                                                | Rollup (no JSX)                              |
+| `digitransit-util`      | `@digitransit-util/*`      | `packages/digitransit-util/*`         | `index.js`                                                    | none                                          |
 
 The main app consumes `component`/`store` via their built Rollup output —
 real ESM (`lib/index.js`, via each package's `"module"`/`exports` fields,
@@ -21,7 +21,7 @@ dependency would.
 
 ## How to Contribute
 
-- Most work happens inside a family's `packages/<family>-<module>` directory.
+- Most work happens inside a package directory, `packages/<family>/<family>-<module>`.
 - If you'd like to propose a new module or feature, open an issue first.
 - Always include tests, using [Vitest](https://vitest.dev). Component
   packages use
@@ -90,8 +90,8 @@ package has actually used since the migration to Rollup). Instead:
 
 1. Copy the nearest existing sibling package as a starting point, e.g.:
    ```sh
-   $ cp -r digitransit-component/packages/digitransit-component-icon \
-          digitransit-component/packages/digitransit-component-<name>
+   $ cp -r packages/digitransit-component/digitransit-component-icon \
+          packages/digitransit-component/digitransit-component-<name>
    ```
 2. In the new `package.json`: rename `"name"`, reset `"version"` to `"0.0.1"`,
    update `"description"`, and clear out anything the copied package needed
@@ -102,14 +102,14 @@ package has actually used since the migration to Rollup). Instead:
    `test.js` with real tests for it.
 5. Run `yarn install` from the repo root so the workspace picks up the new
    package (the root `package.json`'s `workspaces` globs already cover any
-   `digitransit-<family>/packages/*` directory — nothing to add there).
+   `packages/digitransit-<family>/*` directory — nothing to add there).
 6. Generate its README: run `yarn workspace-packages-docs` from the repo
    root, or `yarn docs` from inside the new package's directory (see
    [Documentation](#documentation-readme-generation)).
 7. Add tests to CI simply by existing — `yarn workspace-packages-test` (part
    of `yarn test-unit`) discovers every package in every family
    automatically via Vitest's `include` glob
-   (`digitransit-<family>/packages/*/test.js`).
+   (`packages/digitransit-<family>/*/test.js`).
 
 ## Testing
 

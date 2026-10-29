@@ -103,7 +103,7 @@ jobs:
         run: yarn workspace-packages-docs
 
       - name: Fail if committed READMEs are out of date
-        run: git diff --exit-code -- 'digitransit-*/packages/*/README.md'
+        run: git diff --exit-code -- 'packages/*/*/README.md'
 
   unit-test:
     needs: install

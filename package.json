@@ -7,10 +7,7 @@
   "private": true,
   "packageManager": "yarn@4.13.0",
   "workspaces": [
-    "digitransit-util/packages/*",
-    "digitransit-search-util/packages/*",
-    "digitransit-component/packages/*",
-    "digitransit-store/packages/*",
+    "packages/*/*",
     "schema"
   ],
   "scripts": {
@@ -38,12 +35,12 @@
     "sort-translations": "node scripts/sort-translations.js",
     "eslint": "eslint . --ext .js,.jsx,.cjs",
     "eslint-fix": "eslint . --ext .js,.jsx,.cjs --fix",
-    "prettier-styles": "prettier sass/**/*.scss app/**/*.scss digitransit-component/**/*.scss --check",
-    "prettier-styles-fix": "prettier sass/**/*.scss app/**/*.scss digitransit-component/**/*.scss --write",
+    "prettier-styles": "prettier sass/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss --check",
+    "prettier-styles-fix": "prettier sass/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss --write",
     "prettier-icons": "prettier 'app/assets/icons/**/*.svg' --check",
     "prettier-icons-fix": "prettier 'app/assets/icons/**/*.svg' --write",
-    "stylelint": "stylelint sass/**/*.scss app/**/*.scss digitransit-component/**/*.scss",
-    "stylelint-fix": "stylelint sass/**/*.scss app/**/*.scss digitransit-component/**/*.scss --fix",
+    "stylelint": "stylelint sass/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss",
+    "stylelint-fix": "stylelint sass/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss --fix",
     "add-theme": "node scripts/theme/add-theme.js",
     "workspace-packages-publish": "lerna publish from-package --no-git-tag-version --no-push --summary-file",
     "workspace-packages-publish-ci": "lerna publish from-package --no-git-tag-version --no-push --summary-file -y",

@@ -2,7 +2,4 @@ node_modules
 _static
 static
 schema/schema.graphql
-digitransit-search-util/packages/digitransit-search-util-query-utils/schema/schema.graphql
-digitransit-component/packages/**/lib
-digitransit-store/packages/**/lib
-digitransit-search-util/packages/**/lib
+packages/*/*/lib

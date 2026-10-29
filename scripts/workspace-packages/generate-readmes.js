@@ -5,7 +5,7 @@ import path from 'path';
 import { build, formats } from 'documentation';
 
 // Shared replacement for the 4 near-identical
-// digitransit-{component,search-util,store,util}/scripts/generate-readmes
+// packages/digitransit-{component,search-util,store,util}/scripts/generate-readmes
 // scripts. `documentation`'s named exports import cleanly under native ESM
 // (unlike the Rollup-UMD .cjs artifacts built for component/store packages),
 // so no CJS-interop workaround is needed here.
@@ -40,16 +40,14 @@ function findPackagePaths() {
     }
   }
 
+  const packagesRoot = path.join(repoRoot, 'packages');
   return fs
-    .readdirSync(repoRoot, { withFileTypes: true })
+    .readdirSync(packagesRoot, { withFileTypes: true })
     .filter(
-      entry =>
-        entry.isDirectory() &&
-        entry.name.startsWith('digitransit-') &&
-        fs.existsSync(path.join(repoRoot, entry.name, 'packages')),
+      entry => entry.isDirectory() && entry.name.startsWith('digitransit-'),
     )
     .flatMap(familyEntry => {
-      const packagesDir = path.join(repoRoot, familyEntry.name, 'packages');
+      const packagesDir = path.join(packagesRoot, familyEntry.name);
       return fs
         .readdirSync(packagesDir, { withFileTypes: true })
         .filter(entry => entry.isDirectory())

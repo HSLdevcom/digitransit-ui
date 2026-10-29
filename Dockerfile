@@ -16,10 +16,7 @@ ENV \
 COPY .yarnrc.yml package.json yarn.lock lerna.json ./
 COPY .yarn ./.yarn
 COPY schema/package.json ./schema/package.json
-COPY --parents digitransit-util/packages/*/package.json ./
-COPY --parents digitransit-search-util/packages/*/package.json ./
-COPY --parents digitransit-component/packages/*/package.json ./
-COPY --parents digitransit-store/packages/*/package.json ./
+COPY --parents packages/*/*/package.json ./
 RUN \
   # Tell Playwright not to download browser binaries, as it is only used for testing (not building).
   # https://github.com/microsoft/playwright/blob/v1.16.2/installation-tests/installation-tests.sh#L200-L216
@@ -32,10 +29,7 @@ RUN \
 # whenever only app/server files change.
 COPY config ./config
 COPY schema ./schema
-COPY digitransit-util ./digitransit-util
-COPY digitransit-search-util ./digitransit-search-util
-COPY digitransit-component ./digitransit-component
-COPY digitransit-store ./digitransit-store
+COPY packages ./packages
 RUN \
   yarn run workspace-packages-build
 
@@ -53,7 +47,7 @@ RUN \
   && rm -rf /tmp/Relay*
 
 # Prune node_modules down to production-only dependencies across every workspace
-# (root + digitransit-component/store/search-util/util packages) *before* the
+# (root + packages/ workspaces) *before* the
 # final stage's `COPY --from=builder` below, not after: a later `RUN` in the
 # final stage can only add a whiteout for deleted files - the full unpruned
 # tree would still be baked into the `COPY` layer itself and still count

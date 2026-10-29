@@ -1,9 +1,6 @@
 {
   "packages": [
-    "digitransit-util/packages/*",
-    "digitransit-search-util/packages/*",
-    "digitransit-component/packages/*",
-    "digitransit-store/packages/*",
+    "packages/*/*",
     "schema"
   ],
   "version": "independent",
