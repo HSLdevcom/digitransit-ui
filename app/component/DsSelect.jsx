@@ -17,6 +17,4 @@ function DsSelect(props) {
   );
 }
 
-DsSelect.displayName = 'DsSelect';
-
 export { DsSelect, SelectGroup, SelectOption };
