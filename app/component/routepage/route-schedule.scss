@@ -17,6 +17,18 @@
 .route-tab-loading {
   position: relative;
   min-height: 200px;
+
+  // quick tab switches should not flash the spinner
+  .loading-spinner-container {
+    opacity: 0;
+    animation: route-tab-spinner-show 0s 300ms forwards;
+  }
+}
+
+@keyframes route-tab-spinner-show {
+  to {
+    opacity: 1;
+  }
 }
 
 // tall enough for the bottom sheet to stay where it is when switching tabs
