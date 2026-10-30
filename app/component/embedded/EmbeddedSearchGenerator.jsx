@@ -1,17 +1,12 @@
 import { useState, useRef } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import DTAutosuggest from '@digitransit-component/digitransit-component-autosuggest';
+import LocationSearch from '../SearchAutosuggest';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import EmbeddedSearch from './EmbeddedSearch';
 import { EMBEDDED_SEARCH_PATH } from '../../../utils/shared/path';
 import { getRefPoint } from '../../../utils/client/apiUtils';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
-import {
-  withSearchContext,
-  getLocationSearchTargets,
-} from '../WithSearchContext';
-
-const LocationSearch = withSearchContext(DTAutosuggest, true);
+import { getLocationSearchTargets } from '../../../utils/client/searchUtils';
 
 const sources = ['Favourite', 'History', 'Datasource'];
 
@@ -69,6 +64,7 @@ const EmbeddedSearchGenerator = () => {
   };
 
   const searchProps = {
+    embeddedSearch: true,
     appElement: '#app',
     icon: 'mapMarker',
     autoFocus: true,
