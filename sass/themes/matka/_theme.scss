@@ -1,7 +1,7 @@
 /* matka.fintraffic.fi theme */
 
 /* Base theme */
-@import '../default/theme';
+@import '../../base/tokens';
 
 $theme-primary-color: #000;
 $highlight-color: $theme-primary-color;
