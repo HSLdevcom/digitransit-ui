@@ -11,6 +11,10 @@ import {
 } from '../../../utils/client/modeUtils';
 import { stopShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
+import {
+  getDepartureHeadsigns,
+  getDepartureStoptimes,
+} from '../../../utils/client/patternUtils';
 
 export default function FilterTimeTableModal({
   stop,
@@ -50,15 +54,14 @@ export default function FilterTimeTableModal({
     showFilterModal(false);
   };
 
-  // Find out which departures are ARRIVING to their final stop,
-  // not real departures, then remove them
+  // Only patterns that have real departures from the stop are listed,
+  // labeled with the headsigns shown in the timetable
   const routesWithStopTimes = stop.stoptimesForServiceDate
     .map(
       o =>
-        o.stoptimes.length > 0 &&
-        o.stoptimes[0].pickupType !== 'NONE' && {
+        getDepartureStoptimes(o).length > 0 && {
           code: o.pattern.code,
-          headsign: o.pattern.headsign,
+          headsign: getDepartureHeadsigns(o).join(' / '),
           shortName: o.pattern.route.shortName,
           mode: o.pattern.route.mode,
           type: o.pattern.route.type,

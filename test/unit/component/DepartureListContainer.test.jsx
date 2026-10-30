@@ -26,21 +26,31 @@ const route = {
   alerts: [],
 };
 
-const makeStoptime = ({ id, stopId = 'HSL:1', headsign, lastStopId }) => ({
-  realtimeState: 'SCHEDULED',
+const makeStoptime = ({
+  id,
+  stopId = 'HSL:1',
+  headsign,
+  tripHeadsign = headsign,
+  lastStopId,
+  pickupType = lastStopId === stopId ? 'NONE' : 'SCHEDULED',
+  stopPositionInPattern = lastStopId === stopId ? 1 : 0,
+  realtimeState = 'SCHEDULED',
+}) => ({
+  realtimeState,
   realtime: true,
   serviceDay,
   scheduledDeparture: 2000,
   realtimeDeparture: 2000,
   scheduledArrival: 2000,
   realtimeArrival: 2000,
-  pickupType: lastStopId === stopId ? 'NONE' : 'SCHEDULED',
+  pickupType,
+  stopPositionInPattern,
   dropoffType: 'SCHEDULED',
   headsign,
   stop: { id: stopId, gtfsId: stopId, code: '1', platformCode: null },
   trip: {
     gtfsId: `HSL:${id}`,
-    tripHeadsign: headsign,
+    tripHeadsign,
     stops: [{ id: 'HSL:0' }, { id: lastStopId || 'HSL:2' }],
     pattern: {
       code: `HSL:1001:0:${id}`,
@@ -64,6 +74,46 @@ describe('<DepartureListContainer />', () => {
     );
     expect(screen.getByText('Kamppi')).toBeTruthy();
     expect(screen.getByText('Arrives / Terminus')).toBeTruthy();
+  });
+
+  it('does not treat a loop line first stop as the terminus', () => {
+    renderWithProviders(
+      <DepartureListContainer
+        stoptimes={[
+          makeStoptime({
+            id: 'a',
+            headsign: 'Kamppi',
+            lastStopId: 'HSL:1',
+            pickupType: 'SCHEDULED',
+            stopPositionInPattern: 0,
+            realtimeState: 'CANCELED',
+          }),
+        ]}
+        currentTime={currentTime}
+      />,
+      { currentTime },
+    );
+    expect(screen.getByText('Kamppi')).toBeTruthy();
+    expect(screen.queryByText('Arrives / Terminus')).toBeNull();
+  });
+
+  it('shows the stoptime headsign for drop-off-only rows', () => {
+    renderWithProviders(
+      <DepartureListContainer
+        stoptimes={[
+          makeStoptime({
+            id: 'a',
+            headsign: 'Tuorsniemi',
+            tripHeadsign: 'Leppäkorpi',
+            pickupType: 'NONE',
+          }),
+        ]}
+        currentTime={currentTime}
+      />,
+      { currentTime },
+    );
+    expect(screen.getByText('Tuorsniemi')).toBeTruthy();
+    expect(screen.queryByText('Leppäkorpi')).toBeNull();
   });
 
   it('starts the realtime client on mount and stops it on unmount', async () => {
