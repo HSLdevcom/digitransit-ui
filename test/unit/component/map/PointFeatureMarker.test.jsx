@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import PointFeatureMarker, {
   CUSTOM_ICON_MIN_ZOOM,

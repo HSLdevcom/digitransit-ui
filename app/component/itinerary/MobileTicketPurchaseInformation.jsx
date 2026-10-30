@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { fareShape } from '../../../utils/client/shapes';
 import { renderZoneTicket } from './ZoneTicket';

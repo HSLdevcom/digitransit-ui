@@ -1,0 +1,29 @@
+{
+  "name": "@digitransit-util/digitransit-util-enrich-patterns",
+  "version": "2.0.8",
+  "description": "digitransit-util enrich-patterns module",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.js\"",
+    "docs": "node ../../../scripts/packages/generate-readmes.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HSLdevcom/digitransit-ui.git"
+  },
+  "keywords": [
+    "digitransit-util",
+    "enrichPatterns"
+  ],
+  "author": "Digitransit Authors",
+  "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "dependencies": {
+    "@digitransit-util/digitransit-util-day-range-allowed-diff": "workspace:^",
+    "@digitransit-util/digitransit-util-day-range-pattern": "workspace:^"
+  },
+  "peerDependencies": {
+    "lodash": "^4.18.1",
+    "luxon": "^3.6.1"
+  }
+}

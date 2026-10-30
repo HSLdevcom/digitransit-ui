@@ -1,5 +1,5 @@
 import 'core-js/stable';
-import React from 'react';
+import { Fragment } from 'react';
 import { createRoot } from 'react-dom/client';
 import BrowserProtocol from 'farce/BrowserProtocol';
 import createFarceRouter from 'found/createFarceRouter';
@@ -117,7 +117,8 @@ async function init() {
 
   const environment = new Environment({
     network,
-    store: new Store(new RecordSource()),
+    // Default buffer of 10 evicts stop page data during normal browsing
+    store: new Store(new RecordSource(), { gcReleaseBufferSize: 100 }),
   });
 
   setRelayEnvironment(environment);
@@ -186,7 +187,7 @@ async function init() {
       environment={environment}
     >
       <ErrorBoundary>
-        <React.Fragment>
+        <Fragment>
           <Helmet
             {...getMetadata(
               language,
@@ -196,7 +197,7 @@ async function init() {
             )}
           />
           <Router resolver={resolver} />
-        </React.Fragment>
+        </Fragment>
       </ErrorBoundary>
     </AppProviders>
   );

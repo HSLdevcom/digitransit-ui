@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { graphql, useFragment } from 'react-relay';
 import StopPageMap from './map/StopPageMap';
 

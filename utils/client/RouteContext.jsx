@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import React, { useMemo } from 'react';
+import { useMemo, createContext, useContext } from 'react';
 
-const RouteContext = React.createContext(null);
+const RouteContext = createContext(null);
 
 const useRoute = () => {
-  const context = React.useContext(RouteContext);
+  const context = useContext(RouteContext);
   if (!context) {
     throw new Error('useRoute must be used within a RouteContext.Provider');
   }

@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { fetchQuery } from 'react-relay';
 import ItineraryPage from '../../../../app/component/itinerary/ItineraryPage';

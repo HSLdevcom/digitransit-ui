@@ -1,4 +1,3 @@
-import React from 'react';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import DisruptionBadge from '../../../../app/component/trafficnow/DisruptionBadge';
 import { AlertSeverityLevelType } from '../../../../utils/shared/constants';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { renderToString } from 'react-dom/server';
 import PropTypes from 'prop-types';
 import { act, cleanup, fireEvent, render } from '@testing-library/react';

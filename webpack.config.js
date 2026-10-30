@@ -197,7 +197,7 @@ export default {
         },
       },
       {
-        // All 4 digitransit-* workspace packages set "type": "module" (so
+        // All 4 digitransit-* packages set "type": "module" (so
         // their raw source/tests run as native ESM) - which webpack, following
         // that package.json field, parses as strict `javascript/esm` rather
         // than `auto`. This causes two distinct problems when bundled directly
@@ -224,12 +224,7 @@ export default {
         // strictness, so `resolve.fullySpecified: false` is needed too
         // (matching the `.mjs`/node_modules rule above) to fix problem 2.
         test: /\.js$/,
-        include: [
-          path.resolve(rootDir, 'digitransit-component'),
-          path.resolve(rootDir, 'digitransit-search-util'),
-          path.resolve(rootDir, 'digitransit-store'),
-          path.resolve(rootDir, 'digitransit-util'),
-        ],
+        include: [path.resolve(rootDir, 'packages')],
         type: 'javascript/auto',
         resolve: { fullySpecified: false },
       },
@@ -375,7 +370,7 @@ export default {
         },
         digitransitComponents: {
           name: 'digitransit-components',
-          // The 4 `digitransit-*` workspace packages are Yarn-workspace
+          // The 4 `digitransit-*` packages are Yarn-workspace
           // symlinks, so webpack resolves them to their real path outside
           // `node_modules` entirely - hence the second, bare alternative
           // below (no `node_modules[\\/]` prefix), unlike the `@hsl-fi`

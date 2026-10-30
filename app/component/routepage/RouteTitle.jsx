@@ -1,4 +1,3 @@
-import React from 'react';
 import { useFragment } from 'react-relay';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';

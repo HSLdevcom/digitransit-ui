@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect } from 'react';
+import { useRef, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 

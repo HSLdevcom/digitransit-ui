@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import SettingsToggle from './SettingsToggle';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { settingsShape } from '../../../../utils/client/shapes';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useFragment } from 'react-relay';
 import { DateTime } from 'luxon';
@@ -44,7 +44,7 @@ const CanceledDepartures = ({
   return (
     <div className={cx('badges__departure-group', { inline })}>
       {patternsWithVisibleDeparturesByDate.map(pattern => (
-        <React.Fragment key={pattern.code}>
+        <Fragment key={pattern.code}>
           {(patterns.length > 1 || inline) && (
             <EntityBadge entity={pattern} isPattern mode={mode} />
           )}
@@ -111,7 +111,7 @@ const CanceledDepartures = ({
               </Text>
             </span>
           )}
-        </React.Fragment>
+        </Fragment>
       ))}
     </div>
   );

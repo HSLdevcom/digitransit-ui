@@ -1,7 +1,0 @@
-{
-  "name": "@digitransit-ui/schema",
-  "version": "1.0.1",
-  "description": "Private package that tracks changes to the GraphQL schema for workspace versioning",
-  "private": true,
-  "license": "(AGPL-3.0 OR EUPL-1.2)"
-}

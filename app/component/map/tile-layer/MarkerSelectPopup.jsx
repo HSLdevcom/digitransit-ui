@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import { Fragment } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import SelectStopRow from './SelectStopRow';
 import SelectVehicleRentalRow from './SelectVehicleRentalRow';
@@ -93,11 +93,11 @@ function MarkerSelectPopup({ options, zoom }) {
         const { vehicleParking } = option.feature.properties;
         if (Array.isArray(vehicleParking) && vehicleParking.length > 0) {
           return (
-            <React.Fragment key={option.layer}>
+            <Fragment key={option.layer}>
               {vehicleParking.map(parking => {
                 return getRowForParking(parking, option.layer);
               })}
-            </React.Fragment>
+            </Fragment>
           );
         }
       } else {

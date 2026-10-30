@@ -1,4 +1,3 @@
-import React from 'react';
 import { default as L } from 'leaflet';
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';

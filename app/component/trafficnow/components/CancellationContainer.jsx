@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import FavouriteRouteContainer from '../../routepage/FavouriteRouteContainer';
 import { PREFIX_TIMETABLE, routePagePath } from '../../../../utils/shared/path';
@@ -36,14 +36,14 @@ const CancellationContainer = ({ routeSummary, mode }) => {
       <div className="cancellation-container--row">
         <div className="cancellation-container__patterns--column">
           {patterns.map(({ pattern }) => (
-            <React.Fragment key={`${shortName}-${pattern.code}`}>
+            <Fragment key={`${shortName}-${pattern.code}`}>
               <PatternWithCancellations
                 routeId={gtfsId}
                 mode={mode}
                 pattern={pattern}
                 summarize={false}
               />
-            </React.Fragment>
+            </Fragment>
           ))}
         </div>
       </div>

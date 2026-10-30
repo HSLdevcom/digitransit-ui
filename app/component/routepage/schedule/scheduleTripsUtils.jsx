@@ -2,7 +2,6 @@
  * Trip processing utilities for schedule components
  * Handles trip sorting, filtering, and display logic
  */
-import React from 'react';
 
 /**
  * Sort trips by scheduled departure time

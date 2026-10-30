@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { render, act } from '@testing-library/react';
 import {
@@ -71,7 +71,7 @@ describe('FiltersContext', () => {
 
   describe('Default filter state', () => {
     it('initialises noEffect to NO_EFFECT', () => {
-      const controlRef = React.createRef();
+      const controlRef = createRef();
       render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
@@ -81,7 +81,7 @@ describe('FiltersContext', () => {
     });
 
     it('initialises validityPeriod to ALL', () => {
-      const controlRef = React.createRef();
+      const controlRef = createRef();
       render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
@@ -91,7 +91,7 @@ describe('FiltersContext', () => {
     });
 
     it('initialises vehicleModes to an empty array', () => {
-      const controlRef = React.createRef();
+      const controlRef = createRef();
       render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
@@ -101,7 +101,7 @@ describe('FiltersContext', () => {
     });
 
     it('initialises now as a number', () => {
-      const controlRef = React.createRef();
+      const controlRef = createRef();
       render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
@@ -113,7 +113,7 @@ describe('FiltersContext', () => {
 
   describe('setFilter', () => {
     it('updates vehicleModes when setFilter is called', () => {
-      const controlRef = React.createRef();
+      const controlRef = createRef();
       render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
@@ -128,7 +128,7 @@ describe('FiltersContext', () => {
     });
 
     it('does not affect other filter keys when only one is updated', () => {
-      const controlRef = React.createRef();
+      const controlRef = createRef();
       render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
@@ -146,7 +146,7 @@ describe('FiltersContext', () => {
 
   describe('removeFilter', () => {
     it('removes the specified key from selectedFilters', () => {
-      const controlRef = React.createRef();
+      const controlRef = createRef();
       render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
@@ -164,7 +164,7 @@ describe('FiltersContext', () => {
     });
 
     it('leaves other keys intact after removing one', () => {
-      const controlRef = React.createRef();
+      const controlRef = createRef();
       render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />
@@ -181,7 +181,7 @@ describe('FiltersContext', () => {
 
   describe('resetFilters', () => {
     it('restores all filters to their default values', () => {
-      const controlRef = React.createRef();
+      const controlRef = createRef();
       render(
         <FilterContextProvider>
           <FilterConsumer controlRef={controlRef} />

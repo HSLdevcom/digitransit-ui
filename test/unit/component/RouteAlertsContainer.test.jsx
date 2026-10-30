@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { renderWithProviders } from '../helpers/mock-providers';
 import RouteAlertsContainer from '../../../app/component/routepage/RouteAlertsContainer';
 

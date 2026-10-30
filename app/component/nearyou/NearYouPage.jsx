@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { graphql, QueryRenderer, useRelayEnvironment } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';

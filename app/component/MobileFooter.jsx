@@ -1,4 +1,3 @@
-import React from 'react';
 import CookieSettingsButton from './CookieSettingsButton';
 import { useConfigContext } from '../hooks/ConfigContext';
 

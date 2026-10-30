@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { stopTimeShape } from '../../utils/client/shapes';
@@ -33,11 +33,10 @@ const asDepartures = stoptimes =>
         const hasPickup = stoptime.pickupType !== 'NONE';
         const hasNoStop = !hasPickup && !hasDropoff;
         const isArrival = !hasPickup;
-        let isLastStop = false;
-        if (stoptime.trip?.stops?.length) {
-          const lastStop = stoptime.trip.stops.slice(-1).pop();
-          isLastStop = stoptime.stop.id === lastStop.id;
-        }
+        // Position, not stop id: on loop lines the first stop is also the last
+        const isLastStop =
+          !!stoptime.trip?.stops?.length &&
+          stoptime.stopPositionInPattern === stoptime.trip.stops.length - 1;
         const hasOnlyDropoff = !hasPickup && !isLastStop;
         /* OTP returns either scheduled time or realtime prediction in
          * 'realtimeDeparture' and 'realtimeArrival' fields.
@@ -92,6 +91,7 @@ const getHeadsign = (departure, intl) => {
       });
     }
     return (
+      departure.headsign ||
       departure.trip?.tripHeadsign ||
       intl.formatMessage({
         id: 'route-destination-arrives',
@@ -403,6 +403,7 @@ const containerComponent = createFragmentContainer(DepartureListContainer, {
       pickupType
       dropoffType
       headsign
+      stopPositionInPattern
       stop {
         gtfsId
         id

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import { Fragment } from 'react';
 import {
   IndoorStepType,
   VerticalDirection,
@@ -18,7 +18,7 @@ function NaviIndoorContainer({
       <div className="navi-indoor-step-line-container">
         <div className="navi-indoor-step-line-circle-container">
           {indoorSteps.map((step, i) => (
-            <React.Fragment
+            <Fragment
               // eslint-disable-next-line react/no-array-index-key
               key={`naviindoorsteplinecircle_lat_${step.lat}_lon_${step.lon}_i_${i}`}
             >
@@ -34,7 +34,7 @@ function NaviIndoorContainer({
                   />
                 </svg>
               </div>
-            </React.Fragment>
+            </Fragment>
           ))}
         </div>
         <div className="navi-indoor-step-line indoor-dotted-line" />

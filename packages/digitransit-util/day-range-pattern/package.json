@@ -1,0 +1,21 @@
+{
+  "name": "@digitransit-util/digitransit-util-day-range-pattern",
+  "version": "1.1.7",
+  "description": "digitransit-util digitransit-util-day-range-pattern module",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.js\"",
+    "docs": "node ../../../scripts/packages/generate-readmes.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HSLdevcom/digitransit-ui.git"
+  },
+  "keywords": [
+    "digitransit-util",
+    "dayRangePattern"
+  ],
+  "author": "Digitransit Authors",
+  "license": "(AGPL-3.0 OR EUPL-1.2)"
+}

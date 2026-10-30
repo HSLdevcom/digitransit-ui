@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import Snackbar from '../../../app/component/Snackbar';
 import { BreakpointContext } from '../../../app/hooks/BreakpointContext';

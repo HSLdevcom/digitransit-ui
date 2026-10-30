@@ -1,5 +1,5 @@
 # Default-deny: ignore everything, then explicitly re-include only what the
-# Docker build (yarn install / workspace-packages-build / yarn run build) and
+# Docker build (yarn install / packages-build / yarn run build) and
 # runtime (yarn run start) actually need.
 *
 
@@ -18,29 +18,15 @@
 !.yarn/versions
 !.yarn/patches
 
-# Workspace packages (source only; `lib` build output, and
+# Packages (source only; `lib` build output, and
 # digitransit-search-util-query-utils's src/__generated__ Relay artifacts, are
-# rebuilt fresh by `yarn run workspace-packages-build`). digitransit-util has
+# rebuilt fresh by `yarn run packages-build`). digitransit-util has
 # no "build" script in any of its packages today (ships raw source, no lib/
 # output), but the lib/ exclusion is kept here for future-proofing in case
 # that changes.
-!digitransit-util
-digitransit-util/packages/**/lib
-
-!digitransit-search-util
-digitransit-search-util/packages/**/lib
-digitransit-search-util/packages/**/__generated__
-
-!digitransit-component
-digitransit-component/packages/**/lib
-
-!digitransit-store
-digitransit-store/packages/**/lib
-
-# Build tooling config consumed by workspace-package builds (config/rollup.config.js,
-# config/babel.config.cjs) and by relay-compiler (schema/schema.graphql).
-!config
-!schema
+!packages
+packages/*/*/lib
+packages/*/*/**/__generated__
 
 # Main app source (relay-compiler regenerates app/**/__generated__ fresh).
 !app
@@ -62,7 +48,7 @@ utils/**/__generated__
 # Only scripts/build/* (contextHelper.js) is actually required, by
 # webpack.config.js - the
 # rest of scripts/ (dev.sh, generate-schema.js, sort-translations.js, theme/,
-# workspace-packages/) is dev/tooling-only and never read by the image.
+# packages/) is dev/tooling-only and never read by the image.
 !scripts/build
 
 # Root-level build config.

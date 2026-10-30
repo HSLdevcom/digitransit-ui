@@ -1,4 +1,3 @@
-import React from 'react';
 import { screen } from '@testing-library/react';
 import { Component as RentalVehiclePageMapContainer } from '../../../app/component/RentalVehiclePageMapContainer';
 import { renderWithProviders } from '../helpers/mock-providers';

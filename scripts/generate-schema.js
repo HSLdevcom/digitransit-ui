@@ -10,6 +10,8 @@ const graphqlSchemaSource =
 const outputGraphQLFilename = path.join(
   rootDir,
   '..',
+  'packages',
+  'private',
   'schema',
   'schema.graphql',
 );

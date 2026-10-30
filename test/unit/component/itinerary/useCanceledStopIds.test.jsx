@@ -1,4 +1,3 @@
-import React from 'react';
 import { renderHook, waitFor } from '@testing-library/react';
 import { DateTime } from 'luxon';
 import useCanceledStopIds from '../../../../app/component/itinerary/useCanceledStopIds';
