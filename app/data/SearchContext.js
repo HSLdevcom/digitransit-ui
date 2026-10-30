@@ -22,6 +22,11 @@ import { hasCitybikes } from '../../utils/client/modeUtils';
 import { getDefaultNetworks } from '../../utils/shared/vehicleRentalUtils';
 
 /**
+ * TODO This could be renamed as SearchServices to distinquish it from
+ * React's Context Provider
+ */
+
+/**
  * Plain (non-Flux) singleton that acts both as the template/interface for,
  * and the concrete Digitransit implementation of, the "search context"
  * consumed by the framework-agnostic @digitransit-search-util packages

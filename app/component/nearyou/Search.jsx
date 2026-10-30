@@ -1,16 +1,11 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { memo } from 'react';
-import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
-import {
-  withSearchContext,
-  getLocationSearchTargets,
-} from '../WithSearchContext';
+import SearchAutosuggest from '../SearchAutosuggest';
+import { getLocationSearchTargets } from '../../../utils/client/searchUtils';
 import { countLocations } from '../../data/FavouriteData';
 import { useFavourites } from '../../hooks/FavouriteContext';
 import { useConfigContext } from '../../hooks/ConfigContext';
-
-const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
 function Search({ onMap = false, ...rest }) {
   const config = useConfigContext();
@@ -34,7 +29,7 @@ function Search({ onMap = false, ...rest }) {
     sources.push('Favourite');
   }
   return (
-    <DTAutoSuggestWithSearchContext
+    <SearchAutosuggest
       appElement="#app"
       icon="search"
       sources={sources}

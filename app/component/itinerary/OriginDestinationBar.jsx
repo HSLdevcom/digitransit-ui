@@ -1,13 +1,10 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
-import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { useRouter } from 'found';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import {
-  withSearchContext,
-  getLocationSearchTargets,
-} from '../WithSearchContext';
+import { SearchAutosuggestPanel } from '../SearchAutosuggest';
+import { getLocationSearchTargets } from '../../../utils/client/searchUtils';
 import {
   setIntermediatePlaces,
   updateItinerarySearch,
@@ -28,9 +25,6 @@ import {
   useViaPoints,
   useItineraryLocationActions,
 } from '../../hooks/ItineraryLocationContext';
-
-const DTAutosuggestPanelWithSearchContext =
-  withSearchContext(DTAutosuggestPanel);
 
 function OriginDestinationBar({ isMobile = false }) {
   const config = useConfigContext();
@@ -152,7 +146,7 @@ function OriginDestinationBar({ isMobile = false }) {
         'bp-large': !isMobile,
       })}
     >
-      <DTAutosuggestPanelWithSearchContext
+      <SearchAutosuggestPanel
         appElement="#app"
         origin={origin}
         destination={destination}

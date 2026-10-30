@@ -4,50 +4,13 @@ import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import { useIntl } from 'react-intl';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
-import { hasCitybikes } from '../../utils/client/modeUtils';
-import {
-  PREFIX_ITINERARY_SUMMARY,
-  PREFIX_STOPS,
-  PREFIX_ROUTES,
-} from '../../utils/shared/path';
 import searchContext from '../data/SearchContext';
 import { removeSearch, saveSearch } from '../data/SearchHistory';
 import { useConfigContext } from '../hooks/ConfigContext';
 import { usePosition, usePositionActions } from '../hooks/PositionContext';
 import SelectFromMap from './map/SelectFromMap';
 import SelectFromMapModal from './SelectFromMapModal';
-
-const PATH_OPTS = {
-  stopsPrefix: PREFIX_STOPS,
-  routesPrefix: PREFIX_ROUTES,
-  itinerarySummaryPrefix: PREFIX_ITINERARY_SUMMARY,
-};
-
-export function getLocationSearchTargets(config, isMobile) {
-  let locationSearchTargets = ['Locations', 'CurrentPosition'];
-
-  if (config.locationSearchTargetsFromOTP) {
-    // configurable setup
-    locationSearchTargets = [
-      ...locationSearchTargets,
-      ...config.locationSearchTargetsFromOTP,
-    ];
-  } else {
-    // default setup
-    locationSearchTargets.push('Stations');
-    locationSearchTargets.push('Stops');
-    if (hasCitybikes(config.vehicleRental?.networks, config)) {
-      locationSearchTargets.push('VehicleRentalStations');
-    }
-    if (config.includeParkAndRideSuggestions) {
-      locationSearchTargets.push('ParkingAreas');
-    }
-  }
-  if (isMobile) {
-    locationSearchTargets.push('MapPosition');
-  }
-  return locationSearchTargets;
-}
+import { SEARCH_PATH_OPTS } from '../../utils/client/searchUtils';
 
 export function withSearchContext(WrappedComponent, embeddedSearch = false) {
   function ComponentWithSearchContext({
@@ -177,7 +140,7 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
         item.properties.gtfsId
       ) {
         searchContext
-          .getRoutesByIds([item.properties.gtfsId], PATH_OPTS)
+          .getRoutesByIds([item.properties.gtfsId], SEARCH_PATH_OPTS)
           .then(routes => {
             if (routes.length > 0) {
               const refreshed = { ...item, ...routes[0], type: item.type };
@@ -290,7 +253,7 @@ export function withSearchContext(WrappedComponent, embeddedSearch = false) {
         showViapointControl={showViapointControl}
         {...rest}
         {...viaProps}
-        pathOpts={PATH_OPTS}
+        pathOpts={SEARCH_PATH_OPTS}
       />
     );
   }

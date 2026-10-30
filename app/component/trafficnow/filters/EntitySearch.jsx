@@ -1,7 +1,6 @@
 import { FormattedMessage, useIntl } from 'react-intl';
-import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import PropTypes from 'prop-types';
-import { withSearchContext } from '../../WithSearchContext';
+import SearchAutosuggest from '../../SearchAutosuggest';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 import { useFilterContext } from './FiltersContext';
 
@@ -15,8 +14,6 @@ const EntitySearch = ({ filterId }) => {
   } = useConfigContext();
   const { selectedFilters, setFilter, removeFilter } = useFilterContext();
   const intl = useIntl();
-
-  const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 
   const selectHandler = ({ address, gtfsId }) => {
     setFilter(filterId, {
@@ -33,7 +30,7 @@ const EntitySearch = ({ filterId }) => {
       >
         {msg => <legend className="input-legend">{msg}</legend>}
       </FormattedMessage>
-      <DTAutoSuggestWithSearchContext
+      <SearchAutosuggest
         appElement="#app"
         icon="search"
         id="entity-search"
