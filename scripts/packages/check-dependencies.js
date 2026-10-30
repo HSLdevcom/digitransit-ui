@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Checks that every workspace package's package.json declares exactly what
+ * Checks that every package's package.json declares exactly what
  * its published code imports, following the rules in
- * docs/WorkspacePackages.md ("Dependency Classification"):
+ * docs/Packages.md ("Dependency Classification"):
  *
  * 1. Every imported package is declared in dependencies/peerDependencies.
  * 2. Every declared dependency/peerDependency is imported, except peers
@@ -265,15 +265,13 @@ packages.forEach(pkg => {
 
 if (failed) {
   console.error(
-    red(
-      '\nSee "Dependency Classification" in docs/WorkspacePackages.md for the rules.',
-    ),
+    red('\nSee "Dependency Classification" in docs/Packages.md for the rules.'),
   );
   process.exit(1);
 }
 
 console.log(
   green(
-    `✓ All ${packages.length} workspace packages declare their dependencies correctly.`,
+    `✓ All ${packages.length} packages declare their dependencies correctly.`,
   ),
 );

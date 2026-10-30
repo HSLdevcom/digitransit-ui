@@ -80,21 +80,21 @@ in `config.default.js`'s host-name mapping. See [`docs/Themes.md`](/docs/Themes.
 yarn add-theme <name> '#RRGGBB' <optional navbar logo>
 ```
 
-## Using `workspace-packages/check-versions.js`
+## Using `packages/check-versions.js`
 
-Runs two checks against the workspace packages (`digitransit-component`,
+Runs two checks against the packages (`digitransit-component`,
 `digitransit-search-util`, `digitransit-store`, `digitransit-util`); both are enforced in CI on
 pull requests.
 
 1. **Internal reference protocol.** Every `@digitransit-*` `dependencies`/`peerDependencies`
-   entry that points at another workspace package must be declared as exactly `"workspace:^"`.
+   entry that points at another package must be declared as exactly `"workspace:^"`.
    `lerna version` only rewrites/cascades an internal cross-reference (and `yarn` only links the
    local copy instead of pulling a stale published one) when it uses the `workspace:` protocol; a
    plain semver pin is silently left behind on version bumps. `lerna publish` resolves
    `"workspace:^"` to `"^<version>"` in the published tarball, so consumers outside the monorepo
    are unaffected. This check always runs, regardless of `BASE_SHA`.
 
-2. **Version bumps.** Fails if a workspace package changed since a given base commit but its
+2. **Version bumps.** Fails if a package changed since a given base commit but its
    `package.json` `version` wasn't bumped accordingly (or was bumped in the wrong direction).
    `lerna publish from-package` only republishes a package when its committed version is greater
    than what's already on npm, so a changed-but-unbumped package would otherwise silently never
@@ -102,15 +102,15 @@ pull requests.
    (`lerna version`) to bump the changed packages and cascade bumps to their dependents.
 
 ```
-BASE_SHA=<git ref> yarn workspace-packages-version-check
+BASE_SHA=<git ref> yarn packages-version-check
 ```
 
-## Using `workspace-packages/check-dependencies.js`
+## Using `packages/check-dependencies.js`
 
-Checks each workspace package's `dependencies`/`peerDependencies` against the code it publishes
+Checks each package's `dependencies`/`peerDependencies` against the code it publishes
 (the module graph reachable from its build entry point, parsed with Babel, so tests don't count;
 a relative import that doesn't resolve fails the check). Wired into `yarn lint`; the rules are
-documented in `docs/WorkspacePackages.md` ("Dependency Classification"):
+documented in `docs/Packages.md` ("Dependency Classification"):
 
 1. Every imported package (JS/JSX, and `~`-prefixed SCSS imports) is declared.
 2. Every declared dependency/peer is imported, except peers passed through for a sibling
@@ -122,28 +122,28 @@ documented in `docs/WorkspacePackages.md` ("Dependency Classification"):
 6. `@hsl-fi/*` packages are peers (`@hsl-fi/hooks` is the one allowed exception).
 
 ```
-yarn workspace-packages-dependencies-check
+yarn packages-dependencies-check
 ```
 
-## Using `workspace-packages/generate-readmes.js`
+## Using `packages/generate-readmes.js`
 
-Regenerates a workspace package's `README.md` from its JSDoc via
+Regenerates a package's `README.md` from its JSDoc via
 [`documentation.js`](https://documentation.js.org/). Needs no family/package argument: run from
 inside a package's directory to regenerate just that one, or from anywhere else (e.g. the
-repository root) to regenerate every package in every family. See the `workspace-packages-docs`
+repository root) to regenerate every package in every family. See the `packages-docs`
 script in [`package.json`](/package.json). Never hand-edit a generated `README.md` — fix the
 source JSDoc and regenerate instead.
 
 ```
-node scripts/workspace-packages/generate-readmes.js
+node scripts/packages/generate-readmes.js
 ```
 
-## Using `workspace-packages/sort-translations.js`
+## Using `packages/sort-translations.js`
 
 Sorts and checks `digitransit-component` packages' own translation bundles
 (`src/{helpers,utils}/translations.js`) — a different shape from `app/translations`, so
 separate from the `sort-translations.js` script above. Flags any key missing from a `fi`/`sv`/`en`
-locale. See the `workspace-packages-translations-check`/`-fix` scripts in
+locale. See the `packages-translations-check`/`-fix` scripts in
 [`package.json`](/package.json).
 
 ## Using `generate-schema.js`

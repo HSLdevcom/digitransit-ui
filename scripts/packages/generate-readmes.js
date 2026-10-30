@@ -29,7 +29,7 @@ function findEntryPoint(directory) {
 
 // Running from inside a single package's directory (every per-package
 // "docs" script does this) regenerates just that package; running from
-// anywhere else (e.g. the repo root, via `yarn workspace-packages-docs`)
+// anywhere else (e.g. the repo root, via `yarn packages-docs`)
 // regenerates every package in every family.
 function findPackagePaths() {
   const cwdPackageJsonPath = path.join(process.cwd(), 'package.json');

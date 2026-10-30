@@ -1,4 +1,4 @@
-# Workspace Packages
+# Packages
 
 `digitransit-ui` hosts four independently-versioned and independently-published
 npm package families, managed as yarn workspaces via [lerna](https://lernajs.io/):
@@ -109,10 +109,10 @@ package has actually used since the migration to Rollup). Instead:
 5. Run `yarn install` from the repo root so the workspace picks up the new
    package (the root `package.json`'s `workspaces` globs already cover any
    `packages/digitransit-<family>/*` directory — nothing to add there).
-6. Generate its README: run `yarn workspace-packages-docs` from the repo
+6. Generate its README: run `yarn packages-docs` from the repo
    root, or `yarn docs` from inside the new package's directory (see
    [Documentation](#documentation-readme-generation)).
-7. Add tests to CI simply by existing — `yarn workspace-packages-test` (part
+7. Add tests to CI simply by existing — `yarn packages-test` (part
    of `yarn test-unit`) discovers every package in every family
    automatically via Vitest's `include` glob
    (`packages/digitransit-<family>/*/test.js`).
@@ -141,10 +141,10 @@ Run everything from the repository root:
 $ yarn test-unit
 ```
 
-Or just the workspace packages (all four families in one run):
+Or just the packages (all four families in one run):
 
 ```sh
-$ yarn workspace-packages-test
+$ yarn packages-test
 ```
 
 Or a single package, from inside its own directory:
@@ -164,8 +164,8 @@ namespace), so it has its own tooling, separate from the root
 `sort-translations` script:
 
 ```sh
-$ yarn workspace-packages-translations-check  # verify only, wired into `yarn lint`
-$ yarn workspace-packages-translations-fix    # sort in place, wired into `yarn format`
+$ yarn packages-translations-check  # verify only, wired into `yarn lint`
+$ yarn packages-translations-fix    # sort in place, wired into `yarn format`
 ```
 
 Both modes also flag any key that isn't present in every locale of a file —
@@ -178,7 +178,7 @@ resolve those by hand in the package's `translations.js`.
 
 Every package's `README.md` is generated from its JSDoc by
 [`documentation.js`](https://documentation.js.org/), via the single shared
-`scripts/workspace-packages/generate-readmes.js` script. **If you find an
+`scripts/packages/generate-readmes.js` script. **If you find an
 error in a README, fix the source JSDoc and regenerate — never hand-edit
 the `README.md` file.** A hand-edit will silently disappear the next time
 anyone regenerates it.
@@ -193,7 +193,7 @@ root) it discovers and regenerates every package in every family.
 $ yarn docs
 
 # regenerate every package, in every family (run from the repository root)
-$ yarn workspace-packages-docs
+$ yarn packages-docs
 ```
 
 CI enforces this: the `check-readmes` job in `.github/workflows/dev-pipeline.yml`
@@ -204,8 +204,8 @@ its README (or one that only hand-edits a README) won't merge.
 ## Publishing
 
 ```sh
-$ yarn workspace-packages-publish      # interactive, for local/manual use
-$ yarn workspace-packages-publish-ci   # non-interactive (-y), used by CI
+$ yarn packages-publish      # interactive, for local/manual use
+$ yarn packages-publish-ci   # non-interactive (-y), used by CI
 ```
 
 Both run `lerna publish from-package --no-git-tag-version --no-push`;
@@ -215,7 +215,7 @@ Versioning is independent per package (`lerna.json`'s `"version": "independent"`
 and bumped manually:
 
 ```sh
-$ yarn workspace-packages-version-bump   # git fetch --tags && lerna version --include-merged-tags
+$ yarn packages-version-bump   # git fetch --tags && lerna version --include-merged-tags
 ```
 
 `lerna version` pushes the version-bump commit and its tags to the git
@@ -225,19 +225,19 @@ independent-mode change detection (which package changed since its last
 release tag) reliable even when local tags are stale or only exist on
 another branch pending merge.
 
-`yarn workspace-packages-version-check` then verifies every internal
+`yarn packages-version-check` then verifies every internal
 `@digitransit-*` dependency range across all four families is satisfied by
 the versions actually present — this runs in CI on every push/PR.
 
 ### Schema changes
 
 `digitransit-search-util-query-utils` ships `schema.graphql` in its build, so
-the schema is a private workspace package (`packages/private/schema`; `private/`
-holds the unpublished workspace packages) that query-utils lists as a
+the schema is a private package (`packages/private/schema`; `private/`
+holds the unpublished packages) that query-utils lists as a
 `devDependency`. The root app's relay-compiler and eslint read the same file. This lets change detection see schema edits: after changing
 the schema, bump both the schema package and query-utils.
-`workspace-packages-version-bump` does this, and
-`workspace-packages-version-check` enforces it.
+`packages-version-bump` does this, and
+`packages-version-check` enforces it.
 
 ### Changelogs
 
@@ -276,7 +276,7 @@ in `package.json` as:
   Yarn won't run a binary the workspace doesn't declare itself.
 
 These rules (for `dependencies`/`peerDependencies`) are enforced by
-`yarn workspace-packages-dependencies-check`, part of `yarn lint`.
+`yarn packages-dependencies-check`, part of `yarn lint`.
 
 ## CSS Modules
 
@@ -301,7 +301,7 @@ override it locally. The rollup/babel tooling itself is owned by the root
 `devDependencies` (see [Dependency classification](#dependency-classification)),
 so the config package declares none. Because it is a `devDependency` of every
 buildable package, changing it requires bumping all of them
-(`workspace-packages-version-check` enforces this). The root `babel.config.cjs`
+(`packages-version-check` enforces this). The root `babel.config.cjs`
 is unrelated: it only serves tooling (eslint parser, Jest e2e).
 
 ## Build Caching

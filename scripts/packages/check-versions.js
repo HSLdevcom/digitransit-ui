@@ -1,9 +1,9 @@
 /**
- * Runs two checks against the workspace packages:
+ * Runs two checks against the packages:
  *
- * 1. checkInternalDependencyRanges(): for every workspace package, verifies
+ * 1. checkInternalDependencyRanges(): for every package, verifies
  *    that each of its @digitransit-* dependencies/peerDependencies/devDependencies that refers
- *    to another workspace package is declared as exactly "workspace:^".
+ *    to another package is declared as exactly "workspace:^".
  *    `lerna version` only rewrites/cascades an internal cross-reference when it
  *    uses the workspace: protocol (see getLocalDependency in lerna's source);
  *    a plain semver pin is silently left untouched on version bumps and never
@@ -16,16 +16,16 @@
  *    of $BASE_SHA, since it's a static consistency check on the current state
  *    of the repo, not a diff against history.
  *
- * 2. checkOwnVersionBumps(): fails if a workspace package changed since
+ * 2. checkOwnVersionBumps(): fails if a package changed since
  *    $BASE_SHA but its package.json "version" wasn't bumped accordingly.
  *    `lerna publish from-package` only republishes a package when its
  *    committed version is greater than what's already on npm, so a changed
  *    package with an unbumped version would silently never get published.
  *    This check only runs when $BASE_SHA is provided.
  *
- * Usage: BASE_SHA=<git ref> yarn workspace-packages-version-check
+ * Usage: BASE_SHA=<git ref> yarn packages-version-check
  *
- * Intended to be run via the "workspace-packages-version-check" npm script
+ * Intended to be run via the "packages-version-check" npm script
  * (so node_modules/.bin, including lerna, is on PATH), not invoked directly.
  */
 import { execFileSync } from 'child_process';
@@ -67,13 +67,13 @@ function lernaLs(extraArgs) {
 // The only spec allowed for an internal @digitransit-* cross-reference.
 const REQUIRED_INTERNAL_SPEC = 'workspace:^';
 
-// Checks that every workspace package references its sibling @digitransit-*
-// workspace packages via exactly "workspace:^" in dependencies/peerDependencies/
+// Checks that every package references its sibling @digitransit-*
+// packages via exactly "workspace:^" in dependencies/peerDependencies/
 // devDependencies. devDependencies are included because query-utils relies on
 // its devDependency on the private schema package to be bumped with the schema.
 function checkInternalDependencyRanges() {
   const allPackages = lernaLs([]);
-  const workspacePackageNames = new Set(allPackages.map(pkg => pkg.name));
+  const packageNames = new Set(allPackages.map(pkg => pkg.name));
 
   const failures = [];
 
@@ -87,9 +87,9 @@ function checkInternalDependencyRanges() {
         const deps = packageJson[depField] || {};
 
         Object.entries(deps).forEach(([depName, spec]) => {
-          // Only sibling workspace packages are relevant. An external scoped
+          // Only sibling packages are relevant. An external scoped
           // dependency that merely shares the @digitransit- prefix is skipped.
-          if (!workspacePackageNames.has(depName)) {
+          if (!packageNames.has(depName)) {
             return;
           }
 
@@ -144,7 +144,7 @@ function checkInternalDependencyRanges() {
   return true;
 }
 
-// Checks that every workspace package whose files changed since `base` also
+// Checks that every package whose files changed since `base` also
 // bumped its own "version". Returns false (and logs failures) if not. Returns
 // true if there's no base to diff against, nothing changed, or everything
 // changed is correctly bumped.
@@ -218,9 +218,7 @@ function checkOwnVersionBumps(base) {
     });
 
     console.error(
-      red(
-        '\nRun `yarn workspace-packages-version-bump` to bump package versions.',
-      ),
+      red('\nRun `yarn packages-version-bump` to bump package versions.'),
     );
 
     return false;

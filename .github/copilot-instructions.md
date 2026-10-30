@@ -32,7 +32,7 @@ right one by *who consumes the code*, not just by convenience.
     of truth, keep sorted via `scripts/sort-translations.js` (`yarn format` runs this), and every
     key must also exist in `en.js`/`sv.js` (enforced by `test/unit/translations.test.js`). Some
     `digitransit-component` packages ship their own i18next translation bundles instead, sorted/
-    checked separately via `scripts/workspace-packages/sort-translations.js`.
+    checked separately via `scripts/packages/sort-translations.js`.
 - `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint: boot-time data
   fetches via `services/`, `.listen()`, graceful shutdown), `app.js` (`createApp()` — builds the
   configured Express app, including the dev-mode `/proxy/` passthrough to webpack-dev-server, no
@@ -58,10 +58,10 @@ right one by *who consumes the code*, not just by convenience.
   `test/unit/utils/{shared,server,client}/`, `test/unit/server/configs/`) and `e2e/` (Jest +
   Playwright visual tests).
 - `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.js`, `build/contextHelper.js`,
-  `generate-schema.js`, `theme/` theme-scaffolding scripts, `workspace-packages/` (readme
+  `generate-schema.js`, `theme/` theme-scaffolding scripts, `packages/` (readme
   generation, version checks, translation sort/check); see `scripts/README.md`).
-- `packages/` — Yarn workspace packages, consumed by the app but built/versioned independently, so
-  treat them like semi-external dependencies (see `docs/WorkspacePackages.md`):
+- `packages/` — Yarn workspaces, consumed by the app but built/versioned independently, so
+  treat them like semi-external dependencies (see `docs/Packages.md`):
   - `digitransit-{component,search-util,store,util}/<package>/` — the published packages.
   - `private/` — unpublished: `schema/` (generated `schema.graphql` for relay-compiler and
     graphql-eslint; regenerate with `scripts/generate-schema.js`, don't hand-edit; a devDependency
@@ -69,8 +69,8 @@ right one by *who consumes the code*, not just by convenience.
     buildable package's `rollup.config.js`).
   - Peer ranges are caret ranges of the root's version (e.g. `react` `^18.3.1`). Shared
     test/build tooling lives only in the root `devDependencies`; package scripts call it via
-    `yarn run -T <bin>`. See "Dependency Classification" in `docs/WorkspacePackages.md`.
-  - Never bump package versions manually; the `workspace-packages-version-bump` script is run after
+    `yarn run -T <bin>`. See "Dependency Classification" in `docs/Packages.md`.
+  - Never bump package versions manually; the `packages-version-bump` script is run after
     a PR is approved but before merging by the author.
 - `sass/`, `static/` — global styles and static assets.
 - `docs/` — architecture/testing/etc. docs; **treat as potentially stale** — when a change
@@ -104,8 +104,8 @@ right one by *who consumes the code*, not just by convenience.
 
 - `yarn lint` — eslint (Airbnb config + jsx-a11y + compat + prettier) + `prettier-styles` (scss
   check) + `prettier-icons` (`app/assets/icons/**/*.svg`, via `@prettier/plugin-xml`) + `stylelint`
-  + component-package translation parity check + workspace-package dependency check
-  (`yarn workspace-packages-dependencies-check`).
+  + component-package translation parity check + package dependency check
+  (`yarn packages-dependencies-check`).
 - `yarn format` — auto-fixes: sorts translations (app + component packages), `eslint --fix`,
   prettier styles, prettier icons, stylelint fix.
 - `yarn eslint` / `yarn eslint-fix` for JS only.
@@ -180,7 +180,7 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
 - `server/**`/`utils/shared/**`/`utils/server/**` relative imports **must** keep an explicit file
   extension — enforced by the `import/extensions: 'always'` override in `.eslintrc.cjs`.
   Everywhere else (`app/**`, `utils/client/**`, tests, `digitransit-*` packages) extensions are
-  forbidden (`'never'`). The 4 `digitransit-*` workspace packages additionally need
+  forbidden (`'never'`). The 4 `digitransit-*` packages additionally need
   `resolve.fullySpecified: false` + `type: 'javascript/auto'` in `webpack.config.js` to follow the
   same extensionless policy.
 
@@ -205,8 +205,8 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
 - To avoid unnecessary re-renders, define non-primitive default parameter values (objects,
   arrays, functions) as module-level constants instead of inline literals.
 - Declare `dependencies`/`devDependencies` in `package.json` files with exact versions (e.g.
-  `"2.5.1"`), never `^` or `~`. The only exception is workspace-package `peerDependencies`, which
-  are caret ranges of the root's version (enforced by `yarn workspace-packages-dependencies-check`).
+  `"2.5.1"`), never `^` or `~`. The only exception is package `peerDependencies`, which
+  are caret ranges of the root's version (enforced by `yarn packages-dependencies-check`).
 - The project does not enable `eslint-plugin-react-hooks`'s `exhaustive-deps` rule, and top-level
   app values such as `config` (`useConfigContext()`) and provider action helpers (e.g.
   `messageActions`) are set once at app init and never change identity for the app's lifetime.

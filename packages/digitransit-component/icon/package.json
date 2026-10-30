@@ -26,7 +26,7 @@
     "watch": "NODE_ENV=development yarn run -T rollup -w -c",
     "clean": "rm -rf ./lib ./node_modules",
     "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.jsx\"",
-    "docs": "node ../../../scripts/workspace-packages/generate-readmes.js",
+    "docs": "node ../../../scripts/packages/generate-readmes.js",
     "build": "NODE_ENV=production yarn run -T rollup -c"
   },
   "repository": {
