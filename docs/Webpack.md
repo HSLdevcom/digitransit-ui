@@ -201,7 +201,10 @@ below.
   render ("Element type is invalid"); `javascript/auto`'s lenient interop
   unwraps it correctly, same as the rest of the app.
 - **`.scss`** — `sass-loader` → `css-loader` →
-  `style-loader` (dev) / `MiniCssExtractPlugin.loader` (prod). Includes
+  `MiniCssExtractPlugin.loader` (dev and prod, so no `<style>` tags are
+  injected; in dev the shell links `/proxy/css/main.css` and webpack
+  appends lazy chunks' CSS, including the theme, as `<link>` elements).
+  Includes
   Foundation Sites' Sass path via `loadPaths` (Dart Sass's modern name for
   `includePaths`) and silences deprecation warnings for constructs still
   in use (`@import`, global built-ins, color functions, `if()`).
@@ -251,12 +254,14 @@ no real source map) in development.
 
 ## Plugins
 
-Development only gets `ContextReplacementPlugin` (see Entries above).
-Production gets:
+Development gets `ContextReplacementPlugin` (see Entries above).
+`MiniCssExtractPlugin` is registered in both modes; the other plugins below
+are production only:
 
 - **`faviconPlugins`** — see Entries above.
-- **`MiniCssExtractPlugin`** — extracts CSS to hashed files (prod only;
-  dev uses `style-loader`). `ignoreOrder` is deliberately left `false`
+- **`MiniCssExtractPlugin`** — extracts CSS to files (hashed in prod,
+  unhashed in dev; the dev-server overlay hides its warnings, which stay
+  in the terminal). `ignoreOrder` is deliberately left `false`
   (the default) rather than suppressed: the `digitransitComponents` cache
   group (see `splitChunks` below) merges CSS from many `@hsl-fi`/
   `@digitransit-*` packages into one shared chunk used by every route,

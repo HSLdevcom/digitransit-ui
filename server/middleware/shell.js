@@ -94,6 +94,10 @@ function buildHead(config, req, locale) {
     html.push(
       `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${themeCssPath}"/>\n`,
     );
+  } else {
+    html.push(
+      '<link rel="stylesheet" type="text/css" href="/proxy/css/main.css"/>\n',
+    );
   }
 
   html.push(
