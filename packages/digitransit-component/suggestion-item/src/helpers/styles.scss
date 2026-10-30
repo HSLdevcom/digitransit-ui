@@ -64,7 +64,7 @@ li:last-child > div.suggestion-item-container.mobile {
       @include min-width(tablet) {
         font-size: 13px !important;
         letter-spacing: -0.43px;
-        line-height: 1;
+        line-height: 1.3;
       }
 
       &.futureroute {
