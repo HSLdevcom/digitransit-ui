@@ -201,10 +201,8 @@ below.
   render ("Element type is invalid"); `javascript/auto`'s lenient interop
   unwraps it correctly, same as the rest of the app.
 - **`.scss`** — `sass-loader` → `css-loader` →
-  `style-loader` (dev) / `MiniCssExtractPlugin.loader` (prod). Includes
-  Foundation Sites' Sass path via `loadPaths` (Dart Sass's modern name for
-  `includePaths`) and silences deprecation warnings for constructs still
-  in use (`@import`, global built-ins, color functions, `if()`).
+  `style-loader` (dev) / `MiniCssExtractPlugin.loader` (prod). Silences
+  deprecation warnings for constructs still in use (`@import`, global built-ins, color functions, `if()`).
   `charset: false` stops Sass from prefixing non-ASCII output with a BOM,
   which would land mid-bundle once CSS modules are concatenated and
   invalidate the selector after it.
@@ -319,9 +317,6 @@ Both dev and prod also always get:
     targets from `browserslist` via `browserslistToTargets`, so it both
     adds the vendor prefixes the targets need and drops the ones they
     don't (replacing the former `postcss-loader` + autoprefixer step).
-    `errorRecovery: true` drops rules it can't parse instead of failing
-    the build; currently only foundation-sites' IE9/10 `(min-width:0\0)`
-    hack.
     `include: Features.MediaRangeSyntax` keeps `min-width`/`max-width`
     media queries rather than converting them to range syntax
     (`width>=…`, Chrome 104+): browsers older than the targets, and the

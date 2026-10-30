@@ -3,14 +3,6 @@ $form-input-postfix-search-color: $white;
 $form-input-postfix-search-fill-color: $highlight-color;
 $form-input-postfix-search-fill-color-difference: 5%;
 
-/* Override foundation styles */
-$input-border-radius: $form-input-border-radius;
-$input-border-style: none;
-$input-border-width: 0;
-$input-prefix-border-type: none;
-$input-prefix-border-width: 0;
-$form-spacing: 0.5rem;
-
 input {
   border-radius: $form-input-border-radius;
   font-family: $font-family;

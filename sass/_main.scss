@@ -1,24 +1,17 @@
-/* Set Foundation base font to theme font (without this Foundation overrides body) */
-$body-font-family: $font-family;
-$body-font-weight: $font-weight-medium;
-
 @import '@hsl-fi/design-system-core/css/styles.css';
 
 // Apply theme specific values over standard hsl theme
 @import 'design-theme.css';
-@import 'foundation-setup';
+@import 'base/breakpoints';
+@import 'base/reset';
+@import 'base/grid';
 @import 'base/zindex';
 @import 'base/helper-mixins';
 @import 'base/base';
 @import 'base/form';
 @import 'base/helper-classes';
 @import 'base/elements';
-@import 'grid/grid';
-@import 'util/util';
 @import 'base/helper-classes-after-foundations';
-
-// Some of these files override sass variables Foundation uses,
-// so they must be loaded before the relevant foundation modules
 @import '../app/component/loading';
 @import '../app/component/stop/stop-cards';
 @import '../app/component/alert-banner';

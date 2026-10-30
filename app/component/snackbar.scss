@@ -51,6 +51,10 @@
   letter-spacing: $letter-spacing;
   align-items: center;
 
+  &.hide {
+    display: none;
+  }
+
   .icon-container {
     display: flex;
     align-items: center;

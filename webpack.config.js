@@ -242,11 +242,6 @@ export default {
             loader: 'sass-loader',
             options: {
               sassOptions: {
-                // Modern Dart Sass JS API option name (was `includePaths`
-                // under the legacy API sass-loader used to default to).
-                loadPaths: [
-                  path.join(rootDir, 'node_modules/foundation-sites/scss'),
-                ],
                 // No BOM/@charset: Sass adds one to non-ASCII output, and a
                 // BOM mid-bundle invalidates the selector that follows it.
                 charset: false,
@@ -340,9 +335,6 @@ export default {
       new CssMinimizerPlugin({
         minify: CssMinimizerPlugin.lightningCssMinify,
         minimizerOptions: {
-          // Drops rules Lightning CSS can't parse instead of failing; today
-          // that's only foundation-sites' IE9/10 `(min-width:0\\0)` hack.
-          errorRecovery: true,
           // Keep `min-width`/`max-width` media queries instead of range
           // syntax (`width>=…`): browsers older than the targets (and the
           // e2e suite's Chromium) would otherwise get the mobile layout.

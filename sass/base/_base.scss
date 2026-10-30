@@ -1,8 +1,3 @@
-/* Override foundation base */
-$column-gutter: 20px;
-$global-padding: 10px;
-$foundation-version: $font-family;
-
 /* Transparency settings */
 $transparency: 0.5;
 $transparent-color: $white;
@@ -31,13 +26,6 @@ html {
 @media print {
   @page {
     size: a4 portrait;
-  }
-
-  /* TODO: Remove after foundation is removed */
-  @for $i from 1 through 12 {
-    div.small-#{$i} {
-      width: calc(#{$i} * 100% / 12);
-    }
   }
 }
 

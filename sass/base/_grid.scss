@@ -1,0 +1,109 @@
+// The float grid classes in use, ported from Foundation for Sites 6.9.0.
+// Copyright notice and MIT license terms: see THIRD-PARTY-LICENSES.txt in this directory.
+
+.row {
+  max-width: 75rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.row::before,
+.row::after {
+  display: table;
+  content: ' ';
+}
+
+.row::after {
+  clear: both;
+}
+
+.row .row {
+  margin-right: -0.625rem;
+  margin-left: -0.625rem;
+}
+
+@media print, screen and (min-width: 40em) {
+  .row .row {
+    margin-right: -0.9375rem;
+    margin-left: -0.9375rem;
+  }
+}
+
+@media print, screen and (min-width: 64em) {
+  .row .row {
+    margin-right: -0.9375rem;
+    margin-left: -0.9375rem;
+  }
+}
+
+.row:not(.expanded) .row {
+  max-width: none;
+}
+
+.column,
+.columns {
+  float: left;
+  width: 100%;
+  padding-right: 0.625rem;
+  padding-left: 0.625rem;
+}
+
+@media print, screen and (min-width: 40em) {
+  .column,
+  .columns {
+    padding-right: 0.9375rem;
+    padding-left: 0.9375rem;
+  }
+}
+
+.column,
+.columns,
+.column:last-child:not(:first-child) {
+  float: left;
+  clear: none;
+}
+
+.column:last-child:not(:first-child),
+.columns:last-child:not(:first-child) {
+  float: right;
+}
+
+.column.end:last-child:last-child,
+.end.columns:last-child:last-child {
+  float: left;
+}
+
+.column.row.row,
+.row.row.columns {
+  float: none;
+}
+
+.row .column.row.row,
+.row .row.row.columns {
+  margin-right: 0;
+  margin-left: 0;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.small-2 {
+  width: 16.6666666667%;
+}
+
+.small-offset-2 {
+  margin-left: 16.6666666667%;
+}
+
+.small-9 {
+  width: 75%;
+}
+
+@media print {
+  div.small-2 {
+    width: calc(2 * 100% / 12);
+  }
+
+  div.small-9 {
+    width: calc(9 * 100% / 12);
+  }
+}
