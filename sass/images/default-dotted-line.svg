@@ -8,10 +8,10 @@
     >
         <circle
         stroke="#aaa"
-        strokeWidth="2"
-        cx="5"
-        cy="6"
+        stroke-width="1"
+        cx="5.5"
+        cy="6.5"
         r="5"
         />
-        <circle strokeWidth="1" cx="5" cy="5" r="5" />
+        <circle stroke-width="1" cx="5.5" cy="5.5" r="5" />
 </svg>
