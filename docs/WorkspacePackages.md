@@ -21,7 +21,8 @@ dependency would.
 
 ## How to Contribute
 
-- Most work happens inside a package directory, `packages/<family>/<family>-<module>`.
+- Most work happens inside a package directory, `packages/digitransit-<family>/<module>`
+  (npm name: `@digitransit-<family>/digitransit-<family>-<module>`).
 - If you'd like to propose a new module or feature, open an issue first.
 - Always include tests, using [Vitest](https://vitest.dev). Component
   packages use
@@ -52,7 +53,7 @@ the eslint config is based on.
 A `component`/`store` package looks like:
 
 ```
-digitransit-<family>-<module>
+packages/digitransit-<family>/<module>
 │   package.json
 │   rollup.config.js
 │   README.md
@@ -95,8 +96,8 @@ package has actually used since the migration to Rollup). Instead:
 
 1. Copy the nearest existing sibling package as a starting point, e.g.:
    ```sh
-   $ cp -r packages/digitransit-component/digitransit-component-icon \
-          packages/digitransit-component/digitransit-component-<name>
+   $ cp -r packages/digitransit-component/icon \
+          packages/digitransit-component/<name>
    ```
 2. In the new `package.json`: rename `"name"`, reset `"version"` to `"0.0.1"`,
    update `"description"`, and clear out anything the copied package needed

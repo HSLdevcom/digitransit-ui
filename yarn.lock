@@ -3164,9 +3164,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@digitransit-component/digitransit-component-autosuggest-panel@workspace:packages/digitransit-component/digitransit-component-autosuggest-panel":
+"@digitransit-component/digitransit-component-autosuggest-panel@workspace:packages/digitransit-component/autosuggest-panel":
   version: 0.0.0-use.local
-  resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:packages/digitransit-component/digitransit-component-autosuggest-panel"
+  resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:packages/digitransit-component/autosuggest-panel"
   dependencies:
     "@digitransit-ui/rollup-config": "workspace:^"
   peerDependencies:
@@ -3184,9 +3184,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-autosuggest@workspace:packages/digitransit-component/digitransit-component-autosuggest":
+"@digitransit-component/digitransit-component-autosuggest@workspace:packages/digitransit-component/autosuggest":
   version: 0.0.0-use.local
-  resolution: "@digitransit-component/digitransit-component-autosuggest@workspace:packages/digitransit-component/digitransit-component-autosuggest"
+  resolution: "@digitransit-component/digitransit-component-autosuggest@workspace:packages/digitransit-component/autosuggest"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-execute-search-immediate": "workspace:^"
     "@digitransit-search-util/digitransit-search-util-get-label": "workspace:^"
@@ -3210,9 +3210,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-control-panel@workspace:packages/digitransit-component/digitransit-component-control-panel":
+"@digitransit-component/digitransit-component-control-panel@workspace:packages/digitransit-component/control-panel":
   version: 0.0.0-use.local
-  resolution: "@digitransit-component/digitransit-component-control-panel@workspace:packages/digitransit-component/digitransit-component-control-panel"
+  resolution: "@digitransit-component/digitransit-component-control-panel@workspace:packages/digitransit-component/control-panel"
   dependencies:
     "@digitransit-ui/rollup-config": "workspace:^"
   peerDependencies:
@@ -3228,9 +3228,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-datetimepicker@workspace:packages/digitransit-component/digitransit-component-datetimepicker":
+"@digitransit-component/digitransit-component-datetimepicker@workspace:packages/digitransit-component/datetimepicker":
   version: 0.0.0-use.local
-  resolution: "@digitransit-component/digitransit-component-datetimepicker@workspace:packages/digitransit-component/digitransit-component-datetimepicker"
+  resolution: "@digitransit-component/digitransit-component-datetimepicker@workspace:packages/digitransit-component/datetimepicker"
   dependencies:
     "@digitransit-ui/rollup-config": "workspace:^"
   peerDependencies:
@@ -3249,9 +3249,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-dialog-modal@workspace:packages/digitransit-component/digitransit-component-dialog-modal":
+"@digitransit-component/digitransit-component-dialog-modal@workspace:packages/digitransit-component/dialog-modal":
   version: 0.0.0-use.local
-  resolution: "@digitransit-component/digitransit-component-dialog-modal@workspace:packages/digitransit-component/digitransit-component-dialog-modal"
+  resolution: "@digitransit-component/digitransit-component-dialog-modal@workspace:packages/digitransit-component/dialog-modal"
   dependencies:
     "@digitransit-ui/rollup-config": "workspace:^"
   peerDependencies:
@@ -3261,9 +3261,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-bar@workspace:packages/digitransit-component/digitransit-component-favourite-bar":
+"@digitransit-component/digitransit-component-favourite-bar@workspace:packages/digitransit-component/favourite-bar":
   version: 0.0.0-use.local
-  resolution: "@digitransit-component/digitransit-component-favourite-bar@workspace:packages/digitransit-component/digitransit-component-favourite-bar"
+  resolution: "@digitransit-component/digitransit-component-favourite-bar@workspace:packages/digitransit-component/favourite-bar"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
     "@digitransit-ui/rollup-config": "workspace:^"
@@ -3280,9 +3280,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-editing-modal@workspace:packages/digitransit-component/digitransit-component-favourite-editing-modal":
+"@digitransit-component/digitransit-component-favourite-editing-modal@workspace:packages/digitransit-component/favourite-editing-modal":
   version: 0.0.0-use.local
-  resolution: "@digitransit-component/digitransit-component-favourite-editing-modal@workspace:packages/digitransit-component/digitransit-component-favourite-editing-modal"
+  resolution: "@digitransit-component/digitransit-component-favourite-editing-modal@workspace:packages/digitransit-component/favourite-editing-modal"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
     "@digitransit-ui/rollup-config": "workspace:^"
@@ -3301,9 +3301,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-favourite-modal@workspace:packages/digitransit-component/digitransit-component-favourite-modal":
+"@digitransit-component/digitransit-component-favourite-modal@workspace:packages/digitransit-component/favourite-modal":
   version: 0.0.0-use.local
-  resolution: "@digitransit-component/digitransit-component-favourite-modal@workspace:packages/digitransit-component/digitransit-component-favourite-modal"
+  resolution: "@digitransit-component/digitransit-component-favourite-modal@workspace:packages/digitransit-component/favourite-modal"
   dependencies:
     "@digitransit-ui/rollup-config": "workspace:^"
   peerDependencies:
@@ -3319,9 +3319,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-icon@workspace:packages/digitransit-component/digitransit-component-icon":
+"@digitransit-component/digitransit-component-icon@workspace:packages/digitransit-component/icon":
   version: 0.0.0-use.local
-  resolution: "@digitransit-component/digitransit-component-icon@workspace:packages/digitransit-component/digitransit-component-icon"
+  resolution: "@digitransit-component/digitransit-component-icon@workspace:packages/digitransit-component/icon"
   dependencies:
     "@digitransit-ui/rollup-config": "workspace:^"
   peerDependencies:
@@ -3330,9 +3330,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-component/digitransit-component-suggestion-item@workspace:packages/digitransit-component/digitransit-component-suggestion-item":
+"@digitransit-component/digitransit-component-suggestion-item@workspace:packages/digitransit-component/suggestion-item":
   version: 0.0.0-use.local
-  resolution: "@digitransit-component/digitransit-component-suggestion-item@workspace:packages/digitransit-component/digitransit-component-suggestion-item"
+  resolution: "@digitransit-component/digitransit-component-suggestion-item@workspace:packages/digitransit-component/suggestion-item"
   dependencies:
     "@digitransit-ui/rollup-config": "workspace:^"
   peerDependencies:
@@ -3344,15 +3344,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-distance@workspace:packages/digitransit-search-util/digitransit-search-util-distance":
+"@digitransit-search-util/digitransit-search-util-distance@workspace:packages/digitransit-search-util/distance":
   version: 0.0.0-use.local
-  resolution: "@digitransit-search-util/digitransit-search-util-distance@workspace:packages/digitransit-search-util/digitransit-search-util-distance"
+  resolution: "@digitransit-search-util/digitransit-search-util-distance@workspace:packages/digitransit-search-util/distance"
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-execute-search-immediate@workspace:^, @digitransit-search-util/digitransit-search-util-execute-search-immediate@workspace:packages/digitransit-search-util/digitransit-search-util-execute-search-immediate":
+"@digitransit-search-util/digitransit-search-util-execute-search-immediate@workspace:^, @digitransit-search-util/digitransit-search-util-execute-search-immediate@workspace:packages/digitransit-search-util/execute-search-immediate":
   version: 0.0.0-use.local
-  resolution: "@digitransit-search-util/digitransit-search-util-execute-search-immediate@workspace:packages/digitransit-search-util/digitransit-search-util-execute-search-immediate"
+  resolution: "@digitransit-search-util/digitransit-search-util-execute-search-immediate@workspace:packages/digitransit-search-util/execute-search-immediate"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "workspace:^"
     "@digitransit-search-util/digitransit-search-util-get-geocoding-results": "workspace:^"
@@ -3362,59 +3362,59 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-filter-matching-to-input@workspace:^, @digitransit-search-util/digitransit-search-util-filter-matching-to-input@workspace:packages/digitransit-search-util/digitransit-search-util-filter-matching-to-input":
+"@digitransit-search-util/digitransit-search-util-filter-matching-to-input@workspace:^, @digitransit-search-util/digitransit-search-util-filter-matching-to-input@workspace:packages/digitransit-search-util/filter-matching-to-input":
   version: 0.0.0-use.local
-  resolution: "@digitransit-search-util/digitransit-search-util-filter-matching-to-input@workspace:packages/digitransit-search-util/digitransit-search-util-filter-matching-to-input"
+  resolution: "@digitransit-search-util/digitransit-search-util-filter-matching-to-input@workspace:packages/digitransit-search-util/filter-matching-to-input"
   dependencies:
     lodash: "npm:4.18.1"
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-get-geocoding-results@workspace:^, @digitransit-search-util/digitransit-search-util-get-geocoding-results@workspace:packages/digitransit-search-util/digitransit-search-util-get-geocoding-results":
+"@digitransit-search-util/digitransit-search-util-get-geocoding-results@workspace:^, @digitransit-search-util/digitransit-search-util-get-geocoding-results@workspace:packages/digitransit-search-util/get-geocoding-results":
   version: 0.0.0-use.local
-  resolution: "@digitransit-search-util/digitransit-search-util-get-geocoding-results@workspace:packages/digitransit-search-util/digitransit-search-util-get-geocoding-results"
+  resolution: "@digitransit-search-util/digitransit-search-util-get-geocoding-results@workspace:packages/digitransit-search-util/get-geocoding-results"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-get-json": "workspace:^"
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-get-json@workspace:^, @digitransit-search-util/digitransit-search-util-get-json@workspace:packages/digitransit-search-util/digitransit-search-util-get-json":
+"@digitransit-search-util/digitransit-search-util-get-json@workspace:^, @digitransit-search-util/digitransit-search-util-get-json@workspace:packages/digitransit-search-util/get-json":
   version: 0.0.0-use.local
-  resolution: "@digitransit-search-util/digitransit-search-util-get-json@workspace:packages/digitransit-search-util/digitransit-search-util-get-json"
+  resolution: "@digitransit-search-util/digitransit-search-util-get-json@workspace:packages/digitransit-search-util/get-json"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-serialize": "workspace:^"
     axios: "npm:1.17.0"
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-get-label@workspace:^, @digitransit-search-util/digitransit-search-util-get-label@workspace:packages/digitransit-search-util/digitransit-search-util-get-label":
+"@digitransit-search-util/digitransit-search-util-get-label@workspace:^, @digitransit-search-util/digitransit-search-util-get-label@workspace:packages/digitransit-search-util/get-label":
   version: 0.0.0-use.local
-  resolution: "@digitransit-search-util/digitransit-search-util-get-label@workspace:packages/digitransit-search-util/digitransit-search-util-get-label"
+  resolution: "@digitransit-search-util/digitransit-search-util-get-label@workspace:packages/digitransit-search-util/get-label"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-helpers@workspace:^, @digitransit-search-util/digitransit-search-util-helpers@workspace:packages/digitransit-search-util/digitransit-search-util-helpers":
+"@digitransit-search-util/digitransit-search-util-helpers@workspace:^, @digitransit-search-util/digitransit-search-util-helpers@workspace:packages/digitransit-search-util/helpers":
   version: 0.0.0-use.local
-  resolution: "@digitransit-search-util/digitransit-search-util-helpers@workspace:packages/digitransit-search-util/digitransit-search-util-helpers"
+  resolution: "@digitransit-search-util/digitransit-search-util-helpers@workspace:packages/digitransit-search-util/helpers"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-is-duplicate": "workspace:^"
     lodash: "npm:4.18.1"
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-is-duplicate@workspace:^, @digitransit-search-util/digitransit-search-util-is-duplicate@workspace:packages/digitransit-search-util/digitransit-search-util-is-duplicate":
+"@digitransit-search-util/digitransit-search-util-is-duplicate@workspace:^, @digitransit-search-util/digitransit-search-util-is-duplicate@workspace:packages/digitransit-search-util/is-duplicate":
   version: 0.0.0-use.local
-  resolution: "@digitransit-search-util/digitransit-search-util-is-duplicate@workspace:packages/digitransit-search-util/digitransit-search-util-is-duplicate"
+  resolution: "@digitransit-search-util/digitransit-search-util-is-duplicate@workspace:packages/digitransit-search-util/is-duplicate"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-tru-eq": "workspace:^"
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-query-utils@workspace:packages/digitransit-search-util/digitransit-search-util-query-utils":
+"@digitransit-search-util/digitransit-search-util-query-utils@workspace:packages/digitransit-search-util/query-utils":
   version: 0.0.0-use.local
-  resolution: "@digitransit-search-util/digitransit-search-util-query-utils@workspace:packages/digitransit-search-util/digitransit-search-util-query-utils"
+  resolution: "@digitransit-search-util/digitransit-search-util-query-utils@workspace:packages/digitransit-search-util/query-utils"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "workspace:^"
     "@digitransit-search-util/digitransit-search-util-helpers": "workspace:^"
@@ -3429,43 +3429,43 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-route-name-compare@workspace:^, @digitransit-search-util/digitransit-search-util-route-name-compare@workspace:packages/digitransit-search-util/digitransit-search-util-route-name-compare":
+"@digitransit-search-util/digitransit-search-util-route-name-compare@workspace:^, @digitransit-search-util/digitransit-search-util-route-name-compare@workspace:packages/digitransit-search-util/route-name-compare":
   version: 0.0.0-use.local
-  resolution: "@digitransit-search-util/digitransit-search-util-route-name-compare@workspace:packages/digitransit-search-util/digitransit-search-util-route-name-compare"
+  resolution: "@digitransit-search-util/digitransit-search-util-route-name-compare@workspace:packages/digitransit-search-util/route-name-compare"
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-serialize@workspace:^, @digitransit-search-util/digitransit-search-util-serialize@workspace:packages/digitransit-search-util/digitransit-search-util-serialize":
+"@digitransit-search-util/digitransit-search-util-serialize@workspace:^, @digitransit-search-util/digitransit-search-util-serialize@workspace:packages/digitransit-search-util/serialize":
   version: 0.0.0-use.local
-  resolution: "@digitransit-search-util/digitransit-search-util-serialize@workspace:packages/digitransit-search-util/digitransit-search-util-serialize"
+  resolution: "@digitransit-search-util/digitransit-search-util-serialize@workspace:packages/digitransit-search-util/serialize"
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-suggestion-to-location@workspace:packages/digitransit-search-util/digitransit-search-util-suggestion-to-location":
+"@digitransit-search-util/digitransit-search-util-suggestion-to-location@workspace:packages/digitransit-search-util/suggestion-to-location":
   version: 0.0.0-use.local
-  resolution: "@digitransit-search-util/digitransit-search-util-suggestion-to-location@workspace:packages/digitransit-search-util/digitransit-search-util-suggestion-to-location"
+  resolution: "@digitransit-search-util/digitransit-search-util-suggestion-to-location@workspace:packages/digitransit-search-util/suggestion-to-location"
   dependencies:
     "@digitransit-search-util/digitransit-search-util-get-label": "workspace:^"
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-tru-eq@workspace:^, @digitransit-search-util/digitransit-search-util-tru-eq@workspace:packages/digitransit-search-util/digitransit-search-util-tru-eq":
+"@digitransit-search-util/digitransit-search-util-tru-eq@workspace:^, @digitransit-search-util/digitransit-search-util-tru-eq@workspace:packages/digitransit-search-util/tru-eq":
   version: 0.0.0-use.local
-  resolution: "@digitransit-search-util/digitransit-search-util-tru-eq@workspace:packages/digitransit-search-util/digitransit-search-util-tru-eq"
+  resolution: "@digitransit-search-util/digitransit-search-util-tru-eq@workspace:packages/digitransit-search-util/tru-eq"
   languageName: unknown
   linkType: soft
 
-"@digitransit-search-util/digitransit-search-util-uniq-by-label@workspace:^, @digitransit-search-util/digitransit-search-util-uniq-by-label@workspace:packages/digitransit-search-util/digitransit-search-util-uniq-by-label":
+"@digitransit-search-util/digitransit-search-util-uniq-by-label@workspace:^, @digitransit-search-util/digitransit-search-util-uniq-by-label@workspace:packages/digitransit-search-util/uniq-by-label":
   version: 0.0.0-use.local
-  resolution: "@digitransit-search-util/digitransit-search-util-uniq-by-label@workspace:packages/digitransit-search-util/digitransit-search-util-uniq-by-label"
+  resolution: "@digitransit-search-util/digitransit-search-util-uniq-by-label@workspace:packages/digitransit-search-util/uniq-by-label"
   dependencies:
     lodash: "npm:4.18.1"
   languageName: unknown
   linkType: soft
 
-"@digitransit-store/digitransit-store-future-route@workspace:packages/digitransit-store/digitransit-store-future-route":
+"@digitransit-store/digitransit-store-future-route@workspace:packages/digitransit-store/future-route":
   version: 0.0.0-use.local
-  resolution: "@digitransit-store/digitransit-store-future-route@workspace:packages/digitransit-store/digitransit-store-future-route"
+  resolution: "@digitransit-store/digitransit-store-future-route@workspace:packages/digitransit-store/future-route"
   dependencies:
     "@digitransit-ui/rollup-config": "workspace:^"
   peerDependencies:
@@ -3485,21 +3485,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@digitransit-util/digitransit-util-day-range-allowed-diff@workspace:^, @digitransit-util/digitransit-util-day-range-allowed-diff@workspace:packages/digitransit-util/digitransit-util-day-range-allowed-diff":
+"@digitransit-util/digitransit-util-day-range-allowed-diff@workspace:^, @digitransit-util/digitransit-util-day-range-allowed-diff@workspace:packages/digitransit-util/day-range-allowed-diff":
   version: 0.0.0-use.local
-  resolution: "@digitransit-util/digitransit-util-day-range-allowed-diff@workspace:packages/digitransit-util/digitransit-util-day-range-allowed-diff"
+  resolution: "@digitransit-util/digitransit-util-day-range-allowed-diff@workspace:packages/digitransit-util/day-range-allowed-diff"
   languageName: unknown
   linkType: soft
 
-"@digitransit-util/digitransit-util-day-range-pattern@workspace:^, @digitransit-util/digitransit-util-day-range-pattern@workspace:packages/digitransit-util/digitransit-util-day-range-pattern":
+"@digitransit-util/digitransit-util-day-range-pattern@workspace:^, @digitransit-util/digitransit-util-day-range-pattern@workspace:packages/digitransit-util/day-range-pattern":
   version: 0.0.0-use.local
-  resolution: "@digitransit-util/digitransit-util-day-range-pattern@workspace:packages/digitransit-util/digitransit-util-day-range-pattern"
+  resolution: "@digitransit-util/digitransit-util-day-range-pattern@workspace:packages/digitransit-util/day-range-pattern"
   languageName: unknown
   linkType: soft
 
-"@digitransit-util/digitransit-util-enrich-patterns@workspace:packages/digitransit-util/digitransit-util-enrich-patterns":
+"@digitransit-util/digitransit-util-enrich-patterns@workspace:packages/digitransit-util/enrich-patterns":
   version: 0.0.0-use.local
-  resolution: "@digitransit-util/digitransit-util-enrich-patterns@workspace:packages/digitransit-util/digitransit-util-enrich-patterns"
+  resolution: "@digitransit-util/digitransit-util-enrich-patterns@workspace:packages/digitransit-util/enrich-patterns"
   dependencies:
     "@digitransit-util/digitransit-util-day-range-allowed-diff": "workspace:^"
     "@digitransit-util/digitransit-util-day-range-pattern": "workspace:^"

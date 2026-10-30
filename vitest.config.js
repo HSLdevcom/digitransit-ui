@@ -172,7 +172,7 @@ export default {
         resolve: {
           alias: [
             {
-              find: /^@digitransit-component\/(digitransit-component-.+)$/,
+              find: /^@digitransit-component\/digitransit-component-(.+)$/,
               replacement: path.join(
                 import.meta.dirname,
                 'packages/digitransit-component/$1/src/index',
