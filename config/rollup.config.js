@@ -84,7 +84,8 @@ function getPackage() {
     );
   }
   const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-  return { name: pkg.name, location: packageDir };
+  const extractCss = [pkg.sideEffects].flat().includes('**/*.css');
+  return { name: pkg.name, location: packageDir, extractCss };
 }
 
 export default () => {
@@ -154,6 +155,8 @@ export default () => {
         sourcemap: true,
         inlineDynamicImports: true,
         exports: 'named',
+        // The consumer's bundler resolves extracted css, so no manual CSS import needed.
+        ...(pkg.extractCss ? { banner: "import './index.css';" } : {}),
       },
     ],
     context: 'self',
@@ -185,7 +188,7 @@ export default () => {
         sourceMap: true,
       }),
       postcss({
-        extract: false,
+        extract: pkg.extractCss ? 'index.css' : false,
         plugins: [autoprefixer()],
         // postcss-modules' scoped class names are hashed from
         // `path.relative(process.cwd(), filepath) + localName` (see

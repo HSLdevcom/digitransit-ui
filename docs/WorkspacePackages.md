@@ -284,6 +284,20 @@ to the same scoped class name and leak styles into each other once bundled
 into the app — don't remove `hashPrefix`/`autoModules: false` from that
 config without preserving this.
 
+### Shipping the CSS
+
+Packages that declare `"sideEffects": ["**/*.css"]` in their `package.json`
+(all packages using SCSS) ship their compiled CSS as `lib/index.css`, and
+the ESM build starts with `import './index.css'`. The consuming bundler
+resolves that import, so the CSS lands in its normal CSS output (no runtime
+`<style>` tags, no manual import needed). Keep `sideEffects` or webpack
+tree-shakes the import away. The package also exports `./index.css`.
+
+The UMD/CJS builds (`index.cjs`) contain no CSS for these packages; those
+consumers must load `index.css` themselves. A package without the
+`sideEffects` declaration keeps the old behaviour of injecting `<style>`
+tags at runtime.
+
 ## Build Caching
 
 Because `nx.json`'s `build` target defines an explicit `inputs` list, any

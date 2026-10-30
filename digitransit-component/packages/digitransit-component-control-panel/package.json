@@ -11,8 +11,12 @@
       "require": "./index.cjs",
       "default": "./index.cjs"
     },
+    "./index.css": "./lib/index.css",
     "./package.json": "./package.json"
   },
+  "sideEffects": [
+    "**/*.css"
+  ],
   "files": [
     "/lib",
     "index.cjs",
