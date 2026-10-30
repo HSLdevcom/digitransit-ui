@@ -34,8 +34,10 @@ const makeStoptime = ({
   tripHeadsign = headsign,
   lastStopId,
   pickupType = lastStopId === stopId ? 'NONE' : 'SCHEDULED',
+  stopPositionInPattern = lastStopId === stopId ? 1 : 0,
+  realtimeState = 'SCHEDULED',
 }) => ({
-  realtimeState: 'SCHEDULED',
+  realtimeState,
   realtime: true,
   serviceDay,
   scheduledDeparture: 2000,
@@ -43,6 +45,7 @@ const makeStoptime = ({
   scheduledArrival: 2000,
   realtimeArrival: 2000,
   pickupType,
+  stopPositionInPattern,
   dropoffType: 'SCHEDULED',
   headsign,
   stop: { id: stopId, gtfsId: stopId, code: '1', platformCode: null },
@@ -72,6 +75,27 @@ describe('<DepartureListContainer />', () => {
     );
     expect(screen.getByText('Kamppi')).toBeTruthy();
     expect(screen.getByText('Arrives / Terminus')).toBeTruthy();
+  });
+
+  it('does not treat a loop line first stop as the terminus', () => {
+    renderWithProviders(
+      <DepartureListContainer
+        stoptimes={[
+          makeStoptime({
+            id: 'a',
+            headsign: 'Kamppi',
+            lastStopId: 'HSL:1',
+            pickupType: 'SCHEDULED',
+            stopPositionInPattern: 0,
+            realtimeState: 'CANCELED',
+          }),
+        ]}
+        currentTime={currentTime}
+      />,
+      { currentTime },
+    );
+    expect(screen.getByText('Kamppi')).toBeTruthy();
+    expect(screen.queryByText('Arrives / Terminus')).toBeNull();
   });
 
   it('shows the stoptime headsign for drop-off-only rows', () => {
