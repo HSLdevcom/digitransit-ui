@@ -17,6 +17,9 @@ $global-zindex: (
   'map-click-prevent-overlay': 801,
   // Desktop settings drawer (.offcanvas), kept above map overlays/buttons.
   'desktop-settings-drawer': 900,
+  // Design system select menu, portaled to document.body. Must sit above the
+  // mobile drawer (local z-index) it is opened from, but below the top bars.
+  'dropdown-menu': 950,
   // Mobile top bar / app header.
   'mobile-top-bar': 1000,
   // Desktop top bar / app header, and full-page dark overlays that should

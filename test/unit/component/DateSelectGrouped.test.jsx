@@ -1,8 +1,7 @@
 import { DateTime, Settings } from 'luxon';
+import { fireEvent } from '@testing-library/react';
 import { createTestIntl, renderWithProviders } from '../helpers/mock-providers';
-import DateSelectGrouped, {
-  handleDateSelectChange,
-} from '../../../app/component/stop/DateSelectGrouped';
+import DateSelectGrouped from '../../../app/component/stop/DateSelectGrouped';
 import {
   formatDateLabel,
   formatWeekLabel,
@@ -43,7 +42,7 @@ describe('<DateSelectGrouped />', () => {
         .textContent,
     ).toContain('Select time');
     expect(
-      container.querySelector('.route-schedule-grouped__single-value')
+      container.querySelector('#aria-input-route-schedule-grouped-datepicker')
         .textContent,
     ).toContain('Tomorrow');
   });
@@ -58,7 +57,7 @@ describe('<DateSelectGrouped />', () => {
       />,
     );
     expect(
-      container.querySelector('.route-schedule-grouped__single-value')
+      container.querySelector('#aria-input-route-schedule-grouped-datepicker')
         .textContent,
     ).toContain('Today');
   });
@@ -74,7 +73,7 @@ describe('<DateSelectGrouped />', () => {
       />,
     );
     expect(
-      container.querySelector('.route-schedule-grouped__single-value')
+      container.querySelector('#aria-input-route-schedule-grouped-datepicker')
         .textContent,
     ).toContain('Today');
   });
@@ -106,12 +105,23 @@ describe('<DateSelectGrouped />', () => {
     expect(options[0].textLabel).toBe('Today');
   });
 
-  it('should pass the selected date value to onDateChange', () => {
-    let changedDate;
-    handleDateSelectChange({ value: '20190102' }, value => {
-      changedDate = value;
-    });
-    expect(changedDate).toBe('20190102');
+  it('should call onDateChange with the selected date value', () => {
+    const onDateChange = vi.fn();
+    const { container, getByRole } = renderWithProviders(
+      <DateSelectGrouped
+        startDate={today}
+        selectedDay={today}
+        dateFormat={dateFormat}
+        dates={[today, tomorrow]}
+        onDateChange={onDateChange}
+      />,
+    );
+    fireEvent.keyDown(
+      container.querySelector('#aria-input-route-schedule-grouped-datepicker'),
+      { key: 'Enter' },
+    );
+    fireEvent.click(getByRole('option', { name: 'Tomorrow' }));
+    expect(onDateChange).toHaveBeenCalledWith('20190102');
   });
 
   it('should group dates by week', () => {

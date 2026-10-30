@@ -1,10 +1,8 @@
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useState, useMemo, useCallback, useRef } from 'react';
 import { DateTime } from 'luxon';
-
-import Select, { components as RSComponents } from 'react-select';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Icon from '../Icon';
+import { DsSelect, SelectGroup, SelectOption } from '../DsSelect';
 import {
   extractSelectedValue,
   formatDateLabel,
@@ -12,10 +10,6 @@ import {
   groupDatesByWeek,
   generateDateRange,
 } from '../../../utils/client/dateSelectUtils';
-
-export const handleDateSelectChange = (option, onDateChange) => {
-  onDateChange(option.value);
-};
 
 function DateSelectGrouped({
   startDate,
@@ -28,33 +22,6 @@ function DateSelectGrouped({
   const { locale, formatMessage } = intl;
 
   const GENERATED_DAYS = 60; // Fallback range when no dates provided
-
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [maxMenuHeight, setMaxMenuHeight] = useState(300);
-  const selectWrapperRef = useRef(null);
-
-  // react-select's internal threshold: opens below when spaceBelow >= this value, otherwise above.
-  const RS_MIN_MENU_HEIGHT = 140;
-  const MENU_HEIGHT_FLOOR = 120;
-
-  const onMenuOpen = useCallback(() => {
-    if (selectWrapperRef.current) {
-      const rect = selectWrapperRef.current.getBoundingClientRect();
-      const margin = 70;
-      const spaceBelow = window.innerHeight - rect.bottom - margin;
-      const spaceAbove = rect.top - margin;
-      // Mirror react-select's placement decision so maxMenuHeight matches the
-      // direction the menu will actually open.
-      const available =
-        spaceBelow >= RS_MIN_MENU_HEIGHT ? spaceBelow : spaceAbove;
-      setMaxMenuHeight(Math.max(available, MENU_HEIGHT_FLOOR));
-    }
-    setIsMenuOpen(true);
-  }, []);
-
-  const onMenuClose = useCallback(() => {
-    setIsMenuOpen(false);
-  }, []);
 
   // Generate grouped date options from the provided dates (assumed sorted, no past dates)
   // or fallback to a generated range when no dates are provided.
@@ -105,146 +72,38 @@ function DateSelectGrouped({
     return processedDates[0];
   }, [processedDates, selectedDay, dateFormat, intl]);
 
-  const handleChange = useCallback(
-    option => {
-      handleDateSelectChange(option, onDateChange);
-      onMenuClose();
-    },
-    [onDateChange, onMenuClose],
-  );
-
-  // Custom Option component with proper label rendering
-  const Option = useCallback(propsOption => {
-    const { innerProps, data, isSelected } = propsOption;
-    return (
-      <RSComponents.Option
-        {...propsOption}
-        innerProps={{ ...innerProps, 'aria-label': data.ariaLabel }}
-      >
-        <div className="date-select-option">
-          <span className="date-select-check">
-            {isSelected ? (
-              <Icon img="icon_check" viewBox="0 0 15 11" />
-            ) : (
-              <span className="check-placeholder" />
-            )}
-          </span>
-          <span className="date-select-label">{data.textLabel}</span>
-        </div>
-      </RSComponents.Option>
-    );
-  }, []);
-
-  // Custom SingleValue component to render the selected value without the check
-  const SingleValue = useCallback(singleProps => {
-    const { data } = singleProps;
-    return (
-      <RSComponents.SingleValue {...singleProps}>
-        <div className="date-select-option">
-          <span className="date-select-label">{data.textLabel}</span>
-        </div>
-      </RSComponents.SingleValue>
-    );
-  }, []);
-
-  const DropdownIndicator = useCallback(indicatorProps => {
-    const { selectProps } = indicatorProps;
-    return (
-      <RSComponents.DropdownIndicator {...indicatorProps}>
-        <Icon
-          img="icon_arrow-collapse"
-          className={`dropdown-arrow${
-            selectProps.menuIsOpen ? ' inverted' : ''
-          }`}
-        />
-      </RSComponents.DropdownIndicator>
-    );
-  }, []);
-
   const id = 'route-schedule-grouped-datepicker';
-  const classNamePrefix = 'route-schedule-grouped';
-
-  const selectAriaLabel = formatMessage({
-    id: 'select-date',
-    defaultMessage: 'Select date',
-  });
 
   return (
-    <div
-      ref={selectWrapperRef}
-      className={`date-select-wrapper${
-        isMenuOpen ? ' date-select-wrapper--menu-open' : ''
-      }`}
-    >
+    <div className="date-select-wrapper">
       <h3 className="route-schedule-grouped-date-select-heading">
         <FormattedMessage
           id="route-page.select-time"
           defaultMessage="Select time"
         />
       </h3>
-      <Select
-        aria-labelledby={`aria-label-${id}`}
-        aria-label={selectAriaLabel}
-        ariaLiveMessages={{
-          guidance: () => '.',
-          onChange: ({ action, label, value }) => {
-            if (action !== 'select-option') {
-              return '';
-            }
-            const msg = formatMessage({ id: 'route-page.pattern-chosen' });
-            return `${msg} ${value?.textLabel || label}`;
-          },
-          onFilter: () => '',
-          onFocus: ({ context: itemContext, focused }) => {
-            if (itemContext === 'menu') {
-              return focused.ariaLabel || '';
-            }
-            return '';
-          },
-        }}
-        className="date-select"
-        classNamePrefix={classNamePrefix}
-        components={{
-          DropdownIndicator,
-          IndicatorSeparator: () => null,
-          Option,
-          SingleValue,
-        }}
-        inputId={`aria-input-${id}`}
-        isSearchable={false}
-        name={id}
-        menuIsOpen={isMenuOpen}
-        onChange={handleChange}
-        closeMenuOnSelect
-        onMenuOpen={onMenuOpen}
-        onMenuClose={onMenuClose}
-        options={grouped}
-        placeholder={
-          <>
-            <span className="left-column">
-              <span className="combobox-label">
-                {formatMessage({ id: 'day', defaultMessage: 'day' })}
-              </span>
-              <span className="selected-value">
-                {selectedOption ? selectedOption.textLabel : ''}
-              </span>
-            </span>
-            <div>
-              <Icon id="route-schedule-grouped-date-icon" img="icon_calendar" />
-            </div>
-          </>
-        }
-        value={selectedOption}
-        menuPlacement="auto"
-        menuPosition="fixed"
-        maxMenuHeight={maxMenuHeight}
-        menuPortalTarget={
-          typeof document !== 'undefined' ? document.body : null
-        }
-        styles={{
-          menuPortal: base => ({ ...base, zIndex: 9999 }),
-        }}
-      />
+      <DsSelect
+        id={`aria-input-${id}`}
+        triggerAriaLabel={`${formatMessage({
+          id: 'select-date',
+          defaultMessage: 'Select date',
+        })}. ${selectedOption?.ariaLabel ?? ''}`}
+        value={selectedOption?.value ?? ''}
+        valueLabel={selectedOption?.textLabel ?? ''}
+        onChange={onDateChange}
+      >
+        {grouped.map(group => (
+          <SelectGroup key={group.label} label={group.label}>
+            {group.options.map(option => (
+              <SelectOption
+                key={option.value}
+                value={option.value}
+                label={option.textLabel}
+              />
+            ))}
+          </SelectGroup>
+        ))}
+      </DsSelect>
     </div>
   );
 }

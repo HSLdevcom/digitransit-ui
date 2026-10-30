@@ -141,44 +141,36 @@ describe('<ScheduleContainer />', () => {
     expect(container.querySelectorAll('.trip-column')).toHaveLength(1);
   });
 
-  it('should update the trip list when the destination stop changes', () => {
-    const { container } = renderView({ pattern: patternWithFourStops });
-    const destinationInput = container.querySelector('#aria-input-destination');
+  const selectStop = ({ container, getByRole }, id, name) => {
+    fireEvent.keyDown(container.querySelector(`#aria-input-${id}`), {
+      key: 'Enter',
+    });
+    fireEvent.click(getByRole('option', { name }));
+  };
+  const selectDate = ({ container, getByRole }, name) => {
+    fireEvent.keyDown(
+      container.querySelector('#aria-input-route-schedule-grouped-datepicker'),
+      { key: 'Enter' },
+    );
+    fireEvent.click(getByRole('option', { name }));
+  };
+  const triggerText = (container, id) =>
+    container.querySelector(`#aria-input-${id}`).textContent;
 
-    fireEvent.focus(destinationInput);
-    fireEvent.mouseDown(destinationInput);
-    // Destination options start after the origin (stop1): [Stop2, Stop3,
-    // Stop4]. The current destination (Stop4) matches an option, so the menu
-    // opens with it already focused; two ArrowUp presses land on 'Stop 2'.
-    fireEvent.keyDown(destinationInput, { key: 'ArrowUp' });
-    fireEvent.keyDown(destinationInput, { key: 'ArrowUp' });
-    fireEvent.keyDown(destinationInput, { key: 'Enter' });
+  it('should update the selected destination stop', () => {
+    const view = renderView({ pattern: patternWithFourStops });
 
-    expect(
-      container.querySelector('.dd-right__single-value').textContent,
-    ).toContain('Stop 2');
+    selectStop(view, 'destination', 'Stop 2');
+
+    expect(triggerText(view.container, 'destination')).toContain('Stop 2');
   });
 
-  it('should auto-adjust the destination when the origin moves past it', () => {
-    const { container } = renderView({ pattern: patternWithFourStops });
-    const originInput = container.querySelector('#aria-input-origin');
+  it('should keep the destination when the origin changes', () => {
+    const view = renderView({ pattern: patternWithFourStops });
+    selectStop(view, 'origin', 'Stop 3');
 
-    fireEvent.focus(originInput);
-    fireEvent.mouseDown(originInput);
-    // Origin options are [Stop1, Stop2, Stop3]; the current origin (Stop1)
-    // matches an option, so the menu opens with it already focused. Two
-    // ArrowDown presses land on 'Stop 3', which is past the current
-    // destination ('Stop 2') and should push it forward.
-    fireEvent.keyDown(originInput, { key: 'ArrowDown' });
-    fireEvent.keyDown(originInput, { key: 'ArrowDown' });
-    fireEvent.keyDown(originInput, { key: 'Enter' });
-
-    expect(container.querySelector('.dd__single-value').textContent).toContain(
-      'Stop 3',
-    );
-    expect(
-      container.querySelector('.dd-right__single-value').textContent,
-    ).toContain('Stop 4');
+    expect(triggerText(view.container, 'origin')).toContain('Stop 3');
+    expect(triggerText(view.container, 'destination')).toContain('Stop 4');
   });
 
   it('should render all trips returned by the trip-list utility', () => {
@@ -229,19 +221,8 @@ describe('<ScheduleContainer />', () => {
       router: { ...mockRouter, replace: routerReplaceSpy },
     };
 
-    const { container } = renderView({}, matchWithSpy);
-    const dateInput = container.querySelector(
-      '#aria-input-route-schedule-grouped-datepicker',
-    );
-
-    fireEvent.focus(dateInput);
-    fireEvent.mouseDown(dateInput);
-    // The two stubbed available dates (2024-01-01, 2024-01-02) fall in a
-    // single group; the wanted day (today) doesn't match either option, so
-    // the menu opens with the first option (2024-01-01) already focused.
-    // A single ArrowDown moves focus to 2024-01-02.
-    fireEvent.keyDown(dateInput, { key: 'ArrowDown' });
-    fireEvent.keyDown(dateInput, { key: 'Enter' });
+    const view = renderView({}, matchWithSpy);
+    selectDate(view, /2\.1\./);
 
     expect(routerReplaceSpy.mock.calls.length).toBe(1);
     expect(routerReplaceSpy.mock.calls[0][0].query.serviceDay).toBe('20240102');
@@ -258,17 +239,8 @@ describe('<ScheduleContainer />', () => {
       router: { ...mockRouter, replace: routerReplaceSpy },
     };
 
-    const { container } = renderView({}, matchWithQuery);
-    const dateInput = container.querySelector(
-      '#aria-input-route-schedule-grouped-datepicker',
-    );
-
-    fireEvent.focus(dateInput);
-    fireEvent.mouseDown(dateInput);
-    // See the identical scenario above: the menu opens with 2024-01-01
-    // already focused, so a single ArrowDown reaches 2024-01-02.
-    fireEvent.keyDown(dateInput, { key: 'ArrowDown' });
-    fireEvent.keyDown(dateInput, { key: 'Enter' });
+    const view = renderView({}, matchWithQuery);
+    selectDate(view, /2\.1\./);
 
     const callArgs = routerReplaceSpy.mock.calls[0][0];
     expect(callArgs.query.serviceDay).toBe('20240102');
@@ -297,10 +269,10 @@ describe('<ScheduleContainer />', () => {
 
     const { container } = renderView();
     const selectedDay = container.querySelector(
-      '.route-schedule-grouped__single-value',
+      '#aria-input-route-schedule-grouped-datepicker',
     );
 
-    expect(selectedDay).not.toBeNull();
+    expect(selectedDay.textContent).not.toBe('');
   });
 
   it('should show constant operation view instead of timetable when route has constant operation', () => {
