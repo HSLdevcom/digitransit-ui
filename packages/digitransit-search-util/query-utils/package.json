@@ -1,0 +1,57 @@
+{
+  "name": "@digitransit-search-util/digitransit-search-util-query-utils",
+  "version": "4.5.24",
+  "description": "digitransit-search-util query-utils module",
+  "type": "module",
+  "main": "lib/index.cjs",
+  "files": [
+    "/lib",
+    "LICENSE-AGPL.txt",
+    "LICENSE-EUPL.txt"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "clean": "rm -rf lib ./node_modules",
+    "pretest": "yarn build",
+    "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.js\"",
+    "docs": "node ../../../scripts/packages/generate-readmes.js",
+    "relay": "relay-compiler",
+    "relay-watch": "relay-compiler --watch",
+    "watch": "yarn relay && NODE_ENV=development yarn run -T rollup -w -c",
+    "copy-schema": "mkdir -p lib/schema && cp ../../private/schema/schema.graphql lib/schema/schema.graphql",
+    "build": "yarn relay && yarn copy-schema && NODE_ENV=production yarn run -T rollup -c"
+  },
+  "relay": {
+    "src": "./src",
+    "schema": "../../private/schema/schema.graphql",
+    "language": "javascript",
+    "eagerEsModules": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HSLdevcom/digitransit-ui.git"
+  },
+  "keywords": [
+    "digitransit-search-util",
+    "QueryUtils"
+  ],
+  "author": "Digitransit Authors",
+  "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "peerDependencies": {
+    "lodash": "^4.18.1",
+    "react-relay": "^16.2.0"
+  },
+  "devDependencies": {
+    "@digitransit-ui/rollup-config": "workspace:^",
+    "@digitransit-ui/schema": "workspace:^",
+    "babel-plugin-relay": "16.2.0",
+    "relay-compiler": "16.2.0"
+  },
+  "dependencies": {
+    "@digitransit-search-util/digitransit-search-util-filter-matching-to-input": "workspace:^",
+    "@digitransit-search-util/digitransit-search-util-helpers": "workspace:^",
+    "@digitransit-search-util/digitransit-search-util-route-name-compare": "workspace:^"
+  }
+}

@@ -166,7 +166,8 @@ below.
 ## Module rules (loaders)
 
 - **`app/**/*.js`** — `babel-loader`, config inline (`configFile: false`;
-  `.babelrc`/`babel.config.cjs` are only for tooling like tests). Also sets
+  `.babelrc`/`babel.config.cjs` are only for tooling: the eslint parser and
+  Jest e2e). Also sets
   `resolve.fullySpecified: false`: under `"type": "module"` webpack5 would
   otherwise treat every `app/` file as strict ESM and demand an explicit
   extension on every relative import, but the client bundle keeps the
@@ -192,7 +193,7 @@ below.
   `@radix-ui`) that ship a native ESM entry point instead.
 - **`digitransit-component`/`digitransit-store` sources** — forced
   `type: 'javascript/auto'`. These packages' real ESM Rollup build
-  (`lib/index.js`, see `docs/WorkspacePackages.md`) still default-imports
+  (`lib/index.js`, see `docs/Packages.md`) still default-imports
   CJS peer deps (e.g. `@hsl-fi/modal`) that only mark themselves via
   Babel's userland `__esModule` flag, not a real `"module"`/`exports`
   field. Strict ESM's default-import semantics don't recognize that flag
@@ -413,8 +414,8 @@ Polyfills are added at build time, driven by the browserslist above.
 `app/client/client.jsx` starts with `import 'core-js/stable'`, and
 `@babel/preset-env` (`useBuiltIns: 'entry'`, `corejs` in the `app/` loader
 rule of `webpack.config.js`) rewrites that import into only the core-js
-modules the targets lack. The workspace packages (built with
-`config/babel.config.cjs`) do not polyfill themselves. The polyfills are global, so they also cover
+modules the targets lack. The packages (built with
+`@digitransit-ui/rollup-config`) do not polyfill themselves. The polyfills are global, so they also cover
 third-party `node_modules` code that Babel does not process. Keep
 `corejs.version` in sync with the installed core-js minor (a direct
 dependency). There is no runtime/user-agent-based polyfill service, and no

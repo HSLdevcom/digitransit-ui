@@ -39,22 +39,22 @@ Visual tests are run with jest and playwright.
 More information about [testing](docs/Tests.md).
 
 
-## Workspace package scripts
+## Package scripts
 
-Root-level commands covering all `digitransit-*` workspace packages at once
-(see [Workspace Packages](docs/WorkspacePackages.md) for detail):
+Root-level commands covering all `digitransit-*` packages at once
+(see [Packages](docs/Packages.md) for detail):
 
-- `yarn workspace-packages-build` — build every package
-- `yarn workspace-packages-test` — run every package's tests
-- `yarn workspace-packages-watch` — build, then rebuild on change
-- `yarn workspace-packages-clean` — remove build output + `node_modules`
-- `yarn workspace-packages-docs` — regenerate every package's README
-- `yarn workspace-packages-publish` — publish changed packages to npm (interactive)
-- `yarn workspace-packages-publish-ci` — same, non-interactive (used by CI)
-- `yarn workspace-packages-version-bump` — bump versions and push the version-bump commit and its tags (fetches tags first), should be run at the end of a PR that changes workspace packages right before it is merged
-- `yarn workspace-packages-version-check` — verify versions/dependency ranges are consistent
-- `yarn workspace-packages-translations-check` — verify `digitransit-component` packages' own translations are sorted and every locale has the same keys
-- `yarn workspace-packages-translations-fix` — same, but sorts keys in place (key mismatches need a manual fix)
+- `yarn packages-build` — build every package
+- `yarn packages-test` — run every package's tests
+- `yarn packages-watch` — build, then rebuild on change
+- `yarn packages-clean` — remove build output + `node_modules`
+- `yarn packages-docs` — regenerate every package's README
+- `yarn packages-publish` — publish changed packages to npm (interactive)
+- `yarn packages-publish-ci` — same, non-interactive (used by CI)
+- `yarn packages-version-bump` — bump versions and push the version-bump commit and its tags (fetches tags first), should be run at the end of a PR that changes packages right before it is merged
+- `yarn packages-version-check` — verify versions/dependency ranges are consistent
+- `yarn packages-translations-check` — verify `digitransit-component` packages' own translations are sorted and every locale has the same keys
+- `yarn packages-translations-fix` — same, but sorts keys in place (key mismatches need a manual fix)
 
 ## Documentation
 
@@ -67,4 +67,4 @@ Root-level commands covering all `digitransit-*` workspace packages at once
 - [Navigation](docs/Navigation.md)
 - [Themes](docs/Themes.md)
 - [GeoJSON](docs/GeoJson.md)
-- [Workspace Packages](docs/WorkspacePackages.md)
+- [Packages](docs/Packages.md)

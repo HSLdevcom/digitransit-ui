@@ -37,7 +37,7 @@ below uses the separate `$zindex` ordered list (`index($zindex, name)` in
 layers live inside the same local stacking scope.
 
 `$zindex` only lists names actually referenced via `index($zindex, name)` in
-this repo (`ui`). Note that several packages under `digitransit-component/`
+this repo (`ui`). Note that several packages under `packages/digitransit-component/`
 declare their *own*, separately-maintained copy of a `$zindex` list (each
 compiled independently, so there's no risk of one silently overriding
 another) - but those copies have already drifted out of sync with this one

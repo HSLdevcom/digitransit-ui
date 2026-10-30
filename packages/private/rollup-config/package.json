@@ -1,0 +1,13 @@
+{
+  "name": "@digitransit-ui/rollup-config",
+  "version": "1.0.0",
+  "description": "Private shared rollup/babel build config for the packages",
+  "private": true,
+  "type": "module",
+  "main": "./rollup.config.js",
+  "exports": {
+    ".": "./rollup.config.js",
+    "./package.json": "./package.json"
+  },
+  "license": "(AGPL-3.0 OR EUPL-1.2)"
+}

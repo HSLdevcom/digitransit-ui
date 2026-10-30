@@ -1,0 +1,50 @@
+{
+  "name": "@digitransit-component/digitransit-component-dialog-modal",
+  "version": "7.0.2",
+  "description": "digitransit-component dialog-modal module",
+  "type": "module",
+  "main": "index.cjs",
+  "module": "lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./index.cjs",
+      "default": "./index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "/lib",
+    "index.cjs",
+    "LICENSE-AGPL.txt",
+    "LICENSE-EUPL.txt"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "watch": "NODE_ENV=development yarn run -T rollup -w -c",
+    "clean": "rm -rf ./lib",
+    "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.jsx\"",
+    "docs": "node ../../../scripts/packages/generate-readmes.js",
+    "build": "NODE_ENV=production yarn run -T rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HSLdevcom/digitransit-ui.git"
+  },
+  "keywords": [
+    "digitransit-component",
+    "DialogModal"
+  ],
+  "author": "Digitransit Authors",
+  "license": "(AGPL-3.0 OR EUPL-1.2)",
+  "devDependencies": {
+    "@digitransit-ui/rollup-config": "workspace:^"
+  },
+  "peerDependencies": {
+    "@hsl-fi/dialog": "^3.1.3",
+    "prop-types": "^15.8.1",
+    "react": "^18.3.1"
+  }
+}
