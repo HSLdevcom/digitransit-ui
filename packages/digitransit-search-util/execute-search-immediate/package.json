@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-execute-search-immediate",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "description": "digitransit-search-util execute-search-immediate module",
   "type": "module",
   "main": "index.js",
