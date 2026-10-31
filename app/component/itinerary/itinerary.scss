@@ -625,10 +625,6 @@
   border-bottom: 1px solid #ddd;
 }
 
-.itinerary-summary-container {
-  padding: 0 65px;
-}
-
 .itinerary-summary {
   position: relative;
   width: 400px;
@@ -854,29 +850,6 @@
 
 .mobile .itinerary-disclaimer {
   padding: 0 0.6em;
-}
-
-.itinerary-ticket-external-link {
-  align-self: center;
-
-  .external-link-container {
-    width: 140px;
-    text-align: center;
-    border-radius: 25px;
-    border: 1px solid #666;
-    min-height: 30px;
-
-    a {
-      font-weight: $font-weight-medium;
-      color: #666;
-      font-size: $font-size-small;
-      padding-top: 3px;
-    }
-  }
-
-  .external-link-icon {
-    color: $theme-primary-color;
-  }
 }
 
 .ticket-title {
@@ -1820,12 +1793,6 @@
     }
 
     .icon {
-      &.realtime-icon.realtime {
-        top: -0.3em;
-        left: -0.4em;
-        position: absolute;
-      }
-
       font-size: 14pt;
     }
 
@@ -1835,11 +1802,6 @@
 
     .icon-badge {
       font-size: 12pt;
-    }
-
-    .original-time {
-      text-decoration: line-through;
-      color: $gray;
     }
 
     .vehicle-number.long {
@@ -2170,12 +2132,6 @@
 
       .inline-icon {
         font-size: 12px;
-      }
-
-      .itinerary-leg-first-row__arrow {
-        @include font-medium;
-
-        font-size: 0.6em;
       }
 
       span.itinerary-stop-code {
@@ -2633,13 +2589,6 @@
       }
     }
 
-    .itinerary-leg-intermediate-stops {
-      margin-top: 12px;
-      padding-bottom: 0;
-
-      @extend .itinerary-leg-text-gray;
-    }
-
     .intermediate-stops-button-container {
       min-height: 40px;
     }
@@ -2771,25 +2720,6 @@
   }
 }
 
-.row.itinerary-route-information {
-  text-align: center;
-  left: 2em;
-  right: 2em;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  border-top: solid 1px $light-gray;
-  border-bottom: solid 1px $light-gray;
-  width: calc(100% - 2em);
-
-  div {
-    border-right: solid 1px $light-gray;
-
-    &.noborder {
-      border-right: none;
-    }
-  }
-}
-
 span.itinerary-stop-code {
   @include font-medium;
 
@@ -2799,31 +2729,6 @@ span.itinerary-stop-code {
   padding: 1px 4px;
   margin-right: 5px;
   font-size: 0.688rem;
-}
-
-div.itinerary-container-content {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: height 500ms;
-
-  &.minimized {
-    max-height: 0;
-  }
-
-  &:empty {
-    height: 0;
-  }
-}
-
-.itinerary-slide-container {
-  height: 100%;
-  overflow: hidden;
-  min-height: 100%;
-  position: absolute;
-  width: 100%;
 }
 
 .itinerary-leg-agency {
@@ -2846,16 +2751,8 @@ div.itinerary-container-content {
         overflow: hidden;
         text-overflow: ellipsis;
       }
-
-      .external-link-icon {
-        color: $link-button-color;
-      }
     }
   }
-}
-
-.itinerary-no-route-found {
-  margin: 1em;
 }
 
 .swipe-header-container {
@@ -3022,10 +2919,6 @@ div.itinerary-container-content {
       > .itinerary-tabs__scroll {
         width: 100vw;
       }
-
-      > .itinerary-summary-container {
-        width: 100vw;
-      }
     }
   }
 }
@@ -3039,20 +2932,6 @@ div.itinerary-container-content {
 
 .desktop .itinerary-intermediate-stop-name {
   font-size: 0.9375rem;
-}
-
-.itinerary-tab .itinerary-timeframe {
-  background-color: $white;
-}
-
-.date-warning {
-  font-size: 0.9375rem;
-  padding-left: 1em;
-}
-
-.itinerary-heading {
-  padding-left: 25px;
-  padding-top: 12px;
 }
 
 .icon.via {
@@ -3077,17 +2956,6 @@ div.itinerary-container-content {
   height: 1px;
 }
 
-.itinerary-call-agency-warning {
-  width: calc(100% - 23px);
-  position: absolute;
-  margin-top: 2em;
-  margin-left: 10px;
-  margin-right: 10px;
-  border-radius: $border-radius;
-  height: calc(100% - 2.3em);
-  top: -0.4em;
-}
-
 .itinerary-instruction-column.call {
   .itinerary-transit-leg-route.call {
     padding-top: $padding-medium;
@@ -3103,25 +2971,6 @@ div.itinerary-container-content {
       border: 1px solid $disclaimer-border-color;
       border-radius: 3px;
     }
-
-    .call-icon {
-      padding-right: 0.5em;
-      height: 5em;
-      width: 5em;
-    }
-  }
-}
-
-.itinerary-warning-route-description {
-  padding-top: 5px;
-}
-
-.itinerary-warning-agency-container {
-  display: flex;
-  justify-content: center;
-
-  .agency-link-container {
-    padding: 0;
   }
 }
 
@@ -3133,10 +2982,6 @@ div.itinerary-container-content {
 }
 
 .mobile {
-  .date-warning {
-    padding-left: 5%;
-  }
-
   .itinerary-tab {
     position: relative;
     z-index: 2;

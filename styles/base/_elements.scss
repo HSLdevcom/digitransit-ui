@@ -101,11 +101,6 @@ $border-radius-rounded: 30px;
   height: 85%;
   max-height: 85%;
   padding: 0;
-
-  .modal-content {
-    height: 100%;
-    max-height: calc(100% - 5em);
-  }
 }
 
 /* ICONS */
@@ -168,122 +163,6 @@ $border-radius-rounded: 30px;
 
   &:hover {
     background: transparent;
-  }
-}
-
-.fullscreen-toggle {
-  position: absolute;
-  height: 34px;
-  background: rgba(0, 0, 0, 0.5);
-  width: 34px;
-  top: -3em;
-  right: 10px;
-  font-size: 17px;
-  border-radius: $border-radius;
-  z-index: list.index($zindex, map-fullscreen-toggle);
-
-  .icon {
-    margin: 0.5em 0.5em 0 0.5em;
-    fill: rgb(255, 255, 255);
-  }
-
-  &.expanded {
-    top: -3em;
-  }
-}
-
-.prefix-icon {
-  margin-right: 6px;
-}
-
-@keyframes realtimeInnerArch {
-  0% {
-    opacity: 1;
-  }
-
-  20% {
-    opacity: 1;
-  }
-
-  40% {
-    opacity: 0;
-  }
-
-  60% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes realtimeOuterArch {
-  0% {
-    opacity: 1;
-  }
-
-  20% {
-    opacity: 1;
-  }
-
-  40% {
-    opacity: 0;
-  }
-
-  60% {
-    opacity: 0;
-  }
-
-  80% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-svg.realtime-icon {
-  transform: translate3d(0, 0, 0);
-}
-
-#icon-icon_realtime {
-  color: $realtime-color;
-}
-
-#icon-icon_realtime path {
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: step-start;
-  fill: currentcolor;
-
-  &.path1 {
-    animation-name: realtimeInnerArch;
-  }
-
-  &.path2 {
-    animation-name: realtimeOuterArch;
-  }
-}
-
-@keyframes locationIcon {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.4;
-  }
-
-  75% {
-    opacity: 0.1;
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(3);
   }
 }
 

@@ -149,11 +149,6 @@ $content-background-color: $background-color;
   line-height: normal;
 }
 
-.usermenu-title {
-  display: flex;
-  flex-direction: row;
-}
-
 .usermenu-title-text {
   white-space: nowrap;
   overflow: hidden;
@@ -287,11 +282,6 @@ $content-background-color: $background-color;
   text-align: left;
 
   @include font-medium;
-
-  i.icon-profile {
-    font-size: 60px;
-    color: $theme-primary-color;
-  }
 
   a {
     color: $theme-primary-color;
@@ -512,10 +502,6 @@ section.content {
       h1 {
         line-height: 1em;
         letter-spacing: -0.025em;
-      }
-
-      .home-icon {
-        font-size: 0.8em;
       }
 
       .arrow-icon {
@@ -847,12 +833,6 @@ section.content {
     @include font-medium;
 
     padding: 0 4px;
-  }
-
-  svg.message-bar-link-icon {
-    margin: 0 0 0 $padding-small;
-    position: relative;
-    top: 0.125em;
   }
 }
 

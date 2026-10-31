@@ -24,7 +24,6 @@ Name (`$global-zindex` key) | Selector(s) | Z-Index | Comment
 `mobile-menu-background` | `.menu-background` | 1200 | Mobile main menu drawer background dimmer.
 `mobile-menu-content` | `.menu-content` | 1300 | Mobile main menu drawer content panel.
 `snackbar` | `.snackbar` | 9999 | Rendered via a React portal directly under `document.body` (see `app/component/Snackbar.js`) so it always escapes ancestor stacking contexts - e.g. `.desktop .map-content .offcanvas`, which forms its own stacking context via `position: relative` + `z-index: 900`. Without the portal, Snackbar's local `z-index: 9999` would only apply *within* that ancestor's stacking context and could still render behind unrelated elements (like the header) that live in a different, higher-level stacking context.
-`loading-spinner` | `div.spinner-loader` | 40000 | Full-page loading spinner, must appear above everything else.
 
 ## Local, component-scoped values
 

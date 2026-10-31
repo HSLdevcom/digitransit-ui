@@ -8,10 +8,6 @@
   width: 300px;
   z-index: list.index($zindex, map-buttons);
 
-  .origin-stop-near-you-selector-input-icon {
-    margin-left: 9px;
-  }
-
   div > div > .origin-stop-near-you-selector {
     height: 44px;
     box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.15);
@@ -247,12 +243,6 @@
           width: unset;
         }
 
-        .stop-near-you-desc {
-          font-weight: $font-weight-book;
-          font-size: 0.8125rem;
-          padding-right: 5px;
-        }
-
         .itinerary-stop-code {
           display: flex;
           align-items: center;
@@ -377,22 +367,6 @@
   .near-you-search-container {
     margin-bottom: 22px;
   }
-
-  .back-button.near-you-back-button {
-    font-size: 1.25rem;
-    margin: 50px 0 16px 0;
-    line-height: 1;
-
-    button .icon {
-      height: 1.3em;
-      width: 1.3em;
-    }
-
-    .arrow-icon {
-      font-size: 0.75em;
-      margin: 2px 1em;
-    }
-  }
 }
 
 .disruption-banner-container {
@@ -468,12 +442,6 @@
     .disruption-info-header {
       color: inherit;
       margin-bottom: 2px;
-    }
-
-    .disruption-info-content {
-      color: inherit;
-      text-decoration: none;
-      font-size: $font-size-normal;
     }
 
     .disruption-show-more {

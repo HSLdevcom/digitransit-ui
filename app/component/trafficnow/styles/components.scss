@@ -205,11 +205,6 @@
     }
   }
 
-  &__departure-date {
-    padding: var(--space-xxs) var(--space-xs);
-    justify-content: center;
-  }
-
   &__departure-time {
     padding: var(--space-xxs) var(--space-fixed-xs);
     color: $cancelation-red;

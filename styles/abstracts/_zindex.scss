@@ -30,9 +30,7 @@ $global-zindex: (
   'mobile-menu-content': 1300,
   // Toast-style notification, portaled to document.body so it always
   // escapes ancestor stacking contexts - see app/component/Snackbar.js.
-  'snackbar': 9999,
-  // Full-page loading spinner, must appear above everything else.
-  'loading-spinner': 40000
+  'snackbar': 9999
 );
 
 /// Returns the z-index for a named global layer defined in $global-zindex.

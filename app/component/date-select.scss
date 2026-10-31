@@ -24,10 +24,6 @@
     border-color: $theme-primary-color;
   }
 
-  &.route-schedule-date {
-    margin-right: 1em;
-  }
-
   .icon-container {
     height: 100%;
     display: flex;
@@ -203,26 +199,6 @@
       position: relative;
     }
   }
-
-  .route-schedule-select {
-    .route-schedule__control {
-      min-height: auto;
-
-      .route-schedule__placeholder {
-        color: $black;
-        font-size: $font-size-small;
-      }
-    }
-
-    .route-schedule__option {
-      display: flex;
-      justify-content: space-between;
-
-      svg {
-        position: relative;
-      }
-    }
-  }
 }
 
 .combobox-label {
@@ -230,12 +206,4 @@
   white-space: nowrap;
   color: #666;
   letter-spacing: -0.48px;
-}
-
-.mobile {
-  .combobox-container {
-    &.route-schedule-date {
-      margin-right: 0.75em;
-    }
-  }
 }

@@ -68,12 +68,6 @@
   color: $gray;
 }
 
-svg.icon.menu-icon {
-  position: relative;
-  top: 2px;
-  margin-right: 6px;
-}
-
 .front-page.bp-large {
   margin-top: 0;
   padding-top: 47px;
@@ -87,10 +81,6 @@ svg.icon.menu-icon {
     flex-grow: 1;
     flex-shrink: 0;
   }
-}
-
-.front-page.bp-large .toggle-positioning-container {
-  bottom: 40px;
 }
 
 .front-page.bp-large div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {

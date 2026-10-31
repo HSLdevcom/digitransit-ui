@@ -808,10 +808,6 @@ div.origin-popup {
     .leaflet-popup-content {
       margin: 12px 8px 8px 8px;
 
-      svg.right-arrow {
-        height: 9px;
-      }
-
       .card-code {
         margin-right: 5px;
         padding: 2px;
@@ -884,11 +880,6 @@ div.origin-popup {
   stroke-opacity: 1;
   fill: #fff;
   fill-opacity: 1;
-}
-
-.map .icon.stop-marker {
-  width: auto;
-  height: auto;
 }
 
 /* BEWARE! This is an ugly hack.
@@ -1429,14 +1420,6 @@ div.origin-popup {
   }
 }
 
-div.map-click-prevent-overlay {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  z-index: global-z('map-click-prevent-overlay');
-}
-
 div.leaflet-control-scale.leaflet-control {
   // front page
   margin-right: 30px;
@@ -1489,13 +1472,6 @@ div.leaflet-control-scale-line {
   height: 4px;
   background: none;
   cursor: grab;
-}
-
-.smallspinner {
-  div.spinner-loader {
-    width: $spinner-size * 0.5;
-    height: $spinner-size * 0.5;
-  }
 }
 
 .leaflet-tooltip.geoJsonText {

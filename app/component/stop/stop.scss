@@ -280,74 +280,8 @@
   }
 }
 
-.stop-tab-container {
-  height: 2.5em;
-  min-height: 44px;
-  display: flex;
-  background-color: #ddd;
-  border-radius: 999em;
-  margin: var(--space-s) 48px var(--space-s) 48px;
-  padding: var(--space-xxs);
-
-  @media print {
-    display: none;
-  }
-}
-
-.stop-tab-singletab,
-.stop-tab-singletab:hover {
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
-  font-size: $font-size-xxsmall;
-  border-radius: 30px;
-  cursor: pointer;
-  color: #333;
-  text-align: center;
-  transition: 0.1s all ease-in;
-  padding-top: 0;
-  padding-left: 0.5em;
-  margin: 2px;
-  padding-right: 0.5em;
-  text-decoration: none;
-  font-weight: $font-weight-book;
-
-  + .stop-tab-singletab {
-    border-left: 1px solid $light-gray;
-  }
-
-  &.active,
-  &.active:hover {
-    background-color: $white;
-    font-weight: $font-weight-medium;
-  }
-
-  .no-alerts span {
-    color: #888;
-  }
-
-  @media print {
-    display: none;
-  }
-}
-
-.stop-tab-singletab-container {
-  display: block;
-  margin: 0 auto;
-  letter-spacing: -0.4px;
-
-  span {
-    font-size: $font-size-small;
-  }
-}
-
 .stop-page-departure-wrapper {
   padding: 0 60px 0 60px;
-}
-
-.stop-page-tab_icon {
-  height: 24px;
-  width: 24px;
 }
 
 .departure-list-header {
@@ -708,11 +642,6 @@
 
   .timetable-topbar {
     margin: 1px 16px 16px 16px;
-  }
-
-  .stop-tab-container {
-    border-bottom: none;
-    margin: 0 16px 16px 16px;
   }
 
   .stop-page-content-wrapper {

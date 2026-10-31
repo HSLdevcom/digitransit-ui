@@ -4,7 +4,7 @@
 @use 'abstracts' as *;
 @use '~@hsl-fi/sass/mixins/screen';
 
-// Shared address text style — used by .route-stop-address and .route-stop-address-row.
+// Address text style for .route-stop-address-row.
 %route-address-text {
   font-size: $font-size-xsmall;
   font-family: $font-family;
@@ -231,11 +231,6 @@
         height: auto;
         justify-content: space-between;
 
-        .route-address-container {
-          display: flex;
-          align-items: center;
-        }
-
         .itinerary-stop-code {
           display: flex;
           align-items: center;
@@ -244,13 +239,6 @@
           // 0.9375rem = 15px
           height: 0.9375rem;
           margin-right: 5px;
-        }
-
-        .route-stop-address {
-          @extend %route-address-text;
-
-          display: block;
-          height: 1.25rem;
         }
 
         .itinerary-zone-icon {
@@ -335,18 +323,6 @@
     letter-spacing: -0.37px;
     height: 1.45em;
   }
-}
-
-// ─── Narrow viewport override ───────────────────────────────────────────────
-
-.small
-  .route-stop-row_content-container
-  > a
-  .route-details_container
-  > div
-  > span
-  .route-stop-address {
-  max-width: 7em;
 }
 
 // ─── Details upper row layout ────────────────────────────────────────────────

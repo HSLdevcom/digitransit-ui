@@ -33,20 +33,11 @@ $modal-min-height-sheet: 20vh;
 $modal-width-tablet: 95vw;
 $modal-width-desktop: 600px;
 
-// Card expansion animation (max-height for smooth expand/collapse)
-$card-body-max-height-expanded: 500px;
-
-// Modal overlay
-$modal-overlay-bg: rgba(0, 0, 0, 0.2);
-$modal-overlay-z-index: 1001;
-
 // Z-indexes
 $z-index-sticky-button: 10;
 
 // Animation timing
 $transition-short: 0.1s;
-$transition-medium: 0.2s;
-$transition-easing-expansion: cubic-bezier(0.4, 0.2, 0.2, 1);
 
 // Colors
 $placeholder-color: #888;

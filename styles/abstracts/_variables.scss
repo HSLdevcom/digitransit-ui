@@ -5,7 +5,6 @@ $white: #fff;
 $light-gray: #ddd;
 $medium-gray: #ccc;
 $gray: #666;
-$dark-gray: #575757;
 $black: #333;
 $gray-blue: var(--gray-blue);
 $gray-blue-light: rgb(182, 193, 199);
@@ -120,7 +119,6 @@ $route-schedule-date-height: 36px;
 /* Paddings */
 $padding-xxsmall: 0.125em;
 $padding-xsmall: 0.25em;
-$padding-small: 0.4em;
 $padding-medium: 0.7em;
 $padding-large: 1.5em;
 
@@ -129,9 +127,6 @@ $border-radius-small: 2px;
 $border-radius: 3px;
 $border-radius-bigger: 8px;
 $border-radius-disclaimer: var(--border-radius-disclaimer);
-
-/* Spinner */
-$spinner-size: 68px;
 
 /* Navbar dimensions */
 $nav-logo-height: var(--nav-logo-height);

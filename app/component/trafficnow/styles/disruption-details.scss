@@ -80,14 +80,6 @@
         margin-top: var(--space-s);
         color: $link-color;
       }
-
-      &__empty {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: var(--space-xxl);
-        color: tokens.$placeholder-color;
-      }
     }
   }
 }

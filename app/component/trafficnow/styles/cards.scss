@@ -41,20 +41,6 @@
     }
 
     .canceled-trips {
-      &__header {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 var(--space-m);
-        background-color: $white;
-
-        @media screen and (max-width: tokens.$bp-tablet) {
-          padding: var(--space-m);
-        }
-      }
-
       &__body {
         width: 100%;
         overflow: auto;
@@ -223,16 +209,6 @@
         cursor: pointer;
       }
 
-      &:hover &__icon {
-        transform: translateX(4px);
-        transition: transform tokens.$transition-short;
-
-        &--inverted {
-          transform: rotate(180deg) translateY(4px);
-          transition: transform tokens.$transition-short;
-        }
-      }
-
       header {
         display: flex;
         flex-direction: row;
@@ -251,34 +227,6 @@
         align-items: center;
         gap: var(--space-xs);
         flex-wrap: wrap;
-      }
-
-      &__icon {
-        &--inverted {
-          transform: rotate(180deg);
-        }
-      }
-
-      &__body {
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition:
-          max-height tokens.$transition-medium
-            tokens.$transition-easing-expansion,
-          opacity tokens.$transition-short ease-in tokens.$transition-short;
-
-        &--open {
-          max-height: tokens.$card-body-max-height-expanded; // Used for smooth expand/collapse animation
-          opacity: 1;
-        }
-      }
-
-      &__body-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
       }
     }
   }

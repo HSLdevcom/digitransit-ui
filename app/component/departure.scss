@@ -17,24 +17,6 @@
   & .route-number {
     width: 3em;
   }
-
-  .route-destination {
-    flex: 1;
-    padding-left: 0.5em;
-  }
-}
-
-.route-detail-text {
-  color: $black;
-
-  @include font-narrow-book;
-
-  font-size: $font-size-normal;
-  padding-right: 1em;
-
-  .vehicle-number {
-    mask-image: none;
-  }
 }
 
 .time,
@@ -70,26 +52,6 @@
 .departure > div,
 .departure > span {
   vertical-align: middle;
-}
-
-.desktop .route-destination {
-  width: calc(100% - 12.5em);
-}
-
-.route-destination {
-  overflow: hidden;
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  height: 1.2em;
-}
-
-.popup .route-destination:last-child {
-  width: calc(100% - 7.5em);
-}
-
-.popup .route-destination {
-  width: calc(100% - 9.5em);
 }
 
 .distance {
@@ -173,14 +135,6 @@
       }
     }
   }
-}
-
-.icon.realtime-icon {
-  position: relative;
-  top: -0.7em;
-  left: 0.1em;
-  height: 0.5em;
-  width: 0.5em;
 }
 
 .card .canceled .time {

@@ -61,10 +61,6 @@ $mode-colors: (
   }
 }
 
-.link-color {
-  color: $link-color;
-}
-
 /* Positioning */
 .left {
   float: left;
@@ -106,24 +102,8 @@ $mode-colors: (
   padding: 0.45em 1em;
 }
 
-.padding-normal {
-  padding: 0.7em 1em;
-}
-
-.padding-vertical-small {
-  padding: 0.45em 0;
-}
-
 .padding-vertical-normal {
   padding: 0.6em 0;
-}
-
-.padding-horizontal {
-  padding: 0 1em;
-}
-
-.padding-horizontal-large {
-  padding: 0 2em;
 }
 
 /* Appearance */
@@ -176,10 +156,6 @@ body .large {
 
 .border-top {
   border-top: 1px solid $light-gray;
-}
-
-.border-dashed {
-  border: 1px dashed $light-gray;
 }
 
 div.collapsed {

@@ -100,18 +100,6 @@
       width: tokens.$modal-width-desktop;
     }
 
-    &-overlay {
-      position: fixed;
-      z-index: tokens.$modal-overlay-z-index;
-      width: 100%;
-      left: 0;
-      top: 0;
-      height: 100%;
-      background-color: tokens.$modal-overlay-bg;
-      display: flex;
-      flex-direction: column-reverse;
-    }
-
     &-header {
       background-color: white;
       width: 100%;
@@ -130,19 +118,6 @@
 
       &__label {
         align-content: center;
-      }
-    }
-
-    &-cancellations {
-      display: flex;
-      flex-direction: column;
-      padding: 0 var(--space-l) var(--space-l) var(--space-l);
-
-      &-pattern {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-xs);
-        padding: var(--space-xs) 0;
       }
     }
 
