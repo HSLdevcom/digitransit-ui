@@ -198,7 +198,10 @@ All themes share `styles/main.scss`; a theme only sets CSS custom properties.
 - Per-theme values: default in `styles/themes/default/theme.scss`, a `$name: var(--name);` wrapper in
   `styles/abstracts/_variables.scss`, overrides in `styles/themes/<theme>/theme.scss`. Values that
   don't vary stay plain Sass variables. `var()` doesn't work in media queries or data URIs.
-- Colors JS also needs live in `colors` in the config; CSS reads them with `config('colors.x')`.
+- Colors JS also needs live in `colors` in the config; CSS reads them with `config('colors.x')`, so don't
+  set them again in `theme.scss`.
+- Use `abstracts` palette variables instead of hex values, and design tokens such as `--space-fixed-s` and
+  `--radius-m` where they exist. An undefined `var()` fails silently, so check that a token exists.
 - Layers are `reset, vendor, tokens, theme`, declared in `styles/themes/default/theme.scss`. App CSS
   is unlayered. Avoid `!important`.
 - Page-level z-indexes go in `$global-zindex` in `styles/abstracts/_zindex.scss`.
