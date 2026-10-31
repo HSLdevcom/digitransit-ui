@@ -185,6 +185,10 @@ div.collapsed {
   margin-left: auto;
   margin-right: auto;
 
+  &:hover {
+    background: $standalone-btn-hover-color;
+  }
+
   &:active {
     background: $standalone-btn-active-color;
   }
