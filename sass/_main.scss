@@ -1,4 +1,4 @@
-@import '@hsl-fi/design-system-core/css/styles.css';
+@import '@hsl-fi/design-system-core/css/styles.css' layer(tokens);
 
 // Apply theme specific values over standard hsl theme
 @import 'design-theme.css';

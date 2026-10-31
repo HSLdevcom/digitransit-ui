@@ -23,12 +23,20 @@ function getAllConfigs() {
     .map(theme => getNamedConfiguration(theme));
 }
 
+export function themeTokensPath(theme) {
+  const tokensCss = `./sass/themes/${theme}/tokens.scss`;
+  return fs.existsSync(tokensCss)
+    ? tokensCss
+    : './sass/themes/default/tokens.scss';
+}
+
 function getEntries(theme, sprites = null) {
   let themeCss = `./sass/themes/${theme}/main.scss`;
   if (!fs.existsSync(themeCss)) {
     themeCss = './sass/themes/default/main.scss';
   }
   return {
+    [`${theme}_tokens`]: themeTokensPath(theme),
     [`${theme}_theme`]: themeCss,
     ...(sprites !== null
       ? {

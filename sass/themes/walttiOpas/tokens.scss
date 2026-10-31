@@ -1,0 +1,13 @@
+@import '../waltti/tokens';
+
+@layer theme {
+  :root {
+    --theme-secondary-color: #17083b;
+    --action-color: var(--theme-primary-color);
+    --top-bar-color: var(--theme-secondary-color);
+    --theme-primary-dark-color: #505098;
+    --color-accent-primary-900: #474786;
+    --color-accent-primary-500: var(--theme-primary-color);
+    --color-accent-primary-100: #eeeef6;
+  }
+}

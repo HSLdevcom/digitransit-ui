@@ -1,0 +1,43 @@
+@import '../default/tokens';
+
+@layer theme {
+  :root {
+    --gray-blue: #fff;
+    --background-color-darker: #cdcdd7;
+    --background-color-lighter: #f6f6f6;
+    --selector-background-color: #f6f6f6;
+    --button-hover-color: #f6f6f6;
+    --theme-secondary-color: var(--theme-primary-color);
+    --desktop-title-color: #000f94;
+    --desktop-title-arrow-icon-color: #008bde;
+    --infobox-color-generic-blue: #fff;
+    --infobox-border-color: var(--theme-primary-color);
+    --info-icon-blue: var(--theme-primary-color);
+    --info-background-color: #f6f6f6;
+    --link-color: #0034ac;
+    --caution-icon-color: var(--theme-primary-color);
+    --disclaimer-background-color: #fff;
+    --disclaimer-border-color: var(--theme-primary-color);
+    --navigation-background-color: #f2f5f7;
+    --route-title-margin: 1em;
+    --airplane-color: #0046ad;
+    --bus-express-color: #007ac9;
+    --speedtram-color: #5e7921;
+    --wait-color: #aaa;
+    --car-color: #505064;
+    --font-family: 'Public Sans', 'Roboto Mono', arial, georgia, sans-serif;
+    --font-weight-semibold: 700;
+    --font-family-narrow: 'Public Sans', 'Roboto Mono', arial, georgia,
+      sans-serif;
+    --id-font-family: 'Roboto Mono', arial, georgia, sans-serif;
+    --id-font-size: 0.87rem;
+    --id-font-weight: 700;
+    --border-radius-disclaimer: 8px;
+    --nav-logo-height: 2em;
+    --nav-logo-min-height: 30px;
+    --theme-primary-dark-color: black;
+    --color-accent-primary-900: var(--theme-primary-color);
+    --color-accent-primary-500: var(--theme-primary-color);
+    --color-accent-primary-100: #e6e6e6;
+  }
+}

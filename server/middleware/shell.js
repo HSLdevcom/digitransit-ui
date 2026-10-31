@@ -47,9 +47,15 @@ function buildHead(config, req, locale) {
   // Write preload hints before doing anything else
   if (process.env.NODE_ENV !== 'development') {
     const { ASSET_URL, mainAssets } = getAssetContext();
+    const tokensCssPath = getAssetPath(`${config.CONFIG}_tokens.css`);
     const themeCssPath = getAssetPath(`${config.CONFIG}_theme.css`);
     const preloads = [
       { as: 'style', href: config.URL.FONT },
+      {
+        as: 'style',
+        href: `${ASSET_URL}/${tokensCssPath}`,
+        crossorigin: true,
+      },
       {
         as: 'style',
         href: `${ASSET_URL}/${themeCssPath}`,
@@ -76,6 +82,10 @@ function buildHead(config, req, locale) {
     );
     preconnects.forEach(href =>
       html.push(`<link rel="preconnect" crossorigin href="${href}">\n`),
+    );
+    // First stylesheet in the document: it declares the cascade layer order.
+    html.push(
+      `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${tokensCssPath}"/>\n`,
     );
     // mainAssets' CSS (e.g. the shared 'digitransit-components' chunk,
     // which contains @hsl-fi/design-system-core's default color

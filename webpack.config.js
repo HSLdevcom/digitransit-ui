@@ -12,7 +12,12 @@ import CompressionPlugin from 'compression-webpack-plugin';
 // eslint-plugin-import's resolver.
 // eslint-disable-next-line import/no-unresolved
 import { WebpackAssetsManifest } from 'webpack-assets-manifest';
-import { themeEntries, faviconPlugins } from './scripts/build/contextHelper.js';
+import {
+  themeEntries,
+  themeTokensPath,
+  faviconPlugins,
+} from './scripts/build/contextHelper.js';
+import sassConfigFunctions from './scripts/build/sassConfigFunctions.js';
 
 const require = createRequire(import.meta.url);
 const rootDir = import.meta.dirname;
@@ -22,6 +27,7 @@ const isProduction = mode === 'production';
 const isDevelopment = !isProduction;
 
 const themeExpression = /sass[/\\]themes$/;
+const themeTokensFile = /sass[/\\]themes[/\\](\w+)[/\\]tokens\.scss$/;
 const selectedTheme = new RegExp(
   `^./(${process.env.CONFIG || 'default'})/main.scss$`,
 );
@@ -68,6 +74,14 @@ export default {
   entry: {
     main: [
       './app/client/publicPath',
+      // Dev-only: first so that it declares the cascade layer order.
+      ...(isDevelopment
+        ? [
+            themeTokensPath(
+              process.env.CONFIG || process.env.BASE_CONFIG || 'default',
+            ),
+          ]
+        : []),
       // Dev-only: loads the active theme's SCSS via a dynamic require.
       // Production themes are handled statically via `themeEntries` below.
       ...(isDevelopment ? ['./app/client/loadDevTheme'] : []),
@@ -241,17 +255,21 @@ export default {
           {
             loader: 'sass-loader',
             options: {
-              sassOptions: {
-                // No BOM/@charset: Sass adds one to non-ASCII output, and a
-                // BOM mid-bundle invalidates the selector that follows it.
-                charset: false,
-                quietDeps: true,
-                silenceDeprecations: [
-                  'import',
-                  'global-builtin',
-                  'color-functions',
-                  'if-function',
-                ],
+              sassOptions: ({ resourcePath }) => {
+                const [, theme] = resourcePath.match(themeTokensFile) || [];
+                return {
+                  // No BOM/@charset: Sass adds one to non-ASCII output, and a
+                  // BOM mid-bundle invalidates the selector that follows it.
+                  charset: false,
+                  quietDeps: true,
+                  silenceDeprecations: [
+                    'import',
+                    'global-builtin',
+                    'color-functions',
+                    'if-function',
+                  ],
+                  ...(theme ? { functions: sassConfigFunctions(theme) } : {}),
+                };
               },
             },
           },
