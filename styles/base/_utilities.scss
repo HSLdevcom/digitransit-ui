@@ -4,7 +4,7 @@
 */
 
 @use 'sass:list';
-@use '../abstracts' as *;
+@use 'abstracts' as *;
 
 @media #{$small-up} {
   // https://css-tricks.com/snippets/css/momentum-scrolling-on-ios-overflow-elements/

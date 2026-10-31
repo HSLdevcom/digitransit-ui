@@ -1,7 +1,7 @@
 // Styles for the route page header: route number, name, favourite action,
 // notification trigger, and trip destination headsign.
 
-@use '../../../styles/abstracts' as *;
+@use 'abstracts' as *;
 
 .route-header {
   display: flex;

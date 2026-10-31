@@ -1,7 +1,7 @@
 // Styles for the route stop list, individual stop rows, and the
 // location-details layout used for each stop item.
 
-@use '../../../styles/abstracts' as *;
+@use 'abstracts' as *;
 @use '~@hsl-fi/sass/mixins/screen';
 
 // Shared address text style — used by .route-stop-address and .route-stop-address-row.

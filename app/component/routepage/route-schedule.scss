@@ -1,7 +1,7 @@
 // Styles for the schedule view: date selectors, trip list, action bar,
 // and print-specific overrides.
 
-@use '../../../styles/abstracts' as *;
+@use 'abstracts' as *;
 @use '~@hsl-fi/sass/mixins/screen';
 
 // ─── Timetable tabpanel (flex column root for the schedule view) ─────────────

@@ -35,7 +35,7 @@ Later layers win regardless of specificity, and unlayered CSS beats every layer:
 - `theme`: the values in each theme's `theme.scss`.
 - Unlayered: the app's own CSS. Keep `!important` out of layers, because it inverts their order.
 
-Stylesheets get shared variables and mixins with `@use '<path to styles/abstracts>' as *;`. `styles/abstracts/_index.scss`
+Stylesheets get shared variables and mixins with `@use 'abstracts' as *;`, resolved through `loadPaths` in `webpack.config.js`. `styles/abstracts/_index.scss`
 forwards them and must not emit CSS. Stylesheets that do emit CSS are listed in order in `styles/main.scss`.
 
 To make a Sass variable themeable, define it in `styles/themes/default/theme.scss` and set it to

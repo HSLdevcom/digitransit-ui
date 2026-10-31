@@ -255,6 +255,8 @@ export default {
                   // BOM mid-bundle invalidates the selector that follows it.
                   charset: false,
                   quietDeps: true,
+                  // Lets every stylesheet `@use 'abstracts' as *;` by name.
+                  loadPaths: [path.join(rootDir, 'styles')],
                   ...(theme ? { functions: sassConfigFunctions(theme) } : {}),
                 };
               },

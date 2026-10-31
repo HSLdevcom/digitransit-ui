@@ -2,7 +2,7 @@
 // sheet variant (.pattern-select-sheet / .pattern-select-sheet-backdrop).
 
 @use 'sass:list';
-@use '../../../styles/abstracts' as *;
+@use 'abstracts' as *;
 
 .route-pattern-select {
   margin: 0 0 1px;
