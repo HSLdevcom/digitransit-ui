@@ -24,10 +24,10 @@ function getAllConfigs() {
 }
 
 export function themeTokensPath(theme) {
-  const tokensCss = `./sass/themes/${theme}/tokens.scss`;
+  const tokensCss = `./styles/themes/${theme}/theme.scss`;
   return fs.existsSync(tokensCss)
     ? tokensCss
-    : './sass/themes/default/tokens.scss';
+    : './styles/themes/default/theme.scss';
 }
 
 function getEntries(theme, sprites = null) {

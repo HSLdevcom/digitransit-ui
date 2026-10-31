@@ -1,12 +1,12 @@
 // Route page — layout, warning/notification banners, and miscellaneous rules.
-// Feature-specific styles are split into dedicated files imported from _main.scss:
+// Feature-specific styles are split into dedicated files imported from main.scss:
 //   route-header.scss        – .route-header and its children
 //   route-stop-list.scss     – .route-stop-list, stop rows, location-details
 //   route-pattern-select.scss – .route-pattern-select, .pattern-select-sheet
 //   route-control-panel.scss – .route-tabs, .route-page-control-panel-container
 //   route-schedule.scss      – schedule container, date select, action bar
 
-@use '../../../sass/base' as *;
+@use '../../../styles/abstracts' as *;
 
 // Shared sizing constants — used within this file and by child files.
 $margin-left-right-large: 60px;

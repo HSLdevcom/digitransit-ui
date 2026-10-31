@@ -1,0 +1,15 @@
+@use '../waltti/theme';
+
+@layer theme {
+  :root {
+    --theme-secondary-color: #00bf6f;
+    --action-color: var(--theme-primary-color);
+    --desktop-title-arrow-icon-color: #fff;
+    --top-bar-color: #008061;
+    --ferry-color: #007a97;
+    --theme-primary-dark-color: #00684e;
+    --color-accent-primary-900: #00674e;
+    --color-accent-primary-500: var(--theme-primary-color);
+    --color-accent-primary-100: #e6f2ef;
+  }
+}

@@ -2,7 +2,7 @@
 
 Appearance and behavior of digitransit-ui can be customized by:
 - Creating a custom config file to a path `server/configs/config.<theme>.js`
-- Optionally adding CSS custom properties to `sass/themes/<theme>/tokens.scss`
+- Optionally adding CSS custom properties to `styles/themes/<theme>/theme.scss`
 - Optionally adding theme-owned static assets to `static/assets/<theme>` folder
 - If dynamic theme mapping to the new theme is desired, the new theme must be added to the
 theme map found in `server/configs/config.default.js`
@@ -17,11 +17,11 @@ After running the command, the created skeleton files can be edited further.
 
 ## Theme styles
 
-All themes share one stylesheet, `sass/_main.scss`. A theme only changes the values of CSS custom
-properties, in `sass/themes/<theme>/tokens.scss`. That file starts with a `@use` of its parent
-(`../waltti/tokens` or `../default/tokens`) and is linked before the stylesheet.
+All themes share one stylesheet, `styles/main.scss`. A theme only changes the values of CSS custom
+properties, in `styles/themes/<theme>/theme.scss`. That file starts with a `@use` of its parent
+(`../waltti/theme` or `../default/theme`) and is linked before the stylesheet.
 
-The cascade order is declared once, at the top of `sass/themes/default/tokens.scss`:
+The cascade order is declared once, at the top of `styles/themes/default/theme.scss`:
 
 ```css
 @layer reset, vendor, tokens, theme;
@@ -29,17 +29,17 @@ The cascade order is declared once, at the top of `sass/themes/default/tokens.sc
 
 Later layers win regardless of specificity, and unlayered CSS beats every layer:
 
-- `reset`: element defaults (`sass/base/_reset.scss`), the weakest styles, so anything can override them.
+- `reset`: element defaults (`styles/base/_reset.scss`), the weakest styles, so anything can override them.
 - `vendor`: third-party CSS, currently Leaflet.
 - `tokens`: the default values from `@hsl-fi/design-system-core`.
-- `theme`: the values in each theme's `tokens.scss`.
+- `theme`: the values in each theme's `theme.scss`.
 - Unlayered: the app's own CSS. Keep `!important` out of layers, because it inverts their order.
 
-Stylesheets get shared variables and mixins with `@use '<path to sass/base>' as *;`. `sass/base/_index.scss`
-forwards them and must not emit CSS. Stylesheets that do emit CSS are listed in order in `sass/_main.scss`.
+Stylesheets get shared variables and mixins with `@use '<path to styles/abstracts>' as *;`. `styles/abstracts/_index.scss`
+forwards them and must not emit CSS. Stylesheets that do emit CSS are listed in order in `styles/main.scss`.
 
-To make a Sass variable themeable, define it in `sass/themes/default/tokens.scss` and set it to
-`var(--name)` in `sass/base/_tokens.scss`. Sass color functions such as `darken()` and data URIs
+To make a Sass variable themeable, define it in `styles/themes/default/theme.scss` and set it to
+`var(--name)` in `styles/abstracts/_variables.scss`. Sass color functions such as `darken()` and data URIs
 can't take `var()`, so themed colors need a resolved token or a `mask`.
 
 The colors JS also needs come from the config, e.g. `config('colors.primary')`. The Sass function is

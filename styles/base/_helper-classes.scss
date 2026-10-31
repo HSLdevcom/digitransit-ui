@@ -1,0 +1,252 @@
+/*
+  Helper Classes
+  These classes may be used through out the application on any DOM-element
+*/
+
+@use '../abstracts' as *;
+
+/* COLOR */
+$mode-colors: (
+  airplane: $airplane-color,
+  bus: $bus-color,
+  bus-local: $bus-color,
+  bus-express: $bus-express-color,
+  speedtram: $speedtram-color,
+  call: $call-agency-color,
+  tram: $tram-color,
+  subway: $metro-color,
+  rail: $rail-color,
+  ferry: $ferry-color,
+  ferry-external: $external-feed-color,
+  taxi-external: $taxi-external-color,
+  funicular: $funicular-color,
+  car: $car-color,
+  citybike: $citybike-color,
+  citybike_walk: $citybike-color,
+  scooter: $scooter-color,
+  walk: $walk-color,
+  bicycle: $bicycle-color,
+  bicycle_walk: $bicycle-color,
+  replacement-bus: $replacement-bus-color,
+  call-local: $bus-color,
+);
+
+@each $mode, $color in $mode-colors {
+  .#{$mode} {
+    color: $color;
+  }
+}
+
+.via {
+  color: $walk-color;
+}
+
+.from {
+  color: $from-color;
+}
+
+.realtime {
+  color: $realtime-color;
+}
+
+.to {
+  color: $to-color;
+}
+
+.gray {
+  color: $gray;
+
+  p {
+    color: $gray;
+  }
+}
+
+.link-color {
+  color: $link-color;
+}
+
+/* Positioning */
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.clear {
+  float: none;
+  clear: both;
+}
+
+// parent DOM-element requires overflow:hidden; height: x;
+.scrollable {
+  overflow: auto;
+  flex: 1;
+}
+
+.fullscreen {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+@media print {
+  .fullscreen {
+    height: auto;
+  }
+}
+
+.padding-small {
+  padding: 0.45em 1em;
+}
+
+.padding-normal {
+  padding: 0.7em 1em;
+}
+
+.padding-vertical-small {
+  padding: 0.45em 0;
+}
+
+.padding-vertical-normal {
+  padding: 0.6em 0;
+}
+
+.padding-horizontal {
+  padding: 0 1em;
+}
+
+.padding-horizontal-large {
+  padding: 0 2em;
+}
+
+/* Appearance */
+.cursor-grab {
+  cursor: grab;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.no-decoration {
+  text-decoration: none;
+
+  &.medium {
+    font-weight: $font-weight-medium;
+  }
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.hover {
+  &:hover {
+    opacity: 0.8;
+    transition: 0.1s ease-in-out;
+  }
+}
+
+.large-icon {
+  width: 20px;
+  height: 20px;
+}
+
+body .large {
+  & .icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.border-bottom {
+  border-bottom: 1px solid $light-gray;
+}
+
+.border-top {
+  border-top: 1px solid $light-gray;
+}
+
+.border-dashed {
+  border: 1px dashed $light-gray;
+}
+
+div.collapsed {
+  display: none;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.page-frame {
+  padding: 10px;
+}
+
+.call-to-action-button {
+  @include font-medium;
+
+  color: white;
+  background: $standalone-btn-color;
+  vertical-align: middle;
+  border-radius: 1.5em;
+  padding: 0.5em 1.5em;
+  text-align: center;
+  max-width: 500px;
+  margin-top: 25px;
+  margin-bottom: 18px;
+  margin-left: auto;
+  margin-right: auto;
+
+  &:active {
+    background: $standalone-btn-active-color;
+  }
+}
+
+.page-not-found {
+  align-items: center;
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  justify-content: center;
+
+  .icon-container {
+    margin-top: 1.25rem;
+
+    svg {
+      height: 130px;
+      width: 150px;
+    }
+  }
+
+  p {
+    font-size: $font-size-large;
+
+    a {
+      font-size: $font-size-large;
+      color: $theme-primary-color;
+      border-bottom: 1px dotted;
+      text-decoration: none;
+    }
+
+    button {
+      margin: 0;
+    }
+
+    &.error {
+      display: block;
+      margin: 25px;
+    }
+  }
+}

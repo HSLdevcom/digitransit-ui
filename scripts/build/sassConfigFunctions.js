@@ -3,7 +3,7 @@ import * as sass from 'sass';
 
 import { getNamedConfiguration } from '../../server/configs/config.js';
 
-// Sass functions for a theme's tokens.scss: config('colors.primary') reads
+// Sass functions for a theme's theme.scss: config('colors.primary') reads
 // that value from the theme's config, so it's only defined in one place.
 export default function sassConfigFunctions(theme) {
   const config = getNamedConfiguration(theme);

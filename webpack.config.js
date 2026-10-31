@@ -26,7 +26,7 @@ const mode = process.env.NODE_ENV;
 const isProduction = mode === 'production';
 const isDevelopment = !isProduction;
 
-const themeTokensFile = /sass[/\\]themes[/\\](\w+)[/\\]tokens\.scss$/;
+const themeTokensFile = /styles[/\\]themes[/\\](\w+)[/\\]theme\.scss$/;
 
 // Files in `_static` that webpack doesn't emit, so `output.clean` keeps
 // them: `static/` as copied by scripts/build/copyStatic.js (plus its

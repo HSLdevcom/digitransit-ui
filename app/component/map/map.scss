@@ -1,5 +1,5 @@
 @use 'sass:list';
-@use '../../../sass/base' as *;
+@use '../../../styles/abstracts' as *;
 
 // In the vendor layer so that Leaflet's more specific link colors still win.
 @layer vendor {

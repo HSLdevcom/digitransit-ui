@@ -27,9 +27,9 @@ and output settings.
 ## Entries & per-deployment theming
 
 - `main` is the real app entry (`app/client/publicPath` + `app/client/client`).
-  `client.jsx` imports `sass/_main.scss`, so every theme shares one stylesheet.
+  `client.jsx` imports `styles/main.scss`, so every theme shares one stylesheet.
 - In production, `scripts/build/contextHelper.js` adds one `<theme>_tokens`
-  entry per regional theme's `sass/themes/<theme>/tokens.scss`, plus a
+  entry per regional theme's `styles/themes/<theme>/theme.scss`, plus a
   `<sprite>` entry for any config-declared SVG sprite sheet (`config.sprites`),
   which content-hashes it into `manifest.json`. The sprite itself is
   generated before webpack runs (see "SVG sprite sheets" below). With `CONFIG`
@@ -40,7 +40,7 @@ and output settings.
   under `assets/icons-<CONFIG>-[contenthash]/`. Apple startup images and
   Windows tiles are turned off (`favicons.icons`), since nothing references
   them and the startup images alone were ~35 MB per config.
-- In development, the selected `CONFIG`'s `tokens.scss` is added to `main`
+- In development, the selected `CONFIG`'s `theme.scss` is added to `main`
   instead, before `client`, so that it declares the cascade layer order.
 
 ## Output

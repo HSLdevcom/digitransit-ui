@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@use '../../../sass/base' as *;
+@use '../../../styles/abstracts' as *;
 @use '~@hsl-fi/sass/mixins/screen';
 
 $topbar-height: 40px;

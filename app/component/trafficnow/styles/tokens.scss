@@ -3,7 +3,7 @@
 // ============================================================================
 // Shared SCSS constants and component-level CSS custom properties.
 
-@use '../../../../sass/base' as *;
+@use '../../../../styles/abstracts' as *;
 
 // Breakpoints
 $bp-tablet-small: 620px;

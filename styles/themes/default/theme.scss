@@ -1,0 +1,79 @@
+/* Values of the themed variables in styles/abstracts/_variables.scss. Compiled per theme, so config() reads that theme's config. */
+@layer reset, vendor, tokens, theme;
+
+@layer theme {
+  :root {
+    --theme-primary-color: #{config('colors.primary')};
+    --bus-color: #{config('colors.bus')};
+    --tram-color: #{config('colors.tram')};
+    --rail-color: #{config('colors.rail')};
+    --ferry-color: #{config('colors.ferry')};
+    --metro-color: #{config('colors.subway')};
+    --gray-blue: #78909c;
+    --background-color-darker: #e0e5e8;
+    --background-color-lighter: #f2f5f7;
+    --selector-background-color: #f4f4f4;
+    --button-hover-color: #f4f4f4;
+    --theme-secondary-color: #008bde;
+    --highlight-color: var(--theme-primary-color);
+    --action-color: var(--theme-secondary-color);
+    --banner-disruption-color: #dc0451;
+    --current-location-color: var(--theme-primary-color);
+    --desktop-title-color: var(--theme-primary-color);
+    --desktop-title-arrow-icon-color: var(--theme-secondary-color);
+    --infobox-color-generic-blue: #ebf6fd;
+    --infobox-border-color: var(--infobox-color-generic-blue);
+    --info-icon-blue: #0074be;
+    --info-background-color: #e5f1f9;
+    --standalone-btn-color: var(--action-color);
+    --standalone-btn-hover-color: rgb(182, 193, 199);
+    --standalone-btn-active-color: rgb(182, 193, 199);
+    --viewpoint-marker-color: var(--theme-primary-color);
+    --link-color: var(--theme-primary-color);
+    --link-button-color: var(--link-color);
+    --swap-button-icon-color: #333;
+    --slider-warning-color: #fbb800;
+    --slider-ok-color: #4ea700;
+    --selected-lang-background: rgba(0, 0, 0, 0.15);
+    --caution-icon-color: #fff;
+    --top-bar-color: var(--theme-primary-color);
+    --disclaimer-background-color: #ebf6fd;
+    --disclaimer-border-color: #ebf6fd;
+    --navigation-background-color: var(--background-color-lighter);
+    --route-title-margin: 2.7em;
+    --airplane-color: #1a4a8f;
+    --bus-express-color: rgb(0, 136, 206);
+    --speedtram-color: #008151;
+    --wait-color: #979797;
+    --car-color: #333;
+    --taxi-external-color: #647693;
+    --taxi-external-map-color: #647693;
+    --taxi-settings-icon-bg-color: var(--taxi-external-color);
+    --taxi-settings-icon-fill: white;
+    --taxi-icon-width: 24px;
+    --taxi-icon-summary-width: 24px;
+    --font-family: 'Roboto', arial, georgia, serif;
+    --font-weight-book: 400;
+    --font-weight-medium: 700;
+    --font-weight-semibold: 600;
+    --letter-spacing: 0;
+    --font-family-narrow: 'Roboto Condensed', 'Arial Condensed', arial, georgia,
+      serif;
+    --font-size-medium-large: 1.15rem;
+    --id-font-family: var(--font-family);
+    --id-font-size: 1rem;
+    --id-font-weight: 400;
+    --border-radius-disclaimer: 3px;
+    --nav-logo-height: 100%;
+    --nav-logo-min-height: 40px;
+    --navigation-icon-size: 40px;
+    --spinner-color: #009fe3;
+    --message-bar-border: none;
+    --top-navigation-title-color: #fff;
+    --top-navigation-icon-color: #fff;
+    --theme-primary-dark-color: rgb(0, 12.415540540540455, 122.50000000000001);
+    --color-accent-primary-900: #000a80;
+    --color-accent-primary-500: #000f94;
+    --color-accent-primary-100: #8bd;
+  }
+}

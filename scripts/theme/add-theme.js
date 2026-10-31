@@ -16,7 +16,7 @@ if (!theme || theme === '?') {
   process.exit(0);
 }
 
-const sassDir = 'sass/themes/' + theme;
+const sassDir = 'styles/themes/' + theme;
 const name = theme.charAt(0).toUpperCase() + theme.slice(1); // with uppecase initial
 if(!fs.existsSync(sassDir)) {
   fs.mkdirSync(sassDir);
@@ -24,7 +24,7 @@ if(!fs.existsSync(sassDir)) {
 
 let themeContent =
 `@use 'sass:color';
-@use '../waltti/tokens';
+@use '../waltti/theme';
 
 @layer theme {
   :root {
@@ -54,7 +54,7 @@ if (logoPath) {
 }
 
 // theme is ready, write it
-fs.writeFileSync(sassDir + '/tokens.scss', themeContent);
+fs.writeFileSync(sassDir + '/theme.scss', themeContent);
 
 // generate app configuration
 const regexColor = new RegExp('__color__', 'g');

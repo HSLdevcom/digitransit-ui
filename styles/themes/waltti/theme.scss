@@ -1,0 +1,8 @@
+@use '../default/theme';
+
+@layer theme {
+  :root {
+    --standalone-btn-hover-color: #666;
+    --standalone-btn-active-color: #666;
+  }
+}

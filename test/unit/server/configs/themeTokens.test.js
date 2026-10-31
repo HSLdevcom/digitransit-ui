@@ -1,16 +1,18 @@
 import fs from 'fs';
 import path from 'path';
 
-const sassDir = path.join(process.cwd(), 'sass');
-const read = file => fs.readFileSync(path.join(sassDir, file), 'utf8');
+const stylesDir = path.join(process.cwd(), 'styles');
+const read = file => fs.readFileSync(path.join(stylesDir, file), 'utf8');
 
 describe('theme tokens', () => {
   // Every theme imports the default tokens, and a var() with no definition
   // doesn't fail the build, it silently drops the style.
-  it('defines every custom property sass/base/_tokens.scss reads', () => {
-    const used = [...read('base/_tokens.scss').matchAll(/var\((--[\w-]+)\)/g)];
+  it('defines every custom property styles/abstracts/_variables.scss reads', () => {
+    const used = [
+      ...read('abstracts/_variables.scss').matchAll(/var\((--[\w-]+)\)/g),
+    ];
     const defined = new Set(
-      [...read('themes/default/tokens.scss').matchAll(/^\s+(--[\w-]+):/gm)].map(
+      [...read('themes/default/theme.scss').matchAll(/^\s+(--[\w-]+):/gm)].map(
         ([, name]) => name,
       ),
     );

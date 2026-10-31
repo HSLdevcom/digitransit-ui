@@ -1,0 +1,80 @@
+@use '../abstracts' as *;
+
+@function rem($px) {
+  @return #{calc($px / 16)}rem;
+}
+
+.design-system {
+  .heading-xs,
+  .h5 {
+    color: #333;
+    font-size: rem(18);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.2;
+    letter-spacing: rem(-0.5);
+
+    @media (min-width: 768px) {
+      font-size: rem(20);
+      letter-spacing: rem(-0.5);
+    }
+
+    &.fixed-to-mobile-size {
+      font-size: rem(18);
+    }
+
+    &.fixed-to-desktop-size {
+      font-size: rem(20);
+    }
+  }
+
+  .input {
+    &-legend {
+      color: #333;
+      font-size: rem(15);
+      font-style: normal;
+      font-weight: var(--font-weight-medium);
+      line-height: 24px;
+      letter-spacing: -0.3px;
+    }
+
+    &-label {
+      color: #333;
+      font-weight: 350;
+      font-size: 16px;
+      letter-spacing: -0.3px;
+      font-style: normal;
+
+      &.bold {
+        color: #333;
+        font-size: 15px;
+        font-weight: var(--font-weight-medium);
+        line-height: 24px;
+      }
+    }
+  }
+
+  .tag-normal {
+    color: #333;
+    font-weight: var(--font-weight-book);
+    font-size: rem(15);
+    line-height: 1.6;
+    letter-spacing: rem(-0.3);
+
+    @media (min-width: 768px) {
+      font-size: rem(15);
+    }
+
+    &.fixed-to-mobile-size {
+      font-size: rem(15);
+    }
+
+    &.fixed-to-desktop-size {
+      font-size: rem(15);
+    }
+  }
+
+  .warning,
+  .danger {
+    color: $cancelation-red;
+  }
+}

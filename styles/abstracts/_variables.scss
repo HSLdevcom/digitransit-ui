@@ -1,0 +1,170 @@
+/* Sass variables for all themes. Themed ones read a custom property from styles/themes/<theme>/theme.scss. */
+
+/* General palette */
+$white: #fff;
+$light-gray: #ddd;
+$medium-gray: #ccc;
+$gray: #666;
+$dark-gray: #575757;
+$black: #333;
+$gray-blue: var(--gray-blue);
+$gray-blue-light: rgb(182, 193, 199);
+$muted-gray: #888;
+
+/* Operator palette */
+$livi-blue: #000f94;
+$livi-gold: rgb(233, 171, 0);
+$livi-bus-blue: rgb(0, 136, 206);
+$livi-airplane-blue: #1a4a8f;
+$livi-ferry-blue: #007a97;
+$livi-rail-purple: #8c4799;
+$livi-subway-orange: #ca4000;
+$livi-tram-green: #008151;
+$livi-funicular-pink: #f0f;
+
+/* Application palette */
+$background-color: #fff;
+$background-color-darker: var(--background-color-darker);
+$background-color-lighter: var(--background-color-lighter);
+$suggestion-highlight-color: #f2f5f7;
+$selector-background-color: var(--selector-background-color);
+$button-hover-color: var(--button-hover-color);
+$theme-primary-color: var(--theme-primary-color);
+$theme-primary-dark-color: var(--theme-primary-dark-color);
+$primary-font-color: $white;
+$theme-secondary-color: var(--theme-secondary-color);
+$highlight-color: var(--highlight-color);
+$action-color: var(--action-color);
+$cancelation-red: #dc0451;
+$cancelation-black: #666;
+$cancelation-background: #fbe0ea;
+$disruption-color: $cancelation-red;
+$banner-disruption-color: var(--banner-disruption-color);
+$realtime-color: #3b7f00;
+$current-location-color: var(--current-location-color);
+$desktop-title-color: var(--desktop-title-color);
+$desktop-title-arrow-icon-color: var(--desktop-title-arrow-icon-color);
+$infobox-color-generic-blue: var(--infobox-color-generic-blue);
+$infobox-border-color: var(--infobox-border-color);
+$info-icon-blue: var(--info-icon-blue);
+$info-background-color: var(--info-background-color);
+$theme-success-color: #f1f8eb;
+$success-color: #3adb76;
+
+/* Component palette */
+$title-color: $white;
+$standalone-btn-color: var(--standalone-btn-color);
+$standalone-btn-hover-color: var(--standalone-btn-hover-color);
+$standalone-btn-active-color: var(--standalone-btn-active-color);
+$viewpoint-marker-color: var(--viewpoint-marker-color);
+$link-color: var(--link-color);
+$link-button-color: var(--link-button-color);
+$swap-button-icon-color: var(--swap-button-icon-color);
+$from-color: #4ea700;
+$to-color: #ec5188;
+$slider-severe-color: $cancelation-red;
+$slider-warning-color: var(--slider-warning-color);
+$slider-ok-color: var(--slider-ok-color);
+$selected-lang-background: var(--selected-lang-background);
+$caution-icon-color: var(--caution-icon-color);
+$top-bar-color: var(--top-bar-color);
+$top-navigation-title-color: var(--top-navigation-title-color);
+$top-navigation-icon-color: var(--top-navigation-icon-color);
+$disclaimer-background-color: var(--disclaimer-background-color);
+$disclaimer-border-color: var(--disclaimer-border-color);
+$navigation-background-color: var(--navigation-background-color);
+$route-title-margin: var(--route-title-margin);
+$success-bar-color: #3b7f00;
+$attention-color: #c53291;
+$control-border-color: #888;
+
+/* Vehicle palette */
+$airplane-color: var(--airplane-color);
+$bus-color: var(--bus-color);
+$bus-express-color: var(--bus-express-color);
+$speedtram-color: var(--speedtram-color);
+$tram-color: var(--tram-color);
+$metro-color: var(--metro-color);
+$rail-color: var(--rail-color);
+$ferry-color: var(--ferry-color);
+$funicular-color: $livi-funicular-pink;
+$citybike-color: #f2b62d;
+$citybike-off-color: #919191;
+$walk-color: #000;
+$wait-color: var(--wait-color);
+$bicycle-color: #666;
+$car-color: var(--car-color);
+$call-agency-color: #666;
+$external-feed-color: #647693;
+$external-feed-map-color: #647693;
+$taxi-external-color: var(--taxi-external-color);
+$taxi-external-map-color: var(--taxi-external-map-color);
+$taxi-settings-icon-bg-color: var(--taxi-settings-icon-bg-color);
+$taxi-settings-icon-fill: var(--taxi-settings-icon-fill);
+$taxi-icon-height: 24px;
+$taxi-icon-width: var(--taxi-icon-width);
+$taxi-icon-summary-width: var(--taxi-icon-summary-width);
+$scooter-color: $external-feed-color;
+$scooter-map-color: $external-feed-map-color;
+$walk-inside-color: #666;
+$replacement-bus-color: #dc0451;
+
+/* Fonts */
+$font-family: var(--font-family);
+$font-weight-book: var(--font-weight-book);
+$font-weight-medium: var(--font-weight-medium);
+$font-weight-semibold: var(--font-weight-semibold);
+$font-weight-bold: 700;
+$letter-spacing: var(--letter-spacing);
+$letter-spacing-front-page: -0.67px;
+$font-family-narrow: var(--font-family-narrow);
+$narrow-letter-spacing: 0;
+$line-height-normal: 1.2;
+$font-size-xxxxsmall: 0.62rem;
+$font-size-xxxsmall: 0.72rem;
+$font-size-xxsmall: 0.8rem;
+$font-size-xsmall: 0.87rem;
+$font-size-small: 0.92rem;
+$font-size-normal: 1rem;
+$font-size-medium-large: var(--font-size-medium-large);
+$font-size-large: 1.25rem;
+$font-size-xlarge: 1.5rem;
+$disruption-message-font-weight: 200;
+$id-font-family: var(--id-font-family);
+$id-font-size: var(--id-font-size);
+$id-font-weight: var(--id-font-weight);
+
+/* Route page */
+$margin-left-right: 21.3px;
+$route-schedule-date-height: 36px;
+
+/* Paddings */
+$padding-xxsmall: 0.125em;
+$padding-xsmall: 0.25em;
+$padding-small: 0.4em;
+$padding-medium: 0.7em;
+$padding-large: 1.5em;
+$padding-xlarge: 2em;
+
+/* Borders */
+$border-radius-small: 2px;
+$border-radius: 3px;
+$border-radius-bigger: 8px;
+$border-radius-disclaimer: var(--border-radius-disclaimer);
+
+/* Spinner */
+$spinner-size: 68px;
+
+/* Navbar dimensions */
+$nav-logo-height: var(--nav-logo-height);
+$nav-logo-min-height: var(--nav-logo-min-height);
+
+/* Navigator */
+$navigation-icon-size: var(--navigation-icon-size);
+$slide-up-down-animation: 0.8s cubic-bezier(0.47, 0, 0.23, 1.38) forwards;
+$slide-up-down-fade: 0.8s ease-out forwards;
+
+/* Itinerary circle lines */
+$default-dotted-line: url('images/default-dotted-line.svg');
+$indoor-dotted-line: url('images/indoor-dotted-line.svg');
+$indoor-dotted-line-horizontal: url('images/indoor-dotted-line-horizontal.svg');

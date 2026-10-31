@@ -6,7 +6,7 @@ This is a list of the existing z-index values of UI components. The z-index prop
 
 These values compete across *independent, page-level* stacking contexts (header,
 drawers, overlays, notifications, etc). They are centralized in the
-`$global-zindex` Sass map in `sass/base/_zindex.scss` and consumed via the
+`$global-zindex` Sass map in `styles/abstracts/_zindex.scss` and consumed via the
 `global-z('name')` function, instead of being hardcoded per component. This
 guarantees a single source of truth and prevents accidental collisions like the
 one described in the Snackbar row below. When adding a new global layer, add it
@@ -33,7 +33,7 @@ component's own stacking context* (e.g. layering a couple of overlapping icons).
 They don't compete with unrelated components at the page level, so they are
 kept as plain literals rather than centralized. The map/search input family
 below uses the separate `$zindex` ordered list (`index($zindex, name)` in
-`sass/base/_zindex.scss`), which is fine for that purpose since all of those
+`styles/abstracts/_zindex.scss`), which is fine for that purpose since all of those
 layers live inside the same local stacking scope.
 
 `$zindex` only lists names actually referenced via `index($zindex, name)` in

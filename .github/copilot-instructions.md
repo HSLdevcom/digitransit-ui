@@ -72,7 +72,7 @@ right one by *who consumes the code*, not just by convenience.
     `yarn run -T <bin>`. See "Dependency Classification" in `docs/Packages.md`.
   - Never bump package versions manually; the `packages-version-bump` script is run after
     a PR is approved but before merging by the author.
-- `sass/`, `static/` — global styles and static assets.
+- `styles/`, `static/` — global styles and static assets.
 - `docs/` — architecture/testing/etc. docs; **treat as potentially stale** — when a change
   affects what a `docs/*` file describes, update that doc in the same change.
 
@@ -217,5 +217,5 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   don't add runtime/UA-based polyfill services. Keep `corejs.version` in `webpack.config.js` (the
   `app/` loader, which ignores the root `babel.config.cjs`) in sync with the installed core-js
   minor.
-- SCSS under `sass/`, `app/**/*.scss`, `packages/digitransit-component/**/*.scss` — must pass
+- SCSS under `styles/`, `app/**/*.scss`, `packages/digitransit-component/**/*.scss` — must pass
   `prettier --check` and `stylelint`.
