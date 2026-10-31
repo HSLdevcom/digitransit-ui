@@ -1,3 +1,5 @@
+@use '../../sass/base' as *;
+
 .mobile {
   .scooter-page-container {
     height: calc(100% - 20rem);

@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 $zindex: base, map-container, map-fullscreen-toggle, map-buttons, mobile-drawer,
   mobile-drawer-drag-line, autosuggest-suggestion-container,
   before-scrollable-area, click-prevent-overlay, front;
@@ -36,9 +38,9 @@ $global-zindex: (
 /// Returns the z-index for a named global layer defined in $global-zindex.
 /// Throws a build-time error for unknown names to prevent silent typos.
 @function global-z($name) {
-  @if not map-has-key($global-zindex, $name) {
+  @if not map.has-key($global-zindex, $name) {
     @error "Unknown global z-index name `#{$name}`. Add it to $global-zindex in sass/base/_zindex.scss.";
   }
 
-  @return map-get($global-zindex, $name);
+  @return map.get($global-zindex, $name);
 }

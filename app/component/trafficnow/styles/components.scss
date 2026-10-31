@@ -2,6 +2,9 @@
 // TrafficNow Shared Components
 // ============================================================================
 
+@use '../../../../sass/base' as *;
+@use 'tokens';
+
 // Validity status component
 .disruption-status {
   display: inline-flex;
@@ -33,8 +36,8 @@
     border-radius: var(--radius-s);
     padding: var(--space-xs) var(--space-xs);
     text-decoration: none;
-    height: $badge-height;
-    min-width: $badge-height;
+    height: tokens.$badge-height;
+    min-width: tokens.$badge-height;
     justify-content: center;
 
     &.highlight {

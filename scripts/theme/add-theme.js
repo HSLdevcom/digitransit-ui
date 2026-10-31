@@ -23,12 +23,13 @@ if(!fs.existsSync(sassDir)) {
 }
 
 let themeContent =
-`@import '../waltti/tokens';
+`@use 'sass:color';
+@use '../waltti/tokens';
 
 @layer theme {
   :root {
-    --theme-secondary-color: #{darken(${color}, 20%)};
-    --theme-primary-dark-color: #{darken(${color}, 5%)};
+    --theme-secondary-color: #{color.adjust(${color}, $lightness: -20%)};
+    --theme-primary-dark-color: #{color.adjust(${color}, $lightness: -5%)};
     --action-color: var(--theme-primary-color);
     --standalone-btn-color: var(--theme-primary-color);
     --bus-color: var(--theme-primary-color);

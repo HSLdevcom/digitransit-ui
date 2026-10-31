@@ -1,3 +1,5 @@
+@use '../../sass/base' as *;
+
 .departure {
   // parent class for time, vehicle-number, destination
   background: $white;

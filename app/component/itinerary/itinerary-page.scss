@@ -1,4 +1,5 @@
-@import '~@hsl-fi/sass/animations/fade';
+@use '../../../sass/base' as *;
+@use '~@hsl-fi/sass/animations/fade';
 
 .desktop .summary {
   display: flex;

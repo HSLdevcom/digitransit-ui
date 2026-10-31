@@ -3,6 +3,9 @@
   These classes may be used through out the application on any DOM-element
 */
 
+@use 'sass:list';
+@use '.' as *;
+
 @media #{$small-up} {
   // https://css-tricks.com/snippets/css/momentum-scrolling-on-ios-overflow-elements/
   .momentum-scroll {
@@ -60,7 +63,7 @@ button.noborder {
 
 .before-scrollable-area {
   position: relative;
-  z-index: index($zindex, 'before-scrollable-area');
+  z-index: list.index($zindex, 'before-scrollable-area');
   height: 16px;
 
   &.scrolled {

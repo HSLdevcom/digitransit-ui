@@ -1,4 +1,4 @@
-@import '~@hsl-fi/sass/mixins/screen';
+@use '../../sass/base' as *;
 
 $tab-color: $gray-blue;
 $tab-selected-color: $black;

@@ -3,6 +3,9 @@
 // ============================================================================
 // Modal containers, overlays, sheets, and responsive modal layouts
 
+@use '../../../../sass/base' as *;
+@use 'tokens';
+
 .traffic-now {
   &__modal {
     height: auto;
@@ -17,7 +20,7 @@
       display: flex;
     }
 
-    @media screen and (max-width: $bp-tablet-small) {
+    @media screen and (max-width: tokens.$bp-tablet-small) {
       top: 0;
       bottom: 0;
       left: 0;
@@ -41,14 +44,14 @@
 
       &.sheet {
         position: relative;
-        min-height: $modal-min-height-sheet;
+        min-height: tokens.$modal-min-height-sheet;
         border-top-left-radius: var(--radius-l);
         border-top-right-radius: var(--radius-l);
       }
     }
 
-    @media screen and (max-width: $bp-tablet) and (min-width: $bp-tablet-small) {
-      width: $modal-width-tablet;
+    @media screen and (max-width: tokens.$bp-tablet) and (min-width: tokens.$bp-tablet-small) {
+      width: tokens.$modal-width-tablet;
       min-height: 0;
       max-height: 90vh;
       display: flex;
@@ -93,18 +96,18 @@
       }
     }
 
-    @media screen and (min-width: $bp-tablet) {
-      width: $modal-width-desktop;
+    @media screen and (min-width: tokens.$bp-tablet) {
+      width: tokens.$modal-width-desktop;
     }
 
     &-overlay {
       position: fixed;
-      z-index: $modal-overlay-z-index;
+      z-index: tokens.$modal-overlay-z-index;
       width: 100%;
       left: 0;
       top: 0;
       height: 100%;
-      background-color: $modal-overlay-bg;
+      background-color: tokens.$modal-overlay-bg;
       display: flex;
       flex-direction: column-reverse;
     }

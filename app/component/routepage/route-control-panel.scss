@@ -1,5 +1,7 @@
 // Styles for RouteControlPanel: navigation tab strip and its container.
 
+@use '../../../sass/base' as *;
+
 // ─── Tab container ───────────────────────────────────────────────────────────
 
 .route-page-control-panel-container {

@@ -1,5 +1,4 @@
-@import '~@hsl-fi/sass/fonts';
-@import '~@hsl-fi/sass/mixins/text';
+@use '~@hsl-fi/sass/mixins/text';
 
 $banner-major-level-color: #dc0451;
 $banner-neutral-level-color: #333;
@@ -14,18 +13,18 @@ $banner-neutral-level-color: #333;
     justify-content: center;
     align-items: center;
 
-    @include text-typography(small);
+    @include text.text-typography(small);
 
-    font-family: $font-stack;
+    font-family: text.$font-stack;
     font-weight: 500;
     color: #fff;
     margin: 0;
 
     a,
     p {
-      @include text-typography(small);
+      @include text.text-typography(small);
 
-      font-family: $font-stack;
+      font-family: text.$font-stack;
       font-weight: 500;
       color: #fff;
       margin: 0;

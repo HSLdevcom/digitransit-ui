@@ -1,4 +1,6 @@
 @charset "UTF-8";
+@use '../../../sass/base' as *;
+@use '~@hsl-fi/sass/mixins/screen';
 
 $topbar-height: 40px;
 $itinerary-tab-switch-height: 48px;
@@ -524,7 +526,7 @@ $itinerary-tab-switch-height: 48px;
       margin: 11px 10px 10px 6px;
     }
 
-    @include min-width(tablet) {
+    @include screen.min-width(tablet) {
       margin-right: 15px;
     }
 
@@ -909,7 +911,7 @@ $itinerary-tab-switch-height: 48px;
       justify-content: space-between;
       margin: 2px 10px 2px 15px;
 
-      @include min-width(tablet) {
+      @include screen.min-width(tablet) {
         margin-right: 15px;
       }
     }

@@ -1,3 +1,5 @@
+@use '../../../sass/base' as *;
+
 .departure-list .date-row {
   @include font-medium;
 

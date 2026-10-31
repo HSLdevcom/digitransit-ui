@@ -3,6 +3,8 @@
   These classes may be used through out the application on any DOM-element
 */
 
+@use '.' as *;
+
 /* COLOR */
 $mode-colors: (
   airplane: $airplane-color,

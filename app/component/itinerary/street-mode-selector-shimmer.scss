@@ -1,3 +1,5 @@
+@use '../../../sass/base' as *;
+
 @keyframes shimmerAnimation {
   from {
     background-position: 200% 0;

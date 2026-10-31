@@ -255,12 +255,6 @@ export default {
                   // BOM mid-bundle invalidates the selector that follows it.
                   charset: false,
                   quietDeps: true,
-                  silenceDeprecations: [
-                    'import',
-                    'global-builtin',
-                    'color-functions',
-                    'if-function',
-                  ],
                   ...(theme ? { functions: sassConfigFunctions(theme) } : {}),
                 };
               },

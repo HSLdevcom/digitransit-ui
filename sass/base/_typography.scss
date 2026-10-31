@@ -1,3 +1,5 @@
+@use '.' as *;
+
 @function rem($px) {
   @return #{calc($px / 16)}rem;
 }

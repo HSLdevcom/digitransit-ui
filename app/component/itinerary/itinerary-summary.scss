@@ -1,4 +1,6 @@
-@import '~@hsl-fi/sass/animations/fade';
+@use '../../../sass/base' as *;
+@use '~@hsl-fi/sass/animations/fade';
+@use '~@hsl-fi/sass/mixins/screen';
 
 .desktop .itinerary-summary-row::before {
   content: '';
@@ -449,7 +451,7 @@
                 margin-left: 2px;
                 padding-bottom: 2px;
 
-                @include min-width(tablet) {
+                @include screen.min-width(tablet) {
                   padding-bottom: 0;
                 }
               }

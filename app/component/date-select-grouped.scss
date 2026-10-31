@@ -1,3 +1,5 @@
+@use '../../sass/base' as *;
+
 .route-schedule-grouped-date-select .date-select {
   @media print {
     display: none;

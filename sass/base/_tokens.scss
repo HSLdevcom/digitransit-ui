@@ -134,6 +134,10 @@ $id-font-family: var(--id-font-family);
 $id-font-size: var(--id-font-size);
 $id-font-weight: var(--id-font-weight);
 
+/* Route page */
+$margin-left-right: 21.3px;
+$route-schedule-date-height: 36px;
+
 /* Paddings */
 $padding-xxsmall: 0.125em;
 $padding-xsmall: 0.25em;
@@ -147,6 +151,9 @@ $border-radius-small: 2px;
 $border-radius: 3px;
 $border-radius-bigger: 8px;
 $border-radius-disclaimer: var(--border-radius-disclaimer);
+
+/* Spinner */
+$spinner-size: 68px;
 
 /* Navbar dimensions */
 $nav-logo-height: var(--nav-logo-height);

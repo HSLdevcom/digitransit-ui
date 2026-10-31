@@ -1,3 +1,5 @@
+@use '../../../sass/base' as *;
+
 .street-mode-selector-weather-container {
   display: flex;
   flex-direction: column;

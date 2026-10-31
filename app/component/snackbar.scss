@@ -1,3 +1,5 @@
+@use '../../sass/base' as *;
+
 .mobile-snackbar {
   width: calc(100% - 32px);
   left: 16px;

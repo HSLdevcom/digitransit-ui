@@ -1,3 +1,6 @@
+@use '../../../sass/base' as *;
+@use '~@hsl-fi/sass/mixins/screen';
+
 .itinerary-ticket-information-purchase {
   display: flex;
   flex-direction: row;
@@ -14,7 +17,7 @@
     margin: 11px 6px 9px 15px;
     max-width: 50%;
 
-    @include min-width(tablet) {
+    @include screen.min-width(tablet) {
       margin-right: 15px;
     }
 

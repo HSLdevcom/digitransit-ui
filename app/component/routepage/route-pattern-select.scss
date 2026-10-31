@@ -1,6 +1,9 @@
 // Styles for the RoutePatternSelect dropdown component and the mobile bottom
 // sheet variant (.pattern-select-sheet / .pattern-select-sheet-backdrop).
 
+@use 'sass:list';
+@use '../../../sass/base' as *;
+
 .route-pattern-select {
   margin: 0 0 1px;
 
@@ -166,7 +169,7 @@
 
   .suggestions-container {
     background: $white;
-    z-index: index($zindex, 'autosuggest-suggestion-container');
+    z-index: list.index($zindex, 'autosuggest-suggestion-container');
     position: absolute;
 
     // top: container min-height (44px) + borders (2px) + visual gap (6px)
@@ -521,7 +524,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: index($zindex, 'click-prevent-overlay');
+  z-index: list.index($zindex, 'click-prevent-overlay');
 }
 
 .pattern-select-sheet {
@@ -532,7 +535,7 @@
   background: $white;
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
-  z-index: index($zindex, 'front');
+  z-index: list.index($zindex, 'front');
   max-height: 75vh;
   overflow-y: auto;
   animation: slideUpFromBottom 0.25s ease-out;

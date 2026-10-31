@@ -1,4 +1,4 @@
-$spinner-size: 68px;
+@use '.' as *;
 
 html {
   /* Fix font display on webkit based browsers */

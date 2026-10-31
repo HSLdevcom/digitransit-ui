@@ -18,7 +18,7 @@ After running the command, the created skeleton files can be edited further.
 ## Theme styles
 
 All themes share one stylesheet, `sass/_main.scss`. A theme only changes the values of CSS custom
-properties, in `sass/themes/<theme>/tokens.scss`. That file starts by importing its parent
+properties, in `sass/themes/<theme>/tokens.scss`. That file starts with a `@use` of its parent
 (`../waltti/tokens` or `../default/tokens`) and is linked before the stylesheet.
 
 The cascade order is declared once, at the top of `sass/themes/default/tokens.scss`:
@@ -34,6 +34,9 @@ Later layers win regardless of specificity, and unlayered CSS beats every layer:
 - `tokens`: the default values from `@hsl-fi/design-system-core`.
 - `theme`: the values in each theme's `tokens.scss`.
 - Unlayered: the app's own CSS. Keep `!important` out of layers, because it inverts their order.
+
+Stylesheets get shared variables and mixins with `@use '<path to sass/base>' as *;`. `sass/base/_index.scss`
+forwards them and must not emit CSS. Stylesheets that do emit CSS are listed in order in `sass/_main.scss`.
 
 To make a Sass variable themeable, define it in `sass/themes/default/tokens.scss` and set it to
 `var(--name)` in `sass/base/_tokens.scss`. Sass color functions such as `darken()` and data URIs

@@ -1,6 +1,9 @@
 /*
   TOGGLE BUTTON
 */
+
+@use '../../sass/base' as *;
+
 $btn-highlight-opacity: 0.9;
 $btn-inactive-background-color: $dark-gray;
 $btn-bus-active-background-color: $bus-color;

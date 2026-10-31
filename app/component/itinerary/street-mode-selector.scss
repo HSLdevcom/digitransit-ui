@@ -1,3 +1,5 @@
+@use '../../../sass/base' as *;
+
 .street-mode-selector-container {
   background-color: $selector-background-color;
   border-top: 1px solid #ddd;

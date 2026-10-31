@@ -3,6 +3,9 @@
 // ============================================================================
 // Root container and flex structure, header, body layout, separators, and filters
 
+@use '../../../../sass/base' as *;
+@use 'tokens';
+
 .traffic-now {
   display: flex;
   flex-direction: column;
@@ -84,8 +87,8 @@
     }
 
     &--mobile {
-      padding: $padding-mobile-small-y $padding-mobile-small-x
-        $padding-mobile-small-y $padding-mobile-small-x;
+      padding: tokens.$padding-mobile-small-y tokens.$padding-mobile-small-x
+        tokens.$padding-mobile-small-y tokens.$padding-mobile-small-x;
       flex: 0 0 100%;
     }
   }
@@ -119,8 +122,8 @@
         flex: 1;
         display: flex;
         flex-direction: column;
-        padding: var(--space-xl) $padding-horizontal-gutter var(--space-xl)
-          var(--space-xl);
+        padding: var(--space-xl) tokens.$padding-horizontal-gutter
+          var(--space-xl) var(--space-xl);
         gap: var(--space-s);
       }
 
@@ -137,7 +140,7 @@
       &-list {
         display: flex;
         flex-direction: column;
-        gap: $gap-validity-icon;
+        gap: tokens.$gap-validity-icon;
       }
 
       &-empty {
@@ -246,7 +249,7 @@
     }
 
     &-selected-feed-placeholder {
-      color: $placeholder-color;
+      color: tokens.$placeholder-color;
     }
 
     &-selected-feed {
@@ -318,7 +321,7 @@
       padding: var(--space-m);
       position: sticky;
       top: 0;
-      z-index: $z-index-sticky-button;
+      z-index: tokens.$z-index-sticky-button;
       border-bottom: 1px solid $light-gray;
 
       &.scrolled {
@@ -343,7 +346,7 @@
 
     input#{&}-entity-search--input {
       &::placeholder {
-        color: $placeholder-color;
+        color: tokens.$placeholder-color;
       }
     }
 
@@ -353,14 +356,14 @@
 
         .toggle {
           display: flex;
-          height: $form-input-size;
+          height: tokens.$form-input-size;
 
           .slider {
-            width: $toggle-slider-width;
+            width: tokens.$toggle-slider-width;
 
             &::before {
-              height: $toggle-slider-thumb-size;
-              width: $toggle-slider-thumb-size;
+              height: tokens.$toggle-slider-thumb-size;
+              width: tokens.$toggle-slider-thumb-size;
             }
           }
         }
@@ -391,8 +394,8 @@
       input[type='radio'],
       input[type='checkbox'] {
         accent-color: $theme-primary-color;
-        width: $form-input-size;
-        height: $form-input-size;
+        width: tokens.$form-input-size;
+        height: tokens.$form-input-size;
         margin: 0;
       }
     }

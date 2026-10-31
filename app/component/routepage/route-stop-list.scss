@@ -1,6 +1,9 @@
 // Styles for the route stop list, individual stop rows, and the
 // location-details layout used for each stop item.
 
+@use '../../../sass/base' as *;
+@use '~@hsl-fi/sass/mixins/screen';
+
 // Shared address text style — used by .route-stop-address and .route-stop-address-row.
 %route-address-text {
   font-size: $font-size-xsmall;
@@ -77,7 +80,7 @@
     z-index: 4;
     left: 12px;
 
-    @include min-width(tablet) {
+    @include screen.min-width(tablet) {
       // Fixed 45px: aligns with the wider left gutter on tablet+
       left: 45px;
     }
@@ -87,7 +90,7 @@
       // -44px: vehicle halfway above the stop row at arrival
       top: -44px;
 
-      @include min-width(tablet) {
+      @include screen.min-width(tablet) {
         // -49px: slightly higher on tablet due to taller row padding
         top: -49px;
       }
@@ -104,7 +107,7 @@
       // 16px: vehicle below the stop row after departure
       top: 16px;
 
-      @include min-width(tablet) {
+      @include screen.min-width(tablet) {
         top: 12px;
       }
     }
@@ -141,7 +144,7 @@
       top: 11px;
       left: 4px;
 
-      @include min-width(tablet) {
+      @include screen.min-width(tablet) {
         left: 4.25px;
       }
     }

@@ -174,8 +174,8 @@ below.
   render ("Element type is invalid"); `javascript/auto`'s lenient interop
   unwraps it correctly, same as the rest of the app.
 - **`.scss`** — `sass-loader` → `css-loader` →
-  `style-loader` (dev) / `MiniCssExtractPlugin.loader` (prod). Silences
-  deprecation warnings for constructs still in use (`@import`, global built-ins, color functions, `if()`).
+  `style-loader` (dev) / `MiniCssExtractPlugin.loader` (prod). `quietDeps` hides
+  the `@import` deprecation warnings from `@hsl-fi/sass`, which still uses `@import` internally.
   `charset: false` stops Sass from prefixing non-ASCII output with a BOM,
   which would land mid-bundle once CSS modules are concatenated and
   invalidate the selector after it.

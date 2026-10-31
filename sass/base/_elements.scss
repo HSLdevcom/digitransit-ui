@@ -1,3 +1,6 @@
+@use 'sass:list';
+@use '.' as *;
+
 $border-radius-rounded: 30px;
 
 /* Card */
@@ -177,7 +180,7 @@ $border-radius-rounded: 30px;
   right: 10px;
   font-size: 17px;
   border-radius: $border-radius;
-  z-index: index($zindex, map-fullscreen-toggle);
+  z-index: list.index($zindex, map-fullscreen-toggle);
 
   .icon {
     margin: 0.5em 0.5em 0 0.5em;

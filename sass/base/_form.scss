@@ -1,3 +1,5 @@
+@use '.' as *;
+
 $form-input-border-radius: $border-radius;
 
 input {
@@ -14,13 +16,4 @@ input[type='time']::-webkit-clear-button {
 // Hide up and down buttons from time element
 input[type='time']::-webkit-inner-spin-button {
   display: none;
-}
-
-/* Use to set default focus outline for input elements where it has been overridden elsewhere */
-@mixin default-focus-outline {
-  /* First apply outline that is used in Edge and Firefox */
-  outline: 1px dotted #212121;
-
-  /* Then override outline for webkit browsers like Chrome, this has no effect on other browsers */
-  outline: 5px auto -webkit-focus-ring-color; /* stylelint-disable-line declaration-block-no-duplicate-properties */
 }

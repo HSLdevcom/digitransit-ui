@@ -3,6 +3,9 @@
 // ============================================================================
 // Traffic now navigation link with icon, description, and caret
 
+@use '../../../../sass/base' as *;
+@use 'tokens';
+
 .traffic-now__link {
   text-decoration: none;
   color: inherit;
@@ -14,7 +17,7 @@
   justify-content: space-between;
 
   &__caret {
-    transition: transform $transition-short;
+    transition: transform tokens.$transition-short;
   }
 
   &:hover &__caret {
@@ -36,7 +39,7 @@
       font-style: normal;
 
       h2 {
-        @media (min-width: $bp-typography-tablet) {
+        @media (min-width: tokens.$bp-typography-tablet) {
           font-size: 1.25em;
         }
 

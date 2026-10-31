@@ -1,3 +1,6 @@
+@use '../../../sass/base' as *;
+@use '~@hsl-fi/sass/mixins/screen';
+
 .itinerary-profile-container {
   display: flex;
   align-items: center;
@@ -32,7 +35,7 @@
   button {
     display: none;
 
-    @include min-width(tablet) {
+    @include screen.min-width(tablet) {
       display: flex;
     }
   }

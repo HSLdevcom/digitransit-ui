@@ -2,6 +2,9 @@
 // TrafficNow Disruption Details
 // ============================================================================
 
+@use '../../../../sass/base' as *;
+@use 'tokens';
+
 .traffic-now {
   &__body {
     .disruption-details {
@@ -83,7 +86,7 @@
         align-items: center;
         justify-content: center;
         padding: var(--space-xxl);
-        color: $placeholder-color;
+        color: tokens.$placeholder-color;
       }
     }
   }

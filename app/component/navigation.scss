@@ -1,3 +1,6 @@
+@use '../../sass/base' as *;
+@use '~@hsl-fi/sass/mixins/screen';
+
 /* top bar */
 $topbar-height: 40px;
 
@@ -161,7 +164,7 @@ $content-background-color: $background-color;
   max-width: 4.5rem;
   font-size: 1rem;
 
-  @include min-width(tablet) {
+  @include screen.min-width(tablet) {
     font-size: $font-size-normal;
   }
 }
@@ -183,7 +186,7 @@ $content-background-color: $background-color;
     right: -25px;
     opacity: 1;
 
-    @include min-width(tablet) {
+    @include screen.min-width(tablet) {
       right: 0;
       top: 61px;
     }
@@ -221,7 +224,7 @@ $content-background-color: $background-color;
   .usermenu-list-item:not(:last-child) > a {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 
-    @include min-width(tablet) {
+    @include screen.min-width(tablet) {
       border-bottom: none;
     }
   }

@@ -3,6 +3,9 @@
 // ============================================================================
 // Disruption cards, canceled trips cards, and related card container styles
 
+@use '../../../../sass/base' as *;
+@use 'tokens';
+
 .traffic-now {
   &__body {
     .detail-view {
@@ -47,7 +50,7 @@
         padding: 0 var(--space-m);
         background-color: $white;
 
-        @media screen and (max-width: $bp-tablet) {
+        @media screen and (max-width: tokens.$bp-tablet) {
           padding: var(--space-m);
         }
       }
@@ -59,7 +62,7 @@
         flex-direction: column;
         gap: var(--space-xs);
 
-        @media screen and (max-width: $bp-tablet) {
+        @media screen and (max-width: tokens.$bp-tablet) {
           gap: var(--space-s);
         }
       }
@@ -97,7 +100,7 @@
         width: auto;
         max-width: 100%;
 
-        @media screen and (max-width: $bp-tablet) {
+        @media screen and (max-width: tokens.$bp-tablet) {
           padding: 0;
           gap: var(--space-s);
           width: 100%;
@@ -110,7 +113,7 @@
           width: 100%;
           gap: var(--space-m);
 
-          @media screen and (max-width: $bp-tablet) {
+          @media screen and (max-width: tokens.$bp-tablet) {
             padding: var(--space-fixed-m);
             background-color: $white;
             border-top: 1px solid $light-gray;
@@ -118,7 +121,7 @@
           }
 
           &:first-child {
-            @media screen and (max-width: $bp-tablet) {
+            @media screen and (max-width: tokens.$bp-tablet) {
               border-top: 0;
             }
           }
@@ -129,7 +132,7 @@
             justify-content: space-between;
             align-items: center;
 
-            @media screen and (max-width: $bp-tablet) {
+            @media screen and (max-width: tokens.$bp-tablet) {
               width: 100%;
             }
           }
@@ -144,7 +147,7 @@
               gap: var(--space-fixed-s);
               margin-bottom: var(--space-s);
 
-              @media screen and (max-width: $bp-tablet) {
+              @media screen and (max-width: tokens.$bp-tablet) {
                 > .badge-container,
                 > .badge-container .entity-name,
                 > .badge-container .entity-name a {
@@ -167,7 +170,7 @@
               }
             }
 
-            @media screen and (max-width: $bp-tablet) {
+            @media screen and (max-width: tokens.$bp-tablet) {
               width: 100%;
             }
           }
@@ -222,11 +225,11 @@
 
       &:hover &__icon {
         transform: translateX(4px);
-        transition: transform $transition-short;
+        transition: transform tokens.$transition-short;
 
         &--inverted {
           transform: rotate(180deg) translateY(4px);
-          transition: transform $transition-short;
+          transition: transform tokens.$transition-short;
         }
       }
 
@@ -261,11 +264,12 @@
         opacity: 0;
         overflow: hidden;
         transition:
-          max-height $transition-medium $transition-easing-expansion,
-          opacity $transition-short ease-in $transition-short;
+          max-height tokens.$transition-medium
+            tokens.$transition-easing-expansion,
+          opacity tokens.$transition-short ease-in tokens.$transition-short;
 
         &--open {
-          max-height: $card-body-max-height-expanded; // Used for smooth expand/collapse animation
+          max-height: tokens.$card-body-max-height-expanded; // Used for smooth expand/collapse animation
           opacity: 1;
         }
       }
