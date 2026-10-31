@@ -127,7 +127,7 @@
     align-items: flex-start;
     margin-top: 4px;
     padding: 6px 10px 2px 4px;
-    background: $infobox-color-generic-blue;
+    background: $infobox-background-color;
     border-radius: 5px;
     font-weight: $font-weight-book;
     font-size: 13px;
@@ -504,7 +504,7 @@
         .leg-duration-container {
           .leg-duration {
             font-size: 13px;
-            color: $black;
+            color: $dark-gray;
           }
 
           &.citybike {

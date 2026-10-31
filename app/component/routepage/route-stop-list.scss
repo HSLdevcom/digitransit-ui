@@ -204,7 +204,7 @@
             align-items: center;
             justify-content: center;
             background: $background-color-lighter;
-            color: $black;
+            color: $dark-gray;
             width: 24px;
             height: 17px;
             border-radius: 4px;
@@ -342,11 +342,11 @@
 
 .drop-off-container {
   margin-top: 7px;
-  background-color: $infobox-color-generic-blue;
+  background-color: $infobox-background-color;
   height: 24px;
   width: fit-content;
   border-radius: 5px;
-  color: $black;
+  color: $dark-gray;
   font-size: 0.8125em;
   font-weight: $font-weight-book;
 

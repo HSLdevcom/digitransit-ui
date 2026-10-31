@@ -297,7 +297,7 @@ div.leaflet-marker-icon.map-indoor-step-marker {
 }
 
 div.leaflet-marker-icon.via {
-  color: $black;
+  color: $dark-gray;
 }
 
 div.leaflet-marker-icon.vehicle-icon {
@@ -826,7 +826,7 @@ div.origin-popup {
     height: 1.5em;
     width: 200px;
     text-transform: none;
-    color: $black;
+    color: $dark-gray;
     font-size: $font-size-small;
     overflow: hidden;
   }

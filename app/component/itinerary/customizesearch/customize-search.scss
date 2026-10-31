@@ -92,7 +92,7 @@
   display: flex;
   flex-direction: column;
   background: #fff;
-  color: $black;
+  color: $dark-gray;
   position: relative;
   font-size: $font-size-normal;
 
@@ -123,7 +123,7 @@
   .mode-label-upper {
     font-size: $font-size-normal;
     font-weight: $font-weight-medium;
-    color: $black;
+    color: $dark-gray;
   }
 
   .mode-label-upper {
@@ -350,7 +350,7 @@
     gap: 16px;
     margin-top: 8px;
     padding: 16px 32px 16px 24px;
-    background-color: $infobox-color-generic-blue;
+    background-color: $infobox-background-color;
     border: solid 1px #d9eaf5;
     border-radius: 16px;
 
@@ -368,7 +368,7 @@
       .beta-label {
         font-size: $font-size-xxsmall;
         font-weight: $font-weight-medium;
-        color: $black;
+        color: $dark-gray;
         flex-direction: row;
         width: 58px;
         height: 24px;

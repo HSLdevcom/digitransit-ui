@@ -92,7 +92,7 @@
     align-items: flex-start;
     align-self: stretch;
     padding-top: 8px;
-    color: $black;
+    color: $dark-gray;
 
     .button-label {
       color: $white;
@@ -118,7 +118,7 @@
       color: $theme-primary-color;
 
       &:hover {
-        color: $black;
+        color: $dark-gray;
       }
     }
   }

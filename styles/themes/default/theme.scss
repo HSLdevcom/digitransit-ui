@@ -12,7 +12,7 @@
     --taxi-external-color: #{config('colors.taxi')};
     --banner-disruption-color: #{config('colors.caution')};
     --airplane-color: #{config('colors.airplane')};
-    --gray-blue: #78909c;
+    --info-icon-color: #78909c;
     --background-color-lighter: #f2f5f7;
     --selector-background-color: #f4f4f4;
     --button-hover-color: #f4f4f4;
@@ -20,8 +20,8 @@
     --action-color: var(--theme-primary-color);
     --current-location-color: var(--theme-primary-color);
     --desktop-title-arrow-icon-color: var(--theme-secondary-color);
-    --infobox-color-generic-blue: #ebf6fd;
-    --infobox-border-color: var(--infobox-color-generic-blue);
+    --infobox-background-color: #ebf6fd;
+    --infobox-border-color: var(--infobox-background-color);
     --info-icon-blue: #0074be;
     --info-background-color: #e5f1f9;
     --standalone-btn-color: var(--action-color);

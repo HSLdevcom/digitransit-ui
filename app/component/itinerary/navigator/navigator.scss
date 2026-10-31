@@ -73,7 +73,7 @@
   svg.mode {
     width: 32px;
     height: 32px;
-    color: $black;
+    color: $dark-gray;
   }
 }
 
@@ -240,7 +240,7 @@
 .navi-top-card {
   border-radius: var(--radius-m);
   min-height: 70px;
-  color: $black;
+  color: $dark-gray;
   background-color: white;
   display: flex;
   align-items: center;
@@ -274,7 +274,7 @@
     .content {
       display: flex;
       flex-direction: row;
-      color: $black;
+      color: $dark-gray;
       justify-content: center;
 
       svg.mode {
@@ -700,7 +700,7 @@
     font-size: $font-size-xsmall;
     font-weight: $font-weight-book;
     margin-top: 5px;
-    color: $black;
+    color: $dark-gray;
     line-height: 1.4;
 
     .icon-container {
@@ -724,7 +724,7 @@
     }
 
     &.info {
-      background-color: $infobox-color-generic-blue;
+      background-color: $infobox-background-color;
     }
 
     &.warning {
@@ -820,7 +820,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    color: $black;
+    color: $dark-gray;
 
     .navi-daytime {
       font-size: $font-size-xsmall;

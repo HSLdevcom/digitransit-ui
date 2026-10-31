@@ -69,7 +69,7 @@
 
   .near-you-no-stops {
     width: 100%;
-    background-color: $infobox-color-generic-blue;
+    background-color: $infobox-background-color;
     font-weight: $font-weight-book;
     font-size: 0.9375rem;
     line-height: 1.2;
@@ -282,7 +282,7 @@
 
   .stop-near-you-container-with-hover {
     &:hover {
-      border-color: $black;
+      border-color: $dark-gray;
     }
   }
 

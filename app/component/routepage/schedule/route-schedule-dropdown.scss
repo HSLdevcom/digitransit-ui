@@ -47,7 +47,7 @@
 
     &:focus-within {
       // react-select sets `outline: 0 !important` on its control.
-      outline: 2px auto $black !important;
+      outline: 2px auto $dark-gray !important;
     }
   }
 
@@ -145,7 +145,7 @@
     font-size: 15px;
     line-height: 18px;
     letter-spacing: -0.03em;
-    color: $black;
+    color: $dark-gray;
     white-space: nowrap;
 
     &:not(:last-child) {

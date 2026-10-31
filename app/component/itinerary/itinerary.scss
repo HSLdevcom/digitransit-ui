@@ -162,7 +162,7 @@
       .accent {
         @include font-medium;
 
-        color: $black;
+        color: $dark-gray;
       }
 
       .ticket-info {
@@ -397,7 +397,7 @@
     display: flex;
     flex-direction: column;
     margin-left: 0.7em;
-    color: $black;
+    color: $dark-gray;
 
     .disclaimer-header {
       display: flex;
@@ -701,7 +701,7 @@
 .citybike-duration-infobox {
   display: flex;
   height: auto;
-  background: $infobox-color-generic-blue;
+  background: $infobox-background-color;
   border-radius: 5px;
   margin: 15px;
   padding: 15px;
@@ -932,7 +932,7 @@
       .ticket-identifier {
         @include font-medium;
 
-        color: $black;
+        color: $dark-gray;
         padding-right: 6px;
       }
 
@@ -1650,7 +1650,7 @@
     position: relative;
     font-size: 1em;
     text-align: center;
-    color: $black;
+    color: $dark-gray;
     margin-bottom: 0.5em;
     flex-grow: 0;
 
@@ -1760,7 +1760,7 @@
     .itinerary-time-column-time {
       margin-bottom: 0.3em;
       margin-left: calc(16px - 1rem);
-      color: $black;
+      color: $dark-gray;
       text-decoration: none;
       font-size: 0.9375rem;
 
@@ -2055,7 +2055,7 @@
       display: flex;
       flex-direction: row;
       white-space: normal;
-      color: $black;
+      color: $dark-gray;
 
       @include font-medium;
 
@@ -2170,7 +2170,7 @@
       background-color: $background-color-lighter;
       border-radius: 5px;
       margin-bottom: 8px;
-      color: $black;
+      color: $dark-gray;
 
       .link-to-stop {
         right: 10px;
@@ -2829,8 +2829,8 @@ span.itinerary-stop-code {
   &.selected {
     width: 8px;
     height: 8px;
-    border: solid 2px $black;
-    background-color: $black;
+    border: solid 2px $dark-gray;
+    background-color: $dark-gray;
   }
 
   &.decreasing {
@@ -2935,7 +2935,7 @@ span.itinerary-stop-code {
 }
 
 .icon.via {
-  color: $black;
+  color: $dark-gray;
 }
 
 .itinerary-time-column.via-time-column {
@@ -3096,7 +3096,7 @@ span.itinerary-stop-code {
 }
 
 .alternative-vehicle-info {
-  background-color: $infobox-color-generic-blue;
+  background-color: $infobox-background-color;
   margin-top: 30px;
   border: 1px solid $infobox-border-color;
 
