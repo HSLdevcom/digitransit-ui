@@ -66,5 +66,5 @@
 @use '../app/component/popover';
 @use '../app/component/animations';
 @use '../app/component/disclaimer';
-@import '~leaflet/dist/leaflet.css' layer(vendor);
+@import 'leaflet/dist/leaflet.css' layer(vendor);
 @import '@hsl-fi/design-system-core/css/styles.css' layer(tokens);

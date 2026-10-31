@@ -1,6 +1,6 @@
 @charset "UTF-8";
 @use 'abstracts' as *;
-@use '~@hsl-fi/sass/mixins/screen';
+@use '@hsl-fi/sass/mixins/screen';
 
 @mixin getCircleSvg($stroke, $fill) {
   svg {

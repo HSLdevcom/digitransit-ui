@@ -2,7 +2,7 @@
 // location-details layout used for each stop item.
 
 @use 'abstracts' as *;
-@use '~@hsl-fi/sass/mixins/screen';
+@use '@hsl-fi/sass/mixins/screen';
 
 // Address text style for .route-stop-address-row.
 %route-address-text {

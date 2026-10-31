@@ -2,7 +2,7 @@
 // and print-specific overrides.
 
 @use 'abstracts' as *;
-@use '~@hsl-fi/sass/mixins/screen';
+@use '@hsl-fi/sass/mixins/screen';
 
 // ─── Timetable tabpanel (flex column root for the schedule view) ─────────────
 

@@ -1,6 +1,6 @@
 @use 'abstracts' as *;
-@use '~@hsl-fi/sass/animations/fade';
-@use '~@hsl-fi/sass/mixins/screen';
+@use '@hsl-fi/sass/animations/fade';
+@use '@hsl-fi/sass/mixins/screen';
 
 .desktop .itinerary-summary-row::before {
   content: '';
