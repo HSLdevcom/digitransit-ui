@@ -61,8 +61,8 @@ Links:
 * https://graphql.org/
 
 # CSS (or styles in general)
-  - Modular CSS
-    - how to implement is still a good question
+See [Styles](Styles.md) for the current setup. The direction:
+  - CSS Modules for new components
     - Prefer flexbox based layouts if it simplifies the layouting process
     - Containers read responsive layout state through `useBreakpoint()`; the client provider observes viewport width changes through a throttled resize listener
 

@@ -58,7 +58,7 @@ and output settings.
   publicPath.js` overrides at runtime from `window.ASSET_URL` (the actual
   CDN base path) before anything else runs. It does **not** reach `url()`
   references baked into compiled CSS (background images, e.g. the
-  `.scss`-defined spinner/dotted-line assets) — those are static text,
+  `.scss`-defined dotted-line assets) — those are static text,
   resolved by the browser directly against the CSS file's own URL, with no
   JS involved. `MiniCssExtractPlugin.loader`'s own `publicPath: 'auto'`
   option (set on every `.scss`/`.css` rule below) is what fixes *that*
@@ -178,7 +178,8 @@ below.
   the `@import` deprecation warnings from `@hsl-fi/sass`, which still uses `@import` internally.
   `charset: false` stops Sass from prefixing non-ASCII output with a BOM,
   which would land mid-bundle once CSS modules are concatenated and
-  invalidate the selector after it.
+  invalidate the selector after it. `*.module.scss` files are CSS Modules with
+  a default export and class names as written, matching the packages.
 - There is no PostCSS step: vendor prefixing happens in the Lightning CSS
   minimizer (see "Optimization"), from the same `browserslist` targets.
   `postcss-flexbugs-fixes` was dropped with it: it only worked around

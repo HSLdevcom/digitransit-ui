@@ -1,91 +1,76 @@
 # Custom themes and configurations
 
-Appearance and behavior of digitransit-ui can be customized by:
-- Creating a custom config file to a path `server/configs/config.<theme>.js`
-- Optionally adding CSS custom properties to `styles/themes/<theme>/theme.scss`
-- Optionally adding theme-owned static assets to `static/assets/<theme>` folder
-- If dynamic theme mapping to the new theme is desired, the new theme must be added to the
-theme map found in `server/configs/config.default.js`
+A theme is a set of files named after its `CONFIG` value. The server config is the only one required.
 
-Check the existing themes such as 'oulu' for details. There is a npm script for initializing all three steps above
-with a single command:
+## Where to configure what
 
-- `npm run add-theme <name> '#RRGGBB' <optional navbar logo>`
+| What | Where |
+| --- | --- |
+| Features, behavior, URLs, texts | `server/configs/config.<theme>.js` |
+| Colors used by both JS and CSS | `colors` in the config, read in CSS with `config('colors.x')` |
+| Colors, fonts and sizes used only by CSS | `styles/themes/<theme>/theme.scss` |
+| Logos, favicons and illustrations bundled into the client | `app/assets/images/<theme>/` |
+| Icons | `app/assets/icons/<theme>/<id>.svg` |
+| Files served as is, e.g. share images and GeoJSON | `static/assets/<theme>/` |
+| Host names that select a theme | `themeMap` in `server/configs/config.default.js` |
 
-After running the command, the created skeleton files can be edited further.
+For how stylesheets are organized, see [Styles](Styles.md).
 
+## Adding a theme
 
-## Theme styles
-
-All themes share one stylesheet, `styles/main.scss`. A theme only changes the values of CSS custom
-properties, in `styles/themes/<theme>/theme.scss`. That file starts with a `@use` of its parent
-(`../waltti/theme` or `../default/theme`) and is linked before the stylesheet.
-
-The cascade order is declared once, at the top of `styles/themes/default/theme.scss`:
-
-```css
-@layer reset, vendor, tokens, theme;
+```
+yarn add-theme <name> '#RRGGBB' <optional navbar logo>
 ```
 
-Later layers win regardless of specificity, and unlayered CSS beats every layer:
+This creates the config and `theme.scss`, and adds the host mapping. Edit the files from there, using an
+existing theme such as `oulu` as an example.
 
-- `reset`: element defaults (`styles/base/_reset.scss`), the weakest styles, so anything can override them.
-- `vendor`: third-party CSS, currently Leaflet.
-- `tokens`: the default values from `@hsl-fi/design-system-core`.
-- `theme`: the values in each theme's `theme.scss`.
-- Unlayered: the app's own CSS. Keep `!important` out of layers, because it inverts their order.
+## Theme values
 
-Stylesheets get shared variables and mixins with `@use 'abstracts' as *;`, resolved through `loadPaths` in `webpack.config.js`. `styles/abstracts/_index.scss`
-forwards them and must not emit CSS. Stylesheets that do emit CSS are listed in order in `styles/main.scss`.
+All themes share one stylesheet, and a theme only changes CSS custom properties. `theme.scss` starts with
+a `@use` of its parent, `../waltti/theme` or `../default/theme`, and sets only what differs:
 
-To make a Sass variable themeable, define it in `styles/themes/default/theme.scss` and set it to
-`var(--name)` in `styles/abstracts/_variables.scss`. Sass color functions such as `darken()` and data URIs
-can't take `var()`, so themed colors need a resolved token or a `mask`.
+```scss
+@use '../waltti/theme';
 
-The colors JS also needs come from the config, e.g. `config('colors.primary')`. The Sass function is
-in `scripts/build/sassConfigFunctions.js`, and a missing key fails the build.
+@layer theme {
+  :root {
+    --theme-secondary-color: #724f9f;
+  }
+}
+```
 
+To add a themeable value:
 
-## Theme-owned static assets
+1. Define its default in `styles/themes/default/theme.scss`, using the value most themes want.
+2. Add `$name: var(--name);` to `styles/abstracts/_variables.scss`.
+3. Override it only in the themes that differ.
 
-Files a single deployment owns and the server hands out as-is — the social-media share image
-(`socialMedia.image.url`) and any locally hosted GeoJSON layers — live in `static/assets/<theme>/`,
-where the directory name is the exact `CONFIG` value. They are served from `/assets/<theme>/...`
-and are copied into the served `_static/` directory by `scripts/build/copyStatic.js`.
-A theme with no share image of its own inherits `assets/default/social-share.png` from
-`config.default.js`. Images that are bundled into the client instead of served per request —
-logos, favicons and illustrations — live in `app/assets/images/<theme>/`, which follows the same
-per-theme naming, with `default/` holding the fallbacks. A config names such an image by its path
-relative to that directory (e.g. `logo: 'hsl/reittiopas-logo.svg'`), which `app/assets/assetUrl.js`
-resolves to the built URL.
-Icons are per-theme too: `app/assets/icons/default/` holds every icon as `<id>.svg`, and a theme
-overrides or adds icons by placing files with the same naming in `app/assets/icons/<theme>/`.
-`scripts/build/buildSprites.js` builds each theme's sprite sheet from these; a config selects one
-with `sprites: 'assets/svg-sprite.<theme>.svg'` (see `docs/Webpack.md`).
-`test/unit/server/configs/staticAssets.test.js` verifies that each config's asset urls point at
-existing files and that no file under `static/assets/` is unreferenced.
+Colors JS also needs belong in the config, so they exist in one place: the default theme reads them
+with `config('colors.primary')`. The function is in `scripts/build/sassConfigFunctions.js`, and a missing
+key fails the build.
 
+`--color-accent-primary-*` override `@hsl-fi` design system tokens, which color its buttons and links.
 
-## Dynamic theme mapping
+## Theme assets
 
-The UI can change the theme per request. This happens by defining how host names are mapped to theme names. See config.default.js
-for details.
+- **Served files:** `static/assets/<theme>/`, using the exact `CONFIG` value as the directory name. They're
+  served from `/assets/<theme>/...` after `scripts/build/copyStatic.js` copies them to `_static/`. A theme
+  without a share image inherits `assets/default/social-share.png`.
+- **Bundled images:** `app/assets/images/<theme>/`, with fallbacks in `default/`. A config names one
+  relative to that directory, e.g. `logo: 'hsl/reittiopas-logo.svg'`, and `app/assets/assetUrl.js` resolves
+  it to the built URL.
+- **Icons:** `app/assets/icons/default/` holds every icon, and a theme overrides or adds icons with files
+  of the same name. `scripts/build/buildSprites.js` builds each sprite sheet, and a config selects one with
+  `sprites: 'assets/svg-sprite.<theme>.svg'` (see [Webpack](Webpack.md)).
 
+`test/unit/server/configs/staticAssets.test.js` checks that config asset URLs point at existing files and
+that nothing in `static/assets/` is unreferenced.
 
-## Themes in development mode
+## Selecting a theme
 
-Dynamic theme mapping is not available when the UI server is launched as 'npm run dev'. The desired theme can de selected as:
-- `CONFIG=<theme> npm run dev`
-
-
-## Themes in production mode
-
-Dynamic theme mapping is available by default in production mode i.e. when the app is launched using `npm start` command. A single
-selected theme can be forced by setting the `CONFIG` env. variable:
-- `CONFIG=<theme> npm start`
-
-
-## Building the production version
-
-The build command `npm run build` collects all existing themes found from `server/configs` folder.
-
+- **Production:** `yarn start` picks the theme per request from the host name, using `themeMap`. Set
+  `CONFIG=<theme> yarn start` to force one.
+- **Development:** `CONFIG=<theme> yarn dev`. Host mapping isn't available.
+- **Build:** `yarn build` builds every theme in `server/configs/`. With `CONFIG` set, it only builds that
+  theme and `default`.
