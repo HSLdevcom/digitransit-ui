@@ -1,7 +1,4 @@
 $form-input-border-radius: $border-radius;
-$form-input-postfix-search-color: $white;
-$form-input-postfix-search-fill-color: $highlight-color;
-$form-input-postfix-search-fill-color-difference: 5%;
 
 input {
   border-radius: $form-input-border-radius;
@@ -16,23 +13,6 @@ span.postfix {
 span.prefix {
   border-top-left-radius: $border-radius !important;
   border-bottom-left-radius: $border-radius !important;
-}
-
-.postfix.search {
-  color: $form-input-postfix-search-color;
-  background: linear-gradient(
-    to bottom,
-    lighten($form-input-postfix-search-fill-color, 15%) 1px,
-    lighten(
-        $form-input-postfix-search-fill-color,
-        $form-input-postfix-search-fill-color-difference
-      )
-      1px,
-    darken(
-      $form-input-postfix-search-fill-color,
-      $form-input-postfix-search-fill-color-difference
-    )
-  );
 }
 
 // Hide X-button from time inputs

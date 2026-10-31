@@ -1,4 +1,4 @@
-/* Tokens every theme starts from. Compiled per theme, so config() reads that theme's config. */
+/* Values of the themed variables in sass/base/_tokens.scss. Compiled per theme, so config() reads that theme's config. */
 @layer vendor, tokens, theme, base;
 
 @layer theme {
@@ -30,6 +30,7 @@
     --standalone-btn-active-color: rgb(182, 193, 199);
     --viewpoint-marker-color: var(--theme-primary-color);
     --link-color: var(--theme-primary-color);
+    --link-button-color: var(--link-color);
     --swap-button-icon-color: #333;
     --slider-warning-color: #fbb800;
     --slider-ok-color: #4ea700;
@@ -52,6 +53,7 @@
     --taxi-icon-width: 24px;
     --taxi-icon-summary-width: 24px;
     --font-family: 'Roboto', arial, georgia, serif;
+    --font-weight-book: 400;
     --font-weight-medium: 700;
     --font-weight-semibold: 600;
     --letter-spacing: 0;
@@ -65,6 +67,8 @@
     --nav-logo-height: 100%;
     --nav-logo-min-height: 40px;
     --navigation-icon-size: 40px;
+    --spinner-color: #009fe3;
+    --message-bar-border: none;
     --top-navigation-title-color: #fff;
     --top-navigation-icon-color: #fff;
     --theme-primary-dark-color: rgb(0, 12.415540540540455, 122.50000000000001);

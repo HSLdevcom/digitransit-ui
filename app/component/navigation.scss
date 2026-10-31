@@ -1,28 +1,5 @@
-@use 'sass:math';
-
-@function navbar-icon-color($color) {
-  @if $nav-content-color {
-    // if defined in theme, return nav-content-color
-    @return $nav-content-color;
-  }
-
-  $background-color-brightness: (red($color) * 299) + (green($color) * 587) +
-    math.div(blue($color) * 114, 1000);
-  $light-color-lightness: round(
-    (red(#fff) * 299) + (green(#fff) * 587) + math.div(blue(#fff) * 114, 1000)
-  );
-
-  @if abs($background-color-brightness) < math.div($light-color-lightness, 3) {
-    @return #ffffff;
-  } @else {
-    @return #333333;
-  }
-}
-
 /* top bar */
 $topbar-height: 40px;
-$top-navigation-icon-color: navbar-icon-color($top-bar-color) !default;
-$top-navigation-title-color: navbar-icon-color($top-bar-color);
 
 /* Content */
 $content-background-color: $background-color;
@@ -250,7 +227,7 @@ $content-background-color: $background-color;
   }
 
   .usermenu-list-item:hover {
-    background: darken($theme-primary-color, 5%);
+    background: $theme-primary-dark-color;
   }
 }
 
@@ -684,6 +661,7 @@ section.content {
   z-index: 802;
   width: 100%;
   display: block;
+  border-bottom: var(--message-bar-border);
 
   // must follow the display declaration above to override it
   @media print {

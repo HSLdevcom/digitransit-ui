@@ -57,7 +57,6 @@ $placeholder-color: #888;
 
 .traffic-now {
   --white: #{$white};
-  --background-color-lighter: #{$background-color-lighter};
   --padding-horizontal-gutter: #{$padding-horizontal-gutter};
 
   @media screen and (max-width: $bp-desktop-narrow) {

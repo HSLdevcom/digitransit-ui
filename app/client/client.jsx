@@ -44,6 +44,8 @@ import { RealTimeInformationProvider } from '../hooks/RealTimeInformationContext
 import { ItineraryLocationProvider } from '../hooks/ItineraryLocationContext';
 import { isPersonalizationEnabled } from '../../utils/client/modeUtils';
 import { getSettings } from '../../utils/client/planParamUtil';
+// Last import: the app's styles override those of the components above.
+import '../../sass/_main.scss';
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
 

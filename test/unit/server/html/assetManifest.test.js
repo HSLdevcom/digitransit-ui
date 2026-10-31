@@ -54,7 +54,7 @@ describe('assetManifest', () => {
 
   describe('in production', () => {
     const manifest = {
-      'hsl_theme.css': 'css/hsl_theme.abc.css',
+      'hsl_tokens.css': 'css/hsl_tokens.abc.css',
       entrypoints: {
         main: {
           assets: {
@@ -92,8 +92,8 @@ describe('assetManifest', () => {
         'js/main.m1.js',
       ]);
       expect(assetManifest.getManifestScript()).toBe('/* runtime.r1.js */');
-      expect(assetManifest.getAssetPath('hsl_theme.css')).toBe(
-        'css/hsl_theme.abc.css',
+      expect(assetManifest.getAssetPath('hsl_tokens.css')).toBe(
+        'css/hsl_tokens.abc.css',
       );
     });
   });

@@ -3,13 +3,6 @@ $transparency: 0.5;
 $transparent-color: $white;
 $spinner-size: 68px;
 
-/* Link-button-color defaults to link-color */
-$link-button-color: if(
-  global-variable-exists(link-button-color),
-  $link-button-color,
-  $link-color
-);
-
 html {
   /* Fix font display on webkit based browsers */
   -webkit-font-smoothing: antialiased;
@@ -152,9 +145,21 @@ div.spinner-loader {
   margin: $spinner-size * 0.25 0 0 $spinner-size * -0.5;
   width: $spinner-size;
   height: $spinner-size;
-  background-image: $spinner-image;
+  background: radial-gradient(
+    closest-side,
+    transparent 76%,
+    rgba(255, 255, 255, 0.7) 77% 99%,
+    transparent 100%
+  );
   animation: spin 4s linear infinite;
-  background-size: cover;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--spinner-color);
+    mask: url('images/spinner.svg') center / cover;
+  }
 }
 
 @keyframes spin {

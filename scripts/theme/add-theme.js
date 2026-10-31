@@ -22,31 +22,18 @@ if(!fs.existsSync(sassDir)) {
   fs.mkdirSync(sassDir);
 }
 
-fs.writeFileSync(sassDir + '/main.scss',
-`@import 'theme';
-@import '../../main';
-`
-);
-
 let themeContent =
-`@import '../../base/waltti';
+`@import '../waltti/tokens';
 
-/* main theme colors */
-$theme-primary-color: ${color};
-$theme-secondary-color: darken($theme-primary-color, 20%);
-$highlight-color: $theme-primary-color;
-$action-color: $theme-primary-color;
-$bus-color: $theme-primary-color;
-$viewpoint-marker-color: $theme-primary-color;
-$current-location-color: $theme-primary-color;
-
-$standalone-btn-color: $theme-primary-color;
-$link-color: $theme-primary-color;
-
-/* Component palette */
-$desktop-title-color: $theme-primary-color;
-$desktop-title-arrow-icon-color: $theme-secondary-color;
-$top-bar-color: $theme-primary-color;
+@layer theme {
+  :root {
+    --theme-secondary-color: #{darken(${color}, 20%)};
+    --theme-primary-dark-color: #{darken(${color}, 5%)};
+    --action-color: var(--theme-primary-color);
+    --standalone-btn-color: var(--theme-primary-color);
+    --bus-color: var(--theme-primary-color);
+  }
+}
 `;
 
 let textLogo;
@@ -66,7 +53,7 @@ if (logoPath) {
 }
 
 // theme is ready, write it
-fs.writeFileSync(sassDir + '/_theme.scss', themeContent);
+fs.writeFileSync(sassDir + '/tokens.scss', themeContent);
 
 // generate app configuration
 const regexColor = new RegExp('__color__', 'g');

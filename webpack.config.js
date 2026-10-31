@@ -26,11 +26,7 @@ const mode = process.env.NODE_ENV;
 const isProduction = mode === 'production';
 const isDevelopment = !isProduction;
 
-const themeExpression = /sass[/\\]themes$/;
 const themeTokensFile = /sass[/\\]themes[/\\](\w+)[/\\]tokens\.scss$/;
-const selectedTheme = new RegExp(
-  `^./(${process.env.CONFIG || 'default'})/main.scss$`,
-);
 
 // Files in `_static` that webpack doesn't emit, so `output.clean` keeps
 // them: `static/` as copied by scripts/build/copyStatic.js (plus its
@@ -82,9 +78,6 @@ export default {
             ),
           ]
         : []),
-      // Dev-only: loads the active theme's SCSS via a dynamic require.
-      // Production themes are handled statically via `themeEntries` below.
-      ...(isDevelopment ? ['./app/client/loadDevTheme'] : []),
       './app/client/client',
     ],
     ...(isProduction ? themeEntries : {}),
@@ -341,9 +334,7 @@ export default {
       process: require.resolve('process/browser'),
       Buffer: ['buffer', 'Buffer'],
     }),
-    ...(isDevelopment
-      ? [new webpack.ContextReplacementPlugin(themeExpression, selectedTheme)]
-      : productionPlugins),
+    ...(isDevelopment ? [] : productionPlugins),
   ],
   optimization: {
     minimizer: [

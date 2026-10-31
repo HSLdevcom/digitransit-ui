@@ -2,7 +2,7 @@
 
 Appearance and behavior of digitransit-ui can be customized by:
 - Creating a custom config file to a path `server/configs/config.<theme>.js`
-- Optionally adding custom style definitions to `sass/themes/<theme>` folder
+- Optionally adding CSS custom properties to `sass/themes/<theme>/tokens.scss`
 - Optionally adding theme-owned static assets to `static/assets/<theme>` folder
 - If dynamic theme mapping to the new theme is desired, the new theme must be added to the
 theme map found in `server/configs/config.default.js`
@@ -13,6 +13,21 @@ with a single command:
 - `npm run add-theme <name> '#RRGGBB' <optional navbar logo>`
 
 After running the command, the created skeleton files can be edited further.
+
+
+## Theme styles
+
+All themes share one stylesheet, `sass/_main.scss`. A theme only changes the values of CSS custom
+properties, in `sass/themes/<theme>/tokens.scss`. That file starts by importing its parent
+(`../waltti/tokens` or `../default/tokens`) and is linked before the stylesheet. Its `@layer theme`
+block beats the `tokens` layer of `@hsl-fi/design-system-core`.
+
+To make a Sass variable themeable, define it in `sass/themes/default/tokens.scss` and set it to
+`var(--name)` in `sass/base/_tokens.scss`. Sass color functions such as `darken()` and data URIs
+can't take `var()`, so themed colors need a resolved token or a `mask`.
+
+The colors JS also needs come from the config, e.g. `config('colors.primary')`. The Sass function is
+in `scripts/build/sassConfigFunctions.js`, and a missing key fails the build.
 
 
 ## Theme-owned static assets

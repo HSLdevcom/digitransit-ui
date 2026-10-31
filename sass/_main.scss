@@ -1,7 +1,5 @@
 @import '@hsl-fi/design-system-core/css/styles.css' layer(tokens);
-
-// Apply theme specific values over standard hsl theme
-@import 'design-theme.css';
+@import 'base/tokens';
 @import 'base/breakpoints';
 @import 'base/reset';
 @import 'base/grid';

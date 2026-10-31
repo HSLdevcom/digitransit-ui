@@ -26,10 +26,10 @@ and output settings.
 
 ## Entries & per-deployment theming
 
-- `main` is the real app entry (`app/client/publicPath` + `app/client/client`), plus
-  `app/client/loadDevTheme` in development only (see below).
-- In production, `scripts/build/contextHelper.js` adds one `<theme>_theme`
-  entry per regional theme's `sass/themes/<theme>/main.scss`, plus a
+- `main` is the real app entry (`app/client/publicPath` + `app/client/client`).
+  `client.jsx` imports `sass/_main.scss`, so every theme shares one stylesheet.
+- In production, `scripts/build/contextHelper.js` adds one `<theme>_tokens`
+  entry per regional theme's `sass/themes/<theme>/tokens.scss`, plus a
   `<sprite>` entry for any config-declared SVG sprite sheet (`config.sprites`),
   which content-hashes it into `manifest.json`. The sprite itself is
   generated before webpack runs (see "SVG sprite sheets" below). With `CONFIG`
@@ -40,35 +40,8 @@ and output settings.
   under `assets/icons-<CONFIG>-[contenthash]/`. Apple startup images and
   Windows tiles are turned off (`favicons.icons`), since nothing references
   them and the startup images alone were ~35 MB per config.
-- In development, `webpack.ContextReplacementPlugin` narrows the dynamic
-  `import` for `sass/themes` down to just the selected `CONFIG`'s
-  `main.scss`, so the dev server doesn't build every theme.
-- `app/client/loadDevTheme.js` holds a dynamic, fire-and-forget
-  `import(`../../sass/themes/${window.config.CONFIG}/main.scss`)` that used
-  to live inline in `app/client.js` as a `require(...)` behind an
-  `if (process.env.NODE_ENV === 'development')` runtime check written as an
-  imported/computed constant rather than the literal expression. That was
-  moved into its own file, only added to `entry.main` when `isDevelopment`,
-  because webpack resolves a dynamic import's "context module" (every
-  file the template string could possibly match) while building the module
-  graph — a step that runs before any dead-code elimination and can't see
-  across module boundaries. Guarding it with an *imported*
-  boolean constant didn't stop webpack from still resolving (and bundling)
-  every theme's SCSS into production; only literally excluding the file
-  from `entry` in production does, and only a literal `process.env.NODE_ENV`
-  comparison written inline (any operator/value — `=== 'development'`,
-  `!== 'production'`, etc.) gets folded/dropped by
-  `DefinePlugin`/dead-code-elimination in the first place — an
-  imported/computed value can't be statically folded. See PR #5929 for the
-  full story. The original `require(...)` became `import(...)` once `app/`
-  files were parsed as strict ESM (`"type": "module"`), which has no
-  `require` global. It reads `window.config.CONFIG` (the
-  server-injected, already-resolved config object `app/client.js` uses for
-  everything else) rather than `process.env.CONFIG`: the browser bundle
-  never sees real build-time env var *values* (only the `ProvidePlugin`
-  shim below, whose `process.env` is an empty object) unless a var is
-  explicitly wired through `DefinePlugin`/`EnvironmentPlugin`, which this
-  project doesn't do for `CONFIG`.
+- In development, the selected `CONFIG`'s `tokens.scss` is added to `main`
+  instead, before `client`, so that it declares the cascade layer order.
 
 ## Output
 
@@ -249,8 +222,7 @@ no real source map) in development.
 
 ## Plugins
 
-Development only gets `ContextReplacementPlugin` (see Entries above).
-Production gets:
+Production gets (development gets none of these):
 
 - **`faviconPlugins`** — see Entries above.
 - **`MiniCssExtractPlugin`** — extracts CSS to hashed files (prod only;
@@ -271,7 +243,7 @@ Production gets:
   name→hashed-filename map, plus (`entrypoints: true`) an `entrypoints`
   key listing each entry's files grouped by extension, in load order
   (`entrypoints.main.assets.{js,css}`). `server/html/assetManifest.js`
-  reads both: the map for theme CSS/sprite lookups, `entrypoints.main` for
+  reads both: the map for tokens CSS/sprite lookups, `entrypoints.main` for
   which hashed JS/CSS files to preload/link and which runtime chunk to
   inline. Imported via its named export (`{ WebpackAssetsManifest }`); v6
   changed it from a default export.
@@ -301,9 +273,7 @@ Both dev and prod also always get:
   actual client bundle, matching the existing `url` polyfill
   (`resolve.fallback` below). Note `process/browser`'s `process.env` is
   always an empty object — this plugin only prevents crashes, it doesn't
-  expose real build-time env var values to the browser (see "Entries &
-  per-deployment theming" above for how theme selection avoids needing
-  that).
+  expose real build-time env var values to the browser.
 
 ## Optimization
 
@@ -337,13 +307,13 @@ Both dev and prod also always get:
   webpack runtime (module loader glue) into its own cacheable chunk in
   production. `'single'` creates one shared runtime chunk for *all*
   entries, rather than one per entry (`'multiple'`/`true`) — this app has
-  multiple entries (`main` plus one CSS-only `*_theme` entry per
+  multiple entries (`main` plus one CSS-only `*_tokens` entry per
   deployment via `themeEntries`), so a single shared runtime avoids
   duplicating that boilerplate across each of them. Note the runtime
   chunk's own hash will still shift on almost any unrelated chunk/module
   change (it embeds the chunk-id→hash manifest needed for lazy-chunk
   loading) — the real caching benefit is that *other* chunks (`react`,
-  `digitransit-components`, route chunks, theme CSS/JS) stay stable when
+  `digitransit-components`, route chunks, tokens CSS/JS) stay stable when
   unrelated code changes, not that the runtime chunk itself never
   changes.
 
