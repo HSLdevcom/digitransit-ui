@@ -3,13 +3,11 @@
 @layer theme {
   :root {
     --theme-secondary-color: #6c1611;
-    --action-color: var(--theme-primary-color);
     --top-bar-color: #ececec;
     --nav-logo-height: 3em;
     --top-navigation-title-color: #333;
     --top-navigation-icon-color: #333;
     --theme-primary-dark-color: #ae241c;
     --color-accent-primary-900: #9d2019;
-    --color-accent-primary-500: var(--theme-primary-color);
   }
 }

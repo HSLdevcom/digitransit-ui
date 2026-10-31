@@ -9,13 +9,14 @@
     --rail-color: #{config('colors.rail')};
     --ferry-color: #{config('colors.ferry')};
     --metro-color: #{config('colors.subway')};
+    --taxi-external-color: #{config('colors.taxi')};
     --gray-blue: #78909c;
     --background-color-lighter: #f2f5f7;
     --selector-background-color: #f4f4f4;
     --button-hover-color: #f4f4f4;
     --theme-secondary-color: #008bde;
     --highlight-color: var(--theme-primary-color);
-    --action-color: var(--theme-secondary-color);
+    --action-color: var(--theme-primary-color);
     --banner-disruption-color: #dc0451;
     --current-location-color: var(--theme-primary-color);
     --desktop-title-arrow-icon-color: var(--theme-secondary-color);
@@ -24,8 +25,8 @@
     --info-icon-blue: #0074be;
     --info-background-color: #e5f1f9;
     --standalone-btn-color: var(--action-color);
-    --standalone-btn-hover-color: rgb(182, 193, 199);
-    --standalone-btn-active-color: rgb(182, 193, 199);
+    --standalone-btn-hover-color: #666;
+    --standalone-btn-active-color: #666;
     --link-color: var(--theme-primary-color);
     --link-button-color: var(--link-color);
     --swap-button-icon-color: #333;
@@ -42,7 +43,6 @@
     --speedtram-color: #008151;
     --wait-color: #979797;
     --car-color: #333;
-    --taxi-external-color: #647693;
     --taxi-external-map-color: #647693;
     --taxi-settings-icon-bg-color: var(--taxi-external-color);
     --taxi-settings-icon-fill: white;
@@ -69,6 +69,6 @@
     --top-navigation-icon-color: #fff;
     --theme-primary-dark-color: rgb(0, 12.415540540540455, 122.50000000000001);
     --color-accent-primary-900: #000a80;
-    --color-accent-primary-500: #000f94;
+    --color-accent-primary-500: var(--theme-primary-color);
   }
 }

@@ -12,6 +12,8 @@
     --infobox-border-color: var(--theme-primary-color);
     --info-icon-blue: var(--theme-primary-color);
     --info-background-color: #f6f6f6;
+    --standalone-btn-hover-color: rgb(182, 193, 199);
+    --standalone-btn-active-color: rgb(182, 193, 199);
     --link-color: #0034ac;
     --link-button-color: #000;
     --caution-icon-color: var(--theme-primary-color);
@@ -37,6 +39,5 @@
     --message-bar-border: 1px solid #ddd;
     --theme-primary-dark-color: black;
     --color-accent-primary-900: var(--theme-primary-color);
-    --color-accent-primary-500: var(--theme-primary-color);
   }
 }

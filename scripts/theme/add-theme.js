@@ -30,9 +30,8 @@ let themeContent =
   :root {
     --theme-secondary-color: #{color.adjust(${color}, $lightness: -20%)};
     --theme-primary-dark-color: #{color.adjust(${color}, $lightness: -5%)};
-    --action-color: var(--theme-primary-color);
-    --standalone-btn-color: var(--theme-primary-color);
     --bus-color: var(--theme-primary-color);
+    --color-accent-primary-900: #{color.adjust(${color}, $lightness: -10%)};
   }
 }
 `;

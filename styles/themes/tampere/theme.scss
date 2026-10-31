@@ -3,12 +3,10 @@
 @layer theme {
   :root {
     --theme-secondary-color: #103175;
-    --action-color: var(--theme-primary-color);
     --desktop-title-arrow-icon-color: #fff;
     --caution-icon-color: #ec5e47;
     --nav-logo-height: 2.5em;
     --theme-primary-dark-color: #194eb9;
     --color-accent-primary-900: #1645a5;
-    --color-accent-primary-500: var(--theme-primary-color);
   }
 }

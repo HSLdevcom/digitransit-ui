@@ -3,9 +3,7 @@
 @layer theme {
   :root {
     --theme-secondary-color: black;
-    --action-color: var(--theme-primary-color);
     --theme-primary-dark-color: var(--theme-secondary-color);
     --color-accent-primary-900: var(--theme-primary-color);
-    --color-accent-primary-500: var(--theme-primary-color);
   }
 }
