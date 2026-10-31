@@ -193,8 +193,8 @@ All themes share `styles/main.scss`; a theme only sets CSS custom properties.
 - We're moving to CSS Modules. New component styles go in `Component.module.scss` next to the component
   and are imported by it. Don't add component stylesheets to `styles/main.scss`; the ones there are
   legacy, and its order is their cascade order. Global styles go in `styles/base/`.
-- Stylesheets start with `@use 'abstracts' as *;`. `styles/abstracts/` must not emit CSS, and a local
-  variable must not reuse a name it defines.
+- Stylesheets start with a relative `@use '../../styles/abstracts' as *;`. `styles/abstracts/` must not
+  emit CSS, and a local variable must not reuse a name it defines.
 - Per-theme values: default in `styles/themes/default/theme.scss`, a `$name: var(--name);` wrapper in
   `styles/abstracts/_variables.scss`, overrides in `styles/themes/<theme>/theme.scss`. Values that
   don't vary stay plain Sass variables. `var()` doesn't work in media queries or data URIs.

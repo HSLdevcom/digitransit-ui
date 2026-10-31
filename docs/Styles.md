@@ -30,9 +30,10 @@ component stylesheets to `main.scss`.
 | A page-level z-index | `$global-zindex` in `styles/abstracts/_zindex.scss`, see [Z-Index](ZIndex.md) |
 | Third-party CSS | `@import … layer(vendor)` in `styles/main.scss` |
 
-Every stylesheet that needs shared values starts with `@use 'abstracts' as *;`, resolved through
-`loadPaths` in `webpack.config.js`. Because of `as *`, a top-level `$name: …` with a name `abstracts`
-defines changes the shared value for later stylesheets, so pick another name for local variables.
+Every stylesheet that needs shared values starts with a relative `@use '../../styles/abstracts' as *;`,
+so update the path when moving a stylesheet. Because of `as *`, a top-level `$name: …` with a name
+`abstracts` defines changes the shared value for later stylesheets, so pick another name for local
+variables.
 
 Import a module with `import styles from './Component.module.scss';` and read class names as written,
 e.g. `styles['route-name']`. Webpack hashes them. Vitest doesn't compile Sass and returns a class name for
