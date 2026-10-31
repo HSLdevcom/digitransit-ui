@@ -359,8 +359,8 @@ webpack-dev-server is up).
 
 ```json
 "browserslist": [
-  "defaults and fully supports es6-module",
-  "> 0.2% in FI and fully supports es6-module"
+  "> 0.1% and defaults and fully supports es6-module",
+  "> 0.1% in FI and fully supports es6-module"
 ]
 ```
 
@@ -369,10 +369,12 @@ The second query adds browsers with real usage share in Finland that
 transpiling and polyfills.
 
 `defaults` is browserslist's maintained default set (> 0.5% global usage,
-last 2 versions, not dead); `fully supports es6-module` drops browsers
-without native ES modules, which also excludes IE and pre-`async`/`await`
-browsers. Refresh the data periodically with `npx
-update-browserslist-db@latest` (builds warn once it is ~6 months old).
+last 2 versions, not dead); `> 0.1%` removes the rarely used browsers that
+`last 2 versions` adds, such as KaiOS, which lack `@layer` and would lose all
+layered CSS. `fully supports es6-module` drops browsers without native ES
+modules, which also excludes IE and pre-`async`/`await` browsers. Refresh
+the data periodically with `npx update-browserslist-db@latest` (builds warn
+once it is ~6 months old).
 
 ## Polyfills
 

@@ -68,8 +68,8 @@
     "node": ">=24.14.1"
   },
   "browserslist": [
-    "defaults and fully supports es6-module",
-    "> 0.2% in FI and fully supports es6-module"
+    "> 0.1% and defaults and fully supports es6-module",
+    "> 0.1% in FI and fully supports es6-module"
   ],
   "prettier": {
     "arrowParens": "avoid",
