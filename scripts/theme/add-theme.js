@@ -1,5 +1,7 @@
 /* eslint-disable */
 
+/* TODO: old and untested. Fix the next time it's needed: template.waltti.js uses require, and the themeMap anchor below no longer exists. */
+
 /* initialize a skeleton for a new theme */
 /* For example: npm run add-theme juupajoki 0x80CCAA */
 import fs from 'fs';
