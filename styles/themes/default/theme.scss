@@ -10,6 +10,8 @@
     --ferry-color: #{config('colors.ferry')};
     --metro-color: #{config('colors.subway')};
     --taxi-external-color: #{config('colors.taxi')};
+    --banner-disruption-color: #{config('colors.caution')};
+    --airplane-color: #{config('colors.airplane')};
     --gray-blue: #78909c;
     --background-color-lighter: #f2f5f7;
     --selector-background-color: #f4f4f4;
@@ -17,7 +19,6 @@
     --theme-secondary-color: #008bde;
     --highlight-color: var(--theme-primary-color);
     --action-color: var(--theme-primary-color);
-    --banner-disruption-color: #dc0451;
     --current-location-color: var(--theme-primary-color);
     --desktop-title-arrow-icon-color: var(--theme-secondary-color);
     --infobox-color-generic-blue: #ebf6fd;
@@ -38,7 +39,6 @@
     --disclaimer-border-color: #ebf6fd;
     --navigation-background-color: var(--background-color-lighter);
     --route-title-margin: 2.7em;
-    --airplane-color: #1a4a8f;
     --bus-express-color: rgb(0, 136, 206);
     --speedtram-color: #008151;
     --wait-color: #979797;
