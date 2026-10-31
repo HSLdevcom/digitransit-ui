@@ -1,7 +1,8 @@
+@use '../../styles/abstracts' as *;
 @use '@hsl-fi/sass/mixins/text';
 
 $banner-major-level-color: #dc0451;
-$banner-neutral-level-color: #333;
+$banner-neutral-level-color: $dark-gray;
 
 .crisis-banners {
   position: relative;
@@ -17,7 +18,7 @@ $banner-neutral-level-color: #333;
 
     font-family: text.$font-stack;
     font-weight: 500;
-    color: #fff;
+    color: $white;
     margin: 0;
 
     a,
@@ -26,7 +27,7 @@ $banner-neutral-level-color: #333;
 
       font-family: text.$font-stack;
       font-weight: 500;
-      color: #fff;
+      color: $white;
       margin: 0;
     }
 
@@ -50,6 +51,6 @@ $banner-neutral-level-color: #333;
 
   .crisis-banners-banner-primary + .crisis-banners-banner-primary,
   .crisis-banners-banner-secondary + .crisis-banners-banner-secondary {
-    border-top: 1px solid #fff;
+    border-top: 1px solid $white;
   }
 }

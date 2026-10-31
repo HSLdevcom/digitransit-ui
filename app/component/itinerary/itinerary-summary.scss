@@ -131,7 +131,7 @@
     border-radius: 5px;
     font-weight: $font-weight-book;
     font-size: 13px;
-    color: #333;
+    color: $dark-gray;
     line-height: 16px;
     white-space: normal;
 
@@ -149,7 +149,7 @@
     padding-top: 8px;
     width: 100%;
     max-width: 100%;
-    color: #333;
+    color: $dark-gray;
 
     .itinerary-first-leg-start-time {
       font-size: 13px;
@@ -244,7 +244,7 @@
         width: 24px;
         position: relative;
         height: 1.5rem;
-        border: 1px solid #ddd;
+        border: 1px solid $light-gray;
         border-radius: 3px;
         background-color: #f9af1f;
 
@@ -282,7 +282,7 @@
         min-width: 24px;
         max-width: 24px;
         height: 1.5rem;
-        border: 1px solid #ddd;
+        border: 1px solid $light-gray;
         border-radius: 3px;
 
         .itinerary-icon {
@@ -425,7 +425,7 @@
             .icon {
               width: 20px;
               margin-left: 1px;
-              color: #fff;
+              color: $white;
             }
           }
 
@@ -630,7 +630,7 @@
           height: 0.67em;
           width: 0.67em;
           margin-bottom: 1px;
-          color: #333;
+          color: $dark-gray;
         }
       }
 
@@ -717,7 +717,7 @@
   }
 
   .summary-separator {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid $light-gray;
     width: 100%;
     margin-top: 15px;
   }

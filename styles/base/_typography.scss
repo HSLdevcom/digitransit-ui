@@ -7,7 +7,7 @@
 .design-system {
   .heading-xs,
   .h5 {
-    color: #333;
+    color: $dark-gray;
     font-size: rem(18);
     font-weight: var(--font-weight-medium);
     line-height: 1.2;
@@ -29,7 +29,7 @@
 
   .input {
     &-legend {
-      color: #333;
+      color: $dark-gray;
       font-size: rem(15);
       font-style: normal;
       font-weight: var(--font-weight-medium);
@@ -38,14 +38,14 @@
     }
 
     &-label {
-      color: #333;
+      color: $dark-gray;
       font-weight: 350;
       font-size: 16px;
       letter-spacing: -0.3px;
       font-style: normal;
 
       &.bold {
-        color: #333;
+        color: $dark-gray;
         font-size: 15px;
         font-weight: var(--font-weight-medium);
         line-height: 24px;
@@ -54,7 +54,7 @@
   }
 
   .tag-normal {
-    color: #333;
+    color: $dark-gray;
     font-weight: var(--font-weight-book);
     font-size: rem(15);
     line-height: 1.6;

@@ -322,7 +322,7 @@
 
         .extension-divider {
           height: 1px;
-          background: #ddd;
+          background: $light-gray;
           width: 100%;
           margin-top: var(--space-s);
           margin-bottom: var(--space-s);
@@ -416,7 +416,7 @@
               align-items: center;
 
               .address {
-                color: #888;
+                color: $muted-gray;
               }
 
               .platform-short {
@@ -577,8 +577,8 @@
                   min-height: 36px;
 
                   > svg > circle.indoor-step-marker {
-                    fill: #fff;
-                    stroke: #666;
+                    fill: $white;
+                    stroke: $gray;
                   }
                 }
               }
@@ -739,7 +739,7 @@
       padding: var(--space-s, 16px) var(--space-xs, 8px) var(--space-s, 16px)
         var(--space-s, 16px);
       background: #0074bf;
-      color: #fff;
+      color: $white;
       border-radius: 999px;
       margin-top: var(--space-s);
       width: 220px;

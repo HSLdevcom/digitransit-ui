@@ -272,11 +272,11 @@
     border: 1px solid $light-gray;
     border-radius: $border-radius;
     font-size: $font-size-xxsmall;
-    color: #666;
+    color: $gray;
   }
 
   .description {
-    color: #666;
+    color: $gray;
   }
 }
 
@@ -406,7 +406,7 @@
   .route-headsign {
     font-family: $font-family-narrow;
     font-weight: $font-weight-book;
-    color: #333;
+    color: $dark-gray;
     flex: 1;
     padding-left: $padding-medium;
     overflow: clip;
@@ -416,7 +416,7 @@
   .route-time {
     font-size: $font-size-small;
     font-weight: $font-weight-medium;
-    color: #333;
+    color: $dark-gray;
 
     &.realtime {
       color: $realtime-color;
@@ -429,7 +429,7 @@
 
   .platform-code {
     background: $background-color-lighter;
-    color: #333;
+    color: $dark-gray;
     width: max-content;
     min-width: 28px;
     height: 24px;
@@ -461,7 +461,7 @@
     .route-headsign {
       padding-left: $padding-medium;
       font-weight: $font-weight-book;
-      color: #333;
+      color: $dark-gray;
       flex: 1;
       overflow: clip;
       white-space: normal;
@@ -564,7 +564,7 @@
   display: flex;
   justify-content: flex-start;
   padding-left: 60px;
-  background: #fff;
+  background: $white;
 }
 
 .print-button-container {

@@ -91,7 +91,7 @@
   height: auto;
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: $white;
   color: $dark-gray;
   position: relative;
   font-size: $font-size-normal;
@@ -245,7 +245,7 @@
     gap: var(--space-fixed-xs);
     align-self: stretch;
     border-radius: var(--radius-pill, 999px);
-    background: #fff;
+    background: $white;
     box-shadow: 0 4px 4px 0 rgba(0, 52, 86, 0.25);
     position: fixed;
     bottom: 0;

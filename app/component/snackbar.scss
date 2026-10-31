@@ -36,7 +36,7 @@
 .snackbar {
   position: fixed;
   z-index: global-z('snackbar');
-  color: #fff;
+  color: $white;
   display: flex;
   min-width: 320px;
   max-height: 96px;
@@ -68,7 +68,7 @@
     .icon {
       width: 24px;
       height: 24px;
-      color: #fff;
+      color: $white;
     }
   }
 
@@ -80,7 +80,7 @@
     .icon {
       width: 32px;
       height: 32px;
-      color: #fff;
+      color: $white;
     }
   }
 }

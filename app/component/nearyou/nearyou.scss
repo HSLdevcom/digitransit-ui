@@ -14,7 +14,7 @@
     width: 100%;
     border-radius: 8px;
     border: none;
-    background-color: #fff;
+    background-color: $white;
     padding-left: 37px;
     padding-right: 5px;
   }
@@ -96,7 +96,7 @@
     flex-direction: column;
     text-align: center;
     padding: 3em 2.5em;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid $light-gray;
 
     .no-favourites-header {
       font-size: 0.9375em;
@@ -104,7 +104,7 @@
     }
 
     .no-favourites-content {
-      color: #666;
+      color: $gray;
       font-size: 0.9375em;
       padding: 0 2em;
       line-height: 1.4;
@@ -123,7 +123,7 @@
     font-weight: $font-weight-medium;
     background-color: $white;
     color: $theme-primary-color;
-    border: 1px solid #ddd;
+    border: 1px solid $light-gray;
     min-height: 28px;
     border-radius: 16px;
     font-size: 0.9375rem;
@@ -137,10 +137,10 @@
     font-weight: $font-weight-book;
     font-size: 0.9375rem;
     text-align: center;
-    color: #666;
+    color: $gray;
 
     .update-stops-button {
-      border: 1px solid #ddd;
+      border: 1px solid $light-gray;
       min-height: 30px;
       padding: 0 16px;
       border-radius: 15px;
@@ -194,7 +194,7 @@
 
         a {
           text-decoration: none;
-          color: #333;
+          color: $dark-gray;
         }
 
         .bike-station-code {
@@ -220,7 +220,7 @@
         margin-bottom: 5px;
 
         .route-stop-address-row {
-          color: #666;
+          color: $gray;
           font-weight: $font-weight-book;
         }
 
@@ -273,7 +273,7 @@
       margin: 0 0 19px 20px;
       padding: 5px 20px 5px;
       border-radius: 25px;
-      border: solid 1px #888;
+      border: solid 1px $muted-gray;
       font-size: 16px;
       font-weight: $font-weight-medium;
       color: $theme-primary-color;
@@ -305,7 +305,7 @@
     }
 
     .departure-row:first-child {
-      border-top: 1px solid #ddd;
+      border-top: 1px solid $light-gray;
     }
 
     .departure-row {
@@ -339,7 +339,7 @@
       .route-headsign {
         font-family: $font-family-narrow;
         font-weight: $font-weight-book;
-        color: #333;
+        color: $dark-gray;
         flex: 1;
         overflow: hidden;
         white-space: nowrap;
@@ -353,7 +353,7 @@
       }
 
       .route-time {
-        color: #333;
+        color: $dark-gray;
 
         &.realtime {
           color: $realtime-color;

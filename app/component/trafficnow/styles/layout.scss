@@ -249,7 +249,7 @@
       gap: var(--space-xs);
       border-radius: var(--radius-m);
       background: $theme-primary-color;
-      color: #fff;
+      color: $white;
     }
 
     &-operator-select:focus {

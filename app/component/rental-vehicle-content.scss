@@ -37,7 +37,7 @@
     .scooter-content-container {
       padding: 0 0 13px 0;
       margin-bottom: 13px;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid $light-gray;
 
       .icon-container {
         .icon {
@@ -62,7 +62,7 @@
   .scooter-box {
     min-height: 120px;
     border-radius: 10px;
-    border: solid 1px #ddd;
+    border: solid 1px $light-gray;
     padding: 16px 21px 16px 18px;
     width: 100%;
     font-size: $font-size-normal;
@@ -82,14 +82,14 @@
       font-weight: $font-weight-medium;
       line-height: 22px;
       margin: 0 0 4px;
-      color: #333;
+      color: $dark-gray;
     }
 
     .disclaimer-content {
       display: block;
       font-size: $font-size-normal;
       margin-bottom: 8px;
-      color: #666;
+      color: $gray;
       line-height: 18px;
       letter-spacing: -0.03em;
 
@@ -97,7 +97,7 @@
         display: flex;
         background-color: $background-color-lighter;
         border-radius: 5px;
-        border: 1px solid #ddd;
+        border: 1px solid $light-gray;
         margin-top: 16px;
         color: $dark-gray;
 
@@ -152,7 +152,7 @@
             padding-left: 6px;
             font-size: 13px;
             font-weight: $font-weight-book;
-            color: #666;
+            color: $gray;
           }
 
           .citybike-icon {
@@ -193,7 +193,7 @@
           .scooter-icon .icon-container .icon {
             background-color: $scooter-color;
             border-radius: 3px;
-            color: #fff;
+            color: $white;
           }
         }
       }
@@ -222,7 +222,7 @@
       flex: 1;
 
       h1 {
-        color: #333;
+        color: $dark-gray;
         font-size: 1.5rem;
         line-height: 1.2;
         margin: 0;
@@ -232,7 +232,7 @@
 
   .scooter-sub-header {
     font-size: 0.813rem;
-    color: #666;
+    color: $gray;
     font-weight: $font-weight-book;
     padding-top: 2px;
 
@@ -247,7 +247,7 @@
     box-sizing: content-box;
     padding: 0 0 13px 0;
     margin-bottom: 13px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid $light-gray;
 
     &.cluster {
       padding: 20px 20px;
@@ -259,7 +259,7 @@
       width: 48px;
       height: 48px;
       background-color: $scooter-color;
-      color: #fff;
+      color: $white;
       border-radius: 5px;
     }
 

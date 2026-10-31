@@ -200,11 +200,11 @@
   body {
     margin: 0;
     padding: 0;
-    background: #fff;
+    background: $white;
     font-family: $font-family;
     font-weight: normal;
     line-height: 1.5;
-    color: #333;
+    color: $dark-gray;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -331,7 +331,7 @@
   h6 small,
   .h6 small {
     line-height: 0;
-    color: #ccc;
+    color: $medium-gray;
   }
 
   h1,
@@ -437,7 +437,7 @@
     margin: 1.25rem auto;
     border-top: 0;
     border-right: 0;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid $medium-gray;
     border-left: 0;
   }
 
@@ -482,7 +482,7 @@
   blockquote {
     margin: 0 0 1rem;
     padding: 0.5625rem 1.25rem 0 1.1875rem;
-    border-left: 1px solid #ccc;
+    border-left: 1px solid $medium-gray;
   }
 
   blockquote,
@@ -493,7 +493,7 @@
 
   abbr,
   abbr[title] {
-    border-bottom: 1px dotted #333;
+    border-bottom: 1px dotted $dark-gray;
     cursor: help;
     text-decoration: none;
   }
@@ -505,9 +505,9 @@
   kbd {
     margin: 0;
     padding: 0.125rem 0.25rem 0;
-    background-color: #ddd;
+    background-color: $light-gray;
     font-family: Consolas, 'Liberation Mono', Courier, monospace;
-    color: #333;
+    color: $dark-gray;
   }
 
   cite {
@@ -521,11 +521,11 @@
   }
 
   code {
-    border: 1px solid #ccc;
-    background-color: #ddd;
+    border: 1px solid $medium-gray;
+    background-color: $light-gray;
     font-family: Consolas, 'Liberation Mono', Courier, monospace;
     font-weight: normal;
-    color: #333;
+    color: $dark-gray;
     display: inline;
     max-width: 100%;
     word-wrap: break-word;
@@ -605,15 +605,15 @@
     height: 2.4375rem;
     margin: 0 0 1rem;
     padding: 0.5rem;
-    border: 1px solid #ccc;
+    border: 1px solid $medium-gray;
     border-radius: 0;
-    background-color: #fff;
+    background-color: $white;
     box-shadow: inset 0 1px 2px rgba(51, 51, 51, 0.1);
     font-family: inherit;
     font-size: 1rem;
     font-weight: normal;
     line-height: 1.5;
-    color: #333;
+    color: $dark-gray;
     transition:
       box-shadow 0.5s,
       border-color 0.25s ease-in-out;
@@ -636,8 +636,8 @@
   textarea:focus {
     outline: none;
     border: 1px solid #575757;
-    background-color: #fff;
-    box-shadow: 0 0 5px #ccc;
+    background-color: $white;
+    box-shadow: 0 0 5px $medium-gray;
     transition:
       box-shadow 0.5s,
       border-color 0.25s ease-in-out;
@@ -655,7 +655,7 @@
   input[readonly],
   textarea:disabled,
   textarea[readonly] {
-    background-color: #ddd;
+    background-color: $light-gray;
     cursor: not-allowed;
   }
 
@@ -670,7 +670,7 @@
   }
 
   ::placeholder {
-    color: #ccc;
+    color: $medium-gray;
   }
 
   [type='file'],
@@ -708,7 +708,7 @@
     font-size: 0.875rem;
     font-weight: normal;
     line-height: 1.8;
-    color: #333;
+    color: $dark-gray;
   }
 
   fieldset {
@@ -727,14 +727,14 @@
     margin: 0 0 1rem;
     padding: 0.5rem;
     appearance: none;
-    border: 1px solid #ccc;
+    border: 1px solid $medium-gray;
     border-radius: 0;
-    background-color: #fff;
+    background-color: $white;
     font-family: inherit;
     font-size: 1rem;
     font-weight: normal;
     line-height: 1.5;
-    color: #333;
+    color: $dark-gray;
     transition:
       box-shadow 0.5s,
       border-color 0.25s ease-in-out;
@@ -749,15 +749,15 @@
   select:focus {
     outline: none;
     border: 1px solid #575757;
-    background-color: #fff;
-    box-shadow: 0 0 5px #ccc;
+    background-color: $white;
+    box-shadow: 0 0 5px $medium-gray;
     transition:
       box-shadow 0.5s,
       border-color 0.25s ease-in-out;
   }
 
   select:disabled {
-    background-color: #ddd;
+    background-color: $light-gray;
     cursor: not-allowed;
   }
 

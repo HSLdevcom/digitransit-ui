@@ -240,14 +240,14 @@
         font-weight: $font-weight-medium;
         line-height: 22px;
         margin: 0 0 4px;
-        color: #333;
+        color: $dark-gray;
       }
 
       .disclaimer-content {
         display: flex;
         font-size: $font-size-normal;
         margin-bottom: 8px;
-        color: #666;
+        color: $gray;
         line-height: 18px;
         letter-spacing: -0.03em;
       }
@@ -424,7 +424,7 @@
       align-items: center;
       font-weight: $font-weight-medium;
       width: fit-content;
-      color: #fff;
+      color: $white;
       margin-top: var(--space-xs);
       border-radius: var(--radius-pill);
       background: $theme-primary-color;
@@ -457,7 +457,7 @@
 
   .divider-top,
   .divider-bottom {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid $light-gray;
     margin-left: 10px;
     margin-right: 10px;
 
@@ -501,7 +501,7 @@
       letter-spacing: -0.03em;
       display: flex;
       flex-direction: column;
-      color: #666;
+      color: $gray;
     }
   }
 
@@ -556,7 +556,7 @@
         display: flex;
         align-items: center;
         letter-spacing: -0.03em;
-        color: #666;
+        color: $gray;
       }
     }
 
@@ -622,7 +622,7 @@
 }
 
 .summary {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $light-gray;
 }
 
 .itinerary-summary {
@@ -634,7 +634,7 @@
   .divider-bottom {
     position: relative;
     height: 1px;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid $light-gray;
     box-sizing: border-box;
 
     @media print {
@@ -685,7 +685,7 @@
       line-height: 18px;
       font-weight: $font-weight-book;
       letter-spacing: -0.025em;
-      color: #666;
+      color: $gray;
 
       &::before {
         content: attr(data-text);
@@ -835,7 +835,7 @@
   flex-direction: column;
   margin: 17px 15px 15px 15px;
   white-space: normal;
-  color: #666;
+  color: $gray;
   font-weight: $font-weight-book;
   font-size: 13px;
   line-height: 16px;
@@ -863,7 +863,7 @@
   font-weight: $font-weight-book;
   font-size: $font-size-small;
   margin: 0 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $light-gray;
 
   .itinerary-ticket-type,
   .itinerary-co2-line {
@@ -925,7 +925,7 @@
 
       .ticket-description {
         display: flex;
-        color: #666;
+        color: $gray;
         white-space: nowrap;
       }
 
@@ -968,7 +968,7 @@
 }
 
 .zone-ticket {
-  color: #333;
+  color: $dark-gray;
   letter-spacing: -0.03em;
   line-height: 22px;
   text-align: center;
@@ -999,7 +999,7 @@
   position: absolute;
   z-index: 9;
 
-  @include setModeCircles(#fff);
+  @include setModeCircles($white);
 
   &.circle-fill {
     &.bus,
@@ -1093,15 +1093,15 @@
 
     &.indoor-step {
       > svg > circle.indoor-step-marker {
-        fill: #fff;
-        stroke: #666;
+        fill: $white;
+        stroke: $gray;
       }
     }
   }
 }
 
 .leg-before-circle.airport-wait {
-  stroke: #888;
+  stroke: $muted-gray;
   fill: white;
 }
 
@@ -1283,7 +1283,7 @@
     &.bicycle_walk {
       .route-number {
         .icon {
-          color: #333;
+          color: $dark-gray;
         }
       }
     }
@@ -1515,7 +1515,7 @@
 
     &.wait {
       .icon.wait {
-        color: #333;
+        color: $dark-gray;
       }
 
       :last-child {
@@ -1544,7 +1544,7 @@
 
     &.airport-wait {
       border-radius: 4px;
-      border-color: #888;
+      border-color: $muted-gray;
     }
 
     &.wait {
@@ -1563,7 +1563,7 @@
     }
 
     &.bicycle {
-      border-left: 8px solid #ccc;
+      border-left: 8px solid $medium-gray;
       border-radius: 3px;
       top: 30px;
       height: 32%;
@@ -1874,17 +1874,17 @@
     padding-right: 0;
 
     .divider {
-      border-top: 1px solid #ddd;
+      border-top: 1px solid $light-gray;
       margin-bottom: 8px;
     }
 
     .interline-info-container {
       margin-top: 12px;
-      border: 1px solid #ddd;
+      border: 1px solid $light-gray;
       border-radius: 5px;
       display: flex;
       padding: 7px 13px 11px 0;
-      color: #333;
+      color: $dark-gray;
 
       .bold {
         font-weight: $font-weight-bold;
@@ -1911,7 +1911,7 @@
 
       .itinerary-leg-row-intermediate {
         cursor: pointer;
-        color: #333;
+        color: $dark-gray;
         font-size: 0.9375rem;
         font-weight: $font-weight-medium;
         padding-bottom: 11px;
@@ -1933,18 +1933,18 @@
       }
 
       .itinerary-leg-row-intermediate-indoor-step {
-        color: #666;
+        color: $gray;
         font-size: 0.9375rem;
         padding-bottom: 10px;
         display: flex;
 
         &.only-one-step {
           padding-top: 10px;
-          border-top: 1px solid #ddd;
+          border-top: 1px solid $light-gray;
         }
 
         .itinerary-intermediate-indoor-icon {
-          color: #333;
+          color: $dark-gray;
           width: 24px;
           height: 100%;
           vertical-align: middle;
@@ -2014,7 +2014,7 @@
     .itinerary-leg-row-with-link {
       display: flex;
       flex-direction: column;
-      color: #333;
+      color: $dark-gray;
 
       &.withPadding {
         padding: 0.625em 0;
@@ -2041,7 +2041,7 @@
       min-height: 60px;
       display: flex;
       flex-direction: row;
-      color: #333;
+      color: $dark-gray;
       font-size: 0.9375rem;
       align-items: center;
 
@@ -2060,12 +2060,12 @@
       @include font-medium;
 
       padding: 0.625em 0;
-      border-top: 1px solid #ddd;
+      border-top: 1px solid $light-gray;
       font-size: 0.9375rem;
 
       a {
         text-decoration: none;
-        color: #333;
+        color: $dark-gray;
       }
 
       &.via {
@@ -2075,7 +2075,7 @@
       .itinerary-leg-row {
         a {
           text-decoration: none;
-          color: #333;
+          color: $dark-gray;
         }
       }
 
@@ -2217,7 +2217,7 @@
           padding-left: 6px;
           font-size: 13px;
           font-weight: $font-weight-book;
-          color: #666;
+          color: $gray;
         }
 
         .citybike-icon {
@@ -2258,7 +2258,7 @@
 
         .scooter-icon .icon-container .icon {
           background-color: $scooter-color;
-          color: #fff;
+          color: $white;
           border-radius: 3px;
         }
 
@@ -2408,7 +2408,7 @@
 
       margin-top: 1px;
       overflow: hidden;
-      color: #333;
+      color: $dark-gray;
       font-size: 0.813rem;
       font-weight: $font-weight-book;
       display: flex;
@@ -2422,7 +2422,7 @@
       }
 
       border-radius: 5px;
-      border: solid 1px #ddd;
+      border: solid 1px $light-gray;
       margin-bottom: 10px;
 
       &.no-link {
@@ -2460,7 +2460,7 @@
 
           flex: 1;
           font-size: $font-size-xsmall;
-          color: #333;
+          color: $dark-gray;
           margin: 0 25px 8px 8px;
           line-height: 1.23;
           letter-spacing: -0.43px;
@@ -2476,7 +2476,7 @@
       .description {
         flex: 1;
         font-size: $font-size-xsmall;
-        color: #333;
+        color: $dark-gray;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
@@ -2529,7 +2529,7 @@
     }
 
     .itinerary-leg-action {
-      border-top: 1px solid #ddd;
+      border-top: 1px solid $light-gray;
       padding: 1.2em 0;
       margin-bottom: 0.1em;
       min-height: 60px;
@@ -2556,7 +2556,7 @@
     }
 
     .itinerary-leg-indoor-button-container {
-      border-top: 1px solid #ddd;
+      border-top: 1px solid $light-gray;
       min-height: 40px;
       height: auto;
       font-size: 0.9375rem;
@@ -2645,11 +2645,11 @@
       display: flex;
       margin-bottom: 10px;
       padding: 10px;
-      background: #fff;
-      border: 1px solid #ddd;
+      background: $white;
+      border: 1px solid $light-gray;
       box-sizing: border-box;
       border-radius: 5px;
-      color: #333;
+      color: $dark-gray;
 
       .icon-container {
         margin-right: 10px;
@@ -2764,7 +2764,7 @@ span.itinerary-stop-code {
   z-index: 10;
 
   .desktop-view-divider {
-    border-top: 1px solid #ddd;
+    border-top: 1px solid $light-gray;
     width: 400px;
 
     @media print {
@@ -2773,7 +2773,7 @@ span.itinerary-stop-code {
   }
 
   &.swipe-mobile-divider {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid $light-gray;
     margin-left: 10px;
     margin-right: 10px;
   }
@@ -3027,7 +3027,7 @@ span.itinerary-stop-code {
   .itinerary-summary {
     flex-grow: 0;
     flex-shrink: 0; // for ie mobile
-    color: #333;
+    color: $dark-gray;
     position: relative;
     justify-content: unset;
     font-weight: $font-weight-book;
@@ -3114,14 +3114,14 @@ span.itinerary-stop-code {
     font-weight: $font-weight-medium;
     line-height: 22px;
     margin: 0 0 4px;
-    color: #333;
+    color: $dark-gray;
   }
 
   .alternative-vehicle-info-content {
     display: flex;
     font-size: $font-size-normal;
     margin-bottom: 8px;
-    color: #666;
+    color: $gray;
     line-height: 18px;
     letter-spacing: -0.03em;
   }

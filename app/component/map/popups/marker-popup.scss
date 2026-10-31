@@ -21,7 +21,7 @@
   font-style: normal;
   line-height: normal;
   letter-spacing: -0.35px;
-  color: #333;
+  color: $dark-gray;
   padding: 12px 12px 0 12px;
   height: 40px;
 }
@@ -31,7 +31,7 @@
   align-items: center;
   min-height: 50px;
   padding: 4px 8px 0 8px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $light-gray;
   text-decoration: none;
 
   .choose-row-left-column {
@@ -56,7 +56,7 @@
     font-style: normal;
     line-height: 1.54;
     letter-spacing: -0.52px;
-    color: #333;
+    color: $dark-gray;
     margin: 0;
   }
 
@@ -74,7 +74,7 @@
     font-style: normal;
     line-height: 1.82;
     letter-spacing: -0.44px;
-    color: #666;
+    color: $gray;
     flex-shrink: 0;
   }
 
@@ -84,7 +84,7 @@
     }
 
     border-radius: 3px;
-    border: solid 1px #ddd;
+    border: solid 1px $light-gray;
     font-size: 11px;
     font-weight: $font-weight-medium;
     font-stretch: normal;
@@ -92,7 +92,7 @@
     line-height: normal;
     letter-spacing: -0.37px;
     text-align: center;
-    color: #666;
+    color: $gray;
     padding: 0 2px;
   }
 
@@ -129,6 +129,6 @@
   margin: 0 3px 0 3px;
   background-color: $background-color-lighter;
   font-weight: $font-weight-medium;
-  color: #666;
+  color: $gray;
   font-size: 10px;
 }
