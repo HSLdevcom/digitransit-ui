@@ -10,7 +10,6 @@
     --ferry-color: #{config('colors.ferry')};
     --metro-color: #{config('colors.subway')};
     --gray-blue: #78909c;
-    --background-color-darker: #e0e5e8;
     --background-color-lighter: #f2f5f7;
     --selector-background-color: #f4f4f4;
     --button-hover-color: #f4f4f4;
@@ -19,7 +18,6 @@
     --action-color: var(--theme-secondary-color);
     --banner-disruption-color: #dc0451;
     --current-location-color: var(--theme-primary-color);
-    --desktop-title-color: var(--theme-primary-color);
     --desktop-title-arrow-icon-color: var(--theme-secondary-color);
     --infobox-color-generic-blue: #ebf6fd;
     --infobox-border-color: var(--infobox-color-generic-blue);
@@ -28,13 +26,11 @@
     --standalone-btn-color: var(--action-color);
     --standalone-btn-hover-color: rgb(182, 193, 199);
     --standalone-btn-active-color: rgb(182, 193, 199);
-    --viewpoint-marker-color: var(--theme-primary-color);
     --link-color: var(--theme-primary-color);
     --link-button-color: var(--link-color);
     --swap-button-icon-color: #333;
     --slider-warning-color: #fbb800;
     --slider-ok-color: #4ea700;
-    --selected-lang-background: rgba(0, 0, 0, 0.15);
     --caution-icon-color: #fff;
     --top-bar-color: var(--theme-primary-color);
     --disclaimer-background-color: #ebf6fd;
@@ -74,6 +70,5 @@
     --theme-primary-dark-color: rgb(0, 12.415540540540455, 122.50000000000001);
     --color-accent-primary-900: #000a80;
     --color-accent-primary-500: #000f94;
-    --color-accent-primary-100: #8bd;
   }
 }

@@ -3,12 +3,10 @@
 @layer theme {
   :root {
     --gray-blue: #fff;
-    --background-color-darker: #cdcdd7;
     --background-color-lighter: #f6f6f6;
     --selector-background-color: #f6f6f6;
     --button-hover-color: #f6f6f6;
     --theme-secondary-color: var(--theme-primary-color);
-    --desktop-title-color: #000f94;
     --desktop-title-arrow-icon-color: #008bde;
     --infobox-color-generic-blue: #fff;
     --infobox-border-color: var(--theme-primary-color);
@@ -40,6 +38,5 @@
     --theme-primary-dark-color: black;
     --color-accent-primary-900: var(--theme-primary-color);
     --color-accent-primary-500: var(--theme-primary-color);
-    --color-accent-primary-100: #e6e6e6;
   }
 }

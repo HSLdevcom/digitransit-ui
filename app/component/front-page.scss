@@ -1,12 +1,5 @@
 @use 'abstracts' as *;
 
-$tab-color: $gray-blue;
-$tab-selected-color: $black;
-$tab-separator-color: $light-gray;
-$tab-min-width: 100px;
-$close-color: #79919d;
-$heading-color: #858585;
-
 .front-page.blurred {
   .flex-grow .leaflet-container {
     filter: blur(6px);

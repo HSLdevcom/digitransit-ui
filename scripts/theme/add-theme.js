@@ -8,7 +8,7 @@ import path from 'path';
 const rootDir = import.meta.dirname;
 
 const theme = process.argv[2];
-const color = process.argv[3] || '$livi-blue';
+const color = process.argv[3] || '#000f94';
 const logoPath = process.argv[4];
 
 if (!theme || theme === '?') {

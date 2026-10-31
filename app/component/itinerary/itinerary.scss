@@ -2,9 +2,6 @@
 @use 'abstracts' as *;
 @use '~@hsl-fi/sass/mixins/screen';
 
-$topbar-height: 40px;
-$itinerary-tab-switch-height: 48px;
-
 @mixin getCircleSvg($stroke, $fill) {
   svg {
     stroke: $stroke;
