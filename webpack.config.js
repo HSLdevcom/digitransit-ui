@@ -244,7 +244,17 @@ export default {
                 loader: MiniCssExtractPlugin.loader,
                 options: { publicPath: 'auto' },
               },
-          'css-loader',
+          {
+            loader: 'css-loader',
+            // `import styles from './x.module.scss'`, as in the packages.
+            options: {
+              modules: {
+                auto: true,
+                namedExport: false,
+                exportLocalsConvention: 'as-is',
+              },
+            },
+          },
           {
             loader: 'sass-loader',
             options: {
