@@ -1,7 +1,13 @@
+// Layer order is declared in themes/default/tokens.scss, which loads first.
+@import '~leaflet/dist/leaflet.css' layer(vendor);
 @import '@hsl-fi/design-system-core/css/styles.css' layer(tokens);
 @import 'base/tokens';
 @import 'base/breakpoints';
-@import 'base/reset';
+
+@layer reset {
+  @import 'base/reset';
+}
+
 @import 'base/grid';
 @import 'base/zindex';
 @import 'base/helper-mixins';

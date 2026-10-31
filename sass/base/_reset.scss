@@ -1,4 +1,4 @@
-// Element defaults ported from Foundation for Sites 6.9.0 and normalize.css 8.0.0.
+// Element defaults ported and adapted from Foundation for Sites 6.9.0 and normalize.css 8.0.0.
 // Copyright notices and MIT license terms: see THIRD-PARTY-LICENSES.txt in this directory.
 /* stylelint-disable no-duplicate-selectors, property-no-vendor-prefix, font-family-no-duplicate-names */
 
@@ -177,17 +177,6 @@ template {
   display: none;
 }
 
-[data-whatintent='mouse'] *,
-[data-whatintent='mouse'] *:focus,
-[data-whatintent='touch'] *,
-[data-whatintent='touch'] *:focus,
-[data-whatinput='mouse'] *,
-[data-whatinput='mouse'] *:focus,
-[data-whatinput='touch'] *,
-[data-whatinput='touch'] *:focus {
-  outline: none;
-}
-
 [draggable='false'] {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -234,10 +223,6 @@ select {
   box-sizing: border-box;
   width: 100%;
   border-radius: 0;
-}
-
-[data-whatinput='mouse'] button {
-  outline: 0;
 }
 
 button {
@@ -427,7 +412,7 @@ h6,
 
 a {
   line-height: inherit;
-  color: #1779ba;
+  color: $link-color;
   text-decoration: none;
   cursor: pointer;
 }
@@ -546,8 +531,6 @@ code {
 @media print {
   * {
     print-color-adjust: exact;
-    box-shadow: none !important;
-    text-shadow: none !important;
   }
 
   a,
@@ -577,10 +560,6 @@ code {
   tr,
   img {
     page-break-inside: avoid;
-  }
-
-  img {
-    max-width: 100% !important;
   }
 
   @page {

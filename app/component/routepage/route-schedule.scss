@@ -77,9 +77,12 @@
   }
 
   @media print {
-    // Foundation collapses display:flex in print — force visibility
-    display: block !important;
-    overflow: auto !important;
+    overflow: auto;
+
+    &,
+    &.bp-large {
+      display: block;
+    }
   }
 
   .route-schedule-header {
@@ -207,9 +210,7 @@
     height: 19px;
     background-color: $white;
     color: $theme-primary-color;
-
-    // !important required to override Foundation's .select border-bottom rule
-    border-bottom: none !important;
+    border-bottom: none;
     font-weight: $font-weight-medium;
     padding: 0;
     background-image: none;

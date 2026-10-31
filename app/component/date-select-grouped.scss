@@ -39,7 +39,7 @@
   .route-schedule-grouped__control {
     width: 100%;
     height: 100%;
-    background: none !important;
+    background: none;
     padding: 13px 16px;
     border-style: unset;
 
@@ -80,7 +80,7 @@
 
           & select {
             cursor: pointer;
-            border-bottom: none !important;
+            border-bottom: none;
             transition: all 0.2s ease-out;
             height: 1.27em;
             line-height: 1.3em;
@@ -148,11 +148,15 @@
   overflow-y: auto;
 }
 
+// The doubled classes in this file outrank react-select's own single-class styles.
+.route-schedule-grouped__group-heading.route-schedule-grouped__group-heading {
+  text-transform: none;
+}
+
 .route-schedule-grouped__group-heading {
   color: $gray;
   font-size: $font-size-xsmall;
   font-weight: $font-weight-book;
-  text-transform: none !important;
   border-bottom: 1px solid $light-gray;
   padding: 0.5rem 1rem 0.25rem;
   border-top: 1px solid $light-gray;
@@ -171,9 +175,9 @@
 }
 
 // Remove extra spacing introduced by react-select's group wrapper
-.route-schedule-grouped__group {
-  padding: 0 !important;
-  margin: 0 !important;
+.route-schedule-grouped__group.route-schedule-grouped__group {
+  padding: 0;
+  margin: 0;
 }
 
 // Ensure the first group does not receive top padding from menu-list wrappers
@@ -224,13 +228,13 @@
   display: none;
 }
 
-.route-schedule-grouped__option--is-selected {
-  background-color: transparent !important;
-  color: inherit !important;
+.route-schedule-grouped__option--is-selected.route-schedule-grouped__option--is-selected {
+  background-color: transparent;
+  color: inherit;
 }
 
-.route-schedule-grouped__option--is-focused {
-  background-color: $suggestion-highlight-color !important;
+.route-schedule-grouped__option--is-focused.route-schedule-grouped__option--is-focused {
+  background-color: $suggestion-highlight-color;
 }
 
 .route-schedule-grouped__option,

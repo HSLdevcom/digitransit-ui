@@ -226,8 +226,9 @@
       &.fit-route-number {
         min-width: max-content;
 
-        .vcenter-children {
-          min-width: max-content !important; // forces the leg to fit the route number in it
+        .vcenter-children,
+        .route-number .vcenter-children {
+          min-width: max-content; // forces the leg to fit the route number in it
         }
 
         .route-number {

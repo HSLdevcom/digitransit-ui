@@ -5,16 +5,6 @@ input {
   font-family: $font-family;
 }
 
-span.postfix {
-  border-top-right-radius: $border-radius !important;
-  border-bottom-right-radius: $border-radius !important;
-}
-
-span.prefix {
-  border-top-left-radius: $border-radius !important;
-  border-bottom-left-radius: $border-radius !important;
-}
-
 // Hide X-button from time inputs
 input[type='date']::-webkit-clear-button,
 input[type='time']::-webkit-clear-button {

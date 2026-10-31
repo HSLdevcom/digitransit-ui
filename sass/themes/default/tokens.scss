@@ -1,5 +1,5 @@
 /* Values of the themed variables in sass/base/_tokens.scss. Compiled per theme, so config() reads that theme's config. */
-@layer vendor, tokens, theme, base;
+@layer reset, vendor, tokens, theme;
 
 @layer theme {
   :root {

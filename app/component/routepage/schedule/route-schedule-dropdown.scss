@@ -44,6 +44,7 @@
     box-shadow: none;
 
     &:focus-within {
+      // react-select sets `outline: 0 !important` on its control.
       outline: 2px auto $black !important;
     }
   }

@@ -1,4 +1,9 @@
-@import '~leaflet/dist/leaflet.css';
+// In the vendor layer so that Leaflet's more specific link colors still win.
+@layer vendor {
+  .leaflet-container a {
+    color: currentcolor;
+  }
+}
 
 $small-map-height: 10rem;
 $stop-thin-opacity: 0.2;
@@ -151,7 +156,7 @@ div.map {
     .icon-holder,
     .icon-holder:focus,
     .icon-holder:hover {
-      padding: 0.55em 0.2em 0 0 !important;
+      padding: 0.55em 0.2em 0 0;
       font-size: 16px;
       z-index: index($zindex, map-buttons);
       background: white;
@@ -451,6 +456,7 @@ div.leaflet-marker-icon.vehicle-icon {
 }
 
 .vehicle-popup {
+  // Overrides the position and width Leaflet sets inline.
   left: -19px !important;
 
   .route-header {
@@ -475,10 +481,6 @@ div.leaflet-marker-icon.vehicle-icon {
   .leaflet-popup-content {
     margin: 0;
     width: 18rem !important;
-
-    &.leaflet-popup-scrolled {
-      overflow: inherit;
-    }
 
     .card-sub-header {
       display: flex;
@@ -603,11 +605,6 @@ div.leaflet-marker-icon.vehicle-icon {
 
   .leaflet-popup-content {
     margin: 0;
-
-    &.leaflet-popup-scrolled {
-      overflow: inherit;
-      height: auto !important;
-    }
   }
 
   .card {

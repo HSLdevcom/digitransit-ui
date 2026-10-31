@@ -124,13 +124,9 @@ $mode-colors: (
   padding: 0 2em;
 }
 
-.no-margin {
-  margin: 0 !important;
-}
-
 /* Appearance */
 .cursor-grab {
-  cursor: grab !important;
+  cursor: grab;
 }
 
 .cursor-pointer {
@@ -184,8 +180,8 @@ body .large {
   border: 1px dashed $light-gray;
 }
 
-.collapsed {
-  display: none !important;
+div.collapsed {
+  display: none;
 }
 
 .hidden {

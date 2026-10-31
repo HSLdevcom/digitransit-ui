@@ -70,14 +70,14 @@
 
     & select {
       cursor: pointer;
-      border-bottom: none !important;
+      border-bottom: none;
       transition: all 0.2s ease-out;
       height: 1.27em;
       line-height: 1.3em;
 
       &:hover {
         color: $theme-secondary-color;
-        border-bottom: none !important;
+        border-bottom: none;
       }
     }
 
@@ -171,14 +171,14 @@
 
           & select {
             cursor: pointer;
-            border-bottom: none !important;
+            border-bottom: none;
             transition: all 0.2s ease-out;
             height: 1.27em;
             line-height: 1.3em;
 
             &:hover {
               color: $theme-secondary-color;
-              border-bottom: none !important;
+              border-bottom: none;
             }
           }
 

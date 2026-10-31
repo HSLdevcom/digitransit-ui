@@ -19,8 +19,21 @@ After running the command, the created skeleton files can be edited further.
 
 All themes share one stylesheet, `sass/_main.scss`. A theme only changes the values of CSS custom
 properties, in `sass/themes/<theme>/tokens.scss`. That file starts by importing its parent
-(`../waltti/tokens` or `../default/tokens`) and is linked before the stylesheet. Its `@layer theme`
-block beats the `tokens` layer of `@hsl-fi/design-system-core`.
+(`../waltti/tokens` or `../default/tokens`) and is linked before the stylesheet.
+
+The cascade order is declared once, at the top of `sass/themes/default/tokens.scss`:
+
+```css
+@layer reset, vendor, tokens, theme;
+```
+
+Later layers win regardless of specificity, and unlayered CSS beats every layer:
+
+- `reset`: element defaults (`sass/base/_reset.scss`), the weakest styles, so anything can override them.
+- `vendor`: third-party CSS, currently Leaflet.
+- `tokens`: the default values from `@hsl-fi/design-system-core`.
+- `theme`: the values in each theme's `tokens.scss`.
+- Unlayered: the app's own CSS. Keep `!important` out of layers, because it inverts their order.
 
 To make a Sass variable themeable, define it in `sass/themes/default/tokens.scss` and set it to
 `var(--name)` in `sass/base/_tokens.scss`. Sass color functions such as `darken()` and data URIs

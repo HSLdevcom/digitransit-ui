@@ -1692,7 +1692,7 @@ $itinerary-tab-switch-height: 48px;
     .itinerary-list-container.has-call-agency-leg & {
       text-align: right;
 
-      // Foundation's grid-column gutter adds ~10-15px of padding-right, but estimate text needs more space.
+      // The grid column's gutter adds ~10-15px of padding-right, but estimate text needs more space.
       padding-right: 4px;
     }
 
@@ -2170,7 +2170,7 @@ $itinerary-tab-switch-height: 48px;
       }
 
       .inline-icon {
-        font-size: 12px !important;
+        font-size: 12px;
       }
 
       .itinerary-leg-first-row__arrow {
@@ -2374,7 +2374,7 @@ $itinerary-tab-switch-height: 48px;
 
         .subicon-info,
         .subicon-caution {
-          font-size: 50% !important;
+          font-size: 50%;
         }
 
         .vehicle-number-container-v {
@@ -3285,7 +3285,7 @@ div.itinerary-container-content {
 
 .rental-vehicle-link {
   .external-link-container {
-    border: none !important;
+    border: none;
 
     .external-link {
       font-weight: $font-weight-medium;
