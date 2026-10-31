@@ -221,9 +221,9 @@
       }
 
       span {
-        font-size: var(--Font-Size-Routes-Extra-small, 12px);
-        line-height: var(--Line-Height-Routes-XS, 14px);
-        letter-spacing: var(--letter-spacing-03, -0.3px);
+        font-size: 12px;
+        line-height: 14px;
+        letter-spacing: -0.3px;
         font-weight: $font-weight-medium;
         color: $theme-primary-color;
       }
@@ -240,10 +240,9 @@
 
   .restore-settings {
     display: flex;
-    padding: var(--fixed-space-s, 16px) 0 var(--fixed-space-s, 16px)
-      var(--fixed-space-m, 24px);
+    padding: var(--space-fixed-s) 0 var(--space-fixed-s) var(--space-fixed-m);
     align-items: center;
-    gap: var(--fixed-space-xs, 8px);
+    gap: var(--space-fixed-xs);
     align-self: stretch;
     border-radius: var(--radius-pill, 999px);
     background: #fff;
@@ -252,7 +251,7 @@
     bottom: 0;
     z-index: 10;
     width: 368px;
-    margin-bottom: var(--fixed-space-s, 16px);
+    margin-bottom: var(--space-fixed-s);
     line-height: normal;
     max-height: 70px;
 
