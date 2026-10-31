@@ -14,7 +14,7 @@ import CompressionPlugin from 'compression-webpack-plugin';
 import { WebpackAssetsManifest } from 'webpack-assets-manifest';
 import {
   themeEntries,
-  themeTokensPath,
+  themePath,
   faviconPlugins,
 } from './scripts/build/contextHelper.js';
 import sassConfigFunctions from './scripts/build/sassConfigFunctions.js';
@@ -26,7 +26,7 @@ const mode = process.env.NODE_ENV;
 const isProduction = mode === 'production';
 const isDevelopment = !isProduction;
 
-const themeTokensFile = /styles[/\\]themes[/\\](\w+)[/\\]theme\.scss$/;
+const themeFile = /styles[/\\]themes[/\\](\w+)[/\\]theme\.scss$/;
 
 // Files in `_static` that webpack doesn't emit, so `output.clean` keeps
 // them: `static/` as copied by scripts/build/copyStatic.js (plus its
@@ -73,7 +73,7 @@ export default {
       // Dev-only: first so that it declares the cascade layer order.
       ...(isDevelopment
         ? [
-            themeTokensPath(
+            themePath(
               process.env.CONFIG || process.env.BASE_CONFIG || 'default',
             ),
           ]
@@ -249,7 +249,7 @@ export default {
             loader: 'sass-loader',
             options: {
               sassOptions: ({ resourcePath }) => {
-                const [, theme] = resourcePath.match(themeTokensFile) || [];
+                const [, theme] = resourcePath.match(themeFile) || [];
                 return {
                   // No BOM/@charset: Sass adds one to non-ASCII output, and a
                   // BOM mid-bundle invalidates the selector that follows it.

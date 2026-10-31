@@ -47,12 +47,12 @@ function buildHead(config, req, locale) {
   // Write preload hints before doing anything else
   if (process.env.NODE_ENV !== 'development') {
     const { ASSET_URL, mainAssets } = getAssetContext();
-    const tokensCssPath = getAssetPath(`${config.CONFIG}_tokens.css`);
+    const themeCssPath = getAssetPath(`${config.CONFIG}_theme.css`);
     const preloads = [
       { as: 'style', href: config.URL.FONT },
       {
         as: 'style',
-        href: `${ASSET_URL}/${tokensCssPath}`,
+        href: `${ASSET_URL}/${themeCssPath}`,
         crossorigin: true,
       },
       ...mainAssets.map(asset => ({
@@ -79,7 +79,7 @@ function buildHead(config, req, locale) {
     );
     // First stylesheet in the document: it declares the cascade layer order.
     html.push(
-      `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${tokensCssPath}"/>\n`,
+      `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${themeCssPath}"/>\n`,
     );
     mainAssets
       .filter(asset => asset.endsWith('.css'))

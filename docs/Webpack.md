@@ -28,7 +28,7 @@ and output settings.
 
 - `main` is the real app entry (`app/client/publicPath` + `app/client/client`).
   `client.jsx` imports `styles/main.scss`, so every theme shares one stylesheet.
-- In production, `scripts/build/contextHelper.js` adds one `<theme>_tokens`
+- In production, `scripts/build/contextHelper.js` adds one `<theme>_theme`
   entry per regional theme's `styles/themes/<theme>/theme.scss`, plus a
   `<sprite>` entry for any config-declared SVG sprite sheet (`config.sprites`),
   which content-hashes it into `manifest.json`. The sprite itself is
@@ -243,7 +243,7 @@ Production gets (development gets none of these):
   name→hashed-filename map, plus (`entrypoints: true`) an `entrypoints`
   key listing each entry's files grouped by extension, in load order
   (`entrypoints.main.assets.{js,css}`). `server/html/assetManifest.js`
-  reads both: the map for tokens CSS/sprite lookups, `entrypoints.main` for
+  reads both: the map for theme CSS/sprite lookups, `entrypoints.main` for
   which hashed JS/CSS files to preload/link and which runtime chunk to
   inline. Imported via its named export (`{ WebpackAssetsManifest }`); v6
   changed it from a default export.
@@ -307,13 +307,13 @@ Both dev and prod also always get:
   webpack runtime (module loader glue) into its own cacheable chunk in
   production. `'single'` creates one shared runtime chunk for *all*
   entries, rather than one per entry (`'multiple'`/`true`) — this app has
-  multiple entries (`main` plus one CSS-only `*_tokens` entry per
+  multiple entries (`main` plus one CSS-only `*_theme` entry per
   deployment via `themeEntries`), so a single shared runtime avoids
   duplicating that boilerplate across each of them. Note the runtime
   chunk's own hash will still shift on almost any unrelated chunk/module
   change (it embeds the chunk-id→hash manifest needed for lazy-chunk
   loading) — the real caching benefit is that *other* chunks (`react`,
-  `digitransit-components`, route chunks, tokens CSS/JS) stay stable when
+  `digitransit-components`, route chunks, theme CSS/JS) stay stable when
   unrelated code changes, not that the runtime chunk itself never
   changes.
 
