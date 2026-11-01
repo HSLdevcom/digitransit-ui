@@ -219,3 +219,7 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   minor.
 - SCSS under `sass/`, `app/**/*.scss`, `packages/digitransit-component/**/*.scss` — must pass
   `prettier --check` and `stylelint`.
+
+## Code review
+
+When reviewing changes, follow `.github/instructions/code-review.instructions.md`.
