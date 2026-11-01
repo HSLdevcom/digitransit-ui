@@ -50,6 +50,12 @@ const productionPlugins = [
     // unresolved item rather than a fully-accepted non-issue.
     ignoreOrder: false,
   }),
+  // main.css has ported third-party code, this is the CSS version of the
+  // pointer Terser adds to JS bundles.
+  new webpack.BannerPlugin({
+    banner: 'For license information please see ../third-party-licenses.txt',
+    test: /^css\/main\./,
+  }),
   new CompressionPlugin({
     filename: '[path][base].gz',
     test: /\.(js|css|html|svg|ico)$/,
