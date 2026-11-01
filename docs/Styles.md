@@ -61,5 +61,17 @@ Later layers win regardless of specificity, and unlayered CSS beats every layer:
 Use a custom property for values that vary by theme or at runtime, and a Sass variable for everything
 else. `var()` doesn't work in media queries or data URIs, and Sass color functions can't take it.
 
-A class is only unused if it appears nowhere at runtime: check `cx()` keys, `class="…${x}"` in HTML
-strings, lowercased enums, react-select's `classNamePrefix`, and `@extend` before removing one.
+## Removing or changing CSS
+
+A class is only unused if it appears nowhere at runtime, and it can come from more places than `className`:
+
+| Source | Example | How to check |
+| --- | --- | --- |
+| JS, configs, translations, SVGs | `cx()` keys, `class="…"` in icons and HTML strings | `git grep -nw <name>`, which searches every tracked file |
+| Built names | `` `message-bar-${type}` ``, lowercased enums, react-select's `classNamePrefix` | Search the prefix or suffix and find the values it can take |
+| Libraries at runtime | Leaflet's `leaflet-popup-scrolled` | After `yarn build`, `grep -lw <name> _static/js/*.js`, then read each match. Find what triggers it, such as a prop |
+| Other stylesheets | `@extend` | `git grep -nw <name> -- '*.scss'` |
+| HTML from outside the repo | CMS banners, third-party scripts | Can't be searched, so ask the content's owner |
+
+The same goes for changing a rule: narrowing a selector or removing `!important` can make it lose to
+another rule. To see what a change did, compare the compiled CSS per theme, then computed styles in a browser.

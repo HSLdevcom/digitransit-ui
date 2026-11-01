@@ -203,7 +203,10 @@ All themes share `styles/main.scss`; a theme only sets CSS custom properties.
   is unlayered. Avoid `!important`.
 - Page-level z-indexes go in `$global-zindex` in `styles/abstracts/_zindex.scss`.
 - Before removing a class, check `cx()` keys, HTML strings, lowercased enums, react-select's
-  `classNamePrefix` and `@extend`.
+  `classNamePrefix`, `@extend`, `class` attributes in SVGs and names libraries add at runtime. Use
+  `git grep -nw <name>` and search `_static/js` after a build. See "Removing or changing CSS" in `docs/Styles.md`.
+- Icon color differences go in CSS (`fill`, `currentColor`, a custom property). A different shape gets its own
+  `app/assets/icons/<theme>/<id>.svg` and `sprites` in the theme's config, not theme classes inside an SVG.
 - SCSS under `styles/`, `app/**/*.scss`, `packages/digitransit-component/**/*.scss` must pass
   `prettier --check` and `stylelint`.
 

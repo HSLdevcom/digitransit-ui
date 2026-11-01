@@ -63,6 +63,8 @@ key fails the build.
 - **Icons:** `app/assets/icons/default/` holds every icon, and a theme overrides or adds icons with files
   of the same name. `scripts/build/buildSprites.js` builds each sprite sheet, and a config selects one with
   `sprites: 'assets/svg-sprite.<theme>.svg'` (see [Webpack](Webpack.md)).
+  Use a theme's CSS when only the color differs, through `fill`, `currentColor` or a custom property. Add a
+  theme icon when the shape differs, and don't put theme classes or hidden paths in an SVG.
 
 `test/unit/server/configs/staticAssets.test.js` checks that config asset URLs point at existing files and
 that nothing in `static/assets/` is unreferenced.
