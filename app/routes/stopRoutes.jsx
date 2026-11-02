@@ -46,7 +46,7 @@ const queries = {
     pageHeader: graphql`
       query stopRoutes_StopPageHeaderContainer_Query($stopId: String!) {
         stop(id: $stopId) {
-          ...StopPageHeaderContainer_stop
+          ...StopCardHeader_stop
         }
       }
     `,
@@ -125,8 +125,8 @@ const queries = {
   station: {
     pageHeader: graphql`
       query stopRoutes_TerminalPageHeaderContainer_Query($terminalId: String!) {
-        station(id: $terminalId) {
-          ...TerminalPageHeaderContainer_station
+        stop: station(id: $terminalId) {
+          ...StopCardHeader_stop
         }
       }
     `,
@@ -233,13 +233,9 @@ export default function getStopRoutes(isTerminal = false) {
             <Route
               path="(.*)?"
               getComponent={() => {
-                return isTerminal
-                  ? import(
-                      /* webpackChunkName: "stop" */ '../component/stop/TerminalPageHeaderContainer'
-                    ).then(getDefault)
-                  : import(
-                      /* webpackChunkName: "stop" */ '../component/stop/StopPageHeaderContainer'
-                    ).then(getDefault);
+                return import(
+                  /* webpackChunkName: "stop" */ '../component/stop/StopPageHeader'
+                ).then(getDefault);
               }}
               query={queryMap.pageHeader}
               render={getComponentOrNullRenderer}
