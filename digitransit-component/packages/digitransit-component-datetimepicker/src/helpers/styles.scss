@@ -273,7 +273,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
     }
   }
 
-  :global .datetimepicker-invalid-input {
+  :global(.datetimepicker-invalid-input) {
     input {
       color: #f00 !important;
     }
@@ -284,22 +284,22 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
     height: 40px;
 
     // use global scope because react-select is not quite compatible with csss module local scoping
-    :global .datetimepicker-select__control {
+    :global(.datetimepicker-select__control) {
       cursor: inherit;
       height: 40px;
       border: 1px solid #888;
     }
 
-    :global .datetimepicker-select__value-container {
+    :global(.datetimepicker-select__value-container) {
       padding: 0;
     }
 
-    :global .datetimepicker-select__single-value {
+    :global(.datetimepicker-select__single-value) {
       margin: 0 0 0 47px;
     }
 
     // the input has inline font/color/background styles, so typography is set on its container
-    :global .datetimepicker-select__input-container {
+    :global(.datetimepicker-select__input-container) {
       background: inherit;
       position: relative;
       padding: 0;
@@ -313,7 +313,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
       font-weight: var(--font-weight-medium, 500);
     }
 
-    :global .datetimepicker-select__input {
+    :global(.datetimepicker-select__input) {
       opacity: 1 !important; // TODO
       box-shadow: none;
       letter-spacing: -0.5px; // inputs do not inherit letter-spacing
@@ -325,7 +325,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
       }
     }
 
-    :global .datetimepicker-select__menu {
+    :global(.datetimepicker-select__menu) {
       z-index: index($zindex, 'autosuggest-suggestion-container');
       padding: 0;
       background: #fff;
@@ -334,24 +334,24 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
       box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.06);
       border: 1px rgba(0, 0, 0, 0.1) solid;
 
-      :global .datetimepicker-select__menu-list {
+      :global(.datetimepicker-select__menu-list) {
         max-height: 250px;
         padding: 0;
 
-        :global .datetimepicker-select__option {
+        :global(.datetimepicker-select__option) {
           height: 50px;
           border-top: 1px solid #ddd;
           padding: 13px 0 0 12px;
           letter-spacing: -0.6px;
           color: #333;
+        }
 
-          &--is-selected {
-            background: inherit;
-          }
+        :global(.datetimepicker-select__option--is-selected) {
+          background: inherit;
+        }
 
-          &--is-focused {
-            background: #dfe5e8;
-          }
+        :global(.datetimepicker-select__option--is-focused) {
+          background: #dfe5e8;
         }
       }
     }
@@ -494,7 +494,7 @@ $zindex: base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
         }
       }
 
-      :global .mobile-datetimepicker-invalid-input {
+      :global(.mobile-datetimepicker-invalid-input) {
         color: #f00 !important;
       }
 

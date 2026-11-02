@@ -10,6 +10,7 @@
         "default",
         "^default",
         "{workspaceRoot}/config/rollup.config.js",
+        "{workspaceRoot}/config/rollup-plugin-scss-modules.js",
         "{workspaceRoot}/config/babel.config.cjs"
       ],
       "outputs": ["{projectRoot}/lib"],

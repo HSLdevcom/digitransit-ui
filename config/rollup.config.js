@@ -1,14 +1,13 @@
 import path from 'path';
 import fs from 'fs';
-import autoprefixer from 'autoprefixer';
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
-import postcss from 'rollup-plugin-postcss';
 import { babel } from '@rollup/plugin-babel';
 import json from '@rollup/plugin-json';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import svgr from '@svgr/rollup';
 import terser from '@rollup/plugin-terser';
+import scssModules from './rollup-plugin-scss-modules.js';
 
 const rootDir = import.meta.dirname;
 
@@ -84,8 +83,7 @@ function getPackage() {
     );
   }
   const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-  const extractCss = [pkg.sideEffects].flat().includes('**/*.css');
-  return { name: pkg.name, location: packageDir, extractCss };
+  return { name: pkg.name, location: packageDir, sideEffects: pkg.sideEffects };
 }
 
 export default () => {
@@ -100,6 +98,13 @@ export default () => {
   if (!fs.existsSync(input)) {
     input = path.join(pkg.location, 'index.jsx');
   }
+  const scss = scssModules({
+    packageName: pkg.name,
+    packageRoot: pkg.location,
+    rootDir,
+    sideEffects: pkg.sideEffects,
+    minify: process.env.NODE_ENV === 'production',
+  });
   const buildConfig = {
     input,
     output: [
@@ -156,7 +161,8 @@ export default () => {
         inlineDynamicImports: true,
         exports: 'named',
         // The consumer's bundler resolves extracted css, so no manual CSS import needed.
-        ...(pkg.extractCss ? { banner: "import './index.css';" } : {}),
+        banner: chunk =>
+          chunk.moduleIds.some(scss.hasCss) ? "import './index.css';" : '',
       },
     ],
     context: 'self',
@@ -187,45 +193,7 @@ export default () => {
         include: /node_modules/,
         sourceMap: true,
       }),
-      postcss({
-        extract: pkg.extractCss ? 'index.css' : false,
-        plugins: [autoprefixer()],
-        // postcss-modules' scoped class names are hashed from
-        // `path.relative(process.cwd(), filepath) + localName` (see
-        // generic-names). Since this config now runs per-package with cwd
-        // set to that package's own directory (e.g. every package's SCSS
-        // module lives at the same relative path "src/helpers/styles.scss"),
-        // two unrelated packages that happen to use the same local class
-        // name (e.g. ".combobox-icon") would otherwise hash to the exact
-        // same scoped name and collide once bundled together in the app.
-        // Passing a per-package hashPrefix (forwarded straight into that
-        // hash input) restores uniqueness across packages.
-        modules: {
-          generateScopedName: '[name]_[local]__[hash:base64:5]',
-          hashPrefix: pkg.name,
-        },
-        // rollup-plugin-postcss only honours a custom `modules` object (as
-        // opposed to treating every matched file as a CSS module) when
-        // `autoModules` isn't left to its filename-based default (which
-        // requires a `.module.scss` naming convention that this codebase
-        // doesn't use) - explicitly disable it so plain `.scss` files still
-        // go through postcss-modules with our settings above.
-        autoModules: false,
-        use: [
-          [
-            'sass',
-            {
-              quietDeps: true,
-              silenceDeprecations: [
-                'import',
-                'global-builtin',
-                'color-functions',
-              ],
-            },
-          ],
-        ],
-        config: false,
-      }),
+      scss,
       json(),
     ],
   };

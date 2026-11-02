@@ -236,7 +236,6 @@
     "@testing-library/react": "^16.0.1",
     "@vitejs/plugin-react": "4.7.0",
     "async": "^3.2.6",
-    "autoprefixer": "^10.4.21",
     "babel-loader": "^10.1.1",
     "babel-plugin-dynamic-import-node": "2.3.3",
     "babel-plugin-optimize-clsx": "2.6.2",
@@ -283,7 +282,6 @@
     "relay-compiler": "16.2.0",
     "rollup": "4.62.5",
     "rollup-plugin-peer-deps-external": "2.2.4",
-    "rollup-plugin-postcss": "4.0.2",
     "sass": "^1.97.2",
     "sass-loader": "17.0.0",
     "selenium-webdriver": "4.0.0-alpha.1",
@@ -302,7 +300,6 @@
     "webpack-dev-server": "^6.0.0"
   },
   "resolutions": {
-    "autoprefixer": "^10.4.21",
     "html-webpack-plugin": "5.6.8",
     "cheerio": "1.0.0-rc.10"
   }

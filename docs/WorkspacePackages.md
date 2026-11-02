@@ -274,29 +274,36 @@ These rules (for `dependencies`/`peerDependencies`) are enforced by
 ## CSS Modules
 
 `component`/`store` packages using SCSS (e.g. `src/helpers/styles.scss`) get
-it compiled as a CSS Module by the shared `config/rollup.config.js`, which
-runs once per package with `cwd` set to that package's own directory. Since
-many packages share the same relative file path (e.g.
-`src/helpers/styles.scss`), the config passes a per-package `hashPrefix`
-(the package's npm name) into `postcss-modules` so that two unrelated
-packages using the same local class name (e.g. `.combobox-icon`) never hash
-to the same scoped class name and leak styles into each other once bundled
-into the app — don't remove `hashPrefix`/`autoModules: false` from that
-config without preserving this.
+it compiled by `config/rollup-plugin-scss-modules.js` (used by the shared
+`config/rollup.config.js`, which runs once per package with `cwd` set to
+that package's own directory): Sass's modern API compiles it (including
+webpack-style `~pkg/...` imports), then Lightning CSS scopes the class names
+as CSS Modules and applies the same `browserslist` targets as the app. The
+default export of the SCSS file is the map of local to scoped class names.
+
+The package's npm name is part of the scoped name hash. Many packages share
+the same relative file path (e.g. `src/helpers/styles.scss`), and without it
+two unrelated packages using the same local class name (e.g.
+`.combobox-icon`) would hash to the same scoped name and leak styles into
+each other once bundled into the app — keep that when changing the plugin.
+
+Use `:global(.name)` for unscoped classes (e.g. react-select's). Lightning CSS
+does not support the bare `:global .name` form, and Sass can't append a suffix
+to `:global(...)` with `&`, so write such class names out in full.
 
 ### Shipping the CSS
 
-Packages that declare `"sideEffects": ["**/*.css"]` in their `package.json`
-(all packages using SCSS) ship their compiled CSS as `lib/index.css`, and
+Packages using SCSS must declare `"sideEffects": ["**/*.css"]` in their
+`package.json`. They ship their compiled CSS as `lib/index.css`, and
 the ESM build starts with `import './index.css'`. The consuming bundler
 resolves that import, so the CSS lands in its normal CSS output (no runtime
 `<style>` tags, no manual import needed). Keep `sideEffects` or webpack
 tree-shakes the import away. The package also exports `./index.css`.
 
 The UMD/CJS builds (`index.cjs`) contain no CSS for these packages; those
-consumers must load `index.css` themselves. A package without the
-`sideEffects` declaration keeps the old behaviour of injecting `<style>`
-tags at runtime.
+consumers must load `index.css` themselves. The build fails for a package
+that has SCSS but doesn't declare `sideEffects`. The CSS is minified in
+production builds.
 
 ## Build Caching
 
