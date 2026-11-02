@@ -99,7 +99,7 @@ export default config => {
       <Route
         getComponent={() =>
           import(
-            /* webpackChunkName: "vehiclepark" */ '../component/ParkContainer'
+            /* webpackChunkName: "vehiclepark" */ '../component/ParkAndRideContent'
           )
             .then(getDefault)
             .catch(errorLoading)
@@ -108,7 +108,7 @@ export default config => {
         query={graphql`
           query routes_VehiclePark_Query($id: String!) {
             vehicleParking(id: $id) {
-              ...ParkContainer_vehicleParking
+              ...ParkAndRideContent_vehicleParking
             }
           }
         `}
