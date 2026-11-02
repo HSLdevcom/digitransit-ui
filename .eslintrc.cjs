@@ -108,7 +108,7 @@ module.exports = {
         'utils/server/**/*.js',
         'webpack.config.js',
         'scripts/**/*.js',
-        'config/*.{js,cjs}',
+        'packages/private/rollup-config/**/*.js',
       ],
       rules: {
         'import/extensions': ['error', 'always', { ignorePackages: true }],
@@ -161,7 +161,7 @@ module.exports = {
         '@graphql-eslint/unique-operation-name': 'off',
       },
       parserOptions: {
-        schema: './schema/schema.graphql',
+        schema: './packages/private/schema/schema.graphql',
       },
     },
   ],
