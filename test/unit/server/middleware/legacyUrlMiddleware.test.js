@@ -94,6 +94,34 @@ describe('legacyUrlMiddleware', () => {
     });
   });
 
+  describe('protocol-relative paths', () => {
+    it('never produces a redirect starting with "//"', () => {
+      const bad = { path: '//example.com/x', query: { time: 'abc' } };
+      expect(validateParams(bad, config)).toBe('/example.com/x');
+      expect(
+        dropPathLanguageAndFixLocaleParam(
+          { path: '/en//example.com', query: {} },
+          'en',
+        ),
+      ).toBe('/example.com?locale=en');
+      expect(
+        dropPathLanguageAndFixLocaleParam(
+          { path: '/en/\\example.com', query: {} },
+          'en',
+        ),
+      ).toBe('/example.com?locale=en');
+    });
+
+    it('only drops the language when it is a whole path segment', () => {
+      expect(
+        dropPathLanguageAndFixLocaleParam(
+          { path: '/english/x', query: {} },
+          'en',
+        ),
+      ).toBe('/english/x?locale=en');
+    });
+  });
+
   describe('LEGACY_LOCALES / LEGACY_LOCALE_PATHS', () => {
     it('LEGACY_LOCALES is the single source of truth this middleware redirects on', () => {
       expect(LEGACY_LOCALES).toEqual(

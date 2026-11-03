@@ -2,6 +2,16 @@ import legacyParamParser from '../../utils/shared/legacyParamParser.js';
 import { LEGACY_LOCALES } from '../../utils/shared/constants.js';
 import { getConfiguration } from '../configs/config.js';
 
+const PATH_SEPARATORS = /[\\/]+/;
+
+/**
+ * Collapses repeated `/` and `\` (browsers treat `\` as `/`) so the result
+ * can't be a protocol-relative URL.
+ */
+function normalizePath(path) {
+  return `/${path.split(PATH_SEPARATORS).filter(Boolean).join('/')}`;
+}
+
 function formatQuery(query) {
   const params = Object.keys(query)
     .map(k => `${k}=${query[k]}`)
@@ -11,7 +21,7 @@ function formatQuery(query) {
 }
 
 function formatUrl(req) {
-  return `${req.path}${formatQuery(req.query)}`;
+  return `${normalizePath(req.path)}${formatQuery(req.query)}`;
 }
 
 function removeUrlParam(req, param) {
@@ -52,8 +62,11 @@ const fixLocaleParam = (req, lang) => {
 };
 
 export const dropPathLanguageAndFixLocaleParam = (req, lang) => {
-  const newPath = req.path.replace(`/${lang}`, '/').replace('//', '/');
-  return newPath + fixLocaleParam(req, lang);
+  const segments = req.path.split(PATH_SEPARATORS).filter(Boolean);
+  if (segments[0] === lang) {
+    segments.shift();
+  }
+  return normalizePath(segments.join('/')) + fixLocaleParam(req, lang);
 };
 
 const dropPathLanguageAndRedirect = (req, res, lang) => {
@@ -62,7 +75,7 @@ const dropPathLanguageAndRedirect = (req, res, lang) => {
 };
 
 const fixLocaleParamAndRedirect = (req, res, lang) => {
-  const fixedUrl = req.path + fixLocaleParam(req, lang);
+  const fixedUrl = normalizePath(req.path) + fixLocaleParam(req, lang);
   res.redirect(fixedUrl);
 };
 
