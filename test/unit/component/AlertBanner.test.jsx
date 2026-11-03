@@ -3,11 +3,6 @@ import { renderWithProviders } from '../helpers/mock-providers';
 import AlertBanner from '../../../app/component/AlertBanner';
 import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 
-// jsdom has no layout, so truncation would cut the text
-vi.mock('react-truncate-markup', () => ({
-  default: ({ children }) => children,
-}));
-
 // The global Link mock drops the anchor, so replace Link.render here instead of
 // using vi.mock('found'): tests share the module registry (isolate: false),
 // and a vi.mock has no effect if AlertBanner was already imported by an earlier test file.

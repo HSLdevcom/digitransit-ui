@@ -21,19 +21,30 @@ import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
 // `relay.useFragment = ...` reassignment; only
 // `import relay from 'react-relay'; relay.useFragment` call sites would.
 // vi.mock avoids that distinction since both import forms resolve to the
-// same mocked module. useRefetchableFragment's refetch function is a no-op
-// by default; a test asserting refetch behaviour can assert on it directly
-// via its own local vi.mock override (see below), which takes precedence
-// over this one for that file.
+// same mocked module. useRefetchableFragment's refetch function is a no-op.
+// Module mocks belong here rather than in test files: test files share one
+// module registry per worker (vitest.config.js `isolate: false`), so a mock
+// must be the same for every file (see docs/Tests.md).
 vi.mock('react-relay', async importOriginal => {
   const actual = await importOriginal();
+  const relay = actual.default;
   return {
     ...actual,
-    ...actual.default,
+    ...relay,
     useFragment: (_fragment, fragmentRef) => fragmentRef,
     useRefetchableFragment: (_fragment, fragmentRef) => [fragmentRef, vi.fn()],
+    // Every test file gets a new instance of this mock, but modules imported
+    // by an earlier file keep theirs. Reading fetchQuery from react-relay's
+    // own exports object (the default export) at call time lets
+    // `vi.spyOn(relay, 'fetchQuery')` reach every caller regardless.
+    fetchQuery: (...args) => relay.fetchQuery(...args),
   };
 });
+
+// jsdom has no layout, so react-truncate-markup would cut the text.
+vi.mock('react-truncate-markup', () => ({
+  default: ({ children }) => children,
+}));
 
 // Stub useLazyLoadQuery globally for the same reason, defaulting to an empty
 // result so standalone-query components (TripLink, FuzzyTripLink, and the
@@ -65,10 +76,10 @@ Object.defineProperty(window.navigator, 'userAgent', {
 // the old Mocha suite's @hsl-fi/* stubbing hack has been dropped - see
 // docs/Tests.md) requires an `appElement`/`#app` DOM node to exist for its
 // aria-hidden accessibility handling, mirroring the real `<div id="app">`
-// root element `server/middleware/shell.js` renders the app into.
+// root element `server/middleware/shell.js` renders the app into. It's attached
+// for one test file at a time, as the files of a worker share one document.
 const appRoot = document.createElement('div');
 appRoot.id = 'app';
-document.body.appendChild(appRoot);
 
 const config = {
   useCookiesPrompt: false,
@@ -78,11 +89,10 @@ initAnalyticsClientSide(config);
 
 const MockLink = ({ children }) => children;
 
-// These are process-wide overrides applied once for the whole run (not
-// per-test mocks), so they're done via plain property reassignment rather
-// than vi.fn()/vi.spyOn() - the `restoreMocks: true` Vitest config option
-// (vitest.config.js's `app` project) restores every vi mock before each test,
-// which would undo a vi-based stub here after the very first test.
+// These overrides last for a whole test file (not per-test mocks), so they're
+// done via plain property reassignment rather than vi.spyOn() - spies are
+// restored after every test (see afterEach below), which would undo a
+// vi-based stub here after the very first test.
 const originalConsoleError = console.error;
 const originalLinkRender = Link.render;
 
@@ -104,6 +114,7 @@ const allowedDeprecationWarnings = [
 ];
 
 beforeAll(() => {
+  document.body.appendChild(appRoot);
   ReactModal.setAppElement(appRoot);
   console.error = warning => {
     const message = String(warning);
@@ -118,22 +129,27 @@ beforeAll(() => {
 });
 
 afterAll(() => {
+  appRoot.remove();
   console.error = originalConsoleError;
   Link.render = originalLinkRender;
 });
 
-// make sure the local and session storage stays clear for each test
+// Resets what a test may have changed, as the test files of a worker share
+// one environment (vitest.config.js `isolate: false`).
 afterEach(() => {
   cleanup();
   // react-modal hides its app element (body in some tests) and only restores
   // it after closeTimeoutMS; a leftover aria-hidden would make later
-  // getByRole queries in the same file fail.
+  // getByRole queries fail.
   document.body.removeAttribute('aria-hidden');
-  // `restoreMocks: true` (vitest.config.js's `app` project) only restores
-  // vi.fn()/vi.spyOn() mocks right before the *next* test starts, so a
-  // test-scoped mock (e.g. one replacing the window.localStorage getter)
-  // is still active here otherwise, breaking this cleanup itself.
+  // The `restoreMocks` config option only restores spies right before the
+  // *next* test starts, so a test-scoped spy (e.g. one replacing the
+  // window.localStorage getter) would still be active here, breaking this
+  // cleanup itself. Undoing spies, stubbed globals and fake timers here also
+  // keeps them from leaking into the next test file's setup.
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+  vi.useRealTimers();
   window.localStorage.clear();
   window.sessionStorage.clear();
 });

@@ -1,15 +1,11 @@
 import { renderWithProviders } from '../helpers/mock-providers';
 import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';
 import TransitLeg from '../../../app/component/itinerary/TransitLeg';
+import * as useCanceledStopIdsModule from '../../../app/component/itinerary/useCanceledStopIds';
 import {
   AlertSeverityLevelType,
   AlertEntityType,
 } from '../../../utils/shared/constants';
-
-const mockCanceledStopIds = vi.hoisted(() => vi.fn());
-vi.mock('../../../app/component/itinerary/useCanceledStopIds', () => ({
-  default: mockCanceledStopIds,
-}));
 
 const defaultProps = {
   children: <div />,
@@ -33,8 +29,11 @@ describe('<TransitLeg />', () => {
   // ignoreRelayModernSelectorWarning's own comment for why this is needed.
   ignoreRelayModernSelectorWarning();
 
+  let mockCanceledStopIds;
   beforeEach(() => {
-    mockCanceledStopIds.mockReturnValue(new Set());
+    mockCanceledStopIds = vi
+      .spyOn(useCanceledStopIdsModule, 'default')
+      .mockReturnValue(new Set());
   });
 
   const renderLeg = (props, legConfig = config) =>

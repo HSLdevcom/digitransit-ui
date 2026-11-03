@@ -116,9 +116,14 @@ export default {
           // Files that still `import { expect } from 'chai'` are unaffected
           // (a local import shadows a global).
           globals: true,
-          // Auto-restores vi.fn()/vi.spyOn() mocks between tests. Needed
-          // because a handful of tests use vi.spyOn to stub this repo's own
-          // ESM exports, which sinon can't do.
+          // Runs the test files of a worker in one shared jsdom environment
+          // and module registry, instead of recreating both for every file,
+          // which took most of this project's run time. Tests therefore must
+          // not leave global state behind, and must stub modules with
+          // vi.spyOn() rather than per-file vi.mock() (see docs/Tests.md).
+          isolate: false,
+          // Restores vi.spyOn() stubs, including those on this repo's own ESM
+          // exports, before each test.
           restoreMocks: true,
           setupFiles: ['./test/unit/helpers/vitest.setup.js'],
           // @hsl-fi/*, @radix-ui/* (under @hsl-fi/dialog|form|notifications|

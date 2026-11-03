@@ -2,6 +2,13 @@ import { renderWithProviders } from './helpers/mock-providers';
 import AppBarHsl from '../../app/component/AppBarHsl';
 
 describe('<AppBarHsl />', () => {
+  beforeEach(() => {
+    // The site header fetches its config on mount. The request never
+    // resolves, so the test stays off the network and no response arrives
+    // after it has ended.
+    vi.spyOn(window, 'fetch').mockReturnValue(new Promise(() => {}));
+  });
+
   it('should render without errors', () => {
     const { container } = renderWithProviders(<AppBarHsl />, {
       config: {

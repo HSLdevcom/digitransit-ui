@@ -1,95 +1,43 @@
 /* eslint-disable react/prop-types */
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import { fetchQuery } from 'react-relay';
+import relay from 'react-relay';
 import ItineraryPage from '../../../../app/component/itinerary/ItineraryPage';
 import TestProviders from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
 import { mockMatch, mockRouter } from '../../helpers/mock-router';
-import { PLANTYPE } from '../../../../utils/client/planParamUtil';
-import {
-  quitIteration,
-  stopClient,
-} from '../../../../app/component/itinerary/ItineraryPageUtils';
+import * as planParamUtil from '../../../../utils/client/planParamUtil';
+import * as ItineraryPageUtils from '../../../../app/component/itinerary/ItineraryPageUtils';
+import * as DesktopViewModule from '../../../../app/component/DesktopView';
+import * as ItineraryPageMapModule from '../../../../app/component/map/ItineraryPageMap';
+import * as ItineraryPageControlsModule from '../../../../app/component/itinerary/ItineraryPageControls';
+import * as AlternativeItineraryBarModule from '../../../../app/component/itinerary/AlternativeItineraryBar';
+import * as ItineraryListContainerModule from '../../../../app/component/itinerary/ItineraryListContainer';
 
-vi.mock('react-relay', async importOriginal => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    ...actual.default,
-    // This file-level mock overrides the shared setup's react-relay mock
-    // (needed here only for the fetchQuery override below), so it has to
-    // restate the useFragment stub too.
-    useFragment: (_fragment, fragmentRef) => fragmentRef,
-    fetchQuery: vi.fn(),
-  };
-});
+const { PLANTYPE } = planParamUtil;
 
-vi.mock('../../../../app/hooks/BreakpointContext', async importOriginal => ({
-  ...(await importOriginal()),
-  useBreakpoint: () => 'large',
-}));
-
-vi.mock('../../../../utils/client/planParamUtil', async importOriginal => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    planQueryNeeded: (_config, _match, type, relaxed) =>
-      !relaxed &&
-      [actual.PLANTYPE.TRANSIT, actual.PLANTYPE.WALK].includes(type),
-    getPlanParams: (_config, match, type) => ({
-      destination: match.params.to,
-      type,
-      datetime: {},
-      modes: { directOnly: type === actual.PLANTYPE.WALK },
-      numItineraries: 5,
-    }),
-  };
-});
-
-vi.mock(
-  '../../../../app/component/itinerary/ItineraryPageUtils',
-  async importOriginal => ({
-    ...(await importOriginal()),
-    quitIteration: vi.fn(() => true),
-    stopClient: vi.fn(),
-    settingsLimitRouting: () => false,
-  }),
+const DesktopViewStub = ({ header, content }) => (
+  <>
+    {header}
+    {content}
+  </>
 );
-
-vi.mock('../../../../app/component/DesktopView', () => ({
-  default: ({ header, content }) => (
-    <>
-      {header}
-      {content}
-    </>
-  ),
-}));
-vi.mock('../../../../app/component/map/ItineraryPageMap', () => ({
-  default: () => null,
-}));
-vi.mock('../../../../app/component/itinerary/ItineraryPageControls', () => ({
-  default: () => null,
-}));
-vi.mock('../../../../app/component/itinerary/AlternativeItineraryBar', () => ({
-  default: ({ walkPlan }) => (
-    <div data-testid="walking">{walkPlan?.edges?.[0]?.node.id}</div>
-  ),
-}));
-vi.mock('../../../../app/component/itinerary/ItineraryListContainer', () => ({
-  default: ({ planEdges, onEarlier, onLater }) => (
-    <>
-      <div data-testid="itineraries">
-        {planEdges.map(edge => edge.node.id).join(',')}
-      </div>
-      <button type="button" onClick={onEarlier}>
-        Earlier
-      </button>
-      <button type="button" onClick={onLater}>
-        Later
-      </button>
-    </>
-  ),
-}));
+const EmptyStub = () => null;
+const AlternativeItineraryBarStub = ({ walkPlan }) => (
+  <div data-testid="walking">{walkPlan?.edges?.[0]?.node.id}</div>
+);
+const ItineraryListContainerStub = ({ planEdges, onEarlier, onLater }) => (
+  <>
+    <div data-testid="itineraries">
+      {planEdges.map(edge => edge.node.id).join(',')}
+    </div>
+    <button type="button" onClick={onEarlier}>
+      Earlier
+    </button>
+    <button type="button" onClick={onLater}>
+      Later
+    </button>
+  </>
+);
 
 const config = createTestConfig({
   showVehiclesOnItineraryPage: false,
@@ -140,17 +88,54 @@ function plan(id) {
 
 describe('ItineraryPage lifecycle', () => {
   let requests;
+  let quitIteration;
+  let stopClient;
 
   beforeEach(() => {
     requests = [];
-    stopClient.mockClear();
-    quitIteration.mockReturnValue(true);
-    fetchQuery.mockImplementation((_environment, _query, variables) => ({
-      toPromise: () =>
-        new Promise((resolve, reject) => {
-          requests.push({ variables, resolve, reject });
-        }),
-    }));
+    vi.spyOn(relay, 'fetchQuery').mockImplementation(
+      (_environment, _query, variables) => ({
+        toPromise: () =>
+          new Promise((resolve, reject) => {
+            requests.push({ variables, resolve, reject });
+          }),
+      }),
+    );
+    vi.spyOn(planParamUtil, 'planQueryNeeded').mockImplementation(
+      (_config, _match, type, relaxed) =>
+        !relaxed && [PLANTYPE.TRANSIT, PLANTYPE.WALK].includes(type),
+    );
+    vi.spyOn(planParamUtil, 'getPlanParams').mockImplementation(
+      (_config, match, type) => ({
+        destination: match.params.to,
+        type,
+        datetime: {},
+        modes: { directOnly: type === PLANTYPE.WALK },
+        numItineraries: 5,
+      }),
+    );
+    quitIteration = vi
+      .spyOn(ItineraryPageUtils, 'quitIteration')
+      .mockReturnValue(true);
+    stopClient = vi
+      .spyOn(ItineraryPageUtils, 'stopClient')
+      .mockImplementation(() => {});
+    vi.spyOn(ItineraryPageUtils, 'settingsLimitRouting').mockReturnValue(false);
+    vi.spyOn(DesktopViewModule, 'default', 'get').mockReturnValue(
+      DesktopViewStub,
+    );
+    vi.spyOn(ItineraryPageMapModule, 'default', 'get').mockReturnValue(
+      EmptyStub,
+    );
+    vi.spyOn(ItineraryPageControlsModule, 'default', 'get').mockReturnValue(
+      EmptyStub,
+    );
+    vi.spyOn(AlternativeItineraryBarModule, 'default', 'get').mockReturnValue(
+      AlternativeItineraryBarStub,
+    );
+    vi.spyOn(ItineraryListContainerModule, 'default', 'get').mockReturnValue(
+      ItineraryListContainerStub,
+    );
   });
 
   async function finishSearch(destination) {

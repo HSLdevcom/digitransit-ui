@@ -1,14 +1,19 @@
 import { screen } from '@testing-library/react';
 import { Component as RentalVehiclePageMapContainer } from '../../../app/component/RentalVehiclePageMapContainer';
+import * as StopPageMapModule from '../../../app/component/map/StopPageMap';
 import { renderWithProviders } from '../helpers/mock-providers';
 
 // The map itself isn't under test, only the name passed to it
-vi.mock('../../../app/component/map/StopPageMap', () => ({
-  // eslint-disable-next-line react/prop-types
-  default: ({ stopName }) => <div>{stopName}</div>,
-}));
+// eslint-disable-next-line react/prop-types
+const StopPageMapStub = ({ stopName }) => <div>{stopName}</div>;
 
 describe('<RentalVehiclePageMapContainer />', () => {
+  beforeEach(() => {
+    vi.spyOn(StopPageMapModule, 'default', 'get').mockReturnValue(
+      StopPageMapStub,
+    );
+  });
+
   it('shows a translated name for a scooter', () => {
     renderWithProviders(
       <RentalVehiclePageMapContainer

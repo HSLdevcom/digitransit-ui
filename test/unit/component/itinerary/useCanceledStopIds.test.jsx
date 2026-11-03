@@ -1,17 +1,9 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { DateTime } from 'luxon';
+import relay from 'react-relay';
 import useCanceledStopIds from '../../../../app/component/itinerary/useCanceledStopIds';
 import TestProviders from '../../helpers/mock-providers';
 import { mockContext } from '../../helpers/mock-context';
-
-const mockFetchQuery = vi.hoisted(() => vi.fn());
-vi.mock('react-relay', async importOriginal => {
-  const actual = await importOriginal();
-  return {
-    ReactRelayContext: actual.ReactRelayContext,
-    fetchQuery: mockFetchQuery,
-  };
-});
 
 const timeZone = 'Europe/Helsinki';
 const wrapper = ({ children }) => (
@@ -46,8 +38,12 @@ const leg = (loadedDate, serviceDate) => ({
 });
 
 describe('useCanceledStopIds', () => {
+  let mockFetchQuery;
+
   beforeEach(() => {
-    mockFetchQuery.mockReset();
+    mockFetchQuery = vi
+      .spyOn(relay, 'fetchQuery')
+      .mockReturnValue(response([]));
   });
 
   it('uses the loaded stoptimes without a query when they are for the service date of the leg', () => {

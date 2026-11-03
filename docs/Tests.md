@@ -29,7 +29,9 @@ instead of jsdom) with globals enabled, so `describe`/
 `it`/`expect`/`vi` are available without imports (imports are still used
 throughout the suite for clarity/lint compliance). The pattern being watched
 is `'test/unit/**/*.test.{js,jsx}'`. Assertions use Vitest's native `expect` API and
-mocking uses `vi.fn()`/`vi.spyOn()`/`vi.mock()`. Set environment variables with `vi.stubEnv()`
+mocking uses `vi.fn()`/`vi.spyOn()` (`vi.mock()` only in the server tests and the app
+setup file, see [Shared environment of the app tests](#shared-environment-of-the-app-tests)).
+Set environment variables with `vi.stubEnv()`
 (undone by `vi.unstubAllEnvs()`) rather than assigning to `process.env`, which can't restore an
 originally unset variable.
 
@@ -61,6 +63,54 @@ Using the continuous watch mode
 yarn run test-unit -- --watch
 ```
 
+### Shared environment of the app tests
+
+The `app` project runs with `isolate: false`: the test files of a worker share one
+jsdom environment and one module registry instead of recreating them for every
+file, which makes the suite several times faster. The other projects keep
+Vitest's default isolation. A test must therefore leave nothing behind that a
+later file could see. After every test, `test/unit/helpers/vitest.setup.js`
+unmounts rendered components, restores spies, stubbed globals and real timers,
+and clears `localStorage`/`sessionStorage`. Beyond that:
+
+- Stub `window` properties with `vi.stubGlobal()` rather than assigning to them.
+- Undo other changes to shared objects, e.g. remove `fetch-mock` routes and call
+  history after each test, and don't leave requests or timers running after a
+  test has ended.
+- Don't call `vi.mock()` in a test file (enforced by ESLint). A module mock
+  applies to one file, while each module is evaluated only once per worker: the
+  mock misses modules that an earlier file already imported, and leaks into
+  later files through the modules imported while it was active. Instead, stub
+  the export with `vi.spyOn()` on the module namespace in `beforeEach`. Modules
+  that read the export when they run (render, call) see the stub, which is
+  restored after each test:
+
+  ```jsx
+  import * as timeUtils from '../../../utils/client/timeUtils';
+  import * as DepartureRowModule from '../../../app/component/DepartureRow';
+
+  const DepartureRowStub = () => <tr />;
+
+  beforeEach(() => {
+    vi.spyOn(timeUtils, 'unixTime').mockReturnValue(1700000000);
+    // a component is replaced through the getter of its export
+    vi.spyOn(DepartureRowModule, 'default', 'get').mockReturnValue(
+      DepartureRowStub,
+    );
+  });
+  ```
+
+  `react-relay`'s `fetchQuery` is stubbed through its default export:
+  `vi.spyOn(relay, 'fetchQuery')` after `import relay from 'react-relay'`.
+  A module mock that every test file needs belongs in `vitest.setup.js`.
+
+If a test passes alone but fails in the full run, another file has likely left
+state behind. This runs all files in one worker in a reproducible random order:
+
+```sh
+yarn test-unit:app --maxWorkers=1 --sequence.shuffle.files --sequence.seed=<n>
+```
+
 ### Troubleshooting: HSL modal app element warning
 
 Opening `@hsl-fi/modal` can fail with:
@@ -84,14 +134,18 @@ Importing `Modal` from `@hsl-fi/modal` does not expose `setAppElement`: it expor
 a wrapper component, not the underlying `react-modal` component or its static
 methods. Creating a `#app` element alone therefore does not resolve this issue.
 
-For tests focused on content and callbacks, mock the wrapper as in
+For tests focused on content and callbacks, stub the wrapper as in
 [NavigatorIntroModal.test.jsx](../test/unit/component/itinerary/navigator/navigatorintro/NavigatorIntroModal.test.jsx):
 
 ```jsx
-vi.mock('@hsl-fi/modal', () => ({
-  // eslint-disable-next-line react/prop-types
-  default: ({ isOpen, children }) => (isOpen ? children : null),
-}));
+import * as HslModalModule from '@hsl-fi/modal';
+
+// eslint-disable-next-line react/prop-types
+const ModalStub = ({ isOpen, children }) => (isOpen ? children : null);
+
+beforeEach(() => {
+  vi.spyOn(HslModalModule, 'default', 'get').mockReturnValue(ModalStub);
+});
 ```
 
 This preserves the content under test without exercising third-party portals
@@ -114,10 +168,11 @@ beforeAll(() => {
 });
 ```
 
-The `#app` element must already exist. Resolving from the package avoids
-hardcoding a nested `node_modules` path and handles both nested and hoisted
-installations. This workaround was confirmed to pass the two navigator intro
-tests, but was replaced with the focused mock to avoid coupling shared setup
-to a dependency's internal dependency. Do not disable ARIA hiding merely to
-suppress the warning. The upstream fix is to supply the app element to the
-underlying modal before its portal mounts.
+The setup file attaches the `#app` element in its own `beforeAll` hook, so
+query it from a hook rather than at the top level of a test file. Resolving
+from the package avoids hardcoding a nested `node_modules` path and handles
+both nested and hoisted installations. This workaround was confirmed to pass
+the two navigator intro tests, but was replaced with the focused stub to avoid
+coupling shared setup to a dependency's internal dependency. Do not disable
+ARIA hiding merely to suppress the warning. The upstream fix is to supply the
+app element to the underlying modal before its portal mounts.

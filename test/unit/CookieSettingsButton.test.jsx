@@ -3,19 +3,15 @@ import CookieSettingsButton from '../../app/component/CookieSettingsButton';
 import { renderWithProviders } from './helpers/mock-providers';
 
 describe('CookieSettingsButton', () => {
-  afterEach(() => {
-    global.window.CookieConsent.renew = undefined;
-  });
-
   it('renders the button with correct text', () => {
-    global.window.CookieConsent = { renew: vi.fn() };
+    vi.stubGlobal('CookieConsent', { renew: vi.fn() });
     const { container } = renderWithProviders(<CookieSettingsButton />);
     const btn = container.querySelector('button');
     expect(btn.classList.contains('cookie-settings-button')).toBe(true);
   });
 
   it('renders the button with mobile class when isMobile is true', () => {
-    global.window.CookieConsent = { renew: undefined };
+    vi.stubGlobal('CookieConsent', { renew: undefined });
     const { container } = renderWithProviders(
       <CookieSettingsButton isMobile />,
     );
@@ -24,14 +20,14 @@ describe('CookieSettingsButton', () => {
   });
 
   it('calls window.CookieConsent.renew when clicked', () => {
-    global.window.CookieConsent = { renew: vi.fn() };
+    vi.stubGlobal('CookieConsent', { renew: vi.fn() });
     const { container } = renderWithProviders(<CookieSettingsButton />);
     fireEvent.click(container.querySelector('button'));
     expect(window.CookieConsent.renew.mock.calls.length).toBe(1);
   });
 
   it('does not throw if window.CookieConsent.renew is undefined', () => {
-    window.CookieConsent = { renew: undefined };
+    vi.stubGlobal('CookieConsent', { renew: undefined });
     const { container } = renderWithProviders(<CookieSettingsButton />);
     expect(() => {
       fireEvent.click(container.querySelector('button'));
