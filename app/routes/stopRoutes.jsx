@@ -102,7 +102,7 @@ const queries = {
         $date: String!
       ) {
         stop(id: $stopId) {
-          ...StopTimetablePage_stop @arguments(date: $date)
+          ...StopTimetablePageFragment @arguments(date: $date)
         }
       }
     `,
@@ -181,8 +181,8 @@ const queries = {
         $terminalId: String!
         $date: String!
       ) {
-        station(id: $terminalId) {
-          ...TerminalTimetablePage_station @arguments(date: $date)
+        stop: station(id: $terminalId) {
+          ...StopTimetablePageFragment @arguments(date: $date)
         }
       }
     `,
@@ -287,17 +287,11 @@ export default function getStopRoutes(isTerminal = false) {
               <Route
                 path={PREFIX_TIMETABLE}
                 getComponent={() => {
-                  return isTerminal
-                    ? import(
-                        /* webpackChunkName: "stop" */ '../component/stop/TerminalTimetablePage'
-                      )
-                        .then(getDefault)
-                        .catch(errorLoading)
-                    : import(
-                        /* webpackChunkName: "stop" */ '../component/stop/StopTimetablePage'
-                      )
-                        .then(getDefault)
-                        .catch(errorLoading);
+                  return import(
+                    /* webpackChunkName: "stop" */ '../component/stop/StopTimetablePage'
+                  )
+                    .then(getDefault)
+                    .catch(errorLoading);
                 }}
                 query={queryMap.pageTimetable}
                 prepareVariables={(params, { location }) => {
