@@ -15,6 +15,7 @@ import {
   errorLoading,
   getComponentOrNullRenderer,
   createStickyRenderer,
+  createStickyRendererFactory,
   getComponentOrLoadingRenderer,
 } from './routerUtils';
 import {
@@ -209,6 +210,10 @@ const queries = {
 export default function getStopRoutes(isTerminal = false) {
   const renderTabContainer = createStickyRenderer();
   const renderMap = createStickyRenderer();
+  // Keeps the timetable visible while a new ?date= is being fetched.
+  const renderTimetable = createStickyRendererFactory(match =>
+    JSON.stringify(match.params),
+  )(getComponentOrLoadingRenderer);
   const queryMap = isTerminal ? queries.station : queries.stop;
   return (
     <Route path={`/${isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS}`}>
@@ -299,7 +304,7 @@ export default function getStopRoutes(isTerminal = false) {
                     date: date || DateTime.now().toFormat(DATE_FORMAT),
                   };
                 }}
-                render={getComponentOrLoadingRenderer}
+                render={renderTimetable}
               />
               <Route
                 path={PREFIX_DISRUPTION}
