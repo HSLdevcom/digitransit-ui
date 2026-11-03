@@ -81,8 +81,9 @@ const queries = {
         $cancelationEndDate: OffsetDateTime!
       ) {
         stop(id: $stopId) {
-          ...StopPageTabContainer_stop
+          ...StopPageTabsFragment
             @arguments(
+              isTerminal: false
               cancelationStartDate: $cancelationStartDate
               cancelationEndDate: $cancelationEndDate
             )
@@ -160,9 +161,10 @@ const queries = {
         $cancelationStartDate: OffsetDateTime!
         $cancelationEndDate: OffsetDateTime!
       ) {
-        station(id: $terminalId) {
-          ...TerminalPageTabContainer_station
+        stop: station(id: $terminalId) {
+          ...StopPageTabsFragment
             @arguments(
+              isTerminal: true
               cancelationStartDate: $cancelationStartDate
               cancelationEndDate: $cancelationEndDate
             )
@@ -244,13 +246,9 @@ export default function getStopRoutes(isTerminal = false) {
           content: (
             <Route
               getComponent={() => {
-                return isTerminal
-                  ? import(
-                      /* webpackChunkName: "stop" */ '../component/stop/TerminalPageTabContainer'
-                    ).then(getDefault)
-                  : import(
-                      /* webpackChunkName: "stop" */ '../component/stop/StopPageTabContainer'
-                    ).then(getDefault);
+                return import(
+                  /* webpackChunkName: "stop" */ '../component/stop/StopPageTabs'
+                ).then(getDefault);
               }}
               query={queryMap.pageTab}
               prepareVariables={prepareDatesForStopTabs}

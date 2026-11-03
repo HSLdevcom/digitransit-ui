@@ -171,31 +171,15 @@ export const getCancelationsForRoute = (
 };
 
 /**
- * Retrieves Service Alerts from the given object (or an empty list if no alerts exist).
- * Falsy alerts are left out.
+ * Retrieves Service Alerts from the given object and, recursively, from its
+ * child stops (or an empty list if no alerts exist). Falsy alerts are left out.
  *
  * @param {Object.<string,*>} object should contain alerts key.
  */
-export const getAlertsForObject = object => {
-  if (!object || !Array.isArray(object.alerts)) {
-    return [];
-  }
-
-  return object.alerts.filter(alert => !!alert);
-};
-
-/**
- * Retrieves Service Alerts from the given station and its stops
- * or an empty array.
- *
- * @param {string} station the stop object to retrieve alerts from.
- */
-export const getServiceAlertsForStation = station => {
-  const stopAlerts = station.stops
-    ? station.stops.flatMap(stop => getAlertsForObject(stop))
-    : [];
-  return [...getAlertsForObject(station), ...stopAlerts];
-};
+export const getAlertsForObject = object => [
+  ...(object?.alerts?.filter(Boolean) ?? []),
+  ...(object?.stops?.flatMap(getAlertsForObject) ?? []),
+];
 
 export const getUniqueAlerts = alerts => {
   const seen = new Set();

@@ -414,6 +414,28 @@ describe('alertUtils', () => {
         utils.getAlertsForObject({ alerts: [null, alert, undefined] }),
       ).toEqual([alert]);
     });
+
+    it('should include alerts of child stops', () => {
+      const own = { alertHash: 1 };
+      const child1 = { alertHash: 2 };
+      const child2 = { alertHash: 3 };
+      expect(
+        utils.getAlertsForObject({
+          alerts: [own],
+          stops: [{ alerts: [child1] }, null, { alerts: [null, child2] }],
+        }),
+      ).toEqual([own, child1, child2]);
+    });
+
+    it('should include child stop alerts when the object has no alerts', () => {
+      const child = { alertHash: 1 };
+      expect(
+        utils.getAlertsForObject({
+          alerts: null,
+          stops: [{ alerts: [child] }],
+        }),
+      ).toEqual([child]);
+    });
   });
 
   describe('getActiveLegAlertSeverityLevel', () => {
