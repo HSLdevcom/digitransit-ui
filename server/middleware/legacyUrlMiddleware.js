@@ -20,39 +20,19 @@ function formatQuery(query) {
   return params ? `?${params}` : '';
 }
 
-function formatUrl(req) {
-  return `${normalizePath(req.path)}${formatQuery(req.query)}`;
-}
-
-function removeUrlParam(req, param) {
-  if (req.query[param]) {
-    delete req.query[param];
-  }
-
-  return formatUrl(req);
-}
-
 export function validateParams(req, config) {
-  let url;
+  const { time: timeParam, ...query } = req.query;
+  const timeNow = Date.now() / 1000; // Convert to seconds
+  const isStale =
+    config.queryMaxAgeDays &&
+    timeParam &&
+    timeNow - timeParam > config.queryMaxAgeDays * 24 * 3600;
+  const isInvalid =
+    timeParam !== undefined && !Number.isFinite(Number(timeParam));
 
-  if (config.queryMaxAgeDays && req.query.time) {
-    const now = Date.now() / 1000; // Convert to seconds
-    if (now - req.query.time > config.queryMaxAgeDays * 24 * 3600) {
-      url = removeUrlParam(req, 'time');
-    }
-  }
-
-  const numericParams = ['time'];
-  Object.keys(req.query).forEach(key => {
-    if (
-      numericParams.indexOf(key) > -1 &&
-      !Number.isFinite(Number(req.query[key]))
-    ) {
-      url = removeUrlParam(req, key);
-    }
-  });
-
-  return url;
+  return isStale || isInvalid
+    ? `${normalizePath(req.path)}${formatQuery(query)}`
+    : undefined;
 }
 
 const fixLocaleParam = (req, lang) => {
