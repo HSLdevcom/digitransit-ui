@@ -58,7 +58,7 @@ const queries = {
         $timeRange: Int!
       ) {
         stop(id: $stopId) {
-          ...StopPageMapContainer_stop
+          ...StopPageMapFragment
             @arguments(
               startOfDay: $startOfDay
               startTime: $startTime
@@ -137,8 +137,8 @@ const queries = {
         $startTime: Long!
         $timeRange: Int!
       ) {
-        station(id: $terminalId) {
-          ...TerminalPageMapContainer_station
+        stop: station(id: $terminalId) {
+          ...StopPageMapFragment
             @arguments(
               startOfDay: $startOfDay
               startTime: $startTime
@@ -328,14 +328,9 @@ export default function getStopRoutes(isTerminal = false) {
             <Route
               path="(.*)?"
               getComponent={() => {
-                // eslint-disable-next-line no-nested-ternary
-                return isTerminal
-                  ? import(
-                      /* webpackChunkName: "stop" */ '../component/stop/TerminalPageMapContainer'
-                    ).then(getDefault)
-                  : import(
-                      /* webpackChunkName: "stop" */ '../component/stop/StopPageMapContainer'
-                    ).then(getDefault);
+                return import(
+                  /* webpackChunkName: "stop" */ '../component/stop/StopPageMapContainer'
+                ).then(getDefault);
               }}
               query={queryMap.pageMap}
               prepareVariables={prepareMapVariables}

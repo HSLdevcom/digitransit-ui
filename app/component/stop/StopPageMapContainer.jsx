@@ -1,7 +1,8 @@
-import PropTypes from 'prop-types';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { useFragment } from 'react-relay';
 import { DateTime } from 'luxon';
 import StopPageMap from '../map/StopPageMap';
+import { fragmentRefShape } from '../../../utils/client/shapes';
+import { StopPageMapFragment } from './queries/StopPageMapFragment';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import {
   STOP_STATUS,
@@ -9,8 +10,9 @@ import {
   getStopAlertEffects,
 } from '../../../utils/client/stopStatusUtils';
 
-function StopPageMapContainer({ stop = undefined }) {
+export default function StopPageMapContainer({ stop: stopRef }) {
   const config = useConfigContext();
+  const stop = useFragment(StopPageMapFragment, stopRef);
   if (!stop) {
     return false;
   }
@@ -38,54 +40,5 @@ function StopPageMapContainer({ stop = undefined }) {
 }
 
 StopPageMapContainer.propTypes = {
-  stop: PropTypes.shape({
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
-    platformCode: PropTypes.string,
-  }),
+  stop: fragmentRefShape,
 };
-
-const containerComponent = createFragmentContainer(StopPageMapContainer, {
-  stop: graphql`
-    fragment StopPageMapContainer_stop on Stop
-    @argumentDefinitions(
-      startOfDay: { type: "Long" }
-      startTime: { type: "Long" }
-      timeRange: { type: "Int", defaultValue: 7776000 } # 90 days in seconds
-    ) {
-      lat
-      lon
-      platformCode
-      name
-      code
-      desc
-      vehicleMode
-      locationType
-      gtfsId
-      alerts(types: [STOP, ROUTES]) {
-        alertEffect
-        alertSeverityLevel
-        effectiveStartDate
-        effectiveEndDate
-      }
-      serviceToday: stoptimesWithoutPatterns(
-        startTime: $startOfDay
-        timeRange: 86400 # 1 day in seconds
-        numberOfDepartures: 1
-        omitCanceled: true
-      ) {
-        serviceDay
-      }
-      stoptimesWithoutPatterns(
-        startTime: $startTime
-        timeRange: $timeRange
-        numberOfDepartures: 1
-        omitCanceled: true
-      ) {
-        serviceDay
-      }
-    }
-  `,
-});
-
-export { containerComponent as default, StopPageMapContainer as Component };
