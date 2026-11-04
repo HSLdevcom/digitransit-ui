@@ -7,10 +7,10 @@ import helmet from 'helmet';
 import proxy from 'express-http-proxy';
 import { getConfiguration } from './configs/config.js';
 import setUpOIDC from './passport-openid-connect/openidConnect.js';
+import languageMiddleware from './middleware/languageMiddleware.js';
 import legacyUrlMiddleware from './middleware/legacyUrlMiddleware.js';
 import shell from './middleware/shell.js';
 import { SERVICE_WORKER_REMOVAL_SCRIPT } from './html/serviceWorkerRemoval.js';
-import { LEGACY_LOCALE_PATHS } from '../utils/shared/constants.js';
 
 function setUpOpenId(app) {
   const config = getConfiguration();
@@ -101,7 +101,8 @@ function setUpMiddleware(app) {
 }
 
 function setUpRoutes(app) {
-  app.use(['/', ...LEGACY_LOCALE_PATHS], legacyUrlMiddleware);
+  app.use(languageMiddleware);
+  app.use(legacyUrlMiddleware);
   app.use(shell);
 
   // Make sure req has the correct hostname extracted from the proxy info
@@ -134,7 +135,7 @@ export default function createApp() {
   const app = express();
 
   // Registered first: both the OIDC routes (/login, /logout) and the
-  // legacy-URL/shell middleware read req.cookies.
+  // language middleware read req.cookies.
   app.use(cookieParser());
   const redisClient = process.env.OIDC_CLIENT_ID ? setUpOpenId(app) : undefined;
   setUpStaticFolders(app);

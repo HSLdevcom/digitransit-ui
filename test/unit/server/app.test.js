@@ -125,11 +125,17 @@ describe('server app', () => {
       const response = await request(app).get('/').set('Cookie', 'lang=sv');
       expect(response.text).toContain('"language":"sv"');
     });
+
+    it('negotiates Accept-Language when no language has been chosen', async () => {
+      const response = await request(app)
+        .get('/')
+        .set('Accept-Language', 'en-GB,en;q=0.9');
+      expect(response.text).toContain('"language":"en"');
+    });
   });
 
-  describe('legacy locale path redirects', () => {
-    it('redirects /fi/ to / for a deployment with redirectReittiopasParams enabled', async () => {
-      vi.stubEnv('CONFIG', 'hsl');
+  describe('language path redirects', () => {
+    it('redirects /fi/ to /', async () => {
       const response = await request(app).get('/fi/');
       expect(response.status).toBe(302);
       expect(response.headers.location).toBe('/');

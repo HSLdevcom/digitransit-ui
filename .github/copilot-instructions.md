@@ -38,8 +38,11 @@ right one by *who consumes the code*, not just by convenience.
   configured Express app, including the dev-mode `/proxy/` passthrough to webpack-dev-server, no
   `.listen()`, so it's directly testable with supertest), `middleware/` — `shell.js` (renders the
   initial HTML shell — meta tags, config, asset preloads; no React runs server-side, the client
-  bundle does all component rendering), `legacyUrlMiddleware.js` (redirects legacy reittiopas-era
-  URLs), `services/` — boot-time integrations (`ticketPrices.js`, `geoJsonZones.js`,
+  bundle does all component rendering), `languageMiddleware.js` (resolves the page language:
+  `lang` cookie > `Accept-Language` > config default; `/{lang}/...` stores the choice and redirects,
+  as do reittiopas-era language prefixes behind `redirectReittiopasParams`),
+  `legacyUrlMiddleware.js` (redirects stale `time` params and reittiopas-era `from`/`to` URLs),
+  `services/` — boot-time integrations (`ticketPrices.js`, `geoJsonZones.js`,
   `citybikeSeasons.js`), `html/` — HTML-shell helpers (`assetManifest.js` reads webpack's build
   manifest), `passport-openid-connect/`, and
   `configs/` — `config.js` (server-side config resolution/merging by host header via `BASE_CONFIG`) plus one

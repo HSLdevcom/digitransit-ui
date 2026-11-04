@@ -1,16 +1,6 @@
 import legacyParamParser from '../../utils/server/legacyParamParser.js';
-import { LEGACY_LOCALES } from '../../utils/shared/constants.js';
+import normalizePath from '../../utils/server/normalizePath.js';
 import { getConfiguration } from '../configs/config.js';
-
-const PATH_SEPARATORS = /[\\/]+/;
-
-/**
- * Collapses repeated `/` and `\` (browsers treat `\` as `/`) so the result
- * can't be a protocol-relative URL.
- */
-function normalizePath(path) {
-  return `/${path.split(PATH_SEPARATORS).filter(Boolean).join('/')}`;
-}
 
 function formatQuery(query) {
   const params = Object.keys(query)
@@ -35,41 +25,18 @@ export function validateParams(req, config) {
     : undefined;
 }
 
-export const dropPathLanguage = (req, lang) => {
-  const segments = req.path.split(PATH_SEPARATORS).filter(Boolean);
-  if (segments[0] === lang) {
-    segments.shift();
-  }
-  return normalizePath(segments.join('/')) + formatQuery(req.query);
-};
-
 export default function legacyUrlMiddleware(req, res, next) {
   const config = getConfiguration(req);
   const newUrl = validateParams(req, config);
   if (newUrl) {
     res.redirect(newUrl);
-  } else if (config.redirectReittiopasParams) {
-    const parts = req.path.split('/');
-    const lang = parts[1];
-    if (config.availableLanguages.includes(lang)) {
-      res.cookie('lang', lang, {
-        // Good up to one year
-        maxAge: 365 * 24 * 60 * 60,
-        path: '/',
-      });
-    }
-    if (
-      req.query.from ||
-      req.query.to ||
-      req.query.from_in ||
-      req.query.to_in
-    ) {
-      legacyParamParser(req.query, config).then(url => res.redirect(url));
-    } else if (LEGACY_LOCALES.includes(lang)) {
-      res.redirect(dropPathLanguage(req, lang));
-    } else {
-      next();
-    }
+  } else if (
+    config.redirectReittiopasParams &&
+    (req.query.from || req.query.to || req.query.from_in || req.query.to_in)
+  ) {
+    legacyParamParser(req.query, config)
+      .then(url => res.redirect(url))
+      .catch(next);
   } else {
     next();
   }
