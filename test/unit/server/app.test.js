@@ -121,16 +121,17 @@ describe('server app', () => {
   });
 
   describe('the page language', () => {
-    it("serializes the request's cookie language into window.config", async () => {
+    it("renders the request's cookie language as <html lang>, not into window.config", async () => {
       const response = await request(app).get('/').set('Cookie', 'lang=sv');
-      expect(response.text).toContain('"language":"sv"');
+      expect(response.text).toContain('<html lang="sv">');
+      expect(response.text).not.toContain('"language":');
     });
 
     it('negotiates Accept-Language when no language has been chosen', async () => {
       const response = await request(app)
         .get('/')
         .set('Accept-Language', 'en-GB,en;q=0.9');
-      expect(response.text).toContain('"language":"en"');
+      expect(response.text).toContain('<html lang="en">');
     });
   });
 
