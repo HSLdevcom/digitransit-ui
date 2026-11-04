@@ -127,7 +127,7 @@ describe('<TileLayerContainer />', () => {
       };
       update({}, initialTime + 1);
       expect(onTimeChange).toHaveBeenCalledTimes(1);
-      expect(onTimeChange).toHaveBeenCalledWith(config.language);
+      expect(onTimeChange).toHaveBeenCalledWith('en');
     });
   });
 });

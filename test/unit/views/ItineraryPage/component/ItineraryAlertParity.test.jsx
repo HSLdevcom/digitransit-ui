@@ -64,7 +64,6 @@ const config = {
   zones: { itinerary: true },
   feedIds: ['HSL'],
   colors: { primary: 'ffffff' },
-  language: 'fi',
 };
 
 describe('itinerary list and details alert parity', () => {
@@ -91,7 +90,7 @@ describe('itinerary list and details alert parity', () => {
         tabIndex={0}
         usingOwnCarWholeTrip={false}
       />,
-      { config },
+      { config, locale: 'fi' },
     ).container;
     return {
       listShowsAlert: !!list.querySelector('.subicon-caution'),

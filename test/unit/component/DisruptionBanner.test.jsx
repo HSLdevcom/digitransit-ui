@@ -29,7 +29,8 @@ describe('<DisruptionBanner />', () => {
     };
 
     const { container } = renderWithProviders(<DisruptionBanner {...props} />, {
-      config: { CONFIG: 'default', URL: {}, language: 'fi' },
+      config: { CONFIG: 'default', URL: {} },
+      locale: 'fi',
       currentTime: 1500,
     });
     expect(container.querySelectorAll('.disruption-container')).toHaveLength(1);

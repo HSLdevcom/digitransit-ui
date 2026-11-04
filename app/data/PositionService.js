@@ -18,7 +18,7 @@ function updateGeolocationMessage(newId) {
   }
 }
 
-export function createPositionService(config, dispatch, getPosition) {
+export function createPositionService(config, language, dispatch, getPosition) {
   let geoWatchId;
   let watchPending = false;
   let pendingWatchId = 0;
@@ -27,7 +27,7 @@ export function createPositionService(config, dispatch, getPosition) {
   let disposed = false;
 
   function reverseGeocodeAddress(coords) {
-    reverseGeocode(config, coords)
+    reverseGeocode(config, coords, language)
       .then(location => dispatch({ type: 'address-found', location }))
       .catch(() => dispatch({ type: 'address-found', location: {} }));
   }

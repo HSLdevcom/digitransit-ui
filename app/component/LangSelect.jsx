@@ -4,10 +4,9 @@ import { useMatch } from 'found';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 const Language = ({ lang }) => {
-  const { language } = useConfigContext();
   const intl = useIntl();
   const match = useMatch();
-  const highlight = lang === language;
+  const highlight = lang === intl.locale;
 
   const aria = highlight
     ? intl.formatMessage(

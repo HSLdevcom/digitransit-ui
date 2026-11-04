@@ -13,7 +13,6 @@ const baseConfig = createTestConfig({
   URL: {
     HOLIDAYS_AND_EXCEPTIONS: { fi: 'https://example.com/holidays' },
   },
-  language: 'fi',
 });
 
 describe('<TrafficNowHeader />', () => {
@@ -26,8 +25,8 @@ describe('<TrafficNowHeader />', () => {
     vi.spyOn(assetUrl, 'default').mockReturnValue(undefined);
   });
 
-  const renderHeader = (config = baseConfig) =>
-    renderWithProviders(<TrafficNowHeader />, { config });
+  const renderHeader = (config = baseConfig, locale = 'fi') =>
+    renderWithProviders(<TrafficNowHeader />, { config, locale });
 
   describe('Desktop vs mobile class', () => {
     it('does not apply --mobile modifier on large breakpoint', () => {
@@ -100,17 +99,19 @@ describe('<TrafficNowHeader />', () => {
     });
 
     it('links using the localized path for the current language', () => {
-      const { container } = renderHeader({
-        ...baseConfig,
-        CONFIG: 'hsl',
-        language: 'sv',
-        trafficNowRootPath: {
-          fi: '/matkustaminen',
-          sv: '/sv/att-resa',
-          en: '/en/travelling',
+      const { container } = renderHeader(
+        {
+          ...baseConfig,
+          CONFIG: 'hsl',
+          trafficNowRootPath: {
+            fi: '/matkustaminen',
+            sv: '/sv/att-resa',
+            en: '/en/travelling',
+          },
+          URL: { ...baseConfig.URL, ROOTLINK: 'https://www.hsl.fi' },
         },
-        URL: { ...baseConfig.URL, ROOTLINK: 'https://www.hsl.fi' },
-      });
+        'sv',
+      );
       const breadcrumb = container.querySelector(
         '.traffic-now__header-breadcrumb a',
       );

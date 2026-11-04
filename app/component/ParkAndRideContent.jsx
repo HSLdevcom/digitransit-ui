@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Info } from 'luxon';
 import { useRouter } from 'found';
 import { parkShape, errorShape } from '../../utils/client/shapes';
@@ -53,7 +53,8 @@ export default function ParkAndRideContent({
   if (error) {
     throw error.message;
   }
-  const { parkAndRide, language } = useConfigContext();
+  const { parkAndRide } = useConfigContext();
+  const { locale } = useIntl();
   const breakpoint = useBreakpoint();
   const { router } = useRouter();
 
@@ -206,7 +207,7 @@ export default function ParkAndRideContent({
           <Disclaimer
             headerId={`${prePostFix}-disclaimer-header`}
             textId={`${prePostFix}-disclaimer`}
-            href={parkAndRide?.url?.[language]}
+            href={parkAndRide?.url?.[locale]}
             linkLabelId="park-disclaimer-link"
           />
         </>

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { ReactRelayContext } from 'react-relay';
 import L from 'leaflet';
@@ -187,7 +188,7 @@ function onSelectableTargetClicked(
 }
 
 function createTile(tileCoords, done, latest, setSelection) {
-  const { props, config, relayEnvironment } = latest.current;
+  const { props, config, locale, relayEnvironment } = latest.current;
   const tile = new TileContainer(
     tileCoords,
     done,
@@ -199,7 +200,7 @@ function createTile(tileCoords, done, latest, setSelection) {
     props.vehicles,
     props.stopsToShow,
     props.objectsToHide,
-    config.language,
+    locale,
   );
   tile.onSelectableTargetClicked = (...args) =>
     onSelectableTargetClicked(latest, setSelection, tile, ...args);
@@ -231,6 +232,7 @@ export default function TileLayerContainer(props) {
   const { vehicles } = useRealTimeInformation();
   const currentTime = useCurrentTime();
   const config = useConfigContext();
+  const { locale } = useIntl();
   const { router } = useRouter();
   const { environment: relayEnvironment } = useContext(ReactRelayContext);
   const leaflet = useLeaflet();
@@ -246,6 +248,7 @@ export default function TileLayerContainer(props) {
       vehicles,
     },
     config,
+    locale,
     router,
     relayEnvironment,
     leaflet,
@@ -306,7 +309,7 @@ export default function TileLayerContainer(props) {
     if (prev.currentTime !== currentTime) {
       /* eslint-disable no-underscore-dangle */
       lodashFilter(layer._tiles, tile => tile.active).forEach(tile =>
-        tile.el.layers?.forEach(l => l.onTimeChange?.(config.language)),
+        tile.el.layers?.forEach(l => l.onTimeChange?.(locale)),
       );
       /* eslint-enable no-underscore-dangle */
     }

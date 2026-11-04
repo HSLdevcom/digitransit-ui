@@ -10,16 +10,16 @@ import { useBreakpoint } from '../../../hooks/BreakpointContext';
 
 export default function PrModal({ closeModal }) {
   const config = useConfigContext();
-  const { language } = config;
   const intl = useIntl();
+  const { locale } = intl;
   const { formatMessage } = intl;
   const breakpoint = useBreakpoint();
 
   return (
-    <Modal lang={language} onOpenChange={closeModal} open>
+    <Modal lang={locale} onOpenChange={closeModal} open>
       <ModalContent
         title={formatMessage({ id: 'personalization-modal-header' })}
-        lang={language}
+        lang={locale}
       >
         <div
           className={cx('pr-info-modal', {
@@ -42,9 +42,9 @@ export default function PrModal({ closeModal }) {
                   id: 'personalization-modal-highlight-details',
                 })}
               </Text>
-              {config.favouriteLink[language] && (
+              {config.favouriteLink[locale] && (
                 <ArrowLink
-                  href={config.favouriteLink[language]}
+                  href={config.favouriteLink[locale]}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -88,13 +88,13 @@ export default function PrModal({ closeModal }) {
                 {formatMessage({ id: 'personalization-beta' })}
               </Text>
               <Spacer size="xxs" />
-              {config.personalizationSurveyLinks[language] && (
+              {config.personalizationSurveyLinks[locale] && (
                 <div>
                   <ButtonLink
                     size="s"
                     variant="primary"
                     expandOnMobile
-                    href={config.personalizationSurveyLinks[language]}
+                    href={config.personalizationSurveyLinks[locale]}
                     target="_blank"
                     rel="noreferrer"
                   >

@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Note } from '@hsl-fi/notifications';
 import { Text } from '@hsl-fi/layout-primitives';
 import { ArrowLink } from '@hsl-fi/navigation';
-import { useConfigContext } from '../hooks/ConfigContext';
 
 const EMPTY_VALUES = {};
 
@@ -20,7 +19,7 @@ export default function Disclaimer({
   closable,
   onClose, // hook e.g. for remembering closing
 }) {
-  const { language } = useConfigContext();
+  const { locale } = useIntl();
   const [showCard, setShowCard] = useState(true);
 
   if (!showCard) {
@@ -73,7 +72,7 @@ export default function Disclaimer({
       title={title}
       titleLevel={3}
       description={description}
-      lang={language}
+      lang={locale}
       onClose={closable ? handleClose : undefined}
     />
   );

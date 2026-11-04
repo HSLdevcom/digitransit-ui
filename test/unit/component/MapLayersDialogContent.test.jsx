@@ -5,7 +5,7 @@ import { renderWithProviders } from '../helpers/mock-providers';
 
 import MapLayersDialogContent from '../../../app/component/map/MapLayersDialogContent';
 
-const testConfig = { CONFIG: 'default', language: 'fi' };
+const testConfig = { CONFIG: 'default' };
 
 const renderMapLayersDialogContent = (props, config = testConfig) => {
   window.localStorage.setItem(
@@ -18,7 +18,7 @@ const renderMapLayersDialogContent = (props, config = testConfig) => {
       mapLayerOptions={props.mapLayerOptions}
       setOpen={props.setOpen}
     />,
-    { config: { ...testConfig, ...config } },
+    { config: { ...testConfig, ...config }, locale: 'fi' },
   );
 };
 

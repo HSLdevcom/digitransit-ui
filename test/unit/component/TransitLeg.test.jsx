@@ -25,7 +25,6 @@ const config = {
   zones: { itinerary: true },
   feedIds: ['HSL'],
   colors: { primary: 'ffffff' },
-  language: 'fi',
 };
 
 describe('<TransitLeg />', () => {
@@ -40,6 +39,7 @@ describe('<TransitLeg />', () => {
   const renderLeg = (props, legConfig = config) =>
     renderWithProviders(<TransitLeg {...defaultProps} {...props} />, {
       config: legConfig,
+      locale: 'fi',
     });
 
   it('should show a zone change between from and the first intermediate place', () => {

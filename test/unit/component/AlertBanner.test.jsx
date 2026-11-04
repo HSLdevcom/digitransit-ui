@@ -29,13 +29,13 @@ afterAll(() => {
 const config = {
   CONFIG: 'default',
   URL: {},
-  language: 'fi',
   colors: { primary: '#007ac9', caution: '#dc0451' },
 };
 
 const render = props =>
   renderWithProviders(<AlertBanner linkAddress="/pysakit/HSL:1" {...props} />, {
     config,
+    locale: 'fi',
   });
 
 describe('<AlertBanner />', () => {

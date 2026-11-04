@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import Icon from './Icon';
 import { useBreakpoint } from '../hooks/BreakpointContext';
@@ -19,6 +19,7 @@ function RentalVehicleContent({ rentalVehicle, error = undefined }) {
   const breakpoint = useBreakpoint();
   const [isClient, setClient] = useState(false);
   const config = useConfigContext();
+  const { locale } = useIntl();
   const { match, router } = useRouter();
 
   useEffect(() => {
@@ -47,7 +48,6 @@ function RentalVehicleContent({ rentalVehicle, error = undefined }) {
     config,
   );
   const vehicleIcon = getRentalNetworkIcon(networkConfig);
-  const { language } = config;
 
   if (networks) {
     return (
@@ -65,7 +65,7 @@ function RentalVehicleContent({ rentalVehicle, error = undefined }) {
               <div className="scooter-header">
                 <div className="header">
                   <h1>
-                    {networkConfig.name[language] ||
+                    {networkConfig.name[locale] ||
                       rentalVehicle.rentalNetwork.networkId}
                   </h1>
                   <div className="scooter-sub-header">
@@ -89,7 +89,7 @@ function RentalVehicleContent({ rentalVehicle, error = undefined }) {
             {breakpoint === 'large' && <BackButton />}
             <div className="header">
               <h1>
-                {networkConfig.name[language] ||
+                {networkConfig.name[locale] ||
                   rentalVehicle.rentalNetwork.networkId}
               </h1>
               <div className="scooter-sub-header">

@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
 import { useRouter } from 'found';
@@ -28,6 +29,7 @@ import {
 
 export default function OriginDestinationBar({ isMobile = false }) {
   const config = useConfigContext();
+  const { locale } = useIntl();
   const { match, router } = useRouter();
   const mountedRef = useRef(false);
   const origin = useOrigin();
@@ -160,7 +162,7 @@ export default function OriginDestinationBar({ isMobile = false }) {
         selectHandler={onLocationSelect}
         sources={['History', 'Datasource', showFavourites ? 'Favourite' : '']}
         targets={getLocationSearchTargets(config, isMobile)}
-        lang={config.language}
+        lang={locale}
         disableAutoFocus={isMobile}
         isMobile={isMobile}
         itineraryParams={match.location.query}

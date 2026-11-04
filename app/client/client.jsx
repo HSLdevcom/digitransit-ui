@@ -91,7 +91,8 @@ async function init() {
     ? `?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
     : '';
 
-  const { language } = config;
+  // Rendered by the server from the request's resolved language.
+  const language = document.documentElement.lang;
   const translations = await import(`../translations/${language}`);
   i18n.changeLanguage(language);
 
@@ -154,7 +155,7 @@ async function init() {
 
   // fetch Userdata and favourites
   favouriteStore.init(config);
-  searchServices.init(config);
+  searchServices.init(config, language);
   if (config.allowLogin) {
     getUser()
       .then(user => {

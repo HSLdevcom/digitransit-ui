@@ -33,7 +33,8 @@ describe('<AboutPage />', () => {
 
   it('should render all defined headers and paragraph texts in given order', () => {
     const { container } = renderWithProviders(<AboutPage />, {
-      config: { ...config, language: 'fi' },
+      config,
+      locale: 'fi',
     });
     const paragraphs = container.querySelectorAll('p');
     expect(paragraphs[0].textContent).toBe('foo1');
@@ -45,14 +46,16 @@ describe('<AboutPage />', () => {
 
   it('should render external links', () => {
     const { container } = renderWithProviders(<AboutPage />, {
-      config: { ...config, language: 'fi' },
+      config,
+      locale: 'fi',
     });
     expect(container.querySelector('a').getAttribute('href')).toBe('foo1.com');
   });
 
   it('should obey language selection', () => {
     const { container } = renderWithProviders(<AboutPage />, {
-      config: { ...config, language: 'sv' },
+      config,
+      locale: 'sv',
     });
     expect(container.querySelector('.about-header').textContent).toBe(
       'sv_header1',

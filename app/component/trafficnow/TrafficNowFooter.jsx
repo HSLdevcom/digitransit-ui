@@ -1,4 +1,5 @@
 import { SiteFooter } from '@hsl-fi/site-footer';
+import { useIntl } from 'react-intl';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 const SUPPORTED_LANGS = ['fi', 'sv', 'en'];
@@ -212,15 +213,15 @@ const buildFooterData = (rootLink, lang) => ({
 export default function TrafficNowFooter() {
   const {
     CONFIG,
-    language,
     URL: { ROOTLINK },
   } = useConfigContext();
+  const { locale } = useIntl();
 
   if (CONFIG !== 'hsl') {
     return null;
   }
 
-  const lang = SUPPORTED_LANGS.includes(language) ? language : 'fi';
+  const lang = SUPPORTED_LANGS.includes(locale) ? locale : 'fi';
 
   return (
     <SiteFooter

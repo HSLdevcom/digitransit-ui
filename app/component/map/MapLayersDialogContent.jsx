@@ -222,7 +222,7 @@ export default function MapLayersDialogContent({
                 (gj.isOffByDefault && mapLayers.geoJson[gj.url] === true) ||
                 (!gj.isOffByDefault && mapLayers.geoJson[gj.url] !== false)
               }
-              defaultMessage={gj.name[config.language]}
+              defaultMessage={gj.name[intl.locale]}
               key={gj.url}
               onChange={e => {
                 const newSetting = {};

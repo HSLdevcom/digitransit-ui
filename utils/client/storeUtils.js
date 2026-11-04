@@ -3,7 +3,7 @@ import isEqual from 'lodash/isEqual';
 import { getFutureRoutesStorage, setFutureRoutesStorage } from './localStorage';
 
 export const getLanguage = context => {
-  return context.config.language;
+  return context.language;
 };
 
 export const getFutureRoutes = () => {

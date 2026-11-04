@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import { useState } from 'react';
 import {
   getReadMessageIds,
@@ -8,7 +9,8 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 import Disclaimer from '../Disclaimer';
 
 export default function ParkInfo({ mode }) {
-  const { language, parkAndRide } = useConfigContext();
+  const { parkAndRide } = useConfigContext();
+  const { locale } = useIntl();
   const key = `${mode}_info`;
   const prefix = mode === 'CARPARK' ? 'car' : 'bike';
   const [showParkInfo, setShowParkInfo] = useState(
@@ -30,7 +32,7 @@ export default function ParkInfo({ mode }) {
         headerId={`${prefix}-park-disclaimer-header`}
         textId={`${prefix}-park-disclaimer`}
         linkLabelId="park-disclaimer-link"
-        href={parkAndRide?.url?.[language]}
+        href={parkAndRide?.url?.[locale]}
         closable
         onClose={handleClose}
       />
