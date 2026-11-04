@@ -191,7 +191,7 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   Node-only `server/**`, `utils/server/**`, `scripts/**`); Prettier config
   is `singleQuote: true, trailingComma: 'all', arrowParens: 'avoid'`.
 - Keep comments and explanations concise, describing the current state rather than how it was
-  reached; prefer one-line comments.
+  reached; prefer one-line comments. Comment only where necessary; document functions with concise JSDoc (`/** ... */`).
 - When removing `defaultProps`, use parameter defaults only for valid values; never default to
   `undefined`.
 - JSX-containing files use the `.jsx` extension; plain `.js` never contains JSX. For the
