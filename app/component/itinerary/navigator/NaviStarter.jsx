@@ -7,12 +7,12 @@ import Icon from '../../Icon';
 import getAssetUrl from '../../../assets/assetUrl';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
-const NaviStarter = ({
+export default function NaviStarter({
   time,
   startItinerary,
   containerTopPosition = 0,
   isPastStart = true,
-}) => {
+}) {
   const config = useConfigContext();
   const intl = useIntl();
   const logo = getAssetUrl(config.trafficLightGraphic);
@@ -81,7 +81,7 @@ const NaviStarter = ({
       </div>
     </div>
   );
-};
+}
 
 NaviStarter.propTypes = {
   time: PropTypes.string.isRequired,
@@ -89,5 +89,3 @@ NaviStarter.propTypes = {
   containerTopPosition: PropTypes.number,
   isPastStart: PropTypes.bool,
 };
-
-export default NaviStarter;

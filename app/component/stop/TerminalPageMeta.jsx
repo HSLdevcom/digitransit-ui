@@ -6,7 +6,7 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 
 import { generateMetaData } from '../../../utils/client/metaUtils';
 
-function TerminalPageMeta({ station: stationRef }) {
+export default function TerminalPageMeta({ station: stationRef }) {
   const config = useConfigContext();
   const station = useFragment(
     graphql`
@@ -50,5 +50,3 @@ function TerminalPageMeta({ station: stationRef }) {
 TerminalPageMeta.propTypes = {
   station: stationShape.isRequired,
 };
-
-export default TerminalPageMeta;

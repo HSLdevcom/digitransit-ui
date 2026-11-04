@@ -5,7 +5,7 @@ import { fragmentRefShape } from '../../../utils/client/shapes';
 import { generateMetaData } from '../../../utils/client/metaUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-function RoutePageMeta({ route: routeRef }) {
+export default function RoutePageMeta({ route: routeRef }) {
   const config = useConfigContext();
   const route = useFragment(
     graphql`
@@ -50,5 +50,3 @@ function RoutePageMeta({ route: routeRef }) {
 RoutePageMeta.propTypes = {
   route: fragmentRefShape.isRequired,
 };
-
-export default RoutePageMeta;

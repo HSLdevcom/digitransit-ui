@@ -16,7 +16,10 @@ import { STATUS_FETCHING_OR_UPDATING } from '../data/FavouriteData';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-function FavouritesContainer({ onClickFavourite, isMobile = false }) {
+export default function FavouritesContainer({
+  onClickFavourite,
+  isMobile = false,
+}) {
   const intl = useIntl();
   const config = useConfigContext();
   const favourites = useFavourites();
@@ -254,5 +257,3 @@ FavouritesContainer.propTypes = {
   onClickFavourite: PropTypes.func.isRequired,
   isMobile: PropTypes.bool,
 };
-
-export default FavouritesContainer;

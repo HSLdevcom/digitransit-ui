@@ -13,7 +13,7 @@ import ItineraryCircleLine from './ItineraryCircleLine';
 import { legTimeStr, legDestination } from '../../../utils/client/legUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-function CarParkLeg({
+export default function CarParkLeg({
   leg,
   index,
   focusAction,
@@ -138,5 +138,3 @@ CarParkLeg.propTypes = {
   carPark: parkShape.isRequired,
   noWalk: PropTypes.bool,
 };
-
-export default CarParkLeg;

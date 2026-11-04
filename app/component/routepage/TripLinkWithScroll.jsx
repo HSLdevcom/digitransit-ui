@@ -5,7 +5,7 @@ import Link from 'found/Link';
 import VehicleIcon from '../VehicleIcon';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 
-function TripLinkWithScroll({
+export default function TripLinkWithScroll({
   mode,
   pattern,
   route,
@@ -123,5 +123,3 @@ TripLinkWithScroll.propTypes = {
   tripId: PropTypes.string,
   vehicleState: PropTypes.string,
 };
-
-export default TripLinkWithScroll;

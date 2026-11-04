@@ -10,7 +10,7 @@ import { Modal, ConfirmationModalContent } from '@hsl-fi/dialog';
  * @example
  * <DialogModal />
  */
-const DialogModal = ({
+export default function DialogModal({
   headerText,
   dialogContent,
   handleClose = () => {},
@@ -21,7 +21,7 @@ const DialogModal = ({
   secondaryButtonOnClick,
   lang,
   isModalOpen,
-}) => {
+}) {
   return (
     <Modal
       lang={lang}
@@ -43,7 +43,7 @@ const DialogModal = ({
       />
     </Modal>
   );
-};
+}
 
 DialogModal.propTypes = {
   isModalOpen: PropTypes.bool.isRequired,
@@ -63,5 +63,3 @@ DialogModal.propTypes = {
   dialogContent: PropTypes.string,
   lang: PropTypes.string.isRequired,
 };
-
-export default DialogModal;

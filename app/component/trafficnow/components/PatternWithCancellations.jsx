@@ -8,7 +8,11 @@ import { patternShape } from '../../../../utils/client/shapes';
 import EntityBadge from './EntityBadge';
 import { PREFIX_TIMETABLE, routePagePath } from '../../../../utils/shared/path';
 
-const PatternWithCancellations = ({ routeId, pattern: patternRef, mode }) => {
+export default function PatternWithCancellations({
+  routeId,
+  pattern: patternRef,
+  mode,
+}) {
   const pattern = useFragment(CanceledTripsPatternFragment, patternRef);
   const { router } = useRouter();
   const url = routePagePath(routeId, PREFIX_TIMETABLE, pattern.code);
@@ -33,12 +37,10 @@ const PatternWithCancellations = ({ routeId, pattern: patternRef, mode }) => {
       <CanceledDepartures patterns={[pattern]} />
     </div>
   );
-};
+}
 
 PatternWithCancellations.propTypes = {
   routeId: PropTypes.string.isRequired,
   pattern: patternShape.isRequired,
   mode: PropTypes.string,
 };
-
-export default PatternWithCancellations;

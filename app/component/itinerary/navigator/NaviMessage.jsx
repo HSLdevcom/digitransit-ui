@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Icon from '../../Icon';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
-function NaviMessage({
+export default function NaviMessage({
   severity,
   children,
   index,
@@ -78,5 +78,3 @@ NaviMessage.propTypes = {
   hideClose: PropTypes.bool,
   cardAnimation: PropTypes.string.isRequired,
 };
-
-export default NaviMessage;

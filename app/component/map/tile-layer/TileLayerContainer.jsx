@@ -225,7 +225,7 @@ function getLayerOptions(props, leaflet) {
   return options;
 }
 
-function TileLayerContainer(props) {
+export default function TileLayerContainer(props) {
   const { locationPopup, onSelectLocation, mapLayers, highlightedStops } =
     props;
   const { vehicles } = useRealTimeInformation();
@@ -448,5 +448,3 @@ TileLayerContainer.propTypes = {
   stopsToShow: PropTypes.arrayOf(PropTypes.string),
   objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
 };
-
-export default TileLayerContainer;

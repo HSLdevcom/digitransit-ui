@@ -17,7 +17,7 @@ const languages = [
   { id: 'pl', name: 'polish', defaultMessage: 'Polish' },
 ];
 
-const EmbeddedSearchGenerator = () => {
+export default function EmbeddedSearchGenerator() {
   const breakpoint = useBreakpoint();
   const intl = useIntl();
   const config = useConfigContext();
@@ -460,6 +460,4 @@ const EmbeddedSearchGenerator = () => {
       </div>
     </section>
   );
-};
-
-export default EmbeddedSearchGenerator;
+}

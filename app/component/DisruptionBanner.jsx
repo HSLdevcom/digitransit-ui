@@ -9,7 +9,7 @@ import { useBreakpoint } from '../hooks/BreakpointContext';
 import { AlertEntityType } from '../../utils/shared/constants';
 import { useCurrentTime } from '../hooks/TimeContext';
 
-const DisruptionBanner = ({ alerts, mode }) => {
+export default function DisruptionBanner({ alerts, mode }) {
   const currentTime = useCurrentTime();
   const breakpoint = useBreakpoint();
   const [allAlertsOpen, setAllAlertsOpen] = useState(false);
@@ -86,11 +86,9 @@ const DisruptionBanner = ({ alerts, mode }) => {
       )}
     </div>
   );
-};
+}
 
 DisruptionBanner.propTypes = {
   alerts: PropTypes.arrayOf(alertShape).isRequired,
   mode: PropTypes.string.isRequired,
 };
-
-export default DisruptionBanner;

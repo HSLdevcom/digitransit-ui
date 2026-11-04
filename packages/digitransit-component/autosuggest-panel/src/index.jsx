@@ -207,7 +207,7 @@ const locationShape = PropTypes.shape({
 const EMPTY_LIST = [];
 const noop = () => {};
 
-function DTAutosuggestPanel({
+export default function DTAutosuggestPanel({
   appElement,
   origin,
   destination,
@@ -642,5 +642,3 @@ DTAutosuggestPanel.propTypes = {
   showViapointControl: PropTypes.bool,
   showSlackControl: PropTypes.bool,
 };
-
-export default DTAutosuggestPanel;

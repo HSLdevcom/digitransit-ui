@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { useSelect } from 'downshift';
 import styles from './select.scss';
 
-const Select = ({
+export default function Select({
   value,
   options,
   onSlackTimeSelected,
@@ -11,7 +11,7 @@ const Select = ({
   id,
   label,
   icon,
-}) => {
+}) {
   const labelId = `${id}-label`;
   const selectedItem = options.find(option => option.value === value);
 
@@ -68,7 +68,7 @@ const Select = ({
       </div>
     </div>
   );
-};
+}
 
 Select.propTypes = {
   value: PropTypes.number.isRequired,
@@ -84,5 +84,3 @@ Select.propTypes = {
   icon: PropTypes.node.isRequired,
   viaPointIndex: PropTypes.number.isRequired,
 };
-
-export default Select;
