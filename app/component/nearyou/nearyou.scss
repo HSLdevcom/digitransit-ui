@@ -555,14 +555,11 @@
 // The selector is repeated to double its specificity (0,2,0) so this
 // override always wins over @hsl-fi/dialog's own
 // ".modalSheet { overflow: hidden }" rule (0,1,0), regardless of which
-// stylesheet happens to be injected into the page last. In production
-// server.js deliberately links the theme CSS after the digitransit-
-// components CSS so plain equal-specificity overrides like this one
-// win there, but webpack-dev-server's style-loader injects <style>
-// tags in JS module execution order instead, which can (and did) end
-// up loading the theme CSS before @hsl-fi/dialog's CSS in dev mode,
-// silently reintroducing the clipping. Relying on specificity instead
-// of load order keeps this override correct in both cases.
+// stylesheet happens to be loaded last. The shell deliberately links the
+// theme CSS after the digitransit-components CSS, so plain equal-
+// specificity overrides like this one would win in production. Relying on
+// specificity instead of load order keeps this override correct even when
+// the order of lazily loaded CSS chunks changes.
 .location-modal-content.location-modal-content {
   @media (min-width: 500px) {
     overflow: visible;

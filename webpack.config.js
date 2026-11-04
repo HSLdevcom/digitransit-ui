@@ -34,20 +34,30 @@ const isPrebuiltStaticFile = asset =>
   /^assets\/svg-sprite\.[^/]+\.svg$/.test(asset) ||
   fs.existsSync(path.join(rootDir, 'static', asset.replace(/\.(gz|br)$/, '')));
 
+// CSS is always extracted to files (also in dev, where the HTML shell links
+// them), and load order matches production.
+const cssExtractLoader = {
+  loader: MiniCssExtractPlugin.loader,
+  options: { publicPath: 'auto' },
+};
+
+const cssExtractPlugin = new MiniCssExtractPlugin({
+  filename: isDevelopment ? 'css/[name].css' : 'css/[name].[contenthash].css',
+  chunkFilename: isDevelopment
+    ? 'css/[name].css'
+    : 'css/[name].[contenthash].css',
+  // Explicitly `false` (webpack's own default) rather than omitted.
+  // These warnings are believed harmless (every file involved is CSS Modules
+  // output with locally-scoped, per-file-hashed class names - no shared/global
+  // selectors, no cross-file cascade dependency), but `ignoreOrder` is
+  // intentionally left `false` rather than suppressed with `true`, so
+  // the warnings stay visible as a reminder that this is an open,
+  // unresolved item rather than a fully-accepted non-issue.
+  ignoreOrder: false,
+});
+
 const productionPlugins = [
   ...faviconPlugins,
-  new MiniCssExtractPlugin({
-    filename: 'css/[name].[contenthash].css',
-    chunkFilename: 'css/[name].[contenthash].css',
-    // Explicitly `false` (webpack's own default) rather than omitted.
-    // These warnings are believed harmless (every file involved is CSS Modules
-    // output with locally-scoped, per-file-hashed class names - no shared/global
-    // selectors, no cross-file cascade dependency), but `ignoreOrder` is
-    // intentionally left `false` rather than suppressed with `true`, so
-    // the warnings stay visible as a reminder that this is an open,
-    // unresolved item rather than a fully-accepted non-issue.
-    ignoreOrder: false,
-  }),
   new CompressionPlugin({
     filename: '[path][base].gz',
     test: /\.(js|css|html|svg|ico)$/,
@@ -231,12 +241,7 @@ export default {
       {
         test: /\.scss$/,
         use: [
-          isDevelopment
-            ? 'style-loader'
-            : {
-                loader: MiniCssExtractPlugin.loader,
-                options: { publicPath: 'auto' },
-              },
+          cssExtractLoader,
           'css-loader',
           {
             loader: 'sass-loader',
@@ -266,28 +271,12 @@ export default {
         test: /\.css$/,
         include: /node_modules\/@hsl-fi/,
         sideEffects: true,
-        use: [
-          isDevelopment
-            ? 'style-loader'
-            : {
-                loader: MiniCssExtractPlugin.loader,
-                options: { publicPath: 'auto' },
-              },
-          'css-loader',
-        ],
+        use: [cssExtractLoader, 'css-loader'],
       },
       {
         test: /\.css$/,
         exclude: /node_modules\/@hsl-fi/,
-        use: [
-          isDevelopment
-            ? 'style-loader'
-            : {
-                loader: MiniCssExtractPlugin.loader,
-                options: { publicPath: 'auto' },
-              },
-          'css-loader',
-        ],
+        use: [cssExtractLoader, 'css-loader'],
       },
       {
         test: /\.(eot|gif|png|ttf|woff|svg|jpeg|jpg)$/,
@@ -328,6 +317,7 @@ export default {
       process: require.resolve('process/browser'),
       Buffer: ['buffer', 'Buffer'],
     }),
+    cssExtractPlugin,
     ...(isDevelopment
       ? [new webpack.ContextReplacementPlugin(themeExpression, selectedTheme)]
       : productionPlugins),
@@ -425,7 +415,9 @@ export default {
       'Access-Control-Allow-Origin': '*',
     },
     client: {
-      overlay: true,
+      // CSS "conflicting order" warnings (see ignoreOrder above) stay in the
+      // terminal instead of covering the page.
+      overlay: { errors: true, warnings: false },
     },
   },
 };
