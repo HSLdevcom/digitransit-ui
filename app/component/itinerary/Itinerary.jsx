@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useRef, useLayoutEffect, useEffect, useState } from 'react';
+import { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';

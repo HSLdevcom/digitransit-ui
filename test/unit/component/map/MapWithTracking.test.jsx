@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../helpers/mock-providers';

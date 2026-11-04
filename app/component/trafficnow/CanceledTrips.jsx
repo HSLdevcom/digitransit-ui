@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { Button, Text } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
@@ -39,9 +39,9 @@ export default function CanceledTrips({
           );
 
           return isMobile ? (
-            <React.Fragment key={routeSummary.route.shortName}>
+            <Fragment key={routeSummary.route.shortName}>
               {cancellationContainer}
-            </React.Fragment>
+            </Fragment>
           ) : (
             <Card
               key={routeSummary.route.shortName}

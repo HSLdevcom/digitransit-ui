@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import groupBy from 'lodash/groupBy';
 import { useRouter } from 'found';

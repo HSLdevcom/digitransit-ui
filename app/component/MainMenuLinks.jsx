@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import MenuItem from './MenuItem';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, {
+import {
   useRef,
   useLayoutEffect,
   useState,

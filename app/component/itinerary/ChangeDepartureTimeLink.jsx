@@ -1,4 +1,3 @@
-import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { useMatch } from 'found';

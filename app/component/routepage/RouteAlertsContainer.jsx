@@ -1,4 +1,3 @@
-import React from 'react';
 import { useFragment } from 'react-relay';
 import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';

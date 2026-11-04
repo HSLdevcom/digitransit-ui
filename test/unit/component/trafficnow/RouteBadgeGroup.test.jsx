@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import * as found from 'found';
 import RouteBadgeGroup from '../../../../app/component/trafficnow/components/RouteBadgeGroup';

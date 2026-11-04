@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { Info } from 'luxon';

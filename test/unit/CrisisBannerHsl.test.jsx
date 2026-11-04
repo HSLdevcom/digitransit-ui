@@ -1,4 +1,3 @@
-import React from 'react';
 import { renderWithProviders } from './helpers/mock-providers';
 import { createTestConfig } from './helpers/mock-context';
 import CrisisBannerHsl from '../../app/component/CrisisBannerHsl';

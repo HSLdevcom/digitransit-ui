@@ -3,7 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
 import PropTypes from 'prop-types';
-import React, {
+import {
   cloneElement,
   useEffect,
   useContext,

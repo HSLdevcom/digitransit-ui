@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { stopShape } from '../../utils/client/shapes';
 import StopScheduleStatus from './stop/StopScheduleStatus';

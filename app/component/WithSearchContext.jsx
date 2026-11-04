@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';

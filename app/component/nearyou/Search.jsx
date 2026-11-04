@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import React, { memo } from 'react';
+import { memo } from 'react';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import {
   withSearchContext,

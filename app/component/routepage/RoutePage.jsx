@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';

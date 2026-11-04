@@ -1,4 +1,3 @@
-import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { useMatch } from 'found';
 import { parkShape } from '../../utils/client/shapes';

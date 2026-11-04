@@ -1,6 +1,5 @@
 import L from 'leaflet';
 import PropTypes from 'prop-types';
-import React from 'react';
 import Card from '../Card';
 import GenericMarker from './GenericMarker';
 import MarkerPopupBottom from './MarkerPopupBottom';

@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'found/Link';
 import { renderWithProviders } from '../helpers/mock-providers';
 import AlertBanner from '../../../app/component/AlertBanner';

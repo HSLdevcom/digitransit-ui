@@ -1,6 +1,5 @@
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import cx from 'classnames';
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { GeodeticToEnu } from '../../../../utils/shared/geo-utils';

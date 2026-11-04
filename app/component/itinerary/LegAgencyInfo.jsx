@@ -1,4 +1,3 @@
-import React from 'react';
 import { useFragment } from 'react-relay';
 import get from 'lodash/get';
 import { legShape } from '../../../utils/client/shapes';

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { tripShape, routeShape } from '../../utils/client/shapes';
 import { getTripOrRouteText } from '../../utils/client/legUtils';
 import RouteNumber from './RouteNumber';

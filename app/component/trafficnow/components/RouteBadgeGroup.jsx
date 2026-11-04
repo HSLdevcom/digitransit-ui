@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useRouter } from 'found';
@@ -52,7 +52,7 @@ export default function RouteBadgeGroup({
 
           if (!renderRouteSuffix) {
             return (
-              <React.Fragment key={routeKey}>
+              <Fragment key={routeKey}>
                 <EntityBadge
                   entity={route}
                   isFavourite={isFavourite}
@@ -60,7 +60,7 @@ export default function RouteBadgeGroup({
                   mode={mode}
                   highlighted={highlightedGtfsId === route.gtfsId}
                 />
-              </React.Fragment>
+              </Fragment>
             );
           }
 

@@ -1,11 +1,5 @@
 import PropTypes from 'prop-types';
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { ReactRelayContext } from 'react-relay';
 import L from 'leaflet';
 import SphericalMercator from '@mapbox/sphericalmercator';

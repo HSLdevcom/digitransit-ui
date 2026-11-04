@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Itinerary from '../../../../../app/component/itinerary/Itinerary';
 import Legs from '../../../../../app/component/itinerary/Legs';
 import { AlertSeverityLevelType } from '../../../../../utils/shared/constants';

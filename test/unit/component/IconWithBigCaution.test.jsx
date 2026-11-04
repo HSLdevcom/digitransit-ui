@@ -1,4 +1,3 @@
-import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import IconWithBigCaution from '../../../app/component/IconWithBigCaution';
 import { AlertSeverityLevelType } from '../../../utils/shared/constants';

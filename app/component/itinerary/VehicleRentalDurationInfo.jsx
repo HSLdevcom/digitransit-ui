@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import { Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { configShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
@@ -75,7 +75,7 @@ export default function VehicleRentalDurationInfo({ networks, config }) {
         </span>
         <p>
           {networks.map(value => (
-            <React.Fragment key={value}>
+            <Fragment key={value}>
               <a
                 href={
                   config.vehicleRental.networks[value].durationInstructions[
@@ -90,7 +90,7 @@ export default function VehicleRentalDurationInfo({ networks, config }) {
                 <FormattedMessage id="read-more" defaultMessage="Read more" />›
               </a>
               <br />
-            </React.Fragment>
+            </Fragment>
           ))}
         </p>
       </div>

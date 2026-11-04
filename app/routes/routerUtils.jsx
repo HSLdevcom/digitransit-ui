@@ -1,4 +1,3 @@
-import React from 'react';
 import Error404 from '../component/404';
 import NetworkError from '../component/NetworkError';
 import Loading from '../component/LoadingPage';

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 
 /**
  * Shown for routes that operate 24/7 instead of a timetable list.

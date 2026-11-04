@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import * as found from 'found';
 import { createTestConfig } from '../../helpers/mock-context';

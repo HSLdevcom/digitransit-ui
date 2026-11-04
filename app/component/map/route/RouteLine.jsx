@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import StopMarker from '../non-tile-layer/StopMarker';

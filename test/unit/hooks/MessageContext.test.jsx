@@ -1,5 +1,5 @@
 import fetchMock from 'fetch-mock';
-import React, { useEffect } from 'react';
+import { useEffect, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { render, act } from '@testing-library/react';
 import { ConfigProvider } from '../../../app/hooks/ConfigContext';
@@ -86,7 +86,7 @@ describe('MessageContext', () => {
         ],
         staticMessagesUrl,
       };
-      const controlRef = React.createRef();
+      const controlRef = createRef();
 
       await act(async () => {
         wrapper = render(
@@ -119,7 +119,7 @@ describe('MessageContext', () => {
         staticMessages: [],
         staticMessagesUrl: '',
       };
-      const controlRef = React.createRef();
+      const controlRef = createRef();
 
       await act(async () => {
         wrapper = render(
@@ -138,7 +138,7 @@ describe('MessageContext', () => {
 
   describe('addMessage', () => {
     it('adds a message and increments duplicateMessageCounter on repeat', async () => {
-      const controlRef = React.createRef();
+      const controlRef = createRef();
       wrapper = render(
         <ConfigProvider value={mockContext.config}>
           <MessageProvider>
@@ -170,7 +170,7 @@ describe('MessageContext', () => {
   describe('markMessageAsRead', () => {
     it('removes the message and persists the read id', async () => {
       setReadMessageIds([]);
-      const controlRef = React.createRef();
+      const controlRef = createRef();
       wrapper = render(
         <ConfigProvider value={mockContext.config}>
           <MessageProvider>
@@ -204,7 +204,7 @@ describe('MessageContext', () => {
       // (e.g. NaviContainer) rely on the messages reference changing even
       // in this case.
       setReadMessageIds([]);
-      const controlRef = React.createRef();
+      const controlRef = createRef();
       wrapper = render(
         <ConfigProvider value={mockContext.config}>
           <MessageProvider>
@@ -227,7 +227,7 @@ describe('MessageContext', () => {
       // permission/timeout messages: it can't call hooks, so it goes
       // through the messageActions bridge instead of useMessageActions().
       setReadMessageIds([]);
-      const controlRef = React.createRef();
+      const controlRef = createRef();
       wrapper = render(
         <ConfigProvider value={mockContext.config}>
           <MessageProvider>

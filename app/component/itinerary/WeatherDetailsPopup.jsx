@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Text, FlexColumn, FlexRow } from '@hsl-fi/layout-primitives';
 import { useIntl } from 'react-intl';

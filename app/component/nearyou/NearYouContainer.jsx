@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { createPaginationContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { relayShape } from '../../../utils/client/shapes';

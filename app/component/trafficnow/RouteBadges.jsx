@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { entityShape } from '../../../utils/client/shapes';

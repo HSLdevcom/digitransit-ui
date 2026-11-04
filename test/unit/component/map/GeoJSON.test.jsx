@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 import L from 'leaflet';
-import React from 'react';
 import GeoJSON, {
   getIcons,
   getMarker,

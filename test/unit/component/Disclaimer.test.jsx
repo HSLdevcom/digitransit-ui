@@ -1,4 +1,3 @@
-import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import Disclaimer from '../../../app/component/Disclaimer';

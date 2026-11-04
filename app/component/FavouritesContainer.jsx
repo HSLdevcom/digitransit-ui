@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import AutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import FavouriteBar from '@digitransit-component/digitransit-component-favourite-bar';
 import FavouriteModal from '@digitransit-component/digitransit-component-favourite-modal';

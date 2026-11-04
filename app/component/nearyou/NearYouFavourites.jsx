@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
 import { locationShape, relayShape } from '../../../utils/client/shapes';
 import NearYouFavouritesContainer from './NearYouFavouritesContainer';

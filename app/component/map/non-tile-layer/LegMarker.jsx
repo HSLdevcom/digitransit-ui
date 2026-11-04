@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import Marker from 'react-leaflet/es/Marker';
 import { default as L } from 'leaflet';
 import cx from 'classnames';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useFragment, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';

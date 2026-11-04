@@ -1,4 +1,3 @@
-import React from 'react';
 import TripStopListContainer from '../../../app/component/routepage/TripStopListContainer';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';

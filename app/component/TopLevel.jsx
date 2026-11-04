@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
-import React, { Fragment, useEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import some from 'lodash/some';
 import { matchShape } from '../../utils/client/shapes';
 import {

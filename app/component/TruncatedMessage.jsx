@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import TruncateMarkup from 'react-truncate-markup';

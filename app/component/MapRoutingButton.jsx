@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Modal from '@hsl-fi/modal';
 import { useRouter } from 'found';

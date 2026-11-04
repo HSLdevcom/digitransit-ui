@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';

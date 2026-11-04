@@ -1,4 +1,3 @@
-import React from 'react';
 import cx from 'classnames';
 import PlatformNumber from '../PlatformNumber';
 import { isPlatformChanged } from '../../../utils/client/legUtils';

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import { Text } from '@hsl-fi/layout-primitives';

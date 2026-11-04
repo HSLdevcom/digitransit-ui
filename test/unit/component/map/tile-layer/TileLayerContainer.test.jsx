@@ -1,4 +1,3 @@
-import React from 'react';
 import L from 'leaflet';
 import { LeafletProvider } from 'react-leaflet/es/context';
 import { renderWithProviders } from '../../../helpers/mock-providers';

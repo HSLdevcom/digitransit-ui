@@ -1,4 +1,3 @@
-import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'found';
 import { Text } from '@hsl-fi/layout-primitives';

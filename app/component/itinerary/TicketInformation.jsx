@@ -1,6 +1,5 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useIntl } from 'react-intl';
 import { v4 as uuid } from 'uuid';
 import { fareShape, legShape } from '../../../utils/client/shapes';

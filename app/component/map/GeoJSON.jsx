@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import PropTypes from 'prop-types';
-import React, { useRef } from 'react';
+import { useRef, Fragment } from 'react';
 import { default as Geojson } from 'react-leaflet/es/GeoJSON';
 import PointFeatureMarker from './PointFeatureMarker';
 import { geoJsonFeatureShape } from '../../../utils/client/shapes';
@@ -185,7 +185,7 @@ export default function GeoJSON({
   }
 
   return (
-    <React.Fragment>
+    <Fragment>
       {data.features.map((feature, index) => (
         <PointFeatureMarker
           feature={feature}
@@ -198,7 +198,7 @@ export default function GeoJSON({
           {...rest}
         />
       ))}
-    </React.Fragment>
+    </Fragment>
   );
 }
 

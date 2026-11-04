@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
 import TripMarkerPopup from '../route/TripMarkerPopup';
 import SelectVehicleRow from './SelectVehicleRow';

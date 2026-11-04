@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { legShape, legTimeShape } from '../../../utils/client/shapes';

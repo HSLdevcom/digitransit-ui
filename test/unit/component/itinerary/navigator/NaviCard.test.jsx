@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import NaviCard from '../../../../../app/component/itinerary/navigator/NaviCard';

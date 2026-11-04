@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { RouterContext } from 'found';
 import { ReactRelayContext } from 'react-relay';
 import PropTypes from 'prop-types';

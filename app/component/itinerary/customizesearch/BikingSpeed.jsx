@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import SearchSettingsDropdown, { valueShape } from './SearchSettingsDropdown';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { findNearestOption } from '../../../../utils/client/planParamUtil';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { renderWithProviders } from '../helpers/mock-providers';
 import DisruptionList from '../../../app/component/DisruptionList';
 import { AlertEntityType } from '../../../utils/shared/constants';

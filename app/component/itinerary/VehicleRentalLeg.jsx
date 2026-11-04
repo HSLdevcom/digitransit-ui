@@ -1,6 +1,5 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
-import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 

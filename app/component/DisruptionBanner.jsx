@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
 import { alertShape } from '../../utils/client/shapes';
 import { isAlertValid } from '../../utils/client/alertUtils';

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';

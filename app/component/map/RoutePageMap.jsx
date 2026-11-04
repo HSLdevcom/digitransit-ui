@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { createFragmentContainer, graphql } from 'react-relay';
 import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
 import { patternShape, errorShape } from '../../../utils/client/shapes';

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useContext, useState, useRef } from 'react';
+import { useEffect, useContext, useState, useRef } from 'react';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';

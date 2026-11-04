@@ -1,4 +1,3 @@
-import React from 'react';
 import { useMatch } from 'found';
 import MapWithTracking from './MapWithTracking';
 import { sameLocations } from '../../../utils/shared/path';

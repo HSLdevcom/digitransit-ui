@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useRouter } from 'found';
 import { default as L } from 'leaflet';
 import { TransportMode } from '../../../../utils/shared/constants';

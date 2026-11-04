@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useLeaflet } from 'react-leaflet/es/context';
 import { locationShape } from '../../../utils/client/shapes';

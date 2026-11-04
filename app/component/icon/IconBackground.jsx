@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 const STOP_SIGN_POLE_WIDTH = 3;

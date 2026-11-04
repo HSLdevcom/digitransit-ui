@@ -1,4 +1,3 @@
-import React from 'react';
 import TileLayerContainer from './TileLayerContainer';
 import VehicleRentalStations from './VehicleRentalStations';
 import Stops from './Stops';

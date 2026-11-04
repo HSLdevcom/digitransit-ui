@@ -1,5 +1,5 @@
 import { useIntl } from 'react-intl';
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useFragment } from 'react-relay';
 import { DateTime } from 'luxon';
 import cx from 'classnames';

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useIntl } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Button, Spacer, Text } from '@hsl-fi/layout-primitives';

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import MarkerPopupBottom from '../MarkerPopupBottom';

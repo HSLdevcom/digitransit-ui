@@ -1,4 +1,3 @@
-import React from 'react';
 import { SiteFooter } from '@hsl-fi/site-footer';
 import { useConfigContext } from '../../hooks/ConfigContext';
 

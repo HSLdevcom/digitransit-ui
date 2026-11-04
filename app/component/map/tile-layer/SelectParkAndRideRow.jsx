@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import Link from 'found/Link';
 import Icon from '../../Icon';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../../utils/shared/path';

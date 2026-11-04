@@ -1,6 +1,6 @@
 import { useRouter } from 'found';
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import {

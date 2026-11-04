@@ -1,4 +1,3 @@
-import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
 import cx from 'classnames';

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { durationToString } from '../../../utils/client/timeUtils';
 import {

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import { stopShape } from '../../utils/client/shapes';
 import Favourite from './Favourite';

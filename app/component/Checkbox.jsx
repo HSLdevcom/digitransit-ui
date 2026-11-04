@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import uniqueId from 'lodash/uniqueId';
 import { useIntl } from 'react-intl';
 import { Checkbox as DsCheckbox } from '@hsl-fi/form';

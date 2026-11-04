@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import Icon from '../Icon';

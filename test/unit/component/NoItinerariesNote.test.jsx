@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { mockContext } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
 import translations from '../../../app/translations/en';

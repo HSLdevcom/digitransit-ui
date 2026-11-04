@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import uniqBy from 'lodash/uniqBy';
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { graphql, fetchQuery, ReactRelayContext } from 'react-relay';
 import { useConfigContext } from '../hooks/ConfigContext';

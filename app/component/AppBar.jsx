@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import Icon from './Icon';

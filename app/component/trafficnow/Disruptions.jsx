@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';

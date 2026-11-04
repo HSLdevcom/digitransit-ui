@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useRouter } from 'found';
 import { relayShape } from '../../../../utils/client/shapes';
 import { useMessages } from '../../../hooks/MessageContext';
