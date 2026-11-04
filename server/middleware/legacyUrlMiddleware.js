@@ -1,4 +1,4 @@
-import legacyParamParser from '../../utils/shared/legacyParamParser.js';
+import legacyParamParser from '../../utils/server/legacyParamParser.js';
 import { LEGACY_LOCALES } from '../../utils/shared/constants.js';
 import { getConfiguration } from '../configs/config.js';
 

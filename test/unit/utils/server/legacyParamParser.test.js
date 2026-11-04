@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import legacyParamParser from '../../../../utils/shared/legacyParamParser';
+import legacyParamParser from '../../../../utils/server/legacyParamParser';
 import defaultConfig from '../../../../server/configs/config.default';
 import { PREFIX_ITINERARY_SUMMARY } from '../../../../utils/shared/path';
 
