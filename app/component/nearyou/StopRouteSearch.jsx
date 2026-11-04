@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 import { memo } from 'react';
-import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import { filterSearchResultsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { useRouter } from 'found';
-import { withSearchContext } from '../WithSearchContext';
+import SearchAutosuggest from '../SearchAutosuggest';
 import { getStopRoutePath } from '../../../utils/shared/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-const DTAutoSuggestWithSearchContext = withSearchContext(DTAutoSuggest);
 const searchSources = ['Favourite', 'History', 'Datasource'];
 
 function parkFilter(parks, mode) {
@@ -51,7 +49,7 @@ function StopRouteSearch({ mode, ...rest }) {
   }
   return (
     <div className="near-you-search-container">
-      <DTAutoSuggestWithSearchContext
+      <SearchAutosuggest
         icon="search"
         id="stop-route-station"
         className="destination"

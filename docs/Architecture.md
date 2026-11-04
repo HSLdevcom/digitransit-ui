@@ -46,6 +46,19 @@ named functions in `app/data/SearchHistory.js`, which read/write
 `localStorage` directly. Unlike favourites, nothing reactively subscribes to
 this data, so it has no Context/hook layer.
 
+Search services are exposed through the framework-agnostic singleton in
+`app/data/SearchServices.js`, initialized before rendering and connected to
+`PositionProvider` for current position access. Autosuggest adapters import
+the singleton directly and pass it through the existing `searchContext` package prop;
+it is not part of the React search context value. Each `SearchAutosuggest` or
+`SearchAutosuggestPanel` adapter mounts its own `SearchProvider` from
+`app/hooks/SearchContext.jsx`. The provider owns pending geolocation;
+`useSearchContext` exposes selection handling and instance-local map controls.
+`SearchSelectionBoundary` replaces the input with the map picker while
+keeping its provider mounted. Do not mount a global search provider:
+different search instances have independent callbacks and embedded behavior.
+Journey endpoints remain in `ItineraryLocationContext`.
+
 Responsive layout state is owned by `BreakpointProvider` in
 `app/hooks/BreakpointContext.jsx`, mounted in `app/client/client.jsx`.
 Functional consumers use `useBreakpoint()` from that module. Breakpoints are
