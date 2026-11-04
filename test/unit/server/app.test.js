@@ -128,11 +128,11 @@ describe('server app', () => {
   });
 
   describe('legacy locale path redirects', () => {
-    it('redirects /fi/ to /?locale=fi for a deployment with redirectReittiopasParams enabled', async () => {
+    it('redirects /fi/ to / for a deployment with redirectReittiopasParams enabled', async () => {
       vi.stubEnv('CONFIG', 'hsl');
       const response = await request(app).get('/fi/');
       expect(response.status).toBe(302);
-      expect(response.headers.location).toBe('/?locale=fi');
+      expect(response.headers.location).toBe('/');
     });
   });
 });

@@ -1,6 +1,6 @@
 import {
   validateParams,
-  dropPathLanguageAndFixLocaleParam,
+  dropPathLanguage,
 } from '../../../../server/middleware/legacyUrlMiddleware';
 
 import config from '../../../../server/configs/config.default';
@@ -53,24 +53,22 @@ describe('legacyUrlMiddleware', () => {
     });
   });
 
-  describe('dropLanguageAndSetLocaleParam', () => {
+  describe('dropPathLanguage', () => {
     const req = {
       path: '/en/',
-      query: {
-        locale: 'fi',
-      },
+      query: {},
     };
 
-    it('should return empty path with "locale" query param', () => {
-      const relativeUrl = dropPathLanguageAndFixLocaleParam(req, 'en');
-      expect(relativeUrl).toBe('/?locale=en');
+    it('should return the root path', () => {
+      const relativeUrl = dropPathLanguage(req, 'en');
+      expect(relativeUrl).toBe('/');
     });
 
     it('should return path without language', () => {
       req.path = `/sv/${PREFIX_ITINERARY_SUMMARY}/Rautatientori%2C%20Helsinki%3A%3A60.171283%2C24.942572/Pasila%2C%20Helsinki%3A%3A60.199017%2C24.933973`;
-      const relativeUrl = dropPathLanguageAndFixLocaleParam(req, 'sv');
+      const relativeUrl = dropPathLanguage(req, 'sv');
       expect(relativeUrl).toBe(
-        `/${PREFIX_ITINERARY_SUMMARY}/Rautatientori%2C%20Helsinki%3A%3A60.171283%2C24.942572/Pasila%2C%20Helsinki%3A%3A60.199017%2C24.933973?locale=sv`,
+        `/${PREFIX_ITINERARY_SUMMARY}/Rautatientori%2C%20Helsinki%3A%3A60.171283%2C24.942572/Pasila%2C%20Helsinki%3A%3A60.199017%2C24.933973`,
       );
     });
 
@@ -79,20 +77,19 @@ describe('legacyUrlMiddleware', () => {
       req.query = {
         time: 1565074800,
         arriveBy: false,
-        locale: 'fi',
       };
 
-      const relativeUrl = dropPathLanguageAndFixLocaleParam(req, 'en');
+      const relativeUrl = dropPathLanguage(req, 'en');
       expect(relativeUrl).toBe(
-        `/${PREFIX_ITINERARY_SUMMARY}/Otaniemi,%20Espoo::60.187938,24.83182/Rautatientori,%20Asemanaukio%202,%20Helsinki::60.170384,24.939846?time=1565074800&arriveBy=false&locale=en`,
+        `/${PREFIX_ITINERARY_SUMMARY}/Otaniemi,%20Espoo::60.187938,24.83182/Rautatientori,%20Asemanaukio%202,%20Helsinki::60.170384,24.939846?time=1565074800&arriveBy=false`,
       );
     });
 
-    it('should drop the special "slangi" pseudo-locale to the "fi" query param', () => {
+    it('should drop the special "slangi" pseudo-locale', () => {
       req.path = '/slangi/';
       req.query = {};
-      const relativeUrl = dropPathLanguageAndFixLocaleParam(req, 'slangi');
-      expect(relativeUrl).toBe('/?locale=fi');
+      const relativeUrl = dropPathLanguage(req, 'slangi');
+      expect(relativeUrl).toBe('/');
     });
   });
 
@@ -101,26 +98,17 @@ describe('legacyUrlMiddleware', () => {
       const bad = { path: '//example.com/x', query: { time: 'abc' } };
       expect(validateParams(bad, config)).toBe('/example.com/x');
       expect(
-        dropPathLanguageAndFixLocaleParam(
-          { path: '/en//example.com', query: {} },
-          'en',
-        ),
-      ).toBe('/example.com?locale=en');
+        dropPathLanguage({ path: '/en//example.com', query: {} }, 'en'),
+      ).toBe('/example.com');
       expect(
-        dropPathLanguageAndFixLocaleParam(
-          { path: '/en/\\example.com', query: {} },
-          'en',
-        ),
-      ).toBe('/example.com?locale=en');
+        dropPathLanguage({ path: '/en/\\example.com', query: {} }, 'en'),
+      ).toBe('/example.com');
     });
 
     it('only drops the language when it is a whole path segment', () => {
-      expect(
-        dropPathLanguageAndFixLocaleParam(
-          { path: '/english/x', query: {} },
-          'en',
-        ),
-      ).toBe('/english/x?locale=en');
+      expect(dropPathLanguage({ path: '/english/x', query: {} }, 'en')).toBe(
+        '/english/x',
+      );
     });
   });
 

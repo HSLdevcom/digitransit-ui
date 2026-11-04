@@ -35,28 +35,12 @@ export function validateParams(req, config) {
     : undefined;
 }
 
-const fixLocaleParam = (req, lang) => {
-  // override locale query param with the selected language
-  req.query.locale = lang === 'slangi' ? 'fi' : lang;
-  return formatQuery(req.query);
-};
-
-export const dropPathLanguageAndFixLocaleParam = (req, lang) => {
+export const dropPathLanguage = (req, lang) => {
   const segments = req.path.split(PATH_SEPARATORS).filter(Boolean);
   if (segments[0] === lang) {
     segments.shift();
   }
-  return normalizePath(segments.join('/')) + fixLocaleParam(req, lang);
-};
-
-const dropPathLanguageAndRedirect = (req, res, lang) => {
-  const trimmedUrl = dropPathLanguageAndFixLocaleParam(req, lang);
-  res.redirect(trimmedUrl);
-};
-
-const fixLocaleParamAndRedirect = (req, res, lang) => {
-  const fixedUrl = normalizePath(req.path) + fixLocaleParam(req, lang);
-  res.redirect(fixedUrl);
+  return normalizePath(segments.join('/')) + formatQuery(req.query);
 };
 
 export default function legacyUrlMiddleware(req, res, next) {
@@ -82,16 +66,9 @@ export default function legacyUrlMiddleware(req, res, next) {
     ) {
       legacyParamParser(req.query, config).then(url => res.redirect(url));
     } else if (LEGACY_LOCALES.includes(lang)) {
-      dropPathLanguageAndRedirect(req, res, lang);
+      res.redirect(dropPathLanguage(req, lang));
     } else {
-      const { locale } = req.query;
-      const cookieLang = req.cookies.lang;
-
-      if (cookieLang && locale && cookieLang !== locale) {
-        fixLocaleParamAndRedirect(req, res, cookieLang);
-      } else {
-        next();
-      }
+      next();
     }
   } else {
     next();
