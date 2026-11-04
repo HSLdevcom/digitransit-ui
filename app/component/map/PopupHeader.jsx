@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 
-const PopupHeader = ({ header, subHeader, children }) => {
+export default function PopupHeader({ header, subHeader, children }) {
   const intl = useIntl();
   return (
     <div className="location-popup-wrapper">
@@ -16,12 +16,10 @@ const PopupHeader = ({ header, subHeader, children }) => {
       )}
     </div>
   );
-};
+}
 
 PopupHeader.propTypes = {
   header: PropTypes.string,
   subHeader: PropTypes.string,
   children: PropTypes.node,
 };
-
-export default PopupHeader;

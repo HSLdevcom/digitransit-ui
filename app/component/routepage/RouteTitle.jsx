@@ -8,7 +8,7 @@ import { useBreakpoint } from '../../hooks/BreakpointContext';
 import RouteNumberContainer from '../RouteNumberContainer';
 import RouteTitleFragment from './queries/RouteTitleFragment';
 
-function RouteTitle({ route: routeRef = null }) {
+export default function RouteTitle({ route: routeRef = null }) {
   const breakpoint = useBreakpoint();
   const route = useFragment(RouteTitleFragment, routeRef);
   return breakpoint === 'large' || !route || !route.mode ? (
@@ -29,5 +29,3 @@ function RouteTitle({ route: routeRef = null }) {
 RouteTitle.propTypes = {
   route: fragmentRefShape,
 };
-
-export default RouteTitle;

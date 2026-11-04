@@ -8,7 +8,7 @@ import { useConfigContext } from '../hooks/ConfigContext';
 import { getJson } from '../../utils/shared/xhrPromise';
 import './crisis-banner-hsl.scss';
 
-const CrisisBannerHsl = ({ initialBanners = null }) => {
+export default function CrisisBannerHsl({ initialBanners = null }) {
   const config = useConfigContext();
   const { locale } = useIntl();
   const [banners, setBanners] = useState(() => {
@@ -61,7 +61,7 @@ const CrisisBannerHsl = ({ initialBanners = null }) => {
       ))}
     </div>
   );
-};
+}
 
 CrisisBannerHsl.propTypes = {
   initialBanners: PropTypes.arrayOf(
@@ -71,5 +71,3 @@ CrisisBannerHsl.propTypes = {
     }),
   ),
 };
-
-export default CrisisBannerHsl;

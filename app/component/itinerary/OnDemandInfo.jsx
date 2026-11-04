@@ -12,7 +12,7 @@ import FavouriteRouteContainer from '../routepage/FavouriteRouteContainer';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
 import { openDeepLink } from '../../../utils/client/vehicleRentalUtils';
 
-function OnDemandInfo({
+export default function OnDemandInfo({
   routeNumber,
   route,
   pickupBookingInfo,
@@ -206,5 +206,3 @@ OnDemandInfo.propTypes = {
   route: routeShape.isRequired,
   mobile: PropTypes.bool.isRequired,
 };
-
-export default OnDemandInfo;

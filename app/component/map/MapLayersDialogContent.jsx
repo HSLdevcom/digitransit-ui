@@ -27,7 +27,11 @@ const sendLayerChangeAnalytic = (name, enable) => {
   });
 };
 
-function MapLayersDialogContent({ mapLayers, mapLayerOptions, setOpen }) {
+export default function MapLayersDialogContent({
+  mapLayers,
+  mapLayerOptions,
+  setOpen,
+}) {
   const intl = useIntl();
   const config = useConfigContext();
   const { updateMapLayers } = useMapLayers();
@@ -245,5 +249,3 @@ MapLayersDialogContent.propTypes = {
   mapLayerOptions: mapLayerOptionsShape,
   setOpen: PropTypes.func.isRequired,
 };
-
-export default MapLayersDialogContent;

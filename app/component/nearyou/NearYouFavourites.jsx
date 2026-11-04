@@ -75,12 +75,12 @@ NearYouFavourites.propTypes = {
   currentTime: PropTypes.number.isRequired,
 };
 
-const NearYouFavouritesRelayConnector = props => (
-  <ReactRelayContext.Consumer>
-    {({ environment }) => (
-      <NearYouFavourites {...props} relayEnvironment={environment} />
-    )}
-  </ReactRelayContext.Consumer>
-);
-
-export default NearYouFavouritesRelayConnector;
+export default function NearYouFavouritesRelayConnector(props) {
+  return (
+    <ReactRelayContext.Consumer>
+      {({ environment }) => (
+        <NearYouFavourites {...props} relayEnvironment={environment} />
+      )}
+    </ReactRelayContext.Consumer>
+  );
+}

@@ -7,7 +7,7 @@ import { useFilterContext } from './FiltersContext';
 
 const searchSources = ['Favourite', 'History', 'Datasource'];
 
-const EntitySearch = ({ filterId }) => {
+export default function EntitySearch({ filterId }) {
   const {
     getAutoSuggestIcons,
     colors: { iconColors },
@@ -54,10 +54,8 @@ const EntitySearch = ({ filterId }) => {
       />
     </fieldset>
   );
-};
+}
 
 EntitySearch.propTypes = {
   filterId: PropTypes.string.isRequired,
 };
-
-export default EntitySearch;

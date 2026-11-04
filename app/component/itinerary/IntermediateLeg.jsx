@@ -9,7 +9,7 @@ import Icon from '../Icon';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-function IntermediateLeg({
+export default function IntermediateLeg({
   placesCount = 0,
   color,
   mode,
@@ -195,5 +195,3 @@ IntermediateLeg.propTypes = {
   gtfsId: PropTypes.string,
   isCanceled: PropTypes.bool,
 };
-
-export default IntermediateLeg;

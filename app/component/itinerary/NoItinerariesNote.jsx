@@ -25,7 +25,7 @@ function getErrorCardProps(summaryMessageIds) {
   );
 }
 
-function NoItinerariesNote({
+export default function NoItinerariesNote({
   from,
   to,
   walking = false,
@@ -88,5 +88,3 @@ NoItinerariesNote.propTypes = {
   error: errorShape,
   routingErrors: PropTypes.arrayOf(RoutingerrorShape),
 };
-
-export default NoItinerariesNote;

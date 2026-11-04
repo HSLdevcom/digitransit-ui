@@ -6,7 +6,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Filters from './Filters';
 import { useFilterContext } from './FiltersContext';
 
-const FiltersModal = ({ isOpen, onClose }) => {
+export default function FiltersModal({ isOpen, onClose }) {
   const { resetFilters, selectedFilters } = useFilterContext();
   const intl = useIntl();
   const filtersOnOpenRef = useRef(selectedFilters);
@@ -65,11 +65,9 @@ const FiltersModal = ({ isOpen, onClose }) => {
       <Filters onApplyClick={handleClose} onResetClick={resetFilters} />
     </Modal>
   );
-};
+}
 
 FiltersModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
-
-export default FiltersModal;

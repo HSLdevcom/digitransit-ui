@@ -13,7 +13,7 @@ import { useCurrentTime } from '../../hooks/TimeContext';
 import TripStopListContainerFragment from './queries/TripStopListContainerFragment';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-function TripStopListContainer({
+export default function TripStopListContainer({
   trip: tripRef,
   className = undefined,
   tripStart,
@@ -125,5 +125,3 @@ TripStopListContainer.propTypes = {
   keepTracking: PropTypes.bool,
   setHumanScrolling: PropTypes.func,
 };
-
-export default TripStopListContainer;

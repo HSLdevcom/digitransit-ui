@@ -131,7 +131,7 @@ FuzzyTripLinkQuery.propTypes = {
   nextStopName: PropTypes.string,
 };
 
-function FuzzyTripLink(props) {
+export default function FuzzyTripLink(props) {
   const { vehicle, mode } = props;
   const fallbackIcon = (
     <VehicleIcon
@@ -159,5 +159,3 @@ FuzzyTripLink.propTypes = {
   nextStopName: PropTypes.string,
   mode: PropTypes.string,
 };
-
-export default FuzzyTripLink;

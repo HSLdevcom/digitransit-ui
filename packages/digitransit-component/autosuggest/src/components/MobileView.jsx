@@ -47,7 +47,7 @@ import {
  * @param {MobileViewProps} props
  * @returns {JSX.Element}
  */
-const MobileView = ({
+export default function MobileView({
   appElement,
   id,
   placeholder,
@@ -66,7 +66,7 @@ const MobileView = ({
   dispatch,
   pendingEnterRef,
   colors,
-}) => {
+}) {
   const [t] = useTranslation();
   const { lock, unlock } = hooks.useScrollLock();
   const styles = showScroll ? mobileStyles : mobileNoScrollStyles;
@@ -265,7 +265,7 @@ const MobileView = ({
       </div>
     </ReactModal>
   );
-};
+}
 
 MobileView.propTypes = {
   appElement: PropTypes.string.isRequired,
@@ -297,5 +297,3 @@ MobileView.propTypes = {
     current: PropTypes.bool,
   }).isRequired,
 };
-
-export default MobileView;

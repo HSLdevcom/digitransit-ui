@@ -36,7 +36,7 @@ SeparatorLine.propTypes = {
  *    />
  *  </CtrlPanel>
  */
-function CtrlPanel({ children = DEFAULT_CHILDREN, position }) {
+export default function CtrlPanel({ children = DEFAULT_CHILDREN, position }) {
   const className =
     position === 'bottom' ? styles['main-bottom'] : styles['main-left'];
   return (
@@ -82,5 +82,3 @@ CtrlPanel.propTypes = {
   children: PropTypes.node,
   position: PropTypes.string.isRequired,
 };
-
-export default CtrlPanel;

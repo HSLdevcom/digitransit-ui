@@ -12,12 +12,12 @@ import EntityBadge from './EntityBadge';
 
 const DEPARTURE_LIMIT = 10;
 
-const CanceledDepartures = ({
+export default function CanceledDepartures({
   patterns: patternRefs,
   inline = false,
   departureLimit = DEPARTURE_LIMIT,
   mode,
-}) => {
+}) {
   const patterns = useFragment(CanceledDeparturesFragment, patternRefs);
   const { formatMessage } = useIntl();
   const [expandedDates, setExpandedDates] = useState([]);
@@ -115,7 +115,7 @@ const CanceledDepartures = ({
       ))}
     </div>
   );
-};
+}
 
 CanceledDepartures.propTypes = {
   patterns: PropTypes.arrayOf(PropTypes.shape({})),
@@ -123,5 +123,3 @@ CanceledDepartures.propTypes = {
   inline: PropTypes.bool,
   mode: PropTypes.string,
 };
-
-export default CanceledDepartures;
