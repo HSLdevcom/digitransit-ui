@@ -6,7 +6,7 @@ import {
   SearchProvider,
   useSearchContext,
 } from '../../../app/hooks/SearchContext';
-import searchContext from '../../../app/data/SearchContext';
+import searchServices from '../../../app/data/SearchServices';
 import { removeSearch, saveSearch } from '../../../app/data/SearchHistory';
 import { SEARCH_PATH_OPTS } from '../../../utils/client/searchUtils';
 import { renderWithProviders } from '../helpers/mock-providers';
@@ -14,7 +14,7 @@ import { renderWithProviders } from '../helpers/mock-providers';
 vi.mock('@digitransit-search-util/digitransit-search-util-get-json', () => ({
   default: vi.fn(),
 }));
-vi.mock('../../../app/data/SearchContext', () => ({
+vi.mock('../../../app/data/SearchServices', () => ({
   default: {
     getRoutesByIds: vi.fn(),
     setPositionGetter: vi.fn(),
@@ -149,7 +149,7 @@ describe('SearchProvider', () => {
     saveSearch.mockClear();
     removeSearch.mockClear();
     getJson.mockReset();
-    searchContext.getRoutesByIds.mockReset();
+    searchServices.getRoutesByIds.mockReset();
   });
 
   it('labels an embedded current location selection with a translated text', () => {
@@ -380,9 +380,9 @@ describe('SearchProvider', () => {
         properties: { layer: 'route-BUS', gtfsId: 'HSL:1', name: 'New route' },
       };
       if (outcome === 'failed') {
-        searchContext.getRoutesByIds.mockRejectedValue(new Error('offline'));
+        searchServices.getRoutesByIds.mockRejectedValue(new Error('offline'));
       } else {
-        searchContext.getRoutesByIds.mockResolvedValue(
+        searchServices.getRoutesByIds.mockResolvedValue(
           outcome === 'refreshed' ? [route] : [],
         );
       }
@@ -394,7 +394,7 @@ describe('SearchProvider', () => {
 
       fireEvent.click(screen.getByRole('button'));
       await waitFor(() => expect(selectHandler).toHaveBeenCalledTimes(1));
-      expect(searchContext.getRoutesByIds).toHaveBeenCalledWith(
+      expect(searchServices.getRoutesByIds).toHaveBeenCalledWith(
         ['HSL:1'],
         SEARCH_PATH_OPTS,
       );

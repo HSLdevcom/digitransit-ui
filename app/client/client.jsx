@@ -33,7 +33,7 @@ import { getCountries } from '../../utils/client/localStorage';
 import { configureCountry } from '../../utils/client/configureCountry';
 import { getUser } from '../../utils/client/apiUtils';
 import favouriteStore from '../data/FavouriteData';
-import searchContext from '../data/SearchContext';
+import searchServices from '../data/SearchServices';
 import { ConfigProvider } from '../hooks/ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
 import { MapLayerProvider } from '../hooks/MapLayerContext';
@@ -154,7 +154,7 @@ async function init() {
 
   // fetch Userdata and favourites
   favouriteStore.init(config);
-  searchContext.init(config);
+  searchServices.init(config);
   if (config.allowLogin) {
     getUser()
       .then(user => {

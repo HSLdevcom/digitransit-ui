@@ -8,7 +8,7 @@ import SearchAutosuggest, {
 } from '../../../app/component/SearchAutosuggest';
 import SelectFromMap from '../../../app/component/map/SelectFromMap';
 import SelectFromMapModal from '../../../app/component/SelectFromMapModal';
-import searchContext from '../../../app/data/SearchContext';
+import searchServices from '../../../app/data/SearchServices';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { SEARCH_PATH_OPTS } from '../../../utils/client/searchUtils';
 import { createTestIntl, renderWithProviders } from '../helpers/mock-providers';
@@ -132,10 +132,11 @@ describe('search autosuggest adapters', () => {
     );
 
     const props = input.mock.lastCall[0];
+    expect(props).not.toHaveProperty('searchServices');
     expect(props).toEqual(
       expect.objectContaining({
         appElement: '#app',
-        searchContext,
+        searchContext: searchServices,
         addAnalyticsEvent,
         selectHandler,
         onGeolocationStart,
@@ -165,6 +166,7 @@ describe('search autosuggest adapters', () => {
     const viaHandler = vi.fn();
     const customPathOpts = { stopsPrefix: 'custom' };
     const locationState = { lat: 61, lon: 25 };
+    const customSearchServices = { ...searchServices };
     renderWithProviders(
       <SearchAutosuggest
         selectHandler={vi.fn()}
@@ -174,6 +176,7 @@ describe('search autosuggest adapters', () => {
         handleViaPointLocationSelected={viaHandler}
         pathOpts={customPathOpts}
         locationState={locationState}
+        searchContext={customSearchServices}
       />,
     );
 
@@ -184,6 +187,7 @@ describe('search autosuggest adapters', () => {
         addAnalyticsEvent: analytics,
         handleViaPointLocationSelected: viaHandler,
         locationState,
+        searchContext: customSearchServices,
         pathOpts: SEARCH_PATH_OPTS,
       }),
     );

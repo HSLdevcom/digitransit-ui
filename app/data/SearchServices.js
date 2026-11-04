@@ -22,13 +22,8 @@ import { hasCitybikes } from '../../utils/client/modeUtils';
 import { getDefaultNetworks } from '../../utils/shared/vehicleRentalUtils';
 
 /**
- * TODO This could be renamed as SearchServices to distinquish it from
- * React's Context Provider
- */
-
-/**
  * Plain (non-Flux) singleton that acts both as the template/interface for,
- * and the concrete Digitransit implementation of, the "search context"
+ * and the concrete Digitransit implementation of, the "search services"
  * consumed by the framework-agnostic @digitransit-search-util packages
  * (most notably digitransit-search-util-execute-search-immediate). Those
  * packages only rely on the shape of this object (fields/methods read off
@@ -41,12 +36,12 @@ import { getDefaultNetworks } from '../../utils/shared/vehicleRentalUtils';
  * uninitialized state, so unlike FavouriteData it doesn't need to expose
  * safe no-op defaults for its fields/methods.
  */
-class SearchContext {
+class SearchServices {
   initialized = false;
 
   getPositions = () => {
     if (!this.positionGetter) {
-      throw new Error('SearchContext position getter is not connected');
+      throw new Error('SearchServices position getter is not connected');
     }
     return this.positionGetter();
   };
@@ -118,6 +113,6 @@ class SearchContext {
   }
 }
 
-const searchContext = new SearchContext();
+const searchServices = new SearchServices();
 
-export default searchContext;
+export default searchServices;

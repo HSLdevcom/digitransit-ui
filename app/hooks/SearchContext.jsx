@@ -12,7 +12,7 @@ import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import { useIntl } from 'react-intl';
 import { SEARCH_PATH_OPTS } from '../../utils/client/searchUtils';
-import searchContext from '../data/SearchContext';
+import searchServices from '../data/SearchServices';
 import { removeSearch, saveSearch } from '../data/SearchHistory';
 import { useConfigContext } from './ConfigContext';
 import { usePosition, usePositionActions } from './PositionContext';
@@ -158,7 +158,7 @@ export function SearchProvider({
         item.properties.layer?.startsWith('route-') &&
         item.properties.gtfsId
       ) {
-        searchContext
+        searchServices
           .getRoutesByIds([item.properties.gtfsId], SEARCH_PATH_OPTS)
           .then(routes => {
             if (routes.length > 0) {
@@ -236,7 +236,6 @@ export function SearchProvider({
 
   const value = useMemo(
     () => ({
-      searchContext,
       onSelect,
       selectHandler,
       onGeolocationStart,

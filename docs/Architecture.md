@@ -45,8 +45,10 @@ named functions in `app/data/SearchHistory.js`, which read/write
 this data, so it has no Context/hook layer.
 
 Search services are exposed through the framework-agnostic singleton in
-`app/data/SearchContext.js`, initialized before rendering and connected to
-`PositionProvider` for current position access. Each `SearchAutosuggest` or
+`app/data/SearchServices.js`, initialized before rendering and connected to
+`PositionProvider` for current position access. Autosuggest adapters import
+the singleton directly and pass it through the existing `searchContext` package prop;
+it is not part of the React search context value. Each `SearchAutosuggest` or
 `SearchAutosuggestPanel` adapter mounts its own `SearchProvider` from
 `app/hooks/SearchContext.jsx`. The provider owns pending geolocation;
 `useSearchContext` exposes selection handling and instance-local map controls.

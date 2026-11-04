@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { SearchProvider, useSearchContext } from '../hooks/SearchContext';
+import searchServices from '../data/SearchServices';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { SEARCH_PATH_OPTS } from '../../utils/client/searchUtils';
 import SearchSelectionBoundary from './SearchSelectionBoundary';
@@ -13,13 +14,8 @@ function SearchInput({
   showViapointControl,
   ...rest
 }) {
-  const {
-    searchContext,
-    onSelect,
-    selectHandler,
-    locationState,
-    onGeolocationStart,
-  } = useSearchContext();
+  const { onSelect, selectHandler, locationState, onGeolocationStart } =
+    useSearchContext();
   const Component = panel ? DTAutosuggestPanel : DTAutoSuggest;
   const viaProps = showViapointControl
     ? { handleViaPointLocationSelected: onSelect }
@@ -28,7 +24,7 @@ function SearchInput({
   return (
     <Component
       appElement="#app"
-      searchContext={searchContext}
+      searchContext={searchServices}
       addAnalyticsEvent={addAnalyticsEvent}
       onSelect={onSelect}
       selectHandler={selectHandler}
