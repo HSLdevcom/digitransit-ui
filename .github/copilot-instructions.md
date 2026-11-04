@@ -197,6 +197,8 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
 - JSX-containing files use the `.jsx` extension; plain `.js` never contains JSX. For the
   extension-required-vs-forbidden import policy, see "Server/client boundary" above;
   `import/extensions` is not autofixable by `eslint --fix`.
+- Always inline default exports (`export default function Foo() {}`), not a separate
+  `export default Foo;` at the end of the file.
 - Avoid `Component.defaultProps` in function components (deprecated by React, and unsupported for
   function components in newer React versions). Declare defaults via destructuring in the
   function signature instead, e.g. `function Foo({ isMobile = false, children = null })`. This
