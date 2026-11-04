@@ -16,7 +16,7 @@ const getIconId = selectedIconId => {
  * One row of the favourites list. The visually hidden arrow buttons are a
  * keyboard alternative to dragging.
  */
-function FavouriteListItem({
+export default function FavouriteListItem({
   favourite,
   lang,
   onMoveUp = null,
@@ -107,5 +107,3 @@ FavouriteListItem.propTypes = {
   onMoveDown: PropTypes.func,
   index: PropTypes.number.isRequired,
 };
-
-export default FavouriteListItem;

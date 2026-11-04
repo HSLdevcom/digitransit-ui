@@ -10,7 +10,7 @@ import EntityBadge from './EntityBadge';
 const STOP_SIGN_ICON_SCALE = 0.5;
 const NORMAL_ICON_SCALE = 1;
 
-const RouteBadgeGroup = ({
+export default function RouteBadgeGroup({
   mode,
   routes,
   isStop = false,
@@ -19,7 +19,7 @@ const RouteBadgeGroup = ({
   renderSuffix = null,
   headsignGroupClassName = undefined,
   stopPropagation = false,
-}) => {
+}) {
   const { router } = useRouter();
   const favourites = useFavourites();
 
@@ -81,7 +81,7 @@ const RouteBadgeGroup = ({
       </div>
     </div>
   );
-};
+}
 
 RouteBadgeGroup.propTypes = {
   mode: PropTypes.string.isRequired,
@@ -100,5 +100,3 @@ RouteBadgeGroup.propTypes = {
   headsignGroupClassName: PropTypes.string,
   stopPropagation: PropTypes.bool,
 };
-
-export default RouteBadgeGroup;

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 import ExternalLink from './ExternalLink';
 
-function AgencyInfo({ agencyName, url }) {
+export default function AgencyInfo({ agencyName, url }) {
   if (agencyName && url) {
     const link = url.indexOf('://') === -1 ? `//${url}` : url;
 
@@ -21,5 +21,3 @@ AgencyInfo.propTypes = {
   agencyName: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
 };
-
-export default AgencyInfo;

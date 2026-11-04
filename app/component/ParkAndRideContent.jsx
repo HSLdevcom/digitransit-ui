@@ -63,7 +63,7 @@ const ParkAndRideContentFragment = graphql`
   }
 `;
 
-function ParkAndRideContent({
+export default function ParkAndRideContent({
   vehicleParking: vehicleParkingRef,
   error,
   mode,
@@ -249,5 +249,3 @@ ParkAndRideContent.propTypes = {
   showDetails: PropTypes.bool,
   backButton: PropTypes.bool,
 };
-
-export default ParkAndRideContent;

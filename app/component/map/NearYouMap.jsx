@@ -112,7 +112,7 @@ const nonTransit = ['CITYBIKE', 'BIKEPARK', 'CARPARK'];
 
 const EMPTY_ARRAY = [];
 
-function NearYouMap({
+export default function NearYouMap({
   breakpoint,
   stops = EMPTY_ARRAY,
   loading = false,
@@ -406,5 +406,3 @@ NearYouMap.propTypes = {
   loading: PropTypes.bool,
   showWalkRoute: PropTypes.bool,
 };
-
-export default NearYouMap;

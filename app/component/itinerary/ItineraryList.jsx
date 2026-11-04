@@ -19,12 +19,12 @@ import { getIntermediatePlaces } from '../../../utils/shared/otpStrings';
 import { ItineraryListPlanEdges } from './queries/ItineraryListPlanEdges';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-const spinnerPosition = {
+export const spinnerPosition = {
   top: 'top',
   bottom: 'bottom',
 };
 
-function ItineraryList({
+export default function ItineraryList({
   planEdges: planEdgesRef,
   activeIndex,
   focusToHeader,
@@ -256,5 +256,3 @@ ItineraryList.propTypes = {
   feedback: PropTypes.objectOf(PropTypes.bool),
   giveFeedback: PropTypes.func,
 };
-
-export { ItineraryList as default, spinnerPosition };

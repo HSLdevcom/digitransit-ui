@@ -241,11 +241,11 @@ const findQueryError = (query, queryContext) => {
  *
  * @returns {string} Message ids
  */
-const findErrorMessageIds = (
+export default function findErrorMessageIds(
   routingErrors = [],
   query = {},
   queryContext = {},
-) => {
+) {
   const routingErrorMessages = findRoutingErrors(routingErrors);
   let queryErrorMessage = findQueryError(query, queryContext);
 
@@ -254,6 +254,4 @@ const findErrorMessageIds = (
   }
 
   return [...routingErrorMessages, ...asArray(queryErrorMessage)];
-};
-
-export default findErrorMessageIds;
+}

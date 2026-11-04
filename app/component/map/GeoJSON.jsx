@@ -15,7 +15,7 @@ import { useConfigContext } from '../../hooks/ConfigContext';
  *
  * @param {*[]} features the geojson features.
  */
-const getIcons = features => {
+export const getIcons = features => {
   if (!Array.isArray(features) || features.length === 0) {
     return {};
   }
@@ -46,7 +46,7 @@ const getIcons = features => {
  * @param {*} latlng the coordinates for the current feature.
  * @param {*} icons the custom icons collection, if available.
  */
-const getMarker = (feature, latlng, icons = {}) => {
+export const getMarker = (feature, latlng, icons = {}) => {
   const properties = feature.properties || {};
   const interactive = !!properties.popupContent;
   let marker;
@@ -96,7 +96,12 @@ const haloArray = [
   21.11, 25.67, 31.14, 37.71, 45.59, 55.04, 66.39, 80,
 ];
 
-function GeoJSON({ bounds, data, geoJsonZoomLevel = 0, ...rest }) {
+export default function GeoJSON({
+  bounds,
+  data,
+  geoJsonZoomLevel = 0,
+  ...rest
+}) {
   const config = useConfigContext();
   const { colors, geoJsonSvgSize, language } = config;
   // cache dynamic icons to allow references by id without data duplication
@@ -204,5 +209,3 @@ GeoJSON.propTypes = {
   }).isRequired,
   geoJsonZoomLevel: PropTypes.number,
 };
-
-export { GeoJSON as default, getIcons, getMarker };

@@ -1,7 +1,11 @@
 import { renderWithProviders } from './helpers/mock-providers';
-import AppBarHsl from '../../app/component/AppBarHsl';
+import AppBarHsl, { Component } from '../../app/component/AppBarHsl';
 
 describe('<AppBarHsl />', () => {
+  it('preserves the Component export alias', () => {
+    expect(Component).toBe(AppBarHsl);
+  });
+
   it('should render without errors', () => {
     const { container } = renderWithProviders(<AppBarHsl />, {
       config: {
