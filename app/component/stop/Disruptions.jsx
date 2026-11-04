@@ -140,7 +140,9 @@ const getCancelations = (stop, intl, config) => {
  * @returns {Array.<Object>}
  */
 export const getAlerts = stop => {
-  return getUniqueAlerts(filterAlertEntities(stop, getAlertsForObject(stop)));
+  return getUniqueAlerts(
+    filterAlertEntities(stop, getAlertsForObject(stop, true)),
+  );
 };
 
 function Disruptions({ stop: stopRef, station: stationRef }) {

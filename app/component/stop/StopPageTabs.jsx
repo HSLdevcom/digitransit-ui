@@ -51,7 +51,7 @@ function StopPageTabs({ stop }) {
 
   const isTerminal = match.params.terminalId != null;
   const currentTime = unixTime();
-  const alerts = getAlertsForObject(stop);
+  const alerts = getAlertsForObject(stop, true);
 
   const canceledCalls = filterCanceledCalls(
     stop.canceledCalls,
