@@ -307,8 +307,7 @@ describe('handleUserAnalytics', () => {
   });
   it('should not call addAnalyticsEvent when user is undefined', () => {
     window.dataLayer = [];
-    config.user = {};
-    handleUserAnalytics(config);
+    handleUserAnalytics({ ...config, user: {} });
     expect(window.dataLayer.length).toBe(0);
   });
 });
