@@ -36,7 +36,7 @@ body {
   width: 100%;
   height: 100%;
   margin: 0;
-  color: $black;
+  color: $dark-gray;
 
   /* Remove Mobile Safari automatic font size adjustments */
   text-size-adjust: 100%;
@@ -62,7 +62,7 @@ p {
   font-family: $font-family;
   font-weight: $font-weight-book;
   font-size: $font-size-normal;
-  color: $black;
+  color: $dark-gray;
 
   /* Remove Android FontBoosting */
   max-height: 999999px;
@@ -74,7 +74,7 @@ h1,
   font-size: $font-size-large;
   font-weight: $font-weight-medium;
   letter-spacing: $letter-spacing-front-page;
-  color: $black;
+  color: $dark-gray;
   text-transform: none;
 }
 
@@ -83,13 +83,13 @@ h2,
   font-size: $font-size-large;
   font-weight: $font-weight-medium;
   letter-spacing: $letter-spacing-front-page;
-  color: $black;
+  color: $dark-gray;
   text-transform: none;
 }
 
 h3,
 .h3 {
-  color: $black;
+  color: $dark-gray;
   font-weight: $font-weight-medium;
   font-size: $font-size-normal;
   line-height: $line-height-normal;
@@ -103,7 +103,7 @@ h4,
   font-size: $font-size-xsmall;
   text-transform: uppercase;
   line-height: $line-height-normal;
-  color: $black;
+  color: $dark-gray;
 }
 
 a h4,

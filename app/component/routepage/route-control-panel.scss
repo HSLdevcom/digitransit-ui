@@ -52,7 +52,7 @@
     }
 
     &.is-active {
-      color: $black;
+      color: $dark-gray;
       background-color: var(--color-surface-default);
       box-shadow: 0 2px 4px 0 var(--color-shadow-strong);
     }
@@ -62,7 +62,7 @@
     }
 
     &:disabled {
-      color: $black;
+      color: $dark-gray;
       font-weight: $font-weight-medium;
       background-color: var(--color-surface-default);
       border: 1px solid var(--color-border-weak);

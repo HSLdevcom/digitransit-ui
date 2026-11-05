@@ -2,8 +2,8 @@
 
 .street-mode-selector-container {
   background-color: $selector-background-color;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
+  border-top: 1px solid $light-gray;
+  border-bottom: 1px solid $light-gray;
   min-height: 76px;
   display: flex;
   flex-direction: column;
@@ -31,7 +31,7 @@
   }
 
   .street-mode-button-row::-webkit-scrollbar-thumb {
-    background: #888;
+    background: $muted-gray;
     border-radius: 3px;
   }
 

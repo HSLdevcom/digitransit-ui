@@ -24,7 +24,7 @@
   align-items: center;
   padding: 6px;
   border-radius: 8px;
-  background: #fff;
+  background: $white;
   position: relative;
 }
 
@@ -72,7 +72,7 @@
           color: $attention-color;
           width: 16px;
           height: 16px;
-          border: solid 1px #fff;
+          border: solid 1px $white;
           border-radius: 999px;
         }
       }

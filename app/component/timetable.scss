@@ -154,7 +154,7 @@
     }
 
     @media print {
-      border-bottom: 1px dotted $black;
+      border-bottom: 1px dotted $dark-gray;
       border-left: none;
       border-right: none;
       padding-left: 0;
@@ -220,7 +220,7 @@
   }
 
   .info {
-    fill: $gray-blue;
+    fill: $info-icon-color;
   }
 }
 

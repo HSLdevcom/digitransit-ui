@@ -63,7 +63,7 @@ $border-radius-rounded: 30px;
       border: 1px solid $light-gray;
       border-radius: $border-radius;
       font-size: 11px;
-      color: #666;
+      color: $gray;
       margin-right: 3px;
       margin-left: 4px;
       padding: 0 5px 0 5px;
@@ -116,7 +116,7 @@ $border-radius-rounded: 30px;
   }
 
   &.info {
-    color: $gray-blue;
+    color: $info-icon-color;
   }
 
   &.inline-icon {
@@ -132,7 +132,7 @@ $border-radius-rounded: 30px;
   justify-content: center;
   padding: 0;
   background: white;
-  stroke: #ddd;
+  stroke: $light-gray;
   fill: transparent;
 
   .icon-container {
@@ -144,7 +144,7 @@ $border-radius-rounded: 30px;
   .icon.favourite {
     height: 30px;
     width: 30px;
-    stroke: #ddd;
+    stroke: $light-gray;
     fill: white;
 
     &.selected {
@@ -173,7 +173,7 @@ $border-radius-rounded: 30px;
   width: 1em;
 
   > .badge-circle {
-    stroke: #fff;
+    stroke: $white;
     stroke-width: 2.5;
   }
 

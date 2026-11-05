@@ -40,7 +40,7 @@ $z-index-sticky-button: 10;
 $transition-short: 0.1s;
 
 // Colors
-$placeholder-color: #888;
+$placeholder-color: $muted-gray;
 
 .traffic-now {
   --white: #{$white};

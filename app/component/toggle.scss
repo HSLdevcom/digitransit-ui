@@ -55,7 +55,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: $medium-gray;
     transition: 0.4s;
   }
 
@@ -87,14 +87,14 @@
   .slider.round {
     border-radius: 34px;
     background: white;
-    border: 1px solid #888;
+    border: 1px solid $muted-gray;
   }
 
   .slider.round::before {
     border-radius: 50%;
     width: 29px;
     height: 29px;
-    border: solid 0.5px #888;
-    background-color: #fff;
+    border: solid 0.5px $muted-gray;
+    background-color: $white;
   }
 }

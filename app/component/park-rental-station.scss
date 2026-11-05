@@ -28,7 +28,7 @@
   .separator,
   .low-separator {
     width: 100%;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid $light-gray;
     margin-bottom: 8px;
     margin-top: 8px;
   }
@@ -73,7 +73,7 @@
 
   .station-sub-header {
     font-size: 0.813rem;
-    color: #666;
+    color: $gray;
     font-weight: $font-weight-book;
     display: flex;
     align-items: center;
@@ -158,14 +158,14 @@
       .dot-line {
         width: 100%;
         margin: 14px 24px;
-        border-bottom: 0.5px dashed #888;
+        border-bottom: 0.5px dashed $muted-gray;
       }
     }
   }
 }
 
 .station-header-with-separator {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $light-gray;
   padding-bottom: 16px;
 }
 

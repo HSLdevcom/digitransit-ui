@@ -78,7 +78,7 @@
 
 .platform-code {
   background: $background-color-lighter;
-  color: #333;
+  color: $dark-gray;
   width: 28px;
   height: 24px;
   border-radius: 4px;
@@ -161,7 +161,7 @@
 }
 
 .departure-row:focus-within {
-  outline: 2px auto #333;
+  outline: 2px auto $dark-gray;
 }
 
 .departure-row {
@@ -171,7 +171,7 @@
   font-weight: $id-font-weight;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $light-gray;
 
   &.clickable {
     cursor: pointer;
@@ -214,11 +214,11 @@
   }
 
   .headsign {
-    color: #333;
+    color: $dark-gray;
   }
 
   .route-arrival {
-    color: #333;
+    color: $dark-gray;
 
     @include font-medium;
 

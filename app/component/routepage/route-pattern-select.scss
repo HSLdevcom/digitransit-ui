@@ -38,7 +38,7 @@
     width: 100%;
     min-height: 44px;
     background: $white;
-    color: $black;
+    color: $dark-gray;
     border: 1px solid $control-border-color;
     border-radius: var(--space-xs);
     position: relative;
@@ -90,7 +90,7 @@
         var(--mode-color-raw, #{$theme-primary-color}) 10%,
         white
       );
-      color: $black;
+      color: $dark-gray;
     }
   }
 
@@ -137,7 +137,7 @@
       var(--mode-color-raw, #{$theme-primary-color}) 10%,
       white
     );
-    color: $black;
+    color: $dark-gray;
     flex-shrink: 0;
     letter-spacing: $letter-spacing;
     overflow: hidden;
@@ -345,7 +345,7 @@
   }
 
   .similar-route-name {
-    color: $black;
+    color: $dark-gray;
     font-weight: $font-weight-medium;
     font-size: 15px;
 
@@ -378,7 +378,7 @@
     align-self: stretch;
     position: relative;
     background: $white;
-    color: $black;
+    color: $dark-gray;
 
     .icon-container {
       width: 24px;
@@ -422,7 +422,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       letter-spacing: $letter-spacing;
-      font-weight: $font-weight-semibold;
+      font-weight: $font-weight-medium;
     }
 
     .route-pattern-connector {

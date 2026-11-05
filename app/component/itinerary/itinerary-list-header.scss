@@ -8,17 +8,17 @@
   font-style: normal;
   line-height: normal;
   letter-spacing: -0.5px;
-  color: #666;
+  color: $gray;
   min-height: 47px;
   padding: 22px 0 22px 3.75em;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $light-gray;
 }
 
 .with-bike-info {
   border-radius: 5px;
-  border: solid 1px #ddd;
+  border: solid 1px $light-gray;
   margin: 8px 60px 8px 0;
-  background-color: $infobox-color-generic-blue;
+  background-color: $infobox-background-color;
   display: flex;
 
   .with-bike-icon {
@@ -34,7 +34,7 @@
 
   .with-bike-info-notification {
     flex: 1;
-    color: #333;
+    color: $dark-gray;
     margin: 5px 4px 4px 8px;
     font-style: normal;
     line-height: normal;
@@ -44,9 +44,9 @@
 
 .with-car-info {
   border-radius: 5px;
-  border: solid 1px #ddd;
+  border: solid 1px $light-gray;
   margin: 8px 60px 8px 0;
-  background-color: $infobox-color-generic-blue;
+  background-color: $infobox-background-color;
   display: flex;
 
   .with-car-icon {
@@ -62,7 +62,7 @@
 
   .with-car-info-notification {
     flex: 1;
-    color: #333;
+    color: $dark-gray;
     margin: 5px 4px 4px 8px;
     font-style: normal;
     line-height: normal;
