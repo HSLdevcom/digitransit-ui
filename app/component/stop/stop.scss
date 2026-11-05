@@ -1,3 +1,5 @@
+@use '../../../styles/abstracts' as *;
+
 @media print {
   .desktop-title {
     display: none;
@@ -50,7 +52,7 @@
   flex-wrap: wrap;
   align-items: center;
   font-size: $font-size-xxsmall;
-  font-weight: $font-weight-semibold;
+  font-weight: $font-weight-medium;
   letter-spacing: $letter-spacing;
   gap: var(--space-xs);
 
@@ -182,7 +184,7 @@
       border-radius: 0;
       font-size: $font-size-normal;
       font-weight: $font-weight-book;
-      color: $black;
+      color: $dark-gray;
       background: none;
     }
   }
@@ -270,82 +272,16 @@
     border: 1px solid $light-gray;
     border-radius: $border-radius;
     font-size: $font-size-xxsmall;
-    color: #666;
+    color: $gray;
   }
 
   .description {
-    color: #666;
-  }
-}
-
-.stop-tab-container {
-  height: 2.5em;
-  min-height: 44px;
-  display: flex;
-  background-color: #ddd;
-  border-radius: 999em;
-  margin: var(--space-s) 48px var(--space-s) 48px;
-  padding: var(--space-xxs);
-
-  @media print {
-    display: none;
-  }
-}
-
-.stop-tab-singletab,
-.stop-tab-singletab:hover {
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
-  font-size: $font-size-xxsmall;
-  border-radius: 30px;
-  cursor: pointer;
-  color: #333;
-  text-align: center;
-  transition: 0.1s all ease-in;
-  padding-top: 0;
-  padding-left: 0.5em;
-  margin: 2px;
-  padding-right: 0.5em;
-  text-decoration: none;
-  font-weight: $font-weight-book;
-
-  + .stop-tab-singletab {
-    border-left: 1px solid $light-gray;
-  }
-
-  &.active,
-  &.active:hover {
-    background-color: $white;
-    font-weight: $font-weight-medium;
-  }
-
-  .no-alerts span {
-    color: #888;
-  }
-
-  @media print {
-    display: none;
-  }
-}
-
-.stop-tab-singletab-container {
-  display: block;
-  margin: 0 auto;
-  letter-spacing: -0.4px;
-
-  span {
-    font-size: $font-size-small;
+    color: $gray;
   }
 }
 
 .stop-page-departure-wrapper {
   padding: 0 60px 0 60px;
-}
-
-.stop-page-tab_icon {
-  height: 24px;
-  width: 24px;
 }
 
 .departure-list-header {
@@ -470,7 +406,7 @@
   .route-headsign {
     font-family: $font-family-narrow;
     font-weight: $font-weight-book;
-    color: #333;
+    color: $dark-gray;
     flex: 1;
     padding-left: $padding-medium;
     overflow: clip;
@@ -480,7 +416,7 @@
   .route-time {
     font-size: $font-size-small;
     font-weight: $font-weight-medium;
-    color: #333;
+    color: $dark-gray;
 
     &.realtime {
       color: $realtime-color;
@@ -493,7 +429,7 @@
 
   .platform-code {
     background: $background-color-lighter;
-    color: #333;
+    color: $dark-gray;
     width: max-content;
     min-width: 28px;
     height: 24px;
@@ -525,7 +461,7 @@
     .route-headsign {
       padding-left: $padding-medium;
       font-weight: $font-weight-book;
-      color: #333;
+      color: $dark-gray;
       flex: 1;
       overflow: clip;
       white-space: normal;
@@ -534,7 +470,7 @@
 }
 
 .selected-stop-header {
-  color: $black;
+  color: $dark-gray;
 }
 
 #stop-page-action-bar {
@@ -628,7 +564,7 @@
   display: flex;
   justify-content: flex-start;
   padding-left: 60px;
-  background: #fff;
+  background: $white;
 }
 
 .print-button-container {
@@ -706,11 +642,6 @@
 
   .timetable-topbar {
     margin: 1px 16px 16px 16px;
-  }
-
-  .stop-tab-container {
-    border-bottom: none;
-    margin: 0 16px 16px 16px;
   }
 
   .stop-page-content-wrapper {

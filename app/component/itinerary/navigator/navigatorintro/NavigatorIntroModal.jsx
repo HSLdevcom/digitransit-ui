@@ -4,11 +4,11 @@ import NavigatorModal from '../NavigatorModal';
 import NavigatorIntro from './NavigatorIntro';
 import { useConfigContext } from '../../../../hooks/ConfigContext';
 
-const NavigatorIntroModal = ({
+export default function NavigatorIntroModal({
   onPrimaryClick,
   onClose,
   onOpenGeolocationInfo,
-}) => {
+}) {
   const config = useConfigContext();
   const logo = getAssetUrl(config.navigationLogo);
 
@@ -22,12 +22,10 @@ const NavigatorIntroModal = ({
       />
     </NavigatorModal>
   );
-};
+}
 
 NavigatorIntroModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onPrimaryClick: PropTypes.func,
   onOpenGeolocationInfo: PropTypes.func.isRequired,
 };
-
-export default NavigatorIntroModal;

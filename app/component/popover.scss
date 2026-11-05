@@ -1,3 +1,5 @@
+@use '../../styles/abstracts' as *;
+
 .popover-overlay {
   position: fixed;
   inset: 0;
@@ -43,10 +45,10 @@
   position: relative;
   pointer-events: auto;
   border-radius: 16px;
-  background: #fff;
+  background: $white;
   border: 1px solid $light-gray;
   box-shadow: 0 4px 4px 0 var(--color-shadow-weak, rgba(0, 52, 86, 0.25));
-  padding: 10px !important;
+  padding: 10px;
   gap: 10px;
   align-items: flex-start;
   max-width: 280px;
@@ -63,10 +65,10 @@
     height: 24px;
     transform: rotate(45deg);
     z-index: 1;
-    border: 1px solid #ddd;
+    border: 1px solid $light-gray;
     border-bottom: none;
     border-right: none;
-    background: #fff;
+    background: $white;
     pointer-events: none;
   }
 
@@ -90,7 +92,7 @@
     align-items: flex-start;
     align-self: stretch;
     padding-top: 8px;
-    color: $black;
+    color: $dark-gray;
 
     .button-label {
       color: $white;
@@ -116,7 +118,7 @@
       color: $theme-primary-color;
 
       &:hover {
-        color: $black;
+        color: $dark-gray;
       }
     }
   }

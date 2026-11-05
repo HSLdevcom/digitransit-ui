@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Local development runner: runs Relay, the Express dev server (node --watch),
-# webpack-dev-server and the Digitransit workspace watchers in parallel
+# webpack-dev-server and the Digitransit package watchers in parallel
 # until interrupted.
 #
 # `set -m` gives each backgrounded job its own process group. This allows
@@ -101,16 +101,16 @@ yarn static
 
 yarn sprites
 
-# Build the digitransit-* workspace packages once, synchronously, before
-# starting webpack-dev-server and the workspace watchers below. On a fresh
+# Build the digitransit-* packages once, synchronously, before
+# starting webpack-dev-server and the package watchers below. On a fresh
 # clone (or after `lib/` is removed/out of date) the packages' `lib/*.cjs`
 # outputs don't exist yet; webpack-dev-server's persistent filesystem cache
 # (see webpack.config.js) doesn't reliably invalidate when those
-# outputs later appear via workspace-packages-watch's rollup watch, so it
+# outputs later appear via packages-watch's rollup watch, so it
 # can permanently cache a broken/missing module resolution. Building here
 # first ensures webpack-dev-server always sees valid output on its first
 # compile.
-yarn workspace-packages-build
+yarn packages-build
 
 yarn relay-watch &
 pids+=("$!")
@@ -138,7 +138,7 @@ pids+=("$!")
 yarn sprites --watch &
 pids+=("$!")
 
-yarn workspace-packages-watch &
+yarn packages-watch &
 pids+=("$!")
 
 # If any dev process exits, terminate the rest.

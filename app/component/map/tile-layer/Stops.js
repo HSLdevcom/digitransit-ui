@@ -76,7 +76,7 @@ const shouldRenderTerminalIcon = (mode, path, vehicles) => {
   return true;
 };
 
-class Stops {
+export default class Stops {
   constructor(tile, config, mapLayers, relayEnvironment, mergeStops) {
     this.tile = tile;
     this.config = config;
@@ -479,5 +479,3 @@ class Stops {
       .then(callback);
   };
 }
-
-export default Stops;

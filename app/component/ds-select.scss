@@ -1,3 +1,5 @@
+@use '../../styles/abstracts' as *;
+
 // The Radix select menu is portaled to body and copies its z-index from this
 // element; without it the menu opens behind the mobile drawer.
 div[role='listbox'][data-side] {

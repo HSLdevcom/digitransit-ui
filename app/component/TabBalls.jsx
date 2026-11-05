@@ -21,13 +21,13 @@ function setDecreasingAttributes(tabBalls) {
   return newTabBalls;
 }
 
-const TabBalls = ({
+export default function TabBalls({
   tabIndex,
   tabsLength,
   onSwipe,
   reactSwipeEl,
   ariaRole,
-}) => {
+}) {
   const intl = useIntl();
   const tabRefs = useRef([]);
   const lastKeyboardNav = useRef(false);
@@ -142,7 +142,7 @@ const TabBalls = ({
       />
     );
   });
-};
+}
 
 TabBalls.propTypes = {
   tabIndex: PropTypes.number.isRequired,
@@ -150,5 +150,3 @@ TabBalls.propTypes = {
   onSwipe: PropTypes.func.isRequired,
   ariaRole: PropTypes.string.isRequired,
 };
-
-export default TabBalls;

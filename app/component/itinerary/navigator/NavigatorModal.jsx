@@ -2,12 +2,12 @@ import Modal from '@hsl-fi/modal';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
-const NavigatorModal = ({
+export default function NavigatorModal({
   withBackdrop = false,
   isOpen = false,
   children,
   slideUp = false,
-}) => {
+}) {
   const overlayClass = cx('navigator-modal-container', {
     'navigator-modal-backdrop': withBackdrop,
   });
@@ -26,7 +26,7 @@ const NavigatorModal = ({
       <div className="navigator-modal-content">{children}</div>
     </Modal>
   );
-};
+}
 
 NavigatorModal.propTypes = {
   children: PropTypes.node,
@@ -34,5 +34,3 @@ NavigatorModal.propTypes = {
   isOpen: PropTypes.bool,
   slideUp: PropTypes.bool,
 };
-
-export default NavigatorModal;

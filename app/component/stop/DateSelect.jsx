@@ -46,7 +46,7 @@ export const getDateOptions = (
   }));
 };
 
-function DateSelect(props) {
+export default function DateSelect(props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const intl = useIntl();
 
@@ -131,6 +131,3 @@ DateSelect.propTypes = {
   dateFormat: PropTypes.string.isRequired,
   onDateChange: PropTypes.func.isRequired,
 };
-DateSelect.displayName = 'DateSelect';
-
-export default DateSelect;

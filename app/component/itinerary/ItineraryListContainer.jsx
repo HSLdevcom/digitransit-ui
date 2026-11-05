@@ -10,7 +10,7 @@ import ItineraryNotification from './ItineraryNotification';
 import { transitEdges } from './ItineraryPageUtils';
 import { ItineraryListContainerPlanEdges } from './queries/ItineraryListContainerPlanEdges';
 
-function ItineraryListContainer({
+export default function ItineraryListContainer({
   planEdges: planEdgesRef,
   activeIndex,
   focusToHeader,
@@ -127,5 +127,3 @@ ItineraryListContainer.propTypes = {
   topNote: PropTypes.string,
   bottomNote: PropTypes.string,
 };
-
-export default ItineraryListContainer;

@@ -1,9 +1,11 @@
+@use '../../../styles/abstracts' as *;
+
 .departure-list .date-row {
   @include font-medium;
 
   font-size: 12pt;
   text-transform: capitalize;
-  color: $black;
+  color: $dark-gray;
   background-color: $white;
   padding-left: 0.5em;
   padding-top: 1.25em;
@@ -36,7 +38,7 @@
   }
 
   a {
-    color: $black;
+    color: $dark-gray;
     text-decoration: none;
   }
 }

@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from './Icon';
 
-const SecondaryButton = props => {
+export default function SecondaryButton(props) {
   const intl = useIntl();
   const className = cx([
     'secondary-button',
@@ -28,7 +28,7 @@ const SecondaryButton = props => {
       />
     </button>
   );
-};
+}
 
 SecondaryButton.propTypes = {
   ariaLabel: PropTypes.string.isRequired,
@@ -37,5 +37,3 @@ SecondaryButton.propTypes = {
   buttonIcon: PropTypes.string,
   smallSize: PropTypes.bool,
 };
-
-export default SecondaryButton;

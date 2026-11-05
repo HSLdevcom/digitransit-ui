@@ -12,7 +12,12 @@ import CompressionPlugin from 'compression-webpack-plugin';
 // eslint-plugin-import's resolver.
 // eslint-disable-next-line import/no-unresolved
 import { WebpackAssetsManifest } from 'webpack-assets-manifest';
-import { themeEntries, faviconPlugins } from './scripts/build/contextHelper.js';
+import {
+  themeEntries,
+  themePath,
+  faviconPlugins,
+} from './scripts/build/contextHelper.js';
+import sassConfigFunctions from './scripts/build/sassConfigFunctions.js';
 
 const require = createRequire(import.meta.url);
 const rootDir = import.meta.dirname;
@@ -21,10 +26,7 @@ const mode = process.env.NODE_ENV;
 const isProduction = mode === 'production';
 const isDevelopment = !isProduction;
 
-const themeExpression = /sass[/\\]themes$/;
-const selectedTheme = new RegExp(
-  `^./(${process.env.CONFIG || 'default'})/main.scss$`,
-);
+const themeFile = /styles[/\\]themes[/\\](\w+)[/\\]theme\.scss$/;
 
 // Files in `_static` that webpack doesn't emit, so `output.clean` keeps
 // them: `static/` as copied by scripts/build/copyStatic.js (plus its
@@ -48,6 +50,12 @@ const productionPlugins = [
     // unresolved item rather than a fully-accepted non-issue.
     ignoreOrder: false,
   }),
+  // main.css has ported third-party code, this is the CSS version of the
+  // pointer Terser adds to JS bundles.
+  new webpack.BannerPlugin({
+    banner: 'For license information please see ../third-party-licenses.txt',
+    test: /^css\/main\./,
+  }),
   new CompressionPlugin({
     filename: '[path][base].gz',
     test: /\.(js|css|html|svg|ico)$/,
@@ -68,9 +76,14 @@ export default {
   entry: {
     main: [
       './app/client/publicPath',
-      // Dev-only: loads the active theme's SCSS via a dynamic require.
-      // Production themes are handled statically via `themeEntries` below.
-      ...(isDevelopment ? ['./app/client/loadDevTheme'] : []),
+      // Dev-only: first so that it declares the cascade layer order.
+      ...(isDevelopment
+        ? [
+            themePath(
+              process.env.CONFIG || process.env.BASE_CONFIG || 'default',
+            ),
+          ]
+        : []),
       './app/client/client',
     ],
     ...(isProduction ? themeEntries : {}),
@@ -197,7 +210,7 @@ export default {
         },
       },
       {
-        // All 4 digitransit-* workspace packages set "type": "module" (so
+        // All 4 digitransit-* packages set "type": "module" (so
         // their raw source/tests run as native ESM) - which webpack, following
         // that package.json field, parses as strict `javascript/esm` rather
         // than `auto`. This causes two distinct problems when bundled directly
@@ -224,12 +237,7 @@ export default {
         // strictness, so `resolve.fullySpecified: false` is needed too
         // (matching the `.mjs`/node_modules rule above) to fix problem 2.
         test: /\.js$/,
-        include: [
-          path.resolve(rootDir, 'digitransit-component'),
-          path.resolve(rootDir, 'digitransit-search-util'),
-          path.resolve(rootDir, 'digitransit-store'),
-          path.resolve(rootDir, 'digitransit-util'),
-        ],
+        include: [path.resolve(rootDir, 'packages')],
         type: 'javascript/auto',
         resolve: { fullySpecified: false },
       },
@@ -242,26 +250,29 @@ export default {
                 loader: MiniCssExtractPlugin.loader,
                 options: { publicPath: 'auto' },
               },
-          'css-loader',
+          {
+            loader: 'css-loader',
+            // `import styles from './x.module.scss'`, as in the packages.
+            options: {
+              modules: {
+                auto: true,
+                namedExport: false,
+                exportLocalsConvention: 'as-is',
+              },
+            },
+          },
           {
             loader: 'sass-loader',
             options: {
-              sassOptions: {
-                // Modern Dart Sass JS API option name (was `includePaths`
-                // under the legacy API sass-loader used to default to).
-                loadPaths: [
-                  path.join(rootDir, 'node_modules/foundation-sites/scss'),
-                ],
-                // No BOM/@charset: Sass adds one to non-ASCII output, and a
-                // BOM mid-bundle invalidates the selector that follows it.
-                charset: false,
-                quietDeps: true,
-                silenceDeprecations: [
-                  'import',
-                  'global-builtin',
-                  'color-functions',
-                  'if-function',
-                ],
+              sassOptions: ({ resourcePath }) => {
+                const [, theme] = resourcePath.match(themeFile) || [];
+                return {
+                  // No BOM/@charset: Sass adds one to non-ASCII output, and a
+                  // BOM mid-bundle invalidates the selector that follows it.
+                  charset: false,
+                  quietDeps: true,
+                  ...(theme ? { functions: sassConfigFunctions(theme) } : {}),
+                };
               },
             },
           },
@@ -333,9 +344,7 @@ export default {
       process: require.resolve('process/browser'),
       Buffer: ['buffer', 'Buffer'],
     }),
-    ...(isDevelopment
-      ? [new webpack.ContextReplacementPlugin(themeExpression, selectedTheme)]
-      : productionPlugins),
+    ...(isDevelopment ? [] : productionPlugins),
   ],
   optimization: {
     minimizer: [
@@ -345,9 +354,6 @@ export default {
       new CssMinimizerPlugin({
         minify: CssMinimizerPlugin.lightningCssMinify,
         minimizerOptions: {
-          // Drops rules Lightning CSS can't parse instead of failing; today
-          // that's only foundation-sites' IE9/10 `(min-width:0\\0)` hack.
-          errorRecovery: true,
           // Keep `min-width`/`max-width` media queries instead of range
           // syntax (`width>=…`): browsers older than the targets (and the
           // e2e suite's Chromium) would otherwise get the mobile layout.
@@ -375,7 +381,7 @@ export default {
         },
         digitransitComponents: {
           name: 'digitransit-components',
-          // The 4 `digitransit-*` workspace packages are Yarn-workspace
+          // The 4 `digitransit-*` packages are Yarn-workspace
           // symlinks, so webpack resolves them to their real path outside
           // `node_modules` entirely - hence the second, bare alternative
           // below (no `node_modules[\\/]` prefix), unlike the `@hsl-fi`

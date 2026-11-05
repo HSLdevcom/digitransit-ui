@@ -17,7 +17,7 @@ import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import RouteStopListContainerFragment from './queries/RouteStopListContainerFragment';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-function RouteStopListContainer({
+export default function RouteStopListContainer({
   pattern: patternRef,
   className = undefined,
   hideDepartures = false,
@@ -122,5 +122,3 @@ RouteStopListContainer.propTypes = {
   className: PropTypes.string,
   hideDepartures: PropTypes.bool,
 };
-
-export default RouteStopListContainer;

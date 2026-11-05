@@ -10,7 +10,12 @@ import { stopPagePath } from '../../../utils/shared/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function AirportCollectLuggageLeg({ index, leg, focusAction, children }) {
+export default function AirportCollectLuggageLeg({
+  index,
+  leg,
+  focusAction,
+  children,
+}) {
   const config = useConfigContext();
   const modeClassName = 'airport-wait';
   const { name } = leg.to;
@@ -62,5 +67,3 @@ AirportCollectLuggageLeg.propTypes = {
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
-
-export default AirportCollectLuggageLeg;

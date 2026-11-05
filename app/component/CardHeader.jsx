@@ -82,8 +82,6 @@ export default function CardHeader({
   );
 }
 
-CardHeader.displayName = 'CardHeader';
-
 CardHeader.propTypes = {
   className: PropTypes.string,
   headerIcon: PropTypes.node,

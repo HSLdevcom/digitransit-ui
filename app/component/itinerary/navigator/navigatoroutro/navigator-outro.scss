@@ -1,3 +1,5 @@
+@use '../../../../../styles/abstracts' as *;
+
 .navigator-modal-content {
   .outro-logo-container {
     position: absolute;
@@ -34,7 +36,7 @@
       gap: calc(var(--space-xxs) / 2);
 
       .place {
-        color: $black;
+        color: $dark-gray;
       }
 
       .address {

@@ -6,7 +6,7 @@ import Icon from './Icon';
 import ExternalLink from './ExternalLink';
 import { AlertSeverityLevelType } from '../../utils/shared/constants';
 
-const DisruptionDetails = ({
+export default function DisruptionDetails({
   alertDescriptionText,
   alertHeaderText,
   alertEffect,
@@ -14,7 +14,7 @@ const DisruptionDetails = ({
   alertUrl,
   effectiveStartDate,
   currentTime,
-}) => {
+}) {
   const checkedUrl =
     alertUrl &&
     (alertUrl.match(/^[a-zA-Z]+:\/\//) ? alertUrl : `http://${alertUrl}`);
@@ -47,7 +47,7 @@ const DisruptionDetails = ({
       </div>
     </div>
   );
-};
+}
 
 DisruptionDetails.propTypes = {
   alertDescriptionText: PropTypes.string.isRequired,
@@ -58,5 +58,3 @@ DisruptionDetails.propTypes = {
   effectiveStartDate: PropTypes.number,
   currentTime: PropTypes.number,
 };
-
-export default DisruptionDetails;

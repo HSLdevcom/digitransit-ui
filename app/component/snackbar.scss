@@ -1,3 +1,5 @@
+@use '../../styles/abstracts' as *;
+
 .mobile-snackbar {
   width: calc(100% - 32px);
   left: 16px;
@@ -34,7 +36,7 @@
 .snackbar {
   position: fixed;
   z-index: global-z('snackbar');
-  color: #fff;
+  color: $white;
   display: flex;
   min-width: 320px;
   max-height: 96px;
@@ -51,6 +53,10 @@
   letter-spacing: $letter-spacing;
   align-items: center;
 
+  &.hide {
+    display: none;
+  }
+
   .icon-container {
     display: flex;
     align-items: center;
@@ -62,7 +68,7 @@
     .icon {
       width: 24px;
       height: 24px;
-      color: #fff;
+      color: $white;
     }
   }
 
@@ -74,7 +80,7 @@
     .icon {
       width: 32px;
       height: 32px;
-      color: #fff;
+      color: $white;
     }
   }
 }

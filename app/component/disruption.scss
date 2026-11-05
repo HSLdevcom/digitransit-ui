@@ -1,3 +1,5 @@
+@use '../../styles/abstracts' as *;
+
 .disruption-info .icon.info {
   padding-left: 2vh;
   width: 2em;
@@ -28,8 +30,12 @@
   }
 
   @media print {
-    display: block !important;
-    overflow: auto !important;
+    overflow: auto;
+
+    &,
+    &.bp-large {
+      display: block;
+    }
   }
 }
 

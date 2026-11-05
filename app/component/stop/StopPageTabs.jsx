@@ -201,7 +201,7 @@ function StopPageTabs({ stop }) {
 
 StopPageTabs.propTypes = { stop: stopShape.isRequired };
 
-function StopPageTabsGuard({ stop = null }) {
+export default function StopPageTabsGuard({ stop = null }) {
   const { match } = useRouter();
   if (!stop || match.location.query.alertId) {
     return null;
@@ -210,5 +210,3 @@ function StopPageTabsGuard({ stop = null }) {
 }
 
 StopPageTabsGuard.propTypes = { stop: stopShape };
-
-export default StopPageTabsGuard;

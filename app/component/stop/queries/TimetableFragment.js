@@ -32,6 +32,7 @@ export const TimetableFragment = graphql`
         serviceDay
         headsign
         pickupType
+        stopPositionInPattern
         stop {
           gtfsId
         }

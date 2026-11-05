@@ -6,7 +6,7 @@ This is a list of the existing z-index values of UI components. The z-index prop
 
 These values compete across *independent, page-level* stacking contexts (header,
 drawers, overlays, notifications, etc). They are centralized in the
-`$global-zindex` Sass map in `sass/base/_zindex.scss` and consumed via the
+`$global-zindex` Sass map in `styles/abstracts/_zindex.scss` and consumed via the
 `global-z('name')` function, instead of being hardcoded per component. This
 guarantees a single source of truth and prevents accidental collisions like the
 one described in the Snackbar row below. When adding a new global layer, add it
@@ -25,7 +25,6 @@ Name (`$global-zindex` key) | Selector(s) | Z-Index | Comment
 `mobile-menu-background` | `.menu-background` | 1200 | Mobile main menu drawer background dimmer.
 `mobile-menu-content` | `.menu-content` | 1300 | Mobile main menu drawer content panel.
 `snackbar` | `.snackbar` | 9999 | Rendered via a React portal directly under `document.body` (see `app/component/Snackbar.js`) so it always escapes ancestor stacking contexts - e.g. `.desktop .map-content .offcanvas`, which forms its own stacking context via `position: relative` + `z-index: 900`. Without the portal, Snackbar's local `z-index: 9999` would only apply *within* that ancestor's stacking context and could still render behind unrelated elements (like the header) that live in a different, higher-level stacking context.
-`loading-spinner` | `div.spinner-loader` | 40000 | Full-page loading spinner, must appear above everything else.
 
 ## Local, component-scoped values
 
@@ -34,11 +33,11 @@ component's own stacking context* (e.g. layering a couple of overlapping icons).
 They don't compete with unrelated components at the page level, so they are
 kept as plain literals rather than centralized. The map/search input family
 below uses the separate `$zindex` ordered list (`index($zindex, name)` in
-`sass/base/_zindex.scss`), which is fine for that purpose since all of those
+`styles/abstracts/_zindex.scss`), which is fine for that purpose since all of those
 layers live inside the same local stacking scope.
 
 `$zindex` only lists names actually referenced via `index($zindex, name)` in
-this repo (`ui`). Note that several packages under `digitransit-component/`
+this repo (`ui`). Note that several packages under `packages/digitransit-component/`
 declare their *own*, separately-maintained copy of a `$zindex` list (each
 compiled independently, so there's no risk of one silently overriding
 another) - but those copies have already drifted out of sync with this one

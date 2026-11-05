@@ -78,7 +78,7 @@ TripLinkQuery.propTypes = {
   vehicleState: PropTypes.string,
 };
 
-function TripLink(props) {
+export default function TripLink(props) {
   const { vehicle, shortName } = props;
   const fallbackIcon = (
     <VehicleIcon
@@ -105,5 +105,3 @@ TripLink.propTypes = {
   shortName: PropTypes.string,
   vehicleState: PropTypes.string,
 };
-
-export default TripLink;

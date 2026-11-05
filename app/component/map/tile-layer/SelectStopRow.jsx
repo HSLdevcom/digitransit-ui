@@ -26,7 +26,7 @@ const parseEffects = str =>
         .filter(Boolean)
     : [];
 
-function SelectStopRow({
+export default function SelectStopRow({
   code = undefined,
   type,
   desc = undefined,
@@ -124,8 +124,6 @@ function SelectStopRow({
   );
 }
 
-SelectStopRow.displayName = 'SelectStopRow';
-
 SelectStopRow.propTypes = {
   gtfsId: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
@@ -148,5 +146,3 @@ SelectStopRow.propTypes = {
     mostSevereAlertsEffects: PropTypes.string,
   }),
 };
-
-export default SelectStopRow;

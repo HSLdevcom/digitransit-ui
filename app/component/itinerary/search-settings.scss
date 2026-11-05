@@ -1,3 +1,5 @@
+@use '../../../styles/abstracts' as *;
+
 .searchsettings-container {
   display: block;
   background-color: $white;
@@ -22,7 +24,7 @@
   align-items: center;
   padding: 6px;
   border-radius: 8px;
-  background: #fff;
+  background: $white;
   position: relative;
 }
 
@@ -56,14 +58,6 @@
       font-size: 20px;
     }
 
-    .super-icon {
-      fill: $highlight-color;
-      position: absolute;
-      right: 0;
-      top: -2px;
-      font-size: $font-size-xxsmall;
-    }
-
     .customized-settings-indicator {
       position: absolute;
       top: -6px;
@@ -78,7 +72,7 @@
           color: $attention-color;
           width: 16px;
           height: 16px;
-          border: solid 1px #fff;
+          border: solid 1px $white;
           border-radius: 999px;
         }
       }

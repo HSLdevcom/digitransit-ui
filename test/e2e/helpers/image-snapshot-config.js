@@ -1,8 +1,8 @@
-const getConfig = (
+export default function getConfig(
   customSnapshotIdentifier,
   customSnapshotsDir,
   customDiffDir,
-) => {
+) {
   return {
     diffDirection: 'vertical',
     dumpDiffToConsole: false,
@@ -13,6 +13,4 @@ const getConfig = (
     customDiffDir,
     customSnapshotIdentifier,
   };
-};
-
-export default getConfig;
+}
