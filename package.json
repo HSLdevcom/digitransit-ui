@@ -157,7 +157,7 @@
     "core-js": "3.51.0",
     "debug": "4.4.3",
     "downshift": "^9.4.0",
-    "express": "4.21.2",
+    "express": "4.22.3",
     "express-http-proxy": "1.6.3",
     "express-session": "1.19.0",
     "express-static-gzip": "2.0.8",
