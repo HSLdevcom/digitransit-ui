@@ -1,7 +1,5 @@
-import { DateTime } from 'luxon';
 import { useFragment } from 'react-relay';
 import { useMatch } from 'found';
-import { DATE_FORMAT } from '../../../utils/shared/constants';
 import { fragmentRefShape } from '../../../utils/client/shapes';
 import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
@@ -12,16 +10,10 @@ export default function StopTimetablePage({ stop: stopRef }) {
   const stop = useFragment(StopTimetablePageFragment, stopRef);
   const config = useConfigContext();
   const match = useMatch();
-  const date =
-    match.location.query.date || DateTime.now().toFormat(DATE_FORMAT);
+  const startDate = unixToYYYYMMDD(unixTime(), config);
+  const date = match.location.query.date || startDate;
 
-  return (
-    <Timetable
-      stop={stop}
-      date={date}
-      startDate={unixToYYYYMMDD(unixTime(), config)}
-    />
-  );
+  return <Timetable stop={stop} date={date} startDate={startDate} />;
 }
 
 StopTimetablePage.propTypes = {
