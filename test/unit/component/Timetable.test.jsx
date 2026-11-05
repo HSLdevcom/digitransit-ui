@@ -6,7 +6,6 @@ const stopIdNumber = '1140199';
 
 const props = {
   startDate: '20190110',
-  onDateChange: () => {},
   stop: {
     gtfsId: `HSL:${stopIdNumber}`,
     locationType: 'STOP',
