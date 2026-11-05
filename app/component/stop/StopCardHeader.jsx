@@ -22,6 +22,7 @@ export default function StopCardHeader({
   const stop = useFragment(
     graphql`
       fragment StopCardHeader_stop on Stop {
+        locationType
         gtfsId
         name
         code
@@ -47,7 +48,7 @@ export default function StopCardHeader({
   const config = useConfigContext();
   const { match } = useRouter();
   const headerConfig = config.stopCard?.header || {};
-  const isTerminal = !!stop.stops?.length;
+  const isTerminal = stop.locationType === 'STATION';
 
   useEffect(() => {
     if (!isIOS || isPopUp || !match.location.query?.save) {
