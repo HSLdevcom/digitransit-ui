@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 const isBadgeTextLong = badgeText => badgeText.length > 1 || badgeText > 9;
 
-const IconBadge = ({ badgeFill, badgeText, textFill = '#fff' }) => {
+export default function IconBadge({ badgeFill, badgeText, textFill = '#fff' }) {
   if (!badgeFill || (!badgeText && badgeText !== 0)) {
     return null;
   }
@@ -30,12 +30,10 @@ const IconBadge = ({ badgeFill, badgeText, textFill = '#fff' }) => {
       </text>
     </svg>
   );
-};
+}
 
 IconBadge.propTypes = {
   badgeFill: PropTypes.string,
   badgeText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   textFill: PropTypes.string,
 };
-
-export default IconBadge;

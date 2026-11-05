@@ -1,3 +1,5 @@
+@use '../../../styles/abstracts' as *;
+
 @keyframes shimmerAnimation {
   from {
     background-position: 200% 0;

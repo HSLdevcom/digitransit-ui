@@ -158,6 +158,7 @@ export default {
   useExtendedRouteTypes: true,
   colors: {
     primary: '#0074bf',
+    bus: '#0074bf',
     accessiblePrimary: '#0074be',
     hover: '#0062a1',
     'bus-express': '#CA4000',

@@ -9,7 +9,7 @@ import { isIOS } from '../../../utils/shared/browser';
 import FavouriteStopContainer from '../FavouriteStopContainer';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-function StopCardHeader({
+export default function StopCardHeader({
   stop,
   distance,
   className,
@@ -117,7 +117,3 @@ StopCardHeader.propTypes = {
   breakpoint: PropTypes.string,
   isTerminal: PropTypes.bool,
 };
-
-StopCardHeader.displayName = 'StopCardHeader';
-
-export default StopCardHeader;

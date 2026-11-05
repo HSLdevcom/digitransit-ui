@@ -1,8 +1,6 @@
 import { useConfigContext } from '../hooks/ConfigContext';
 
-const Title = () => {
+export default function Title() {
   const { title } = useConfigContext();
   return <span>{title}</span>;
-};
-
-export default Title;
+}

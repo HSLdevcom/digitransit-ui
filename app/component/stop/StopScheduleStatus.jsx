@@ -73,5 +73,3 @@ StopScheduleStatus.propTypes = {
   alertEffects: PropTypes.arrayOf(PropTypes.string),
   className: PropTypes.string,
 };
-
-StopScheduleStatus.displayName = 'StopScheduleStatus';

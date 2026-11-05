@@ -1,3 +1,5 @@
+@use '../../../styles/abstracts' as *;
+
 .embedded-search-generator {
   margin: auto;
 
@@ -18,7 +20,7 @@
     input[type='checkbox'],
     input[type='radio'] {
       accent-color: $theme-primary-color;
-      border: 1px solid #888;
+      border: 1px solid $muted-gray;
       box-sizing: border-box;
       width: 24px;
       height: 24px;
@@ -27,8 +29,8 @@
     #embedded-search-width {
       width: 314px;
       height: 44px;
-      background: #fff;
-      border: 1px solid #888;
+      background: $white;
+      border: 1px solid $muted-gray;
       box-sizing: border-box;
       border-radius: 5px;
       font-size: 16px;
@@ -42,7 +44,7 @@
 
     .code-label {
       margin-top: 20px;
-      border: 1px solid #ddd;
+      border: 1px solid $light-gray;
       width: fit-content;
       display: flex;
       flex-direction: column;
@@ -56,7 +58,7 @@
       }
 
       #code {
-        border-top: 1px solid #ddd;
+        border-top: 1px solid $light-gray;
         background: white;
         margin: 0;
         max-width: 480px;
@@ -104,7 +106,7 @@
   h3,
   label {
     letter-spacing: $letter-spacing;
-    color: $black;
+    color: $dark-gray;
   }
 
   h1,

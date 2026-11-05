@@ -26,8 +26,6 @@ export default function IconWithBigCaution({
   );
 }
 
-IconWithBigCaution.displayName = 'IconWithBigCaution';
-
 IconWithBigCaution.propTypes = {
   alertSeverityLevel: PropTypes.string,
   color: PropTypes.string,

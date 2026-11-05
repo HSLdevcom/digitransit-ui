@@ -150,7 +150,7 @@ export const getAlerts = stop => {
   );
 };
 
-function Disruptions({ stop: stopRef, station: stationRef }) {
+export default function Disruptions({ stop: stopRef, station: stationRef }) {
   const ref = stopRef ?? stationRef;
   const config = useConfigContext();
   const stop = useFragment(DisruptionsFragment, ref);
@@ -163,5 +163,3 @@ function Disruptions({ stop: stopRef, station: stationRef }) {
 }
 
 Disruptions.propTypes = { stop: stopShape, station: stationShape };
-
-export default Disruptions;

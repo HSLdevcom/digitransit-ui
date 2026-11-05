@@ -10,7 +10,7 @@ import {
 } from '../../../utils/shared/vehicleRentalUtils';
 import Disclaimer from '../Disclaimer';
 
-const CityBikeInfo = () => {
+export default function CityBikeInfo() {
   const config = useConfigContext();
   const { vehicleRental, language } = config;
   const [showCityBikeTeaser, setShowCityBikeTeaser] = useState(
@@ -52,6 +52,4 @@ const CityBikeInfo = () => {
       <div style={{ height: '22px' }} />
     </>
   );
-};
-
-export default CityBikeInfo;
+}

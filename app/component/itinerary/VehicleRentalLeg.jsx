@@ -26,7 +26,7 @@ import IconBadge from '../icon/IconBadge';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 
-function VehicleRentalLeg({
+export default function VehicleRentalLeg({
   stationName,
   isScooter = false,
   vehicleRentalStation,
@@ -194,5 +194,3 @@ VehicleRentalLeg.propTypes = {
   nextLegMode: PropTypes.string,
   nearestScooters: PropTypes.arrayOf(rentalVehicleShape),
 };
-
-export default VehicleRentalLeg;

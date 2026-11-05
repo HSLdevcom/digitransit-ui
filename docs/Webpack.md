@@ -26,10 +26,10 @@ and output settings.
 
 ## Entries & per-deployment theming
 
-- `main` is the real app entry (`app/client/publicPath` + `app/client/client`), plus
-  `app/client/loadDevTheme` in development only (see below).
+- `main` is the real app entry (`app/client/publicPath` + `app/client/client`).
+  `client.jsx` imports `styles/main.scss`, so every theme shares one stylesheet.
 - In production, `scripts/build/contextHelper.js` adds one `<theme>_theme`
-  entry per regional theme's `sass/themes/<theme>/main.scss`, plus a
+  entry per regional theme's `styles/themes/<theme>/theme.scss`, plus a
   `<sprite>` entry for any config-declared SVG sprite sheet (`config.sprites`),
   which content-hashes it into `manifest.json`. The sprite itself is
   generated before webpack runs (see "SVG sprite sheets" below). With `CONFIG`
@@ -40,35 +40,8 @@ and output settings.
   under `assets/icons-<CONFIG>-[contenthash]/`. Apple startup images and
   Windows tiles are turned off (`favicons.icons`), since nothing references
   them and the startup images alone were ~35 MB per config.
-- In development, `webpack.ContextReplacementPlugin` narrows the dynamic
-  `import` for `sass/themes` down to just the selected `CONFIG`'s
-  `main.scss`, so the dev server doesn't build every theme.
-- `app/client/loadDevTheme.js` holds a dynamic, fire-and-forget
-  `import(`../../sass/themes/${window.config.CONFIG}/main.scss`)` that used
-  to live inline in `app/client.js` as a `require(...)` behind an
-  `if (process.env.NODE_ENV === 'development')` runtime check written as an
-  imported/computed constant rather than the literal expression. That was
-  moved into its own file, only added to `entry.main` when `isDevelopment`,
-  because webpack resolves a dynamic import's "context module" (every
-  file the template string could possibly match) while building the module
-  graph — a step that runs before any dead-code elimination and can't see
-  across module boundaries. Guarding it with an *imported*
-  boolean constant didn't stop webpack from still resolving (and bundling)
-  every theme's SCSS into production; only literally excluding the file
-  from `entry` in production does, and only a literal `process.env.NODE_ENV`
-  comparison written inline (any operator/value — `=== 'development'`,
-  `!== 'production'`, etc.) gets folded/dropped by
-  `DefinePlugin`/dead-code-elimination in the first place — an
-  imported/computed value can't be statically folded. See PR #5929 for the
-  full story. The original `require(...)` became `import(...)` once `app/`
-  files were parsed as strict ESM (`"type": "module"`), which has no
-  `require` global. It reads `window.config.CONFIG` (the
-  server-injected, already-resolved config object `app/client.js` uses for
-  everything else) rather than `process.env.CONFIG`: the browser bundle
-  never sees real build-time env var *values* (only the `ProvidePlugin`
-  shim below, whose `process.env` is an empty object) unless a var is
-  explicitly wired through `DefinePlugin`/`EnvironmentPlugin`, which this
-  project doesn't do for `CONFIG`.
+- In development, the selected `CONFIG`'s `theme.scss` is added to `main`
+  instead, before `client`, so that it declares the cascade layer order.
 
 ## Output
 
@@ -85,7 +58,7 @@ and output settings.
   publicPath.js` overrides at runtime from `window.ASSET_URL` (the actual
   CDN base path) before anything else runs. It does **not** reach `url()`
   references baked into compiled CSS (background images, e.g. the
-  `.scss`-defined spinner/dotted-line assets) — those are static text,
+  `.scss`-defined dotted-line assets) — those are static text,
   resolved by the browser directly against the CSS file's own URL, with no
   JS involved. `MiniCssExtractPlugin.loader`'s own `publicPath: 'auto'`
   option (set on every `.scss`/`.css` rule below) is what fixes *that*
@@ -201,13 +174,12 @@ below.
   render ("Element type is invalid"); `javascript/auto`'s lenient interop
   unwraps it correctly, same as the rest of the app.
 - **`.scss`** — `sass-loader` → `css-loader` →
-  `style-loader` (dev) / `MiniCssExtractPlugin.loader` (prod). Includes
-  Foundation Sites' Sass path via `loadPaths` (Dart Sass's modern name for
-  `includePaths`) and silences deprecation warnings for constructs still
-  in use (`@import`, global built-ins, color functions, `if()`).
+  `style-loader` (dev) / `MiniCssExtractPlugin.loader` (prod). `quietDeps` hides
+  the `@import` deprecation warnings from `@hsl-fi/sass`, which still uses `@import` internally.
   `charset: false` stops Sass from prefixing non-ASCII output with a BOM,
   which would land mid-bundle once CSS modules are concatenated and
-  invalidate the selector after it.
+  invalidate the selector after it. `*.module.scss` files are CSS Modules with
+  a default export and class names as written, matching the packages.
 - There is no PostCSS step: vendor prefixing happens in the Lightning CSS
   minimizer (see "Optimization"), from the same `browserslist` targets.
   `postcss-flexbugs-fixes` was dropped with it: it only worked around
@@ -251,8 +223,7 @@ no real source map) in development.
 
 ## Plugins
 
-Development only gets `ContextReplacementPlugin` (see Entries above).
-Production gets:
+Production gets (development gets none of these):
 
 - **`faviconPlugins`** — see Entries above.
 - **`MiniCssExtractPlugin`** — extracts CSS to hashed files (prod only;
@@ -303,9 +274,7 @@ Both dev and prod also always get:
   actual client bundle, matching the existing `url` polyfill
   (`resolve.fallback` below). Note `process/browser`'s `process.env` is
   always an empty object — this plugin only prevents crashes, it doesn't
-  expose real build-time env var values to the browser (see "Entries &
-  per-deployment theming" above for how theme selection avoids needing
-  that).
+  expose real build-time env var values to the browser.
 
 ## Optimization
 
@@ -319,9 +288,6 @@ Both dev and prod also always get:
     targets from `browserslist` via `browserslistToTargets`, so it both
     adds the vendor prefixes the targets need and drops the ones they
     don't (replacing the former `postcss-loader` + autoprefixer step).
-    `errorRecovery: true` drops rules it can't parse instead of failing
-    the build; currently only foundation-sites' IE9/10 `(min-width:0\0)`
-    hack.
     `include: Features.MediaRangeSyntax` keeps `min-width`/`max-width`
     media queries rather than converting them to range syntax
     (`width>=…`, Chrome 104+): browsers older than the targets, and the
@@ -393,8 +359,8 @@ webpack-dev-server is up).
 
 ```json
 "browserslist": [
-  "defaults and fully supports es6-module",
-  "> 0.2% in FI and fully supports es6-module"
+  "> 0.1% and defaults and fully supports es6-module",
+  "> 0.1% in FI and fully supports es6-module"
 ]
 ```
 
@@ -403,10 +369,12 @@ The second query adds browsers with real usage share in Finland that
 transpiling and polyfills.
 
 `defaults` is browserslist's maintained default set (> 0.5% global usage,
-last 2 versions, not dead); `fully supports es6-module` drops browsers
-without native ES modules, which also excludes IE and pre-`async`/`await`
-browsers. Refresh the data periodically with `npx
-update-browserslist-db@latest` (builds warn once it is ~6 months old).
+last 2 versions, not dead); `> 0.1%` removes the rarely used browsers that
+`last 2 versions` adds, such as KaiOS, which lack `@layer` and would lose all
+layered CSS. `fully supports es6-module` drops browsers without native ES
+modules, which also excludes IE and pre-`async`/`await` browsers. Refresh
+the data periodically with `npx update-browserslist-db@latest` (builds warn
+once it is ~6 months old).
 
 ## Polyfills
 

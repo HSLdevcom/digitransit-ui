@@ -1,3 +1,5 @@
+@use '../../../styles/abstracts' as *;
+
 .content-container {
   .on-demand-info-container {
     &.mobile {
@@ -29,7 +31,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: #fff;
+  background: $white;
   padding: 0 var(--space-xl);
   max-width: 520px;
   height: 100%;
@@ -38,7 +40,7 @@
   border-radius: 15px 15px 0 0;
 
   .divider {
-    border-top: 1px solid #ddd;
+    border-top: 1px solid $light-gray;
     margin: var(--space-s) 0;
 
     &.top {

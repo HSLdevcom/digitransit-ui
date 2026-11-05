@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet';
 import { generateManifestUrl } from '../../utils/client/manifestUtils';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-function IndexPageMeta() {
+export default function IndexPageMeta() {
   const config = useConfigContext();
   const link = [
     {
@@ -15,5 +15,3 @@ function IndexPageMeta() {
 
   return <Helmet link={link} />;
 }
-
-export default IndexPageMeta;

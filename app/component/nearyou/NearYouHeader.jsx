@@ -9,13 +9,13 @@ import { getZoneLabel } from '../../../utils/client/legUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 
-const NearYouHeader = ({
+export default function NearYouHeader({
   stop,
   desc,
   isStation = false,
   linkAddress,
   mode,
-}) => {
+}) {
   const config = useConfigContext();
   const zoneId =
     isStation && stop.stops.length ? stop.stops[0].zoneId : stop.zoneId;
@@ -59,7 +59,7 @@ const NearYouHeader = ({
       />
     </div>
   );
-};
+}
 
 NearYouHeader.propTypes = {
   stop: stopShape.isRequired,
@@ -68,5 +68,3 @@ NearYouHeader.propTypes = {
   isStation: PropTypes.bool,
   mode: PropTypes.string.isRequired,
 };
-
-export default NearYouHeader;

@@ -13,7 +13,7 @@ import {
 } from '../../utils/client/localStorage';
 import { useConfigContext } from './ConfigContext';
 import { createPositionService } from '../data/PositionService';
-import searchContext from '../data/SearchContext';
+import searchServices from '../data/SearchServices';
 
 export const POSITION_STATUS = {
   NO_LOCATION: 'no-location',
@@ -207,9 +207,9 @@ export function PositionProvider({ children = null }) {
 
   useEffect(() => {
     service.activate();
-    searchContext.setPositionGetter(() => stateRef.current.position);
+    searchServices.setPositionGetter(() => stateRef.current.position);
     return () => {
-      searchContext.setPositionGetter(null);
+      searchServices.setPositionGetter(null);
       service.dispose();
     };
   }, []);

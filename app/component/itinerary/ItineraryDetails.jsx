@@ -81,7 +81,7 @@ function getExtraProps(itinerary, intl) {
   };
 }
 
-function ItineraryDetails({
+export default function ItineraryDetails({
   itinerary: itineraryRef,
   focusToPoint,
   focusToLeg,
@@ -442,5 +442,3 @@ ItineraryDetails.propTypes = {
   feedback: PropTypes.bool,
   giveFeedback: PropTypes.func,
 };
-
-export default ItineraryDetails;

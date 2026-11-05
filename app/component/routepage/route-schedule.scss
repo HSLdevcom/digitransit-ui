@@ -1,6 +1,9 @@
 // Styles for the schedule view: date selectors, trip list, action bar,
 // and print-specific overrides.
 
+@use '../../../styles/abstracts' as *;
+@use '@hsl-fi/sass/mixins/screen';
+
 // ─── Timetable tabpanel (flex column root for the schedule view) ─────────────
 
 .route-timetable-panel,
@@ -77,9 +80,12 @@
   }
 
   @media print {
-    // Foundation collapses display:flex in print — force visibility
-    display: block !important;
-    overflow: auto !important;
+    overflow: auto;
+
+    &,
+    &.bp-large {
+      display: block;
+    }
   }
 
   .route-schedule-header {
@@ -134,42 +140,6 @@
   }
 }
 
-// ─── Stop select ─────────────────────────────────────────────────────────────
-
-.route-schedule-stop-select {
-  position: relative;
-
-  select {
-    position: relative;
-    background-color: $white;
-    font-size: 9pt;
-    color: $black;
-    height: 30px;
-    line-height: 24px;
-    font-weight: $font-weight-medium;
-    appearance: none;
-    letter-spacing: -0.03em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: right;
-  }
-
-  svg {
-    position: absolute;
-    top: 7px;
-    right: 0;
-    height: 10px;
-    width: 10px;
-    fill: $theme-primary-color;
-    pointer-events: none;
-  }
-
-  @media print {
-    display: none;
-  }
-}
-
 // ─── Dropdowns row ───────────────────────────────────────────────────────────
 
 .route-schedule-dropdowns {
@@ -179,51 +149,6 @@
 
   @media print {
     display: none;
-  }
-}
-
-// ─── Date select ─────────────────────────────────────────────────────────────
-
-.route-schedule-date {
-  @include font-book;
-
-  @media print {
-    display: none;
-  }
-
-  min-height: $route-schedule-date-height;
-  margin: 0;
-
-  .icon {
-    margin-right: 7px;
-    width: 15px;
-    height: 15px;
-    color: $theme-primary-color;
-  }
-
-  select {
-    font-size: 9pt;
-    line-height: 18px;
-    height: 19px;
-    background-color: $white;
-    color: $theme-primary-color;
-
-    // !important required to override Foundation's .select border-bottom rule
-    border-bottom: none !important;
-    font-weight: $font-weight-medium;
-    padding: 0;
-    background-image: none;
-    width: 7em;
-    text-align: left;
-    appearance: none;
-
-    &:hover {
-      background: none;
-    }
-
-    option {
-      padding: 4px;
-    }
   }
 }
 
@@ -277,7 +202,7 @@
 .after-scrollable-area {
   display: none;
 
-  @include min-width(tablet) {
+  @include screen.min-width(tablet) {
     display: block;
   }
 

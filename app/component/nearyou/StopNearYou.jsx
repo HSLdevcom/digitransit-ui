@@ -15,7 +15,12 @@ import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer
 import CapacityModal from '../CapacityModal';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
+export default function StopNearYou({
+  stop,
+  currentTime,
+  relay,
+  isParentTabActive,
+}) {
   const config = useConfigContext();
   const intl = useIntl();
   const timeRef = useRef(currentTime);
@@ -110,7 +115,7 @@ const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
       )}
     </span>
   );
-};
+}
 
 StopNearYou.propTypes = {
   stop: stopShape.isRequired,
@@ -118,5 +123,3 @@ StopNearYou.propTypes = {
   relay: relayShape.isRequired,
   isParentTabActive: PropTypes.bool.isRequired,
 };
-
-export default StopNearYou;
