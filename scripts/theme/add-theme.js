@@ -33,7 +33,6 @@ let themeContent =
     --theme-secondary-color: #{color.adjust(${color}, $lightness: -20%)};
     --theme-primary-dark-color: #{color.adjust(${color}, $lightness: -5%)};
     --bus-color: var(--theme-primary-color);
-    --color-accent-primary-900: #{color.adjust(${color}, $lightness: -10%)};
   }
 }
 `;
