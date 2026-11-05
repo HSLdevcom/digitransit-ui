@@ -42,7 +42,7 @@ utils/**/__generated__
 !server
 
 # Styles and static assets bundled by webpack.
-!sass
+!styles
 !static
 
 # Only scripts/build/* (contextHelper.js) is actually required, by

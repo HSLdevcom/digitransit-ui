@@ -72,7 +72,7 @@ half-saved file doesn't stop `yarn dev`. See [`docs/Webpack.md`](/docs/Webpack.m
 
 ## Using `theme/add-theme.js`
 
-Scaffolds a new theme: creates `sass/themes/<name>`, a config file at
+Scaffolds a new theme: creates `styles/themes/<name>`, a config file at
 `server/configs/config.<name>.js` (from `theme/template.waltti.js`), and registers the theme
 in `config.default.js`'s host-name mapping. See [`docs/Themes.md`](/docs/Themes.md).
 

@@ -1,4 +1,6 @@
-@import '~@hsl-fi/sass/animations/fade';
+@use '../../../styles/abstracts' as *;
+@use '@hsl-fi/sass/animations/fade';
+@use '@hsl-fi/sass/mixins/screen';
 
 .desktop .itinerary-summary-row::before {
   content: '';
@@ -119,10 +121,6 @@
     }
   }
 
-  .itinerary-end-time-and-distance {
-    width: 100%;
-  }
-
   .citybike-duration-info-short {
     display: flex;
     flex-direction: row;
@@ -226,8 +224,9 @@
       &.fit-route-number {
         min-width: max-content;
 
-        .vcenter-children {
-          min-width: max-content !important; // forces the leg to fit the route number in it
+        .vcenter-children,
+        .route-number .vcenter-children {
+          min-width: max-content; // forces the leg to fit the route number in it
         }
 
         .route-number {
@@ -448,7 +447,7 @@
                 margin-left: 2px;
                 padding-bottom: 2px;
 
-                @include min-width(tablet) {
+                @include screen.min-width(tablet) {
                   padding-bottom: 0;
                 }
               }

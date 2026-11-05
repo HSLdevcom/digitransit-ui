@@ -1,3 +1,5 @@
+@use '../../styles/abstracts' as *;
+
 .combobox-container {
   background-color: #fff;
   border: solid #888 1px;
@@ -20,10 +22,6 @@
 
   &:focus-within {
     border-color: $theme-primary-color;
-  }
-
-  &.route-schedule-date {
-    margin-right: 1em;
   }
 
   .icon-container {
@@ -70,14 +68,14 @@
 
     & select {
       cursor: pointer;
-      border-bottom: none !important;
+      border-bottom: none;
       transition: all 0.2s ease-out;
       height: 1.27em;
       line-height: 1.3em;
 
       &:hover {
         color: $theme-secondary-color;
-        border-bottom: none !important;
+        border-bottom: none;
       }
     }
 
@@ -171,14 +169,14 @@
 
           & select {
             cursor: pointer;
-            border-bottom: none !important;
+            border-bottom: none;
             transition: all 0.2s ease-out;
             height: 1.27em;
             line-height: 1.3em;
 
             &:hover {
               color: $theme-secondary-color;
-              border-bottom: none !important;
+              border-bottom: none;
             }
           }
 
@@ -201,26 +199,6 @@
       position: relative;
     }
   }
-
-  .route-schedule-select {
-    .route-schedule__control {
-      min-height: auto;
-
-      .route-schedule__placeholder {
-        color: $black;
-        font-size: $font-size-small;
-      }
-    }
-
-    .route-schedule__option {
-      display: flex;
-      justify-content: space-between;
-
-      svg {
-        position: relative;
-      }
-    }
-  }
 }
 
 .combobox-label {
@@ -228,12 +206,4 @@
   white-space: nowrap;
   color: #666;
   letter-spacing: -0.48px;
-}
-
-.mobile {
-  .combobox-container {
-    &.route-schedule-date {
-      margin-right: 0.75em;
-    }
-  }
 }

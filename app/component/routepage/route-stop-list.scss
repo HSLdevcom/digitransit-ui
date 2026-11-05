@@ -1,7 +1,10 @@
 // Styles for the route stop list, individual stop rows, and the
 // location-details layout used for each stop item.
 
-// Shared address text style — used by .route-stop-address and .route-stop-address-row.
+@use '../../../styles/abstracts' as *;
+@use '@hsl-fi/sass/mixins/screen';
+
+// Address text style for .route-stop-address-row.
 %route-address-text {
   font-size: $font-size-xsmall;
   font-family: $font-family;
@@ -77,7 +80,7 @@
     z-index: 4;
     left: 12px;
 
-    @include min-width(tablet) {
+    @include screen.min-width(tablet) {
       // Fixed 45px: aligns with the wider left gutter on tablet+
       left: 45px;
     }
@@ -87,7 +90,7 @@
       // -44px: vehicle halfway above the stop row at arrival
       top: -44px;
 
-      @include min-width(tablet) {
+      @include screen.min-width(tablet) {
         // -49px: slightly higher on tablet due to taller row padding
         top: -49px;
       }
@@ -104,7 +107,7 @@
       // 16px: vehicle below the stop row after departure
       top: 16px;
 
-      @include min-width(tablet) {
+      @include screen.min-width(tablet) {
         top: 12px;
       }
     }
@@ -141,7 +144,7 @@
       top: 11px;
       left: 4px;
 
-      @include min-width(tablet) {
+      @include screen.min-width(tablet) {
         left: 4.25px;
       }
     }
@@ -228,11 +231,6 @@
         height: auto;
         justify-content: space-between;
 
-        .route-address-container {
-          display: flex;
-          align-items: center;
-        }
-
         .itinerary-stop-code {
           display: flex;
           align-items: center;
@@ -241,13 +239,6 @@
           // 0.9375rem = 15px
           height: 0.9375rem;
           margin-right: 5px;
-        }
-
-        .route-stop-address {
-          @extend %route-address-text;
-
-          display: block;
-          height: 1.25rem;
         }
 
         .itinerary-zone-icon {
@@ -332,18 +323,6 @@
     letter-spacing: -0.37px;
     height: 1.45em;
   }
-}
-
-// ─── Narrow viewport override ───────────────────────────────────────────────
-
-.small
-  .route-stop-row_content-container
-  > a
-  .route-details_container
-  > div
-  > span
-  .route-stop-address {
-  max-width: 7em;
 }
 
 // ─── Details upper row layout ────────────────────────────────────────────────

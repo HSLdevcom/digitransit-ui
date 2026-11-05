@@ -10,7 +10,7 @@ right one by *who consumes the code*, not just by convenience.
 
 - `app/` — client-bundle-only React app (React components + route trees):
   - `client/` — browser entry & bootstrap: `client.jsx` (browser entry, farce/found router
-    bootstrap, `AppProviders`), `publicPath.js` / `loadDevTheme.js` (extra webpack entry
+    bootstrap, `AppProviders`), `publicPath.js` (extra webpack entry
     modules), `i18n.js`.
   - `routes/` — found + Relay route-tree definitions: `routes.jsx` (front page, top level),
     `routeRoutes.jsx` (route pages), `stopRoutes.jsx` (stop pages); keep the filenames, Relay
@@ -72,7 +72,9 @@ right one by *who consumes the code*, not just by convenience.
     `yarn run -T <bin>`. See "Dependency Classification" in `docs/Packages.md`.
   - Never bump package versions manually; the `packages-version-bump` script is run after
     a PR is approved but before merging by the author.
-- `sass/`, `static/` — global styles and static assets.
+- `styles/` — shared styles: `main.scss` entry, `abstracts/` (no CSS output), `base/` (global CSS),
+  `themes/<theme>/theme.scss` (custom property values). See "Styles" below.
+- `static/` — static assets, copied to `_static/`.
 - `docs/` — architecture/testing/etc. docs; **treat as potentially stale** — when a change
   affects what a `docs/*` file describes, update that doc in the same change.
 
@@ -184,6 +186,30 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   `resolve.fullySpecified: false` + `type: 'javascript/auto'` in `webpack.config.js` to follow the
   same extensionless policy.
 
+## Styles (see `docs/Styles.md`, `docs/Themes.md`)
+
+All themes share `styles/main.scss`; a theme only sets CSS custom properties.
+
+- We're moving to CSS Modules. New component styles go in `Component.module.scss` next to the component
+  and are imported by it. Don't add component stylesheets to `styles/main.scss`; the ones there are
+  legacy, and its order is their cascade order. Global styles go in `styles/base/`.
+- Stylesheets start with a relative `@use '../../styles/abstracts' as *;`. `styles/abstracts/` must not
+  emit CSS, and a local variable must not reuse a name it defines.
+- Per-theme values: default in `styles/themes/default/theme.scss`, a `$name: var(--name);` wrapper in
+  `styles/abstracts/_variables.scss`, overrides in `styles/themes/<theme>/theme.scss`. Values that
+  don't vary stay plain Sass variables. `var()` doesn't work in media queries or data URIs.
+- Colors JS also needs live in `colors` in the config; CSS reads them with `config('colors.x')`.
+- Layers are `reset, vendor, tokens, theme`, declared in `styles/themes/default/theme.scss`. App CSS
+  is unlayered. Avoid `!important`.
+- Page-level z-indexes go in `$global-zindex` in `styles/abstracts/_zindex.scss`.
+- Before removing a class, check `cx()` keys, HTML strings, lowercased enums, react-select's
+  `classNamePrefix`, `@extend`, `class` attributes in SVGs and names libraries add at runtime. Use
+  `git grep -nw <name>` and search `_static/js` after a build. See "Removing or changing CSS" in `docs/Styles.md`.
+- Icon color differences go in CSS (`fill`, `currentColor`, a custom property). A different shape gets its own
+  `app/assets/icons/<theme>/<id>.svg` and `sprites` in the theme's config, not theme classes inside an SVG.
+- SCSS under `styles/`, `app/**/*.scss`, `packages/digitransit-component/**/*.scss` must pass
+  `prettier --check` and `stylelint`.
+
 ## Code conventions
 
 - ES2015+ transpiled with Babel; Airbnb JS/React style guide (`.eslintrc.cjs`) with project
@@ -217,5 +243,3 @@ Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by w
   don't add runtime/UA-based polyfill services. Keep `corejs.version` in `webpack.config.js` (the
   `app/` loader, which ignores the root `babel.config.cjs`) in sync with the installed core-js
   minor.
-- SCSS under `sass/`, `app/**/*.scss`, `packages/digitransit-component/**/*.scss` — must pass
-  `prettier --check` and `stylelint`.

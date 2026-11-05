@@ -34,12 +34,12 @@
     "sort-translations": "node scripts/sort-translations.js",
     "eslint": "eslint . --ext .js,.jsx,.cjs",
     "eslint-fix": "eslint . --ext .js,.jsx,.cjs --fix",
-    "prettier-styles": "prettier sass/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss --check",
-    "prettier-styles-fix": "prettier sass/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss --write",
+    "prettier-styles": "prettier styles/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss --check",
+    "prettier-styles-fix": "prettier styles/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss --write",
     "prettier-icons": "prettier 'app/assets/icons/**/*.svg' --check",
     "prettier-icons-fix": "prettier 'app/assets/icons/**/*.svg' --write",
-    "stylelint": "stylelint sass/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss",
-    "stylelint-fix": "stylelint sass/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss --fix",
+    "stylelint": "stylelint styles/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss",
+    "stylelint-fix": "stylelint styles/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss --fix",
     "add-theme": "node scripts/theme/add-theme.js",
     "packages-publish": "lerna publish from-package --no-git-tag-version --no-push --summary-file",
     "packages-publish-ci": "lerna publish from-package --no-git-tag-version --no-push --summary-file -y",
@@ -68,8 +68,8 @@
     "node": ">=24.14.1"
   },
   "browserslist": [
-    "defaults and fully supports es6-module",
-    "> 0.2% in FI and fully supports es6-module"
+    "> 0.1% and defaults and fully supports es6-module",
+    "> 0.1% in FI and fully supports es6-module"
   ],
   "prettier": {
     "arrowParens": "avoid",
@@ -165,7 +165,6 @@
     "fast-xml-parser": "4.5.2",
     "found": "1.3.0",
     "found-relay": "1.0.2",
-    "foundation-sites": "6.9.0",
     "helmet": "4.1.0",
     "hoist-non-react-statics": "2.5.5",
     "i18next": "22.5.1",
