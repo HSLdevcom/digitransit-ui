@@ -127,7 +127,7 @@ export const shouldShowFareInfo = (config, legs, fares) => {
   );
 };
 
-export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
+export const shouldShowFarePurchaseInfo = (config, fares) => {
   const unknownFares = fares?.some(fare => fare.isUnknown);
   // Windows phones or Huawei should only show ticket information.
   const { userAgent } = navigator;
@@ -142,10 +142,20 @@ export const shouldShowFarePurchaseInfo = (config, breakpoint, fares) => {
     fares?.length === 1 &&
     config.ticketPurchaseLink &&
     config.ticketLinkOperatorCode &&
-    config.availableTickets &&
-    breakpoint !== 'large'
+    config.availableTickets
   );
 };
+
+/**
+ * Resolves if the mobile ticket purchase block is shown. It replaces
+ * the itinerary summary's bottom divider when shown.
+ */
+export const shouldShowMobilePurchaseInfo = (config, legs, fares, isMobile) =>
+  Boolean(
+    isMobile &&
+      shouldShowFareInfo(config, legs, fares) &&
+      shouldShowFarePurchaseInfo(config, fares),
+  );
 
 /**
  *  Returns a string that contains the ticket type(s) for the itinerary.

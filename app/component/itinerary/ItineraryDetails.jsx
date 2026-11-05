@@ -3,13 +3,10 @@ import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useFragment } from 'react-relay';
-import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import {
   getFaresFromLegs,
-  shouldShowFareInfo,
-  shouldShowFarePurchaseInfo,
+  shouldShowMobilePurchaseInfo,
 } from '../../../utils/client/fareUtils';
-import localizedUrl from '../../../utils/client/urlUtils';
 import {
   compressLegs,
   getTotalBikingDistance,
@@ -18,39 +15,37 @@ import {
   getTotalDrivingDuration,
   getTotalWalkingDistance,
   getTotalWalkingDuration,
-  getZones,
-  hasAirplaneLegs,
   hasScooterLegs,
-  hasTaxiLegs,
-  isCallAgencyLeg,
-  isBikeParkLeg,
-  isBikeRentalLeg,
   legTimeStr,
 } from '../../../utils/client/legUtils';
-import { streetHash } from '../../../utils/shared/path';
 import { itineraryShape, relayShape } from '../../../utils/client/shapes';
 import { getFutureText } from '../../../utils/client/timeUtils';
 import { BreakpointConsumer } from '../../hooks/BreakpointContext';
-import { getSettings } from '../../../utils/client/planParamUtil';
+import {
+  getItineraryDisplayFlags,
+  getSettings,
+} from '../../../utils/client/planParamUtil';
 import BackButton from '../BackButton';
 import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';
-import FareDisclaimer from './FareDisclaimer';
 import Feedback from './Feedback';
-import RouteDisclaimer from './RouteDisclaimer';
 import ItinerarySummary from './ItinerarySummary';
+import ItineraryDisclaimers from './ItineraryDisclaimers';
 import Legs from './Legs';
-import MobileTicketPurchaseInformation from './MobileTicketPurchaseInformation';
 import StartNavi from './StartNavi';
-import TicketInformation from './TicketInformation';
 import VehicleRentalDurationInfo from './VehicleRentalDurationInfo';
 import { ItineraryDetailsFragment } from './queries/ItineraryDetailsFragment';
 import { useConfigContext } from '../../hooks/ConfigContext';
+import { FareInfo } from './FareInfo';
+import {
+  getBoardingInformationFlags,
+  shouldShowStartNavigation,
+} from './itineraryDetailsUtils';
 
-function getExtraProps(itinerary, intl) {
+function getExtraProps(itinerary, intl, compressedLegs) {
   const compressedItinerary = {
     ...itinerary,
-    legs: compressLegs(itinerary.legs),
+    legs: compressedLegs,
   };
   const walkingDistance = getTotalWalkingDistance(compressedItinerary);
   const walkingDuration = getTotalWalkingDuration(compressedItinerary);
@@ -108,19 +103,19 @@ export default function ItineraryDetails({
     return null;
   }
 
-  const shouldShowDisclaimer =
-    config.showDisclaimer &&
-    match.params.hash !== streetHash.walk &&
-    match.params.hash !== streetHash.bike;
-
   const settings = getSettings(config);
-  const shouldShowFeedback =
-    itinerary.legs.some(l => l.transitLeg) &&
-    config.personalization &&
-    settings.personalization; // user has not turned it off
+  const { shouldShowDisclaimer, shouldShowFeedback } = getItineraryDisplayFlags(
+    {
+      config,
+      legs: itinerary.legs,
+      hash: match.params.hash,
+      settings,
+    },
+  );
 
   const fares = getFaresFromLegs(itinerary.legs, config);
-  const extraProps = getExtraProps(itinerary, intl);
+  const compressedLegs = compressLegs(itinerary.legs);
+  const extraProps = getExtraProps(itinerary, intl, compressedLegs);
   const { biking, walking, driving, futureText, isMultiRow } = extraProps;
   // This does not take into account if the user is using a car at the time of using transit,
   // instead this just calculates if the car is used for the whole trip.
@@ -128,52 +123,21 @@ export default function ItineraryDetails({
   // this could then be used to set the waiting icon legs that need it.
   const usingOwnCarWholeTrip =
     walking.distance === 0 && biking.distance === 0 && driving.distance > 0;
-  const compressedLegs = compressLegs(itinerary.legs);
-  const legsWithRentalBike = compressedLegs.filter(leg => isBikeRentalLeg(leg));
-  const legswithBikePark = compressedLegs.filter(leg => isBikeParkLeg(leg));
-  const hasLegsWithTaxi = hasTaxiLegs({ legs: compressedLegs });
   const hasLegsWithScooter = hasScooterLegs({ legs: compressedLegs });
-  const hasLegsWithAirplane = hasAirplaneLegs({ legs: compressedLegs });
-  const onlyWalking = compressedLegs.every(leg => leg.mode === 'WALK');
-  const onlyBiking = compressedLegs.every(leg => leg.mode === 'BICYCLE');
-  const showStartNavi =
-    startNavigation &&
-    !onlyWalking &&
-    !onlyBiking &&
-    !hasLegsWithTaxi &&
-    !hasLegsWithScooter &&
-    !hasLegsWithAirplane &&
-    legsWithRentalBike.length === 0 &&
-    driving.distance === 0;
-  const containsBiking = biking.duration > 0 && biking.distance > 0;
-  const showBikeBoardingInformation =
-    containsBiking &&
-    bikePublicItineraryCount > 0 &&
-    legswithBikePark.length === 0;
-  const containsDriving = driving.duration > 0 && driving.distance > 0;
-  const showCarBoardingInformation =
-    containsDriving && carPublicItineraryCount > 0;
-  const rentalBikeNetworks = new Set();
-  let showRentalBikeDurationWarning = false;
-  if (legsWithRentalBike.length > 0) {
-    for (let i = 0; i < legsWithRentalBike.length; i++) {
-      const leg = legsWithRentalBike[i];
-      const network = leg.from.vehicleRentalStation?.rentalNetwork.networkId;
-      if (
-        config.vehicleRental.networks[network]?.timeBeforeSurcharge &&
-        config.vehicleRental.networks[network].durationInstructions
-      ) {
-        const rentDurationOverSurchargeLimit =
-          leg.duration >
-          config.vehicleRental.networks[network].timeBeforeSurcharge;
-        if (rentDurationOverSurchargeLimit) {
-          rentalBikeNetworks.add(network);
-          showRentalBikeDurationWarning =
-            rentDurationOverSurchargeLimit || showRentalBikeDurationWarning;
-        }
-      }
-    }
-  }
+  const showEmissions = config.showCO2InItinerarySummary && !hasLegsWithScooter;
+  const showStartNavi = shouldShowStartNavigation({
+    startNavigation,
+    legs: compressedLegs,
+    drivingDistance: driving.distance,
+  });
+  const { showBikeBoardingInformation, showCarBoardingInformation } =
+    getBoardingInformationFlags({
+      legs: compressedLegs,
+      biking,
+      driving,
+      bikePublicItineraryCount,
+      carPublicItineraryCount,
+    });
   let itineraryIndex = match.params.secondHash
     ? Number(match.params.secondHash)
     : Number(match.params.hash);
@@ -182,105 +146,6 @@ export default function ItineraryDetails({
   } else {
     itineraryIndex += 1;
   }
-  const disclaimers = [];
-  const externalOperatorJourneys = hasLegsWithScooter || hasLegsWithTaxi;
-  if (
-    shouldShowFareInfo(config, itinerary.legs, fares) &&
-    (fares.some(fare => fare.isUnknown) || externalOperatorJourneys)
-  ) {
-    const found = {};
-    itinerary.legs.forEach(leg => {
-      if (config.modeDisclaimers?.[leg.mode] && !found[leg.mode]) {
-        found[leg.mode] = true;
-        const disclaimer = config.modeDisclaimers[leg.mode][language];
-        disclaimers.push(
-          <FareDisclaimer
-            key={leg.mode}
-            text={disclaimer.disclaimer}
-            href={disclaimer.link}
-            linkText={disclaimer.text}
-          />,
-        );
-      }
-    });
-
-    // Show call agency ticket disclaimer for external agencies
-    const callAgencyInfo = config.callAgencyInfo?.[language];
-    if (
-      callAgencyInfo &&
-      itinerary.legs.some(
-        leg =>
-          isCallAgencyLeg(leg) &&
-          !config.flex.internal.agencies.includes(leg.route.agency.gtfsId),
-      )
-    ) {
-      disclaimers.push(
-        <FareDisclaimer
-          key={disclaimers.length}
-          textId="separate-ticket-required-for-call-agency-disclaimer"
-          href={callAgencyInfo.callAgencyInfoLink}
-          linkText={callAgencyInfo.callAgencyInfoLinkText}
-        />,
-      );
-    }
-
-    if (!disclaimers.length) {
-      disclaimers.push(
-        <FareDisclaimer
-          key="faredisclaimer-separate-ticket-key"
-          textId="separate-ticket-required-disclaimer"
-          values={{
-            agencyName:
-              typeof config.primaryAgencyName === 'string'
-                ? config.primaryAgencyName
-                : config.primaryAgencyName?.[language],
-          }}
-        />,
-      );
-    }
-  }
-
-  if (config.replacementBusNotification) {
-    itinerary.legs.forEach(({ route, trip }) => {
-      const isReplacementRoute =
-        route &&
-        (getTripOrRouteMode(trip, route, config)?.includes('replacement') ||
-          config.replacementBusRoutes?.includes(route.gtfsId));
-      const isReplacementTrip =
-        trip?.submode?.includes('replacement') || trip?.submode?.includes(714);
-
-      if (isReplacementRoute || isReplacementTrip) {
-        const notification =
-          isReplacementRoute &&
-          config.showRouteDescNotification &&
-          route.desc?.length
-            ? { content: route.desc, link: route.url }
-            : {
-                content:
-                  config.replacementBusNotification?.content?.[language]?.join(
-                    ' ',
-                  ),
-                link: config.replacementBusNotification?.link?.[language],
-              };
-
-        const key = `replacementBusNotification-${
-          route.gtfsId || trip?.gtfsId
-        }`;
-        if (!disclaimers.some(d => d.props?.text === notification.content)) {
-          disclaimers.push(
-            <RouteDisclaimer
-              key={key}
-              text={notification.content}
-              href={notification.link}
-              linkText={intl.formatMessage({ id: 'extra-info' })}
-              header={intl.formatMessage({ id: 'replacement-bus' })}
-            />,
-          );
-        }
-      }
-    });
-  }
-
   return (
     <div className="itinerary-tab">
       <h2 className="sr-only">
@@ -322,38 +187,29 @@ export default function ItineraryDetails({
             futureText={futureText}
             isMultiRow={isMultiRow}
             isMobile={isMobile}
-            hideBottomDivider={
-              isMobile && shouldShowFarePurchaseInfo(config, breakpoint, fares)
-            }
+            hideBottomDivider={shouldShowMobilePurchaseInfo(
+              config,
+              itinerary.legs,
+              fares,
+              isMobile,
+            )}
           />,
-          showRentalBikeDurationWarning && (
-            <VehicleRentalDurationInfo
-              key="rentaldurationinfo"
-              networks={Array.from(rentalBikeNetworks)}
-              config={config}
-            />
-          ),
-          shouldShowFareInfo(config, itinerary.legs, fares) &&
-            (shouldShowFarePurchaseInfo(config, breakpoint, fares) ? (
-              <MobileTicketPurchaseInformation
-                key="mobileticketpurchaseinformation"
-                fares={fares}
-                zones={getZones(itinerary.legs)}
-              />
-            ) : (
-              <TicketInformation
-                key="ticketinformation"
-                fares={fares}
-                zones={getZones(itinerary.legs)}
-                legs={itinerary.legs}
-                ticketLink={localizedUrl(config.ticketLink, language)}
-              />
-            )),
-
+          <VehicleRentalDurationInfo
+            key="rentaldurationinfo"
+            legs={compressedLegs}
+            config={config}
+          />,
+          <FareInfo
+            key="fareinfo"
+            config={config}
+            legs={itinerary.legs}
+            fares={fares}
+            isMobile={isMobile}
+          />,
           showStartNavi && (
             <StartNavi key="navigation" startNavigation={startNavigation} />
           ),
-          config.showCO2InItinerarySummary && !hasLegsWithScooter && (
+          showEmissions && (
             <EmissionsInfo
               key="emissionsummary"
               itinerary={itinerary}
@@ -372,7 +228,11 @@ export default function ItineraryDetails({
               })}
               key="legwrapper"
             >
-              {disclaimers}
+              <ItineraryDisclaimers
+                legs={itinerary.legs}
+                compressedLegs={compressedLegs}
+                fares={fares}
+              />
               <Legs
                 key="itinerarylegs"
                 fares={fares}
@@ -388,7 +248,7 @@ export default function ItineraryDetails({
                 relayEnvironment={relayEnvironment}
               />
             </div>
-            {config.showCO2InItinerarySummary && !hasLegsWithScooter && (
+            {showEmissions && (
               <Emissions
                 key="emissionsinfo"
                 config={config}

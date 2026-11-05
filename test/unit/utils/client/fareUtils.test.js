@@ -1,4 +1,7 @@
-import { getFaresFromLegs } from '../../../../utils/client/fareUtils';
+import {
+  getFaresFromLegs,
+  shouldShowMobilePurchaseInfo,
+} from '../../../../utils/client/fareUtils';
 
 const defaultConfig = {
   showTicketInformation: true,
@@ -222,5 +225,60 @@ describe('fareUtils', () => {
     const result = getFaresFromLegs(fares, defaultConfig);
     expect(result).toHaveLength(1);
     expect(result.filter(fare => fare.isUnknown)).toHaveLength(0);
+  });
+
+  describe('shouldShowMobilePurchaseInfo', () => {
+    const purchaseConfig = {
+      ...defaultConfig,
+      feedIds: ['HSL'],
+      ticketPurchaseLink: () => 'https://example.com/buy',
+      ticketLinkOperatorCode: 'HSL',
+    };
+    const fares = [{ fareProducts: [], isUnknown: false }];
+
+    it('should be true on mobile with a single known fare and purchase config', () => {
+      expect(
+        shouldShowMobilePurchaseInfo(purchaseConfig, [], fares, true),
+      ).toBe(true);
+    });
+
+    it('should be false on desktop', () => {
+      expect(
+        shouldShowMobilePurchaseInfo(purchaseConfig, [], fares, false),
+      ).toBe(false);
+    });
+
+    it('should be false without purchase config', () => {
+      expect(
+        shouldShowMobilePurchaseInfo(
+          { ...defaultConfig, feedIds: ['HSL'] },
+          [],
+          fares,
+          true,
+        ),
+      ).toBe(false);
+    });
+
+    it('should be false when fare info is hidden', () => {
+      expect(
+        shouldShowMobilePurchaseInfo(
+          { ...purchaseConfig, showTicketInformation: false },
+          [],
+          fares,
+          true,
+        ),
+      ).toBe(false);
+    });
+
+    it('should be false with multiple fares', () => {
+      expect(
+        shouldShowMobilePurchaseInfo(
+          purchaseConfig,
+          [],
+          [...fares, ...fares],
+          true,
+        ),
+      ).toBe(false);
+    });
   });
 });

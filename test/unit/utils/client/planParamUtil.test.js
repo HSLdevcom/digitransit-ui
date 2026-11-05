@@ -166,4 +166,92 @@ describe('planParamUtil', () => {
       expect(currentSettings.modes).not.toContain('FOO');
     });
   });
+
+  describe('getItineraryDisplayFlags', () => {
+    const enabledConfig = { showDisclaimer: true, personalization: true };
+    const enabledSettings = { personalization: true };
+    const transitLegs = [{ transitLeg: false }, { transitLeg: true }];
+
+    it.each([
+      [true, undefined, true],
+      [true, '0', true],
+      [true, 'walk', false],
+      [true, 'bike', false],
+      [true, 'bikeAndVehicle', true],
+      [true, 'car', true],
+      [true, 'carAndVehicle', true],
+      [true, 'parkAndRide', true],
+      [false, undefined, false],
+      [false, 'walk', false],
+    ])(
+      'sets the disclaimer flag for config %s and hash %s',
+      (showDisclaimer, hash, expected) => {
+        expect(
+          utils.getItineraryDisplayFlags({
+            config: { ...enabledConfig, showDisclaimer },
+            legs: transitLegs,
+            hash,
+            settings: enabledSettings,
+          }),
+        ).toStrictEqual({
+          shouldShowDisclaimer: expected,
+          shouldShowFeedback: true,
+        });
+      },
+    );
+
+    it.each([
+      [false, false, false, false],
+      [false, false, true, false],
+      [false, true, false, false],
+      [false, true, true, false],
+      [true, false, false, false],
+      [true, false, true, false],
+      [true, true, false, false],
+      [true, true, true, true],
+    ])(
+      'sets the feedback flag for transit %s, config %s and settings %s',
+      (hasTransit, personalization, userPersonalization, expected) => {
+        expect(
+          utils.getItineraryDisplayFlags({
+            config: { ...enabledConfig, personalization },
+            legs: hasTransit ? transitLegs : [{ transitLeg: false }],
+            hash: '0',
+            settings: { personalization: userPersonalization },
+          }),
+        ).toStrictEqual({
+          shouldShowDisclaimer: true,
+          shouldShowFeedback: expected,
+        });
+      },
+    );
+
+    it('does not show feedback for an empty list of legs', () => {
+      expect(
+        utils.getItineraryDisplayFlags({
+          config: enabledConfig,
+          legs: [],
+          hash: '0',
+          settings: enabledSettings,
+        }),
+      ).toStrictEqual({
+        shouldShowDisclaimer: true,
+        shouldShowFeedback: false,
+      });
+    });
+
+    it('preserves unset configuration flags', () => {
+      expect(
+        utils.getItineraryDisplayFlags({
+          config: {},
+          legs: transitLegs,
+          hash: '0',
+          settings: {},
+        }),
+      ).toStrictEqual({
+        shouldShowDisclaimer: undefined,
+        shouldShowFeedback: undefined,
+      });
+    });
+  });
 });

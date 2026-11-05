@@ -3,6 +3,7 @@ import isEqual from 'lodash/isEqual';
 import { getTransitModes, isTransportModeAvailable } from './modeUtils';
 import { networkIsActive } from '../shared/citybikeSeasonUtils';
 import { otpToLocation, getIntermediatePlaces } from '../shared/otpStrings';
+import { streetHash } from '../shared/path';
 import {
   getAllNetworksOfType,
   getDefaultNetworks,
@@ -142,6 +143,19 @@ export function getSettings(config) {
     ...settings,
     walkSpeed: findNearestOption(settings.walkSpeed, defaultOptions.walkSpeed),
     bikeSpeed: findNearestOption(settings.bikeSpeed, defaultOptions.bikeSpeed),
+  };
+}
+
+export function getItineraryDisplayFlags({ config, legs, hash, settings }) {
+  return {
+    shouldShowDisclaimer:
+      config.showDisclaimer &&
+      hash !== streetHash.walk &&
+      hash !== streetHash.bike,
+    shouldShowFeedback:
+      legs.some(leg => leg.transitLeg) &&
+      config.personalization &&
+      settings.personalization,
   };
 }
 

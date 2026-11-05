@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import { Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { configShape } from '../../../utils/client/shapes';
+import { isBikeRentalLeg } from '../../../utils/client/legUtils';
+import { configShape, legShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import {
   getRentalNetworkConfig,
@@ -9,7 +10,25 @@ import {
   getRentalNetworkId,
 } from '../../../utils/shared/vehicleRentalUtils';
 
-export default function VehicleRentalDurationInfo({ networks, config }) {
+export default function VehicleRentalDurationInfo({ legs, config }) {
+  const rentalBikeNetworks = new Set();
+  legs.filter(isBikeRentalLeg).forEach(leg => {
+    const network = leg.from.vehicleRentalStation?.rentalNetwork.networkId;
+    const networkConfig = config.vehicleRental.networks[network];
+    if (
+      networkConfig?.timeBeforeSurcharge &&
+      networkConfig.durationInstructions &&
+      leg.duration > networkConfig.timeBeforeSurcharge
+    ) {
+      rentalBikeNetworks.add(network);
+    }
+  });
+  const networks = Array.from(rentalBikeNetworks);
+
+  if (networks.length === 0) {
+    return null;
+  }
+
   const lang = config.language;
 
   if (networks.length === 1) {
@@ -99,9 +118,6 @@ export default function VehicleRentalDurationInfo({ networks, config }) {
 }
 
 VehicleRentalDurationInfo.propTypes = {
-  networks: PropTypes.arrayOf(
-    // eslint-disable-next-line
-    PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  ).isRequired,
+  legs: PropTypes.arrayOf(legShape).isRequired,
   config: configShape.isRequired,
 };
