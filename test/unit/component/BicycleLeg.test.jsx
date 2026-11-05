@@ -1,4 +1,3 @@
-import relay from 'react-relay';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { createTestConfig } from '../helpers/mock-context';
 import BicycleLeg from '../../../app/component/itinerary/BicycleLeg';
@@ -10,13 +9,6 @@ const baseConfig = createTestConfig({
 });
 
 describe('<BicycleLeg />', () => {
-  beforeEach(() => {
-    // the nearest scooter query never resolves, so no state update happens after a test ends
-    vi.spyOn(relay, 'fetchQuery').mockReturnValue({
-      toPromise: () => new Promise(() => {}),
-    });
-  });
-
   it('should guide the user to rent a citybike', () => {
     const props = {
       focusAction: () => {},

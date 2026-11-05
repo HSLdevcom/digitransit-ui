@@ -100,9 +100,27 @@ and clears `localStorage`/`sessionStorage`. Beyond that:
   });
   ```
 
-  `react-relay`'s `fetchQuery` is stubbed through its default export:
-  `vi.spyOn(relay, 'fetchQuery')` after `import relay from 'react-relay'`.
-  A module mock that every test file needs belongs in `vitest.setup.js`.
+  Relay is the exception to the `vi.spyOn()` rule: `vitest.setup.js` stubs
+  `react-relay` and `react-relay/hooks` once, and a test configures the stubs
+  through `relayMock` from `test/unit/helpers/mock-relay.js`, never with its own
+  mock or spy. `useFragment` returns the data it is given, so pass resolved data
+  as the fragment prop. Queries are matched by query node or name, or by `null`
+  for all queries; the registrations and recorded calls are cleared after each
+  test:
+
+  ```jsx
+  import { relayMock } from '../helpers/mock-relay';
+
+  relayMock.query(TripLinkQuery, { trip }); // useLazyLoadQuery result
+  relayMock.query(null, relayMock.pending); // suspends every query
+  relayMock.fetch(null, response); // fetchQuery(...).toPromise() resolves to it
+  relayMock.fetch(null, variables => promise); // the test resolves it itself
+  expect(relayMock.fetchCalls).toHaveLength(1); // { query, variables, options }
+  ```
+
+  Without a registration `useLazyLoadQuery` returns `{}` and `fetchQuery` never
+  resolves. A module mock that every other test file needs also belongs in
+  `vitest.setup.js`.
 
 If a test passes alone but fails in the full run, another file has likely left
 state behind. This runs all files in one worker in a reproducible random order:

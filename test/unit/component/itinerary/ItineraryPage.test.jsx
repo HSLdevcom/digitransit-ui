@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import relay from 'react-relay';
 import ItineraryPage from '../../../../app/component/itinerary/ItineraryPage';
 import TestProviders from '../../helpers/mock-providers';
+import { relayMock } from '../../helpers/mock-relay';
 import { createTestConfig } from '../../helpers/mock-context';
 import { mockMatch, mockRouter } from '../../helpers/mock-router';
 import * as planParamUtil from '../../../../utils/client/planParamUtil';
@@ -93,13 +93,12 @@ describe('ItineraryPage lifecycle', () => {
 
   beforeEach(() => {
     requests = [];
-    vi.spyOn(relay, 'fetchQuery').mockImplementation(
-      (_environment, _query, variables) => ({
-        toPromise: () =>
-          new Promise((resolve, reject) => {
-            requests.push({ variables, resolve, reject });
-          }),
-      }),
+    relayMock.fetch(
+      null,
+      variables =>
+        new Promise((resolve, reject) => {
+          requests.push({ variables, resolve, reject });
+        }),
     );
     vi.spyOn(planParamUtil, 'planQueryNeeded').mockImplementation(
       (_config, _match, type, relaxed) =>

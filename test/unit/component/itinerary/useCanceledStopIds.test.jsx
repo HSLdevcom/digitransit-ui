@@ -1,9 +1,9 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { DateTime } from 'luxon';
-import relay from 'react-relay';
 import useCanceledStopIds from '../../../../app/component/itinerary/useCanceledStopIds';
 import TestProviders from '../../helpers/mock-providers';
 import { mockContext } from '../../helpers/mock-context';
+import { relayMock } from '../../helpers/mock-relay';
 
 const timeZone = 'Europe/Helsinki';
 const wrapper = ({ children }) => (
@@ -12,9 +12,7 @@ const wrapper = ({ children }) => (
   </TestProviders>
 );
 
-const response = stoptimes => ({
-  toPromise: async () => ({ trip: { stoptimesForDate: stoptimes } }),
-});
+const response = stoptimes => ({ trip: { stoptimesForDate: stoptimes } });
 
 const serviceDay = date =>
   DateTime.fromFormat(date, 'yyyyLLdd', { zone: timeZone }).toSeconds();
@@ -38,23 +36,20 @@ const leg = (loadedDate, serviceDate) => ({
 });
 
 describe('useCanceledStopIds', () => {
-  let mockFetchQuery;
-
   beforeEach(() => {
-    mockFetchQuery = vi
-      .spyOn(relay, 'fetchQuery')
-      .mockReturnValue(response([]));
+    relayMock.fetch(null, response([]));
   });
 
   it('uses the loaded stoptimes without a query when they are for the service date of the leg', () => {
     const legs = [leg('20261023', '20261023')];
     const { result } = renderHook(() => useCanceledStopIds(legs), { wrapper });
     expect([...result.current]).toEqual(['HSL:1']);
-    expect(mockFetchQuery).not.toHaveBeenCalled();
+    expect(relayMock.fetchCalls).toHaveLength(0);
   });
 
   it('queries the service date of the leg when the loaded stoptimes are for another day', async () => {
-    mockFetchQuery.mockReturnValue(
+    relayMock.fetch(
+      null,
       response([
         {
           realtimeState: 'CANCELED',
@@ -66,16 +61,14 @@ describe('useCanceledStopIds', () => {
     const { result } = renderHook(() => useCanceledStopIds(legs), { wrapper });
     await waitFor(() => expect(result.current.has('HSL:3')).toBe(true));
     expect(result.current.has('HSL:1')).toBe(false);
-    expect(mockFetchQuery).toHaveBeenCalledWith(
-      expect.anything(),
-      expect.anything(),
+    expect(relayMock.fetchCalls.map(call => call.variables)).toEqual([
       { tripId: 'HSL:trip', serviceDate: '20261024' },
-      expect.anything(),
-    );
+    ]);
   });
 
   it('queries the service date of the leg when no stoptimes were loaded', async () => {
-    mockFetchQuery.mockReturnValue(
+    relayMock.fetch(
+      null,
       response([{ realtimeState: 'CANCELED', stop: { gtfsId: 'HSL:3' } }]),
     );
     const legs = [
@@ -89,7 +82,8 @@ describe('useCanceledStopIds', () => {
   });
 
   it('does not refetch when the stop chain is toggled', async () => {
-    mockFetchQuery.mockReturnValue(
+    relayMock.fetch(
+      null,
       response([{ realtimeState: 'CANCELED', stop: { gtfsId: 'HSL:3' } }]),
     );
     const legs = [leg('20261023', '20261024')];
@@ -101,7 +95,7 @@ describe('useCanceledStopIds', () => {
     rerender({ enabled: false });
     rerender({ enabled: true });
     expect(result.current.has('HSL:3')).toBe(true);
-    expect(mockFetchQuery).toHaveBeenCalledTimes(1);
+    expect(relayMock.fetchCalls).toHaveLength(1);
   });
 
   it('does not query when disabled or the leg has no service date', () => {
@@ -116,7 +110,7 @@ describe('useCanceledStopIds', () => {
         ]),
       { wrapper },
     );
-    expect(mockFetchQuery).not.toHaveBeenCalled();
+    expect(relayMock.fetchCalls).toHaveLength(0);
     expect(result.current.size).toBe(0);
   });
 });

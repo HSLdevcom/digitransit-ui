@@ -1,7 +1,6 @@
 import { mockMatch } from '../helpers/mock-router';
 import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
-import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';
 import RouteControlPanel from '../../../app/component/routepage/RouteControlPanel';
 import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../utils/shared/path';
@@ -14,9 +13,6 @@ const baseConfig = createTestConfig({
 });
 
 describe('<RouteControlPanel />', () => {
-  // See ignoreRelayModernSelectorWarning's own comment for why this is needed.
-  ignoreRelayModernSelectorWarning();
-
   const renderView = (props, config = baseConfig, contextOverrides = {}) =>
     renderWithProviders(<RouteControlPanel {...props} />, {
       config,

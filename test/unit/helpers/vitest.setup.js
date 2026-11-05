@@ -8,60 +8,27 @@ import { cleanup } from '@testing-library/react';
 import Link from 'found/Link';
 import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
-import relayHooks from 'react-relay/hooks';
 import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
+import { relayMock, withRelayStubs } from './mock-relay';
 
-// Stub useFragment/useRefetchableFragment globally so components can be
-// tested by passing in complete, already-resolved data as props instead of
-// a real Relay fragment reference/store. This has to be done via vi.mock
-// (which replaces the module itself) rather than reassigning a property on
-// the default export - `import { useFragment } from 'react-relay'` (used
-// throughout app/component/**) gets a snapshot of the named export under
-// Vite/Vitest's CJS interop, so it doesn't see a later
-// `relay.useFragment = ...` reassignment; only
-// `import relay from 'react-relay'; relay.useFragment` call sites would.
-// vi.mock avoids that distinction since both import forms resolve to the
-// same mocked module. useRefetchableFragment's refetch function is a no-op.
-// Module mocks belong here rather than in test files: test files share one
-// module registry per worker (vitest.config.js `isolate: false`), so a mock
-// must be the same for every file (see docs/Tests.md).
-vi.mock('react-relay', async importOriginal => {
-  const actual = await importOriginal();
-  const relay = actual.default;
-  return {
-    ...actual,
-    ...relay,
-    useFragment: (_fragment, fragmentRef) => fragmentRef,
-    useRefetchableFragment: (_fragment, fragmentRef) => [fragmentRef, vi.fn()],
-    // Every test file gets a new instance of this mock, but modules imported
-    // by an earlier file keep theirs. Reading fetchQuery from react-relay's
-    // own exports object (the default export) at call time lets
-    // `vi.spyOn(relay, 'fetchQuery')` reach every caller regardless.
-    fetchQuery: (...args) => relay.fetchQuery(...args),
-  };
-});
+// Relay is stubbed here once, for both entry points, so components get the
+// same hooks whichever one they import from. The stubs read their behaviour
+// from `relayMock` (see mock-relay.js), which tests configure instead of
+// mocking anything themselves. Module mocks belong here rather than in test
+// files: test files share one module registry per worker (vitest.config.js
+// `isolate: false`), so a mock must be the same for every file (see
+// docs/Tests.md).
+vi.mock('react-relay', async importOriginal =>
+  withRelayStubs(await importOriginal()),
+);
+vi.mock('react-relay/hooks', async importOriginal =>
+  withRelayStubs(await importOriginal()),
+);
 
 // jsdom has no layout, so react-truncate-markup would cut the text.
 vi.mock('react-truncate-markup', () => ({
   default: ({ children }) => children,
 }));
-
-// Stub useLazyLoadQuery globally for the same reason, defaulting to an empty
-// result so standalone-query components (TripLink, FuzzyTripLink, and the
-// trafficnow/ components) render their "no data yet" state without needing a
-// real Relay environment/network response. This is done via vi.spyOn in a
-// beforeEach below (run after Vitest's own `restoreMocks` autouse hook
-// resets it) rather than vi.mock like useFragment/useRefetchableFragment
-// above: components call useLazyLoadQuery via a direct
-// `import { useLazyLoadQuery } from 'react-relay/hooks'` (the existing
-// trafficnow/ convention) and tests needing a resolved-data branch already
-// override it with their own `vi.spyOn(relayHooks, 'useLazyLoadQuery')...`
-// call (see test/unit/component/trafficnow/TrafficNow.test.jsx) - a
-// competing vi.mock of the same specifier interferes with that spy's
-// visibility to the component's own named import.
-beforeEach(() => {
-  vi.spyOn(relayHooks, 'useLazyLoadQuery').mockReturnValue({});
-});
 
 // set up timezone in luxon
 Settings.defaultZone = 'Europe/Helsinki';
@@ -148,6 +115,7 @@ afterEach(() => {
   // cleanup itself. Undoing spies, stubbed globals and fake timers here also
   // keeps them from leaking into the next test file's setup.
   vi.restoreAllMocks();
+  relayMock.reset();
   vi.unstubAllGlobals();
   vi.useRealTimers();
   window.localStorage.clear();

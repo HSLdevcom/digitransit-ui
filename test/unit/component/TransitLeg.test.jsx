@@ -1,5 +1,4 @@
 import { renderWithProviders } from '../helpers/mock-providers';
-import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';
 import TransitLeg from '../../../app/component/itinerary/TransitLeg';
 import * as useCanceledStopIdsModule from '../../../app/component/itinerary/useCanceledStopIds';
 import {
@@ -25,10 +24,6 @@ const config = {
 };
 
 describe('<TransitLeg />', () => {
-  // LegAgencyInfo calls useFragment on a plain leg object - see
-  // ignoreRelayModernSelectorWarning's own comment for why this is needed.
-  ignoreRelayModernSelectorWarning();
-
   let mockCanceledStopIds;
   beforeEach(() => {
     mockCanceledStopIds = vi
